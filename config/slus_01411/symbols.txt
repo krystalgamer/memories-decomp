@@ -2271,3 +2271,7 @@ Text_NoOpSecondary12 = 0x80038888; // type:func
 Text_NoOpSecondary13 = 0x80038890; // type:func
 
 Text_OpenCampaignMap = 0x80038898; // type:func
+
+Duel_UpdateCardToSelectionView = 0x80022674; // type:func
+
+Duel_UpdateCardToFieldView = 0x800229F4; // type:func

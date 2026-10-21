@@ -3,12 +3,13 @@
 #include "display_object_layout.h"
 #include "duel_card_layout.h"
 #include "duel_card.h"
+#include "card_presentation.h"
 #include "duel_card_turn_animations.h"
 #include "duel_card_display_state.h"
 #include "duel_apply_card_object_flags.h"
 #include "display_object_lifecycle.h"
 
-/* The mirror of func_800229F4: the card turn-back animation step. Picks
+/* The mirror of Duel_UpdateCardToFieldView: the card turn-back animation step. Picks
  * the mode (+0x2E) from the card record's flags when DisplayObject_MarkInitialized says
  * the object is idle, then runs one of three mode arms -- a countdown that
  * sets the record's 0x400 flag (mode 0), and two rotate-then-settle arms
@@ -16,7 +17,7 @@
  * counter runs out -- and resets through Duel_UpdateCardDisplayState. The arms are laid
  * out as goto targets in retail's own address order and the shared reset
  * block is reached by goto from all three. */
-void func_80022674(DuelCardTurnObject *p) {
+void Duel_UpdateCardToSelectionView(DuelCardTurnObject *p) {
     DuelCardRecord *e;
     s32 m;
     s32 v;
@@ -164,7 +165,7 @@ alt2:
  * according to gDuel_bActiveSide, and reset through Duel_ApplyCardObjectFlags.
  * The arms are laid out as goto targets in retail's own address order and
  * the shared reset block is reached by goto from both. */
-void func_800229F4(DuelCardTurnObject *p) {
+void Duel_UpdateCardToFieldView(DuelCardTurnObject *p) {
     DuelCardRecord *e;
     s32 m;
     s32 v;

@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_card.h"
+#include "card_presentation.h"
 #include "duel_side_state.h"
 #include "display_object.h"
 
@@ -36,7 +37,7 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
     DuelCardRecord *other;
 
     if (selector < 0) {
-        entry = D_801A7B64;
+        entry = gDuel_aFieldCardRecords;
         other = entry + DUEL_CARD_SIDE_RECORD_COUNT;
         for (
             base = 0;

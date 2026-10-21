@@ -6,6 +6,7 @@
 #define SORTED_ENTRY_STATE_IN_DATA
 #include "sorted_entry.h"
 #include "duel_card.h"
+#include "card_presentation.h"
 #include "display_projection.h"
 #include "duel_field_card_render.h"
 #include "../unmatched.h"
@@ -58,7 +59,7 @@ void Duel_DrawFieldCards(void) {
         p1 = (POLY_FT4 *)0x1F800140;
         p3 = (POLY_GT4 *)0x1F800180;
         c = DUEL_DISPLAY_COLOR_NORMAL;
-        e = D_801A7B64;
+        e = gDuel_aFieldCardRecords;
         n = 0;
 
         setlen(p1, 9);
@@ -106,7 +107,7 @@ void Duel_DrawFieldCards(void) {
         e++;
     } while (n < DUEL_FIELD_SIDE_ZONE_COUNT);
 
-    t = D_801A7B64;
+    t = gDuel_aFieldCardRecords;
     e = t + DUEL_CARD_SIDE_RECORD_COUNT;
     n = 0;
     do {

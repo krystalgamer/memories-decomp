@@ -13,6 +13,7 @@
 #include "display_projection.h"
 
 #include "duel_card.h"
+#include "card_presentation.h"
 #include "display_object.h"
 #include "display_object_config.h"
 #include "duel_field_display_objects.h"
@@ -288,7 +289,7 @@ s32 Duel_UpdateDisplayTransition(void)
                             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET))->record.object;
                         o->field_6C = 1;
                         o->field_60 = 4;
-                        o->update = (DisplayObjectCallback)func_800229F4;
+                        o->update = (DisplayObjectCallback)Duel_UpdateCardToFieldView;
                     }
                 }
                 gDuel_wDisplayTransitionFlags |= 0x4000;
@@ -426,7 +427,7 @@ s32 Duel_UpdateDisplayTransition(void)
                                 DUEL_CARD_STAGING_REPLAY_BASE_OFFSET))->record.object;
                             o->field_6C = 1;
                             o->field_60 = 4;
-                            o->update = (DisplayObjectCallback)func_80022674;
+                            o->update = (DisplayObjectCallback)Duel_UpdateCardToSelectionView;
                         }
                     }
                     gDuel_wDisplayTransitionFlags |= 0x4000;

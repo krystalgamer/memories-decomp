@@ -1,0 +1,80 @@
+# Field-card presentation transitions
+
+The paired callbacks in `duel_card_turn_animations.c` move existing card
+objects between the field-selection presentation and the ordinary 3D field
+presentation. They are not gameplay face-up/face-down operations.
+
+| North American entry | Identity | Presentation handoff |
+| --- | --- | --- |
+| `0x80022674` | `Duel_UpdateCardToSelectionView` | Set record `0x400`; finish with `Duel_UpdateCardDisplayState` |
+| `0x800229F4` | `Duel_UpdateCardToFieldView` | Clear record `0x400`; finish with `Duel_ApplyCardObjectFlags` |
+
+## Callers and renderers
+
+`Duel_UpdateDisplayTransition` installs the selection callback after its
+bit-1 row-view tween reaches its target, then creates the field cursor when
+the transition finishes. Field-action and card-pick initialization request
+that transition with flags `3`.
+
+The bit-4 transition instead starts a wide field-view tween and installs the
+field callback immediately. The cursor's cancellation paths request flags
+`0xC`. Both paths preserve the existing object tag, counter initialization,
+occupied-record filter and callback casts.
+
+The renderer independently identifies the handoff:
+`Duel_DrawFieldCards` sends record flag `0x400` to
+`Duel_DrawProjectedFieldCardFrame`; otherwise it calls
+`Duel_RenderFieldCard3D`. The callbacks do not modify the record's
+`DUEL_CARD_FLAG_FACE_DOWN` or `DUEL_CARD_FLAG_DEFENSE_POSITION` bits.
+Those bits select the animation's existing mode.
+
+The historical turn-object header calls its `0x20` union `tint`, but the
+3D renderer reads those same three bytes as Euler components shifted left
+four. The union label alone must not be used to infer RGB semantics.
+Its existing type, packed/byte stores and signed/unsigned angle views are
+unchanged.
+
+## Exact state and timing
+
+Both complete functions retain their original goto-arm order, initialization
+and phase bits, side-dependent directions, clip-test stores and handoff timing.
+Their shared reset blocks deliberately call different display-state helpers;
+those helpers use different face-down/defense mappings to object bytes
+`0x21` and `0x22`.
+
+Their mode-zero branches are also different. The selection callback sets its
+counter to eight, decrements it and returns only on equality to zero;
+otherwise it reaches reset. The field callback waits while the decremented
+counter is positive. Neither branch is normalized to the other, and no
+minimum duration, clamping or additional cleanup is introduced.
+
+## Existing field-record view
+
+`gDuel_aFieldCardRecords` names the existing incomplete `DuelCardRecord[]`
+view formerly called `D_801A7B64`. Its North American address is
+`gDuel_aCardRecords + 5 * 0x1C = 0x801A7B64`. The Japanese provider remains
+`0x801B7B64`; every image's canonical alias refers to its original provider,
+including automatically supplied providers where no tracked address exists.
+
+This is not a new array or a contiguous twenty-record allocation. The
+underlying pool has thirty records, fifteen per side. Each side's ten field
+slots follow five hand slots: consumers retain the original base and
+base-plus-fifteen traversals. Draw, resume, field-object collection and
+card-effect paths all use this view without replacing it with an inline
+`&gDuel_aCardRecords[5]` expression or pointer variable.
+
+## Preservation boundary
+
+`card_presentation.h` isolates canonical declarations after each consumer's
+original `duel_card.h` include. Every pre-existing header and overlay C file
+remains byte-identical. The developer-screen change only updates its adjacent
+function-name comment; no include or executable expression changes there.
+Existing tests, overlay metadata, historical attempts/fingerprints and
+runtime traces are unchanged.
+
+All seven complete two-function groups retain the original source paths,
+definition order, `0x380/0x3A0` extents and `gcc_2_8_1_g8` profile.
+Validation compares complete ordinary compiler/MASPSX output and actual native
+translation units with only the three declared identities reversed, then
+requires a clean byte-identical resident executable. Regional/overlay image
+acceptance remains on the PR checks, not replaced by local source probes.

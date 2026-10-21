@@ -31,7 +31,7 @@
    nudge, the controller that builds one of four preview pages and spawns an
    effect on CROSS, and the HUD line that prints the two tuned values. The
    three call each other in that order and are the whole gcc_2_8_1_g8_split
-   run between func_80021F80 and func_80022674. */
+   run between func_80021F80 and Duel_UpdateCardToSelectionView. */
 
 /* The default window has axis at 0, coordinates at 2..3, and page at 4.
    The Spanish wrapper preserves its larger gap before the coordinates. */
