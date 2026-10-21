@@ -11,7 +11,7 @@ new runtime capture.
 ## One actual selection record
 
 The field display, placement and hand-scene callers already select whole
-`DuelSelectionRecord` elements from `D_800E9F10` or its measured interior
+`DuelSelectionRecord` elements from `gDuel_abSelectionSides` or its measured interior
 aliases. `Duel_UpdateDisplayTransition` receives the same object through
 `gDuel_pActiveSelectionRecord`. The former `DuelFieldDisplaySource` and
 `DisplayParent` duplicated this object with different member names; they

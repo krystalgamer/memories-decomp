@@ -239,7 +239,7 @@ s32 Ai_FindFavorableFaceUpFieldTarget(DuelCardRecord *source)
 /* The AI's per-turn play decision. Writes the chosen action into the three
  * trailing bytes of the gAi_Selection selection: the action code in field_09,
  * its argument in field_0A, and a flag in field_0B. It does nothing while bit
- * 0x1000 of D_8009B16C is set.
+ * 0x1000 of gDuel_wOutcomeFlags is set.
  *
  * One turn in four it first looks for an equip: it collects the field's
  * equips (type 0x17) and occupied monster-row cards, and takes the first pair
@@ -281,7 +281,7 @@ s32 Ai_SelectFieldPlay(void)
     s32 t;
 
     gAi_Selection.fields.field_09 = 0;
-    if (D_8009B16C & 0x1000) {
+    if (gDuel_wOutcomeFlags & 0x1000) {
         return 0;
     }
     if ((rand() & 3) != 0) {

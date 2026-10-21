@@ -44,16 +44,16 @@ extern u8 gDuel_bQuitDialogState;
  * The byte-2 use is worth knowing about before anyone widens this: the address
  * carries more than the flags word these two functions see. */
 #ifdef D_8009B16C_AS_BYTE_ARRAY
-extern u8 D_8009B16C[4];
+extern u8 gDuel_wOutcomeFlags[4];
 #elif defined(D_8009B16C_IN_DATA)
-extern u16 D_8009B16C __attribute__((section(".data")));
+extern u16 gDuel_wOutcomeFlags __attribute__((section(".data")));
 #else
-extern u16 D_8009B16C;
+extern u16 gDuel_wOutcomeFlags;
 #endif
 
 #ifdef VERSION_EUROPE
-/* The byte debug_effect_screen.c reads as D_8009B16C[2] in the US build is
-   not next to D_8009B16C in the European image: it sits at 0x8009C118. */
+/* The byte debug_effect_screen.c reads as gDuel_wOutcomeFlags[2] in the US build is
+   not next to gDuel_wOutcomeFlags in the European image: it sits at 0x8009C118. */
 extern u8 D_8009B16E;
 #endif
 

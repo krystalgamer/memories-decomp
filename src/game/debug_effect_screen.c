@@ -35,12 +35,12 @@
 
 /* The default window has axis at 0, coordinates at 2..3, and page at 4.
    The Spanish wrapper preserves its larger gap before the coordinates. */
-/* The byte two past D_8009B16C in the US build; the European one has its
+/* The byte two past gDuel_wOutcomeFlags in the US build; the European one has its
    own address (duel_check_quit_input.h). */
 #ifdef VERSION_EUROPE
 #define DEBUG_EFFECT_PAGE_BYTE D_8009B16E
 #else
-#define DEBUG_EFFECT_PAGE_BYTE D_8009B16C[2]
+#define DEBUG_EFFECT_PAGE_BYTE gDuel_wOutcomeFlags[2]
 #endif
 
 /* Regional value: page 1's card object field_32 (0x16 -> 0x0E). The

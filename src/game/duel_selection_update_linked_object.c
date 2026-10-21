@@ -6,7 +6,7 @@
 
 void DuelSelection_UpdateLinkedObject(DisplayObject *object)
 {
-    u8 *base = D_800E9F10;
+    u8 *base = gDuel_abSelectionSides;
     s32 offset =
         (s16)object->field_2C.h.field_2C * DUEL_SELECTION_RECORD_SIZE;
     DisplayObject *parent;

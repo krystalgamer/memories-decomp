@@ -86,7 +86,7 @@ void Duel_InitSelectionRecords(void) {
     s32 row, j;
     for (row = 0; row < DUEL_SIDE_COUNT; row++) {
         DuelSelectionRecord *p = DUEL_SELECTION_RECORDS(
-            D_800E9F10 + row * DUEL_SELECTION_SIDE_SIZE);
+            gDuel_abSelectionSides + row * DUEL_SELECTION_SIDE_SIZE);
         for (j = 0; j < DUEL_SELECTION_RECORDS_PER_SIDE; p++, j++) {
             p->field_00 = 0;
             p->cursor_object = 0;
@@ -101,8 +101,8 @@ void Duel_InitSelectionRecords(void) {
 #endif
         }
     }
-    DUEL_SELECTION_RECORDS(D_800E9F10)[0].field_13 = 0;
-    DUEL_SELECTION_RECORDS(D_800E9F10)[DUEL_SELECTION_RECORDS_PER_SIDE]
+    DUEL_SELECTION_RECORDS(gDuel_abSelectionSides)[0].field_13 = 0;
+    DUEL_SELECTION_RECORDS(gDuel_abSelectionSides)[DUEL_SELECTION_RECORDS_PER_SIDE]
         .field_13 = 0;
 }
 

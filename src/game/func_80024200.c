@@ -74,7 +74,7 @@ void DuelScene_Update(void)
                 TextBox_Destroy(cleanup);
                 gDuel_bQuitDialogState = 0;
                 if (gDialog_bChoice[0] != 0) {
-                    D_8009B16C |= 0x2000;
+                    gDuel_wOutcomeFlags |= 0x2000;
                 }
             }
         }

@@ -1658,7 +1658,7 @@ loss, changed to `0` when the opponent's LP reached zero, and retained `0`
 as the result proceeded. This establishes single-player side polarity.
 The `0x2000` bit observed at `gDuel_wSceneStateFlags` marks the result's departure fade:
 `0x80021E54..0x80021E5C` sets it before `Fade_StartOut`. The later
-credit/return block sets a **different** `0x2000` bit in `D_8009B16C` at
+credit/return block sets a **different** `0x2000` bit in `gDuel_wOutcomeFlags` at
 `0x80021E8C..0x80021E98`. The traced fade marker is not by itself proof of
 a record write.
 

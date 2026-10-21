@@ -95,7 +95,7 @@ void Duel_InitScene(void)
     gDuelCursor_PickFlags = 0;
     gDuel_wViewTweenFramesRemaining = 0;
     gDuel_wCardEffectFlags = 0;
-    D_8009B16C = 0;
+    gDuel_wOutcomeFlags = 0;
     D_8009B174 = 0;
     if (D_8009B369 != 1) {
         if (gDuel_bOpponentID >= 0) {
@@ -112,7 +112,7 @@ void Duel_InitScene(void)
         Duel_ResetCardRecords();
         Duel_InitSelectionRecords();
         Duel_InitSideStates();
-        D_8009B16C |= 0x1000;
+        gDuel_wOutcomeFlags |= 0x1000;
     }
     gDuel_pActiveSideState = &gDuel_aSideStates[gDuel_bActiveSide];
     Duel_InitGroundProjectionReference();
