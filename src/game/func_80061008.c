@@ -17,7 +17,7 @@
 #define CARD_LIST_ROW_X_BIAS 2
 #endif
 
-void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
+void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1)
 {
     CardListRowSet *record = D_801A8000;
     DisplayObject *object;

@@ -62,7 +62,7 @@
    link symbols, so these definitions do not allocate storage here. */
 u8 D_8009B269;
 u8 D_8009B26C;
-u8 D_8009B26E;
+u8 gMain_bModeRunnerStep;
 
 void Main_RunOptionsMenu(void)
 {
@@ -125,7 +125,7 @@ void Main_RunTrade(void)
         func_80032328();
         SD_BGMPlay(0x72D0);
         MainMenu_InitTradeScreen();
-        D_8009B26E = 1;
+        gMain_bModeRunnerStep = 1;
         box = TextBox_CreateFlagged(
             0,
             0xB,
@@ -149,13 +149,13 @@ void Main_RunTrade(void)
 
     box = D_800EB0F8;
     obj = D_800E9EF0[0];
-    switch (D_8009B26E) {
+    switch (gMain_bModeRunnerStep) {
     case 1:
         if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & 0xE0) != 0) {
             SD_SEPlayFull(0x1E);
             DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
             obj->field_60 = 0x400;
-            D_8009B26E = 2;
+            gMain_bModeRunnerStep = 2;
         }
         break;
     case 2:
@@ -173,7 +173,7 @@ void Main_RunTrade(void)
             *(s16 *)&obj->field_30.h.field_32 + MAIN_RUN_TRADE_TEXT_BOX_Y_OFFSET
         );
         if (obj->field_60 <= 0) {
-            D_8009B26E = 0;
+            gMain_bModeRunnerStep = 0;
             TextBox_Destroy(box);
             DisplayObject_ReleaseIfPresent(D_800E9EF0[0]);
             D_800E9EF0[0] = 0;

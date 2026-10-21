@@ -91,11 +91,11 @@ void Main_RunCredits(void)
         for (flag = 0x20; flag < 0x120; flag++) {
             Library_UpdateCardUsedFlag(flag | 0x8000);
         }
-        D_8009B26E = 0;
+        gMain_bModeRunnerStep = 0;
         save_state->field_3DE = save_state->field_3DE | 3;
     }
 
-    state = D_8009B26E;
+    state = gMain_bModeRunnerStep;
     one = 1;
     phase = state & 0xF;
 
@@ -115,7 +115,7 @@ void Main_RunCredits(void)
 
 save_completion:
     if ((state & 0x80) == 0) {
-        D_8009B26E = state | 0x80;
+        gMain_bModeRunnerStep = state | 0x80;
         SaveData_RequestWrite();
     }
     state = MemCardDialog_Poll();
@@ -125,12 +125,12 @@ save_completion:
     if (state == 2) {
         goto initialize_completion;
     }
-    D_8009B26E = one;
+    gMain_bModeRunnerStep = one;
     return;
 
 show_secret_number:
     if ((state & 0x80) == 0) {
-        D_8009B26E = state | 0x80;
+        gMain_bModeRunnerStep = state | 0x80;
         state = ((u32)((SaveDataState *)gDuel_awPlayerDeck)->duelist_code) %
             CREDITS_SECRET_NUMBER_COUNT;
         table = (u16 *)gCredits_awSecretNumbers;
@@ -151,13 +151,13 @@ show_secret_number:
     textbox = D_800EB0F8;
     if ((textbox->flags_34 & MAIN_RUN_CREDITS_COMPLETION_FLAG) == 0) {
         TextBox_Destroy(textbox);
-        D_8009B26E = 2;
+        gMain_bModeRunnerStep = 2;
     }
     return;
 
 run_credits_scene:
     if ((state & 0x80) == 0) {
-        D_8009B26E = state | 0x80;
+        gMain_bModeRunnerStep = state | 0x80;
 #ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
         DuelEffect_ResetState();
         DisplayEffect_ResetMenuRecords();

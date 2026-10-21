@@ -382,7 +382,7 @@ typedef struct GraphicsFrameBuffer GraphicsFrameBuffer;
  *         &gGraphics_aFrameBuffers[gGraphics_bActiveBuffer];
  *
  * The asserted 0x5160 size is the 20832-byte stride selected by the same index
- * that chooses D_800A5768's half a few lines above it. Main_Init takes the
+ * that chooses gGraphics_abPacketBuffers's half a few lines above it. Main_Init takes the
  * array base while it brings the loader block up. The number of buffers stays
  * unsized because only the two-buffer startup loop establishes it.
  */
@@ -396,7 +396,7 @@ extern GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
 
 /* The other half of that pair, the one the comment above refers to:
  *
- *     arg = &D_800A5768[
+ *     arg = &gGraphics_abPacketBuffers[
  *         gGraphics_bActiveBuffer * GRAPHICS_PACKET_BUFFER_SIZE
  *     ];
  *
@@ -413,9 +413,9 @@ extern GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
  *
  * Unsized for the same reason as its neighbour: the stride is measured, the
  * number of halves is not. */
-extern u8 D_800A5768[];
+extern u8 gGraphics_abPacketBuffers[];
 
-/* Three flags Main_Init sets in its init block: D_8009B0AD and D_8009B0D0 to
+/* Three flags Main_Init sets in its init block: gGraphics_bDither and gGraphics_bClearBackground to
  * 1, D_8009B0A8 to 0. graphics_frame.c DEFINES all three plain, for the same
  * reason it defines gGraphics_bExtraFrameStep: the assembler resolves a small
  * global
@@ -434,8 +434,8 @@ extern u8 D_800A5768[];
  * first three bytes as ordered volatile scalars. The selector keeps both
  * measured views at the owner instead of leaving private declarations in the
  * startup source. */
-extern u8 D_8009B0AD;
-extern u8 D_8009B0D0;
+extern u8 gGraphics_bDither;
+extern u8 gGraphics_bClearBackground;
 extern u8 D_8009B0A8;
 
 #ifdef GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR

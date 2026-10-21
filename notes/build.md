@@ -991,9 +991,9 @@ them:
 | --- | --- | --- |
 | `gGraphics_wFlags` | `u16 gGraphics_wFlags;` | yes, guarded two-arm |
 | `D_8009B0A8` | `u8 D_8009B0A8;` | yes, guarded two-arm |
-| `D_8009B0AD` | `u8 D_8009B0AD;` | yes, guarded two-arm |
+| `gGraphics_bDither` | `u8 gGraphics_bDither;` | yes, guarded two-arm |
 | `D_8009B0C1` | `u8 D_8009B0C1;` | yes, guarded two-arm |
-| `D_8009B0D0` | `u8 D_8009B0D0;` | yes, guarded two-arm |
+| `gGraphics_bClearBackground` | `u8 gGraphics_bClearBackground;` | yes, guarded two-arm |
 | `D_8009B0A0` | `u8 D_8009B0A0[4];` | **no** |
 
 A plain `extern` in the header does not fight the definition. As the header
@@ -1003,7 +1003,7 @@ Consumers that reach the symbol through `%hi`/`%lo` instead take the `.data`
 arm, which is why each of the five is guarded rather than flat.
 
 The measured part is what makes this more than a tidy-up. `main_services.c`
-reached `D_8009B0A8`, `D_8009B0AD` and `D_8009B0D0` through its own
+reached `D_8009B0A8`, `gGraphics_bDither` and `gGraphics_bClearBackground` through its own
 `extern volatile u8` declarations, under a comment arguing the volatile was
 what held the init block in source order. Dropping the volatile and taking
 the header's declarations builds byte-identical, and the same was true of
@@ -1087,7 +1087,7 @@ opposite ways, and the difference between them is mechanical enough to use as
 a decision procedure.
 
 **Case one: the difference constrains optimization.** `graphics_frame.c`
-defines `D_8009B0AD`, `D_8009B0D0` and `D_8009B0A8` as plain bytes.
+defines `gGraphics_bDither`, `gGraphics_bClearBackground` and `D_8009B0A8` as plain bytes.
 `main_services.c` declared all three `extern volatile u8`, under a comment
 saying the `Main_InitHardware` init block in `src/game/main_services.c`
 is volatile so the emitted order is the source order.
