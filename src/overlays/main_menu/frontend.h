@@ -11,7 +11,7 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  * frontend.c, frontend_update.c and frontend_background.c. The state symbols
  * themselves are not defined in C.
  *
- * What the uses show, without renaming anything:
+ * What the uses show:
  *
  *   gMain_bMenuID          The selected entry, assigned as `menu % 11`, so
  *                          the wheel has eleven positions.
@@ -20,21 +20,31 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  *   D_80184558             The three standing objects: background, title and
  *   D_8018455C             prompt. Made by MainMenu_InitFrontendMenu and
  *   D_80184560             released by MainMenu_DestroyFrontendMenu.
- *   D_80184596             The transition mode, taken straight from
+ *   gMainMenu_bTransitionMode
+ *                          The transition mode, taken straight from
  *                          MainMenu_StartFrontendEntryTransition's argument.
- *   D_80184598             The fade direction, and the reason it is signed:
+ *   gMainMenu_nFadeDirection
+ *                          The fade direction, and the reason it is signed:
  *                          MainMenu_UpdateFrontendMenu assigns it 1 and -1,
  *                          tests `< 0` to decide which end of the fade it is
- *                          at, and shifts it left three into D_80184597 as a
- *                          step. See below.
- *   D_80184599             Set to 1 when that transition starts, and tested
+ *                          at, and shifts it left three into
+ *                          gMainMenu_bShadeLevel as a step. See below.
+ *   gMainMenu_bTransitionActive
+ *                          Set to 1 when that transition starts, and tested
  *                          as the "transition running" flag.
- *   D_80184597             A shade level, only ever 0 or 0x80.
+ *   gMainMenu_bShadeLevel  A shade level, only ever 0 or 0x80.
  *   D_80184595             A flag, cleared on init and again once handled.
- *   D_8018459A..D_8018459D Four more flags with the same shape as each other:
- *                          tested non-zero, acted on, then cleared.
+ *   gMainMenu_bSaveWritePending, gMainMenu_bLoadPending,
+ *   gMainMenu_bTradeLoadPending, gMainMenu_bDuelLoadPending
+ *                          Pending-request flags with the same shape: the
+ *                          confirm handler raises one after starting a save
+ *                          write (entry 10), load (1), Trade load (3) or
+ *                          two-player duel load (2), and the updater polls
+ *                          MemCardDialog_Poll, SaveData_PollLoad,
+ *                          SaveData_UpdateTradeLoad or SaveData_UpdateDuelLoad
+ *                          until it finishes, then clears it.
  *
- * D_80184598 used to sit outside this list because frontend_init.c spelled it
+ * gMainMenu_nFadeDirection used to sit outside this list because frontend_init.c spelled it
  * u8 and frontend_update.c spelled it s8, and a declaration its two declarers
  * disagree about spreads the wrong one. Coalescing those two sources into
  * frontend.c forced the question and the evidence settles it: the only writes
@@ -49,17 +59,17 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
 extern struct DisplayObject *G32 D_80184558;
 extern struct DisplayObject *G32 D_8018455C;
 extern struct DisplayObject *G32 D_80184560;
-extern s8 D_80184598;
+extern s8 gMainMenu_nFadeDirection;
 extern u8 gMain_bMenuID;
 extern u8 *G32 gMain_apMenuEntries[];
 extern u8 D_80184595;
-extern u8 D_80184596;
-extern u8 D_80184597;
-extern u8 D_80184599;
-extern u8 D_8018459A;
-extern u8 D_8018459B;
-extern u8 D_8018459C;
-extern u8 D_8018459D;
+extern u8 gMainMenu_bTransitionMode;
+extern u8 gMainMenu_bShadeLevel;
+extern u8 gMainMenu_bTransitionActive;
+extern u8 gMainMenu_bSaveWritePending;
+extern u8 gMainMenu_bLoadPending;
+extern u8 gMainMenu_bTradeLoadPending;
+extern u8 gMainMenu_bDuelLoadPending;
 
 /* Resident callers must load the main-menu image before using these entries. */
 void MainMenu_InitFrontendMenu(s32 unused, s32 menu);

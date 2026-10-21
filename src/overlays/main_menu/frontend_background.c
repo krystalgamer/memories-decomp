@@ -38,7 +38,7 @@ void MainMenu_DrawFrontendBackground(void)
     s32 right;
     s32 u;
 
-    shadeLevel = D_80184597;
+    shadeLevel = gMainMenu_bShadeLevel;
     if (shadeLevel != 0) {
         setPolyF4(&flat);
         flat.r0 = shadeLevel;
@@ -208,8 +208,8 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
             entries[i]->field_60 = 0x10;
         }
     }
-    D_80184596 = mode;
-    D_80184599 = 1;
+    gMainMenu_bTransitionMode = mode;
+    gMainMenu_bTransitionActive = 1;
 }
 #endif
 
