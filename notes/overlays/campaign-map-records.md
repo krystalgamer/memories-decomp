@@ -92,7 +92,7 @@ is its sole extern declaration point. Each overlay's data manifest compiles
 the same source independently with `gcc_2_8_1_g0`. The bound is now
 `CAMPAIGN_MAP_LOCATION_COUNT` (16): `16 * sizeof(MapLocation) = 1056 = 0x420`,
 covering `0x801691A8-0x801695C8` exactly. The next named object is the marker
-pointer `D_801695C8`, not another table element.
+pointer `gCampaignMap_pLocationMarker`, not another table element.
 
 Both verified module images contain identical bytes in this range, with
 SHA-256 `0259a2516466fd98262c69a1f4da03d22fec71b9f4e125adea7925fe35220c12`.
@@ -133,7 +133,7 @@ this independent alternate-path reference is explicitly retained.
 
 At the original raw-tail boundary, Splat initially invented `func_801695C8` instead
 of retaining the existing data name, which failed the link.
-`overworld_symbols.txt` now records `D_801695C8` explicitly so the raw tail
+`overworld_symbols.txt` now records `gCampaignMap_pLocationMarker` explicitly so the raw tail
 exports the name its consumers use. This is an input label for Splat, not a
 linker assignment over a C definition.
 
@@ -150,5 +150,5 @@ do not merge its address or type contract with the live table described here.
 The following aligned 80-byte live-state prefix is now C-owned as well;
 [`live-state-data.md`](live-state-data.md) documents its separate scalar
 definitions and the nonzero boundary word retained at `0x80169618`.
-That later mapping marks `D_801695C8` and the other state exports defined in
+That later mapping marks `gCampaignMap_pLocationMarker` and the other state exports defined in
 the project-owned build map rather than leaving them on the raw-tail path.

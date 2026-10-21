@@ -1308,7 +1308,7 @@ argument matched the function outright.
 
 The store is the part worth understanding, because it explains why the
 difference showed up as a register name. In the target the same `a1` serves
-twice: once as the argument and once as the source of `D_801695D4 =
+twice: once as the argument and once as the source of `gCampaignMap_nTweenFramesLeft =
 gCampaignMap_MoveState`, which GCC then folds into the call's delay slot. That
 is only possible because argument setup has already put the value in a
 caller-saved register that is live across the delay slot but dead after the

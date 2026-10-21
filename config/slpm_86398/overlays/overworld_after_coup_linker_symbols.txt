@@ -1,5 +1,5 @@
 DisplayObject_ReleaseIfPresent = 0x8003FA4C;
-D_801695F8 = 0x801695F8;
+gCampaignMap_apExitObjects = 0x801695F8;
 Campaign_TestStoryFlag = 0x8002CA88;
 DisplayObject_FindFreeGeneralSlot = 0x8003F70C;
 DisplayObject_AcquireSlot = 0x8003F78C;

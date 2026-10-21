@@ -11,7 +11,7 @@
    with the live map helpers. The inventory rows for both functions warn
    against aliasing this family to those helpers, and the tables are distinct
    symbols in any case: this family reads D_80169E54 and D_8016A278, the live
-   path reads gCampaignMap_aLocationTable and D_801695D8. The layouts happen
+   path reads gCampaignMap_aLocationTable and gCampaignMap_pSpotlight. The layouts happen
    to agree because this is a mechanical copy, which is corroboration for the
    offsets below and not a reason to merge the declarations. */
 

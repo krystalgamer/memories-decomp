@@ -9,19 +9,19 @@ declaration point for all 18 C-owned symbols.
 
 | Address | Symbol | Type / observed role |
 |---|---|---|
-| `0x801695C8` | `D_801695C8` | `MapObject *`, location marker |
+| `0x801695C8` | `gCampaignMap_pLocationMarker` | `MapObject *`, location marker |
 | `0x801695CC` | `gCampaignMap_dwTweenRefX` | `s32`, tween accumulator for `view.vrx` |
 | `0x801695D0` | `gCampaignMap_dwTweenRefZ` | `s32`, tween accumulator for `view.vrz` |
-| `0x801695D4` | `D_801695D4` | `s32`, remaining transition steps |
-| `0x801695D8` | `D_801695D8` | `MapObject *`, persistent map object |
+| `0x801695D4` | `gCampaignMap_nTweenFramesLeft` | `s32`, remaining transition steps |
+| `0x801695D8` | `gCampaignMap_pSpotlight` | `MapObject *`, persistent map object |
 | `0x801695DC` | `gCampaignMap_dwTweenRefXStep` | `s32`, per-step `view.vrx` delta |
 | `0x801695E0` | `gCampaignMap_dwTweenRefZStep` | `s32`, per-step `view.vrz` delta |
 | `0x801695E4` | `gCampaignMap_dwTweenYaw` | `s32`, heading accumulator |
 | `0x801695E8` | `gCampaignMap_dwTweenPitch` | `s32`, `field_04` accumulator |
-| `0x801695EC` | `D_801695EC` | `u8`, transition flags |
+| `0x801695EC` | `gCampaignMap_bTransitionFlags` | `u8`, transition flags |
 | `0x801695F0` | `gCampaignMap_dwTweenYawStep` | `s32`, heading delta |
 | `0x801695F4` | `gCampaignMap_dwTweenPitchStep` | `s32`, `field_04` delta |
-| `0x801695F8` | `D_801695F8` | Four object pointers, 16 bytes |
+| `0x801695F8` | `gCampaignMap_apExitObjects` | Four object pointers, 16 bytes |
 | `0x80169608` | `gCampaignMap_MoveState` | `s32`, chosen transition step count |
 | `0x8016960C` | `gCampaignMap_Location` | `u8`, current location |
 | `0x8016960D` | `D_8016960D` | `u8`, departure/fade flags |
