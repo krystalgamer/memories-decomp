@@ -23,7 +23,7 @@ void Duel_ProjectCardSlotScreenPositions(void)
 
     SetGeomScreen(D_800F2848.projection);
     SetGeomOffset(0xA0, 0x6C);
-    GsSetLsMatrix(&D_800FE148);
+    GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     scratch = (SVECTOR *)0x1F8003E0;
     i = 0;
     projected = &p;

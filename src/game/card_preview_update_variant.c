@@ -16,6 +16,6 @@ void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
     if (requested_variant != object->field_69) {
         DisplayObject_SetResourceVariant(object, requested_variant);
         DisplayObject_UpdateCommandStream((DisplayObject *)object);
-        D_8009B424 = 1;
+        gDisplayObject_fRenderRetry = 1;
     }
 }

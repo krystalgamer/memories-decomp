@@ -18,7 +18,7 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
     SetGeomScreen(D_800F2848.projection);
     coord *= 4;
     SetGeomOffset(0xA0, 0x6C);
-    GsSetLsMatrix(&D_800FE148);
+    GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     {
         SVECTOR *scratch = (SVECTOR *)0x1F8003E0;
         u16 *source = (u16 *)((u8 *)gDuel_aCardSlotGroundPositions + coord);

@@ -144,7 +144,7 @@ void CampaignMap_UpdateView(void)
     flags = D_8009B30C;
     if (flags & 2) {
         D_8009B314 += 0xA;
-        if (D_8009B314 >= D_8009B308) {
+        if (D_8009B314 >= gSortedEntry_nSortedCount) {
             D_8009B30C = flags & ~3;
         }
         D_8009B310 = D_8009B304;

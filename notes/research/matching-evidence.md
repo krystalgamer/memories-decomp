@@ -2396,7 +2396,7 @@ layout. The full record remains only partially typed.
 Analysis around `DisplayObject_AcquireSlot` supports:
 
 - Object stride `0x70`.
-- Linked-list heads at `D_800EFE38` and `D_800F2878`.
+- Linked-list heads at `D_800EFE38` and `gDisplayObject_awListKeys`.
 - Used flag `0x80`.
 - Default type value 2.
 - A type lookup through `D_8009AF74`.

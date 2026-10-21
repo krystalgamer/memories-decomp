@@ -14,9 +14,9 @@
  * with this type but privately, which is the same statement written twice.
  * The last two took this header on 2026-09-11, each measured byte-identical;
  * both build at gcc_2_8_1_g0. */
-extern MATRIX D_800FE148;
+extern MATRIX gGraphics_LightSourceMatrix;
 
-/* Returns &D_800FE148 through the definition's existing void * interface.
+/* Returns &gGraphics_LightSourceMatrix through the definition's existing void * interface.
  * The background renderer converts that object pointer to the SDK's
  * MATRIX * parameter of GsSetLsMatrix; no alternate allocation is involved. */
 void *Model_GetLightSourceMatrix(void);

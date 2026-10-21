@@ -853,7 +853,7 @@ consecutive `D_` names are often interior elements. `D_8009B23A`'s next name
 is ten bytes on and its consumers read a halfword, so the gap was recorded as
 an upper bound and the bytes above it left unclaimed.
 
-A real size needs a reader. `D_800F2878` takes its length from
+A real size needs a reader. `gDisplayObject_awListKeys` takes its length from
 `DisplayObject_ResetPool`, which advances one pointer into it and one into
 `D_800EFE38` together for `DISPLAY_OBJECT_LIST_COUNT` iterations; the
 per-list renderer table takes its seven from the loop that walks it. Those are

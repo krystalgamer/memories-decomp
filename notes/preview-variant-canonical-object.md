@@ -23,7 +23,7 @@ inferred.
 
 The same selector requests no setter/update/rerun write. A changed selector
 sets the resource variant, then updates the command stream, then writes
-the existing signed word `D_8009B424` to `1`. No new null check, pointer
+the existing signed word `gDisplayObject_fRenderRetry` to `1`. No new null check, pointer
 width, public callback ABI or resource-resolution guarantee is introduced.
 The frozen `display_object.h` is unchanged.
 

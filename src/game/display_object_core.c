@@ -63,11 +63,11 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
 
     slot = &gDisplayObject_aPool[index];
     initialized = slot->flags & DISPLAY_OBJECT_FLAG_ALLOCATED;
-    D_8009B412++;
+    gDisplayObject_wAcquireCount++;
     if (!initialized) {
         other = D_800EFE38[key];
         if (other < 0) {
-            D_800F2878[key] = index;
+            gDisplayObject_awListKeys[key] = index;
             slot->next = -1;
             slot->previous = -1;
         } else {
@@ -110,7 +110,7 @@ void DisplayObject_Release(DisplayObject *slot)
     s32 first = slot->previous;
     s32 second = slot->next;
 
-    D_8009B410++;
+    gDisplayObject_wUnlinkCount++;
 
     if (first < 0) {
         s16 index = slot->field_1E;
@@ -136,7 +136,7 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
     DisplayObject_Release(slot);
     v = D_800EFE38[key];
     if (v < 0) {
-        D_800F2878[key] = slot->field_0A;
+        gDisplayObject_awListKeys[key] = slot->field_0A;
         slot->next = -1;
         slot->previous = -1;
     } else {
@@ -155,7 +155,7 @@ void DisplayObject_ReleaseIfPresent(void *object)
     }
 }
 
-void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{DisplayObject*p=gDisplayObject_aPool;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){p->flags=0;p++;}}}
+void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=gDisplayObject_awListKeys;b=D_800EFE38;gDisplayObject_wUnlinkCount=0;gDisplayObject_wAcquireCount=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{DisplayObject*p=gDisplayObject_aPool;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){p->flags=0;p++;}}}
 
 void DisplayObject_Reset(void)
 {
@@ -272,7 +272,7 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport
    origin unless bit 3 is set, and submits it through DisplayObject_SubmitPacket. With
    bit 2 the position first goes through the clip test in
-   DisplayObject_ProjectRotationFacing, which may ask (D_8009B424) for the
+   DisplayObject_ProjectRotationFacing, which may ask (gDisplayObject_fRenderRetry) for the
    object to be run again, and the
    POLY_FT4 at 0x1F800344 is set up as a 9-word semi-transparent packet
    instead. */
@@ -324,14 +324,14 @@ void DisplayObject_RenderSpriteList(void) {
                 }
 
                 if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
-                    D_8009B424 = 0;
+                    gDisplayObject_fRenderRetry = 0;
                     if (DisplayObject_ProjectRotationFacing(
                             e, (s16)p->xy.h.x + (s16)e->field_18,
                             (s16)p->xy.h.y + (s16)e->field_1A,
                                       (struct ProjectionOut *)h->out) <= 0) {
                         break;
                     }
-                    if (D_8009B424 != 0) {
+                    if (gDisplayObject_fRenderRetry != 0) {
                         continue;
                     }
                     setlen(g, 9);

@@ -81,7 +81,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s3
     mode = mode16 | 0x10000;
 
     if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
-        D_8009B424 = 0;
+        gDisplayObject_fRenderRetry = 0;
         if (DisplayObject_ProjectRotationFacing(
                 e, (s16)p->xy.h.x + (s16)e->field_18,
                 (s16)p->xy.h.y + (s16)e->field_1A,
@@ -554,7 +554,7 @@ s32 DisplayObjectStream_ConfigureRotation(
 /* Emits one sprite per sheet part. The object's position is offset by the
  * viewport unless it is screen-space (flag 8). With the clip-test flag (4)
  * the object is projected once through DisplayObject_ProjectRotationFacing,
- * which may ask (D_8009B424) for the setup to run again, and every part is
+ * which may ask (gDisplayObject_fRenderRetry) for the setup to run again, and every part is
  * submitted as a
  * 9-word semi-transparent quad at 0x1F800344. Otherwise each part either
  * goes out as a plain sprite, culled against the regional screen bounds when the
@@ -643,13 +643,13 @@ retry:
         *(u32 *)&((POLY_FT4 *)quad)->r0 = sprite->rgb;
         setlen(quad, 9);
         setcode(quad, 0x2C);
-        D_8009B424 = 0;
+        gDisplayObject_fRenderRetry = 0;
         if (DisplayObject_ProjectRotationFacing(
                 object, x + (s16)object->field_18, y + (s16)object->field_1A,
                 &work->proj) <= 0) {
             return;
         }
-        if (D_8009B424 != 0) {
+        if (gDisplayObject_fRenderRetry != 0) {
             goto retry;
         }
         work->mode = 0xF0000;

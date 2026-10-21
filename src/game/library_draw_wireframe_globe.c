@@ -45,7 +45,7 @@ void Library_DrawWireframeGlobe(void)
     ctl = (PSXLONG *)0x1F800060;
     par = (SVECTOR *)0x1F800200;
     ot = gGraphics_apOrderingTables[3];
-    GsSetLsMatrix(&D_800FE148);
+    GsSetLsMatrix(&gGraphics_LightSourceMatrix);
 
     {
         u32 marker = 0x55555555;

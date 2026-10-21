@@ -24,3 +24,4 @@ D_8016A29C = gCampaignMap_AlternateState + 0x28;
 D_8016A2B8 = gCampaignMap_AlternateState + 0x44;
 D_8016A2BC = gCampaignMap_AlternateState + 0x48;
 D_8016A2BD = gCampaignMap_AlternateState + 0x49;
+gSortedEntry_nSortedCount = 0x8009B308;
