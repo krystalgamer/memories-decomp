@@ -48,11 +48,11 @@ void SD_InitState(u8 arg0)
     gFile_RangeReadCallback = SD_FadeInStreamAudio;
     gFile_RangePauseCallback = SD_FadeOutStreamAudio;
     *SD_INIT_BLOCK_11_VIEW(g_SDValue->field_1619) =
-        *SD_INIT_BLOCK_11_VIEW(D_80010784);
+        *SD_INIT_BLOCK_11_VIEW(gSD_szBgmFileName);
     *SD_INIT_BLOCK_10_VIEW(g_SDValue->field_1629) =
-        *SD_INIT_BLOCK_10_VIEW(D_80010790);
+        *SD_INIT_BLOCK_10_VIEW(gSD_szSeFileName);
     *SD_INIT_BLOCK_10_VIEW(g_SDValue->field_1639) =
-        *SD_INIT_BLOCK_10_VIEW(D_8001079C);
+        *SD_INIT_BLOCK_10_VIEW(gSD_szMasterXaFileName);
     g_SDValue->flags_004A = 3;
     if (arg0 != 0) {
         g_SDValue->flags_004A |= 0xF0;

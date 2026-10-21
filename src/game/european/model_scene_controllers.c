@@ -5,7 +5,7 @@
  * executables and their US names are taken there, so they are aliased
  * (config/sles_03947/symbols.txt has the addresses). */
 #define VERSION_EUROPE
-#define D_800114E8 D_80011414
+#define gModel_apfnEffectHandlers D_80011414
 #define D_8009AFEC D_8009BF74
 #define D_8009AFFC D_8009BF84
 #define D_8009B0F4_abs D_8009B0F4

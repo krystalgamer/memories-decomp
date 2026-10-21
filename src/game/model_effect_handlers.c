@@ -18,7 +18,7 @@
 #include "../game/screen_projection.h"
 #include "../game/sound.h"
 
-/* Three of the four handlers in the D_800114E8 model effect table, which sit
+/* Three of the four handlers in the gModel_apfnEffectHandlers model effect table, which sit
    back to back in the image: Model_UpdateDiscEffect (the 67-point disc over a
    ModelDiscEffectState), Model_UpdateBurstEffect (rings, flash, dust, sparks, embers
    and smoke over a ModelBurstEffect) and Model_UpdateSparkEffect (sparks, flashes and
@@ -195,7 +195,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
 #endif
 
 /*
- * A burst handler in the D_800114E8 model effect table. With a non-negative
+ * A burst handler in the gModel_apfnEffectHandlers model effect table. With a non-negative
  * mode it seeds three rings, 64 dust particles, 32 sparks, 32 embers and 64
  * smoke particles from ccos/csin and rand(); otherwise it draws the rings,
  * the flash, the dust, the sparks and the smoke as quads through RotAverage4,
@@ -738,7 +738,7 @@ stage_test:
 }
 
 /*
- * Fourth handler in the D_800114E8 model effect table: a spark burst. With
+ * Fourth handler in the gModel_apfnEffectHandlers model effect table: a spark burst. With
  * a non-negative mode it seeds 32 sparks, 32 flashes and 64 dust particles
  * from rand(); otherwise it draws the sparks (a fan of four quads and a
  * growing Gouraud quad each), the flashes and the dust as quads through
@@ -785,7 +785,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 arg1)
     g = &g4;
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8001189C;
+    scale = gModel_SparkEffectInitialScale;
     e = data;
     slot = Model_GetActiveSlotIndex();
 

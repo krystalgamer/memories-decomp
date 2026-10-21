@@ -148,7 +148,7 @@ void Model_UpdateAnimatedBattle(void)
     SVECTOR offset;
     s32 n;
 
-    *(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)D_800114E8;
+    *(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)gModel_apfnEffectHandlers;
     n = 1;
     if (((gDuel_adwCardStats[gModel_aSlots[1].field_DF8] >> 0x1A) & 0x1F) == 1) {
         n = 2;
@@ -1020,7 +1020,7 @@ void Model_UpdateCreditsPresentation(void)
   {
     case -1:
       File_RequestAsyncTransfer(
-          1, D_800114F8, MODEL_INTRO_PACKAGE_START_SECTOR,
+          1, gModel_szSuMrgPath, MODEL_INTRO_PACKAGE_START_SECTOR,
           16, 0, 0, D_80010030);
       File_WaitForTransfers();
       D_8009B004.fields.field_01 = 0;

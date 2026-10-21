@@ -22,7 +22,7 @@
  * one consumer copies the whole table into a local array in a single
  * assignment through ModelSlotS32Quad (model.h):
  *
- *     *(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)D_800114E8;
+ *     *(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)gModel_apfnEffectHandlers;
  *
  * and that type carries a sizeof == 0x10 assertion, which is four pointers.
  *
@@ -33,6 +33,6 @@
  * body reaches gModel_pBackgroundRecord, gModel_wPresentationBgmCommand and gModel_bPresentationPhase through %gp_rel -- so the
  * declaration is moved verbatim, array form and all, because the form is what
  * the addressing depends on. */
-extern s32 (*G32 D_800114E8[4])(s32, s32);
+extern s32 (*G32 gModel_apfnEffectHandlers[4])(s32, s32);
 
 #endif
