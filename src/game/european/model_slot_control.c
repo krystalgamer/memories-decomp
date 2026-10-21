@@ -7,12 +7,12 @@
  * (config/sles_03947/symbols.txt has the addresses). The US build reaches
  * the transfer flags through a second .data view named D_8009B0F4_abs; the
  * European build names the object only. */
-#define D_80011574 D_800114A0
-#define D_8009B030 D_8009BFB8
-#define D_8009B038 D_8009BFC0
-#define D_8009B040 D_8009BFC8
-#define D_8009B048 D_8009BFD0
-#define D_8009B050 D_8009BFD8
+#define gModel_szContinueTrace D_800114A0
+#define gModel_szBackTrace D_8009BFB8
+#define gModel_szStoneTrace D_8009BFC0
+#define gModel_szHitTrace D_8009BFC8
+#define gModel_szOuchTrace D_8009BFD0
+#define gModel_szTermTrace D_8009BFD8
 #define D_8009B0F4_abs D_8009B0F4
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */
