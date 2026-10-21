@@ -56,7 +56,7 @@ void DebugMenu_Update(void) {
     s32 t;
 
     rand();
-    e = D_8009B2EB;
+    e = gDebugMenu_bStep;
     i = 0;
     if (e != 0) {
         if (gDebugMenu_bPage != DEBUG_MENU_PAGE_PRIMARY) {
@@ -125,7 +125,7 @@ void DebugMenu_Update(void) {
             DebugMenu_UpdateCursorLayout();
             return;
         }
-        D_8009B2EB = 0x14;
+        gDebugMenu_bStep = 0x14;
         return;
     }
     if ((gInput_wPad1Pressed & PAD_BUTTON_SELECT) != 0) {
@@ -149,7 +149,7 @@ void DebugMenu_Update(void) {
         return;
     }
     if ((gInput_wPad1Pressed & DEBUG_MENU_CONFIRM_MASK) != 0) {
-        D_8009B2EB = gDebugMenu_bCursor + 1;
+        gDebugMenu_bStep = gDebugMenu_bCursor + 1;
     }
 }
 
@@ -165,12 +165,12 @@ void DebugMenu_UpdateBustUpEntry(void)
     /* The European entry (the same slot of the debug menu's handler table)
        only clears the step flags; the European image has no
        func_8003134C. */
-    D_8009B2EB = 0;
+    gDebugMenu_bStep = 0;
 #else
-    u8 flags = D_8009B2EB;
+    u8 flags = gDebugMenu_bStep;
 
     if (!(flags & FRONTEND_STEP_FLAG_ENTERED)) {
-        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+        gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         D_8009B2DE = 0;
         Campaign_LoadScenePackage(0);
     }
@@ -179,13 +179,13 @@ void DebugMenu_UpdateBustUpEntry(void)
 
     if (D_8009B2DE == 0) {
         DisplayObject *first = gDisplayObject_apBrightnessPool[0];
-        DisplayObject *second = D_8009B2E4;
+        DisplayObject *second = gDebugMenu_pCursorQuad;
         u16 second_flags;
 
         first->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
 
         second_flags = second->flags;
-        D_8009B2EB = 0;
+        gDebugMenu_bStep = 0;
         second_flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         second->flags = second_flags;
     } else {

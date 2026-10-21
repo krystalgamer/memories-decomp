@@ -28,45 +28,45 @@
 /* The frontend's eight contiguous scene states, in address order. They are
    the complete gcc_2_8_1_g8 run between DebugMenu_UpdateCampaignEntry and
    DebugMenu_EnterMappedMode.
-   D_8009B2EB carries the entered and asynchronous-pending state shared by the
+   gDebugMenu_bStep carries the entered and asynchronous-pending state shared by the
    setup/polling steps. */
 
 void DebugMenu_UpdateMapEntry(void)
 {
-    u8 flags = D_8009B2EB;
+    u8 flags = gDebugMenu_bStep;
     int result;
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
-        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
-        gDebug_nSceneOrSoundID = D_8009B2E8;
+        gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
+        gDebug_nSceneOrSoundID = gDebugMenu_bLastMapId;
         DebugMenu_OpenValueEditor(D_80090D0C, 0x14, 0, 0, 0xC, 2, 1);
     }
     result = DebugMenu_UpdateValueEditor();
     if (result != 0) {
         if (result < 0) {
-            D_8009B2EB = 0;
+            gDebugMenu_bStep = 0;
         } else {
             D_8009B363[0] = 0;
             D_8009B26C[0] = 5;
-            D_8009B2E8 = (u8)gDebug_nSceneOrSoundID;
+            gDebugMenu_bLastMapId = (u8)gDebug_nSceneOrSoundID;
         }
     }
 }
 
 void DebugMenu_UpdateTitleEntry(void)
 {
-    u8 flags = D_8009B2EB;
+    u8 flags = gDebugMenu_bStep;
     int result;
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
-        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+        gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         gDebug_nSceneOrSoundID = D_8009B26D;
         DebugMenu_OpenValueEditor(D_80090D28, 0x15, 0, 0, 0x12, 2, 1);
     }
     result = DebugMenu_UpdateValueEditor();
     if (result != 0) {
         if (result < 0) {
-            D_8009B2EB = 0;
+            gDebugMenu_bStep = 0;
         } else {
             D_8009B268 = 1;
             D_8009B26C[0] = 8;
@@ -78,30 +78,30 @@ void DebugMenu_UpdateTitleEntry(void)
 void DebugMenu_UpdateMovieEntry(void)
 {
     {
-        u8 flags = D_8009B2EB;
+        u8 flags = gDebugMenu_bStep;
 
         if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
-            D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+            gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
             gDebug_nSceneOrSoundID = 0;
             DebugMenu_OpenValueEditor(D_80090D44, 0x1D, 0, 0, 5, 2, 1);
         }
     }
     {
-        u8 flags = D_8009B2EB;
+        u8 flags = gDebugMenu_bStep;
 
         if (flags & FRONTEND_STEP_FLAG_ASYNC_PENDING) {
             u32 word = D_8009B0F4_abs;
             if ((word & 0x02000000) == 0)
-                D_8009B2EB = flags & ~FRONTEND_STEP_FLAG_ASYNC_PENDING;
+                gDebugMenu_bStep = flags & ~FRONTEND_STEP_FLAG_ASYNC_PENDING;
         } else {
             int result = DebugMenu_UpdateValueEditor();
 
             if (result) {
                 if (result < 0)
-                    D_8009B2EB = 0;
+                    gDebugMenu_bStep = 0;
                 else {
                     Movie_Play(gDebug_nSceneOrSoundID);
-                    D_8009B2EB |= FRONTEND_STEP_FLAG_ASYNC_PENDING;
+                    gDebugMenu_bStep |= FRONTEND_STEP_FLAG_ASYNC_PENDING;
                 }
             }
         }
@@ -110,37 +110,37 @@ void DebugMenu_UpdateMovieEntry(void)
 
 void DebugMenu_UpdateLoadEntry(void)
 {
-    u8 flags = D_8009B2EB;
+    u8 flags = gDebugMenu_bStep;
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
-        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+        gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         gDuel_bEffectState = DUEL_EFFECT_STATE_NOOP_3;
     }
     if (DuelEffect_UpdateState() == 0) {
-        D_8009B2EB = 0;
+        gDebugMenu_bStep = 0;
     }
 }
 
 void DebugMenu_UpdateSaveEntry(void)
 {
-    u8 flags = D_8009B2EB;
+    u8 flags = gDebugMenu_bStep;
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
-        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+        gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         gDuel_bEffectState = DUEL_EFFECT_STATE_NOOP_4;
     }
     if (DuelEffect_UpdateState() == 0) {
-        D_8009B2EB = 0;
+        gDebugMenu_bStep = 0;
     }
 }
 
 void DebugMenu_UpdateTradeEntry(void)
 {
-    u8 flags = D_8009B2EB;
+    u8 flags = gDebugMenu_bStep;
     int result;
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
-        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+        gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         gSaveData_PairSetupState = 0;
         gSaveData_LoadPairState = 0;
     }
@@ -151,7 +151,7 @@ void DebugMenu_UpdateTradeEntry(void)
             File_WaitForTransfers();
             D_8009B26C[0] = 14;
         }
-        D_8009B2EB = 0;
+        gDebugMenu_bStep = 0;
     }
 }
 

@@ -4,6 +4,5 @@
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
-#define D_8009B2E4 gJapanese_D_8009B2E4
 
 #include "../debug_menu_update_cursor_layout.c"

@@ -12,7 +12,7 @@
  * dispatches through.
  *
  * It picks between them on gDebugMenu_bPage and indexes the winner with
- * `D_8009B2EB & FRONTEND_STEP_INDEX_MASK`. Both are written here rather than
+ * `gDebugMenu_bStep & FRONTEND_STEP_INDEX_MASK`. Both are written here rather than
  * resolved out of the
  * blob at 0x80090BA8 because every entry is a function this tree already
  * names. All twenty-three are matching C; DebugMenu_UpdateSoundEntry and
@@ -30,7 +30,7 @@
  * because their entries live in frontend_scene_states.c,
  * debug_menu_leave_entries.c and
  * their neighbours in the 0x80030000 range, not because anything in the tree
- * names them. The state byte they index, D_8009B2EB, is also written by the
+ * names them. The state byte they index, gDebugMenu_bStep, is also written by the
  * memory card paths, so this is not evidence that the tables are
  * frontend-only. */
 

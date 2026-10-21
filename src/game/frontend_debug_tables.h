@@ -54,7 +54,7 @@ extern u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT];
    (debug_menu_update.c:44-46), subtracts 0xA when the difference is not negative
    (:48-50), steps it by -1 with wraps to 0x13 and 9 (:54-65) and by +1 with
    wraps to 0xA and 0 (:70-81), stores 0x13 (:89-90) and stores
-   `gDebugMenu_bCursor + 1` into D_8009B2EB (:112). s8 because all three units
+   `gDebugMenu_bCursor + 1` into gDebugMenu_bStep (:112). s8 because all three units
    declared it s8 when they matched and :48 tests `gDebugMenu_bCursor - 0xA >= 0`;
    retail loads it lb at debug_menu_mapped_mode.s:5 and debug_menu_update.s:59/:68/:82/
    :109/:141, and every access is %gp_rel, so this is the plain declaration.

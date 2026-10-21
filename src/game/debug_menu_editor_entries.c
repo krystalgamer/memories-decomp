@@ -215,7 +215,7 @@ out:
         } while (i != 0);
     }
     FntPrint((char *)tent_DebugInterfaceData, gDebug_nSceneOrSoundID,
-             D_8009B2CA, D_8009B2CC);
+             gDebug_nEditedBgmId, gDebug_nEditedCdSoundId);
     FntPrint(D_8009AF58, D_800EAED8);
     return ret;
 }
@@ -234,9 +234,9 @@ void func_80030808(void)
     s32 flags;
     s32 result;
 
-    flags = D_8009B2EB;
+    flags = gDebugMenu_bStep;
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
-        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+        gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         DebugMenu_DimPrimaryDisplayObject();
         gDebug_nSceneOrSoundID = D_8009C02B;
         DebugMenu_OpenValueEditor(D_80091CB8, 0x15, 0x15, 0x15, 5, 1, 1);
@@ -250,7 +250,7 @@ void func_80030808(void)
         return;
     }
     if (result < 0) {
-        D_8009B2EB = 0;
+        gDebugMenu_bStep = 0;
         DebugMenu_RestorePrimaryDisplayObject();
         return;
     }
@@ -269,14 +269,14 @@ void DebugMenu_UpdateSoundEntry(void)
     s32 count;
     s32 result;
 
-    flags = D_8009B2EB;
+    flags = gDebugMenu_bStep;
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
-        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+        gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         count = 3;
         DebugMenu_DimPrimaryDisplayObject();
         gDebug_nSceneOrSoundID = gDebug_nLastSoundID[0];
-        D_8009B2CA = D_8009B2DA;
-        D_8009B2CC = gDebug_nLastSoundID[1];
+        gDebug_nEditedBgmId = gDebug_nLastBgmId;
+        gDebug_nEditedCdSoundId = gDebug_nLastSoundID[1];
         DebugMenu_OpenValueEditor(D_80090CB4, 0x11, 0x19, 0x21, 9, 4, count);
         tent_DebugInterfaceFieldC2 = count;
         tent_DebugInterfaceFieldC1 = count;
@@ -298,7 +298,7 @@ void DebugMenu_UpdateSoundEntry(void)
         return;
     }
     if (result < 0) {
-        D_8009B2EB = 0;
+        gDebugMenu_bStep = 0;
         DebugMenu_RestorePrimaryDisplayObject();
         return;
     }
@@ -314,16 +314,16 @@ void DebugMenu_UpdateSoundEntry(void)
         SD_SEPlayFull(gDebug_nSceneOrSoundID & 0xFFF);
         return;
     case 1:
-        D_8009B2DA = D_8009B2CA;
-        SD_BGMPlay(D_8009B2CA);
+        gDebug_nLastBgmId = gDebug_nEditedBgmId;
+        SD_BGMPlay(gDebug_nEditedBgmId);
         return;
     case 2:
-        gDebug_nLastSoundID[1] = D_8009B2CC;
+        gDebug_nLastSoundID[1] = gDebug_nEditedCdSoundId;
         if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SQUARE) != 0) {
-            SD_CdSoundSeek((u16)D_8009B2CC);
+            SD_CdSoundSeek((u16)gDebug_nEditedCdSoundId);
             return;
         }
-        SD_CdSoundPlay(D_8009B2CC);
+        SD_CdSoundPlay(gDebug_nEditedCdSoundId);
         return;
     }
 }
@@ -362,17 +362,17 @@ void DebugMenu_UpdateCampaignEntry(void)
     s32 flags;
     u16 selection;
 
-    if ((D_8009B2EB & 0x80) == 0) {
-        D_8009B2EB = D_8009B2EB | 0x80;
+    if ((gDebugMenu_bStep & 0x80) == 0) {
+        gDebugMenu_bStep = gDebugMenu_bStep | 0x80;
         DebugMenu_DimPrimaryDisplayObject();
         Campaign_LoadScenePackage(0);
-        D_8009B2BC = 0;
+        gDebugMenu_bCampaignEditField = 0;
         goto select_editor;
     }
     if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) != 0) {
-        D_8009B2BC = D_8009B2BC ^ 1;
+        gDebugMenu_bCampaignEditField = gDebugMenu_bCampaignEditField ^ 1;
     select_editor:
-        if (D_8009B2BC == 0) {
+        if (gDebugMenu_bCampaignEditField == 0) {
             selection = D_8009AF44;
             gDebug_nSceneOrSoundID = selection;
             DebugMenu_OpenValueEditor(D_80090CDC, 0x12, 0, 0, 2, 3, 1);
@@ -384,29 +384,29 @@ void DebugMenu_UpdateCampaignEntry(void)
     }
 
     result = DebugMenu_UpdateValueEditor();
-    flags = D_8009B2EB;
+    flags = gDebugMenu_bStep;
     if ((flags & 0x40) != 0) {
         TextBox_UpdateChannels();
         textbox = D_800EB0F8;
-        if ((D_8009B2EB & 0x20) == 0) {
+        if ((gDebugMenu_bStep & 0x20) == 0) {
             if ((textbox->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
                 textbox->field_30 = Dialog_OpenChoice(textbox);
-                D_8009B2EB = D_8009B2EB | 0x20;
+                gDebugMenu_bStep = gDebugMenu_bStep | 0x20;
             }
         } else if (Input_IsPad1ConfirmPressed() != 0) {
             TextBox_Destroy(textbox);
             DisplayObject_ReleaseIfPresent(gCampaign_PrimaryDisplayObject);
-            D_8009B2EB = D_8009B2EB & 0x9F;
+            gDebugMenu_bStep = gDebugMenu_bStep & 0x9F;
             tent_DebugInterfaceFlags = tent_DebugInterfaceFlags & 0xFE;
         }
     } else if (result != 0) {
         if (result < 0) {
-            D_8009B2EB = 0;
+            gDebugMenu_bStep = 0;
             DebugMenu_RestorePrimaryDisplayObject();
             return;
         }
-        if (D_8009B2BC == 0) {
-            D_8009B2EB = flags | 0x40;
+        if (gDebugMenu_bCampaignEditField == 0) {
+            gDebugMenu_bStep = flags | 0x40;
             D_8009AF44 = gDebug_nSceneOrSoundID;
             tent_DebugInterfaceFlags = tent_DebugInterfaceFlags | 1;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)

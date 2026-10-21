@@ -13,11 +13,11 @@
 
 void DebugMenu_UpdateTwoPlayerDuelEntry(void)
 {
-    u8 flags = D_8009B2EB;
+    u8 flags = gDebugMenu_bStep;
     s32 result;
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
-        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+        gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         gSaveData_PairSetupState = 0;
         gSaveData_LoadPairState = 0;
     }
@@ -28,11 +28,11 @@ void DebugMenu_UpdateTwoPlayerDuelEntry(void)
             File_WaitForTransfers();
             D_8009B26C[0] = 0x10;
         }
-        D_8009B2EB = 0;
+        gDebugMenu_bStep = 0;
     }
 }
 
 void DebugMenu_ResetEntryState(void)
 {
-    D_8009B2EB = 0;
+    gDebugMenu_bStep = 0;
 }
