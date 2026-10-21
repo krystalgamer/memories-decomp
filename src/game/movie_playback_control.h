@@ -5,7 +5,7 @@
 
 /* Starting, polling and clearing movie playback.
  *
- * The three share one state byte, D_8009B318: Movie_Play sets its 0x80 bit
+ * The three share one state byte, gMovie_bPlaybackState: Movie_Play sets its 0x80 bit
  * when a movie starts, Movie_UpdatePlayback sets 0x40 once the stream has been asked
  * to stop and clears 0x80 when it has, and Movie_ResetPlaybackState clears
  * the byte outright at boot. They are three steps over one flag rather than

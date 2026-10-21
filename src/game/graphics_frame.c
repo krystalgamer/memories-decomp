@@ -73,19 +73,19 @@ void Graphics_BeginFrame(void)
     if (D_8009B0A8 == 0) {
         D_800FE048[0].isbg = D_8009B0D0;
         D_800FE048[0].dtd = D_8009B0AD;
-        D_800FE048[0].r0 = D_8009B144;
-        D_800FE048[0].g0 = D_8009B143;
-        D_800FE048[0].b0 = D_8009B142;
+        D_800FE048[0].r0 = gGraphics_bClearRed;
+        D_800FE048[0].g0 = gGraphics_bClearGreen;
+        D_800FE048[0].b0 = gGraphics_bClearBlue;
         GsSwapDispBuff();
         if ((D_8009B098 & 0x2000) != 0) {
             PutDispEnv(&gGraphics_DispEnv);
         }
     }
     ResetGraph(1);
-    if ((D_8009B318 & 0x80) != 0) {
+    if ((gMovie_bPlaybackState & 0x80) != 0) {
         Movie_UpdatePlayback();
     }
-    if ((D_8009B318 & 0x80) == 0) {
+    if ((gMovie_bPlaybackState & 0x80) == 0) {
         if (gFade_bOrderingTableMode != 0) {
             GsSortOt(&gGraphics_pActiveFrameBuffer->ordering_tables[1],
                      &gGraphics_pActiveFrameBuffer->ordering_tables[0]);

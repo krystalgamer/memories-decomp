@@ -51,9 +51,9 @@ s32 Movie_StopStream(s32 arg0) {
         m = GsGetActiveBuff();
         q = buf;
         for (; i < 0x3C0; i += 3) {
-            *q++ = D_8009B144;
-            *q++ = D_8009B143;
-            *q++ = D_8009B142;
+            *q++ = gGraphics_bClearRed;
+            *q++ = gGraphics_bClearGreen;
+            *q++ = gGraphics_bClearBlue;
         }
         rect.x = 0;
         i = 0;
@@ -104,7 +104,7 @@ s32 Movie_StopStream(s32 arg0) {
         rect.y = 0;
         rect.w = gGraphics_CurrentWidth.word * 2;
         rect.h = gGraphics_CurrentHeight.pixels;
-        ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);
+        ClearImage(&rect, gGraphics_bClearRed, gGraphics_bClearGreen, gGraphics_bClearBlue);
         D_8009B060 = 0;
     }
     return 0;

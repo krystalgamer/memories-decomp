@@ -36,7 +36,7 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         rect.y = 0;
         rect.w = gGraphics_CurrentWidth.pixels;
         rect.h = gGraphics_CurrentHeight.word;
-        ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);
+        ClearImage(&rect, gGraphics_bClearRed, gGraphics_bClearGreen, gGraphics_bClearBlue);
         DrawSync(0);
         VSync(0);
         GsSwapDispBuff();
@@ -44,12 +44,12 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         rect.w = gGraphics_CurrentWidth.pixels;
         rect.y = 0;
         rect.h = gGraphics_CurrentHeight.word;
-        ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);
+        ClearImage(&rect, gGraphics_bClearRed, gGraphics_bClearGreen, gGraphics_bClearBlue);
         rect.x = 0;
         rect.y = 0x100;
         rect.w = gGraphics_CurrentWidth.word * 0x1800 / 4096;
         rect.h = gGraphics_CurrentHeight.word;
-        ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);
+        ClearImage(&rect, gGraphics_bClearRed, gGraphics_bClearGreen, gGraphics_bClearBlue);
         DrawSync(0);
         VSync(0);
         D_800FE0CC = 1;

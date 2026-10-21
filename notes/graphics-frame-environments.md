@@ -22,9 +22,9 @@ Startup (`Main_InitHardware`) already copies this value into the typed
 | --- | --- | --- |
 | `0x16` | `dtd` | `D_8009B0AD` in `Graphics_BeginFrame`; 1 at startup |
 | `0x18` | `isbg` | `D_8009B0D0` in `Graphics_BeginFrame`; 1 at startup |
-| `0x19` | `r0` | `D_8009B144`; 1 at startup |
-| `0x1A` | `g0` | `D_8009B143`; 1 at startup |
-| `0x1B` | `b0` | `D_8009B142`; 1 at startup |
+| `0x19` | `r0` | `gGraphics_bClearRed`; 1 at startup |
+| `0x1A` | `g0` | `gGraphics_bClearGreen`; 1 at startup |
+| `0x1B` | `b0` | `gGraphics_bClearBlue`; 1 at startup |
 
 The existing movie stop path (`Movie_StopStream`) independently confirms the
 red/green/blue order through `ClearImage`. It now takes its existing absolute

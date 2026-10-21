@@ -12,7 +12,5 @@
 #define D_8009B0CC gJapanese_D_8009B0CC
 #define D_8009B0D0 gJapanese_D_8009B0D0
 #define D_8009B0D8 gJapanese_FrameStep
-#define D_8009B144 gJapanese_D_8009B144
-#define D_8009B318 gJapanese_D_8009B318
 
 #include "../graphics_frame.c"
