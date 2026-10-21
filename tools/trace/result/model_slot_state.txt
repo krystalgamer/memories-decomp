@@ -1,0 +1,172 @@
+==== USER CONTEXT ==== 
+
+With the emulator in interpret mode I injected the script at the main menu and then started a fight against Duel Master K. Quick note, the trace only printed at the end so I have no way of correlating each line with what was on screen. Also didn't manage to do a single fusion during the game.
+
+For the first 3D battle my "Mystical Sheep #1" (id 642) attacked "Twin-headed Thunder Dragon" (id 613), which was in defense position. Since no field was set the battle happened at the default arena. The camera starts spinning and then stops at a spot where a couple circles with different colors rotate on the floor, merge into one and fire starts appearing around the circumference. There my monster fades in and then it pans to the enemy monster. The sheep attacked by turning its back and sending a bunch of circles in different colors and the enemy monster defended by making a bipyramid appear.
+Since my monster was too weak they just faded out and the battle ended with no monster destroyed.
+
+The other battle was between my "Queen Bird" (id 468) and "Twin-headed Thunder Dragon" but this time in attack position. Since my opponent had played the mountain card before we loaded in the mountain field and the animation with the circles was the same. There Queen Bird headbutted twin-headed and then twin-headed headbutted it back. Since my monster was weaker it played a falling animation and that's when the trace was printed.
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: model_slot_state 
+setup: debugger=on configured_cpu=interpreter active_cpu=unverified execution_breakpoint=observed 
+status: captured 110 rows 
+frames: 11186 rows: 110 frame_services: 8644 battle_updates: 2502 camera_requests_passed: 42 suppressed: 0 
+count Model_RequestCameraMove caller=0x8004ED5C passed 2 
+count Model_RequestCameraMove caller=0x800521E0 passed 9 
+count Model_RequestCameraMove caller=0x8005F53C passed 4 
+count Model_RequestCameraMove caller=0x8005F994 passed 15 
+count Model_RequestCameraMoveToSlots caller=0x8004F12C passed 2 
+count Model_RequestCameraMoveToSlots caller=0x8004F330 passed 2 
+count Model_RequestCameraMoveToSlots caller=0x8004F418 passed 1 
+count Model_RequestCameraMoveToSlots caller=0x8004F598 passed 1 
+count Model_RequestCameraMoveToSlots caller=0x8004F74C passed 1 
+count Model_RequestCameraMoveToSlots caller=0x8004F91C passed 1 
+count Model_RequestCameraMoveToSlots caller=0x8004FD24 passed 1 
+count Model_RequestCameraMoveToSlots caller=0x80051004 passed 3 
+count Model_StartCameraMove caller=0x8005322C 4 
+count Model_StartCameraMove caller=0x80059F04 30 
+count Model_StartCameraMove caller=0x80059F8C 12 
+count angle caller=0x8004F150 slot=0 66 
+count angle caller=0x8004F43C slot=1 53 
+count anim from Model_StartBattleSlotAction 3 
+count choice slot=0 2 
+count choice slot=1 1 
+count poll E11 slot=2 0->3 3 
+count poll E11 slot=2 0->4 2 
+count poll E11 slot=2 3->0 3 
+count poll E11 slot=2 4->0 2 
+count search caller=0x8004CF84 8 
+count search caller=0x8004D064 9 
+count set-E11 caller=0x8004ED1C slot=2 value=3 192 
+count set-E11 caller=0x8004EEA4 slot=0 value=3 2 
+count set-E11 caller=0x8004EF18 slot=0 value=3 280 
+count set-E11 caller=0x8004EFB4 slot=0 value=3 46 
+count set-E11 caller=0x8004FDC4 slot=2 value=3 1 
+count set-E11 caller=0x8004FDE4 slot=2 value=3 26 
+count set-first Model_SetCameraHoldState value=1 caller=0x8004F2FC 2 
+count set-first Model_SetCameraHoldState value=1 caller=0x8004F564 1 
+count set-first Model_SetCameraHoldState value=2 caller=0x80051028 3 
+count set-second func_8005F198 value=0 caller=0x80055B84 3 
+count set-second func_8005F198 value=0 caller=0x80055CA8 397 
+count set-second func_8005F198 value=1 caller=0x80055B30 3 
+count set-second func_8005F198 value=1 caller=0x80055C90 397 
+count status caller=0x8005DD68 slot=0 returns=1 160 
+count status caller=0x8005DD68 slot=1 returns=1 46 
+count status caller=0x8005DFE0 slot=0 returns=1 1280 
+count status caller=0x8005DFE0 slot=1 returns=1 484 
+count status caller=0x8005E928 slot=0 returns=1 6 
+count status caller=0x8005E928 slot=1 returns=1 2 
+ 
+row=001 frame=001136 Model_StartCameraMove args=0,0,0,0 caller=0x8005322C gates=0,0 main=0x03 
+row=002 frame=001136 Model_FindBranchingChildCoord caller=0x8004CF84 model=0x800F4880 count=1 parent=0 (super not-a-unit) returns=0 (super not-a-unit) 
+row=003 frame=001136 Model_FindBranchingChildCoord caller=0x8004D064 model=0x800F4880 count=1 parent=0 (super not-a-unit) returns=0 (super not-a-unit) 
+row=004 frame=001137 poll slot=2 E11 0->4 gates=0,0 main=0x03 
+row=005 frame=004023 Model_StartCameraMove args=0,0,0,0 caller=0x8005322C gates=0,0 main=0x01 
+row=006 frame=004024 poll slot=2 E11 4->0 gates=0,0 main=0x01 
+row=007 frame=004165 Model_FindBranchingChildCoord caller=0x8004CF84 model=0x800F4880 count=1 parent=0 (super not-a-unit) returns=0 (super not-a-unit) 
+row=008 frame=004165 Model_FindBranchingChildCoord caller=0x8004D064 model=0x800F4880 count=1 parent=0 (super not-a-unit) returns=0 (super not-a-unit) 
+row=009 frame=004178 poll slot=2 E11 0->3 gates=0,0 main=0x01 
+row=010 frame=004181 Model_RequestCameraMove args=-1,4096,0,0 caller=0x8005F53C gates=0,0 main=0x01 passed 
+row=011 frame=004181 Model_StartCameraMove args=-1,0,0,0 caller=0x80059F04 gates=0,0 main=0x01 
+row=012 frame=004181 Model_RequestCameraMove args=-1,-2145386632,0,120 caller=0x8005F994 gates=0,0 main=0x01 passed 
+row=013 frame=004181 Model_StartCameraMove args=-1,0,0,0 caller=0x80059F04 gates=0,0 main=0x01 
+row=014 frame=004183 func_80059284 caller=0x8004ED1C value=3 before: slot=2 DFE=2 E0E=6 E11=3 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=015 frame=004184 poll slot=2 E11 3->0 gates=0,0 main=0x01 
+row=016 frame=004185 func_80059284 caller=0x8004ED1C value=3 before: slot=2 DFE=2 E0E=6 E11=0 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=017 frame=004187 func_80059284 caller=0x8004ED1C value=3 before: slot=2 DFE=2 E0E=6 E11=0 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=018 frame=004309 Model_FindBranchingChildCoord caller=0x8004CF84 model=0x800F2C40 count=34 parent=30 (super not-a-unit) returns=1 (super 0) 
+row=019 frame=004309 Model_FindBranchingChildCoord caller=0x8004D064 model=0x800F2C40 count=34 parent=29 (super 30) returns=1 (super 0) 
+row=020 frame=004421 Model_RequestCameraMove args=0,-2146442968,-2146442916,33 caller=0x8004ED5C gates=0,0 main=0x01 passed 
+row=021 frame=004421 Model_StartCameraMove args=0,0,0,0 caller=0x80059F04 gates=0,0 main=0x01 
+row=022 frame=004421 Model_RequestCameraMove args=-1,-2145386776,-2145386784,-12 caller=0x8005F994 gates=0,0 main=0x01 passed 
+row=023 frame=004421 func_80058DD8 caller=0x8005E928 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=024 frame=004421 func_80058DD8 caller=0x8005DD68 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=025 frame=004423 func_80058DD8 caller=0x8005DD68 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=026 frame=004425 func_80058DD8 caller=0x8005DD68 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=027 frame=004505 Model_RequestCameraMove args=-1,-2145386776,-2145386784,-12 caller=0x8005F994 gates=0,0 main=0x01 passed 
+row=028 frame=004505 func_80058DD8 caller=0x8005E928 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=029 frame=004529 func_80058DD8 caller=0x8005DFE0 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=030 frame=004529 func_80058DD8 caller=0x8005DFE0 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=031 frame=004531 func_80058DD8 caller=0x8005DFE0 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=032 frame=004891 func_80059284 caller=0x8004EEA4 value=3 before: slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=033 frame=004893 func_80059284 caller=0x8004EF18 value=3 before: slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=034 frame=004895 func_80059284 caller=0x8004EF18 value=3 before: slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=035 frame=004897 func_80059284 caller=0x8004EF18 value=3 before: slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=036 frame=005092 func_80058DD8 caller=0x8005E928 slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=037 frame=005092 func_80058DD8 caller=0x8005DD68 slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=038 frame=005093 func_80059284 caller=0x8004EFB4 value=3 before: slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=039 frame=005094 func_80058DD8 caller=0x8005DD68 slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=040 frame=005095 func_80059284 caller=0x8004EFB4 value=3 before: slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=041 frame=005096 func_80058DD8 caller=0x8005DD68 slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=042 frame=005097 func_80059284 caller=0x8004EFB4 value=3 before: slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=043 frame=005137 Model_RequestCameraMove args=-1,-2146478136,0,0 caller=0x8005F53C gates=0,0 main=0x01 passed 
+row=044 frame=005137 func_80058DD8 caller=0x8005DFE0 slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=045 frame=005137 func_80058DD8 caller=0x8005DFE0 slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=046 frame=005139 func_80058DD8 caller=0x8005DFE0 slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=047 frame=005379 func_80058DD8 caller=0x8005E928 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=048 frame=005429 Model_RequestCameraMoveToSlots args=1,-1,0,-30 caller=0x8004F12C gates=0,0 main=0x01 passed 
+row=049 frame=005429 Model_StartCameraMove args=1,0,1,-30 caller=0x80059F8C gates=0,0 main=0x01 
+row=050 frame=005488 Model_RequestCameraMove args=1,0,-4,0 caller=0x800521E0 gates=0,0 main=0x01 passed 
+row=051 frame=005489 func_8005A618 caller=0x8004F150 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=2560 (0xA00 of 0x1000) 
+row=052 frame=005491 func_8005A618 caller=0x8004F150 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=2560 (0xA00 of 0x1000) 
+row=053 frame=005493 func_8005A618 caller=0x8004F150 slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=2560 (0xA00 of 0x1000) 
+row=054 frame=005553 === Model_StartBattleSlotAction slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 caller=0x8004F1A0 gates=0,0 main=0x01 
+row=055 frame=005553   from Model_StartBattleSlotAction: Model_ControlSlotAnimation slot=0 animation=3 arg=1 
+row=056 frame=005553   from Model_StartBattleSlotAction: Model_RequestCameraMoveToSlots args=1,-1,1,300 caller=0x80051004 gates=0,0 main=0x01 passed 
+row=057 frame=005553 Model_StartCameraMove args=1,0,2,300 caller=0x80059F8C gates=0,0 main=0x01 
+row=058 frame=005553   from Model_StartBattleSlotAction: set-first Model_SetCameraHoldState value=2 caller=0x80051028 before: gates=0,0 main=0x01 
+row=059 frame=005553 set-second func_8005F198 value=1 caller=0x80055B30 before: gates=2,0 main=0x01 
+row=060 frame=005554 set-second func_8005F198 value=0 caller=0x80055B84 before: gates=2,1 main=0x01 
+row=061 frame=005555 set-second func_8005F198 value=1 caller=0x80055C90 before: gates=2,0 main=0x01 
+row=062 frame=005555 set-second func_8005F198 value=0 caller=0x80055CA8 before: gates=2,1 main=0x01 
+row=063 frame=005557 set-second func_8005F198 value=1 caller=0x80055C90 before: gates=2,0 main=0x01 
+row=064 frame=005557 set-second func_8005F198 value=0 caller=0x80055CA8 before: gates=2,1 main=0x01 
+row=065 frame=005559 set-second func_8005F198 value=1 caller=0x80055C90 before: gates=2,0 main=0x01 
+row=066 frame=005559 set-second func_8005F198 value=0 caller=0x80055CA8 before: gates=2,1 main=0x01 
+row=067 frame=005655 set-first Model_SetCameraHoldState value=1 caller=0x8004F2FC before: gates=2,0 main=0x01 
+row=068 frame=005655 Model_RequestCameraMoveToSlots args=1,-1,1,31 caller=0x8004F330 gates=1,0 main=0x01 passed 
+row=069 frame=005655 Model_StartCameraMove args=1,0,2,31 caller=0x80059F8C gates=1,0 main=0x01 
+row=070 frame=005716 Model_RequestCameraMove args=1,0,-1,0 caller=0x800521E0 gates=1,0 main=0x01 passed 
+row=071 frame=006339 Model_RequestCameraMoveToSlots args=1,-1,0,-37 caller=0x8004FD24 gates=1,0 main=0x01 passed 
+row=072 frame=006411 Model_RequestCameraMove args=1,0,-1,0 caller=0x800521E0 gates=1,0 main=0x01 passed 
+row=073 frame=006545 func_80059284 caller=0x8004FDC4 value=3 before: slot=2 DFE=2 E0E=6 E11=0 E14=0xFF E1F=1 gates=1,0 main=0x01 
+row=074 frame=006547 func_80059284 caller=0x8004FDE4 value=3 before: slot=2 DFE=2 E0E=6 E11=0 E14=0xFF E1F=1 gates=1,0 main=0x01 
+row=075 frame=006549 func_80059284 caller=0x8004FDE4 value=3 before: slot=2 DFE=2 E0E=6 E11=0 E14=0xFF E1F=1 gates=1,0 main=0x01 
+row=076 frame=006551 func_80059284 caller=0x8004FDE4 value=3 before: slot=2 DFE=2 E0E=6 E11=0 E14=0xFF E1F=1 gates=1,0 main=0x01 
+row=077 frame=006773 Model_StartCameraMove args=0,0,0,0 caller=0x8005322C gates=1,0 main=0x03 
+row=078 frame=006774 poll slot=2 E11 0->4 gates=0,0 main=0x03 
+row=079 frame=008706 poll slot=2 E11 4->0 gates=0,0 main=0x01 
+row=080 frame=008860 poll slot=2 E11 0->3 gates=0,0 main=0x01 
+row=081 frame=008863 Model_RequestCameraMove args=-1,4096,0,0 caller=0x8005F53C gates=0,0 main=0x01 passed 
+row=082 frame=008866 poll slot=2 E11 3->0 gates=0,0 main=0x01 
+row=083 frame=009103 Model_RequestCameraMove args=0,-2146442968,-2146442916,33 caller=0x8004ED5C gates=0,0 main=0x01 passed 
+row=084 frame=009569 func_80059284 caller=0x8004EEA4 value=3 before: slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 gates=0,0 main=0x01 
+row=085 frame=009929 func_80058DD8 caller=0x8005E928 slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=1 gates=0,0 main=0x01 
+row=086 frame=010271 Model_RequestCameraMoveToSlots args=1,-1,0,-30 caller=0x8004F12C gates=0,0 main=0x01 passed 
+row=087 frame=010395 === Model_StartBattleSlotAction slot=0 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 caller=0x8004F1A0 gates=0,0 main=0x01 
+row=088 frame=010395   from Model_StartBattleSlotAction: Model_ControlSlotAnimation slot=0 animation=3 arg=1 
+row=089 frame=010395   from Model_StartBattleSlotAction: Model_RequestCameraMoveToSlots args=1,-1,1,20 caller=0x80051004 gates=0,0 main=0x01 passed 
+row=090 frame=010395   from Model_StartBattleSlotAction: set-first Model_SetCameraHoldState value=2 caller=0x80051028 before: gates=0,0 main=0x01 
+row=091 frame=010396 set-second func_8005F198 value=1 caller=0x80055B30 before: gates=2,0 main=0x01 
+row=092 frame=010396 set-second func_8005F198 value=0 caller=0x80055B84 before: gates=2,1 main=0x01 
+row=093 frame=010439 set-first Model_SetCameraHoldState value=1 caller=0x8004F2FC before: gates=2,0 main=0x01 
+row=094 frame=010439 Model_RequestCameraMoveToSlots args=1,-1,1,10 caller=0x8004F330 gates=1,0 main=0x01 passed 
+row=095 frame=010547 Model_RequestCameraMoveToSlots args=1,-1,1,-30 caller=0x8004F418 gates=1,0 main=0x01 passed 
+row=096 frame=010607 func_8005A618 caller=0x8004F43C slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=3584 (0xE00 of 0x1000) 
+row=097 frame=010609 func_8005A618 caller=0x8004F43C slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=3584 (0xE00 of 0x1000) 
+row=098 frame=010611 func_8005A618 caller=0x8004F43C slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 returns=3584 (0xE00 of 0x1000) 
+row=099 frame=010711 === Model_StartBattleSlotAction slot=1 DFE=0 E0E=2 E11=0 E14=0xFF E1F=1 caller=0x8004F48C gates=1,0 main=0x01 
+row=100 frame=010711   from Model_StartBattleSlotAction: Model_ControlSlotAnimation slot=1 animation=3 arg=1 
+row=101 frame=010711   from Model_StartBattleSlotAction: Model_RequestCameraMoveToSlots args=1,-1,0,60 caller=0x80051004 gates=1,0 main=0x01 passed 
+row=102 frame=010711   from Model_StartBattleSlotAction: set-first Model_SetCameraHoldState value=2 caller=0x80051028 before: gates=1,0 main=0x01 
+row=103 frame=010711 set-second func_8005F198 value=1 caller=0x80055B30 before: gates=2,0 main=0x01 
+row=104 frame=010712 set-second func_8005F198 value=0 caller=0x80055B84 before: gates=2,1 main=0x01 
+row=105 frame=010714 poll slot=2 E11 0->3 gates=2,0 main=0x01 
+row=106 frame=010787 set-first Model_SetCameraHoldState value=1 caller=0x8004F564 before: gates=2,0 main=0x01 
+row=107 frame=010787 Model_RequestCameraMoveToSlots args=1,-1,0,15 caller=0x8004F598 gates=1,0 main=0x01 passed 
+row=108 frame=010832 poll slot=2 E11 3->0 gates=1,0 main=0x01 
+row=109 frame=010975 Model_RequestCameraMoveToSlots args=1,-1,0,-10 caller=0x8004F74C gates=1,0 main=0x01 passed 
+row=110 frame=011185 Model_RequestCameraMoveToSlots args=1,-1,1,-43 caller=0x8004F91C gates=1,0 main=0x01 passed 
