@@ -484,9 +484,9 @@ address,size,name,status,module,notes
 0x800386B8,0xE0,DuelEffect_ProcessBgmCommand,matching_c,game,"Reads one BGM control byte, dispatches its playback or saved-command operations, and optionally enters wait state 0xC; exact linked bytes and relocations."
 0x80038798,0x68,DuelEffect_PlaySoundCommand,matching_c,game,Post-terminal pure-C match; explicit 16-bit masking plus real callee arguments reproduces the redundant retail mask sequence.
 0x80038800,0x88,DuelEffect_FadeOutBgmCommand,matching_c,game,"Reads a fade step from the active duel-effect stream, fades BGM with the default or explicit step, and marks the command complete when the high bit is set."
-0x80038888,0x8,func_80038888,matching_c,game,First empty-function candidate matched.
-0x80038890,0x8,func_80038890,matching_c,game,First empty-function candidate matched.
-0x80038898,0x40,func_80038898,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80038888,0x8,Text_NoOpSecondary12,matching_c,game,First empty-function candidate matched.
+0x80038890,0x8,Text_NoOpSecondary13,matching_c,game,First empty-function candidate matched.
+0x80038898,0x40,Text_OpenCampaignMap,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800388D8,0xEC,Text_ApplyFadeCommand,matching_c,game,Exact pure-C match: existing .data views for D_8009AF74 and D_8009B140 reproduce the retail absolute accesses under gcc_2_8_1_g8_split.
 0x800389C4,0x14,Text_DisableCompletionWait,matching_c,game,First halfword bit-clear candidate matched.
 0x800389D8,0x6C,Text_JumpBySelectorA,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.

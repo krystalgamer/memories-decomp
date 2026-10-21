@@ -1,8 +1,8 @@
 /* Seven contiguous duel-effect command handlers from DuelEffect_PlayBgmCommand
- * (0x80038690) through func_80038898. The four sound handlers read their
+ * (0x80038690) through Text_OpenCampaignMap. The four sound handlers read their
  * operands from the channel's selected stream and drive SD_BGMPlay,
  * SD_SEPlayFull or the BGM fade; then come the two empty table entries and
- * the handler that reads one byte into D_8009B363 and moves the scene mode
+ * the handler that reads one byte into gCampaignMap_bEntryLocation and moves the scene mode
  * to 5. */
 #define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
 #define D_8009B404_IN_DATA
@@ -10,6 +10,7 @@
 #define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 
 #include "../types.h"
+#include "secondary_scene_commands.h"
 #include "duel_effect_sound_commands.h"
 #include "text_stream_read_le.h"
 #include "sound.h"
@@ -98,18 +99,18 @@ shared_test:
     }
 }
 
-void func_80038888(void)
+void Text_NoOpSecondary12(void)
 {
 }
 
-void func_80038890(void)
+void Text_NoOpSecondary13(void)
 {
 }
 
-void func_80038898(DuelEffectChannel *object)
+void Text_OpenCampaignMap(DuelEffectChannel *object)
 {
     u8 *G32 *stream = &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 value = *(*stream)++;
     D_8009B26C[0] = 5;
-    D_8009B363[0] = value;
+    gCampaignMap_bEntryLocation[0] = value;
 }
