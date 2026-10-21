@@ -46,8 +46,8 @@ void CampaignMap_ClearLocationObjects(void)
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        DisplayObject_ReleaseIfPresent(D_801695F8[i]);
-        D_801695F8[i] = 0;
+        DisplayObject_ReleaseIfPresent(gCampaignMap_apExitObjects[i]);
+        gCampaignMap_apExitObjects[i] = 0;
     }
 }
 
@@ -79,7 +79,7 @@ void CampaignMap_RebuildLocationObjects(s32 index)
                 *(u16 *)(object + 8) |=
                     DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-                D_801695F8[i] = object;
+                gCampaignMap_apExitObjects[i] = object;
             }
         }
     }
@@ -309,10 +309,10 @@ void CampaignMap_SetLocation(s32 index)
     gCampaignMap_Location = index;
     D_80169619 = 0;
     D_8016960D = 0;
-    D_801695EC = 0;
-    D_801695C8 = 0;
+    gCampaignMap_bTransitionFlags = 0;
+    gCampaignMap_pLocationMarker = 0;
     for (i = 3; i >= 0; i--) {
-        D_801695F8[i] = 0;
+        gCampaignMap_apExitObjects[i] = 0;
     }
     Model_ResetSceneView();
     Model_ResetSceneState();
@@ -344,16 +344,16 @@ void CampaignMap_SetLocation(s32 index)
     DisplayObject_SetDepthOffset(obj, -10);
     location = gCampaignMap_Location;
     ((DisplayObject *)obj)->field_4C = (s32)DisplayObject_RenderSpotlightMask;
-    D_801695D8 = (MapObject *)obj;
+    gCampaignMap_pSpotlight = (MapObject *)obj;
     CampaignMap_SetCameraFromLocation(location);
     CampaignMap_CreateLocationLabel(gCampaignMap_Location);
     CampaignMap_RebuildLocationObjects(gCampaignMap_Location);
     gCampaignMap_LocationPrev = gCampaignMap_Location;
     if ((u8)gCampaignMap_Location >= 10) {
         marker = CampaignMap_CreateLocationMarker(gCampaignMap_Location);
-        panel = D_801695D8;
+        panel = gCampaignMap_pSpotlight;
         flags = panel->f8;
-        D_801695C8 = (MapObject *)marker;
+        gCampaignMap_pLocationMarker = (MapObject *)marker;
         panel->f8 = flags & 0xFFBF;
     }
     track = 0x70A0;
@@ -428,36 +428,36 @@ s32 CampaignMap_UpdateLocationTransition(void)
     s32 quotient;
     cam = &D_800F2848;
     cam = &D_800F2848;
-    flags = D_801695EC;
+    flags = gCampaignMap_bTransitionFlags;
     if ((flags & 0x80) == 0) {
-        marker = D_801695C8;
-        D_801695EC = flags | 0x80;
+        marker = gCampaignMap_pLocationMarker;
+        gCampaignMap_bTransitionFlags = flags | 0x80;
         if (marker != 0) {
             DisplayObject_SavePosition(marker);
             marker->f96 = 0;
         }
-        D_801695D4 = gCampaignMap_MoveState;
+        gCampaignMap_nTweenFramesLeft = gCampaignMap_MoveState;
         CampaignMap_StartCameraTween(
             gCampaignMap_Location, gCampaignMap_MoveState
         );
         if (gCampaignMap_Location < 10) {
             if (gCampaignMap_LocationPrev >= 10) {
-                obj = D_801695D8;
+                obj = gCampaignMap_pSpotlight;
                 obj->f72 = 180;
                 obj->f74 = 340;
-                flags = D_801695EC;
+                flags = gCampaignMap_bTransitionFlags;
                 raise = obj->f8 | 0x40;
-                D_801695EC = flags | 0x60;
+                gCampaignMap_bTransitionFlags = flags | 0x60;
                 obj->f8 = raise;
             }
         }
         if (gCampaignMap_LocationPrev < 10 && gCampaignMap_Location >= 10) {
-            D_801695EC |= 0x40;
+            gCampaignMap_bTransitionFlags |= 0x40;
         }
     }
-    flags = D_801695EC;
+    flags = gCampaignMap_bTransitionFlags;
     if ((flags & 0x40) != 0) {
-        marker = D_801695D8;
+        marker = gCampaignMap_pSpotlight;
         if ((flags & 0x20) == 0) {
             marker->f72 = marker->f72 + 7;
         } else {
@@ -469,7 +469,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
         }
         marker->f74 = marker->f72 + 160;
     }
-    marker = D_801695C8;
+    marker = gCampaignMap_pLocationMarker;
     if (marker != 0) {
         if (marker->f96 < 2048) {
             quotient = 2048 / gCampaignMap_MoveState;
@@ -496,26 +496,26 @@ s32 CampaignMap_UpdateLocationTransition(void)
     cam->field_00 = gCampaignMap_dwTweenDistance >> 16;
     cam->view.vrx = gCampaignMap_dwTweenRefX >> 16;
     cam->view.vrz = gCampaignMap_dwTweenRefZ >> 16;
-    D_801695D4 = D_801695D4 - 1;
-    if (D_801695D4 == 0) {
+    gCampaignMap_nTweenFramesLeft = gCampaignMap_nTweenFramesLeft - 1;
+    if (gCampaignMap_nTweenFramesLeft == 0) {
         CampaignMap_SetCameraFromLocation(gCampaignMap_Location);
-        if ((D_801695EC & 0x20) != 0) {
-            D_801695D8->f72 = 32;
-            D_801695D8->f74 = 192;
+        if ((gCampaignMap_bTransitionFlags & 0x20) != 0) {
+            gCampaignMap_pSpotlight->f72 = 32;
+            gCampaignMap_pSpotlight->f74 = 192;
         }
-        if (D_801695C8 != 0) {
-            D_801695C8->f48 =
+        if (gCampaignMap_pLocationMarker != 0) {
+            gCampaignMap_pLocationMarker->f48 =
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location
                 ].f12;
-            D_801695C8->f50 =
+            gCampaignMap_pLocationMarker->f50 =
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location
                 ].f14;
         }
     }
     ViewState_ApplyOrbit();
-    return D_801695D4;
+    return gCampaignMap_nTweenFramesLeft;
 }
 
 #endif
@@ -593,25 +593,25 @@ void CampaignMap_UpdateLocation(void)
     MapLocation *record;
     s32 exit;
 
-    if (D_801695EC != 0) {
+    if (gCampaignMap_bTransitionFlags != 0) {
         if (CampaignMap_UpdateLocationTransition() != 0) {
             return;
         }
-        D_801695EC = 0;
+        gCampaignMap_bTransitionFlags = 0;
         CampaignMap_RebuildLocationObjects(gCampaignMap_Location);
         CampaignMap_CreateLocationLabel(gCampaignMap_Location);
         if (gCampaignMap_Location >= 10) {
-            if (D_801695C8 == 0) {
-                D_801695C8 = (MapObject *)
+            if (gCampaignMap_pLocationMarker == 0) {
+                gCampaignMap_pLocationMarker = (MapObject *)
                     CampaignMap_CreateLocationMarker(gCampaignMap_Location);
             }
             table = gCampaignMap_aLocationTable;
             record = table + gCampaignMap_Location;
-            D_801695C8->f48 = (u16)record->f12;
-            D_801695C8->f50 = (u16)record->f14;
+            gCampaignMap_pLocationMarker->f48 = (u16)record->f12;
+            gCampaignMap_pLocationMarker->f50 = (u16)record->f14;
         } else {
-            DisplayObject_ReleaseIfPresent(D_801695C8);
-            D_801695C8 = 0;
+            DisplayObject_ReleaseIfPresent(gCampaignMap_pLocationMarker);
+            gCampaignMap_pLocationMarker = 0;
         }
     }
     if (D_8016960D != 0) {
@@ -620,7 +620,7 @@ void CampaignMap_UpdateLocation(void)
             Fade_InitOut();
             D_800E9ECF = 2;
             CampaignMap_ClearLocationObjects();
-            DisplayObject_ReleaseIfPresent(D_801695C8);
+            DisplayObject_ReleaseIfPresent(gCampaignMap_pLocationMarker);
             SD_BGMFadeOutWithStep(4);
         }
         D_800F2848.field_00 = D_800F2848.field_00 - 2;
@@ -642,10 +642,10 @@ void CampaignMap_UpdateLocation(void)
     }
     gCampaignMap_Location = exit;
     if ((u8)exit < 10) {
-        DisplayObject_ReleaseIfPresent(D_801695C8);
-        D_801695C8 = 0;
+        DisplayObject_ReleaseIfPresent(gCampaignMap_pLocationMarker);
+        gCampaignMap_pLocationMarker = 0;
     }
     CampaignMap_ClearLocationObjects();
-    D_801695EC = 1;
+    gCampaignMap_bTransitionFlags = 1;
 }
 #endif

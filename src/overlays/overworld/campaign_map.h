@@ -25,23 +25,23 @@ extern u8 D_80169619;
 
 /* Two flag bytes the location machinery shares.
  *
- *   D_801695EC  Read into a local, OR'd with 0x80, 0x60 and 0x40 at different
+ *   gCampaignMap_bTransitionFlags  Read into a local, OR'd with 0x80, 0x60 and 0x40 at different
  *               points, and written back through a u8.
  *   D_8016960D  Tested whole, then for 0x80, set to 1 on entry and cleared.
  *
- * live_state.h declares them once. It also owns D_801695F8's four pointer
+ * live_state.h declares them once. It also owns gCampaignMap_apExitObjects's four pointer
  * slots. The former integer view only cleared slots, while creation/release
  * constrained them to object pointers; one pointer array preserves both. */
 
 /* The two display objects the map keeps between frames. Member names are the
  * decimal byte offset.
  *
- * D_801695C8 is the location marker. CampaignMap_SetLocation clears it and
+ * gCampaignMap_pLocationMarker is the location marker. CampaignMap_SetLocation clears it and
  * stores CampaignMap_CreateLocationMarker's return; CampaignMap_UpdateLocation
  * stores the same return, updates f48/f50 and clears it; and
  * CampaignMap_UpdateLocationTransition reads and writes f96/f48/f50.
  *
- * D_801695D8 holds the object DisplayObject_AcquireSlot returned.
+ * gCampaignMap_pSpotlight holds the object DisplayObject_AcquireSlot returned.
  * CampaignMap_SetLocation reaches f8 through a byte view, while
  * CampaignMap_UpdateLocationTransition reaches f72/f74/f8 through MapObject.
  *
