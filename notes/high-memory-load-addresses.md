@@ -127,12 +127,38 @@ The following are supported:
 
 - the fourteen words form a contiguous high-memory pointer-constant block;
 - the four cohorts above have distinct, repeatable roles; and
-- individual address-based symbols should remain until each cohort has a
-  source representation that preserves the required relocation behavior.
+- the module and data words can be named individually through their existing
+  scalar declarations without changing relocation identities or types.
 
 The proposed `gMain_apLoadArena` name is rejected. The block is not owned only
 by the main frontend, not every element is a load destination, and retail
 consumers do not establish one common element type or indexing contract.
+
+## Individual module and data words
+
+The eight model-only words now have names supported by transfer producers
+and module-call consumers. Their existing scalar labels remain distinct:
+
+| Word | Identity | Existing declaration view |
+|---|---|---|
+| `0x8001000C` | `gModel_pSlot0PrimaryModule` | `u8 *G32`, `.data` |
+| `0x80010010` | `gModel_pSlot1PrimaryModule` | `u8 *G32`, `.data` |
+| `0x80010014` | `gModel_Slot0VariantModuleAddress` | `s32`, `.data` |
+| `0x80010018` | `gModel_Slot1VariantModuleAddress` | `s32`, `.data` |
+| `0x8001001C` | `gModel_Slot0PrimaryDataAddress` | `s32`, `.data` |
+| `0x80010020` | `gModel_Slot1PrimaryDataAddress` | `s32`, `.data` |
+| `0x80010024` | `gModel_Slot0VariantDataAddress` | `s32`, `.data` |
+| `0x80010028` | `gModel_Slot1VariantDataAddress` | `s32`, `.data` |
+
+Module dispatch still adds four to the selected module base and passes the
+separate data word through the slot's `+0xDE8` or `+0xDEC` value. No new
+function-pointer type, data-record type, storage, const qualifier or array
+bound follows from these names. The signed address words are not retyped.
+
+The reused general/model payload bases and SU-specific tail remain
+address-named. The incomplete `D_80010000` prefix view, declaration selectors
+and its base-relative relocations are unchanged. Naming the independent
+scalar module words does not replace accesses through that prefix.
 
 ## Shared C contracts
 
@@ -175,10 +201,12 @@ The other indexed consumers already used incomplete arrays. Measurement
 confirms that the pointer conversion and prefix fields preserve their
 instructions and relocations.
 
-The independently named `D_80010008`, `D_80010014`, `D_80010018` and
-`D_8001002C` transfer destinations retain signed-word `.data` declarations.
-The initializer's `D_8001001C`, `D_80010020`, `D_80010024` and
-`D_80010028` data arguments are signed-word `.data` declarations too: the
+The independently named `D_80010008`, `gModel_Slot0VariantModuleAddress`,
+`gModel_Slot1VariantModuleAddress` and `D_8001002C` transfer destinations
+retain signed-word `.data` declarations. The initializer's
+`gModel_Slot0PrimaryDataAddress`, `gModel_Slot1PrimaryDataAddress`,
+`gModel_Slot0VariantDataAddress` and `gModel_Slot1VariantDataAddress`
+arguments are signed-word `.data` declarations too: the
 matching `Model_InitSlot` is built under `gcc_2_8_1_g8_split`, and a
 small-data view would turn its four absolute loads gp-relative. Reaching
 one of these through a field of `D_80010000` would change its relocation

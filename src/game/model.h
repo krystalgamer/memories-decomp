@@ -266,7 +266,7 @@ typedef struct {
     u8 *G32 field_DDC;
     u8 *G32 field_DE0;
     u8 *G32 field_DE4;
-    /* The module data words D_8001001C..D_80010028 Model_InitSlot copies in
+    /* The module data words gModel_Slot0PrimaryDataAddress..gModel_Slot1VariantDataAddress Model_InitSlot copies in
      * for slots 0 and 1 (see high_memory_addresses.h). */
     s32 field_DE8;
     s32 field_DEC;

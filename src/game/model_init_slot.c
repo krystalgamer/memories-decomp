@@ -105,14 +105,14 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     base->field_DEC = 0;
     if (index < 2) {
         if (index != 0) {
-            base->field_DE8 = D_80010020;
+            base->field_DE8 = gModel_Slot1PrimaryDataAddress;
         } else {
-            base->field_DE8 = D_8001001C;
+            base->field_DE8 = gModel_Slot0PrimaryDataAddress;
         }
         if (index != 0) {
-            base->field_DEC = D_80010028;
+            base->field_DEC = gModel_Slot1VariantDataAddress;
         } else {
-            base->field_DEC = D_80010024;
+            base->field_DEC = gModel_Slot0VariantDataAddress;
         }
     }
     base->field_DF0 = 0;

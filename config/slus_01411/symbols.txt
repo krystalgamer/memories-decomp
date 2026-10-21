@@ -2117,3 +2117,19 @@ Model_QueueCameraOrbitFromPreset = 0x8005F5C8; // type:func
 Model_QueueEffectEndpointPair = 0x8005F714; // type:func
 
 Model_QueueCameraShake = 0x8005F7B0; // type:func
+
+gModel_pSlot0PrimaryModule = 0x8001000C;
+
+gModel_pSlot1PrimaryModule = 0x80010010;
+
+gModel_Slot0VariantModuleAddress = 0x80010014;
+
+gModel_Slot1VariantModuleAddress = 0x80010018;
+
+gModel_Slot0PrimaryDataAddress = 0x8001001C;
+
+gModel_Slot1PrimaryDataAddress = 0x80010020;
+
+gModel_Slot0VariantDataAddress = 0x80010024;
+
+gModel_Slot1VariantDataAddress = 0x80010028;

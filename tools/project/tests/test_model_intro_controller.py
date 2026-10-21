@@ -70,10 +70,10 @@ __asm__(".globl gModel_aSlots\n.set gModel_aSlots, fixture_slots+32\n"
         ".globl gModel_bActiveSlotIndex\n.set gModel_bActiveSlotIndex, fixture_globals+33\n"
         ".globl D_8009B0F4_abs\n.set D_8009B0F4_abs, fixture_globals+36\n"
         ".globl D_8009B134_abs\n.set D_8009B134_abs, fixture_globals+40\n"
-        ".globl D_80010014\n.set D_80010014, fixture_globals+44\n"
-        ".globl D_80010018\n.set D_80010018, fixture_globals+48\n"
-        ".globl D_80010024\n.set D_80010024, fixture_globals+52\n"
-        ".globl D_80010028\n.set D_80010028, fixture_globals+56\n"
+        ".globl gModel_Slot0VariantModuleAddress\n.set gModel_Slot0VariantModuleAddress, fixture_globals+44\n"
+        ".globl gModel_Slot1VariantModuleAddress\n.set gModel_Slot1VariantModuleAddress, fixture_globals+48\n"
+        ".globl gModel_Slot0VariantDataAddress\n.set gModel_Slot0VariantDataAddress, fixture_globals+52\n"
+        ".globl gModel_Slot1VariantDataAddress\n.set gModel_Slot1VariantDataAddress, fixture_globals+56\n"
         ".globl D_8009AFFC\n.set D_8009AFFC, fixture_globals+60\n");
 void Model_UpdateExodiaPresentation(void);
 static s32 old_first(s32, s32), old_second(s32, s32);

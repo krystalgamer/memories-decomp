@@ -69,8 +69,8 @@ u8 gModel_bActiveSlotIndex;
 u8 *D_80010000;
 u8 *D_80010004;
 s32 D_80010008;
-u8 *D_8001000C;
-u8 *D_80010010;
+u8 *gModel_pSlot0PrimaryModule;
+u8 *gModel_pSlot1PrimaryModule;
 extern u8 primary0_base[],primary1_base[];
 char D_80011594[]="LoadModelDO(%d)=%03X\n";
 
@@ -140,7 +140,7 @@ static void snapshot(u8 *out)
     bytes(out+SLOT_BYTES,parts_memory,PART_BYTES);
     put32(g,gModel_bActiveSlotIndex);
     put32(g+4,(u32)D_80010000);put32(g+8,(u32)D_80010004);put32(g+12,D_80010008);
-    put32(g+16,(u32)D_8001000C);put32(g+20,(u32)D_80010010);
+    put32(g+16,(u32)gModel_pSlot0PrimaryModule);put32(g+20,(u32)gModel_pSlot1PrimaryModule);
     put32(g+24,payloads[0][0]);put32(g+28,payloads[1][0]);put32(g+32,payloads[2][0]);
 }
 static void restore(const u8 *in)
@@ -149,7 +149,7 @@ static void restore(const u8 *in)
     bytes(slots_memory,in,SLOT_BYTES);bytes(parts_memory,in+SLOT_BYTES,PART_BYTES);
     gModel_bActiveSlotIndex=get32(g);
     D_80010000=(u8 *)get32(g+4);D_80010004=(u8 *)get32(g+8);D_80010008=get32(g+12);
-    D_8001000C=(u8 *)get32(g+16);D_80010010=(u8 *)get32(g+20);
+    gModel_pSlot0PrimaryModule=(u8 *)get32(g+16);gModel_pSlot1PrimaryModule=(u8 *)get32(g+20);
     payloads[0][0]=get32(g+24);payloads[1][0]=get32(g+28);payloads[2][0]=get32(g+32);
 }
 static void hook(s32 kind,u32 occurrence,const s32 *args)
@@ -161,7 +161,7 @@ static void hook(s32 kind,u32 occurrence,const s32 *args)
     if((stress&8) && kind==PRINT) p[0xE1F]=7;
     if((stress&16) && kind==GATE && args[0]==1) {
         put32(p+0xD10,(u32)-1001);put32(p+0xDE8,(u32)contexts[3]);
-        D_8001000C=primary1_base;D_80010010=primary0_base;
+        gModel_pSlot0PrimaryModule=primary1_base;gModel_pSlot1PrimaryModule=primary0_base;
     }
     if((stress&32) && kind==GATE && args[0]==0) {
         p[0xBF5]=0;put16(p+0xE06,65535);p[0xE1B]=1;
@@ -309,7 +309,7 @@ static void oracle(s32 index)
         u32 position;
         gModel_bActiveSlotIndex=index;
         if(command>=0) {
-            base=index ? D_80010010 : D_8001000C;
+            base=index ? gModel_pSlot1PrimaryModule : gModel_pSlot0PrimaryModule;
             func_8005F198(1);
             command=(s32)get32(p+0xD10);
             if(base==primary0_base) primary0_body(context,command-(command/1000)*1000);
@@ -348,7 +348,7 @@ static void prepare(s32 index,s32 phase,s32 count)
     for(i=0;i<PART_BYTES;i++) parts_memory[i]=(i*29+case_number*7)&255;
     gModel_bActiveSlotIndex=2;
     D_80010000=(u8 *)payloads[0];D_80010004=(u8 *)payloads[1];D_80010008=(s32)payloads[2];
-    D_8001000C=primary0_base;D_80010010=primary1_base;
+    gModel_pSlot0PrimaryModule=primary0_base;gModel_pSlot1PrimaryModule=primary1_base;
     payloads[0][0]=0;payloads[1][0]=0x8000;payloads[2][0]=(u32)-1;
     for(i=0;i<3;i++) {
         p=slot(i);

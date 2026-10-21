@@ -204,9 +204,9 @@ void func_800559D4(s32 index)
     gModel_bActiveSlotIndex = index;
     if (primary_state >= 0) {
         if (index != 0) {
-            primary_handler = (ModelControlHandler)(D_80010010 + 4);
+            primary_handler = (ModelControlHandler)(gModel_pSlot1PrimaryModule + 4);
         } else {
-            primary_handler = (ModelControlHandler)(D_8001000C + 4);
+            primary_handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
         }
         func_8005F198(1);
         primary_handler(primary, -1);
@@ -228,9 +228,9 @@ void func_800559D4(s32 index)
         goto no_handler;
     }
     if (index != 0) {
-        handler = (ModelControlHandler)((u8 *)D_80010018 + 4);
+        handler = (ModelControlHandler)((u8 *)gModel_Slot1VariantModuleAddress + 4);
     } else {
-        handler = (ModelControlHandler)((u8 *)D_80010014 + 4);
+        handler = (ModelControlHandler)((u8 *)gModel_Slot0VariantModuleAddress + 4);
     }
     if (slot->field_E0E == 7) {
         func_8005F198(1);
@@ -845,9 +845,9 @@ void Model_AdvanceSlotLoad(s32 index)
         gModel_bActiveSlotIndex = index;
         if (work >= 0) {
             if (index != 0) {
-                handler = (ModelControlHandler)(D_80010010 + 4);
+                handler = (ModelControlHandler)(gModel_pSlot1PrimaryModule + 4);
             } else {
-                handler = (ModelControlHandler)(D_8001000C + 4);
+                handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
             }
             func_8005F198(1);
             handler(context, ((ModelControlCommandView *)p)->commands[2] % 1000);
@@ -1048,7 +1048,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (alternate == 0 && index == 0) {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = D_80010014;
+            d->value_08 = d->value_0C = gModel_Slot0VariantModuleAddress;
             d->done = 1;
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -1061,7 +1061,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (alternate == 0 && index == 1) {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = D_80010018;
+            d->value_08 = d->value_0C = gModel_Slot1VariantModuleAddress;
             d->done = 1;
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -1074,7 +1074,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (alternate == 1 && index == 0) {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = D_80010014;
+            d->value_08 = d->value_0C = gModel_Slot0VariantModuleAddress;
             d->done = 1;
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -1087,7 +1087,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (alternate == 1 && index == 1) {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = D_80010018;
+            d->value_08 = d->value_0C = gModel_Slot1VariantModuleAddress;
             d->done = 1;
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -1100,7 +1100,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (index == 0) {
             d->phase_size = 2 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = (u32)D_8001000C;
+            d->value_08 = d->value_0C = (u32)gModel_pSlot0PrimaryModule;
             d->done = 1;
         } else {
             d->phase_size = 2 * FILE_SECTOR_SIZE;
@@ -1113,7 +1113,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (index == 1) {
             d->phase_size = 2 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = (u32)D_80010010;
+            d->value_08 = d->value_0C = (u32)gModel_pSlot1PrimaryModule;
             d->done = 1;
         } else {
             d->phase_size = 2 * FILE_SECTOR_SIZE;
@@ -1324,16 +1324,16 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         LoadImage2(&rect0, (u32 *)D_801DD000);
         object->phase_size = 10 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_80010014;
-        object->value_08 = D_80010014;
+        object->value_0C = gModel_Slot0VariantModuleAddress;
+        object->value_08 = gModel_Slot0VariantModuleAddress;
         object->done = 1;
         break;
 
     case 4:
         object->phase_size = 10 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_80010018;
-        object->value_08 = D_80010018;
+        object->value_0C = gModel_Slot1VariantModuleAddress;
+        object->value_08 = gModel_Slot1VariantModuleAddress;
         object->done = 1;
         break;
 
