@@ -101,7 +101,7 @@ typedef char SDBankHeaderWords_size_must_be_8[
  *
  * The signature starts at 0x7F8, but this view starts one byte later: retail
  * tests the leading 'V' through that address's own .data symbol
- * (D_801E27F8 for the SE bank, D_801E8FF8 for the SMF bank) and carries the
+ * (gSD_SeBankVolInfoTag for the SE bank, gSD_SmfBankVolInfoTag for the SMF bank) and carries the
  * matching relocation, so that byte stays a symbol rather than becoming a
  * member here. */
 typedef struct {
@@ -768,9 +768,9 @@ extern SDSecondaryState *G32 gSD_pSecondaryState __attribute__((section(".data")
 extern SDSecondaryState *G32 gSD_pSecondaryState;
 #endif
 
-/* One SPU voice bit per entry.  The object at D_80011434 is twenty words
+/* One SPU voice bit per entry.  The object at gSD_adwVoiceMasks is twenty words
  * holding 1 << n for n = 0 .. 19, read out of the retail image.  The uses
- * agree that these are voice masks: SD_SetVoiceVolume submits D_80011434[voice]
+ * agree that these are voice masks: SD_SetVoiceVolume submits gSD_adwVoiceMasks[voice]
  * as the `voice` field of the SpuVoiceAttr it hands to SpuSetVoiceAttr, and
  * SD_KeyOffSecondaryObject passes an entry straight to SpuSetKey and SpuGetKeyStatus,
  * both of which take a voice mask.
@@ -784,9 +784,9 @@ extern SDSecondaryState *G32 gSD_pSecondaryState;
  * sound_voice_envelope.c and sound_voice_volume.c define it.
  */
 #ifdef D_80011434_IS_CONST
-extern const s32 D_80011434[20];
+extern const s32 gSD_adwVoiceMasks[20];
 #else
-extern s32 D_80011434[20];
+extern s32 gSD_adwVoiceMasks[20];
 #endif
 
 /* Submits one secondary object's stereo level, scaled by the two channel

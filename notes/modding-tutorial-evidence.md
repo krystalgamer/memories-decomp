@@ -469,7 +469,7 @@ SHA-256: 26704e08cfa8e4504e20c8d51e7cb860c985fd8b7e4c885b1c626c6207fa1de8
 The matching main-menu overlay identifies one direct consumer.
 `MainMenu_InitFrontendMenu` (`0x8018001C`) installs
 `MainMenu_DrawFrontendBackground` (`0x80180B4C`) in callback slot
-`D_800E9DB0`. That
+`gMain_apFrameServiceCallbacks`. That
 function assigns CLUT value `0x3D00`, now written as `getClut(0, 244)`, to
 native `POLY_FT4` packets that tile the complete `320 x 240` screen before a
 full-screen `POLY_G4` shade. The screen-coordinate uses retain the existing

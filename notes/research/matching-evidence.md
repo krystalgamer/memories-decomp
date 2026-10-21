@@ -385,14 +385,14 @@ applies to the second.
 `func_8004A764` (`0x8004A764`) is the schedule case. Its six terminal attempts
 were all recorded under `gcc_2_8_1_g0`, but the matched neighbour
 `func_8004A7C0` uses `gcc_2_8_1_g0_split`, and the target's
-`lui`/`addiu %hi`/`%lo(D_80011434)` pair is the split form. Under the cohort
+`lui`/`addiu %hi`/`%lo(gSD_adwVoiceMasks)` pair is the split form. Under the cohort
 profile, and with the `Packet` type and the `func_80077450(Packet *)` prototype
 already recovered in `src/game/sound_secondary_playback.c`, the body comes out
 at 23 of 23 instructions, 0x5C of 0x5C bytes, with identical registers and
 identical relocations. Everything from `sw $v0, 0x4C0($v1)` to the epilogue,
 including the `sw $v0, 0x4E4($v1)` branch-delay store, is byte-exact. Only the
 11-instruction prologue is ordered differently: retail finishes the
-`D_80011434` address arithmetic before materialising the `D_8009B458` high
+`gSD_adwVoiceMasks` address arithmetic before materialising the `D_8009B458` high
 half, and sinks `sw $ra` below `ori $a1`.
 
 Six source shapes were probed against it. Stores taken through the packet
@@ -1586,7 +1586,7 @@ block rooted at `D_8009B458` and hand it to `func_80077450`:
 | `func_8004A6F8` | 108 B | copies three `u16`s from a second argument |
 | `func_8004A764` | 92 B | stores a constant tag and zeroed halfwords |
 
-All three write `D_80011434[index]` to `state + 0x4C0`, a tag to `0x4C4`,
+All three write `gSD_adwVoiceMasks[index]` to `state + 0x4C0`, a tag to `0x4C4`,
 further halfwords in the `0x4C8`-`0x4FC` window, and then call
 `func_80077450(state + 0x4C0)`. The `0x4C0`-`0x4FF` window sits inside the
 `pad04C0[0x40]` hole of `SDSecondaryState` in `src/game/sound.h`.
@@ -1665,7 +1665,7 @@ and every one produced the identical diff count or a worse one:
 - the global used inline versus bound to a local
 - the call argument given its own local, computed early
 - the same local, computed immediately before the call
-- splitting the table address from the load (`&D_80011434[i]`, then `*entry`)
+- splitting the table address from the load (`&gSD_adwVoiceMasks[i]`, then `*entry`)
 - typing the base as a struct and passing `&state->field_04C0`
 
 A sixth is worth stating separately, because it was the strongest available
@@ -1883,8 +1883,8 @@ it survives longer than it should because the target appears to endorse it.
 base:
 
 ```
-lui   $a1, %hi(D_80011434)
-addiu $a1, $a1, %lo(D_80011434)
+lui   $a1, %hi(gSD_adwVoiceMasks)
+addiu $a1, $a1, %lo(gSD_adwVoiceMasks)
 sll   $v1, $v1, 2
 addu  $v1, $v1, $a1
 lw    $v1, 0($v1)
@@ -1893,12 +1893,12 @@ lw    $v1, 0($v1)
 while the candidate emits the assembler-temp form:
 
 ```
-lui  $at, %hi(D_80011434)
+lui  $at, %hi(gSD_adwVoiceMasks)
 addu $at, $at, $v1
-lw   $v1, %lo(D_80011434)($at)
+lw   $v1, %lo(gSD_adwVoiceMasks)($at)
 ```
 
-Writing `s32 *tbl = D_80011434;` and indexing `tbl[...]` moved the candidate
+Writing `s32 *tbl = gSD_adwVoiceMasks;` and indexing `tbl[...]` moved the candidate
 from one instruction over the target to **two** over, and cost a diff. The
 same lever on `Duel_SelectTrapByCardId` also went one instruction over. Two functions,
 opposite-looking evidence in the disassembly, identical measured outcome.

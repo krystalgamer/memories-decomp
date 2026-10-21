@@ -203,7 +203,7 @@ u8 velocity;
             } while (i < vag);
         }
         sum = sum + sum * 7;
-        voice = &D_80011434[idx];
+        voice = &gSD_adwVoiceMasks[idx];
         vm = *voice;
         gSD_pSecondaryState->voice_attr.mask = 0x6019F;
         gSD_pSecondaryState->voice_attr.volmode.left = 0;
@@ -270,23 +270,23 @@ u8 velocity;
         obj->key_held = 1;
         if (rec->reverb_mode == 0) {
             if ((tone->mode & 4) != 0) {
-                s32 *m = &D_80011434[vi];
+                s32 *m = &gSD_adwVoiceMasks[vi];
                 do {
                     SpuSetReverbVoice(SPU_ON, *m);
                 } while ((SpuGetReverbVoice() & *m) == 0);
             } else {
-                s32 *m = &D_80011434[vi];
+                s32 *m = &gSD_adwVoiceMasks[vi];
                 do {
                     SpuSetReverbVoice(SPU_OFF, *m);
                 } while ((SpuGetReverbVoice() & *m) != 0);
             }
         } else if (rec->reverb_mode != 1) {
-            s32 *m = &D_80011434[vi];
+            s32 *m = &gSD_adwVoiceMasks[vi];
             do {
                 SpuSetReverbVoice(SPU_ON, *m);
             } while ((SpuGetReverbVoice() & *m) == 0);
         } else {
-            s32 *m = &D_80011434[vi];
+            s32 *m = &gSD_adwVoiceMasks[vi];
             do {
                 SpuSetReverbVoice(SPU_OFF, *m);
             } while ((SpuGetReverbVoice() & *m) != 0);

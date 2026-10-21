@@ -156,7 +156,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     D_801845C0[1].out = second;
     D_801845C0[0].value = D_801845C0[0].shown = *first;
     D_801845C0[1].value = D_801845C0[1].shown = *second;
-    D_800E9DB0[0] = MainMenu_DrawValueSetup;
+    gMain_apFrameServiceCallbacks[0] = MainMenu_DrawValueSetup;
 }
 #endif
 
@@ -577,7 +577,7 @@ void MainMenu_FinishValueSetup(void)
     D_801845B0[1] = 0;
     DisplayObject_ReleaseIfPresent(D_801845B0[2]);
     D_801845B0[2] = 0;
-    D_800E9DB0[0] = 0;
+    gMain_apFrameServiceCallbacks[0] = 0;
 }
 #endif
 

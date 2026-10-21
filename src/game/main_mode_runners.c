@@ -103,7 +103,7 @@ void Main_RunGameOver(void)
             D_8009B268 = 1;
             D_8009B26D = 0;
             D_8009B26C = 8;
-            longjmp(D_800E9DC0, 1);
+            longjmp(gMain_RecoveryJmpBuf, 1);
         }
     }
 }

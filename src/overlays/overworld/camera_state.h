@@ -7,7 +7,7 @@
    location record and commits them. */
 void CampaignMap_SetCameraFromLocation(s32 index);
 
-/* The per-frame view callback the map installs in D_800E9DB0[3]
+/* The per-frame view callback the map installs in gMain_apFrameServiceCallbacks[3]
    (set_location.c:56): reprograms the GTE screen, offset and fog from the
    current projection, then advances the fade if one is running. */
 void CampaignMap_UpdateView(void);

@@ -31,7 +31,7 @@ void SD_MuteSecondaryVoices(void)
         do {
             i = 0;
         } while (0);
-        voice_bits = D_80011434;
+        voice_bits = gSD_adwVoiceMasks;
         offset = i;
         do {
             u8 *entry = (u8 *)state + offset;
@@ -94,7 +94,7 @@ void SD_RestoreSecondaryVoiceVolumes(void)
         do {
             i = 0;
         } while (0);
-        voice_bits = D_80011434;
+        voice_bits = gSD_adwVoiceMasks;
         offset = i;
         do {
             u8 *entry = (u8 *)state + offset;

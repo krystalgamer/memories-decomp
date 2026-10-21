@@ -232,7 +232,7 @@ void MainMenu_DestroyFrontendMenu(void)
             gMain_apMenuEntries[i] = 0;
         }
     }
-    D_800E9DB0[0] = 0;
+    gMain_apFrameServiceCallbacks[0] = 0;
 }
 #endif
 

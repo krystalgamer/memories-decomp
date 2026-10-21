@@ -119,7 +119,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     D_8018459C = 0;
     D_8018459D = 0;
     MainMenu_StartFrontendEntryTransition(0);
-    D_800E9DB0[0] = MainMenu_DrawFrontendBackground;
+    gMain_apFrameServiceCallbacks[0] = MainMenu_DrawFrontendBackground;
     SD_BGMPlayDefaultStep(0x7000);
 }
 

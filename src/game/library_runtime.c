@@ -325,7 +325,7 @@ void Library_UpdateCardView(LibraryState *state)
         return;
     case 2:
         if (state->motion.model_load_phase != 1 && !(D_800E9ECE[0] & 0x80)) {
-            D_800E9DB0[3] = 0;
+            gMain_apFrameServiceCallbacks[3] = 0;
             i = 0;
             do {
                 state->motion.display_objects.all[i]->flags &= 0xFFBF;
@@ -360,7 +360,7 @@ void Library_UpdateCardView(LibraryState *state)
             state->motion.card_view_phase = flags | 0x80;
             state->motion.card_view_subphase = 0;
             gGraphics_bSyncVBlankTarget = 1;
-            D_800E9DB0[2] = (void (*)(void))Library_DrawWireframeGlobe;
+            gMain_apFrameServiceCallbacks[2] = (void (*)(void))Library_DrawWireframeGlobe;
             flags = state->motion.state;
             state->motion.globe_radius = 0;
             if (!(flags & 0x40)) {
@@ -454,7 +454,7 @@ void Library_UpdateCardView(LibraryState *state)
             }
             if (!(D_800E9ECE[0] & 0x80) && state->motion.card_view_slide_phase == 0) {
                 SD_KeyOffVoiceSlots();
-                D_800E9DB0[2] = 0;
+                gMain_apFrameServiceCallbacks[2] = 0;
                 {
                     void *p = (void *)state->loading_icon;
 
@@ -499,7 +499,7 @@ void Library_UpdateCardView(LibraryState *state)
                 i++;
             } while (i < 9);
             H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) |= 0x40;
-            D_800E9DB0[3] = Library_DrawCardGrid;
+            gMain_apFrameServiceCallbacks[3] = Library_DrawCardGrid;
             Fade_StartInKeepOverlay();
             state->motion.card_view_slide_phase = 2;
             state->motion.card_view_phase = 7;
@@ -889,7 +889,7 @@ void Library_InitializeScreen(void) {
                               (FileTransferCallback)Library_LoadPackageStage, 0, 0);
     File_WaitForTransfers();
     Library_MarkOwnedCards();
-    D_800E9DB0[3] = Library_DrawCardGrid;
+    gMain_apFrameServiceCallbacks[3] = Library_DrawCardGrid;
     Library_CreateGridSectionSprites();
     r = &gLibrary_State;
     gLibrary_State.motion.state = 0;
