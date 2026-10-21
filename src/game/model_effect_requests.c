@@ -7,7 +7,7 @@
 
 void Model_RequestCameraMove(s32 value)
 {
-    s32 state = func_8005F174();
+    s32 state = Model_GetCameraHoldState();
 
     if (state != 1 || Model_GetHandlerCallbackState() != state) {
         Model_StartCameraMove(value, 0, 0, 0);
@@ -18,7 +18,7 @@ void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth
 {
     s32 adjusted_second = second < 0 ? 0 : second + 1;
     s32 adjusted_third = third < 0 ? 0 : third + 1;
-    s32 state = func_8005F174();
+    s32 state = Model_GetCameraHoldState();
 
     if (state != 1 || Model_GetHandlerCallbackState() != state) {
         Model_StartCameraMove(first, adjusted_second, adjusted_third, fourth);
@@ -27,7 +27,7 @@ void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth
 
 void Model_SetCameraEyeSlots(s32 first, s32 second)
 {
-    s32 state = func_8005F174();
+    s32 state = Model_GetCameraHoldState();
 
     if (state == 1 && Model_GetHandlerCallbackState() == state) {
         return;
@@ -42,7 +42,7 @@ void Model_SetCameraEyeSlots(s32 first, s32 second)
 
 void Model_SetCameraTargetSlots(s32 first, s32 second)
 {
-    s32 state = func_8005F174();
+    s32 state = Model_GetCameraHoldState();
 
     if (state == 1 && Model_GetHandlerCallbackState() == state) {
         return;
@@ -57,7 +57,7 @@ void Model_SetCameraTargetSlots(s32 first, s32 second)
 
 void Model_SetCameraMoveDurationFromMagnitude(s32 value)
 {
-    s32 state = func_8005F174();
+    s32 state = Model_GetCameraHoldState();
 
     if (state == 1 && Model_GetHandlerCallbackState() == state) {
         return;
@@ -72,7 +72,7 @@ void Model_SetCameraMoveDurationFromMagnitude(s32 value)
 
 void Model_SetCameraFollowCountdown(s32 value)
 {
-    s32 state = func_8005F174();
+    s32 state = Model_GetCameraHoldState();
 
     if (state != 1 || Model_GetHandlerCallbackState() != state) {
         D_800F2B22 = value * 2;
@@ -81,7 +81,7 @@ void Model_SetCameraFollowCountdown(s32 value)
 
 void Model_SetCameraOrbitStep(s32 value)
 {
-    s32 state = func_8005F174();
+    s32 state = Model_GetCameraHoldState();
     ModelCameraMove *move;
 
     if (state == 1) {

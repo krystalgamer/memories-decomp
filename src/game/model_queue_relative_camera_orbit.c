@@ -31,7 +31,7 @@ void Model_QueueRelativeCameraOrbit(
     a[3] = arg0 | 0x80;
     one = 1;
 
-    if (D_8009B07B == one && gModel_bHandlerCallbackState == one) {
+    if (gModel_bCameraHoldState == one && gModel_bHandlerCallbackState == one) {
         return;
     }
 

@@ -279,14 +279,14 @@ void Model_CaptureKeyframePose(s32 capture_endpoints)
     }
 }
 
-s32 func_8005F174(void)
+s32 Model_GetCameraHoldState(void)
 {
-    return D_8009B07B;
+    return gModel_bCameraHoldState;
 }
 
-void func_8005F180(s32 value)
+void Model_SetCameraHoldState(s32 value)
 {
-    D_8009B07B = value;
+    gModel_bCameraHoldState = value;
 }
 
 s32 Model_GetHandlerCallbackState(void)
@@ -347,7 +347,7 @@ void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
 
     r = &gModel_aCameraOrbitPresets[arg1];
 
-    if (D_8009B07B == 1) {
+    if (gModel_bCameraHoldState == 1) {
         if (gModel_bHandlerCallbackState == 1) {
             return;
         }
@@ -381,7 +381,7 @@ void Model_SetCameraOrbit(int mode, int y, int a, int b, SVECTOR *offset)
 {
     GsRVIEW2 *p = Model_GetCameraViewBuffer();
     ModelViewMetrics *q = Model_GetViewMetricsBuffer();
-    if (D_8009B07B == 1 && gModel_bHandlerCallbackState == 1)
+    if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == 1)
         return;
     if (mode >= 0) {
         short v[4];
@@ -419,7 +419,7 @@ int Model_NextEffectKeyQueueMode(void)
 
 void Model_SetEffectKeyBatchingEnabled(int value)
 {
-    if (D_8009B07B != 1 || gModel_bHandlerCallbackState != 1) {
+    if (gModel_bCameraHoldState != 1 || gModel_bHandlerCallbackState != 1) {
         if (value == 0) {
             gModel_nEffectKeyBatchOrdinal = -1;
         } else {
@@ -434,7 +434,7 @@ void Model_QueueCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *offset, s32 a
     ModelEffectCoefficient *rec = &gModel_aCameraOrbitPresets[arg1];
     s32 s0;
 
-    if (D_8009B07B == 1 && gModel_bHandlerCallbackState == D_8009B07B) {
+    if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == gModel_bCameraHoldState) {
         return;
     }
 
@@ -468,7 +468,7 @@ void Model_QueueEffectEndpointPair(s32 a, s32 b, s32 c)
         b < 0 ? 0 : &gModel_aEffectEndpoints[b];
     s32 flag;
 
-    if (D_8009B07B == 1 && gModel_bHandlerCallbackState == 1) {
+    if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == 1) {
         return;
     }
     flag = (s8)gModel_nEffectKeyBatchOrdinal;
@@ -489,7 +489,7 @@ void Model_QueueCameraShake(s32 value, s32 arg)
     s32 flag;
     s32 next;
 
-    if (D_8009B07B == 1 && gModel_bHandlerCallbackState == 1) {
+    if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == 1) {
         return;
     }
     flag = (s8)gModel_nEffectKeyBatchOrdinal;
@@ -512,7 +512,7 @@ void Model_QueueEffectEndpointSequences(
     s8 raw172;
     s32 flag;
 
-    if (D_8009B07B == 1 && gModel_bHandlerCallbackState == D_8009B07B) {
+    if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == gModel_bCameraHoldState) {
         return;
     }
 
@@ -576,7 +576,7 @@ void Model_ApplyEffectKeyQueueCommand(
     s32 one;
 
     one = 1;
-    if (D_8009B07B == one && gModel_bHandlerCallbackState == one) {
+    if (gModel_bCameraHoldState == one && gModel_bHandlerCallbackState == one) {
         return;
     }
 
@@ -647,7 +647,7 @@ void Model_ResetEffectKeyQueue(void)
     gModel_bEffectKeyCount = 0;
     gModel_bEffectKeyPreparationPending = 0;
     gModel_nEffectKeyBatchOrdinal = -1;
-    D_8009B07B = 0;
+    gModel_bCameraHoldState = 0;
     gModel_bHandlerCallbackState = 0;
 }
 
