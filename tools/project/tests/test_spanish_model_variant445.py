@@ -13,7 +13,7 @@ class SpanishModelVariant445Tests(family445.FrenchModelVariant445Tests):
     config_name = "sles_03951"
     resident_name = "SLES_039.51"
     load_inventories = staticmethod(load_spanish_overlay_inventories)
-    binding_count = 37
+    binding_count = 38
     source_directories = {"bands": "spanish_model_variant"}
     standalone_helpers = frozenset({"bands"})
     entry_anchors = {

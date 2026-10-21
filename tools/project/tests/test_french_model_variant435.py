@@ -49,7 +49,7 @@ class FrenchModelVariant435Tests(unittest.TestCase):
     spanish_helpers = ()
     module_count = 26
     distinct_images = 23
-    binding_count = 37
+    binding_count = 38
     tail_start = 0x3998
     spans = SPANS
     helpers = HELPERS

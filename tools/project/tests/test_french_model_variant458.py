@@ -11,7 +11,7 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
     family = 458
     module_count = 2
     distinct_images = 2
-    binding_count = 34
+    binding_count = 35
     tail_start = 0x230C
     spans = ((4, 0xC10), (0xC10, 0x1150), (0x1150, 0x19EC), (0x19EC, 0x230C))
     helpers = ((0xC10, 1344, "sheets", "func_8013BC10"),

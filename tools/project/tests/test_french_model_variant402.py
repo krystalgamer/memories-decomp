@@ -9,7 +9,7 @@ class FrenchModelVariant402Tests(family435.FrenchModelVariant435Tests):
     family = 402
     module_count = 4
     distinct_images = 4
-    binding_count = 35
+    binding_count = 36
     tail_start = 0x2060
     spans = ((4, 0xA5C), (0xA5C, 0x1048), (0x1048, 0x169C),
              (0x169C, 0x1B38), (0x1B38, 0x2060))

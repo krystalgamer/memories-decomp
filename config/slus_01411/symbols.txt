@@ -2204,6 +2204,16 @@ gMovie_bFadingOut = 0x8009B064;
 gMovie_bCdVolume = 0x8009B065;
 gMovie_bInputSlot = 0x8009B066;
 gMovie_bOutputSlot = 0x8009B067;
+gModel_dwPolyFt3Template = 0x8009AFAC;
+gModel_dwPolyFt4Template = 0x8009AFB0;
+gModel_dwPolyGt3Template = 0x8009AFB4;
+gModel_dwPolyGt4Template = 0x8009AFB8;
+gModel_dwPolyFt3SemiTemplate = 0x8009AFBC;
+gModel_dwPolyFt4SemiTemplate = 0x8009AFC0;
+gModel_dwPolyGt3SemiTemplate = 0x8009AFC4;
+gModel_dwPolyGt4SemiTemplate = 0x8009AFC8;
+gModel_dwLineF3Template = 0x8009AFCC;
+gModel_dwLineF4Template = 0x8009AFD0;
 
 Graphics_SubmitDrawModePacket = 0x8005B260; // type:func
 

@@ -17,20 +17,25 @@
  * handlers that address the words individually. Nothing observed groups them,
  * so no array shape is claimed here.
  *
- * What this does NOT claim: which handler uses which word. The opcode and
- * colour fields are legible from the values themselves, but the mapping from
+ * The names come from the words Model_DrawSlot's MODEL_STAMP_TEMPLATES
+ * writes each draw: the tint colour over POLY_FT3/FT4/GT3/GT4 (0x24, 0x2C,
+ * 0x34, 0x3C, gaining the 0x02 semi-transparency bit when the fade mode is
+ * set), the same four with the semi-transparency bit always set (0x26, 0x2E,
+ * 0x36, 0x3E), and LINE_F3/LINE_F4 with it set (0x4A, 0x4E).
+ *
+ * What this does NOT claim: which handler uses which word. The mapping from
  * template to caller is not established, and none of the readers is matched C
  * yet. */
-extern u32 D_8009AFAC;
-extern u32 D_8009AFB0;
-extern u32 D_8009AFB4;
-extern u32 D_8009AFB8;
-extern u32 D_8009AFBC;
-extern u32 D_8009AFC0;
-extern u32 D_8009AFC4;
-extern u32 D_8009AFC8;
-extern u32 D_8009AFCC;
-extern u32 D_8009AFD0;
+extern u32 gModel_dwPolyFt3Template;
+extern u32 gModel_dwPolyFt4Template;
+extern u32 gModel_dwPolyGt3Template;
+extern u32 gModel_dwPolyGt4Template;
+extern u32 gModel_dwPolyFt3SemiTemplate;
+extern u32 gModel_dwPolyFt4SemiTemplate;
+extern u32 gModel_dwPolyGt3SemiTemplate;
+extern u32 gModel_dwPolyGt4SemiTemplate;
+extern u32 gModel_dwLineF3Template;
+extern u32 gModel_dwLineF4Template;
 extern u32 D_8009AFD4;
 extern u32 D_8009AFD8;
 extern u32 D_8009AFDC;

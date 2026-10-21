@@ -14,7 +14,7 @@ class FrenchModelVariant465Tests(family435.FrenchModelVariant435Tests):
     spiral_binding = "RotTransPers"
     module_count = 4
     distinct_images = 4
-    binding_count = 37
+    binding_count = 38
     tail_start = 0x4354
     spans = (
         (0x4, 0x124C),

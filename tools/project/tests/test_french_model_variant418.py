@@ -15,7 +15,7 @@ class FrenchModelVariant418Tests(family435.FrenchModelVariant435Tests):
     standalone_helpers = frozenset({"sheet"})
     module_count = 2
     distinct_images = 2
-    binding_count = 48
+    binding_count = 49
     tail_start = 0x311C
     spans = ((4, 0xFE0), (0xFE0, 0x1760), (0x1760, 0x1C9C),
              (0x1C9C, 0x2204), (0x2204, 0x272C), (0x272C, 0x2A3C),

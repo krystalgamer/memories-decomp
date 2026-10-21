@@ -73,7 +73,7 @@ class SpanishModelVariant87Tests(unittest.TestCase):
                               symbols)
             self.assertIn(f"[0xA1C, data, overlays/{module['name']}/unclassified_tail]", layout.read_text())
             bindings = (ROOT / module["linker_symbols"]).read_text()
-            self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), 21)
+            self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), 22)
             self.assertNotRegex(bindings, r"=\s*0x801[37]")
             for name, address in re.findall(r"(\w+) = (0x[0-9A-F]+); // type:func absolute:true", symbols):
                 self.assertIn(f"{name} = {address};", bindings)

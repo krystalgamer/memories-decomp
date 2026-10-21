@@ -19,6 +19,7 @@ from tools.project.tests import test_french_model_variant338 as reference
 
 class SpanishModelVariant338Tests(unittest.TestCase):
     family = 338
+    binding_count = 35
     module_count = 16
     tail_start = 0x270C
     models_by_stage = ((7, (164, 165, 210, 424, 609)), (9, (34, 443, 459)))
@@ -167,7 +168,7 @@ class SpanishModelVariant338Tests(unittest.TestCase):
                               symbols)
             self.assertIn(f"[0x{self.tail_start:X}, data, overlays/{module['name']}/unclassified_tail]", layout.read_text())
             bindings = (ROOT / module["linker_symbols"]).read_text()
-            self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), 35)
+            self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), self.binding_count)
             self.assertNotRegex(bindings, r"=\s*0x801[37]")
             for name, address in re.findall(r"(\w+) = (0x[0-9A-F]+); // type:func absolute:true", symbols):
                 self.assertIn(f"{name} = {address};", bindings)

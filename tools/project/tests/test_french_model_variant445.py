@@ -12,7 +12,7 @@ class FrenchModelVariant445Tests(family435.FrenchModelVariant435Tests):
     standalone_helpers = frozenset({"bands"})
     module_count = 12
     distinct_images = 12
-    binding_count = 36
+    binding_count = 37
     tail_start = 0x3594
     spans = ((4, 0x1034), (0x1034, 0x17A8), (0x17A8, 0x1C8C),
              (0x1C8C, 0x21F0), (0x21F0, 0x24F8), (0x24F8, 0x2874),
