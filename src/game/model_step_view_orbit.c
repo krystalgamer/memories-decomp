@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "model_update_view_metrics.h"
 #include "camera_view.h"
-#include "func_80058434.h"
+#include "model_step_view_orbit.h"
 #include "../psyq/libgte.h"
 #include "model.h"
 #include "../unmatched.h"
@@ -9,7 +9,7 @@
 /* &gModel_RView.vrx. Keep the interior symbol so the object retains the retail
  * relocation target while the canonical GsRVIEW2 owns the surrounding view. */
 
-void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void Model_StepViewOrbit(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     PSXLONG *b;
     PSXLONG *t;

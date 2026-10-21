@@ -32,7 +32,7 @@
    gcc_2_8_1_g8_split - their neighbours on both sides use other profiles.
    The boot-time graphics and input start-up that installs the pump and the
    pad-driven screen-offset adjustment loop follow in this unit. The last
-   clears the gMain_apFrameServiceCallbacks slots and D_8009B0B8 callback that the pump runs. */
+   clears the gMain_apFrameServiceCallbacks slots and gMain_pfnExtraFrameService callback that the pump runs. */
 
 /* The European build places it through config/sles_03947/symbols.txt; its
    .sdata is not carved from the executable. */
@@ -41,7 +41,7 @@ s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
 #endif
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
-   the 4 slots in gMain_apFrameServiceCallbacks and the single D_8009B0B8 callback if set. If
+   the 4 slots in gMain_apFrameServiceCallbacks and the single gMain_pfnExtraFrameService callback if set. If
    neither of the two progress pairs (f1A8/f19C, f1B4/f1CC) has advanced and
    the watchdog counter D_8009AF08 underflows, resets the counter to 0x3C
    and re-syncs both progress pairs. Finishes with
@@ -61,7 +61,7 @@ void Main_RunFrameServices(void) {
         }
     }
 
-    fn = D_8009B0B8;
+    fn = gMain_pfnExtraFrameService;
     if (fn != 0) {
         fn();
     }
@@ -215,7 +215,7 @@ void Graphics_AdjustScreenOffset(void)
     Input_ResetPads();
 }
 
-/* Zeroes gMain_apFrameServiceCallbacks[0..3] and D_8009B0B8. */
+/* Zeroes gMain_apFrameServiceCallbacks[0..3] and gMain_pfnExtraFrameService. */
 void Main_ClearFrameServiceCallbacks(void)
 {
     void (*G32 *v0)(void);
@@ -228,5 +228,5 @@ void Main_ClearFrameServiceCallbacks(void)
         v1 -= 1;
         v0 -= 1;
     } while (v1 >= 0);
-    D_8009B0B8 = 0;
+    gMain_pfnExtraFrameService = 0;
 }

@@ -55,7 +55,7 @@
 #include "../game/func_80057E20.h"
 #include "../game/model_update_coordinate_unit_matrix.h"
 #include "../game/model_slot_state_updates.h"
-#include "../game/func_8005A53C.h"
+#include "../game/model_remap_primitive_handlers.h"
 #include "../game/color.h"
 #include "../game/gpu_packets.h"
 #include "../game/screen_projection.h"
@@ -743,7 +743,7 @@ void Model_DrawSlot(s32 index)
                         if (list != 0) {
                             for (;;) {
                                 if (W(list, 8) != 0) {
-                                    func_8005A53C(fn, (ModelHandlerRunEntry *)(list + 0xC),
+                                    Model_RemapPrimitiveHandlers(fn, (ModelHandlerRunEntry *)(list + 0xC),
                                                   W(list, 4), W(list, 8));
                                 }
                                 next = (u8 *)W(list, 0);

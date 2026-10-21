@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "model_handler_registry.h"
-#include "func_8005A53C.h"
+#include "model_remap_primitive_handlers.h"
 
-void func_8005A53C(s32 (*fn)(s32), ModelHandlerRunEntry *entry, s32 arg2,
+void Model_RemapPrimitiveHandlers(s32 (*fn)(s32), ModelHandlerRunEntry *entry, s32 arg2,
                    s32 count)
 {
     s32 i;

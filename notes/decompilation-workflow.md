@@ -475,7 +475,7 @@ knowing because a scan reports all of them as clean:
   `*(u16 *)&...` device to keep its `lhu`, so the conversion buys spelling and
   pays noise.
 
-- **The arithmetic is the function's logic.** In `func_80058434` the base is
+- **The arithmetic is the function's logic.** In `Model_StepViewOrbit` the base is
   either `&D_800F56F0` or its interior `vrx` symbol depending on a sign, and
   the destination is `base ± 0xC`; the pointer arithmetic is how the function
   swaps which triple is source and which is destination.
