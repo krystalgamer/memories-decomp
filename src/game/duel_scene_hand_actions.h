@@ -32,7 +32,7 @@
  * it either; s16 is kept from the declaration the unit matched with. The next
  * named symbol is gDuel_RitualResultCardId, two bytes on, so the declared width fills the
  * gap exactly. */
-extern s16 D_8009B19E;
+extern s16 gDuel_wAiHandStackPending;
 
 /* The cursor into the AI's pending selection list gAi_Selection (ai.h). The
  * scripted step sets it to -1 through a signed lvalue cast, and each following
@@ -43,9 +43,9 @@ extern s16 D_8009B19E;
  * the two stores are sb, and the signed views are casts at the use sites --
  * the arrangement duel_hand.h records for gDuel_bPendingDrawCount, where the declaration
  * stays unsigned and the cast at the use is what keeps the signed read. The
- * gap to the next named symbol is six bytes, and D_8009B1E4 below sits inside
- * it, so that gap is not evidence of a wider object. */
-extern u8 D_8009B1E2;
+ * next named symbol, gDuel_wAiSelectionStepDelay below, is two bytes on, so
+ * the one-byte gap is not evidence of a wider object. */
+extern u8 gDuel_bAiSelectionCursor;
 
 /* The step delay for that walk. Each selection entry loads it with 6, every
  * tick takes one off, and the step runs once the signed value reaches zero or
@@ -54,7 +54,7 @@ extern u8 D_8009B1E2;
  * Declared u16. The single load is lhu and the three stores are sh; the one
  * signed read is spelled (s16) at the bound test, which is where the private
  * declaration put it. */
-extern u16 D_8009B1E4;
+extern u16 gDuel_wAiSelectionStepDelay;
 
 /* "Com Error SelCard\n", the scripted path's complaint about a selection byte
  * below 0xB. It stays in generated .rodata: retail keeps the string at

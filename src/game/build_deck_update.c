@@ -140,7 +140,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
 }
 
 /* Per-frame Build Deck transition driver. It pulses both pane colours, then
- * dispatches the current step through D_80090DF8; BuildDeck_UpdateExitConfirmation above is the
+ * dispatches the current step through gBuildDeck_apfnStepHandlers; BuildDeck_UpdateExitConfirmation above is the
  * table's exit step. */
 s32 BuildDeck_Update(void)
 {
@@ -170,7 +170,7 @@ s32 BuildDeck_Update(void)
     DISPLAY_OBJECT_COLOR_BYTES(first)[0] = color;
 
     if (DuelEffect_UpdateState() == 0) {
-        D_80090DF8[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState);
+        gBuildDeck_apfnStepHandlers[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState);
     }
 
     return gBuildDeck_pState->state;

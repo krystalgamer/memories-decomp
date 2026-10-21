@@ -3,7 +3,7 @@
 
 #include "build_deck_transition_state.h"
 
-/* The two input steps of the Build Deck step table D_80090DF8
+/* The two input steps of the Build Deck step table gBuildDeck_apfnStepHandlers
  * (duel_transition_step_table.c). Both receive the shared transition state;
  * their bodies retain a byte-pointer alias for offset-heavy workspace access.
  *

@@ -6,7 +6,7 @@
  * unchanged. */
 #define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
 #define gFile_wTransferStepFlags_abs gFile_wTransferStepFlags
-#define D_8009B1AC gJapanese_D_8009B1AC
+#define gDuel_wMonsterRemovalCriterion gJapanese_D_8009B1AC
 #define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 /* The same object under a second US name, which a #define cannot carry:

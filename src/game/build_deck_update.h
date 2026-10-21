@@ -3,14 +3,14 @@
 
 #include "build_deck_transition_state.h"
 
-/* Exit step 4 of the Build Deck step table D_80090DF8
+/* Exit step 4 of the Build Deck step table gBuildDeck_apfnStepHandlers
  * (duel_transition_step_table.c). It asks for confirmation and either
  * returns to the step saved in next_state or writes the deck out and clears
  * the state word. */
 void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record);
 
 /* The per-frame Build Deck driver. It pulses the two pane colours with a
- * triangle wave, dispatches D_80090DF8[gBuildDeck_pState->state & 0x3F] once
+ * triangle wave, dispatches gBuildDeck_apfnStepHandlers[gBuildDeck_pState->state & 0x3F] once
  * DuelEffect_UpdateState reports idle, and returns the state word. The exit
  * step above clears that word when it commits the deck, and both callers
  * (Main_RunBuildDeckMenu and Main_RunDuel) leave the menu when it reads zero.
