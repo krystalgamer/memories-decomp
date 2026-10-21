@@ -1097,7 +1097,7 @@ not being done to establish that.
 Everything else about the function is reachable. The cohort supplies the access
 idiom (`func_800593D0`: a `u8 *` model slot with a `u8` count at `+0xE17` and a
 pointer to 0x50-byte entries at `+0xD14`), and the matched neighbour
-`func_8005A53C` supplies the profile. Under `gcc_2_8_1_g0_no_sched1` the first
+`Model_RemapPrimitiveHandlers` supplies the profile. Under `gcc_2_8_1_g0_no_sched1` the first
 instruction is exact — `lbu $v1, 0xE17($a0)`, whose destination register is
 precisely what every one of the six terminal rows missed — and the opening six
 differ only in the loop counter's register, a knock-on of the extra live value

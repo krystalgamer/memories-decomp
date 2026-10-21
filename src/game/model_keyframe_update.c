@@ -11,7 +11,7 @@
  * word-sized before the result is narrowed.
  *
  * Orbit projection uses the separate horizontal/vertical components already
- * used by func_80058434. The early elapsed local, remaining-duration capture
+ * used by Model_StepViewOrbit. The early elapsed local, remaining-duration capture
  * and opposite-view pointer cursor retain the original register lifetimes.
  * Finite valid key programs require nonzero interpolation/noise divisors.
  */
@@ -25,7 +25,7 @@
 #include "model_copy_slot_u16_values.h"
 #include "model_update_view_metrics.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
-#include "func_80058434.h"
+#include "model_step_view_orbit.h"
 #include "../psyq/rand.h"
 
 #define LIMIT(v, n) ((v) > 0 ? ((v) < (n) ? (v) : (n)) : \
@@ -326,7 +326,7 @@ next_channel:
         }
     }
     if (persistent == 2) {
-        func_80058434(1, 0x1000, 0, 0, 0);
+        Model_StepViewOrbit(1, 0x1000, 0, 0, 0);
     } else {
         Model_UpdateViewMetrics(0);
     }

@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8005A53C_H
-#define MEMORIES_DECOMP_FUNC_8005A53C_H
+#ifndef MEMORIES_DECOMP_MODEL_REMAP_PRIMITIVE_HANDLERS_H
+#define MEMORIES_DECOMP_MODEL_REMAP_PRIMITIVE_HANDLERS_H
 
 #include "../types.h"
 
@@ -25,13 +25,13 @@ typedef char ModelHandlerRunEntry_prefix_size_must_be_8[
  * the old key and its result replaces the key unless it is -1.
  *
  * The callback takes and returns the key itself, not an index or an entry
- * pointer, which is what a bare `extern void func_8005A53C();` at the one
+ * pointer, which is what a bare `extern void Model_RemapPrimitiveHandlers();` at the one
  * call site could not say.
  *
  * arg2 is declared because the caller passes a third value, but the body
  * never reads it. It is kept in the signature rather than dropped, since the
  * call site's argument setup is what the build depends on. */
-void func_8005A53C(
+void Model_RemapPrimitiveHandlers(
     s32 (*fn)(s32),
     ModelHandlerRunEntry *entry,
     s32 arg2,

@@ -43,7 +43,7 @@ WITNESS = r"""
 #include "src/game/model_effect_requests.h"
 #include "src/game/model_update_view_metrics.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
-#include "src/game/func_80058434.h"
+#include "src/game/model_step_view_orbit.h"
 #include "src/game/model_get_frame_step.h"
 
 typedef char ilp32[sizeof(void *) == 4 && sizeof(long) == 4 ? 1 : -1];
@@ -152,7 +152,7 @@ static s32 observe(s32 kind, s32 a, s32 b, s32 c, s32 d, s32 e)
 s32 Model_IsEffectKeyQueueEmpty(void) { return observe(GATE, 0, 0, 0, 0, 0); }
 s32 Model_GetCurrentEffectKeyAddress(void) { return observe(KEY, 0, 0, 0, 0, 0); }
 s32 Model_GetFrameStep(void) { return observe(STEP, 0, 0, 0, 0, 0); }
-void func_80058434(s32 a, s32 b, s32 c, s32 d, s32 e)
+void Model_StepViewOrbit(s32 a, s32 b, s32 c, s32 d, s32 e)
 { observe(ORBIT, a, b, c, d, e); }
 void Model_UpdateViewMetrics(GsRVIEW2 *view) { observe(METRICS, (s32)view, 0, 0, 0, 0); }
 void func_80052694(s32 v) { observe(ADJUST, v, 0, 0, 0, 0); }

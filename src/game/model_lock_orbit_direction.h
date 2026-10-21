@@ -1,0 +1,6 @@
+#ifndef MEMORIES_DECOMP_MODEL_LOCK_ORBIT_DIRECTION_H
+#define MEMORIES_DECOMP_MODEL_LOCK_ORBIT_DIRECTION_H
+
+void Model_LockOrbitDirection(int value);
+
+#endif

@@ -1274,7 +1274,7 @@ segments:
     - game/european/model_apply_texture_tint
   - - 310732
     - c
-    - game/func_80058434
+    - game/model_step_view_orbit
   - - 311228
     - c
     - game/sd_apply_positional_sound
@@ -1355,7 +1355,7 @@ segments:
     - game/model_effect_requests
   - - 318096
     - c
-    - game/func_8005A188
+    - game/model_lock_orbit_direction
   - - 318204
     - c
     - game/model_distance_queries
@@ -1367,7 +1367,7 @@ segments:
     - game/model_slot_updates
   - - 319044
     - c
-    - game/func_8005A53C
+    - game/model_remap_primitive_handlers
   - - 319264
     - c
     - game/model_effect_wrapped_value

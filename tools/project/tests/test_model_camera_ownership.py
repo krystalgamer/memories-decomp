@@ -106,19 +106,19 @@ class ModelCameraOwnershipTests(unittest.TestCase):
                 )
 
     def test_unused_fifth_orbit_argument_is_an_explicit_caller_view(self):
-        prefix = '#define FUNC_80058434_CALL_WITH_UNUSED_ARG\n#include "func_80058434.h"\n'
-        self.probe(prefix + "void orbit(void) { func_80058434(1, 2, 0, 0, 0); }\n")
+        prefix = '#define FUNC_80058434_CALL_WITH_UNUSED_ARG\n#include "model_step_view_orbit.h"\n'
+        self.probe(prefix + "void orbit(void) { Model_StepViewOrbit(1, 2, 0, 0, 0); }\n")
         self.probe(
-            prefix + "void orbit(void) { func_80058434(1, 2, 0, 0); }\n",
+            prefix + "void orbit(void) { Model_StepViewOrbit(1, 2, 0, 0); }\n",
             False, "too few arguments",
         )
         self.probe(
-            '#include "func_80058434.h"\n'
-            "void orbit(void) { func_80058434(1, 2, 0, 0); }\n"
+            '#include "model_step_view_orbit.h"\n'
+            "void orbit(void) { Model_StepViewOrbit(1, 2, 0, 0); }\n"
         )
         self.probe(
-            '#include "func_80058434.h"\n'
-            "void orbit(void) { func_80058434(1, 2, 0, 0, 0); }\n",
+            '#include "model_step_view_orbit.h"\n'
+            "void orbit(void) { Model_StepViewOrbit(1, 2, 0, 0, 0); }\n",
             False, "too many arguments",
         )
 

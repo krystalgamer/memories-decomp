@@ -5,7 +5,7 @@
 #include "model_scene_controllers.h"
 #include "model_update_tint_requests.h"
 #include "model_slot_control.h"
-#include "func_8005A53C.h"
+#include "model_remap_primitive_handlers.h"
 #include "model.h"
 #include "model_background.h"
 #include "model_cleanup.h"
@@ -100,7 +100,7 @@ void Model_RunSlotHandlers(s32 index)
         if (node != 0) {
             while (1) {
                 if (node[2] != 0) {
-                    func_8005A53C(
+                    Model_RemapPrimitiveHandlers(
                         callback,
                         (ModelHandlerRunEntry *)&node[3],
                         node[1],

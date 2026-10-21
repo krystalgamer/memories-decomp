@@ -9,7 +9,7 @@
 #include "model_copy_slot_u16_values.h"
 #include "model.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
-#include "func_80058434.h"
+#include "model_step_view_orbit.h"
 #include "model_effect_endpoints.h"
 #include "model_effect_requests.h"
 #include "model_slot_support.h"
@@ -404,7 +404,7 @@ void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
                          MODEL_ANGLE_QUARTER_TURN)) %
         MODEL_ANGLE_FULL_TURN;
     q->pitch = (b + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
-    func_80058434(1, MODEL_ANGLE_FULL_TURN, 0, 0, 1);
+    Model_StepViewOrbit(1, MODEL_ANGLE_FULL_TURN, 0, 0, 1);
     Model_CaptureKeyframePose(1);
     Model_RequestCameraMove(-1);
 }

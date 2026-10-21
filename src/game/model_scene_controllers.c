@@ -54,7 +54,7 @@
 #include "model_slot_properties.h"
 #include "sound_output.h"
 #include "model_effect_state.h"
-#include "func_8005A188.h"
+#include "model_lock_orbit_direction.h"
 #include "model_is_camera_move_complete.h"
 #include "model_effect_wrapped_value.h"
 #include "model_transfer_state.h"
@@ -78,7 +78,7 @@
 #include "model_scene_imports.h"
 #include "file_names.h"
 #include "sound_init.h"
-#include "func_80058434.h"
+#include "model_step_view_orbit.h"
 #include "camera_view.h"
 #include "../psyq/memory.h"
 #include "../ygo_types.h"
@@ -702,7 +702,7 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     }
-    func_8005A188(1);
+    Model_LockOrbitDirection(1);
 }
 
 /*
@@ -1795,7 +1795,7 @@ void Model_UpdateCamera(void)
                 gModel_RView.vpy = -100;
         } else if (D_800F2B20.mode) {
             rate = Model_GetFrameStep();
-            func_80058434(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
+            Model_StepViewOrbit(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
         }
         if (D_800F2B20.flags & 2) {
             gModel_RView.vrx = (D_800F2B20.target.end_x - D_800F2B20.target.start_x) *
@@ -1864,7 +1864,7 @@ void Model_UpdateCamera(void)
     }
     if (!key || (key->requested[0].kind != 4 && key->requested[1].kind != 4)) {
         rate = Model_GetFrameStep();
-        func_80058434(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
+        Model_StepViewOrbit(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
         func_80052694(1);
     }
     if (D_800F2B20.field_02) {
@@ -1917,18 +1917,18 @@ void func_80052528(void) {
             if (d < -1) {
                 d = -1;
             }
-            func_80058434(1, 0, d, 0, 0);
+            Model_StepViewOrbit(1, 0, d, 0, 0);
         } else if (c < 0xEAB) {
-            func_80058434(1, 0, 0xEAB - c, 0, 0);
+            Model_StepViewOrbit(1, 0, 0xEAB - c, 0, 0);
         } else if (c < lo) {
             d = lo - c;
             if (d >= 5) {
                 d = 4;
             }
-            func_80058434(1, 0, d, 0, 0);
+            Model_StepViewOrbit(1, 0, d, 0, 0);
         }
     } else {
-        func_80058434(1, 0, -4, 0, 0);
+        Model_StepViewOrbit(1, 0, -4, 0, 0);
     }
 }
 
@@ -2001,20 +2001,20 @@ void func_80052694(s32 arg0) {
     if (t < 0x12C) {
         if (t < 0x96) {
             d = 0x96 - t;
-            func_80058434(1, z, 0, d, 0);
+            Model_StepViewOrbit(1, z, 0, d, 0);
         } else {
             d = 0x12C - t;
             if (d >= 0xB) {
                 d = 0xA;
             }
-            func_80058434(1, z, 0, d, 0);
+            Model_StepViewOrbit(1, z, 0, d, 0);
         }
     } else if (t < lo) {
         d = lo - t;
         if (d >= 6) {
             d = 5;
         }
-        func_80058434(1, 0, 0, d, 0);
+        Model_StepViewOrbit(1, 0, 0, d, 0);
     }
 
     if (arg0 != 0) {
@@ -2027,7 +2027,7 @@ void func_80052694(s32 arg0) {
             if (d < -0xA) {
                 d = -0xA;
             }
-            func_80058434(1, 0, 0, d, 0);
+            Model_StepViewOrbit(1, 0, 0, d, 0);
         }
     }
 
@@ -2037,7 +2037,7 @@ last:
         if (d < -0x14) {
             d = -0x14;
         }
-        func_80058434(1, 0, 0, d, 0);
+        Model_StepViewOrbit(1, 0, 0, d, 0);
     }
 
     func_80052528();
@@ -2313,7 +2313,7 @@ void Model_ResetSceneView(void)
     gModel_RView.vrz = 0;
     gModel_RView.rz = 0;
     gModel_RView.super = 0;
-    func_80058434(1, 0x80, -85, 1200, 0);
+    Model_StepViewOrbit(1, 0x80, -85, 1200, 0);
     GsSetRefView2(&gModel_RView);
     {
         GsCOORDUNIT *o = &gModel_CameraCoordinateUnit;

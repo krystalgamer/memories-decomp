@@ -38,7 +38,7 @@ WITNESS = r"""
 #include "src/game/model_copy_slot_u16_values.h"
 #include "src/game/model_update_view_metrics.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
-#include "src/game/func_80058434.h"
+#include "src/game/model_step_view_orbit.h"
 #include "src/psyq/rand.h"
 
 typedef char ilp32[sizeof(void *) == 4 && sizeof(int) == 4 ? 1 : -1];
@@ -218,7 +218,7 @@ int rcos(int angle) { return invoke(1,COS,angle,0,0,0,0,0); }
 int rsin(int angle) { return invoke(1,SIN,angle,0,0,0,0,0); }
 void Model_CaptureKeyframePose(s32 value) { invoke(1,SNAPSHOT,value,0,0,0,0,0); }
 void Model_UpdateViewMetrics(GsRVIEW2 *view) { invoke(1,METRICS,(u32)view,0,0,0,0,0); }
-void func_80058434(s32 a,s32 b,s32 c,s32 d,s32 e)
+void Model_StepViewOrbit(s32 a,s32 b,s32 c,s32 d,s32 e)
 { invoke(1,ORIENT,a,b,c,d,e,0); }
 
 static void oracle(u32 depth)

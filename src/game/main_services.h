@@ -53,7 +53,7 @@ extern jmp_buf gMain_RecoveryJmpBuf;
 
 /* The single extra callback the pump runs after the four slots, and that
  * Main_ClearFrameServiceCallbacks clears alongside them. */
-extern void (*G32 D_8009B0B8)(void);
+extern void (*G32 gMain_pfnExtraFrameService)(void);
 
 /* The signed per-frame watchdog owned and initialized by main_services.c. */
 extern s32 runtime_gp;
