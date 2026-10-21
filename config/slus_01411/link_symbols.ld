@@ -19,3 +19,6 @@ gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
 
 gDuel_aFieldCardRecords = D_801A7B64;
+
+D_8009AFDC = gModel_dwSecondPassClutBits;
+D_8009AFE0 = gModel_dwLitColorCacheBase;

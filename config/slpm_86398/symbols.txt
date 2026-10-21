@@ -719,7 +719,7 @@ Model_ResetSceneState = 0x80056BBC;
 Model_UpdateSlotAnimation = 0x800585D0;
 Model_UpdateSlotControl = 0x800588BC;
 Model_RemapPrimitiveHandlers = 0x8005D364;
-func_8005FC1C = 0x8005D7B4;
+Model_MapToWireframePrimitiveHandler = 0x8005D7B4;
 GsSetRefView2 = 0x80089940;
 gModel_bSceneMode = 0x8009AEFC;
 gModel_wPresentationBgmCommand = 0x8009AEFE;
@@ -2185,3 +2185,5 @@ gDebugMenu_szCampaignEditorFormat = 0x80090BA4;
 
 CardList_LoadSharedGraphicsStage = 0x80031EEC; // type:func
 gDuel_szComSelCardError = 0x80010060;
+
+Model_MapToBasePrimitiveHandler = 0x8005D9DC; // type:func

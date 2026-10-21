@@ -11,6 +11,7 @@
 #include "model_cleanup.h"
 #include "model_graphics_state.h"
 #include "model_handler_registry.h"
+#include "primitive_handler_modes.h"
 #include "model_scene_states.h"
 #include "model_slot_properties.h"
 #include "model_effect_state.h"
@@ -87,7 +88,7 @@ void Model_RunSlotHandlers(s32 index)
 {
     ModelSlot *base = &gModel_aSlots[index];
     ModelSlotHeadEntry *slot = base->field_000;
-    s32 (*callback)(s32) = func_8005FC1C;
+    s32 (*callback)(s32) = Model_MapToWireframePrimitiveHandler;
     u32 *node;
     u32 *next;
     s32 i;

@@ -1,7 +1,7 @@
 /* The model handler registry and the two maps that search it.
  *
  * tent_ModelHandlerRegistry is the eighty-entry table; Model_RegisterHandlerKey fills it and
- * Model_FindHandlerKey reads it back. func_8005FC1C and func_8005FE44 open-code
+ * Model_FindHandlerKey reads it back. Model_MapToWireframePrimitiveHandler and Model_MapToBasePrimitiveHandler open-code
  * that same reverse lookup -- same sentinel, same eighty-entry scan, same -1 --
  * and then dispatch on the packed id it returns, which is why they belong here
  * rather than beside the handlers they name. */
@@ -17,6 +17,7 @@
 #define FUNC_800603DC_RETURNS_HANDLER
 #include "model_primitive_handler.h"
 #include "model_handler_registry.h"
+#include "primitive_handler_modes.h"
 #include "../unmatched.h"
 
 #define MODEL_TYPE2_RECORD_VIEW(record) ((ModelType2Record *)(record))
@@ -27,7 +28,7 @@
  * skips the search), then dispatches on the high halfword's group and the
  * low halfword's kind. Returns arg0 unchanged when nothing matches. */
 
-s32 func_8005FC1C(s32 arg0) {
+s32 Model_MapToWireframePrimitiveHandler(s32 arg0) {
     ModelHandlerRegistryEntry *e;
     s32 n;
     s32 v;
@@ -99,7 +100,7 @@ have:
 /* Maps the registered callback to the handler family selected by the packed
  * registry id. The case order is retail's own arm order in memory. */
 
-s32 func_8005FE44(s32 arg0) {
+s32 Model_MapToBasePrimitiveHandler(s32 arg0) {
     ModelHandlerRegistryEntry *e;
     s32 n;
     s32 v;
