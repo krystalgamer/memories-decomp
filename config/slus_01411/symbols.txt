@@ -2141,3 +2141,7 @@ Model_LoadAuxiliaryPackageStage = 0x80057544; // type:func
 Model_LoadSpecialBattlePackageStage = 0x800577B0; // type:func
 
 Model_GetSlotReadiness = 0x80058DD8; // type:func
+
+ModelTexture_UploadTimFile = 0x800599FC; // type:func
+
+ModelTexture_PackPageClutCopy = 0x80059A50; // type:func

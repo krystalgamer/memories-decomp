@@ -1331,10 +1331,10 @@ segments:
     - game/file_query_wrappers
   - - 316164
     - c
-    - game/func_800599FC
+    - game/model_texture_upload_tim_file
   - - 316248
     - c
-    - game/func_80059A50
+    - game/model_texture_pack_page_clut_copy
   - - 316336
     - c
     - game/model_set_slot_shadow_enabled
