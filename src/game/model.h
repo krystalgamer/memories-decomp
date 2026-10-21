@@ -169,7 +169,7 @@ typedef struct {
 
 /* View rooted at the D_800F3938 interior alias and extending through the two
  * slot property bytes at DFE/DFF. The first words are compared by
- * func_800559D4, while func_8005A618 selects field_0A through field_106.
+ * func_800559D4, while Model_GetSlotCameraPresetYaw selects field_0A through field_106.
  * Relative names retain the alias-rooted offsets without claiming semantics
  * for the copied CF8 payload. */
 typedef struct {
@@ -650,9 +650,9 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
 ];
 #endif
 
-/* One entry of the eight-byte table at tent_ModelEffectCoefficients.  Every access in the tree
- * is sixteen bits wide: func_8005F5C8 reads field_00, func_8005F27C reads
- * field_00, angle and field_04 of one record, and func_8005A618 reads
+/* One entry of the eight-byte table at gModel_aCameraOrbitPresets.  Every access in the tree
+ * is sixteen bits wide: func_8005F5C8 reads field_00, Model_SetCameraOrbitFromPreset reads
+ * field_00, angle and field_04 of one record, and Model_GetSlotCameraPresetYaw reads
  * `angle` and wraps it modulo a full turn.  The retail bytes agree -- the
  * first entries are 02BC / FE00 / FF00 / 0000 and 02BC / 0200 / FF00 / 0000,
  * where field_00 is a constant 700 and the second halfword steps in eighths
@@ -660,7 +660,7 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
  *
  * The table is fifteen records: it ends at 0x800915E8, where the next object
  * begins and has none of this pattern.  The declaration is left unsized
- * anyway, because func_8005A618 masks its index with 0x1F and so can reach
+ * anyway, because Model_GetSlotCameraPresetYaw masks its index with 0x1F and so can reach
  * past the fifteenth -- the mask is not an entry count, and a bound here
  * would say otherwise.
  */
@@ -700,7 +700,7 @@ typedef char ModelEffectCoefficient_field_04_offset_must_be_0x4[
 #undef MODEL_OFFSET
 
 #ifndef MODEL_EFFECT_COEFFICIENT_CUSTOM_EXTERN
-extern ModelEffectCoefficient tent_ModelEffectCoefficients[];
+extern ModelEffectCoefficient gModel_aCameraOrbitPresets[];
 #endif
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];

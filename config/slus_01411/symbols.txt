@@ -402,7 +402,7 @@ tent_DuelResultSpriteSpecsNoOpponent = 0x80090960;
 gDuel_aTerrainBoost = 0x800909D4;
 gDuel_abMonsterRemovalRules = 0x80090A4C;
 gModel_aEffectEndpoints = 0x80091550;
-tent_ModelEffectCoefficients = 0x80091570;
+gModel_aCameraOrbitPresets = 0x80091570;
 gDuelEffect_awEntryRangeBoundaries = 0x80090E58;
 gText_SecondaryCommandHandlers = 0x80090EAC;
 gGraphics_bActiveBuffer = 0x8009B0AC;
@@ -2089,3 +2089,13 @@ gMain_bVBlankSoundPending = 0x8009B0C3;
 Model_AdjustViewOrbit = 0x80058434; // type:func
 
 Model_LockOrbitDirection = 0x8005A188; // type:func
+
+Model_SetCameraOrbit = 0x8005F3B8; // type:func
+
+Model_SetCameraOrbitFromPreset = 0x8005F27C; // type:func
+
+ModelEffect_GetCoefficient = 0x8005F1A4; // type:func
+
+Model_AdjustCameraDistanceForSlot = 0x8005F1B8; // type:func
+
+Model_GetSlotCameraPresetYaw = 0x8005A618; // type:func

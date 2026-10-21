@@ -299,12 +299,12 @@ void func_8005F198(s32 value)
     D_8009B07C = value;
 }
 
-ModelEffectCoefficient *func_8005F1A4(s32 index)
+ModelEffectCoefficient *ModelEffect_GetCoefficient(s32 index)
 {
-    return &tent_ModelEffectCoefficients[index];
+    return &gModel_aCameraOrbitPresets[index];
 }
 
-s32 func_8005F1B8(s32 level, s32 value)
+s32 Model_AdjustCameraDistanceForSlot(s32 level, s32 value)
 {
     ModelEffectAdjustment local;
     s16 delta;
@@ -335,7 +335,7 @@ s32 func_8005F1B8(s32 level, s32 value)
     return value;
 }
 
-void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
+void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
 {
     ModelEffectCoefficient *r;
     s32 v;
@@ -345,7 +345,7 @@ void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
     s32 u;
     ModelEffectAdjustment sp18;
 
-    r = &tent_ModelEffectCoefficients[arg1];
+    r = &gModel_aCameraOrbitPresets[arg1];
 
     if (D_8009B07B == 1) {
         if (D_8009B07C == 1) {
@@ -374,10 +374,10 @@ void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
         }
     }
 
-    func_8005F3B8(arg0, v, r->angle, r->field_04, arg2);
+    Model_SetCameraOrbit(arg0, v, r->angle, r->field_04, arg2);
 }
 
-void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
+void Model_SetCameraOrbit(int mode, int y, int a, int b, SVECTOR *offset)
 {
     GsRVIEW2 *p = Model_GetCameraViewBuffer();
     ModelViewMetrics *q = Model_GetViewMetricsBuffer();
@@ -428,13 +428,10 @@ void func_8005F588(int value)
     }
 }
 
-/* If D_8009B07B==1 and D_8009B07C matches it, bail early. Otherwise reads
-   tent_ModelEffectCoefficients[arg1].field_00 as a base stat value; if arg0 (level?) < 2, scales
-   the stat by a growth ratio derived from func_80059000's output clamped
-   to >=50 then offset by -300, divided by 750, and adds the delta. Passes
-   the (possibly adjusted) value plus angle/field_04 on to setup_positional_sfx. */
+/* Applies the same slot-dependent camera-distance adjustment, then queues
+   relative orbit endpoints through func_8005D994. */
 void func_8005F5C8(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
-    ModelEffectCoefficient *rec = &tent_ModelEffectCoefficients[arg1];
+    ModelEffectCoefficient *rec = &gModel_aCameraOrbitPresets[arg1];
     s32 s0;
 
     if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {

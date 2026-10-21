@@ -3,7 +3,7 @@
 #include "model_effect_wrapped_value.h"
 #include "trig_constants.h"
 
-s32 func_8005A618(s32 index)
+s32 Model_GetSlotCameraPresetYaw(s32 index)
 {
     s32 offset = index * MODEL_SLOT_SIZE;
     ModelEffectCoefficient *coefficient;
@@ -13,7 +13,7 @@ s32 func_8005A618(s32 index)
 
     record = (ModelSlotCF8TailView *)(offset + (s32)&D_800F3938);
     /* Retail rebuilds the alias base for the selector-byte load. */
-    coefficient = func_8005F1A4(
+    coefficient = ModelEffect_GetCoefficient(
         record->prefix.bytes.field_0A[
             (((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFE_OFFSET]
         ] & 0x1F
