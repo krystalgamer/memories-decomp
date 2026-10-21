@@ -47,7 +47,7 @@ enum { BYTES = 0x1318, GUARD = 32, TOTAL = BYTES + 64, CAPACITY = 384,
        POP, KINDS, FAILURE = 79 };
 
 VECTOR gModel_SubdividedEffectInitialScale = {4096,4096,4096,0};
-char D_8001186C[] = "%d (0x%x) Byte\n";
+char gModel_szSubdividedEffectSizeFormat[] = "%d (0x%x) Byte\n";
 u32 gModel_SubdividedEffectConfigWords[7];
 static u32 alternate[7];
 static u8 storage[TOTAL] __attribute__((aligned(16)));
@@ -229,7 +229,7 @@ int printf(const char *format,...)
     __builtin_va_start(ap,format);
     args[0]=__builtin_va_arg(ap,int); args[1]=__builtin_va_arg(ap,int);
     __builtin_va_end(ap);
-    if(format!=D_8001186C) fail(10);
+    if(format!=gModel_szSubdividedEffectSizeFormat) fail(10);
     event(PRINT,args,format,16); return 0;
 }
 GsOT *func_80058F10(void) { simple(OT); return &ordering_table; }
@@ -364,7 +364,7 @@ static s32 oracle(s32 mode)
         }
         put32(object+0x1310,0); put32(object+0x1314,signed16(config+24));
         object[0x130C]=0; object[0x130D]=0;
-        printf(D_8001186C,0x1318,0x1318); return 0;
+        printf(gModel_szSubdividedEffectSizeFormat,0x1318,0x1318); return 0;
     }
     config=(u8 *)get32(object); ot=func_80058F10();
     base=*(MATRIX *)Model_GetLightSourceMatrix(); PushMatrix();

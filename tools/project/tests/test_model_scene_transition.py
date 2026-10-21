@@ -69,7 +69,7 @@ ModelDebugState D_8009B004;
 u8 D_8009AFA4[4] = {1, 0, 0, 0};
 s32 D_80010030;
 void *D_80010034;
-u8 D_800114F8[] = "SU";
+u8 gModel_szSuMrgPath[] = "SU";
 
 typedef struct { s32 kind, a, b, c, d; } Event;
 static Event events[32];
@@ -112,7 +112,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     FileTransferCallback callback, s32 sixth, s32 seventh)
 {
     record(2, first, sector, length, seventh);
-    if (name != D_800114F8 || callback != 0 || sixth != 0) error = 2;
+    if (name != gModel_szSuMrgPath || callback != 0 || sixth != 0) error = 2;
     return 0;
 }
 
