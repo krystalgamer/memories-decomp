@@ -75,3 +75,14 @@ PR-side gate; no local UK retail verification is claimed.
 All ordering-table identities and renderer views accepted before this
 component are retained. The unrelated primitive pointer, remaining handler
 bytes and diagnostics stay address-named.
+
+## Runtime observation
+
+In two traced 3-D battles (#418, interpreter CPU, setup confirmed),
+`Model_SetSlotDrawMode` only ever stored three: into slot 2 from
+`0x8004ED1C`, `0x8004FDC4` and `0x8004FDE4`, and into slot 0 from
+`0x8004EEA4`, `0x8004EF18` and `0x8004EFB4`. Polling slot 2's `+E11` saw
+it return to zero each frame after a store, as `Model_DrawSlot` clears
+it. Slot 2 also read four at each switch into duel main mode `0x03` and
+back to zero on the way into a battle, without a setter call, so another
+writer stores four directly.

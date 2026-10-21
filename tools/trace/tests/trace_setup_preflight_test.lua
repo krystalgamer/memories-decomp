@@ -202,11 +202,11 @@ assert(armed >= #scripts / 2, 'too few scripts armed under the mock to '
 -- breakpoint fired, so a silent run cannot pass for a negative result.
 local function endToEnd(hit)
     local settings = { emulator = { Debug = { Debug = true }, Dynarec = false } }
-    local run = load('tools/trace/unreferenced_helper_callers.lua', settings)
+    local run = load('tools/trace/title_idle_watch.lua', settings)
     local captured = {}
     print = function(text) captured[#captured + 1] = tostring(text) end
     if hit then run.invokers[1](0x8002c400, 4, 'probe') end
-    for _ = 1, 18000 do run.listeners['GPU::Vsync']() end
+    for _ = 1, 5400 do run.listeners['GPU::Vsync']() end
     print = hostPrint
     PCSX = nil
     return captured
@@ -215,7 +215,7 @@ local silent = endToEnd(false)
 assert(has(silent, 'setup: debugger=on configured_cpu=interpreter '
                .. 'active_cpu=unverified execution_breakpoint=NOT-observed'))
 local confirmed = endToEnd(true)
-assert(has(confirmed, 'unreferenced_helper_callers: execution breakpoint '
+assert(has(confirmed, 'title_idle_watch: execution breakpoint '
                   .. 'observed; setup confirmed'))
 assert(has(confirmed, 'active_cpu=unverified execution_breakpoint=observed'))
 
