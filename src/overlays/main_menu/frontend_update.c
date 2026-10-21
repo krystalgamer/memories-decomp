@@ -57,64 +57,64 @@ s32 MainMenu_UpdateFrontendMenu(void)
     DisplayObject *ent2;
     DisplayObject *eloop;
 
-    if (D_8018459B != 0) {
+    if (gMainMenu_bLoadPending != 0) {
         poll = SaveData_PollLoad();
         if (poll != 0) {
             if (poll == 1) {
                 Input_ResetPads();
                 MainMenu_StartFrontendEntryTransition(1);
-                D_8018459B = 0;
+                gMainMenu_bLoadPending = 0;
             } else {
                 Input_ResetPads();
-                D_8018459B = 0;
+                gMainMenu_bLoadPending = 0;
             }
         }
         goto ret_m1;
     }
 
-    if (D_8018459C != 0) {
+    if (gMainMenu_bTradeLoadPending != 0) {
         poll = SaveData_UpdateTradeLoad();
         if (poll != 0) {
             if (poll == 1) {
                 Input_ResetPads();
                 MainMenu_StartFrontendEntryTransition(1);
-                D_8018459C = 0;
+                gMainMenu_bTradeLoadPending = 0;
             } else {
                 Input_ResetPads();
-                D_8018459C = 0;
+                gMainMenu_bTradeLoadPending = 0;
             }
         }
         goto ret_m1;
     }
 
-    if (D_8018459D != 0) {
+    if (gMainMenu_bDuelLoadPending != 0) {
         poll = SaveData_UpdateDuelLoad();
         if (poll != 0) {
             if (poll == 1) {
                 Input_ResetPads();
                 MainMenu_StartFrontendEntryTransition(1);
-                D_8018459D = 0;
+                gMainMenu_bDuelLoadPending = 0;
             } else {
                 Input_ResetPads();
-                D_8018459D = 0;
+                gMainMenu_bDuelLoadPending = 0;
             }
         }
         goto ret_m1;
     }
 
-    if (D_8018459A != 0) {
+    if (gMainMenu_bSaveWritePending != 0) {
         if (MemCardDialog_Poll() == 0) {
             goto ret_m1;
         }
         Input_ResetPads();
-        D_8018459A = 0;
+        gMainMenu_bSaveWritePending = 0;
         goto ret_m1;
     }
 
-    step = D_80184598;
+    step = gMainMenu_nFadeDirection;
     if (step != 0) {
-        level = D_80184597 + (step << 3);
-        D_80184597 = level;
+        level = gMainMenu_bShadeLevel + (step << 3);
+        gMainMenu_bShadeLevel = level;
         if (step > 0) {
             if ((s8)level < 0) {
                 goto fade_done;
@@ -127,7 +127,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             goto ret_m1;
         }
     fade_done:
-        if (D_80184598 < 0) {
+        if (gMainMenu_nFadeDirection < 0) {
             ent2 = D_80184560;
             ((u8 *)&ent2->field_0C)[2] = 0x80;
             ((u8 *)&ent2->field_0C)[1] = 0x80;
@@ -136,7 +136,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             D_80184560->field_6C = 0x3C;
             D_80184560->field_34.h.field_36 = 0;
         }
-        D_80184598 = 0;
+        gMainMenu_nFadeDirection = 0;
         goto ret_m1;
     }
 
@@ -166,7 +166,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             ent3 = D_80184560;
             ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             MainMenu_StartFrontendEntryTransition(0);
-            D_80184598 = 1;
+            gMainMenu_nFadeDirection = 1;
             goto ret_m1;
         }
         ent6 = D_80184560;
@@ -178,7 +178,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         return -1;
     }
 
-    if (D_80184599 != 0) {
+    if (gMainMenu_bTransitionActive != 0) {
         moved = 0;
         i = 0;
         slot = gMain_apMenuEntries;
@@ -246,8 +246,8 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if (moved != 0) {
             return -1;
         }
-        vx3 = D_80184596;
-        D_80184599 = 0;
+        vx3 = gMainMenu_bTransitionMode;
+        gMainMenu_bTransitionActive = 0;
         if (vx3 == 0) {
             goto ret_m1;
         }
@@ -267,7 +267,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 if (i < 0xB) {
                     goto clear_loop;
                 }
-                D_80184598 = -1;
+                gMainMenu_nFadeDirection = -1;
             } else {
                 MainMenu_StartFrontendEntryTransition(0);
                 gMain_bMenuID = 1;
@@ -321,21 +321,21 @@ s32 MainMenu_UpdateFrontendMenu(void)
         switch (gMain_bMenuID) {
         case 1:
             SaveData_RequestLoad();
-            D_8018459B = D_8018459B + 1;
+            gMainMenu_bLoadPending = gMainMenu_bLoadPending + 1;
             return -1;
         case 3:
             gSaveData_PairSetupState = 0;
             gSaveData_LoadPairState = 0;
-            D_8018459C = D_8018459C + 1;
+            gMainMenu_bTradeLoadPending = gMainMenu_bTradeLoadPending + 1;
             return -1;
         case 2:
             gSaveData_PairSetupState = 0;
             gSaveData_LoadPairState = 0;
-            D_8018459D = D_8018459D + 1;
+            gMainMenu_bDuelLoadPending = gMainMenu_bDuelLoadPending + 1;
             return -1;
         case 0xA:
             SaveData_RequestWrite();
-            D_8018459A = D_8018459A + 1;
+            gMainMenu_bSaveWritePending = gMainMenu_bSaveWritePending + 1;
             return -1;
         }
     }
