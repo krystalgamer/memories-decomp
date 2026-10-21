@@ -4,7 +4,7 @@
 #include "../../types.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/func_80057E20.h"
+#include "../../game/model_get_slot_dimensions_with_minimums.h"
 #include "../../game/model_effect_state.h"
 #include "../../game/model_slot_properties.h"
 #include "../../game/gpu_packets.h"

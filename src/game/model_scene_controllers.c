@@ -196,7 +196,7 @@ void Model_UpdateAnimatedBattle(void)
     }
     case 4:
         if (gModel_aSlots[2].field_DA0[0] < 0x800) {
-            func_80059284(2, 3);
+            Model_SetSlotDrawMode(2, 3);
             gModel_aSlots[2].field_DA0[0] += 0x40;
             gModel_aSlots[2].field_DA0[1] += 0x40;
             gModel_aSlots[2].field_DA0[2] += 0x40;
@@ -236,7 +236,7 @@ void Model_UpdateAnimatedBattle(void)
             gModel_aSlots[0].field_DC0[2] += 2;
         } else {
             if (gModel_aSlots[0].field_E11 != 4) {
-                func_80059284(0, 3);
+                Model_SetSlotDrawMode(0, 3);
             }
             Model_SetSlotTintTarget(0, 0, 0x80, 0x80, 0x80);
             Model_SetSlotTintTarget(1, 0, 0x80, 0x80, 0x80);
@@ -247,7 +247,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     case 7:
         if (gModel_aSlots[0].field_E11 != 4) {
-            func_80059284(0, 3);
+            Model_SetSlotDrawMode(0, 3);
         }
         if (gModel_aSlots[0].field_E0F == 0) {
             D_8009AFE9 += Model_GetFrameStep();
@@ -263,7 +263,7 @@ void Model_UpdateAnimatedBattle(void)
         s16 *r;
 
         if (gModel_aSlots[0].field_E11 != 4) {
-            func_80059284(0, 3);
+            Model_SetSlotDrawMode(0, 3);
         }
         r = (s16 *)Model_GetCurrentEffectKeyAddress();
         if (r != 0 && r[3] == 2) {
@@ -690,12 +690,12 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     case 41:
-        func_80059284(2, 3);
+        Model_SetSlotDrawMode(2, 3);
         Fade_StartOut();
         gModel_bPresentationPhase++;
         break;
     case 42:
-        func_80059284(2, 3);
+        Model_SetSlotDrawMode(2, 3);
         if (!(D_800E9ECE[0] & 0x80)) {
             SD_ResetPendingEntries();
             gModel_bPresentationPhase = -2;

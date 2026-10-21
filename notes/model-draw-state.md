@@ -1,0 +1,77 @@
+# Model draw state and shadow fan
+
+## Dimension queries and requested draw mode
+
+`Model_GetSlotDimensionsWithMinimums` is the former `func_80057E20`.
+The renderer derives padded, smoothed dimensions from eligible unit origins,
+not an exact mesh AABB. The query copies all four cached halfwords, floors
+each axis against its nonzero metadata byte times sixteen, then replaces
+the copied fourth metric with the largest nonnegative output axis.
+
+`Model_GetSlotDimensionsWithOverrides` is the former `func_80059000`.
+It copies the same cached words but replaces an axis whenever its metadata
+byte is nonzero, even when the replacement is smaller. It then recomputes
+the maximum. This is not the minimum-floor policy; the two implementations,
+signed comparisons and distinct output pointer types remain separate.
+The metadata fields and `ModelEffectAdjustment` type are not renamed.
+
+`Model_SetSlotDrawMode` is the former `func_80059284`. Its unchecked integer
+slot/value arguments still narrow through the original byte store at
+`+0xE11`. The `int` definition and compatible `s32` declaration are retained.
+No enum, Boolean interpretation or input validation is added.
+
+The minimum query retains `gcc_2_8_1_g8` and `0x118`; the override query
+retains its existing grouped source, `gcc_2_8_1_g8_split` and `0xDC`;
+the setter retains `gcc_2_8_1_g0_split` and `0x28` in every native image.
+The two standalone C sources and minimum-query header move to semantic
+paths without extracting or reordering the grouped source.
+
+French variant199/829 C bodies retain their historical bytes and attempt
+fingerprints through one old-spelling bridge in the owning minimum-query
+header. Their headers change only the include path. Existing regression
+controls change identifiers/include paths only; the full numeric Lua runtime
+and trace-control tree remains unchanged.
+
+## Captured mode and tint
+
+`gModel_bCurrentDrawMode` is the former `D_8009AFE4`.
+`Model_DrawSlot` captures the slot's `+0xE11` byte before clearing that byte
+unless it is four. Template tinting can publish mode three independently
+of the slot byte. Units-only, shadow and continuation paths read the captured
+mode; it is not a Boolean flag or a newly classified enum.
+
+The initialized `u8` `.sdata` owner and the renderer's tentative COMMON
+declaration remain separate. The renderer retains its exact
+`gcc_2_8_1_g8_split_comm` profile, including MASPSX's COMMON handling.
+No storage, qualifier, field layout or publication-order change is implied.
+
+`gModel_wDrawTintRedGreen` and `gModel_bDrawTintBlue` are the former
+`D_8009AFE6` and `D_8009AFE8`. The template stamp writes red and green
+through byte views of the `u16` word and writes blue separately. The neutral
+path publishes `0x80` per channel. The shadow fan reads those same values
+for its centre and divided rim colours. Their initialized `.sdata` types,
+byte ordering, unknown neighbours and byte-view accesses remain unchanged;
+no RGB structure or wider allocation is introduced.
+
+`gModel_aShadowFanSteps` is the former `D_800914E8`. Its unsized `u16`
+declaration and sixteen initialized halfwords stay exact. The renderer still
+reads eight signed x/z Q12 pairs through `ModelShadowFanStep`; storage is
+not retyped to a complete array of that view.
+
+## Native bindings
+
+The NA owner labels and explicit Japanese provider bindings acquire the
+semantic names. The eight obsolete Japanese/European renderer macros retire
+so the C objects publish canonical references.
+
+European link scripts expose the semantic names as aliases to their original
+providers: `D_8009BF6C`, `D_8009BF6E`, `D_8009BF70` and `D_800925CC`.
+The existing providers and their per-image bindings remain unchanged.
+This preserves the original resolution instead of guessing a numeric UK
+address or copying a continental address. No new object or storage follows
+from a linker alias. Full applicable native image acceptance remains a
+PR-side gate; no local UK retail verification is claimed.
+
+All ordering-table identities and renderer views accepted before this
+component are retained. The unrelated primitive pointer, remaining handler
+bytes and diagnostics stay address-named.

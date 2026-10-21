@@ -5614,7 +5614,7 @@
       "address": "0x8005AFA4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x118",
-      "source": "src/game/func_80057E20.c"
+      "source": "src/game/model_get_slot_dimensions_with_minimums.c"
     },
     {
       "address": "0x8005B0BC",
@@ -5788,7 +5788,7 @@
       "address": "0x8005C38C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x28",
-      "source": "src/game/func_80059284.c"
+      "source": "src/game/model_set_slot_draw_mode.c"
     },
     {
       "address": "0x8005C3B4",

@@ -1170,7 +1170,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         *(ModelSlotCF8BlockWords *)&slot->field_CF8 =
             ((ModelTransferMetadata *)source)->field_CF8;
         if (slot->field_CF8.prefix.values.field_08 & 0x20200000) {
-            func_80059284(index, 4);
+            Model_SetSlotDrawMode(index, 4);
         }
         if (slot->field_DFA < 0xFFFF) {
             slot->field_CF8.prefix.values.field_00 = slot->field_DFA;

@@ -6,7 +6,7 @@
 #include "../psyq/memory.h"
 #include "../psyq/rand.h"
 #include "../game/model_subdivided_effect.h"
-#include "../game/func_80057E20.h"
+#include "../game/model_get_slot_dimensions_with_minimums.h"
 #include "../game/model_get_frame_step.h"
 #include "../game/model_copy_slot_u16_values.h"
 #include "../game/gpu_packets.h"
@@ -69,7 +69,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     if (arg1 >= 0) {
         e->table = &D_80091604;
         t = e->table;
-        func_80057E20(Model_GetActiveSlotIndex(), &adj);
+        Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex(), &adj);
         if (adj.y < adj.z) {
             v = adj.z;
         } else {
@@ -209,7 +209,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
  */
 
 #define BURST_IMAGES ((ModelBurstImage *)D_80091610)
-/* The larger of the two horizontal extents func_80057E20 reports. */
+/* The larger of the two horizontal extents Model_GetSlotDimensionsWithMinimums reports. */
 #define BURST_EXTENT(v) ((s16)((v).vz < (v).vx ? (v).vx : (v).vz))
 /* Grid vertex coordinates in quarter-radius steps; sign mirrors the columns. */
 #define QUAD_X(n) (sign * -(e->radius >> 2) * (n))
@@ -259,7 +259,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
                                                  BURST_IMAGES[i].prect.y);
             e->spark_texture[i].clut = getClut(BURST_IMAGES[i].crect.x, BURST_IMAGES[i].crect.y);
         }
-        func_80057E20(slot, (ModelEffectAdjustment *)&pos);
+        Model_GetSlotDimensionsWithMinimums(slot, (ModelEffectAdjustment *)&pos);
         for (i = 0; i < 3; i++) {
             setVector(&e->rings[i], BURST_EXTENT(pos) * (ccos(i * 0x555) << 1) / 4096, 0,
                       BURST_EXTENT(pos) * (csin(i * 0x555) << 1) / 4096);

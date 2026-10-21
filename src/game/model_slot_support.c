@@ -36,7 +36,7 @@ void Model_CopySlotU16Values(s32 idx, u16 *out) {
     out[3] = rec->field_DD0[3];
 }
 
-void func_80059000(s32 index, s16 *output)
+void Model_GetSlotDimensionsWithOverrides(s32 index, s16 *output)
 {
     register ModelSlot *entry = &gModel_aSlots[index];
     register u8 *source = entry->field_CF8.prefix.bytes.field_00;
