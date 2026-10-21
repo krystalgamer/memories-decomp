@@ -193,7 +193,7 @@ s32 DebugMenu_UpdateValueEditor(void)
         }
     }
 fill:
-    r = D_800EAED8;
+    r = gDebug_szEditorCaretLine;
     sc = 0x20;
     i = 0x27;
     z = r + i;
@@ -202,7 +202,7 @@ fill:
         i = i - 1;
         z = z - 1;
     } while (i >= 0);
-    r = &D_800EAED8[
+    r = &gDebug_szEditorCaretLine[
         tent_DebugInterfaceFieldB4[gDebug_bEditorRow] - gDebug_bEditorDigit];
     r[0] = 0x2A;
     r[1] = 0;
@@ -210,13 +210,13 @@ out:
     i = (s8)tent_DebugInterfaceFieldB8;
     if (i != 0) {
         do {
-            FntPrint(D_8009AF54);
+            FntPrint(gDebugMenu_szLineBreak);
             i = i - 1;
         } while (i != 0);
     }
     FntPrint((char *)tent_DebugInterfaceData, gDebug_nSceneOrSoundID,
              gDebug_nEditedBgmId, gDebug_nEditedCdSoundId);
-    FntPrint(D_8009AF58, D_800EAED8);
+    FntPrint(gDebugMenu_szStringLineFormat, gDebug_szEditorCaretLine);
     return ret;
 }
 
@@ -413,7 +413,7 @@ void DebugMenu_UpdateCampaignEntry(void)
             /* The Japanese and European builds make neither this call nor
                the diagnostic print. */
             func_8003B6AC(0, 2);
-            printf(D_80010288,
+            printf(gDebugMenu_szCampaignValueFormat,
                    tent_DuelEffectEntries[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
 #endif
             TextBox_Create(0, D_8009AF44, 0x10, 0xB0, 0x120,
