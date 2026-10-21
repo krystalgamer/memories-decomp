@@ -6,6 +6,5 @@
  * unchanged. */
 #define gModel_pCurrentEffectKey gJapanese_D_8009B074
 #define gModel_bEffectKeyCount gJapanese_D_8009B078
-#define D_8009B07C gJapanese_D_8009B07C
 
 #include "../model_keyframe_update.c"

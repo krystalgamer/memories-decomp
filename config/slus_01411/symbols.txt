@@ -2149,3 +2149,7 @@ Model_GetSlotDimensionsWithMinimums = 0x80057E20; // type:func
 Model_GetSlotDimensionsWithOverrides = 0x80059000; // type:func
 
 Model_SetSlotDrawMode = 0x80059284; // type:func
+
+gModel_bHandlerCallbackState = 0x8009B07C;
+
+gModel_Slot0MetadataView = 0x800F3938;

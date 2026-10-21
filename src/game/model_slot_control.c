@@ -320,11 +320,11 @@ void func_800559D4(s32 index)
         s32 other_record;
         amount = Model_GetFrameStep();
         offset = index * MODEL_SLOT_SIZE;
-        do { own_record = offset + (s32)&D_800F3938; } while (0);
+        do { own_record = offset + (s32)&gModel_Slot0MetadataView; } while (0);
         offset = (index ^ 1) * MODEL_SLOT_SIZE;
-        other_record = offset + (s32)&D_800F3938;
+        other_record = offset + (s32)&gModel_Slot0MetadataView;
         amount = slot->field_E0D * (amount + 1);
-        if ((((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
+        if ((((u8 *)&gModel_Slot0MetadataView) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
             {
                 u32 own_value =
                     MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
@@ -401,10 +401,10 @@ no_handler:
             s32 midpoint = slot->field_750[slot->field_BF5].max >> 1;
             if (current_frame >= midpoint) {
                 offset = index * MODEL_SLOT_SIZE;
-                own_record = offset + (s32)&D_800F3938;
+                own_record = offset + (s32)&gModel_Slot0MetadataView;
                 offset = (index ^ 1) * MODEL_SLOT_SIZE;
-                other_record = offset + (s32)&D_800F3938;
-                if ((((u8 *)&D_800F3938) +
+                other_record = offset + (s32)&gModel_Slot0MetadataView;
+                if ((((u8 *)&gModel_Slot0MetadataView) +
                      offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
                     {
                         u32 own_value =

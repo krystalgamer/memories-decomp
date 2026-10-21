@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "model_effect_key.h"
 
-/* Two independent flag bytes, D_8009B07B and D_8009B07C, each with a getter
+/* Two independent flag bytes, D_8009B07B and gModel_bHandlerCallbackState, each with a getter
  * and a setter.
  *
  * The accessors are not the only route to them: later functions in
@@ -52,7 +52,7 @@ extern u8 gModel_bEffectKeyCount;
 extern u8 gModel_bEffectKeyPreparationPending;
 extern s8 gModel_nEffectKeyBatchOrdinal;
 extern u8 D_8009B07B;
-extern u8 D_8009B07C;
+extern u8 gModel_bHandlerCallbackState;
 
 s32 func_8005F174(void);
 void func_8005F180(s32 value);

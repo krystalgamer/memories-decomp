@@ -345,7 +345,7 @@ s32 main(void)
     u8 saved_active;
     u32 cases = 0;
     /* Observe the linker alias at runtime instead of folding distinct names. */
-    volatile u32 linked_alias = (u32)&D_800F3938;
+    volatile u32 linked_alias = (u32)&gModel_Slot0MetadataView;
     volatile u32 parent_field = (u32)&gModel_aSlots[0].field_CF8;
     if (sizeof(void *) != 4 || linked_alias != parent_field) return 90;
     for (chosen_index = 0; chosen_index < 2; chosen_index++)
@@ -427,7 +427,7 @@ class ModelControlTests(unittest.TestCase):
                 "cc", "-m32", optimization, "-std=gnu99", "-ffreestanding", "-fno-builtin",
                 "-fno-strict-aliasing", "-fno-pie", "-no-pie", "-fno-stack-protector",
                 "-nostdlib", str(source), str(witness), str(startup),
-                "-Wl,--defsym,D_800F3938=gModel_aSlots+3320", "-o", str(binary),
+                "-Wl,--defsym,gModel_Slot0MetadataView=gModel_aSlots+3320", "-o", str(binary),
             ], capture_output=True, text=True, timeout=60, env=environment)
             self.assertEqual(compiled.returncode, 0, compiled.stderr)
             return subprocess.run([str(binary)], capture_output=True, text=True, timeout=60)
