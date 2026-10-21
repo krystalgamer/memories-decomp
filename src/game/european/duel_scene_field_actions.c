@@ -1,7 +1,5 @@
 #include "../../types.h"
 
-#define D_8009B19C D_8009C17C
-#define D_8009B1BC D_8009C0D0
 #define D_8009B20C D_8009C10E
 #define D_8009B21A D_8009C0CC
 #define D_8009B229 D_8009C148

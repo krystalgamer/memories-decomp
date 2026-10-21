@@ -58,7 +58,7 @@ DisplayObject *D_8009B1C0;
 s16 gDuel_RitualResultCardId, gDuel_wEffectCardID, D_8009B20C[2];
 u16 gDuel_wTrapPresentationMode, gDuel_wCardEffectFlags;
 DuelEffectRequest *gDuelEffect_pTrackedRequest;
-u8 D_8009B19C, gDuel_bActiveSide;
+u8 gDuel_bCardMoveSlot, gDuel_bActiveSide;
 s8 D_8009B360[2];
 /* The result and its trailing cleared word share the full owning allocation. */
 DisplayObjectRitualWorkArea D_800E9EF0;
@@ -260,7 +260,7 @@ static void setup(s32 state)
     gDuel_RitualResultCardId = 321; gDuel_wEffectCardID = -123;
     gDuel_wTrapPresentationMode = state; gDuel_wCardEffectFlags = 0xA55A;
     D_8009B20C[0] = 0x1234; D_8009B20C[1] = 0;
-    D_8009B19C = 7; gDuel_bActiveSide = 0;
+    gDuel_bCardMoveSlot = 7; gDuel_bActiveSide = 0;
     D_8009B360[0] = D_8009B360[1] = -1;
     gDuel_aCardRecords[7].object = &card_object;
     R32(&gDuel_aCardRecords[7], 4) = (u32)card_data;
@@ -335,10 +335,10 @@ static s32 request_ready(void)
     static const s32 ready[] = {0, 1, 255};
     s32 i;
     for (i = 0; i < 3; i++) {
-        setup(0xA0); R8(request, 0x1D) = ready[i]; D_8009B19C = 3;
+        setup(0xA0); R8(request, 0x1D) = ready[i]; gDuel_bCardMoveSlot = 3;
         run();
         CHECK(valid() && count == (i ? 4 : 1) && gDuel_wCardEffectFlags == 0xA55A, 20);
-        CHECK(gDuel_wTrapPresentationMode == (i ? 1 : 0xA0) && D_8009B19C == (i ? 7 : 3), 21);
+        CHECK(gDuel_wTrapPresentationMode == (i ? 1 : 0xA0) && gDuel_bCardMoveSlot == (i ? 7 : 3), 21);
         if (i) CHECK(events[1].kind == 6 && events[1].a == 2 &&
                      events[2].kind == 6 && events[2].a == 7 &&
                      events[3].kind == 6 && events[3].a == 29, 22);

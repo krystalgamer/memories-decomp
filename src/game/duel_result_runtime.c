@@ -356,11 +356,11 @@ void DuelScene_UpdateResultOutro(void)
     case 3:
         if ((flags & 0x80) == 0) {
             D_8009B174 = flags | 0x80;
-            D_8009B1D0 = 0x258;
+            gDuel_wStepCounter = 0x258;
         }
         if ((D_8009B174 & 0x40) == 0) {
-            timer = D_8009B1D0 - 1;
-            D_8009B1D0 = timer;
+            timer = gDuel_wStepCounter - 1;
+            gDuel_wStepCounter = timer;
             if ((s16)timer > 0) {
                 if ((gInput_wPad1Pressed &
                      (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {

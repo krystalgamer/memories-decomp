@@ -576,7 +576,7 @@ void DuelScene_UpdateHandActions(void)
                 n = gDuel_pActiveSelectionRecord->row * 5 + gDuel_pActiveSelectionRecord->col;
                 value = gDuel_abFieldGridCardRecordIndices[n + gDuel_bActiveSide * 20];
                 card = &gDuel_aCardRecords[value];
-                D_8009B19C = value;
+                gDuel_bCardMoveSlot = value;
                 i = 0;
                 if (card->flags & 0x8000) {
                     obj = HAND_CARD_OBJECT_VIEW(card->object);

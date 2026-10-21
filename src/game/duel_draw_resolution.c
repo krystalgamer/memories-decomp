@@ -269,7 +269,7 @@ next_obj:
         DisplayObject_ReleaseIfPresent(
             gDuel_pActiveSelectionRecord->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;
-        D_8009B1D0 = 0;
+        gDuel_wStepCounter = 0;
         D_8009B1B9 = 0;
         gDuelEffect_pTrackedRequest = 0;
         D_8009B23A = D_8009B23A | 0x4000;
@@ -285,7 +285,7 @@ next_obj:
             }
             D_8009B23A = flags & 0xBFFF;
             D_8009B1B9 = 0;
-            D_8009B1D0 = 0;
+            gDuel_wStepCounter = 0;
             return;
         }
         if (gDuelEffect_pTrackedRequest != 0) {
@@ -310,8 +310,8 @@ next_obj:
         return;
     }
     if (flags & 0x2000) {
-        t = D_8009B1D0 - 1;
-        D_8009B1D0 = t;
+        t = gDuel_wStepCounter - 1;
+        gDuel_wStepCounter = t;
         if ((s16)t > 0) {
             return;
         }
@@ -324,7 +324,7 @@ next_obj:
             fx->buffer = (void *)((s32)fx->buffer + 0x8000);
             return;
         }
-        D_8009B1D0 = 4;
+        gDuel_wStepCounter = 4;
         fx = DuelEffect_AllocateRequest(0);
         k = (s8)D_8009B1B9;
         slot = &D_800E9EF0[k];

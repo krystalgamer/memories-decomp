@@ -29,13 +29,13 @@ typedef struct {
 } GuardedRecords;
 extern GuardedRecords test_records;
 extern s8 D_8009B1B9;
-extern u16 D_8009B1D0;
+extern u16 gDuel_wStepCounter;
 #define gCardPreview_Resources test_records.records
 """
 WITNESS = HEADERS + r"""
 GuardedRecords test_records;
 s8 D_8009B1B9;
-u16 D_8009B1D0;
+u16 gDuel_wStepCounter;
 static u8 expected[sizeof(test_records)];
 void write_meter(void);
 static void put16(u8 *p, u32 value) { p[0] = value; p[1] = value >> 8; }
@@ -49,7 +49,7 @@ int main(void)
                 ((u8 *)&test_records)[i] = i * 37 + slot * 13 + value;
                 expected[i] = ((u8 *)&test_records)[i];
             }
-            D_8009B1D0 = value;
+            gDuel_wStepCounter = value;
             offset = (u8 *)&test_records.records[slot] - (u8 *)&test_records;
             put16(expected + offset + 0x36, value);
             put16(expected + offset + 0x38, value);
@@ -92,7 +92,7 @@ class BattleResourceMeterTests(unittest.TestCase):
             r"(?s)if \(f & 0x40\) \{\s*"
             r"(?:/\*.*?\*/\s*)?DuelEffectResourceRecord \*resource;.*?"
             r"(?P<stores>resource = &gCardPreview_Resources\[D_8009B1B9\];\s*"
-            r"arg = D_8009B1D0;\s*"
+            r"arg = gDuel_wStepCounter;\s*"
             r"\*\(u16 \*\)&resource->attack_adjustment = arg;\s*"
             r"\*\(u16 \*\)&resource->defense_adjustment = arg;)",
             source,

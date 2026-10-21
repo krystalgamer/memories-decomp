@@ -115,7 +115,7 @@ u16 gDuel_awSavedStatModifiers;
 u16 gDuel_wSavedTargetStatModifier;
 u16 gDuel_awSavedRecordFlags;
 u16 gDuel_wSavedTargetRecordFlags;
-u8 D_8009B19C;
+u8 gDuel_bCardMoveSlot;
 
 void DuelScene_UpdateFieldActions(void)
 {
@@ -527,7 +527,7 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_wSavedTargetStatModifier = H(pick, 0x12);
             o = (u8 *)Duel_CreateCardDisplayObject(pick, S(pick, 8), S(pick, 0xA));
             D_800E9EF0[1] = DISPLAY_OBJECT_VIEW(o);
-            D_8009B19C = DISPLAY_OBJECT_VIEW(o)->field_6A;
+            gDuel_bCardMoveSlot = DISPLAY_OBJECT_VIEW(o)->field_6A;
             DuelCard_DeactivateRecord(pick);
             if (CARD_KIND(d) == 0x17) {
                 D_8009B174 = 8;
@@ -558,7 +558,7 @@ void DuelScene_UpdateFieldActions(void)
             co = side->cursor_object;
             co->flags &= 0xFFBF;
             if (D_8009B21A == 0) {
-                D_8009B1BC = 0x202020;
+                gDuel_dwFieldDimTarget = 0x202020;
                 card = gDuel_aCardRecords;
                 for (n = 0; n < 0x1E; card++, n++) {
                     if (card->flags & 0x8000) {
@@ -592,7 +592,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         if (D_8009B174 & 0x20) {
             a = *(u8 *)&gModel_dwFogBaseColor;
-            flags = (u8)D_8009B1BC;
+            flags = (u8)gDuel_dwFieldDimTarget;
             if (a >= flags) {
                 a -= 8;
                 t = a < flags;
@@ -605,7 +605,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             t = (a << 16) | (a << 8) | a;
             gModel_dwFogBaseColor = t;
-            if (t == D_8009B1BC && DisplayObject_FindAllocatedByTag(1) == 0) {
+            if (t == gDuel_dwFieldDimTarget && DisplayObject_FindAllocatedByTag(1) == 0) {
                 D_8009B174 &= 0xDF;
             }
             return;
@@ -649,7 +649,7 @@ void DuelScene_UpdateFieldActions(void)
         } else {
             SD_SEPlayFull(7);
         }
-        D_8009B1BC = 0x808080;
+        gDuel_dwFieldDimTarget = 0x808080;
         card = gDuel_aCardRecords;
         D_8009B174 |= 0x60;
         for (n = 0; n < 0x1E; card++, n++) {

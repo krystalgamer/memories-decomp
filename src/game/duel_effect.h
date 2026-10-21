@@ -173,7 +173,7 @@ extern u8 gText_SelectedCardColorIndex;
  * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
  * (in its candidate). Library_UpdateCardView (src/game/library_runtime.c) stores the
  * Library's selected card and reads it straight back as that index. Three
- * functions still in assembly also store it: func_8001B170.s:140-141,
+ * functions still in assembly also store it: DuelScene_UpdateCardMove.s:140-141,
  * DuelScene_UpdateResultRewards.s:202-203 and :235-236,
  * DuelEffect_ApplyRitual assembly:379-380.
  *

@@ -30,14 +30,14 @@ typedef struct { u8 before[16]; DisplayObject card; u8 after[16]; } GuardedCard;
 extern GuardedRequest request_block;
 extern GuardedRecord record_block;
 extern GuardedCard card_block;
-extern u16 D_8009B1D0;
+extern u16 gDuel_wStepCounter;
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 """
 WITNESS = HEADERS + r"""
 GuardedRequest request_block;
 GuardedRecord record_block;
 GuardedCard card_block;
-u16 D_8009B1D0;
+u16 gDuel_wStepCounter;
 s16 gDuel_wEffectCardID;
 static u8 expected_request[sizeof(request_block)], expected_record[sizeof(record_block)];
 static u8 expected_card[sizeof(card_block)];
@@ -71,7 +71,7 @@ int main(void)
         gDuel_wEffectCardID = branch == 0 ? DUEL_SPELLBINDING_CIRCLE_CARD_ID : 0;
         penalty = branch == 0 ? 500 : 1000;
         for (step = 0; step < DUEL_FIELD_ROW_SIZE; step++) {
-            D_8009B1D0 = step;
+            gDuel_wStepCounter = step;
             for (value = 0; value < 65536; value++) {
                 for (i = 0; i < sizeof(request_block); i++)
                     ((u8 *)&request_block)[i] = i * 37 + value;
@@ -140,7 +140,7 @@ class StatPenaltyRequestTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 code = fragment
                 if mutation == "scaled-word-step":
-                    code = code.replace("D_8009B1D0 << 14", "D_8009B1D0 << 16")
+                    code = code.replace("gDuel_wStepCounter << 14", "gDuel_wStepCounter << 16")
                 elif mutation == "byte-payload-store":
                     code = code.replace(
                         "object->field_00 = (s16)", "*(u8 *)&object->field_00 = (s16)"

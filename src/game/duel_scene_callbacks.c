@@ -47,7 +47,7 @@ void (*gDuel_apfnSceneStateHandler[])(void) = {
     DuelScene_UpdateFieldActions,
     DuelScene_UpdateCardUse,
     DuelScene_UpdateCardPlacement,
-    func_8001B170,
+    DuelScene_UpdateCardMove,
     DuelScene_UpdateBattle,
     DuelScene_UpdateTurnSwitch,
     DuelScene_UpdateResume,
