@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "secondary_scene_commands.h"
 #include "duel_effect_command.h"
 #include "duel_effect_command_table.h"
 #include "text_control_commands.h"
@@ -45,9 +46,9 @@ void (*gText_SecondaryCommandHandlers[])(DuelEffectChannel *) = {
     DuelEffect_ProcessBgmCommand,
     DuelEffect_PlaySoundCommand,
     (void (*)(DuelEffectChannel *))DuelEffect_FadeOutBgmCommand,
-    (void (*)(DuelEffectChannel *))func_80038888,
-    (void (*)(DuelEffectChannel *))func_80038890,
-    func_80038898,
+    (void (*)(DuelEffectChannel *))Text_NoOpSecondary12,
+    (void (*)(DuelEffectChannel *))Text_NoOpSecondary13,
+    Text_OpenCampaignMap,
     func_800388D8,
     Text_DisableCompletionWait,
     Text_JumpBySelectorA,

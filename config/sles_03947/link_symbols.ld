@@ -102,3 +102,6 @@ gModel_aShadowFanSteps = D_800925CC;
 gText_aChannels = D_800EB0F8;
 gText_Channel1 = D_800EB15C;
 gText_dwChannel0State = D_800EB12C;
+
+gCampaignMap_bEntryLocation = D_8009B363;
+CampaignMap_SetLocation = 0x8016866C;
