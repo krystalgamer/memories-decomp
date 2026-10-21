@@ -718,8 +718,8 @@ the qualifier:
 
 ```
 jal  DuelEffect_ClearResourceObjectPointers
-sw   v0,%lo(D_8016D430)(s0)      # store, in the call's delay slot
-lw   v1,%lo(D_8016D430)(s0)      # reload into a different register
+sw   v0,%lo(gPassword_pCardCache)(s0)      # store, in the call's delay slot
+lw   v1,%lo(gPassword_pCardCache)(s0)      # reload into a different register
 li   v0,320
 sh   v0,40(v1)
 ```
@@ -1567,8 +1567,8 @@ is free there. On `func_80180390` the unordered split was worth two of six and
 the correct order was worth all six.
 
 Neither reaches the other two near-misses. On `func_8016A37C`, qualifying the
-stores to `D_8016D438` or `D_8016D49C` is byte-identical and qualifying the
-stores to `D_8016D424` costs five, all of them `nop`. On `func_8016913C`, four
+stores to `gPassword_dwPriceRemaining` or `D_8016D49C` is byte-identical and qualifying the
+stores to `gPassword_wShopState` costs five, all of them `nop`. On `func_8016913C`, four
 splittings of the one two-assignment arm it has are worth nothing or cost two,
 because the arm's `gx` assignment is not paired with a matching one in the
 other arm and the split leaves an empty branch rather than a filled slot.
