@@ -10,7 +10,13 @@
  * biasing both by the side. */
 u32 ModelTexture_PackPageClut(int side, int mode, GsIMAGE *params);
 
-u32 func_80059A50(s32 slot, s32 mode, GsIMAGE *image);
+u32 ModelTexture_PackPageClutCopy(s32 slot, s32 mode, GsIMAGE *image);
+
+/* Frozen matching overlay bodies keep their original spelling. */
+#define func_80059A50 ModelTexture_PackPageClutCopy
+
+void ModelTexture_UploadTimFile(char *path, int b, int c, int d, int e,
+                                int f, int g);
 
 /* Reads a TIM into the caller's GsIMAGE, uploads its pixels and CLUT, and
  * returns the packed texture-page word. */

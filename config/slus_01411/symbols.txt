@@ -2149,3 +2149,7 @@ Model_GetSlotDimensionsWithMinimums = 0x80057E20; // type:func
 Model_GetSlotDimensionsWithOverrides = 0x80059000; // type:func
 
 Model_SetSlotDrawMode = 0x80059284; // type:func
+
+ModelTexture_UploadTimFile = 0x800599FC; // type:func
+
+ModelTexture_PackPageClutCopy = 0x80059A50; // type:func

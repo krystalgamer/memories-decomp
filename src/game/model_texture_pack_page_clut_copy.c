@@ -3,7 +3,7 @@
 
 /* Copies the image header onto the stack before forwarding it, so the
    callee can't alias the caller's copy. */
-u32 func_80059A50(s32 a0, s32 a1, GsIMAGE *src) {
+u32 ModelTexture_PackPageClutCopy(s32 a0, s32 a1, GsIMAGE *src) {
     GsIMAGE buf = *src;
     return ModelTexture_PackPageClut(a0, a1, &buf);
 }

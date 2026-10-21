@@ -14,6 +14,6 @@ SetPolyFT4 = 0x80082940;
 SetSemiTrans = 0x80082840;
 ccos = 0x80086920;
 func_80058F10 = 0x80058F10;
-func_80059A50 = 0x80059A50;
+ModelTexture_PackPageClutCopy = 0x80059A50;
 func_8005B260 = 0x8005B260;
 memset = 0x8008E3D0;
