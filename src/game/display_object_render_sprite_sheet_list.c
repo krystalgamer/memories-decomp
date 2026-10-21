@@ -10,7 +10,7 @@
 #include "ordering_tables.h"
 
 void DisplayObject_RenderSpriteSheetList(void) {
-    s32 i = D_800EFE3C;
+    s32 i = gDisplayObject_wSpriteSheetListHead;
 
     if (i >= 0) {
         DisplayObject *base = gDisplayObject_aPool;

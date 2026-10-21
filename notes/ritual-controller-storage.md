@@ -4,7 +4,7 @@
 `Duel_CheckRitual`. The matched
 callee writes three tribute-object pointers and clears its result's word at
 `+0x0C`, so this output covers `[0x800E9EF8, 0x800E9F08)`. Relative to
-`D_800E9EF0`, that means slots 2–4 and the separate word `D_800E9F04`.
+`gDisplayObject_apWorkSlots`, that means slots 2–4 and the separate word `D_800E9F04`.
 The earlier five-slot consumer `func_80018FEC` also clears `D_800E9F04`
 after filling the pointer slots (retail instruction at `0x8001913C`).
 
@@ -19,11 +19,11 @@ consumers and their measured absolute relocations.
 
 The retail resident image, through the existing `bss_image_after_viewport`
 binary-backed section, supplies the storage. Existing absolute linker
-identities cover `D_800E9EF0`, its interior labels, and `D_800E9F04`.
+identities cover `gDisplayObject_apWorkSlots`, its interior labels, and `D_800E9F04`.
 No new C allocation or linker alias is required. The next mapped label
 after the clear word is `gDuel_abSelectionSides`; this view does not claim that gap.
 
-`D_800EA128` is also image-backed, with no C definition. The controller
+`gCardPreview_Resource1` is also image-backed, with no C definition. The controller
 writes the four halfwords at offsets `+8` through `+0x0E` as a `RECT`,
 and reads source coordinates at `+0x28/+0x2A`. Its owner declares a
 **22-halfword measured prefix**, ending at `0x800EA154`; it does not infer
@@ -128,7 +128,7 @@ that measured word view with the pointer member changes old-GCC scheduling.
 
 ## Borrowed preview resource view
 
-The linked image resolves `D_800EA128` exactly `0x40` bytes after
+The linked image resolves `gCardPreview_Resource1` exactly `0x40` bytes after
 `D_800EA0E8`, one independently verified `DuelEffectResourceRecord` stride.
 The ritual starter requests preview resource slot 1; state 1 constructs
 the paired objects from that same slot. State 3's readback accesses match
@@ -141,7 +141,7 @@ the resource producer and upload consumer:
 | 20 / 21 | `0x28` / `0x2A` | `src_x` / `src_y` |
 
 The local now borrows that actual record type through the original
-`D_800EA128` address. The global remains the measured 22-halfword prefix:
+`gCardPreview_Resource1` address. The global remains the measured 22-halfword prefix:
 there is no new definition, global alias, array bound or allocation claim.
 The prefix ends at `0x800EA154`; the later `gLibrary_State` label is at
 `0x800EA1E8`, not at that prefix end. Neither label is used to infer an

@@ -129,7 +129,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s3
 
 void DisplayObject_RenderSpriteStripList(void)
 {
-    s32 i = D_800EFE38[3];
+    s32 i = gDisplayObject_awListHeads[3];
 
     if (i >= 0) {
         DisplayObject *base = gDisplayObject_aPool;
@@ -158,7 +158,7 @@ void DisplayObject_RenderSpriteStripList(void)
 
 void DisplayObject_RunUpdateCallbackList(void)
 {
-    s32 i = D_800EFE38[0];
+    s32 i = gDisplayObject_awListHeads[0];
 
     while (i >= 0) {
         DisplayObject *object = &gDisplayObject_aPool[i];
@@ -173,7 +173,7 @@ void DisplayObject_RunUpdateCallbackList(void)
 
 void DisplayObject_RunSecondaryCallbackList(void)
 {
-    s32 i = D_800EFE38[6];
+    s32 i = gDisplayObject_awListHeads[6];
 
     if (i >= 0) {
         DisplayObject *base = gDisplayObject_aPool;
@@ -222,7 +222,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
  * before any such store and are ordinary member reads. See display_object.h
  * for the measurement.
  *
- * Walks the display-object list from the head index at D_800EFE38[4], calls
+ * Walks the display-object list from the head index at gDisplayObject_awListHeads[4], calls
  * each object's callback, and for every visible object copies its four
  * vertices into the POLY_G4, offsets them by the viewport origin unless bit 3
  * is set, runs the bit-2 clip test through
@@ -253,7 +253,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
 
     g = (POLY_G4 *)0x1F800344;
     h = (u8 *)0x1F800398;
-    i = D_800EFE38[4];
+    i = gDisplayObject_awListHeads[4];
 
     if (i >= 0) {
         eight = 8;
@@ -338,7 +338,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
     }
 }
 
-/* The POLY_GT4 sibling for the list rooted at D_800EFE38[5]: the same walk,
+/* The POLY_GT4 sibling for the list rooted at gDisplayObject_awListHeads[5]: the same walk,
  * with each vertex carrying a texture coordinate as well. Its second
  * submission, gated on the byte at 0x72 two bytes past the record, rewrites
  * the first two vertices from 0x58; display_object.h records why that reach
@@ -367,7 +367,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
 
     g = (POLY_GT4 *)0x1F800344;
     h = (u8 *)0x1F800398;
-    i = D_800EFE38[5];
+    i = gDisplayObject_awListHeads[5];
 
     if (i >= 0) {
         twelve = 0xC;
@@ -463,7 +463,7 @@ void DisplayObject_RenderFrame(void)
     GsSetFlatLight(1, &gDisplayObject_FlatLightUp);
     GsSetFlatLight(2, &gDisplayObject_FlatLightUp);
     for (i = DISPLAY_OBJECT_LIST_COUNT - 1; i >= 0; i--) {
-        if (D_800EFE38[i] >= 0) {
+        if (gDisplayObject_awListHeads[i] >= 0) {
             SetGeomScreen(150);
             SetGeomOffset(0, 0);
             gDisplayObject_ListRenderers[i]();

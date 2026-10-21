@@ -145,12 +145,12 @@ void Main_RunTrade(void)
         obj->attribute = obj->attribute | GsALON;
         DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset(obj, 0xF);
-        D_800E9EF0[0] = obj;
+        gDisplayObject_apWorkSlots[0] = obj;
         Fade_WaitIn();
     }
 
     box = gText_aChannels;
-    obj = D_800E9EF0[0];
+    obj = gDisplayObject_apWorkSlots[0];
     switch (gMain_bModeRunnerStep) {
     case 1:
         if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & 0xE0) != 0) {
@@ -177,8 +177,8 @@ void Main_RunTrade(void)
         if (obj->field_60 <= 0) {
             gMain_bModeRunnerStep = 0;
             TextBox_Destroy(box);
-            DisplayObject_ReleaseIfPresent(D_800E9EF0[0]);
-            D_800E9EF0[0] = 0;
+            DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots[0]);
+            gDisplayObject_apWorkSlots[0] = 0;
         }
         break;
     default:

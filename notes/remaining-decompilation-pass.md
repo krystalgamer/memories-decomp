@@ -643,7 +643,7 @@ State after this one-function checkpoint:
 
 `DisplayObject_Release` matched after enabling split addresses on the
 collaborator's typed slot-linking implementation. The split profile exposes the
-`D_800EFE48` and `D_800EFE38` address halves to the scheduler, removing the
+`D_800EFE48` and `gDisplayObject_awListHeads` address halves to the scheduler, removing the
 non-split extra instruction while preserving the branch-specific slot updates.
 The normalized pure-C source matches 148/148 bytes and exact relocations.
 

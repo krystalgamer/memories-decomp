@@ -21,7 +21,7 @@
 void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s32 mode_arg);
 
 /* Three of the seven entries in gDisplayObject_ListRenderers. Each walks one
- * display object list from its head in D_800EFE38, runs every object's update
+ * display object list from its head in gDisplayObject_awListHeads, runs every object's update
  * callback, and differs only in which list it takes and what it does afterwards:
  *
  *   DisplayObject_RunUpdateCallbackList  list 0, callback-only

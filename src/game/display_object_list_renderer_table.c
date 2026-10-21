@@ -12,7 +12,7 @@
  * it with `for (i = 0; i < DISPLAY_OBJECT_LIST_COUNT; i++)`, that constant is
  * seven in display_object_layout.h, and there are seven entries. It agrees
  * independently with display_object.h, where the list heads are
- * `s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT]`, and with
+ * `s16 gDisplayObject_awListHeads[DISPLAY_OBJECT_LIST_COUNT]`, and with
  * DisplayObject_ResetPool, which clears the same count.
  *
  * So this array is declared sized, unlike the other three, because the size

@@ -855,7 +855,7 @@ an upper bound and the bytes above it left unclaimed.
 
 A real size needs a reader. `gDisplayObject_awListKeys` takes its length from
 `DisplayObject_ResetPool`, which advances one pointer into it and one into
-`D_800EFE38` together for `DISPLAY_OBJECT_LIST_COUNT` iterations; the
+`gDisplayObject_awListHeads` together for `DISPLAY_OBJECT_LIST_COUNT` iterations; the
 per-list renderer table takes its seven from the loop that walks it. Those are
 sizes; a neighbour's address is not.
 
@@ -1265,11 +1265,11 @@ complete `0x8016D400-0x8016D590` prefix as one `0x190`-byte
 `PasswordModuleState`, whose field offsets are supported by the name-entry and
 shop consumers. The remainder, `0x8016D590-0x8016F800`, stays raw.
 
-`shop.c` declares `extern u8 *D_8016D440[]` and walks it to store **four**
+`shop.c` declares `extern u8 *gPassword_apDigitCursorDecorations[]` and walks it to store **four**
 objects -- sixteen bytes -- and the overlay's own function notes describe
 exactly that, four decoration objects one per password digit. But the label
 runs 144 bytes, because that is the distance to the next *named* symbol.
-`D_8016D4DC` is worse: the stored C declares it `u16`, and the label spans
+`gPassword_wCardId` is worse: the stored C declares it `u16`, and the label spans
 180 bytes.
 
 Those gaps are now explicit padding and later fields within the enclosing

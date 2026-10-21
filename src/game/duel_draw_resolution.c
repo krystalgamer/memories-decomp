@@ -223,7 +223,7 @@ void DuelScene_UpdateExodiaResult(void)
         poses = (u8 *)&gDuel_ExodiaCardPoses;
         r = (s32)DisplayObject_UpdateCosineSlide;
         fnv = r;
-        objs = D_800E9EF0;
+        objs = gDisplayObject_apWorkSlots;
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
         obj = DISPLAY_OBJECT_VIEW(gDuel_pTerrainIcon);
         side = gDuel_bActiveSide;
@@ -327,7 +327,7 @@ next_obj:
         gDuel_wStepCounter = 4;
         fx = DuelEffect_AllocateRequest(0);
         k = (s8)D_8009B1B9;
-        slot = &D_800E9EF0[k];
+        slot = &gDisplayObject_apWorkSlots[k];
         d = *slot;
         fx->field_00 = (s16)(d->field_30.h.field_30 + 0x1A);
         d = *slot;

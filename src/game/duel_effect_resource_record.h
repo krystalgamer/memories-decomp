@@ -97,7 +97,7 @@ typedef char DuelEffectResourceRecord_stat_palette_flags_offset_must_be_0x3C[
  * so this is where it belongs.
  *
  * src/overlays/password/shop.c includes it too. It never indexes the array:
- * Password_InitShopScreen parks the first record in D_8016D430 and sets its
+ * Password_InitShopScreen parks the first record in gPassword_pCardCache and sets its
  * source rectangle through that pointer, which module_state.h declares by
  * this header's struct tag. */
 extern DuelEffectResourceRecord gCardPreview_Resources[];

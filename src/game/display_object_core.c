@@ -65,18 +65,18 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
     initialized = slot->flags & DISPLAY_OBJECT_FLAG_ALLOCATED;
     gDisplayObject_wAcquireCount++;
     if (!initialized) {
-        other = D_800EFE38[key];
+        other = gDisplayObject_awListHeads[key];
         if (other < 0) {
             gDisplayObject_awListKeys[key] = index;
             slot->next = -1;
             slot->previous = -1;
         } else {
             gDisplayObject_aPool[other].previous = index;
-            slot->next = (u16)D_800EFE38[key];
+            slot->next = (u16)gDisplayObject_awListHeads[key];
         }
 
         slot->previous = -1;
-        D_800EFE38[key] = index;
+        gDisplayObject_awListHeads[key] = index;
         /* A fresh object starts with rotation off. */
         slot->attribute = GsROTOFF;
         slot->flags = DISPLAY_OBJECT_RENDERABLE_MASK;
@@ -114,7 +114,7 @@ void DisplayObject_Release(DisplayObject *slot)
 
     if (first < 0) {
         s16 index = slot->field_1E;
-        D_800EFE38[index] = second;
+        gDisplayObject_awListHeads[index] = second;
         if (second >= 0) {
             gDisplayObject_aPool[second].previous = -1;
         }
@@ -134,17 +134,17 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
     s32 v;
 
     DisplayObject_Release(slot);
-    v = D_800EFE38[key];
+    v = gDisplayObject_awListHeads[key];
     if (v < 0) {
         gDisplayObject_awListKeys[key] = slot->field_0A;
         slot->next = -1;
         slot->previous = -1;
     } else {
         gDisplayObject_aPool[v].previous = slot->field_0A;
-        slot->next = D_800EFE38[key];
+        slot->next = gDisplayObject_awListHeads[key];
     }
     slot->previous = -1;
-    D_800EFE38[key] = slot->field_0A;
+    gDisplayObject_awListHeads[key] = slot->field_0A;
     slot->flags = saved;
 }
 
@@ -155,7 +155,7 @@ void DisplayObject_ReleaseIfPresent(void *object)
     }
 }
 
-void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=gDisplayObject_awListKeys;b=D_800EFE38;gDisplayObject_wUnlinkCount=0;gDisplayObject_wAcquireCount=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{DisplayObject*p=gDisplayObject_aPool;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){p->flags=0;p++;}}}
+void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=gDisplayObject_awListKeys;b=gDisplayObject_awListHeads;gDisplayObject_wUnlinkCount=0;gDisplayObject_wAcquireCount=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{DisplayObject*p=gDisplayObject_aPool;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){p->flags=0;p++;}}}
 
 void DisplayObject_Reset(void)
 {
@@ -267,7 +267,7 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
     return object;
 }
 
-/* Walks the display-object list rooted at D_800EFE3A: calls each object's
+/* Walks the display-object list rooted at gDisplayObject_wSpriteListHead: calls each object's
    callback, and for every renderable object fills the sprite primitive in
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport
    origin unless bit 3 is set, and submits it through DisplayObject_SubmitPacket. With
@@ -288,7 +288,7 @@ void DisplayObject_RenderSpriteList(void) {
     s32 mode;
     s32 idx;
 
-    i = D_800EFE3A[0];
+    i = gDisplayObject_wSpriteListHead[0];
     if (i >= 0) {
         g = (POLY_FT4 *)0x1F800344;
         p = (SpritePrim *)0x1F800320;

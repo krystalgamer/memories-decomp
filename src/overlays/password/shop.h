@@ -18,7 +18,9 @@
  *
  *   gPassword_abDigits     The eight entered digits.
  *   gPassword_nDigitIndex  Which of them the cursor is on.
- *   D_8016D424             The starchip count the shop screen displays.
+ *   gPassword_wShopState   The shop step (state & 0x1F, steps 0-4) with 0x8000/0x4000
+ *                          per-step progress flags; the starchip deduction
+ *                          counts down in gPassword_dwPriceRemaining.
  *
  * gPassword_pDigitCursorWidget IS here, above, as PasswordCursorView *.
  * This paragraph used to say it was not, and to give three conflicting

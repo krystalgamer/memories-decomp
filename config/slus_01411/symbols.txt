@@ -2275,6 +2275,8 @@ Text_OpenCampaignMap = 0x80038898; // type:func
 Duel_UpdateCardToSelectionView = 0x80022674; // type:func
 
 Duel_UpdateCardToFieldView = 0x800229F4; // type:func
+gDisplayObject_wSpriteListHead = 0x800EFE3A;
+gCardPreview_Resource1 = 0x800EA128;
 
 Model_MapToWireframePrimitiveHandler = 0x8005FC1C; // type:func
 

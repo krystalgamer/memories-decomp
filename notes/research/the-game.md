@@ -779,7 +779,7 @@ The hand handler `DuelScene_UpdateHandActions` is still unmatched assembly. Its 
 excludes types `21` (Trap) and `23` (Equip), and requires the hand object's
 orientation byte `+0x21` to be zero (face-up). Among the defined retail types,
 this admits Magic (`20`) and Ritual (`22`). It stores the selected object in
-`D_800E9EF0`, removes its hand index, and selects hand substate
+`gDisplayObject_apWorkSlots`, removes its hand index, and selects hand substate
 `D_8009B174 = 5`, bypassing the field-selection branch.
 
 The retail jump-table entry at `0x80010158` sends that substate to

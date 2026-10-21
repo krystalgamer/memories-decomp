@@ -14,6 +14,7 @@ registry, the `GsU_00000000` sentinel handling, switch order and unchanged-input
 fallback for missing or unsupported keys.
 
 The wireframe mapper selects the existing line-rendering callback families.
+All twelve mapped targets reference only the existing line primitive templates.
 For example, the handwritten handler at `0x80069E44` loads
 `gModel_dwLineF4Template` and `gModel_dwDrawModeTemplate`, projects three
 vertices and writes `SXY0/SXY1/SXY2/SXY0` into a closed line packet.
@@ -28,7 +29,7 @@ The forced-semitransparent triangle handler at `0x80063F90` explicitly ORs
 GPU command bit `0x02000000`; its base counterpart at `0x800612C0` uses
 the current base polygon template instead.
 
-“Base” does not promise opaque GPU output: the global fade/template state
+"Base" does not promise opaque GPU output: the global fade/template state
 may still enable blending. These mappers are not inverses, and the base mapper
 does not recover original shading after a wireframe conversion.
 `Model_DrawSlot` uses the base mapper when its existing palette-flash countdown
