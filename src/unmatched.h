@@ -317,7 +317,7 @@ extern s32 D_8009B0FC;
 extern u8 D_8009B108;
 extern u8 D_8009B110;
 extern s32 D_8009B12C;
-extern u8 D_8009B1B8;
+extern u8 gDuel_bSelectedTrapSlot;
 extern u8 D_8009B26E;
 extern s32 D_8009B378;
 extern u16 D_800F5678[];

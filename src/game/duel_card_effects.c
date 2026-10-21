@@ -75,7 +75,7 @@ void DuelEffect_ApplyLifePointRecovery(void) {
     flag = gDuel_wCardEffectFlags;
     if (!(flag & 0x40)) {
         gDuel_wCardEffectFlags = flag | 0x60;
-        if (D_8009B22A == 0) {
+        if (gDuel_wSelectedTrapCardId == 0) {
             u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
             v1 = gDuel_pActiveSideState->life_points.unsigned_value +
                  (*p) * DUEL_LIFE_POINT_RECOVERY_SCALE;
@@ -135,7 +135,7 @@ void DuelEffect_ApplyDirectDamage(void) {
     flags = gDuel_wCardEffectFlags;
     if (!(flags & 0x40)) {
         gDuel_wCardEffectFlags = flags | 0x60;
-        if (D_8009B22A == 0) {
+        if (gDuel_wSelectedTrapCardId == 0) {
             p = &gDuel_aSideStates[D_8009B1D5 ^ 1];
             goto apply;
         }

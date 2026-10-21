@@ -157,7 +157,7 @@ void DuelResult_UpdateDepartingSprite(DuelCardDisplayObject *object)
 /* Duel-result outro sequence, driven from the scene state word gDuel_wSceneStateFlags.
 
    The first call (bit 0x8000 clear) fades the BGM out, records the winning
-   side in D_8009B362/D_8009B238, requests the outro package (0x1DAB, 0x22
+   side in D_8009B362/gDuel_bOutroWinnerSide, requests the outro package (0x1DAB, 0x22
    sectors) through DuelResult_LoadOutroPackageStage, picks the win or lose track for
    tent_DuelResultBgmId -- 0x72F0 only when the player won against a real opponent --
    and hands the two banner objects D_8009B214/D_8009B21C to DisplayObject_UpdateCosineSlide
@@ -205,7 +205,7 @@ void DuelScene_UpdateResultOutro(void)
         if (id != 0) {
             D_8009B362 = 1;
         }
-        D_8009B238 = id;
+        gDuel_bOutroWinnerSide = id;
         File_RequestAsyncTransfer(
             0, 0,
             DUEL_RESULT_OUTRO_START_SECTOR,

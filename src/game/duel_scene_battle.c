@@ -165,8 +165,8 @@ void DuelScene_UpdateBattle(void)
             ((DuelCardReplayRecordBlock *)(
                 pw + D_800E9EF0[0]->field_6A * 0x1C + big))->record.card_id);
         o = slots[1];
-        D_8009B22A = 0;
-        D_8009B1B8 = 0;
+        gDuel_wSelectedTrapCardId = 0;
+        gDuel_bSelectedTrapSlot = 0;
         if (o != 0) {
             o->position.h.field_28 = 0xD8;
             o->position.h.field_2A = y;
@@ -191,7 +191,7 @@ void DuelScene_UpdateBattle(void)
     case 1:
         if (!(D_8009B174 & 0x80) && ((D_8009B0F4_abs & 0x02000030) | D_8009B134_abs) == 0) {
             if (!(D_8009B174 & 0x40)) {
-                id = D_8009B22A;
+                id = gDuel_wSelectedTrapCardId;
                 D_8009B174 |= 0x40;
                 if (id == 0) {
                     if (D_800E9EF0[1] != 0) {
@@ -265,7 +265,7 @@ void DuelScene_UpdateBattle(void)
                 } else {
                     effects[1].stat_palette_flags |= 0x40;
                 }
-            } else if (D_8009B22A != 0) {
+            } else if (gDuel_wSelectedTrapCardId != 0) {
                 o = (DisplayObject *)CardPreview_CreateResourceObjects(1, -1, -1);
             }
             if (o != 0) {
@@ -297,7 +297,7 @@ void DuelScene_UpdateBattle(void)
                     u8 g = D_8009B174;
 
                     D_8009B174 = g | 0x40;
-                    if (D_8009B22A != 0) {
+                    if (gDuel_wSelectedTrapCardId != 0) {
                         D_8009B174 = g | 0x60;
                     D_8009B210 = 0;
                     return;
@@ -332,8 +332,8 @@ void DuelScene_UpdateBattle(void)
         }
         if (!(D_800E9ECE[0] & 0x80)) {
             D_8009B174 = 4;
-            if (D_8009B22A != 0) {
-                D_8009B1B9 = D_8009B22A == 0x2B2;
+            if (gDuel_wSelectedTrapCardId != 0) {
+                D_8009B1B9 = gDuel_wSelectedTrapCardId == 0x2B2;
                 D_8009B174 = 0xA;
                 return;
             }
@@ -640,7 +640,7 @@ void DuelScene_UpdateBattle(void)
             req->field_02 =
                 side->field_30.h.field_32 +
                 DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
-            if (D_8009B22A != 0) {
+            if (gDuel_wSelectedTrapCardId != 0) {
                 req->field_1A = 1;
             }
             D_8009B1D0 = 2;
@@ -651,14 +651,14 @@ void DuelScene_UpdateBattle(void)
             if ((s16)D_8009B1D0 <= 0) {
                 D_8009B174 |= 0x40;
                 DuelEffect_ReleaseResourceObjects(D_8009B1B9);
-                if (D_8009B1B9 != 1 || D_8009B22A == 0) {
+                if (D_8009B1B9 != 1 || gDuel_wSelectedTrapCardId == 0) {
                     D_800E9EF0[D_8009B1B9 + 2] = 0;
                     return;
                 }
             }
         } else if (!(gDuelEffect_pTrackedRequest->flags & 0x80)) {
             D_8009B174 = 6;
-            if (D_8009B22A != 0) {
+            if (gDuel_wSelectedTrapCardId != 0) {
                 D_8009B174 = 0xB;
                 return;
             }
@@ -681,7 +681,7 @@ void DuelScene_UpdateBattle(void)
                     left = &gDuel_aCardRecords[D_800E9EF0[1]->field_6A];
                     left->flags |= D_8009B178[1] & 0xA00;
                     left->stat_modifier = D_8009B170[1];
-                    if (D_8009B22A != 0) {
+                    if (gDuel_wSelectedTrapCardId != 0) {
                         left->flags |= D_8009B178[1] & 0x3000;
                     }
                     Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)left->object);
