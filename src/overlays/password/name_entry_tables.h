@@ -5,9 +5,9 @@
 
 /* Nine rows of fifteen signed cell descriptors. Negative cells redirect
  * selection; nonnegative cells carry row/command and width information. */
-extern s8 D_8016AB38[][15];
+extern s8 gNameEntry_aKeyboardCells[][15];
 
 /* Up/down row destinations for the keyboard's command columns. */
-extern u8 D_8016ABC0[][2];
+extern u8 gNameEntry_aRowLinks[][2];
 
 #endif

@@ -62,7 +62,7 @@ void NameEntry_UpdateDialog(void)
     s32 c;
     s32 term;
 
-    if (D_8016D4D2 != 0) {
+    if (gNameEntry_wPendingDialogId != 0) {
         flags = D_8016D400;
         if ((flags & 4) == 0) {
             D_8016D400 = flags | 4;
@@ -71,14 +71,14 @@ void NameEntry_UpdateDialog(void)
             func_8003B6AC(2, 2);
 #endif
 #ifdef VERSION_EUROPE
-            box = TextBox_CreateFlagged(2, D_8016D4D2 & 0xFFF, 16, 248,
+            box = TextBox_CreateFlagged(2, gNameEntry_wPendingDialogId & 0xFFF, 16, 248,
                                         288, 64, 2);
 #else
-            box = TextBox_Create(2, D_8016D4D2 & 0xFFF, 16, 248,
+            box = TextBox_Create(2, gNameEntry_wPendingDialogId & 0xFFF, 16, 248,
                                  288, 48);
 #endif
             box->field_59 = 20;
-            id = D_8016D4D2;
+            id = gNameEntry_wPendingDialogId;
             if ((id & 0x8000) == 0) {
                 if ((id & 0x4000) == 0) {
                     func_80039A14((struct DuelEffectChannel *)box);
@@ -124,7 +124,7 @@ void NameEntry_UpdateDialog(void)
                     caret->y = 248;
                     D_8016D400 = fb & 0xF9;
                     TextBox_Destroy(box);
-                    D_8016D4D2 = 0;
+                    gNameEntry_wPendingDialogId = 0;
                     return;
                 }
             } else {
@@ -141,7 +141,7 @@ void NameEntry_UpdateDialog(void)
             TextBox_SetPos((struct DuelEffectChannel *)box, caret->x, caret->y);
             return;
         }
-        if ((D_8016D4D2 & 0x8000) == 0) {
+        if ((gNameEntry_wPendingDialogId & 0x8000) == 0) {
             if ((gInput_wPad1Pressed & (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
                 SD_SEPlayFull(11);
                 return;
@@ -158,7 +158,7 @@ void NameEntry_UpdateDialog(void)
             D_8016D400 = fd & 0xDF;
         }
         if ((D_8016D400 & 0x20) != 0) {
-            D_8016D4D2 = 0;
+            gNameEntry_wPendingDialogId = 0;
         }
         DisplayObject_SavePosition(caret);
         fe = D_8016D400;
@@ -243,7 +243,7 @@ ztest:
     D_8016D400 = fg & 0xBF;
     if (next != 0) {
         *next = term;
-        D_8016D4D2 = 0x80F5;
+        gNameEntry_wPendingDialogId = 0x80F5;
         D_8016D41C = 0;
         D_8016D400 |= 0x20;
         SD_SEPlayFull(48);

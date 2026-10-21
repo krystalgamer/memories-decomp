@@ -40,7 +40,7 @@ PasswordModuleState gPassword_ModuleState;
 __asm__(".globl D_8016D400\n.set D_8016D400, gPassword_ModuleState\n"
         ".globl gNameEntry_bKeyboardColumn\n.set gNameEntry_bKeyboardColumn, gPassword_ModuleState+1\n"
         ".globl gNameEntry_bKeyboardRow\n.set gNameEntry_bKeyboardRow, gPassword_ModuleState+2\n"
-        ".globl D_8016D404\n.set D_8016D404, gPassword_ModuleState+4\n"
+        ".globl gNameEntry_pSelectionFrame\n.set gNameEntry_pSelectionFrame, gPassword_ModuleState+4\n"
         ".globl gNameEntry_pNameBuffer\n.set gNameEntry_pNameBuffer, gPassword_ModuleState+0x18\n"
         ".globl gNameEntry_bSavedRow\n.set gNameEntry_bSavedRow, gPassword_ModuleState+0x26\n"
         ".globl gNameEntry_bCaretPos\n.set gNameEntry_bCaretPos, gPassword_ModuleState+0x2C\n"
@@ -48,8 +48,8 @@ __asm__(".globl D_8016D400\n.set D_8016D400, gPassword_ModuleState\n"
         ".globl gNameEntry_wCursorTargetY\n.set gNameEntry_wCursorTargetY, gPassword_ModuleState+0x36\n"
         ".globl D_8016D4D4\n.set D_8016D4D4, gPassword_ModuleState+0xD4\n");
 volatile u16 gInput_wPad1Held, gInput_wPad1Repeat, gInput_wPad1Pressed;
-s8 D_8016AB38[9][15];
-u8 D_8016ABC0[9][2];
+s8 gNameEntry_aKeyboardCells[9][15];
+u8 gNameEntry_aRowLinks[9][2];
 static SelectionFrame frame;
 static DuelEffectEntry nodes[2];
 static u8 sprites[3][0x70] __attribute__((aligned(16)));
@@ -160,8 +160,8 @@ static void reset(s32 row,s32 col)
     gPassword_ModuleState.caretIndex=row%5;
     frame.x=321; frame.y=199; frame.width=16; frame.widthBonus=0; frame.timer=0;
     for (r=0;r<9;r++) {
-        for (c=0;c<15;c++) D_8016AB38[r][c]=cell(r,c);
-        D_8016ABC0[r][0]=(r+7)%9; D_8016ABC0[r][1]=(r+2)%9;
+        for (c=0;c<15;c++) gNameEntry_aKeyboardCells[r][c]=cell(r,c);
+        gNameEntry_aRowLinks[r][0]=(r+7)%9; gNameEntry_aRowLinks[r][1]=(r+2)%9;
     }
     held=repeat=pressed=0;
 }
@@ -180,8 +180,8 @@ static void run(void)
     if (gInput_wPad1Held!=held || gInput_wPad1Repeat!=repeat ||
         gInput_wPad1Pressed!=pressed) fail(13);
     for (r=0;r<9;r++) {
-        for (c=0;c<15;c++) if (D_8016AB38[r][c]!=cell(r,c)) fail(14);
-        if (D_8016ABC0[r][0]!=(r+7)%9 || D_8016ABC0[r][1]!=(r+2)%9) fail(15);
+        for (c=0;c<15;c++) if (gNameEntry_aKeyboardCells[r][c]!=cell(r,c)) fail(14);
+        if (gNameEntry_aRowLinks[r][0]!=(r+7)%9 || gNameEntry_aRowLinks[r][1]!=(r+2)%9) fail(15);
     }
 }
 static void idle_and_transition(void)
