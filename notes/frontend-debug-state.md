@@ -25,8 +25,8 @@ cursor. It reads the columns signed, as the previous `s8 *` cast did.
 three bytes, not the gaps up to the following globals.
 
 Values occupy three halfwords beginning at `gDebug_nSceneOrSoundID`
-(`0x8009B2C8`), with independently relocated interior labels `D_8009B2CA`
-and `D_8009B2CC`. The editor steps by halfwords and passes these three
+(`0x8009B2C8`), with independently relocated interior labels `gDebug_nEditedBgmId`
+and `gDebug_nEditedCdSoundId`. The editor steps by halfwords and passes these three
 values to `FntPrint`. `FrontendDebugValues.row[3]` describes that observed
 window; size and row-offset assertions fix it to six bytes and offsets 2/4.
 The sound state's saved values at `gDebug_nLastSoundID` (`0x8009B2C4`) and
@@ -59,14 +59,14 @@ does not prove the extent of every possible indexed write.
 
 The row/digit control labels stay unsigned bytes. Existing signed reads of
 `D_8009B2DC` and `D_8009B2E9` remain explicit, as do low-byte reads of values.
-`D_8009B2DE` remains a halfword and `D_8009B2EB` a byte of menu-state flags.
+`D_8009B2DE` remains a halfword and `gDebugMenu_bStep` a byte of menu-state flags.
 There are no tentative definitions, section-attribute changes, or new pins.
 
 ## Setup consumers and verification
 
 `DebugMenu_Init` now keeps the created text box as `DuelEffectChannel *`
 and writes its existing `field_5A`/`field_5B` members. The cursor object is
-`DisplayObject *`, consistent with every consumer of `D_8009B2E4`.
+`DisplayObject *`, consistent with every consumer of `gDebugMenu_pCursorQuad`.
 The four byte stores at offsets `0x45, 0x3D, 0x35, 0x2D` address byte 1
 within the existing `field_44`, `field_3C`, `field_34`, and `field_2C` words.
 They must remain byte stores, not whole-word colour assignments.

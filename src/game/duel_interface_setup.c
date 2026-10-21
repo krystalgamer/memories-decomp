@@ -19,7 +19,7 @@ void DebugMenu_Init(void)
     DisplayObject *object;
 
     D_8009B2B2 = 0x80;
-    D_8009B2EB = 0;
+    gDebugMenu_bStep = 0;
     gDebugMenu_bPage = DEBUG_MENU_PAGE_PRIMARY;
     /* The Japanese and European builds make neither the func_8003B6AC call
        nor the two text-box field stores. */
@@ -33,7 +33,7 @@ void DebugMenu_Init(void)
 #endif
     func_80039A14(text_box);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
-    D_8009B2E4 = object;
+    gDebugMenu_pCursorQuad = object;
     DisplayObject_InitializeGouraudQuad(object, 0);
     DISPLAY_OBJECT_WORD_BYTES(object->field_44)[1] = 0xC0;
     DISPLAY_OBJECT_WORD_BYTES(object->field_3C)[1] = 0xC0;

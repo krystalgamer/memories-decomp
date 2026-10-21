@@ -2085,6 +2085,9 @@ Model_SetSlotAmbient = 0x800595C8; // type:func
 
 Model_QueueTintRequestForAllParts = 0x80059AF8; // type:func
 gMain_bVBlankSoundPending = 0x8009B0C3;
+gDebug_nEditedBgmId = 0x8009B2CA;
+gDebug_nEditedCdSoundId = 0x8009B2CC;
+gDebug_nLastBgmId = 0x8009B2DA;
 
 Model_AdjustViewOrbit = 0x80058434; // type:func
 
