@@ -33,7 +33,8 @@ the total object size from the next mapped label, `gLibrary_State`.
 
 `gDuel_RitualResultCardId`, formerly `D_8009B1A0`, retains the signed low
 halfword of the ritual result;
-`D_8009B1C0` retains a display-object pointer. The initializer passes the
+`gDuel_pCardPreviewObject`, formerly `D_8009B1C0`, retains the card-preview
+display-object pointer. The initializer passes the
 former, still explicitly sign-extended through `s32`, to
 `Duel_MarkCreatedCardKnown(s32 card_id)`, formerly `func_80019CC8`.
 Placement independently passes its existing

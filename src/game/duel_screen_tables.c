@@ -7,7 +7,7 @@
    blob (#2602).
 
    gDuel_aCardSlotGroundPositions is the thirty X/Z pairs Duel_ProjectCardSlotScreenPositions projects through
-   the GTE, one per card slot, writing the biased result to D_800EA070. The
+   the GTE, one per card slot, writing the biased result to gDuel_aCardSlotScreenPositions. The
    pairs form a five-column grid at x = -140, -70, 0, 70 and 140.
    debug_effect_screen.c also reads slot 6's pair as halfwords 0xC/0xD.
    Projection and object creation supply their own height, 0 or -24;
@@ -18,7 +18,7 @@
    and debug screen because their exact code generation depends on halfword
    pointer arithmetic.
 
-   D_80090918 supplies the five Exodia card poses consumed by the retained
+   gDuel_ExodiaCardPoses supplies the five Exodia card poses consumed by the retained
    func_80018FEC candidate. Each card ID from 0x11 through 0x15 selects a
    record, whose first byte chooses one of the five shared display-object work
    slots and whose remaining bytes become object x/y after removing the
@@ -62,7 +62,7 @@ DuelFieldPosition gDuel_aCardSlotGroundPositions[DUEL_SCREEN_CARD_POSITION_COUNT
     { -140, 161 },
 };
 
-DuelExodiaCardPoseTable D_80090918 = {
+DuelExodiaCardPoseTable gDuel_ExodiaCardPoses = {
     {
         { 3, 104, 206 },
         { 2, 216, 206 },

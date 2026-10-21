@@ -115,7 +115,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
         header = '#include "duel_ritual_controller.h"\n'
         for symbol, correct, wrong in (
             ("gDuel_RitualResultCardId", "s16 *p", "s32 *p"),
-            ("D_8009B1C0", "DisplayObject **p", "u8 **p"),
+            ("gDuel_pCardPreviewObject", "DisplayObject **p", "u8 **p"),
             ("D_800EA128", "u16 (*p)[22]", "u16 (*p)[21]"),
         ):
             with self.subTest(symbol=symbol):
@@ -256,7 +256,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             + f'#include "{ROOT / "src/game/duel_effect.h"}"\n'
             + f'#include "{ROOT / "src/game/input.h"}"\n'
             + "s16 id(void) { return gDuel_RitualResultCardId; }\n"
-            "DisplayObject *object(void) { return D_8009B1C0; }\n"
+            "DisplayObject *object(void) { return gDuel_pCardPreviewObject; }\n"
             "u16 coordinate(void) { return D_800EA128[21]; }\n"
             "DuelRitualResult *result(void) { return &D_800E9EF0.ritual.result; }\n"
             "u16 selected(void) { return gDuel_wSelectedCardID; }\n"
@@ -275,7 +275,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             )
         result = self.run_command([str(tool(ROOT, "objdump")), "-r", str(obj)])
         self.assertEqual(result.returncode, 0, result.stderr)
-        for symbol in ("gDuel_RitualResultCardId", "D_8009B1C0"):
+        for symbol in ("gDuel_RitualResultCardId", "gDuel_pCardPreviewObject"):
             self.assertRegex(result.stdout, r"R_MIPS_GPREL16\s+" + symbol)
         for symbol in ("D_800EA128", "D_800E9EF0",
                        "gDuel_wSelectedCardID", "gInput_wPad1Pressed"):

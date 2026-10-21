@@ -8,7 +8,7 @@
  * satisfy two pieces. */
 s32 Duel_HasAllExodiaPieces(void);
 
-extern u8 D_8009B1ED;
+extern u8 gDuel_bDrawStepCountdown;
 
 void DuelScene_UpdateDrawResolution(void);
 

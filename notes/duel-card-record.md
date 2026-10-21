@@ -84,7 +84,7 @@ field-grid table.
 
 The full-table projector `Duel_ProjectCardSlotScreenPositions` loads the pair into GTE X/Z,
 supplies height 0, and writes separate biased screen outputs to
-`D_800EA070`. The single-X projector `Duel_ProjectCardSlotScreenX` supplies height -24.
+`gDuel_aCardSlotScreenPositions`. The single-X projector `Duel_ProjectCardSlotScreenX` supplies height -24.
 Field-card setup uses the typed pair for the factory's X/Z translation,
 whose Y is -24; debug effect setup reads slot 6's pair through halfword
 indices 0xC/0xD and supplies the same height. Height belongs to those

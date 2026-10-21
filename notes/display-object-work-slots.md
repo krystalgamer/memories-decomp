@@ -13,7 +13,7 @@ storage remain unchanged. No new semantic symbol name is assigned.
 | `DuelScene_UpdateCardUse` | Reads slots 0 and 1 as display objects, installs objects returned by `func_800291E0` and `Duel_CreateCardEffectOverlay`, modifies their render attributes, flags, scale halves and colour word, and releases both with `DisplayObject_ReleaseIfPresent`. |
 | `Main_RunTrade` | Stores the object returned by `DisplayObject_AcquireSlot` in slot 0, animates that same object, then releases it and clears the slot. The former `gTradeObj` macro was only a cast of the table's first word, not a distinct symbol. |
 | `DisplayObject_CopyWorkSlots` | Copies exactly five words starting at this address and appends a zero word to the destination. It does not allocate or release the objects. |
-| Retained `DuelScene_UpdateExodiaResult` | Stages five card display objects using the three-byte pose records at `D_80090918`, then indexes the slots to read each object's `+0x30/+0x32` position for a sparkle effect. |
+| Retained `DuelScene_UpdateExodiaResult` | Stages five card display objects using the three-byte pose records at `gDuel_ExodiaCardPoses`, then indexes the slots to read each object's `+0x30/+0x32` position for a sparkle effect. |
 
 The five-slot count describes this shared work window, not the length of the
 display-object pool. The candidate's initialization and sparkle loop both
@@ -23,7 +23,7 @@ The header checks the 20-byte pointer span and every newly named object-field
 offset used by these consumers.
 
 `duel_screen_tables.h` now records the corresponding source-table shape.
-`D_80090918` contains five `DuelExodiaCardPose` records selected by card IDs
+`gDuel_ExodiaCardPoses` contains five `DuelExodiaCardPose` records selected by card IDs
 `0x11` through `0x15`. Each record maps the card to a work-slot index and
 stores the x/y values with the `0x1A`/`0x1E` biases that `func_80018FEC`
 removes before starting motion. A separate trailing byte preserves the
