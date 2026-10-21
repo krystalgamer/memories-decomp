@@ -6,7 +6,7 @@
 #include "color.h"
 #include "model_apply_texture_tint.h"
 
-#define TEXTURE_TINT_RECT ((RECT *)&D_8009B470)
+#define TEXTURE_TINT_RECT ((RECT *)&gModel_sTextureTintRectX)
 #define TEXTURE_TINT_WORDS(buffer) ((u32 *)(buffer))
 
 #ifdef VERSION_EUROPE
@@ -30,16 +30,16 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
         }
 
         y = 0;
-        D_8009B470 = 0x280;
-        D_8009B472 = base + 8;
-        D_8009B474 = 0x100;
-        D_8009B476 = 4;
+        gModel_sTextureTintRectX = 0x280;
+        gModel_sTextureTintRectY = base + 8;
+        gModel_sTextureTintRectW = 0x100;
+        gModel_sTextureTintRectH = 4;
 
         do {
             {
                 s32 row = y + 8;
 
-                D_8009B472 = base + row;
+                gModel_sTextureTintRectY = base + row;
             }
             while (IsIdleGPU(3) != 0) {
             }
@@ -53,7 +53,7 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
                 *q = Color_TintBgr555Pixel(*q, (u8)arg1, (u16)arg2);
             }
 
-            D_8009B472 = base + y;
+            gModel_sTextureTintRectY = base + y;
             while (IsIdleGPU(3) != 0) {
             }
             while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
@@ -67,10 +67,10 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
     return;
 
 big:
-    D_8009B470 = 0x280;
-    D_8009B472 = base + 8;
-    D_8009B474 = 0x100;
-    D_8009B476 = 8;
+    gModel_sTextureTintRectX = 0x280;
+    gModel_sTextureTintRectY = base + 8;
+    gModel_sTextureTintRectW = 0x100;
+    gModel_sTextureTintRectH = 8;
     MoveImage(TEXTURE_TINT_RECT, 0x280, base);
 }
 #else
@@ -89,13 +89,13 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
             goto big;
         }
 
-        D_8009B470 = arg0 << 8;
-        D_8009B472 = 0xF8;
-        D_8009B474 = 0x100;
-        D_8009B476 = 4;
+        gModel_sTextureTintRectX = arg0 << 8;
+        gModel_sTextureTintRectY = 0xF8;
+        gModel_sTextureTintRectW = 0x100;
+        gModel_sTextureTintRectH = 4;
 
         do {
-            D_8009B472 = y + 0xF8;
+            gModel_sTextureTintRectY = y + 0xF8;
             while (IsIdleGPU(3) != 0) {
             }
             while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
@@ -108,7 +108,7 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
                 *q = Color_TintBgr555Pixel(*q, (u8)arg1, (u16)arg2);
             }
 
-            D_8009B472 = y + 0xF0;
+            gModel_sTextureTintRectY = y + 0xF0;
             while (IsIdleGPU(3) != 0) {
             }
             while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
@@ -122,10 +122,10 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
     return;
 
 big:
-    D_8009B472 = 0xF8;
-    D_8009B474 = 0x100;
-    D_8009B470 = arg0 << 8;
-    D_8009B476 = 8;
+    gModel_sTextureTintRectY = 0xF8;
+    gModel_sTextureTintRectW = 0x100;
+    gModel_sTextureTintRectX = arg0 << 8;
+    gModel_sTextureTintRectH = 8;
     MoveImage(TEXTURE_TINT_RECT, arg0 << 8, 0xF0);
 }
 #endif

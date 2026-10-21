@@ -104,10 +104,10 @@ extern u8 D_800F569F[];
 /* One consumer, Model_ApplyTextureTint. These four contiguous halfwords are filled
  * as a RECT for StoreImage2, LoadImage2, and MoveImage. The linker assignments
  * establish the scratch storage, but no subsystem header owns it. */
-extern s16 D_8009B470;
-extern s16 D_8009B472;
-extern s16 D_8009B474;
-extern s16 D_8009B476;
+extern s16 gModel_sTextureTintRectX;
+extern s16 gModel_sTextureTintRectY;
+extern s16 gModel_sTextureTintRectW;
+extern s16 gModel_sTextureTintRectH;
 
 /* One consumer, func_8005C374.c, which writes its three parameters to these
  * contiguous bytes. Their individual roles remain unknown, and no movie
@@ -525,9 +525,9 @@ extern DuelEffectRequest *G32 D_8009B264;
 #include "game/main_mode_state.h"
 
 #ifdef D_8009B2F8_AS_ARRAY
-extern u8 D_8009B2F8[];
+extern u8 gBuildDeck_bConfirmMode[];
 #else
-extern u8 D_8009B2F8;
+extern u8 gBuildDeck_bConfirmMode;
 #endif
 #ifdef D_8009B370_AS_BYTE_ARRAY
 extern u8 D_8009B370[];

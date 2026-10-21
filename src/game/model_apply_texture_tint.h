@@ -17,8 +17,8 @@
  * in one MoveImage instead; notes/color-transform-runtime.md measures that
  * difference.
  *
- * Its four-halfword RECT scratch at D_8009B470..D_8009B476 has no subsystem
- * owner and is declared centrally in unmatched.h.
+ * Its RECT scratch is the four halfwords gModel_sTextureTintRectX/Y/W/H,
+ * declared centrally in unmatched.h; this function is their only user.
  *
  * model_slot_control.c is the only caller and supplies the tint and level from
  * the slot's field_E0C and field_E0A. */

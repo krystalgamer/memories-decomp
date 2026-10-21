@@ -50,7 +50,7 @@
  * confirm sound plays and, if the deck has an open slot
  * (BuildDeck_HasOpenDeckSlot), bit 14 of the state word at +0x633E is set, a
  * confirmation box is created (the wide
- * one in the 640-wide mode selected by bit 7 of D_8009B2F8, the narrow one
+ * one in the 640-wide mode selected by bit 7 of gBuildDeck_bConfirmMode, the narrow one
  * otherwise, which is then waited on until its field_30 pointer is filled),
  * Fade_SetTargetLevel(0xA0, 2) runs and D_8009B140 is set from D_8009AF74[1] - 8.
  * With bit 14 set the effect channel at D_800EB0F8 is polled: once its flags
@@ -78,7 +78,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
         if (BuildDeck_HasOpenDeckSlot() != 0) {
             /* The mode byte is read before the flag store, as retail
                schedules it. */
-            mode = D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
+            mode = gBuildDeck_bConfirmMode & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
             workspace->state |= 0x4000;
             if (mode) {
                 ((DuelEffectChannel *)TextBox_CreateFlagged(
@@ -106,7 +106,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
         if ((*(u32 *)&box->flags_34 & BUILD_DECK_CONFIRM_COMPLETION_MASK) ==
             TEXT_BOX_FLAG_DONE) {
             TextBox_Destroy(box);
-            if (!(D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) &&
+            if (!(gBuildDeck_bConfirmMode & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) &&
                 gDialog_bChoice != 0) {
                 workspace->state &= 0xBFFF;
             } else {
