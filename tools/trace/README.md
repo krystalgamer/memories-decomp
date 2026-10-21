@@ -87,6 +87,13 @@ purpose or expected output name, rename the script too so
 
 ## Writing one
 
+- Keep the human task short: one route of a minute or two, a fixed window
+  that ends the trace by itself, and a context section of one or two lines.
+  A trace that needs a full duel and a page of notes is tiring to run and
+  rarely comes back.
+- Print each logged row to the console the moment it happens, with a time
+  stamp, as well as in the final document. Rows printed only at the end
+  cannot be matched to what was on screen.
 - Name the doubt in a header comment. A script that cannot say which symbol it
   would let us name is not ready to be written.
 - Guard every pointer before dereferencing it. A bad read crashes the emulator
