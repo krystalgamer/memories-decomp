@@ -7,10 +7,10 @@
  * The animated-battle frame uses the completion sentinel return value. */
 s32 ModelDebug_UpdateController(void);
 
-extern char D_80011518[];
-extern char D_8001152C[];
-extern char D_80011540[];
-extern char D_80011554[];
-extern char D_80011564[];
+extern char gModelDebug_szLoadStageFormat[];
+extern char gModelDebug_szLoadModel0Format[];
+extern char gModelDebug_szLoadModel1Format[];
+extern char gModelDebug_szSlotFlagsFormat[];
+extern char gModelDebug_szStageFormat[];
 
 #endif
