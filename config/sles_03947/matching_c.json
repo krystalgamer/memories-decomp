@@ -5801,7 +5801,7 @@
       "address": "0x8005D29C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x44",
-      "source": "src/game/func_80058DD8.c"
+      "source": "src/game/model_get_slot_readiness.c"
     },
     {
       "address": "0x8005D2E0",

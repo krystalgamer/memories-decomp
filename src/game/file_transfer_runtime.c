@@ -537,7 +537,7 @@ void File_ServiceTransfers(s32 arg0)
 }
 
 /* SD_ConfigureTransferPhase is a transfer-phase callback of the same family as
-   func_80057544 and func_80057728: File_RequestSecondarySlot below installs it through
+   Model_LoadAuxiliaryPackageStage and func_80057728: File_RequestSecondarySlot below installs it through
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first
    argument is the descriptor that entry point fills in. It programs the same
    fields the other two do -- the value_08/value_0C source window,

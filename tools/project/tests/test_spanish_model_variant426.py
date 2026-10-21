@@ -328,7 +328,7 @@ sizeof(Mesh426State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
                           (ROOT / "tmp/project-build/SLES_039.51.map").read_text(), re.M)]
         script = (ROOT / "tmp/splat/sles_03951/sles_03951.ld").read_text()
         addresses = set(bindings.values())
-        for name in ("Model_LoadMonsterMerge", "func_80056D7C", "Model_InitSlot", "func_800559D4"):
+        for name in ("Model_LoadMonsterMerge", "Model_LoadMonsterMergeStage", "Model_InitSlot", "func_800559D4"):
             address, = [a for a, row in inventory.items() if row["name"] == name]
             self.assertEqual(inventory[address]["status"], "matching_c")
             addresses.add(address)

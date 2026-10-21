@@ -43,7 +43,7 @@ SU destination.
 
 The
 [`Model_LoadMonsterMerge`](../src/game/model_slot_control.c) source requests
-one `0x114`-sector record from `MODEL.MRG` and installs `func_80056D7C` as its
+one `0x114`-sector record from `MODEL.MRG` and installs `Model_LoadMonsterMergeStage` as its
 phase callback. The callback has seventeen stage entries. Sixteen consume
 bytes and the last finalizes the staged model metadata.
 

@@ -1292,7 +1292,7 @@ segments:
     - game/model_state_getters
   - - 313056
     - c
-    - game/func_80058DD8
+    - game/model_get_slot_readiness
   - - 313124
     - c
     - game/model_get_frame_step

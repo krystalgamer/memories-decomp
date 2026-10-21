@@ -2133,3 +2133,11 @@ gModel_Slot1PrimaryDataAddress = 0x80010020;
 gModel_Slot0VariantDataAddress = 0x80010024;
 
 gModel_Slot1VariantDataAddress = 0x80010028;
+
+Model_LoadMonsterMergeStage = 0x80056D7C; // type:func
+
+Model_LoadAuxiliaryPackageStage = 0x80057544; // type:func
+
+Model_LoadSpecialBattlePackageStage = 0x800577B0; // type:func
+
+Model_GetSlotReadiness = 0x80058DD8; // type:func
