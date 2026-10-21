@@ -454,7 +454,7 @@ segments:
       - [0x3D79C, asm, generated/spanish_8004cf9c]
       - [0x3DDB8, c, game/gpu_packets]
       - [0x3E154, c, game/model_word_memory]
-      - [0x3E1A4, c, game/european/func_8005D994]
+      - [0x3E1A4, c, game/european/model_queue_relative_camera_orbit]
       - [0x3E3B4, c, game/european/model_keyframe_update]
       - [0x3F018, c, game/european/model_effect_state]
       - [0x4042C, c, game/european/model_init_slot]

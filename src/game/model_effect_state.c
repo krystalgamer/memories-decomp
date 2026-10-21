@@ -16,7 +16,7 @@
 #include "model_keyframe_spline.h"
 #include "model_transfer_flags.h"
 #include "model_transfer_state.h"
-#include "func_8005D994.h"
+#include "model_queue_relative_camera_orbit.h"
 #include "model_cubic_coefficients.h"
 #include "func_80058DD8.h"
 
@@ -429,8 +429,8 @@ void Model_SetEffectKeyBatchingEnabled(int value)
 }
 
 /* Applies the same slot-dependent camera-distance adjustment, then queues
-   relative orbit endpoints through func_8005D994. */
-void func_8005F5C8(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
+   relative orbit endpoints through Model_QueueRelativeCameraOrbit. */
+void Model_QueueCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
     ModelEffectCoefficient *rec = &gModel_aCameraOrbitPresets[arg1];
     s32 s0;
 
@@ -457,10 +457,10 @@ void func_8005F5C8(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
         }
     }
 
-    func_8005D994(arg0, s0, rec->angle, rec->field_04, offset, arg3);
+    Model_QueueRelativeCameraOrbit(arg0, s0, rec->angle, rec->field_04, offset, arg3);
 }
 
-void func_8005F714(s32 a, s32 b, s32 c)
+void Model_QueueEffectEndpointPair(s32 a, s32 b, s32 c)
 {
     ModelEffectEndpoint *x =
         a < 0 ? 0 : &gModel_aEffectEndpoints[a];
@@ -481,7 +481,7 @@ void func_8005F714(s32 a, s32 b, s32 c)
     Model_ApplyEffectKeyQueueCommand(flag, x, y, c);
 }
 
-void func_8005F7B0(s32 value, s32 arg)
+void Model_QueueCameraShake(s32 value, s32 arg)
 {
     /* The aligned array keeps retail's four halfword stores; a packed local
        would expand them into byte stores. */

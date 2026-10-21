@@ -64,7 +64,7 @@
 #include "sound_pending_entries.h"
 #include "model_load_step.h"
 #include "model_slot_state_updates.h"
-#include "func_8005D994.h"
+#include "model_queue_relative_camera_orbit.h"
 #include "file_transfer.h"
 #include "high_memory_addresses.h"
 #include "../psyq/libgs.h"
@@ -203,8 +203,8 @@ void Model_UpdateAnimatedBattle(void)
         } else if (Model_IsEffectKeyQueueEmpty() != 0) {
             Model_RequestCameraMove(0);
             Model_SetEffectKeyBatchingEnabled(1);
-            func_8005F5C8(0, 0, 0, -0xC);
-            func_8005F714(0, 0, 0x4000);
+            Model_QueueCameraOrbitFromPreset(0, 0, 0, -0xC);
+            Model_QueueEffectEndpointPair(0, 0, 0x4000);
             gModel_bPresentationPhase++;
         }
         break;
@@ -213,8 +213,8 @@ void Model_UpdateAnimatedBattle(void)
             s16 *r = (s16 *)Model_GetCurrentEffectKeyAddress();
             if (r != 0 && r[3] == 2) {
                 Model_SetEffectKeyBatchingEnabled(1);
-                func_8005F5C8(0, 0, 0, -0xC);
-                func_8005F714(0, 0, 0x4000);
+                Model_QueueCameraOrbitFromPreset(0, 0, 0, -0xC);
+                Model_QueueEffectEndpointPair(0, 0, 0x4000);
                 gModel_bActiveSlotIndex = 0;
                 handlers[0](gModel_aSlots[0].field_DEC, 0);
                 gModel_aSlots[0].field_E15 = 0;
@@ -253,8 +253,8 @@ void Model_UpdateAnimatedBattle(void)
             D_8009AFE9 += Model_GetFrameStep();
             if (D_8009AFE9 >= 0x3C && gModel_aSlots[1].field_E1F != 0) {
                 Model_SetEffectKeyBatchingEnabled(1);
-                func_8005F5C8(1, 0, 0, -0xA);
-                func_8005F714(1, 1, 0x4000);
+                Model_QueueCameraOrbitFromPreset(1, 0, 0, -0xA);
+                Model_QueueEffectEndpointPair(1, 1, 0x4000);
                 gModel_bPresentationPhase++;
             }
         }
@@ -321,7 +321,7 @@ void Model_UpdateAnimatedBattle(void)
                 if ((u32)kind < 2) {
                     off = off / 2;
                 }
-                func_8005F5C8(0, kind, 0, off);
+                Model_QueueCameraOrbitFromPreset(0, kind, 0, off);
                 gModel_bPresentationPhase++;
             }
         }
@@ -584,7 +584,7 @@ void Model_UpdateAnimatedBattle(void)
                     gModel_bPresentationPhase = 0x19;
                     D_8009AFE9 = 0;
                 } else {
-                    func_8005F714(-1, f, 0x4000);
+                    Model_QueueEffectEndpointPair(-1, f, 0x4000);
                     Model_SetCameraTargetSlots(-1, f);
                     Model_ControlSlotAnimation(f, 7, 1);
                     gModel_bPresentationPhase++;
@@ -784,7 +784,7 @@ check_ready:
         if (SD_GetStatusFlags() & 0x80) {
             offset.vy = -2000;
             Model_SeekSlotAnimation(0, 0, 10);
-            func_8005D994(0, 2000, 0x100, 0x100, &offset, 110);
+            Model_QueueRelativeCameraOrbit(0, 2000, 0x100, 0x100, &offset, 110);
             gModel_bPresentationPhase++;
         }
         break;
@@ -867,7 +867,7 @@ check_ready:
     case 11:
         if (slot->field_E06 >= 0x8C0) {
             offset.vy = -1500;
-            func_8005D994(0, 3500, 0, -0x80, &offset, 40);
+            Model_QueueRelativeCameraOrbit(0, 3500, 0, -0x80, &offset, 40);
             gModel_bPresentationPhase++;
         }
         break;

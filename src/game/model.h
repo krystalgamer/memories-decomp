@@ -651,7 +651,7 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
 #endif
 
 /* One entry of the eight-byte table at gModel_aCameraOrbitPresets.  Every access in the tree
- * is sixteen bits wide: func_8005F5C8 reads field_00, Model_SetCameraOrbitFromPreset reads
+ * is sixteen bits wide: Model_QueueCameraOrbitFromPreset reads field_00, Model_SetCameraOrbitFromPreset reads
  * field_00, angle and field_04 of one record, and Model_GetSlotCameraPresetYaw reads
  * `angle` and wraps it modulo a full turn.  The retail bytes agree -- the
  * first entries are 02BC / FE00 / FF00 / 0000 and 02BC / 0200 / FF00 / 0000,

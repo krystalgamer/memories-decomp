@@ -2109,3 +2109,11 @@ Model_SetEffectKeyBatchingEnabled = 0x8005F588; // type:func
 gModel_bEffectKeyPreparationPending = 0x8009B079;
 
 gModel_nEffectKeyBatchOrdinal = 0x8009B07A;
+
+Model_QueueRelativeCameraOrbit = 0x8005D994; // type:func
+
+Model_QueueCameraOrbitFromPreset = 0x8005F5C8; // type:func
+
+Model_QueueEffectEndpointPair = 0x8005F714; // type:func
+
+Model_QueueCameraShake = 0x8005F7B0; // type:func

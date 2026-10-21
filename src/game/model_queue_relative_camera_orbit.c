@@ -4,10 +4,10 @@
 #include "../psyq/memory.h"
 #include "model.h"
 #include "model_transfer_flags.h"
-#include "func_8005D994.h"
+#include "model_queue_relative_camera_orbit.h"
 #include "model_effect_state.h"
 
-void func_8005D994(
+void Model_QueueRelativeCameraOrbit(
     s32 arg0,
     s32 arg1,
     s32 arg2,

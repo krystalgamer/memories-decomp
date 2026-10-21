@@ -5,7 +5,7 @@
 #include "../../game/model_slot_control.h"
 #include "../../game/model_graphics_state.h"
 #include "../../game/model_slot_queries.h"
-#include "../../game/func_8005D994.h"
+#include "../../game/model_queue_relative_camera_orbit.h"
 
 typedef struct {
     u16 frames;
