@@ -17,7 +17,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/duel_reward_setup.c"
+SOURCE = REPOSITORY / "src/game/card_list_setup.c"
 START = """
 .text
 .globl _start
@@ -30,7 +30,7 @@ _start:
 """
 
 WITNESS = r"""
-#include "src/game/duel_reward_setup.h"
+#include "src/game/card_list_setup.h"
 
 enum {
     VALID_CARD_COUNT = 722, SLOT_COUNT = 16, TABLE_OFFSET = 0x56C,
@@ -87,7 +87,7 @@ static s32 check_case(void)
         expected[GUARD_SIZE + TABLE_OFFSET + i * 2 + 1] = (u8)(value >> 8);
     }
 
-    func_80032370();
+    Library_PruneRecentCardDrops();
     for (i = GUARD_SIZE + TABLE_OFFSET; i < GUARD_SIZE + TABLE_OFFSET + 32; i++)
         if (guarded_arena[i] != expected[i]) return 21;
     for (i = 0; i < TOTAL_SIZE; i++)
@@ -178,11 +178,11 @@ class RewardCompactionTests(unittest.TestCase):
             directory = Path(temporary)
             environment = os.environ.copy()
             environment["TMPDIR"] = str(directory)
-            # The unit also holds the reward-table transfer, whose graphics
+            # The unit also holds the shared graphics transfer, whose graphics
             # headers are PSX-only; compile the compaction pass on its own
             # against the header that declares it.
             unit = SOURCE.read_text()
-            text = ('#include "../types.h"\n#include "duel_reward_setup.h"\n' +
+            text = ('#include "../types.h"\n#include "card_list_setup.h"\n' +
                     unit[unit.index("/*\n * Reward-drop compaction."):])
             source = directory / "reward-compaction.c"
             if mutation:

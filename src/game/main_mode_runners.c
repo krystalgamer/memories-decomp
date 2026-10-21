@@ -21,7 +21,7 @@
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
-#include "duel_reward_setup.h"
+#include "card_list_setup.h"
 #include "display_object_work_slots.h"
 #include "../unmatched.h"
 #include "main_mode_state.h"
@@ -122,7 +122,7 @@ void Main_RunTrade(void)
 
     if ((D_8009B26C & 0x40) == 0) {
         D_8009B26C = D_8009B26C | 0x40;
-        func_80032328();
+        CardList_LoadSharedGraphics();
         SD_BGMPlay(0x72D0);
         MainMenu_InitTradeScreen();
         gMain_bModeRunnerStep = 1;

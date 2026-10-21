@@ -206,7 +206,7 @@ Campaign_TestStoryFlag = 0x8002CD38; // type:func size:0x3C
 Library_UpdateCardUsedFlag = 0x8002CD74; // type:func size:0x64
 BuildDeck_RecountDeckCards = 0x80032204; // type:func size:0xA0
 BuildDeck_AddCard = 0x800322A4;
-func_80032370 = 0x800325B0; // type:func size:0x88
+Library_PruneRecentCardDrops = 0x800325B0; // type:func size:0x88
 BuildDeck_InitScreen = 0x80032638;
 BuildDeck_TestAndSetInitialized = 0x80032E48; // type:func size:0x28
 BuildDeck_CompareSortKeyDescending = 0x80032E70; // type:func size:0x74
@@ -2073,3 +2073,7 @@ gModel_dwTpageBlendRateBits = 0x8009BF60;
 gModel_bBlendRateActive = 0x8009BF6D;
 gModel_bPresentationTimer = 0x8009BF71;
 gModel_szWhyTrace = 0x8009BF7C;
+
+CardList_LoadSharedGraphicsStage = 0x8003236C; // type:func
+
+CardList_LoadSharedGraphics = 0x80032568; // type:func

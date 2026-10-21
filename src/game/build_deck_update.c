@@ -16,7 +16,7 @@
 #include "build_deck_update.h"
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"
-#include "duel_reward_setup.h"
+#include "card_list_setup.h"
 #include "build_deck_deck_capacity.h"
 #include "dialog_choice.h"
 #include "../unmatched.h"
@@ -60,7 +60,7 @@
  * from +0x6340 and Fade_SetTargetLevel(0xFF, 2) runs. Without bit 14 the CARD_COUNT
  * trunk bytes at +0x5D98 are copied after the DECK_SIZE halfwords of the
  * object at +0. Those halfwords are rebuilt from the 0x10-byte entries at
- * +0x2D54 whose byte 9 is set, func_80032370 runs and the state word is
+ * +0x2D54 whose byte 9 is set, Library_PruneRecentCardDrops runs and the state word is
  * cleared. */
 void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
 {
@@ -134,7 +134,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
             slot++;
             entry++;
         }
-        func_80032370();
+        Library_PruneRecentCardDrops();
         workspace->state = 0;
     }
 }

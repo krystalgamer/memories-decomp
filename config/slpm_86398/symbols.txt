@@ -1253,8 +1253,8 @@ RotAverage4 = 0x800866A0;
 Library_CreateFadingCardOutline = 0x8002A994;
 DuelResult_LoadPackageStage = 0x8002F268;
 BuildDeck_DrawCardListPage = 0x800315AC;
-func_80032328 = 0x80032090;
-func_80032370 = 0x800320D8;
+CardList_LoadSharedGraphics = 0x80032090;
+Library_PruneRecentCardDrops = 0x800320D8;
 gDuel_awRecentCardDrops = 0x801D07BC;
 Model_DrawFogTexturedTriangles = 0x80033B18;
 func_8006151C = 0x8004FDEC;
@@ -2182,3 +2182,5 @@ gFile_szPositionFormat = 0x80010038;
 gModel_awStageSlotModelId = 0x800F2F18;
 gDebugMenu_szMessageEditorFormat = 0x80090B8C;
 gDebugMenu_szCampaignEditorFormat = 0x80090BA4;
+
+CardList_LoadSharedGraphicsStage = 0x80031EEC; // type:func

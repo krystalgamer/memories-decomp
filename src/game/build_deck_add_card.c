@@ -27,7 +27,7 @@
    The four former sources were recorded at gcc_2_8_1_g0_split, gcc_2_8_1_g0
    and gcc_2_8_1_g8. Every member compiles to an identical object at
    gcc_2_8_1_g0_split. Bounded below by the card-list text boxes, which need
-   gcc_2_8_1_g0, and above by func_80032184 at gcc_2_8_1_cc_g8_as_g0_split. */
+   gcc_2_8_1_g0, and above by CardList_LoadSharedGraphicsStage at gcc_2_8_1_cc_g8_as_g0_split. */
 
 void BuildDeck_AddCard(s32 arg0, s32 arg1)
 {
