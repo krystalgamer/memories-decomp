@@ -1538,7 +1538,7 @@ gFile_szModelMrgPath = 0x80011484;
 Model_LoadMonsterMergeStage = 0x80059BAC;
 Model_LoadAuxiliaryPackageStage = 0x8005A374;
 Model_LoadSpecialBattlePackageStage = 0x8005A5E0;
-D_80091008 = 0x80090F84;
+gModel_abBackgroundRecords = 0x80090F84;
 Model_UpdateAnimationUnit = 0x8005E7A8;
 gModelAnim_szAssertFormat = 0x800116B4;
 gModelAnim_szSourceFileName = 0x800116DC;
@@ -2178,3 +2178,5 @@ gModel_Slot0VariantDataAddress = 0x80010024;
 gModel_Slot1VariantDataAddress = 0x80010028;
 
 Model_SetHandlerCallbackState = 0x8004EBE8; // type:func
+gFile_szPositionFormat = 0x80010038;
+gModel_awStageSlotModelId = 0x800F2F18;

@@ -2339,7 +2339,7 @@ void Model_ResetSceneView(void)
 }
 
 /* The Japanese build sets only the slot record, without the three
-   gModel_awSlotModelIds/D_8009B48E/D_8009B490 mirrors. */
+   gModel_awSlotModelIds/gModelDebug_abSlotAfFlags/gModelDebug_abSlotGfFlags mirrors. */
 void Model_SetSlotProperties(s32 idx, ...)
 {
     va_list ap;
@@ -2371,18 +2371,18 @@ void Model_SetSlotProperties(s32 idx, ...)
         if (p4 >= 0) {
             gModel_aSlots[idx].field_DFE = (p4 != 0);
 #ifndef VERSION_JAPAN
-            D_8009B48E[idx] = (p4 != 0);
+            gModelDebug_abSlotAfFlags[idx] = (p4 != 0);
 #endif
         }
         if (p5 >= 0) {
             gModel_aSlots[idx].field_DFF = (p5 != 0);
 #ifndef VERSION_JAPAN
-            D_8009B490[idx] = (p5 != 0);
+            gModelDebug_abSlotGfFlags[idx] = (p5 != 0);
 #endif
         }
     } else {
         gModel_pBackgroundRecord =
-            (ModelBackgroundRecord *)&D_80091008[D_800F5678[0] * 0xB2];
+            (ModelBackgroundRecord *)&gModel_abBackgroundRecords[gModel_awStageSlotModelId[0] * 0xB2];
     }
     gModel_bSceneMode = 15;
 }

@@ -5,7 +5,7 @@
 #include "model_graphics_state.h"
 
 ModelBackgroundRecord *G32 gModel_pBackgroundRecord __attribute__((section(".sdata"))) =
-    (ModelBackgroundRecord *)D_80091008;
+    (ModelBackgroundRecord *)gModel_abBackgroundRecords;
 u16 gModel_wProjectionDistance __attribute__((section(".sdata"))) = 0x012C;
 s16 gModel_wBackgroundScrollX __attribute__((section(".sdata"))) = 0;
 s16 gModel_wBackgroundOffsetY __attribute__((section(".sdata"))) = 0;

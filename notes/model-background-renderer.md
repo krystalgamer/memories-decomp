@@ -25,7 +25,7 @@ conversion, not an inferred alternate ABI.
 
 The selected model record is the complete `0xB2` bytes described by
 `model_graphics_state.h`. `Model_SetSlotProperties`, in
-`model_scene_controllers.c`, selects it from `D_80091008` using stride `0xB2`.
+`model_scene_controllers.c`, selects it from `gModel_abBackgroundRecords` using stride `0xB2`.
 The owning `model_record_tables.c` defines 1,248 bytes: seven complete
 records and two trailing bytes. Their initialized texture depth codes are
 0 or 1, and their tile periods are 128 or 256.
@@ -63,7 +63,7 @@ allocating a second handle. The declaration in `model_graphics_state.h`
 forward-declares the record tag so unrelated graphics users need not import
 the complete model-background layout.
 
-The initializer selects the start of `D_80091008`, and
+The initializer selects the start of `gModel_abBackgroundRecords`, and
 `Model_SetSlotProperties` selects `index * 0xB2` bytes into the same backing.
 Those two producer boundaries retain explicit byte-to-record conversions.
 The backing stays exactly 1,248 bytes: seven complete `0xB2` records and two

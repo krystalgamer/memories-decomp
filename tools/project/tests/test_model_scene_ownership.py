@@ -288,7 +288,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
         self.assertNotIn("sModelGraphicsState_PadA7", symbols.stdout)
         script = self.scratch / "storage.ld"
         script.write_text(
-            "D_80091008 = 0x80091008;\n"
+            "gModel_abBackgroundRecords = 0x80091008;\n"
             "D_8009AFA6 = D_8009AFA4 + 2;\n"
             "SECTIONS { .sdata 0x8009AF88 : { *(.sdata) } }\n"
         )
@@ -316,7 +316,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
         consumer = self.build_object(source, "interior")
         script = self.scratch / "missing-alias.ld"
         script.write_text(
-            "D_80091008 = 0x80091008;\n"
+            "gModel_abBackgroundRecords = 0x80091008;\n"
             "SECTIONS { .text 0x80050000 : { *(.text) }\n"
             ".sdata 0x8009AF88 : { *(.sdata) } }\n"
         )

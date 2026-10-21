@@ -16,7 +16,7 @@
  * source reads. The C owner remains volatile and in .sdata for the default
  * view. */
 /* Pointer to the active 0xB2-byte model record. Model_SetSlotProperties
- * selects it from D_80091008; model view/update code reads fields through it.
+ * selects it from gModel_abBackgroundRecords; model view/update code reads fields through it.
  * The background renderer reads through +0xB1, including texture metadata,
  * and reads this pointer before checking its model slot's active byte.
  * The complete record belongs to model_background.h; only byte-backed

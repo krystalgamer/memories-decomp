@@ -71,7 +71,7 @@ struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord =
 s8 gModel_bPresentationPhase;
 u8 gModelDebug_bSelectedDigit;
 s16 gModel_awSlotModelIds[3];
-u8 D_8009B48E[2], D_8009B490[2];
+u8 gModelDebug_abSlotAfFlags[2], gModelDebug_abSlotGfFlags[2];
 u16 gInput_wPad1Pressed, gInput_wPad2Pressed, gInput_wPad1Repeat, gInput_wPad1Held;
 volatile u32 D_8009B0F4_abs;
 u32 D_8009B134_abs;
@@ -176,7 +176,7 @@ void Model_SetSlotProperties(s32 slot, ...)
         a = __builtin_va_arg(ap, s32); b = __builtin_va_arg(ap, s32);
         c = __builtin_va_arg(ap, s32); d = __builtin_va_arg(ap, s32);
         CHECK(a == -1 && b == -1);
-        CHECK(c == D_8009B48E[slot] && d == D_8009B490[slot]);
+        CHECK(c == gModelDebug_abSlotAfFlags[slot] && d == gModelDebug_abSlotGfFlags[slot]);
     }
     __builtin_va_end(ap);
     CHECK(id == (u16)gModel_awSlotModelIds[slot]);
@@ -219,7 +219,7 @@ void observe_print(char *format, s32 a, s32 b)
         CHECK(format == gModelDebug_szNormalColor);
     } else if (display_cursor == 4 || display_cursor == 10) {
         side = display_cursor == 10;
-        CHECK(format == gModelDebug_szSlotFlagsFormat && a == D_8009B48E[side] && b == D_8009B490[side]);
+        CHECK(format == gModelDebug_szSlotFlagsFormat && a == gModelDebug_abSlotAfFlags[side] && b == gModelDebug_abSlotGfFlags[side]);
     } else if (display_cursor == 5) CHECK(format == gModelDebug_szVersusSeparator);
     else if (display_cursor == 11) CHECK(format == gModelDebug_szLineBreak);
     else CHECK(format == gModelDebug_szStageFormat && a == (u16)gModel_awSlotModelIds[2] &&
@@ -244,8 +244,8 @@ static void reset(void)
     gModel_bPresentationPhase = 0; gModelDebug_bSelectedDigit = 0;
     D_8009B004.word = 0x0123BEEF; gModelDebug_Display.word = 0xABCDEF01;
     gModel_awSlotModelIds[0] = 123; gModel_awSlotModelIds[1] = 456; gModel_awSlotModelIds[2] = 0;
-    D_8009B48E[0] = D_8009B48E[1] = 0;
-    D_8009B490[0] = D_8009B490[1] = 0;
+    gModelDebug_abSlotAfFlags[0] = gModelDebug_abSlotAfFlags[1] = 0;
+    gModelDebug_abSlotGfFlags[0] = gModelDebug_abSlotGfFlags[1] = 0;
     gInput_wPad1Pressed = gInput_wPad2Pressed = gInput_wPad1Repeat = gInput_wPad1Held = 0;
     D_8009B0F4_abs = D_8009B134_abs = 0;
     event_count = print_count = display_cursor = sample_cursor = sample_count = 0;
@@ -347,11 +347,11 @@ int main(void)
         }
     for (i = 0; i < 16; i++) {
         reset(); gInput_wPad1Pressed = i;
-        D_8009B48E[0] = D_8009B48E[1] = 254;
-        D_8009B490[0] = D_8009B490[1] = 255;
+        gModelDebug_abSlotAfFlags[0] = gModelDebug_abSlotAfFlags[1] = 254;
+        gModelDebug_abSlotGfFlags[0] = gModelDebug_abSlotGfFlags[1] = 255;
         CHECK(run() == 0);
-        CHECK(D_8009B48E[0] == (254 ^ !!(i & 4)) && D_8009B48E[1] == (254 ^ !!(i & 8)));
-        CHECK(D_8009B490[0] == (255 ^ !!(i & 1)) && D_8009B490[1] == (255 ^ !!(i & 2)));
+        CHECK(gModelDebug_abSlotAfFlags[0] == (254 ^ !!(i & 4)) && gModelDebug_abSlotAfFlags[1] == (254 ^ !!(i & 8)));
+        CHECK(gModelDebug_abSlotGfFlags[0] == (255 ^ !!(i & 1)) && gModelDebug_abSlotGfFlags[1] == (255 ^ !!(i & 2)));
     }
     reset(); gInput_wPad1Pressed = 0x10;
     CHECK(run() == 0 && event_count == 5);
@@ -393,7 +393,7 @@ class ModelDebugControllerTests(unittest.TestCase):
                 edits = {
                     "exit": ("gModel_bPresentationPhase == -2", "gModel_bPresentationPhase == -3"),
                     "digit": ("+ 11) % 10", "+ 12) % 10"),
-                    "toggle": ("D_8009B48E[0] ^= 1", "D_8009B48E[0] ^= 2"),
+                    "toggle": ("gModelDebug_abSlotAfFlags[0] ^= 1", "gModelDebug_abSlotAfFlags[0] ^= 2"),
                 }
                 if mutation == "stage":
                     old, new = ("Model_SetSlotProperties(2, (u16)gModel_awSlotModelIds[2])",

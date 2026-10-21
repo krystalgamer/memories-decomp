@@ -246,8 +246,8 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             " if ((u32)&gModel_CameraCoordinateUnit.matrix - (u32)&gModel_CameraCoordinateUnit != 4) return 4;\n"
             " GsSetLsMatrix(Model_GetLightSourceMatrix());\n"
             " if (observed_matrix != &gGraphics_LightSourceMatrix) return 5;\n"
-            " for (i = 0; i < 7; i++) if (!supported(D_80091008 + i * 0xB2)) return 6;\n"
-            " for (i = 0; i < 0xB2; i++) record.bytes[i] = D_80091008[i];\n"
+            " for (i = 0; i < 7; i++) if (!supported(gModel_abBackgroundRecords + i * 0xB2)) return 6;\n"
+            " for (i = 0; i < 0xB2; i++) record.bytes[i] = gModel_abBackgroundRecords[i];\n"
             " gModel_pBackgroundRecord = (struct ModelBackgroundRecord *)record.bytes;\n"
             + (" *(u16 *)((u8 *)gModel_pBackgroundRecord + 0xA8) |= 0x6000;\n" if corrupt_record else "")
             + " if (!supported((u8 *)gModel_pBackgroundRecord)) return 7;\n"
