@@ -152,7 +152,7 @@ void NameEntry_Init(void)
     DisplayObject_Reset();
     D_8016D400 = 0;
     D_8016D403 = 0;
-    D_8016D408 = 0;
+    gNameEntry_bGlyphSequence = 0;
     gNameEntry_pNameBuffer = gSaveData_aPlayerNameSjis;
     Text_SjisToGlyphCodes(D_801B125A, gSaveData_aPlayerNameSjis,
                   SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
@@ -220,7 +220,7 @@ void NameEntry_Init(void)
     DisplayObject_SelectOrderingTable1(obj);
     DisplayObject_SetDepthOffset(obj, 10);
     obj->field_4C = (s32)NameEntry_DrawSelectionFrame;
-    D_8016D404 = (SelectionFrame *)obj;
+    gNameEntry_pSelectionFrame = (SelectionFrame *)obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
 #ifdef VERSION_EUROPE
     DisplayObject_ConfigureScreenSprite(obj, 107, 199, 32, 32, 144, 128, 23, 640, 224);
@@ -232,7 +232,7 @@ void NameEntry_Init(void)
     obj->attribute = obj->attribute | GsALON;
     DisplayObject_SelectOrderingTable1(obj);
     DisplayObject_SetDepthOffset(obj, 10);
-    D_8016D43C = (u8 *)obj;
+    gNameEntry_pCaret = (u8 *)obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
 #ifdef VERSION_EUROPE
     DisplayObject_ConfigureScreenSprite(obj, 0, 0, 320, 256, 0, 0, 20, 640, 227);
@@ -242,7 +242,7 @@ void NameEntry_Init(void)
     obj->field_0C = COLOR_RGB24_DIM_GREY;
     obj->attribute = obj->attribute | 0x1000000;
     DisplayObject_SelectOrderingTable3(obj);
-    D_8016D4D2 = 244;
+    gNameEntry_wPendingDialogId = 244;
     Fade_WaitIn();
 }
 #endif
@@ -572,7 +572,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     if (w != 0) {
         r = &D_8016D158[D_8016D403];
-        c = D_8016D408;
+        c = gNameEntry_bGlyphSequence;
         r->x = ((w->field_10 & 0xF) << 2) + 0x280;
         r->y = w->field_10 & 0xF0;
         r->w = 4;
@@ -582,14 +582,14 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         D_8016D403 = (D_8016D403 + 1) & 0xF;
         DisplayObject_ConfigureScreenSprite(
             obj, p->field_3C + w->x_0C, p->field_40 + w->y_0E,
-            16, 16, (D_8016D408 & 0xF) << 4, D_8016D408 & 0xF0, 25, 0x210, 0xFF
+            16, 16, (gNameEntry_bGlyphSequence & 0xF) << 4, gNameEntry_bGlyphSequence & 0xF0, 25, 0x210, 0xFF
         );
-        obj->sequence = D_8016D408;
-        D_8016D408 = D_8016D408 + 1;
+        obj->sequence = gNameEntry_bGlyphSequence;
+        gNameEntry_bGlyphSequence = gNameEntry_bGlyphSequence + 1;
     } else {
         DisplayObject_ConfigureScreenSprite(
             obj,
-            D_8016D404->x, D_8016D404->y, 16, 16, 128, 128, 23,
+            gNameEntry_pSelectionFrame->x, gNameEntry_pSelectionFrame->y, 16, 16, 128, 128, 23,
             256, 240
         );
     }
@@ -618,12 +618,12 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
             12, 16, (cell % 21) * 12, (cell / 21) * 16 + 80,
             10, 640, 192
         );
-        obj->sequence = D_8016D408;
-        D_8016D408 = D_8016D408 + 1;
+        obj->sequence = gNameEntry_bGlyphSequence;
+        gNameEntry_bGlyphSequence = gNameEntry_bGlyphSequence + 1;
     } else {
         DisplayObject_ConfigureScreenSprite(
             obj,
-            D_8016D404->x, D_8016D404->y, 16, 16, 128, 128, 23,
+            gNameEntry_pSelectionFrame->x, gNameEntry_pSelectionFrame->y, 16, 16, 128, 128, 23,
             640, 224
         );
     }
@@ -637,7 +637,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
 /* Makes the sprite for one glyph node: maps the node's Shift-JIS code to a
  * cell in the 16x16 font page, places it at the text box's origin plus the
  * node's local position, and stamps the spawn order into +0x6A. With no node
- * it makes the cursor sprite at D_8016D404's position instead. */
+ * it makes the cursor sprite at gNameEntry_pSelectionFrame's position instead. */
 void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
 {
     /* Narrow types preserve the widening and unmasked argument setup. */
@@ -713,12 +713,12 @@ draw:
             p->field_3C + w->x_0C + shift, p->field_40 + w->y_0E,
             16, 16, u, v, 10, 640, p->field_54 + 232
         );
-        obj->sequence = D_8016D408;
-        D_8016D408 = D_8016D408 + 1;
+        obj->sequence = gNameEntry_bGlyphSequence;
+        gNameEntry_bGlyphSequence = gNameEntry_bGlyphSequence + 1;
     } else {
         DisplayObject_ConfigureScreenSprite(
             obj,
-            D_8016D404->x, D_8016D404->y, 16, 16, 128, 128, 23,
+            gNameEntry_pSelectionFrame->x, gNameEntry_pSelectionFrame->y, 16, 16, 128, 128, 23,
             256, 240
         );
     }
@@ -747,7 +747,7 @@ s32 NameEntry_AdjustLength(s32 delta, s32 arg)
         }
     }
     gNameEntry_bCaretPos += delta;
-    object = (DisplayObject *)D_8016D43C;
+    object = (DisplayObject *)gNameEntry_pCaret;
     object->field_44.h.field_44 = gNameEntry_bCaretPos * 16 + 0x6B;
     object->update = (DisplayObjectCallback)NameEntry_UpdateCaretTween;
     object->field_6C = 2;

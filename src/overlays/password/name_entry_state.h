@@ -19,20 +19,20 @@
  *   D_8016D400  A flag byte. Tested with `& 0x10`, set with `| 4`, cleared
  *               on setup.
  *   gNameEntry_bKeyboardRow  The keyboard row, cleared on setup, stepped and wrapped
- *               through a signed compare, and used to index D_8016ABC0.
+ *               through a signed compare, and used to index gNameEntry_aRowLinks.
  *               Every declarer spells it u8 and casts (s8) at each use.
  *   gNameEntry_bSavedRow  A saved copy of gNameEntry_bKeyboardRow, restored back into it.
- *   D_8016D408  A counter handed to each spawned glyph as obj->f106 and
+ *   gNameEntry_bGlyphSequence  A counter handed to each spawned glyph as obj->f106 and
  *               then incremented.
  *   gNameEntry_wCursorTargetX  The cursor's target x, gNameEntry_bKeyboardColumn * 20 + 22.
  *   gNameEntry_wCursorTargetY  The cursor's target y, gNameEntry_bKeyboardRow * 18 + 24, from which the
  *               tween step (target - current) << 8 / 8 is built.
- *   D_8016D43C  The object the length adjuster works on.
+ *   gNameEntry_pCaret  The object the length adjuster works on.
  *
  *   gNameEntry_bKeyboardColumn  The keyboard column, stepped and wrapped at 15.
  *   gNameEntry_bCaretPos  The caret position: scaled by 2 to index the name buffer, by
  *               16 for the glyph x, and shifted left 4 for the glyph lookup.
- *   D_8016D4D2  The pending dialog id, masked with 0xFFF at its one reader.
+ *   gNameEntry_wPendingDialogId  The pending dialog id, masked with 0xFFF at its one reader.
  *   gNameEntry_pNameBuffer  The name buffer, pointed at gSaveData_aPlayerNameSjis.
  *
  * Before the source coalesce, setup and runtime carried a few different

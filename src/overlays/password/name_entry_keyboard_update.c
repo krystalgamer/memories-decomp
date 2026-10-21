@@ -75,7 +75,7 @@ void NameEntry_UpdateKeyboard(void)
     s32 gy;
     s32 d;
 
-    w = D_8016D404;
+    w = gNameEntry_pSelectionFrame;
     if ((D_8016D4D4 & 0x4000) != 0) {
         home = w->width - 16;
         work = w->widthBonus - home;
@@ -114,7 +114,7 @@ void NameEntry_UpdateKeyboard(void)
                 n = gInput_wPad1Held & PAD_DIRECTION_DOWN;
                 work = (n != 0);
                 gNameEntry_bKeyboardColumn = 11;
-                gNameEntry_bSavedRow = gNameEntry_bKeyboardRow = D_8016ABC0[(s8)gNameEntry_bKeyboardRow][work];
+                gNameEntry_bSavedRow = gNameEntry_bKeyboardRow = gNameEntry_aRowLinks[(s8)gNameEntry_bKeyboardRow][work];
                 goto tail47;
 #endif
             } else if ((gInput_wPad1Held & PAD_DIRECTION_UP) != 0) {
@@ -139,7 +139,7 @@ tail47:
     {
         s32 tableBase;
 
-        tableBase = (s32)&D_8016AB38[0][0];
+        tableBase = (s32)&gNameEntry_aKeyboardCells[0][0];
         do {
         } while (0);
         row = (s8)gNameEntry_bKeyboardRow;
@@ -163,7 +163,7 @@ tail47:
         }
     }
 #else
-    obj = (u8 *)&D_8016AB38[0][0];
+    obj = (u8 *)&gNameEntry_aKeyboardCells[0][0];
     row = (s8)gNameEntry_bKeyboardRow;
     {
         /* Keep the pair fully initialized; separate stores change allocation. */
@@ -228,7 +228,7 @@ select:
     work = -1;
     gx = 0;
     gy = 0;
-    glyphTable = &D_8016AB38[0][0];
+    glyphTable = &gNameEntry_aKeyboardCells[0][0];
     glyphRow = (s8)gNameEntry_bKeyboardRow;
     glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
     glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
@@ -290,7 +290,7 @@ select:
 #ifdef VERSION_JAPAN
     gy = kind;
 #endif
-    glyphTable = &D_8016AB38[0][0];
+    glyphTable = &gNameEntry_aKeyboardCells[0][0];
     glyphRow = (s8)gNameEntry_bKeyboardRow;
     glyphCol = col = (s8)gNameEntry_bKeyboardColumn;
     glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
