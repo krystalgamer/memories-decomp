@@ -340,7 +340,7 @@ class SpanishModelVariant474Tests(unittest.TestCase):
         self.assertEqual(bindings["ratan2"], bindings["func_spanish_80089928"])
         self.assertEqual(len(set(bindings.values())), 35)
         addresses = set(bindings.values())
-        for name in ("Model_LoadMonsterMerge", "Model_LoadMonsterMergeStage", "Model_InitSlot", "func_800559D4"):
+        for name in ("Model_LoadMonsterMerge", "Model_LoadMonsterMergeStage", "Model_InitSlot", "Model_UpdateSlotControl"):
             address, = [a for a, row in inventory.items() if row["name"] == name]
             self.assertEqual(inventory[address]["status"], "matching_c")
             addresses.add(address)

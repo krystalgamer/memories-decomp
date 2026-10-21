@@ -2179,7 +2179,7 @@ void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     b = t;
     state = func_8005F174();
     if (state == 1) {
-        if (func_8005F18C() == state) {
+        if (Model_GetHandlerCallbackState() == state) {
             return;
         }
     }
@@ -2332,7 +2332,7 @@ void Model_ResetSceneView(void)
     Model_UpdateBackgroundScroll(1);
     {
         int state = func_8005F174();
-        if (state != 1 || func_8005F18C() != state)
+        if (state != 1 || Model_GetHandlerCallbackState() != state)
             Model_StartCameraMove(0, 0, 0, 0);
     }
     Model_ResetEffectKeyQueue();

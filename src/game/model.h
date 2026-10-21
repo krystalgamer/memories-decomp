@@ -167,9 +167,9 @@ typedef struct {
     s32 field_18;
 } ModelSlotCF8Block;
 
-/* View rooted at the D_800F3938 interior alias and extending through the two
+/* View rooted at the gModel_Slot0MetadataView interior alias and extending through the two
  * slot property bytes at DFE/DFF. The first words are compared by
- * func_800559D4, while Model_GetSlotCameraPresetYaw selects field_0A through field_106.
+ * Model_UpdateSlotControl, while Model_GetSlotCameraPresetYaw selects field_0A through field_106.
  * Relative names retain the alias-rooted offsets without claiming semantics
  * for the copied CF8 payload. */
 typedef struct {
@@ -728,7 +728,7 @@ extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
  * change which symbol their relocations name. Unlike the selection-table case
  * there is no assembly reader to corroborate that, but the matched C is
  * itself the evidence. */
-extern ModelSlotCF8TailView D_800F3938;
+extern ModelSlotCF8TailView gModel_Slot0MetadataView;
 extern ModelSlotLightEntry D_800F39B0[3];
 extern ModelSlotS32Quad D_800F39F0;
 extern u16 D_800F3A10[];

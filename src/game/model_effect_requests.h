@@ -5,7 +5,7 @@
 
 /* Two guarded requests into Model_StartCameraMove.
  *
- * Both consult func_8005F174 and func_8005F18C first and do nothing when the
+ * Both consult func_8005F174 and Model_GetHandlerCallbackState first and do nothing when the
  * state is 1 and the two agree, so a caller cannot assume the request was
  * issued. Neither reports whether it was.
  *
@@ -16,13 +16,13 @@ void Model_RequestCameraMove(s32 value);
 void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth);
 
 /* Stores the camera move's two target-slot selectors, under the
- * same func_8005F174/func_8005F18C guard: nothing is written when the state
+ * same func_8005F174/Model_GetHandlerCallbackState guard: nothing is written when the state
  * is 1 and the two agree. */
 void Model_SetCameraTargetSlots(s32 first, s32 second);
 
 /* Stores twice `value` into the camera move's D_800F2B22, under that same
  * guard -- written with the test inverted, so the store sits inside
- * `state != 1 || func_8005F18C() != state` rather than after an early return
+ * `state != 1 || Model_GetHandlerCallbackState() != state` rather than after an early return
  * (model_effect_requests.c:73).
  *
  * This unit defines seven functions and this header declares the ones with

@@ -2159,3 +2159,13 @@ gModelDebug_szLoadModel1Format = 0x80011540;
 gModelDebug_szSlotFlagsFormat = 0x80011554;
 gModelDebug_szStageFormat = 0x80011564;
 gDebug_szEditorCaretLine = 0x800EAED8;
+
+gModel_bHandlerCallbackState = 0x8009B07C;
+
+gModel_Slot0MetadataView = 0x800F3938;
+
+Model_UpdateSlotControl = 0x800559D4; // type:func
+
+Model_GetHandlerCallbackState = 0x8005F18C; // type:func
+
+Model_SetHandlerCallbackState = 0x8005F198; // type:func

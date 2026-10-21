@@ -1,6 +1,6 @@
 /*
  * The per-slot model runtime: the per-frame slot animation tick
- * (Model_UpdateSlotAnimation), the per-slot control step (func_800559D4), slot reset and
+ * (Model_UpdateSlotAnimation), the per-slot control step (Model_UpdateSlotControl), slot reset and
  * load (Model_ResetSlot, Model_LoadSlot), the staged slot loader from
  * Model_LoadMonsterMerge through Model_LoadSpecialBattlePackageStage, and
  * Model_ControlSlotAnimation.
@@ -177,7 +177,7 @@ void Model_UpdateSlotAnimation(s32 index) {
 #define MODEL_CONTROL_TRACE(message) FntPrint(message)
 #endif
 
-void func_800559D4(s32 index)
+void Model_UpdateSlotControl(s32 index)
 {
     ModelSlot *slot = &gModel_aSlots[index];
     ModelSlot *other;
@@ -208,9 +208,9 @@ void func_800559D4(s32 index)
         } else {
             primary_handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
         }
-        func_8005F198(1);
+        Model_SetHandlerCallbackState(1);
         primary_handler(primary, -1);
-        func_8005F198(0);
+        Model_SetHandlerCallbackState(0);
     }
     if (slot->field_E0E == 6) {
         if (slot->field_BF5 == slot->field_DFE + 3
@@ -233,12 +233,12 @@ void func_800559D4(s32 index)
         handler = (ModelControlHandler)((u8 *)gModel_Slot0VariantModuleAddress + 4);
     }
     if (slot->field_E0E == 7) {
-        func_8005F198(1);
+        Model_SetHandlerCallbackState(1);
         {
             s32 request = ((ModelControlCommandView *)slot)->commands[slot->field_DFE];
             handler(secondary, request % 1000);
         }
-        func_8005F198(0);
+        Model_SetHandlerCallbackState(0);
         slot->field_E0E = 8;
         slot->field_E08 = 0;
     }
@@ -287,9 +287,9 @@ void func_800559D4(s32 index)
         }
         action = selected;
     }
-    func_8005F198(1);
+    Model_SetHandlerCallbackState(1);
     slot->field_E0E = handler(secondary, -1);
-    func_8005F198(0);
+    Model_SetHandlerCallbackState(0);
     switch (slot->field_E0E) {
     case 0:
         MODEL_CONTROL_TRACE(D_80011574);
@@ -320,11 +320,11 @@ void func_800559D4(s32 index)
         s32 other_record;
         amount = Model_GetFrameStep();
         offset = index * MODEL_SLOT_SIZE;
-        do { own_record = offset + (s32)&D_800F3938; } while (0);
+        do { own_record = offset + (s32)&gModel_Slot0MetadataView; } while (0);
         offset = (index ^ 1) * MODEL_SLOT_SIZE;
-        other_record = offset + (s32)&D_800F3938;
+        other_record = offset + (s32)&gModel_Slot0MetadataView;
         amount = slot->field_E0D * (amount + 1);
-        if ((((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
+        if ((((u8 *)&gModel_Slot0MetadataView) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
             {
                 u32 own_value =
                     MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
@@ -401,10 +401,10 @@ no_handler:
             s32 midpoint = slot->field_750[slot->field_BF5].max >> 1;
             if (current_frame >= midpoint) {
                 offset = index * MODEL_SLOT_SIZE;
-                own_record = offset + (s32)&D_800F3938;
+                own_record = offset + (s32)&gModel_Slot0MetadataView;
                 offset = (index ^ 1) * MODEL_SLOT_SIZE;
-                other_record = offset + (s32)&D_800F3938;
-                if ((((u8 *)&D_800F3938) +
+                other_record = offset + (s32)&gModel_Slot0MetadataView;
+                if ((((u8 *)&gModel_Slot0MetadataView) +
                      offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
                     {
                         u32 own_value =
@@ -849,9 +849,9 @@ void Model_AdvanceSlotLoad(s32 index)
             } else {
                 handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
             }
-            func_8005F198(1);
+            Model_SetHandlerCallbackState(1);
             handler(context, ((ModelControlCommandView *)p)->commands[2] % 1000);
-            func_8005F198(0);
+            Model_SetHandlerCallbackState(0);
         }
         selected = p->field_BF5;
         p->field_E0E = 6;

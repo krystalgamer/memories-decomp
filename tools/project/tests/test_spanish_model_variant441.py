@@ -342,7 +342,7 @@ class SpanishModelVariant441Tests(unittest.TestCase):
         with (self.config / "functions.csv").open() as handle:
             inventory = {int(row["address"], 0): row for row in csv.DictReader(handle)}
         addresses = set(self.bindings.values())
-        for name in ("Model_LoadMonsterMerge", "Model_LoadMonsterMergeStage", "Model_InitSlot", "func_800559D4"):
+        for name in ("Model_LoadMonsterMerge", "Model_LoadMonsterMergeStage", "Model_InitSlot", "Model_UpdateSlotControl"):
             address, = [address for address, row in inventory.items() if row["name"] == name]
             self.assertEqual(inventory[address]["status"], "matching_c")
             addresses.add(address)

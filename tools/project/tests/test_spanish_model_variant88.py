@@ -41,5 +41,5 @@ class SpanishModelVariant88Tests(shared.FrenchModelVariant88Tests):
                          "b0fefd88b6510f49af4f01e6180e40371652b7ceaa5f31dcb938c942316fc790")
         self.assertEqual(struct.unpack_from("<2I", data, 0x814), (0x8013B000, 0x8017B000))
         self.assertEqual(struct.unpack_from("<2I", data, 0x824), (0x80136000, 0x80176000))
-        self.assertEqual(inventory[0x80058B4C]["name"], "func_800559D4")
+        self.assertEqual(inventory[0x80058B4C]["name"], "Model_UpdateSlotControl")
         self.assertEqual(inventory[0x80058B4C]["status"], "matching_c")

@@ -34,7 +34,7 @@ typedef char ModelControlCommandViewFitsSlot[
     sizeof(ModelControlCommandView) <= sizeof(ModelSlot) ? 1 : -1
 ];
 
-void func_800559D4(s32 index);
+void Model_UpdateSlotControl(s32 index);
 
 void Model_InitSlot(s32 slot, u8 *hmd, s32 size, s32 flags);
 
