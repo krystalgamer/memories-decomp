@@ -86,7 +86,7 @@ void Password_RefreshDigitDisplay(void)
     s32 i;
     s32 glyph;
 
-    out = D_801B1245;
+    out = gPassword_szDigits;
     for (i = 0; i < 8; i++) {
         glyph = gText_DecimalDigitGlyphMap[gPassword_abDigits[i]];
         if (glyph >= TEXT_SINGLE_BYTE_GLYPH_LIMIT) {
@@ -347,7 +347,7 @@ void Password_InitShopScreen(void)
 s32 Password_LookupCardID(void)
 {
     s32 packed = 0;
-    s32 *entry = D_801A8008;
+    s32 *entry = gPassword_aTable;
     s32 index;
     s32 i;
 

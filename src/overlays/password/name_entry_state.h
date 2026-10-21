@@ -14,30 +14,30 @@
  * name_entry_runtime.c, two in name_entry_dialog.c, and
  * NameEntry_UpdateKeyboard in name_entry_keyboard_update.c.
  *
- * What the uses show, without renaming anything:
+ * What the uses show (the evidence-backed ones are named):
  *
  *   D_8016D400  A flag byte. Tested with `& 0x10`, set with `| 4`, cleared
  *               on setup.
- *   D_8016D402  The keyboard row, cleared on setup, stepped and wrapped
+ *   gNameEntry_bKeyboardRow  The keyboard row, cleared on setup, stepped and wrapped
  *               through a signed compare, and used to index D_8016ABC0.
  *               Every declarer spells it u8 and casts (s8) at each use.
- *   D_8016D426  A saved copy of D_8016D402, restored back into it.
+ *   gNameEntry_bSavedRow  A saved copy of gNameEntry_bKeyboardRow, restored back into it.
  *   D_8016D408  A counter handed to each spawned glyph as obj->f106 and
  *               then incremented.
- *   D_8016D434  The cursor's target x, D_8016D401 * 20 + 22.
- *   D_8016D436  The cursor's target y, D_8016D402 * 18 + 24, from which the
+ *   gNameEntry_wCursorTargetX  The cursor's target x, gNameEntry_bKeyboardColumn * 20 + 22.
+ *   gNameEntry_wCursorTargetY  The cursor's target y, gNameEntry_bKeyboardRow * 18 + 24, from which the
  *               tween step (target - current) << 8 / 8 is built.
  *   D_8016D43C  The object the length adjuster works on.
  *
- *   D_8016D401  The keyboard column, stepped and wrapped at 15.
- *   D_8016D42C  The caret position: scaled by 2 to index the name buffer, by
+ *   gNameEntry_bKeyboardColumn  The keyboard column, stepped and wrapped at 15.
+ *   gNameEntry_bCaretPos  The caret position: scaled by 2 to index the name buffer, by
  *               16 for the glyph x, and shifted left 4 for the glyph lookup.
  *   D_8016D4D2  The pending dialog id, masked with 0xFFF at its one reader.
- *   D_8016D418  The name buffer, pointed at gSaveData_aPlayerNameSjis.
+ *   gNameEntry_pNameBuffer  The name buffer, pointed at gSaveData_aPlayerNameSjis.
  *
  * Before the source coalesce, setup and runtime carried a few different
  * spellings. The setup path only stored zero, 244, or one pointer and never
- * constrained those types; the runtime's old `u16 *` view of D_8016D418 cast
+ * constrained those types; the runtime's old `u16 *` view of gNameEntry_pNameBuffer cast
  * to s32 before arithmetic and did not use its pointee type. The merged source
  * therefore keeps the evidence-backed declarations in module_state.h.
  */

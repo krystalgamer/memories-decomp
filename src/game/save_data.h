@@ -306,7 +306,7 @@ extern u8 D_801D2200[];
  * Text_SjisToGlyphCodes, from state->player_name_sjis
  * (save_data_payload.c:191); NameEntry_Init does the same from
  * gSaveData_aPlayerNameSjis and NameEntry_UpdateDialog does the same from
- * D_8016D418. The two name-entry paths live in
+ * gNameEntry_pNameBuffer. The two name-entry paths live in
  * src/overlays/password/name_entry_runtime.c and name_entry_dialog.c and call
  * the converter by address, as func_8003BC40. The one reader is
  * NameEntry_UpdateDialog's byte scan in name_entry_dialog.c, which runs to
