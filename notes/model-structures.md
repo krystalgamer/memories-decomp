@@ -272,6 +272,40 @@ That the two maps open-code `Model_FindHandlerKey` exactly -- same
 `GsU_00000000` sentinel, same eighty-entry scan, same `-1` on miss -- is also
 what places them in this unit rather than beside the handlers they name.
 
+### Observed contents and lookups
+
+A `model_handler_families` trace (#418; interpreter CPU, setup confirmed by
+19,498 control hits) followed one Free Duel against Villager2 with a Sogen
+field change and two 3-D battles. Registrations came from two sites,
+`0x800608A8` (the first at duel start in main mode `0x03`, the rest when
+the battle scene loaded in mode `0x01`) and `0x80060B28`, which registered
+key `0x01000000` many times. After the second battle the table held
+fourteen pairs:
+
+| Key | Group | Kind | Registered handler |
+|---|---|---|---|
+| `0x0002000D` | `0x0002` | `0x000D` | `0x80033DB0` (HMD fog-shaded textured triangle driver) |
+| `0x00020015` | `0x0002` | `0x0015` | `0x80034830` (HMD fog-shaded textured quad driver) |
+| `0x0000000D` | `0x0000` | `0x000D` | `0x8006151C` |
+| `0x00000011` | `0x0000` | `0x0011` | `0x800617E0` |
+| `0x00000015` | `0x0000` | `0x0015` | `0x80061A84` |
+| `0x0030000D` | `0x0030` | `0x000D` | `0x80065BCC` |
+| `0x01000000` | `0x0100` | `0x0000` | `0x80067220` |
+| `0x0020000D` | `0x0020` | `0x000D` | `0x80064248` |
+| `0x00200015` | `0x0020` | `0x0015` | `0x80064868` |
+| `0x0120000D` | `0x0120` | `0x000D` | `0x8006875C` |
+| `0x0130000D` | `0x0130` | `0x000D` | `0x8006930C` |
+| `0x01200015` | `0x0120` | `0x0015` | `0x80068A00` |
+| `0x0100000D` | `0x0100` | `0x000D` | `0x80067354` |
+| `0x01000015` | `0x0100` | `0x0015` | `0x8006759C` |
+
+These pairs tie the hand-written primitive drivers at `0x8006151C` through
+`0x8006930C` to HMD primitive-type keys, which is evidence for naming them
+by primitive type once the key bits are decoded. In the same run neither
+dispatch map `func_8005FC1C` nor `func_8005FE44` was called once, and
+`Model_FindHandlerKey` was not called either, so neither the duel board,
+the field change nor the 3-D battle scenes reach them.
+
 ## Migration snapshot and exact-code exceptions
 
 `notes/global-usage.csv` is the authority for the current matching-C and

@@ -49,3 +49,17 @@ the canonical binding names are wired. The Japanese setter's provider and
 slot-control caller spelling bridges retire together with the API migration.
 Existing controls change identifiers only; the complete numeric Lua runtime
 and trace control remain unchanged. No new harness or field type is added.
+
+## Runtime observation
+
+A `model_slot_state` trace (#418; interpreter CPU, setup confirmed) covered
+two 3-D battles against Duel Master K. `Model_SetHandlerCallbackState`
+published one and then zero around every loaded handler call, from
+`0x80055B30`/`0x80055B84` once at each battle action and from
+`0x80055C90`/`0x80055CA8` on every frame (397 pairs), matching the bracket
+described above. `Model_SetCameraHoldState` received two from
+`Model_StartBattleSlotAction` at each battle action and one from
+`0x8004F2FC` and `0x8004F564` later in the exchange. The two bytes never
+read one together, so none of the 42 guarded camera requests in those
+battles was suppressed; what the combined guard protects is still
+unobserved.

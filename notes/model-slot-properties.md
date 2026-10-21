@@ -41,6 +41,11 @@ interpretation, declaration adapter or compiler flag.
 `ScaleMatrix` or `Model_UpdateCoordinateUnitMatrix`; this establishes its
 scale role without guessing a getter caller or UI context.
 
+The getter has no static caller. A runtime trace under #418 (interpreter
+CPU, 2,448 control hits) saw no call while visiting the main menu, the
+Library including a monster's 3-D view, and Build Deck; a later trace of
+two 3-D battles did not watch it.
+
 `Model_SetSlotScale` (`0x800594C0`) retains the whole four-word copy for a
 nonnull source. Null writes `MODEL_FIXED_ONE` to offsets eight, four and
 zero, in that order, and leaves the fourth word untouched. Neither API is

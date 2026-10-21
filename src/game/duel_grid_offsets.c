@@ -1,6 +1,13 @@
 #include "../types.h"
 #include "duel_card.h"
 
+/* Neither helper has a caller the static tools can find: no C call, no jal
+   and no stored pointer in the executable or any extracted DATA file. A
+   runtime trace under #418 (interpreter CPU, 2,448 control hits) saw no call
+   to either while visiting the main menu, the Library card list and a
+   monster's 3-D view, and Build Deck, so those screens are ruled out; a duel
+   and the Free Duel opponent grid were not visited. */
+
 s32 func_8002C400(s32 value)
 {
     if (value >= DUEL_FIELD_SIDE_ZONE_COUNT) {

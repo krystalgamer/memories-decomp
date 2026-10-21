@@ -69,3 +69,12 @@ Existing regression controls migrate identifiers/include paths only.
 The numeric model-slot Lua runtime labels, addresses, messages and trace
 control remain byte-identical; no new trace run is claimed. No synthetic
 or source-string harness is added.
+
+## Runtime observation
+
+Across two 3-D battles traced under #418 (interpreter CPU, setup
+confirmed), every `Model_GetSlotReadiness` call -- from `0x8005DD68`,
+`0x8005DFE0` and `0x8005E928`, 1,978 in all, for slots 0 and 1 -- found
+`+E14` at `0xFF` and `+E1F` set and returned one. Phases zero and two
+were not observed; this run only covers slots that had already finished
+loading.

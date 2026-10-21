@@ -72,3 +72,11 @@ positional sound is corrected from the actual camera consumers:
 `Model_QueueRelativeCameraOrbit` queues relative orbit endpoints through the existing key
 queue. Its implementation and the parallel adjustment expressions stay
 untouched; only the unrelated sound interpretation is removed.
+
+## Runtime observation
+
+Two traced 3-D battles (#418, interpreter CPU, setup confirmed) called
+`Model_GetSlotCameraPresetYaw` from `0x8004F150` for slot 0 and
+`0x8004F43C` for slot 1. Slot 0 always returned `0xA00` and slot 1
+`0xE00`, in both battles and on both the default arena and the mountain
+field.
