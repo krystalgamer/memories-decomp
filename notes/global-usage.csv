@@ -52,7 +52,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800101D8,D_800101D8,D_800101D8,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,read,8,object->value_08 = (u32)D_800101D8; | object->value_0C = (u32)D_800101D8;
 0x800101D8,D_800101D8,D_800101D8,0x80043328,Main_LoadBootPackageStage,matching_c,game,C,src/game/main_boot_load_stages.c,read,8,obj->value_08 = (s32)D_800101D8; | obj->value_0C = (s32)D_800101D8;
 0x800101DC,D_800101DC,D_800101DC,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,read,8,d->value_08 = d->value_0C = (u32)D_800101DC;
-0x80010288,D_80010288,D_80010288,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"printf(D_80010288,"
+0x80010288,gDebugMenu_szCampaignValueFormat,gDebugMenu_szCampaignValueFormat,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"printf(gDebugMenu_szCampaignValueFormat,"
 0x80010330,tent_DecimalDigitSjisKeys,tent_DecimalDigitSjisKeys,0x8003B5C8,Text_InitDecimalDigitGlyphMap,matching_c,game,C,src/game/text_init_decimal_digit_glyph_map.c,read,,buf = tent_DecimalDigitSjisKeys;
 0x80010378,D_80010378,D_80010378,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,address,8,"FntPrint(D_80010378, slot->free_blocks);"
 0x80010384,gMemCard_szSaveFileName,gMemCard_szSaveFileName,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,,"MemCard_ReqCreateFile(zero, (s32)gMemCard_szSaveFileName, root->blocks); | file = gMemCard_szSaveFileName; | (+2 more)"
@@ -229,9 +229,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF44,D_8009AF44,D_8009AF44,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read_write,16,"D_8009AF44 = gDebug_nSceneOrSoundID; | TextBox_Create(0, D_8009AF44, 0x10, 0xB0, 0x120, | (+1 more)"
 0x8009AF46,D_8009AF46,D_8009AF46,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read_write,16,D_8009AF46 = selection; | selection = D_8009AF46;
 0x8009AF4C,D_8009AF4C,D_8009AF4C,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,read,16,*(Bytes8 *)d = *(Bytes8 *)D_8009AF4C;
-0x8009AF54,D_8009AF54,D_8009AF54,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,address,8,FntPrint(D_8009AF54);
-0x8009AF54,D_8009AF54,D_8009AF54,0x80031084,DebugMenu_Update,matching_c,game,C,src/game/debug_menu_update.c,address,8,FntPrint(D_8009AF54);
-0x8009AF58,D_8009AF58,D_8009AF58,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,address,8,"FntPrint(D_8009AF58, D_800EAED8);"
+0x8009AF54,gDebugMenu_szLineBreak,gDebugMenu_szLineBreak,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,address,8,FntPrint(gDebugMenu_szLineBreak);
+0x8009AF54,gDebugMenu_szLineBreak,gDebugMenu_szLineBreak,0x80031084,DebugMenu_Update,matching_c,game,C,src/game/debug_menu_update.c,address,8,FntPrint(gDebugMenu_szLineBreak);
+0x8009AF58,gDebugMenu_szStringLineFormat,gDebugMenu_szStringLineFormat,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,address,8,"FntPrint(gDebugMenu_szStringLineFormat, gDebug_szEditorCaretLine);"
 0x8009AF5C,D_8009AF5C,D_8009AF5C,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_screen.c,read,8,*(OptionsLayoutPositionBlock *)D_8009AF5C;
 0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CE74,SaveData_NextMaskWord,matching_c,game,C,src/game/save_data_payload.c,address,32,u32 *state = &gSaveData_dwMaskStateLow;
 0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CF14,SaveData_WritePrimarySecondaryIntegrity,matching_c,game,C,src/game/save_data_payload.c,write,32,gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
@@ -2596,7 +2596,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002F630,Script_OpDuelResult,matching_c,game,C,src/game/script_op_duel_result.c,write,,D_800EAE98[0].unk00 = (s32)o; | D_800EAE98[1].unk00 = (s32)o; | (+2 more)
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002FD10,Campaign_LoadScenePackage,matching_c,game,C,src/game/campaign_load_scene_package.c,address,,slot = D_800EAE98;
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002FED8,func_8002FED8,matching_c,game,C,src/game/scene_script_slots.c,read,,object = (DisplayObject *)D_800EAE98[0].unk00; | object = (DisplayObject *)D_800EAE98[1].unk00;
-0x800EAED8,D_800EAED8,D_800EAED8,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,address,8,"FntPrint(D_8009AF58, D_800EAED8); | r = &D_800EAED8[ | (+1 more)"
+0x800EAED8,gDebug_szEditorCaretLine,gDebug_szEditorCaretLine,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,address,8,"FntPrint(gDebugMenu_szStringLineFormat, gDebug_szEditorCaretLine); | r = &gDebug_szEditorCaretLine[ | (+1 more)"
 0x800EAF08,tent_DuelEffectOccupancy,tent_DuelEffectOccupancy,0x80035CA8,DuelEffect_ClearOccupancyValue,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,address,8,u8 *entry = tent_DuelEffectOccupancy;
 0x800EAF08,tent_DuelEffectOccupancy,tent_DuelEffectOccupancy,0x80035CE4,DuelEffect_ResetOccupancy,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,address,8,v0 = tent_DuelEffectOccupancy;
 0x800EAF08,tent_DuelEffectOccupancy,tent_DuelEffectOccupancy,0x80035D10,func_80035D10,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,read,8,if (tent_DuelEffectOccupancy[index] == 0)

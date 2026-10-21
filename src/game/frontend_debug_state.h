@@ -63,7 +63,7 @@ extern u8 tent_DebugInterfaceFlags;
 extern u8 gDebugMenu_bStep;
 extern u8 *G32 tent_DebugInterfaceData;
 extern u8 gDebugMenu_bPage;
-extern u8 D_800EAED8[];
+extern u8 gDebug_szEditorCaretLine[];
 
 typedef char FrontendDebugColumnsSize[
     sizeof(FrontendDebugColumns) == 3 ? 1 : -1];

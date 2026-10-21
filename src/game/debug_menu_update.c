@@ -67,7 +67,7 @@ void DebugMenu_Update(void) {
         return;
     }
     for (; i < 0x16; i++) {
-        FntPrint(D_8009AF54);
+        FntPrint(gDebugMenu_szLineBreak);
     }
     if ((gInput_wPad1Repeat & PAD_DIRECTION_MASK) != 0) {
         if ((gInput_wPad1Repeat & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {

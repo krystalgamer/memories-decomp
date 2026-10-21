@@ -102,7 +102,7 @@ extern char D_8009B050[8];
 extern char D_80011574[];
 
 /* Original sequence-handler assertion format and source-file label. */
-extern char D_800117EC[];
-extern char D_80011814[];
+extern char gModelAnim_szAssertFormat[];
+extern char gModelAnim_szSourceFileName[];
 
 #endif

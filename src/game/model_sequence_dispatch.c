@@ -51,7 +51,7 @@ static __inline__ u32 scan_command(GsSEQ *track, ModelSeqDescriptor *commands,
                 return 0xFFFF;
             }
         } else {
-            printf(D_800117EC, D_80011814, 0x57);
+            printf(gModelAnim_szAssertFormat, gModelAnim_szSourceFileName, 0x57);
             exit(1);
         }
         index += step;

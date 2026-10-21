@@ -54,7 +54,7 @@ symbol base, while the second arm uses a direct one-use index.
 the C-owned format arrays and the producer-to-`FntPrint` path. The editor
 converts to the printer's existing `char *` contract only at that boundary.
 No calling convention, pointer width, format contents, or storage changes.
-`D_800EAED8` stays incomplete: the caret clear loop writes 40 bytes, but that
+`gDebug_szEditorCaretLine` stays incomplete: the caret clear loop writes 40 bytes, but that
 does not prove the extent of every possible indexed write.
 
 The row/digit control labels stay unsigned bytes. Existing signed reads of
