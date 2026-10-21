@@ -46,7 +46,7 @@ GsCOORDUNIT gModel_CameraCoordinateUnit;
 MATRIX D_800FE148;
 ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
 s16 gModel_wBackgroundScrollX, gModel_wBackgroundOffsetY;
-GsOT *D_800E9D90[4];
+GsOT *gGraphics_apOrderingTables[4];
 static GsOT ordering;
 static GsCOORDUNIT coordinate;
 static u8 record[0xB2], other_record[0xB2];
@@ -140,7 +140,7 @@ void GsSortFastSprite(GsSPRITE *sprite, GsOT *ot, unsigned short priority)
     s32 i = sprite_count++;
     event(6, i, priority);
     if (i >= 20) { error = 8; return; }
-    if (ot != D_800E9D90[3] || priority != (u16)((1u << ot->length) - 1)) error = 9;
+    if (ot != gGraphics_apOrderingTables[3] || priority != (u16)((1u << ot->length) - 1)) error = 9;
     out = &sprites[i];
     out->attribute = sprite->attribute; out->x = sprite->x; out->y = sprite->y;
     out->w = sprite->w; out->h = sprite->h; out->page = sprite->tpage;
@@ -227,7 +227,7 @@ void GsSortPoly(void *pointer, GsOT *ot, unsigned short priority)
         if ((u8 *)normal_outputs[1 + id * 4] == bytes + 4) break;
     if (id == 3 || polygon_count >= 48) { error = 16; return; }
     polygon_ids[polygon_count++] = id;
-    if (projection_count != (segment + 1) * 2 || ot != D_800E9D90[3] ||
+    if (projection_count != (segment + 1) * 2 || ot != gGraphics_apOrderingTables[3] ||
         priority != (u16)((1u << ot->length) - 1) || bytes[3] != 8 || packet->code != 0x38) error = 17;
     actual_xy[0] = (u16)packet->x0 | ((u32)(u16)packet->y0 << 16);
     actual_xy[1] = (u16)packet->x1 | ((u32)(u16)packet->y1 << 16);
@@ -267,7 +267,7 @@ static void setup(void)
     for (i = 0; i < 0xB2; i++) other_record[i] = record[i];
     WORD(other_record, 0xA8) = 0x4100; WORD(other_record, 0xAA) = 0x140;
     WORD(other_record, 0xAC) = 0x100; WORD(other_record, 0xAE) = 42; WORD(other_record, 0xB0) = 43;
-    D_800E9D90[3] = &ordering; ordering.length = 4;
+    gGraphics_apOrderingTables[3] = &ordering; ordering.length = 4;
     count = error = normal_count = sprite_count = polygon_count = 0;
     cosine_count = sine_count = projection_count = depth_mode = mutation = 0;
     height_expected = 300; vertex_base = 0; projection_base = 0;

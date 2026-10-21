@@ -293,7 +293,7 @@ void DisplayObject_RenderSpriteList(void) {
         g = (POLY_FT4 *)0x1F800344;
         p = (SpritePrim *)0x1F800320;
         h = (ClipState *)0x1F800378;
-        tb = D_800E9D90;
+        tb = gGraphics_apOrderingTables;
 
         do {
             e = (DisplayObject *)((u8 *)gDisplayObject_aPool + i * DISPLAY_OBJECT_RECORD_SIZE);

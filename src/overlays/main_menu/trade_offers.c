@@ -160,7 +160,7 @@ void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
         sprite.u1 = u - 120;
         sprite.u2 = u - 128;
         sprite.u3 = u - 120;
-        GsSortPoly(&sprite, D_800E9D90[1], 32);
+        GsSortPoly(&sprite, gGraphics_apOrderingTables[1], 32);
         value = quotient;
     }
 }

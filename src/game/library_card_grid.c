@@ -52,7 +52,7 @@
      loads stay one unsplit instruction through sched2 and the assembler
      expands each into an adjacent lui/load pair in one register. The two
      IN_DATA macros above keep them absolute rather than gp-relative. The
-     ordering table is read as D_800E9D90[3]: the 16-byte array is not small
+     ordering table is read as gGraphics_apOrderingTables[3]: the 16-byte array is not small
      data, so that address stays split and reload stores the pointer to its
      stack slot through the dying %hi register ($v0) instead of $t1.
    - `first` is a single-set local, so sched1 keeps its shift next to the
@@ -92,7 +92,7 @@ void Library_DrawCardGrid(void)
 
     p = (GsSPRITE *)0x1F800320;
     n = (gGraphics_sViewportY - 8) / 178;
-    ot = D_800E9D90[3];
+    ot = gGraphics_apOrderingTables[3];
     if (n < 0) {
         return;
     }

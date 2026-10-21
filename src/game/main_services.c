@@ -117,10 +117,10 @@ void Main_InitHardware(GraphicsFrameBuffer *base)
     D_800FE048[0].g0 = 1;
     D_800FE048[0].b0 = 1;
     count = six;
-    D_8009B0A0 = 2;
-    D_8009B0A1 = count;
-    D_8009B0A2 = 0xC;
-    D_8009B0A3 = count;
+    gGraphics_abOrderingTableLengths = 2;
+    gGraphics_bOrderingTable1Length = count;
+    gGraphics_bOrderingTable2Length = 0xC;
+    gGraphics_bOrderingTable3Length = count;
 next:
     k = 3;
     buf->ordering_tables[0].length = 2;

@@ -395,7 +395,7 @@ void MainMenu_DrawValueSetup(void)
     bar.y3 = 115;
     bar.x1 = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
     bar.x3 = bar.x1;
-    GsSortPoly(&bar, D_800E9D90[2], 2048);
+    GsSortPoly(&bar, gGraphics_apOrderingTables[2], 2048);
 
     bar.r0 = 32;
     bar.g0 = 32;
@@ -417,7 +417,7 @@ void MainMenu_DrawValueSetup(void)
     bar.y3 = 143;
     bar.x1 = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
     bar.x3 = bar.x1;
-    GsSortPoly(&bar, D_800E9D90[2], 2048);
+    GsSortPoly(&bar, gGraphics_apOrderingTables[2], 2048);
 
     setPolyGT4(&digit);
 #ifdef VERSION_EUROPE
@@ -480,7 +480,7 @@ void MainMenu_DrawValueSetup(void)
         digit.u1 = (first % 10) * 8 - 120;
         digit.u2 = digit.u0;
         digit.u3 = digit.u1;
-        GsSortPoly(&digit, D_800E9D90[2], 2048);
+        GsSortPoly(&digit, gGraphics_apOrderingTables[2], 2048);
         first = first / 10;
     }
 
@@ -511,7 +511,7 @@ void MainMenu_DrawValueSetup(void)
         digit.u1 = (second % 10) * 8 - 120;
         digit.u2 = digit.u0;
         digit.u3 = digit.u1;
-        GsSortPoly(&digit, D_800E9D90[2], 2048);
+        GsSortPoly(&digit, gGraphics_apOrderingTables[2], 2048);
         second = second / 10;
     }
 }

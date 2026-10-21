@@ -835,7 +835,7 @@ current candidates to this single owner.
 
 Both directions come up, and only one of them is sound.
 
-Refuting works. `D_8009B0A3` was declared `[9]` by one consumer, and
+Refuting works. `gGraphics_bOrderingTable3Length` was declared `[9]` by one consumer, and
 `c_symbols.ld` names `D_8009B0A4` one byte later, so nine bytes would run
 through that and past `gGraphics_bActiveBuffer`. The bound was therefore an
 addressing lever rather than a size -- and that is what made it worth
@@ -994,7 +994,7 @@ them:
 | `gGraphics_bDither` | `u8 gGraphics_bDither;` | yes, guarded two-arm |
 | `D_8009B0C1` | `u8 D_8009B0C1;` | yes, guarded two-arm |
 | `gGraphics_bClearBackground` | `u8 gGraphics_bClearBackground;` | yes, guarded two-arm |
-| `D_8009B0A0` | `u8 D_8009B0A0[4];` | **no** |
+| `gGraphics_abOrderingTableLengths` | `u8 gGraphics_abOrderingTableLengths[4];` | **no** |
 
 A plain `extern` in the header does not fight the definition. As the header
 puts it for `D_8009B0C1`, the declaration "sits in front of that definition
@@ -1021,9 +1021,9 @@ symbol. It is whether the consumer's spelling **agrees** with the definition:
 - A spelling that merely differs may still be inert. `volatile` was, four
   times over, but only a build could say so.
 - A spelling that encodes a different **view** of the address cannot be
-  centralized at all, and this is why `D_8009B0A0` is the one exclusion:
-  `graphics_frame.c` defines it `u8 D_8009B0A0[4]` while `main_services.c`
-  declares it a scalar and assigns `D_8009B0A0 = 2`. Array and scalar are two
+  centralized at all, and this is why `gGraphics_abOrderingTableLengths` is the one exclusion:
+  `graphics_frame.c` defines it `u8 gGraphics_abOrderingTableLengths[4]` while `main_services.c`
+  declares it a scalar and assigns `gGraphics_abOrderingTableLengths = 2`. Array and scalar are two
   faithful views of one address, the case the section below describes, so
   neither spelling can absorb the other.
 

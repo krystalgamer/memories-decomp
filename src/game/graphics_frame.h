@@ -301,7 +301,7 @@ typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
  * FreeDuel_Init use the second one, at +8, for the CLUT / second strip.
  *
  * [2] is the extent that is WRITTEN, not the object's size: the next symbol,
- * D_800E9D90, sits at +0x20, and nothing in either tree touches the sixteen
+ * gGraphics_apOrderingTables, sits at +0x20, and nothing in either tree touches the sixteen
  * bytes between. Four units used to declare this `u8 [100]` -- func_8001944C.c
  * said why: "Spelt as an oversized array so -G8 keeps the eight-byte
  * rectangle out of small data; the retail code addresses it with a %hi/%lo
@@ -429,7 +429,7 @@ extern u8 gGraphics_abPacketBuffers[];
  * same was already true of gGraphics_bExtraFrameStep above, whose volatile view in
  * main_init.c was dropped the same way.
  *
- * Their neighbour D_8009B0A0 begins a four-byte state block. The defining
+ * Their neighbour gGraphics_abOrderingTableLengths begins a four-byte state block. The defining
  * frame unit addresses the block as an array, while Main_InitHardware writes the
  * first three bytes as ordered volatile scalars. The selector keeps both
  * measured views at the owner instead of leaving private declarations in the
@@ -439,11 +439,11 @@ extern u8 gGraphics_bClearBackground;
 extern u8 D_8009B0A8;
 
 #ifdef GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
-extern volatile u8 D_8009B0A0;
-extern volatile u8 D_8009B0A1;
-extern volatile u8 D_8009B0A2;
+extern volatile u8 gGraphics_abOrderingTableLengths;
+extern volatile u8 gGraphics_bOrderingTable1Length;
+extern volatile u8 gGraphics_bOrderingTable2Length;
 #else
-extern u8 D_8009B0A0[4];
+extern u8 gGraphics_abOrderingTableLengths[4];
 #endif
 
 void Graphics_SyncFrame(void);

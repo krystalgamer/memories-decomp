@@ -29,7 +29,7 @@ u8 D_8009B0A8;
 u8 gGraphics_bDither;
 u8 gGraphics_bClearBackground;
 u16 gGraphics_wFlags;
-u8 D_8009B0A0[4];
+u8 gGraphics_abOrderingTableLengths[4];
 u8 gGraphics_bActiveBuffer;
 GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
 s16 gGraphics_sViewportX __attribute__((section(".sbss"))) = 0;
@@ -108,13 +108,13 @@ void Graphics_BeginFrame(void)
     gGraphics_pActiveFrameBuffer =
         &gGraphics_aFrameBuffers[gGraphics_bActiveBuffer];
     GsSetWorkBase((PACKET *)arg);
-    base = D_800E9D90;
+    base = gGraphics_apOrderingTables;
     slot = base + 3;
     do {
         ptr = &gGraphics_pActiveFrameBuffer->ordering_tables[i];
         *slot = ptr;
         slot--;
-        ptr->length = D_8009B0A0[i];
+        ptr->length = gGraphics_abOrderingTableLengths[i];
         GsClearOt(0, 0, ptr);
         i--;
     } while (i >= 0);

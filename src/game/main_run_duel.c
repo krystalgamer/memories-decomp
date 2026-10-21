@@ -50,7 +50,7 @@ void Main_RunDuel(void)
         gMain_bModeRunnerStep = 1;
         if (!D_8009B369 && gDuel_bOpponentID >= 0)
             gMain_bModeRunnerStep = 0;
-        D_8009B0A3[0] = 10;
+        gGraphics_bOrderingTable3Length[0] = 10;
         return;
     }
 
@@ -91,7 +91,7 @@ void Main_RunDuel(void)
         SD_BGMFadeOut();
         SD_ReplaceValueLink(2);
         Main_ClearFrameServiceCallbacks();
-        D_8009B0A3[0] = 6;
+        gGraphics_bOrderingTable3Length[0] = 6;
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
         next = D_8009B368;

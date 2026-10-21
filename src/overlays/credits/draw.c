@@ -95,7 +95,7 @@ void func_8018173C(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
                     setXY4(&shade, x, y, nx, y, x, y + 12, nx, y + 12);
                     glyph.tpage = 10;
                     setUV4(&shade, u, v, u + 8, v, u, v + 12, u + 8, v + 12);
-                    GsSortPoly(&glyph, D_800E9D90[2], 0);
+                    GsSortPoly(&glyph, gGraphics_apOrderingTables[2], 0);
                     x = nx;
                     shade.tpage = 10;
                 }

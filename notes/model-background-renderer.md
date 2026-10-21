@@ -47,7 +47,7 @@ and CLUT coordinates at `+0xAE/+0xB0`. Required arithmetic conditions are:
 - When the visible tiling loop runs, `(u16)(width / 10u)` is nonzero.
 - The selected ordering table is valid and its `length` is below 32.
   `Graphics_BeginFrame` publishes the descriptor and copies its length from
-  the corresponding byte of `D_8009B0A0`; this renderer does not validate it.
+  the corresponding byte of `gGraphics_abOrderingTableLengths`; this renderer does not validate it.
 
 These are supported-format and caller-lifetime assumptions, not claims that
 arbitrary corrupt records, null pointers, or oversized table lengths are safe.

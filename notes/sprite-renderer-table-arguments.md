@@ -3,7 +3,7 @@
 The second parameters of `DisplayObject_RenderSpriteStrips` and
 `DisplayObject_RenderSpriteSheet` are now actual
 `GsOT *ordering_table` descriptors. The old strip name `tex` was not a
-texture word: its only caller selects a typed pointer from `D_800E9D90`.
+texture word: its only caller selects a typed pointer from `gGraphics_apOrderingTables`.
 The sprite-sheet list does the same for the sheet renderer.
 
 Both list callers now pass their existing descriptor pointers directly,
