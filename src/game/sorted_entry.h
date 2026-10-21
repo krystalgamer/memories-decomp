@@ -58,17 +58,17 @@ typedef char SortedEntry_sorted_position_must_be_at_6[
  * to gModel_dwFogDrawFlags (src/game/text_render_state.c:8), and four sites read it back:
  * the two palette builders take the whole word -- func_80033DB0 and
  * func_80034830 (src/game/hmd_fog_textured_drivers.c) each do
- * CVECTOR_WORD(grey) = D_8009B300; and CVECTOR_WORD(white) = D_8009B300; -- while
+ * CVECTOR_WORD(grey) = gModel_dwFogBaseColor; and CVECTOR_WORD(white) = gModel_dwFogBaseColor; -- while
  * the card viewer's fade step reads the low byte through the address,
- * a = *(u8 *)&D_8009B300, and writes the word back (src/game/duel_scene_field_actions.c).
+ * a = *(u8 *)&gModel_dwFogBaseColor, and writes the word back (src/game/duel_scene_field_actions.c).
  *
  * That byte view is why DuelScene_UpdateFieldActions wants this symbol outside
  * small data: it defines D_8009B300_IN_DATA to take the .data arm, the same
  * arrangement the state pointers below use. */
 #ifdef D_8009B300_IN_DATA
-extern u32 D_8009B300 __attribute__((section(".data")));
+extern u32 gModel_dwFogBaseColor __attribute__((section(".data")));
 #else
-extern u32 D_8009B300;
+extern u32 gModel_dwFogBaseColor;
 #endif
 
 #ifdef SORTED_ENTRY_STATE_IN_DATA

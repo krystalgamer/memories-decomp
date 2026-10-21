@@ -23,7 +23,7 @@ void DuelScene_UpdateFieldActions(void);
  * channels. The pass that dims the field sets it to 0x202020
  * (duel_scene_field_actions.c) and a second site sets it to 0x808080 while starting
  * the same walk over the gDuel_aCardRecords card records (:616). The ramp moves
- * D_8009B300 (sorted_entry.h, which this unit already includes) eight levels at
+ * gModel_dwFogBaseColor (sorted_entry.h, which this unit already includes) eight levels at
  * a time towards it, reading this symbol's low
  * channel through a (u8) cast to get the level, clamping there, repacking the
  * three channels, and comparing the whole word to know it has arrived

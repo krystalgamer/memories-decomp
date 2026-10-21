@@ -2171,3 +2171,5 @@ Model_GetHandlerCallbackState = 0x8005F18C; // type:func
 Model_SetHandlerCallbackState = 0x8005F198; // type:func
 gFile_szPositionFormat = 0x80010038;
 gModel_abBackgroundRecords = 0x80091008;
+
+gModel_dwFogBaseColor = 0x8009B300;

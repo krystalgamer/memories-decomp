@@ -92,7 +92,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
         POLY_GT3 *gt = (POLY_GT3 *)0x1F800380;
 
         CVECTOR_WORD(white) = mask;
-        CVECTOR_WORD(grey) = D_8009B300;
+        CVECTOR_WORD(grey) = gModel_dwFogBaseColor;
         while (--n != -1) {
             if (gModel_dwFogDrawFlags & 2) {
                 z = gSortedEntry_pCursor->sorted_position;
@@ -191,7 +191,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
     } else {
         POLY_GT3 *gt = (POLY_GT3 *)0x1F800380;
 
-        CVECTOR_WORD(white) = D_8009B300;
+        CVECTOR_WORD(white) = gModel_dwFogBaseColor;
         while (--n != -1) {
             gte_ldv0(&vertop[rec[7]]);
             gte_rtps();
@@ -333,7 +333,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
         CVECTOR *grey = (CVECTOR *)0x1F8003D0;
 
         CVECTOR_WORD(white) = mask;
-        CVECTOR_WORD(grey) = D_8009B300;
+        CVECTOR_WORD(grey) = gModel_dwFogBaseColor;
         while (--n != -1) {
             flg = (s32 *)0x1F8003E8;
             if (gModel_dwFogDrawFlags & 2) {
@@ -453,7 +453,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
     } else {
         POLY_GT4 *gt = (POLY_GT4 *)0x1F800380;
 
-        CVECTOR_WORD(white) = D_8009B300;
+        CVECTOR_WORD(white) = gModel_dwFogBaseColor;
         while (--n != -1) {
             gte_ldv0(&vertop[rec[7]]);
             gte_rtps();

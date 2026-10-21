@@ -591,7 +591,7 @@ void DuelScene_UpdateFieldActions(void)
             return;
         }
         if (D_8009B174 & 0x20) {
-            a = *(u8 *)&D_8009B300;
+            a = *(u8 *)&gModel_dwFogBaseColor;
             flags = (u8)D_8009B1BC;
             if (a >= flags) {
                 a -= 8;
@@ -604,7 +604,7 @@ void DuelScene_UpdateFieldActions(void)
                 a = flags;
             }
             t = (a << 16) | (a << 8) | a;
-            D_8009B300 = t;
+            gModel_dwFogBaseColor = t;
             if (t == D_8009B1BC && DisplayObject_FindAllocatedByTag(1) == 0) {
                 D_8009B174 &= 0xDF;
             }

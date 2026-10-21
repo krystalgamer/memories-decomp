@@ -243,7 +243,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             directory / "link_symbols.ld"
         ).read_text()
         for name, address in (
-            ("D_8009B300", "0x8009C688"),
+            ("gModel_dwFogBaseColor", "0x8009C688"),
             ("ScaleMatrix", "0x800875F8"), ("GsSetLsMatrix", "0x80085558"),
             ("MulMatrix2", "0x80087408"), ("RotTrans", "0x800878F8"),
             ("RotMatrix", "0x80087CB8"),

@@ -5,7 +5,7 @@
 void func_80035668(u32 value)
 {
     gModel_dwFogDrawFlags = value;
-    D_8009B300 = 0x808080;
+    gModel_dwFogBaseColor = 0x808080;
 }
 
 void SortedEntry_BeginCollection(SortedEntry *list)
