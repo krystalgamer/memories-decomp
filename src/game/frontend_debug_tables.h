@@ -34,14 +34,14 @@
 extern const char gDebugMenu_szCampaignValueFormat[];
 /* The six frontend debug HUD format strings and the scene index table,
    declared here so the source that defines them and the four that read
-   them cannot drift apart. DebugMenu_UpdateCampaignEntry reads D_80090CDC and D_80090CF4
+   them cannot drift apart. DebugMenu_UpdateCampaignEntry reads gDebugMenu_szMessageEditorFormat and gDebugMenu_szCampaignEditorFormat
    when switching between its message and campaign editors. */
-extern u8 D_80090CB4[0x28];
-extern u8 D_80090CDC[0x18];
-extern u8 D_80090CF4[0x18];
-extern u8 D_80090D0C[0x1C];
-extern u8 D_80090D28[0x1C];
-extern u8 D_80090D44[0x24];
+extern u8 gDebugMenu_szSoundEditorFormat[0x28];
+extern u8 gDebugMenu_szMessageEditorFormat[0x18];
+extern u8 gDebugMenu_szCampaignEditorFormat[0x18];
+extern u8 gDebugMenu_szMapEditorFormat[0x1C];
+extern u8 gDebugMenu_szMenuEditorFormat[0x1C];
+extern u8 gDebugMenu_szMovieEditorFormat[0x24];
 #ifdef VERSION_EUROPE
 /* The field table of the European-only language entry (func_80030808). */
 extern u8 D_80091CB8[0x1C];

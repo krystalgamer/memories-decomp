@@ -166,12 +166,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090C50,D_80090C50,D_80090C50,0x8002FA54,Script_RunTick,matching_c,game,C,src/game/script_run_tick.c,read,,D_80090C50[gScript_wCommandWord & 0x1F]();
 0x80090C50,D_80090C50,D_80090C50,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read,,D_80090C50[*(u8 *)&gScript_wCommandWord]();
 0x80090CAC,tent_SceneScriptRecordCallbacks,tent_SceneScriptRecordCallbacks,0x8002FFD4,SceneScript_UpdateSlots,matching_c,game,C,src/game/func_8002FFD4.c,read,,"tent_SceneScriptRecordCallbacks[*(u8 *)&records->unk04](records, value);"
-0x80090CB4,D_80090CB4,D_80090CB4,0x800307B8,DebugMenu_UpdateSoundEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"func_80030250(D_80090CB4, 0x11, 0x19, 0x21, 9, 4, count);"
-0x80090CDC,D_80090CDC,D_80090CDC,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"func_80030250(D_80090CDC, 0x12, 0, 0, 2, 3, 1);"
-0x80090CF4,D_80090CF4,D_80090CF4,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"func_80030250(D_80090CF4, 0x12, 0, 0, 2, 2, 1);"
-0x80090D0C,D_80090D0C,D_80090D0C,0x80030C10,func_80030C10,matching_c,game,C,src/game/frontend_scene_states.c,address,8,"func_80030250(D_80090D0C, 0x14, 0, 0, 0xC, 2, 1);"
-0x80090D28,D_80090D28,D_80090D28,0x80030CB0,DebugMenu_UpdateTitleEntry,matching_c,game,C,src/game/frontend_scene_states.c,address,8,"func_80030250(D_80090D28, 0x15, 0, 0, 0x12, 2, 1);"
-0x80090D44,D_80090D44,D_80090D44,0x80030D5C,DebugMenu_UpdateMovieEntry,matching_c,game,C,src/game/frontend_scene_states.c,address,8,"func_80030250(D_80090D44, 0x1D, 0, 0, 5, 2, 1);"
+0x80090CB4,gDebugMenu_szSoundEditorFormat,gDebugMenu_szSoundEditorFormat,0x800307B8,DebugMenu_UpdateSoundEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"func_80030250(gDebugMenu_szSoundEditorFormat, 0x11, 0x19, 0x21, 9, 4, count);"
+0x80090CDC,gDebugMenu_szMessageEditorFormat,gDebugMenu_szMessageEditorFormat,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"func_80030250(gDebugMenu_szMessageEditorFormat, 0x12, 0, 0, 2, 3, 1);"
+0x80090CF4,gDebugMenu_szCampaignEditorFormat,gDebugMenu_szCampaignEditorFormat,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"func_80030250(gDebugMenu_szCampaignEditorFormat, 0x12, 0, 0, 2, 2, 1);"
+0x80090D0C,gDebugMenu_szMapEditorFormat,gDebugMenu_szMapEditorFormat,0x80030C10,func_80030C10,matching_c,game,C,src/game/frontend_scene_states.c,address,8,"func_80030250(gDebugMenu_szMapEditorFormat, 0x14, 0, 0, 0xC, 2, 1);"
+0x80090D28,gDebugMenu_szMenuEditorFormat,gDebugMenu_szMenuEditorFormat,0x80030CB0,DebugMenu_UpdateTitleEntry,matching_c,game,C,src/game/frontend_scene_states.c,address,8,"func_80030250(gDebugMenu_szMenuEditorFormat, 0x15, 0, 0, 0x12, 2, 1);"
+0x80090D44,gDebugMenu_szMovieEditorFormat,gDebugMenu_szMovieEditorFormat,0x80030D5C,DebugMenu_UpdateMovieEntry,matching_c,game,C,src/game/frontend_scene_states.c,address,8,"func_80030250(gDebugMenu_szMovieEditorFormat, 0x1D, 0, 0, 5, 2, 1);"
 0x80090DD8,D_80090DD8,D_80090DD8,0x80031874,func_80031874,matching_c,game,C,src/game/func_80031874.c,address,8,"func_80031784(header, ot, &D_80090DD8[kind * 16], | func_80031784(header, ot, D_80090DD8, list->sort_mode);"
 0x80090DD8,D_80090DD8,D_80090DD8,0x800323F8,BuildDeck_InitScreen,matching_c,game,C,src/game/func_800323F8.c,address,8,icons = (s32)D_80090DD8;
 0x80090DD8,D_80090DD8,D_80090DD8,0x800330BC,BuildDeck_UpdateCardListInput,matching_c,game,C,src/game/card_list_sort.c,address,8,entry = D_80090DD8 + slot;

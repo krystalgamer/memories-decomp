@@ -2220,3 +2220,9 @@ gModel_dwTpageBlendRateBits = 0x8009AFD8;
 Graphics_SubmitDrawModePacket = 0x8005B260; // type:func
 
 Graphics_SubmitMaskWritePacket = 0x8005B4D8; // type:func
+gDebugMenu_szSoundEditorFormat = 0x80090CB4;
+gDebugMenu_szMessageEditorFormat = 0x80090CDC;
+gDebugMenu_szCampaignEditorFormat = 0x80090CF4;
+gDebugMenu_szMapEditorFormat = 0x80090D0C;
+gDebugMenu_szMenuEditorFormat = 0x80090D28;
+gDebugMenu_szMovieEditorFormat = 0x80090D44;

@@ -277,7 +277,7 @@ void DebugMenu_UpdateSoundEntry(void)
         gDebug_nSceneOrSoundID = gDebug_nLastSoundID[0];
         gDebug_nEditedBgmId = gDebug_nLastBgmId;
         gDebug_nEditedCdSoundId = gDebug_nLastSoundID[1];
-        DebugMenu_OpenValueEditor(D_80090CB4, 0x11, 0x19, 0x21, 9, 4, count);
+        DebugMenu_OpenValueEditor(gDebugMenu_szSoundEditorFormat, 0x11, 0x19, 0x21, 9, 4, count);
         tent_DebugInterfaceFieldC2 = count;
         tent_DebugInterfaceFieldC1 = count;
         return;
@@ -375,11 +375,11 @@ void DebugMenu_UpdateCampaignEntry(void)
         if (gDebugMenu_bCampaignEditField == 0) {
             selection = D_8009AF44;
             gDebug_nSceneOrSoundID = selection;
-            DebugMenu_OpenValueEditor(D_80090CDC, 0x12, 0, 0, 2, 3, 1);
+            DebugMenu_OpenValueEditor(gDebugMenu_szMessageEditorFormat, 0x12, 0, 0, 2, 3, 1);
         } else {
             selection = D_8009AF46;
             gDebug_nSceneOrSoundID = selection;
-            DebugMenu_OpenValueEditor(D_80090CF4, 0x12, 0, 0, 2, 2, 1);
+            DebugMenu_OpenValueEditor(gDebugMenu_szCampaignEditorFormat, 0x12, 0, 0, 2, 2, 1);
         }
     }
 
