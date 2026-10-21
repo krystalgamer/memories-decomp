@@ -550,7 +550,7 @@ not newly inferred UI captions.
 ### Name words, caret index and encoded bytes are different
 
 `gSaveData_aPlayerNameSjis` is a twelve-byte field containing six `u16`
-SJIS code words. `D_8016D42C` is the caret/insertion **word index**,
+SJIS code words. `gNameEntry_bCaretPos` is the caret/insertion **word index**,
 with observed movement bounds 0-5. The corresponding quantities are:
 
 | Quantity | Calculation |

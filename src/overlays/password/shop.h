@@ -30,7 +30,7 @@
 /* The password shop's view of the 0x801A8000 staging buffer: while this
  * screen runs it holds one record per card id, the card's price in
  * starchips and then its eight-digit password packed four bits a digit.
- * Password_LookupCardID walks the passwords from card 1 (D_801A8008) until
+ * Password_LookupCardID walks the passwords from card 1 (gPassword_aTable) until
  * a price of -1 ends the table. card_list_rows.h explains why each
  * subsystem keeps its own declaration of this address. */
 typedef struct {
@@ -40,10 +40,10 @@ typedef struct {
 
 extern PasswordShopCard D_801A8000[];
 
-/* D_801A8008 is the password table Password_LookupCardID searches, and
- * D_801B1245 is the eight-digit string Password_RefreshDigitDisplay rebuilds. */
-extern s32 D_801A8008[];
-extern u8 D_801B1245[];
+/* gPassword_aTable is the password table Password_LookupCardID searches, and
+ * gPassword_szDigits is the eight-digit string Password_RefreshDigitDisplay rebuilds. */
+extern s32 gPassword_aTable[];
+extern u8 gPassword_szDigits[];
 
 /* Builds text-box record 0 and returns it; both call sites ignore the
    record. */

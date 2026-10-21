@@ -952,14 +952,14 @@ the argument move to the end:
 
 ```c
     *(s16 *)(w + 0x60) = 2;
-    node = TextBox_GetGlyphAt(3, D_8016D42C << 4, 0);
+    node = TextBox_GetGlyphAt(3, gNameEntry_bCaretPos << 4, 0);
 ```
 
 Carried in the third argument it is emitted after `a1` is computed, falls to
 the end of the block, and lets the argument move take the head, which matches:
 
 ```c
-    node = TextBox_GetGlyphAt(3, D_8016D42C << 4, (*(s16 *)(w + 0x60) = 2, 0));
+    node = TextBox_GetGlyphAt(3, gNameEntry_bCaretPos << 4, (*(s16 *)(w + 0x60) = 2, 0));
 ```
 
 Which argument matters. The same store folded into the first or the second
