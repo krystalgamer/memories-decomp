@@ -517,9 +517,28 @@ linker symbols named `0x80082E48` `SetPolyF4`. Its body is `SetPolyG3` (length
 Headers 320/470 and 415/565 are ported the same way, from the Spanish
 header-337 rings helper (`variant320_*`) and the header-432 draw, layers and
 bands helpers (`variant415_*`). Every North American header is 17 below the
-Spanish one. Their other functions stay in assembly. The header-415 layers and
-bands helpers are 20 and 18 words longer than their Spanish builds, so the
-compiler change is more than the epilogue `nop`.
+Spanish one. Their other functions stay in assembly, except header 415's entry
+below. The header-415 layers and bands helpers are 20 and 18 words longer than
+their Spanish builds, so the compiler change is more than the epilogue `nop`.
+
+Header 415's entry at `0x0004` (`variant415_entry`, 875 instructions) is
+written for this build rather than ported, since the Spanish header-432 entry is
+still assembly. It sets up three ribbons, two sheets, two sets of three
+seventeen-point strands, four rings, two lines and three sweeps. It reads its
+config (at `0x1F7C + 0x38`, indexed by command) and its three image descriptors
+from the data at `0x1F7C`. It matches only under these conditions:
+
+- The two strand loops share one angle variable. Separate ones need one
+  callee-saved register fewer, and sharing it with the ribbon counter gives the
+  angle too low an allocation priority, so it loses `s0` to the strand cursor.
+- The ribbon loop is counted by `i`.
+- The second strand set's scale is written `-(n * 4096) / 3`. A running
+  accumulator stepped by `-4096` is a source statement, and its copy lands in
+  front of the hoisted `255`, which the retail code has after it.
+
+The two flat-textured packets take their tpage and clut from locals that are
+never assigned. The retail code also loads them from stack slots it never
+writes.
 
 `variant320_ribbon.c` (header 320, 554 instructions) is the one-ribbon form of
 the five-ribbon helper at `0x8013BBA4` in the header-321 images: a
