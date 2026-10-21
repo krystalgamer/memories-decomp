@@ -73,17 +73,17 @@ extern ModelDebugDisplayState gModelDebug_Display;
 #ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 /* The debug controller uses absolute string addresses. Their definitions
  * retain eight bytes each (four for B02C); no larger backing is implied. */
-extern char D_8009B00C[];
-extern char D_8009B014[];
-extern char D_8009B01C[];
-extern char D_8009B024[];
-extern char D_8009B02C[];
+extern char gModelDebug_szNormalColor[];
+extern char gModelDebug_szSelectedColor[];
+extern char gModelDebug_szDigitFormat[];
+extern char gModelDebug_szVersusSeparator[];
+extern char gModelDebug_szLineBreak[];
 #else
-extern char D_8009B00C[8];
-extern char D_8009B014[8];
-extern char D_8009B01C[8];
-extern char D_8009B024[8];
-extern char D_8009B02C[4];
+extern char gModelDebug_szNormalColor[8];
+extern char gModelDebug_szSelectedColor[8];
+extern char gModelDebug_szDigitFormat[8];
+extern char gModelDebug_szVersusSeparator[8];
+extern char gModelDebug_szLineBreak[4];
 #endif
 #ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 extern char D_8009B030[];
