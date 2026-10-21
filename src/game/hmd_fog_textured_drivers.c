@@ -11,8 +11,8 @@
 #include "func_80061A84.h"
 
 /* The two HMD primitive drivers for fog-shaded textured polygons that
-   Model_GetPrimitiveHandler returns: func_80033DB0 for triangles (type
-   0x0002000D, POLY_GT3) and func_80034830 for quads (type 0x00020015,
+   Model_GetPrimitiveHandler returns: Model_DrawFogTexturedTriangles for triangles (type
+   0x0002000D, POLY_GT3) and Model_DrawFogTexturedQuads for quads (type 0x00020015,
    POLY_GT4). They sit back to back in the image and dispatch on the same
    gModel_dwFogDrawFlags bits: 3 hands the block off, 2 walks it, and 0-1 draw sorted
    entries filled and the rest as outlines. */
@@ -38,7 +38,7 @@
 #define LINE_G4_WORD_VIEW(packet) ((u32 *)(packet))
 #define PACKET_OBJECT_VIEW(type, packet) (*(type *)(packet))
 
-u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
+u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
 {
     PSXLONG z;
     u32 flags;
@@ -245,7 +245,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
 
 /*
  * HMD primitive driver for type 0x00020015 (fog-shaded textured quad), the
- * POLY_GT4 twin of func_80033DB0 that Model_GetPrimitiveHandler returns.
+ * POLY_GT4 twin of Model_DrawFogTexturedTriangles that Model_GetPrimitiveHandler returns.
  * Bit 3 of gModel_dwFogDrawFlags hands the block to func_80061A84, bit 2 walks the
  * quads through SortedEntry_Append, and bits 0-1 draw sorted entries as POLY_GT4
  * and the rest as a LINE_G4 outline closed by a LINE_G2; otherwise every
@@ -277,7 +277,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
 #define ABS3(v) ((v) >= 0 ? (v) : -(v))
 #define LINE_G2_VIEW(packet) ((LINE_G2 *)(packet))
 
-u32 *func_80034830(GsARGUNIT_NORMAL *arg)
+u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
 {
     PSXLONG z;
     u32 flags;

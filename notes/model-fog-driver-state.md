@@ -1,5 +1,32 @@
 # Model fog-driver colour state
 
+## Paired HMD drivers and flags setter
+
+`Model_DrawFogTexturedTriangles` and `Model_DrawFogTexturedQuads` are the
+former `func_80033DB0` and `func_80034830`. `Model_GetPrimitiveHandler`
+returns them for HMD types `0x0002000D` and `0x00020015`. Both are game-owned
+drivers, not new identifications of SDK functions.
+
+They preserve the original `u32 *`/`GsARGUNIT_NORMAL *` callback interfaces,
+paired source order and complete object coverage. Flag bit three delegates,
+bit two collects sorted entries, and the existing lower-bit paths choose
+filled polygons or outlines. All COP2 placeholders/filter output, scratchpad
+addresses, packet/cursor operations, clipping, strides and register lifetimes
+remain exact. The triangle's `rec += 11; rec++;` form is not simplified.
+
+The original `gcc_2_8_1_g8_split_psyq_gte` profile and `0xA80`/`0xD68`
+extents remain selected in every native image. No new assembly, GTE filter,
+helper extraction or changed mode policy is introduced.
+
+`Model_SetFogDrawFlags` is the former `func_80035668`. It retains its
+unrestricted `u32` argument/void return, full-word flags store followed by
+the unconditional `0x808080` colour reset, `0x18` extent and `gcc_2_8_1_g8`.
+It stays grouped with `SortedEntry_BeginCollection`; that sibling is not
+rewritten. The existing owner-header old-spelling bridge preserves the
+historical overworld initializer C body.
+
+## Base colour
+
 `gModel_dwFogBaseColor` is the former NA `D_8009B300`.
 The two game-owned fog-textured HMD drivers copy the whole word into their
 scratch `CVECTOR` palettes for normal/depth-cued colours. The flags setter

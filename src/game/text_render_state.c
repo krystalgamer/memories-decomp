@@ -2,7 +2,7 @@
 #include "sorted_entry.h"
 #include "text_render_state.h"
 
-void func_80035668(u32 value)
+void Model_SetFogDrawFlags(u32 value)
 {
     gModel_dwFogDrawFlags = value;
     gModel_dwFogBaseColor = 0x808080;

@@ -870,7 +870,7 @@ void Library_InitializeScreen(void) {
 
     gGraphics_sViewportY = 0;
     gGraphics_sViewportX = 0;
-    func_80035668(0);
+    Model_SetFogDrawFlags(0);
     DuelEffect_ClearResourceObjectPointers(0);
     n = CARD_COUNT - 1;
     q = (s16 *)0x801805A2;

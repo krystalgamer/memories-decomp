@@ -120,9 +120,9 @@ block_33:
     }
     goto block_107;
 block_36:
-    return func_80033DB0;
+    return Model_DrawFogTexturedTriangles;
 block_37:
-    return func_80034830;
+    return Model_DrawFogTexturedQuads;
 block_38:
     temp_a0_3 = arg0 & 0xFFFF;
     if (temp_a0_3 == 0x15) {

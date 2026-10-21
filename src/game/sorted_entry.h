@@ -54,10 +54,10 @@ typedef char SortedEntry_sorted_position_must_be_at_6[
     SORTED_ENTRY_OFFSET(sorted_position) == 6 ? 1 : -1
 ];
 
-/* The grey fill word. func_80035668 stores 0x808080 here alongside its write
+/* The grey fill word. Model_SetFogDrawFlags stores 0x808080 here alongside its write
  * to gModel_dwFogDrawFlags (src/game/text_render_state.c:8), and four sites read it back:
- * the two palette builders take the whole word -- func_80033DB0 and
- * func_80034830 (src/game/hmd_fog_textured_drivers.c) each do
+ * the two palette builders take the whole word -- Model_DrawFogTexturedTriangles and
+ * Model_DrawFogTexturedQuads (src/game/hmd_fog_textured_drivers.c) each do
  * CVECTOR_WORD(grey) = gModel_dwFogBaseColor; and CVECTOR_WORD(white) = gModel_dwFogBaseColor; -- while
  * the card viewer's fade step reads the low byte through the address,
  * a = *(u8 *)&gModel_dwFogBaseColor, and writes the word back (src/game/duel_scene_field_actions.c).
@@ -83,14 +83,14 @@ extern u32 gSortedEntry_nSortedCount __attribute__((section(".data")));
 #else
 extern u32 gSortedEntry_nSortedCount;
 #endif
-/* The fog-textured HMD drivers' mode word (func_80033DB0 and func_80034830 in
+/* The fog-textured HMD drivers' mode word (Model_DrawFogTexturedTriangles and Model_DrawFogTexturedQuads in
  * hmd_fog_textured_drivers.c): bit 3 hands the block to another driver, bit 2
  * walks it through SortedEntry_Append, and bits 0-1 draw sorted entries.
  * SortedEntry_BeginCollection sets bit 2 when it opens the list and
  * SortedEntry_SortAndRelink clears it again. Duel_DrawFieldCards tests bit 1 and
  * clears bits 0 and 1. Only func_800220B8's debug toggle of bit 0 sets either
  * in the decompiled tree, so what raises the flag Duel_DrawFieldCards tests is
- * not known here.  func_80035668 writes the word wholesale, and all three of
+ * not known here.  Model_SetFogDrawFlags writes the word wholesale, and all three of
  * its call sites pass 0. */
 #ifdef D_8009B30C_AS_SIGNED_DATA
 extern s32 gModel_dwFogDrawFlags __attribute__((section(".data")));
