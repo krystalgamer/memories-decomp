@@ -6,7 +6,7 @@
 #include "../../game/model_slot_queries.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_texture_upload.h"
-#include "../../game/func_80057E20.h"
+#include "../../game/model_get_slot_dimensions_with_minimums.h"
 #include "../../game/model_get_frame_step.h"
 #include "../../game/gpu_packets.h"
 #include "../../psyq/sdk_internal.h"

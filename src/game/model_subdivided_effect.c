@@ -5,7 +5,7 @@
 #include "../psyq/strings.h"
 #include "../psyq/stdio.h"
 #include "model_geometry_tables.h"
-#include "func_80057E20.h"
+#include "model_get_slot_dimensions_with_minimums.h"
 #include "model_get_frame_step.h"
 #include "model_copy_slot_u16_values.h"
 #include "gpu_packets.h"
@@ -54,7 +54,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
         s32 ticks = Model_GetFrameStep();
         if (mode >= 0) {
             config = effect->config = (ModelSubdividedEffectConfig *)D_800915E8;
-            func_80057E20(Model_GetActiveSlotIndex(), &bounds);
+            Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex(), &bounds);
             work = height = bounds.max;
             work /= 2;
             height /= 2;

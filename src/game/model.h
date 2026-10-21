@@ -145,7 +145,7 @@ typedef union {
         u8 field_04[4];
         u32 field_08;
     } values;
-    /* The three per-axis minima func_80057E20 clamps an effect adjustment
+    /* The three per-axis minima Model_GetSlotDimensionsWithMinimums clamps an effect adjustment
      * up to, at slot offsets 0xCFF, 0xD00 and 0xD01. Each is a byte scaled
      * by 16, and zero means the axis is not clamped. A third arm rather than
      * members of `bytes` because that arm's field_00 is also the base of the
@@ -746,6 +746,6 @@ extern ModelHandlerRegistryEntry
 s32 Model_LoadMonsterMerge(
     s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
 );
-void func_80059284(s32 index, s32 value);
+void Model_SetSlotDrawMode(s32 index, s32 value);
 
 #endif

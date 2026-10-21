@@ -1,13 +1,13 @@
 #include "../types.h"
-#include "func_80057E20.h"
+#include "model_get_slot_dimensions_with_minimums.h"
 #include "model.h"
 
-/* Copies the 8-byte {x,y,z} vector (+trailing pad word) at record[idx]+0xDC8
-   into *out, then clamps each axis up to the per-record minimum the slot's
+/* Copies the four cached halfwords at record[idx]+0xDC8 into *out, then
+   clamps each axis up to the per-record minimum the slot's
    CF8 prefix carries for it: min_x, min_y and min_z, each a byte multiplied
    by 16, with 0 meaning "no clamp". Finally sets out->max to the largest of
    {x (if positive), y, z}. */
-void func_80057E20(s32 idx, ModelEffectAdjustment *out) {
+void Model_GetSlotDimensionsWithMinimums(s32 idx, ModelEffectAdjustment *out) {
     ModelSlot *rec = &gModel_aSlots[idx];
     ModelSlotCF8Prefix *cf8 = &rec->field_CF8.prefix;
 

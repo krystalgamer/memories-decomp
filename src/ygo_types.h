@@ -957,7 +957,7 @@ typedef char ModelEffectEndpoint_kind_offset_must_be_0x6[
     YGO_TYPE_OFFSET(ModelEffectEndpoint, kind) == 0x6 ? 1 : -1
 ];
 
-/* Four halfwords produced by func_80059000. The fourth is the maximum of the
+/* Four halfwords produced by Model_GetSlotDimensionsWithOverrides. The fourth is the maximum of the
    first three after the slot-specific overrides are applied. */
 typedef struct {
     s16 x;
