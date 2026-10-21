@@ -6,7 +6,7 @@
  * File_RequestSecondarySlot.
  *
  * FILE_TRANSFER_BYTE_VIEWS only adds the byte views D_801D4200_raw and
- * D_8009B11C_byte from file_transfer.h, so it is selected for the whole unit.
+ * gFile_FilterParamsByte from file_transfer.h, so it is selected for the whole unit.
  */
 #define FILE_TRANSFER_BYTE_VIEWS
 
@@ -229,7 +229,7 @@ void File_HandleReadEvent(u8 event)
 {
     if (event == 5) {
         gFile_CommandRetryCount++;
-        DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)File_HandleReadEvent, -1);
+        DsPacket(0xA0, (DslLOC *)gFile_TargetLoc, 6, (DslCB)File_HandleReadEvent, -1);
     } else if (event == 2) {
         DsReadySystemMode(1);
         DsStartReadySystem((DslRCB)File_TransferReadyCallback, -1);
@@ -243,7 +243,7 @@ void File_HandleSeekEvent(u8 event)
 {
     if (event == 5) {
         gFile_CommandRetryCount++;
-        DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)File_HandleSeekEvent, -1);
+        DsPacket(0xA0, (DslLOC *)gFile_TargetLoc, 0x15, (DslCB)File_HandleSeekEvent, -1);
     } else if (event == 2) {
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
@@ -267,7 +267,7 @@ void File_HandleRangePauseEvent(s32 event)
         gFile_CommandRetryCount++;
         DsCommand(9, 0, (DslCB)File_HandleRangePauseEvent, -1);
     } else if (event == 2) {
-        D_8009B100 = event;
+        gFile_wStepState = event;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
@@ -286,10 +286,10 @@ void File_HandleSetFilterEvent(u8 event)
 {
     if (event == DslDiskError) {
         gFile_CommandRetryCount++;
-        DsCommand(DslSetfilter, (u8 *)D_8009B11C,
+        DsCommand(DslSetfilter, (u8 *)gFile_FilterParams,
                   (DslCB)File_HandleSetFilterEvent, -1);
     } else if (event == DslComplete) {
-        D_8009B100 = 4;
+        gFile_wStepState = 4;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
@@ -299,10 +299,10 @@ void File_HandleRangeReadEvent(u8 event)
     if (event == 5) {
         gFile_CommandRetryCount++;
         DsPacket(
-            0x4A, DSL_LOC_VIEW(D_8009B104), 0x1B,
+            0x4A, DSL_LOC_VIEW(gFile_TargetLoc), 0x1B,
             (DslCB)File_HandleRangeReadEvent, -1);
     } else if (event == 2) {
-        D_8009B100 = 5;
+        gFile_wStepState = 5;
         D_8009B0F4 |= FILE_TRANSFER_STATE_POSITION_QUERY_PENDING;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
@@ -329,7 +329,7 @@ void File_ActivateTransfer(void)
     *(FileRequestSlot *)D_801D4200_raw =
         *(FileRequestSlot *)(D_801D4200_raw + 32);
     if (gFile_PrimaryTransferDescriptor.done == 4)
-        D_8009B112 |= 1;
+        gFile_wTransferStepFlags |= 1;
     D_8009B0F4 =
         gFile_PrimaryTransferDescriptor.status_flags |
         FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
@@ -360,25 +360,25 @@ void File_StepActiveTransfer(void)
         return;
     }
     if (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE) {
-        if (!(D_8009B112 & 0x8000)) {
-            D_8009B112 = D_8009B112 | 0x8000;
-            if ((D_8009B112 & 3) == 0) {
-                D_8009B112 = 0;
+        if (!(gFile_wTransferStepFlags & 0x8000)) {
+            gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x8000;
+            if ((gFile_wTransferStepFlags & 3) == 0) {
+                gFile_wTransferStepFlags = 0;
                 goto call_144B8;
             }
-            if (!(D_8009B112 & 0x2000)) {
-                D_8009B100 = 0;
+            if (!(gFile_wTransferStepFlags & 0x2000)) {
+                gFile_wStepState = 0;
             }
-            if (D_8009B112 & 2) {
-                D_8009B112 = D_8009B112 & 0xFFFE;
+            if (gFile_wTransferStepFlags & 2) {
+                gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0xFFFE;
             } else {
                 p->field_30.word = 0;
             }
         }
-        switch (D_8009B100) {
+        switch (gFile_wStepState) {
         case 0:
-            D_8009B112 = D_8009B112 | 0x2000;
-            D_8009B100 = 1;
+            gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x2000;
+            gFile_wStepState = 1;
         case 1:
             if (DsCommand(9, 0, (DslCB)File_HandleRangePauseEvent, -1) <= 0) {
                 return;
@@ -387,19 +387,19 @@ void File_StepActiveTransfer(void)
             cb = gFile_RangePauseCallback;
             goto call_back;
         case 2:
-            D_8009B112 = D_8009B112 & 0xDFFF;
-            if (D_8009B112 & 1) {
+            gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0xDFFF;
+            if (gFile_wTransferStepFlags & 1) {
                 goto set_state3;
             }
-            D_8009B112 = 0;
+            gFile_wTransferStepFlags = 0;
 call_144B8:
             File_FinishActiveTransfer();
             return;
 set_state3:
-            D_8009B100 = 3;
+            gFile_wStepState = 3;
         case 3:
-            D_8009B112 = D_8009B112 | 0x1000;
-            q = &D_8009B11C_byte + 1;
+            gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x1000;
+            q = &gFile_FilterParamsByte + 1;
             /* In sector-range mode the word at 0x38 carries the
                CdlSetfilter channel (low byte) and file (next byte). */
             *q = ((u8 *)&p->callback_data)[0];
@@ -412,20 +412,20 @@ set_state3:
             return;
         case 4:
             CdIntToPos_8007E600(
-                p->absolute_lba, CDL_LOC_VIEW(D_8009B104)
+                p->absolute_lba, CDL_LOC_VIEW(gFile_TargetLoc)
             );
             if (DsPacket(
-                    0x4A, DSL_LOC_VIEW(D_8009B104), 0x1B,
+                    0x4A, DSL_LOC_VIEW(gFile_TargetLoc), 0x1B,
                     (DslCB)File_HandleRangeReadEvent, -1) <= 0) {
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
             return;
         case 5:
-            D_8009B100 = 6;
+            gFile_wStepState = 6;
             gFile_RangeWaitCountdown = 0x258;
-            D_8009B112 = D_8009B112 & 0xEFFF;
-            D_8009B112 = D_8009B112 | 0x4000;
+            gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0xEFFF;
+            gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x4000;
             cb2 = gFile_RangeReadCallback;
             if (cb2 != 0) {
                 cb2();
@@ -437,9 +437,9 @@ set_state3:
                     return;
                 }
             }
-            D_8009B112 = D_8009B112 & 0x3FFC;
+            gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0x3FFC;
             cb = gFile_RangePauseCallback;
-            D_8009B112 = D_8009B112 | 2;
+            gFile_wTransferStepFlags = gFile_wTransferStepFlags | 2;
 call_back:
             if (cb != 0) {
                 cb();
@@ -470,13 +470,13 @@ call_back:
         }
         goto call_144B8;
     }
-    CdIntToPos_8007E600(p->absolute_lba, CDL_LOC_VIEW(D_8009B104));
+    CdIntToPos_8007E600(p->absolute_lba, CDL_LOC_VIEW(gFile_TargetLoc));
     if (D_8009B0F4 & 0x100000) {
         if ((s32)D_8009B0F4 < 0) {
             goto call_144B8;
         }
         if (DsPacket(
-                0xA0, DSL_LOC_VIEW(D_8009B104), 0x15,
+                0xA0, DSL_LOC_VIEW(gFile_TargetLoc), 0x15,
                 (DslCB)File_HandleSeekEvent, -1) <= 0) {
             return;
         }
@@ -499,7 +499,7 @@ call_back:
     }
     if ((s32)D_8009B0F4 >= 0) {
         if (DsPacket(
-                0xA0, DSL_LOC_VIEW(D_8009B104), 6,
+                0xA0, DSL_LOC_VIEW(gFile_TargetLoc), 6,
                 (DslCB)File_HandleReadEvent, -1) == 0) {
             return;
         }
@@ -624,8 +624,8 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
 
     if (c != 0) {
         if (c < 0) {
-            D_8009B112 = D_8009B112 & 0x3FFC;
-            D_8009B112 = D_8009B112 | 2;
+            gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0x3FFC;
+            gFile_wTransferStepFlags = gFile_wTransferStepFlags | 2;
             return 1;
         }
         n = *(s32 *)D_800E9EC0 + p->field_04;

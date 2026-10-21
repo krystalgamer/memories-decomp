@@ -56,8 +56,8 @@ s32 gFile_anLba[1];
 u32 D_8009B134;
 s32 gFile_ReadyDataEventCount;
 s32 gFile_CommandRetryCount;
-volatile u16 D_8009B100;
-char D_8009B104[1];
+volatile u16 gFile_wStepState;
+char gFile_TargetLoc[1];
 FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
