@@ -46,8 +46,8 @@ typedef char DuelFieldEffectObject_active_offset_must_be_0x6C[
 /* Adjacent application handlers from the magic-effect group table plus the
  * per-card reveal callback. They share the gDuel_aCardRecords field walk,
  * gDuel_wCardEffectFlags phase state, effect-object requests and completion gates. */
-extern s16 D_8009B1AC;
-extern s16 D_8009B1AE;
+extern s16 gDuel_wMonsterRemovalCriterion;
+extern s16 gDuel_wMonsterRemovalZone;
 
 void DuelEffect_ApplyLifePointRecovery(void);
 void DuelEffect_ApplyDirectDamage(void);

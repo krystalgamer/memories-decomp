@@ -120,7 +120,7 @@ def initialized_definitions(source: str) -> list[str]:
     carves put the attribute on its own line, so a line-based reader would
     miss the `=`.
 
-    Function-pointer tables need their own pattern. `void (*D_80090DF8[])(u8 *)`
+    Function-pointer tables need their own pattern. `void (*gBuildDeck_apfnStepHandlers[])(u8 *)`
     declares its name inside parentheses, so the rule that takes the last
     identifier before `=` would read the parameter type instead. An earlier
     draft skipped every declaration containing `(` to avoid function bodies

@@ -8,7 +8,7 @@ struct BuildDeckTransitionState;
 /* The build-deck pane transition step table and the decimal divisor ladder,
    declared here so the source that defines them and the two that read them
    cannot drift apart. */
-extern void (*D_80090DF8[])(struct BuildDeckTransitionState *);
+extern void (*gBuildDeck_apfnStepHandlers[])(struct BuildDeckTransitionState *);
 extern s32 D_80090E0C[];
 
 #endif

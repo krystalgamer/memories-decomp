@@ -77,7 +77,7 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
  * BuildDeck_Update still spells the two scroll-box loads as byte offsets:
  * replacing those two expressions with the equivalent fields changes GCC
  * 2.8.1 instruction selection. The shared layout checks keep those preserved
- * raw accesses tied to the same record. The complete D_80090DF8 callback
+ * raw accesses tied to the same record. The complete gBuildDeck_apfnStepHandlers callback
  * family receives this type directly. */
 extern BuildDeckTransitionState *G32 gBuildDeck_pState;
 
