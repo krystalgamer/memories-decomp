@@ -105,18 +105,18 @@ u8 gModel_bCurrentDrawMode;
         if ((fl) != 3) { \
             if ((fl) != 4) { \
                 if ((fl) != 5) { \
-                    D_8009AFD8 = 0; \
+                    gModel_dwTpageBlendRateBits = 0; \
                 } else { \
-                    D_8009AFD8 = 0x200000; \
+                    gModel_dwTpageBlendRateBits = 0x200000; \
                 } \
             } else { \
-                D_8009AFD8 = 0x600000; \
+                gModel_dwTpageBlendRateBits = 0x600000; \
             } \
         } else { \
-            D_8009AFD8 = 0x400000; \
+            gModel_dwTpageBlendRateBits = 0x400000; \
         } \
     } else { \
-        D_8009AFD8 = 0x200000; \
+        gModel_dwTpageBlendRateBits = 0x200000; \
     } \
     if ((fl) == 5) { \
         D_8009AFDC = MODEL_RENDER_BLEND_MODE_5_WORD; \
@@ -124,11 +124,11 @@ u8 gModel_bCurrentDrawMode;
         D_8009AFDC = 0; \
     } \
     (mode) = (fl) - 1; \
-    D_8009AFE5 = (u32)(mode) < 4; \
-    if (D_8009AFE5 != 0) { \
-        D_8009AFD4 = (((mode) << 5) & 0x9FF) | 0xE1000200; \
+    gModel_bBlendRateActive = (u32)(mode) < 4; \
+    if (gModel_bBlendRateActive != 0) { \
+        gModel_dwDrawModeTemplate = (((mode) << 5) & 0x9FF) | 0xE1000200; \
     } else { \
-        D_8009AFD4 = 0xE1000220; \
+        gModel_dwDrawModeTemplate = 0xE1000220; \
     } \
     }
 
@@ -278,10 +278,10 @@ void Model_DrawSlot(s32 index)
         gModel_dwPolyFt4SemiTemplate = 0x2E808080;
         gModel_dwPolyGt3SemiTemplate = 0x36808080;
         gModel_dwPolyGt4SemiTemplate = 0x3E808080;
-        D_8009AFD8 = 0;
+        gModel_dwTpageBlendRateBits = 0;
         D_8009AFDC = 0;
-        D_8009AFE5 = 0;
-        D_8009AFD4 = 0xE1000220;
+        gModel_bBlendRateActive = 0;
+        gModel_dwDrawModeTemplate = 0xE1000220;
     }
 
     e = slot->field_000;

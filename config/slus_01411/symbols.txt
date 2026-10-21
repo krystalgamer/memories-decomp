@@ -1293,12 +1293,12 @@ gGraphics_bFrameStep = 0x8009AFA3; // defined:True
 D_8009AFA4 = 0x8009AFA4; // defined:True
 D_8009AFA6 = 0x8009AFA6; // defined:True
 gModel_bCurrentDrawMode = 0x8009AFE4; // defined:True
-D_8009AFE5 = 0x8009AFE5; // defined:True
+gModel_bBlendRateActive = 0x8009AFE5; // defined:True
 gModel_wDrawTintRedGreen = 0x8009AFE6; // defined:True
 gModel_bDrawTintBlue = 0x8009AFE8; // defined:True
-D_8009AFE9 = 0x8009AFE9; // defined:True
+gModel_bPresentationTimer = 0x8009AFE9; // defined:True
 D_8009AFEC = 0x8009AFEC; // defined:True
-D_8009AFF4 = 0x8009AFF4; // defined:True
+gModel_szWhyTrace = 0x8009AFF4; // defined:True
 D_8009AFFC = 0x8009AFFC; // defined:True
 D_8009B004 = 0x8009B004; // defined:True
 gModelDebug_Display = 0x8009B008; // defined:True
@@ -2214,6 +2214,8 @@ gModel_dwPolyGt3SemiTemplate = 0x8009AFC4;
 gModel_dwPolyGt4SemiTemplate = 0x8009AFC8;
 gModel_dwLineF3Template = 0x8009AFCC;
 gModel_dwLineF4Template = 0x8009AFD0;
+gModel_dwDrawModeTemplate = 0x8009AFD4;
+gModel_dwTpageBlendRateBits = 0x8009AFD8;
 
 Graphics_SubmitDrawModePacket = 0x8005B260; // type:func
 

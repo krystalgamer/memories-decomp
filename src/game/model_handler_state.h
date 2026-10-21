@@ -8,18 +8,23 @@
  * Model_DrawSlot updates the five leading state fields. The following word
  * pairs and mutable words are consumed by the neighbouring unmatched model
  * handlers, and the fixed-size strings are their diagnostic labels and
- * formatting fragments. Address-based names remain because the exact field
- * meanings are not yet established. D_8009B004 is a four-byte debug-state
+ * formatting fragments. Address-based names remain where the exact field
+ * meanings are not yet established. gModel_bBlendRateActive records whether
+ * Model_DrawSlot's fade mode selected one of the four GPU blend rates
+ * (mode 1-4), gModel_bPresentationTimer is the frame-step accumulator
+ * Model_UpdateAnimatedBattle counts to 60 between phases, and
+ * gModel_szWhyTrace is the "WHY?\n" debug-font trace the US/European
+ * controllers print on a fallback path. D_8009B004 is a four-byte debug-state
  * record: two independent state bytes and a height halfword that is updated
  * unsigned but consumed signed. It is defined with
  * ModelDebug_UpdateController so MASPSX can see its small-data extent; the
  * surrounding prefix and diagnostic suffix retain their original separate
  * storage. */
 extern u8 gModel_bCurrentDrawMode;
-extern u8 D_8009AFE5;
+extern u8 gModel_bBlendRateActive;
 extern u16 gModel_wDrawTintRedGreen;
 extern u8 gModel_bDrawTintBlue;
-extern u8 D_8009AFE9;
+extern u8 gModel_bPresentationTimer;
 /* The mode 15 controller copies this view offset through a split absolute
  * address; its unknown-bound view changes no storage extent. */
 #ifdef MODEL_HANDLER_VIEW_OFFSET_ABSOLUTE
@@ -30,9 +35,9 @@ extern u32 D_8009AFEC[2];
 /* The control dispatcher needs split absolute addresses for these calls.
  * Its unknown-bound view changes no storage extent. */
 #ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
-extern char D_8009AFF4[];
+extern char gModel_szWhyTrace[];
 #else
-extern char D_8009AFF4[8];
+extern char gModel_szWhyTrace[8];
 #endif
 /* The unknown-bound view selects the intro controller's split absolute
  * addressing; the definition remains the same two .sdata words. */
