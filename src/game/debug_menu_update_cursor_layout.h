@@ -20,7 +20,7 @@ struct LayoutSource {
     u16 row;
 };
 
-/* The write side, D_8009B2E4, used to have a narrow view here called
+/* The write side, gDebugMenu_pCursorQuad, used to have a narrow view here called
  * LayoutTarget. It is gone: the record is a DisplayObject.
  *
  * That view was declined a merge on the grounds that no file read both its

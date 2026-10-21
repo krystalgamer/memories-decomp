@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* The frontend's scene states, the steps of the gDebugMenu_apfnPrimaryPageSteps table in
- * frontend_step_tables.c. Most latch bit 0x80 of D_8009B2EB on their first
+ * frontend_step_tables.c. Most latch bit 0x80 of gDebugMenu_bStep on their first
  * call to do their setup, poll on later calls, and clear the byte when done.
  * DebugMenu_EnterDuel and DebugMenu_EnterDeckEditor act once without the latch. The number after
  * each name is its gDebugMenu_apfnPrimaryPageSteps index.
