@@ -26,7 +26,7 @@ typedef struct {
 } ModelDiscEffectState;
 
 /* Sixteen bytes of rodata copied whole into the handler's scale vector. */
-extern VECTOR D_8001187C;
+extern VECTOR gModel_DiscEffectInitialScale;
 
 /* Particle state for Model_UpdateBurstEffect, a handler in the D_800114E8 model effect
  * table. Three expanding rings, 64 dust particles, 32 sparks with drift and

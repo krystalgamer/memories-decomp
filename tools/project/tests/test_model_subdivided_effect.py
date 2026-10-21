@@ -46,7 +46,7 @@ enum { BYTES = 0x1318, GUARD = 32, TOTAL = BYTES + 64, CAPACITY = 384,
        P3, P4, LS, COPY, TRANS, ROTATE, MUL, SCALE, PROJECT, SUBMIT_PACKET, LINE,
        POP, KINDS, FAILURE = 79 };
 
-VECTOR D_8001185C = {4096,4096,4096,0};
+VECTOR gModel_SubdividedEffectInitialScale = {4096,4096,4096,0};
 char D_8001186C[] = "%d (0x%x) Byte\n";
 u32 gModel_SubdividedEffectConfigWords[7];
 static u32 alternate[7];
@@ -328,7 +328,7 @@ static s32 oracle(s32 mode)
     s32 ticks,i,j,radius,height,elapsed,remaining,facing;
     long flag,interpolation,depth;
     memset(&rotation,0,8); memset(&position,0,8);
-    scale=D_8001185C; Model_GetActiveSlotIndex(); ticks=Model_GetFrameStep();
+    scale=gModel_SubdividedEffectInitialScale; Model_GetActiveSlotIndex(); ticks=Model_GetFrameStep();
     if(mode>=0) {
         config=(u8 *)gModel_SubdividedEffectConfigWords; put32(object,(u32)config);
         Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex(),(ModelEffectAdjustment *)bounds);

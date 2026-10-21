@@ -32,3 +32,22 @@ providers. The European subdivided configuration spelling bridge retires
 when its canonical binding is wired. Reader source grouping, profiles,
 initializers, qualifiers, existing casts and control paths are unchanged.
 No regional table contents are assumed equal to NA.
+
+## Independent initial scale vectors
+
+`gModel_SubdividedEffectInitialScale`, `gModel_DiscEffectInitialScale` and
+`gModel_BurstEffectInitialScale` are the former `D_8001185C`, `D_8001187C`
+and `D_8001188C`. Their respective handlers copy each complete `VECTOR`
+into a local scale before the existing effect work.
+
+Actual NA retail words at each label are `{4096, 4096, 4096, 0}`. They
+nevertheless remain three independent sixteen-byte constants and relocation
+identities. They are not deduplicated, given stronger qualifiers, moved
+between headers or assumed to share regional contents.
+
+The European subdivided-effect scale bridge retires with its explicit
+canonical provider binding. The similarly spelled French compatibility
+labels are distinct identities and remain untouched. Existing regression
+controls change identifiers only; all reader signatures, profiles, source
+groups, overlay bodies, historical attempts and numeric Lua traces remain
+unchanged.

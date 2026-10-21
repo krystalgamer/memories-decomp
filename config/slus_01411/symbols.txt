@@ -2167,3 +2167,9 @@ gModel_DiscEffectConfig = 0x80091604;
 gModel_BurstImageData = 0x80091610;
 
 gModel_BurstRingPaletteWords = 0x800916D4;
+
+gModel_SubdividedEffectInitialScale = 0x8001185C;
+
+gModel_DiscEffectInitialScale = 0x8001187C;
+
+gModel_BurstEffectInitialScale = 0x8001188C;

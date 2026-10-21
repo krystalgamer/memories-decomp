@@ -47,7 +47,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
 
     memset(&rotation, 0, sizeof(rotation));
     memset(&position, 0, sizeof(position));
-    scale = D_8001185C;
+    scale = gModel_SubdividedEffectInitialScale;
     effect = data;
     Model_GetActiveSlotIndex();
     {

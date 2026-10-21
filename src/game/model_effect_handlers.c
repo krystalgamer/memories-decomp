@@ -61,7 +61,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8001187C;
+    scale = gModel_DiscEffectInitialScale;
     e = arg0;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
@@ -246,7 +246,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
     f = &ft4;
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8001188C;
+    scale = gModel_BurstEffectInitialScale;
     e = data;
     slot = Model_GetActiveSlotIndex();
 
