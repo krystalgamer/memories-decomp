@@ -9,8 +9,6 @@
 #define D_8009AF44 D_8009AE8C
 #define D_8009AF46 D_8009AE8E
 #define D_8009AF4C gJapanese_D_8009AF4C
-#define D_80090CDC D_80090B8C
-#define D_80090CF4 D_80090BA4
 #define D_800EB0F8 gJapanese_D_800EB0F8
 
 /* Values that differ in the Japanese release; the US source names each

@@ -13,7 +13,7 @@ The header still declares views only; it adds no C-owned backing storage.
 `DebugMenu_OpenValueEditor` stores three caret columns at `0x8009B2B4..B2B6` and initializes
 three digit counts at `0x8009B2C0..B2C2`. The sound editor `DebugMenu_UpdateSoundEntry`
 requests three rows with columns `0x11, 0x19, 0x21`, then overrides rows 1
-and 2 to three digits. Its format at `D_80090CB4` contains three conversions:
+and 2 to three digits. Its format at `gDebugMenu_szSoundEditorFormat` contains three conversions:
 `%04X`, `%03X`, `%03X`. The scene/menu/movie states request one row and
 use their corresponding single-conversion strings from
 `frontend_debug_tables.c`.
