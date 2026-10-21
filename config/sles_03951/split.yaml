@@ -79,7 +79,7 @@ segments:
       - [0x9EC, .rodata, game/european/library_runtime]
       - [0xA34, .rodata, game/main_apply_menu_selection]
       - [0xA60, .rodata, game/spanish/debug_menu_editor_entries]
-      - [0xA98, .rodata, game/european/duel_reward_setup]
+      - [0xA98, .rodata, game/european/card_list_setup]
       - {start: 0xAAC, type: bin, name: spanish_raw_800102ac, linker_section_order: .rodata}
       - [0xAB0, .rodata, game/european/card_list_sort]
       - [0xAD4, .rodata, game/european/free_duel_load_package_stage]
@@ -294,7 +294,7 @@ segments:
       - [0x22A30, c, game/european/build_deck_card_counts]
       - [0x22BF0, c, game/build_deck_recount_deck_cards]
       - [0x22C90, c, game/build_deck_add_card]
-      - [0x22D58, c, game/european/duel_reward_setup]
+      - [0x22D58, c, game/european/card_list_setup]
       - [0x23024, c, game/european/build_deck_init_screen]
       - [0x23834, c, game/build_deck_test_and_set_initialized]
       - [0x2385C, c, game/european/card_list_sort]

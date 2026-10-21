@@ -102,7 +102,7 @@ segments:
     - game/french/debug_menu_editor_entries
   - - 2712
     - .rodata
-    - game/european/duel_reward_setup
+    - game/european/card_list_setup
   - - 2732
     - rodata
     - initial_data_aac
@@ -746,7 +746,7 @@ segments:
     - game/build_deck_add_card
   - - 142680
     - c
-    - game/european/duel_reward_setup
+    - game/european/card_list_setup
   - - 143396
     - c
     - game/european/build_deck_init_screen

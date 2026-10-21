@@ -2326,19 +2326,19 @@
       "address": "0x80032558",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1FC",
-      "source": "src/game/european/duel_reward_setup.c"
+      "source": "src/game/european/card_list_setup.c"
     },
     {
       "address": "0x80032754",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
-      "source": "src/game/european/duel_reward_setup.c"
+      "source": "src/game/european/card_list_setup.c"
     },
     {
       "address": "0x8003279C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/european/duel_reward_setup.c"
+      "source": "src/game/european/card_list_setup.c"
     },
     {
       "address": "0x80032824",

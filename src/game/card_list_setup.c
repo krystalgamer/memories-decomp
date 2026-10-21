@@ -1,8 +1,7 @@
-/* The duel reward table load and the recent-card-drop compaction after it:
-   the four-phase transfer callback func_80032184, func_80032328, which
-   queues the reward-table read with that callback and waits for it, and
-   func_80032370, which clears and packs gDuel_awRecentCardDrops against the
-   chest bytes below it. */
+/* Shared card-list graphics setup and recent-acquisition maintenance.
+   Trade and Build Deck use the blocking graphics loader; the editor also
+   prunes recent IDs whose current chest quantity is zero. The transfer has
+   four stages in NA/JP and five in Europe. */
 
 #define D_8009B118_IN_DATA
 
@@ -12,7 +11,7 @@
 #include "file_transfer.h"
 #include "card_constants.h"
 #include "graphics_frame.h"
-#include "duel_reward_setup.h"
+#include "card_list_setup.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 #endif
@@ -20,7 +19,7 @@
 #include "../unmatched.h"
 
 #ifdef VERSION_EUROPE
-void func_80032184(FileTransferDescriptor *p, s32 mode)
+void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
 {
     s32 one;
     s32 w;
@@ -110,7 +109,7 @@ void func_80032184(FileTransferDescriptor *p, s32 mode)
     }
 }
 #else
-void func_80032184(FileTransferDescriptor *p, s32 mode) {
+void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
     s32 one;
     s32 w;
     s32 v;
@@ -200,18 +199,18 @@ m3:
 }
 #endif
 
-#ifndef DUEL_REWARD_REQUEST_FILE_ID
-#define DUEL_REWARD_REQUEST_FILE_ID 0x2189
+#ifndef CARD_LIST_GRAPHICS_REQUEST_FILE_ID
+#define CARD_LIST_GRAPHICS_REQUEST_FILE_ID 0x2189
 #endif
-#ifndef DUEL_REWARD_REQUEST_SECTOR_COUNT
-#define DUEL_REWARD_REQUEST_SECTOR_COUNT 0x4C
+#ifndef CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT
+#define CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT 0x4C
 #endif
 
-void func_80032328(void)
+void CardList_LoadSharedGraphics(void)
 {
     File_RequestAsyncTransfer(
-        0, 0, DUEL_REWARD_REQUEST_FILE_ID, DUEL_REWARD_REQUEST_SECTOR_COUNT,
-        func_80032184, 0, 0);
+        0, 0, CARD_LIST_GRAPHICS_REQUEST_FILE_ID, CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT,
+        CardList_LoadSharedGraphicsStage, 0, 0);
     File_WaitForTransfers();
 }
 
@@ -220,7 +219,7 @@ void func_80032328(void)
  * lowering, which keeps the table's high half in a temporary before
  * publishing its address; without splitting, the first two words change.
  */
-void func_80032370(void)
+void Library_PruneRecentCardDrops(void)
 {
     s16 *source;
     u8 *base;

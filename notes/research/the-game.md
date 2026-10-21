@@ -423,7 +423,7 @@ type. The seventh is pane-specific: **New** puts recently acquired cards first
 in the trunk, while **Shuffle** assigns fresh random keys to the deck each
 time it is selected.
 
-The 16-entry recent-card history is not permanent. `func_80032370`
+The 16-entry recent-card history is not permanent. `Library_PruneRecentCardDrops`
 removes any listed card whose current trunk quantity is zero, then compacts the
 surviving IDs toward the front without changing their order. **New** therefore
 means a recent acquisition that is still represented in the trunk; moving the

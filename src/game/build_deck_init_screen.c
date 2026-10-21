@@ -41,7 +41,7 @@
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
-#include "duel_reward_setup.h"
+#include "card_list_setup.h"
 #include "duel_card.h"
 #include "build_deck_transition_state.h"
 #include "build_deck_card_counts.h"
@@ -103,12 +103,12 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     DisplayObject *quad;
 #endif
 
-    func_80032328();
+    CardList_LoadSharedGraphics();
     SD_BGMPlay(0x70E0);
     gGraphics_sViewportY = 0;
     gGraphics_sViewportX = 0;
     state = (u8 *)base;
-    func_80032370();
+    Library_PruneRecentCardDrops();
     pane = 0;
     on = 1;
     icons = (s32)D_80090DD8;

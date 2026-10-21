@@ -291,7 +291,7 @@ segments:
       - [0x223c4, c, game/build_deck_card_counts]
       - [0x22584, c, game/build_deck_recount_deck_cards]
       - [0x22624, c, game/build_deck_add_card]
-      - [0x226ec, c, game/japanese/duel_reward_setup]
+      - [0x226ec, c, game/japanese/card_list_setup]
       - [0x22960, c, game/japanese/build_deck_init_screen]
       - [0x230a0, c, game/build_deck_test_and_set_initialized]
       - [0x230c8, c, game/japanese/card_list_sort]

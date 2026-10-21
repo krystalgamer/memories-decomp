@@ -2220,3 +2220,9 @@ gModel_dwTpageBlendRateBits = 0x8009AFD8;
 Graphics_SubmitDrawModePacket = 0x8005B260; // type:func
 
 Graphics_SubmitMaskWritePacket = 0x8005B4D8; // type:func
+
+CardList_LoadSharedGraphicsStage = 0x80032184; // type:func
+
+CardList_LoadSharedGraphics = 0x80032328; // type:func
+
+Library_PruneRecentCardDrops = 0x80032370; // type:func
