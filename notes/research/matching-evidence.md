@@ -313,7 +313,7 @@ target actually has. When the source changes, require count and diff to agree
 before preferring a shape, and treat a candidate that falls *below* the
 target's count as a warning rather than as progress.
 
-`func_8005A3D0` (`0x8005A3D0`, 38 instructions) produced four of these in a
+`Model_FindBranchingChildCoord` (`0x8005A3D0`, 38 instructions) produced four of these in a
 row while the best honest candidate sat at 38 of 38 with 20 differences:
 
 | shape | instructions | diffs |
@@ -356,7 +356,7 @@ for (; j < n; j++, inner++) {
 }
 ```
 
-On `func_8005A3D0` that was worth three instructions, taking the body from 41
+On `Model_FindBranchingChildCoord` that was worth three instructions, taking the body from 41
 to exactly 38. Every body-first spelling reintroduces the fixup and returns to
 41: `do { … } while (j < n)`, `do { … } while (++j < n)`,
 `do { … } while (inner++, j < n)`, and `for (;;)` with two `break`s all score
@@ -1056,7 +1056,7 @@ A third residual class, alongside the register-permutation and
 schedule-permutation ones above. Here the loop is *structurally* different, not
 reordered or misallocated, and no source spelling reaches it.
 
-`func_8005A3D0` (`0x8005A3D0`) is the worked example. Its inner scan in the
+`Model_FindBranchingChildCoord` (`0x8005A3D0`) is the worked example. Its inner scan in the
 target is a plain eight-instruction loop, match test at the top and counter test
 at the bottom:
 
@@ -3257,7 +3257,7 @@ assignment the original did not.
 necessity.** The probe shows a struct assignment *produces* the shape; it does
 not show the shape *implies* one. Spilling produces the same six instructions -
 a value computed into a frame slot and reloaded to store elsewhere is
-indistinguishable from a structure copy at this level. In `func_80051350` the
+indistinguishable from a structure copy at this level. In `Model_SeparateViewFromSlots` the
 destinations turn out to be indexed as `sp + i*4 + k` later on, so they are
 two-element arrays rather than structures, and the function commits ten
 callee-saved registers, which makes spilling the likelier cause.

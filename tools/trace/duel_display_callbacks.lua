@@ -25,7 +25,7 @@
 --   func_80020EE8  a result-outro confetti callback: sets clip-test, lowers
 --                  +0x21 by 2 a frame and releases below 0xC0. Does it run
 --                  after DuelResult_UpdateOrbitSprite, as the fly-off?
---   func_80018150  acquires a fixed 0x1F/0x100 sprite at (a0, a1) on
+--   Duel_CreateFieldCardPanel  acquires a fixed 0x1F/0x100 sprite at (a0, a1) on
 --                  ordering table 1 in screen space. Its only caller is
 --                  Duel_UpdateDisplayTransition with transition bit 0x02,
 --                  at (0, screen height). Hand tray or info bar?
@@ -145,7 +145,7 @@ local CALLBACKS = {
     {0x80020ee8, 0x27bdffe8, 'fly-off func_80020EE8', 8},
     {0x80020d4c, 0x27bdffc8, 'orbit DuelResult_UpdateOrbitSprite', 4},
 }
-local SPRITE = {0x80018150, 0x27bdffd0, 'sprite func_80018150'}
+local SPRITE = {0x80018150, 0x27bdffd0, 'sprite Duel_CreateFieldCardPanel'}
 local CONTROL = {0x80024200, 0x9782025a, 'control DuelScene_Update'}
 
 local MAX_ROWS = 96

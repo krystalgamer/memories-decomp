@@ -93,9 +93,9 @@ PAIRS = [
     ("src/game/model_slot_control.c", "Model_InitSlot", '#include "model_slot_control.h"'),
     ("src/game/model_scene_controllers.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_debug_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
-    ("src/game/model_init_slot.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
+    ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_parent_search.h"'),
     ("src/game/func_80024200.c", "Duel_UpdateDisplayTransition", '#include "duel_field_display_objects.h"'),
-    ("src/game/duel_field_display_objects.c", "func_80018150", '#include "duel_card_object_helpers.h"'),
+    ("src/game/duel_field_display_objects.c", "Duel_CreateFieldCardPanel", '#include "duel_card_object_helpers.h"'),
     ("src/game/duel_scene_field_actions.c", "Duel_CreateFieldCursorObject", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_scene_hand_actions.c", "DuelHand_PositionSelectionCursor", '#include "duel_hand_position_selection_cursor.h"'),
     ("src/game/duel_scene_hand_actions.c", "DuelHand_CreateSelectionOrderMarker", '#include "duel_hand_selection_cursor.h"'),
@@ -443,7 +443,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         include = '#include "../game/model_parent_search.h"\n'
         text = (REPOSITORY / source).read_text(encoding="utf-8")
         self.assertIn(include, text)
-        self.assertNotRegex(text, r"extern[^\n]*\bfunc_8005A3D0\b")
+        self.assertNotRegex(text, r"extern[^\n]*\bModel_FindBranchingChildCoord\b")
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
             path = Path(temporary) / "a/b/c/caller.c"
             path.parent.mkdir(parents=True)
@@ -451,7 +451,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             found = implicit_calls(
                 path, self.profile(source), (REPOSITORY / source).parent
             )
-        self.assertIn("func_8005A3D0", found)
+        self.assertIn("Model_FindBranchingChildCoord", found)
 
     def test_cursor_motion_object_and_direction_views(self) -> None:
         definition = "src/game/duel_cursor_grid_direction.c"
@@ -569,7 +569,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                                 )
 
     def test_parent_search_has_one_pointer_view(self) -> None:
-        definition = "src/game/func_8005A3D0.c"
+        definition = "src/game/model_find_branching_child.c"
         self.assertIn(
             '#include "model_parent_search.h"',
             (REPOSITORY / definition).read_text(encoding="utf-8"),
@@ -585,7 +585,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 with self.subTest(parameters=parameters):
                     path.write_text(
                         '#include "model_parent_search.h"\n'
-                        + f"s32 (*view)({parameters}) = func_8005A3D0;\n",
+                        + f"s32 (*view)({parameters}) = Model_FindBranchingChildCoord;\n",
                         encoding="utf-8",
                     )
                     if accepted:

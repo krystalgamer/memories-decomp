@@ -40,7 +40,7 @@
 #include "model_set_slot_shadow_enabled.h"
 #include "model_effect_coefficients.h"
 #include "func_8004DC38.h"
-#include "func_80051350.h"
+#include "model_separate_view.h"
 #include "model_update_tint_requests.h"
 #include "model_start_camera_move.h"
 #include "model_record_tables.h"
@@ -1410,11 +1410,11 @@ loop:
 #define MODEL_SLOT_BYTES(slots, index) \
     ((u8 *)(slots) + (index) * MODEL_SLOT_SIZE)
 
-/* The contiguous model camera and scene runtime. func_80051350 pushes the
+/* The contiguous model camera and scene runtime. Model_SeparateViewFromSlots pushes the
    gModel_RView reference apart from the two model records; Model_UpdateCamera
    steps the camera move at D_800F2B20 each frame and calls the second
-   camera/view correction pass, func_80052694, which in turn calls
-   func_80051350. The two correction passes work on gModel_RView, D_800F2B20
+   camera/view correction pass, Model_CorrectViewDistance, which in turn calls
+   Model_SeparateViewFromSlots. The two correction passes work on gModel_RView, D_800F2B20
    and the gModel_wViewDistance/gModel_wViewPitch view values; the tint
    request pass Model_UpdateTintRequests follows them; camera-move setup
    (Model_StartCameraMove) and scene reset/configuration close the unit. */
@@ -1451,7 +1451,7 @@ loop:
  *
  * See notes/research/func-80051350-decode.md for the structural map.
  */
-s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
+s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
 {
     ModelSeparationPair e3;
     ModelSeparationPair e0;
@@ -1682,7 +1682,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
         Model_UpdateViewMetrics(0);
     }
     if (hits != 0 && mode != 0 && depth < 3) {
-        func_80051350(mode, min_extent, depth);
+        Model_SeparateViewFromSlots(mode, min_extent, depth);
     }
     return moved;
 }
@@ -1808,7 +1808,7 @@ void Model_UpdateCamera(void)
                 gModel_RView.vry = -100;
         }
         Model_UpdateViewMetrics(0);
-        func_80052694(1);
+        Model_CorrectViewDistance(1);
         if (D_800F2B20.elapsed >= D_800F2B20.duration)
             Model_RequestCameraMove(1);
         return;
@@ -1865,7 +1865,7 @@ void Model_UpdateCamera(void)
     if (!key || (key->requested[0].kind != 4 && key->requested[1].kind != 4)) {
         rate = Model_GetFrameStep();
         Model_StepViewOrbit(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
-        func_80052694(1);
+        Model_CorrectViewDistance(1);
     }
     if (D_800F2B20.field_02) {
         ModelCameraMove *move = &D_800F2B20;
@@ -1882,7 +1882,7 @@ void Model_UpdateCamera(void)
     }
 }
 
-void func_80052528(void) {
+void Model_CorrectViewPitch(void) {
     GsRVIEW2 *view;
     s32 x;
     s32 f;
@@ -1932,7 +1932,7 @@ void func_80052528(void) {
     }
 }
 
-void func_80052694(s32 arg0) {
+void Model_CorrectViewDistance(s32 arg0) {
     ModelCameraMove *e;
     ModelCameraMove *g;
     s32 n;
@@ -1956,7 +1956,7 @@ void func_80052694(s32 arg0) {
 
     /* The Japanese build only clears the flag bit here; it neither steps
        field_04 up nor, on the other branch, back down towards field_06. */
-    if (func_80051350(1, 0x96, 0) != 0) {
+    if (Model_SeparateViewFromSlots(1, 0x96, 0) != 0) {
         e = &D_800F2B20;
 #ifdef VERSION_EUROPE
         /* The European build steps field_04 by 2 up to 0x200, and back
@@ -1995,7 +1995,7 @@ void func_80052694(s32 arg0) {
     }
 #endif
 
-    func_80052528();
+    Model_CorrectViewPitch();
 
     t = *(s16 *)&gModel_wViewDistance;
     if (t < 0x12C) {
@@ -2040,7 +2040,7 @@ last:
         Model_StepViewOrbit(1, 0, 0, d, 0);
     }
 
-    func_80052528();
+    Model_CorrectViewPitch();
 }
 
 /* Per-frame tint pass over the ten requests at gModel_aTintRequests. A live request

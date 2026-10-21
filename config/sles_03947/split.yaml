@@ -512,7 +512,7 @@ segments:
       - [0x04EB80, c, game/model_effect_requests]
       - [0x04EE4C, c, game/model_lock_orbit_direction]
       - [0x04EEB8, c, game/model_distance_queries]
-      - [0x04F094, c, game/func_8005A3D0]
+      - [0x04F094, c, game/model_find_branching_child]
       - [0x04F12C, c, game/model_slot_updates]
       - [0x04F200, c, game/model_remap_primitive_handlers]
       - [0x04F2DC, c, game/model_effect_wrapped_value]

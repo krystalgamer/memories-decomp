@@ -30,7 +30,7 @@
 #include "view_state.h"
 #include "../unmatched.h"
 
-/* Regional value: the 0xF0 passed to func_80018150 and stored in position
+/* Regional value: the 0xF0 passed to Duel_CreateFieldCardPanel and stored in position
  * field_2A, the screen height (0xF0 -> 0x100). The European build
  * (src/game/european/) defines its own. */
 #ifndef DUEL_FIELD_SCREEN_HEIGHT
@@ -292,7 +292,7 @@ s32 Duel_UpdateDisplayTransition(void)
                 gDuel_wDisplayTransitionFlags |= 0x4000;
             }
             if (gDuel_wDisplayTransitionFlags & 2) {
-                o = func_80018150(0, DUEL_FIELD_SCREEN_HEIGHT);
+                o = Duel_CreateFieldCardPanel(0, DUEL_FIELD_SCREEN_HEIGHT);
                 source->text_y_offset = 0x24;
                 if (source->field_13 != 0) {
                     DisplayObject_SetResourceVariant((DisplayObjectConfig *)o, source->field_13);

@@ -8,9 +8,11 @@
 #include "../psyq/libhmd.h"
 #include "model.h"
 
-/* Searches the coordinate parent/backlink relationships and returns an entry
- * index. Model_InitSlot passes two entries from the model's coordinate-unit
- * array as the parent to find. */
-s32 func_8005A3D0(ModelSlot *model, GsCOORDUNIT *parent);
+/* Returns the index of the first coordinate entry whose super is `parent`
+ * and which is itself the super of some entry -- the first child of
+ * `parent` that branches further -- or entry_count when there is none.
+ * Model_InitSlot passes two entries from the model's coordinate-unit array
+ * as the parent to find. */
+s32 Model_FindBranchingChildCoord(ModelSlot *model, GsCOORDUNIT *parent);
 
 #endif
