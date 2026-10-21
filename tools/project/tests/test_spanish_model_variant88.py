@@ -29,7 +29,7 @@ class SpanishModelVariant88Tests(shared.FrenchModelVariant88Tests):
             self.assertGreater(int(inventory[address]["size"], 0), 0)
         for name, address in (
             ("Model_GetActiveSlotIndex", 0x8005BED4), ("Model_GetFrameStep", 0x8005BF24),
-            ("Model_GetSlotDataEntry", 0x8005C028), ("func_80059A50", 0x8005CB58),
+            ("Model_GetSlotDataEntry", 0x8005C028), ("ModelTexture_PackPageClutCopy", 0x8005CB58),
             ("func_8005B260", 0x8004D5B8), ("memset", 0x8008F548),
         ):
             self.assertEqual(bindings[name], address)

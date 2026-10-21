@@ -1302,11 +1302,11 @@ D_8009AFF4 = 0x8009AFF4; // defined:True
 D_8009AFFC = 0x8009AFFC; // defined:True
 D_8009B004 = 0x8009B004; // defined:True
 gModelDebug_Display = 0x8009B008; // defined:True
-D_8009B00C = 0x8009B00C; // defined:True
-D_8009B014 = 0x8009B014; // defined:True
-D_8009B01C = 0x8009B01C; // defined:True
-D_8009B024 = 0x8009B024; // defined:True
-D_8009B02C = 0x8009B02C; // defined:True
+gModelDebug_szNormalColor = 0x8009B00C; // defined:True
+gModelDebug_szSelectedColor = 0x8009B014; // defined:True
+gModelDebug_szDigitFormat = 0x8009B01C; // defined:True
+gModelDebug_szVersusSeparator = 0x8009B024; // defined:True
+gModelDebug_szLineBreak = 0x8009B02C; // defined:True
 D_8009B030 = 0x8009B030; // defined:True
 D_8009B038 = 0x8009B038; // defined:True
 D_8009B040 = 0x8009B040; // defined:True
@@ -2149,6 +2149,15 @@ Model_GetSlotDimensionsWithMinimums = 0x80057E20; // type:func
 Model_GetSlotDimensionsWithOverrides = 0x80059000; // type:func
 
 Model_SetSlotDrawMode = 0x80059284; // type:func
+
+ModelTexture_UploadTimFile = 0x800599FC; // type:func
+
+ModelTexture_PackPageClutCopy = 0x80059A50; // type:func
+gModelDebug_szLoadStageFormat = 0x80011518;
+gModelDebug_szLoadModel0Format = 0x8001152C;
+gModelDebug_szLoadModel1Format = 0x80011540;
+gModelDebug_szSlotFlagsFormat = 0x80011554;
+gModelDebug_szStageFormat = 0x80011564;
 
 gModel_bHandlerCallbackState = 0x8009B07C;
 

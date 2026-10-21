@@ -17,6 +17,6 @@ SetSemiTrans = 0x80082DA8;
 ccos = 0x800868A8;
 csin = 0x80086B38;
 func_80058F10 = 0x8005C018;
-func_80059A50 = 0x8005CB58;
+ModelTexture_PackPageClutCopy = 0x8005CB58;
 memset = 0x8008F548;
 rand = 0x8008F708;

@@ -120,17 +120,17 @@ class ModelDebugOwnershipTests(unittest.TestCase):
             "u16 *height_bits = &D_8009B004.halfwords[1];\n"
             "u8 *display = &gModelDebug_Display.display_enabled;\n"
             "typedef char display_width[sizeof(gModelDebug_Display) == 4 ? 1 : -1];\n"
-            "typedef char normal[sizeof(D_8009B00C) == 8 ? 1 : -1];\n"
-            "typedef char newline[sizeof(D_8009B02C) == 4 ? 1 : -1];\n"
+            "typedef char normal[sizeof(gModelDebug_szNormalColor) == 8 ? 1 : -1];\n"
+            "typedef char newline[sizeof(gModelDebug_szLineBreak) == 4 ? 1 : -1];\n"
         )
         self.probe(header + "extern u16 D_8009B004;\n", False, "conflicting types")
         self.probe(
             "#define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY\n" + header
-            + "char *normal = D_8009B00C;\nchar *newline = D_8009B02C;\n",
+            + "char *normal = gModelDebug_szNormalColor;\nchar *newline = gModelDebug_szLineBreak;\n",
         )
         self.probe(
             "#define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY\n" + header
-            + "u32 bad(void) { return sizeof(D_8009B00C); }\n",
+            + "u32 bad(void) { return sizeof(gModelDebug_szNormalColor); }\n",
             False, "incomplete type",
         )
 

@@ -110,7 +110,7 @@ class SpanishModelVariantTests(unittest.TestCase):
             resident = {int(row["address"], 0) for row in csv.DictReader(handle)}
         self.assertTrue(all(address in resident for address in bindings.values()))
         self.assertTrue(all(address < 0x80100000 for address in bindings.values()))
-        self.assertEqual(bindings["func_80059A50"], 0x8005CB58)
+        self.assertEqual(bindings["ModelTexture_PackPageClutCopy"], 0x8005CB58)
         self.assertEqual(bindings["func_80058F10"], 0x8005C018)
         self.assertEqual(bindings["func_8005B260"], 0x8004D5B8)
 

@@ -16,6 +16,6 @@ SetPolyFT4 = 0x80082EA8;
 SetPolyG4 = 0x80082EC8;
 SetSemiTrans = 0x80082DA8;
 func_80058F10 = 0x8005C018;
-func_80059A50 = 0x8005CB58;
+ModelTexture_PackPageClutCopy = 0x8005CB58;
 Model_QueueCameraShake = 0x8004F7C0;
 memset = 0x8008F548;

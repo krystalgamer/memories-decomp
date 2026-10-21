@@ -75,11 +75,11 @@ u8 D_8009B48E[2], D_8009B490[2];
 u16 gInput_wPad1Pressed, gInput_wPad2Pressed, gInput_wPad1Repeat, gInput_wPad1Held;
 volatile u32 D_8009B0F4_abs;
 u32 D_8009B134_abs;
-char D_80011518[] = "LOAD STAGE(%d,%d)\n";
-char D_8001152C[] = "LOAD MODEL0(%d,%d)\n";
-char D_80011540[] = "LOAD MODEL1(%d,%d)\n";
-char D_80011554[] = "(AF=%d,GF=%d)";
-char D_80011564[] = "STAGE=%d,Y=%d\n";
+char gModelDebug_szLoadStageFormat[] = "LOAD STAGE(%d,%d)\n";
+char gModelDebug_szLoadModel0Format[] = "LOAD MODEL0(%d,%d)\n";
+char gModelDebug_szLoadModel1Format[] = "LOAD MODEL1(%d,%d)\n";
+char gModelDebug_szSlotFlagsFormat[] = "(AF=%d,GF=%d)";
+char gModelDebug_szStageFormat[] = "STAGE=%d,Y=%d\n";
 static s32 events[20][7], event_count, print_count, display_cursor;
 static s32 complete_slot, complete_phase, samples[16], sample_count, sample_cursor;
 static s32 mutate_print;
@@ -192,19 +192,19 @@ int rand(void)
 }
 s32 print_arity(char *format)
 {
-    if (format == D_8009B00C || format == D_8009B024 || format == D_8009B02C) return 0;
-    CHECK(format == D_80011518 || format == D_8001152C || format == D_80011540 ||
-          format == D_8009B01C || format == D_80011554 || format == D_80011564);
+    if (format == gModelDebug_szNormalColor || format == gModelDebug_szVersusSeparator || format == gModelDebug_szLineBreak) return 0;
+    CHECK(format == gModelDebug_szLoadStageFormat || format == gModelDebug_szLoadModel0Format || format == gModelDebug_szLoadModel1Format ||
+          format == gModelDebug_szDigitFormat || format == gModelDebug_szSlotFlagsFormat || format == gModelDebug_szStageFormat);
     return 2;
 }
-s32 print_has_string(char *format) { return format == D_8009B01C; }
+s32 print_has_string(char *format) { return format == gModelDebug_szDigitFormat; }
 void observe_print(char *format, s32 a, s32 b)
 {
     s32 side, digit, expected, slot;
     static const s32 divisors[3] = {100, 10, 1};
     print_count++; print_total++;
-    if (format == D_80011518 || format == D_8001152C || format == D_80011540) {
-        slot = format == D_80011518 ? 2 : format == D_8001152C ? 0 : 1;
+    if (format == gModelDebug_szLoadStageFormat || format == gModelDebug_szLoadModel0Format || format == gModelDebug_szLoadModel1Format) {
+        slot = format == gModelDebug_szLoadStageFormat ? 2 : format == gModelDebug_szLoadModel0Format ? 0 : 1;
         CHECK(a == gModel_aSlots[slot].field_DF8 && b == gModel_aSlots[slot].field_E14);
         return;
     }
@@ -213,16 +213,16 @@ void observe_print(char *format, s32 a, s32 b)
         side = display_cursor >= 6;
         digit = side ? display_cursor - 6 : display_cursor;
         expected = (u16)gModel_awSlotModelIds[side] / divisors[digit] % 10;
-        CHECK(format == D_8009B01C && b == expected);
-        CHECK(a == (s32)(gModelDebug_bSelectedDigit == side * 3 + digit ? D_8009B014 : D_8009B00C));
+        CHECK(format == gModelDebug_szDigitFormat && b == expected);
+        CHECK(a == (s32)(gModelDebug_bSelectedDigit == side * 3 + digit ? gModelDebug_szSelectedColor : gModelDebug_szNormalColor));
     } else if (display_cursor == 3 || display_cursor == 9) {
-        CHECK(format == D_8009B00C);
+        CHECK(format == gModelDebug_szNormalColor);
     } else if (display_cursor == 4 || display_cursor == 10) {
         side = display_cursor == 10;
-        CHECK(format == D_80011554 && a == D_8009B48E[side] && b == D_8009B490[side]);
-    } else if (display_cursor == 5) CHECK(format == D_8009B024);
-    else if (display_cursor == 11) CHECK(format == D_8009B02C);
-    else CHECK(format == D_80011564 && a == (u16)gModel_awSlotModelIds[2] &&
+        CHECK(format == gModelDebug_szSlotFlagsFormat && a == D_8009B48E[side] && b == D_8009B490[side]);
+    } else if (display_cursor == 5) CHECK(format == gModelDebug_szVersusSeparator);
+    else if (display_cursor == 11) CHECK(format == gModelDebug_szLineBreak);
+    else CHECK(format == gModelDebug_szStageFormat && a == (u16)gModel_awSlotModelIds[2] &&
                b == D_8009B004.fields.height);
     if (mutate_print && display_cursor == 0) {
         gModel_awSlotModelIds[0] = 789; gModelDebug_bSelectedDigit = 2;

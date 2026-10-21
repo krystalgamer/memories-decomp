@@ -17,6 +17,6 @@ SetPolyFT4 = 0x80082940; // type:func absolute:true
 SetSemiTrans = 0x80082840; // type:func absolute:true
 ccos = 0x80086920; // type:func absolute:true
 func_80058F10 = 0x80058F10; // type:func absolute:true
-func_80059A50 = 0x80059A50; // type:func absolute:true
+ModelTexture_PackPageClutCopy = 0x80059A50; // type:func absolute:true
 func_8005B260 = 0x8005B260; // type:func absolute:true
 memset = 0x8008E3D0; // type:func absolute:true

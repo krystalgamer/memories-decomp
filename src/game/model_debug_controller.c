@@ -31,8 +31,8 @@ ModelDebugState D_8009B004 = {0};
 s32 ModelDebug_UpdateController(void)
 {
     s32 reload = 0;
-    char *normal = D_8009B00C;
-    char *selected = D_8009B014;
+    char *normal = gModelDebug_szNormalColor;
+    char *selected = gModelDebug_szSelectedColor;
     ModelSlot *slots;
 
     if (gModel_bPresentationPhase == -2)
@@ -48,7 +48,7 @@ s32 ModelDebug_UpdateController(void)
     if (!slots[2].field_E1F) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
-        FntPrint(D_80011518, slots[2].field_DF8, slots[2].field_E14);
+        FntPrint(gModelDebug_szLoadStageFormat, slots[2].field_DF8, slots[2].field_E14);
 #endif
         if (slots[2].field_E14 == 255) {
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
@@ -80,7 +80,7 @@ s32 ModelDebug_UpdateController(void)
     } else if (!slots[0].field_E1F) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
-        FntPrint(D_8001152C, slots[0].field_DF8, slots[0].field_E14);
+        FntPrint(gModelDebug_szLoadModel0Format, slots[0].field_DF8, slots[0].field_E14);
 #endif
         if (slots[0].field_E14 == 255) {
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
@@ -93,7 +93,7 @@ s32 ModelDebug_UpdateController(void)
     } else if (!slots[1].field_E1F) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
-        FntPrint(D_80011540, slots[1].field_DF8, slots[1].field_E14);
+        FntPrint(gModelDebug_szLoadModel1Format, slots[1].field_DF8, slots[1].field_E14);
 #endif
         if (slots[1].field_E14 == 255) {
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
@@ -194,25 +194,25 @@ s32 ModelDebug_UpdateController(void)
         D_8009B48E[1] ^= 1;
     if (gInput_wPad1Pressed & 2)
         D_8009B490[1] ^= 1;
-    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 0 ?
+    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 0 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[0] / 100u) % 10u));
-    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 1 ?
+    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 1 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[0] / 10u) % 10u));
-    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 2 ?
+    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 2 ?
         selected : normal, (u16)((u16)gModel_awSlotModelIds[0] % 10u));
     FntPrint(normal);
-    FntPrint(D_80011554, D_8009B48E[0], D_8009B490[0]);
-    FntPrint(D_8009B024);
-    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 3 ?
+    FntPrint(gModelDebug_szSlotFlagsFormat, D_8009B48E[0], D_8009B490[0]);
+    FntPrint(gModelDebug_szVersusSeparator);
+    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 3 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[1] / 100u) % 10u));
-    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 4 ?
+    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 4 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[1] / 10u) % 10u));
-    FntPrint(D_8009B01C, gModelDebug_bSelectedDigit == 5 ?
+    FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 5 ?
         selected : normal, (u16)((u16)gModel_awSlotModelIds[1] % 10u));
     FntPrint(normal);
-    FntPrint(D_80011554, D_8009B48E[1], D_8009B490[1]);
-    FntPrint(D_8009B02C);
-    FntPrint(D_80011564, (u16)gModel_awSlotModelIds[2], D_8009B004.fields.height);
+    FntPrint(gModelDebug_szSlotFlagsFormat, D_8009B48E[1], D_8009B490[1]);
+    FntPrint(gModelDebug_szLineBreak);
+    FntPrint(gModelDebug_szStageFormat, (u16)gModel_awSlotModelIds[2], D_8009B004.fields.height);
     if (reload) {
         File_WaitForTransfers();
         Model_ResetSceneState();
