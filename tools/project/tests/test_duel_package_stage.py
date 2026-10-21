@@ -45,7 +45,7 @@ u8 *D_8009B118 = buffer;
 u8 *D_800101DC = stage7;
 u8 *D_80010000 = stage11;
 u16 gDuel_awEquipTable[16], gDuel_aFusionTable[16], gDuel_awRitualData[16];
-u8 D_801A8000[16], D_801A9800[16];
+u8 D_801A8000[16], gAiScript_abFieldScript[16];
 RECT D_800E9D70[2];
 
 typedef char pointer_must_be_ilp32[sizeof(void *) == 4 ? 1 : -1];
@@ -167,7 +167,7 @@ static s32 check_case(s32 stage, u32 initial_flags, u32 mode)
     destinations[RITUAL] = (u32)gDuel_awRitualData;
     destinations[STAGE7] = (u32)stage7;
     destinations[ARENA8] = (u32)D_801A8000;
-    destinations[ARENA9] = (u32)D_801A9800;
+    destinations[ARENA9] = (u32)gAiScript_abFieldScript;
     destinations[STAGE11] = (u32)stage11;
     if (valid) {
         destination = destinations[contracts[stage].destination];

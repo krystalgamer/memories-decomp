@@ -1361,7 +1361,7 @@ void Model_PlaySlotAnimationSounds(s32 index) {
             anim = m->field_DFE + 3;
             /* Retail loads field_E08 again after the store above; read
                plainly, GCC reuses the value it just stored instead. */
-            sprintf(buf, D_80011508, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->field_E08 >> 4);
+            sprintf(buf, gModel_szAnimationSoundTraceFormat, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->field_E08 >> 4);
             FntPrint(buf);
 #endif
         }

@@ -9,6 +9,6 @@ s32 SD_FindMidiTrackChunk(s32 offset);
 s32 SD_ReadSequenceByte(SDSequenceTrack *reader);
 s32 SD_ReadVariableLengthValue(SDSequenceTrack *input);
 
-extern u8 D_8009AF80[];
+extern u8 gSD_szMidiTrackMarker[];
 
 #endif

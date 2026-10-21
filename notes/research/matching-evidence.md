@@ -3623,7 +3623,7 @@ that symbol in a block is what decides it.
 In `func_80045514`, one block keeps `g_SDValue` in a single register across five
 field loads, which only happens if it is read into a local: as a global, each
 store through the other pointer invalidates it and forces a reload. In the same
-block `D_8009B460` is the opposite - the target loads it twice, once for the run
+block `gSD_pFileRequest` is the opposite - the target loads it twice, once for the run
 of stores and once more for the last one - so caching it for the whole block is
 two instructions short, and caching it for the run while writing the final store
 through the global reproduces both loads.

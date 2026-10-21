@@ -35,7 +35,7 @@ void SD_StepActiveCommand(void)
             }
             {
                 SDValue *sd = g_SDValue;
-                FileRequestSlot *b = D_8009B460;
+                FileRequestSlot *b = gSD_pFileRequest;
                 s32 final_word;
 
                 b->field_10 = (s32)sd->field_005C[4];
@@ -46,25 +46,25 @@ void SD_StepActiveCommand(void)
                 b->field_1F = 0;
                 b->field_1C = 0;
                 b->field_14 = final_word;
-                D_8009B460->field_1E = 0;
+                gSD_pFileRequest->field_1E = 0;
             }
-            D_8009B460->field_00 = (s32)g_SDValue->field_005C[0];
-            if (D_8009B460->field_18 == 0 && D_8009B460->field_14 == 0) {
+            gSD_pFileRequest->field_00 = (s32)g_SDValue->field_005C[0];
+            if (gSD_pFileRequest->field_18 == 0 && gSD_pFileRequest->field_14 == 0) {
                 g_SDValue->field_007D = 0;
                 goto clear_7c;
             }
             switch ((s32)g_SDValue->field_005C[0] & 0xF0) {
             case 0x10:
-                D_8009B460->field_00 = 4;
-                File_RequestSecondarySlot(D_8009B460, g_SDValue->field_1629);
+                gSD_pFileRequest->field_00 = 4;
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->field_1629);
                 break;
             case 0x20:
-                D_8009B460->field_00 = 5;
-                File_RequestSecondarySlot(D_8009B460, g_SDValue->field_1619);
+                gSD_pFileRequest->field_00 = 5;
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->field_1619);
                 break;
             case 0x40:
-                D_8009B460->field_00 = 6;
-                File_RequestSecondarySlot(D_8009B460, g_SDValue->field_1639);
+                gSD_pFileRequest->field_00 = 6;
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->field_1639);
                 break;
             }
             SD_ArmBusyCallback();
@@ -131,19 +131,19 @@ void SD_StepActiveCommand(void)
                 + (u32)g_SDValue->field_0058);
             second_word = e->a;
 
-            D_8009B460->field_10 = 0;
-            D_8009B460->field_18 = 0;
-            D_8009B460->field_0C = 0;
-            D_8009B460->field_14 = 0;
-            D_8009B460->field_1C = 0;
-            D_8009B460->field_1F = g_SDValue->field_0530;
+            gSD_pFileRequest->field_10 = 0;
+            gSD_pFileRequest->field_18 = 0;
+            gSD_pFileRequest->field_0C = 0;
+            gSD_pFileRequest->field_14 = 0;
+            gSD_pFileRequest->field_1C = 0;
+            gSD_pFileRequest->field_1F = g_SDValue->field_0530;
             second_word &= first_word;
-            D_8009B460->field_1E = g_SDValue->field_0531;
+            gSD_pFileRequest->field_1E = g_SDValue->field_0531;
             base_offset = (s32)g_SDValue->field_0050;
-            D_8009B460->field_00 = 6;
+            gSD_pFileRequest->field_00 = 6;
             second_word += base_offset;
-            D_8009B460->field_04 = second_word;
-            File_RequestSecondarySlot(D_8009B460, 0);
+            gSD_pFileRequest->field_04 = second_word;
+            File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
         goto clear_7d_7c;
 
@@ -177,18 +177,18 @@ void SD_StepActiveCommand(void)
                 g_SDValue->field_0528 + (s32)g_SDValue->field_0050;
             g_SDValue->field_052C =
                 g_SDValue->field_052C + (s32)g_SDValue->field_0050;
-            D_8009B460->field_10 = 0;
-            D_8009B460->field_18 = 0;
-            D_8009B460->field_0C = 0;
-            D_8009B460->field_14 = 0;
-            D_8009B460->field_1C = (u16)g_SDValue->field_052C
+            gSD_pFileRequest->field_10 = 0;
+            gSD_pFileRequest->field_18 = 0;
+            gSD_pFileRequest->field_0C = 0;
+            gSD_pFileRequest->field_14 = 0;
+            gSD_pFileRequest->field_1C = (u16)g_SDValue->field_052C
                                    - (u16)g_SDValue->field_0528 + 0x10;
-            D_8009B460->field_1F = g_SDValue->field_0530;
-            D_8009B460->field_1E = g_SDValue->field_0531;
+            gSD_pFileRequest->field_1F = g_SDValue->field_0530;
+            gSD_pFileRequest->field_1E = g_SDValue->field_0531;
             request_offset = g_SDValue->field_0528;
-            D_8009B460->field_00 = 6;
-            D_8009B460->field_04 = request_offset;
-            File_RequestSecondarySlot(D_8009B460, 0);
+            gSD_pFileRequest->field_00 = 6;
+            gSD_pFileRequest->field_04 = request_offset;
+            File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
         goto clear_7d_7c;
 
