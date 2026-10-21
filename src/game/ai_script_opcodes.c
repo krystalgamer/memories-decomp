@@ -242,8 +242,8 @@ void AiScript_Call(void) {
             gAiScript_State.return_depth + 1;
     } else {
 #ifndef VERSION_EUROPE
-        printf(D_800118AC);
-        printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);
+        printf(gAiScript_szNestOverflowError);
+        printf(gAiScript_szSourceLineFormat, gAiScript_szSourceFile, 0x17B);
 #endif
         for (;;)
             ;
@@ -265,8 +265,8 @@ void AiScript_Return(void) {
         return;
     }
 #ifndef VERSION_EUROPE
-    printf(D_800118E4);
-    printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);
+    printf(gAiScript_szReturnUnderflowError);
+    printf(gAiScript_szSourceLineFormat, gAiScript_szSourceFile, 0x193);
 #endif
     for (;;)
         ;

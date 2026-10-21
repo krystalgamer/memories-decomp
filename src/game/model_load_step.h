@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-extern char D_80011594[];
+extern char gModel_szLoadModelTraceFormat[];
 
 /* Executes one phase of an already-started model-slot load and publishes its
  * next phase. Phase 0 and the 0xFF idle/finished marker do not advance. A set
