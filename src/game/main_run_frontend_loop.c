@@ -41,9 +41,9 @@ s32 Main_RunFrontendLoop(void) {
                     D_8009B428 = f | 0x80;
                     Main_ResetFrontendRuntime();
                     Movie_Play(0);
-                    D_8009B142 = 0xFF;
-                    D_8009B143 = 0xFF;
-                    D_8009B144 = 0xFF;
+                    gGraphics_bClearBlue = 0xFF;
+                    gGraphics_bClearGreen = 0xFF;
+                    gGraphics_bClearRed = 0xFF;
                     continue;
                 }
                 if (f & 0x40) {
@@ -54,7 +54,7 @@ s32 Main_RunFrontendLoop(void) {
                     }
                     continue;
                 }
-                g = D_8009B318;
+                g = gMovie_bPlaybackState;
                 if (g & 0x80) {
                     continue;
                 }

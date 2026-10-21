@@ -996,7 +996,7 @@ GCC emit those four lines.
 
 `-msplit-addresses` looks like an escape, because it turns the address into a
 real `lui` that GCC will schedule into the slot itself. It is not, at least not
-here: the same flag splits the three `D_8009B142/143/144 = 0xFF` stores, which
+here: the same flag splits the three `gGraphics_bClearBlue/Green/Red = 0xFF` stores, which
 the target has as assembler macro expansions through `$at`
 (`lui $at, %hi(...)` / `sb $s1, %lo(...)($at)`). Split, they come out through a
 general register, and the third — now a single instruction — is pulled into the
