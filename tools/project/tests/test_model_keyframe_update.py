@@ -58,7 +58,7 @@ __asm__(".globl gModel_pCurrentEffectKey\n.set gModel_pCurrentEffectKey, memory+
         ".globl gModel_bEffectKeyPreparationPending\n.set gModel_bEffectKeyPreparationPending, memory+37\n"
         ".globl gModel_nEffectKeyBatchOrdinal\n.set gModel_nEffectKeyBatchOrdinal, memory+38\n"
         ".globl D_8009B07B\n.set D_8009B07B, memory+39\n"
-        ".globl D_8009B07C\n.set D_8009B07C, memory+40\n"
+        ".globl gModel_bHandlerCallbackState\n.set gModel_bHandlerCallbackState, memory+40\n"
         ".globl gModel_aEffectKeys\n.set gModel_aEffectKeys, memory+128\n"
         ".globl gModel_aPoseSnapshot\n.set gModel_aPoseSnapshot, memory+592\n"
         ".globl gModel_RView\n.set gModel_RView, memory+688\n"

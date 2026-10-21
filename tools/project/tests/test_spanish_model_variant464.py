@@ -373,7 +373,7 @@ class SpanishModelVariant464Tests(unittest.TestCase):
             (self.config / "overlays/model_variant464_linker_symbols.txt").read_text(), re.M))
         self.assertEqual((len(bindings), len(set(bindings.values()))), (40, 36))
         addresses = set(bindings.values())
-        for name in ("Model_LoadMonsterMerge", "Model_LoadMonsterMergeStage", "Model_InitSlot", "func_800559D4"):
+        for name in ("Model_LoadMonsterMerge", "Model_LoadMonsterMergeStage", "Model_InitSlot", "Model_UpdateSlotControl"):
             address, = [a for a, row in inventory.items() if row["name"] == name]
             self.assertEqual(inventory[address]["status"], "matching_c")
             addresses.add(address)

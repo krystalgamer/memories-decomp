@@ -126,7 +126,7 @@ static s32 primary1(u8 *p, s32 c) { return module(1, 0, p, c); }
 static s32 secondary0(u8 *p, s32 c) { return module(0, 1, p, c); }
 static s32 secondary1(u8 *p, s32 c) { return module(1, 1, p, c); }
 
-void func_8005F198(s32 value)
+void Model_SetHandlerCallbackState(s32 value)
 {
     event(1, value, 0, 0);
     if (!value && executed) {
@@ -211,9 +211,9 @@ static void reference(s32 index)
     if (!self->field_E1F) return;
     gModel_bActiveSlotIndex = index;
     if (commands[2] >= 0) {
-        func_8005F198(1);
+        Model_SetHandlerCallbackState(1);
         (index ? primary1 : primary0)(*(u8 **)((u8 *)self + 0xDE8), -1);
-        func_8005F198(0);
+        Model_SetHandlerCallbackState(0);
     }
     if (self->field_E0E == 6)
         self->field_E0E = self->field_BF5 == self->field_DFE + 3 || self->field_DF8 == 0x309 ? 7 : 2;
@@ -229,9 +229,9 @@ static void reference(s32 index)
         return;
     }
     if (self->field_E0E == 7) {
-        func_8005F198(1);
+        Model_SetHandlerCallbackState(1);
         handler(*(u8 **)((u8 *)self + 0xDEC), commands[self->field_DFE] % 1000);
-        func_8005F198(0);
+        Model_SetHandlerCallbackState(0);
         self->field_E0E = 8;
         self->field_E08 = 0;
     }
@@ -239,9 +239,9 @@ static void reference(s32 index)
     if (self->field_BF5 != self->field_DFE + 3 && self->field_DF8 != 0x309 &&
         state != 0 && state != 1 && state != 3 && state != 4 && state != 5) return;
     decision = selection(self, other, index);
-    func_8005F198(1);
+    Model_SetHandlerCallbackState(1);
     self->field_E0E = handler(*(u8 **)((u8 *)self + 0xDEC), -1);
-    func_8005F198(0);
+    Model_SetHandlerCallbackState(0);
     switch (self->field_E0E) {
     case 0: FntPrint(D_80011574); return;
     case 2: FntPrint(D_8009B050); return;
@@ -345,7 +345,7 @@ s32 main(void)
     u8 saved_active;
     u32 cases = 0;
     /* Observe the linker alias at runtime instead of folding distinct names. */
-    volatile u32 linked_alias = (u32)&D_800F3938;
+    volatile u32 linked_alias = (u32)&gModel_Slot0MetadataView;
     volatile u32 parent_field = (u32)&gModel_aSlots[0].field_CF8;
     if (sizeof(void *) != 4 || linked_alias != parent_field) return 90;
     for (chosen_index = 0; chosen_index < 2; chosen_index++)
@@ -358,7 +358,7 @@ s32 main(void)
         serial = cases;
         result_state = results[result_index];
         setup();
-        func_800559D4(chosen_index);
+        Model_UpdateSlotControl(chosen_index);
         if (fixture_error) return fixture_error;
         copy_bytes(saved_slots, gModel_aSlots, sizeof(saved_slots));
         copy_bytes(saved_events, events, sizeof(saved_events));
@@ -411,7 +411,7 @@ class ModelControlTests(unittest.TestCase):
             source = directory / ("wrong-command.c" if mutation else "controller.c")
             source.write_text(text)
             witness = directory / "witness.c"
-            prefix = controller_section().split("void func_800559D4(", 1)[0]
+            prefix = controller_section().split("void Model_UpdateSlotControl(", 1)[0]
             prefix = re.sub(
                 r'^#include "([^"]+)"',
                 lambda m: '#include "' + str((SOURCE.parent / m[1]).resolve()) + '"',
@@ -427,7 +427,7 @@ class ModelControlTests(unittest.TestCase):
                 "cc", "-m32", optimization, "-std=gnu99", "-ffreestanding", "-fno-builtin",
                 "-fno-strict-aliasing", "-fno-pie", "-no-pie", "-fno-stack-protector",
                 "-nostdlib", str(source), str(witness), str(startup),
-                "-Wl,--defsym,D_800F3938=gModel_aSlots+3320", "-o", str(binary),
+                "-Wl,--defsym,gModel_Slot0MetadataView=gModel_aSlots+3320", "-o", str(binary),
             ], capture_output=True, text=True, timeout=60, env=environment)
             self.assertEqual(compiled.returncode, 0, compiled.stderr)
             return subprocess.run([str(binary)], capture_output=True, text=True, timeout=60)

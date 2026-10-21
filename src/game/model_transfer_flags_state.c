@@ -26,9 +26,9 @@
  * than u8 the right spelling for the definition.
  *
  * The block ends with three bytes no symbol names, so splat's label for
- * D_8009B07C spans four bytes although the object is one -- the same way the
+ * gModel_bHandlerCallbackState spans four bytes although the object is one -- the same way the
  * label at D_8009AF18 ran long. They are written out as padding because an
- * object stopping at D_8009B07C would leave the window three bytes short.
+ * object stopping at gModel_bHandlerCallbackState would leave the window three bytes short.
  *
  * The padding is three separate bytes rather than a u8[3], which is not a
  * style choice. An array of three bytes is given four-byte alignment, so it
@@ -47,7 +47,7 @@ u8 gModel_bEffectKeyCount __attribute__((section(".sdata"))) = 0;
 u8 gModel_bEffectKeyPreparationPending __attribute__((section(".sdata"))) = 0;
 s8 gModel_nEffectKeyBatchOrdinal __attribute__((section(".sdata"))) = -1;
 u8 D_8009B07B __attribute__((section(".sdata"))) = 0;
-u8 D_8009B07C __attribute__((section(".sdata"))) = 0;
+u8 gModel_bHandlerCallbackState __attribute__((section(".sdata"))) = 0;
 static u8 sModelTransferFlags_Pad7D __attribute__((section(".sdata"))) = 0;
 static u8 sModelTransferFlags_Pad7E __attribute__((section(".sdata"))) = 0;
 static u8 sModelTransferFlags_Pad7F __attribute__((section(".sdata"))) = 0;

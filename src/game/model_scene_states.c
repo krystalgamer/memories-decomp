@@ -69,8 +69,8 @@ void Model_UpdateScene(void)
     Model_DrawSlot(0);
     Model_DrawSlot(1);
     Model_DrawSlot(2);
-    func_800559D4(0);
-    func_800559D4(1);
+    Model_UpdateSlotControl(0);
+    Model_UpdateSlotControl(1);
     Model_DrawBackground();
     Model_StepBackgroundVramAnimation();
     Model_UpdateTintRequests();

@@ -19,14 +19,14 @@ int SortedEntry_Compare(const u32 *left, const u32 *right)
 /* Use the historical PSYQ declaration, whose comparator has unspecified args. */
 void SortedEntry_SortAndRelink(void)
 {
-    SortedEntry *base = D_8009B304;
+    SortedEntry *base = gSortedEntry_pBase;
     SortedEntry *entry = base;
-    u32 count = D_8009B314;
+    u32 count = gSortedEntry_nCount;
     u32 sorted_count;
     u32 index;
 
     gSortedEntry_nSortedCount = count;
-    D_8009B30C &= ~4;
+    gModel_dwFogDrawFlags &= ~4;
 
     if (count >= 2) {
         s32 (*compare)(const u32 *, const u32 *) = SortedEntry_Compare;
@@ -45,6 +45,6 @@ void SortedEntry_SortAndRelink(void)
         } while (index < sorted_count);
     }
 
-    D_8009B314 = 0;
-    D_8009B310 = D_8009B304;
+    gSortedEntry_nCount = 0;
+    gSortedEntry_pCursor = gSortedEntry_pBase;
 }

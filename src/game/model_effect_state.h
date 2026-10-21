@@ -23,7 +23,7 @@
  * Model_QueueEffectEndpointSequences walks sequences of that same endpoint type. Its post-step
  * stop tests retain an aligned s16 view of kind: retail loads that field
  * with lh, while direct access through the packed type expands it.
- * These operations return early while D_8009B07B and D_8009B07C are both 1. */
+ * These operations return early while D_8009B07B and gModel_bHandlerCallbackState are both 1. */
 void Model_SetCameraOrbitFromPreset(s32 mode, s32 coefficient, SVECTOR *offset);
 /* Steps the active effect-key queue and its two camera endpoint channels. */
 void Model_UpdateEffectKeyframes(void);

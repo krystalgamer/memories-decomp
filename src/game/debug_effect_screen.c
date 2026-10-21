@@ -84,7 +84,7 @@ void func_800220B8(void) {
     s32 y;
 
     if ((gInput_wPad1Pressed & PAD_BUTTON_SELECT) != 0) {
-        D_8009B30C = D_8009B30C ^ 1;
+        gModel_dwFogDrawFlags = gModel_dwFogDrawFlags ^ 1;
     }
 
     b = &D_800F2848;
