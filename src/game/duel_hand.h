@@ -51,13 +51,13 @@ extern DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
  * Declared u8, which is what both sources say, with the one signed read left
  * spelled as a cast where it is:
  *
- *     if (*(s8 *)&D_8009B1EC == 0)
+ *     if (*(s8 *)&gDuel_bPendingDrawCount == 0)
  *
  * That is the same arrangement dialog_choice.h records for
  * gDialog_bInputState: the declaration stays unsigned and the cast at the use
  * is what keeps retail's signed load, so resolving one into the other would
  * be a codegen change rather than a tidy-up. */
-extern u8 D_8009B1EC;
+extern u8 gDuel_bPendingDrawCount;
 
 void Duel_ClearHandSlots(void);
 

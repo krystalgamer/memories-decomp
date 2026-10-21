@@ -256,7 +256,7 @@ void DuelScene_UpdateStartup(void)
     }
     case 5:
         Duel_ClearHandSlots();
-        D_8009B1EC = HAND_SIZE;
+        gDuel_bPendingDrawCount = HAND_SIZE;
         gDuel_wSceneStateFlags = 3;
         ((DuelSelectionRecord *)(D_800E9F10 +
             D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))->hand = gDuelHand_aSlots;
@@ -348,7 +348,7 @@ void DuelScene_UpdateDrawPhase(void) {
                 placed++;
             }
         }
-        D_8009B1EC = HAND_SIZE - n;
+        gDuel_bPendingDrawCount = HAND_SIZE - n;
         gDuel_wDisplayTransitionFlags = 2;
         gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F10 +
                 D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);

@@ -20,7 +20,7 @@ signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.
   duel totals: wins at `+0x518`, losses at `+0x51A`. Starchips occupy the
   word at `+0x5E0`. The controller's narrow increment/store happens before
   its clamp; this is not a wider saturating counter.
-- The sole writer of `D_8009B1E8` points it at `gDuel_awRitualData`,
+- The sole writer of `gDuel_pResultDisplayState` points it at `gDuel_awRitualData`,
   `0x801799D8`. `DUEL_RITUAL_DATA_RESULT_VIEW` describes the full
   `0x40`-byte `DuelResultDisplayState` there, including ten child pointers.
   The span ends at `0x80179A18`, inside the existing `slot_80168000`

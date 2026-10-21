@@ -299,7 +299,7 @@ void DuelScene_UpdateBattle(void)
                     D_8009B174 = g | 0x40;
                     if (gDuel_wSelectedTrapCardId != 0) {
                         D_8009B174 = g | 0x60;
-                    D_8009B210 = 0;
+                    gDuel_wTrapPresentationMode = 0;
                     return;
                     }
                 }
@@ -339,14 +339,14 @@ void DuelScene_UpdateBattle(void)
             }
             result = Duel_CompareBattleStrength(D_800E9EF0[0], D_800E9EF0[1]);
             if (result >= 0) {
-                D_8009B1B0[0] = 0;
-                D_8009B1A4[0] = 0;
-                D_8009B1B0[1] = 1;
-                D_8009B1A4[1] = 0;
+                gDuel_abBattleOutcome[0] = 0;
+                gDuel_awBattleDamage[0] = 0;
+                gDuel_abBattleOutcome[1] = 1;
+                gDuel_awBattleDamage[1] = 0;
                 if (result != 0) {
                     if (D_800E9EF0[1] != 0 && (D_8009B178[1] & 0x800)) {
                         gDuel_pActiveSideState->rank.field_0B++;
-                        D_8009B1B0[1] = -1;
+                        gDuel_abBattleOutcome[1] = -1;
                         gDuel_aSideStates[D_8009B1D5 ^ 1].rank.field_0C++;
                         return;
                     }
@@ -360,15 +360,15 @@ void DuelScene_UpdateBattle(void)
                         gDuel_pActiveSideState->rank.field_0B++;
                         gDuel_pActiveSideState->rank.effective_attacks++;
                     }
-                    D_8009B1B0[1] = -1;
-                    D_8009B1A4[1] = result;
+                    gDuel_abBattleOutcome[1] = -1;
+                    gDuel_awBattleDamage[1] = result;
                     return;
                 }
             } else {
-                D_8009B1B0[0] = -1;
-                D_8009B1B0[1] = -1;
-                D_8009B1A4[0] = 0;
-                D_8009B1A4[1] = 0;
+                gDuel_abBattleOutcome[0] = -1;
+                gDuel_abBattleOutcome[1] = -1;
+                gDuel_awBattleDamage[0] = 0;
+                gDuel_awBattleDamage[1] = 0;
                 if (result < -1) {
                     view = &gDuel_aSideStates[D_8009B1D5];
                     life = view->life_points.unsigned_value + result;
@@ -376,10 +376,10 @@ void DuelScene_UpdateBattle(void)
                     if ((s16)life < 0) {
                         view->life_points.unsigned_value = 0;
                     }
-                    D_8009B1A4[0] = result;
-                    D_8009B1B0[1] = 1;
+                    gDuel_awBattleDamage[0] = result;
+                    gDuel_abBattleOutcome[1] = 1;
                     if (D_8009B178[1] & 0x800) {
-                        D_8009B1B0[0] = 1;
+                        gDuel_abBattleOutcome[0] = 1;
                         gDuel_aSideStates[D_8009B1D5 ^ 1].rank.defensive_wins++;
                         return;
                     }
@@ -544,7 +544,7 @@ void DuelScene_UpdateBattle(void)
             if (!(flags & 0x80)) {
                 D_8009B174 = flags | 0xC0;
                 *(u32 *)&side->position = *(u32 *)&side->field_30;
-                wins = D_8009B1B0;
+                wins = gDuel_abBattleOutcome;
                 if (wins[ix] != 0) {
                     req =
                         DuelEffect_AllocateRequest(2);
@@ -552,7 +552,7 @@ void DuelScene_UpdateBattle(void)
                     req->field_02 =
                         side->field_30.h.field_32 +
                         DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
-                    result = D_8009B1A4[D_8009B1B9];
+                    result = gDuel_awBattleDamage[D_8009B1B9];
                     gDuelEffect_pTrackedRequest = req;
                     req->field_12 = result;
                     result = (result < 0 ? -result : result) / 1000;

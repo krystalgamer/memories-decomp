@@ -28,7 +28,7 @@ typedef struct {
 } GuardedState;
 extern GuardedState state;
 #define gDuel_aCardRecords state.records
-#define D_8009B210 state.mode
+#define gDuel_wTrapPresentationMode state.mode
 """
 WITNESS = r"""
 GuardedState state, expected;
@@ -102,7 +102,7 @@ class TrapPresentationRequestTests(unittest.TestCase):
         source = (ROOT / "src/game/duel_trap_resolution.c").read_text()
         prefix = source[:source.index("u8 gDuel_abTrapAttackThresholds[")]
         match = re.search(
-            r"(?s)e = DuelEffect_CreateRequest\(8\);.*?D_8009B210 = 2;", source,
+            r"(?s)e = DuelEffect_CreateRequest\(8\);.*?gDuel_wTrapPresentationMode = 2;", source,
         )
         self.assertIsNotNone(match)
         fragment = match.group()
@@ -123,7 +123,7 @@ class TrapPresentationRequestTests(unittest.TestCase):
                     code = code.replace("*(d =", statement + "\n    *(d =")
                 elif mutation == "mode-before-sound":
                     code = code.replace("SD_SEPlayFull(0x17);", "")
-                    code = code.replace("D_8009B210 = 2;", "D_8009B210 = 2;\n    SD_SEPlayFull(0x17);")
+                    code = code.replace("gDuel_wTrapPresentationMode = 2;", "gDuel_wTrapPresentationMode = 2;\n    SD_SEPlayFull(0x17);")
                 else:
                     self.assertIsNone(mutation)
                 if mutation:
