@@ -2265,3 +2265,7 @@ gSD_adwStatusDataByteCounts = 0x80011484;
 gModel_szAnimationSoundTraceFormat = 0x80011508;
 gSD_pFileRequest = 0x8009B460;
 gAiScript_abFieldScript = 0x801A9800;
+
+Duel_UpdateCardToSelectionView = 0x80022674; // type:func
+
+Duel_UpdateCardToFieldView = 0x800229F4; // type:func

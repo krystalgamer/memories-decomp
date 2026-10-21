@@ -5,6 +5,7 @@
 #include "duel_init_scene.h"
 #include "display_object.h"
 #include "duel_card.h"
+#include "card_presentation.h"
 #include "duel_card_object_helpers.h"
 #include "duel_effect_request.h"
 #include "duel_card_record_lifecycle.h"
@@ -69,7 +70,7 @@ void DuelScene_UpdateResume(void)
 
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
-        rec = D_801A7B64;
+        rec = gDuel_aFieldCardRecords;
         for (i = HAND_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++, rec++) {
             flags = rec->flags;
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
@@ -83,7 +84,7 @@ void DuelScene_UpdateResume(void)
                     DUEL_CARD_DISPLAY_OBJECT_VIEW(rec->object));
             }
         }
-        rec = D_801A7B64 + 15;
+        rec = gDuel_aFieldCardRecords + 15;
         for (i = 20; i < DUEL_CARD_RECORD_COUNT; i++, rec++) {
             flags = rec->flags;
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {

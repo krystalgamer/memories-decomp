@@ -15,6 +15,7 @@
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "duel_card.h"
+#include "card_presentation.h"
 #include "display_object_start_alpha_transition.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_apply_card_object_flags.h"
@@ -369,7 +370,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
             }
         }
     } else {
-        p = D_801A7B64;
+        p = gDuel_aFieldCardRecords;
         q = p + DUEL_CARD_SIDE_RECORD_COUNT;
         i = 0;
         do {
