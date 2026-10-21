@@ -34,14 +34,14 @@ typedef char ilp32[sizeof(void *) == 4 && sizeof(int) == 4 ? 1 : -1];
 u8 state[10];
 __asm__(".globl gMain_bMenuID\n.set gMain_bMenuID, state\n"
         ".globl D_80184595\n.set D_80184595, state+1\n"
-        ".globl D_80184596\n.set D_80184596, state+2\n"
-        ".globl D_80184597\n.set D_80184597, state+3\n"
-        ".globl D_80184598\n.set D_80184598, state+4\n"
-        ".globl D_80184599\n.set D_80184599, state+5\n"
-        ".globl D_8018459A\n.set D_8018459A, state+6\n"
-        ".globl D_8018459B\n.set D_8018459B, state+7\n"
-        ".globl D_8018459C\n.set D_8018459C, state+8\n"
-        ".globl D_8018459D\n.set D_8018459D, state+9\n");
+        ".globl gMainMenu_bTransitionMode\n.set gMainMenu_bTransitionMode, state+2\n"
+        ".globl gMainMenu_bShadeLevel\n.set gMainMenu_bShadeLevel, state+3\n"
+        ".globl gMainMenu_nFadeDirection\n.set gMainMenu_nFadeDirection, state+4\n"
+        ".globl gMainMenu_bTransitionActive\n.set gMainMenu_bTransitionActive, state+5\n"
+        ".globl gMainMenu_bSaveWritePending\n.set gMainMenu_bSaveWritePending, state+6\n"
+        ".globl gMainMenu_bLoadPending\n.set gMainMenu_bLoadPending, state+7\n"
+        ".globl gMainMenu_bTradeLoadPending\n.set gMainMenu_bTradeLoadPending, state+8\n"
+        ".globl gMainMenu_bDuelLoadPending\n.set gMainMenu_bDuelLoadPending, state+9\n");
 DisplayObject *D_80184560;
 u8 *gMain_apMenuEntries[11];
 volatile u16 gInput_wPad1Pressed;

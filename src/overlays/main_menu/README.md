@@ -130,8 +130,8 @@ argument and initializes the selected byte from `menu % 11`. It allocates
 three singleton objects and all eleven menu entries, seeds an entrance
 transition and installs the background callback. It is not the archive
 loader or input pump. Final state is not simply all zero: the transition
-starter sets active byte `D_80184599` to 1, and nonzero selection sets
-`D_80184597` to `0x80`. Individual allocation checks do not make the final
+starter sets active byte `gMainMenu_bTransitionActive` to 1, and nonzero selection sets
+`gMainMenu_bShadeLevel` to `0x80`. Individual allocation checks do not make the final
 third-singleton access in that nonzero-selection path null-safe. The
 singleton artwork and the meaning of the retained sound argument `0x7000`
 remain unassigned.
@@ -499,7 +499,7 @@ same alternation.
 
 Both modes animate x at `+0x30`; `+0x36` and `+0x38` are not separate
 axes. `MainMenu_StartFrontendEntryTransition` selects entrance for zero and exit for nonzero by
-swapping the parked and centered endpoints. The sample's `D_80184596 = 0`
+swapping the parked and centered endpoints. The sample's `gMainMenu_bTransitionMode = 0`
 and `+0x38 = 160` therefore identify the entrance setup, not a
 horizontal-versus-vertical switch.
 
@@ -549,7 +549,7 @@ Texture UV limits and the other geometry values are not reinterpreted as
 screen constants. Submission order, colors, flags and local value lifetimes
 retain the matching behavior.
 
-The optional grey quad uses `D_80184597` as all three input color bytes.
+The optional grey quad uses `gMainMenu_bShadeLevel` as all three input color bytes.
 It is submitted at priority 0, followed by five 64-pixel textured columns
 at priority 4095 and a black-top/white-bottom Gouraud quad at 4094.
 These are submission facts, not a claim about final opaque pixel order.
@@ -637,7 +637,7 @@ calls `MainMenu_SpawnFrontendEntryAfterimage`, which installs
 `MainMenu_UpdateFrontendEntryAfterimage` into the copy's `+0x24` slot.
 
 **Two declarations that disagreed now cannot.** `frontend.h` recorded
-`D_80184598` as deliberately absent because `frontend_init.c` spelled it `u8`
+`gMainMenu_nFadeDirection` as deliberately absent because `frontend_init.c` spelled it `u8`
 and `frontend_update.c` spelled it `s8`, and spreading the wrong one is worse
 than leaving it local. One unit forces the choice and the evidence is
 one-sided: the updater assigns `1` and `-1` and tests `< 0`, so it is a signed

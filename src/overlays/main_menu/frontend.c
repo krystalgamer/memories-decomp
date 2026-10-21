@@ -105,19 +105,19 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     }
 
     D_80184595 = 0;
-    D_80184596 = 0;
-    D_80184597 = 0;
+    gMainMenu_bTransitionMode = 0;
+    gMainMenu_bShadeLevel = 0;
     if (gMain_bMenuID != 0) {
         state = D_80184560->flags;
-        D_80184597 = 0x80;
+        gMainMenu_bShadeLevel = 0x80;
         D_80184560->flags = state & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
     }
-    D_80184598 = 0;
-    D_80184599 = 0;
-    D_8018459A = 0;
-    D_8018459B = 0;
-    D_8018459C = 0;
-    D_8018459D = 0;
+    gMainMenu_nFadeDirection = 0;
+    gMainMenu_bTransitionActive = 0;
+    gMainMenu_bSaveWritePending = 0;
+    gMainMenu_bLoadPending = 0;
+    gMainMenu_bTradeLoadPending = 0;
+    gMainMenu_bDuelLoadPending = 0;
     MainMenu_StartFrontendEntryTransition(0);
     gMain_apFrameServiceCallbacks[0] = MainMenu_DrawFrontendBackground;
     SD_BGMPlayDefaultStep(0x7000);
