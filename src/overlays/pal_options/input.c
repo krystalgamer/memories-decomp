@@ -4,26 +4,26 @@
 #include "../../game/sound.h"
 #include "helpers.h"
 
-void func_80168A4C(void)
+void PalOptions_HandleInput(void)
 {
-    s32 selection = D_80169134;
+    s32 selection = gPalOptions_bSelectedRow;
 
     if (selection == 0) {
-        if ((gInput_wPad1Pressed & PAD_DIRECTION_RIGHT) != 0 && D_80169070 == 0) {
+        if ((gInput_wPad1Pressed & PAD_DIRECTION_RIGHT) != 0 && gPalOptions_bSoundOutputType == 0) {
             gSD_bOutputType = 1;
-            D_80169070 = 1;
+            gPalOptions_bSoundOutputType = 1;
             SD_SetOutputType(1);
             SD_SEPlayFull(0x2F);
         }
-        if ((gInput_wPad1Pressed & PAD_DIRECTION_LEFT) != 0 && D_80169070 == 1) {
+        if ((gInput_wPad1Pressed & PAD_DIRECTION_LEFT) != 0 && gPalOptions_bSoundOutputType == 1) {
             gSD_bOutputType = 0;
-            D_80169070 = 0;
+            gPalOptions_bSoundOutputType = 0;
             SD_SetOutputType(0);
             SD_SEPlayFull(0x2F);
         }
     } else {
         if ((gInput_wPad1Repeat & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-            selection = D_80169140;
+            selection = gPalOptions_bLanguage;
             if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
                 selection++;
                 if (selection >= 5) {
@@ -35,7 +35,7 @@ void func_80168A4C(void)
                     selection = 4;
                 }
             }
-            D_80169140 = selection;
+            gPalOptions_bLanguage = selection;
             DisplayObject_SetResourceVariant(D_80169074, selection);
             D_80169138->field_68 = selection;
             DisplayObject_SetResourceVariant(D_80169138, D_80169138->field_69);
@@ -45,7 +45,7 @@ void func_80168A4C(void)
         }
     }
     if ((gInput_wPad1Pressed & (PAD_BUTTON_CIRCLE | PAD_BUTTON_CROSS)) != 0) {
-        D_801691FC = 3;
+        gPalOptions_bState = 3;
         SD_SEPlayFull(8);
     }
 }

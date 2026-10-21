@@ -55,7 +55,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/pal_options/color_slots]
-  - name: func_80168048
+  - name: PalOptions_PositionCursor
     type: code
     start: 0x48
     vram: 0x80168048
@@ -90,14 +90,14 @@ segments:
     align: 4
     subsegments:
       - [0x6A4, c, overlays/pal_options/language_hook]
-  - name: func_801686AC
+  - name: PalOptions_Init
     type: code
     start: 0x6AC
     vram: 0x801686AC
     align: 4
     subsegments:
       - [0x6AC, c, overlays/pal_options/initialize]
-  - name: func_80168A4C
+  - name: PalOptions_HandleInput
     type: code
     start: 0xA4C
     vram: 0x80168A4C
@@ -111,7 +111,7 @@ segments:
     align: 4
     subsegments:
       - [0xBE8, c, overlays/pal_options/wave_tables]
-  - name: func_80168D34
+  - name: PalOptions_RequestLanguage
     type: code
     start: 0xD34
     vram: 0x80168D34
@@ -125,7 +125,7 @@ segments:
     align: 4
     subsegments:
       - [0xD68, c, overlays/pal_options/language_image]
-  - name: func_80168E1C
+  - name: PalOptions_Update
     type: code
     start: 0xE1C
     vram: 0x80168E1C

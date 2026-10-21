@@ -2078,3 +2078,5 @@ CardList_LoadSharedGraphicsStage = 0x8003236C; // type:func
 
 CardList_LoadSharedGraphics = 0x80032568; // type:func
 gAiScript_abFieldScript = 0x801A9800;
+PalOptions_Init = 0x801686AC;
+PalOptions_Update = 0x80168E1C;

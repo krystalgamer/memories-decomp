@@ -63,35 +63,35 @@ class FrenchOptionsTests(unittest.TestCase):
                    (0x2078, 1), (0x2079, 0xF87))
     dependencies = {
         "color_slots": {"gText_abColorSlots"},
-        "cursor_layout": {"D_80169070", "D_80169078", "D_8016913C",
+        "cursor_layout": {"gPalOptions_bSoundOutputType", "D_80169078", "gPalOptions_pCursor",
                           "DisplayObject_UpdateResourceVariant"},
         "position_easing": set(),
         "textured_strips": {"D_80169040", "D_80169050", "func_801680AC", "GsSortPoly"},
-        "grid": {"D_80169080", "D_80169140", "D_80169148",
+        "grid": {"D_80169080", "gPalOptions_bLanguage", "D_80169148",
                  "SetPolyGT4", "GsSortPoly", "GsSortFastSprite"},
         "language_hook": set(),
-        "initialize": {"D_80169052", "D_80169070", "D_80169074", "D_80169078",
-                       "D_80169134", "D_80169138", "D_8016913C", "D_80169140",
-                       "D_80169144", "D_801691FC", "D_8009C02B", "D_8009B118",
+        "initialize": {"D_80169052", "gPalOptions_bSoundOutputType", "D_80169074", "D_80169078",
+                       "gPalOptions_bSelectedRow", "D_80169138", "gPalOptions_pCursor", "gPalOptions_bLanguage",
+                       "D_80169144", "gPalOptions_bState", "D_8009C02B", "D_8009B118",
                        "D_800E9D70", "D_801AF000", "gSD_bOutputType", "StoreImage",
-                       "DrawSync", "func_801686A4", "func_80168048",
+                       "DrawSync", "func_801686A4", "PalOptions_PositionCursor",
                        "DisplayObject_FindFreeGeneralSlot", "DisplayObject_AcquireSlot",
                        "DisplayObject_ConfigureSpriteAtPositionWithResource",
                        "DisplayObject_SetDepthOffset", "DisplayObject_ConfigureSpriteAtPosition",
                        "SD_BGMPlay"},
-        "input": {"D_80169070", "D_80169074", "D_80169078", "D_80169134",
-                  "D_80169138", "D_80169140", "D_801691FC", "gInput_wPad1Pressed",
+        "input": {"gPalOptions_bSoundOutputType", "D_80169074", "D_80169078", "gPalOptions_bSelectedRow",
+                  "D_80169138", "gPalOptions_bLanguage", "gPalOptions_bState", "gInput_wPad1Pressed",
                   "gInput_wPad1Repeat", "gSD_bOutputType", "SD_SetOutputType",
                   "SD_SEPlayFull", "DisplayObject_SetResourceVariant"},
         "wave_tables": {"D_80169080", "D_80169144", "D_80169148", "rcos"},
         "language_request": {"D_8009C02B", "func_80043BC8"},
         "language_image": {"func_80043B7C", "D_800E9D70", "D_8009B118",
                            "D_8009C02B", "StoreImage", "LoadImage", "DrawSync"},
-        "update": {"D_801691FC", "D_80169134", "D_80169140", "func_80168A4C",
-                   "func_80168D34", "func_80168D68", "func_80168048", "Fade_StartIn",
+        "update": {"gPalOptions_bState", "gPalOptions_bSelectedRow", "gPalOptions_bLanguage", "PalOptions_HandleInput",
+                   "PalOptions_RequestLanguage", "func_80168D68", "PalOptions_PositionCursor", "Fade_StartIn",
                    "Fade_StartOut", "SD_BGMFadeOut", "gFade_State", "D_8009B0F4", "D_8009B134"},
         "signed_step": {"D_80169050", "D_80169072"},
-        "language_selection": {"D_80169140"},
+        "language_selection": {"gPalOptions_bLanguage"},
         "suffix_signed_step": {"D_80169F88", "D_80169FAA"},
         "suffix_byte": {"D_8016A078"},
     }
@@ -151,11 +151,13 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertIn(f"D_80169040 = 0x80169040; // type:u8 size:0x{dict(self.data_owners)[0x1040]:X} defined:true", symbols)
         for offset, size in self.data_owners:
             declaration = next(line for line in symbols.splitlines()
-                               if line.startswith(f"D_{0x80168000 + offset:X} ="))
+                               if f" = 0x{0x80168000 + offset:X};" in line)
             self.assertIn(f"size:0x{size:X} defined:true", declaration)
         bindings = (ROOT / self.module()["linker_symbols"]).read_text()
         for offset, _ in self.data_owners:
-            self.assertNotIn(f"D_{0x80168000 + offset:X}", bindings)
+            name = next(line for line in symbols.splitlines()
+                        if f" = 0x{0x80168000 + offset:X};" in line).split(" = ")[0]
+            self.assertNotIn(f"{name} =", bindings)
         self.assertIn(f"data, overlays/{self.module_name}/unclassified_tail", layout.read_text())
         self.assertIn("[0x3000]", layout.read_text())
         for interior in (0xE8, 0xF4, 0x66C, 0xD3C, 0xFCC, 0x1024):

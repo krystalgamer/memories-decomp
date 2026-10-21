@@ -25,7 +25,7 @@ void func_801683E0(DisplayObject *object, GsOT *ordering_table)
     sprite->uv.word = object->field_5C;
     sprite->tpage = object->field_66;
     packet = (POLY_GT4 *)0x1F800344;
-    if (D_80169140 == object->field_6A) {
+    if (gPalOptions_bLanguage == object->field_6A) {
         packet->tpage = sprite->tpage;
         packet->clut = getClut(sprite->cxcy.h.cx, sprite->cxcy.h.cy);
         for (row = 0; row < 4; row++) {

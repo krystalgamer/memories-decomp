@@ -23,7 +23,7 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
     sdk_prefix = "func_spanish_"
     dependencies = {
         **french.FrenchOptionsTests.dependencies,
-        "grid": {"D_80169080", "D_80169140", "D_80169148",
+        "grid": {"D_80169080", "gPalOptions_bLanguage", "D_80169148",
                  "SetPolyGT4", "GsSortPoly", "GsSortFastSprite"},
     }
     load_inventories = staticmethod(load_spanish_overlay_inventories)
