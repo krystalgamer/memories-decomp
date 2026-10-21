@@ -974,7 +974,7 @@ Duel_RenderFieldCard3D = 0x80015E0C;
 Duel_DrawFieldCards = 0x80016414;
 DisplayObject_ProjectGroundPosition = 0x80015C30;
 gDisplayObject_aPool = 0x800F0DF0;
-func_80058DD8 = 0x8005D29C;
+Model_GetSlotReadiness = 0x8005D29C;
 DuelEffect_ReleaseResourceObjects = 0x8002957C;
 Library_CreateGridSectionSprites = 0x800295E4;
 Library_DrawGlobeXSpan = 0x800296D8;
@@ -1850,9 +1850,9 @@ Model_ResetSlot = 0x8005A650;
 Model_LoadSlot = 0x8005A784;
 Model_LoadMonsterMerge = 0x8005AA38;
 Model_AdvanceSlotLoad = 0x8005AD5C;
-func_80056D7C = 0x8005B2B0;
-func_80057544 = 0x8005BA7C;
-func_800577B0 = 0x8005BCE8;
+Model_LoadMonsterMergeStage = 0x8005B2B0;
+Model_LoadAuxiliaryPackageStage = 0x8005BA7C;
+Model_LoadSpecialBattlePackageStage = 0x8005BCE8;
 Model_DrawBackground = 0x80052334;
 Model_UpdateTintRequests = 0x80056DD0;
 Model_UpdateEffectKeyframes = 0x8004D9B0;
@@ -2022,3 +2022,19 @@ gDuel_awSavedStatModifiers = 0x8009C134;
 gDuel_wSavedTargetStatModifier = 0x8009C136;
 gDuel_awSavedRecordFlags = 0x8009C174;
 gDuel_wSavedTargetRecordFlags = 0x8009C176;
+
+gModel_pSlot0PrimaryModule = 0x8001000C;
+
+gModel_pSlot1PrimaryModule = 0x80010010;
+
+gModel_Slot0VariantModuleAddress = 0x80010014;
+
+gModel_Slot1VariantModuleAddress = 0x80010018;
+
+gModel_Slot0PrimaryDataAddress = 0x8001001C;
+
+gModel_Slot1PrimaryDataAddress = 0x80010020;
+
+gModel_Slot0VariantDataAddress = 0x80010024;
+
+gModel_Slot1VariantDataAddress = 0x80010028;

@@ -20,7 +20,7 @@
 #include "model_keyframe_spline.h"
 #include "model_transfer_flags.h"
 #include "model_effect_state.h"
-#include "func_80058DD8.h"
+#include "model_get_slot_readiness.h"
 #include "model_get_frame_step.h"
 #include "model_copy_slot_u16_values.h"
 #include "model_update_view_metrics.h"
@@ -106,7 +106,7 @@ void Model_UpdateEffectKeyframes(void)
             s32 elapsed = KEY_VIEW(key)->progress;
             s32 duration = KEY_VIEW(key)->duration;
             s32 remaining;
-            if (func_80058DD8(slot) != 1) {
+            if (Model_GetSlotReadiness(slot) != 1) {
                 break;
             }
             Model_CopySlotU16Values(slot, (u16 *)position);
@@ -146,7 +146,7 @@ void Model_UpdateEffectKeyframes(void)
             persistent++;
             slot = record[0];
             amount = record[1];
-            if (func_80058DD8(slot) != 1) {
+            if (Model_GetSlotReadiness(slot) != 1) {
                 break;
             }
             Model_CopySlotU16Values(slot, (u16 *)target);

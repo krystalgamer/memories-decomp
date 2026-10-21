@@ -5,7 +5,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "func_80058DD8.h"
+#include "model_get_slot_readiness.h"
 #include "camera_view.h"
 #include "file_transfer.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
@@ -203,7 +203,7 @@ void Library_UpdateCardView(LibraryState *state)
             }
         } else {
             Model_AdvanceSlotLoad(0);
-            if (func_80058DD8(0) == 1) {
+            if (Model_GetSlotReadiness(0) == 1) {
                 state->motion.model_load_phase = 0;
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, 0x130, LIBRARY_LOADING_ICON_Y, 3, 0, 2, 0xB, 0x20C);
@@ -582,7 +582,7 @@ void Library_UpdateScreen(void)
     case 2:
         Library_UpdateCardView(state);
         model = &D_800F2848;
-        r = func_80058DD8(0);
+        r = Model_GetSlotReadiness(0);
         if (r == one) {
             if (Model_GetSlotAnimationIndex(0) != r) {
                 Model_CopySlotU16Values(0, (u16 *)0x80181010);

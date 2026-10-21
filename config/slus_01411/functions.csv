@@ -897,9 +897,9 @@ address,size,name,status,module,notes
 0x80056250,0x2B4,Model_LoadSlot,matching_c,game,Exact linked bytes with gcc_2_8_1_g8_split from the ygofm reference; per-block base locals and the chained limit assignment are load-bearing.
 0x80056504,0x324,Model_LoadMonsterMerge,matching_c,game,"Exact under gcc_2_8_1_g8_split after using the established .data view D_8009B0F4_abs for the transfer-state stores; pure C with no asm or asm-register bindings. Reconstructed from the sibling slot-property writer Model_SetSlotProperties and the File_TryRequestAsyncTransfer idiom in duel_deck_card_data.c."
 0x80056828,0x554,Model_AdvanceSlotLoad,matching_c,game,"Exact1364-byte eleven-stage model-load dispatcher and44-byte table, reconstructed without pins or assembly. Typed phase reader, shared layout/speed work and local next-state publication preserve every instruction; see src/game/model_slot_control.c."
-0x80056D7C,0x7C8,func_80056D7C,matching_c,game,"Exact pure C for all 17 model MRG transfer stages; canonical descriptor and model views, live post-callback overrides, full 1992-byte text and 68-byte table; see src/game/model_slot_control.c."
-0x80057544,0x26C,func_80057544,matching_c,game,"Exact match with gcc_2_8_1_g8_split; transfer-phase callback, owns jtbl_80011784."
-0x800577B0,0x344,func_800577B0,matching_c,game,"Exact match with gcc_2_8_1_g8_split; transfer-phase callback, owns jtbl_8001179C."
+0x80056D7C,0x7C8,Model_LoadMonsterMergeStage,matching_c,game,"Exact pure C for all 17 model MRG transfer stages; canonical descriptor and model views, live post-callback overrides, full 1992-byte text and 68-byte table; see src/game/model_slot_control.c."
+0x80057544,0x26C,Model_LoadAuxiliaryPackageStage,matching_c,game,"Exact match with gcc_2_8_1_g8_split; transfer-phase callback, owns jtbl_80011784."
+0x800577B0,0x344,Model_LoadSpecialBattlePackageStage,matching_c,game,"Exact match with gcc_2_8_1_g8_split; transfer-phase callback, owns jtbl_8001179C."
 0x80057AF4,0x32C,Model_ControlSlotAnimation,matching_c,game,"Starts, restores, or stops one model slot's part animation while preserving its saved row data; exact 812-byte text and relocations under gcc_2_8_1_g8_split."
 0x80057E20,0x118,func_80057E20,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
 0x80057F38,0x19C,Model_UpdateViewMetrics,matching_c,game,Copies an optional 32-byte reference view then derives its three-dimensional distance yaw and pitch. Exact post-terminal collaborator match; precise view and angle-global declarations reproduce linked bytes and relocations.
@@ -913,7 +913,7 @@ address,size,name,status,module,notes
 0x80058B4C,0x274,ModelTexture_LoadTim,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80058DC0,0xC,func_80058DC0,matching_c,game,1 pre-policy variants: Straight unsigned-byte G8 getter matched linked bytes and GPREL16 relocation.
 0x80058DCC,0xC,Model_GetActiveSlotIndex,matching_c,game,1 pre-policy variants: Straight unsigned-byte G8 getter matched linked bytes and GPREL16 relocation.
-0x80058DD8,0x44,func_80058DD8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80058DD8,0x44,Model_GetSlotReadiness,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80058E1C,0x20,Model_GetFrameStep,matching_c,game,"Clamps the model frame-step byte to six; a narrow nonvolatile small-data declaration view plus two explicit reads reproduces exact linked bytes and relocations without asm or register bindings."
 0x80058E3C,0x2C,Model_GetSlotAnimationSpeed,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x80058E68,0x2C,Model_GetSlotAnimationIndex,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.

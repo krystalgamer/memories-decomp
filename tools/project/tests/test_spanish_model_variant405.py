@@ -325,7 +325,7 @@ class SpanishModelVariant405Tests(unittest.TestCase):
             (self.config / "overlays/model_variant405_linker_symbols.txt").read_text(), re.M))
         self.assertEqual(len(bindings), 34)
         addresses = set(bindings.values())
-        for name in ("Model_LoadMonsterMerge", "func_80056D7C", "Model_InitSlot", "func_800559D4"):
+        for name in ("Model_LoadMonsterMerge", "Model_LoadMonsterMergeStage", "Model_InitSlot", "func_800559D4"):
             address, = [a for a, row in inventory.items() if row["name"] == name]
             self.assertEqual(inventory[address]["status"], "matching_c")
             addresses.add(address)

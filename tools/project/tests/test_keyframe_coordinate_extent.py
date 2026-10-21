@@ -18,7 +18,7 @@ CALLER = REPOSITORY / "src/game/model_effect_state.c"
 # witness compiles it alone against the contracts it uses.
 CALLER_HEADERS = (
     "../types.h", "camera_view.h", "model_copy_slot_u16_values.h",
-    "func_80058DD8.h", "model_keyframe_spline.h", "model_transfer_state.h",
+    "model_get_slot_readiness.h", "model_keyframe_spline.h", "model_transfer_state.h",
     "model_transfer_flags.h",
 )
 
@@ -159,7 +159,7 @@ static void checked_copy(s32 slot, u16 *out, u32 extent)
     copies++;
 }
 
-int func_80058DD8(int slot)
+int Model_GetSlotReadiness(int slot)
 {
     return slot >= 0 && slot < 2;
 }

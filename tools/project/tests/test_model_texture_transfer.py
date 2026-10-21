@@ -16,7 +16,7 @@ REPOSITORY = Path(__file__).resolve().parents[3]
 SOURCE = REPOSITORY / "src/game/model_slot_control.c"
 COPIER = REPOSITORY / "src/game/model_word_memory.c"
 SCRATCH = REPOSITORY / "tmp/astra/model-texture-transfer-witness"
-TRANSFER_CALLBACKS = {"func_80056D7C", "func_80057544", "func_800577B0"}
+TRANSFER_CALLBACKS = {"Model_LoadMonsterMergeStage", "Model_LoadAuxiliaryPackageStage", "Model_LoadSpecialBattlePackageStage"}
 START = r"""
 .text
 .globl _start
@@ -53,11 +53,11 @@ __asm__(".globl gModel_aSlots\n.set gModel_aSlots, slots+32\n"
 u8 D_801DD800[0x800], D_801DE000[0x400], D_801A8000[0x1000];
 u8 D_800F5694[1];
 static u8 destinations[6][32], buffers[2][0x1000];
-u8 *D_80010000, *D_80010004, *D_8001000C, *D_80010010;
-s32 D_80010008, D_80010014, D_80010018;
+u8 *D_80010000, *D_80010004, *gModel_pSlot0PrimaryModule, *gModel_pSlot1PrimaryModule;
+s32 D_80010008, gModel_Slot0VariantModuleAddress, gModel_Slot1VariantModuleAddress;
 u8 *D_8009B118;
 volatile u32 D_8009B0F4_abs;
-void func_80056D7C(FileTransferDescriptor *, s32);
+void Model_LoadMonsterMergeStage(FileTransferDescriptor *, s32);
 void __real_Model_CopyWords(s32 *, const s32 *, u32);
 
 static u8 descriptor[DESC] __attribute__((aligned(16)));
@@ -272,11 +272,11 @@ static void oracle(s32 stage, s32 index, s32 alternate)
     }
     if (stage >= 7 && stage <= 10) {
         skip = alternate != (stage >= 9) || index != ((stage - 7) & 1);
-        address = (u32)(index ? D_80010018 : D_80010014);
+        address = (u32)(index ? gModel_Slot1VariantModuleAddress : gModel_Slot0VariantModuleAddress);
     }
     if (stage == 11 || stage == 12) {
         skip = index != stage - 11;
-        address = (u32)(index ? D_80010010 : D_8001000C);
+        address = (u32)(index ? gModel_pSlot1PrimaryModule : gModel_pSlot0PrimaryModule);
     }
     if (stage == 13 || stage == 14) {
         skip = slot[0xE1D] != 0;
@@ -321,8 +321,8 @@ static void run_case(s32 stage, s32 index, s32 alternate, u32 flags,
     put32(slot + 0xD00, block ^ 0x20200000);
     D_80010000 = destinations[(cases & 1)];
     D_80010004 = destinations[2 + (cases & 1)];
-    D_8001000C = destinations[4]; D_80010010 = destinations[5];
-    D_80010014 = (s32)destinations[3]; D_80010018 = (s32)destinations[1];
+    gModel_pSlot0PrimaryModule = destinations[4]; gModel_pSlot1PrimaryModule = destinations[5];
+    gModel_Slot0VariantModuleAddress = (s32)destinations[3]; gModel_Slot1VariantModuleAddress = (s32)destinations[1];
     D_8009B118 = buffers[0]; D_8009B0F4_abs = flags;
     bytes(expected_descriptor, descriptor, DESC);
     bytes(expected_slots, slots, SLOTS);
@@ -330,7 +330,7 @@ static void run_case(s32 stage, s32 index, s32 alternate, u32 flags,
     expected_flags = flags; expected_buffer = D_8009B118;
     event_count = event_cursor = 0;
     oracle(stage, index, alternate);
-    func_80056D7C((FileTransferDescriptor *)d, stage);
+    Model_LoadMonsterMergeStage((FileTransferDescriptor *)d, stage);
     if (event_cursor != event_count) fail(9);
     if (!equal(expected_descriptor, descriptor, DESC)) fail(10);
     if (!equal(expected_slots, slots, SLOTS)) fail(11);

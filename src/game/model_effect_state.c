@@ -18,7 +18,7 @@
 #include "model_transfer_state.h"
 #include "model_queue_relative_camera_orbit.h"
 #include "model_cubic_coefficients.h"
-#include "func_80058DD8.h"
+#include "model_get_slot_readiness.h"
 
 #define MODEL_EFFECT_ENDPOINT_VIEW(value) ((ModelEffectEndpoint *)(value))
 #define KEY_BYTES(key) ((u8 *)(key))
@@ -108,7 +108,7 @@ void Model_PrepareEffectKey(Key *state)
         {
             s32 dx, dy, dz;
             slot = (s16)(e->w & 0xFF7F);
-            if (func_80058DD8(slot) != 1) {
+            if (Model_GetSlotReadiness(slot) != 1) {
                 continue;
             }
             Model_CopySlotU16Values(slot, (u16 *)pos);

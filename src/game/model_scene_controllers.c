@@ -725,18 +725,18 @@ void Model_UpdateExodiaPresentation(void)
 
     *(ModelBytes8 *)&offset = *(ModelBytes8 *)D_8009AFFC;
     slot = gModel_aSlots;
-    first = (s32 (*)(s32, s32))(D_80010014 + 4);
-    second = (s32 (*)(s32, s32))(D_80010018 + 4);
+    first = (s32 (*)(s32, s32))(gModel_Slot0VariantModuleAddress + 4);
+    second = (s32 (*)(s32, s32))(gModel_Slot1VariantModuleAddress + 4);
     Model_SetFrameStepOverride(1);
     if ((u32)((u8)gModel_bPresentationPhase - 8) < 2 && slot->field_E15 == 0) {
         gModel_bActiveSlotIndex = 0;
-        if (first(D_80010024, -1) == 2) {
+        if (first(gModel_Slot0VariantDataAddress, -1) == 2) {
             slot->field_E15++;
         }
     }
     if (gModel_bPresentationPhase >= 10 && gModel_aSlots[1].field_E15 == 0) {
         gModel_bActiveSlotIndex = 0;
-        if (second(D_80010028, -1) == 2) {
+        if (second(gModel_Slot1VariantDataAddress, -1) == 2) {
             Model_SetSlotPlaybackDirection(0, 0);
             Fade_CutToWhite();
             gModel_bPresentationPhase = 15;
@@ -773,8 +773,8 @@ check_ready:
         current->field_CF8.field_14 = -1;
         current->field_CF8.field_18 = -1;
         gModel_bActiveSlotIndex = 0;
-        first(D_80010024, 0);
-        second(D_80010028, 0);
+        first(gModel_Slot0VariantDataAddress, 0);
+        second(gModel_Slot1VariantDataAddress, 0);
         current[0].field_E15 = 0;
         current[1].field_E15 = 0;
         gModel_bPresentationPhase++;

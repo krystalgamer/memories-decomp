@@ -2,7 +2,7 @@
  * The per-slot model runtime: the per-frame slot animation tick
  * (Model_UpdateSlotAnimation), the per-slot control step (func_800559D4), slot reset and
  * load (Model_ResetSlot, Model_LoadSlot), the staged slot loader from
- * Model_LoadMonsterMerge through func_800577B0, and
+ * Model_LoadMonsterMerge through Model_LoadSpecialBattlePackageStage, and
  * Model_ControlSlotAnimation.
  *
  * Every feature switch below selects a header view for the whole unit, so it
@@ -204,9 +204,9 @@ void func_800559D4(s32 index)
     gModel_bActiveSlotIndex = index;
     if (primary_state >= 0) {
         if (index != 0) {
-            primary_handler = (ModelControlHandler)(D_80010010 + 4);
+            primary_handler = (ModelControlHandler)(gModel_pSlot1PrimaryModule + 4);
         } else {
-            primary_handler = (ModelControlHandler)(D_8001000C + 4);
+            primary_handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
         }
         func_8005F198(1);
         primary_handler(primary, -1);
@@ -228,9 +228,9 @@ void func_800559D4(s32 index)
         goto no_handler;
     }
     if (index != 0) {
-        handler = (ModelControlHandler)((u8 *)D_80010018 + 4);
+        handler = (ModelControlHandler)((u8 *)gModel_Slot1VariantModuleAddress + 4);
     } else {
-        handler = (ModelControlHandler)((u8 *)D_80010014 + 4);
+        handler = (ModelControlHandler)((u8 *)gModel_Slot0VariantModuleAddress + 4);
     }
     if (slot->field_E0E == 7) {
         func_8005F198(1);
@@ -645,7 +645,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
             transfer = File_TryRequestAsyncTransfer(
                 1, D_800114F8, MODEL_SPECIAL_BATTLE_FILE_START_SECTOR,
                 MODEL_SPECIAL_BATTLE_FILE_SECTOR_COUNT,
-                func_800577B0, 0, 0
+                Model_LoadSpecialBattlePackageStage, 0, 0
             );
             D_8009B0F4_abs = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
@@ -671,7 +671,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
             }
             transfer = File_TryRequestAsyncTransfer(
                 2, gFile_szModelMrgPath, model * MODEL_MRG_SECTOR_COUNT,
-                MODEL_MRG_SECTOR_COUNT, func_80056D7C,
+                MODEL_MRG_SECTOR_COUNT, Model_LoadMonsterMergeStage,
                 0, 0
             );
             if (p2 >= 0) {
@@ -707,7 +707,7 @@ found:
         transfer = File_TryRequestAsyncTransfer(
             1, D_800114F8,
             model * MODEL_AUX_SECTOR_COUNT + MODEL_AUX_FILE_START_SECTOR,
-            MODEL_AUX_SECTOR_COUNT, func_80057544, 0, 0
+            MODEL_AUX_SECTOR_COUNT, Model_LoadAuxiliaryPackageStage, 0, 0
         );
         D_8009B0F4_abs = transfer->status_flags
             | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
@@ -845,9 +845,9 @@ void Model_AdvanceSlotLoad(s32 index)
         gModel_bActiveSlotIndex = index;
         if (work >= 0) {
             if (index != 0) {
-                handler = (ModelControlHandler)(D_80010010 + 4);
+                handler = (ModelControlHandler)(gModel_pSlot1PrimaryModule + 4);
             } else {
-                handler = (ModelControlHandler)(D_8001000C + 4);
+                handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
             }
             func_8005F198(1);
             handler(context, ((ModelControlCommandView *)p)->commands[2] % 1000);
@@ -922,7 +922,7 @@ void Model_AdvanceSlotLoad(s32 index)
 #define MODEL_TEXTURE_TAIL_ROW_Y 0xF0
 #endif
 
-void func_80056D7C(FileTransferDescriptor *d, s32 stage)
+void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
 {
     RECT rect0;
     RECT rect1;
@@ -1048,7 +1048,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (alternate == 0 && index == 0) {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = D_80010014;
+            d->value_08 = d->value_0C = gModel_Slot0VariantModuleAddress;
             d->done = 1;
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -1061,7 +1061,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (alternate == 0 && index == 1) {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = D_80010018;
+            d->value_08 = d->value_0C = gModel_Slot1VariantModuleAddress;
             d->done = 1;
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -1074,7 +1074,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (alternate == 1 && index == 0) {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = D_80010014;
+            d->value_08 = d->value_0C = gModel_Slot0VariantModuleAddress;
             d->done = 1;
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -1087,7 +1087,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (alternate == 1 && index == 1) {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = D_80010018;
+            d->value_08 = d->value_0C = gModel_Slot1VariantModuleAddress;
             d->done = 1;
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -1100,7 +1100,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (index == 0) {
             d->phase_size = 2 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = (u32)D_8001000C;
+            d->value_08 = d->value_0C = (u32)gModel_pSlot0PrimaryModule;
             d->done = 1;
         } else {
             d->phase_size = 2 * FILE_SECTOR_SIZE;
@@ -1113,7 +1113,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         if (index == 1) {
             d->phase_size = 2 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
-            d->value_08 = d->value_0C = (u32)D_80010010;
+            d->value_08 = d->value_0C = (u32)gModel_pSlot1PrimaryModule;
             d->done = 1;
         } else {
             d->phase_size = 2 * FILE_SECTOR_SIZE;
@@ -1198,11 +1198,11 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
 
    Both own a .rodata jump table, and the two tables are adjacent in the image
    (0x1F84 for the six-case switch, 0x1F9C for the eleven-case one). Together
-   with func_80056D7C's 17-entry table and the retail zero word after it, the
+   with Model_LoadMonsterMergeStage's 17-entry table and the retail zero word after it, the
    complete object owns the 0x8C-byte .rodata run at 0x1F3C. Definition order
    is address order and must stay that way. */
 
-void func_80057544(FileTransferDescriptor *object, s32 mode) {
+void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *object, s32 mode) {
     RECT rect0;
     RECT rect1;
 
@@ -1273,7 +1273,7 @@ void func_80057544(FileTransferDescriptor *object, s32 mode) {
     }
 }
 
-void func_800577B0(FileTransferDescriptor *object, s32 mode) {
+void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mode) {
     RECT rect0;
     RECT rect1;
     ModelSlot *dst;
@@ -1324,16 +1324,16 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         LoadImage2(&rect0, (u32 *)D_801DD000);
         object->phase_size = 10 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_80010014;
-        object->value_08 = D_80010014;
+        object->value_0C = gModel_Slot0VariantModuleAddress;
+        object->value_08 = gModel_Slot0VariantModuleAddress;
         object->done = 1;
         break;
 
     case 4:
         object->phase_size = 10 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_80010018;
-        object->value_08 = D_80010018;
+        object->value_0C = gModel_Slot1VariantModuleAddress;
+        object->value_08 = gModel_Slot1VariantModuleAddress;
         object->done = 1;
         break;
 

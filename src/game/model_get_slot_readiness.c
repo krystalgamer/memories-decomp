@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "model.h"
-#include "func_80058DD8.h"
+#include "model_get_slot_readiness.h"
 
-int func_80058DD8(int index)
+int Model_GetSlotReadiness(int index)
 {
     ModelSlot *entry = &gModel_aSlots[index];
     if (entry->field_E14 != 0xFF) return 2;

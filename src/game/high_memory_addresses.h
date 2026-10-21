@@ -22,10 +22,10 @@ extern u8 *G32 D_80010000;
 extern u8 *G32 D_80010004 __attribute__((section(".data")));
 extern s32 D_80010008 __attribute__((section(".data")));
 /* Primary control-module bases; the callable entry is four bytes into each. */
-extern u8 *G32 D_8001000C __attribute__((section(".data")));
-extern u8 *G32 D_80010010 __attribute__((section(".data")));
-extern s32 D_80010014 __attribute__((section(".data")));
-extern s32 D_80010018 __attribute__((section(".data")));
+extern u8 *G32 gModel_pSlot0PrimaryModule __attribute__((section(".data")));
+extern u8 *G32 gModel_pSlot1PrimaryModule __attribute__((section(".data")));
+extern s32 gModel_Slot0VariantModuleAddress __attribute__((section(".data")));
+extern s32 gModel_Slot1VariantModuleAddress __attribute__((section(".data")));
 extern s32 D_8001002C __attribute__((section(".data")));
 
 /* Model_UpdateCreditsPresentation passes these absolute word loads to
@@ -50,9 +50,9 @@ extern u8 *G32 D_800101E8;
 /* Module data arguments copied into channel +0xDE8/+0xDEC, not entry points.
  * Model_InitSlot reads each as an absolute word under -G8, so like the
  * destinations above they carry .data rather than a small-data view. */
-extern s32 D_8001001C __attribute__((section(".data")));
-extern s32 D_80010020 __attribute__((section(".data")));
-extern s32 D_80010024 __attribute__((section(".data")));
-extern s32 D_80010028 __attribute__((section(".data")));
+extern s32 gModel_Slot0PrimaryDataAddress __attribute__((section(".data")));
+extern s32 gModel_Slot1PrimaryDataAddress __attribute__((section(".data")));
+extern s32 gModel_Slot0VariantDataAddress __attribute__((section(".data")));
+extern s32 gModel_Slot1VariantDataAddress __attribute__((section(".data")));
 
 #endif
