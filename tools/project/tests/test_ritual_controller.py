@@ -56,7 +56,7 @@ void DuelEffect_ApplyRitual(void);
 
 DisplayObject *D_8009B1C0;
 s16 gDuel_RitualResultCardId, gDuel_wEffectCardID, D_8009B20C[2];
-u16 D_8009B210, gDuel_wCardEffectFlags;
+u16 gDuel_wTrapPresentationMode, gDuel_wCardEffectFlags;
 DuelEffectRequest *gDuelEffect_pTrackedRequest;
 u8 D_8009B19C, D_8009B1D5;
 s8 D_8009B360[2];
@@ -216,7 +216,7 @@ s32 Dialog_ReadChoiceInput(DuelEffectChannel *p)
 void TextBox_Destroy(struct DuelEffectChannel *p)
 {
     event(23, p == D_800EB0F8, 0, 0, 0);
-    if (mutation == 4) D_8009B210 = 0x1C4;
+    if (mutation == 4) gDuel_wTrapPresentationMode = 0x1C4;
 }
 void DisplayObject_SavePosition(DisplayObjectSnapshot *p)
 {
@@ -258,7 +258,7 @@ static void setup(s32 state)
     D_800E9EF0.ritual.result.field_0C = 0x11223344;
     gDuelEffect_pTrackedRequest = (DuelEffectRequest *)request; D_8009B1C0 = &main_object;
     gDuel_RitualResultCardId = 321; gDuel_wEffectCardID = -123;
-    D_8009B210 = state; gDuel_wCardEffectFlags = 0xA55A;
+    gDuel_wTrapPresentationMode = state; gDuel_wCardEffectFlags = 0xA55A;
     D_8009B20C[0] = 0x1234; D_8009B20C[1] = 0;
     D_8009B19C = 7; D_8009B1D5 = 0;
     D_8009B360[0] = D_8009B360[1] = -1;
@@ -318,12 +318,12 @@ static s32 initialization(void)
               D_800E9EF0.slots[2] == &tributes[0] && D_800E9EF0.slots[3] == &tributes[1] &&
               D_800E9EF0.slots[4] == &tributes[2], 11);
         if (i == 0 || i == 3) {
-            CHECK(count == 2 && gDuel_wCardEffectFlags == 0 && D_8009B210 == 0xF5, 12);
+            CHECK(count == 2 && gDuel_wCardEffectFlags == 0 && gDuel_wTrapPresentationMode == 0xF5, 12);
         } else {
             CHECK(count == 5 && events[2].kind == 3 && events[2].a == results[i] &&
                   events[3].kind == 4 && events[3].a == 22 &&
                   events[4].kind == 5 && events[4].a == 0x8022, 13);
-            CHECK((u8 *)gDuelEffect_pTrackedRequest == request && D_8009B210 == 0 &&
+            CHECK((u8 *)gDuelEffect_pTrackedRequest == request && gDuel_wTrapPresentationMode == 0 &&
                   RS16(request, 0x1A) == arguments[j] && gDuel_wCardEffectFlags == 0xA55A, 14);
         }
     }
@@ -338,7 +338,7 @@ static s32 request_ready(void)
         setup(0xA0); R8(request, 0x1D) = ready[i]; D_8009B19C = 3;
         run();
         CHECK(valid() && count == (i ? 4 : 1) && gDuel_wCardEffectFlags == 0xA55A, 20);
-        CHECK(D_8009B210 == (i ? 1 : 0xA0) && D_8009B19C == (i ? 7 : 3), 21);
+        CHECK(gDuel_wTrapPresentationMode == (i ? 1 : 0xA0) && D_8009B19C == (i ? 7 : 3), 21);
         if (i) CHECK(events[1].kind == 6 && events[1].a == 2 &&
                      events[2].kind == 6 && events[2].a == 7 &&
                      events[3].kind == 6 && events[3].a == 29, 22);
@@ -356,7 +356,7 @@ static s32 scale_countdown(void)
           events[1].a == 1 && events[1].b == -1 && events[1].c == -1 &&
           events[2].kind == 8 && events[3].kind == 10 && events[3].a == 38 &&
           events[4].kind == 9 && events[4].b == 597, 30);
-    CHECK(D_8009B210 == 0x81 && D_8009B1C0 == &main_object &&
+    CHECK(gDuel_wTrapPresentationMode == 0x81 && D_8009B1C0 == &main_object &&
           R16(&main_object, 0x44) == 170 && R16(&main_object, 0x46) == 170 &&
           R16(&main_object, 0x60) == 23, 31);
     for (i = 0; i < 8; i++) {
@@ -367,7 +367,7 @@ static s32 scale_countdown(void)
         CHECK(R16(&main_object, 0x60) == (u16)(counters[i] - 1) &&
               R16(&main_object, 0x44) == (completed[i] ? 4096 : 164) &&
               R16(&main_object, 0x46) == (completed[i] ? 4096 : 164), 33);
-        CHECK(D_8009B210 == (completed[i] ? 2 : 0x81), 34);
+        CHECK(gDuel_wTrapPresentationMode == (completed[i] ? 2 : 0x81), 34);
         if (completed[i]) CHECK(R16(&main_object, 0x32) == 22 &&
                                R32(&main_object, 4) == 0xFFFFFFFF &&
                                R16(&main_object, 8) == 0xA5A1, 35);
@@ -381,10 +381,10 @@ static s32 clone_creation(void)
     static const s32 spawn[] = {1, 1, 0, 0, 0, 1, 1, 0};
     s32 i;
     setup(2); run();
-    CHECK(valid() && count == 1 && D_8009B210 == 0x82 && D_8009B20C[1] == 31, 40);
+    CHECK(valid() && count == 1 && gDuel_wTrapPresentationMode == 0x82 && D_8009B20C[1] == 31, 40);
     for (i = 0; i < 8; i++) {
         setup(0x82); D_8009B20C[1] = counters[i]; run();
-        CHECK(valid() && D_8009B210 == (spawn[i] ? 0xC2 : 0x82) &&
+        CHECK(valid() && gDuel_wTrapPresentationMode == (spawn[i] ? 0xC2 : 0x82) &&
               (u16)D_8009B20C[1] == (u16)(counters[i] - 1), 41);
         if (spawn[i]) {
             CHECK(count == 6 && events[1].kind == 11 && events[1].a == 0 &&
@@ -421,7 +421,7 @@ static s32 clone_fade(void)
               R16(&clone_objects[1], 0x46) == scaled[j], 50);
         CHECK(R32(&clone_objects[0], 0xC) == expected[i] &&
               R32(&clone_objects[1], 0xC) == expected[i], 51);
-        CHECK(D_8009B210 == (i < 4 ? 3 : 0xC2) && count == (i < 4 ? 3 : 1), 52);
+        CHECK(gDuel_wTrapPresentationMode == (i < 4 ? 3 : 0xC2) && count == (i < 4 ? 3 : 1), 52);
         if (i < 4) CHECK(events[1].kind == 15 && events[1].a == 1 &&
                          events[2].kind == 15 && events[2].a == 2, 53);
     }
@@ -436,7 +436,7 @@ static s32 readback(void)
         setup(3); gDuel_RitualResultCardId = -32767; card_data[3] = pages[i];
         D_800EA128[20] = wrap ? 65520 : 100; D_800EA128[21] = 0xFFED;
         run();
-        CHECK(valid() && count == 2 && events[1].kind == 16 && D_8009B210 == 0x83, 60);
+        CHECK(valid() && count == 2 && events[1].kind == 16 && gDuel_wTrapPresentationMode == 0x83, 60);
         CHECK(R16(card_data, 0) == 0x8001 && (u16)gDuel_aCardRecords[7].card_id == 0x8001 &&
               card_data[2] == 0xFD && card_data[3] == pages[i], 61);
         CHECK((u16)saved_rect.x == (wrap ? 40 : 156) && saved_rect.y == -19 &&
@@ -465,14 +465,14 @@ static s32 orientation(void)
         if (identity < 2) {
             CHECK(count == 3 && events[2].kind == 18 && events[2].a == 7 &&
                   events[2].b == 134 && events[2].c == 240 &&
-                  D_8009B210 == 0x84 && !random_calls, 71);
+                  gDuel_wTrapPresentationMode == 0x84 && !random_calls, 71);
             CHECK(R16(&choice_object, 0x28) == 134 && R16(&choice_object, 0x2A) == 42 &&
                   R16(&choice_object, 0x2C) == 16 && R8(&choice_object, 0x6C) == 1 &&
                   choice_object.update == (DisplayObjectCallback)DisplayObject_UpdateCosineSlide &&
                   gDuel_aCardRecords[7].flags == 0xA7A5, 72);
         } else {
             CHECK(count == 3 && events[2].kind == 27 && random_calls == 1 &&
-                  D_8009B210 == 5 && gDuel_aCardRecords[7].flags == (random ? 0xA7A5 : 0xA5A5), 73);
+                  gDuel_wTrapPresentationMode == 5 && gDuel_aCardRecords[7].flags == (random ? 0xA7A5 : 0xA5A5), 73);
         }
     }
     return 0;
@@ -482,7 +482,7 @@ static s32 text_readiness(void)
 {
     s32 is_busy, ready;
     setup(4); run();
-    CHECK(valid() && count == 1 && D_8009B210 == 0x84 &&
+    CHECK(valid() && count == 1 && gDuel_wTrapPresentationMode == 0x84 &&
           R16(&choice_object, 0x28) == 134 && R16(&choice_object, 0x2A) == 42 &&
           R16(&choice_object, 0x2C) == 16 && R8(&choice_object, 0x6C) == 1 &&
           choice_object.update == (DisplayObjectCallback)DisplayObject_UpdateCosineSlide, 80);
@@ -492,9 +492,9 @@ static s32 text_readiness(void)
         run();
         CHECK(valid() && events[1].kind == 19 && events[1].a == 1, 81);
         if (is_busy) CHECK(count == 2 && gDuel_wSelectedCardID == -1 &&
-                           D_8009B210 == 0x84 && pumps == 0, 82);
+                           gDuel_wTrapPresentationMode == 0x84 && pumps == 0, 82);
         else {
-            CHECK((u16)gDuel_wSelectedCardID == 0x9234 && D_8009B210 == 0xC4 &&
+            CHECK((u16)gDuel_wSelectedCardID == 0x9234 && gDuel_wTrapPresentationMode == 0xC4 &&
                   pumps == (ready ? 1 : 3) && count == (ready ? 4 : 6), 83);
             CHECK(events[2].kind == 20 && events[2].a == 0 && events[2].b == 33 &&
                   events[2].c == 72 && events[2].d == 110 &&
@@ -517,7 +517,7 @@ static s32 choice_and_destruction(void)
         gInput_wPad1Pressed = keys[key]; gDialog_bChoice = choices[choice];
         run();
         CHECK(valid() && events[1].kind == 22 && events[1].a == 1 &&
-              count == (accepted ? 4 : 2) && D_8009B210 == (accepted ? 0xE4 : 0xC4), 90);
+              count == (accepted ? 4 : 2) && gDuel_wTrapPresentationMode == (accepted ? 0xE4 : 0xC4), 90);
         if (accepted) {
             CHECK(events[2].kind == 10 && events[2].a == 7 &&
                   events[3].kind == 23 && events[3].a == 1, 91);
@@ -532,7 +532,7 @@ static s32 choice_and_destruction(void)
     for (b = 0; b < 2; b++) {
         setup(0xE4); busy = b; run();
         CHECK(valid() && events[1].kind == 19 && count == (b ? 2 : 3) &&
-              D_8009B210 == (b ? 0xE4 : 5), 95);
+              gDuel_wTrapPresentationMode == (b ? 0xE4 : 5), 95);
         if (!b) CHECK(events[2].kind == 15 && events[2].a == 4, 96);
     }
     return 0;
@@ -547,7 +547,7 @@ static s32 slide_and_default(void)
     CHECK(valid() && count == 3 && events[1].kind == 24 && events[1].a == 3 &&
           events[2].kind == 25 && events[2].a == 3 &&
           events[2].b == -123 && events[2].c == -24 && events[2].d == -1024 &&
-          RS16(&card_object, 0x60) == -982 && D_8009B210 == 0x85 &&
+          RS16(&card_object, 0x60) == -982 && gDuel_wTrapPresentationMode == 0x85 &&
           gDuel_wCardEffectFlags == 0xA55A, 100);
     for (i = 0; i < 8; i++) {
         setup(0x85); R16(&card_object, 0x60) = phases[i]; run();
@@ -560,7 +560,7 @@ static s32 slide_and_default(void)
     }
     for (i = 6; i < 16; i++) {
         setup(0xA0 | i); run();
-        CHECK(valid() && count == 1 && D_8009B210 == (0xA0 | i) &&
+        CHECK(valid() && count == 1 && gDuel_wTrapPresentationMode == (0xA0 | i) &&
               gDuel_wCardEffectFlags == 0xA55A, 103);
     }
     return 0;
@@ -569,15 +569,15 @@ static s32 slide_and_default(void)
 static s32 helper_reloads(void)
 {
     setup(0x81); mutation = 1; run();
-    CHECK(valid() && D_8009B210 == 2 && R16(&main_object, 0x60) == 0 &&
+    CHECK(valid() && gDuel_wTrapPresentationMode == 2 && R16(&main_object, 0x60) == 0 &&
           R16(&main_object, 0x44) == 4096, 110);
     setup(0x83); mutation = 2; D_8009B360[0] = 0; run();
     CHECK(valid() && D_800E9EF0.slots[0] == &main_object &&
           RS16(&main_object, 0x32) == -240 && RS16(&card_object, 0x32) == 0, 111);
     setup(0xC4); mutation = 3; run();
-    CHECK(valid() && D_8009B210 == 0xE4 && gDuel_aCardRecords[29].flags == 0xB7A5, 112);
+    CHECK(valid() && gDuel_wTrapPresentationMode == 0xE4 && gDuel_aCardRecords[29].flags == 0xB7A5, 112);
     setup(0xC4); mutation = 4; gInput_wPad1Pressed = 0x40; run();
-    CHECK(valid() && D_8009B210 == 0x1E4, 113);
+    CHECK(valid() && gDuel_wTrapPresentationMode == 0x1E4, 113);
     setup(0x85); mutation = 5; R16(&card_object, 0x60) = 0x8000; run();
     CHECK(valid() && R16(&card_object, 0x60) == 26 && gDuel_wCardEffectFlags == 0, 114);
     return 0;

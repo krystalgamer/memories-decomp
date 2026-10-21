@@ -131,9 +131,9 @@ void DuelScene_UpdateDrawResolution(void) {
             return;
         }
         D_8009B1ED = 8;
-        b = D_8009B1EC - 1;
+        b = gDuel_bPendingDrawCount - 1;
         c = gDuel_pActiveSideState;
-        D_8009B1EC = b;
+        gDuel_bPendingDrawCount = b;
         if (c->deck_draw_cursor >= DECK_SIZE) {
             gDuel_bWinnerSide = D_8009B1D5 ^ 1;
             gDuel_aSideStates[gDuel_bWinnerSide].rank.result_adjustment =
@@ -166,7 +166,7 @@ void DuelScene_UpdateDrawResolution(void) {
         gDuel_pActiveSideState->hand[i] = y;
         n = (u8)gDuel_pActiveSideState->deck_draw_cursor;
         gDuel_pActiveSideState->deck_draw_cursor = n + 1;
-        if (*(s8 *)&D_8009B1EC == 0) {
+        if (*(s8 *)&gDuel_bPendingDrawCount == 0) {
             gDuel_wSceneStateFlags = gDuel_wSceneStateFlags | 0x4000;
         }
         SD_SEPlayFull(0xA);

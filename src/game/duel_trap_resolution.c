@@ -158,7 +158,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     return 0;
 }
 
-/* Four-state presentation sequencer on the D_8009B210 mode byte: mode 0
+/* Four-state presentation sequencer on the gDuel_wTrapPresentationMode mode byte: mode 0
  * starts the first screen effect and arms the 0x14-frame counter; mode 1
  * copies the selected card's position into a type-8 request, updates
  * the card record and plays the SE when that counter expires; mode 2 starts
@@ -181,7 +181,7 @@ s32 Duel_UpdateTrapPresentation(void) {
     }
 
     one = 1;
-    v = D_8009B210 & 0xF;
+    v = gDuel_wTrapPresentationMode & 0xF;
 
     if (v == one) {
         goto m1;
@@ -205,7 +205,7 @@ m0:
     Duel_StartViewTween(0x10, 0x208, 0x200, D_800F2848.angle,
                   0xB2 - D_8009B1D5 * 0x164);
     gDuel_wDisplayTransitionFlags = 0x10;
-    D_8009B210 = one;
+    gDuel_wTrapPresentationMode = one;
     D_8009B1D0 = 0x14;
     do {
     return 1;
@@ -226,14 +226,14 @@ m1:
     *(d = (u16 *)&e->field_04) = *q34;
     DuelCard_RemoveFromField(&gDuel_aCardRecords[p->field_6A]);
     SD_SEPlayFull(0x17);
-    D_8009B210 = 2;
+    gDuel_wTrapPresentationMode = 2;
     }
     return 1;
 
 m2:
     Duel_StartViewTween(0x10, 0x258, 0x100, D_800F2848.angle, 0);
     gDuel_wDisplayTransitionFlags = 0x10;
-    D_8009B210 = 3;
+    gDuel_wTrapPresentationMode = 3;
     D_8009B1D0 = 0x14;
     } while (0);
     return 1;

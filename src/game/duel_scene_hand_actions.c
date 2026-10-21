@@ -535,7 +535,7 @@ void DuelScene_UpdateHandActions(void)
     case 4:
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
-            D_8009B210 = 0;
+            gDuel_wTrapPresentationMode = 0;
             Duel_BeginFieldPlacementSelection(side);
             D_8009B174 |= 0x40;
         }

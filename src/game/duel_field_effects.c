@@ -237,7 +237,7 @@ void DuelEffect_ApplyRitual(void)
         if (gDuel_RitualResultCardId) {
             Duel_MarkCreatedCardKnown((s32)gDuel_RitualResultCardId);
             gDuelEffect_pTrackedRequest = DuelEffect_AllocateRequest(22);
-            D_8009B210 = 0;
+            gDuel_wTrapPresentationMode = 0;
             gDuelEffect_pTrackedRequest->field_1A = gDuel_wEffectCardID;
             SD_CdSoundPlay(0x8022);
         } else {
@@ -245,24 +245,24 @@ void DuelEffect_ApplyRitual(void)
         }
         return;
     }
-    switch (D_8009B210 & 0xF) {
+    switch (gDuel_wTrapPresentationMode & 0xF) {
     case 0:
         if (gDuelEffect_pTrackedRequest->field_1D) {
             D_8009B19C = D_800E9EF0.slots[3]->field_6A;
             DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[2]->field_6A]);
             DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[3]->field_6A]);
             DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[4]->field_6A]);
-            D_8009B210 = 1;
+            gDuel_wTrapPresentationMode = 1;
         }
         break;
     case 1: {
         u16 scale;
         s32 countdown;
         object = D_8009B1C0;
-        if (!(D_8009B210 & 0x80)) {
+        if (!(gDuel_wTrapPresentationMode & 0x80)) {
             s32 attribute;
             s16 object_flags;
-            D_8009B210 |= 0x80;
+            gDuel_wTrapPresentationMode |= 0x80;
             object = (DisplayObject *)CardPreview_CreateResourceObjects(1, -1, -1);
             object->field_30.h.field_30 = 90;
             /* Negative constants go into these u16 halves through an s16
@@ -293,7 +293,7 @@ void DuelEffect_ApplyRitual(void)
             object->field_44.h.field_46 = 4096;
             object->field_44.h.field_44 = 4096;
             object->field_30.h.field_32 = DUEL_RITUAL_CARD_REST_Y;
-            D_8009B210 = 2;
+            gDuel_wTrapPresentationMode = 2;
             attribute = object->attribute | 0x08000000;
             object_flags = object->flags & 0xFFFB;
             object->attribute = attribute;
@@ -303,15 +303,15 @@ void DuelEffect_ApplyRitual(void)
     }
     case 2:
         object = D_8009B1C0;
-        if (!(D_8009B210 & 0x80)) {
-            D_8009B210 |= 0x80;
+        if (!(gDuel_wTrapPresentationMode & 0x80)) {
+            gDuel_wTrapPresentationMode |= 0x80;
             D_8009B20C[1] = 32;
         }
-        if (!(D_8009B210 & 0x40)) {
+        if (!(gDuel_wTrapPresentationMode & 0x40)) {
             timer = *(u16 *)&D_8009B20C[1] - 1;
             D_8009B20C[1] = timer;
             if ((s32)((u32)timer << 16) <= 0) {
-                D_8009B210 |= 0x40;
+                gDuel_wTrapPresentationMode |= 0x40;
                 DuelCard_CaptureRoundedTexture(object);
                 D_800E9EF0.slots[0] =
                     Duel_CreateCardEffectOverlay(
@@ -344,12 +344,12 @@ void DuelEffect_ApplyRitual(void)
             if (!value) {
                 DisplayObject_ReleaseIfPresent(D_800E9EF0.slots[0]);
                 DisplayObject_ReleaseIfPresent(D_800E9EF0.slots[1]);
-                D_8009B210 = 3;
+                gDuel_wTrapPresentationMode = 3;
             }
         }
         break;
     case 3: {
-        u16 state = D_8009B210;
+        u16 state = gDuel_wTrapPresentationMode;
         DuelEffectResourceRecord *resource = (DuelEffectResourceRecord *)D_800EA128;
         u8 *data;
         card = &gDuel_aCardRecords[D_8009B19C];
@@ -362,7 +362,7 @@ void DuelEffect_ApplyRitual(void)
             ((DuelDeckCardRecord *)card->data)->id =
                 (s16)(ritual = gDuel_RitualResultCardId);
             data = *(u8 **)&card->data;
-            D_8009B210 = state | 0x80;
+            gDuel_wTrapPresentationMode = state | 0x80;
             card->card_id = ritual;
             value = ((DuelDeckCardRecord *)data)->data_block_index;
             y = resource->src_y;
@@ -387,18 +387,18 @@ void DuelEffect_ApplyRitual(void)
         }
         D_800E9EF0.slots[1] =
             (DisplayObject *)Duel_CreateCardDisplayObject(card, 134, DUEL_RITUAL_SCREEN_HEIGHT);
-        D_8009B210 = 4;
+        gDuel_wTrapPresentationMode = 4;
     }
     case 4:
         object = D_800E9EF0.slots[1];
-        if (!(D_8009B210 & 0x80)) {
-            D_8009B210 |= 0x80;
+        if (!(gDuel_wTrapPresentationMode & 0x80)) {
+            gDuel_wTrapPresentationMode |= 0x80;
             object->position.h.field_28 = 134;
             object->position.h.field_2A = 42;
             object->field_2C.h.field_2C = 16;
             object->field_6C = 1;
             object->update = DisplayObject_UpdateCosineSlide;
-        } else if (!(D_8009B210 & 0x40)) {
+        } else if (!(gDuel_wTrapPresentationMode & 0x40)) {
             if (!DisplayObject_FindAllocatedByTag(1)) {
                 gDuel_wSelectedCardID =
                     D_8015C424_cards.field_cards[object->field_6A].card_id;
@@ -416,9 +416,9 @@ void DuelEffect_ApplyRitual(void)
                 do {
                     TextBox_UpdateChannels();
                 } while (!text->field_30);
-                D_8009B210 |= 0x40;
+                gDuel_wTrapPresentationMode |= 0x40;
             }
-        } else if (!(D_8009B210 & 0x20)) {
+        } else if (!(gDuel_wTrapPresentationMode & 0x20)) {
             if (!Dialog_ReadChoiceInput(D_800EB0F8) &&
                 (gInput_wPad1Pressed & DUEL_EFFECT_RITUAL_CONFIRM_MASK)) {
                 SD_SEPlayFull(7);
@@ -433,19 +433,19 @@ void DuelEffect_ApplyRitual(void)
                 if (gDialog_bChoice)
                     card->flags = flags | 0x200;
                 TextBox_Destroy(D_800EB0F8);
-                D_8009B210 |= 0x20;
+                gDuel_wTrapPresentationMode |= 0x20;
             }
         } else if (!DisplayObject_FindAllocatedByTag(1)) {
             DisplayObject_ReleaseIfPresent(object);
 state_five:
-            D_8009B210 = 5;
+            gDuel_wTrapPresentationMode = 5;
         }
         break;
     case 5: {
         s16 phase;
         object = D_800E9EF0.slots[0];
-        if (!(D_8009B210 & 0x80)) {
-            D_8009B210 |= 0x80;
+        if (!(gDuel_wTrapPresentationMode & 0x80)) {
+            gDuel_wTrapPresentationMode |= 0x80;
             DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
             object->field_60 = -1024;
         }

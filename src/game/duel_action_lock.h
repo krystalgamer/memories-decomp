@@ -42,7 +42,7 @@ extern s16 gDuel_wEffectCardID;
  * (`*(u16 *)D_8009B20C`) because sched treats an array element as part of an
  * aggregate, and by DuelScene_UpdateFieldActions, still assembly; 30 sites at
  * +0. Whether it belongs to the same object is not established. Four bytes,
- * the extent up to D_8009B210, stays gp-relative at every threshold in
+ * the extent up to gDuel_wTrapPresentationMode, stays gp-relative at every threshold in
  * play; with [4] shared instead, an assembler -G4
  * (DuelEffect_ApplyRaigeki's until
  * #3859 found that threshold inert) takes the eight bytes out of small data
@@ -58,14 +58,14 @@ extern s16 D_8009B20C[2];
  * this address got its own scalar.
  *
  * It is the trap presentation's mode: Duel_UpdateTrapPresentation in
- * duel_trap_resolution.c sequences on `D_8009B210 & 0xF` through four modes
+ * duel_trap_resolution.c sequences on `gDuel_wTrapPresentationMode & 0xF` through four modes
  * and stores 1, 2 and 3 itself, and duel_card_effects.c clears it to 0 at the
  * two points the effect finishes. Four further writers are still assembly,
  * all `sh $zero`.
  *
  * Unsigned: every read in the image is lhu, and all nine accesses are
  * gp-relative, so no unit needs a .data arm. */
-extern u16 D_8009B210;
+extern u16 gDuel_wTrapPresentationMode;
 
 s32 DuelEffect_MarkInitialized(void);
 void DuelEffect_ClearCardEffect(void);

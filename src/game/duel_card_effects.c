@@ -86,7 +86,7 @@ void DuelEffect_ApplyLifePointRecovery(void) {
             }
             goto block_14;
         }
-        D_8009B210 = 0;
+        gDuel_wTrapPresentationMode = 0;
         goto block_9;
     }
 block_9:
@@ -139,7 +139,7 @@ void DuelEffect_ApplyDirectDamage(void) {
             p = &gDuel_aSideStates[D_8009B1D5 ^ 1];
             goto apply;
         }
-        D_8009B210 = 0;
+        gDuel_wTrapPresentationMode = 0;
     }
     if (gDuel_wCardEffectFlags & 0x20) {
         if (Duel_UpdateTrapPresentation() == 0) {

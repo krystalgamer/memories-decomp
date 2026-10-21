@@ -41,7 +41,7 @@ extern s16 D_8009B19E;
  *
  * Declared u8, as the private declaration had it: the single load is lbu and
  * the two stores are sb, and the signed views are casts at the use sites --
- * the arrangement duel_hand.h records for D_8009B1EC, where the declaration
+ * the arrangement duel_hand.h records for gDuel_bPendingDrawCount, where the declaration
  * stays unsigned and the cast at the use is what keeps the signed read. The
  * gap to the next named symbol is six bytes, and D_8009B1E4 below sits inside
  * it, so that gap is not evidence of a wider object. */

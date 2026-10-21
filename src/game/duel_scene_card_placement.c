@@ -283,7 +283,7 @@ request_combination:
             object->field_60--;
             if (object->field_60)
             return;
-            D_8009B210 = 0;
+            gDuel_wTrapPresentationMode = 0;
             if (!slots[0]) {
                 slots[0] = object;
                 D_8009B174 = 3;
@@ -312,10 +312,10 @@ request_combination:
             return;
             if (!(D_8009B174 & 0x80)) {
                 D_8009B174 |= 0x80;
-                D_8009B210 = 0;
+                gDuel_wTrapPresentationMode = 0;
                 return;
             }
-            switch (D_8009B210 & 15) {
+            switch (gDuel_wTrapPresentationMode & 15) {
             case 0:
                 {
                     DisplayObject *G32 *slots;
@@ -324,11 +324,11 @@ request_combination:
                         DuelEffectResourceRecord *resource = gCardPreview_Resources;
                         card = &gDuel_aCardRecords[card_index];
                         slots = D_800E9EF0;
-                        if (!(D_8009B210 & 0x80)) {
-                            D_8009B210 |= 0x80;
+                        if (!(gDuel_wTrapPresentationMode & 0x80)) {
+                            gDuel_wTrapPresentationMode |= 0x80;
                             if ((s16)D_8009B150 & 0x8000) {
                                 ((DuelDeckCardRecord *)card->data)->id = D_8009B150 & 0xFFF;
-                                D_8009B210 |= 0x40;
+                                gDuel_wTrapPresentationMode |= 0x40;
                                 card->card_id = D_8009B150 & 0xFFF;
                                 value = ((DuelDeckCardRecord *)card->data)->data_block_index;
                                 resource->rects[0].x = resource->src_x + 56;
@@ -339,7 +339,7 @@ request_combination:
                             }
                             return;
                         }
-                        if (D_8009B210 & 0x40) {
+                        if (gDuel_wTrapPresentationMode & 0x40) {
                             Duel_SetupCardRecord(
                                 card_index,
                                 ((DuelDeckCardRecord *)card->data)->deck_index
@@ -360,7 +360,7 @@ request_combination:
                             PLACEMENT_PX(D_8009B1C0) = (first + second) / 2 - 70;
                             DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
                         }
-                        D_8009B210 = 1;
+                        gDuel_wTrapPresentationMode = 1;
                     }
                     break;
                 }
@@ -370,10 +370,10 @@ request_combination:
                     s32 alpha;
                     if (DisplayObject_FindAllocatedByTag(1))
                     return;
-                    if (!(D_8009B210 & 0x80)) {
+                    if (!(gDuel_wTrapPresentationMode & 0x80)) {
                         slots = D_800E9EF0;
                         slots[0]->flags &= ~0x40;
-                        D_8009B210 |= 0x80;
+                        gDuel_wTrapPresentationMode |= 0x80;
                         if (slots[1])
                         slots[1]->flags &= ~0x40;
                         PLACEMENT_ALPHA(D_8009B1C0) = 192;
@@ -386,7 +386,7 @@ request_combination:
                         DisplayObject *entry = D_8009B1C0;
                         u16 flags = entry->flags;
                         PLACEMENT_ALPHA(entry) = 0;
-                        D_8009B210 = 2;
+                        gDuel_wTrapPresentationMode = 2;
                         entry->flags = flags & ~4;
                     }
                     break;
@@ -396,13 +396,13 @@ request_combination:
                     DisplayObject *G32 *slots;
                     card = &gDuel_aCardRecords[D_800E9EF0[0]->field_6A];
                     object = D_8009B1C0;
-                    if (!(D_8009B210 & 0x80)) {
-                        D_8009B210 |= 0x80;
+                    if (!(gDuel_wTrapPresentationMode & 0x80)) {
+                        gDuel_wTrapPresentationMode |= 0x80;
                         object->field_60 = 30;
                         if (!((s16)D_8009B150 & 0x8000)) {
                             PLACEMENT_TX(object) = 0;
                             PLACEMENT_TY(object) = 500;
-                            D_8009B210 |= 0x40;
+                            gDuel_wTrapPresentationMode |= 0x40;
                             object->field_2C.h.field_2C = card->stat_modifier;
                             if (D_8009B206 == 0x291) {
                                 PLACEMENT_TY(object) = 1000;
@@ -410,14 +410,14 @@ request_combination:
                             }
                         }
                     }
-                    if (D_8009B210 & 0x40) {
+                    if (gDuel_wTrapPresentationMode & 0x40) {
                         s32 below;
                         u16 limit;
                         PLACEMENT_TX(object) += 31;
                         below = (s16)PLACEMENT_TX(object) < (s16)PLACEMENT_TY(object);
                         limit = PLACEMENT_TY(object);
                         if (!below) {
-                            D_8009B210 &= ~0x40;
+                            gDuel_wTrapPresentationMode &= ~0x40;
                             PLACEMENT_TX(object) = limit;
                             object->field_60 = 16;
                         }
@@ -442,7 +442,7 @@ request_combination:
                     object = (DisplayObject *)Duel_CreateCardDisplayObject(card, 64, 82);
                     D_800E9EF0[0] = object;
                     object->field_20.word = 0;
-                    D_8009B210 = 3;
+                    gDuel_wTrapPresentationMode = 3;
                     object->flags &= ~0x44;
                     break;
                 }
@@ -451,14 +451,14 @@ request_combination:
                     DisplayObject **slots;
                     s32 alpha;
                     object = D_800E9EF0[0];
-                    if (!(D_8009B210 & 0x80)) {
+                    if (!(gDuel_wTrapPresentationMode & 0x80)) {
                         alpha = PLACEMENT_ALPHA(D_8009B1C0) + 8;
                         PLACEMENT_ALPHA(D_8009B1C0) = alpha;
                         if ((u8)alpha < 64)
                         return;
                         {
                             u16 position = PLACEMENT_PX(D_8009B1C0);
-                            D_8009B210 |= 0x80;
+                            gDuel_wTrapPresentationMode |= 0x80;
                             PLACEMENT_PX(object) = position + 44;
                         }
                         DisplayObject_StartAlphaTransition(object, 192, 0, 8);
@@ -467,15 +467,15 @@ request_combination:
                         return;
                     }
                     if (!DisplayObject_FindAllocatedByTag(1))
-                    D_8009B210 = 4;
+                    gDuel_wTrapPresentationMode = 4;
                     break;
                 }
             case 4:
                 {
                     DisplayObject **slots;
                     object = D_800E9EF0[0];
-                    if (!(D_8009B210 & 0x80)) {
-                        D_8009B210 |= 0x80;
+                    if (!(gDuel_wTrapPresentationMode & 0x80)) {
+                        gDuel_wTrapPresentationMode |= 0x80;
                         DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
                         object->field_60 = 0;
                     }
