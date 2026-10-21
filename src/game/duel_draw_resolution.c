@@ -121,16 +121,16 @@ void DuelScene_UpdateDrawResolution(void) {
     v = gDuel_wSceneStateFlags;
     if ((v & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags = v | DUEL_SCENE_FLAG_INITIALIZED;
-        D_8009B1ED = 1;
+        gDuel_bDrawStepCountdown = 1;
     }
 
     if ((gDuel_wSceneStateFlags & 0x4000) == 0) {
-        t = D_8009B1ED - 1;
-        D_8009B1ED = t;
+        t = gDuel_bDrawStepCountdown - 1;
+        gDuel_bDrawStepCountdown = t;
         if ((s8)t > 0) {
             return;
         }
-        D_8009B1ED = 8;
+        gDuel_bDrawStepCountdown = 8;
         b = gDuel_bPendingDrawCount - 1;
         c = gDuel_pActiveSideState;
         gDuel_bPendingDrawCount = b;
@@ -220,7 +220,7 @@ void DuelScene_UpdateExodiaResult(void)
     if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         i = 0;
         cards = gDuel_abCardStagingBuffer;
-        poses = (u8 *)&D_80090918;
+        poses = (u8 *)&gDuel_ExodiaCardPoses;
         r = (s32)DisplayObject_UpdateCosineSlide;
         fnv = r;
         objs = D_800E9EF0;

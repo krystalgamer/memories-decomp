@@ -588,7 +588,7 @@ adds two more of its own:
 - **An identical layout is not an identical record.** `DuelFieldPosition` in
   `duel_grid.h` and `ScreenPair` in `ygo_types.h` are both
   `{ s16 x; s16 y; }` and describe unrelated memory: the duel cursor, and one
-  entry of the projected slot table `D_800EA070`. Merging them would assert a
+  entry of the projected slot table `gDuel_aCardSlotScreenPositions`. Merging them would assert a
   relationship that does not exist. The reverse error is available too --
   `ProjectedPair` sits beside `ScreenPair` and differs only in
   that its `x` is `u16` where `ScreenPair`'s is `s16`, so a scan that

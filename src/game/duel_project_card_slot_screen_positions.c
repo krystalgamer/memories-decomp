@@ -27,7 +27,7 @@ void Duel_ProjectCardSlotScreenPositions(void)
     scratch = (SVECTOR *)0x1F8003E0;
     i = 0;
     projected = &p;
-    out = D_800EA070;
+    out = gDuel_aCardSlotScreenPositions;
     source = gDuel_aCardSlotGroundPositions;
     do {
         s32 y;

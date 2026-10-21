@@ -138,6 +138,7 @@ gDuel_apSwordsEffectObjects = 0x8009B1F0;
 gDuel_pActionReadyMarker = 0x8009B1F8;
 gDuel_dwViewTweenDistanceStep = 0x8009B1FC;
 gDuel_wViewTweenFramesRemaining = 0x8009B204;
+gDuel_wEquipCardId = 0x8009B206;
 gDuel_wTrapPresentationMode = 0x8009B210;
 gDuel_pTerrainIcon = 0x8009B214;
 gDuel_wCardEffectFlags = 0x8009B220;

@@ -15,7 +15,7 @@ extern s8 D_8009B1B9;
 #else
 extern u8 D_8009B1B9;
 #endif
-extern s16 D_8009B206;
+extern s16 gDuel_wEquipCardId;
 extern s8 D_8009B218;
 
 /* A signed read of the same two bytes, not another allocation. The aggregate
