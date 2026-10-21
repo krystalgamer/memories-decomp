@@ -391,24 +391,24 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
     stepY = ((entry->camera_field_04 - y) << 16) / steps;
     angle = camera->angle;
     turn = (entry->camera_angle - angle) & TRIG_ANGLE_MASK;
-    D_801695E4 = (angle << 16) | 0x8000;
-    D_801695E8 = (y << 16) | 0x8000;
-    D_80169610 = (x << 16) | 0x8000;
+    gCampaignMap_dwTweenYaw = (angle << 16) | 0x8000;
+    gCampaignMap_dwTweenPitch = (y << 16) | 0x8000;
+    gCampaignMap_dwTweenDistance = (x << 16) | 0x8000;
     pitch = cameraLong[7];
     dist = cameraLong[9];
-    D_801695CC = (pitch << 16) | 0x8000;
-    D_801695D0 = (dist << 16) | 0x8000;
-    D_80169614 = stepX;
-    D_801695F4 = stepY;
+    gCampaignMap_dwTweenRefX = (pitch << 16) | 0x8000;
+    gCampaignMap_dwTweenRefZ = (dist << 16) | 0x8000;
+    gCampaignMap_dwTweenDistanceStep = stepX;
+    gCampaignMap_dwTweenPitchStep = stepY;
     if (turn >= TRIG_ANGLE_HALF_TURN) {
         turn -= TRIG_ANGLE_FULL_TURN - 1;
     }
     stepTurn = (turn << 16) / steps;
     stepPitch = ((entry->view_x - pitch) << 16) / steps;
     stepDist = ((entry->view_z - dist) << 16) / steps;
-    D_801695F0 = stepTurn;
-    D_801695DC = stepPitch;
-    D_801695E0 = stepDist;
+    gCampaignMap_dwTweenYawStep = stepTurn;
+    gCampaignMap_dwTweenRefXStep = stepPitch;
+    gCampaignMap_dwTweenRefZStep = stepDist;
 }
 
 #endif
@@ -486,16 +486,16 @@ s32 CampaignMap_UpdateLocationTransition(void)
             );
         }
     }
-    D_801695E4 = D_801695E4 + D_801695F0;
-    D_801695E8 = D_801695E8 + D_801695F4;
-    D_80169610 = D_80169610 + D_80169614;
-    D_801695CC = D_801695CC + D_801695DC;
-    D_801695D0 = D_801695D0 + D_801695E0;
-    cam->angle = D_801695E4 >> 16;
-    cam->field_04 = D_801695E8 >> 16;
-    cam->field_00 = D_80169610 >> 16;
-    cam->view.vrx = D_801695CC >> 16;
-    cam->view.vrz = D_801695D0 >> 16;
+    gCampaignMap_dwTweenYaw = gCampaignMap_dwTweenYaw + gCampaignMap_dwTweenYawStep;
+    gCampaignMap_dwTweenPitch = gCampaignMap_dwTweenPitch + gCampaignMap_dwTweenPitchStep;
+    gCampaignMap_dwTweenDistance = gCampaignMap_dwTweenDistance + gCampaignMap_dwTweenDistanceStep;
+    gCampaignMap_dwTweenRefX = gCampaignMap_dwTweenRefX + gCampaignMap_dwTweenRefXStep;
+    gCampaignMap_dwTweenRefZ = gCampaignMap_dwTweenRefZ + gCampaignMap_dwTweenRefZStep;
+    cam->angle = gCampaignMap_dwTweenYaw >> 16;
+    cam->field_04 = gCampaignMap_dwTweenPitch >> 16;
+    cam->field_00 = gCampaignMap_dwTweenDistance >> 16;
+    cam->view.vrx = gCampaignMap_dwTweenRefX >> 16;
+    cam->view.vrz = gCampaignMap_dwTweenRefZ >> 16;
     D_801695D4 = D_801695D4 - 1;
     if (D_801695D4 == 0) {
         CampaignMap_SetCameraFromLocation(gCampaignMap_Location);
