@@ -134,8 +134,8 @@ void DuelScene_UpdateHandActions(void)
         for (n = 6; n >= 0; n--) {
             D_800E9EF0[n] = 0;
         }
-        D_8009B18C = 0;
-        D_8009B188 = 0;
+        gDuel_pFlipRightMarker = 0;
+        gDuel_pFlipLeftMarker = 0;
         gDuel_pActiveSelectionRecord = side;
         gDuel_wDisplayTransitionFlags = 0;
         side->field_0E = 0;
@@ -457,7 +457,7 @@ void DuelScene_UpdateHandActions(void)
                 DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(sprite));
                 DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(sprite), 0xA);
                 SPRITE_FLAGS(sprite) |= 0x28;
-                D_8009B188 = DISPLAY_OBJECT_VIEW(sprite);
+                gDuel_pFlipLeftMarker = DISPLAY_OBJECT_VIEW(sprite);
                 sprite = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(
                     sprite, (s16)obj->pos.xy.x + 0x3C, (s16)obj->pos.xy.y + 0x1E,
@@ -465,7 +465,7 @@ void DuelScene_UpdateHandActions(void)
                 DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(sprite));
                 DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(sprite), 0xA);
                 SPRITE_FLAGS(sprite) |= 0x28;
-                D_8009B18C = DISPLAY_OBJECT_VIEW(sprite);
+                gDuel_pFlipRightMarker = DISPLAY_OBJECT_VIEW(sprite);
                 return;
             }
         } else if (D_8009B174 & 0x20) {
@@ -478,10 +478,10 @@ void DuelScene_UpdateHandActions(void)
                 D_8009B174 &= 0xDF;
                 if (D_8009B174 & 0x10) {
                 restore:
-                    DisplayObject_ReleaseIfPresent(D_8009B188);
-                    DisplayObject_ReleaseIfPresent(D_8009B18C);
-                    D_8009B18C = 0;
-                    D_8009B188 = 0;
+                    DisplayObject_ReleaseIfPresent(gDuel_pFlipLeftMarker);
+                    DisplayObject_ReleaseIfPresent(gDuel_pFlipRightMarker);
+                    gDuel_pFlipRightMarker = 0;
+                    gDuel_pFlipLeftMarker = 0;
                     *(s32 *)&obj->target = *(s32 *)&obj->saved;
                     DisplayObject_SavePosition((void *)obj);
                     obj->step = 0;
@@ -518,11 +518,11 @@ void DuelScene_UpdateHandActions(void)
                 value = CARD_KIND(card_id);
                 if (value >= CARD_TYPE_MAGIC && obj->face == 0 &&
                     value != CARD_TYPE_EQUIP && value != CARD_TYPE_TRAP) {
-                    DisplayObject_ReleaseIfPresent(D_8009B188);
-                    DisplayObject_ReleaseIfPresent(D_8009B18C);
+                    DisplayObject_ReleaseIfPresent(gDuel_pFlipLeftMarker);
+                    DisplayObject_ReleaseIfPresent(gDuel_pFlipRightMarker);
                     D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(obj);
-                    D_8009B18C = 0;
-                    D_8009B188 = 0;
+                    gDuel_pFlipRightMarker = 0;
+                    gDuel_pFlipLeftMarker = 0;
                     gDuel_pActiveSideState->hand[(s8)side->field_0E] = -1;
                     D_8009B174 = 5;
                     return;

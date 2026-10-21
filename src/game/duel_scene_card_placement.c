@@ -106,7 +106,7 @@ void DuelScene_UpdateCardPlacement(void)
         if (!slots[1]) {
             if (slots[0]->field_68 < 20)
             D_8009B218 = 1;
-            D_8009B150 = PLACEMENT_REPLAY_CARD(object).card_id;
+            gDuel_wPlacementCardId = PLACEMENT_REPLAY_CARD(object).card_id;
             PLACEMENT_TX(object) = 134;
             PLACEMENT_TY(object) = 42;
             gDuel_wSceneStateFlags |= 0x4000;
@@ -253,26 +253,26 @@ void DuelScene_UpdateCardPlacement(void)
                 PLACEMENT_VY(object) = placement_velocity((82 - (s16)PLACEMENT_PY(object)) * 256);
                 DisplayObject_SetDepthOffset(D_800E9EF0[0], (s8)((u8)object->field_16 - 1));
                 SD_SEPlayFull(10);
-                D_8009B150 = 0;
+                gDuel_wPlacementCardId = 0;
                 if (D_800E9EF0[0]) {
                     s32 result = Duel_CheckFusion(PLACEMENT_REPLAY_CARD(D_800E9EF0[0]).card_id,
                     PLACEMENT_REPLAY_CARD(object).card_id);
-                    D_8009B150 = result;
+                    gDuel_wPlacementCardId = result;
                     if ((s16)result) {
-                        D_8009B150 = result | 0x8000;
+                        gDuel_wPlacementCardId = result | 0x8000;
                     } else {
                         s32 equip_result = Duel_CheckEquip(PLACEMENT_REPLAY_CARD(object).card_id,
                         PLACEMENT_REPLAY_CARD(D_800E9EF0[0]).card_id);
-                        D_8009B150 = equip_result;
+                        gDuel_wPlacementCardId = equip_result;
                         if ((s16)equip_result)
                         goto request_combination;
-                        D_8009B150 = Duel_CheckEquip(PLACEMENT_REPLAY_CARD(D_800E9EF0[0]).card_id,
+                        gDuel_wPlacementCardId = Duel_CheckEquip(PLACEMENT_REPLAY_CARD(D_800E9EF0[0]).card_id,
                         PLACEMENT_REPLAY_CARD(object).card_id);
                     }
-                    if (!((DuelPlacementCardIdCell *)&D_8009B150)->value)
+                    if (!((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value)
                     return;
 request_combination:
-                    CardPreview_RequestResourceTransfer(0, D_8009B150 & 0xFFF);
+                    CardPreview_RequestResourceTransfer(0, gDuel_wPlacementCardId & 0xFFF);
                 }
                 return;
             }
@@ -290,10 +290,10 @@ request_combination:
                 return;
             }
             object->field_30.word = slots[0]->field_30.word;
-            if (!((DuelPlacementCardIdCell *)&D_8009B150)->value) {
+            if (!((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value) {
                 D_8009B174 = 7;
                 D_8009B218 = -1;
-            } else if (((DuelPlacementCardIdCell *)&D_8009B150)->value & 0x8000) {
+            } else if (((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value & 0x8000) {
                 D_8009B218 = 1;
                 D_8009B154 = 0;
                 D_8009B174 = 6;
@@ -326,10 +326,10 @@ request_combination:
                         slots = D_800E9EF0;
                         if (!(gDuel_wTrapPresentationMode & 0x80)) {
                             gDuel_wTrapPresentationMode |= 0x80;
-                            if ((s16)D_8009B150 & 0x8000) {
-                                ((DuelDeckCardRecord *)card->data)->id = D_8009B150 & 0xFFF;
+                            if ((s16)gDuel_wPlacementCardId & 0x8000) {
+                                ((DuelDeckCardRecord *)card->data)->id = gDuel_wPlacementCardId & 0xFFF;
                                 gDuel_wTrapPresentationMode |= 0x40;
-                                card->card_id = D_8009B150 & 0xFFF;
+                                card->card_id = gDuel_wPlacementCardId & 0xFFF;
                                 value = ((DuelDeckCardRecord *)card->data)->data_block_index;
                                 resource->rects[0].x = resource->src_x + 56;
                                 resource->rects[0].y = resource->src_y;
@@ -399,7 +399,7 @@ request_combination:
                     if (!(gDuel_wTrapPresentationMode & 0x80)) {
                         gDuel_wTrapPresentationMode |= 0x80;
                         object->field_60 = 30;
-                        if (!((s16)D_8009B150 & 0x8000)) {
+                        if (!((s16)gDuel_wPlacementCardId & 0x8000)) {
                             PLACEMENT_TX(object) = 0;
                             PLACEMENT_TY(object) = 500;
                             gDuel_wTrapPresentationMode |= 0x40;
@@ -556,7 +556,7 @@ request_combination:
             if (!(D_8009B174 & 0x80)) {
                 DisplayObject *G32 *slots;
                 D_8009B174 |= 0xC0;
-                Duel_MarkCreatedCardKnown((u32)(D_8009B150 & 0xFFF));
+                Duel_MarkCreatedCardKnown((u32)(gDuel_wPlacementCardId & 0xFFF));
                 slots = D_800E9EF0;
                 slots[0]->flags &= ~0x40;
                 DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);

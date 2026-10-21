@@ -500,14 +500,22 @@ extern s32 D_8009B0A4;
 extern s32 D_8009B0B0;
 extern s32 D_8009B0BC;
 extern s32 D_8009B0D4;
-extern u8 D_8009B152;
+/* Duel_UpdateCardUseConfirmation's step flags: bit 7 once it has created the
+ * two flip markers, bit 6 while a left/right flip of gDuel_pActionCard runs.
+ * DuelScene_UpdateFieldActions clears the byte before the step starts. */
+extern u8 gDuel_bConfirmFlags;
 #ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
-extern DisplayObject *G32 D_8009B188;
-extern DisplayObject *G32 D_8009B18C;
+/* The two sprites placed beside the card being flipped, 8 pixels left of it
+ * and 0x3C right of it, 0x1E down. The confirmation step and the hand step
+ * create them; both release them once the choice is made. */
+extern DisplayObject *G32 gDuel_pFlipLeftMarker;
+extern DisplayObject *G32 gDuel_pFlipRightMarker;
 #endif
 #ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
-extern DisplayObject *G32 D_8009B1CC;
-extern DisplayObject *G32 D_8009B1F8;
+/* The field-action card: DuelScene_UpdateFieldActions moves it to (0x86, 0x5A)
+ * and Duel_UpdateCardUseConfirmation flips it face up or down. */
+extern DisplayObject *G32 gDuel_pActionCard;
+extern DisplayObject *G32 gDuel_pActionReadyMarker;
 #endif
 extern u8 D_8009B261;
 #ifdef D_8009B264_VISIBLE

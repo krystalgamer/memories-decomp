@@ -37,7 +37,7 @@ halfword of the ritual result;
 former, still explicitly sign-extended through `s32`, to
 `Duel_MarkCreatedCardKnown(s32 card_id)`, formerly `func_80019CC8`.
 Placement independently passes its existing
-unsigned word conversion of `D_8009B150 & 0xFFF`. Only the outer `void *`
+unsigned word conversion of `gDuel_wPlacementCardId & 0xFFF`. Only the outer `void *`
 carrier casts are removed; the input narrowing/mask/sign extension remain.
 
 The helper never dereferences an object. It adds the card ID to
