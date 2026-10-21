@@ -105,14 +105,14 @@ typedef char DuelSelectionSide_size_must_be_side_size[
 ];
 
 /* The selection table itself: DUEL_SELECTION_SIDE_SIZE bytes per side. */
-extern u8 D_800E9F10[];
+extern u8 gDuel_abSelectionSides[];
 
 /* A name for record 1 of that same table, 0x1C bytes in -- exactly
  * DUEL_SELECTION_RECORD_SIZE -- so it is record 1 of side 0, and because it
  * is indexed with the same per-side stride it is record 1 of whichever side
  * is selected:
  *
- *     gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F2C +
+ *     gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionRecord1 +
  *         gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
  *
  * DuelScene_UpdateHandActions (duel_scene_hand_actions.c) is the only source
@@ -122,16 +122,16 @@ extern u8 D_800E9F10[];
  * Like the other names into this table it keeps its own relocations -- one
  * %hi/%lo pair in that function, and no access is gp-relative -- so this is
  * the plain array declaration. */
-extern u8 D_800E9F2C[];
+extern u8 gDuel_abSelectionRecord1[];
 
 /* A second name for the inside of that same table, 0x38 bytes in --
  * exactly 2 * DUEL_SELECTION_RECORD_SIZE, so it is record 2 of side 0, and
  * because it is indexed with the same per-side stride it is record 2 of
  * whichever side is selected:
  *
- *     gDuel_pActiveSelectionRecord = D_800E9F48 + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE;
+ *     gDuel_pActiveSelectionRecord = gDuel_abSelectionRecord2 + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE;
  *
- * which is the same cursor assignment the D_800E9F10 callers make, just from
+ * which is the same cursor assignment the gDuel_abSelectionSides callers make, just from
  * two records further in. DuelField_CreateCardInfoTextBox (duel_field_display_objects.c)
  * passes the same expression to DuelField_GetGuardianStarDisplayCode.
  *
@@ -139,16 +139,16 @@ extern u8 D_800E9F2C[];
  * have to stay separate: DuelScene_UpdateHandActions and
  * DuelScene_UpdateFieldActions each take the
  * address of both symbols, and each carries its own
- * `addiu $v1, $v1, %lo(D_800E9F48)` relocation. Folding this into an offset
- * from D_800E9F10 would change which symbol those relocations name. */
-extern u8 D_800E9F48[];
+ * `addiu $v1, $v1, %lo(gDuel_abSelectionRecord2)` relocation. Folding this into an offset
+ * from gDuel_abSelectionSides would change which symbol those relocations name. */
+extern u8 gDuel_abSelectionRecord2[];
 
 /* A third name for the same table, 0x54 bytes in -- exactly
  * 3 * DUEL_SELECTION_RECORD_SIZE, so it is record 3 of side 0, and because
  * both users index it with the per-side stride it is record 3 of whichever
  * side is selected:
  *
- *     D_800E9F64 + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE
+ *     gDuel_abSelectionRecord3 + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE
  *
  * DuelScene_UpdateBattle assigns exactly that to gDuel_pActiveSelectionRecord
  * (src/game/duel_scene_battle.c) and DuelScene_UpdateFieldActions forms
@@ -156,12 +156,12 @@ extern u8 D_800E9F48[];
  * (src/game/duel_scene_field_actions.c). No
  * other source in the tree mentions the symbol.
  *
- * Like D_800E9F48 above, this name has to stay separate rather than become an
- * offset from D_800E9F10: each listing carries its own relocations for it --
+ * Like gDuel_abSelectionRecord2 above, this name has to stay separate rather than become an
+ * offset from gDuel_abSelectionSides: each listing carries its own relocations for it --
  * five %hi/%lo pairs in DuelScene_UpdateFieldActions and one in DuelScene_UpdateBattle -- and
  * folding it would change which symbol they name. No access is gp-relative,
  * so this is the plain array declaration. */
-extern u8 D_800E9F64[];
+extern u8 gDuel_abSelectionRecord3[];
 
 /* Active record in the selection table. Every writer selects a whole
  * DuelSelectionRecord through one of the four table symbols above, retaining
@@ -183,7 +183,7 @@ extern DuelSelectionRecord *G32 gDuel_pActiveSelectionRecord;
  * 1. Afterwards it clears 0x13 on the first record of each side, so the value
  * written in the loop survives only for records 1 to 3.
  *
- * Declared here because this header owns everything it touches: D_800E9F10
+ * Declared here because this header owns everything it touches: gDuel_abSelectionSides
  * above, DuelSelectionRecord, which the walk now names those fields through,
  * and the three size constants it is written in terms of.
  * Duel_InitScene (src/game/duel_init_scene.c) is the only caller, and

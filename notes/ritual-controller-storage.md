@@ -21,7 +21,7 @@ The retail resident image, through the existing `bss_image_after_viewport`
 binary-backed section, supplies the storage. Existing absolute linker
 identities cover `D_800E9EF0`, its interior labels, and `D_800E9F04`.
 No new C allocation or linker alias is required. The next mapped label
-after the clear word is `D_800E9F10`; this view does not claim that gap.
+after the clear word is `gDuel_abSelectionSides`; this view does not claim that gap.
 
 `D_800EA128` is also image-backed, with no C definition. The controller
 writes the four halfwords at offsets `+8` through `+0x0E` as a `RECT`,

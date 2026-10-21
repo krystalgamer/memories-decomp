@@ -59,7 +59,7 @@ static __inline__ s32 placement_velocity(s32 distance)
 void DuelScene_UpdateCardPlacement(void)
 {
     DuelSelectionRecord *side = (DuelSelectionRecord *)
-        (D_800E9F10 + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
+        (gDuel_abSelectionSides + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
     DisplayObject *object;
     DuelCardRecord *card;
     DuelEffectRequest *effect;

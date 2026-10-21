@@ -228,7 +228,7 @@ void DuelScene_UpdateExodiaResult(void)
         obj = DISPLAY_OBJECT_VIEW(D_8009B214);
         side = gDuel_bActiveSide;
         gDuel_pActiveSelectionRecord =
-            (DuelSelectionRecord *)&D_800E9F10[
+            (DuelSelectionRecord *)&gDuel_abSelectionSides[
                 (u8)side * DUEL_SELECTION_SIDE_SIZE
             ];
         *(s16 *)&obj->position.h.field_28 = -0x40;

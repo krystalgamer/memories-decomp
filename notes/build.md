@@ -899,7 +899,7 @@ instead of inferred.
 
 ```sh
 OD=tools/toolchains/binutils-2.42/bin/mipsel-none-elf-objdump
-"$OD" -dr tmp/splat/build/src/game/<file>.o | grep D_8009B16C
+"$OD" -dr tmp/splat/build/src/game/<file>.o | grep gDuel_wOutcomeFlags
 ```
 
 `R_MIPS_GPREL16` means the symbol resolved into small data. `R_MIPS_HI16`
@@ -915,16 +915,16 @@ and then centralizing on the size that was correct rather than the largest one
 observed. That reasoning holds only while every consumer wants the same
 addressing form, and the relocations are what say whether it can hold at all.
 
-`D_8009B16C` is the case where it cannot. The object is eight bytes:
+`gDuel_wOutcomeFlags` is the case where it cannot. The object is eight bytes:
 `D_8009B174` is the next name. Five files declare it three ways, and four of
 them agree.
 
 | Translation unit | Spelling | Bytes | Relocation |
 | --- | --- | --- | --- |
-| `src/game/func_80024200.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
-| `src/game/duel_init_scene.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
-| `debug_effect_screen.c` | `extern u8 D_8009B16C[4]` | 4 | `R_MIPS_GPREL16` |
-| `src/game/main_run_duel.c` | `extern u16 D_8009B16C` in `.data` | 2 | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/game/func_80024200.c` | `extern u16 gDuel_wOutcomeFlags` | 2 | `R_MIPS_GPREL16` |
+| `src/game/duel_init_scene.c` | `extern u16 gDuel_wOutcomeFlags` | 2 | `R_MIPS_GPREL16` |
+| `debug_effect_screen.c` | `extern u8 gDuel_wOutcomeFlags[4]` | 4 | `R_MIPS_GPREL16` |
+| `src/game/main_run_duel.c` | `extern u16 gDuel_wOutcomeFlags` in `.data` | 2 | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
 The scalar `.data` spelling lets Main_RunDuel describe the accessed halfword
 truthfully while retaining the required absolute relocation.
@@ -935,7 +935,7 @@ the absolute addressing without inventing an oversized array extent.
 
 The `[4]` is load bearing from the other direction, and this one was written
 down: `func_800222F4`, which is `debug_effect_screen.c`, records "small-data
-sized arrays for `D_8009B16C` and `D_8009AF2C`" as the discriminator that
+sized arrays for `gDuel_wOutcomeFlags` and `D_8009AF2C`" as the discriminator that
 matched it under `gcc_2_8_1_g8_split`.
 
 That leaves no single unqualified declaration to centralize on: the scalar

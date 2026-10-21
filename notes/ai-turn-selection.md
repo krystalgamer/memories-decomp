@@ -30,7 +30,7 @@ path keeps its fallback to a random slot when the selected row is full, and
 does not introduce card-ID, occupancy or capacity guards.
 
 The field decision clears byte nine **before** testing bit `0x1000` of
-`D_8009B16C`. It preserves the Swords check, packed-word flag predicates,
+`gDuel_wOutcomeFlags`. It preserves the Swords check, packed-word flag predicates,
 record/grid arithmetic, action encodings, random draw order and original
 give-up path. Renaming does not reinterpret `field_09`, `field_0A` or
 `field_0B` globally or change their stores.

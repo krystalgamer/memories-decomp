@@ -9,8 +9,8 @@
  * - The pad word is volatile: every test re-reads it.
  * - The side records are the DuelSelectionRecord struct, not byte views:
  *   the cursor-object loads pass the state stores only as struct members.
- *   Record 3 of the current side is D_800E9F10 + 0x54 (spimdisasm names it
- *   D_800E9F64) so cse can derive one from the other, and the pick cursor is
+ *   Record 3 of the current side is gDuel_abSelectionSides + 0x54 (spimdisasm names it
+ *   gDuel_abSelectionRecord3) so cse can derive one from the other, and the pick cursor is
  *   record 2 of the same table.
  * - The slot index row * 5 + col is a separate statement into the loop
  *   counter i wherever retail computes the sum into its own register.
@@ -99,8 +99,8 @@
 #define SB(p, o) (*(s8 *)((u8 *)(p) + (o)))
 #define SIDE_SIZE 4
 /* Record 3 of the side's selection records: the same symbol as record 0. */
-#define SEL_REC3 ((DuelSelectionRecord *)(D_800E9F10 + 0x54))
-#define FIELD_CURSOR (((DuelSelectionSide *)D_800E9F10)[gDuel_bActiveSide].records[2])
+#define SEL_REC3 ((DuelSelectionRecord *)(gDuel_abSelectionSides + 0x54))
+#define FIELD_CURSOR (((DuelSelectionSide *)gDuel_abSelectionSides)[gDuel_bActiveSide].records[2])
 /* Grid card, two spellings: the [side][slot] form and the flat form. */
 #define GRID_CARD(s) (&gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[(s)->row * 5 + (s)->col + gDuel_bActiveSide * 20]])
 #define GRID_CARD_FLAT(s) \
@@ -143,7 +143,7 @@ void DuelScene_UpdateFieldActions(void)
     u32 f;
     s32 flags;
 
-    side = (DuelSelectionRecord *)D_800E9F48 + gDuel_bActiveSide * SIDE_SIZE;
+    side = (DuelSelectionRecord *)gDuel_abSelectionRecord2 + gDuel_bActiveSide * SIDE_SIZE;
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
         gDuel_wSceneStateFlags |= 0x8000;
         if (gDuel_aSideStates[0].life_points.signed_value == 0 ||
@@ -192,7 +192,7 @@ void DuelScene_UpdateFieldActions(void)
                 return;
             }
             if (a == 3) {
-                D_8009B16C &= 0xEFFF;
+                gDuel_wOutcomeFlags &= 0xEFFF;
                 DisplayObject_ReleaseIfPresent(D_8009B1F8);
                 D_8009B1F8 = 0;
                 D_8009B174 = 0xA;
@@ -336,7 +336,7 @@ void DuelScene_UpdateFieldActions(void)
                     SD_SEPlayFull(9);
                     return;
                 }
-                if (D_8009B16C & 0x1000) {
+                if (gDuel_wOutcomeFlags & 0x1000) {
                     SD_SEPlayFull(9);
                     return;
                 }
@@ -450,7 +450,7 @@ void DuelScene_UpdateFieldActions(void)
                 side->cursor_object = 0;
                 D_8009B174 = 3;
                 gDuel_pActiveSelectionRecord =
-                    &((DuelSelectionSide *)D_800E9F10)[gDuel_bActiveSide].records[2];
+                    &((DuelSelectionSide *)gDuel_abSelectionSides)[gDuel_bActiveSide].records[2];
             }
             return;
         }
@@ -686,7 +686,7 @@ void DuelScene_UpdateFieldActions(void)
             D_8009B174 |= 0x40;
             gDuel_wDisplayTransitionFlags = 0xC;
             gDuel_pActiveSelectionRecord =
-                &((DuelSelectionSide *)D_800E9F10)[gDuel_bActiveSide].records[2];
+                &((DuelSelectionSide *)gDuel_abSelectionSides)[gDuel_bActiveSide].records[2];
             return;
         }
         gDuel_wSceneStateFlags = 7;
@@ -701,7 +701,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         return;
     case 11:
-        D_8009B16C &= 0xEFFF;
+        gDuel_wOutcomeFlags &= 0xEFFF;
         DisplayObject_ReleaseIfPresent(D_8009B1F8);
         D_8009B1F8 = 0;
         D_8009B174 = 0xA;

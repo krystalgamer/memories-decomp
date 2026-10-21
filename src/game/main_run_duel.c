@@ -78,7 +78,7 @@ void Main_RunDuel(void)
             Duel_InitScene();
         } else {
             DuelScene_UpdateWithSideInput();
-            if (D_8009B16C & 0x2000)
+            if (gDuel_wOutcomeFlags & 0x2000)
                 gMain_bModeRunnerStep = 2;
         }
         break;

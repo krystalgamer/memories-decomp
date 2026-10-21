@@ -52,7 +52,7 @@ void DuelScene_UpdateResultRewards(void);
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
 ViewState D_800F2848;
-u16 gDuel_wSceneStateFlags, D_8009B16C, gText_StagedStringId;
+u16 gDuel_wSceneStateFlags, gDuel_wOutcomeFlags, gText_StagedStringId;
 s16 gGraphics_sViewportX, gGraphics_sViewportY;
 DuelResultDisplayState *gDuel_pResultDisplayState;
 DuelResultDisplayState gDuel_awRitualData;
@@ -200,7 +200,7 @@ static void setup(u16 flags)
     gDuel_pResultDisplayState->starchip_prize = 0xA5;
     gDuel_pResultDisplayState->dropped_card_id = -123;
     gDuel_pResultDisplayState->page_index = 0;
-    gDuel_wSceneStateFlags = flags; D_8009B16C = 0x12; gText_StagedStringId = 0x1234;
+    gDuel_wSceneStateFlags = flags; gDuel_wOutcomeFlags = 0x12; gText_StagedStringId = 0x1234;
     gGraphics_sViewportX = 37; gGraphics_sViewportY = -43;
     gText_BranchSelectorA = 0xAA; gText_BranchSelectorB = 0xBB;
     gDuel_bWinnerSide = 0; gDuel_bOpponentID = 5;
@@ -396,12 +396,12 @@ static s32 exit_handshake(void)
         gDuel_pResultDisplayState->starchip_prize = 2;
         run();
         CHECK(valid() && gDuel_wSceneStateFlags == (armed || !fading ? 0xE012 : 0xC012), 60);
-        if (fading) CHECK(event_count == 1 && D_8009B16C == 0x12 &&
+        if (fading) CHECK(event_count == 1 && gDuel_wOutcomeFlags == 0x12 &&
                           D_800E9EC8_arr[4] == 7, 61);
         else if (!armed) CHECK(event_count == 3 && events[1].kind == 15 &&
                                 events[2].kind == 16 && events[2].a == 255 &&
-                                events[2].b == 255 && D_8009B16C == 0x12, 62);
-        else CHECK(D_8009B16C == 0x2012 && event_count == (missing ? 1 : 2) &&
+                                events[2].b == 255 && gDuel_wOutcomeFlags == 0x12, 62);
+        else CHECK(gDuel_wOutcomeFlags == 0x2012 && event_count == (missing ? 1 : 2) &&
                    D_800E9EC8_arr[4] == 7, 63);
     }
     return 0;
@@ -417,7 +417,7 @@ static s32 chip_awards(void)
         gDuel_pResultDisplayState->starchip_prize = 5; gDuel_pResultDisplayState->dropped_card_id = -32767;
         U32(saves[0], 0x5E0) = amounts[i]; U32(saves[1], 0x5E0) = 123;
         run();
-        CHECK(valid() && D_8009B16C == 0x2012 && event_count == 2 &&
+        CHECK(valid() && gDuel_wOutcomeFlags == 0x2012 && event_count == 2 &&
               events[1].kind == 17 && events[1].a == -32767 &&
               (u32)events[1].b == expected[i] &&
               U32(saves[0], 0x5E0) == expected[i] && U32(saves[1], 0x5E0) == 123, 70);
@@ -440,7 +440,7 @@ static s32 win_loss_awards(void)
         U16(saves[winner], 0x51A) = 123;
         U16(saves[winner ^ 1], 0x518) = 456;
         run();
-        CHECK(valid() && event_count == 1 && D_8009B16C == 0x2012 &&
+        CHECK(valid() && event_count == 1 && gDuel_wOutcomeFlags == 0x2012 &&
               U16(saves[winner], 0x518) == expected[w] &&
               U16(saves[winner ^ 1], 0x51A) == expected[l] &&
               U16(saves[winner], 0x51A) == 123 &&
