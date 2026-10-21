@@ -212,7 +212,7 @@ void DuelScene_UpdateStartup(void)
         if ((D_8009B174 & 0x80) == 0) {
             D_8009B174 |= 0x80;
             gDuel_wDisplayTransitionFlags = 2;
-            gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F10 +
+            gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionSides +
                 gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
             *(u16 *)&gDuel_pActiveSelectionRecord->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
         }
@@ -258,7 +258,7 @@ void DuelScene_UpdateStartup(void)
         Duel_ClearHandSlots();
         gDuel_bPendingDrawCount = HAND_SIZE;
         gDuel_wSceneStateFlags = 3;
-        ((DuelSelectionRecord *)(D_800E9F10 +
+        ((DuelSelectionRecord *)(gDuel_abSelectionSides +
             gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE))->hand = gDuelHand_aSlots;
         break;
     }
@@ -296,7 +296,7 @@ void DuelScene_UpdateDrawPhase(void) {
         Duel_ClearHandSlots();
         side = gDuel_bActiveSide;
         gDuel_pActiveSideState = &gDuel_aSideStates[side];
-        gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F10 +
+        gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionSides +
                 side * DUEL_SELECTION_SIDE_SIZE);
         base = gDuelHand_aSlots;
         gDuel_pActiveSelectionRecord->hand = base;
@@ -350,7 +350,7 @@ void DuelScene_UpdateDrawPhase(void) {
         }
         gDuel_bPendingDrawCount = HAND_SIZE - n;
         gDuel_wDisplayTransitionFlags = 2;
-        gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F10 +
+        gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionSides +
                 gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
         *(u16 *)&gDuel_pActiveSelectionRecord->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
     } else if (gDuel_wDisplayTransitionFlags == 0) {

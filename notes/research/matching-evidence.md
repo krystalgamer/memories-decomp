@@ -4900,7 +4900,7 @@ collapses to a single gp-relative `lhu` and the function is short. Inheriting a
 neighbour's profile is the right first move and the wrong last one.
 
 **2. A declared size pulls an array in.** `func_800222F4` (#2056) needed
-`u8 D_8009B16C[4]`, not `u8 D_8009B16C[]`, to reach its gp-relative form. An
+`u8 gDuel_wOutcomeFlags[4]`, not `u8 gDuel_wOutcomeFlags[]`, to reach its gp-relative form. An
 unsized array has unknown size, so it can never be small data.
 
 **3. The incomplete array type pushes a symbol out, and
@@ -7509,7 +7509,7 @@ Two of the globals collected into headers during this campaign turned out not to
 be objects at all. They are second names for a point inside an object that
 already has one, and both consumers index them with the object's own stride.
 
-    D_800E9F48   is D_800E9F10 + 0x38, and 0x38 is 2 * DUEL_SELECTION_RECORD_SIZE,
+    gDuel_abSelectionRecord2   is gDuel_abSelectionSides + 0x38, and 0x38 is 2 * DUEL_SELECTION_RECORD_SIZE,
                  so it is record 2 of a side of the selection table. Both names
                  are indexed `+ gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE`.
 
@@ -7535,9 +7535,9 @@ Retail's own relocations decide this, not the arithmetic.
 The two cases differ in how strongly that is shown, which is worth keeping
 straight:
 
-  D_800E9F48   func_8001BD88 and func_8001D670 each take the address of BOTH
+  gDuel_abSelectionRecord2   func_8001BD88 and func_8001D670 each take the address of BOTH
                symbols and each carries its own `addiu $v1, $v1,
-               %lo(D_800E9F48)`. Retail itself uses two names for the region.
+               %lo(gDuel_abSelectionRecord2)`. Retail itself uses two names for the region.
 
   D_800F3A10   every accessor is matching C, so there is no independent
                listing to appeal to. The matched sites naming the symbol is

@@ -727,7 +727,7 @@ side_result:
                    index D_8009B1D8 again each time, as retail reloads the
                    window pointer (106 differences through `save`). */
                 SaveDataState *save = D_8009B1D8[gDuel_bWinnerSide];
-                D_8009B16C |= 0x2000;
+                gDuel_wOutcomeFlags |= 0x2000;
                 if (save) {
                     if (D_8009B360[0] < 0 && gDuel_bOpponentID >= 0) {
                         D_8009B1D8[0]->starchips +=
