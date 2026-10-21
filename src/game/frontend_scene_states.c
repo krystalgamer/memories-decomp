@@ -39,7 +39,7 @@ void DebugMenu_UpdateMapEntry(void)
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         gDebug_nSceneOrSoundID = gDebugMenu_bLastMapId;
-        DebugMenu_OpenValueEditor(D_80090D0C, 0x14, 0, 0, 0xC, 2, 1);
+        DebugMenu_OpenValueEditor(gDebugMenu_szMapEditorFormat, 0x14, 0, 0, 0xC, 2, 1);
     }
     result = DebugMenu_UpdateValueEditor();
     if (result != 0) {
@@ -61,7 +61,7 @@ void DebugMenu_UpdateTitleEntry(void)
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         gDebug_nSceneOrSoundID = D_8009B26D;
-        DebugMenu_OpenValueEditor(D_80090D28, 0x15, 0, 0, 0x12, 2, 1);
+        DebugMenu_OpenValueEditor(gDebugMenu_szMenuEditorFormat, 0x15, 0, 0, 0x12, 2, 1);
     }
     result = DebugMenu_UpdateValueEditor();
     if (result != 0) {
@@ -83,7 +83,7 @@ void DebugMenu_UpdateMovieEntry(void)
         if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
             gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
             gDebug_nSceneOrSoundID = 0;
-            DebugMenu_OpenValueEditor(D_80090D44, 0x1D, 0, 0, 5, 2, 1);
+            DebugMenu_OpenValueEditor(gDebugMenu_szMovieEditorFormat, 0x1D, 0, 0, 5, 2, 1);
         }
     }
     {
