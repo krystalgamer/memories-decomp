@@ -11,7 +11,7 @@
  * controller switches on the same byte, values 0 to 6). Model_UpdateScene
  * calls it every scene update, directly after the background renderer
  * func_8004DE24. Both arms build the same four-halfword RECT
- * at D_8009B468 and hand it to MoveImage; they differ in the source region and
+ * at gModel_ImageCopyRect and hand it to MoveImage; they differ in the source region and
  * in how the frame is derived from VSync(-1) -- case 1 cycles three 16-pixel
  * columns, case 4 indexes gModel_abImageCopyFrameRows. Any other selector
  * value does nothing.
@@ -23,13 +23,13 @@
  * Model_UpdateScene in model_scene_states.c is the only caller and held the only
  * declaration. */
 void Model_StepBackgroundVramAnimation(void);
-extern RECT gModel_ImageCopyRect asm("D_8009B468");
+extern RECT gModel_ImageCopyRect;
 /* Separate field aliases preserve the original gp-relative store schedule;
  * using the RECT base for every member makes GCC retain the y-field address
  * and synthesize the base before MoveImage. */
-extern s16 gModel_ImageCopyRectY asm("D_8009B46A");
-extern s16 gModel_ImageCopyRectW asm("D_8009B46C");
-extern s16 gModel_ImageCopyRectH asm("D_8009B46E");
+extern s16 gModel_ImageCopyRectY;
+extern s16 gModel_ImageCopyRectW;
+extern s16 gModel_ImageCopyRectH;
 
 extern u8 D_80011508[];
 
