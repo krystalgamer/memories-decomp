@@ -3,7 +3,6 @@
 #define VERSION_JAPAN
 #define DUEL_RESULT_OUTRO_START_SECTOR 0x1DB6
 #define DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR 0x1D3E
-#define D_8009B0CC gJapanese_D_8009B0CC
 #define D_8009B362 gJapanese_D_8009B362
 #define D_8009B21C gJapanese_D_8009B21C
 #define D_8009B0F4_abs gJapanese_FileTransferFlags

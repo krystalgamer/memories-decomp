@@ -30,7 +30,7 @@ typedef struct {
  * Duel_InitScene (src/game/duel_init_scene.c) and
  * duel_scene_turn_switch.c both
  * build a per-side cursor as
- * gDuel_abFieldGridCardRecordIndices + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT.
+ * gDuel_abFieldGridCardRecordIndices + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT.
  *
  * Left unsized on purpose: a declared size is a -G input for this toolchain,
  * and no consumer needs the bound. */
@@ -67,7 +67,7 @@ extern u8 gDuel_abFieldGridCardRecordIndices[];
  *
  * Left unsized for the same reason as the grid, and because all three readers
  * want the flat view: duel_draw_resolution.c reads
- * gDuel_abHandCardRecordIndices[i + D_8009B1D5 * HAND_SIZE], the hand-action
+ * gDuel_abHandCardRecordIndices[i + gDuel_bActiveSide * HAND_SIZE], the hand-action
  * controller indexes its selected hand slot, and Duel_ApplyAiHandSelection
  * (func_8001B938.c) takes the base pointer. */
 extern u8 gDuel_abHandCardRecordIndices[];

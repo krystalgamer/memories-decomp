@@ -179,7 +179,7 @@ void DuelScene_UpdateBattle(void)
         if (Duel_SelectAttackTrap(D_800E9EF0[0]) != 0) {
             D_8009B229 = 0;
         }
-        cur = (DuelSelectionRecord *)(D_800E9F64 + D_8009B1D5 * 0x70);
+        cur = (DuelSelectionRecord *)(D_800E9F64 + gDuel_bActiveSide * 0x70);
         gDuel_pActiveSelectionRecord = cur;
         DisplayObject_ReleaseIfPresent(cur->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;
@@ -217,7 +217,7 @@ void DuelScene_UpdateBattle(void)
                 if (!(D_8009B174 & 0x10)) {
                     D_8009B174 |= 0x10;
                     gDuel_wDisplayTransitionFlags = 0xC;
-                    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F48 + D_8009B1D5 * 0x70);
+                    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F48 + gDuel_bActiveSide * 0x70);
                 } else {
                     D_8009B174 |= 0x20;
                 }
@@ -347,10 +347,10 @@ void DuelScene_UpdateBattle(void)
                     if (D_800E9EF0[1] != 0 && (D_8009B178[1] & 0x800)) {
                         gDuel_pActiveSideState->rank.field_0B++;
                         gDuel_abBattleOutcome[1] = -1;
-                        gDuel_aSideStates[D_8009B1D5 ^ 1].rank.field_0C++;
+                        gDuel_aSideStates[gDuel_bActiveSide ^ 1].rank.field_0C++;
                         return;
                     }
-                    view = &gDuel_aSideStates[D_8009B1D5 ^ 1];
+                    view = &gDuel_aSideStates[gDuel_bActiveSide ^ 1];
                     life = view->life_points.unsigned_value - result;
                     view->life_points.unsigned_value = life;
                     if ((s16)life < 0) {
@@ -370,7 +370,7 @@ void DuelScene_UpdateBattle(void)
                 gDuel_awBattleDamage[0] = 0;
                 gDuel_awBattleDamage[1] = 0;
                 if (result < -1) {
-                    view = &gDuel_aSideStates[D_8009B1D5];
+                    view = &gDuel_aSideStates[gDuel_bActiveSide];
                     life = view->life_points.unsigned_value + result;
                     view->life_points.unsigned_value = life;
                     if ((s16)life < 0) {
@@ -380,7 +380,7 @@ void DuelScene_UpdateBattle(void)
                     gDuel_abBattleOutcome[1] = 1;
                     if (D_8009B178[1] & 0x800) {
                         gDuel_abBattleOutcome[0] = 1;
-                        gDuel_aSideStates[D_8009B1D5 ^ 1].rank.defensive_wins++;
+                        gDuel_aSideStates[gDuel_bActiveSide ^ 1].rank.defensive_wins++;
                         return;
                     }
                 }

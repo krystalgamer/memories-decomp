@@ -43,8 +43,8 @@ The shake callback additionally captures viewport X then Y into the two
 unsigned origin halfwords during initialization. It does so even when the
 frame counter's low bit is clear.
 
-`D_8009B0CC` is the shared frame counter: `Graphics_SyncFrame` increments
-it immediately after `VSync`. The `D_8009B0CC & 1` condition is therefore
+`gGraphics_dwSyncedFrameCount` is the shared frame counter: `Graphics_SyncFrame` increments
+it immediately after `VSync`. The `gGraphics_dwSyncedFrameCount & 1` condition is therefore
 a frame-counter parity gate, not an independently configurable setting.
 When that bit is set, the callback preserves this exact order:
 

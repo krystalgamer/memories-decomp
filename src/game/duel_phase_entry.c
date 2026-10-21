@@ -111,7 +111,7 @@ void DuelScene_UpdateResume(void)
             gDuel_wSceneStateFlags |= 0x2000;
             for (i = 0; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
                 rec = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[
-                    i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
+                    i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
                 if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
                     DuelCard_RemoveFromField(rec);
                 }
@@ -213,7 +213,7 @@ void DuelScene_UpdateStartup(void)
             D_8009B174 |= 0x80;
             gDuel_wDisplayTransitionFlags = 2;
             gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F10 +
-                D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
+                gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
             *(u16 *)&gDuel_pActiveSelectionRecord->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
@@ -259,7 +259,7 @@ void DuelScene_UpdateStartup(void)
         gDuel_bPendingDrawCount = HAND_SIZE;
         gDuel_wSceneStateFlags = 3;
         ((DuelSelectionRecord *)(D_800E9F10 +
-            D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))->hand = gDuelHand_aSlots;
+            gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE))->hand = gDuelHand_aSlots;
         break;
     }
 }
@@ -292,9 +292,9 @@ void DuelScene_UpdateDrawPhase(void) {
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         *(u16 *)&D_8009B21C->field_40.h.field_40 =
-            (D_8009B1D5 << 4) | DUEL_PHASE_FIELD_40_BASE;
+            (gDuel_bActiveSide << 4) | DUEL_PHASE_FIELD_40_BASE;
         Duel_ClearHandSlots();
-        side = D_8009B1D5;
+        side = gDuel_bActiveSide;
         gDuel_pActiveSideState = &gDuel_aSideStates[side];
         gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F10 +
                 side * DUEL_SELECTION_SIDE_SIZE);
@@ -305,9 +305,9 @@ void DuelScene_UpdateDrawPhase(void) {
             gDuel_pActiveSideState->swords_turns_remaining = c;
             if (c <= 0) {
                 gDuel_pActiveSideState->swords_turns_remaining = 0;
-                gDuel_apSwordsEffectObjects[D_8009B1D5]->field_1A =
-                    0xFFFD - D_8009B1D5;
-                gDuel_apSwordsEffectObjects[D_8009B1D5] = 0;
+                gDuel_apSwordsEffectObjects[gDuel_bActiveSide]->field_1A =
+                    0xFFFD - gDuel_bActiveSide;
+                gDuel_apSwordsEffectObjects[gDuel_bActiveSide] = 0;
             }
         }
         gDuel_pActiveSideState->rank.turns_taken++;
@@ -330,7 +330,7 @@ void DuelScene_UpdateDrawPhase(void) {
         i = n;
         slot = base;
         y = 0xE;
-        idx = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT;
+        idx = gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT;
         rec = &gDuel_aCardRecords[idx];
         placed = rec;
         for (; i < HAND_SIZE; i++, rec++) {
@@ -351,7 +351,7 @@ void DuelScene_UpdateDrawPhase(void) {
         gDuel_bPendingDrawCount = HAND_SIZE - n;
         gDuel_wDisplayTransitionFlags = 2;
         gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F10 +
-                D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
+                gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
         *(u16 *)&gDuel_pActiveSelectionRecord->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
     } else if (gDuel_wDisplayTransitionFlags == 0) {
         gDuel_wSceneStateFlags = 3;

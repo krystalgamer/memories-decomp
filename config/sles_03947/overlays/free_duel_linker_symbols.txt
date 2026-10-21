@@ -29,6 +29,6 @@ gText_StagedStringId = 0x8009C294;
 TextBox_Destroy = 0x80035EEC;
 TextBox_Create = 0x80035F98;
 func_80039A60 = 0x8003983C;
-D_8009B0CC = 0x8009C00C;
+gGraphics_dwSyncedFrameCount = 0x8009C00C;
 rand = 0x8008F504;
 gGraphics_sViewportY = 0x8009C0A2;

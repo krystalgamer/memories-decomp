@@ -11,7 +11,7 @@ void DuelSelection_UpdateLinkedObject(DisplayObject *object)
         (s16)object->field_2C.h.field_2C * DUEL_SELECTION_RECORD_SIZE;
     DisplayObject *parent;
 
-    offset += D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
+    offset += gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE;
     parent = ((DuelSelectionRecord *)(base + offset))->field_00;
     if (parent == 0) {
         DisplayObject_ReleaseIfPresent(object);

@@ -58,7 +58,7 @@ DisplayObject *D_8009B1C0;
 s16 gDuel_RitualResultCardId, gDuel_wEffectCardID, D_8009B20C[2];
 u16 gDuel_wTrapPresentationMode, gDuel_wCardEffectFlags;
 DuelEffectRequest *gDuelEffect_pTrackedRequest;
-u8 D_8009B19C, D_8009B1D5;
+u8 D_8009B19C, gDuel_bActiveSide;
 s8 D_8009B360[2];
 /* The result and its trailing cleared word share the full owning allocation. */
 DisplayObjectRitualWorkArea D_800E9EF0;
@@ -260,7 +260,7 @@ static void setup(s32 state)
     gDuel_RitualResultCardId = 321; gDuel_wEffectCardID = -123;
     gDuel_wTrapPresentationMode = state; gDuel_wCardEffectFlags = 0xA55A;
     D_8009B20C[0] = 0x1234; D_8009B20C[1] = 0;
-    D_8009B19C = 7; D_8009B1D5 = 0;
+    D_8009B19C = 7; gDuel_bActiveSide = 0;
     D_8009B360[0] = D_8009B360[1] = -1;
     gDuel_aCardRecords[7].object = &card_object;
     R32(&gDuel_aCardRecords[7], 4) = (u32)card_data;
@@ -455,7 +455,7 @@ static s32 orientation(void)
     for (side = 0; side < 2; side++)
     for (identity = 0; identity < 4; identity++)
     for (random = 0; random < 2; random++) {
-        setup(0x83); D_8009B1D5 = side;
+        setup(0x83); gDuel_bActiveSide = side;
         D_8009B360[side] = identities[identity]; D_8009B360[side ^ 1] = ~identities[identity];
         random_value = random ? -1 : 2;
         run();

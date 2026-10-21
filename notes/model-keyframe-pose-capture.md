@@ -4,7 +4,7 @@
 captures the baseline used by the resident model-effect keyframe runtime.
 The name is high confidence, not a recovered original symbol.
 
-The function always writes three current-pose channels at `D_800F5768`:
+The function always writes three current-pose channels at `gModel_aPoseSnapshot`:
 the reference view's viewpoint, its reference point, and cached
 distance/yaw/pitch. Each channel receives only its three component
 halfwords; the `SVECTOR` pad halfwords remain untouched.

@@ -83,14 +83,14 @@ extern DuelCardRecord D_801A7B64[];
 
 /* Writes a zero-terminated list of the occupied cards' object addresses for
  * one whole row, with no filter. The row is the front row of the side
- * D_8009B1D5 does not select, or the row behind it when back_row is nonzero.
+ * gDuel_bActiveSide does not select, or the row behind it when back_row is nonzero.
  * Six u32 words are always enough: five addresses plus the terminator. Both
  * traced overlay call sites pass a nonzero back_row, so the front row has no
  * traced caller; notes/duel-card-record.md records them. */
 void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row);
 /* Writes a zero-terminated list of occupied cards' object addresses.
  * Negative selectors scan both sides. Other selectors scan the front row of
- * the side D_8009B1D5 does not select: 0..20 match the object's 0x68 card
+ * the side gDuel_bActiveSide does not select: 0..20 match the object's 0x68 card
  * type byte, and 21+ require at least that attack value from the low half of
  * Duel_CalcCardStats.
  * The caller must provide at least 21 u32 words for a negative selector

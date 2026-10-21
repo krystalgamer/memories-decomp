@@ -142,7 +142,7 @@ s32 Ai_SelectHandPlay(void) {
         return 0;
     }
     card = &gDuel_aCardRecords[
-        D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT +
+        gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT +
         Rand_GetInterval(DUEL_FIELD_ROW_SIZE)
     ];
     if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
@@ -185,7 +185,7 @@ int Ai_FindFavorableFieldTarget(DuelCardRecord *source)
 
     do {
         int position =
-            slot + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+            slot + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
         DuelCardRecord *entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[position]];
 
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
@@ -199,7 +199,7 @@ int Ai_FindFavorableFieldTarget(DuelCardRecord *source)
 
     if (count == 0)
         return gDuel_abFieldGridCardRecordIndices[
-            D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7
+            gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7
         ];
     return -1;
 }
@@ -212,7 +212,7 @@ s32 Ai_FindFavorableFaceUpFieldTarget(DuelCardRecord *source)
 
     for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
         u8 row = gDuel_abFieldGridCardRecordIndices[
-            i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+            i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
         ];
         entry = &gDuel_aCardRecords[row];
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
@@ -230,7 +230,7 @@ s32 Ai_FindFavorableFaceUpFieldTarget(DuelCardRecord *source)
 
     if (found == 0) {
         return gDuel_abFieldGridCardRecordIndices[
-            D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7
+            gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7
         ];
     }
     return -1;
@@ -339,7 +339,7 @@ walk:
 loop:
     {
         do {
-            n = D_8009B1D5 * 20;
+            n = gDuel_bActiveSide * 20;
             rec = (DuelCardRecord *)((s32)*(u8 *)(slot + n + (s32)grid) * 28 + (s32)recs);
             /* Retail tests terrain_modifier and flags as one packed word. */
             if ((*(u32 *)&rec->terrain_modifier & 0xC0000000) == 0x80000000) {
@@ -372,7 +372,7 @@ loop:
                 if ((rand() & 1) != 0) {
                     count = 0;
                     i = 0;
-                    scan = (DuelCardRecord *)((s32)((D_8009B1D5 ^ 1) * 15) * 28 + (s32)scanbase);
+                    scan = (DuelCardRecord *)((s32)((gDuel_bActiveSide ^ 1) * 15) * 28 + (s32)scanbase);
                     mask = 0x90000000;
                     pp = pool;
                     do {

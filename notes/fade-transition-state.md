@@ -81,7 +81,7 @@ as filling from the edges toward the middle is incomplete.
 
 The matching [`Graphics_SyncFrame`](../src/game/graphics_frame.c) now establishes
 the producer of `D_8009B0D8`. The frame-sync helper optionally waits for the
-GPU with `DrawSync(0)` (unless `D_8009B098 & 0x8000` is set), then spins
+GPU with `DrawSync(0)` (unless `gGraphics_wFlags & 0x8000` is set), then spins
 while the volatile counter `gGraphics_dwSyncVBlankCounter` (originally
 `D_8009B0C8`, `0x8009B0C8`) is below the byte threshold
 `gGraphics_bSyncVBlankTarget`. [`Main_VBlankCB`](../src/game/main_frame.c) increments that
@@ -102,7 +102,7 @@ produce `1`, `2`, and `2`. The byte conversion matters; a sample of `256`
 has low byte zero and produces `1`, so this is not an unbounded elapsed
 VBlank count or a saturating conversion of the full counter. The helper
 then resets `gGraphics_dwSyncVBlankCounter` to `-1`, calls `VSync(0)`, and increments
-`D_8009B0CC`. Its separate `D_8009AFA4` override affects `gGraphics_bFrameStep`, not
+`gGraphics_dwSyncedFrameCount`. Its separate `D_8009AFA4` override affects `gGraphics_bFrameStep`, not
 `D_8009B0D8`.
 
 The signed word is a synchronization-window counter, not a monotonic

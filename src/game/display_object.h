@@ -527,7 +527,7 @@ extern u16 D_8009B412;
  * stepping the angle at field_2A by 0x30 a frame and taking the radius from
  * field_28, which doubles as a countdown and decays by 2 each frame. When that
  * reaches zero it clears field_6C and update and snaps field_30 back to the
- * base in one word. While bit 0 of D_8009B0CC is set it also spawns a
+ * base in one word. While bit 0 of gGraphics_dwSyncedFrameCount is set it also spawns a
  * companion object at the current position each frame.
  *
  * Declared here because this header owns both halves of its contract: the

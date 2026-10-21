@@ -186,9 +186,9 @@ extern volatile s32 gGraphics_dwSyncVBlankCounter;
  * (& 1, & 0x7F, ++, = 0), so s32 follows gGraphics_dwSyncVBlankCounter above and is not
  * established. */
 #ifdef D_8009B0CC_IN_DATA
-extern s32 D_8009B0CC __attribute__((section(".data")));
+extern s32 gGraphics_dwSyncedFrameCount __attribute__((section(".data")));
 #else
-extern volatile s32 D_8009B0CC;
+extern volatile s32 gGraphics_dwSyncedFrameCount;
 #endif
 
 /* A frame counter ticked by Main_VBlankCB in the same block as gGraphics_dwSyncVBlankCounter.
@@ -256,9 +256,9 @@ extern volatile s32 gSaveData_dwVBlankCounter;
  * main_run_boot_sequence.c
  * defines the .data arm. */
 #ifdef D_8009B098_IN_DATA
-extern u16 D_8009B098 __attribute__((section(".data")));
+extern u16 gGraphics_wFlags __attribute__((section(".data")));
 #else
-extern u16 D_8009B098;
+extern u16 gGraphics_wFlags;
 #endif
 
 extern DISPENV gGraphics_DispEnv;

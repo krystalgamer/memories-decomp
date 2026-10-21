@@ -63,7 +63,7 @@ void Duel_InitSideStates(void) {
             D_800EA02F[0] = -1;
         }
     }
-    gDuel_pActiveSideState = &gDuel_aSideStates[D_8009B1D5];
+    gDuel_pActiveSideState = &gDuel_aSideStates[gDuel_bActiveSide];
 }
 
 void Duel_ClearHandSlots(void)

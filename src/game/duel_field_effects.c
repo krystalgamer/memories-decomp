@@ -379,7 +379,7 @@ void DuelEffect_ApplyRitual(void)
         object = card->object;
         D_800E9EF0.slots[0] = object;
         *(s16 *)&object->field_30.h.field_32 = -DUEL_RITUAL_SCREEN_HEIGHT;
-        if (D_8009B360[D_8009B1D5] >= 0) {
+        if (D_8009B360[gDuel_bActiveSide] >= 0) {
             card->flags &= ~0x200;
             if (rand() & 1)
                 card->flags |= 0x200;
@@ -469,7 +469,7 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
 
     if (!DuelEffect_MarkInitialized()) {
         DuelEffectRequest *object = DuelEffect_CreateRequest(0x17);
-        int side = D_8009B1D5 ^ 1;
+        int side = gDuel_bActiveSide ^ 1;
 
         object->field_04 = gDuel_aFieldGridGroundPositions[side][0].y;
 #if !defined(VERSION_EUROPE)
@@ -478,7 +478,7 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
     } else {
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             int position =
-                i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+                i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
             DuelCardRecord *entry =
                 &gDuel_aCardRecords[((u8 *)gDuel_abFieldGridCardRecordIndices)[position]];
 
@@ -547,7 +547,7 @@ s32 Duel_FindFreeFieldSlot(s32 arg0)
     s32 i;
 
     do {
-        base = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT + arg0;
+        base = gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT + arg0;
         off = base << 3;
         off -= base;
         off <<= 2;
@@ -555,7 +555,7 @@ s32 Duel_FindFreeFieldSlot(s32 arg0)
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             off = p->flags & DUEL_CARD_FLAG_OCCUPIED;
             if (off == 0) {
-                return D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT + arg0 + i;
+                return gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT + arg0 + i;
             }
             p++;
         }
@@ -568,7 +568,7 @@ s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
 {
     s32 count = 0;
     s32 i = 0;
-    s32 d = D_8009B1D5;
+    s32 d = gDuel_bActiveSide;
     s32 *t = gDuel_adwCardStats;
     DuelCardRecord *r =
         &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
@@ -596,7 +596,7 @@ s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1,
                                  s32 arg2) {
     s32 count = 0;
     s32 i = 0;
-    s32 d = D_8009B1D5;
+    s32 d = gDuel_bActiveSide;
     s32 *t = gDuel_adwCardStats;
     DuelCardRecord *r =
         &gDuel_aCardRecords[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];

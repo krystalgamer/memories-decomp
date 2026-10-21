@@ -166,7 +166,7 @@ next:
 #endif
 
 /* Debug screen-offset adjustment: zeroes the display origin, raises bit 0x2000
- * of D_8009B098, then advances frames until Start is pressed. While a
+ * of gGraphics_wFlags, then advances frames until Start is pressed. While a
  * direction is held the origin moves by 2 per frame, or 4 with Cross held.
  *
  * The origin is cleared through one pointer and adjusted through a second
@@ -182,7 +182,7 @@ void Graphics_AdjustScreenOffset(void)
     origin = &gGraphics_DispEnv.disp;
     origin->x = 0;
     origin->y = 0;
-    D_8009B098 |= 0x2000;
+    gGraphics_wFlags |= 0x2000;
 
     Main_AdvanceFrame();
     r = origin;
@@ -211,7 +211,7 @@ void Graphics_AdjustScreenOffset(void)
         Main_AdvanceFrame();
     }
 
-    D_8009B098 &= 0xDFFF;
+    gGraphics_wFlags &= 0xDFFF;
     Input_ResetPads();
 }
 

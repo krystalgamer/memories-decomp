@@ -19,6 +19,6 @@ void Main_ResetFrontendRuntime(void);
  * in the image, assembly included, and between them they only ever store 0, 1
  * or `f | 0x80`. That arm is recorded here as an observation, not a claim
  * about intent. */
-extern u8 D_8009B428;
+extern u8 gMain_bFrontendPhase;
 
 #endif
