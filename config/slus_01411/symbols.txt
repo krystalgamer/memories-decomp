@@ -2101,3 +2101,11 @@ ModelEffect_GetCoefficient = 0x8005F1A4; // type:func
 Model_AdjustCameraDistanceForSlot = 0x8005F1B8; // type:func
 
 Model_GetSlotCameraPresetYaw = 0x8005A618; // type:func
+
+Model_NextEffectKeyQueueMode = 0x8005F564; // type:func
+
+Model_SetEffectKeyBatchingEnabled = 0x8005F588; // type:func
+
+gModel_bEffectKeyPreparationPending = 0x8009B079;
+
+gModel_nEffectKeyBatchOrdinal = 0x8009B07A;

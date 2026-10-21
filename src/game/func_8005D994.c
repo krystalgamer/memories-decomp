@@ -79,13 +79,13 @@ void func_8005D994(
         b[2] = b[2] + MODEL_ANGLE_FULL_TURN;
     }
 
-    first = *(s8 *)&D_8009B07A;
+    first = *(s8 *)&gModel_nEffectKeyBatchOrdinal;
     x = first;
     b[3] = 4;
     if (x < 0) {
         first = 0;
     } else {
-        D_8009B07A = D_8009B07A + 1;
+        gModel_nEffectKeyBatchOrdinal = gModel_nEffectKeyBatchOrdinal + 1;
         first = x > 0;
     }
     Model_ApplyEffectKeyQueueCommand(

@@ -202,7 +202,7 @@ void Model_UpdateAnimatedBattle(void)
             gModel_aSlots[2].field_DA0[2] += 0x40;
         } else if (Model_IsEffectKeyQueueEmpty() != 0) {
             Model_RequestCameraMove(0);
-            func_8005F588(1);
+            Model_SetEffectKeyBatchingEnabled(1);
             func_8005F5C8(0, 0, 0, -0xC);
             func_8005F714(0, 0, 0x4000);
             gModel_bPresentationPhase++;
@@ -212,7 +212,7 @@ void Model_UpdateAnimatedBattle(void)
         if (gModel_aSlots[0].field_E1F != 0) {
             s16 *r = (s16 *)Model_GetCurrentEffectKeyAddress();
             if (r != 0 && r[3] == 2) {
-                func_8005F588(1);
+                Model_SetEffectKeyBatchingEnabled(1);
                 func_8005F5C8(0, 0, 0, -0xC);
                 func_8005F714(0, 0, 0x4000);
                 gModel_bActiveSlotIndex = 0;
@@ -252,7 +252,7 @@ void Model_UpdateAnimatedBattle(void)
         if (gModel_aSlots[0].field_E0F == 0) {
             D_8009AFE9 += Model_GetFrameStep();
             if (D_8009AFE9 >= 0x3C && gModel_aSlots[1].field_E1F != 0) {
-                func_8005F588(1);
+                Model_SetEffectKeyBatchingEnabled(1);
                 func_8005F5C8(1, 0, 0, -0xA);
                 func_8005F714(1, 1, 0x4000);
                 gModel_bPresentationPhase++;

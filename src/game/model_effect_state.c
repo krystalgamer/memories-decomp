@@ -409,21 +409,21 @@ void Model_SetCameraOrbit(int mode, int y, int a, int b, SVECTOR *offset)
     Model_RequestCameraMove(-1);
 }
 
-int func_8005F564(void)
+int Model_NextEffectKeyQueueMode(void)
 {
-    if (D_8009B07A < 0) {
+    if (gModel_nEffectKeyBatchOrdinal < 0) {
         return 0;
     }
-    return D_8009B07A++ > 0;
+    return gModel_nEffectKeyBatchOrdinal++ > 0;
 }
 
-void func_8005F588(int value)
+void Model_SetEffectKeyBatchingEnabled(int value)
 {
     if (D_8009B07B != 1 || D_8009B07C != 1) {
         if (value == 0) {
-            D_8009B07A = -1;
+            gModel_nEffectKeyBatchOrdinal = -1;
         } else {
-            D_8009B07A = 0;
+            gModel_nEffectKeyBatchOrdinal = 0;
         }
     }
 }
@@ -471,11 +471,11 @@ void func_8005F714(s32 a, s32 b, s32 c)
     if (D_8009B07B == 1 && D_8009B07C == 1) {
         return;
     }
-    flag = (s8)D_8009B07A;
+    flag = (s8)gModel_nEffectKeyBatchOrdinal;
     if (flag < 0) {
         flag = 0;
     } else {
-        D_8009B07A++;
+        gModel_nEffectKeyBatchOrdinal++;
         flag = flag > 0;
     }
     Model_ApplyEffectKeyQueueCommand(flag, x, y, c);
@@ -492,12 +492,12 @@ void func_8005F7B0(s32 value, s32 arg)
     if (D_8009B07B == 1 && D_8009B07C == 1) {
         return;
     }
-    flag = (s8)D_8009B07A;
-    next = (u8)D_8009B07A;
+    flag = (s8)gModel_nEffectKeyBatchOrdinal;
+    next = (u8)gModel_nEffectKeyBatchOrdinal;
     if (flag < 0) {
         flag = 0;
     } else {
-        D_8009B07A = next + 1;
+        gModel_nEffectKeyBatchOrdinal = next + 1;
         flag = flag > 0;
     }
     Model_ApplyEffectKeyQueueCommand(
@@ -516,11 +516,11 @@ void Model_QueueEffectEndpointSequences(
         return;
     }
 
-    raw172 = D_8009B07A;
+    raw172 = gModel_nEffectKeyBatchOrdinal;
     if (raw172 < 0) {
         flag = 0;
     } else {
-        D_8009B07A = (u8)D_8009B07A + 1;
+        gModel_nEffectKeyBatchOrdinal = (u8)gModel_nEffectKeyBatchOrdinal + 1;
         flag = raw172 > 0;
     }
 
@@ -604,7 +604,7 @@ m0:
         return;
     }
     Model_CaptureKeyframePose(0);
-    D_8009B079 = 1;
+    gModel_bEffectKeyPreparationPending = 1;
 
 m1:
     if (gModel_bEffectKeyCount < 0xA) {
@@ -637,16 +637,16 @@ m2:
         q += 0x28;
         Model_PrepareEffectKey((Key *)p);
     }
-    D_8009B079 = 0;
-    D_8009B07A = -1;
+    gModel_bEffectKeyPreparationPending = 0;
+    gModel_nEffectKeyBatchOrdinal = -1;
 }
 
 void Model_ResetEffectKeyQueue(void)
 {
     gModel_pCurrentEffectKey = 0;
     gModel_bEffectKeyCount = 0;
-    D_8009B079 = 0;
-    D_8009B07A = -1;
+    gModel_bEffectKeyPreparationPending = 0;
+    gModel_nEffectKeyBatchOrdinal = -1;
     D_8009B07B = 0;
     D_8009B07C = 0;
 }

@@ -20,7 +20,7 @@
  * movie pipeline and the first eight bytes to main_menu_load_package_stage.c,
  * which stays extracted.
  *
- * D_8009B07A is initialised to -1. The header describes it as a signed
+ * gModel_nEffectKeyBatchOrdinal is initialised to -1. The header describes it as a signed
  * counter armed at -1 and the retail byte is 0xFF, so the semantics recorded
  * there and the image agree; that agreement is also what makes s8 rather
  * than u8 the right spelling for the definition.
@@ -44,8 +44,8 @@
 
 Key *G32 gModel_pCurrentEffectKey __attribute__((section(".sdata"))) = 0;
 u8 gModel_bEffectKeyCount __attribute__((section(".sdata"))) = 0;
-u8 D_8009B079 __attribute__((section(".sdata"))) = 0;
-s8 D_8009B07A __attribute__((section(".sdata"))) = -1;
+u8 gModel_bEffectKeyPreparationPending __attribute__((section(".sdata"))) = 0;
+s8 gModel_nEffectKeyBatchOrdinal __attribute__((section(".sdata"))) = -1;
 u8 D_8009B07B __attribute__((section(".sdata"))) = 0;
 u8 D_8009B07C __attribute__((section(".sdata"))) = 0;
 static u8 sModelTransferFlags_Pad7D __attribute__((section(".sdata"))) = 0;

@@ -55,8 +55,8 @@ enum {
 u8 memory[SIZE] __attribute__((aligned(16)));
 __asm__(".globl gModel_pCurrentEffectKey\n.set gModel_pCurrentEffectKey, memory+32\n"
         ".globl gModel_bEffectKeyCount\n.set gModel_bEffectKeyCount, memory+36\n"
-        ".globl D_8009B079\n.set D_8009B079, memory+37\n"
-        ".globl D_8009B07A\n.set D_8009B07A, memory+38\n"
+        ".globl gModel_bEffectKeyPreparationPending\n.set gModel_bEffectKeyPreparationPending, memory+37\n"
+        ".globl gModel_nEffectKeyBatchOrdinal\n.set gModel_nEffectKeyBatchOrdinal, memory+38\n"
         ".globl D_8009B07B\n.set D_8009B07B, memory+39\n"
         ".globl D_8009B07C\n.set D_8009B07C, memory+40\n"
         ".globl gModel_aEffectKeys\n.set gModel_aEffectKeys, memory+128\n"

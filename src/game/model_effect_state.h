@@ -28,8 +28,8 @@ void Model_SetCameraOrbitFromPreset(s32 mode, s32 coefficient, SVECTOR *offset);
 /* Steps the active effect-key queue and its two camera endpoint channels. */
 void Model_UpdateEffectKeyframes(void);
 void Model_SetCameraOrbit(s32 mode, s32 y, s32 a, s32 b, SVECTOR *offset);
-s32 func_8005F564(void);
-void func_8005F588(s32 value);
+s32 Model_NextEffectKeyQueueMode(void);
+void Model_SetEffectKeyBatchingEnabled(s32 value);
 void func_8005F5C8(s32 mode, s32 coefficient, SVECTOR *offset, s32 arg);
 #ifdef VERSION_JAPAN
 #define func_8005F714 func_8004F164
