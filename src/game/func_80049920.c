@@ -42,7 +42,7 @@ void tent_SD_KeyOffSilentSecondaryObjects(void) {
     if (base->object_count > z) {
         key_off_env_on = SPU_OFF_ENV_ON;
         off = 0;
-        tbl = D_80011434;
+        tbl = gSD_adwVoiceMasks;
         do {
             if (SD_SECONDARY_STATE_AT_OFFSET(base, off)
                     ->objects[0].tent_release_stage != 0) {

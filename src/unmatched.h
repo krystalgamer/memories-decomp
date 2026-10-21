@@ -150,7 +150,7 @@ extern s32 D_8009B118;
 /* Address-only declarations found by re-measuring the note above rather
  * than by a scan. Every one is installed as data -- into the duel scene
  * callback table -- and none is invoked from C. func_80029EC4, the fourth of
- * this class (D_800E9DB0[3], library_runtime.c), left for
+ * this class (gMain_apFrameServiceCallbacks[3], library_runtime.c), left for
  * game/library_card_grid.h when it matched.
  *
  * Seven of them were declared in duel_scene_callbacks.c, which is a file I
@@ -446,7 +446,7 @@ struct DuelRitualResult;
  * SetGeomOffset, SetFarColor and SetFogNearFar -- and then walks the field
  * records.
  *
- * Duel_InitScene installs it rather than calling it, as `D_800E9DB0[3] =
+ * Duel_InitScene installs it rather than calling it, as `gMain_apFrameServiceCallbacks[3] =
  * func_800164FC;` (src/game/duel_init_scene.c:155), so the declaration
  * has to match the definition exactly for the address to be taken. */
 
@@ -558,8 +558,8 @@ extern u8 D_801D160C[];
 extern u8 tent_TradeSaveBuffer[];
 extern u8 D_801D9174[];
 extern u8 D_801D9174_b[];
-extern u8 D_801E27F8 __attribute__((section(".data")));
-extern u8 D_801E8FF8 __attribute__((section(".data")));
+extern u8 gSD_SeBankVolInfoTag __attribute__((section(".data")));
+extern u8 gSD_SmfBankVolInfoTag __attribute__((section(".data")));
 #ifdef GCAMPAIGN_SCENE_INDEX_AS_ARRAY
 extern u8 gCampaignSceneIndex[];
 #elif defined(GCAMPAIGN_SCENE_INDEX_AS_SCALAR)

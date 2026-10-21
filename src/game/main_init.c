@@ -91,7 +91,7 @@ s32 Main_Init(void)
     Main_ResetFrontendRuntime();
     Main_ResetFrontendRuntime();
     Main_RunBootSequence(0);
-    r = setjmp(D_800E9DC0);
+    r = setjmp(gMain_RecoveryJmpBuf);
     Main_ResetFrontendRuntime();
     if (r != 0) {
         File_RequestMainMenuPackage();

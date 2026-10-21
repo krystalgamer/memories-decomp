@@ -31,7 +31,7 @@ void SD_UpdateSecondaryObjectPitch(SDSecondaryObject *p, s32 force)
     x = (s16)v >> 7;
     y = v & 0x7F;
     gSD_pSecondaryState->voice_attr.mask = SPU_VOICE_PITCH;
-    gSD_pSecondaryState->voice_attr.voice = D_80011434[p->voice_index];
+    gSD_pSecondaryState->voice_attr.voice = gSD_adwVoiceMasks[p->voice_index];
     v = SD_PitchFromNote(x, y, p->center_note, p->center_fine);
     gSD_pSecondaryState->voice_attr.pitch = v;
     SpuSetVoiceAttr(&gSD_pSecondaryState->voice_attr);
@@ -97,7 +97,7 @@ void SD_ResetSecondaryPlayback(void) {
     if (base->object_count > 0) {
         i = 0;
         k40 = 0x40;
-        tbl = D_80011434;
+        tbl = gSD_adwVoiceMasks;
         off = (u32)&((SDSecondaryState *)0)->objects;
     top2:
             obj = SD_SECONDARY_OFFSET_VIEW(SDSecondaryObject, base, off);

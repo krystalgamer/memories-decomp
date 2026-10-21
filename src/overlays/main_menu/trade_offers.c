@@ -176,7 +176,7 @@ void MainMenu_ReleaseTradeDisplayHandles(void)
     D_801845DC = 0;
     DisplayObject_ReleaseIfPresent(D_801845E0);
     D_801845E0 = 0;
-    D_800E9DB0[1] = 0;
+    gMain_apFrameServiceCallbacks[1] = 0;
 }
 #endif
 

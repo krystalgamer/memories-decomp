@@ -7,7 +7,7 @@
 
 /* Draws the Library card-list grid and its cursor box. Never called from C:
  * Library_InitializeScreen (library_runtime.c) and Library_UpdateCardView install its address in
- * D_800E9DB0[3], the per-frame draw callback slot. */
+ * gMain_apFrameServiceCallbacks[3], the per-frame draw callback slot. */
 void Library_DrawCardGrid(void);
 
 s32 Library_UpdateCursorMotion(void);

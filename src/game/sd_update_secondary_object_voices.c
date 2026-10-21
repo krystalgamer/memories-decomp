@@ -40,7 +40,7 @@ void SD_UpdateSecondaryObjectVoices(void) {
 
     if (p->object_count > 0) {
         key_off_env_on = SPU_OFF_ENV_ON;
-        t = D_80011434;
+        t = gSD_adwVoiceMasks;
         q = sp10;
         o = SD_SECONDARY_OBJECT_ARRAY_OFFSET;
         do {
