@@ -3,7 +3,7 @@
 #include "helpers.h"
 #include "../../game/sprite_primitive.h"
 
-void func_801683E0(DisplayObject *object, GsOT *ordering_table)
+void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table)
 {
     SpritePrim *sprite;
     POLY_GT4 *packet;
@@ -39,17 +39,17 @@ void func_801683E0(DisplayObject *object, GsOT *ordering_table)
                 packet->x1 = packet->x3 = x + 6;
                 packet->u2 = packet->u0;
                 packet->u1 = packet->u3 = packet->u0 + 6;
-                packet->y0 = y + D_80169080[row][column];
-                packet->y1 = y + D_80169080[row][column + 1];
-                packet->y2 = y + (s16)(D_80169080[row + 1][column] + 8);
-                packet->y3 = y + (s16)(D_80169080[row + 1][column + 1] + 8);
-                color = D_80169148[row][column];
+                packet->y0 = y + gPalOptions_aWaveOffsets[row][column];
+                packet->y1 = y + gPalOptions_aWaveOffsets[row][column + 1];
+                packet->y2 = y + (s16)(gPalOptions_aWaveOffsets[row + 1][column] + 8);
+                packet->y3 = y + (s16)(gPalOptions_aWaveOffsets[row + 1][column + 1] + 8);
+                color = gPalOptions_aWaveColors[row][column];
                 packet->r0 = color;
                 packet->g0 = color >> 8;
                 packet->b0 = color >> 16;
-                *(u32 *)&packet->r1 = D_80169148[row][column + 1];
-                *(u32 *)&packet->r2 = D_80169148[row + 1][column];
-                *(u32 *)&packet->r3 = D_80169148[row + 1][column + 1];
+                *(u32 *)&packet->r1 = gPalOptions_aWaveColors[row][column + 1];
+                *(u32 *)&packet->r2 = gPalOptions_aWaveColors[row + 1][column];
+                *(u32 *)&packet->r3 = gPalOptions_aWaveColors[row + 1][column + 1];
                 GsSortPoly(packet, ordering_table, 0);
                 packet->u0 += 6;
             }

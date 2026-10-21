@@ -7,7 +7,7 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 
-void func_80168100(DisplayObject *object, GsOT *ordering_table);
-void func_801683E0(DisplayObject *object, GsOT *ordering_table);
+void PalOptions_DrawScrollingStrips(DisplayObject *object, GsOT *ordering_table);
+void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table);
 
 #endif

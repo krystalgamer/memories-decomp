@@ -25,8 +25,8 @@ class FrenchOptionsTests(unittest.TestCase):
     build_target = "french-match"
     sdk_object = "asm/text_73c4c.o"
     sdk_prefix = "func_"
-    unproven_helpers = ("func_80168004", "func_80168100", "func_801683E0",
-                        "func_80168BE8", "func_80168F70", "func_80169030",
+    unproven_helpers = ("func_80168004", "PalOptions_DrawScrollingStrips", "PalOptions_DrawWaveSprite",
+                        "PalOptions_UpdateWaveTables", "func_80168F70", "func_80169030",
                         "func_80169D78", "func_80169F3C")
     load_inventories = staticmethod(load_french_overlay_inventories)
     resident_raw_owners = (
@@ -66,13 +66,13 @@ class FrenchOptionsTests(unittest.TestCase):
         "cursor_layout": {"gPalOptions_bSoundOutputType", "D_80169078", "gPalOptions_pCursor",
                           "DisplayObject_UpdateResourceVariant"},
         "position_easing": set(),
-        "textured_strips": {"D_80169040", "D_80169050", "func_801680AC", "GsSortPoly"},
-        "grid": {"D_80169080", "gPalOptions_bLanguage", "D_80169148",
+        "textured_strips": {"gPalOptions_aStripTextures", "gPalOptions_wStripScroll", "PalOptions_EaseStripY", "GsSortPoly"},
+        "grid": {"gPalOptions_aWaveOffsets", "gPalOptions_bLanguage", "gPalOptions_aWaveColors",
                  "SetPolyGT4", "GsSortPoly", "GsSortFastSprite"},
         "language_hook": set(),
         "initialize": {"D_80169052", "gPalOptions_bSoundOutputType", "D_80169074", "D_80169078",
                        "gPalOptions_bSelectedRow", "D_80169138", "gPalOptions_pCursor", "gPalOptions_bLanguage",
-                       "D_80169144", "gPalOptions_bState", "D_8009C02B", "D_8009B118",
+                       "gPalOptions_dwWavePhase", "gPalOptions_bState", "D_8009C02B", "D_8009B118",
                        "D_800E9D70", "D_801AF000", "gSD_bOutputType", "StoreImage",
                        "DrawSync", "func_801686A4", "PalOptions_PositionCursor",
                        "DisplayObject_FindFreeGeneralSlot", "DisplayObject_AcquireSlot",
@@ -83,14 +83,14 @@ class FrenchOptionsTests(unittest.TestCase):
                   "D_80169138", "gPalOptions_bLanguage", "gPalOptions_bState", "gInput_wPad1Pressed",
                   "gInput_wPad1Repeat", "gSD_bOutputType", "SD_SetOutputType",
                   "SD_SEPlayFull", "DisplayObject_SetResourceVariant"},
-        "wave_tables": {"D_80169080", "D_80169144", "D_80169148", "rcos"},
+        "wave_tables": {"gPalOptions_aWaveOffsets", "gPalOptions_dwWavePhase", "gPalOptions_aWaveColors", "rcos"},
         "language_request": {"D_8009C02B", "func_80043BC8"},
         "language_image": {"func_80043B7C", "D_800E9D70", "D_8009B118",
                            "D_8009C02B", "StoreImage", "LoadImage", "DrawSync"},
         "update": {"gPalOptions_bState", "gPalOptions_bSelectedRow", "gPalOptions_bLanguage", "PalOptions_HandleInput",
-                   "PalOptions_RequestLanguage", "func_80168D68", "PalOptions_PositionCursor", "Fade_StartIn",
+                   "PalOptions_RequestLanguage", "PalOptions_StoreLanguageImage", "PalOptions_PositionCursor", "Fade_StartIn",
                    "Fade_StartOut", "SD_BGMFadeOut", "gFade_State", "D_8009B0F4", "D_8009B134"},
-        "signed_step": {"D_80169050", "D_80169072"},
+        "signed_step": {"gPalOptions_wStripScroll", "D_80169072"},
         "language_selection": {"gPalOptions_bLanguage"},
         "suffix_signed_step": {"D_80169F88", "D_80169FAA"},
         "suffix_byte": {"D_8016A078"},
@@ -148,7 +148,7 @@ class FrenchOptionsTests(unittest.TestCase):
         layout = ROOT / self.module()["layout"]
         symbols = layout.with_name("options_symbols.txt").read_text()
         self.assertIn("D_80168000 = 0x80168000; // type:u8 size:0x4 defined:true", symbols)
-        self.assertIn(f"D_80169040 = 0x80169040; // type:u8 size:0x{dict(self.data_owners)[0x1040]:X} defined:true", symbols)
+        self.assertIn(f"gPalOptions_aStripTextures = 0x80169040; // type:u8 size:0x{dict(self.data_owners)[0x1040]:X} defined:true", symbols)
         for offset, size in self.data_owners:
             declaration = next(line for line in symbols.splitlines()
                                if f" = 0x{0x80168000 + offset:X};" in line)
