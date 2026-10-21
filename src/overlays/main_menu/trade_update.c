@@ -96,22 +96,22 @@ void MainMenu_InitTradeScreen(void)
                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             DisplayObject_SetDepthOffset(entry, 0);
             entry->field_60 = -2;
-            D_801845EC[i].object = (u8 *)entry;
+            gTrade_aCardSlots[i].object = (u8 *)entry;
         } else {
-            D_801845EC[i].object = 0;
+            gTrade_aCardSlots[i].object = 0;
         }
-        D_801845EC[i].unk4 = 0;
-        D_80185C8C[i].target = 0;
-        D_80185C8C[i].current = 0;
-        D_80185C9C[i][0] = 0;
+        gTrade_aCardSlots[i].unk4 = 0;
+        gTrade_aListScroll[i].target = 0;
+        gTrade_aListScroll[i].current = 0;
+        gTrade_awOffers[i][0] = 0;
         D_80185CC8[i] = 0;
-        D_80185CCA[i] = 0;
+        gTrade_abCursorRow[i] = 0;
         D_80185CCC[i] = 0;
         MainMenu_RefreshTradeInventory(i, 1);
         MainMenu_RebuildTradeInventoryRows(i);
     }
 
-    D_80185CCE = 0;
+    gTrade_bFocusPane = 0;
     D_80185CCF = 0;
     D_80185CD0 = 0;
     D_80185CD1 = 0;
@@ -144,9 +144,9 @@ void MainMenu_InitTradeScreen(void)
 #define MAIN_MENU_TRADE_SCROLL_MAX 6
 #endif
 extern CardCountEntry D_80185144[];
-extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
+extern u16 gTrade_awListScrollWords[2][2] asm("gTrade_aListScroll");
 
-#define D_80185C8C D_80185C8C_words
+#define gTrade_aListScroll gTrade_awListScrollWords
 #define MAIN_MENU_TRADE_BLOCK_INDEX(byte_offset) \
     ((byte_offset) / sizeof(MainMenuTradeBlock16))
 
@@ -233,7 +233,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             i = 0;
             dirty1.clearBase = D_80185CC8;
             do {
-                D_80185C9C[i][0] = 0;
+                gTrade_awOffers[i][0] = 0;
                 MainMenu_RefreshTradeInventory(i, 1);
                 MainMenu_RebuildTradeInventoryRows(i);
                 *(u8 *)((s32)i + (s32)dirty1.clearBase) = 0;
@@ -244,7 +244,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             D_80185CD0 = 0;
             D_80185CD1 = 0;
         } else {
-            func_800611D0(*(volatile u8 *)&D_80185CCE);
+            func_800611D0(*(volatile u8 *)&gTrade_bFocusPane);
             Input_ResetPads();
             D_80185CD0 = 0;
             D_80185CD1 = 0;
@@ -276,8 +276,8 @@ s32 MainMenu_UpdateTradeScreen(void)
         *(MainMenuTradeBlock1024 *)save_source =
             *(MainMenuTradeBlock1024 *)save_destination;
         for (i = 0; i < 2; i++) {
-            for (j = 0; j < D_80185C9C[i][0]; j++) {
-                id = D_80185C9C[i][j + 1] - 1;
+            for (j = 0; j < gTrade_awOffers[i][0]; j++) {
+                id = gTrade_awOffers[i][j + 1] - 1;
                 from = counts[i] + id;
                 if (*from != 0) {
                     *from = *from - 1;
@@ -300,11 +300,11 @@ s32 MainMenu_UpdateTradeScreen(void)
             SD_SEPlay(6, 255, 0);
             if ((gInput_wPad1Repeat[0] & 0x1000) != 0 ||
                 (gInput_wPad1Repeat[1] & 0x1000) != 0) {
-                D_80185CCE = (D_80185CCE + 2) % 3;
+                gTrade_bFocusPane = (gTrade_bFocusPane + 2) % 3;
             } else {
-                D_80185CCE = (D_80185CCE + 4) % 3;
+                gTrade_bFocusPane = (gTrade_bFocusPane + 4) % 3;
             }
-            func_800611D0(*(volatile u8 *)&D_80185CCE);
+            func_800611D0(*(volatile u8 *)&gTrade_bFocusPane);
             goto modal_return;
         }
         if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0 ||
@@ -320,7 +320,7 @@ s32 MainMenu_UpdateTradeScreen(void)
         if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CONFIRM_MASK) != 0 ||
             (gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CONFIRM_MASK) != 0) {
             SD_SEPlay(48, 255, 0);
-            switch (D_80185CCE) {
+            switch (gTrade_bFocusPane) {
             case 0:
                 TextBox_Destroy((DuelEffectChannel *)D_800EB224);
                 D_80185CD0 = 1;
@@ -345,10 +345,10 @@ s32 MainMenu_UpdateTradeScreen(void)
         return decision;
     }
 
-    if (D_80185C8C[0][0] != D_80185C8C[0][1]) {
+    if (gTrade_aListScroll[0][0] != gTrade_aListScroll[0][1]) {
         goto scroll0;
     }
-    card0 = &D_801845FC[0][D_80185C8C[0][0] + D_80185CCA[0]];
+    card0 = &gTrade_aWorkingCards[0][gTrade_aListScroll[0][0] + gTrade_abCursorRow[0]];
     if (D_80185CC8[0] != 0) {
         if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
@@ -359,7 +359,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
     if ((gInput_wPad1Pressed[0] & 0x80) != 0) {
         if (D_80185CC8[1] != 0 &&
-            D_80185C9C[0][0] + D_80185C9C[1][0] == 0) {
+            gTrade_awOffers[0][0] + gTrade_awOffers[1][0] == 0) {
             { SD_SEPlay(9, 255, 0); goto check_scroll0; }
         }
         SD_SEPlay(48, 255, 0);
@@ -398,27 +398,27 @@ s32 MainMenu_UpdateTradeScreen(void)
         goto dirty0;
     }
     if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
-        if (D_80185C9C[0][0] != 0) {
-            MainMenu_AdjustTradeCardCount(0, D_80185C9C[0][D_80185C9C[0][0]], 1);
+        if (gTrade_awOffers[0][0] != 0) {
+            MainMenu_AdjustTradeCardCount(0, gTrade_awOffers[0][gTrade_awOffers[0][0]], 1);
             SD_SEPlay(8, 255, 0);
-            D_80185C9C[0][0]--;
+            gTrade_awOffers[0][0]--;
             dirty0 = 1;
             goto check_scroll0;
         }
-        if (D_80185C9C[1][0] != 0 || D_80185CC8[1] != 0) {
+        if (gTrade_awOffers[1][0] != 0 || D_80185CC8[1] != 0) {
             { SD_SEPlay(9, 255, 0); goto check_scroll0; }
         }
         goto leave;
     }
     if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CONFIRM_BUTTON) != 0) {
-        if (D_80185C9C[0][0] < 10) {
+        if (gTrade_awOffers[0][0] < 10) {
             if (card0->id == 0) {
                 { SD_SEPlay(9, 255, 0); goto check_scroll0; }
             }
             if (card0->count != 0) {
                 SD_SEPlay(7, 255, 0);
-                D_80185C9C[0][0]++;
-                D_80185C9C[0][D_80185C9C[0][0]] = card0->id;
+                gTrade_awOffers[0][0]++;
+                gTrade_awOffers[0][gTrade_awOffers[0][0]] = card0->id;
                 card0->count--;
                 dirty0 = 1;
                 goto check_scroll0;
@@ -428,14 +428,14 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
     if ((gInput_wPad1Held[0] & 0xC) != 0) {
         if ((gInput_wPad1Held[0] & 4) != 0) {
-            low = D_80185C8C[0][1] - MAIN_MENU_TRADE_PAGE_STEP;
+            low = gTrade_aListScroll[0][1] - MAIN_MENU_TRADE_PAGE_STEP;
             if (low < 0) { low = 0; }
-            D_80185C8C[0][1] = low;
+            gTrade_aListScroll[0][1] = low;
         } else {
-            value = D_80185C8C[0][1] + MAIN_MENU_TRADE_PAGE_STEP;
-            D_80185C8C[0][1] = value < maximum ? value : maximum;
+            value = gTrade_aListScroll[0][1] + MAIN_MENU_TRADE_PAGE_STEP;
+            gTrade_aListScroll[0][1] = value < maximum ? value : maximum;
         }
-        if (D_80185C8C[0][0] == D_80185C8C[0][1]) {
+        if (gTrade_aListScroll[0][0] == gTrade_aListScroll[0][1]) {
             goto player1;
         }
         SD_SEPlay(6, 255, 0);
@@ -443,55 +443,55 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
     if ((gInput_wPad1Repeat[0] & 3) != 0) {
         if ((gInput_wPad1Repeat[0] & 1) != 0) {
-            low = D_80185C8C[0][1] - 50;
+            low = gTrade_aListScroll[0][1] - 50;
             if (low < 0) { low = 0; }
-            D_80185C8C[0][1] = low;
+            gTrade_aListScroll[0][1] = low;
         } else {
-            value = D_80185C8C[0][1] + 50;
-            D_80185C8C[0][1] = value < maximum ? value : maximum;
+            value = gTrade_aListScroll[0][1] + 50;
+            gTrade_aListScroll[0][1] = value < maximum ? value : maximum;
         }
-        if (D_80185C8C[0][0] != D_80185C8C[0][1]) {
+        if (gTrade_aListScroll[0][0] != gTrade_aListScroll[0][1]) {
             SD_SEPlay(6, 255, 0);
         }
-        D_80185C8C[0][0] = D_80185C8C[0][1];
+        gTrade_aListScroll[0][0] = gTrade_aListScroll[0][1];
         dirty0++;
         goto check_scroll0;
     }
     if ((gInput_wPad1Repeat[0] & 0x5000) != 0) {
         if ((gInput_wPad1Repeat[0] & 0x1000) != 0) {
-            if (D_80185CCA[0] != 0) {
+            if (gTrade_abCursorRow[0] != 0) {
                 SD_SEPlay(6, 255, 0);
-                D_80185CCA[0]--;
+                gTrade_abCursorRow[0]--;
                 cursor0++;
-            } else if (D_80185C8C[0][1] != 0) {
+            } else if (gTrade_aListScroll[0][1] != 0) {
                 SD_SEPlay(6, 255, 0);
-                D_80185C8C[0][0] = --D_80185C8C[0][1];
+                gTrade_aListScroll[0][0] = --gTrade_aListScroll[0][1];
                 dirty0++;
             }
-        } else if (D_80185CCA[0] < MAIN_MENU_TRADE_SCROLL_MAX) {
+        } else if (gTrade_abCursorRow[0] < MAIN_MENU_TRADE_SCROLL_MAX) {
             SD_SEPlay(6, 255, 0);
-            D_80185CCA[0]++;
+            gTrade_abCursorRow[0]++;
             cursor0++;
-        } else if (D_80185C8C[0][1] < maximum) {
+        } else if (gTrade_aListScroll[0][1] < maximum) {
             SD_SEPlay(6, 255, 0);
-            D_80185C8C[0][0] = ++D_80185C8C[0][1];
+            gTrade_aListScroll[0][0] = ++gTrade_aListScroll[0][1];
             dirty0++;
         }
     }
     goto check_scroll0;
 check_scroll0:
-    if (D_80185C8C[0][0] != D_80185C8C[0][1]) {
+    if (gTrade_aListScroll[0][0] != gTrade_aListScroll[0][1]) {
     scroll0:
-        D_80185C8C[0][0] = D_80185C8C[0][0] < D_80185C8C[0][1] ?
-            D_80185C8C[0][0] + 1 : D_80185C8C[0][0] - 1;
+        gTrade_aListScroll[0][0] = gTrade_aListScroll[0][0] < gTrade_aListScroll[0][1] ?
+            gTrade_aListScroll[0][0] + 1 : gTrade_aListScroll[0][0] - 1;
         dirty0++;
     }
 
 player1:
-    if (D_80185C8C[1][0] != D_80185C8C[1][1]) {
+    if (gTrade_aListScroll[1][0] != gTrade_aListScroll[1][1]) {
         goto scroll1;
     }
-    card1 = &D_80185144[D_80185C8C[1][0] + D_80185CCA[1]];
+    card1 = &D_80185144[gTrade_aListScroll[1][0] + gTrade_abCursorRow[1]];
     if (D_80185CC8[1] != 0) {
         if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
@@ -502,7 +502,7 @@ player1:
     }
     if ((gInput_wPad1Pressed[1] & 0x80) != 0) {
         if (D_80185CC8[0] != 0 &&
-            D_80185C9C[0][0] + D_80185C9C[1][0] == 0) {
+            gTrade_awOffers[0][0] + gTrade_awOffers[1][0] == 0) {
             { SD_SEPlay(9, 255, 0); goto check_scroll1; }
         }
         SD_SEPlay(48, 255, 0);
@@ -539,14 +539,14 @@ player1:
         goto dirty1_label;
     }
     if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
-        if (D_80185C9C[1][0] != 0) {
-            MainMenu_AdjustTradeCardCount(1, D_80185C9C[1][D_80185C9C[1][0]], 1);
+        if (gTrade_awOffers[1][0] != 0) {
+            MainMenu_AdjustTradeCardCount(1, gTrade_awOffers[1][gTrade_awOffers[1][0]], 1);
             SD_SEPlay(8, 255, 0);
-            D_80185C9C[1][0]--;
+            gTrade_awOffers[1][0]--;
             dirty1.dirty++;
             goto check_scroll1;
         }
-        if (D_80185C9C[0][0] != 0 || D_80185CC8[0] != 0) {
+        if (gTrade_awOffers[0][0] != 0 || D_80185CC8[0] != 0) {
             { SD_SEPlay(9, 255, 0); goto check_scroll1; }
         }
     leave:
@@ -554,14 +554,14 @@ player1:
         return 1;
     }
     if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CONFIRM_BUTTON) != 0) {
-        if (D_80185C9C[1][0] < 10) {
+        if (gTrade_awOffers[1][0] < 10) {
             if (card1->id == 0) {
                 { SD_SEPlay(9, 255, 0); goto check_scroll1; }
             }
             if (card1->count != 0) {
                 SD_SEPlay(7, 255, 0);
                 /* Use the increment result rather than reloading the count. */
-                D_80185C9C[1][++D_80185C9C[1][0]] = card1->id;
+                gTrade_awOffers[1][++gTrade_awOffers[1][0]] = card1->id;
                 card1->count--;
                 dirty1.dirty++;
                 goto check_scroll1;
@@ -571,17 +571,17 @@ player1:
     }
     if ((gInput_wPad1Held[1] & 0xC) != 0) {
         if ((gInput_wPad1Held[1] & 4) != 0) {
-            low = D_80185C8C[1][1] - MAIN_MENU_TRADE_PAGE_STEP;
+            low = gTrade_aListScroll[1][1] - MAIN_MENU_TRADE_PAGE_STEP;
             if (low < 0) { low = 0; }
-            D_80185C8C[1][1] = low;
+            gTrade_aListScroll[1][1] = low;
         } else {
             bounded = maximum;
-            if (D_80185C8C[1][1] + MAIN_MENU_TRADE_PAGE_STEP < bounded) {
-                bounded = D_80185C8C[1][1] + MAIN_MENU_TRADE_PAGE_STEP;
+            if (gTrade_aListScroll[1][1] + MAIN_MENU_TRADE_PAGE_STEP < bounded) {
+                bounded = gTrade_aListScroll[1][1] + MAIN_MENU_TRADE_PAGE_STEP;
             }
-            D_80185C8C[1][1] = bounded;
+            gTrade_aListScroll[1][1] = bounded;
         }
-        if (D_80185C8C[1][0] == D_80185C8C[1][1]) {
+        if (gTrade_aListScroll[1][0] == gTrade_aListScroll[1][1]) {
             goto update;
         }
         SD_SEPlay(6, 255, 0);
@@ -589,59 +589,59 @@ player1:
     }
     if ((gInput_wPad1Repeat[1] & 3) != 0) {
         if ((gInput_wPad1Repeat[1] & 1) != 0) {
-            low = D_80185C8C[1][1] - 50;
+            low = gTrade_aListScroll[1][1] - 50;
             if (low < 0) { low = 0; }
-            D_80185C8C[1][1] = low;
+            gTrade_aListScroll[1][1] = low;
         } else {
             bounded = maximum;
-            if (D_80185C8C[1][1] + 50 < bounded) {
-                bounded = D_80185C8C[1][1] + 50;
+            if (gTrade_aListScroll[1][1] + 50 < bounded) {
+                bounded = gTrade_aListScroll[1][1] + 50;
             }
-            D_80185C8C[1][1] = bounded;
+            gTrade_aListScroll[1][1] = bounded;
         }
-        if (D_80185C8C[1][0] != D_80185C8C[1][1]) {
+        if (gTrade_aListScroll[1][0] != gTrade_aListScroll[1][1]) {
             SD_SEPlay(6, 255, 0);
         }
-        D_80185C8C[1][0] = D_80185C8C[1][1];
+        gTrade_aListScroll[1][0] = gTrade_aListScroll[1][1];
         dirty1.dirty++;
         goto check_scroll1;
     }
     if ((gInput_wPad1Repeat[1] & 0x5000) != 0) {
         if ((gInput_wPad1Repeat[1] & 0x1000) != 0) {
-            if (D_80185CCA[1] != 0) {
+            if (gTrade_abCursorRow[1] != 0) {
                 SD_SEPlay(6, 255, 0);
-                D_80185CCA[1]--;
+                gTrade_abCursorRow[1]--;
                 cursor1++;
-            } else if (D_80185C8C[1][1] != 0) {
+            } else if (gTrade_aListScroll[1][1] != 0) {
                 SD_SEPlay(6, 255, 0);
-                D_80185C8C[1][0] = --D_80185C8C[1][1];
+                gTrade_aListScroll[1][0] = --gTrade_aListScroll[1][1];
                 dirty1.dirty++;
             }
-        } else if (D_80185CCA[1] < MAIN_MENU_TRADE_SCROLL_MAX) {
+        } else if (gTrade_abCursorRow[1] < MAIN_MENU_TRADE_SCROLL_MAX) {
             SD_SEPlay(6, 255, 0);
-            D_80185CCA[1]++;
+            gTrade_abCursorRow[1]++;
             cursor1++;
-        } else if (D_80185C8C[1][1] < maximum) {
+        } else if (gTrade_aListScroll[1][1] < maximum) {
             SD_SEPlay(6, 255, 0);
-            D_80185C8C[1][0] = ++D_80185C8C[1][1];
+            gTrade_aListScroll[1][0] = ++gTrade_aListScroll[1][1];
             dirty1.dirty++;
         }
     }
     goto check_scroll1;
 check_scroll1:
-    if (D_80185C8C[1][0] != D_80185C8C[1][1]) {
+    if (gTrade_aListScroll[1][0] != gTrade_aListScroll[1][1]) {
     scroll1:
-        D_80185C8C[1][0] = D_80185C8C[1][0] < D_80185C8C[1][1] ?
-            D_80185C8C[1][0] + 1 : D_80185C8C[1][0] - 1;
+        gTrade_aListScroll[1][0] = gTrade_aListScroll[1][0] < gTrade_aListScroll[1][1] ?
+            gTrade_aListScroll[1][0] + 1 : gTrade_aListScroll[1][0] - 1;
         dirty1.dirty++;
     }
 
 update:
     if (cursor0 != 0) {
-        ((MainMenuWidget *)D_801845EC[0].object)->y = D_80185CCA[0] * 22 + 36;
+        ((MainMenuWidget *)gTrade_aCardSlots[0].object)->y = gTrade_abCursorRow[0] * 22 + 36;
     }
     if (cursor1 != 0) {
-        ((MainMenuWidget *)D_801845EC[1].object)->y = D_80185CCB * 22 + 36;
+        ((MainMenuWidget *)gTrade_aCardSlots[1].object)->y = D_80185CCB * 22 + 36;
     }
     if (flags != previousFlags) {
         SD_SEPlay(30, 255, 0);
@@ -654,10 +654,10 @@ update:
         MainMenu_RebuildTradeInventoryRows(1);
     }
     if (D_80185CC8[0] != 0 && D_80185CC8[1] != 0) {
-        D_80185CCE = 0;
+        gTrade_bFocusPane = 0;
         TextBox_Destroy((DuelEffectChannel *)D_800EB224);
         TextBox_Destroy((DuelEffectChannel *)D_800EB224);
-        func_800611D0(*(volatile u8 *)&D_80185CCE);
+        func_800611D0(*(volatile u8 *)&gTrade_bFocusPane);
         D_80185CCF = 1;
     }
 out:

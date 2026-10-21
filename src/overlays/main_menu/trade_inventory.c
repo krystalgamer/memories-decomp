@@ -42,8 +42,8 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
             } else {
                 id = 0;
             }
-            D_801845FC[slot][i].id = id;
-            D_801845FC[slot][i].count = counts[i];
+            gTrade_aWorkingCards[slot][i].id = id;
+            gTrade_aWorkingCards[slot][i].count = counts[i];
         }
         for (i = 0; i < 2; i++) {
             MainMenu_ApplyTradeOfferInventoryDelta(i, -1);
@@ -52,7 +52,7 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
 
     if (mode != 0) {
         qsort(
-            D_801845FC[slot],
+            gTrade_aWorkingCards[slot],
             CARD_COUNT,
             sizeof(CardCountEntry),
             comparators.entries[mode - 1]

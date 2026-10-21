@@ -6,7 +6,7 @@
 #include "../../game/card_constants.h"
 #include "module_rodata.h"
 
-/* One entry of D_801845EC, the two Trade card-display slots.
+/* One entry of gTrade_aCardSlots, the two Trade card-display slots.
    MainMenu_InitTradeScreen's `i < 2` loop stores the DisplayObject_AcquireSlot result,
    or 0, into `.object` and 0 into `.unk4` (trade_update.c:54-65);
    MainMenu_DrawTradeOffersAndHighlights reads `[0].object` and
@@ -25,9 +25,9 @@ typedef char MainMenuSlot_size_must_be_8[
     sizeof(MainMenuSlot) == 8 ? 1 : -1
 ];
 
-extern MainMenuSlot D_801845EC[];
+extern MainMenuSlot gTrade_aCardSlots[];
 
-/* One side's Trade list scroll position, D_80185C8C[side]. The README records
+/* One side's Trade list scroll position, gTrade_aListScroll[side]. The README records
    the meaning: "[side][0] is the current scrolling top; [1] is its target".
 
    MainMenu_UpdateTradeScreen and rebuild_trade_inventory_rows.c declare the same storage
@@ -41,10 +41,10 @@ typedef struct {
 } MainMenuPair;
 
 #ifdef MAIN_MENU_TRADE_SCROLL_AS_WORDS
-extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
-#define D_80185C8C D_80185C8C_words
+extern u16 gTrade_awListScrollWords[2][2] asm("gTrade_aListScroll");
+#define gTrade_aListScroll gTrade_awListScrollWords
 #else
-extern MainMenuPair D_80185C8C[];
+extern MainMenuPair gTrade_aListScroll[];
 #endif
 
 /* One entry of D_801A8000, the per-side inventory row state. Only the leading
@@ -120,15 +120,15 @@ void MainMenu_RebuildTradeInventoryRows(s32 side);
  * header, so the ten local copies they carried existed only because the
  * declarations were missing here. Every declarer already spelled them u8.
  *
- *   D_80185CCE  The focused pane, stepped as `(D_80185CCE + 2) % 3` and
- *               `(D_80185CCE + 4) % 3`, so it has three positions. One site
- *               reads it as `*(volatile u8 *)&D_80185CCE`; that volatile is
+ *   gTrade_bFocusPane  The focused pane, stepped as `(gTrade_bFocusPane + 2) % 3` and
+ *               `(gTrade_bFocusPane + 4) % 3`, so it has three positions. One site
+ *               reads it as `*(volatile u8 *)&gTrade_bFocusPane`; that volatile is
  *               applied at the use, not by the declaration, so moving the
  *               declaration here leaves it in place.
  *   D_80185CC9  Set to 1 and tested; cleared nowhere in this overlay.
  *   D_80185CCB  Player 1's row index, read once as `D_80185CCB * 22 + 36` to
  *               place the second widget. It is the second byte of
- *               D_80185CCA[2] below, and like D_80185CC9 inside D_80185CC8[2]
+ *               gTrade_abCursorRow[2] below, and like D_80185CC9 inside D_80185CC8[2]
  *               it carries its own address symbol because its reader reaches
  *               the byte by that name rather than through the array. No C
  *               source in this overlay writes it.
@@ -138,7 +138,7 @@ void MainMenu_RebuildTradeInventoryRows(s32 side);
  */
 extern u8 D_80185CC9;
 extern u8 D_80185CCB;
-extern u8 D_80185CCE;
+extern u8 gTrade_bFocusPane;
 extern u8 D_80185CCF;
 extern u8 D_80185CD0;
 extern u8 D_80185CD1;
@@ -146,13 +146,13 @@ extern u8 D_80185CD1;
 /* Per-side Trade interaction state. The offer table carries a count followed
  * by ten card ids. D_80185CC8 needs a scalar view only in the offer drawing
  * unit; the update paths index both players. */
-extern u16 D_80185C9C[2][11];
+extern u16 gTrade_awOffers[2][11];
 #ifdef MAIN_MENU_TRADE_READY_AS_SCALAR
 extern u8 D_80185CC8;
 #else
 extern u8 D_80185CC8[2];
 #endif
-extern u8 D_80185CCA[2];
+extern u8 gTrade_abCursorRow[2];
 extern u8 D_80185CCC[2];
 
 /* The per-side working card table, two rows of CARD_COUNT CardCountEntry
@@ -162,13 +162,13 @@ extern u8 D_80185CCC[2];
  * `[slot][i].id` and `.count`, then sorts `[slot]`; the module's functions.csv
  * row for 0x8018338C records why), and the other two sources reach the same
  * rows through it: MainMenu_AdjustTradeCardCount walks row 0 from
- * `D_801845FC[0]` with `slot * 2888` added (trade_offers.c:169-172, :180),
- * MainMenu_RebuildTradeInventoryRows forms `side * 2888 + (s32)D_801845FC`
+ * `gTrade_aWorkingCards[0]` with `slot * 2888` added (trade_offers.c:169-172, :180),
+ * MainMenu_RebuildTradeInventoryRows forms `side * 2888 + (s32)gTrade_aWorkingCards`
  * (trade_screen_helpers.c:102), and MainMenu_UpdateTradeScreen
  * (trade_update.c) indexes `[0][...]`. Row 1 is also named on its own as
  * D_80185144 in that source (+0xB48 = CARD_COUNT * 4), which keeps its
  * private declaration.
- * Two rows end at D_80185C8C, +0x1690. */
-extern CardCountEntry D_801845FC[][CARD_COUNT];
+ * Two rows end at gTrade_aListScroll, +0x1690. */
+extern CardCountEntry gTrade_aWorkingCards[][CARD_COUNT];
 
 #endif

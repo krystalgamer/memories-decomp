@@ -1178,15 +1178,15 @@ positions:
 ```c
 /* generated: GCC forms slot*3, *4 - slot, doubled; reuses the row offset for
    both the element and the count; hoists the base itself */
-while (i < D_80185C9C[slot][0]) {
-    MainMenu_AdjustTradeCardCount(slot, D_80185C9C[slot][i + 1], (u32)amount);
+while (i < gTrade_awOffers[slot][0]) {
+    MainMenu_AdjustTradeCardCount(slot, gTrade_awOffers[slot][i + 1], (u32)amount);
     i++;
 }
 
 /* hand-written: same fifty instructions, order pinned, four positions off */
 offset = slot * 22;
 index  = i * 2;
-value  = *(u16 *)(index + offset + (s32)D_80185C9C);
+value  = *(u16 *)(index + offset + (s32)gTrade_awOffers);
 ```
 
 The generated form also gets the loop-carried partial product for free: the
@@ -1229,17 +1229,17 @@ induction variable per *field* touched:
 
 ```c
 /* two givs for this table, and the same again for the next */
-D_801845EC[i * 2]     = (s32)object;
-D_801845EC[i * 2 + 1] = 0;
+gTrade_aCardSlots[i * 2]     = (s32)object;
+gTrade_aCardSlots[i * 2 + 1] = 0;
 ```
 
 Declaring the element gives one giv per *table*, which is what the target has:
 
 ```c
 typedef struct { u8 *object; s32 unk4; } Slot;
-extern Slot D_801845EC[];
-D_801845EC[i].object = object;
-D_801845EC[i].unk4   = 0;
+extern Slot gTrade_aCardSlots[];
+gTrade_aCardSlots[i].object = object;
+gTrade_aCardSlots[i].unk4   = 0;
 ```
 
 The count matters beyond the instruction total, because each table that becomes
@@ -1261,7 +1261,7 @@ through a six-word copy. Declaring
 
 ```c
 typedef struct { s16 id; u16 count; } Card;
-extern Card  D_801845FC[][722];      /* one giv for the row, not two */
+extern Card  gTrade_aWorkingCards[][722];      /* one giv for the row, not two */
 typedef struct { s32 entries[6]; } Comparators;
 Comparators c = *(Comparators *)&D_80180000[1];   /* the block move */
 ```
@@ -1400,8 +1400,8 @@ puts `s0` on the x coordinate and `s2` on the element address; named locals put
 `s3` on x and `s0` on the element address. Writing
 
 ```c
-func_80183E8C((i % 5) * 28 + 0x10, (i / 5) * 17 + 0xBC, D_80185C9C[0][i + 1]);
-func_80184344((i % 5) * 28 + 0x10, (i / 5) * 17 + 0xBC, D_80185C9C[0][i + 1]);
+func_80183E8C((i % 5) * 28 + 0x10, (i / 5) * 17 + 0xBC, gTrade_awOffers[0][i + 1]);
+func_80184344((i % 5) * 28 + 0x10, (i / 5) * 17 + 0xBC, gTrade_awOffers[0][i + 1]);
 ```
 
 instead of assigning `x` and `y` first matched. Common subexpression
