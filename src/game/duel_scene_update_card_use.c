@@ -48,7 +48,7 @@ void DuelScene_UpdateCardUse(void)
     s32 value;
     s32 fld;
 
-    p = D_800E9EF0[0];
+    p = gDisplayObject_apWorkSlots[0];
     flags = gDuel_wSceneStateFlags;
     if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags = flags | 0xC000;
@@ -82,7 +82,7 @@ void DuelScene_UpdateCardUse(void)
             p->flags =
                 (p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST) &
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-            D_800E9EF0[1] = p;
+            gDisplayObject_apWorkSlots[1] = p;
             return;
         }
         if ((state & 0x40) == 0) {
@@ -93,12 +93,12 @@ void DuelScene_UpdateCardUse(void)
             }
             D_8009B174 = D_8009B174 | 0x40;
             DisplayObject_ReleaseIfPresent(p);
-            q1 = D_800E9EF0[1];
-            D_800E9EF0[0] = 0;
+            q1 = gDisplayObject_apWorkSlots[1];
+            gDisplayObject_apWorkSlots[0] = 0;
             q1->flags = q1->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
             return;
         }
-        p = D_800E9EF0[1];
+        p = gDisplayObject_apWorkSlots[1];
         if ((state & 0x20) == 0) {
             v2 = p->field_20.b.field_21 + 6;
             p->field_20.b.field_21 = v2;
@@ -126,42 +126,42 @@ void DuelScene_UpdateCardUse(void)
         return;
     case 3:
         if ((state & 0x80) == 0) {
-            p = D_800E9EF0[1];
+            p = gDisplayObject_apWorkSlots[1];
             D_8009B174 = state | 0x80;
             DuelCard_CaptureRoundedTexture(p);
-            D_800E9EF0[0] =
+            gDisplayObject_apWorkSlots[0] =
                 Duel_CreateCardEffectOverlay((DisplayObjectConfigView *)p);
-            D_800E9EF0[0]->attribute = D_800E9EF0[0]->attribute | (GsALON | GsAONE);
-            D_800E9EF0[0]->attribute = D_800E9EF0[0]->attribute & ~GsROTOFF;
-            D_800E9EF0[1] =
+            gDisplayObject_apWorkSlots[0]->attribute = gDisplayObject_apWorkSlots[0]->attribute | (GsALON | GsAONE);
+            gDisplayObject_apWorkSlots[0]->attribute = gDisplayObject_apWorkSlots[0]->attribute & ~GsROTOFF;
+            gDisplayObject_apWorkSlots[1] =
                 Duel_CreateCardEffectOverlay((DisplayObjectConfigView *)p);
-            DisplayObject_SetDepthOffset(D_800E9EF0[1], -1);
-            D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute | (GsALON | GsATWO);
-            D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute & ~GsROTOFF;
+            DisplayObject_SetDepthOffset(gDisplayObject_apWorkSlots[1], -1);
+            gDisplayObject_apWorkSlots[1]->attribute = gDisplayObject_apWorkSlots[1]->attribute | (GsALON | GsATWO);
+            gDisplayObject_apWorkSlots[1]->attribute = gDisplayObject_apWorkSlots[1]->attribute & ~GsROTOFF;
             DuelEffect_ReleaseResourceObjects(0);
             return;
         }
-        q0 = D_800E9EF0[0];
+        q0 = gDisplayObject_apWorkSlots[0];
         fld = q0->field_44.h.field_44;
         value = fld + 0x80;
-        q1 = D_800E9EF0[1];
+        q1 = gDisplayObject_apWorkSlots[1];
         *(u16 *)&q1->field_44.h.field_46 = value;
         *(u16 *)&q1->field_44.h.field_44 = value;
         *(u16 *)&q0->field_44.h.field_46 = value;
         *(u16 *)&q0->field_44.h.field_44 = value;
-        value = *(u8 *)&D_800E9EF0[0]->field_0C;
+        value = *(u8 *)&gDisplayObject_apWorkSlots[0]->field_0C;
         value -= 4;
         if (value < 0) {
             value = 0;
         }
         value = value | ((value << 16) | (value << 8));
-        D_800E9EF0[0]->field_0C = value;
-        D_800E9EF0[1]->field_0C = value;
+        gDisplayObject_apWorkSlots[0]->field_0C = value;
+        gDisplayObject_apWorkSlots[1]->field_0C = value;
         if (value != 0) {
             return;
         }
-        DisplayObject_ReleaseIfPresent(D_800E9EF0[0]);
-        DisplayObject_ReleaseIfPresent(D_800E9EF0[1]);
+        DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots[0]);
+        DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots[1]);
         D_8009B174 = 4;
         return;
     case 4:

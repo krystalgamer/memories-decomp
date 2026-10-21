@@ -35,7 +35,7 @@ extern GuardedRequest state;
 extern GuardedDisplays displays;
 #define gDuelEffect_pTrackedRequest state.scene
 #define D_8009B1B9 state.counter
-#define D_800E9EF0 displays.slots
+#define gDisplayObject_apWorkSlots displays.slots
 """
 WITNESS = r"""
 GuardedRequest state, expected;

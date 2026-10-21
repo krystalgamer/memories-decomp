@@ -116,7 +116,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
         for symbol, correct, wrong in (
             ("gDuel_RitualResultCardId", "s16 *p", "s32 *p"),
             ("gDuel_pCardPreviewObject", "DisplayObject **p", "u8 **p"),
-            ("D_800EA128", "u16 (*p)[22]", "u16 (*p)[21]"),
+            ("gCardPreview_Resource1", "u16 (*p)[22]", "u16 (*p)[21]"),
         ):
             with self.subTest(symbol=symbol):
                 self.probe(header + f"{correct} = &{symbol};\n", accepted=True)
@@ -125,11 +125,11 @@ class RitualControllerOwnershipTests(unittest.TestCase):
                     diagnostic="incompatible pointer|incompatible-pointer",
                 )
         self.probe(
-            header + "typedef char extent[sizeof(D_800EA128) == 0x2C ? 1 : -1];\n",
+            header + "typedef char extent[sizeof(gCardPreview_Resource1) == 0x2C ? 1 : -1];\n",
             accepted=True,
         )
         self.probe(
-            header + "extern u16 D_800EA128[21];\n",
+            header + "extern u16 gCardPreview_Resource1[21];\n",
             accepted=False, diagnostic="conflicting types",
         )
 
@@ -157,29 +157,29 @@ class RitualControllerOwnershipTests(unittest.TestCase):
         header = RITUAL_VIEW + '#include "display_object_work_slots.h"\n'
         self.probe(
             header
-            + "typedef char size[sizeof(D_800E9EF0) == 24 ? 1 : -1];\n"
-            "typedef char slots[sizeof(D_800E9EF0.slots) == 20 ? 1 : -1];\n"
-            "DuelRitualResult *out = &D_800E9EF0.ritual.result;\n"
-            "DisplayObjectRitualWorkArea D_800E9EF0;\n",
+            + "typedef char size[sizeof(gDisplayObject_apWorkSlots) == 24 ? 1 : -1];\n"
+            "typedef char slots[sizeof(gDisplayObject_apWorkSlots.slots) == 20 ? 1 : -1];\n"
+            "DuelRitualResult *out = &gDisplayObject_apWorkSlots.ritual.result;\n"
+            "DisplayObjectRitualWorkArea gDisplayObject_apWorkSlots;\n",
             accepted=True,
         )
         self.probe(
-            header + "DisplayObject *D_800E9EF0[5];\n",
+            header + "DisplayObject *gDisplayObject_apWorkSlots[5];\n",
             accepted=False, diagnostic="conflicting types",
         )
         self.probe(
-            header + "DisplayObject *(*p)[6] = &D_800E9EF0.slots;\n",
+            header + "DisplayObject *(*p)[6] = &gDisplayObject_apWorkSlots.slots;\n",
             accepted=False, diagnostic="incompatible pointer|incompatible-pointer",
         )
         self.probe(
             '#include "display_object_work_slots.h"\n'
-            "DisplayObject **slot = &D_800E9EF0[4];\n"
-            "DisplayObject *D_800E9EF0[5];\n",
+            "DisplayObject **slot = &gDisplayObject_apWorkSlots[4];\n"
+            "DisplayObject *gDisplayObject_apWorkSlots[5];\n",
             accepted=True,
         )
         self.probe(
             '#include "display_object_work_slots.h"\n'
-            "void *out = &D_800E9EF0.ritual.result;\n",
+            "void *out = &gDisplayObject_apWorkSlots.ritual.result;\n",
             accepted=False, diagnostic="not a structure|not structure|request for member",
         )
 
@@ -257,8 +257,8 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             + f'#include "{ROOT / "src/game/input.h"}"\n'
             + "s16 id(void) { return gDuel_RitualResultCardId; }\n"
             "DisplayObject *object(void) { return gDuel_pCardPreviewObject; }\n"
-            "u16 coordinate(void) { return D_800EA128[21]; }\n"
-            "DuelRitualResult *result(void) { return &D_800E9EF0.ritual.result; }\n"
+            "u16 coordinate(void) { return gCardPreview_Resource1[21]; }\n"
+            "DuelRitualResult *result(void) { return &gDisplayObject_apWorkSlots.ritual.result; }\n"
             "u16 selected(void) { return gDuel_wSelectedCardID; }\n"
             "u16 pressed(void) { return gInput_wPad1Pressed; }\n"
         )
@@ -277,7 +277,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         for symbol in ("gDuel_RitualResultCardId", "gDuel_pCardPreviewObject"):
             self.assertRegex(result.stdout, r"R_MIPS_GPREL16\s+" + symbol)
-        for symbol in ("D_800EA128", "D_800E9EF0",
+        for symbol in ("gCardPreview_Resource1", "gDisplayObject_apWorkSlots",
                        "gDuel_wSelectedCardID", "gInput_wPad1Pressed"):
             self.assertRegex(result.stdout, r"R_MIPS_HI16\s+" + symbol)
             self.assertRegex(result.stdout, r"R_MIPS_LO16\s+" + symbol)
@@ -306,7 +306,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             " DisplayObjectRitualWorkArea work;\n"
             " u32 after;\n"
             "} allocation;\n"
-            "u16 D_800EA128[DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS];\n"
+            "u16 gCardPreview_Resource1[DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS];\n"
             "int main(void) {\n"
             " s32 i;\n"
             " if (sizeof(void *) != 4) return 1;\n"
@@ -329,10 +329,10 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             " if (allocation.work.ritual.result.field_0C != "
             + ("0x11223344" if five_slot_control else "0")
             + ") return 7;\n"
-            " D_800EA128[4] = 56; D_800EA128[5] = 42;\n"
-            " D_800EA128[6] = 8; D_800EA128[7] = 88;\n"
-            " D_800EA128[20] = 100; D_800EA128[21] = 200;\n"
-            " if ((u8 *)&D_800EA128[22] - (u8 *)D_800EA128 != 44) return 8;\n"
+            " gCardPreview_Resource1[4] = 56; gCardPreview_Resource1[5] = 42;\n"
+            " gCardPreview_Resource1[6] = 8; gCardPreview_Resource1[7] = 88;\n"
+            " gCardPreview_Resource1[20] = 100; gCardPreview_Resource1[21] = 200;\n"
+            " if ((u8 *)&gCardPreview_Resource1[22] - (u8 *)gCardPreview_Resource1 != 44) return 8;\n"
             " return 0;\n}\n"
         )
         startup = self.scratch / "start.S"

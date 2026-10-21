@@ -15,7 +15,7 @@ initialization returns without advancing the new phase.
 
 The matching source uses the existing display-object, card-record, deck-card,
 selection, hand, side-statistics, effect-request and resource layouts.
-`D_800E9EF0` is shared work storage, not an object pool: this controller reaches
+`gDisplayObject_apWorkSlots` is shared work storage, not an object pool: this controller reaches
 six consecutive pointer words, including the independently named word at
 `0x800E9F04`. It must not be reduced to a five-element array.
 
@@ -35,7 +35,7 @@ control loses that nop and fails the instruction execution comparison.
 
 - Retain the selected display object **after** its null guard. Assigning it in
   the short-circuit condition folds the load/copy and removes one instruction.
-- Publish the primary object's flags through `D_800E9EF0[0]`, not a cached
+- Publish the primary object's flags through `gDisplayObject_apWorkSlots[0]`, not a cached
   local work-base read. Old GCC otherwise forwards the cached pointer, removes
   retail's reload and emits a different fade-call tail.
 - The successful first equipment check enters the resource request directly.

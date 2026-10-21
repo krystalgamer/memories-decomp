@@ -75,7 +75,7 @@ extern u8 D_8001032C[];
  * header is for symbols with no identified owner, and this one has an obvious
  * one.
  *
- * The incomplete-array spelling is kept. c_symbols.ld names D_800EFE38
+ * The incomplete-array spelling is kept. c_symbols.ld names gDisplayObject_awListHeads
  * thirty-two bytes later, but
  * nothing reads or writes through a bound, so no size is asserted here. */
 extern u8 gMemCardDialog_FileNameBuffer[];

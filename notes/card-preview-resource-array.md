@@ -14,7 +14,7 @@ initialize/use these same preview resources.
 
 The initializer explicitly prepares slots 0 and 1; the viewer also uses
 slot 3. These observed indices are not an inferred array extent. The
-declaration stays `[]`. `D_800EA128` remains its existing slot-one/prefix
+declaration stays `[]`. `gCardPreview_Resource1` remains its existing slot-one/prefix
 alias at one `0x40` stride; no alias, prefix size or independently owned
 Library state is widened or reinterpreted.
 

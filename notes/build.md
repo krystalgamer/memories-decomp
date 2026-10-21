@@ -855,7 +855,7 @@ an upper bound and the bytes above it left unclaimed.
 
 A real size needs a reader. `gDisplayObject_awListKeys` takes its length from
 `DisplayObject_ResetPool`, which advances one pointer into it and one into
-`D_800EFE38` together for `DISPLAY_OBJECT_LIST_COUNT` iterations; the
+`gDisplayObject_awListHeads` together for `DISPLAY_OBJECT_LIST_COUNT` iterations; the
 per-list renderer table takes its seven from the loop that walks it. Those are
 sizes; a neighbour's address is not.
 
