@@ -10,7 +10,7 @@
 void Model_CorrectViewPitch(void);
 /* The second camera/view correction pass Model_UpdateCamera runs. It takes
  * a 0x2BC-0x3E8 distance range adjusted by Model_AdjustCameraDistanceForSlot,
- * separates the view from the two models (Model_SeparateViewFromSlots),
+ * pushes the viewpoint out of each model slot (Model_SeparateViewFromSlots),
  * steps the camera-move field_04, runs Model_CorrectViewPitch, then steps
  * gModel_wViewDistance up towards the range's lower bound, down towards that
  * bound when arg0 is set, and down to the upper bound when it is exceeded. */
