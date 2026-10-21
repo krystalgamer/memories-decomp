@@ -154,7 +154,7 @@ void Duel_InitScene(void)
        the first accounts for the other four. */
     *(s16 *)&obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     side = (u32)gDuel_bOpponentID >> 31;
-    D_8009B214 = obj;
+    gDuel_pTerrainIcon = obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         obj, 280, 32, 4, side, 0, 11, 748
@@ -164,12 +164,12 @@ void Duel_InitScene(void)
     if (gDuel_bActiveSide != 0) {
         *(u16 *)&obj->field_40.h.field_40 += 16;
     }
-    D_8009B21C = obj;
+    gDuel_pLifePointsPanel = obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DisplayObject_SelectOrderingTable1(obj);
     DisplayObject_SetDepthOffset(obj, 1);
     obj->field_4C = (s32)Duel_DrawLifePointsAndDeckCounts;
-    prev = (u8 *)D_8009B21C;
+    prev = (u8 *)gDuel_pLifePointsPanel;
     obj->field_50.word = (s32)prev;
     gMain_apFrameServiceCallbacks[3] = Duel_DrawFieldCards;
     if (D_8009B369 != 1) {

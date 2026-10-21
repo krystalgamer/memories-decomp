@@ -88,8 +88,8 @@ condition is introduced.
 | Shared countdown | `0x8009B32C` | `0x8009B21C` | `0x8009C2BE` | `0x8009C6DE` |
 
 The Japanese countdown binding comes from the already-matched page-wait
-wrapper's native `D_8009B21C` alias. The unrelated pointer named
-`gJapanese_D_8009B21C` lives at `0x8009B10C` and remains untouched; the
+wrapper's native `D_8009B21C` alias. The unrelated duel pointer
+`gDuel_pLifePointsPanel` lives at `0x8009B10C` and remains untouched; the
 numeric stem alone is not a reason to rename it. The NA-address cell
 `0x8009B32C` also has an unrelated Japanese owner.
 

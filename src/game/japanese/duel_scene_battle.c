@@ -7,7 +7,6 @@
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
-#define D_8009B21C gJapanese_D_8009B21C
 #define D_8009B26C gJapanese_bActiveMainMode
 #define D_8009B369 gJapanese_DuelFlag
 #define D_8009B374 gJapanese_DuelBgmId2

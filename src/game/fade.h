@@ -14,9 +14,10 @@ extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE] asm("gFade_State");
 #else
 extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 #endif
-/* The updated fade level stays outside the small-data model so its split
+/* Byte 4 of gFade_State, the current fade level, under its own label.
+   The updated level stays outside the small-data model so its split
    address can fill the final clamp branch delay slot. */
-extern u8 D_800E9ECC[];
+extern u8 gFade_abCurrentLevel[];
 
 /* Latches the white-fade path until the transition completes. Most fade
    units reach it through small data; Script_OpShowImage defines the arm below

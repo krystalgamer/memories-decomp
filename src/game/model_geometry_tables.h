@@ -3,13 +3,13 @@
 
 #include "../types.h"
 
-/* Shared geometry-effect tables. Model_UpdateSubdividedEffect consumes D_800915E8,
-   Model_UpdateDiscEffect consumes D_80091604 and Model_UpdateBurstEffect consumes
-   D_80091610 and D_800916D4; all three are matching C. */
+/* Shared geometry-effect tables. Model_UpdateSubdividedEffect consumes gModel_SubdividedEffectConfigWords,
+   Model_UpdateDiscEffect consumes gModel_DiscEffectConfig and Model_UpdateBurstEffect consumes
+   gModel_BurstImageData and gModel_BurstRingPaletteWords; all three are matching C. */
 /* The parameter record Model_UpdateDiscEffect points its `table` at: the rim
    colour, the smallest radius the disc is built with, the level it starts at
    and fades from, and the scale it grows to. The last two are also the
-   divisors of the colour ramp. D_80091604 is the only instance, and its last
+   divisors of the colour ramp. gModel_DiscEffectConfig is the only instance, and its last
    halfword is zero and unread. */
 typedef struct {
     u8 r;
@@ -22,9 +22,9 @@ typedef struct {
     u16 pad_0A;
 } ModelDiscEffectConfig;
 
-extern u32 D_800915E8[];
-extern ModelDiscEffectConfig D_80091604;
-extern u16 D_80091610[];
-extern u32 D_800916D4[];
+extern u32 gModel_SubdividedEffectConfigWords[];
+extern ModelDiscEffectConfig gModel_DiscEffectConfig;
+extern u16 gModel_BurstImageData[];
+extern u32 gModel_BurstRingPaletteWords[];
 
 #endif

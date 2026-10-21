@@ -47,13 +47,13 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
 
     memset(&rotation, 0, sizeof(rotation));
     memset(&position, 0, sizeof(position));
-    scale = D_8001185C;
+    scale = gModel_SubdividedEffectInitialScale;
     effect = data;
     Model_GetActiveSlotIndex();
     {
         s32 ticks = Model_GetFrameStep();
         if (mode >= 0) {
-            config = effect->config = (ModelSubdividedEffectConfig *)D_800915E8;
+            config = effect->config = (ModelSubdividedEffectConfig *)gModel_SubdividedEffectConfigWords;
             Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex(), &bounds);
             work = height = bounds.max;
             work /= 2;

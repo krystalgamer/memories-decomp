@@ -394,7 +394,7 @@ competing declarations:
   same-address symbol views preserve the target's fresh address
   materialization in the exact draw-screen-fade implementation.
 - `Fade_Update` keeps its `u8 *` parameter and the offset-symbol array
-  `D_800E9ECC[]`; the latter preserves absolute `%hi/%lo` addressing for the
+  `gFade_abCurrentLevel[]`; the latter preserves absolute `%hi/%lo` addressing for the
   final level store instead of the small-data form. Its byte definitions
   for `gGraphics_bClearBlue`, `gGraphics_bClearGreen`, and `gGraphics_bClearRed` are assembler-addressing
   controls, not additional fields of `FadeTransitionState`.
@@ -406,7 +406,7 @@ competing declarations:
   retain explicit `s32` stores through the typed base because target assembly
   proves one whole-word write at offset zero before byte field accesses.
 
-`D_800E9ECC` and `D_800E9ECE` are offset symbols at `+0x04` and `+0x06`, not
+`gFade_abCurrentLevel` and `D_800E9ECE` are offset symbols at `+0x04` and `+0x06`, not
 same-address aliases. Remaining assembly users of those symbols are unchanged.
 `Fade_DrawOverlay` also retains its oversized raw `D_800E9ECE` declaration
 because the target independently materializes that address; folding it into

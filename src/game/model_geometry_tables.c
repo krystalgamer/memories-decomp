@@ -4,18 +4,18 @@
 /* Initialized data at 0x800915E8 through 0x800916E0, previously a generated
    blob (#2602).
 
-   model_subdivided_effect.c reads D_800915E8 as three six-byte colour
+   model_subdivided_effect.c reads gModel_SubdividedEffectConfigWords as three six-byte colour
    channels followed by signed height/radius minima and growth/fade
    durations. The four-byte element view remains the storage owner; the
    consumer describes the measured 28-byte record locally.
 
-   Model_UpdateDiscEffect (model_effect_handlers.c) reads D_80091604 and
+   Model_UpdateDiscEffect (model_effect_handlers.c) reads gModel_DiscEffectConfig and
    is matching C too, so
-   D_80091604 is stored as the ModelDiscEffectConfig record it reads.
-   Model_UpdateBurstEffect in the same unit, which reads D_80091610 and
-   D_800916D4, is matching C as well. It reads
-   D_800916D4 as three ring colours stored a channel at a time
-   (ModelBurstPalette in model_effect_handlers.h), and the head of D_80091610 as
+   gModel_DiscEffectConfig is stored as the ModelDiscEffectConfig record it reads.
+   Model_UpdateBurstEffect in the same unit, which reads gModel_BurstImageData and
+   gModel_BurstRingPaletteWords, is matching C as well. It reads
+   gModel_BurstRingPaletteWords as three ring colours stored a channel at a time
+   (ModelBurstPalette in model_effect_handlers.h), and the head of gModel_BurstImageData as
    one 28-byte image record (ModelBurstImage): a pixel mode and the
    frame-buffer rectangles of the image and its colour table. Only that first
    record is ever read, so the storage keeps its flat halfword view.
@@ -27,16 +27,16 @@
    matched siblings just past their readers are recursive triangle
    subdivision and related geometry. If a later match shows otherwise, this
    should be renamed. */
-u32 D_800915E8[] = {
+u32 gModel_SubdividedEffectConfigWords[] = {
     0x0000A0A0, 0x00A000A0, 0xA0A000A0, 0xA00000A0,
     0x012CA000, 0x000A012C, 0x0000005A,
 };
 
-ModelDiscEffectConfig D_80091604 = {
+ModelDiscEffectConfig gModel_DiscEffectConfig = {
     0x20, 0x20, 0x20, 0, 300, 20, 10, 0,
 };
 
-u16 D_80091610[] = {
+u16 gModel_BurstImageData[] = {
     0x0008, 0x0000, 0x03C0, 0x0000, 0x0008, 0x0040, 0x0000, 0x0000,
     0x0200, 0x00F5, 0x0010, 0x0001, 0x0000, 0x0000, 0x0009, 0x0000,
     0x0380, 0x0000, 0x0020, 0x0040, 0x0000, 0x0000, 0x0200, 0x00F4,
@@ -52,6 +52,6 @@ u16 D_80091610[] = {
     0x0000, 0x0000,
 };
 
-u32 D_800916D4[] = {
+u32 gModel_BurstRingPaletteWords[] = {
     0x404040FF, 0x404040FF, 0x000000FF,
 };

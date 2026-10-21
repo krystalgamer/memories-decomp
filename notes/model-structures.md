@@ -137,7 +137,7 @@ properties whose meanings are still unknown.
 
 The animated-battle calls belong to the ordinary initialization branch,
 not every mode tick: `D_8009B26C & 0x40` gates initialization, and a first
-halfword of `0x309` in `D_800EF658` selects another path instead of the
+halfword of `0x309` in `gMain_aAnimatedBattleModels` selects another path instead of the
 three property calls. The setter's writes, terrain input, and the wrapper's
 mode/audio changes rule out a read-only two-combatant contract; see
 [the game description](research/the-game.md#59-the-3-d-battle-and-the-poly-mode).

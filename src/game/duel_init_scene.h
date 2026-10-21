@@ -16,15 +16,19 @@
    extern, which was the only declaration anywhere. */
 void Duel_InitScene(void);
 
+/* The two status sprites Duel_InitScene creates: the terrain icon at (12, 24),
+   whose variant is gDuel_bTerrain and which DuelEffect_ApplyTerrain re-selects,
+   and the panel at (280, 32) that Duel_DrawLifePointsAndDeckCounts positions
+   its numbers against. The result outro slides both away. */
 #ifdef D_8009B214_AS_BYTE_POINTER
-extern u8 *G32 D_8009B214;
+extern u8 *G32 gDuel_pTerrainIcon;
 #else
-extern DisplayObject *G32 D_8009B214;
+extern DisplayObject *G32 gDuel_pTerrainIcon;
 #endif
 #ifdef D_8009B21C_AS_BYTE_POINTER
-extern u8 *G32 D_8009B21C;
+extern u8 *G32 gDuel_pLifePointsPanel;
 #else
-extern DisplayObject *G32 D_8009B21C;
+extern DisplayObject *G32 gDuel_pLifePointsPanel;
 #endif
 
 /* Save-data windows selected while the duel scene starts. The no-opponent

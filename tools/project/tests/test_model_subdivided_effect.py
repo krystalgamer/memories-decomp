@@ -46,9 +46,9 @@ enum { BYTES = 0x1318, GUARD = 32, TOTAL = BYTES + 64, CAPACITY = 384,
        P3, P4, LS, COPY, TRANS, ROTATE, MUL, SCALE, PROJECT, SUBMIT_PACKET, LINE,
        POP, KINDS, FAILURE = 79 };
 
-VECTOR D_8001185C = {4096,4096,4096,0};
+VECTOR gModel_SubdividedEffectInitialScale = {4096,4096,4096,0};
 char D_8001186C[] = "%d (0x%x) Byte\n";
-u32 D_800915E8[7];
+u32 gModel_SubdividedEffectConfigWords[7];
 static u32 alternate[7];
 static u8 storage[TOTAL] __attribute__((aligned(16)));
 static u8 initial[TOTAL], final_state[TOTAL], initial_config[56], final_config[56];
@@ -134,7 +134,7 @@ static s32 location(const void *pointer)
 }
 static void config_snapshot(u8 *out)
 {
-    bytes(out,D_800915E8,28); bytes(out+28,alternate,28);
+    bytes(out,gModel_SubdividedEffectConfigWords,28); bytes(out+28,alternate,28);
 }
 static void hook(s32 kind,u32 occurrence)
 {
@@ -143,15 +143,15 @@ static void hook(s32 kind,u32 occurrence)
     if((stress&2) && kind==OT) put32(object,(u32)alternate);
     if((stress&4) && kind==PROJECT && occurrence==0) {
         put32(object+0x1310,51); put32(object+0x1314,43);
-        put16((u8 *)D_800915E8+24,17);
+        put16((u8 *)gModel_SubdividedEffectConfigWords+24,17);
     }
     if((stress&8) && kind==POP) {
         put32(object+0x1310,500); put32(object+0x1314,2);
     }
     if((stress&16) && kind==BOUNDS) {
-        put16((u8 *)D_800915E8+18,444);
-        put16((u8 *)D_800915E8+20,555);
-        put16((u8 *)D_800915E8+24,31);
+        put16((u8 *)gModel_SubdividedEffectConfigWords+18,444);
+        put16((u8 *)gModel_SubdividedEffectConfigWords+20,555);
+        put16((u8 *)gModel_SubdividedEffectConfigWords+24,31);
     }
 }
 static u32 event(s32 kind,const s32 *arguments,const void *data,u32 size)
@@ -328,9 +328,9 @@ static s32 oracle(s32 mode)
     s32 ticks,i,j,radius,height,elapsed,remaining,facing;
     long flag,interpolation,depth;
     memset(&rotation,0,8); memset(&position,0,8);
-    scale=D_8001185C; Model_GetActiveSlotIndex(); ticks=Model_GetFrameStep();
+    scale=gModel_SubdividedEffectInitialScale; Model_GetActiveSlotIndex(); ticks=Model_GetFrameStep();
     if(mode>=0) {
-        config=(u8 *)D_800915E8; put32(object,(u32)config);
+        config=(u8 *)gModel_SubdividedEffectConfigWords; put32(object,(u32)config);
         Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex(),(ModelEffectAdjustment *)bounds);
         radius=height=signed16(bounds+6)/2;
         if(radius<signed16(config+20)) radius=signed16(config+20);
@@ -429,11 +429,11 @@ static void prepare(s32 growth,s32 fade,s32 elapsed,s32 remaining)
     static const u32 original[7]={0x0000A0A0,0x00A000A0,0xA0A000A0,
         0xA00000A0,0x012CA000,0x000A012C,0x0000005A};
     for(i=0;i<TOTAL;i++) storage[i]=(i*37+active_case*13+0xA5)&255;
-    bytes(D_800915E8,original,28);
-    put16((u8 *)D_800915E8+22,growth); put16((u8 *)D_800915E8+24,fade);
-    bytes(alternate,D_800915E8,28);
+    bytes(gModel_SubdividedEffectConfigWords,original,28);
+    put16((u8 *)gModel_SubdividedEffectConfigWords+22,growth); put16((u8 *)gModel_SubdividedEffectConfigWords+24,fade);
+    bytes(alternate,gModel_SubdividedEffectConfigWords,28);
     put16((u8 *)alternate+22,3); put16((u8 *)alternate+24,11);
-    put32(object,(u32)D_800915E8);
+    put32(object,(u32)gModel_SubdividedEffectConfigWords);
     put32(object+0x1310,elapsed); put32(object+0x1314,remaining);
     for(i=0;i<6;i++) for(j=0;j<3;j++) put16(object+4+i*8+j*2,(i*53+j*97)%401-200);
     for(i=0;i<8;i++) for(j=0;j<3;j++) {
@@ -457,7 +457,7 @@ static void run_case(s32 mode)
     expected=oracle(mode);
     if(clears!=2) fail(11);
     bytes(final_state,storage,TOTAL); config_snapshot(final_config);
-    bytes(storage,initial,TOTAL); bytes(D_800915E8,initial_config,28);
+    bytes(storage,initial,TOTAL); bytes(gModel_SubdividedEffectConfigWords,initial_config,28);
     bytes(alternate,initial_config+28,28);
     fill(seen,0,sizeof(seen)); event_cursor=clears=0; reference_run=0;
     actual=Model_UpdateSubdividedEffect((ModelSubdividedEffect *)object,mode);
@@ -480,8 +480,8 @@ int main(void)
     s32 a,b,c,d,mode,e[6],r[6];
     for(a=0;a<12;a++) for(b=0;b<6;b++) for(mode=0;mode<2;mode++) {
         prepare(10,90,0,0); bounds_value=values[a]; step_value=steps[active_case%5]; stress=0;
-        put16((u8 *)D_800915E8+18,minima[b][0]);
-        put16((u8 *)D_800915E8+20,minima[b][1]);
+        put16((u8 *)gModel_SubdividedEffectConfigWords+18,minima[b][0]);
+        put16((u8 *)gModel_SubdividedEffectConfigWords+20,minima[b][1]);
         run_case(mode ? 999 : 0);
     }
     for(a=0;a<6;a++) {

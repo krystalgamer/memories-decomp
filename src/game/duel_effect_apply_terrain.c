@@ -72,7 +72,7 @@ void DuelEffect_ApplyTerrain(void) {
     if ((f & 0x20) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134_abs) == 0) {
-            a = (DisplayObjectConfig *)D_8009B214;
+            a = (DisplayObjectConfig *)gDuel_pTerrainIcon;
             b = gDuel_bTerrain;
             gDuelEffect_pTrackedRequest->field_1A = -2;
             DisplayObject_SetResourceVariant(a, b);
