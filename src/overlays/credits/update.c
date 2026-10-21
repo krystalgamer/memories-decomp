@@ -6,11 +6,11 @@
 #define CLAMP(x) ((x) < 0 ? 0 : (x) > 0x80 ? 0x80 : (x))
 
 /* Advances both credits lines by one frame. State 0 fades a line in, and
- * state 1 holds it; a line whose first row is group 0x63 sets D_80182208
+ * state 1 holds it; a line whose first row is group 0x63 sets gCredits_bFinished
  * instead. State 2 fades the line out. State 3 keeps it blank, then lays out
  * its next page, or moves to state 4 when no page is left. State 4 starts the
  * following group in the first free line and releases this one. Returns
- * D_80182208. */
+ * gCredits_bFinished. */
 s32 func_80180A24(void)
 {
     CreditsLine *other;
@@ -30,20 +30,20 @@ s32 func_80180A24(void)
     s32 d2;
 
     for (i = 0; i < 2; i++) {
-        if (D_8018220C[i].entries == 0) {
+        if (gCredits_aLines[i].entries == 0) {
             continue;
         }
-        switch (D_8018220C[i].state) {
+        switch (gCredits_aLines[i].state) {
         case 0:
-            t = (0x80 - D_8018220C[i].timer) << 7;
+            t = (0x80 - gCredits_aLines[i].timer) << 7;
             a = t / 32;
             b = t / 64;
             c = t / 96;
             d = t / 128;
-            D_8018220C[i].timer -= D_8009B0D8 * 2;
-            if (D_8018220C[i].timer <= 0) {
-                D_8018220C[i].timer = 0x98;
-                D_8018220C[i].state++;
+            gCredits_aLines[i].timer -= D_8009B0D8 * 2;
+            if (gCredits_aLines[i].timer <= 0) {
+                gCredits_aLines[i].timer = 0x98;
+                gCredits_aLines[i].state++;
             }
             a = CLAMP(a);
             b = CLAMP(b);
@@ -52,19 +52,19 @@ s32 func_80180A24(void)
             func_8018173C(i, a, b, c, d);
             break;
         case 1:
-            if (D_8018220C[i].entries->group == 0x63) {
-                D_80182208 = 1;
+            if (gCredits_aLines[i].entries->group == 0x63) {
+                gCredits_bFinished = 1;
             } else {
-                D_8018220C[i].timer -= D_8009B0D8;
-                if (D_8018220C[i].timer <= 0) {
-                    D_8018220C[i].timer = 0x98;
-                    D_8018220C[i].state++;
-                    if (D_8018220C[i].field_13 != 0) {
-                        if (D_8018220C[i].page == 1) {
-                            D_8018220C[i].field_13 = 0;
+                gCredits_aLines[i].timer -= D_8009B0D8;
+                if (gCredits_aLines[i].timer <= 0) {
+                    gCredits_aLines[i].timer = 0x98;
+                    gCredits_aLines[i].state++;
+                    if (gCredits_aLines[i].field_13 != 0) {
+                        if (gCredits_aLines[i].page == 1) {
+                            gCredits_aLines[i].field_13 = 0;
                         }
                     } else {
-                        D_8018220C[i].field_13++;
+                        gCredits_aLines[i].field_13++;
                     }
                 }
             }
@@ -72,19 +72,19 @@ s32 func_80180A24(void)
             break;
         case 2:
             k = 0x80;
-            t2 = (k - D_8018220C[i].timer) << 7;
+            t2 = (k - gCredits_aLines[i].timer) << 7;
             a2 = t2 / 32;
             b2 = t2 / 64;
             c2 = t2 / 96;
             d2 = t2 / 128;
-            D_8018220C[i].timer -= D_8009B0D8 * 2;
-            if (D_8018220C[i].timer <= 0) {
-                if (D_8018220C[i].page >= 2) {
-                    D_8018220C[i].timer = 0x3C;
-                    D_8018220C[i].state++;
+            gCredits_aLines[i].timer -= D_8009B0D8 * 2;
+            if (gCredits_aLines[i].timer <= 0) {
+                if (gCredits_aLines[i].page >= 2) {
+                    gCredits_aLines[i].timer = 0x3C;
+                    gCredits_aLines[i].state++;
                 } else {
-                    D_8018220C[i].timer = 0x98;
-                    D_8018220C[i].state = 4;
+                    gCredits_aLines[i].timer = 0x98;
+                    gCredits_aLines[i].state = 4;
                 }
             }
             d2 = CLAMP(d2);
@@ -94,28 +94,28 @@ s32 func_80180A24(void)
             func_8018173C(i, k - d2, k - c2, k - b2, k - a2);
             break;
         case 3:
-            D_8018220C[i].timer -= D_8009B0D8 * 2;
-            if (D_8018220C[i].timer <= 0) {
-                D_8018220C[i].timer = 0x98;
-                D_8018220C[i].state = 0;
-                D_8018220C[i].page--;
-                if (D_8018220C[i].page != 0) {
-                    func_80180F58(i, D_8018220C[i].entries->group);
+            gCredits_aLines[i].timer -= D_8009B0D8 * 2;
+            if (gCredits_aLines[i].timer <= 0) {
+                gCredits_aLines[i].timer = 0x98;
+                gCredits_aLines[i].state = 0;
+                gCredits_aLines[i].page--;
+                if (gCredits_aLines[i].page != 0) {
+                    func_80180F58(i, gCredits_aLines[i].entries->group);
                 } else {
-                    D_8018220C[i].timer = 0x98;
-                    D_8018220C[i].state = 4;
+                    gCredits_aLines[i].timer = 0x98;
+                    gCredits_aLines[i].state = 4;
                 }
             }
             func_8018173C(i, 0, 0, 0, 0);
             break;
         case 4:
-            D_8018220C[i].timer -= D_8009B0D8 * 2;
-            if (D_8018220C[i].timer <= 0) {
-                n = D_8018220C[i].end->group;
+            gCredits_aLines[i].timer -= D_8009B0D8 * 2;
+            if (gCredits_aLines[i].timer <= 0) {
+                n = gCredits_aLines[i].end->group;
                 if (n >= 0) {
                     j = 0;
                     do {
-                        other = D_8018220C;
+                        other = gCredits_aLines;
                     } while (0);
                 next:
                     if (other->entries == 0) {
@@ -142,10 +142,10 @@ s32 func_80180A24(void)
                     }
                 }
             done:
-                D_8018220C[i].entries = 0;
+                gCredits_aLines[i].entries = 0;
             }
             break;
         }
     }
-    return D_80182208;
+    return gCredits_bFinished;
 }

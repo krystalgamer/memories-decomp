@@ -5,7 +5,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 
-/* One row of the credits table at D_80181D38. `group` is the page the row
+/* One row of the credits table at gCredits_aEntries. `group` is the page the row
  * belongs to and a negative group ends the table; the low nibble of `flags`
  * picks the colour and the high nibble the paragraph inside the page. */
 typedef struct {
@@ -30,12 +30,12 @@ typedef struct {
     u8 pad[3];
 } CreditsLine;
 
-extern RECT D_80180784;
-extern RECT D_8018078C;
-extern RECT D_80180794;
-extern u8 D_80182208;
-extern CreditsEntry D_80181D38[];
-extern CreditsLine D_8018220C[2];
+extern RECT gCredits_ClutRect0;
+extern RECT gCredits_ClutRect1;
+extern RECT gCredits_ClutRect2;
+extern u8 gCredits_bFinished;
+extern CreditsEntry gCredits_aEntries[];
+extern CreditsLine gCredits_aLines[2];
 /* Replacement glyphs for character codes 0xE056 and 0x9B92. */
 extern u8 D_80011820[];
 extern u8 D_8001183E[];
