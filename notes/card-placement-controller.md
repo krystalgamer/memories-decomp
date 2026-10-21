@@ -19,7 +19,7 @@ selection, hand, side-statistics, effect-request and resource layouts.
 six consecutive pointer words, including the independently named word at
 `0x800E9F04`. It must not be reduced to a five-element array.
 
-`D_8009B150` retains the unsigned halfword used by card use. Placement also
+`gDuel_wPlacementCardId` retains the unsigned halfword used by card use. Placement also
 requires a signed read of those same two bytes. `DuelPlacementCardIdCell`
 expresses that read without allocating or enlarging storage. Bit 15 marks a
 fusion result; the low twelve bits identify the resource. The six-byte

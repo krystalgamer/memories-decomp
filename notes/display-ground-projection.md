@@ -45,7 +45,7 @@ only for row 2 when `DuelCard_CanActThisTurn` reports an occupied card that
 has not been used this turn. Otherwise that path releases the cached object.
 It passes the selection cursor object as the projection source.
 
-`Duel_GetOrCreateActionReadyMarker` returns `D_8009B1F8` unchanged when the
+`Duel_GetOrCreateActionReadyMarker` returns `gDuel_pActionReadyMarker` unchanged when the
 cache is populated. Only creation binds the source pool index and installs
 the linked-ground projection callback. The function does not check card
 eligibility or write the global cache: its caller publishes the returned
