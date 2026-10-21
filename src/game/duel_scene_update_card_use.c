@@ -29,7 +29,7 @@
 
 /* The COMMON definition preserves the GP-relative store and its load delay.
    The linker resolves it to the existing global without allocating storage. */
-u16 D_8009B150;
+u16 gDuel_wPlacementCardId;
 
 void DuelScene_UpdateCardUse(void)
 {
@@ -54,7 +54,7 @@ void DuelScene_UpdateCardUse(void)
         gDuel_wSceneStateFlags = flags | 0xC000;
         slot = &gDuel_aCardRecords[p->field_6A];
         value = slot->card_id;
-        D_8009B150 = *(u16 *)&slot->card_id;
+        gDuel_wPlacementCardId = *(u16 *)&slot->card_id;
         CardPreview_RequestResourceTransfer(0, value);
         if (p->field_68 == CARD_TYPE_MAGIC) {
             gDuel_pActiveSideState->rank.pure_magic_used =
@@ -121,7 +121,7 @@ void DuelScene_UpdateCardUse(void)
         D_8009B174 = 2;
         return;
     case 2:
-        DuelEffect_StartCardEffect((s16)D_8009B150, 0);
+        DuelEffect_StartCardEffect((s16)gDuel_wPlacementCardId, 0);
         D_8009B174 = 3;
         return;
     case 3:
@@ -167,7 +167,7 @@ void DuelScene_UpdateCardUse(void)
     case 4:
         if ((state & 0x80) == 0) {
             D_8009B174 = state | 0x80;
-            DuelEffect_StartCardEffect((s16)D_8009B150, 1);
+            DuelEffect_StartCardEffect((s16)gDuel_wPlacementCardId, 1);
             return;
         }
         gDuel_wSceneStateFlags = 5;

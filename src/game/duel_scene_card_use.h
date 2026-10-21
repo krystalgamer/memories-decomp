@@ -9,7 +9,7 @@
  * back by writing 5 into that word.
  *
  * On entry, while DUEL_SCENE_FLAG_INITIALIZED is clear, it latches the selected
- * slot's card id -- gDuel_aCardRecords[object->field_6A] -- into D_8009B150, starts
+ * slot's card id -- gDuel_aCardRecords[object->field_6A] -- into gDuel_wPlacementCardId, starts
  * CardPreview_RequestResourceTransfer's resource request, bumps gDuel_pActiveSideState->field_05 for a
  * CARD_TYPE_MAGIC card, and seeds D_8009B174 with 1.
  *

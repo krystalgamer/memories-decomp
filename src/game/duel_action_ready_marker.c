@@ -11,7 +11,7 @@
 
 DisplayObject *Duel_GetOrCreateActionReadyMarker(DisplayObject *source)
 {
-    DisplayObject *object = D_8009B1F8;
+    DisplayObject *object = gDuel_pActionReadyMarker;
     if (object == 0) {
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteResource(object, 4, 3, 8, 0xB, 0x1F0);

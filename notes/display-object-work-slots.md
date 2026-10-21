@@ -48,7 +48,7 @@ The duel animation uses the existing `DisplayObject` members instead of
 raw `+4`, `+8`, `+0xC`, `+0x44` and `+0x46` addressing. The halfword stores
 retain their unsigned views, and the fade reads only the low byte of the
 colour word before writing the replicated word. Repeated table loads,
-statement order and the load-bearing tentative `D_8009B150` definition
+statement order and the load-bearing tentative `gDuel_wPlacementCardId` definition
 remain intact. Existing register constraints are unchanged, not extended.
 
 The candidate's slot cursors are typed and its two position reads use the
