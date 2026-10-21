@@ -153,7 +153,7 @@ void NameEntry_Init(void)
     D_8016D400 = 0;
     D_8016D403 = 0;
     D_8016D408 = 0;
-    D_8016D418 = gSaveData_aPlayerNameSjis;
+    gNameEntry_pNameBuffer = gSaveData_aPlayerNameSjis;
     Text_SjisToGlyphCodes(D_801B125A, gSaveData_aPlayerNameSjis,
                   SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
 #ifdef VERSION_EUROPE
@@ -206,14 +206,14 @@ void NameEntry_Init(void)
     D_8016D4D0 = 2;
     NameEntry_BuildKeyboardTextBox(2);
 #endif
-    D_8016D426 = 0;
-    D_8016D402 = 0;
-    D_8016D401 = 0;
-    D_8016D42C = 0;
+    gNameEntry_bSavedRow = 0;
+    gNameEntry_bKeyboardRow = 0;
+    gNameEntry_bKeyboardColumn = 0;
+    gNameEntry_bCaretPos = 0;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    D_8016D434 = 22;
+    gNameEntry_wCursorTargetX = 22;
     obj->field_30.h.field_30 = 22;
-    D_8016D436 = 24;
+    gNameEntry_wCursorTargetY = 24;
     obj->field_30.h.field_32 = 24;
     obj->field_3C.h.field_3C = 16;
     obj->field_3C.h.field_3E = 16;
@@ -539,9 +539,9 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
        the parameter rather than g: with every access on g, GCC gives w and
        g a callee-saved register each and the function grows by a move. */
 #ifdef VERSION_EUROPE
-    node = TextBox_GetGlyphAt(3, (D_8016D42C << 4) | 2,
+    node = TextBox_GetGlyphAt(3, (gNameEntry_bCaretPos << 4) | 2,
 #else
-    node = TextBox_GetGlyphAt(3, D_8016D42C << 4,
+    node = TextBox_GetGlyphAt(3, gNameEntry_bCaretPos << 4,
 #endif
                               (((DisplayObject *)w)->field_60 = 2, 0));
     if (node == 0) {
@@ -738,17 +738,17 @@ s32 NameEntry_AdjustLength(s32 delta, s32 arg)
     DisplayObject *object;
 
     if (delta < 0) {
-        if (D_8016D42C == 0) {
+        if (gNameEntry_bCaretPos == 0) {
             return 0;
         }
     } else {
-        if (D_8016D42C == 5) {
+        if (gNameEntry_bCaretPos == 5) {
             return 0;
         }
     }
-    D_8016D42C += delta;
+    gNameEntry_bCaretPos += delta;
     object = (DisplayObject *)D_8016D43C;
-    object->field_44.h.field_44 = D_8016D42C * 16 + 0x6B;
+    object->field_44.h.field_44 = gNameEntry_bCaretPos * 16 + 0x6B;
     object->update = (DisplayObjectCallback)NameEntry_UpdateCaretTween;
     object->field_6C = 2;
     object->field_60 = arg;

@@ -38,14 +38,14 @@ WITNESS = r"""
 typedef char ilp32[sizeof(void *) == 4 && sizeof(int) == 4 ? 1 : -1];
 PasswordModuleState gPassword_ModuleState;
 __asm__(".globl D_8016D400\n.set D_8016D400, gPassword_ModuleState\n"
-        ".globl D_8016D401\n.set D_8016D401, gPassword_ModuleState+1\n"
-        ".globl D_8016D402\n.set D_8016D402, gPassword_ModuleState+2\n"
+        ".globl gNameEntry_bKeyboardColumn\n.set gNameEntry_bKeyboardColumn, gPassword_ModuleState+1\n"
+        ".globl gNameEntry_bKeyboardRow\n.set gNameEntry_bKeyboardRow, gPassword_ModuleState+2\n"
         ".globl D_8016D404\n.set D_8016D404, gPassword_ModuleState+4\n"
-        ".globl D_8016D418\n.set D_8016D418, gPassword_ModuleState+0x18\n"
-        ".globl D_8016D426\n.set D_8016D426, gPassword_ModuleState+0x26\n"
-        ".globl D_8016D42C\n.set D_8016D42C, gPassword_ModuleState+0x2C\n"
-        ".globl D_8016D434\n.set D_8016D434, gPassword_ModuleState+0x34\n"
-        ".globl D_8016D436\n.set D_8016D436, gPassword_ModuleState+0x36\n"
+        ".globl gNameEntry_pNameBuffer\n.set gNameEntry_pNameBuffer, gPassword_ModuleState+0x18\n"
+        ".globl gNameEntry_bSavedRow\n.set gNameEntry_bSavedRow, gPassword_ModuleState+0x26\n"
+        ".globl gNameEntry_bCaretPos\n.set gNameEntry_bCaretPos, gPassword_ModuleState+0x2C\n"
+        ".globl gNameEntry_wCursorTargetX\n.set gNameEntry_wCursorTargetX, gPassword_ModuleState+0x34\n"
+        ".globl gNameEntry_wCursorTargetY\n.set gNameEntry_wCursorTargetY, gPassword_ModuleState+0x36\n"
         ".globl D_8016D4D4\n.set D_8016D4D4, gPassword_ModuleState+0xD4\n");
 volatile u16 gInput_wPad1Held, gInput_wPad1Repeat, gInput_wPad1Pressed;
 s8 D_8016AB38[9][15];
@@ -310,10 +310,10 @@ class NameEntryKeyboardUpdateTests(unittest.TestCase):
                     "stride": (
                         "/* Keep the pair fully initialized; separate stores change allocation. */\n"
                         "        PasswordGlyphCoordinates coords = {\n"
-                        "            parts: { (s8)D_8016D401, row * 15 }",
+                        "            parts: { (s8)gNameEntry_bKeyboardColumn, row * 15 }",
                         "/* Keep the pair fully initialized; separate stores change allocation. */\n"
                         "        PasswordGlyphCoordinates coords = {\n"
-                        "            parts: { (s8)D_8016D401, row * 14 }",
+                        "            parts: { (s8)gNameEntry_bKeyboardColumn, row * 14 }",
                     ),
                     "timer": ("w->timer = w->timer - 1;", "w->timer = w->timer - 2;"),
                 }[mutation]

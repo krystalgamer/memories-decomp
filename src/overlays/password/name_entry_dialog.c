@@ -185,7 +185,7 @@ void NameEntry_UpdateDialog(void)
         DisplayObject_ReleaseIfPresent(caret);
         ff = D_8016D400;
         D_8016D400 = ff & 0x7F;
-        Text_SjisToGlyphCodes(D_801B125A, D_8016D418, 6);
+        Text_SjisToGlyphCodes(D_801B125A, gNameEntry_pNameBuffer, 6);
 #ifdef VERSION_EUROPE
         TextBox_CreateFlagged(3, 254, 112, 204, 96, 16, 3);
 #else
