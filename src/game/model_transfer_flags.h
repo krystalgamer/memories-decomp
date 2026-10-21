@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "model_effect_key.h"
 
-/* Two independent flag bytes, D_8009B07B and gModel_bHandlerCallbackState, each with a getter
+/* Two independent flag bytes, gModel_bCameraHoldState and gModel_bHandlerCallbackState, each with a getter
  * and a setter.
  *
  * The accessors are not the only route to them: later functions in
@@ -14,12 +14,17 @@
  *
  * Six callers share one guard, spelled as
  *
- *     state = func_8005F174();
+ *     state = Model_GetCameraHoldState();
  *     if (state != 1 || Model_GetHandlerCallbackState() != state) { ... }
  *
- * so the interesting condition is that both flags read exactly 1. The setter
- * for the first is called with values other than 0 and 1, which is why the
- * callers compare against 1 rather than testing for non-zero.
+ * so the interesting condition is that both flags read exactly 1: camera-move
+ * requests, camera target/eye slot stores and key preparation are then held
+ * off. The setter for the first is called with values other than 0 and 1,
+ * which is why the callers compare against 1 rather than testing for
+ * non-zero: Model_StartBattleSlotAction stores 2 or 0 from bit 7 of the slot's
+ * record flags (and 1 when bit 6 is set), and Model_UpdateAnimatedBattle
+ * promotes 2 to 1 just before it queues its next effect-key command.
+ * Model_ResetEffectKeyQueue clears it.
  */
 /* Three more bytes of the same block, immediately before the two flags below.
  *
@@ -51,11 +56,11 @@ extern Key *G32 gModel_pCurrentEffectKey;
 extern u8 gModel_bEffectKeyCount;
 extern u8 gModel_bEffectKeyPreparationPending;
 extern s8 gModel_nEffectKeyBatchOrdinal;
-extern u8 D_8009B07B;
+extern u8 gModel_bCameraHoldState;
 extern u8 gModel_bHandlerCallbackState;
 
-s32 func_8005F174(void);
-void func_8005F180(s32 value);
+s32 Model_GetCameraHoldState(void);
+void Model_SetCameraHoldState(s32 value);
 s32 Model_GetHandlerCallbackState(void);
 void Model_SetHandlerCallbackState(s32 value);
 

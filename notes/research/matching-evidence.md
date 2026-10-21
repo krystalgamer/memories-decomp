@@ -3892,7 +3892,7 @@ derives a second base register and uses it with small displacements, that base
 is a struct in the original source, and typing it as one is what supplies the
 member reference.
 
-`func_80050F24` (`0x80050F24`, 82 instructions) is the worked example. Written
+`Model_StartBattleSlotAction` (`0x80050F24`, 82 instructions) is the worked example. Written
 with `u8 *` bases and hex offsets it reaches the exact instruction count with
 every register allocated as retail has it, and four `addu`s in the wrong order.
 Regrouping the two unscaled sites closed those; the two scaled sites needed the

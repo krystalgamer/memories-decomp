@@ -33,7 +33,11 @@ extern s16 gModel_ImageCopyRectH;
 
 extern u8 D_80011508[];
 
-void func_80050F24(s32 index);
+/* Model_UpdateAnimatedBattle's per-slot action: plays animation
+ * field_DFE + 3 when it has frames, moves the camera towards the other slot
+ * for two thirds of that length (at least 60, or the record's override), and
+ * sets gModel_bCameraHoldState from the record's flag bits. */
+void Model_StartBattleSlotAction(s32 index);
 void Model_PlaySlotAnimationSounds(s32 index);
 
 /* Last selected model IDs (including slot 2's stage) and the two model flags

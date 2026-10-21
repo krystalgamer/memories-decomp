@@ -1429,7 +1429,7 @@ Matching resident C includes `rand.h` directly. The password/name-entry
 starter generator and module main, plus the five matching main-menu sort
 comparators, now use `rand.h` rather than duplicate the runtime declaration.
 Newly integrated `Duel_ShuffleDeck`, `DebugMenu_Update`, `Main_RunFrontendLoop`, and
-`func_80050584` also include `rand.h` for their resident RNG calls.
+`Model_UpdateCreditsMonsterSlot` also include `rand.h` for their resident RNG calls.
 
 The imported string headers form a compatibility stack rather than three
 independent libraries. `string.h` only includes `strings.h`; `strings.h`

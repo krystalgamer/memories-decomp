@@ -4,7 +4,12 @@
 #include "../types.h"
 
 /* Per-slot preparation and the shared model-scene update. */
-void func_80050584(s32 index);
+/* The credits presentation's per-slot step. While the slot is not ready
+ * and has no load pending (field_E14 0xFF) it picks a random card id outside
+ * the MODEL.MRG gaps and loads it with Model_LoadMonsterMerge; otherwise it
+ * advances the load. Once the slot is ready it turns it to face the other
+ * slot, rebuilds its matrix and runs its handlers. */
+void Model_UpdateCreditsMonsterSlot(s32 index);
 void Model_UpdateCreditsPresentation(void);
 
 /* Scene mode 15's phase controller, which Model_UpdateScene runs while

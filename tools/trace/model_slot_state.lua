@@ -4,7 +4,7 @@
 --   The 3-D model slots behind duel battle animations and the Library's 3-D
 --   view still carry a cluster of address-named helpers and state bytes:
 --
---   func_80050F24  for slot 0 or 1: plays animation field_DFE + 3, requests a
+--   Model_StartBattleSlotAction  for slot 0 or 1: plays animation field_DFE + 3, requests a
 --                  camera move to the other slot for 2/3 of the animation
 --                  (at least 60, overridable from the 0xCF8 block), then sets
 --                  the first gate byte from flag bits 0x80/0x40. Attack, a
@@ -12,7 +12,7 @@
 --   func_8005A618  called beside it by Model_UpdateAnimatedBattle; returns a
 --                  wrapped angle from func_8005F1A4 plus a quarter or three
 --                  quarter turn depending on slot. Which angle is it?
---   func_8005F174/F180/F18C/F198  get/set D_8009B07B and D_8009B07C. The
+--   Model_GetCameraHoldState/F180/F18C/F198  get/set gModel_bCameraHoldState and D_8009B07C. The
 --                  camera requests do nothing while both read 1. "Camera
 --                  locked" or "model data still transferring"?
 --   func_80058DD8  returns 2 if slot.field_E14 != 0xFF, else 1 if field_E1F
@@ -25,7 +25,7 @@
 --                  backlink. "First child" or "next chain link"?
 --
 --   Every call is logged with its caller and the slot fields it touches;
---   calls made from inside func_80050F24 are tagged so the animation, camera
+--   calls made from inside Model_StartBattleSlotAction are tagged so the animation, camera
 --   duration and gate values it chose read as one group. The two returning
 --   helpers are also broken at their jr ra to read the result, the hierarchy
 --   search reports parent and result as unit indices with their supers, and
@@ -135,11 +135,11 @@ local BATTLE_CHOICE = 0x80050f24
 local BATTLE_CHOICE_END = 0x8005106c
 
 local T = {
-    choice = {0x80050f24, 0x27bdffd8, 'func_80050F24'},
+    choice = {0x80050f24, 0x27bdffd8, 'Model_StartBattleSlotAction'},
     anim = {0x80057af4, 0x27bdffd0, 'Model_ControlSlotAnimation'},
     angle = {0x8005a618, 0x27bdffe8, 'func_8005A618'},
     angleRet = {0x8005a6a0, 0x03e00008, 'func_8005A618 return'},
-    setFirst = {0x8005f180, 0xa3840173, 'set-first func_8005F180'},
+    setFirst = {0x8005f180, 0xa3840173, 'set-first Model_SetCameraHoldState'},
     setSecond = {0x8005f198, 0xa3840174, 'set-second func_8005F198'},
     toSlots = {0x80059f18, 0x27bdffd8, 'Model_RequestCameraMoveToSlots'},
     request = {0x80059ebc, 0x27bdffe0, 'Model_RequestCameraMove'},
@@ -276,13 +276,13 @@ local handlers = {}
 
 handlers.choice = function(n)
     row('choice slot=' .. signed(n.a0),
-        string.format('=== func_80050F24 %s caller=0x%08X %s', slotFields(signed(n.a0)),
+        string.format('=== Model_StartBattleSlotAction %s caller=0x%08X %s', slotFields(signed(n.a0)),
                       n.ra, gates()))
 end
 handlers.anim = function(n)
     if not fromChoice(n.ra) then return end
-    row('anim from func_80050F24', string.format(
-        '  from func_80050F24: Model_ControlSlotAnimation slot=%d animation=%d '
+    row('anim from Model_StartBattleSlotAction', string.format(
+        '  from Model_StartBattleSlotAction: Model_ControlSlotAnimation slot=%d animation=%d '
             .. 'arg=%d', signed(n.a0), signed(n.a1), signed(n.a2)))
 end
 handlers.angle = function(n)
@@ -298,13 +298,13 @@ handlers.angleRet = function(n)
 end
 local function setter(label)
     return function(n)
-        local tag = fromChoice(n.ra) and '  from func_80050F24: ' or ''
+        local tag = fromChoice(n.ra) and '  from Model_StartBattleSlotAction: ' or ''
         row(string.format('%s value=%d caller=0x%08X', label, signed(n.a0), n.ra),
             string.format('%s%s value=%d caller=0x%08X before: %s', tag, label,
                           signed(n.a0), n.ra, gates()))
     end
 end
-handlers.setFirst = setter('set-first func_8005F180')
+handlers.setFirst = setter('set-first Model_SetCameraHoldState')
 handlers.setSecond = setter('set-second func_8005F198')
 local function cameraRequest(label, gated)
     return function(n)
@@ -314,7 +314,7 @@ local function cameraRequest(label, gated)
             if blocked then suppressed = suppressed + 1 else passed = passed + 1 end
             verdict = blocked and ' SUPPRESSED' or ' passed'
         end
-        local tag = fromChoice(n.ra) and '  from func_80050F24: ' or ''
+        local tag = fromChoice(n.ra) and '  from Model_StartBattleSlotAction: ' or ''
         row(string.format('%s caller=0x%08X%s', label, n.ra, verdict),
             string.format('%s%s args=%d,%d,%d,%d caller=0x%08X %s%s', tag, label,
                           signed(n.a0), signed(n.a1), signed(n.a2), signed(n.a3),

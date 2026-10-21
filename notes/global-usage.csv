@@ -283,10 +283,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF96,gModel_wPresentationBgmCommand,gModel_wPresentationBgmCommand,0x80059C18,Model_SetPresentationBgmCommand,matching_c,game,C,src/game/model_scene_states.c,write,16,gModel_wPresentationBgmCommand = value;
 0x8009AF98,gModel_bOrbitDirectionTimer,gModel_bOrbitDirectionTimer,0x80051350,Model_SeparateViewFromSlots,matching_c,game,C,src/game/model_scene_setup.c,read_write,8,gModel_bOrbitDirectionTimer = 0x1E; | gModel_bOrbitDirectionTimer = gModel_bOrbitDirectionTimer - 1; | (+2 more)
 0x8009AF98,gModel_bOrbitDirectionTimer,gModel_bOrbitDirectionTimer,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/model_scene_setup.c,write,8,gModel_bOrbitDirectionTimer = 0;
-0x8009AF98,gModel_bOrbitDirectionTimer,gModel_bOrbitDirectionTimer,0x8005A188,Model_LockOrbitDirection,matching_c,game,C,src/game/model_lock_orbit_direction.c,write,8,void Model_LockOrbitDirection(int value){int one=1;if(func_8005F174()!=one||func_8005F18C()!=one){if(value>=0)gModel_bOrbitDirection=one;els...
+0x8009AF98,gModel_bOrbitDirectionTimer,gModel_bOrbitDirectionTimer,0x8005A188,Model_LockOrbitDirection,matching_c,game,C,src/game/model_lock_orbit_direction.c,write,8,void Model_LockOrbitDirection(int value){int one=1;if(Model_GetCameraHoldState()!=one||func_8005F18C()!=one){if(value>=0)gModel_bOrbitDirection=one;els...
 0x8009AF99,gModel_bOrbitDirection,gModel_bOrbitDirection,0x80051350,Model_SeparateViewFromSlots,matching_c,game,C,src/game/model_scene_setup.c,write,8,gModel_bOrbitDirection = -1; | gModel_bOrbitDirection = 1;
 0x8009AF99,gModel_bOrbitDirection,gModel_bOrbitDirection,0x80051A48,func_80051A48,matching_c,game,C,src/game/model_scene_setup.c,read,8,"Model_StepViewOrbit(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);"
-0x8009AF99,gModel_bOrbitDirection,gModel_bOrbitDirection,0x8005A188,Model_LockOrbitDirection,matching_c,game,C,src/game/model_lock_orbit_direction.c,write,8,void Model_LockOrbitDirection(int value){int one=1;if(func_8005F174()!=one||func_8005F18C()!=one){if(value>=0)gModel_bOrbitDirection=one;els...
+0x8009AF99,gModel_bOrbitDirection,gModel_bOrbitDirection,0x8005A188,Model_LockOrbitDirection,matching_c,game,C,src/game/model_lock_orbit_direction.c,write,8,void Model_LockOrbitDirection(int value){int one=1;if(Model_GetCameraHoldState()!=one||func_8005F18C()!=one){if(value>=0)gModel_bOrbitDirection=one;els...
 0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,gModel_bPresentationPhase = -2; | gModel_bPresentationPhase = 0x14; | (+5 more)
 0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,gModel_bPresentationPhase = -2; | gModel_bPresentationPhase = 15; | (+4 more)
 0x8009AF9A,gModel_bPresentationPhase,gModel_bPresentationPhase,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,gModel_bPresentationPhase = 0; | gModel_bPresentationPhase = 2; | (+5 more)
@@ -725,7 +725,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B078,gModel_bEffectKeyCount,gModel_bEffectKeyCount,0x8005FAE4,Model_ResetEffectKeyQueue,matching_c,game,C,src/game/model_effect_state.c,write,8,gModel_bEffectKeyCount = 0;
 0x8009B078,gModel_bEffectKeyCount,gModel_bEffectKeyCount,0x8005FB08,Model_IsEffectKeyQueueEmpty,matching_c,game,C,src/game/model_effect_state.c,read,8,return gModel_bEffectKeyCount == 0;
 0x8009B078,gModel_bEffectKeyCount,gModel_bEffectKeyCount,0x8005FB14,Model_GetCurrentEffectKeyAddress,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bEffectKeyCount != 0) {
-0x8009B079,D_8009B079,D_8009B079,0x8005DBA4,Model_UpdateEffectKeyframes,matching_c,game,C,src/game/model_keyframe_update.c,read_write,8,D_8009B079 = 0; | if (D_8009B079 && (D_8009B07B != 1 || D_8009B07C != 1)) {
+0x8009B079,D_8009B079,D_8009B079,0x8005DBA4,Model_UpdateEffectKeyframes,matching_c,game,C,src/game/model_keyframe_update.c,read_write,8,D_8009B079 = 0; | if (D_8009B079 && (gModel_bCameraHoldState != 1 || D_8009B07C != 1)) {
 0x8009B079,D_8009B079,D_8009B079,0x8005F91C,Model_ApplyEffectKeyQueueCommand,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B079 = 0; | D_8009B079 = 1;
 0x8009B079,D_8009B079,D_8009B079,0x8005FAE4,Model_ResetEffectKeyQueue,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B079 = 0;
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005D994,func_8005D994,matching_c,game,C,src/game/func_8005D994.c,read_write,8,D_8009B07A = D_8009B07A + 1; | first = *(s8 *)&D_8009B07A;
@@ -737,31 +737,31 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005F828,Model_QueueEffectEndpointSequences,matching_c,game,C,src/game/model_effect_state.c,read_write,8,D_8009B07A = (u8)D_8009B07A + 1; | raw172 = D_8009B07A;
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005F91C,Model_ApplyEffectKeyQueueCommand,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B07A = -1;
 0x8009B07A,D_8009B07A,D_8009B07A,0x8005FAE4,Model_ResetEffectKeyQueue,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B07A = -1;
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005D994,func_8005D994,matching_c,game,C,src/game/func_8005D994.c,read,8,if (D_8009B07B == one && D_8009B07C == one) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005DBA4,Model_UpdateEffectKeyframes,matching_c,game,C,src/game/model_keyframe_update.c,read,8,if (D_8009B079 && (D_8009B07B != 1 || D_8009B07C != 1)) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F174,func_8005F174,matching_c,game,C,src/game/model_effect_state.c,read,8,return D_8009B07B;
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F180,func_8005F180,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B07B = value;
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F27C,func_8005F27C,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F3B8,func_8005F3B8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1)
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F588,func_8005F588,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B != 1 || D_8009B07C != 1) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F828,Model_QueueEffectEndpointSequences,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005F91C,Model_ApplyEffectKeyQueueCommand,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == one && D_8009B07C == one) {
-0x8009B07B,D_8009B07B,D_8009B07B,0x8005FAE4,Model_ResetEffectKeyQueue,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B07B = 0;
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005D994,func_8005D994,matching_c,game,C,src/game/func_8005D994.c,read,8,if (D_8009B07B == one && D_8009B07C == one) {
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005DBA4,Model_UpdateEffectKeyframes,matching_c,game,C,src/game/model_keyframe_update.c,read,8,if (D_8009B079 && (D_8009B07B != 1 || D_8009B07C != 1)) {
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005D994,func_8005D994,matching_c,game,C,src/game/func_8005D994.c,read,8,if (gModel_bCameraHoldState == one && D_8009B07C == one) {
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005DBA4,Model_UpdateEffectKeyframes,matching_c,game,C,src/game/model_keyframe_update.c,read,8,if (D_8009B079 && (gModel_bCameraHoldState != 1 || D_8009B07C != 1)) {
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005F174,Model_GetCameraHoldState,matching_c,game,C,src/game/model_effect_state.c,read,8,return gModel_bCameraHoldState;
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005F180,Model_SetCameraHoldState,matching_c,game,C,src/game/model_effect_state.c,write,8,gModel_bCameraHoldState = value;
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005F27C,func_8005F27C,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1) {
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005F3B8,func_8005F3B8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == 1)
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005F588,func_8005F588,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState != 1 || D_8009B07C != 1) {
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == gModel_bCameraHoldState) {
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == 1) {
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == 1) {
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005F828,Model_QueueEffectEndpointSequences,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == gModel_bCameraHoldState) {
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005F91C,Model_ApplyEffectKeyQueueCommand,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == one && D_8009B07C == one) {
+0x8009B07B,gModel_bCameraHoldState,gModel_bCameraHoldState,0x8005FAE4,Model_ResetEffectKeyQueue,matching_c,game,C,src/game/model_effect_state.c,write,8,gModel_bCameraHoldState = 0;
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005D994,func_8005D994,matching_c,game,C,src/game/func_8005D994.c,read,8,if (gModel_bCameraHoldState == one && D_8009B07C == one) {
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005DBA4,Model_UpdateEffectKeyframes,matching_c,game,C,src/game/model_keyframe_update.c,read,8,if (D_8009B079 && (gModel_bCameraHoldState != 1 || D_8009B07C != 1)) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F18C,func_8005F18C,matching_c,game,C,src/game/model_effect_state.c,read,8,return D_8009B07C;
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F198,func_8005F198,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B07C = value;
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005F27C,func_8005F27C,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07C == 1) {
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F3B8,func_8005F3B8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1)
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F588,func_8005F588,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B != 1 || D_8009B07C != 1) {
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == 1) {
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F828,Model_QueueEffectEndpointSequences,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {
-0x8009B07C,D_8009B07C,D_8009B07C,0x8005F91C,Model_ApplyEffectKeyQueueCommand,matching_c,game,C,src/game/model_effect_state.c,read,8,if (D_8009B07B == one && D_8009B07C == one) {
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F3B8,func_8005F3B8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == 1)
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F588,func_8005F588,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState != 1 || D_8009B07C != 1) {
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == gModel_bCameraHoldState) {
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == 1) {
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F7B0,func_8005F7B0,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == 1) {
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F828,Model_QueueEffectEndpointSequences,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == 1 && D_8009B07C == gModel_bCameraHoldState) {
+0x8009B07C,D_8009B07C,D_8009B07C,0x8005F91C,Model_ApplyEffectKeyQueueCommand,matching_c,game,C,src/game/model_effect_state.c,read,8,if (gModel_bCameraHoldState == one && D_8009B07C == one) {
 0x8009B07C,D_8009B07C,D_8009B07C,0x8005FAE4,Model_ResetEffectKeyQueue,matching_c,game,C,src/game/model_effect_state.c,write,8,D_8009B07C = 0;
 0x8009B084,gAiScript_szSourceLineFormat,gAiScript_szSourceLineFormat,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);"
 0x8009B084,gAiScript_szSourceLineFormat,gAiScript_szSourceLineFormat,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);"
@@ -912,7 +912,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800434F4,Main_LoadBootImageStage,matching_c,game,C,src/game/main_boot_load_stages.c,read_write,32,D_8009B0F4 = D_8009B0F4 & 0xFFDCFFFF; | D_8009B0F4 = v & m; | (+5 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800438B8,Main_HoldBootScreen,matching_c,game,C,src/game/display_object_transition.c,read,32,(((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_intro_controller.c,read,32,if ((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs) {
-0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x80050584,func_80050584,matching_c,game,C,src/game/model_intro_controller.c,read,32,if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x80050584,Model_UpdateCreditsMonsterSlot,matching_c,game,C,src/game/model_intro_controller.c,read,32,if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read,32,if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x80056504,Model_LoadMonsterMerge,matching_c,game,C,src/game/model_slot_load.c,write,32,D_8009B0F4_abs = transfer->status_flags
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x80056D7C,func_80056D7C,matching_c,game,C,src/game/model_slot_load.c,read_write,32,D_8009B0F4_abs &= 0xFFDCFFFF; | D_8009B0F4_abs &= 0xFFDDFFFF; | (+8 more)
@@ -1011,7 +1011,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B134,D_8009B134,D_8009B134_abs,0x8003A560,func_8003A560,matching_c,game,C,src/game/display_effect_resource_setup.c,read,32,D_8009B134_abs) != 0) {
 0x8009B134,D_8009B134,D_8009B134,0x800438B8,Main_HoldBootScreen,matching_c,game,C,src/game/display_object_transition.c,read,32,D_8009B134) == 0))
 0x8009B134,D_8009B134,D_8009B134_abs,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_intro_controller.c,read,32,if ((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs) {
-0x8009B134,D_8009B134,D_8009B134_abs,0x80050584,func_80050584,matching_c,game,C,src/game/model_intro_controller.c,read,32,D_8009B134_abs) == 0) {
+0x8009B134,D_8009B134,D_8009B134_abs,0x80050584,Model_UpdateCreditsMonsterSlot,matching_c,game,C,src/game/model_intro_controller.c,read,32,D_8009B134_abs) == 0) {
 0x8009B134,D_8009B134,D_8009B134_abs,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read,32,if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
 0x8009B138,D_8009B138,D_8009B138,0x80013C28,File_TransferReadyCallback,matching_c,game,C,src/game/file_transfer_runtime.c,read_write,32,D_8009B138 = (s32)((u32)D_8009B138 + 1);
 0x8009B138,D_8009B138,D_8009B138,0x800140A0,File_HandleReadEvent,matching_c,game,C,src/game/file_transfer_runtime.c,write,32,D_8009B138 = 0;
@@ -2756,9 +2756,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x8004DE24,Model_DrawBackground,matching_c,game,C,src/game/func_8004DE24.c,address,,ModelSlot *slot = &gModel_aSlots[2];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read_write,,&& gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00) { | && gModel_aSlots[0].field_E0E == 2 && gModel_aSlots[0].field_E0F == 0 | (+68 more)
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_intro_controller.c,read,,ModelSlot *current = gModel_aSlots; | current = gModel_aSlots; | (+3 more)
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x80050584,func_80050584,matching_c,game,C,src/game/model_intro_controller.c,address,,b = gModel_aSlots; | b0 = gModel_aSlots; | (+1 more)
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x80050584,Model_UpdateCreditsMonsterSlot,matching_c,game,C,src/game/model_intro_controller.c,address,,b = gModel_aSlots; | b0 = gModel_aSlots; | (+1 more)
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_intro_controller.c,read_write,,++MODEL_SLOT_VIEW(MODEL_SLOT_BYTES(gModel_aSlots) + (904 * (u8)ACTIVE_SLOT) * 4)->field_E15; | MODEL_SLOT_BYTES(gModel_aSlots) + | (+10 more)
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x80050F24,func_80050F24,matching_c,game,C,src/game/func_8005106C.c,address,,p = &gModel_aSlots[arg0]; | q = &gModel_aSlots[arg0].field_CF8;
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x80050F24,Model_StartBattleSlotAction,matching_c,game,C,src/game/func_8005106C.c,address,,p = &gModel_aSlots[arg0]; | q = &gModel_aSlots[arg0].field_CF8;
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x8005106C,func_8005106C,matching_c,game,C,src/game/func_8005106C.c,address,,m = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80051350,Model_SeparateViewFromSlots,matching_c,game,C,src/game/model_scene_setup.c,read,,if ((*(u32 *)gModel_aSlots[0].field_DC0 & 0xFFFFFF) == 0) { | if ((*(u32 *)gModel_aSlots[1].field_DC0 & 0xFFFFFF) == 0) { | (+5 more)
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80051A48,func_80051A48,matching_c,game,C,src/game/model_scene_setup.c,address,,ModelSlot *base = gModel_aSlots;
