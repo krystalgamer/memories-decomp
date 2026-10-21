@@ -268,7 +268,7 @@ unexplained; this is declaration centralization, not a claim that they form a
 single packed structure.
 
 The Build Deck mode-7 entry pair has a related but separate byte at
-`D_8009B2F8`. `BuildDeck_EnterWideConfirmMode` sets its high bit before
+`gBuildDeck_bConfirmMode`. `BuildDeck_EnterWideConfirmMode` sets its high bit before
 entering state 7; that bit selects the wide confirmation dialog in
 `BuildDeck_UpdateExitConfirmation`. In narrow mode, a nonzero choice cancels the pending exit.
 The flag lives beside `BuildDeckTransitionState` rather than in local

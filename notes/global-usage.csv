@@ -1708,11 +1708,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x800300C8,DebugMenu_UpdateCursorLayout,matching_c,game,C,src/game/debug_menu_update_cursor_layout.c,read,8,s32 index = gDebugMenu_bCursor;
 0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_leave_entries.c,read,8,s32 i = gDebugMenu_bCursor;
 0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x80031084,DebugMenu_Update,matching_c,game,C,src/game/debug_menu_update.c,read_write,8,gDebugMenu_bStep = gDebugMenu_bCursor + 1; | gDebugMenu_bCursor + DEBUG_MENU_COLUMN_ENTRY_COUNT; | (+13 more)
-0x8009B2F8,D_8009B2F8,D_8009B2F8,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,write,8,D_8009B2F8[0] = 0x80;
-0x8009B2F8,D_8009B2F8,D_8009B2F8,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_build_deck_menu.c,read,8,D_8009B2F8[0]
-0x8009B2F8,D_8009B2F8,D_8009B2F8,0x800339D0,func_800339D0,matching_c,game,C,src/game/func_800339D0.c,read,8,if (!(D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) && | mode = D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
-0x8009B2F8,D_8009B2F8,D_8009B2F8,0x80033C90,BuildDeck_EnterNarrowConfirmMode,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B2F8 = 0;
-0x8009B2F8,D_8009B2F8,D_8009B2F8,0x80033CA8,BuildDeck_EnterWideConfirmMode,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B2F8 = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
+0x8009B2F8,gBuildDeck_bConfirmMode,gBuildDeck_bConfirmMode,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,write,8,gBuildDeck_bConfirmMode[0] = 0x80;
+0x8009B2F8,gBuildDeck_bConfirmMode,gBuildDeck_bConfirmMode,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_build_deck_menu.c,read,8,gBuildDeck_bConfirmMode[0]
+0x8009B2F8,gBuildDeck_bConfirmMode,gBuildDeck_bConfirmMode,0x800339D0,func_800339D0,matching_c,game,C,src/game/func_800339D0.c,read,8,if (!(gBuildDeck_bConfirmMode & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) && | mode = gBuildDeck_bConfirmMode & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
+0x8009B2F8,gBuildDeck_bConfirmMode,gBuildDeck_bConfirmMode,0x80033C90,BuildDeck_EnterNarrowConfirmMode,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,gBuildDeck_bConfirmMode = 0;
+0x8009B2F8,gBuildDeck_bConfirmMode,gBuildDeck_bConfirmMode,0x80033CA8,BuildDeck_EnterWideConfirmMode,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,gBuildDeck_bConfirmMode = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80031874,func_80031874,matching_c,game,C,src/game/func_80031874.c,read,,"gBuildDeck_pState->chest_card_quantities[id], 3, text); | list = &gBuildDeck_pState->lists[kind]; | (+2 more)"
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x800323F8,BuildDeck_InitScreen,matching_c,game,C,src/game/func_800323F8.c,read_write,,gBuildDeck_pState = BUILD_DECK_TRANSITION_STATE_VIEW(state); | state = (u8 *)gBuildDeck_pState;
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80032C48,func_80032C48,matching_c,game,C,src/game/card_list_sort.c,read,,if (gBuildDeck_pState->card_sort_rank[row->card_id] != 0) { | row->key = gBuildDeck_pState->card_sort_rank[row->card_id];
@@ -2336,10 +2336,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B460,D_8009B460,D_8009B460,0x80045514,SD_StepActiveCommand,matching_c,game,C,src/game/func_80045514.c,read,,D_8009B460->field_00 = (s32)g_SDValue->field_005C[0]; | D_8009B460->field_00 = 4; | (+19 more)
 0x8009B460,D_8009B460,D_8009B460,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,write,,D_8009B460 = (FileRequestSlot *)0x801E1650;
 0x8009B468,gModel_ImageCopyRect,gModel_ImageCopyRect,0x8004E9A0,Model_StepBackgroundVramAnimation,matching_c,game,C,src/game/func_8004E9A0.c,write,,"MoveImage(&gModel_ImageCopyRect, 0x220, 0x168); | MoveImage(&gModel_ImageCopyRect, 0x2C0, 0x1C0); | (+2 more)"
-0x8009B470,D_8009B470,D_8009B470,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B470 = arg0 << 8;
-0x8009B472,D_8009B472,D_8009B472,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B472 = 0xF8; | D_8009B472 = y + 0xF0; | (+1 more)
-0x8009B474,D_8009B474,D_8009B474,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B474 = 0x100;
-0x8009B476,D_8009B476,D_8009B476,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B476 = 4; | D_8009B476 = 8;
+0x8009B470,gModel_sTextureTintRectX,gModel_sTextureTintRectX,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,gModel_sTextureTintRectX = arg0 << 8;
+0x8009B472,gModel_sTextureTintRectY,gModel_sTextureTintRectY,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,gModel_sTextureTintRectY = 0xF8; | gModel_sTextureTintRectY = y + 0xF0; | (+1 more)
+0x8009B474,gModel_sTextureTintRectW,gModel_sTextureTintRectW,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,gModel_sTextureTintRectW = 0x100;
+0x8009B476,gModel_sTextureTintRectH,gModel_sTextureTintRectH,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,gModel_sTextureTintRectH = 4; | gModel_sTextureTintRectH = 8;
 0x8009B478,gModel_wViewDistance,gModel_wViewDistance,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/func_8004E7B0.c,read,,gModel_ViewSnapshot = gModel_wViewDistance;
 0x8009B478,gModel_wViewDistance,gModel_wViewDistance,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read,16,s32 a = (s16)gModel_wViewDistance;
 0x8009B478,gModel_wViewDistance,gModel_wViewDistance,0x80052694,Model_CorrectViewDistance,matching_c,game,C,src/game/model_scene_setup.c,address,16,d = *(s16 *)&gModel_wViewDistance; | d = hi - *(s16 *)&gModel_wViewDistance; | (+2 more)

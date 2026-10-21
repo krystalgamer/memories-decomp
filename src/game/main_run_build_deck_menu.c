@@ -34,7 +34,7 @@ void Main_RunBuildDeckMenu(void)
             (BuildDeckTransitionState *)D_80010000[0].payload_bases[0],
             (unsigned char *)gDuel_awPlayerDeck,
             0,
-            D_8009B2F8[0]
+            gBuildDeck_bConfirmMode[0]
         );
         Fade_WaitIn();
     } else if (BuildDeck_Update() == 0) {

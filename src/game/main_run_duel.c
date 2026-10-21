@@ -60,7 +60,7 @@ void Main_RunDuel(void)
     case 0:
         if (!(value & 0x80)) {
             gMain_bModeRunnerStep = value | 0x80;
-            D_8009B2F8[0] = 0x80;
+            gBuildDeck_bConfirmMode[0] = 0x80;
             BuildDeck_InitScreen(
                 (BuildDeckTransitionState *)D_80010000[0].payload_bases[0],
                 (u8 *)gDuel_awPlayerDeck, 0, 0x80);

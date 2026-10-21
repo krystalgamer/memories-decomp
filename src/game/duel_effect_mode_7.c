@@ -8,12 +8,12 @@
 
 void BuildDeck_EnterNarrowConfirmMode(void)
 {
-    D_8009B2F8 = 0;
+    gBuildDeck_bConfirmMode = 0;
     D_8009B26C[0] = 7;
 }
 
 void BuildDeck_EnterWideConfirmMode(void)
 {
-    D_8009B2F8 = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
+    gBuildDeck_bConfirmMode = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
     D_8009B26C[0] = 7;
 }
