@@ -686,26 +686,26 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B060,gMovie_bRgb24,gMovie_bRgb24,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (gMovie_bRgb24 != 0) {
 0x8009B061,D_8009B061,D_8009B061,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B061 = a5;
 0x8009B061,D_8009B061,D_8009B061,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (D_8009B061 != 0 || arg0 != 0) {
-0x8009B062,D_8009B062,D_8009B062,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,address,8,*(volatile u8 *)&D_8009B062 = 0;
-0x8009B062,D_8009B062,D_8009B062,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,write,8,D_8009B062 = 1;
-0x8009B062,D_8009B062,D_8009B062,0x8005C5D4,Movie_WaitFrameDecoded,matching_c,game,C,src/game/mdec_sync.c,read_write,8,D_8009B062 = 0; | if (D_8009B062 != 0) { | (+1 more)
-0x8009B063,D_8009B063,D_8009B063,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B063 = 0;
-0x8009B063,D_8009B063,D_8009B063,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,address,8,*(volatile u8 *)&D_8009B063 = 1;
-0x8009B063,D_8009B063,D_8009B063,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (D_8009B063 != 0) {
-0x8009B063,D_8009B063,D_8009B063,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,D_8009B063 = set; | if (D_8009B063 != 0) { | (+1 more)
-0x8009B063,D_8009B063,D_8009B063,0x8005C690,func_8005C690,matching_c,game,C,src/game/func_8005C690.c,write,8,D_8009B063 = 1;
-0x8009B064,D_8009B064,D_8009B064,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B064 = 0;
-0x8009B064,D_8009B064,D_8009B064,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (D_8009B064 != 0) {
-0x8009B064,D_8009B064,D_8009B064,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,write,8,D_8009B064 = set;
-0x8009B064,D_8009B064,D_8009B064,0x8005C5C4,Movie_StartFadeOut,matching_c,game,C,src/game/mdec_sync.c,write,8,D_8009B064 = 1;
-0x8009B065,D_8009B065,D_8009B065,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B065 = 0xFF;
-0x8009B065,D_8009B065,D_8009B065,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,D_8009B065 = fade; | SD_SetCdVolumeImmediate(D_8009B065); | (+2 more)
-0x8009B066,D_8009B066,D_8009B066,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B066 = 0;
-0x8009B066,D_8009B066,D_8009B066,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,slot = D_8009B066;
-0x8009B066,D_8009B066,D_8009B066,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,"D_8009B066 = (D_8009B066 + 1) & 1; | DecDCTvlc2(ring, (u32 *)(gMovie_pWorkArea + 0x1B000 + D_8009B066 * 0xE000),"
-0x8009B067,D_8009B067,D_8009B067,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B067 = 0;
-0x8009B067,D_8009B067,D_8009B067,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"D_8009B067 * MOVIE_DECODED_SLOT_SIZE),"
-0x8009B067,D_8009B067,D_8009B067,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,"(u32)&((u8 (*)[MOVIE_DECODED_SLOT_SIZE])0)[D_8009B067]), | D_8009B067 = (D_8009B067 + 1) % 4; | (+2 more)"
+0x8009B062,gMovie_bFrameDecoded,gMovie_bFrameDecoded,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,address,8,*(volatile u8 *)&gMovie_bFrameDecoded = 0;
+0x8009B062,gMovie_bFrameDecoded,gMovie_bFrameDecoded,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,write,8,gMovie_bFrameDecoded = 1;
+0x8009B062,gMovie_bFrameDecoded,gMovie_bFrameDecoded,0x8005C5D4,Movie_WaitFrameDecoded,matching_c,game,C,src/game/mdec_sync.c,read_write,8,gMovie_bFrameDecoded = 0; | if (gMovie_bFrameDecoded != 0) { | (+1 more)
+0x8009B063,gMovie_bStreamEnded,gMovie_bStreamEnded,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,gMovie_bStreamEnded = 0;
+0x8009B063,gMovie_bStreamEnded,gMovie_bStreamEnded,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,address,8,*(volatile u8 *)&gMovie_bStreamEnded = 1;
+0x8009B063,gMovie_bStreamEnded,gMovie_bStreamEnded,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (gMovie_bStreamEnded != 0) {
+0x8009B063,gMovie_bStreamEnded,gMovie_bStreamEnded,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,gMovie_bStreamEnded = set; | if (gMovie_bStreamEnded != 0) { | (+1 more)
+0x8009B063,gMovie_bStreamEnded,gMovie_bStreamEnded,0x8005C690,func_8005C690,matching_c,game,C,src/game/func_8005C690.c,write,8,gMovie_bStreamEnded = 1;
+0x8009B064,gMovie_bFadingOut,gMovie_bFadingOut,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,gMovie_bFadingOut = 0;
+0x8009B064,gMovie_bFadingOut,gMovie_bFadingOut,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (gMovie_bFadingOut != 0) {
+0x8009B064,gMovie_bFadingOut,gMovie_bFadingOut,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,write,8,gMovie_bFadingOut = set;
+0x8009B064,gMovie_bFadingOut,gMovie_bFadingOut,0x8005C5C4,Movie_StartFadeOut,matching_c,game,C,src/game/mdec_sync.c,write,8,gMovie_bFadingOut = 1;
+0x8009B065,gMovie_bCdVolume,gMovie_bCdVolume,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,gMovie_bCdVolume = 0xFF;
+0x8009B065,gMovie_bCdVolume,gMovie_bCdVolume,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,gMovie_bCdVolume = fade; | SD_SetCdVolumeImmediate(gMovie_bCdVolume); | (+2 more)
+0x8009B066,gMovie_bInputSlot,gMovie_bInputSlot,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,gMovie_bInputSlot = 0;
+0x8009B066,gMovie_bInputSlot,gMovie_bInputSlot,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,slot = gMovie_bInputSlot;
+0x8009B066,gMovie_bInputSlot,gMovie_bInputSlot,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,"gMovie_bInputSlot = (gMovie_bInputSlot + 1) & 1; | DecDCTvlc2(ring, (u32 *)(gMovie_pWorkArea + 0x1B000 + gMovie_bInputSlot * 0xE000),"
+0x8009B067,gMovie_bOutputSlot,gMovie_bOutputSlot,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,gMovie_bOutputSlot = 0;
+0x8009B067,gMovie_bOutputSlot,gMovie_bOutputSlot,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"gMovie_bOutputSlot * MOVIE_DECODED_SLOT_SIZE),"
+0x8009B067,gMovie_bOutputSlot,gMovie_bOutputSlot,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,"(u32)&((u8 (*)[MOVIE_DECODED_SLOT_SIZE])0)[gMovie_bOutputSlot]), | gMovie_bOutputSlot = (gMovie_bOutputSlot + 1) % 4; | (+2 more)"
 0x8009B068,gMovie_dwStartFrame,gMovie_dwStartFrame,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,32,gMovie_dwStartFrame = 1; | gMovie_dwStartFrame = a1; | (+1 more)
 0x8009B068,gMovie_dwStartFrame,gMovie_dwStartFrame,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,32,gMovie_dwStartFrame = StGetBackloc(&gMovie_StreamLoc); | if (gMovie_dwStartFrame >= gMovie_dwEndFrame) { | (+1 more)
 0x8009B06C,gMovie_dwEndFrame,gMovie_dwEndFrame,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,32,gMovie_dwEndFrame = 0xFFFF; | gMovie_dwEndFrame = gMovie_dwEndFrame - 4; | (+3 more)
@@ -2372,7 +2372,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B490,gModelDebug_abSlotGfFlags,gModelDebug_abSlotGfFlags,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,8,"gModelDebug_abSlotAfFlags[0], gModelDebug_abSlotGfFlags[0]); | gModelDebug_abSlotAfFlags[1], gModelDebug_abSlotGfFlags[1]); | (+4 more)"
 0x8009B498,gMovie_pWorkArea,gMovie_pWorkArea,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read_write,8,gMovie_pWorkArea = D_80010000; | DecDCTvlcBuild((u16 *)gMovie_pWorkArea); | (+1 more)
 0x8009B498,gMovie_pWorkArea,gMovie_pWorkArea,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"DecDCTin((u32 *)(gMovie_pWorkArea + 0x1B000 + slot * 0xE000), side); | DecDCTout((u32 *)(gMovie_pWorkArea + 0x37000 + | (+4 more)"
-0x8009B498,gMovie_pWorkArea,gMovie_pWorkArea,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"(u16 *)gMovie_pWorkArea); | DecDCTvlc2(ring, (u32 *)(gMovie_pWorkArea + 0x1B000 + D_8009B066 * 0xE000), | (+1 more)"
+0x8009B498,gMovie_pWorkArea,gMovie_pWorkArea,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"(u16 *)gMovie_pWorkArea); | DecDCTvlc2(ring, (u32 *)(gMovie_pWorkArea + 0x1B000 + gMovie_bInputSlot * 0xE000), | (+1 more)"
 0x8009B498,gMovie_pWorkArea,gMovie_pWorkArea,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,(u32 *)(gMovie_pWorkArea + 0x37000 + | gMovie_pWorkArea + 0x37000 + | (+4 more)
 0x8009B49C,gMovie_StreamLoc,gMovie_StreamLoc,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,,gMovie_StreamLoc = *src; | Movie_SeekAndStartRead(&gMovie_StreamLoc);
 0x8009B49C,gMovie_StreamLoc,gMovie_StreamLoc,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,address,,gMovie_dwStartFrame = StGetBackloc(&gMovie_StreamLoc); | Movie_SeekAndStartRead(&gMovie_StreamLoc);

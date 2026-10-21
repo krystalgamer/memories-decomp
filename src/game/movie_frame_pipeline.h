@@ -27,8 +27,8 @@ void func_8005C374(s32 first, s32 second, s32 third);
  * each of its users and none is named outside this family.
  *
  * The eight bytes are flags and small counters: gMovie_bRgb24 is set from
- * Movie_OpenStream's argument and gated on, D_8009B064 is cleared on start,
- * set by Movie_StartFadeOut and read by the fade path, and D_8009B062 is the
+ * Movie_OpenStream's argument and gated on, gMovie_bFadingOut is cleared on start,
+ * set by Movie_StartFadeOut and read by the fade path, and gMovie_bFrameDecoded is the
  * frame-decoded latch that the DecDCTout callback Movie_OnDecodeOutput raises and
  * mdec_sync.c's Movie_WaitFrameDecoded waits on and clears.
  * gMovie_dwStartFrame, gMovie_dwEndFrame and gMovie_dwEndSector are the three words that follow.
@@ -41,12 +41,17 @@ void func_8005C374(s32 first, s32 second, s32 third);
  */
 extern u8 gMovie_bRgb24;
 extern u8 D_8009B061;
-extern u8 D_8009B062;
-extern u8 D_8009B063;
-extern u8 D_8009B064;
-extern u8 D_8009B065;
-extern u8 D_8009B066;
-extern u8 D_8009B067;
+/* Per-frame pipeline state. gMovie_bFrameDecoded is the latch the DecDCTout
+ * callback raises after the frame's last strip; gMovie_bStreamEnded and
+ * gMovie_bFadingOut end the stream outright or after gMovie_bCdVolume, the CD
+ * mix level, falls by 0x40 a frame from 0xFF; gMovie_bInputSlot (0/1) and
+ * gMovie_bOutputSlot (0-3) pick the VLC input and decoded output buffers. */
+extern u8 gMovie_bFrameDecoded;
+extern u8 gMovie_bStreamEnded;
+extern u8 gMovie_bFadingOut;
+extern u8 gMovie_bCdVolume;
+extern u8 gMovie_bInputSlot;
+extern u8 gMovie_bOutputSlot;
 extern u32 gMovie_dwStartFrame;
 extern u32 gMovie_dwEndFrame;
 extern u32 gMovie_dwEndSector;

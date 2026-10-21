@@ -19,9 +19,9 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     s32 m;
     s32 r;
 
-    D_8009B063 = 0;
-    D_8009B064 = 0;
-    D_8009B065 = 0xFF;
+    gMovie_bStreamEnded = 0;
+    gMovie_bFadingOut = 0;
+    gMovie_bCdVolume = 0xFF;
     gMovie_dwEndSector = a3;
     gMovie_bRgb24 = a4;
     gMovie_pWorkArea = D_80010000;
@@ -77,8 +77,8 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     } else {
         gMovie_dwEndFrame = 0xFFFF;
     }
-    D_8009B066 = 0;
-    D_8009B067 = 0;
+    gMovie_bInputSlot = 0;
+    gMovie_bOutputSlot = 0;
     DecDCTReset(0);
     DecDCToutCallback(Movie_OnDecodeOutput);
     DecDCTvlcBuild((u16 *)gMovie_pWorkArea);
