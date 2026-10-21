@@ -74,3 +74,7 @@ gGraphics_bSyncVBlankTarget = 0x8009B0C0;
 gMain_apFrameServiceCallbacks = 0x800E9DB0;
 CardList_CreateDeckBoxStatRows = 0x80061008;
 gGraphics_apOrderingTables = 0x800E9D90;
+
+Graphics_SubmitDrawModePacket = 0x8005B260;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;

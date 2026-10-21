@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "graphics_packet_submission.h"
 #include "display_object_projection.h"
 #include "../psyq/libgte.h"
 #include "gpu_packets.h"
@@ -10,7 +11,7 @@
    builds: it fades the object out over its own field_60 countdown, projects
    it, and emits a four-vertex flat polyline (one colour word, length 6)
    and then, with the length cut to 3 and x3/y3 copied into x1/y1, a single
-   flat line from the first vertex to the last, both through func_8005B260.
+   flat line from the first vertex to the last, both through Graphics_SubmitDrawModePacket.
    The record is the canonical DisplayObject.
 
    The scratchpad side is typed as well: a LINE_F4 at 0x1F8002A0, the four
@@ -97,10 +98,10 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
         (PSXLONG *)&sp28, (PSXLONG *)&sp2C
     );
 
-    func_8005B260((u32 *)q, ot, *(u16 *)&o->field_14, 1);
+    Graphics_SubmitDrawModePacket((u32 *)q, ot, *(u16 *)&o->field_14, 1);
     setlen(q, 3);
     q->code = 0x40;
     k = *(u16 *)&o->field_14;
     *(s32 *)&q->x1 = *(s32 *)&q->x3;
-    func_8005B260((u32 *)q, ot, (u16)k, 1);
+    Graphics_SubmitDrawModePacket((u32 *)q, ot, (u16)k, 1);
 }

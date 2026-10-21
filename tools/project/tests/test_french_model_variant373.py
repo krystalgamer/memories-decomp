@@ -483,7 +483,7 @@ class FrenchModelVariant373Tests(unittest.TestCase):
         self.assertEqual(set(bindings.values()), observed)
         self.assertEqual(bindings["GsGetActiveBuff"], 0x800852A8)
         self.assertEqual(bindings["RotTransPers3"], 0x80087898)
-        self.assertEqual(bindings["func_8005B260"], 0x8004D5B8)
+        self.assertEqual(bindings["Graphics_SubmitDrawModePacket"], 0x8004D5B8)
 
 
 if __name__ == "__main__":

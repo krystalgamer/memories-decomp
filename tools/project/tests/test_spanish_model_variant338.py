@@ -15,6 +15,7 @@ from overlay_sources import c_segments
 from progress import load_spanish_overlay_inventories
 from verify_inputs import load_checksum_manifest
 from tools.project.tests import test_french_model_variant338 as reference
+from tools.project.tests.test_french_model_variant435 import assert_complete_packet_imports
 
 
 class SpanishModelVariant338Tests(unittest.TestCase):
@@ -167,7 +168,8 @@ class SpanishModelVariant338Tests(unittest.TestCase):
                               symbols)
             self.assertIn(f"[0x{self.tail_start:X}, data, overlays/{module['name']}/unclassified_tail]", layout.read_text())
             bindings = (ROOT / module["linker_symbols"]).read_text()
-            self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)), 35)
+            assert_complete_packet_imports(
+                self, bindings, 35, legacy_packet_alias=self.family == 402)
             self.assertNotRegex(bindings, r"=\s*0x801[37]")
             for name, address in re.findall(r"(\w+) = (0x[0-9A-F]+); // type:func absolute:true", symbols):
                 self.assertIn(f"{name} = {address};", bindings)

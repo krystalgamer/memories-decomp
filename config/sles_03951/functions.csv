@@ -872,9 +872,9 @@ address,size,name,status,module,notes
 0x8004CF4C,0x50,SD_GetSequenceStatus,matching_c,game,
 0x8004CF9C,0x2C4,func_spanish_8004CF9C,handwritten_asm,game,Same size and complete opcode/register instruction shape as independently classified European handwritten assembly at 0x8004CD98; no European game C function has this shape. Preserved assembly.
 0x8004D260,0x358,func_spanish_8004D260,handwritten_asm,game,Same size and complete opcode/register instruction shape as independently classified European handwritten assembly at 0x8004D05C; no European game C function has this shape. Preserved assembly.
-0x8004D5B8,0x10C,func_8005B260,matching_c,game,
+0x8004D5B8,0x10C,Graphics_SubmitDrawModePacket,matching_c,game,
 0x8004D6C4,0x16C,Graphics_SubmitTextureWindowPacket,matching_c,game,
-0x8004D830,0x124,func_8005B4D8,matching_c,game,
+0x8004D830,0x124,Graphics_SubmitMaskWritePacket,matching_c,game,
 0x8004D954,0x24,Model_FillWords,matching_c,game,
 0x8004D978,0x2C,Model_CopyWords,matching_c,game,
 0x8004D9A4,0x210,Model_QueueRelativeCameraOrbit,matching_c,game,

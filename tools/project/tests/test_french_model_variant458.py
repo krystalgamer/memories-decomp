@@ -166,7 +166,7 @@ class FrenchModelVariant458Tests(family435.FrenchModelVariant435Tests):
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual((row["slot"], row["profile"]), (str(slot), "gcc_2_8_1_g0_split"))
         bindings = (family435.ROOT / "config/sles_03948/overlays/model_variant458_linker_symbols.txt").read_text()
-        self.assertIn("func_8005B260 = 0x8004D5B8;", bindings)
+        self.assertIn("Graphics_SubmitDrawModePacket = 0x8004D5B8;", bindings)
         self.assertNotIn("func_french_8004D5B8", bindings)
 
     def test_target_compiler_strand_layout(self):

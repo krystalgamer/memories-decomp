@@ -7,7 +7,7 @@ MulMatrix2 = 0x80087408;
 RotAverage3 = 0x800879D8;
 RotAverage4 = 0x80087A38;
 GsSortPoly = 0x800842A8;
-func_8005B260 = 0x8004D5B8;
+Graphics_SubmitDrawModePacket = 0x8004D5B8;
 gModel_dwFogBaseColor = 0x8009C688;
 GsSortLine = 0x80083F38;
 ccos = 0x800868A8;
@@ -31,3 +31,5 @@ Duel_CollectMatchingFieldCardObjects = 0x8002CB88;
 D_80010000 = 0x80010000;
 Model_GetLightSourceMatrix = 0x8005C328;
 SD_SEPlayFull = 0x80040204;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "graphics_packet_submission.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -9,7 +10,7 @@
 #define GPU_PACKET_TAG(packet) ((P_TAG *)(packet))
 #define GPU_PACKET_BYTES(packet) ((u8 *)(packet))
 
-void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
+void Graphics_SubmitDrawModePacket(u32 *src, GsOT *ot, s32 idx, s32 flags)
 {
     u32 *s;
     u32 draw;
@@ -77,7 +78,7 @@ void Graphics_SubmitTextureWindowPacket(
     gGraphics_pPacketWorkCursor = gGraphics_pPacketWorkCursor + (len + 3);
 }
 
-void func_8005B4D8(u32 *src, GsOT *ot, s32 idx, s32 flags)
+void Graphics_SubmitMaskWritePacket(u32 *src, GsOT *ot, s32 idx, s32 flags)
 {
     u32 *s;
     u32 draw_mode;

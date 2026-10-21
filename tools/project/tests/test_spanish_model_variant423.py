@@ -319,7 +319,7 @@ sizeof(Mesh423State), OFF(POLY_GT4, x0), OFF(POLY_GT4, x1), OFF(POLY_GT4, x2), O
             r"^(\w+) = (0x[0-9A-F]+);",
             (ROOT / "config/sles_03951/overlays/model_variant423_linker_symbols.txt").read_text(), re.M))
         self.assertEqual(len(bindings), 35)
-        self.assertEqual(bindings["func_8005B260"], 0x8004D5B8)
+        self.assertEqual(bindings["Graphics_SubmitDrawModePacket"], 0x8004D5B8)
         self.assertEqual(bindings["ratan2"], 0x80089928)
         selections = [(kind, int(address, 16), int(size, 16), filename)
                       for kind, address, size, filename in re.findall(

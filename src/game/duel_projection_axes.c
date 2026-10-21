@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "graphics_packet_submission.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "gpu_packets.h"
@@ -58,7 +59,7 @@ void Library_DrawGlobeXSpan(
             &control[1]
         );
     }
-    func_8005B260((u32 *)packet, ot, 1, 1);
+    Graphics_SubmitDrawModePacket((u32 *)packet, ot, 1, 1);
 }
 
 void Library_DrawGlobeZSpan(
@@ -100,5 +101,5 @@ void Library_DrawGlobeZSpan(
             &control[1]
         );
     }
-    func_8005B260((u32 *)packet, ot, 1, 1);
+    Graphics_SubmitDrawModePacket((u32 *)packet, ot, 1, 1);
 }

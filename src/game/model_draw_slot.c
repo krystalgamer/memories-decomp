@@ -37,6 +37,7 @@
  *   and the shadow colour reads the template bytes directly.
  */
 #include "../types.h"
+#include "graphics_packet_submission.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -622,7 +623,7 @@ void Model_DrawSlot(s32 index)
                     &sxy_z, &flag);
                 sxy_z = NormalClip(*(PSXLONG *)&poly.x0, *(PSXLONG *)&poly.x1, *(PSXLONG *)&poly.x2);
                 if (res >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)&poly, ot, 0xFFF, 2);
+                    Graphics_SubmitDrawModePacket((u32 *)&poly, ot, 0xFFF, 2);
                 }
             skip:
                 v2 = v1;

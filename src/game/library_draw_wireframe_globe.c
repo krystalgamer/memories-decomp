@@ -1,5 +1,6 @@
 /* Separate packet-marker lifetimes preserve retail's two setup registers. */
 #include "../types.h"
+#include "graphics_packet_submission.h"
 #include "model_slot_control.h"
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"
@@ -135,7 +136,7 @@ void Library_DrawWireframeGlobe(void)
             prim->y2 = y;
             prim->y1 = y;
             do {
-                func_8005B260((u32 *)prim, ot, 1, 1);
+                Graphics_SubmitDrawModePacket((u32 *)prim, ot, 1, 1);
                 prim->y0 -= step;
                 if (prim->y0 <= 0) {
                     break;

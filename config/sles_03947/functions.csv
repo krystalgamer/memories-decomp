@@ -872,9 +872,9 @@ address,size,name,status,module,notes
 0x8004CD48,0x50,SD_GetSequenceStatus,matching_c,game,
 0x8004CD98,0x2C4,func_8006151C,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006151c."
 0x8004D05C,0x358,func_80061A84,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80061a84."
-0x8004D3B4,0x10C,func_8005B260,matching_c,game,
+0x8004D3B4,0x10C,Graphics_SubmitDrawModePacket,matching_c,game,
 0x8004D4C0,0x16C,Graphics_SubmitTextureWindowPacket,matching_c,game,
-0x8004D62C,0x124,func_8005B4D8,matching_c,game,
+0x8004D62C,0x124,Graphics_SubmitMaskWritePacket,matching_c,game,
 0x8004D750,0x24,Model_FillWords,matching_c,game,
 0x8004D774,0x2C,Model_CopyWords,matching_c,game,
 0x8004D7A0,0x210,Model_QueueRelativeCameraOrbit,matching_c,game,

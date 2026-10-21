@@ -32,6 +32,48 @@ HELPERS = ((0x1084, 2640, "spiral", "func_8013C088"),
 # the number of SDK bindings that body adds to the family binding file.
 USA_ENTRY_BINDINGS = {414: 12, 415: 12, 421: 11, 424: 12, 433: 12, 435: 11, 445: 11}
 
+# Registered frozen C consumers, not families with only assembly packet calls.
+LEGACY_PACKET_IMPORT_FAMILIES = {
+    "france": {
+        76, 77, 87, 88, 96, 132, 144, 157, 162, 163, 177, 198, 199,
+        341, 373, 383, 385, 388, 402, 408, 412, 414, 417, 418, 421,
+        422, 423, 427, 431, 433, 435, 438, 440, 441, 442, 443, 444,
+        445, 446, 458, 459, 465, 474, 479, 770, 782, 829,
+    },
+    "spain": {
+        87, 88, 341, 373, 388, 402, 408, 414, 417, 418, 421, 422,
+        423, 427, 431, 433, 435, 440, 441, 442, 443, 445, 465, 474,
+    },
+}
+
+
+def assert_complete_packet_imports(test_case, bindings, expected_count, *, legacy_packet_alias):
+    numeric = {}
+    aliases = []
+    names = set()
+    for line in bindings.splitlines():
+        assignment = line.split("//", 1)[0].strip()
+        if not assignment:
+            continue
+        match = re.fullmatch(r"([A-Za-z_]\w*)\s*=\s*([^;]+);", assignment)
+        test_case.assertIsNotNone(match, f"Malformed resident binding: {line}")
+        name, value = match.groups()
+        value = value.strip()
+        test_case.assertNotIn(name, names, f"Duplicate resident binding: {name}")
+        names.add(name)
+        if re.fullmatch(r"0x[0-9A-Fa-f]+", value):
+            numeric[name] = int(value, 16)
+        else:
+            aliases.append((name, value))
+    test_case.assertEqual(len(numeric), expected_count)
+    test_case.assertEqual(
+        aliases,
+        [("func_8005B260", "Graphics_SubmitDrawModePacket")] if legacy_packet_alias else [],
+    )
+    if legacy_packet_alias:
+        test_case.assertIn("Graphics_SubmitDrawModePacket", numeric)
+        test_case.assertEqual(numeric["Graphics_SubmitDrawModePacket"], 0x8004D5B8)
+
 
 class FrenchModelVariant435Tests(unittest.TestCase):
     region = "france"
@@ -202,9 +244,12 @@ class FrenchModelVariant435Tests(unittest.TestCase):
                               symbols)
             self.assertIn(f"[0x{self.tail_start:X}, data, overlays/{module['name']}/unclassified_tail]", layout.read_text())
             bindings = (ROOT / module["linker_symbols"]).read_text()
-            self.assertEqual(len(re.findall(r"^\w+ =", bindings, re.M)),
-                             self.binding_count +
-                             (USA_ENTRY_BINDINGS.get(self.family, 0) if self.region == "france" else 0))
+            assert_complete_packet_imports(
+                self, bindings,
+                self.binding_count +
+                (USA_ENTRY_BINDINGS.get(self.family, 0) if self.region == "france" else 0),
+                legacy_packet_alias=self.family in LEGACY_PACKET_IMPORT_FAMILIES[self.region],
+            )
             self.assertNotRegex(bindings, r"=\s*0x801[37]")
             if self.family == 435:
                 for name, address in (("RotTransPers3", 0x80087898),

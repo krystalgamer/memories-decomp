@@ -302,7 +302,7 @@ long RotAverageNclip3(SVECTOR *a,SVECTOR *b,SVECTOR *c,long *p0,long *p1,
     if(!reference_run) projection_calls++;
     return (n+active_case)%4==0 ? 0 : ((n+active_case)%4==1 ? -3 : 23);
 }
-void func_8005B260(u32 *packet,GsOT *ot,s32 depth,s32 flags)
+void Graphics_SubmitDrawModePacket(u32 *packet,GsOT *ot,s32 depth,s32 flags)
 {
     s32 args[8]={0}; args[0]=ot==&ordering_table; args[1]=depth; args[2]=flags;
     event(SUBMIT_PACKET,args,packet,28); if(!reference_run) packets++;
@@ -397,7 +397,7 @@ static s32 oracle(s32 mode)
         triangle.r1=out[1][0]; triangle.g1=out[1][1]; triangle.b1=out[1][2];
         triangle.r2=out[2][0]; triangle.g2=out[2][1]; triangle.b2=out[2][2];
         color+=12;
-        if(depth>=0 && flag>=0 && facing>0) func_8005B260((u32 *)&triangle,ot,(u16)depth,1);
+        if(depth>=0 && flag>=0 && facing>0) Graphics_SubmitDrawModePacket((u32 *)&triangle,ot,(u16)depth,1);
     }
     {
         s32 shade=32;

@@ -112,7 +112,7 @@ class SpanishModelVariantTests(unittest.TestCase):
         self.assertTrue(all(address < 0x80100000 for address in bindings.values()))
         self.assertEqual(bindings["ModelTexture_PackPageClutCopy"], 0x8005CB58)
         self.assertEqual(bindings["func_80058F10"], 0x8005C018)
-        self.assertEqual(bindings["func_8005B260"], 0x8004D5B8)
+        self.assertEqual(bindings["Graphics_SubmitDrawModePacket"], 0x8004D5B8)
 
 
 class FrenchModelVariantTests(SpanishModelVariantTests):

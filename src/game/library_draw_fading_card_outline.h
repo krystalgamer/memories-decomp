@@ -9,7 +9,7 @@
 
 /* Fade/projection callback installed by Library_CreateFadingCardOutline in
  * the same (DisplayObject *, GsOT *) draw-callback slot BuildDeck_DrawCardListPage's
- * header describes, and hands the table straight to func_8005B260. */
+ * header describes, and hands the table straight to Graphics_SubmitDrawModePacket. */
 void Library_DrawFadingCardOutline(DisplayObject *object, GsOT *ordering_table);
 
 #endif
