@@ -88,7 +88,7 @@ void Duel_InitScene(void)
         DUEL_INIT_TERRAIN_SECTOR(value),
         DUEL_INIT_TERRAIN_SECTOR_COUNT, Duel_LoadPackageStage, 0, 0);
     File_WaitForTransfers();
-    D_8009B238 = -1;
+    gDuel_bOutroWinnerSide = -1;
     gDuel_wSceneStateFlags = 11;
     gDuel_bQuitDialogState = 0;
     gDuel_wDisplayTransitionFlags = 0;

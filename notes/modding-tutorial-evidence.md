@@ -118,7 +118,7 @@ path. The negative-opponent-ID path is the 2P Duel setup: menu result `2`
 dispatches to
 [`Main_RunTwoPlayerDuelSetup`](../src/game/main_run_two_player_duel_setup.c),
 which initializes
-`D_8009B234` and `D_8009B236` with `DUEL_STARTING_LIFE_POINTS` and passes
+`gDuel_wTwoPlayerSide0LifePoints` and `gDuel_wTwoPlayerSide1LifePoints` with `DUEL_STARTING_LIFE_POINTS` and passes
 both addresses to `MainMenu_StartValueSetup` at `0x80180FD8`. Its matching
 input handler
 [`MainMenu_UpdateValueSetup`](../src/overlays/main_menu/value_setup.c) uses

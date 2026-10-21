@@ -542,7 +542,7 @@ described above:
 | `1` | `0x800EA010` | `0x800EA02F` |
 
 Only the branch with both `D_8009B360[0] < 0` and
-`gDuel_bOpponentID < 0` copies the low byte of `D_8009B230` into both
+`gDuel_bOpponentID < 0` copies the low byte of `gDuel_wTwoPlayerCardViewMode` into both
 positions. For a nonnegative opponent ID, the initializer instead sets
 the side-1 byte to `0xFF` (signed `-1`) while side 0 stays zero.
 The remaining negative-opponent/nonnegative-`D_8009B360` case leaves both
@@ -572,7 +572,7 @@ The same active-side byte also gates a text-selector override in
 record on the acting side, zero forces `gText_BranchSelectorA = 2`, including after
 the face-down path selected `3`. A nonzero byte leaves that override
 disabled; this does not decode what either text variant displays.
-These consumers read copied side state, not `D_8009B230` directly.
+These consumers read copied side state, not `gDuel_wTwoPlayerCardViewMode` directly.
 No complete visibility policy, option caption, or additional buffer layout
 is inferred here, and no new runtime trace is claimed.
 

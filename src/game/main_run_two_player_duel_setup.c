@@ -52,9 +52,9 @@ void Main_RunTwoPlayerDuelSetup(void)
 
     if ((D_8009B26C & 0x40) == 0) {
         D_8009B26C = D_8009B26C | 0x40;
-        D_8009B236 = DUEL_STARTING_LIFE_POINTS;
-        D_8009B234 = DUEL_STARTING_LIFE_POINTS;
-        MainMenu_StartValueSetup(&D_8009B234, &D_8009B236, (u8 *)&D_8009B230);
+        gDuel_wTwoPlayerSide1LifePoints = DUEL_STARTING_LIFE_POINTS;
+        gDuel_wTwoPlayerSide0LifePoints = DUEL_STARTING_LIFE_POINTS;
+        MainMenu_StartValueSetup(&gDuel_wTwoPlayerSide0LifePoints, &gDuel_wTwoPlayerSide1LifePoints, (u8 *)&gDuel_wTwoPlayerCardViewMode);
         TextBox_CreateFlagged(
             0,
             0x25,

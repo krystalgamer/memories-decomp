@@ -6,8 +6,8 @@
 /* Searches the acting side's five mapped field slots for an occupied trap
  * whose id equals the argument, and returns that id on a hit or 0 on a miss.
  *
- * A hit also records the id in D_8009B22A and the owning object's +0x6A slot
- * index in D_8009B1B8; a miss leaves D_8009B22A cleared. duel_side_state.h
+ * A hit also records the id in gDuel_wSelectedTrapCardId and the owning object's +0x6A slot
+ * index in gDuel_bSelectedTrapSlot; a miss leaves gDuel_wSelectedTrapCardId cleared. duel_side_state.h
  * describes both of those globals, and the definition in duel_select_trap_by_card_id.c
  * carries the rest.
  *
