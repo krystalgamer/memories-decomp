@@ -33,7 +33,7 @@ extern GuardedHandles handle_block;
 WITNESS = HEADERS + r"""
 GuardedRequest request_block;
 GuardedHandles handle_block, expected_handles;
-u8 D_8009B1D5;
+u8 gDuel_bActiveSide;
 static DuelEffectRequest other[2];
 static u8 expected_request[sizeof(request_block)];
 static u32 allocations, sounds, error;
@@ -49,10 +49,10 @@ void SD_SEPlayFull(u32 id)
 {
     DuelEffectRequest *request = &request_block.request;
     if (id != 0x23 || allocations != 1 || handle_block.scene != request ||
-        handle_block.swords[D_8009B1D5 ^ 1] != request ||
+        handle_block.swords[gDuel_bActiveSide ^ 1] != request ||
         !(request->flags & DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING) ||
         request->field_00 != 0xA0 || request->field_02 != 0x78 ||
-        request->field_1A != (D_8009B1D5 ^ 1)) error = 2;
+        request->field_1A != (gDuel_bActiveSide ^ 1)) error = 2;
     sounds++;
 }
 int main(void)
@@ -60,7 +60,7 @@ int main(void)
     u32 side, flags, i, base, cases = 0;
     base = (u8 *)&request_block.request - (u8 *)&request_block;
     for (side = 0; side < 2; side++) {
-        D_8009B1D5 = side;
+        gDuel_bActiveSide = side;
         for (flags = 0; flags < 256; flags++) {
             for (i = 0; i < sizeof(request_block); i++)
                 ((u8 *)&request_block)[i] = i * 37 + flags;

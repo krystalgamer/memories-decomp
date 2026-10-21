@@ -295,7 +295,7 @@ void Duel_UpdateLifePointDisplay(DuelSideState *side)
 }
 
 /* Draws the paired digit-sprite readout for both players' gDuel_aSideStates slots.
-   D_8009B1D5 selects which side (0 or 1) currently renders in the "active"
+   gDuel_bActiveSide selects which side (0 or 1) currently renders in the "active"
    grey shade (0x808080) vs the dim shade (0x404040); the other side always
    gets the opposite shade. Each side draws two digit groups (4-digit then
    2-digit) offset from the display object arg0->field_50 points at. The values
@@ -323,7 +323,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     scratch->field_0E = 0x5800;
     scratch->field_08 = 0x80008;
     scratch->field_14 = DUEL_DISPLAY_COLOR_NORMAL;
-    if (D_8009B1D5 == 0) {
+    if (gDuel_bActiveSide == 0) {
         scratch->field_14 = DUEL_DISPLAY_COLOR_DIMMED;
     }
 
@@ -346,7 +346,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     );
 
     scratch->field_14 = DUEL_DISPLAY_COLOR_NORMAL;
-    if (D_8009B1D5 != 0) {
+    if (gDuel_bActiveSide != 0) {
         scratch->field_14 = DUEL_DISPLAY_COLOR_DIMMED;
     }
 

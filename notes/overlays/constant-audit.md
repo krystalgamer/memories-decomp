@@ -73,7 +73,7 @@ positively display-layer colour writes.
 That is precisely why the duel constant does not fit.
 `Duel_DrawLifePointsAndDeckCounts` (`src/game/duel_card_and_status_draw.c`) documents `0x404040` as the *dim* member of a
 shade pair whose *active* sibling is `0x808080`, selected per side by
-`D_8009B1D5`. The overlay sites take part in no such pairing: a name-entry
+`gDuel_bActiveSide`. The overlay sites take part in no such pairing: a name-entry
 object and a sparkle are not one side of a two-sided status readout. Adopting
 the name would import a shade-family relationship that does not exist here.
 

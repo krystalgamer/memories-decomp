@@ -22,7 +22,7 @@ typedef struct {
     u8 after[16];
 } GuardedConditions;
 extern GuardedConditions guarded;
-#define D_8009B1D5 guarded.side
+#define gDuel_bActiveSide guarded.side
 #define D_8009B360 guarded.controller
 #define gDuel_bOpponentID (&guarded.opponent)
 """

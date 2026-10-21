@@ -18,7 +18,7 @@ void DuelScene_UpdateWithSideInput(void)
     int value = 0;
 
     if (gDuel_bOpponentID < 0) {
-        value = D_8009B1D5;
+        value = gDuel_bActiveSide;
         if (gDuel_bOutroWinnerSide >= 0) {
             value = gDuel_bOutroWinnerSide;
         }

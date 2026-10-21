@@ -299,7 +299,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             '#include "duel_card_layout.h"\n'
             "u16 gDuel_awRitualData[] = {100, 101, 102, 103, 104, 0};\n"
             "DuelCardRecord gDuel_aCardRecords[40];\n"
-            "u8 D_8009B1D5;\n"
+            "u8 gDuel_bActiveSide;\n"
             "static DisplayObject objects[5];\n"
             "static struct {\n"
             " u32 before;\n"

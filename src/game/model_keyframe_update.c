@@ -91,7 +91,7 @@ void Model_UpdateEffectKeyframes(void)
     channel = 0;
     interpolated = evaluated;
     output = outputs;
-    pose = (s16 *)D_800F5768;
+    pose = (s16 *)gModel_aPoseSnapshot;
     offset = 0;
     do {
         u8 *key = (u8 *)gModel_pCurrentEffectKey;
@@ -254,7 +254,7 @@ next_channel:
         s16 *orbit_pose;
         s32 **viewpoints;
         channel = 0;
-        orbit_pose = (s16 *)D_800F5768;
+        orbit_pose = (s16 *)gModel_aPoseSnapshot;
         output = outputs;
         viewpoints = output;
         do {

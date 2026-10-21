@@ -586,7 +586,7 @@ void FreeDuel_Entry(void)
 
     rand();
     FreeDuel_UpdateScreen();
-    phase = D_8009B0CC & 0x7F;
+    phase = gGraphics_dwSyncedFrameCount & 0x7F;
     if (phase < 0x10) {
         if (phase >= 8) {
             phase = 0xF - phase;

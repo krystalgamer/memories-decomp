@@ -382,7 +382,7 @@ This offset belongs to the 30-entry field-card table. The separate deck-card
 index normalization in `Duel_SetupCardRecord` still uses `DECK_SIZE` (`40`).
 
 Matching `Duel_CheckRitual` scans the five records at indices `5-9` for a
-zero `D_8009B1D5`, or `20-24` for any nonzero value. These are expressed as
+zero `gDuel_bActiveSide`, or `20-24` for any nonzero value. These are expressed as
 `DUEL_FIELD_ROW_SIZE` and `DUEL_CARD_SIDE_RECORD_COUNT + DUEL_FIELD_ROW_SIZE`,
 with `DUEL_CARD_FLAG_OCCUPIED` selecting eligible records. Its local `Card`
 view remains unchanged; it has not adopted the shared `DuelCardRecord` type.
@@ -638,15 +638,15 @@ including the terminator**. The function has no capacity argument.
 ## Which row the two object collectors read
 
 Both collectors in `src/game/duel_field_card_objects.c` start from
-`D_8009B1D5 ? 5 : 20`, which is the opposite side's block, not the selecting
+`gDuel_bActiveSide ? 5 : 20`, which is the opposite side's block, not the selecting
 side's: `gDuel_abHandCardRecordIndices` in `src/game/duel_field_layout.c` maps the two hands to
 records `{0..4}` and `{15..19}`, and `gDuel_abFieldGridCardRecordIndices`
 paired with `gDuel_aFieldGridGroundPositions` place records 5-9 and 20-24
 on the row at ground `|z| = 95` and records 10-14 and 25-29 on the row at
 ground `|z| = 161` behind it. So records 5-9 belong to side 0
-and 20-24 to side 1, and selecting `5` when `D_8009B1D5` is `1` reads side 0.
+and 20-24 to side 1, and selecting `5` when `gDuel_bActiveSide` is `1` reads side 0.
 `Duel_CollectFieldCardsByType` scales the same table by
-`D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT` and its `Duel_SelectEquipPair`
+`gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT` and its `Duel_SelectEquipPair`
 caller asks for equip cards at offset 0 and any card at offset 5, which is
 the selecting side's own hand and own front row; the two object collectors
 omit that scale, so they read the other side.

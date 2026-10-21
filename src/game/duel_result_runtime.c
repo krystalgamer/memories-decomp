@@ -89,7 +89,7 @@
    the object's field_28 (which also serves as its countdown timer -- it decays
    by 2/frame). When the timer reaches 0: clears field_6C/update, snaps the
    current position (field_30/field_32) back to the base position in one 32-bit
-   copy, and returns. Otherwise, while D_8009B0CC's bit 0 is set, spawns a
+   copy, and returns. Otherwise, while gGraphics_dwSyncedFrameCount's bit 0 is set, spawns a
    companion slot object at the object's current position (tagged via
    sub_table_lookup_set_flag using field_16-1), then advances the angle and
    recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
@@ -109,7 +109,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
         return;
     }
 
-    if (D_8009B0CC & 1) {
+    if (gGraphics_dwSyncedFrameCount & 1) {
         slot = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         if (slot != 0) {
             DisplayObject_ConfigureSpriteAtPositionWithResource(slot, (s16)arg0->field_30.h.field_30,

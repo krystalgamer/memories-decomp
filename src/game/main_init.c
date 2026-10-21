@@ -60,7 +60,7 @@ s32 Main_Init(void)
     SetDispMask(0);
     Fade_DisableOrderingTables();
     p = gGraphics_aFrameBuffers;
-    D_8009B0CC = 0;
+    gGraphics_dwSyncedFrameCount = 0;
     gGraphics_dwSyncVBlankCounter = 0;
     gGraphics_bSyncVBlankTarget = 0;
     gMain_dwFrameCounter = 0;
@@ -71,7 +71,7 @@ s32 Main_Init(void)
     gMain_bVBlankSoundPending = 0;
     gGraphics_bExtraFrameStep = 0;
     D_8009B0D8 = 1;
-    D_8009B098 = 0x5000;
+    gGraphics_wFlags = 0x5000;
     D_8009B0D1 = 0;
     *(u8 *)&gDuel_wTwoPlayerCardViewMode = 1;
     gGraphics_pActiveFrameBuffer = p;

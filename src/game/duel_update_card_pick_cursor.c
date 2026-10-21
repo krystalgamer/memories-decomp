@@ -91,7 +91,7 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
         picked = Duel_GetCardViewerRequestId(
             &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[
                 o->row * DUEL_FIELD_ROW_SIZE + o->col +
-                D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+                gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
             ]]);
         if (picked != 0) {
             /* Written as absolute literals, not through externs: these two

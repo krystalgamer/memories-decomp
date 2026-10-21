@@ -989,7 +989,7 @@ them:
 
 | symbol | defined in the source as | in the header |
 | --- | --- | --- |
-| `D_8009B098` | `u16 D_8009B098;` | yes, guarded two-arm |
+| `gGraphics_wFlags` | `u16 gGraphics_wFlags;` | yes, guarded two-arm |
 | `D_8009B0A8` | `u8 D_8009B0A8;` | yes, guarded two-arm |
 | `D_8009B0AD` | `u8 D_8009B0AD;` | yes, guarded two-arm |
 | `D_8009B0C1` | `u8 D_8009B0C1;` | yes, guarded two-arm |

@@ -74,8 +74,8 @@ store, range clamp, count argument or terminator-record clear is added.
 All existing signedness, packed-stat expressions, integer address arithmetic
 and cursor/counter increment ordering remain.
 
-`Ai_RefreshBoardSnapshot` calls the exporter for `D_8009B1D5` at the
-interior alias, then for `D_8009B1D5 ^ 1` at that alias plus 55 records.
+`Ai_RefreshBoardSnapshot` calls the exporter for `gDuel_bActiveSide` at the
+interior alias, then for `gDuel_bActiveSide ^ 1` at that alias plus 55 records.
 It does not clear slot zero, the gap between occupied exports, or the unused
 trailing bytes. Both scene handlers call it before `AiScript_Init`, with
 the hand or field script respectively. The hand-script search window may
@@ -328,7 +328,7 @@ AI-only duelist record.
 | `0x19` | `swords_turns_remaining` | `AiScript_TestSwordsActive` reads whether the selected side's Swords counter is nonzero. |
 
 The two selectors are intentionally different: life points use `1 - i`,
-while Swords uses `(D_8009B1D5[0] ^ 1) ^ i`. Neither query normalizes its
+while Swords uses `(gDuel_bActiveSide[0] ^ 1) ^ i`. Neither query normalizes its
 scripted index, changes the counter, pins a card or modifies duel state.
 
 ## Deferred definitions

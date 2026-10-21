@@ -113,7 +113,7 @@ extern u8 D_800E9F10[];
  * is selected:
  *
  *     gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(D_800E9F2C +
- *         D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
+ *         gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
  *
  * DuelScene_UpdateHandActions (duel_scene_hand_actions.c) is the only source
  * in the tree that mentions it; the plain pointer sum already adds the base
@@ -129,7 +129,7 @@ extern u8 D_800E9F2C[];
  * because it is indexed with the same per-side stride it is record 2 of
  * whichever side is selected:
  *
- *     gDuel_pActiveSelectionRecord = D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
+ *     gDuel_pActiveSelectionRecord = D_800E9F48 + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE;
  *
  * which is the same cursor assignment the D_800E9F10 callers make, just from
  * two records further in. DuelField_CreateCardInfoTextBox (duel_field_display_objects.c)
@@ -148,7 +148,7 @@ extern u8 D_800E9F48[];
  * both users index it with the per-side stride it is record 3 of whichever
  * side is selected:
  *
- *     D_800E9F64 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE
+ *     D_800E9F64 + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE
  *
  * DuelScene_UpdateBattle assigns exactly that to gDuel_pActiveSelectionRecord
  * (src/game/duel_scene_battle.c) and DuelScene_UpdateFieldActions forms

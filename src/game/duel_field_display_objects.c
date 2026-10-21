@@ -53,7 +53,7 @@ s32 DuelField_GetGuardianStarDisplayCode(DuelSelectionRecord *cursor_a, DuelSele
 
     row_b = cursor_b->row;
     index_a = cursor_a->row * DUEL_FIELD_ROW_SIZE + cursor_a->col;
-    side = D_8009B1D5;
+    side = gDuel_bActiveSide;
     page = side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     slot_a = grid[index_a + page];
     /* Retail computes the typed byte offset before loading the record base. */
@@ -119,7 +119,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
                 gText_BranchSelectorA = 3;
             }
             value = card_record_index >= DUEL_CARD_SIDE_RECORD_COUNT;
-            if (value == D_8009B1D5 &&
+            if (value == gDuel_bActiveSide &&
                 gDuel_pActiveSideState->card_view_mode == 0) {
                 gText_BranchSelectorA = 2;
             }
@@ -135,7 +135,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
         TextStagingValues *dst = D_801D5608;
 
         style += 4;
-        rank = gDuel_aSideStates[D_8009B1D5 ^ 1].swords_turns_remaining;
+        rank = gDuel_aSideStates[gDuel_bActiveSide ^ 1].swords_turns_remaining;
         dst->card_stats.rank = rank;
         if (rank != 0) {
             if (rank < 0 || rank > 3) {
@@ -148,7 +148,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
             gText_SelectedCardColorIndex = DuelField_GetGuardianStarDisplayCode(
                 source,
                 (DuelSelectionRecord *)
-                    &D_800E9F48[D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE]
+                    &D_800E9F48[gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE]
             );
         }
     }
@@ -157,7 +157,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
         TextStagingValues *dst;
         s32 side;
 
-        side = D_8009B1D5;
+        side = gDuel_bActiveSide;
         if (source->row < 2) {
             side = side ^ 1;
         }
@@ -187,7 +187,7 @@ void DuelField_RefreshCursorCardInfo(DuelSelectionRecord *source)
     u8 *table = gDuel_abFieldGridCardRecordIndices;
     s32 index =
         source->row * DUEL_FIELD_ROW_SIZE + source->col +
-        D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+        gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
 
     DuelField_CreateCardInfoTextBox(source, table[index]);
 }
@@ -204,7 +204,7 @@ void Duel_CreateFieldCursorObject(DuelSelectionRecord *source)
         object,
         4,
         3,
-        source->record_index + D_8009B1D5 * 4,
+        source->record_index + gDuel_bActiveSide * 4,
         0x1F,
         0x100
     );
@@ -212,7 +212,7 @@ void Duel_CreateFieldCursorObject(DuelSelectionRecord *source)
     {
         u8 *base = (u8 *)gDuel_aFieldGridGroundPositions;
         s32 offset = (u32)&((DuelFieldPosition *)0)[index] +
-            D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES;
+            gDuel_bActiveSide * DUEL_FIELD_SIDE_POSITION_BYTES;
 
         position = (DuelFieldPosition *)(base + offset);
     }
@@ -270,11 +270,11 @@ s32 Duel_UpdateDisplayTransition(void)
         if (x == 0) {
             gDuel_wDisplayTransitionFlags = flags | 0x8000;
             if (gDuel_wDisplayTransitionFlags & 1) {
-                Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[D_8009B1D5],
-                              gDuel_awFieldGridRowViewTargetZ[D_8009B1D5][source->field_18][source->row]);
+                Duel_StartViewTween(0x10, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
+                              gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][source->field_18][source->row]);
             }
             if (gDuel_wDisplayTransitionFlags & 4) {
-                Duel_StartViewTween(0x10, 0x258, 0x100, gDuel_awSideViewHeadings[D_8009B1D5], 0);
+                Duel_StartViewTween(0x10, 0x258, 0x100, gDuel_awSideViewHeadings[gDuel_bActiveSide], 0);
                 DisplayObject_ReleaseIfPresent(source->cursor_object);
                 source->cursor_object = 0;
                 records = gDuel_abCardStagingBuffer;
