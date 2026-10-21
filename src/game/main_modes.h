@@ -43,9 +43,9 @@ typedef char AnimatedBattleModelProperties_size_must_be_0x8[
 /* Two animated-battle model-property records. Exodia writes only the first
    model id and keeps the measured raw-halfword view. */
 #ifdef ANIMATED_BATTLE_MODEL_PROPERTIES_AS_HALFWORDS
-extern u16 D_800EF658[];
+extern u16 gMain_aAnimatedBattleModels[];
 #else
-extern AnimatedBattleModelProperties D_800EF658[];
+extern AnimatedBattleModelProperties gMain_aAnimatedBattleModels[];
 #endif
 
 /* The mode runners Main_Loop dispatches, in the order gMain_apfnModeRunner

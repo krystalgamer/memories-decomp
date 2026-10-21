@@ -1043,7 +1043,7 @@ bit `D_8009B26C & 0x40`.
 
 When that bit is clear, the handler sets it, writes `gGraphics_bSyncVBlankTarget = 1`, and
 calls the view/model setup helpers. The ordinary branch passes two
-successive eight-byte records at `D_800EF658` to
+successive eight-byte records at `gMain_aAnimatedBattleModels` to
 [`Model_SetSlotProperties`](../../src/game/model_scene_controllers.c)
 for slots 0 and 1, then passes **the current terrain** (`gDuel_bTerrain`)
 to slot 2. A first record halfword of `0x309` instead selects the separate
@@ -1109,7 +1109,7 @@ words connect the Exodia sequence to the animated-battle request:
 | Main mode `3` | `0x80090B70` | `Main_RunDuel` (`0x8002CEE8`) |
 
 The still-unmatched `DuelScene_UpdateExodiaResult` stages the five piece objects. Its later
-handover stores `0x309` in the first halfword of `D_800EF658` at
+handover stores `0x309` in the first halfword of `gMain_aAnimatedBattleModels` at
 `0x800193D8`, records the acting side as `gDuel_bWinnerSide` at
 `0x800193EC`, writes the `+40` Exodia end adjustment at `0x800193F0`,
 and clears the opposing LP halfword at `0x80019408`. It then stores
@@ -1623,12 +1623,12 @@ passes the selected index unchanged to
 On return, matching
 [`FreeDuel_Init`](../../src/overlays/free_duel/screen_runtime.c) updates the retained
 row/column's record when `gFreeDuel_bReturnFlags & 0x80` is set. It selects
-the second halfword only when **`D_8009B362 == 1`**, otherwise the first,
+the second halfword only when **`gDuel_bPlayerLost == 1`**, otherwise the first,
 and caps normal counter values at 999. It does not index this table by
 `gDuel_bWinnerSide` or XOR a row index to find a loser.
 
 The result setup at `0x80020F90..0x80020FA8` explains the connection:
-`D_8009B362` becomes zero when `gDuel_bWinnerSide` (`0x8009B165`) is zero,
+`gDuel_bPlayerLost` becomes zero when `gDuel_bWinnerSide` (`0x8009B165`) is zero,
 and one otherwise. The paired single-player observations below establish
 `0 = player wins`, `1 = opponent wins`; together with the matching updater
 they support wins-first/losses-second. The trace itself did not sample the
@@ -2025,7 +2025,7 @@ campaign duelist available.
 >   `Text_StartCampaignDuel`. Its six payload bytes are the opponent id, two
 >   post-duel continuation bytes, the terrain, and a little-endian sound
 >   command. `Main_RunDuel` later selects one continuation with
->   `D_8009B362 * 2`. `FreeDuel_Init` independently uses the same outcome byte
+>   `gDuel_bPlayerLost * 2`. `FreeDuel_Init` independently uses the same outcome byte
 >   to select the per-duelist result counter: value 0 leaves the wins halfword
 >   selected, while value 1 advances to losses. This confirms index 0 as win
 >   and index 1 as loss.
@@ -2237,7 +2237,7 @@ Build Deck and `0x80` before starting a duel. Both values remain set when the
 screen returns, preserving the selected cell and skipping first-entry setup;
 the duel bit additionally tells `FreeDuel_Init` to index
 `gFreeDuel_aDuelistRecords` with `row * 5 + column`. Outcome byte
-`D_8009B362 == 1` advances from the wins halfword to losses; the selected
+`gDuel_bPlayerLost == 1` advances from the wins halfword to losses; the selected
 `u16` is incremented and clamped to 999.
 
 > **Entered from:** loaded menu. **Exits to:** duel; Build Deck; main menu. **Reads:**

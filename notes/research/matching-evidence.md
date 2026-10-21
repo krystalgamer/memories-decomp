@@ -5730,7 +5730,7 @@ the cause is allocation.
 On `Duel_InitScene` retail's tail is
 
     lui   $v0, %hi(func_800164FC)
-    lw    $v1, %gp_rel(D_8009B21C)
+    lw    $v1, %gp_rel(gDuel_pLifePointsPanel)
     addiu $v0, $v0, %lo(func_800164FC)
     sw    $v1, 0x50($s2)
 
@@ -7216,12 +7216,12 @@ And a second way, found later and worth separating from the first because it
 manufactures conflicts rather than owners. One `extern` statement may carry
 several declarators:
 
-    extern u8 D_8009B368[9], D_8009B362[9], gCampaignSceneIndex;
+    extern u8 D_8009B368[9], gDuel_bPlayerLost[9], gCampaignSceneIndex;
 
 A regex that captures "everything between `extern` and the symbol" as the type
 reads the trailing part of that line as a spelling, and reports
 `gCampaignSceneIndex` as declared both `u8` and
-`u8 D_8009B368[9], D_8009B362[9],`. Two symbols were listed as disputed on
+`u8 D_8009B368[9], gDuel_bPlayerLost[9],`. Two symbols were listed as disputed on
 that basis and neither is: every declarer agrees. The scan has to split on
 commas inside the statement before it decides anything about a type.
 

@@ -43,7 +43,7 @@ void Main_RunAnimatedBattle(void)
         gGraphics_bSyncVBlankTarget = 1;
         Model_ResetSceneView();
         Model_ResetSceneState();
-        p = D_800EF658;
+        p = gMain_aAnimatedBattleModels;
         if (p->model_id == MODEL_SPECIAL_BATTLE_ID) {
             D_8009B26C = D_8009B26C | 0x20;
             Model_StartExodiaPresentation();

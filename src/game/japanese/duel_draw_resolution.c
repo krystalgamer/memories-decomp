@@ -5,7 +5,6 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
-#define D_8009B21C gJapanese_D_8009B21C
 #define D_8009B23A gDuel_wSceneStateFlags
 #define D_8009B26C gJapanese_bActiveMainMode
 #define D_8009B369 gJapanese_DuelFlag

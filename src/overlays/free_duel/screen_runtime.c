@@ -179,7 +179,7 @@ void FreeDuel_Init(u8 *src)
         rec = gFreeDuel_aDuelistRecords[
             gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
             gFreeDuel_bCursorColumn].counts;
-        if (D_8009B362 == 1) {
+        if (gDuel_bPlayerLost == 1) {
             rec++;
         }
         *rec = *rec + 1;
