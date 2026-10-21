@@ -2186,7 +2186,7 @@ void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     if (arg1 != 0 || arg0 <= 0) {
         if (arg1 > 0) {
             index = arg1 - 1;
-            arg1 = (s32)MODEL_SLOT_BYTES(D_800F3A10, index);
+            arg1 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index);
             if (arg3 >= 0) {
                 D_800F2B20.eye.pair_slot = index ^ 1;
             } else {
@@ -2203,7 +2203,7 @@ void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     if (arg2 != 0 || arg0 <= 0) {
         if (arg2 > 0) {
             index = arg2 - 1;
-            arg2 = (s32)MODEL_SLOT_BYTES(D_800F3A10, index);
+            arg2 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index);
             if (arg3 >= 0) {
                 D_800F2B20.target.pair_slot = index ^ 1;
             } else {

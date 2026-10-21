@@ -20,7 +20,7 @@ s32 Model_GetSlotDistanceFromCameraEye(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
-    u16 *entry = MODEL_SLOT_HALFWORDS(D_800F3A10, index);
+    u16 *entry = MODEL_SLOT_HALFWORDS(gModel_awSlot0Position, index);
 
     memset(&difference, 0, sizeof(difference));
     difference.vx = gModel_RView[0] - entry[0];
@@ -36,7 +36,7 @@ s32 Model_GetSlotDistanceFromCameraTarget(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
-    u16 *entry = MODEL_SLOT_HALFWORDS(D_800F3A10, index);
+    u16 *entry = MODEL_SLOT_HALFWORDS(gModel_awSlot0Position, index);
 
     memset(&difference, 0, sizeof(difference));
     difference.vx = gModel_RView[6] - entry[0];

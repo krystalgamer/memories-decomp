@@ -5,8 +5,10 @@
 #include "../psyq/libgs.h"
 
 /* The two flat lights at 0x80090FCC, declared with the type GsSetFlatLight
- * takes rather than as byte arrays its caller has to cast. */
-extern GsF_LIGHT D_80090FCC;
-extern GsF_LIGHT D_80090FDC;
+ * takes rather than as byte arrays its caller has to cast: one along +y at
+ * 0x60 grey and one along -y at 0x30 grey. The display-object runtime installs
+ * them as GsSetFlatLight 0 and 1/2. */
+extern GsF_LIGHT gDisplayObject_FlatLightDown;
+extern GsF_LIGHT gDisplayObject_FlatLightUp;
 
 #endif
