@@ -26,7 +26,7 @@ fusion result; the low twelve bits identify the resource. The six-byte
 `DuelDeckCardRecord` supplies the signed index byte and image-block index.
 Fusion readback is an 8-by-88-pixel rectangle into a 1,408-byte block.
 
-The tentative `D_8009B206` definition and uniform
+The tentative `gDuel_wEquipCardId` definition and uniform
 `gcc_2_8_1_g8_split_comm` profile preserve a real load-delay nop on equipment-id
 publication. The initialized data owner remains unchanged. An extern-only
 control loses that nop and fails the instruction execution comparison.

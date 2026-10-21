@@ -54,7 +54,7 @@ void DuelEffect_ApplyRitual(void);
 #define R32(p, n) (*(u32 *)((u8 *)(p) + (n)))
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
-DisplayObject *D_8009B1C0;
+DisplayObject *gDuel_pCardPreviewObject;
 s16 gDuel_RitualResultCardId, gDuel_wEffectCardID, D_8009B20C[2];
 u16 gDuel_wTrapPresentationMode, gDuel_wCardEffectFlags;
 DuelEffectRequest *gDuelEffect_pTrackedRequest;
@@ -256,7 +256,7 @@ static void setup(s32 state)
     D_800E9EF0.slots[0] = &card_object; D_800E9EF0.slots[1] = &choice_object;
     for (i = 0; i < 3; i++) D_800E9EF0.slots[i + 2] = &tributes[i];
     D_800E9EF0.ritual.result.field_0C = 0x11223344;
-    gDuelEffect_pTrackedRequest = (DuelEffectRequest *)request; D_8009B1C0 = &main_object;
+    gDuelEffect_pTrackedRequest = (DuelEffectRequest *)request; gDuel_pCardPreviewObject = &main_object;
     gDuel_RitualResultCardId = 321; gDuel_wEffectCardID = -123;
     gDuel_wTrapPresentationMode = state; gDuel_wCardEffectFlags = 0xA55A;
     D_8009B20C[0] = 0x1234; D_8009B20C[1] = 0;
@@ -356,7 +356,7 @@ static s32 scale_countdown(void)
           events[1].a == 1 && events[1].b == -1 && events[1].c == -1 &&
           events[2].kind == 8 && events[3].kind == 10 && events[3].a == 38 &&
           events[4].kind == 9 && events[4].b == 597, 30);
-    CHECK(gDuel_wTrapPresentationMode == 0x81 && D_8009B1C0 == &main_object &&
+    CHECK(gDuel_wTrapPresentationMode == 0x81 && gDuel_pCardPreviewObject == &main_object &&
           R16(&main_object, 0x44) == 170 && R16(&main_object, 0x46) == 170 &&
           R16(&main_object, 0x60) == 23, 31);
     for (i = 0; i < 8; i++) {

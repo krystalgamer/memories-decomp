@@ -49,7 +49,7 @@
 #define DISPLAY_OBJECT_VELOCITY_VIEW(object) \
     ((DisplayObjectVelocity *)(object))
 
-s16 D_8009B206;
+s16 gDuel_wEquipCardId;
 
 static __inline__ s32 placement_velocity(s32 distance)
 {
@@ -351,13 +351,13 @@ request_combination:
                         PLACEMENT_PY(object) = 16;
                         PLACEMENT_PX(object) = PLACEMENT_PX(D_800E9EF0[0]) - 44;
                         object->flags &= ~0x40;
-                        D_8009B1C0 = object;
+                        gDuel_pCardPreviewObject = object;
                         DisplayObject_StartAlphaTransition(D_800E9EF0[0], 0, 64, 8);
                         if (slots[1]) {
                             s32 second = (s16)PLACEMENT_PX(slots[1]);
                             s32 first = (s16)PLACEMENT_PX(D_800E9EF0[0]);
                             second += 52;
-                            PLACEMENT_PX(D_8009B1C0) = (first + second) / 2 - 70;
+                            PLACEMENT_PX(gDuel_pCardPreviewObject) = (first + second) / 2 - 70;
                             DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
                         }
                         gDuel_wTrapPresentationMode = 1;
@@ -376,14 +376,14 @@ request_combination:
                         gDuel_wTrapPresentationMode |= 0x80;
                         if (slots[1])
                         slots[1]->flags &= ~0x40;
-                        PLACEMENT_ALPHA(D_8009B1C0) = 192;
-                        D_8009B1C0->flags |= 0x44;
+                        PLACEMENT_ALPHA(gDuel_pCardPreviewObject) = 192;
+                        gDuel_pCardPreviewObject->flags |= 0x44;
                         return;
                     }
-                    alpha = PLACEMENT_ALPHA(D_8009B1C0) + 8;
-                    PLACEMENT_ALPHA(D_8009B1C0) = alpha;
+                    alpha = PLACEMENT_ALPHA(gDuel_pCardPreviewObject) + 8;
+                    PLACEMENT_ALPHA(gDuel_pCardPreviewObject) = alpha;
                     if ((s8)alpha >= 0) {
-                        DisplayObject *entry = D_8009B1C0;
+                        DisplayObject *entry = gDuel_pCardPreviewObject;
                         u16 flags = entry->flags;
                         PLACEMENT_ALPHA(entry) = 0;
                         gDuel_wTrapPresentationMode = 2;
@@ -395,7 +395,7 @@ request_combination:
                 {
                     DisplayObject *G32 *slots;
                     card = &gDuel_aCardRecords[D_800E9EF0[0]->field_6A];
-                    object = D_8009B1C0;
+                    object = gDuel_pCardPreviewObject;
                     if (!(gDuel_wTrapPresentationMode & 0x80)) {
                         gDuel_wTrapPresentationMode |= 0x80;
                         object->field_60 = 30;
@@ -404,7 +404,7 @@ request_combination:
                             PLACEMENT_TY(object) = 500;
                             gDuel_wTrapPresentationMode |= 0x40;
                             object->field_2C.h.field_2C = card->stat_modifier;
-                            if (D_8009B206 == 0x291) {
+                            if (gDuel_wEquipCardId == 0x291) {
                                 PLACEMENT_TY(object) = 1000;
                                 gDuel_wPendingEquipBonus += 500;
                             }
@@ -431,7 +431,7 @@ request_combination:
                     if (object->field_60 > 0)
                     return;
                     {
-                        DisplayObject *entry = D_8009B1C0;
+                        DisplayObject *entry = gDuel_pCardPreviewObject;
                         *(u16 *)((u32)entry + (u32)&((DisplayObject *)0)->flags) = entry->flags | 4;
                     }
                     slots = D_800E9EF0;
@@ -452,12 +452,12 @@ request_combination:
                     s32 alpha;
                     object = D_800E9EF0[0];
                     if (!(gDuel_wTrapPresentationMode & 0x80)) {
-                        alpha = PLACEMENT_ALPHA(D_8009B1C0) + 8;
-                        PLACEMENT_ALPHA(D_8009B1C0) = alpha;
+                        alpha = PLACEMENT_ALPHA(gDuel_pCardPreviewObject) + 8;
+                        PLACEMENT_ALPHA(gDuel_pCardPreviewObject) = alpha;
                         if ((u8)alpha < 64)
                         return;
                         {
-                            u16 position = PLACEMENT_PX(D_8009B1C0);
+                            u16 position = PLACEMENT_PX(gDuel_pCardPreviewObject);
                             gDuel_wTrapPresentationMode |= 0x80;
                             PLACEMENT_PX(object) = position + 44;
                         }
@@ -500,7 +500,7 @@ request_combination:
                 object = D_800E9EF0[0];
                 if (object->field_68 != 23)
                 object = slots[1];
-                D_8009B206 = PLACEMENT_REPLAY_CARD(object).card_id;
+                gDuel_wEquipCardId = PLACEMENT_REPLAY_CARD(object).card_id;
                 return;
             }
             if (D_8009B174 & 0x40) {
@@ -536,13 +536,13 @@ request_combination:
                 DisplayObject **slots;
                 D_8009B174 |= 0x20;
                 effect = DuelEffect_AllocateRequest(
-                    ((u32)((u16)D_8009B206 - 301) < 2) * 4);
+                    ((u32)((u16)gDuel_wEquipCardId - 301) < 2) * 4);
                 effect->field_00 = PLACEMENT_PX(D_800E9EF0[0]) + 26;
                 gDuelEffect_pTrackedRequest = effect;
                 effect->field_02 = PLACEMENT_PY(D_800E9EF0[0]) + 30;
-                if (D_8009B206 == 302)
+                if (gDuel_wEquipCardId == 302)
                 effect->field_1A = 1;
-                if (D_8009B206 == 0x291)
+                if (gDuel_wEquipCardId == 0x291)
                 effect->field_1A = 10;
                 SD_SEPlayFull(22);
             } else if (gDuelEffect_pTrackedRequest->field_1D) {

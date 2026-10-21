@@ -2235,3 +2235,6 @@ CardList_LoadSharedGraphicsStage = 0x80032184; // type:func
 CardList_LoadSharedGraphics = 0x80032328; // type:func
 
 Library_PruneRecentCardDrops = 0x80032370; // type:func
+gDuel_pCardPreviewObject = 0x8009B1C0;
+gDuel_bDrawStepCountdown = 0x8009B1ED;
+gDuel_aCardSlotScreenPositions = 0x800EA070;

@@ -258,7 +258,7 @@ void DuelEffect_ApplyRitual(void)
     case 1: {
         u16 scale;
         s32 countdown;
-        object = D_8009B1C0;
+        object = gDuel_pCardPreviewObject;
         if (!(gDuel_wTrapPresentationMode & 0x80)) {
             s32 attribute;
             s16 object_flags;
@@ -278,7 +278,7 @@ void DuelEffect_ApplyRitual(void)
             object->flags = object_flags | 4;
             DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
             object->field_38.h.field_38 = 597;
-            D_8009B1C0 = object;
+            gDuel_pCardPreviewObject = object;
             SD_SEPlayFull(0x26);
         }
         DisplayObject_StepPositionY((DisplayObjectVelocity *)object);
@@ -302,7 +302,7 @@ void DuelEffect_ApplyRitual(void)
         break;
     }
     case 2:
-        object = D_8009B1C0;
+        object = gDuel_pCardPreviewObject;
         if (!(gDuel_wTrapPresentationMode & 0x80)) {
             gDuel_wTrapPresentationMode |= 0x80;
             D_8009B20C[1] = 32;

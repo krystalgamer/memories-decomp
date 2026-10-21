@@ -33,8 +33,8 @@ extern DuelFieldPosition gDuel_aCardSlotGroundPositions[DUEL_SCREEN_CARD_POSITIO
 #else
 extern u16 gDuel_aCardSlotGroundPositions[];
 #endif
-extern ScreenPair D_800EA070[DUEL_SCREEN_CARD_POSITION_COUNT];
-extern DuelExodiaCardPoseTable D_80090918;
+extern ScreenPair gDuel_aCardSlotScreenPositions[DUEL_SCREEN_CARD_POSITION_COUNT];
+extern DuelExodiaCardPoseTable gDuel_ExodiaCardPoses;
 extern DuelResultSpriteSpec tent_DuelResultSpriteSpecsOpponent[][DUEL_RESULT_SPRITE_COUNT];
 extern DuelResultSpriteSpec tent_DuelResultSpriteSpecsNoOpponent[][DUEL_RESULT_SPRITE_COUNT];
 
