@@ -5729,7 +5729,7 @@
       "address": "0x8005B264",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F0",
-      "source": "src/game/func_80058434.c"
+      "source": "src/game/model_step_view_orbit.c"
     },
     {
       "address": "0x8005B454",
@@ -6095,7 +6095,7 @@
       "address": "0x8005CFB0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
-      "source": "src/game/func_8005A188.c"
+      "source": "src/game/model_lock_orbit_direction.c"
     },
     {
       "address": "0x8005D01C",
@@ -6131,7 +6131,7 @@
       "address": "0x8005D364",
       "profile": "gcc_2_8_1_g0_no_sched1",
       "size": "0xDC",
-      "source": "src/game/func_8005A53C.c"
+      "source": "src/game/model_remap_primitive_handlers.c"
     },
     {
       "address": "0x8005D440",

@@ -6,7 +6,7 @@ production caller is observed; the role follows the stores and the full
 consumer chain.
 
 The controller multiplies `field_04` by frame step and the direction byte,
-then supplies the result as `func_80058434`'s yaw-delta argument. That
+then supplies the result as `Model_StepViewOrbit`'s yaw-delta argument. That
 callee adds the argument to cached yaw and rebuilds the view. This is
 orbit-step evidence, not an inference from the field's offset alone.
 

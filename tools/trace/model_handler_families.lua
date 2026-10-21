@@ -11,7 +11,7 @@
 --   func_8005FC1C  "the second dispatch family"; Model_RunSlotHandlers passes
 --                  it as the callback for each slot's handler list.
 --   func_8005FE44  the other family; Model_DrawSlot passes it to
---                  func_8005A53C for each handler-run entry.
+--                  Model_RemapPrimitiveHandlers for each handler-run entry.
 --
 --   Neither name can be given until it is known which kinds of model data
 --   reach each family and what they return for them. This trace logs, for

@@ -2089,10 +2089,6 @@ gDebug_nEditedBgmId = 0x8009B2CA;
 gDebug_nEditedCdSoundId = 0x8009B2CC;
 gDebug_nLastBgmId = 0x8009B2DA;
 
-Model_AdjustViewOrbit = 0x80058434; // type:func
-
-Model_LockOrbitDirection = 0x8005A188; // type:func
-
 Model_SetCameraOrbit = 0x8005F3B8; // type:func
 
 Model_SetCameraOrbitFromPreset = 0x8005F27C; // type:func
