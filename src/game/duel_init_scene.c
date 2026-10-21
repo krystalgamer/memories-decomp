@@ -132,7 +132,7 @@ void Duel_InitScene(void)
     pane[1].src_y = 256;
     pane[1].field_2C = DUEL_INIT_RESOURCE_FIELD_2C;
     pane[1].field_2E = DUEL_INIT_RESOURCE_FIELD_2E - 1;
-    func_80035668(0);
+    Model_SetFogDrawFlags(0);
     Duel_InitModelScene();
     File_WaitForTransfers();
     gDuel_pActiveFieldGrid =

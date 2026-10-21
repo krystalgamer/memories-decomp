@@ -409,11 +409,11 @@ address,size,name,status,module,notes
 0x800341A8,0x1C,BuildDeck_EnterWideConfirmMode,matching_c,game,"Shared European C at 0x80033FBC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800341C4,0x34,CardList_UpdateSortMode,matching_c,game,"Shared European C at 0x80033FD8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800341F8,0xB8,SortedEntry_Append,matching_c,game,Shared European C at 0x8003400C; French relocations and complete executable SHA-256 verified.
-0x800342B0,0xA80,func_80033DB0,matching_c,game,Shared European C at 0x800340C4; French relocations and complete executable SHA-256 verified.
-0x80034D30,0xD68,func_80034830,matching_c,game,Shared European C at 0x80034B44; French relocations and complete executable SHA-256 verified.
+0x800342B0,0xA80,Model_DrawFogTexturedTriangles,matching_c,game,Shared European C at 0x800340C4; French relocations and complete executable SHA-256 verified.
+0x80034D30,0xD68,Model_DrawFogTexturedQuads,matching_c,game,Shared European C at 0x80034B44; French relocations and complete executable SHA-256 verified.
 0x80035A98,0x30,SortedEntry_Compare,matching_c,game,Unmodified European/shared C at 0x800358AC; complete French executable SHA-256 verified.
 0x80035AC8,0xA0,SortedEntry_SortAndRelink,matching_c,game,Shared European C at 0x800358DC; French relocations and complete executable SHA-256 verified.
-0x80035B68,0x18,func_80035668,matching_c,game,"Shared European C at 0x8003597C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x80035B68,0x18,Model_SetFogDrawFlags,matching_c,game,"Shared European C at 0x8003597C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80035B80,0x20,SortedEntry_BeginCollection,matching_c,game,"Shared European C at 0x80035994; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80035BA0,0xA8,Util_CopyWords,matching_c,game,Unmodified European/shared C at 0x800359B4; complete French executable SHA-256 verified.
 0x80035C48,0xA0,Util_FillMemory,matching_c,game,Unmodified European/shared C at 0x80035A5C; complete French executable SHA-256 verified.

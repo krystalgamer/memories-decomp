@@ -2190,3 +2190,11 @@ gMain_aAnimatedBattleModels = 0x800EF658;
 gFade_abCurrentLevel = 0x800E9ECC;
 gDuel_dwFieldDimTarget = 0x8009B1BC;
 gDuel_wPendingEquipBonus = 0x8009B154;
+
+gModel_dwFogBaseColor = 0x8009B300;
+
+Model_DrawFogTexturedTriangles = 0x80033DB0; // type:func
+
+Model_DrawFogTexturedQuads = 0x80034830; // type:func
+
+Model_SetFogDrawFlags = 0x80035668; // type:func

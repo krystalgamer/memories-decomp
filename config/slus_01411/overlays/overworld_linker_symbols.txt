@@ -17,6 +17,7 @@ Model_DrawSlot = 0x800540B4;
 Model_LoadSlot = 0x80056250;
 Model_ResetSceneView = 0x800530C4;
 Model_ResetSceneState = 0x800533D8;
+Model_SetFogDrawFlags = 0x80035668;
 D_8016A274 = gCampaignMap_AlternateState + 0x00;
 D_8016A278 = gCampaignMap_AlternateState + 0x04;
 D_8016A288 = gCampaignMap_AlternateState + 0x14;
