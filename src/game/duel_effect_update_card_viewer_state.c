@@ -22,6 +22,7 @@
 
 #include "display_object_layout.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #define DUEL_CARD_VIEWER_ADDRESS_ALIASES
 #include "duel_card_viewer.h"
 #include "duel_effect_tables.h"
@@ -140,9 +141,9 @@ void DuelEffect_UpdateCardViewerState(void)
         stats = gDuel_adwCardStats;
 #ifdef VERSION_EUROPE
         for (; i < 3; i++) {
-            chan = (DUEL_CARD_VIEWER_CHANNEL_TYPE *)((u8 *)D_800EB0F8 + i * 100);
+            chan = (DUEL_CARD_VIEWER_CHANNEL_TYPE *)((u8 *)gText_aChannels + i * 100);
 #else
-        chan = (DUEL_CARD_VIEWER_CHANNEL_TYPE *)D_800EB0F8;
+        chan = (DUEL_CARD_VIEWER_CHANNEL_TYPE *)gText_aChannels;
         for (; i < 3; i++, chan++) {
 #endif
             if ((chan->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) == 0) {

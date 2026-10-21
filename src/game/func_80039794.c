@@ -5,6 +5,7 @@
 #include "input.h"
 #include "display_effect_process_menu_records.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "duel_effect_process_entries.h"
 #include "sound.h"
 #include "display_object_core.h"
@@ -45,7 +46,7 @@ void TextBox_UpdateChannels(void)
     s32 arg;
     u16 f;
 
-    p = D_800EB0F8;
+    p = gText_aChannels;
     n = 4;
     reset_value = -1;
     table = tent_GlyphLookupTable;

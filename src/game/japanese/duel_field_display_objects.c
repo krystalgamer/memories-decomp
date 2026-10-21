@@ -8,6 +8,5 @@
 #define gDuel_wViewTweenHeadingTarget gJapanese_DuelViewTweenHeadingTarget
 #define gDuel_dwViewTweenHeadingStep gJapanese_DuelViewTweenHeadingStep
 #define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
-#define D_800EB0F8 gJapanese_D_800EB0F8
 #define gDuel_aCardRecords gJapanese_DuelCardRecords
 #include "../duel_field_display_objects.c"

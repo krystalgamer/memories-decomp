@@ -6,6 +6,7 @@
 #include "text_box_set_rect.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #endif
 
 void TextBox_Destroy(DuelEffectChannel *record)
@@ -37,10 +38,10 @@ void TextBox_Destroy(DuelEffectChannel *record)
 }
 
 #ifdef VERSION_EUROPE
-/* European only: destroys the channel at an index into D_800EB0F8. */
+/* European only: destroys the channel at an index into gText_aChannels. */
 void TextBox_DestroyIndex(s32 index)
 {
-    TextBox_Destroy(&D_800EB0F8[index]);
+    TextBox_Destroy(&gText_aChannels[index]);
 }
 #endif
 

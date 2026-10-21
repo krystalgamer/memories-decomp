@@ -5,6 +5,7 @@
 #include "../types.h"
 #include "build_deck_test_and_set_initialized.h"
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "fade.h"
 #include "card_constants.h"
 #include "text_box_lifecycle.h"
@@ -53,7 +54,7 @@
  * one in the 640-wide mode selected by bit 7 of gBuildDeck_bConfirmMode, the narrow one
  * otherwise, which is then waited on until its field_30 pointer is filled),
  * Fade_SetTargetLevel(0xA0, 2) runs and D_8009B140 is set from D_8009AF74[1] - 8.
- * With bit 14 set the effect channel at D_800EB0F8 is polled: once its flags
+ * With bit 14 set the effect channel at gText_aChannels is polled: once its flags
  * match TEXT_BOX_FLAG_DONE under TEXT_BOX_COMPLETION_MASK, the box is
  * destroyed and either bit 14
  * is cleared (narrow mode with a choice made) or the state word is reloaded
@@ -102,7 +103,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
         TextBox_UpdateChannels();
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
-        box = D_800EB0F8;
+        box = gText_aChannels;
         if ((*(u32 *)&box->flags_34 & BUILD_DECK_CONFIRM_COMPLETION_MASK) ==
             TEXT_BOX_FLAG_DONE) {
             TextBox_Destroy(box);

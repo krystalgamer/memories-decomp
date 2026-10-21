@@ -7,6 +7,7 @@
 #include "display_object_core.h"
 
 #include "duel_effect.h"
+#include "text_channel_state.h"
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
 #include "func_80039794.h"
@@ -81,10 +82,10 @@ void Dialog_UpdateCloseTransition(MenuRecord *record)
     /* The dialog channel's index: the byte at 0x1A, inside grid's third
        row, which MenuRecord does not name. */
 #ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
-    entry = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
+    entry = (DuelEffectChannel *)((u8 *)gText_aChannels +
         ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
 #else
-    entry = &D_800EB0F8[((u8 *)record)[0x1A]];
+    entry = &gText_aChannels[((u8 *)record)[0x1A]];
 #endif
     object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
     if (object) {
@@ -167,10 +168,10 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
     /* The dialog channel's index: the byte at 0x1A, inside grid's third
        row, which MenuRecord does not name. */
 #ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
-    r = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
+    r = (DuelEffectChannel *)((u8 *)gText_aChannels +
         ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
 #else
-    r = &D_800EB0F8[((u8 *)record)[0x1A]];
+    r = &gText_aChannels[((u8 *)record)[0x1A]];
 #endif
     if ((f & 0x40) != 0) {
         TextBox_UpdateChannels();

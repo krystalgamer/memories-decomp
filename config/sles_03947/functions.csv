@@ -488,7 +488,7 @@ address,size,name,status,module,notes
 0x80038664,0x8,Text_NoOpSecondary13,matching_c,game,
 0x8003866C,0x40,Text_OpenCampaignMap,matching_c,game,
 0x800386AC,0xEC,Text_ApplyFadeCommand,matching_c,game,
-0x80038798,0x14,func_800389C4,matching_c,game,
+0x80038798,0x14,Text_DisableCompletionWait,matching_c,game,
 0x800387AC,0x6C,Text_JumpBySelectorA,matching_c,game,
 0x80038818,0x6C,Text_JumpBySelectorB,matching_c,game,
 0x80038884,0x58,Text_UnlockDuelist,matching_c,game,
