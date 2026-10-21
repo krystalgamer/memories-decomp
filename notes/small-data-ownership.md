@@ -165,7 +165,7 @@ The resulting object still has:
 
 ```text
 .sdata  size=00000024  align=2**2
-00000000 R_MIPS_32 D_80091008
+00000000 R_MIPS_32 gModel_abBackgroundRecords
 ```
 
 Every public symbol lands at its retail offset, and the linked payload matches

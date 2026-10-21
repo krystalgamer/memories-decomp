@@ -187,13 +187,13 @@ s32 ModelDebug_UpdateController(void)
         gModel_awSlotModelIds[side] = 100 * digits[0] + 10 * digits[1] + digits[2];
     }
     if (gInput_wPad1Pressed & 4)
-        D_8009B48E[0] ^= 1;
+        gModelDebug_abSlotAfFlags[0] ^= 1;
     if (gInput_wPad1Pressed & 1)
-        D_8009B490[0] ^= 1;
+        gModelDebug_abSlotGfFlags[0] ^= 1;
     if (gInput_wPad1Pressed & 8)
-        D_8009B48E[1] ^= 1;
+        gModelDebug_abSlotAfFlags[1] ^= 1;
     if (gInput_wPad1Pressed & 2)
-        D_8009B490[1] ^= 1;
+        gModelDebug_abSlotGfFlags[1] ^= 1;
     FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 0 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[0] / 100u) % 10u));
     FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 1 ?
@@ -201,7 +201,7 @@ s32 ModelDebug_UpdateController(void)
     FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 2 ?
         selected : normal, (u16)((u16)gModel_awSlotModelIds[0] % 10u));
     FntPrint(normal);
-    FntPrint(gModelDebug_szSlotFlagsFormat, D_8009B48E[0], D_8009B490[0]);
+    FntPrint(gModelDebug_szSlotFlagsFormat, gModelDebug_abSlotAfFlags[0], gModelDebug_abSlotGfFlags[0]);
     FntPrint(gModelDebug_szVersusSeparator);
     FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 3 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[1] / 100u) % 10u));
@@ -210,16 +210,16 @@ s32 ModelDebug_UpdateController(void)
     FntPrint(gModelDebug_szDigitFormat, gModelDebug_bSelectedDigit == 5 ?
         selected : normal, (u16)((u16)gModel_awSlotModelIds[1] % 10u));
     FntPrint(normal);
-    FntPrint(gModelDebug_szSlotFlagsFormat, D_8009B48E[1], D_8009B490[1]);
+    FntPrint(gModelDebug_szSlotFlagsFormat, gModelDebug_abSlotAfFlags[1], gModelDebug_abSlotGfFlags[1]);
     FntPrint(gModelDebug_szLineBreak);
     FntPrint(gModelDebug_szStageFormat, (u16)gModel_awSlotModelIds[2], D_8009B004.fields.height);
     if (reload) {
         File_WaitForTransfers();
         Model_ResetSceneState();
         Model_SetSlotProperties(0, (u16)gModel_awSlotModelIds[0], -1, -1,
-            D_8009B48E[0], D_8009B490[0]);
+            gModelDebug_abSlotAfFlags[0], gModelDebug_abSlotGfFlags[0]);
         Model_SetSlotProperties(1, (u16)gModel_awSlotModelIds[1], -1, -1,
-            D_8009B48E[1], D_8009B490[1]);
+            gModelDebug_abSlotAfFlags[1], gModelDebug_abSlotGfFlags[1]);
         Model_SetSlotProperties(2, (u16)gModel_awSlotModelIds[2]);
     }
 #endif

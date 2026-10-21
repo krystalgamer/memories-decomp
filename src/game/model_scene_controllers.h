@@ -40,8 +40,8 @@ void Model_PlaySlotAnimationSounds(s32 index);
  * mirrored by Model_SetSlotProperties and edited by
  * ModelDebug_UpdateController. */
 extern s16 gModel_awSlotModelIds[MODEL_SLOT_COUNT];
-extern u8 D_8009B48E[2];
-extern u8 D_8009B490[2];
+extern u8 gModelDebug_abSlotAfFlags[2];
+extern u8 gModelDebug_abSlotGfFlags[2];
 extern s16 D_800F2B4A[];
 
 /* Resets the model scene: clears the two counters at gModel_wBackgroundScrollX/gModel_wBackgroundOffsetY and

@@ -20,6 +20,6 @@ extern u8 D_800114F8[];
 extern u8 gFile_szModelMrgPath[];
 
 /* Diagnostic format used while publishing each file's sector position. */
-extern u8 D_80010038[4] __attribute__((section(".data")));
+extern u8 gFile_szPositionFormat[4] __attribute__((section(".data")));
 
 #endif

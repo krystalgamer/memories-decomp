@@ -441,7 +441,7 @@ data-only units inserted between `save_data_mask_state` and
 split template. `model_graphics_state` also proves that mixed byte, halfword
 and word fields are viable when each unnamed continuation byte is represented
 explicitly: its `.sdata` is exactly 36 bytes and retains the pointer relocation
-to `D_80091008`.
+to `gModel_abBackgroundRecords`.
 
 `model_handler_state` applies the same measured-layout approach to a more
 varied block: five leading state labels, a private halfword continuation, two
@@ -680,9 +680,9 @@ the table alone does not predict:
   explains that the assembler only resolves a small global gp-relative when the
   translation unit *defines* it, which is what supplies a missing load-delay
   `nop`. The same reasoning is recorded for `gGraphics_bClearBlue`/`gGraphics_bClearGreen`/`gGraphics_bClearRed`.
-- **Oversizing is deliberate.** `gModel_awSlotModelIds`, `D_8009B48E` and `D_8009B490`
+- **Oversizing is deliberate.** `gModel_awSlotModelIds`, `gModelDebug_abSlotAfFlags` and `gModelDebug_abSlotGfFlags`
   "needed sized array declarations to land in small data as `%gp_rel`", while
-  `D_800F5678` needed the incomplete form so its `lui %hi` would hoist into a
+  `gModel_awStageSlotModelId` needed the incomplete form so its `lui %hi` would hoist into a
   branch delay slot.
 - **A neighbour's spelling can be the reason.** Declaring `D_8009B260` as an
   eight-byte aggregate is what keeps it non-small "while the four-byte

@@ -759,7 +759,7 @@ therefore establish that the injected code replaces and extends trap
 selection rather than merely changing card data.
 
 The first payload is especially invasive. `Model_SetSlotProperties`
-(`0x80053248`) and `Model_LoadMonsterMerge` index `D_80091008` in
+(`0x80053248`) and `Model_LoadMonsterMerge` index `gModel_abBackgroundRecords` in
 `0xB2`-byte steps; the `0x216`-byte write is exactly three such entries.
 Thirty-five bytes in that retail destination are nonzero. Direct jumps from
 the larger payload to `0x80091018`, `0x8009103C`, and `0x8009116C` show that
