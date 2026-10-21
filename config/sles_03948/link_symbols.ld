@@ -1030,3 +1030,9 @@ gScript_ImageOperand = 0x8009C630;
 gText_SecondaryCommandHandlers = 0x800922B8;
 tent_TradeSaveBuffer = 0x801D1880;
 write = 0x80073E48;
+
+/* Semantic draw-state aliases retain the original native providers. */
+gModel_bCurrentDrawMode = D_8009BF6C;
+gModel_wDrawTintRedGreen = D_8009BF6E;
+gModel_bDrawTintBlue = D_8009BF70;
+gModel_aShadowFanSteps = D_800925CC;

@@ -92,3 +92,9 @@ func_80014474 = File_StepActiveTransfer;
 func_80014A48 = SD_ConfigureTransferPhase;
 func_80014B58 = File_RequestSecondarySlot;
 gDuel_aCardUploadRects = 0x80177EA4;
+
+/* Semantic draw-state aliases retain the original native providers. */
+gModel_bCurrentDrawMode = D_8009BF6C;
+gModel_wDrawTintRedGreen = D_8009BF6E;
+gModel_bDrawTintBlue = D_8009BF70;
+gModel_aShadowFanSteps = D_800925CC;

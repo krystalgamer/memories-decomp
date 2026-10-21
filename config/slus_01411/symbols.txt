@@ -1292,10 +1292,10 @@ gGraphics_bPacketBufferIndex = 0x8009AFA2; // defined:True
 gGraphics_bFrameStep = 0x8009AFA3; // defined:True
 D_8009AFA4 = 0x8009AFA4; // defined:True
 D_8009AFA6 = 0x8009AFA6; // defined:True
-D_8009AFE4 = 0x8009AFE4; // defined:True
+gModel_bCurrentDrawMode = 0x8009AFE4; // defined:True
 D_8009AFE5 = 0x8009AFE5; // defined:True
-D_8009AFE6 = 0x8009AFE6; // defined:True
-D_8009AFE8 = 0x8009AFE8; // defined:True
+gModel_wDrawTintRedGreen = 0x8009AFE6; // defined:True
+gModel_bDrawTintBlue = 0x8009AFE8; // defined:True
 D_8009AFE9 = 0x8009AFE9; // defined:True
 D_8009AFEC = 0x8009AFEC; // defined:True
 D_8009AFF4 = 0x8009AFF4; // defined:True
@@ -2141,3 +2141,5 @@ Model_LoadAuxiliaryPackageStage = 0x80057544; // type:func
 Model_LoadSpecialBattlePackageStage = 0x800577B0; // type:func
 
 Model_GetSlotReadiness = 0x80058DD8; // type:func
+
+gModel_aShadowFanSteps = 0x800914E8;

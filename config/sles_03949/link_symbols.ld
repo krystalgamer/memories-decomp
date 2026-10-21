@@ -1028,3 +1028,9 @@ D_80091CC0 = 0x80091CC0;
 D_80091D10 = 0x80091D10;
 D_80091D60 = 0x80091D60;
 D_8009C2BC = 0x8009C2BC;
+
+/* Semantic draw-state aliases retain the original native providers. */
+gModel_bCurrentDrawMode = D_8009BF6C;
+gModel_wDrawTintRedGreen = D_8009BF6E;
+gModel_bDrawTintBlue = D_8009BF70;
+gModel_aShadowFanSteps = D_800925CC;

@@ -1,7 +1,7 @@
 /*
  * Per-slot model draw pass: selects the slot's ordering table, programs the
  * three flat lights and the ambient colour, steps the slot's colour fade into
- * the shared primitive templates at D_8009AFAC..D_8009AFE8, sorts every unit
+ * the shared primitive templates at D_8009AFAC..gModel_bDrawTintBlue, sorts every unit
  * of the slot, then updates the slot's bounding volume, draws the ground
  * shadow fan and runs the palette flash. Matching pure C under
  * gcc_2_8_1_g8_split_comm: no register pins, asm aliases or inline assembly.
@@ -12,7 +12,7 @@
  *   so `zero` owns 0x20 for the whole function, the unit loop's two matrices
  *   sit at 0x40 and 0x60, and the shadow fan's vertices and primitive and the
  *   flash's rectangles and pixel rows reuse that space in declaration order;
- * - D_8009AFE0 and D_8009AFE4 are defined here as common symbols, because
+ * - D_8009AFE0 and gModel_bCurrentDrawMode are defined here as common symbols, because
  *   the assembler only pads a load feeding a gp-relative store when the unit
  *   defines the stored symbol (c_symbols.ld overrides the commons, so no
  *   storage is allocated);
@@ -77,7 +77,7 @@
  * model_handler_state.c hold the initialised definitions these commons merge
  * into, so no storage is allocated here. */
 u32 D_8009AFE0;
-u8 D_8009AFE4;
+u8 gModel_bCurrentDrawMode;
 
 /* Stamps a colour into the ten primitive templates and derives the blend
  * words from the fade mode byte. Both colour blocks share it; a plain braced
@@ -97,9 +97,9 @@ u8 D_8009AFE4;
     D_8009AFC0 = (colour) | 0x2E000000; \
     D_8009AFC4 = (colour) | 0x36000000; \
     D_8009AFC8 = (colour) | 0x3E000000; \
-    B(&D_8009AFE6, 0) = (red); \
-    B(&D_8009AFE6, 1) = (green); \
-    D_8009AFE8 = (blue); \
+    B(&gModel_wDrawTintRedGreen, 0) = (red); \
+    B(&gModel_wDrawTintRedGreen, 1) = (green); \
+    gModel_bDrawTintBlue = (blue); \
     if ((fl) != 2) { \
         if ((fl) != 3) { \
             if ((fl) != 4) { \
@@ -199,13 +199,13 @@ void Model_DrawSlot(s32 index)
     GsSetFlatLight(2, (GsF_LIGHT *)&slot->field_D70[2]);
     GsSetAmbient(slot->field_DA0[0], slot->field_DA0[1], slot->field_DA0[2]);
     D_8009AFE0 = slot->field_DF0;
-    D_8009AFE4 = slot->field_E11;
+    gModel_bCurrentDrawMode = slot->field_E11;
     if (slot->field_E11 != 4) {
         slot->field_E11 = 0;
     }
     if (index < 2) {
         ot->length = 0xE;
-        if ((slot->field_DC0[7] % 6) && slot->field_DC0[3] == 0 && D_8009AFE4 == 0) {
+        if ((slot->field_DC0[7] % 6) && slot->field_DC0[3] == 0 && gModel_bCurrentDrawMode == 0) {
             s32 step;
             s32 colour;
             s32 r;
@@ -222,7 +222,7 @@ void Model_DrawSlot(s32 index)
             colour = (h << 16) | (w << 8) | r;
             fl = slot->field_DC0[7];
             MODEL_STAMP_TEMPLATES(colour, r, w, h, fl, mode);
-            D_8009AFE4 = 3;
+            gModel_bCurrentDrawMode = 3;
             lim = slot->field_DC0[0];
             if (slot->field_DC0[4] + step < lim) {
                 lim = slot->field_DC0[4] + step;
@@ -242,7 +242,7 @@ void Model_DrawSlot(s32 index)
                 && (u32)(limb & 0xFF) >= slot->field_DC0[2]) {
                 slot->field_DC0[7] = 0;
             }
-        } else if (D_8009AFE4 != 1) {
+        } else if (gModel_bCurrentDrawMode != 1) {
             s32 colour;
             s32 fl;
             s32 mode;
@@ -256,7 +256,7 @@ void Model_DrawSlot(s32 index)
             colour |= y;
             MODEL_STAMP_TEMPLATES(colour, y, w, h, fl, mode);
             if (W(slot->field_DC0, 0) != 0x808080) {
-                D_8009AFE4 = 3;
+                gModel_bCurrentDrawMode = 3;
             }
             slot->field_DC0[7] = 0;
         } else {
@@ -264,9 +264,9 @@ void Model_DrawSlot(s32 index)
         }
     } else {
     neutral:
-        B(&D_8009AFE6, 0) = 0x80;
-        B(&D_8009AFE6, 1) = 0x80;
-        D_8009AFE8 = 0x80;
+        B(&gModel_wDrawTintRedGreen, 0) = 0x80;
+        B(&gModel_wDrawTintRedGreen, 1) = 0x80;
+        gModel_bDrawTintBlue = 0x80;
         D_8009AFAC = 0x24808080;
         D_8009AFB0 = 0x2C808080;
         D_8009AFB4 = 0x34808080;
@@ -284,7 +284,7 @@ void Model_DrawSlot(s32 index)
     }
 
     e = slot->field_000;
-    if (D_8009AFE4 >= 3) {
+    if (gModel_bCurrentDrawMode >= 3) {
         D_8009AFE0 = 0;
     }
     for (i = 0; i < slot->field_E1A; i++, e++) {
@@ -344,7 +344,7 @@ void Model_DrawSlot(s32 index)
                 memset(&zero, 0, 0x20);
                 GsSetLsMatrix(&zero);
             } else if ((unit = GS_COORD_UNIT_VIEW(e->field_00)) != 0) {
-                if (D_8009AFE4 != 0) {
+                if (gModel_bCurrentDrawMode != 0) {
                     s32 k;
                     s32 m;
                     u16 max;
@@ -549,20 +549,20 @@ void Model_DrawSlot(s32 index)
             s32 cx;
             s32 res;
 
-            if (D_8009AFE4 == 1) {
+            if (gModel_bCurrentDrawMode == 1) {
                 goto finish_ot;
             }
             setlen(&poly, 6);
             setcode(&poly, 0x30);
-            poly.r0 = B(&D_8009AFE6, 0);
-            poly.g0 = B(&D_8009AFE6, 1);
-            poly.b0 = D_8009AFE8;
-            poly.r1 = (s16)B(&D_8009AFE6, 0) / 16;
-            poly.g1 = (s16)B(&D_8009AFE6, 1) / 16;
-            poly.b1 = (s16)D_8009AFE8 / 16;
-            poly.r2 = (s16)B(&D_8009AFE6, 0) / 16;
-            poly.g2 = (s16)B(&D_8009AFE6, 1) / 16;
-            poly.b2 = (s16)D_8009AFE8 / 16;
+            poly.r0 = B(&gModel_wDrawTintRedGreen, 0);
+            poly.g0 = B(&gModel_wDrawTintRedGreen, 1);
+            poly.b0 = gModel_bDrawTintBlue;
+            poly.r1 = (s16)B(&gModel_wDrawTintRedGreen, 0) / 16;
+            poly.g1 = (s16)B(&gModel_wDrawTintRedGreen, 1) / 16;
+            poly.b1 = (s16)gModel_bDrawTintBlue / 16;
+            poly.r2 = (s16)B(&gModel_wDrawTintRedGreen, 0) / 16;
+            poly.g2 = (s16)B(&gModel_wDrawTintRedGreen, 1) / 16;
+            poly.b2 = (s16)gModel_bDrawTintBlue / 16;
             GsSetLsMatrix((MATRIX *)Model_GetLightSourceMatrix());
             func_80057E20(index, &adj);
             w = adj.x;
@@ -602,8 +602,8 @@ void Model_DrawSlot(s32 index)
             for (i = 0; i < 8; i++) {
                 v0.vx = x;
                 v0.vz = z;
-                v1.vx = x + ((ModelShadowFanStep *)D_800914E8)[i].x * a / 4096;
-                v1.vz = z + ((ModelShadowFanStep *)D_800914E8)[i].z * b / 4096;
+                v1.vx = x + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[i].x * a / 4096;
+                v1.vz = z + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[i].z * b / 4096;
                 if (gModel_pBackgroundRecord->flags & 1) {
                     v0.vx = CLAMP_FIELD(v0.vx);
                     v0.vz = CLAMP_FIELD(v0.vz);
@@ -629,7 +629,7 @@ void Model_DrawSlot(s32 index)
             }
         }
     }
-    if (D_8009AFE4 == 1) {
+    if (gModel_bCurrentDrawMode == 1) {
     finish_ot:
         if (index < 2) {
             ot->length = 0xC;

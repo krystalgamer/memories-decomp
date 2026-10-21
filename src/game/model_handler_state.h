@@ -15,10 +15,10 @@
  * ModelDebug_UpdateController so MASPSX can see its small-data extent; the
  * surrounding prefix and diagnostic suffix retain their original separate
  * storage. */
-extern u8 D_8009AFE4;
+extern u8 gModel_bCurrentDrawMode;
 extern u8 D_8009AFE5;
-extern u16 D_8009AFE6;
-extern u8 D_8009AFE8;
+extern u16 gModel_wDrawTintRedGreen;
+extern u8 gModel_bDrawTintBlue;
 extern u8 D_8009AFE9;
 /* The mode 15 controller copies this view offset through a split absolute
  * address; its unknown-bound view changes no storage extent. */
