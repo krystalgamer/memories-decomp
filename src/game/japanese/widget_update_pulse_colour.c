@@ -1,4 +1,3 @@
-#define D_8009B09C gJapanese_FrameCounter
 #include "../../types.h"
 #include "../graphics_frame.h"
 #include "../display_object.h"
@@ -10,7 +9,7 @@ void Widget_UpdatePulseColour(DisplayObject *object)
 {
     DisplayObject *q = object;
     s32 c = 0;
-    s32 t = gJapanese_FrameCounter & 0x7F;
+    s32 t = gMain_dwFrameCounter & 0x7F;
 
     if (t >= 0x40)
         t = 0x7F - t;

@@ -86,7 +86,7 @@
      reads the object's y origin into the reused `id` ahead of the position
      stores;
    - the selected card ID is stored and read straight back as the stats index;
-   - D_8009B0C0 is volatile in this unit, which keeps the delay slot of the
+   - gGraphics_bSyncVBlankTarget is volatile in this unit, which keeps the delay slot of the
      close path's DisplayObject_SetResourceVariant call empty, and the pad
      word is volatile because state 5 loads it twice;
    - the typed card-table flag lvalues must retain the retail base-first
@@ -359,7 +359,7 @@ void Library_UpdateCardView(LibraryState *state)
         if (!(flags & 0x80)) {
             state->motion.card_view_phase = flags | 0x80;
             state->motion.card_view_subphase = 0;
-            D_8009B0C0 = 1;
+            gGraphics_bSyncVBlankTarget = 1;
             D_800E9DB0[2] = (void (*)(void))Library_DrawWireframeGlobe;
             flags = state->motion.state;
             state->motion.globe_radius = 0;
@@ -458,7 +458,7 @@ void Library_UpdateCardView(LibraryState *state)
                 {
                     void *p = (void *)state->loading_icon;
 
-                    D_8009B0C0 = 0;
+                    gGraphics_bSyncVBlankTarget = 0;
                     DisplayObject_SetResourceVariant(p, 2);
                 }
                 state->motion.card_view_phase = 5;

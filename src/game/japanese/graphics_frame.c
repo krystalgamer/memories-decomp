@@ -8,7 +8,6 @@
 #define D_8009B098 gJapanese_D_8009B098
 #define D_8009B0A0 gJapanese_D_8009B0A0
 #define D_8009B0A8 gJapanese_D_8009B0A8
-#define D_8009B0C0 gJapanese_D_8009B0C0
 #define gGraphics_dwSyncVBlankCounter gJapanese_GraphicsSyncVBlankCounter
 #define D_8009B0CC gJapanese_D_8009B0CC
 #define D_8009B0D0 gJapanese_D_8009B0D0

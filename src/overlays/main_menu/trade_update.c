@@ -116,7 +116,7 @@ void MainMenu_InitTradeScreen(void)
     D_80185CD0 = 0;
     D_80185CD1 = 0;
     D_800E9DB0[1] = MainMenu_DrawTradeOffersAndHighlights;
-    D_8009B0C0 = 1;
+    gGraphics_bSyncVBlankTarget = 1;
 }
 
 #endif

@@ -8,22 +8,22 @@
 /* Small data at 0x8009AF0C: prevents a nested VBlank callback from calling
    SD_VSync while the previous call is still running. */
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-u8 D_8009AF0C __attribute__((section(".sdata"))) = 0;
+u8 gMain_bSoundVSyncBusy __attribute__((section(".sdata"))) = 0;
 #endif
 
 void Main_VBlankCB(void)
 {
-    D_8009B09C++;
+    gMain_dwFrameCounter++;
     gSaveData_dwVBlankCounter++;
-    D_8009B0C3 = 1;
+    gMain_bVBlankSoundPending = 1;
     gGraphics_dwSyncVBlankCounter++;
     Input_ReadRawPads();
 
-    if (D_8009AF0C == 0) {
-        D_8009AF0C = 1;
+    if (gMain_bSoundVSyncBusy == 0) {
+        gMain_bSoundVSyncBusy = 1;
         SD_VSync();
-        D_8009AF0C = 0;
-        D_8009B0C3 = 0;
+        gMain_bSoundVSyncBusy = 0;
+        gMain_bVBlankSoundPending = 0;
     }
 }
 

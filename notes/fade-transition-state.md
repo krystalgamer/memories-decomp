@@ -84,7 +84,7 @@ the producer of `D_8009B0D8`. The frame-sync helper optionally waits for the
 GPU with `DrawSync(0)` (unless `D_8009B098 & 0x8000` is set), then spins
 while the volatile counter `gGraphics_dwSyncVBlankCounter` (originally
 `D_8009B0C8`, `0x8009B0C8`) is below the byte threshold
-`D_8009B0C0`. [`Main_VBlankCB`](../src/game/main_frame.c) increments that
+`gGraphics_bSyncVBlankTarget`. [`Main_VBlankCB`](../src/game/main_frame.c) increments that
 counter on each callback.
 
 After the wait, the helper assigns the counter to the **byte**
@@ -121,7 +121,7 @@ step cap. The byte, common definition, private `D_8009B0C1_IN_DATA`
 addressing selector and all seven binding addresses remain unchanged.
 
 [`Main_ResetFrontendRuntime`](../src/game/main_reset_frontend_runtime.c)
-clears the wait threshold `D_8009B0C0`, but that does not force the sampled
+clears the wait threshold `gGraphics_bSyncVBlankTarget`, but that does not force the sampled
 counter to zero or guarantee a factor of `1`. Actual GPU/render work and
 VBlank timing still determine the sample.
 
@@ -189,7 +189,7 @@ reading them as a grid is what makes the wrapper names tractable:
 | `0x80015CC0` | `Fade_StartOutKeepOverlayAndHideSecondaryTables` | `Fade_InitOut` | no | `\|= 6`, then `Fade_ApplyWhiteLatchToFadeOut` |
 
 The two remaining wrappers are not fades at all. They write the control
-byte `D_8009B141`, which
+byte `gFade_bOrderingTableMode`, which
 [`Graphics_BeginFrame`](../src/game/graphics_frame.c) reads before it draws
 the finished frame:
 
@@ -221,11 +221,11 @@ full-screen image object and only then calls `0x80015C84`, the non-blocking
 f = gFade_State.flags;
 if (f & FADE_FLAG_KEEP_OVERLAY) {
     if ((f & FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE) == 0) {
-        return;          /* leave D_8009B141 alone */
+        return;          /* leave gFade_bOrderingTableMode alone */
     }
-    D_8009B141 = FADE_ORDERING_TABLE_HIDE_SECONDARY;
+    gFade_bOrderingTableMode = FADE_ORDERING_TABLE_HIDE_SECONDARY;
 } else {
-    Fade_DisableOrderingTables(); /* D_8009B141 = 0 */
+    Fade_DisableOrderingTables(); /* gFade_bOrderingTableMode = 0 */
 }
 ```
 
@@ -275,17 +275,17 @@ context before assigning fixed timings or screen-specific meanings.
 **before** testing whether to draw. Its condition uses the updated state:
 
 ```c
-(flags & FADE_FLAG_ACTIVE) || (D_8009B141 != 0 && level != 0xFF)
+(flags & FADE_FLAG_ACTIVE) || (gFade_bOrderingTableMode != 0 && level != 0xFF)
 ```
 
-| `FADE_FLAG_ACTIVE` | `D_8009B141` | `level` | Submits boxes |
+| `FADE_FLAG_ACTIVE` | `gFade_bOrderingTableMode` | `level` | Submits boxes |
 |---|---|---|---|
 | set | any | any | yes |
 | clear | zero | any | no |
 | clear | nonzero | `0xFF` | no |
 | clear | nonzero | not `0xFF` | yes |
 
-Thus a nonzero `D_8009B141` does not unconditionally keep a black overlay on
+Thus a nonzero `gFade_bOrderingTableMode` does not unconditionally keep a black overlay on
 screen, nor does `level == 0xFF` unconditionally stop drawing. The untinted
 input color is `0xFF - level` (or the corresponding band level); `0xFF`
 therefore supplies zero color, not a general "fully faded" or "finished"
@@ -296,7 +296,7 @@ The [`Fade_Update`](../src/game/fade_runtime.c) source confirms that this
 separate control byte is not a simple record of fade-in versus fade-out.
 When an active update
 enters with `level == target_level == 0xFF`, `0x80015384..0x800153C8` clears
-the active flag and calls `Fade_EnableOrderingTables` to write `D_8009B141 = 1`; the
+the active flag and calls `Fade_EnableOrderingTables` to write `gFade_bOrderingTableMode = 1`; the
 renderer still submits nothing because the level is `0xFF`. Conversely, an
 equal-zero update entering with flags `0x80` calls
 `Fade_DisableOrderingTables` and leaves
