@@ -42,7 +42,7 @@ void File_SetPositionTable(void)
             break;
         }
         File_GetPosition(position, (const char *)current);
-        printf((const char *)D_80010038, current, *position);
+        printf((const char *)gFile_szPositionFormat, current, *position);
         position++;
         name++;
         i++;

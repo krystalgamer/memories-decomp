@@ -615,7 +615,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
  * every id above such a gap is biased down by MODEL_MRG_GAP_SIZE.
  * MODEL_SPECIAL_BATTLE_ID is the one special case and comes from its own
  * file. Any other slot loads MODEL_AUX_SECTOR_COUNT sectors selected
- * through the MODEL_AUX_LOOKUP_RECORD_SIZE-byte table at D_80091008.
+ * through the MODEL_AUX_LOOKUP_RECORD_SIZE-byte table at gModel_abBackgroundRecords.
  *
  * Returns zero once a transfer has been requested and one when the model id
  * has no record to request. */
@@ -694,7 +694,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
         }
     } else {
         if (model >= 0 && model < 7) {
-            model = D_80091008[
+            model = gModel_abBackgroundRecords[
                 model * MODEL_AUX_LOOKUP_RECORD_SIZE
                 + MODEL_AUX_LOOKUP_VALUE_OFFSET];
             if (model >= 0 && model < 7) {

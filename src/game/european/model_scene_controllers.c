@@ -15,8 +15,6 @@
 #define D_8009B004 D_8009BF8C
 /* As in model_debug_controller's wrapper: the splat names of the European
  * addresses. */
-#define D_8009B48E D_8009C3FE
-#define D_8009B490 D_8009C400
 #define func_801807B0 func_80180420
 #define func_80181C4C func_80180004
 #define func_80180A24 func_8018019C

@@ -12,9 +12,9 @@
    both arguments. This keeps the interpreter boundary checked instead of
    hiding five prototype differences behind table casts.
 
-   D_80091008 is the 0xB2-byte record table Model_LoadMonsterMerge
+   gModel_abBackgroundRecords is the 0xB2-byte record table Model_LoadMonsterMerge
    describes and model_scene_controllers.c indexes as
-   &D_80091008[D_800F5678[0] * 0xB2]. Eighty of its 1248 bytes are non-zero;
+   &gModel_abBackgroundRecords[gModel_awStageSlotModelId[0] * 0xB2]. Eighty of its 1248 bytes are non-zero;
    the rest are written out so the array is unambiguously initialized data.
 
    gModel_aShadowFanSteps is read by Model_DrawSlot as eight x/z direction pairs, the
@@ -31,7 +31,7 @@ s32 (*tent_DisplayObjectStreamCommandTable[])(DisplayObjectStreamState *, const 
     DisplayObjectStream_ConfigureRotation,
 };
 
-u8 D_80091008[] = {
+u8 gModel_abBackgroundRecords[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,

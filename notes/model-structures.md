@@ -59,8 +59,8 @@ Verified shared fields and partial arrays are:
 | `0xDF8` | `field_DF8` | first property in `Model_SetSlotProperties`; mirrored to `gModel_awSlotModelIds[index]` for all three slots when non-negative |
 | `0xDFA` | `field_DFA` | second property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
 | `0xDFC` | `field_DFC` | third property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
-| `0xDFE` | `field_DFE` | fourth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `D_8009B48E[index]` |
-| `0xDFF` | `field_DFF` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `D_8009B490[index]` |
+| `0xDFE` | `field_DFE` | fourth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotAfFlags[index]` |
+| `0xDFF` | `field_DFF` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotGfFlags[index]` |
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
 | `0xE06` | `field_E06` | 12.4 fixed-point animation frame returned as an integer by `Model_GetSlotAnimationFrame`; write/read in `Model_SeekSlotAnimation` |
 | `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `Model_SetSlotPlaybackSpeed` writes it |
@@ -107,11 +107,11 @@ five properties for slots 0 and 1, or one for slot 2. The
 first property writes `field_DF8` for any of the three slots and mirrors it to
 `gModel_awSlotModelIds[index]`. Slots 0 and 1 consume four more properties for
 `field_DFA`, `field_DFC`, `field_DFE`, and `field_DFF`; the final two are
-normalized to zero or one and mirrored to `D_8009B48E[index]` and
-`D_8009B490[index]`.
+normalized to zero or one and mirrored to `gModelDebug_abSlotAfFlags[index]` and
+`gModelDebug_abSlotGfFlags[index]`.
 
 Slot 2 consumes only the first property, then refreshes `D_8009AF88` from the
-`0xB2`-byte table selected by `D_800F5678[0]`. Every call finishes by setting
+`0xB2`-byte table selected by `gModel_awStageSlotModelId[0]`. Every call finishes by setting
 `gModel_bSceneMode` to `15`. These writes establish field widths, slot bounds, and
 mirror relationships, but not the user-facing meaning of the five properties
 or the purpose of the final value `15`. The array supports indices 0 through 2;
