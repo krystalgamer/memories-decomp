@@ -22,7 +22,7 @@ only shared geometry and flags, not a complete display-object structure.
 
 `DisplayObject_ResetPool` clears the field at slot offset `+0x08` across 96
 records with the `DISPLAY_OBJECT_RECORD_SIZE` stride. It also initializes
-seven signed 16-bit entries at `D_800EFE38` and seven companion entries at
+seven signed 16-bit entries at `gDisplayObject_awListHeads` and seven companion entries at
 `gDisplayObject_awListKeys` to `-1`.
 
 The two allocation scans divide the pool:
@@ -84,7 +84,7 @@ For a nonnegative index it increments `gDisplayObject_wAcquireCount`, **includin
 slot was already allocated**. An existing allocated slot is returned without
 reinitialization or relinking, and the supplied key does not move it to a
 different list. On first allocation it links the slot to the previous
-`D_800EFE38[key]` entry and updates that endpoint; `gDisplayObject_awListKeys[key]` is also
+`gDisplayObject_awListHeads[key]` entry and updates that endpoint; `gDisplayObject_awListKeys[key]` is also
 initialized when the list was empty.
 
 Only an explicit subset of record fields is initialized. This is not
@@ -167,9 +167,9 @@ Matching consumers establish these heads and pass shapes:
 
 | Key | Head address | Matching consumer | Established behavior |
 |---:|---:|---|---|
-| `0` | `D_800EFE38` | `DisplayObject_RunUpdateCallbackList` | Runs each slot's `+0x24` callback without a submission step. |
-| `1` | `D_800EFE3A` | not yet identified in matching C | The dispatcher still treats it as one of the seven lists. |
-| `2` | `D_800EFE3C` | `DisplayObject_RenderSpriteSheetList` | Runs the callback, then `DisplayObject_UpdateCommandStream` and `DisplayObject_RenderSpriteSheet` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
+| `0` | `gDisplayObject_awListHeads` | `DisplayObject_RunUpdateCallbackList` | Runs each slot's `+0x24` callback without a submission step. |
+| `1` | `gDisplayObject_wSpriteListHead` | `DisplayObject_RenderSpriteList` | Runs the callback, then fills the scratchpad sprite primitive for each renderable slot (or, through the clip test, a semi-transparent `POLY_FT4`) and submits it. |
+| `2` | `gDisplayObject_wSpriteSheetListHead` | `DisplayObject_RenderSpriteSheetList` | Runs the callback, then `DisplayObject_UpdateCommandStream` and `DisplayObject_RenderSpriteSheet` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
 | `3` | `D_800EFE3E` | `DisplayObject_RenderSpriteStripList` | Runs the callback, then submits through `DisplayObject_RenderSpriteStrips` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
 | `4` | `D_800EFE40` | `DisplayObject_RenderGouraudQuadList` | Builds and submits the `0x38` packet form described below. |
 | `5` | `D_800EFE42` | `DisplayObject_RenderTexturedGouraudQuadList` | Builds and submits the larger `0x3C` packet form described below. |

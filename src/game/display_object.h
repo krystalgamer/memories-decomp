@@ -406,7 +406,7 @@ typedef struct DisplayObject {
 
    What that means is not established here. The sibling renderer
    DisplayObject_RenderGouraudQuadList gates its second submission on
-   e[0x5A] instead, so the two list heads (D_800EFE38[4] and [5]) may simply
+   e[0x5A] instead, so the two list heads (gDisplayObject_awListHeads[4] and [5]) may simply
    carry differently shaped payloads. Recorded as an open question rather
    than guessed at.
 
@@ -487,7 +487,7 @@ typedef char DisplayObject_field_65_must_be_at_0x65[
  * either renderer. */
 extern s32 gDisplayObject_fRenderRetry;
 
-extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
+extern s16 gDisplayObject_awListHeads[DISPLAY_OBJECT_LIST_COUNT];
 
 /* The per-list key array, walked in lockstep with the list heads above.
  *
@@ -498,7 +498,7 @@ extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
  * the reset walk uses an s16 *.
  *
  * DisplayObject_MoveToListHead in display_object_core.c indexes this typed
- * array and D_800EFE38 directly by list key. */
+ * array and gDisplayObject_awListHeads directly by list key. */
 extern s16 gDisplayObject_awListKeys[DISPLAY_OBJECT_LIST_COUNT];
 
 extern DisplayObject gDisplayObject_aPool[DISPLAY_OBJECT_POOL_CAPACITY];
@@ -514,7 +514,7 @@ extern DisplayObject tent_DisplayObjectGeneralSlots[
  * request that reached a slot, initialised or not; DisplayObject_Release bumps
  * gDisplayObject_wUnlinkCount after reading the slot's previous and next links
  * (display_object_core.h calls it the unlink counter). DisplayObject_ResetPool
- * stores 0 into both beside its -1 fill of D_800EFE38 and gDisplayObject_awListKeys.
+ * stores 0 into both beside its -1 fill of gDisplayObject_awListHeads and gDisplayObject_awListKeys.
  * Nothing else in C or in the resident listings touches either; both
  * reads are lhu, so u16. Initial value not read.
  *

@@ -234,7 +234,7 @@ void DuelEffect_ApplyRitual(void)
 
     if (!DuelEffect_MarkInitialized()) {
         gDuel_RitualResultCardId = Duel_CheckRitual(
-            &D_800E9EF0.ritual.result, gDuel_wEffectCardID);
+            &gDisplayObject_apWorkSlots.ritual.result, gDuel_wEffectCardID);
         if (gDuel_RitualResultCardId) {
             Duel_MarkCreatedCardKnown((s32)gDuel_RitualResultCardId);
             gDuelEffect_pTrackedRequest = DuelEffect_AllocateRequest(22);
@@ -249,10 +249,10 @@ void DuelEffect_ApplyRitual(void)
     switch (gDuel_wTrapPresentationMode & 0xF) {
     case 0:
         if (gDuelEffect_pTrackedRequest->field_1D) {
-            gDuel_bCardMoveSlot = D_800E9EF0.slots[3]->field_6A;
-            DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[2]->field_6A]);
-            DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[3]->field_6A]);
-            DuelCard_DeactivateRecord(&gDuel_aCardRecords[D_800E9EF0.slots[4]->field_6A]);
+            gDuel_bCardMoveSlot = gDisplayObject_apWorkSlots.slots[3]->field_6A;
+            DuelCard_DeactivateRecord(&gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[2]->field_6A]);
+            DuelCard_DeactivateRecord(&gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[3]->field_6A]);
+            DuelCard_DeactivateRecord(&gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[4]->field_6A]);
             gDuel_wTrapPresentationMode = 1;
         }
         break;
@@ -314,44 +314,44 @@ void DuelEffect_ApplyRitual(void)
             if ((s32)((u32)timer << 16) <= 0) {
                 gDuel_wTrapPresentationMode |= 0x40;
                 DuelCard_CaptureRoundedTexture(object);
-                D_800E9EF0.slots[0] =
+                gDisplayObject_apWorkSlots.slots[0] =
                     Duel_CreateCardEffectOverlay(
                         (DisplayObjectConfigView *)object);
-                D_800E9EF0.slots[0]->attribute |= 0x50000000;
-                D_800E9EF0.slots[0]->attribute &= ~0x08000000;
-                D_800E9EF0.slots[1] =
+                gDisplayObject_apWorkSlots.slots[0]->attribute |= 0x50000000;
+                gDisplayObject_apWorkSlots.slots[0]->attribute &= ~0x08000000;
+                gDisplayObject_apWorkSlots.slots[1] =
                     Duel_CreateCardEffectOverlay(
                         (DisplayObjectConfigView *)object);
-                DisplayObject_SetDepthOffset(D_800E9EF0.slots[1], -1);
-                D_800E9EF0.slots[1]->attribute |= 0x60000000;
-                D_800E9EF0.slots[1]->attribute &= ~0x08000000;
+                DisplayObject_SetDepthOffset(gDisplayObject_apWorkSlots.slots[1], -1);
+                gDisplayObject_apWorkSlots.slots[1]->attribute |= 0x60000000;
+                gDisplayObject_apWorkSlots.slots[1]->attribute &= ~0x08000000;
                 DuelEffect_ReleaseResourceObjects(1);
             }
         } else {
-            DisplayObject *first = D_800E9EF0.slots[0];
-            DisplayObject *second = D_800E9EF0.slots[1];
+            DisplayObject *first = gDisplayObject_apWorkSlots.slots[0];
+            DisplayObject *second = gDisplayObject_apWorkSlots.slots[1];
             value = first->field_44.h.field_44 + 128;
             second->field_44.h.field_46 = value;
             second->field_44.h.field_44 = value;
             first->field_44.h.field_46 = value;
             first->field_44.h.field_44 = value;
-            value = *(u8 *)&D_800E9EF0.slots[0]->field_0C;
+            value = *(u8 *)&gDisplayObject_apWorkSlots.slots[0]->field_0C;
             value -= 4;
             if (value < 0)
                 value = 0;
             value = value | ((value << 16) | (value << 8));
-            D_800E9EF0.slots[0]->field_0C = value;
-            D_800E9EF0.slots[1]->field_0C = value;
+            gDisplayObject_apWorkSlots.slots[0]->field_0C = value;
+            gDisplayObject_apWorkSlots.slots[1]->field_0C = value;
             if (!value) {
-                DisplayObject_ReleaseIfPresent(D_800E9EF0.slots[0]);
-                DisplayObject_ReleaseIfPresent(D_800E9EF0.slots[1]);
+                DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots.slots[0]);
+                DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots.slots[1]);
                 gDuel_wTrapPresentationMode = 3;
             }
         }
         break;
     case 3: {
         u16 state = gDuel_wTrapPresentationMode;
-        DuelEffectResourceRecord *resource = (DuelEffectResourceRecord *)D_800EA128;
+        DuelEffectResourceRecord *resource = (DuelEffectResourceRecord *)gCardPreview_Resource1;
         u8 *data;
         card = &gDuel_aCardRecords[gDuel_bCardMoveSlot];
         if (!(state & 0x80)) {
@@ -378,7 +378,7 @@ void DuelEffect_ApplyRitual(void)
         Duel_SetupFieldCardFromDeck(
             gDuel_bCardMoveSlot, ((DuelDeckCardRecord *)card->data)->deck_index);
         object = card->object;
-        D_800E9EF0.slots[0] = object;
+        gDisplayObject_apWorkSlots.slots[0] = object;
         *(s16 *)&object->field_30.h.field_32 = -DUEL_RITUAL_SCREEN_HEIGHT;
         if (D_8009B360[gDuel_bActiveSide] >= 0) {
             card->flags &= ~0x200;
@@ -386,12 +386,12 @@ void DuelEffect_ApplyRitual(void)
                 card->flags |= 0x200;
             goto state_five;
         }
-        D_800E9EF0.slots[1] =
+        gDisplayObject_apWorkSlots.slots[1] =
             (DisplayObject *)Duel_CreateCardDisplayObject(card, 134, DUEL_RITUAL_SCREEN_HEIGHT);
         gDuel_wTrapPresentationMode = 4;
     }
     case 4:
-        object = D_800E9EF0.slots[1];
+        object = gDisplayObject_apWorkSlots.slots[1];
         if (!(gDuel_wTrapPresentationMode & 0x80)) {
             gDuel_wTrapPresentationMode |= 0x80;
             object->position.h.field_28 = 134;
@@ -444,7 +444,7 @@ state_five:
         break;
     case 5: {
         s16 phase;
-        object = D_800E9EF0.slots[0];
+        object = gDisplayObject_apWorkSlots.slots[0];
         if (!(gDuel_wTrapPresentationMode & 0x80)) {
             gDuel_wTrapPresentationMode |= 0x80;
             DisplayObject_SavePosition((DisplayObjectSnapshot *)object);

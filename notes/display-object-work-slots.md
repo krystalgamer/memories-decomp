@@ -1,10 +1,12 @@
 # Shared display-object work slots
 
 `display_object_work_slots.h` supplies the single declaration of
-`D_800E9EF0` to three matching resident translation units and the retained
+`gDisplayObject_apWorkSlots` to three matching resident translation units and the retained
 `DuelScene_UpdateExodiaResult` candidate. It is an incomplete array of `DisplayObject *`,
 not a new allocation or an object pool. The linker address and assembly-owned
-storage remain unchanged. No new semantic symbol name is assigned.
+storage remain unchanged. The array is named `gDisplayObject_apWorkSlots`
+(formerly `D_800E9EF0`) for these shared scratch slots; the
+separate `D_800E9F04` word keeps its address name.
 
 ## Evidence and consumers
 
@@ -53,7 +55,7 @@ remain intact. Existing register constraints are unchanged, not extended.
 
 The candidate's slot cursors are typed and its two position reads use the
 same existing members; unrelated byte views and its known near-miss behavior
-remain intact. It now obtains `D_800E9EF0` directly from the header, so only
+remain intact. It now obtains `gDisplayObject_apWorkSlots` directly from the header, so only
 that obsolete private-extern entry is removed from its schema-2 dependency
 map. Its object fingerprint remains
 `5b8db9b3dbaf377624bf31a2890b934f9fff263f86a4f6db4db586c8d30d6615`;

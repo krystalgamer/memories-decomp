@@ -509,7 +509,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         SD_SEPlayFull(7);
         for (n = 6; n >= 0; n--) {
-            D_800E9EF0[n] = 0;
+            gDisplayObject_apWorkSlots[n] = 0;
         }
         i = FIELD_CURSOR.row * 5 + FIELD_CURSOR.col;
         pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
@@ -517,7 +517,7 @@ void DuelScene_UpdateFieldActions(void)
         gDuel_awSavedStatModifiers = H(pick, 0x12);
         o = (u8 *)Duel_CreateCardDisplayObject(pick, S(pick, 8), S(pick, 0xA));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), -0xA);
-        D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(o);
+        gDisplayObject_apWorkSlots[0] = DISPLAY_OBJECT_VIEW(o);
         d = pick->card_id;
         DuelCard_DeactivateRecord(pick);
         i = side->row * 5 + side->col;
@@ -526,7 +526,7 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_wSavedTargetRecordFlags = pick->flags;
             gDuel_wSavedTargetStatModifier = H(pick, 0x12);
             o = (u8 *)Duel_CreateCardDisplayObject(pick, S(pick, 8), S(pick, 0xA));
-            D_800E9EF0[1] = DISPLAY_OBJECT_VIEW(o);
+            gDisplayObject_apWorkSlots[1] = DISPLAY_OBJECT_VIEW(o);
             gDuel_bCardMoveSlot = DISPLAY_OBJECT_VIEW(o)->field_6A;
             DuelCard_DeactivateRecord(pick);
             if (CARD_KIND(d) == 0x17) {
@@ -587,7 +587,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             DuelCard_RemoveFromField(&gDuel_aCardRecords[B(gDuel_pActionCard, 0x6A)]);
             D_8009B174 = 9;
-            D_800E9EF0[0] = gDuel_pActionCard;
+            gDisplayObject_apWorkSlots[0] = gDuel_pActionCard;
             return;
         }
         if (D_8009B174 & 0x20) {
@@ -621,7 +621,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             DuelCard_RemoveFromField(&gDuel_aCardRecords[B(gDuel_pActionCard, 0x6A)]);
             D_8009B174 = 9;
-            D_800E9EF0[0] = gDuel_pActionCard;
+            gDisplayObject_apWorkSlots[0] = gDuel_pActionCard;
             return;
         }
         a = Duel_UpdateCardUseConfirmation();

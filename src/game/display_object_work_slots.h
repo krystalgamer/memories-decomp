@@ -60,9 +60,9 @@ typedef char DisplayObjectRitualWorkArea_size_must_be_0x18[
 typedef char DisplayObjectRitualWorkArea_result_offset_must_be_8[
     (u32)&((DisplayObjectRitualWorkArea *)0)->ritual.result == 8 ? 1 : -1
 ];
-extern DisplayObjectRitualWorkArea D_800E9EF0;
+extern DisplayObjectRitualWorkArea gDisplayObject_apWorkSlots;
 #else
-extern DisplayObject *G32 D_800E9EF0[];
+extern DisplayObject *G32 gDisplayObject_apWorkSlots[];
 #endif
 
 /* Copies five pointer words and appends zero; the destination ABI is integer. */

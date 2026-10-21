@@ -24,7 +24,7 @@ The shared `FadeTransitionState` layout is:
 | `0x0A` | `band_levels[30]` | 30 | `Fade_FillBandLevels` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
 
 The end of `band_levels` gives a minimum record size of `0x28`.
-`D_800E9EF0`, the next linker symbol, is exactly `0x28` bytes after
+`gDisplayObject_apWorkSlots`, the next linker symbol, is exactly `0x28` bytes after
 `gFade_State`, independently fixing the extent. C89 typedef assertions verify
 the total size and every modeled field offset.
 

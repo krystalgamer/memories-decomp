@@ -19,7 +19,7 @@ extern DisplayObject *G32 gDuel_pCardPreviewObject;
  * resource slot 1 through this same address, without widening this declaration.
  * See notes/ritual-controller-storage.md. */
 #define DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS 22
-extern u16 D_800EA128[DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS];
+extern u16 gCardPreview_Resource1[DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS];
 
 /* The ritual caller sign-extends its result; placement passes its masked
  * card ID. The full word supplies the existing library-flag offset, not

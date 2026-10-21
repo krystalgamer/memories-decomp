@@ -44,7 +44,7 @@ typedef struct {
     u8 after[16];
 } RitualImageBacking;
 extern RitualImageBacking ritual_image;
-#define D_800EA128 ((u16 *)&ritual_image.resource)
+#define gCardPreview_Resource1 ((u16 *)&ritual_image.resource)
 """
 WITNESS = r"""
 void DuelEffect_ApplyRitual(void);
@@ -61,7 +61,7 @@ DuelEffectRequest *gDuelEffect_pTrackedRequest;
 u8 gDuel_bCardMoveSlot, gDuel_bActiveSide;
 s8 D_8009B360[2];
 /* The result and its trailing cleared word share the full owning allocation. */
-DisplayObjectRitualWorkArea D_800E9EF0;
+DisplayObjectRitualWorkArea gDisplayObject_apWorkSlots;
 RitualImageBacking ritual_image;
 DuelCardThumbnailBlock gDuel_aCardThumbnailBlocks[256];
 DuelCardRecord gDuel_aCardRecords[DUEL_CARD_RECORD_COUNT];
@@ -118,7 +118,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 id)
 {
     s32 i;
     event(2, id, 0, 0, 0);
-    if (out != &D_800E9EF0.ritual.result) error = 3;
+    if (out != &gDisplayObject_apWorkSlots.ritual.result) error = 3;
     for (i = 0; i < 3; i++) out->tribute_objects[i] = &tributes[i];
     out->field_0C = 0;
     return ritual_result;
@@ -174,7 +174,7 @@ int StoreImage(RECT *rect, u32 *data)
     event(16, 0, 0, 0, 0);
     saved_rect = *rect;
     saved_readback = data;
-    if (rect != (RECT *)&D_800EA128[4]) error = 6;
+    if (rect != (RECT *)&gCardPreview_Resource1[4]) error = 6;
     return 0;
 }
 void Duel_SetupFieldCardFromDeck(s32 index, s32 id)
@@ -243,19 +243,19 @@ static void setup(s32 state)
     clear(&card_object, sizeof(card_object));
     clear(&choice_object, sizeof(choice_object));
     clear(request, sizeof(request)); clear(card_data, sizeof(card_data));
-    clear(&D_800E9EF0, sizeof(D_800E9EF0));
+    clear(&gDisplayObject_apWorkSlots, sizeof(gDisplayObject_apWorkSlots));
     clear(gDuel_aCardRecords, sizeof(gDuel_aCardRecords));
     clear(&D_8015C424_cards, sizeof(D_8015C424_cards));
     clear(gText_aChannels, sizeof(gText_aChannels));
     clear(events, sizeof(events));
     for (i = 0; i < sizeof(ritual_image); i++) ((u8 *)&ritual_image)[i] = 0xA5;
-    for (i = 0; i < 22; i++) D_800EA128[i] = 0x5555;
+    for (i = 0; i < 22; i++) gCardPreview_Resource1[i] = 0x5555;
     R8(&tributes[0], 0x6A) = 2;
     R8(&tributes[1], 0x6A) = 7;
     R8(&tributes[2], 0x6A) = 29;
-    D_800E9EF0.slots[0] = &card_object; D_800E9EF0.slots[1] = &choice_object;
-    for (i = 0; i < 3; i++) D_800E9EF0.slots[i + 2] = &tributes[i];
-    D_800E9EF0.ritual.result.field_0C = 0x11223344;
+    gDisplayObject_apWorkSlots.slots[0] = &card_object; gDisplayObject_apWorkSlots.slots[1] = &choice_object;
+    for (i = 0; i < 3; i++) gDisplayObject_apWorkSlots.slots[i + 2] = &tributes[i];
+    gDisplayObject_apWorkSlots.ritual.result.field_0C = 0x11223344;
     gDuelEffect_pTrackedRequest = (DuelEffectRequest *)request; gDuel_pCardPreviewObject = &main_object;
     gDuel_RitualResultCardId = 321; gDuel_wEffectCardID = -123;
     gDuel_wTrapPresentationMode = state; gDuel_wCardEffectFlags = 0xA55A;
@@ -314,9 +314,9 @@ static s32 initialization(void)
         ritual_result = results[i]; gDuel_wEffectCardID = arguments[j];
         run();
         CHECK(valid() && events[1].kind == 2 && events[1].a == arguments[j], 10);
-        CHECK(gDuel_RitualResultCardId == (s16)results[i] && D_800E9EF0.ritual.result.field_0C == 0 &&
-              D_800E9EF0.slots[2] == &tributes[0] && D_800E9EF0.slots[3] == &tributes[1] &&
-              D_800E9EF0.slots[4] == &tributes[2], 11);
+        CHECK(gDuel_RitualResultCardId == (s16)results[i] && gDisplayObject_apWorkSlots.ritual.result.field_0C == 0 &&
+              gDisplayObject_apWorkSlots.slots[2] == &tributes[0] && gDisplayObject_apWorkSlots.slots[3] == &tributes[1] &&
+              gDisplayObject_apWorkSlots.slots[4] == &tributes[2], 11);
         if (i == 0 || i == 3) {
             CHECK(count == 2 && gDuel_wCardEffectFlags == 0 && gDuel_wTrapPresentationMode == 0xF5, 12);
         } else {
@@ -392,8 +392,8 @@ static s32 clone_creation(void)
                   events[3].kind == 12 && events[3].b == 1 &&
                   events[4].kind == 13 && events[4].a == 2 && events[4].b == -1 &&
                   events[5].kind == 14 && events[5].a == 1, 42);
-            CHECK(D_800E9EF0.slots[0] == &clone_objects[0] &&
-                  D_800E9EF0.slots[1] == &clone_objects[1] &&
+            CHECK(gDisplayObject_apWorkSlots.slots[0] == &clone_objects[0] &&
+                  gDisplayObject_apWorkSlots.slots[1] == &clone_objects[1] &&
                   R32(&clone_objects[0], 4) == 0x50000003 &&
                   R32(&clone_objects[1], 4) == 0x60000003, 43);
         } else CHECK(count == 1 && clone_count == 0, 44);
@@ -410,7 +410,7 @@ static s32 clone_fade(void)
     s32 i, j;
     for (i = 0; i < 6; i++) for (j = 0; j < 4; j++) {
         setup(0xC2);
-        D_800E9EF0.slots[0] = &clone_objects[0]; D_800E9EF0.slots[1] = &clone_objects[1];
+        gDisplayObject_apWorkSlots.slots[0] = &clone_objects[0]; gDisplayObject_apWorkSlots.slots[1] = &clone_objects[1];
         R32(&clone_objects[0], 0xC) = 0xAA998800 | colors[i];
         R32(&clone_objects[1], 0xC) = 0x12345678;
         R16(&clone_objects[0], 0x44) = scales[j];
@@ -434,7 +434,7 @@ static s32 readback(void)
     s32 i, wrap;
     for (i = 0; i < 3; i++) for (wrap = 0; wrap < 2; wrap++) {
         setup(3); gDuel_RitualResultCardId = -32767; card_data[3] = pages[i];
-        D_800EA128[20] = wrap ? 65520 : 100; D_800EA128[21] = 0xFFED;
+        gCardPreview_Resource1[20] = wrap ? 65520 : 100; gCardPreview_Resource1[21] = 0xFFED;
         run();
         CHECK(valid() && count == 2 && events[1].kind == 16 && gDuel_wTrapPresentationMode == 0x83, 60);
         CHECK(R16(card_data, 0) == 0x8001 && (u16)gDuel_aCardRecords[7].card_id == 0x8001 &&
@@ -442,8 +442,8 @@ static s32 readback(void)
         CHECK((u16)saved_rect.x == (wrap ? 40 : 156) && saved_rect.y == -19 &&
               saved_rect.w == 8 && saved_rect.h == 88 &&
               saved_readback == (u32 *)((u8 *)gDuel_aCardThumbnailBlocks + 1408 * pages[i]), 62);
-        CHECK(D_800EA128[3] == 0x5555 && D_800EA128[8] == 0x5555 &&
-              D_800EA128[20] == (wrap ? 65520 : 100) && D_800EA128[21] == 0xFFED, 63);
+        CHECK(gCardPreview_Resource1[3] == 0x5555 && gCardPreview_Resource1[8] == 0x5555 &&
+              gCardPreview_Resource1[20] == (wrap ? 65520 : 100) && gCardPreview_Resource1[21] == 0xFFED, 63);
     }
     return 0;
 }
@@ -460,7 +460,7 @@ static s32 orientation(void)
         random_value = random ? -1 : 2;
         run();
         CHECK(valid() && events[1].kind == 17 && events[1].a == 7 &&
-              events[1].b == -3 && D_800E9EF0.slots[0] == &card_object &&
+              events[1].b == -3 && gDisplayObject_apWorkSlots.slots[0] == &card_object &&
               RS16(&card_object, 0x32) == -240, 70);
         if (identity < 2) {
             CHECK(count == 3 && events[2].kind == 18 && events[2].a == 7 &&
@@ -572,7 +572,7 @@ static s32 helper_reloads(void)
     CHECK(valid() && gDuel_wTrapPresentationMode == 2 && R16(&main_object, 0x60) == 0 &&
           R16(&main_object, 0x44) == 4096, 110);
     setup(0x83); mutation = 2; D_8009B360[0] = 0; run();
-    CHECK(valid() && D_800E9EF0.slots[0] == &main_object &&
+    CHECK(valid() && gDisplayObject_apWorkSlots.slots[0] == &main_object &&
           RS16(&main_object, 0x32) == -240 && RS16(&card_object, 0x32) == 0, 111);
     setup(0xC4); mutation = 3; run();
     CHECK(valid() && gDuel_wTrapPresentationMode == 0xE4 && gDuel_aCardRecords[29].flags == 0xB7A5, 112);
@@ -588,7 +588,7 @@ int main(int argc, char **argv)
     static const s32 expected_cases[] = {8, 3, 9, 9, 24, 6, 16, 5, 32, 19, 5};
     s32 result, scenario;
     if (sizeof(void *) != 4 || sizeof(long) != 4 ||
-        sizeof(DuelRitualResult) != 16 || sizeof(D_800E9EF0) < 24 || argc != 2) return 120;
+        sizeof(DuelRitualResult) != 16 || sizeof(gDisplayObject_apWorkSlots) < 24 || argc != 2) return 120;
     scenario = argv[1][0] - '0';
     if (argv[1][1]) scenario = scenario * 10 + argv[1][1] - '0';
     switch (scenario) {
@@ -762,8 +762,8 @@ class RitualControllerTests(unittest.TestCase):
                     5, range(123, 124))
 
     def test_wrong_tribute_slot_is_detected(self):
-        self.mutant("&gDuel_aCardRecords[D_800E9EF0.slots[4]->field_6A]",
-                    "&gDuel_aCardRecords[D_800E9EF0.slots[3]->field_6A]", 1, range(20, 23))
+        self.mutant("&gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[4]->field_6A]",
+                    "&gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[3]->field_6A]", 1, range(20, 23))
 
     def test_wrong_slide_increment_is_detected(self):
         self.mutant("(u16)object->field_60 + 42", "(u16)object->field_60 + 41", 9,

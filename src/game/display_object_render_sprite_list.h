@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* The gDisplayObject_ListRenderers entry for the list rooted at D_800EFE3A.
+/* The gDisplayObject_ListRenderers entry for the list rooted at gDisplayObject_wSpriteListHead.
  * Runs each object's callback, then for every renderable object fills the
  * sprite primitive in the scratchpad at 0x1F800320, offsets it by the viewport
  * origin unless the object's bit 3 is set, and submits it through

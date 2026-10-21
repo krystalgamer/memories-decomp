@@ -324,7 +324,7 @@ extern s32 D_8009B378;
  * stage slot's model id (0x800F2C40 + 2 * 0xE20 + 0xDF8). Model_SetSlotProperties
  * reads it through this label to pick gModel_pBackgroundRecord. */
 extern u16 gModel_awStageSlotModelId[];
-extern s16 D_800EFE3C;
+extern s16 gDisplayObject_wSpriteSheetListHead;
 
 /* An eight-byte zeroed block with no common subsystem owner. Main_Init reads
  * its first byte as the initial sound-output state, while file transfer

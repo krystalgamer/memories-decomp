@@ -2396,7 +2396,7 @@ layout. The full record remains only partially typed.
 Analysis around `DisplayObject_AcquireSlot` supports:
 
 - Object stride `0x70`.
-- Linked-list heads at `D_800EFE38` and `gDisplayObject_awListKeys`.
+- Linked-list heads at `gDisplayObject_awListHeads` and `gDisplayObject_awListKeys`.
 - Used flag `0x80`.
 - Default type value 2.
 - A type lookup through `D_8009AF74`.
@@ -4905,7 +4905,7 @@ unsized array has unknown size, so it can never be small data.
 
 **3. The incomplete array type pushes a symbol out, and
 `section(".data")` is not a substitute for it.** `Main_RunTrade` (#2078) has a
-4-byte slot that `-G8` makes eligible; `extern u8 D_800E9EF0[]` with casts at
+4-byte slot that `-G8` makes eligible; `extern u8 gDisplayObject_apWorkSlots[]` with casts at
 the use sites produces the split form, while adding `section(".data")` to the
 pointer declaration leaves the macro store exactly where it was. #2083 is the
 same finding from the other direction: an array declaration changed the
