@@ -643,7 +643,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
     if (slot < 2) {
         if (model == MODEL_SPECIAL_BATTLE_ID) {
             transfer = File_TryRequestAsyncTransfer(
-                1, D_800114F8, MODEL_SPECIAL_BATTLE_FILE_START_SECTOR,
+                1, gModel_szSuMrgPath, MODEL_SPECIAL_BATTLE_FILE_START_SECTOR,
                 MODEL_SPECIAL_BATTLE_FILE_SECTOR_COUNT,
                 Model_LoadSpecialBattlePackageStage, 0, 0
             );
@@ -705,7 +705,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
         goto done;
 found:
         transfer = File_TryRequestAsyncTransfer(
-            1, D_800114F8,
+            1, gModel_szSuMrgPath,
             model * MODEL_AUX_SECTOR_COUNT + MODEL_AUX_FILE_START_SECTOR,
             MODEL_AUX_SECTOR_COUNT, Model_LoadAuxiliaryPackageStage, 0, 0
         );

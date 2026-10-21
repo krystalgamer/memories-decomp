@@ -7,7 +7,7 @@
 #include "model_geometry_tables.h"
 
 /* State for Model_UpdateDiscEffect, one of the four handlers in the pointer
-   table at D_800114E8. arg1 >= 0 builds a disc of 67 points: a centre at a
+   table at gModel_apfnEffectHandlers. arg1 >= 0 builds a disc of 67 points: a centre at a
    third of the radius and two 33-point rings at the radius and at four fifths
    of it, with the three decimal digits of arg1 turned into the centre colour.
    Negative arg1 draws the disc as 32 Gouraud triangles and advances level
@@ -28,7 +28,7 @@ typedef struct {
 /* Sixteen bytes of rodata copied whole into the handler's scale vector. */
 extern VECTOR gModel_DiscEffectInitialScale;
 
-/* Particle state for Model_UpdateBurstEffect, a handler in the D_800114E8 model effect
+/* Particle state for Model_UpdateBurstEffect, a handler in the gModel_apfnEffectHandlers model effect
  * table. Three expanding rings, 64 dust particles, 32 sparks with drift and
  * rise vectors, 32 embers and 64 smoke particles, each with its frame and
  * colour. */
@@ -101,7 +101,7 @@ typedef struct {
     u8 smoke_b;
 } ModelBurstEffect;
 
-/* Particle state for Model_UpdateSparkEffect, the fourth handler in D_800114E8. It
+/* Particle state for Model_UpdateSparkEffect, the fourth handler in gModel_apfnEffectHandlers. It
  * holds 32 sparks with their sizes and colours, 32 flashes and 64 dust
  * particles with their speeds and frames. */
 typedef struct {

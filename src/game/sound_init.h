@@ -4,9 +4,9 @@
 #include "../types.h"
 #include "../psyq/libspu_internal.h"
 
-extern u8 D_80010784[];
-extern u8 D_80010790[];
-extern u8 D_8001079C[];
+extern u8 gSD_szBgmFileName[];
+extern u8 gSD_szSeFileName[];
+extern u8 gSD_szMasterXaFileName[];
 
 void SD_RequestBgmPlaybackDefaultStep(s32 value);
 void SD_RequestBgmPlayback(s32 value, s32 data);

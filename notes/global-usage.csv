@@ -66,9 +66,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010538,D_80010538,D_80010538,0x800442E4,MemCard_ReqWriteFile,matching_c,game,C,src/game/mem_card_driver.c,address,8,"sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);"
 0x80010538,D_80010538,D_80010538,0x800443EC,MemCard_ReqCreateFile,matching_c,game,C,src/game/mem_card_driver.c,address,8,"sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);"
 0x80010538,D_80010538,D_80010538,0x80044470,MemCard_FindFiles,matching_c,game,C,src/game/mem_card_driver.c,address,8,"sprintf(work, (char *)D_80010538, chan, pattern);"
-0x80010784,D_80010784,D_80010784,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_11_VIEW(D_80010784);
-0x80010790,D_80010790,D_80010790,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_10_VIEW(D_80010790);
-0x8001079C,D_8001079C,D_8001079C,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_10_VIEW(D_8001079C);
+0x80010784,gSD_szBgmFileName,gSD_szBgmFileName,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_11_VIEW(gSD_szBgmFileName);
+0x80010790,gSD_szSeFileName,gSD_szSeFileName,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_10_VIEW(gSD_szSeFileName);
+0x8001079C,gSD_szMasterXaFileName,gSD_szMasterXaFileName,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_10_VIEW(gSD_szMasterXaFileName);
 0x800107A8,gSD_szSeGroupCountFormat,gSD_szSeGroupCountFormat,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(gSD_szSeGroupCountFormat, g_SDValue->field_0002);"
 0x800107DC,gSD_szSmfMixerOutFormat,gSD_szSmfMixerOutFormat,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(gSD_szSmfMixerOutFormat, g_SDValue->field_164A);"
 0x800107F4,gSD_szCdMixerOutFormat,gSD_szCdMixerOutFormat,0x80046A08,SD_UpdateBankLoad,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(gSD_szCdMixerOutFormat, g_SDValue->field_1649);"
@@ -86,9 +86,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004ADE8,SD_KeyOnSecondaryNote,matching_c,game,C,src/game/sd_key_on_secondary_note.c,address,32,s32 *m = &gSD_adwVoiceMasks[vi]; | voice = &gSD_adwVoiceMasks[idx];
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004B374,SD_KeyOffSecondaryNote,matching_c,game,C,src/game/sd_key_off_secondary_note.c,address,32,tbl = gSD_adwVoiceMasks;
 0x80011484,D_80011484,D_80011484,0x8004C420,SD_ReadSequenceEvent,matching_c,game,C,src/game/sd_read_sequence_event.c,read,32,type = D_80011484[(status >> SD_SEQUENCE_STATUS_SHIFT) &
-0x800114E8,D_800114E8,D_800114E8,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read,32,*(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)D_800114E8;
-0x800114F8,D_800114F8,D_800114F8,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_intro_controller.c,address,8,"1, D_800114F8, MODEL_INTRO_PACKAGE_START_SECTOR,"
-0x800114F8,D_800114F8,D_800114F8,0x80056504,Model_LoadMonsterMerge,matching_c,game,C,src/game/model_slot_load.c,address,8,"1, D_800114F8, | 1, D_800114F8, MODEL_SPECIAL_BATTLE_FILE_START_SECTOR,"
+0x800114E8,gModel_apfnEffectHandlers,gModel_apfnEffectHandlers,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_intro_controller.c,read,32,*(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)gModel_apfnEffectHandlers;
+0x800114F8,gModel_szSuMrgPath,gModel_szSuMrgPath,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_intro_controller.c,address,8,"1, gModel_szSuMrgPath, MODEL_INTRO_PACKAGE_START_SECTOR,"
+0x800114F8,gModel_szSuMrgPath,gModel_szSuMrgPath,0x80056504,Model_LoadMonsterMerge,matching_c,game,C,src/game/model_slot_load.c,address,8,"1, gModel_szSuMrgPath, | 1, gModel_szSuMrgPath, MODEL_SPECIAL_BATTLE_FILE_START_SECTOR,"
 0x80011508,D_80011508,D_80011508,0x8005106C,func_8005106C,matching_c,game,C,src/game/func_8005106C.c,address,8,"sprintf(buf, D_80011508, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->field_E08 >> 4);"
 0x80011518,gModelDebug_szLoadStageFormat,gModelDebug_szLoadStageFormat,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(gModelDebug_szLoadStageFormat, slots[2].field_DF8, slots[2].field_E14);"
 0x8001152C,gModelDebug_szLoadModel0Format,gModelDebug_szLoadModel0Format,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,address,8,"FntPrint(gModelDebug_szLoadModel0Format, slots[0].field_DF8, slots[0].field_E14);"
@@ -100,10 +100,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011594,gModel_szLoadModelTraceFormat,gModel_szLoadModelTraceFormat,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_load.c,address,8,"printf(gModel_szLoadModelTraceFormat, slot->field_E14, work - started);"
 0x800117C8,gFile_szSuMrgPath,gFile_szSuMrgPath,0x8005B85C,File_RequestMainMenuPackage,matching_c,game,C,src/game/main_menu_load_package_stage.c,address,8,"1, gFile_szSuMrgPath, MAIN_MENU_PACKAGE_FIRST_SECTOR, 0x73,"
 0x8001185C,D_8001185C,D_8001185C,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,read,,scale = D_8001185C;
-0x8001186C,D_8001186C,D_8001186C,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,address,8,"printf(D_8001186C, 0x1318, 0x1318);"
+0x8001186C,gModel_szSubdividedEffectSizeFormat,gModel_szSubdividedEffectSizeFormat,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,address,8,"printf(gModel_szSubdividedEffectSizeFormat, 0x1318, 0x1318);"
 0x8001187C,D_8001187C,D_8001187C,0x8006C37C,Model_UpdateDiscEffect,matching_c,game,C,src/game/model_disc_effect.c,read,,scale = D_8001187C;
 0x8001188C,D_8001188C,D_8001188C,0x8006CD78,func_8006CD78,matching_c,game,C,src/game/func_8006CD78.c,read,,scale = D_8001188C;
-0x8001189C,D_8001189C,D_8001189C,0x8006F1B4,func_8006F1B4,matching_c,game,C,src/game/func_8006F1B4.c,read,,scale = D_8001189C;
+0x8001189C,gModel_SparkEffectInitialScale,gModel_SparkEffectInitialScale,0x8006F1B4,func_8006F1B4,matching_c,game,C,src/game/func_8006F1B4.c,read,,scale = gModel_SparkEffectInitialScale;
 0x800118AC,gAiScript_szNestOverflowError,gAiScript_szNestOverflowError,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,printf(gAiScript_szNestOverflowError);
 0x800118CC,gAiScript_szSourceFile,gAiScript_szSourceFile,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, gAiScript_szSourceFile, 0x17B);"
 0x800118CC,gAiScript_szSourceFile,gAiScript_szSourceFile,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, gAiScript_szSourceFile, 0x193);"
