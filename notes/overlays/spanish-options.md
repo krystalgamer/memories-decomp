@@ -59,7 +59,7 @@ The Spanish menu runner at `0x8002D89C` directly calls initialization
 
 | Function | Bytes | Observed contract |
 |---|---:|---|
-| `func_80168004` | 68 | Game text-color initialization using the canonical incomplete byte array. No direct caller found in the checked resident/options images. |
+| `PalOptions_SetTextColorSlots` | 68 | Game text-color initialization using the canonical incomplete byte array. No direct caller found in the checked resident/options images. |
 | `PalOptions_PositionCursor` | 100 | Cursor layout using canonical object halfwords and resource pointers; called by initialization at `0x80168A04` and update at `0x80168F3C`. |
 | `PalOptions_EaseStripY` | 84 | Quadratic displacement outside the unchanged 60..92 interval; four drawing calls at `0x801681D4`, `0x801681E8`, `0x801682D0` and `0x801682E0`. |
 | `PalOptions_DrawScrollingStrips` | 736 | Textured strips using a scratchpad `POLY_FT4`, five palette rows and signed-halfword phase; no direct caller or aligned address reference found in the checked resident/options images or five resource chunks. |
@@ -71,8 +71,8 @@ The Spanish menu runner at `0x8002D89C` directly calls initialization
 | `PalOptions_RequestLanguage` | 52 | Changed-language request, called by update at `0x80168ED0`; stores the resident byte and starts the accepted boot/text loader. |
 | `PalOptions_StoreLanguageImage` | 180 | Language-image transfer called at `0x80168F28`; waits, stores VRAM, synchronizes, replaces the first staging byte, loads VRAM and synchronizes again. |
 | `PalOptions_Update` | 340 | Live menu update: low-nibble dispatch, bit-0x80 setup latch, input callback, fades, asynchronous-transfer gates, cursor update and signed completion result. |
-| `func_80168F70` | 192 | Signed-halfword step/clamp. Distances above 32767 clamp immediately; ordinary distances advance by four or clamp. No direct options caller found; angular semantics are not asserted. |
-| `func_80169030` | 16 | Signed language-byte accessor. No direct caller found in the checked resident/options images. |
+| `PalOptions_StepStripScroll` | 192 | Signed-halfword step/clamp. Distances above 32767 clamp immediately; ordinary distances advance by four or clamp. No direct options caller found; angular semantics are not asserted. |
+| `PalOptions_GetLanguage` | 16 | Signed language-byte accessor. No direct caller found in the checked resident/options images. |
 | `func_80169D78` | 452 | Unoptimized shared signed-halfword step/clamp using distinct suffix storage. Closed leaf body; no direct caller or aligned address reference found in the checked Spanish resident/options images. |
 | `func_80169F3C` | 56 | Unoptimized shared signed-byte accessor using distinct suffix storage. Closed leaf body; no direct caller or aligned address reference found in the checked Spanish resident/options images. |
 

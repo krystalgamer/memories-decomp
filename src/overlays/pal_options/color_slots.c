@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "helpers.h"
 
-void func_80168004(s32 selection)
+void PalOptions_SetTextColorSlots(s32 selection)
 {
     u8 *colors = gText_abColorSlots;
 

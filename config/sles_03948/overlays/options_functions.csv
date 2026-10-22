@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x80168004,0x44,func_80168004,matching_c,overlay/options,Exact game text-color setup with real resident storage owner; no direct caller found in verified resident/options images.
+0x80168004,0x44,PalOptions_SetTextColorSlots,matching_c,overlay/options,Exact game text-color setup with real resident storage owner; no direct caller found in verified resident/options images.
 0x80168048,0x64,PalOptions_PositionCursor,matching_c,overlay/options,Exact cursor layout using canonical DisplayObject views and G32 pointer slots; game init/update callers and resident callee verified.
 0x801680AC,0x54,PalOptions_EaseStripY,matching_c,overlay/options,Game-owned options helper; exact C and five complete-image defining-object proofs.
 0x80168100,0x2E0,PalOptions_DrawScrollingStrips,matching_c,overlay/options,Exact textured-strip renderer with canonical POLY_FT4/DisplayObject/SDK contracts and measured15-byte table; five complete images and real owners verified; no direct caller found in verified resident/options images.
@@ -11,7 +11,7 @@ address,size,name,status,module,notes
 0x80168D34,0x34,PalOptions_RequestLanguage,matching_c,overlay/options,Exact language request with canonical byte declaration and verified resident loader C/raw storage owners.
 0x80168D68,0xB4,PalOptions_StoreLanguageImage,matching_c,overlay/options,Exact language-image update with canonical RECT/G32/SDK contracts and verified transfer-buffer provenance; five full images and real owners verified.
 0x80168E1C,0x154,PalOptions_Update,matching_c,overlay/options,Exact live options dispatcher called by resident menu runner; canonical fade/transfer/sound contracts and real function/storage owners verified.
-0x80168F70,0xC0,func_80168F70,matching_c,overlay/options,Exact signed halfword step with real overlay storage owners; no direct caller found in verified options image and no angular semantics asserted.
-0x80169030,0x10,func_80169030,matching_c,overlay/options,Exact signed language-byte accessor with real overlay storage owner; no direct caller found in verified resident/options images.
+0x80168F70,0xC0,PalOptions_StepStripScroll,matching_c,overlay/options,Exact signed halfword step with real overlay storage owners; no direct caller found in verified options image and no angular semantics asserted.
+0x80169030,0x10,PalOptions_GetLanguage,matching_c,overlay/options,Exact signed language-byte accessor with real overlay storage owner; no direct caller found in verified resident/options images.
 0x80169D78,0x1C4,func_80169D78,matching_c,overlay/options,Exact unoptimized counterpart of the game signed step using shared C and measured signed-halfword storage; five complete images and real owners verified; no direct caller found in verified French resident/configured images; original producer and runtime reachability unproven.
 0x80169F3C,0x38,func_80169F3C,matching_c,overlay/options,Exact unoptimized counterpart of the game byte accessor using shared C and measured signed-byte storage; five complete images and real owners verified; no direct caller found in verified French resident/configured images; original producer and runtime reachability unproven.

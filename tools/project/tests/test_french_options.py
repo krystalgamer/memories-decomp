@@ -25,8 +25,8 @@ class FrenchOptionsTests(unittest.TestCase):
     build_target = "french-match"
     sdk_object = "asm/text_73c4c.o"
     sdk_prefix = "func_"
-    unproven_helpers = ("func_80168004", "PalOptions_DrawScrollingStrips", "PalOptions_DrawWaveSprite",
-                        "PalOptions_UpdateWaveTables", "func_80168F70", "func_80169030",
+    unproven_helpers = ("PalOptions_SetTextColorSlots", "PalOptions_DrawScrollingStrips", "PalOptions_DrawWaveSprite",
+                        "PalOptions_UpdateWaveTables", "PalOptions_StepStripScroll", "PalOptions_GetLanguage",
                         "func_80169D78", "func_80169F3C")
     load_inventories = staticmethod(load_french_overlay_inventories)
     resident_raw_owners = (
@@ -63,15 +63,15 @@ class FrenchOptionsTests(unittest.TestCase):
                    (0x2078, 1), (0x2079, 0xF87))
     dependencies = {
         "color_slots": {"gText_abColorSlots"},
-        "cursor_layout": {"gPalOptions_bSoundOutputType", "D_80169078", "gPalOptions_pCursor",
+        "cursor_layout": {"gPalOptions_bSoundOutputType", "gPalOptions_pSoundTypeSprite", "gPalOptions_pCursor",
                           "DisplayObject_UpdateResourceVariant"},
         "position_easing": set(),
         "textured_strips": {"gPalOptions_aStripTextures", "gPalOptions_wStripScroll", "PalOptions_EaseStripY", "GsSortPoly"},
         "grid": {"gPalOptions_aWaveOffsets", "gPalOptions_bLanguage", "gPalOptions_aWaveColors",
                  "SetPolyGT4", "GsSortPoly", "GsSortFastSprite"},
         "language_hook": set(),
-        "initialize": {"D_80169052", "gPalOptions_bSoundOutputType", "D_80169074", "D_80169078",
-                       "gPalOptions_bSelectedRow", "D_80169138", "gPalOptions_pCursor", "gPalOptions_bLanguage",
+        "initialize": {"gPalOptions_bMode", "gPalOptions_bSoundOutputType", "gPalOptions_pLanguageSprite", "gPalOptions_pSoundTypeSprite",
+                       "gPalOptions_bSelectedRow", "gPalOptions_pLabelSprite", "gPalOptions_pCursor", "gPalOptions_bLanguage",
                        "gPalOptions_dwWavePhase", "gPalOptions_bState", "D_8009C02B", "D_8009B118",
                        "D_800E9D70", "D_801AF000", "gSD_bOutputType", "StoreImage",
                        "DrawSync", "func_801686A4", "PalOptions_PositionCursor",
@@ -79,8 +79,8 @@ class FrenchOptionsTests(unittest.TestCase):
                        "DisplayObject_ConfigureSpriteAtPositionWithResource",
                        "DisplayObject_SetDepthOffset", "DisplayObject_ConfigureSpriteAtPosition",
                        "SD_BGMPlay"},
-        "input": {"gPalOptions_bSoundOutputType", "D_80169074", "D_80169078", "gPalOptions_bSelectedRow",
-                  "D_80169138", "gPalOptions_bLanguage", "gPalOptions_bState", "gInput_wPad1Pressed",
+        "input": {"gPalOptions_bSoundOutputType", "gPalOptions_pLanguageSprite", "gPalOptions_pSoundTypeSprite", "gPalOptions_bSelectedRow",
+                  "gPalOptions_pLabelSprite", "gPalOptions_bLanguage", "gPalOptions_bState", "gInput_wPad1Pressed",
                   "gInput_wPad1Repeat", "gSD_bOutputType", "SD_SetOutputType",
                   "SD_SEPlayFull", "DisplayObject_SetResourceVariant"},
         "wave_tables": {"gPalOptions_aWaveOffsets", "gPalOptions_dwWavePhase", "gPalOptions_aWaveColors", "rcos"},
@@ -90,7 +90,7 @@ class FrenchOptionsTests(unittest.TestCase):
         "update": {"gPalOptions_bState", "gPalOptions_bSelectedRow", "gPalOptions_bLanguage", "PalOptions_HandleInput",
                    "PalOptions_RequestLanguage", "PalOptions_StoreLanguageImage", "PalOptions_PositionCursor", "Fade_StartIn",
                    "Fade_StartOut", "SD_BGMFadeOut", "gFade_State", "D_8009B0F4", "D_8009B134"},
-        "signed_step": {"gPalOptions_wStripScroll", "D_80169072"},
+        "signed_step": {"gPalOptions_wStripScroll", "gPalOptions_wStripScrollTarget"},
         "language_selection": {"gPalOptions_bLanguage"},
         "suffix_signed_step": {"D_80169F88", "D_80169FAA"},
         "suffix_byte": {"D_8016A078"},
