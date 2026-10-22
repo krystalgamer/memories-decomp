@@ -89,7 +89,7 @@ s32 DebugMenu_UpdateValueEditor(void)
     s32 qq;
 
     ret = 0;
-    *(Bytes8 *)d = *(Bytes8 *)D_8009AF4C;
+    *(Bytes8 *)d = *(Bytes8 *)gDebugMenu_awNibbleMasks;
     db = d;
     t2 = tent_DebugInterfaceFieldC0[gDebug_bEditorRow];
     if ((tent_DebugInterfaceFlags & 0x80) == 0) {
@@ -374,11 +374,11 @@ void DebugMenu_UpdateCampaignEntry(void)
         gDebugMenu_bCampaignEditField = gDebugMenu_bCampaignEditField ^ 1;
     select_editor:
         if (gDebugMenu_bCampaignEditField == 0) {
-            selection = D_8009AF44;
+            selection = gDebugMenu_wMessageId;
             gDebug_nSceneOrSoundID = selection;
             DebugMenu_OpenValueEditor(gDebugMenu_szMessageEditorFormat, 0x12, 0, 0, 2, 3, 1);
         } else {
-            selection = D_8009AF46;
+            selection = gDebugMenu_wCampaignScene;
             gDebug_nSceneOrSoundID = selection;
             DebugMenu_OpenValueEditor(gDebugMenu_szCampaignEditorFormat, 0x12, 0, 0, 2, 2, 1);
         }
@@ -408,7 +408,7 @@ void DebugMenu_UpdateCampaignEntry(void)
         }
         if (gDebugMenu_bCampaignEditField == 0) {
             gDebugMenu_bStep = flags | 0x40;
-            D_8009AF44 = gDebug_nSceneOrSoundID;
+            gDebugMenu_wMessageId = gDebug_nSceneOrSoundID;
             tent_DebugInterfaceFlags = tent_DebugInterfaceFlags | 1;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
             /* The Japanese and European builds make neither this call nor
@@ -417,14 +417,14 @@ void DebugMenu_UpdateCampaignEntry(void)
             printf(gDebugMenu_szCampaignValueFormat,
                    tent_DuelEffectEntries[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
 #endif
-            TextBox_Create(0, D_8009AF44, 0x10, 0xB0, 0x120,
+            TextBox_Create(0, gDebugMenu_wMessageId, 0x10, 0xB0, 0x120,
                            DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT);
             gCampaign_PrimaryDisplayObject = Campaign_CreatePrimaryDisplayObject();
             return;
         }
         selection = gDebug_nSceneOrSoundID;
         D_8009B26C = 2;
-        D_8009AF46 = selection;
+        gDebugMenu_wCampaignScene = selection;
         gCampaignSceneIndex = selection;
     }
 }

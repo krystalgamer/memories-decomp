@@ -65,7 +65,7 @@
 #ifdef DUEL_RESULT_LOCALIZED_SPRITES
 #include "duel_result_localized_sprites.h"
 #define DUEL_RESULT_OUTRO_SPRITE_LIMIT 10
-#define DUEL_RESULT_OUTRO_ACTIVE_COUNT D_8009C2BC
+#define DUEL_RESULT_OUTRO_ACTIVE_COUNT gDuelResult_nOutroSpriteCount
 #else
 #define DUEL_RESULT_OUTRO_SPRITE_LIMIT DUEL_RESULT_SPRITE_COUNT
 #define DUEL_RESULT_OUTRO_ACTIVE_COUNT DUEL_RESULT_SPRITE_COUNT
@@ -311,7 +311,7 @@ void DuelScene_UpdateResultOutro(void)
                 if (spec->x == 0) {
                     continue;
                 }
-                D_8009C2BC = i + 1;
+                gDuelResult_nOutroSpriteCount = i + 1;
 #else
                 if (gDuel_bOpponentID >= 0) {
                     spec = &tent_DuelResultSpriteSpecsOpponent[gDuel_bWinnerSide][i];

@@ -447,7 +447,7 @@ to `gModel_abBackgroundRecords`.
 varied block: five leading state labels, a private halfword continuation, two
 word pairs, two mutable words, and eleven fixed 4- or 8-byte strings. That
 spelling produces an exact 116-byte section without relocations. The split at
-`D_8009B058` leaves the unrelated 40-byte tail extracted.
+`gMainMenu_PackageStageRect` leaves the unrelated 40-byte tail extracted.
 
 #### Scatter is not what blocks a carve; gaps are
 
@@ -673,7 +673,7 @@ They are worth reading before touching a declaration, because they cover cases
 the table alone does not predict:
 
 - **Array versus scalar decides who allocates the register.** For
-  `MainMenu_LoadPackageStage` the note records that `D_8009B058`, `D_801DD000` and
+  `MainMenu_LoadPackageStage` the note records that `gMainMenu_PackageStageRect`, `D_801DD000` and
   `D_801AF800` "are arrays so `-msplit-addresses` gives them registers, while
   the scalars carry `section(.data)`" and rebuild their address per access.
 - **Defining rather than declaring is itself a lever.** `func_8002BFCC`'s note
@@ -874,15 +874,15 @@ A scan over declaration spellings reports both of these, and neither is work:
 
 #### A worked rejection
 
-`D_8009B058` looks like an ideal candidate for giving a global its real type.
+`gMainMenu_PackageStageRect` looks like an ideal candidate for giving a global its real type.
 It has one consumer, `main_menu_load_package_stage.c`; that file declares it `extern u8
-D_8009B058[]` and immediately casts at its only use, `rect = *(RECT
-*)D_8009B058`; and the next name, `gMovie_bRgb24`, is exactly eight bytes on,
+gMainMenu_PackageStageRect[]` and immediately casts at its only use, `rect = *(RECT
+*)gMainMenu_PackageStageRect`; and the next name, `gMovie_bRgb24`, is exactly eight bytes on,
 which is `sizeof(RECT)`. Every cheap check agrees.
 
 The attempt record refutes it anyway: the array spelling is what gets the
 symbol a compiler-allocated register under `-msplit-addresses`, so
-`extern RECT D_8009B058` would change how the address is materialised. The
+`extern RECT gMainMenu_PackageStageRect` would change how the address is materialised. The
 same note also explains the local copy — retail copies the eight-byte `RECT`
 by value into a stack slot before calling `LoadImage2`, and omitting the local
 leaves the frame eight bytes short.

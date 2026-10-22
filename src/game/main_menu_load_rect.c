@@ -8,7 +8,7 @@
  * It holds one object, not two words. MainMenu_LoadPackageStage is its only
  * reader and it takes the whole thing at once, as
  *
- *     rect = *(RECT *)D_8009B058;
+ *     rect = *(RECT *)gMainMenu_PackageStageRect;
  *     LoadImage2(&rect, (u32 *)D_801DD000);
  *
  * so the eight bytes are a libgpu RECT. Read that way the values are
@@ -19,10 +19,10 @@
  * is the object rather than a label that ran long.
  *
  * The definition is still spelled as bytes. The declaration its reader
- * carries is `extern u8 D_8009B058[]`, and under -G8 an array is what keeps
+ * carries is `extern u8 gMainMenu_PackageStageRect[]`, and under -G8 an array is what keeps
  * that access off %gp_rel; a RECT is exactly eight bytes and would sit in
  * small data instead. That is measured rather than assumed: declaring it
- * `extern RECT D_8009B058` in MainMenu_LoadPackageStage and reading it
+ * `extern RECT gMainMenu_PackageStageRect` in MainMenu_LoadPackageStage and reading it
  * without the cast builds an executable of 0x1D07FC bytes against the
  * expected 0x1D0800. So the array spelling there is load bearing, and this
  * definition matches it rather than asserting a type the only consumer does
@@ -32,7 +32,7 @@
  * No linker alias covers this symbol, so unlike the two blocks after it
  * there is nothing to retire. */
 
-u8 D_8009B058[8] __attribute__((section(".sdata"))) = {
+u8 gMainMenu_PackageStageRect[8] __attribute__((section(".sdata"))) = {
     0x00,
     0x00,
     0xF0,

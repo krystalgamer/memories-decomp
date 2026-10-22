@@ -235,7 +235,7 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
 /* Eight bytes copied as one unit. Two retained candidates use this shape as
    the source and destination of a whole-struct assignment: func_80015EF4
    copies four rotation corners and DebugMenu_UpdateValueEditor one mask block out of
-   D_8009AF4C. The matching wireframe renderer Library_DrawWireframeGlobe used it for its
+   gDebugMenu_awNibbleMasks. The matching wireframe renderer Library_DrawWireframeGlobe used it for its
    parameter block out of D_80181000 until that block was typed as the SVECTOR
    it is. SVECTOR's alignment of 2 is still below a word, so its assignment
    lowers to the same two unaligned move pairs.
