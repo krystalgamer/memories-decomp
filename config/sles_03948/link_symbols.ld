@@ -1132,3 +1132,14 @@ gModel_pSlot1PayloadBase = D_80010004;
 gModel_AuxiliaryPayloadAddress = D_80010008;
 gModel_CreditsModuleAddress = D_80010030;
 gModel_pCreditsMusicTrackBuffer = D_80010034;
+
+gDebug_abEditorCaretColumns = tent_DebugInterfaceFieldB4;
+gDebug_bEditorCaretColumn1 = tent_DebugInterfaceFieldB5;
+gDebug_bEditorCaretColumn2 = tent_DebugInterfaceFieldB6;
+gDebug_bEditorLeadingLineCount = tent_DebugInterfaceFieldB8;
+gDebug_abEditorDigitCounts = tent_DebugInterfaceFieldC0;
+gDebug_bEditorDigitCount1 = tent_DebugInterfaceFieldC1;
+gDebug_bEditorDigitCount2 = tent_DebugInterfaceFieldC2;
+gDebug_bEditorRowCount = tent_DebugInterfaceFieldE0;
+gDebug_bEditorFlags = tent_DebugInterfaceFlags;
+gDebug_pszEditorFormat = tent_DebugInterfaceData;
