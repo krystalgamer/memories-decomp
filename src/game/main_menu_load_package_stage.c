@@ -57,7 +57,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         break;
 
     case 3:
-        rect = *(RECT *)D_8009B058;
+        rect = *(RECT *)gMainMenu_PackageStageRect;
         LoadImage2(&rect, (u32 *)D_801DD000);
         object->phase_size = 16 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;

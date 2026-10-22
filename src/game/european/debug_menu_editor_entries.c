@@ -6,7 +6,7 @@
 
 /* The value editor's tables sit at other addresses in the European
  * executable. */
-#define D_8009AF4C D_8009BEC0
+#define gDebugMenu_awNibbleMasks D_8009BEC0
 
 /* As in campaign_load_scene_package.c. */
 

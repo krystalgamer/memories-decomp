@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
-extern u8 D_8009B058[];
+extern u8 gMainMenu_PackageStageRect[];
 extern u8 D_801DD800[];
 extern u8 D_800F5694[];
 
