@@ -10,6 +10,7 @@
 #include "campaign_flags.h"
 #include "file_constants.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #include "file_transfer_buffer.h"
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
@@ -53,8 +54,8 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 2:
-        object->value_0C = (s32)D_801AF000;
-        object->value_08 = (s32)D_801AF000;
+        object->value_0C = (s32)gDisplay_abResourceBank0;
+        object->value_08 = (s32)gDisplay_abResourceBank0;
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->done = 1;

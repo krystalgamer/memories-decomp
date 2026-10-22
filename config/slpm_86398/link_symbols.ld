@@ -154,3 +154,6 @@ gFile_dwCancelRequestState_abs = gJapanese_FileSecondaryRequest;
 gFile_TransferBufferBase = D_8009B118;
 gFile_abPackageStagingBuffer = D_801DD000;
 gModel_abTexturePaletteStaging = D_801DE000;
+
+gDisplay_abResourceBank0 = D_801AF000;
+gDisplay_abResourceBank1 = D_801AF800;

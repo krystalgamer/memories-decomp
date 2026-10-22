@@ -7,6 +7,7 @@
 #include "func_80020BE4.h"
 #include "../ygo_types.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #include "file_transfer_buffer.h"
 
 void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
@@ -81,8 +82,8 @@ m2:
 #endif
     p->h = 4;
     LoadImage2((RECT *)p, (u32 *)e);
-    p->value_0C = (s32)D_801AF000;
-    p->value_08 = (s32)D_801AF000;
+    p->value_0C = (s32)gDisplay_abResourceBank0;
+    p->value_08 = (s32)gDisplay_abResourceBank0;
     x = gFile_dwTransferState;
     p->phase_size = FILE_SECTOR_SIZE;
     gFile_dwTransferState = x & 0xFFDCFFFF;

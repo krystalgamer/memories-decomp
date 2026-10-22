@@ -6,6 +6,7 @@
 #include "file_transfer_state.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #include "file_transfer_buffer.h"
 
 #ifndef OPTIONS_PACKAGE_STAGE_MODE_2_X
@@ -80,8 +81,8 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->w = 0x100;
         object->h = 4;
         LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
-        object->value_0C = (s32)D_801AF000;
-        object->value_08 = (s32)D_801AF000;
+        object->value_0C = (s32)gDisplay_abResourceBank0;
+        object->value_08 = (s32)gDisplay_abResourceBank0;
         object->phase_size = OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         object->done = 1;
@@ -169,8 +170,8 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->w = 0x100;
         object->h = 4;
         LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
-        object->value_0C = (s32)D_801AF000;
-        object->value_08 = (s32)D_801AF000;
+        object->value_0C = (s32)gDisplay_abResourceBank0;
+        object->value_08 = (s32)gDisplay_abResourceBank0;
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         object->done = 1;
