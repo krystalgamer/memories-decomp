@@ -13,6 +13,12 @@
       "source": "src/overlays/model_variant/variant433_bands_slot1.c"
     },
     {
+      "address": "0x8017CE7C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x8D8",
+      "source": "src/overlays/model_variant/variant433_rings_slot1.c"
+    },
+    {
       "address": "0x8017D754",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x5CC",

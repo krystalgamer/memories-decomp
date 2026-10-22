@@ -59,5 +59,24 @@ What the retail allocation needs, in both helpers:
 
 The linked 0x994 and 0x70C extents match, and both complete images reproduce
 their retail SHA-256 values. This adds four matching C instances / 8,512
-instruction bytes. Six functions / 15,816 bytes remain as generated assembly:
-the `4..DDC` entry, `1E7C..2754` and `30A8..38DC`. The raw data is unchanged.
+instruction bytes.
+
+## Rings
+
+The `1E7C..2754` rings helper (`variant433_rings.c`) has no PAL counterpart
+yet: the French header-450 function at the same position is still assembly.
+It is written for the North American stream and grows sixteen nine-point
+rings. Each is projected with RotTransPers4 and drawn as quads from the
+projected edges. What the retail code needs:
+
+| Source form | Effect |
+| --- | --- |
+| Screen `y` read as `(packed >> 16)` from the 32-bit screen word | Gives retail's `lh` with one instruction per read. A named `s32` read also gives `lh` but adds two instructions to the inner loop each, and the loop pass then no longer hoists `i * 36` out of the quad loop (its movable cost test passes with exactly 92 instructions). |
+| Ring points stored through `(SVECTOR *)(j * 8 + (s32)ring)` | Index first in the address `addu`, as retail has it. |
+| `ot` declared before `i`, and `ang2` after it | The spilled `ot` and `ang2` take the `796` and `808` stack slots in retail's order. |
+| `ring->amount[j] = limit;` with `limit` set once to `0x400`, written a second time at the top of the then-arm | The constant is rematerialized into the reload register as retail does. Reload's post-pass deletes the repeated store, but the register copy it made for it stays and fills the `j == 8` branch's delay slot, as in retail. |
+
+The linked 0x8D8 extent matches, and both complete images reproduce their
+retail SHA-256 values. This adds two matching C instances / 4,528 instruction
+bytes. Four functions / 11,288 bytes remain as generated assembly: the
+`4..DDC` entry and `30A8..38DC`. The raw data is unchanged.
