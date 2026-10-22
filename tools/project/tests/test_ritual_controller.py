@@ -59,7 +59,7 @@ s16 gDuel_RitualResultCardId, gDuel_wEffectCardID, D_8009B20C[2];
 u16 gDuel_wTrapPresentationMode, gDuel_wCardEffectFlags;
 DuelEffectRequest *gDuelEffect_pTrackedRequest;
 u8 gDuel_bCardMoveSlot, gDuel_bActiveSide;
-s8 D_8009B360[2];
+s8 gDuel_bSide0ControllerSelector[2];
 /* The result and its trailing cleared word share the full owning allocation. */
 DisplayObjectRitualWorkArea gDisplayObject_apWorkSlots;
 RitualImageBacking ritual_image;
@@ -261,7 +261,7 @@ static void setup(s32 state)
     gDuel_wTrapPresentationMode = state; gDuel_wCardEffectFlags = 0xA55A;
     D_8009B20C[0] = 0x1234; D_8009B20C[1] = 0;
     gDuel_bCardMoveSlot = 7; gDuel_bActiveSide = 0;
-    D_8009B360[0] = D_8009B360[1] = -1;
+    gDuel_bSide0ControllerSelector[0] = gDuel_bSide0ControllerSelector[1] = -1;
     gDuel_aCardRecords[7].object = &card_object;
     R32(&gDuel_aCardRecords[7], 4) = (u32)card_data;
     gDuel_aCardRecords[7].flags = 0xA7A5;
@@ -456,7 +456,7 @@ static s32 orientation(void)
     for (identity = 0; identity < 4; identity++)
     for (random = 0; random < 2; random++) {
         setup(0x83); gDuel_bActiveSide = side;
-        D_8009B360[side] = identities[identity]; D_8009B360[side ^ 1] = ~identities[identity];
+        gDuel_bSide0ControllerSelector[side] = identities[identity]; gDuel_bSide0ControllerSelector[side ^ 1] = ~identities[identity];
         random_value = random ? -1 : 2;
         run();
         CHECK(valid() && events[1].kind == 17 && events[1].a == 7 &&
@@ -571,7 +571,7 @@ static s32 helper_reloads(void)
     setup(0x81); mutation = 1; run();
     CHECK(valid() && gDuel_wTrapPresentationMode == 2 && R16(&main_object, 0x60) == 0 &&
           R16(&main_object, 0x44) == 4096, 110);
-    setup(0x83); mutation = 2; D_8009B360[0] = 0; run();
+    setup(0x83); mutation = 2; gDuel_bSide0ControllerSelector[0] = 0; run();
     CHECK(valid() && gDisplayObject_apWorkSlots.slots[0] == &main_object &&
           RS16(&main_object, 0x32) == -240 && RS16(&card_object, 0x32) == 0, 111);
     setup(0xC4); mutation = 3; run();

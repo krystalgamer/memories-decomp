@@ -1,5 +1,5 @@
 #define D_8009B374 gDuel_wAnimatedBattleBgmCommand
-#define D_8009B360 gJapanese_DuelPlayerState
+#define D_8009B360 gDuel_bSide0ControllerSelector
 #define D_8009B370 gDuel_wCampaignSceneOnWin
 #define D_8009B372 gDuel_wCampaignSceneOnLoss
 #define D_8009B369 gDuel_bResumeFromAnimatedBattle
@@ -10,6 +10,7 @@
 #include "../../types.h"
 #include "../main_start_duel.h"
 #include "../duel_side_state.h"
+#include "../ai_controller_handoff.h"
 #include "../../unmatched.h"
 #include "../duel_session_controls.h"
 #include "../main_mode_state.h"
@@ -20,7 +21,7 @@ void Main_StartDuel(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     gDuel_wBgmId = 0x7270;
     gDuel_wAnimatedBattleBgmCommand = 0x7280;
-    gJapanese_DuelPlayerState = arg0;
+    gDuel_bSide0ControllerSelector = arg0;
     gDuel_bOpponentID = arg1;
     gDuel_wCampaignSceneOnWin = arg2;
     gDuel_wCampaignSceneOnLoss = arg3;

@@ -23,7 +23,7 @@ typedef struct {
 } GuardedConditions;
 extern GuardedConditions guarded;
 #define gDuel_bActiveSide guarded.side
-#define D_8009B360 guarded.controller
+#define gDuel_bSide0ControllerSelector guarded.controller
 #define gDuel_bOpponentID (&guarded.opponent)
 """
 WITNESS = r"""
@@ -96,7 +96,7 @@ class CreatedCardIdScalarTests(unittest.TestCase):
                 if mutation == "narrow-id":
                     code = code.replace("(u32)card_id", "(u32)(u16)card_id")
                 elif mutation == "wrong-controller-sign":
-                    code = code.replace("D_8009B360 < 0", "D_8009B360 >= 0")
+                    code = code.replace("gDuel_bSide0ControllerSelector < 0", "gDuel_bSide0ControllerSelector >= 0")
                 elif mutation == "wrong-opponent-sign":
                     code = code.replace("gDuel_bOpponentID[0] >= 0", "gDuel_bOpponentID[0] < 0")
                 else:

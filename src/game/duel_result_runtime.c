@@ -36,6 +36,7 @@
 #include "sound_output.h"
 #include "fade.h"
 #include "duel_side_state.h"
+#include "ai_controller_handoff.h"
 #include "ai_opponent_data.h"
 #include "duel_package.h"
 #include "duel_screen_tables.h"
@@ -634,7 +635,7 @@ void DuelScene_UpdateResultRewards(void)
             gText_StagedStringId = (s8)opponent - 31960;
         }
         SD_BGMPlay(sound);
-        if (D_8009B360[0] < 0 && gDuel_bOpponentID < 0) {
+        if (gDuel_bSide0ControllerSelector[0] < 0 && gDuel_bOpponentID < 0) {
             gText_BranchSelectorA = 1;
             gText_BranchSelectorB += 2;
         }
@@ -672,7 +673,7 @@ void DuelScene_UpdateResultRewards(void)
             count--;
         } while (count >= 0);
         gDuel_wSelectedCardID = 0;
-        if (D_8009B360[0] < 0 && gDuel_bOpponentID >= 0) {
+        if (gDuel_bSide0ControllerSelector[0] < 0 && gDuel_bOpponentID >= 0) {
             if (gDuel_bWinnerSide)
                 goto side_result;
             gDuel_pResultDisplayState->starchip_prize = gDuel_pResultDisplayState->rank_tier + 1;
@@ -700,7 +701,7 @@ void DuelScene_UpdateResultRewards(void)
             }
         }
 side_result:
-        if (D_8009B360[gDuel_bWinnerSide] < 0) {
+        if (gDuel_bSide0ControllerSelector[gDuel_bWinnerSide] < 0) {
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, DUEL_RESULT_RANK_Y, 0, 5, gDuel_pResultDisplayState->is_tec_rank,
                 16, 8, D_801AF000);
@@ -732,7 +733,7 @@ side_result:
                 SaveDataState *save = gDuel_pSide0SaveData[gDuel_bWinnerSide];
                 gDuel_wOutcomeFlags |= 0x2000;
                 if (save) {
-                    if (D_8009B360[0] < 0 && gDuel_bOpponentID >= 0) {
+                    if (gDuel_bSide0ControllerSelector[0] < 0 && gDuel_bOpponentID >= 0) {
                         gDuel_pSide0SaveData[0]->starchips +=
                             gDuel_pResultDisplayState->starchip_prize;
                         if (gDuel_pSide0SaveData[0]->starchips > 999999)

@@ -3,6 +3,7 @@
 #include "ai_constants.h"
 #include "ai_opponent_data.h"
 #include "ai_script_commands.h"
+#include "ai_controller_handoff.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
 #include "duel_card_layout.h"
@@ -134,15 +135,15 @@ void AiScript_ClearTypes(void)
 }
 #endif
 
-void AiScript_SetSelectionRandom(void)
+void AiScript_SetHandFaceDownRequest(void)
 {
-    tent_AiSelectionRandom = 1;
+    gAi_bHandFaceDownRequested = 1;
 }
 
 #ifndef VERSION_JAPAN
-void AiScript_ClearSelectionRandom(void)
+void AiScript_ClearHandFaceDownRequest(void)
 {
-    tent_AiSelectionRandom = 0;
+    gAi_bHandFaceDownRequested = 0;
 }
 
 void func_80073464(void)
@@ -211,7 +212,7 @@ void AiScript_Add(void)
 
 void AiScript_LoadGuardianStarChoice(void)
 {
-    D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
+    gAi_bGuardianStarChoice = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
 }
 
 void AiScript_Print(void)

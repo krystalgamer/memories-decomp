@@ -57,7 +57,7 @@ s16 gGraphics_sViewportX, gGraphics_sViewportY;
 DuelResultDisplayState *gDuel_pResultDisplayState;
 DuelResultDisplayState gDuel_awRitualData;
 u8 gText_BranchSelectorA, gText_BranchSelectorB, gDuel_bWinnerSide;
-s8 D_8009B360[2], gDuel_bOpponentID;
+s8 gDuel_bSide0ControllerSelector[2], gDuel_bOpponentID;
 SaveDataState *gDuel_pSide0SaveData[2];
 s32 D_801D56A8[1];
 u8 D_801AF000[2048], gText_abColorSlots[16];
@@ -204,7 +204,7 @@ static void setup(u16 flags)
     gGraphics_sViewportX = 37; gGraphics_sViewportY = -43;
     gText_BranchSelectorA = 0xAA; gText_BranchSelectorB = 0xBB;
     gDuel_bWinnerSide = 0; gDuel_bOpponentID = 5;
-    D_8009B360[0] = D_8009B360[1] = -1;
+    gDuel_bSide0ControllerSelector[0] = gDuel_bSide0ControllerSelector[1] = -1;
     gDuel_pSide0SaveData[0] = (SaveDataState *)saves[0];
     gDuel_pSide0SaveData[1] = (SaveDataState *)saves[1];
     D_801D56A8[0] = 0x55555555; gDuel_wSelectedCardID = -1;
@@ -308,7 +308,7 @@ static s32 eligibility(void)
     for (a = 0; a < 2; a++) for (b = 0; b < 2; b++)
     for (opponent = 0; opponent < 4; opponent++) {
         setup(0x12); gDuel_bWinnerSide = winner;
-        D_8009B360[0] = identities[a]; D_8009B360[1] = identities[b];
+        gDuel_bSide0ControllerSelector[0] = identities[a]; gDuel_bSide0ControllerSelector[1] = identities[b];
         gDuel_bOpponentID = opponents[opponent];
         run();
         result = check_initial(0, 0, !winner && !a && opponent >= 2,
@@ -434,7 +434,7 @@ static s32 win_loss_awards(void)
     for (mode = 0; mode < 2; mode++)
     for (w = 0; w < 6; w++) for (l = 0; l < 6; l++) {
         setup(0xE012); gDuel_bWinnerSide = winner;
-        if (mode) gDuel_bOpponentID = -1; else D_8009B360[0] = 0;
+        if (mode) gDuel_bOpponentID = -1; else gDuel_bSide0ControllerSelector[0] = 0;
         U16(saves[winner], 0x518) = counts[w];
         U16(saves[winner ^ 1], 0x51A) = counts[l];
         U16(saves[winner], 0x51A) = 123;

@@ -1159,7 +1159,7 @@ address,size,name,status,module,notes
 0x800719EC,0x3C,AiScript_LoadOpponentID,matching_c,game,Shared European C at 0x800717E8; French relocations and complete executable SHA-256 verified.
 0x80071A28,0x3C,AiScript_LoadTerrain,matching_c,game,Shared European C at 0x80071824; French relocations and complete executable SHA-256 verified.
 0x80071A64,0x74,AiScript_LoadDeckSize,matching_c,game,Shared European C at 0x80071860; French relocations and complete executable SHA-256 verified.
-0x80071AD8,0x3C,AiScript_LoadSelectionRandom,matching_c,game,Shared European C at 0x800718D4; French relocations and complete executable SHA-256 verified.
+0x80071AD8,0x3C,AiScript_LoadHandFaceDownRequest,matching_c,game,Shared European C at 0x800718D4; French relocations and complete executable SHA-256 verified.
 0x80071B14,0x78,AiScript_TestSwordsActive,matching_c,game,Shared European C at 0x80071910; French relocations and complete executable SHA-256 verified.
 0x80071B8C,0x88,AiScript_LoadFirstFieldComboSlot,matching_c,game,Shared European C at 0x80071988; French relocations and complete executable SHA-256 verified.
 0x80071C14,0x3C,AiScript_LoadBestDifference,matching_c,game,Shared European C at 0x80071A10; French relocations and complete executable SHA-256 verified.
@@ -1193,8 +1193,8 @@ address,size,name,status,module,notes
 0x800738E8,0x28,AiScript_ClearCards,matching_c,game,"Shared European C at 0x800736E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80073910,0x78,AiScript_AddType,matching_c,game,"Shared European C at 0x8007370C; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80073988,0x28,AiScript_ClearTypes,matching_c,game,"Shared European C at 0x80073784; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x800739B0,0x10,AiScript_SetSelectionRandom,matching_c,game,"Shared European C at 0x800737AC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x800739C0,0xC,AiScript_ClearSelectionRandom,matching_c,game,"Shared European C at 0x800737BC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x800739B0,0x10,AiScript_SetHandFaceDownRequest,matching_c,game,"Shared European C at 0x800737AC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x800739C0,0xC,AiScript_ClearHandFaceDownRequest,matching_c,game,"Shared European C at 0x800737BC; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800739CC,0x10,func_80073464,matching_c,game,"Shared European C at 0x800737C8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800739DC,0xC,func_80073474,matching_c,game,"Shared European C at 0x800737D8; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x800739E8,0x5C,AiScript_MoveCard,matching_c,game,"Shared European C at 0x800737E4; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."

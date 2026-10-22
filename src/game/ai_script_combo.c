@@ -6,6 +6,7 @@
 #include "duel_card_layout.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
+#include "ai_controller_handoff.h"
 
 void AiScript_LoadDeckSize(void)
 {
@@ -21,12 +22,12 @@ void AiScript_LoadDeckSize(void)
     gAiScript_aMemory[k] = count - HAND_SIZE;
 }
 
-void AiScript_LoadSelectionRandom(void)
+void AiScript_LoadHandFaceDownRequest(void)
 {
     s32 index = AiScript_ReadByte();
     s32 *values = gAiScript_aMemory;
 
-    values[index] = tent_AiSelectionRandom;
+    values[index] = gAi_bHandFaceDownRequested;
 }
 
 void AiScript_TestSwordsActive(void)

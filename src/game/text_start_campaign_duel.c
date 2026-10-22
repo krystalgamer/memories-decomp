@@ -5,6 +5,7 @@
 #include "duel_effect.h"
 #include "text_stream_read_le.h"
 #include "duel_side_state.h"
+#include "ai_controller_handoff.h"
 #include "../unmatched.h"
 #include "duel_session_controls.h"
 
@@ -27,7 +28,7 @@
 void Text_StartCampaignDuel(DuelEffectChannel *o)
 {
     s32 x;
-    D_8009B360 = -1;
+    gDuel_bSide0ControllerSelector = -1;
     {
         u8 *G32 *p;
         u8 *q;

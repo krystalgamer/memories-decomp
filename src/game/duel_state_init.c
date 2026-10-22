@@ -1,6 +1,7 @@
 #define D_8009B360_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
+#include "ai_controller_handoff.h"
 #include "ai_opponent_data.h"
 #include "card_constants.h"
 #include "duel_hand.h"
@@ -51,7 +52,7 @@ void Duel_InitSideStates(void) {
         }
     }
 
-    if (D_8009B360 < 0) {
+    if (gDuel_bSide0ControllerSelector < 0) {
         if (gDuel_bOpponentID < 0) {
             gDuel_aSideStates[1].card_view_mode = *(u8 *)&gDuel_wTwoPlayerCardViewMode;
             gDuel_aSideStates[0].card_view_mode = *(u8 *)&gDuel_wTwoPlayerCardViewMode;
