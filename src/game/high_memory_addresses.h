@@ -36,8 +36,10 @@ extern s32 D_8001002C __attribute__((section(".data")));
 extern s32 D_80010030 __attribute__((section(".data")));
 extern void *G32 D_80010034 __attribute__((section(".data")));
 
-/* Staging base selected by duel package stage 7. */
-extern u8 *G32 D_800101DC __attribute__((section(".data")));
+/* Staging base selected by duel package stage 7. The retail word holds
+ * 0x80146000, the base of the WA_MRG shared duel-bank overlay slot
+ * (notes/memory-map.md). */
+extern u8 *G32 gFile_pDuelBankBase __attribute__((section(".data")));
 
 #ifdef VERSION_EUROPE
 /* The European boot package's last three stages load to the words here:

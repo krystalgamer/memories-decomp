@@ -17,7 +17,7 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
 #ifdef VERSION_JAPAN
     /* The Japanese boot package is transferred in three stages rather than
        four: a 32-sector first stage at 0x2C0, and a last stage that uploads
-       the image and then points at D_800101D8, folding the US stages 2
+       the image and then points at gFile_pScreenBankBase, folding the US stages 2
        and 3 together. */
     switch (stage) {
     case 0: {
@@ -56,8 +56,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)D_8009B118);
         obj->phase_size = 3 * FILE_SECTOR_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
-        obj->value_0C = (s32)D_800101D8;
-        obj->value_08 = (s32)D_800101D8;
+        obj->value_0C = (s32)gFile_pScreenBankBase;
+        obj->value_08 = (s32)gFile_pScreenBankBase;
         obj->done = 1;
         break;
     }
@@ -224,8 +224,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)(D_8009B118 + 2 * FILE_SECTOR_SIZE));
         obj->phase_size = 3 * FILE_SECTOR_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
-        obj->value_0C = (s32)D_800101D8;
-        obj->value_08 = (s32)D_800101D8;
+        obj->value_0C = (s32)gFile_pScreenBankBase;
+        obj->value_08 = (s32)gFile_pScreenBankBase;
         obj->done = 1;
         break;
     }
@@ -235,7 +235,7 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
 #ifdef VERSION_EUROPE
 /* The European boot image takes four stages: the header stage counts 0xC0,
    the image goes to (0x280, 0xE0), and a fourth stage reads three sectors
-   to D_800101D8. */
+   to gFile_pScreenBankBase. */
 void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
 {
     s32 one;
@@ -310,8 +310,8 @@ m2:
 m3:
     p->phase_size = 3 * FILE_SECTOR_SIZE;
     D_8009B0F4 = D_8009B0F4 & 0xFFDCFFFF;
-    p->value_0C = (u32)D_800101D8;
-    p->value_08 = (u32)D_800101D8;
+    p->value_0C = (u32)gFile_pScreenBankBase;
+    p->value_08 = (u32)gFile_pScreenBankBase;
 
 tail:
     p->done = one;

@@ -58,7 +58,7 @@ DuelResultDisplayState *gDuel_pResultDisplayState;
 DuelResultDisplayState gDuel_awRitualData;
 u8 gText_BranchSelectorA, gText_BranchSelectorB, gDuel_bWinnerSide;
 s8 D_8009B360[2], gDuel_bOpponentID;
-SaveDataState *D_8009B1D8[2];
+SaveDataState *gDuel_pSide0SaveData[2];
 s32 D_801D56A8[1];
 u8 D_801AF000[2048], gText_abColorSlots[16];
 u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
@@ -205,8 +205,8 @@ static void setup(u16 flags)
     gText_BranchSelectorA = 0xAA; gText_BranchSelectorB = 0xBB;
     gDuel_bWinnerSide = 0; gDuel_bOpponentID = 5;
     D_8009B360[0] = D_8009B360[1] = -1;
-    D_8009B1D8[0] = (SaveDataState *)saves[0];
-    D_8009B1D8[1] = (SaveDataState *)saves[1];
+    gDuel_pSide0SaveData[0] = (SaveDataState *)saves[0];
+    gDuel_pSide0SaveData[1] = (SaveDataState *)saves[1];
     D_801D56A8[0] = 0x55555555; gDuel_wSelectedCardID = -1;
     gInput_wPad1Repeat = gInput_wPad1Pressed = 0;
     gViewState_Current.angle = -1; expected_angle = 1;
@@ -392,7 +392,7 @@ static s32 exit_handshake(void)
         setup(armed ? 0xE012 : 0xC012);
         D_800E9EC8_arr[6] = fading ? 0xA5 : 0x25;
         D_800E9EC8_arr[4] = 7;
-        if (missing) D_8009B1D8[0] = 0;
+        if (missing) gDuel_pSide0SaveData[0] = 0;
         gDuel_pResultDisplayState->starchip_prize = 2;
         run();
         CHECK(valid() && gDuel_wSceneStateFlags == (armed || !fading ? 0xE012 : 0xC012), 60);

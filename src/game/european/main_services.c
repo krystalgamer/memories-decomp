@@ -6,6 +6,6 @@
 #define GRAPHICS_DEFAULT_HEIGHT 256
 /* The display environment and GsDefDispBuff, under the names #6384 gave
  * their European addresses. */
-#define D_800FE0A8 gEuropean_GsDISPENV
+#define GsDISPENV gEuropean_GsDISPENV
 #define GsDefDispBuff func_80085424
 #include "../main_services.c"

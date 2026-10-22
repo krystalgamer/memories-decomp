@@ -117,7 +117,7 @@ Confirmed:
 - save offset `+0x5E0`, unsigned 32-bit balance, and `999999` clamp.
 
 The result-state pointer is assigned to the reused ritual-data buffer by the
-unmatched state machine. The side-indexed save pointers at `D_8009B1D8` and
-`D_8009B1DC` remain address-based: their two-entry relationship is clear, but
-changing the matching setup source to one array declaration has not been
-measured and is not required for this field contract.
+unmatched state machine. The side-indexed save pointers are now named `gDuel_pSide0SaveData` and
+`gDuel_pSide1SaveData`. Their two-entry relationship is clear, but the matching
+setup source keeps two scalar declarations: changing it to one array
+declaration has not been measured and is not required for this field contract.

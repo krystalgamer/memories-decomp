@@ -170,22 +170,22 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
         owner = '#include "duel_init_scene.h"\n'
         self.probe(
             PAIR + owner
-            + "typedef char extent[sizeof(D_8009B1D8) == 8 ? 1 : -1];\n"
-            "SaveDataState *(*pair)[2] = &D_8009B1D8;\n"
-            "SaveDataState *D_8009B1D8[2];",
+            + "typedef char extent[sizeof(gDuel_pSide0SaveData) == 8 ? 1 : -1];\n"
+            "SaveDataState *(*pair)[2] = &gDuel_pSide0SaveData;\n"
+            "SaveDataState *gDuel_pSide0SaveData[2];",
             accepted=True,
         )
         self.probe(
-            owner + "u8 **first = &D_8009B1D8;\nu8 **second = &D_8009B1DC;",
+            owner + "u8 **first = &gDuel_pSide0SaveData;\nu8 **second = &gDuel_pSide1SaveData;",
             accepted=True,
         )
-        for bad in ("SaveDataState *D_8009B1D8;",
-                    "SaveDataState *D_8009B1D8[1];"):
+        for bad in ("SaveDataState *gDuel_pSide0SaveData;",
+                    "SaveDataState *gDuel_pSide0SaveData[1];"):
             self.probe(
                 PAIR + owner + bad, accepted=False, diagnostic="conflicting types",
             )
         self.probe(
-            owner + "SaveDataState *(*pair)[2] = &D_8009B1D8;",
+            owner + "SaveDataState *(*pair)[2] = &gDuel_pSide0SaveData;",
             accepted=False, diagnostic="incompatible pointer|incompatible-pointer",
         )
 
@@ -222,7 +222,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
             + "u16 repeat(void) { return gInput_wPad1Repeat; }\n"
             "void message(u16 value) { gText_StagedStringId = value; }\n"
             "void drop(s32 value) { D_801D56A8[0] = value; }\n"
-            "SaveDataState *window(s32 side) { return D_8009B1D8[side]; }\n"
+            "SaveDataState *window(s32 side) { return gDuel_pSide0SaveData[side]; }\n"
             "DuelResultDisplayState *record(void) { return &gDuel_awRitualData; }\n"
         )
         profiles = json.loads(
@@ -238,7 +238,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
             )
         result = self.command([str(tool(ROOT, "objdump")), "-dr", str(obj)])
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertRegex(result.stdout, r"R_MIPS_GPREL16\s+D_8009B1D8")
+        self.assertRegex(result.stdout, r"R_MIPS_GPREL16\s+gDuel_pSide0SaveData")
         for symbol in ("gInput_wPad1Repeat", "gText_StagedStringId",
                        "D_801D56A8", "gDuel_awRitualData"):
             self.assertRegex(result.stdout, r"R_MIPS_HI16\s+" + symbol)
@@ -329,20 +329,20 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
             + '#include "duel_init_scene.h"\n#include "duel_check_ritual.h"\n'
             '#include "save_data.h"\n#include "text_staging.h"\n'
             "static union { SaveDataState state; u8 bytes[TWO_PLAYER_SAVE_SLOT_STRIDE]; } windows[2];\n"
-            "SaveDataState *D_8009B1D8[2] = {&windows[0].state, &windows[1].state};\n"
+            "SaveDataState *gDuel_pSide0SaveData[2] = {&windows[0].state, &windows[1].state};\n"
             "DuelResultDisplayState gDuel_awRitualData;\n"
             "s32 D_801D56A8[1];\n"
             "u8 *first_scalar(void); u8 *second_scalar(void);\n"
             "u16 recipe_halfword(void);\n"
             "int main(void) {\n"
             " s32 i;\n"
-            " if (sizeof(void *) != 4 || sizeof(D_8009B1D8) != 8) return 1;\n"
-            " if (first_scalar() != (u8 *)D_8009B1D8[0]) return 2;\n"
-            " if (second_scalar() != (u8 *)D_8009B1D8[1]) return 3;\n"
-            " if ((u32)D_8009B1D8[1] - (u32)D_8009B1D8[0] != TWO_PLAYER_SAVE_SLOT_STRIDE) return 4;\n"
-            " *(u16 *)((u8 *)D_8009B1D8[0] + SAVE_DATA_DUEL_WINS_OFFSET) = 0xFFFF;\n"
-            " *(u16 *)((u8 *)D_8009B1D8[1] + SAVE_DATA_DUEL_LOSSES_OFFSET) = 9999;\n"
-            " *(u32 *)((u8 *)D_8009B1D8[0] + SAVE_DATA_STARCHIPS_OFFSET) = 999999;\n"
+            " if (sizeof(void *) != 4 || sizeof(gDuel_pSide0SaveData) != 8) return 1;\n"
+            " if (first_scalar() != (u8 *)gDuel_pSide0SaveData[0]) return 2;\n"
+            " if (second_scalar() != (u8 *)gDuel_pSide0SaveData[1]) return 3;\n"
+            " if ((u32)gDuel_pSide0SaveData[1] - (u32)gDuel_pSide0SaveData[0] != TWO_PLAYER_SAVE_SLOT_STRIDE) return 4;\n"
+            " *(u16 *)((u8 *)gDuel_pSide0SaveData[0] + SAVE_DATA_DUEL_WINS_OFFSET) = 0xFFFF;\n"
+            " *(u16 *)((u8 *)gDuel_pSide0SaveData[1] + SAVE_DATA_DUEL_LOSSES_OFFSET) = 9999;\n"
+            " *(u32 *)((u8 *)gDuel_pSide0SaveData[0] + SAVE_DATA_STARCHIPS_OFFSET) = 999999;\n"
             " if (windows[0].state.duel_wins != 0xFFFF ||\n"
             "     windows[1].state.duel_losses != 9999 ||\n"
             "     windows[0].state.starchips != 999999) return 5;\n"
@@ -361,8 +361,8 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
         scalar = self.scratch / "scalar.c"
         scalar.write_text(
             '#include "duel_init_scene.h"\n#include "duel_check_ritual.h"\n'
-            "u8 *first_scalar(void) { return D_8009B1D8; }\n"
-            "u8 *second_scalar(void) { return D_8009B1DC; }\n"
+            "u8 *first_scalar(void) { return gDuel_pSide0SaveData; }\n"
+            "u8 *second_scalar(void) { return gDuel_pSide1SaveData; }\n"
             "u16 recipe_halfword(void) { return gDuel_awRitualData[0]; }\n"
         )
         startup = self.scratch / "start.S"
@@ -374,7 +374,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
             "-ffreestanding", "-fno-builtin", "-fno-stack-protector",
             "-fno-strict-aliasing", "-Werror=incompatible-pointer-types",
             "-I", str(ROOT / "src/game"), str(source), str(scalar), str(startup),
-            f"-Wl,--defsym,D_8009B1DC=D_8009B1D8+{alias_offset}",
+            f"-Wl,--defsym,gDuel_pSide1SaveData=gDuel_pSide0SaveData+{alias_offset}",
             "-o", str(executable),
         ])
         self.assertEqual(compilation.returncode, 0, compilation.stderr)

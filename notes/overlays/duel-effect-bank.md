@@ -7,7 +7,7 @@ The exact resident `Duel_LoadTerrainPackage` implementation requests WA sectors
 passes `q->result++`. The sizes before phase 7 are
 `64 + 5 + 4 + 5 + 32 + 1 + 2 + 32 = 145` sectors.
 
-Phase 7 transfers 44 sectors through `D_800101DC`. The original French
+Phase 7 transfers 44 sectors through `gFile_pDuelBankBase`. The original French
 executable contains `0x80146000` at that pointer location. All seven complete
 images at WA sectors `7193 + terrain * 240` are byte-identical:
 
@@ -88,7 +88,7 @@ French boot code also exists outside the old six-overlay inventory:
 `Main_RunBootSequence` requests WA `0x2503` for `0x25` sectors, and
 `Main_LoadBootImageStage` consumes `32 + 1 + 1` sectors before its final
 three-sector transfer. Those sectors start at 9509 and load at `0x80168000`
-through `D_800101D8`. The complete 6,144-byte module hashes to
+through `gFile_pScreenBankBase`. The complete 6,144-byte module hashes to
 `22b33785288bd88f989d56741d6a9aa3621dc5b26d089fa2b5e09f6416454c05`;
 resident code calls `0x801680F4` and `0x80168160`. Game versus SDK ownership
 requires further evidence before promotion or exclusion.
@@ -358,7 +358,7 @@ search for similar-looking payloads. The North American package starts at
 wrapper selects `0x16B5 + 0xEF*t` and 48 stage-7 sectors, again after 140.
 The European path consumes an additional five-sector language upload before
 stage 7, yielding the 145-sector prefix described above. The initial
-`D_800101DC` pointer in each checked executable confirms its load destination.
+`gFile_pDuelBankBase` pointer in each checked executable confirms its load destination.
 The Japanese image is 98,304 bytes; the other images are 90,112 bytes.
 Distinct hashes mean cross-region C portability still needs independent
 complete-image matching; presence alone does not establish decompilation.

@@ -46,12 +46,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010074,D_80010074,D_80010074,0x80022618,DuelScene_UpdateEffectPreview,matching_c,game,C,src/game/debug_effect_screen.c,address,8,"D_80010074,"
 0x80010090,D_80010090,D_80010090,0x80022618,DuelScene_UpdateEffectPreview,matching_c,game,C,src/game/debug_effect_screen.c,address,8,FntPrint(D_80010090);
 0x800100A8,D_800100A8,D_800100A8,0x80022618,DuelScene_UpdateEffectPreview,matching_c,game,C,src/game/debug_effect_screen.c,address,8,FntPrint(D_800100A8);
-0x800101D8,D_800101D8,D_800101D8,0x8003B808,FreeDuel_LoadPackageStage,matching_c,game,C,src/game/free_duel_load_package_stage.c,read,8,object->value_08 = (u32)D_800101D8; | object->value_0C = (u32)D_800101D8;
-0x800101D8,D_800101D8,D_800101D8,0x8003BA14,NameEntry_LoadPackageStage,matching_c,game,C,src/game/name_entry_load_package_stage.c,read,8,y = D_800101D8;
-0x800101D8,D_800101D8,D_800101D8,0x8003BD14,Password_LoadPackageStage,matching_c,game,C,src/game/password_load_package_stage.c,read,8,object->value_08 = (u32)D_800101D8; | object->value_0C = (u32)D_800101D8;
-0x800101D8,D_800101D8,D_800101D8,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,read,8,object->value_08 = (u32)D_800101D8; | object->value_0C = (u32)D_800101D8;
-0x800101D8,D_800101D8,D_800101D8,0x80043328,Main_LoadBootPackageStage,matching_c,game,C,src/game/main_boot_load_stages.c,read,8,obj->value_08 = (s32)D_800101D8; | obj->value_0C = (s32)D_800101D8;
-0x800101DC,D_800101DC,D_800101DC,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,read,8,d->value_08 = d->value_0C = (u32)D_800101DC;
+0x800101D8,gFile_pScreenBankBase,gFile_pScreenBankBase,0x8003B808,FreeDuel_LoadPackageStage,matching_c,game,C,src/game/free_duel_load_package_stage.c,read,8,object->value_08 = (u32)gFile_pScreenBankBase; | object->value_0C = (u32)gFile_pScreenBankBase;
+0x800101D8,gFile_pScreenBankBase,gFile_pScreenBankBase,0x8003BA14,NameEntry_LoadPackageStage,matching_c,game,C,src/game/name_entry_load_package_stage.c,read,8,y = gFile_pScreenBankBase;
+0x800101D8,gFile_pScreenBankBase,gFile_pScreenBankBase,0x8003BD14,Password_LoadPackageStage,matching_c,game,C,src/game/password_load_package_stage.c,read,8,object->value_08 = (u32)gFile_pScreenBankBase; | object->value_0C = (u32)gFile_pScreenBankBase;
+0x800101D8,gFile_pScreenBankBase,gFile_pScreenBankBase,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,read,8,object->value_08 = (u32)gFile_pScreenBankBase; | object->value_0C = (u32)gFile_pScreenBankBase;
+0x800101D8,gFile_pScreenBankBase,gFile_pScreenBankBase,0x80043328,Main_LoadBootPackageStage,matching_c,game,C,src/game/main_boot_load_stages.c,read,8,obj->value_08 = (s32)gFile_pScreenBankBase; | obj->value_0C = (s32)gFile_pScreenBankBase;
+0x800101DC,gFile_pDuelBankBase,gFile_pDuelBankBase,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,read,8,d->value_08 = d->value_0C = (u32)gFile_pDuelBankBase;
 0x80010288,gDebugMenu_szCampaignValueFormat,gDebugMenu_szCampaignValueFormat,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"printf(gDebugMenu_szCampaignValueFormat,"
 0x80010330,tent_DecimalDigitSjisKeys,tent_DecimalDigitSjisKeys,0x8003B5C8,Text_InitDecimalDigitGlyphMap,matching_c,game,C,src/game/text_init_decimal_digit_glyph_map.c,read,,buf = tent_DecimalDigitSjisKeys;
 0x80010378,D_80010378,D_80010378,0x8003DC1C,MemCardWork_UpdateOperation,matching_c,game,C,src/game/mem_card_dialog.c,address,8,"FntPrint(D_80010378, slot->free_blocks);"
@@ -1117,7 +1117,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read_write,8,gDuel_aSideStates[gDuel_bWinnerSide].rank.result_adjustment = 2; | gDuel_bWinnerSide = gDuel_bActiveSide ^ 1; | (+1 more)
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80020F4C,DuelScene_UpdateResultOutro,matching_c,game,C,src/game/duel_result_runtime.c,read,8,"gDuel_bWinnerSide, spec->kind, 0x11, 9, | id = gDuel_bWinnerSide; | (+11 more)"
 0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x80021598,Duel_CalcRankScore,matching_c,game,C,src/game/duel_result_runtime.c,read,8,if (gDuel_aSideStates[gDuel_bWinnerSide].rank.result_adjustment ==
-0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/duel_result_runtime.c,read,8,D_8009B1D8[gDuel_bWinnerSide ^ 1] | D_8009B1D8[gDuel_bWinnerSide ^ 1]->duel_losses = value; | (+10 more)
+0x8009B165,gDuel_bWinnerSide,gDuel_bWinnerSide,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/duel_result_runtime.c,read,8,gDuel_pSide0SaveData[gDuel_bWinnerSide ^ 1] | gDuel_pSide0SaveData[gDuel_bWinnerSide ^ 1]->duel_losses = value; | (+10 more)
 0x8009B166,gDuel_wViewTweenReferenceZTarget,gDuel_wViewTweenReferenceZTarget,0x80022D94,Duel_StartViewTween,matching_c,game,C,src/game/duel_view_tween.c,write,16,gDuel_wViewTweenReferenceZTarget = target_z;
 0x8009B166,gDuel_wViewTweenReferenceZTarget,gDuel_wViewTweenReferenceZTarget,0x800235C0,Duel_UpdateDisplayTransition,matching_c,game,C,src/game/duel_field_display_objects.c,read,16,view->view.vrz = gDuel_wViewTweenReferenceZTarget;
 0x8009B168,gDuel_dwViewTweenReferenceZStep,gDuel_dwViewTweenReferenceZStep,0x80022D94,Duel_StartViewTween,matching_c,game,C,src/game/duel_view_tween.c,write,32,gDuel_dwViewTweenReferenceZStep = target_z_step;
@@ -1300,9 +1300,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D6,gDuelCursor_TargetColumn,gDuelCursor_TargetColumn,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,8,gDuelCursor_TargetColumn = (a - 1) % 5; | gDuelCursor_TargetColumn = 0x3C - a; | (+2 more)
 0x8009B1D7,gDuelCursor_TargetRow,gDuelCursor_TargetRow,0x8001D5B4,DuelCursor_StepTowardTarget,matching_c,game,C,src/game/duel_cursor_step_toward_target.c,read,8,if (gDuelCursor_TargetRow != cursor->row) { | if (gDuelCursor_TargetRow < cursor->row) { gDuelCursor_Direction = 3; }
 0x8009B1D7,gDuelCursor_TargetRow,gDuelCursor_TargetRow,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,8,gDuelCursor_TargetRow = 2; | gDuelCursor_TargetRow = 3; | (+1 more)
-0x8009B1D8,D_8009B1D8,D_8009B1D8,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,8,D_8009B1D8 = 0; | D_8009B1D8 = D_801D1200; | (+1 more)
-0x8009B1D8,D_8009B1D8,D_8009B1D8,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/duel_result_runtime.c,read_write,32,D_8009B1D8[0]->starchips += | D_8009B1D8[0]->starchips = 999999; | (+8 more)
-0x8009B1DC,D_8009B1DC,D_8009B1DC,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,8,D_8009B1DC = 0; | D_8009B1DC = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
+0x8009B1D8,gDuel_pSide0SaveData,gDuel_pSide0SaveData,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,8,gDuel_pSide0SaveData = 0; | gDuel_pSide0SaveData = D_801D1200; | (+1 more)
+0x8009B1D8,gDuel_pSide0SaveData,gDuel_pSide0SaveData,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/duel_result_runtime.c,read_write,32,gDuel_pSide0SaveData[0]->starchips += | gDuel_pSide0SaveData[0]->starchips = 999999; | (+8 more)
+0x8009B1DC,gDuel_pSide1SaveData,gDuel_pSide1SaveData,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,8,gDuel_pSide1SaveData = 0; | gDuel_pSide1SaveData = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
 0x8009B1E0,tent_DuelResultBgmId,tent_DuelResultBgmId,0x80020F4C,DuelScene_UpdateResultOutro,matching_c,game,C,src/game/duel_result_runtime.c,read_write,16,SD_BGMPlay(tent_DuelResultBgmId); | SD_BGMPreload(tent_DuelResultBgmId); | (+1 more)
 0x8009B1E2,gDuel_bAiSelectionCursor,gDuel_bAiSelectionCursor,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read_write,8,*(s8 *)&gDuel_bAiSelectionCursor = -1; | gDuel_bAiSelectionCursor++; | (+1 more)
 0x8009B1E4,gDuel_wAiSelectionStepDelay,gDuel_wAiSelectionStepDelay,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read_write,16,gDuel_wAiSelectionStepDelay = 6; | gDuel_wAiSelectionStepDelay--; | (+1 more)
@@ -2361,7 +2361,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800A5768,gGraphics_abPacketBuffers,gGraphics_abPacketBuffers,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,address,8,arg = &gGraphics_abPacketBuffers[
 0x800A5768,gGraphics_abPacketBuffers,gGraphics_abPacketBuffers,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,address,8,used = gGraphics_pPacketWorkCursor - (s32)gGraphics_abPacketBuffers;
 0x800E9D28,gGraphics_DispEnv,gGraphics_DispEnv,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,address,,PutDispEnv(&gGraphics_DispEnv);
-0x800E9D28,gGraphics_DispEnv,gGraphics_DispEnv,0x80013154,Main_InitHardware,matching_c,game,C,src/game/main_services.c,write,,gGraphics_DispEnv = D_800FE0A8;
+0x800E9D28,gGraphics_DispEnv,gGraphics_DispEnv,0x80013154,Main_InitHardware,matching_c,game,C,src/game/main_services.c,write,,gGraphics_DispEnv = GsDISPENV;
 0x800E9D28,gGraphics_DispEnv,gGraphics_DispEnv,0x80013360,Graphics_AdjustScreenOffset,matching_c,game,C,src/game/main_services.c,address,,origin = &gGraphics_DispEnv.disp;
 0x800E9D70,D_800E9D70,D_800E9D70,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,write,,D_800E9D70[0].h = 0x10; | D_800E9D70[0].h = 8; | (+5 more)
 0x800E9D70,D_800E9D70,D_800E9D70,0x8001944C,DuelCard_CaptureRoundedTexture,matching_c,game,C,src/game/duel_draw_resolution.c,write,,D_800E9D70[0].h = DUEL_CARD_READBACK_HEIGHT; | D_800E9D70[0].w = DUEL_CARD_READBACK_WIDTH_WORDS; | (+6 more)
@@ -2902,7 +2902,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5D44,D_800F5D44,D_800F5D44,0x8005C1F4,Movie_OnDecodeOutput,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,32,D_800F5D44 = 0; | if (D_800F5D44 != 0) {
 0x800FE048,D_800FE048,D_800FE048,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,write,,D_800FE048[0].b0 = gGraphics_bClearBlue; | D_800FE048[0].dtd = gGraphics_bDither; | (+3 more)
 0x800FE048,D_800FE048,D_800FE048,0x80013154,Main_InitHardware,matching_c,game,C,src/game/main_services.c,write,,D_800FE048[0].b0 = 1; | D_800FE048[0].dtd = 1; | (+3 more)
-0x800FE0A8,D_800FE0A8,D_800FE0A8,0x80013154,Main_InitHardware,matching_c,game,C,src/game/main_services.c,read,,gGraphics_DispEnv = D_800FE0A8;
+0x800FE0A8,GsDISPENV,GsDISPENV,0x80013154,Main_InitHardware,matching_c,game,C,src/game/main_services.c,read,,gGraphics_DispEnv = GsDISPENV;
 0x800FE0CC,D_800FE0CC,D_800FE0CC,0x8005B8A0,Movie_OpenStream,matching_c,game,C,src/game/func_8005B8A0.c,write,16,D_800FE0CC = 1;
 0x800FE0CC,D_800FE0CC,D_800FE0CC,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,write,16,D_800FE0CC = 1;
 0x800FE0D0,gGraphics_CurrentWidth,gGraphics_CurrentWidth,0x8005B8A0,Movie_OpenStream,matching_c,game,C,src/game/func_8005B8A0.c,read,,rect.w = gGraphics_CurrentWidth.pixels; | rect.w = gGraphics_CurrentWidth.word * 0x1800 / 4096;

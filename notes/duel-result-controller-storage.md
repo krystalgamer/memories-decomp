@@ -7,7 +7,7 @@ signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.
 
 ## Backing and bounds
 
-- `D_8009B1D8` and `D_8009B1DC` are adjacent pointer words in the existing
+- `gDuel_pSide0SaveData` and `gDuel_pSide1SaveData` are adjacent pointer words in the existing
   `bss_image_after_viewport` image backing, not separate C allocations.
   `DUEL_SAVE_WINDOWS_AS_PAIR` exposes exactly two byte pointers, eight bytes
   on the target, preserving GP-relative indexed access. Default consumers keep

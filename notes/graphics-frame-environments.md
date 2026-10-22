@@ -2,7 +2,12 @@
 
 `graphics_frame.h` owns the game-facing declarations for the SDK drawing and
 display environments and the three background-tint bytes. These are declarations
-of existing addresses, not C data ownership or new SDK symbol names.
+of existing addresses, not C data ownership. The display environment carries
+libgs's public `GsDISPENV` name, which `src/psyq/libgs.h` declares with the
+same `DISPENV` type. The drawing environment stays `D_800FE048`: libgs's
+`GsDRAWENV` is a scalar `DRAWENV`, while this view is an unsized (and, at
+startup, volatile) array, so the SDK name cannot share a translation unit
+with it.
 
 ## Address and layout evidence
 
@@ -12,7 +17,7 @@ The resident `GsSetDrawBuffClip` body at `0x80085440` loads `D_800FE048` into
 The existing `src/psyq/libgpu.h` declaration takes `DRAWENV *`. This establishes
 the SDK type independently of the game's field writes.
 
-`GsSwapDispBuff` at `0x80085500` loads `D_800FE0A8` at
+`GsSwapDispBuff` at `0x80085500` loads `GsDISPENV` at
 `0x80085520`/`0x80085524`, updates its first two halfwords and passes it to
 `PutDispEnv` at `0x80085538`. The SDK signature takes `DISPENV *`.
 Startup (`Main_InitHardware`) already copies this value into the typed
@@ -38,7 +43,7 @@ the four bytes after the `0x5C` drawing environment are not claimed.
 `D_800FE048` remains an unsized extern array, with only element zero accessed.
 Startup retains its volatile view; per-frame updates retain their nonvolatile
 view. The five byte stores in each function keep their original source order.
-`D_800FE0A8` remains a nonvolatile scalar `DISPENV`. The tint bytes retain
+`GsDISPENV` remains a nonvolatile scalar `DISPENV`. The tint bytes retain
 startup's volatile `.data`, the movie/frame paths' nonvolatile `.data`, and
 all existing scalar/array and tentative-definition forms in other consumers.
 No linker identities, storage definitions, compiler profiles, SDK bodies,

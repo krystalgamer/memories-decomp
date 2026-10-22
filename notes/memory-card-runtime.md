@@ -537,7 +537,7 @@ its separate existing owner.
 
 The existing `File_RequestNameEntryPackage` call still completes before
 entry. Its stage loader transfers the final code phase to the address
-stored at `D_800101D8`; the NA retail word is `0x80168000`, and the
+stored at `gFile_pScreenBankBase`; the NA retail word is `0x80168000`, and the
 unchanged phase size is fifteen sectors. All entry targets below are
 inside that existing code window. The loader, wait, VRAM stages and
 package constants do not change.
