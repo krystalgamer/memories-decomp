@@ -72,8 +72,8 @@ void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     case 4:
         object->phase_size = 5 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = (u32)D_800101D8;
-        object->value_08 = (u32)D_800101D8;
+        object->value_0C = (u32)gFile_pScreenBankBase;
+        object->value_08 = (u32)gFile_pScreenBankBase;
         object->done = 1;
         break;
     }

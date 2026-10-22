@@ -175,12 +175,12 @@ void Duel_InitScene(void)
     gMain_apFrameServiceCallbacks[3] = Duel_DrawFieldCards;
     if (D_8009B369 != 1) {
         p = 0;
-        D_8009B1DC = 0;
-        D_8009B1D8 = 0;
+        gDuel_pSide1SaveData = 0;
+        gDuel_pSide0SaveData = 0;
         if (pid[-1] < 0) {
             if (gDuel_bOpponentID < 0) {
-                D_8009B1D8 = D_801D1200;
-                D_8009B1DC = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
+                gDuel_pSide0SaveData = D_801D1200;
+                gDuel_pSide1SaveData = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
                 Duel_ShuffleBothDecks(
                     (const u16 *)D_801D1200,
                     (const u16 *)(D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE)
@@ -188,7 +188,7 @@ void Duel_InitScene(void)
                 return;
             }
             p = (u8 *)gDuel_awPlayerDeck;
-            D_8009B1D8 = p;
+            gDuel_pSide0SaveData = p;
             if (gDuel_bOpponentID < DUEL_MASTER_K_OPPONENT_ID) {
                 q = 0;
                 goto shuffle;

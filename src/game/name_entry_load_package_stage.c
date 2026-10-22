@@ -129,7 +129,7 @@ m3:
     m = 0xFFDCFFFF;
     *(s32 *)&object->phase_size = 15 * FILE_SECTOR_SIZE;
     x = D_8009B0F4 & m;
-    y = D_800101D8;
+    y = gFile_pScreenBankBase;
 
 tail:
     D_8009B0F4 = x;

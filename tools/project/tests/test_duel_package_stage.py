@@ -42,7 +42,7 @@ WITNESS = r"""
 volatile u32 D_8009B0F4;
 static u8 buffer[8192], alternate[8192], stage7[16], stage11[16];
 u8 *D_8009B118 = buffer;
-u8 *D_800101DC = stage7;
+u8 *gFile_pDuelBankBase = stage7;
 u8 *D_80010000 = stage11;
 u16 gDuel_awEquipTable[16], gDuel_aFusionTable[16], gDuel_awRitualData[16];
 u8 D_801A8000[16], gAiScript_abFieldScript[16];
@@ -198,7 +198,7 @@ static s32 check_case(s32 stage, u32 initial_flags, u32 mode)
         if (!equal_bytes(submitted_rect, expected_rects, sizeof(RECT))) return 28;
         if (submitted_flags != initial_flags) return 29;
     }
-    if (D_800101DC != stage7 || D_80010000 != stage11) return 30;
+    if (gFile_pDuelBankBase != stage7 || D_80010000 != stage11) return 30;
     return 0;
 }
 

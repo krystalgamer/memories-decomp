@@ -63,8 +63,8 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     case 3:
         object->phase_size = 15 * FILE_SECTOR_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
-        object->value_0C = (u32)D_800101D8;
-        object->value_08 = (u32)D_800101D8;
+        object->value_0C = (u32)gFile_pScreenBankBase;
+        object->value_08 = (u32)gFile_pScreenBankBase;
         object->done = 1;
         break;
     }

@@ -28,7 +28,7 @@ class SpanishOptionsTests(french.FrenchOptionsTests):
     }
     load_inventories = staticmethod(load_spanish_overlay_inventories)
     resident_raw_owners = (
-        ("spanish_raw_800101d8", 0x800101D8, (("D_800101D8", 0x800101D8, 4),)),
+        ("spanish_raw_800101d8", 0x800101D8, (("gFile_pScreenBankBase", 0x800101D8, 4),)),
         ("spanish_raw_8009c398", 0x8009C398, (
             ("D_8009C02B", 0x8009C44B, 1), ("D_8009B118", 0x8009C4B0, 4),
             ("D_8009B0F4", 0x8009C460, 4), ("D_8009B134", 0x8009C484, 4),

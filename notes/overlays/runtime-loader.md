@@ -442,7 +442,7 @@ Matching
 `[5776, 5830)`. Callback
 [`Main_LoadBootPackageStage`](../../src/game/main_boot_load_stages.c)
 assigns consecutive phase sizes `0x18000`, `0x1000`, `0x800`, and `0x1800`;
-the last phase goes to the pointer at `D_800101D8`. The original executable
+the last phase goes to the pointer at `gFile_pScreenBankBase`. The original executable
 stores `0x80168000` there. Thus the final image is WA `[5827, 5830)`, file bytes
 `[0xB61800, 0xB63000)`, mapped to RAM `[0x80168000, 0x80169800)`.
 
