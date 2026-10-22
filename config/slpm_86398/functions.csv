@@ -14,7 +14,7 @@ address,size,name,status,module,notes
 0x800133A0,0x2C,Main_ClearFrameServiceCallbacks,matching_c,game,
 0x800133CC,0x4C,ViewState_ApplyViewpointOffset,matching_c,game,
 0x80013418,0xD0,ViewState_ApplyOrbit,matching_c,game,
-0x800134E8,0xD8,func_800135FC,matching_c,game,
+0x800134E8,0xD8,ViewState_ApplyAlternateOrbit,matching_c,game,
 0x800135C0,0x10,func_800136D4,matching_c,game,
 0x800135D0,0x100,File_SetPositionTable,matching_c,game,
 0x800136D0,0xB4,File_WaitForTransfers,matching_c,game,

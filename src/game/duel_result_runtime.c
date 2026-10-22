@@ -57,6 +57,7 @@
 #include "duel_check_quit_input.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
+#include "view_state_current.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 #endif
@@ -610,7 +611,7 @@ void DuelScene_UpdateResultRewards(void)
     s8 page;
     u8 opponent;
 
-    D_800F2848.angle = (u16)D_800F2848.angle + 2;
+    gViewState_Current.angle = (u16)gViewState_Current.angle + 2;
     ViewState_ApplyOrbit();
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
         gDuel_wSceneStateFlags |= 0x8000;

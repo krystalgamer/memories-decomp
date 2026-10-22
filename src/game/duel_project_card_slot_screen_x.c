@@ -8,6 +8,7 @@
 #include "screen_projection.h"
 #include "view_state.h"
 #include "duel_screen_tables.h"
+#include "view_state_current.h"
 
 /* Projects one live-slot ground pair at height -24; returns signed screen X. */
 s16 Duel_ProjectCardSlotScreenX(s32 index)
@@ -15,7 +16,7 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
     s32 coord = index;
     ProjectedPair result;
 
-    SetGeomScreen(D_800F2848.projection);
+    SetGeomScreen(gViewState_Current.projection);
     coord *= 4;
     SetGeomOffset(0xA0, 0x6C);
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);

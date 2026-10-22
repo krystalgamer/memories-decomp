@@ -83,11 +83,11 @@ class LibraryViewTargetTests(unittest.TestCase):
         match = re.search(
             r"Model_CopySlotU16Values\(0, \(u16 \*\)0x80181000\);\s*"
             r"p = \(SVECTOR \*\)0x80181000;\s*"
-            r"(?P<reads>(?:D_800F2848\.view\.\w+\s*=\s*[^;]+;\s*){3})",
+            r"(?P<reads>(?:gViewState_Current\.view\.\w+\s*=\s*[^;]+;\s*){3})",
             body,
         )
         self.assertIsNotNone(match)
-        reads = match["reads"].replace("D_800F2848.view.", "view->")
+        reads = match["reads"].replace("gViewState_Current.view.", "view->")
         if mutation == "unsigned-read":
             self.assertEqual(reads.count("p->vx"), 1)
             reads = reads.replace("p->vx", "(u16)p->vx")

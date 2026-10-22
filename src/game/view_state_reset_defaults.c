@@ -5,10 +5,11 @@
 #include "view_state_reset_defaults.h"
 #include "model.h"
 #include "view_state.h"
+#include "view_state_current.h"
 
 void ViewState_ResetDefaults(void)
 {
-    ViewState *s = &D_800F2848;
+    ViewState *s = &gViewState_Current;
     /* This second base pointer is load-bearing, not leftover noise. Written
        as s->view.vrx, s->view.vry and s->view.vrz the three stores share the
        first base with plain displacements and the function comes out one

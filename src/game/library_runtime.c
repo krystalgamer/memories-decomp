@@ -65,6 +65,7 @@
 #include "model_slot_support.h"
 #include "model_state_setters.h"
 #include "../psyq/libgs.h"
+#include "view_state_current.h"
 
 /* The seven contiguous functions of the Library screen: the card-view state
    handler Library_UpdateCardView, the trivial state handlers for states 0 and 3, the
@@ -170,21 +171,21 @@ void Library_UpdateCardView(LibraryState *state)
         state->motion.model_load_phase = 1;
         Model_ResetSceneView();
         Model_ResetSceneState();
-        D_800F2848.field_00 = 0x334;
-        D_800F2848.angle = 0x400;
-        D_800F2848.field_04 = 0xC4;
-        D_800F2848.field_0C = 0;
-        D_800F2848.view.rz = 0;
-        D_800F2848.view.super = 0;
-        D_800F2848.projection = 0x12C;
+        gViewState_Current.field_00 = 0x334;
+        gViewState_Current.angle = 0x400;
+        gViewState_Current.field_04 = 0xC4;
+        gViewState_Current.field_0C = 0;
+        gViewState_Current.view.rz = 0;
+        gViewState_Current.view.super = 0;
+        gViewState_Current.projection = 0x12C;
         GsSetProjection(0x12C);
-        rv = &D_800F2848.view;
+        rv = &gViewState_Current.view;
         rv->vrx = 0;
-        D_800F2848.field_06 = 0;
+        gViewState_Current.field_06 = 0;
         rv->vry = 0;
-        D_800F2848.field_08 = 0;
+        gViewState_Current.field_08 = 0;
         rv->vrz = 0;
-        D_800F2848.field_0A = 0;
+        gViewState_Current.field_0A = 0;
         ViewState_ApplyOrbit();
         CardPreview_RequestResourceTransfer(0, (u16)state->motion.selected_card_id);
         Fade_StartOutKeepOverlay();
@@ -348,7 +349,7 @@ void Library_UpdateCardView(LibraryState *state)
         break;
     case 4:
         light = (ModelSlotLightEntry *)Model_GetFlatLight(0, 2);
-        vs = &D_800F2848;
+        vs = &gViewState_Current;
         a = -vs->field_00;
         b = a * rcos(vs->field_04) / 4096;
         c = a * rsin(vs->field_04) / 4096;
@@ -380,10 +381,10 @@ void Library_UpdateCardView(LibraryState *state)
                 Model_SetSlotAmbient(0, 0x400, 0x400, 0x400);
                 Model_CopySlotU16Values(0, (u16 *)0x80181000);
                 p = (SVECTOR *)0x80181000;
-                D_800F2848.view.vrx = p->vx;
-                D_800F2848.view.vry = p->vy;
-                D_800F2848.view.vrz = p->vz;
-                D_800F2848.field_00 = Model_AdjustCameraDistanceForSlot(0, 0x334);
+                gViewState_Current.view.vrx = p->vx;
+                gViewState_Current.view.vry = p->vy;
+                gViewState_Current.view.vrz = p->vz;
+                gViewState_Current.field_00 = Model_AdjustCameraDistanceForSlot(0, 0x334);
                 Model_SetSlotShadowEnabled(0, 1);
                 Model_SetScreenYOverride(0);
             }
@@ -583,7 +584,7 @@ void Library_UpdateScreen(void)
         break;
     case 2:
         Library_UpdateCardView(state);
-        model = &D_800F2848;
+        model = &gViewState_Current;
         r = Model_GetSlotReadiness(0);
         if (r == one) {
             if (Model_GetSlotAnimationIndex(0) != r) {
@@ -629,7 +630,7 @@ void Library_UpdateScreen(void)
                 }
             }
         }
-        p = &D_800F2848;
+        p = &gViewState_Current;
         p->angle += 0xC;
         ViewState_ApplyOrbit();
         dst = Model_GetCameraViewBuffer();

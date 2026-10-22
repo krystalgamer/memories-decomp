@@ -11,6 +11,7 @@
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
+#include "view_state_current.h"
 
 int func_8002C570(int offset)
 {
@@ -149,7 +150,7 @@ s32 DuelEffect_UpdateRequests(void) {
             rec->field_08 = (s32)gGraphics_apOrderingTables[2];
             func_801462B0(rec->id, savedF1A, (s32)rec->buffer, rec);
             SetGeomOffset(0, 0);
-            SetGeomScreen(D_800F2848.projection);
+            SetGeomScreen(gViewState_Current.projection);
             if (gDuelEffect_bRequestFinished == 1) {
                 rec->flags = 0;
             }

@@ -44,6 +44,7 @@
 #include "duel_terrain_boost.h"
 #include "duel_view_tween.h"
 #include "ai_opponent_data.h"
+#include "view_state_current.h"
 
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
 
@@ -116,7 +117,7 @@ void Duel_InitScene(void)
     }
     gDuel_pActiveSideState = &gDuel_aSideStates[gDuel_bActiveSide];
     Duel_InitGroundProjectionReference();
-    D_800F2848.angle =
+    gViewState_Current.angle =
         gDuel_bActiveSide * TRIG_ANGLE_HALF_TURN + TRIG_ANGLE_QUARTER_TURN;
     ViewState_ApplyOrbit();
     Duel_ClearHandSlots();

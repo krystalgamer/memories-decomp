@@ -51,7 +51,7 @@ void DuelScene_UpdateResultRewards(void);
 #define U32(p, n) (*(u32 *)((u8 *)(p) + (n)))
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
-ViewState D_800F2848;
+ViewState gViewState_Current;
 u16 gDuel_wSceneStateFlags, gDuel_wOutcomeFlags, gText_StagedStringId;
 s16 gGraphics_sViewportX, gGraphics_sViewportY;
 DuelResultDisplayState *gDuel_pResultDisplayState;
@@ -101,8 +101,8 @@ static s32 object_id(void *p)
 
 void ViewState_ApplyOrbit(void)
 {
-    event(1, 0, (u16)D_800F2848.angle, 0, 0, 0);
-    if ((u16)D_800F2848.angle != expected_angle) error = 3;
+    event(1, 0, (u16)gViewState_Current.angle, 0, 0, 0);
+    if ((u16)gViewState_Current.angle != expected_angle) error = 3;
     if (mutation == 1) gDuel_wSceneStateFlags = 0x8000;
 }
 void Fade_StartOutKeepOverlay(void) { event(2, 0, 0, 0, 0, 0); }
@@ -185,7 +185,7 @@ void Duel_AwardCard(s32 card)
 static void setup(u16 flags)
 {
     s32 i;
-    clear(&D_800F2848, sizeof(D_800F2848));
+    clear(&gViewState_Current, sizeof(gViewState_Current));
     clear(&alternate, sizeof(alternate));
     clear(&gDuel_awRitualData, sizeof(gDuel_awRitualData));
     clear(objects, sizeof(objects)); clear(events, sizeof(events));
@@ -209,7 +209,7 @@ static void setup(u16 flags)
     D_8009B1D8[1] = (SaveDataState *)saves[1];
     D_801D56A8[0] = 0x55555555; gDuel_wSelectedCardID = -1;
     gInput_wPad1Repeat = gInput_wPad1Pressed = 0;
-    D_800F2848.angle = -1; expected_angle = 1;
+    gViewState_Current.angle = -1; expected_angle = 1;
     score_input[0] = score_input[1] = 50;
     drop_result = 0x8001;
     object_count = allocation_count = event_count = error = mutation = 0;
@@ -339,9 +339,9 @@ static s32 camera_idle(void)
     static const u16 next[] = {2, 3, 32769, 32770, 0, 1};
     s32 i;
     for (i = 0; i < 6; i++) {
-        setup(0x8012); D_800F2848.angle = angles[i]; expected_angle = next[i];
+        setup(0x8012); gViewState_Current.angle = angles[i]; expected_angle = next[i];
         run();
-        CHECK(valid() && (u16)D_800F2848.angle == next[i] && event_count == 1 &&
+        CHECK(valid() && (u16)gViewState_Current.angle == next[i] && event_count == 1 &&
               gDuel_wSceneStateFlags == 0x8012 && !object_count &&
               gGraphics_sViewportX == 37 && gGraphics_sViewportY == -43, 30);
     }

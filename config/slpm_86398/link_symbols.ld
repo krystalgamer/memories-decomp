@@ -105,3 +105,6 @@ func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 func_80060E70 = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = D_801A8000;
 gCardList_SortIconTable = D_80090DD8;
+
+func_800135FC = ViewState_ApplyAlternateOrbit;
+gViewState_Current = D_800F2848;
