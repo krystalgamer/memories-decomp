@@ -15,6 +15,7 @@
 #include "duel_view_tween.h"
 #include "../unmatched.h"
 #include "duel_trap_resolution.h"
+#include "view_state_current.h"
 
 #define DUEL_ATTACK_TRAP_SCRATCH_VIEW(value) \
     ((DuelAttackTrapScratchBlock *)(value))
@@ -202,7 +203,7 @@ s32 Duel_UpdateTrapPresentation(void) {
     return 1;
 
 m0:
-    Duel_StartViewTween(0x10, 0x208, 0x200, D_800F2848.angle,
+    Duel_StartViewTween(0x10, 0x208, 0x200, gViewState_Current.angle,
                   0xB2 - gDuel_bActiveSide * 0x164);
     gDuel_wDisplayTransitionFlags = 0x10;
     gDuel_wTrapPresentationMode = one;
@@ -231,7 +232,7 @@ m1:
     return 1;
 
 m2:
-    Duel_StartViewTween(0x10, 0x258, 0x100, D_800F2848.angle, 0);
+    Duel_StartViewTween(0x10, 0x258, 0x100, gViewState_Current.angle, 0);
     gDuel_wDisplayTransitionFlags = 0x10;
     gDuel_wTrapPresentationMode = 3;
     gDuel_wStepCounter = 0x14;

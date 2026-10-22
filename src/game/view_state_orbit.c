@@ -5,13 +5,14 @@
 #include "model.h"
 #include "view_state.h"
 #include "view_state_orbit.h"
+#include "view_state_current.h"
 
-/* Placing the D_800F2848 view: ViewState_ApplyViewpointOffset puts the
+/* Placing the gViewState_Current view: ViewState_ApplyViewpointOffset puts the
    viewpoint at an offset from the reference point and installs the
    GsRVIEW2, and the two after it compute that offset as an orbit - a
    distance from field_00 turned through field_04 and angle with rsin/rcos -
    and hand it over. ViewState_ApplyOrbit is the one the duel, Library and overworld
-   code call after moving the view; func_800135FC is the same orbit with the
+   code call after moving the view; ViewState_ApplyAlternateOrbit is the same orbit with the
    two angles swapped, a quarter turn added to the second, and its last two
    offsets exchanged.
 
@@ -35,8 +36,8 @@ void ViewState_ApplyViewpointOffset(ViewState *object, s32 x, s32 y, s32 z)
 }
 
 void ViewState_ApplyOrbit(void) {
-    ViewState *p = &D_800F2848;
-    s32 n = -D_800F2848.field_00;
+    ViewState *p = &gViewState_Current;
+    s32 n = -gViewState_Current.field_00;
     s32 x = n * rcos(p->field_04) / MODEL_FIXED_ONE;
     s32 z = n * rsin(p->field_04) / MODEL_FIXED_ONE;
     s32 y = x * rsin(p->angle) / MODEL_FIXED_ONE;
@@ -46,9 +47,9 @@ void ViewState_ApplyOrbit(void) {
     ViewState_ApplyViewpointOffset(p, x, z, y);
 }
 
-void func_800135FC(void)
+void ViewState_ApplyAlternateOrbit(void)
 {
-    ViewState *record = &D_800F2848;
+    ViewState *record = &gViewState_Current;
     s32 distance = -record->field_00;
     s32 x = distance * rcos(record->angle) / MODEL_FIXED_ONE;
     s32 z = distance * rsin(record->angle) / MODEL_FIXED_ONE;

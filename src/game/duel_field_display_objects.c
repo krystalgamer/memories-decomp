@@ -32,6 +32,7 @@
 #include "duel_view_tween.h"
 #include "view_state.h"
 #include "../unmatched.h"
+#include "view_state_current.h"
 
 /* Regional value: the 0xF0 passed to Duel_CreateFieldCardPanel and stored in position
  * field_2A, the screen height (0xF0 -> 0x100). The European build
@@ -261,7 +262,7 @@ s32 Duel_UpdateDisplayTransition(void)
 
     flags = gDuel_wDisplayTransitionFlags;
     source = gDuel_pActiveSelectionRecord;
-    view = &D_800F2848;
+    view = &gViewState_Current;
     do {
     } while (0);
     result = 0;

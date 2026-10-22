@@ -33,6 +33,7 @@
 #include "duel_apply_card_object_flags.h"
 #include "duel_deck_card_data.h"
 #include "duel_swords_effect.h"
+#include "view_state_current.h"
 
 /* Regional values: the cursor's field_0C (0xAE -> 0xBE), the base of
  * field_40 (0x2E0 -> 0x360) and the y Duel_CreateHandCardDisplayObject places a hand card at
@@ -183,11 +184,11 @@ void DuelScene_UpdateStartup(void)
     s32 stat;
     s32 stat2;
 
-    w = (u16 *)&D_800F2848;
+    w = (u16 *)&gViewState_Current;
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         Duel_RequestCombinedDeckData();
-        D_800F2848.field_00 = 0x4B0;
+        gViewState_Current.field_00 = 0x4B0;
         w[2] = 0x358;
         w[1] = 0x16C0;
         ViewState_ApplyOrbit();
@@ -198,11 +199,11 @@ void DuelScene_UpdateStartup(void)
 
     switch (D_8009B174 & 0x1F) {
     case 2:
-        D_800F2848.field_00 -= 2;
+        gViewState_Current.field_00 -= 2;
         w[2] -= 2;
         w[1] -= 0x10;
         if ((s16)w[1] <= 0x400) {
-            D_800F2848.field_00 = 0x258;
+            gViewState_Current.field_00 = 0x258;
             w[2] = 0x100;
             w[1] = 0x400;
             D_8009B174 = 3;

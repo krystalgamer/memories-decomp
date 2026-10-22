@@ -10,6 +10,7 @@
 #include "screen_projection.h"
 #include "view_state.h"
 #include "duel_screen_tables.h"
+#include "view_state_current.h"
 
 /* Projects all duel-slot coordinates into the biased screen-position table. */
 void Duel_ProjectCardSlotScreenPositions(void)
@@ -21,7 +22,7 @@ void Duel_ProjectCardSlotScreenPositions(void)
     u16 *source;
     s32 i;
 
-    SetGeomScreen(D_800F2848.projection);
+    SetGeomScreen(gViewState_Current.projection);
     SetGeomOffset(0xA0, 0x6C);
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     scratch = (SVECTOR *)0x1F8003E0;

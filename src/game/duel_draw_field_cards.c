@@ -11,6 +11,7 @@
 #include "duel_field_card_render.h"
 #include "../unmatched.h"
 #include "../game/model_draw_slot.h"
+#include "view_state_current.h"
 
 /* Regional values: the two CLUTs (0x3C11 -> 0x3829, 0x3C50 -> 0x3868). The
  * European build (src/game/european/) defines its own. */
@@ -39,7 +40,7 @@ void Duel_DrawFieldCards(void) {
     ViewState *q;
     DuelCardRecord *t;
 
-    q = &D_800F2848;
+    q = &gViewState_Current;
     SetGeomScreen(q->projection);
     SetGeomOffset(0xA0, 0x6C);
     SetFarColor(0, 0, 0);

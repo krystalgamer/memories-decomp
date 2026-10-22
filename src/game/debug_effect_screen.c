@@ -27,6 +27,7 @@
 #include "debug_effect_screen.h"
 #include "debug_effect_preview.h"
 #include "debug_effect_state.h"
+#include "view_state_current.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
    nudge, the controller that builds one of four preview pages and spawns an
@@ -88,18 +89,18 @@ void DebugEffect_UpdateViewControls(void) {
         gModel_dwFogDrawFlags = gModel_dwFogDrawFlags ^ 1;
     }
 
-    b = &D_800F2848;
+    b = &gViewState_Current;
 
     if ((gInput_wPad1Repeat & PAD_BUTTON_L1_R1_MASK) != 0) {
         a = 2;
         if ((gInput_wPad1Held & DEBUG_EFFECT_FAST_STEP_BUTTON) != 0) {
             a = 0x10;
         }
-        v = D_800F2848.field_00 + a;
+        v = gViewState_Current.field_00 + a;
         if ((gInput_wPad1Repeat & PAD_BUTTON_L1) != 0) {
             v -= a * 2;
         }
-        D_800F2848.field_00 = v;
+        gViewState_Current.field_00 = v;
         ViewState_ApplyOrbit();
     }
 
@@ -140,7 +141,7 @@ void DebugEffect_UpdateViewControls(void) {
             if ((gInput_wPad1Repeat & PAD_DIRECTION_LEFT) != 0) {
                 y += v;
             }
-            c = &D_800F2848;
+            c = &gViewState_Current;
             c->angle = y;
             c->field_04 = x;
         }
