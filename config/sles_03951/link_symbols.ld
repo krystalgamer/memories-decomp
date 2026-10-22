@@ -1147,3 +1147,10 @@ gDuel_DroppedCardTextValue = D_801D56A8;
 
 gMemCardDialog_szAllFilesPattern = gEuropean_D_8009AF70;
 gMemCard_szAllFilesPattern = gEuropean_D_8009AF7C;
+
+gMemCardWork_wFlags = D_8009B3CC;
+gMemCardWork_bSlotIndex = D_8009B3DD;
+gMemCardWork_bOperationResult = D_8009B3D5;
+gMemCardWork_nRequestResult = D_8009B3F0;
+gMemCardWork_nCompletedRequest = D_8009B3E4;
+gMemCardWork_bFrameChecksum = D_8021007F;

@@ -39,6 +39,7 @@
 #include "mem_card_directory.h"
 #include "mem_card_directory_patterns.h"
 #include "mem_card_work.h"
+#include "mem_card_work_state.h"
 #include "mem_card_diagnostic_strings.h"
 #include "io_event_helpers.h"
 #include "duel_effect_create_channel.h"
@@ -63,7 +64,7 @@
 void MemCardWork_UpdateOperation(void)
 {
     MemCardWorkRoot *root = &gMemCardWork_Area.root;
-    MemCardWorkSlot *slot = &gMemCardWork_Area.slots[D_8009B3DD];
+    MemCardWorkSlot *slot = &gMemCardWork_Area.slots[gMemCardWork_bSlotIndex];
     s32 zero = 0;
     s32 status;
     s32 index;
@@ -74,7 +75,7 @@ void MemCardWork_UpdateOperation(void)
     s32 checksum;
     u8 *name;
 
-    if (D_8009B3CC & 0x2000) {
+    if (gMemCardWork_wFlags & 0x2000) {
         index = zero;
         if (index < gMemCard_nDirEntries) {
             do {
@@ -89,30 +90,30 @@ void MemCardWork_UpdateOperation(void)
 #endif
     }
     status = -1;
-    if (D_8009B3CC & 0x4000)
-        status = MemCard_ProcessRequest(1, &D_8009B3E4, &D_8009B3C8);
-    if ((D_8009B3CC & 0x1000) && status != 0 && status == 1) {
-        switch (D_8009B3E4) {
+    if (gMemCardWork_wFlags & 0x4000)
+        status = MemCard_ProcessRequest(1, &gMemCardWork_nCompletedRequest, &gMemCardWork_nRequestResult);
+    if ((gMemCardWork_wFlags & 0x1000) && status != 0 && status == 1) {
+        switch (gMemCardWork_nCompletedRequest) {
         case 2:
-            D_8009B3CC |= 0x2000;
-            switch (D_8009B3C8) {
+            gMemCardWork_wFlags |= 0x2000;
+            switch (gMemCardWork_nRequestResult) {
             case 3:
-                D_8009B3CC |= 0x800;
+                gMemCardWork_wFlags |= 0x800;
             case 0:
                 slot->free_blocks = (u8)gMemCard_nFreeBlocks;
                 goto success;
             case 4:
-                D_8009B3CC |= 2;
-                D_8009B3D5 = 1;
+                gMemCardWork_wFlags |= 2;
+                gMemCardWork_bOperationResult = 1;
                 break;
             case 1:
             default:
-                D_8009B3D5 = 2;
+                gMemCardWork_bOperationResult = 2;
                 break;
             }
             break;
         case 3:
-            if (D_8009B3C8 == 0) {
+            if (gMemCardWork_nRequestResult == 0) {
                 index = root->chunk;
                 remaining = (u16)root->remaining - index;
                 root->remaining = remaining;
@@ -122,14 +123,14 @@ void MemCardWork_UpdateOperation(void)
                     if (root->remaining < root->chunk)
                         root->chunk = (u16)root->remaining;
                 } else {
-                    D_8009B3D5 = 0;
+                    gMemCardWork_bOperationResult = 0;
                 }
             } else {
-                D_8009B3D5 = 1;
+                gMemCardWork_bOperationResult = 1;
             }
             break;
         case 4:
-            if (D_8009B3C8 == 0) {
+            if (gMemCardWork_nRequestResult == 0) {
                 index = root->chunk;
                 remaining = (u16)root->remaining - index;
                 root->remaining = remaining;
@@ -139,20 +140,20 @@ void MemCardWork_UpdateOperation(void)
                     if (root->remaining < root->chunk)
                         root->chunk = (u16)root->remaining;
                 } else {
-                    D_8009B3D5 = 0;
+                    gMemCardWork_bOperationResult = 0;
                 }
             } else {
-                D_8009B3D5 = 1;
+                gMemCardWork_bOperationResult = 1;
             }
             break;
         case 8:
         case 11:
         case 12:
-            D_8009B3D5 = 1;
-            if (D_8009B3C8)
+            gMemCardWork_bOperationResult = 1;
+            if (gMemCardWork_nRequestResult)
                 break;
 success:
-            D_8009B3D5 = 0;
+            gMemCardWork_bOperationResult = 0;
             break;
         }
     }
@@ -162,7 +163,7 @@ success:
     }
     if (status >= 0)
         return;
-    if (D_8009B3CC & 0x400) {
+    if (gMemCardWork_wFlags & 0x400) {
 #ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
         DuelEffectChannel *text = (DuelEffectChannel *)(
             (u8 *)gText_aChannels +
@@ -172,7 +173,7 @@ success:
 #endif
         TextBox_UpdateChannels();
         if ((*(u32 *)&text->flags_34 & MEM_CARD_MESSAGE_COMPLETION_MASK) == 0x2000)
-            D_8009B3CC &= ~0x400;
+            gMemCardWork_wFlags &= ~0x400;
         return;
     }
     switch (gMemCardWork_OperationState & 0xF) {
@@ -189,20 +190,20 @@ success:
         MemCard_Init(1);
         MemCard_InitIOEvents();
         gMemCardWork_OperationState = 1;
-        D_8009B3CC |= 0x4000;
+        gMemCardWork_wFlags |= 0x4000;
     case 1:
         if (!(gMemCardWork_OperationState & 0x80)) {
             gMemCardWork_OperationState |= 0x80;
-            D_8009B3CC |= 0x1000;
+            gMemCardWork_wFlags |= 0x1000;
             MemCard_ReqLoadDirectory(zero);
             break;
         }
         gMemCardWork_OperationState = 4;
     case 4:
-        if (!(D_8009B3CC & 0x2000))
+        if (!(gMemCardWork_wFlags & 0x2000))
             break;
-        D_8009B3CC &= ~0x1000;
-        if (D_8009B3D5 == 2) {
+        gMemCardWork_wFlags &= ~0x1000;
+        if (gMemCardWork_bOperationResult == 2) {
             message = 0xD2;
             goto show_message;
         }
@@ -215,7 +216,7 @@ success:
         if (!(gMemCardWork_OperationState & 0x80)) {
             gMemCardWork_OperationState |= 0x80;
             index = MemCard_FindLoadedEntry(gMemCard_szSaveFileName);
-            if (index < 0 || (D_8009B3CC & 2)) {
+            if (index < 0 || (gMemCardWork_wFlags & 2)) {
                 message = 0xD3;
                 goto show_message;
             }
@@ -223,7 +224,7 @@ success:
                 gMemCard_pDirEntries[index].head / 64);
             break;
         }
-        if (D_8009B3D5) {
+        if (gMemCardWork_bOperationResult) {
             message = 0xD8;
             goto show_message;
         }
@@ -234,11 +235,11 @@ success:
             name = gMemCard_szSaveFileName;
             index = MemCard_FindLoadedEntry(name);
             message = 0xD3;
-            if (index < 0 || (D_8009B3CC & 2))
+            if (index < 0 || (gMemCardWork_wFlags & 2))
                 goto show_message;
             DuelEffect_CreateChannel(0x80D5, 0);
             slot->entry_index = index;
-            D_8009B3CC |= 0x1000;
+            gMemCardWork_wFlags |= 0x1000;
             MemCard_ReqReadFile(
                 zero,
                 (s32)name,
@@ -249,7 +250,7 @@ success:
             break;
         }
         message = 0xD7;
-        if (D_8009B3D5 == 1)
+        if (gMemCardWork_bOperationResult == 1)
             message = 0xD8;
         goto show_message;
     case 7: {
@@ -258,7 +259,7 @@ success:
         u8 *file;
         if (!(gMemCardWork_OperationState & 0x80)) {
             gMemCardWork_OperationState |= 0x80;
-            if (D_8009B3CC & 2) {
+            if (gMemCardWork_wFlags & 2) {
                 gMemCardWork_OperationState = 9;
                 break;
             }
@@ -285,10 +286,10 @@ success:
                 0,
                 SAVE_DATA_HEADER_SIZE + FILE_SECTOR_SIZE
             );
-            D_8009B3CC |= 0x1000;
+            gMemCardWork_wFlags |= 0x1000;
             break;
         }
-        result = D_8009B3D5;
+        result = gMemCardWork_bOperationResult;
         if (result == 1) {
             message = 0xD9;
             wait = result;
@@ -298,8 +299,8 @@ success:
             gMemCardWork_OperationState = 8;
         }
         DuelEffect_CreateChannel(message, wait);
-        remaining = D_8009B3CC | 0x400;
-        D_8009B3CC = remaining;
+        remaining = gMemCardWork_wFlags | 0x400;
+        gMemCardWork_wFlags = remaining;
         remaining = 8;
         gMemCardWork_OperationState = remaining;
     }
@@ -321,18 +322,18 @@ success:
                 i++;
             } while (i < 0x7F);
             sector = gMemCard_pDirEntries[index].head;
-            D_8021007F = checksum;
+            gMemCardWork_bFrameChecksum = checksum;
             if (sector < 0)
                 sector += 63;
             MemCard_ReqWriteSector(zero, MEM_CARD_WORK_FRAME_ADDRESS, sector >> 6);
             break;
         }
-        if (!D_8009B3D5)
+        if (!gMemCardWork_bOperationResult)
             break;
         message = 0xD9;
 show_message:
         DuelEffect_CreateChannel(message, 1);
-        D_8009B3CC |= 0x400;
+        gMemCardWork_wFlags |= 0x400;
         break;
     case 9:
     case 10:
@@ -343,7 +344,7 @@ show_message:
             break;
         }
 #ifndef VERSION_EUROPE
-        if (!D_8009B3D5)
+        if (!gMemCardWork_bOperationResult)
             printf(gMemCard_szMakeFileTrace);
         printf(gMemCard_szFailFileTrace);
 #endif

@@ -191,3 +191,10 @@ D_8009AF7C = gMemCard_szAllFilesPattern;
 gMemCard_szFreeBlockCountFormat = D_80010378;
 gMemCard_szMakeFileTrace = D_80010398;
 gMemCard_szFailFileTrace = D_800103A4;
+
+gMemCardWork_wFlags = D_8009B3CC;
+gMemCardWork_bSlotIndex = D_8009B3DD;
+gMemCardWork_bOperationResult = D_8009B3D5;
+gMemCardWork_nRequestResult = D_8009B3C8;
+gMemCardWork_nCompletedRequest = D_8009B3E4;
+gMemCardWork_bFrameChecksum = D_8021007F;
