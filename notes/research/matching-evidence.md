@@ -3096,7 +3096,7 @@ difference is readable directly off the two constants.
 larger. Eight bytes is one `RECT`, and the missing statement was a struct copy
 by value into a local:
 
-    RECT rect = *(RECT *)D_8009B058;
+    RECT rect = *(RECT *)gMainMenu_PackageStageRect;
     LoadImage2(&rect, (u32 *)D_801DD000);
 
 The give-away in the target is the `lwl`/`lwr` pair feeding a `swl`/`swr`

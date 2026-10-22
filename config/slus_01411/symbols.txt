@@ -1266,9 +1266,9 @@ CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func
 // Semantic names
 gMain_bSoundVSyncBusy = 0x8009AF0C; // defined:True
 D_8009AF40 = 0x8009AF40; // defined:True
-D_8009AF44 = 0x8009AF44; // defined:True
-D_8009AF46 = 0x8009AF46; // defined:True
-D_8009AF4C = 0x8009AF4C; // defined:True
+gDebugMenu_wMessageId = 0x8009AF44; // defined:True
+gDebugMenu_wCampaignScene = 0x8009AF46; // defined:True
+gDebugMenu_awNibbleMasks = 0x8009AF4C; // defined:True
 gDebugMenu_szLineBreak = 0x8009AF54; // defined:True
 gDebugMenu_szStringLineFormat = 0x8009AF58; // defined:True
 D_8009AF5C = 0x8009AF5C; // defined:True

@@ -12,6 +12,6 @@ extern DuelResultSpriteSpec D_80091C70[2][10];
 extern DuelResultSpriteSpec D_80091CC0[2][10];
 extern DuelResultSpriteSpec D_80091D10[2][10];
 extern DuelResultSpriteSpec D_80091D60[2][10];
-extern s32 D_8009C2BC;
+extern s32 gDuelResult_nOutroSpriteCount;
 
 #endif

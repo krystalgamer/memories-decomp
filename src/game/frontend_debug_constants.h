@@ -3,9 +3,9 @@
 
 #include "../types.h"
 
-extern u16 D_8009AF44;
-extern u16 D_8009AF46;
-/* D_8009AF4C is a u16 to every consumer that reads it as a number, and
+extern u16 gDebugMenu_wMessageId;
+extern u16 gDebugMenu_wCampaignScene;
+/* gDebugMenu_awNibbleMasks is a u16 to every consumer that reads it as a number, and
  * DebugMenu_UpdateValueEditor in src/game/debug_menu_editor_entries.c copies eight
  * bytes out of it with a Bytes8 assignment. The aggregate arm is a codegen
  * input rather than a second opinion about the object: at the compiler's -G8 the scalar is small data
@@ -15,9 +15,9 @@ extern u16 D_8009AF46;
  * same object under the same Bytes8 access, so the arm keeps the type the
  * scalar states. */
 #ifdef D_8009AF4C_IS_AGGREGATE
-extern u16 D_8009AF4C[];
+extern u16 gDebugMenu_awNibbleMasks[];
 #else
-extern u16 D_8009AF4C;
+extern u16 gDebugMenu_awNibbleMasks;
 #endif
 
 #endif

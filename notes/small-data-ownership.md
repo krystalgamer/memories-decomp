@@ -129,7 +129,7 @@ the remaining extracted range was 16 bytes:
 00 05 01 00 00 00 01 00 0f 00 f0 00 00 0f 00 f0
 ```
 
-It has public symbols at `D_8009AF44`, `D_8009AF46` and `D_8009AF4C`,
+It has public symbols at `gDebugMenu_wMessageId`, `gDebugMenu_wCampaignScene` and `gDebugMenu_awNibbleMasks`,
 corresponding to offsets `0`, `2` and `8`. A natural C spelling using one
 scalar and two arrays did not reproduce that layout: GCC 2.8.1 emitted
 `.align 2` before each array, producing offsets `0`, `4` and `12` and a
@@ -142,8 +142,8 @@ and the unnamed continuation values remain local to
 `frontend_debug_constants.c`. The resulting `.sdata` section is exactly 16
 bytes with two-byte alignment, and the complete executable matches.
 
-`D_8009AF44` and `D_8009AF46` remain relocation targets in `DebugMenu_UpdateCampaignEntry`,
-which is generated assembly again; `D_8009AF4C` remains the start of the eight-byte mask block
+`gDebugMenu_wMessageId` and `gDebugMenu_wCampaignScene` remain relocation targets in `DebugMenu_UpdateCampaignEntry`,
+which is generated assembly again; `gDebugMenu_awNibbleMasks` remains the start of the eight-byte mask block
 read by unmatched `DebugMenu_UpdateValueEditor`.
 
 ## `0x8009AF88` is one C-owned model/graphics state block
@@ -199,7 +199,7 @@ no relocations
 ```
 
 All twenty public symbols land at their extracted offsets. Splitting the
-original blob at `D_8009B058` leaves the unrelated 40-byte tail in generated
+original blob at `gMainMenu_PackageStageRect` leaves the unrelated 40-byte tail in generated
 assembly rather than assigning it to the model-handler owner.
 
 ## The runtime watchdog word

@@ -30,13 +30,13 @@ class DuelResultLocalizedSpritesTests(unittest.TestCase):
             with self.subTest(source=source):
                 text = self.preprocess(source)
                 self.assertEqual(text.count("for (i = 0; i < 7; i++)"), 2)
-                self.assertNotIn("D_8009C2BC", text)
+                self.assertNotIn("gDuelResult_nOutroSpriteCount", text)
                 self.assertNotIn("D_80091B30", text)
 
     def test_localized_tables_and_active_count_preserve_binary_order(self) -> None:
         text = self.preprocess("src/game/spanish/duel_result_runtime.c")
         self.assertIn("for (i = 0; i < 10; i++)", text)
-        self.assertIn("for (i = 0; i < D_8009C2BC; i++)", text)
+        self.assertIn("for (i = 0; i < gDuelResult_nOutroSpriteCount; i++)", text)
         for symbol in (
             "D_80091B30", "D_80091B80", "D_80091BD0", "D_80091C20",
             "D_80091C70", "D_80091CC0", "D_80091D10", "D_80091D60",
@@ -44,7 +44,7 @@ class DuelResultLocalizedSpritesTests(unittest.TestCase):
             self.assertIn(f"extern DuelResultSpriteSpec {symbol}[2][10];", text)
             self.assertIn(f"spec = &{symbol}[gDuel_bWinnerSide][i];", text)
         self.assertIn(
-            "if (spec->x == 0) { continue; } D_8009C2BC = i + 1; "
+            "if (spec->x == 0) { continue; } gDuelResult_nOutroSpriteCount = i + 1; "
             "slots[i].object = 0; if (spec->kind != 0)", text,
         )
 
