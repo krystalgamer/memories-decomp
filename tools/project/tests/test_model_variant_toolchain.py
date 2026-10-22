@@ -188,6 +188,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant415_entry_slot1.c",
             "src/overlays/model_variant/variant415_layers.c",
             "src/overlays/model_variant/variant415_layers_slot1.c",
+            "src/overlays/model_variant/variant415_ribbons.c",
+            "src/overlays/model_variant/variant415_ribbons_slot1.c",
             "src/overlays/model_variant/variant416_bands.c",
             "src/overlays/model_variant/variant416_bands_slot1.c",
             "src/overlays/model_variant/variant416_entry.c",
@@ -413,8 +415,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             # The Spanish header-337 and header-432 sources, built for North America.
             320: (names(set(), {110, 159}, stage7={410}), 0x1F44, 4),
             470: (names(set(), stage10_slot1={110, 159}, stage8_slot1={410}), 0x1F44, 4),
-            415: (names(set(), {401}), 0x1F7C, 4),
-            565: (names(set(), stage10_slot1={401}), 0x1F7C, 4),
+            415: (names(set(), {401}), 0x1F7C, 5),
+            565: (names(set(), stage10_slot1={401}), 0x1F7C, 5),
             # The North American MODEL450 CDK pair.
             433: (names(set(), {174}), 0x38DC, 6),
             583: (names(set(), stage10_slot1={174}), 0x38DC, 6),

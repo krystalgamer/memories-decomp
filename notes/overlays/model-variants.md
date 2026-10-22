@@ -536,7 +536,7 @@ Headers 320/470 and 415/565 are ported the same way, from the Spanish
 header-337 rings helper (`variant320_*`) and the header-432 draw, layers and
 bands helpers (`variant415_*`). Every North American header is 17 below the
 Spanish one. Their other functions stay in assembly, except header 415's entry
-below. The header-415 layers and bands helpers are 20 and 18 words longer than
+and ribbon helper below. The header-415 layers and bands helpers are 20 and 18 words longer than
 their Spanish builds, so the compiler change is more than the epilogue `nop`.
 
 Header 415's entry at `0x0004` (`variant415_entry`, 875 instructions) is
@@ -557,6 +557,23 @@ from the data at `0x1F7C`. It matches only under these conditions:
 The two flat-textured packets take their tpage and clut from locals that are
 never assigned. The retail code also loads them from stack slots it never
 writes.
+
+Header 415's ribbon helper at `0x0DB0` (`variant415_ribbons`, 359 instructions)
+is also new C. For each of the five anchors it turns the three ribbons by the
+anchor's `ratan2` angle, places their ends along the anchor's direction by the
+sweep amount, and projects them. On the last anchor it grows each amount by
+`step * 64` up to `0x400`, advancing the phase and the start index. Once
+`field_30DC` is set it restarts the amounts at `-(j << 8) - (k << 9)`, and it
+draws one Gouraud quad per ribbon. Its parameter is the state, used directly
+as the ribbon cursor. The retail registers need one no-op in the source,
+`if (angle != 0) k = 0;` before the ribbon loop, whose `for` sets `k` again.
+The branch lasts until after register allocation and does two things there. It
+splits the block, so the sign-extended `i` is allocated globally (`s2`) instead
+of locally (`s0`). It also changes the global allocation priorities
+(`floor(log2 refs) * refs / live length`) of the cursor and the packet pointer
+from `390/227` and `438/255` to `384/229` and `438/256`. That reverses their
+order, so the packet pointer gets `s0`. The entry's prototype for it now takes
+a `Variant415EntryRibbon *`.
 
 `variant320_ribbon.c` (header 320, 554 instructions) is the one-ribbon form of
 the five-ribbon helper at `0x8013BBA4` in the header-321 images: a
