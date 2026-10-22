@@ -24,9 +24,13 @@
 /* Read together by the boot path at 0x800129FC, which subtracts them from
  * bss_end to size the region below the stack. 0x00200000 is the console's
  * main RAM size and 0x00002000 the reserve held back from it; both are
- * loaded through %hi/%lo as independent words rather than as one array. */
-u32 D_8009AF10 __attribute__((section(".sdata"))) = 0x00200000;
-u32 D_8009AF14 __attribute__((section(".sdata"))) = 0x00002000;
+ * loaded through %hi/%lo as independent words rather than as one array.
+ * They carry the Psy-Q startup's _ramsize/_stacksize names: entrypoint sets
+ * $sp to (_ramsize - 8) | 0x80000000, takes bss_end's physical address as
+ * the heap start, and stores (_ramsize - 8) - _stacksize - that start as the
+ * heap size at 0x800906E8 (the start goes to 0x800906E4). */
+u32 _ramsize __attribute__((section(".sdata"))) = 0x00200000;
+u32 _stacksize __attribute__((section(".sdata"))) = 0x00002000;
 
 /* Initialized to the primary transfer descriptor and read as the current
  * one. The pointer target is what gives this its type: the readers only

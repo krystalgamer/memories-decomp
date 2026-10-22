@@ -26,7 +26,7 @@ extern u8 *G32 gModel_pSlot0PrimaryModule __attribute__((section(".data")));
 extern u8 *G32 gModel_pSlot1PrimaryModule __attribute__((section(".data")));
 extern s32 gModel_Slot0VariantModuleAddress __attribute__((section(".data")));
 extern s32 gModel_Slot1VariantModuleAddress __attribute__((section(".data")));
-extern s32 D_8001002C __attribute__((section(".data")));
+extern s32 gMainMenu_dwSuModuleBase __attribute__((section(".data")));
 
 /* Model_UpdateCreditsPresentation passes these absolute word loads to
  * argument 7 of

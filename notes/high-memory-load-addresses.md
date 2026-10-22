@@ -202,7 +202,7 @@ confirms that the pointer conversion and prefix fields preserve their
 instructions and relocations.
 
 The independently named `D_80010008`, `gModel_Slot0VariantModuleAddress`,
-`gModel_Slot1VariantModuleAddress` and `D_8001002C` transfer destinations
+`gModel_Slot1VariantModuleAddress` and `gMainMenu_dwSuModuleBase` transfer destinations
 retain signed-word `.data` declarations. The initializer's
 `gModel_Slot0PrimaryDataAddress`, `gModel_Slot1PrimaryDataAddress`,
 `gModel_Slot0VariantDataAddress` and `gModel_Slot1VariantDataAddress`

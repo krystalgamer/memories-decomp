@@ -1665,8 +1665,8 @@ gLibrary_abCardChest = 0x801D0250;
 Options_UpdateLayout = 0x8003BB34;
 gJapanese_OptionsLayoutPositions = 0x8009AEA4;
 gOptions_bOutputType = 0x8009B26D;
-tent_OptionsOutputCursor = 0x8009B270;
-tent_OptionsSelectionCursor = 0x8009B278;
+gOptions_pOutputCursor = 0x8009B270;
+gOptions_pSelectionCursor = 0x8009B278;
 File_FinishActiveTransfer = 0x800143A4;
 File_ActivateTransfer = 0x800142C8;
 Main_RunMenu = 0x8002D368;
@@ -2191,3 +2191,4 @@ gDuel_szComSelCardError = 0x80010060;
 Model_MapToBasePrimitiveHandler = 0x8005D9DC; // type:func
 
 DebugEffect_UpdateViewControls = 0x80021F00; // type:func
+gMainMenu_dwSuModuleBase = 0x8001002C;

@@ -65,11 +65,11 @@ void Options_UpdateLayout(s32 selection) {
     u32 v;
 
     positions.selection =
-        *(OptionsLayoutPositionBlock *)D_8009AF5C;
+        *(OptionsLayoutPositionBlock *)gOptions_SelectionRowPositions;
     positions.output_x[0] = 0x68;
     k = gOptions_bOutputType;
-    a = tent_OptionsOutputCursor;
-    b = tent_OptionsSelectionCursor;
+    a = gOptions_pOutputCursor;
+    b = gOptions_pSelectionCursor;
     positions.output_x[1] = 0xC8;
     v = positions.output_x[k];
     a->field_30.h.field_32 = 0x48;
@@ -90,9 +90,9 @@ void Options_UpdateLayout(s32 selection) {
    plus a DisplayObject_SetDepthOffset(obj1, -5), then sets the options state and output type
    from gSD_bOutputType (clearing the output type back to 0 when its sign bit
    is set) and calls Options_InitTextDisplay(0); obj2 gets an
-   8-arg DisplayObject_ConfigureSpriteAtPosition setup and is stashed in tent_OptionsSelectionCursor;
+   8-arg DisplayObject_ConfigureSpriteAtPosition setup and is stashed in gOptions_pSelectionCursor;
    obj3 gets a 10-arg DisplayObject_ConfigureScreenSprite setup. Finally Options_UpdateLayout is called
-   with the selection flag (set to 0 earlier), tent_OptionsOutputCursor is set to obj3,
+   with the selection flag (set to 0 earlier), gOptions_pOutputCursor is set to obj3,
    and SD_BGMPlay(0x7350) runs last.
 
    gSD_bOutputType is reached through its .data arm (sound.h) so the load
@@ -127,7 +127,7 @@ void Options_Init(void) {
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     s0 = 0xB;
     DisplayObject_ConfigureSpriteAtPosition(obj, 0x18, 0x48, 3, 4, 0, s0, 0x20C);
-    tent_OptionsSelectionCursor = obj;
+    gOptions_pSelectionCursor = obj;
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
@@ -136,7 +136,7 @@ void Options_Init(void) {
 
     {
         s32 flag = gOptions_bSelection;
-        tent_OptionsOutputCursor = obj;
+        gOptions_pOutputCursor = obj;
         Options_UpdateLayout(flag);
     }
     SD_BGMPlay(0x7350);

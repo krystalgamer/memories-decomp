@@ -320,7 +320,7 @@ The PS-X EXE header and [memory map](memory-map.md) place the entry point at
 
 | Address | Inventory symbol | Size | Locally observed behavior |
 |---|---|---:|---|
-| `0x800129D8` | `entrypoint` | `0xA0` | Clears `[bss_start, bss_end)` as words, derives the stack from the word at `D_8009AF10`, records two startup memory values at `D_800906E4` and `D_800906E8`, initializes `$gp` and `$fp`, calls `Main_Init`, and executes a `break` instruction if that call returns. |
+| `0x800129D8` | `entrypoint` | `0xA0` | Clears `[bss_start, bss_end)` as words, derives the stack from the word at `_ramsize`, records two startup memory values at `D_800906E4` and `D_800906E8`, initializes `$gp` and `$fp`, calls `Main_Init`, and executes a `break` instruction if that call returns. |
 | `0x80012A78` | `__main` | `0x70` | Returns immediately when the guard word at `0x800906E0` is already nonzero. Otherwise it sets the guard to one and contains a forward callback-table walk beginning at `D_80010000`; the linked callback count is zero in this executable. |
 | `0x80012AE8` | `__do_global_dtors` | `0x68` | Returns when the same guard word is zero and otherwise contains the paired callback-table walk beginning at `D_80010000`; its linked callback count is also zero. |
 

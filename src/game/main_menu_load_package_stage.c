@@ -61,8 +61,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         LoadImage2(&rect, (u32 *)D_801DD000);
         object->phase_size = 16 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8001002C;
-        object->value_08 = D_8001002C;
+        object->value_0C = gMainMenu_dwSuModuleBase;
+        object->value_08 = gMainMenu_dwSuModuleBase;
         object->done = 1;
         break;
 
