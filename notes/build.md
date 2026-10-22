@@ -1325,7 +1325,7 @@ table. That crossed the four-byte `.data` header boundary into the adjacent
 `.rodata`, making a C definition of the header look impossible.
 
 The generated layout already supplied the missing distinction:
-`D_80180000` is the header word and `D_80180004` is the comparator table.
+`D_80180000` is the header word and `gMainMenu_aCardSortComparators` is the comparator table.
 They now have separate typed owners:
 
 | Range | C owner | Contract |
@@ -1333,7 +1333,7 @@ They now have separate typed owners:
 | `0x80180000-0x80180004` | `module_header.c` | One `u32` initialized to `0x0F`. |
 | `0x80180004-0x8018001C` | `module_rodata.c` | `MainMenuComparators`, six function pointers in retail order. |
 
-`MainMenu_RefreshTradeInventory` copies `D_80180004` directly instead of
+`MainMenu_RefreshTradeInventory` copies `gMainMenu_aCardSortComparators` directly instead of
 forming an array that spans two sections. The compiled `.rodata` object is
 exactly `0x18` bytes and carries six `R_MIPS_32` relocations, in order, to
 `MainMenu_CompareCardsByName`, `MainMenu_CompareCardsByMaxStat`,
@@ -1357,7 +1357,7 @@ consecutive typed objects own frontend state, value-setup state, both
 722-card Trade inventory rows, scroll positions, offers, and interaction
 flags. Historical names remain linker aliases at their original offsets,
 including `D_801845BC[2]`/`D_801845BE`,
-`gTrade_aWorkingCards[1]`/`D_80185144`, and
+`gTrade_aWorkingCards[1]`/`gTrade_aSide1WorkingCards`, and
 `D_80185CC8[1]`/`D_80185CC9`. The two nonzero loaded-image padding bytes at
 `0x8018459E-0x8018459F` are explicit rather than being silently zero-filled.
 

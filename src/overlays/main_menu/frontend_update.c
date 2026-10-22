@@ -251,7 +251,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if (vx3 == 0) {
             goto ret_m1;
         }
-        if (D_80184595 != 0) {
+        if (gMainMenu_bBackRequested != 0) {
             if ((u32)gMain_bMenuID < 5) {
                 i = 0;
                 slot2 = gMain_apMenuEntries;
@@ -272,7 +272,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 MainMenu_StartFrontendEntryTransition(0);
                 gMain_bMenuID = 1;
             }
-            D_80184595 = 0;
+            gMainMenu_bBackRequested = 0;
             return -1;
         }
         if (gMain_bMenuID != 1) {
@@ -315,7 +315,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             return -1;
         }
         SD_SEPlay(8, 0xFF, 0);
-        D_80184595 = 1;
+        gMainMenu_bBackRequested = 1;
     } else {
         SD_SEPlay(7, 0xFF, 0);
         switch (gMain_bMenuID) {

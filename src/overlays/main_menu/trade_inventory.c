@@ -30,8 +30,8 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
     s32 mode;
     s32 id;
 
-    mode = D_80185CCC[slot];
-    comparators = D_80180004;
+    mode = gTrade_abSortMode[slot];
+    comparators = gMainMenu_aCardSortComparators;
 
     if (force != 0 || mode == 0) {
         row = D_801D1200 + slot * TWO_PLAYER_SAVE_SLOT_STRIDE;

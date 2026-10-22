@@ -2,7 +2,7 @@
 #include "card_comparators.h"
 #include "module_rodata.h"
 
-const MainMenuComparators D_80180004 = {
+const MainMenuComparators gMainMenu_aCardSortComparators = {
     {
         (s32 (*)())MainMenu_CompareCardsByName,
         (s32 (*)())MainMenu_CompareCardsByMaxStat,

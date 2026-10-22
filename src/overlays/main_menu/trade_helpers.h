@@ -126,9 +126,9 @@ void MainMenu_RebuildTradeInventoryRows(s32 side);
  * gTrade_bCommitRequested starts offer application and the save request.
  * gTrade_bWritePending gates polling and handling the asynchronous result.
  *
- * D_80185CCB remains the separate second-byte cursor-row view. */
+ * gTrade_bSide1CursorRow remains the separate second-byte cursor-row view. */
 extern u8 gTrade_bSide1Ready;
-extern u8 D_80185CCB;
+extern u8 gTrade_bSide1CursorRow;
 extern u8 gTrade_bFocusPane;
 extern u8 gTrade_bDecisionMenuActive;
 extern u8 gTrade_bCommitRequested;
@@ -144,7 +144,7 @@ extern u8 gTrade_abReady;
 extern u8 gTrade_abReady[2];
 #endif
 extern u8 gTrade_abCursorRow[2];
-extern u8 D_80185CCC[2];
+extern u8 gTrade_abSortMode[2];
 
 /* The per-side working card table, two rows of CARD_COUNT CardCountEntry
  * (ygo_types.h) records. Three sources reach it and all three already include
@@ -157,7 +157,7 @@ extern u8 D_80185CCC[2];
  * MainMenu_RebuildTradeInventoryRows forms `side * 2888 + (s32)gTrade_aWorkingCards`
  * (trade_screen_helpers.c:102), and MainMenu_UpdateTradeScreen
  * (trade_update.c) indexes `[0][...]`. Row 1 is also named on its own as
- * D_80185144 in that source (+0xB48 = CARD_COUNT * 4), which keeps its
+ * gTrade_aSide1WorkingCards in that source (+0xB48 = CARD_COUNT * 4), which keeps its
  * private declaration.
  * Two rows end at gTrade_aListScroll, +0x1690. */
 extern CardCountEntry gTrade_aWorkingCards[][CARD_COUNT];
