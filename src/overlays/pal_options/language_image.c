@@ -4,7 +4,7 @@
 #include "../../game/graphics_frame.h"
 #include "helpers.h"
 
-void func_80168D68(void)
+void PalOptions_StoreLanguageImage(void)
 {
     RECT *rect;
 

@@ -7,21 +7,21 @@ s32 func_80168F70(void)
     s32 direction;
     s32 difference;
 
-    if (D_80169050 != D_80169072) {
+    if (gPalOptions_wStripScroll != D_80169072) {
         /* The unoptimized counterpart retains this unused frame store. */
-        difference = D_80169072 - D_80169050;
-        if (D_80169050 < D_80169072) {
+        difference = D_80169072 - gPalOptions_wStripScroll;
+        if (gPalOptions_wStripScroll < D_80169072) {
             direction = 1;
-            if (D_80169072 - D_80169050 > 32767) {
+            if (D_80169072 - gPalOptions_wStripScroll > 32767) {
                 direction = -1;
             }
         } else {
             direction = -1;
-            if (D_80169050 - D_80169072 > 32767) {
+            if (gPalOptions_wStripScroll - D_80169072 > 32767) {
                 direction = 1;
             }
         }
-        next = D_80169050;
+        next = gPalOptions_wStripScroll;
         if (direction >= 0) {
             next += 4;
             if (D_80169072 - next <= 0) {
@@ -33,7 +33,7 @@ s32 func_80168F70(void)
                 next = D_80169072;
             }
         }
-        D_80169050 = next;
+        gPalOptions_wStripScroll = next;
     }
-    return D_80169050 == D_80169072;
+    return gPalOptions_wStripScroll == D_80169072;
 }

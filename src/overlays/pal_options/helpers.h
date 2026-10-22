@@ -8,31 +8,31 @@
 #include "../../game/main_run_boot_sequence.h"
 #include "../../game/text_constants.h"
 
-extern u8 D_80169040[5][3];
-extern s16 D_80169050;
+extern u8 gPalOptions_aStripTextures[5][3];
+extern s16 gPalOptions_wStripScroll;
 extern u8 D_80169052;
 extern s8 gPalOptions_bSoundOutputType;
 extern s16 D_80169072;
 extern DisplayObjectConfig *G32 D_80169074;
 extern DisplayObjectConfig *G32 D_80169078;
-extern s32 D_80169080[5][9];
+extern s32 gPalOptions_aWaveOffsets[5][9];
 extern s8 gPalOptions_bSelectedRow;
 extern DisplayObjectConfig *G32 D_80169138;
 extern DisplayObject *G32 gPalOptions_pCursor;
 extern s8 gPalOptions_bLanguage;
-extern s32 D_80169144;
-extern u32 D_80169148[5][9];
+extern s32 gPalOptions_dwWavePhase;
+extern u32 gPalOptions_aWaveColors[5][9];
 extern u8 gPalOptions_bState;
 
 void func_80168004(s32 selection);
 void PalOptions_PositionCursor(s32 selection);
-s32 func_801680AC(s32 position);
+s32 PalOptions_EaseStripY(s32 position);
 void func_801686A4(s32 language);
 void PalOptions_Init(s32 mode);
 void PalOptions_HandleInput(void);
-void func_80168BE8(void);
+void PalOptions_UpdateWaveTables(void);
 void PalOptions_RequestLanguage(s32 language);
-void func_80168D68(void);
+void PalOptions_StoreLanguageImage(void);
 s32 PalOptions_Update(void);
 s32 func_80168F70(void);
 s32 func_80169030(void);

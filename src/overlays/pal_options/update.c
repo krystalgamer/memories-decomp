@@ -28,7 +28,7 @@ s32 PalOptions_Update(void)
         }
         if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0 &&
             ((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) == 0) {
-            func_80168D68();
+            PalOptions_StoreLanguageImage();
             gPalOptions_bState = 0;
         }
         break;

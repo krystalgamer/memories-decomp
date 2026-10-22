@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "helpers.h"
 
-s32 func_801680AC(s32 position)
+s32 PalOptions_EaseStripY(s32 position)
 {
     s32 distance;
     s32 result;

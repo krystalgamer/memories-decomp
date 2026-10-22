@@ -87,7 +87,7 @@ void PalOptions_Init(s32 mode)
         gPalOptions_pCursor = object;
         object->flags |= 0x28;
         PalOptions_PositionCursor(gPalOptions_bSelectedRow);
-        D_80169144 = 0;
+        gPalOptions_dwWavePhase = 0;
         music = 0x7350;
     }
     SD_BGMPlay(music);

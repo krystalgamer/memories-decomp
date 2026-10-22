@@ -62,21 +62,21 @@ segments:
     align: 4
     subsegments:
       - [0x48, c, overlays/pal_options/cursor_layout]
-  - name: func_801680AC
+  - name: PalOptions_EaseStripY
     type: code
     start: 0xAC
     vram: 0x801680AC
     align: 4
     subsegments:
       - [0xAC, c, overlays/pal_options/position_easing]
-  - name: func_80168100
+  - name: PalOptions_DrawScrollingStrips
     type: code
     start: 0x100
     vram: 0x80168100
     align: 4
     subsegments:
       - [0x100, c, overlays/pal_options/textured_strips]
-  - name: func_801683E0
+  - name: PalOptions_DrawWaveSprite
     type: code
     start: 0x3E0
     vram: 0x801683E0
@@ -104,7 +104,7 @@ segments:
     align: 4
     subsegments:
       - [0xA4C, c, overlays/pal_options/input]
-  - name: func_80168BE8
+  - name: PalOptions_UpdateWaveTables
     type: code
     start: 0xBE8
     vram: 0x80168BE8
@@ -118,7 +118,7 @@ segments:
     align: 4
     subsegments:
       - [0xD34, c, overlays/pal_options/language_request]
-  - name: func_80168D68
+  - name: PalOptions_StoreLanguageImage
     type: code
     start: 0xD68
     vram: 0x80168D68
