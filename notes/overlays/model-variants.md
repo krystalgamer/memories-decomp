@@ -624,11 +624,15 @@ and Spanish header-460 entry built with gcc 2.7.2, which makes it one word
 longer. As with header 391, the entry reads its CLUT from column 512 instead of 640
 (`MODEL_VARIANT460_CLUT_X`), and the wrapper renames the helpers and the data
 block, which starts at the end of the text (`D_8013D888`, read at `+ 0x1C` to
-`+ 0xFC`). Model 125's longer images (`443*`, `593*`) use the same wrappers.
-Their entry reads the same block at `0x2888`, which in these images lies inside
-the region still registered as `func_8013D0C8`/`func_8017D0C8`. Their symbol
-maps therefore name `D_8013D888`/`D_8017D888` as an undefined address, and the
-assembly region keeps the bytes.
+`+ 0xFC`). Model 125's longer images (`443*`, `593*`) use the same wrappers, and
+their streamers at `0x20C8` are the same bytes as the other twelve images', so
+they reuse `variant443_streamers`. Their data block at `0x2888` is 0x77C bytes
+(`D_8013D888`/`D_8017D888`, now a data owner). The 0x1D08 bytes from
+`0x3004` to `0x4D0C`, formerly registered as `func_8013E004`/`func_8017E004`,
+are an unclassified tail: the two images disagree in 1835 of their 1858 words,
+neither has a function boundary before `0x4D0C`, and their address pairs point
+at `0x8058xxxx` and `0x8054xxxx`, outside this executable. They are kept as raw
+data (`D_8013E004`/`D_8017E004`), like the suffixes of models 174 and 531.
 
 The header-405 entry (`variant405_entry.c`, 1098 instructions) is the French
 and Spanish header-422 entry built with gcc 2.7.2. Unlike the other entries,
