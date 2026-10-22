@@ -6,11 +6,11 @@
 
 extern PasswordModuleState gPassword_ModuleState;
 
-extern struct DisplayObject *G32 D_8016D290[3];
+extern struct DisplayObject *G32 gNameEntry_apKeySprites[3];
 extern u8 D_8016D400;
 extern s8 gNameEntry_bKeyboardColumn;
 extern u8 gNameEntry_bKeyboardRow;
-extern u8 D_8016D403;
+extern u8 gNameEntry_bGlyphVramSlot;
 extern SelectionFrame *G32 gNameEntry_pSelectionFrame;
 extern u8 gNameEntry_bGlyphSequence;
 extern u8 gPassword_abDigits[];
@@ -27,9 +27,9 @@ extern s16 gNameEntry_wCursorTargetY;
 extern u32 gPassword_dwPriceRemaining;
 extern u8 *G32 gNameEntry_pCaret;
 extern struct DisplayObject *G32 gPassword_apDigitCursorDecorations[];
-extern u8 D_8016D4D0;
+extern u8 gNameEntry_bCharacterSet;
 extern u16 gNameEntry_wPendingDialogId;
-extern u16 D_8016D4D4;
+extern u16 gNameEntry_wSelectionFrameFlags;
 extern PasswordCardPreviewView *G32 gPassword_pCardPreview;
 extern u16 gPassword_wCardId;
 
