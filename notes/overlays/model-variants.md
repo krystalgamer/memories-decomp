@@ -77,7 +77,7 @@ offsets.
 | 428 | `0x359C` | bands `0x8013C038`, webs `0x8013CC94`, sheets `0x8013C7AC`, spokes `0x8013D1FC`, rings `0x8013D508`, quad `0x8013D888`, spiral `0x8013DBF0` | 2 | 6 |
 | 404 | `0x40FC` | entry `0x8013B004`, ribbons `0x8013C1D4`, spiral `0x8013C864`, bands `0x8013D4F8`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 0 | 6 |
 | 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
-| 425 | `0x43FC` | spiral `0x8013C568`, rays `0x8013CF14`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 4 | 2 |
+| 425 | `0x43FC` | entry `0x8013B004`, spiral `0x8013C568`, rays `0x8013CF14`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 0 | 2 |
 | 448 | `0x43E4` | entry `0x8013B004`, radial `0x8013C254`, orbit `0x8013D638`, webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 1 | 2 |
 | 423 | `0x2B38` | entry `0x8013B004`, bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 0 | 2 |
 | 414 | `0x2F58` | entry `0x8013B004`, webs `0x8013BF20`, fan `0x8013C348`, bands `0x8013C7DC`, sheets `0x8013D448`, spokes `0x8013D8CC`, rings `0x8013DBD8` | 0 | 1 |
@@ -196,6 +196,24 @@ wrong register); and with a named `one = 1` set in the fan loop's initialiser
 so that the hoisted constant precedes the base copy. The call-free record
 loops of the fan, orbit and arm records share one counter, the call-crossing
 ones another.
+
+Header 425's entry at `0x0004` (`variant425_entry`, 1117 instructions; models
+259 and 630, both slots) sets up the sheet, the sixteen spiral arms, the
+sixteen rays, the 5x6 webs and the ribbon, band, spoke-ring and quad records of
+the helpers above, and reads its config and image descriptors from the data at
+`0x43FC`. It matches only under these conditions:
+
+- The web loop's `outer = 0;` is a statement of its own above
+  `far_scale = 512;`. The longer live range lowers that counter's allocation
+  priority, so it spills as in the retail code.
+- `work->frame_count++` comes before `Model_GetSlotAnimationFrame`.
+- The spoke loop ends with `n = 4096;`, and the post-loop store is
+  `work->field_272C = n;`. The retail code sets the constant inside the loop,
+  in the back branch's delay slot, and stores it after the loop.
+- The entry header carries its own views of the spiral arm and ray records
+  (`Variant425EntryArm`, `Variant425EntryRay`), with the colour rows it fills
+  named. They have the helpers' layouts; the helpers' headers are unchanged.
+
 Header 428's form at `0x1C94` (`variant428_webs`) keeps the records at
 `work + 0x5D0`, projects with `RotTransPers3`, and shrinks by `step * 0xE0` in
 phase 0.
