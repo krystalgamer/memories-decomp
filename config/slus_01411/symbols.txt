@@ -2432,3 +2432,7 @@ Duel_UpdateCardMarkerRemovalTurn = 0x80019BD0; // type:func size:0xF8
 DisplayObject_UpdateCosineSlideWithRollReset = 0x8001ED20; // type:func size:0x124
 
 Library_CheckCardInChest = 0x8002C570; // type:func size:0x28
+
+CardGrid_GetColumnX = 0x8002C400; // type:func size:0x84
+
+CardGrid_GetRowY = 0x8002C484; // type:func size:0x58
