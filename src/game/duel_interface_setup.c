@@ -2,6 +2,7 @@
 #include "text_box_blocking_build.h"
 #include "display_object_core.h"
 #include "duel_interface_setup.h"
+#include "debug_value_editor_config.h"
 #include "duel_effect.h"
 #include "frontend_debug_tables.h"
 #include "fade.h"
@@ -54,16 +55,16 @@ void DebugMenu_OpenValueEditor(
     s32 field_E0
 )
 {
-    tent_DebugInterfaceFlags = 0;
-    tent_DebugInterfaceData = data;
-    tent_DebugInterfaceFieldB4 = field_B4;
-    tent_DebugInterfaceFieldB5 = field_B5;
-    tent_DebugInterfaceFieldB6 = field_B6;
+    gDebug_bEditorFlags = 0;
+    gDebug_pszEditorFormat = data;
+    gDebug_abEditorCaretColumns = field_B4;
+    gDebug_bEditorCaretColumn1 = field_B5;
+    gDebug_bEditorCaretColumn2 = field_B6;
     gDebug_bEditorDigit = 0;
     gDebug_bEditorRow = 0;
-    tent_DebugInterfaceFieldB8 = field_B8;
-    tent_DebugInterfaceFieldC2 = field_C0;
-    tent_DebugInterfaceFieldC1 = field_C0;
-    tent_DebugInterfaceFieldC0 = field_C0;
-    tent_DebugInterfaceFieldE0 = field_E0;
+    gDebug_bEditorLeadingLineCount = field_B8;
+    gDebug_bEditorDigitCount2 = field_C0;
+    gDebug_bEditorDigitCount1 = field_C0;
+    gDebug_abEditorDigitCounts = field_C0;
+    gDebug_bEditorRowCount = field_E0;
 }

@@ -8,6 +8,48 @@ The raw-word `DebugMenu_UpdateCampaignEntry` also includes it without changing
 any assembly.
 The header still declares views only; it adds no C-owned backing storage.
 
+## Configuration identities
+
+The isolated `debug_value_editor_config.h` supplies canonical names while
+the original declaration owners remain unchanged:
+
+| NA address | Former identity | Canonical role |
+| --- | --- | --- |
+| `8009B2B4` | `tent_DebugInterfaceFieldB4` | `gDebug_abEditorCaretColumns` |
+| `8009B2B5` | `tent_DebugInterfaceFieldB5` | `gDebug_bEditorCaretColumn1` |
+| `8009B2B6` | `tent_DebugInterfaceFieldB6` | `gDebug_bEditorCaretColumn2` |
+| `8009B2B8` | `tent_DebugInterfaceFieldB8` | `gDebug_bEditorLeadingLineCount` |
+| `8009B2C0` | `tent_DebugInterfaceFieldC0` | `gDebug_abEditorDigitCounts` |
+| `8009B2C1` | `tent_DebugInterfaceFieldC1` | `gDebug_bEditorDigitCount1` |
+| `8009B2C2` | `tent_DebugInterfaceFieldC2` | `gDebug_bEditorDigitCount2` |
+| `8009B2E0` | `tent_DebugInterfaceFieldE0` | `gDebug_bEditorRowCount` |
+| `8009B2EA` | `tent_DebugInterfaceFlags` | `gDebug_bEditorFlags` |
+| `8009B2EC` | `tent_DebugInterfaceData` | `gDebug_pszEditorFormat` |
+
+`DebugMenu_OpenValueEditor` stores the caller's three caret anchors,
+leading-line count and row count, initializes the three digit widths,
+clears row/digit cursors and flags, and publishes the format pointer.
+The editor places the caret at the active row's anchor minus the selected
+digit. Digit widths govern the existing arithmetic mask and last-digit
+selection during row transitions; the sound/language entries retain
+their independent width overrides for rows 1 and 2.
+
+Leading lines and editable rows are different counts. The former is cast
+to `s8` and decremented while printing newline strings before the values;
+the latter bounds/clamps the existing row traversal. All byte truncations,
+signed reads, raw counts and invalid-input behavior remain unchanged.
+
+The flags byte is cleared by setup. Bit `0x80` controls first-entry
+initialization and bit `0x01` suppresses input during campaign preview.
+The existing `0x40` branch performs decimal-nibble handling, but this
+trace does not establish a live C setter of that bit. No new flag enum,
+mode policy, input guard or normalization follows from the name.
+
+The format pointer is passed through the original `(char *)` cast to
+`FntPrint`, together with the three editor values. It is not the edited
+value-storage pointer or the local row-pointer union. Its stored
+`u8 *G32` view, mutability and printer boundary remain.
+
 ## Three-row evidence
 
 `DebugMenu_OpenValueEditor` stores three caret columns at `0x8009B2B4..B2B6` and initializes
@@ -18,8 +60,9 @@ and 2 to three digits. Its format at `gDebugMenu_szSoundEditorFormat` contains t
 use their corresponding single-conversion strings from
 `frontend_debug_tables.c`.
 
-The editor indexes those columns and counts with `D_8009B2DC`, advances
-and clamps the row against `D_8009B2E0`, and uses `D_8009B2E9` as the digit
+The editor indexes `gDebug_abEditorCaretColumns` and
+`gDebug_abEditorDigitCounts` with `gDebug_bEditorRow`, advances
+and clamps the row against `gDebug_bEditorRowCount`, and uses `gDebug_bEditorDigit` as the digit
 cursor. It reads the columns signed, as the previous `s8 *` cast did.
 `FrontendDebugColumns` and `FrontendDebugDigitCounts` therefore describe
 three bytes, not the gaps up to the following globals.
@@ -39,6 +82,12 @@ a semantic name for the second value.
 Scalar producers retain their original labels for the three column and
 digit stores. `FRONTEND_DEBUG_ROW_VIEWS` gives the matching editor bounded
 three-byte arrays; both remain inside its assembler's `-G8` limit.
+The canonical base names preserve the same selector: signed `s8[3]` caret
+columns and unsigned `u8[3]` digit counts in the editor, unsigned scalar
+row-0 labels in producers. Rows 1/2 retain their independent scalar labels.
+Both triplets' interior bindings are verified in all seven images; the
+new names do not fold those labels into base-plus-offset expressions or
+add a packed configuration record.
 The saved sound pair is selected by `FRONTEND_DEBUG_SOUND_ROW_VIEW` in
 `DebugMenu_UpdateSoundEntry`; its four-byte size remains small data under that TU's profile.
 No array is a new definition, and no interior label is folded into a base
@@ -50,7 +99,8 @@ used by retail. The editor takes bounded row views at that linker-backed
 address; a local union prevents GCC from coalescing the first address with its
 symbol base, while the second arm uses a direct one-use index.
 
-`D_8009B2EC` and `DebugMenu_OpenValueEditor`'s first parameter now use `u8 *`, matching
+`gDebug_pszEditorFormat` (legacy `D_8009B2EC`) and
+`DebugMenu_OpenValueEditor`'s first parameter use `u8 *`, matching
 the C-owned format arrays and the producer-to-`FntPrint` path. The editor
 converts to the printer's existing `char *` contract only at that boundary.
 No calling convention, pointer width, format contents, or storage changes.
@@ -58,9 +108,22 @@ No calling convention, pointer width, format contents, or storage changes.
 does not prove the extent of every possible indexed write.
 
 The row/digit control labels stay unsigned bytes. Existing signed reads of
-`D_8009B2DC` and `D_8009B2E9` remain explicit, as do low-byte reads of values.
+`gDebug_bEditorRow` and `gDebug_bEditorDigit` remain explicit, as do low-byte reads of values.
 `D_8009B2DE` remains a halfword and `gDebugMenu_bStep` a byte of menu-state flags.
 There are no tentative definitions, section-attribute changes, or new pins.
+
+All seventy logical bindings retain the original providers across seven
+images, including the independently labeled interior rows. The ten
+original NA addresses have no earlier global-map rows, so promotion appends
+new evidence without rewriting accepted history. The flags byte is at
+`0x8009B2EA`, not the neighboring digit or padding byte.
+
+All existing test modules, old headers, wrappers, overlays/imports, source
+groups and profiles stay frozen. The two C files reconstruct their complete
+originals after removing only the canonical include and reversing the
+scoped global names. No harness, fixture, probe or testcase is added, and
+cloud/regional/overlay/witness suites are not executed locally. Native
+compiler conservation does not replace fresh PR-side full image checks.
 
 ## Setup consumers and verification
 
