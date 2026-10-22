@@ -120,3 +120,6 @@ gSaveData_Workspace = D_801D0000;
 
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
+
+gDuel_bBattleRemovalSlot0 = D_8009B208;
+gDuel_bBattleRemovalSlot1 = D_8009B209;

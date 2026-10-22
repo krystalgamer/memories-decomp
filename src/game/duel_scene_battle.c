@@ -29,8 +29,8 @@
  * - State 5 writes the model properties in member order (model id first);
  *   the defender's stat word goes through a byte view so the pair loads for
  *   Duel_CompareBattleStrength wait for it.
- * - The two replay bytes are tentative scalar definitions, D_8009B208 and
- *   D_8009B209: only a definition in this unit makes gcc treat them as small
+ * - The two replay bytes are tentative scalar definitions, gDuel_bBattleRemovalSlot0 and
+ *   gDuel_bBattleRemovalSlot1: only a definition in this unit makes gcc treat them as small
  *   data and emit the load-delay nops retail has before their gp-relative
  *   stores, and only two symbols let the stores keep retail's order without
  *   cse deriving the second address from the first. The attacker's card id
@@ -86,6 +86,7 @@
 #include "display_object_motion.h"
 #include "../unmatched.h"
 #include "display_callback_transitions.h"
+#include "duel_battle_removal_slots.h"
 
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -100,8 +101,8 @@
 #define DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET 0x62
 #endif
 
-s8 D_8009B208;
-s8 D_8009B209;
+s8 gDuel_bBattleRemovalSlot0;
+s8 gDuel_bBattleRemovalSlot1;
 
 void DuelScene_UpdateBattle(void)
 {
@@ -492,8 +493,8 @@ void DuelScene_UpdateBattle(void)
             right->flags |= gDuel_awSavedRecordFlags[1] & 0xA00;
             H(right, 0x12) = gDuel_awSavedStatModifiers[1];
             models = gMain_aAnimatedBattleModels;
-            D_8009B209 = -1;
-            D_8009B208 = -1;
+            gDuel_bBattleRemovalSlot1 = -1;
+            gDuel_bBattleRemovalSlot0 = -1;
             models[0].model_id = H(left, 0xC);
             models[0].field_06 = 0;
             models[0].field_02 = 0;
@@ -506,17 +507,17 @@ void DuelScene_UpdateBattle(void)
             models[1].field_06 = (gDuel_awSavedRecordFlags[1] >> 0xB) & 1;
             result = Duel_CompareBattleStrength(pair[0], pair[1]);
             if (result == -1) {
-                D_8009B208 = pair[0]->field_6A;
-                D_8009B209 = pair[1]->field_6A;
+                gDuel_bBattleRemovalSlot0 = pair[0]->field_6A;
+                gDuel_bBattleRemovalSlot1 = pair[1]->field_6A;
             } else {
                 if (result > 0) {
                     models[0].field_02 = 1;
-                    D_8009B208 = pair[1]->field_6A;
+                    gDuel_bBattleRemovalSlot0 = pair[1]->field_6A;
                 }
                 if (result < 0) {
                     if (!(right->flags & 0x800)) {
                         models[1].field_02 = 1;
-                        D_8009B208 = pair[0]->field_6A;
+                        gDuel_bBattleRemovalSlot0 = pair[0]->field_6A;
                     }
                 }
             }
