@@ -22,6 +22,7 @@
 #include "two_player_save_setup.h"
 #include "movie_playback_control.h"
 #include "../unmatched.h"
+#include "duel_session_controls.h"
 #include "main_services.h"
 #include "frontend_scene_states.h"
 #include "main_mode_state.h"
@@ -159,7 +160,7 @@ void DebugMenu_UpdateTradeEntry(void)
 void DebugMenu_EnterDuel(void)
 {
     gDuel_wBgmId = 0x71D0;
-    D_8009B368 = 0;
+    gDuel_bPostDuelMainMode = 0;
     Main_StartDuel(-1, 1, 0x8000, 0x8000);
 }
 

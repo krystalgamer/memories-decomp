@@ -18,6 +18,7 @@
 #include "sound.h"
 #include "text_box_runtime.h"
 #include "../unmatched.h"
+#include "duel_session_controls.h"
 #include "main_mode_state.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
@@ -100,7 +101,7 @@ void Main_RunTwoPlayerDuelSetup(void)
         MainMenu_FinishValueSetup();
         if (result == 1) {
             Main_StartDuel(-1, -1, 0, 0);
-            D_8009B368 = 8;
+            gDuel_bPostDuelMainMode = 8;
         } else {
             D_8009B26C = D_8009B269;
         }

@@ -33,6 +33,7 @@
 #define GCAMPAIGN_SCENE_INDEX_AS_ARRAY
 #define D_8009B370_AS_BYTE_ARRAY
 #include "../unmatched.h"
+#include "duel_session_controls.h"
 
 u8 D_8009B26C;
 
@@ -48,7 +49,7 @@ void Main_RunDuel(void)
     if (!(value & 0x40)) {
         D_8009B26C = value | 0x40;
         gMain_bModeRunnerStep = 1;
-        if (!D_8009B369 && gDuel_bOpponentID >= 0)
+        if (!gDuel_bResumeFromAnimatedBattle && gDuel_bOpponentID >= 0)
             gMain_bModeRunnerStep = 0;
         gGraphics_bOrderingTable3Length[0] = 10;
         return;
@@ -84,7 +85,7 @@ void Main_RunDuel(void)
         break;
     case 2:
     {
-        u8 *table = D_8009B370;
+        u8 *table = gDuel_wCampaignSceneOnWin;
         u8 next;
 
         Fade_WaitOut();
@@ -94,7 +95,7 @@ void Main_RunDuel(void)
         gGraphics_bOrderingTable3Length[0] = 6;
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
-        next = D_8009B368;
+        next = gDuel_bPostDuelMainMode;
         D_8009B26C = next;
         if (D_8009B26C == state)
             gCampaignSceneIndex[0] = table[gDuel_bPlayerLost * 2];

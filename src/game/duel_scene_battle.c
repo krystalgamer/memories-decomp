@@ -85,6 +85,7 @@
 #include "model_scene_states.h"
 #include "display_object_motion.h"
 #include "../unmatched.h"
+#include "duel_session_controls.h"
 #include "display_callback_transitions.h"
 #include "duel_battle_removal_slots.h"
 
@@ -482,8 +483,8 @@ void DuelScene_UpdateBattle(void)
         }
         if (!(D_800E9ECE[0] & 0x80) && SD_IsBgmFadeActive() == 0) {
             pair = gDisplayObject_apWorkSlots;
-            SD_BGMPreload(D_8009B374);
-            Model_SetPresentationBgmCommand(D_8009B374);
+            SD_BGMPreload(gDuel_wAnimatedBattleBgmCommand);
+            Model_SetPresentationBgmCommand(gDuel_wAnimatedBattleBgmCommand);
             left = &gDuel_aCardRecords[pair[0]->field_6A];
             right = &gDuel_aCardRecords[pair[1]->field_6A];
             Duel_SetupFieldCardFromDeck(pair[0]->field_6A, pair[0]->field_6B);
@@ -521,7 +522,7 @@ void DuelScene_UpdateBattle(void)
                     }
                 }
             }
-            D_8009B369 = 1;
+            gDuel_bResumeFromAnimatedBattle = 1;
             D_8009B269 = 3;
             D_8009B26C = 1;
             return;

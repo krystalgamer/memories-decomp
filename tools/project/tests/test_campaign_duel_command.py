@@ -40,12 +40,12 @@ GLOBAL_OFFSETS = {
     "D_8009B360": 0x100,
     "gDuel_bOpponentID": 0x101,
     "gDuel_bTerrain": 0x104,
-    "D_8009B368": 0x108,
-    "D_8009B369": 0x109,
+    "gDuel_bPostDuelMainMode": 0x108,
+    "gDuel_bResumeFromAnimatedBattle": 0x109,
     "gDuel_wBgmId": 0x10A,
-    "D_8009B370": 0x110,
-    "D_8009B372": 0x112,
-    "D_8009B374": 0x114,
+    "gDuel_wCampaignSceneOnWin": 0x110,
+    "gDuel_wCampaignSceneOnLoss": 0x112,
+    "gDuel_wAnimatedBattleBgmCommand": 0x114,
 }
 
 WITNESS = r"""

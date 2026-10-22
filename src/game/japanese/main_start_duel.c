@@ -1,8 +1,8 @@
-#define D_8009B374 gJapanese_DuelBgmId2
+#define D_8009B374 gDuel_wAnimatedBattleBgmCommand
 #define D_8009B360 gJapanese_DuelPlayerState
-#define D_8009B370 gJapanese_DuelValue0
-#define D_8009B372 gJapanese_DuelValue1
-#define D_8009B369 gJapanese_DuelFlag
+#define D_8009B370 gDuel_wCampaignSceneOnWin
+#define D_8009B372 gDuel_wCampaignSceneOnLoss
+#define D_8009B369 gDuel_bResumeFromAnimatedBattle
 #define D_8009B26C gJapanese_bActiveMainMode
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
@@ -11,6 +11,7 @@
 #include "../main_start_duel.h"
 #include "../duel_side_state.h"
 #include "../../unmatched.h"
+#include "../duel_session_controls.h"
 #include "../main_mode_state.h"
 #include "../ai_opponent_data.h"
 #include "../duel_terrain_boost.h"
@@ -18,12 +19,12 @@
 void Main_StartDuel(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     gDuel_wBgmId = 0x7270;
-    gJapanese_DuelBgmId2 = 0x7280;
+    gDuel_wAnimatedBattleBgmCommand = 0x7280;
     gJapanese_DuelPlayerState = arg0;
     gDuel_bOpponentID = arg1;
-    gJapanese_DuelValue0 = arg2;
-    gJapanese_DuelValue1 = arg3;
+    gDuel_wCampaignSceneOnWin = arg2;
+    gDuel_wCampaignSceneOnLoss = arg3;
     gDuel_bTerrain = 0;
-    gJapanese_DuelFlag = 0;
+    gDuel_bResumeFromAnimatedBattle = 0;
     gJapanese_bActiveMainMode = 3;
 }

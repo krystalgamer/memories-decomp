@@ -123,3 +123,9 @@ func_8002C484 = CardGrid_GetRowY;
 
 gDuel_bBattleRemovalSlot0 = D_8009B208;
 gDuel_bBattleRemovalSlot1 = D_8009B209;
+
+gDuel_bPostDuelMainMode = gJapanese_D_8009B368;
+gDuel_bResumeFromAnimatedBattle = gJapanese_DuelFlag;
+gDuel_wCampaignSceneOnWin = gJapanese_DuelValue0;
+gDuel_wCampaignSceneOnLoss = gJapanese_DuelValue1;
+gDuel_wAnimatedBattleBgmCommand = gJapanese_DuelBgmId2;
