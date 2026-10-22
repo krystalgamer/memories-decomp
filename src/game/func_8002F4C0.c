@@ -6,6 +6,7 @@
 #include "file_transfer_state.h"
 #include "duel_result_load_package_stage.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 
 void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 {
@@ -43,7 +44,7 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         *(s32 *)&d->phase_size = n;
         gFile_dwTransferState = u0 | 0x10000;
         d->done = 2;
-        v0 = D_8009B118;
+        v0 = gFile_TransferBufferBase;
         do {
             d->h = 0x10;
         } while (0);
@@ -55,7 +56,7 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         m2 = 0xFFDCFFFF;
         d->phase_size = FILE_SECTOR_SIZE;
         t1 = gFile_dwTransferState;
-        v1 = D_8009B118;
+        v1 = gFile_TransferBufferBase;
         gFile_dwTransferState = t1 & m2;
         d->value_0C = v1;
         d->value_08 = v1;
@@ -67,12 +68,12 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         d->x = 0x280;
         d->y = 0xD4;
         d->h = mode;
-        c = D_8009B118;
+        c = gFile_TransferBufferBase;
         d->w = 0x100;
 #else
         d->y = 0xF4;
         d->h = mode;
-        c = D_8009B118;
+        c = gFile_TransferBufferBase;
         d->x = 0;
         d->w = 0x100;
 #endif

@@ -150,3 +150,7 @@ gFile_dwTransferState = gJapanese_FileTransferFlags;
 gFile_dwTransferState_abs = gJapanese_FileTransferFlags;
 gFile_dwCancelRequestState = gJapanese_FileSecondaryRequest;
 gFile_dwCancelRequestState_abs = gJapanese_FileSecondaryRequest;
+
+gFile_TransferBufferBase = D_8009B118;
+gFile_abPackageStagingBuffer = D_801DD000;
+gModel_abTexturePaletteStaging = D_801DE000;

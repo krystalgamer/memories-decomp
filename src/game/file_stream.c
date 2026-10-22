@@ -6,10 +6,11 @@
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 
 void File_InitTransferState(s32 value)
 {
-    D_8009B118 = value;
+    gFile_TransferBufferBase = value;
     D_8009B110 = 0;
     D_8009B108 = 0;
     gFile_dwTransferState = 0;
@@ -94,8 +95,8 @@ FileTransferDescriptor *File_InitTransferDescriptor(
                 transfer->field_30.h.counter = length;
                 transfer->w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
                 transfer->h = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
-                transfer->value_08 = D_8009B118;
-                transfer->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+                transfer->value_08 = gFile_TransferBufferBase;
+                transfer->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
             }
         }
     }

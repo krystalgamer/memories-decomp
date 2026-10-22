@@ -20,6 +20,7 @@
 #include "../psyq/rand.h"
 #include "model_slot_queries.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 #include "model_slot_control.h"
 #include "library_grid_cursor.h"
 #include "library_card_grid.h"
@@ -673,15 +674,15 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         object->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
@@ -691,11 +692,11 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.w = 0x40;
         gStageRect.h = 0x10;
         LoadImage2(&gStageRect,
-                   (u32 *)(D_8009B118 + D_8009C02B * FILE_SECTOR_SIZE));
+                   (u32 *)(gFile_TransferBufferBase + D_8009C02B * FILE_SECTOR_SIZE));
         object->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
@@ -704,7 +705,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xE0;
         gStageRect.w = 0x100;
         gStageRect.h = 0x10;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
         object->field_30.h.counter = 0x240;
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
@@ -713,8 +714,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 5:
@@ -722,25 +723,25 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xE6;
         gStageRect.w = 0x100;
         gStageRect.h = 2;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
         object->done = 3;
         object->field_30.word = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 4:
     case 6:
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
     case 7:
-        SD_LoadSequenceBankPair(1, (u32 *)D_8009B118);
+        SD_LoadSequenceBankPair(1, (u32 *)gFile_TransferBufferBase);
         break;
     }
 }
@@ -757,15 +758,15 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         object->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
@@ -774,7 +775,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xF0;
         gStageRect.w = 0x100;
         gStageRect.h = 0x10;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
         object->field_30.h.counter = 0x240;
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
@@ -783,8 +784,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 4:
@@ -792,25 +793,25 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xF6;
         gStageRect.w = 0x100;
         gStageRect.h = 2;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
         object->done = 3;
         object->field_30.word = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 3:
     case 5:
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
     case 6:
-        SD_LoadSequenceBankPair(1, (u32 *)D_8009B118);
+        SD_LoadSequenceBankPair(1, (u32 *)gFile_TransferBufferBase);
         break;
     }
 }

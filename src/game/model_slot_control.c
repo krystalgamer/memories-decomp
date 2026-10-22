@@ -42,6 +42,7 @@
 #include "model_record_tables.h"
 #include "file_names.h"
 #include "file_transfer.h"
+#include "file_package_staging.h"
 #include "file_transfer_state.h"
 #include "file_transfer_steps.h"
 #include "../psyq/libetc.h"
@@ -51,6 +52,7 @@
 #include "model_load_step.h"
 #include "duel_load_package_stage.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 
 /* Per-frame animation tick for a model slot. When the slot is active and
    has an animation loaded it takes the current animation's length and this
@@ -957,11 +959,11 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         d->phase_size = 48 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs |= 0x10000;
         d->done = 2;
-        d->value_08 = (u32)D_8009B118;
-        d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+        d->value_08 = (u32)gFile_TransferBufferBase;
+        d->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
     case 2:
-        d->value_08 = d->value_0C = (u32)D_801DD000;
+        d->value_08 = d->value_0C = (u32)gFile_abPackageStagingBuffer;
         d->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         d->done = 1;
@@ -975,8 +977,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         rect0.y = MODEL_TEXTURE_STAGE3_RECT_Y(index);
         rect0.w = 0x100;
         rect0.h = 8;
-        LoadImage2(rect, (u32 *)D_801DD000);
-        source = D_801DD000;
+        LoadImage2(rect, (u32 *)gFile_abPackageStagingBuffer);
+        source = gFile_abPackageStagingBuffer;
         do { mask = 0xFFDCFFFF; } while (0);
         source += 2 * FILE_SECTOR_SIZE;
         d->value_08 = d->value_0C = (u32)source;
@@ -991,7 +993,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
             rect1.y = index + 0xF2;
             rect1.w = 0x100;
             rect1.h = 1;
-            LoadImage2(&rect1, (u32 *)D_801DE000);
+            LoadImage2(&rect1, (u32 *)gModel_abTexturePaletteStaging);
             d->field_30.h.counter = (index << 8) + 0xC0;
             d->w = 0x40;
             d->h = 0x10;
@@ -1006,8 +1008,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
             }
             d->done = 2;
             d->phase_size = 16 * FILE_SECTOR_SIZE;
-            d->value_08 = (u32)D_8009B118;
-            d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+            d->value_08 = (u32)gFile_TransferBufferBase;
+            d->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         } else {
             d->phase_size = 16 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
@@ -1021,7 +1023,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
             rect1.y = index + 0xF2;
             rect1.w = 0x100;
             rect1.h = 1;
-            LoadImage2(&rect1, (u32 *)D_801DD000);
+            LoadImage2(&rect1, (u32 *)gFile_abPackageStagingBuffer);
             d->field_30.h.counter = (index << 8) + 0xC0;
             d->w = 0x40;
             d->h = 0x10;
@@ -1036,8 +1038,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
             }
             d->done = 2;
             d->phase_size = 16 * FILE_SECTOR_SIZE;
-            d->value_08 = (u32)D_8009B118;
-            d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+            d->value_08 = (u32)gFile_TransferBufferBase;
+            d->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         } else {
             d->phase_size = 16 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
@@ -1149,20 +1151,20 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
             d->done = 3;
             d->field_30.word = index * 0x19000 + 0xD810;
             d->phase_size = 50 * FILE_SECTOR_SIZE;
-            d->value_08 = (u32)D_8009B118;
-            d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+            d->value_08 = (u32)gFile_TransferBufferBase;
+            d->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         }
         break;
     case 5:
     case 15:
-        d->value_08 = d->value_0C = (u32)D_801DD000;
+        d->value_08 = d->value_0C = (u32)gFile_abPackageStagingBuffer;
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 16: {
         u8 *source;
-        source = D_801DD000;
+        source = gFile_abPackageStagingBuffer;
         Model_CopyWords(
             (s32 *)slot->sound_entries,
             (const s32 *)source,
@@ -1225,8 +1227,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *object, s32 mode) {
         gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
-        object->value_08 = (u32)D_8009B118;
-        object->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+        object->value_08 = (u32)gFile_TransferBufferBase;
+        object->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 2:
@@ -1255,7 +1257,7 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *object, s32 mode) {
         rect1.y = 0xF4;
         rect1.w = 0x100;
         rect1.h = 2;
-        LoadImage2(&rect1, (u32 *)D_801DD000);
+        LoadImage2(&rect1, (u32 *)gFile_abPackageStagingBuffer);
         object->field_30.h.counter = 0x380;
         object->field_30.h.field_32 = 0;
         object->w = 0x40;
@@ -1264,8 +1266,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *object, s32 mode) {
         gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 32 * FILE_SECTOR_SIZE;
-        object->value_08 = (u32)D_8009B118;
-        object->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+        object->value_08 = (u32)gFile_TransferBufferBase;
+        object->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 5:
@@ -1298,13 +1300,13 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
         gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 96 * FILE_SECTOR_SIZE;
-        object->value_08 = (u32)D_8009B118;
-        object->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+        object->value_08 = (u32)gFile_TransferBufferBase;
+        object->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 2:
-        object->value_0C = (s32)D_801DD000;
-        object->value_08 = (s32)D_801DD000;
+        object->value_0C = (s32)gFile_abPackageStagingBuffer;
+        object->value_08 = (s32)gFile_abPackageStagingBuffer;
         object->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->done = 1;
@@ -1322,7 +1324,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
         rect0.x = MODEL_TEXTURE_STAGE3_RECT_X(0);
 #endif
         rect0.h = 8;
-        LoadImage2(&rect0, (u32 *)D_801DD000);
+        LoadImage2(&rect0, (u32 *)gFile_abPackageStagingBuffer);
         object->phase_size = 10 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->value_0C = gModel_Slot0VariantModuleAddress;
@@ -1343,7 +1345,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
         rect1.y = MODEL_TEXTURE_TAIL_ROW_Y;
         rect1.w = 0x100;
         rect1.h = 2;
-        LoadImage2(&rect1, (u32 *)D_801DD000);
+        LoadImage2(&rect1, (u32 *)gFile_abPackageStagingBuffer);
         object->field_30.h.counter = 0x180;
         object->w = 0x40;
         object->field_30.h.field_32 = 0x100;
@@ -1352,8 +1354,8 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
         gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 8 * FILE_SECTOR_SIZE;
-        object->value_08 = (u32)D_8009B118;
-        object->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+        object->value_08 = (u32)gFile_TransferBufferBase;
+        object->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 7:
@@ -1368,14 +1370,14 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
         object->done = 3;
         object->field_30.word = 0xD810;
         object->phase_size = 50 * FILE_SECTOR_SIZE;
-        object->value_08 = (u32)D_8009B118;
-        object->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+        object->value_08 = (u32)gFile_TransferBufferBase;
+        object->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 5:
     case 9:
-        object->value_0C = (s32)D_801DD000;
-        object->value_08 = (s32)D_801DD000;
+        object->value_0C = (s32)gFile_abPackageStagingBuffer;
+        object->value_08 = (s32)gFile_abPackageStagingBuffer;
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->done = 1;
@@ -1383,7 +1385,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
 
     case 10:
         dst = gModel_aSlots;
-        src = D_801DD000;
+        src = gFile_abPackageStagingBuffer;
         Model_CopyWords(
             (s32 *)dst->sound_entries,
             (const s32 *)src,

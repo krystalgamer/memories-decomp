@@ -34,6 +34,7 @@ _start:
 WITNESS = r"""
 #include "src/types.h"
 #include "src/game/file_transfer.h"
+#include "src/game/file_package_staging.h"
 #include "src/game/model.h"
 #include "src/game/high_memory_addresses.h"
 #include "src/psyq/libgte.h"
@@ -49,13 +50,13 @@ enum { GUARD = 32, DESC = 0x48 + 64, SLOTS = 3 * 0xE20 + 64,
 u8 slots[SLOTS] __attribute__((aligned(16)));
 u8 raw[RAW] __attribute__((aligned(16)));
 __asm__(".globl gModel_aSlots\n.set gModel_aSlots, slots+32\n"
-        ".globl D_801DD000\n.set D_801DD000, raw+32\n");
-u8 D_801DD800[0x800], D_801DE000[0x400], D_801A8000[0x1000];
+        ".globl gFile_abPackageStagingBuffer\n.set gFile_abPackageStagingBuffer, raw+32\n");
+u8 D_801DD800[0x800], gModel_abTexturePaletteStaging[0x400], D_801A8000[0x1000];
 u8 D_800F5694[1];
 static u8 destinations[6][32], buffers[2][0x1000];
 u8 *D_80010000, *D_80010004, *gModel_pSlot0PrimaryModule, *gModel_pSlot1PrimaryModule;
 s32 D_80010008, gModel_Slot0VariantModuleAddress, gModel_Slot1VariantModuleAddress;
-u8 *D_8009B118;
+u8 *gFile_TransferBufferBase;
 volatile u32 gFile_dwTransferState_abs;
 void Model_LoadMonsterMergeStage(FileTransferDescriptor *, s32);
 void __real_Model_CopyWords(s32 *, const s32 *, u32);
@@ -189,12 +190,12 @@ static void observe(s32 kind, u32 a, u32 b, u32 c, const RECT *rect)
     if (!equal(e->descriptor, descriptor, DESC)) fail(5);
     if (!equal(e->slots, slots, SLOTS)) fail(6);
     if (!equal(e->raw, raw, RAW)) fail(7);
-    if (e->flags != gFile_dwTransferState_abs || e->buffer != D_8009B118) fail(8);
+    if (e->flags != gFile_dwTransferState_abs || e->buffer != gFile_TransferBufferBase) fail(8);
 }
 static void actual_effects(s32 kind)
 {
     u32 flags = gFile_dwTransferState_abs;
-    effects(kind, descriptor, slots, raw, &flags, &D_8009B118);
+    effects(kind, descriptor, slots, raw, &flags, &gFile_TransferBufferBase);
     gFile_dwTransferState_abs = flags;
 }
 int LoadImage2(RECT *rect, u32 *source)
@@ -237,7 +238,7 @@ static void oracle(s32 stage, s32 index, s32 alternate)
     if ((u32)stage > 16) return;
     if (stage == 16) {
         expect_event(COPY, (u32)&gModel_aSlots[index] + 0xBF8,
-                     (u32)D_801DD000, 64, 0, 0, 0, 0);
+                     (u32)gFile_abPackageStagingBuffer, 64, 0, 0, 0, 0);
         bytes(slot + 0xBF8, expected_raw + GUARD, 256);
         expected_effects(COPY);
         bytes(slot + 0xCF8, expected_raw + GUARD + 256, 28);
@@ -255,16 +256,16 @@ static void oracle(s32 stage, s32 index, s32 alternate)
     }
     if (stage == 0) address = (u32)(index ? D_80010004 : D_80010000);
     if (stage == 1) image = 1;
-    if (stage == 2 || stage == 5 || stage == 15) address = (u32)D_801DD000;
+    if (stage == 2 || stage == 5 || stage == 15) address = (u32)gFile_abPackageStagingBuffer;
     if (stage == 3) {
-        expect_event(IMAGE, (u32)D_801DD000, 0, 0, index * 256, 248, 256, 8);
+        expect_event(IMAGE, (u32)gFile_abPackageStagingBuffer, 0, 0, index * 256, 248, 256, 8);
         expected_effects(IMAGE);
-        address = (u32)D_801DD000 + 0x1000;
+        address = (u32)gFile_abPackageStagingBuffer + 0x1000;
     }
     if (stage == 4 || stage == 6) {
         skip = alternate != (stage == 6);
         if (!skip) {
-            expect_event(IMAGE, (u32)(stage == 4 ? D_801DE000 : D_801DD000),
+            expect_event(IMAGE, (u32)(stage == 4 ? gModel_abTexturePaletteStaging : gFile_abPackageStagingBuffer),
                          0, 0, 512, index + 242, 256, 1);
             expected_effects(IMAGE);
             image = 1;
@@ -323,11 +324,11 @@ static void run_case(s32 stage, s32 index, s32 alternate, u32 flags,
     D_80010004 = destinations[2 + (cases & 1)];
     gModel_pSlot0PrimaryModule = destinations[4]; gModel_pSlot1PrimaryModule = destinations[5];
     gModel_Slot0VariantModuleAddress = (s32)destinations[3]; gModel_Slot1VariantModuleAddress = (s32)destinations[1];
-    D_8009B118 = buffers[0]; gFile_dwTransferState_abs = flags;
+    gFile_TransferBufferBase = buffers[0]; gFile_dwTransferState_abs = flags;
     bytes(expected_descriptor, descriptor, DESC);
     bytes(expected_slots, slots, SLOTS);
     bytes(expected_raw, raw, RAW);
-    expected_flags = flags; expected_buffer = D_8009B118;
+    expected_flags = flags; expected_buffer = gFile_TransferBufferBase;
     event_count = event_cursor = 0;
     oracle(stage, index, alternate);
     Model_LoadMonsterMergeStage((FileTransferDescriptor *)d, stage);
@@ -335,7 +336,7 @@ static void run_case(s32 stage, s32 index, s32 alternate, u32 flags,
     if (!equal(expected_descriptor, descriptor, DESC)) fail(10);
     if (!equal(expected_slots, slots, SLOTS)) fail(11);
     if (!equal(expected_raw, raw, RAW)) fail(12);
-    if (expected_flags != gFile_dwTransferState_abs || expected_buffer != D_8009B118) fail(13);
+    if (expected_flags != gFile_dwTransferState_abs || expected_buffer != gFile_TransferBufferBase) fail(13);
 }
 
 int main(void)

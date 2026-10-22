@@ -27,7 +27,7 @@ typedef struct {
 extern GuardedState state;
 #define gCardPreview_Resources state.records
 #define gFile_dwTransferState state.flags
-#define D_8009B118 state.buffer
+#define gFile_TransferBufferBase state.buffer
 """
 WITNESS = r"""
 GuardedState state, expected;
@@ -120,9 +120,9 @@ class PreviewUploadSourcePointerTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 code = original
                 if mutation == "scaled-palette-offset":
-                    code = code.replace("D_8009B118 + 0x2640", "D_8009B118 + 0x9900")
+                    code = code.replace("gFile_TransferBufferBase + 0x2640", "gFile_TransferBufferBase + 0x9900")
                 elif mutation == "stale-buffer-base":
-                    code = code.replace("image_source = D_8009B118 + 0x2640;",
+                    code = code.replace("image_source = gFile_TransferBufferBase + 0x2640;",
                                         "image_source = image_source + 0x2640;")
                 elif mutation == "wrong-rectangle":
                     code = code.replace("rect = &e->rects[1];", "rect = &e->rects[0];")

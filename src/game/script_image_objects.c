@@ -7,6 +7,7 @@
 #include "file_transfer_state.h"
 #include "display_object_helpers.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 #include "script_image_objects.h"
 #ifdef SCRIPT_IMAGE_LOCALIZED_IDS
 #include "duel_effect_resource_setup.h"
@@ -33,15 +34,15 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         gFile_dwTransferState |= 0x10000;
         obj->done = 2;
         obj->phase_size = (s32)obj->callback_data << FILE_SECTOR_SHIFT;
-        obj->value_08 = D_8009B118;
-        obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        obj->value_08 = gFile_TransferBufferBase;
+        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         obj->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = D_8009B118;
-        obj->value_08 = D_8009B118;
+        obj->value_0C = gFile_TransferBufferBase;
+        obj->value_08 = gFile_TransferBufferBase;
         obj->done = 1;
         break;
 
@@ -50,7 +51,7 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         obj->y = SCRIPT_IMAGE_SCREEN_Y;
         obj->w = 0x100;
         obj->h = 4;
-        LoadImage2((RECT *)obj, (u32 *)D_8009B118);
+        LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
         break;
     }
 }

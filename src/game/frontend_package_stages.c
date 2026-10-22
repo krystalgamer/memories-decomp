@@ -6,6 +6,7 @@
 #include "file_transfer_state.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 
 #ifndef OPTIONS_PACKAGE_STAGE_MODE_2_X
 #define OPTIONS_PACKAGE_STAGE_MODE_2_X 0x100
@@ -61,15 +62,15 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
             OPTIONS_PACKAGE_STAGE_MODE_0_SECTORS * FILE_SECTOR_SIZE;
         gFile_dwTransferState |= 0x10000;
         object->done = 2;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
@@ -78,7 +79,7 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->y = OPTIONS_PACKAGE_STAGE_MODE_2_Y;
         object->w = 0x100;
         object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)D_8009B118);
+        LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
         object->value_0C = (s32)D_801AF000;
         object->value_08 = (s32)D_801AF000;
         object->phase_size = OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS * FILE_SECTOR_SIZE;
@@ -150,15 +151,15 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->phase_size = 48 * FILE_SECTOR_SIZE;
         gFile_dwTransferState |= 0x10000;
         object->done = 2;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
@@ -167,7 +168,7 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->y = GAME_OVER_PACKAGE_IMAGE_Y;
         object->w = 0x100;
         object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)D_8009B118);
+        LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
         object->value_0C = (s32)D_801AF000;
         object->value_08 = (s32)D_801AF000;
         object->phase_size = FILE_SECTOR_SIZE;
