@@ -9,6 +9,7 @@
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "text_staging.h"
+#include "text_message_staging.h"
 #include "display_object.h"
 
 /* Regional values: the count box's y (0x17 -> 0x19) and flags (0x100 ->
@@ -32,8 +33,8 @@
 
 void BuildDeck_RefreshCountDisplay(BuildDeckTransitionState *record) {
     DuelEffectChannel *p;
-    D_801D5608[0].build_deck.chest = record->chest_total;
-    D_801D5608[0].build_deck.deck = record->deck_total;
+    gText_StagedValues[0].build_deck.chest = record->chest_total;
+    gText_StagedValues[0].build_deck.deck = record->deck_total;
     p = TextBox_CreateFlagged(3, 0xE, 0x16, BUILD_DECK_COUNT_BOX_Y, 0x280, 0x10, BUILD_DECK_COUNT_BOX_FLAGS);
     TextBox_BuildBlocking(p);
     p->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

@@ -24,6 +24,7 @@
 #include "mem_card.h"
 #include "save_data.h"
 #include "text_staging.h"
+#include "text_message_staging.h"
 #include "file_transfer.h"
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
@@ -677,8 +678,8 @@ void MemCardDialog_UpdateSave(void)
             gMemCardDialog_OperationState = 6;
             goto create;
         }
-        D_801D5608[0].blocks.used = MEM_CARD_BLOCK_COUNT - message;
-        D_801D5608[0].blocks.needed = needed;
+        gText_StagedValues[0].blocks.used = MEM_CARD_BLOCK_COUNT - message;
+        gText_StagedValues[0].blocks.needed = needed;
         MemCardDialog_SetMessage(0xDB, 0x18);
         break;
     case 4:
@@ -1007,8 +1008,8 @@ void MemCardDialog_UpdateSave(void)
             gMemCardDialog_OperationState = 6;
             goto create;
         }
-        D_801D5608[0].blocks.used = MEM_CARD_BLOCK_COUNT - message;
-        D_801D5608[0].blocks.needed = needed;
+        gText_StagedValues[0].blocks.used = MEM_CARD_BLOCK_COUNT - message;
+        gText_StagedValues[0].blocks.needed = needed;
         MemCardDialog_SetMessage(0xDB, 0x18);
         break;
     case 4:
@@ -1847,7 +1848,7 @@ s32 SaveData_UpdateDuelLoad(void)
         left = D_801D1200;
         right = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
         i = 0;
-        state = D_801D5608;
+        state = gText_StagedValues;
         gSaveData_LoadPairState = 10;
         gSaveData_PairMessageCode = 36;
         for (; i < DECK_SIZE; i++, left += 2, right += 2) {
