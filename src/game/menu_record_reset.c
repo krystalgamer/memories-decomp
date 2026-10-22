@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "func_8003A560.h"
 #include "menu_record.h"
+#include "display_menu_records.h"
 #include "menu_record_reset.h"
 #ifdef VERSION_JAPAN
 #include "high_memory_addresses.h"
@@ -18,7 +19,7 @@ s8 *DisplayEffect_ResetMenuRecords(void)
 #endif
 
     for (i = MENU_RECORD_COUNT - 1; i >= 0; i--) {
-        MenuRecord *record = &D_800EB010[i];
+        MenuRecord *record = &gDisplayEffect_aMenuRecords[i];
 
         record->field_30 = -1;
         record->field_32 = 0;

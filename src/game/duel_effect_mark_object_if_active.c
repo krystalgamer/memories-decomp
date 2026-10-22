@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "menu_record.h"
+#include "display_menu_records.h"
 #include "duel_effect_mark_object_if_active.h"
 
 /* Regional value: the field_34 bit this sets (0x2 -> 0x4). The European
@@ -8,12 +9,12 @@
 #define DUEL_EFFECT_MARK_OBJECT_FLAG 2
 #endif
 
-/* Walks D_800EB010 backward from the last record to the first; on the first
+/* Walks gDisplayEffect_aMenuRecords backward from the last record to the first; on the first
    record whose field_30 marker is non-negative, sets bit 0x2 in the caller's
    field_34 and returns. Does nothing if every marker is negative.
 
    The argument is another record from the same table, not a separate type:
-   Script_OpShowMenu hands this routine's caller a D_800EB010 element and writes
+   Script_OpShowMenu hands this routine's caller a gDisplayEffect_aMenuRecords element and writes
    the same field_34 halfword itself. */
 void DuelEffect_MarkObjectIfActive(MenuRecord *a0) {
     int count;
@@ -21,7 +22,7 @@ void DuelEffect_MarkObjectIfActive(MenuRecord *a0) {
     int v0;
 
     count = MENU_RECORD_COUNT - 1;
-    p = &D_800EB010[count];
+    p = &gDisplayEffect_aMenuRecords[count];
     do {
         v0 = p->field_30;
         count -= 1;

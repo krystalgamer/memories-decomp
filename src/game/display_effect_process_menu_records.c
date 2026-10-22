@@ -5,6 +5,7 @@
 #include "display_effect_update_menu_record.h"
 #include "display_effect_process_menu_records.h"
 #include "menu_record.h"
+#include "display_menu_records.h"
 #include "display_object.h"
 #include "display_effect_step_table.h"
 
@@ -88,7 +89,7 @@ slow:
 }
 
 void DisplayEffect_ProcessMenuRecords(s32 value) {
-    MenuRecord *record = D_800EB010;
+    MenuRecord *record = gDisplayEffect_aMenuRecords;
     s32 i = MENU_RECORD_COUNT - 1;
     void (**t)(MenuRecord *) = gDisplayEffect_apfnSteps;
 

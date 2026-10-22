@@ -16,6 +16,7 @@
 #include "rand_get_interval.h"
 #include "func_8003134C.h"
 #include "menu_record.h"
+#include "display_menu_records.h"
 #include "display_object.h"
 #include "display_object_brightness.h"
 #include "display_object_layout.h"
@@ -192,7 +193,7 @@ void DebugMenu_UpdateBustUpEntry(void)
         second->flags = second_flags;
     } else {
         s32 value = Rand_GetInterval(4);
-        DisplayEffect_UpdateMenuRecord(D_800EB010, value);
+        DisplayEffect_UpdateMenuRecord(gDisplayEffect_aMenuRecords, value);
     }
 #endif
 }

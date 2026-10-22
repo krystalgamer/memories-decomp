@@ -1112,3 +1112,6 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 gDuel_bPresentationCursor = D_8009B1B9;
 gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
 gDuel_bFieldActionAutoCommit = D_8009C0CC;
+
+gDisplayEffect_aMenuRecords = D_800EB010;
+gScript_pMenuRecord = D_8009B274;

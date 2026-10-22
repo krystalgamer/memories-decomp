@@ -33,6 +33,7 @@
 #include "text_box_wrap_line.h"
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
+#include "display_menu_records.h"
 #include "campaign_scene_package.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -186,7 +187,7 @@ void Text_EndStream(DuelEffectChannel *record)
 
 /* Effect-script command handler: reads a command id and a flag byte from the
    object's current script stream, finds the display effect record for the id
-   in D_800EB010 (ids below 0x41 live in the first two records, others in
+   in gDisplayEffect_aMenuRecords (ids below 0x41 live in the first two records, others in
    the third), and depending on the flags either stops it (bit 7), adjusts a
    running one (bits 5 and 6) or starts it in the slot given by bit 0, with
    the object's state byte set to the matching wait state. */
@@ -204,7 +205,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     id = a;
     flags = b;
 
-    e = D_800EB010;
+    e = gDisplayEffect_aMenuRecords;
     if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         e += 2;
     } else if (e->field_30 != id) {
@@ -267,7 +268,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         slot = 2;
     }
-    e = &D_800EB010[slot];
+    e = &gDisplayEffect_aMenuRecords[slot];
     DisplayEffect_ResetRecordState((DisplayEffectState *)e);
     e->field_30 = id;
     e->field_3C = slot;
