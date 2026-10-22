@@ -169,7 +169,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         mask = 0xFFDCFFFF;
         d->phase_size = DUEL_PACKAGE_STAGE7_SECTORS * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= mask;
-        d->value_08 = d->value_0C = (u32)D_800101DC;
+        d->value_08 = d->value_0C = (u32)gFile_pDuelBankBase;
         d->done = 1;
         break;
     case 8:

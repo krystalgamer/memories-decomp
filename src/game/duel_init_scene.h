@@ -41,12 +41,15 @@ extern DisplayObject *G32 gDuel_pLifePointsPanel;
  * the two byte buffers into it. Both words
  * already have real backing in bss_image_after_viewport. This view does
  * not allocate over two separately defined C scalars. Existing consumers
- * retain their independent scalar linker identities. */
+ * retain their independent scalar linker identities. The pair arm indexes
+ * the first word by duel side, so its element 1 is gDuel_pSide1SaveData;
+ * DuelResult updates the winner's wins, the loser's losses and side 0's
+ * starchips through it. */
 #ifdef DUEL_SAVE_WINDOWS_AS_PAIR
-extern SaveDataState *G32 D_8009B1D8[2];
+extern SaveDataState *G32 gDuel_pSide0SaveData[2];
 #else
-extern u8 *G32 D_8009B1D8;
+extern u8 *G32 gDuel_pSide0SaveData;
 #endif
-extern u8 *G32 D_8009B1DC;
+extern u8 *G32 gDuel_pSide1SaveData;
 
 #endif

@@ -280,7 +280,7 @@ extern volatile DRAWENV D_800FE048[];
 #else
 extern DRAWENV D_800FE048[];
 #endif
-extern DISPENV D_800FE0A8;
+extern DISPENV GsDISPENV;
 
 typedef char GraphicsDrawEnvSize[sizeof(DRAWENV) == 0x5C ? 1 : -1];
 typedef char GraphicsDrawEnvDitherOffset[

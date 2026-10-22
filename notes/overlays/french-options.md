@@ -12,7 +12,7 @@ not five independently configured modules.
 The accepted regional `File_RequestOptionsPackage` requests
 `0x2797 + language * 0x29` sectors with length `0x29`. Its staged loader
 consumes the preceding image/data blocks before copying the final six
-sectors to the pointer stored at `D_800101D8`. The independently
+sectors to the pointer stored at `gFile_pScreenBankBase`. The independently
 checksum-verified French executable stores `0x80168000` there.
 See `src/game/european/options_package_stages.c` and its shared
 `src/game/frontend_package_stages.c` body. The French resident inventory

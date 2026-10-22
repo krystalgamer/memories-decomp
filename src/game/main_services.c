@@ -100,8 +100,8 @@ void Main_InitHardware(GraphicsFrameBuffer *base)
     buf = base;
 #ifdef VERSION_EUROPE
     /* The European build moves the display 20 lines down and shows 256. */
-    D_800FE0A8.screen.y = 20;
-    D_800FE0A8.screen.h = 256;
+    GsDISPENV.screen.y = 20;
+    GsDISPENV.screen.h = 256;
 #endif
     gGraphics_bDither = 1;
     gGraphics_bClearBackground = 1;
@@ -143,7 +143,7 @@ next:
     if ((s32)buf < (s32)(base + 2)) {
         goto next;
     }
-    gGraphics_DispEnv = D_800FE0A8;
+    gGraphics_DispEnv = GsDISPENV;
     InitGeom();
     GsInit3D();
     GsSetOrign(0, 0);

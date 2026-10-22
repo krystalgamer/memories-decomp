@@ -268,7 +268,7 @@ Matching `Main_RunBootSequence` requests WA sector `0x1690` for `0x36`
 sectors. Its callback, `Main_LoadBootPackageStage`, consumes
 `0x18000 + 0x1000 + 0x800` bytes
 before copying the final `0x1800` bytes to the address held at
-`D_800101D8`, whose resident value is `0x80168000`. The resulting phase is
+`gFile_pScreenBankBase`, whose resident value is `0x80168000`. The resulting phase is
 WA sectors `[5827, 5830)`, archive bytes `[0xB61800, 0xB63000)`, loaded at
 `0x80168000..0x80169800`. In its mode-zero path, the caller enters this
 image at `0x801680F4` and polls `0x80168160`.
