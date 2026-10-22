@@ -5,6 +5,7 @@
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "trig_constants.h"
+#include "display_callback_transitions.h"
 
 void DisplayObject_UpdateCosineSlide(DisplayObject *object)
 {
@@ -23,7 +24,7 @@ void DisplayObject_UpdateCosineSlide(DisplayObject *object)
     }
 }
 
-void func_8001ED20(DisplayObject *object)
+void DisplayObject_UpdateCosineSlideWithRollReset(DisplayObject *object)
 {
     if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object)) {
         DisplayObject_SavePosition((DisplayObjectSnapshot *)object);

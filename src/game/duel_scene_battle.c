@@ -85,6 +85,7 @@
 #include "model_scene_states.h"
 #include "display_object_motion.h"
 #include "../unmatched.h"
+#include "display_callback_transitions.h"
 
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -143,7 +144,7 @@ void DuelScene_UpdateBattle(void)
         o = gDuel_pTerrainIcon;
         y = 0x5C;
         S(o, 0x28) = -0x74;
-        cb = (DisplayObjectCallback)func_8001ED20;
+        cb = (DisplayObjectCallback)DisplayObject_UpdateCosineSlideWithRollReset;
         o->field_2C.h.field_2C = w;
         o->field_6C = one;
         o->update = cb;
@@ -693,13 +694,13 @@ void DuelScene_UpdateBattle(void)
             o->position.h.field_28 = 0xC;
             o->field_2C.h.field_2C = 0x10;
             o->field_6C = 1;
-            o->update = (DisplayObjectCallback)func_8001ED20;
+            o->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlideWithRollReset;
             o->position.h.field_2A = o->field_30.h.field_32;
             o = gDuel_pLifePointsPanel;
             o->position.h.field_28 = 0x118;
             o->field_2C.h.field_2C = 0x10;
             o->field_6C = 1;
-            o->update = (DisplayObjectCallback)func_8001ED20;
+            o->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlideWithRollReset;
             o->position.h.field_2A = o->field_30.h.field_32;
         }
         if (!(D_8009B174 & 0x40)) {
