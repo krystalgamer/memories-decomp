@@ -3,7 +3,7 @@
  *
  * The 540-byte runner at `0x8002DA1C` matches under the existing uniform
  * `gcc_2_8_1_g8_split` profile. Its six terminal refinement attempts failed
- * to link because an eight-byte scalar view of `D_801D5608` selected
+ * to link because an eight-byte scalar view of `gText_StagedValues` selected
  * out-of-range GP-relative relocations. The existing incomplete
  * `TextStagingValues` array and its `pair` member keep both staging stores
  * absolute without a new alias, profile, or inflated declaration.
@@ -31,6 +31,7 @@
 #include "campaign_flags.h"
 #include "credits_secret_numbers.h"
 #include "text_staging.h"
+#include "text_message_staging.h"
 #include "text_box_lifecycle.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
@@ -136,8 +137,8 @@ show_secret_number:
             CREDITS_SECRET_NUMBER_COUNT;
         table = (u16 *)gCredits_awSecretNumbers;
         number = &table[state * 2];
-        D_801D5608[0].pair.lo = number[0];
-        D_801D5608[0].pair.hi = number[1];
+        gText_StagedValues[0].pair.lo = number[0];
+        gText_StagedValues[0].pair.hi = number[1];
         TextBox_CreateFlagged(
             0,
             0x23,

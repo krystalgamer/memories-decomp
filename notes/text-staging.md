@@ -1,9 +1,14 @@
 # Shared text-message staging views
 
-`D_801D5608` is a reused message-input area, not a dedicated card record,
-rank table, or save structure. Its address remains the linker assignment
-`0x801D5608`; this change neither defines C storage nor establishes the
-allocation's full extent. No semantic rename of this base is made.
+`gText_StagedValues` (legacy `D_801D5608`) is a reused message-input area,
+not a dedicated card record, rank table, or save structure. Its NA address
+remains `0x801D5608`; the canonical alias neither defines C storage nor
+establishes the allocation's full extent.
+
+The isolated `text_message_staging.h` declares the existing incomplete
+`TextStagingValues[]` view and the separate
+`gDuel_DroppedCardTextValue` (legacy `D_801D56A8`) incomplete `s32[]` view.
+The old declaration owner, union members and assertions stay unchanged.
 
 [`text_staging.h`](../src/game/text_staging.h) owns all eleven C declaration
 sites formerly spread across eight matching resident translation units and two
@@ -11,6 +16,21 @@ overlay units. Seven resident units replace their flat incomplete `s32` arrays
 with incomplete arrays of `TextStagingValues`. Only element zero is used: the
 union describes overlapping views at the original base, not repeated buffers.
 Every named scalar in the resident views remains `s32`.
+
+## Separate result text value
+
+`DuelScene_UpdateResultRewards` copies the selected dropped card into its
+existing selected-card/result fields and also sign-extends the ID into
+element zero of `gDuel_DroppedCardTextValue` before showing result pages.
+This separate display argument is outside the union's `0x80` view.
+Branches that do not stage a dropped card retain the old value; no new
+clearing or normalization is introduced.
+
+Only the written word is established. The gap to the following colour
+slots does not establish an array extent, persistent reward record or
+exclusive allocation. The declaration remains an incomplete `s32` array:
+the original split absolute store is not replaced by a scalar `.data`
+view that would select a different store register.
 
 ## Producer evidence
 
@@ -24,7 +44,8 @@ Every named scalar in the resident views remains `s32`.
 | `MemCardDialog_UpdateSave` in `mem_card_dialog.c` | `+0`, `+4` | Stages `MEM_CARD_BLOCK_COUNT - free_blocks` and the required block count before message `0xDB`. Uses `blocks.used` and `.needed`. |
 | Modal card-number producers in `mem_card_dialog.c` | `+0x40` | Where their existing branches do so, stage `(gMemCardDialog_Port >> 4) + 1` through `gMemCardDialog_CardNumberArg[0]`; this remains a module-specific relocation view of the shared word, not new storage or a universal field interpretation. |
 | `SaveData_UpdateDuelLoad` in `mem_card_dialog.c` | `+0x40` | A zero card ID in the left/right loaded deck publishes 1/2 before returning to the dialog. Uses `deck_validation.invalid_side`; the preceding sixteen words have no meaning assigned by this view. |
-| `Duel_CalcRankScore` | `+0` through `+0x7C` | Writes sixteen rows of two side values through `D_801D5608[0].rank_rows`, keeping its side-first pointer walk and scoring order. |
+| `Duel_CalcRankScore` | `+0` through `+0x7C` | Writes sixteen rows of two side values through `gText_StagedValues[0].rank_rows`, keeping its side-first pointer walk and scoring order. |
+| `Main_RunCredits` | `+0`, `+4` | The current matching C runner publishes its two input halfwords through the existing `pair` view before the secret-number text request; the old assembly-only exclusion no longer applies. |
 | `FreeDuel_PlaceCursor` | `+0`, `+4` | Copies the selected duelist's two record halfwords into the shared unsigned words through `D_801D5608[0].pair`. |
 | `Password_UpdateShopScreen` / `Password_RefreshStarchipDisplay` | `+0`, `+4` / `+0` | Message setup writes the table value and index through `D_801D5608[0].pair`; the starchip renderer writes the union's `starchips` member. Neither becomes a resident card/count interpretation. |
 
@@ -58,9 +79,10 @@ explains why these are not persistent ATK/DEF globals.
   card-number name describes the modal producer's view only: the same word
   is `deck_validation.invalid_side` and also lies within `rank_rows`.
   It is not persistent card state or an exclusive allocation.
-- `Main_RunCredits` remains an explicit-relocation assembly consumer. Its
-  halfword inputs become two word stores, not a separate halfword output view.
-  There is no C declaration to migrate.
+- `Main_RunCredits` is now matching C using the same incomplete union-array
+  declaration and `pair` member. Its halfword inputs still become two word
+  stores, not a new halfword output view. The historical matching record is
+  preserved; only its current scoped namespace/include changes.
 - No build-integrated candidate still references this family. Five consumers
   are now matched:
   `DuelField_CreateCardInfoTextBox` in `src/game/duel_field_display_objects.c`, `func_80060E70`
@@ -77,6 +99,42 @@ explains why these are not persistent ATK/DEF globals.
   reader (`func_80038148` via `TextStream_ReadU32LE`) retains its integer address
   boundary; the producer views do not establish a universal pointee type for
   that general script operand.
+
+## Canonical names and native preservation
+
+The two names describe existing staging roles, not universal pointee types
+for text-script address operands. Resident producers retain every union
+member, cast, side-first rank walk, cached pointer and original store order.
+The unoccupied/non-monster branches still leave their old staged bytes.
+
+Seven root scripts add aliases to the original logical providers for both
+views. Twelve bindings have local numeric evidence; Japan's two original
+automatic providers remain symbolic because its retail/split map is not
+available locally. No numeric assignment is guessed or generated file
+manually edited.
+
+Free Duel and Password overlay producers remain unchanged and keep their
+old symbols. The independently relocated
+`gMemCardDialog_CardNumberArg` interior view also remains: equal or
+overlapping addresses do not justify folding its accesses into the new
+base name or assigning a universal card-number interpretation.
+
+The existing result-controller witness receives only literal namespace
+substitution and reconstructs its complete original after reversal.
+Its cases, assertions, mutations, fixture layout, generators and compiler
+setup remain. Legacy declaration/type/HI-LO ownership checks deliberately
+retain their old-name header references and remain unchanged.
+All old headers, wrappers, overlays/imports, profiles, groups and other
+identities stay frozen. No new harness, fixture, probe or testcase is added,
+and cloud/regional/overlay/witness suites are not executed locally.
+Native compiler conservation does not replace fresh PR-side regional
+full-image validation.
+
+Actual compiler-expanded declarations retain 50 identical active pairs.
+The four other source/profile pairs remain wholly absent under the
+viewer's existing regional guard, with neither old nor canonical compiled
+references. No include is moved outside that guard to manufacture a
+declaration in a region that did not use it.
 
 ## Tick389 measurement
 

@@ -43,6 +43,7 @@
 #include "sound.h"
 #include "text_render_state.h"
 #include "text_staging.h"
+#include "text_message_staging.h"
 #include "library_update_grid_scroll.h"
 #include "text_box_runtime.h"
 #include "display_object_config.h"
@@ -952,11 +953,11 @@ void Library_InitializeScreen(void) {
         }
         n++;
     } while (n < CARD_ID_END);
-    D_801D5608[0].library_count = 0;
+    gText_StagedValues[0].library_count = 0;
     n = CARD_ID_FIRST;
     do {
         if (Campaign_TestStoryFlag(n + CAMPAIGN_FLAG_LIBRARY_CARD_BASE) != 0) {
-            D_801D5608[0].library_count += 1;
+            gText_StagedValues[0].library_count += 1;
             r->cards[n].flags = LIBRARY_CARD_FLAG_KNOWN;
             if (Library_CheckCardOwned(n) < 0) {
                 r->cards[n].flags |= LIBRARY_CARD_FLAG_UNOWNED;

@@ -20,6 +20,7 @@
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "text_staging.h"
+#include "text_message_staging.h"
 #include "library_card_grid.h"
 
 /* The Library card grid: Library_DrawCardGrid, the per-frame draw callback,
@@ -221,7 +222,7 @@ done:
 
 void Library_RefreshSelectedCardText(const LibraryState *p)
 {
-    TextStagingValues *q = D_801D5608;
+    TextStagingValues *q = gText_StagedValues;
     s32 r;
     s32 t;
     s32 n;

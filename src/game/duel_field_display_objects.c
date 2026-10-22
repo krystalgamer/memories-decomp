@@ -23,6 +23,7 @@
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "text_staging.h"
+#include "text_message_staging.h"
 #include "display_object_helpers.h"
 #include "display_object_interpolation.h"
 #include "duel_card_object_helpers.h"
@@ -112,8 +113,8 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
             }
             gText_GuardianGlyphCode = gText_GuardianGlyphCode + 0x17;
             value = Duel_CalcCardStats(record);
-            D_801D5608[0].card_stats.attack = (s16)value;
-            D_801D5608[0].card_stats.defense = value >> 16;
+            gText_StagedValues[0].card_stats.attack = (s16)value;
+            gText_StagedValues[0].card_stats.defense = value >> 16;
         } else {
             style = 0x51;
         }
@@ -136,7 +137,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
     value = source->record_index;
     if (value == 3) {
         s32 rank;
-        TextStagingValues *dst = D_801D5608;
+        TextStagingValues *dst = gText_StagedValues;
 
         style += 4;
         rank = gDuel_aSideStates[gDuel_bActiveSide ^ 1].swords_turns_remaining;
@@ -165,7 +166,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
         if (source->row < 2) {
             side = side ^ 1;
         }
-        dst = D_801D5608;
+        dst = gText_StagedValues;
         rank = gDuel_aSideStates[side].swords_turns_remaining;
         dst->card_stats.rank = rank;
         if (rank != 0) {

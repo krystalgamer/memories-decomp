@@ -9,6 +9,7 @@
 #include "text_constants.h"
 #include "duel_card.h"
 #include "text_staging.h"
+#include "text_message_staging.h"
 #include "card_list_row_text.h"
 
 #ifndef CARD_LIST_FOLLOWING_FLAG
@@ -16,7 +17,7 @@
 #endif
 
 /* Builds the regional card-list text boxes for one row set: each two-halfword
- * input row supplies a card ID and count, staged into D_801D5608 before its
+ * input row supplies a card ID and count, staged into gText_StagedValues before its
  * box is created. A monster card uses the base style and anything from the
  * magic type up the next one; an empty count marks the box and the row's
  * entry, and every box after the first gets the regional following-row flag.
@@ -57,7 +58,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
     color_slots = gText_abColorSlots;
     empty_color = 4;
 #else
-    dst = D_801D5608;
+    dst = gText_StagedValues;
 #endif
     w = s;
     y = 0;
@@ -76,13 +77,13 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
                 style = base + 1;
             }
 #ifdef VERSION_EUROPE
-            stage = &D_801D5608[0].card.card_id;
+            stage = &gText_StagedValues[0].card.card_id;
             *stage++ = id;
             gDuel_wSelectedCardID = id;
             *stage = q[0];
 #else
             do {
-                D_801D5608[0].card.card_id = id;
+                gText_StagedValues[0].card.card_id = id;
                 dst->card.count = q[0];
                 gDuel_wSelectedCardID = id;
             } while (0);

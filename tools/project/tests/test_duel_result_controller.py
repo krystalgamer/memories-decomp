@@ -59,7 +59,7 @@ DuelResultDisplayState gDuel_awRitualData;
 u8 gText_BranchSelectorA, gText_BranchSelectorB, gDuel_bWinnerSide;
 s8 gDuel_bSide0ControllerSelector[2], gDuel_bOpponentID;
 SaveDataState *gDuel_pSide0SaveData[2];
-s32 D_801D56A8[1];
+s32 gDuel_DroppedCardTextValue[1];
 u8 gDisplay_abResourceBank0[2048], gText_abColorSlots[16];
 u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 s16 gDuel_wSelectedCardID;
@@ -207,7 +207,7 @@ static void setup(u16 flags)
     gDuel_bSide0ControllerSelector[0] = gDuel_bSide0ControllerSelector[1] = -1;
     gDuel_pSide0SaveData[0] = (SaveDataState *)saves[0];
     gDuel_pSide0SaveData[1] = (SaveDataState *)saves[1];
-    D_801D56A8[0] = 0x55555555; gDuel_wSelectedCardID = -1;
+    gDuel_DroppedCardTextValue[0] = 0x55555555; gDuel_wSelectedCardID = -1;
     gInput_wPad1Repeat = gInput_wPad1Pressed = 0;
     gViewState_Current.angle = -1; expected_angle = 1;
     score_input[0] = score_input[1] = 50;
@@ -262,11 +262,11 @@ static s32 check_initial(s32 tier, s32 tec, s32 eligible, s32 label)
         CHECK(events[cursor].kind == 12 && events[cursor++].a == pool &&
               state->starchip_prize == chips && (u16)gDuel_wSelectedCardID == (u16)drop_result &&
               state->dropped_card_id == (s16)drop_result &&
-              D_801D56A8[0] == (s16)drop_result, 14);
+              gDuel_DroppedCardTextValue[0] == (s16)drop_result, 14);
         for (i = 0; i < chips; i++, id++)
             CHECK(check_object(&cursor, id, 8, 160 + 20 * i, 192, 4, 0) &&
                   state->children[i + 2] == &objects[id], 15);
-    } else CHECK(!gDuel_wSelectedCardID && D_801D56A8[0] == 0x55555555 &&
+    } else CHECK(!gDuel_wSelectedCardID && gDuel_DroppedCardTextValue[0] == 0x55555555 &&
                  state->starchip_prize == 0xA5 && state->dropped_card_id == -123, 16);
     if (label) {
         CHECK(check_object(&cursor, id, 9, 16, 5, tec, 0) &&
