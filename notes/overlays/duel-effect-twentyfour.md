@@ -72,7 +72,7 @@ activation grows each update; ray activation grows on even ticks.
 Stage two requires both activation counts at their caps, the centre at
 full scale, and all three centre colour bytes white. The screen flash
 rises to 192 by fours, then resets white and writes the canonical request
-byte `field_1D`. Stage three draws the flash and signals `D_8009B261`.
+byte `field_1D`. Stage three draws the flash and signals `gDuelEffect_bRequestFinished`.
 Completion does not wait for individual ray scales to reach their caps.
 
 ## Experiments and exact proof

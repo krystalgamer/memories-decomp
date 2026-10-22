@@ -133,7 +133,7 @@ void func_8014A8E4(void *buffer, s32 phase)
             }
             work->cross_frame++;
             if (work->cross_frame > 180) {
-                D_8009B261 = 1;
+                gDuelEffect_bRequestFinished = 1;
             }
             return;
         }
@@ -408,7 +408,7 @@ void func_8014A8E4(void *buffer, s32 phase)
             }
         }
         if (work->stage >= 4) {
-            D_8009B264->field_1D = 1;
+            gDuelEffect_pActiveRequest->field_1D = 1;
             func_801556F4((u8 *)&work->flash_color, 4);
             setVector(&position, 0, -96, 0);
             func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
@@ -442,7 +442,7 @@ void func_8014A8E4(void *buffer, s32 phase)
         if ((u16)func_8014D378((u8 *)&work->flash_color) &&
             (u16)func_8014D378((u8 *)&work->flash_color) &&
             work->stage == 5) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

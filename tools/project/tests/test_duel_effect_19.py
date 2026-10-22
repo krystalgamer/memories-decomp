@@ -18,7 +18,7 @@ class DuelEffect19Tests(unittest.TestCase):
             ("Model_SetFrameStepOverride", "0x8005CBF4"),
             ("PushMatrix", "0x80087158"), ("PopMatrix", "0x800871FC"),
             ("memset", "0x8008F548"),
-            ("D_8009B264", "0x8009C5FC"), ("D_8009B261", "0x8009C600"),
+            ("gDuelEffect_pActiveRequest", "0x8009C5FC"), ("gDuelEffect_bRequestFinished", "0x8009C600"),
         ):
             binding = f"{name} = {address};"
             self.assertIn(binding, aliases)

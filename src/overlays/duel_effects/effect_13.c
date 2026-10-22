@@ -67,7 +67,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
         }
         work->cross_frame++;
         if (work->cross_frame > 180) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     } else {
         frame_step = Model_GetFrameStep();
@@ -137,7 +137,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
         for (i = 0; i < work->active; i++) {
             if (work->states[i] == 2 &&
                 (u16)func_8014D3AC((u8 *)&work->colors[i])) {
-                D_8009B264->field_1D = 1;
+                gDuelEffect_pActiveRequest->field_1D = 1;
                 func_801513F4(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
                 func_80155BC0((u8 *)&work->colors[i], work->config->particle_size, 1, &position);
             }
@@ -172,7 +172,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
         if ((u16)func_8014D378((u8 *)&work->colors[47]) &&
             (u16)func_8014D378((u8 *)&work->background_color) &&
             (u16)func_8014D378((u8 *)&work->number_color)) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

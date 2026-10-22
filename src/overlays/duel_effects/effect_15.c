@@ -49,7 +49,7 @@ void func_8014FF40(void *buffer, s32 phase)
         }
         work->cross_frame++;
         if (work->cross_frame > 180) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     } else {
         Model_GetFrameStep();
@@ -105,7 +105,7 @@ void func_8014FF40(void *buffer, s32 phase)
         }
         PopMatrix();
         if ((u16)func_8014D378((u8 *)&work->color)) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

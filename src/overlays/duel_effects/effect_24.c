@@ -230,7 +230,7 @@ void func_8014D3E8(void *buffer, s32 phase)
             func_80155864((u8 *)&work->flash_color);
             if ((u16)func_80153F98((u8 *)&work->flash_color, 192, 192, 192, 4)) {
                 func_8014F010((u8 *)&work->flash_color, 255);
-                D_8009B264->field_1D = 1;
+                gDuelEffect_pActiveRequest->field_1D = 1;
                 work->stage = 3;
             }
         }
@@ -240,7 +240,7 @@ void func_8014D3E8(void *buffer, s32 phase)
         work->tick++;
         PopMatrix();
         if (work->stage == 3) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

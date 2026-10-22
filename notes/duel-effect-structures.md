@@ -320,7 +320,7 @@ latch on success. These entry flags and status latch are not conflated.
 
 `gDuelEffect_pTrackedRequest` (originally `D_8009B17C`, `0x8009B17C`)
 is the request retained by duel phase/effect controllers across updates.
-It is not the dispatcher's current `D_8009B264` pointer or the only active
+It is not the dispatcher's current `gDuelEffect_pActiveRequest` pointer or the only active
 entry in the pool. All publication, null/unchecked-full behavior and
 completion polling retain their original order.
 

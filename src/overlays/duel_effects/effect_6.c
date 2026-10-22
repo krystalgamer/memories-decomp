@@ -85,7 +85,7 @@ void func_80154B30(void *buffer, s32 phase)
         }
         work->cross_frame++;
         if (work->cross_frame > 180) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     } else {
         frame_step = Model_GetFrameStep();
@@ -113,7 +113,7 @@ void func_80154B30(void *buffer, s32 phase)
                     work->sizes[i] -= work->config->shrink;
                 }
             } else if (work->states[i] == 1) {
-                D_8009B264->field_1D = 1;
+                gDuelEffect_pActiveRequest->field_1D = 1;
                 if ((u16)func_8014D3AC((u8 *)&work->colors[i]) &&
                     work->variant < 5) {
                     setVector(&scale, 4096, 4096, 4096);
@@ -189,13 +189,13 @@ void func_80154B30(void *buffer, s32 phase)
         PopMatrix();
         if (work->variant >= 5) {
             if (work->states[work->config->count - 1] != 0) {
-                D_8009B261 = 1;
+                gDuelEffect_bRequestFinished = 1;
             }
         } else {
             if ((u16)func_8014D378((u8 *)&work->colors[work->config->count - 1]) &&
                 (u16)func_8014D378((u8 *)&work->background_color) &&
                 (u16)func_8014D378((u8 *)&work->column_color)) {
-                D_8009B261 = 1;
+                gDuelEffect_bRequestFinished = 1;
             }
         }
     }
