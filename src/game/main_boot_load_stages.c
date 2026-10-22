@@ -6,6 +6,7 @@
 #include "main_boot_load_stages.h"
 #include "display_asset_banks.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #include "file_transfer_buffer.h"
 #ifdef VERSION_EUROPE
 #include "high_memory_addresses.h"
@@ -301,8 +302,8 @@ m2:
     p->w = 0x100;
     p->h = 4;
     LoadImage2((RECT *)p, (u32 *)gFile_TransferBufferBase);
-    p->value_0C = (u32)D_801AF000;
-    p->value_08 = (u32)D_801AF000;
+    p->value_0C = (u32)gDisplay_abResourceBank0;
+    p->value_08 = (u32)gDisplay_abResourceBank0;
     x = gFile_dwTransferState;
     p->phase_size = 0x800;
     gFile_dwTransferState = x & 0xFFDCFFFF;
@@ -391,8 +392,8 @@ m2:
     *(u16 *)&p->w = hun;
     *(u16 *)&p->h = 4;
     LoadImage2((RECT *)p, (u32 *)e);
-    p->value_0C = (u32)D_801AF000;
-    p->value_08 = (u32)D_801AF000;
+    p->value_0C = (u32)gDisplay_abResourceBank0;
+    p->value_08 = (u32)gDisplay_abResourceBank0;
     x = gFile_dwTransferState;
     p->phase_size = 0x800;
     gFile_dwTransferState = x & 0xFFDCFFFF;

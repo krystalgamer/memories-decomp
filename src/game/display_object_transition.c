@@ -11,6 +11,7 @@
 #include "display_object.h"
 #include "display_object_helpers.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #include "display_object_transition.h"
 
 /* Regional value: field_4A beside field_48 = 0xA0: half the screen height
@@ -33,7 +34,7 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
     if (a != (DisplayObject *)0) {
         x = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, a->field_69, a->field_66, 0x20D,
-                      D_801AF000);
+                      gDisplay_abResourceBank0);
         x->attribute = a->attribute;
         DisplayObject_SetDepthOffset(x, -1);
         x->flags = x->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -46,7 +47,7 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
     b->attribute = b->attribute & ~GsROTOFF;
 
     y = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(y, 0, 0, 0, 0, b->field_69, b->field_66, 0x20D, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(y, 0, 0, 0, 0, b->field_69, b->field_66, 0x20D, gDisplay_abResourceBank0);
     y->attribute = b->attribute;
     DisplayObject_SetDepthOffset(y, -1);
     y->flags = y->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

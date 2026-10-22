@@ -25,6 +25,7 @@
 #include "text_box_runtime.h"
 #include "text_constants.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 
 /* The options screen: its text-colour and text-box setup, the layout pass
    that places its two cursor objects, the init that creates them, and the
@@ -109,7 +110,7 @@ void Options_Init(void) {
 
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     s2 = 0x10;
-    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 0, s2, 0x100, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 0, s2, 0x100, gDisplay_abResourceBank0);
     DisplayObject_SetDepthOffset(obj, -5);
     gOptions_bState = 1;
     {

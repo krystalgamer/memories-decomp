@@ -7,6 +7,7 @@
 #include "file_transfer_state.h"
 #include "file_transfer_steps.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #include "file_transfer_buffer.h"
 
 #include "high_memory_addresses.h"
@@ -70,8 +71,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         break;
 
     case 4:
-        object->value_0C = (s32)D_801AF800;
-        object->value_08 = (s32)D_801AF800;
+        object->value_0C = (s32)gDisplay_abResourceBank1;
+        object->value_08 = (s32)gDisplay_abResourceBank1;
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->done = 1;

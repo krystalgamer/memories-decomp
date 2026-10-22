@@ -26,6 +26,7 @@
 #include "func_8003A560.h"
 #include "high_memory_addresses.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 
 int DisplayEffect_HasResourceEntry(unsigned char*b,int x,int y,int z){u16 *p;p=(u16*)(b+x*2);if(*p){p=(u16*)(b+*p+y*2);if(*p){p=(u16*)(b+*p+z*2);if(*p)return 1;}}return 0;}
 
@@ -47,12 +48,12 @@ s32 DisplayEffect_BuildResourceObjects(
 
     if (a->field_3C != 0) {
         f = -0xA;
-        tb = D_801AF800;
+        tb = gDisplay_abResourceBank1;
         g = 0x1A;
         h = 0x202;
     } else {
         f = -0xE;
-        tb = D_801AF000;
+        tb = gDisplay_abResourceBank0;
         g = 0x1D;
         h = 0x200;
     }
@@ -182,9 +183,9 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
                 slot->clut_rect.h = 2;
                 LoadImage(&slot->clut_rect, (u32 *)slot->clut);
                 if (a->field_3C != 0) {
-                    Util_CopyWords(D_801AF800, slot->extra, 0x800);
+                    Util_CopyWords(gDisplay_abResourceBank1, slot->extra, 0x800);
                 } else {
-                    Util_CopyWords(D_801AF000, slot->extra, 0x800);
+                    Util_CopyWords(gDisplay_abResourceBank0, slot->extra, 0x800);
                 }
                 a->state |= 0x40;
                 return;
@@ -200,10 +201,10 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
             0, 0, a->field_30 * 50 + DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR, 50,
             DisplayEffect_LoadResourceStage, 0, 0
         );
-        req->callback_data = D_801AF000;
+        req->callback_data = gDisplay_abResourceBank0;
         req->position = a->field_3C;
         if (a->field_3C != 0) {
-            req->callback_data = D_801AF800;
+            req->callback_data = gDisplay_abResourceBank1;
         }
         gFile_dwTransferState_abs = req->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     } else if ((a->state & 0x40) == 0) {
@@ -228,9 +229,9 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
         slot->clut_rect.h = 2;
         StoreImage(&slot->clut_rect, (u32 *)slot->clut);
         if (a->field_3C != 0) {
-            Util_CopyWords(slot->extra, D_801AF800, 0x800);
+            Util_CopyWords(slot->extra, gDisplay_abResourceBank1, 0x800);
         } else {
-            Util_CopyWords(slot->extra, D_801AF000, 0x800);
+            Util_CopyWords(slot->extra, gDisplay_abResourceBank0, 0x800);
         }
     } else {
         DisplayEffect_BuildResourceObjects(
