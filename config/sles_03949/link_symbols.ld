@@ -1144,3 +1144,10 @@ gDebug_pszEditorFormat = tent_DebugInterfaceData;
 
 gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
+
+gMemCardWork_wFlags = D_8009B3CC;
+gMemCardWork_bSlotIndex = D_8009B3DD;
+gMemCardWork_bOperationResult = D_8009B3D5;
+gMemCardWork_nRequestResult = D_8009B3F0;
+gMemCardWork_nCompletedRequest = D_8009B3E4;
+gMemCardWork_bFrameChecksum = D_8021007F;
