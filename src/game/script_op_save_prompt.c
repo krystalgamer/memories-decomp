@@ -34,6 +34,7 @@
 #include "duel_effect_entry_control.h"
 #include "dialog_choice.h"
 #include "main_mode_state.h"
+#include "save_data_workspace.h"
 
 #define DISPLAY_OBJECT_X_HALFWORD_INDEX \
     ((u32)&((DisplayObject *)0)->field_30.h.field_30 / sizeof(s16))
@@ -289,13 +290,13 @@ void Script_OpSavePrompt(void)
         if ((gInput_wPad1Pressed & SAVE_PROMPT_CONFIRM_MASK) == 0) {
             return;
         }
-        D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
+        gSaveData_Workspace[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
                   sizeof(s16)] = gScript_SavePromptSceneOperand;
         choice = gDialog_bChoice;
         switch (choice) {
         case 0:
             SD_SEPlayFull(7);
-            D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
+            gSaveData_Workspace[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
                       sizeof(s16)] = gScript_SavePromptSceneOperand;
             SaveData_RequestWrite();
             gScript_wCommandWord |= 0x80;

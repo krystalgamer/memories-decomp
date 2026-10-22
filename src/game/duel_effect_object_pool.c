@@ -12,12 +12,13 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 #include "view_state_current.h"
+#include "save_data_workspace.h"
 
-int func_8002C570(int offset)
+int Library_CheckCardInChest(int offset)
 {
     u8 *object;
 
-    object = (u8 *)((u32)D_801D0000 + offset);
+    object = (u8 *)((u32)gSaveData_Workspace + offset);
     if (object[SAVE_DATA_HEADER_SIZE + SAVE_DATA_CARD_QUANTITIES_OFFSET -
                CARD_ID_FIRST]) {
         return 1;

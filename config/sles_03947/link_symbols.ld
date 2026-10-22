@@ -164,3 +164,6 @@ gSD_dwSavedBgmCommand = D_8009B404;
 
 func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
+
+func_8002C570 = Library_CheckCardInChest;
+gSaveData_Workspace = D_801D0000;

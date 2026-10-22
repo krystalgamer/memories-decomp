@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "campaign_flags.h"
 #include "save_data.h"
+#include "save_data_workspace.h"
 
 void Library_UpdateCardUsedFlag(s32 flag)
 {
@@ -16,7 +17,7 @@ void Library_UpdateCardUsedFlag(s32 flag)
         u8 value;
 
         flag = high >> bit;
-        p = &D_801D0000[index];
+        p = &gSaveData_Workspace[index];
         value = p[CAMPAIGN_FLAG_BANK_OFFSET];
         p[CAMPAIGN_FLAG_BANK_OFFSET] = value & ~flag;
     } else {
@@ -25,7 +26,7 @@ void Library_UpdateCardUsedFlag(s32 flag)
         u8 *p;
         u8 value;
 
-        p = &D_801D0000[index];
+        p = &gSaveData_Workspace[index];
         value = p[CAMPAIGN_FLAG_BANK_OFFSET];
         p[CAMPAIGN_FLAG_BANK_OFFSET] = value | (high >> bit);
     }
