@@ -32,10 +32,10 @@ canonical bindings; the per-image Splat symbol files retain the exact local
 function boundaries and regional addresses.
 
 This is exact ownership evidence, not a claim that the North American and PAL
-executables share a compiler globally. The three remaining function ordinals
-still require independent recovery. Reusing accepted bodies also does not
+executables share a compiler globally. Reusing accepted bodies also does not
 extend the bounded structure, allocation, lifetime, geometry, or reachability
-claims documented by the Spanish recoveries.
+claims documented by the Spanish recoveries. The sections below record the
+later recoveries of the other five functions.
 
 ## Ribbons and bands
 
@@ -97,5 +97,36 @@ the retail code needs:
 
 The linked 0x834 extent matches, and both complete images reproduce their
 retail SHA-256 values. This adds two matching C instances / 4,200 instruction
-bytes. Two functions / 7,088 bytes remain as generated assembly: the `4..DDC`
-entry of each image. The raw data is unchanged.
+bytes. The raw data is unchanged.
+
+## Entry
+
+The `4..DDC` entry (`variant433_entry.c`, 886 instructions) is written for the
+North American stream; the French header-450 entry is still assembly. On the
+setup command it fills six fans, six ribbons, three bands, sixteen rings, seven
+sheets and two streamers from the state at the work pointer, whose block arrays
+are contiguous (`fans[6]` at `0x0`, `ribbons[6]` at `0x270`, `bands[3]` at
+`0xF00`, `rings[16]` at `0x1518`, `sheets[7]` at `0x3598`, `streamers[2]` at
+`0x39F8`, packets at `0x40E8`), reads its config (at `0xC4 + 0x38` in the data
+block, 0x24 bytes per command, trigger at `+ 0xC`) and four image descriptors,
+and builds the packets. Otherwise it tracks the part with the header-337 camera
+code and runs the four draw helpers above the config's trigger frame. What the
+retail code needs:
+
+| Source form | Effect |
+| --- | --- |
+| One `packed` variable for all four texture words, with the first flats' tpage and clut extracted into locals before the fourth call | The four results share one stack slot, and the two extractions stay in front of the slot's second store. |
+| The fan loop's counter is also the sheets loop's counter (`n`), and the sheets' inner index is a separate local (`k`) | The counter is spilled to one slot in both loops; a counter that is also the sheets' inner index has enough references to keep `s5`, and the fan address giv spills instead. |
+| Fan fields written through `fan`, with `color.b` after the first three zero words and the `+ 0x64` word last; no tail pointer | The loop pass reduces the field addresses to one giv biased at the last store, `fan + 100` in `s4`, with the `+ 0x0` store left on the biv. The `255` store follows three word stores in retail; written before them, or with another word last, the function differs. |
+| The extra packets' tpage held in `angle` | A fresh local is allocated before the shared `63` and takes `s2`, which costs `triangle` its register and adds a stack slot. |
+| The ribbons loop as `for (i = 0, angle = 0, angle2 = 0; i < 6; angle += 1300, angle2 += 800)` with `i++; ribbon++;` ending the body | The post-reload scheduler fills load-delay slots with the free increments in source order. |
+| Ribbon phases as `-(j << 9) / 8 + i * -512` | The inner loop hoists `i * -512` as a temporary (shift and negate), the outer loop reduces it to a giv initialized after the hoisted constants and copies it into `a0`; `- (i << 9)` hoists only the shift, which is not worth a giv. |
+| Bands: `outer = i << 9` before the amount loop, and `dx = i << 8` in the odd arm of the heading | Two shifts of `i` in separate arms are identical givs and get combined and reduced; a value with other assignments is not a giv, and the lone remaining one is not worth reducing. |
+| Rings: `-(j << 7) - (i << 9)` | The giv's initial value is emitted after the hoisted `i << 9`. |
+| Sheets: `outer[0..2]`, `inner[2]`, `inner[0..1]`, `field_98`, `field_9C`, `size`, `field_8C`, `field_90`, in that order | The fourth `255` is written to `inner[2]`, not `outer[3]`, and the address giv is biased at `field_90`. |
+| `work->config->trigger <= work->frame` | The trigger is loaded first. |
+| The two `MATRIX` locals are never used | They hold the frame at 216 bytes. |
+
+The linked 0xDD8 extents match, and both complete images reproduce their
+retail SHA-256 values. This adds two matching C instances / 7,088 instruction
+bytes; every function of both images is now C. The raw data is unchanged.
