@@ -26,14 +26,14 @@
    declarers disagreed. One translation unit forces the choice, and these are
    the results, each verified byte-identical rather than argued:
 
-     D_801845B0  was u8 *[], void *[] and ValueWidgetView *[]. The typed
+     gMainMenu_apValueSetupCursors  was u8 *[], void *[] and ValueWidgetView *[]. The typed
                  spelling won because the drawing code dereferences it
                  twenty-odd times through named fields.
      D_801845A0  was void * and u8 *, and u8 * won on the byte arithmetic
                  the starter did on it.
      D_801845A4  same pair, same reason.
 
-   All of them, and D_801845B8, are display objects out of DisplayObject_AcquireSlot,
+   All of them, and gMainMenu_pValueSetupMainCursor, are display objects out of DisplayObject_AcquireSlot,
    and every offset any of them was reached at is a DisplayObject member:
    flags at 0x08, update at 0x24, the position pair at 0x30, the saved pair
    at 0x36/0x38, the timer at 0x60 and the two widget bytes at 0x6B/0x6C.
@@ -53,9 +53,9 @@
 
      D_801845BC  At least three bytes. [0] is the live value, [1] its start,
                  and [2] the toggle result the screen computes.
-     D_801845D8  Points at the toggle byte the caller handed in; the finish
+     gMainMenu_pValueSetupToggle  Points at the toggle byte the caller handed in; the finish
                  step writes through it.
-     D_801845C0  The two values being edited, each a ValueSetupEntry: the
+     gMainMenu_aValueSetupEntries  The two values being edited, each a ValueSetupEntry: the
                  value, the shown value tweened toward it, and the pointer
                  the finish step writes it back through. It was a u16 array
                  indexed [0]/[1] and [6]/[7], with the two pointers reached
@@ -123,39 +123,39 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    D_801845B0[0] = object;
+    gMainMenu_apValueSetupCursors[0] = object;
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPosition(D_801845B0[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
-        D_801845B0[0]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        DisplayObject_ConfigureSpriteAtPosition(gMainMenu_apValueSetupCursors[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        gMainMenu_apValueSetupCursors[0]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(D_801845B0[0], 1);
+        DisplayObject_SetDepthOffset(gMainMenu_apValueSetupCursors[0], 1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    D_801845B0[1] = object;
+    gMainMenu_apValueSetupCursors[1] = object;
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPosition(D_801845B0[1], 0, 0, 3, 4, 0, 0xB, 0x20C);
-        D_801845B0[1]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        DisplayObject_ConfigureSpriteAtPosition(gMainMenu_apValueSetupCursors[1], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        gMainMenu_apValueSetupCursors[1]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(D_801845B0[1], 1);
+        DisplayObject_SetDepthOffset(gMainMenu_apValueSetupCursors[1], 1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    D_801845B0[2] = object;
+    gMainMenu_apValueSetupCursors[2] = object;
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPosition(D_801845B0[2], 0, 0, 3, 4, 0, 0xB, 0x20C);
-        D_801845B0[2]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        DisplayObject_ConfigureSpriteAtPosition(gMainMenu_apValueSetupCursors[2], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        gMainMenu_apValueSetupCursors[2]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(D_801845B0[2], 1);
+        DisplayObject_SetDepthOffset(gMainMenu_apValueSetupCursors[2], 1);
     }
 
-    D_801845D8 = toggle;
+    gMainMenu_pValueSetupToggle = toggle;
     D_801845BC[2] = (*toggle == 0);
     D_801845BC[0] = D_801845BC[1] = 2;
-    D_801845C0[0].out = first;
-    D_801845C0[1].out = second;
-    D_801845C0[0].value = D_801845C0[0].shown = *first;
-    D_801845C0[1].value = D_801845C0[1].shown = *second;
+    gMainMenu_aValueSetupEntries[0].out = first;
+    gMainMenu_aValueSetupEntries[1].out = second;
+    gMainMenu_aValueSetupEntries[0].value = gMainMenu_aValueSetupEntries[0].shown = *first;
+    gMainMenu_aValueSetupEntries[1].value = gMainMenu_aValueSetupEntries[1].shown = *second;
     gMain_apFrameServiceCallbacks[0] = MainMenu_DrawValueSetup;
 }
 #endif
@@ -175,41 +175,41 @@ s32 MainMenu_UpdateValueSetup(void)
     s32 step;
     u16 value;
 
-    busyA = (D_801845B0[0]->update != 0);
-    busyB = (D_801845B0[1]->update != 0);
+    busyA = (gMainMenu_apValueSetupCursors[0]->update != 0);
+    busyB = (gMainMenu_apValueSetupCursors[1]->update != 0);
 
-    if (D_801845C0[0].value != D_801845C0[0].shown) {
-        step = D_801845C0[0].value - D_801845C0[0].shown;
+    if (gMainMenu_aValueSetupEntries[0].value != gMainMenu_aValueSetupEntries[0].shown) {
+        step = gMainMenu_aValueSetupEntries[0].value - gMainMenu_aValueSetupEntries[0].shown;
         if (step < 0) {
-            step = D_801845C0[0].shown - D_801845C0[0].value;
+            step = gMainMenu_aValueSetupEntries[0].shown - gMainMenu_aValueSetupEntries[0].value;
         }
-        if (D_801845C0[0].shown < 2) {
+        if (gMainMenu_aValueSetupEntries[0].shown < 2) {
             step = 0x63;
         } else if (step >= 0x65) {
             step = 0x64;
         }
-        if (D_801845C0[0].shown < D_801845C0[0].value) {
-            D_801845C0[0].shown = D_801845C0[0].shown + step;
+        if (gMainMenu_aValueSetupEntries[0].shown < gMainMenu_aValueSetupEntries[0].value) {
+            gMainMenu_aValueSetupEntries[0].shown = gMainMenu_aValueSetupEntries[0].shown + step;
         } else {
-            D_801845C0[0].shown = D_801845C0[0].shown - step;
+            gMainMenu_aValueSetupEntries[0].shown = gMainMenu_aValueSetupEntries[0].shown - step;
         }
         busyA++;
     }
 
-    if (D_801845C0[1].value != D_801845C0[1].shown) {
-        step = D_801845C0[1].value - D_801845C0[1].shown;
+    if (gMainMenu_aValueSetupEntries[1].value != gMainMenu_aValueSetupEntries[1].shown) {
+        step = gMainMenu_aValueSetupEntries[1].value - gMainMenu_aValueSetupEntries[1].shown;
         if (step < 0) {
-            step = D_801845C0[1].shown - D_801845C0[1].value;
+            step = gMainMenu_aValueSetupEntries[1].shown - gMainMenu_aValueSetupEntries[1].value;
         }
-        if (D_801845C0[1].shown < 2) {
+        if (gMainMenu_aValueSetupEntries[1].shown < 2) {
             step = 0x63;
         } else if (step >= 0x65) {
             step = 0x64;
         }
-        if (D_801845C0[1].shown < D_801845C0[1].value) {
-            D_801845C0[1].shown = D_801845C0[1].shown + step;
+        if (gMainMenu_aValueSetupEntries[1].shown < gMainMenu_aValueSetupEntries[1].value) {
+            gMainMenu_aValueSetupEntries[1].shown = gMainMenu_aValueSetupEntries[1].shown + step;
         } else {
-            D_801845C0[1].shown = D_801845C0[1].shown - step;
+            gMainMenu_aValueSetupEntries[1].shown = gMainMenu_aValueSetupEntries[1].shown - step;
         }
         busyB++;
     }
@@ -244,7 +244,7 @@ s32 MainMenu_UpdateValueSetup(void)
             }
         } else {
             if (gInput_wPad1Repeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
-                value = D_801845C0[0].value;
+                value = gMainMenu_aValueSetupEntries[0].value;
                 SD_SEPlay(6, 0xFF, 0);
                 if (gInput_wPad1Repeat[0] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
@@ -259,7 +259,7 @@ s32 MainMenu_UpdateValueSetup(void)
                     ) ? (value + DUEL_LIFE_POINT_SELECTION_STEP)
                       : DUEL_STARTING_LIFE_POINTS;
                 }
-                D_801845C0[0].value = value;
+                gMainMenu_aValueSetupEntries[0].value = value;
             } else if (gInput_wPad1Repeat[0] & PAD_DIRECTION_UP) {
                 MainMenu_StartValueWidgetTween(0, D_801845BC[2]);
             }
@@ -284,7 +284,7 @@ s32 MainMenu_UpdateValueSetup(void)
             }
         } else {
             if (gInput_wPad1Repeat[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
-                value = D_801845C0[1].value;
+                value = gMainMenu_aValueSetupEntries[1].value;
                 SD_SEPlay(6, 0xFF, 0);
                 if (gInput_wPad1Repeat[1] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
@@ -299,7 +299,7 @@ s32 MainMenu_UpdateValueSetup(void)
                     ) ? (value + DUEL_LIFE_POINT_SELECTION_STEP)
                       : DUEL_STARTING_LIFE_POINTS;
                 }
-                D_801845C0[1].value = value;
+                gMainMenu_aValueSetupEntries[1].value = value;
             } else if (gInput_wPad1Repeat[1] & PAD_DIRECTION_UP) {
                 MainMenu_StartValueWidgetTween(1, D_801845BC[2]);
             }
@@ -335,43 +335,43 @@ void MainMenu_DrawValueSetup(void)
     s32 d112;
     s32 d120;
 
-    first = D_801845C0[0].shown;
-    second = D_801845C0[1].shown;
-    mk = D_801845B0[2];
+    first = gMainMenu_aValueSetupEntries[0].shown;
+    second = gMainMenu_aValueSetupEntries[1].shown;
+    mk = gMainMenu_apValueSetupCursors[2];
     if (D_801845BC[2] == 0) {
         x = 116;
     } else {
         x = 220;
     }
     mk->field_30.h.field_30 = x;
-    D_801845B0[2]->field_30.h.field_32 = 74;
+    gMainMenu_apValueSetupCursors[2]->field_30.h.field_32 = 74;
 
-    w = D_801845B0[0];
+    w = gMainMenu_apValueSetupCursors[0];
     if (w->update != 0 || D_801845BC[0] == 2) {
         w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
-        w = D_801845B0[0];
+        w = gMainMenu_apValueSetupCursors[0];
         if (w->update == 0) {
             w->field_30.h.field_30 = first * 128 / DUEL_STARTING_LIFE_POINTS + 176;
-            D_801845B0[0]->field_30.h.field_32 = 111;
+            gMainMenu_apValueSetupCursors[0]->field_30.h.field_32 = 111;
         }
     } else {
         w->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        D_801845B0[0]->field_30.h.field_30 = D_801845B0[2]->field_30.h.field_30;
-        D_801845B0[0]->field_30.h.field_32 = D_801845B0[2]->field_30.h.field_32;
+        gMainMenu_apValueSetupCursors[0]->field_30.h.field_30 = gMainMenu_apValueSetupCursors[2]->field_30.h.field_30;
+        gMainMenu_apValueSetupCursors[0]->field_30.h.field_32 = gMainMenu_apValueSetupCursors[2]->field_30.h.field_32;
     }
 
-    w = D_801845B0[1];
+    w = gMainMenu_apValueSetupCursors[1];
     if (w->update != 0 || D_801845BC[1] == 2) {
         w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
-        w = D_801845B0[1];
+        w = gMainMenu_apValueSetupCursors[1];
         if (w->update == 0) {
             w->field_30.h.field_30 = second * 128 / DUEL_STARTING_LIFE_POINTS + 176;
-            D_801845B0[1]->field_30.h.field_32 = 139;
+            gMainMenu_apValueSetupCursors[1]->field_30.h.field_32 = 139;
         }
     } else {
         w->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        D_801845B0[1]->field_30.h.field_30 = D_801845B0[2]->field_30.h.field_30;
-        D_801845B0[1]->field_30.h.field_32 = D_801845B0[2]->field_30.h.field_32;
+        gMainMenu_apValueSetupCursors[1]->field_30.h.field_30 = gMainMenu_apValueSetupCursors[2]->field_30.h.field_30;
+        gMainMenu_apValueSetupCursors[1]->field_30.h.field_32 = gMainMenu_apValueSetupCursors[2]->field_30.h.field_32;
     }
 
     setPolyG4(&bar);
@@ -530,11 +530,11 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     s32 valueB;
     s16 remaining;
 
-    widget = D_801845B8;
+    widget = gMainMenu_pValueSetupMainCursor;
     targetX = (s16)widget->field_30.h.field_30;
     targetY = (s16)widget->field_30.h.field_32;
-    valueA = D_801845C0[0].shown;
-    valueB = D_801845C0[1].shown;
+    valueA = gMainMenu_aValueSetupEntries[0].shown;
+    valueB = gMainMenu_aValueSetupEntries[1].shown;
     if (o->field_6C == 2) {
         if (o->field_6B == 0) {
             targetX = (valueA * 128) / DUEL_STARTING_LIFE_POINTS + 176;
@@ -564,19 +564,19 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     defined(VERSION_EUROPE_MAIN_MENU_FINISH_VALUE_SETUP)
 void MainMenu_FinishValueSetup(void)
 {
-    *D_801845C0[0].out = D_801845C0[0].value;
-    *D_801845C0[1].out = D_801845C0[1].value;
-    *D_801845D8 = (D_801845BE != 1);
+    *gMainMenu_aValueSetupEntries[0].out = gMainMenu_aValueSetupEntries[0].value;
+    *gMainMenu_aValueSetupEntries[1].out = gMainMenu_aValueSetupEntries[1].value;
+    *gMainMenu_pValueSetupToggle = (D_801845BE != 1);
     DisplayObject_ReleaseIfPresent(D_801845A0);
     D_801845A0 = 0;
     DisplayObject_ReleaseIfPresent(D_801845A4);
     D_801845A4 = 0;
-    DisplayObject_ReleaseIfPresent(D_801845B0[0]);
-    D_801845B0[0] = 0;
-    DisplayObject_ReleaseIfPresent(D_801845B0[1]);
-    D_801845B0[1] = 0;
-    DisplayObject_ReleaseIfPresent(D_801845B0[2]);
-    D_801845B0[2] = 0;
+    DisplayObject_ReleaseIfPresent(gMainMenu_apValueSetupCursors[0]);
+    gMainMenu_apValueSetupCursors[0] = 0;
+    DisplayObject_ReleaseIfPresent(gMainMenu_apValueSetupCursors[1]);
+    gMainMenu_apValueSetupCursors[1] = 0;
+    DisplayObject_ReleaseIfPresent(gMainMenu_apValueSetupCursors[2]);
+    gMainMenu_apValueSetupCursors[2] = 0;
     gMain_apFrameServiceCallbacks[0] = 0;
 }
 #endif
@@ -604,7 +604,7 @@ s32 MainMenu_CountDecimalDigits(s32 value)
     defined(VERSION_EUROPE_MAIN_MENU_START_VALUE_WIDGET_TWEEN)
 void MainMenu_StartValueWidgetTween(s32 index, s32 value)
 {
-    DisplayObject *object = D_801845B0[index];
+    DisplayObject *object = gMainMenu_apValueSetupCursors[index];
 
     object->field_6B = index;
     object->field_60 = 0xA;

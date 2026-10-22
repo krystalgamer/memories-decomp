@@ -74,3 +74,7 @@ gTrade_bDecisionMenuActive = D_80185CCF;
 gTrade_bCommitRequested = D_80185CD0;
 
 gTrade_bWritePending = D_80185CD1;
+gMainMenu_apValueSetupCursors = 0x801845B0;
+gMainMenu_pValueSetupMainCursor = 0x801845B8;
+gMainMenu_aValueSetupEntries = 0x801845C0;
+gMainMenu_pValueSetupToggle = 0x801845D8;

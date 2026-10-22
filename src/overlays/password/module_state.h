@@ -7,7 +7,7 @@
 extern PasswordModuleState gPassword_ModuleState;
 
 extern struct DisplayObject *G32 gNameEntry_apKeySprites[3];
-extern u8 D_8016D400;
+extern u8 gNameEntry_bStateFlags;
 extern s8 gNameEntry_bKeyboardColumn;
 extern u8 gNameEntry_bKeyboardRow;
 extern u8 gNameEntry_bGlyphVramSlot;

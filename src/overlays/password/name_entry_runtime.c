@@ -39,7 +39,7 @@
 
 /* The name-entry screen pipeline in executable order, up to the keyboard:
    setup and selection-frame drawing, then glyph lookup and effects. The
-   eleven functions share one compiler profile and the D_8016D400 state
+   eleven functions share one compiler profile and the gNameEntry_bStateFlags state
    block; the leading display-object helper has no proven ownership in this
    lifecycle. The keyboard handler that follows, NameEntry_UpdateKeyboard,
    is the binding-free matching C function in
@@ -150,7 +150,7 @@ void NameEntry_Init(void)
 
     SD_BGMPlay(28688);
     DisplayObject_Reset();
-    D_8016D400 = 0;
+    gNameEntry_bStateFlags = 0;
     gNameEntry_bGlyphVramSlot = 0;
     gNameEntry_bGlyphSequence = 0;
     gNameEntry_pNameBuffer = gSaveData_aPlayerNameSjis;

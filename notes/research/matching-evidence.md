@@ -7350,7 +7350,7 @@ declaration change.
 
 ## Element width follows the same rule as sign, but the control is louder
 
-`D_801845C0` in the main-menu value-setup screen was declared `u8 []` by two
+`gMainMenu_aValueSetupEntries` in the main-menu value-setup screen was declared `u8 []` by two
 sources and `u16 []` by two others. That looked like a harder question than
 the twelve signedness pairs, and it was recorded as one in `value_setup.h`,
 because element width changes index scaling as well as the load: `x[6]` is
@@ -7365,8 +7365,8 @@ symbol, and both of those spell it `u16`:
 
 The other two never index it at all. Both take its address as bytes:
 
-    finish_value_setup.c   u8 *state = D_801845C0;
-    start_value_setup.c    state = D_801845C0;
+    finish_value_setup.c   u8 *state = gMainMenu_aValueSetupEntries;
+    start_value_setup.c    state = gMainMenu_aValueSetupEntries;
 
 (All four of those sources are now `value_setup.c`, coalesced under #39. The
 file names above are the ones the question was reasoned about under, and are
@@ -7378,7 +7378,7 @@ addressing device, the same class as `char gFile_TargetLoc[1]` in
 `file_transfer.h`, and it did not conflict with the `u16` view -- it just
 declined to describe it.
 
-Unifying on `u16 []` and writing `(u8 *)D_801845C0` at the two address-taking
+Unifying on `u16 []` and writing `(u8 *)gMainMenu_aValueSetupEntries` at the two address-taking
 sites builds byte-identical, resident image and overlay both.
 
 The control matters more here than in the signedness cases. Putting an

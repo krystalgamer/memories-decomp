@@ -235,7 +235,7 @@ select:
     if (glyphCode == 8) {
         work = 2;
         gy = 144;
-        D_8016D400 |= 0x40;
+        gNameEntry_bStateFlags |= 0x40;
     } else {
         n = 41;
         kind = 1;
@@ -270,7 +270,7 @@ select:
     }
     if (kind == 1) {
         u16 *slot;
-        D_8016D400 |= 0x80;
+        gNameEntry_bStateFlags |= 0x80;
         slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
         *slot = 0;
         if (node != 0) {
@@ -340,7 +340,7 @@ arm4:
 arm6:
     work = 2;
     gy = 72;
-    D_8016D400 |= 0x40;
+    gNameEntry_bStateFlags |= 0x40;
     goto join;
 arme:
     kind = 1;
@@ -368,7 +368,7 @@ join:
     }
     if (kind == 1) {
         u16 *slot;
-        D_8016D400 |= 0x80;
+        gNameEntry_bStateFlags |= 0x80;
         slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
         *slot = 0;
         if (node != 0) {

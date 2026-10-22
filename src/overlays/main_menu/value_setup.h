@@ -6,16 +6,16 @@
 #include "../../game/display_object.h"
 
 /* Value-setup screen state. D_801845BC holds the two live selections and
-   toggle result; D_801845D8 points at the caller's toggle; D_801845C0 holds
+   toggle result; gMainMenu_pValueSetupToggle points at the caller's toggle; gMainMenu_aValueSetupEntries holds
    the two values and their output pointers. The remaining symbols own the
    screen's display objects. */
 extern u8 D_801845BC[];
-extern u8 *G32 D_801845D8;
-extern ValueSetupEntry D_801845C0[2];
+extern u8 *G32 gMainMenu_pValueSetupToggle;
+extern ValueSetupEntry gMainMenu_aValueSetupEntries[2];
 extern DisplayObject *G32 D_801845A0;
 extern DisplayObject *G32 D_801845A4;
-extern DisplayObject *G32 D_801845B0[];
-extern DisplayObject *G32 D_801845B8;
+extern DisplayObject *G32 gMainMenu_apValueSetupCursors[];
+extern DisplayObject *G32 gMainMenu_pValueSetupMainCursor;
 extern u8 D_801845BE;
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle);

@@ -37,7 +37,7 @@ WITNESS = r"""
 #include "src/overlays/password/name_entry_tables.h"
 typedef char ilp32[sizeof(void *) == 4 && sizeof(int) == 4 ? 1 : -1];
 PasswordModuleState gPassword_ModuleState;
-__asm__(".globl D_8016D400\n.set D_8016D400, gPassword_ModuleState\n"
+__asm__(".globl gNameEntry_bStateFlags\n.set gNameEntry_bStateFlags, gPassword_ModuleState\n"
         ".globl gNameEntry_bKeyboardColumn\n.set gNameEntry_bKeyboardColumn, gPassword_ModuleState+1\n"
         ".globl gNameEntry_bKeyboardRow\n.set gNameEntry_bKeyboardRow, gPassword_ModuleState+2\n"
         ".globl gNameEntry_pSelectionFrame\n.set gNameEntry_pSelectionFrame, gPassword_ModuleState+4\n"
