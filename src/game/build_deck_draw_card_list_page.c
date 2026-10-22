@@ -13,6 +13,7 @@
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "build_deck_draw_card_list_page.h"
+#include "card_list_sort_icons.h"
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
@@ -114,13 +115,13 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
 #ifndef VERSION_EUROPE
         header->y = y + 0xF;
 #endif
-        func_80031784(header, ot, D_80090DD8, list->sort_mode);
+        func_80031784(header, ot, gCardList_SortIconTable, list->sort_mode);
     } else {
         header->x = x + 0x6A;
 #ifndef VERSION_EUROPE
         header->y = y + 0xF;
 #endif
-        func_80031784(header, ot, &D_80090DD8[kind * 16],
+        func_80031784(header, ot, &gCardList_SortIconTable[kind * 16],
                       list->sort_mode);
     }
 #ifdef VERSION_EUROPE

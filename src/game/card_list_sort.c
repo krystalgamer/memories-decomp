@@ -218,6 +218,7 @@ void BuildDeck_SortCardList(CardList *list)
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
+#include "card_list_sort_icons.h"
 
 #ifndef CARD_LIST_LAST_CURSOR
 #define CARD_LIST_LAST_CURSOR 7
@@ -244,7 +245,7 @@ void BuildDeck_SortCardList(CardList *list)
      Duplicating it in both branches leaves the two copies unmerged.
    - The visible-row subtraction is respelled at every use; a single local
      would collapse the reloads the target makes at each join point.
-   - The D_80090DD8 lookup keeps CardList_UpdateSortMode's statement-by-statement
+   - The gCardList_SortIconTable lookup keeps CardList_UpdateSortMode's statement-by-statement
      spelling so the base and slot pseudos land in the same registers.
 */
 
@@ -390,7 +391,7 @@ top:
         slot = list->sort_choice;
         icon = icon << 4;
         slot = slot << 1;
-        entry = D_80090DD8 + slot;
+        entry = gCardList_SortIconTable + slot;
         icon = icon + (s32)entry;
         list->sort_mode = *(u8 *)(icon + 1) & 0xF;
         BuildDeck_SortCardList(list);

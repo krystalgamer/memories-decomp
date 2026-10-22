@@ -52,6 +52,7 @@
 #include "sound.h"
 #include "card_type_icon_table.h"
 #include "build_deck_init_screen.h"
+#include "card_list_sort_icons.h"
 
 #define CARD_LIST_VIEW(list) ((CardList *)(list))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
@@ -111,7 +112,7 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     Library_PruneRecentCardDrops();
     pane = 0;
     on = 1;
-    icons = (s32)D_80090DD8;
+    icons = (s32)gCardList_SortIconTable;
     all_stats = gDuel_adwCardStats;
     lists = state + 4;
     gBuildDeck_pState = BUILD_DECK_TRANSITION_STATE_VIEW(state);

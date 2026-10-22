@@ -1,12 +1,12 @@
 #include "../types.h"
 #include "card_type_icon_table.h"
+#include "card_list_sort_icons.h"
 
 /* Initialized data at 0x80090DD8: two 16-byte rows used by card-list sorting
- * and card-type icon rendering. The consumers agree on byte addressing but
- * give different meanings to individual fields, so the symbol remains an
- * address-based byte table.
+ * and icon rendering. The packed bytes retain their separate glyph/page
+ * and sort-key interpretations; the canonical name adds no record type.
  */
-u8 D_80090DD8[] = {
+u8 gCardList_SortIconTable[] = {
     0x46, 0x11, 0x48, 0x22, 0x4A, 0x33, 0x4C, 0x44,
     0x4E, 0x55, 0x7A, 0x66, 0x44, 0x08, 0x00, 0x00,
     0x46, 0x11, 0x48, 0x22, 0x4A, 0x33, 0x4C, 0x44,

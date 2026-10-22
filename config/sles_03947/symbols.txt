@@ -2081,3 +2081,5 @@ gAiScript_abFieldScript = 0x801A9800;
 PalOptions_Init = 0x801686AC;
 PalOptions_Update = 0x80168E1C;
 gDebugMenu_szLanguageEditorFormat = 0x80091CB8;
+
+CardList_BuildRowSetTextBoxes = 0x80050B6C; // type:func size:0x1AC
