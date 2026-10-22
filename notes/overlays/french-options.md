@@ -25,7 +25,7 @@ The recovered helpers belong to that game's menu code, not Psy-Q or CRT:
 
 | Function | Bytes | Evidence |
 |---|---:|---|
-| `func_80168004` | 68 | Same game color-slot setup as the prefix of North American `Options_InitTextDisplay`, without its text-box calls. It uses the existing `gText_abColorSlots` declaration. No direct caller was found; reachability is not claimed. |
+| `PalOptions_SetTextColorSlots` | 68 | Same game color-slot setup as the prefix of North American `Options_InitTextDisplay`, without its text-box calls. It uses the existing `gText_abColorSlots` declaration. No direct caller was found; reachability is not claimed. |
 | `PalOptions_PositionCursor` | 100 | Initialization calls it at `0x80168A04`, and update at `0x80168F3C`. It positions a cursor through canonical `DisplayObject` halfwords and updates another object's resource variant. |
 | `PalOptions_EaseStripY` | 84 | The drawing routine at `0x80168100` calls it at `0x801681D4`, `0x801681E8`, `0x801682D0` and `0x801682E0`; results become packet vertex Y coordinates. It applies quadratic displacement outside the unchanged interval 60 through 92. |
 | `PalOptions_DrawScrollingStrips` | 736 | Draws textured strips in two directions through the accepted easing helper, a measured five-by-three byte table, canonical `POLY_FT4` and SDK `GsSortPoly`. No direct resident/options caller was found; runtime reachability is not claimed. |
@@ -37,9 +37,9 @@ The recovered helpers belong to that game's menu code, not Psy-Q or CRT:
 | `PalOptions_RequestLanguage` | 52 | Update calls it at `0x80168ED0`. It stores a changed language byte and requests the corresponding boot/text package asynchronously through the accepted resident loader. |
 | `PalOptions_StoreLanguageImage` | 180 | Update calls it at `0x80168F28` after fade and file-transfer completion. It preserves a VRAM rectangle in the established transfer buffer, replaces its first byte with the selected language, and uploads it to the second canonical rectangle. |
 | `PalOptions_Update` | 340 | Live update entry called by the resident menu runner. It dispatches input, coordinates fades and asynchronous language loading, updates cursor layout, and returns the signed language byte on completion or -1 while active. |
-| `func_80168F70` | 192 | Signed-halfword step using two real overlay storage locations. It chooses a direction with a 32767 threshold and moves by four with a clamp. No direct options caller was found; angular semantics and runtime reachability are not asserted. |
-| `func_80169030` | 16 | Signed accessor for the same overlay byte that initialization, input handling and update use as the language selection. No direct caller was found; reachability is not claimed. |
-| `func_80169D78` | 452 | Unoptimized counterpart of the signed-halfword step, reproduced by the same C body as `func_80168F70`. Its current and target views are at `0x80169F88` and `0x80169FAA`. No direct caller was found; original producer and runtime reachability remain unproven. |
+| `PalOptions_StepStripScroll` | 192 | Signed-halfword step using two real overlay storage locations. It chooses a direction with a 32767 threshold and moves by four with a clamp. No direct options caller was found; angular semantics and runtime reachability are not asserted. |
+| `PalOptions_GetLanguage` | 16 | Signed accessor for the same overlay byte that initialization, input handling and update use as the language selection. No direct caller was found; reachability is not claimed. |
+| `func_80169D78` | 452 | Unoptimized counterpart of the signed-halfword step, reproduced by the same C body as `PalOptions_StepStripScroll`. Its current and target views are at `0x80169F88` and `0x80169FAA`. No direct caller was found; original producer and runtime reachability remain unproven. |
 | `func_80169F3C` | 56 | Unoptimized counterpart of the signed-byte accessor, reproduced by the existing accessor body with its measured byte reference at `0x8016A078`. No direct caller was found; original producer and runtime reachability remain unproven. |
 
 The original easing and empty-hook helpers call no functions or access storage. Their arguments
@@ -196,10 +196,10 @@ not absolute linker aliases:
 | Address | Bytes | Contract and evidence |
 |---|---:|---|
 | `0x80169040` | 15 | Five three-byte rows supplying U, V and palette-X offset. Both strip loops wrap indices within 0 through 4 and access row offsets 0, 1 and 2. The following byte remains separately unclassified. |
-| `0x80169050` | 2 | Signed current halfword read, stepped, clamped and written by `func_80168F70`; no more specific semantics asserted. |
+| `0x80169050` | 2 | Signed current halfword read, stepped, clamped and written by `PalOptions_StepStripScroll`; no more specific semantics asserted. |
 | `0x80169052` | 1 | Initialization stores the low byte of its mode argument at `0x801686F0`. The following 29 bytes remain separately unclassified; no wider field is inferred. |
 | `0x80169070` | 1 | Signed output-selection byte; initialized at `0x8016892C` and changed by input handling at `0x80168AA4`. |
-| `0x80169072` | 2 | Signed target halfword read and compared by `func_80168F70`. |
+| `0x80169072` | 2 | Signed target halfword read and compared by `PalOptions_StepStripScroll`. |
 | `0x80169074` | 4 | `G32` canonical resource-view pointer, acquired through `DisplayObject_AcquireSlot` and stored at `0x801688A4`. |
 | `0x80169078` | 4 | `G32` display-object resource view pointer, stored at `0x80168998` after object acquisition. |
 | `0x80169080` | 180 | Five rows of nine signed 32-bit heights. The table loop writes exactly this extent, ending before the selection byte at `0x80169134`. |

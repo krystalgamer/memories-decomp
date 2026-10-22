@@ -36,11 +36,11 @@ void PalOptions_HandleInput(void)
                 }
             }
             gPalOptions_bLanguage = selection;
-            DisplayObject_SetResourceVariant(D_80169074, selection);
-            D_80169138->field_68 = selection;
-            DisplayObject_SetResourceVariant(D_80169138, D_80169138->field_69);
-            D_80169078->field_68 = selection;
-            DisplayObject_SetResourceVariant(D_80169078, D_80169078->field_69);
+            DisplayObject_SetResourceVariant(gPalOptions_pLanguageSprite, selection);
+            gPalOptions_pLabelSprite->field_68 = selection;
+            DisplayObject_SetResourceVariant(gPalOptions_pLabelSprite, gPalOptions_pLabelSprite->field_69);
+            gPalOptions_pSoundTypeSprite->field_68 = selection;
+            DisplayObject_SetResourceVariant(gPalOptions_pSoundTypeSprite, gPalOptions_pSoundTypeSprite->field_69);
             SD_SEPlayFull(0x2F);
         }
     }
