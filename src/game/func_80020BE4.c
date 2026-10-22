@@ -7,6 +7,7 @@
 #include "func_80020BE4.h"
 #include "../ygo_types.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 
 void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
 {
@@ -51,7 +52,7 @@ m0:
         p->phase_size = m;
         gFile_dwTransferState = w | m;
         p->done = 2;
-        d = D_8009B118;
+        d = gFile_TransferBufferBase;
         p->h = 0x10;
     } while (0);
     p->value_08 = d;
@@ -61,8 +62,8 @@ m0:
 m1:
     p->phase_size = FILE_SECTOR_SIZE;
     gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
-    p->value_0C = D_8009B118;
-    p->value_08 = D_8009B118;
+    p->value_0C = gFile_TransferBufferBase;
+    p->value_08 = gFile_TransferBufferBase;
     goto tail;
 
 m2:
@@ -71,11 +72,11 @@ m2:
     p->x = 0x280;
     p->y = 0xD8;
     p->w = 0x100;
-    e = D_8009B118;
+    e = gFile_TransferBufferBase;
 #else
     p->y = 0xF8;
     p->w = 0x100;
-    e = D_8009B118;
+    e = gFile_TransferBufferBase;
     p->x = 0;
 #endif
     p->h = 4;

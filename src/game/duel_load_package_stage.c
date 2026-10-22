@@ -20,6 +20,7 @@
 #include "file_transfer_state.h"
 #include "graphics_frame.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 #include "duel_card_checks.h"
 #include "duel_load_package_stage.h"
 #ifdef VERSION_EUROPE
@@ -57,8 +58,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gFile_dwTransferState_abs |= 0x10000;
         d->done = 2;
         d->result = 0x10;
-        d->value_08 = (u32)D_8009B118;
-        d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+        d->value_08 = (u32)gFile_TransferBufferBase;
+        d->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
 #else
         d->field_30.h.counter = 0x300;
         d->field_30.h.field_32 = 0x100;
@@ -68,8 +69,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gFile_dwTransferState_abs |= 0x10000;
         d->done = 2;
         d->phase_size = 64 * FILE_SECTOR_SIZE;
-        d->value_08 = (u32)D_8009B118;
-        d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+        d->value_08 = (u32)gFile_TransferBufferBase;
+        d->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
 #endif
         break;
 #ifdef VERSION_EUROPE
@@ -80,7 +81,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         *(s32 *)&d->phase_size = 5 * FILE_SECTOR_SIZE;
         *(s32 *)&d->result = 1;
         masked = gFile_dwTransferState_abs;
-        destination = (u32)D_8009B118;
+        destination = (u32)gFile_TransferBufferBase;
         masked &= mask;
         goto europe_transfer_tail;
 #endif
@@ -92,11 +93,11 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         D_800E9D70[0].h = 0x10;
         LoadImage2(
             &D_800E9D70[0],
-            (u32 *)(D_8009B118 + D_8009C02B * FILE_SECTOR_SIZE));
+            (u32 *)(gFile_TransferBufferBase + D_8009C02B * FILE_SECTOR_SIZE));
 #endif
         d->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->value_08 = d->value_0C = (u32)D_8009B118;
+        d->value_08 = d->value_0C = (u32)gFile_TransferBufferBase;
         d->done = 1;
         break;
     case 2:
@@ -109,7 +110,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 #endif
         D_800E9D70[0].w = 0x100;
         D_800E9D70[0].h = 0x10;
-        LoadImage2(&D_800E9D70[0], (u32 *)D_8009B118);
+        LoadImage2(&D_800E9D70[0], (u32 *)gFile_TransferBufferBase);
         d->value_08 = d->value_0C = (u32)gDuel_awEquipTable;
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
@@ -130,7 +131,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
     case 5:
         d->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->value_08 = d->value_0C = (u32)D_8009B118;
+        d->value_08 = d->value_0C = (u32)gFile_TransferBufferBase;
         d->done = 1;
         break;
     case 6: {
@@ -144,7 +145,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 #endif
         D_800E9D70[0].w = 0x100;
         D_800E9D70[0].h = 8;
-        LoadImage2(&D_800E9D70[0], (u32 *)D_8009B118);
+        LoadImage2(&D_800E9D70[0], (u32 *)gFile_TransferBufferBase);
         d->field_30.h.counter = 0x200;
         d->field_30.h.field_32 = 0x100;
         d->w = 0x40;
@@ -160,7 +161,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
             gFile_dwTransferState_abs |= mask;
             d->done = 2;
             d->h = 0x10;
-            image_ptr = D_8009B118;
+            image_ptr = gFile_TransferBufferBase;
             d->value_08 = (u32)image_ptr;
             d->value_0C = (u32)(image_ptr + FILE_SECTOR_SIZE);
             break;
@@ -200,8 +201,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gFile_dwTransferState_abs = loaded | enabled;
         d->done = 2;
         d->phase_size = 8 * FILE_SECTOR_SIZE;
-        d->value_08 = (u32)D_8009B118;
-        d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
+        d->value_08 = (u32)gFile_TransferBufferBase;
+        d->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
     }
     case 11:
@@ -241,7 +242,7 @@ europe_transfer_tail:
             gFile_dwTransferState_abs |= mask;
             d->done = 2;
             d->h = 0x10;
-            image_ptr = D_8009B118;
+            image_ptr = gFile_TransferBufferBase;
             d->value_08 = (u32)image_ptr;
             d->value_0C = (u32)(image_ptr + FILE_SECTOR_SIZE);
             break;

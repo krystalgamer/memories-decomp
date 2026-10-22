@@ -6,6 +6,7 @@
 #include "name_entry_load_package_stage.h"
 #include "file_constants.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef NAME_ENTRY_PACKAGE_START_SECTOR
@@ -77,7 +78,7 @@ m0:
         *(s32 *)&object->phase_size = k;
         gFile_dwTransferState = w | n;
         object->done = 2;
-        d = D_8009B118;
+        d = gFile_TransferBufferBase;
         object->h = 0x10;
     } while (0);
     object->value_08 = d;
@@ -94,7 +95,7 @@ m1:
     w2 = gFile_dwTransferState;
     gFile_dwTransferState = w2 | 0x10000;
     object->done = 2;
-    d2 = D_8009B118;
+    d2 = gFile_TransferBufferBase;
     *(s32 *)&object->phase_size = 16 * FILE_SECTOR_SIZE;
     object->value_08 = d2;
     object->value_0C = d2 + FILE_SECTOR_SIZE;
@@ -104,7 +105,7 @@ m2:
     m = 0xFFDCFFFF;
     *(s32 *)&object->phase_size = FILE_SECTOR_SIZE;
     x = gFile_dwTransferState & m;
-    y = (u8 *)D_8009B118;
+    y = (u8 *)gFile_TransferBufferBase;
     goto tail;
 
 m3:
@@ -114,14 +115,14 @@ m3:
     } while (0);
     object->x = hun;
     *(u16 *)&object->y = NAME_ENTRY_PACKAGE_IMAGE_Y;
-    k = D_8009B118;
+    k = gFile_TransferBufferBase;
     object->w = 0x100;
 #else
     do {
         hun = 0x100;
     } while (0);
     *(u16 *)&object->y = 0xF0;
-    k = D_8009B118;
+    k = gFile_TransferBufferBase;
     object->x = hun;
     object->w = hun;
 #endif

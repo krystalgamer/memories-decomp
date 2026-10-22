@@ -6,6 +6,7 @@
 #include "file_transfer_state.h"
 #include "duel_load_package_stage.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 #include "../ygo_types.h"
 #include "campaign_scene_package.h"
 
@@ -50,7 +51,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         w |= 0x10000;
         gFile_dwTransferState = w;
         p->done = 2;
-        t = (p->value_08 = D_8009B118);
+        t = (p->value_08 = gFile_TransferBufferBase);
         *(s32 *)&p->phase_size = CAMPAIGN_SCENE_STAGE0_SECTORS * FILE_SECTOR_SIZE;
         p->value_0C = t + FILE_SECTOR_SIZE;
         break;
@@ -59,7 +60,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         *(s32 *)&p->phase_size = FILE_SECTOR_SIZE;
         m = 0xFFDCFFFF;
         v_1 = gFile_dwTransferState;
-        t = D_8009B118;
+        t = gFile_TransferBufferBase;
         v_1 &= m;
         gFile_dwTransferState = v_1;
         p->value_0C = t;
@@ -68,7 +69,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         break;
 
     case 2:
-        c = D_8009B118;
+        c = gFile_TransferBufferBase;
         p->x = CAMPAIGN_SCENE_IMAGE_X;
         p->y = CAMPAIGN_SCENE_IMAGE_Y;
         p->w = 0x100;

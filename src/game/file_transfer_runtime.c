@@ -22,6 +22,7 @@
 #include "file_cd_helpers.h"
 #include "../external_funcs.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 
 FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 index, s32 offset)
 {
@@ -571,7 +572,7 @@ full:
         goto reduced;
     }
     object->done = 3;
-    base = D_8009B118;
+    base = gFile_TransferBufferBase;
     object->value_08 = base;
     object->value_0C = base + FILE_SECTOR_SIZE;
     object->field_30.word = shared->field_0C;

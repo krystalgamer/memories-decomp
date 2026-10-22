@@ -38,11 +38,12 @@ WITNESS = r"""
 #include "src/game/graphics_frame.h"
 #include "src/game/high_memory_addresses.h"
 #include "src/unmatched.h"
+#include "src/game/file_transfer_buffer.h"
 #include "src/game/file_transfer_state.h"
 
 volatile u32 gFile_dwTransferState;
 static u8 buffer[8192], alternate[8192], stage7[16], stage11[16];
-u8 *D_8009B118 = buffer;
+u8 *gFile_TransferBufferBase = buffer;
 u8 *gFile_pDuelBankBase = stage7;
 u8 *D_80010000 = stage11;
 u16 gDuel_awEquipTable[16], gDuel_aFusionTable[16], gDuel_awRitualData[16];
@@ -101,7 +102,7 @@ int LoadImage2(RECT *rect, u32 *pixels)
     submitted_flags = gFile_dwTransferState;
     copy_bytes(submitted_rect, rect, sizeof(RECT));
     if (mutation_mode & 1) gFile_dwTransferState = replacement_flags;
-    if (mutation_mode & 2) D_8009B118 = alternate;
+    if (mutation_mode & 2) gFile_TransferBufferBase = alternate;
     return -123;
 }
 
@@ -146,7 +147,7 @@ static s32 check_case(s32 stage, u32 initial_flags, u32 mode)
         ((u8 *)D_800E9D70)[i] = 0xB7 ^ (i * 23 + initial_flags);
     copy_bytes(expected_rects, D_800E9D70, sizeof(D_800E9D70));
     gFile_dwTransferState = initial_flags;
-    D_8009B118 = buffer;
+    gFile_TransferBufferBase = buffer;
     calls = 0;
     submitted_address = 0;
     submitted_buffer = 0;
@@ -190,7 +191,7 @@ static s32 check_case(s32 stage, u32 initial_flags, u32 mode)
     Duel_LoadPackageStage(&actual.descriptor, stage);
     if (!equal_bytes(&actual, expected, sizeof(actual))) return 20;
     if (gFile_dwTransferState != final_flags) return 22;
-    if (D_8009B118 != final_buffer) return 23;
+    if (gFile_TransferBufferBase != final_buffer) return 23;
     if (!equal_bytes(D_800E9D70, expected_rects, sizeof(D_800E9D70))) return 24;
     if (calls != submits) return 25;
     if (submits) {

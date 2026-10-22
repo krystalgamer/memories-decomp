@@ -1118,3 +1118,7 @@ gFile_dwTransferState = D_8009B0F4;
 gFile_dwTransferState_abs = D_8009B0F4;
 gFile_dwCancelRequestState = D_8009B134;
 gFile_dwCancelRequestState_abs = D_8009B134;
+
+gFile_TransferBufferBase = D_8009B118;
+gFile_abPackageStagingBuffer = D_801DD000;
+gModel_abTexturePaletteStaging = D_801DE000;
