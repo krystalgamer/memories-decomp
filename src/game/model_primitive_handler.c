@@ -9,6 +9,7 @@
 #include "func_80061A84.h"
 #include "model_primitive_handler.h"
 #include "direct_polygon_renderers.h"
+#include "shared_primitive_renderers.h"
 #include "model_handler_registry.h"
 #include "../unmatched.h"
 
@@ -321,54 +322,54 @@ s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
         u = arg0 & 0xFFFF;
         switch (u) {
         case 0x0:
-            return (s32)func_80067220;
+            return (s32)Model_PrepareSharedPrimitiveCaches;
         case 0xD:
-            return (s32)func_80067354;
+            return (s32)Model_DrawSharedGt3Primitives;
         case 0x15:
-            return (s32)func_8006759C;
+            return (s32)Model_DrawSharedGt4Primitives;
         case 0x20D:
-            return (s32)func_80067858;
+            return (s32)Model_DrawSharedGt3WindowRecordPrimitives;
         case 0x215:
-            return (s32)func_80067ABC;
+            return (s32)Model_DrawSharedGt4WindowRecordPrimitives;
         }
         break;
     case 0x1100000:
         u = arg0 & 0xFFFF;
         switch (u) {
         case 0xD:
-            return (s32)func_80067D94;
+            return (s32)Model_DrawSharedTwoSidedGt3Primitives;
         case 0x15:
-            return (s32)func_80067FD0;
+            return (s32)Model_DrawSharedTwoSidedGt4Primitives;
         case 0x20D:
-            return (s32)func_8006825C;
+            return (s32)Model_DrawSharedTwoSidedGt3WindowRecordPrimitives;
         case 0x215:
-            return (s32)func_800684B4;
+            return (s32)Model_DrawSharedTwoSidedGt4WindowRecordPrimitives;
         }
         break;
     case 0x1200000:
         u = arg0 & 0xFFFF;
         switch (u) {
         case 0xD:
-            return (s32)func_8006875C;
+            return (s32)Model_DrawSharedSemiGt3Primitives;
         case 0x15:
-            return (s32)func_80068A00;
+            return (s32)Model_DrawSharedSemiGt4Primitives;
         case 0x20D:
-            return (s32)func_80068D18;
+            return (s32)Model_DrawSharedSemiGt3WindowRecordPrimitives;
         case 0x215:
-            return (s32)func_80068FD8;
+            return (s32)Model_DrawSharedSemiGt4WindowRecordPrimitives;
         }
         break;
     case 0x1300000:
         u = arg0 & 0xFFFF;
         switch (u) {
         case 0xD:
-            return (s32)func_8006930C;
+            return (s32)Model_DrawSharedTwoSidedSemiGt3Primitives;
         case 0x15:
-            return (s32)func_800695A4;
+            return (s32)Model_DrawSharedTwoSidedSemiGt4Primitives;
         case 0x20D:
-            return (s32)func_8006988C;
+            return (s32)Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives;
         case 0x215:
-            return (s32)func_80069B40;
+            return (s32)Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
         }
         break;
     }
