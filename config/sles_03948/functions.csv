@@ -941,7 +941,7 @@ address,size,name,status,module,notes
 0x8005AC78,0x32C,Model_ControlSlotAnimation,matching_c,game,Shared European C at 0x8005C034; French relocations and complete executable SHA-256 verified.
 0x8005AFA4,0x118,Model_GetSlotDimensionsWithMinimums,matching_c,game,Shared European C at 0x8005C360; French relocations and complete executable SHA-256 verified.
 0x8005B0BC,0x19C,Model_UpdateViewMetrics,matching_c,game,Shared European C at 0x8005C478; French relocations and complete executable SHA-256 verified.
-0x8005B258,0x1EC,func_800580D4,matching_c,game,Shared European C at 0x8005C614; French relocations and complete executable SHA-256 verified.
+0x8005B258,0x1EC,Model_BuildViewRelativeCoordinateUnit,matching_c,game,Shared European C at 0x8005C614; French relocations and complete executable SHA-256 verified.
 0x8005B444,0x188,Model_ApplyTextureTint,matching_c,game,"Shared European C at 0x8005C800; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8005B5CC,0x1F0,Model_StepViewOrbit,matching_c,game,Shared European C at 0x8005C988; French relocations and complete executable SHA-256 verified.
 0x8005B7BC,0x214,SD_ApplyPositionalSound,matching_c,game,Shared European C at 0x8005CB78; French relocations and complete executable SHA-256 verified.
@@ -989,7 +989,7 @@ address,size,name,status,module,notes
 0x8005CBE8,0xC,Model_SetScreenYOverride,matching_c,game,Shared European C at 0x8005DFA4; French relocations and complete executable SHA-256 verified.
 0x8005CBF4,0xC,Model_SetFrameStepOverride,matching_c,game,Shared European C at 0x8005DFB0; French relocations and complete executable SHA-256 verified.
 0x8005CC00,0x98,Model_QueueTintRequestForAllParts,matching_c,game,Shared European C at 0x8005DFBC; French relocations and complete executable SHA-256 verified.
-0x8005CC98,0x88,func_80059B90,matching_c,game,Shared European C at 0x8005E054; French relocations and complete executable SHA-256 verified.
+0x8005CC98,0x88,Model_GetSlot0OffsetWorldPosition,matching_c,game,Shared European C at 0x8005E054; French relocations and complete executable SHA-256 verified.
 0x8005CD20,0xC,Model_SetPresentationBgmCommand,matching_c,game,Shared European C at 0x8005E0DC; French relocations and complete executable SHA-256 verified.
 0x8005CD2C,0x64,Model_StartExodiaPresentation,matching_c,game,Shared European C at 0x8005E0E8; French relocations and complete executable SHA-256 verified.
 0x8005CD90,0x14,Model_IsExodiaPresentationComplete,matching_c,game,Shared European C at 0x8005E14C; French relocations and complete executable SHA-256 verified.
