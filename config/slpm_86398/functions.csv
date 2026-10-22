@@ -275,7 +275,7 @@ address,size,name,status,module,notes
 0x8002C2E4,0x48,Library_CheckCardOwned,matching_c,game,
 0x8002C32C,0x8,func_8002C560,matching_c,game,
 0x8002C334,0x8,func_8002C568,matching_c,game,
-0x8002C33C,0x28,func_8002C570,matching_c,game,
+0x8002C33C,0x28,Library_CheckCardInChest,matching_c,game,
 0x8002C364,0x34,DuelEffect_ResetRequestPool,matching_c,game,
 0x8002C398,0x38,DuelEffect_FindFreeRequest,matching_c,game,
 0x8002C3D0,0x88,DuelEffect_AllocateRequest,matching_c,game,

@@ -2,6 +2,7 @@
 #include "save_data.h"
 #include "card_constants.h"
 #include "duel_deck_lookup.h"
+#include "save_data_workspace.h"
 
 int Duel_FindPlayerDeckCard(int card_id)
 {
@@ -23,7 +24,7 @@ int Library_CheckCardOwned(int card_id)
 {
     int flag;
 
-    flag = (((SaveDataWorkspace *)D_801D0000)->state.card_quantities[
+    flag = (((SaveDataWorkspace *)gSaveData_Workspace)->state.card_quantities[
         card_id - CARD_ID_FIRST] != 0) ? 1 : -1;
     if (flag < 0) {
         return Duel_FindPlayerDeckCard(card_id);

@@ -275,7 +275,7 @@ address,size,name,status,module,notes
 0x8002C518,0x48,Library_CheckCardOwned,matching_c,game,"Returns 1 when the trunk holds the card, else its deck slot, else -1. Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split."
 0x8002C560,0x8,func_8002C560,matching_c,game,Empty function matched exactly.
 0x8002C568,0x8,func_8002C568,matching_c,game,Empty function matched exactly.
-0x8002C570,0x28,func_8002C570,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x8002C570,0x28,Library_CheckCardInChest,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8002C598,0x34,DuelEffect_ResetRequestPool,matching_c,game,"Clears the request status and marks all eight request entries inactive with id -1; exact linked bytes and relocations with gcc_2_8_1_g8_split."
 0x8002C5CC,0x38,DuelEffect_FindFreeRequest,matching_c,game,"Returns the first of eight request entries without the active flag or null when all entries are active; exact linked bytes and relocations with gcc_2_8_1_g8_split."
 0x8002C604,0x88,DuelEffect_AllocateRequest,matching_c,game,"Initializes one free request with the effect id, shared buffer, ordering tables, defaults, and active flag. Exact pure-C match: HIGH_MEMORY_ADDRESSES_BASE_IN_DATA and uniform gcc_2_8_1_g8_split reproduce the D_80010000 and ordering-table address forms; no mixed threshold, private extern declarations, register pins, or inline assembly."
