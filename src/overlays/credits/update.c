@@ -49,7 +49,7 @@ s32 func_80180A24(void)
             b = CLAMP(b);
             c = CLAMP(c);
             d = CLAMP(d);
-            func_8018173C(i, a, b, c, d);
+            Credits_DrawLine(i, a, b, c, d);
             break;
         case 1:
             if (gCredits_aLines[i].entries->group == 0x63) {
@@ -68,7 +68,7 @@ s32 func_80180A24(void)
                     }
                 }
             }
-            func_8018173C(i, 0x80, 0x80, 0x80, 0x80);
+            Credits_DrawLine(i, 0x80, 0x80, 0x80, 0x80);
             break;
         case 2:
             k = 0x80;
@@ -91,7 +91,7 @@ s32 func_80180A24(void)
             c2 = CLAMP(c2);
             b2 = CLAMP(b2);
             a2 = CLAMP(a2);
-            func_8018173C(i, k - d2, k - c2, k - b2, k - a2);
+            Credits_DrawLine(i, k - d2, k - c2, k - b2, k - a2);
             break;
         case 3:
             gCredits_aLines[i].timer -= D_8009B0D8 * 2;
@@ -100,13 +100,13 @@ s32 func_80180A24(void)
                 gCredits_aLines[i].state = 0;
                 gCredits_aLines[i].page--;
                 if (gCredits_aLines[i].page != 0) {
-                    func_80180F58(i, gCredits_aLines[i].entries->group);
+                    Credits_BuildLineGlyphs(i, gCredits_aLines[i].entries->group);
                 } else {
                     gCredits_aLines[i].timer = 0x98;
                     gCredits_aLines[i].state = 4;
                 }
             }
-            func_8018173C(i, 0, 0, 0, 0);
+            Credits_DrawLine(i, 0, 0, 0, 0);
             break;
         case 4:
             gCredits_aLines[i].timer -= D_8009B0D8 * 2;
@@ -122,7 +122,7 @@ s32 func_80180A24(void)
                             other->height = 0;
                             other->width = 0;
                             other->page = 0;
-                            if (func_80180F58(j, n) != 0) {
+                            if (Credits_BuildLineGlyphs(j, n) != 0) {
                                 other->x = 40;
                                 other->y = 40;
                                 if (other->width > 160 || other->height > 120) {
