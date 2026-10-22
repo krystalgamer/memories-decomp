@@ -7,6 +7,12 @@
       "source": "src/overlays/model_variant/variant415_entry_slot1.c"
     },
     {
+      "address": "0x8017BDB0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x59C",
+      "source": "src/overlays/model_variant/variant415_ribbons_slot1.c"
+    },
+    {
       "address": "0x8017C34C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x354",

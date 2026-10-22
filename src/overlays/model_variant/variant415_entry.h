@@ -80,7 +80,7 @@ typedef struct {
 } Variant415EntryState;
 
 extern u8 D_8013CF7C[];
-void func_8013BDB0(u8 *context);
+void func_8013BDB0(Variant415EntryRibbon *ribbon);
 void func_8013C34C(u8 *context, s32 phase);
 void func_8013C6A0(u8 *context);
 void func_8013CB18(u8 *context);
