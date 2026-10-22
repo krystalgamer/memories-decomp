@@ -1310,7 +1310,7 @@ typedef u8 Triplet[4];
    MainMenu_StartValueSetup seeds value and shown from *out, the update steps
    shown toward value, the drawing code reads shown, and
    MainMenu_FinishValueSetup writes value back through out. Two of them fill
-   the 0x18 bytes from D_801845C0 up to D_801845D8, and the merged rows for
+   the 0x18 bytes from gMainMenu_aValueSetupEntries up to gMainMenu_pValueSetupToggle, and the merged rows for
    that screen in config/slus_01411/overlays/main_menu_functions.csv read the
    two displayed halfwords at +2 and +0xE, which is the same 0xC stride the
    assertion below states. */

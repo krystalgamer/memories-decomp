@@ -54,7 +54,7 @@ to remain exactly `0x190` bytes; data after `0x8016D590` remains raw.
 matching C and stored candidates preserve their original relocations.
 `password_linker_symbols.txt` maps each historical interior name to an offset
 from `gPassword_ModuleState`, allowing generated unmatched assembly to keep
-using names such as `D_8016D400` and `gNameEntry_wSelectionFrameFlags` without creating duplicate
+using names such as `gNameEntry_bStateFlags` and `gNameEntry_wSelectionFrameFlags` without creating duplicate
 storage owners.
 
 ## Password-shop lifecycle translation unit
@@ -279,7 +279,7 @@ screen once, while `NameEntry_PollCompletion` advances it each frame and
 reports acceptance. Everything between them is connected by stores and calls:
 initialization installs the selection-frame callback, the keyboard and dialog
 handlers create glyph sprites and install their update callbacks, and those
-callbacks share the same glyph lookup and `D_8016D400` state block.
+callbacks share the same glyph lookup and `gNameEntry_bStateFlags` state block.
 
 The run deliberately starts after `func_801680B4`: adjacency and profile
 agree, but no name-entry caller or shared state ownership is proven for that
