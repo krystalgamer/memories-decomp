@@ -81,7 +81,7 @@ offsets.
 | 448 | `0x43E4` | entry `0x8013B004`, radial `0x8013C254`, orbit `0x8013D638`, webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 1 | 2 |
 | 423 | `0x2B38` | entry `0x8013B004`, bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 0 | 2 |
 | 414 | `0x2F58` | entry `0x8013B004`, webs `0x8013BF20`, fan `0x8013C348`, bands `0x8013C7DC`, sheets `0x8013D448`, spokes `0x8013D8CC`, rings `0x8013DBD8` | 0 | 1 |
-| 401 | `0x3124` | entry `0x8013B004`, sheet `0x8013C764`, webs `0x8013CCA4`, rays `0x8013D210`, spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 1 | 1 |
+| 401 | `0x3124` | entry `0x8013B004`, bands `0x8013BFE4`, sheet `0x8013C764`, webs `0x8013CCA4`, rays `0x8013D210`, spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 0 | 1 |
 | 443 | `0x2888` | entry `0x8013B004`, ribbons `0x8013BD00`, sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
 
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
@@ -255,6 +255,28 @@ reached it calls sheet then webs, bands while the phase is positive and rays
 from phase 2. The tint fades only below phase 5. The same
 `variant401_entry.c` with palette x = 640 is the French header-418 entry
 ([French notes](french-model-variant418.md)).
+Its bands at `0xFE4` (`variant401_bands`, 480 instructions;
+`variant401_bands_slot1` builds the header-551 image) draw that band, whose
+`Variant401EntryBand` now names the nine-by-three points at `+ 0x0`, their
+projections at `+ 0xD8` and the depths at `+ 0x258`. The first pass puts three
+points per column at radius `(work[0x1B0C] * 21 + bias) >> 12` (angles
+`0x400`, flat, `0xC00`), turns them by the screen yaw, moves each column by
+its growth offset along the `work + 0x1AB4` direction, projects it with `RotTransPers3`, and grows the
+offsets towards `0x400` (the first from the timing record at
+`work[0x1AF4] + 0x20`, the others by `step << 6`; the first reaching `0x400`
+sets `work + 0x1B18` to 2). The second pass sorts two POLY_GT4 per column
+pair, clamping negative depths to zero; in phase 2 `work + 0x1B0C` then fades
+to zero over the record's second interval and the phase becomes 3. Several
+statements steer the retail allocation rather than read naturally, each
+measured against the plain form: `if (tc > 0)` keeps identical arms under
+`if (rec)`; dead `if (x != 0) { lo = 0; }` statements after the radius, the
+yaw and at the end of the first loop split blocks for the scheduler and give
+the counter its reference count; the radius is a second reader of the
+`srl 12`; the second half of the second loop reads through
+`q2 = (u8 *)rec + (((u8 *)rec + j * 4) - (u8 *)rec);`, which cse does not
+reduce, so the final depth reads keep the first half's register, and which
+the combiner then turns into the copy the retail code has. Both images
+rebuild byte-identical to retail; every function of both is now C.
 Header 416's form at `0x1C68` (`variant416_webs`) keeps the records at
 `work + 0xA80` and replaces the phase-0 shrink: each web with a positive scale
 is set to `(i << 12) / 3` less the progress `(now - start) * 3 << 12 / (end -
