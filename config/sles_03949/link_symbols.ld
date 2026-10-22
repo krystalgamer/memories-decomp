@@ -1019,14 +1019,14 @@ gDebug_nLastSoundID = 0x8009C668;
 gDebug_nLastBgmId = 0x8009C66E;
 gDebugMenu_bCampaignEditField = 0x8009C67E;
 tent_DuelResultBgmId = 0x8009C50C;
-D_80091B30 = 0x80091B30;
-D_80091B80 = 0x80091B80;
-D_80091BD0 = 0x80091BD0;
-D_80091C20 = 0x80091C20;
-D_80091C70 = 0x80091C70;
-D_80091CC0 = 0x80091CC0;
-D_80091D10 = 0x80091D10;
-D_80091D60 = 0x80091D60;
+gDuelResult_aFrenchSpriteSpecsOpponent = 0x80091B30;
+gDuelResult_aFrenchSpriteSpecsNoOpponent = 0x80091B80;
+gDuelResult_aGermanSpriteSpecsOpponent = 0x80091BD0;
+gDuelResult_aGermanSpriteSpecsNoOpponent = 0x80091C20;
+gDuelResult_aItalianSpriteSpecsOpponent = 0x80091C70;
+gDuelResult_aItalianSpriteSpecsNoOpponent = 0x80091CC0;
+gDuelResult_aSpanishSpriteSpecsOpponent = 0x80091D10;
+gDuelResult_aSpanishSpriteSpecsNoOpponent = 0x80091D60;
 gDuelResult_nOutroSpriteCount = 0x8009C2BC;
 
 /* Semantic draw-state aliases retain the original native providers. */
