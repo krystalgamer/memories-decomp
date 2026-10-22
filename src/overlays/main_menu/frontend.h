@@ -33,7 +33,14 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  *                          Set to 1 when that transition starts, and tested
  *                          as the "transition running" flag.
  *   gMainMenu_bShadeLevel  A shade level, only ever 0 or 0x80.
- *   D_80184595             A flag, cleared on init and again once handled.
+ *   gMainMenu_bBackRequested
+ *                          Raised when Cancel is pressed inside a submenu
+ *                          (menu id 5 or above). Once the transition
+ *                          settles the update tests it: with a menu id
+ *                          below 5 it hides all entries and sets the fade
+ *                          direction to -1; otherwise it starts the entry
+ *                          transition and sets menu id 1. Both branches
+ *                          then clear the flag. Init clears it too.
  *   gMainMenu_bSaveWritePending, gMainMenu_bLoadPending,
  *   gMainMenu_bTradeLoadPending, gMainMenu_bDuelLoadPending
  *                          Pending-request flags with the same shape: the
@@ -62,7 +69,7 @@ extern struct DisplayObject *G32 D_80184560;
 extern s8 gMainMenu_nFadeDirection;
 extern u8 gMain_bMenuID;
 extern u8 *G32 gMain_apMenuEntries[];
-extern u8 D_80184595;
+extern u8 gMainMenu_bBackRequested;
 extern u8 gMainMenu_bTransitionMode;
 extern u8 gMainMenu_bShadeLevel;
 extern u8 gMainMenu_bTransitionActive;

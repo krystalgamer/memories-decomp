@@ -104,7 +104,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
         }
     }
 
-    D_80184595 = 0;
+    gMainMenu_bBackRequested = 0;
     gMainMenu_bTransitionMode = 0;
     gMainMenu_bShadeLevel = 0;
     if (gMain_bMenuID != 0) {
