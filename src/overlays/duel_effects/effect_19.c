@@ -88,14 +88,14 @@ void func_80153ADC(void *buffer, s32 phase)
                     work->scale = 0x5000;
                 }
             } else {
-                D_8009B264->field_1D = 1;
+                gDuelEffect_pActiveRequest->field_1D = 1;
                 func_801556F4((u8 *)&work->color, 8);
             }
         }
         work->frame++;
         PopMatrix();
         if ((u16)func_8014D378((u8 *)&work->color)) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

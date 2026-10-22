@@ -199,11 +199,11 @@ void func_80152048(void *buffer, s32 phase)
         if (work->count != 0) {
             if ((u16)func_8014D378((u8 *)&work->color) &&
                 (((DisplayObject *)D_8015B7A0[work->count - 1])->field_0C & 0xFFFFFF) == 0) {
-                D_8009B261 = 1;
+                gDuelEffect_bRequestFinished = 1;
             }
         } else {
             if ((u16)func_8014D378((u8 *)&work->color)) {
-                D_8009B261 = 1;
+                gDuelEffect_bRequestFinished = 1;
             }
         }
     }

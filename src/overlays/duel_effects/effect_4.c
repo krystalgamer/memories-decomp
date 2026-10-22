@@ -50,7 +50,7 @@ void func_80159AAC(void *buffer, s32 phase)
         }
         work->cross_frame++;
         if (work->cross_frame > 180) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     } else {
         frame_step = Model_GetFrameStep();
@@ -94,7 +94,7 @@ void func_80159AAC(void *buffer, s32 phase)
                     func_8014F010((u8 *)&work->screen_color, 255);
                     work->stage = 1;
                 }
-                D_8009B264->field_1D = 1;
+                gDuelEffect_pActiveRequest->field_1D = 1;
                 for (i = 0; i < 24; i++) {
                     func_8014F2D4(quad, &work->positions[i]);
                     func_80156064((u8 *)&work->color, quad, 0);
@@ -138,7 +138,7 @@ void func_80159AAC(void *buffer, s32 phase)
         work->frame += frame_step;
         PopMatrix();
         if ((u16)func_8014D378((u8 *)&work->color)) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

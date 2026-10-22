@@ -38,7 +38,7 @@ occur even when the first color predicate is zero.
 The active resident request is the existing 32-byte `DuelEffectRequest`,
 declared centrally through `D_8009B264_VISIBLE` and `src/unmatched.h`.
 The fade writes its existing `field_1D`; completion writes the centrally
-declared `D_8009B261`. No guessed duplicate resident record or global owner
+declared `gDuelEffect_bRequestFinished`. No guessed duplicate resident record or global owner
 is introduced. Model-step calls and SDK memory/matrix calls reuse canonical
 Spanish resident bindings and retain their existing classifications.
 

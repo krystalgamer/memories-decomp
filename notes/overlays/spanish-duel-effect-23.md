@@ -73,7 +73,7 @@ extents, not absolute function aliases standing in for code. Resident
 model helpers, card collection and sound entry points retain their actual
 resident owners. SDK calls resolve through existing public compatibility
 names to actual executable SDK inventory entries.
-The existing completion-byte alias `D_8009B261` remains at `0x8009C600`,
+The existing completion-byte alias `gDuelEffect_bRequestFinished` remains at `0x8009C600`,
 backed by non-executable resident image storage. It is not newly allocated
 overlay data and is distinct from the four section-backed overlay objects.
 

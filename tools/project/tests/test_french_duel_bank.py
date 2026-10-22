@@ -282,7 +282,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             self.assertNotIn(name + " =", aliases)
             self.assertIn(f"{name} = 0x{address:X}; // size:0x{size:X}", symbols)
         for name, address in (
-            ("D_8009B261", 0x8009C600), ("D_8009B264", 0x8009C5FC),
+            ("gDuelEffect_bRequestFinished", 0x8009C600), ("gDuelEffect_pActiveRequest", 0x8009C5FC),
             ("PushMatrix", 0x80087158), ("PopMatrix", 0x800871FC),
             ("memset", 0x8008F548),
         ):
@@ -422,7 +422,7 @@ class FrenchDuelBankTests(unittest.TestCase):
         region = ROOT / "config/sles_03948"
         resident = (region / "link_symbols.ld").read_text()
         aliases = (region / "overlays/duel_effects_linker_symbols.txt").read_text()
-        for name, address in (("D_8009B261", "0x8009C600"), ("D_8009B264", "0x8009C5FC"),
+        for name, address in (("gDuelEffect_bRequestFinished", "0x8009C600"), ("gDuelEffect_pActiveRequest", "0x8009C5FC"),
                               ("PushMatrix", "0x80087158"), ("PopMatrix", "0x800871FC"),
                               ("memset", "0x8008F548")):
             with self.subTest(symbol=name):

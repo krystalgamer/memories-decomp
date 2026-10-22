@@ -153,7 +153,7 @@ void func_80148BA4(void *buffer, s32 phase)
             }
             state->step++;
             if (state->step >= 0xB5) {
-                D_8009B261 = 1;
+                gDuelEffect_bRequestFinished = 1;
             }
             return;
         }
@@ -396,7 +396,7 @@ void func_80148BA4(void *buffer, s32 phase)
         state->frames++;
         PopMatrix();
         if (state->stage == 3 && state->frames >= 0xB5) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

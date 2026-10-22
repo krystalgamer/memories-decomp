@@ -100,7 +100,7 @@ extern DuelEffectRequest *G32 gDuelEffect_pTrackedRequest;
  * unless bit 0 is set;
  * DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty and
  * DuelEffect_ApplyDarkPiercingLight test bit 0. Read lbu everywhere and one
- * byte wide (c_symbols.ld names D_8009B261 next). Retail reaches it through
+ * byte wide (c_symbols.ld names gDuelEffect_bRequestFinished next). Retail reaches it through
  * $gp in DuelEffect_UpdateRequests, DuelEffect_CreateRequest and
  * DuelEffect_ResetRequestPool, and through %hi/%lo in DuelScene_Update,
  * DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty,

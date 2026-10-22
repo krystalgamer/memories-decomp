@@ -68,7 +68,7 @@ void func_80149F90(void *buffer, s32 phase)
             }
             state->step++;
             if (state->step >= 0xB5) {
-                D_8009B261 = 1;
+                gDuelEffect_bRequestFinished = 1;
             }
             return;
         }
@@ -162,7 +162,7 @@ void func_80149F90(void *buffer, s32 phase)
         state->frame += frame_step;
         state->updates++;
         if (state->descriptor->frames < state->frame) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

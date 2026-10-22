@@ -53,8 +53,8 @@ objects and the final ELF, with exact bytes and extents:
 | `D_8015B30C` | 180 | `data.data.o` | Six 30-byte effect 6 configurations |
 
 None is supplied through the absolute linker-symbol file. Resident aliases
-come independently from the French resident linker map: `D_8009B261` at
-`0x8009C600`, `D_8009B264` at `0x8009C5FC`, `PushMatrix` at `0x80087158`,
+come independently from the French resident linker map: `gDuelEffect_bRequestFinished` at
+`0x8009C600`, `gDuelEffect_pActiveRequest` at `0x8009C5FC`, `PushMatrix` at `0x80087158`,
 `PopMatrix` at `0x800871FC`, and `memset` at `0x8008F548`.
 `Model_GetFrameStep` at `0x8005BF24` (32 bytes) and
 `Model_SetFrameStepOverride` at `0x8005CBF4` (12 bytes) are independently

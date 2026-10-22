@@ -108,12 +108,12 @@ DuelEffectRequest *DuelEffect_CreateRequest(s32 id)
 
 /* Clears the blocking status, then walks the eight gDuelEffect_aRequests.
    For each active request: raises the blocking status unless the request is
-   nonblocking; clears D_8009B261; if the initialized flag is not set yet,
+   nonblocking; clears gDuelEffect_bRequestFinished; if the initialized flag is not set yet,
    sets it and resets field_1A to -1; copies gGraphics_apOrderingTables[1]/[2] into
-   field_0C/field_08, stashes the request at D_8009B264, and calls
+   field_0C/field_08, stashes the request at gDuelEffect_pActiveRequest, and calls
    func_801462B0(id, the ORIGINAL field_1A read before the possible reset,
    buffer, request). It then restores the geometry state and clears flags
-   when D_8009B261 ends up 1. Returns the blocking status.
+   when gDuelEffect_bRequestFinished ends up 1. Returns the blocking status.
 
    savedF1A must be s32, not the field's true s16 type -- declaring it s16
    makes gcc emit an unsigned reload + manual sign-extend at the call site
@@ -136,7 +136,7 @@ s32 DuelEffect_UpdateRequests(void) {
                 gDuel_bEffectRequestStatus |=
                     DUEL_EFFECT_REQUEST_STATUS_BLOCKING;
             }
-            D_8009B261 = 0;
+            gDuelEffect_bRequestFinished = 0;
             flags2 = rec->flags;
             savedF1A = rec->field_1A;
             if (!(flags2 & DUEL_EFFECT_REQUEST_FLAG_INITIALIZED)) {
@@ -145,12 +145,12 @@ s32 DuelEffect_UpdateRequests(void) {
                 rec->field_1A = -1;
             }
             rec->field_0C = (s32)gGraphics_apOrderingTables[1];
-            D_8009B264 = rec;
+            gDuelEffect_pActiveRequest = rec;
             rec->field_08 = (s32)gGraphics_apOrderingTables[2];
             func_801462B0(rec->id, savedF1A, (s32)rec->buffer, rec);
             SetGeomOffset(0, 0);
             SetGeomScreen(D_800F2848.projection);
-            if (D_8009B261 == 1) {
+            if (gDuelEffect_bRequestFinished == 1) {
                 rec->flags = 0;
             }
         }

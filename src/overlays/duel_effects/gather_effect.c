@@ -94,7 +94,7 @@ void func_801481A8(void *buffer, s32 phase)
             }
             state->step++;
             if (state->step >= 0xB5) {
-                D_8009B261 = 1;
+                gDuelEffect_bRequestFinished = 1;
             }
             return;
         }
@@ -205,7 +205,7 @@ void func_801481A8(void *buffer, s32 phase)
         PopMatrix();
         if ((u16)func_8014D378(state->colors[31]) != 0 &&
             (u16)func_8014D378(state->color) != 0) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

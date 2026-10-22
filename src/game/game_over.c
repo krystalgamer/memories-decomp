@@ -46,7 +46,7 @@ void GameOver_Init(void)
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
-    D_8009B378 = (s32)object;
+    gGameOver_pTitleObject = (s32)object;
     SD_BGMPlay(0x7300);
     Fade_StartIn();
     gFade_State.step = 2;
@@ -59,7 +59,7 @@ s32 GameOver_Update(void)
     s16 value;
     u32 tail_bits;
 
-    p = (DisplayObject *)D_8009B378;
+    p = (DisplayObject *)gGameOver_pTitleObject;
     motion = (DisplayObjectVelocity *)p;
     DisplayObject_StepPositionX(motion);
     value = p->field_5A;

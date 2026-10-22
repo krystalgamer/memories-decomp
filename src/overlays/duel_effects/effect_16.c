@@ -72,7 +72,7 @@ void func_80151558(void *buffer, s32 phase)
         }
         work->cross_frame++;
         if (work->cross_frame > 180) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     } else {
         Model_SetFrameStepOverride(1);
@@ -118,7 +118,7 @@ void func_80151558(void *buffer, s32 phase)
                     if (work->activated[j] == 0) {
                         work->hits++;
                         work->activated[j] = 1;
-                        D_8009B264->field_1D = work->hits;
+                        gDuelEffect_pActiveRequest->field_1D = work->hits;
                     }
                     work->ages[j] = 4;
                     for (k = 0; k < 32; k++) {
@@ -152,7 +152,7 @@ void func_80151558(void *buffer, s32 phase)
         PopMatrix();
         if ((u16)func_8014D378((u8 *)&work->primary[4]) &&
             (u16)func_8014D378((u8 *)&work->secondary[4])) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

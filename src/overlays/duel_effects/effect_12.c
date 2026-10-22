@@ -67,14 +67,14 @@ void func_80150E00(void *buffer, s32 phase)
             if (work->scale < 0x4000) {
                 work->scale += 0x1000;
             } else {
-                D_8009B264->field_1D = 1;
+                gDuelEffect_pActiveRequest->field_1D = 1;
                 func_80153F28((u8 *)&work->color, 15);
             }
         }
         work->frame += frame_step;
         PopMatrix();
         if ((u16)func_8014D378((u8 *)&work->color)) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

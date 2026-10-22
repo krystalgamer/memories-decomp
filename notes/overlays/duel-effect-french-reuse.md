@@ -47,8 +47,8 @@ match, with no partial translation-unit replacement.
 
 ## Resident bindings and real data owners
 
-The French resident linker map independently supplies `D_8009B261 =
-0x8009C600`, `D_8009B264 = 0x8009C5FC`, `PushMatrix = 0x80087158`,
+The French resident linker map independently supplies `gDuelEffect_bRequestFinished =
+0x8009C600`, `gDuelEffect_pActiveRequest = 0x8009C5FC`, `PushMatrix = 0x80087158`,
 `PopMatrix = 0x800871FC` and `memset = 0x8008F548`.
 The authoritative resident inventory supplies the named matching C functions
 `Model_GetFrameStep = 0x8005BF24` and
