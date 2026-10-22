@@ -1347,3 +1347,67 @@ Model_DrawSharedGt4Wireframes = 0x80069918; // type:func size:0x18C
 Model_DrawSharedGt3WindowRecordWireframes = 0x80069AA4; // type:func size:0x160
 
 Model_DrawSharedGt4WindowRecordWireframes = 0x80069C04; // type:func size:0x18C
+
+Model_DrawFt3Primitives = 0x8005F820; // type:func size:0x25C
+
+Model_DrawGt3Primitives = 0x8004CF9C; // type:func size:0x2C4
+
+Model_DrawFt4Primitives = 0x8005FA7C; // type:func size:0x2A4
+
+Model_DrawGt4Primitives = 0x8004D260; // type:func size:0x358
+
+Model_DrawFt3WindowRecordPrimitives = 0x8005FD20; // type:func size:0x27C
+
+Model_DrawGt3WindowRecordPrimitives = 0x8005FF9C; // type:func size:0x2E4
+
+Model_DrawFt4WindowRecordPrimitives = 0x80060280; // type:func size:0x2C4
+
+Model_DrawGt4WindowRecordPrimitives = 0x80060544; // type:func size:0x378
+
+Model_DrawTwoSidedFt3Primitives = 0x800608BC; // type:func size:0x248
+
+Model_DrawTwoSidedGt3Primitives = 0x80060B04; // type:func size:0x2B0
+
+Model_DrawTwoSidedFt4Primitives = 0x80060DB4; // type:func size:0x290
+
+Model_DrawTwoSidedGt4Primitives = 0x80061044; // type:func size:0x344
+
+Model_DrawTwoSidedFt3WindowRecordPrimitives = 0x80061388; // type:func size:0x268
+
+Model_DrawTwoSidedGt3WindowRecordPrimitives = 0x800615F0; // type:func size:0x2D0
+
+Model_DrawTwoSidedFt4WindowRecordPrimitives = 0x800618C0; // type:func size:0x2B0
+
+Model_DrawTwoSidedGt4WindowRecordPrimitives = 0x80061B70; // type:func size:0x364
+
+Model_DrawSemiFt3Primitives = 0x80061ED4; // type:func size:0x2B8
+
+Model_DrawSemiGt3Primitives = 0x8006218C; // type:func size:0x320
+
+Model_DrawSemiFt4Primitives = 0x800624AC; // type:func size:0x300
+
+Model_DrawSemiGt4Primitives = 0x800627AC; // type:func size:0x3B4
+
+Model_DrawSemiFt3WindowRecordPrimitives = 0x80062B60; // type:func size:0x2D8
+
+Model_DrawSemiGt3WindowRecordPrimitives = 0x80062E38; // type:func size:0x340
+
+Model_DrawSemiFt4WindowRecordPrimitives = 0x80063178; // type:func size:0x320
+
+Model_DrawSemiGt4WindowRecordPrimitives = 0x80063498; // type:func size:0x3D4
+
+Model_DrawTwoSidedSemiFt3Primitives = 0x8006386C; // type:func size:0x2A4
+
+Model_DrawTwoSidedSemiGt3Primitives = 0x80063B10; // type:func size:0x30C
+
+Model_DrawTwoSidedSemiFt4Primitives = 0x80063E1C; // type:func size:0x2EC
+
+Model_DrawTwoSidedSemiGt4Primitives = 0x80064108; // type:func size:0x3A0
+
+Model_DrawTwoSidedSemiFt3WindowRecordPrimitives = 0x800644A8; // type:func size:0x2C4
+
+Model_DrawTwoSidedSemiGt3WindowRecordPrimitives = 0x8006476C; // type:func size:0x32C
+
+Model_DrawTwoSidedSemiFt4WindowRecordPrimitives = 0x80064A98; // type:func size:0x30C
+
+Model_DrawTwoSidedSemiGt4WindowRecordPrimitives = 0x80064DA4; // type:func size:0x3C0
