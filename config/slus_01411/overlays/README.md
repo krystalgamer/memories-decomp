@@ -122,7 +122,7 @@ spellings: the values suggest module identifiers but do not establish their
 semantics. Their owning headers declare the exact four-byte objects.
 
 Main menu additionally maps the adjacent `0x18` bytes of `.rodata` through
-`module_rodata.c`. The typed `D_80180004` comparator table replaces the old
+`module_rodata.c`. The typed `gMainMenu_aCardSortComparators` comparator table replaces the old
 `D_80180000[1]` reach across the section boundary and emits six checked
 function relocations in retail order.
 

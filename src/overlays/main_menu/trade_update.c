@@ -106,7 +106,7 @@ void MainMenu_InitTradeScreen(void)
         gTrade_awOffers[i][0] = 0;
         D_80185CC8[i] = 0;
         gTrade_abCursorRow[i] = 0;
-        D_80185CCC[i] = 0;
+        gTrade_abSortMode[i] = 0;
         MainMenu_RefreshTradeInventory(i, 1);
         MainMenu_RebuildTradeInventoryRows(i);
     }
@@ -143,7 +143,7 @@ void MainMenu_InitTradeScreen(void)
 #define MAIN_MENU_TRADE_PAGE_STEP 7
 #define MAIN_MENU_TRADE_SCROLL_MAX 6
 #endif
-extern CardCountEntry D_80185144[];
+extern CardCountEntry gTrade_aSide1WorkingCards[];
 extern u16 gTrade_awListScrollWords[2][2] asm("gTrade_aListScroll");
 
 #define gTrade_aListScroll gTrade_awListScrollWords
@@ -378,9 +378,9 @@ s32 MainMenu_UpdateTradeScreen(void)
     if ((gInput_wPad1Repeat[0] & 0x900) != 0) {
         SD_SEPlay(47, 255, 0);
         if ((gInput_wPad1Repeat[0] & 0x100) != 0) {
-            D_80185CCC[0] = (D_80185CCC[0] + 5) % 6;
+            gTrade_abSortMode[0] = (gTrade_abSortMode[0] + 5) % 6;
         } else {
-            D_80185CCC[0] = (D_80185CCC[0] + 7) % 6;
+            gTrade_abSortMode[0] = (gTrade_abSortMode[0] + 7) % 6;
         }
         MainMenu_RefreshTradeInventory(0, 0);
     dirty0:
@@ -491,7 +491,7 @@ player1:
     if (gTrade_aListScroll[1][0] != gTrade_aListScroll[1][1]) {
         goto scroll1;
     }
-    card1 = &D_80185144[gTrade_aListScroll[1][0] + gTrade_abCursorRow[1]];
+    card1 = &gTrade_aSide1WorkingCards[gTrade_aListScroll[1][0] + gTrade_abCursorRow[1]];
     if (D_80185CC8[1] != 0) {
         if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
@@ -521,9 +521,9 @@ player1:
     if ((gInput_wPad1Repeat[1] & 0x900) != 0) {
         SD_SEPlay(47, 255, 0);
         if ((gInput_wPad1Repeat[1] & 0x100) != 0) {
-            D_80185CCC[1] = (D_80185CCC[1] + 5) % 6;
+            gTrade_abSortMode[1] = (gTrade_abSortMode[1] + 5) % 6;
         } else {
-            D_80185CCC[1] = (D_80185CCC[1] + 7) % 6;
+            gTrade_abSortMode[1] = (gTrade_abSortMode[1] + 7) % 6;
         }
         MainMenu_RefreshTradeInventory(1, 0);
     dirty1_label:
@@ -641,7 +641,7 @@ update:
         ((MainMenuWidget *)gTrade_aCardSlots[0].object)->y = gTrade_abCursorRow[0] * 22 + 36;
     }
     if (cursor1 != 0) {
-        ((MainMenuWidget *)gTrade_aCardSlots[1].object)->y = D_80185CCB * 22 + 36;
+        ((MainMenuWidget *)gTrade_aCardSlots[1].object)->y = gTrade_bSide1CursorRow * 22 + 36;
     }
     if (flags != previousFlags) {
         SD_SEPlay(30, 255, 0);

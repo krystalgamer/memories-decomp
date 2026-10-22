@@ -7,6 +7,6 @@ typedef struct {
     s32 (*entries[6])();
 } MainMenuComparators;
 
-extern const MainMenuComparators D_80180004;
+extern const MainMenuComparators gMainMenu_aCardSortComparators;
 
 #endif

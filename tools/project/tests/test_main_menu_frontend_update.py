@@ -33,7 +33,7 @@ WITNESS = r"""
 typedef char ilp32[sizeof(void *) == 4 && sizeof(int) == 4 ? 1 : -1];
 u8 state[10];
 __asm__(".globl gMain_bMenuID\n.set gMain_bMenuID, state\n"
-        ".globl D_80184595\n.set D_80184595, state+1\n"
+        ".globl gMainMenu_bBackRequested\n.set gMainMenu_bBackRequested, state+1\n"
         ".globl gMainMenu_bTransitionMode\n.set gMainMenu_bTransitionMode, state+2\n"
         ".globl gMainMenu_bShadeLevel\n.set gMainMenu_bShadeLevel, state+3\n"
         ".globl gMainMenu_nFadeDirection\n.set gMainMenu_nFadeDirection, state+4\n"
