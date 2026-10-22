@@ -86,6 +86,7 @@
 #include "../psyq/stdarg.h"
 #include "../unmatched.h"
 #include "model_camera_state.h"
+#include "graphics_frame_controls.h"
 
 void Model_StepBackgroundVramAnimation(void) {
     s32 k;
@@ -973,7 +974,7 @@ void Model_UpdateCreditsMonsterSlot(s32 arg0) {
     }
 }
 
-#define ACTIVE_SLOT D_8009AFA4[3]
+#define ACTIVE_SLOT gGraphics_FrameStepControl[3]
 #define MODEL_SLOT_VIEW(slot) ((ModelSlot *)(slot))
 #define MODEL_SLOT_RAW_BYTES(slot) ((u8 *)(slot))
 

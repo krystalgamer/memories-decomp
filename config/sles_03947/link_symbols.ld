@@ -141,3 +141,10 @@ gModel_AnimatedBattleCameraEndpoint = 0x8009BF74;
 D_8009BF74 = gModel_AnimatedBattleCameraEndpoint;
 gModel_ExodiaOrbitOffset = 0x8009BF84;
 D_8009BF84 = gModel_ExodiaOrbitOffset;
+
+gGraphics_FrameStepControl = D_8009AFA4;
+gGraphics_nBaseFrameStep = D_8009B0D8;
+gGraphics_bSkipDisplaySwap = D_8009B0A8;
+gGraphics_pOrderingTable1 = D_800E9D94;
+gGraphics_pOrderingTable2 = D_800E9D98;
+gGraphics_pOrderingTable3 = D_800E9D9C;

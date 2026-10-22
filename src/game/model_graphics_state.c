@@ -3,6 +3,7 @@
 #include "model_background.h"
 #define MODEL_GRAPHICS_STATE_SCENE_BYTES
 #include "model_graphics_state.h"
+#include "graphics_frame_controls.h"
 
 ModelBackgroundRecord *G32 gModel_pBackgroundRecord __attribute__((section(".sdata"))) =
     (ModelBackgroundRecord *)gModel_abBackgroundRecords;
@@ -22,7 +23,7 @@ u8 gModel_bActiveSlotIndex __attribute__((section(".sdata"))) = 0;
 u8 gModelDebug_bSelectedDigit __attribute__((section(".sdata"))) = 0;
 u8 gGraphics_bPacketBufferIndex __attribute__((section(".sdata"))) = 0;
 volatile u8 gGraphics_bFrameStep __attribute__((section(".sdata"))) = 0;
-u8 D_8009AFA4[4] __attribute__((section(".sdata"))) = {1, 0, 0, 0};
+u8 gGraphics_FrameStepControl[4] __attribute__((section(".sdata"))) = {1, 0, 0, 0};
 static u16 sModelGraphicsState_ValueA8
     __attribute__((section(".sdata"))) = 1;
 static u16 sModelGraphicsState_PadAA

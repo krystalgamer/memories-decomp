@@ -2,7 +2,7 @@
  * MenuRecord / DisplayEffectState storage.
  *
  * The final four scale a motion delta by the per-frame step multiplier and do
- * not agree on its width. graphics_frame.h declares D_8009B0D8 once, as s32,
+ * not agree on its width. graphics_frame.h declares gGraphics_nBaseFrameStep once, as s32,
  * and the disagreement is spelled at the use sites: DisplayEffect_FadeInRecord,
  * DisplayEffect_FadeOutRecord and DisplayEffect_CrossfadeResources read it plain, and DisplayEffect_UpdatePortraitTransition reads it
  * `(u16)` twice, which is the halfword load its retail code does. A unit that
@@ -28,6 +28,7 @@
 #include "func_8003AAE4.h"
 #include "func_8003AC48.h"
 #include "display_effect_update_callbacks.h"
+#include "graphics_frame_controls.h"
 
 /* Regional value: the screen sprite's field_40, its CLUT x (0x200 -> 0x280).
  * The European build (src/game/european/) defines its own. */
@@ -155,7 +156,7 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
         p->field_40 = 0;
     }
 
-    v = (u16)p->field_40 + D_8009B0D8 * 8;
+    v = (u16)p->field_40 + gGraphics_nBaseFrameStep * 8;
     p->field_40 = v;
 
     if (p->field_40 >= 0x80) {
@@ -202,7 +203,7 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
         p->field_40 = 0x80;
     }
 
-    t = *(u16 *)&p->field_40 - (D_8009B0D8 << 3);
+    t = *(u16 *)&p->field_40 - (gGraphics_nBaseFrameStep << 3);
     p->field_40 = t;
     u = (s16)t;
     if (u <= 0) {
@@ -261,7 +262,7 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[3], (GsALON | GsATWO), d);
         p->field_40 = 0x80;
     }
-    n = (u16)p->field_40 - D_8009B0D8 * 8;
+    n = (u16)p->field_40 - gGraphics_nBaseFrameStep * 8;
     p->field_40 = n;
     if (n <= 0) {
         p->display_effect_step = 0;
@@ -379,9 +380,9 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     o = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
     o2 = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
     if (record->field_40 != 0) {
-        *(u16 *)&o->field_60 += (u16)D_8009B0D8;
+        *(u16 *)&o->field_60 += (u16)gGraphics_nBaseFrameStep;
     } else {
-        *(u16 *)&o->field_60 -= (u16)D_8009B0D8;
+        *(u16 *)&o->field_60 -= (u16)gGraphics_nBaseFrameStep;
     }
     if (o->field_60 <= 0) {
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;

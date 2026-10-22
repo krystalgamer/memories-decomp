@@ -22,7 +22,7 @@ SOURCE = REPOSITORY / "src/game/model_scene_controllers.c"
 # The credits contract is the unit's preamble, which ends at its first
 # function, plus the credits part from its local views up to Model_StartBattleSlotAction.
 PREAMBLE_END = "void Model_StepBackgroundVramAnimation(void)"
-SOURCE_MARKER = "#define ACTIVE_SLOT D_8009AFA4[3]\n"
+SOURCE_MARKER = "#define ACTIVE_SLOT gGraphics_FrameStepControl[3]\n"
 SOURCE_END = "void Model_StartBattleSlotAction(s32 arg0)"
 START = """
 .text
@@ -47,6 +47,7 @@ WITNESS = r"""
 #include "src/game/model.h"
 #define MODEL_GRAPHICS_STATE_SCENE_BYTES
 #include "src/game/model_graphics_state.h"
+#include "src/game/graphics_frame_controls.h"
 #include "src/game/model_scene_states.h"
 #include "src/game/model_scene_imports.h"
 #include "src/game/high_memory_addresses.h"
@@ -66,7 +67,7 @@ s8 gModel_bPresentationPhase;
 ModelDebugState D_8009B004;
 /* A genuine four-byte allocation, not indexing past a scalar frame override.
    Both implementation owner views resolve to the same linker symbol. */
-u8 D_8009AFA4[4] = {1, 0, 0, 0};
+u8 gGraphics_FrameStepControl[4] = {1, 0, 0, 0};
 s32 D_80010030;
 void *D_80010034;
 u8 gModel_szSuMrgPath[] = "SU";
@@ -79,7 +80,7 @@ static s32 activate_action, animation_action, effect_action, random_action;
 static s32 prelude_phase, poll_action, status_action;
 static u8 sound_data[4];
 
-#define ACTIVE D_8009AFA4[3]
+#define ACTIVE gGraphics_FrameStepControl[3]
 #define FLAGS (D_8009B004.bytes)
 #define CHECK(condition, code) do { if (!(condition)) return (code); } while (0)
 
@@ -103,7 +104,7 @@ static void record(s32 kind, s32 a, s32 b, s32 c, s32 d)
 void Model_SetFrameStepOverride(s32 value)
 {
     record(1, value, 0, 0, 0);
-    D_8009AFA4[0] = value;
+    gGraphics_FrameStepControl[0] = value;
     if (prelude_phase != -99) gModel_bPresentationPhase = prelude_phase;
 }
 
@@ -194,9 +195,9 @@ static void setup(s32 phase, s32 active)
     clear(gModel_aSlots, sizeof(gModel_aSlots));
     clear(events, sizeof(events));
     for (i = 0; i < sizeof(ModelSlot); i++) ((u8 *)&gModel_aSlots[2])[i] = 0xA5;
-    D_8009AFA4[0] = 0x12;
-    D_8009AFA4[1] = 0x34;
-    D_8009AFA4[2] = 0x56;
+    gGraphics_FrameStepControl[0] = 0x12;
+    gGraphics_FrameStepControl[1] = 0x34;
+    gGraphics_FrameStepControl[2] = 0x56;
     ACTIVE = active;
     gModel_bPresentationPhase = phase;
     D_8009B004.word = 0xBBAA0000;
@@ -215,7 +216,7 @@ static s32 invariant(void)
 {
     s32 i;
     if (error || count < 2 || events[0].kind != 1 || events[0].a != 1 ||
-        D_8009AFA4[0] != 1 || D_8009AFA4[1] != 0x34 || D_8009AFA4[2] != 0x56 ||
+        gGraphics_FrameStepControl[0] != 1 || gGraphics_FrameStepControl[1] != 0x34 || gGraphics_FrameStepControl[2] != 0x56 ||
         (D_8009B004.word & 0xFFFF0000) != 0xBBAA0000) return 0;
     for (i = 0; i < sizeof(ModelSlot); i++)
         if (((u8 *)&gModel_aSlots[2])[i] != 0xA5) return 0;
@@ -546,8 +547,8 @@ int main(int argc, char **argv)
 {
     volatile u32 interior_address = (u32)&D_8009AFA6;
     if (sizeof(void *) != 4 || sizeof(long) != 4 ||
-        sizeof(ModelSlot) != 0xE20 || sizeof(D_8009AFA4) != 4 ||
-        interior_address != (u32)&D_8009AFA4[2] || argc != 2) return 110;
+        sizeof(ModelSlot) != 0xE20 || sizeof(gGraphics_FrameStepControl) != 4 ||
+        interior_address != (u32)&gGraphics_FrameStepControl[2] || argc != 2) return 110;
     switch (argv[1][0]) {
     case '0': return initialization();
     case '1': return color_targets();
@@ -612,7 +613,7 @@ class ModelSceneTransitionTests(unittest.TestCase):
             ["cc", "-m32", optimization, "-std=gnu99", "-ffreestanding",
              "-fno-builtin", "-fno-strict-aliasing", "-fno-pie", "-no-pie",
              "-fno-stack-protector", "-nostdlib", f"-I{REPOSITORY}",
-             "-Wl,--defsym,D_8009AFA6=D_8009AFA4+2",
+             "-Wl,--defsym,D_8009AFA6=gGraphics_FrameStepControl+2",
              str(source), str(cls.witness), str(cls.startup), "-o", str(binary)],
             cwd=REPOSITORY, env={**os.environ, "TMPDIR": str(cls.directory)},
             capture_output=True, text=True, timeout=60,

@@ -20,7 +20,7 @@ HEADERS = r"""
 #include "src/game/duel_draw_card_frame.h"
 #include "src/game/duel_draw_card_output_position.h"
 #define ORDERING_TABLE_SLOT2_ARRAY
-#include "src/game/ordering_tables.h"
+#include "src/game/graphics_ordering_table_views.h"
 typedef char ilp32[sizeof(void *) == 4 ? 1 : -1];
 typedef union {
     DisplayObject full;
@@ -37,7 +37,7 @@ typedef struct {
     u8 after[16];
 } GuardedCardCall;
 extern GuardedCardCall guarded;
-#define D_800E9D98 guarded.table_slot
+#define gGraphics_pOrderingTable2 guarded.table_slot
 """
 WITNESS = r"""
 GuardedCardCall guarded, expected;
@@ -136,7 +136,7 @@ class CardFrameTablePointerTests(unittest.TestCase):
         projected = (ROOT / "src/game/duel_field_card_render.c").read_text()
         wrapper = (ROOT / "src/game/duel_card_and_status_draw.c").read_text()
         match = re.search(
-            r"Duel_DrawCardFrame\(\(DisplayObject \*\)card->object, D_800E9D98\[0\], card->screen_x,\n\s*card->screen_y\);",
+            r"Duel_DrawCardFrame\(\(DisplayObject \*\)card->object, gGraphics_pOrderingTable2\[0\], card->screen_x,\n\s*card->screen_y\);",
             projected,
         )
         self.assertIsNotNone(match)
@@ -150,7 +150,7 @@ class CardFrameTablePointerTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 caller, callback = direct, forward
                 if mutation == "wrong-table-slot":
-                    caller = caller.replace("D_800E9D98[0]", "D_800E9D98[1]")
+                    caller = caller.replace("gGraphics_pOrderingTable2[0]", "gGraphics_pOrderingTable2[1]")
                 elif mutation == "unsigned-output-x":
                     callback = callback.replace("object->out_x", "(u16)object->out_x")
                 elif mutation == "wrong-object-view":

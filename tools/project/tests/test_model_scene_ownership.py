@@ -26,7 +26,7 @@ from build_baseline import compile_c, tool
 
 COMPILER = REPOSITORY / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 BYTE_VIEW = "#define MODEL_GRAPHICS_STATE_SCENE_BYTES\n"
-STATE_HEADER = f'#include "{REPOSITORY / "src/game/model_graphics_state.h"}"\n'
+STATE_HEADER = f'#include "{REPOSITORY / "src/game/model_graphics_state.h"}"\n#include "{REPOSITORY / "src/game/graphics_frame_controls.h"}"\n'
 DECLARATIONS = (
     ("model_scene_states.h", "Model_UpdateCreditsMonsterSlot", "void", "s32", "0"),
     (
@@ -175,29 +175,29 @@ class ModelSceneOwnershipTests(unittest.TestCase):
             with self.subTest(prefix=prefix):
                 self.probe(
                     prefix + STATE_HEADER
-                    + "typedef char extent[sizeof(D_8009AFA4) == 1 ? 1 : -1];\n"
-                    "u8 *first = &D_8009AFA4;\nu8 *interior = &D_8009AFA6;\n"
-                    "void checked(void) { D_8009AFA4 = 1; }\n",
+                    + "typedef char extent[sizeof(gGraphics_FrameStepControl) == 1 ? 1 : -1];\n"
+                    "u8 *first = &gGraphics_FrameStepControl;\nu8 *interior = &D_8009AFA6;\n"
+                    "void checked(void) { gGraphics_FrameStepControl = 1; }\n",
                     accepted=True,
                 )
                 self.probe(
                     prefix + STATE_HEADER
-                    + "void checked(void) { D_8009AFA4[3] = 1; }\n",
+                    + "void checked(void) { gGraphics_FrameStepControl[3] = 1; }\n",
                     accepted=False, diagnostic="subscripted value",
                 )
 
     def test_scene_view_has_exact_four_byte_extent(self) -> None:
         self.probe(
             BYTE_VIEW + STATE_HEADER
-            + "typedef char extent[sizeof(D_8009AFA4) == 4 ? 1 : -1];\n"
-            "u8 (*checked)[4] = &D_8009AFA4;\n"
-            "void update(void) { D_8009AFA4[3] ^= 1; }\n",
+            + "typedef char extent[sizeof(gGraphics_FrameStepControl) == 4 ? 1 : -1];\n"
+            "u8 (*checked)[4] = &gGraphics_FrameStepControl;\n"
+            "void update(void) { gGraphics_FrameStepControl[3] ^= 1; }\n",
             accepted=True,
         )
         for body, diagnostic in (
-            ("u8 (*checked)[1] = &D_8009AFA4;\n", "incompatible pointer type"),
-            ("extern u8 D_8009AFA4[1];\n", "conflicting types"),
-            ("void checked(void) { D_8009AFA4 = 1; }\n", "incompatible types"),
+            ("u8 (*checked)[1] = &gGraphics_FrameStepControl;\n", "incompatible pointer type"),
+            ("extern u8 gGraphics_FrameStepControl[1];\n", "conflicting types"),
+            ("void checked(void) { gGraphics_FrameStepControl = 1; }\n", "incompatible types"),
         ):
             with self.subTest(body=body):
                 self.probe(
@@ -214,12 +214,12 @@ class ModelSceneOwnershipTests(unittest.TestCase):
     def test_scalar_backing_cannot_satisfy_the_array_owner(self) -> None:
         self.probe(
             BYTE_VIEW + STATE_HEADER
-            + 'u8 D_8009AFA4 __attribute__((section(".sdata"))) = 1;\n',
+            + 'u8 gGraphics_FrameStepControl __attribute__((section(".sdata"))) = 1;\n',
             accepted=False, diagnostic="conflicting types",
         )
         self.probe(
             BYTE_VIEW + STATE_HEADER
-            + 'u8 D_8009AFA4[4] __attribute__((section(".sdata"))) = {1, 0, 0, 0};\n',
+            + 'u8 gGraphics_FrameStepControl[4] __attribute__((section(".sdata"))) = {1, 0, 0, 0};\n',
             accepted=True,
         )
 
@@ -236,8 +236,8 @@ class ModelSceneOwnershipTests(unittest.TestCase):
         path.write_text(
             BYTE_VIEW + STATE_HEADER
             + f'#include "{REPOSITORY / "src/game/high_memory_addresses.h"}"\n'
-            "u8 read_slot(void) { return D_8009AFA4[3]; }\n"
-            "void write_slot(u8 slot) { D_8009AFA4[3] = slot; }\n"
+            "u8 read_slot(void) { return gGraphics_FrameStepControl[3]; }\n"
+            "void write_slot(u8 slot) { gGraphics_FrameStepControl[3] = slot; }\n"
             "s32 transfer_word(void) { return D_80010030; }\n"
             "void *data_word(void) { return D_80010034; }\n"
         )
@@ -246,7 +246,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertRegex(result.stdout, r"lbu\s+v0,3\(gp\)")
         self.assertRegex(result.stdout, r"sb\s+a0,3\(gp\)")
-        self.assertEqual(result.stdout.count("R_MIPS_GPREL16\tD_8009AFA4"), 2)
+        self.assertEqual(result.stdout.count("R_MIPS_GPREL16\tgGraphics_FrameStepControl"), 2)
         for symbol in ("D_80010030", "D_80010034"):
             self.assertIn("R_MIPS_HI16\t" + symbol, result.stdout)
             self.assertIn("R_MIPS_LO16\t" + symbol, result.stdout)
@@ -260,7 +260,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
                 path = self.scratch / "scalar.c"
                 path.write_text(
                     prefix + STATE_HEADER
-                    + "u8 checked(void) { return D_8009AFA4; }\n"
+                    + "u8 checked(void) { return gGraphics_FrameStepControl; }\n"
                 )
                 obj = self.build_object(path, "scalar")
                 result = self.run_command([
@@ -268,11 +268,11 @@ class ModelSceneOwnershipTests(unittest.TestCase):
                 ])
                 self.assertEqual(result.returncode, 0, result.stderr)
                 if absolute:
-                    self.assertRegex(result.stdout, r"R_MIPS_HI16\s+D_8009AFA4")
-                    self.assertRegex(result.stdout, r"R_MIPS_LO16\s+D_8009AFA4")
+                    self.assertRegex(result.stdout, r"R_MIPS_HI16\s+gGraphics_FrameStepControl")
+                    self.assertRegex(result.stdout, r"R_MIPS_LO16\s+gGraphics_FrameStepControl")
                     self.assertNotIn("R_MIPS_GPREL16", result.stdout)
                 else:
-                    self.assertRegex(result.stdout, r"R_MIPS_GPREL16\s+D_8009AFA4")
+                    self.assertRegex(result.stdout, r"R_MIPS_GPREL16\s+gGraphics_FrameStepControl")
 
     def test_real_storage_extent_initial_bytes_and_interior_link_identity(self) -> None:
         owner = REPOSITORY / "src/game/model_graphics_state.c"
@@ -280,7 +280,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
         obj = self.build_object(owner, "state")
         symbols = self.run_command([str(tool(REPOSITORY, "objdump")), "-t", str(obj)])
         self.assertEqual(symbols.returncode, 0, symbols.stderr)
-        self.assertRegex(symbols.stdout, r"0000001c g\s+\.sdata\s+\w+ D_8009AFA4")
+        self.assertRegex(symbols.stdout, r"0000001c g\s+\.sdata\s+\w+ gGraphics_FrameStepControl")
         self.assertRegex(
             symbols.stdout, r"00000020 l\s+\.sdata\s+\w+ sModelGraphicsState_ValueA8",
         )
@@ -289,7 +289,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
         script = self.scratch / "storage.ld"
         script.write_text(
             "gModel_abBackgroundRecords = 0x80091008;\n"
-            "D_8009AFA6 = D_8009AFA4 + 2;\n"
+            "D_8009AFA6 = gGraphics_FrameStepControl + 2;\n"
             "SECTIONS { .sdata 0x8009AF88 : { *(.sdata) } }\n"
         )
         elf = self.scratch / "storage.elf"
@@ -299,7 +299,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
         self.assertEqual(linked.returncode, 0, linked.stderr)
         names = self.run_command([str(tool(REPOSITORY, "nm")), "-n", str(elf)])
         self.assertEqual(names.returncode, 0, names.stderr)
-        for symbol, address in (("D_8009AFA4", "8009afa4"), ("D_8009AFA6", "8009afa6")):
+        for symbol, address in (("gGraphics_FrameStepControl", "8009afa4"), ("D_8009AFA6", "8009afa6")):
             self.assertRegex(names.stdout, address + r" [A-Za-z] " + symbol)
         binary = self.scratch / "storage.bin"
         copied = self.run_command([

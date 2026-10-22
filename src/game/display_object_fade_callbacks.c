@@ -8,6 +8,7 @@
 #include "func_80039B3C.h"
 #include "display_object_fade_callbacks.h"
 #include "duel_effect_entry_occupancy.h"
+#include "graphics_frame_controls.h"
 
 #define DUEL_EFFECT_FIELD_04_WORD(type, object) \
     (*(type *)&(object)->field_04)
@@ -175,11 +176,11 @@ void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
         EU_ENTRY(record)->field_14 = 16;
     }
     EU_ENTRY(record)->field_14 =
-        EU_ENTRY(record)->field_14 - *(u8 *)&D_8009B0D8;
+        EU_ENTRY(record)->field_14 - *(u8 *)&gGraphics_nBaseFrameStep;
     if ((EU_ENTRY(record)->field_13 &
          DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE) == 0) {
         EU_ENTRY(record)->field_04 =
-            EU_ENTRY(record)->field_04 + D_8009B0D8 * 16;
+            EU_ENTRY(record)->field_04 + gGraphics_nBaseFrameStep * 16;
         if ((s8)EU_ENTRY(record)->field_04 < 0) {
             EU_ENTRY(record)->field_04 = 128;
             EU_ENTRY(record)->field_14 = 8;
@@ -189,7 +190,7 @@ void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
         EU_ENTRY(record)->field_06 = EU_ENTRY(record)->field_04;
     } else {
         EU_ENTRY(record)->field_05 =
-            EU_ENTRY(record)->field_05 + D_8009B0D8 * 16;
+            EU_ENTRY(record)->field_05 + gGraphics_nBaseFrameStep * 16;
         if ((s8)EU_ENTRY(record)->field_05 < 0) {
             EU_ENTRY(record)->field_14 = 0;
             EU_ENTRY(record)->field_15 = 0;
@@ -206,9 +207,9 @@ void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
         DUEL_EFFECT_FIELD_04_WORD(s32, record) = 0;
         record->field_14 = 32;
     }
-    record->field_14 = record->field_14 - D_8009B0D8 * 2;
+    record->field_14 = record->field_14 - gGraphics_nBaseFrameStep * 2;
     if ((record->field_13 & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE) == 0) {
-        record->field_04 = record->field_04 + D_8009B0D8 * 16;
+        record->field_04 = record->field_04 + gGraphics_nBaseFrameStep * 16;
         if ((s8)record->field_04 < 0) {
             record->field_04 = 128;
             record->field_14 = 16;
@@ -216,7 +217,7 @@ void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record)
         }
         record->field_06 = record->field_04;
     } else {
-        record->field_05 = record->field_05 + D_8009B0D8 * 16;
+        record->field_05 = record->field_05 + gGraphics_nBaseFrameStep * 16;
         if ((s8)record->field_05 < 0) {
             record->field_14 = 0;
             record->field_15 = 0;
@@ -236,7 +237,7 @@ void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
     s32 v;
 
     /* The European entry sets field_04 as two halfwords, and the fade
-       steps by D_8009B0D8 * 24 where the US build steps by * 16. */
+       steps by gGraphics_nBaseFrameStep * 24 where the US build steps by * 16. */
     if (!DisplayObjectFade_MarkInitialized(p)) {
         EU_ENTRY(p)->field_15 = 2;
         *(u16 *)&EU_ENTRY(p)->field_04 = 0x8080;
@@ -245,7 +246,7 @@ void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
     }
     if (!(EU_ENTRY(p)->field_13 & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
         v = EU_ENTRY(p)->field_04;
-        v -= D_8009B0D8 * 24;
+        v -= gGraphics_nBaseFrameStep * 24;
         if (v <= 0) {
             EU_ENTRY(p)->field_13 |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
             v = 0;
@@ -254,7 +255,7 @@ void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
         EU_ENTRY(p)->field_05 = v;
     } else {
         v = EU_ENTRY(p)->field_06;
-        v -= D_8009B0D8 * 24;
+        v -= gGraphics_nBaseFrameStep * 24;
         if (v <= 0) {
             DisplayObjectFade_ReleaseChannel(p);
             v = 0;
@@ -274,7 +275,7 @@ void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
         p->field_14 = 0;
     }
     if (!(p->field_13 & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
-        v = p->field_04 - (D_8009B0D8 << 4);
+        v = p->field_04 - (gGraphics_nBaseFrameStep << 4);
         if (v <= 0) {
             p->field_13 |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
             v = 0;
@@ -282,7 +283,7 @@ void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *p)
         p->field_04 = v;
         p->field_05 = v;
     } else {
-        v = p->field_06 - (D_8009B0D8 << 4);
+        v = p->field_06 - (gGraphics_nBaseFrameStep << 4);
         if (v <= 0) {
             DisplayObjectFade_ReleaseChannel(p);
             v = 0;
