@@ -911,7 +911,7 @@ address,size,name,status,module,notes
 0x8004F580,0x94,Model_RefreshEffectKeySlotValues,matching_c,game,
 0x8004F614,0x58,Model_BuildCubicCoefficients,matching_c,game,
 0x8004F66C,0x338,CardList_RenderDeckBoxStats,matching_c,game,
-0x8004F9A4,0x198,func_80060E70,matching_c,game,
+0x8004F9A4,0x198,CardList_BuildRowSetTextBoxes,matching_c,game,
 0x8004FB3C,0xD0,CardList_CreateDeckBoxStatRows,matching_c,game,
 0x8004FC0C,0xF0,MainMenu_CreateTradeReadyIndicator,matching_c,game,
 0x8004FCFC,0xF0,MainMenu_CreateTradeDecisionMenu,matching_c,game,

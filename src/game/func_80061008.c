@@ -6,6 +6,7 @@
 #include "card_list_render_deck_box_stats.h"
 #include "card_list_rows.h"
 #include "func_80061008.h"
+#include "card_list_row_text.h"
 
 /* Keep symbolic usage evidence while preserving the literal-address codegen.
    A regional build supplies its own addresses and row bias. */
@@ -19,7 +20,7 @@
 
 void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1)
 {
-    CardListRowSet *record = D_801A8000;
+    CardListRowSet *record = gCardList_aRowSets;
     DisplayObject *object;
     s32 i = 0;
 

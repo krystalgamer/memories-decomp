@@ -101,3 +101,7 @@ gGraphics_pOrderingTable3 = D_800E9D9C;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
+
+func_80060E70 = CardList_BuildRowSetTextBoxes;
+gCardList_aRowSets = D_801A8000;
+gCardList_SortIconTable = D_80090DD8;

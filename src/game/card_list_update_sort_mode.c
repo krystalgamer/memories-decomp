@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "card_type_icon_table.h"
 #include "card_list_update_sort_mode.h"
+#include "card_list_sort_icons.h"
 
 void CardList_UpdateSortMode(CardList *a0) {
     int a1;
@@ -11,7 +12,7 @@ void CardList_UpdateSortMode(CardList *a0) {
     v1 = a0->sort_choice;
     a1 = a1 << 4;
     v1 = v1 << 1;
-    p = D_80090DD8 + v1;
+    p = gCardList_SortIconTable + v1;
     v0 = p[a1 + 1];
     v0 = v0 & 0xf;
     a0->sort_mode = v0;

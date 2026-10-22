@@ -10,6 +10,8 @@
 #include "duel_card.h"
 #include "card_list_render_deck_box_stats.h"
 #include "card_list_rows.h"
+#include "card_list_row_text.h"
+#include "card_list_sort_icons.h"
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
@@ -34,9 +36,9 @@
 
 /* Draws a deck box's six type-count digits and its seven card stat rows
    as 16x16 and 8x8 sprites into the ordering table. The glyph table
-   D_80090DD8 gives the u/v and page bits of each type icon; the selected
+   gCardList_SortIconTable gives the u/v and page bits of each type icon; the selected
    icon (byte +0x69) is drawn bright. For each card entry of the box
-   record (D_801A8000, 24 bytes per box) that names a monster, the attack
+   record (gCardList_aRowSets, 24 bytes per box) that names a monster, the attack
    and defence from gDuel_adwCardStats are rendered as four decimal digits
    each (through Text_EncodeDecimalDigits), dimmed when the entry's high
    bit is set. */
@@ -53,9 +55,9 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
     s32 id;
     u8 d;
 
-    tbl = D_80090DD8;
+    tbl = gCardList_SortIconTable;
     sp = (GsSPRITE *)0x1F800320;
-    rec = &D_801A8000[obj->field_6A];
+    rec = &gCardList_aRowSets[obj->field_6A];
     pri = *(s16 *)&obj->field_14;
     sp->attribute = obj->attribute;
     sp->tpage = 0xB;

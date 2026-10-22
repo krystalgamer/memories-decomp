@@ -9,6 +9,7 @@
 #include "text_constants.h"
 #include "duel_card.h"
 #include "text_staging.h"
+#include "card_list_row_text.h"
 
 #ifndef CARD_LIST_FOLLOWING_FLAG
 #define CARD_LIST_FOLLOWING_FLAG 0x40
@@ -25,7 +26,7 @@
  * rebuilt on each pass, as retail does, rather than hoisting it into $fp;
  * that register goes to the staging pointer instead. The European body uses
  * an incremented staging cursor so both stores share one split address. */
-void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
+void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 {
     CardListRowSet *s;
     DuelEffectChannel *box;
@@ -44,7 +45,7 @@ void func_80060E70(u16 *e, s32 idx, s32 flag, s32 ignored)
     s32 empty_color;
 #endif
 
-    s = &D_801A8000[idx];
+    s = &gCardList_aRowSets[idx];
     base = 0x18;
     s->enabled = flag;
     s->object->field_68 = flag;
