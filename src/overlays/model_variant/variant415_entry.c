@@ -296,7 +296,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             func_8013CB18((u8 *)point);
         }
         if (work->config->timings[work->start_index] <= work->frame) {
-            func_8013BDB0((u8 *)point);
+            func_8013BDB0((Variant415EntryRibbon *)point);
         }
         if (work->config->timings[0] <= work->frame) {
             func_8013C6A0((u8 *)point);
