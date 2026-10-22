@@ -504,7 +504,7 @@ extern s16 gDisplayObject_awListKeys[DISPLAY_OBJECT_LIST_COUNT];
 extern DisplayObject gDisplayObject_aPool[DISPLAY_OBJECT_POOL_CAPACITY];
 /* &gDisplayObject_aPool[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the
  * same pool, which DisplayObject_FindFreeGeneralSlot scans. */
-extern DisplayObject tent_DisplayObjectGeneralSlots[
+extern DisplayObject gDisplayObject_aGeneralSlots[
     DISPLAY_OBJECT_POOL_CAPACITY - DISPLAY_OBJECT_RESERVED_CAPACITY
 ];
 
