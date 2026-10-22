@@ -1,10 +1,9 @@
 /* The first of the two steps of the camera-relative model transform.
  *
  * Model_UpdateViewMetrics recomputes the cached distance, yaw and pitch of
- * the current view. The second step, func_800580D4, now a candidate in
- * src/candidates/func_800580D4.c, is the only thing that consumes the two
- * angles it produces, turning them plus one model slot's coordinate unit
- * into the transform its caller asked for.
+ * the current view. Model_BuildViewRelativeCoordinateUnit combines those
+ * angles with a selected coordinate entry, retaining its slot-zero rotation
+ * reads and lifetime-sensitive automatic parent link.
  *
  * The view is a GsRVIEW2 and the six offsets read here are its members:
  * 0x00, 0x04 and 0x08 are vpx, vpy and vpz, 0x0C, 0x10 and 0x14 are vrx,
@@ -31,6 +30,7 @@
 #include "../psyq/libhmd.h"
 #include "../psyq/memory.h"
 #include "model.h"
+#include "model_view_coordinate_helpers.h"
 
 void Model_UpdateViewMetrics(GsRVIEW2 *m) {
     GsRVIEW2 *b;
@@ -86,7 +86,7 @@ static __inline__ void build_work_matrix(SVECTOR *rotation, MATRIX *work)
     RotMatrix_gte(rotation, work);
 }
 
-void func_800580D4(s32 index, s32 arg1, SVECTOR *arg2, GsCOORDUNIT *arg3)
+void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 arg1, SVECTOR *arg2, GsCOORDUNIT *arg3)
 {
     GsCOORDUNIT unit;
     SVECTOR ang;

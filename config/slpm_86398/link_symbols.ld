@@ -98,3 +98,6 @@ gGraphics_bSkipDisplaySwap = gJapanese_D_8009B0A8;
 gGraphics_pOrderingTable1 = 0x800E9C74;
 gGraphics_pOrderingTable2 = D_800E9D98;
 gGraphics_pOrderingTable3 = D_800E9D9C;
+
+func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
+func_80059B90 = Model_GetSlot0OffsetWorldPosition;

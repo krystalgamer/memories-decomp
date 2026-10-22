@@ -2410,3 +2410,7 @@ Model_DrawSharedTwoSidedSemiGt4Primitives = 0x800695A4; // type:func size:0x2E8
 Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives = 0x8006988C; // type:func size:0x2B4
 
 Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives = 0x80069B40; // type:func size:0x304
+
+Model_BuildViewRelativeCoordinateUnit = 0x800580D4; // type:func size:0x1EC
+
+Model_GetSlot0OffsetWorldPosition = 0x80059B90; // type:func size:0x88

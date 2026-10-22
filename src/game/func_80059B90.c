@@ -5,13 +5,14 @@
 #include "../psyq/libhmd.h"
 #include "../psyq/memory.h"
 #include "model_update_view_metrics.h"
+#include "model_view_coordinate_helpers.h"
 
 #define HMD_COORD_UNIT_OFFSET sizeof(SVECTOR)
 #define HMD_MATRIX_OFFSET \
     (HMD_COORD_UNIT_OFFSET + sizeof(GsCOORDUNIT))
 #define HMD_SCRATCH_SIZE (HMD_MATRIX_OFFSET + sizeof(MATRIX))
 
-void func_80059B90(s16 value, s16 *out)
+void Model_GetSlot0OffsetWorldPosition(s16 value, s16 *out)
 {
     /* One block preserves the retail SVECTOR/GsCOORDUNIT/MATRIX stack order. */
     u8 scratch[HMD_SCRATCH_SIZE];
@@ -19,7 +20,7 @@ void func_80059B90(s16 value, s16 *out)
 
     memset(scratch, 0, sizeof(SVECTOR));
     ((SVECTOR *)scratch)->vx = value;
-    func_800580D4(
+    Model_BuildViewRelativeCoordinateUnit(
         0,
         15,
         (SVECTOR *)scratch,
