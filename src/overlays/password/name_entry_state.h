@@ -41,17 +41,21 @@
  * to s32 before arithmetic and did not use its pointee type. The merged source
  * therefore keeps the evidence-backed declarations in module_state.h.
  */
-/* Four more of the same family, each with exactly one reader or writer in
- * the image and each declared privately until now.
+/* Four more of the same family, each declared privately until now.
  *
- *   D_8016D403  Cleared to 0 by the name-entry reset in
- *               name_entry_runtime.c. Nothing else touches it.
+ *   gNameEntry_bGlyphVramSlot  Cleared to 0 by the name-entry reset in
+ *               name_entry_runtime.c; the Japanese NameEntry_SpawnGlyphSprite
+ *               uses it to pick one of sixteen gNameEntry_aGlyphVramRects and
+ *               then advances it modulo 16.
  *   D_8016D41C  Cleared to 0 by the dialog teardown in
  *               name_entry_dialog.c. Nothing else touches it.
- *   D_8016D4D0  Set to 2 by the same reset in name_entry_runtime.c.
- *   D_8016D4D4  A flag word, and the only one of the four with more than a
- *               single site: func_8016913C tests 0x4000, clears it with
- *               `&= 0xBFFF` and raises it again with `|= 0x4000`.
+ *   gNameEntry_bCharacterSet  The keyboard character set: the reset sets 2
+ *               (0 in the Japanese build), and the Japanese mode key cycles it
+ *               through 0, 1 and 2, rebuilding the keyboard each time.
+ *   gNameEntry_wSelectionFrameFlags  Bit 0x4000 marks the selection-frame
+ *               tween in progress: NameEntry_UpdateKeyboard raises it when it
+ *               starts a move, steps the frame while it is set and clears it
+ *               with `&= 0xBFFF` when the eight-step tween ends.
  *
  * The first three were ALSO declared in the func_8016913C candidate, which
  * never named them anywhere else -- dead declarations rather than a second

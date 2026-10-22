@@ -54,7 +54,7 @@ to remain exactly `0x190` bytes; data after `0x8016D590` remains raw.
 matching C and stored candidates preserve their original relocations.
 `password_linker_symbols.txt` maps each historical interior name to an offset
 from `gPassword_ModuleState`, allowing generated unmatched assembly to keep
-using names such as `D_8016D400` and `D_8016D4D4` without creating duplicate
+using names such as `D_8016D400` and `gNameEntry_wSelectionFrameFlags` without creating duplicate
 storage owners.
 
 ## Password-shop lifecycle translation unit

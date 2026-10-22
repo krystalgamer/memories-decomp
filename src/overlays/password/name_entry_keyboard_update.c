@@ -76,7 +76,7 @@ void NameEntry_UpdateKeyboard(void)
     s32 d;
 
     w = gNameEntry_pSelectionFrame;
-    if ((D_8016D4D4 & 0x4000) != 0) {
+    if ((gNameEntry_wSelectionFrameFlags & 0x4000) != 0) {
         home = w->width - 16;
         work = w->widthBonus - home;
         if (work != 0) {
@@ -90,7 +90,7 @@ void NameEntry_UpdateKeyboard(void)
         w->width = w->widthBonus + 16;
         w->x = gNameEntry_wCursorTargetX;
         w->y = gNameEntry_wCursorTargetY;
-        D_8016D4D4 &= 0xBFFF;
+        gNameEntry_wSelectionFrameFlags &= 0xBFFF;
     }
     if ((gInput_wPad1Held & PAD_DIRECTION_MASK) != 0) {
         if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
@@ -197,7 +197,7 @@ tail47:
     w->timer = 8;
     w->stepX = ((gNameEntry_wCursorTargetX - w->x) << 8) / 8;
     w->stepY = ((gNameEntry_wCursorTargetY - w->y) << 8) / 8;
-    D_8016D4D4 |= 0x4000;
+    gNameEntry_wSelectionFrameFlags |= 0x4000;
     return;
 
 alt800:
@@ -254,7 +254,7 @@ select:
         SD_SEPlayFull(n);
     }
     if (work >= 0) {
-        object = D_8016D290[work];
+        object = gNameEntry_apKeySprites[work];
         object->field_6C = 1;
         object->update = (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
         object->field_4C = 0;
@@ -307,12 +307,12 @@ select:
     goto arme;
 arm2:
     /* The Japanese keyboard's mode key: it cycles the character set
-     * D_8016D4D0 through 0, 1 and 2 and rebuilds the keyboard for it. */
-    D_8016D4D0++;
-    if (D_8016D4D0 >= 3) {
-        D_8016D4D0 = 0;
+     * gNameEntry_bCharacterSet through 0, 1 and 2 and rebuilds the keyboard for it. */
+    gNameEntry_bCharacterSet++;
+    if (gNameEntry_bCharacterSet >= 3) {
+        gNameEntry_bCharacterSet = 0;
     }
-    NameEntry_BuildKeyboardTextBox(D_8016D4D0);
+    NameEntry_BuildKeyboardTextBox(gNameEntry_bCharacterSet);
     work = 2;
     SD_SEPlayFull(7);
     goto join;

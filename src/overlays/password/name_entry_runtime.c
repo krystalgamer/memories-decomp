@@ -151,7 +151,7 @@ void NameEntry_Init(void)
     SD_BGMPlay(28688);
     DisplayObject_Reset();
     D_8016D400 = 0;
-    D_8016D403 = 0;
+    gNameEntry_bGlyphVramSlot = 0;
     gNameEntry_bGlyphSequence = 0;
     gNameEntry_pNameBuffer = gSaveData_aPlayerNameSjis;
     Text_SjisToGlyphCodes(D_801B125A, gSaveData_aPlayerNameSjis,
@@ -180,19 +180,19 @@ void NameEntry_Init(void)
         DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1),
         202, 169, 16, 16, 104, 88, 22, 640, 226);
     obj->attribute |= 0x1000000;
-    D_8016D290[0] = obj;
+    gNameEntry_apKeySprites[0] = obj;
 
     obj = DisplayObject_ConfigureScreenSprite(
         DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1),
         222, 169, 16, 16, 104, 112, 22, 640, 226);
     obj->attribute |= 0x1000000;
-    D_8016D290[1] = obj;
+    gNameEntry_apKeySprites[1] = obj;
 
     obj = DisplayObject_ConfigureScreenSprite(
         DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1),
         265, 170, 32, 16, 88, D_8009C02B << 4, 22, 640, 226);
     obj->attribute |= 0x1000000;
-    D_8016D290[2] = obj;
+    gNameEntry_apKeySprites[2] = obj;
 #else
     sprite = TextBox_Create(0, 243, 262, 60, 100, 100);
     sprite->field_5A = 20;
@@ -200,10 +200,10 @@ void NameEntry_Init(void)
     func_80039A14((struct DuelEffectChannel *)sprite);
 #endif
 #ifdef VERSION_JAPAN
-    D_8016D4D0 = 0;
+    gNameEntry_bCharacterSet = 0;
     NameEntry_BuildKeyboardTextBox(0);
 #else
-    D_8016D4D0 = 2;
+    gNameEntry_bCharacterSet = 2;
     NameEntry_BuildKeyboardTextBox(2);
 #endif
     gNameEntry_bSavedRow = 0;
@@ -560,7 +560,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
 /* The Japanese build has no Shift-JIS lookup: the node's glyph byte picks a
  * 4x16 cell of the font page, MoveImage copies it into one of sixteen VRAM
  * slots in turn, and the sprite samples that slot. */
-extern RECT D_8016D158[];
+extern RECT gNameEntry_aGlyphVramRects[];
 
 void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
 {
@@ -571,7 +571,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
 
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     if (w != 0) {
-        r = &D_8016D158[D_8016D403];
+        r = &gNameEntry_aGlyphVramRects[gNameEntry_bGlyphVramSlot];
         c = gNameEntry_bGlyphSequence;
         r->x = ((w->field_10 & 0xF) << 2) + 0x280;
         r->y = w->field_10 & 0xF0;
@@ -579,7 +579,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         r->h = 16;
         MoveImage(r, ((c & 0xF) << 2) | 0x240, (c & 0xF0) | 0x100);
         p = &((NAME_ENTRY_SPAWN_CHANNEL_TYPE *)D_800EB0F8)[slot];
-        D_8016D403 = (D_8016D403 + 1) & 0xF;
+        gNameEntry_bGlyphVramSlot = (gNameEntry_bGlyphVramSlot + 1) & 0xF;
         DisplayObject_ConfigureScreenSprite(
             obj, p->field_3C + w->x_0C, p->field_40 + w->y_0E,
             16, 16, (gNameEntry_bGlyphSequence & 0xF) << 4, gNameEntry_bGlyphSequence & 0xF0, 25, 0x210, 0xFF

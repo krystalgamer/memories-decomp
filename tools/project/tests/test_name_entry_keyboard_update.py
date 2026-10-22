@@ -46,7 +46,7 @@ __asm__(".globl D_8016D400\n.set D_8016D400, gPassword_ModuleState\n"
         ".globl gNameEntry_bCaretPos\n.set gNameEntry_bCaretPos, gPassword_ModuleState+0x2C\n"
         ".globl gNameEntry_wCursorTargetX\n.set gNameEntry_wCursorTargetX, gPassword_ModuleState+0x34\n"
         ".globl gNameEntry_wCursorTargetY\n.set gNameEntry_wCursorTargetY, gPassword_ModuleState+0x36\n"
-        ".globl D_8016D4D4\n.set D_8016D4D4, gPassword_ModuleState+0xD4\n");
+        ".globl gNameEntry_wSelectionFrameFlags\n.set gNameEntry_wSelectionFrameFlags, gPassword_ModuleState+0xD4\n");
 volatile u16 gInput_wPad1Held, gInput_wPad1Repeat, gInput_wPad1Pressed;
 s8 gNameEntry_aKeyboardCells[9][15];
 u8 gNameEntry_aRowLinks[9][2];
