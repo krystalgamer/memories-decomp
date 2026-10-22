@@ -125,3 +125,6 @@ func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
 
 func_8002C570 = Library_CheckCardInChest;
 gSaveData_Workspace = D_801D0000;
+
+func_8002C400 = CardGrid_GetColumnX;
+func_8002C484 = CardGrid_GetRowY;

@@ -269,8 +269,8 @@ address,size,name,status,module,notes
 0x8002BE90,0x28C,Library_LoadPackageStage,matching_c,game,Shared European C at 0x8002BD4C; French text/rodata relocations and complete executable SHA-256 verified.
 0x8002C11C,0x90,Library_MarkOwnedCards,matching_c,game,Shared European C at 0x8002BFD8; French relocations and complete executable SHA-256 verified.
 0x8002C1AC,0x428,Library_InitializeScreen,matching_c,game,Shared European C at 0x8002C068; French relocations and complete executable SHA-256 verified.
-0x8002C5D4,0x84,func_8002C400,matching_c,game,"Shared European C at 0x8002C490; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
-0x8002C658,0x58,func_8002C484,matching_c,game,"Shared European C at 0x8002C514; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8002C5D4,0x84,CardGrid_GetColumnX,matching_c,game,"Shared European C at 0x8002C490; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
+0x8002C658,0x58,CardGrid_GetRowY,matching_c,game,"Shared European C at 0x8002C514; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x8002C6B0,0x3C,Duel_FindPlayerDeckCard,matching_c,game,Shared European C at 0x8002C56C; French relocations and complete executable SHA-256 verified.
 0x8002C6EC,0x48,Library_CheckCardOwned,matching_c,game,Shared European C at 0x8002C5A8; French relocations and complete executable SHA-256 verified.
 0x8002C734,0x8,func_8002C560,matching_c,game,Shared Spanish C at 0x8002C734; identity verified by complete group or existing caller/callee bindings; complete French executable SHA-256 verified.

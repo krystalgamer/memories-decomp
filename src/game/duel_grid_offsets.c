@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_card.h"
+#include "card_grid_coordinates.h"
 
 /* Neither helper has a caller the static tools can find: no C call, no jal
    and no stored pointer in the executable or any extracted DATA file. A
@@ -8,7 +9,7 @@
    monster's 3-D view, and Build Deck, so those screens are ruled out; a duel
    and the Free Duel opponent grid were not visited. */
 
-s32 func_8002C400(s32 value)
+s32 CardGrid_GetColumnX(s32 value)
 {
     if (value >= DUEL_FIELD_SIDE_ZONE_COUNT) {
         return (value % DUEL_FIELD_SIDE_ZONE_COUNT) * 14 + 174;
@@ -16,7 +17,7 @@ s32 func_8002C400(s32 value)
     return (value % DUEL_FIELD_SIDE_ZONE_COUNT) * 14 + 14;
 }
 
-s32 func_8002C484(s32 value)
+s32 CardGrid_GetRowY(s32 value)
 {
     s32 quotient = value / DUEL_FIELD_SIDE_ZONE_COUNT;
 
