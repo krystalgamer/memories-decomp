@@ -38,7 +38,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010024,gModel_Slot0VariantDataAddress,gModel_Slot0VariantDataAddress,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_scene_controllers.c,read,32,"first(gModel_Slot0VariantDataAddress, 0); | if (first(gModel_Slot0VariantDataAddress, -1) == 2) {"
 0x80010028,gModel_Slot1VariantDataAddress,gModel_Slot1VariantDataAddress,0x8004CB0C,Model_InitSlot,matching_c,game,C,src/game/model_init_slot.c,read,32,base->field_DEC = gModel_Slot1VariantDataAddress;
 0x80010028,gModel_Slot1VariantDataAddress,gModel_Slot1VariantDataAddress,0x8004FE2C,Model_UpdateExodiaPresentation,matching_c,game,C,src/game/model_scene_controllers.c,read,32,"if (second(gModel_Slot1VariantDataAddress, -1) == 2) { | second(gModel_Slot1VariantDataAddress, 0);"
-0x8001002C,D_8001002C,D_8001002C,0x8005B64C,MainMenu_LoadPackageStage,matching_c,game,C,src/game/main_menu_load_package_stage.c,read,32,object->value_08 = D_8001002C; | object->value_0C = D_8001002C;
+0x8001002C,gMainMenu_dwSuModuleBase,gMainMenu_dwSuModuleBase,0x8005B64C,MainMenu_LoadPackageStage,matching_c,game,C,src/game/main_menu_load_package_stage.c,read,32,object->value_08 = gMainMenu_dwSuModuleBase; | object->value_0C = gMainMenu_dwSuModuleBase;
 0x80010030,D_80010030,D_80010030,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_scene_controllers.c,read,32,"16, 0, 0, D_80010030);"
 0x80010034,D_80010034,D_80010034,0x800507D0,Model_UpdateCreditsPresentation,matching_c,game,C,src/game/model_scene_controllers.c,read,,SD_SetMusicTrackBuffer((u16 *)D_80010034);
 0x80010038,gFile_szPositionFormat,gFile_szPositionFormat,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,8,"printf((const char *)gFile_szPositionFormat, current, *position);"
@@ -230,7 +230,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF54,gDebugMenu_szLineBreak,gDebugMenu_szLineBreak,0x80030294,DebugMenu_UpdateValueEditor,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,FntPrint(gDebugMenu_szLineBreak);
 0x8009AF54,gDebugMenu_szLineBreak,gDebugMenu_szLineBreak,0x80031084,DebugMenu_Update,matching_c,game,C,src/game/debug_menu_update.c,address,8,FntPrint(gDebugMenu_szLineBreak);
 0x8009AF58,gDebugMenu_szStringLineFormat,gDebugMenu_szStringLineFormat,0x80030294,DebugMenu_UpdateValueEditor,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"FntPrint(gDebugMenu_szStringLineFormat, gDebug_szEditorCaretLine);"
-0x8009AF5C,D_8009AF5C,D_8009AF5C,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_screen.c,read,8,*(OptionsLayoutPositionBlock *)D_8009AF5C;
+0x8009AF5C,gOptions_SelectionRowPositions,gOptions_SelectionRowPositions,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_screen.c,read,8,*(OptionsLayoutPositionBlock *)gOptions_SelectionRowPositions;
 0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CE74,SaveData_NextMaskWord,matching_c,game,C,src/game/save_data_payload.c,address,32,u32 *state = &gSaveData_dwMaskStateLow;
 0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CF14,SaveData_WritePrimarySecondaryIntegrity,matching_c,game,C,src/game/save_data_payload.c,write,32,gSaveData_dwMaskStateLow = seed | (seed << SAVE_DATA_CRC16_BITS);
 0x8009AF64,gSaveData_dwMaskStateLow,gSaveData_dwMaskStateLow,0x8003CFC8,SaveData_WriteTertiaryIntegrity,matching_c,game,C,src/game/save_data_payload.c,write,32,gSaveData_dwMaskStateLow = seed;
@@ -1888,12 +1888,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B37D,gOptions_bOutputType,gOptions_bOutputType,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_screen.c,read,8,k = gOptions_bOutputType;
 0x8009B37D,gOptions_bOutputType,gOptions_bOutputType,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,write,8,gOptions_bOutputType = 0; | gOptions_bOutputType = flag408;
 0x8009B37D,gOptions_bOutputType,gOptions_bOutputType,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_screen.c,read_write,8,gOptions_bOutputType = 0; | gOptions_bOutputType = 1; | (+2 more)
-0x8009B380,tent_OptionsOutputCursor,tent_OptionsOutputCursor,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_screen.c,read,,a = tent_OptionsOutputCursor;
-0x8009B380,tent_OptionsOutputCursor,tent_OptionsOutputCursor,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,write,,tent_OptionsOutputCursor = obj;
+0x8009B380,gOptions_pOutputCursor,gOptions_pOutputCursor,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_screen.c,read,,a = gOptions_pOutputCursor;
+0x8009B380,gOptions_pOutputCursor,gOptions_pOutputCursor,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,write,,gOptions_pOutputCursor = obj;
 0x8009B384,gOptions_bSelection,gOptions_bSelection,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,read_write,8,gOptions_bSelection = 0; | s32 flag = gOptions_bSelection;
 0x8009B384,gOptions_bSelection,gOptions_bSelection,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_screen.c,read,8,Options_UpdateLayout(gOptions_bSelection); | gOptions_bState = (u8)gOptions_bSelection + 1; | (+2 more)
-0x8009B388,tent_OptionsSelectionCursor,tent_OptionsSelectionCursor,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_screen.c,read,,b = tent_OptionsSelectionCursor;
-0x8009B388,tent_OptionsSelectionCursor,tent_OptionsSelectionCursor,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,write,,tent_OptionsSelectionCursor = obj;
+0x8009B388,gOptions_pSelectionCursor,gOptions_pSelectionCursor,0x8003C568,Options_UpdateLayout,matching_c,game,C,src/game/options_screen.c,read,,b = gOptions_pSelectionCursor;
+0x8009B388,gOptions_pSelectionCursor,gOptions_pSelectionCursor,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,write,,gOptions_pSelectionCursor = obj;
 0x8009B390,gInput_dwPreviousHeld,gInput_dwPreviousHeld,0x8003700C,Dialog_ReadChoiceInput,matching_c,game,C,src/game/dialog_choice_cursor.c,read_write,32,gInput_dwPreviousHeld &= ~PAD_BUTTON_R1;
 0x8009B390,gInput_dwPreviousHeld,gInput_dwPreviousHeld,0x8003CB7C,Input_ResetPads,matching_c,game,C,src/game/input_pads.c,write,32,gInput_dwPreviousHeld = 0;
 0x8009B390,gInput_dwPreviousHeld,gInput_dwPreviousHeld,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_pads.c,read_write,32,gInput_dwPreviousHeld = current; | newly_pressed = (gInput_dwPreviousHeld ^ current) & current;

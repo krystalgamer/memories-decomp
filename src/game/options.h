@@ -55,13 +55,13 @@ extern s8 gOptions_bOutputType;
  * a `f8` field at 0x08. The canonical DisplayObject names the same halfword
  * `flags` at the same offset, so the local type is gone and both globals are
  * DisplayObject * here. */
-extern DisplayObject *G32 tent_OptionsOutputCursor;
-extern DisplayObject *G32 tent_OptionsSelectionCursor;
+extern DisplayObject *G32 gOptions_pOutputCursor;
+extern DisplayObject *G32 gOptions_pSelectionCursor;
 
 /* Builds the options screen and seeds the state above: it sets
  * gOptions_bState to 1, copies gSD_bOutputType into gOptions_bOutputType
  * (clamping a negative to 0), clears gOptions_bSelection, and stores the two
- * display objects into tent_OptionsSelectionCursor and tent_OptionsOutputCursor. It is declared here rather
+ * display objects into gOptions_pSelectionCursor and gOptions_pOutputCursor. It is declared here rather
  * than in a header of its own because this is the header that already owns
  * every global it writes.
  *
