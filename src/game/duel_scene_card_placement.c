@@ -31,6 +31,7 @@
 #include "sound.h"
 #include "../unmatched.h"
 #include "duel_scene_card_placement.h"
+#include "display_callback_transitions.h"
 
 /* Regional value: the screen height a card leaves at (240 -> 256). The
  * European build (src/game/european/) defines its own. */
@@ -148,7 +149,7 @@ void DuelScene_UpdateCardPlacement(void)
                     n = 5;
                     cards = gDuel_aCardRecords;
                     active = 1;
-                    callback = (DisplayObjectCallback)func_80019BD0;
+                    callback = (DisplayObjectCallback)Duel_UpdateCardMarkerRemovalTurn;
                     slots = gDisplayObject_apWorkSlots;
                     cursor = slots + 5;
                     do {

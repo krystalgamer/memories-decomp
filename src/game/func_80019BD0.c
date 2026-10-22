@@ -4,8 +4,9 @@
 #include "display_object_layout.h"
 #include "duel_card.h"
 #include "duel_scene_card_placement.h"
+#include "display_callback_transitions.h"
 
-void func_80019BD0(DisplayObject *o)
+void Duel_UpdateCardMarkerRemovalTurn(DisplayObject *o)
 {
     int current;
 
