@@ -34,6 +34,7 @@
 #include "duel_deck_card_data.h"
 #include "duel_swords_effect.h"
 #include "view_state_current.h"
+#include "duel_battle_removal_slots.h"
 
 /* Regional values: the cursor's field_0C (0xAE -> 0xBE), the base of
  * field_40 (0x2E0 -> 0x360) and the y Duel_CreateHandCardDisplayObject places a hand card at
@@ -151,7 +152,7 @@ void DuelScene_UpdateResume(void)
             gDuel_wSceneStateFlags = 5;
             return;
         }
-        if (D_8009B208[n] >= 0) {
+        if (gDuel_bBattleRemovalSlot0[n] >= 0) {
             break;
         }
     }
@@ -161,7 +162,7 @@ void DuelScene_UpdateResume(void)
 
         b = gDuel_abCardStagingBuffer;
         replay = (DuelCardReplayRecordBlock *)(
-            (u8 *)&((DuelCardRecord *)b)[D_8009B208[n]] + replay_offset);
+            (u8 *)&((DuelCardRecord *)b)[gDuel_bBattleRemovalSlot0[n]] + replay_offset);
         card = replay->record.object;
     }
     ViewState_ApplyOrbit();
