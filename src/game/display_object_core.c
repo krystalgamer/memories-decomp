@@ -25,7 +25,7 @@
 
 s32 DisplayObject_FindFreeGeneralSlot(void)
 {
-    DisplayObject *entry = tent_DisplayObjectGeneralSlots;
+    DisplayObject *entry = gDisplayObject_aGeneralSlots;
     s32 i;
 
     for (i = DISPLAY_OBJECT_RESERVED_CAPACITY;

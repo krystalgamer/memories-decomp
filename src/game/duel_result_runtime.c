@@ -161,7 +161,8 @@ void DuelResult_UpdateDepartingSprite(DuelCardDisplayObject *object)
    The first call (bit 0x8000 clear) fades the BGM out, records the winning
    side in gDuel_bPlayerLost/gDuel_bOutroWinnerSide, requests the outro package (0x1DAB, 0x22
    sectors) through DuelResult_LoadOutroPackageStage, picks the win or lose track for
-   tent_DuelResultBgmId -- 0x72F0 only when the player won against a real opponent --
+   gDuelResult_wBgmId -- 0x72F0 only when side 1 won (the player lost) against
+   a real opponent, otherwise 0x72E0 --
    and hands gDuel_pTerrainIcon and gDuel_pLifePointsPanel to DisplayObject_UpdateCosineSlide
    before entering step 1 of D_8009B174.
 
@@ -170,10 +171,10 @@ void DuelResult_UpdateDepartingSprite(DuelCardDisplayObject *object)
 
      1  wait for the DMA/queue flags to drain, then reload the selected
         three-sector duelist data block into 0x801781D8. The adjacent
-        SD_BGMPreload call handles tent_DuelResultBgmId separately; once the transfer
+        SD_BGMPreload call handles gDuelResult_wBgmId separately; once the transfer
         has drained, SD_BGMPlay starts that track.
-     2  spawn the seven confetti sprites from the tent_DuelResultSpriteSpecsOpponent (real opponent)
-        or tent_DuelResultSpriteSpecsNoOpponent (no opponent) table row for the winning side, each on
+     2  spawn the seven confetti sprites from the gDuelResult_aSpriteSpecsOpponent (real opponent)
+        or gDuelResult_aSpriteSpecsNoOpponent (no opponent) table row for the winning side, each on
         DuelResult_UpdateOrbitSprite with a random radius and orbit key, and
         remember them in the gDuel_awRitualData slot table; then wait for
         DisplayObject_FindAllocatedByTag.
@@ -221,7 +222,7 @@ void DuelScene_UpdateResultOutro(void)
             }
         }
         obj = gDuel_pTerrainIcon;
-        tent_DuelResultBgmId = mode;
+        gDuelResult_wBgmId = mode;
         /* The record spells 0x28 u16 and this is the one site that puts a
            negative value there. Through the plain member GCC materialises
            -116 as `ori 0xff8c` where retail has `addiu -116`; the store at
@@ -267,14 +268,14 @@ void DuelScene_UpdateResultOutro(void)
                     DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR,
                 DUELIST_DATA_SECTOR_COUNT, 0, 0,
                 (s32)((u8 *)slots - 0x1800));
-            SD_BGMPreload(tent_DuelResultBgmId);
+            SD_BGMPreload(gDuelResult_wBgmId);
         } else {
             if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
                 D_8009B134_abs) {
                 return;
             }
             D_8009B174 = 2;
-            SD_BGMPlay(tent_DuelResultBgmId);
+            SD_BGMPlay(gDuelResult_wBgmId);
         }
         break;
     case 2:
@@ -314,9 +315,9 @@ void DuelScene_UpdateResultOutro(void)
                 gDuelResult_nOutroSpriteCount = i + 1;
 #else
                 if (gDuel_bOpponentID >= 0) {
-                    spec = &tent_DuelResultSpriteSpecsOpponent[gDuel_bWinnerSide][i];
+                    spec = &gDuelResult_aSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                 } else {
-                    spec = &tent_DuelResultSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
+                    spec = &gDuelResult_aSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
                 }
 #endif
                 slots[i].object = 0;

@@ -35,8 +35,8 @@ extern u16 gDuel_aCardSlotGroundPositions[];
 #endif
 extern ScreenPair gDuel_aCardSlotScreenPositions[DUEL_SCREEN_CARD_POSITION_COUNT];
 extern DuelExodiaCardPoseTable gDuel_ExodiaCardPoses;
-extern DuelResultSpriteSpec tent_DuelResultSpriteSpecsOpponent[][DUEL_RESULT_SPRITE_COUNT];
-extern DuelResultSpriteSpec tent_DuelResultSpriteSpecsNoOpponent[][DUEL_RESULT_SPRITE_COUNT];
+extern DuelResultSpriteSpec gDuelResult_aSpriteSpecsOpponent[][DUEL_RESULT_SPRITE_COUNT];
+extern DuelResultSpriteSpec gDuelResult_aSpriteSpecsNoOpponent[][DUEL_RESULT_SPRITE_COUNT];
 
 /* Projects one card-slot ground pair at height -24; returns signed screen X. */
 s16 Duel_ProjectCardSlotScreenX(s32 index);

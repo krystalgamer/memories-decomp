@@ -211,7 +211,7 @@ is preserved from the binary. Table and count declarations remain private,
 and no initialized data ownership is claimed for these raw regions.
 
 The first link exposed one missing existing BGM-symbol binding:
-`tent_DuelResultBgmId` is the halfword at `0x8009C50C`, independently measured
+`gDuelResult_wBgmId` is the halfword at `0x8009C50C`, independently measured
 from GP+`0x274` accesses around the BGM calls. Adding that binding produced an
 exact complete group immediately. A gated production form then retained the
 same bytes and all five existing affected source/profile objects byte-for-byte.
