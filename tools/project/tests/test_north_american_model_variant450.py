@@ -34,6 +34,7 @@ HELPERS = (
     (0x1E7C, 0x8D8, "rings", "variant433"),
     (0x2754, 0x5CC, "quads", "variant450_ntsc"),
     (0x2D20, 0x388, "lines", "variant450_ntsc"),
+    (0x30A8, 0x834, "coils", "variant433"),
 )
 IMPORTS = {
     0x80058F10,
@@ -77,7 +78,7 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
                 rows = list(csv.DictReader(handle))
             self.assertEqual(
                 [(int(row["address"], 0) - base, int(row["size"], 0), row["status"]) for row in rows],
-                [(start, end - start, "matching_c" if start in (0xDDC, 0x1770, 0x1E7C, 0x2754, 0x2D20)
+                [(start, end - start, "matching_c" if start in (0xDDC, 0x1770, 0x1E7C, 0x2754, 0x2D20, 0x30A8)
                   else "unmatched_asm") for start, end in SPANS],
             )
             self.assertTrue(all("complete matching 20 KiB image" in row["notes"]
@@ -113,7 +114,7 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
                     (0x1E7C, base + 0x1E7C, "c"),
                     (0x2754, base + 0x2754, "c"),
                     (0x2D20, base + 0x2D20, "c"),
-                    (0x30A8, base + 0x30A8, "asm"),
+                    (0x30A8, base + 0x30A8, "c"),
                     (0x38DC, base + 0x38DC, "data"),
                 ],
             )
@@ -121,13 +122,14 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
     def test_attempts_and_source_fingerprints(self):
         with (ROOT / "notes/overlays/north-american-model-variant450-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual([row["result"] for row in rows], ["text_exact"] * 10 + ["matched"] * 10)
+        self.assertEqual([row["result"] for row in rows], ["text_exact"] * 12 + ["matched"] * 12)
         for row in rows:
             slot = int(row["slot"])
             label, prefix = {
                 "0xDDC": ("ribbons", "variant433"),
                 "0x1770": ("bands", "variant433"),
                 "0x1E7C": ("rings", "variant433"),
+                "0x30A8": ("coils", "variant433"),
                 "0x2754": ("quads", "variant450_ntsc"),
                 "0x2D20": ("lines", "variant450_ntsc"),
             }[row["function_offset"]]
