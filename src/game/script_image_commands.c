@@ -10,6 +10,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "script_state.h"
@@ -55,8 +56,8 @@ void Script_OpShowImage(void) {
     }
 
     mask |= 0x30;
-    masked = D_8009B0F4_abs & mask;
-    if ((masked | D_8009B134_abs) != 0) {
+    masked = gFile_dwTransferState_abs & mask;
+    if ((masked | gFile_dwCancelRequestState_abs) != 0) {
         return;
     }
     if (gFade_State.flags & FADE_FLAG_ACTIVE) {

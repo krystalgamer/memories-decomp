@@ -3,6 +3,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 
@@ -55,10 +56,10 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->field_30.h.counter = 0;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4 &= 0xFFDDFFFF;
+        gFile_dwTransferState &= 0xFFDDFFFF;
         object->phase_size =
             OPTIONS_PACKAGE_STAGE_MODE_0_SECTORS * FILE_SECTOR_SIZE;
-        D_8009B0F4 |= 0x10000;
+        gFile_dwTransferState |= 0x10000;
         object->done = 2;
         object->value_08 = D_8009B118;
         object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
@@ -66,7 +67,7 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 
     case 1:
         object->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->value_0C = D_8009B118;
         object->value_08 = D_8009B118;
         object->done = 1;
@@ -81,21 +82,21 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->value_0C = (s32)D_801AF000;
         object->value_08 = (s32)D_801AF000;
         object->phase_size = OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->done = 1;
         break;
 
     case 3:
 #if OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL
         object->phase_size = OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->value_0C = (s32)OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION;
         object->value_08 = (s32)OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION;
 #else
         object->value_0C = (s32)OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION;
         object->value_08 = (s32)OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION;
         object->phase_size = OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
 #endif
         object->done = 1;
         break;
@@ -145,9 +146,9 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->field_30.h.counter = 0;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4 &= 0xFFDDFFFF;
+        gFile_dwTransferState &= 0xFFDDFFFF;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
-        D_8009B0F4 |= 0x10000;
+        gFile_dwTransferState |= 0x10000;
         object->done = 2;
         object->value_08 = D_8009B118;
         object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
@@ -155,7 +156,7 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 
     case 1:
         object->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->value_0C = D_8009B118;
         object->value_08 = D_8009B118;
         object->done = 1;
@@ -170,7 +171,7 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->value_0C = (s32)D_801AF000;
         object->value_08 = (s32)D_801AF000;
         object->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->done = 1;
         break;
     }

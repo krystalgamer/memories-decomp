@@ -17,6 +17,7 @@
 #include "model_set_slot_shadow_enabled.h"
 #include "model_update_coordinate_unit_matrix.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "../psyq/rand.h"
 
 #ifdef VERSION_JAPAN
@@ -51,7 +52,7 @@ s32 ModelDebug_UpdateController(void)
         FntPrint(gModelDebug_szLoadStageFormat, slots[2].field_DF8, slots[2].field_E14);
 #endif
         if (slots[2].field_E14 == 255) {
-            if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
+            if (!((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs))
                 Model_LoadMonsterMerge(2, -1, -1, -1, -1, -1, 0);
         } else {
             Model_AdvanceSlotLoad(2);
@@ -83,7 +84,7 @@ s32 ModelDebug_UpdateController(void)
         FntPrint(gModelDebug_szLoadModel0Format, slots[0].field_DF8, slots[0].field_E14);
 #endif
         if (slots[0].field_E14 == 255) {
-            if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
+            if (!((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs))
                 Model_LoadMonsterMerge(0, -1, -1, -1, -1, -1, 0);
         } else {
             Model_AdvanceSlotLoad(0);
@@ -96,7 +97,7 @@ s32 ModelDebug_UpdateController(void)
         FntPrint(gModelDebug_szLoadModel1Format, slots[1].field_DF8, slots[1].field_E14);
 #endif
         if (slots[1].field_E14 == 255) {
-            if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
+            if (!((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs))
                 Model_LoadMonsterMerge(1, -1, -1, -1, -1, -1, 0);
         } else {
             Model_AdvanceSlotLoad(1);

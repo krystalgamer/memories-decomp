@@ -10,6 +10,7 @@
 #include "fade.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "sound_output.h"
@@ -57,8 +58,8 @@ void Script_OpDuelResult(void) {
     }
     flags = gScript_wCommandWord;
     if ((flags & 0x4000) == 0) {
-        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134_abs) != 0) {
+        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState_abs) != 0) {
             return;
         }
         gScript_wCommandWord = flags | 0x4000;

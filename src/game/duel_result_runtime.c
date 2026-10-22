@@ -31,6 +31,7 @@
 #include "trig_constants.h"
 #include "duel_init_scene.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "func_80020BE4.h"
 #include "sound.h"
 #include "sound_output.h"
@@ -253,8 +254,8 @@ void DuelScene_UpdateResultOutro(void)
     switch (state) {
     case 1:
         if ((flags & 0x80) == 0) {
-            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                D_8009B134_abs) {
+            if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState_abs) {
                 return;
             }
             gDuel_bSceneSubStep = flags | 0x80;
@@ -271,8 +272,8 @@ void DuelScene_UpdateResultOutro(void)
                 (s32)((u8 *)slots - 0x1800));
             SD_BGMPreload(gDuelResult_wBgmId);
         } else {
-            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                D_8009B134_abs) {
+            if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState_abs) {
                 return;
             }
             gDuel_bSceneSubStep = 2;
@@ -348,8 +349,8 @@ void DuelScene_UpdateResultOutro(void)
                 }
             }
         } else {
-            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                D_8009B134_abs) {
+            if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState_abs) {
                 return;
             }
             if (DisplayObject_FindAllocatedByTag(1) == 0) {

@@ -145,3 +145,8 @@ gDuel_bFieldActionAutoCommit = D_8009B21A;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = gJapanese_D_8009B274;
+
+gFile_dwTransferState = gJapanese_FileTransferFlags;
+gFile_dwTransferState_abs = gJapanese_FileTransferFlags;
+gFile_dwCancelRequestState = gJapanese_FileSecondaryRequest;
+gFile_dwCancelRequestState_abs = gJapanese_FileSecondaryRequest;

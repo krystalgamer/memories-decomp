@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "duel_effect_resource_record.h"
 #include "duel_effect_resource_setup.h"
 #define D_8009B118_IS_POINTER_IN_DATA
@@ -32,7 +33,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 
     if (mode == 0) {
         object->phase_size = FUNC_800289BC_PHASE_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         object->value_0C = (u32)D_8009B118;
         object->value_08 = (u32)D_8009B118;
         object->done = 1;

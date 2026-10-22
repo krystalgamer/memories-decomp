@@ -35,6 +35,7 @@
 #include "duel_effect_resource_setup.h"
 #include "display_object_interpolation.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "text_box_runtime.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
@@ -267,8 +268,8 @@ void DuelEffect_UpdateCardViewerState(void)
                 }
             }
         }
-        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134_abs) != 0) {
+        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState_abs) != 0) {
             return;
         }
         bg = D_8009B240;

@@ -56,7 +56,7 @@ static u8 destinations[6][32], buffers[2][0x1000];
 u8 *D_80010000, *D_80010004, *gModel_pSlot0PrimaryModule, *gModel_pSlot1PrimaryModule;
 s32 D_80010008, gModel_Slot0VariantModuleAddress, gModel_Slot1VariantModuleAddress;
 u8 *D_8009B118;
-volatile u32 D_8009B0F4_abs;
+volatile u32 gFile_dwTransferState_abs;
 void Model_LoadMonsterMergeStage(FileTransferDescriptor *, s32);
 void __real_Model_CopyWords(s32 *, const s32 *, u32);
 
@@ -189,13 +189,13 @@ static void observe(s32 kind, u32 a, u32 b, u32 c, const RECT *rect)
     if (!equal(e->descriptor, descriptor, DESC)) fail(5);
     if (!equal(e->slots, slots, SLOTS)) fail(6);
     if (!equal(e->raw, raw, RAW)) fail(7);
-    if (e->flags != D_8009B0F4_abs || e->buffer != D_8009B118) fail(8);
+    if (e->flags != gFile_dwTransferState_abs || e->buffer != D_8009B118) fail(8);
 }
 static void actual_effects(s32 kind)
 {
-    u32 flags = D_8009B0F4_abs;
+    u32 flags = gFile_dwTransferState_abs;
     effects(kind, descriptor, slots, raw, &flags, &D_8009B118);
-    D_8009B0F4_abs = flags;
+    gFile_dwTransferState_abs = flags;
 }
 int LoadImage2(RECT *rect, u32 *source)
 {
@@ -323,7 +323,7 @@ static void run_case(s32 stage, s32 index, s32 alternate, u32 flags,
     D_80010004 = destinations[2 + (cases & 1)];
     gModel_pSlot0PrimaryModule = destinations[4]; gModel_pSlot1PrimaryModule = destinations[5];
     gModel_Slot0VariantModuleAddress = (s32)destinations[3]; gModel_Slot1VariantModuleAddress = (s32)destinations[1];
-    D_8009B118 = buffers[0]; D_8009B0F4_abs = flags;
+    D_8009B118 = buffers[0]; gFile_dwTransferState_abs = flags;
     bytes(expected_descriptor, descriptor, DESC);
     bytes(expected_slots, slots, SLOTS);
     bytes(expected_raw, raw, RAW);
@@ -335,7 +335,7 @@ static void run_case(s32 stage, s32 index, s32 alternate, u32 flags,
     if (!equal(expected_descriptor, descriptor, DESC)) fail(10);
     if (!equal(expected_slots, slots, SLOTS)) fail(11);
     if (!equal(expected_raw, raw, RAW)) fail(12);
-    if (expected_flags != D_8009B0F4_abs || expected_buffer != D_8009B118) fail(13);
+    if (expected_flags != gFile_dwTransferState_abs || expected_buffer != D_8009B118) fail(13);
 }
 
 int main(void)

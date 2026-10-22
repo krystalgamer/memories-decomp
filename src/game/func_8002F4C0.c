@@ -3,6 +3,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "duel_result_load_package_stage.h"
 #include "../unmatched.h"
 
@@ -35,12 +36,12 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
            words of this case. */
         *(s16 *)&d->field_30.h.counter = 0x1C0;
         *(s16 *)&d->field_30.h.field_32 = 0x100;
-        t0 = D_8009B0F4;
+        t0 = gFile_dwTransferState;
         *(u16 *)&d->w = 0x40;
-        D_8009B0F4 = t0 & m;
-        u0 = D_8009B0F4;
+        gFile_dwTransferState = t0 & m;
+        u0 = gFile_dwTransferState;
         *(s32 *)&d->phase_size = n;
-        D_8009B0F4 = u0 | 0x10000;
+        gFile_dwTransferState = u0 | 0x10000;
         d->done = 2;
         v0 = D_8009B118;
         do {
@@ -53,9 +54,9 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
     case 1:
         m2 = 0xFFDCFFFF;
         d->phase_size = FILE_SECTOR_SIZE;
-        t1 = D_8009B0F4;
+        t1 = gFile_dwTransferState;
         v1 = D_8009B118;
-        D_8009B0F4 = t1 & m2;
+        gFile_dwTransferState = t1 & m2;
         d->value_0C = v1;
         d->value_08 = v1;
         goto join;
@@ -79,9 +80,9 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         m2 = 0xFFDCFFFF;
         d->value_0C = (s32)D_801AF000;
         d->value_08 = (s32)D_801AF000;
-        t2 = D_8009B0F4;
+        t2 = gFile_dwTransferState;
         d->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4 = t2 & m2;
+        gFile_dwTransferState = t2 & m2;
 join:
         d->done = one;
         break;

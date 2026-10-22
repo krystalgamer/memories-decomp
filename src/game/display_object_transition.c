@@ -6,6 +6,7 @@
 #include "display_object_core.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "input.h"
 #include "display_object.h"
 #include "display_object_helpers.h"
@@ -93,8 +94,8 @@ void Main_HoldBootScreen(s32 count)
     for (;;) {
         Main_AdvanceFrame();
         if (!found &&
-            (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-              D_8009B134) == 0))
+            (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+              gFile_dwCancelRequestState) == 0))
             found = 1;
         if ((gInput_wPad1Pressed &
              (PAD_BUTTON_START | MAIN_HOLD_CONFIRM_MASK)) && found)

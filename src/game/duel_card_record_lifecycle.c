@@ -24,6 +24,7 @@
 #include "duel_deck_card.h"
 #include "duel_card_staging.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "util_memory.h"
 #include "util_compare_s16.h"
 #include "../psyq/libgte.h"
@@ -79,7 +80,7 @@ void Duel_RequestCombinedDeckData(void)
     );
     result->callback_data = gDuel_awUniqueDeckCardIds;
     result->position = (u32)table;
-    D_8009B0F4_abs =
+    gFile_dwTransferState_abs =
         result->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 
