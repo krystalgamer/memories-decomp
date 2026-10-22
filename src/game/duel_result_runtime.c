@@ -285,27 +285,27 @@ void DuelScene_UpdateResultOutro(void)
                 /* Fixed-language builds keep the selector in 1..4. */
                 if (D_8009C02B == 1) {
                     if (gDuel_bOpponentID >= 0) {
-                        spec = &D_80091B30[gDuel_bWinnerSide][i];
+                        spec = &gDuelResult_aFrenchSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                     } else {
-                        spec = &D_80091B80[gDuel_bWinnerSide][i];
+                        spec = &gDuelResult_aFrenchSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
                     }
                 } else if (D_8009C02B == 2) {
                     if (gDuel_bOpponentID >= 0) {
-                        spec = &D_80091BD0[gDuel_bWinnerSide][i];
+                        spec = &gDuelResult_aGermanSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                     } else {
-                        spec = &D_80091C20[gDuel_bWinnerSide][i];
+                        spec = &gDuelResult_aGermanSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
                     }
                 } else if (D_8009C02B == 3) {
                     if (gDuel_bOpponentID >= 0) {
-                        spec = &D_80091C70[gDuel_bWinnerSide][i];
+                        spec = &gDuelResult_aItalianSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                     } else {
-                        spec = &D_80091CC0[gDuel_bWinnerSide][i];
+                        spec = &gDuelResult_aItalianSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
                     }
                 } else if (D_8009C02B == 4) {
                     if (gDuel_bOpponentID >= 0) {
-                        spec = &D_80091D10[gDuel_bWinnerSide][i];
+                        spec = &gDuelResult_aSpanishSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                     } else {
-                        spec = &D_80091D60[gDuel_bWinnerSide][i];
+                        spec = &gDuelResult_aSpanishSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
                     }
                 }
                 if (spec->x == 0) {
