@@ -1749,3 +1749,27 @@ gDuelEffect_EntryHandlers = 0x8009236C;
 gText_StagedStringId = 0x8009C6B4;
 
 gText_DecimalDigitGlyphMap = 0x800EC290;
+
+Model_DrawFt3Wireframes = 0x80068C60; // type:func size:0x150
+
+Model_DrawGt3Wireframes = 0x80068DB0; // type:func size:0x154
+
+Model_DrawFt4Wireframes = 0x80068F04; // type:func size:0x180
+
+Model_DrawGt4Wireframes = 0x80069084; // type:func size:0x188
+
+Model_DrawFt3WindowRecordWireframes = 0x8006920C; // type:func size:0x150
+
+Model_DrawGt3WindowRecordWireframes = 0x8006935C; // type:func size:0x154
+
+Model_DrawFt4WindowRecordWireframes = 0x800694B0; // type:func size:0x180
+
+Model_DrawGt4WindowRecordWireframes = 0x80069630; // type:func size:0x188
+
+Model_DrawSharedGt3Wireframes = 0x800697B8; // type:func size:0x160
+
+Model_DrawSharedGt4Wireframes = 0x80069918; // type:func size:0x18C
+
+Model_DrawSharedGt3WindowRecordWireframes = 0x80069AA4; // type:func size:0x160
+
+Model_DrawSharedGt4WindowRecordWireframes = 0x80069C04; // type:func size:0x18C
