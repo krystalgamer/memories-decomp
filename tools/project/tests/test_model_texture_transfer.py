@@ -37,6 +37,7 @@ WITNESS = r"""
 #include "src/game/file_package_staging.h"
 #include "src/game/model.h"
 #include "src/game/high_memory_addresses.h"
+#include "src/game/model_load_words.h"
 #include "src/psyq/libgte.h"
 #include "src/psyq/libgpu.h"
 
@@ -54,8 +55,8 @@ __asm__(".globl gModel_aSlots\n.set gModel_aSlots, slots+32\n"
 u8 D_801DD800[0x800], gModel_abTexturePaletteStaging[0x400], D_801A8000[0x1000];
 u8 D_800F5694[1];
 static u8 destinations[6][32], buffers[2][0x1000];
-u8 *D_80010000, *D_80010004, *gModel_pSlot0PrimaryModule, *gModel_pSlot1PrimaryModule;
-s32 D_80010008, gModel_Slot0VariantModuleAddress, gModel_Slot1VariantModuleAddress;
+u8 *D_80010000, *gModel_pSlot1PayloadBase, *gModel_pSlot0PrimaryModule, *gModel_pSlot1PrimaryModule;
+s32 gModel_AuxiliaryPayloadAddress, gModel_Slot0VariantModuleAddress, gModel_Slot1VariantModuleAddress;
 u8 *gFile_TransferBufferBase;
 volatile u32 gFile_dwTransferState_abs;
 void Model_LoadMonsterMergeStage(FileTransferDescriptor *, s32);
@@ -254,7 +255,7 @@ static void oracle(s32 stage, s32 index, s32 alternate)
         slot[0xE14] = 1;
         return;
     }
-    if (stage == 0) address = (u32)(index ? D_80010004 : D_80010000);
+    if (stage == 0) address = (u32)(index ? gModel_pSlot1PayloadBase : D_80010000);
     if (stage == 1) image = 1;
     if (stage == 2 || stage == 5 || stage == 15) address = (u32)gFile_abPackageStagingBuffer;
     if (stage == 3) {
@@ -321,7 +322,7 @@ static void run_case(s32 stage, s32 index, s32 alternate, u32 flags,
     /* A stale destination predicate must not stand in for the copied word. */
     put32(slot + 0xD00, block ^ 0x20200000);
     D_80010000 = destinations[(cases & 1)];
-    D_80010004 = destinations[2 + (cases & 1)];
+    gModel_pSlot1PayloadBase = destinations[2 + (cases & 1)];
     gModel_pSlot0PrimaryModule = destinations[4]; gModel_pSlot1PrimaryModule = destinations[5];
     gModel_Slot0VariantModuleAddress = (s32)destinations[3]; gModel_Slot1VariantModuleAddress = (s32)destinations[1];
     gFile_TransferBufferBase = buffers[0]; gFile_dwTransferState_abs = flags;

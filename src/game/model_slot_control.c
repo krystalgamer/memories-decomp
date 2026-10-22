@@ -37,6 +37,7 @@
 #include "model_handler_state.h"
 #include "model_transfer_flags.h"
 #include "high_memory_addresses.h"
+#include "model_load_words.h"
 #include "duel_card.h"
 #include "sound.h"
 #include "model_record_tables.h"
@@ -741,14 +742,14 @@ void Model_AdvanceSlotLoad(s32 index)
     }
     switch (load_phase(slot)) {
     case 1: {
-        u8 *payload = (u8 *)D_80010008;
+        u8 *payload = (u8 *)gModel_AuxiliaryPayloadAddress;
         s32 size = 0xC000;
         switch (index) {
         case 0:
             payload = D_80010000;
             break;
         case 1:
-            payload = D_80010004;
+            payload = gModel_pSlot1PayloadBase;
             break;
         }
         if (*(s32 *)payload != 0) {
@@ -942,7 +943,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         if (index == 0) {
             destination = D_80010000;
         } else {
-            destination = D_80010004;
+            destination = gModel_pSlot1PayloadBase;
         }
         d->value_08 = d->value_0C = (u32)destination;
         d->phase_size = 96 * FILE_SECTOR_SIZE;
@@ -1213,8 +1214,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *object, s32 mode) {
     case 0:
         object->phase_size = 18 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->value_0C = D_80010008;
-        object->value_08 = D_80010008;
+        object->value_0C = gModel_AuxiliaryPayloadAddress;
+        object->value_08 = gModel_AuxiliaryPayloadAddress;
         object->done = 1;
         break;
 

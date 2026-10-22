@@ -1124,3 +1124,8 @@ gFile_dwCancelRequestState_abs = D_8009B134;
 gFile_TransferBufferBase = D_8009B118;
 gFile_abPackageStagingBuffer = D_801DD000;
 gModel_abTexturePaletteStaging = D_801DE000;
+
+gModel_pSlot1PayloadBase = D_80010004;
+gModel_AuxiliaryPayloadAddress = D_80010008;
+gModel_CreditsModuleAddress = D_80010030;
+gModel_pCreditsMusicTrackBuffer = D_80010034;
