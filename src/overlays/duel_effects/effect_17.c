@@ -87,7 +87,7 @@ void func_80148BA4(void *buffer, s32 phase)
         }
         work->cross++;
         if (work->cross > 180) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     } else {
         Model_SetFrameStepOverride(1);
@@ -274,7 +274,7 @@ void func_80148BA4(void *buffer, s32 phase)
         work->tick++;
         PopMatrix();
         if (work->stage == 3 && work->tick > 180) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }

@@ -319,7 +319,7 @@ extern u8 D_8009B110;
 extern s32 D_8009B12C;
 extern u8 gDuel_bSelectedTrapSlot;
 extern u8 gMain_bModeRunnerStep;
-extern s32 D_8009B378;
+extern s32 gGameOver_pTitleObject;
 /* An interior label, not separate storage: gModel_aSlots[2].field_DF8, the
  * stage slot's model id (0x800F2C40 + 2 * 0xE20 + 0xDF8). Model_SetSlotProperties
  * reads it through this label to pick gModel_pBackgroundRecord. */
@@ -517,9 +517,9 @@ extern DisplayObject *G32 gDuel_pFlipRightMarker;
 extern DisplayObject *G32 gDuel_pActionCard;
 extern DisplayObject *G32 gDuel_pActionReadyMarker;
 #endif
-extern u8 D_8009B261;
+extern u8 gDuelEffect_bRequestFinished;
 #ifdef D_8009B264_VISIBLE
-extern DuelEffectRequest *G32 D_8009B264;
+extern DuelEffectRequest *G32 gDuelEffect_pActiveRequest;
 #endif
 
 #include "game/main_mode_state.h"
@@ -556,7 +556,7 @@ extern u8 D_800E9ECF;
 #else
 extern u8 D_800E9ECF[];
 #endif
-extern s8 D_800EA02F[];
+extern s8 gDuel_bSide1CardViewMode[];
 
 extern u8 D_800EAE8E[];
 extern u8 D_800EF6E0[];

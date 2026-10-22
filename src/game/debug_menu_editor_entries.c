@@ -240,7 +240,7 @@ void func_80030808(void)
         gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         DebugMenu_DimPrimaryDisplayObject();
         gDebug_nSceneOrSoundID = D_8009C02B;
-        DebugMenu_OpenValueEditor(D_80091CB8, 0x15, 0x15, 0x15, 5, 1, 1);
+        DebugMenu_OpenValueEditor(gDebugMenu_szLanguageEditorFormat, 0x15, 0x15, 0x15, 5, 1, 1);
         tent_DebugInterfaceFieldC2 = 3;
         tent_DebugInterfaceFieldC1 = 3;
         return;

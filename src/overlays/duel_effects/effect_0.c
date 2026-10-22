@@ -42,7 +42,7 @@ void func_80154688(void *buffer, s32 phase)
         }
         work->cross_frame++;
         if (work->cross_frame > 180) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     } else {
         frame_step = Model_GetFrameStep();
@@ -56,7 +56,7 @@ void func_80154688(void *buffer, s32 phase)
             func_801513F4(&world, &saved, &position, &rotation, &scale, 1);
             func_801558F4((u8 *)&work->color, work->quads[0], work->quads[1], 0, 1);
             if (work->frame >= work->config->delay) {
-                D_8009B264->field_1D = 1;
+                gDuelEffect_pActiveRequest->field_1D = 1;
                 scale.vx = work->scale >> 3;
                 scale.vy = work->scale >> 3;
                 scale.vz = 4096;
@@ -95,7 +95,7 @@ void func_80154688(void *buffer, s32 phase)
         work->frame += frame_step;
         PopMatrix();
         if ((u16)func_8014D378((u8 *)&work->color)) {
-            D_8009B261 = 1;
+            gDuelEffect_bRequestFinished = 1;
         }
     }
 }
