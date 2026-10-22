@@ -48,7 +48,7 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/spanish_options/module_header]
-  - name: func_80168004
+  - name: PalOptions_SetTextColorSlots
     type: code
     start: 0x4
     vram: 0x80168004
@@ -132,14 +132,14 @@ segments:
     align: 4
     subsegments:
       - [0xE1C, c, overlays/pal_options/update]
-  - name: func_80168F70
+  - name: PalOptions_StepStripScroll
     type: code
     start: 0xF70
     vram: 0x80168F70
     align: 4
     subsegments:
       - [0xF70, c, overlays/pal_options/signed_step]
-  - name: func_80169030
+  - name: PalOptions_GetLanguage
     type: code
     start: 0x1030
     vram: 0x80169030

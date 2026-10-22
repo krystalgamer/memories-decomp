@@ -8,5 +8,5 @@ void PalOptions_PositionCursor(s32 selection)
     if (selection != 0) {
         gPalOptions_pCursor->field_30.h.field_32 = 112;
     }
-    DisplayObject_UpdateResourceVariant(D_80169078, gPalOptions_bSoundOutputType);
+    DisplayObject_UpdateResourceVariant(gPalOptions_pSoundTypeSprite, gPalOptions_bSoundOutputType);
 }
