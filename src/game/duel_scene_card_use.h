@@ -11,9 +11,9 @@
  * On entry, while DUEL_SCENE_FLAG_INITIALIZED is clear, it latches the selected
  * slot's card id -- gDuel_aCardRecords[object->field_6A] -- into gDuel_wPlacementCardId, starts
  * CardPreview_RequestResourceTransfer's resource request, bumps gDuel_pActiveSideState->field_05 for a
- * CARD_TYPE_MAGIC card, and seeds D_8009B174 with 1.
+ * CARD_TYPE_MAGIC card, and seeds gDuel_bSceneSubStep with 1.
  *
- * D_8009B174 then drives five states, its low nibble selecting the step and
+ * gDuel_bSceneSubStep then drives five states, its low nibble selecting the step and
  * the high bits latching progress within it:
  *
  *   1  opens the enlarged card window with CardPreview_CreateResourceObjects, ramps its

@@ -628,7 +628,7 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 2;
             return 1;
         }
-        n = *(s32 *)D_800E9EC0 + p->field_04;
+        n = *(s32 *)gFile_nMasterXaLba + p->field_04;
         return (s32)File_RequestSecondaryRangeTransfer(
             n, n + c, p->field_1F, p->field_1E
         );

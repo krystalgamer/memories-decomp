@@ -247,7 +247,7 @@ int func_80067220();
  * nothing can carry a second name inside it. It is the memory card slot the
  * MemCard* calls are issued against.
  *
- * gMemCardDialog_OperationState and D_8009B174 have larger gaps to the next name -- two bytes
+ * gMemCardDialog_OperationState and gDuel_bSceneSubStep have larger gaps to the next name -- two bytes
  * and eight -- but those are upper bounds rather than sizes, like the gap
  * after gDuel_wSceneStateFlags. Nothing is named inside either gap, and no
  * consumer of either reads past the byte, so the u8 all five consumers agree
@@ -256,10 +256,10 @@ int func_80067220();
  * Both of the latter two are packed state bytes rather than plain counters,
  * which is why the byte width matters to every reader: gMemCardDialog_OperationState is switched
  * on through `& 0xF` with MEM_CARD_DIALOG_FLAG_* bits set above it, and
- * D_8009B174 carries a step in its low nibble with 0x20, 0x40 and 0x80 used
+ * gDuel_bSceneSubStep carries a step in its low nibble with 0x20, 0x40 and 0x80 used
  * as independent flags. The modal port and internal-state declarations live in
  * game/mem_card.h; the width/addressing evidence above remains historical. */
-extern u8 D_8009B174;   /* five declarers */
+extern u8 gDuel_bSceneSubStep;   /* five declarers */
 
 /* Five more undefined scalars, batched for the reason the two batches above
  * give: this header serialises, so one change per symbol buys nothing and
@@ -326,11 +326,14 @@ extern s32 gGameOver_pTitleObject;
 extern u16 gModel_awStageSlotModelId[];
 extern s16 gDisplayObject_wSpriteSheetListHead;
 
-/* An eight-byte zeroed block with no common subsystem owner. Main_Init reads
- * its first byte as the initial sound-output state, while file transfer
- * control reads the two words as an address adjustment. The consumers share
- * no narrower state contract, so the raw byte-array view stays here. */
-extern u8 D_800E9EC0[];
+/* gFile_anLba[6], the LBA File_SetPositionTable records for gFile_apszName[6]
+ * (MASTER.XA). File transfer control adds it to a descriptor offset to start
+ * secondary (XA) range transfers. Main_Init passes its first byte to
+ * SD_InitState after Main_InitHardware has filled the position table, so
+ * that argument is the LBA's low byte; what SD_InitState makes of it is not
+ * interpreted here. The raw byte-array view is kept because both consumers
+ * match on it. */
+extern u8 gFile_nMasterXaLba[];
 
 /* The thirty-two primitive handler entry points, in retail's own arm order in
  * memory.

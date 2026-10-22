@@ -61,9 +61,9 @@ void DuelScene_UpdateCardUse(void)
                 gDuel_pActiveSideState->rank.pure_magic_used + 1;
         }
         DuelCard_DeactivateRecord(slot);
-        D_8009B174 = 1;
+        gDuel_bSceneSubStep = 1;
     }
-    state = D_8009B174;
+    state = gDuel_bSceneSubStep;
     switch (state & 0xF) {
     case 1:
         if ((state & 0x80) == 0) {
@@ -72,7 +72,7 @@ void DuelScene_UpdateCardUse(void)
                 return;
             }
             f2 = p->flags;
-            D_8009B174 = state | 0x80;
+            gDuel_bSceneSubStep = state | 0x80;
             p->flags = f2 | DISPLAY_OBJECT_FLAG_CLIP_TEST;
             p = (DisplayObject *)CardPreview_CreateResourceObjects(0, -1, -1);
             p->field_30.h.field_30 = 0x5A;
@@ -91,7 +91,7 @@ void DuelScene_UpdateCardUse(void)
             if ((u8)v1 < 0x40) {
                 return;
             }
-            D_8009B174 = D_8009B174 | 0x40;
+            gDuel_bSceneSubStep = gDuel_bSceneSubStep | 0x40;
             DisplayObject_ReleaseIfPresent(p);
             q1 = gDisplayObject_apWorkSlots[1];
             gDisplayObject_apWorkSlots[0] = 0;
@@ -108,9 +108,9 @@ void DuelScene_UpdateCardUse(void)
             p->field_60 = 0x1E;
             p->field_20.b.field_21 = 0;
             f3 = p->flags;
-            st = D_8009B174 | 0x20;
+            st = gDuel_bSceneSubStep | 0x20;
             p->flags = f3 & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
-            D_8009B174 = st;
+            gDuel_bSceneSubStep = st;
             return;
         }
         v3 = *(u16 *)&p->field_60 - 1;
@@ -118,16 +118,16 @@ void DuelScene_UpdateCardUse(void)
         if ((s16)v3 > 0) {
             return;
         }
-        D_8009B174 = 2;
+        gDuel_bSceneSubStep = 2;
         return;
     case 2:
         DuelEffect_StartCardEffect((s16)gDuel_wPlacementCardId, 0);
-        D_8009B174 = 3;
+        gDuel_bSceneSubStep = 3;
         return;
     case 3:
         if ((state & 0x80) == 0) {
             p = gDisplayObject_apWorkSlots[1];
-            D_8009B174 = state | 0x80;
+            gDuel_bSceneSubStep = state | 0x80;
             DuelCard_CaptureRoundedTexture(p);
             gDisplayObject_apWorkSlots[0] =
                 Duel_CreateCardEffectOverlay((DisplayObjectConfigView *)p);
@@ -162,11 +162,11 @@ void DuelScene_UpdateCardUse(void)
         }
         DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots[0]);
         DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots[1]);
-        D_8009B174 = 4;
+        gDuel_bSceneSubStep = 4;
         return;
     case 4:
         if ((state & 0x80) == 0) {
-            D_8009B174 = state | 0x80;
+            gDuel_bSceneSubStep = state | 0x80;
             DuelEffect_StartCardEffect((s16)gDuel_wPlacementCardId, 1);
             return;
         }

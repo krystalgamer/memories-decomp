@@ -86,7 +86,7 @@ void DuelScene_Update(void)
         index = gDuel_wSceneStateFlags;
         callbacks[index & DUEL_SCENE_PHASE_MASK]();
         if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
-            D_8009B174 = 0;
+            gDuel_bSceneSubStep = 0;
         }
     }
 }

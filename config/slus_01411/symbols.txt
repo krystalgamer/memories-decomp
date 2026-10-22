@@ -1326,6 +1326,7 @@ Graphics_SyncFrame = 0x80012DB4; // type:func
 Graphics_BeginFrame = 0x80012E5C; // type:func
 Graphics_SubmitTextureWindowPacket = 0x8005B36C; // type:func
 gGraphics_DispEnv = 0x800E9D28;
+gDuel_bAnimatedBattleRequested = 0x8009B229;
 GsDISPENV = 0x800FE0A8;
 gDuel_pSide0SaveData = 0x8009B1D8;
 gDuel_pSide1SaveData = 0x8009B1DC;

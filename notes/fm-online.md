@@ -170,7 +170,7 @@ The three automatic-rotation patches suppress one complete retail action in
 `DuelScene_UpdateHandActions`. The branch is eligible when the packed card type is below
 `0x14` (a monster) or exactly `0x15` (Trap), and runs only when byte `0x21` of
 the current object is zero. Retail then writes `0x10` to the object's halfword
-at offset `0x60`, writes a value with bit `0x20` asserted to `D_8009B174`, and
+at offset `0x60`, writes a value with bit `0x20` asserted to `gDuel_bSceneSubStep`, and
 calls `SD_SEPlayFull(0x0B)`. FM-Online nops those three instructions at
 `0x8001CA24`, `0x8001CA2C`, and `0x8001CA30`, while leaving the type and object
 state tests intact. This verifies the coordinated field, flag, and sound
