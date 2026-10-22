@@ -133,10 +133,10 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
     def test_localized_sprite_tables_cover_both_complete_ten_entry_rows(self) -> None:
         self.probe(
             '#include "duel_result_localized_sprites.h"\n'
-            "DuelResultSpriteSpec (*rows)[10] = D_80091B30;\n"
+            "DuelResultSpriteSpec (*rows)[10] = gDuelResult_aFrenchSpriteSpecsOpponent;\n"
             "s32 *count = &gDuelResult_nOutroSpriteCount;\n"
-            "typedef char row_size[sizeof(D_80091B30[0]) == 40 ? 1 : -1];\n"
-            "typedef char table_size[sizeof(D_80091D60) == 80 ? 1 : -1];\n"
+            "typedef char row_size[sizeof(gDuelResult_aFrenchSpriteSpecsOpponent[0]) == 40 ? 1 : -1];\n"
+            "typedef char table_size[sizeof(gDuelResult_aSpanishSpriteSpecsNoOpponent) == 80 ? 1 : -1];\n"
             "typedef char count_size[sizeof(gDuelResult_nOutroSpriteCount) == 4 ? 1 : -1];",
             accepted=True,
         )
