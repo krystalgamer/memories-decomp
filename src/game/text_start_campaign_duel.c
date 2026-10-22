@@ -6,6 +6,7 @@
 #include "text_stream_read_le.h"
 #include "duel_side_state.h"
 #include "../unmatched.h"
+#include "duel_session_controls.h"
 
 #include "ai_opponent_data.h"
 #define DUEL_TERRAIN_SCALAR_IN_DATA
@@ -45,7 +46,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         q = *p;
         v = *q++;
         *p = q;
-        D_8009B370 = v;
+        gDuel_wCampaignSceneOnWin = v;
     }
     {
         u8 *G32 *p;
@@ -55,7 +56,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         q = *p;
         v = *q++;
         *p = q;
-        D_8009B372 = v;
+        gDuel_wCampaignSceneOnLoss = v;
     }
     {
         u8 *G32 *p;
@@ -68,12 +69,12 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         gDuel_bTerrain = v;
     }
     gDuel_wBgmId = TextStream_ReadU16LE(o);
-    D_8009B374 = 0x72A0;
+    gDuel_wAnimatedBattleBgmCommand = 0x72A0;
     x = (u8)gDuel_bOpponentID;
-    if ((u32)(x - 9) < 8) D_8009B374 = 0x7280;
-    if ((s8)x == 0x11) D_8009B374 = 0x7290;
-    if ((s8)x == 0x26) D_8009B374 = 0x72B0;
-    D_8009B368 = 2;
-    D_8009B369 = 0;
+    if ((u32)(x - 9) < 8) gDuel_wAnimatedBattleBgmCommand = 0x7280;
+    if ((s8)x == 0x11) gDuel_wAnimatedBattleBgmCommand = 0x7290;
+    if ((s8)x == 0x26) gDuel_wAnimatedBattleBgmCommand = 0x72B0;
+    gDuel_bPostDuelMainMode = 2;
+    gDuel_bResumeFromAnimatedBattle = 0;
     D_8009B26C = 3;
 }

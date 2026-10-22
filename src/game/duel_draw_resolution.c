@@ -30,6 +30,7 @@
 #include "duel_rank.h"
 #include "sound.h"
 #include "../unmatched.h"
+#include "duel_session_controls.h"
 #include "duel_create_hand_card_display_object.h"
 #include "duel_update_draw_card_slide.h"
 #include "display_object_helpers.h"
@@ -360,7 +361,7 @@ next_obj:
     other->displayed_life_points = 0;
     SD_BGMPreload(0x7310);
     Model_SetPresentationBgmCommand(0x7310);
-    D_8009B369 = 1;
+    gDuel_bResumeFromAnimatedBattle = 1;
     D_8009B269 = 3;
     D_8009B26C = 1;
 }

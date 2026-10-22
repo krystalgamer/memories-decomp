@@ -131,3 +131,9 @@ func_8002C484 = CardGrid_GetRowY;
 
 gDuel_bBattleRemovalSlot0 = D_8009B208;
 gDuel_bBattleRemovalSlot1 = D_8009B209;
+
+gDuel_bPostDuelMainMode = D_8009B368;
+gDuel_bResumeFromAnimatedBattle = D_8009B369;
+gDuel_wCampaignSceneOnWin = D_8009B370;
+gDuel_wCampaignSceneOnLoss = D_8009B372;
+gDuel_wAnimatedBattleBgmCommand = D_8009B374;

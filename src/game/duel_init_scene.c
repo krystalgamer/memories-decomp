@@ -34,6 +34,7 @@
 #include "duel_draw_card_output_position.h"
 #include "display_object_set_resource_variant_from_sign.h"
 #include "../unmatched.h"
+#include "duel_session_controls.h"
 #include "duel_init_scene.h"
 #include "duel_init_model_scene.h"
 #include "duel_effect_object_pool.h"
@@ -98,7 +99,7 @@ void Duel_InitScene(void)
     gDuel_wCardEffectFlags = 0;
     gDuel_wOutcomeFlags = 0;
     D_8009B174 = 0;
-    if (D_8009B369 != 1) {
+    if (gDuel_bResumeFromAnimatedBattle != 1) {
         if (gDuel_bOpponentID >= 0) {
             File_RequestAsyncTransfer(
                 0, 0,
@@ -173,7 +174,7 @@ void Duel_InitScene(void)
     prev = (u8 *)gDuel_pLifePointsPanel;
     obj->field_50.word = (s32)prev;
     gMain_apFrameServiceCallbacks[3] = Duel_DrawFieldCards;
-    if (D_8009B369 != 1) {
+    if (gDuel_bResumeFromAnimatedBattle != 1) {
         p = 0;
         gDuel_pSide1SaveData = 0;
         gDuel_pSide0SaveData = 0;
