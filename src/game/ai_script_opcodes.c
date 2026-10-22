@@ -10,6 +10,7 @@
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_side_state.h"
+#include "ai_controller_handoff.h"
 #include "ai_script_opcodes.h"
 #include "ai_script_read_short.h"
 #include "ai_script_source_line_format.h"
@@ -304,7 +305,7 @@ void AiScript_PlayFieldCard(void)
             gAi_Selection.fields.field_0A = (s8)first;
             return;
         }
-        D_800EAE92 = 0;
+        gAi_bFieldTargetCode = 0;
         return;
     }
 

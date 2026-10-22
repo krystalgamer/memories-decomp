@@ -9,7 +9,7 @@
  * - The pad words are volatile: every test re-reads them.
  * - The AI selection bytes are read as elements of gAi_Selection.bytes ([1], [6] and
  *   [8]). spimdisasm names those addresses D_800EAE89, D_800EAE8E and
- *   tent_AiSelectionRandom, but the symbol-plus-offset form is what puts the %hi ahead of
+ *   gAi_bHandFaceDownRequested, but the symbol-plus-offset form is what puts the %hi ahead of
  *   the neighbouring constants, and the linked bytes are the same.
  * - The substate word is a scalar. sched lets a struct-member load through a
  *   pointer pass a store to a fixed scalar, which is the order of every
@@ -73,6 +73,7 @@
 #include "duel_check_quit_input.h"
 #include "input.h"
 #include "ai.h"
+#include "ai_controller_handoff.h"
 #include "script_state.h"
 #include "sound.h"
 #include "ai_board_snapshot.h"
@@ -151,7 +152,7 @@ void DuelScene_UpdateHandActions(void)
         DuelHand_PositionSelectionCursor(side);
         DuelField_CreateCardInfoTextBox(side, HAND_CARD_INDEX(side));
         gDuel_bSceneSubStep = 1;
-        if (D_8009B360[gDuel_bActiveSide] >= 0) {
+        if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0) {
             gDuel_bSceneSubStep = 2;
         }
         return;

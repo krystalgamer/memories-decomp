@@ -9,6 +9,7 @@
 #define DISPLAY_OBJECT_MOTION_BYTE_CALLBACK
 #include "ai.h"
 #include "duel_side_state.h"
+#include "ai_controller_handoff.h"
 #include "duel_grid.h"
 #include "../psyq/stdio.h"
 #include "card_constants.h"
@@ -380,7 +381,7 @@ void DuelEffect_ApplyRitual(void)
         object = card->object;
         gDisplayObject_apWorkSlots.slots[0] = object;
         *(s16 *)&object->field_30.h.field_32 = -DUEL_RITUAL_SCREEN_HEIGHT;
-        if (D_8009B360[gDuel_bActiveSide] >= 0) {
+        if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0) {
             card->flags &= ~0x200;
             if (rand() & 1)
                 card->flags |= 0x200;

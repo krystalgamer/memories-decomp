@@ -15,6 +15,7 @@
 #include "duel_card_staging.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_side_state.h"
+#include "ai_controller_handoff.h"
 #include "duel_scene_callbacks.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
@@ -64,10 +65,10 @@ void DuelScene_UpdateCardMove(void)
         if (gDuel_wSceneStateFlags & 0x4000) {
             goto state_four;
         }
-        if (D_8009B360[gDuel_bActiveSide] >= 0 &&
+        if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0 &&
             object->field_68 < 0x14) {
             gDuel_aCardRecords[object->field_6A].flags &= ~0x200;
-            if (D_800EAE8F[0] & 1) {
+            if (gAi_bGuardianStarChoice[0] & 1) {
                 gDuel_aCardRecords[object->field_6A].flags |= 0x200;
             }
             goto state_four;

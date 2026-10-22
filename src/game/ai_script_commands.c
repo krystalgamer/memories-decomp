@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "ai_script_commands.h"
+#include "ai_controller_handoff.h"
 #include "ai_script_opcodes.h"
 #include "../unmatched.h"
 
@@ -30,7 +31,7 @@ AiScriptHandler gAiScript_apfnCommand[68] = {
     AiScript_LoadOpponentID,
     AiScript_LoadTerrain,
     AiScript_LoadDeckSize,
-    AiScript_LoadSelectionRandom,
+    AiScript_LoadHandFaceDownRequest,
     AiScript_TestSwordsActive,
     AiScript_LoadFirstFieldComboSlot,
     AiScript_LoadBestDifference,
@@ -63,8 +64,8 @@ AiScriptHandler gAiScript_apfnCommand[68] = {
     AiScript_ClearCards,
     AiScript_AddType,
     AiScript_ClearTypes,
-    AiScript_SetSelectionRandom,
-    AiScript_ClearSelectionRandom,
+    AiScript_SetHandFaceDownRequest,
+    AiScript_ClearHandFaceDownRequest,
     func_80073464,
     func_80073474,
     AiScript_MoveCard,

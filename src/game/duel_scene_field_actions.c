@@ -59,6 +59,7 @@
 #include "duel_check_quit_input.h"
 #include "duel_side_view_angles.h"
 #include "ai.h"
+#include "ai_controller_handoff.h"
 #include "duel_load_package_stage.h"
 #include "display_object.h"
 #include "display_object_core.h"
@@ -203,7 +204,7 @@ void DuelScene_UpdateFieldActions(void)
             return;
         case 1:
             if (!(flags & 0x8000)) {
-                a = D_800EAE91[0];
+                a = gAi_bFieldSourceCode[0];
                 D_8009B20C[0] = flags | 0x8000;
                 gDuelCursor_Direction = -1;
                 gDuelCursor_TargetRow = 2;
@@ -281,7 +282,7 @@ void DuelScene_UpdateFieldActions(void)
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0xC0;
             D_8009B21A = 0;
-            if (D_8009B360[gDuel_bActiveSide] >= 0) {
+            if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0) {
                 gDuel_bSceneSubStep = 2;
                 return;
             }
@@ -304,7 +305,7 @@ void DuelScene_UpdateFieldActions(void)
                 gDuel_pActionReadyMarker = 0;
             }
         }
-        if (D_8009B360[gDuel_bActiveSide] < 0 && (gInput_wPad1Pressed & 0x800)) {
+        if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] < 0 && (gInput_wPad1Pressed & 0x800)) {
             gDuel_bSceneSubStep = 0xB;
             return;
         }
@@ -419,7 +420,7 @@ void DuelScene_UpdateFieldActions(void)
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0x80;
             gDuel_bAnimatedBattleRequested = 0;
-            a = D_800EAE92[0];
+            a = gAi_bFieldTargetCode[0];
             if (a < 0x38) {
                 if (a >= 6) {
                     gDuelCursor_TargetColumn = a - 6;
