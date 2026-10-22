@@ -37,15 +37,15 @@ extern u8 gCredits_bFinished;
 extern CreditsEntry gCredits_aEntries[];
 extern CreditsLine gCredits_aLines[2];
 /* Replacement glyphs for character codes 0xE056 and 0x9B92. */
-extern u8 D_80011820[];
-extern u8 D_8001183E[];
+extern u8 gCredits_abGlyphE056[];
+extern u8 gCredits_abGlyph9B92[];
 
-s32 func_80180F58(s32 index, s32 group);
-void func_8018173C(s32 index, s32 c0, s32 c1, s32 c2, s32 c3);
+s32 Credits_BuildLineGlyphs(s32 index, s32 group);
+void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3);
 
 void func_801807B0(void);
 s32 func_80180A24(void);
 void func_80181C4C(s32 group);
-u8 func_80181D28(void);
+u8 Credits_IsFinished(void);
 
 #endif

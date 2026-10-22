@@ -6,10 +6,12 @@
 #include "../../game/ordering_tables.h"
 #include "credits.h"
 
-/* Draws one credits line: every row of its current page, one Shift-JIS
- * glyph pair per character as a textured quad plus its shadow quad, with the
- * four corner brightnesses c0..c3 scaled against 0x80. */
-void func_8018173C(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
+/* Draws one credits line: walks its group and draws the first text-bearing
+ * row plus any row whose paragraph matches the line's page. Each byte of the
+ * row text is mapped into the 8x12 credits glyph atlas and submitted as one
+ * semi-transparent POLY_GT4 with corner brightnesses c0..c3 scaled against
+ * 0x80. A second `shade` packet is configured alongside but never submitted. */
+void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
 {
     POLY_GT4 glyph;
     POLY_GT4 shade;

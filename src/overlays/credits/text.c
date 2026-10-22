@@ -6,7 +6,7 @@
 /* Collects the credits rows of `group` for line `index`: builds each row's
  * glyph bitmaps from the ROM font into a local buffer and records the line's
  * width, height and page. */
-s32 func_80180F58(s32 index, s32 group)
+s32 Credits_BuildLineGlyphs(s32 index, s32 group)
 {
     RECT rect;
     u16 buf[64];
@@ -85,10 +85,10 @@ top:  /* allocator steering: see the note at the end */
                         }
                         p = buf;
                         if (code == 0xE056) {
-                            font = D_80011820;
+                            font = gCredits_abGlyphE056;
                         }
                         if (code == 0x9B92) {
-                            font = D_8001183E;
+                            font = gCredits_abGlyph9B92;
                         }
                         for (k = 14; k != -1; k--) {
                             b = font[0];

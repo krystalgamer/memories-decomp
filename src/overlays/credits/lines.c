@@ -14,7 +14,7 @@ next:
         line->width = 0;
         do {
             line->page = 0;
-            if (func_80180F58(i, group) != 0) {
+            if (Credits_BuildLineGlyphs(i, group) != 0) {
                 line->x = 40;
                 line->y = 40;
                 if (line->width > 160 || line->height > 120) {
@@ -35,7 +35,7 @@ next:
     }
 }
 
-u8 func_80181D28(void)
+u8 Credits_IsFinished(void)
 {
     return gCredits_bFinished;
 }
