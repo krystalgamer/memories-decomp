@@ -63,15 +63,8 @@ def legacy_handwritten_declarations(root: Path) -> set[str]:
     path = root / LINKER_ALIASES
     if not path.is_file():
         return set()
-    assignments: dict[str, list[tuple[str, str]]] = defaultdict(list)
     source = candidate_builds.strip_c_comments(read_text(path))
-    for match in re.finditer(
-        r"(?<!\w)(func_[0-9A-Fa-f]{8})[ \t]*"
-        r"((?:<<|>>|[+\-*/%&|^])?=)[ \t]*([^\n]*)",
-        source,
-        re.MULTILINE,
-    ):
-        assignments[match[1]].append((match[2], match[3].strip()))
+    symbol_uses = Counter(re.findall(r"[A-Za-z_.$][A-Za-z0-9_.$]*", source))
     with (root / FUNCTIONS).open(newline="", encoding="utf-8") as handle:
         targets = {
             row["name"]: int(row["address"], 16)
@@ -79,12 +72,17 @@ def legacy_handwritten_declarations(root: Path) -> set[str]:
             if row["module"] == "game" and row["status"] == "handwritten_asm"
         }
     result: set[str] = set()
-    for name, values in assignments.items():
-        if len(values) != 1 or values[0][0] != "=":
-            continue
-        match = re.fullmatch(r"([A-Za-z_]\w*)[ \t]*;", values[0][1])
-        if match is not None and targets.get(match[1]) == int(name[5:], 16):
-            result.add(name)
+    for statement in source.split(";"):
+        match = re.fullmatch(
+            r"\s*(func_[0-9A-Fa-f]{8})\s*=\s*([A-Za-z_]\w*)\s*",
+            statement,
+        )
+        if (
+            match is not None
+            and symbol_uses[match[1]] == 1
+            and targets.get(match[2]) == int(match[1][5:], 16)
+        ):
+            result.add(match[1])
     return result
 
 
