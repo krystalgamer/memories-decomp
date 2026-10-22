@@ -207,3 +207,8 @@ gModel_abTexturePaletteStaging = D_801DE000;
 
 gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
+
+gModel_pSlot1PayloadBase = D_80010004;
+gModel_AuxiliaryPayloadAddress = D_80010008;
+gModel_CreditsModuleAddress = D_80010030;
+gModel_pCreditsMusicTrackBuffer = D_80010034;

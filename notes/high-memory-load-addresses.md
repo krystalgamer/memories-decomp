@@ -155,20 +155,77 @@ separate data word through the slot's `+0xDE8` or `+0xDEC` value. No new
 function-pointer type, data-record type, storage, const qualifier or array
 bound follows from these names. The signed address words are not retyped.
 
-The reused general/model payload bases and SU-specific tail remain
-address-named. The incomplete `D_80010000` prefix view, declaration selectors
-and its base-relative relocations are unchanged. Naming the independent
-scalar module words does not replace accesses through that prefix.
+The reused primary `D_80010000` base remains address-named. Its incomplete
+prefix view, declaration selectors and base-relative relocations are
+unchanged. Naming the independent scalar words does not replace accesses
+through that prefix.
+
+## Model payload and credits words
+
+Four further direct-word identities have producer/consumer support:
+
+| Word | Identity | Existing declaration view |
+|---|---|---|
+| `0x80010004` | `gModel_pSlot1PayloadBase` | `u8 *G32`, `.data` |
+| `0x80010008` | `gModel_AuxiliaryPayloadAddress` | `s32`, `.data` |
+| `0x80010030` | `gModel_CreditsModuleAddress` | `s32`, `.data` |
+| `0x80010034` | `gModel_pCreditsMusicTrackBuffer` | `void *G32`, `.data` |
+
+`Model_LoadMonsterMerge` selects its monster callback for slots below 2.
+That callback sends slot 1's first payload to the first word above.
+`Model_AdvanceSlotLoad` independently selects the same word for case 1
+before passing the payload to `Model_InitSlot`.
+
+The loader's other branch selects `Model_LoadAuxiliaryPackageStage` after
+its existing background-record lookup. That callback loads its first
+18 sectors through the auxiliary word; the slot stepper uses the same
+word as its default payload, replacing it only for explicit cases 0/1.
+No index validation or default-branch behavior is changed.
+
+The credits controller loads its 16-sector SU range through the credits
+module word, waits, then calls the existing fixed imports. It passes the
+last word through its original `u16 *` cast to `SD_SetMusicTrackBuffer`.
+The target is interior module data, not a function pointer or a separately
+allocated music buffer. Poll order, status predicates, reset calls and
+borrowed lifetime remain.
+
+These are four independent scalar labels, not a new homogeneous array.
+The auxiliary and credits destination words retain distinct relocations
+even where their stored values are equal. Existing accesses through the
+`D_80010000` prefix still use that base and its original offsets, rather
+than being rewritten to the new direct names.
+
+The isolated `model_load_words.h` declarations preserve the exact
+pointer/integer types, `G32` placement and `.data` attributes. The old
+`high_memory_addresses.h` and measured `model_scene_imports.h` stay frozen;
+imported code names remain address-based because other SU packages reuse
+the runtime range.
+
+Three existing behavioral controls receive only namespace/include
+migrations, with complete inverse-file equality and unchanged cases,
+assertions, mutations, fixture layouts, generators and compiler/setup.
+The legacy type/HI-LO ownership controls intentionally retain their old
+names and header. No new harness, fixture, probe or testcase is added;
+cloud/regional/overlay/witness suites are not executed locally.
+
+Canonical aliases retain each original provider in all seven images.
+Twenty bindings have local numeric evidence; the eight English/Japanese
+automatic-provider cases remain symbolic without guessed tracked
+assignments. Full regional-image PR checks remain required.
+
+The shared four-byte `D_8009B004` record is outside this naming component:
+debug uses its height halfword while credits uses its first two bytes, so
+a credits-only identity would be unsupported.
 
 ## Shared C contracts
 
-[`high_memory_addresses.h`](../src/game/high_memory_addresses.h) now owns
-all nine address constants named by current C consumers. It replaces 23
+The original consolidation put nine named address constants in
+[`high_memory_addresses.h`](../src/game/high_memory_addresses.h), replacing 23
 private declarations across 14 matching resident translation units, the
 shared overworld translation unit, and two integrated resident candidates.
-The five other labels in the fourteen-word block have no individually named
-C consumers; no speculative declarations or storage definitions are added
-for them. Three of those words are read through the prefix view below.
+The four direct-word names above extend that work without changing the
+legacy declaration owner or inventing storage. The remaining shared
+primary word and its indexed prefix view retain the contracts below.
 
 The scalar `D_80010000` contract is `u8 *`: the word contains a payload
 address, not the first bytes of a payload. Its consumers reuse that address
@@ -201,7 +258,7 @@ The other indexed consumers already used incomplete arrays. Measurement
 confirms that the pointer conversion and prefix fields preserve their
 instructions and relocations.
 
-The independently named `D_80010008`, `gModel_Slot0VariantModuleAddress`,
+The independently named `gModel_AuxiliaryPayloadAddress`, `gModel_Slot0VariantModuleAddress`,
 `gModel_Slot1VariantModuleAddress` and `gMainMenu_dwSuModuleBase` transfer destinations
 retain signed-word `.data` declarations. The initializer's
 `gModel_Slot0PrimaryDataAddress`, `gModel_Slot1PrimaryDataAddress`,
