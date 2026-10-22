@@ -6,6 +6,7 @@
 #include "sound_output_state.h"
 #include "sound_output.h"
 #include "sound_state_control.h"
+#include "sound_bgm_commands.h"
 
 void Sound_InitFrontend(void)
 {
@@ -56,7 +57,7 @@ void SD_CdSoundSeek(u32 value)
     SD_EnqueueCdSeek((value & SD_COMMAND_VALUE_MASK) | 0x8000);
 }
 
-void func_8003FFD8(u32 value)
+void SD_CdBgmPlay(u32 value)
 {
     SD_BGMPlayDefaultStep((value & SD_COMMAND_VALUE_MASK) | 0xA000);
 }

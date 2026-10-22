@@ -116,3 +116,6 @@ D_80090DD8 = gCardList_SortIconTable;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
 gViewState_Current = D_800F2848;
+
+func_8003FFD8 = SD_CdBgmPlay;
+gSD_dwSavedBgmCommand = D_8009B404;
