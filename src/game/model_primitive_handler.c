@@ -8,6 +8,7 @@
 #include "func_8006151C.h"
 #include "func_80061A84.h"
 #include "model_primitive_handler.h"
+#include "direct_polygon_renderers.h"
 #include "model_handler_registry.h"
 #include "../unmatched.h"
 
@@ -95,21 +96,21 @@ block_21:
 block_24:
     return (void *)GsU_00000000;
 block_25:
-    return func_800612C0;
+    return Model_DrawFt3Primitives;
 block_26:
-    return func_8006151C;
+    return Model_DrawGt3Primitives;
 block_27:
-    return func_800617E0;
+    return Model_DrawFt4Primitives;
 block_28:
-    return func_80061A84;
+    return Model_DrawGt4Primitives;
 block_29:
-    return func_80061DDC;
+    return Model_DrawFt3WindowRecordPrimitives;
 block_30:
-    return func_80062058;
+    return Model_DrawGt3WindowRecordPrimitives;
 block_31:
-    return func_8006233C;
+    return Model_DrawFt4WindowRecordPrimitives;
 block_32:
-    return func_80062600;
+    return Model_DrawGt4WindowRecordPrimitives;
 block_33:
     temp_a0_2 = arg0 & 0xFFFF;
     if (temp_a0_2 == 0xD) {
@@ -166,21 +167,21 @@ block_50:
     }
     goto block_107;
 block_53:
-    return func_80062978;
+    return Model_DrawTwoSidedFt3Primitives;
 block_54:
-    return func_80062BC0;
+    return Model_DrawTwoSidedGt3Primitives;
 block_55:
-    return func_80062E70;
+    return Model_DrawTwoSidedFt4Primitives;
 block_56:
-    return func_80063100;
+    return Model_DrawTwoSidedGt4Primitives;
 block_57:
-    return func_80063444;
+    return Model_DrawTwoSidedFt3WindowRecordPrimitives;
 block_58:
-    return func_800636AC;
+    return Model_DrawTwoSidedGt3WindowRecordPrimitives;
 block_59:
-    return func_8006397C;
+    return Model_DrawTwoSidedFt4WindowRecordPrimitives;
 block_60:
-    return func_80063C2C;
+    return Model_DrawTwoSidedGt4WindowRecordPrimitives;
 block_61:
     temp_a0_4 = arg0 & 0xFFFF;
     if (temp_a0_4 == 0x15) {
@@ -224,21 +225,21 @@ block_73:
     }
     goto block_107;
 block_76:
-    return func_80063F90;
+    return Model_DrawSemiFt3Primitives;
 block_77:
-    return func_80064248;
+    return Model_DrawSemiGt3Primitives;
 block_78:
-    return func_80064568;
+    return Model_DrawSemiFt4Primitives;
 block_79:
-    return func_80064868;
+    return Model_DrawSemiGt4Primitives;
 block_80:
-    return func_80064C1C;
+    return Model_DrawSemiFt3WindowRecordPrimitives;
 block_81:
-    return func_80064EF4;
+    return Model_DrawSemiGt3WindowRecordPrimitives;
 block_82:
-    return func_80065234;
+    return Model_DrawSemiFt4WindowRecordPrimitives;
 block_83:
-    return func_80065554;
+    return Model_DrawSemiGt4WindowRecordPrimitives;
 block_84:
     temp_a0_5 = arg0 & 0xFFFF;
     if (temp_a0_5 == 0x15) {
@@ -282,21 +283,21 @@ block_96:
     }
     goto block_107;
 block_99:
-    return func_80065928;
+    return Model_DrawTwoSidedSemiFt3Primitives;
 block_100:
-    return func_80065BCC;
+    return Model_DrawTwoSidedSemiGt3Primitives;
 block_101:
-    return func_80065ED8;
+    return Model_DrawTwoSidedSemiFt4Primitives;
 block_102:
-    return func_800661C4;
+    return Model_DrawTwoSidedSemiGt4Primitives;
 block_103:
-    return func_80066564;
+    return Model_DrawTwoSidedSemiFt3WindowRecordPrimitives;
 block_104:
-    return func_80066828;
+    return Model_DrawTwoSidedSemiGt3WindowRecordPrimitives;
 block_105:
-    return func_80066B54;
+    return Model_DrawTwoSidedSemiFt4WindowRecordPrimitives;
 block_106:
-    return func_80066E60;
+    return Model_DrawTwoSidedSemiGt4WindowRecordPrimitives;
 block_107:
 #ifdef VERSION_EUROPE
     printf("unsupported POLYGON primitive 0x%08lx.\n", arg0);

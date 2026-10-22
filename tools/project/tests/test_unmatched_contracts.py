@@ -190,6 +190,168 @@ class UnmatchedContractTests(unittest.TestCase):
                 for error in self.errors())
         )
 
+    def test_exact_legacy_handwritten_alias_is_recognized(self) -> None:
+        self.write_inventory("renderer", "handwritten_asm")
+        self.write(
+            "config/slus_01411/link_symbols.ld",
+            "func_80010000 = renderer;\n",
+        )
+        self.assertEqual(
+            unmatched_contracts.legacy_handwritten_declarations(self.root),
+            {"func_80010000"},
+        )
+
+    def test_legacy_alias_requires_a_terminating_semicolon(self) -> None:
+        self.write_inventory("renderer", "handwritten_asm")
+        for source in (
+            "func_80010000 = renderer",
+            "func_80010000 = renderer\n",
+            "func_80010000 = renderer /* no delimiter */\n",
+            "unrelated = renderer;\nfunc_80010000 = renderer\n",
+        ):
+            with self.subTest(source=source):
+                self.write("config/slus_01411/link_symbols.ld", source)
+                self.assertEqual(
+                    unmatched_contracts.legacy_handwritten_declarations(
+                        self.root,
+                    ),
+                    set(),
+                )
+
+    def test_legacy_alias_requires_the_complete_linker_lhs(self) -> None:
+        self.write_inventory("renderer", "handwritten_asm")
+        for name in (
+            "prefix.func_80010000", ".func_80010000",
+            "prefix$func_80010000", "prefix_func_80010000",
+            '"prefix.func_80010000"',
+        ):
+            with self.subTest(name=name):
+                self.write(
+                    "config/slus_01411/link_symbols.ld",
+                    f"{name} = renderer;\n",
+                )
+                self.assertEqual(
+                    unmatched_contracts.legacy_handwritten_declarations(
+                        self.root,
+                    ),
+                    set(),
+                )
+        self.write(
+            "config/slus_01411/link_symbols.ld",
+            "func_80010000 = renderer;\nprefix.func_80010000 = renderer;\n",
+        )
+        self.assertEqual(
+            unmatched_contracts.legacy_handwritten_declarations(self.root),
+            {"func_80010000"},
+        )
+
+    def test_legacy_alias_uses_quoted_linker_symbol_boundaries(self) -> None:
+        self.write_inventory("renderer", "handwritten_asm")
+        valid = "func_80010000 = renderer;\n"
+        quoted = '"prefix;func_80010000 = renderer;tail" = 0;\n'
+        cases = (
+            (quoted, set()),
+            (valid + quoted, {"func_80010000"}),
+            (valid + '"func_80010000" = renderer;\n', set()),
+            (valid + '"func_80010000" = absent;\n', set()),
+            (valid + valid, set()),
+            (
+                '"prefix\\\";func_80010000 = renderer;tail" = 0;\n',
+                set(),
+            ),
+            (valid + '"prefix\\\";unrelated;tail" = 0;\n', set()),
+            (valid + '"unterminated;func_80010000 = renderer;\n', set()),
+        )
+        for source, expected in cases:
+            with self.subTest(source=source):
+                self.write("config/slus_01411/link_symbols.ld", source)
+                self.assertEqual(
+                    unmatched_contracts.legacy_handwritten_declarations(
+                        self.root,
+                    ),
+                    expected,
+                )
+
+    def test_legacy_alias_counts_hyphenated_linker_names_whole(self) -> None:
+        self.write_inventory("renderer", "handwritten_asm")
+        valid = "func_80010000 = renderer;\n"
+        for prefix in ("prefix-", "prefix.", "prefix$", "prefix_"):
+            with self.subTest(prefix=prefix):
+                self.write(
+                    "config/slus_01411/link_symbols.ld",
+                    valid + f"{prefix}func_80010000 = 0;\n",
+                )
+                self.assertEqual(
+                    unmatched_contracts.legacy_handwritten_declarations(
+                        self.root,
+                    ),
+                    {"func_80010000"},
+                )
+        self.write(
+            "config/slus_01411/link_symbols.ld",
+            valid + "prefix-func_80010000 = func_80010000;\n",
+        )
+        self.assertEqual(
+            unmatched_contracts.legacy_handwritten_declarations(self.root),
+            set(),
+        )
+
+    def test_invalid_legacy_alias_metadata_is_rejected(self) -> None:
+        valid = "func_80010000 = renderer;\n"
+        cases = {
+            "missing": "",
+            "missing-target": "func_80010000 = absent;\n",
+            "wrong-address": "func_80010004 = renderer;\n",
+            "chain": (
+                "func_80010000 = intermediate;\n"
+                "intermediate = renderer;\n"
+            ),
+            "duplicate": valid + valid,
+            "malformed": "func_80010000 = renderer + 0;\n",
+            "compound": valid + "func_80010000 += 4;\n",
+            "wrapped": "HIDDEN(func_80010000 = renderer);\n",
+            "wrapped-override": valid + "HIDDEN(func_80010000 = absent);\n",
+            "provide": "PROVIDE(func_80010000 = renderer);\n",
+            "provide-override": valid + "PROVIDE(func_80010000 = absent);\n",
+        }
+        for label, source in cases.items():
+            with self.subTest(case=label):
+                self.write_inventory("renderer", "handwritten_asm")
+                self.write("config/slus_01411/link_symbols.ld", source)
+                self.assertEqual(
+                    unmatched_contracts.legacy_handwritten_declarations(
+                        self.root,
+                    ),
+                    set(),
+                )
+        for status in ("matching_c", "unmatched_asm", "sdk_asm"):
+            with self.subTest(status=status):
+                self.write_inventory("renderer", status)
+                self.write("config/slus_01411/link_symbols.ld", valid)
+                self.assertEqual(
+                    unmatched_contracts.legacy_handwritten_declarations(
+                        self.root,
+                    ),
+                    set(),
+                )
+        self.write_inventory("renderer", "handwritten_asm")
+        path = self.root / "config/slus_01411/functions.csv"
+        with path.open(newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            fields = reader.fieldnames
+            rows = list(reader)
+        assert fields is not None
+        rows[0]["module"] = "psyq"
+        with path.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields)
+            writer.writeheader()
+            writer.writerows(rows)
+        self.write("config/slus_01411/link_symbols.ld", valid)
+        self.assertEqual(
+            unmatched_contracts.legacy_handwritten_declarations(self.root),
+            set(),
+        )
+
     def test_data_attributes_are_not_function_declarations(self) -> None:
         self.write_linker_symbols("data = 0x80010000;\n")
         self.write(

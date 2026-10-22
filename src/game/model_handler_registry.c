@@ -17,6 +17,7 @@
 #define FUNC_800603DC_RETURNS_HANDLER
 #include "model_primitive_handler.h"
 #include "model_handler_registry.h"
+#include "direct_polygon_renderers.h"
 #include "wireframe_renderers.h"
 #include "primitive_handler_modes.h"
 #include "../unmatched.h"
@@ -131,41 +132,41 @@ have:
     case 0x200000:
         switch (v & 0xFFFF) {
         case 0x9:
-            return (s32)func_800612C0;
+            return (s32)Model_DrawFt3Primitives;
         case 0x209:
-            return (s32)func_80061DDC;
+            return (s32)Model_DrawFt3WindowRecordPrimitives;
         case 0x11:
-            return (s32)func_800617E0;
+            return (s32)Model_DrawFt4Primitives;
         case 0x211:
-            return (s32)func_8006233C;
+            return (s32)Model_DrawFt4WindowRecordPrimitives;
         case 0xD:
-            return (s32)func_8006151C;
+            return (s32)Model_DrawGt3Primitives;
         case 0x20D:
-            return (s32)func_80062058;
+            return (s32)Model_DrawGt3WindowRecordPrimitives;
         case 0x15:
-            return (s32)func_80061A84;
+            return (s32)Model_DrawGt4Primitives;
         case 0x215:
-            return (s32)func_80062600;
+            return (s32)Model_DrawGt4WindowRecordPrimitives;
         }
         break;
     case 0x300000:
         switch (v & 0xFFFF) {
         case 0x9:
-            return (s32)func_80062978;
+            return (s32)Model_DrawTwoSidedFt3Primitives;
         case 0x209:
-            return (s32)func_80063444;
+            return (s32)Model_DrawTwoSidedFt3WindowRecordPrimitives;
         case 0x11:
-            return (s32)func_80062E70;
+            return (s32)Model_DrawTwoSidedFt4Primitives;
         case 0x211:
-            return (s32)func_8006397C;
+            return (s32)Model_DrawTwoSidedFt4WindowRecordPrimitives;
         case 0xD:
-            return (s32)func_80062BC0;
+            return (s32)Model_DrawTwoSidedGt3Primitives;
         case 0x20D:
-            return (s32)func_800636AC;
+            return (s32)Model_DrawTwoSidedGt3WindowRecordPrimitives;
         case 0x15:
-            return (s32)func_80063100;
+            return (s32)Model_DrawTwoSidedGt4Primitives;
         case 0x215:
-            return (s32)func_80063C2C;
+            return (s32)Model_DrawTwoSidedGt4WindowRecordPrimitives;
         }
         break;
     case 0x1200000:

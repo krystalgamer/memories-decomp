@@ -20,6 +20,7 @@ DATA_EXCEPTIONS = Path(
     "config/slus_01411/unmatched_data_contract_exceptions.json"
 )
 LINKER_SYMBOLS = Path("config/slus_01411/c_symbols.ld")
+LINKER_ALIASES = Path("config/slus_01411/link_symbols.ld")
 CANDIDATES = Path("config/slus_01411/candidates.json")
 COMPILER_PROFILES = Path("config/slus_01411/compiler_profiles.json")
 # Headers a build-integrated candidate may not take its declaration from:
@@ -55,6 +56,53 @@ def inventory(root: Path) -> dict[str, str]:
         for row in rows
         if row["module"] == "game"
     }
+
+
+def legacy_handwritten_declarations(root: Path) -> set[str]:
+    """Recognize exact-address, single-hop aliases for frozen legacy headers."""
+    path = root / LINKER_ALIASES
+    if not path.is_file():
+        return set()
+    source = candidate_builds.strip_c_comments(read_text(path))
+    symbol_uses: Counter[str] = Counter()
+    statements: list[str] = []
+    start = 0
+    for token in re.finditer(
+        r'"(?:\\.|[^"\\])*"|[A-Za-z_.$][A-Za-z0-9_.$-]*|.',
+        source,
+        re.DOTALL,
+    ):
+        text = token[0]
+        if text.startswith('"') and len(text) > 1:
+            if "\\" in text:
+                return set()
+            symbol_uses[text[1:-1]] += 1
+        elif text in ('"', "'"):
+            return set()
+        elif text == ";":
+            statements.append(source[start:token.start()])
+            start = token.end()
+        elif re.fullmatch(r"[A-Za-z_.$][A-Za-z0-9_.$-]*", text):
+            symbol_uses[text] += 1
+    with (root / FUNCTIONS).open(newline="", encoding="utf-8") as handle:
+        targets = {
+            row["name"]: int(row["address"], 16)
+            for row in csv.DictReader(handle)
+            if row["module"] == "game" and row["status"] == "handwritten_asm"
+        }
+    result: set[str] = set()
+    for statement in statements:
+        match = re.fullmatch(
+            r"\s*(func_[0-9A-Fa-f]{8})\s*=\s*([A-Za-z_]\w*)\s*",
+            statement,
+        )
+        if (
+            match is not None
+            and symbol_uses[match[1]] == 1
+            and targets.get(match[2]) == int(match[1][5:], 16)
+        ):
+            result.add(match[1])
+    return result
 
 
 def candidate_names(root: Path) -> set[str]:
@@ -754,6 +802,7 @@ def validate_variant_block(
 
 def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     statuses = inventory(root)
+    legacy_handwritten = legacy_handwritten_declarations(root)
     unmatched = {
         name for name, status in statuses.items() if status == "unmatched_asm"
     }
@@ -765,6 +814,8 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     for name, statement in central_pairs:
         central[name].append(statement)
         status = statuses.get(name)
+        if status is None and name in legacy_handwritten:
+            status = "handwritten_asm"
         if status not in CENTRALIZABLE_STATUSES:
             errors.append(
                 f"{UNMATCHED_HEADER}: stale declaration {name}: "

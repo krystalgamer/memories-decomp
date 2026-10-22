@@ -130,3 +130,6 @@ func_8006A99C = Model_DrawSharedGt3Wireframes;
 func_8006AAFC = Model_DrawSharedGt4Wireframes;
 func_8006AC88 = Model_DrawSharedGt3WindowRecordWireframes;
 func_8006ADE8 = Model_DrawSharedGt4WindowRecordWireframes;
+
+func_8006151C = Model_DrawGt3Primitives;
+func_80061A84 = Model_DrawGt4Primitives;

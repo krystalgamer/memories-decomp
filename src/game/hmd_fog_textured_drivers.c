@@ -9,6 +9,7 @@
 #include "hmd_fog_textured_drivers.h"
 #include "func_8006151C.h"
 #include "func_80061A84.h"
+#include "direct_polygon_renderers.h"
 
 /* The two HMD primitive drivers for fog-shaded textured polygons that
    Model_GetPrimitiveHandler returns: Model_DrawFogTexturedTriangles for triangles (type
@@ -22,7 +23,7 @@
 /*
  * HMD primitive driver for type 0x0002000D (GsUFGT3, fog-shaded textured
  * triangle), returned by Model_GetPrimitiveHandler. Bit 3 of gModel_dwFogDrawFlags hands
- * the block to func_8006151C, bit 2 walks the triangles through
+ * the block to Model_DrawGt3Primitives, bit 2 walks the triangles through
  * SortedEntry_Append instead of drawing them, and bits 0-1 draw sorted entries as
  * POLY_GT3 and the rest as closed LINE_G4 outlines; otherwise every
  * front-facing triangle is drawn as POLY_GT3.
@@ -54,7 +55,7 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
 
     flags = gModel_dwFogDrawFlags;
     if (flags & 8) {
-        return func_8006151C(arg);
+        return Model_DrawGt3Primitives(arg);
     }
     mask = 0xFFFFFF;
     white = (CVECTOR *)0x1F8003C0;
@@ -246,7 +247,7 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
 /*
  * HMD primitive driver for type 0x00020015 (fog-shaded textured quad), the
  * POLY_GT4 twin of Model_DrawFogTexturedTriangles that Model_GetPrimitiveHandler returns.
- * Bit 3 of gModel_dwFogDrawFlags hands the block to func_80061A84, bit 2 walks the
+ * Bit 3 of gModel_dwFogDrawFlags hands the block to Model_DrawGt4Primitives, bit 2 walks the
  * quads through SortedEntry_Append, and bits 0-1 draw sorted entries as POLY_GT4
  * and the rest as a LINE_G4 outline closed by a LINE_G2; otherwise every
  * front-facing quad is drawn as POLY_GT4.
@@ -295,7 +296,7 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
 
     flags = gModel_dwFogDrawFlags;
     if (flags & 8) {
-        return func_80061A84(arg);
+        return Model_DrawGt4Primitives(arg);
     }
     mask = 0xFFFFFF;
     white = (CVECTOR *)0x1F8003C0;
