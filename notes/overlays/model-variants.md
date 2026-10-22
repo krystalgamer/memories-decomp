@@ -168,6 +168,28 @@ phase 3, grows to `0x4000` in phase 4 and fades out in phase 5.
 Its spiral at `0x1714` (`variant459_spiral`, 596 instructions) is the French
 header-476 spiral (`variant476_spiral`) built under gcc 2.7.2 at the North
 American address; the code is identical.
+The image's entry at `0x4` (`variant459_entry`, 1239 instructions, written for
+the North American stream; `variant459_entry_slot1` builds the header-609
+image) fills the state on the setup command: the three webs, sixteen glows,
+the sheet, the two grids (nine rows of seventeen points at `work + 0xFF8`,
+nine rows of nine at the screen grid), five curtains and the packets, reading
+its 0x38-byte config and five image descriptors from the data at `0x3338`.
+Otherwise it tracks the part with the header-337 camera code, projects it, and
+runs the five draw helpers through the config's start, second and fade frames.
+What the retail code needs: one `packed` word for the first four uploads with
+the ray's tpage and clut taken before the fourth call, and a fresh `packed2`
+for the veil upload of phase 5, whose clut goes through the last halfword of
+the 64-byte stack pad (`sh`/`lhu` at `sp + 78`) and whose tpage is held in
+`frame` across `SetPolyGT4`; the grid rows indexed from `row` inside the loops
+(`rowp = grid + row * 17`, `rsin(row * 256)`) so that the row pointers and the
+angle are the loop pass's own registers, spilled after the colour pointers;
+one counter `n` for the sheet, webs, curtains and the zeroes loop and `f12`
+for the glows; `ang` for the grid's inner angle and the webs' outer angle with
+a separate `angle` for the webs' inner angle, and `f99` declared before `f71`;
+the `4096` of `field_27D8` stored before the halfword `1024` so the constant
+keeps `v1`; and the comparisons written `config->start <= frame`,
+`config->second <= frame` and `fade_end <= frame`. Both images rebuild
+byte-identical to retail; every function of both is now C.
 Header 397 has a 349-instruction form at `0x1E7C` (`variant397_webs`): 4x6
 grids in 0x1A0-byte `ModelVariantWebNarrow` records, driven by the phase at
 `work + 0xF78`. In phase 0 each scale shrinks by `step * 0xC0` from `0x1000`
