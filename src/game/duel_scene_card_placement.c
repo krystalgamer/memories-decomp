@@ -31,6 +31,7 @@
 #include "sound.h"
 #include "../unmatched.h"
 #include "duel_scene_card_placement.h"
+#include "duel_presentation_controls.h"
 #include "display_callback_transitions.h"
 
 /* Regional value: the screen height a card leaves at (240 -> 256). The
@@ -79,8 +80,8 @@ void DuelScene_UpdateCardPlacement(void)
         value = 4;
         gDuel_wSceneStateFlags |= 0x8000;
         gDuel_pActiveSelectionRecord = side;
-        D_8009B218 = 0;
-        D_8009B1B9 = 0;
+        gDuel_bPlacementNeedsCardMoveSetup = 0;
+        gDuel_bPresentationCursor = 0;
         gDuel_wPendingEquipBonus = 0;
         n = 5;
         y = 82;
@@ -103,11 +104,11 @@ void DuelScene_UpdateCardPlacement(void)
         PLACEMENT_TY(object) = 82;
         DisplayObject_SetDepthOffset(object, value);
         if ((u8)(object->field_6A % 15) < 5)
-        D_8009B218 = 1;
+        gDuel_bPlacementNeedsCardMoveSetup = 1;
         slots = gDisplayObject_apWorkSlots;
         if (!slots[1]) {
             if (slots[0]->field_68 < 20)
-            D_8009B218 = 1;
+            gDuel_bPlacementNeedsCardMoveSetup = 1;
             gDuel_wPlacementCardId = PLACEMENT_REPLAY_CARD(object).card_id;
             PLACEMENT_TX(object) = 134;
             PLACEMENT_TY(object) = 42;
@@ -234,13 +235,13 @@ void DuelScene_UpdateCardPlacement(void)
             DisplayObject *G32 *slots;
             if (!(gDuel_bSceneSubStep & 0x80)) {
                 gDuel_bSceneSubStep |= 0x80;
-                D_8009B1B9++;
-                if ((s8)D_8009B1B9 >= 6) {
+                gDuel_bPresentationCursor++;
+                if ((s8)gDuel_bPresentationCursor >= 6) {
                     gDuel_bSceneSubStep = 8;
                     return;
                 }
                 {
-                    DisplayObject *selected = gDisplayObject_apWorkSlots[(s8)D_8009B1B9];
+                    DisplayObject *selected = gDisplayObject_apWorkSlots[(s8)gDuel_bPresentationCursor];
                     if (!selected) {
                         gDuel_bSceneSubStep = 8;
                         return;
@@ -294,9 +295,9 @@ request_combination:
             object->field_30.word = slots[0]->field_30.word;
             if (!((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value) {
                 gDuel_bSceneSubStep = 7;
-                D_8009B218 = -1;
+                gDuel_bPlacementNeedsCardMoveSetup = -1;
             } else if (((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value & 0x8000) {
-                D_8009B218 = 1;
+                gDuel_bPlacementNeedsCardMoveSetup = 1;
                 gDuel_wPendingEquipBonus = 0;
                 gDuel_bSceneSubStep = 6;
                 gDuel_pActiveSideState->rank.fusions_initiated++;
@@ -674,7 +675,7 @@ finish_effect_step:
                 gDuel_wSceneStateFlags = 0x4008;
                 card = &base[index];
                 card->flags &= ~0x1000;
-                if (D_8009B218)
+                if (gDuel_bPlacementNeedsCardMoveSetup)
                 gDuel_wSceneStateFlags = 8;
             }
             break;

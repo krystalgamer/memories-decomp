@@ -21,7 +21,7 @@
  * - The state-4 request block reads the flags before the field stores into a
  *   block-local, keeps the x coordinate and the level index in one shared
  *   variable so the second assignment waits for the first store, and the
- *   record pointer is &gCardPreview_Resources[D_8009B1B9] with the meter copied through
+ *   record pointer is &gCardPreview_Resources[gDuel_bPresentationCursor] with the meter copied through
  *   the sound-id scratch (retail's $a0).
  * - State 8 copies the position words through non-struct views so the copy
  *   cannot pass the flag byte store, and the shake block's flags are an s32
@@ -76,6 +76,7 @@
 #define D_8009B208_AS_REPLAY_BYTES
 #include "duel_scene_resume.h"
 #include "duel_scene_card_placement.h"
+#include "duel_presentation_controls.h"
 #include "sound.h"
 #include "main_modes.h"
 #include "duel_card_capture_rounded_texture.h"
@@ -336,7 +337,7 @@ void DuelScene_UpdateBattle(void)
         if (!(D_800E9ECE[0] & 0x80)) {
             gDuel_bSceneSubStep = 4;
             if (gDuel_wSelectedTrapCardId != 0) {
-                D_8009B1B9 = gDuel_wSelectedTrapCardId == 0x2B2;
+                gDuel_bPresentationCursor = gDuel_wSelectedTrapCardId == 0x2B2;
                 gDuel_bSceneSubStep = 0xA;
                 return;
             }
@@ -405,12 +406,12 @@ void DuelScene_UpdateBattle(void)
                                                     &gDuel_aCardRecords[gDisplayObject_apWorkSlots[1]->field_6A]);
                 if (result != 0) {
                     side = gDisplayObject_apWorkSlots[2];
-                    D_8009B1B9 = 0;
+                    gDuel_bPresentationCursor = 0;
                     if (result < 0) {
                         side = gDisplayObject_apWorkSlots[3];
-                        D_8009B1B9 = 1;
+                        gDuel_bPresentationCursor = 1;
                     }
-                    rec = &gDuel_aCardRecords[gDisplayObject_apWorkSlots[D_8009B1B9]->field_6A];
+                    rec = &gDuel_aCardRecords[gDisplayObject_apWorkSlots[gDuel_bPresentationCursor]->field_6A];
                     if (rec->flags & 0x200) {
                         level = gDuel_adwCardStats[rec->card_id - 1] >> 0x12;
                     } else {
@@ -457,7 +458,7 @@ void DuelScene_UpdateBattle(void)
                     gDuel_bSceneSubStep = f & 0xBF;
                     gDuel_wStepCounter = 0x1F4;
                 }
-                resource = &gCardPreview_Resources[D_8009B1B9];
+                resource = &gCardPreview_Resources[gDuel_bPresentationCursor];
                 arg = gDuel_wStepCounter;
                 *(u16 *)&resource->attack_adjustment = arg;
                 *(u16 *)&resource->defense_adjustment = arg;
@@ -534,15 +535,15 @@ void DuelScene_UpdateBattle(void)
             gDuel_bSceneSubStep = 9;
             return;
         }
-        D_8009B1B9 = 2;
+        gDuel_bPresentationCursor = 2;
         gDuel_bSceneSubStep = 6;
     case 6:
-        D_8009B1B9 = D_8009B1B9 - 1;
-        if ((s8)D_8009B1B9 >= 0) {
+        gDuel_bPresentationCursor = gDuel_bPresentationCursor - 1;
+        if ((s8)gDuel_bPresentationCursor >= 0) {
             gDuel_bSceneSubStep = 8;
         case 8:
             flags = gDuel_bSceneSubStep;
-            ix = D_8009B1B9;
+            ix = gDuel_bPresentationCursor;
             side = gDisplayObject_apWorkSlots[ix + 2];
             if (!(flags & 0x80)) {
                 gDuel_bSceneSubStep = flags | 0xC0;
@@ -555,7 +556,7 @@ void DuelScene_UpdateBattle(void)
                     req->field_02 =
                         side->field_30.h.field_32 +
                         DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
-                    result = gDuel_awBattleDamage[D_8009B1B9];
+                    result = gDuel_awBattleDamage[gDuel_bPresentationCursor];
                     gDuelEffect_pTrackedRequest = req;
                     req->field_12 = result;
                     result = (result < 0 ? -result : result) / 1000;
@@ -563,11 +564,11 @@ void DuelScene_UpdateBattle(void)
                         result = 2;
                     }
                     req->field_1A = result;
-                    if (wins[D_8009B1B9] > 0) {
+                    if (wins[gDuel_bPresentationCursor] > 0) {
                         gDuel_bSceneSubStep |= 0x20;
                     }
                     arg = result + 0x10;
-                    if (D_8009B1B9 == 0) {
+                    if (gDuel_bPresentationCursor == 0) {
                         arg = result + 0xD;
                     }
                     SD_SEPlayFull(arg);
@@ -632,7 +633,7 @@ void DuelScene_UpdateBattle(void)
         return;
 
     case 10:
-        side = gDisplayObject_apWorkSlots[D_8009B1B9 + 2];
+        side = gDisplayObject_apWorkSlots[gDuel_bPresentationCursor + 2];
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0x80;
             DuelCard_CaptureRoundedTexture(side);
@@ -653,9 +654,9 @@ void DuelScene_UpdateBattle(void)
             gDuel_wStepCounter = gDuel_wStepCounter - 1;
             if ((s16)gDuel_wStepCounter <= 0) {
                 gDuel_bSceneSubStep |= 0x40;
-                DuelEffect_ReleaseResourceObjects(D_8009B1B9);
-                if (D_8009B1B9 != 1 || gDuel_wSelectedTrapCardId == 0) {
-                    gDisplayObject_apWorkSlots[D_8009B1B9 + 2] = 0;
+                DuelEffect_ReleaseResourceObjects(gDuel_bPresentationCursor);
+                if (gDuel_bPresentationCursor != 1 || gDuel_wSelectedTrapCardId == 0) {
+                    gDisplayObject_apWorkSlots[gDuel_bPresentationCursor + 2] = 0;
                     return;
                 }
             }

@@ -28,13 +28,13 @@ typedef struct {
     u8 after[16];
 } GuardedRecords;
 extern GuardedRecords test_records;
-extern s8 D_8009B1B9;
+extern s8 gDuel_bPresentationCursor;
 extern u16 gDuel_wStepCounter;
 #define gCardPreview_Resources test_records.records
 """
 WITNESS = HEADERS + r"""
 GuardedRecords test_records;
-s8 D_8009B1B9;
+s8 gDuel_bPresentationCursor;
 u16 gDuel_wStepCounter;
 static u8 expected[sizeof(test_records)];
 void write_meter(void);
@@ -43,7 +43,7 @@ int main(void)
 {
     u32 slot, value, i, offset, cases = 0;
     for (slot = 0; slot < 4; slot++) {
-        D_8009B1B9 = slot;
+        gDuel_bPresentationCursor = slot;
         for (value = 0; value < 65536; value++) {
             for (i = 0; i < sizeof(test_records); i++) {
                 ((u8 *)&test_records)[i] = i * 37 + slot * 13 + value;
@@ -91,7 +91,7 @@ class BattleResourceMeterTests(unittest.TestCase):
         block = re.search(
             r"(?s)if \(f & 0x40\) \{\s*"
             r"(?:/\*.*?\*/\s*)?DuelEffectResourceRecord \*resource;.*?"
-            r"(?P<stores>resource = &gCardPreview_Resources\[D_8009B1B9\];\s*"
+            r"(?P<stores>resource = &gCardPreview_Resources\[gDuel_bPresentationCursor\];\s*"
             r"arg = gDuel_wStepCounter;\s*"
             r"\*\(u16 \*\)&resource->attack_adjustment = arg;\s*"
             r"\*\(u16 \*\)&resource->defense_adjustment = arg;)",
@@ -107,7 +107,7 @@ class BattleResourceMeterTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 code = stores
                 if mutation == "wrong-slot":
-                    code = code.replace("[D_8009B1B9]", "[0]")
+                    code = code.replace("[gDuel_bPresentationCursor]", "[0]")
                 elif mutation == "wrong-member":
                     code = code.replace("resource->defense_adjustment", "resource->attack_adjustment")
                 elif mutation == "wide-second-store":

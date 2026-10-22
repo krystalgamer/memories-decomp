@@ -15,7 +15,7 @@ from tools.project.tests.test_library_display_objects import START
 ROOT = Path(__file__).resolve().parents[3]
 FIXTURE = r"""
 typedef char ilp32[sizeof(void *) == 4 ? 1 : -1];
-typedef char counter_byte[sizeof(D_8009B1B9) == 1 ? 1 : -1];
+typedef char counter_byte[sizeof(gDuel_bPresentationCursor) == 1 ? 1 : -1];
 typedef struct {
     u8 before[16];
     DuelEffectRequest request;
@@ -34,7 +34,7 @@ typedef struct {
 extern GuardedRequest state;
 extern GuardedDisplays displays;
 #define gDuelEffect_pTrackedRequest state.scene
-#define D_8009B1B9 state.counter
+#define gDuel_bPresentationCursor state.counter
 #define gDisplayObject_apWorkSlots displays.slots
 """
 WITNESS = r"""
