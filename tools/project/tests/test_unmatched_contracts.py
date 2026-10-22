@@ -201,6 +201,23 @@ class UnmatchedContractTests(unittest.TestCase):
             {"func_80010000"},
         )
 
+    def test_legacy_alias_requires_a_terminating_semicolon(self) -> None:
+        self.write_inventory("renderer", "handwritten_asm")
+        for source in (
+            "func_80010000 = renderer",
+            "func_80010000 = renderer\n",
+            "func_80010000 = renderer /* no delimiter */\n",
+            "unrelated = renderer;\nfunc_80010000 = renderer\n",
+        ):
+            with self.subTest(source=source):
+                self.write("config/slus_01411/link_symbols.ld", source)
+                self.assertEqual(
+                    unmatched_contracts.legacy_handwritten_declarations(
+                        self.root,
+                    ),
+                    set(),
+                )
+
     def test_legacy_alias_requires_the_complete_linker_lhs(self) -> None:
         self.write_inventory("renderer", "handwritten_asm")
         for name in (

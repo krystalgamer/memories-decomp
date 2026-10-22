@@ -80,8 +80,9 @@ profiles, matching manifests, statuses, extents and historical evidence remain.
 The existing central-declaration validator recognizes compatibility aliases
 without rewriting frozen `unmatched.h`. Admission requires exactly one direct
 linker assignment to a game-owned `handwritten_asm` inventory target at the
-address encoded in the old numeric name. The complete statement and LHS must
-match, and the old linker identifier must occur only once; a dotted or prefixed
+address encoded in the old numeric name. The statement must have its terminating
+semicolon; an unterminated final fragment never qualifies. The complete statement
+and LHS must match, and the old linker identifier must occur only once; a dotted or prefixed
 symbol is not that legacy name. Chains, duplicate/malformed aliases,
 wrong addresses, missing targets and matching-C targets do not qualify.
 Ordinary stale and matching-C central declarations are still rejected.

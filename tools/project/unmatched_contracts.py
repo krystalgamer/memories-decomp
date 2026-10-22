@@ -72,7 +72,7 @@ def legacy_handwritten_declarations(root: Path) -> set[str]:
             if row["module"] == "game" and row["status"] == "handwritten_asm"
         }
     result: set[str] = set()
-    for statement in source.split(";"):
+    for statement in source.split(";")[:-1]:
         match = re.fullmatch(
             r"\s*(func_[0-9A-Fa-f]{8})\s*=\s*([A-Za-z_]\w*)\s*",
             statement,
