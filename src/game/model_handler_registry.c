@@ -18,6 +18,7 @@
 #include "model_primitive_handler.h"
 #include "model_handler_registry.h"
 #include "direct_polygon_renderers.h"
+#include "shared_primitive_renderers.h"
 #include "wireframe_renderers.h"
 #include "primitive_handler_modes.h"
 #include "../unmatched.h"
@@ -172,25 +173,25 @@ have:
     case 0x1200000:
         switch (v & 0xFFFF) {
         case 0xD:
-            return (s32)func_80067354;
+            return (s32)Model_DrawSharedGt3Primitives;
         case 0x20D:
-            return (s32)func_80067858;
+            return (s32)Model_DrawSharedGt3WindowRecordPrimitives;
         case 0x15:
-            return (s32)func_8006759C;
+            return (s32)Model_DrawSharedGt4Primitives;
         case 0x215:
-            return (s32)func_80067ABC;
+            return (s32)Model_DrawSharedGt4WindowRecordPrimitives;
         }
         break;
     case 0x1300000:
         switch (v & 0xFFFF) {
         case 0xD:
-            return (s32)func_80067D94;
+            return (s32)Model_DrawSharedTwoSidedGt3Primitives;
         case 0x20D:
-            return (s32)func_8006825C;
+            return (s32)Model_DrawSharedTwoSidedGt3WindowRecordPrimitives;
         case 0x15:
-            return (s32)func_80067FD0;
+            return (s32)Model_DrawSharedTwoSidedGt4Primitives;
         case 0x215:
-            return (s32)func_800684B4;
+            return (s32)Model_DrawSharedTwoSidedGt4WindowRecordPrimitives;
         }
         break;
     }
