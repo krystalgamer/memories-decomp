@@ -31,6 +31,7 @@ IMAGES = (
 HELPERS = (
     (0xDDC, 0x994, "ribbons", "variant433"),
     (0x1770, 0x70C, "bands", "variant433"),
+    (0x1E7C, 0x8D8, "rings", "variant433"),
     (0x2754, 0x5CC, "quads", "variant450_ntsc"),
     (0x2D20, 0x388, "lines", "variant450_ntsc"),
 )
@@ -76,7 +77,7 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
                 rows = list(csv.DictReader(handle))
             self.assertEqual(
                 [(int(row["address"], 0) - base, int(row["size"], 0), row["status"]) for row in rows],
-                [(start, end - start, "matching_c" if start in (0xDDC, 0x1770, 0x2754, 0x2D20)
+                [(start, end - start, "matching_c" if start in (0xDDC, 0x1770, 0x1E7C, 0x2754, 0x2D20)
                   else "unmatched_asm") for start, end in SPANS],
             )
             self.assertTrue(all("complete matching 20 KiB image" in row["notes"]
@@ -109,7 +110,7 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
                     (4, base + 4, "asm"),
                     (0xDDC, base + 0xDDC, "c"),
                     (0x1770, base + 0x1770, "c"),
-                    (0x1E7C, base + 0x1E7C, "asm"),
+                    (0x1E7C, base + 0x1E7C, "c"),
                     (0x2754, base + 0x2754, "c"),
                     (0x2D20, base + 0x2D20, "c"),
                     (0x30A8, base + 0x30A8, "asm"),
@@ -120,12 +121,13 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
     def test_attempts_and_source_fingerprints(self):
         with (ROOT / "notes/overlays/north-american-model-variant450-attempts.csv").open() as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual([row["result"] for row in rows], ["text_exact"] * 8 + ["matched"] * 8)
+        self.assertEqual([row["result"] for row in rows], ["text_exact"] * 10 + ["matched"] * 10)
         for row in rows:
             slot = int(row["slot"])
             label, prefix = {
                 "0xDDC": ("ribbons", "variant433"),
                 "0x1770": ("bands", "variant433"),
+                "0x1E7C": ("rings", "variant433"),
                 "0x2754": ("quads", "variant450_ntsc"),
                 "0x2D20": ("lines", "variant450_ntsc"),
             }[row["function_offset"]]
