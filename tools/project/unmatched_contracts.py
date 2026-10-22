@@ -64,7 +64,26 @@ def legacy_handwritten_declarations(root: Path) -> set[str]:
     if not path.is_file():
         return set()
     source = candidate_builds.strip_c_comments(read_text(path))
-    symbol_uses = Counter(re.findall(r"[A-Za-z_.$][A-Za-z0-9_.$]*", source))
+    symbol_uses: Counter[str] = Counter()
+    statements: list[str] = []
+    start = 0
+    for token in re.finditer(
+        r'"(?:\\.|[^"\\])*"|[A-Za-z_.$][A-Za-z0-9_.$-]*|.',
+        source,
+        re.DOTALL,
+    ):
+        text = token[0]
+        if text.startswith('"') and len(text) > 1:
+            if "\\" in text:
+                return set()
+            symbol_uses[text[1:-1]] += 1
+        elif text in ('"', "'"):
+            return set()
+        elif text == ";":
+            statements.append(source[start:token.start()])
+            start = token.end()
+        elif re.fullmatch(r"[A-Za-z_.$][A-Za-z0-9_.$-]*", text):
+            symbol_uses[text] += 1
     with (root / FUNCTIONS).open(newline="", encoding="utf-8") as handle:
         targets = {
             row["name"]: int(row["address"], 16)
@@ -72,7 +91,7 @@ def legacy_handwritten_declarations(root: Path) -> set[str]:
             if row["module"] == "game" and row["status"] == "handwritten_asm"
         }
     result: set[str] = set()
-    for statement in source.split(";")[:-1]:
+    for statement in statements:
         match = re.fullmatch(
             r"\s*(func_[0-9A-Fa-f]{8})\s*=\s*([A-Za-z_]\w*)\s*",
             statement,

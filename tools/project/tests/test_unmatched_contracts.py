@@ -245,6 +245,57 @@ class UnmatchedContractTests(unittest.TestCase):
             {"func_80010000"},
         )
 
+    def test_legacy_alias_uses_quoted_linker_symbol_boundaries(self) -> None:
+        self.write_inventory("renderer", "handwritten_asm")
+        valid = "func_80010000 = renderer;\n"
+        quoted = '"prefix;func_80010000 = renderer;tail" = 0;\n'
+        cases = (
+            (quoted, set()),
+            (valid + quoted, {"func_80010000"}),
+            (valid + '"func_80010000" = renderer;\n', set()),
+            (valid + '"func_80010000" = absent;\n', set()),
+            (valid + valid, set()),
+            (
+                '"prefix\\\";func_80010000 = renderer;tail" = 0;\n',
+                set(),
+            ),
+            (valid + '"prefix\\\";unrelated;tail" = 0;\n', set()),
+            (valid + '"unterminated;func_80010000 = renderer;\n', set()),
+        )
+        for source, expected in cases:
+            with self.subTest(source=source):
+                self.write("config/slus_01411/link_symbols.ld", source)
+                self.assertEqual(
+                    unmatched_contracts.legacy_handwritten_declarations(
+                        self.root,
+                    ),
+                    expected,
+                )
+
+    def test_legacy_alias_counts_hyphenated_linker_names_whole(self) -> None:
+        self.write_inventory("renderer", "handwritten_asm")
+        valid = "func_80010000 = renderer;\n"
+        for prefix in ("prefix-", "prefix.", "prefix$", "prefix_"):
+            with self.subTest(prefix=prefix):
+                self.write(
+                    "config/slus_01411/link_symbols.ld",
+                    valid + f"{prefix}func_80010000 = 0;\n",
+                )
+                self.assertEqual(
+                    unmatched_contracts.legacy_handwritten_declarations(
+                        self.root,
+                    ),
+                    {"func_80010000"},
+                )
+        self.write(
+            "config/slus_01411/link_symbols.ld",
+            valid + "prefix-func_80010000 = func_80010000;\n",
+        )
+        self.assertEqual(
+            unmatched_contracts.legacy_handwritten_declarations(self.root),
+            set(),
+        )
+
     def test_invalid_legacy_alias_metadata_is_rejected(self) -> None:
         valid = "func_80010000 = renderer;\n"
         cases = {

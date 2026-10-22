@@ -83,7 +83,12 @@ linker assignment to a game-owned `handwritten_asm` inventory target at the
 address encoded in the old numeric name. The statement must have its terminating
 semicolon; an unterminated final fragment never qualifies. The complete statement
 and LHS must match, and the old linker identifier must occur only once; a dotted or prefixed
-symbol is not that legacy name. Chains, duplicate/malformed aliases,
+symbol is not that legacy name. Statement delimiters inside quoted linker symbols
+are not boundaries, and dotted, dollar-containing and hyphenated unquoted names
+are counted whole. An exact quoted legacy name counts as a use, so a quoted
+override cannot hide a second definition. Escaped or unterminated quoted names
+conservatively reject compatibility admission rather than guessing their meaning.
+Chains, duplicate/malformed aliases,
 wrong addresses, missing targets and matching-C targets do not qualify.
 Ordinary stale and matching-C central declarations are still rejected.
 The existing policy-test module covers these metadata-only cases without
