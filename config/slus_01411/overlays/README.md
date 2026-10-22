@@ -27,7 +27,7 @@ and trailing module data:
 | `0x5590-0x7800` | `0x8016D590-0x8016F800` | Remaining raw module data |
 
 The first function prologue begins at `0x801680B4`. The trailing boundary is
-required by references to `D_8016D400`. The first `0x190` bytes are one
+required by references to `gNameEntry_bStateFlags`. The first `0x190` bytes are one
 consumer-backed `PasswordModuleState`; linker aliases retain the historical
 interior symbol names used by generated assembly while the C object owns the
 storage.

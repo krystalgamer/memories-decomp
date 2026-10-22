@@ -500,7 +500,7 @@ harder, which is worth knowing before starting.
 
 Password's blob runs `0x5400`–`0x7800`, 9216 bytes, and only **1499 of them
 are non-zero**, the first at `0x5590`. Everything before that — the whole
-`D_8016D400` block of flags, pointers and counters this module works through —
+`gNameEntry_bStateFlags` block of flags, pointers and counters this module works through —
 is zeros, and the non-zero part is sparse rather than tabular: `04` at
 `0x5590`, `10` at `0x55CA`, and so on. That is a struct with a few non-default
 fields, not a lookup table.
@@ -739,7 +739,7 @@ the store that precedes it in the listing, so the two belong to different
 blocks and the reload is not redundant at all.
 
 That flaw produced a confident false lead. `func_80169734` clears bit `0x20` of
-`D_8016D400` and then tests bit `0x20`, which reads as redundant — except the
+`gNameEntry_bStateFlags` and then tests bit `0x20`, which reads as redundant — except the
 clear is conditional and the test is at the branch target, so on the other path
 the bit is whatever it was. Reported as a volatile candidate, it was neither.
 

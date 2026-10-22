@@ -678,7 +678,7 @@ compiler profile, so no profile boundary marks this grouping - the call graph
 does.
 
 One unit settles the three symbols `value_setup.h` had listed as deliberately
-absent because their declarers disagreed. `D_801845B0` was spelled `u8 *[]`,
+absent because their declarers disagreed. `gMainMenu_apValueSetupCursors` was spelled `u8 *[]`,
 `void *[]` and `ValueWidgetView *[]`; the typed spelling wins, because the
 renderer dereferences it through named fields more than twenty times while
 the other three users only do byte arithmetic, which a cast covers.
@@ -692,7 +692,7 @@ C is concerned, so it stays exactly as `value_setup.h` recorded it.
 
 The renderer and the widget tween it drives, previously the subject of this
 section, remain adjacent inside the unit. Both read the same displayed-value halfword table
-`D_801845C0` and the same per-side mode array `D_801845BC`, and both work in
+`gMainMenu_aValueSetupEntries` and the same per-side mode array `D_801845BC`, and both work in
 the value-lane geometry described below: the tween drives a side widget
 toward the bar endpoint at Y 111/139 that the renderer draws, and it writes
 the settled mode back into `D_801845BC` when the tween expires.
@@ -707,10 +707,15 @@ complete contiguous `0x708`-byte text range, ending exactly where
 This is the **visual** slice of the value editor only. It is not the whole
 editor: `MainMenu_StartValueSetup`, `MainMenu_FinishValueSetup` and the input
 and write-back routines remain separate units. The two files kept distinct
-views of neighbouring globals — the renderer's `ValueWidgetView *D_801845B0[]`
-and the tween's `u8 *D_801845B8` — and those are preserved as-is rather than
-reconciled into one array access, because no evidence establishes that
-`D_801845B8` is an element of `D_801845B0`.
+views of neighbouring globals — the renderer's `ValueWidgetView *gMainMenu_apValueSetupCursors[]`
+and the tween's `u8 *gMainMenu_pValueSetupMainCursor` — and those are preserved as-is rather than
+reconciled into one array access. When that decision was made, no evidence
+established that `gMainMenu_pValueSetupMainCursor` is an element of
+`gMainMenu_apValueSetupCursors`. The current layout evidence now does: the NA
+import map binds the two at `gMainMenu_ValueSetupState + 0x10` and `+ 0x18`, so the
+named cursor is `gMainMenu_apValueSetupCursors + 8` (element 2), the slot
+`MainMenu_StartValueSetup` fills with its third cursor sprite. The separate
+spelling is still kept in C; no array-access rewrite is implied.
 
 ## Value-editor rendering
 
@@ -720,7 +725,7 @@ The old filename `starchip_bars.c` did not establish a currency role: this
 renders the two-value/shared-option editor, with 2P life points as its known
 caller context.
 
-It reads the **displayed** `u16` values at `D_801845C0[1]` and `[7]`,
+It reads the **displayed** `u16` values at `gMainMenu_aValueSetupEntries[1]` and `[7]`,
 not the targets at `[0]` and `[6]`. It places the shared marker at X 116
 for choice zero or 220 otherwise, with Y 74. A side widget remains visible
 while its update callback is active or its mode equals 2. During an active

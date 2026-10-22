@@ -27,7 +27,7 @@
 #include "../../game/text_sjis_to_glyph_codes.h"
 
 /* The end of the name-entry screen pipeline: the confirmation dialog and
-   completion polling, on the same D_8016D400 state block as the rest. They
+   completion polling, on the same gNameEntry_bStateFlags state block as the rest. They
    follow NameEntry_UpdateKeyboard, the binding-free matching C function in
    name_entry_keyboard_update.c; the earlier stages are in
    name_entry_runtime.c. The shop display unit after them has no proven
@@ -63,9 +63,9 @@ void NameEntry_UpdateDialog(void)
     s32 term;
 
     if (gNameEntry_wPendingDialogId != 0) {
-        flags = D_8016D400;
+        flags = gNameEntry_bStateFlags;
         if ((flags & 4) == 0) {
-            D_8016D400 = flags | 4;
+            gNameEntry_bStateFlags = flags | 4;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
             /* The Japanese and European builds make no func_8003B6AC call here. */
             func_8003B6AC(2, 2);
@@ -103,7 +103,7 @@ void NameEntry_UpdateDialog(void)
             box->field_2C = caret;
             DisplayObject_SavePosition(caret);
             caret->slide = -1024;
-            D_8016D400 |= 2;
+            gNameEntry_bStateFlags |= 2;
             return;
         }
 #ifdef VERSION_EUROPE
@@ -120,9 +120,9 @@ void NameEntry_UpdateDialog(void)
                               (s16)(pos - 85));
                 if (caret->slide < 0) {
                     caret->x = 16;
-                    fb = D_8016D400;
+                    fb = gNameEntry_bStateFlags;
                     caret->y = 248;
-                    D_8016D400 = fb & 0xF9;
+                    gNameEntry_bStateFlags = fb & 0xF9;
                     TextBox_Destroy(box);
                     gNameEntry_wPendingDialogId = 0;
                     return;
@@ -133,9 +133,9 @@ void NameEntry_UpdateDialog(void)
                               (s16)(pos + 85));
                 if (caret->slide >= 0) {
                     caret->x = 16;
-                    fc = D_8016D400;
+                    fc = gNameEntry_bStateFlags;
                     caret->y = 176;
-                    D_8016D400 = fc & 0xFD;
+                    gNameEntry_bStateFlags = fc & 0xFD;
                 }
             }
             TextBox_SetPos((struct DuelEffectChannel *)box, caret->x, caret->y);
@@ -154,24 +154,24 @@ void NameEntry_UpdateDialog(void)
             }
         }
         if (D_8009B34D != 0) {
-            fd = D_8016D400;
-            D_8016D400 = fd & 0xDF;
+            fd = gNameEntry_bStateFlags;
+            gNameEntry_bStateFlags = fd & 0xDF;
         }
-        if ((D_8016D400 & 0x20) != 0) {
+        if ((gNameEntry_bStateFlags & 0x20) != 0) {
             gNameEntry_wPendingDialogId = 0;
         }
         DisplayObject_SavePosition(caret);
-        fe = D_8016D400;
+        fe = gNameEntry_bStateFlags;
         caret->slide = 1024;
-        D_8016D400 = fe | 2;
+        gNameEntry_bStateFlags = fe | 2;
         return;
     }
-    flags = D_8016D400;
+    flags = gNameEntry_bStateFlags;
     if ((flags & 0x20) != 0) {
         SD_SEPlayFull(45);
         SD_BGMFadeOut();
         Fade_WaitOut();
-        D_8016D400 = D_8016D400 | 0x10;
+        gNameEntry_bStateFlags = gNameEntry_bStateFlags | 0x10;
         return;
     }
     if ((flags & 0x80) != 0) {
@@ -183,8 +183,8 @@ void NameEntry_UpdateDialog(void)
             return;
         }
         DisplayObject_ReleaseIfPresent(caret);
-        ff = D_8016D400;
-        D_8016D400 = ff & 0x7F;
+        ff = gNameEntry_bStateFlags;
+        gNameEntry_bStateFlags = ff & 0x7F;
         Text_SjisToGlyphCodes(D_801B125A, gNameEntry_pNameBuffer, 6);
 #ifdef VERSION_EUROPE
         TextBox_CreateFlagged(3, 254, 112, 204, 96, 16, 3);
@@ -212,7 +212,7 @@ void NameEntry_UpdateDialog(void)
     if (DisplayObject_FindAllocatedByTag(2) != 0) {
         return;
     }
-    if ((D_8016D400 & 0x40) == 0) {
+    if ((gNameEntry_bStateFlags & 0x40) == 0) {
         NameEntry_UpdateKeyboard();
         return;
     }
@@ -239,13 +239,13 @@ ztest:
     if (c != TEXT_STRING_TERMINATOR) {
         goto scan;
     }
-    fg = D_8016D400;
-    D_8016D400 = fg & 0xBF;
+    fg = gNameEntry_bStateFlags;
+    gNameEntry_bStateFlags = fg & 0xBF;
     if (next != 0) {
         *next = term;
         gNameEntry_wPendingDialogId = 0x80F5;
         D_8016D41C = 0;
-        D_8016D400 |= 0x20;
+        gNameEntry_bStateFlags |= 0x20;
         SD_SEPlayFull(48);
         return;
     }
@@ -258,6 +258,6 @@ ztest:
 s32 NameEntry_PollCompletion(void)
 {
     NameEntry_UpdateDialog();
-    return D_8016D400 & 0x10;
+    return gNameEntry_bStateFlags & 0x10;
 }
 #endif

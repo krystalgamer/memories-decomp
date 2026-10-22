@@ -16,7 +16,7 @@
  *
  * What the uses show (the evidence-backed ones are named):
  *
- *   D_8016D400  A flag byte. Tested with `& 0x10`, set with `| 4`, cleared
+ *   gNameEntry_bStateFlags  A flag byte. Tested with `& 0x10`, set with `| 4`, cleared
  *               on setup.
  *   gNameEntry_bKeyboardRow  The keyboard row, cleared on setup, stepped and wrapped
  *               through a signed compare, and used to index gNameEntry_aRowLinks.
