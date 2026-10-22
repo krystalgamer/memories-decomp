@@ -640,10 +640,14 @@ it needs no CLUT change. The wrapper renames the halo helper
 (`func_8013C128` to `func_8013C12C`) and the data block after the text
 (`D_8013E834` to `D_8013E850`).
 
-`443*` is model 125's header-443 image. Its text runs to `0x4D0C`, with one more
-function than the other twelve, but ribbons, sheets+ and strand are
-byte-identical at the same addresses, so it reuses those three files. Model 168's longer header-443 image is
-left out because it calls `0x80054A44`, inside `Model_DrawSlot`.
+`443*` is model 125's header-443 image. Its five functions (entry, ribbons,
+sheets+, strand and streamers) are byte-identical to the other twelve images'
+at the same addresses, so it reuses those five files and its text ends at
+`0x2888` like theirs; the entry's data block follows, and `0x3004..0x4D0C` is an
+unclassified tail of raw bytes (see above). The disassembler had provisionally
+registered that tail as a sixth function, `func_8013E004`; it is not one. Model
+168's longer header-443 image is left out because it calls `0x80054A44`, inside
+`Model_DrawSlot`.
 
 `variant321_ribbon.c` (header 321, 705 instructions) draws five ribbons in the
 style of the header-376 ribbon, over `Variant321Ribbon` records that keep a
@@ -696,9 +700,13 @@ boundaries, and every `lui` of a module address in it is `0x8018`. The
 | 598 | 448 | `+ 210` | 108, 573 |
 
 `593*` is model 125's longer image. Like its slot-0 image, it has words past
-`0x3004` that decode as `jal`s to addresses no resident function starts at; the
-module matches with them kept as assembly. Model 168's longer image is left out,
-as its slot-0 image is, because it calls `0x80054A44` inside `Model_DrawSlot`.
+`0x3004` that decode as `jal`s to addresses no resident function starts at
+(here `0x8054xxxx`; the slot-0 tail points at `0x8058xxxx`, and the two tails
+share only 23 of their 1858 words). The provisional disassembler reading kept
+them as assembly (`func_8017E004`); they are an unclassified tail and the module
+matches with them kept as raw data (`D_8017E004`). Model 168's longer image is
+left out, as its slot-0 image is, because it calls `0x80054A44` inside
+`Model_DrawSlot`.
 
 ### Header 407: petals
 
