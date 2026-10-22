@@ -37,7 +37,9 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/stdio.h"
 #include "mem_card_directory.h"
+#include "mem_card_directory_patterns.h"
 #include "mem_card_work.h"
+#include "mem_card_diagnostic_strings.h"
 #include "io_event_helpers.h"
 #include "duel_effect_create_channel.h"
 #include "dialog_choice.h"
@@ -77,13 +79,13 @@ void MemCardWork_UpdateOperation(void)
         if (index < gMemCard_nDirEntries) {
             do {
 #ifndef VERSION_EUROPE
-                FntPrint(D_8009AF6C, &gMemCard_pDirEntries[index]);
+                FntPrint(gMemCard_szDirectoryEntryFormat, &gMemCard_pDirEntries[index]);
 #endif
                 index++;
             } while (index < gMemCard_nDirEntries);
         }
 #ifndef VERSION_EUROPE
-        FntPrint(D_80010378, slot->free_blocks);
+        FntPrint(gMemCard_szFreeBlockCountFormat, slot->free_blocks);
 #endif
     }
     status = -1;
@@ -342,8 +344,8 @@ show_message:
         }
 #ifndef VERSION_EUROPE
         if (!D_8009B3D5)
-            printf(D_80010398);
-        printf(D_800103A4);
+            printf(gMemCard_szMakeFileTrace);
+        printf(gMemCard_szFailFileTrace);
 #endif
         break;
     }
@@ -658,7 +660,7 @@ void MemCardDialog_UpdateSave(void)
         MemCardDialog_SetMessage(0xBB, 0x18);
         break;
     case 3:
-        if (MemCardGetDirentry(0, (char *)D_8009AF70,
+        if (MemCardGetDirentry(0, (char *)gMemCardDialog_szAllFilesPattern,
                                (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (PSXLONG *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             gMemCardDialog_OperationState = 0xD;
@@ -988,7 +990,7 @@ void MemCardDialog_UpdateSave(void)
         MemCardDialog_SetMessage(0xB8, 0x18);
         break;
     case 3:
-        if (MemCardGetDirentry(0, (char *)D_8009AF70,
+        if (MemCardGetDirentry(0, (char *)gMemCardDialog_szAllFilesPattern,
                                (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (PSXLONG *)&files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             gMemCardDialog_OperationState = 0xD;

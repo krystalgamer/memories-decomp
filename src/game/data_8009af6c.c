@@ -1,14 +1,16 @@
 #include "../types.h"
 #include "mem_card_work.h"
+#include "mem_card_diagnostic_strings.h"
 #include "mem_card_directory.h"
+#include "mem_card_directory_patterns.h"
 
 /* The .sdata window at 0x8009AF6C, carved as one unit because its objects
  * tile it exactly with no gaps: 4 + 4 + 8 + 4 + 8 = 28 bytes, which is
  * precisely the distance to model_graphics_state at 0x8009AF88.
  *
- * The objects here have nothing to do with each other. Four subsystems
- * happened to land small objects next to one another, so this file is named
- * for the address rather than for a subject, the way data_80091510.c is.
+ * Memory-card strings, display-depth defaults and a MIDI marker share this
+ * window, so this file is named for its address rather than one subsystem,
+ * the way data_80091510.c is.
  * Splitting it by owner is not possible: the units are smaller than the
  * granularity the split file works in.
  *
@@ -27,16 +29,14 @@
  * placement is stated rather than inferred from the -G8 threshold.
  *
  * Array sizes are written out rather than left to the initializer. Each one
- * is what the retail layout requires, and for the three strings that is
- * wider than the text: the trailing bytes are real padding in the image and
- * an unsized array would come out short. */
+ * is what the retail layout requires. The two wildcard arrays include
+ * padding beyond their terminators; unsized initializers would omit it. */
 
-/* Used only by the still-unmatched function at 0x8002E41C, which passes it
- * to a print routine. */
-char D_8009AF6C[4] __attribute__((section(".sdata"))) = "%s\n";
+/* Directory-entry diagnostic in MemCardWork_UpdateOperation. */
+char gMemCard_szDirectoryEntryFormat[4] __attribute__((section(".sdata"))) = "%s\n";
 
 /* Read by MemCardDialog_UpdateSave (mem_card_dialog.c). */
-u8 D_8009AF70[4] __attribute__((section(".sdata"))) = "*";
+u8 gMemCardDialog_szAllFilesPattern[4] __attribute__((section(".sdata"))) = "*";
 
 /* Indexed by a display object's ot_index. Declared in
  * display_object_helpers.h, which explains the volatile qualifier and why
@@ -51,9 +51,9 @@ volatile u16 D_8009AF74[4] __attribute__((section(".sdata"))) = {
 };
 
 /* Read by MemCard_DoLoadDirectory as the pattern that lists every file. Same
- * single character as D_8009AF70, but a separate object in the image, so it
+ * single character as gMemCardDialog_szAllFilesPattern, but a separate object in the image, so it
  * stays separate here. */
-u8 D_8009AF7C[4] __attribute__((section(".sdata"))) = "*";
+u8 gMemCard_szAllFilesPattern[4] __attribute__((section(".sdata"))) = "*";
 
 /* The MIDI track chunk tag. SD_FindMidiTrackChunk compares against it
  * while walking a sequence, which is what the tag means in a standard MIDI

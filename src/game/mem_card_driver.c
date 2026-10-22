@@ -6,6 +6,7 @@
 
 #include "mem_card_begin_request.h"
 #include "mem_card_directory.h"
+#include "mem_card_directory_patterns.h"
 #include "mem_card_io_result_callbacks.h"
 #include "io_event_helpers.h"
 #include "mem_card.h"
@@ -408,7 +409,7 @@ state2:
         goto after_load;
     }
     gMemCard_pDirEntries = gMemCard_aDirEntries;
-    MemCard_FindFiles(gMemCard_bChannel, (const char *)D_8009AF7C,
+    MemCard_FindFiles(gMemCard_bChannel, (const char *)gMemCard_szAllFilesPattern,
                       gMemCard_aDirEntries,
                       &gMemCard_nDirEntries);
     gMemCard_nFreeBlocks =

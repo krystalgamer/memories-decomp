@@ -1144,3 +1144,6 @@ gDebug_pszEditorFormat = tent_DebugInterfaceData;
 
 gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
+
+gMemCardDialog_szAllFilesPattern = gEuropean_D_8009AF70;
+gMemCard_szAllFilesPattern = gEuropean_D_8009AF7C;

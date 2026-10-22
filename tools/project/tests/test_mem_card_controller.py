@@ -71,10 +71,10 @@ u16 D_8009B3CC;
 u8 D_8009B3DD, gMemCardWork_OperationState, D_8009B3D5, D_8009B3C1, gMemCardWork_OperationMode;
 s32 D_8009B3C8, D_8009B3E4;
 void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(MemCardWorkRoot *, MemCardWorkSlot *);
-char D_8009AF6C[] = "entry";
-char D_80010378[] = "free";
-char D_80010398[] = "make";
-char D_800103A4[] = "fail";
+char gMemCard_szDirectoryEntryFormat[] = "entry";
+char gMemCard_szFreeBlockCountFormat[] = "free";
+char gMemCard_szMakeFileTrace[] = "make";
+char gMemCard_szFailFileTrace[] = "fail";
 s32 gMemCard_nDirEntries, gMemCard_nFreeBlocks;
 static struct DIRENTRY directory[3];
 struct DIRENTRY *gMemCard_pDirEntries = directory;
@@ -104,16 +104,16 @@ static void event(s32 kind, s32 a, s32 b, s32 c, s32 d, s32 e)
 }
 int FntPrint(char *format, s32 value)
 {
-    if (format == D_8009AF6C)
+    if (format == gMemCard_szDirectoryEntryFormat)
         event(1, (s32)((struct DIRENTRY *)value - directory), value, 0, 0, 0);
-    else if (format == D_80010378) event(2, value, 0, 0, 0, 0);
+    else if (format == gMemCard_szFreeBlockCountFormat) event(2, value, 0, 0, 0, 0);
     else error = 2;
     return 0;
 }
 int printf(const char *format, ...)
 {
-    if (format == D_80010398) event(3, 0, 0, 0, 0, 0);
-    else if (format == D_800103A4) event(4, 0, 0, 0, 0, 0);
+    if (format == gMemCard_szMakeFileTrace) event(3, 0, 0, 0, 0, 0);
+    else if (format == gMemCard_szFailFileTrace) event(4, 0, 0, 0, 0, 0);
     else error = 3;
     return 0;
 }

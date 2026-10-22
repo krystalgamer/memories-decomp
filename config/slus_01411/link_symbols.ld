@@ -184,3 +184,10 @@ gDebug_pszEditorFormat = tent_DebugInterfaceData;
 
 gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
+
+D_8009AF6C = gMemCard_szDirectoryEntryFormat;
+D_8009AF70 = gMemCardDialog_szAllFilesPattern;
+D_8009AF7C = gMemCard_szAllFilesPattern;
+gMemCard_szFreeBlockCountFormat = D_80010378;
+gMemCard_szMakeFileTrace = D_80010398;
+gMemCard_szFailFileTrace = D_800103A4;
