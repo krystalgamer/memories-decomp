@@ -1103,18 +1103,18 @@ address,size,name,status,module,notes
 0x80069C40,0x32C,Model_MapToBasePrimitiveHandler,matching_c,game,
 0x80069F6C,0x60,Model_RegisterHandlerKey,matching_c,game,
 0x80069FCC,0x50,Model_FindHandlerKey,matching_c,game,
-0x8006A01C,0x150,func_80069E44,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80069e44."
-0x8006A16C,0x154,func_80069F94,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80069f94."
-0x8006A2C0,0x180,func_8006A0E8,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a0e8."
-0x8006A440,0x188,func_8006A268,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a268."
-0x8006A5C8,0x150,func_8006A3F0,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a3f0."
-0x8006A718,0x154,func_8006A540,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a540."
-0x8006A86C,0x180,func_8006A694,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a694."
-0x8006A9EC,0x188,func_8006A814,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a814."
-0x8006AB74,0x160,func_8006A99C,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a99c."
-0x8006ACD4,0x18C,func_8006AAFC,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006aafc."
-0x8006AE60,0x160,func_8006AC88,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006ac88."
-0x8006AFC0,0x18C,func_8006ADE8,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006ade8."
+0x8006A01C,0x150,Model_DrawFt3Wireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80069e44."
+0x8006A16C,0x154,Model_DrawGt3Wireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80069f94."
+0x8006A2C0,0x180,Model_DrawFt4Wireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a0e8."
+0x8006A440,0x188,Model_DrawGt4Wireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a268."
+0x8006A5C8,0x150,Model_DrawFt3WindowRecordWireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a3f0."
+0x8006A718,0x154,Model_DrawGt3WindowRecordWireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a540."
+0x8006A86C,0x180,Model_DrawFt4WindowRecordWireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a694."
+0x8006A9EC,0x188,Model_DrawGt4WindowRecordWireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a814."
+0x8006AB74,0x160,Model_DrawSharedGt3Wireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006a99c."
+0x8006ACD4,0x18C,Model_DrawSharedGt4Wireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006aafc."
+0x8006AE60,0x160,Model_DrawSharedGt3WindowRecordWireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006ac88."
+0x8006AFC0,0x18C,Model_DrawSharedGt4WindowRecordWireframes,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x8006ade8."
 0x8006B14C,0x210,MainMenu_LoadPackageStage,matching_c,game,
 0x8006B35C,0x54,File_RequestMainMenuPackage,matching_c,game,
 0x8006B3B0,0xD1C,Model_UpdateSubdividedEffect,matching_c,game,

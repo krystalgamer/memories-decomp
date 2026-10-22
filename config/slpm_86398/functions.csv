@@ -1098,18 +1098,18 @@ address,size,name,status,module,notes
 0x80067F60,0x2E8,func_800695A4,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x800695a4; Japanese instruction shape verified against that function.
 0x80068248,0x2B4,func_8006988C,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006988c; Japanese instruction shape verified against that function.
 0x800684FC,0x304,func_80069B40,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x80069b40; Japanese instruction shape verified against that function.
-0x80068800,0x150,func_80069E44,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x80069e44; Japanese instruction shape verified against that function.
-0x80068950,0x154,func_80069F94,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x80069f94; Japanese instruction shape verified against that function.
-0x80068AA4,0x180,func_8006A0E8,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a0e8; Japanese instruction shape verified against that function.
-0x80068C24,0x188,func_8006A268,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a268; Japanese instruction shape verified against that function.
-0x80068DAC,0x150,func_8006A3F0,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a3f0; Japanese instruction shape verified against that function.
-0x80068EFC,0x154,func_8006A540,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a540; Japanese instruction shape verified against that function.
-0x80069050,0x180,func_8006A694,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a694; Japanese instruction shape verified against that function.
-0x800691D0,0x188,func_8006A814,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a814; Japanese instruction shape verified against that function.
-0x80069358,0x160,func_8006A99C,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a99c; Japanese instruction shape verified against that function.
-0x800694B8,0x18C,func_8006AAFC,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006aafc; Japanese instruction shape verified against that function.
-0x80069644,0x160,func_8006AC88,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006ac88; Japanese instruction shape verified against that function.
-0x800697A4,0x18C,func_8006ADE8,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006ade8; Japanese instruction shape verified against that function.
+0x80068800,0x150,Model_DrawFt3Wireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x80069e44; Japanese instruction shape verified against that function.
+0x80068950,0x154,Model_DrawGt3Wireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x80069f94; Japanese instruction shape verified against that function.
+0x80068AA4,0x180,Model_DrawFt4Wireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a0e8; Japanese instruction shape verified against that function.
+0x80068C24,0x188,Model_DrawGt4Wireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a268; Japanese instruction shape verified against that function.
+0x80068DAC,0x150,Model_DrawFt3WindowRecordWireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a3f0; Japanese instruction shape verified against that function.
+0x80068EFC,0x154,Model_DrawGt3WindowRecordWireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a540; Japanese instruction shape verified against that function.
+0x80069050,0x180,Model_DrawFt4WindowRecordWireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a694; Japanese instruction shape verified against that function.
+0x800691D0,0x188,Model_DrawGt4WindowRecordWireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a814; Japanese instruction shape verified against that function.
+0x80069358,0x160,Model_DrawSharedGt3Wireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006a99c; Japanese instruction shape verified against that function.
+0x800694B8,0x18C,Model_DrawSharedGt4Wireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006aafc; Japanese instruction shape verified against that function.
+0x80069644,0x160,Model_DrawSharedGt3WindowRecordWireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006ac88; Japanese instruction shape verified against that function.
+0x800697A4,0x18C,Model_DrawSharedGt4WindowRecordWireframes,handwritten_asm,game,Same name and size as independently classified North American handwritten function at 0x8006ade8; Japanese instruction shape verified against that function.
 0x80069930,0x210,MainMenu_LoadPackageStage,matching_c,game,
 0x80069B40,0x44,File_RequestMainMenuPackage,matching_c,game,
 0x80069B84,0xD30,Model_UpdateSubdividedEffect,matching_c,game,

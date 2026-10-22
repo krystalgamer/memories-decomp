@@ -17,6 +17,7 @@
 #define FUNC_800603DC_RETURNS_HANDLER
 #include "model_primitive_handler.h"
 #include "model_handler_registry.h"
+#include "wireframe_renderers.h"
 #include "primitive_handler_modes.h"
 #include "../unmatched.h"
 
@@ -61,21 +62,21 @@ have:
     case 0x300000:
         switch (v & 0xFFFF) {
         case 9:
-            return (s32)func_80069E44;
+            return (s32)Model_DrawFt3Wireframes;
         case 0x209:
-            return (s32)func_8006A3F0;
+            return (s32)Model_DrawFt3WindowRecordWireframes;
         case 0x11:
-            return (s32)func_8006A0E8;
+            return (s32)Model_DrawFt4Wireframes;
         case 0x211:
-            return (s32)func_8006A694;
+            return (s32)Model_DrawFt4WindowRecordWireframes;
         case 0xD:
-            return (s32)func_80069F94;
+            return (s32)Model_DrawGt3Wireframes;
         case 0x20D:
-            return (s32)func_8006A540;
+            return (s32)Model_DrawGt3WindowRecordWireframes;
         case 0x15:
-            return (s32)func_8006A268;
+            return (s32)Model_DrawGt4Wireframes;
         case 0x215:
-            return (s32)func_8006A814;
+            return (s32)Model_DrawGt4WindowRecordWireframes;
         }
         break;
     case 0x1000000:
@@ -84,13 +85,13 @@ have:
     case 0x1300000:
         switch (v & 0xFFFF) {
         case 0xD:
-            return (s32)func_8006A99C;
+            return (s32)Model_DrawSharedGt3Wireframes;
         case 0x20D:
-            return (s32)func_8006AC88;
+            return (s32)Model_DrawSharedGt3WindowRecordWireframes;
         case 0x15:
-            return (s32)func_8006AAFC;
+            return (s32)Model_DrawSharedGt4Wireframes;
         case 0x215:
-            return (s32)func_8006ADE8;
+            return (s32)Model_DrawSharedGt4WindowRecordWireframes;
         }
         break;
     }
