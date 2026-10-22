@@ -284,6 +284,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant428_webs_slot1.c",
             "src/overlays/model_variant/variant433_bands.c",
             "src/overlays/model_variant/variant433_bands_slot1.c",
+            "src/overlays/model_variant/variant433_coils.c",
+            "src/overlays/model_variant/variant433_coils_slot1.c",
             "src/overlays/model_variant/variant433_ribbons.c",
             "src/overlays/model_variant/variant433_ribbons_slot1.c",
             "src/overlays/model_variant/variant433_rings.c",
@@ -412,8 +414,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             415: (names(set(), {401}), 0x1F7C, 4),
             565: (names(set(), stage10_slot1={401}), 0x1F7C, 4),
             # The North American MODEL450 CDK pair.
-            433: (names(set(), {174}), 0x38DC, 5),
-            583: (names(set(), stage10_slot1={174}), 0x38DC, 5),
+            433: (names(set(), {174}), 0x38DC, 6),
+            583: (names(set(), stage10_slot1={174}), 0x38DC, 6),
             # Slot-1 images at 0x8017B000: each header is its slot-0 header plus 150,
             # built from the same C.
             547: (names(set(), stage8_slot1={2, 20, 87, 108, 138, 193, 573}, stage10_slot1={152, 168, 170, 388, 427}), 0x2DE4, 7),
