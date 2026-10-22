@@ -11,6 +11,7 @@
 #include "duel_effect_entry_control.h"
 #include "file_constants.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #define GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
 #include "graphics_frame.h"
 #include "input.h"
@@ -223,8 +224,8 @@ void Text_RequestDisplayEffectCrossfade(DuelEffectChannel *object)
 
 void DuelEffect_WaitForFileTransfer(DuelEffectChannel *object)
 {
-    if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-         D_8009B134_abs) == 0) {
+    if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+         gFile_dwCancelRequestState_abs) == 0) {
         object->state_51 = 0;
     }
 }
@@ -293,7 +294,7 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
     if (p->delay_52 != 0) {
         switch (gText_CdSoundWaitPhase) {
         case 0:
-            if ((D_8009B0F4_abs & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
+            if ((gFile_dwTransferState_abs & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
                 return;
             }
             p->delay_52 = 0xFF;

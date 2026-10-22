@@ -2,6 +2,7 @@
 #include "file_constants.h"
 #include "file_cd_helpers.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
 #include "../unmatched.h"
@@ -11,10 +12,10 @@ void File_InitTransferState(s32 value)
     D_8009B118 = value;
     D_8009B110 = 0;
     D_8009B108 = 0;
-    D_8009B0F4 = 0;
+    gFile_dwTransferState = 0;
     gFile_RangePauseCallback = 0;
     gFile_RangeReadCallback = 0;
-    D_8009B134 = 0;
+    gFile_dwCancelRequestState = 0;
     gFile_wTransferStepFlags = 0;
     gFile_BeforePrimaryRequestCallback = 0;
     D_8009B12C = 0;
@@ -106,7 +107,7 @@ FileTransferDescriptor *File_RequestSecondarySeek(s32 file_index, s32 sector_off
 {
     FileTransferDescriptor *transfer;
 
-    if (D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING)
+    if (gFile_dwTransferState & FILE_TRANSFER_STATE_SECONDARY_PENDING)
         return 0;
 
     transfer = &gFile_SecondaryTransferDescriptor;
@@ -115,6 +116,6 @@ FileTransferDescriptor *File_RequestSecondarySeek(s32 file_index, s32 sector_off
     );
     transfer->done = 0;
     transfer->status_flags = 0x00100000;
-    D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
+    gFile_dwTransferState |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return transfer;
 }

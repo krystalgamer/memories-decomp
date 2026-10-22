@@ -1115,3 +1115,8 @@ gDuel_bFieldActionAutoCommit = D_8009C0CC;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = D_8009B274;
+
+gFile_dwTransferState = D_8009B0F4;
+gFile_dwTransferState_abs = D_8009B0F4;
+gFile_dwCancelRequestState = D_8009B134;
+gFile_dwCancelRequestState_abs = D_8009B134;

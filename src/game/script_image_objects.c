@@ -4,6 +4,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "display_object_helpers.h"
 #include "../unmatched.h"
 #include "script_image_objects.h"
@@ -28,8 +29,8 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         obj->field_30.h.counter = 0;
         obj->w = 0x40;
         obj->h = 0x10;
-        D_8009B0F4 &= 0xFFDDFFFF;
-        D_8009B0F4 |= 0x10000;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
         obj->done = 2;
         obj->phase_size = (s32)obj->callback_data << FILE_SECTOR_SHIFT;
         obj->value_08 = D_8009B118;
@@ -38,7 +39,7 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
 
     case 1:
         obj->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         obj->value_0C = D_8009B118;
         obj->value_08 = D_8009B118;
         obj->done = 1;
@@ -122,7 +123,7 @@ void ScriptImage_RequestTransfer(
         ScriptImage_TransferCallback, 0, 0
     );
     object->callback_data = (void *)(stride - 1);
-    D_8009B0F4 =
+    gFile_dwTransferState =
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 

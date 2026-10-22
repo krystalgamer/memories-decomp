@@ -3,6 +3,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "file_transfer_steps.h"
 #include "../unmatched.h"
 
@@ -27,8 +28,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4_abs &= 0xFFDDFFFF;
-        D_8009B0F4_abs |= 0x10000;
+        gFile_dwTransferState_abs &= 0xFFDDFFFF;
+        gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
         object->value_08 = D_8009B118;
@@ -40,8 +41,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->field_30.h.field_32 = 0;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4_abs &= 0xFFDDFFFF;
-        D_8009B0F4_abs |= 0x10000;
+        gFile_dwTransferState_abs &= 0xFFDDFFFF;
+        gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 32 * FILE_SECTOR_SIZE;
         object->value_08 = D_8009B118;
@@ -52,7 +53,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->value_0C = (s32)D_801DD000;
         object->value_08 = (s32)D_801DD000;
         object->phase_size = 2 * FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->done = 1;
         break;
 
@@ -60,7 +61,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         rect = *(RECT *)gMainMenu_PackageStageRect;
         LoadImage2(&rect, (u32 *)D_801DD000);
         object->phase_size = 16 * FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->value_0C = gMainMenu_dwSuModuleBase;
         object->value_08 = gMainMenu_dwSuModuleBase;
         object->done = 1;
@@ -70,7 +71,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->value_0C = (s32)D_801AF800;
         object->value_08 = (s32)D_801AF800;
         object->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->done = 1;
         break;
     }

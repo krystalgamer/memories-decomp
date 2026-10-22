@@ -66,6 +66,7 @@
 #include "model_slot_state_updates.h"
 #include "model_queue_relative_camera_orbit.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "high_memory_addresses.h"
 #include "../psyq/libgs.h"
 /* libhmd.h names MATRIX, GsOT and GsCOORDUNIT without including anything, so
@@ -748,7 +749,7 @@ void Model_UpdateExodiaPresentation(void)
     case 0: {
         ModelSlot *current;
         if (gModel_aSlots[0].field_E14 == 0xFF) {
-            if ((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs) {
+            if ((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs) {
                 goto check_ready;
             }
             Model_LoadMonsterMerge(
@@ -928,8 +929,8 @@ void Model_UpdateCreditsMonsterSlot(s32 arg0) {
     p = b0 + arg0;
     if (p->field_E1F == 0) {
         if (p->field_E14 == 0xFF) {
-            if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                 D_8009B134_abs) == 0) {
+            if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 gFile_dwCancelRequestState_abs) == 0) {
                 do {
                     t = rand() >> 8;
                     v = t % CARD_COUNT;

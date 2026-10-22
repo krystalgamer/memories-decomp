@@ -24,6 +24,7 @@
 #include "duel_rank.h"
 #include "fade.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "duel_selection_layout.h"
 
 #include "duel_card_layout.h"
@@ -131,8 +132,8 @@ void DuelScene_UpdateResume(void)
     }
 
     if ((gDuel_wSceneStateFlags & 0x4000) == 0) {
-        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134_abs) != 0) {
+        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState_abs) != 0) {
             return;
         }
         if ((gFade_State.flags & FADE_FLAG_ACTIVE) != 0) {
@@ -227,8 +228,8 @@ void DuelScene_UpdateStartup(void)
     case 4: {
         u32 mask = FILE_TRANSFER_REQUEST_BLOCKED_MASK;
 
-        if (((D_8009B0F4_abs & mask) |
-             D_8009B134_abs) != 0) {
+        if (((gFile_dwTransferState_abs & mask) |
+             gFile_dwCancelRequestState_abs) != 0) {
             break;
         }
         SD_BGMPlay(gDuel_wBgmId);

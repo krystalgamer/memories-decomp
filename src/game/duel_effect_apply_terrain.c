@@ -13,6 +13,7 @@
 #include "duel_card_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "sound.h"
 #include "display_object_config.h"
 #include "../unmatched.h"
@@ -70,8 +71,8 @@ void DuelEffect_ApplyTerrain(void) {
     }
 
     if ((f & 0x20) == 0) {
-        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134_abs) == 0) {
+        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState_abs) == 0) {
             a = (DisplayObjectConfig *)gDuel_pTerrainIcon;
             b = gDuel_bTerrain;
             gDuelEffect_pTrackedRequest->field_1A = -2;

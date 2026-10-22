@@ -38,8 +38,9 @@ WITNESS = r"""
 #include "src/game/graphics_frame.h"
 #include "src/game/high_memory_addresses.h"
 #include "src/unmatched.h"
+#include "src/game/file_transfer_state.h"
 
-volatile u32 D_8009B0F4;
+volatile u32 gFile_dwTransferState;
 static u8 buffer[8192], alternate[8192], stage7[16], stage11[16];
 u8 *D_8009B118 = buffer;
 u8 *gFile_pDuelBankBase = stage7;
@@ -97,9 +98,9 @@ int LoadImage2(RECT *rect, u32 *pixels)
     calls++;
     submitted_address = rect;
     submitted_buffer = pixels;
-    submitted_flags = D_8009B0F4;
+    submitted_flags = gFile_dwTransferState;
     copy_bytes(submitted_rect, rect, sizeof(RECT));
-    if (mutation_mode & 1) D_8009B0F4 = replacement_flags;
+    if (mutation_mode & 1) gFile_dwTransferState = replacement_flags;
     if (mutation_mode & 2) D_8009B118 = alternate;
     return -123;
 }
@@ -144,7 +145,7 @@ static s32 check_case(s32 stage, u32 initial_flags, u32 mode)
     for (i = 0; i < sizeof(D_800E9D70); i++)
         ((u8 *)D_800E9D70)[i] = 0xB7 ^ (i * 23 + initial_flags);
     copy_bytes(expected_rects, D_800E9D70, sizeof(D_800E9D70));
-    D_8009B0F4 = initial_flags;
+    gFile_dwTransferState = initial_flags;
     D_8009B118 = buffer;
     calls = 0;
     submitted_address = 0;
@@ -188,7 +189,7 @@ static s32 check_case(s32 stage, u32 initial_flags, u32 mode)
 
     Duel_LoadPackageStage(&actual.descriptor, stage);
     if (!equal_bytes(&actual, expected, sizeof(actual))) return 20;
-    if (D_8009B0F4 != final_flags) return 22;
+    if (gFile_dwTransferState != final_flags) return 22;
     if (D_8009B118 != final_buffer) return 23;
     if (!equal_bytes(D_800E9D70, expected_rects, sizeof(D_800E9D70))) return 24;
     if (calls != submits) return 25;
@@ -210,8 +211,8 @@ s32 main(void)
     };
     u32 high, index, mode, flags, cases = 0;
     s32 result;
-    volatile u32 plain_address = (u32)&D_8009B0F4;
-    volatile u32 alias_address = (u32)&D_8009B0F4_abs;
+    volatile u32 plain_address = (u32)&gFile_dwTransferState;
+    volatile u32 alias_address = (u32)&gFile_dwTransferState_abs;
     if (plain_address != alias_address) return 90;
     for (high = 0; high < 65536; high++) {
         flags = (high << 16) | (((high * 40503u) ^ 0xA5D3u) & 0xFFFFu) | 1u;
@@ -286,7 +287,7 @@ class DuelPackageStageTests(unittest.TestCase):
                     "-fno-builtin", "-fno-strict-aliasing", "-I", str(REPOSITORY),
                     "-include", str(compatibility),
                     str(source), str(witness), str(startup),
-                    "-Wl,--defsym,D_8009B0F4_abs=D_8009B0F4", "-o", str(binary),
+                    "-Wl,--defsym,gFile_dwTransferState_abs=gFile_dwTransferState", "-o", str(binary),
                 ],
                 capture_output=True, text=True, timeout=60, env=environment,
             )

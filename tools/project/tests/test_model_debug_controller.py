@@ -73,8 +73,8 @@ u8 gModelDebug_bSelectedDigit;
 s16 gModel_awSlotModelIds[3];
 u8 gModelDebug_abSlotAfFlags[2], gModelDebug_abSlotGfFlags[2];
 u16 gInput_wPad1Pressed, gInput_wPad2Pressed, gInput_wPad1Repeat, gInput_wPad1Held;
-volatile u32 D_8009B0F4_abs;
-u32 D_8009B134_abs;
+volatile u32 gFile_dwTransferState_abs;
+u32 gFile_dwCancelRequestState_abs;
 char gModelDebug_szLoadStageFormat[] = "LOAD STAGE(%d,%d)\n";
 char gModelDebug_szLoadModel0Format[] = "LOAD MODEL0(%d,%d)\n";
 char gModelDebug_szLoadModel1Format[] = "LOAD MODEL1(%d,%d)\n";
@@ -247,7 +247,7 @@ static void reset(void)
     gModelDebug_abSlotAfFlags[0] = gModelDebug_abSlotAfFlags[1] = 0;
     gModelDebug_abSlotGfFlags[0] = gModelDebug_abSlotGfFlags[1] = 0;
     gInput_wPad1Pressed = gInput_wPad2Pressed = gInput_wPad1Repeat = gInput_wPad1Held = 0;
-    D_8009B0F4_abs = D_8009B134_abs = 0;
+    gFile_dwTransferState_abs = gFile_dwCancelRequestState_abs = 0;
     event_count = print_count = display_cursor = sample_cursor = sample_count = 0;
     complete_slot = -1; complete_phase = 0; mutate_print = 0;
 }
@@ -305,8 +305,8 @@ int main(void)
             }
     for (i = 0; i < 4; i++) {
         reset(); gModel_aSlots[2].field_E1F = 0; gModel_aSlots[2].field_E14 = 255;
-        D_8009B0F4_abs = i < 3 ? (i == 0 ? 0x10 : i == 1 ? 0x20 : 0x2000000) : 0;
-        D_8009B134_abs = i == 3;
+        gFile_dwTransferState_abs = i < 3 ? (i == 0 ? 0x10 : i == 1 ? 0x20 : 0x2000000) : 0;
+        gFile_dwCancelRequestState_abs = i == 3;
         CHECK(run() == 0 && event_count == 1 && events[0][0] == FRAME);
     }
     reset(); gModel_aSlots[2].field_E1F = 0; gModel_aSlots[2].field_D18 = 0; complete_slot = 2;
