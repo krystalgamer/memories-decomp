@@ -124,7 +124,12 @@ extern DuelSideState *G32 gDuel_pActiveSideState;
 extern DuelEffectRequest
     *G32 gDuel_apSwordsEffectObjects[DUEL_SIDE_COUNT];
 
-/* The flag the field-action step raises for the battle step.
+/* The flag the field-action step raises for the battle step: set when Square
+ * (PAD_BUTTON_SQUARE) is among the buttons that commit the field-action confirm,
+ * cleared otherwise and by two battle-step paths, one of them a selected
+ * attack trap (Duel_SelectAttackTrap). When it is set, the
+ * battle step moves to sub-step 5, which fades out and enters the animated
+ * battle main mode, instead of sub-step 7.
  * DuelScene_UpdateFieldActions stores 0 twice and 1 once
  * (src/game/duel_scene_field_actions.c), DuelScene_UpdateBattle stores 0 twice and
  * is the only reader, testing it against 0
@@ -135,7 +140,7 @@ extern DuelEffectRequest
  * spelling showed in the object code. No other C source in this tree mentions
  * the symbol. Every access in both listings is gp-relative, so this is the
  * plain declaration. Initial value not read. */
-extern u8 D_8009B229;
+extern u8 gDuel_bAnimatedBattleRequested;
 
 /* The card id the last search or trap selection left behind.
  * Duel_SelectTrapByCardId stores 0 before its slot loop and its argument on a

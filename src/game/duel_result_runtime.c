@@ -164,9 +164,9 @@ void DuelResult_UpdateDepartingSprite(DuelCardDisplayObject *object)
    gDuelResult_wBgmId -- 0x72F0 only when side 1 won (the player lost) against
    a real opponent, otherwise 0x72E0 --
    and hands gDuel_pTerrainIcon and gDuel_pLifePointsPanel to DisplayObject_UpdateCosineSlide
-   before entering step 1 of D_8009B174.
+   before entering step 1 of gDuel_bSceneSubStep.
 
-   Afterwards the low nibble of D_8009B174 is the step and bit 0x80 marks
+   Afterwards the low nibble of gDuel_bSceneSubStep is the step and bit 0x80 marks
    "step already entered":
 
      1  wait for the DMA/queue flags to drain, then reload the selected
@@ -238,7 +238,7 @@ void DuelScene_UpdateResultOutro(void)
         obj->field_2C.h.field_2C = 0x30;
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)DisplayObject_UpdateCosineSlide;
-        D_8009B174 = 1;
+        gDuel_bSceneSubStep = 1;
         obj->position.h.field_2A = (s16)obj->field_30.h.field_32;
         return;
     }
@@ -247,7 +247,7 @@ void DuelScene_UpdateResultOutro(void)
         return;
     }
 
-    flags = D_8009B174;
+    flags = gDuel_bSceneSubStep;
     state = flags & 0xF;
     switch (state) {
     case 1:
@@ -256,7 +256,7 @@ void DuelScene_UpdateResultOutro(void)
                 D_8009B134_abs) {
                 return;
             }
-            D_8009B174 = flags | 0x80;
+            gDuel_bSceneSubStep = flags | 0x80;
             gDuel_wDisplayTransitionFlags = 8;
             id = gDuel_bOpponentID;
             if (id < 0) {
@@ -274,13 +274,13 @@ void DuelScene_UpdateResultOutro(void)
                 D_8009B134_abs) {
                 return;
             }
-            D_8009B174 = 2;
+            gDuel_bSceneSubStep = 2;
             SD_BGMPlay(gDuelResult_wBgmId);
         }
         break;
     case 2:
         if ((flags & 0x80) == 0) {
-            D_8009B174 = flags | 0x80;
+            gDuel_bSceneSubStep = flags | 0x80;
             for (i = 0; i < DUEL_RESULT_OUTRO_SPRITE_LIMIT; i++) {
 #ifdef DUEL_RESULT_LOCALIZED_SPRITES
                 /* Fixed-language builds keep the selector in 1..4. */
@@ -352,16 +352,16 @@ void DuelScene_UpdateResultOutro(void)
                 return;
             }
             if (DisplayObject_FindAllocatedByTag(1) == 0) {
-                D_8009B174 = 3;
+                gDuel_bSceneSubStep = 3;
             }
         }
         break;
     case 3:
         if ((flags & 0x80) == 0) {
-            D_8009B174 = flags | 0x80;
+            gDuel_bSceneSubStep = flags | 0x80;
             gDuel_wStepCounter = 0x258;
         }
-        if ((D_8009B174 & 0x40) == 0) {
+        if ((gDuel_bSceneSubStep & 0x40) == 0) {
             timer = gDuel_wStepCounter - 1;
             gDuel_wStepCounter = timer;
             if ((s16)timer > 0) {
@@ -372,7 +372,7 @@ void DuelScene_UpdateResultOutro(void)
                     }
                 }
             }
-            D_8009B174 = D_8009B174 | 0x40;
+            gDuel_bSceneSubStep = gDuel_bSceneSubStep | 0x40;
             for (i = 0; i < DUEL_RESULT_OUTRO_ACTIVE_COUNT; i++) {
                 obj = slots[i].object;
                 if (obj != 0) {
@@ -382,13 +382,13 @@ void DuelScene_UpdateResultOutro(void)
             }
         } else {
             if (DisplayObject_FindAllocatedByTag(1) == 0) {
-                D_8009B174 = 4;
+                gDuel_bSceneSubStep = 4;
             }
         }
         break;
     case 4:
         if ((flags & 0x80) == 0) {
-            D_8009B174 = flags | 0x80;
+            gDuel_bSceneSubStep = flags | 0x80;
         }
         if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
             gDuel_wSceneStateFlags = 0xD;

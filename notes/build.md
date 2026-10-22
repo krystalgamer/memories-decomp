@@ -790,7 +790,7 @@ test. `D_8009B2A0` is created by the scene-package initializer and toggled by
 its result-screen consumer, so it lives in `campaign_scene_package.h`.
 `D_800EB184` is the four-object brightness pool and now lives in the narrow
 `display_object_brightness.h`, avoiding a declaration in the cross-module
-`display_object.h`. `D_800E9EC0` has unrelated boot-sound and file-transfer
+`display_object.h`. `gFile_nMasterXaLba` has unrelated boot-sound and file-transfer
 interpretations with no narrower owner, so its raw byte-array contract is
 genuinely homeless and lives in `unmatched.h`.
 
@@ -916,7 +916,7 @@ observed. That reasoning holds only while every consumer wants the same
 addressing form, and the relocations are what say whether it can hold at all.
 
 `gDuel_wOutcomeFlags` is the case where it cannot. The object is eight bytes:
-`D_8009B174` is the next name. Five files declare it three ways, and four of
+`gDuel_bSceneSubStep` is the next name. Five files declare it three ways, and four of
 them agree.
 
 | Translation unit | Spelling | Bytes | Relocation |

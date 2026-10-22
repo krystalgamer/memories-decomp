@@ -129,11 +129,11 @@ void DuelScene_UpdateCardPlacement(void)
         DisplayObject_ReleaseIfPresent(side->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;
         side->cursor_object = 0;
-        D_8009B174 = 1;
+        gDuel_bSceneSubStep = 1;
         return;
     }
 
-    switch (D_8009B174 & 15) {
+    switch (gDuel_bSceneSubStep & 15) {
     case 1:
         {
             DisplayObject *G32 *slots;
@@ -142,8 +142,8 @@ void DuelScene_UpdateCardPlacement(void)
                 DuelCardRecord *cards;
                 DisplayObjectCallback callback;
                 s32 active;
-                if (!(D_8009B174 & 0x80)) {
-                    D_8009B174 |= 0x80;
+                if (!(gDuel_bSceneSubStep & 0x80)) {
+                    gDuel_bSceneSubStep |= 0x80;
                     if (gDuel_wSceneStateFlags & 0x4000)
                     return;
                     n = 5;
@@ -165,7 +165,7 @@ void DuelScene_UpdateCardPlacement(void)
                 }
                 if (DisplayObject_FindAllocatedByTag(1))
                 return;
-                D_8009B174 = 2;
+                gDuel_bSceneSubStep = 2;
             }
         }
     case 2:
@@ -173,10 +173,10 @@ void DuelScene_UpdateCardPlacement(void)
             DisplayObject *G32 *slots;
             {
                 DisplayObject *G32 *cursor;
-                if (!(D_8009B174 & 0x80)) {
+                if (!(gDuel_bSceneSubStep & 0x80)) {
                     DisplayObject *G32 *cursor;
                     s32 active;
-                    D_8009B174 |= 0x80;
+                    gDuel_bSceneSubStep |= 0x80;
                     n = 5;
                     active = 1;
                     slots = gDisplayObject_apWorkSlots;
@@ -222,7 +222,7 @@ void DuelScene_UpdateCardPlacement(void)
                     cursor--;
                 } while (n >= 0);
                 if (!(gDuel_wDisplayTransitionFlags | value)) {
-                    D_8009B174 = 3;
+                    gDuel_bSceneSubStep = 3;
                     if (gDuel_wSceneStateFlags & 0x4000)
                     gDuel_wSceneStateFlags = 8;
                 }
@@ -232,17 +232,17 @@ void DuelScene_UpdateCardPlacement(void)
     case 3:
         {
             DisplayObject *G32 *slots;
-            if (!(D_8009B174 & 0x80)) {
-                D_8009B174 |= 0x80;
+            if (!(gDuel_bSceneSubStep & 0x80)) {
+                gDuel_bSceneSubStep |= 0x80;
                 D_8009B1B9++;
                 if ((s8)D_8009B1B9 >= 6) {
-                    D_8009B174 = 8;
+                    gDuel_bSceneSubStep = 8;
                     return;
                 }
                 {
                     DisplayObject *selected = gDisplayObject_apWorkSlots[(s8)D_8009B1B9];
                     if (!selected) {
-                        D_8009B174 = 8;
+                        gDuel_bSceneSubStep = 8;
                         return;
                     }
                     object = selected;
@@ -288,20 +288,20 @@ request_combination:
             gDuel_wTrapPresentationMode = 0;
             if (!slots[0]) {
                 slots[0] = object;
-                D_8009B174 = 3;
+                gDuel_bSceneSubStep = 3;
                 return;
             }
             object->field_30.word = slots[0]->field_30.word;
             if (!((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value) {
-                D_8009B174 = 7;
+                gDuel_bSceneSubStep = 7;
                 D_8009B218 = -1;
             } else if (((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value & 0x8000) {
                 D_8009B218 = 1;
                 gDuel_wPendingEquipBonus = 0;
-                D_8009B174 = 6;
+                gDuel_bSceneSubStep = 6;
                 gDuel_pActiveSideState->rank.fusions_initiated++;
             } else {
-                D_8009B174 = 5;
+                gDuel_bSceneSubStep = 5;
                 gDuel_wPendingEquipBonus += 500;
                 gDuel_pActiveSideState->rank.equips_used++;
             }
@@ -312,8 +312,8 @@ request_combination:
             DisplayObject **slots;
             if ((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs)
             return;
-            if (!(D_8009B174 & 0x80)) {
-                D_8009B174 |= 0x80;
+            if (!(gDuel_bSceneSubStep & 0x80)) {
+                gDuel_bSceneSubStep |= 0x80;
                 gDuel_wTrapPresentationMode = 0;
                 return;
             }
@@ -484,7 +484,7 @@ request_combination:
                     DisplayObject_InterpolatePositionCosine((DisplayObjectPosition *)object, 64, 82, object->field_60);
                     object->field_60 += 128;
                     if (object->field_60 >= 2048)
-                    D_8009B174 = 3;
+                    gDuel_bSceneSubStep = 3;
                     break;
                 }
             }
@@ -493,11 +493,11 @@ request_combination:
     case 5:
         {
             DisplayObject **slots;
-            if (!(D_8009B174 & 0x80)) {
+            if (!(gDuel_bSceneSubStep & 0x80)) {
                 DisplayObject *G32 *slots;
                 slots = gDisplayObject_apWorkSlots;
                 slots[0]->flags &= ~0x40;
-                D_8009B174 |= 0xC0;
+                gDuel_bSceneSubStep |= 0xC0;
                 DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
                 object = gDisplayObject_apWorkSlots[0];
                 if (object->field_68 != 23)
@@ -505,12 +505,12 @@ request_combination:
                 gDuel_wEquipCardId = PLACEMENT_REPLAY_CARD(object).card_id;
                 return;
             }
-            if (D_8009B174 & 0x40) {
+            if (gDuel_bSceneSubStep & 0x40) {
                 DisplayObject **slots;
                 if (DisplayObject_FindAllocatedByTag(1))
                 return;
                 {
-                    s32 phase = D_8009B174;
+                    s32 phase = gDuel_bSceneSubStep;
                     if (phase & 0x20) {
                         phase_clear = phase & 0x9F;
                         goto finish_effect_step;
@@ -518,7 +518,7 @@ request_combination:
                 }
                 {
                     DisplayObject *G32 *release_slots = gDisplayObject_apWorkSlots;
-                    D_8009B174 |= 0x20;
+                    gDuel_bSceneSubStep |= 0x20;
                     if (release_slots[1]->field_68 < 20) {
                         DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots[0]);
                         gDisplayObject_apWorkSlots[0] = release_slots[1];
@@ -534,9 +534,9 @@ request_combination:
                 }
                 return;
             }
-            if (!(D_8009B174 & 0x20)) {
+            if (!(gDuel_bSceneSubStep & 0x20)) {
                 DisplayObject **slots;
-                D_8009B174 |= 0x20;
+                gDuel_bSceneSubStep |= 0x20;
                 effect = DuelEffect_AllocateRequest(
                     ((u32)((u16)gDuel_wEquipCardId - 301) < 2) * 4);
                 effect->field_00 = PLACEMENT_PX(gDisplayObject_apWorkSlots[0]) + 26;
@@ -548,49 +548,49 @@ request_combination:
                 effect->field_1A = 10;
                 SD_SEPlayFull(22);
             } else if (gDuelEffect_pTrackedRequest->field_1D) {
-                D_8009B174 = 4;
+                gDuel_bSceneSubStep = 4;
             }
             break;
         }
     case 6:
         {
             DisplayObject *G32 *slots;
-            if (!(D_8009B174 & 0x80)) {
+            if (!(gDuel_bSceneSubStep & 0x80)) {
                 DisplayObject *G32 *slots;
-                D_8009B174 |= 0xC0;
+                gDuel_bSceneSubStep |= 0xC0;
                 Duel_MarkCreatedCardKnown((u32)(gDuel_wPlacementCardId & 0xFFF));
                 slots = gDisplayObject_apWorkSlots;
                 slots[0]->flags &= ~0x40;
                 DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
             }
-            if (D_8009B174 & 0x40) {
+            if (gDuel_bSceneSubStep & 0x40) {
                 DisplayObject *G32 *slots;
                 if (DisplayObject_FindAllocatedByTag(1))
                 return;
                 {
-                    s32 phase = D_8009B174;
+                    s32 phase = gDuel_bSceneSubStep;
                     if (phase & 0x20) {
                         phase_clear = phase & 0x9F;
                         goto finish_effect_step;
                     }
                 }
                 slots = gDisplayObject_apWorkSlots;
-                D_8009B174 |= 0x20;
+                gDuel_bSceneSubStep |= 0x20;
                 DisplayObject_StartAlphaTransition(slots[1], 192, 0, 8);
                 PLACEMENT_PX(slots[1]) = 140;
                 gDisplayObject_apWorkSlots[0]->flags |= 0x40;
                 DisplayObject_StartAlphaTransition(gDisplayObject_apWorkSlots[0], 192, 0, 8);
                 return;
 finish_effect_step:
-                D_8009B174 = phase_clear;
+                gDuel_bSceneSubStep = phase_clear;
                 return;
             }
-            if (!(D_8009B174 & 0x20)) {
+            if (!(gDuel_bSceneSubStep & 0x20)) {
                 DisplayObject *G32 *slots;
                 gDisplayObject_apWorkSlots[0]->field_60 = 0;
                 PLACEMENT_TX(gDisplayObject_apWorkSlots[0]) = 1;
                 PLACEMENT_TY(gDisplayObject_apWorkSlots[0]) = 0x2680;
-                D_8009B174 |= 0x20;
+                gDuel_bSceneSubStep |= 0x20;
                 gDisplayObject_apWorkSlots[0]->field_2C.h.field_2E = 1;
                 {
                     DuelEffectRequest *request;
@@ -611,7 +611,7 @@ finish_effect_step:
                 slots[0]->flags &= ~0x40;
                 slots[1]->flags &= ~0x40;
                 SD_SEPlayFull(25);
-                D_8009B174 = 4;
+                gDuel_bSceneSubStep = 4;
             } else {
                 object = gDisplayObject_apWorkSlots[0];
                 object->field_2C.h.field_2E += 8;
@@ -633,8 +633,8 @@ finish_effect_step:
             DisplayObject *G32 *slots;
             slots = gDisplayObject_apWorkSlots;
             object = slots[0];
-            if (!(D_8009B174 & 0x80)) {
-                D_8009B174 |= 0x80;
+            if (!(gDuel_bSceneSubStep & 0x80)) {
+                gDuel_bSceneSubStep |= 0x80;
                 object->flags |= 4;
                 object->attribute &= ~0x08000000;
                 SD_SEPlayFull(26);
@@ -657,7 +657,7 @@ finish_effect_step:
                 DisplayObject_ReleaseIfPresent(object);
                 gDisplayObject_apWorkSlots[0] = gDisplayObject_apWorkSlots[1];
                 TextBox_Destroy(gText_aChannels);
-                D_8009B174 = 3;
+                gDuel_bSceneSubStep = 3;
             }
             break;
         }
