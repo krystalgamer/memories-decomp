@@ -12,7 +12,7 @@
  * so a table is chosen by the selector value rather than by the build. The
  * table within the pair is chosen by gDuel_bOpponentID >= 0, as the North
  * American path
- * chooses tent_DuelResultSpriteSpecsOpponent/NoOpponent. Each is indexed by
+ * chooses gDuelResult_aSpriteSpecsOpponent/NoOpponent. Each is indexed by
  * the winning side, then by up to ten specs. All four localized images bind
  * all eight tables at the same addresses. */
 extern DuelResultSpriteSpec gDuelResult_aFrenchSpriteSpecsOpponent[2][10];
