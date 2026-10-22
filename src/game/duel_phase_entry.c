@@ -193,12 +193,12 @@ void DuelScene_UpdateStartup(void)
         w[2] = 0x358;
         w[1] = 0x16C0;
         ViewState_ApplyOrbit();
-        D_8009B174 = 2;
+        gDuel_bSceneSubStep = 2;
         Fade_StartIn();
         return;
     }
 
-    switch (D_8009B174 & 0x1F) {
+    switch (gDuel_bSceneSubStep & 0x1F) {
     case 2:
         gViewState_Current.field_00 -= 2;
         w[2] -= 2;
@@ -207,20 +207,20 @@ void DuelScene_UpdateStartup(void)
             gViewState_Current.field_00 = 0x258;
             w[2] = 0x100;
             w[1] = 0x400;
-            D_8009B174 = 3;
+            gDuel_bSceneSubStep = 3;
         }
         ViewState_ApplyOrbit();
         break;
     case 3:
-        if ((D_8009B174 & 0x80) == 0) {
-            D_8009B174 |= 0x80;
+        if ((gDuel_bSceneSubStep & 0x80) == 0) {
+            gDuel_bSceneSubStep |= 0x80;
             gDuel_wDisplayTransitionFlags = 2;
             gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionSides +
                 gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
             *(u16 *)&gDuel_pActiveSelectionRecord->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
-            D_8009B174 = 4;
+            gDuel_bSceneSubStep = 4;
         }
         break;
     case 4: {
@@ -254,7 +254,7 @@ void DuelScene_UpdateStartup(void)
         }
         gDuel_aSideStates[1].field_0E = atk / DECK_SIZE;
         gDuel_aSideStates[1].field_10 = def / DECK_SIZE;
-        D_8009B174 = 5;
+        gDuel_bSceneSubStep = 5;
         break;
     }
     case 5:

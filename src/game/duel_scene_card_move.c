@@ -72,17 +72,17 @@ void DuelScene_UpdateCardMove(void)
             }
             goto state_four;
         }
-        D_8009B174 = 1;
+        gDuel_bSceneSubStep = 1;
         DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
         object->field_60 = 0;
         if ((s16)object->field_30.h.field_30 == 0x86 ||
             (s16)object->field_30.h.field_32 == 0x2A) {
-            D_8009B174 = 2;
+            gDuel_bSceneSubStep = 2;
             return;
         }
     }
 
-    switch (D_8009B174 & 0xF) {
+    switch (gDuel_bSceneSubStep & 0xF) {
     case 1:
         DisplayObject_InterpolatePositionCosine(
             DISPLAY_OBJECT_POSITION_VIEW(object),
@@ -93,17 +93,17 @@ void DuelScene_UpdateCardMove(void)
         }
         object->field_30.h.field_30 = 0x86;
         object->field_30.h.field_32 = 0x2A;
-        D_8009B174 = 2;
+        gDuel_bSceneSubStep = 2;
         /* Fall through to the next presentation phase in the same frame. */
     case 2:
         if (object->field_68 >= 0x14) {
             goto state_four;
         }
-        D_8009B174 = 3;
+        gDuel_bSceneSubStep = 3;
         /* Fall through to initialize the choice dialog. */
     case 3:
-        if (!(D_8009B174 & 0x80)) {
-            D_8009B174 |= 0x80;
+        if (!(gDuel_bSceneSubStep & 0x80)) {
+            gDuel_bSceneSubStep |= 0x80;
             gDuel_wSelectedCardID =
                 D_8015C424_cards.field_cards[object->field_6A].card_id;
 #ifdef VERSION_JAPAN
@@ -123,30 +123,30 @@ void DuelScene_UpdateCardMove(void)
             } while (box->field_30 == 0);
             break;
         }
-        if (D_8009B174 & 0x10) {
+        if (gDuel_bSceneSubStep & 0x10) {
             gDuel_aCardRecords[object->field_6A].flags &= ~0x200;
             if (gDialog_bChoice) {
                 gDuel_aCardRecords[object->field_6A].flags |= 0x200;
             }
             TextBox_Destroy(gText_aChannels);
 state_four:
-            D_8009B174 = 4;
+            gDuel_bSceneSubStep = 4;
             break;
         }
         if (!Dialog_ReadChoiceInput(gText_aChannels) &&
             (gInput_wPad1Pressed & DUEL_CARD_STAGING_CONFIRM_MASK)) {
             SD_SEPlayFull(7);
-            D_8009B174 |= 0x10;
+            gDuel_bSceneSubStep |= 0x10;
         }
         break;
     case 4:
-        if (!(D_8009B174 & 0x80)) {
-            D_8009B174 |= 0x80;
+        if (!(gDuel_bSceneSubStep & 0x80)) {
+            gDuel_bSceneSubStep |= 0x80;
             object->field_2C.h.field_2E = Duel_ProjectCardSlotScreenX(gDuel_bCardMoveSlot) - 0x1E;
             DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
             object->field_60 = 0x400;
         }
-        if (!(D_8009B174 & 0x40)) {
+        if (!(gDuel_bSceneSubStep & 0x40)) {
             Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(object),
                              object->field_2C.h.field_2E, -0xBC,
                              object->field_60);
@@ -154,7 +154,7 @@ state_four:
             if (object->field_60 > 0) {
                 break;
             }
-            D_8009B174 |= 0x40;
+            gDuel_bSceneSubStep |= 0x40;
             scratch = (DuelCardRecord *)0x1F800000;
             *scratch = gDuel_aCardRecords[object->field_6A];
             Duel_SetupFieldCardFromDeck(gDuel_bCardMoveSlot, object->field_6B);
@@ -182,23 +182,23 @@ state_four:
             break;
         }
         DISPLAY_OBJECT_POSITION_VIEW(object)->out_y = -0x18;
-        D_8009B174 = 5;
+        gDuel_bSceneSubStep = 5;
         SD_SEPlayFull(0xC);
         break;
     case 5:
         if (gDuel_wPendingEquipBonus &&
             Duel_SelectTrapByCardId(DUEL_REVERSE_TRAP_CARD_ID)) {
-            D_8009B174 = 6;
+            gDuel_bSceneSubStep = 6;
             break;
         }
         gDuel_wSceneStateFlags = 5;
         break;
     case 6:
-        if (!(D_8009B174 & 0x80)) {
-            D_8009B174 |= 0xC0;
+        if (!(gDuel_bSceneSubStep & 0x80)) {
+            gDuel_bSceneSubStep |= 0xC0;
             gDuel_wTrapPresentationMode = 0;
         }
-        if (D_8009B174 & 0x40) {
+        if (gDuel_bSceneSubStep & 0x40) {
             if (Duel_UpdateTrapPresentation()) {
                 break;
             }
@@ -209,7 +209,7 @@ state_four:
             request->field_12 = -gDuel_wPendingEquipBonus;
             request->field_04 = z;
             SD_SEPlayFull(0x21);
-            D_8009B174 &= ~0x40;
+            gDuel_bSceneSubStep &= ~0x40;
             break;
         }
         slot = object->field_6A;

@@ -97,7 +97,7 @@ void Duel_InitScene(void)
     gDuel_wViewTweenFramesRemaining = 0;
     gDuel_wCardEffectFlags = 0;
     gDuel_wOutcomeFlags = 0;
-    D_8009B174 = 0;
+    gDuel_bSceneSubStep = 0;
     if (D_8009B369 != 1) {
         if (gDuel_bOpponentID >= 0) {
             File_RequestAsyncTransfer(
