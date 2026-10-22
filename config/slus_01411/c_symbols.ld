@@ -481,3 +481,5 @@ gGraphics_bOrderingTable1Length = 0x8009B0A1;
 gGraphics_bOrderingTable2Length = 0x8009B0A2;
 gDuel_abSelectionRecord1 = 0x800E9F2C;
 gDuel_abSelectionRecord3 = 0x800E9F64;
+
+gModel_wCameraTargetSlot = 0x800F2B4A;

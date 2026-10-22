@@ -1055,3 +1055,9 @@ gDebugEffect_aPreviewCardRecords = D_801A7B80;
 gDebugEffect_szOperandsFormat = D_80010074;
 gDebugEffect_szSecondOperandMarker = D_80010090;
 gDebugEffect_szFirstOperandMarker = D_800100A8;
+
+gModel_CameraMove = D_800F2B20;
+gModel_wCameraFollowCountdown = D_800F2B22;
+gModel_wCameraTargetSlot = D_800F2B4A;
+gModel_AnimatedBattleCameraEndpoint = D_8009BF74;
+gModel_ExodiaOrbitOffset = D_8009BF84;

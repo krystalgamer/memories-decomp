@@ -85,6 +85,7 @@
 #include "model_draw_slot.h"
 #include "../psyq/stdarg.h"
 #include "../unmatched.h"
+#include "model_camera_state.h"
 
 void Model_StepBackgroundVramAnimation(void) {
     s32 k;
@@ -170,7 +171,7 @@ void Model_UpdateAnimatedBattle(void)
         ModelEffectCoefficient *coef;
         s32 a;
 
-        *(ModelBytes8 *)&offset = *(ModelBytes8 *)D_8009AFEC;
+        *(ModelBytes8 *)&offset = *(ModelBytes8 *)gModel_AnimatedBattleCameraEndpoint;
         a = 0x78;
         switch (gModel_pBackgroundRecord->selector) {
         case 0:
@@ -723,7 +724,7 @@ void Model_UpdateExodiaPresentation(void)
     s32 (*first)(s32, s32);
     s32 (*second)(s32, s32);
 
-    *(ModelBytes8 *)&offset = *(ModelBytes8 *)D_8009AFFC;
+    *(ModelBytes8 *)&offset = *(ModelBytes8 *)gModel_ExodiaOrbitOffset;
     slot = gModel_aSlots;
     first = (s32 (*)(s32, s32))(gModel_Slot0VariantModuleAddress + 4);
     second = (s32 (*)(s32, s32))(gModel_Slot1VariantModuleAddress + 4);
@@ -1412,9 +1413,9 @@ loop:
 
 /* The contiguous model camera and scene runtime. Model_SeparateViewFromSlots pushes the
    gModel_RView reference apart from the two model records; Model_UpdateCamera
-   steps the camera move at D_800F2B20 each frame and calls the second
+   steps the camera move at gModel_CameraMove each frame and calls the second
    camera/view correction pass, Model_CorrectViewDistance, which in turn calls
-   Model_SeparateViewFromSlots. The two correction passes work on gModel_RView, D_800F2B20
+   Model_SeparateViewFromSlots. The two correction passes work on gModel_RView, gModel_CameraMove
    and the gModel_wViewDistance/gModel_wViewPitch view values; the tint
    request pass Model_UpdateTintRequests follows them; camera-move setup
    (Model_StartCameraMove) and scene reset/configuration close the unit. */
@@ -1689,26 +1690,26 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
 
 void Model_UpdateCamera(void)
 {
-    s32 eye_slots[2] = {D_800F2B20.eye.pair_slot, D_800F2B20.eye.slot};
-    s32 target_slots[2] = {D_800F2B20.target.pair_slot, D_800F2B20.target.slot};
+    s32 eye_slots[2] = {gModel_CameraMove.eye.pair_slot, gModel_CameraMove.eye.slot};
+    s32 target_slots[2] = {gModel_CameraMove.target.pair_slot, gModel_CameraMove.target.slot};
     s32 rate;
     s32 progress;
     Key *key;
 
-    if (Model_IsEffectKeyQueueEmpty() && D_800F2B20.flags) {
-        if (D_800F2B20.duration <= 0xFFFE) {
+    if (Model_IsEffectKeyQueueEmpty() && gModel_CameraMove.flags) {
+        if (gModel_CameraMove.duration <= 0xFFFE) {
             s32 next_elapsed;
 
             rate = Model_GetFrameStep();
-            if (D_800F2B20.elapsed < (u16)(D_800F2B20.duration / 5u) ||
-                D_800F2B20.elapsed > 4 * D_800F2B20.duration / 5) {
+            if (gModel_CameraMove.elapsed < (u16)(gModel_CameraMove.duration / 5u) ||
+                gModel_CameraMove.elapsed > 4 * gModel_CameraMove.duration / 5) {
                 rate /= 2;
                 if (rate < 2)
                     rate = 2;
             }
-            next_elapsed = D_800F2B20.elapsed + rate;
-            D_800F2B20.elapsed = next_elapsed < D_800F2B20.duration ?
-                next_elapsed : D_800F2B20.duration;
+            next_elapsed = gModel_CameraMove.elapsed + rate;
+            gModel_CameraMove.elapsed = next_elapsed < gModel_CameraMove.duration ?
+                next_elapsed : gModel_CameraMove.duration;
         }
         if (eye_slots[0] >= 0) {
             ModelSlot *base = gModel_aSlots;
@@ -1717,12 +1718,12 @@ void Model_UpdateCamera(void)
             s32 dy;
 
             slot = base + eye_slots[0];
-            dx = (s16)slot->field_DD0[0] - D_800F2B20.eye.start_x;
-            dy = (s16)slot->field_DD0[1] - D_800F2B20.eye.start_y;
-            D_800F2B20.eye.start_x = D_800F2B20.eye.start_x +
+            dx = (s16)slot->field_DD0[0] - gModel_CameraMove.eye.start_x;
+            dy = (s16)slot->field_DD0[1] - gModel_CameraMove.eye.start_y;
+            gModel_CameraMove.eye.start_x = gModel_CameraMove.eye.start_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
-            D_800F2B20.eye.start_y = D_800F2B20.eye.start_y +
+            gModel_CameraMove.eye.start_y = gModel_CameraMove.eye.start_y +
                 (dy > 0 ? (dy < 31 ? dy : 30) :
                 (dy >= -30 ? dy : -30));
         }
@@ -1734,16 +1735,16 @@ void Model_UpdateCamera(void)
             s32 dz;
 
             slot = base + eye_slots[1];
-            dx = (s16)slot->field_DD0[0] - D_800F2B20.eye.end_x;
-            dy = (s16)slot->field_DD0[1] - D_800F2B20.eye.end_y;
-            dz = (s16)slot->field_DD0[2] - D_800F2B20.eye.end_z;
-            D_800F2B20.eye.end_x = D_800F2B20.eye.end_x +
+            dx = (s16)slot->field_DD0[0] - gModel_CameraMove.eye.end_x;
+            dy = (s16)slot->field_DD0[1] - gModel_CameraMove.eye.end_y;
+            dz = (s16)slot->field_DD0[2] - gModel_CameraMove.eye.end_z;
+            gModel_CameraMove.eye.end_x = gModel_CameraMove.eye.end_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
-            D_800F2B20.eye.end_y = D_800F2B20.eye.end_y +
+            gModel_CameraMove.eye.end_y = gModel_CameraMove.eye.end_y +
                 (dy > 0 ? (dy < 31 ? dy : 30) :
                 (dy >= -30 ? dy : -30));
-            D_800F2B20.eye.end_z = D_800F2B20.eye.end_z +
+            gModel_CameraMove.eye.end_z = gModel_CameraMove.eye.end_z +
                 (dz > 0 ? (dz < 31 ? dz : 30) :
                 (dz >= -30 ? dz : -30));
         }
@@ -1754,12 +1755,12 @@ void Model_UpdateCamera(void)
             s32 dy;
 
             slot = base + target_slots[0];
-            dx = (s16)slot->field_DD0[0] - D_800F2B20.target.start_x;
-            dy = (s16)slot->field_DD0[1] - D_800F2B20.target.start_y;
-            D_800F2B20.target.start_x = D_800F2B20.target.start_x +
+            dx = (s16)slot->field_DD0[0] - gModel_CameraMove.target.start_x;
+            dy = (s16)slot->field_DD0[1] - gModel_CameraMove.target.start_y;
+            gModel_CameraMove.target.start_x = gModel_CameraMove.target.start_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
-            D_800F2B20.target.start_y = D_800F2B20.target.start_y +
+            gModel_CameraMove.target.start_y = gModel_CameraMove.target.start_y +
                 (dy > 0 ? (dy < 31 ? dy : 30) :
                 (dy >= -30 ? dy : -30));
         }
@@ -1771,49 +1772,49 @@ void Model_UpdateCamera(void)
             s32 dz;
 
             slot = base + target_slots[1];
-            dx = (s16)slot->field_DD0[0] - D_800F2B20.target.end_x;
-            dy = (s16)slot->field_DD0[1] - D_800F2B20.target.end_y;
-            dz = (s16)slot->field_DD0[2] - D_800F2B20.target.end_z;
-            D_800F2B20.target.end_x = D_800F2B20.target.end_x +
+            dx = (s16)slot->field_DD0[0] - gModel_CameraMove.target.end_x;
+            dy = (s16)slot->field_DD0[1] - gModel_CameraMove.target.end_y;
+            dz = (s16)slot->field_DD0[2] - gModel_CameraMove.target.end_z;
+            gModel_CameraMove.target.end_x = gModel_CameraMove.target.end_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
-            D_800F2B20.target.end_y = D_800F2B20.target.end_y +
+            gModel_CameraMove.target.end_y = gModel_CameraMove.target.end_y +
                 (dy > 0 ? (dy < 31 ? dy : 30) :
                 (dy >= -30 ? dy : -30));
-            D_800F2B20.target.end_z = D_800F2B20.target.end_z +
+            gModel_CameraMove.target.end_z = gModel_CameraMove.target.end_z +
                 (dz > 0 ? (dz < 31 ? dz : 30) :
                 (dz >= -30 ? dz : -30));
         }
-        if (D_800F2B20.flags & 1) {
-            gModel_RView.vpx = (D_800F2B20.eye.end_x - D_800F2B20.eye.start_x) *
-                D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.eye.start_x;
-            gModel_RView.vpy = (D_800F2B20.eye.end_y - D_800F2B20.eye.start_y) *
-                D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.eye.start_y;
-            gModel_RView.vpz = (D_800F2B20.eye.end_z - D_800F2B20.eye.start_z) *
-                D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.eye.start_z;
+        if (gModel_CameraMove.flags & 1) {
+            gModel_RView.vpx = (gModel_CameraMove.eye.end_x - gModel_CameraMove.eye.start_x) *
+                gModel_CameraMove.elapsed / gModel_CameraMove.duration + gModel_CameraMove.eye.start_x;
+            gModel_RView.vpy = (gModel_CameraMove.eye.end_y - gModel_CameraMove.eye.start_y) *
+                gModel_CameraMove.elapsed / gModel_CameraMove.duration + gModel_CameraMove.eye.start_y;
+            gModel_RView.vpz = (gModel_CameraMove.eye.end_z - gModel_CameraMove.eye.start_z) *
+                gModel_CameraMove.elapsed / gModel_CameraMove.duration + gModel_CameraMove.eye.start_z;
             if (gModel_RView.vpy >= -100)
                 gModel_RView.vpy = -100;
-        } else if (D_800F2B20.mode) {
+        } else if (gModel_CameraMove.mode) {
             rate = Model_GetFrameStep();
-            Model_StepViewOrbit(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
+            Model_StepViewOrbit(1, gModel_CameraMove.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
         }
-        if (D_800F2B20.flags & 2) {
-            gModel_RView.vrx = (D_800F2B20.target.end_x - D_800F2B20.target.start_x) *
-                D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.target.start_x;
-            gModel_RView.vry = (D_800F2B20.target.end_y - D_800F2B20.target.start_y) *
-                D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.target.start_y;
-            gModel_RView.vrz = (D_800F2B20.target.end_z - D_800F2B20.target.start_z) *
-                D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.target.start_z;
+        if (gModel_CameraMove.flags & 2) {
+            gModel_RView.vrx = (gModel_CameraMove.target.end_x - gModel_CameraMove.target.start_x) *
+                gModel_CameraMove.elapsed / gModel_CameraMove.duration + gModel_CameraMove.target.start_x;
+            gModel_RView.vry = (gModel_CameraMove.target.end_y - gModel_CameraMove.target.start_y) *
+                gModel_CameraMove.elapsed / gModel_CameraMove.duration + gModel_CameraMove.target.start_y;
+            gModel_RView.vrz = (gModel_CameraMove.target.end_z - gModel_CameraMove.target.start_z) *
+                gModel_CameraMove.elapsed / gModel_CameraMove.duration + gModel_CameraMove.target.start_z;
             if (gModel_RView.vry >= -100)
                 gModel_RView.vry = -100;
         }
         Model_UpdateViewMetrics(0);
         Model_CorrectViewDistance(1);
-        if (D_800F2B20.elapsed >= D_800F2B20.duration)
+        if (gModel_CameraMove.elapsed >= gModel_CameraMove.duration)
             Model_RequestCameraMove(1);
         return;
     }
-    if (!D_800F2B20.mode)
+    if (!gModel_CameraMove.mode)
         return;
     key = (Key *)Model_GetCurrentEffectKeyAddress();
     if (eye_slots[1] >= 0) {
@@ -1864,11 +1865,11 @@ void Model_UpdateCamera(void)
     }
     if (!key || (key->requested[0].kind != 4 && key->requested[1].kind != 4)) {
         rate = Model_GetFrameStep();
-        Model_StepViewOrbit(1, D_800F2B20.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
+        Model_StepViewOrbit(1, gModel_CameraMove.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
         Model_CorrectViewDistance(1);
     }
-    if (D_800F2B20.field_02) {
-        ModelCameraMove *move = &D_800F2B20;
+    if (gModel_CameraMove.field_02) {
+        ModelCameraMove *move = &gModel_CameraMove;
         s32 step;
 
         step = Model_GetFrameStep();
@@ -1942,7 +1943,7 @@ void Model_CorrectViewDistance(s32 arg0) {
     s32 d;
     s32 t;
 
-    n = D_800F2B4A[0];
+    n = gModel_wCameraTargetSlot[0];
     lo = 0x2BC;
     hi = 0x3E8;
     z = 0;
@@ -1957,7 +1958,7 @@ void Model_CorrectViewDistance(s32 arg0) {
     /* The Japanese build only clears the flag bit here; it neither steps
        field_04 up nor, on the other branch, back down towards field_06. */
     if (Model_SeparateViewFromSlots(1, 0x96, 0) != 0) {
-        e = &D_800F2B20;
+        e = &gModel_CameraMove;
 #ifdef VERSION_EUROPE
         /* The European build steps field_04 by 2 up to 0x200, and back
            down by 2 without passing field_06. */
@@ -1976,7 +1977,7 @@ void Model_CorrectViewDistance(s32 arg0) {
         u16 floor;
         u16 v;
 
-        g = &D_800F2B20;
+        g = &gModel_CameraMove;
         floor = g->field_06;
         if (floor < g->field_04) {
             v = g->field_04 - 2;
@@ -1988,7 +1989,7 @@ void Model_CorrectViewDistance(s32 arg0) {
     }
 #elif !defined(VERSION_JAPAN)
     else {
-        g = &D_800F2B20;
+        g = &gModel_CameraMove;
         if (g->field_06 < g->field_04) {
             g->field_04 = g->field_04 - 1;
         }
@@ -2188,13 +2189,13 @@ void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             index = arg1 - 1;
             arg1 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index);
             if (arg3 >= 0) {
-                D_800F2B20.eye.pair_slot = index ^ 1;
+                gModel_CameraMove.eye.pair_slot = index ^ 1;
             } else {
-                D_800F2B20.eye.pair_slot = -1;
+                gModel_CameraMove.eye.pair_slot = -1;
             }
-            D_800F2B20.eye.slot = index;
+            gModel_CameraMove.eye.slot = index;
         } else {
-            ModelCameraMove *p = &D_800F2B20;
+            ModelCameraMove *p = &gModel_CameraMove;
 
             p->eye.slot = -1;
             p->eye.pair_slot = -1;
@@ -2205,13 +2206,13 @@ void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             index = arg2 - 1;
             arg2 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index);
             if (arg3 >= 0) {
-                D_800F2B20.target.pair_slot = index ^ 1;
+                gModel_CameraMove.target.pair_slot = index ^ 1;
             } else {
-                D_800F2B20.target.pair_slot = -1;
+                gModel_CameraMove.target.pair_slot = -1;
             }
-            D_800F2B20.target.slot = index;
+            gModel_CameraMove.target.slot = index;
         } else {
-            ModelCameraMove *p = &D_800F2B20;
+            ModelCameraMove *p = &gModel_CameraMove;
 
             p->target.slot = -1;
             p->target.pair_slot = -1;
@@ -2220,10 +2221,10 @@ void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             goto have_flags;
         }
     }
-    D_800F2B20.mode = arg0;
+    gModel_CameraMove.mode = arg0;
 have_flags:
     {
-        ModelCameraMove *p = &D_800F2B20;
+        ModelCameraMove *p = &gModel_CameraMove;
 
         p->field_02 = MODEL_DEFAULT_PROJECTION;
 #ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
@@ -2238,14 +2239,14 @@ have_flags:
         }
     }
     if (arg2 != 0) {
-        ModelCameraMove *p = &D_800F2B20;
+        ModelCameraMove *p = &gModel_CameraMove;
 
         p->flags = p->flags | 2;
     } else {
         arg2 = (s32)&b;
     }
     {
-        ModelCameraMove *p = &D_800F2B20;
+        ModelCameraMove *p = &gModel_CameraMove;
 
         p->eye.start_x = a.vx;
         p->eye.start_y = a.vy;
@@ -2269,7 +2270,7 @@ have_flags:
         }
     }
     {
-        ModelCameraMove *p = &D_800F2B20;
+        ModelCameraMove *p = &gModel_CameraMove;
 
         flags = p->flags;
         p->elapsed = 0;

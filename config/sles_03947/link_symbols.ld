@@ -133,3 +133,11 @@ func_8006ADE8 = Model_DrawSharedGt4WindowRecordWireframes;
 
 func_8006151C = Model_DrawGt3Primitives;
 func_80061A84 = Model_DrawGt4Primitives;
+
+gModel_CameraMove = D_800F2B20;
+gModel_wCameraFollowCountdown = D_800F2B22;
+gModel_wCameraTargetSlot = D_800F2B4A;
+gModel_AnimatedBattleCameraEndpoint = 0x8009BF74;
+D_8009BF74 = gModel_AnimatedBattleCameraEndpoint;
+gModel_ExodiaOrbitOffset = 0x8009BF84;
+D_8009BF84 = gModel_ExodiaOrbitOffset;
