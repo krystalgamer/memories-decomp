@@ -2,7 +2,9 @@
 #define D_8009AF74_IN_DATA
 #include "../types.h"
 #include "fade.h"
+#include "fade_overlay_controls.h"
 #include "display_object_helpers.h"
+#include "display_object_depth_bases.h"
 #include "duel_effect_sound_commands.h"
 
 void Text_ApplyFadeCommand(DuelEffectChannel *object)
@@ -15,10 +17,10 @@ void Text_ApplyFadeCommand(DuelEffectChannel *object)
     *cursor = stream + 1;
     opcode = command;
     if (opcode & 0x40) {
-        D_8009B140 = *(u8 *)&D_8009AF74[1] + 9;
+        gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] + 9;
     }
     if (opcode & 0x20) {
-        D_8009B140 = 4;
+        gFade_bKeepOverlayDepth = 4;
     }
     if (opcode & 0x10) {
         if (opcode & 1) {

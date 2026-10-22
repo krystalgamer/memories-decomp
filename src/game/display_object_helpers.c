@@ -11,6 +11,7 @@
 #include "display_object.h"
 #include "display_object_packet_submit.h"
 #include "display_object_helpers.h"
+#include "display_object_depth_bases.h"
 
 /* Regional value: DIVPOLYGON4 piv (272 -> 288). The European build
  * (src/game/european/) defines its own. */
@@ -281,7 +282,7 @@ void DisplayObject_ConfigureSpriteAtPositionWithResource(
 s32 DisplayObject_SetDepthOffset(DisplayObject *obj, s8 value)
 {
     u32 index = obj->ot_index;
-    volatile u16 *table = D_8009AF74;
+    volatile u16 *table = gDisplayObject_awOrderingTableDepthBases;
     s32 result;
 
     obj->field_16 = value;
@@ -293,13 +294,13 @@ s32 DisplayObject_SetDepthOffset(DisplayObject *obj, s8 value)
 void DisplayObject_SelectOrderingTable1(DisplayObject *object)
 {
     object->ot_index = 1;
-    object->field_14 = D_8009AF74[1] - object->field_16;
+    object->field_14 = gDisplayObject_awOrderingTableDepthBases[1] - object->field_16;
 }
 
 void DisplayObject_SelectOrderingTable3(DisplayObject *object)
 {
     object->ot_index = 3;
-    object->field_14 = D_8009AF74[3] - object->field_16;
+    object->field_14 = gDisplayObject_awOrderingTableDepthBases[3] - object->field_16;
 }
 
 int DisplayObject_RunUpdateAndCheckRenderable(DisplayObject *object)

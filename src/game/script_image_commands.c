@@ -5,6 +5,7 @@
 #include "scene_script.h"
 #include "script_command_busy.h"
 #include "fade.h"
+#include "fade_overlay_controls.h"
 #include "display_object.h"
 #include "display_object_core.h"
 #include "../psyq/libgte.h"
@@ -76,8 +77,8 @@ void Script_OpShowImage(void) {
         ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots));
         gGraphics_sViewportX = gScript_ViewportTargetX;
         gGraphics_sViewportY = gScript_ViewportTargetY;
-        if (D_8009B145 == 0) {
-            Fade_StartOutKeepOverlay(D_8009B145);
+        if (gFade_bWhiteLatch == 0) {
+            Fade_StartOutKeepOverlay(gFade_bWhiteLatch);
         }
         ScriptImage_RequestTransfer(
             SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), gScript_ImageOperand & 0xFFF);
@@ -88,7 +89,7 @@ void Script_OpShowImage(void) {
         DisplayObject_ReleaseIfPresent(gScript_TransitionObject);
         ScriptImage_RebuildObjects(
             SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), -1);
-        if (D_8009B145 == 0 && !(gScript_ImageOperand & 0x4000)) {
+        if (gFade_bWhiteLatch == 0 && !(gScript_ImageOperand & 0x4000)) {
             Fade_StartInKeepOverlay();
         }
         return;

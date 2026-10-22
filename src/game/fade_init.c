@@ -1,6 +1,7 @@
 #include "../types.h"
 
 #include "fade.h"
+#include "fade_overlay_controls.h"
 
 void Fade_Init(void)
 {
@@ -10,5 +11,5 @@ void Fade_Init(void)
     state->level = 0;
     state->target_level = 0;
     state->step = 8;
-    D_8009B145 = 0;
+    gFade_bWhiteLatch = 0;
 }

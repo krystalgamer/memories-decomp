@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_depth_bases.h"
 #include "mem_card_work.h"
 #include "mem_card_directory.h"
 
@@ -12,7 +13,7 @@
  * Splitting it by owner is not possible: the units are smaller than the
  * granularity the split file works in.
  *
- * Splat names seven labels in this range, not five. D_8009AF74 below is one
+ * Splat names seven labels in this range, not five. gDisplayObject_awOrderingTableDepthBases below is one
  * eight-byte object, but code addresses its middle elements directly, so the
  * disassembler also named 0x8009AF76 and 0x8009AF7A. Those two labels are
  * positions inside an array, not separate objects, and defining them
@@ -43,7 +44,7 @@ u8 D_8009AF70[4] __attribute__((section(".sdata"))) = "*";
  * elements [1] and [3] used to carry private names of their own. The
  * qualifier is load-bearing in display_object_helpers.c, so it belongs on
  * the definition too. */
-volatile u16 D_8009AF74[4] __attribute__((section(".sdata"))) = {
+volatile u16 gDisplayObject_awOrderingTableDepthBases[4] __attribute__((section(".sdata"))) = {
     0x0000,
     0x0020,
     0x0800,

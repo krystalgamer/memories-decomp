@@ -5,6 +5,7 @@
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "display_object_helpers.h"
+#include "display_object_depth_bases.h"
 #include "text_box_runtime.h"
 #include "func_80039794.h"
 #include "display_object_interpolation.h"
@@ -35,7 +36,7 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
         e->flags = e->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(e);
-        DisplayObject_SetDepthOffset(e, (s8)(*(u8 *)&D_8009AF74[1] - 2));
+        DisplayObject_SetDepthOffset(e, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 2));
         record->grid[0][0] = (s32)e;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)e);
         e->field_60 = -0x400;

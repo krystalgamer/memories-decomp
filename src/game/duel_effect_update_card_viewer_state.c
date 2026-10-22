@@ -19,6 +19,7 @@
 #include "duel_effect_clear_resource_object_pointers.h"
 #include "input.h"
 #include "fade.h"
+#include "fade_overlay_controls.h"
 
 #include "display_object_layout.h"
 #include "duel_effect.h"
@@ -31,6 +32,7 @@
 #include "display_object_core.h"
 #include "display_object.h"
 #include "display_object_helpers.h"
+#include "display_object_depth_bases.h"
 #include "card_preview_objects.h"
 #include "duel_effect_resource_setup.h"
 #include "display_object_interpolation.h"
@@ -184,7 +186,7 @@ void DuelEffect_UpdateCardViewerState(void)
             }
         }
         Fade_SetTargetLevel(0x40, 2);
-        D_8009B140 = *(u8 *)&D_8009AF74[1] - 0x13;
+        gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 0x13;
         SD_SEPlayFull(0x34);
         D_8009B248 |= 0x40;
         return;
