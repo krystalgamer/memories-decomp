@@ -19,6 +19,7 @@
 #include "duel_effect_fade_out_bgm_command.h"
 #include "main_mode_state.h"
 #include "../unmatched.h"
+#include "sound_bgm_commands.h"
 
 void DuelEffect_PlayBgmCommand(DuelEffectChannel *object)
 {
@@ -39,13 +40,13 @@ void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object)
         SD_BGMPlay(TextStream_ReadU16LE(object) & 0xFFFF);
     } else {
         if (op & 1) {
-            SD_BGMPlay(D_8009B404);
+            SD_BGMPlay(gSD_dwSavedBgmCommand);
         }
         if (op & 2) {
-            D_8009B404 = TextStream_ReadU16LE(object) & 0xFFFF;
+            gSD_dwSavedBgmCommand = TextStream_ReadU16LE(object) & 0xFFFF;
         }
         if (op & 4) {
-            D_8009B404 = gSD_dwCurrentBgmCommand[0];
+            gSD_dwSavedBgmCommand = gSD_dwCurrentBgmCommand[0];
         }
     }
     if (op & 0x80) {

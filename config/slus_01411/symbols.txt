@@ -2420,3 +2420,5 @@ CardList_BuildRowSetTextBoxes = 0x80060E70; // type:func size:0x198
 gCardList_SortIconTable = 0x80090DD8; // defined:True size:0x20
 
 ViewState_ApplyAlternateOrbit = 0x800135FC; // type:func size:0xD8
+
+SD_CdBgmPlay = 0x8003FFD8; // type:func size:0x24

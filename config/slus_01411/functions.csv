@@ -614,7 +614,7 @@ address,size,name,status,module,notes
 0x8003FF58,0x30,SD_BGMFadeOutWithStep,matching_c,game,Normalizes a caller-supplied positive fade step to a negative BGM delta and uses the same sequence-control path as SD_BGMFadeOut; script and overworld callers establish variable-rate fade-out use; exact full-executable match.
 0x8003FF88,0x2C,SD_CdSoundPlay,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003FFB4,0x24,SD_CdSoundSeek,matching_c,game,16-bit mask and 0x8000 call wrapper matched exactly.
-0x8003FFD8,0x24,func_8003FFD8,matching_c,game,16-bit mask and 0xA000 call wrapper matched exactly.
+0x8003FFD8,0x24,SD_CdBgmPlay,matching_c,game,16-bit mask and 0xA000 call wrapper matched exactly.
 0x8003FFFC,0x30,SD_StopAll,matching_c,game,Stops both sequence-control paths and keys off the four dedicated SPU voice slots; used by the debug sound screen's Start-button cleanup; exact full-executable match.
 0x8004002C,0x40,DisplayObject_FindFreeGeneralSlot,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split. Returns the first unallocated index in the general-use slots 16-95 or -1.
 0x8004006C,0x40,DisplayObject_FindFreeSlot,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split. Returns the first unallocated index in the complete 96-slot display-object pool or -1.

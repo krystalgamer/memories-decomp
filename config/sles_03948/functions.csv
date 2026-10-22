@@ -618,7 +618,7 @@ address,size,name,status,module,notes
 0x8004027C,0x30,SD_BGMFadeOutWithStep,matching_c,game,Shared European C at 0x8004007C; French relocations and complete executable SHA-256 verified.
 0x800402AC,0x2C,SD_CdSoundPlay,matching_c,game,Shared European C at 0x800400AC; French relocations and complete executable SHA-256 verified.
 0x800402D8,0x24,SD_CdSoundSeek,matching_c,game,Shared European C at 0x800400D8; French relocations and complete executable SHA-256 verified.
-0x800402FC,0x24,func_8003FFD8,matching_c,game,Shared European C at 0x800400FC; French relocations and complete executable SHA-256 verified.
+0x800402FC,0x24,SD_CdBgmPlay,matching_c,game,Shared European C at 0x800400FC; French relocations and complete executable SHA-256 verified.
 0x80040320,0x30,SD_StopAll,matching_c,game,Shared European C at 0x80040120; French relocations and complete executable SHA-256 verified.
 0x80040350,0x40,DisplayObject_FindFreeGeneralSlot,matching_c,game,"Shared European C at 0x80040150; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."
 0x80040390,0x40,DisplayObject_FindFreeSlot,matching_c,game,"Shared European C at 0x80040190; uniquely recovered group, measured French relocations and complete executable SHA-256 verified."

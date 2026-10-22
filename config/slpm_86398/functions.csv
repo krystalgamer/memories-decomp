@@ -615,7 +615,7 @@ address,size,name,status,module,notes
 0x8003F638,0x30,SD_BGMFadeOutWithStep,matching_c,game,
 0x8003F668,0x2C,SD_CdSoundPlay,matching_c,game,
 0x8003F694,0x24,SD_CdSoundSeek,matching_c,game,
-0x8003F6B8,0x24,func_8003FFD8,matching_c,game,
+0x8003F6B8,0x24,SD_CdBgmPlay,matching_c,game,
 0x8003F6DC,0x30,SD_StopAll,matching_c,game,
 0x8003F70C,0x40,DisplayObject_FindFreeGeneralSlot,matching_c,game,
 0x8003F74C,0x40,DisplayObject_FindFreeSlot,matching_c,game,
