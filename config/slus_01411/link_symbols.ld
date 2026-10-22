@@ -146,3 +146,7 @@ gAi_bFieldTargetCode = D_800EAE92;
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
+
+gDuel_bPresentationCursor = D_8009B1B9;
+gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
+gDuel_bFieldActionAutoCommit = D_8009B21A;

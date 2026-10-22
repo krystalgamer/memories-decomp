@@ -37,6 +37,7 @@
 #define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #include "../types.h"
 #include "duel_scene_field_actions.h"
+#include "duel_presentation_controls.h"
 #include "duel_scene_state.h"
 #include "duel_side_state.h"
 #include "duel_selection_layout.h"
@@ -158,7 +159,7 @@ void DuelScene_UpdateFieldActions(void)
             return;
         }
         gDuel_pActionReadyMarker = 0;
-        D_8009B21A = 0;
+        gDuel_bFieldActionAutoCommit = 0;
         gDuel_pActiveSelectionRecord = side;
         side->row_end = 4;
         side->field_0C = DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C;
@@ -272,7 +273,7 @@ void DuelScene_UpdateFieldActions(void)
                 return;
             }
             if (!(flags & 0x4000) || DisplayObject_FindAllocatedByTag(0xF) == 0) {
-                D_8009B21A = 1;
+                gDuel_bFieldActionAutoCommit = 1;
                 goto attack;
             }
             return;
@@ -281,7 +282,7 @@ void DuelScene_UpdateFieldActions(void)
     case 3:
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0xC0;
-            D_8009B21A = 0;
+            gDuel_bFieldActionAutoCommit = 0;
             if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0) {
                 gDuel_bSceneSubStep = 2;
                 return;
@@ -410,7 +411,7 @@ void DuelScene_UpdateFieldActions(void)
         if (gDuel_wDisplayTransitionFlags == 0) {
             DuelField_RefreshCursorCardInfo(side);
             gDuel_bSceneSubStep = 6;
-            if (D_8009B21A != 0) {
+            if (gDuel_bFieldActionAutoCommit != 0) {
                 gDuel_bSceneSubStep = 5;
             }
         }
@@ -558,7 +559,7 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_pActionCard = DISPLAY_OBJECT_VIEW(o);
             co = side->cursor_object;
             co->flags &= 0xFFBF;
-            if (D_8009B21A == 0) {
+            if (gDuel_bFieldActionAutoCommit == 0) {
                 gDuel_dwFieldDimTarget = 0x202020;
                 card = gDuel_aCardRecords;
                 for (n = 0; n < 0x1E; card++, n++) {
@@ -582,7 +583,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             return;
         }
-        if (D_8009B21A != 0) {
+        if (gDuel_bFieldActionAutoCommit != 0) {
             if (DisplayObject_FindAllocatedByTag(1) != 0) {
                 return;
             }

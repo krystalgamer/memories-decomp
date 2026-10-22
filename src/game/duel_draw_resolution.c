@@ -38,6 +38,7 @@
 #include "duel_card_pick_cursor.h"
 #include "duel_selection_layout.h"
 #include "duel_scene_card_placement.h"
+#include "duel_presentation_controls.h"
 #include "duel_scene_exodia_result.h"
 #include "duel_screen_tables.h"
 #include "rand_get_interval.h"
@@ -271,7 +272,7 @@ next_obj:
             gDuel_pActiveSelectionRecord->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;
         gDuel_wStepCounter = 0;
-        D_8009B1B9 = 0;
+        gDuel_bPresentationCursor = 0;
         gDuelEffect_pTrackedRequest = 0;
         D_8009B23A = D_8009B23A | 0x4000;
         Fade_StartOutKeepOverlay();
@@ -285,7 +286,7 @@ next_obj:
                 return;
             }
             D_8009B23A = flags & 0xBFFF;
-            D_8009B1B9 = 0;
+            gDuel_bPresentationCursor = 0;
             gDuel_wStepCounter = 0;
             return;
         }
@@ -303,11 +304,11 @@ next_obj:
         gDuelEffect_pTrackedRequest = fx;
         fx->field_00 = (s16)((rand() & 0xFF) + 0x20);
         r = Rand_GetInterval(0xB0);
-        n = D_8009B1B9;
+        n = gDuel_bPresentationCursor;
         t14 = (s32)fx->buffer;
         fx->field_02 = (s16)(r + 0x20);
         fx->buffer = (void *)(t14 + ((n & 3) << 13));
-        D_8009B1B9 = n + 1;
+        gDuel_bPresentationCursor = n + 1;
         return;
     }
     if (flags & 0x2000) {
@@ -316,7 +317,7 @@ next_obj:
         if ((s16)t > 0) {
             return;
         }
-        if ((s8)D_8009B1B9 >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
+        if ((s8)gDuel_bPresentationCursor >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             D_8009B23A = (flags & 0xDFFF) | 0x1000;
             fx = DuelEffect_AllocateRequest(0x13);
             fx->field_00 = 0xA0;
@@ -327,7 +328,7 @@ next_obj:
         }
         gDuel_wStepCounter = 4;
         fx = DuelEffect_AllocateRequest(0);
-        k = (s8)D_8009B1B9;
+        k = (s8)gDuel_bPresentationCursor;
         slot = &gDisplayObject_apWorkSlots[k];
         d = *slot;
         fx->field_00 = (s16)(d->field_30.h.field_30 + 0x1A);
@@ -338,7 +339,7 @@ next_obj:
         fx->buffer = (void *)anim;
         fx->field_1A = 9;
         SD_SEPlayFull(0x17);
-        D_8009B1B9 = D_8009B1B9 + 1;
+        gDuel_bPresentationCursor = gDuel_bPresentationCursor + 1;
         return;
     }
     if (flags & 0x1000) {

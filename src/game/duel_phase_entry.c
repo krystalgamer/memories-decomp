@@ -15,6 +15,7 @@
 #include "duel_phase_entry.h"
 #include "duel_scene_resume.h"
 #include "duel_scene_card_placement.h"
+#include "duel_presentation_controls.h"
 #include "view_state.h"
 #include "card_constants.h"
 #include "duel_scene_state.h"
@@ -138,7 +139,7 @@ void DuelScene_UpdateResume(void)
             return;
         }
         gDuel_wSceneStateFlags |= 0x4000;
-        D_8009B1B9 = 2;
+        gDuel_bPresentationCursor = 2;
         if ((gDuel_wSceneStateFlags & 0x2000) != 0) {
             gDuel_wSceneStateFlags = 0xC;
         }
@@ -146,8 +147,8 @@ void DuelScene_UpdateResume(void)
     }
 
     for (;;) {
-        n = D_8009B1B9 - 1;
-        D_8009B1B9 = n;
+        n = gDuel_bPresentationCursor - 1;
+        gDuel_bPresentationCursor = n;
         if (n < 0) {
             gDuel_wSceneStateFlags = 5;
             return;
