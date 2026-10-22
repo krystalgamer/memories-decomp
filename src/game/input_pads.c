@@ -11,6 +11,7 @@
 #endif
 #include "graphics_frame.h"
 #include "input.h"
+#include "graphics_frame_controls.h"
 
 /* The controller runtime: reset, regional SDK startup, and the per-frame raw-packet
    decode and held/pressed/repeat publication. All four operate on the
@@ -130,7 +131,7 @@ void Input_UpdatePads(void)
             if (new_bits & INPUT_PENDING_HIGH_BIT) {
                 repeat |= 1;
             }
-            value = gInput_abRepeatTimers[i] + (u8)D_8009B0D8;
+            value = gInput_abRepeatTimers[i] + (u8)gGraphics_nBaseFrameStep;
             gInput_abRepeatTimers[i] = value;
             if (value >= gInput_bRepeatDelay) {
                 gInput_abRepeatTimers[i] = gInput_bRepeatInterval;

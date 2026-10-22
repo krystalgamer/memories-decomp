@@ -26,6 +26,7 @@
 #include "model.h"
 #include "rand_constants.h"
 #include "main_services.h"
+#include "graphics_frame_controls.h"
 
 /* The resident system layer's per-frame service pump. It is the first of
    four contiguous functions that are the only run in the region built with
@@ -104,7 +105,7 @@ void Main_InitHardware(GraphicsFrameBuffer *base)
 #endif
     gGraphics_bDither = 1;
     gGraphics_bClearBackground = 1;
-    D_8009B0A8 = 0;
+    gGraphics_bSkipDisplaySwap = 0;
     gFade_bTargetRed = 1;
     gGraphics_bClearRed = 1;
     gFade_bTargetGreen = 1;

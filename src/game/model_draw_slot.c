@@ -63,6 +63,7 @@
 #include "../game/screen_projection.h"
 #include "../game/model_handler_registry.h"
 #include "../game/model_draw_slot.h"
+#include "graphics_ordering_table_views.h"
 
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -177,9 +178,9 @@ void Model_DrawSlot(s32 index)
     u8 fl;
 
     if (index < 2) {
-        ot = D_800E9D98[0];
+        ot = gGraphics_pOrderingTable2[0];
     } else {
-        ot = D_800E9D98[1];
+        ot = gGraphics_pOrderingTable2[1];
     }
     slot = &gModel_aSlots[index];
     blk = (s8 *)&slot->field_CF8;

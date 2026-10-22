@@ -7,6 +7,11 @@
 #include "../psyq/sdk_internal.h"
 #define D_8009B142_IN_DATA
 #define D_8009B0C0_IS_VOLATILE
+/* Keep the frozen declaration position for common emission order. */
+#ifdef D_8009B0A8
+#undef D_8009B0A8
+#endif
+#define D_8009B0A8 gGraphics_bSkipDisplaySwap
 #include "graphics_frame.h"
 #define D_8009B141_IN_DATA
 #include "fade.h"
@@ -17,6 +22,7 @@
 #include "model_graphics_state.h"
 #include "movie_playback_control.h"
 #include "../external_funcs.h"
+#include "graphics_frame_controls.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
@@ -25,7 +31,7 @@
 u8 gGraphics_bExtraFrameStep;
 
 /* gp-relative in the target, so this unit defines them */
-u8 D_8009B0A8;
+u8 gGraphics_bSkipDisplaySwap;
 u8 gGraphics_bDither;
 u8 gGraphics_bClearBackground;
 u16 gGraphics_wFlags;
@@ -49,11 +55,11 @@ void Graphics_SyncFrame(void)
     if (gGraphics_bExtraFrameStep & 0xFF) {
         gGraphics_bExtraFrameStep = 1;
     }
-    D_8009B0D8 = gGraphics_bExtraFrameStep + 1;
+    gGraphics_nBaseFrameStep = gGraphics_bExtraFrameStep + 1;
 
-    gGraphics_bFrameStep = D_8009AFA4 ? 2 : D_8009B0D8;
+    gGraphics_bFrameStep = gGraphics_FrameStepControl ? 2 : gGraphics_nBaseFrameStep;
 
-    D_8009AFA4 = 0;
+    gGraphics_FrameStepControl = 0;
     gGraphics_dwSyncVBlankCounter = -1;
 
     VSync(0);
@@ -70,7 +76,7 @@ void Graphics_BeginFrame(void)
     u8 *arg;
     GsOT *G32 *base;
 
-    if (D_8009B0A8 == 0) {
+    if (gGraphics_bSkipDisplaySwap == 0) {
         D_800FE048[0].isbg = gGraphics_bClearBackground;
         D_800FE048[0].dtd = gGraphics_bDither;
         D_800FE048[0].r0 = gGraphics_bClearRed;

@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "graphics_frame.h"
 #include "fade.h"
+#include "graphics_frame_controls.h"
 
 #ifndef FADE_STEP_BAND_COUNT
 #define FADE_STEP_BAND_COUNT FADE_BAND_COUNT
@@ -11,7 +12,7 @@
    transitions visit the middle pair first and subtract step from the signed
    field_08 accumulator; decreasing transitions visit the outer pair first
    and add step. Values are clamped between level and target_level. After
-   the pass, the head update uses the opposite sign, scaled by D_8009B0D8. */
+   the pass, the head update uses the opposite sign, scaled by gGraphics_nBaseFrameStep. */
 
 void Fade_StepBands(void)
 {
@@ -36,7 +37,7 @@ void Fade_StepBands(void)
             state->band_levels[FADE_STEP_BAND_COUNT - 1 - i] = level;
         }
         state->field_08 =
-            state->field_08 + step * *(volatile s32 *)&D_8009B0D8;
+            state->field_08 + step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
     } else {
         acc = (s16)state->field_08;
         for (i = 0; i < FADE_STEP_BAND_COUNT / 2; i++) {
@@ -52,7 +53,7 @@ void Fade_StepBands(void)
             state->band_levels[FADE_STEP_BAND_COUNT - 1 - i] = level;
         }
         state->field_08 =
-            state->field_08 - step * *(volatile s32 *)&D_8009B0D8;
+            state->field_08 - step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
     }
     if (level == state->target_level) {
         state->level = level;

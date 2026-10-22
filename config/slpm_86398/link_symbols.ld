@@ -91,3 +91,10 @@ D_800F03E8 = gModel_wCameraTargetSlot;
 gModel_AnimatedBattleCameraEndpoint = D_8009AFEC;
 gModel_ExodiaOrbitOffset = 0x8009AF5C;
 D_8009AF5C = gModel_ExodiaOrbitOffset;
+
+gGraphics_FrameStepControl = gJapanese_D_8009AFA4;
+gGraphics_nBaseFrameStep = gJapanese_FrameStep;
+gGraphics_bSkipDisplaySwap = gJapanese_D_8009B0A8;
+gGraphics_pOrderingTable1 = 0x800E9C74;
+gGraphics_pOrderingTable2 = D_800E9D98;
+gGraphics_pOrderingTable3 = D_800E9D9C;

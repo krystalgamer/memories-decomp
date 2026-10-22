@@ -483,3 +483,7 @@ gDuel_abSelectionRecord1 = 0x800E9F2C;
 gDuel_abSelectionRecord3 = 0x800E9F64;
 
 gModel_wCameraTargetSlot = 0x800F2B4A;
+
+gGraphics_bSkipDisplaySwap = 0x8009B0A8;
+
+gGraphics_pOrderingTable3 = 0x800E9D9C;

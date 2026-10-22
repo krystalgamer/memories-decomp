@@ -10,6 +10,8 @@
 
 #include "fade.h"
 #include "../unmatched.h"
+#include "graphics_frame_controls.h"
+#include "graphics_ordering_table_views.h"
 
 /* The per-frame fade step and the complete fade overlay, setup, blocking,
    and wrapper runtime. All thirty-one contiguous functions operate on
@@ -39,7 +41,7 @@ void Fade_Update(FadeTransitionState *p)
     if ((gFade_bOrderingTableMode & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
         Fade_EnableOrderingTables();
     }
-    delta = p->step * *(volatile s32 *)&D_8009B0D8;
+    delta = p->step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
     lvl = p->level;
     tgt = p->target_level;
     if (lvl != tgt) {
@@ -166,7 +168,7 @@ void Fade_DrawOverlay(void) {
         p->attribute = GsALON | GsATWO;
         *(u32 *)&p->w = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
         *(u32 *)&p->x = 0;
-        ot = D_800E9D94[0];
+        ot = gGraphics_pOrderingTable1[0];
 
         if (flags & FADE_FLAG_BANDED) {
             FADEBOX_H(p) = FADE_BAND_HEIGHT;

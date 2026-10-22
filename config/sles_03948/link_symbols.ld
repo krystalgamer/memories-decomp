@@ -1061,3 +1061,10 @@ gModel_wCameraFollowCountdown = D_800F2B22;
 gModel_wCameraTargetSlot = D_800F2B4A;
 gModel_AnimatedBattleCameraEndpoint = D_8009BF74;
 gModel_ExodiaOrbitOffset = D_8009BF84;
+
+gGraphics_FrameStepControl = D_8009AFA4;
+gGraphics_nBaseFrameStep = D_8009B0D8;
+gGraphics_bSkipDisplaySwap = D_8009B0A8;
+gGraphics_pOrderingTable1 = D_800E9D94;
+gGraphics_pOrderingTable2 = D_800E9D98;
+gGraphics_pOrderingTable3 = 0x8009C864;

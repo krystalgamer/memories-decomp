@@ -40,6 +40,7 @@
 #include "movie_playback_control.h"
 #include "main_mode_state.h"
 #include "../psyq/libgs.h"
+#include "graphics_frame_controls.h"
 
 s32 Main_Init(void)
 {
@@ -70,7 +71,7 @@ s32 Main_Init(void)
 #endif
     gMain_bVBlankSoundPending = 0;
     gGraphics_bExtraFrameStep = 0;
-    D_8009B0D8 = 1;
+    gGraphics_nBaseFrameStep = 1;
     gGraphics_wFlags = 0x5000;
     D_8009B0D1 = 0;
     *(u8 *)&gDuel_wTwoPlayerCardViewMode = 1;

@@ -4,6 +4,7 @@
 #define DISPLAY_OBJECT_STREAM_READ_NEXT_COMMAND_WIDE_CALL
 #include "display_object_stream_read_next_command.h"
 #include "graphics_frame.h"
+#include "graphics_frame_controls.h"
 
 /* If arg0's 0x10 state bit isn't set yet: marks it set, resets
    field_58/field_5A, then walks a 3-level little-endian-u16 offset chain
@@ -13,7 +14,7 @@
    0x100 bit is set) become the args for DisplayObjectStream_ReadNextCommand,
    which always fires on this path. Otherwise (0x10 already set): if neither
    of flags' low two bits are set and the field_5A cooldown is nonzero,
-   decrements it by D_8009B0D8 and fires DisplayObjectStream_ReadNextCommand
+   decrements it by gGraphics_nBaseFrameStep and fires DisplayObjectStream_ReadNextCommand
    once it reaches zero or below.
 
    arg1 and arg2 are read, not just written. The first-time path assigns
@@ -69,7 +70,7 @@ void DisplayObject_UpdateCommandStream(DisplayObject *arg0, s32 arg1, s32 arg2) 
     }
 
     if (!(arg0->flags & 3) && arg0->field_5A != 0) {
-        s16 remain = (u16)arg0->field_5A - (u16)D_8009B0D8;
+        s16 remain = (u16)arg0->field_5A - (u16)gGraphics_nBaseFrameStep;
         arg0->field_5A = remain;
         if (remain <= 0) {
 call_it:
