@@ -36,7 +36,7 @@ _start:
 WITNESS = r"""
 #include "src/types.h"
 #include "src/psyq/libgte.h"
-#include "src/game/model.h"
+#include "src/game/model_camera_state.h"
 #include "src/game/model_graphics_state.h"
 #include "src/game/model_slot_properties.h"
 #include "src/game/model_slot_state_updates.h"
@@ -74,7 +74,7 @@ __asm__(".globl gModel_aSlots\n.set gModel_aSlots, fixture_slots+32\n"
         ".globl gModel_Slot1VariantModuleAddress\n.set gModel_Slot1VariantModuleAddress, fixture_globals+48\n"
         ".globl gModel_Slot0VariantDataAddress\n.set gModel_Slot0VariantDataAddress, fixture_globals+52\n"
         ".globl gModel_Slot1VariantDataAddress\n.set gModel_Slot1VariantDataAddress, fixture_globals+56\n"
-        ".globl D_8009AFFC\n.set D_8009AFFC, fixture_globals+60\n");
+        ".globl gModel_ExodiaOrbitOffset\n.set gModel_ExodiaOrbitOffset, fixture_globals+60\n");
 void Model_UpdateExodiaPresentation(void);
 static s32 old_first(s32, s32), old_second(s32, s32);
 static s32 new_first(s32, s32), new_second(s32, s32);

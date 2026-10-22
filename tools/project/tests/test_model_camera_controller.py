@@ -35,7 +35,7 @@ _start:
 
 WITNESS = r"""
 #include "src/types.h"
-#include "src/game/model.h"
+#include "src/game/model_camera_state.h"
 #include "src/game/camera_view.h"
 #include "src/game/model_graphics_state.h"
 #include "src/game/model_transfer_state.h"
@@ -55,7 +55,7 @@ enum { GUARD = 16, MOVE_SIZE = 44, VIEW_SIZE = 32, SLOT_SIZE = 0xE20,
 u8 move_storage[GUARD + MOVE_SIZE + GUARD] __attribute__((aligned(16)));
 u8 view_storage[GUARD + VIEW_SIZE + GUARD] __attribute__((aligned(16)));
 u8 slot_storage[GUARD + 3 * SLOT_SIZE + GUARD] __attribute__((aligned(16)));
-__asm__(".globl D_800F2B20\n.set D_800F2B20, move_storage+16\n"
+__asm__(".globl gModel_CameraMove\n.set gModel_CameraMove, move_storage+16\n"
         ".globl gModel_RView\n.set gModel_RView, view_storage+16\n"
         ".globl gModel_aSlots\n.set gModel_aSlots, slot_storage+16\n");
 s8 gModel_bOrbitDirection;
@@ -252,11 +252,11 @@ static void reset(void)
     fill(move_storage, sizeof(move_storage), 0xA5);
     fill(view_storage, sizeof(view_storage), 0x5A);
     fill(slot_storage, sizeof(slot_storage), 0xC3);
-    fill((u8 *)&D_800F2B20, MOVE_SIZE, 0);
+    fill((u8 *)&gModel_CameraMove, MOVE_SIZE, 0);
     fill((u8 *)&key_record, sizeof(key_record), 0);
-    D_800F2B20.mode = 1; D_800F2B20.flags = 3;
-    D_800F2B20.duration = 100; D_800F2B20.elapsed = 40;
-    D_800F2B20.field_04 = 8; gModel_bOrbitDirection = -1;
+    gModel_CameraMove.mode = 1; gModel_CameraMove.flags = 3;
+    gModel_CameraMove.duration = 100; gModel_CameraMove.elapsed = 40;
+    gModel_CameraMove.field_04 = 8; gModel_bOrbitDirection = -1;
     for (i = 0; i < 4; i++) put16(move_storage + GUARD + 18 + i * 8, -1);
     for (i = 0; i < 2; i++)
         for (axis = 0; axis < 3; axis++) {
@@ -296,28 +296,28 @@ int main(void)
     for (a = 0; a < 2; a++)
         for (b = 0; b < 2; b++)
             for (c = 0; c < 5; c++) {
-                reset(); gate = a; D_800F2B20.mode = b; D_800F2B20.flags = c;
+                reset(); gate = a; gModel_CameraMove.mode = b; gModel_CameraMove.flags = c;
                 run();
             }
     for (a = 0; a < 9; a++)
         for (b = 0; b < 6; b++) {
-            reset(); D_800F2B20.elapsed = times[a]; steps[0] = rates[b]; run();
+            reset(); gModel_CameraMove.elapsed = times[a]; steps[0] = rates[b]; run();
         }
     for (a = 0; a < 4; a++) {
-        reset(); D_800F2B20.duration = 65535;
-        D_800F2B20.elapsed = a == 3 ? 65535 : a * 100;
-        D_800F2B20.flags = a ? a : 4;
-        D_800F2B20.eye.slot = 2; D_800F2B20.target.pair_slot = 1;
+        reset(); gModel_CameraMove.duration = 65535;
+        gModel_CameraMove.elapsed = a == 3 ? 65535 : a * 100;
+        gModel_CameraMove.flags = a ? a : 4;
+        gModel_CameraMove.eye.slot = 2; gModel_CameraMove.target.pair_slot = 1;
         run();
     }
     for (a = 0; a < 5; a++)
         for (b = 0; b < 5; b++)
             for (c = 0; c < 2; c++) {
                 reset(); gate = c;
-                D_800F2B20.eye.pair_slot = selectors[a];
-                D_800F2B20.eye.slot = selectors[b];
-                D_800F2B20.target.pair_slot = selectors[b];
-                D_800F2B20.target.slot = selectors[a];
+                gModel_CameraMove.eye.pair_slot = selectors[a];
+                gModel_CameraMove.eye.slot = selectors[b];
+                gModel_CameraMove.target.pair_slot = selectors[b];
+                gModel_CameraMove.target.slot = selectors[a];
                 run();
             }
     for (a = 0; a < 9; a++)
@@ -341,14 +341,14 @@ int main(void)
                 reset(); gate = 0; have_key = c;
                 key_record.requested[0].kind = a == 3 ? -1 : a;
                 key_record.requested[1].kind = b == 3 ? -32768 : b;
-                D_800F2B20.field_02 = 10; steps[1] = 3; steps[2] = 7;
+                gModel_CameraMove.field_02 = 10; steps[1] = 3; steps[2] = 7;
                 gModel_bOrbitDirection = a == 0 ? -128 : a == 1 ? 127 : -1;
                 run();
             }
     for (a = 0; a < 5; a++)
         for (b = 0; b < 2; b++) {
             reset(); gate = 0; have_key = 1; key_record.requested[0].kind = 4;
-            D_800F2B20.field_02 = a == 4 ? 65535 : a * 3;
+            gModel_CameraMove.field_02 = a == 4 ? 65535 : a * 3;
             steps[0] = 6; steps[1] = b ? 11 : 2;
             run();
         }
@@ -363,14 +363,14 @@ int main(void)
         }
     for (a = 0; a < 3; a++) {
         reset(); gate = 0; have_key = 1; key_record.requested[1].kind = 4;
-        D_800F2B20.field_02 = 10;
+        gModel_CameraMove.field_02 = 10;
         mutate_kind = STEP; mutate_offset = 2; mutate_value = a * 6;
         steps[0] = 6; steps[1] = 3;
         run();
     }
     reset(); mutate_kind = ADJUST; mutate_offset = 8; mutate_value = 100; run();
     reset(); mutate_kind = STEP; mutate_offset = 10; mutate_value = 200; run();
-    reset(); gate = 0; D_800F2B20.eye.slot = 0; D_800F2B20.target.slot = 1;
+    reset(); gate = 0; gModel_CameraMove.eye.slot = 0; gModel_CameraMove.target.slot = 1;
     gModel_RView.vpx = 70000; gModel_RView.vrx = -70000; run();
     output("camera cases: ", 14); number(cases);
     output("camera callbacks: ", 18); number(callbacks);
@@ -398,9 +398,9 @@ class ModelCameraControllerTests(unittest.TestCase):
                 edits = {
                     "clamp": ("dx < 31 ? dx : 30", "dx < 31 ? dx : 29"),
                     "start-z": (
-                        "dy = (s16)slot->field_DD0[1] - D_800F2B20.eye.start_y;",
-                        "dy = (s16)slot->field_DD0[1] - D_800F2B20.eye.start_y;\n"
-                        "            D_800F2B20.eye.start_z = slot->field_DD0[2];",
+                        "dy = (s16)slot->field_DD0[1] - gModel_CameraMove.eye.start_y;",
+                        "dy = (s16)slot->field_DD0[1] - gModel_CameraMove.eye.start_y;\n"
+                        "            gModel_CameraMove.eye.start_z = slot->field_DD0[2];",
                     ),
                     "key-kind": ("key->requested[1].kind != 4", "key->requested[1].kind != 3"),
                     "timer-step": (
@@ -409,11 +409,11 @@ class ModelCameraControllerTests(unittest.TestCase):
                     ),
                     "late-index": (
                         "slot = base + eye_slots[1];",
-                        "slot = base + D_800F2B20.eye.slot;",
+                        "slot = base + gModel_CameraMove.eye.slot;",
                     ),
                     "completion": (
-                        "D_800F2B20.elapsed >= D_800F2B20.duration",
-                        "D_800F2B20.elapsed > D_800F2B20.duration",
+                        "gModel_CameraMove.elapsed >= gModel_CameraMove.duration",
+                        "gModel_CameraMove.elapsed > gModel_CameraMove.duration",
                     ),
                 }
                 old, new = edits[mutation]

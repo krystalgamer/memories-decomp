@@ -4,6 +4,7 @@
 #include "model_transfer_flags.h"
 #include "model_effect_requests.h"
 #include "../unmatched.h"
+#include "model_camera_state.h"
 
 void Model_RequestCameraMove(s32 value)
 {
@@ -33,7 +34,7 @@ void Model_SetCameraEyeSlots(s32 first, s32 second)
         return;
     }
     {
-        ModelCameraMove *move = &D_800F2B20;
+        ModelCameraMove *move = &gModel_CameraMove;
 
         move->eye.pair_slot = first;
         move->eye.slot = second;
@@ -48,7 +49,7 @@ void Model_SetCameraTargetSlots(s32 first, s32 second)
         return;
     }
     {
-        ModelCameraMove *move = &D_800F2B20;
+        ModelCameraMove *move = &gModel_CameraMove;
 
         move->target.pair_slot = first;
         move->target.slot = second;
@@ -63,7 +64,7 @@ void Model_SetCameraMoveDurationFromMagnitude(s32 value)
         return;
     }
     {
-        ModelCameraMove *move = &D_800F2B20;
+        ModelCameraMove *move = &gModel_CameraMove;
 
         move->duration = (value < 0 ? -value : value) * 2;
         move->elapsed = 0;
@@ -75,7 +76,7 @@ void Model_SetCameraFollowCountdown(s32 value)
     s32 state = Model_GetCameraHoldState();
 
     if (state != 1 || Model_GetHandlerCallbackState() != state) {
-        D_800F2B22 = value * 2;
+        gModel_wCameraFollowCountdown = value * 2;
     }
 }
 
@@ -89,7 +90,7 @@ void Model_SetCameraOrbitStep(s32 value)
             return;
         }
     }
-    move = &D_800F2B20;
+    move = &gModel_CameraMove;
 #ifndef VERSION_JAPAN
     move->field_06 = value;
 #endif

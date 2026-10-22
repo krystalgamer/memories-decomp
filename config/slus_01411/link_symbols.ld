@@ -93,3 +93,9 @@ func_8006930C = Model_DrawSharedTwoSidedSemiGt3Primitives;
 func_800695A4 = Model_DrawSharedTwoSidedSemiGt4Primitives;
 func_8006988C = Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives;
 func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
+
+gModel_CameraMove = D_800F2B20;
+gModel_wCameraFollowCountdown = D_800F2B22;
+D_800F2B4A = gModel_wCameraTargetSlot;
+D_8009AFEC = gModel_AnimatedBattleCameraEndpoint;
+D_8009AFFC = gModel_ExodiaOrbitOffset;
