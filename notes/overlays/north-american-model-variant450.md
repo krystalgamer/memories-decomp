@@ -78,5 +78,24 @@ projected edges. What the retail code needs:
 
 The linked 0x8D8 extent matches, and both complete images reproduce their
 retail SHA-256 values. This adds two matching C instances / 4,528 instruction
-bytes. Four functions / 11,288 bytes remain as generated assembly: the
-`4..DDC` entry and `30A8..38DC`. The raw data is unchanged.
+bytes.
+
+## Coils
+
+The `30A8..38DC` coils helper (`variant433_coils.c`) is the French header-450
+coils (`french_model_variant/variant450_coils.c`) with the retail allocation
+put back. It uses that file's state types through `variant433_coils.h`.
+`gcc_2_7_2_cdk_g0` compiles the French body 14 instructions too large. What
+the retail code needs:
+
+| Source form | Effect |
+| --- | --- |
+| No `previous` pointer: the last segment reads `&coil->screen[15]` | The compiler keeps no second walking pointer, and the projection addresses hang off the `edge_screen[16]` base register as in retail. |
+| `[16]` instead of `[j]` throughout the `j == 16` arm | The same constant-index rule as the bands. |
+| `(&coil->screen[j])[1]` for the neighbour in `dx`/`dy` and in the quad corners, the first corner through `(u8 *)coil->screen + j * 4` | The `+ 4` is folded into the displacement, with the index first as in the bands. |
+| `work->rotation[2] += 0;` after `work->rotation[1] += 32;` | Dead. Reload's post-pass deletes the store, but the retail code's load of `rotation[2]` in front of the matrix setup stays. |
+
+The linked 0x834 extent matches, and both complete images reproduce their
+retail SHA-256 values. This adds two matching C instances / 4,200 instruction
+bytes. Two functions / 7,088 bytes remain as generated assembly: the `4..DDC`
+entry of each image. The raw data is unchanged.
