@@ -12,6 +12,7 @@
 #include "display_object_config.h"
 #include "game_over.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 
 #define DISPLAY_OBJECT_CONFIG_VIEW(object) \
     ((DisplayObjectConfig *)(object))
@@ -39,7 +40,7 @@ void GameOver_Init(void)
     );
     object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPositionWithResource(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(object, 448, 192, 0, 0, 0, 18, 1, gDisplay_abResourceBank0);
     *(u8 *)&object->field_5E = 128;
     DisplayObject_SetDepthOffset(object, 4);
     object->field_6C = 0;

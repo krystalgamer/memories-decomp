@@ -60,7 +60,7 @@ u8 gText_BranchSelectorA, gText_BranchSelectorB, gDuel_bWinnerSide;
 s8 gDuel_bSide0ControllerSelector[2], gDuel_bOpponentID;
 SaveDataState *gDuel_pSide0SaveData[2];
 s32 D_801D56A8[1];
-u8 D_801AF000[2048], gText_abColorSlots[16];
+u8 gDisplay_abResourceBank0[2048], gText_abColorSlots[16];
 u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 s16 gDuel_wSelectedCardID;
 volatile u16 gInput_wPad1Pressed;
@@ -145,7 +145,7 @@ void DisplayObject_ConfigureSpriteAtPositionWithResource(DisplayObject *p, s32 a
                   s32 f, s32 g, void *resource)
 {
     event(9, object_id(p), b, d, e, 0);
-    if (a || c || f != 16 || g != 8 || resource != D_801AF000) error = 7;
+    if (a || c || f != 16 || g != 8 || resource != gDisplay_abResourceBank0) error = 7;
 }
 void DisplayObject_SelectOrderingTable1(DisplayObject *p) { event(10, object_id(p), 0, 0, 0, 0); }
 s32 DisplayObject_SetDepthOffset(DisplayObject *p, s8 order)

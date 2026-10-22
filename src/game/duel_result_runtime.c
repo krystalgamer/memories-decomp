@@ -59,6 +59,7 @@
 #include "duel_check_quit_input.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #include "view_state_current.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
@@ -119,7 +120,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
             DisplayObject_ConfigureSpriteAtPositionWithResource(slot, (s16)arg0->field_30.h.field_30,
                                    (s16)arg0->field_30.h.field_32, 0,
                                    arg0->field_68, arg0->field_69, 0x11, 9,
-                                   D_801AF000);
+                                   gDisplay_abResourceBank0);
             slot->field_40.h.field_40 = (u16)arg0->field_40.h.field_40 + 0x80;
             slot->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -327,7 +328,7 @@ void DuelScene_UpdateResultOutro(void)
                     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                     DisplayObject_ConfigureSpriteAtPositionWithResource(obj, spec->x, spec->y, 0,
                                   gDuel_bWinnerSide, spec->kind, 0x11, 9,
-                                  D_801AF000);
+                                  gDisplay_abResourceBank0);
                     if (obj->field_69 >= 0x1A) {
                         obj->field_40.h.field_40 =
                             (u16)obj->field_40.h.field_40 + 0x10;
@@ -664,7 +665,7 @@ void DuelScene_UpdateResultRewards(void)
         count = 9;
         object->flags |= 0x28;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 0, 4, 0, 16, 8, D_801AF000);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 0, 4, 0, 16, 8, gDisplay_abResourceBank0);
         DisplayObject_SelectOrderingTable1(object);
         DisplayObject_SetDepthOffset(object, -1);
         object->flags |= 0x20;
@@ -705,14 +706,14 @@ side_result:
         if (gDuel_bSide0ControllerSelector[gDuel_bWinnerSide] < 0) {
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, DUEL_RESULT_RANK_Y, 0, 5, gDuel_pResultDisplayState->is_tec_rank,
-                16, 8, D_801AF000);
+                16, 8, gDisplay_abResourceBank0);
             DisplayObject_SelectOrderingTable1(object);
             DisplayObject_SetDepthOffset(object, -2);
             object->flags |= 0x20;
             gDuel_pResultDisplayState->children[0] = object;
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, DUEL_RESULT_RANK_Y, 0, 6, gDuel_pResultDisplayState->rank_tier,
-                16, 8, D_801AF000);
+                16, 8, gDisplay_abResourceBank0);
             DisplayObject_SelectOrderingTable1(object);
             DisplayObject_SetDepthOffset(object, -1);
             object->flags |= 0x20;

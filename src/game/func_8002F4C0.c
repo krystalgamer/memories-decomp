@@ -6,6 +6,7 @@
 #include "file_transfer_state.h"
 #include "duel_result_load_package_stage.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #include "file_transfer_buffer.h"
 
 void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
@@ -79,8 +80,8 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 #endif
         LoadImage2((RECT *)d, (u32 *)c);
         m2 = 0xFFDCFFFF;
-        d->value_0C = (s32)D_801AF000;
-        d->value_08 = (s32)D_801AF000;
+        d->value_0C = (s32)gDisplay_abResourceBank0;
+        d->value_08 = (s32)gDisplay_abResourceBank0;
         t2 = gFile_dwTransferState;
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState = t2 & m2;
