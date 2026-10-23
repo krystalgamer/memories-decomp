@@ -50,7 +50,7 @@ void DebugMenu_UpdateMapEntry(void)
             gDebugMenu_bStep = 0;
         } else {
             gCampaignMap_bEntryLocation[0] = 0;
-            D_8009B26C[0] = 5;
+            gMain_bActiveModeState[0] = 5;
             gDebugMenu_bLastMapId = (u8)gDebug_nSceneOrSoundID;
         }
     }
@@ -63,7 +63,7 @@ void DebugMenu_UpdateTitleEntry(void)
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
-        gDebug_nSceneOrSoundID = D_8009B26D;
+        gDebug_nSceneOrSoundID = gMain_bRequestedMenuID;
         DebugMenu_OpenValueEditor(gDebugMenu_szMenuEditorFormat, 0x15, 0, 0, 0x12, 2, 1);
     }
     result = DebugMenu_UpdateValueEditor();
@@ -72,8 +72,8 @@ void DebugMenu_UpdateTitleEntry(void)
             gDebugMenu_bStep = 0;
         } else {
             D_8009B268 = 1;
-            D_8009B26C[0] = 8;
-            D_8009B26D = (u8)gDebug_nSceneOrSoundID;
+            gMain_bActiveModeState[0] = 8;
+            gMain_bRequestedMenuID = (u8)gDebug_nSceneOrSoundID;
         }
     }
 }
@@ -152,7 +152,7 @@ void DebugMenu_UpdateTradeEntry(void)
         if (result == 1) {
             File_RequestMainMenuPackage();
             File_WaitForTransfers();
-            D_8009B26C[0] = 14;
+            gMain_bActiveModeState[0] = 14;
         }
         gDebugMenu_bStep = 0;
     }

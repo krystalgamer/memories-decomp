@@ -99,7 +99,7 @@ s32 Main_Init(void)
         File_WaitForTransfers();
     }
     Main_ApplyMenuSelection(Main_RunFrontendLoop());
-    D_8009B269 = 8;
+    gMain_bReturnMode = 8;
     Main_Loop();
     return 0;
 }

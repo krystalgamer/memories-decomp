@@ -424,7 +424,7 @@ void DebugMenu_UpdateCampaignEntry(void)
             return;
         }
         selection = gDebug_nSceneOrSoundID;
-        D_8009B26C = 2;
+        gMain_bActiveModeState = 2;
         gDebugMenu_wCampaignScene = selection;
         gCampaignSceneIndex = selection;
     }

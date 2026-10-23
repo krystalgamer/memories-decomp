@@ -23,9 +23,9 @@
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
-   the load-delay nop before the store of D_8009B269 into it. c_symbols.ld
+   the load-delay nop before the store of gMain_bReturnMode into it. c_symbols.ld
    overrides this common symbol, so no storage is allocated here. */
-u8 D_8009B26C;
+u8 gMain_bActiveModeState;
 
 /* The first text box's x and width; the Japanese build draws it wider. */
 #ifndef TWO_PLAYER_SETUP_BOX_X
@@ -53,8 +53,8 @@ void Main_RunTwoPlayerDuelSetup(void)
 {
     s32 result;
 
-    if ((D_8009B26C & 0x40) == 0) {
-        D_8009B26C = D_8009B26C | 0x40;
+    if ((gMain_bActiveModeState & 0x40) == 0) {
+        gMain_bActiveModeState = gMain_bActiveModeState | 0x40;
         gDuel_wTwoPlayerSide1LifePoints = DUEL_STARTING_LIFE_POINTS;
         gDuel_wTwoPlayerSide0LifePoints = DUEL_STARTING_LIFE_POINTS;
         MainMenu_StartValueSetup(&gDuel_wTwoPlayerSide0LifePoints, &gDuel_wTwoPlayerSide1LifePoints, (u8 *)&gDuel_wTwoPlayerCardViewMode);
@@ -103,7 +103,7 @@ void Main_RunTwoPlayerDuelSetup(void)
             Main_StartDuel(-1, -1, 0, 0);
             gDuel_bPostDuelMainMode = 8;
         } else {
-            D_8009B26C = D_8009B269;
+            gMain_bActiveModeState = gMain_bReturnMode;
         }
     }
 }

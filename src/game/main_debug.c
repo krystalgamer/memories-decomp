@@ -16,14 +16,14 @@ void Main_PrepareFrontendLoop(void)
 
 void Main_RunDebugMenu(void)
 {
-    u8 flags = D_8009B26C;
+    u8 flags = gMain_bActiveModeState;
 
     if ((flags & 0x40) == 0) {
-        D_8009B26C = flags | 0x40;
+        gMain_bActiveModeState = flags | 0x40;
         DebugMenu_Init();
     } else {
         DebugMenu_Update();
-        if ((D_8009B26C & 0x40) == 0)
-            D_8009B269 = 0;
+        if ((gMain_bActiveModeState & 0x40) == 0)
+            gMain_bReturnMode = 0;
     }
 }

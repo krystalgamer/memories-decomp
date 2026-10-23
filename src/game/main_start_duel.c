@@ -21,5 +21,5 @@ void Main_StartDuel(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     gDuel_wCampaignSceneOnLoss = arg3;
     gDuel_bTerrain = 0;
     gDuel_bResumeFromAnimatedBattle = 0;
-    D_8009B26C = 3;
+    gMain_bActiveModeState = 3;
 }

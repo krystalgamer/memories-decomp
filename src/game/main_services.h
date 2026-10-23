@@ -112,6 +112,8 @@ extern u8 D_8009B26D __attribute__((section(".data")));
 extern u8 D_8009B26D;
 #endif
 
+#include "main_menu_request.h"
+
 struct GraphicsFrameBuffer;
 void Main_InitHardware(struct GraphicsFrameBuffer *base);
 void Graphics_AdjustScreenOffset(void);

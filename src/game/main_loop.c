@@ -15,13 +15,13 @@ void Main_Loop(void) {
     for (;;) {
         u8 v;
         Main_AdvanceFrame();
-        v = D_8009B26C;
+        v = gMain_bActiveModeState;
         if ((v & 0x80) == 0) {
-            D_8009B26C = v | 0x80;
+            gMain_bActiveModeState = v | 0x80;
             Main_ResetFrontendRuntime();
         } else {
             gMain_apfnModeRunner[v & 0x1F]();
-            if ((D_8009B26C & 0x40) == 0) Fade_WaitOut();
+            if ((gMain_bActiveModeState & 0x40) == 0) Fade_WaitOut();
         }
     }
 }

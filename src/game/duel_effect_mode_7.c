@@ -9,11 +9,11 @@
 void BuildDeck_EnterNarrowConfirmMode(void)
 {
     gBuildDeck_bConfirmMode = 0;
-    D_8009B26C[0] = 7;
+    gMain_bActiveModeState[0] = 7;
 }
 
 void BuildDeck_EnterWideConfirmMode(void)
 {
     gBuildDeck_bConfirmMode = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
-    D_8009B26C[0] = 7;
+    gMain_bActiveModeState[0] = 7;
 }

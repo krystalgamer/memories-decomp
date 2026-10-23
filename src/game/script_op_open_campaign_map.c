@@ -11,6 +11,6 @@ void Script_OpOpenCampaignMap(void)
 {
     unsigned char value = *gScript_StreamCursor++;
 
-    D_8009B26C[0] = 5;
+    gMain_bActiveModeState[0] = 5;
     gCampaignMap_bEntryLocation[0] = value;
 }

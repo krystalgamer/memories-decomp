@@ -19,7 +19,7 @@
 void Main_ApplyMenuSelection(MainMenuSelection selection)
 {
     D_8009B268 = 1;
-    D_8009B26D = selection;
+    gMain_bRequestedMenuID = selection;
 
     switch (selection) {
     case MAIN_MENU_SELECTION_NEW_GAME:
@@ -29,40 +29,40 @@ void Main_ApplyMenuSelection(MainMenuSelection selection)
         gCampaignSceneIndex = 0x30;
         gSaveData_AllowIdentityBypass = 1;
         D_8009B0D1 = 0;
-        D_8009B26C = MAIN_MODE_CAMPAIGN;
+        gMain_bActiveModeState = MAIN_MODE_CAMPAIGN;
         break;
     case MAIN_MENU_SELECTION_TWO_PLAYER_DUEL:
-        D_8009B26C = MAIN_MODE_TWO_PLAYER_DUEL_SETUP;
+        gMain_bActiveModeState = MAIN_MODE_TWO_PLAYER_DUEL_SETUP;
         break;
     case MAIN_MENU_SELECTION_TRADE:
-        D_8009B26C = MAIN_MODE_TRADE;
+        gMain_bActiveModeState = MAIN_MODE_TRADE;
         break;
     case MAIN_MENU_SELECTION_LIBRARY:
-        D_8009B26C = MAIN_MODE_LIBRARY;
+        gMain_bActiveModeState = MAIN_MODE_LIBRARY;
         break;
     case MAIN_MENU_SELECTION_CAMPAIGN:
         gCampaignSceneIndex = gCampaignSavedSceneIndex[0];
-        D_8009B26C = MAIN_MODE_CAMPAIGN;
+        gMain_bActiveModeState = MAIN_MODE_CAMPAIGN;
         break;
     case MAIN_MENU_SELECTION_FREE_DUEL:
         gFreeDuel_bReturnFlags = 0;
-        D_8009B26C = MAIN_MODE_FREE_DUEL;
+        gMain_bActiveModeState = MAIN_MODE_FREE_DUEL;
         break;
     case MAIN_MENU_SELECTION_BUILD_DECK:
         BuildDeck_EnterNarrowConfirmMode();
         D_8009B268 = 0;
         break;
     case MAIN_MENU_SELECTION_OPTIONS:
-        D_8009B26C = MAIN_MODE_OPTIONS;
+        gMain_bActiveModeState = MAIN_MODE_OPTIONS;
         D_8009B268 = 0;
         break;
     case MAIN_MENU_SELECTION_PASSWORD:
-        D_8009B26C = MAIN_MODE_PASSWORD;
+        gMain_bActiveModeState = MAIN_MODE_PASSWORD;
         D_8009B268 = 0;
         break;
     case MAIN_MENU_SELECTION_SAVE:
     default:
-        D_8009B26C = MAIN_MODE_DEBUG;
+        gMain_bActiveModeState = MAIN_MODE_DEBUG;
         break;
     }
 }

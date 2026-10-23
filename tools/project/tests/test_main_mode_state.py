@@ -13,12 +13,12 @@ import candidate_builds
 
 
 ROOT = Path(__file__).resolve().parents[3]
-OWNER = ROOT / "src/game/main_mode_state.h"
+OWNER = ROOT / "src/game/main_mode_controls.h"
 SCRATCH = ROOT / "tmp/tests/main-mode-state"
-SYMBOLS = ("D_8009B269", "D_8009B26C")
+SYMBOLS = ("gMain_bReturnMode", "gMain_bActiveModeState")
 DECLARATION = re.compile(
     r"\b(?P<extern>extern\s+)?u8\s+"
-    r"(?P<name>D_8009B269|D_8009B26C)\s*"
+    r"(?P<name>gMain_bReturnMode|gMain_bActiveModeState)\s*"
     r"(?P<array>\[\s*\])?\s*"
     r"(?P<data>__attribute__\s*\(\(\s*section\s*\(\s*\"\.data\"\s*\)\s*\)\))?\s*;"
 )
@@ -206,9 +206,9 @@ class MainModeStateTests(unittest.TestCase):
                 )
                 common = []
                 if source in COMMON_ACTIVE:
-                    common.append("D_8009B26C")
+                    common.append("gMain_bActiveModeState")
                 if source == "src/game/main_mode_runners.c":
-                    common.append("D_8009B269")
+                    common.append("gMain_bReturnMode")
                 commons += len(common)
                 self.assert_views(self.preprocess(path), expected, common)
         self.assertEqual(commons, 7)
@@ -216,7 +216,7 @@ class MainModeStateTests(unittest.TestCase):
     def test_one_owner_and_current_candidate_keys(self):
         index = candidate_builds.canonical_declaration_index(set(SYMBOLS), ROOT / "src")
         for symbol in SYMBOLS:
-            self.assertEqual({path for path, _ in index[symbol]}, {"game/main_mode_state.h"})
+            self.assertEqual({path for path, _ in index[symbol]}, {"game/main_mode_controls.h"})
         manifest = json.loads((ROOT / "config/slus_01411/candidates.json").read_text())
         covered = set()
         for candidate in manifest["candidates"]:
@@ -234,20 +234,20 @@ class MainModeStateTests(unittest.TestCase):
 
     def test_wrong_scalar_default_is_rejected(self):
         text = OWNER.read_text().replace('#include "../types.h"', '#include "src/types.h"')
-        old = "#else\nextern u8 D_8009B26C[];"
+        old = "#else\nextern u8 gMain_bActiveModeState[];"
         self.assertEqual(text.count(old), 1)
-        text = text.replace(old, "#else\nextern u8 D_8009B26C;")
+        text = text.replace(old, "#else\nextern u8 gMain_bActiveModeState;")
         path = self.directory / "wrong-default.c"
         path.write_text(
             "#define MAIN_MODE_STATE_NEXT_IN_DATA\n" + text
-            + "\nu8 *active_array_view(void) { return D_8009B26C; }\n"
+            + "\nu8 *active_array_view(void) { return gMain_bActiveModeState; }\n"
         )
         result = subprocess.run(
             ["cc", "-std=gnu89", "-Werror", "-fsyntax-only", "-I", str(ROOT), str(path)],
             text=True, capture_output=True, timeout=30,
         )
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn("D_8009B26C", result.stderr)
+        self.assertIn("gMain_bActiveModeState", result.stderr)
         self.assertIn("return", result.stderr)
 
 

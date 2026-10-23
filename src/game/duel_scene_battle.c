@@ -525,8 +525,8 @@ void DuelScene_UpdateBattle(void)
                 }
             }
             gDuel_bResumeFromAnimatedBattle = 1;
-            D_8009B269 = 3;
-            D_8009B26C = 1;
+            gMain_bReturnMode = 3;
+            gMain_bActiveModeState = 1;
             return;
         }
         break;

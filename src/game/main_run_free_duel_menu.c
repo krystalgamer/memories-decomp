@@ -18,12 +18,12 @@
 #include "main_mode_state.h"
 
 void Main_RunFreeDuelMenu(void) {
-    unsigned char flags = D_8009B26C;
+    unsigned char flags = gMain_bActiveModeState;
     if ((flags & 0x40) == 0) {
-        D_8009B26C = flags | 0x40;
+        gMain_bActiveModeState = flags | 0x40;
         Main_InitFreeDuelMenu();
         Fade_WaitIn();
     }
     func_80168FB4();
-    if ((D_8009B26C & 0x40) == 0) SD_BGMFadeOut();
+    if ((gMain_bActiveModeState & 0x40) == 0) SD_BGMFadeOut();
 }

@@ -176,3 +176,7 @@ gDebug_pszEditorFormat = tent_DebugInterfaceData;
 
 gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
+
+gMain_bReturnMode = D_8009B269;
+gMain_bActiveModeState = gJapanese_bActiveMainMode;
+gMain_bRequestedMenuID = gJapanese_bRequestedMenu;
