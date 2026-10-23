@@ -1074,9 +1074,6 @@ segments:
   - - 234216
     - c
     - game/sound_effect_request
-  - - 234928
-    - c
-    - game/sd_se_set_volume
   - - 235192
     - c
     - game/sound_voice_data

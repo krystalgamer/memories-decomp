@@ -4647,9 +4647,9 @@
     },
     {
       "address": "0x8004800C",
-      "profile": "gcc_2_8_1_g0_keep_large_ori",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x108",
-      "source": "src/game/japanese/sd_se_set_volume.c"
+      "source": "src/game/japanese/sound_effect_request.c"
     },
     {
       "address": "0x80048114",

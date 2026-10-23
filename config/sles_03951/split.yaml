@@ -404,7 +404,6 @@ segments:
       - [0x384F4, c, game/sound_voice_selection]
       - [0x38F40, c, game/sd_allocate_sound_effect_voice]
       - [0x392E8, c, game/sound_effect_request]
-      - [0x395B0, c, game/sd_se_set_volume]
       - [0x396B8, c, game/sound_voice_data]
       - [0x39CA0, c, game/sd_reset_music_state]
       - [0x39D80, c, game/sound_sequence_state]
