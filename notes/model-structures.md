@@ -32,9 +32,12 @@ instructions in multiple functions:
 
 The extent is also locally bounded. Linker aliases `gModel_aSlot0FlatLights`,
 `gModel_Slot0Scale`, and `gModel_awSlot0Position` are respectively `+0xD70`, `+0xDB0`, and
-`+0xDD0` from the base, matching fields inside slot zero. `D_800F569F` is
-`D_800F2C40 + 3 * 0xE20 - 1`, and `gModel_CameraCoordinateUnit` follows immediately. The
-interior aliases retain their existing declarations and users.
+`+0xDD0` from the base, matching fields inside slot zero.
+`gModel_bAuxiliaryActive` retains native label `D_800F569F` at
+`gModel_aSlots + 2 * 0xE20 + 0xE1F`: slot 2's `is_active`, also the last
+byte of the three-slot run. All seven actual providers agree with this
+relation; `gModel_CameraCoordinateUnit` follows immediately. The interior
+aliases retain their original native declarations and independent relocations.
 
 Verified shared fields and partial arrays are:
 

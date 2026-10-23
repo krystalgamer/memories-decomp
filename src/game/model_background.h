@@ -24,9 +24,9 @@ typedef struct ModelBackgroundRecord {
     u16 stage_height;
     u16 texture_width;
     /* Low 13 bits bound vertical clipping; high bits select texture modes. */
-    u16 field_A8;
+    u16 texture_height_flags;
     /* Low six bits feed U; the next four contribute to the texture page. */
-    u16 field_AA;
+    u16 texture_u_page;
     ModelBackgroundVPage texture_v_page;
     u16 clut_x;
     u16 clut_y;
@@ -56,11 +56,11 @@ typedef char ModelBackgroundRecord_stage_height_offset_must_be_0xA4[
 typedef char ModelBackgroundRecord_texture_width_offset_must_be_0xA6[
     ((u32)&(((ModelBackgroundRecord *)0)->texture_width)) == 0xA6 ? 1 : -1
 ];
-typedef char ModelBackgroundRecord_field_A8_offset_must_be_0xA8[
-    ((u32)&(((ModelBackgroundRecord *)0)->field_A8)) == 0xA8 ? 1 : -1
+typedef char ModelBackgroundRecord_texture_height_flags_offset_must_be_0xA8[
+    ((u32)&(((ModelBackgroundRecord *)0)->texture_height_flags)) == 0xA8 ? 1 : -1
 ];
-typedef char ModelBackgroundRecord_field_AA_offset_must_be_0xAA[
-    ((u32)&(((ModelBackgroundRecord *)0)->field_AA)) == 0xAA ? 1 : -1
+typedef char ModelBackgroundRecord_texture_u_page_offset_must_be_0xAA[
+    ((u32)&(((ModelBackgroundRecord *)0)->texture_u_page)) == 0xAA ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_texture_v_page_offset_must_be_0xAC[
     ((u32)&(((ModelBackgroundRecord *)0)->texture_v_page)) == 0xAC ? 1 : -1

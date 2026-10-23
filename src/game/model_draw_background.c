@@ -49,8 +49,8 @@ void Model_DrawBackground(void)
     s32 second_depth;
 
     vbase = gModel_pBackgroundRecord->texture_v_page.bytes.v;
-    ubase = (gModel_pBackgroundRecord->field_AA & 0x3F) <<
-        (2 - ((gModel_pBackgroundRecord->field_A8 >> 13) & 3));
+    ubase = (gModel_pBackgroundRecord->texture_u_page & 0x3F) <<
+        (2 - ((gModel_pBackgroundRecord->texture_height_flags >> 13) & 3));
     height = slot->field_D18->matrix.t[1] + 300;
     if (!slot->is_active)
         return;
@@ -59,7 +59,7 @@ void Model_DrawBackground(void)
         return;
     Model_UpdateBackgroundScroll(0);
     sprite.attribute = 0;
-    if (gModel_pBackgroundRecord->field_A8 & 0xE000)
+    if (gModel_pBackgroundRecord->texture_height_flags & 0xE000)
         sprite.attribute = 0x01000000;
     GsSetFlatLight(0, (GsF_LIGHT *)&slot->field_D70[0]);
     GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
@@ -67,9 +67,9 @@ void Model_DrawBackground(void)
     GsSetAmbient(slot->ambient_rgb_scale[0], slot->ambient_rgb_scale[1], slot->ambient_rgb_scale[2]);
     GsSetLightMatrix(&gModel_CameraCoordinateUnit.matrix);
     NormalColorCol(&normals.values[0], &colors[0], CVECTOR_VIEW(&sprite.r));
-    sprite.tpage = ((gModel_pBackgroundRecord->field_A8 >> 6) & 0x180) |
+    sprite.tpage = ((gModel_pBackgroundRecord->texture_height_flags >> 6) & 0x180) |
         ((gModel_pBackgroundRecord->texture_v_page.packed & 0x100) >> 4) |
-        ((gModel_pBackgroundRecord->field_AA & 0x3FF) >> 6) |
+        ((gModel_pBackgroundRecord->texture_u_page & 0x3FF) >> 6) |
         ((gModel_pBackgroundRecord->texture_v_page.packed & 0x200) << 2);
     sprite.cx = gModel_pBackgroundRecord->clut_x;
     sprite.cy = gModel_pBackgroundRecord->clut_y;
@@ -80,7 +80,7 @@ void Model_DrawBackground(void)
     sprite.v = vbase;
     sprite.h = 256;
     sprite.y = y;
-    minimum_y = -(gModel_pBackgroundRecord->field_A8 & 0x1FFF);
+    minimum_y = -(gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
     if ((s16)pitch_bits >= minimum_y && y >= minimum_y) {
         if (y > 0)
             sprite.y = 0;
@@ -90,7 +90,7 @@ void Model_DrawBackground(void)
         }
         {
             s32 end = sprite.y + 256;
-            s32 edge = (gModel_pBackgroundRecord->field_A8 & 0x1FFF) + (s16)pitch_bits;
+            s32 edge = (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + (s16)pitch_bits;
             s32 full_height;
             s32 amount;
             if (edge < BACKGROUND_RENDER_CLIP_LIMIT) {
@@ -101,13 +101,13 @@ void Model_DrawBackground(void)
             }
             full_height = sprite.h;
             amount = sprite.y + full_height -
-                ((gModel_pBackgroundRecord->field_A8 & 0x1FFF) + gModel_wBackgroundOffsetY);
+                ((gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + gModel_wBackgroundOffsetY);
             sprite.h = full_height - (amount < full_height ? amount : full_height);
         }
 second_clip:
         {
             s32 end = sprite.v + sprite.h;
-            s32 edge = gModel_pBackgroundRecord->field_A8 & 0x1FFF;
+            s32 edge = gModel_pBackgroundRecord->texture_height_flags & 0x1FFF;
             s32 full_height;
             s32 amount;
             if ((u32)edge < BACKGROUND_RENDER_CLIP_LIMIT) {
@@ -120,7 +120,7 @@ second_clip:
 trim_texture:
             full_height = sprite.h;
             amount =
-                sprite.v + full_height - (gModel_pBackgroundRecord->field_A8 & 0x1FFF);
+                sprite.v + full_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
             sprite.h = full_height - (amount < full_height ? amount : full_height);
         }
 tiles:
