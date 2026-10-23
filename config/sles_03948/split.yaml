@@ -96,7 +96,7 @@ segments:
     - game/european/library_runtime
   - - 2612
     - .rodata
-    - game/main_apply_menu_selection
+    - game/main_run_frontend_menus
   - - 2656
     - .rodata
     - game/french/debug_menu_editor_entries
@@ -580,9 +580,6 @@ segments:
     - c
     - game/main_run_selection_menus
   - - 122412
-    - c
-    - game/main_apply_menu_selection
-  - - 122716
     - c
     - game/main_run_frontend_menus
   - - 123036
