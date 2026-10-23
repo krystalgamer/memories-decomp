@@ -169,7 +169,6 @@ segments:
       - [0xF5A4, c, game/duel_battle_stats]
       - [0xF830, c, game/european/duel_trap_resolution]
       - [0xFCBC, c, game/european/duel_scene_battle]
-      - [0x11034, c, game/duel_scene_turn_switch]
       - [0x110E8, c, game/duel_update_card_use_confirmation]
       - [0x11344, c, game/european/func_80020BE4]
       - [0x114B0, c, game/spanish/duel_result_runtime]

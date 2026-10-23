@@ -91,6 +91,8 @@
 #include "duel_session_controls.h"
 #include "display_callback_transitions.h"
 #include "duel_battle_removal_slots.h"
+#include "duel_grid.h"
+#include "duel_view_tween.h"
 
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -746,3 +748,6 @@ void DuelScene_UpdateBattle(void)
         break;
     }
 }
+
+void DuelScene_UpdateTurnSwitch(void){if(!(gDuel_wSceneStateFlags&DUEL_SCENE_FLAG_INITIALIZED)){gDuel_wSceneStateFlags|=DUEL_SCENE_FLAG_INITIALIZED;Duel_StartViewTween(0x30,0x258,0x100,gDuel_bActiveSide?0x400:0xC00,0);gDuel_wDisplayTransitionFlags=0x10;}
+ if(!gDuel_wDisplayTransitionFlags){gDuel_bActiveSide^=1;gDuel_wSceneStateFlags=2;gDuel_pActiveSideState=&gDuel_aSideStates[gDuel_bActiveSide];gDuel_pActiveFieldGrid=gDuel_abFieldGridCardRecordIndices+gDuel_bActiveSide*DUEL_FIELD_SIDE_GRID_SLOT_COUNT;}}

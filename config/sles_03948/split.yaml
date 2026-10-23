@@ -369,9 +369,6 @@ segments:
   - - 64700
     - c
     - game/european/duel_scene_battle
-  - - 69684
-    - c
-    - game/duel_scene_turn_switch
   - - 69864
     - c
     - game/duel_update_card_use_confirmation

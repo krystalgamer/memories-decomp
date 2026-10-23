@@ -166,7 +166,6 @@ segments:
       - [0xf48c, c, game/japanese/duel_battle_stats]
       - [0xf718, c, game/japanese/duel_trap_resolution]
       - [0xfba4, c, game/japanese/duel_scene_battle]
-      - [0x10f1c, c, game/japanese/duel_scene_turn_switch]
       - [0x10fd0, c, game/japanese/duel_update_card_use_confirmation]
       - [0x1122c, c, game/japanese/func_80020BE4]
       - [0x11394, c, game/japanese/duel_result_runtime]
