@@ -81,7 +81,8 @@ of wall-clock time.
 Each inventory and primary symbol names the same matching C entry.
 The canonical declaration uses the existing assembler-name view pattern
 (`sound_sequence_timing.h` provides another example) to retain the native
-`tent_SD_AgeSecondaryObjects` entry. That preserves its original function
+`tent_SD_AgeSecondaryObjects` entry. The `__asm__` spelling also parses in
+strict-C99 consumers of the shared header. That preserves its original function
 class, address, and `0x7C` ELF size without adding code or size directives.
 Each image exports the canonical name as a linker alias to that provider;
 the alias naturally has the same class/address without an ELF size.

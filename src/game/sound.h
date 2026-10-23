@@ -832,7 +832,7 @@ void SD_InitVoiceState(void);
 /* Updates reuse_countdown before the voice sweep in both sequence update paths.
    Only the counter is cleared for out-of-range channels; zero does not expire
    or detach an object. The two callers do not establish a video-frame unit. */
-extern void SD_UpdateSecondaryObjectReuseCountdowns(void) asm("tent_SD_AgeSecondaryObjects");
+extern void SD_UpdateSecondaryObjectReuseCountdowns(void) __asm__("tent_SD_AgeSecondaryObjects");
 /* Historical link name retained for existing external consumers. */
 void tent_SD_AgeSecondaryObjects(void);
 void SD_UpdateSecondaryObjectVoices(void);
