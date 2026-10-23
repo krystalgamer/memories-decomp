@@ -2240,15 +2240,15 @@
     },
     {
       "address": "0x800313E8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x18C",
-      "source": "src/game/build_deck_update_card_transfer_icon.c"
+      "source": "src/game/build_deck_card_transfer_icon.c"
     },
     {
       "address": "0x80031574",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x17C",
-      "source": "src/game/duel_card_type_icon.c"
+      "source": "src/game/build_deck_card_transfer_icon.c"
     },
     {
       "address": "0x800316F0",

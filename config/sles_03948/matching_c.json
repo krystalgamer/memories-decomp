@@ -2247,15 +2247,15 @@
     },
     {
       "address": "0x80031640",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x18C",
-      "source": "src/game/build_deck_update_card_transfer_icon.c"
+      "source": "src/game/european/build_deck_card_transfer_icon.c"
     },
     {
       "address": "0x800317CC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x17C",
-      "source": "src/game/european/duel_card_type_icon.c"
+      "source": "src/game/european/build_deck_card_transfer_icon.c"
     },
     {
       "address": "0x80031948",
