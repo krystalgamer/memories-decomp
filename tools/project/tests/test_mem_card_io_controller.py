@@ -33,7 +33,7 @@ WITNESS = r"""
 
 typedef char ilp32[sizeof(void *) == 4 && sizeof(long) == 4 ? 1 : -1];
 s8 gMemCard_bRequest;
-u8 gMemCard_bRequestStep, gMemCard_bChannel, gMemCard_bRetries, D_8009B436;
+u8 gMemCard_bRequestStep, gMemCard_bChannel, gMemCard_bRetries, gMemCard_bTransferRetriesRemaining;
 u16 gMemCard_wRequestOffset, gMemCard_wRequestSize;
 volatile s32 gMemCard_nIOResult;
 s32 gMemCard_nFreeBlocks, gMemCard_pRequestBuf;
@@ -146,7 +146,7 @@ static void reset(s32 request, s32 step)
     status = directory_result = found = 0;
     open_failures = seek_failures = transfer_failures = 0;
     gMemCard_bRequest = request; gMemCard_bRequestStep = step;
-    gMemCard_bChannel = 16; gMemCard_bRetries = 10; D_8009B436 = 20;
+    gMemCard_bChannel = 16; gMemCard_bRetries = 10; gMemCard_bTransferRetriesRemaining = 20;
     gMemCard_wRequestOffset = 0xFFEE; gMemCard_wRequestSize = 31;
     gMemCard_nFreeBlocks = 0; gMemCard_nIOResult = 9;
     gMemCard_pRequestBuf = (s32)buffer;
@@ -225,13 +225,13 @@ int main(void)
         CHECK(gMemCard_bRetries == (u8)(retries[i] - 1));
     }
     for (i = 0; i < 4; i++) for (j = -1; j <= 1; j++) for (n = 0; n < 5; n++) {
-        reset(operations[i], 2); D_8009B436 = waits[n]; gMemCard_nIOResult = j;
+        reset(operations[i], 2); gMemCard_bTransferRetriesRemaining = waits[n]; gMemCard_nIOResult = j;
         result = j == 0 || (s8)(u8)(waits[n] - 1) < 0;
         CHECK(run() == result);
         if (result) done(operations[i], j); else {
             pending(); CHECK(gMemCard_bRequestStep == 1);
         }
-        CHECK(D_8009B436 == (j == 0 ? waits[n] : (u8)(waits[n] - 1)));
+        CHECK(gMemCard_bTransferRetriesRemaining == (j == 0 ? waits[n] : (u8)(waits[n] - 1)));
     }
     reset(4, 1); gMemCard_wRequestOffset = gMemCard_wRequestSize = 0xFFFF;
     CHECK(run() == 0 && counts[WRITE] == 1); pending();
