@@ -201,3 +201,6 @@ gMemCard_bTransferRetriesRemaining = D_8009B436;
 gMain_bReturnMode = D_8009B269;
 gMain_bActiveModeState = gJapanese_bActiveMainMode;
 gMain_bRequestedMenuID = gJapanese_bRequestedMenu;
+
+gText_PrimaryStringOffsets = D_801C0000;
+gText_GlobalStringOffsets = D_801D6000;

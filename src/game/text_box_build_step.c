@@ -9,6 +9,7 @@
 #include "duel_effect_entry_control.h"
 #include "duel_effect_entry_occupancy.h"
 #include "text_constants.h"
+#include "text_string_bank_views.h"
 #include "display_object_core.h"
 #include "text_box_runtime.h"
 #include "func_80036C14.h"
@@ -87,14 +88,14 @@ void TextBox_BuildStep(DuelEffectChannel *object)
 #ifdef VERSION_JAPAN
         /* The Japanese two-bank layout, as in its Text_LookupString. */
         if (id & TEXT_GLOBAL_STRING_ID_BASE) {
-            text = (u8 *)(((u32)D_801D6000 & TEXT_BANK_ADDRESS_MASK) |
-                D_801D6000[id & (TEXT_GLOBAL_STRING_ID_BASE - 1)]);
+            text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
+                gText_GlobalStringOffsets[id & (TEXT_GLOBAL_STRING_ID_BASE - 1)]);
         } else {
             if (id >= 0x500) {
                 id -= 0x100;
             }
-            text = (u8 *)(((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) |
-                D_801C0000[id]);
+            text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) |
+                gText_PrimaryStringOffsets[id]);
         }
 #elif defined(VERSION_EUROPE)
         /* The European banks: global strings from 0x8000, ids below 0x500
@@ -105,28 +106,28 @@ void TextBox_BuildStep(DuelEffectChannel *object)
                 s32 n = id - 0x100;
 
                 text = (u8 *)(((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) +
-                    D_801B0004[n]);
+                    gText_PrimaryStringOffsets[n]);
             } else {
-                text = (u8 *)(((u32)D_801B0004 & TEXT_BANK_ADDRESS_MASK) +
-                    D_801B0004[id]);
+                text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+                    gText_PrimaryStringOffsets[id]);
             }
         } else {
-            text = (u8 *)(((u32)D_801D5804 & TEXT_BANK_ADDRESS_MASK) +
-                D_801D5804[id - 0x8000]);
+            text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+                gText_GlobalStringOffsets[id - 0x8000]);
         }
 #else
         if (id > 0xCFFF) {
-            text = (u8 *)(((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) +
-                D_801C0000[id - 0xD000]);
+            text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+                gText_PrimaryStringOffsets[id - 0xD000]);
         } else if (id > (TEXT_GLOBAL_STRING_ID_BASE - 1)) {
-            text = (u8 *)(((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) +
-                D_801D5800[id - TEXT_GLOBAL_STRING_ID_BASE]);
+            text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+                gText_GlobalStringOffsets[id - TEXT_GLOBAL_STRING_ID_BASE]);
         } else {
             if (id >= 0x500) {
                 id -= 0x100;
             }
-            text = (u8 *)(((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) +
-                D_801C0000[id]);
+            text = (u8 *)(((u32)gText_PrimaryStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) +
+                gText_PrimaryStringOffsets[id]);
         }
 #endif
         object->text_00 = text;
