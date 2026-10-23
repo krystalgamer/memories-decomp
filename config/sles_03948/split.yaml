@@ -491,10 +491,7 @@ segments:
     - game/european/duel_effect_resource_setup
   - - 106176
     - c
-    - game/duel_effect_release_resource_objects
-  - - 106252
-    - c
-    - game/duel_effect_clear_resource_object_pointers
+    - game/duel_effect_resource_objects
   - - 106280
     - c
     - game/library_create_grid_section_sprites

@@ -16,4 +16,8 @@ struct DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s
  * zeroes them. */
 void DuelEffect_ReleaseResourceObjects(s32 index);
 
+/* Clears both stored object pointers in one gCardPreview_Resources resource slot without
+ * releasing them. Takes the slot index, not a record pointer. */
+void DuelEffect_ClearResourceObjectPointers(s32 index);
+
 #endif

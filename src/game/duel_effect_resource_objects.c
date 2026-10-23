@@ -12,3 +12,11 @@ void DuelEffect_ReleaseResourceObjects(s32 index)
     entry->secondary_object = 0;
     entry->primary_object = 0;
 }
+
+void DuelEffect_ClearResourceObjectPointers(int index)
+{
+    DuelEffectResourceRecord *entry = &gCardPreview_Resources[index];
+
+    entry->secondary_object = 0;
+    entry->primary_object = 0;
+}
