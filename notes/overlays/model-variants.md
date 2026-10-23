@@ -78,10 +78,10 @@ offsets.
 | 404 | `0x40FC` | entry `0x8013B004`, ribbons `0x8013C1D4`, spiral `0x8013C864`, bands `0x8013D4F8`, sheets `0x8013DCA4`, webs `0x8013E18C`, spokes* `0x8013E700`, rings `0x8013EA14`, quad `0x8013ED94` | 0 | 6 |
 | 416 | `0x30D0` | bands `0x8013C054`, webs `0x8013CC68`, spokes* `0x8013D6D4`, rings `0x8013D9E8`, quad `0x8013DD68` | 4 | 2 |
 | 425 | `0x43FC` | entry `0x8013B004`, spiral `0x8013C568`, rays `0x8013CF14`, ribbons `0x8013DCC0`, webs `0x8013D8F8`, bands `0x8013E2F4`, spokes* `0x8013EA00`, rings `0x8013ED14`, quad `0x8013F094` | 0 | 2 |
-| 448 | `0x43E4` | entry `0x8013B004`, radial `0x8013C254`, orbit `0x8013D638`, webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 1 | 2 |
+| 448 | `0x43E4` | entry `0x8013B004`, radial `0x8013C254`, fan `0x8013C678`, orbit `0x8013D638`, webs `0x8013DB58`, spokes `0x8013E0BC`, rings `0x8013E3C8`, quad `0x8013E748`, spiral `0x8013EAB0` | 0 | 2 |
 | 423 | `0x2B38` | entry `0x8013B004`, bands `0x8013BF18`, sheets `0x8013C6E4`, webs `0x8013CBDC`, spokes* `0x8013D13C`, rings `0x8013D450`, quad `0x8013D7D0` | 0 | 2 |
 | 414 | `0x2F58` | entry `0x8013B004`, webs `0x8013BF20`, fan `0x8013C348`, bands `0x8013C7DC`, sheets `0x8013D448`, spokes `0x8013D8CC`, rings `0x8013DBD8` | 0 | 1 |
-| 401 | `0x3124` | entry `0x8013B004`, sheet `0x8013C764`, webs `0x8013CCA4`, rays `0x8013D210`, spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 1 | 1 |
+| 401 | `0x3124` | entry `0x8013B004`, bands `0x8013BFE4`, sheet `0x8013C764`, webs `0x8013CCA4`, rays `0x8013D210`, spokes* `0x8013D728`, rings `0x8013DA3C`, quad `0x8013DDBC` | 0 | 1 |
 | 443 | `0x2888` | entry `0x8013B004`, ribbons `0x8013BD00`, sheets+ `0x8013C808`, strand `0x8013CD84`, streamers `0x8013D0C8` | 3 | 12 |
 
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
@@ -219,6 +219,40 @@ so that the hoisted constant precedes the base copy. The call-free record
 loops of the fan, orbit and arm records share one counter, the call-crossing
 ones another.
 
+Header 448's fans at `0x1678` (`variant448_fan`, 1008 instructions;
+`variant448_fan_slot1` builds the header-598 images) draw the three 0x208-byte
+`Variant448FanUnit`s at `work + 0xBD8`: per unit, two arms of three fans, each a
+two-point spine and its copy moved `0x20` along the view angle; the arm colours
+are faded by the growth amounts into a stack table after `rot`; the amounts
+grow by `step << 5` up to `0x400` (stage 1) or shrink by `step << 6` to zero
+(stage 2), and the stage sum moves `work + 0x1B3C` from 1 to 2 and from 5 to 6;
+then each spine is projected (`RotTransPers4` into `status[i][t][k]`) with its
+screen angle, width and offset, and one POLY_GT4 per fan is sorted when its
+depth and status are not negative. In mode 3 the amounts are reset to a
+staggered start and the mode becomes 4. What the retail code needs, each form
+measured against the alternative:
+- the flag test at the start is `if ((flag & 1) == 0) { i = 0; } else { s32 s =
+  work - (u8 *)poly; work = (u8 *)poly + s; }` with `poly` set before it and
+  `unit` after it. The dead `i = 0` disappears in flow; the other arm survives
+  until the combiner turns it into `work = work`, so reload emits
+  `lw t9,384(sp)` for it and deletes the store, and reorg then skips the
+  redundant reload at the join. This leaves the arm's dead reload that the
+  retail code has, and the spill-register parity of the rest of the function;
+- the zone colours of phase 2 use one name per channel in the faded arm (`{
+  s32 a, b, d; ... }`) and, in the full arm, a shared `u` with one `w` per
+  channel; the full arm's first channel is `x = i2 + ip0 + j; c =
+  unit->cb[j][0]; do { *(u8 *)x = c; } while (0);`, whose loop notes keep the
+  next channel's address after the store; `jj = j` is set after the fade
+  amount;
+- the status test reads `status[i][t][k]` itself, which makes the
+  `+ 168` from `&rot` a hoisted invariant;
+- the j == 1 arm of the projection reads `(s16)unit->sb[t][k][j]`, the
+  colour pointers of phase 4 are `i * 2 + w1 + j` with `w1`, `w2`, `w3` set
+  once each, and phase 1 initialises `tangle` in the arm loop
+  (`for (t = 0, tangle = 0; ...)`).
+All four images rebuild byte-identical to retail; every function of the
+header-448 and header-598 images of models 108 and 573 is now C.
+
 Header 425's entry at `0x0004` (`variant425_entry`, 1117 instructions; models
 259 and 630, both slots) sets up the sheet, the sixteen spiral arms, the
 sixteen rays, the 5x6 webs and the ribbon, band, spoke-ring and quad records of
@@ -255,6 +289,28 @@ reached it calls sheet then webs, bands while the phase is positive and rays
 from phase 2. The tint fades only below phase 5. The same
 `variant401_entry.c` with palette x = 640 is the French header-418 entry
 ([French notes](french-model-variant418.md)).
+Its bands at `0xFE4` (`variant401_bands`, 480 instructions;
+`variant401_bands_slot1` builds the header-551 image) draw that band, whose
+`Variant401EntryBand` now names the nine-by-three points at `+ 0x0`, their
+projections at `+ 0xD8` and the depths at `+ 0x258`. The first pass puts three
+points per column at radius `(work[0x1B0C] * 21 + bias) >> 12` (angles
+`0x400`, flat, `0xC00`), turns them by the screen yaw, moves each column by
+its growth offset along the `work + 0x1AB4` direction, projects it with `RotTransPers3`, and grows the
+offsets towards `0x400` (the first from the timing record at
+`work[0x1AF4] + 0x20`, the others by `step << 6`; the first reaching `0x400`
+sets `work + 0x1B18` to 2). The second pass sorts two POLY_GT4 per column
+pair, clamping negative depths to zero; in phase 2 `work + 0x1B0C` then fades
+to zero over the record's second interval and the phase becomes 3. Several
+statements steer the retail allocation rather than read naturally, each
+measured against the plain form: `if (tc > 0)` keeps identical arms under
+`if (rec)`; dead `if (x != 0) { lo = 0; }` statements after the radius, the
+yaw and at the end of the first loop split blocks for the scheduler and give
+the counter its reference count; the radius is a second reader of the
+`srl 12`; the second half of the second loop reads through
+`q2 = (u8 *)rec + (((u8 *)rec + j * 4) - (u8 *)rec);`, which cse does not
+reduce, so the final depth reads keep the first half's register, and which
+the combiner then turns into the copy the retail code has. Both images
+rebuild byte-identical to retail; every function of both is now C.
 Header 416's form at `0x1C68` (`variant416_webs`) keeps the records at
 `work + 0xA80` and replaces the phase-0 shrink: each web with a positive scale
 is set to `(i << 12) / 3` less the progress `(now - start) * 3 << 12 / (end -
