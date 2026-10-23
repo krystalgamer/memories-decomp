@@ -230,3 +230,6 @@ gMovie_bCopyDisplayOnStop = D_8009B061;
 gDuelEffect_aEntries = tent_DuelEffectEntries;
 gDuelEffect_aOccupancyValues = tent_DuelEffectOccupancy;
 gDuelEffect_nCompactionRequested = D_8009B330;
+
+PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
+PROVIDE(gLibrary_sSampledReferenceY = D_80181012);

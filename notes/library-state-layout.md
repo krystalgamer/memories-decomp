@@ -209,6 +209,14 @@ reads nor writes `pad`. Guarded actual-source checks cover every halfword
 pattern per coordinate and reject unsigned-read, axis-swap and padding-write
 mutants.
 
+The independently labeled Y halves now have the scoped names
+`gLibrary_sCapturedReferenceY` and `gLibrary_sSampledReferenceY`.
+Their capture/sample provenance and distinct movement branches are
+documented in [library-reference-y.md](library-reference-y.md).
+Only those signed scalar identities change; the literal buffers,
+generic four-halfword helper, local `SVECTOR` view, globe copy and
+existing controls above remain unchanged.
+
 The card-view action sequence now reaches its existing signed `globe_radius`
 member directly. Initialization writes zero; advancement keeps the original
 unsigned `u16` read, adds `0x2A`, narrows into the halfword, and only then
