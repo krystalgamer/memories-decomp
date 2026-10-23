@@ -1,26 +1,28 @@
 #include "../types.h"
 #include "../ygo_types.h"
 #include "text_init_decimal_digit_glyph_map.h"
+#include "text_decimal_key_views.h"
 #include "text_constants.h"
+#include "text_glyph_lookup.h"
 
-/* Copies the ten two-byte Shift-JIS digit keys from tent_DecimalDigitSjisKeys
+/* Copies the ten two-byte Shift-JIS digit keys from gText_DecimalDigitSjisKeys
    into a local buffer and walks them as big-endian u16 keys. Each key is
-   looked up in the 4-byte-stride table at tent_GlyphLookupTableEntries (key in the low halfword,
+   looked up in the 4-byte-stride table at gText_aGlyphSearchEntries (key in the low halfword,
    a zero word terminating) and the 1-based match index is written to
    gText_DecimalDigitGlyphMap. The lookup is skipped entirely when the table is empty.
 
-   tent_GlyphLookupTableEntries is const so that the guard read hoists out of the loop: GCC treats
+   gText_aGlyphSearchEntries is const so that the guard read hoists out of the loop: GCC treats
    a load from unchanging memory as loop-invariant regardless of the stores in
    the body, which is what leaves one shared %hi in the preheader feeding both
    the guard load and the per-iteration table address. */
 #ifdef VERSION_EUROPE
 /* European only: the 1-based index of key in the glyph lookup table (the
-   entries from four bytes into tent_GlyphLookupTable, code in the low
+   entries from four bytes into gText_aGlyphLookup, code in the low
    halfword), or 0 when the zero terminator comes first. */
 s32 func_8003B758(s32 key)
 {
     s32 n = 0;
-    TextGlyphLookupEntry *e = tent_GlyphLookupTable;
+    TextGlyphLookupEntry *e = gText_aGlyphLookup;
     s32 code;
 
     do {
@@ -77,14 +79,14 @@ void Text_InitDecimalDigitGlyphMap(void) {
     i = 1;
     p = buf.bytes;
     end = buf.bytes + 2 * TEXT_DECIMAL_RADIX;
-    buf = tent_DecimalDigitSjisKeys;
+    buf = gText_DecimalDigitSjisKeys;
 
     /* Pointer ordering emits sltu; retain the retail signed address view. */
     do {
-        e = tent_GlyphLookupTableEntries;
+        e = gText_aGlyphSearchEntries;
         n = 1;
         key = (*p << 8) | buf.bytes[i];
-        if (tent_GlyphLookupTableEntries[0].packed != 0) {
+        if (gText_aGlyphSearchEntries[0].packed != 0) {
             q = out;
         search:
             if (key == e->halves.key) {

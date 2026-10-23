@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../text_init_decimal_digit_glyph_map.h"
+#include "../text_decimal_key_views.h"
 #include "../text_constants.h"
 
 void Text_InitDecimalDigitGlyphMap(void)
@@ -19,14 +20,14 @@ void Text_InitDecimalDigitGlyphMap(void)
     i = 1;
     p = buf.bytes;
     end = buf.bytes + 2 * TEXT_DECIMAL_RADIX;
-    buf = tent_DecimalDigitSjisKeys;
+    buf = gText_DecimalDigitSjisKeys;
 
     /* Pointer ordering emits sltu; retain the retail signed address view. */
     do {
-        e = tent_GlyphLookupTableEntries;
+        e = gText_aGlyphSearchEntries;
         n = 1;
         key = (*p << 8) | buf.bytes[i];
-        if (tent_GlyphLookupTableEntries[0].packed != 0) {
+        if (gText_aGlyphSearchEntries[0].packed != 0) {
             q = out;
         search:
             if (key == e->halves.key) {

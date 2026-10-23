@@ -233,3 +233,7 @@ gDuelEffect_nCompactionRequested = D_8009B330;
 
 PROVIDE(gLibrary_sCapturedReferenceY = D_80181002);
 PROVIDE(gLibrary_sSampledReferenceY = D_80181012);
+
+gText_aGlyphLookup = tent_GlyphLookupTable;
+gText_aGlyphSearchEntries = tent_GlyphLookupTableEntries;
+gText_DecimalDigitSjisKeys = tent_DecimalDigitSjisKeys;

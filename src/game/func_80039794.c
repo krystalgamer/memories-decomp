@@ -13,6 +13,7 @@
 #include "text_box_runtime.h"
 #include "dialog_choice_state.h"
 #include "text_constants.h"
+#include "text_glyph_lookup.h"
 
 /* Regional value: the choice.flags bit that opens and closes the choice (0x8
  * -> 0x10). The European build (src/game/european/) defines its own. */
@@ -49,7 +50,7 @@ void TextBox_UpdateChannels(void)
     p = gText_aChannels;
     n = 4;
     reset_value = -1;
-    table = tent_GlyphLookupTable;
+    table = gText_aGlyphLookup;
     q = (ChoiceChannelCursor *)&p->field_30;
     do {
         if (q->choice.flags & 0x8000) {
