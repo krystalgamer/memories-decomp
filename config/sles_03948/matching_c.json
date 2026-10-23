@@ -1415,13 +1415,13 @@
       "address": "0x8002847C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x528",
-      "source": "src/game/european/duel_effect_update_card_viewer_state.c"
+      "source": "src/game/european/duel_effect_states.c"
     },
     {
       "address": "0x800289A4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x80",
-      "source": "src/game/duel_effect_update_state.c"
+      "source": "src/game/european/duel_effect_states.c"
     },
     {
       "address": "0x80028A24",

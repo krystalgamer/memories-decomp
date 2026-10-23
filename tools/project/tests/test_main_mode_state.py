@@ -25,7 +25,7 @@ DECLARATION = re.compile(
 CONSUMERS = (
     "src/game/duel_draw_resolution.c",
     "src/game/duel_scene_battle.c",
-    "src/game/duel_effect_update_card_viewer_state.c",
+    "src/game/duel_effect_states.c",
     "src/game/script_op_save_prompt.c",
     "src/overlays/password/shop.c",
     "src/game/debug_menu_two_player_entry.c",
@@ -68,7 +68,7 @@ NEXT_DATA = {
 NEXT_ARRAY = {"src/game/library_grid_cursor.c", "src/game/script_control_commands.c"}
 ACTIVE_DATA = {
     "src/game/duel_draw_resolution.c", "src/game/duel_scene_battle.c",
-    "src/game/duel_effect_update_card_viewer_state.c",
+    "src/game/duel_effect_states.c",
     "src/game/script_op_save_prompt.c", "src/game/debug_menu_editor_entries.c",
     "src/game/debug_menu_leave_entries.c",
 }
