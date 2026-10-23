@@ -834,7 +834,7 @@ void SD_InitVoiceState(void);
    or detach an object. The two callers do not establish a video-frame unit. */
 extern void SD_UpdateSecondaryObjectReuseCountdowns(void) __asm__("tent_SD_AgeSecondaryObjects");
 /* Historical link name retained for existing external consumers. */
-void tent_SD_AgeSecondaryObjects(void);
+extern void tent_SD_AgeSecondaryObjects(void);
 void SD_UpdateSecondaryObjectVoices(void);
 
 /* The parser passes a third word that this routine intentionally ignores. */

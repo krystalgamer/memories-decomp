@@ -86,7 +86,9 @@ strict-C99 consumers of the shared header. That preserves its original function
 class, address, and `0x7C` ELF size without adding code or size directives.
 Each image exports the canonical name as a linker alias to that provider;
 the alias naturally has the same class/address without an ELF size.
-The legacy C declaration also remains available. The source
+The legacy C declaration also remains explicitly `extern`, so the existing
+source-contract checker recognizes the retained native provider as a tracked
+alias target through its header-declaration inventory. The source
 path, compiler profile, source-group boundaries, declaration selectors,
 pointer annotations, field offsets, raw offset expressions, comparison
 order, and SPU calls remain unchanged. Overlay consumers of the shared
