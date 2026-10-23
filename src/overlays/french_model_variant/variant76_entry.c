@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant76_entry.h"
+#include "../../game/screen_projection.h"
 
 s32 func_8013B004(u8 *context, s32 command)
 {

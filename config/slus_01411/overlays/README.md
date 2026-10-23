@@ -239,3 +239,9 @@ French header-88 C under `gcc_2_8_1_g0_split`. These are separate from the
 236 GCC 2.7.2 images above. Their complete suffixes remain unclassified raw
 data; see the [USA header-71 evidence](../../../notes/overlays/usa-model-variant71.md)
 for loader records, resident bindings and complete-image validation.
+
+Another 133 USA images, under thirty-four headers, are a single entry whose code
+is a French entry already matched in `src/overlays/french_model_variant/`; they
+build from that French source under `gcc_2_8_1_g0_split`, with resident bindings
+read from the USA image's own `jal` targets. See the
+[USA French-entry images](../../../notes/overlays/usa-model-french-entries.md).
