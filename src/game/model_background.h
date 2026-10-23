@@ -79,7 +79,7 @@ typedef struct {
     SVECTOR values[2];
 } BackgroundNormals;
 
-/* Draws the model-scene backdrop. Unless slot 2 is inactive (field_E1F) or
+/* Draws the model-scene backdrop. Unless slot 2 is inactive (is_active) or
  * its three ambient words are all -4096, it calls
  * Model_UpdateBackgroundScroll(0) to update the scroll, lights a colour from
  * slot 2's flat lights and ambient and, unless the vertical offset

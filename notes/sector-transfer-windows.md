@@ -91,8 +91,10 @@ at `0x801DD800`; it is not turned into a C data definition or assigned an
 invented ELF size. No storage, numeric production pin, compiler flag,
 overlay import dependency, or instruction is added.
 
-The adjacent completion byte `D_800F5694` remains unclassified. Its phase-5
-store alone does not establish the reader-side semantics needed for a name.
+The previously unclassified `D_800F5694` is now independently tied to slot 2's
+load-step member in all seven images. Its canonical retained-native view is
+`gModel_bAuxiliaryLoadStep`; see [the lifecycle contract](model-slot-lifecycle.md).
+The new evidence is aggregate/alias identity and its readers, not the phase-5 store alone.
 
 ## Existing native consumers and conservation
 

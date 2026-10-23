@@ -41,7 +41,7 @@ Verified shared fields and partial arrays are:
 | Offset | Shared member | Exact local evidence |
 |---:|---|---|
 | `0x000` | `field_000`, partial array of `0x8`-byte entries | `Model_TransformPartVertex` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads the pointer at `+4` |
-| `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` (a `GsSEQ`) | `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` advance pointers by 4, bounded at runtime by `field_E1B`; `Model_ResetSlotAnimationTables` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
+| `0x1E0` | `animation_sequences[58]`, `ModelSlotPart *` (a `GsSEQ`) | `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` advance pointers by 4, bounded at runtime by `animation_sequence_count`; `Model_ResetSlotAnimationTables` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
 | `0x2C8` | `field_2C8[10][58]`, `u16` | `Model_ResetSlotAnimationTables` fills it with `0xFFFF` at a `0x74` stride over ten rows; `Model_BuildSlotAnimationTables` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
 | `0x750` | `field_750[10]`, `ModelSlotRow` | `Model_ResetSlotAnimationTables` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `Model_BuildSlotAnimationTables` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `field_BF5 * 118` |
 | `0xBEC` | `field_BEC[8]`, part bitfield | `Model_ResetSlotAnimationTables` sets bit `part % 8` of byte `part / 8`; `Model_ControlSlotAnimation` reads it back the same way; `Model_LoadSlot` widens a card for the parts it flags |
@@ -66,24 +66,24 @@ Verified shared fields and partial arrays are:
 | `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `Model_SetSlotPlaybackSpeed` writes it |
 | `0xE11` | `field_E11` | `Model_DrawSlotUnitsOnly`, `func_80059284`, and `Model_SetSlotAmbient` |
 | `0xE12` | `field_E12` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `Model_DrawSlot` guards its projected ground-fan path with the same byte |
-| `0xE14` | `field_E14` | sentinel test in `func_80058DD8` |
+| `0xE14` | `load_step` | sentinel test in `func_80058DD8` |
 | `0xE16`-`0xE18` | byte fields | notification test in `Model_SetSlotPlaybackSpeed`; clamp/index fields in `Model_GetSlotDataEntry` and `Model_GetCurrentDataEntry` |
-| `0xE1A` | `field_E1A` | head-entry count in `Model_RunSlotHandlers` |
-| `0xE1B` | `field_E1B` | pointer-array count in `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` |
-| `0xE1F` | `field_E1F` | status tests in `func_80058DD8` and `Model_RunSlotHandlers` |
+| `0xE1A` | `hmd_unit_count` | head-entry count in `Model_RunSlotHandlers` |
+| `0xE1B` | `animation_sequence_count` | pointer-array count in `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` |
+| `0xE1F` | `is_active` | status tests in `func_80058DD8` and `Model_RunSlotHandlers` |
 
 `field_000` is still a one-element declaration: it expresses verified element
 layout and stride only, because the runtime count establishes it is an array
 without proving its static bound.
 
-`field_1E0` and the run at `0x750` are no longer in that position. The reset
+`animation_sequences` and the run at `0x750` are no longer in that position. The reset
 in `Model_ResetSlotAnimationTables` walks both to fixed bounds -- ten rows and 58 parts, from
 its `i < 0xA` and `j < 0x3A` loops and their `0x74` and `0x76` strides -- and
 those bounds tile the record exactly from `0x1E0` to `0xBEC`, so the header
 declares `MODEL_SLOT_PART_COUNT` and `MODEL_SLOT_ROW_COUNT` rather than
 guessing.
 
-Each `field_1E0` entry points at libhmd's `GsSEQ`, the per-part animation
+Each `animation_sequences` entry points at libhmd's `GsSEQ`, the per-part animation
 sequence. `Model_LinkSlotAnimationUnit` passes the table to `GsLinkAnim` as `GsSEQ **`, and
 the game touches the fields the way libhmd defines them. `Model_LoadSlot`
 rearms a part with `ti = start`, `sid = start_sid`, `ii = aframe = 0xFFFF`,
@@ -332,7 +332,7 @@ and their placement units. Its repeated `field_D18` member expressions are
 intentional: GCC 2.8.1 must reload the coordinate pointer before each rotation
 and translation store to preserve the retail schedule. The case-10 staging
 path in `file_transfer_steps.c` likewise reaches the sound-entry run,
-`field_CF8` block, and `field_E14` through the shared slot layout. The three
+`field_CF8` block, and `load_step` through the shared slot layout. The three
 reset words inside `field_CF8` are now explicit signed members at relative
 offsets `0x10`, `0x14`, and `0x18`; the whole-block copy retains its separate
 `ModelSlotCF8BlockWords` view because its alignment and move width are

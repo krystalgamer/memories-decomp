@@ -174,7 +174,7 @@ void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part, s32 animation, u32 f
     if (mutate && seeks++ == 0) {
         slot->field_BF5 ^= 1;
         slot->field_E06++;
-        if (serial & 1) slot->field_E1B = 1;
+        if (serial & 1) slot->animation_sequence_count = 1;
     }
 }
 
@@ -208,7 +208,7 @@ static void reference(s32 index)
     ModelControlHandler handler = index ? secondary1 : secondary0;
     s32 *commands = (s32 *)((u8 *)self + 0xD08);
     s32 decision, state, step, changed, frame, part;
-    if (!self->field_E1F) return;
+    if (!self->is_active) return;
     gModel_bActiveSlotIndex = index;
     if (commands[2] >= 0) {
         Model_SetHandlerCallbackState(1);
@@ -281,7 +281,7 @@ static void reference(s32 index)
     } else if (other->field_E16 != 0x23 && other->field_E06 >= 0xA0 && ((rand() >> 8) & 3)) {
         other->field_E06 -= step;
         frame = other->field_E06;
-        for (part = 0; part < other->field_E1B; part++)
+        for (part = 0; part < other->animation_sequence_count; part++)
             Model_SeekSlotPartAnimation(other, part, other->field_BF5, frame);
         if ((rand() >> 8) & 1) changed = 1;
     }
@@ -310,7 +310,7 @@ static void setup(void)
     gModel_Slot1VariantModuleAddress = (s32)secondary1 - 4;
     *(u8 **)((u8 *)self + 0xDE8) = &contexts[chosen_index * 2];
     *(u8 **)((u8 *)self + 0xDEC) = &contexts[chosen_index * 2 + 1];
-    self->field_E1F = serial % 11 != 0;
+    self->is_active = serial % 11 != 0;
     self->field_E0E = initial_state;
     self->field_DFE = serial & 1;
     self->field_BF5 = serial & 2 ? self->field_DFE + 3 : 0;
@@ -327,7 +327,7 @@ static void setup(void)
     other->field_E0F = animations[serial % 4];
     other->field_E06 = frames[serial % 7];
     other->field_E16 = serial % 7 ? 0 : 0x23;
-    other->field_E1B = serial % 3;
+    other->animation_sequence_count = serial % 3;
     other->field_BF5 = 4;
     other->field_DFF = defense;
     other->field_DF8 = serial & 1;

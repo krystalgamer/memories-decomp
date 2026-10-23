@@ -214,7 +214,7 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     case 5:
-        if (gModel_aSlots[0].field_E1F != 0) {
+        if (gModel_aSlots[0].is_active != 0) {
             s16 *r = (s16 *)Model_GetCurrentEffectKeyAddress();
             if (r != 0 && r[3] == 2) {
                 Model_SetEffectKeyBatchingEnabled(1);
@@ -256,7 +256,7 @@ void Model_UpdateAnimatedBattle(void)
         }
         if (gModel_aSlots[0].field_E0F == 0) {
             gModel_bPresentationTimer += Model_GetFrameStep();
-            if (gModel_bPresentationTimer >= 0x3C && gModel_aSlots[1].field_E1F != 0) {
+            if (gModel_bPresentationTimer >= 0x3C && gModel_aSlots[1].is_active != 0) {
                 Model_SetEffectKeyBatchingEnabled(1);
                 Model_QueueCameraOrbitFromPreset(1, 0, 0, -0xA);
                 Model_QueueEffectEndpointPair(1, 1, 0x4000);
@@ -750,7 +750,7 @@ void Model_UpdateExodiaPresentation(void)
     switch ((s8)(gModel_bPresentationPhase + 1)) {
     case 0: {
         ModelSlot *current;
-        if (gModel_aSlots[0].field_E14 == 0xFF) {
+        if (gModel_aSlots[0].load_step == 0xFF) {
             if ((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs) {
                 goto check_ready;
             }
@@ -761,7 +761,7 @@ void Model_UpdateExodiaPresentation(void)
         }
 check_ready:
         current = gModel_aSlots;
-        if (!current->field_E1F) {
+        if (!current->is_active) {
             break;
         }
         Model_SetCameraOrbit(0, 10000, 0xE00, 0, 0);
@@ -929,8 +929,8 @@ void Model_UpdateCreditsMonsterSlot(s32 arg0) {
 
     b0 = gModel_aSlots;
     p = b0 + arg0;
-    if (p->field_E1F == 0) {
-        if (p->field_E14 == 0xFF) {
+    if (p->is_active == 0) {
+        if (p->load_step == 0xFF) {
             if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
                  gFile_dwCancelRequestState_abs) == 0) {
                 do {
@@ -950,10 +950,10 @@ void Model_UpdateCreditsMonsterSlot(s32 arg0) {
         }
 
         b = gModel_aSlots;
-        if ((b + arg0)->field_E1F != 0) {
+        if ((b + arg0)->is_active != 0) {
             q = b + (arg0 ^ 1);
             a = MODEL_ANGLE_QUARTER_TURN;
-            if (q->field_E1F != 0) {
+            if (q->is_active != 0) {
                 r = q->field_D18;
                 if (r != (GsCOORDUNIT *)0) {
                     t = r->rot.vy + MODEL_ANGLE_QUARTER_TURN;
@@ -1031,8 +1031,8 @@ void Model_UpdateCreditsPresentation(void)
       D_8009B004.fields.field_01 = 0;
       D_8009B004.fields.field_00 = 0;
       ACTIVE_SLOT = 0;
-      gModel_aSlots[0].field_E1F = 0;
-      gModel_aSlots[1].field_E1F = 0;
+      gModel_aSlots[0].is_active = 0;
+      gModel_aSlots[1].is_active = 0;
       Model_SetSlotTintTarget(0, 2, 0, 0, 0);
       Model_SetSlotTintTarget(1, 2, 0, 0, 0);
       func_801807B0();
@@ -1044,7 +1044,7 @@ void Model_UpdateCreditsPresentation(void)
     case 0:
       first_base = gModel_aSlots;
       active_offset = (u32)&((ModelSlot *)0)[(u8)ACTIVE_SLOT];
-      if ( MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(first_base) + active_offset)->field_E1F )
+      if ( MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(first_base) + active_offset)->is_active )
       {
         if ( (MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + active_offset)->field_E15 & 3) == 0 )
         {
@@ -1123,7 +1123,7 @@ void Model_UpdateCreditsPresentation(void)
               peer = (u8)ACTIVE_SLOT ^ 1;
               if ( MODEL_SLOT_VIEW(
                        MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-                       (904 * peer) * 4)->field_E1F )
+                       (904 * peer) * 4)->is_active )
               {
                 Model_RequestCameraMoveToSlots(1, -1, peer, 90);
                 next_phase = gModel_bPresentationPhase + 1;
@@ -1143,7 +1143,7 @@ void Model_UpdateCreditsPresentation(void)
         Model_UpdateCreditsMonsterSlot((u8)ACTIVE_SLOT);
         if ( MODEL_SLOT_VIEW(
                  MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-                 (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F )
+                 (904 * (u8)ACTIVE_SLOT) * 4)->is_active )
           Model_RequestCameraMoveToSlots(1, -1, (u8)ACTIVE_SLOT, 30);
       }
       goto poll_module;
@@ -1179,7 +1179,7 @@ void Model_UpdateCreditsPresentation(void)
         {
           MODEL_SLOT_VIEW(
               MODEL_SLOT_RAW_BYTES(cross_base) +
-              (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F = 0;
+              (904 * (u8)ACTIVE_SLOT) * 4)->is_active = 0;
           gModel_bPresentationPhase = 0;
           ACTIVE_SLOT ^= 1u;
         }
@@ -1212,8 +1212,8 @@ void Model_UpdateCreditsPresentation(void)
       {
         goto tick_active_slot;
       }
-      fade_models[1].field_E1F = 0;
-      fade_models[0].field_E1F = 0;
+      fade_models[1].is_active = 0;
+      fade_models[0].is_active = 0;
       next_phase = gModel_bPresentationPhase + 1;
       goto set_phase_and_tick;
 set_phase_and_tick:
@@ -1253,8 +1253,8 @@ poll_module:
       {
         if (SD_GetStatusFlags() & 0x80)
         {
-          result = (u8)gModel_aSlots[0].field_E1F;
-          if ( gModel_aSlots[0].field_E1F )
+          result = (u8)gModel_aSlots[0].is_active;
+          if ( gModel_aSlots[0].is_active )
           {
             result = D_8009B004.fields.field_00 + 1;
             ++D_8009B004.fields.field_00;
@@ -1318,7 +1318,7 @@ void Model_PlaySlotAnimationSounds(s32 index) {
     u16 flag;
 
     m = &gModel_aSlots[index];
-    if (m->field_E1F == 0) {
+    if (m->is_active == 0) {
         return;
     }
     if (m->field_DC0[3] >= 2) {
@@ -1563,7 +1563,7 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
 
     moved = 0;
     hits = 0;
-    if (gModel_aSlots[0].field_E1F != 0) {
+    if (gModel_aSlots[0].is_active != 0) {
         if (gModel_aSlots[0].field_DC0[3] >= 2) {
             if ((*(u32 *)gModel_aSlots[0].field_DC0 & 0xFFFFFF) == 0) {
                 dist.values[0] = -1;
@@ -1572,7 +1572,7 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
     } else {
         dist.values[0] = -1;
     }
-    if (gModel_aSlots[1].field_E1F != 0) {
+    if (gModel_aSlots[1].is_active != 0) {
         if (gModel_aSlots[1].field_DC0[3] >= 2) {
             if ((*(u32 *)gModel_aSlots[1].field_DC0 & 0xFFFFFF) == 0) {
                 dist.values[1] = -1;
@@ -2094,7 +2094,7 @@ void Model_UpdateTintRequests(void)
         if ((*(u8 *)e & 1) == 0) {
             continue;
         }
-        if (gModel_aSlots[(e->flags >> 1) & 1].field_E1F == 0) {
+        if (gModel_aSlots[(e->flags >> 1) & 1].is_active == 0) {
             continue;
         }
         if (Model_HasInsufficientBufferSpace((e->flags >> 1) & 1, e->start.b3)) {
@@ -2120,10 +2120,10 @@ void Model_UpdateTintRequests(void)
         *MODEL_TINT_COLOR_VIEW(slot->field_DC0) = col;
 
         aa = a;
-        for (j = 0; j < slot->field_E1B; j++) {
+        for (j = 0; j < slot->animation_sequence_count; j++) {
             s32 t = slot->field_BF5;
             if (sid != 0) {
-                slot->field_1E0[j]->sid = sid;
+                slot->animation_sequences[j]->sid = sid;
                 t = sid;
             }
             Model_SeekSlotPartAnimation(slot, j, t, aa);
@@ -2139,10 +2139,10 @@ void Model_UpdateTintRequests(void)
         gModel_bDrawMaskedPartsOnly = 0;
 
         sv = sav06;
-        for (k = 0; k < slot->field_E1B; k++) {
+        for (k = 0; k < slot->animation_sequence_count; k++) {
             s32 t = slot->field_BF5;
             if (keep != 0) {
-                slot->field_1E0[k]->sid = keep;
+                slot->animation_sequences[k]->sid = keep;
                 t = keep;
             }
             Model_SeekSlotPartAnimation(slot, k, t, sv);

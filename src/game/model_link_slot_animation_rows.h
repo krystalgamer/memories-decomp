@@ -6,7 +6,7 @@
 /* Relinks the command list of one model slot's animation row tables.
  *
  * It returns immediately unless the slot has both a command list in
- * field_DD8 and a nonzero channel count in field_E1B, then walks that
+ * field_DD8 and a nonzero channel count in animation_sequence_count, then walks that
  * count of channels by MODEL_SLOT_ROW_COUNT rows, rewriting halfword links
  * in the list so entries point at one another rather than at a key.
  *

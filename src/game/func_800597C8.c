@@ -11,7 +11,7 @@ void Model_SeekSlotAnimation(s32 idx, s32 flag, s32 val)
     s32 count;
     s32 arg3;
 
-    count = rec->field_E1B;
+    count = rec->animation_sequence_count;
     rec->field_E06 = val << 4;
     arg3 = rec->field_E06;
 
@@ -20,13 +20,13 @@ void Model_SeekSlotAnimation(s32 idx, s32 flag, s32 val)
             s32 arg2 = rec->field_BF5;
 
             if (flag != 0) {
-                ModelSlotPart *part = rec->field_1E0[i];
+                ModelSlotPart *part = rec->animation_sequences[i];
                 arg2 = flag;
                 part->sid = flag;
             }
 
             Model_SeekSlotPartAnimation(rec, i, arg2, arg3);
-            count = rec->field_E1B;
+            count = rec->animation_sequence_count;
             i++;
         } while (i < count);
     }

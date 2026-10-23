@@ -52,7 +52,7 @@ void Model_DrawBackground(void)
     ubase = (gModel_pBackgroundRecord->field_AA & 0x3F) <<
         (2 - ((gModel_pBackgroundRecord->field_A8 >> 13) & 3));
     height = slot->field_D18->matrix.t[1] + 300;
-    if (!slot->field_E1F)
+    if (!slot->is_active)
         return;
     if (slot->field_DA0[0] == -4096 &&
         slot->field_DA0[1] == -4096 && slot->field_DA0[2] == -4096)

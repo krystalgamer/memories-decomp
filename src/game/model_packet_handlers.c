@@ -9,7 +9,7 @@
 #include "../unmatched.h"
 
 #define MODEL_ANIMATION_SEQUENCE_SLOT(entry) \
-    ((GsSEQ **)&(entry)->field_1E0[(entry)->field_E1B])
+    ((GsSEQ **)&(entry)->animation_sequences[(entry)->animation_sequence_count])
 #define MODEL_ANIMATION_WORDS(object) ((u32 *)(object)[1])
 
 void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry)
@@ -37,7 +37,7 @@ void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry)
             *(void **)local[1] =
                 Model_GetAnimationInterpolationHandler(local[0]);
         }
-        entry->field_E1B += count;
+        entry->animation_sequence_count += count;
     }
 }
 

@@ -5,6 +5,6 @@
 int Model_GetSlotReadiness(int index)
 {
     ModelSlot *entry = &gModel_aSlots[index];
-    if (entry->field_E14 != 0xFF) return 2;
-    return entry->field_E1F != 0;
+    if (entry->load_step != 0xFF) return 2;
+    return entry->is_active != 0;
 }

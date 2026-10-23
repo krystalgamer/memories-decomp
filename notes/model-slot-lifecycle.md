@@ -1,0 +1,126 @@
+# Model-slot load and animation lifecycle views
+
+The slot loader, SDK animation linker, update/render gates and readiness
+query establish five related `ModelSlot` views and an interior byte alias:
+
+| Original member | Canonical member | Preserved representation |
+| --- | --- | --- |
+| `field_E14` | `load_step` | `u8`, `+0xE14` |
+| `field_E1F` | `is_active` | `u8`, `+0xE1F` |
+| `field_E1A` | `hmd_unit_count` | `u8`, `+0xE1A` |
+| `field_E1B` | `animation_sequence_count` | `u8`, `+0xE1B` |
+| `field_1E0` | `animation_sequences` | existing `ModelSlotPart *G32[MODEL_SLOT_PART_COUNT]`, `+0x1E0` |
+| `D_800F5694` | `gModel_bAuxiliaryLoadStep` | existing incomplete `u8[]` view of slot 2's step |
+
+The record stays `0xE20` bytes. The active field stays a raw byte, not a
+Boolean type. Counts, pointer annotation, array extent, casts and original
+offset assertions remain unchanged.
+
+## Loading and activation are not the same state
+
+`Model_ResetSlot` clears activity and sets `load_step` to `0xFF`.
+Load requests select step 0; transfer completion publishes step 1.
+`Model_AdvanceSlotLoad` leaves steps 0 and `0xFF` alone, performs the
+existing step-specific operation, and either advances the byte or stores
+`0xFF` when the active gate is set.
+
+The active gate is not proof that every load step ran. Step 6 temporarily
+sets it for a draw and clears it again. Step 7 can activate non-duelist
+slots and end their sequence early; duel-side loads retain their later
+steps and final activation. Scene transitions may also deactivate slots
+without normalizing the load byte.
+
+`Model_GetSlotReadiness` preserves its phase-before-active observation:
+it returns 2 whenever `load_step != 0xFF`, otherwise the active byte's
+nonzero test. It remains an `int` readiness query, not a Boolean predicate.
+The new field names do not collapse pending, idle-inactive and active
+states or change callback timing.
+
+The existing inline `load_phase` getter keeps its name and signed return
+view. Debug output, update/control paths, scene transitions, background
+drawing and slot rendering adopt the same member identifiers without
+changing their conditions or memory accesses.
+
+## The auxiliary transfer's independent completion label
+
+`Model_LoadAuxiliaryPackageStage` phase 5 writes 1 through `D_800F5694[0]`.
+This is not an unexplained completion Boolean: every actual regional
+provider equals `gModel_aSlots + 2 * 0xE20 + 0xE14`, the auxiliary slot's
+`load_step`. The offset is `0x2A54` in all seven images:
+
+| Image | Slots base | Retained load-step provider |
+| --- | --- | --- |
+| NA | `0x800F2C40` | `0x800F5694` |
+| JP | `0x800F04E0` | `0x800F2F34` |
+| UK | `0x800F3D70` | `0x800F67C4` |
+| FR/DE/IT/ES | `0x800F4178` | `0x800F6BCC` |
+
+The slot initializer's byte offset and record size, the tracked regional
+assignments, and the NA native ELF independently agree. Aggregate readers
+therefore close the phase-5 producer's role: the loader advances that step,
+and the readiness query distinguishes it from the active gate.
+
+`file_transfer_steps.h` retains the old extern and adds
+`gModel_bAuxiliaryLoadStep[]` with `__asm__("D_800F5694")`; regional linker
+inputs export the canonical alias to the old provider. The incomplete array
+and `[0]` store remain. No allocation, extent, Boolean conversion, NA
+address pin in another region, or new overlay import is introduced.
+In particular, the store is not folded to an indexed aggregate access:
+its original independent relocation and fixed auxiliary-slot behavior stay
+exact, including unusual caller inputs.
+
+## HMD units and animation sequences have separate counts
+
+For a non-null HMD, `Model_InitSlot` reads the original low byte at header
+`+0x0C` and applies the existing 60-unit cap. `hmd_unit_count` drives the
+`GsUNIT` walks and coordinate-owner search. It is not the count of animation
+parts, coordinates or rendered polygons.
+
+The null-HMD path clears activity and marks loading idle, but retains the
+existing state of fields it never reaches, including the HMD-unit count.
+No new zeroing or live-model invariant is added.
+
+`Model_LinkSlotAnimationUnit` passes the existing sequence-array tail to
+`GsLinkAnim`. Only its original successful scan path adds the returned
+count to `animation_sequence_count`. The array is the existing pointer
+view; it is not replaced with an SDK declaration, moved, or resized.
+
+The sequence count bounds the established reset, seek, playback-speed,
+duration and animation-row loops. It remains a byte with the original
+promotion, truncation and overflow behavior. No new limit or assumption
+that it equals `hmd_unit_count` is introduced. Resetting a count does not
+newly clear old sequence pointers.
+
+## Deliberately unclassified request flag
+
+`field_E1D` is not renamed to "has model." `Model_LoadMonsterMerge` stores
+the caller's raw packed-slot bit `0x80` there. It affects voice shutdown,
+optional metadata/sample transfers, sequence-bank setup and metadata
+control words. A nonzero request flag is not a Boolean loaded/active
+property, and its existing representation and behavior remain untouched.
+The separate `field_E1E` and other control bytes are also outside this
+component.
+
+The tentative textured-primitive helper, palette conversion research,
+packet/cache fields and unrelated records are not changed.
+
+## Existing native consumers
+
+The background, model-control, model-debug, background-ownership and
+scene-transition witnesses use the production type. Their corresponding
+member names change in their existing C accesses and mutation strings.
+Each complete file retains every other byte, preserving independent
+oracles, byte offsets, guard mutations, unique-anchor checks, failure
+expectations, input matrices, compiler flags and runners.
+
+No new synthetic/generated-C/source-string harness or fixture is added,
+and no existing control is skipped or weakened. Source/profile/header
+closure, native compilation artifacts, whole executable and ELF identity
+remain the local conservation gates; actual runtime witness and regional
+image execution remain normal PR validation, not local execution.
+
+The five fields are runtime record members and do not get invented
+fixed-VMA rows. The one proven existing interior byte view gets one
+evidence-backed global row and a canonical export in each image. All
+legacy native symbols, linker prefixes, source groups, profiles, SDK
+headers and stored-pointer conventions stay frozen.

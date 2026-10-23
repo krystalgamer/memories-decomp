@@ -241,7 +241,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             " if (sizeof(void *) != 4 || sizeof(long) != 4) return 1;\n"
             " if ((u32)slot - (u32)gModel_aSlots != 0x1C40) return 2;\n"
             " slot->field_D18 = &placement;\n"
-            " placement.matrix.t[1] = 123;\nslot->field_E1F = 0;\n"
+            " placement.matrix.t[1] = 123;\nslot->is_active = 0;\n"
             " if (slot->field_D18->matrix.t[1] + 300 != 423) return 3;\n"
             " if ((u32)&gModel_CameraCoordinateUnit.matrix - (u32)&gModel_CameraCoordinateUnit != 4) return 4;\n"
             " GsSetLsMatrix(Model_GetLightSourceMatrix());\n"

@@ -61,7 +61,7 @@ u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx);
  * than a null.
  *
  * The model is a ModelSlot: the table it hands GsLinkAnim is that record's
- * field_1E0 indexed by field_E1B, which is also the counter it advances by
+ * animation_sequences indexed by animation_sequence_count, which is also the counter it advances by
  * the number of sequences linked. */
 void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry);
 void *Model_GetAnimationInterpolationHandler(u32 value);

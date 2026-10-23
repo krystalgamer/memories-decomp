@@ -76,7 +76,7 @@ void Model_UpdateSlotAnimation(s32 index) {
     s32 lim;
 
     m = &gModel_aSlots[index];
-    if (m->field_E1F == 0) {
+    if (m->is_active == 0) {
         return;
     }
     if (m->field_DD8 != 0) {
@@ -148,12 +148,12 @@ void Model_UpdateSlotAnimation(s32 index) {
         }
     }
     frame = m->field_E06;
-    if (m->field_E1B != 0) {
+    if (m->animation_sequence_count != 0) {
         i = 0;
         do {
             Model_SeekSlotPartAnimation(m, i, m->field_BF5, frame);
             i++;
-        } while (i < m->field_E1B);
+        } while (i < m->animation_sequence_count);
     }
 }
 
@@ -202,7 +202,7 @@ void Model_UpdateSlotControl(s32 index)
     s32 part;
     s32 primary_state;
 
-    if (slot->field_E1F == 0) {
+    if (slot->is_active == 0) {
         return;
     }
     primary_state = ((ModelControlCommandView *)slot)->commands[2];
@@ -366,7 +366,7 @@ void Model_UpdateSlotControl(s32 index)
                 ((rand() >> 8) & 3) != 0) {
                 other->field_E06 -= amount;
                 frame = other->field_E06;
-                for (part = 0; part < other->field_E1B; part++) {
+                for (part = 0; part < other->animation_sequence_count; part++) {
                     Model_SeekSlotPartAnimation(other, part, other->field_BF5, frame);
                 }
                 if ((rand() >> 8) & 1) {
@@ -480,7 +480,7 @@ void Model_ResetSlot(s32 arg0)
     p->field_DC0[0] = 0x80;
     p->field_E0C = 7;
     p->field_E0D = 8;
-    p->field_E14 = 0xFF;
+    p->load_step = 0xFF;
     p->field_DC0[3] = 0;
     *(s16 *)&p->field_E0A = COLOR_FIXED_ONE;
     p->field_E1D = 0;
@@ -506,7 +506,7 @@ void Model_ResetSlot(s32 arg0)
     p->field_CF8.field_14 = -1;
     p->field_CF8.field_18 = -1;
     p->field_E16 = 0x3E;
-    p->field_E1F = 0;
+    p->is_active = 0;
     Model_InitLightTriplet(arg0);
 }
 
@@ -542,9 +542,9 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     sum = 0;
     if (arg0 < 2) {
         i = sum;
-        if (sum < p->field_E1B) {
+        if (sum < p->animation_sequence_count) {
             m = 0xFFFF;
-            n = p->field_E1B;
+            n = p->animation_sequence_count;
             do {
                 if (p->field_2C8[1][i] != m) {
                     k = i / 8;
@@ -563,8 +563,8 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     Model_SetSlotRootTransform(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
 
     q = &gModel_aSlots[arg0];
-    c = q->field_1E0;
-    for (j = 0; j < q->field_E1B; j++) {
+    c = q->animation_sequences;
+    for (j = 0; j < q->animation_sequence_count; j++) {
         (*c)->ii = 0xFFFF;
         (*c)->ti = (*c)->start;
         (*c)->aframe = 0xFFFF;
@@ -576,7 +576,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
 
     b = (u8 *)gModel_aSlots;
     e = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b);
-    e->field_E1F = 1;
+    e->is_active = 1;
     Model_DrawSlotUnitsOnly(arg0);
     v = e->field_E0D * 2;
     w = v;
@@ -654,7 +654,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
             );
             gFile_dwTransferState_abs = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
-            gModel_aSlots[slot].field_E14 = 0;
+            gModel_aSlots[slot].load_step = 0;
             return 0;
         }
         if (model < 0 || model >= MODEL_MRG_ID_END
@@ -695,7 +695,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
             transfer->position = gModel_aSlots[slot].field_DFE;
             gFile_dwTransferState_abs = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
-            gModel_aSlots[slot].field_E14 = 0;
+            gModel_aSlots[slot].load_step = 0;
         }
     } else {
         if (model >= 0 && model < 7) {
@@ -716,7 +716,7 @@ found:
         );
         gFile_dwTransferState_abs = transfer->status_flags
             | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
-        gModel_aSlots[slot].field_E14 = 0;
+        gModel_aSlots[slot].load_step = 0;
     }
 done:
     return result;
@@ -724,7 +724,7 @@ done:
 
 static inline s16 load_phase(ModelSlot *slot)
 {
-    return slot->field_E14;
+    return slot->load_step;
 }
 
 void Model_AdvanceSlotLoad(s32 index)
@@ -733,7 +733,7 @@ void Model_AdvanceSlotLoad(s32 index)
 #ifndef VERSION_JAPAN
     s32 started = VSync(1);
 #endif
-    s32 state = slot->field_E14;
+    s32 state = slot->load_step;
     s32 work;
     s32 amount;
     s32 offset;
@@ -771,9 +771,9 @@ void Model_AdvanceSlotLoad(s32 index)
         s32 i, count, byte, missing;
         if (index < 2) {
             i = sum;
-            if (sum < p->field_E1B) {
+            if (sum < p->animation_sequence_count) {
                 missing = 0xFFFF;
-                count = p->field_E1B;
+                count = p->animation_sequence_count;
                 do {
                     if (p->field_2C8[1][i] != missing) {
                         byte = i / 8;
@@ -794,9 +794,9 @@ void Model_AdvanceSlotLoad(s32 index)
     }
     case 5: {
         ModelSlot *p = &gModel_aSlots[index];
-        ModelSlotPart *G32 *part = p->field_1E0;
+        ModelSlotPart *G32 *part = p->animation_sequences;
         s32 i;
-        for (i = 0; i < p->field_E1B; i++) {
+        for (i = 0; i < p->animation_sequence_count; i++) {
             (*part)->ii = 0xFFFF;
             (*part)->ti = (*part)->start;
             (*part)->aframe = 0xFFFF;
@@ -808,9 +808,9 @@ void Model_AdvanceSlotLoad(s32 index)
         break;
     }
     case 6:
-        slot->field_E1F = 1;
+        slot->is_active = 1;
         Model_DrawSlotUnitsOnly(index);
-        slot->field_E1F = 0;
+        slot->is_active = 0;
         break;
     case 7: {
         ModelSlot *p = &gModel_aSlots[index];
@@ -831,7 +831,7 @@ void Model_AdvanceSlotLoad(s32 index)
             break;
         }
         if (index >= 2) {
-            slot->field_E1F = 1;
+            slot->is_active = 1;
         }
         break;
     }
@@ -861,10 +861,10 @@ void Model_AdvanceSlotLoad(s32 index)
         selected = p->field_BF5;
         p->field_E0E = 6;
         position = p->field_E06;
-        for (i = 0; i < p->field_E1B; i++) {
+        for (i = 0; i < p->animation_sequence_count; i++) {
             s32 current = p->field_BF5;
             if (selected != 0) {
-                p->field_1E0[i]->sid = selected;
+                p->animation_sequences[i]->sid = selected;
                 current = selected;
             }
             Model_SeekSlotPartAnimation(p, i, current, position);
@@ -885,21 +885,21 @@ void Model_AdvanceSlotLoad(s32 index)
         if (slot->field_E1D == 0) {
             slot->field_E1E = 1;
         }
-        slot->field_E1F = 1;
+        slot->is_active = 1;
         break;
     }
 #ifndef VERSION_JAPAN
     work = VSync(1);
-    printf(gModel_szLoadModelTraceFormat, slot->field_E14, work - started);
+    printf(gModel_szLoadModelTraceFormat, slot->load_step, work - started);
 #endif
     {
         s32 next;
-        if (slot->field_E1F != 0) {
+        if (slot->is_active != 0) {
             next = 255;
         } else {
-            next = slot->field_E14 + 1;
+            next = slot->load_step + 1;
         }
-        slot->field_E14 = next;
+        slot->load_step = next;
     }
 }
 
@@ -1188,7 +1188,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
             slot->field_CF8.field_14 = -1;
             slot->field_CF8.field_18 = -1;
         }
-        slot->field_E14 = 1;
+        slot->load_step = 1;
         break;
     }
     }
@@ -1273,7 +1273,7 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 5:
-        D_800F5694[0] = 1;
+        gModel_bAuxiliaryLoadStep[0] = 1;
         break;
     }
 }
@@ -1400,7 +1400,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
         dst->field_CF8.field_18 = -1;
         dst->field_CF8.prefix.values.field_00 = 0;
         dst->field_CF8.prefix.values.field_02 = 0;
-        dst->field_E14 = 1;
+        dst->load_step = 1;
         break;
     }
 }
@@ -1435,14 +1435,14 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
     m = &gModel_aSlots[index];
     dst = m->field_DE0;
     base = m->field_DDC;
-    parts = m->field_1E0;
-    if (m->field_E1F == 0) {
+    parts = m->animation_sequences;
+    if (m->is_active == 0) {
         return;
     }
     switch (anim) {
     case -1:
         m->field_E10 = 0;
-        for (i = 0; i < m->field_E1B; parts++, i++) {
+        for (i = 0; i < m->animation_sequence_count; parts++, i++) {
             (*parts)->ii = 0xFFFF;
         }
         break;
@@ -1450,7 +1450,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
         if (m->field_E0F == 0) {
             return;
         }
-        for (i = 0; i < m->field_E1B; i++) {
+        for (i = 0; i < m->animation_sequence_count; i++) {
             restore_row = m->field_2C8[m->field_E0F][i];
             src = (u16 *)&m->field_DD8[restore_row];
             if (restore_row != 0xFFFF) {
@@ -1496,7 +1496,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
             return;
         }
         m->field_E10 = 1;
-        for (i = 0; i < m->field_E1B; parts++, i++) {
+        for (i = 0; i < m->animation_sequence_count; parts++, i++) {
             copy_row = m->field_2C8[m->field_E0F][i];
             src = (u16 *)&m->field_DD8[copy_row];
             if (copy_row != 0xFFFF) {

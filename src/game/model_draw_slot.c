@@ -187,7 +187,7 @@ void Model_DrawSlot(s32 index)
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
     texture_y = (index << 4) + 0xD0;
 #endif
-    if (slot->field_E1F == 0) {
+    if (slot->is_active == 0) {
         return;
     }
     if (index == 2 && slot->field_DA0[0] == -0x1000 && slot->field_DA0[1] == slot->field_DA0[0]
@@ -290,7 +290,7 @@ void Model_DrawSlot(s32 index)
     if (gModel_bCurrentDrawMode >= 3) {
         gModel_dwLitColorCacheBase = 0;
     }
-    for (i = 0; i < slot->field_E1A; i++, e++) {
+    for (i = 0; i < slot->hmd_unit_count; i++, e++) {
         MATRIX ls;
         MATRIX lw;
         GsCOORDUNIT *unit;
@@ -321,10 +321,10 @@ void Model_DrawSlot(s32 index)
                    GS_COORD_UNIT_VIEW(slot->entries)) * 0x14 + 0x04000001;
             k = 0;
             found = 0;
-            n = slot->field_E1B;
+            n = slot->animation_sequence_count;
             for (; k < n; k++) {
-                if (slot->field_1E0[k]->rewrite_idx == idx) {
-                    if (slot->field_1E0[k]->aframe == 0xFFFF
+                if (slot->animation_sequences[k]->rewrite_idx == idx) {
+                    if (slot->animation_sequences[k]->aframe == 0xFFFF
                         && ((slot->field_BEC[k / 8] >> (k % 8)) & 1)
                         && slot->field_750[slot->field_BF5].values[k] != 0) {
                         found = 1;
@@ -410,7 +410,7 @@ void Model_DrawSlot(s32 index)
         maxz = maxy = maxx = -0x8000;
         count = x = y = z = 0;
         e = slot->field_000;
-        for (i = 0; i < slot->field_E1A; i++, e++) {
+        for (i = 0; i < slot->hmd_unit_count; i++, e++) {
             unit = GS_COORD_UNIT_VIEW(e->field_00);
             if (unit != 0 && e->field_04 != 0
                 && (W(e->field_04, 0) != -1 || W(e->field_04, 8) != 0)) {
@@ -437,7 +437,7 @@ void Model_DrawSlot(s32 index)
         count = y = 0;
         slot->field_DD0[2] = z;
         e = slot->field_000;
-        for (i = 0; i < slot->field_E1A; i++, e++) {
+        for (i = 0; i < slot->hmd_unit_count; i++, e++) {
             unit = GS_COORD_UNIT_VIEW(e->field_00);
             if (unit != slot->field_D1C && unit != slot->field_D18 && unit != 0 && (list = e->field_04) != 0) {
                 s32 uy;
@@ -740,8 +740,8 @@ void Model_DrawSlot(s32 index)
                 s = &gModel_aSlots[index];
                 se = s->field_000;
                 fn = Model_MapToBasePrimitiveHandler;
-                if (s->field_E1F != 0) {
-                    for (i = 0; i < s->field_E1A; i++, se++) {
+                if (s->is_active != 0) {
+                    for (i = 0; i < s->hmd_unit_count; i++, se++) {
                         list = se->field_04;
                         if (list != 0) {
                             for (;;) {

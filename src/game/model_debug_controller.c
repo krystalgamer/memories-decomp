@@ -46,18 +46,18 @@ s32 ModelDebug_UpdateController(void)
         return 0;
     }
     slots = gModel_aSlots;
-    if (!slots[2].field_E1F) {
+    if (!slots[2].is_active) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
-        FntPrint(gModelDebug_szLoadStageFormat, slots[2].field_DF8, slots[2].field_E14);
+        FntPrint(gModelDebug_szLoadStageFormat, slots[2].field_DF8, slots[2].load_step);
 #endif
-        if (slots[2].field_E14 == 255) {
+        if (slots[2].load_step == 255) {
             if (!((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs))
                 Model_LoadMonsterMerge(2, -1, -1, -1, -1, -1, 0);
         } else {
             Model_AdvanceSlotLoad(2);
         }
-        if (gModel_aSlots[2].field_E1F) {
+        if (gModel_aSlots[2].is_active) {
             ModelSlot *stage = gModel_aSlots;
             s32 height;
 
@@ -78,31 +78,31 @@ s32 ModelDebug_UpdateController(void)
             Model_UpdateCoordinateUnitMatrix(stage->field_D18, 0);
             gModel_bPresentationPhase = 0;
         }
-    } else if (!slots[0].field_E1F) {
+    } else if (!slots[0].is_active) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
-        FntPrint(gModelDebug_szLoadModel0Format, slots[0].field_DF8, slots[0].field_E14);
+        FntPrint(gModelDebug_szLoadModel0Format, slots[0].field_DF8, slots[0].load_step);
 #endif
-        if (slots[0].field_E14 == 255) {
+        if (slots[0].load_step == 255) {
             if (!((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs))
                 Model_LoadMonsterMerge(0, -1, -1, -1, -1, -1, 0);
         } else {
             Model_AdvanceSlotLoad(0);
         }
-        if (gModel_aSlots[0].field_E1F)
+        if (gModel_aSlots[0].is_active)
             Model_SetSlotShadowEnabled(0, ((gModel_pBackgroundRecord->flags >> 1) ^ 1) & 1);
-    } else if (!slots[1].field_E1F) {
+    } else if (!slots[1].is_active) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
-        FntPrint(gModelDebug_szLoadModel1Format, slots[1].field_DF8, slots[1].field_E14);
+        FntPrint(gModelDebug_szLoadModel1Format, slots[1].field_DF8, slots[1].load_step);
 #endif
-        if (slots[1].field_E14 == 255) {
+        if (slots[1].load_step == 255) {
             if (!((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs))
                 Model_LoadMonsterMerge(1, -1, -1, -1, -1, -1, 0);
         } else {
             Model_AdvanceSlotLoad(1);
         }
-        if (gModel_aSlots[1].field_E1F)
+        if (gModel_aSlots[1].is_active)
             Model_SetSlotShadowEnabled(1, ((gModel_pBackgroundRecord->flags >> 1) ^ 1) & 1);
     }
 #ifndef VERSION_JAPAN
@@ -152,7 +152,7 @@ s32 ModelDebug_UpdateController(void)
                 D_8009B004.halfwords[1] -= 10;
             else
                 D_8009B004.halfwords[1] += 10;
-            if (gModel_aSlots[2].field_E1F) {
+            if (gModel_aSlots[2].is_active) {
                 ModelSlot *stage = gModel_aSlots;
                 s32 height;
 

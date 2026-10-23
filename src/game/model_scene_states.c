@@ -93,10 +93,10 @@ void Model_RunSlotHandlers(s32 index)
     u32 *next;
     s32 i;
 
-    if (base->field_E1F == 0) {
+    if (base->is_active == 0) {
         return;
     }
-    for (i = 0; i < base->field_E1A; i++, slot++) {
+    for (i = 0; i < base->hmd_unit_count; i++, slot++) {
         node = slot->field_04;
         if (node != 0) {
             while (1) {
