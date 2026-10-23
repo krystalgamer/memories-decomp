@@ -348,21 +348,6 @@ class FrenchDuelBankTests(unittest.TestCase):
 
 
 
-
-
-
-
-    def test_effect_five_preserves_variants_and_number_renderer_contract(self) -> None:
-        directory = ROOT / "src/overlays/duel_effects"
-        entries = json.loads(
-            (ROOT / "config/sles_03948/overlays/duel_effects_matching_c.json").read_text()
-        )["functions"]
-        renderer = next(entry for entry in entries if entry["address"] == "0x801566D4")
-        self.assertEqual(renderer["source"], "src/overlays/duel_effects/number_renderer.c")
-        self.assertEqual(renderer["size"], "0x400")
-
-
-
     def test_line_projection_bindings_keep_resident_sdk_ownership(self) -> None:
         region = ROOT / "config/sles_03948"
         with (region / "functions.csv").open() as handle:

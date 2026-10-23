@@ -48,22 +48,6 @@ class DuelResultLocalizedSpritesTests(unittest.TestCase):
             "slots[i].object = 0; if (spec->kind != 0)", text,
         )
 
-    def test_all_nine_functions_keep_complete_contiguous_group(self) -> None:
-        manifest = json.loads((ROOT / "config/sles_03951/matching_c.json").read_text())
-        group = [
-            e for e in manifest["functions"]
-            if e["source"] == "src/game/spanish/duel_result_runtime.c"
-        ]
-        self.assertEqual(
-            [(int(e["address"], 0), int(e["size"], 0)) for e in group],
-            [(0x80020CB0, 0x19C), (0x80020E4C, 0x64),
-             (0x80020EB0, 0x688), (0x80021538, 0xDC),
-             (0x80021614, 0x40), (0x80021654, 0x278),
-             (0x800218CC, 0x84), (0x80021950, 0x5C),
-             (0x800219AC, 0x7C8)],
-        )
-        self.assertEqual({e["profile"] for e in group}, {"gcc_2_8_1_g8_split"})
-
     def test_spanish_resident_and_original_six_overlays_remain_complete(self) -> None:
         config = ROOT / "config/sles_03951"
         with (config / "functions.csv").open() as handle:

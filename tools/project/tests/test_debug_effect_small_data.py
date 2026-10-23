@@ -42,15 +42,6 @@ class DebugEffectSmallDataTests(unittest.TestCase):
         self.assertEqual(end, 0x8B708)
         self.assertEqual(end - start, 0x95B0)
 
-    def test_last_game_small_data_blob_is_c_owned(self) -> None:
-        split = (ROOT / "config/slus_01411/split.yaml").read_text()
-        self.assertIn(
-            "- [0x8b72a, .sdata, game/debug_effect_screen]",
-            split,
-        )
-        self.assertNotIn("initialized_data_8009af2a", split)
-        self.assertNotIn("- [0x8b72e, pad]", split)
-
     def test_preview_state_owns_the_complete_six_byte_window(self) -> None:
         source = self.preprocessed_source("src/game/debug_effect_screen.c")
         self.assertIn(

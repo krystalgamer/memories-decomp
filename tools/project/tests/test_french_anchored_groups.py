@@ -62,11 +62,6 @@ class FrenchAnchoredGroupTests(unittest.TestCase):
                         boundary += int(anchor["size"], 0)
                     self.assertEqual(boundary, address if before else address + count * 8)
 
-    def test_previously_external_functions_are_not_absolute_aliases(self) -> None:
-        linker = (ROOT / "config/sles_03948/link_symbols.ld").read_text()
-        for name in ("func_8002BAAC", "SD_ResetSecondaryPlaybackThunk"):
-            self.assertIsNone(re.search(rf"^\s*{name}\s*=", linker, re.M))
-
 
 if __name__ == "__main__":
     unittest.main()

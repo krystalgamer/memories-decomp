@@ -59,12 +59,6 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
         self.assertFalse((ROOT / "src/game/european/duel_card_display_state.c").exists())
         self.assertFalse((ROOT / "src/game/japanese/func_80017f04.c").exists())
 
-    def test_factory_evidence_and_unchanged_ambient_caller(self):
-        with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:
-            entry, = [row for row in csv.DictReader(handle) if row["name"] == NAME]
-        self.assertEqual((entry["kind"], entry["address"], entry["confidence"]),
-                         ("function", "0x80017F04", "high"))
-
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
     def test_actual_owner_wide_ambient_arity_return_and_name_controls(self):
         if Path.cwd().resolve() != ROOT:

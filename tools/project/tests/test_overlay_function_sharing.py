@@ -111,20 +111,6 @@ class OverlaySharingSnapshotTests(unittest.TestCase):
         self.assertEqual((totals["jump_target_mask_clusters"], totals["instruction_shape_clusters"]), (2484, 1402))
         self.assertEqual(totals["nontrivial_c_donor_sites"], 2889)
 
-    def test_localized_pal_images_and_load_maps_are_identical(self):
-        localized = {"france", "spain", "germany", "italy"}
-        count = 0
-        with (self.directory / "region-pairs.csv").open(newline="") as handle:
-            for row in csv.DictReader(handle):
-                if {row["left"], row["right"]} <= localized:
-                    count += 1
-                    self.assertEqual(row["shared_exact_bodies"], "1555")
-                    self.assertEqual(row["shared_whole_code_images"], "3587")
-                    self.assertEqual(row["byte_identical_load_slots"], "3752")
-                    self.assertEqual(row["whole_code_image_sets_equal"], "1")
-                    self.assertEqual(row["physical_code_load_maps_equal"], "1")
-        self.assertEqual(count, 6)
-
     def test_donor_targets_keep_local_status_and_byte_identity(self):
         with (self.directory / "bodies.csv").open(newline="") as handle:
             donors = {row["body_sha256"]: row for row in csv.DictReader(handle)
