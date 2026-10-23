@@ -18,7 +18,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/duel_card_type_icon.c"
+SOURCE = REPOSITORY / "src/game/build_deck_card_transfer_icon.c"
 CASE_COUNT = 111744
 START = """
 .text
@@ -116,11 +116,20 @@ static void check_stage(s32 wanted, s32 snapshot)
     stage++;
 }
 
-void BuildDeck_UpdateCardTransferIcon(DisplayObject *object)
+/* The unit also defines BuildDeck_UpdateCardTransferIcon, the update callback
+   the constructor installs. Construction must not execute it: the callback's
+   first call is DisplayObject_MarkInitialized, so that stub fails with 30.
+   The remaining stubs only satisfy the callback's other references. */
+s32 DisplayObject_MarkInitialized(void *object)
 {
     (void)object;
-    fail(30); /* Construction installs the callback but must not execute it. */
+    fail(30);
+    return 1;
 }
+void DisplayObject_ReleaseIfPresent(void *object) { (void)object; }
+void DisplayObject_ResetVelocity(DisplayObjectVelocity *object) { (void)object; }
+void DisplayObject_StepPositionXY(DisplayObjectVelocity *object) { (void)object; }
+void SD_SEPlayFull(u32 id) { (void)id; }
 
 static void old_callback(u8 *object)
 {
