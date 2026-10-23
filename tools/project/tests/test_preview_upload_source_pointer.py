@@ -75,8 +75,8 @@ int main(void)
                 if (mode == 0) {
                     expected.descriptor.phase_size = 0x3800;
                     expected.flags &= 0xFFDCFFFF;
-                    expected.descriptor.value_0C = (u32)state.buffer;
-                    expected.descriptor.value_08 = (u32)state.buffer;
+                    expected.descriptor.alternate_sector_destination = (u32)state.buffer;
+                    expected.descriptor.sector_destination = (u32)state.buffer;
                     expected.descriptor.done = 1;
                 } else {
                     rects = (u8 *)&expected.records[slot] + 8;

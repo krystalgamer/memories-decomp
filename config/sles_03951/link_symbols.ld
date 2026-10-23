@@ -1201,3 +1201,6 @@ gText_aGlyphLookup = tent_GlyphLookupTable;
 
 /* Canonical view of the retained native countdown entry point. */
 SD_UpdateSecondaryObjectReuseCountdowns = tent_SD_AgeSecondaryObjects;
+
+/* Auxiliary-model upload sector; retain its native provider. */
+gModel_abAuxiliaryPaletteSector = D_801DD800;

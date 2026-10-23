@@ -49,16 +49,16 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
         v = gFile_TransferBufferBase;
         w = 64 * FILE_SECTOR_SIZE;
         *(s32 *)&p->phase_size = w;
-        p->value_08 = v;
+        p->sector_destination = v;
         v += FILE_SECTOR_SIZE;
-        p->value_0C = v;
+        p->alternate_sector_destination = v;
         break;
 
     case 1:
         *(s32 *)&p->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        p->value_0C = gFile_TransferBufferBase;
-        p->value_08 = gFile_TransferBufferBase;
+        p->alternate_sector_destination = gFile_TransferBufferBase;
+        p->sector_destination = gFile_TransferBufferBase;
         p->done = 1;
         break;
 
@@ -88,16 +88,16 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
         v = gFile_TransferBufferBase;
         w = 8 * FILE_SECTOR_SIZE;
         *(s32 *)&p->phase_size = w;
-        p->value_08 = v;
+        p->sector_destination = v;
         v += FILE_SECTOR_SIZE;
-        p->value_0C = v;
+        p->alternate_sector_destination = v;
         break;
 
     case 3:
         *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        p->value_0C = gFile_TransferBufferBase;
-        p->value_08 = gFile_TransferBufferBase;
+        p->alternate_sector_destination = gFile_TransferBufferBase;
+        p->sector_destination = gFile_TransferBufferBase;
         p->done = 1;
         break;
 
@@ -157,9 +157,9 @@ m0:
     v = gFile_TransferBufferBase;
     w = 0x20000;
     *(s32 *)&p->phase_size = w;
-    p->value_08 = v;
+    p->sector_destination = v;
     v += 0x800;
-    p->value_0C = v;
+    p->alternate_sector_destination = v;
     return;
 
 m1:
@@ -177,17 +177,17 @@ m1:
     v = gFile_TransferBufferBase;
     w = 0x4000;
     *(s32 *)&p->phase_size = w;
-    p->value_08 = v;
+    p->sector_destination = v;
     v += 0x800;
-    p->value_0C = v;
+    p->alternate_sector_destination = v;
     return;
 
 m2:
     m2v = 0xFFDCFFFF;
     *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
     gFile_dwTransferState_abs = gFile_dwTransferState_abs & m2v;
-    p->value_0C = gFile_TransferBufferBase;
-    p->value_08 = gFile_TransferBufferBase;
+    p->alternate_sector_destination = gFile_TransferBufferBase;
+    p->sector_destination = gFile_TransferBufferBase;
     p->done = 1;
     return;
 

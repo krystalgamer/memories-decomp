@@ -47,8 +47,8 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         p->done = 2;
         b = gFile_TransferBufferBase;
         p->field_30.h.counter = 0x340 - n * 192;
-        p->value_08 = b;
-        p->value_0C = b + FILE_SECTOR_SIZE;
+        p->sector_destination = b;
+        p->alternate_sector_destination = b + FILE_SECTOR_SIZE;
         break;
 
     case 1:
@@ -58,8 +58,8 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         t = gFile_TransferBufferBase;
         v_1 &= m2;
         gFile_dwTransferState = v_1;
-        p->value_0C = t;
-        p->value_08 = t;
+        p->alternate_sector_destination = t;
+        p->sector_destination = t;
         p->done = 1;
         break;
 
@@ -77,8 +77,8 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         t = (s32)p->callback_data;
         v_2 &= m2;
         gFile_dwTransferState = v_2;
-        p->value_0C = t;
-        p->value_08 = t;
+        p->alternate_sector_destination = t;
+        p->sector_destination = t;
         p->done = 1;
         break;
     }

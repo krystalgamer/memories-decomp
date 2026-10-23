@@ -6,6 +6,7 @@
 
 extern u8 gMainMenu_PackageStageRect[];
 extern u8 D_801DD800[];
+extern u8 gModel_abAuxiliaryPaletteSector[] __asm__("D_801DD800");
 extern u8 D_800F5694[];
 
 /* The file-transfer phase callbacks Model_LoadMonsterMerge installs

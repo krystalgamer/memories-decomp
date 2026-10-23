@@ -95,7 +95,7 @@ void File_TransferReadyCallback(s32 arg)
         if ((gFile_dwTransferState & 0x200000) == 0) {
             if ((gFile_dwTransferState & 0x40000000) == 0) {
                 CdGetSector(
-                    (void *)p->value_08,
+                    (void *)p->sector_destination,
                     FILE_SECTOR_SIZE / sizeof(u32)
                 );
             } else {
@@ -104,11 +104,11 @@ void File_TransferReadyCallback(s32 arg)
                 src = gFile_ReadySourceCursor;
                 do {
                     word = src[i];
-                    ((u32 *)t->value_08)[i] = word;
+                    ((u32 *)t->sector_destination)[i] = word;
                     i++;
                 } while (i < (s32)(FILE_SECTOR_SIZE / sizeof(u32)));
             }
-            gFile_ReadyTransferDescriptor->value_08 += FILE_SECTOR_SIZE;
+            gFile_ReadyTransferDescriptor->sector_destination += FILE_SECTOR_SIZE;
         }
         transfer = gFile_ReadyTransferDescriptor;
         remaining = transfer->total_bytes;
@@ -133,14 +133,14 @@ void File_TransferReadyCallback(s32 arg)
         }
         return;
     case 2:
-        /* The image phase alternates between the value_08 and value_0C
+        /* The image phase alternates between the sector_destination and alternate_sector_destination
            buffers. Retail adds the descriptor base first (`addu v0,a0,v0`);
-           `(&p->value_08)[i]` puts the scaled index first instead, so the
+           `(&p->sector_destination)[i]` puts the scaled index first instead, so the
            pair is still selected by an integer sum with the member-derived
            base offset. */
         dst = (u8 *)*(u32 *)(
             (u32)p + ((p->buffer_index & 1) << 2) +
-            (u32)&((FileTransferDescriptor *)0)->value_08
+            (u32)&((FileTransferDescriptor *)0)->sector_destination
         );
         if ((gFile_dwTransferState & 0x40000000) == 0) {
             CdGetSector(dst, FILE_SECTOR_SIZE / sizeof(u32));
@@ -180,7 +180,7 @@ void File_TransferReadyCallback(s32 arg)
         goto step;
     case 3:
         n = FILE_SECTOR_SIZE;
-        dst = (u8 *)p->value_08;
+        dst = (u8 *)p->sector_destination;
         if (p->phase_remaining < n) {
             n = p->phase_remaining;
         }
@@ -542,7 +542,7 @@ void File_ServiceTransfers(s32 arg0)
    Model_LoadAuxiliaryPackageStage and func_80057728: File_RequestSecondarySlot below installs it through
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first
    argument is the descriptor that entry point fills in. It programs the same
-   fields the other two do -- the value_08/value_0C source window,
+   fields the other two do -- the sector_destination/alternate_sector_destination source window,
    phase_size, the word at field_30 and done -- which is what its old private
    record named
    value_8, value_c, value_1c, value_30 and mode_46. */
@@ -573,8 +573,8 @@ full:
     }
     object->done = 3;
     base = gFile_TransferBufferBase;
-    object->value_08 = base;
-    object->value_0C = base + FILE_SECTOR_SIZE;
+    object->sector_destination = base;
+    object->alternate_sector_destination = base + FILE_SECTOR_SIZE;
     object->field_30.word = shared->field_0C;
     value = shared->field_14;
     object->phase_size = value;
@@ -584,8 +584,8 @@ reduced:
         goto tail;
     position = shared->field_10;
     gFile_dwTransferState &= 0xFFDCFFFF;
-    object->value_0C = position;
-    object->value_08 = position;
+    object->alternate_sector_destination = position;
+    object->sector_destination = position;
     object->done = 1;
     value = shared->field_18;
     object->phase_size = value;

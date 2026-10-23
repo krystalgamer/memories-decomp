@@ -52,9 +52,9 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         w |= 0x10000;
         gFile_dwTransferState = w;
         p->done = 2;
-        t = (p->value_08 = gFile_TransferBufferBase);
+        t = (p->sector_destination = gFile_TransferBufferBase);
         *(s32 *)&p->phase_size = CAMPAIGN_SCENE_STAGE0_SECTORS * FILE_SECTOR_SIZE;
-        p->value_0C = t + FILE_SECTOR_SIZE;
+        p->alternate_sector_destination = t + FILE_SECTOR_SIZE;
         break;
 
     case 1:
@@ -64,8 +64,8 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         t = gFile_TransferBufferBase;
         v_1 &= m;
         gFile_dwTransferState = v_1;
-        p->value_0C = t;
-        p->value_08 = t;
+        p->alternate_sector_destination = t;
+        p->sector_destination = t;
         p->done = 1;
         break;
 
@@ -76,8 +76,8 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         p->w = 0x100;
         p->h = 1;
         LoadImage2((RECT *)p, (u32 *)c);
-        *(s32 *)&p->value_0C = (s32)D_801A8000;
-        *(s32 *)&p->value_08 = (s32)D_801A8000;
+        *(s32 *)&p->alternate_sector_destination = (s32)D_801A8000;
+        *(s32 *)&p->sector_destination = (s32)D_801A8000;
         m = 0xFFDCFFFF;
         v_2 = gFile_dwTransferState;
         p->phase_size = 0x1000;
@@ -93,8 +93,8 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         t = (s32)gRuntime_pSharedWorkBase;
         v_3 &= m;
         gFile_dwTransferState = v_3;
-        p->value_0C = t;
-        p->value_08 = t;
+        p->alternate_sector_destination = t;
+        p->sector_destination = t;
         p->done = 1;
         break;
     }

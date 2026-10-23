@@ -146,7 +146,7 @@ void File_CancelTransfers(void);
  *
  * It reaches the same two descriptor fields that take a buffer address in the
  * case immediately above it -- Password_LoadPackageStage's case 2 writes
- * `value_08 = (s32)D_801A8000`, and its case 3 writes this word into the same
+ * `sector_destination = (s32)D_801A8000`, and its case 3 writes this word into the same
  * two fields -- so the word is a stored address and is declared as one.  Every read is a single load of that word; the array and
  * scalar spellings this replaces reached it as `*(s32 *)(gFile_pScreenBankBase)` and as
  * a plain read, which are the same load.
