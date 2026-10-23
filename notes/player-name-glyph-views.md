@@ -60,8 +60,13 @@ The Japanese pair mappings are actual compiler-expanded assembler
 identities from the existing wrapper, not guessed bindings derived
 from North American-looking suffixes. Current-name aliases in the
 resident and Password images retain their original image-local
-providers. The automatic North American providers remain symbolic
-without new guessed numeric assignments.
+providers. The original automatic North American providers remain
+untouched. The North American Password canonical import uses
+`PROVIDE(gText_aCurrentPlayerNameGlyphs = D_801B125A)`: actual glyph
+imports still require the original automatic provider, while unrelated
+standalone import links do not evaluate an unused alias expression.
+No production address is pinned or invented, and the existing
+positive/missing-target import controls remain unchanged.
 
 The paired-output header follows `unmatched.h` only in the paired
 consumer. The current-output header follows the original `save_data.h`
@@ -70,12 +75,14 @@ the existing European guard, preserving the complete North American
 and Japanese absence. Old owner headers and all regional wrappers
 remain unchanged.
 
-Actual CPP and named-profile objects cover 25 source/profile contexts
-and 284 registrations. Seventeen imports are active: four each for the
-paired outputs and nine for the current output. Canonical declarations
-retain ten additional unused current-name views. Four other unused
-current-name declarations stay legacy-only, and all forty-four
-declaration/reference absences remain absent.
+Actual CPP and named-profile objects cover 45 source/profile contexts
+and 414 registrations, including the separately named PAL Password A
+and B manifests and their shared import files. Twenty-one imports are
+active: four each for the paired outputs and thirteen for the current
+output. Canonical declarations retain twenty-six additional unused
+current-name views. Four other unused current-name declarations stay
+legacy-only, and all eighty-four declaration/reference absences
+remain absent.
 
 No new storage, copy, converter, decoder, stream helper, bounds check,
 testcase or harness is introduced. All existing tests and physical
