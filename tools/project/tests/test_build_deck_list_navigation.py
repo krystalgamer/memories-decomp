@@ -35,7 +35,7 @@ class BuildDeckListNavigationTests(unittest.TestCase):
         )
         self.assertEqual(
             sources["0x80033500"],
-            "src/game/build_deck_active_card.c",
+            "src/game/build_deck_pane_input.c",
         )
         self.assertEqual(
             sources["0x80033998"],
