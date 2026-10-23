@@ -30,6 +30,7 @@
 #include "duel_rank.h"
 #include "sound.h"
 #include "../unmatched.h"
+#include "fade_state_bytes.h"
 #include "duel_session_controls.h"
 #include "duel_create_hand_card_display_object.h"
 #include "duel_update_draw_card_slide.h"
@@ -277,7 +278,7 @@ next_obj:
         gDuelEffect_pTrackedRequest = 0;
         D_8009B23A = D_8009B23A | 0x4000;
         Fade_StartOutKeepOverlay();
-        D_800E9ECF[0] = 2;
+        gFade_bStep[0] = 2;
         SD_BGMFadeOutWithStep(2);
         return;
     }
