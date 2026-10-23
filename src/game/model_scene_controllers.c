@@ -66,7 +66,9 @@
 #include "model_slot_state_updates.h"
 #include "model_queue_relative_camera_orbit.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "high_memory_addresses.h"
+#include "model_load_words.h"
 #include "../psyq/libgs.h"
 /* libhmd.h names MATRIX, GsOT and GsCOORDUNIT without including anything, so
    it only parses after libgte.h, libgpu.h and libgs.h, all included above. */
@@ -748,7 +750,7 @@ void Model_UpdateExodiaPresentation(void)
     case 0: {
         ModelSlot *current;
         if (gModel_aSlots[0].field_E14 == 0xFF) {
-            if ((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs) {
+            if ((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs) {
                 goto check_ready;
             }
             Model_LoadMonsterMerge(
@@ -928,8 +930,8 @@ void Model_UpdateCreditsMonsterSlot(s32 arg0) {
     p = b0 + arg0;
     if (p->field_E1F == 0) {
         if (p->field_E14 == 0xFF) {
-            if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                 D_8009B134_abs) == 0) {
+            if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 gFile_dwCancelRequestState_abs) == 0) {
                 do {
                     t = rand() >> 8;
                     v = t % CARD_COUNT;
@@ -1023,7 +1025,7 @@ void Model_UpdateCreditsPresentation(void)
     case -1:
       File_RequestAsyncTransfer(
           1, gModel_szSuMrgPath, MODEL_INTRO_PACKAGE_START_SECTOR,
-          16, 0, 0, D_80010030);
+          16, 0, 0, gModel_CreditsModuleAddress);
       File_WaitForTransfers();
       D_8009B004.fields.field_01 = 0;
       D_8009B004.fields.field_00 = 0;
@@ -1034,7 +1036,7 @@ void Model_UpdateCreditsPresentation(void)
       Model_SetSlotTintTarget(1, 2, 0, 0, 0);
       func_801807B0();
       func_80181C4C(0);
-      SD_SetMusicTrackBuffer((u16 *)D_80010034);
+      SD_SetMusicTrackBuffer((u16 *)gModel_pCreditsMusicTrackBuffer);
       SD_BGMPlayDefaultStep(29488);
       phase_value = gModel_bPresentationPhase + 1;
       goto store_phase;

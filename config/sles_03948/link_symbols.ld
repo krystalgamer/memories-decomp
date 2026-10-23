@@ -1115,3 +1115,34 @@ gDuel_bFieldActionAutoCommit = D_8009C0CC;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
 gScript_pMenuRecord = D_8009B274;
+
+gFile_dwTransferState = D_8009B0F4;
+gFile_dwTransferState_abs = D_8009B0F4;
+gFile_dwCancelRequestState = D_8009B134;
+gFile_dwCancelRequestState_abs = D_8009B134;
+
+gFile_TransferBufferBase = D_8009B118;
+gFile_abPackageStagingBuffer = D_801DD000;
+gModel_abTexturePaletteStaging = D_801DE000;
+
+gDisplay_abResourceBank0 = D_801AF000;
+gDisplay_abResourceBank1 = D_801AF800;
+
+gModel_pSlot1PayloadBase = D_80010004;
+gModel_AuxiliaryPayloadAddress = D_80010008;
+gModel_CreditsModuleAddress = D_80010030;
+gModel_pCreditsMusicTrackBuffer = D_80010034;
+
+gDebug_abEditorCaretColumns = tent_DebugInterfaceFieldB4;
+gDebug_bEditorCaretColumn1 = tent_DebugInterfaceFieldB5;
+gDebug_bEditorCaretColumn2 = tent_DebugInterfaceFieldB6;
+gDebug_bEditorLeadingLineCount = tent_DebugInterfaceFieldB8;
+gDebug_abEditorDigitCounts = tent_DebugInterfaceFieldC0;
+gDebug_bEditorDigitCount1 = tent_DebugInterfaceFieldC1;
+gDebug_bEditorDigitCount2 = tent_DebugInterfaceFieldC2;
+gDebug_bEditorRowCount = tent_DebugInterfaceFieldE0;
+gDebug_bEditorFlags = tent_DebugInterfaceFlags;
+gDebug_pszEditorFormat = tent_DebugInterfaceData;
+
+gText_StagedValues = D_801D5608;
+gDuel_DroppedCardTextValue = D_801D56A8;

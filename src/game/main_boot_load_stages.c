@@ -2,9 +2,12 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "main_boot_load_stages.h"
 #include "display_asset_banks.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
+#include "file_transfer_buffer.h"
 #ifdef VERSION_EUROPE
 #include "high_memory_addresses.h"
 #endif
@@ -29,22 +32,22 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         w = 0x40;
         obj->field_30.h.field_32 = 0;
         obj->w = w;
-        D_8009B0F4 &= m;
+        gFile_dwTransferState &= m;
         m = 0x10000;
         obj->phase_size = m;
-        D_8009B0F4 |= m;
+        gFile_dwTransferState |= m;
         obj->done = 2;
         obj->h = 0x10;
-        obj->value_08 = D_8009B118;
-        obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        obj->value_08 = gFile_TransferBufferBase;
+        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
     }
 
     case 1:
         obj->phase_size = 2 * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
-        obj->value_0C = D_8009B118;
-        obj->value_08 = D_8009B118;
+        gFile_dwTransferState &= 0xFFDCFFFF;
+        obj->value_0C = gFile_TransferBufferBase;
+        obj->value_08 = gFile_TransferBufferBase;
         obj->done = 1;
         break;
 
@@ -53,9 +56,9 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->y = 0xF8;
         obj->w = 0x100;
         obj->h = 8;
-        LoadImage2((RECT *)obj, (u32 *)D_8009B118);
+        LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
         obj->phase_size = 3 * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         obj->value_0C = (s32)gFile_pScreenBankBase;
         obj->value_08 = (s32)gFile_pScreenBankBase;
         obj->done = 1;
@@ -75,16 +78,16 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->field_30.h.counter = 0x280;
         obj->w = 0x40;
         obj->h = 0x10;
-        cleared = D_8009B0F4 & 0xFFDDFFFF;
-        D_8009B0F4 = cleared;
-        do { loaded = D_8009B0F4; } while (0);
+        cleared = gFile_dwTransferState & 0xFFDDFFFF;
+        gFile_dwTransferState = cleared;
+        do { loaded = gFile_dwTransferState; } while (0);
         do { enabled = 0x10000; } while (0);
         obj->field_30.h.field_32 = 0;
-        D_8009B0F4 = loaded | enabled;
+        gFile_dwTransferState = loaded | enabled;
         obj->done = 2;
         obj->phase_size = 12 * FILE_SECTOR_SIZE;
-        obj->value_08 = D_8009B118;
-        obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        obj->value_08 = gFile_TransferBufferBase;
+        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
     }
 
@@ -96,16 +99,16 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->field_30.h.counter = 0x2C0;
         obj->w = 0x40;
         obj->h = 0x10;
-        cleared = D_8009B0F4 & 0xFFDDFFFF;
-        D_8009B0F4 = cleared;
-        do { loaded = D_8009B0F4; } while (0);
+        cleared = gFile_dwTransferState & 0xFFDDFFFF;
+        gFile_dwTransferState = cleared;
+        do { loaded = gFile_dwTransferState; } while (0);
         do { enabled = 0x10000; } while (0);
         obj->field_30.h.field_32 = 0;
-        D_8009B0F4 = loaded | enabled;
+        gFile_dwTransferState = loaded | enabled;
         obj->done = 2;
         obj->phase_size = 13 * FILE_SECTOR_SIZE;
-        obj->value_08 = D_8009B118;
-        obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        obj->value_08 = gFile_TransferBufferBase;
+        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
     }
 
@@ -117,24 +120,24 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->field_30.h.counter = 0x300;
         obj->w = 0x40;
         obj->h = 0x10;
-        cleared = D_8009B0F4 & 0xFFDDFFFF;
-        D_8009B0F4 = cleared;
-        do { loaded = D_8009B0F4; } while (0);
+        cleared = gFile_dwTransferState & 0xFFDDFFFF;
+        gFile_dwTransferState = cleared;
+        do { loaded = gFile_dwTransferState; } while (0);
         do { enabled = 0x10000; } while (0);
         obj->field_30.h.field_32 = 0;
-        D_8009B0F4 = loaded | enabled;
+        gFile_dwTransferState = loaded | enabled;
         obj->done = 2;
         obj->phase_size = 13 * FILE_SECTOR_SIZE;
-        obj->value_08 = D_8009B118;
-        obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        obj->value_08 = gFile_TransferBufferBase;
+        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
     }
 
     case 3:
         obj->phase_size = 2 * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
-        obj->value_0C = D_8009B118;
-        obj->value_08 = D_8009B118;
+        gFile_dwTransferState &= 0xFFDCFFFF;
+        obj->value_0C = gFile_TransferBufferBase;
+        obj->value_08 = gFile_TransferBufferBase;
         obj->done = 1;
         break;
 
@@ -143,11 +146,11 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->y = 0xF8;
         obj->w = 0x100;
         obj->h = 8;
-        LoadImage2((RECT *)obj, (u32 *)D_8009B118);
+        LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
         obj->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
-        obj->value_0C = D_8009B118 + 2 * FILE_SECTOR_SIZE;
-        obj->value_08 = D_8009B118 + 2 * FILE_SECTOR_SIZE;
+        gFile_dwTransferState &= 0xFFDCFFFF;
+        obj->value_0C = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
+        obj->value_08 = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
         obj->done = 1;
         break;
 
@@ -156,9 +159,9 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->y = 0xC0;
         obj->w = 0x10;
         obj->h = 8;
-        LoadImage2((RECT *)obj, (u32 *)(D_8009B118 + 2 * FILE_SECTOR_SIZE));
+        LoadImage2((RECT *)obj, (u32 *)(gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE));
         obj->phase_size = 30 * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         obj->value_0C = (s32)D_800101E0;
         obj->value_08 = (s32)D_800101E0;
         obj->done = 1;
@@ -166,7 +169,7 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
 
     case 6:
         obj->phase_size = 32 * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         obj->value_0C = (s32)D_800101E4;
         obj->value_08 = (s32)D_800101E4;
         obj->done = 1;
@@ -174,7 +177,7 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
 
     case 7:
         obj->phase_size = 7 * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         obj->value_0C = (s32)D_800101E8;
         obj->value_08 = (s32)D_800101E8;
         obj->done = 1;
@@ -187,19 +190,19 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->field_30.h.field_32 = 0;
         obj->w = 0x40;
         obj->h = 0x10;
-        D_8009B0F4 &= 0xFFDDFFFF;
+        gFile_dwTransferState &= 0xFFDDFFFF;
         obj->phase_size = 48 * FILE_SECTOR_SIZE;
-        D_8009B0F4 |= 0x10000;
+        gFile_dwTransferState |= 0x10000;
         obj->done = 2;
-        obj->value_08 = D_8009B118;
-        obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        obj->value_08 = gFile_TransferBufferBase;
+        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         obj->phase_size = 2 * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
-        obj->value_0C = D_8009B118;
-        obj->value_08 = D_8009B118;
+        gFile_dwTransferState &= 0xFFDCFFFF;
+        obj->value_0C = gFile_TransferBufferBase;
+        obj->value_08 = gFile_TransferBufferBase;
         obj->done = 1;
         break;
 
@@ -208,11 +211,11 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->y = 0xF8;
         obj->w = 0x100;
         obj->h = 8;
-        LoadImage2((RECT *)obj, (u32 *)D_8009B118);
+        LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
         obj->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
-        obj->value_0C = D_8009B118 + 2 * FILE_SECTOR_SIZE;
-        obj->value_08 = D_8009B118 + 2 * FILE_SECTOR_SIZE;
+        gFile_dwTransferState &= 0xFFDCFFFF;
+        obj->value_0C = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
+        obj->value_08 = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
         obj->done = 1;
         break;
 
@@ -221,9 +224,9 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->y = 0xE8;
         obj->w = 0x10;
         obj->h = 8;
-        LoadImage2((RECT *)obj, (u32 *)(D_8009B118 + 2 * FILE_SECTOR_SIZE));
+        LoadImage2((RECT *)obj, (u32 *)(gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE));
         obj->phase_size = 3 * FILE_SECTOR_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
+        gFile_dwTransferState &= 0xFFDCFFFF;
         obj->value_0C = (s32)gFile_pScreenBankBase;
         obj->value_08 = (s32)gFile_pScreenBankBase;
         obj->done = 1;
@@ -269,17 +272,17 @@ m0:
     m = 0xFFDDFFFF;
     p->field_30.h.counter = 0xC0;
     p->field_30.h.field_32 = 0x100;
-    v = D_8009B0F4;
+    v = gFile_dwTransferState;
     f = 0x40;
     p->w = f;
-    D_8009B0F4 = v & m;
-    w = D_8009B0F4;
+    gFile_dwTransferState = v & m;
+    w = gFile_dwTransferState;
     m = 0x10000;
     do {
         p->phase_size = m;
-        D_8009B0F4 = w | m;
+        gFile_dwTransferState = w | m;
         p->done = 2;
-        d = D_8009B118;
+        d = gFile_TransferBufferBase;
         p->h = 0x10;
     } while (0);
     p->value_08 = d;
@@ -288,9 +291,9 @@ m0:
 
 m1:
     p->phase_size = FILE_SECTOR_SIZE;
-    D_8009B0F4 = D_8009B0F4 & 0xFFDCFFFF;
-    p->value_0C = D_8009B118;
-    p->value_08 = D_8009B118;
+    gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
+    p->value_0C = gFile_TransferBufferBase;
+    p->value_08 = gFile_TransferBufferBase;
     goto tail;
 
 m2:
@@ -298,18 +301,18 @@ m2:
     p->y = 0xE0;
     p->w = 0x100;
     p->h = 4;
-    LoadImage2((RECT *)p, (u32 *)D_8009B118);
-    p->value_0C = (u32)D_801AF000;
-    p->value_08 = (u32)D_801AF000;
-    x = D_8009B0F4;
+    LoadImage2((RECT *)p, (u32 *)gFile_TransferBufferBase);
+    p->value_0C = (u32)gDisplay_abResourceBank0;
+    p->value_08 = (u32)gDisplay_abResourceBank0;
+    x = gFile_dwTransferState;
     p->phase_size = 0x800;
-    D_8009B0F4 = x & 0xFFDCFFFF;
+    gFile_dwTransferState = x & 0xFFDCFFFF;
     p->done = one;
     return;
 
 m3:
     p->phase_size = 3 * FILE_SECTOR_SIZE;
-    D_8009B0F4 = D_8009B0F4 & 0xFFDCFFFF;
+    gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
     p->value_0C = (u32)gFile_pScreenBankBase;
     p->value_08 = (u32)gFile_pScreenBankBase;
 
@@ -348,20 +351,20 @@ void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
 m0:
     m = 0xFFDDFFFF;
     p->field_30.h.field_32 = 0x100;
-    v = D_8009B0F4;
+    v = gFile_dwTransferState;
     f = 0x40;
     do {
         p->field_30.h.counter = 0;
     } while (0);
     p->w = f;
-    D_8009B0F4 = v & m;
-    w = D_8009B0F4;
+    gFile_dwTransferState = v & m;
+    w = gFile_dwTransferState;
     m = 0x10000;
     do {
         p->phase_size = m;
-        D_8009B0F4 = w | m;
+        gFile_dwTransferState = w | m;
         p->done = 2;
-        d = D_8009B118;
+        d = gFile_TransferBufferBase;
         p->h = 0x10;
     } while (0);
     p->value_08 = d;
@@ -370,9 +373,9 @@ m0:
 
 m1:
     p->phase_size = FILE_SECTOR_SIZE;
-    D_8009B0F4 = D_8009B0F4 & 0xFFDCFFFF;
-    p->value_0C = D_8009B118;
-    p->value_08 = D_8009B118;
+    gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
+    p->value_0C = gFile_TransferBufferBase;
+    p->value_08 = gFile_TransferBufferBase;
     goto tail;
 
 m2:
@@ -381,19 +384,19 @@ m2:
     } while (0);
     /* The RECT halves are stored through the members' addresses as u16.
      * A plain member store, or an s16 cast that fold turns back into one,
-     * is an in-struct reference and is reordered against the D_8009B118
+     * is an in-struct reference and is reordered against the gFile_TransferBufferBase
      * load; retail keeps these in source order around LoadImage2. */
     *(u16 *)&p->y = 0xF0;
-    e = D_8009B118;
+    e = gFile_TransferBufferBase;
     *(u16 *)&p->x = hun;
     *(u16 *)&p->w = hun;
     *(u16 *)&p->h = 4;
     LoadImage2((RECT *)p, (u32 *)e);
-    p->value_0C = (u32)D_801AF000;
-    p->value_08 = (u32)D_801AF000;
-    x = D_8009B0F4;
+    p->value_0C = (u32)gDisplay_abResourceBank0;
+    p->value_08 = (u32)gDisplay_abResourceBank0;
+    x = gFile_dwTransferState;
     p->phase_size = 0x800;
-    D_8009B0F4 = x & 0xFFDCFFFF;
+    gFile_dwTransferState = x & 0xFFDCFFFF;
 
 tail:
     p->done = one;

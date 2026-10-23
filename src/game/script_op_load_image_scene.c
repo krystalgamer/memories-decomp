@@ -3,6 +3,7 @@
 #include "script_command_busy.h"
 #include "fade.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "script_state.h"
@@ -42,8 +43,8 @@ void Script_OpLoadImageScene(void)
     }
     flags = gScript_wCommandWord;
     if ((flags & 0x800) == 0) {
-        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134_abs) == 0) {
+        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState_abs) == 0) {
             gScript_wCommandWord = flags | 0x800;
             ScriptImage_RebuildObjects(
                 SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), -1);

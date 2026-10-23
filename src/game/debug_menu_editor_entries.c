@@ -16,6 +16,7 @@
 #include "../psyq/libgpu.h"
 #include "frontend_debug_tables.h"
 #include "frontend_debug_state.h"
+#include "debug_value_editor_config.h"
 #include "frontend_step_tables.h"
 #include "display_object_brightness.h"
 #include "duel_interface_setup.h"
@@ -91,10 +92,10 @@ s32 DebugMenu_UpdateValueEditor(void)
     ret = 0;
     *(Bytes8 *)d = *(Bytes8 *)gDebugMenu_awNibbleMasks;
     db = d;
-    t2 = tent_DebugInterfaceFieldC0[gDebug_bEditorRow];
-    if ((tent_DebugInterfaceFlags & 0x80) == 0) {
-        tent_DebugInterfaceFlags = tent_DebugInterfaceFlags | 0x80;
-        if ((tent_DebugInterfaceFlags & 0x40) != 0) {
+    t2 = gDebug_abEditorDigitCounts[gDebug_bEditorRow];
+    if ((gDebug_bEditorFlags & 0x80) == 0) {
+        gDebug_bEditorFlags = gDebug_bEditorFlags | 0x80;
+        if ((gDebug_bEditorFlags & 0x40) != 0) {
             jj = (s8)t2 - 1;
             row.words = &FRONTEND_DEBUG_VALUES.row[gDebug_bEditorRow];
             val = *row.words;
@@ -110,7 +111,7 @@ s32 DebugMenu_UpdateValueEditor(void)
         }
         goto fill;
     }
-    if ((tent_DebugInterfaceFlags & 1) != 0) {
+    if ((gDebug_bEditorFlags & 1) != 0) {
         goto fill;
     }
     if (((gInput_wPad1Held[0] | gInput_wPad2Held[0]) & 0x800) != 0) {
@@ -131,7 +132,7 @@ s32 DebugMenu_UpdateValueEditor(void)
         if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x4000) != 0) {
             step = -step;
         }
-        if ((tent_DebugInterfaceFlags & 0x40) != 0) {
+        if ((gDebug_bEditorFlags & 0x40) != 0) {
             /* A u16 cursor folds the negation and swaps the addu operands. */
             mask = *(u16 *)(db - -(e * 2));
             i = e;
@@ -172,12 +173,12 @@ s32 DebugMenu_UpdateValueEditor(void)
         gDebug_bEditorDigit = gDebug_bEditorDigit - 1;
         if (gDebug_bEditorDigit < 0) {
             gDebug_bEditorRow = gDebug_bEditorRow + 1;
-            if (gDebug_bEditorRow >= (s8)tent_DebugInterfaceFieldE0) {
-                gDebug_bEditorRow = tent_DebugInterfaceFieldE0 - 1;
+            if (gDebug_bEditorRow >= (s8)gDebug_bEditorRowCount) {
+                gDebug_bEditorRow = gDebug_bEditorRowCount - 1;
                 gDebug_bEditorDigit = 0;
                 goto fill;
             }
-            f = tent_DebugInterfaceFieldC0[gDebug_bEditorRow] - 1;
+            f = gDebug_abEditorDigitCounts[gDebug_bEditorRow] - 1;
             goto setpos;
         }
     } else {
@@ -186,7 +187,7 @@ s32 DebugMenu_UpdateValueEditor(void)
             gDebug_bEditorDigit = 0;
             gDebug_bEditorRow = gDebug_bEditorRow - 1;
             if (gDebug_bEditorRow < 0) {
-                f = tent_DebugInterfaceFieldC0[0] - 1;
+                f = gDebug_abEditorDigitCounts[0] - 1;
                 gDebug_bEditorRow = 0;
             setpos:
                 gDebug_bEditorDigit = f;
@@ -204,18 +205,18 @@ fill:
         z = z - 1;
     } while (i >= 0);
     r = &gDebug_szEditorCaretLine[
-        tent_DebugInterfaceFieldB4[gDebug_bEditorRow] - gDebug_bEditorDigit];
+        gDebug_abEditorCaretColumns[gDebug_bEditorRow] - gDebug_bEditorDigit];
     r[0] = 0x2A;
     r[1] = 0;
 out:
-    i = (s8)tent_DebugInterfaceFieldB8;
+    i = (s8)gDebug_bEditorLeadingLineCount;
     if (i != 0) {
         do {
             FntPrint(gDebugMenu_szLineBreak);
             i = i - 1;
         } while (i != 0);
     }
-    FntPrint((char *)tent_DebugInterfaceData, gDebug_nSceneOrSoundID,
+    FntPrint((char *)gDebug_pszEditorFormat, gDebug_nSceneOrSoundID,
              gDebug_nEditedBgmId, gDebug_nEditedCdSoundId);
     FntPrint(gDebugMenu_szStringLineFormat, gDebug_szEditorCaretLine);
     return ret;
@@ -241,8 +242,8 @@ void func_80030808(void)
         DebugMenu_DimPrimaryDisplayObject();
         gDebug_nSceneOrSoundID = D_8009C02B;
         DebugMenu_OpenValueEditor(gDebugMenu_szLanguageEditorFormat, 0x15, 0x15, 0x15, 5, 1, 1);
-        tent_DebugInterfaceFieldC2 = 3;
-        tent_DebugInterfaceFieldC1 = 3;
+        gDebug_bEditorDigitCount2 = 3;
+        gDebug_bEditorDigitCount1 = 3;
         return;
     }
 
@@ -279,8 +280,8 @@ void DebugMenu_UpdateSoundEntry(void)
         gDebug_nEditedBgmId = gDebug_nLastBgmId;
         gDebug_nEditedCdSoundId = gDebug_nLastSoundID[1];
         DebugMenu_OpenValueEditor(gDebugMenu_szSoundEditorFormat, 0x11, 0x19, 0x21, 9, 4, count);
-        tent_DebugInterfaceFieldC2 = count;
-        tent_DebugInterfaceFieldC1 = count;
+        gDebug_bEditorDigitCount2 = count;
+        gDebug_bEditorDigitCount1 = count;
         return;
     }
 
@@ -398,7 +399,7 @@ void DebugMenu_UpdateCampaignEntry(void)
             TextBox_Destroy(textbox);
             DisplayObject_ReleaseIfPresent(gCampaign_PrimaryDisplayObject);
             gDebugMenu_bStep = gDebugMenu_bStep & 0x9F;
-            tent_DebugInterfaceFlags = tent_DebugInterfaceFlags & 0xFE;
+            gDebug_bEditorFlags = gDebug_bEditorFlags & 0xFE;
         }
     } else if (result != 0) {
         if (result < 0) {
@@ -409,7 +410,7 @@ void DebugMenu_UpdateCampaignEntry(void)
         if (gDebugMenu_bCampaignEditField == 0) {
             gDebugMenu_bStep = flags | 0x40;
             gDebugMenu_wMessageId = gDebug_nSceneOrSoundID;
-            tent_DebugInterfaceFlags = tent_DebugInterfaceFlags | 1;
+            gDebug_bEditorFlags = gDebug_bEditorFlags | 1;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
             /* The Japanese and European builds make neither this call nor
                the diagnostic print. */

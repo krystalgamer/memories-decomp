@@ -28,6 +28,7 @@
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "sound.h"
 #include "../unmatched.h"
 #include "duel_scene_card_placement.h"
@@ -311,7 +312,7 @@ request_combination:
     case 4:
         {
             DisplayObject **slots;
-            if ((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs)
+            if ((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs)
             return;
             if (!(gDuel_bSceneSubStep & 0x80)) {
                 gDuel_bSceneSubStep |= 0x80;

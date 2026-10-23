@@ -49,11 +49,11 @@ WITNESS = r"""
 #include "src/game/file_ready_sector.h"
 
 FileTransferDescriptor *gFile_ReadyTransferDescriptor;
-volatile u32 D_8009B0F4;
+volatile u32 gFile_dwTransferState;
 u32 *gFile_ReadySourceCursor;
 u8 gFile_ReadyEventCount;
 s32 gFile_anLba[1];
-u32 D_8009B134;
+u32 gFile_dwCancelRequestState;
 s32 gFile_ReadyDataEventCount;
 s32 gFile_CommandRetryCount;
 volatile u16 gFile_wStepState;
@@ -195,7 +195,7 @@ static void setup(s32 mode, s32 software)
         for (i = 0; i < 1024; i++) buffers[j][i] = 0xCCCCCCCC;
     gFile_ReadyTransferDescriptor = &descriptor;
     gFile_ReadySourceCursor = input;
-    D_8009B0F4 = 0x510 | (software ? 0x40000000 : 0);
+    gFile_dwTransferState = 0x510 | (software ? 0x40000000 : 0);
     gFile_ReadyEventCount = 9;
     gFile_ReadyDataEventCount = 17;
     descriptor.done = mode;
@@ -239,14 +239,14 @@ static s32 ignored_events(void)
         CHECK(descriptor.total_bytes == 0x1800 &&
               descriptor.phase_remaining == 0x1800 &&
               descriptor.value_08 == (u32)buffers[0] &&
-              buffers[0][0] == 0xCCCCCCCC && D_8009B0F4 == 0x40000510, 12);
+              buffers[0][0] == 0xCCCCCCCC && gFile_dwTransferState == 0x40000510, 12);
     }
     setup(99, 1);
     gFile_ReadyDataEventCount = 0x7FFFFFFF;
     File_TransferReadyCallback(0x101);
     CHECK(gFile_ReadyEventCount == 10 && (u32)gFile_ReadyDataEventCount == 0x80000000, 13);
     CHECK(!event_count && gFile_ReadySourceCursor == input &&
-          descriptor.total_bytes == 0x1800 && D_8009B0F4 == 0x40000510, 14);
+          descriptor.total_bytes == 0x1800 && gFile_dwTransferState == 0x40000510, 14);
     return 0;
 }
 
@@ -256,12 +256,12 @@ static s32 ram(void)
     for (software = 0; software < 2; software++)
     for (skip = 0; skip < 2; skip++) {
         setup(1, software);
-        if (skip) D_8009B0F4 |= 0x200000;
+        if (skip) gFile_dwTransferState |= 0x200000;
         File_TransferReadyCallback(0x101);
         CHECK(descriptor.value_08 == (u32)buffers[0] + (skip ? 0 : 2048), 20);
         CHECK(gFile_ReadySourceCursor == input + 512 && descriptor.total_bytes == 4096 &&
               descriptor.phase_remaining == 4096 && descriptor.buffer_index == 0, 21);
-        CHECK(gFile_ReadyEventCount == 10 && gFile_ReadyDataEventCount == 18 && (D_8009B0F4 & 0x100), 22);
+        CHECK(gFile_ReadyEventCount == 10 && gFile_ReadyDataEventCount == 18 && (gFile_dwTransferState & 0x100), 22);
         CHECK(cd_calls == (!software && !skip), 23);
         if (!software && !skip)
             CHECK(cd_words == 512 && cd_destination == buffers[0], 24);
@@ -304,7 +304,7 @@ static s32 image(void)
         descriptor.buffer_index = index ? 0xFFFF : 0xFFFE;
         descriptor.field_30.h.counter = x;
         descriptor.field_30.h.field_32 = y;
-        if (horizontal) D_8009B0F4 |= 0x20000;
+        if (horizontal) gFile_dwTransferState |= 0x20000;
         image_busy = 2;
         File_TransferReadyCallback(1);
         CHECK(image_calls == 3 && image_destination == buffers[index] &&
@@ -322,7 +322,7 @@ static s32 image(void)
         CHECK(gFile_ReadySourceCursor == input + (software ? 512 : 0) &&
               cd_calls == !software, 45);
         CHECK(descriptor.value_08 == (u32)buffers[0] &&
-              descriptor.value_0C == (u32)buffers[1] && (D_8009B0F4 & 0x100), 46);
+              descriptor.value_0C == (u32)buffers[1] && (gFile_dwTransferState & 0x100), 46);
         if (!software) CHECK(cd_destination == buffers[index] && cd_words == 512, 47);
     }
     return 0;
@@ -348,7 +348,7 @@ static s32 spu(void)
               spu_destination == (u8 *)buffers[0] &&
               descriptor.field_30.word == (u32)(0xFFFFFFFC + (u32)n), 52);
         CHECK(descriptor.total_bytes == 4096 && descriptor.buffer_index == 0 &&
-              descriptor.value_08 == (u32)buffers[0] && (D_8009B0F4 & 0x100), 53);
+              descriptor.value_08 == (u32)buffers[0] && (gFile_dwTransferState & 0x100), 53);
         CHECK(descriptor.phase_remaining == (sizes[j] > 2048 ? 2048 : 0) &&
               descriptor.phase_size == (sizes[j] > 2048 ? 0x8888 : 0), 54);
         CHECK(cd_calls == !software && events[software ? 0 : 1] == 5 &&
@@ -378,9 +378,9 @@ static s32 phase_callbacks(void)
         CHECK(events[event_count - 1] == 7, 61);
         if (finish) CHECK(events[0] == 2 && events[1] == 3, 62);
         else CHECK(events[0] != 2 && events[0] != 3, 63);
-        CHECK((D_8009B0F4 & 0x100) ==
+        CHECK((gFile_dwTransferState & 0x100) ==
               ((action == 1 || (finish && action == 0)) ? 0 : 0x100), 64);
-        CHECK((D_8009B0F4 & ~0x100) == 0x40000410, 65);
+        CHECK((gFile_dwTransferState & ~0x100) == 0x40000410, 65);
         CHECK(descriptor.buffer_index == (mode != 1 && action != 3) &&
               alternate.buffer_index == (mode != 1 && action == 3 ? 10 : 9), 66);
         CHECK(gFile_ReadyTransferDescriptor == (action == 3 ? &alternate : &descriptor), 67);
@@ -400,12 +400,12 @@ static s32 completion(void)
         descriptor.buffer_index = 0xFFFF;
         File_TransferReadyCallback(1);
         CHECK(descriptor.total_bytes == (partial ? -2047 : 0) &&
-              !(D_8009B0F4 & 0x100) && !error, 70);
+              !(gFile_dwTransferState & 0x100) && !error, 70);
         CHECK(events[software ? 0 : 1] == 2 && events[software ? 1 : 2] == 3, 71);
         CHECK(descriptor.phase_size == 0 && descriptor.phase_remaining == 0 &&
               descriptor.result == 41 && callback_calls == 0, 72);
         CHECK(descriptor.buffer_index == (mode == 1 ? 0xFFFF : 0), 73);
-        CHECK((D_8009B0F4 & ~0x100) == (0x410 | (software ? 0x40000000 : 0)), 74);
+        CHECK((gFile_dwTransferState & ~0x100) == (0x410 | (software ? 0x40000000 : 0)), 74);
     }
     return 0;
 }

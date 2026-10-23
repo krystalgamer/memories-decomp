@@ -17,19 +17,21 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "file_constants.h"
 #include "file_cd_helpers.h"
 #include "../external_funcs.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 
 FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 index, s32 offset)
 {
-    if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-         D_8009B134) == 0) {
+    if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+         gFile_dwCancelRequestState) == 0) {
         gFile_PrimaryTransferDescriptor.absolute_lba =
             gFile_anLba[index] + offset;
         gFile_PrimaryTransferDescriptor.done = 0;
-        D_8009B0F4 = 0x100010;
+        gFile_dwTransferState = 0x100010;
         return &gFile_PrimaryTransferDescriptor;
     }
     return 0;
@@ -45,10 +47,10 @@ FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     FileTransferDescriptor *p;
     u8 *callback_data;
 
-    D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
+    gFile_dwTransferState &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
     p = &gFile_SecondaryTransferDescriptor;
-    if (D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
-        if (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE) {
+    if (gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
+        if (gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE) {
             File_StopRangeTransfer();
         }
     }
@@ -59,7 +61,7 @@ FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     callback_data[1] = (u8)d;
     p->done = 4;
     p->status_flags = FILE_TRANSFER_FLAG_SECTOR_RANGE;
-    D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
+    gFile_dwTransferState |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return p;
 }
 
@@ -90,8 +92,8 @@ void File_TransferReadyCallback(s32 arg)
     p = gFile_ReadyTransferDescriptor;
     switch (p->done) {
     case 1:
-        if ((D_8009B0F4 & 0x200000) == 0) {
-            if ((D_8009B0F4 & 0x40000000) == 0) {
+        if ((gFile_dwTransferState & 0x200000) == 0) {
+            if ((gFile_dwTransferState & 0x40000000) == 0) {
                 CdGetSector(
                     (void *)p->value_08,
                     FILE_SECTOR_SIZE / sizeof(u32)
@@ -140,7 +142,7 @@ void File_TransferReadyCallback(s32 arg)
             (u32)p + ((p->buffer_index & 1) << 2) +
             (u32)&((FileTransferDescriptor *)0)->value_08
         );
-        if ((D_8009B0F4 & 0x40000000) == 0) {
+        if ((gFile_dwTransferState & 0x40000000) == 0) {
             CdGetSector(dst, FILE_SECTOR_SIZE / sizeof(u32));
         } else {
             src = gFile_ReadySourceCursor;
@@ -159,7 +161,7 @@ void File_TransferReadyCallback(s32 arg)
         image->y = image->field_30.h.field_32;
         while (LoadImage2((RECT *)gFile_ReadyTransferDescriptor, (u32 *)dst)) {
         }
-        if ((D_8009B0F4 & 0x20000) != 0) {
+        if ((gFile_dwTransferState & 0x20000) != 0) {
             gFile_ReadyTransferDescriptor->field_30.h.counter += 0x40;
         } else {
             r = gFile_ReadyTransferDescriptor;
@@ -182,7 +184,7 @@ void File_TransferReadyCallback(s32 arg)
         if (p->phase_remaining < n) {
             n = p->phase_remaining;
         }
-        if ((D_8009B0F4 & 0x40000000) == 0) {
+        if ((gFile_dwTransferState & 0x40000000) == 0) {
             CdGetSector(dst, n / 4);
         } else {
             src = gFile_ReadySourceCursor;
@@ -217,7 +219,7 @@ void File_TransferReadyCallback(s32 arg)
             return;
         }
     clear:
-        D_8009B0F4 &= ~0x100;
+        gFile_dwTransferState &= ~0x100;
         return;
     }
 }
@@ -235,7 +237,7 @@ void File_HandleReadEvent(u8 event)
         DsStartReadySystem((DslRCB)File_TransferReadyCallback, -1);
         gFile_ReadyEventCount = 0;
         gFile_ReadyDataEventCount = 0;
-        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
+        gFile_dwTransferState &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
 
@@ -245,7 +247,7 @@ void File_HandleSeekEvent(u8 event)
         gFile_CommandRetryCount++;
         DsPacket(0xA0, (DslLOC *)gFile_TargetLoc, 0x15, (DslCB)File_HandleSeekEvent, -1);
     } else if (event == 2) {
-        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
+        gFile_dwTransferState &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
 
@@ -256,7 +258,7 @@ void File_HandleCancelPauseEvent(u8 event)
         DsCommand(9, 0, (DslCB)File_HandleCancelPauseEvent, -1);
     } else if (event == 2) {
         gFile_PrimaryTransferDescriptor.substate = 1;
-        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
+        gFile_dwTransferState &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
 
@@ -268,7 +270,7 @@ void File_HandleRangePauseEvent(s32 event)
         DsCommand(9, 0, (DslCB)File_HandleRangePauseEvent, -1);
     } else if (event == 2) {
         gFile_wStepState = event;
-        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
+        gFile_dwTransferState &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
 
@@ -278,7 +280,7 @@ void File_HandleRangePauseEvent(s32 event)
 /* The rest of the asynchronous disc-transfer runtime: the later
    command-completion callbacks, secondary-to-primary activation, transfer
    advancement and request dispatch. The nine functions are contiguous and
-   communicate through the shared descriptors, request slots and D_8009B0F4
+   communicate through the shared descriptors, request slots and gFile_dwTransferState
    state word. The ready-sector callback and first four command callbacks are
    earlier definitions in this same grouped unit. */
 
@@ -290,7 +292,7 @@ void File_HandleSetFilterEvent(u8 event)
                   (DslCB)File_HandleSetFilterEvent, -1);
     } else if (event == DslComplete) {
         gFile_wStepState = 4;
-        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
+        gFile_dwTransferState &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
 
@@ -303,8 +305,8 @@ void File_HandleRangeReadEvent(u8 event)
             (DslCB)File_HandleRangeReadEvent, -1);
     } else if (event == 2) {
         gFile_wStepState = 5;
-        D_8009B0F4 |= FILE_TRANSFER_STATE_POSITION_QUERY_PENDING;
-        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
+        gFile_dwTransferState |= FILE_TRANSFER_STATE_POSITION_QUERY_PENDING;
+        gFile_dwTransferState &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
 
@@ -318,7 +320,7 @@ void File_HandleLogicalPositionEvent(u8 event, u8 *result)
         value = CdPosToInt_8007E710((const CdlLOC *)result);
         if (value > 0)
             *destination = value;
-        D_8009B0F4 &= ~FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
+        gFile_dwTransferState &= ~FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
     }
 }
 
@@ -330,12 +332,12 @@ void File_ActivateTransfer(void)
         *(FileRequestSlot *)(D_801D4200_raw + 32);
     if (gFile_PrimaryTransferDescriptor.done == 4)
         gFile_wTransferStepFlags |= 1;
-    D_8009B0F4 =
+    gFile_dwTransferState =
         gFile_PrimaryTransferDescriptor.status_flags |
         FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 
-void File_FinishActiveTransfer(void){D_8009B0F4&=FILE_TRANSFER_STATE_SECONDARY_PENDING|FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;if((D_8009B0F4&FILE_TRANSFER_STATE_SECONDARY_PENDING)&&!(D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED)){File_ActivateTransfer();if(D_8009B134){int v=0x80;if((D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_ACTIVE)&&(D_8009B0F4&FILE_TRANSFER_FLAG_SECTOR_RANGE))File_StopRangeTransfer();D_8009B134=v;}}else D_8009B134=0;}
+void File_FinishActiveTransfer(void){gFile_dwTransferState&=FILE_TRANSFER_STATE_SECONDARY_PENDING|FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;if((gFile_dwTransferState&FILE_TRANSFER_STATE_SECONDARY_PENDING)&&!(gFile_dwTransferState&FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED)){File_ActivateTransfer();if(gFile_dwCancelRequestState){int v=0x80;if((gFile_dwTransferState&FILE_TRANSFER_STATE_PRIMARY_ACTIVE)&&(gFile_dwTransferState&FILE_TRANSFER_FLAG_SECTOR_RANGE))File_StopRangeTransfer();gFile_dwCancelRequestState=v;}}else gFile_dwCancelRequestState=0;}
 
 void File_StepActiveTransfer(void)
 {
@@ -347,19 +349,19 @@ void File_StepActiveTransfer(void)
     s32 m;
 
     p = &gFile_PrimaryTransferDescriptor;
-    if (D_8009B0F4 & FILE_TRANSFER_STATE_POSITION_QUERY_PENDING) {
-        if (!(D_8009B0F4 & FILE_TRANSFER_STATE_POSITION_QUERY_BUSY)) {
+    if (gFile_dwTransferState & FILE_TRANSFER_STATE_POSITION_QUERY_PENDING) {
+        if (!(gFile_dwTransferState & FILE_TRANSFER_STATE_POSITION_QUERY_BUSY)) {
             if (DsCommand(DslGetlocL, 0,
                           (DslCB)File_HandleLogicalPositionEvent, 0) > 0) {
-                D_8009B0F4 =
-                    D_8009B0F4 | FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
+                gFile_dwTransferState =
+                    gFile_dwTransferState | FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
             }
         }
     }
-    if (D_8009B0F4 & FILE_TRANSFER_STATE_COMMAND_BUSY) {
+    if (gFile_dwTransferState & FILE_TRANSFER_STATE_COMMAND_BUSY) {
         return;
     }
-    if (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE) {
+    if (gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE) {
         if (!(gFile_wTransferStepFlags & 0x8000)) {
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x8000;
             if ((gFile_wTransferStepFlags & 3) == 0) {
@@ -383,7 +385,7 @@ void File_StepActiveTransfer(void)
             if (DsCommand(9, 0, (DslCB)File_HandleRangePauseEvent, -1) <= 0) {
                 return;
             }
-            D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
+            gFile_dwTransferState = gFile_dwTransferState | FILE_TRANSFER_STATE_COMMAND_BUSY;
             cb = gFile_RangePauseCallback;
             goto call_back;
         case 2:
@@ -408,7 +410,7 @@ set_state3:
                           (DslCB)File_HandleSetFilterEvent, -1) <= 0) {
                 return;
             }
-            D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
+            gFile_dwTransferState = gFile_dwTransferState | FILE_TRANSFER_STATE_COMMAND_BUSY;
             return;
         case 4:
             CdIntToPos_8007E600(
@@ -419,7 +421,7 @@ set_state3:
                     (DslCB)File_HandleRangeReadEvent, -1) <= 0) {
                 return;
             }
-            D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
+            gFile_dwTransferState = gFile_dwTransferState | FILE_TRANSFER_STATE_COMMAND_BUSY;
             return;
         case 5:
             gFile_wStepState = 6;
@@ -455,7 +457,7 @@ call_back:
             if (DsCommand(9, 0, (DslCB)File_HandleCancelPauseEvent, -1) <= 0) {
                 return;
             }
-            D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
+            gFile_dwTransferState = gFile_dwTransferState | FILE_TRANSFER_STATE_COMMAND_BUSY;
             return;
         case 1:
             DsEndReadySystem();
@@ -464,15 +466,15 @@ call_back:
         }
         return;
     }
-    if (D_8009B0F4 & 0x80) {
-        if (D_8009B0F4 & 0x100) {
+    if (gFile_dwTransferState & 0x80) {
+        if (gFile_dwTransferState & 0x100) {
             return;
         }
         goto call_144B8;
     }
     CdIntToPos_8007E600(p->absolute_lba, CDL_LOC_VIEW(gFile_TargetLoc));
-    if (D_8009B0F4 & 0x100000) {
-        if ((s32)D_8009B0F4 < 0) {
+    if (gFile_dwTransferState & 0x100000) {
+        if ((s32)gFile_dwTransferState < 0) {
             goto call_144B8;
         }
         if (DsPacket(
@@ -480,32 +482,32 @@ call_back:
                 (DslCB)File_HandleSeekEvent, -1) <= 0) {
             return;
         }
-        D_8009B0F4 = D_8009B0F4 | 0x480;
+        gFile_dwTransferState = gFile_dwTransferState | 0x480;
         return;
     }
-    if (!(D_8009B0F4 & 0x800000)) {
-        D_8009B0F4 = D_8009B0F4 | 0x800000;
+    if (!(gFile_dwTransferState & 0x800000)) {
+        gFile_dwTransferState = gFile_dwTransferState | 0x800000;
         if (p->phase_callback != 0) {
             CALL32(FileTransferCallback, p->phase_callback)(p, p->result++);
         }
         p->phase_remaining = p->phase_size;
         return;
     }
-    if (D_8009B0F4 & 0x400000) {
+    if (gFile_dwTransferState & 0x400000) {
         if (SpuIsTransferCompleted(0) == 0) {
             return;
         }
-        D_8009B0F4 = D_8009B0F4 & 0xFFBFFFFF;
+        gFile_dwTransferState = gFile_dwTransferState & 0xFFBFFFFF;
     }
-    if ((s32)D_8009B0F4 >= 0) {
+    if ((s32)gFile_dwTransferState >= 0) {
         if (DsPacket(
                 0xA0, DSL_LOC_VIEW(gFile_TargetLoc), 6,
                 (DslCB)File_HandleReadEvent, -1) == 0) {
             return;
         }
-        D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
+        gFile_dwTransferState = gFile_dwTransferState | FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
-    D_8009B0F4 = D_8009B0F4 | 0x180;
+    gFile_dwTransferState = gFile_dwTransferState | 0x180;
 }
 
 void File_ServiceTransfers(s32 arg0)
@@ -519,19 +521,19 @@ void File_ServiceTransfers(s32 arg0)
         return;
     }
     gFile_ServiceReentryLatch = 1;
-    if (!(D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
-        (D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING)) {
+    if (!(gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+        (gFile_dwTransferState & FILE_TRANSFER_STATE_SECONDARY_PENDING)) {
         File_ActivateTransfer();
     }
-    if (D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
-        if (D_8009B134 != 0 && !(D_8009B134 & 0x40)) {
-            D_8009B134 |= 0x40;
+    if (gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
+        if (gFile_dwCancelRequestState != 0 && !(gFile_dwCancelRequestState & 0x40)) {
+            gFile_dwCancelRequestState |= 0x40;
             gFile_PrimaryTransferDescriptor.done = 5;
             gFile_PrimaryTransferDescriptor.substate = 0;
         }
         File_StepActiveTransfer();
     } else {
-        D_8009B134 = 0;
+        gFile_dwCancelRequestState = 0;
     }
     gFile_ServiceReentryLatch = 0;
 }
@@ -570,7 +572,7 @@ full:
         goto reduced;
     }
     object->done = 3;
-    base = D_8009B118;
+    base = gFile_TransferBufferBase;
     object->value_08 = base;
     object->value_0C = base + FILE_SECTOR_SIZE;
     object->field_30.word = shared->field_0C;
@@ -581,7 +583,7 @@ reduced:
     if (shared->field_18 == 0)
         goto tail;
     position = shared->field_10;
-    D_8009B0F4 &= 0xFFDCFFFF;
+    gFile_dwTransferState &= 0xFFDCFFFF;
     object->value_0C = position;
     object->value_08 = position;
     object->done = 1;
@@ -611,7 +613,7 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
     s32 t;
 
     if (p == (FileRequestSlot *)0) {
-        return D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING;
+        return gFile_dwTransferState & FILE_TRANSFER_STATE_SECONDARY_PENDING;
     }
 
     a = p->field_14;
@@ -654,13 +656,13 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
            one) exchanges the request pointer's and sector-offset local's
            allocation and changes 24 words. */
         m = *(u32 *)&p->field_04;
-        D_8009B0F4 =
-            D_8009B0F4 & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
+        gFile_dwTransferState =
+            gFile_dwTransferState & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
         v = w | 0x1400000;
         f = SD_ConfigureTransferPhase_callback;
 
-        if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) != 0) {
-            if ((D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE) != 0) {
+        if ((gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) != 0) {
+            if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE) != 0) {
                 File_StopRangeTransfer();
             }
         }
@@ -669,8 +671,8 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
             &gFile_SecondaryTransferDescriptor, v, q, m, t, f, 0, (s32)p
         );
         e = (u8 *)&gFile_SecondaryTransferDescriptor;
-        D_8009B0F4 =
-            D_8009B0F4 | FILE_TRANSFER_STATE_SECONDARY_PENDING;
+        gFile_dwTransferState =
+            gFile_dwTransferState | FILE_TRANSFER_STATE_SECONDARY_PENDING;
     }
 
     return (s32)e;

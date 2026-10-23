@@ -9,6 +9,7 @@
 #include "model_get_slot_readiness.h"
 #include "camera_view.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "library_runtime.h"
@@ -19,6 +20,7 @@
 #include "../psyq/rand.h"
 #include "model_slot_queries.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 #include "model_slot_control.h"
 #include "library_grid_cursor.h"
 #include "library_card_grid.h"
@@ -41,6 +43,7 @@
 #include "sound.h"
 #include "text_render_state.h"
 #include "text_staging.h"
+#include "text_message_staging.h"
 #include "library_update_grid_scroll.h"
 #include "text_box_runtime.h"
 #include "display_object_config.h"
@@ -195,7 +198,7 @@ void Library_UpdateCardView(LibraryState *state)
     }
     TextBox_UpdateChannels();
     mode = state->motion.model_load_phase;
-    if ((mode & 0xF) && ((D_8009B0F4_abs & 0x02000030) | D_8009B134_abs) == 0) {
+    if ((mode & 0xF) && ((gFile_dwTransferState_abs & 0x02000030) | gFile_dwCancelRequestState_abs) == 0) {
         if (mode == 1) {
             state->motion.model_load_phase = 0;
             id = (u16)state->motion.selected_card_id - 1;
@@ -668,19 +671,19 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4_abs &= 0xFFDDFFFF;
-        D_8009B0F4_abs |= 0x10000;
+        gFile_dwTransferState_abs &= 0xFFDDFFFF;
+        gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         object->phase_size = 5 * FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
@@ -690,11 +693,11 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.w = 0x40;
         gStageRect.h = 0x10;
         LoadImage2(&gStageRect,
-                   (u32 *)(D_8009B118 + D_8009C02B * FILE_SECTOR_SIZE));
+                   (u32 *)(gFile_TransferBufferBase + D_8009C02B * FILE_SECTOR_SIZE));
         object->phase_size = 4 * FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
@@ -703,17 +706,17 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xE0;
         gStageRect.w = 0x100;
         gStageRect.h = 0x10;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
         object->field_30.h.counter = 0x240;
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4_abs &= 0xFFDDFFFF;
-        D_8009B0F4_abs |= 0x10000;
+        gFile_dwTransferState_abs &= 0xFFDDFFFF;
+        gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 5:
@@ -721,25 +724,25 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xE6;
         gStageRect.w = 0x100;
         gStageRect.h = 2;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
         object->done = 3;
         object->field_30.word = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 4:
     case 6:
         object->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
     case 7:
-        SD_LoadSequenceBankPair(1, (u32 *)D_8009B118);
+        SD_LoadSequenceBankPair(1, (u32 *)gFile_TransferBufferBase);
         break;
     }
 }
@@ -752,19 +755,19 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4_abs &= 0xFFDDFFFF;
-        D_8009B0F4_abs |= 0x10000;
+        gFile_dwTransferState_abs &= 0xFFDDFFFF;
+        gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         object->phase_size = 4 * FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
@@ -773,17 +776,17 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xF0;
         gStageRect.w = 0x100;
         gStageRect.h = 0x10;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
         object->field_30.h.counter = 0x240;
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4_abs &= 0xFFDDFFFF;
-        D_8009B0F4_abs |= 0x10000;
+        gFile_dwTransferState_abs &= 0xFFDDFFFF;
+        gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 4:
@@ -791,25 +794,25 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.y = 0xF6;
         gStageRect.w = 0x100;
         gStageRect.h = 2;
-        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        LoadImage2(&gStageRect, (u32 *)gFile_TransferBufferBase);
         object->done = 3;
         object->field_30.word = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 3:
     case 5:
         object->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->value_0C = D_8009B118;
-        object->value_08 = D_8009B118;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
+        object->value_0C = gFile_TransferBufferBase;
+        object->value_08 = gFile_TransferBufferBase;
         object->done = 1;
         break;
 
     case 6:
-        SD_LoadSequenceBankPair(1, (u32 *)D_8009B118);
+        SD_LoadSequenceBankPair(1, (u32 *)gFile_TransferBufferBase);
         break;
     }
 }
@@ -950,11 +953,11 @@ void Library_InitializeScreen(void) {
         }
         n++;
     } while (n < CARD_ID_END);
-    D_801D5608[0].library_count = 0;
+    gText_StagedValues[0].library_count = 0;
     n = CARD_ID_FIRST;
     do {
         if (Campaign_TestStoryFlag(n + CAMPAIGN_FLAG_LIBRARY_CARD_BASE) != 0) {
-            D_801D5608[0].library_count += 1;
+            gText_StagedValues[0].library_count += 1;
             r->cards[n].flags = LIBRARY_CARD_FLAG_KNOWN;
             if (Library_CheckCardOwned(n) < 0) {
                 r->cards[n].flags |= LIBRARY_CARD_FLAG_UNOWNED;

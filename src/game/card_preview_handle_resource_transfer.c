@@ -2,10 +2,12 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "duel_effect_resource_record.h"
 #include "duel_effect_resource_setup.h"
 #define D_8009B118_IS_POINTER_IN_DATA
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 
 #define VRAM_UPLOAD_WORDS(address) ((u32 *)(address))
 
@@ -32,9 +34,9 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 
     if (mode == 0) {
         object->phase_size = FUNC_800289BC_PHASE_SIZE;
-        D_8009B0F4 &= 0xFFDCFFFF;
-        object->value_0C = (u32)D_8009B118;
-        object->value_08 = (u32)D_8009B118;
+        gFile_dwTransferState &= 0xFFDCFFFF;
+        object->value_0C = (u32)gFile_TransferBufferBase;
+        object->value_08 = (u32)gFile_TransferBufferBase;
         object->done = 1;
         return;
     }
@@ -42,7 +44,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
     e = &gCardPreview_Resources[(s32)object->callback_data];
 
     rect = &e->rects[0];
-    image_source = D_8009B118;
+    image_source = gFile_TransferBufferBase;
     e->rects[0].w = 0x33;
     e->rects[0].h = 0x60;
     e->rects[0].x = e->src_x;
@@ -51,7 +53,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 
     rect = &e->rects[1];
     x = e->field_2C;
-    image_source = D_8009B118 + 0x2640;
+    image_source = gFile_TransferBufferBase + 0x2640;
     e->rects[1].w = 0x100;
     e->rects[1].h = 1;
     e->rects[1].x = x;
@@ -62,13 +64,13 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 #ifdef VERSION_EUROPE
     /* The third image of the current text language. */
     offset = D_8009C02B * 0x2A0 + 0x2840;
-    image_source = D_8009B118 + offset;
+    image_source = gFile_TransferBufferBase + offset;
     e->rects[2].w = 0x18;
     e->rects[2].h = 0xE;
     e->rects[2].x = e->src_x;
 #else
     x = e->src_x;
-    image_source = D_8009B118 + 0x2840;
+    image_source = gFile_TransferBufferBase + 0x2840;
     e->rects[2].w = 0x18;
     e->rects[2].h = 0xE;
     e->rects[2].x = x;
@@ -77,7 +79,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
     LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
 
     rect = &e->rects[3];
-    image_source = D_8009B118 + FUNC_800289BC_FOURTH_IMAGE_OFFSET;
+    image_source = gFile_TransferBufferBase + FUNC_800289BC_FOURTH_IMAGE_OFFSET;
     e->rects[3].w = 8;
     e->rects[3].h = 0x58;
     e->rects[3].x = e->src_x + 0x38;

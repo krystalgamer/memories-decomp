@@ -13,6 +13,12 @@
       "source": "src/overlays/model_variant/variant448_radial_slot1.c"
     },
     {
+      "address": "0x8017C678",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xFC0",
+      "source": "src/overlays/model_variant/variant448_fan_slot1.c"
+    },
+    {
       "address": "0x8017D638",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x520",

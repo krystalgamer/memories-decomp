@@ -25,7 +25,7 @@ typedef struct {
 } GuardedState;
 extern GuardedState state;
 #define gCardPreview_Resources state.records
-#define D_8009B0F4_abs state.flags
+#define gFile_dwTransferState_abs state.flags
 """
 WITNESS = r"""
 GuardedState state, expected;

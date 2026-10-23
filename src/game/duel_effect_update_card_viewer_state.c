@@ -35,6 +35,7 @@
 #include "duel_effect_resource_setup.h"
 #include "display_object_interpolation.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "text_box_runtime.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
@@ -45,6 +46,7 @@
 #include "main_mode_state.h"
 #ifdef VERSION_EUROPE
 #include "text_staging.h"
+#include "text_message_staging.h"
 #endif
 
 #define DISPLAY_OBJECT_POSITION_VIEW(object) \
@@ -149,7 +151,7 @@ void DuelEffect_UpdateCardViewerState(void)
             if ((chan->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) == 0) {
 #ifdef VERSION_EUROPE
                 card = (s16)gDuel_wViewerCardID;
-                D_801D5608[0].card.card_id = gDuel_wSelectedCardID = card;
+                gText_StagedValues[0].card.card_id = gDuel_wSelectedCardID = card;
                 kind = 0x60;
                 i2 = card - 1;
                 if (((gDuel_adwCardStats[i2] >> CARD_STAT_TYPE_SHIFT) &
@@ -267,8 +269,8 @@ void DuelEffect_UpdateCardViewerState(void)
                 }
             }
         }
-        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134_abs) != 0) {
+        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState_abs) != 0) {
             return;
         }
         bg = D_8009B240;

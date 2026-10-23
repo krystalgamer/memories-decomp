@@ -2,7 +2,9 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 #include "display_effect_load_resource_stage.h"
 
 /* Regional value: the load descriptor's x (0x200 -> 0x280). The European
@@ -31,19 +33,19 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
     switch (mode) {
     case 0:
         m = 0xFFDDFFFF;
-        v_0 = D_8009B0F4;
+        v_0 = gFile_dwTransferState;
         n = p->position;
         p->field_30.h.field_32 = 0x100;
         p->w = 0x40;
         p->phase_size = 48 * FILE_SECTOR_SIZE;
         p->h = 0x10;
         v_0 &= m;
-        D_8009B0F4 = v_0;
-        w = D_8009B0F4;
+        gFile_dwTransferState = v_0;
+        w = gFile_dwTransferState;
         w |= 0x10000;
-        D_8009B0F4 = w;
+        gFile_dwTransferState = w;
         p->done = 2;
-        b = D_8009B118;
+        b = gFile_TransferBufferBase;
         p->field_30.h.counter = 0x340 - n * 192;
         p->value_08 = b;
         p->value_0C = b + FILE_SECTOR_SIZE;
@@ -52,10 +54,10 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
     case 1:
         m2 = 0xFFDCFFFF;
         FILE_TRANSFER_PHASE_SIZE_WORD(p) = FILE_SECTOR_SIZE;
-        v_1 = D_8009B0F4;
-        t = D_8009B118;
+        v_1 = gFile_dwTransferState;
+        t = gFile_TransferBufferBase;
         v_1 &= m2;
-        D_8009B0F4 = v_1;
+        gFile_dwTransferState = v_1;
         p->value_0C = t;
         p->value_08 = t;
         p->done = 1;
@@ -65,16 +67,16 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         p->x = DISPLAY_EFFECT_RESOURCE_LOAD_X;
         k = p->position;
         p->h = 2;
-        c = D_8009B118;
+        c = gFile_TransferBufferBase;
         p->w = 0x100;
         p->y = k * 2 + 0xF0;
         LoadImage2((RECT *)p, (u32 *)c);
         m2 = 0xFFDCFFFF;
         FILE_TRANSFER_PHASE_SIZE_WORD(p) = FILE_SECTOR_SIZE;
-        v_2 = D_8009B0F4;
+        v_2 = gFile_dwTransferState;
         t = (s32)p->callback_data;
         v_2 &= m2;
-        D_8009B0F4 = v_2;
+        gFile_dwTransferState = v_2;
         p->value_0C = t;
         p->value_08 = t;
         p->done = 1;

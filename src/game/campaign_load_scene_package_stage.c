@@ -3,8 +3,10 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "duel_load_package_stage.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 #include "../ygo_types.h"
 #include "campaign_scene_package.h"
 
@@ -40,16 +42,16 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         *(s16 *)&p->field_30.h.counter = 0x340;
         *(u16 *)&p->w = 0x40;
         m = 0xFFDDFFFF;
-        v_0 = D_8009B0F4;
+        v_0 = gFile_dwTransferState;
         *(u16 *)&p->h = 0x10;
         v_0 &= m;
-        D_8009B0F4 = v_0;
-        w = D_8009B0F4;
+        gFile_dwTransferState = v_0;
+        w = gFile_dwTransferState;
         *(s16 *)&p->field_30.h.field_32 = 0;
         w |= 0x10000;
-        D_8009B0F4 = w;
+        gFile_dwTransferState = w;
         p->done = 2;
-        t = (p->value_08 = D_8009B118);
+        t = (p->value_08 = gFile_TransferBufferBase);
         *(s32 *)&p->phase_size = CAMPAIGN_SCENE_STAGE0_SECTORS * FILE_SECTOR_SIZE;
         p->value_0C = t + FILE_SECTOR_SIZE;
         break;
@@ -57,17 +59,17 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
     case 1:
         *(s32 *)&p->phase_size = FILE_SECTOR_SIZE;
         m = 0xFFDCFFFF;
-        v_1 = D_8009B0F4;
-        t = D_8009B118;
+        v_1 = gFile_dwTransferState;
+        t = gFile_TransferBufferBase;
         v_1 &= m;
-        D_8009B0F4 = v_1;
+        gFile_dwTransferState = v_1;
         p->value_0C = t;
         p->value_08 = t;
         p->done = 1;
         break;
 
     case 2:
-        c = D_8009B118;
+        c = gFile_TransferBufferBase;
         p->x = CAMPAIGN_SCENE_IMAGE_X;
         p->y = CAMPAIGN_SCENE_IMAGE_Y;
         p->w = 0x100;
@@ -76,20 +78,20 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         *(s32 *)&p->value_0C = (s32)D_801A8000;
         *(s32 *)&p->value_08 = (s32)D_801A8000;
         m = 0xFFDCFFFF;
-        v_2 = D_8009B0F4;
+        v_2 = gFile_dwTransferState;
         p->phase_size = 0x1000;
         v_2 &= m;
-        D_8009B0F4 = v_2;
+        gFile_dwTransferState = v_2;
         p->done = 1;
         break;
 
     case 3:
         *(s32 *)&p->phase_size = CAMPAIGN_DIALOG_PORTRAIT_PHASE_SIZE;
         m = 0xFFDCFFFF;
-        v_3 = D_8009B0F4;
+        v_3 = gFile_dwTransferState;
         t = (s32)D_80010000;
         v_3 &= m;
-        D_8009B0F4 = v_3;
+        gFile_dwTransferState = v_3;
         p->value_0C = t;
         p->value_08 = t;
         p->done = 1;

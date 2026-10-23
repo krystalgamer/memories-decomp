@@ -10,6 +10,7 @@
 #include "../psyq/libds.h"
 #include "fade.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "main_boot_load_stages.h"
 #include "main_run_boot_sequence.h"
 #include "graphics_constants.h"
@@ -18,6 +19,7 @@
 #include "sound_voice_selection.h"
 #include "../external_funcs.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
 #endif
@@ -63,7 +65,7 @@ void Main_RunBootSequence(s32 mode)
         Fade_InitIn();
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 0, 0x13, 0x100,
-                      D_801AF000);
+                      gDisplay_abResourceBank0);
         object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                          DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_CrossfadeReplace(0, object);
@@ -76,7 +78,7 @@ void Main_RunBootSequence(s32 mode)
         DsInit();
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 1, 0x13, 0x100,
-                      D_801AF000);
+                      gDisplay_abResourceBank0);
         object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                          DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_CrossfadeReplace(first, object);
@@ -87,8 +89,8 @@ void Main_RunBootSequence(s32 mode)
         func_80043BC8(BUILD_LANGUAGE_INDEX, 0);
         Fade_WaitInitOut();
         Main_ResetFrontendRuntime();
-        while (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                D_8009B134_abs) != 0) {
+        while (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState_abs) != 0) {
             Main_AdvanceFrame();
         }
         func_80043B7C();
@@ -127,7 +129,7 @@ void Main_RunBootSequence(s32 mode)
     Fade_InitIn();
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 0, 0x10, 0x100,
-                  D_801AF000);
+                  gDisplay_abResourceBank0);
     first = object;
     first->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -146,7 +148,7 @@ void Main_RunBootSequence(s32 mode)
     DsInit();
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 1, 0x10, 0x100,
-                  D_801AF000);
+                  gDisplay_abResourceBank0);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_CrossfadeReplace(first, object);
@@ -156,7 +158,7 @@ void Main_RunBootSequence(s32 mode)
     Main_HoldBootScreen(0xB4);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 2, 0x10, 0x100,
-                  D_801AF000);
+                  gDisplay_abResourceBank0);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_CrossfadeReplace(first, object);
@@ -196,7 +198,7 @@ void Main_RunBootSequence(s32 mode)
     Fade_InitIn();
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 0, 0x10, 0x100,
-                  D_801AF000);
+                  gDisplay_abResourceBank0);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_CrossfadeReplace(0, object);
@@ -215,7 +217,7 @@ void Main_RunBootSequence(s32 mode)
     DsInit();
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 1, 0x10, 0x100,
-                  D_801AF000);
+                  gDisplay_abResourceBank0);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_CrossfadeReplace(first, object);

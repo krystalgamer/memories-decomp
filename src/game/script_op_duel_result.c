@@ -10,10 +10,12 @@
 #include "fade.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "sound_output.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #include "scene_script.h"
 #include "script_op_duel_result.h"
 #include "duel_result_load_package_stage.h"
@@ -31,7 +33,7 @@
    stream, queues the result sector through File_RequestAsyncTransfer with
    DuelResult_LoadPackageStage as the completion callback, and on the first pass (once the
    transfer and fade flags are clear) builds the screen: the banner object
-   from D_801AF000, the two 0x140-wide panels, and the white-on-black fill
+   from gDisplay_abResourceBank0, the two 0x140-wide panels, and the white-on-black fill
    object kept in gScript_TransitionObject, then starts the music. On later passes it
    waits for the fade, releases the fill object and the panel list, and
    clears the phase flag. */
@@ -57,8 +59,8 @@ void Script_OpDuelResult(void) {
     }
     flags = gScript_wCommandWord;
     if ((flags & 0x4000) == 0) {
-        if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134_abs) != 0) {
+        if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState_abs) != 0) {
             return;
         }
         gScript_wCommandWord = flags | 0x4000;
@@ -72,7 +74,7 @@ void Script_OpDuelResult(void) {
            is initialised in mode 1 with corners at y 0, 0x40 and 0x100. */
         four = 4;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, D_8009C02B, 0x17, four, D_801AF000);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, D_8009C02B, 0x17, four, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(o, 1);
         o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -100,7 +102,7 @@ void Script_OpDuelResult(void) {
 #else
         four = 4;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, 0, 0x17, four, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(o, 1);
         o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

@@ -50,6 +50,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "duel_effect_resource_setup.h"
 #include "duel_effect_resource_record.h"
 
@@ -200,8 +201,8 @@ void DuelEffect_StartRitual(void)
             CardPreview_RequestResourceTransfer(1, gDuel_RitualResultCardId);
         }
     } else if (!(
-        (D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-        D_8009B134_abs
+        (gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+        gFile_dwCancelRequestState_abs
     )) {
         gDuel_wCardEffectFlags = 0;
     }

@@ -51,6 +51,7 @@ WITNESS = r"""
 #include "src/game/model_scene_states.h"
 #include "src/game/model_scene_imports.h"
 #include "src/game/high_memory_addresses.h"
+#include "src/game/model_load_words.h"
 #include "src/game/model_handler_state.h"
 #include "src/game/model_state_setters.h"
 #include "src/game/model_slot_properties.h"
@@ -68,8 +69,8 @@ ModelDebugState D_8009B004;
 /* A genuine four-byte allocation, not indexing past a scalar frame override.
    Both implementation owner views resolve to the same linker symbol. */
 u8 gGraphics_FrameStepControl[4] = {1, 0, 0, 0};
-s32 D_80010030;
-void *D_80010034;
+s32 gModel_CreditsModuleAddress;
+void *gModel_pCreditsMusicTrackBuffer;
 u8 gModel_szSuMrgPath[] = "SU";
 
 typedef struct { s32 kind, a, b, c, d; } Event;
@@ -201,8 +202,8 @@ static void setup(s32 phase, s32 active)
     ACTIVE = active;
     gModel_bPresentationPhase = phase;
     D_8009B004.word = 0xBBAA0000;
-    D_80010030 = 0x12345678;
-    D_80010034 = sound_data;
+    gModel_CreditsModuleAddress = 0x12345678;
+    gModel_pCreditsMusicTrackBuffer = sound_data;
     count = error = random_count = status = poll_result = status_calls = poll_calls = 0;
     activate_action = animation_action = effect_action = random_action = 0;
     poll_action = status_action = 0;

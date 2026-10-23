@@ -4,6 +4,7 @@
 #include "script_command_busy.h"
 #include "sound.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "script_state.h"
 #include "script_stream_commands.h"
 #include "sound_bgm_commands.h"
@@ -45,8 +46,8 @@ void Script_OpSound(void)
         if (f & 0x80) {
             return;
         }
-    } else if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-               D_8009B134_abs) {
+    } else if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+               gFile_dwCancelRequestState_abs) {
         return;
     }
     gScript_wCommandWord = 0;

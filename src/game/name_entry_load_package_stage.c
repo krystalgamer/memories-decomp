@@ -2,9 +2,11 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "name_entry_load_package_stage.h"
 #include "file_constants.h"
 #include "../unmatched.h"
+#include "file_transfer_buffer.h"
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef NAME_ENTRY_PACKAGE_START_SECTOR
@@ -67,16 +69,16 @@ m0:
     c = 0x100;
     object->field_30.h.counter = c;
     object->field_30.h.field_32 = c;
-    v = D_8009B0F4;
+    v = gFile_dwTransferState;
     object->w = 0x40;
-    D_8009B0F4 = v & m;
-    w = D_8009B0F4;
+    gFile_dwTransferState = v & m;
+    w = gFile_dwTransferState;
     n = 0x10000;
     do {
         *(s32 *)&object->phase_size = k;
-        D_8009B0F4 = w | n;
+        gFile_dwTransferState = w | n;
         object->done = 2;
-        d = D_8009B118;
+        d = gFile_TransferBufferBase;
         object->h = 0x10;
     } while (0);
     object->value_08 = d;
@@ -87,13 +89,13 @@ m1:
     object->field_30.h.counter = 0x1C0;
     object->field_30.h.field_32 = 0x100;
     object->w = 0x40;
-    v2 = D_8009B0F4;
+    v2 = gFile_dwTransferState;
     object->h = 0x10;
-    D_8009B0F4 = v2 & 0xFFDDFFFF;
-    w2 = D_8009B0F4;
-    D_8009B0F4 = w2 | 0x10000;
+    gFile_dwTransferState = v2 & 0xFFDDFFFF;
+    w2 = gFile_dwTransferState;
+    gFile_dwTransferState = w2 | 0x10000;
     object->done = 2;
-    d2 = D_8009B118;
+    d2 = gFile_TransferBufferBase;
     *(s32 *)&object->phase_size = 16 * FILE_SECTOR_SIZE;
     object->value_08 = d2;
     object->value_0C = d2 + FILE_SECTOR_SIZE;
@@ -102,8 +104,8 @@ m1:
 m2:
     m = 0xFFDCFFFF;
     *(s32 *)&object->phase_size = FILE_SECTOR_SIZE;
-    x = D_8009B0F4 & m;
-    y = (u8 *)D_8009B118;
+    x = gFile_dwTransferState & m;
+    y = (u8 *)gFile_TransferBufferBase;
     goto tail;
 
 m3:
@@ -113,14 +115,14 @@ m3:
     } while (0);
     object->x = hun;
     *(u16 *)&object->y = NAME_ENTRY_PACKAGE_IMAGE_Y;
-    k = D_8009B118;
+    k = gFile_TransferBufferBase;
     object->w = 0x100;
 #else
     do {
         hun = 0x100;
     } while (0);
     *(u16 *)&object->y = 0xF0;
-    k = D_8009B118;
+    k = gFile_TransferBufferBase;
     object->x = hun;
     object->w = hun;
 #endif
@@ -128,11 +130,11 @@ m3:
     LoadImage2((RECT *)object, (u32 *)k);
     m = 0xFFDCFFFF;
     *(s32 *)&object->phase_size = 15 * FILE_SECTOR_SIZE;
-    x = D_8009B0F4 & m;
+    x = gFile_dwTransferState & m;
     y = gFile_pScreenBankBase;
 
 tail:
-    D_8009B0F4 = x;
+    gFile_dwTransferState = x;
     object->value_0C = (s32)y;
     object->value_08 = (s32)y;
     object->done = one;

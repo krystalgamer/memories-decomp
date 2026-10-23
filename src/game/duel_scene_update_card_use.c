@@ -12,6 +12,7 @@
 #include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "duel_card_capture_rounded_texture.h"
 #include "duel_create_card_effect_overlay.h"
 #include "duel_field_effects.h"
@@ -67,8 +68,8 @@ void DuelScene_UpdateCardUse(void)
     switch (state & 0xF) {
     case 1:
         if ((state & 0x80) == 0) {
-            if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                 D_8009B134_abs) != 0) {
+            if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                 gFile_dwCancelRequestState_abs) != 0) {
                 return;
             }
             f2 = p->flags;

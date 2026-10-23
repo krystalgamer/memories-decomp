@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 
 FileTransferDescriptor *File_RequestAsyncTransfer(
     s32 arg0,
@@ -13,10 +14,10 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
 {
     FileTransferDescriptor *result;
 
-    D_8009B0F4 |= FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;
+    gFile_dwTransferState |= FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;
     if (gFile_BeforePrimaryRequestCallback == 0) {
-        if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134) != 0) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) != 0) {
             result = (FileTransferDescriptor *)0;
             goto out;
         }
@@ -29,7 +30,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     );
     result = &gFile_PrimaryTransferDescriptor;
 out:
-    D_8009B0F4 =
+    gFile_dwTransferState =
         result->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     return result;
 }
@@ -45,8 +46,8 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
 )
 {
     if (gFile_BeforePrimaryRequestCallback == 0) {
-        if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-             D_8009B134) != 0) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) != 0) {
             return (FileTransferDescriptor *)0;
         }
     } else {
@@ -63,13 +64,13 @@ void File_CancelTransfers(void)
 {
     s32 value;
 
-    if ((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134) {
+    if ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState) {
         value = 0x80;
-        if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
-            (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
+        if ((gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+            (gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
             File_StopRangeTransfer();
         }
-        D_8009B134 = value;
+        gFile_dwCancelRequestState = value;
     }
 }
 
@@ -81,8 +82,8 @@ void File_StopRangeTransfer(void)
 
 void File_StopActiveRangeTransfer(void)
 {
-    if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
-        (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
+    if ((gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+        (gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
         File_StopRangeTransfer();
     }
 }
@@ -99,9 +100,9 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
 {
     FileTransferDescriptor *state;
 
-    D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
-    if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
-        (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
+    gFile_dwTransferState &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
+    if ((gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+        (gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
         File_StopRangeTransfer();
     }
 
@@ -109,7 +110,7 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
     File_InitTransferDescriptor(
         state, arg0, arg1, arg2, arg3, arg4, arg5, arg6
     );
-    D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
+    gFile_dwTransferState |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return state;
 }
 

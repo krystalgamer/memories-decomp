@@ -3,8 +3,12 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_package_staging.h"
+#include "file_transfer_state.h"
 #include "file_transfer_steps.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
+#include "file_transfer_buffer.h"
 
 #include "high_memory_addresses.h"
 
@@ -27,12 +31,12 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->field_30.h.field_32 = 0x100;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4_abs &= 0xFFDDFFFF;
-        D_8009B0F4_abs |= 0x10000;
+        gFile_dwTransferState_abs &= 0xFFDDFFFF;
+        gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 1:
@@ -40,37 +44,37 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->field_30.h.field_32 = 0;
         object->w = 0x40;
         object->h = 0x10;
-        D_8009B0F4_abs &= 0xFFDDFFFF;
-        D_8009B0F4_abs |= 0x10000;
+        gFile_dwTransferState_abs &= 0xFFDDFFFF;
+        gFile_dwTransferState_abs |= 0x10000;
         object->done = 2;
         object->phase_size = 32 * FILE_SECTOR_SIZE;
-        object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        object->value_08 = gFile_TransferBufferBase;
+        object->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 2:
-        object->value_0C = (s32)D_801DD000;
-        object->value_08 = (s32)D_801DD000;
+        object->value_0C = (s32)gFile_abPackageStagingBuffer;
+        object->value_08 = (s32)gFile_abPackageStagingBuffer;
         object->phase_size = 2 * FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->done = 1;
         break;
 
     case 3:
         rect = *(RECT *)gMainMenu_PackageStageRect;
-        LoadImage2(&rect, (u32 *)D_801DD000);
+        LoadImage2(&rect, (u32 *)gFile_abPackageStagingBuffer);
         object->phase_size = 16 * FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->value_0C = gMainMenu_dwSuModuleBase;
         object->value_08 = gMainMenu_dwSuModuleBase;
         object->done = 1;
         break;
 
     case 4:
-        object->value_0C = (s32)D_801AF800;
-        object->value_08 = (s32)D_801AF800;
+        object->value_0C = (s32)gDisplay_abResourceBank1;
+        object->value_08 = (s32)gDisplay_abResourceBank1;
         object->phase_size = FILE_SECTOR_SIZE;
-        D_8009B0F4_abs &= 0xFFDCFFFF;
+        gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->done = 1;
         break;
     }

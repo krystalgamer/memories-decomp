@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "duel_effect_resource_record.h"
 #include "duel_effect_resource_setup.h"
 #include "display_object.h"
@@ -60,7 +61,7 @@ FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_i
         0, 0, DUEL_RESOURCE_TRANSFER_POSITION(card_id),
         DUEL_RESOURCE_TRANSFER_SECTORS, CardPreview_HandleResourceTransfer, 0, 0);
     object->callback_data = (void *)slot;
-    D_8009B0F4_abs =
+    gFile_dwTransferState_abs =
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     return object;
 }

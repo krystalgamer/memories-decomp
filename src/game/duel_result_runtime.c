@@ -31,6 +31,7 @@
 #include "trig_constants.h"
 #include "duel_init_scene.h"
 #include "file_transfer.h"
+#include "file_transfer_state.h"
 #include "func_80020BE4.h"
 #include "sound.h"
 #include "sound_output.h"
@@ -49,6 +50,7 @@
 #include "duel_result_display.h"
 #include "duel_rewards.h"
 #include "text_staging.h"
+#include "text_message_staging.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "display_object_config.h"
@@ -58,6 +60,7 @@
 #include "duel_check_quit_input.h"
 #include "duel_effect.h"
 #include "../unmatched.h"
+#include "display_resource_banks.h"
 #include "view_state_current.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
@@ -118,7 +121,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
             DisplayObject_ConfigureSpriteAtPositionWithResource(slot, (s16)arg0->field_30.h.field_30,
                                    (s16)arg0->field_30.h.field_32, 0,
                                    arg0->field_68, arg0->field_69, 0x11, 9,
-                                   D_801AF000);
+                                   gDisplay_abResourceBank0);
             slot->field_40.h.field_40 = (u16)arg0->field_40.h.field_40 + 0x80;
             slot->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -253,8 +256,8 @@ void DuelScene_UpdateResultOutro(void)
     switch (state) {
     case 1:
         if ((flags & 0x80) == 0) {
-            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                D_8009B134_abs) {
+            if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState_abs) {
                 return;
             }
             gDuel_bSceneSubStep = flags | 0x80;
@@ -271,8 +274,8 @@ void DuelScene_UpdateResultOutro(void)
                 (s32)((u8 *)slots - 0x1800));
             SD_BGMPreload(gDuelResult_wBgmId);
         } else {
-            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                D_8009B134_abs) {
+            if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState_abs) {
                 return;
             }
             gDuel_bSceneSubStep = 2;
@@ -326,7 +329,7 @@ void DuelScene_UpdateResultOutro(void)
                     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                     DisplayObject_ConfigureSpriteAtPositionWithResource(obj, spec->x, spec->y, 0,
                                   gDuel_bWinnerSide, spec->kind, 0x11, 9,
-                                  D_801AF000);
+                                  gDisplay_abResourceBank0);
                     if (obj->field_69 >= 0x1A) {
                         obj->field_40.h.field_40 =
                             (u16)obj->field_40.h.field_40 + 0x10;
@@ -348,8 +351,8 @@ void DuelScene_UpdateResultOutro(void)
                 }
             }
         } else {
-            if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-                D_8009B134_abs) {
+            if ((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+                gFile_dwCancelRequestState_abs) {
                 return;
             }
             if (DisplayObject_FindAllocatedByTag(1) == 0) {
@@ -465,7 +468,7 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
    end-reason adjustment selects the middle variant, not a rank letter.
    Both side scores at +0x2C start at DUEL_RANK_SCORE_INITIAL, then receive
    the end-reason and threshold-rule adjustments. Raw statistics are also
-   copied into the separate D_801D5608[0].rank_rows[stat][side] display
+   copied into the separate gText_StagedValues[0].rank_rows[stat][side] display
    table. */
 /* The results page that shows the selected text. */
 #ifdef VERSION_EUROPE
@@ -483,7 +486,7 @@ void Duel_CalcRankScore(void) {
 
     p = gDuel_pResultDisplayState;
     e = gDuel_aSideStates;
-    q = &D_801D5608[0].rank_rows[0][0];
+    q = &gText_StagedValues[0].rank_rows[0][0];
 #ifdef VERSION_EUROPE
     /* The European build shows the selected text on the first page and
        0x44 on the second. */
@@ -663,7 +666,7 @@ void DuelScene_UpdateResultRewards(void)
         count = 9;
         object->flags |= 0x28;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 0, 4, 0, 16, 8, D_801AF000);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 0, 4, 0, 16, 8, gDisplay_abResourceBank0);
         DisplayObject_SelectOrderingTable1(object);
         DisplayObject_SetDepthOffset(object, -1);
         object->flags |= 0x20;
@@ -684,7 +687,7 @@ void DuelScene_UpdateResultRewards(void)
             count = 0;
             gDuel_wSelectedCardID = dropped_card;
             gDuel_pResultDisplayState->dropped_card_id = dropped_card;
-            D_801D56A8[0] = dropped_card;
+            gDuel_DroppedCardTextValue[0] = dropped_card;
             offset = 8;
             if (gDuel_pResultDisplayState->starchip_prize) {
                 x = 160;
@@ -704,14 +707,14 @@ side_result:
         if (gDuel_bSide0ControllerSelector[gDuel_bWinnerSide] < 0) {
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, DUEL_RESULT_RANK_Y, 0, 5, gDuel_pResultDisplayState->is_tec_rank,
-                16, 8, D_801AF000);
+                16, 8, gDisplay_abResourceBank0);
             DisplayObject_SelectOrderingTable1(object);
             DisplayObject_SetDepthOffset(object, -2);
             object->flags |= 0x20;
             gDuel_pResultDisplayState->children[0] = object;
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, DUEL_RESULT_RANK_Y, 0, 6, gDuel_pResultDisplayState->rank_tier,
-                16, 8, D_801AF000);
+                16, 8, gDisplay_abResourceBank0);
             DisplayObject_SelectOrderingTable1(object);
             DisplayObject_SetDepthOffset(object, -1);
             object->flags |= 0x20;
