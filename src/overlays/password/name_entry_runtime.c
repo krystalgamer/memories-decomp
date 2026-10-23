@@ -16,6 +16,7 @@
 #include "../../game/gpu_packets.h"
 #include "../../game/sound.h"
 #include "../../game/save_data.h"
+#include "../../game/player_name_glyphs.h"
 #include "../../game/fade.h"
 #include "name_entry_keyboard.h"
 #include "name_entry_frame.h"
@@ -154,7 +155,7 @@ void NameEntry_Init(void)
     gNameEntry_bGlyphVramSlot = 0;
     gNameEntry_bGlyphSequence = 0;
     gNameEntry_pNameBuffer = gSaveData_aPlayerNameSjis;
-    Text_SjisToGlyphCodes(D_801B125A, gSaveData_aPlayerNameSjis,
+    Text_SjisToGlyphCodes(gText_aCurrentPlayerNameGlyphs, gSaveData_aPlayerNameSjis,
                   SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
 #ifdef VERSION_EUROPE
     TextBox_CreateFlagged(3, 254, 112, 204, 96, 16, 3);

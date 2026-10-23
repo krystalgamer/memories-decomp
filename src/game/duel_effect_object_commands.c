@@ -8,6 +8,7 @@
 #include "duel_effect_object_commands.h"
 #ifdef VERSION_EUROPE
 #include "save_data.h"
+#include "player_name_glyphs.h"
 #endif
 
 /* Regional value: the channel flag Text_DisableCompletionWait clears (8 -> 0x10). The
@@ -82,11 +83,11 @@ void Text_CloseChoice(DuelEffectChannel *object)
 }
 
 #ifdef VERSION_EUROPE
-/* European only: pushes the player name's glyph codes, D_801B125A, as the
+/* European only: pushes the player name's glyph codes, gText_aCurrentPlayerNameGlyphs, as the
    next text stream. */
 void Text_PushPlayerNameStream(DuelEffectChannel *object)
 {
-    ((TextStreamOwner *)object)->streams[object->stream_58 + 1] = D_801B125A;
+    ((TextStreamOwner *)object)->streams[object->stream_58 + 1] = gText_aCurrentPlayerNameGlyphs;
     object->stream_58++;
 }
 #endif

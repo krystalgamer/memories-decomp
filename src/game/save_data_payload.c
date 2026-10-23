@@ -2,6 +2,7 @@
 #define GSD_BOUTPUTTYPE_IN_DATA
 #include "../types.h"
 #include "save_data.h"
+#include "player_name_glyphs.h"
 #include "graphics_frame.h"
 #include "sound.h"
 #include "text_sjis_to_glyph_codes.h"
@@ -195,7 +196,7 @@ void SaveData_BuildPayload(SaveDataPayload *data)
 #define gCampaignSceneIndex (*(u8 *)SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS)
 
 void SaveData_ApplyRuntimeState(SaveDataState *state) {
-    Text_SjisToGlyphCodes(D_801B125A, state->player_name_sjis, SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
+    Text_SjisToGlyphCodes(gText_aCurrentPlayerNameGlyphs, state->player_name_sjis, SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
 
     /*
      * These discarded addresses use the retail assembler-temporary form.
