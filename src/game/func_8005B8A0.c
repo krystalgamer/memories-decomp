@@ -5,6 +5,7 @@
 #include "func_8005C690.h"
 #include "graphics_frame.h"
 #include "movie_frame_pipeline.h"
+#include "movie_handoff_state.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libpress.h"
 #include "graphics_constants.h"
@@ -26,7 +27,7 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     gMovie_dwEndSector = a3;
     gMovie_bRgb24 = a4;
     gMovie_pWorkArea = gRuntime_pSharedWorkBase;
-    D_8009B061 = a5;
+    gMovie_bCopyDisplayOnStop = a5;
     if (gMovie_bRgb24 != 0) {
         /* Retail sets $a0 and $a1 here even though GsGetActiveBuff takes
            no arguments. The call goes through a two-argument view of the
@@ -53,7 +54,7 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         ClearImage(&rect, gGraphics_bClearRed, gGraphics_bClearGreen, gGraphics_bClearBlue);
         DrawSync(0);
         VSync(0);
-        D_800FE0CC = 1;
+        gLibGs_sActiveBufferIndex = 1;
         GsSwapDispBuff();
 #ifdef VERSION_EUROPE
         GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, 0x100, 4, 1, 1);

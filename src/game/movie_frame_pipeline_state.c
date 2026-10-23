@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "movie_frame_pipeline.h"
+#include "movie_handoff_state.h"
 
 /* The movie frame pipeline's .sdata state block, 0x8009B060 to 0x8009B073.
  *
@@ -28,7 +29,7 @@
  * which is the same conclusion reached from the other direction. */
 
 u8 gMovie_bRgb24 __attribute__((section(".sdata"))) = 0;
-u8 D_8009B061 __attribute__((section(".sdata"))) = 0;
+u8 gMovie_bCopyDisplayOnStop __attribute__((section(".sdata"))) = 0;
 u8 gMovie_bFrameDecoded __attribute__((section(".sdata"))) = 0;
 u8 gMovie_bStreamEnded __attribute__((section(".sdata"))) = 0;
 u8 gMovie_bFadingOut __attribute__((section(".sdata"))) = 0;
