@@ -248,7 +248,7 @@ all include the shared header:
 `Model_RunSlotHandlers`,
 `Model_SetSlotPartSpeeds`, and `Model_SetSlotProperties`.
 
-## `D_800F5918`: 80 handler registry entries
+## `gModel_aHandlerKeyRegistry` (`D_800F5918`): 80 handler registry entries
 
 `ModelHandlerRegistryEntry` is an eight-byte pair: `handler_value` at `+0`
 and `key` at `+4`. `Model_RegisterHandlerKey` and `Model_FindHandlerKey`
@@ -258,7 +258,7 @@ same-address functions agree on the order and count. The modeled extent is
 `80 * 8 == 0x280`; `gAiScript_aMemory` (`0x800F5B98`) starts exactly at
 `D_800F5918 + 0x280`.
 
-All five functions that reach the registry now use the shared entry type and
+All registry accessors use the shared entry type and
 the typed extern. The two packed-ID dispatch maps used to keep a raw byte
 walk over the same table, behind `MODEL_HANDLER_REGISTRY_CUSTOM_EXTERN`, on
 the assumption that converting it would move their switch layout. Coalescing
