@@ -339,3 +339,26 @@ press:
     SD_SEPlayFull(0x34);
     D_8009B248 |= 0x50;
 }
+
+/* The duel-effect state dispatcher, the next function in the image. It
+ * latches gDuel_bEffectState into gDuel_bActiveEffectState on first entry and
+ * then runs gDuelEffect_apfnStateHandler[gDuel_bActiveEffectState] until the
+ * handler raises DUEL_EFFECT_STATE_FLAG_COMPLETE. DuelEffect_UpdateCardViewerState
+ * above is one of those handlers (duel_effect_tables.c). None of the addressing
+ * selectors defined at the top of this unit names a symbol it uses. */
+s32 DuelEffect_UpdateState(void) {
+    u8 v = gDuel_bEffectState;
+    if (v == 0) return 0;
+    if ((v & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDuel_bActiveEffectState = v;
+        gDuel_bEffectState = v | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        gDuel_bEffectHandlerFlags = 0;
+        return 1;
+    }
+    if (v & DUEL_EFFECT_STATE_FLAG_COMPLETE) {
+        gDuel_bEffectState = 0;
+        return 0;
+    }
+    gDuelEffect_apfnStateHandler[gDuel_bActiveEffectState]();
+    return 1;
+}

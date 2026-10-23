@@ -9,4 +9,4 @@
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134
 
-#include "../duel_effect_update_card_viewer_state.c"
+#include "../duel_effect_states.c"
