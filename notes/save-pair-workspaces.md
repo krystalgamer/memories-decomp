@@ -33,9 +33,11 @@ are not changed.
 The name at `+0x40C` is the SJIS **source**, not glyph output.
 `Text_SjisToGlyphCodes` receives it as argument two with the existing
 six-character count, then receives source plus `0x1000` for the other
-player. Its destinations remain separate `D_801B122B` and `D_801B1238`
-views. No encoding validation, terminator rule, new extent or bounds
-check follows from naming the source.
+player. Its destinations remain separate `gText_aFirstPlayerNameGlyphs`
+and `gText_aSecondPlayerNameGlyphs` views, documented in
+[player-name-glyph-views.md](player-name-glyph-views.md). No encoding
+validation, terminator rule, new extent or bounds check follows from
+naming either the source or the outputs.
 
 ## Trade staging, not another full-save allocation
 

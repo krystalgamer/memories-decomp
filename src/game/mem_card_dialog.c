@@ -56,6 +56,7 @@
 #include "two_player_save_setup.h"
 #include "sound.h"
 #include "../unmatched.h"
+#include "paired_player_name_glyphs.h"
 #include "save_pair_transfer_views.h"
 
 /* Regional value: the completion mask it tests (0x2008 -> 0x2010). The
@@ -1868,12 +1869,12 @@ s32 SaveData_UpdateDuelLoad(void)
             }
         }
         Text_SjisToGlyphCodes(
-            D_801B122B,
+            gText_aFirstPlayerNameGlyphs,
             gSaveData_aFirstPlayerNameSjis,
             SAVE_DATA_PLAYER_NAME_CHAR_COUNT
         );
         Text_SjisToGlyphCodes(
-            D_801B1238,
+            gText_aSecondPlayerNameGlyphs,
             gSaveData_aFirstPlayerNameSjis + TWO_PLAYER_SAVE_SLOT_STRIDE,
             SAVE_DATA_PLAYER_NAME_CHAR_COUNT
         );

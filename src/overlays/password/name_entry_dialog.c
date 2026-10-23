@@ -15,6 +15,7 @@
 #include "../../game/gpu_packets.h"
 #include "../../game/sound.h"
 #include "../../game/save_data.h"
+#include "../../game/player_name_glyphs.h"
 #include "../../game/fade.h"
 #include "name_entry_keyboard.h"
 #include "name_entry_frame.h"
@@ -185,7 +186,7 @@ void NameEntry_UpdateDialog(void)
         DisplayObject_ReleaseIfPresent(caret);
         ff = gNameEntry_bStateFlags;
         gNameEntry_bStateFlags = ff & 0x7F;
-        Text_SjisToGlyphCodes(D_801B125A, gNameEntry_pNameBuffer, 6);
+        Text_SjisToGlyphCodes(gText_aCurrentPlayerNameGlyphs, gNameEntry_pNameBuffer, 6);
 #ifdef VERSION_EUROPE
         TextBox_CreateFlagged(3, 254, 112, 204, 96, 16, 3);
 #else
@@ -217,7 +218,7 @@ void NameEntry_UpdateDialog(void)
         return;
     }
     term = TEXT_STRING_TERMINATOR;
-    p = D_801B125A;
+    p = gText_aCurrentPlayerNameGlyphs;
     c = *p;
     next = 0;
     goto ztest;

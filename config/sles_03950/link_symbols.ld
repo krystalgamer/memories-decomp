@@ -1179,3 +1179,7 @@ gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
 gDialog_bCallbackState = D_8009B3C1;
+
+gText_aCurrentPlayerNameGlyphs = D_801B125A;
+gText_aFirstPlayerNameGlyphs = D_801B122B;
+gText_aSecondPlayerNameGlyphs = D_801B1238;
