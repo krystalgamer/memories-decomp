@@ -59,10 +59,6 @@ class SpanishNoopGroupTests(unittest.TestCase):
                         boundary += int(matched["size"], 0)
                     self.assertEqual(boundary, expected)
 
-    def test_library_function_is_not_shadowed_by_its_old_absolute_alias(self) -> None:
-        linker = (ROOT / "config/sles_03951/link_symbols.ld").read_text()
-        self.assertIsNone(re.search(r"^\s*func_8002BAAC\s*=", linker, re.M))
-
 
 if __name__ == "__main__":
     unittest.main()

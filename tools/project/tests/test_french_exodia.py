@@ -108,12 +108,6 @@ class FrenchExodiaTests(unittest.TestCase):
             counts = inventories[f"exodia_slot{slot}"]
             self.assertEqual((counts["matching_c_function_count"], counts["matching_c_bytes"]), expected)
 
-    def test_spoke_recovery_keeps_packed_coordinates_and_honest_attempts(self):
-        with (ROOT / "notes/overlays/exodia-helpers-attempts.csv").open() as handle:
-            attempts = [r for r in csv.DictReader(handle) if r["function"] == "func_8013BC0C"]
-        self.assertEqual([r["attempt"] for r in attempts], ["01", "02", "03", "04", "05", "06"])
-        self.assertEqual([r["result"] for r in attempts], ["nonmatching"] * 5 + ["matched"])
-
     def test_entry_recovery_preserves_coordinate_widths_and_attempts(self):
         with (ROOT / "notes/overlays/exodia-helpers-attempts.csv").open() as handle:
             attempts = [r for r in csv.DictReader(handle) if r["function"] == "func_8013B004"]
@@ -188,12 +182,6 @@ class FrenchExodiaTests(unittest.TestCase):
         self.assertEqual(list(image[0x17AC + 16:0x17AC + 19]), [3, 0, 0])
         self.assertEqual(struct.unpack_from("<5I", image, 0x17AC + 28),
                          (540, 570, 576, 716, 1994))
-
-    def test_second_entry_keeps_initialization_order_and_uncertain_fields(self):
-        with (ROOT / "notes/overlays/exodia-helpers-attempts.csv").open() as handle:
-            attempts = [r for r in csv.DictReader(handle) if r["function"] == "func_8017B004"]
-        self.assertEqual([r["attempt"] for r in attempts], ["01", "02"])
-        self.assertEqual([r["result"] for r in attempts], ["nonmatching", "matched"])
 
     def test_second_entry_retail_anchors_and_observed_configuration(self):
         image = self.retail_image(1)

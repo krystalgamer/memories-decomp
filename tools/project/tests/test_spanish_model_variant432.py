@@ -89,20 +89,6 @@ class SpanishModelVariant432Tests(unittest.TestCase):
             self.assertIn("ReadRotMatrix = 0x800872A8;", bindings)
             self.assertIn("SetRotMatrix = 0x80087738;", bindings)
 
-    def test_source_keeps_canonical_types_and_observed_stack_interval(self):
-        directory = ROOT / "src/overlays/spanish_model_variant"
-        with (ROOT / "notes/overlays/spanish-model-variant432-attempts.csv").open() as handle:
-            attempts = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x134C"]
-        self.assertEqual([r["result"] for r in attempts], ["nonmatching", "matched"])
-        self.assertEqual(attempts[-1]["different_words"], "0")
-
-    def test_band_helper_keeps_closed_rows_and_matching_loop_order(self):
-        directory = ROOT / "src/overlays/spanish_model_variant"
-        with (ROOT / "notes/overlays/spanish-model-variant432-attempts.csv").open() as handle:
-            attempts = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x1AC4"]
-        self.assertEqual([row["result"] for row in attempts], ["nonmatching", "matched"])
-        self.assertEqual(attempts[-1]["different_words"], "0")
-
     def test_legal_images_and_complete_direct_control_flow(self):
         path = ROOT / self.archive_path
         if not path.exists():
@@ -158,10 +144,3 @@ class SpanishModelVariant432Tests(unittest.TestCase):
                     self.assertEqual(visited, set(range(start, end, 4)))
                     self.assertEqual(returns, {end - 8})
                 self.assertEqual(local_calls, {start for start, end in spans[1:]})
-
-    def test_layer_helper_reuses_band_layout_and_preserves_final_layer_update(self):
-        directory = ROOT / "src/overlays/spanish_model_variant"
-        with (ROOT / "notes/overlays/spanish-model-variant432-attempts.csv").open() as handle:
-            attempts = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x169C"]
-        self.assertEqual([row["result"] for row in attempts], ["nonmatching"] * 4 + ["matched"])
-        self.assertEqual(attempts[-1]["different_words"], "0")

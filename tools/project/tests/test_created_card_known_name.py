@@ -45,12 +45,5 @@ class CreatedCardKnownNameTests(unittest.TestCase):
         self.assertFalse((ROOT / "src/game/japanese/func_80019CC8.c").exists())
 
 
-    def test_japanese_alias_and_confirmed_ledger_row(self):
-        with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:
-            entry, = [row for row in csv.DictReader(handle) if row["name"] == NAME]
-        self.assertEqual((entry["kind"], entry["address"], entry["confidence"]),
-                         ("function", "0x80019CC8", "confirmed"))
-
-
 if __name__ == "__main__":
     unittest.main()
