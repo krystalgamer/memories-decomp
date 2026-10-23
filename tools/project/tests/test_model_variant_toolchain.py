@@ -416,7 +416,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             425: (names({259, 630}), 0x43FC, 10),
             448: (names(set(), {108, 573}), 0x43E4, 9),
             443: (names({70, 460, 469, 704}, {44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 5),
-            (443, "model 125"): (names({125}), 0x4D0C, 4),
+            (443, "model 125"): (names({125}), 0x4D0C, 5),
             # The Spanish header-408 source, built for North America.
             391: (names(set(), {54}), 0x146C, 3),
             541: (names(set(), stage10_slot1={54}), 0x146C, 3),
@@ -441,7 +441,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             575: (names(set(), stage8_slot1={259, 630}, stage10_slot1=set()), 0x43FC, 10),
             578: (names(set(), stage8_slot1={187, 596}, stage10_slot1={239, 361, 368, 478}), 0x359C, 8),
             593: (names(set(), stage8_slot1={70, 460, 469, 704}, stage10_slot1={44, 98, 161, 370, 400, 458, 462, 558}), 0x2888, 5),
-            (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 4),
+            (593, "model 125"): (names(set(), stage8_slot1={125}), 0x4D0C, 5),
             # Header 459: the header-418 webs with header-425 constants.
             459: (names(set(), {712}, stage10_slot1=set(), stage8_slot1=set()), 0x3338, 7),
             609: (names(set(), set(), stage10_slot1={712}, stage8_slot1=set()), 0x3338, 7),
