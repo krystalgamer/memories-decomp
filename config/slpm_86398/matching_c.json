@@ -1719,21 +1719,21 @@
     },
     {
       "address": "0x8002D0B8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x98",
-      "source": "src/game/japanese/main_run_campaign_map.c"
+      "source": "src/game/japanese/main_run_selection_menus.c"
     },
     {
       "address": "0x8002D150",
       "profile": "gcc_2_8_1_g8_comm",
       "size": "0x88",
-      "source": "src/game/japanese/main_run_build_deck_menu.c"
+      "source": "src/game/japanese/main_run_selection_menus.c"
     },
     {
       "address": "0x8002D1D8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x60",
-      "source": "src/game/japanese/main_run_free_duel_menu.c"
+      "source": "src/game/japanese/main_run_selection_menus.c"
     },
     {
       "address": "0x8002D238",

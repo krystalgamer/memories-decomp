@@ -1772,7 +1772,7 @@
     },
     {
       "address": "0x8002D2D8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x98",
       "source": "src/game/main_run_selection_menus.c"
     },
@@ -1780,13 +1780,13 @@
       "address": "0x8002D370",
       "profile": "gcc_2_8_1_g8_comm",
       "size": "0x88",
-      "source": "src/game/main_run_build_deck_menu.c"
+      "source": "src/game/main_run_selection_menus.c"
     },
     {
       "address": "0x8002D3F8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0x60",
-      "source": "src/game/main_run_free_duel_menu.c"
+      "source": "src/game/main_run_selection_menus.c"
     },
     {
       "address": "0x8002D458",
