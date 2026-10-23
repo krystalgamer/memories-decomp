@@ -2,6 +2,11 @@
 #define MEMORIES_DECOMP_BUILD_DECK_PANE_INPUT_H
 
 #include "build_deck_transition_state.h"
+#include "card_list_text_boxes.h"
+
+/* Returns the id of the entry the cursor is on, or 0 when that row's flag
+   byte is clear. Both pane-input steps read the highlighted card through it. */
+s32 BuildDeck_GetActiveCardID(CardList *list);
 
 /* The two input steps of the Build Deck step table gBuildDeck_apfnStepHandlers
  * (duel_transition_step_table.c). Both receive the shared transition state;
