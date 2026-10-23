@@ -67,7 +67,7 @@
    password lookup and the per-tick updater, Password_UpdateShopScreen, which
    is the preview helper's other caller and the lookup's only one.
 
-   Both doors are resident: main_run_password_menu.c calls
+   Both doors are resident: Main_RunPasswordMenu (main_run_frontend_menus.c) calls
    Password_InitShopScreen once and Password_UpdateShopScreen each tick.
    Nothing outside this unit reaches Password_RecreateCardPreview or
    Password_LookupCardID.
