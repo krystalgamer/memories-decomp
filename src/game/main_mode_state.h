@@ -44,4 +44,6 @@ extern u8 D_8009B26C;
 extern u8 D_8009B26C[];
 #endif
 
+#include "main_mode_controls.h"
+
 #endif

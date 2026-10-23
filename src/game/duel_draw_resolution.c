@@ -363,8 +363,8 @@ next_obj:
     SD_BGMPreload(0x7310);
     Model_SetPresentationBgmCommand(0x7310);
     gDuel_bResumeFromAnimatedBattle = 1;
-    D_8009B269 = 3;
-    D_8009B26C = 1;
+    gMain_bReturnMode = 3;
+    gMain_bActiveModeState = 1;
 }
 
 void DuelCard_CaptureRoundedTexture(DisplayObject *o)

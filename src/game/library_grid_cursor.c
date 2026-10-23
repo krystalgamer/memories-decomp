@@ -75,7 +75,7 @@ void Library_UpdateGridCursor(LibraryState *state)
             }
         }
         if ((gInput_wPad1Pressed & LIBRARY_GRID_CANCEL_BUTTON) != 0) {
-            D_8009B26C[0] = D_8009B269[0];
+            gMain_bActiveModeState[0] = gMain_bReturnMode[0];
             return;
         }
         if ((gInput_wPad1Held & (PAD_DIRECTION_MASK | PAD_BUTTON_L1_R1_MASK)) != 0) {

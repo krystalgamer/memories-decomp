@@ -36,7 +36,7 @@ _start:
 
 # Preserve the retail adjacency, including untouched bytes around every store.
 GLOBAL_OFFSETS = {
-    "D_8009B26C": 0x00C,
+    "gMain_bActiveModeState": 0x00C,
     "gDuel_bSide0ControllerSelector": 0x100,
     "gDuel_bOpponentID": 0x101,
     "gDuel_bTerrain": 0x104,

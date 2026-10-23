@@ -209,8 +209,8 @@ void Script_OpSavePrompt(void)
         TextBox_Destroy(prompt);
         if (gDialog_bChoice != 0) {
             D_8009B268 = 1;
-            D_8009B26D = 5;
-            D_8009B26C = 8;
+            gMain_bRequestedMenuID = 5;
+            gMain_bActiveModeState = 8;
         }
         gDialog_bChoiceCount = 4;
         gDialog_bChoice = 2;
@@ -237,8 +237,8 @@ void Script_OpSavePrompt(void)
         }
         SD_SEPlayFull(8);
         D_8009B268 = 1;
-        D_8009B26D = 5;
-        D_8009B26C = 8;
+        gMain_bRequestedMenuID = 5;
+        gMain_bActiveModeState = 8;
         return;
     }
 
@@ -304,7 +304,7 @@ void Script_OpSavePrompt(void)
         case 1:
             SD_SEPlayFull(7);
             BuildDeck_EnterNarrowConfirmMode();
-            D_8009B269 = 2;
+            gMain_bReturnMode = 2;
             gCampaignSceneIndex = (u8)gScript_SavePromptSceneOperand;
             break;
         case 2:

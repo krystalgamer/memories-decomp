@@ -62,16 +62,16 @@
 
 /* The grouped mode runners use common-symbol forms overridden by the tracked
    link symbols, so these definitions do not allocate storage here. */
-u8 D_8009B269;
-u8 D_8009B26C;
+u8 gMain_bReturnMode;
+u8 gMain_bActiveModeState;
 u8 gMain_bModeRunnerStep;
 
 void Main_RunOptionsMenu(void)
 {
-    u8 flags = D_8009B26C;
+    u8 flags = gMain_bActiveModeState;
 
     if ((flags & 0x40) == 0) {
-        D_8009B26C = flags | 0x40;
+        gMain_bActiveModeState = flags | 0x40;
         File_RequestOptionsPackage();
         MAIN_RUN_OPTIONS_INIT();
     }
@@ -79,17 +79,17 @@ void Main_RunOptionsMenu(void)
         u8 value;
 
         MAIN_RUN_OPTIONS_FINISH();
-        value = D_8009B269;
-        D_8009B26C = value;
+        value = gMain_bReturnMode;
+        gMain_bActiveModeState = value;
     }
 }
 
 void Main_RunGameOver(void)
 {
-    u8 flags = D_8009B26C;
+    u8 flags = gMain_bActiveModeState;
 
     if ((flags & 0x40) == 0) {
-        D_8009B26C = flags | 0x40;
+        gMain_bActiveModeState = flags | 0x40;
         File_RequestGameOverPackage();
         GameOver_Init();
     }
@@ -99,12 +99,12 @@ void Main_RunGameOver(void)
 
         SD_BGMFadeOut();
         Fade_WaitOut();
-        mode = D_8009B269;
-        D_8009B26C = mode;
+        mode = gMain_bReturnMode;
+        gMain_bActiveModeState = mode;
         if (mode != 0) {
             D_8009B268 = 1;
-            D_8009B26D = 0;
-            D_8009B26C = 8;
+            gMain_bRequestedMenuID = 0;
+            gMain_bActiveModeState = 8;
             longjmp(gMain_RecoveryJmpBuf, 1);
         }
     }
@@ -122,8 +122,8 @@ void Main_RunTrade(void)
     DisplayObject *obj;
     s32 y;
 
-    if ((D_8009B26C & 0x40) == 0) {
-        D_8009B26C = D_8009B26C | 0x40;
+    if ((gMain_bActiveModeState & 0x40) == 0) {
+        gMain_bActiveModeState = gMain_bActiveModeState | 0x40;
         CardList_LoadSharedGraphics();
         SD_BGMPlay(0x72D0);
         MainMenu_InitTradeScreen();
@@ -187,7 +187,7 @@ void Main_RunTrade(void)
                 SD_BGMFadeOut();
                 Fade_WaitOut();
                 MainMenu_ReleaseTradeDisplayHandles();
-                D_8009B26C = D_8009B269;
+                gMain_bActiveModeState = gMain_bReturnMode;
             }
         }
         break;

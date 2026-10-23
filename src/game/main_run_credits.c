@@ -83,9 +83,9 @@ void Main_RunCredits(void)
     SetGeomOffset(0xA0, MAIN_RUN_CREDITS_GEOM_OFFSET_Y);
     SetGeomScreen(MAIN_RUN_CREDITS_GEOM_SCREEN);
 
-    mode = D_8009B26C;
+    mode = gMain_bActiveModeState;
     if ((mode & 0x40) == 0) {
-        D_8009B26C = mode | 0x40;
+        gMain_bActiveModeState = mode | 0x40;
         Fade_InitIn();
     initialize_completion:
         save_state = (SaveDataState *)gDuel_awPlayerDeck;

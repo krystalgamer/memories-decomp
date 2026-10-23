@@ -24,7 +24,7 @@ void DebugMenu_EnterMappedMode(void)
     gFreeDuel_bReturnFlags = 0;
     v = p[i];
     D_8009B2B2 = 0;
-    D_8009B26C = v;
+    gMain_bActiveModeState = v;
 }
 
 /* The imported prototype lacks noreturn; retail has no epilogue after this call. */
@@ -40,10 +40,10 @@ void DebugMenu_Exit(void)
 #ifdef VERSION_EUROPE
 /* A European-only debug-menu handler, which follows DebugMenu_Exit in the
    image and has its own slot in the menu's handler table: it sets both
-   D_8009B26C and D_8009B269 to 15. */
+   gMain_bActiveModeState and gMain_bReturnMode to 15. */
 void func_800310FC(void)
 {
-    D_8009B26C = 15;
-    D_8009B269 = 15;
+    gMain_bActiveModeState = 15;
+    gMain_bReturnMode = 15;
 }
 #endif

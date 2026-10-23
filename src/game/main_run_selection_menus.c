@@ -18,4 +18,4 @@
 #include "high_memory_addresses.h"
 #include "main_mode_state.h"
 
-void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;gGraphics_bOrderingTable3Length[0]=10;File_RequestEgyptOverworldPackage();CampaignMap_SetLocation(gCampaignMap_bEntryLocation[0]);Fade_StartIn();}else{CampaignMap_UpdateLocation();if((D_8009B26C&0x40)==0){Main_ClearFrameServiceCallbacks();gGraphics_bOrderingTable3Length[0]=6;Main_AdvanceFrame();}}}
+void Main_RunCampaignMap(void){unsigned char f=gMain_bActiveModeState;if((f&0x40)==0){gMain_bActiveModeState=f|0x40;gGraphics_bOrderingTable3Length[0]=10;File_RequestEgyptOverworldPackage();CampaignMap_SetLocation(gCampaignMap_bEntryLocation[0]);Fade_StartIn();}else{CampaignMap_UpdateLocation();if((gMain_bActiveModeState&0x40)==0){Main_ClearFrameServiceCallbacks();gGraphics_bOrderingTable3Length[0]=6;Main_AdvanceFrame();}}}

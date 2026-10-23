@@ -19,10 +19,10 @@
 
 void Main_RunPasswordMenu(void)
 {
-    unsigned char flags = D_8009B26C;
+    unsigned char flags = gMain_bActiveModeState;
 
     if ((flags & 0x40) == 0) {
-        D_8009B26C = flags | 0x40;
+        gMain_bActiveModeState = flags | 0x40;
         File_RequestPasswordPackage();
         Password_InitShopScreen();
     }
