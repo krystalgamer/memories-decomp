@@ -20,7 +20,6 @@
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"
 #include "card_list_setup.h"
-#include "build_deck_deck_capacity.h"
 #include "dialog_choice.h"
 #include "../unmatched.h"
 
@@ -48,6 +47,22 @@
 #endif
 
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+
+/* Reports whether the deck has a free slot: the first of DECK_SIZE entries in
+ * gBuildDeck_pState->lists[1] whose flags byte is zero. The exit step below
+ * is its only caller. It was its own gcc_2_8_1_g8 unit and is byte-identical
+ * at gcc_2_8_1_g8_split. */
+int BuildDeck_HasOpenDeckSlot(void)
+{
+    int index;
+    CardEntry *entry = gBuildDeck_pState->lists[1].entries;
+    for (index = 0; index < DECK_SIZE; index++, entry++) {
+        if (entry->flags == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 /* Handles leaving the deck editor. When the editor's own check passes, the
  * confirm sound plays and, if the deck has an open slot
