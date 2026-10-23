@@ -79,8 +79,8 @@ All selected-record readers now use the shared layout directly:
 | `0xA2` | `s16 shadow_y_offset` | Added to slot 2's coordinate Y for the default ground-shadow plane |
 | `0xA4` | `u16 stage_height` | Copied into the debug controller's signed height scratch without changing either view |
 | `0xA6` | `u16 texture_width` | Scroll modulus and renderer tile period |
-| `0xA8` | `u16 field_A8` | Existing packed clipping-height/depth view, unchanged |
-| `0xAA` | `u16 field_AA` | Existing packed U/page view, unchanged |
+| `0xA8` | `u16 texture_height_flags` | Low 13 bits bound clipping; upper bits retain depth/attribute behavior |
+| `0xAA` | `u16 texture_u_page` | Existing packed U/page view, unchanged |
 | `0xAC` | `ModelBackgroundVPage` | Low byte feeds V before the active guard; the complete halfword supplies texture-page bits after scrolling |
 | `0xAE` | `u16 clut_x` | Sprite CLUT X |
 | `0xB0` | `u16 clut_y` | Sprite CLUT Y |

@@ -100,7 +100,7 @@ void Model_StepBackgroundVramAnimation(void) {
     s32 n;
     s32 q;
 
-    if (D_800F569F[0] != 0) {
+    if (gModel_bAuxiliaryActive[0] != 0) {
         k = gModel_pBackgroundRecord->selector;
         switch (k) {
         case 1:
