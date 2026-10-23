@@ -226,3 +226,7 @@ gFade_bStep = D_800E9ECF;
 gLibCd_nDeferredStreamInterrupt = D_800F5D44;
 gLibGs_sActiveBufferIndex = D_800FE0CC;
 gMovie_bCopyDisplayOnStop = D_8009B061;
+
+gDuelEffect_aEntries = tent_DuelEffectEntries;
+gDuelEffect_aOccupancyValues = tent_DuelEffectOccupancy;
+gDuelEffect_nCompactionRequested = D_8009B330;

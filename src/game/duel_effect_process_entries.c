@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_state.h"
 #include "duel_effect_process_entries.h"
 
 #ifndef DUEL_EFFECT_PROCESS_ENTRY_TYPE
@@ -17,7 +18,7 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
     DUEL_EFFECT_PROCESS_ENTRY_TYPE *e;
 
     p = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)arg0->entry_head_24;
-    D_8009B330 = 0;
+    gDuelEffect_nCompactionRequested = 0;
 
     while (p->flags_11 & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         if (p->field_13 != 0) {
@@ -28,8 +29,8 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
         p++;
     }
 
-    if (D_8009B330 != 0) {
-        q = &((DUEL_EFFECT_PROCESS_ENTRY_TYPE *)tent_DuelEffectEntries)[
+    if (gDuelEffect_nCompactionRequested != 0) {
+        q = &((DUEL_EFFECT_PROCESS_ENTRY_TYPE *)gDuelEffect_aEntries)[
             DUEL_EFFECT_PROCESS_RANGE_START(arg0)];
         e = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)arg0->entry_end_20;
         s = q;

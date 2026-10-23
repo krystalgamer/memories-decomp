@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_state.h"
 #include "duel_effect_entry_ranges.h"
 #include "duel_effect_set_entry_range_layout.h"
 
@@ -12,7 +13,7 @@ void DuelEffect_SetEntryRangeLayout(s32 arg0, s32 arg1)
     s32 i = *lo;
 
     if (i < *hi) {
-        DuelEffectEntry *base = tent_DuelEffectEntries;
+        DuelEffectEntry *base = gDuelEffect_aEntries;
         DuelEffectEntry *p = &base[i];
         do {
             p->field_18 = arg1;
