@@ -11,8 +11,9 @@ French header-88 C and GCC 2.8.1. See the
 [USA header-71 integration](usa-model-variant71.md) for its fourteen images,
 loader and callee evidence, and preserved unclassified suffixes.
 
-Ten USA images under headers 111 and 241 build from North American C; see
-[USA MODEL headers 111 and 241](usa-model-variant111.md).
+USA images under headers 111/241 and 647/714 build from North American C; see
+[USA MODEL headers 111 and 241](usa-model-variant111.md) and
+[USA MODEL headers 647 and 714](usa-model-variant647.md).
 
 ## Compiler
 
