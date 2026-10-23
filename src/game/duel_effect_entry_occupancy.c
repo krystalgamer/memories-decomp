@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_state.h"
 #include "duel_effect_entry_occupancy.h"
 #include "../unmatched.h"
 
@@ -7,7 +8,7 @@
 void DuelEffect_ClearOccupancyValue(int value)
 {
     int index;
-    u8 *entry = tent_DuelEffectOccupancy;
+    u8 *entry = gDuelEffect_aOccupancyValues;
     value++;
     for (
         index = 0;
@@ -21,13 +22,13 @@ void DuelEffect_ClearOccupancyValue(int value)
 }
 #endif
 
-/* Clears the tent_DuelEffectOccupancy occupancy table (see DuelEffect_ClearOccupancyValue) and resets its
+/* Clears the gDuelEffect_aOccupancyValues occupancy table (see DuelEffect_ClearOccupancyValue) and resets its
    scan cursor to (0,0). */
 #ifndef VERSION_EUROPE
 void DuelEffect_ResetOccupancy(void) {
     u8 *v0;
     int v1;
-    v0 = tent_DuelEffectOccupancy;
+    v0 = gDuelEffect_aOccupancyValues;
     v1 = DUEL_EFFECT_OCCUPANCY_COUNT - 1;
     do {
         *v0 = 0;
@@ -47,7 +48,7 @@ s32 DuelEffect_FindFreeOccupancySlot(void)
     s32 count = 0x100;
     do {
         s32 index = row * 16 + col;
-        if (tent_DuelEffectOccupancy[index] == 0)
+        if (gDuelEffect_aOccupancyValues[index] == 0)
             return index;
         col++;
         if ((col & 3) == 0) {
@@ -90,7 +91,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     u8 v0;
     a1 = DUEL_EFFECT_MARKER_ENTRY_COUNT;
     a0 = a0 + 1;
-    v1 = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)tent_DuelEffectEntries;
+    v1 = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)gDuelEffect_aEntries;
     do {
         v0 = v1->field_12;
         if (v0 == a0) {
@@ -105,7 +106,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     u8 v0;
     a1 = DUEL_EFFECT_ENTRY_COUNT;
     a0 = a0 + 1;
-    v1 = tent_DuelEffectEntries;
+    v1 = gDuelEffect_aEntries;
     do {
         v0 = v1->field_12;
         if (v0 == a0) {
@@ -124,11 +125,11 @@ void DuelEffect_ResetEntryMarkers(void) {
     int v1;
     /* Old GCC preserves the regional initialization order in the output. */
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-    v0 = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)tent_DuelEffectEntries;
+    v0 = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)gDuelEffect_aEntries;
     v1 = DUEL_EFFECT_MARKER_ENTRY_COUNT;
 #else
     v1 = DUEL_EFFECT_MARKER_ENTRY_COUNT;
-    v0 = tent_DuelEffectEntries;
+    v0 = gDuelEffect_aEntries;
 #endif
     for (; v1 != 0; v1 = v1 - 1) {
         v0->flags_11 = 0;

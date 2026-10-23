@@ -214,11 +214,11 @@ extern s16 gDuel_wSelectedCardID;
  */
 extern volatile s32 gText_CommandDisposition;
 
-/* The entry-list rebuild flag. DisplayObjectFade_ReleaseChannel raises it -- its own header
- * calls it "the D_8009B330 rebuild flag so the next pass" picks the change up
- * -- and duel_effect_process_entries.c is the other end: it clears the flag
- * before walking the entries and tests `D_8009B330 != 0` to decide whether
- * the walk has to start again. */
+/* The shared compaction-request word. DuelEffect_ProcessEntries clears it
+ * before invoking entry handlers; DisplayObjectFade_ReleaseChannel raises it.
+ * A nonzero request after that walk triggers stable active-entry compaction,
+ * not a handler-walk restart or a queued next-frame guarantee.
+ * See notes/entry-lifecycle-state.md. */
 extern s32 D_8009B330;
 
 /* The CD-sound command's second word, consumed as a phase-two poll budget.

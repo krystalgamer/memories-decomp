@@ -41,6 +41,7 @@
 #include "main_mode_state.h"
 #include "debug_font_format_data.h"
 #include "text_channel_state.h"
+#include "duel_effect_entry_state.h"
 
 /*
  * The union row view prevents GCC from coalescing the first computed row
@@ -416,7 +417,7 @@ void DebugMenu_UpdateCampaignEntry(void)
                the diagnostic print. */
             func_8003B6AC(0, 2);
             printf(gDebugMenu_szCampaignValueFormat,
-                   tent_DuelEffectEntries[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
+                   gDuelEffect_aEntries[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
 #endif
             TextBox_Create(0, gDebugMenu_wMessageId, 0x10, 0xB0, 0x120,
                            DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT);

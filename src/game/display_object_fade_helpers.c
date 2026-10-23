@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_state.h"
 #include "display_object_fade.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_entry_occupancy.h"
@@ -35,8 +36,8 @@ void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
 #ifndef VERSION_EUROPE
     /* The European build does not clear the occupancy value, as in
        TextBox_Destroy. */
-    tent_DuelEffectOccupancy[object->field_10] = 0;
+    gDuelEffect_aOccupancyValues[object->field_10] = 0;
 #endif
     FADE_OCCUPIED(object) = 0;
-    D_8009B330 = 1;
+    gDuelEffect_nCompactionRequested = 1;
 }

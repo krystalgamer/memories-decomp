@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "text_box_blocking_build.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_state.h"
 #include "func_80036C14.h"
 #include "../unmatched.h"
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
@@ -59,7 +60,7 @@ void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32
     s32 v;
     s32 i;
 
-    tent_DuelEffectOccupancy[slot] = channel->index_57 + 1;
+    gDuelEffect_aOccupancyValues[slot] = channel->index_57 + 1;
     if (tagged_value < 0) {
         glyph = (u16 *)Text_FindRecordById(tagged_value & 0xFFFF);
     } else {

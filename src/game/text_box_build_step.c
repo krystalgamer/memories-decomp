@@ -5,6 +5,7 @@
 #include "text_box_wrap_line.h"
 #include "input.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_state.h"
 #include "duel_effect_state_callbacks.h"
 #include "duel_effect_entry_control.h"
 #include "duel_effect_entry_occupancy.h"
@@ -139,7 +140,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         object->field_2C = 0;
         TextBox_RefreshDisplayObjects(object);
         if ((object->flags_34 & TEXT_BOX_BUILD_OWN_ENTRIES_FLAG) == 0) {
-            entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)tent_DuelEffectEntries)[
+            entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)gDuelEffect_aEntries)[
                 TEXT_BOX_RANGE_START(object)];
             object->entry_head_24 = entry;
             object->entry_end_20 = entry;

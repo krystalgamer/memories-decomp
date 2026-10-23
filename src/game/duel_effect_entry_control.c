@@ -1,12 +1,13 @@
 #include "../types.h"
 #include "duel_effect.h"
+#include "duel_effect_entry_state.h"
 #include "duel_effect_entry_control.h"
 
 #ifdef VERSION_JAPAN
 #include "duel_effect_entry_occupancy.h"
 
 #define DUEL_EFFECT_ENTRY_TYPE JapaneseDuelEffectEntry
-#define DUEL_EFFECT_ENTRIES ((JapaneseDuelEffectEntry *)tent_DuelEffectEntries)
+#define DUEL_EFFECT_ENTRIES ((JapaneseDuelEffectEntry *)gDuelEffect_aEntries)
 #define DUEL_EFFECT_RANGE_START(channel) \
     (((JapaneseDuelEffectEntryRange *)(channel))->range_start_5C)
 #define DUEL_EFFECT_RANGE_COUNT(channel) \
@@ -17,14 +18,14 @@
 /* The European entries are 0x16 bytes, with field_13 and field_15 at 0x11
    and 0x13. */
 #define DUEL_EFFECT_ENTRY_TYPE EuropeanDuelEffectEntry
-#define DUEL_EFFECT_ENTRIES ((EuropeanDuelEffectEntry *)tent_DuelEffectEntries)
+#define DUEL_EFFECT_ENTRIES ((EuropeanDuelEffectEntry *)gDuelEffect_aEntries)
 #define DUEL_EFFECT_RANGE_START(channel) ((channel)->range_start_5C)
 #define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->range_count_5E)
 #define DUEL_EFFECT_FIELD_13_OFFSET 0x11
 #define DUEL_EFFECT_FIELD_15_OFFSET 0x13
 #else
 #define DUEL_EFFECT_ENTRY_TYPE DuelEffectEntry
-#define DUEL_EFFECT_ENTRIES tent_DuelEffectEntries
+#define DUEL_EFFECT_ENTRIES gDuelEffect_aEntries
 #define DUEL_EFFECT_RANGE_START(channel) ((channel)->range_start_5C)
 #define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->range_count_5E)
 #endif
