@@ -1479,7 +1479,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B269,D_8009B269,D_8009B269,0x8002D180,Main_RunAnimatedBattle,matching_c,game,C,src/game/main_run_animated_battle.c,address,8,D_8009B26C = D_8009B269;
 0x8009B269,D_8009B269,D_8009B269,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_selection_menus.c,address,8,value = D_8009B269;
 0x8009B269,D_8009B269,D_8009B269,0x8002D588,Main_RunMenu,matching_c,game,C,src/game/main_run_frontend_menus.c,write,8,void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;File_RequestMainMenuPackag...
-0x8009B269,D_8009B269,D_8009B269,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_name_entry.c,address,8,value = D_8009B269;
+0x8009B269,D_8009B269,D_8009B269,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,address,8,value = D_8009B269;
 0x8009B269,D_8009B269,D_8009B269,0x8002D6C8,Main_RunOptionsMenu,matching_c,game,C,src/game/main_mode_runners.c,read,8,value = D_8009B269;
 0x8009B269,D_8009B269,D_8009B269,0x8002D730,Main_RunGameOver,matching_c,game,C,src/game/main_mode_runners.c,read,8,mode = D_8009B269;
 0x8009B269,D_8009B269,D_8009B269,0x8002D7CC,Main_RunTrade,matching_c,game,C,src/game/main_mode_runners.c,read,8,D_8009B26C = D_8009B269;
@@ -1502,8 +1502,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D3F8,Main_RunFreeDuelMenu,matching_c,game,C,src/game/main_run_selection_menus.c,write,8,D_8009B26C = flags | 0x40; | if ((D_8009B26C & 0x40) == 0) SD_BGMFadeOut(); | (+1 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D458,Main_ApplyMenuSelection,matching_c,game,C,src/game/main_apply_menu_selection.c,write,8,D_8009B26C = MAIN_MODE_CAMPAIGN; | D_8009B26C = MAIN_MODE_DEBUG; | (+6 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D588,Main_RunMenu,matching_c,game,C,src/game/main_run_frontend_menus.c,write,8,void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;File_RequestMainMenuPackag...
-0x8009B26C,D_8009B26C,D_8009B26C,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_name_entry.c,read_write,8,D_8009B26C = flags | 0x40; | D_8009B26C = value; | (+1 more)
-0x8009B26C,D_8009B26C,D_8009B26C,0x8002D684,Main_RunPasswordMenu,matching_c,game,C,src/game/main_run_password_menu.c,write,8,D_8009B26C = flags | 0x40; | unsigned char flags = D_8009B26C;
+0x8009B26C,D_8009B26C,D_8009B26C,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,read_write,8,D_8009B26C = flags | 0x40; | D_8009B26C = value; | (+1 more)
+0x8009B26C,D_8009B26C,D_8009B26C,0x8002D684,Main_RunPasswordMenu,matching_c,game,C,src/game/main_run_frontend_menus.c,write,8,D_8009B26C = flags | 0x40; | unsigned char flags = D_8009B26C;
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D6C8,Main_RunOptionsMenu,matching_c,game,C,src/game/main_mode_runners.c,read_write,8,D_8009B26C = flags | 0x40; | D_8009B26C = value; | (+1 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D730,Main_RunGameOver,matching_c,game,C,src/game/main_mode_runners.c,read_write,8,D_8009B26C = 8; | D_8009B26C = flags | 0x40; | (+2 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D7CC,Main_RunTrade,matching_c,game,C,src/game/main_mode_runners.c,read_write,8,D_8009B26C = D_8009B269; | D_8009B26C = D_8009B26C | 0x40; | (+1 more)
@@ -3003,9 +3003,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8015C424,gDuel_abCardStagingBuffer,gDuel_abCardStagingBuffer,0x80024D34,Duel_SetupFieldCardFromDeck,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,8,tb = gDuel_abCardStagingBuffer;
 0x8015C424,gDuel_abCardStagingBuffer,D_8015C424_cards,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/duel_field_effects.c,read,,D_8015C424_cards.field_cards[object->field_6A].card_id;
 0x8015C424,gDuel_abCardStagingBuffer,D_8015C424_cards,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_export_side_snapshot.c,read,,id = D_8015C424_cards.cards[n].id;
-0x801683EC,NameEntry_Init,NameEntry_Init,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_name_entry.c,read,,NameEntry_Init();
+0x801683EC,NameEntry_Init,NameEntry_Init,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,read,,NameEntry_Init();
 0x80168FCC,CampaignMap_UpdateLocation,CampaignMap_UpdateLocation,0x8002D2D8,Main_RunCampaignMap,matching_c,game,C,src/game/main_run_selection_menus.c,read,,void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;gGraphics_bOrderingTable3...
-0x80169C08,NameEntry_PollCompletion,NameEntry_PollCompletion,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_name_entry.c,read,,if (NameEntry_PollCompletion()) {
+0x80169C08,NameEntry_PollCompletion,NameEntry_PollCompletion,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,read,,if (NameEntry_PollCompletion()) {
 0x80177EA4,gDuel_aCardUploadRects,gDuel_aCardUploadRects,0x800249E0,Duel_SetupCardRecord,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,,base = gDuel_aCardUploadRects;
 0x80177FE8,gDuel_awPlayerShuffledDeck,gDuel_awPlayerShuffledDeck,0x800245A0,Duel_ShuffleBothDecks,matching_c,game,C,src/game/duel_shuffle_deck.c,address,16,u16 *base = gDuel_awPlayerShuffledDeck;
 0x8017808C,gDuel_awCombinedDeckCardIds,gDuel_awCombinedDeckCardIds,0x80024734,Duel_RequestCombinedDeckData,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,16,u16 *source = gDuel_awCombinedDeckCardIds;
