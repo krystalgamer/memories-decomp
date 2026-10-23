@@ -19,3 +19,33 @@
 #include "main_mode_state.h"
 
 void Main_RunMenu(void){unsigned char f=gMain_bActiveModeState;int r;if((f&0x40)==0){gMain_bActiveModeState=f|0x40;File_RequestMainMenuPackage();File_WaitForTransfers();DisplayEffect_ResetMenuRecords();MainMenu_InitFrontendMenu(D_8009B268,gMain_bRequestedMenuID);Fade_WaitIn();}rand();r=MainMenu_UpdateFrontendMenu();if(r>=0){SD_BGMFadeOut();Fade_WaitOut();MainMenu_DestroyFrontendMenu();Main_ApplyMenuSelection(r);gMain_bReturnMode=8;}}
+
+u8 gMain_bActiveModeState;
+
+void Main_RunNameEntry(void)
+{
+    u8 flags = gMain_bActiveModeState;
+    u8 value;
+
+    if ((flags & 0x40) == 0) {
+        gMain_bActiveModeState = flags | 0x40;
+        File_RequestNameEntryPackage();
+        NameEntry_Init();
+    }
+    if (NameEntry_PollCompletion()) {
+        value = gMain_bReturnMode;
+        gMain_bActiveModeState = value;
+    }
+}
+
+void Main_RunPasswordMenu(void)
+{
+    unsigned char flags = gMain_bActiveModeState;
+
+    if ((flags & 0x40) == 0) {
+        gMain_bActiveModeState = flags | 0x40;
+        File_RequestPasswordPackage();
+        Password_InitShopScreen();
+    }
+    Password_UpdateShopScreen();
+}
