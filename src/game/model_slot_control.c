@@ -1273,7 +1273,7 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 5:
-        D_800F5694[0] = 1;
+        gModel_bAuxiliaryLoadStep[0] = 1;
         break;
     }
 }

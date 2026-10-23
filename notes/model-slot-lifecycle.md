@@ -1,7 +1,7 @@
 # Model-slot load and animation lifecycle views
 
 The slot loader, SDK animation linker, update/render gates and readiness
-query establish five related `ModelSlot` views:
+query establish five related `ModelSlot` views and an interior byte alias:
 
 | Original member | Canonical member | Preserved representation |
 | --- | --- | --- |
@@ -10,6 +10,7 @@ query establish five related `ModelSlot` views:
 | `field_E1A` | `hmd_unit_count` | `u8`, `+0xE1A` |
 | `field_E1B` | `animation_sequence_count` | `u8`, `+0xE1B` |
 | `field_1E0` | `animation_sequences` | existing `ModelSlotPart *G32[MODEL_SLOT_PART_COUNT]`, `+0x1E0` |
+| `D_800F5694` | `gModel_bAuxiliaryLoadStep` | existing incomplete `u8[]` view of slot 2's step |
 
 The record stays `0xE20` bytes. The active field stays a raw byte, not a
 Boolean type. Counts, pointer annotation, array extent, casts and original
@@ -39,6 +40,34 @@ The existing inline `load_phase` getter keeps its name and signed return
 view. Debug output, update/control paths, scene transitions, background
 drawing and slot rendering adopt the same member identifiers without
 changing their conditions or memory accesses.
+
+## The auxiliary transfer's independent completion label
+
+`Model_LoadAuxiliaryPackageStage` phase 5 writes 1 through `D_800F5694[0]`.
+This is not an unexplained completion Boolean: every actual regional
+provider equals `gModel_aSlots + 2 * 0xE20 + 0xE14`, the auxiliary slot's
+`load_step`. The offset is `0x2A54` in all seven images:
+
+| Image | Slots base | Retained load-step provider |
+| --- | --- | --- |
+| NA | `0x800F2C40` | `0x800F5694` |
+| JP | `0x800F04E0` | `0x800F2F34` |
+| UK | `0x800F3D70` | `0x800F67C4` |
+| FR/DE/IT/ES | `0x800F4178` | `0x800F6BCC` |
+
+The slot initializer's byte offset and record size, the tracked regional
+assignments, and the NA native ELF independently agree. Aggregate readers
+therefore close the phase-5 producer's role: the loader advances that step,
+and the readiness query distinguishes it from the active gate.
+
+`file_transfer_steps.h` retains the old extern and adds
+`gModel_bAuxiliaryLoadStep[]` with `__asm__("D_800F5694")`; regional linker
+inputs export the canonical alias to the old provider. The incomplete array
+and `[0]` store remain. No allocation, extent, Boolean conversion, NA
+address pin in another region, or new overlay import is introduced.
+In particular, the store is not folded to an indexed aggregate access:
+its original independent relocation and fixed auxiliary-slot behavior stay
+exact, including unusual caller inputs.
 
 ## HMD units and animation sequences have separate counts
 
@@ -90,6 +119,8 @@ closure, native compilation artifacts, whole executable and ELF identity
 remain the local conservation gates; actual runtime witness and regional
 image execution remain normal PR validation, not local execution.
 
-These are runtime record members, not independent fixed-VMA objects, so
-there are no new global symbols or semantic-map rows. Linkers, source
-groups, profiles, SDK headers and stored-pointer conventions stay frozen.
+The five fields are runtime record members and do not get invented
+fixed-VMA rows. The one proven existing interior byte view gets one
+evidence-backed global row and a canonical export in each image. All
+legacy native symbols, linker prefixes, source groups, profiles, SDK
+headers and stored-pointer conventions stay frozen.

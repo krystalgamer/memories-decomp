@@ -1209,3 +1209,6 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Canonical view of the retained handler-key registry. */
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
+
+/* Auxiliary slot's retained load-step byte view. */
+gModel_bAuxiliaryLoadStep = D_800F5694;
