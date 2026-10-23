@@ -54,8 +54,8 @@ void Model_DrawBackground(void)
     height = slot->field_D18->matrix.t[1] + 300;
     if (!slot->is_active)
         return;
-    if (slot->field_DA0[0] == -4096 &&
-        slot->field_DA0[1] == -4096 && slot->field_DA0[2] == -4096)
+    if (slot->ambient_rgb_scale[0] == -4096 &&
+        slot->ambient_rgb_scale[1] == -4096 && slot->ambient_rgb_scale[2] == -4096)
         return;
     Model_UpdateBackgroundScroll(0);
     sprite.attribute = 0;
@@ -64,7 +64,7 @@ void Model_DrawBackground(void)
     GsSetFlatLight(0, (GsF_LIGHT *)&slot->field_D70[0]);
     GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
     GsSetFlatLight(2, (GsF_LIGHT *)&slot->field_D70[2]);
-    GsSetAmbient(slot->field_DA0[0], slot->field_DA0[1], slot->field_DA0[2]);
+    GsSetAmbient(slot->ambient_rgb_scale[0], slot->ambient_rgb_scale[1], slot->ambient_rgb_scale[2]);
     GsSetLightMatrix(&gModel_CameraCoordinateUnit.matrix);
     NormalColorCol(&normals.values[0], &colors[0], CVECTOR_VIEW(&sprite.r));
     sprite.tpage = ((gModel_pBackgroundRecord->field_A8 >> 6) & 0x180) |

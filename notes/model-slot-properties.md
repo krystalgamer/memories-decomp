@@ -66,7 +66,7 @@ overlays copy a `CVECTOR` view, and buffer-space accounting reads byte
 three, treating mode five specially. The result is not merely an RGB
 triplet, a new allocation or a normalized color.
 
-`Model_SetSlotAmbient` (`0x800595C8`) writes the three `field_DA0` words
+`Model_SetSlotAmbient` (`0x800595C8`) writes the three `ambient_rgb_scale` words
 consumed directly by `GsSetAmbient` in `Model_DrawSlot` and
 `Model_DrawBackground`. Each signed input is independently clamped to
 `[-4096, 12288]` and stored before the next component is processed.

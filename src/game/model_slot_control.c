@@ -469,20 +469,20 @@ void Model_ResetSlot(s32 arg0)
     p = &gModel_aSlots[arg0];
     Model_FillWords((s32 *)p, 0, 0x388);
 
-    p->field_DA0[2] = MODEL_FIXED_HALF;
-    p->field_DA0[1] = MODEL_FIXED_HALF;
-    p->field_DA0[0] = MODEL_FIXED_HALF;
+    p->ambient_rgb_scale[2] = MODEL_FIXED_HALF;
+    p->ambient_rgb_scale[1] = MODEL_FIXED_HALF;
+    p->ambient_rgb_scale[0] = MODEL_FIXED_HALF;
     p->field_DB0.field_08 = MODEL_FIXED_ONE;
     p->field_DB0.field_04 = MODEL_FIXED_ONE;
     p->field_DB0.field_00 = MODEL_FIXED_ONE;
     p->field_DC0[2] = 0x80;
     p->field_DC0[1] = 0x80;
     p->field_DC0[0] = 0x80;
-    p->field_E0C = 7;
+    p->texture_tint_control = 7;
     p->field_E0D = 8;
     p->load_step = 0xFF;
     p->field_DC0[3] = 0;
-    *(s16 *)&p->field_E0A = COLOR_FIXED_ONE;
+    *(s16 *)&p->texture_tint_scale = COLOR_FIXED_ONE;
     p->field_E1D = 0;
     p->field_DFE = arg0;
     p->field_DFF = 0;
@@ -597,7 +597,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     if (arg0 < 2) {
         b2 = (u8 *)gModel_aSlots;
         r = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b2);
-        Model_ApplyTextureTint(arg0, r->field_E0C, r->field_E0A);
+        Model_ApplyTextureTint(arg0, r->texture_tint_control, r->texture_tint_scale);
     }
 }
 
@@ -836,7 +836,7 @@ void Model_AdvanceSlotLoad(s32 index)
         break;
     }
     case 8:
-        Model_ApplyTextureTint(index, slot->field_E0C, slot->field_E0A);
+        Model_ApplyTextureTint(index, slot->texture_tint_control, slot->texture_tint_scale);
         break;
     case 9: {
         ModelSlot *p = &gModel_aSlots[index];

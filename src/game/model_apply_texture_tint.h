@@ -21,7 +21,7 @@
  * declared centrally in unmatched.h; this function is their only user.
  *
  * model_slot_control.c is the only caller and supplies the tint and level from
- * the slot's field_E0C and field_E0A. */
+ * the slot's texture_tint_control and texture_tint_scale. */
 void Model_ApplyTextureTint(s32 side, s32 tint, s32 level);
 
 #endif

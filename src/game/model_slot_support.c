@@ -70,11 +70,11 @@ void Model_GetSlotDimensionsWithOverrides(s32 index, s16 *output)
 void Model_DrawSlotUnitsOnly(s32 index)
 {
     ModelSlot *entry = &gModel_aSlots[index];
-    u8 old = entry->field_E11;
+    u8 old = entry->draw_mode_request;
 
-    entry->field_E11 = 1;
+    entry->draw_mode_request = 1;
     Model_DrawSlot(index);
-    entry->field_E11 = old;
+    entry->draw_mode_request = old;
 }
 
 // Per-index (stride 0xE20) table; this function seeds 3 records of

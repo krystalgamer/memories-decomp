@@ -200,11 +200,11 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 4:
-        if (gModel_aSlots[2].field_DA0[0] < 0x800) {
+        if (gModel_aSlots[2].ambient_rgb_scale[0] < 0x800) {
             Model_SetSlotDrawMode(2, 3);
-            gModel_aSlots[2].field_DA0[0] += 0x40;
-            gModel_aSlots[2].field_DA0[1] += 0x40;
-            gModel_aSlots[2].field_DA0[2] += 0x40;
+            gModel_aSlots[2].ambient_rgb_scale[0] += 0x40;
+            gModel_aSlots[2].ambient_rgb_scale[1] += 0x40;
+            gModel_aSlots[2].ambient_rgb_scale[2] += 0x40;
         } else if (Model_IsEffectKeyQueueEmpty() != 0) {
             Model_RequestCameraMove(0);
             Model_SetEffectKeyBatchingEnabled(1);
@@ -240,7 +240,7 @@ void Model_UpdateAnimatedBattle(void)
             gModel_aSlots[0].field_DC0[1] += 2;
             gModel_aSlots[0].field_DC0[2] += 2;
         } else {
-            if (gModel_aSlots[0].field_E11 != 4) {
+            if (gModel_aSlots[0].draw_mode_request != 4) {
                 Model_SetSlotDrawMode(0, 3);
             }
             Model_SetSlotTintTarget(0, 0, 0x80, 0x80, 0x80);
@@ -251,7 +251,7 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     case 7:
-        if (gModel_aSlots[0].field_E11 != 4) {
+        if (gModel_aSlots[0].draw_mode_request != 4) {
             Model_SetSlotDrawMode(0, 3);
         }
         if (gModel_aSlots[0].field_E0F == 0) {
@@ -267,7 +267,7 @@ void Model_UpdateAnimatedBattle(void)
     case 8: {
         s16 *r;
 
-        if (gModel_aSlots[0].field_E11 != 4) {
+        if (gModel_aSlots[0].draw_mode_request != 4) {
             Model_SetSlotDrawMode(0, 3);
         }
         r = (s16 *)Model_GetCurrentEffectKeyAddress();
