@@ -251,7 +251,8 @@ typedef struct {
     struct _GsCOORDUNIT *G32 field_D1C;
     u8 pad_D20[0x50];
     ModelSlotLightEntry field_D70[3];
-    s32 field_DA0[3];
+    /* Signed ambient channels; retain the slot-2 negative-one sentinel. */
+    s32 ambient_rgb_scale[3];
     u8 pad_DAC[4];
     ModelSlotS32Quad field_DB0;
     u8 field_DC0[8];
@@ -292,16 +293,18 @@ typedef struct {
     /* Model_ResetSlot seeds this halfword with 0x1000 and
      * Model_LoadSlot reads it back; this unit's own header describes
      * the pair as "the halfword at +0xE0A". */
-    u16 field_E0A;
+    u16 texture_tint_scale;
     /* Seeded 7 beside field_E0D's 8 by Model_ResetSlot and read back
      * by Model_LoadSlot, which its unit calls "the pair at
      * +0xE0C/+0xE0D". */
-    u8 field_E0C;
+    /* Packed palette hue/invert control, not a Boolean or plain hue. */
+    u8 texture_tint_control;
     u8 field_E0D;
     u8 field_E0E;
     u8 field_E0F;
     u8 field_E10;
-    u8 field_E11;
+    /* Latched for drawing; mode 4 persists and forced draws restore it. */
+    u8 draw_mode_request;
     u8 field_E12;
     u8 field_E13;
     /* Staged initialization step; 0 waits for transfer, 0xFF is idle. */
@@ -488,8 +491,8 @@ typedef char ModelSlot_field_D1C_offset_must_be_0xD1C[
 typedef char ModelSlot_field_D70_offset_must_be_0xD70[
     MODEL_OFFSET(ModelSlot, field_D70) == 0xD70 ? 1 : -1
 ];
-typedef char ModelSlot_field_DA0_offset_must_be_0xDA0[
-    MODEL_OFFSET(ModelSlot, field_DA0) == 0xDA0 ? 1 : -1
+typedef char ModelSlot_ambient_rgb_scale_offset_must_be_0xDA0[
+    MODEL_OFFSET(ModelSlot, ambient_rgb_scale) == 0xDA0 ? 1 : -1
 ];
 typedef char ModelSlot_field_DB0_offset_must_be_0xDB0[
     MODEL_OFFSET(ModelSlot, field_DB0) == 0xDB0 ? 1 : -1
@@ -536,8 +539,8 @@ typedef char ModelSlot_field_E06_offset_must_be_0xE06[
 typedef char ModelSlot_field_E0D_offset_must_be_0xE0D[
     MODEL_OFFSET(ModelSlot, field_E0D) == 0xE0D ? 1 : -1
 ];
-typedef char ModelSlot_field_E11_offset_must_be_0xE11[
-    MODEL_OFFSET(ModelSlot, field_E11) == 0xE11 ? 1 : -1
+typedef char ModelSlot_draw_mode_request_offset_must_be_0xE11[
+    MODEL_OFFSET(ModelSlot, draw_mode_request) == 0xE11 ? 1 : -1
 ];
 typedef char ModelSlot_field_E12_offset_must_be_0xE12[
     MODEL_OFFSET(ModelSlot, field_E12) == 0xE12 ? 1 : -1

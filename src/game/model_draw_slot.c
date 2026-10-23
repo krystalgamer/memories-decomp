@@ -190,21 +190,21 @@ void Model_DrawSlot(s32 index)
     if (slot->is_active == 0) {
         return;
     }
-    if (index == 2 && slot->field_DA0[0] == -0x1000 && slot->field_DA0[1] == slot->field_DA0[0]
-        && slot->field_DA0[2] == slot->field_DA0[1]) {
+    if (index == 2 && slot->ambient_rgb_scale[0] == -0x1000 && slot->ambient_rgb_scale[1] == slot->ambient_rgb_scale[0]
+        && slot->ambient_rgb_scale[2] == slot->ambient_rgb_scale[1]) {
         return;
     }
-    if (slot->field_E11 != 1 && slot->field_DC0[3] >= 2 && !(W(slot->field_DC0, 0) & 0xFFFFFF)) {
+    if (slot->draw_mode_request != 1 && slot->field_DC0[3] >= 2 && !(W(slot->field_DC0, 0) & 0xFFFFFF)) {
         return;
     }
     GsSetFlatLight(0, (GsF_LIGHT *)&slot->field_D70[0]);
     GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
     GsSetFlatLight(2, (GsF_LIGHT *)&slot->field_D70[2]);
-    GsSetAmbient(slot->field_DA0[0], slot->field_DA0[1], slot->field_DA0[2]);
+    GsSetAmbient(slot->ambient_rgb_scale[0], slot->ambient_rgb_scale[1], slot->ambient_rgb_scale[2]);
     gModel_dwLitColorCacheBase = slot->lit_color_cache_address;
-    gModel_bCurrentDrawMode = slot->field_E11;
-    if (slot->field_E11 != 4) {
-        slot->field_E11 = 0;
+    gModel_bCurrentDrawMode = slot->draw_mode_request;
+    if (slot->draw_mode_request != 4) {
+        slot->draw_mode_request = 0;
     }
     if (index < 2) {
         ot->length = 0xE;

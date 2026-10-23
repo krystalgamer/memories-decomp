@@ -3,5 +3,5 @@
 
 void Model_SetSlotDrawMode(int index, int value)
 {
-    gModel_aSlots[index].field_E11 = value;
+    gModel_aSlots[index].draw_mode_request = value;
 }

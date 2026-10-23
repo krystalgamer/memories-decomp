@@ -109,8 +109,8 @@ int GsSetFlatLight(int id, GsF_LIGHT *light)
 void GsSetAmbient(long r, long g, long b)
 {
     event(3, 0, 0);
-    if (r != gModel_aSlots[2].field_DA0[0] || g != gModel_aSlots[2].field_DA0[1] ||
-        b != gModel_aSlots[2].field_DA0[2]) error = 4;
+    if (r != gModel_aSlots[2].ambient_rgb_scale[0] || g != gModel_aSlots[2].ambient_rgb_scale[1] ||
+        b != gModel_aSlots[2].ambient_rgb_scale[2]) error = 4;
 }
 void GsSetLightMatrix(MATRIX *m)
 {
@@ -256,9 +256,9 @@ static void setup(void)
     clear(&ordering, sizeof(ordering));
     gModel_aSlots[2].field_D18 = &coordinate;
     gModel_aSlots[2].is_active = 1;
-    gModel_aSlots[2].field_DA0[0] = 100;
-    gModel_aSlots[2].field_DA0[1] = 200;
-    gModel_aSlots[2].field_DA0[2] = 300;
+    gModel_aSlots[2].ambient_rgb_scale[0] = 100;
+    gModel_aSlots[2].ambient_rgb_scale[1] = 200;
+    gModel_aSlots[2].ambient_rgb_scale[2] = 300;
     gModel_pBackgroundRecord = (ModelBackgroundRecord *)record;
     gModel_wBackgroundOffsetY = 48; gModel_wBackgroundScrollX = 0;
     WORD(record, 0xA6) = 1280; WORD(record, 0xA8) = 256;
@@ -316,10 +316,10 @@ static s32 guards(void)
     for (inactive = 0; inactive < 2; inactive++) for (channel = 0; channel < 4; channel++) {
         setup();
         gModel_aSlots[2].is_active = !inactive;
-        gModel_aSlots[2].field_DA0[0] = -4096;
-        gModel_aSlots[2].field_DA0[1] = -4096;
-        gModel_aSlots[2].field_DA0[2] = -4096;
-        if (channel < 3) gModel_aSlots[2].field_DA0[channel] = -4095;
+        gModel_aSlots[2].ambient_rgb_scale[0] = -4096;
+        gModel_aSlots[2].ambient_rgb_scale[1] = -4096;
+        gModel_aSlots[2].ambient_rgb_scale[2] = -4096;
+        if (channel < 3) gModel_aSlots[2].ambient_rgb_scale[channel] = -4095;
         run();
         if (inactive || channel == 3) CHECK(!error && count == 0, 20);
         else CHECK(lighting() && normal_count == 1 && sprite_count == 6, 21);
