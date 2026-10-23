@@ -259,3 +259,5 @@ gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
 /* Auxiliary slot's retained load-step byte view. */
 gModel_bAuxiliaryLoadStep = D_800F5694;
 gModel_bAuxiliaryActive = D_800F569F;
+gText_DecimalDivisorView = D_80090E0C;
+gTextBox_apfnStateCallbacks = D_80090E64;

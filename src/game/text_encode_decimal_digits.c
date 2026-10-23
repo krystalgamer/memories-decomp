@@ -5,7 +5,7 @@
 #include "text_encode_decimal_no_padding.h"
 
 void Text_EncodeDecimalDigits(s32 arg0, s32 arg1, u8 *arg2) {
-    s32 d = D_80090E0C[arg1];
+    s32 d = gText_DecimalDivisorView[arg1];
     s32 i;
 
     i = arg1 - 1;
