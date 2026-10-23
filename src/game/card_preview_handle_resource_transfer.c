@@ -35,8 +35,8 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
     if (mode == 0) {
         object->phase_size = FUNC_800289BC_PHASE_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        object->value_0C = (u32)gFile_TransferBufferBase;
-        object->value_08 = (u32)gFile_TransferBufferBase;
+        object->alternate_sector_destination = (u32)gFile_TransferBufferBase;
+        object->sector_destination = (u32)gFile_TransferBufferBase;
         object->done = 1;
         return;
     }

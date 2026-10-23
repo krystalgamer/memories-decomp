@@ -60,8 +60,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gFile_dwTransferState_abs |= 0x10000;
         d->done = 2;
         d->result = 0x10;
-        d->value_08 = (u32)gFile_TransferBufferBase;
-        d->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        d->sector_destination = (u32)gFile_TransferBufferBase;
+        d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
 #else
         d->field_30.h.counter = 0x300;
         d->field_30.h.field_32 = 0x100;
@@ -71,8 +71,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gFile_dwTransferState_abs |= 0x10000;
         d->done = 2;
         d->phase_size = 64 * FILE_SECTOR_SIZE;
-        d->value_08 = (u32)gFile_TransferBufferBase;
-        d->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        d->sector_destination = (u32)gFile_TransferBufferBase;
+        d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
 #endif
         break;
 #ifdef VERSION_EUROPE
@@ -99,7 +99,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 #endif
         d->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->value_08 = d->value_0C = (u32)gFile_TransferBufferBase;
+        d->sector_destination = d->alternate_sector_destination = (u32)gFile_TransferBufferBase;
         d->done = 1;
         break;
     case 2:
@@ -113,19 +113,19 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gGraphics_aImageTransferRects[0].w = 0x100;
         gGraphics_aImageTransferRects[0].h = 0x10;
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
-        d->value_08 = d->value_0C = (u32)gDuel_awEquipTable;
+        d->sector_destination = d->alternate_sector_destination = (u32)gDuel_awEquipTable;
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 3:
-        d->value_08 = d->value_0C = (u32)gDuel_aFusionTable;
+        d->sector_destination = d->alternate_sector_destination = (u32)gDuel_aFusionTable;
         d->phase_size = 32 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 4:
-        d->value_08 = d->value_0C = (u32)gDuel_awRitualData;
+        d->sector_destination = d->alternate_sector_destination = (u32)gDuel_awRitualData;
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         d->done = 1;
@@ -133,7 +133,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
     case 5:
         d->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->value_08 = d->value_0C = (u32)gFile_TransferBufferBase;
+        d->sector_destination = d->alternate_sector_destination = (u32)gFile_TransferBufferBase;
         d->done = 1;
         break;
     case 6: {
@@ -164,8 +164,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
             d->done = 2;
             d->h = 0x10;
             image_ptr = gFile_TransferBufferBase;
-            d->value_08 = (u32)image_ptr;
-            d->value_0C = (u32)(image_ptr + FILE_SECTOR_SIZE);
+            d->sector_destination = (u32)image_ptr;
+            d->alternate_sector_destination = (u32)(image_ptr + FILE_SECTOR_SIZE);
             break;
         }
     }
@@ -173,17 +173,17 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         mask = 0xFFDCFFFF;
         d->phase_size = DUEL_PACKAGE_STAGE7_SECTORS * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= mask;
-        d->value_08 = d->value_0C = (u32)gFile_pDuelBankBase;
+        d->sector_destination = d->alternate_sector_destination = (u32)gFile_pDuelBankBase;
         d->done = 1;
         break;
     case 8:
-        d->value_08 = d->value_0C = (u32)D_801A8000;
+        d->sector_destination = d->alternate_sector_destination = (u32)D_801A8000;
         d->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 9:
-        d->value_08 = d->value_0C = (u32)gAiScript_abFieldScript;
+        d->sector_destination = d->alternate_sector_destination = (u32)gAiScript_abFieldScript;
         d->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         d->done = 1;
@@ -203,8 +203,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gFile_dwTransferState_abs = loaded | enabled;
         d->done = 2;
         d->phase_size = 8 * FILE_SECTOR_SIZE;
-        d->value_08 = (u32)gFile_TransferBufferBase;
-        d->value_0C = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        d->sector_destination = (u32)gFile_TransferBufferBase;
+        d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
     }
     case 11:
@@ -216,14 +216,14 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         masked &= mask;
 europe_transfer_tail:
         gFile_dwTransferState_abs = masked;
-        d->value_0C = destination;
-        d->value_08 = destination;
+        d->alternate_sector_destination = destination;
+        d->sector_destination = destination;
         d->done = 1;
         break;
 #else
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->value_08 = d->value_0C = (u32)gRuntime_pSharedWorkBase;
+        d->sector_destination = d->alternate_sector_destination = (u32)gRuntime_pSharedWorkBase;
         d->done = 1;
         break;
 #endif
@@ -245,8 +245,8 @@ europe_transfer_tail:
             d->done = 2;
             d->h = 0x10;
             image_ptr = gFile_TransferBufferBase;
-            d->value_08 = (u32)image_ptr;
-            d->value_0C = (u32)(image_ptr + FILE_SECTOR_SIZE);
+            d->sector_destination = (u32)image_ptr;
+            d->alternate_sector_destination = (u32)(image_ptr + FILE_SECTOR_SIZE);
             break;
         }
     }

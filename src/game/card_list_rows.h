@@ -49,7 +49,7 @@ typedef char CardListRowSet_entries_offset_must_be_0xA[
  * unrelated subsystems reinterpret wholesale: the script interpreter treats
  * it as bytecode (gScript_StreamCursor = D_801A8000 + offset, in script_run_tick.c and
  * three siblings), the file-transfer steps hand its raw address to a DMA
- * descriptor word (value_08/value_0C, in file_transfer_steps.c and three
+ * descriptor word (sector_destination/alternate_sector_destination, in file_transfer_steps.c and three
  * siblings), and two overlays view it as u32[] and MainMenuState[]. Those
  * are not worse-informed views of one record -- they are different records
  * living at one address at different times, so each keeps its own

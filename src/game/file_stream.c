@@ -86,8 +86,8 @@ FileTransferDescriptor *File_InitTransferDescriptor(
             transfer->phase_size = transfer->total_bytes;
             if (length < 0) {
                 transfer->done = 1;
-                transfer->value_0C = length;
-                transfer->value_08 = length;
+                transfer->alternate_sector_destination = length;
+                transfer->sector_destination = length;
             } else {
                 flags |= 0x10000;
                 transfer->done = 2;
@@ -95,8 +95,8 @@ FileTransferDescriptor *File_InitTransferDescriptor(
                 transfer->field_30.h.counter = length;
                 transfer->w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
                 transfer->h = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
-                transfer->value_08 = gFile_TransferBufferBase;
-                transfer->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
+                transfer->sector_destination = gFile_TransferBufferBase;
+                transfer->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
             }
         }
     }

@@ -56,15 +56,15 @@ m0:
         d = gFile_TransferBufferBase;
         p->h = 0x10;
     } while (0);
-    p->value_08 = d;
-    p->value_0C = d + FILE_SECTOR_SIZE;
+    p->sector_destination = d;
+    p->alternate_sector_destination = d + FILE_SECTOR_SIZE;
     return;
 
 m1:
     p->phase_size = FILE_SECTOR_SIZE;
     gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
-    p->value_0C = gFile_TransferBufferBase;
-    p->value_08 = gFile_TransferBufferBase;
+    p->alternate_sector_destination = gFile_TransferBufferBase;
+    p->sector_destination = gFile_TransferBufferBase;
     goto tail;
 
 m2:
@@ -82,8 +82,8 @@ m2:
 #endif
     p->h = 4;
     LoadImage2((RECT *)p, (u32 *)e);
-    p->value_0C = (s32)gDisplay_abResourceBank0;
-    p->value_08 = (s32)gDisplay_abResourceBank0;
+    p->alternate_sector_destination = (s32)gDisplay_abResourceBank0;
+    p->sector_destination = (s32)gDisplay_abResourceBank0;
     x = gFile_dwTransferState;
     p->phase_size = FILE_SECTOR_SIZE;
     gFile_dwTransferState = x & 0xFFDCFFFF;

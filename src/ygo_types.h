@@ -981,8 +981,8 @@ struct FileTransferDescriptor {
     s16 y;
     s16 w;
     s16 h;
-    u32 value_08;
-    u32 value_0C;
+    u32 sector_destination;
+    u32 alternate_sector_destination;
     /* Not volatile: func_80013C28 stores it in a branch delay slot, and
        a volatile member keeps that store out of the slot (+0x1C bytes). */
     s32 total_bytes;
@@ -1033,8 +1033,8 @@ typedef char FileTransferDescriptor_w_offset_must_be_0x04[
 typedef char FileTransferDescriptor_h_offset_must_be_0x06[
     YGO_TYPE_OFFSET(FileTransferDescriptor, h) == 0x06 ? 1 : -1
 ];
-typedef char FileTransferDescriptor_value_08_offset_must_be_0x08[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, value_08) == 0x08 ? 1 : -1
+typedef char FileTransferDescriptor_sector_destination_offset_must_be_0x08[
+    YGO_TYPE_OFFSET(FileTransferDescriptor, sector_destination) == 0x08 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_total_bytes_offset_must_be_0x10[
     YGO_TYPE_OFFSET(FileTransferDescriptor, total_bytes) == 0x10 ? 1 : -1

@@ -22,8 +22,8 @@
  * 2 are spelled that way deliberately. Written as the plain assignment,
  * GCC cross-jumps the two phases' tails into one shared
  * block and the executable comes out eight bytes short; retail keeps them
- * duplicated. Only that one statement does it -- `done`, `value_08` and
- * `value_0C` all convert plainly in the same tails, and phase 0's
+ * duplicated. Only that one statement does it -- `done`, `sector_destination` and
+ * `alternate_sector_destination` all convert plainly in the same tails, and phase 0's
  * `p->phase_size = 48 * FILE_SECTOR_SIZE;` is fine because the larger
  * constant needs its own
  * lui/ori either way. */

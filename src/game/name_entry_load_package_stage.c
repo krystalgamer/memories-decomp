@@ -81,8 +81,8 @@ m0:
         d = gFile_TransferBufferBase;
         object->h = 0x10;
     } while (0);
-    object->value_08 = d;
-    object->value_0C = d + FILE_SECTOR_SIZE;
+    object->sector_destination = d;
+    object->alternate_sector_destination = d + FILE_SECTOR_SIZE;
     return;
 
 m1:
@@ -97,8 +97,8 @@ m1:
     object->done = 2;
     d2 = gFile_TransferBufferBase;
     *(s32 *)&object->phase_size = 16 * FILE_SECTOR_SIZE;
-    object->value_08 = d2;
-    object->value_0C = d2 + FILE_SECTOR_SIZE;
+    object->sector_destination = d2;
+    object->alternate_sector_destination = d2 + FILE_SECTOR_SIZE;
     return;
 
 m2:
@@ -135,8 +135,8 @@ m3:
 
 tail:
     gFile_dwTransferState = x;
-    object->value_0C = (s32)y;
-    object->value_08 = (s32)y;
+    object->alternate_sector_destination = (s32)y;
+    object->sector_destination = (s32)y;
     object->done = one;
 }
 

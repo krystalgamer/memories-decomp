@@ -38,16 +38,16 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         gFile_dwTransferState |= m;
         obj->done = 2;
         obj->h = 0x10;
-        obj->value_08 = gFile_TransferBufferBase;
-        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
+        obj->sector_destination = gFile_TransferBufferBase;
+        obj->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
     }
 
     case 1:
         obj->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = gFile_TransferBufferBase;
-        obj->value_08 = gFile_TransferBufferBase;
+        obj->alternate_sector_destination = gFile_TransferBufferBase;
+        obj->sector_destination = gFile_TransferBufferBase;
         obj->done = 1;
         break;
 
@@ -59,8 +59,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
         obj->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = (s32)gFile_pScreenBankBase;
-        obj->value_08 = (s32)gFile_pScreenBankBase;
+        obj->alternate_sector_destination = (s32)gFile_pScreenBankBase;
+        obj->sector_destination = (s32)gFile_pScreenBankBase;
         obj->done = 1;
         break;
     }
@@ -86,8 +86,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         gFile_dwTransferState = loaded | enabled;
         obj->done = 2;
         obj->phase_size = 12 * FILE_SECTOR_SIZE;
-        obj->value_08 = gFile_TransferBufferBase;
-        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
+        obj->sector_destination = gFile_TransferBufferBase;
+        obj->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
     }
 
@@ -107,8 +107,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         gFile_dwTransferState = loaded | enabled;
         obj->done = 2;
         obj->phase_size = 13 * FILE_SECTOR_SIZE;
-        obj->value_08 = gFile_TransferBufferBase;
-        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
+        obj->sector_destination = gFile_TransferBufferBase;
+        obj->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
     }
 
@@ -128,16 +128,16 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         gFile_dwTransferState = loaded | enabled;
         obj->done = 2;
         obj->phase_size = 13 * FILE_SECTOR_SIZE;
-        obj->value_08 = gFile_TransferBufferBase;
-        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
+        obj->sector_destination = gFile_TransferBufferBase;
+        obj->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
     }
 
     case 3:
         obj->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = gFile_TransferBufferBase;
-        obj->value_08 = gFile_TransferBufferBase;
+        obj->alternate_sector_destination = gFile_TransferBufferBase;
+        obj->sector_destination = gFile_TransferBufferBase;
         obj->done = 1;
         break;
 
@@ -149,8 +149,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
         obj->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
-        obj->value_08 = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
+        obj->alternate_sector_destination = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
+        obj->sector_destination = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
         obj->done = 1;
         break;
 
@@ -162,24 +162,24 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)(gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE));
         obj->phase_size = 30 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = (s32)D_800101E0;
-        obj->value_08 = (s32)D_800101E0;
+        obj->alternate_sector_destination = (s32)D_800101E0;
+        obj->sector_destination = (s32)D_800101E0;
         obj->done = 1;
         break;
 
     case 6:
         obj->phase_size = 32 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = (s32)D_800101E4;
-        obj->value_08 = (s32)D_800101E4;
+        obj->alternate_sector_destination = (s32)D_800101E4;
+        obj->sector_destination = (s32)D_800101E4;
         obj->done = 1;
         break;
 
     case 7:
         obj->phase_size = 7 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = (s32)D_800101E8;
-        obj->value_08 = (s32)D_800101E8;
+        obj->alternate_sector_destination = (s32)D_800101E8;
+        obj->sector_destination = (s32)D_800101E8;
         obj->done = 1;
         break;
     }
@@ -194,15 +194,15 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->phase_size = 48 * FILE_SECTOR_SIZE;
         gFile_dwTransferState |= 0x10000;
         obj->done = 2;
-        obj->value_08 = gFile_TransferBufferBase;
-        obj->value_0C = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
+        obj->sector_destination = gFile_TransferBufferBase;
+        obj->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         obj->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = gFile_TransferBufferBase;
-        obj->value_08 = gFile_TransferBufferBase;
+        obj->alternate_sector_destination = gFile_TransferBufferBase;
+        obj->sector_destination = gFile_TransferBufferBase;
         obj->done = 1;
         break;
 
@@ -214,8 +214,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
         obj->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
-        obj->value_08 = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
+        obj->alternate_sector_destination = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
+        obj->sector_destination = gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE;
         obj->done = 1;
         break;
 
@@ -227,8 +227,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)(gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE));
         obj->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->value_0C = (s32)gFile_pScreenBankBase;
-        obj->value_08 = (s32)gFile_pScreenBankBase;
+        obj->alternate_sector_destination = (s32)gFile_pScreenBankBase;
+        obj->sector_destination = (s32)gFile_pScreenBankBase;
         obj->done = 1;
         break;
     }
@@ -285,15 +285,15 @@ m0:
         d = gFile_TransferBufferBase;
         p->h = 0x10;
     } while (0);
-    p->value_08 = d;
-    p->value_0C = d + FILE_SECTOR_SIZE;
+    p->sector_destination = d;
+    p->alternate_sector_destination = d + FILE_SECTOR_SIZE;
     return;
 
 m1:
     p->phase_size = FILE_SECTOR_SIZE;
     gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
-    p->value_0C = gFile_TransferBufferBase;
-    p->value_08 = gFile_TransferBufferBase;
+    p->alternate_sector_destination = gFile_TransferBufferBase;
+    p->sector_destination = gFile_TransferBufferBase;
     goto tail;
 
 m2:
@@ -302,8 +302,8 @@ m2:
     p->w = 0x100;
     p->h = 4;
     LoadImage2((RECT *)p, (u32 *)gFile_TransferBufferBase);
-    p->value_0C = (u32)gDisplay_abResourceBank0;
-    p->value_08 = (u32)gDisplay_abResourceBank0;
+    p->alternate_sector_destination = (u32)gDisplay_abResourceBank0;
+    p->sector_destination = (u32)gDisplay_abResourceBank0;
     x = gFile_dwTransferState;
     p->phase_size = 0x800;
     gFile_dwTransferState = x & 0xFFDCFFFF;
@@ -313,8 +313,8 @@ m2:
 m3:
     p->phase_size = 3 * FILE_SECTOR_SIZE;
     gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
-    p->value_0C = (u32)gFile_pScreenBankBase;
-    p->value_08 = (u32)gFile_pScreenBankBase;
+    p->alternate_sector_destination = (u32)gFile_pScreenBankBase;
+    p->sector_destination = (u32)gFile_pScreenBankBase;
 
 tail:
     p->done = one;
@@ -367,15 +367,15 @@ m0:
         d = gFile_TransferBufferBase;
         p->h = 0x10;
     } while (0);
-    p->value_08 = d;
-    p->value_0C = d + FILE_SECTOR_SIZE;
+    p->sector_destination = d;
+    p->alternate_sector_destination = d + FILE_SECTOR_SIZE;
     return;
 
 m1:
     p->phase_size = FILE_SECTOR_SIZE;
     gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
-    p->value_0C = gFile_TransferBufferBase;
-    p->value_08 = gFile_TransferBufferBase;
+    p->alternate_sector_destination = gFile_TransferBufferBase;
+    p->sector_destination = gFile_TransferBufferBase;
     goto tail;
 
 m2:
@@ -392,8 +392,8 @@ m2:
     *(u16 *)&p->w = hun;
     *(u16 *)&p->h = 4;
     LoadImage2((RECT *)p, (u32 *)e);
-    p->value_0C = (u32)gDisplay_abResourceBank0;
-    p->value_08 = (u32)gDisplay_abResourceBank0;
+    p->alternate_sector_destination = (u32)gDisplay_abResourceBank0;
+    p->sector_destination = (u32)gDisplay_abResourceBank0;
     x = gFile_dwTransferState;
     p->phase_size = 0x800;
     gFile_dwTransferState = x & 0xFFDCFFFF;

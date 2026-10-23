@@ -199,8 +199,8 @@ static void setup(s32 mode, s32 software)
     gFile_ReadyEventCount = 9;
     gFile_ReadyDataEventCount = 17;
     descriptor.done = mode;
-    descriptor.value_08 = (u32)buffers[0];
-    descriptor.value_0C = (u32)buffers[1];
+    descriptor.sector_destination = (u32)buffers[0];
+    descriptor.alternate_sector_destination = (u32)buffers[1];
     descriptor.total_bytes = 0x1800;
     descriptor.phase_remaining = 0x1800;
     descriptor.phase_size = 0x8888;
@@ -238,7 +238,7 @@ static s32 ignored_events(void)
         CHECK(!event_count && gFile_ReadySourceCursor == input, 11);
         CHECK(descriptor.total_bytes == 0x1800 &&
               descriptor.phase_remaining == 0x1800 &&
-              descriptor.value_08 == (u32)buffers[0] &&
+              descriptor.sector_destination == (u32)buffers[0] &&
               buffers[0][0] == 0xCCCCCCCC && gFile_dwTransferState == 0x40000510, 12);
     }
     setup(99, 1);
@@ -258,7 +258,7 @@ static s32 ram(void)
         setup(1, software);
         if (skip) gFile_dwTransferState |= 0x200000;
         File_TransferReadyCallback(0x101);
-        CHECK(descriptor.value_08 == (u32)buffers[0] + (skip ? 0 : 2048), 20);
+        CHECK(descriptor.sector_destination == (u32)buffers[0] + (skip ? 0 : 2048), 20);
         CHECK(gFile_ReadySourceCursor == input + 512 && descriptor.total_bytes == 4096 &&
               descriptor.phase_remaining == 4096 && descriptor.buffer_index == 0, 21);
         CHECK(gFile_ReadyEventCount == 10 && gFile_ReadyDataEventCount == 18 && (gFile_dwTransferState & 0x100), 22);
@@ -269,7 +269,7 @@ static s32 ram(void)
         else CHECK(copied(0, 0, 512, 0) && buffers[0][512] == 0xCCCCCCCC, 26);
         File_TransferReadyCallback(1);
         CHECK(gFile_ReadySourceCursor == input + 1024 &&
-              descriptor.value_08 == (u32)buffers[0] + (skip ? 0 : 4096), 27);
+              descriptor.sector_destination == (u32)buffers[0] + (skip ? 0 : 4096), 27);
         if (!skip) CHECK(copied(0, 512, 512, software ? 512 : 0), 28);
     }
     return 0;
@@ -279,12 +279,12 @@ static s32 ram_descriptor_reload(void)
 {
     s32 i;
     setup(1, 1);
-    descriptor.value_08 = (u32)&descriptor;
+    descriptor.sector_destination = (u32)&descriptor;
     /* Word two changes the descriptor's destination. Subsequent indexed
        stores must reload it, rather than walking a cached destination. */
     input[2] = (u32)buffers[0];
     File_TransferReadyCallback(1);
-    CHECK(descriptor.value_08 == (u32)buffers[0] + 2048, 30);
+    CHECK(descriptor.sector_destination == (u32)buffers[0] + 2048, 30);
     for (i = 0; i < 3; i++) CHECK(buffers[0][i] == 0xCCCCCCCC, 31);
     CHECK(copied(0, 3, 509, 3) && buffers[0][512] == 0xCCCCCCCC, 32);
     CHECK(descriptor.total_bytes == 4096 && !error, 33);
@@ -321,8 +321,8 @@ static s32 image(void)
               descriptor.total_bytes == 4096 && descriptor.phase_remaining == 4096, 44);
         CHECK(gFile_ReadySourceCursor == input + (software ? 512 : 0) &&
               cd_calls == !software, 45);
-        CHECK(descriptor.value_08 == (u32)buffers[0] &&
-              descriptor.value_0C == (u32)buffers[1] && (gFile_dwTransferState & 0x100), 46);
+        CHECK(descriptor.sector_destination == (u32)buffers[0] &&
+              descriptor.alternate_sector_destination == (u32)buffers[1] && (gFile_dwTransferState & 0x100), 46);
         if (!software) CHECK(cd_destination == buffers[index] && cd_words == 512, 47);
     }
     return 0;
@@ -348,7 +348,7 @@ static s32 spu(void)
               spu_destination == (u8 *)buffers[0] &&
               descriptor.field_30.word == (u32)(0xFFFFFFFC + (u32)n), 52);
         CHECK(descriptor.total_bytes == 4096 && descriptor.buffer_index == 0 &&
-              descriptor.value_08 == (u32)buffers[0] && (gFile_dwTransferState & 0x100), 53);
+              descriptor.sector_destination == (u32)buffers[0] && (gFile_dwTransferState & 0x100), 53);
         CHECK(descriptor.phase_remaining == (sizes[j] > 2048 ? 2048 : 0) &&
               descriptor.phase_size == (sizes[j] > 2048 ? 0x8888 : 0), 54);
         CHECK(cd_calls == !software && events[software ? 0 : 1] == 5 &&

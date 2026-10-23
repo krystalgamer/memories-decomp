@@ -49,8 +49,8 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         do {
             d->h = 0x10;
         } while (0);
-        d->value_08 = v0;
-        d->value_0C = v0 + FILE_SECTOR_SIZE;
+        d->sector_destination = v0;
+        d->alternate_sector_destination = v0 + FILE_SECTOR_SIZE;
         break;
 
     case 1:
@@ -59,8 +59,8 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         t1 = gFile_dwTransferState;
         v1 = gFile_TransferBufferBase;
         gFile_dwTransferState = t1 & m2;
-        d->value_0C = v1;
-        d->value_08 = v1;
+        d->alternate_sector_destination = v1;
+        d->sector_destination = v1;
         goto join;
 
     case 2:
@@ -80,8 +80,8 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 #endif
         LoadImage2((RECT *)d, (u32 *)c);
         m2 = 0xFFDCFFFF;
-        d->value_0C = (s32)gDisplay_abResourceBank0;
-        d->value_08 = (s32)gDisplay_abResourceBank0;
+        d->alternate_sector_destination = (s32)gDisplay_abResourceBank0;
+        d->sector_destination = (s32)gDisplay_abResourceBank0;
         t2 = gFile_dwTransferState;
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState = t2 & m2;
