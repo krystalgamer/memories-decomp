@@ -4617,15 +4617,15 @@
     },
     {
       "address": "0x80047698",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x90",
-      "source": "src/game/japanese/sound_effect_voices.c"
+      "source": "src/game/japanese/sound_voice_selection.c"
     },
     {
       "address": "0x80047728",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x274",
-      "source": "src/game/japanese/sound_effect_voices.c"
+      "source": "src/game/japanese/sound_voice_selection.c"
     },
     {
       "address": "0x8004799C",

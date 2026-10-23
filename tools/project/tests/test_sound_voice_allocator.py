@@ -158,7 +158,6 @@ WITNESS = r"""
 #include "src/game/sound.h"
 #include "src/game/sound_output_state.h"
 #include "src/game/sound_voice_selection.h"
-#include "src/game/sound_effect_voices.h"
 #include "src/game/sound_voice_allocator.h"
 typedef char ilp32[sizeof(void *) == 4 && sizeof(long) == 4 ? 1 : -1];
 typedef struct { u32 kind, args[7], cursor; } Event;

@@ -2284,8 +2284,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80047DB0,SD_SEStop,matching_c,game,C,src/game/sound_voice_selection.c,read,,g_SDValue->voice_active_mask &= ~mask; | if (g_SDValue->voice_ids[i] == key) { | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80047EC4,SD_KeyOffVoiceSlots,matching_c,game,C,src/game/sound_voice_selection.c,read,,SpuGetAllKeysStatus((char *)g_SDValue->field_15D8); | g_SDValue->field_15EE + g_SDValue->field_15EF; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80047F38,SD_KeyOffVoiceGroup,matching_c,game,C,src/game/sound_voice_selection.c,read,,SDValue *state = g_SDValue;
-0x8009B45C,g_SDValue,g_SDValue,0x80047FAC,SD_CountActiveSoundEffectVoices,matching_c,game,C,src/game/sound_effect_voices.c,read,,if (g_SDValue->voice_ids[s0] == s2) {
-0x8009B45C,g_SDValue,g_SDValue,0x8004803C,SD_StartSoundEffectVoice,matching_c,game,C,src/game/sound_effect_voices.c,read,,"SpuSetKey(SPU_OFF, g_SDValue->voice_attr.voice); | SpuSetKeyOnWithAttr(&g_SDValue->voice_attr); | (+17 more)"
+0x8009B45C,g_SDValue,g_SDValue,0x80047FAC,SD_CountActiveSoundEffectVoices,matching_c,game,C,src/game/sound_voice_selection.c,read,,if (g_SDValue->voice_ids[s0] == s2) {
+0x8009B45C,g_SDValue,g_SDValue,0x8004803C,SD_StartSoundEffectVoice,matching_c,game,C,src/game/sound_voice_selection.c,read,,"SpuSetKey(SPU_OFF, g_SDValue->voice_attr.voice); | SpuSetKeyOnWithAttr(&g_SDValue->voice_attr); | (+17 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x800482B0,SD_AllocateSoundEffectVoice,matching_c,game,C,src/game/sd_allocate_sound_effect_voice.c,read,,"SD_StartSoundEffectVoice(sound_id, g_SDValue->field_0435, pitch, volume, | SD_StartSoundEffectVoice(sound_id, g_SDValue->field_0435, pitch, volume, pan, | (+8 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x80048658,SD_SEPlay,matching_c,game,C,src/game/sound_effect_request.c,read,,SDValue *a = g_SDValue; | SDValue *b = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80048768,SD_SESetPan,matching_c,game,C,src/game/sound_effect_request.c,read,,base = (u8 *)g_SDValue; | g_SDValue->voice_volume_left[i] = prod; | (+3 more)

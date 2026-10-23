@@ -43,7 +43,7 @@ PAIRS = [
     ("src/game/sound_effect_request.c", "SD_AllocateSoundEffectVoice", '#include "sound_voice_allocator.h"'),
     ("src/game/sound_effect_request.c", "SD_EnqueueCdSePlay", '#include "sound_output_state.h"'),
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_KeyOffVoiceGroup", '#include "sound_voice_selection.h"'),
-    ("src/game/sd_allocate_sound_effect_voice.c", "SD_StartSoundEffectVoice", '#include "sound_effect_voices.h"'),
+    ("src/game/sd_allocate_sound_effect_voice.c", "SD_StartSoundEffectVoice", '#include "sound_voice_selection.h"'),
     ("src/game/sd_allocate_sound_effect_voice.c", "SD_EnqueueCdSePlay", '#include "sound_output_state.h"'),
     ("src/game/display_object_runtime.c", "DisplayObject_ProjectPackedRotationFacing", '#include "display_object_projection.h"'),
     ("src/game/duel_draw_field_cards.c", "Duel_DrawProjectedFieldCardFrame", '#include "display_projection.h"'),
