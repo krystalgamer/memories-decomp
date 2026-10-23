@@ -14,5 +14,8 @@ void SD_KeyOffVoice(s32 voice);
 void tent_SD_KeyOffVoiceById(s32 value);
 void SD_SEStop(s32 id);
 s32 SD_KeyOffVoiceGroup(u8 group);
+s16 SD_CountActiveSoundEffectVoices(s32 id);
+void SD_StartSoundEffectVoice(u16 id, u8 voice, s32 pitch_add, u8 volume,
+                   s16 pan, u8 flags, u8 value);
 
 #endif

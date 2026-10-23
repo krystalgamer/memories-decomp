@@ -66,7 +66,7 @@ entry returns without starting playback.
 These names do not move allocation into the start helper: the caller below
 chooses the slot and performs voice stealing. The public parameter widths,
 low-halfword ID behavior, envelope-call order and SPU-call order remain
-unchanged. `sound_effect_voices.h` owns both declarations; the allocator's
+unchanged. `sound_voice_selection.h` owns both declarations; the allocator's
 scripted callee and declaration-visibility witness use the same start name.
 
 ### Slot allocator
@@ -76,7 +76,7 @@ scripted callee and declaration-visibility witness use the same start name.
 mode, signed halfword pitch and pan, and byte volume and selection value.
 The matching `SD_SEPlay` request path consumes this declaration directly.
 `sound_voice_selection.h` owns the
-keyed-group query; `sound_effect_voices.h` owns the adjacent count/start unit.
+keyed-group query and the adjacent count/start pair.
 
 The allocator rejects missing low-16-bit index-table entries before handling
 bit `0x8000`. Otherwise it first selects the lowest keyed-group slot, then
@@ -418,7 +418,8 @@ two:
   `((u8 *)g_SDValue + index * 2 + 0x404)`. The source spelled that
   `((u8 *)g_SDValue + s0 * 2 + 0x404)`, and `ac4e0662` ("Coalesce the
   sound-effect voice slots (#2740)") replaced it with
-  `g_SDValue->voice_ids[s0]` -- `src/game/sound_effect_voices.c:26`, and
+  `g_SDValue->voice_ids[s0]` -- `SD_CountActiveSoundEffectVoices` in
+  `src/game/sound_voice_selection.c`, and
   the function matches. Only the description is stale; the three-instruction
   cost it claimed was not re-measured against the current source.
 

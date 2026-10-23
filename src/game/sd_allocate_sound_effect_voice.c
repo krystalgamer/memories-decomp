@@ -5,7 +5,6 @@
 #include "sound_output_state.h"
 
 #include "sound_voice_selection.h"
-#include "sound_effect_voices.h"
 #include "sound_voice_constants.h"
 #include "sound_voice_allocator.h"
 

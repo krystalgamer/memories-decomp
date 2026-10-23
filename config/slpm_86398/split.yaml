@@ -395,7 +395,6 @@ segments:
       - [0x37528, c, game/japanese/sound_pending_entries]
       - [0x37674, c, game/japanese/sd_queue_value_link_transfer]
       - [0x37750, c, game/japanese/sound_voice_selection]
-      - [0x37e98, c, game/japanese/sound_effect_voices]
       - [0x3819c, c, game/japanese/sd_allocate_sound_effect_voice]
       - [0x38544, c, game/japanese/sound_effect_request]
       - [0x3880c, c, game/japanese/sd_se_set_volume]

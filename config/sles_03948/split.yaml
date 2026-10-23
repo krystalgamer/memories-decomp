@@ -1074,9 +1074,6 @@ segments:
   - - 230644
     - c
     - game/sound_voice_selection
-  - - 232508
-    - c
-    - game/sound_effect_voices
   - - 233280
     - c
     - game/sd_allocate_sound_effect_voice

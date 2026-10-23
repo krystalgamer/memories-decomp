@@ -404,7 +404,6 @@ segments:
       - [0x382CC, c, game/sound_pending_entries]
       - [0x38418, c, game/sd_queue_value_link_transfer]
       - [0x384F4, c, game/sound_voice_selection]
-      - [0x38C3C, c, game/sound_effect_voices]
       - [0x38F40, c, game/sd_allocate_sound_effect_voice]
       - [0x392E8, c, game/sound_effect_request]
       - [0x395B0, c, game/sd_se_set_volume]
