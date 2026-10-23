@@ -473,10 +473,7 @@ segments:
     - game/func_800283EC
   - - 101500
     - c
-    - game/european/duel_effect_update_card_viewer_state
-  - - 102820
-    - c
-    - game/duel_effect_update_state
+    - game/european/duel_effect_states
   - - 102948
     - c
     - game/european/duel_effect_noop_handlers

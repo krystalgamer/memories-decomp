@@ -12,4 +12,4 @@
 #define D_8009B24C gJapanese_D_8009B24C
 #define D_8009B250 gJapanese_D_8009B250
 #define D_8009AF74 gJapanese_D_8009AF74
-#include "../duel_effect_update_card_viewer_state.c"
+#include "../duel_effect_states.c"
