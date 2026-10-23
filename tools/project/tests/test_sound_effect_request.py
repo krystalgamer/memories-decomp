@@ -90,6 +90,7 @@ void SD_AllocateSoundEffectVoice(s32 id,s16 pitch,u8 volume,s16 pan,u32 mode,u8 
         value!=expected_args[5]) fail(6);
 }
 void SD_SetCdPan(s16 pan) { (void)pan; }
+void SD_SetCdVolume(s16 volume) { (void)volume; }
 void SpuGetVoiceEnvelope(s32 voice,s16 *envelope)
 {
     (void)voice; (void)envelope;

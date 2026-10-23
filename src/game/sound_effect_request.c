@@ -9,6 +9,7 @@
 #include "sound_voice_constants.h"
 #include "sound_voice_selection.h"
 #include "sound_voice_pan.h"
+#include "sd_set_cd_volume.h"
 
 void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
 {
@@ -160,4 +161,54 @@ loop:
     if (i < SD_VOICE_SLOT_COUNT) {
         goto loop;
     }
+}
+
+void SD_SESetVolume(s32 arg0, s32 arg1)
+{
+    s32 lo;
+    s32 hi;
+    s32 i;
+    u8 a1v = arg1;
+    s32 idm;
+    u16 id;
+    s32 ff;
+
+    id = arg0;
+    if (arg0 & 0x8000) {
+        SD_SetCdVolume((u8)a1v);
+        return;
+    }
+    if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
+        SDValue *a = g_SDValue;
+        u8 *table;
+        u16 v;
+
+        lo = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
+        hi = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
+        hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
+        /* Keep the table base separate from the byte offset for allocation. */
+        table = (u8 *)&a->field_044C;
+        v = *(u16 *)(table + (lo + hi));
+        ff = SD_PENDING_ENTRY_NONE;
+        if (v == ff) {
+            return;
+        }
+        id = a->field_043C[v];
+        if (id == ff) {
+            return;
+        }
+    }
+    i = 0;
+    idm = id & 0xFFFF;
+    do {
+        s16 local;
+        SDValue *b;
+
+        SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, &local);
+        b = g_SDValue;
+        if (b->voice_ids[i] == idm && local != 0) {
+            b->voice_value[i] = a1v;
+            SD_ApplyVoiceSlotVolume(i);
+        }
+    } while (++i < SD_VOICE_SLOT_COUNT);
 }

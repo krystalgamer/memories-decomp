@@ -4640,9 +4640,9 @@
     },
     {
       "address": "0x80048920",
-      "profile": "gcc_2_8_1_g0_keep_large_ori",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x108",
-      "source": "src/game/sd_se_set_volume.c"
+      "source": "src/game/sound_effect_request.c"
     },
     {
       "address": "0x80048A28",
