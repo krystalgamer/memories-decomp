@@ -53,7 +53,7 @@ universal new packet operation is inferred.
 ## Lit-color cache address word
 
 `gModel_dwLitColorCacheBase`, formerly `D_8009AFE0`, retains its `u32` spelling.
-`Model_DrawSlot` assigns the current slot's `field_DF0` allocation address and
+`Model_DrawSlot` assigns the current slot's `lit_color_cache_address` allocation address and
 clears it for draw modes at least three.
 
 The handwritten triangle handlers add a normal-derived offset divided by two

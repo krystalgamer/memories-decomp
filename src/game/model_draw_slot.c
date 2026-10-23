@@ -201,7 +201,7 @@ void Model_DrawSlot(s32 index)
     GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
     GsSetFlatLight(2, (GsF_LIGHT *)&slot->field_D70[2]);
     GsSetAmbient(slot->field_DA0[0], slot->field_DA0[1], slot->field_DA0[2]);
-    gModel_dwLitColorCacheBase = slot->field_DF0;
+    gModel_dwLitColorCacheBase = slot->lit_color_cache_address;
     gModel_bCurrentDrawMode = slot->field_E11;
     if (slot->field_E11 != 4) {
         slot->field_E11 = 0;

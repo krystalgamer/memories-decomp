@@ -24,7 +24,7 @@ s32 Model_HasInsufficientBufferSpace(s32 index, s32 type) {
     if (type < 0) {
         type = Model_GetSlotTintDescriptor(index)[3];
     }
-    size = record->field_E00;
+    size = record->packet_budget_bytes;
     if (type == 5) {
         room -= size * 2;
     } else {

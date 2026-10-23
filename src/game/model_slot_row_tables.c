@@ -412,7 +412,7 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
     *(s32 *)&ch->field_DDC = 0;
     *(s32 *)&ch->field_DE0 = 0;
     *(s32 *)&ch->field_DE4 = 0;
-    ch->field_DF0 = 0;
+    ch->lit_color_cache_address = 0;
     /* The reset walks keys and rows with running byte offsets rather than
        indexing ch->field_2C8[i][j] / ch->field_750[i].values[j]. That is not
        a missed cleanup: the indexed form is larger, and the link fails with
