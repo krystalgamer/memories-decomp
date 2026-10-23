@@ -27,7 +27,7 @@
    gp-relative when the translation unit defines it, and that is what supplies
    the load-delay nop before the first read of it below. c_symbols.ld overrides
    this common symbol, so no storage is allocated here. */
-u8 D_8009B26C;
+u8 gMain_bActiveModeState;
 
 void Main_RunAnimatedBattle(void)
 {
@@ -37,15 +37,15 @@ void Main_RunAnimatedBattle(void)
 
     SetGeomOffset(0xA0, ANIMATED_BATTLE_GEOM_OFFSET_Y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
-    f = D_8009B26C;
+    f = gMain_bActiveModeState;
     if ((f & 0x40) == 0) {
-        D_8009B26C = f | 0x40;
+        gMain_bActiveModeState = f | 0x40;
         gGraphics_bSyncVBlankTarget = 1;
         Model_ResetSceneView();
         Model_ResetSceneState();
         p = gMain_aAnimatedBattleModels;
         if (p->model_id == MODEL_SPECIAL_BATTLE_ID) {
-            D_8009B26C = D_8009B26C | 0x20;
+            gMain_bActiveModeState = gMain_bActiveModeState | 0x20;
             Model_StartExodiaPresentation();
         } else {
             Model_SetSlotProperties(
@@ -77,7 +77,7 @@ void Main_RunAnimatedBattle(void)
         if (v != 0) {
             SD_KeyOffVoiceSlots();
             SD_BGMFadeOut();
-            D_8009B26C = D_8009B269;
+            gMain_bActiveModeState = gMain_bReturnMode;
         }
         Model_UpdateScene();
     }

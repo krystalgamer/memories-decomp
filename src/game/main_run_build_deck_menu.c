@@ -21,15 +21,15 @@
 #include "main_mode_state.h"
 
 /* The common definition makes MASPSX preserve the load-delay nop before the
- * final D_8009B26C store. c_symbols.ld supplies the retail storage address. */
-u8 D_8009B26C;
+ * final gMain_bActiveModeState store. c_symbols.ld supplies the retail storage address. */
+u8 gMain_bActiveModeState;
 
 void Main_RunBuildDeckMenu(void)
 {
-    unsigned char flags = D_8009B26C;
+    unsigned char flags = gMain_bActiveModeState;
 
     if ((flags & 0x40) == 0) {
-        D_8009B26C = flags | 0x40;
+        gMain_bActiveModeState = flags | 0x40;
         BuildDeck_InitScreen(
             (BuildDeckTransitionState *)D_80010000[0].payload_bases[0],
             (unsigned char *)gDuel_awPlayerDeck,
@@ -42,7 +42,7 @@ void Main_RunBuildDeckMenu(void)
 
         SD_BGMFadeOut();
         Fade_WaitOut();
-        value = D_8009B269;
-        D_8009B26C = value;
+        value = gMain_bReturnMode;
+        gMain_bActiveModeState = value;
     }
 }

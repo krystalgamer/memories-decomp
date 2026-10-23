@@ -12,10 +12,10 @@
 #include "main_mode_state.h"
 
 void Main_RunCampaign(void) {
-    u8 flags = D_8009B26C;
+    u8 flags = gMain_bActiveModeState;
 
     if ((flags & 0x40) == 0) {
-        D_8009B26C = flags | 0x40;
+        gMain_bActiveModeState = flags | 0x40;
         Campaign_LoadScenePackage(gCampaignSceneIndex);
         gDuel_bEffectState = 0;
         return;
@@ -23,7 +23,7 @@ void Main_RunCampaign(void) {
 
     SceneScript_UpdateSlots(gSceneScript_Slots);
     Script_RunTick();
-    if (D_8009B26C & 0x40)
+    if (gMain_bActiveModeState & 0x40)
         return;
     SD_BGMFadeOut();
     Fade_WaitOut();

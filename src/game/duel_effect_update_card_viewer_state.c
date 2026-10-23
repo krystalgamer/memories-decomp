@@ -318,7 +318,7 @@ void DuelEffect_UpdateCardViewerState(void)
         return;
     }
 #else
-    if ((D_8009B26C & 0x1F) == 0xE) {
+    if ((gMain_bActiveModeState & 0x1F) == 0xE) {
         if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & 0x20) != 0) {
             goto press;
         }

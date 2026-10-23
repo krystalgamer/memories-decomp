@@ -35,7 +35,7 @@
 #include "../unmatched.h"
 #include "duel_session_controls.h"
 
-u8 D_8009B26C;
+u8 gMain_bActiveModeState;
 
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"
@@ -43,11 +43,11 @@ u8 D_8009B26C;
 
 void Main_RunDuel(void)
 {
-    u8 value = D_8009B26C;
+    u8 value = gMain_bActiveModeState;
     int state;
 
     if (!(value & 0x40)) {
-        D_8009B26C = value | 0x40;
+        gMain_bActiveModeState = value | 0x40;
         gMain_bModeRunnerStep = 1;
         if (!gDuel_bResumeFromAnimatedBattle && gDuel_bOpponentID >= 0)
             gMain_bModeRunnerStep = 0;
@@ -96,8 +96,8 @@ void Main_RunDuel(void)
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
         next = gDuel_bPostDuelMainMode;
-        D_8009B26C = next;
-        if (D_8009B26C == state)
+        gMain_bActiveModeState = next;
+        if (gMain_bActiveModeState == state)
             gCampaignSceneIndex[0] = table[gDuel_bPlayerLost * 2];
         break;
     }

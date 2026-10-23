@@ -26,7 +26,7 @@ void DebugMenu_UpdateTwoPlayerDuelEntry(void)
         if (result == 1) {
             File_RequestMainMenuPackage();
             File_WaitForTransfers();
-            D_8009B26C[0] = 0x10;
+            gMain_bActiveModeState[0] = 0x10;
         }
         gDebugMenu_bStep = 0;
     }

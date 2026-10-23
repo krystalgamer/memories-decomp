@@ -197,3 +197,7 @@ gMemCardWork_bFrameChecksum = D_8021007F;
 
 gMemCard_szDevicePathFormat = D_80010538;
 gMemCard_bTransferRetriesRemaining = D_8009B436;
+
+gMain_bReturnMode = D_8009B269;
+gMain_bActiveModeState = gJapanese_bActiveMainMode;
+gMain_bRequestedMenuID = gJapanese_bRequestedMenu;

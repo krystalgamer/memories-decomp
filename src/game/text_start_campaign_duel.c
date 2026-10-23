@@ -77,5 +77,5 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
     if ((s8)x == 0x26) gDuel_wAnimatedBattleBgmCommand = 0x72B0;
     gDuel_bPostDuelMainMode = 2;
     gDuel_bResumeFromAnimatedBattle = 0;
-    D_8009B26C = 3;
+    gMain_bActiveModeState = 3;
 }

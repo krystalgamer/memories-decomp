@@ -9,14 +9,14 @@
 
 void Script_OpGameOver(void)
 {
-    D_8009B26C[0] = 12;
-    D_8009B269[0] = 12;
+    gMain_bActiveModeState[0] = 12;
+    gMain_bReturnMode[0] = 12;
 }
 
 void Script_OpCredits(void)
 {
-    D_8009B26C[0] = 15;
-    D_8009B269[0] = 15;
+    gMain_bActiveModeState[0] = 15;
+    gMain_bReturnMode[0] = 15;
 }
 
 void Script_OpWait(void)

@@ -11,6 +11,6 @@
 void Script_OpReturnToMenu(void)
 {
     D_8009B268 = 1;
-    D_8009B26D = 5;
-    D_8009B26C[0] = 8;
+    gMain_bRequestedMenuID = 5;
+    gMain_bActiveModeState[0] = 8;
 }
