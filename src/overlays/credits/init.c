@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "credits.h"
 
-void func_801807B0(void)
+void Credits_InitPresentation(void)
 {
     RECT rect0;
     RECT rect1;

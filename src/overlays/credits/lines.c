@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "credits.h"
 
-void func_80181C4C(s32 group)
+void Credits_StartLineGroup(s32 group)
 {
     CreditsLine *line;
     s32 i;

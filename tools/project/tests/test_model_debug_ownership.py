@@ -115,7 +115,7 @@ class ModelDebugOwnershipTests(unittest.TestCase):
         header = '#include "model_handler_state.h"\n'
         self.probe(
             header + "typedef char width[sizeof(D_8009B004) == 4 ? 1 : -1];\n"
-            "u8 *first = &D_8009B004.fields.field_00;\n"
+            "u8 *first = &D_8009B004.fields.credits_update_enabled;\n"
             "s16 *height = &D_8009B004.fields.height;\n"
             "u16 *height_bits = &D_8009B004.halfwords[1];\n"
             "u8 *display = &gModelDebug_Display.display_enabled;\n"

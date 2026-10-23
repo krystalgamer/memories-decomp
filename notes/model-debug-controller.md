@@ -44,6 +44,10 @@ The initialized, four-byte `D_8009B004` definition moves from the middle of
 the handler-state data unit into the controller. `ModelDebugState` records its
 two low scene-state bytes and the upper halfword's signed-height/unsigned-update
 views; no whole-word semantic rename is justified.
+The low bytes are `credits_update_enabled` and `credits_exit_requested`,
+owned by the resident credits handshake described in
+[`credits-runtime-protocol.md`](credits-runtime-protocol.md), not debug
+height flags. Their names do not change the union's word or halfword views.
 The original small-data run is now three contiguous sections:
 
 | Address | Bytes | Owner |

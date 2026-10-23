@@ -1028,8 +1028,8 @@ void Model_UpdateCreditsPresentation(void)
           1, gModel_szSuMrgPath, MODEL_INTRO_PACKAGE_START_SECTOR,
           16, 0, 0, gModel_CreditsModuleAddress);
       File_WaitForTransfers();
-      D_8009B004.fields.field_01 = 0;
-      D_8009B004.fields.field_00 = 0;
+      D_8009B004.fields.credits_exit_requested = 0;
+      D_8009B004.fields.credits_update_enabled = 0;
       ACTIVE_SLOT = 0;
       gModel_aSlots[0].is_active = 0;
       gModel_aSlots[1].is_active = 0;
@@ -1087,7 +1087,7 @@ void Model_UpdateCreditsPresentation(void)
             active_color[2] = next_blue;
           }
         }
-        if ( !D_8009B004.fields.field_01 )
+        if ( !D_8009B004.fields.credits_exit_requested )
           Model_UpdateCreditsMonsterSlot((u8)ACTIVE_SLOT ^ 1);
         lookup_base = gModel_aSlots;
         active_model = (s32 *)&lookup_base[(u8)ACTIVE_SLOT];
@@ -1115,7 +1115,7 @@ void Model_UpdateCreditsPresentation(void)
             }
             if ( animation < 0 )
             {
-              if ( D_8009B004.fields.field_01 )
+              if ( D_8009B004.fields.credits_exit_requested )
               {
                 next_phase = 2;
                 goto set_phase_and_tick;
@@ -1232,18 +1232,18 @@ store_phase:
       goto poll_module;
   }
 poll_module:
-      if ( D_8009B004.fields.field_00 )
+      if ( D_8009B004.fields.credits_update_enabled )
       {
         result = func_80180A24();
         if ( result )
         {
-          result = D_8009B004.fields.field_01;
-          if ( !D_8009B004.fields.field_01 )
+          result = D_8009B004.fields.credits_exit_requested;
+          if ( !D_8009B004.fields.credits_exit_requested )
           {
             result = (s16)SD_GetStatusFlags();
             if ( (s16)result != 128 )
             {
-              ++D_8009B004.fields.field_01;
+              ++D_8009B004.fields.credits_exit_requested;
               gModel_bPresentationPhase = 2;
             }
           }
@@ -1256,8 +1256,8 @@ poll_module:
           result = (u8)gModel_aSlots[0].is_active;
           if ( gModel_aSlots[0].is_active )
           {
-            result = D_8009B004.fields.field_00 + 1;
-            ++D_8009B004.fields.field_00;
+            result = D_8009B004.fields.credits_update_enabled + 1;
+            ++D_8009B004.fields.credits_update_enabled;
           }
         }
       }
