@@ -255,7 +255,7 @@ static void setup(void)
     clear(normal_outputs, sizeof(normal_outputs));
     clear(&ordering, sizeof(ordering));
     gModel_aSlots[2].field_D18 = &coordinate;
-    gModel_aSlots[2].field_E1F = 1;
+    gModel_aSlots[2].is_active = 1;
     gModel_aSlots[2].field_DA0[0] = 100;
     gModel_aSlots[2].field_DA0[1] = 200;
     gModel_aSlots[2].field_DA0[2] = 300;
@@ -315,7 +315,7 @@ static s32 guards(void)
     s32 inactive, channel;
     for (inactive = 0; inactive < 2; inactive++) for (channel = 0; channel < 4; channel++) {
         setup();
-        gModel_aSlots[2].field_E1F = !inactive;
+        gModel_aSlots[2].is_active = !inactive;
         gModel_aSlots[2].field_DA0[0] = -4096;
         gModel_aSlots[2].field_DA0[1] = -4096;
         gModel_aSlots[2].field_DA0[2] = -4096;

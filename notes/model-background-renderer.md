@@ -13,7 +13,7 @@ subobject begins at `+4`; `D_800F56A4` must not be separately allocated.
 The model slot's `field_D18` points to another `GsCOORDUNIT`; the renderer
 reads `matrix.t[1]` at coordinate offset `0x1C` and adds 300. The three
 `field_D70` entries have the `GsF_LIGHT` size/layout, `field_DA0` supplies
-the three ambient words, and `field_E1F` is the active byte.
+the three ambient words, and `is_active` is the active byte.
 
 `Model_GetLightSourceMatrix` is owned by `screen_projection.h`, already included by its
 definition in `model_slot_support.c`. Its existing return type is `void *`,

@@ -127,7 +127,7 @@ static void event(s32 kind, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f)
 static void completed(s32 slot)
 {
     if (complete_slot == slot) {
-        gModel_aSlots[slot].field_E1F = 1;
+        gModel_aSlots[slot].is_active = 1;
         expected_slots[GUARD + slot * 0xE20 + 0xE1F] = 1;
         gModel_bPresentationPhase = complete_phase;
     }
@@ -205,7 +205,7 @@ void observe_print(char *format, s32 a, s32 b)
     print_count++; print_total++;
     if (format == gModelDebug_szLoadStageFormat || format == gModelDebug_szLoadModel0Format || format == gModelDebug_szLoadModel1Format) {
         slot = format == gModelDebug_szLoadStageFormat ? 2 : format == gModelDebug_szLoadModel0Format ? 0 : 1;
-        CHECK(a == gModel_aSlots[slot].field_DF8 && b == gModel_aSlots[slot].field_E14);
+        CHECK(a == gModel_aSlots[slot].field_DF8 && b == gModel_aSlots[slot].load_step);
         return;
     }
     CHECK(display_cursor < 13);
@@ -236,8 +236,8 @@ static void reset(void)
     fill(record, sizeof(record), 0);
     fill(units, sizeof(units), 0x5B);
     for (i = 0; i < 3; i++) {
-        gModel_aSlots[i].field_E1F = 1;
-        gModel_aSlots[i].field_E14 = 0;
+        gModel_aSlots[i].is_active = 1;
+        gModel_aSlots[i].load_step = 0;
         gModel_aSlots[i].field_DF8 = 5 + i * 2;
         gModel_aSlots[i].field_D18 = &units[i];
     }
@@ -287,8 +287,8 @@ int main(void)
             for (k = 0; k < 2; k++) {
                 reset();
                 for (slot = 0; slot < 3; slot++) {
-                    gModel_aSlots[slot].field_E1F = (i >> slot) & 1;
-                    gModel_aSlots[slot].field_E14 = j ? 255 : 0;
+                    gModel_aSlots[slot].is_active = (i >> slot) & 1;
+                    gModel_aSlots[slot].load_step = j ? 255 : 0;
                 }
                 slot = !(i & 4) ? 2 : !(i & 1) ? 0 : !(i & 2) ? 1 : -1;
                 complete_slot = k ? slot : -1;
@@ -304,12 +304,12 @@ int main(void)
                 }
             }
     for (i = 0; i < 4; i++) {
-        reset(); gModel_aSlots[2].field_E1F = 0; gModel_aSlots[2].field_E14 = 255;
+        reset(); gModel_aSlots[2].is_active = 0; gModel_aSlots[2].load_step = 255;
         gFile_dwTransferState_abs = i < 3 ? (i == 0 ? 0x10 : i == 1 ? 0x20 : 0x2000000) : 0;
         gFile_dwCancelRequestState_abs = i == 3;
         CHECK(run() == 0 && event_count == 1 && events[0][0] == FRAME);
     }
-    reset(); gModel_aSlots[2].field_E1F = 0; gModel_aSlots[2].field_D18 = 0; complete_slot = 2;
+    reset(); gModel_aSlots[2].is_active = 0; gModel_aSlots[2].field_D18 = 0; complete_slot = 2;
     CHECK(run() == 0 && events[2][0] == PLACE && events[2][1] == 0);
     reset(); gModelDebug_Display.word &= ~255u;
     CHECK(run() == 0 && print_count == 0);
@@ -357,7 +357,7 @@ int main(void)
     CHECK(run() == 0 && event_count == 5);
     CHECK(events[0][0] == WAIT && events[1][0] == RESET);
     for (i = 0; i < 3; i++) CHECK(events[i + 2][0] == PROPERTIES && events[i + 2][1] == i);
-    reset(); gModel_aSlots[0].field_E1F = 0; complete_slot = 0; complete_phase = -2;
+    reset(); gModel_aSlots[0].is_active = 0; complete_slot = 0; complete_phase = -2;
     samples[0] = -256; samples[1] = 300 << 8; samples[2] = 650 << 8; samples[3] = 720 << 8;
     for (i = 4; i < 9; i++) samples[i] = (i + 1) << 8;
     sample_count = 9;

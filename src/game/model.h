@@ -221,7 +221,7 @@ typedef struct {
 
 typedef struct {
     ModelSlotHeadEntry field_000[MODEL_SLOT_UNIT_COUNT];
-    ModelSlotPart *G32 field_1E0[MODEL_SLOT_PART_COUNT];
+    ModelSlotPart *G32 animation_sequences[MODEL_SLOT_PART_COUNT];
     /* Model_ResetSlotAnimationTables fills the keys with 0xFFFF at a 0x74
      * stride over MODEL_SLOT_ROW_COUNT rows. Model_BuildSlotAnimationTables
      * indexes them [row][part]; Model_ControlSlotAnimation reads the same
@@ -304,14 +304,17 @@ typedef struct {
     u8 field_E11;
     u8 field_E12;
     u8 field_E13;
-    u8 field_E14;
+    /* Staged initialization step; 0 waits for transfer, 0xFF is idle. */
+    u8 load_step;
     u8 field_E15;
     u8 field_E16;
     u8 entry_count;
     u8 field_E18;
     u8 field_E19;
-    u8 field_E1A;
-    u8 field_E1B;
+    /* Low-byte HMD unit count capped by the existing initializer. */
+    u8 hmd_unit_count;
+    /* Number of linked animation-sequence pointers, not all HMD units. */
+    u8 animation_sequence_count;
     u8 field_E1C;
     /* Model_ResetSlot clears this byte and
      * Model_LoadMonsterMerge writes its transfer flags here,
@@ -319,7 +322,8 @@ typedef struct {
      * record still covered it with padding. */
     u8 field_E1D;
     u8 field_E1E;
-    u8 field_E1F;
+    /* Raw active gate; transient activation is separate from load readiness. */
+    u8 is_active;
 } ModelSlot;
 
 typedef struct {
@@ -457,8 +461,8 @@ typedef char ModelSlotSoundEntry_size_must_be_4[
 typedef char ModelSlot_size_must_be_0xE20[
     sizeof(ModelSlot) == MODEL_SLOT_SIZE ? 1 : -1
 ];
-typedef char ModelSlot_field_1E0_offset_must_be_0x1E0[
-    MODEL_OFFSET(ModelSlot, field_1E0) == 0x1E0 ? 1 : -1
+typedef char ModelSlot_animation_sequences_offset_must_be_0x1E0[
+    MODEL_OFFSET(ModelSlot, animation_sequences) == 0x1E0 ? 1 : -1
 ];
 typedef char ModelSlot_field_750_max_offset_must_be_0x7C4[
     MODEL_OFFSET(ModelSlot, field_750[0].max) == 0x7C4 ? 1 : -1
@@ -538,8 +542,8 @@ typedef char ModelSlot_field_E11_offset_must_be_0xE11[
 typedef char ModelSlot_field_E12_offset_must_be_0xE12[
     MODEL_OFFSET(ModelSlot, field_E12) == 0xE12 ? 1 : -1
 ];
-typedef char ModelSlot_field_E14_offset_must_be_0xE14[
-    MODEL_OFFSET(ModelSlot, field_E14) == 0xE14 ? 1 : -1
+typedef char ModelSlot_load_step_offset_must_be_0xE14[
+    MODEL_OFFSET(ModelSlot, load_step) == 0xE14 ? 1 : -1
 ];
 typedef char ModelSlot_field_E16_offset_must_be_0xE16[
     MODEL_OFFSET(ModelSlot, field_E16) == 0xE16 ? 1 : -1
@@ -550,11 +554,11 @@ typedef char ModelSlot_entry_count_offset_must_be_0xE17[
 typedef char ModelSlot_field_E18_offset_must_be_0xE18[
     MODEL_OFFSET(ModelSlot, field_E18) == 0xE18 ? 1 : -1
 ];
-typedef char ModelSlot_field_E1A_offset_must_be_0xE1A[
-    MODEL_OFFSET(ModelSlot, field_E1A) == 0xE1A ? 1 : -1
+typedef char ModelSlot_hmd_unit_count_offset_must_be_0xE1A[
+    MODEL_OFFSET(ModelSlot, hmd_unit_count) == 0xE1A ? 1 : -1
 ];
-typedef char ModelSlot_field_E1B_offset_must_be_0xE1B[
-    MODEL_OFFSET(ModelSlot, field_E1B) == 0xE1B ? 1 : -1
+typedef char ModelSlot_animation_sequence_count_offset_must_be_0xE1B[
+    MODEL_OFFSET(ModelSlot, animation_sequence_count) == 0xE1B ? 1 : -1
 ];
 typedef char ModelSlot_field_E1C_offset_must_be_0xE1C[
     MODEL_OFFSET(ModelSlot, field_E1C) == 0xE1C ? 1 : -1
@@ -562,8 +566,8 @@ typedef char ModelSlot_field_E1C_offset_must_be_0xE1C[
 typedef char ModelSlot_field_E1E_offset_must_be_0xE1E[
     MODEL_OFFSET(ModelSlot, field_E1E) == 0xE1E ? 1 : -1
 ];
-typedef char ModelSlot_field_E1F_offset_must_be_0xE1F[
-    MODEL_OFFSET(ModelSlot, field_E1F) == 0xE1F ? 1 : -1
+typedef char ModelSlot_is_active_offset_must_be_0xE1F[
+    MODEL_OFFSET(ModelSlot, is_active) == 0xE1F ? 1 : -1
 ];
 
 typedef char ModelSlotCF8TailView_size_must_be_0x108[

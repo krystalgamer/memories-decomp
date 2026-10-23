@@ -19,7 +19,7 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *p, s32 i)
 
     acc = 0;
     n = 1;
-    e = p->field_1E0[i];
+    e = p->animation_sequences[i];
     if (e == 0) {
         return 0;
     }
@@ -80,14 +80,14 @@ void Model_SeekSlotPartAnimation(ModelSlot *p, s32 i, s32 n, u32 pos) {
     s32 off2;
 
     /* Both channel offsets are materialised up front and never read by
-       name: cse reuses them for the field_1E0 and field_2C8 indexing just
+       name: cse reuses them for the animation_sequences and field_2C8 indexing just
        below, and that is what moves p out of $a0 into $t3 at entry.
        Dropping either one changes the entry sequence. */
     off4 = i * 4;
     off2 = i * 2;
     k = p->field_2C8[n][i];
     tbl = p->field_DD8;
-    e = p->field_1E0[i];
+    e = p->animation_sequences[i];
     q = tbl + k;
     if (e == 0) {
         return;

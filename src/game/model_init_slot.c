@@ -99,7 +99,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     base->entries = 0;
     base->field_D1C = 0;
     base->field_E19 = 0;
-    base->field_E1B = 0;
+    base->animation_sequence_count = 0;
     base->field_E1C = 0;
     base->field_DE8 = 0;
     base->field_DEC = 0;
@@ -122,21 +122,21 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     base->lit_color_cache_end_address = 0;
     base->field_E15 = 0;
     base->field_E1E = 0;
-    base->field_E1F = 0;
+    base->is_active = 0;
     if (hmd == 0) {
         base->field_E1D = 0;
-        base->field_E14 = 0xFF;
+        base->load_step = 0xFF;
         return;
     }
     GsMapUnit((u32 *)hmd);
     cursor += 0xC;
     Model_ResetSlotAnimationTables(index, hmd);
-    base->field_E1A = *cursor;
+    base->hmd_unit_count = *cursor;
     cursor += 4;
-    if (base->field_E1A >= 0x3D) {
-        base->field_E1A = 0x3C;
+    if (base->hmd_unit_count >= 0x3D) {
+        base->hmd_unit_count = 0x3C;
     }
-    if (base->field_E1A != 0) {
+    if (base->hmd_unit_count != 0) {
         i = 0;
         do {
             slot->coord = 0;
@@ -198,13 +198,13 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
             }
             i++;
             slot++;
-        } while (i < base->field_E1A);
+        } while (i < base->hmd_unit_count);
     }
     slot = GS_UNIT_VIEW(base->field_000) + 1;
     i = 1;
     base->packet_budget_bytes = count;
     base->lit_color_cache_entry_count = acc + i;
-    if (i < base->field_E1A - 1) {
+    if (i < base->hmd_unit_count - 1) {
         off = 0;
     link:
         base->entry_count++;
@@ -214,7 +214,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
         off += MODEL_SLOT_DATA_ENTRY_SIZE;
         i++;
         slot++;
-        if (i < base->field_E1A - 1) {
+        if (i < base->hmd_unit_count - 1) {
             goto link;
         }
     }
@@ -236,7 +236,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
         base->field_D1C = cur;
     retry:
         slot = GS_UNIT_VIEW(base->field_000);
-        loaded_limit = base->field_E1A;
+        loaded_limit = base->hmd_unit_count;
         i = 0;
         if (loaded_limit != 0) {
             sentinel = -1;
@@ -255,7 +255,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
                 goto claimed;
             }
         scanned:
-            if (i < base->field_E1A) {
+            if (i < base->hmd_unit_count) {
                 goto found;
             }
         }

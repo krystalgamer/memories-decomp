@@ -520,15 +520,15 @@ void Model_BuildSlotAnimationTables(s32 index)
         return;
     }
     i = 0;
-    if (i < ch->field_E1B) {
-        for (; i < ch->field_E1B; i++) {
-            slot = ch->field_1E0[i];
+    if (i < ch->animation_sequence_count) {
+        for (; i < ch->animation_sequence_count; i++) {
+            slot = ch->animation_sequences[i];
             if (slot == 0) {
                 break;
             }
             row = 1;
             slot->start_sid = row;
-            key = ch->field_1E0[i]->start;
+            key = ch->animation_sequences[i]->start;
             cmd = &ch->field_DD8[key];
             ch->field_2C8[row][i] = key;
             while (1) {
@@ -555,7 +555,7 @@ void Model_BuildSlotAnimationTables(s32 index)
     }
     for (row = 1; row < MODEL_SLOT_ROW_COUNT; row++) {
         ch->field_750[row].max = 0;
-        for (i = 0; i < ch->field_E1B; i++) {
+        for (i = 0; i < ch->animation_sequence_count; i++) {
             if (ch->field_750[row].max < ch->field_750[row].values[i]) {
                 ch->field_750[row].max = ch->field_750[row].values[i];
             }
@@ -565,7 +565,7 @@ void Model_BuildSlotAnimationTables(s32 index)
 
 /* The relink pass after the table builder above. Every reach now goes through
    ModelSlot: the command list is ch->field_DD8, the channel count is
-   ch->field_E1B, and row 1's key for the current channel is
+   ch->animation_sequence_count, and row 1's key for the current channel is
    ch->field_2C8[1][i].
 
    The two key reads inside the loops keep a byte-offset sum instead of
@@ -603,7 +603,7 @@ void Model_LinkSlotAnimationRows(s32 arg0)
         return;
     }
     i = 0;
-    if (ch->field_E1B == 0) {
+    if (ch->animation_sequence_count == 0) {
         return;
     }
 
@@ -678,6 +678,6 @@ zero:
 
         o += 2;
         i++;
-    } while (i < ch->field_E1B);
+    } while (i < ch->animation_sequence_count);
 }
 #endif

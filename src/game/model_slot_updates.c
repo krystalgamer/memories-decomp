@@ -59,14 +59,14 @@ void Model_SetSlotPartSpeeds(s32 arg0, s32 arg1)
     ModelSlotPart *G32 *p;
     s32 i;
 
-    p = rec->field_1E0;
+    p = rec->animation_sequences;
     i = 0;
-    if (rec->field_E1B != 0) {
+    if (rec->animation_sequence_count != 0) {
         do {
             (*p)->speed = arg1;
             p++;
             i++;
-        } while (i < rec->field_E1B);
+        } while (i < rec->animation_sequence_count);
     }
 }
 
