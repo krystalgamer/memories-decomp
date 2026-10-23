@@ -1200,3 +1200,6 @@ gLibrary_sCapturedReferenceY = D_80181002;
 gLibrary_sSampledReferenceY = D_80181012;
 
 gText_aGlyphLookup = tent_GlyphLookupTable;
+
+/* Canonical view of the retained native countdown entry point. */
+SD_UpdateSecondaryObjectReuseCountdowns = tent_SD_AgeSecondaryObjects;

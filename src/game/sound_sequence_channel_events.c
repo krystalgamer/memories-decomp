@@ -235,14 +235,14 @@ u8 velocity;
         obj->tone_index = tidx;
         obj->note = obj->key_note = level;
         obj->channel_index = channel;
-        obj->tent_release_stage = 1;
+        obj->lifecycle_stage = 1;
         obj->pitch_bend_positive_scale = td;
         obj->program_volume = prog->volume;
         obj->program_pan = prog->pan;
         obj->tone_volume = tone->volume;
         tr = tone->pan;
         obj->velocity = velocity;
-        obj->tent_age_countdown = 0xFFFF;
+        obj->reuse_countdown = 0xFFFF;
         obj->tone_pan = tr;
         SD_SpatializeSecondaryObject(
             &gSD_pSecondaryState->objects[idx],

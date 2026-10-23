@@ -20,11 +20,11 @@ s32 SD_FindLowestPrioritySecondaryObject(s32 value)
         do {
             SDSecondaryState *entry =
                 SD_SECONDARY_STATE_AT_OFFSET(state, offset);
-            u16 candidate = entry->objects[0].tent_age_countdown;
+            u16 candidate = entry->objects[0].reuse_countdown;
 
             if ((u16)best >= candidate &&
                 entry->objects[0].channel_index == value &&
-                entry->objects[0].tent_release_stage != 0) {
+                entry->objects[0].lifecycle_stage != 0) {
                 best = candidate;
                 result = i;
             }
@@ -80,7 +80,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                 if (state->object_count > 0) {
                     s32 count = state->object_count;
                     do {
-                        if (state->objects[i].tent_release_stage == 0) {
+                        if (state->objects[i].lifecycle_stage == 0) {
                             return SD_PrepareSecondaryObjectReuse(i, (u8)value);
                         }
                         i++;
@@ -106,7 +106,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                 if (state->object_count > 0) {
                     s32 count = state->object_count;
                     do {
-                        if (state->objects[i].tent_release_stage == 0) {
+                        if (state->objects[i].lifecycle_stage == 0) {
                             return SD_PrepareSecondaryObjectReuse(i, (u8)value);
                         }
                         i++;
@@ -122,7 +122,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
     if (state->object_count > 0) {
         s32 count = state->object_count;
         do {
-            u16 candidate = state->objects[i].tent_age_countdown;
+            u16 candidate = state->objects[i].reuse_countdown;
             if (candidate < best) {
                 best = candidate;
                 result = i;

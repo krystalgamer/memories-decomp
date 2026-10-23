@@ -1,17 +1,17 @@
 #include "../types.h"
 #include "sound.h"
 
-/* Walks the secondary-object array up to object_count and decrements each
-   active object's tent_age_countdown; invalid or inactive entries are cleared. */
-void tent_SD_AgeSecondaryObjects(void) {
+/* Saturates the reuse-ranking counter at zero; out-of-range channels clear
+   only that counter, not the object or its channel ownership. */
+void SD_UpdateSecondaryObjectReuseCountdowns(void) {
     s32 i;
 
     for (i = 0; i < gSD_pSecondaryState->object_count; i++) {
         SDSecondaryObject *item = &gSD_pSecondaryState->objects[i];
-        if (item->tent_age_countdown != 0 && item->channel_index < SD_SEQUENCE_CHANNEL_COUNT) {
-            item->tent_age_countdown -= 1;
+        if (item->reuse_countdown != 0 && item->channel_index < SD_SEQUENCE_CHANNEL_COUNT) {
+            item->reuse_countdown -= 1;
         } else {
-            item->tent_age_countdown = 0;
+            item->reuse_countdown = 0;
         }
     }
 }

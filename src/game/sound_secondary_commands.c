@@ -89,7 +89,7 @@ void SD_HandleSequenceControlChange(s32 arg0, s32 arg1, u8 arg2)
             m = 0x180;
             do {
                 if (id2 == c->objects[i].channel_index) {
-                    if (c->objects[i].tent_release_stage != 0) {
+                    if (c->objects[i].lifecycle_stage != 0) {
                         SD_SpatializeSecondaryObject(
                             (SDSecondaryObject *)(SD_SECONDARY_STATE_BYTES(c) + m),
                             (SDSecondaryRecord *)(SD_SECONDARY_STATE_BYTES(c) + off));
@@ -147,7 +147,7 @@ PSXLONG SD_SequenceTimerCallback(void)
             state = gSD_pSecondaryState;
             if (state->field_0508 >= 11) {
                 state->field_0508 = 0;
-                tent_SD_AgeSecondaryObjects();
+                SD_UpdateSecondaryObjectReuseCountdowns();
                 SD_UpdateSecondaryObjectVoices();
                 callback = gSD_pSecondaryState->field_050C;
                 if (callback != 0)

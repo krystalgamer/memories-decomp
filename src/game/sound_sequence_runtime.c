@@ -41,7 +41,7 @@ void SD_UpdateSecondarySequence(void)
         SD_ProcessSequenceTracks();
         SD_ProcessSequenceTracks();
     }
-    tent_SD_AgeSecondaryObjects();
+    SD_UpdateSecondaryObjectReuseCountdowns();
     SD_UpdateSecondaryObjectVoices();
     gSD_pSecondaryState->flag_0501 = 0;
 }

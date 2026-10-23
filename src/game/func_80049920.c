@@ -45,11 +45,11 @@ void tent_SD_KeyOffSilentSecondaryObjects(void) {
         tbl = gSD_adwVoiceMasks;
         do {
             if (SD_SECONDARY_STATE_AT_OFFSET(base, off)
-                    ->objects[0].tent_release_stage != 0) {
+                    ->objects[0].lifecycle_stage != 0) {
                 if (SpuGetKeyStatus(*tbl) == SPU_ON_ENV_OFF) {
                     b1 = gSD_pSecondaryState;
                     p = SD_SECONDARY_STATE_AT_OFFSET(b1, off);
-                    b = p->objects[0].tent_release_stage;
+                    b = p->objects[0].lifecycle_stage;
                     if (b >= 2) {
                         mask |= *tbl;
                         q = tbl;
@@ -59,9 +59,9 @@ void tent_SD_KeyOffSilentSecondaryObjects(void) {
                         } while (v != key_off_env_on && v != SPU_OFF);
                         b2 = gSD_pSecondaryState;
                         SD_SECONDARY_STATE_AT_OFFSET(b2, off)
-                            ->objects[0].tent_release_stage = 0;
+                            ->objects[0].lifecycle_stage = 0;
                     } else {
-                        p->objects[0].tent_release_stage = b + 1;
+                        p->objects[0].lifecycle_stage = b + 1;
                     }
                 }
             }

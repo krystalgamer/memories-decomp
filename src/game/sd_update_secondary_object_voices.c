@@ -49,7 +49,7 @@ void SD_UpdateSecondaryObjectVoices(void) {
                 SD_UpdateSecondaryObjectPitch(e, 0);
             }
             if (*q == SPU_OFF) {
-                if (e->tent_release_stage == 0) {
+                if (e->lifecycle_stage == 0) {
                     goto next;
                 }
                 r = &gSD_pSecondaryState->channels[e->channel_index];
@@ -57,19 +57,19 @@ void SD_UpdateSecondaryObjectVoices(void) {
                 if ((a & 0xF) != 0) {
                     r->voice_usage = a - 1;
                 }
-                e->tent_release_stage = 0;
-                e->tent_age_countdown = 0;
+                e->lifecycle_stage = 0;
+                e->reuse_countdown = 0;
                 e->channel_index = SD_SECONDARY_RECORD_NONE;
             }
 
-            b = e->tent_release_stage;
+            b = e->lifecycle_stage;
             c = b & 0xFF;
             if (c != 0 && *q == SPU_ON_ENV_OFF) {
                 if (c >= 2) {
                     m = m | *t;
                     SD_KeyOffSecondaryObject(i, b);
                 } else {
-                    e->tent_release_stage = b + 1;
+                    e->lifecycle_stage = b + 1;
                 }
             }
 
