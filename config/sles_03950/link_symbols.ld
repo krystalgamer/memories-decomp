@@ -1196,3 +1196,5 @@ gDuelEffect_nCompactionRequested = D_8009B330;
 
 gLibrary_sCapturedReferenceY = D_80181002;
 gLibrary_sSampledReferenceY = D_80181012;
+
+gText_aGlyphLookup = tent_GlyphLookupTable;

@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../text_constants.h"
+#include "../text_glyph_lookup.h"
 #include "../text_sjis_to_glyph_codes.h"
 
 void Text_SjisToGlyphCodes(u8 *dst, const u8 *src, s32 count)
@@ -16,7 +17,7 @@ void Text_SjisToGlyphCodes(u8 *dst, const u8 *src, s32 count)
     for (i = 0; i < count; i++, input++) {
         s32 value = *input;
         s32 index = value != 0;
-        TextGlyphLookupEntry *entry = &tent_GlyphLookupTable[index];
+        TextGlyphLookupEntry *entry = &gText_aGlyphLookup[index];
         u32 word = entry->packed;
 
         goto test;
