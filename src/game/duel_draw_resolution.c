@@ -32,7 +32,7 @@
 #include "../unmatched.h"
 #include "fade_state_bytes.h"
 #include "duel_session_controls.h"
-#include "duel_create_hand_card_display_object.h"
+#include "duel_card_display_objects.h"
 #include "duel_update_draw_card_slide.h"
 #include "display_object_helpers.h"
 #include "duel_effect_request.h"

@@ -10,7 +10,7 @@
 #include "display_object_work_slots.h"
 #include "display_object_interpolation.h"
 #include "display_object_core.h"
-#include "duel_apply_card_object_flags.h"
+#include "duel_card_display_objects.h"
 #include "duel_card.h"
 #include "duel_card_staging.h"
 #include "duel_card_record_lifecycle.h"
