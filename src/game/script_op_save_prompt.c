@@ -28,6 +28,7 @@
 #define D_8009B34C_IN_DATA
 #define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../unmatched.h"
+#include "dialog_choice_control.h"
 #include "dialog_read_choice_input.h"
 #include "script_op_save_prompt.h"
 #include "duel_effect_mark_object_if_active.h"
@@ -151,7 +152,7 @@ void Script_OpSavePrompt(void)
         }
         gDialog_bChoiceCount = 4;
         gDialog_bChoice = 0;
-        D_8009B34C = 0;
+        gDialog_bChoiceControl = 0;
         gScript_wCommandWord &= 0xFF7F;
         return;
     }

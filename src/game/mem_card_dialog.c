@@ -20,6 +20,7 @@
 #include "../psyq/strings.h"
 #include "data_transfer_request.h"
 #include "duel_effect.h"
+#include "dialog_callback_state.h"
 #include "text_channel_state.h"
 #include "mem_card.h"
 #include "save_data.h"
@@ -159,9 +160,9 @@ success:
             break;
         }
     }
-    if (D_8009B3C1 & 0xF) {
+    if (gDialog_bCallbackState & 0xF) {
         status = 1;
-        CALL32(void (*)(MemCardWorkRoot *, MemCardWorkSlot *), gDialog_apfnTransitionSteps[D_8009B3C1 & 0xF])(root, slot);
+        CALL32(void (*)(MemCardWorkRoot *, MemCardWorkSlot *), gDialog_apfnTransitionSteps[gDialog_bCallbackState & 0xF])(root, slot);
     }
     if (status >= 0)
         return;
@@ -182,11 +183,11 @@ success:
     case 0:
         if (!(gMemCardWork_OperationState & 0x80)) {
             gMemCardWork_OperationState |= 0x80;
-            D_8009B3C1 = 1;
+            gDialog_bCallbackState = 1;
             break;
         }
         if (gDialog_bChoice) {
-            D_8009B3C1 = 2;
+            gDialog_bCallbackState = 2;
             break;
         }
         MemCard_Init(1);
@@ -531,8 +532,8 @@ void MemCardDialog_UpdateLoad(void)
 
 void MemCardDialog_StepLoad(void)
 {
-    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
-        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+    if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         gMemCardDialog_OperationState = 0;
     }
     MemCardDialog_UpdateLoad();
@@ -540,8 +541,8 @@ void MemCardDialog_StepLoad(void)
 
 void MemCardDialog_StepLoadUnprompted(void)
 {
-    if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
-        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+    if (!(gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
+        gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         gMemCardDialog_OperationState = 1;
         gMemCard_wDialogFlags |= 0x200;
     }
@@ -1190,8 +1191,8 @@ void MemCardDialog_UpdateSave(void)
 
 void MemCardDialog_StepSave(void)
 {
-    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
-        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+    if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         gMemCardDialog_OperationState = 0;
     }
     MemCardDialog_UpdateSave();
@@ -1221,8 +1222,8 @@ void MemCardDialog_StepNone(void)
    save update runs. */
 void func_8003E56C(void)
 {
-    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
-        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+    if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         gMemCardDialog_TransferOffset = 0;
         gMemCardDialog_OperationState = 0;
         gMemCard_wDialogFlags |= 0x100;
@@ -1236,8 +1237,8 @@ void MemCardDialog_UpdateTradeSave(void)
     s32 files;
     u8 *record;
 
-    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
-        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+    if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         MemCardDialog_SetMessage(MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE, 0);
         gMemCardDialog_OperationState = 0;
     }
@@ -1591,7 +1592,7 @@ void MemCardDialog_Start(s32 step)
 {
     gMemCard_wDialogFlags = MEM_CARD_DIALOG_FLAG_ACTIVE;
     gMemCardDialog_StepIndex = step;
-    D_8009B3C1 = 0;
+    gDialog_bCallbackState = 0;
 }
 
 void MemCardDialog_Request(u8 *buf, s32 size, u8 *name, s32 step)

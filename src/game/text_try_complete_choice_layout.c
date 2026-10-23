@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../unmatched.h"
+#include "dialog_choice_control.h"
 #include "dialog_choice.h"
 #include "text_stream_commands.h"
 
@@ -12,7 +13,7 @@ void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object)
         object->state_51 = 1;
         flags = object->flags_34;
         object->field_56 = 0;
-        control = D_8009B34C;
+        control = gDialog_bChoiceControl;
         gText_ChoiceLayoutCallback = 0;
         flags &= 0xEFFF;
         control &= 0x30;

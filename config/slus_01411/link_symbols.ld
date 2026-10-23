@@ -221,3 +221,6 @@ gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;
 gSaveData_aSecondPlayerState = D_801D2200;
 gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
+
+gDialog_bChoiceControl = D_8009B34C;
+gDialog_bCallbackState = D_8009B3C1;

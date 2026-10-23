@@ -7,6 +7,7 @@
 #include "display_object_core.h"
 
 #include "duel_effect.h"
+#include "dialog_callback_state.h"
 #include "text_channel_state.h"
 #include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
@@ -39,8 +40,8 @@ void Dialog_UpdateSpotlightContraction(MenuRecord *record)
     DisplayObject *object;
     s32 flags;
 
-    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
-        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+    if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
         object->field_30.h.field_30 = 160;
         object->field_30.h.field_32 = DIALOG_TRANSITION_SPOTLIGHT_Y;
@@ -51,10 +52,10 @@ void Dialog_UpdateSpotlightContraction(MenuRecord *record)
         object->field_4C = (s32)DisplayObject_RenderSpotlightMask;
         record->grid[0][1] = (s32)object;
     }
-    flags = D_8009B3C1;
+    flags = gDialog_bCallbackState;
     object = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
     if (flags & 64) {
-        D_8009B3C1 = 0;
+        gDialog_bCallbackState = 0;
     } else {
         s32 x = *(u16 *)&object->field_48.h.field_48 - 8;
         s32 y = *(u16 *)&object->field_48.h.field_4A - 8;
@@ -62,7 +63,7 @@ void Dialog_UpdateSpotlightContraction(MenuRecord *record)
         object->field_48.h.field_4A = y;
         object->field_48.h.field_48 = x;
         if ((s16)x <= 0) {
-            D_8009B3C1 = flags | 64;
+            gDialog_bCallbackState = flags | 64;
             object->field_48.h.field_48 = 0;
             object->field_48.h.field_4A = 64;
         }
@@ -74,9 +75,9 @@ void Dialog_UpdateCloseTransition(MenuRecord *record)
     DisplayObject *object;
     DuelEffectChannel *entry;
 
-    if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
+    if (!(gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
         object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
-        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
         object->field_60 = 0x400;
     }
@@ -118,7 +119,7 @@ void Dialog_UpdateCloseTransition(MenuRecord *record)
         }
     }
     if (!record->grid[0][0] && !record->grid[0][1])
-        D_8009B3C1 = 0;
+        gDialog_bCallbackState = 0;
 }
 
 void Dialog_UpdateOpenTransition(MenuRecord *record)
@@ -131,9 +132,9 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
     s32 a;
     s32 g;
 
-    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
-        D_8009B3C1 =
-            D_8009B3C1 | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+    if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDialog_bCallbackState =
+            gDialog_bCallbackState | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
         p->field_30.h.field_30 = 0xA0;
         p->field_30.h.field_32 = DIALOG_TRANSITION_SPOTLIGHT_Y;
@@ -161,9 +162,9 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
                        *(s16 *)&p->field_30.h.field_32);
     }
-    f = D_8009B3C1;
+    f = gDialog_bCallbackState;
     if ((f & 0x20) != 0) {
-        D_8009B3C1 = 0;
+        gDialog_bCallbackState = 0;
         return;
     }
     /* The dialog channel's index: the byte at 0x1A, inside grid's third
@@ -177,7 +178,7 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
     if ((f & 0x40) != 0) {
         TextBox_UpdateChannels();
         if ((r->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
-            D_8009B3C1 = D_8009B3C1 | 0x20;
+            gDialog_bCallbackState = gDialog_bCallbackState | 0x20;
             if (gDialog_bChoice == 0) {
                 DuelEffect_CreateChannel(0x80D4, 0);
                 gDialog_bChoice = 0;
@@ -208,9 +209,9 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         p->field_48.h.field_48 = 0;
         p->field_48.h.field_4A = 0x40;
         if (DISPLAY_OBJECT_VIEW(record->grid[0][0])->field_60 == 0) {
-            g = D_8009B3C1;
+            g = gDialog_bCallbackState;
             r->flags_34 = r->flags_34 & (0xFFFF ^ DIALOG_TRANSITION_CHANNEL_FLAG);
-            D_8009B3C1 = g | 0x40;
+            gDialog_bCallbackState = g | 0x40;
         }
     }
 }
