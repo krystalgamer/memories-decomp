@@ -100,7 +100,9 @@ separate research. This component does not promote that function or change
 its body, declarations, region profiles or controls.
 
 There are no new global symbols or semantic-map rows: these are runtime
-record members, not independent fixed-VMA objects. Existing tests, native
-oracles, profiles, source groups, SDK headers and linker inputs remain
+record members, not independent fixed-VMA objects. The existing third-slot
+mutation target adopts the corresponding member name; its exact-one-match
+assertion, injected guard, oracle, O0/O2 variants and runners are unchanged.
+Other tests, profiles, source groups, SDK headers and linker inputs remain
 unchanged. No synthetic/generated-C/source-string harness is added, and
 cloud/native witness suites remain PR validation rather than local execution.
