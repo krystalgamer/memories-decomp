@@ -231,3 +231,7 @@ gText_aSecondPlayerNameGlyphs = D_801B1238;
 
 gFade_bFlags = D_800E9ECE;
 gFade_bStep = D_800E9ECF;
+
+PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F5D44);
+gLibGs_sActiveBufferIndex = D_800FE0CC;
+D_8009B061 = ABSOLUTE(gMovie_bCopyDisplayOnStop);

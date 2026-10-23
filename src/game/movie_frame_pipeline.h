@@ -55,19 +55,19 @@ extern u8 gMovie_bOutputSlot;
 extern u32 gMovie_dwStartFrame;
 extern u32 gMovie_dwEndFrame;
 extern u32 gMovie_dwEndSector;
-/* The movie graph-reset latch and current LIBGS graph/display dimensions,
+/* The LIBGS active-buffer index and current graph/display dimensions,
  * at 0x800FE0CC-0x800FE0D7.
  *
  * The current LIBGS graph/display width and height each have a 16-bit RECT
  * view and a 32-bit arithmetic view. GraphicsDimension records that overlay
  * directly instead of making each consumer cast the global's address.
- * D_800FE0CC is set to 1 on paths that reinitialize graph/display state.
+ * D_800FE0CC is the halfword GsGetActiveBuff returns and GsSwapDispBuff
+ * updates. Movie open/stop set it to 1 before their existing graph/swap setup.
  *
- * All three keep the .data section attribute both sources already wrote, and
- * both write it: these sit at 0x800FE0xx, far from $gp, and the retail image
- * reaches them with lui/%lo. Unlike the guarded symbols elsewhere in this
- * tree there is no second group to serve -- no other source names them --
- * so one spelling carries. */
+ * All three keep the .data declaration forms both movie units already use.
+ * These labels sit far from $gp and retail reaches them with lui/%lo.
+ * The active index is SDK-owned state, not a movie-owned reset latch;
+ * see notes/movie-handoff-controls.md. */
 extern s16 D_800FE0CC __attribute__((section(".data")));
 typedef union {
     u16 pixels;

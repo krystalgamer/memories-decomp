@@ -222,3 +222,7 @@ gText_aSecondPlayerNameGlyphs = D_801C1B4E;
 
 gFade_bFlags = D_800E9ECE;
 gFade_bStep = D_800E9ECF;
+
+gLibCd_nDeferredStreamInterrupt = D_800F5D44;
+gLibGs_sActiveBufferIndex = D_800FE0CC;
+gMovie_bCopyDisplayOnStop = D_8009B061;

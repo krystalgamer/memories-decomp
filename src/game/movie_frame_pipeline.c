@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "graphics_frame.h"
 #include "movie_frame_pipeline.h"
+#include "movie_handoff_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libpress.h"
@@ -43,7 +44,7 @@ s32 Movie_StopStream(s32 arg0) {
     StUnSetRing();
     while (CdControlB(9, 0, 0) == 0) {
     }
-    if (D_8009B061 != 0 || arg0 != 0) {
+    if (gMovie_bCopyDisplayOnStop != 0 || arg0 != 0) {
         Movie_MoveDisplayImage(0, 0x100);
     }
     if (gMovie_bRgb24 != 0) {
@@ -89,7 +90,7 @@ s32 Movie_StopStream(s32 arg0) {
         }
         DrawSync(0);
         VSync(0);
-        D_800FE0CC = 1;
+        gLibGs_sActiveBufferIndex = 1;
         GsSwapDispBuff();
 #ifdef VERSION_EUROPE
         GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, 0x100, 4, 1, 0);
@@ -320,9 +321,9 @@ void Movie_OnDecodeOutput(void) {
     MovieWorkArea *out;
 
     if (gMovie_bRgb24 != 0) {
-        if (D_800F5D44 != 0) {
+        if (gLibCd_nDeferredStreamInterrupt != 0) {
             StCdInterrupt();
-            D_800F5D44 = 0;
+            gLibCd_nDeferredStreamInterrupt = 0;
         }
     }
     dst = gMovie_pWorkArea + (u32)&((RECT *)0)[gMovie_bOutputSlot] + 0x40000;
