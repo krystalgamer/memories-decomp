@@ -20,13 +20,15 @@ typedef struct {
 } Variant401EntryRecord;
 
 typedef struct {
-    u8 unknown_00[0x1D4];
+    SVECTOR point[3][9];
+    PSXLONG screen[3][9];
+    u8 unknown_144[0x90];
     s32 offset[9];
     CVECTOR ca[9], cb[9];
     VECTOR scale;
     s16 field_250, field_252;
     s32 field_254;
-    u8 unknown_258[0x24];
+    s32 otz[9];
 } Variant401EntryBand;
 
 typedef struct {
