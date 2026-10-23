@@ -320,9 +320,10 @@ typedef struct {
     /* Written by SD_SpatializeSecondaryObject: the 0-0x7F pan position it
        derives from the object's two pan bytes and its channel's pan. */
     u8 pan;
-    /* Nonzero while the voice is allocated; the per-frame sweep counts it
-       up once the SPU reports the envelope off and keys the voice off at 2. */
-    u8 tent_release_stage;
+    /* Nonzero gates allocation-sensitive work. Silent-envelope observations
+       advance stage 1; a later silent observation at stage >=2 requests key-off.
+       This is independent of key_held and channel ownership. */
+    u8 lifecycle_stage;
     u8 velocity;
     /* Set at key-on, cleared by SD_KeyOffSecondaryObject's key-off. */
     u8 key_held;
@@ -338,9 +339,9 @@ typedef struct {
     u8 pad0018[2];
     s16 cached_pitch_bend;
     s16 field_001C;
-    /* 0xFFFF at key-on, counted down each frame; voice stealing takes
-       the lowest. */
-    u16 tent_age_countdown;
+    /* 0xFFFF at key-on; the reuse-ranking update counts down toward zero.
+       Lower values are preferred for voice stealing, not voice expiry. */
+    u16 reuse_countdown;
     /* The tone's VagAtr ADSR pair and the attack mode derived from it. */
     u16 adsr1;
     u16 adsr2;
@@ -828,12 +829,12 @@ void SD_BGMFadeOutWithStep(s32);
 void SD_CdSoundPlay(u32);
 void SD_CdSoundSeek(u32);
 void SD_InitVoiceState(void);
-/* A per-frame sweep over the runtime state at gSD_pSecondaryState, called by
-   SD_SequenceTimerCallback (sound_secondary_commands.c) and
-   sound_sequence_runtime.c together with SD_UpdateSecondaryObjectVoices. It
-   counts down each active secondary object's tent_age_countdown and clears entries
-   that are inactive or out of channel range. */
-void tent_SD_AgeSecondaryObjects(void);
+/* Updates reuse_countdown before the voice sweep in both sequence update paths.
+   Only the counter is cleared for out-of-range channels; zero does not expire
+   or detach an object. The two callers do not establish a video-frame unit. */
+extern void SD_UpdateSecondaryObjectReuseCountdowns(void) __asm__("tent_SD_AgeSecondaryObjects");
+/* Historical link name retained for existing external consumers. */
+extern void tent_SD_AgeSecondaryObjects(void);
 void SD_UpdateSecondaryObjectVoices(void);
 
 /* The parser passes a third word that this routine intentionally ignores. */

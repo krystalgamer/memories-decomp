@@ -866,7 +866,7 @@ address,size,name,status,module,notes
 0x8004C7EC,0x68,SD_OpenSequenceTrack,matching_c,game,
 0x8004C854,0x1B4,SD_ScaleSequenceDelta,matching_c,game,
 0x8004CA08,0xD0,SD_StartSequenceTracks,matching_c,game,
-0x8004CAD8,0x7C,tent_SD_AgeSecondaryObjects,matching_c,game,
+0x8004CAD8,0x7C,SD_UpdateSecondaryObjectReuseCountdowns,matching_c,game,
 0x8004CB54,0x198,SD_ProcessSequenceTracks,matching_c,game,
 0x8004CCEC,0x5C,SD_ResetSequenceTracks,matching_c,game,
 0x8004CD48,0x50,SD_GetSequenceStatus,matching_c,game,

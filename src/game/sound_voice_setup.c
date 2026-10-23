@@ -104,12 +104,12 @@ void SD_ResetSecondaryPlayback(void) {
             key = *tbl;
             obj->channel_index = SD_SECONDARY_RECORD_NONE;
             obj->voice_index = i;
-            obj->tent_release_stage = 0;
+            obj->lifecycle_stage = 0;
             obj->key_held = 0;
             obj->pan = 0x40;
             obj->cached_pitch_bend = k40;
             obj->field_001C = k40;
-            obj->tent_age_countdown = 0;
+            obj->reuse_countdown = 0;
             SD_ResetVoiceEnvelope(i);
             SpuSetKey(SPU_OFF, key);
             tbl++;
