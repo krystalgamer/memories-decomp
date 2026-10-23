@@ -91,3 +91,50 @@ both slots, are byte-identical to the objects built before these changes.
 | 312 | `0x1590` | `variant199_entry_usa.c` | `243_stage10_slot1`, `622_stage10_slot1` |
 | 753 | `0x16E4` | `variant770_entry_usa.c` | `103_pos0_slot0`, `187_stage9_slot0`, `239_pos0_slot0`, `23_pos0_slot0`, `480_pos0_slot0`, `499_pos0_slot0`, `555_pos0_slot0`, `596_stage9_slot0`, `85_pos0_slot0` |
 | 850 | `0x16E4` | `variant770_entry_usa.c` | `103_stage8_slot1`, `187_stage10_slot1`, `239_stage8_slot1`, `23_stage8_slot1`, `480_stage8_slot1`, `499_stage8_slot1`, `555_stage8_slot1`, `596_stage10_slot1`, `85_stage8_slot1` |
+
+## The work-size printf
+
+Twenty-one more images have a French entry with one North American addition: the
+setup command prints the size of the work area with
+`printf("%d (0x%x) Byte\n", sizeof(state), sizeof(state))` (0x1244 for
+`Model173State`, 0x450 for `Model153State`), which also moves the entry's
+`.rodata` and data after it. `variant173_entry` and `variant153_entry` now add
+the call under `VARIANT173_PRINT_WORK_SIZE` and `VARIANT153_PRINT_WORK_SIZE`;
+the North American wrappers define the macro and rename the image-local data
+symbols to their North American addresses. Both French sources also include the
+header that declares `Model_GetLightSourceMatrix`; their French objects are
+byte-identical to the objects built before.
+
+| Header | Entry size | North American source | Images |
+|---:|---:|---|---|
+| 136 | `0xE14` | `variant153_entry_usa.c` | `271_pos0_slot0`, `356_stage9_slot0`, `38_pos0_slot0`, `635_pos0_slot0` |
+| 156 | `0xEC0` | `variant173_entry_usa.c` | `113_stage9_slot0`, `350_stage9_slot0`, `386_stage9_slot0`, `392_pos0_slot0`, `448_stage9_slot0`, `8_stage9_slot0` |
+| 266 | `0xE14` | `variant153_entry_usa.c` | `167_stage10_slot1`, `271_stage8_slot1`, `356_stage10_slot1`, `38_stage8_slot1`, `635_stage8_slot1` |
+| 286 | `0xEC0` | `variant173_entry_usa.c` | `113_stage10_slot1`, `350_stage10_slot1`, `386_stage10_slot1`, `392_stage8_slot1`, `448_stage10_slot1`, `8_stage10_slot1` |
+
+## What remains
+
+Measured on 2026-10-23 over the 2,116 North American images at the variant
+addresses (`0x8013B000` and `0x8017B000`) that were registered only as
+baseline `model_image_model_*` layouts. Functions are framed heuristically
+from `addiu sp, sp, -N` to `jr ra`, with `jal` targets and `%hi`/`%lo` pairs
+masked, so the counts are orders of magnitude:
+
+| Measure | Count |
+|---|---:|
+| Framed functions | about 3,300 |
+| Distinct bodies (masked) | 624 |
+| Instructions, one copy of each distinct body | about 709,000 |
+| Images now built from French C (this note) | 184 |
+
+All framed functions use the gcc 2.8.1 epilogue (`jr ra` with the frame
+release in its delay slot). Three more single-function families have a French
+entry as a close template (opcode similarity 0.59 to 0.68): 27 images like
+`model_image_model_113892_8013b000` and 24 like `model_image_model_109220_8013b000`
+against `variant116_entry`, and 10 like `model_image_model_114996_8013b000`
+against `variant129_entry`. The other bodies have no French template. Many of
+them are single-function images repeated across dozens of models (the
+header-647/714 entry, 917 instructions, is the only function of 41 images).
+Four images whose entry is a French body hold more functions and stay
+baseline layouts.
+

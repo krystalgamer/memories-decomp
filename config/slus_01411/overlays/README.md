@@ -245,5 +245,6 @@ is a French entry already matched in `src/overlays/french_model_variant/`; they
 build from that French source under `gcc_2_8_1_g0_split`, with resident bindings
 read from the USA image's own `jal` targets. Thirty more differ from their French entry only
 in a regional constant (a CLUT or the screen height) and build through North
-American wrappers that set it. See the
+American wrappers that set it. Twenty-one more add a North American work-size
+`printf` to their French entry, under a macro the wrappers define. See the
 [USA French-entry images](../../../notes/overlays/usa-model-french-entries.md).
