@@ -28,7 +28,7 @@ typedef struct {
 /* The field grid: DUEL_SIDE_COUNT blocks of DUEL_FIELD_SIDE_GRID_SLOT_COUNT
  * bytes, each byte a gDuel_aCardRecords record index. The shape is not a guess --
  * Duel_InitScene (src/game/duel_init_scene.c) and
- * duel_scene_turn_switch.c both
+ * DuelScene_UpdateTurnSwitch (src/game/duel_scene_battle.c) both
  * build a per-side cursor as
  * gDuel_abFieldGridCardRecordIndices + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT.
  *

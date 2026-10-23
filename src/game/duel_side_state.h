@@ -163,10 +163,10 @@ extern s16 gDuel_wSelectedTrapCardId;
  * `gDuel_pActiveFieldGrid = &gDuel_abFieldGridCardRecordIndices[gDuel_bActiveSide * 20];`
  * (src/game/duel_init_scene.c:119-120) and
  * DuelScene_UpdateTurnSwitch writes `gDuel_pActiveFieldGrid = gDuel_abFieldGridCardRecordIndices + gDuel_bActiveSide *
- * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (duel_scene_turn_switch.c:9); no other listing
+ * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (duel_scene_battle.c); no other listing
  * mentions the symbol. u8 * because gDuel_abFieldGridCardRecordIndices is `extern u8 gDuel_abFieldGridCardRecordIndices[]`
  * under the arm both units take (duel_grid.h:63) and 20 is
- * DUEL_FIELD_SIDE_GRID_SLOT_COUNT (duel_grid.h:9); duel_scene_turn_switch.c used to
+ * DUEL_FIELD_SIDE_GRID_SLOT_COUNT (duel_grid.h:9); DuelScene_UpdateTurnSwitch's source used to
  * write `void *` for the same address, and no prototype takes &gDuel_pActiveFieldGrid.
  * Both stores are gp-relative sw (Duel_InitScene.s:128, DuelScene_UpdateTurnSwitch.s:46),
  * so this is the plain declaration. Initial value not read. */

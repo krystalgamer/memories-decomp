@@ -29,6 +29,13 @@
  * the trap, fusion-result and turn-switch states. */
 void DuelScene_UpdateBattle(void);
 
+/* gDuel_apfnSceneStateHandler duel phase entry: the side-swap phase. On its first tick it starts
+ * the swap view tween through Duel_StartViewTween -- the direction taken from
+ * gDuel_bActiveSide -- and sets display request 0x10. When that request clears,
+ * it flips gDuel_bActiveSide, repoints gDuel_pActiveSideState and gDuel_pActiveFieldGrid at the new
+ * acting side, and hands the scene to phase 2. */
+void DuelScene_UpdateTurnSwitch(void);
+
 /* The life-point delta each side takes from the exchange. The resolution step
  * zeroes both entries and then stores Duel_CompareBattleStrength's result into the entry for
  * the side that lost points; case 8 reads it back as the damage to present,

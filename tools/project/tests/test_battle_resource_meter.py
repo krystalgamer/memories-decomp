@@ -70,13 +70,18 @@ class BattleResourceMeterTests(unittest.TestCase):
         manifest = json.loads(
             (ROOT / "config/slus_01411/matching_c.json").read_text()
         )
-        entry, = [
-            row for row in manifest["functions"]
-            if row["source"] == "src/game/duel_scene_battle.c"
-        ]
+        entry, turn_switch = sorted(
+            (
+                row for row in manifest["functions"]
+                if row["source"] == "src/game/duel_scene_battle.c"
+            ),
+            key=lambda row: int(row["address"], 0),
+        )
         self.assertEqual(entry["address"], "0x8001F55C")
         self.assertEqual(int(entry["size"], 0), 0x1378)
         self.assertEqual(entry["profile"], "gcc_2_8_1_g8_split_comm")
+        self.assertEqual(turn_switch["address"], "0x800208D4")
+        self.assertEqual(turn_switch["profile"], entry["profile"])
 
     @unittest.skipUnless(
         platform.system() == "Linux"

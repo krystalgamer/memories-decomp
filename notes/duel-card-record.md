@@ -549,7 +549,7 @@ The remaining negative-opponent/nonnegative-`D_8009B360` case leaves both
 cleared. Do not collapse these branches into a universal two-player copy.
 
 The initializer points `D_8009B1C8` at the active side record; the matching
-[turn-switch helper](../src/game/duel_scene_turn_switch.c) refreshes that pointer
+[turn-switch helper](../src/game/duel_scene_battle.c) refreshes that pointer
 when changing sides. Matching
 [`Duel_CreateHandCardDisplayObject`](../src/game/duel_create_hand_card_display_object.c) reads `card_view_mode`
 through a signed view, after calling the base card-object constructor:
