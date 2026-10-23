@@ -10,6 +10,7 @@
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "../unmatched.h"
+#include "dialog_choice_control.h"
 #include "dialog_choice.h"
 #include "dialog_read_choice_input.h"
 #include "dialog_choice_state.h"
@@ -89,7 +90,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 
     p->state_51 = 0;
     SD_SEPlayFull(7);
-    if ((D_8009B34C & 0x40) == 0) {
+    if ((gDialog_bChoiceControl & 0x40) == 0) {
         DisplayObject_ReleaseIfPresent(p->field_30);
         p->field_30 = 0;
         p->state_51 = 3;

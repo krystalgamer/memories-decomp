@@ -68,7 +68,7 @@ u32 map_page(u32 address);
 
 MemCardWorkArea gMemCardWork_Area;
 u16 gMemCardWork_wFlags;
-u8 gMemCardWork_bSlotIndex, gMemCardWork_OperationState, gMemCardWork_bOperationResult, D_8009B3C1, gMemCardWork_OperationMode;
+u8 gMemCardWork_bSlotIndex, gMemCardWork_OperationState, gMemCardWork_bOperationResult, gDialog_bCallbackState, gMemCardWork_OperationMode;
 s32 gMemCardWork_nRequestResult, gMemCardWork_nCompletedRequest;
 void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(MemCardWorkRoot *, MemCardWorkSlot *);
 char gMemCard_szDirectoryEntryFormat[] = "entry";
@@ -126,9 +126,9 @@ s32 MemCard_ProcessRequest(s32 mode, s32 *request, s32 *result)
 }
 static void stage(MemCardWorkRoot *r, MemCardWorkSlot *s)
 {
-    event(6, D_8009B3C1 & 15, 0, 0, 0, 0);
+    event(6, gDialog_bCallbackState & 15, 0, 0, 0, 0);
     if (r != root || s != slot) error = 5;
-    D_8009B3C1 = 0;
+    gDialog_bCallbackState = 0;
     gMemCardWork_OperationState = 0;
 }
 void TextBox_UpdateChannels(void)
@@ -202,7 +202,7 @@ static void setup(s32 mode, s32 selected)
     root = &gMemCardWork_Area.root;
     slot = &gMemCardWork_Area.slots[selected];
     gMemCardWork_bSlotIndex = selected; gMemCardWork_OperationState = mode;
-    gMemCardWork_wFlags = 0; gMemCardWork_bOperationResult = 7; D_8009B3C1 = 0; gMemCardWork_OperationMode = 0;
+    gMemCardWork_wFlags = 0; gMemCardWork_bOperationResult = 7; gDialog_bCallbackState = 0; gMemCardWork_OperationMode = 0;
     gMemCardWork_nCompletedRequest = 0; gMemCardWork_nRequestResult = 0;
     gDialog_bChoice = 0;
     gMemCard_nDirEntries = 0; gMemCard_nFreeBlocks = 0x123;
@@ -323,10 +323,10 @@ static s32 stage_and_dialog(void)
     s32 selected, index, i;
     for (selected = 0; selected < 2; selected++)
     for (index = 1; index <= 4; index += 3) {
-        setup(0, selected); D_8009B3C1 = 0x80 | index;
+        setup(0, selected); gDialog_bCallbackState = 0x80 | index;
         run();
         CHECK(valid() && count == 1 && events[0].kind == 6 && events[0].a == index &&
-              !D_8009B3C1 && !gMemCardWork_OperationState, 60);
+              !gDialog_bCallbackState && !gMemCardWork_OperationState, 60);
     }
     for (index = 0; index < 2; index++) for (i = 0; i < 6; i++) {
         setup(0, 0); root->text_index = index; gMemCardWork_wFlags = 0x404;
@@ -341,10 +341,10 @@ static s32 startup_states(void)
 {
     s32 choice, option, outcome;
     setup(0, 0); run();
-    CHECK(valid() && !count && gMemCardWork_OperationState == 0x80 && D_8009B3C1 == 1, 70);
+    CHECK(valid() && !count && gMemCardWork_OperationState == 0x80 && gDialog_bCallbackState == 1, 70);
     for (choice = 0; choice < 2; choice++) {
         setup(0x80, 0); gDialog_bChoice = choice ? -1 : 0; run();
-        if (choice) CHECK(valid() && !count && D_8009B3C1 == 2 && gMemCardWork_OperationState == 0x80, 71);
+        if (choice) CHECK(valid() && !count && gDialog_bCallbackState == 2 && gMemCardWork_OperationState == 0x80, 71);
         else CHECK(valid() && count == 3 && events[0].kind == 9 && events[0].a == 1 &&
                    events[1].kind == 10 && events[2].kind == 11 && !events[2].a &&
                    gMemCardWork_OperationState == 0x81 && gMemCardWork_wFlags == 0x5000, 72);

@@ -3,6 +3,7 @@
 #include "display_object.h"
 #include "display_object_core.h"
 #include "duel_effect.h"
+#include "dialog_callback_state.h"
 #include "text_channel_state.h"
 #include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
@@ -28,9 +29,9 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
     s32 v;
     s32 h;
 
-    f = D_8009B3C1;
+    f = gDialog_bCallbackState;
     if ((f & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
-        D_8009B3C1 = f | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        gDialog_bCallbackState = f | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         e = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(e, DIALOG_BOX_X, -0x40, 3, 2, 0, 0xB, 0x20C);
         e->flags = e->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
@@ -60,12 +61,12 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
 #else
     q = &gText_aChannels[((u8 *)record)[0x1A]];
 #endif
-    g = D_8009B3C1;
+    g = gDialog_bCallbackState;
 
     if ((g & 0x40) != 0) {
         TextBox_UpdateChannels();
         if ((q->flags_34 & 0x2000) != 0) {
-            D_8009B3C1 = 0;
+            gDialog_bCallbackState = 0;
         }
     } else {
         v = *(u16 *)&e->field_60 + 0x20;
@@ -74,7 +75,7 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
             *(s16 *)&e->field_30.h.field_30 = DIALOG_BOX_X;
             *(s16 *)&e->field_30.h.field_32 = 0x50;
             h = q->flags_34;
-            D_8009B3C1 = g | 0x40;
+            gDialog_bCallbackState = g | 0x40;
             q->flags_34 = h & (0xFFFF ^ FUNC_8003DA40_CHANNEL_FLAG);
         } else {
             Widget_SlideSine((DisplayObjectPosition *)e, DIALOG_BOX_X, 0x50, (s16)v);

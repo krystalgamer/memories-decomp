@@ -47,6 +47,7 @@
 #include "text_box_runtime.h"
 #include "text_control_commands.h"
 #include "../unmatched.h"
+#include "dialog_choice_control.h"
 
 #define TEXT_STREAM_OWNER_VIEW(object) ((TextStreamOwner *)(object))
 #ifndef TEXT_STREAM_CURSOR_HIGH_MASK
@@ -90,7 +91,7 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
     } else {
         gDialog_bChoiceCount = 7;
         gDialog_bChoiceCount = c & gDialog_bChoiceCount;
-        D_8009B34C = c & 0xF0;
+        gDialog_bChoiceControl = c & 0xF0;
         gDialog_bChoiceEnabled = d & 0xF;
         w = d & 0x80;
         gDialog_bChoice = 0;

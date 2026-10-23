@@ -16,11 +16,14 @@ They do not infer behavior from the older header's reversed radii prose.
 
 ## Shared state is not a new per-record lifecycle
 
-All four callbacks use the existing `u8 D_8009B3C1`: bit `0x80` is their
+All four callbacks use the existing `u8 gDialog_bCallbackState` (legacy
+`D_8009B3C1`): bit `0x80` is their
 first-entry latch, while the individual handlers interpret `0x40` and
 `0x20` through their original branches. The memory-card controller also
-uses its low nibble as a dispatch selector. No new type, enum, flag
-definition or dialog-only global identity is imposed on this shared byte.
+uses its low nibble as a dispatch selector. The canonical name groups
+these shared callback uses, not work-only state or a per-record lifecycle.
+No new type, enum or flag definition is imposed; see
+[dialog-runtime-controls.md](dialog-runtime-controls.md).
 
 The controller calls `gDialog_apfnTransitionSteps[state & 0xF]` with
 `MemCardWorkRoot *` and `MemCardWorkSlot *`. Keep that existing five-entry

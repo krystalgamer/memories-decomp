@@ -688,6 +688,12 @@ are documented in [save-pair-workspaces.md](save-pair-workspaces.md). Those
 names retain the independent original providers and incomplete byte-array
 declarations; the interior views do not introduce separate allocations.
 
+The shared transition/modal callback byte is now named
+`gDialog_bCallbackState`, separately from the controller operation state,
+modal operation state and modal step index. Its preserved packed-state
+contract is documented in
+[dialog-runtime-controls.md](dialog-runtime-controls.md).
+
 ### Trade and two-player duel
 
 Main-menu items `3` and `2` both need a save from each memory card slot.
