@@ -1655,7 +1655,7 @@
       "address": "0x8002C9D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
-      "source": "src/game/duel_get_base_card_stat.c"
+      "source": "src/game/duel_card_stat_rules.c"
     },
     {
       "address": "0x8002CB28",
@@ -1875,9 +1875,9 @@
     },
     {
       "address": "0x8002C960",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/duel_calc_guardian_star_matchup.c"
+      "source": "src/game/duel_card_stat_rules.c"
     },
     {
       "address": "0x8002CA88",
