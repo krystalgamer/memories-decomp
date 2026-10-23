@@ -33,3 +33,5 @@ Model_GetLightSourceMatrix = 0x8005C328;
 SD_SEPlayFull = 0x80040204;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
+
+gRuntime_pSharedWorkBase = D_80010000;

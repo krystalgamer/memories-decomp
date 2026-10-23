@@ -19,6 +19,7 @@
 #include "file_transfer.h"
 #include "file_transfer_state.h"
 #include "graphics_frame.h"
+#include "image_transfer_rects.h"
 #include "../unmatched.h"
 #include "file_transfer_buffer.h"
 #include "duel_card_checks.h"
@@ -29,6 +30,7 @@
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 
 /* Stage 7's sector count. A regional build defines its own. */
 #ifndef DUEL_PACKAGE_STAGE7_SECTORS
@@ -87,12 +89,12 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 #endif
     case 1:
 #ifdef VERSION_EUROPE
-        D_800E9D70[0].x = 0x380;
-        D_800E9D70[0].y = 0x160;
-        D_800E9D70[0].w = 0x40;
-        D_800E9D70[0].h = 0x10;
+        gGraphics_aImageTransferRects[0].x = 0x380;
+        gGraphics_aImageTransferRects[0].y = 0x160;
+        gGraphics_aImageTransferRects[0].w = 0x40;
+        gGraphics_aImageTransferRects[0].h = 0x10;
         LoadImage2(
-            &D_800E9D70[0],
+            &gGraphics_aImageTransferRects[0],
             (u32 *)(gFile_TransferBufferBase + D_8009C02B * FILE_SECTOR_SIZE));
 #endif
         d->phase_size = 4 * FILE_SECTOR_SIZE;
@@ -102,15 +104,15 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         break;
     case 2:
 #ifdef VERSION_EUROPE
-        D_800E9D70[0].x = 0x280;
-        D_800E9D70[0].y = 0xE0;
+        gGraphics_aImageTransferRects[0].x = 0x280;
+        gGraphics_aImageTransferRects[0].y = 0xE0;
 #else
-        D_800E9D70[0].x = 0x100;
-        D_800E9D70[0].y = 0xF0;
+        gGraphics_aImageTransferRects[0].x = 0x100;
+        gGraphics_aImageTransferRects[0].y = 0xF0;
 #endif
-        D_800E9D70[0].w = 0x100;
-        D_800E9D70[0].h = 0x10;
-        LoadImage2(&D_800E9D70[0], (u32 *)gFile_TransferBufferBase);
+        gGraphics_aImageTransferRects[0].w = 0x100;
+        gGraphics_aImageTransferRects[0].h = 0x10;
+        LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         d->value_08 = d->value_0C = (u32)gDuel_awEquipTable;
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
@@ -137,15 +139,15 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
     case 6: {
         u32 flags;
 #ifdef VERSION_EUROPE
-        D_800E9D70[0].x = 0x280;
-        D_800E9D70[0].y = 0xD0;
+        gGraphics_aImageTransferRects[0].x = 0x280;
+        gGraphics_aImageTransferRects[0].y = 0xD0;
 #else
-        D_800E9D70[0].x = 0;
-        D_800E9D70[0].y = 0xF0;
+        gGraphics_aImageTransferRects[0].x = 0;
+        gGraphics_aImageTransferRects[0].y = 0xF0;
 #endif
-        D_800E9D70[0].w = 0x100;
-        D_800E9D70[0].h = 8;
-        LoadImage2(&D_800E9D70[0], (u32 *)gFile_TransferBufferBase);
+        gGraphics_aImageTransferRects[0].w = 0x100;
+        gGraphics_aImageTransferRects[0].h = 8;
+        LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         d->field_30.h.counter = 0x200;
         d->field_30.h.field_32 = 0x100;
         d->w = 0x40;
@@ -210,7 +212,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         mask = 0xFFDCFFFF;
         *(s32 *)&d->phase_size = 5 * FILE_SECTOR_SIZE;
         masked = gFile_dwTransferState_abs;
-        destination = (u32)D_80010000;
+        destination = (u32)gRuntime_pSharedWorkBase;
         masked &= mask;
 europe_transfer_tail:
         gFile_dwTransferState_abs = masked;
@@ -221,7 +223,7 @@ europe_transfer_tail:
 #else
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->value_08 = d->value_0C = (u32)D_80010000;
+        d->value_08 = d->value_0C = (u32)gRuntime_pSharedWorkBase;
         d->done = 1;
         break;
 #endif

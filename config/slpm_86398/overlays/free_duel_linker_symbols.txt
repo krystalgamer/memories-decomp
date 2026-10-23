@@ -42,3 +42,5 @@ DisplayObject_ConfigureScreenSprite = 0x8003FBF0;
 SD_BGMPlay = 0x8003F5E8;
 
 func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
+
+gGraphics_aImageTransferRects = D_800E9D70;

@@ -5,6 +5,7 @@
 #include "menu_record_reset.h"
 #ifdef VERSION_JAPAN
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 #endif
 
 s8 *DisplayEffect_ResetMenuRecords(void)
@@ -36,7 +37,7 @@ s8 *DisplayEffect_ResetMenuRecords(void)
 #ifdef VERSION_JAPAN
     i = 0;
     do {
-        ((s8 *)D_80010000)[0x7FFF0 + i] = -1;
+        ((s8 *)gRuntime_pSharedWorkBase)[0x7FFF0 + i] = -1;
         i++;
         has_more = i < DISPLAY_EFFECT_VRAM_SLOT_COUNT;
     } while (has_more);

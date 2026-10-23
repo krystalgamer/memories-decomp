@@ -14,6 +14,7 @@
 #include "file_transfer_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
+#include "image_transfer_rects.h"
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
@@ -45,14 +46,14 @@ void Script_OpShowImage(void) {
     ret = ScriptCommand_MarkStarted();
     mask = DISPLAY_OBJECT_ATTRIBUTE_16BPP;
     if (ret == 0) {
-        D_800E9D70[0].x = 0;
-        D_800E9D70[0].y = 0;
-        D_800E9D70[0].w = VRAM_COPY_WIDTH;
-        D_800E9D70[0].h = VRAM_COPY_HEIGHT;
+        gGraphics_aImageTransferRects[0].x = 0;
+        gGraphics_aImageTransferRects[0].y = 0;
+        gGraphics_aImageTransferRects[0].w = VRAM_COPY_WIDTH;
+        gGraphics_aImageTransferRects[0].h = VRAM_COPY_HEIGHT;
         if (gGraphics_bActiveBuffer == 0) {
-            D_800E9D70[0].x = VRAM_COPY_WIDTH;
+            gGraphics_aImageTransferRects[0].x = VRAM_COPY_WIDTH;
         }
-        MoveImage(&D_800E9D70[0], 0x1C0, 0x100);
+        MoveImage(&gGraphics_aImageTransferRects[0], 0x1C0, 0x100);
         return;
     }
 

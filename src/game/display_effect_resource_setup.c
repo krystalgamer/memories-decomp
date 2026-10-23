@@ -25,6 +25,7 @@
 #include "func_8003A440.h"
 #include "func_8003A560.h"
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 #include "../unmatched.h"
 #include "display_resource_banks.h"
 
@@ -141,7 +142,7 @@ void DisplayEffect_SetObjectRowBlend(u8 **arg0, u32 arg1, s32 arg2)
 /* The scalars carry section(".data") so -G8 keeps them off $gp and they take
    the assembler macro form, while the one-byte gDisplayEffect_ResourceCacheWriteSlot stays gp-relative. */
 /* Which effect each VRAM slot holds, and the first sector of the effect
-   packages. The Japanese build keeps the slot ids inside the D_80010000 arena
+   packages. The Japanese build keeps the slot ids inside the gRuntime_pSharedWorkBase arena
    at +0x7FFF0 (as its DisplayEffect_ResetMenuRecords resets them) and its packages start five
    sectors lower, so a regional build supplies its own. */
 #ifndef DISPLAY_EFFECT_SLOT_ID
@@ -157,7 +158,7 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
     s32 i;
 
     if (DisplayEffect_MarkInitialized((DisplayEffectState *)a) == 0) {
-        slots = (DisplayEffectVramSlot *)D_80010000;
+        slots = (DisplayEffectVramSlot *)gRuntime_pSharedWorkBase;
         gDisplayEffect_ResourceCacheWriteSlot = 0;
         /* The slot cursor has to be an explicit walking pointer decremented at
            the end of the body: spelling it &slots[i] leaves the strength-reduced
@@ -217,7 +218,7 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
         while (IsIdleGPU(10) != 0) {
             ;
         }
-        slot = &((DisplayEffectVramSlot *)D_80010000)[gDisplayEffect_ResourceCacheWriteSlot];
+        slot = &((DisplayEffectVramSlot *)gRuntime_pSharedWorkBase)[gDisplayEffect_ResourceCacheWriteSlot];
         slot->image_rect.x = 832 - a->field_3C * 192;
         slot->image_rect.y = 256;
         slot->image_rect.w = 192;

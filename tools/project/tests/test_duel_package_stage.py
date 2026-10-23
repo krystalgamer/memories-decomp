@@ -36,7 +36,9 @@ WITNESS = r"""
 #include "src/game/duel_check_ritual.h"
 #include "src/game/duel_card_checks.h"
 #include "src/game/graphics_frame.h"
+#include "src/game/image_transfer_rects.h"
 #include "src/game/high_memory_addresses.h"
+#include "src/game/shared_work_base.h"
 #include "src/unmatched.h"
 #include "src/game/file_transfer_buffer.h"
 #include "src/game/file_transfer_state.h"
@@ -45,10 +47,10 @@ volatile u32 gFile_dwTransferState;
 static u8 buffer[8192], alternate[8192], stage7[16], stage11[16];
 u8 *gFile_TransferBufferBase = buffer;
 u8 *gFile_pDuelBankBase = stage7;
-u8 *D_80010000 = stage11;
+u8 *gRuntime_pSharedWorkBase = stage11;
 u16 gDuel_awEquipTable[16], gDuel_aFusionTable[16], gDuel_awRitualData[16];
 u8 D_801A8000[16], gAiScript_abFieldScript[16];
-RECT D_800E9D70[2];
+RECT gGraphics_aImageTransferRects[2];
 
 typedef char pointer_must_be_ilp32[sizeof(void *) == 4 ? 1 : -1];
 typedef char rect_must_be_eight_bytes[sizeof(RECT) == 8 ? 1 : -1];
@@ -59,7 +61,7 @@ static struct {
     u8 after[16];
 } actual;
 static u8 expected[sizeof(actual)];
-static u8 expected_rects[sizeof(D_800E9D70)];
+static u8 expected_rects[sizeof(gGraphics_aImageTransferRects)];
 static u8 submitted_rect[sizeof(RECT)];
 static RECT *submitted_address;
 static u32 *submitted_buffer;
@@ -143,9 +145,9 @@ static s32 check_case(s32 stage, u32 initial_flags, u32 mode)
     for (i = 0; i < sizeof(actual); i++)
         bytes[i] = (i * 37 + (initial_flags >> 16) + (u32)stage * 11) ^ 0xA5;
     copy_bytes(expected, &actual, sizeof(actual));
-    for (i = 0; i < sizeof(D_800E9D70); i++)
-        ((u8 *)D_800E9D70)[i] = 0xB7 ^ (i * 23 + initial_flags);
-    copy_bytes(expected_rects, D_800E9D70, sizeof(D_800E9D70));
+    for (i = 0; i < sizeof(gGraphics_aImageTransferRects); i++)
+        ((u8 *)gGraphics_aImageTransferRects)[i] = 0xB7 ^ (i * 23 + initial_flags);
+    copy_bytes(expected_rects, gGraphics_aImageTransferRects, sizeof(gGraphics_aImageTransferRects));
     gFile_dwTransferState = initial_flags;
     gFile_TransferBufferBase = buffer;
     calls = 0;
@@ -192,15 +194,15 @@ static s32 check_case(s32 stage, u32 initial_flags, u32 mode)
     if (!equal_bytes(&actual, expected, sizeof(actual))) return 20;
     if (gFile_dwTransferState != final_flags) return 22;
     if (gFile_TransferBufferBase != final_buffer) return 23;
-    if (!equal_bytes(D_800E9D70, expected_rects, sizeof(D_800E9D70))) return 24;
+    if (!equal_bytes(gGraphics_aImageTransferRects, expected_rects, sizeof(gGraphics_aImageTransferRects))) return 24;
     if (calls != submits) return 25;
     if (submits) {
-        if (submitted_address != &D_800E9D70[0]) return 26;
+        if (submitted_address != &gGraphics_aImageTransferRects[0]) return 26;
         if (submitted_buffer != (u32 *)buffer) return 27;
         if (!equal_bytes(submitted_rect, expected_rects, sizeof(RECT))) return 28;
         if (submitted_flags != initial_flags) return 29;
     }
-    if (gFile_pDuelBankBase != stage7 || D_80010000 != stage11) return 30;
+    if (gFile_pDuelBankBase != stage7 || gRuntime_pSharedWorkBase != stage11) return 30;
     return 0;
 }
 

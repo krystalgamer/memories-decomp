@@ -42,6 +42,7 @@ FIXTURE = r"""
 #include "src/game/model_graphics_state.h"
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "src/game/high_memory_addresses.h"
+#include "src/game/shared_work_base.h"
 #include "src/game/model_load_words.h"
 #include "src/game/model_slot_control.h"
 #include "src/game/model_slot_row_tables.h"
@@ -67,7 +68,7 @@ static u8 contexts[4][32];
 static u32 payloads[3][0x3000];
 u8 D_801A8000[3*0x800] __attribute__((aligned(16)));
 u8 gModel_bActiveSlotIndex;
-u8 *D_80010000;
+u8 *gRuntime_pSharedWorkBase;
 u8 *gModel_pSlot1PayloadBase;
 s32 gModel_AuxiliaryPayloadAddress;
 u8 *gModel_pSlot0PrimaryModule;
@@ -140,7 +141,7 @@ static void snapshot(u8 *out)
     bytes(out,slots_memory,SLOT_BYTES);
     bytes(out+SLOT_BYTES,parts_memory,PART_BYTES);
     put32(g,gModel_bActiveSlotIndex);
-    put32(g+4,(u32)D_80010000);put32(g+8,(u32)gModel_pSlot1PayloadBase);put32(g+12,gModel_AuxiliaryPayloadAddress);
+    put32(g+4,(u32)gRuntime_pSharedWorkBase);put32(g+8,(u32)gModel_pSlot1PayloadBase);put32(g+12,gModel_AuxiliaryPayloadAddress);
     put32(g+16,(u32)gModel_pSlot0PrimaryModule);put32(g+20,(u32)gModel_pSlot1PrimaryModule);
     put32(g+24,payloads[0][0]);put32(g+28,payloads[1][0]);put32(g+32,payloads[2][0]);
 }
@@ -149,7 +150,7 @@ static void restore(const u8 *in)
     const u8 *g=in+SLOT_BYTES+PART_BYTES;
     bytes(slots_memory,in,SLOT_BYTES);bytes(parts_memory,in+SLOT_BYTES,PART_BYTES);
     gModel_bActiveSlotIndex=get32(g);
-    D_80010000=(u8 *)get32(g+4);gModel_pSlot1PayloadBase=(u8 *)get32(g+8);gModel_AuxiliaryPayloadAddress=get32(g+12);
+    gRuntime_pSharedWorkBase=(u8 *)get32(g+4);gModel_pSlot1PayloadBase=(u8 *)get32(g+8);gModel_AuxiliaryPayloadAddress=get32(g+12);
     gModel_pSlot0PrimaryModule=(u8 *)get32(g+16);gModel_pSlot1PrimaryModule=(u8 *)get32(g+20);
     payloads[0][0]=get32(g+24);payloads[1][0]=get32(g+28);payloads[2][0]=get32(g+32);
 }
@@ -265,7 +266,7 @@ static void oracle(s32 index)
     case 1: {
         u8 *data=(u8 *)gModel_AuxiliaryPayloadAddress;
         s32 size=0xC000;
-        if(index==0) data=D_80010000;
+        if(index==0) data=gRuntime_pSharedWorkBase;
         else if(index==1) data=gModel_pSlot1PayloadBase;
         if(get32(data)!=0) size=(s32)get32(data);
         Model_InitSlot(index,data,size,-1);break;
@@ -348,7 +349,7 @@ static void prepare(s32 index,s32 phase,s32 count)
     for(i=0;i<SLOT_BYTES;i++) slots_memory[i]=(i*37+case_number*13)&255;
     for(i=0;i<PART_BYTES;i++) parts_memory[i]=(i*29+case_number*7)&255;
     gModel_bActiveSlotIndex=2;
-    D_80010000=(u8 *)payloads[0];gModel_pSlot1PayloadBase=(u8 *)payloads[1];gModel_AuxiliaryPayloadAddress=(s32)payloads[2];
+    gRuntime_pSharedWorkBase=(u8 *)payloads[0];gModel_pSlot1PayloadBase=(u8 *)payloads[1];gModel_AuxiliaryPayloadAddress=(s32)payloads[2];
     gModel_pSlot0PrimaryModule=primary0_base;gModel_pSlot1PrimaryModule=primary1_base;
     payloads[0][0]=0;payloads[1][0]=0x8000;payloads[2][0]=(u32)-1;
     for(i=0;i<3;i++) {

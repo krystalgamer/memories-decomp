@@ -11,6 +11,7 @@
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 #include "view_state_current.h"
 #include "save_data_workspace.h"
 
@@ -60,7 +61,7 @@ DuelEffectRequest *DuelEffect_FindFreeRequest(void)
 }
 
 /* Allocates a request entry through DuelEffect_FindFreeRequest and fills it:
- * flag byte 0x80, the id at +0x18, the buffer pointer D_80010000 + 0x3800 at
+ * flag byte 0x80, the id at +0x18, the buffer pointer gRuntime_pSharedWorkBase + 0x3800 at
  * +0x14, two words copied from gGraphics_apOrderingTables, and the zeroed fields. Returns the
  * entry or 0 when none was free. */
 DuelEffectRequest *DuelEffect_AllocateRequest(s32 arg0)
@@ -72,7 +73,7 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 arg0)
         GsOT *G32 *t;
         s32 b;
 
-        q = D_80010000;
+        q = gRuntime_pSharedWorkBase;
         p->flags = DUEL_EFFECT_REQUEST_FLAG_ACTIVE;
         t = gGraphics_apOrderingTables;
         p->id = arg0;

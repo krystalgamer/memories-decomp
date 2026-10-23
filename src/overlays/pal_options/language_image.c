@@ -2,6 +2,7 @@
 #define D_8009B118_IS_POINTER_IN_DATA
 #include "../../unmatched.h"
 #include "../../game/graphics_frame.h"
+#include "../../game/image_transfer_rects.h"
 #include "helpers.h"
 
 void PalOptions_StoreLanguageImage(void)
@@ -9,7 +10,7 @@ void PalOptions_StoreLanguageImage(void)
     RECT *rect;
 
     func_80043B7C();
-    rect = D_800E9D70;
+    rect = gGraphics_aImageTransferRects;
     rect->x = 0x290;
     rect->y = 0;
     rect->w = 0x30;

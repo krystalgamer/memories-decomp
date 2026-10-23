@@ -62,6 +62,7 @@
 #include "duel_display.h"
 #include "duel_card_capture_rounded_texture.h"
 #include "graphics_frame.h"
+#include "image_transfer_rects.h"
 
 #define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \
     ((u32)&((DuelEffectRequest *)0)->field_1D)
@@ -383,11 +384,11 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
     }
 
     buf = gDuel_abCardStagingBuffer;
-    D_800E9D70[0].x = o->field_30.h.field_30 + xoff;
-    D_800E9D70[0].y = o->field_30.h.field_32;
-    D_800E9D70[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
-    D_800E9D70[0].h = DUEL_CARD_READBACK_HEIGHT;
-    StoreImage2(&D_800E9D70[0], DUEL_CARD_READBACK_WORDS(buf));
+    gGraphics_aImageTransferRects[0].x = o->field_30.h.field_30 + xoff;
+    gGraphics_aImageTransferRects[0].y = o->field_30.h.field_32;
+    gGraphics_aImageTransferRects[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
+    gGraphics_aImageTransferRects[0].h = DUEL_CARD_READBACK_HEIGHT;
+    StoreImage2(&gGraphics_aImageTransferRects[0], DUEL_CARD_READBACK_WORDS(buf));
 
     p = DUEL_CARD_READBACK_HALFWORDS(buf);
     xoff = DUEL_CARD_READBACK_WORD_COUNT;
@@ -415,9 +416,9 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
     p[0 * DUEL_CARD_READBACK_WIDTH_WORDS + 1] = 0;
 
     DUEL_CARD_READBACK_HALFWORDS(gDuel_abCardStagingBuffer)[0] = 0;
-    D_800E9D70[0].x = 0x140;
-    D_800E9D70[0].y = 0x100;
-    D_800E9D70[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
-    D_800E9D70[0].h = DUEL_CARD_READBACK_HEIGHT;
-    LoadImage2(&D_800E9D70[0], DUEL_CARD_READBACK_WORDS(gDuel_abCardStagingBuffer));
+    gGraphics_aImageTransferRects[0].x = 0x140;
+    gGraphics_aImageTransferRects[0].y = 0x100;
+    gGraphics_aImageTransferRects[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
+    gGraphics_aImageTransferRects[0].h = DUEL_CARD_READBACK_HEIGHT;
+    LoadImage2(&gGraphics_aImageTransferRects[0], DUEL_CARD_READBACK_WORDS(gDuel_abCardStagingBuffer));
 }

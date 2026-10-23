@@ -11,6 +11,7 @@
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libetc.h"
 
@@ -24,14 +25,14 @@ s32 Movie_OpenStream(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     gMovie_bCdVolume = 0xFF;
     gMovie_dwEndSector = a3;
     gMovie_bRgb24 = a4;
-    gMovie_pWorkArea = D_80010000;
+    gMovie_pWorkArea = gRuntime_pSharedWorkBase;
     D_8009B061 = a5;
     if (gMovie_bRgb24 != 0) {
         /* Retail sets $a0 and $a1 here even though GsGetActiveBuff takes
            no arguments. The call goes through a two-argument view of the
            libgs.h declaration so that setup survives with the prototype in
            scope, instead of through an implicit declaration. */
-        m = ((int (*)(void *, s32))GsGetActiveBuff)(D_80010000, a5);
+        m = ((int (*)(void *, s32))GsGetActiveBuff)(gRuntime_pSharedWorkBase, a5);
         rect.x = m * 0x140;
         rect.y = 0;
         rect.w = gGraphics_CurrentWidth.pixels;

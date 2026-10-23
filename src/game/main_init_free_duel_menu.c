@@ -6,6 +6,7 @@
 #include "../overlays/free_duel/free_duel.h"
 
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 
 /* Regional value: the free duel package's sector count (0x57 -> 0x67). The
  * European build (src/game/european/) defines its own. */
@@ -17,4 +18,4 @@
 #define FREE_DUEL_PACKAGE_START_SECTOR FILE_WA_FREE_DUEL_START_SECTOR
 #endif
 
-void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(0,0,FREE_DUEL_PACKAGE_START_SECTOR,FREE_DUEL_PACKAGE_SECTOR_COUNT,FreeDuel_LoadPackageStage,0,0);File_WaitForTransfers();FreeDuel_Init(D_80010000);}
+void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(0,0,FREE_DUEL_PACKAGE_START_SECTOR,FREE_DUEL_PACKAGE_SECTOR_COUNT,FreeDuel_LoadPackageStage,0,0);File_WaitForTransfers();FreeDuel_Init(gRuntime_pSharedWorkBase);}

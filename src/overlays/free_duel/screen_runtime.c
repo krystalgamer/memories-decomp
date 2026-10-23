@@ -18,6 +18,7 @@
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/duel_side_state.h"
 #include "../../game/graphics_frame.h"
+#include "../../game/image_transfer_rects.h"
 #include "../../game/text_constants.h"
 #include "../../psyq/rand.h"
 #include "../../game/sound.h"
@@ -225,49 +226,49 @@ void FreeDuel_Init(u8 *src)
     do {
     } while (IsIdleGPU(10) != 0);
     count = 0;
-    clut = &D_800E9D70[1];
+    clut = &gGraphics_aImageTransferRects[1];
     clut->x = FREE_DUEL_INIT_PORTRAIT_X;
     clut->y = 496;
     clut->w = 64;
     clut->h = 1;
     for (row = 0; row < 5; row++) {
-        D_800E9D70[0].x = FREE_DUEL_INIT_PORTRAIT_X;
-        D_800E9D70[0].y = row * 48 + 256;
-        D_800E9D70[0].w = 24;
-        D_800E9D70[0].h = 48;
+        gGraphics_aImageTransferRects[0].x = FREE_DUEL_INIT_PORTRAIT_X;
+        gGraphics_aImageTransferRects[0].y = row * 48 + 256;
+        gGraphics_aImageTransferRects[0].w = 24;
+        gGraphics_aImageTransferRects[0].h = 48;
         for (col = 0; col < FREE_DUEL_GRID_COLUMN_COUNT; col++) {
-            LoadImage2(&D_800E9D70[0], (u32 *)src);
-            LoadImage2(&D_800E9D70[1],
+            LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)src);
+            LoadImage2(&gGraphics_aImageTransferRects[1],
                        (u32 *)(src + FREE_DUEL_PORTRAIT_IMAGE_SIZE));
-            D_800E9D70[0].x += 24;
-            D_800E9D70[1].y++;
-            if ((s16)D_800E9D70[1].y >= 512) {
-                D_800E9D70[1].y = 496;
-                D_800E9D70[1].x += 64;
+            gGraphics_aImageTransferRects[0].x += 24;
+            gGraphics_aImageTransferRects[1].y++;
+            if ((s16)gGraphics_aImageTransferRects[1].y >= 512) {
+                gGraphics_aImageTransferRects[1].y = 496;
+                gGraphics_aImageTransferRects[1].x += 64;
             }
             count++;
             src += FREE_DUEL_PORTRAIT_RECORD_SIZE;
         }
     }
     for (row = 0; row < 5; row++) {
-        D_800E9D70[0].x = FREE_DUEL_INIT_SECOND_PORTRAIT_X;
-        D_800E9D70[0].y = row * 48 + 256;
-        D_800E9D70[0].w = 24;
-        D_800E9D70[0].h = 48;
+        gGraphics_aImageTransferRects[0].x = FREE_DUEL_INIT_SECOND_PORTRAIT_X;
+        gGraphics_aImageTransferRects[0].y = row * 48 + 256;
+        gGraphics_aImageTransferRects[0].w = 24;
+        gGraphics_aImageTransferRects[0].h = 48;
         for (col = 0; col < FREE_DUEL_GRID_COLUMN_COUNT; col++) {
-            LoadImage2(&D_800E9D70[0], (u32 *)src);
-            LoadImage2(&D_800E9D70[1],
+            LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)src);
+            LoadImage2(&gGraphics_aImageTransferRects[1],
                        (u32 *)(src + FREE_DUEL_PORTRAIT_IMAGE_SIZE));
             count++;
             if (count >= FREE_DUEL_GRID_ENTRY_COUNT) {
                 goto done;
             }
-            D_800E9D70[0].x += 24;
-            D_800E9D70[1].y++;
+            gGraphics_aImageTransferRects[0].x += 24;
+            gGraphics_aImageTransferRects[1].y++;
             src += FREE_DUEL_PORTRAIT_RECORD_SIZE;
-            if ((s16)D_800E9D70[1].y >= 512) {
-                D_800E9D70[1].y = 496;
-                D_800E9D70[1].x += 64;
+            if ((s16)gGraphics_aImageTransferRects[1].y >= 512) {
+                gGraphics_aImageTransferRects[1].y = 496;
+                gGraphics_aImageTransferRects[1].x += 64;
             }
         }
     }

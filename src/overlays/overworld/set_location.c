@@ -36,6 +36,7 @@
 #include "../../game/text_box_lifecycle.h"
 
 #include "../../game/high_memory_addresses.h"
+#include "../../game/shared_work_base.h"
 #include "../../game/main_mode_state.h"
 
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
@@ -316,7 +317,7 @@ void CampaignMap_SetLocation(s32 index)
     }
     Model_ResetSceneView();
     Model_ResetSceneState();
-    Model_LoadSlot(2, (u8 *)D_80010000, 0x43000, 0);
+    Model_LoadSlot(2, (u8 *)gRuntime_pSharedWorkBase, 0x43000, 0);
     obj = (u8 *)Model_GetCurrentDataEntry(2);
     colour[0] = 1365;
     colour[1] = 1365;

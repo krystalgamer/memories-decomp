@@ -58,3 +58,5 @@ func_800158C8 = 0x80014F44;
 func_80065BFC = 0x800658CC;
 
 func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
+
+gRuntime_pSharedWorkBase = D_80010000;
