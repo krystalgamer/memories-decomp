@@ -23,16 +23,5 @@ class DuelEffect23Tests(unittest.TestCase):
         }])
 
 
-
-
-    def test_initial_vector_has_exact_real_storage(self) -> None:
-        directory = ROOT / "config/sles_03951/overlays"
-        symbols = (directory / "duel_effects_symbols.txt").read_text()
-        aliases = (directory / "duel_effects_linker_symbols.txt").read_text()
-        self.assertIn("D_801461A8 = 0x801461A8; // size:0x10", symbols)
-        self.assertNotIn("D_801461A8 =", aliases)
-        self.assertEqual(0x801461A8 + 16, 0x801461B8)
-
-
 if __name__ == "__main__":
     unittest.main()

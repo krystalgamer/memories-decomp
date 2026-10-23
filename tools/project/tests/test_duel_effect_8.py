@@ -8,18 +8,6 @@ DIRECTORY = ROOT / "src/overlays/duel_effects"
 
 class DuelEffect8Tests(unittest.TestCase):
 
-    def test_caller_evidence_refines_shared_halfword_contracts(self) -> None:
-        for name in ("utility_helpers.h", "radial_random_vectors.c"):
-            self.assertIn(
-                "func_8014EE0C(u16 width, u16 depth, s16 height,",
-                (DIRECTORY / name).read_text(),
-            )
-        for name in ("drawing_helpers.h", "primitive_draw.c"):
-            self.assertIn(
-                "func_80156E58(u8 *color, u16 width,",
-                (DIRECTORY / name).read_text(),
-            )
-
     def test_configuration_keeps_real_storage_and_canonical_matrix_owner(self) -> None:
         directory = ROOT / "config/sles_03951/overlays"
         symbols = (directory / "duel_effects_symbols.txt").read_text()

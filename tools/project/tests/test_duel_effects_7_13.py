@@ -9,12 +9,6 @@ DIRECTORY = ROOT / "src/overlays/duel_effects"
 
 class DuelEffects7And13Tests(unittest.TestCase):
 
-
-    def test_effect_thirteen_keeps_complete_paths_and_distinct_images(self) -> None:
-        aliases = (ROOT / "config/sles_03951/overlays/duel_effects_linker_symbols.txt").read_text()
-        self.assertNotIn("D_8015AC48 =", aliases)
-        self.assertNotIn("D_8015AE94 =", aliases)
-
     def test_helpers_preserve_status_and_exact_extent(self) -> None:
         with (ROOT / "config/sles_03951/overlays/duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}

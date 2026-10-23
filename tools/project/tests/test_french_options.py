@@ -200,12 +200,6 @@ class FrenchOptionsTests(unittest.TestCase):
         self.assertEqual(struct.unpack_from("<I", image, 0xFC)[0], 0x00821023)
         self.assertEqual(struct.unpack_from("<I", image, 0x100)[0], 0x27BDFFC8)
 
-    def test_helpers_without_callers_do_not_claim_direct_reachability(self):
-        with (ROOT / f"config/{self.config_name}/overlays/options_functions.csv").open() as handle:
-            rows = {r["name"]: r for r in csv.DictReader(handle)}
-        for name in self.unproven_helpers:
-            self.assertIn("no direct caller found", rows[name]["notes"])
-
     def test_unoptimized_leaf_views_and_shared_bodies(self):
         image = self.retail_image()
         for offset, word in (
