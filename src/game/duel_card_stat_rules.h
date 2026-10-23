@@ -1,7 +1,9 @@
-#ifndef MEMORIES_DECOMP_DUEL_GET_BASE_CARD_STAT_H
-#define MEMORIES_DECOMP_DUEL_GET_BASE_CARD_STAT_H
+#ifndef MEMORIES_DECOMP_DUEL_CARD_STAT_RULES_H
+#define MEMORIES_DECOMP_DUEL_CARD_STAT_RULES_H
 
 #include "../types.h"
+
+s32 Duel_CalcGuardianStarMatchup(s32, s32);
 
 /* Base attack or defence for a card id before any modifier is applied.
  * arg1 selects the stat: 0 is attack, 1 is defence. */

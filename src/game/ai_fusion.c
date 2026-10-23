@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "duel_get_base_card_stat.h"
+#include "duel_card_stat_rules.h"
 #include "ai.h"
 #include "ai_constants.h"
 #include "card_constants.h"

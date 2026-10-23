@@ -2,7 +2,7 @@
 #include "card_constants.h"
 #include "display_object.h"
 #include "duel_battle_stats.h"
-#include "duel_calc_guardian_star_matchup.h"
+#include "duel_card_stat_rules.h"
 #include "duel_card.h"
 
 /* Battle arithmetic between two duel cards, built up in address order.
