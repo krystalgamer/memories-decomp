@@ -39,7 +39,7 @@ class BuildDeckListNavigationTests(unittest.TestCase):
         )
         self.assertEqual(
             sources["0x80033998"],
-            "src/game/build_deck_deck_capacity.c",
+            "src/game/build_deck_update.c",
         )
 
 
