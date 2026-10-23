@@ -6,6 +6,7 @@
 #include "display_object_core.h"
 #include "display_object_config.h"
 #include "display_object_helpers.h"
+#include "display_object_depth_bases.h"
 #include "display_object_layout.h"
 #include "display_object_projection.h"
 #include "display_object_render_sprite_list.h"
@@ -100,7 +101,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->field_5E = 0;
         slot->field_65 = 0;
         slot->field_16 = 0;
-        slot->field_14 = D_8009AF74[slot->ot_index];
+        slot->field_14 = gDisplayObject_awOrderingTableDepthBases[slot->ot_index];
     }
     return slot;
 }

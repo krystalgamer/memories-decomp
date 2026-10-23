@@ -9,6 +9,7 @@
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "display_object_helpers.h"
+#include "display_object_depth_bases.h"
 #include "text_box_runtime.h"
 #include "func_80039794.h"
 #include "duel_effect_create_channel.h"
@@ -46,7 +47,7 @@ void Dialog_UpdateSpotlightContraction(MenuRecord *record)
         object->field_48.h.field_48 = 128;
         object->field_48.h.field_4A = 224;
         DisplayObject_SelectOrderingTable1(object);
-        DisplayObject_SetDepthOffset(object, (s8)(*(u8 *)&D_8009AF74[1] - 3));
+        DisplayObject_SetDepthOffset(object, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
         object->field_4C = (s32)DisplayObject_RenderSpotlightMask;
         record->grid[0][1] = (s32)object;
     }
@@ -139,7 +140,7 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         p->field_48.h.field_48 = 0x80;
         p->field_48.h.field_4A = 0xE0;
         DisplayObject_SelectOrderingTable1(p);
-        DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&D_8009AF74[1] - 3));
+        DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
         p->field_4C = (s32)DisplayObject_RenderSpotlightMask;
         record->grid[0][1] = (s32)p;
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -147,7 +148,7 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(p);
-        DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&D_8009AF74[1] - 2));
+        DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 2));
         record->grid[0][0] = (s32)p;
         DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(p));
         a = gMemCardWork_OperationMode;

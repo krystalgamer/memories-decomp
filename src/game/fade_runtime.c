@@ -9,6 +9,7 @@
 #include "ordering_tables.h"
 
 #include "fade.h"
+#include "fade_overlay_controls.h"
 #include "../unmatched.h"
 #include "graphics_frame_controls.h"
 #include "graphics_ordering_table_views.h"
@@ -54,8 +55,8 @@ void Fade_Update(FadeTransitionState *p)
             f & ~(FADE_FLAG_ACTIVE | FADE_FLAG_KEEP_OVERLAY |
                   FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE);
         Fade_EnableOrderingTables();
-        D_8009B140 = 0;
-        D_8009B145 = 0;
+        gFade_bKeepOverlayDepth = 0;
+        gFade_bWhiteLatch = 0;
         gGraphics_bClearRed = gFade_bTargetRed;
         gGraphics_bClearGreen = gFade_bTargetGreen;
         gGraphics_bClearBlue = gFade_bTargetBlue;
@@ -132,7 +133,7 @@ step:
        clamped at 0, giving a tinted rather than grey fade.
 
    Bands always submit at depth 4. The tail also uses 4 unless
-   FADE_FLAG_KEEP_OVERLAY is set, when it uses D_8009B140 (falling back to
+   FADE_FLAG_KEEP_OVERLAY is set, when it uses gFade_bKeepOverlayDepth (falling back to
    0x3F when that is zero).
 
    Shape notes for anyone re-deriving this: the GsBOXF descriptor's 0x04 and
@@ -187,7 +188,7 @@ void Fade_DrawOverlay(void) {
 
         depth = 4;
         if (gFade_State.flags & FADE_FLAG_KEEP_OVERLAY) {
-            depth = D_8009B140;
+            depth = gFade_bKeepOverlayDepth;
             if (depth == 0) {
                 depth = 0x3F;
             }
@@ -226,7 +227,7 @@ void Fade_FillBandLevels(s32 level)
 void Fade_CutToWhite(void)
 {
     FadeTransitionState *state;
-    D_8009B145 = 1;
+    gFade_bWhiteLatch = 1;
     Fade_InitOut();
     state = &gFade_State;
     state->flags = 0;
@@ -241,7 +242,7 @@ void Fade_ApplyWhiteLatchToFadeIn(void)
 {
     FadeTransitionState *state;
     int value;
-    if (D_8009B145 != 0) {
+    if (gFade_bWhiteLatch != 0) {
         value = 0xFFFFFF;
         state = &gFade_State;
         *(s32 *)state = value;
@@ -285,7 +286,7 @@ void Fade_InitInColor(int color)
     FadeTransitionState *state;
 
     if (color == 0xFFFFFF) {
-        D_8009B145 = 1;
+        gFade_bWhiteLatch = 1;
     }
     *(s32 *)&gFade_State = color;
     Fade_InitIn();
@@ -300,7 +301,7 @@ void Fade_ApplyWhiteLatchToFadeOut(void)
     FadeTransitionState *state;
     int color;
 
-    if (D_8009B145 != 0) {
+    if (gFade_bWhiteLatch != 0) {
         color = 0xFFFFFF;
         state = &gFade_State;
         *(s32 *)state = color;
@@ -341,7 +342,7 @@ void Fade_InitOutColor(int color)
     FadeTransitionState *state;
 
     if (color == 0xFFFFFF) {
-        D_8009B145 = 1;
+        gFade_bWhiteLatch = 1;
     }
     *(s32 *)&gFade_State = color;
     Fade_InitOut();

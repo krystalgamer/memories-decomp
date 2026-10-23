@@ -7,11 +7,13 @@
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "fade.h"
+#include "fade_overlay_controls.h"
 #include "card_constants.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "func_80039794.h"
 #include "display_object_helpers.h"
+#include "display_object_depth_bases.h"
 #include "build_deck_transition_state.h"
 #include "graphics_frame.h"
 #include "build_deck_update.h"
@@ -53,7 +55,7 @@
  * confirmation box is created (the wide
  * one in the 640-wide mode selected by bit 7 of gBuildDeck_bConfirmMode, the narrow one
  * otherwise, which is then waited on until its field_30 pointer is filled),
- * Fade_SetTargetLevel(0xA0, 2) runs and D_8009B140 is set from D_8009AF74[1] - 8.
+ * Fade_SetTargetLevel(0xA0, 2) runs and gFade_bKeepOverlayDepth is set from gDisplayObject_awOrderingTableDepthBases[1] - 8.
  * With bit 14 set the effect channel at gText_aChannels is polled: once its flags
  * match TEXT_BOX_FLAG_DONE under TEXT_BOX_COMPLETION_MASK, the box is
  * destroyed and either bit 14
@@ -93,7 +95,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
                 } while (box->field_30 == 0);
             }
             Fade_SetTargetLevel(BUILD_DECK_CONFIRM_FADE_LEVEL, 2);
-            D_8009B140 = *(u8 *)&D_8009AF74[1] - 8;
+            gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 8;
         }
     }
     /* Computed before the branch: it is only used on the copy path, so it
