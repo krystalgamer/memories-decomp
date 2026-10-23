@@ -1,7 +1,6 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../types.h"
-#include "build_deck_active_card.h"
 #include "build_deck_test_and_set_initialized.h"
 #include "card_list_sort.h"
 #include "card_list_text_boxes.h"
@@ -17,6 +16,16 @@
 #include "build_deck_pane_input.h"
 #include "graphics_frame.h"
 #include "build_deck_update_pane_transition.h"
+
+s32 BuildDeck_GetActiveCardID(CardList *list)
+{
+    s32 index = list->first + list->cursor;
+    CardEntry *entry = &list->entries[index];
+    if (entry->flags == 0) {
+        return 0;
+    }
+    return (s16)entry->id;
+}
 
 /* Regional values: the two BuildDeck_CreateCardTransferIcon calls' x, y and last argument (deck
  * pane 0x234, 0x16, 0xA -> 0x235, 0x14, 0xC; chest pane y 0x18 -> 0x14 and
