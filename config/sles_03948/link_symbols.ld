@@ -1170,3 +1170,6 @@ gMain_bRequestedMenuID = D_8009B26D;
 
 gText_PrimaryStringOffsets = D_801B0004;
 gText_GlobalStringOffsets = D_801D5804;
+
+gGraphics_aImageTransferRects = D_800E9D70;
+gRuntime_pSharedWorkBase = D_80010000;

@@ -155,10 +155,11 @@ separate data word through the slot's `+0xDE8` or `+0xDEC` value. No new
 function-pointer type, data-record type, storage, const qualifier or array
 bound follows from these names. The signed address words are not retyped.
 
-The reused primary `D_80010000` base remains address-named. Its incomplete
-prefix view, declaration selectors and base-relative relocations are
-unchanged. Naming the independent scalar words does not replace accesses
-through that prefix.
+The reused primary word's scalar consumers now use `gRuntime_pSharedWorkBase`;
+see [shared-transfer-workspaces.md](shared-transfer-workspaces.md). Its
+incomplete legacy `D_80010000` prefix view, declaration selectors and
+base-relative relocations are unchanged. Naming the independent scalar
+words does not replace accesses through that prefix.
 
 ## Model payload and credits words
 

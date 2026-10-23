@@ -12,6 +12,7 @@
 #include "file_transfer_state.h"
 #include "card_constants.h"
 #include "graphics_frame.h"
+#include "image_transfer_rects.h"
 #include "card_list_setup.h"
 #ifdef VERSION_EUROPE
 #include "duel_effect_resource_setup.h"
@@ -62,7 +63,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
         break;
 
     case 2:
-        g = (s16 *)D_800E9D70;
+        g = (s16 *)gGraphics_aImageTransferRects;
         g[0] = 0x380;
         g[1] = 0x160;
         c = 0x40;
@@ -101,7 +102,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
         break;
 
     case 4:
-        g = (s16 *)D_800E9D70;
+        g = (s16 *)gGraphics_aImageTransferRects;
         g[0] = 0x280;
         g[1] = 0xE0;
         g[2] = 0x100;
@@ -191,7 +192,7 @@ m2:
     return;
 
 m3:
-    g = (s16 *)D_800E9D70;
+    g = (s16 *)gGraphics_aImageTransferRects;
     c = 0x100;
     g[0] = c;
     g[1] = 0xF0;

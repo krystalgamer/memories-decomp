@@ -13,6 +13,7 @@
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 
 /* Regional values, which the European wrapper defines for itself: the
    sectors mode 0 transfers (32 in the US build, 48 in the European one)
@@ -67,8 +68,8 @@ void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     case 3:
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
-        object->value_0C = (s32)D_80010000;
-        object->value_08 = (s32)D_80010000;
+        object->value_0C = (s32)gRuntime_pSharedWorkBase;
+        object->value_08 = (s32)gRuntime_pSharedWorkBase;
         object->done = 1;
         break;
 

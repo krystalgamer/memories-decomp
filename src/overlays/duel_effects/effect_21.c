@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "effect_21.h"
+#include "../../game/shared_work_base.h"
 
 void func_8014E3EC(void *buffer, s32 phase)
 {
@@ -16,8 +17,8 @@ void func_8014E3EC(void *buffer, s32 phase)
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
     scale = D_80146158;
-    slots[0] = (DuelEffect21Work *)(D_80010000 + 0x2800);
-    slots[1] = (DuelEffect21Work *)(D_80010000 + 0x2880);
+    slots[0] = (DuelEffect21Work *)(gRuntime_pSharedWorkBase + 0x2800);
+    slots[1] = (DuelEffect21Work *)(gRuntime_pSharedWorkBase + 0x2880);
     if (phase >= 0) {
         if (slots[__builtin_abs(phase) % 2]->enabled != 0) {
             func_8014F010((u8 *)&slots[__builtin_abs(phase) % 2]->color, 0);

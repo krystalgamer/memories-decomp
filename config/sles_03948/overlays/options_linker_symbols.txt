@@ -31,3 +31,5 @@ DisplayObject_ConfigureSpriteAtPositionWithResource = 0x80042BD8;
 DisplayObject_SetDepthOffset = 0x80042C1C;
 SD_BGMPlay = 0x8004022C;
 D_801AF000 = 0x801AF000;
+
+gGraphics_aImageTransferRects = D_800E9D70;

@@ -15,6 +15,7 @@
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 
 /* Where case 5 uploads its image row: (0x100, 0xF0) in the US build and
    (0x280, 0xE0) in the European one, whose wrapper defines its own. */
@@ -48,8 +49,8 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     case 1:
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->phase_size = 134 * FILE_SECTOR_SIZE;
-        object->value_0C = (s32)D_80010000;
-        object->value_08 = (s32)D_80010000;
+        object->value_0C = (s32)gRuntime_pSharedWorkBase;
+        object->value_08 = (s32)gRuntime_pSharedWorkBase;
         object->done = 1;
         break;
 

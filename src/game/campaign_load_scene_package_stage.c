@@ -11,6 +11,7 @@
 #include "campaign_scene_package.h"
 
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 
 /* Regional values, which the European wrapper defines for itself: the
    sectors stage 0 transfers (16 in the US build, 12 in the European one)
@@ -89,7 +90,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         *(s32 *)&p->phase_size = CAMPAIGN_DIALOG_PORTRAIT_PHASE_SIZE;
         m = 0xFFDCFFFF;
         v_3 = gFile_dwTransferState;
-        t = (s32)D_80010000;
+        t = (s32)gRuntime_pSharedWorkBase;
         v_3 &= m;
         gFile_dwTransferState = v_3;
         p->value_0C = t;

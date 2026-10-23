@@ -12,6 +12,7 @@
 #include "file_transfer_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
+#include "image_transfer_rects.h"
 #include "library_runtime.h"
 #include "model_copy_slot_u16_values.h"
 #include "model_update_view_metrics.h"
@@ -656,7 +657,7 @@ void Library_UpdateScreen(void)
    identical object at gcc_2_8_1_g8_split, which the entry needs, so the
    unit builds there. */
 
-#define gStageRect (D_800E9D70[0])
+#define gStageRect (gGraphics_aImageTransferRects[0])
 
 #ifdef VERSION_EUROPE
 void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)

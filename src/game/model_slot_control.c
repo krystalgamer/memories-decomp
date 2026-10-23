@@ -37,6 +37,7 @@
 #include "model_handler_state.h"
 #include "model_transfer_flags.h"
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 #include "model_load_words.h"
 #include "duel_card.h"
 #include "sound.h"
@@ -746,7 +747,7 @@ void Model_AdvanceSlotLoad(s32 index)
         s32 size = 0xC000;
         switch (index) {
         case 0:
-            payload = D_80010000;
+            payload = gRuntime_pSharedWorkBase;
             break;
         case 1:
             payload = gModel_pSlot1PayloadBase;
@@ -941,7 +942,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
     case 0: {
         u8 *destination;
         if (index == 0) {
-            destination = D_80010000;
+            destination = gRuntime_pSharedWorkBase;
         } else {
             destination = gModel_pSlot1PayloadBase;
         }
@@ -1287,8 +1288,8 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
     case 0:
         object->phase_size = 96 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->value_0C = (s32)D_80010000;
-        object->value_08 = (s32)D_80010000;
+        object->value_0C = (s32)gRuntime_pSharedWorkBase;
+        object->value_08 = (s32)gRuntime_pSharedWorkBase;
         object->done = 1;
         break;
 

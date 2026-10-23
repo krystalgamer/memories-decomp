@@ -204,3 +204,6 @@ gMain_bRequestedMenuID = gJapanese_bRequestedMenu;
 
 gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D6000;
+
+gGraphics_aImageTransferRects = gJapanese_D_800E9D70;
+gRuntime_pSharedWorkBase = D_80010000;

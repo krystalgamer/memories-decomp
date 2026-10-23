@@ -4,6 +4,7 @@
 #include "file_transfer.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
+#include "image_transfer_rects.h"
 #include "menu_record_reset.h"
 #include "script_state.h"
 #include "campaign_scene_package.h"
@@ -13,6 +14,7 @@
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef CAMPAIGN_SCENE_PACKAGE_START_SECTOR
@@ -31,7 +33,7 @@
  * The 0x1E57/0x31 request uses Campaign_LoadScenePackageStage to route image,
  * palette, event script, and portrait data. After resetting viewport and slot
  * state, this function polls IsIdleGPU(10) until it returns zero, then uploads
- * 25 pairs from the arena held in D_80010000: 24-word by 48-row image
+ * 25 pairs from the arena held in gRuntime_pSharedWorkBase: 24-word by 48-row image
  * rectangles on a five-wide grid from x=0x380, followed by 64x1 CLUT
  * rectangles from y=0xF0.
  *
@@ -74,38 +76,38 @@ void Campaign_LoadScenePackage(s16 arg0)
         ;
     }
 
-    src = CAMPAIGN_PACKAGE_WORDS(D_80010000);
-    D_800E9D70[0].x = 0x380;
-    D_800E9D70[0].y = 0;
-    D_800E9D70[0].w = CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WORD_WIDTH;
-    D_800E9D70[0].h = CAMPAIGN_DIALOG_PORTRAIT_IMAGE_HEIGHT;
-    second = &D_800E9D70[1];
-    D_800E9D70[1].x = 0x380;
+    src = CAMPAIGN_PACKAGE_WORDS(gRuntime_pSharedWorkBase);
+    gGraphics_aImageTransferRects[0].x = 0x380;
+    gGraphics_aImageTransferRects[0].y = 0;
+    gGraphics_aImageTransferRects[0].w = CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WORD_WIDTH;
+    gGraphics_aImageTransferRects[0].h = CAMPAIGN_DIALOG_PORTRAIT_IMAGE_HEIGHT;
+    second = &gGraphics_aImageTransferRects[1];
+    gGraphics_aImageTransferRects[1].x = 0x380;
     second->y = 0xF0;
     second->w = CAMPAIGN_DIALOG_PORTRAIT_CLUT_WORD_WIDTH;
     second->h = 1;
 
     i = 0;
     do {
-        LoadImage2(&D_800E9D70[0], src);
+        LoadImage2(&gGraphics_aImageTransferRects[0], src);
         LoadImage2(
-            &D_800E9D70[1],
+            &gGraphics_aImageTransferRects[1],
             src + CAMPAIGN_DIALOG_PORTRAIT_IMAGE_SIZE / sizeof(u32)
         );
         i++;
-        D_800E9D70[1].y = D_800E9D70[1].y + 1;
-        D_800E9D70[0].x =
+        gGraphics_aImageTransferRects[1].y = gGraphics_aImageTransferRects[1].y + 1;
+        gGraphics_aImageTransferRects[0].x =
             (i % CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
                 CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WORD_WIDTH + 0x380;
-        D_800E9D70[0].y =
+        gGraphics_aImageTransferRects[0].y =
             (i / CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
                 CAMPAIGN_DIALOG_PORTRAIT_IMAGE_HEIGHT;
-        if (D_800E9D70[1].y >=
+        if (gGraphics_aImageTransferRects[1].y >=
             0xF0 + CAMPAIGN_DIALOG_PORTRAIT_CLUT_ROWS_PER_COLUMN) {
-            D_800E9D70[1].x =
-                D_800E9D70[1].x +
+            gGraphics_aImageTransferRects[1].x =
+                gGraphics_aImageTransferRects[1].x +
                 CAMPAIGN_DIALOG_PORTRAIT_CLUT_WORD_WIDTH;
-            D_800E9D70[1].y = 0xF0;
+            gGraphics_aImageTransferRects[1].y = 0xF0;
         }
         src += CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE / sizeof(u32);
     } while (i < CAMPAIGN_DIALOG_PORTRAIT_COUNT);

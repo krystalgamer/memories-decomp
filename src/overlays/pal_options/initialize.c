@@ -2,6 +2,7 @@
 #define D_8009B118_IS_POINTER_IN_DATA
 #include "../../unmatched.h"
 #include "../../game/graphics_frame.h"
+#include "../../game/image_transfer_rects.h"
 #include "../../game/display_object_core.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/display_asset_banks.h"
@@ -19,7 +20,7 @@ void PalOptions_Init(s32 mode)
     buffer = D_8009B118;
     gPalOptions_bMode = mode;
     gPalOptions_bLanguage = D_8009C02B;
-    rect = &D_800E9D70[1];
+    rect = &gGraphics_aImageTransferRects[1];
     rect->x = 0x290;
     rect->y = 0;
     rect->w = 0x30;
