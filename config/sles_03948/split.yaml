@@ -542,10 +542,7 @@ segments:
     - game/display_object_copy_work_slots
   - - 120148
     - c
-    - game/duel_calc_guardian_star_matchup
-  - - 120264
-    - c
-    - game/duel_get_base_card_stat
+    - game/duel_card_stat_rules
   - - 120444
     - c
     - game/campaign_test_story_flag

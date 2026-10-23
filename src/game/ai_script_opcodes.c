@@ -5,7 +5,7 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-#include "duel_get_base_card_stat.h"
+#include "duel_card_stat_rules.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
