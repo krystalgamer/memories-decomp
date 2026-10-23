@@ -60,3 +60,34 @@ Four more images whose entry has the same French body hold further framed
 functions after it (`model_image_model_7632_8013b000`, `_7642_8017b000`,
 `_35528_8013b000` and `_35538_8017b000`); they stay uninventoried until those
 functions are classified.
+
+## Regional constants
+
+Thirty more images have a French entry whose code differs from the North American
+one in a single regional constant. Five French sources now take it from a macro
+whose default is the French value, and a North American wrapper in
+`src/overlays/model_variant/` sets the North American one:
+
+- `variant770_entry`: the burst CLUT, `VARIANT770_BURST_CLUT` (French `0x3D28`,
+  North American `0x3D20`);
+- `variant96_entry`, `variant144_entry`, `variant198_entry` and `variant199_entry`:
+  the screen height of the full-screen flash (and, in `variant144_entry`, of the
+  gradient's bottom edge), `GRAPHICS_DEFAULT_HEIGHT` from
+  `src/game/graphics_constants.h` (French 256, North American 240).
+
+The same five sources also gain the headers that declare `Model_GetLightSourceMatrix`
+and `GsGetLwUnit`, which they called implicitly. The French objects of all five,
+both slots, are byte-identical to the objects built before these changes.
+
+| Header | Entry size | North American source | Images |
+|---:|---:|---|---|
+| 79 | `0xC48` | `variant96_entry_usa.c` | `192_stage9_slot0`, `196_stage9_slot0` |
+| 127 | `0xEAC` | `variant144_entry_usa.c` | `492_stage9_slot0` |
+| 181 | `0xD70` | `variant198_entry_usa.c` | `508_stage9_slot0` |
+| 182 | `0x1590` | `variant199_entry_usa.c` | `243_stage9_slot0`, `622_stage9_slot0` |
+| 209 | `0xC48` | `variant96_entry_usa.c` | `192_stage10_slot1`, `196_stage10_slot1` |
+| 257 | `0xEAC` | `variant144_entry_usa.c` | `492_stage10_slot1` |
+| 311 | `0xD70` | `variant198_entry_usa.c` | `508_stage10_slot1` |
+| 312 | `0x1590` | `variant199_entry_usa.c` | `243_stage10_slot1`, `622_stage10_slot1` |
+| 753 | `0x16E4` | `variant770_entry_usa.c` | `103_pos0_slot0`, `187_stage9_slot0`, `239_pos0_slot0`, `23_pos0_slot0`, `480_pos0_slot0`, `499_pos0_slot0`, `555_pos0_slot0`, `596_stage9_slot0`, `85_pos0_slot0` |
+| 850 | `0x16E4` | `variant770_entry_usa.c` | `103_stage8_slot1`, `187_stage10_slot1`, `239_stage8_slot1`, `23_stage8_slot1`, `480_stage8_slot1`, `499_stage8_slot1`, `555_stage8_slot1`, `596_stage10_slot1`, `85_stage8_slot1` |

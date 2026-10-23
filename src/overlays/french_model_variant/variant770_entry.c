@@ -1,5 +1,11 @@
 #include "../../types.h"
 #include "variant770_entry.h"
+#include "../../game/screen_projection.h"
+
+/* The burst CLUT differs by region; the North American wrappers set 0x3D20. */
+#ifndef VARIANT770_BURST_CLUT
+#define VARIANT770_BURST_CLUT 0x3D28
+#endif
 
 static const VECTOR D_8013C6E8 = {4096, 4096, 4096, 0};
 
@@ -66,7 +72,7 @@ s32 func_8013B004(u8 *context, s32 command)
         point = &work->quad[3];
         setVector(point, work->config->sprite_size, work->config->sprite_size, 0);
         work->burst_tpage = 0xAE;
-        work->burst_clut = 0x3D28;
+        work->burst_clut = VARIANT770_BURST_CLUT;
         for (i = 0; i < 1; i++) {
             work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013C6F8[i]);
         }
