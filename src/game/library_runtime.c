@@ -14,6 +14,7 @@
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
 #include "library_runtime.h"
+#include "library_reference_y.h"
 #include "model_copy_slot_u16_values.h"
 #include "model_update_view_metrics.h"
 #include "sound_voice_data.h"
@@ -594,21 +595,21 @@ void Library_UpdateScreen(void)
         if (r == one) {
             if (Model_GetSlotAnimationIndex(0) != r) {
                 Model_CopySlotU16Values(0, (u16 *)0x80181010);
-                r = D_80181012 - D_80181002;
+                r = gLibrary_sSampledReferenceY - gLibrary_sCapturedReferenceY;
                 a = r >= 0 ? r : -r;
                 step = a / 24;
                 step += 1;
                 cur = model->view.vry;
-                if (D_80181012 < cur) {
+                if (gLibrary_sSampledReferenceY < cur) {
                     model->view.vry = cur - step;
                     cur = *(volatile PSXLONG *)&model->view.vry;
                 }
-                if (cur < D_80181012) {
+                if (cur < gLibrary_sSampledReferenceY) {
                     model->view.vry = cur + step;
                 }
             } else {
                 r = model->view.vry;
-                target = D_80181002;
+                target = gLibrary_sCapturedReferenceY;
                 if (r != target) {
                     if (target < r) {
                         r -= 8;
