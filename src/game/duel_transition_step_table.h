@@ -11,4 +11,7 @@ struct BuildDeckTransitionState;
 extern void (*gBuildDeck_apfnStepHandlers[])(struct BuildDeckTransitionState *);
 extern s32 D_80090E0C[];
 
+/* Logical divisor-prefix view; the opaque suffix keeps its native owner. */
+#define gText_DecimalDivisorView D_80090E0C
+
 #endif

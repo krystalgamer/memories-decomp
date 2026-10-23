@@ -162,7 +162,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         }
     }
     if (object->state_51 != 0) {
-        D_80090E64[object->state_51 & DUEL_EFFECT_STATE_INDEX_MASK](object);
+        gTextBox_apfnStateCallbacks[object->state_51 & DUEL_EFFECT_STATE_INDEX_MASK](object);
         object->flags_34 = object->flags_34 & 0xFBFF;
         return;
     }

@@ -6,4 +6,7 @@
 
 extern TextBoxStateCallback D_80090E64[];
 
+/* Expand through the existing Japanese native-name adapter as well. */
+#define gTextBox_apfnStateCallbacks D_80090E64
+
 #endif
