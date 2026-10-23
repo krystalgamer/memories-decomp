@@ -12,8 +12,8 @@ void Model_SeekSlotAnimation(s32 idx, s32 flag, s32 val)
     s32 arg3;
 
     count = rec->animation_sequence_count;
-    rec->field_E06 = val << 4;
-    arg3 = rec->field_E06;
+    rec->animation_position = val << 4;
+    arg3 = rec->animation_position;
 
     if (count != 0) {
         do {

@@ -11,7 +11,7 @@
  *
  * Model_GetSlotAnimationLength takes two steps: it reads the animation index
  * at 0xBF5 that Model_GetSlotAnimationIndex also returns, then uses it to
- * index field_750 and hands back that row's `max`. Its return type is `u16`
+ * index animation_duration_rows and hands back that row's `max`. Its return type is `u16`
  * because `max` is one (model.h:44); model.h:39-40 lists it among the four
  * functions that read the same halfword.
  *

@@ -79,14 +79,14 @@ void Model_UpdateSlotAnimation(s32 index) {
     if (m->is_active == 0) {
         return;
     }
-    if (m->field_DD8 != 0) {
+    if (m->animation_commands != 0) {
         anim = m->field_BF5;
-        length = m->field_750[anim].max << 4;
+        length = m->animation_duration_rows[anim].max << 4;
         speed = m->field_E0D * Model_GetFrameStep();
         if (anim == 6) {
             lim = length - speed;
-            if ((m->field_E16 == 0x3E && m->field_E06 >= lim) ||
-                (m->field_E16 == 0x3C && m->field_E06 < 2)) {
+            if ((m->field_E16 == 0x3E && m->animation_position >= lim) ||
+                (m->field_E16 == 0x3C && m->animation_position < 2)) {
                 Model_SetSlotPlaybackDirection(index, 0);
             }
         }
@@ -97,31 +97,31 @@ void Model_UpdateSlotAnimation(s32 index) {
             if (m->field_E16 == 0x3E) {
                 s32 v;
 
-                if (m->field_E06 >= length) {
-                    m->field_E06 = 0;
+                if (m->animation_position >= length) {
+                    m->animation_position = 0;
                 }
-                v = m->field_E06 + speed;
+                v = m->animation_position + speed;
                 if (v >= length) {
-                    m->field_E06 = length;
+                    m->animation_position = length;
                 } else {
-                    m->field_E06 = v;
+                    m->animation_position = v;
                 }
             } else {
                 s32 w;
 
-                if (m->field_E06 == 0) {
-                    m->field_E06 = length;
+                if (m->animation_position == 0) {
+                    m->animation_position = length;
                 }
-                w = m->field_E06 - speed;
+                w = m->animation_position - speed;
                 if (w <= 0) {
-                    m->field_E06 = 0;
+                    m->animation_position = 0;
                 } else {
-                    m->field_E06 = w;
+                    m->animation_position = w;
                 }
             }
         }
         if (m->field_E10 == 0) {
-            if (m->field_E16 == 0x3E ? m->field_E06 >= length : m->field_E06 == 0) {
+            if (m->field_E16 == 0x3E ? m->animation_position >= length : m->animation_position == 0) {
                 if (m->field_DC0[7] == 6) {
                     m->field_BF4 = 2;
                 }
@@ -132,7 +132,7 @@ void Model_UpdateSlotAnimation(s32 index) {
                         Model_ControlSlotAnimation(index, 0, 0);
                     }
                     if (m->field_DC0[7] == 6) {
-                        Model_QueueEffectEndpointPair(-1, index + 2, m->field_750[2].max);
+                        Model_QueueEffectEndpointPair(-1, index + 2, m->animation_duration_rows[2].max);
                         m->field_DC0[7] = 0;
                         m->field_BF4 = 1;
                     }
@@ -147,7 +147,7 @@ void Model_UpdateSlotAnimation(s32 index) {
             }
         }
     }
-    frame = m->field_E06;
+    frame = m->animation_position;
     if (m->animation_sequence_count != 0) {
         i = 0;
         do {
@@ -301,7 +301,7 @@ void Model_UpdateSlotControl(s32 index)
         return;
     case 5:
         MODEL_CONTROL_TRACE(gModel_szBackTrace);
-        if (other->field_E0F == 5 && other->field_E06 >= 0x60) {
+        if (other->field_E0F == 5 && other->animation_position >= 0x60) {
             Model_ControlSlotAnimation(index ^ 1, 1, 1);
         }
         return;
@@ -362,10 +362,10 @@ void Model_UpdateSlotControl(s32 index)
             }
         }
         if (other->field_E0F == command) {
-            if (other->field_E16 != 0x23 && other->field_E06 >= 0xA0 &&
+            if (other->field_E16 != 0x23 && other->animation_position >= 0xA0 &&
                 ((rand() >> 8) & 3) != 0) {
-                other->field_E06 -= amount;
-                frame = other->field_E06;
+                other->animation_position -= amount;
+                frame = other->animation_position;
                 for (part = 0; part < other->animation_sequence_count; part++) {
                     Model_SeekSlotPartAnimation(other, part, other->field_BF5, frame);
                 }
@@ -402,8 +402,8 @@ no_handler:
         s32 own_record;
         s32 other_record;
         if (slot->field_BF5 == slot->field_DFE + 3) {
-            s32 current_frame = slot->field_E06 >> 4;
-            s32 midpoint = slot->field_750[slot->field_BF5].max >> 1;
+            s32 current_frame = slot->animation_position >> 4;
+            s32 midpoint = slot->animation_duration_rows[slot->field_BF5].max >> 1;
             if (current_frame >= midpoint) {
                 offset = index * MODEL_SLOT_SIZE;
                 own_record = offset + (s32)&gModel_Slot0MetadataView;
@@ -546,7 +546,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
             m = 0xFFFF;
             n = p->animation_sequence_count;
             do {
-                if (p->field_2C8[1][i] != m) {
+                if (p->animation_command_indices[1][i] != m) {
                     k = i / 8;
                     if ((p->field_BEC[k] >> (i - k * 8)) & 1) {
                         sum += 0x14;
@@ -775,7 +775,7 @@ void Model_AdvanceSlotLoad(s32 index)
                 missing = 0xFFFF;
                 count = p->animation_sequence_count;
                 do {
-                    if (p->field_2C8[1][i] != missing) {
+                    if (p->animation_command_indices[1][i] != missing) {
                         byte = i / 8;
                         if ((p->field_BEC[byte] >> (i - byte * 8)) & 1) {
                             sum += 0x14;
@@ -860,7 +860,7 @@ void Model_AdvanceSlotLoad(s32 index)
         }
         selected = p->field_BF5;
         p->field_E0E = 6;
-        position = p->field_E06;
+        position = p->animation_position;
         for (i = 0; i < p->animation_sequence_count; i++) {
             s32 current = p->field_BF5;
             if (selected != 0) {
@@ -1451,8 +1451,8 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
             return;
         }
         for (i = 0; i < m->animation_sequence_count; i++) {
-            restore_row = m->field_2C8[m->field_E0F][i];
-            src = (u16 *)&m->field_DD8[restore_row];
+            restore_row = m->animation_command_indices[m->field_E0F][i];
+            src = (u16 *)&m->animation_commands[restore_row];
             if (restore_row != 0xFFFF) {
                 restore_bit = i;
                 if (i < 0) {
@@ -1476,7 +1476,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
         if (anim != m->field_DFE + 3) {
             m->field_E0E = 2;
         }
-        if (m->field_750[anim].max == 0) {
+        if (m->animation_duration_rows[anim].max == 0) {
             return;
         }
         if (prev != 0) {
@@ -1497,8 +1497,8 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
         }
         m->field_E10 = 1;
         for (i = 0; i < m->animation_sequence_count; parts++, i++) {
-            copy_row = m->field_2C8[m->field_E0F][i];
-            src = (u16 *)&m->field_DD8[copy_row];
+            copy_row = m->animation_command_indices[m->field_E0F][i];
+            src = (u16 *)&m->animation_commands[copy_row];
             if (copy_row != 0xFFFF) {
                 copy_bit = i;
                 if (i < 0) {
@@ -1510,7 +1510,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
                     1) {
                     copy_words = 5;
                 }
-                (*parts)->ii = ((u8 *)src - (u8 *)m->field_DD8) >> 2;
+                (*parts)->ii = ((u8 *)src - (u8 *)m->animation_commands) >> 2;
                 Model_CopyWords((s32 *)dst,
                                 (const s32 *)(base + src[0] * 4), copy_words);
                 dst += copy_words * 4;

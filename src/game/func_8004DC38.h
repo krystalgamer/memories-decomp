@@ -20,9 +20,9 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *slot, s32 channel);
  *
  * An earlier note here said the definition could not take a ModelSlot,
  * because introducing the cast changed the entry instruction. That was the
- * member spelling, not the type. `(u8 *)p->field_2C8 + offset` reassociates
+ * member spelling, not the type. `(u8 *)p->animation_command_indices + offset` reassociates
  * so that the slot pointer becomes the second operand of the addu, and
- * retail has it first. A plain `p->field_2C8[n][i]` index keeps it first, as
+ * retail has it first. A plain `p->animation_command_indices[n][i]` index keeps it first, as
  * long as the two channel offsets are still computed up front for cse to
  * reuse. The definition takes the typed slot and all three callers pass it
  * directly. */

@@ -162,7 +162,7 @@ void Model_ControlSlotAnimation(s32 index, s32 animation, s32 flag)
     if (index != (chosen_index ^ 1) || flag != 1) fixture_error = 5;
     event(31, index, animation, flag);
     gModel_aSlots[index].field_E0F = animation;
-    gModel_aSlots[index].field_E06 = 0;
+    gModel_aSlots[index].animation_position = 0;
     if (mutate) gModel_aSlots[index].field_DF8 ^= 1;
 }
 
@@ -173,7 +173,7 @@ void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part, s32 animation, u32 f
     event(32, part, animation, frame);
     if (mutate && seeks++ == 0) {
         slot->field_BF5 ^= 1;
-        slot->field_E06++;
+        slot->animation_position++;
         if (serial & 1) slot->animation_sequence_count = 1;
     }
 }
@@ -220,7 +220,7 @@ static void reference(s32 index)
     if (self->field_E0E == 2) return;
     if (commands[self->field_DFE] < 0) {
         if (self->field_BF5 == self->field_DFE + 3) {
-            if ((s32)(self->field_E06 >> 4) >= (s32)(self->field_750[self->field_BF5].max >> 1)) {
+            if ((s32)(self->animation_position >> 4) >= (s32)(self->animation_duration_rows[self->field_BF5].max >> 1)) {
                 Model_ControlSlotAnimation(index ^ 1, selection(self, other, index) & 0x7F, 1);
                 self->field_E0E = 2;
             }
@@ -247,7 +247,7 @@ static void reference(s32 index)
     case 2: FntPrint(gModel_szTermTrace); return;
     case 5:
         FntPrint(gModel_szBackTrace);
-        if (other->field_E0F == 5 && other->field_E06 >= 0x60) Model_ControlSlotAnimation(index ^ 1, 1, 1);
+        if (other->field_E0F == 5 && other->animation_position >= 0x60) Model_ControlSlotAnimation(index ^ 1, 1, 1);
         return;
     case 3:
         FntPrint(gModel_szStoneTrace);
@@ -278,9 +278,9 @@ static void reference(s32 index)
     if (other->field_E0F != decision) {
         Model_ControlSlotAnimation(index ^ 1, decision, 1);
         changed = 1;
-    } else if (other->field_E16 != 0x23 && other->field_E06 >= 0xA0 && ((rand() >> 8) & 3)) {
-        other->field_E06 -= step;
-        frame = other->field_E06;
+    } else if (other->field_E16 != 0x23 && other->animation_position >= 0xA0 && ((rand() >> 8) & 3)) {
+        other->animation_position -= step;
+        frame = other->animation_position;
         for (part = 0; part < other->animation_sequence_count; part++)
             Model_SeekSlotPartAnimation(other, part, other->field_BF5, frame);
         if ((rand() >> 8) & 1) changed = 1;
@@ -315,7 +315,7 @@ static void setup(void)
     self->field_DFE = serial & 1;
     self->field_BF5 = serial & 2 ? self->field_DFE + 3 : 0;
     self->field_DF8 = serial % 5 ? 1 : 0x309;
-    self->field_E06 = frames[(serial + 1) % 7];
+    self->animation_position = frames[(serial + 1) % 7];
     self->field_E08 = 0x1234;
     self->field_E0D = serial % 7 ? 1 + serial % 4 : 255;
     commands = (s32 *)((u8 *)self + 0xD08);
@@ -323,9 +323,9 @@ static void setup(void)
     commands[1] = command_mode == 0 ? -1 : command_mode == 1 ? 999 : 2001000;
     commands[2] = serial & 4 ? -1 : 7;
     for (i = 0; i < MODEL_SLOT_ROW_COUNT; i++)
-        self->field_750[i].max = (self->field_E06 >> 4) * 2 + (serial % 3) * 2;
+        self->animation_duration_rows[i].max = (self->animation_position >> 4) * 2 + (serial % 3) * 2;
     other->field_E0F = animations[serial % 4];
-    other->field_E06 = frames[serial % 7];
+    other->animation_position = frames[serial % 7];
     other->field_E16 = serial % 7 ? 0 : 0x23;
     other->animation_sequence_count = serial % 3;
     other->field_BF5 = 4;

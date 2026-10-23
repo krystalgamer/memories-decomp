@@ -406,15 +406,15 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
     ch = &gModel_aSlots[arg0];
     t = (u8 *)ch;
     c = t;
-    ch->field_E06 = 0;
+    ch->animation_position = 0;
     ch->field_E08 = 0;
-    ch->field_DD8 = 0;
+    ch->animation_commands = 0;
     *(s32 *)&ch->field_DDC = 0;
     *(s32 *)&ch->field_DE0 = 0;
     *(s32 *)&ch->field_DE4 = 0;
     ch->lit_color_cache_address = 0;
     /* The reset walks keys and rows with running byte offsets rather than
-       indexing ch->field_2C8[i][j] / ch->field_750[i].values[j]. That is not
+       indexing ch->animation_command_indices[i][j] / ch->animation_duration_rows[i].values[j]. That is not
        a missed cleanup: the indexed form is larger, and the link fails with
        .initialized_data overlapping .text. The walkers are load-bearing.
 
@@ -426,7 +426,7 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
        .initialized_data. Their byte-cursor form remains, with each
        displacement derived from the corresponding member instead. */
     do {
-        ((ModelSlotRow *)(c + (u32)&((ModelSlot *)0)->field_750))->max = 0;
+        ((ModelSlotRow *)(c + (u32)&((ModelSlot *)0)->animation_duration_rows))->max = 0;
         j = 0;
         a = n;
         b = m;
@@ -436,8 +436,8 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
             v = t + b;
             b += 2;
             j++;
-            *(u16 *)(v + (u32)&((ModelSlot *)0)->field_2C8) = ff;
-            *(s16 *)(u + (u32)&((ModelSlot *)0)->field_750) = 0;
+            *(u16 *)(v + (u32)&((ModelSlot *)0)->animation_command_indices) = ff;
+            *(s16 *)(u + (u32)&((ModelSlot *)0)->animation_duration_rows) = 0;
         } while (j < 0x3A);
         n += sizeof(ModelSlotRow);
         m += 0x74;
@@ -495,7 +495,7 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
                 i++;
             } while ((u32)i < *(u16 *)k);
         }
-        *(s32 *)(t + (u32)&((ModelSlot *)0)->field_DD8) = *(s32 *)p3;
+        *(s32 *)(t + (u32)&((ModelSlot *)0)->animation_commands) = *(s32 *)p3;
         *(s32 *)(t + (u32)&((ModelSlot *)0)->field_DDC) = *(s32 *)(p3 + 4);
     }
     if (p2 != (u8 *)0) {
@@ -516,7 +516,7 @@ void Model_BuildSlotAnimationTables(s32 index)
     s32 key;
 
     ch = &gModel_aSlots[index];
-    if (ch->field_DD8 == 0) {
+    if (ch->animation_commands == 0) {
         return;
     }
     i = 0;
@@ -529,8 +529,8 @@ void Model_BuildSlotAnimationTables(s32 index)
             row = 1;
             slot->start_sid = row;
             key = ch->animation_sequences[i]->start;
-            cmd = &ch->field_DD8[key];
-            ch->field_2C8[row][i] = key;
+            cmd = &ch->animation_commands[key];
+            ch->animation_command_indices[row][i] = key;
             while (1) {
                 word = *cmd;
                 if ((s32)word < 0) {
@@ -539,37 +539,37 @@ void Model_BuildSlotAnimationTables(s32 index)
                     if (row == 0) {
                         break;
                     }
-                    if (ch->field_2C8[row][i] != 0xFFFF) {
+                    if (ch->animation_command_indices[row][i] != 0xFFFF) {
                         cmd++;
                     } else {
-                        ch->field_2C8[row][i] = *(u16 *)cmd;
-                        cmd = &ch->field_DD8[*(u16 *)cmd];
+                        ch->animation_command_indices[row][i] = *(u16 *)cmd;
+                        cmd = &ch->animation_commands[*(u16 *)cmd];
                     }
                 } else {
-                    ch->field_750[row].values[i] =
-                        ch->field_750[row].values[i] + ((u8 *)cmd)[2];
+                    ch->animation_duration_rows[row].values[i] =
+                        ch->animation_duration_rows[row].values[i] + ((u8 *)cmd)[2];
                     cmd++;
                 }
             }
         }
     }
     for (row = 1; row < MODEL_SLOT_ROW_COUNT; row++) {
-        ch->field_750[row].max = 0;
+        ch->animation_duration_rows[row].max = 0;
         for (i = 0; i < ch->animation_sequence_count; i++) {
-            if (ch->field_750[row].max < ch->field_750[row].values[i]) {
-                ch->field_750[row].max = ch->field_750[row].values[i];
+            if (ch->animation_duration_rows[row].max < ch->animation_duration_rows[row].values[i]) {
+                ch->animation_duration_rows[row].max = ch->animation_duration_rows[row].values[i];
             }
         }
     }
 }
 
 /* The relink pass after the table builder above. Every reach now goes through
-   ModelSlot: the command list is ch->field_DD8, the channel count is
+   ModelSlot: the command list is ch->animation_commands, the channel count is
    ch->animation_sequence_count, and row 1's key for the current channel is
-   ch->field_2C8[1][i].
+   ch->animation_command_indices[1][i].
 
    The two key reads inside the loops keep a byte-offset sum instead of
-   ch->field_2C8[j][i]. Their address has to stay `ch + <running offset> +
+   ch->animation_command_indices[j][i]. Their address has to stay `ch + <running offset> +
    MODEL_SLOT_ROW_KEY_TABLE_OFFSET`, because that way the channel offset and
    the row stride share one induction variable; indexing the member gives the
    compiler a second one, which costs a callee-saved register and two
@@ -599,7 +599,7 @@ void Model_LinkSlotAnimationRows(s32 arg0)
 
     ch = &gModel_aSlots[arg0];
     o = 0;
-    if (ch->field_DD8 == 0) {
+    if (ch->animation_commands == 0) {
         return;
     }
     i = 0;
@@ -615,12 +615,12 @@ void Model_LinkSlotAnimationRows(s32 arg0)
 
     do {
         j = 1;
-        k = o + sizeof(ch->field_2C8[0]);
-        g = &ch->field_DD8[ch->field_2C8[1][i]];
+        k = o + sizeof(ch->animation_command_indices[0]);
+        g = &ch->animation_commands[ch->animation_command_indices[1][i]];
 
         do {
             w = *(u16 *)((u8 *)ch + k + MODEL_SLOT_ROW_KEY_TABLE_OFFSET);
-            a = &ch->field_DD8[w];
+            a = &ch->animation_commands[w];
             if (w != ff) {
                 t = a - 1;
                 while (1) {
@@ -632,7 +632,7 @@ void Model_LinkSlotAnimationRows(s32 arg0)
                             + (o + (u32)&((u16 (*)[MODEL_SLOT_PART_COUNT])0)[hi])
                             + MODEL_SLOT_ROW_KEY_TABLE_OFFSET);
                         y = *yp;
-                        c = &ch->field_DD8[y];
+                        c = &ch->animation_commands[y];
                         if (hi == 0) {
                             goto zero;
                         }
@@ -663,17 +663,17 @@ cont:
                     a++;
                 }
 hit:
-                *(s16 *)c = g - ch->field_DD8;
-                *(s16 *)a = c - ch->field_DD8;
+                *(s16 *)c = g - ch->animation_commands;
+                *(s16 *)a = c - ch->animation_commands;
                 goto cont;
 zero:
                 /* Reloaded rather than reusing the base the links above
                    already hold: retail reads the member again here. */
-                *(s16 *)t = (a - (s32 *)*(volatile s32 *)&ch->field_DD8) - 1;
-                *(s16 *)a = (t - ch->field_DD8) + 1;
+                *(s16 *)t = (a - (s32 *)*(volatile s32 *)&ch->animation_commands) - 1;
+                *(s16 *)a = (t - ch->animation_commands) + 1;
             }
             j++;
-            k += sizeof(ch->field_2C8[0]);
+            k += sizeof(ch->animation_command_indices[0]);
         } while (j < MODEL_SLOT_ROW_COUNT);
 
         o += 2;
