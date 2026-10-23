@@ -77,7 +77,7 @@ independently of the companion:
 | Role | Slot 1 | Slot 2 | Exact use |
 |---|---:|---:|---|
 | Working save/deck slot | `0x801D1200` | `0x801D2200` | `SaveData_UpdateDuelLoad` verifies 40 nonzero `u16` card IDs in each slot. |
-| Player-name glyph buffer | `0x801D160C` | `0x801D260C` | The same function converts each source name with `SAVE_DATA_PLAYER_NAME_CHAR_COUNT` (`6`). |
+| Player-name SJIS source | `0x801D160C` | `0x801D260C` | The same function converts each source name with `SAVE_DATA_PLAYER_NAME_CHAR_COUNT` (`6`). |
 | Integrity staging block | `0x801D1880` | `0x801D2880` | `SaveData_RequestTradeWrite` writes the primary and secondary integrity records for both blocks. |
 
 Every second address is the first plus `TWO_PLAYER_SAVE_SLOT_STRIDE`

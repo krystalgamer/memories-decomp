@@ -65,3 +65,5 @@ gTrade_bDecisionMenuActive = D_80185CCF;
 gTrade_bCommitRequested = D_80185CD0;
 
 gTrade_bWritePending = D_80185CD1;
+
+gSaveData_aPairWorkspace = D_801D1200;

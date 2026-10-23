@@ -207,3 +207,8 @@ gText_GlobalStringOffsets = D_801D6000;
 
 gGraphics_aImageTransferRects = gJapanese_D_800E9D70;
 gRuntime_pSharedWorkBase = D_80010000;
+
+gSaveData_aFirstPlayerNameSjis = D_801D160C;
+gSaveData_aPairWorkspace = D_801D1200;
+gSaveData_aSecondPlayerState = D_801D2200;
+gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;

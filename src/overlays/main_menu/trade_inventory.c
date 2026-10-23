@@ -4,6 +4,7 @@
 #include "../../game/main_services.h"
 #include "../../game/two_player_save_setup.h"
 #include "../../game/save_data.h"
+#include "../../game/save_pair_workspace.h"
 #include "../../ygo_types.h"
 #include "../../psyq/qsort.h"
 #include "../../game/card_constants.h"
@@ -34,7 +35,7 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
     comparators = gMainMenu_aCardSortComparators;
 
     if (force != 0 || mode == 0) {
-        row = D_801D1200 + slot * TWO_PLAYER_SAVE_SLOT_STRIDE;
+        row = gSaveData_aPairWorkspace + slot * TWO_PLAYER_SAVE_SLOT_STRIDE;
         counts = row + SAVE_DATA_CARD_QUANTITIES_OFFSET;
         for (i = 0; i < CARD_COUNT; i++) {
             if (counts[i] != 0) {
