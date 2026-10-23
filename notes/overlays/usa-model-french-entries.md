@@ -126,15 +126,16 @@ masked, so the counts are orders of magnitude:
 | Distinct bodies (masked) | 624 |
 | Instructions, one copy of each distinct body | about 709,000 |
 | Images now built from French C (this note) | 184 |
-| Images now built from North American C ([header 111](usa-model-variant111.md), [header 647](usa-model-variant647.md)) | 51 |
+| Images now built from North American C ([header 111](usa-model-variant111.md), [header 176](usa-model-variant176.md), [header 647](usa-model-variant647.md)) | 78 |
 
 All framed functions use the gcc 2.8.1 epilogue (`jr ra` with the frame
 release in its delay slot). Three single-function families had a French
 entry as a close template (opcode similarity 0.59 to 0.68): 27 images like
 `model_image_model_113892_8013b000` and 24 like `model_image_model_109220_8013b000`
 against `variant116_entry`, and 10 like `model_image_model_114996_8013b000`
-against `variant129_entry`; the last ten now build from North American C, see
-[USA MODEL headers 111 and 241](usa-model-variant111.md). The other bodies have no French template. Many of
+against `variant129_entry`. The first 27 and the last ten now build from
+North American C, see [USA MODEL headers 176 and 306](usa-model-variant176.md)
+and [USA MODEL headers 111 and 241](usa-model-variant111.md). The other bodies have no French template. Many of
 them are single-function images repeated across dozens of models (the
 header-647/714 entry, 917 instructions, is the only function of 41 images;
 it now builds from North American C as well).
