@@ -284,10 +284,7 @@ segments:
     - game/european/duel_init_scene
   - - 34708
     - c
-    - game/duel_create_hand_card_display_object
-  - - 34832
-    - c
-    - game/duel_apply_card_object_flags
+    - game/duel_card_display_objects
   - - 35040
     - c
     - game/duel_card_object_helpers

@@ -6,7 +6,7 @@
 #include "card_presentation.h"
 #include "duel_card_turn_animations.h"
 #include "duel_card_display_state.h"
-#include "duel_apply_card_object_flags.h"
+#include "duel_card_display_objects.h"
 #include "display_object_lifecycle.h"
 
 /* The mirror of Duel_UpdateCardToFieldView: the card turn-back animation step. Picks

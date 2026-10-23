@@ -131,7 +131,7 @@ Consequently:
 ## Visible feedback and resulting rules
 
 Matching
-[`Duel_ApplyCardObjectFlags`](../src/game/duel_apply_card_object_flags.c)
+[`Duel_ApplyCardObjectFlags`](../src/game/duel_card_display_objects.c)
 maps `DUEL_CARD_FLAG_USED_THIS_TURN` to the dimmed card colour. The visible
 dim state therefore reflects the same record bit used by attack and
 position-change eligibility, rather than a separate UI-only status.
