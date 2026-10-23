@@ -15,11 +15,11 @@ s32 Model_GetSlotAnimationIndex(s32 index)
 
 s32 Model_GetSlotAnimationFrame(s32 index)
 {
-    return gModel_aSlots[index].field_E06 >> 4;
+    return gModel_aSlots[index].animation_position >> 4;
 }
 
 u16 Model_GetSlotAnimationLength(s32 idx)
 {
     u8 sub = gModel_aSlots[idx].field_BF5;
-    return gModel_aSlots[idx].field_750[sub].max;
+    return gModel_aSlots[idx].animation_duration_rows[sub].max;
 }

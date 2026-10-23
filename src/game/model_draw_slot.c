@@ -326,7 +326,7 @@ void Model_DrawSlot(s32 index)
                 if (slot->animation_sequences[k]->rewrite_idx == idx) {
                     if (slot->animation_sequences[k]->aframe == 0xFFFF
                         && ((slot->field_BEC[k / 8] >> (k % 8)) & 1)
-                        && slot->field_750[slot->field_BF5].values[k] != 0) {
+                        && slot->animation_duration_rows[slot->field_BF5].values[k] != 0) {
                         found = 1;
                     }
                     break;

@@ -16,7 +16,7 @@ or Psy-Q entry points. The supporting code is the matched
 `Model_InitSlot` maps the incoming model through `GsMapUnit`, then calls
 `Model_ResetSlotAnimationTables`. The reset clears all ten accumulator rows,
 their 58 per-part duration halfwords and row maxima, and initializes all
-`field_2C8[row][part]` entry keys to `0xFFFF`. It clears the eight-byte part
+`animation_command_indices[row][part]` entry keys to `0xFFFF`. It clears the eight-byte part
 bitfield, the four command/transfer pointers at `0xDD8..0xDE4`, and related
 animation counters.
 
@@ -30,7 +30,7 @@ resets and imports this animation lookup state.
 ## Build the indexed rows and lengths
 
 `Model_BuildSlotAnimationTables` starts at each part's `start` key in
-`field_DD8`, initially on row 1, and sets the part's `start_sid` to that row.
+`animation_commands`, initially on row 1, and sets the part's `start_sid` to that row.
 `ModelSlotPart` mirrors `GsSEQ`; the `GsLinkAnim` consumer and layout
 assertions are documented in `notes/model-structures.md`.
 
@@ -39,11 +39,11 @@ the scan. First visits install that row's entry key and follow its command
 offset, whereas an already indexed row advances to the next word.
 Nonnegative words contribute byte `+2` to that part's row duration.
 The final pass stores each row's largest per-part duration in
-`field_750[row].max`.
+`animation_duration_rows[row].max`.
 
 The animation interpretation is established by consumers, not just the
 record stride: `Model_ControlSlotAnimation` selects the corresponding
-`field_2C8[animation][part]` entry keys and refuses a row with zero maximum;
+`animation_command_indices[animation][part]` entry keys and refuses a row with zero maximum;
 `Model_GetSlotAnimationLength` returns the selected row's maximum.
 
 ## Link after building
@@ -77,3 +77,53 @@ under the existing `gcc_2_8_1_g0` profile. The semantic registry records
 their original North American addresses. Existing European macro adapters
 are updated only on their shared-name side, retaining every regional
 address-based target; no overlay or regional implementation is added.
+
+## Resident lookup and playback views
+
+The matching `ModelSlot` members now distinguish command indexing, accumulated
+durations and the current playback position:
+
+| Original member | Canonical member | Unchanged representation |
+|---|---|---|
+| `field_2C8` | `animation_command_indices` | `u16[10][58]`, `+0x2C8` |
+| `field_750` | `animation_duration_rows` | `ModelSlotRow[10]`, `+0x750` |
+| `field_DD8` | `animation_commands` | writable `s32 *G32`, `+0xDD8` |
+| `field_E06` | `animation_position` | `u16`, `+0xE06`, 12.4 frame position |
+
+Command indices address four-byte words, not byte offsets or frames.
+The `0xFFFF` sentinel, row-one start, all ten reset rows, sparse entries and
+load-bearing byte cursors stay intact. The duration rows retain their
+`u16 values[58]` and `u16 max` members, halfword accumulation/truncation,
+`0x76` stride and maximum calculation. The writable command list retains
+the original import, in-place relinking, signed command tests and explicit
+volatile base reload; no complete opcode or owner-block schema is inferred.
+
+`Model_SeekSlotAnimation` stores `val << 4` into the position halfword and
+reloads that narrowed value before visiting the parts.
+`Model_GetSlotAnimationFrame` reads it with `>> 4`;
+`Model_GetSlotAnimationLength` returns the unshifted row maximum.
+Per-part seeking multiplies row totals and command byte `+2` by 16.
+These arithmetic views do not establish a millisecond duration or permit
+changing the original halfword conversions.
+
+The per-frame update preserves its forward/reverse states, clamp/wrap
+behavior, hold and queued-animation conditions, frame-step scheduling
+and per-part seek order. The sound consumer can use position modulo row
+length, but its alternate `field_E08` cursor is separate and still unnamed.
+Queued tint requests retain their existing raw position capture.
+
+A bounded observation of North American `MODEL.MRG` record 0 corroborates
+the command-index interpretation: its kind-3 owner supplies a command-list
+base, and its 26 sequence records have 28-byte strides and start indices
+from 1 through 4463. The addresses formed as base plus index times four
+fall before the next observed source-transfer payload. This is one
+checksum-pinned sample, not a recovered command-table extent, an invariant
+over all assets, or evidence about other regions.
+
+Only corresponding member identifiers change in the existing model-control
+native witness; all other complete-file bytes, oracle branches, mutation
+controls and compiler flags remain unchanged. The French
+`Variant393EntryState.field_DD8` scalar and its witness are unrelated and
+retain their names. Other playback state, part flags, transfer pointers,
+the tentative position helper, SDK declarations, source groups, profiles
+and historical symbol evidence are not promoted or rewritten by association.

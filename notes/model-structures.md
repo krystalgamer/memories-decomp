@@ -42,8 +42,8 @@ Verified shared fields and partial arrays are:
 |---:|---|---|
 | `0x000` | `field_000`, partial array of `0x8`-byte entries | `Model_TransformPartVertex` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads the pointer at `+4` |
 | `0x1E0` | `animation_sequences[58]`, `ModelSlotPart *` (a `GsSEQ`) | `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` advance pointers by 4, bounded at runtime by `animation_sequence_count`; `Model_ResetSlotAnimationTables` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
-| `0x2C8` | `field_2C8[10][58]`, `u16` | `Model_ResetSlotAnimationTables` fills it with `0xFFFF` at a `0x74` stride over ten rows; `Model_BuildSlotAnimationTables` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
-| `0x750` | `field_750[10]`, `ModelSlotRow` | `Model_ResetSlotAnimationTables` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `Model_BuildSlotAnimationTables` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `field_BF5 * 118` |
+| `0x2C8` | `animation_command_indices[10][58]`, `u16` | `Model_ResetSlotAnimationTables` fills it with `0xFFFF` at a `0x74` stride over ten rows; `Model_BuildSlotAnimationTables` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
+| `0x750` | `animation_duration_rows[10]`, `ModelSlotRow` | `Model_ResetSlotAnimationTables` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `Model_BuildSlotAnimationTables` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `field_BF5 * 118` |
 | `0xBEC` | `field_BEC[8]`, part bitfield | `Model_ResetSlotAnimationTables` sets bit `part % 8` of byte `part / 8`; `Model_ControlSlotAnimation` reads it back the same way; `Model_LoadSlot` widens a card for the parts it flags |
 | `0xBF5` | `field_BF5` | `Model_GetSlotAnimationIndex` returns it; `Model_GetSlotAnimationLength` uses it to select an animation row, while `Model_SeekSlotAnimation` stores an animation row after seeking each part to it |
 | `0xBF8` | `sound_entries[64]` | `model_slot_control.c` clears 64 four-byte records; `Model_PlaySlotAnimationSounds` reads each record as `{frame, id, flags}` |
@@ -62,7 +62,7 @@ Verified shared fields and partial arrays are:
 | `0xDFE` | `field_DFE` | fourth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotAfFlags[index]` |
 | `0xDFF` | `field_DFF` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotGfFlags[index]` |
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
-| `0xE06` | `field_E06` | 12.4 fixed-point animation frame returned as an integer by `Model_GetSlotAnimationFrame`; write/read in `Model_SeekSlotAnimation` |
+| `0xE06` | `animation_position` | 12.4 fixed-point animation frame returned as an integer by `Model_GetSlotAnimationFrame`; write/read in `Model_SeekSlotAnimation` |
 | `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `Model_SetSlotPlaybackSpeed` writes it |
 | `0xE11` | `draw_mode_request` | `Model_DrawSlotUnitsOnly`, `func_80059284`, and `Model_SetSlotAmbient` |
 | `0xE12` | `field_E12` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `Model_DrawSlot` guards its projected ground-fan path with the same byte |
@@ -183,7 +183,7 @@ active, the processor:
 1. computes three colour bytes as linear integer interpolation from entry
    bytes `+0x10..+0x12` toward `+0x14..+0x16`, using elapsed `+0x0C` over
    duration `+0x0E`, while retaining byte `+0x13` as the fourth channel;
-2. saves the slot colour at `field_DC0`, `field_BF5`, `field_E06`, and the
+2. saves the slot colour at `field_DC0`, `field_BF5`, `animation_position`, and the
    affected per-part bytes, installs the request values, and redraws the slot;
 3. clears the two draw-context globals, restores every saved model value, and
    restores the prior `Model_SetSlotShadowEnabled` state;

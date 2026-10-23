@@ -226,8 +226,8 @@ typedef struct {
      * stride over MODEL_SLOT_ROW_COUNT rows. Model_BuildSlotAnimationTables
      * indexes them [row][part]; Model_ControlSlotAnimation reads the same
      * halfword as 0x2C8 + current * 116 + part * 2. */
-    u16 field_2C8[MODEL_SLOT_ROW_COUNT][MODEL_SLOT_PART_COUNT];
-    ModelSlotRow field_750[MODEL_SLOT_ROW_COUNT];
+    u16 animation_command_indices[MODEL_SLOT_ROW_COUNT][MODEL_SLOT_PART_COUNT];
+    ModelSlotRow animation_duration_rows[MODEL_SLOT_ROW_COUNT];
     /* The part bitfield Model_ResetSlot's caller documents as "+0xBEC":
      * Model_ResetSlotAnimationTables sets bit `part % 8` of byte `part / 8`
      * from the command block. Model_ControlSlotAnimation reads it the same
@@ -260,10 +260,10 @@ typedef struct {
     s16 field_DD0[4];
     /* The command list and the three pointers beside it, all installed by
      * Model_ResetSlotAnimationTables from the two blocks in the command
-     * chain. Model_ControlSlotAnimation reads field_DD8 as the base of
+     * chain. Model_ControlSlotAnimation reads animation_commands as the base of
      * 4-byte command records and field_DDC / field_DE0 as its transfer
      * source and destination. */
-    s32 *G32 field_DD8;
+    s32 *G32 animation_commands;
     u8 *G32 field_DDC;
     u8 *G32 field_DE0;
     u8 *G32 field_DE4;
@@ -286,8 +286,9 @@ typedef struct {
     u16 lit_color_cache_entry_count;
     /* Accepted decoder record counts, not rendered/visible polygons. */
     u16 prepared_primitive_count;
-    u16 field_E06;
-    /* Model_ResetSlotAnimationTables clears this halfword beside field_E06
+    /* 12.4 animation position; retain original u16 store truncation. */
+    u16 animation_position;
+    /* Model_ResetSlotAnimationTables clears this halfword beside animation_position
      * in src/game/model_slot_row_tables.c. */
     u16 field_E08;
     /* Model_ResetSlot seeds this halfword with 0x1000 and
@@ -393,7 +394,7 @@ typedef struct {
  * everything it touched.
  *
  * bit 0 of `flags` marks the entry live, bit 1 selects the model slot and
- * bits 3..7 carry the part id override. field_0A is the slot's field_E06 as
+ * bits 3..7 carry the part id override. field_0A is the slot's animation_position as
  * it stood when the request was made; Model_UpdateTintRequests pushes it back through
  * the part records for the duration of the redraw. */
 typedef struct {
@@ -418,18 +419,18 @@ typedef char ModelSlotRow_max_offset_must_be_0x74[
 typedef char ModelSlotPart_start_offset_must_be_0x18[
     MODEL_OFFSET(ModelSlotPart, start) == 0x18 ? 1 : -1
 ];
-typedef char ModelSlot_field_2C8_offset_must_be_0x2C8[
-    MODEL_OFFSET(ModelSlot, field_2C8) ==
+typedef char ModelSlot_animation_command_indices_offset_must_be_0x2C8[
+    MODEL_OFFSET(ModelSlot, animation_command_indices) ==
         MODEL_SLOT_ROW_KEY_TABLE_OFFSET ? 1 : -1
 ];
-typedef char ModelSlot_field_750_offset_must_be_0x750[
-    MODEL_OFFSET(ModelSlot, field_750) == 0x750 ? 1 : -1
+typedef char ModelSlot_animation_duration_rows_offset_must_be_0x750[
+    MODEL_OFFSET(ModelSlot, animation_duration_rows) == 0x750 ? 1 : -1
 ];
 typedef char ModelSlot_field_BEC_offset_must_be_0xBEC[
     MODEL_OFFSET(ModelSlot, field_BEC) == 0xBEC ? 1 : -1
 ];
-typedef char ModelSlot_field_DD8_offset_must_be_0xDD8[
-    MODEL_OFFSET(ModelSlot, field_DD8) == 0xDD8 ? 1 : -1
+typedef char ModelSlot_animation_commands_offset_must_be_0xDD8[
+    MODEL_OFFSET(ModelSlot, animation_commands) == 0xDD8 ? 1 : -1
 ];
 typedef char ModelSlot_field_E0E_offset_must_be_0xE0E[
     MODEL_OFFSET(ModelSlot, field_E0E) == 0xE0E ? 1 : -1
@@ -467,8 +468,8 @@ typedef char ModelSlot_size_must_be_0xE20[
 typedef char ModelSlot_animation_sequences_offset_must_be_0x1E0[
     MODEL_OFFSET(ModelSlot, animation_sequences) == 0x1E0 ? 1 : -1
 ];
-typedef char ModelSlot_field_750_max_offset_must_be_0x7C4[
-    MODEL_OFFSET(ModelSlot, field_750[0].max) == 0x7C4 ? 1 : -1
+typedef char ModelSlot_animation_duration_rows_max_offset_must_be_0x7C4[
+    MODEL_OFFSET(ModelSlot, animation_duration_rows[0].max) == 0x7C4 ? 1 : -1
 ];
 typedef char ModelSlot_field_BF5_offset_must_be_0xBF5[
     MODEL_OFFSET(ModelSlot, field_BF5) == 0xBF5 ? 1 : -1
@@ -533,8 +534,8 @@ typedef char ModelSlot_packet_budget_bytes_offset_must_be_0xE00[
 typedef char ModelSlot_prepared_primitive_count_offset_must_be_0xE04[
     MODEL_OFFSET(ModelSlot, prepared_primitive_count) == 0xE04 ? 1 : -1
 ];
-typedef char ModelSlot_field_E06_offset_must_be_0xE06[
-    MODEL_OFFSET(ModelSlot, field_E06) == 0xE06 ? 1 : -1
+typedef char ModelSlot_animation_position_offset_must_be_0xE06[
+    MODEL_OFFSET(ModelSlot, animation_position) == 0xE06 ? 1 : -1
 ];
 typedef char ModelSlot_field_E0D_offset_must_be_0xE0D[
     MODEL_OFFSET(ModelSlot, field_E0D) == 0xE0D ? 1 : -1

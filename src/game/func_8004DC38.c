@@ -23,13 +23,13 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *p, s32 i)
     if (e == 0) {
         return 0;
     }
-    lim = p->field_DD8 + e->ti;
+    lim = p->animation_commands + e->ti;
     if (*lim < 0) {
         return 0;
     }
-    tbl = p->field_DD8;
+    tbl = p->animation_commands;
     for (n = 1; n < 10; n++) {
-        k = p->field_2C8[n][i];
+        k = p->animation_command_indices[n][i];
         q = tbl + k;
         if (k != 0xFFFF && lim >= q - 1 &&
             tbl + *(u16 *)(q - 1) >= lim) {
@@ -52,9 +52,9 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *p, s32 i)
 }
 
 /* Seeks channel i of model slot p to position pos within sequence n. The
- * sequence's entry index comes from field_2C8[n][i] and its step count from
- * field_750[n].values[i]. The command list at field_DD8 holds 4-byte entries
- * whose byte 2 is a duration in sixteenths, and the halfword of the entry
+ * sequence's entry index comes from animation_command_indices[n][i] and its step count from
+ * animation_duration_rows[n].values[i]. The command list at animation_commands holds 4-byte entries
+ * whose byte 2 is multiplied by 16 for this walk, and the halfword of the entry
  * before a sequence's first is its length. The walk consumes pos modulo one
  * step's length, entry by entry. It stops at the first entry that outlasts
  * the remainder, at a negative entry, or at the end, then skips forward over
@@ -80,13 +80,13 @@ void Model_SeekSlotPartAnimation(ModelSlot *p, s32 i, s32 n, u32 pos) {
     s32 off2;
 
     /* Both channel offsets are materialised up front and never read by
-       name: cse reuses them for the animation_sequences and field_2C8 indexing just
+       name: cse reuses them for the animation_sequences and animation_command_indices indexing just
        below, and that is what moves p out of $a0 into $t3 at entry.
        Dropping either one changes the entry sequence. */
     off4 = i * 4;
     off2 = i * 2;
-    k = p->field_2C8[n][i];
-    tbl = p->field_DD8;
+    k = p->animation_command_indices[n][i];
+    tbl = p->animation_commands;
     e = p->animation_sequences[i];
     q = tbl + k;
     if (e == 0) {
@@ -97,10 +97,10 @@ void Model_SeekSlotPartAnimation(ModelSlot *p, s32 i, s32 n, u32 pos) {
     }
     /* Read twice rather than through a local: cse folds the second read,
        and the extra reference is what puts the address in $v1. */
-    if (p->field_750[n].values[i] == 0) {
+    if (p->animation_duration_rows[n].values[i] == 0) {
         return;
     }
-    step = p->field_750[n].values[i] * 16;
+    step = p->animation_duration_rows[n].values[i] * 16;
     rem = pos % step;
     cp = q - 1;
     if (rem == 0) {
@@ -152,12 +152,12 @@ scan:
             goto scan;
         }
     }
-    x = q - p->field_DD8;
+    x = q - p->animation_commands;
     e->ti = x;
     if (x != 0) {
         x = x - 1;
     } else {
-        x = v - p->field_DD8;
+        x = v - p->animation_commands;
     }
     e->ci = x;
     y = ((u8 *)q)[2] << 4;

@@ -40,7 +40,7 @@ void Model_QueueTintRequest(
             sel = off;
             f = f6 | ((slot->field_BF5 & 0x1F) << 3);
             r->flags = f;
-            r->field_0A = slot->field_E06;
+            r->field_0A = slot->animation_position;
             r->elapsed = 0;
             r->duration = (a4 *= 2);
             r->start = a2;

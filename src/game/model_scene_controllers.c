@@ -806,19 +806,19 @@ check_ready:
         break;
     }
     case 3:
-        if (Model_IsEffectKeyQueueEmpty() && slot->field_E06 >= 0x780) {
+        if (Model_IsEffectKeyQueueEmpty() && slot->animation_position >= 0x780) {
             Model_SeekSlotAnimation(0, 0, 0);
             gModel_bPresentationPhase++;
         }
         break;
     case 4:
-        if (slot->field_E06 >= 0x780) {
+        if (slot->animation_position >= 0x780) {
             Model_SeekSlotAnimation(0, 0, 0);
             gModel_bPresentationPhase++;
         }
         break;
     case 5:
-        if (slot->field_E06 >= 0x1E0) {
+        if (slot->animation_position >= 0x1E0) {
             Model_SeekSlotAnimation(0, 0, 0);
             offset.vx = -2500;
             offset.vy = -1500;
@@ -828,7 +828,7 @@ check_ready:
         }
         break;
     case 6:
-        if (slot->field_E06 >= 0x1E0) {
+        if (slot->animation_position >= 0x1E0) {
             Model_SeekSlotAnimation(0, 0, 0);
             offset.vx = 2500;
             offset.vy = -1500;
@@ -838,7 +838,7 @@ check_ready:
         }
         break;
     case 7:
-        if (slot->field_E06 >= 0x1E0) {
+        if (slot->animation_position >= 0x1E0) {
             Model_SeekSlotAnimation(0, 0, 0);
             offset.vx = -500;
             offset.vy = 1500;
@@ -848,7 +848,7 @@ check_ready:
         }
         break;
     case 8:
-        if (slot->field_E06 >= 0x1E0) {
+        if (slot->animation_position >= 0x1E0) {
             Model_SeekSlotAnimation(0, 0, 0);
             offset.vx = 500;
             offset.vy = 1500;
@@ -858,7 +858,7 @@ check_ready:
         }
         break;
     case 9:
-        if (slot->field_E06 >= 0x1E0) {
+        if (slot->animation_position >= 0x1E0) {
             offset.vy = -2000;
             Model_SetCameraOrbit(0, 3500, 0x40, 0x200, &offset);
             gModel_bPresentationPhase++;
@@ -870,14 +870,14 @@ check_ready:
         }
         break;
     case 11:
-        if (slot->field_E06 >= 0x8C0) {
+        if (slot->animation_position >= 0x8C0) {
             offset.vy = -1500;
             Model_QueueRelativeCameraOrbit(0, 3500, 0, -0x80, &offset, 40);
             gModel_bPresentationPhase++;
         }
         break;
     case 12:
-        if (slot->field_E06 >= 0xE60) {
+        if (slot->animation_position >= 0xE60) {
             offset.vz = -1000;
             Model_SetCameraOrbit(0, 5000, 0x200, -0x100, &offset);
             Model_SeekSlotAnimation(0, 0, 190);
@@ -885,7 +885,7 @@ check_ready:
         }
         break;
     case 13:
-        if (slot->field_E06 >= 0xE60) {
+        if (slot->animation_position >= 0xE60) {
             offset.vz = -1000;
             Model_SetCameraOrbit(0, 5000, -0x200, -0x100, &offset);
             Model_SeekSlotAnimation(0, 0, 190);
@@ -893,7 +893,7 @@ check_ready:
         }
         break;
     case 14:
-        if (slot->field_E06 >= 0xE60) {
+        if (slot->animation_position >= 0xE60) {
             offset.vy = -1000;
             Model_SetCameraOrbit(0, 3000, 0, -0x80, &offset);
             Model_SeekSlotAnimation(0, 0, 190);
@@ -901,10 +901,10 @@ check_ready:
         }
         break;
     case 15: {
-        s32 remaining = slot->field_750[slot->field_BF5].max << 4;
+        s32 remaining = slot->animation_duration_rows[slot->field_BF5].max << 4;
         s32 timing = Model_GetFrameStep();
         remaining -= slot->field_E0D * timing;
-        if (slot->field_E06 >= remaining) {
+        if (slot->animation_position >= remaining) {
             Model_SetSlotPlaybackDirection(0, 0);
         }
         break;
@@ -1274,7 +1274,7 @@ void Model_StartBattleSlotAction(s32 arg0)
     p = &gModel_aSlots[arg0];
     q = &gModel_aSlots[arg0].field_CF8;
     index = p->field_DFE + 3;
-    value = p->field_750[index].max;
+    value = p->animation_duration_rows[index].max;
     if (value != 0) {
         Model_ControlSlotAnimation(arg0, index, 1);
     }
@@ -1330,12 +1330,12 @@ void Model_PlaySlotAnimationSounds(s32 index) {
         return;
     }
     anim = m->field_BF5;
-    length = m->field_750[anim].max << 4;
+    length = m->animation_duration_rows[anim].max << 4;
     speed = m->field_E0D * Model_GetFrameStep();
     e = m->sound_entries;
     tag = (index << 8) + 0x4000;
     if (length != 0) {
-        phase = m->field_E06 % length;
+        phase = m->animation_position % length;
     } else {
         phase = 0;
     }
@@ -2107,7 +2107,7 @@ void Model_UpdateTintRequests(void)
         side = (v >> 1) & 1;
         v = v >> 3;
         slot = &gModel_aSlots[side];
-        sav06 = slot->field_E06;
+        sav06 = slot->animation_position;
         part = v & 0x1F;
         keep = slot->field_BF5;
         old = Model_SetSlotShadowEnabled(side, 0);
