@@ -11,6 +11,7 @@
 #include "io_event_helpers.h"
 #include "mem_card.h"
 #include "../unmatched.h"
+#include "mem_card_request_inputs.h"
 
 void MemCard_ClearIOEvents(PSXLONG *handles)
 {
@@ -161,7 +162,7 @@ int MemCard_ReqReadFile(int chan, int name, int buf, int offset, int size)
     int result;
 
     if (MemCard_BeginRequest(chan, 3)) {
-        sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);
+        sprintf((char *)gMemCard_szRequestPath, (char *)gMemCard_szDevicePathFormat, chan, name);
         gMemCard_wRequestOffset = offset;
         gMemCard_pRequestBuf = buf;
         gMemCard_wRequestSize = size;
@@ -195,7 +196,7 @@ int MemCard_ReqWriteFile(int chan, int name, int buf, int offset, int size)
     int result;
 
     if (MemCard_BeginRequest(chan, 4)) {
-        sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);
+        sprintf((char *)gMemCard_szRequestPath, (char *)gMemCard_szDevicePathFormat, chan, name);
         gMemCard_wRequestOffset = offset;
         gMemCard_pRequestBuf = buf;
         gMemCard_wRequestSize = size;
@@ -229,7 +230,7 @@ int MemCard_ReqCreateFile(int chan, int name, int blocks)
     int result;
 
     if (MemCard_BeginRequest(chan, 8)) {
-        sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);
+        sprintf((char *)gMemCard_szRequestPath, (char *)gMemCard_szDevicePathFormat, chan, name);
         gMemCard_wRequestSize = blocks;
         MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
@@ -247,7 +248,7 @@ s32 MemCard_FindFiles(s32 chan, const char *pattern, struct DIRENTRY *cursor,
     s32 retry;
     s32 count;
 
-    sprintf(work, (char *)D_80010538, chan, pattern);
+    sprintf(work, (char *)gMemCard_szDevicePathFormat, chan, pattern);
     retry = MEM_CARD_DIRECTORY_RETRIES;
     while (firstfile(work, cursor) != cursor) {
         retry--;
@@ -491,7 +492,7 @@ s32 MemCard_ProcessRequest(s32 arg0, s32 *out_state, s32 *out_result)
                     goto finish;
                 }
             }
-            D_8009B436 = 0x14;
+            gMemCard_bTransferRetriesRemaining = 0x14;
             gMemCard_bRequestStep = gMemCard_bRequestStep + 1;
         case 1:
             gMemCard_bRetries = gMemCard_bRetries - 1;
@@ -549,8 +550,8 @@ transferred:
 sub_two:
         if (gMemCard_nIOResult == 0)
             goto finish;
-        D_8009B436 = D_8009B436 - 1;
-        if ((s8)D_8009B436 < 0)
+        gMemCard_bTransferRetriesRemaining = gMemCard_bTransferRetriesRemaining - 1;
+        if ((s8)gMemCard_bTransferRetriesRemaining < 0)
             goto finish;
         gMemCard_bRequestStep = resume_step;
         return 0;

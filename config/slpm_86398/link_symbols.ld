@@ -190,3 +190,6 @@ gMemCardWork_bOperationResult = D_8009B2C5;
 gMemCardWork_nRequestResult = D_8009B2B8;
 gMemCardWork_nCompletedRequest = D_8009B2D4;
 gMemCardWork_bFrameChecksum = D_8021007F;
+
+gMemCard_szDevicePathFormat = D_80010538;
+gMemCard_bTransferRetriesRemaining = D_8009B436;

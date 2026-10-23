@@ -96,3 +96,43 @@ actual source/profile compiler and MASPSX output pairs, initialized data
 bytes, fallback assembly and whole source/control files. Only the scoped
 original identifiers are reversed in assembly; instructions, directives,
 relocations, order and filenames are not filtered.
+
+## Driver path format and transfer retries
+
+| Former identity | Canonical name | Preserved view |
+| --- | --- | --- |
+| `D_80010538` | `gMemCard_szDevicePathFormat` | mutable incomplete `u8[]` |
+| `D_8009B436` | `gMemCard_bTransferRetriesRemaining` | plain nonvolatile `u8` |
+
+The provided NA executable contains `"bu%02X:%s"`. Read, write and
+create-file requests format the existing request-path buffer with their
+original channel and name arguments. `MemCard_FindFiles` uses the same
+format for its local channel-and-pattern path.
+
+`%02X` retains uppercase hexadecimal with a minimum width of two. It does
+not add a channel bound or normalization. The existing integer arguments,
+pointer casts, mutable `u8[]` declaration and unknown format-object extent
+remain, without a new `const` or fixed-size view.
+
+Only the file read/write directory-success stage initializes the separate
+transfer retry byte to `0x14`. The shared asynchronous retry tail leaves
+it unchanged for a zero I/O result; otherwise it decrements the byte and
+tests its `s8` view for negative before returning to transfer step 1.
+The byte wrap, pre-decrement order and exact branch remain.
+
+Raw-sector requests share that tail without a new initialization of this
+counter. Existing stale values are preserved. The independent
+`gMemCard_bRetries` stage budget, open/seek/transfer retry loops and
+zero-result interpretation are not merged or repaired.
+
+The new request-input header follows the late `unmatched.h` format owner
+and the existing `mem_card.h` scalar owner. Both old headers and all
+regional wrappers stay unchanged. These two identities add 14 active
+native bindings, all independently mapped numerically, using canonical
+aliases equal to the original external providers.
+
+The existing I/O-controller witness changes only its four retry-byte
+identifier occurrences. Its setup values, cases, assertions and mutations
+remain. No local witness execution or new harness is introduced. The full
+component also retains the separate
+[work-state and checksum contract](mem-card-work-state.md).
