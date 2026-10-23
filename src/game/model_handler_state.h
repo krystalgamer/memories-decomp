@@ -51,8 +51,8 @@ typedef union {
     u8 bytes[4];
     u16 halfwords[2];
     struct {
-        u8 field_00;
-        u8 field_01;
+        u8 credits_update_enabled;
+        u8 credits_exit_requested;
         s16 height;
     } fields;
 } ModelDebugState;

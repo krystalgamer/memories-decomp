@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
-0x801807B0,0x274,func_801807B0,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
-0x80180A24,0x534,func_80180A24,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
+0x801807B0,0x274,Credits_InitPresentation,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
+0x80180A24,0x534,Credits_UpdateLines,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
 0x80180F58,0x7E4,Credits_BuildLineGlyphs,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
 0x8018173C,0x510,Credits_DrawLine,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
-0x80181C4C,0xDC,func_80181C4C,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
+0x80181C4C,0xDC,Credits_StartLineGroup,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
 0x80181D28,0x10,Credits_IsFinished,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.

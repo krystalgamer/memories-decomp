@@ -11,7 +11,7 @@
  * its next page, or moves to state 4 when no page is left. State 4 starts the
  * following group in the first free line and releases this one. Returns
  * gCredits_bFinished. */
-s32 func_80180A24(void)
+s32 Credits_UpdateLines(void)
 {
     CreditsLine *other;
     s32 i;
