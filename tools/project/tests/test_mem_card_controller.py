@@ -67,14 +67,14 @@ u32 map_page(u32 address);
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
 MemCardWorkArea gMemCardWork_Area;
-u16 D_8009B3CC;
-u8 D_8009B3DD, gMemCardWork_OperationState, D_8009B3D5, D_8009B3C1, gMemCardWork_OperationMode;
-s32 D_8009B3C8, D_8009B3E4;
+u16 gMemCardWork_wFlags;
+u8 gMemCardWork_bSlotIndex, gMemCardWork_OperationState, gMemCardWork_bOperationResult, D_8009B3C1, gMemCardWork_OperationMode;
+s32 gMemCardWork_nRequestResult, gMemCardWork_nCompletedRequest;
 void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(MemCardWorkRoot *, MemCardWorkSlot *);
-char D_8009AF6C[] = "entry";
-char D_80010378[] = "free";
-char D_80010398[] = "make";
-char D_800103A4[] = "fail";
+char gMemCard_szDirectoryEntryFormat[] = "entry";
+char gMemCard_szFreeBlockCountFormat[] = "free";
+char gMemCard_szMakeFileTrace[] = "make";
+char gMemCard_szFailFileTrace[] = "fail";
 s32 gMemCard_nDirEntries, gMemCard_nFreeBlocks;
 static struct DIRENTRY directory[3];
 struct DIRENTRY *gMemCard_pDirEntries = directory;
@@ -104,23 +104,23 @@ static void event(s32 kind, s32 a, s32 b, s32 c, s32 d, s32 e)
 }
 int FntPrint(char *format, s32 value)
 {
-    if (format == D_8009AF6C)
+    if (format == gMemCard_szDirectoryEntryFormat)
         event(1, (s32)((struct DIRENTRY *)value - directory), value, 0, 0, 0);
-    else if (format == D_80010378) event(2, value, 0, 0, 0, 0);
+    else if (format == gMemCard_szFreeBlockCountFormat) event(2, value, 0, 0, 0, 0);
     else error = 2;
     return 0;
 }
 int printf(const char *format, ...)
 {
-    if (format == D_80010398) event(3, 0, 0, 0, 0, 0);
-    else if (format == D_800103A4) event(4, 0, 0, 0, 0, 0);
+    if (format == gMemCard_szMakeFileTrace) event(3, 0, 0, 0, 0, 0);
+    else if (format == gMemCard_szFailFileTrace) event(4, 0, 0, 0, 0, 0);
     else error = 3;
     return 0;
 }
 s32 MemCard_ProcessRequest(s32 mode, s32 *request, s32 *result)
 {
     event(5, mode, 0, 0, 0, 0);
-    if (request != &D_8009B3E4 || result != &D_8009B3C8) error = 4;
+    if (request != &gMemCardWork_nCompletedRequest || result != &gMemCardWork_nRequestResult) error = 4;
     if (mutation == 1) { *request = 8; *result = 0; }
     return sync_status;
 }
@@ -150,7 +150,7 @@ s32 MemCard_ReqLoadDirectory(s32 channel) { event(11, channel, 0, 0, 0, 0); retu
 s32 MemCard_FindLoadedEntry(u8 *name)
 {
     event(12, name == gMemCard_szSaveFileName, 0, 0, 0, 0);
-    if (mutation == 3) D_8009B3CC |= 2;
+    if (mutation == 3) gMemCardWork_wFlags |= 2;
     return find_result;
 }
 s32 MemCard_ReqReadSector(s32 channel, s32 buffer, s32 sector)
@@ -159,7 +159,7 @@ s32 MemCard_ReqReadSector(s32 channel, s32 buffer, s32 sector)
 }
 s32 MemCard_ReqWriteSector(s32 channel, s32 buffer, s32 sector)
 {
-    event(14, channel, buffer, sector, D_8021007F, 0); return 1;
+    event(14, channel, buffer, sector, gMemCardWork_bFrameChecksum, 0); return 1;
 }
 s32 MemCard_ReqReadFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size)
 {
@@ -201,9 +201,9 @@ static void setup(s32 mode, s32 selected)
     clear(gText_aChannels, sizeof(gText_aChannels));
     root = &gMemCardWork_Area.root;
     slot = &gMemCardWork_Area.slots[selected];
-    D_8009B3DD = selected; gMemCardWork_OperationState = mode;
-    D_8009B3CC = 0; D_8009B3D5 = 7; D_8009B3C1 = 0; gMemCardWork_OperationMode = 0;
-    D_8009B3E4 = 0; D_8009B3C8 = 0;
+    gMemCardWork_bSlotIndex = selected; gMemCardWork_OperationState = mode;
+    gMemCardWork_wFlags = 0; gMemCardWork_bOperationResult = 7; D_8009B3C1 = 0; gMemCardWork_OperationMode = 0;
+    gMemCardWork_nCompletedRequest = 0; gMemCardWork_nRequestResult = 0;
     gDialog_bChoice = 0;
     gMemCard_nDirEntries = 0; gMemCard_nFreeBlocks = 0x123;
     gMemCard_pDirEntries = directory;
@@ -232,7 +232,7 @@ static s32 message(s32 id)
 {
     return count && events[count - 1].kind == 8 &&
            events[count - 1].a == id && events[count - 1].b == 1 &&
-           (D_8009B3CC & 0x400);
+           (gMemCardWork_wFlags & 0x400);
 }
 
 static s32 directory_debug(void)
@@ -240,7 +240,7 @@ static s32 directory_debug(void)
     static const s32 sizes[] = {-1,0,1,3};
     s32 selected, i, n;
     for (selected = 0; selected < 2; selected++) for (i = 0; i < 4; i++) {
-        setup(14, selected); D_8009B3CC = 0x2000; gMemCard_nDirEntries = sizes[i];
+        setup(14, selected); gMemCardWork_wFlags = 0x2000; gMemCard_nDirEntries = sizes[i];
         run(); n = sizes[i] < 0 ? 0 : sizes[i];
         CHECK(valid() && count == n + 1 && events[n].kind == 2 && events[n].a == 254, 10);
         while (n--) CHECK(events[n].kind == 1 && events[n].a == n &&
@@ -255,10 +255,10 @@ static s32 sync_gates(void)
     static const s32 statuses[] = {-1,0,1,2};
     s32 f, s;
     for (f = 0; f < 4; f++) for (s = 0; s < 4; s++) {
-        setup(14, 0); D_8009B3CC = flags[f]; sync_status = statuses[s];
-        D_8009B3E4 = 8; run();
+        setup(14, 0); gMemCardWork_wFlags = flags[f]; sync_status = statuses[s];
+        gMemCardWork_nCompletedRequest = 8; run();
         CHECK(valid() && count == (f >= 2) &&
-              D_8009B3D5 == (f == 3 && s == 2 ? 0 : 7), 20);
+              gMemCardWork_bOperationResult == (f == 3 && s == 2 ? 0 : 7), 20);
         if (count) CHECK(events[0].kind == 5 && events[0].a == 1, 21);
     }
     return 0;
@@ -271,10 +271,10 @@ static s32 directory_completion(void)
     static const u8 outcome[] = {0,0,1,2,2,2};
     s32 i, selected;
     for (selected = 0; selected < 2; selected++) for (i = 0; i < 6; i++) {
-        setup(14, selected); D_8009B3CC = 0x5000; sync_status = 1;
-        D_8009B3E4 = 2; D_8009B3C8 = results[i]; run();
-        CHECK(valid() && count == 1 && D_8009B3CC == flags[i] &&
-              D_8009B3D5 == outcome[i] && slot->free_blocks == (i < 2 ? 0x23 : 0xFE), 30);
+        setup(14, selected); gMemCardWork_wFlags = 0x5000; sync_status = 1;
+        gMemCardWork_nCompletedRequest = 2; gMemCardWork_nRequestResult = results[i]; run();
+        CHECK(valid() && count == 1 && gMemCardWork_wFlags == flags[i] &&
+              gMemCardWork_bOperationResult == outcome[i] && slot->free_blocks == (i < 2 ? 0x23 : 0xFE), 30);
     }
     return 0;
 }
@@ -289,8 +289,8 @@ static s32 transfer_completion(void)
     s32 request, i, fail;
     for (request = 3; request <= 4; request++)
     for (i = 0; i < 9; i++) for (fail = 0; fail < 2; fail++) {
-        setup(14, 1); D_8009B3CC = 0x5000; sync_status = 1;
-        D_8009B3E4 = request; D_8009B3C8 = fail;
+        setup(14, 1); gMemCardWork_wFlags = 0x5000; sync_status = 1;
+        gMemCardWork_nCompletedRequest = request; gMemCardWork_nRequestResult = fail;
         root->remaining = remaining[i]; root->chunk = chunks[i];
         run();
         CHECK(valid() && count == 1 && root->remaining == (fail ? (s16)remaining[i] : next[i]), 40);
@@ -298,7 +298,7 @@ static s32 transfer_completion(void)
               root->offset == (fail ? 65530 : offsets[i]), 41);
         CHECK(slot->cursor == transfer + 0x10000 +
               (!fail && next[i] > 0 ? chunks[i] : 0) &&
-              D_8009B3D5 == (fail ? 1 : next[i] > 0 ? 7 : 0), 42);
+              gMemCardWork_bOperationResult == (fail ? 1 : next[i] > 0 ? 7 : 0), 42);
     }
     return 0;
 }
@@ -309,10 +309,10 @@ static s32 simple_completion(void)
     static const s32 results[] = {0,1,-1};
     s32 r, v, handled;
     for (r = 0; r < 11; r++) for (v = 0; v < 3; v++) {
-        setup(14, 0); D_8009B3CC = 0x5000; sync_status = 1;
-        D_8009B3E4 = requests[r]; D_8009B3C8 = results[v]; run();
+        setup(14, 0); gMemCardWork_wFlags = 0x5000; sync_status = 1;
+        gMemCardWork_nCompletedRequest = requests[r]; gMemCardWork_nRequestResult = results[v]; run();
         handled = r == 5 || r == 8 || r == 9;
-        CHECK(valid() && count == 1 && D_8009B3D5 == (handled ? v != 0 : 7), 50);
+        CHECK(valid() && count == 1 && gMemCardWork_bOperationResult == (handled ? v != 0 : 7), 50);
     }
     return 0;
 }
@@ -329,10 +329,10 @@ static s32 stage_and_dialog(void)
               !D_8009B3C1 && !gMemCardWork_OperationState, 60);
     }
     for (index = 0; index < 2; index++) for (i = 0; i < 6; i++) {
-        setup(0, 0); root->text_index = index; D_8009B3CC = 0x404;
+        setup(0, 0); root->text_index = index; gMemCardWork_wFlags = 0x404;
         U32(&gText_aChannels[index], 0x34) = flags[i]; run();
         CHECK(valid() && count == 1 && events[0].kind == 7 && !gMemCardWork_OperationState &&
-              D_8009B3CC == (i == 1 || i == 5 ? 4 : 0x404), 61);
+              gMemCardWork_wFlags == (i == 1 || i == 5 ? 4 : 0x404), 61);
     }
     return 0;
 }
@@ -347,17 +347,17 @@ static s32 startup_states(void)
         if (choice) CHECK(valid() && !count && D_8009B3C1 == 2 && gMemCardWork_OperationState == 0x80, 71);
         else CHECK(valid() && count == 3 && events[0].kind == 9 && events[0].a == 1 &&
                    events[1].kind == 10 && events[2].kind == 11 && !events[2].a &&
-                   gMemCardWork_OperationState == 0x81 && D_8009B3CC == 0x5000, 72);
+                   gMemCardWork_OperationState == 0x81 && gMemCardWork_wFlags == 0x5000, 72);
     }
     setup(1, 0); run();
     CHECK(valid() && count == 1 && events[0].kind == 11 && gMemCardWork_OperationState == 0x81 &&
-          D_8009B3CC == 0x1000, 73);
+          gMemCardWork_wFlags == 0x1000, 73);
     setup(0x81, 0); run();
     CHECK(valid() && !count && gMemCardWork_OperationState == 4, 74);
     for (option = 0; option < 2; option++) for (outcome = 0; outcome < 3; outcome++) {
-        setup(4, 0); D_8009B3CC = 0x3000; gMemCardWork_OperationMode = option;
-        D_8009B3D5 = outcome; run();
-        CHECK(valid() && !(D_8009B3CC & 0x1000), 75);
+        setup(4, 0); gMemCardWork_wFlags = 0x3000; gMemCardWork_OperationMode = option;
+        gMemCardWork_bOperationResult = outcome; run();
+        CHECK(valid() && !(gMemCardWork_wFlags & 0x1000), 75);
         if (outcome == 2) CHECK(message(0xD2) && gMemCardWork_OperationState == 4, 76);
         else CHECK(gMemCardWork_OperationState == (option ? 7 : 5) && count == 1, 77);
     }
@@ -377,7 +377,7 @@ static s32 sector_read_and_write(void)
         CHECK(gMemCardWork_OperationState == (write ? 0x88 : 0x85), 81);
         if (write) CHECK(D_8021007A == 255 && D_8021007B == 255 &&
                           D_8021007C == 255 && D_8021007D == 255 &&
-                          D_8021007E == 1 && D_8021007F == 0 &&
+                          D_8021007E == 1 && gMemCardWork_bFrameChecksum == 0 &&
                           ((u8 *)0x80210000)[127] == 0, 82);
     }
     return 0;
@@ -388,19 +388,19 @@ static s32 file_reads(void)
     s32 mode, missing, flag, outcome;
     for (mode = 5; mode <= 6; mode++)
     for (missing = 0; missing < 2; missing++) for (flag = 0; flag < 2; flag++) {
-        setup(mode, 1); find_result = missing ? -1 : 1; D_8009B3CC = flag ? 2 : 0;
+        setup(mode, 1); find_result = missing ? -1 : 1; gMemCardWork_wFlags = flag ? 2 : 0;
         run(); CHECK(valid(), 90);
         if (missing || flag) CHECK(message(0xD3) && count == 2, 91);
         else if (mode == 6) CHECK(count == 3 && events[1].kind == 8 &&
              events[1].a == 0x80D5 && !events[1].b && events[2].kind == 15 &&
              !events[2].a && events[2].b == 1 && (u32)events[2].c == 0x80200000 &&
              events[2].d == 512 && events[2].e == 7680 &&
-             slot->entry_index == 1 && D_8009B3CC == 0x1000, 92);
+             slot->entry_index == 1 && gMemCardWork_wFlags == 0x1000, 92);
     }
     setup(6, 1); find_result = 257; run();
     CHECK(valid() && slot->entry_index == 1, 93);
     for (mode = 5; mode <= 6; mode++) for (outcome = 0; outcome < 3; outcome++) {
-        setup(mode | 0x80, 0); D_8009B3D5 = outcome; run();
+        setup(mode | 0x80, 0); gMemCardWork_bOperationResult = outcome; run();
         CHECK(valid(), 94);
         if (mode == 5 && !outcome) CHECK(gMemCardWork_OperationState == 0x86 && count == 3, 95);
         else CHECK(message(mode == 5 || outcome == 1 ? 0xD8 : 0xD7), 96);
@@ -412,7 +412,7 @@ static s32 write_file_and_fallthrough(void)
 {
     s32 flag, missing, outcome, i;
     for (flag = 0; flag < 2; flag++) for (missing = 0; missing < 2; missing++) {
-        setup(7, 0); D_8009B3CC = flag ? 2 : 0; find_result = missing ? -1 : 1;
+        setup(7, 0); gMemCardWork_wFlags = flag ? 2 : 0; find_result = missing ? -1 : 1;
         run(); CHECK(valid(), 100);
         if (flag) CHECK(gMemCardWork_OperationState == 9 && !count, 101);
         else if (missing) CHECK(gMemCardWork_OperationState == 10 && count == 1, 102);
@@ -422,18 +422,18 @@ static s32 write_file_and_fallthrough(void)
                   events[2].kind == 18 && events[3].kind == 19 &&
                   events[4].kind == 16 && !events[4].a && events[4].b == 1 &&
                   (u32)events[4].c == 0x80300000 && events[4].d == 0 && events[4].e == 2560 &&
-                  D_8009B3CC == 0x1000 && gMemCardWork_OperationState == 0x87, 103);
+                  gMemCardWork_wFlags == 0x1000 && gMemCardWork_OperationState == 0x87, 103);
             for (i = 0; i < 512; i++) CHECK(((u8 *)0x80300000)[i] == gSaveData_aHeaderTemplate[i], 104);
             for (i = 512; i < 2560; i++) CHECK(((u8 *)0x80300000)[i] == 0x86, 105);
         }
     }
     for (outcome = 0; outcome < 3; outcome++) {
-        setup(0x87, 0); D_8009B3D5 = outcome; run();
+        setup(0x87, 0); gMemCardWork_bOperationResult = outcome; run();
         CHECK(valid() && count == 3 && events[0].kind == 8 &&
               events[0].a == (outcome == 1 ? 0xD9 : 0xD7) && events[0].b == 1 &&
               events[1].kind == 12 && events[2].kind == 14 &&
-              gMemCardWork_OperationState == 0x88 && D_8009B3CC == 0x400 && D_8021007F == 0, 106);
-        setup(0x88, 0); D_8009B3D5 = outcome; run();
+              gMemCardWork_OperationState == 0x88 && gMemCardWork_wFlags == 0x400 && gMemCardWork_bFrameChecksum == 0, 106);
+        setup(0x88, 0); gMemCardWork_bOperationResult = outcome; run();
         CHECK(valid() && (outcome ? message(0xD9) : count == 0), 107);
     }
     return 0;
@@ -450,7 +450,7 @@ static s32 create_and_diagnostics(void)
                          events[0].b == 1 && events[0].c == 2, 111);
     }
     for (mode = 9; mode <= 10; mode++) for (outcome = 0; outcome < 3; outcome++) {
-        setup(mode | 0x80, 0); D_8009B3D5 = outcome; run();
+        setup(mode | 0x80, 0); gMemCardWork_bOperationResult = outcome; run();
         CHECK(valid() && count == (outcome ? 1 : 2) && events[count - 1].kind == 4, 112);
         if (!outcome) CHECK(events[0].kind == 3, 113);
     }
@@ -461,10 +461,10 @@ static s32 opaque_and_unknown(void)
 {
     static const u8 modes[] = {2,3,11,12,13,14,15,0xFF};
     s32 i;
-    setup(14, 0); D_8009B3CC = 0x5000; sync_status = 1; mutation = 1; run();
-    CHECK(valid() && D_8009B3D5 == 0 && count == 1, 120);
-    setup(0, 0); D_8009B3CC = 0x404; mutation = 2; run();
-    CHECK(valid() && D_8009B3CC == 4 && root->text_index == 0 && !gMemCardWork_OperationState, 121);
+    setup(14, 0); gMemCardWork_wFlags = 0x5000; sync_status = 1; mutation = 1; run();
+    CHECK(valid() && gMemCardWork_bOperationResult == 0 && count == 1, 120);
+    setup(0, 0); gMemCardWork_wFlags = 0x404; mutation = 2; run();
+    CHECK(valid() && gMemCardWork_wFlags == 4 && root->text_index == 0 && !gMemCardWork_OperationState, 121);
     setup(5, 0); mutation = 3; run();
     CHECK(valid() && message(0xD3), 122);
     for (i = 0; i < 8; i++) {
@@ -482,7 +482,7 @@ int main(int argc, char **argv)
         sizeof(MemCardWorkRoot) != 0x1C || sizeof(MemCardWorkSlot) != 0x268 ||
         sizeof(MemCardWorkArea) != 0x4EC || argc != 2) return 130;
     if (map_page(0x80210000) != 0x80210000 || map_page(0x80300000) != 0x80300000) return 131;
-    if ((u32)&D_8021007A != 0x8021007A || (u32)&D_8021007F != 0x8021007F) return 132;
+    if ((u32)&D_8021007A != 0x8021007A || (u32)&gMemCardWork_bFrameChecksum != 0x8021007F) return 132;
     scenario = argv[1][0] - '0';
     if (argv[1][1]) scenario = scenario * 10 + argv[1][1] - '0';
     switch (scenario) {
@@ -554,7 +554,7 @@ class MemCardControllerTests(unittest.TestCase):
         binary = cls.directory / (label + optimization)
         aliases = ["D_80210000=0x80210000"] + [
             f"D_802100{offset:X}=0x802100{offset:X}" for offset in range(0x7A, 0x80)
-        ]
+        ] + ["gMemCardWork_bFrameChecksum=D_8021007F"]
         result = subprocess.run(
             ["cc", "-m32", optimization, "-std=gnu99", "-D_LANGUAGE_C", "-ffreestanding",
              "-fno-builtin", "-fno-strict-aliasing", "-fno-pie", "-no-pie",
