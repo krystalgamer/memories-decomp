@@ -270,24 +270,21 @@ typedef struct {
      * for slots 0 and 1 (see high_memory_addresses.h). */
     s32 field_DE8;
     s32 field_DEC;
-    /* The two cursor limits Model_LoadSlot derives, which this
-     * unit's own header already describes as "the two cursor
-     * limits at +0xDF0/+0xDF4": the first is field_DE0 plus the
-     * summed hand width, the second that plus field_E02 * 4. */
-    s32 field_DF0;
-    s32 field_DF4;
+    /* Signed address words for the derived lit-color cache interval.
+     * Partial resets can clear only its base; no live-interval invariant. */
+    s32 lit_color_cache_address;
+    s32 lit_color_cache_end_address;
     u16 field_DF8;
     u16 field_DFA;
     u16 field_DFC;
     u8 field_DFE;
     u8 field_DFF;
-    /* Model_InitSlot stores the two totals tent_Model_RebaseTexturedPrimitives
-     * accumulates over its unit scan here and, plus one, in field_E02;
-     * field_E04 sums the calls' return values. */
-    u16 field_E00;
-    /* Scaled by 4 into field_DF4 by Model_LoadSlot. */
-    u16 field_E02;
-    u16 field_E04;
+    /* Pre-cull packet-byte budget from the unit scan, not actual usage. */
+    u16 packet_budget_bytes;
+    /* Ordinary-unit scanned normal-index bound plus one; original u16 truncation. */
+    u16 lit_color_cache_entry_count;
+    /* Accepted decoder record counts, not rendered/visible polygons. */
+    u16 prepared_primitive_count;
     u16 field_E06;
     /* Model_ResetSlotAnimationTables clears this halfword beside field_E06
      * in src/game/model_slot_row_tables.c. */
@@ -523,11 +520,11 @@ typedef char ModelSlot_field_DFE_offset_must_be_0xDFE[
 typedef char ModelSlot_field_DFF_offset_must_be_0xDFF[
     MODEL_OFFSET(ModelSlot, field_DFF) == 0xDFF ? 1 : -1
 ];
-typedef char ModelSlot_field_E00_offset_must_be_0xE00[
-    MODEL_OFFSET(ModelSlot, field_E00) == 0xE00 ? 1 : -1
+typedef char ModelSlot_packet_budget_bytes_offset_must_be_0xE00[
+    MODEL_OFFSET(ModelSlot, packet_budget_bytes) == 0xE00 ? 1 : -1
 ];
-typedef char ModelSlot_field_E04_offset_must_be_0xE04[
-    MODEL_OFFSET(ModelSlot, field_E04) == 0xE04 ? 1 : -1
+typedef char ModelSlot_prepared_primitive_count_offset_must_be_0xE04[
+    MODEL_OFFSET(ModelSlot, prepared_primitive_count) == 0xE04 ? 1 : -1
 ];
 typedef char ModelSlot_field_E06_offset_must_be_0xE06[
     MODEL_OFFSET(ModelSlot, field_E06) == 0xE06 ? 1 : -1

@@ -558,8 +558,8 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
             } while (i < n);
         }
     }
-    v = (p->field_DF0 = (s32)p->field_DE0 + sum);
-    p->field_DF4 = v + p->field_E02 * sizeof(u32);
+    v = (p->lit_color_cache_address = (s32)p->field_DE0 + sum);
+    p->lit_color_cache_end_address = v + p->lit_color_cache_entry_count * sizeof(u32);
     Model_SetSlotRootTransform(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
 
     q = &gModel_aSlots[arg0];
@@ -787,8 +787,8 @@ void Model_AdvanceSlotLoad(s32 index)
                 } while (i < count);
             }
         }
-        amount = (p->field_DF0 = (s32)p->field_DE0 + sum);
-        p->field_DF4 = amount + p->field_E02 * 4;
+        amount = (p->lit_color_cache_address = (s32)p->field_DE0 + sum);
+        p->lit_color_cache_end_address = amount + p->lit_color_cache_entry_count * 4;
         Model_SetSlotRootTransform(p, 0, 0, 0, index == 1 ? 0x800 : 0);
         break;
     }

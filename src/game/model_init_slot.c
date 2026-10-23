@@ -115,11 +115,11 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
             base->field_DEC = gModel_Slot0VariantDataAddress;
         }
     }
-    base->field_DF0 = 0;
-    base->field_E00 = 0;
-    base->field_E02 = 0;
-    base->field_E04 = 0;
-    base->field_DF4 = 0;
+    base->lit_color_cache_address = 0;
+    base->packet_budget_bytes = 0;
+    base->lit_color_cache_entry_count = 0;
+    base->prepared_primitive_count = 0;
+    base->lit_color_cache_end_address = 0;
     base->field_E15 = 0;
     base->field_E1E = 0;
     base->field_E1F = 0;
@@ -172,12 +172,12 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
                 dispatch:
                     switch (tag) {
                     case 0:
-                        base->field_E04 += tent_Model_RebaseTexturedPrimitives(
+                        base->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(
                             index, &ev, (GsARGUNIT *)scratch, &acc, &count);
                         Model_BindPrimitiveHandler((ModelHandlerObject *)&ev);
                         break;
                     case 1:
-                        base->field_E04 += tent_Model_RebaseTexturedPrimitives(
+                        base->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(
                             index, &ev, (GsARGUNIT *)scratch, 0, &count);
                         Model_BindSharedPrimitiveHandler(
                             (ModelHandlerObject *)&ev);
@@ -202,8 +202,8 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     }
     slot = GS_UNIT_VIEW(base->field_000) + 1;
     i = 1;
-    base->field_E00 = count;
-    base->field_E02 = acc + i;
+    base->packet_budget_bytes = count;
+    base->lit_color_cache_entry_count = acc + i;
     if (i < base->field_E1A - 1) {
         off = 0;
     link:
