@@ -683,6 +683,11 @@ player-name buffers are separated by `TWO_PLAYER_SAVE_SLOT_STRIDE` (`0x1000`).
 The staged write still fits within one `0x2000`-byte memory-card block; these
 calls do not establish how the remaining on-card bytes are populated.
 
+The canonical workspace, second-state, SJIS-source and trade-staging views
+are documented in [save-pair-workspaces.md](save-pair-workspaces.md). Those
+names retain the independent original providers and incomplete byte-array
+declarations; the interior views do not introduce separate allocations.
+
 ### Trade and two-player duel
 
 Main-menu items `3` and `2` both need a save from each memory card slot.

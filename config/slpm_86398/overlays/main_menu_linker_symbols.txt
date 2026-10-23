@@ -83,3 +83,5 @@ gMainMenu_bBackRequested = 0x80184595;
 gTrade_aSide1WorkingCards = 0x80185144;
 gTrade_bSide1CursorRow = 0x80185CCB;
 gTrade_abSortMode = 0x80185CCC;
+
+gSaveData_aPairWorkspace = D_801D1200;

@@ -11,6 +11,7 @@
 #include "duel_display.h"
 #include "duel_card_display_state.h"
 #include "save_data.h"
+#include "save_pair_workspace.h"
 #include "duel_grid.h"
 #include "duel_card_pick_cursor.h"
 #include "duel_selection_layout.h"
@@ -180,11 +181,11 @@ void Duel_InitScene(void)
         gDuel_pSide0SaveData = 0;
         if (pid[-1] < 0) {
             if (gDuel_bOpponentID < 0) {
-                gDuel_pSide0SaveData = D_801D1200;
-                gDuel_pSide1SaveData = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
+                gDuel_pSide0SaveData = gSaveData_aPairWorkspace;
+                gDuel_pSide1SaveData = gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE;
                 Duel_ShuffleBothDecks(
-                    (const u16 *)D_801D1200,
-                    (const u16 *)(D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE)
+                    (const u16 *)gSaveData_aPairWorkspace,
+                    (const u16 *)(gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE)
                 );
                 return;
             }

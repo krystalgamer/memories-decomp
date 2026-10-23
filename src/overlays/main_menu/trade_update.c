@@ -8,6 +8,7 @@
 #include "../../game/main_services.h"
 #include "../../game/two_player_save_setup.h"
 #include "../../game/save_data.h"
+#include "../../game/save_pair_workspace.h"
 #include "../../ygo_types.h"
 #include "../../psyq/qsort.h"
 #include "../../game/card_constants.h"
@@ -206,7 +207,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             goto out;
         }
         if (result == 1) {
-            destination = (MainMenuTradeBlock16 *)D_801D1200;
+            destination = (MainMenuTradeBlock16 *)gSaveData_aPairWorkspace;
             source2 = destination +
                 MAIN_MENU_TRADE_BLOCK_INDEX(TWO_PLAYER_SAVE_SLOT_STRIDE);
             destination2 = destination + MAIN_MENU_TRADE_BLOCK_INDEX(
@@ -253,7 +254,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
 
     if (D_80185CD0 != 0) {
-        base = (MainMenuTradeBlock16 *)D_801D1200;
+        base = (MainMenuTradeBlock16 *)gSaveData_aPairWorkspace;
         backup_source2 = base +
             MAIN_MENU_TRADE_BLOCK_INDEX(TWO_PLAYER_SAVE_SLOT_STRIDE);
         backup_destination2 = base + MAIN_MENU_TRADE_BLOCK_INDEX(

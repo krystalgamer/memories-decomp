@@ -23,6 +23,7 @@
 #include "text_channel_state.h"
 #include "mem_card.h"
 #include "save_data.h"
+#include "save_pair_workspace.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
 #include "file_transfer.h"
@@ -54,6 +55,7 @@
 #include "two_player_save_setup.h"
 #include "sound.h"
 #include "../unmatched.h"
+#include "save_pair_transfer_views.h"
 
 /* Regional value: the completion mask it tests (0x2008 -> 0x2010). The
  * European build (src/game/european/) defines its own. */
@@ -1742,7 +1744,7 @@ s32 SaveData_UpdateLoadPair(void)
             if ((gSaveData_LoadPairState & 0x80) == 0) {
                 gSaveData_LoadPairState = 3;
                 MemCardDialog_Request(
-                    D_801D1200,
+                    gSaveData_aPairWorkspace,
                     SAVE_DATA_STATE_SIZE,
                     gMemCard_szSaveFileName,
                     1
@@ -1758,8 +1760,8 @@ s32 SaveData_UpdateLoadPair(void)
             if (v == 1) {
                 if (gSaveData_LoadPairState & 0x40) {
                     if (SaveData_HasSameDuelistCode(
-                            (SaveDataState *)D_801D1200,
-                            (SaveDataState *)(D_801D1200 + 0x1000)) == 0) {
+                            (SaveDataState *)gSaveData_aPairWorkspace,
+                            (SaveDataState *)(gSaveData_aPairWorkspace + 0x1000)) == 0) {
                         return 1;
                     }
                     gSaveData_LoadPairState = 0xA;
@@ -1767,7 +1769,7 @@ s32 SaveData_UpdateLoadPair(void)
                 }
                 gSaveData_LoadPairState |= 0x40;
                 MemCardDialog_Request(
-                    D_801D2200,
+                    gSaveData_aSecondPlayerState,
                     SAVE_DATA_STATE_SIZE,
                     gMemCard_szSaveFileName,
                     1
@@ -1848,8 +1850,8 @@ s32 SaveData_UpdateDuelLoad(void)
     }
     result = SaveData_UpdateTradeLoad();
     if (result == 1) {
-        left = D_801D1200;
-        right = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
+        left = gSaveData_aPairWorkspace;
+        right = gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE;
         i = 0;
         state = gText_StagedValues;
         gSaveData_LoadPairState = 10;
@@ -1866,12 +1868,12 @@ s32 SaveData_UpdateDuelLoad(void)
         }
         Text_SjisToGlyphCodes(
             D_801B122B,
-            D_801D160C,
+            gSaveData_aFirstPlayerNameSjis,
             SAVE_DATA_PLAYER_NAME_CHAR_COUNT
         );
         Text_SjisToGlyphCodes(
             D_801B1238,
-            D_801D160C + TWO_PLAYER_SAVE_SLOT_STRIDE,
+            gSaveData_aFirstPlayerNameSjis + TWO_PLAYER_SAVE_SLOT_STRIDE,
             SAVE_DATA_PLAYER_NAME_CHAR_COUNT
         );
     }
@@ -1880,7 +1882,7 @@ s32 SaveData_UpdateDuelLoad(void)
 
 void SaveData_RequestTradeWrite(void)
 {
-    u8 *p = tent_TradeSaveBuffer;
+    u8 *p = gSaveData_aTradeWriteStaging;
     u8 *q = p + TWO_PLAYER_SAVE_SLOT_STRIDE;
 
     SaveData_WritePrimarySecondaryIntegrity(p);
