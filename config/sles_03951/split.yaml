@@ -239,8 +239,6 @@ segments:
       - [0x1DAB4, c, game/main_run_duel_and_library]
       - [0x1DB54, c, game/european/main_run_animated_battle]
       - [0x1DCAC, c, game/main_run_selection_menus]
-      - [0x1DD44, c, game/main_run_build_deck_menu]
-      - [0x1DDCC, c, game/main_run_free_duel_menu]
       - [0x1DE2C, c, game/main_apply_menu_selection]
       - [0x1DF5C, c, game/main_run_frontend_menus]
       - [0x1E000, c, game/main_run_name_entry]
