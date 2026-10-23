@@ -3,6 +3,7 @@
 #include "func_80036C14.h"
 #include "duel_card.h"
 #include "text_constants.h"
+#include "text_string_bank_views.h"
 #include "duel_effect.h"
 #include "text_encode_decimal_digits.h"
 #include "text_stream_read_le.h"
@@ -83,14 +84,14 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     object->stream_58++;
     n = id;
     if (id & TEXT_GLOBAL_STRING_ID_BASE) {
-        text = (u8 *)(((u32)D_801D6000 & TEXT_BANK_ADDRESS_MASK) |
-                      D_801D6000[id & (TEXT_GLOBAL_STRING_ID_BASE - 1)]);
+        text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
+                      gText_GlobalStringOffsets[id & (TEXT_GLOBAL_STRING_ID_BASE - 1)]);
     } else {
         if (id >= 0x500) {
             n = id - 0x100;
         }
-        text = (u8 *)(((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) |
-                      D_801C0000[n]);
+        text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) |
+                      gText_PrimaryStringOffsets[n]);
     }
     TEXT_STREAM_OWNER(object)->streams[object->stream_58] = text;
     return;
@@ -164,14 +165,14 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
             s32 n = id - 0x100;
 
             text = (u8 *)(((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) +
-                          D_801B0004[n]);
+                          gText_PrimaryStringOffsets[n]);
         } else {
-            text = (u8 *)(((u32)D_801B0004 & TEXT_BANK_ADDRESS_MASK) +
-                          D_801B0004[id]);
+            text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+                          gText_PrimaryStringOffsets[id]);
         }
     } else {
-        text = (u8 *)(((u32)D_801D5804 & TEXT_BANK_ADDRESS_MASK) +
-                      D_801D5804[id - 0x8000]);
+        text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+                      gText_GlobalStringOffsets[id - 0x8000]);
     }
     TEXT_STREAM_OWNER(object)->streams[object->stream_58] = text;
     return;
@@ -251,16 +252,16 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     object->stream_58++;
     n = id;
     if (id > 0xCFFF) {
-        text = (u8 *)((u32)D_801C0000 & 0xFFFF0000) +
-               D_801C0000[id - 0xD000];
+        text = (u8 *)((u32)gText_PrimaryStringOffsets & 0xFFFF0000) +
+               gText_PrimaryStringOffsets[id - 0xD000];
     } else if (id > 0x7FFF) {
-        text = (u8 *)((u32)D_801D5800 & 0xFFFF0000) +
-               D_801D5800[id - 0x8000];
+        text = (u8 *)((u32)gText_GlobalStringOffsets & 0xFFFF0000) +
+               gText_GlobalStringOffsets[id - 0x8000];
     } else {
         if (id >= 0x500) {
             n = id - 0x100;
         }
-        text = (u8 *)((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[n];
+        text = (u8 *)((u32)gText_PrimaryStringAddressAnchor & 0xFFFF0000) + gText_PrimaryStringOffsets[n];
     }
 store:
     slot = &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
@@ -541,13 +542,13 @@ u8 *G32 *Text_PushStagedString(DuelEffectChannel *a0) {
 
 #ifdef VERSION_JAPAN
     if (a2 & TEXT_GLOBAL_STRING_ID_BASE) {
-        v1 = ((u32)D_801D6000 & TEXT_BANK_ADDRESS_MASK) |
-             D_801D6000[a2 & (TEXT_GLOBAL_STRING_ID_BASE - 1)];
+        v1 = ((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
+             gText_GlobalStringOffsets[a2 & (TEXT_GLOBAL_STRING_ID_BASE - 1)];
     } else {
         if (a2 >= 0x500) {
             a2 -= 0x100;
         }
-        v1 = ((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) | D_801C0000[a2];
+        v1 = ((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) | gText_PrimaryStringOffsets[a2];
     }
 #elif defined(VERSION_EUROPE)
     /* The European banks, as in TextBox_BuildStep. */
@@ -555,26 +556,26 @@ u8 *G32 *Text_PushStagedString(DuelEffectChannel *a0) {
         if (a2 >= 0x500) {
             s32 n = a2 - 0x100;
 
-            v1 = ((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) + D_801B0004[n];
+            v1 = ((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[n];
         } else {
-            v1 = ((u32)D_801B0004 & TEXT_BANK_ADDRESS_MASK) + D_801B0004[a2];
+            v1 = ((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[a2];
         }
     } else {
-        v1 = ((u32)D_801D5804 & TEXT_BANK_ADDRESS_MASK) +
-             D_801D5804[a2 - 0x8000];
+        v1 = ((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+             gText_GlobalStringOffsets[a2 - 0x8000];
     }
 #else
     if (a2 > 0xCFFF) {
-        v1 = ((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) +
-             D_801C0000[a2 - 0xD000];
+        v1 = ((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+             gText_PrimaryStringOffsets[a2 - 0xD000];
     } else if (a2 > (TEXT_GLOBAL_STRING_ID_BASE - 1)) {
-        v1 = ((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) +
-             D_801D5800[a2 - TEXT_GLOBAL_STRING_ID_BASE];
+        v1 = ((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+             gText_GlobalStringOffsets[a2 - TEXT_GLOBAL_STRING_ID_BASE];
     } else {
         if (a2 >= 0x500) {
             a2 -= 0x100;
         }
-        v1 = ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) + D_801C0000[a2];
+        v1 = ((u32)gText_PrimaryStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[a2];
     }
 #endif
 

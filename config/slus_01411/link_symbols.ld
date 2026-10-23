@@ -209,3 +209,7 @@ gMemCard_bTransferRetriesRemaining = D_8009B436;
 gMain_bReturnMode = D_8009B269;
 gMain_bActiveModeState = D_8009B26C;
 gMain_bRequestedMenuID = D_8009B26D;
+
+gText_PrimaryStringOffsets = D_801C0000;
+gText_GlobalStringOffsets = D_801D5800;
+gText_PrimaryStringAddressAnchor = D_801B0000;
