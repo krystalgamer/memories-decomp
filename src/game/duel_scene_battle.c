@@ -81,7 +81,7 @@
 #include "sound.h"
 #include "main_modes.h"
 #include "duel_card_capture_rounded_texture.h"
-#include "duel_apply_card_object_flags.h"
+#include "duel_card_display_objects.h"
 #include "sound_output.h"
 #include "sound_sequence_state.h"
 #include "model_scene_states.h"

@@ -6,7 +6,7 @@
 #include "ai.h"
 #include "duel_card.h"
 #include "duel_card_display_state.h"
-#include "duel_create_hand_card_display_object.h"
+#include "duel_card_display_objects.h"
 #include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_hand.h"
