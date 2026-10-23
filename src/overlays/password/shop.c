@@ -27,7 +27,6 @@
 #include "../../game/fade.h"
 #include "dialog_choice_ref.h"
 #include "../../game/card_preview_objects.h"
-#include "../../game/duel_effect_clear_resource_object_pointers.h"
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/save_data.h"

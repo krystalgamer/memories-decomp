@@ -39,7 +39,7 @@
 #include "duel_init_scene.h"
 #include "duel_init_model_scene.h"
 #include "duel_effect_object_pool.h"
-#include "duel_effect_clear_resource_object_pointers.h"
+#include "card_preview_objects.h"
 #include "text_render_state.h"
 #include "duel_init_ground_projection_reference.h"
 #include "trig_constants.h"

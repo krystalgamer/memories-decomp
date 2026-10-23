@@ -16,7 +16,6 @@
 #include "text_box_blocking_build.h"
 #include "duel_effect_state_latch.h"
 #include "graphics_frame.h"
-#include "duel_effect_clear_resource_object_pointers.h"
 #include "input.h"
 #include "fade.h"
 #include "fade_overlay_controls.h"

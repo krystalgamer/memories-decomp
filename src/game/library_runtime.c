@@ -41,7 +41,6 @@
 #include "duel_effect_resource_record.h"
 #include "display_object_helpers.h"
 #include "duel_deck_lookup.h"
-#include "duel_effect_clear_resource_object_pointers.h"
 #include "library_create_grid_section_sprites.h"
 #include "sound.h"
 #include "text_render_state.h"
