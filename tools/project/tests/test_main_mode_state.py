@@ -44,16 +44,14 @@ CONSUMERS = (
     "src/game/main_loop.c",
     "src/game/main_run_duel.c",
     "src/game/main_run_animated_battle.c",
-    "src/game/main_run_build_deck_menu.c",
+    "src/game/main_run_selection_menus.c",
     "src/game/main_run_campaign.c",
     "src/game/main_run_credits.c",
     "src/game/main_run_duel_and_library.c",
-    "src/game/main_run_free_duel_menu.c",
     "src/game/main_run_frontend_menus.c",
     "src/game/main_run_name_entry.c",
     "src/game/main_mode_runners.c",
     "src/game/main_run_password_menu.c",
-    "src/game/main_run_selection_menus.c",
     "src/game/main_run_two_player_duel_setup.c",
     "src/game/script_control_commands.c",
     "src/game/text_start_campaign_duel.c",
@@ -80,7 +78,7 @@ ACTIVE_ARRAY = {
     "src/game/main_init.c", "src/game/script_control_commands.c",
 }
 COMMON_ACTIVE = {
-    "src/game/main_run_animated_battle.c", "src/game/main_run_build_deck_menu.c",
+    "src/game/main_run_animated_battle.c", "src/game/main_run_selection_menus.c",
     "src/game/main_run_duel.c",
     "src/game/main_run_name_entry.c",
     "src/game/main_mode_runners.c",
@@ -193,7 +191,7 @@ class MainModeStateTests(unittest.TestCase):
                     self.assert_views(self.preprocess(path), (next_view, active_view))
 
     def test_current_successors_and_common_inputs(self):
-        self.assertEqual(len(CONSUMERS), 36)
+        self.assertEqual(len(CONSUMERS), 34)
         commons = 0
         for source in CONSUMERS:
             with self.subTest(source=source):
