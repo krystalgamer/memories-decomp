@@ -87,6 +87,7 @@
 #include "model_scene_states.h"
 #include "display_object_motion.h"
 #include "../unmatched.h"
+#include "fade_state_bytes.h"
 #include "duel_session_controls.h"
 #include "display_callback_transitions.h"
 #include "duel_battle_removal_slots.h"
@@ -335,7 +336,7 @@ void DuelScene_UpdateBattle(void)
             Fade_StartOutKeepOverlayAndHideSecondaryTables();
             return;
         }
-        if (!(D_800E9ECE[0] & 0x80)) {
+        if (!(gFade_bFlags[0] & 0x80)) {
             gDuel_bSceneSubStep = 4;
             if (gDuel_wSelectedTrapCardId != 0) {
                 gDuel_bPresentationCursor = gDuel_wSelectedTrapCardId == 0x2B2;
@@ -483,7 +484,7 @@ void DuelScene_UpdateBattle(void)
             Fade_FillBandLevels(0xFF);
             return;
         }
-        if (!(D_800E9ECE[0] & 0x80) && SD_IsBgmFadeActive() == 0) {
+        if (!(gFade_bFlags[0] & 0x80) && SD_IsBgmFadeActive() == 0) {
             pair = gDisplayObject_apWorkSlots;
             SD_BGMPreload(gDuel_wAnimatedBattleBgmCommand);
             Model_SetPresentationBgmCommand(gDuel_wAnimatedBattleBgmCommand);

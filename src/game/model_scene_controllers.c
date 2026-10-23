@@ -87,6 +87,7 @@
 #include "model_draw_slot.h"
 #include "../psyq/stdarg.h"
 #include "../unmatched.h"
+#include "fade_state_bytes.h"
 #include "model_camera_state.h"
 #include "graphics_frame_controls.h"
 
@@ -700,7 +701,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     case 42:
         Model_SetSlotDrawMode(2, 3);
-        if (!(D_800E9ECE[0] & 0x80)) {
+        if (!(gFade_bFlags[0] & 0x80)) {
             SD_ResetPendingEntries();
             gModel_bPresentationPhase = -2;
         }

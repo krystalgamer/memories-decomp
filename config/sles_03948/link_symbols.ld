@@ -1185,3 +1185,6 @@ gDialog_bCallbackState = D_8009B3C1;
 gText_aCurrentPlayerNameGlyphs = D_801B125A;
 gText_aFirstPlayerNameGlyphs = D_801B122B;
 gText_aSecondPlayerNameGlyphs = D_801B1238;
+
+gFade_bFlags = D_800E9ECE;
+gFade_bStep = D_800E9ECF;

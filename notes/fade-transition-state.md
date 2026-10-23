@@ -393,7 +393,7 @@ competing declarations:
   `Fade_Update`, while the tail uses typed `gFade_State` fields. The two
   same-address symbol views preserve the target's fresh address
   materialization in the exact draw-screen-fade implementation.
-- `Fade_Update` keeps its `u8 *` parameter and the offset-symbol array
+- `Fade_Update` keeps its existing `FadeTransitionState *` parameter and the offset-symbol array
   `gFade_abCurrentLevel[]`; the latter preserves absolute `%hi/%lo` addressing for the
   final level store instead of the small-data form. Its byte definitions
   for `gGraphics_bClearBlue`, `gGraphics_bClearGreen`, and `gGraphics_bClearRed` are assembler-addressing
@@ -406,11 +406,14 @@ competing declarations:
   retain explicit `s32` stores through the typed base because target assembly
   proves one whole-word write at offset zero before byte field accesses.
 
-`gFade_abCurrentLevel` and `D_800E9ECE` are offset symbols at `+0x04` and `+0x06`, not
-same-address aliases. Remaining assembly users of those symbols are unchanged.
-`Fade_DrawOverlay` also retains its oversized raw `D_800E9ECE` declaration
-because the target independently materializes that address; folding it into
-the typed base would change exact code generation.
+`gFade_abCurrentLevel`, `gFade_bFlags` (legacy `D_800E9ECE`) and
+`gFade_bStep` (legacy `D_800E9ECF`) are offset symbols at `+0x04`,
+`+0x06` and `+0x07`, not same-address aliases. Remaining assembly users
+of the original symbols are unchanged. The current grouped
+`Fade_DrawOverlay` uses typed flag fields; external scene, model, script,
+library and overworld consumers retain their independent scalar/array
+byte-label views rather than folding them into the typed base. See
+[fade-state-byte-views.md](fade-state-byte-views.md).
 
 ## Validation
 

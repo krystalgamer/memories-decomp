@@ -6,6 +6,7 @@
 #define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
+#include "../../game/fade_state_bytes.h"
 #include "../../game/model_draw_slot.h"
 #include "camera_state.h"
 #include "camera_transition.h"
@@ -619,14 +620,14 @@ void CampaignMap_UpdateLocation(void)
         if ((D_8016960D & 0x80) == 0) {
             D_8016960D = D_8016960D | 0x80;
             Fade_InitOut();
-            D_800E9ECF = 2;
+            gFade_bStep = 2;
             CampaignMap_ClearLocationObjects();
             DisplayObject_ReleaseIfPresent(gCampaignMap_pLocationMarker);
             SD_BGMFadeOutWithStep(4);
         }
         D_800F2848.field_00 = D_800F2848.field_00 - 2;
         ViewState_ApplyOrbit();
-        if ((D_800E9ECE & 0x80) == 0) {
+        if ((gFade_bFlags & 0x80) == 0) {
             D_8009B26C = 2;
             gCampaignSceneIndex = gCampaignMap_Location + 32;
         }
