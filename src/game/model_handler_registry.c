@@ -1,6 +1,6 @@
 /* The model handler registry and the two maps that search it.
  *
- * tent_ModelHandlerRegistry is the eighty-entry table; Model_RegisterHandlerKey fills it and
+ * gModel_aHandlerKeyRegistry is the eighty-entry table; Model_RegisterHandlerKey fills it and
  * Model_FindHandlerKey reads it back. Model_MapToWireframePrimitiveHandler and Model_MapToBasePrimitiveHandler open-code
  * that same reverse lookup -- same sentinel, same eighty-entry scan, same -1 --
  * and then dispatch on the packed id it returns, which is why they belong here
@@ -27,7 +27,7 @@
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_HANDLER_DISPATCH)
 /* Maps an id to its handler in the second dispatch family: looks the id up
- * in the handler registry at tent_ModelHandlerRegistry (GsU_00000000 is the sentinel that
+ * in the handler registry at gModel_aHandlerKeyRegistry (GsU_00000000 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the
  * low halfword's kind. Returns arg0 unchanged when nothing matches. */
 
@@ -37,7 +37,7 @@ s32 Model_MapToWireframePrimitiveHandler(s32 arg0) {
     s32 v;
     u32 t;
 
-    e = tent_ModelHandlerRegistry;
+    e = gModel_aHandlerKeyRegistry;
     n = 0;
 
     if (arg0 == (s32)GsU_00000000) {
@@ -109,7 +109,7 @@ s32 Model_MapToBasePrimitiveHandler(s32 arg0) {
     s32 v;
     u32 t;
 
-    e = tent_ModelHandlerRegistry;
+    e = gModel_aHandlerKeyRegistry;
     n = 0;
 
     if (arg0 == (s32)GsU_00000000) {
@@ -204,7 +204,7 @@ have:
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_REGISTER_HANDLER_KEY)
 void Model_RegisterHandlerKey(s32 key, s32 val) {
     s32 i;
-    ModelHandlerRegistryEntry *e = tent_ModelHandlerRegistry;
+    ModelHandlerRegistryEntry *e = gModel_aHandlerKeyRegistry;
     for (i = 0; i < MODEL_HANDLER_REGISTRY_COUNT; i++, e++) {
         if (e->key == key) {
             return;
@@ -226,7 +226,7 @@ void Model_RegisterHandlerKey(s32 key, s32 val) {
 /* Reverse lookup: finds the entry whose val matches, returns its key (or -1
    if val is the sentinel, or if no entry matches after scanning all 80). */
 s32 Model_FindHandlerKey(s32 val) {
-    ModelHandlerRegistryEntry *e = tent_ModelHandlerRegistry;
+    ModelHandlerRegistryEntry *e = gModel_aHandlerKeyRegistry;
     s32 i;
     if (val == (s32) GsU_00000000) {
         return -1;
@@ -277,7 +277,7 @@ void Model_ProcessType2Unit(
         do {
             q = p + sizeof(ModelType2Record);
             if (unit->type == m) {
-                b = r->indices;
+                b = r->clut_data;
                 if (b != (u8 *)0) {
                     j = 0;
                     rec = MODEL_TYPE2_RECORD_VIEW(q);
@@ -301,33 +301,33 @@ void Model_ProcessType2Unit(
                     }
                     if (f) {
 #ifdef VERSION_EUROPE
-                        rec->field_00 = 0x280;
-                        v = rec->field_02;
+                        rec->vram_x = 0x280;
+                        v = rec->vram_y;
                         if (v >= 8) {
-                            rec->field_02 = v % 8;
+                            rec->vram_y = v % 8;
                         }
-                        rec->field_02 += 0xD0 + (model_index << 4);
+                        rec->vram_y += 0xD0 + (model_index << 4);
 #else
-                        v = rec->field_00;
-                        if ((s16)rec->field_00 >= 0x280) {
-                            rec->field_00 = (v - 0x280) + sh;
+                        v = rec->vram_x;
+                        if ((s16)rec->vram_x >= 0x280) {
+                            rec->vram_x = (v - 0x280) + sh;
                         } else {
-                            rec->field_00 = sh;
+                            rec->vram_x = sh;
                         }
-                        v = rec->field_02;
+                        v = rec->vram_y;
                         if (v >= 8) {
-                            rec->field_02 = v % 8;
+                            rec->vram_y = v % 8;
                         }
-                        rec->field_02 = rec->field_02 + 0xF8;
+                        rec->vram_y = rec->vram_y + 0xF8;
 #endif
 #ifdef VERSION_EUROPE
                     } else {
-                        if (rec->field_02 < 0x100) {
-                            rec->field_00 = rec->field_00 + 0x280;
-                            rec->field_02 =
-                                (rec->field_02 & 0xF) + 0xD0;
+                        if (rec->vram_y < 0x100) {
+                            rec->vram_x = rec->vram_x + 0x280;
+                            rec->vram_y =
+                                (rec->vram_y & 0xF) + 0xD0;
                         }
-                        v = MODEL_TYPE2_RECORD_VIEW(p)->field_02 +
+                        v = MODEL_TYPE2_RECORD_VIEW(p)->vram_y +
                             MODEL_TYPE2_RECORD_VIEW(p)->row_count - 0x200;
                         if (v > 0) {
                             MODEL_TYPE2_RECORD_VIEW(p)->row_count =
@@ -339,12 +339,12 @@ void Model_ProcessType2Unit(
                 }
             }
             if (f) {
-                w = MODEL_TYPE2_RECORD_VIEW(p)->field_00;
+                w = MODEL_TYPE2_RECORD_VIEW(p)->vram_x;
 #ifdef VERSION_EUROPE
-                MODEL_TYPE2_RECORD_VIEW(p)->field_00 =
+                MODEL_TYPE2_RECORD_VIEW(p)->vram_x =
                     (w - 0x280) + (model_index << 8);
 #else
-                MODEL_TYPE2_RECORD_VIEW(p)->field_00 = (w - 0x280) + sh;
+                MODEL_TYPE2_RECORD_VIEW(p)->vram_x = (w - 0x280) + sh;
 #endif
             }
             i++;

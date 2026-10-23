@@ -10,15 +10,15 @@ typedef struct {
     u32 *G32 ptr;
 } ModelTypeUnit;
 
-/* Pointer-bearing prefix used by the type-2 unit processor's scratch block. */
+/* Image-context prefix; +0x18 is the SDK CLUT-data pointer. */
 typedef struct {
     u8 *G32 records;
     u8 pad_04[0x14];
-    u8 *G32 indices;
+    u8 *G32 clut_data;
 } ModelType2Scratch;
 
-typedef char ModelType2Scratch_indices_offset_must_be_0x18[
-    ((u32)&(((ModelType2Scratch *)0)->indices)) == 0x18 ? 1 : -1
+typedef char ModelType2Scratch_clut_data_offset_must_be_0x18[
+    ((u32)&(((ModelType2Scratch *)0)->clut_data)) == 0x18 ? 1 : -1
 ];
 
 /* Four-byte prefix of the type-2 record stream; its size advances the stream
@@ -32,11 +32,11 @@ typedef char ModelType2RecordHeader_size_must_be_4[
     sizeof(ModelType2RecordHeader) == 4 ? 1 : -1
 ];
 
-/* Twelve-byte stream record. Only fields with established loop/index roles
- * are named; sizeof(ModelType2Record) drives both record advances. */
+/* Twelve-byte image/CLUT record. Coordinate types preserve the original
+ * view rather than substituting RECT; sizeof drives both record advances. */
 typedef struct {
-    u16 field_00;
-    s16 field_02;
+    u16 vram_x;
+    s16 vram_y;
     s16 column_count;
     s16 row_count;
     s32 index_offset;
@@ -64,7 +64,7 @@ void func_8006AC88(void);
 void func_8006ADE8(void);
 
 /* Open-codes the same reverse lookup as Model_FindHandlerKey -- same
- * sentinel, same eighty-entry scan of tent_ModelHandlerRegistry, same -1 -- and dispatches on
+ * sentinel, same eighty-entry scan of gModel_aHandlerKeyRegistry, same -1 -- and dispatches on
  * the packed id it returns. Model_RunSlotHandlers in model_scene_states.c is
  * the only outside consumer and takes its address as an s32 (*)(s32) callback
  * rather than calling it, so this declaration has to keep that exact shape. */

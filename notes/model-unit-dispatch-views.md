@@ -1,0 +1,99 @@
+# Model unit-dispatch views
+
+This component names the handler-key registry and the image-context fields
+used by the existing `Model_InitSlot` unit scan. Polygon/shared units bind
+and register handlers; image units prepare upload records, call the SDK
+image handler, wait for completion, and replace the unit callback with the
+existing sentinel. The registry accessors, reverse maps, and image-context
+pass retain their grouped source and compiler profiles.
+
+| Original view | Canonical view | Preserved representation |
+| --- | --- | --- |
+| `tent_ModelHandlerRegistry` | `gModel_aHandlerKeyRegistry` | mutable `ModelHandlerRegistryEntry[80]` |
+| `ModelType2Scratch.indices` | `clut_data` | `u8 *G32`, `+0x18` |
+| `ModelType2Record.field_00` | `vram_x` | `u16`, `+0x00` |
+| `ModelType2Record.field_02` | `vram_y` | `s16`, `+0x02` |
+
+## Handler-key registration and reverse lookup
+
+The eight-byte registry entries keep `handler_value` at `+0` and `key` at
+`+4`. `Model_RegisterHandlerKey` scans in the original order. An existing
+key returns immediately without updating its handler; an empty entry must
+have both words zero. A full table with no match remains a no-op.
+
+`Model_FindHandlerKey` and the two primitive remapping functions keep their
+complete 80-entry reverse scans. The specific `GsU_00000000` function
+sentinel is not a null pointer: zero values, empty entries, missing keys,
+and the SDK sentinel must not be collapsed into one case.
+
+Ordinary/shared primitive binding supplies the visible registration calls
+during `Model_InitSlot`. The registry name describes its key/handler
+contract without claiming that every possible key must be a polygon kind.
+The signed numeric handler word is not converted to a function pointer,
+and no callback ABI, map implementation, validation, or storage is added.
+
+`model.h` retains the original explicit extern and adds the canonical
+fixed-count view with `__asm__("tent_ModelHandlerRegistry")`. This preserves
+the actual native import, strict-C99 parsing, and existing tracked-alias
+policy mechanism. The seven resident linker inputs export the canonical
+name as an alias to the retained native provider:
+
+| Image | Existing provider address |
+| --- | --- |
+| North America | `0x800F5918` |
+| Japan | `0x800F2FF0` |
+| United Kingdom | `0x800F6880` |
+| France, Germany, Italy, Spain | `0x800F6C88` |
+
+The NA provider is an absolute symbol. It is not replaced by a C definition
+or assigned a fabricated ELF size. The 80-entry type remains the existing
+view, not a new allocation or exclusive-ownership claim.
+
+## Image records and the CLUT-data pointer
+
+The authoritative `GsARGUNIT_IMAGE` declaration places `imagetop` at `+0x14`
+and `cluttop` at `+0x18`. The local `ModelType2Scratch` prefix keeps the
+existing pointer-bearing layout, padding, and `u8 *G32` view at `+0x18`;
+it is not replaced by a full SDK argument structure.
+
+The existing NA `GsU_02000001` SDK routine at `0x80089ED0` provides a direct
+consumer-side discriminator. It passes each record pointer to `LoadImage`
+as the rectangle and forms the data pointer from the record's `+8` word
+offset shifted by two. After the 12-byte image record, it does the same for
+the CLUT record using context `+0x18`. This establishes the coordinate
+roles and CLUT-data pointer independently of guessed reference-file types.
+The SDK routine remains SDK assembly; no SDK decompilation or attempt
+record is introduced.
+
+The local record remains 12 bytes. `vram_x` deliberately remains `u16`
+despite the SDK rectangle's signed coordinate view, and `vram_y` remains
+`s16`. There is no substitution of `RECT`, signedness change, range
+guarantee, or new bound. The separate
+`ModelType2RecordHeader.field_00` is still unknown and is not renamed.
+
+The processor keeps its original per-row data writes, including the
+first-entry distinction and bit `0x8000` writes to later entries. Its byte
+cursor and explicit word/halfword casts remain. Null-pointer handling,
+conditional extra-record advances, signed row/column comparisons, PAL
+coordinate adjustments and row clipping retain their exact order and
+behavior. New names do not add a valid-record assumption or normalize
+unusual coordinates.
+
+## Deliberate limits
+
+`tent_Model_RebaseTexturedPrimitives` stays tentative. Its existing semantic
+record already identifies texture-page/CLUT bit arithmetic, but the actual
+source-upload linkage and PAL slot-2 conversion are not resolved by
+repeating that arithmetic. The auxiliary palette-sector upload from the
+previous component uses x `0x200` in NA and `0x280` in PAL; it is not
+automatically the upload that explains every HMD page/CLUT rewrite.
+
+The existing `column_count`, `row_count`, and `index_offset` fields, the
+image-record header, primitive-context types, ModelSlot accumulators, and
+all SDK declarations remain unchanged. The unrelated display-object
+command table is not included to enlarge the bundle.
+
+No synthetic/generated-C/source-string harness or new control is added.
+Existing tests remain unchanged, including the primitive-context positive
+and incompatible-pointer negative checks. Cloud/native witness suites and
+regional/overlay image acceptance remain PR validation, not local execution.

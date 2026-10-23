@@ -11,7 +11,7 @@
 
 /* The ring itself, ten records, declared here because the evaluator and
  * dispatcher share it and this is where Key lives. Two facts bound it at
- * ten: the next named object, tent_ModelHandlerRegistry (c_symbols.ld:396, model.h:541-542),
+ * ten: the next named object, gModel_aHandlerKeyRegistry (c_symbols.ld:396, model.h:541-542),
  * starts at +0x190 = 10 * 0x28, and Model_ApplyEffectKeyQueueCommand writes a record only while
  * `gModel_bEffectKeyCount < 0xA` (model_effect_state.c; gModel_bEffectKeyCount is a u8,
  * model_transfer_flags.h:47). That unit stores through a u8 pointer: two

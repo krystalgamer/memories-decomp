@@ -1206,3 +1206,6 @@ SD_UpdateSecondaryObjectReuseCountdowns = tent_SD_AgeSecondaryObjects;
 
 /* Auxiliary-model upload sector; retain its native provider. */
 gModel_abAuxiliaryPaletteSector = D_801DD800;
+
+/* Canonical view of the retained handler-key registry. */
+gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
