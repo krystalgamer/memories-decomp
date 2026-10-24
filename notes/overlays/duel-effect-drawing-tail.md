@@ -1,5 +1,93 @@
 # Duel-effect texture tiles and projected strips
 
+## Scoped tile, contour and ring-strip views
+
+`drawing_semantic_views.h` gives five complete helpers typed C names while
+binding them to their original native labels. The complete three-function
+`drawing_tail.c` object and the separate one-function `gradient_strip.c` and
+`contour_quads.c` objects keep their original definition order, extents,
+SDK declarations and `gcc_2_8_1_g0_split` profile. In particular, the contour
+function's different NA placement is not flattened into a new grouped object.
+
+| C view | Native label | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `DuelEffect_DrawQuadContour` | `func_801558F4` | `0x8015616C` | `0x80163984` | `0x801558F4` |
+| `DuelEffect_DrawFixedTileQuad` | `func_80155F94` | `0x801481DC` | `0x80164024` | `0x80155F94` |
+| `DuelEffect_DrawRandomTileQuad` | `func_80156064` | `0x801482AC` | `0x801640F4` | `0x80156064` |
+| `DuelEffect_DrawTexturedRingStrip` | `func_8015616C` | `0x801483B4` | `0x801641FC` | `0x8015616C` |
+| `DuelEffect_DrawGradientRingStrip` | `func_80156448` | `0x80148690` | `0x801644D8` | `0x80156448` |
+
+These helpers share the module's texture/ordering-table owners and the
+existing projection/offset submission pipeline. Actual bank callers now use
+the five C views. Effect 1 calls the fixed tile; the random tile, contour
+and strip helpers are shared across multiple effect handlers, including
+the gather path. Their names describe observed rendering operations, not
+unproven gameplay animation or texture-art identities.
+
+### Fixed and random texture tiles
+
+The fixed tile builds an SDK FT4 using texture halfwords at offsets
+`0x08/0x0A`, UVs `(0,64)..(63,127)`, square-generator argument 64 and half
+the input RGB. It calls the existing FT4 projector with bias zero and mode
+one. It does not take a caller position or identify the depicted artwork.
+
+The random tile uses halfwords at `0x0C/0x0E`, unscaled input RGB and caller
+vertices. Two separate, ordered `rand() % 2` calls supply U/V tile choices;
+the U range starts at 160 and each tile is 32 by 32. The signed-halfword
+depth argument is forwarded unchanged as projector bias, with mode one.
+Keep signed remainder, narrowing and both calls, rather than substituting
+a mask, one random call, a normalized index or a uniformity claim.
+
+### Textured and untextured ring strips
+
+Both complete strip bodies walk exactly 32 wrapped segments, projecting
+first-to-middle and last-to-middle quads with `(i + 1) % 32`. The textured
+GT4 uses page/CLUT offsets `0x04/0x06`, UVs `(128,0)..(159,63)`, a black
+first edge and input-color second edge. It rejects either negative depth
+or negative projection flag. The original separate `adjusted = depth + 1`
+assignment precedes mode selection. Mode zero uses the GT4 offset helper
+with mode one; every nonzero signed-halfword mode clamps
+`adjusted - mode` to zero and supplies that mode to the resident submitter.
+
+The untextured G4 instead uses half-intensity color on its second edge and
+rejects only a negative projection flag. It keeps `depth -= bias`, with no
+added one. Zero bias delegates to the generic offset helper with flags one.
+Nonzero unsigned-halfword bias clamps the adjusted depth to zero and uses
+the resident submitter with flags one. Both bodies retain arithmetic shifts
+and explicit `u16` priority conversion. Do not unify their rejection,
+signedness, adjustment or submission contracts.
+
+### Four-edge contour with independent inner tiles
+
+The contour routine projects four outer-to-inner gradient G4 edges, black
+at the outer vertices and half-intensity at the inner vertices. A
+nonnegative flag permits `depth++`; zero bias delegates to the generic
+offset helper, while nonzero bias separately subtracts bias and submits
+without adding a negative-depth clamp. Caller flags remain unchanged.
+
+Outside that edge-acceptance branch, every iteration independently builds
+a square with argument 8 for zero bias or 16 otherwise, translates it to
+the inner vertex and attempts full-input-color FT4 projection. Those tiles
+use texture offsets `0x00/0x02` and UVs `(0,0)..(63,63)`. A rejected edge
+does not suppress its tile attempt; the existing tile projector still
+applies its own acceptance rules. The `u16` contour bias retains its
+original cast to `s16` for that projector call. No clipping fix, shared
+rejection rule, new guard or texture reinterpretation is introduced.
+
+### Conservation
+
+Original headers, native prototypes and machine exports remain intact.
+The five bank inventories change only 25 name cells, not addresses, sizes,
+statuses, notes or profiles. Five scoped semantic records append at the
+actual NA addresses. All prior registry bytes remain unchanged. No new
+storage, wrapper, native alias, test harness or relaxed guard is added.
+Accepted-parent source conservation reverses only the five identifiers and
+one added include per affected C file; actual named-profile GCC/MASPSX and
+native object comparisons preserve the complete implementation/caller units.
+Regional/runtime coverage remains subject to the existing ordinary PR gates.
+
+## Original matching evidence
+
 The contiguous Spanish bank interval `0x80155F94..0x80156448` is owned by
 `src/overlays/duel_effects/drawing_tail.c`, in definition order, with the
 unchanged `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81).

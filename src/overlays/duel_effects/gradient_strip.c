@@ -2,8 +2,9 @@
 #include "../../game/gpu_packets.h"
 #include "drawing_helpers.h"
 #include "packet_semantic_views.h"
+#include "drawing_semantic_views.h"
 
-void func_80156448(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, u16 bias)
+void DuelEffect_DrawGradientRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, u16 bias)
 {
     POLY_G4 polygon;
     POLY_G4 *packet = &polygon;

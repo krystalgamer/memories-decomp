@@ -3,6 +3,7 @@
 #include "effect_18.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "drawing_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_18_RING_HEIGHT 106
@@ -74,12 +75,12 @@ void func_80154084(void *buffer, s32 phase)
             setVector(&rotation, 0, 0, 0);
             setVector(&scale, 4096, 4096, 4096);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-            func_801558F4((u8 *)&work->color, work->quads[0], work->quads[1], 0, 1);
+            DuelEffect_DrawQuadContour((u8 *)&work->color, work->quads[0], work->quads[1], 0, 1);
             if (work->frame >= work->config->delay) {
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 for (i = 0; i < 32; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    func_80156064((u8 *)&work->color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
                 scale.vx = work->scale >> 3;
@@ -88,14 +89,14 @@ void func_80154084(void *buffer, s32 phase)
                 working = saved;
                 ScaleMatrix(&working, &scale);
                 GsSetLsMatrix(&working);
-                func_80156448((u8 *)&work->color, work->rings[0],
+                DuelEffect_DrawGradientRingStrip((u8 *)&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 0);
                 color_copy = work->color;
                 color_copy.r >>= 1;
                 color_copy.g >>= 1;
                 color_copy.b >>= 1;
                 if (work->config->variant == 1) {
-                    func_8015616C((u8 *)&color_copy, work->outer_rings[0],
+                    DuelEffect_DrawTexturedRingStrip((u8 *)&color_copy, work->outer_rings[0],
                                  work->outer_rings[1], work->outer_rings[2], 0);
                 }
                 scale.vx = work->scale;
