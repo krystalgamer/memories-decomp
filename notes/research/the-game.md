@@ -2266,7 +2266,7 @@ writes. On the active player's turn, Select opens
 The setup chooses starting LP separately for both sides. Each defaults to
 8000, and pad 1 or pad 2 adjusts its own value to `1` or a multiple of 500
 from 500 through 8000. Matching
-[`Main_RunTwoPlayerDuelSetup`](../../src/game/main_run_two_player_duel_setup.c)
+[`Main_RunTwoPlayerDuelSetup`](../../src/game/main_mode_runners.c)
 initializes the values,
 and [`MainMenu_UpdateValueSetup`](../../src/overlays/main_menu/value_setup.c)
 (`0x801812B4`) edits them. Because 2P uses the negative opponent-ID path,
