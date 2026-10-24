@@ -70,11 +70,11 @@ void Main_RunFrameServices(void) {
     if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
         goto reset;
     }
-    cnt = runtime_gp - 1;
-    runtime_gp = cnt;
+    cnt = gMain_nServiceResyncCountdown - 1;
+    gMain_nServiceResyncCountdown = cnt;
     if (cnt < 0) {
     reset:
-        runtime_gp = 0x3C;
+        gMain_nServiceResyncCountdown = 0x3C;
         D_8009B0B0 = D_8009B0A4;
         D_8009B0BC = D_8009B0D4;
     }
@@ -112,11 +112,11 @@ void Main_InitHardware(GraphicsFrameBuffer *base)
     gGraphics_bClearGreen = 1;
     gFade_bTargetBlue = 1;
     gGraphics_bClearBlue = 1;
-    D_800FE048[0].isbg = 1;
-    D_800FE048[0].dtd = 1;
-    D_800FE048[0].r0 = 1;
-    D_800FE048[0].g0 = 1;
-    D_800FE048[0].b0 = 1;
+    gLibGs_DrawEnvView[0].isbg = 1;
+    gLibGs_DrawEnvView[0].dtd = 1;
+    gLibGs_DrawEnvView[0].r0 = 1;
+    gLibGs_DrawEnvView[0].g0 = 1;
+    gLibGs_DrawEnvView[0].b0 = 1;
     count = six;
     gGraphics_abOrderingTableLengths = 2;
     gGraphics_bOrderingTable1Length = count;

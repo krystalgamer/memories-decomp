@@ -8,6 +8,10 @@ same `DISPENV` type. The drawing environment stays `D_800FE048`: libgs's
 `GsDRAWENV` is a scalar `DRAWENV`, while this view is an unsized (and, at
 startup, volatile) array, so the SDK name cannot share a translation unit
 with it.
+The canonical game-facing `gLibGs_DrawEnvView` is therefore a code-generation
+alias of that existing array identifier, not a conflicting replacement
+declaration of `GsDRAWENV`. See
+[`frame-service-environment-views.md`](frame-service-environment-views.md).
 
 ## Address and layout evidence
 
@@ -46,8 +50,9 @@ view. The five byte stores in each function keep their original source order.
 `GsDISPENV` remains a nonvolatile scalar `DISPENV`. The tint bytes retain
 startup's volatile `.data`, the movie/frame paths' nonvolatile `.data`, and
 all existing scalar/array and tentative-definition forms in other consumers.
-No linker identities, storage definitions, compiler profiles, SDK bodies,
+No existing linker identities, storage definitions, compiler profiles, SDK bodies,
 register constraints or grouped translation-unit boundaries change.
+The additional semantic export aliases the same native provider.
 
 The resident candidates currently contain no direct environment/tint consumer;
 all 19 candidate fingerprints must still pass because this shared header has
