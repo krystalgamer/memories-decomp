@@ -1213,3 +1213,5 @@ gModel_bAuxiliaryLoadStep = D_800F5694;
 gModel_bAuxiliaryActive = D_800F569F;
 gText_DecimalDivisorView = D_80090E0C;
 gTextBox_apfnStateCallbacks = D_80090E64;
+gDuel_wActionSubstate = gEuropean_D_8009B20C;
+gDuel_sEffectWorkCounter = D_8009B20C + 2;

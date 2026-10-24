@@ -25,7 +25,7 @@
 #include "../unmatched.h"
 #include "duel_card_effects.h"
 #include "display_object_helpers.h"
-
+#define gDuel_sEffectWorkCounter D_8009B20C[1]
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define DUEL_FIELD_EFFECT_OBJECT_VIEW(object) \
     ((DuelFieldEffectObject *)(object))
@@ -265,7 +265,7 @@ void DuelEffect_ApplyStopDefense(void) {
     s32 w;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        D_8009B20C[1] = -1;
+        gDuel_sEffectWorkCounter = -1;
     }
 
     f = gDuel_wCardEffectFlags;
@@ -275,7 +275,7 @@ void DuelEffect_ApplyStopDefense(void) {
             if (gDuelEffect_pTrackedRequest->field_1D != 0) {
                 n = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                     DUEL_FIELD_ROW_SIZE;
-                c = gDuel_abFieldGridCardRecordIndices[D_8009B20C[1] + n];
+                c = gDuel_abFieldGridCardRecordIndices[gDuel_sEffectWorkCounter + n];
                 r = &gDuel_aCardRecords[c];
                 if ((*(s32 *)&r->terrain_modifier & 0x88000000) ==
                     0x88000000) {
@@ -294,8 +294,8 @@ void DuelEffect_ApplyStopDefense(void) {
         return;
     }
 
-    v = *(u16 *)&D_8009B20C[1] + 1;
-    D_8009B20C[1] = v;
+    v = *(u16 *)&gDuel_sEffectWorkCounter + 1;
+    gDuel_sEffectWorkCounter = v;
     if ((s16)v >= DUEL_FIELD_ROW_SIZE) {
         gDuel_wCardEffectFlags = 0;
         return;
@@ -304,7 +304,7 @@ void DuelEffect_ApplyStopDefense(void) {
     p = DuelEffect_AllocateRequest(0xC);
     t = (u8 *)gDuel_aFieldGridGroundPositions;
     e = (DuelFieldPosition *)((
-        (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
+        (gDuel_sEffectWorkCounter + DUEL_FIELD_ROW_SIZE) *
             sizeof(DuelFieldPosition) +
         gDuel_bActiveSide * DUEL_FIELD_SIDE_POSITION_BYTES
     ) + t);
@@ -401,11 +401,11 @@ void DuelEffect_ApplyRaigeki(void) {
     s32 n;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        D_8009B20C[1] = 0;
+        gDuel_sEffectWorkCounter = 0;
         q = DuelEffect_AllocateRequest(0x10);
         t = (u8 *)gDuel_aFieldGridGroundPositions;
         e = (DuelFieldPosition *)((
-            (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
+            (gDuel_sEffectWorkCounter + DUEL_FIELD_ROW_SIZE) *
                 sizeof(DuelFieldPosition) +
             gDuel_bActiveSide * DUEL_FIELD_SIDE_POSITION_BYTES
         ) + t);
@@ -425,17 +425,17 @@ void DuelEffect_ApplyRaigeki(void) {
     }
 
     if (gDuelEffect_pTrackedRequest->field_1D ==
-        D_8009B20C[1] + 1) {
+        gDuel_sEffectWorkCounter + 1) {
         SD_SEPlayFull(0x15);
         n = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
             DUEL_FIELD_ROW_SIZE;
         r = (DuelCardRecord *)((u8 *)gDuel_aCardRecords +
-            gDuel_abFieldGridCardRecordIndices[D_8009B20C[1] + n] * DUEL_CARD_RECORD_SIZE);
+            gDuel_abFieldGridCardRecordIndices[gDuel_sEffectWorkCounter + n] * DUEL_CARD_RECORD_SIZE);
         v = r->flags & 0x8000;
-        D_8009B20C[1] = *(u16 *)&D_8009B20C[1] + 1;
+        gDuel_sEffectWorkCounter = *(u16 *)&gDuel_sEffectWorkCounter + 1;
         if (v != 0) {
             q = DuelEffect_AllocateRequest(0xB);
-            q->buffer = (u8 *)q->buffer + D_8009B20C[1] * 0x3000;
+            q->buffer = (u8 *)q->buffer + gDuel_sEffectWorkCounter * 0x3000;
             q->field_00 = DISPLAY_OBJECT_VIEW(r->object)->field_30.h.field_30;
             q->field_02 = DISPLAY_OBJECT_VIEW(r->object)->field_30.h.field_32;
             q->field_04 = *(u16 *)&DISPLAY_OBJECT_VIEW(r->object)->field_34;
@@ -524,7 +524,7 @@ void DuelEffect_ApplyStatPenalty(void) {
     s32 base_slot;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        D_8009B20C[1] = 0;
+        gDuel_sEffectWorkCounter = 0;
         gDuel_wStepCounter = 0;
     }
 
@@ -535,12 +535,12 @@ void DuelEffect_ApplyStatPenalty(void) {
         return;
     }
 
-    timer = *(u16 *)&D_8009B20C[1] - 1;
-    D_8009B20C[1] = timer;
+    timer = *(u16 *)&gDuel_sEffectWorkCounter - 1;
+    gDuel_sEffectWorkCounter = timer;
     if ((s16)timer > 0) {
         return;
     }
-    D_8009B20C[1] = 0x10;
+    gDuel_sEffectWorkCounter = 0x10;
 
     base_slot = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                 DUEL_FIELD_ROW_SIZE;

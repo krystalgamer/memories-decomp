@@ -30,24 +30,30 @@ extern u16 gDuel_wCardEffectFlags;
 extern s16 gDuel_sCardEffectIndex;
 extern s16 gDuel_wEffectCardID;
 
-/* Two halfwords; the field sweeps in duel_card_effects.c and
- * DuelEffect_ApplyCursebreaker all reach [1], which retail addresses
+/* Legacy two-halfword transport. Field sweeps and countdown work reach [1],
+ * which retail addresses
  * as %gp_rel(D_8009B20C + 0x2): 23 sites, 7 lh, 5 lhu and 11 sh, three of
  * them in DuelEffect_ApplyRitual. In the other matched TUs the lhu
  * is where the source writes *(u16 *)&D_8009B20C[1] for the +1 or -1.
  * DuelEffect_ApplyStatPenalty runs it down from 0x10; the other three reset it
  * to 0 or
- * -1, advance it and index gDuel_abFieldGridCardRecordIndices by it. [0] is written and read only
- * by DuelScene_UpdateHandActions, which views it as a scalar
+ * -1, advance it and index gDuel_abFieldGridCardRecordIndices by it. [0] is a
+ * packed action substate in DuelScene_UpdateHandActions and
+ * DuelScene_UpdateFieldActions. The hand path views it as a scalar
  * (`*(u16 *)D_8009B20C`) because sched treats an array element as part of an
- * aggregate, and by DuelScene_UpdateFieldActions, still assembly; 30 sites at
- * +0. Whether it belongs to the same object is not established. Four bytes,
+ * aggregate. PAL action adapters select a different physical provider from
+ * the effect-work base, so adjacency is not a shared-record contract. Four bytes,
  * the extent up to gDuel_wTrapPresentationMode, stays gp-relative at every threshold in
  * play; with [4] shared instead, an assembler -G4
  * (DuelEffect_ApplyRaigeki's until
  * #3859 found that threshold inert) takes the eight bytes out of small data
  * and the tree does not link. */
 extern s16 D_8009B20C[2];
+
+/* Semantic scalar exports. Matching callers retain their local legacy
+ * scalar/array code-generation views rather than changing the accesses. */
+extern u16 gDuel_wActionSubstate;
+extern s16 gDuel_sEffectWorkCounter;
 
 /* The halfword immediately past that pair, at D_8009B20C + 4 -- the extent
  * the note above measures against. It stays a separate declaration for the
