@@ -3,8 +3,9 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "display_semantic_views.h"
 
-void func_801573A8(u8 *color, u16 size, s16 depth)
+void DuelEffect_DrawQuadrantTileQuads(u8 *color, u16 size, s16 depth)
 {
     DuelEffectTexturedQuad drawing;
     DuelEffectTexturedQuad *packet = &drawing;
@@ -21,7 +22,7 @@ void func_801573A8(u8 *color, u16 size, s16 depth)
     }
 }
 
-void func_80157494(u8 *color, SVECTOR *offset, u16 width, u16 height, u16 tile)
+void DuelEffect_DrawTranslatedTileRect(u8 *color, SVECTOR *offset, u16 width, u16 height, u16 tile)
 {
     DuelEffectTexturedQuad drawing;
     DuelEffectTexturedQuad *packet = &drawing;
@@ -43,7 +44,7 @@ void func_80157494(u8 *color, SVECTOR *offset, u16 width, u16 height, u16 tile)
     DuelEffect_ProjectSubmitFt4(&packet->polygon, drawing.vertices, 1, 1);
 }
 
-void func_801575CC(u8 *color, DVECTOR *first, DVECTOR *last, u16 width)
+void DuelEffect_DrawGradientConnectionBands(u8 *color, DVECTOR *first, DVECTOR *last, u16 width)
 {
     POLY_G4 polygon;
     POLY_G4 *packet = &polygon;
