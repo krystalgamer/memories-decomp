@@ -3,6 +3,7 @@
 #include "effect_16.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "number_semantic_views.h"
 
 void func_80151558(void *buffer, s32 phase)
 {
@@ -95,7 +96,7 @@ void func_80151558(void *buffer, s32 phase)
                         for (l = 0; l < 4; l++) {
                             copyVector(&quad[l],
                                 &work->paths[k + l / 2][i][j]);
-                            quad[l].vx += (s16)func_8014F524(-1, l + 1) *
+                            quad[l].vx += (s16)DuelEffect_PowS16(-1, l + 1) *
                                 work->config->widths[i];
                         }
                         DuelEffect_ProjectSubmitFt4(packet, quad, 32, 1);

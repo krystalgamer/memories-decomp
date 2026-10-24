@@ -3,6 +3,7 @@
 #include "utility_helpers.h"
 #include "color_semantic_views.h"
 #include "geometry_semantic_views.h"
+#include "number_semantic_views.h"
 
 void DuelEffect_SetGrayColor(u8 *color, u8 value)
 {
@@ -64,7 +65,7 @@ void DuelEffect_InitSquareVertices(SVECTOR *vertices, u16 size)
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        vertices[i].vx = (s16)func_8014F524(-1, i + 1) * size;
+        vertices[i].vx = (s16)DuelEffect_PowS16(-1, i + 1) * size;
         vertices[i].vy = (i - 2 < 0 ? -1 : 1) * size;
         vertices[i].vz = 0;
     }
@@ -75,7 +76,7 @@ void DuelEffect_InitXZRectVertices(SVECTOR *vertices, u16 width, u16 height, u16
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        vertices[i].vx = (s16)func_8014F524(-1, i + 1) * width;
+        vertices[i].vx = (s16)DuelEffect_PowS16(-1, i + 1) * width;
         vertices[i].vy = height;
         vertices[i].vz = (i - 2 < 0 ? -1 : 1) * depth;
     }

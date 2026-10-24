@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "utility_helpers.h"
 #include "geometry_semantic_views.h"
+#include "number_semantic_views.h"
 
 void DuelEffect_InitRectVertices(SVECTOR *vertices, s32 width, s16 height)
 {
@@ -8,7 +9,7 @@ void DuelEffect_InitRectVertices(SVECTOR *vertices, s32 width, s16 height)
     s32 horizontal = width;
 
     for (i = 0; i < 4; i++) {
-        vertices[i].vx = horizontal * func_8014F524(-1, i + 1);
+        vertices[i].vx = horizontal * DuelEffect_PowS16(-1, i + 1);
         vertices[i].vy = (i - 2 < 0 ? -1 : 1) * height;
         vertices[i].vz = 0;
     }

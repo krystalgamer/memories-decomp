@@ -3,6 +3,7 @@
 #include "effect_5.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "number_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_5_RISING_HEIGHT 106
@@ -103,7 +104,7 @@ void func_80157E10(void *buffer, s32 phase)
         }
         if (work->rising_positions[work->config->strip_count - 1].vy > 0) {
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
-                func_801566D4(work->config->number, (u8 *)&work->number_color,
+                DuelEffect_DrawProjectedNumber(work->config->number, (u8 *)&work->number_color,
                              &work->number_position, work->number_state, 16, 0);
                 addVector(&work->number_position, &work->number_velocity);
                 work->number_velocity.vy += 4;

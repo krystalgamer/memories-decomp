@@ -3,6 +3,7 @@
 #include "effect_24.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "number_semantic_views.h"
 
 void func_8014D3E8(void *buffer, s32 phase)
 {
@@ -95,9 +96,9 @@ void func_8014D3E8(void *buffer, s32 phase)
             setRGB0(packet, work->center_color.r, work->center_color.g, work->center_color.b);
             setUV4(packet, 192, 128, 255, 128, 192, 255, 255, 255);
             for (i = 0; i < 2; i++) {
-                setVector(&vertices[0], work->half_width * func_8014F524(-1, i + 1), -work->half_height, 0);
+                setVector(&vertices[0], work->half_width * DuelEffect_PowS16(-1, i + 1), -work->half_height, 0);
                 setVector(&vertices[1], 0, -work->half_height, 0);
-                setVector(&vertices[2], work->half_width * func_8014F524(-1, i + 1), work->half_height, 0);
+                setVector(&vertices[2], work->half_width * DuelEffect_PowS16(-1, i + 1), work->half_height, 0);
                 setVector(&vertices[3], 0, work->half_height, 0);
                 DuelEffect_ProjectSubmitFt4(packet, vertices, 0, 1);
             }

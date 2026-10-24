@@ -3,6 +3,7 @@
 #include "effect_6.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "number_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_6_START_HEIGHT 106
@@ -161,7 +162,7 @@ void func_80154B30(void *buffer, s32 phase)
         if (work->states[work->config->count - 1] != 0 &&
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->column_color) &&
             work->variant < 5) {
-            func_801566D4(work->config->column_value, (u8 *)&work->column_color,
+            DuelEffect_DrawProjectedNumber(work->config->column_value, (u8 *)&work->column_color,
                          &work->column, work->column_mode, work->column_size, 0);
             if (work->column_size >= 15) {
                 if (work->hold >= 32) {

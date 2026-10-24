@@ -1,5 +1,84 @@
 # Duel-effect projected number renderer
 
+## Scoped numeric C views
+
+Four related functions now use typed C views in `number_semantic_views.h`.
+Original native declarations, widths, assembler identities, source groups,
+profiles and all pre-existing tests remain unchanged.
+
+| C view | Native label | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `DuelEffect_PowS16` | `func_8014F524` | `0x801500FC` | `0x8015D5B8` | `0x8014F524` |
+| `DuelEffect_CountDecimalDigitsS16` | `func_80156AD4` | `0x80148D1C` | `0x80164B64` | `0x80156AD4` |
+| `DuelEffect_WriteNumberDigits` | `func_80156B40` | `0x80148D88` | `0x80164BD0` | `0x80156B40` |
+| `DuelEffect_DrawProjectedNumber` | `func_801566D4` | `0x8014891C` | `0x80164764` | `0x801566D4` |
+
+The registry's four rows use `overlay/duel_effects/function` and actual NA
+addresses, not numeric suffixes. Twenty name-only cells change across the
+five configured banks; no other inventory field, row, native symbol,
+matching manifest or linker assignment changes. No German/Italian bank
+coverage is claimed.
+
+### Exact arithmetic domains
+
+The power helper takes `s16` base and `u16` exponent, multiplies into the
+original `s32` accumulator and returns its final `s16` narrowing through
+the unchanged `s32` ABI. Exponent zero keeps result one. It is not a
+widened standard power routine or a new overflow policy. Its two unrelated
+page/CLUT packing siblings remain in the complete `texture_words.c`
+object with their original definitions, grouping and order.
+
+Digit counting accepts a signed halfword, repeatedly applies the existing
+absolute-value test and signed division by ten, and returns an unsigned
+halfword count. Zero returns zero, not one. The digit writer instead keeps
+an unsigned-halfword remaining value and a signed-halfword snapshot for
+the repeated count calls. Preserve every repeated count/power call,
+narrowed divisor, division and update. It writes halfwords, not ASCII or
+a terminated string. Mixed-domain inputs do not establish a universal
+0-through-9 output guarantee; no input clamp, wider API, zero-digit store
+or normalizing conversion is introduced.
+
+The renderer retains a signed-word input even though its count/helper
+arguments narrow through those existing halfword domains. Absolute-value
+behavior and implicit conversions remain unchanged. The first tile is
+index 10 for positive input and 11 otherwise, including zero; this pass
+does not assign a new plus/minus bitmap meaning or fix zero rendering.
+
+### Renderer preservation
+
+All twenty vertices, eight digit halfwords, both complete FT4 packets,
+declaration/lifetime order, packed `PSXLONG *` outputs and the otherwise
+unread packet copy remain exactly as before. The zero-bias mode-0/1
+assignments and shared submit call are retained; other modes keep their
+vertex increment and `continue`. Nonzero bias keeps `depth + 1 - bias`,
+suppresses negative depth/flag rather than clamping, and uses flags 1 only
+for mode 1 and flags 0 for all other modes. It is not unified with the
+generic biased projection wrappers.
+
+Actual effect callers supply their number/colour/offset state without
+establishing a broader integer range, duration or new glyph-table layout.
+The twelve rectangles, pair-nine texture words, real storage owners and
+no-absolute-alias guards described below remain unchanged.
+
+### Conservation boundary
+
+All bank callers use the canonical typed views; eight added canonical/native
+declarations and four name substitutions account for complete CPP
+conservation. Every changed C file is recoverable by reversing those names
+and removing its one trailing semantic include, after the original
+complete SDK/header block. The full power/texture, two-function number and
+renderer objects are compiled and compared, never split or partially
+replaced.
+
+Original headers, tests, fixtures, selectors, negative controls, records,
+profiles, native linker files and curve/paired-ABI guards remain unchanged.
+Raw compiler/MASPSX output, native symbols and whole NA executable/ELF
+identity remain mandatory. Full five-bank/seven-copy acceptance uses
+current PR checks, not local cloud tests. No C/source-string/native harness
+or new numeric behavior is added.
+
+## Original renderer recovery
+
 The complete Spanish `func_801566D4` interval,
 `0x801566D4..0x80156AD4`, is 1,024 bytes of matching C in
 `src/overlays/duel_effects/number_renderer.c`. It uses the existing

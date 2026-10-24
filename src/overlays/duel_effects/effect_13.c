@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_13.h"
 #include "geometry_semantic_views.h"
+#include "number_semantic_views.h"
 
 void func_801503F8(void *buffer, s32 phase, s16 number)
 {
@@ -148,7 +149,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
             setVector(&scale, 4096, 4096, 4096);
             setVector(&rotation, 0, 0, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->offset, &rotation, &scale, 0);
-            func_801566D4(-__builtin_abs(work->number), (u8 *)&work->number_color,
+            DuelEffect_DrawProjectedNumber(-__builtin_abs(work->number), (u8 *)&work->number_color,
                          &work->number_position, work->number_mode, 10, 1);
             addVector(&work->number_position, &work->number_velocity);
             work->number_velocity.vy += 3;
