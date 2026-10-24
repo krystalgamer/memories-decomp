@@ -2,6 +2,7 @@
 #include "dispatch.h"
 #include "texture_semantic_views.h"
 #include "render_state_semantic_views.h"
+#include "handler_semantic_views.h"
 #include "texture_state_semantic_views.h"
 
 void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
@@ -22,15 +23,15 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     }
     if (effect == 1) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
-        func_80157794(buffer, phase);
+        DuelEffect_RunFusion(buffer, phase);
     }
     if (effect == 2) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
-        func_80153200(buffer, phase, context->field_12);
+        DuelEffect_RunAttackSlash(buffer, phase, context->field_12);
     }
     if (effect == 3) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
-        func_80149F90(buffer, phase);
+        DuelEffect_RunDestroyFlames(buffer, phase);
     }
     if (effect == 4) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
@@ -62,7 +63,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     if (effect == 10) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
         SetGeomOffset(160, 108);
-        func_8014C8FC(buffer, phase);
+        DuelEffect_RunTerrainChange(buffer, phase);
     }
     if (effect == 11) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
@@ -81,7 +82,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     }
     if (effect == 14) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
-        func_801481A8(buffer, phase);
+        DuelEffect_RunGuardianStarBonus(buffer, phase);
     }
     if (effect == 15) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
@@ -96,7 +97,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     if (effect == 17) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
         SetGeomOffset(160, 108);
-        func_80148BA4(buffer, phase);
+        DuelEffect_RunBoardDestruction(buffer, phase);
     }
     if (effect == 18) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
