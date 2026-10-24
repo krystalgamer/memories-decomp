@@ -3,6 +3,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void DuelEffect_DrawLayeredTileQuad(u8 *color, u16 size, s16 depth, SVECTOR *offset)
 {
@@ -11,8 +12,8 @@ void DuelEffect_DrawLayeredTileQuad(u8 *color, u16 size, s16 depth, SVECTOR *off
     s32 i;
 
     setPolyFT4(&packet->polygon);
-    packet->polygon.tpage = D_8015B748.named.page_at_00;
-    packet->polygon.clut = D_8015B748.named.clut_at_02;
+    packet->polygon.tpage = gDuelEffect_TexturePageClutPairs.named.page_at_00;
+    packet->polygon.clut = gDuelEffect_TexturePageClutPairs.named.clut_at_02;
     setUV4(&packet->polygon, 0, 0, 63, 0, 0, 63, 63, 63);
     setRGB0(&packet->polygon, color[0], color[1], color[2]);
     DuelEffect_InitSquareVertices(drawing.vertices, size);
@@ -36,8 +37,8 @@ void DuelEffect_DrawLayeredGradientTrapezoid(u8 *color, u16 *widths, u16 height,
     s32 i;
 
     setPolyGT4(packet);
-    packet->tpage = D_8015B748.named.page_at_04;
-    packet->clut = D_8015B748.named.clut_at_06;
+    packet->tpage = gDuelEffect_TexturePageClutPairs.named.page_at_04;
+    packet->clut = gDuelEffect_TexturePageClutPairs.named.clut_at_06;
     setUV4(packet, 128, 0, 159, 0, 128, 63, 159, 63);
     setRGB0(packet, 0, 0, 0);
     setRGB1(packet, 0, 0, 0);

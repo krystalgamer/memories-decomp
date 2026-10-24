@@ -8,6 +8,7 @@
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_80151558(void *buffer, s32 phase)
 {
@@ -91,8 +92,8 @@ void func_80151558(void *buffer, s32 phase)
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->primary[j]) ||
                 (u16)DuelEffect_HasNonzeroColor((u8 *)&work->secondary[j])) {
                 setPolyFT4(packet);
-                packet->tpage = D_8015B748.pairs[14][0];
-                packet->clut = D_8015B748.pairs[14][1];
+                packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[14][0];
+                packet->clut = gDuelEffect_TexturePageClutPairs.pairs[14][1];
                 setUV4(packet, 80, 0, 127, 0, 80, 127, 127, 127);
                 setRGB0(packet, work->primary[j].r, work->primary[j].g, work->primary[j].b);
                 for (i = 0; i < 4; i++) {
