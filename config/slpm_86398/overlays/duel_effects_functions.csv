@@ -2,11 +2,11 @@ address,size,name,status,module,notes
 0x801542B0,0x508,func_80146258,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801547B8,0x13B8,func_80146760,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80155B70,0x690,func_80147B18,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80156200,0x9FC,func_801481A8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80156BFC,0x13EC,func_80148BA4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80157FE8,0x954,func_80149F90,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80156200,0x9FC,DuelEffect_RunGuardianStarBonus,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80156BFC,0x13EC,DuelEffect_RunBoardDestruction,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80157FE8,0x954,DuelEffect_RunDestroyFlames,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015893C,0x2018,func_8014A8E4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8015A954,0xA7C,func_8014C8FC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8015A954,0xA7C,DuelEffect_RunTerrainChange,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015B3D0,0x34,DuelEffect_IsColorBlack,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015B404,0x3C,DuelEffect_HasNonzeroColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015B440,0xF74,func_8014D3E8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -50,7 +50,7 @@ address,size,name,status,module,notes
 0x80161030,0x114,DuelEffect_SubmitOffsetFt4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80161144,0x114,DuelEffect_SubmitOffsetGt4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80161258,0x3C,DuelEffect_InitBaseMatrix,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80161294,0x8DC,func_80153200,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80161294,0x8DC,DuelEffect_RunAttackSlash,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80161B70,0x44C,func_80153ADC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80161FBC,0x70,DuelEffect_DarkenColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8016202C,0xC4,DuelEffect_StepColorToTarget,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -79,7 +79,7 @@ address,size,name,status,module,notes
 0x80165438,0xEC,DuelEffect_DrawQuadrantTileQuads,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80165524,0x138,DuelEffect_DrawTranslatedTileRect,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8016565C,0x1C8,DuelEffect_DrawGradientConnectionBands,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80165824,0x67C,func_80157794,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80165824,0x67C,DuelEffect_RunFusion,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80165EA0,0x9C8,func_80157E10,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80166868,0xBCC,func_801587D8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80167434,0x704,func_801593A8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
