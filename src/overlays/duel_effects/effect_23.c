@@ -3,6 +3,7 @@
 #include "effect_23.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
 
 void func_80152048(void *buffer, s32 phase)
@@ -25,10 +26,10 @@ void func_80152048(void *buffer, s32 phase)
     if (phase >= 0) {
         Duel_CollectFieldRowCardObjects(D_8015B7A0, 1);
         setVector(&work->position,
-                  (D_8015B7F8.vz >= 0 ? -140 : 140) + (D_8015B7F8.vz >= 0 ? -64 : 64),
-                  -184, D_8015B7F8.vz >= 0 ? -190 : 190);
-        work->speed = D_8015B7F8.vz >= 0 ? 4 : -4;
-        setVector(&work->rotation, 0, 0, D_8015B7F8.vz >= 0 ? -384 : 384);
+                  (gDuelEffect_DrawOffset.vz >= 0 ? -140 : 140) + (gDuelEffect_DrawOffset.vz >= 0 ? -64 : 64),
+                  -184, gDuelEffect_DrawOffset.vz >= 0 ? -190 : 190);
+        work->speed = gDuelEffect_DrawOffset.vz >= 0 ? 4 : -4;
+        setVector(&work->rotation, 0, 0, gDuelEffect_DrawOffset.vz >= 0 ? -384 : 384);
         work->count = 0;
         while (D_8015B7A0[work->count] != 0) {
             work->count++;
@@ -41,30 +42,30 @@ void func_80152048(void *buffer, s32 phase)
                       -__builtin_abs(work->speed) * (rand() % 4096) / 4096,
                       __builtin_abs(work->speed) * ((rand() - rand()) % 4096) / 4096);
             setVector(&work->card_rotations[i],
-                      (rand() % 5 + 2) * (D_8015B7F8.vz >= 0 ? -1 : 1),
-                      (rand() % 5 + 2) * (D_8015B7F8.vz >= 0 ? -1 : 1),
-                      (rand() % 5 + 2) * (D_8015B7F8.vz >= 0 ? -1 : 1));
+                      (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1),
+                      (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1),
+                      (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1));
             if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 ==
-                (D_8015B7F8.vz >= 0 ? -140 : 140)) {
+                (gDuelEffect_DrawOffset.vz >= 0 ? -140 : 140)) {
                 work->states[0] = 1;
             } else if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 ==
-                (D_8015B7F8.vz >= 0 ? -70 : 70)) {
+                (gDuelEffect_DrawOffset.vz >= 0 ? -70 : 70)) {
                 work->states[1] = 1;
             } else if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 == 0) {
                 work->states[2] = 1;
             } else if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 ==
-                (D_8015B7F8.vz >= 0 ? 70 : -70)) {
+                (gDuelEffect_DrawOffset.vz >= 0 ? 70 : -70)) {
                 work->states[3] = 1;
             } else if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 ==
-                (D_8015B7F8.vz >= 0 ? 140 : -140)) {
+                (gDuelEffect_DrawOffset.vz >= 0 ? 140 : -140)) {
                 work->states[4] = 1;
             }
         }
         for (i = 0; i < 5; i++) {
             setVector(&work->slots[i],
-                      (D_8015B7F8.vz >= 0 ? -140 : 140) +
-                      i * 70 * (D_8015B7F8.vz >= 0 ? 1 : -1),
-                      -24, D_8015B7F8.vz >= 0 ? -95 : 95);
+                      (gDuelEffect_DrawOffset.vz >= 0 ? -140 : 140) +
+                      i * 70 * (gDuelEffect_DrawOffset.vz >= 0 ? 1 : -1),
+                      -24, gDuelEffect_DrawOffset.vz >= 0 ? -95 : 95);
             for (j = 0; j < 3; j++) {
                 copyVector(&work->particles[i][j], &work->slots[i]);
                 setVector(&work->velocities[i][j],

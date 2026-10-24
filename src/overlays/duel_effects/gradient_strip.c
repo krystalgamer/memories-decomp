@@ -3,6 +3,7 @@
 #include "drawing_helpers.h"
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 void DuelEffect_DrawGradientRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, u16 bias)
 {
@@ -32,7 +33,7 @@ void DuelEffect_DrawGradientRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle
                 if (depth < 0) {
                     depth = 0;
                 }
-                func_8005B260((u32 *)packet, D_8015B7F4, (u16)(depth >> 2), 1);
+                func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
             }
         }
         depth = RotAverage4(&last[i], &last[(i + 1) % 32],
@@ -48,7 +49,7 @@ void DuelEffect_DrawGradientRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle
                 if (depth < 0) {
                     depth = 0;
                 }
-                func_8005B260((u32 *)packet, D_8015B7F4, (u16)(depth >> 2), 1);
+                func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
             }
         }
     }

@@ -2,6 +2,7 @@
 #include "../../game/gpu_packets.h"
 #include "drawing_helpers.h"
 #include "primitive_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 void DuelEffect_DrawSharedBaseTriangles(u8 *color, u16 width, SVECTOR *positions, u16 count, s16 bias)
 {
@@ -28,7 +29,7 @@ void DuelEffect_DrawSharedBaseTriangles(u8 *color, u16 width, SVECTOR *positions
         depth = RotAverage3(&positions[i], &left, &right,
             (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
             (PSXLONG *)&p, (PSXLONG *)&flag) - bias;
-        func_8005B260((u32 *)packet, D_8015B7F4, (u16)(depth >> 2), 1);
+        func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
     }
 }
 
@@ -49,9 +50,9 @@ void DuelEffect_DrawProjectedFlatQuad(u8 *color, SVECTOR *vertices, u16 flags, u
     if (flag >= 0) {
         if (mode == 0) {
             setSemiTrans(packet, 0);
-            GsSortPoly(packet, D_8015B7F4, depth >> 2);
+            GsSortPoly(packet, gDuelEffect_pOrderingTable, depth >> 2);
         } else {
-            func_8005B260((u32 *)packet, D_8015B7F4, (u16)(depth >> 2), flags);
+            func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), flags);
         }
     }
 }

@@ -6,6 +6,7 @@
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
 
 void func_80147B18(void *buffer, s32 phase)
@@ -34,7 +35,7 @@ void func_80147B18(void *buffer, s32 phase)
             work->config = &D_8015A514[phase];
             work->width = work->config->initial_width;
             work->height = work->config->initial_height;
-            copyVector(&work->origin, &D_8015B7F8);
+            copyVector(&work->origin, &gDuelEffect_DrawOffset);
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitXZRingVertices(work->config->radii[i], work->config->radii[i],
                              work->config->ring_height * i, work->rings[i], 32);
