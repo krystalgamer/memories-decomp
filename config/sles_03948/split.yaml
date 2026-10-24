@@ -398,10 +398,7 @@ segments:
     - game/spanish/duel_update_card_pick_cursor
   - - 84668
     - c
-    - game/european/func_80024200
-  - - 85060
-    - c
-    - game/duel_scene_update
+    - game/european/duel_scene_update
   - - 85168
     - c
     - game/duel_shuffle_deck

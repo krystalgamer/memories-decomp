@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/func_80024200.c. The US source is included as is. */
+/* SLES-03947 build of src/game/duel_scene_update.c. The US source is included as is. */
 
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */
@@ -12,4 +12,4 @@
 #define DUEL_QUIT_BOX_X 0x78
 #define DUEL_QUIT_BOX_WIDTH 0x50
 
-#include "../func_80024200.c"
+#include "../duel_scene_update.c"

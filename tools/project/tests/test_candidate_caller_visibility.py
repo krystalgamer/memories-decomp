@@ -94,7 +94,7 @@ PAIRS = [
     ("src/game/model_scene_controllers.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_debug_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_parent_search.h"'),
-    ("src/game/func_80024200.c", "Duel_UpdateDisplayTransition", '#include "duel_field_display_objects.h"'),
+    ("src/game/duel_scene_update.c", "Duel_UpdateDisplayTransition", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_field_display_objects.c", "Duel_CreateFieldCardPanel", '#include "duel_card_object_helpers.h"'),
     ("src/game/duel_scene_field_actions.c", "Duel_CreateFieldCursorObject", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_scene_hand_actions.c", "DuelHand_PositionSelectionCursor", '#include "duel_hand_position_selection_cursor.h"'),
