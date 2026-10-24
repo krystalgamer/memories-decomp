@@ -510,6 +510,11 @@ class ModelVariantToolchainTests(unittest.TestCase):
             312: (names(set(), set(), stage10_slot1={243, 622}, stage8_slot1=set()), 0x1594, 1),
             753: (names({23, 85, 103, 239, 480, 499, 555}, {187, 596}, stage10_slot1=set(), stage8_slot1=set()), 0x16E8, 1),
             850: (names(set(), set(), stage10_slot1={187, 596}, stage8_slot1={23, 85, 103, 239, 480, 499, 555}), 0x16E8, 1),
+            # North American images whose entry is a French entry plus the North American work-size printf.
+            136: (names({38, 271, 635}, {356}, stage10_slot1=set(), stage8_slot1=set()), 0xE18, 1),
+            156: (names({392}, {8, 113, 350, 386, 448}, stage10_slot1=set(), stage8_slot1=set()), 0xEC4, 1),
+            266: (names(set(), set(), stage10_slot1={167, 356}, stage8_slot1={38, 271, 635}), 0xE18, 1),
+            286: (names(set(), set(), stage10_slot1={8, 113, 350, 386, 448}, stage8_slot1={392}), 0xEC4, 1),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
@@ -527,7 +532,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 415)
+        self.assertEqual(len(registered), 436)
 
 
 if __name__ == "__main__":

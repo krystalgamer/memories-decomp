@@ -1,5 +1,11 @@
 #include "../../types.h"
 #include "variant153_entry.h"
+#include "../../game/screen_projection.h"
+
+/* The North American build reports the work size once per setup command. */
+#if defined(VARIANT153_PRINT_WORK_SIZE)
+#include "../../psyq/stdio.h"
+#endif
 
 const VECTOR D_8013BE0C = {4096, 4096, 4096, 0};
 
@@ -53,6 +59,9 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->elapsed = 0;
         work->completed = 0;
+#if defined(VARIANT153_PRINT_WORK_SIZE)
+        printf("%d (0x%x) Byte\n", sizeof(Model153State), sizeof(Model153State));
+#endif
         return 0;
     }
     config = work->config;
