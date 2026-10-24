@@ -93,9 +93,9 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
         box->field_3A = y;
         if (q[0] == 0) {
 #ifdef VERSION_EUROPE
-            box->field_54 = empty_color;
+            box->color_index_54 = empty_color;
 #else
-            box->field_54 = 4;
+            box->color_index_54 = 4;
 #endif
             w->card_entries[0] |= 0x8000;
 #ifdef VERSION_EUROPE

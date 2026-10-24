@@ -1036,6 +1036,8 @@ gModel_bDrawTintBlue = D_8009BF70;
 gModel_aShadowFanSteps = D_800925CC;
 
 gText_aChannels = D_800EB0F8;
+gText_Channel2View = gText_aChannels + 0xC8;
+gText_Channel3View = gText_aChannels + 0x12C;
 gText_Channel1 = D_800EB15C;
 gText_dwChannel0State = D_800EB12C;
 

@@ -47,6 +47,11 @@ extern u8 tent_DuelEffectOccupancy[DUEL_EFFECT_OCCUPANCY_COUNT];
 extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 extern DuelEffectChannel D_800F04F8;
 extern DuelEffectChannel D_800F055C;
+/* PAL views of pool slots 2/3; retain the password caller's native names. */
+#ifdef VERSION_EUROPE
+#define gText_Channel2View D_800F04F8
+#define gText_Channel3View D_800F055C
+#endif
 /* D_800EB15C is D_800EB0F8[1] under its own name: 0x800EB0F8 + 0x64, one
  * DuelEffectChannel in. It stays a second name because how this address is
  * spelled is a codegen input, and two matched functions record the shape:
@@ -138,7 +143,7 @@ extern u8 gText_BranchSelectorB;
  * DuelField_GetGuardianStarDisplayCode's result -- 4, 1 or 6 -- under
  * `if (gText_BranchSelectorA != 0)` in duel_field_display_objects.c;
  * Library_RefreshSelectedCardText stores the returned text channel's
- * field_54 byte at +0x54, then 4 when
+ * color_index_54 byte at +0x54, then 4 when
  * `*(p + (n << 2) + 0x56) & 1` (src/game/library_card_grid.c:246-249);
  * Text_ExpandSelectedCardInfo stores it into `object[0x54]` when the opcode byte has bit
  * 0x10 (src/candidates/func_80037DA4.c). notes/duel-card-record.md:173-176

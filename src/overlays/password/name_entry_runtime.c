@@ -712,7 +712,7 @@ draw:
         DisplayObject_ConfigureScreenSprite(
             obj,
             p->field_3C + w->x_0C + shift, p->field_40 + w->y_0E,
-            16, 16, u, v, 10, 640, p->field_54 + 232
+            16, 16, u, v, 10, 640, p->color_index_54 + 232
         );
         obj->sequence = gNameEntry_bGlyphSequence;
         gNameEntry_bGlyphSequence = gNameEntry_bGlyphSequence + 1;

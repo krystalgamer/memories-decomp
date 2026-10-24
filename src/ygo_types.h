@@ -572,11 +572,11 @@ typedef struct DuelEffectChannel {
     /* TextBox_BuildStep dispatches on the low five bits through D_80090E64.
        0x80 is an initialization latch set by every callback on entry. */
     u8 state_51;
-    /* Reloaded from field_53, decremented once per call, and used to return
+    /* Reloaded from delay_reload_53, decremented once per call, and used to return
        while the countdown remains nonzero. */
     u8 delay_52;
-    u8 field_53;
-    u8 field_54;
+    u8 delay_reload_53;
+    u8 color_index_54;
     u8 pad_55;
     u8 field_56;
     u8 index_57;
@@ -634,8 +634,8 @@ typedef char DuelEffectChannel_field_3C_offset_must_be_0x3C[
 typedef char DuelEffectChannel_state_51_offset_must_be_0x51[
     YGO_TYPE_OFFSET(DuelEffectChannel, state_51) == 0x51 ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_53_offset_must_be_0x53[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_53) == 0x53 ? 1 : -1
+typedef char DuelEffectChannel_delay_reload_53_offset_must_be_0x53[
+    YGO_TYPE_OFFSET(DuelEffectChannel, delay_reload_53) == 0x53 ? 1 : -1
 ];
 typedef char DuelEffectChannel_field_56_offset_must_be_0x56[
     YGO_TYPE_OFFSET(DuelEffectChannel, field_56) == 0x56 ? 1 : -1

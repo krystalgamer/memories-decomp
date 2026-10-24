@@ -108,7 +108,7 @@ void NameEntry_UpdateDialog(void)
             return;
         }
 #ifdef VERSION_EUROPE
-        box = &D_800F04F8;
+        box = &gText_Channel2View;
 #else
         box = &D_800EB1C0;
 #endif
@@ -193,7 +193,7 @@ void NameEntry_UpdateDialog(void)
         TextBox_Create(3, 254, 112, 204, 96, 16);
 #endif
 #ifdef VERSION_EUROPE
-        func_80039A60((struct DuelEffectChannel *)&D_800F055C);
+        func_80039A60((struct DuelEffectChannel *)&gText_Channel3View);
 #elif defined(VERSION_JAPAN)
         /* No field_5A/field_5B stores, and 0x60-byte channel records. */
         func_80039A60((struct DuelEffectChannel *)&(

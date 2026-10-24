@@ -300,10 +300,10 @@ void Library_UpdateCardView(LibraryState *state)
             0, layout, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y,
             LIBRARY_CARD_VIEW_BOX_WIDTH, LIBRARY_CARD_VIEW_BOX_HEIGHT);
 #ifndef VERSION_EUROPE
-        /* The European build does not write field_54 here. */
-        box->field_54 = LIBRARY_CARD_VIEW_BOX_FIELD_54;
+        /* The European build does not write color_index_54 here. */
+        box->color_index_54 = LIBRARY_CARD_VIEW_BOX_FIELD_54;
 #endif
-        box->field_53 = 1;
+        box->delay_reload_53 = 1;
         box->field_59 = 4;
         state->motion.card_view_phase = 1;
         return;

@@ -25,7 +25,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value);
 #ifdef VERSION_JAPAN
 void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *bitmap);
 /* The sixteen 4bpp pixel patterns for one nibble of glyph bits, and the
- * colour masks a channel's field_54 selects among. */
+ * colour masks a channel's color_index_54 selects among. */
 extern u16 D_80090E28[16];
 extern u16 D_80090E48[];
 #define gText_awGlyphNibblePatterns D_80090E28

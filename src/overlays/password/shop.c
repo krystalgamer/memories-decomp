@@ -112,7 +112,7 @@ void Password_RefreshDigitDisplay(void)
     func_80039A14(
         (struct DuelEffectChannel *)((u8 *)D_800EB0F8 + 0xC0));
 #elif defined(VERSION_EUROPE)
-    func_80039A14((struct DuelEffectChannel *)&D_800F04F8);
+    func_80039A14((struct DuelEffectChannel *)&gText_Channel2View);
 #else
     boxes = D_800EB0F8;
     boxes[2].field_5A = 0x10;
@@ -138,7 +138,7 @@ void Password_RefreshStarchipDisplay(void)
     func_80039A14(
         (struct DuelEffectChannel *)((u8 *)D_800EB0F8 + 0x120));
 #elif defined(VERSION_EUROPE)
-    func_80039A14((struct DuelEffectChannel *)&D_800F055C);
+    func_80039A14((struct DuelEffectChannel *)&gText_Channel3View);
 #else
     boxes = D_800EB0F8;
     boxes[3].field_5A = 0x10;
@@ -157,7 +157,7 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
 
     TextBox_Destroy(D_800EB0F8);
     object = TextBox_Create(0, message_id, 0x98, 0x98, 0xA0, 0x40);
-    object->field_53 = 1;
+    object->delay_reload_53 = 1;
     if (flags & 0xF) {
         func_80039A14((struct DuelEffectChannel *)object);
     }
