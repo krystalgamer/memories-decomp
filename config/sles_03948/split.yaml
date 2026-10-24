@@ -1205,9 +1205,6 @@ segments:
     - game/sd_apply_positional_sound
   - - 311760
     - c
-    - game/model_queue_tint_request_for_parts
-  - - 312016
-    - c
     - game/model_queue_tint_request
   - - 312340
     - c
