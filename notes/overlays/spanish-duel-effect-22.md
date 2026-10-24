@@ -1,5 +1,39 @@
 # Spanish duel effect 22
 
+## Canonical ritual lifecycle and data bindings
+
+`DuelEffect_RunRitual` names the complete native `func_8014A8E4` owner:
+NA `8014B3BC`, JP `8015893C`, and PAL `8014A8E4`, with 8,216 instruction
+bytes in every configured inventory. The resident `DuelEffect_ApplyRitual`
+calls `Duel_CheckRitual`, allocates request 22 only for a nonzero result,
+and puts the ritual card ID in `field_1A`. Its later handshake deactivates
+the three material-card records and stages the result in resident code.
+The overlay animates the portals, three moving cards, rings, lines,
+particles and fan; it is not the owner of ritual eligibility or card removal.
+This name follows the actual resident caller and lifecycle, not a new
+runtime/artwork observation under #418.
+
+The extern-only `ritual_semantic_views.h` binds the existing private
+`DuelEffect22Config[24]` as `gDuelEffect_RitualConfigs` and the separate
+SDK `VECTOR` as `gDuelEffect_RitualInitialScale`. Their native data owners
+remain `D_8015A658` (624 bytes) and `D_80146044` (16 bytes). Actual addresses
+are NA `8015A724`/`8014608C`, JP `801686E4`/`80154044`, and PAL
+`8015A658`/`80146044`. No storage, const qualification, layout or SDK type
+is replaced. The shared 21-word ritual/card-output buffer remains separately
+owned and address-named.
+
+The complete definition and dispatcher use these canonical bindings;
+native declarations, labels, five regional profiles/layouts and compiler-table
+ownership are unchanged. All 57 phase-table entries and 24 configurations
+remain intact, including phase 670 selecting record zero without the
+unsupported-phase cross fallback. Preserve the 32-of-64 particle
+initialization, three shared random samples for line endpoints, split flame
+frame conditions, unused half-color calculation, duplicate flash-color test,
+stage-five completion and request-marker timing described below. The semantic
+change does not rewrite historical source/header fingerprints or acceptance
+receipts. Existing dispatch checks add the ritual callee while retaining
+six live handler views, 25 unique callees and all original data-owner checks.
+
 ## Exact scope
 
 The complete ritual lifecycle at `0x8014A8E4..0x8014C8FC` contributes
