@@ -1,7 +1,8 @@
 #include "../../types.h"
 #include "drawing_helpers.h"
+#include "primitive_semantic_views.h"
 
-u16 func_801570B0(u8 *color, u16 count, SVECTOR *vertices, u16 bias,
+u16 DuelEffect_DrawGradientPath(u8 *color, u16 count, SVECTOR *vertices, u16 bias,
                     u16 mode, SVECTOR *output, u16 flags, SVECTOR *offset)
 {
     GsGLINE line;

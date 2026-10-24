@@ -1,4 +1,93 @@
-# Duel-effect projected gradient lines
+# Duel-effect projected primitives and gradient lines
+
+## Scoped projected-primitive C views
+
+`primitive_semantic_views.h` names the complete two-function
+`primitive_draw.c` object and the complete `gradient_lines.c` object. The
+original drawing header, native declarations, SDK types, source definition
+order, grouped extents and `gcc_2_8_1_g0_split` profile remain unchanged.
+Assembler-bound declarations preserve the three original native labels;
+they do not add wrappers, native exports, data definitions or linker aliases.
+
+| C view | Native label | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `DuelEffect_DrawSharedBaseTriangles` | `func_80156E58` | `0x801490A0` | `0x80164EE8` | `0x80156E58` |
+| `DuelEffect_DrawProjectedFlatQuad` | `func_80156FA4` | `0x801491EC` | `0x80165034` | `0x80156FA4` |
+| `DuelEffect_DrawGradientPath` | `func_801570B0` | `0x801492F8` | `0x80165140` | `0x801570B0` |
+
+These helpers form a projected-primitive submission cohort rather than one
+generalized clipping API. Effects 8, 11, 16, 17 and 22 use the triangles;
+effect 10 uses the flat quad; effects 13 and 17 use the gradient path and its
+returned state. All actual bank callers use the typed views. Three scoped
+registry rows use the actual NA inventory addresses, not native suffixes.
+The three existing paired triangle ABI guards retain the original native
+declaration check and verify the complete typed canonical definition plus
+its exact assembler binding to `func_80156E58`. Their unrelated helper and
+regional SDK ownership/address/size assertions remain unchanged.
+The five configured bank inventories change only their fifteen name cells;
+addresses, sizes, profiles, manifests and non-name fields remain intact.
+No resident symbols or German/Italian bank coverage are inferred.
+
+### Shared-base triangles
+
+For each supplied position, the complete body projects a `POLY_G3` with a
+black first vertex and input-color second/third vertices. The two base
+vectors are fixed at `(-width, 0, 0)` and `(width, 0, 0)` in local coordinates;
+they are not translated independently to each position. Width remains `u16`
+with assignment narrowing into SDK vector halfwords. The signed-halfword
+bias is subtracted from `RotAverage3` depth before arithmetic shift and
+`u16` priority narrowing. The resident submission always receives flags 1.
+
+The routine does not reject on projection flags or negative depth and adds
+no clamp. Zero count submits nothing but retains the original packet/base
+initialization. Caller names such as rays, clouds and card particles support
+the role but do not establish world-space units or one universal effect.
+
+### Projected flat quad
+
+The body constructs a solid input-color `POLY_F4`, enables
+semitransparency and projects four supplied vertices. Only a negative
+projection flag rejects submission; there is no separate negative-depth
+check. Mode zero clears semitransparency and calls `GsSortPoly` with the
+original shifted-depth argument. Every nonzero `u16` mode instead calls the
+resident submitter with narrowed `u16` priority and caller flags. Do not
+borrow mode-one-only branching, priority clamps or depth bias from other
+packet helpers. Effect 10 calls this helper for two plane colors with mode
+one; that does not remove the complete mode-zero contract.
+
+### Gradient path and endpoint state
+
+For each of `count` segments the body projects adjacent vertices and
+builds a `GsGLINE` with RGB components divided by `count + 1 - i` and
+`count - i`. Keep the separate divisor assignment, signed divisions and
+projection order. Submission uses only the second endpoint's depth minus
+the unsigned-halfword bias: nonnegative adjusted depth is quartered,
+narrowed to `u16` and passed to `GsSortGLine`. Projection flags are written
+but are not a rejection condition. Attribute formation retains
+`0x40000000U + ((u32)flags << 28)` without flag normalization.
+
+Mode one captures the first next vertex with positive local Y: copy X/Z,
+set Y to zero, add the supplied offset and return mode two. This capture
+is independent of segment submission; it is not an interpolated crossing
+point or proof of a collision. Other modes remain unchanged. Zero count
+returns the original mode without accessing vertices, output or offset.
+No new count bound, null guard, output initialization or runtime coverage
+claim is added.
+
+### Conservation evidence
+
+The nine affected C files retain all original bodies after reversing only
+these three identifiers and removing one added include per file.
+Accepted-parent compilation through the named profile preserves raw GCC
+and MASPSX assembly, native symbol tables and disassembly/relocations for
+all nine complete objects. Existing native headers, selectors and curve
+controls remain unchanged. The paired ABI guards have only the
+identifier-aware correction described above; no guard is deleted or
+skipped and no parameter domain is relaxed. Full-image acceptance continues
+through ordinary project matching and PR gates, not new source-string
+harnesses or local execution of cloud tests.
+
+## Original gradient-line matching evidence
 
 `func_801570B0` occupies all 760 bytes of `0x801570B0..0x801573A8`.
 `gradient_lines.c` reproduces that complete interval with the unchanged

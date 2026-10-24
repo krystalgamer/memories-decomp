@@ -1,8 +1,9 @@
 #include "../../types.h"
 #include "../../game/gpu_packets.h"
 #include "drawing_helpers.h"
+#include "primitive_semantic_views.h"
 
-void func_80156E58(u8 *color, u16 width, SVECTOR *positions, u16 count, s16 bias)
+void DuelEffect_DrawSharedBaseTriangles(u8 *color, u16 width, SVECTOR *positions, u16 count, s16 bias)
 {
     SVECTOR left;
     SVECTOR right;
@@ -31,7 +32,7 @@ void func_80156E58(u8 *color, u16 width, SVECTOR *positions, u16 count, s16 bias
     }
 }
 
-void func_80156FA4(u8 *color, SVECTOR *vertices, u16 flags, u16 mode)
+void DuelEffect_DrawProjectedFlatQuad(u8 *color, SVECTOR *vertices, u16 flags, u16 mode)
 {
     POLY_F4 polygon;
     POLY_F4 *packet = &polygon;
