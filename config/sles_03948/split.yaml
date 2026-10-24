@@ -1328,9 +1328,6 @@ segments:
     - game/model_sequence_dispatch
   - - 322520
     - c
-    - game/model_interpolate_trans_rot
-  - - 323680
-    - c
     - game/model_interpolate_transform
   - - 325244
     - c

@@ -6231,9 +6231,9 @@
     },
     {
       "address": "0x8005EEDC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x488",
-      "source": "src/game/japanese/model_interpolate_trans_rot.c"
+      "source": "src/game/japanese/model_interpolate_transform.c"
     },
     {
       "address": "0x8005F364",
