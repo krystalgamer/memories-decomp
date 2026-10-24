@@ -1,5 +1,12 @@
 #include "../../types.h"
 #include "variant198_entry.h"
+#include "../../game/screen_projection.h"
+
+/* PAL height; the North American wrappers define 240. */
+#ifndef GRAPHICS_DEFAULT_HEIGHT
+#define GRAPHICS_DEFAULT_HEIGHT 256
+#endif
+#include "../../game/graphics_constants.h"
 
 const VECTOR D_8013BD74 = {4096, 4096, 4096, 0};
 
@@ -119,7 +126,7 @@ s32 func_8013B004(u8 *context, s32 command)
         time = work->elapsed - config->start_delay - j * config->phase_spacing;
         if (time >= 0 && time < config->flash_duration) {
             s32 remaining;
-            setXY4(&flash, 0, 0, 320, 0, 0, 256, 320, 256);
+            setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
             remaining = config->flash_duration - time;
             color_numerator = remaining * 256;
             color_numerator -= remaining;

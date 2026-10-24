@@ -1,5 +1,13 @@
 #include "../../types.h"
 #include "variant144_entry.h"
+#include "../../game/screen_projection.h"
+#include "../../psyq/libhmd.h"
+
+/* PAL height; the North American wrappers define 240. */
+#ifndef GRAPHICS_DEFAULT_HEIGHT
+#define GRAPHICS_DEFAULT_HEIGHT 256
+#endif
+#include "../../game/graphics_constants.h"
 
 static const VECTOR D_8013BEB0 = {4096, 4096, 4096, 0};
 
@@ -98,16 +106,16 @@ s32 func_8013B004(u8 *context, s32 command)
             func_8005B260((u32 *)&gradient, ot, 1, 1);
             setXY3(&gradient, 319, 0, gradient.x3, 0, 319, gradient.y3 - 1);
             func_8005B260((u32 *)&gradient, ot, 1, 1);
-            setXY3(&gradient, 0, 255, gradient.x3 - 1, 255, 0, gradient.y3);
+            setXY3(&gradient, 0, GRAPHICS_DEFAULT_HEIGHT - 1, gradient.x3 - 1, GRAPHICS_DEFAULT_HEIGHT - 1, 0, gradient.y3);
             func_8005B260((u32 *)&gradient, ot, 1, 1);
-            setXY3(&gradient, 319, 255, gradient.x3, 255, 319, gradient.y3);
+            setXY3(&gradient, 319, GRAPHICS_DEFAULT_HEIGHT - 1, gradient.x3, GRAPHICS_DEFAULT_HEIGHT - 1, 319, gradient.y3);
             func_8005B260((u32 *)&gradient, ot, 1, 1);
         } else {
             setRGB0(&gradient, red, green, blue);
             setRGB1(&gradient, red, green, blue);
             setRGB2(&gradient, red, green, blue);
             setRGB3(&gradient, red, green, blue);
-            setXY4(&gradient, 0, 0, 320, 0, 0, 256, 320, 256);
+            setXY4(&gradient, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
             func_8005B260((u32 *)&gradient, ot, 1, 1);
         }
     }
