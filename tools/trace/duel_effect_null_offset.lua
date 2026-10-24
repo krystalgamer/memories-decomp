@@ -216,7 +216,8 @@ local function onHelper()
     for _, site in ipairs(sites) do
         if ra == site.ra then
             site.calls = site.calls + 1
-            if site.returned then return end
+            if site.started then return end
+            site.started = true
             current = {site = site, sp = tonumber(n.sp) - 0x78, event = event}
             live(string.format('#%02d t=%.2fs NULL %s ra=0x%08X '
                 .. 'size=%d depth=%d offset=0', event, frames / FPS,
