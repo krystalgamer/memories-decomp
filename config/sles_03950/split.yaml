@@ -96,7 +96,7 @@ segments:
       - {start: 0xF10, type: bin, name: italian_raw_80010710, linker_section_order: .rodata}
       - [0xF38, .rodata, game/european/sd_update_bank_load]
       - {start: 0xF60, type: bin, name: italian_raw_80010760, linker_section_order: .rodata}
-      - [0x1BF0, .rodata, game/european/model_draw_background]
+      - [0x1BF0, .rodata, game/european/model_background]
       - {start: 0x1C14, type: bin, name: italian_raw_80011414, linker_section_order: .rodata}
       - [0x1CD8, .rodata, game/european/model_scene_controllers]
       - {start: 0x1E1C, type: bin, name: italian_raw_8001161c, linker_section_order: .rodata}
@@ -435,8 +435,7 @@ segments:
       - [0x40A54, c, game/european/func_80051610]
       - [0x40EE0, c, game/european/model_slot_row_tables]
       - [0x41468, c, game/func_8004DC38]
-      - [0x41778, c, game/european/model_draw_background]
-      - [0x42104, c, game/model_update_background_scroll]
+      - [0x41778, c, game/european/model_background]
       - [0x422F4, c, game/european/model_scene_controllers]
       - [0x46E20, c, game/european/model_debug_controller]
       - [0x47A1C, c, game/european/model_draw_slot]

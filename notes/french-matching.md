@@ -273,7 +273,7 @@ section addresses. Two groups remain deferred:
 - `european/debug_effect_screen.c`: references to
   `gDebugEffect_abPreviewState` imply both `0x8009C2C2` and `0x8009C2C0`;
   a single alias cannot resolve the regional layout difference.
-- `model_update_background_scroll.c`: the initial bytes at recovered `D_8009AF88` differ from
+- `model_background.c` (formerly `model_update_background_scroll.c`): the initial bytes at recovered `D_8009AF88` differ from
   the European storage. Its initialized-pointer ownership needs further
   evidence rather than bypassing the storage check.
 
@@ -332,7 +332,7 @@ Spanish evidence resolves both previously deferred European-reference cases:
 - The existing Spanish debug-effect wrapper already selects the measured
   field offsets and seven-byte state layout. All French references agree;
   no conflicting aliases or new regional macro are needed.
-- `model_update_background_scroll.c` has nine tentative declarations whose French addresses,
+- `model_background.c` (formerly `model_update_background_scroll.c`) has nine tentative declarations whose French addresses,
   sizes and alignment agree with their Spanish bindings. The exact Spanish
   ELF uses `SHN_ABS` for these preserved-storage declarations. All original
   storage bytes agree, including the pointer at `0x8009C318`, whose value is

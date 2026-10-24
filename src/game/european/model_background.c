@@ -4,4 +4,4 @@
 #define GsSetAmbient func_80085AD4
 #define NormalColorCol func_800899A4
 
-#include "../model_draw_background.c"
+#include "../model_background.c"

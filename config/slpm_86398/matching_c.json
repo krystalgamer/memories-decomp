@@ -5523,15 +5523,15 @@
     },
     {
       "address": "0x80051720",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x98C",
-      "source": "src/game/japanese/model_background_renderer.c"
+      "source": "src/game/japanese/model_background.c"
     },
     {
       "address": "0x800520AC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F0",
-      "source": "src/game/model_update_background_scroll.c"
+      "source": "src/game/japanese/model_background.c"
     },
     {
       "address": "0x8005229C",
