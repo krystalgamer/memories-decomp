@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
 #include "texture_semantic_views.h"
+#include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 
 #ifdef VERSION_EUROPE
@@ -131,7 +132,7 @@ void func_801587D8(void *buffer, s32 phase)
                     matrix = saved;
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
-                    func_8015616C((u8 *)&work->colors[i], work->rings[0],
+                    DuelEffect_DrawTexturedRingStrip((u8 *)&work->colors[i], work->rings[0],
                                  work->rings[1], work->rings[2], 0);
                     DuelEffect_DrawLayeredTileQuad((u8 *)&work->colors[i], work->sizes[i], 0, &position);
                     if (work->scales[i] < 0x6000) {

@@ -3,6 +3,7 @@
 #include "effect_1.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 
 void func_80157794(void *buffer, s32 phase)
@@ -63,7 +64,7 @@ void func_80157794(void *buffer, s32 phase)
             setVector(&rotation, 0, 0,
                       (work->rotation_step * work->tick) & 0xFFF);
             DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 0);
-            func_80155F94((u8 *)&work->base_color);
+            DuelEffect_DrawFixedTileQuad((u8 *)&work->base_color);
             if (work->frame < work->config->first_end) {
                 DuelEffect_StepColorToTarget((u8 *)&work->base_color, 128, 128, 128, 8);
                 work->rotation_step += work->config->rotation_acceleration;
@@ -121,7 +122,7 @@ void func_80157794(void *buffer, s32 phase)
                 DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 0);
                 for (i = 0; i < 64; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    func_80156064((u8 *)&work->beam_color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad((u8 *)&work->beam_color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
             }

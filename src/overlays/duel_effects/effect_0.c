@@ -3,6 +3,7 @@
 #include "effect_0.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 
 void func_80154688(void *buffer, s32 phase)
@@ -58,7 +59,7 @@ void func_80154688(void *buffer, s32 phase)
             setVector(&rotation, 0, 0, 0);
             setVector(&scale, 4096, 4096, 4096);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-            func_801558F4((u8 *)&work->color, work->quads[0], work->quads[1], 0, 1);
+            DuelEffect_DrawQuadContour((u8 *)&work->color, work->quads[0], work->quads[1], 0, 1);
             if (work->frame >= work->config->delay) {
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 scale.vx = work->scale >> 3;
@@ -67,7 +68,7 @@ void func_80154688(void *buffer, s32 phase)
                 working = saved;
                 ScaleMatrix(&working, &scale);
                 GsSetLsMatrix(&working);
-                func_80156448((u8 *)&work->color, work->rings[0],
+                DuelEffect_DrawGradientRingStrip((u8 *)&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 0);
                 scale.vx = work->scale;
                 scale.vy = work->scale;

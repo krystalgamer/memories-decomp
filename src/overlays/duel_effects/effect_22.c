@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
 #include "primitive_semantic_views.h"
+#include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 
 void func_8014A8E4(void *buffer, s32 phase)
@@ -259,7 +260,7 @@ void func_8014A8E4(void *buffer, s32 phase)
             setVector(&position, 0, -96, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
             DuelEffect_DrawSharedBaseTriangles((u8 *)&work->flash_color, work->config->point_size, work->points, 32, 1);
-            func_801558F4((u8 *)&work->flash_color, work->rings[0], work->rings[1], 1, 1);
+            DuelEffect_DrawQuadContour((u8 *)&work->flash_color, work->rings[0], work->rings[1], 1, 1);
             setVector(&scale, work->ring_scale, work->ring_scale, 4096);
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
             setVector(&position, 0, 0, 0);
@@ -342,7 +343,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                     if (i % 4 == 0) {
                         DuelEffect_DrawLayeredTileQuad((u8 *)&work->colors[i], 4, 32, &work->particles[i]);
                     }
-                    func_80156064((u8 *)&work->colors[i], vertices, 32);
+                    DuelEffect_DrawRandomTileQuad((u8 *)&work->colors[i], vertices, 32);
                     if (__builtin_abs(work->particles[i].vx) > 32 ||
                         __builtin_abs(work->particles[i].vy) > 32 ||
                         __builtin_abs(work->particles[i].vz) > 32) {
@@ -420,7 +421,7 @@ void func_8014A8E4(void *buffer, s32 phase)
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
             for (i = 0; i < 64; i++) {
                 DuelEffect_InitOffsetQuadVertices(vertices, &work->particles[i]);
-                func_80156064((u8 *)&work->particle_color, vertices, 8);
+                DuelEffect_DrawRandomTileQuad((u8 *)&work->particle_color, vertices, 8);
                 addVector(&work->particles[i], &work->particle_velocities[i]);
             }
             setVector(&position, 0, 0, 0);

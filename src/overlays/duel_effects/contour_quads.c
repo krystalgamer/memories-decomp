@@ -3,8 +3,9 @@
 #include "layered_drawing.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "drawing_semantic_views.h"
 
-void func_801558F4(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags)
+void DuelEffect_DrawQuadContour(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags)
 {
     POLY_G4 gradient;
     POLY_G4 *edge = &gradient;

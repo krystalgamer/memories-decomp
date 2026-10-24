@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 
 void func_80153200(void *buffer, s32 phase, s16 number)
@@ -138,7 +139,7 @@ void func_80153200(void *buffer, s32 phase, s16 number)
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 for (i = 0; i < work->config->particle_count; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    func_80156064((u8 *)&work->color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
                 scale.vx = (work->scale >> 1) + 4096;
@@ -155,14 +156,14 @@ void func_80153200(void *buffer, s32 phase, s16 number)
                 color_copy.r >>= 1;
                 color_copy.g >>= 1;
                 color_copy.b >>= 1;
-                func_8015616C((u8 *)&color_copy, work->rings[0], work->rings[1],
+                DuelEffect_DrawTexturedRingStrip((u8 *)&color_copy, work->rings[0], work->rings[1],
                              work->rings[2], 0);
                 if (work->config->variant == 1) {
                     scale.vx = (work->scale + 4096) >> 1;
                     scale.vy = (work->scale + 4096) >> 1;
                     scale.vz = 0;
                     DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-                    func_8015616C((u8 *)&work->color, work->rings[0],
+                    DuelEffect_DrawTexturedRingStrip((u8 *)&work->color, work->rings[0],
                                  work->rings[1], work->rings[2], 0);
                     scale.vx = 4096;
                     scale.vy = work->scale;

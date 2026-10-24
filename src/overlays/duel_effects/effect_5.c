@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 
 #ifdef VERSION_EUROPE
@@ -82,7 +83,7 @@ void func_80157E10(void *buffer, s32 phase)
         for (i = 0; i < work->spawned; i++) {
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->rising_colors[i])) {
                 DuelEffect_InitOffsetQuadVertices(quad, &work->rising_positions[i]);
-                func_80156064((u8 *)&work->rising_colors[i], quad, 0);
+                DuelEffect_DrawRandomTileQuad((u8 *)&work->rising_colors[i], quad, 0);
                 work->rising_positions[i].vy += work->config->rise_speed;
             }
             if (work->rising_positions[i].vy < 0) {
@@ -128,7 +129,7 @@ void func_80157E10(void *buffer, s32 phase)
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
                 for (i = 0; i < work->config->particle_count; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    func_80156064((u8 *)&work->color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);
                     if (work->variant < 5 || work->hold_frames == 0) {
                         addVector(&work->positions[i], &work->velocities[i]);
                     }
@@ -139,7 +140,7 @@ void func_80157E10(void *buffer, s32 phase)
                 matrix = saved;
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                func_80156448((u8 *)&work->color, work->rings[0],
+                DuelEffect_DrawGradientRingStrip((u8 *)&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 0);
                 scale.vx = work->scale;
                 scale.vy = work->scale;
