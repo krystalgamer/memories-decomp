@@ -5,8 +5,9 @@
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "contour_burst_semantic_views.h"
 
-void func_80154688(void *buffer, s32 phase)
+void DuelEffect_RunContourBurst(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX working;
@@ -20,14 +21,14 @@ void func_80154688(void *buffer, s32 phase)
 
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_801461E8;
+    scale = gDuelEffect_ContourBurstInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 30) {
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015B0B4[phase];
+            work->config = &gDuelEffect_ContourBurstConfigs[phase];
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }

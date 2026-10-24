@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "contour_burst_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_18_RING_HEIGHT 106
@@ -12,7 +13,7 @@
 #define EFFECT_18_RING_HEIGHT 98
 #endif
 
-void func_80154084(void *buffer, s32 phase)
+void DuelEffect_RunParticleContourBurst(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX working;
@@ -28,14 +29,14 @@ void func_80154084(void *buffer, s32 phase)
 
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_801461D8;
+    scale = gDuelEffect_ParticleContourBurstInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 2) {
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015B078[phase];
+            work->config = &gDuelEffect_ParticleContourBurstConfigs[phase];
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }

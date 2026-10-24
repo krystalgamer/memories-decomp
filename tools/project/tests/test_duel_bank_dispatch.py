@@ -28,18 +28,24 @@ class DuelBankDispatchTests(unittest.TestCase):
         self.assertEqual(len(views), 6)
         with (directory / "duel_effects_functions.csv").open() as handle:
             inventory = {row["name"]: row for row in csv.DictReader(handle)}
+        named_callees = {
+            "DuelEffect_PackTexturePageClut": ("func_8014F564", 0x8014F564, 0x6C),
+            "DuelEffect_RunContourBurst": ("func_80154688", 0x80154688, 0x4A8),
+            "DuelEffect_RunParticleContourBurst": ("func_80154084", 0x80154084, 0x604),
+        }
         callees = set(re.findall(
-            r"\b(func_[0-9A-F]+|DuelEffect_PackTexturePageClut|"
-            + "|".join(views) + r")\(", source
+            r"\b(func_[0-9A-F]+|"
+            + "|".join((*named_callees, *views)) + r")\(", source
         )) - {"func_80146258"}
         self.assertEqual(len(callees), 25)
         for name in callees:
             self.assertNotIn(name + " =", aliases)
-            if name == "DuelEffect_PackTexturePageClut":
-                self.assertNotIn("func_8014F564 =", aliases)
+            if name in named_callees:
+                native, address, size = named_callees[name]
+                self.assertNotIn(native + " =", aliases)
                 self.assertEqual(inventory[name]["module"], "overlay/duel_effects")
-                self.assertEqual(int(inventory[name]["address"], 16), 0x8014F564)
-                self.assertEqual(int(inventory[name]["size"], 16), 0x6C)
+                self.assertEqual(int(inventory[name]["address"], 16), address)
+                self.assertEqual(int(inventory[name]["size"], 16), size)
             if name in views:
                 native = views[name]
                 self.assertNotIn(native + " =", aliases)

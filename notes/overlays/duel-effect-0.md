@@ -2,7 +2,7 @@
 
 `func_80154688` (`80154688..80154B30`, 1,192 bytes) is complete matching C
 under `gcc_2_8_1_g0_split`. The numeric identity comes from dispatcher case
-zero, without assigning an unsupported card or visual-effect name.
+zero, without assigning an exclusive card or runtime artwork identity.
 
 Phases zero through 29 select 30 configuration records and initialize three
 rings, two four-vertex polygons, 16 randomized rotations, scale and color.
@@ -11,6 +11,33 @@ either advances that 180-frame path or runs the configuration-driven draw,
 delay, expansion and fade lifecycle. The routine preserves the saved frame
 step, both matrix copies, the halfword color predicates and completion paths.
 Scale increases only below `0x7000`; no new unconditional clamp is introduced.
+
+## Shared contour-burst family and semantic bindings
+
+`DuelEffect_RunContourBurst` names the complete native `func_80154688`
+owner from its actual rendering sequence: a quad contour, configured delay,
+expanding gradient ring, layered tile and 16 rotating gradient strips,
+followed by fade completion. The source has no particle array; effect 18
+adds that distinct path. Both complete objects remain separate.
+`duel_draw_resolution.c` creates effect 0 with phase 9 during Exodia
+presentation, so this must not be called an ordinary-spell-only animation
+or have its 30 configurations reduced to that single observed caller value.
+This is static code evidence, not a new human artwork observation.
+
+The actual NA function entry is `80155104`, JP is `8016271C`, and PAL
+keeps `80154688`; every complete owner is `4A8` bytes.
+`gDuelEffect_ContourBurstConfigs[30]` binds the existing 600-byte
+`D_8015B0B4` owner (NA `8015B180`, JP `80169140`, PAL `8015B0B4`).
+`gDuelEffect_ContourBurstInitialScale` binds the existing 16-byte SDK
+VECTOR `D_801461E8` (NA `80146230`, JP `80154240`, PAL `801461E8`).
+Its role is the entry copy to local scale, not a new padding or
+identity-value contract. The semantic header reuses the original private
+types and retains the original native function compatibility declaration.
+
+Preserve all 30 records, the unaligned color, delay/request-field handshake,
+full matrix copies, SDK rotation-store order, frame-step accumulation and
+the phase-at-least-30 cross fallback. Names introduce no storage, const
+qualification, image identity or exclusive gameplay ownership.
 
 ## Independently recovered layout
 
