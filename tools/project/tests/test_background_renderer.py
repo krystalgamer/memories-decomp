@@ -18,7 +18,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/model_draw_background.c"
+SOURCE = REPOSITORY / "src/game/model_background.c"
 START = """
 .text
 .globl _start
@@ -478,8 +478,15 @@ class BackgroundRendererTests(unittest.TestCase):
         cls.witness.write_text(normalized(prefix, SOURCE.parent) + WITNESS)
         cls.startup = cls.directory / "start.S"
         cls.startup.write_text(START)
+        # The unit also holds the scroll update and its tentative storage,
+        # which the witness supplies itself; compile the renderer alone.
+        text = SOURCE.read_text()
+        end = text.index("\n}\n", text.index("void Model_DrawBackground(void)")) + 3
+        cls.renderer_text = text[:end]
+        renderer = cls.directory / "renderer.c"
+        renderer.write_text(normalized(cls.renderer_text, SOURCE.parent))
         cls.binaries = {
-            optimization: cls.compile(SOURCE, optimization, "actual")
+            optimization: cls.compile(renderer, optimization, "actual")
             for optimization in ("-O0", "-O2")
         }
 
@@ -526,7 +533,7 @@ class BackgroundRendererTests(unittest.TestCase):
         self.scenario(5)
 
     def mutant(self, old: str, new: str, scenario: int, expected: range):
-        text = SOURCE.read_text()
+        text = self.renderer_text
         self.assertEqual(text.count(old), 1, "semantic mutation must identify one operation")
         source = self.directory / f"mutant-{scenario}.c"
         source.write_text(normalized(text.replace(old, new), SOURCE.parent))

@@ -102,7 +102,7 @@ segments:
       - [0xF84, rodata, initial_data_1e6]
       - [0x100C, .rodata, game/sd_update_bank_load]
       - [0x1034, rodata, initial_data_1e4]
-      - [0x1CC4, .rodata, game/model_draw_background]
+      - [0x1CC4, .rodata, game/model_background]
       - [0x1CE8, rodata, initial_data_1ce8]
       - [0x1DAC, .rodata, game/model_scene_controllers]
       - [0x1EF0, rodata, initial_data_1ef0]
