@@ -7,6 +7,7 @@
 #include "contour_burst_semantic_views.h"
 #include "damage_semantic_views.h"
 #include "recovery_semantic_views.h"
+#include "ritual_semantic_views.h"
 
 void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
 {
@@ -127,7 +128,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     if (effect == 22) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
         SetGeomOffset(160, 108);
-        func_8014A8E4(buffer, phase);
+        DuelEffect_RunRitual(buffer, phase);
     }
     if (effect == 23) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
