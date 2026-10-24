@@ -229,7 +229,7 @@ out:
 
 #ifdef VERSION_EUROPE
 /* A European-only debug-menu entry, with its own slot in the menu's handler
-   table: it edits D_8009C02B (the index duel_effect_resource_setup.c
+   table: it edits gText_bLanguageIndex (the index duel_effect_resource_setup.c
    reads) through the same editor as the sound entry, and sets it back to
    BUILD_LANGUAGE_INDEX from 5 up. */
 void func_80030808(void)
@@ -241,7 +241,7 @@ void func_80030808(void)
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         gDebugMenu_bStep = flags | FRONTEND_STEP_FLAG_ENTERED;
         DebugMenu_DimPrimaryDisplayObject();
-        gDebug_nSceneOrSoundID = D_8009C02B;
+        gDebug_nSceneOrSoundID = gText_bLanguageIndex;
         DebugMenu_OpenValueEditor(gDebugMenu_szLanguageEditorFormat, 0x15, 0x15, 0x15, 5, 1, 1);
         gDebug_bEditorDigitCount2 = 3;
         gDebug_bEditorDigitCount1 = 3;
@@ -257,10 +257,10 @@ void func_80030808(void)
         DebugMenu_RestorePrimaryDisplayObject();
         return;
     }
-    if (D_8009C02B != gDebug_nSceneOrSoundID) {
-        D_8009C02B = gDebug_nSceneOrSoundID;
-        if (D_8009C02B >= 5) {
-            D_8009C02B = BUILD_LANGUAGE_INDEX;
+    if (gText_bLanguageIndex != gDebug_nSceneOrSoundID) {
+        gText_bLanguageIndex = gDebug_nSceneOrSoundID;
+        if (gText_bLanguageIndex >= 5) {
+            gText_bLanguageIndex = BUILD_LANGUAGE_INDEX;
         }
     }
 }

@@ -95,7 +95,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gGraphics_aImageTransferRects[0].h = 0x10;
         LoadImage2(
             &gGraphics_aImageTransferRects[0],
-            (u32 *)(gFile_TransferBufferBase + D_8009C02B * FILE_SECTOR_SIZE));
+            (u32 *)(gFile_TransferBufferBase + gText_bLanguageIndex * FILE_SECTOR_SIZE));
 #endif
         d->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;

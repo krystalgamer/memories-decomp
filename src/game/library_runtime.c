@@ -664,7 +664,7 @@ void Library_UpdateScreen(void)
 void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     /* The European build loads one more stage, case 2: a 64x16 image picked
-       by the language (D_8009C02B) into (896, 352). The US cases 2-6 follow
+       by the language (gText_bLanguageIndex) into (896, 352). The US cases 2-6 follow
        as 3-7, case 1 transfers five sectors rather than four, and the image
        rows sit at x 0x280 (y 0xE0 and 0xE6). */
     switch (mode) {
@@ -695,7 +695,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gStageRect.w = 0x40;
         gStageRect.h = 0x10;
         LoadImage2(&gStageRect,
-                   (u32 *)(gFile_TransferBufferBase + D_8009C02B * FILE_SECTOR_SIZE));
+                   (u32 *)(gFile_TransferBufferBase + gText_bLanguageIndex * FILE_SECTOR_SIZE));
         object->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->alternate_sector_destination = gFile_TransferBufferBase;

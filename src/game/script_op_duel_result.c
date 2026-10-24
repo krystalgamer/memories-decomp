@@ -69,12 +69,12 @@ void Script_OpDuelResult(void) {
         }
         ScriptImage_ReleaseObjects((ScriptImageObjectSet *)gSceneScript_Slots);
 #ifdef VERSION_EUROPE
-        /* The European banner takes D_8009C02B as its sixth argument, one
+        /* The European banner takes gText_bLanguageIndex as its sixth argument, one
            0x140 by 0x100 panel stands in for the US two, and the fill quad
            is initialised in mode 1 with corners at y 0, 0x40 and 0x100. */
         four = 4;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, D_8009C02B, 0x17, four, gDisplay_abResourceBank0);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, gText_bLanguageIndex, 0x17, four, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(o, 1);
         o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

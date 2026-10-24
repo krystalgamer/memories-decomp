@@ -72,7 +72,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
         g[3] = one;
         LoadImage2((RECT *)g,
                    (u32 *)(gFile_TransferBufferBase +
-                           D_8009C02B * FILE_SECTOR_SIZE));
+                           gText_bLanguageIndex * FILE_SECTOR_SIZE));
 
         m = 0xFFDDFFFF;
         t1 = gFile_dwTransferState_abs;

@@ -28,6 +28,8 @@ void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32
  * colour masks a channel's field_54 selects among. */
 extern u16 D_80090E28[16];
 extern u16 D_80090E48[];
+#define gText_awGlyphNibblePatterns D_80090E28
+#define gText_awGlyphColorMasks D_80090E48
 #endif
 
 /* The lookup's original symbol remains for non-C callers. */

@@ -94,7 +94,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     object->field_3C.word = 0x00100038;
 #ifdef VERSION_EUROPE
     object->attribute |= 0x01000000;
-    object->field_5E = ((D_8009C02B << 4) + 0x9E) << 8;
+    object->field_5E = ((gText_bLanguageIndex << 4) + 0x9E) << 8;
 #else
     object->field_5E = 0x9E00;
     object->attribute |= 0x01000000;
@@ -162,7 +162,7 @@ path_a:
     object->field_3C.h.field_3E = DUEL_RESOURCE_PATH_FIELD_3E;
 #ifdef VERSION_EUROPE
     DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1] =
-        (D_8009C02B << 4) - 0x60;
+        (gText_bLanguageIndex << 4) - 0x60;
 #endif
 
     {

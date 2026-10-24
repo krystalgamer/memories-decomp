@@ -3,8 +3,8 @@
 
 void PalOptions_RequestLanguage(s32 language)
 {
-    if (D_8009C02B != language) {
-        D_8009C02B = language;
-        func_80043BC8(D_8009C02B, 0);
+    if (gText_bLanguageIndex != language) {
+        gText_bLanguageIndex = language;
+        func_80043BC8(gText_bLanguageIndex, 0);
     }
 }

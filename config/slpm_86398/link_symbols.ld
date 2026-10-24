@@ -1,5 +1,7 @@
 /* Retain the original generated glyph-scratch provider and storage identity. */
 gText_GlyphUploadScratch = D_801DA000;
+gText_awGlyphNibblePatterns = D_80090E28;
+gText_awGlyphColorMasks = D_80090E48;
 
 gText_aChannels = gJapanese_D_800EB0F8;
 gText_Channel1 = D_800EB15C;

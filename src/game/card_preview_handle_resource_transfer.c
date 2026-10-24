@@ -13,7 +13,7 @@
 
 /* Regional values: the package size and the offset of its last image. The
    European package holds one 0x2A0-byte third image per text language
-   (D_8009C02B, below), so the fourth image moves from 0x2AE0 to 0x3560.
+   (gText_bLanguageIndex, below), so the fourth image moves from 0x2AE0 to 0x3560.
    The European build (src/game/european/) defines its own. */
 #ifndef FUNC_800289BC_PHASE_SIZE
 #define FUNC_800289BC_PHASE_SIZE 0x3800
@@ -63,7 +63,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
     rect = &e->rects[2];
 #ifdef VERSION_EUROPE
     /* The third image of the current text language. */
-    offset = D_8009C02B * 0x2A0 + 0x2840;
+    offset = gText_bLanguageIndex * 0x2A0 + 0x2840;
     image_source = gFile_TransferBufferBase + offset;
     e->rects[2].w = 0x18;
     e->rects[2].h = 0xE;

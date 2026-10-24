@@ -1217,3 +1217,4 @@ gDuel_wActionSubstate = gEuropean_D_8009B20C;
 gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
+gText_bLanguageIndex = D_8009C02B;

@@ -70,23 +70,23 @@ void ScriptImage_RequestTransfer(
 
 #ifdef SCRIPT_IMAGE_LOCALIZED_IDS
     if (value == 0x10) {
-        if (D_8009C02B == 1) {
+        if (gText_bLanguageIndex == 1) {
             value = 0x42;
-        } else if (D_8009C02B == 2) {
+        } else if (gText_bLanguageIndex == 2) {
             value = 0x44;
-        } else if (D_8009C02B == 3) {
+        } else if (gText_bLanguageIndex == 3) {
             value = 0x46;
-        } else if (D_8009C02B == 4) {
+        } else if (gText_bLanguageIndex == 4) {
             value = 0x48;
         }
     } else if (value == 0x11) {
-        if (D_8009C02B == 1) {
+        if (gText_bLanguageIndex == 1) {
             value = 0x43;
-        } else if (D_8009C02B == 2) {
+        } else if (gText_bLanguageIndex == 2) {
             value = 0x45;
-        } else if (D_8009C02B == 3) {
+        } else if (gText_bLanguageIndex == 3) {
             value = 0x47;
-        } else if (D_8009C02B == 4) {
+        } else if (gText_bLanguageIndex == 4) {
             value = 0x49;
         }
     }

@@ -67,10 +67,10 @@ void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32
         glyph = (u16 *)Krom2RawAdd2(tagged_value & 0xFFFF);
     }
     lut = (u16 *)0x1F800000;
-    w = D_80090E48[channel->field_54];
+    w = gText_awGlyphColorMasks[channel->field_54];
     p = lut;
     for (i = 0; i < 16; i++) {
-        *p++ = D_80090E28[i] & w;
+        *p++ = gText_awGlyphNibblePatterns[i] & w;
     }
     p = lut;
     row = (u16 *)0x1F800040;

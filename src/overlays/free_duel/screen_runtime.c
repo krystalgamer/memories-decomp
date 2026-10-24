@@ -306,7 +306,7 @@ done:
 #ifdef VERSION_EUROPE
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(
-        obj, 0, 0, 0, 1, D_8009C02B, 16, 0, D_801AF000);
+        obj, 0, 0, 0, 1, gText_bLanguageIndex, 16, 0, D_801AF000);
     DisplayObject_SetDepthOffset(obj, 11);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
