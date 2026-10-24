@@ -149,7 +149,6 @@ segments:
       - [0xb748, c, game/duel_project_card_slot_screen_x]
       - [0xb7ec, c, game/japanese/duel_scene_card_move]
       - [0xbde0, c, game/japanese/duel_hand_selection_cursor]
-      - [0xbf18, c, game/japanese/duel_hand_refresh_selection_colors]
       - [0xbf98, c, game/japanese/func_8001B938]
       - [0xc3a8, c, game/japanese/duel_check_quit_input]
       - [0xc3e8, c, game/japanese/duel_scene_hand_actions]
