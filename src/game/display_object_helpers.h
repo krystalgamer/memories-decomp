@@ -52,10 +52,10 @@ typedef struct {
    [1], DisplayObject_SelectOrderingTable3 sets 3 and reads [3], DisplayObject_AcquireSlot reads
    [ot_index]. [1] and [3] used to be spelled D_8009AF76 and D_8009AF7A
    privately. Seven byte readers (dialog_transition.c, build_deck_update.c,
-   func_8003DA40.c, text_apply_fade_command.c,
+   Dialog_UpdateMessageTransition, text_apply_fade_command.c,
    src/game/duel_effect_states.c and
    DuelEffect_CreateChannel) take the low byte of [1] through %hi/%lo,
-   outside small data; dialog_transition.c, build_deck_update.c, func_8003DA40.c
+   outside small data; dialog_transition.c, build_deck_update.c
    and src/game/duel_effect_states.c define the arm below for that. */
 #ifdef D_8009AF74_IN_DATA
 extern volatile u16 D_8009AF74[4] __attribute__((section(".data")));

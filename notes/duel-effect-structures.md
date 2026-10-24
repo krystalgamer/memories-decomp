@@ -351,8 +351,8 @@ in [`duel-effect-state-runtime.md`](duel-effect-state-runtime.md).
 
 That dispatcher byte is separate from `D_8009B3C1`. In the later callback
 state family, `DUEL_EFFECT_STATE_FLAG_INITIALIZED` (`0x80`) is the shared
-one-shot entry latch. The matching callbacks in `dialog_transition.c`,
-`func_8003DA40.c` and the load/save callbacks in
+one-shot entry latch. The matching callbacks in `dialog_transition.c`
+and the load/save callbacks in
 `mem_card_dialog.c` test and set it before their first-frame object or
 companion-state setup, so subsequent frames skip that initialization. This is
 a state-machine flag, not the unrelated `0x80` bit in

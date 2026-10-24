@@ -55,8 +55,8 @@ address,size,name,status,module,notes
 0x80153F28,0x70,DuelEffect_DarkenColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80153F98,0xC4,DuelEffect_StepColorToTarget,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015405C,0x28,DuelEffect_SetFogBaseColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80154084,0x604,func_80154084,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80154688,0x4A8,func_80154688,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80154084,0x604,DuelEffect_RunParticleContourBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80154688,0x4A8,DuelEffect_RunContourBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80154B30,0xBC4,func_80154B30,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801556F4,0xA4,DuelEffect_DrawFadingFullscreenColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80155798,0xCC,DuelEffect_DrawFullscreenGradient,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
