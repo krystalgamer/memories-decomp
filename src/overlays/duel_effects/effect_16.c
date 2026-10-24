@@ -47,11 +47,11 @@ void func_80151558(void *buffer, s32 phase)
                 DuelEffect_InitRandomVectorsXYZ(work->clouds[i], work->config->particle_spread,
                     work->config->particle_spread, work->config->particle_spread, 32);
                 /* Retail advances overlapping 32-vector windows by five vectors. */
-                func_8014F180(8, &work->positions[i * 5], &work->velocities[i * 5], 32);
+                DuelEffect_InitParticleVectorsNegatedY(8, &work->positions[i * 5], &work->velocities[i * 5], 32);
                 work->scales[i] = 4096;
                 work->ages[i] = 0;
-                func_8014F010((u8 *)&work->primary[i], 192);
-                func_8014F020((u8 *)&work->secondary[i], work->config->color.r,
+                DuelEffect_SetGrayColor((u8 *)&work->primary[i], 192);
+                DuelEffect_SetRgbColor((u8 *)&work->secondary[i], work->config->color.r,
                     work->config->color.g, work->config->color.b);
                 setVector(&work->origins[i],
                     (70 * i - 140) * (D_8015B7F8.vz < 0 ? -1 : 1),
@@ -124,7 +124,7 @@ void func_80151558(void *buffer, s32 phase)
                     }
                     work->ages[j] = 4;
                     for (k = 0; k < 32; k++) {
-                        func_8014F2D4(quad, &(&work->positions[j * 5])[k]);
+                        DuelEffect_InitOffsetQuadVertices(quad, &(&work->positions[j * 5])[k]);
                         func_80156064((u8 *)&work->secondary[j], quad, 1);
                         addVector(&(&work->positions[j * 5])[k],
                             &(&work->velocities[j * 5])[k]);

@@ -56,8 +56,8 @@ void func_80146760(void *buffer, s32 phase)
                     DuelEffect_InitRandomVectorsXYZ(work->particles[i][j], work->config->spread,
                                  work->config->spread, work->config->spread, 16);
                     addVector(&work->positions[i][j], &work->origin);
-                    func_8014F010((u8 *)&work->colors[i][j], 128);
-                    func_8014F010((u8 *)&work->particle_colors[i][j], 255);
+                    DuelEffect_SetGrayColor((u8 *)&work->colors[i][j], 128);
+                    DuelEffect_SetGrayColor((u8 *)&work->particle_colors[i][j], 255);
                     work->states[i][j] = 0;
                     work->frames[i][j] = rand() % 4;
                     for (k = 0; k < 16; k++) {
@@ -74,7 +74,7 @@ void func_80146760(void *buffer, s32 phase)
             }
             DuelEffect_InitRandomVectorsNegatedY(work->rays, work->config->ray_length, work->config->ray_length,
                          work->config->ray_length, work->config->ray_count);
-            func_8014F180(work->config->dust_speed, work->dust,
+            DuelEffect_InitParticleVectorsNegatedY(work->config->dust_speed, work->dust,
                          work->dust_velocities, work->config->dust_count);
             work->width = work->config->width;
             work->height = work->config->height;
@@ -82,7 +82,7 @@ void func_80146760(void *buffer, s32 phase)
                 DuelEffect_InitXZRingVertices(work->config->radii[i], work->config->radii[i],
                              work->config->ring_height * i, work->rings[i], 32);
             }
-            func_8014F020((u8 *)&work->glow, work->config->color.r,
+            DuelEffect_SetRgbColor((u8 *)&work->glow, work->config->color.r,
                          work->config->color.g, work->config->color.b);
             work->scale = 4096;
             work->completed = 0;
@@ -109,7 +109,7 @@ void func_80146760(void *buffer, s32 phase)
             func_80156E58((u8 *)&work->glow, work->config->ray_width, work->rays,
                          work->config->ray_count, 64);
             for (i = 0; i < work->config->dust_count; i++) {
-                func_8014F2D4(vertices, &work->dust[i]);
+                DuelEffect_InitOffsetQuadVertices(vertices, &work->dust[i]);
                 func_80156064((u8 *)&work->glow, vertices, 1);
                 addVector(&work->dust[i], &work->dust_velocities[i]);
                 work->dust_velocities[i].vy += 0;
@@ -172,7 +172,7 @@ void func_80146760(void *buffer, s32 phase)
                                    work->uv[0] + i * 12 + 12, work->uv[1] + j * 8 + 8);
                         }
                         setRGB0(packet, work->colors[i][j].r, work->colors[i][j].g, work->colors[i][j].b);
-                        func_8014F3E8(vertices, 6, 0, 4);
+                        DuelEffect_InitXZRectVertices(vertices, 6, 0, 4);
                         DuelEffect_SetTransformMatrix(&world, &saved, &work->positions[i][j], &work->rotations[i][j], &scale, 2);
                         func_80151218(packet, vertices, 1, 0);
                     }
@@ -180,7 +180,7 @@ void func_80146760(void *buffer, s32 phase)
                         work->positions[i][j].vy >= -31) {
                         if (rand() % work->chances[i][j] == 0) {
                             work->states[i][j] = 1;
-                            func_8014F010((u8 *)&work->colors[i][j], 0);
+                            DuelEffect_SetGrayColor((u8 *)&work->colors[i][j], 0);
                         } else {
                             work->chances[i][j]--;
                         }

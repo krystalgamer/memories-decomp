@@ -38,28 +38,28 @@ void func_80153200(void *buffer, s32 phase, s16 number)
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }
-            func_8014F030(work->config->particle_speed, work->positions,
+            DuelEffect_InitParticleVectors(work->config->particle_speed, work->positions,
                          work->velocities, work->config->particle_count);
             DuelEffect_InitRandomVectorsUnscaled(64, work->rotations);
             work->scale = 0;
-            func_8014F020((u8 *)&work->color, work->config->color[0],
+            DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color[0],
                          work->config->color[1], work->config->color[2]);
-            func_8014F010((u8 *)&work->background_color, 0);
+            DuelEffect_SetGrayColor((u8 *)&work->background_color, 0);
             work->frame = 0;
             work->stage = 0;
             work->number_state = 0;
             if (value > 0) {
-                func_8014F020((u8 *)&work->number_color,
+                DuelEffect_SetRgbColor((u8 *)&work->number_color,
                              work->config->number_red[1] >> 3,
                              work->config->number_green[1] >> 3,
                              work->config->number_blue[1] >> 3);
             } else if (value < 0) {
-                func_8014F020((u8 *)&work->number_color,
+                DuelEffect_SetRgbColor((u8 *)&work->number_color,
                              work->config->number_red[0] >> 3,
                              work->config->number_green[0] >> 3,
                              work->config->number_blue[0] >> 3);
             } else if (value == 0) {
-                func_8014F010((u8 *)&work->number_color, 0);
+                DuelEffect_SetGrayColor((u8 *)&work->number_color, 0);
             }
             work->number = value;
         }
@@ -120,7 +120,7 @@ void func_80153200(void *buffer, s32 phase, s16 number)
                 func_8015131C(packet, quad, 0, 1);
             } else {
                 if (work->stage == 1) {
-                    func_8014F010((u8 *)&work->background_color, 255);
+                    DuelEffect_SetGrayColor((u8 *)&work->background_color, 255);
                 }
                 DuelEffect_InitIndexedQuadToYZero(quad, 2, 1, 1, work->config->widths,
                              work->config->heights);
@@ -134,7 +134,7 @@ void func_80153200(void *buffer, s32 phase, s16 number)
             if (work->stage != 0) {
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 for (i = 0; i < work->config->particle_count; i++) {
-                    func_8014F2D4(quad, &work->positions[i]);
+                    DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
                     func_80156064((u8 *)&work->color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }

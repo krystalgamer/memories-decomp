@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../game/gpu_packets.h"
 #include "layered_drawing.h"
+#include "geometry_semantic_views.h"
 
 void func_801558F4(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags)
 {
@@ -44,9 +45,9 @@ void func_801558F4(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flag
             }
         }
         if (bias == 0) {
-            func_8014F358(vertices, 8);
+            DuelEffect_InitSquareVertices(vertices, 8);
         } else {
-            func_8014F358(vertices, 16);
+            DuelEffect_InitSquareVertices(vertices, 16);
         }
         for (j = 0; j < 4; j++) {
             addVector(&vertices[j], &inner[i]);

@@ -72,9 +72,9 @@ void func_8014D3E8(void *buffer, s32 phase)
         work->scale = 4096;
         work->tick = 0;
         work->arrival = 0;
-        func_8014F010((u8 *)&work->center_color, 1);
-        func_8014F010((u8 *)&work->flash_color, 255);
-        func_8014F020((u8 *)&work->line_color, 255, 128, 128);
+        DuelEffect_SetGrayColor((u8 *)&work->center_color, 1);
+        DuelEffect_SetGrayColor((u8 *)&work->flash_color, 255);
+        DuelEffect_SetRgbColor((u8 *)&work->line_color, 255, 128, 128);
         work->beam_width = 1;
         work->connection_tick = 0;
         work->line_count = 0;
@@ -108,7 +108,7 @@ void func_8014D3E8(void *buffer, s32 phase)
                 color.g >>= 1;
                 color.b >>= 1;
             } else {
-                func_8014F010((u8 *)&color, 255);
+                DuelEffect_SetGrayColor((u8 *)&color, 255);
             }
             if (work->arrival == 8) {
                 if (work->connection_tick > 0) {
@@ -147,7 +147,7 @@ void func_8014D3E8(void *buffer, s32 phase)
             if (!(work->tick & 1)) {
                 color = work->line_color;
             } else {
-                func_8014F010((u8 *)&color, 255);
+                DuelEffect_SetGrayColor((u8 *)&color, 255);
             }
             for (i = 0; i < 5; i++) {
                 func_80155BC0((u8 *)&color, 16, 0, &work->points[i]);
@@ -189,11 +189,11 @@ void func_8014D3E8(void *buffer, s32 phase)
                               -work->tails[i].vy / 8, -work->tails[i].vz / 8);
                 }
             }
-            func_8014F020((u8 *)&color, 255, 128, 128);
+            DuelEffect_SetRgbColor((u8 *)&color, 255, 128, 128);
             setVector(&scale, work->scale, work->scale, work->scale);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
             func_80155BC0((u8 *)&color, 8, 0, &position);
-            func_8014F020((u8 *)&color, 127, 64, 64);
+            DuelEffect_SetRgbColor((u8 *)&color, 127, 64, 64);
             for (i = 0; i < work->ray_count; i++) {
                 setVector(&scale, 4096, work->ray_scales[i], 4096);
                 DuelEffect_SetTransformMatrix(&world, &saved, &position, &work->rotations[i], &scale, 0);
@@ -231,7 +231,7 @@ void func_8014D3E8(void *buffer, s32 phase)
         if (work->stage == 2) {
             DuelEffect_DrawFullscreenColor((u8 *)&work->flash_color);
             if ((u16)DuelEffect_StepColorToTarget((u8 *)&work->flash_color, 192, 192, 192, 4)) {
-                func_8014F010((u8 *)&work->flash_color, 255);
+                DuelEffect_SetGrayColor((u8 *)&work->flash_color, 255);
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 work->stage = 3;
             }

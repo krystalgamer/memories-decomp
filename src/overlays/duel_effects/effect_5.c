@@ -39,17 +39,17 @@ void func_80157E10(void *buffer, s32 phase)
                 setVector(&work->rising_positions[i],
                           (rand() - rand()) % 4096 * 70 / 4096, -EFFECT_5_RISING_HEIGHT,
                           (rand() - rand()) % 4096 * 70 / 4096);
-                func_8014F010((u8 *)&work->rising_colors[i], 1);
+                DuelEffect_SetGrayColor((u8 *)&work->rising_colors[i], 1);
             }
             setVector(&work->number_position, 0, 0, 0);
             setVector(&work->number_velocity, 0, -work->config->bounce_speed, 0);
-            func_8014F030(work->config->particle_speed, work->positions,
+            DuelEffect_InitParticleVectors(work->config->particle_speed, work->positions,
                          work->velocities, work->config->particle_count);
             DuelEffect_InitRandomVectorsUnscaled(work->config->strip_count, work->rotations);
-            func_8014F010((u8 *)&work->background_color, 1);
-            func_8014F020((u8 *)&work->color, work->config->color[0],
+            DuelEffect_SetGrayColor((u8 *)&work->background_color, 1);
+            DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color[0],
                          work->config->color[1], work->config->color[2]);
-            func_8014F020((u8 *)&work->number_color, work->config->number_color[0],
+            DuelEffect_SetRgbColor((u8 *)&work->number_color, work->config->number_color[0],
                          work->config->number_color[1], work->config->number_color[2]);
             work->spawned = 0;
             work->bounces = 1;
@@ -78,7 +78,7 @@ void func_80157E10(void *buffer, s32 phase)
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
         for (i = 0; i < work->spawned; i++) {
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->rising_colors[i])) {
-                func_8014F2D4(quad, &work->rising_positions[i]);
+                DuelEffect_InitOffsetQuadVertices(quad, &work->rising_positions[i]);
                 func_80156064((u8 *)&work->rising_colors[i], quad, 0);
                 work->rising_positions[i].vy += work->config->rise_speed;
             }
@@ -124,7 +124,7 @@ void func_80157E10(void *buffer, s32 phase)
             }
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
                 for (i = 0; i < work->config->particle_count; i++) {
-                    func_8014F2D4(quad, &work->positions[i]);
+                    DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
                     func_80156064((u8 *)&work->color, quad, 0);
                     if (work->variant < 5 || work->hold_frames == 0) {
                         addVector(&work->positions[i], &work->velocities[i]);

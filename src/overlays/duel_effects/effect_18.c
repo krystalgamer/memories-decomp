@@ -44,12 +44,12 @@ void func_80154084(void *buffer, s32 phase)
                 }
             }
             DuelEffect_InitRandomVectorsUnscaled(16, work->rotations);
-            func_8014F030(work->config->particle_speed, work->positions,
+            DuelEffect_InitParticleVectors(work->config->particle_speed, work->positions,
                          work->velocities, 32);
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->outer_radii[i], work->outer_rings[i]);
             }
-            func_8014F010((u8 *)&work->color, 1);
+            DuelEffect_SetGrayColor((u8 *)&work->color, 1);
             work->scale = 4096;
             work->frame = 0;
         }
@@ -77,7 +77,7 @@ void func_80154084(void *buffer, s32 phase)
             if (work->frame >= work->config->delay) {
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 for (i = 0; i < 32; i++) {
-                    func_8014F2D4(quad, &work->positions[i]);
+                    DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
                     func_80156064((u8 *)&work->color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }

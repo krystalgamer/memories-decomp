@@ -28,11 +28,11 @@ void func_80157794(void *buffer, s32 phase)
             work->config = &D_8015B420[phase];
             Model_SetFrameStepOverride(1);
             DuelEffect_InitRandomVectorsUnscaled(12, work->rotations);
-            func_8014F030(work->config->particle_speed, work->positions,
+            DuelEffect_InitParticleVectors(work->config->particle_speed, work->positions,
                          work->velocities, 64);
-            func_8014F010((u8 *)&work->base_color, 1);
-            func_8014F010((u8 *)&work->beam_color, 0);
-            func_8014F010((u8 *)&work->screen_color, 0);
+            DuelEffect_SetGrayColor((u8 *)&work->base_color, 1);
+            DuelEffect_SetGrayColor((u8 *)&work->beam_color, 0);
+            DuelEffect_SetGrayColor((u8 *)&work->screen_color, 0);
             work->rotation_step = work->config->initial_rotation_step;
             work->frame = 0;
             work->tick = 0;
@@ -74,7 +74,7 @@ void func_80157794(void *buffer, s32 phase)
             } else {
                 if (work->stage == 0) {
                     work->stage = 1;
-                    func_8014F010((u8 *)&work->screen_color, 255);
+                    DuelEffect_SetGrayColor((u8 *)&work->screen_color, 255);
                     work->rotation_step = work->config->initial_rotation_step;
                 }
                 DuelEffect_DarkenColor((u8 *)&work->base_color, 15);
@@ -118,7 +118,7 @@ void func_80157794(void *buffer, s32 phase)
                           (work->rotation_step * (work->tick << 1)) & 0xFFF);
                 DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 0);
                 for (i = 0; i < 64; i++) {
-                    func_8014F2D4(quad, &work->positions[i]);
+                    DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
                     func_80156064((u8 *)&work->beam_color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }

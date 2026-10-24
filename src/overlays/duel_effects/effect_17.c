@@ -57,12 +57,12 @@ void func_80148BA4(void *buffer, s32 phase)
             for (i = 0; i < 64; i++) {
                 setVector(&work->velocities[i], -work->particles[i].vx / 32,
                           -work->particles[i].vy / 32, -work->particles[i].vz / 32);
-                func_8014F020((u8 *)&work->particle_colors[i], work->config->color[0] / 8,
+                DuelEffect_SetRgbColor((u8 *)&work->particle_colors[i], work->config->color[0] / 8,
                              work->config->color[1] / 8, work->config->color[2] / 8);
             }
             for (i = 0; i < 48; i++) {
                 func_8014FABC(24, 8, work->config->height, 8, work->paths[i]);
-                func_8014F020((u8 *)&work->path_colors[i], work->config->burst_color[0],
+                DuelEffect_SetRgbColor((u8 *)&work->path_colors[i], work->config->burst_color[0],
                              work->config->burst_color[1], work->config->burst_color[2]);
                 setVector(&work->endpoints[i], 0, 0, 0);
                 work->path_ages[i] = 0;
@@ -70,9 +70,9 @@ void func_80148BA4(void *buffer, s32 phase)
                 work->angles[i] = rand() % 512;
             }
             work->tick = 0;
-            func_8014F020((u8 *)&work->color, work->config->color[0] / 8,
+            DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color[0] / 8,
                          work->config->color[1] / 8, work->config->color[2] / 8);
-            func_8014F010((u8 *)&work->burst_color, 0);
+            DuelEffect_SetGrayColor((u8 *)&work->burst_color, 0);
             work->field_1D94 = 0;
             work->completed = 0;
             work->stage = 0;
@@ -114,7 +114,7 @@ void func_80148BA4(void *buffer, s32 phase)
         DuelEffect_SetTransformMatrix(&world, &saved, &work->center, &rotation, &scale, 0);
         for (i = 0; i < work->active_particles; i++) {
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->particle_colors[i])) {
-                func_8014F2D4(vertices, &work->particles[i]);
+                DuelEffect_InitOffsetQuadVertices(vertices, &work->particles[i]);
                 if (!(i & 3)) {
                     func_80155BC0((u8 *)&work->particle_colors[i], 8, 1, &work->particles[i]);
                 }
@@ -135,7 +135,7 @@ void func_80148BA4(void *buffer, s32 phase)
                                   work->config->radius * (s32)((u32)((rand() - rand()) % 4096) << 1) / 4096);
                         setVector(&work->velocities[i], -work->particles[i].vx / 32,
                                   -work->particles[i].vy / 32, -work->particles[i].vz / 32);
-                        func_8014F020((u8 *)&work->particle_colors[i], work->config->color[0] / 8,
+                        DuelEffect_SetRgbColor((u8 *)&work->particle_colors[i], work->config->color[0] / 8,
                                      work->config->color[1] / 8, work->config->color[2] / 8);
                     }
                     if (!(u16)DuelEffect_IsColorBlack((u8 *)&work->particle_colors[i]) && work->stage >= 2) {
@@ -210,7 +210,7 @@ void func_80148BA4(void *buffer, s32 phase)
                     work->completed++;
                     ((DisplayObject *)D_8015B7A0[i])->flags &= ~0x40;
                     work->card_states[i] = 2;
-                    func_8014F020((u8 *)&work->burst_color, work->config->burst_color[0],
+                    DuelEffect_SetRgbColor((u8 *)&work->burst_color, work->config->burst_color[0],
                                  work->config->burst_color[1], work->config->burst_color[2]);
                 }
             }
@@ -259,7 +259,7 @@ void func_80148BA4(void *buffer, s32 phase)
                         work->path_ages[i] = 7;
                         DuelEffect_DarkenColor((u8 *)&work->path_colors[i], 15);
                         if ((u16)DuelEffect_IsColorBlack((u8 *)&work->path_colors[i]) && work->stage < 2) {
-                            func_8014F020((u8 *)&work->path_colors[i], work->config->burst_color[0],
+                            DuelEffect_SetRgbColor((u8 *)&work->path_colors[i], work->config->burst_color[0],
                                          work->config->burst_color[1], work->config->burst_color[2]);
                             work->path_ages[i] = 0;
                         }

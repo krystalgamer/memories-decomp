@@ -1,5 +1,87 @@
 # French duel-effect bank
 
+## Shared initializer C views
+
+The complete seven-function `utility_helpers.c` object now exposes semantic
+C views through the existing colour and geometry semantic headers. Native
+assembler identities, all argument types and complete source-object
+definition order remain unchanged. The frozen native utility header is
+not edited.
+
+| C view | Native label | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `DuelEffect_SetGrayColor` | `func_8014F010` | `0x8014FBE8` | `0x8015D0A4` | `0x8014F010` |
+| `DuelEffect_SetRgbColor` | `func_8014F020` | `0x8014FBF8` | `0x8015D0B4` | `0x8014F020` |
+| `DuelEffect_InitParticleVectors` | `func_8014F030` | `0x8014FC08` | `0x8015D0C4` | `0x8014F030` |
+| `DuelEffect_InitParticleVectorsNegatedY` | `func_8014F180` | `0x8014FD58` | `0x8015D214` | `0x8014F180` |
+| `DuelEffect_InitOffsetQuadVertices` | `func_8014F2D4` | `0x8014FEAC` | `0x8015D368` | `0x8014F2D4` |
+| `DuelEffect_InitSquareVertices` | `func_8014F358` | `0x8014FF30` | `0x8015D3EC` | `0x8014F358` |
+| `DuelEffect_InitXZRectVertices` | `func_8014F3E8` | `0x8014FFC0` | `0x8015D47C` | `0x8014F3E8` |
+
+Registry records use `overlay/duel_effects/function` and actual NA
+inventory addresses, not the numeric suffixes of historical labels.
+Thirty-five name cells change across the five configured NA/JP/UK/FR/ES
+banks; all other fields, rows, profiles, extents, manifests and native
+linker/symbol providers remain. No German/Italian duel-bank coverage or
+new native exports are claimed.
+
+### Colour and particle vectors
+
+The gray setter writes the same `u8` to the first three colour bytes; the
+RGB setter writes the three caller-supplied channels in that order.
+Actual callers pass SDK colour fields and configuration `r/g/b` members.
+Neither touches the fourth command/pad byte or changes the pointer/type
+contract into a whole-record initialization.
+
+The particle helpers initialize only the two vector arrays. Per element,
+they first zero position XYZ and then generate velocity XYZ from the
+original scaled signed random remainders. Live particle/dust callers add
+those velocities to the corresponding positions during updates.
+The ordinary variant performs six target RNG calls per element; the
+negated-Y variant uses one random remainder rather than a difference for
+Y and therefore performs five. Its algebra does not establish a universal
+world up/down direction or guarantee the sign after halfword narrowing.
+
+Keep the unsigned-halfword scale/count, target arithmetic and call order,
+component stores and per-element zero-before-random sequence. Both pads
+remain untouched. Zero count performs no RNG calls or vector stores;
+zero scale does not justify eliding RNG work. No other particle state,
+duration, normalized distribution, alias restriction, `memset`, split
+loop or delegated initializer is introduced.
+
+### Primitive initialization
+
+The offset helper first creates the original size-4 XY square, then adds
+the supplied offset components to each vertex. Its caller positions
+particles using those vectors. Preserve the repeated pointer reads and
+init-before-offset sequence: caching the offset or assuming it cannot
+alias the destination would change the contract.
+
+The square initializer writes four XY corners with the existing power
+calls and sign expressions and zero Z. The XZ rectangle initializer
+writes four width/depth corners at one height. That is a plane, not a
+cuboid or eight-corner allocation. All extents/height keep their original
+`u16` types, narrowing and unchecked behavior; vector pads remain untouched.
+No radius/pixel unit, new bound or sign-table rewrite is inferred.
+
+### Conservation
+
+The colour semantic header gains four declarations; the geometry header
+gains ten. All sixteen/thirty-two prior declarations remain byte-identical.
+Exact CPP accounting preserves declarations already present in a baseline
+and accounts for their visibility only in newly included contexts.
+Every actual C caller changes only the seven identifiers and any necessary
+trailing semantic includes, after its original complete SDK/header block.
+
+All pre-existing tests, fixtures, selectors, negative controls, native
+headers and historical records remain unchanged. The curve/utility
+fingerprint pair and real paired XZ-ring native definition remain intact.
+No C/source-string/native harness is added. Fresh accepted-parent compiler,
+CPP, native-symbol and complete-image conservation is required, followed
+by the existing five-bank/seven-copy PR gates rather than local cloud tests.
+
+## Original bank recovery
+
 The six previously configured French overlays did not cover all runtime code.
 The exact resident `Duel_LoadTerrainPackage` implementation requests WA sectors
 `0x1B88 + terrain * 0xF0`. `Duel_LoadPackageStage` uses phase order
