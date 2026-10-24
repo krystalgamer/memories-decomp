@@ -2084,9 +2084,9 @@
     },
     {
       "address": "0x8002FFD4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C",
-      "source": "src/game/scene_script_update_slots.c"
+      "source": "src/game/scene_script_slots.c"
     },
     {
       "address": "0x80030050",

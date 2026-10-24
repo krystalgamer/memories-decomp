@@ -256,7 +256,6 @@ segments:
       - [0x205C8, c, game/european/campaign_load_scene_package_stage]
       - [0x20764, c, game/european/campaign_load_scene_package]
       - [0x20924, c, game/scene_script_slots]
-      - [0x20A28, c, game/scene_script_update_slots]
       - [0x20AA4, c, game/script_readers]
       - [0x20AE4, c, game/display_object_brightness]
       - [0x20B1C, c, game/debug_menu_update_cursor_layout]

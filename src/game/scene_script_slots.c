@@ -5,6 +5,7 @@
 #include "display_object.h"
 #include "scene_script_color_pulse.h"
 #include "scene_script_noop_record_callback.h"
+#include "scene_script_record_callbacks.h"
 
 /* The two scene-script record callbacks, in the order gSceneScript_RecordCallbacks
    (scene_script_record_callbacks.c) holds them: SceneScript_UpdateSlots picks
@@ -51,5 +52,16 @@ void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
         DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
         DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
         DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
+    }
+}
+
+void SceneScript_UpdateSlots(SceneScriptSlot *records) {
+    s32 i;
+    for (i = 0; i < 3; i++) {
+        s32 value = records->unk00;
+        if (value != 0) {
+            gSceneScript_RecordCallbacks[*(u8 *)&records->unk04](records, value);
+        }
+        records++;
     }
 }

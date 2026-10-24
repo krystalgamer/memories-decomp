@@ -630,9 +630,6 @@ segments:
   - - 133412
     - c
     - game/scene_script_slots
-  - - 133672
-    - c
-    - game/scene_script_update_slots
   - - 133796
     - c
     - game/script_readers
