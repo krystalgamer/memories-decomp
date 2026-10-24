@@ -515,7 +515,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             156: (names({392}, {8, 113, 350, 386, 448}, stage10_slot1=set(), stage8_slot1=set()), 0xEC4, 1),
             266: (names(set(), set(), stage10_slot1={167, 356}, stage8_slot1={38, 271, 635}), 0xE18, 1),
             286: (names(set(), set(), stage10_slot1={8, 113, 350, 386, 448}, stage8_slot1={392}), 0xEC4, 1),
-            # North American images whose entry is North American C (headers 111, 118, 119, 176, 627, 647, 752, 754, 756, 766 and 779).
+            # North American images whose entry is North American C (headers 111, 118, 119, 176, 627, 647, 752, 754, 756, 766, 779, 827 and 828).
             111: (names({466, 483, 548}, {247, 486}, stage10_slot1=set(), stage8_slot1=set()), 0xCF8, 1),
             241: (names(set(), set(), stage10_slot1={247, 486}, stage8_slot1={466, 483, 548}), 0xCF8, 1),
             627: (names({489, 505}, {13, 286, 421, 482, 541}, stage10_slot1=set(), stage8_slot1=set()), 0x136C, 1),
@@ -528,6 +528,10 @@ class ModelVariantToolchainTests(unittest.TestCase):
             851: (names(set(), set(), stage10_slot1={10, 11, 158, 160, 193, 281, 396, 481, 553, 589, 641}, stage8_slot1={45, 78, 112, 192, 198, 199, 209, 254, 286, 574, 601, 602, 603, 628}), 0x195C, 1),
             756: (names({11, 128, 132, 172, 179, 235, 251, 255, 285, 380, 415, 553, 593, 626, 644}, {65, 99, 132, 244, 245, 256, 284, 540, 629, 643}, stage10_slot1=set(), stage8_slot1=set()), 0x2000, 1),
             853: (names(set(), set(), stage10_slot1={65, 99, 132, 244, 245, 256, 284, 540, 629, 643}, stage8_slot1={11, 128, 132, 179, 235, 255, 285, 380, 415, 553, 593, 626, 644}), 0x2000, 1),
+            827: (names({4, 91, 150, 200, 294, 383, 403, 516, 521, 527}, {147, 171, 449, 463, 534}, stage10_slot1=set(), stage8_slot1=set()), 0x1A30, 1),
+            924: (names(set(), set(), stage10_slot1={147, 171, 260, 449, 463, 534}, stage8_slot1={4, 91, 150, 200, 294, 383, 403, 516, 521, 527, 546}), 0x1A30, 1),
+            828: (names({50, 79, 122, 396, 397, 414, 513, 536, 560, 569, 578}, {64, 75, 225, 353, 374, 495, 567}, stage10_slot1=set(), stage8_slot1=set()), 0x1A38, 1),
+            925: (names(set(), set(), stage10_slot1={64, 75, 225, 353, 374, 495, 567}, stage8_slot1={50, 79, 396, 397, 414, 513, 536, 560, 569, 578}), 0x1A38, 1),
             779: (names({5, 24, 49, 53, 98, 120, 154, 157, 177, 196, 221, 473, 559, 577, 586, 588}, {49, 80, 86, 124, 210, 265, 273, 376, 387, 402, 474, 559, 570, 580, 609, 620, 634, 637}, stage10_slot1=set(), stage8_slot1=set()), 0x20E0, 1),
             876: (names(set(), set(), stage10_slot1={49, 80, 86, 124, 210, 238, 265, 273, 376, 387, 402, 474, 559, 570, 580, 609, 620, 634, 637}, stage8_slot1={5, 24, 49, 53, 92, 98, 120, 136, 154, 157, 177, 196, 221, 473, 559, 577, 586, 588}), 0x20E0, 1),
             766: (names({65, 83, 90, 94, 109, 110, 114, 126, 160, 208, 230, 245, 298, 381, 404, 444, 468, 470, 478, 608, 633, 648}, {224, 226, 233, 450, 614, 617}, stage10_slot1=set(), stage8_slot1=set()), 0x1838, 1),
@@ -555,7 +559,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 827)
+        self.assertEqual(len(registered), 894)
 
 
 if __name__ == "__main__":
