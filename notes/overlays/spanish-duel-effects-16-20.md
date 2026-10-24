@@ -1,5 +1,48 @@
 # Spanish duel effects 16 and 20
 
+## Canonical row-strike lifecycle
+
+`DuelEffect_RunRowStrike` names the complete shared effects-16/20 lifecycle.
+`DuelEffect_ApplyRaigeki` creates effect 16, then consumes successive
+`field_1D` hit counts to launch effect 11 at each occupied card and perform
+the resident card removal. The animation signals progress; it does not
+select or remove gameplay cards.
+
+The handler constructs five mirrored field-row origins and four descending
+paths per origin. Another column becomes active every eight updates.
+Reaching the final path level increments the hit counter once, then draws
+particles and expanding rings while fading. This is a mechanism name,
+not a Raigeki-only contract or an observed identification of lightning
+artwork. Effect 20 still forces every nonnegative phase to 1; negative
+updates pass through. Both ordinary phases use the same single config.
+
+The separate private types/objects remain intact, including overlapping
+32-particle windows starting five vectors apart, carried inter-column
+scale, signed random remainders, endpoint stores and both final colors.
+Phases at least two still use the crossed-line fallback; no reachability
+or unused-variant claim is introduced.
+
+| Binding | North America | Japan | PAL/native | Bytes |
+| --- | --- | --- | --- | --- |
+| `DuelEffect_RunRowStrike` | `80152130` | `8015F5EC` | `func_80151558` | 2,800 |
+| `gDuelEffect_RowStrikeConfig` | `8015AFC0` | `80168F80` | `D_8015AEF4` | 36 |
+| `gDuelEffect_RowStrikeInitialScale` | `801461E0` | `801541F0` | `D_80146198` | 16 |
+
+The extern-only semantic header binds the complete handler and separate
+real generated config/VECTOR owners without changing private declarations,
+layout, storage, profiles or native symbols. Together with the
+[card breakup](spanish-duel-effect-11.md), these are six evidence-backed
+bindings and 116 existing data bytes, not a new runtime experiment.
+Historical image/recovery results below retain their original scope.
+
+For this naming change, the complete three-object and NA resident/bank
+receipts are recorded alongside [card breakup](spanish-duel-effect-11.md).
+The semantic include follows the existing private headers: putting it first
+caused effect 11's earlier `unmatched.h` inclusion to suppress effect 16's
+existing `D_8009B264_VISIBLE`-selected active-request declaration. Preserving
+the original private include order fixes that compile failure without a
+new declaration, private-header edit or compiler flag.
+
 The complete `func_80151558` interval, `0x80151558..0x80152048`, is
 2,800 bytes of C in `src/overlays/duel_effects/effect_16.c`. Its existing
 GCC 2.8.1 / MASPSX 2.81 profile is `gcc_2_8_1_g0_split`. The dispatcher

@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x801462B0,0x508,func_80146258,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x801467B8,0x13B8,func_80146760,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x801467B8,0x13B8,DuelEffect_RunCardBreakup,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80147B70,0x34,DuelEffect_IsColorBlack,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80147BA4,0x3C,DuelEffect_HasNonzeroColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80147BE0,0xCC,func_8014E35C,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -66,7 +66,7 @@ address,size,name,status,module,notes
 0x80151FCC,0xC8,DuelEffect_SetTransformMatrix,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80152094,0x3C,DuelEffect_SetScaledLocalScreenMatrix,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801520D0,0x60,DuelEffect_CopyMatrixComponents,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80152130,0xAF0,func_80151558,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80152130,0xAF0,DuelEffect_RunRowStrike,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80152C20,0xE7C,func_80152048,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80153A9C,0xD8,DuelEffect_SubmitOffsetQuad,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80153B74,0x114,DuelEffect_SubmitOffsetFt4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

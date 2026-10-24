@@ -9,8 +9,9 @@
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "row_strike_semantic_views.h"
 
-void func_80146760(void *buffer, s32 phase)
+void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;
@@ -31,7 +32,7 @@ void func_80146760(void *buffer, s32 phase)
     s32 variant;
 
     memset(&zero, 0, sizeof(zero));
-    scale = D_80146004;
+    scale = gDuelEffect_CardBreakupInitialScale;
     packet = &polygon;
     gradient_packet = &gradient;
     work = buffer;
@@ -41,7 +42,7 @@ void func_80146760(void *buffer, s32 phase)
             work->cross = 1;
         } else {
             work->cross = 0;
-            work->config = &D_8015A4E4;
+            work->config = &gDuelEffect_CardBreakupConfig;
             DuelEffect_PackFixedPageClut(work->base_texture, &gDuelEffect_TextureModesAndVariants.variant.images[0]);
             image = &gDuelEffect_TextureModesAndVariants.variant.images[variant];
             DuelEffect_PackFixedPageClut(work->texture, image);
