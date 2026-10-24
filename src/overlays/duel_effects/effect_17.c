@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "primitive_semantic_views.h"
+#include "layered_semantic_views.h"
 
 void func_80148BA4(void *buffer, s32 phase)
 {
@@ -118,7 +119,7 @@ void func_80148BA4(void *buffer, s32 phase)
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->particle_colors[i])) {
                 DuelEffect_InitOffsetQuadVertices(vertices, &work->particles[i]);
                 if (!(i & 3)) {
-                    func_80155BC0((u8 *)&work->particle_colors[i], 8, 1, &work->particles[i]);
+                    DuelEffect_DrawLayeredTileQuad((u8 *)&work->particle_colors[i], 8, 1, &work->particles[i]);
                 }
                 func_80156064((u8 *)&work->particle_colors[i], vertices, 1);
                 if (__builtin_abs(work->particles[i].vx) > 32 ||
@@ -227,7 +228,7 @@ void func_80148BA4(void *buffer, s32 phase)
         setVector(&rotation, 0, 0, 0);
         DuelEffect_SetTransformMatrix(&world, &saved, &work->center, &rotation, &scale, 0);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->burst_color)) {
-            func_80155BC0((u8 *)&work->burst_color, 32, 1, 0);
+            DuelEffect_DrawLayeredTileQuad((u8 *)&work->burst_color, 32, 1, 0);
             color = work->burst_color;
             color.r >>= 1;
             color.g >>= 1;
@@ -254,7 +255,7 @@ void func_80148BA4(void *buffer, s32 phase)
                     if (work->path_states[i] == 2 &&
                         (u16)DuelEffect_HasNonzeroColor((u8 *)&work->path_colors[i])) {
                         DuelEffect_SetTransformMatrix(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
-                        func_80155BC0((u8 *)&work->path_colors[i], 4, 1, 0);
+                        DuelEffect_DrawLayeredTileQuad((u8 *)&work->path_colors[i], 4, 1, 0);
                     }
                     work->path_ages[i]++;
                     if (work->path_ages[i] >= 8) {

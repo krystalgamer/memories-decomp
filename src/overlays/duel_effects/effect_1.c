@@ -3,6 +3,7 @@
 #include "effect_1.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "layered_semantic_views.h"
 
 void func_80157794(void *buffer, s32 phase)
 {
@@ -92,7 +93,7 @@ void func_80157794(void *buffer, s32 phase)
             color_copy.r >>= 2;
             color_copy.g >>= 2;
             color_copy.b >>= 2;
-            func_80155BC0((u8 *)&color_copy, work->config->sprite_size,
+            DuelEffect_DrawLayeredTileQuad((u8 *)&color_copy, work->config->sprite_size,
                          0, &translation);
             if (work->stage == 0) {
                 scale.vx = 4096;
@@ -106,7 +107,7 @@ void func_80157794(void *buffer, s32 phase)
                     color_copy.r >>= 2;
                     color_copy.g >>= 2;
                     color_copy.b >>= 2;
-                    func_80155D90((u8 *)&work->beam_color, work->config->widths,
+                    DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->beam_color, work->config->widths,
                                  work->config->height, 0);
                     applyVector(&work->rotations[i],
                                 work->config->beam_rotation_step,

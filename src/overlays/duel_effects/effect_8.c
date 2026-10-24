@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "primitive_semantic_views.h"
+#include "layered_semantic_views.h"
 
 void func_80147B18(void *buffer, s32 phase)
 {
@@ -72,7 +73,7 @@ void func_80147B18(void *buffer, s32 phase)
                 /* The zero acceleration retains the original halfword read. */
                 work->velocities[i].vy -= 0;
             }
-            func_80155BC0((u8 *)&work->color, work->config->sprite_size,
+            DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, work->config->sprite_size,
                          64, &rotation);
             setPolyGT4(packet);
             packet->tpage = D_8015B748.named.page1;

@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "layered_semantic_views.h"
 
 void func_80153200(void *buffer, s32 phase, s16 number)
 {
@@ -144,7 +145,7 @@ void func_80153200(void *buffer, s32 phase, s16 number)
                 scale.vy = (work->scale >> 1) + 4096;
                 scale.vz = 0;
                 DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-                func_80155BC0((u8 *)&work->color, work->config->sprite_size,
+                DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, work->config->sprite_size,
                              0, &position);
                 scale.vx = work->scale + 4096;
                 scale.vy = work->scale + 4096;
@@ -169,7 +170,7 @@ void func_80153200(void *buffer, s32 phase, s16 number)
                     for (i = 0; i < 64; i++) {
                         DuelEffect_SetTransformMatrix(&world, &saved, &position,
                                      &work->rotations[i], &scale, 2);
-                        func_80155D90((u8 *)&work->color, work->config->strip_widths,
+                        DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->color, work->config->strip_widths,
                                      work->config->strip_height, 0);
                     }
                 }

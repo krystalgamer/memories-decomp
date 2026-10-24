@@ -1,5 +1,76 @@
 # Duel-effect layered drawing
 
+## Scoped two-pass C views
+
+The complete two-function `layered_drawing.c` object now exposes
+`DuelEffect_DrawLayeredTileQuad` and
+`DuelEffect_DrawLayeredGradientTrapezoid` through
+`layered_semantic_views.h`. Both typed declarations bind directly to their
+original native labels. The original `layered_drawing.h`, SDK types,
+72-byte textured record, 88-byte gradient record and its four-byte unknown
+alignment gap remain unchanged. No record is flattened or newly shared.
+
+| C view | Native label | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `DuelEffect_DrawLayeredTileQuad` | `func_80155BC0` | `0x80147E08` | `0x80163C50` | `0x80155BC0` |
+| `DuelEffect_DrawLayeredGradientTrapezoid` | `func_80155D90` | `0x80147FD8` | `0x80163E20` | `0x80155D90` |
+
+Nineteen actual effect/gather caller units use the two C views. The names
+describe the two rendering passes, not the artwork, gameplay effect,
+world-space dimensions or runtime coverage. The complete object retains
+its 464-byte then 516-byte definition order and unchanged
+`gcc_2_8_1_g0_split` profile. The separate contour object is not absorbed.
+
+### Layered tile quad
+
+The first FT4 pass uses texture halfwords at offsets `0x00/0x02`, UVs
+`(0,0)..(63,63)`, the input RGB and the original square-generator size.
+Each vertex is translated by the supplied offset before projection. The
+second pass rereads half-intensity input RGB, regenerates the square with
+`size * 2` converted through the original `u16` generator parameter, then
+translates and projects all four vertices again. Both calls retain the
+signed-halfword depth argument and mode one. The second attempt is not
+conditioned on whether the first projector accepted its packet.
+
+Keep the distinct `packet->vertices` and `drawing.vertices` expressions
+in the two translation loops. Do not cache RGB or offsets, replace the
+second pass with a scaled packet copy, widen the size domain or normalize
+the depth argument. The existing SDK `addVector` macro performs unguarded
+component accesses. Effect 17 supplies literal null offsets at two call
+sites; this observation is not a null-safe or optional-offset contract,
+and this naming pass adds no guard or substitute zero vector.
+
+### Layered gradient trapezoid
+
+The GT4 uses texture halfwords at `0x04/0x06` and UVs
+`(128,0)..(159,63)`. Its first pair of vertices uses X coordinates
+`-widths[0]` and `widths[0]` at Y `-height`; the second pair uses
+`-widths[1]` and `widths[1]` at Y zero. Initial Z values are zero. The
+first edge is black and the second edge rereads half-intensity input RGB.
+
+After the first projection attempt, the second edge rereads quarter-
+intensity RGB. The SDK `applyVector(..., 2, 2, 0, *=)` expression updates
+every vertex before the second projection, retaining halfword narrowing
+and the original multiplication/store sequence. Both projector calls keep
+the signed depth and mode one. The four-byte record gap is not initialized
+or assigned new meaning. No packet/vertex copy, padding write, width guard
+or equivalent-looking vector rewrite is introduced.
+
+### Conservation
+
+Twenty complete owner/caller sources retain their accepted-parent bodies
+after reversing only these two identifiers and removing one added include
+per file. Actual named-profile GCC/MASPSX output, native symbol tables and
+disassembly/relocations remain unchanged for all twenty complete objects.
+The five configured bank inventories change only ten name cells; their
+other fields, order, extents and profiles remain intact. Two semantic
+records append at actual NA addresses, conserving all earlier registry
+bytes. Original headers, guards, selectors and native/data owners remain
+unchanged; no wrapper, storage, linker alias or test harness is added.
+Full-image and regional acceptance uses the ordinary project/PR gates.
+
+## Original matching and layout evidence
+
 The complete contiguous group `0x801558F4..0x80155F94` contains three
 functions / 1,696 bytes: 716, 464 and 516 bytes. All use the unchanged
 `gcc_2_8_1_g0_split` profile and existing SDK polygon/vector declarations.

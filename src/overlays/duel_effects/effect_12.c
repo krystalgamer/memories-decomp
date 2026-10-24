@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_12.h"
 #include "geometry_semantic_views.h"
+#include "layered_semantic_views.h"
 
 void func_80150E00(void *buffer, s32 phase)
 {
@@ -64,7 +65,7 @@ void func_80150E00(void *buffer, s32 phase)
             scale.vx = work->scale >> 1;
             scale.vy = work->scale >> 1;
             scale.vz = work->scale >> 1;
-            func_80155BC0((u8 *)&color_copy, work->config->sprite_size,
+            DuelEffect_DrawLayeredTileQuad((u8 *)&color_copy, work->config->sprite_size,
                          64, &sprite_rotation);
             if (work->scale < 0x4000) {
                 work->scale += 0x1000;

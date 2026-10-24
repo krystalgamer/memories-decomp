@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
 #include "texture_semantic_views.h"
+#include "layered_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_7_TRAIL_SPREAD 13
@@ -132,7 +133,7 @@ void func_801587D8(void *buffer, s32 phase)
                     GsSetLsMatrix(&matrix);
                     func_8015616C((u8 *)&work->colors[i], work->rings[0],
                                  work->rings[1], work->rings[2], 0);
-                    func_80155BC0((u8 *)&work->colors[i], work->sizes[i], 0, &position);
+                    DuelEffect_DrawLayeredTileQuad((u8 *)&work->colors[i], work->sizes[i], 0, &position);
                     if (work->scales[i] < 0x6000) {
                         work->scales[i] += 0x1000;
                     }
