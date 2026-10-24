@@ -10,6 +10,36 @@ and `tmp/effect-6-full/`. The initial private linker lacked the two new data
 bindings; adding their observed addresses completed the proof without a
 source/compiler change.
 
+## Static gameplay role and semantic bindings
+
+`DuelEffect_ApplyDirectDamage` in
+[`duel_card_effects.c`](../../src/game/duel_card_effects.c) creates effect 6
+for Sparks, Hinotama, Final Flame, Ookazi and Tremendous Fire (cards
+343..347), selecting configuration 0..4 by subtracting 343. Detecting Goblin
+Fan (687) selects configuration 5 for this first request instead. That
+configuration suppresses the ordinary burst, number and background paths
+and finishes when the last trail changes state; it is not an extra damage
+card. After trap presentation, a later resident invocation recalculates the
+original card index and creates effect 7 with configuration 0..4.
+
+This complete lifecycle is named `DuelEffect_RunDirectDamage`, with
+`gDuelEffect_DirectDamageConfigs[6]` and
+`gDuelEffect_DirectDamageInitialScale` naming its existing 180-byte table
+and 16-byte SDK vector copy. The extern-only
+[`damage_semantic_views.h`](../../src/overlays/duel_effects/damage_semantic_views.h)
+binds them to native `func_80154B30`, `D_8015B30C` and `D_801461F8`.
+Their actual NA addresses are `0x801555AC`, `0x8015B3D8` and `0x80146240`;
+the function is 3,008 bytes there, versus 3,012 in PAL. JP addresses are
+`0x80162BC4`, `0x80169398` and `0x80154250`.
+
+These are static caller/initialization roles, not human-confirmed artwork
+identities or new claims about the scale vector's padding or immutability.
+Keep this complete object separate from effect 7, retain original private
+types/native declarations and real generated data owners, and preserve all
+six configurations, regional constants, signed arithmetic, work counters,
+matrix operations and the 180-frame fallback. No additional human route is
+requested by these names.
+
 ## Lifecycle and layout
 
 The six configurations select initialization; higher nonnegative phases

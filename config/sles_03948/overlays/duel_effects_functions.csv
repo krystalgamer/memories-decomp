@@ -57,7 +57,7 @@ address,size,name,status,module,notes
 0x8015405C,0x28,DuelEffect_SetFogBaseColor,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
 0x80154084,0x604,DuelEffect_RunParticleContourBurst,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
 0x80154688,0x4A8,DuelEffect_RunContourBurst,matching_c,overlay/duel_effects,"Unchanged Spanish source; full French bank, whole C object and real data ownership verified."
-0x80154B30,0xBC4,func_80154B30,matching_c,overlay/duel_effects,"Unchanged Spanish source; full French bank, whole C object and real data ownership verified."
+0x80154B30,0xBC4,DuelEffect_RunDirectDamage,matching_c,overlay/duel_effects,"Unchanged Spanish source; full French bank, whole C object and real data ownership verified."
 0x801556F4,0xA4,DuelEffect_DrawFadingFullscreenColor,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
 0x80155798,0xCC,DuelEffect_DrawFullscreenGradient,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
 0x80155864,0x90,DuelEffect_DrawFullscreenColor,matching_c,overlay/duel_effects,Unchanged Spanish source; complete French bank and C object/ELF ownership verified.
@@ -81,6 +81,6 @@ address,size,name,status,module,notes
 0x801575CC,0x1C8,DuelEffect_DrawGradientConnectionBands,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.
 0x80157794,0x67C,DuelEffect_RunFusion,matching_c,overlay/duel_effects,Shared Spanish source; complete French image and real code/data owners; canonical card-object contracts.
 0x80157E10,0x9C8,func_80157E10,matching_c,overlay/duel_effects,"Independently recovered complete effect_5; exact French image, whole C object and real data owners."
-0x801587D8,0xBD0,func_801587D8,matching_c,overlay/duel_effects,"Independently recovered complete effect_7; exact French image, whole C object and real data owners."
+0x801587D8,0xBD0,DuelEffect_RunReflectedDirectDamage,matching_c,overlay/duel_effects,"Independently recovered complete effect_7; exact French image, whole C object and real data owners."
 0x801593A8,0x704,func_801593A8,matching_c,overlay/duel_effects,"Accepted Spanish source; independent complete French image, whole C object, real data owners and canonical sound binding."
 0x80159AAC,0x738,func_80159AAC,matching_c,overlay/duel_effects,"Independently recovered complete effect 4; exact French image, whole C object and real data owners."

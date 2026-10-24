@@ -76,11 +76,11 @@ address,size,name,status,module,notes
 0x801546B4,0x44C,func_80153ADC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80154B00,0x604,DuelEffect_RunParticleContourBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80155104,0x4A8,DuelEffect_RunContourBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x801555AC,0xBC0,func_80154B30,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x801555AC,0xBC0,DuelEffect_RunDirectDamage,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015616C,0x2CC,DuelEffect_DrawQuadContour,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80156438,0x67C,DuelEffect_RunFusion,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80156AB4,0x9C8,func_80157E10,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8015747C,0xBCC,func_801587D8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8015747C,0xBCC,DuelEffect_RunReflectedDirectDamage,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80158048,0x704,func_801593A8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015874C,0x738,func_80159AAC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80158E84,0x13EC,DuelEffect_RunBoardDestruction,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
