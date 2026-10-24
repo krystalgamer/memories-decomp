@@ -330,14 +330,23 @@ class FrenchDuelBankTests(unittest.TestCase):
 
     def test_effect_eleven_helper_contracts_and_sdk_binding(self) -> None:
         directory = ROOT / "src/overlays/duel_effects"
+        triangle = (
+            "void DuelEffect_DrawSharedBaseTriangles("
+            "u8 *color, u16 width, SVECTOR *positions, u16 count, s16 bias)"
+        )
         for declaration, paths in (
             ("void func_8014EE0C(u16 width, u16 depth, s16 height,",
              ("utility_helpers.h", "radial_random_vectors.c")),
             ("void func_80156E58(u8 *color, u16 width,",
-             ("drawing_helpers.h", "primitive_draw.c")),
+             ("drawing_helpers.h",)),
+            (triangle, ("primitive_draw.c", "primitive_semantic_views.h")),
         ):
             for path in paths:
                 self.assertIn(declaration, (directory / path).read_text())
+        self.assertIn(
+            "extern " + triangle + ' __asm__("func_80156E58");',
+            (directory / "primitive_semantic_views.h").read_text(),
+        )
         region = ROOT / "config/sles_03948"
         for path in ("link_symbols.ld", "overlays/duel_effects_linker_symbols.txt"):
             self.assertIn("ratan2 = 0x80089928;", (region / path).read_text())
@@ -366,15 +375,24 @@ class FrenchDuelBankTests(unittest.TestCase):
 
     def test_effect_caller_contracts_agree_with_shared_definitions(self) -> None:
         directory = ROOT / "src/overlays/duel_effects"
+        triangle = (
+            "void DuelEffect_DrawSharedBaseTriangles("
+            "u8 *color, u16 width, SVECTOR *positions, u16 count, s16 bias)"
+        )
         for files, declaration in (
             (("utility_helpers.h", "radial_random_vectors.c"),
              "void func_8014EE0C(u16 width, u16 depth, s16 height,"),
-            (("drawing_helpers.h", "primitive_draw.c"),
+            (("drawing_helpers.h",),
              "void func_80156E58(u8 *color, u16 width,"),
+            (("primitive_draw.c", "primitive_semantic_views.h"), triangle),
         ):
             for filename in files:
                 with self.subTest(source=filename):
                     self.assertIn(declaration, (directory / filename).read_text())
+        self.assertIn(
+            "extern " + triangle + ' __asm__("func_80156E58");',
+            (directory / "primitive_semantic_views.h").read_text(),
+        )
 
     def test_effect_eight_and_twelve_keep_real_data_and_matrix_getter(self) -> None:
         region = ROOT / "config/sles_03948"

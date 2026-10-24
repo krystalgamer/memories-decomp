@@ -20,9 +20,10 @@ generalized clipping API. Effects 8, 11, 16, 17 and 22 use the triangles;
 effect 10 uses the flat quad; effects 13 and 17 use the gradient path and its
 returned state. All actual bank callers use the typed views. Three scoped
 registry rows use the actual NA inventory addresses, not native suffixes.
-The triangle implementation retains its original `func_80156E58`
-definition name so the existing paired native ABI guards remain unchanged;
-its canonical declaration still binds directly to that same native owner.
+The three existing paired triangle ABI guards retain the original native
+declaration check and verify the complete typed canonical definition plus
+its exact assembler binding to `func_80156E58`. Their unrelated helper and
+regional SDK ownership/address/size assertions remain unchanged.
 The five configured bank inventories change only their fifteen name cells;
 addresses, sizes, profiles, manifests and non-name fields remain intact.
 No resident symbols or German/Italian bank coverage are inferred.
@@ -79,8 +80,10 @@ The nine affected C files retain all original bodies after reversing only
 these three identifiers and removing one added include per file.
 Accepted-parent compilation through the named profile preserves raw GCC
 and MASPSX assembly, native symbol tables and disassembly/relocations for
-all nine complete objects. Existing headers, tests, selectors, paired ABI
-and curve controls remain unchanged. Full-image acceptance continues
+all nine complete objects. Existing native headers, selectors and curve
+controls remain unchanged. The paired ABI guards have only the
+identifier-aware correction described above; no guard is deleted or
+skipped and no parameter domain is relaxed. Full-image acceptance continues
 through ordinary project matching and PR gates, not new source-string
 harnesses or local execution of cloud tests.
 
