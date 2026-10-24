@@ -5216,15 +5216,15 @@
     },
     {
       "address": "0x8004DE24",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x98C",
-      "source": "src/game/model_draw_background.c"
+      "source": "src/game/model_background.c"
     },
     {
       "address": "0x8004E7B0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F0",
-      "source": "src/game/model_update_background_scroll.c"
+      "source": "src/game/model_background.c"
     },
     {
       "address": "0x8004E9A0",
@@ -6002,15 +6002,15 @@
     },
     {
       "address": "0x8005C62C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x64",
-      "source": "src/game/movie_seek_and_start_read.c"
+      "source": "src/game/mdec_sync.c"
     },
     {
       "address": "0x8005C690",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10",
-      "source": "src/game/func_8005C690.c"
+      "source": "src/game/mdec_sync.c"
     },
     {
       "address": "0x8005C6A0",

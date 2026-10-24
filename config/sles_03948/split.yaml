@@ -153,7 +153,7 @@ segments:
     - initial_data_f60
   - - 7152
     - .rodata
-    - game/european/model_draw_background
+    - game/european/model_background
   - - 7188
     - rodata
     - initial_data_1c14
@@ -1169,10 +1169,7 @@ segments:
     - game/func_8004DC38
   - - 268152
     - c
-    - game/european/model_draw_background
-  - - 270596
-    - c
-    - game/model_update_background_scroll
+    - game/european/model_background
   - - 271092
     - c
     - game/european/model_scene_controllers
@@ -1341,12 +1338,6 @@ segments:
   - - 373440
     - c
     - game/mdec_sync
-  - - 373544
-    - c
-    - game/movie_seek_and_start_read
-  - - 373644
-    - c
-    - game/func_8005C690
   - - 373660
     - c
     - game/european/card_list_render_deck_box_stats
