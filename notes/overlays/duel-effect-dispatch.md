@@ -219,6 +219,33 @@ the other terrain configurations, and Dark Hole does not identify effect
 17's phase-one configuration. No broader lifecycle or request-field rename
 is implied.
 
+### Semantic handler views
+
+Six handlers have a single caller-backed purpose and get C views in
+`handler_semantic_views.h`. The views are `__asm__` aliases of the unchanged
+native labels, following #7842. The regional inventories carry the view name
+at the native address. Each name rests on the human observation above plus
+the complete static requester list:
+
+| Effect | View | Native label | Every static requester |
+|---:|---|---|---|
+| 1 | `DuelEffect_RunFusion` | `func_80157794` | `DuelScene_UpdateCardPlacement`'s fusion branch |
+| 2 | `DuelEffect_RunAttackSlash(work, phase, damage)` | `func_80153200` | `DuelScene_UpdateBattle`, battle and direct-attack sites |
+| 3 | `DuelEffect_RunDestroyFlames` | `func_80149F90` | `DuelScene_UpdateBattle`, after a losing slash |
+| 10 | `DuelEffect_RunTerrainChange` | `func_8014C8FC` | `DuelEffect_ApplyTerrain`, for every terrain |
+| 14 | `DuelEffect_RunGuardianStarBonus` | `func_801481A8` | `DuelScene_UpdateBattle`'s guardian-star branch |
+| 17 | `DuelEffect_RunBoardDestruction` | `func_80148BA4` | `DuelEffect_ApplyBoardDestruction` (Dark Hole and the Dragon Capture Jar phase) |
+
+The debug effect screen can request any ID and is not counted. The third
+argument is named only on the effect-2 view. It does not name `field_12`
+for effect 13 or for any other request.
+
+Effect 0 (`func_80154688`) keeps its native name. Besides the observed
+equip placement, `DuelScene_UpdateExodiaResult` (`duel_draw_resolution.c`)
+requests it with phase 9. The same equip call site also selects effect 4
+for cards 301 and 302. No sampled route covers the Exodia lifecycle, so an
+equip-only name would overclaim.
+
 The attack handler's signed request variant was observed as zero, positive
 and negative, including `1200`, `200` and `-700` in monster attacks.
 Direct-attack episodes used phases four or five and positive variants

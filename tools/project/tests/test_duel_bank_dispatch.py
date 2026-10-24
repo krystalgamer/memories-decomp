@@ -21,6 +21,11 @@ class DuelBankDispatchTests(unittest.TestCase):
         aliases = (directory / "duel_effects_linker_symbols.txt").read_text()
         symbols = (directory / "duel_effects_symbols.txt").read_text()
         source = (DIRECTORY / "dispatch.c").read_text()
+        views = dict(re.findall(
+            r"extern void (\w+)\([^)]*\) __asm__\(\"(func_[0-9A-F]+)\"\);",
+            (DIRECTORY / "handler_semantic_views.h").read_text(),
+        ))
+        self.assertEqual(len(views), 6)
         with (directory / "duel_effects_functions.csv").open() as handle:
             inventory = {row["name"]: row for row in csv.DictReader(handle)}
         named_callees = {
@@ -29,7 +34,8 @@ class DuelBankDispatchTests(unittest.TestCase):
             "DuelEffect_RunReflectedDirectDamage": ("func_801587D8", 0x801587D8, 0xBD0),
         }
         callees = set(re.findall(
-            r"\b(func_[0-9A-F]+|" + "|".join(named_callees) + r")\(", source
+            r"\b(func_[0-9A-F]+|"
+            + "|".join((*named_callees, *views)) + r")\(", source
         )) - {"func_80146258"}
         self.assertEqual(len(callees), 25)
         for name in callees:
@@ -40,6 +46,15 @@ class DuelBankDispatchTests(unittest.TestCase):
                 self.assertEqual(inventory[name]["module"], "overlay/duel_effects")
                 self.assertEqual(int(inventory[name]["address"], 16), address)
                 self.assertEqual(int(inventory[name]["size"], 16), size)
+            if name in views:
+                native = views[name]
+                self.assertNotIn(native + " =", aliases)
+                self.assertNotIn(native, inventory)
+                self.assertEqual(inventory[name]["module"], "overlay/duel_effects")
+                self.assertEqual(
+                    int(inventory[name]["address"], 16), int(native[5:], 16)
+                )
+                self.assertIn(f"{native} = 0x{native[5:]}; // type:func", symbols)
             self.assertIn(inventory[name]["status"], ("matching_c", "unmatched_asm"))
         for address, size in (
             (0x8015A1E4, 0x24C), (0x8015A430, 0xB4),
