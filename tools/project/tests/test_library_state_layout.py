@@ -103,8 +103,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                             '#include "../../src/game/library_runtime.h"\n'
                             '#include "../../src/game/library_create_grid_section_sprites.h"\n'
                             '#include "../../src/game/library_draw_wireframe_globe.h"\n'
-                            '#include "../../src/game/library_create_fading_card_outline.h"\n'
-                            '#include "../../src/game/library_draw_fading_card_outline.h"\n'
+                            '#include "../../src/game/library_fading_card_outline.h"\n'
                             '#include "../../src/game/duel_projection_axes.h"\n'
                             f"{result_type} (*checked)({argument}) = {symbol};\n"
                         )

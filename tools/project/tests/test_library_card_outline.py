@@ -67,7 +67,7 @@ int main(void)
 
 
 class LibraryCardOutlineTests(unittest.TestCase):
-    def test_regional_owners_keep_distinct_profiles(self):
+    def test_regional_owners_share_one_grouped_unit(self):
         pairs = {
             "slus_01411": (0x8002A9C0, 0x8002ABB4),
             "slpm_86398": (0x8002A7A0, 0x8002A994),
@@ -79,11 +79,11 @@ class LibraryCardOutlineTests(unittest.TestCase):
         }
         owners = (
             ("Library_DrawFadingCardOutline",
-             "src/game/library_draw_fading_card_outline.c", 0x1F4,
+             "src/game/library_fading_card_outline.c", 0x1F4,
              "gcc_2_8_1_g0_split"),
             ("Library_CreateFadingCardOutline",
-             "src/game/library_create_fading_card_outline.c", 0xF0,
-             "gcc_2_8_1_g0"),
+             "src/game/library_fading_card_outline.c", 0xF0,
+             "gcc_2_8_1_g0_split"),
         )
         for region, addresses in pairs.items():
             directory = ROOT / "config" / region
@@ -101,7 +101,7 @@ class LibraryCardOutlineTests(unittest.TestCase):
                     self.assertEqual(int(entry["size"], 0), size)
                     self.assertEqual(entry["profile"], profile)
                     self.assertEqual(
-                        sum(item["source"] == source for item in manifest["functions"]), 1
+                        sum(item["source"] == source for item in manifest["functions"]), 2
                     )
                     row, = [
                         item for item in inventory if int(item["address"], 0) == address
@@ -123,7 +123,7 @@ class LibraryCardOutlineTests(unittest.TestCase):
     def test_actual_fade_prefix_and_regression_controls(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        draw = (ROOT / "src/game/library_draw_fading_card_outline.c").read_text()
+        draw = (ROOT / "src/game/library_fading_card_outline.c").read_text()
         prefix = re.search(
             r"(?ms)^    n = \*\(u16 \*\)&o->field_60 - 0x10;.*?^    \}",
             draw,

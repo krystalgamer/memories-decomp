@@ -5,7 +5,10 @@
 #include "gpu_packets.h"
 #include "display_object_core.h"
 #include "display_object.h"
-#include "library_draw_fading_card_outline.h"
+#include "library_fading_card_outline.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "display_object_helpers.h"
 
 /* The draw callback Library_CreateFadingCardOutline installs at 0x4C on the object it
    builds: it fades the object out over its own field_60 countdown, projects
@@ -105,3 +108,5 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     *(s32 *)&q->x1 = *(s32 *)&q->x3;
     Graphics_SubmitDrawModePacket((u32 *)q, ot, (u16)k, 1);
 }
+
+DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){DisplayObject*o=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),6);o->field_48.word=src->field_48.word;*(s32*)&o->field_18=*(s32*)&src->field_18;o->field_60=0x100;*(s16*)&o->field_3C.h.field_3C=*(s16*)&o->field_18*2;*(s16*)&o->field_3C.h.field_3E=*(s16*)&o->field_1A*2;o->field_30.word=src->field_30.word;o->field_20.word=src->field_20.word;o->field_44.word=src->field_44.word;o->field_0C=0;DisplayObject_SelectOrderingTable1(o);DisplayObject_SetDepthOffset(o,(signed char)(*(u8*)&src->field_16+add));o->field_10=1;o->field_4C=(s32)Library_DrawFadingCardOutline;o->attribute=(o->attribute|(GsALON | GsAONE))&~GsROTOFF;return o;}
