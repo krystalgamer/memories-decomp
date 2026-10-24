@@ -126,7 +126,7 @@ masked, so the counts are orders of magnitude:
 | Distinct bodies (masked) | 624 |
 | Instructions, one copy of each distinct body | about 709,000 |
 | Images now built from French C (this note) | 184 |
-| Images now built from North American C ([header 111](usa-model-variant111.md), [header 118](usa-model-variant118.md), [header 119](usa-model-variant119.md), [header 176](usa-model-variant176.md), [header 627](usa-model-variant627.md), [header 647](usa-model-variant647.md)) | 137 |
+| Images now built from North American C ([header 111](usa-model-variant111.md), [header 118](usa-model-variant118.md), [header 119](usa-model-variant119.md), [header 176](usa-model-variant176.md), [header 627](usa-model-variant627.md), [header 647](usa-model-variant647.md), [header 756](usa-model-variant756.md), [header 766](usa-model-variant766.md)) | 241 |
 
 All framed functions use the gcc 2.8.1 epilogue (`jr ra` with the frame
 release in its delay slot). Three single-function families had a French
