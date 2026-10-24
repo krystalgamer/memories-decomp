@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "display_semantic_views.h"
 
 void func_8014D3E8(void *buffer, s32 phase)
 {
@@ -114,23 +115,23 @@ void func_8014D3E8(void *buffer, s32 phase)
             }
             if (work->arrival == 8) {
                 if (work->connection_tick > 0) {
-                    func_801575CC((u8 *)&color, (DVECTOR *)&work->targets[0],
+                    DuelEffect_DrawGradientConnectionBands((u8 *)&color, (DVECTOR *)&work->targets[0],
                                  (DVECTOR *)&work->targets[2], work->beam_width * 2);
                 }
                 if (work->connection_tick > 4) {
-                    func_801575CC((u8 *)&color, (DVECTOR *)&work->targets[2],
+                    DuelEffect_DrawGradientConnectionBands((u8 *)&color, (DVECTOR *)&work->targets[2],
                                  (DVECTOR *)&work->targets[4], work->beam_width);
                 }
                 if (work->connection_tick > 8) {
-                    func_801575CC((u8 *)&color, (DVECTOR *)&work->targets[1],
+                    DuelEffect_DrawGradientConnectionBands((u8 *)&color, (DVECTOR *)&work->targets[1],
                                  (DVECTOR *)&work->targets[4], work->beam_width);
                 }
                 if (work->connection_tick > 12) {
-                    func_801575CC((u8 *)&color, (DVECTOR *)&work->targets[1],
+                    DuelEffect_DrawGradientConnectionBands((u8 *)&color, (DVECTOR *)&work->targets[1],
                                  (DVECTOR *)&work->targets[3], work->beam_width);
                 }
                 if (work->connection_tick > 16) {
-                    func_801575CC((u8 *)&color, (DVECTOR *)&work->targets[0],
+                    DuelEffect_DrawGradientConnectionBands((u8 *)&color, (DVECTOR *)&work->targets[0],
                                  (DVECTOR *)&work->targets[3], work->beam_width * 2);
                 }
                 work->connection_tick++;

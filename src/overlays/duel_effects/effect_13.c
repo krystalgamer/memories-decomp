@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "number_semantic_views.h"
 #include "primitive_semantic_views.h"
+#include "display_semantic_views.h"
 
 void func_801503F8(void *buffer, s32 phase, s16 number)
 {
@@ -106,7 +107,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
             setVector(&rotation, 0, 0, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 0);
-            func_801573A8((u8 *)&work->background_color, work->config->size * 2, 32);
+            DuelEffect_DrawQuadrantTileQuads((u8 *)&work->background_color, work->config->size * 2, 32);
             if (work->ready == 0) {
                 work->ready = DuelEffect_StepColorToTarget((u8 *)&work->background_color, 128, 128, 128, 8);
             }
