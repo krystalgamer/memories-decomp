@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "render_state_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void DuelEffect_DrawQuadContour(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags)
 {
@@ -26,8 +27,8 @@ void DuelEffect_DrawQuadContour(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 b
     setRGB3(&gradient, color[0] >> 1, color[1] >> 1, color[2] >> 1);
     setSemiTrans(edge, 1);
     setPolyFT4(packet);
-    packet->tpage = D_8015B748.named.page_at_00;
-    packet->clut = D_8015B748.named.clut_at_02;
+    packet->tpage = gDuelEffect_TexturePageClutPairs.named.page_at_00;
+    packet->clut = gDuelEffect_TexturePageClutPairs.named.clut_at_02;
     setUV4(packet, 0, 0, 63, 0, 0, 63, 63, 63);
     setRGB0(packet, color[0], color[1], color[2]);
     setSemiTrans(packet, 1);

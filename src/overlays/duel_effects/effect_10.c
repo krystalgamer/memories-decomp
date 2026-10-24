@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_8014C8FC(void *buffer, s32 phase)
 {
@@ -60,7 +61,7 @@ void func_8014C8FC(void *buffer, s32 phase)
             work->tick = 0;
             work->spawned = 0;
             if (work->config->mode != 1) {
-                D_8015B748.pairs[12][0] = getTPage(D_8015A8C8[12].pmode,
+                gDuelEffect_TexturePageClutPairs.pairs[12][0] = getTPage(D_8015A8C8[12].pmode,
                     work->config->mode, D_8015A8C8[12].px, D_8015A8C8[12].py);
             }
         }
@@ -117,8 +118,8 @@ void func_8014C8FC(void *buffer, s32 phase)
             for (i = 0; i < work->spawned; i++) {
                 if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->column_colors[i])) {
                     setPolyFT4(packet);
-                    packet->tpage = D_8015B748.pairs[12][0];
-                    packet->clut = D_8015B748.pairs[12][1];
+                    packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[12][0];
+                    packet->clut = gDuelEffect_TexturePageClutPairs.pairs[12][1];
                     setUV4(packet, 224, 192, 255, 192, 224, 223, 255, 223);
                     for (j = 0; j < 4; j++) {
                         if (!((work->tick + i + j) & 1)) {

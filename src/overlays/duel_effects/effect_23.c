@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "render_state_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_80152048(void *buffer, s32 phase)
 {
@@ -87,8 +88,8 @@ void func_80152048(void *buffer, s32 phase)
         DuelEffect_SetTransformMatrix(&world, &saved, &work->position, &work->rotation, &scale, 1);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             setPolyFT4(packet);
-            packet->tpage = D_8015B748.pairs[19][0];
-            packet->clut = D_8015B748.pairs[19][1];
+            packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[19][0];
+            packet->clut = gDuelEffect_TexturePageClutPairs.pairs[19][1];
             setRGB0(packet, work->color.r, work->color.g, work->color.b);
             setUV4(packet, 144, 128, 191, 128, 144, 255, 191, 255);
             setVector(&vertices[0], 0, 0, 0);
@@ -180,8 +181,8 @@ void func_80152048(void *buffer, s32 phase)
             for (i = 0; i < 5; i++) {
                 if (work->ages[i] < 24 && work->states[i] >= 2) {
                     setPolyFT4(packet);
-                    packet->tpage = D_8015B748.pairs[20][0];
-                    packet->clut = D_8015B748.pairs[20][1];
+                    packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[20][0];
+                    packet->clut = gDuelEffect_TexturePageClutPairs.pairs[20][1];
                     setRGB0(packet, 32, 32, 32);
                     DuelEffect_InitSquareVertices(vertices, 32);
                     setVector(&rotation, 0, 0, 0);

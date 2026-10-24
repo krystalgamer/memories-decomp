@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
 #include "render_state_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void DuelEffect_DrawProjectedNumber(s32 value, u8 *color, SVECTOR *offset, u16 mode, u16 size, u16 bias)
 {
@@ -37,8 +38,8 @@ void DuelEffect_DrawProjectedNumber(s32 value, u8 *color, SVECTOR *offset, u16 m
         addVector(&vertices[i], offset);
     }
     for (i = 0; i < count + 1; i++) {
-        packet->tpage = D_8015B748.pairs[9][0];
-        packet->clut = D_8015B748.pairs[9][1];
+        packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[9][0];
+        packet->clut = gDuelEffect_TexturePageClutPairs.pairs[9][1];
         depth = RotAverage4(&vertices[vertex], &vertices[vertex + 2],
             &vertices[vertex + 1], &vertices[vertex + 3],
             (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,

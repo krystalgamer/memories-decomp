@@ -7,6 +7,7 @@
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_80147B18(void *buffer, s32 phase)
 {
@@ -78,8 +79,8 @@ void func_80147B18(void *buffer, s32 phase)
             DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, work->config->sprite_size,
                          64, &rotation);
             setPolyGT4(packet);
-            packet->tpage = D_8015B748.named.page1;
-            packet->clut = D_8015B748.named.clut1;
+            packet->tpage = gDuelEffect_TexturePageClutPairs.named.page1;
+            packet->clut = gDuelEffect_TexturePageClutPairs.named.clut1;
             setUV4(packet, 0, 0, 31, 0, 0, 127, 31, 127);
             setRGB0(packet, 0, 0, 0);
             setRGB1(packet, 0, 0, 0);

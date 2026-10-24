@@ -14,6 +14,7 @@
 #include "tile_effect.h"
 #include "packet_semantic_views.h"
 #include "texture_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define TILE_ROW_STEP 30
@@ -80,8 +81,8 @@ void func_80149F90(void *buffer, s32 phase)
         tile->tpage = state->texture_words[0];
         tile->clut = state->texture_words[1];
         setPolyFT4(spark);
-        spark->tpage = ((TileEffectTextureWords *)&D_8015B748)[state->descriptor->texture].page;
-        spark->clut = ((TileEffectTextureWords *)&D_8015B748)[state->descriptor->texture].clut;
+        spark->tpage = ((TileEffectTextureWords *)&gDuelEffect_TexturePageClutPairs)[state->descriptor->texture].page;
+        spark->clut = ((TileEffectTextureWords *)&gDuelEffect_TexturePageClutPairs)[state->descriptor->texture].clut;
         for (k = 0; k < 5; k++) {
             for (i = 0; i < 7; i++) {
                 if ((u16)DuelEffect_HasNonzeroColor(state->colors_a[k][i]) != 0 ||
