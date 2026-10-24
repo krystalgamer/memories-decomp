@@ -301,6 +301,7 @@ end
 
 local function onHelper(h)
     if not moduleResident() then
+        current = nil
         foreignHits = foreignHits + 1
         return
     end

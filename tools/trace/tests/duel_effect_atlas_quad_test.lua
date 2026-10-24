@@ -187,6 +187,24 @@ assert(foreign:has('foreign_module_hits: 2'))
 assert(foreign:has('atlas_calls: 0'))
 assert(foreign:has('verdict: inconclusive; the NA duel_effects bank never ran'))
 
+-- The bank is replaced between the dispatch and a helper hit: the hit is
+-- foreign, and once the words return the effect is no longer current.
+local swap = capture()
+swap:mode(3)
+swap:load(true)
+swap:frames(1)
+swap:call(DISPATCH, { a0 = 9, a3 = swap:request(0, 9) })
+swap:load(false)
+swap:call(ATLAS, { a0 = 8, a1 = 2, ra = 0x80158100 })
+swap:load(true)
+swap:call(ATLAS, { a0 = 8, a1 = 2, ra = 0x80158100 })
+assert(swap:has('-- t=   0.0s atlas func_80156D50 ra=0x80158100 size=8 index=2'))
+assert(not swap:has('#01 t=   0.0s atlas'))
+swap:mode(0)
+swap:frames(1)
+assert(swap:has('foreign_module_hits: 1 atlas_calls: 1'))
+assert(swap:has('effects=outside'))
+
 -- Implausible request pointers are refused.
 local bad = capture()
 bad:mode(3)

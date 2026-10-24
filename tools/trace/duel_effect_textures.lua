@@ -195,6 +195,7 @@ local controlHits = 0
 local dispatchHits = 0
 local foreignHits = 0
 local tableReads = 0
+local foreignReads = 0
 local mismatches = {}
 local callbackError = nil
 local sawDuel = false
@@ -304,9 +305,10 @@ local function finish(reason)
     print('status: ' .. reason)
     print(string.format('frames: %d duel_frames: %d episodes: %d '
                         .. 'control_hits: %d dispatch_hits: %d '
-                        .. 'foreign_module_hits: %d table_reads: %d',
+                        .. 'foreign_module_hits: %d table_reads: %d '
+                        .. 'foreign_reads: %d',
                         frames, duelFrames, episodeCount, controlHits,
-                        dispatchHits, foreignHits, tableReads))
+                        dispatchHits, foreignHits, tableReads, foreignReads))
     for _, m in ipairs(mismatches) do print('signature_mismatch: ' .. m) end
     if callbackError ~= nil then print('callback_error: ' .. callbackError) end
     if not tableDumped then
@@ -363,8 +365,20 @@ local function noteRead(key, describe)
                        describe()))
 end
 
+-- Data addresses are reused by other modules, so every read rechecks the
+-- signature words instead of trusting the last poll or dispatch. Losing the
+-- bank also drops the effect the next reads would be attributed to.
+local function residentNow()
+    resident = moduleResident()
+    if not resident then
+        current = nil
+        foreignReads = foreignReads + 1
+    end
+    return resident
+end
+
 local function onWords(address)
-    if not resident then return end
+    if not residentNow() then return end
     local slot = math.floor((address - WORDS) / 4)
     if slot < 0 or slot >= SLOT_COUNT then return end
     noteRead(string.format('slot%02d', slot), function()
@@ -373,7 +387,7 @@ local function onWords(address)
 end
 
 local function onVariant(address)
-    if not resident then return end
+    if not residentNow() then return end
     local v = math.floor((address - VARIANTS) / IMAGE_SIZE)
     if v < 0 or v >= VARIANT_COUNT then return end
     noteRead('variant' .. v, function()
@@ -382,7 +396,7 @@ local function onVariant(address)
 end
 
 local function onImage(address)
-    if not resident then return end
+    if not residentNow() then return end
     local pc = tonumber(PCSX.getRegisters().pc)
     if pc >= INIT_FROM and pc < INIT_TO then return end
     local slot = math.floor((address - IMAGES) / IMAGE_SIZE)
