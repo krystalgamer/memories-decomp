@@ -1503,9 +1503,9 @@
     },
     {
       "address": "0x80029F04",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
-      "source": "src/game/library_get_card_flags.c"
+      "source": "src/game/european/library_card_grid.c"
     },
     {
       "address": "0x80029F18",
