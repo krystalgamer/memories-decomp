@@ -6,6 +6,7 @@
 #include "number_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "recovery_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_5_RISING_HEIGHT 106
@@ -13,7 +14,7 @@
 #define EFFECT_5_RISING_HEIGHT 98
 #endif
 
-void func_80157E10(void *buffer, s32 phase)
+void DuelEffect_RunLifePointRecovery(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX matrix;
@@ -28,14 +29,14 @@ void func_80157E10(void *buffer, s32 phase)
 
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_80146218;
+    scale = gDuelEffect_LifePointRecoveryInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 10) {
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015B450[phase];
+            work->config = &gDuelEffect_LifePointRecoveryConfigs[phase];
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }
