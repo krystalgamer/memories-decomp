@@ -1,7 +1,6 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_8.h"
-#include "field_burst_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "primitive_semantic_views.h"
@@ -9,6 +8,7 @@
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "field_burst_semantic_views.h"
 
 void DuelEffect_RunFieldColumnBurst(void *buffer, s32 phase)
 {

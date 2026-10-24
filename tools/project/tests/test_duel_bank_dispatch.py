@@ -31,6 +31,8 @@ class DuelBankDispatchTests(unittest.TestCase):
         named_callees = {
             "DuelEffect_RunFieldColumnBurst": ("func_80147B18", 0x80147B18, 0x690),
             "DuelEffect_RunStopDefenseBurst": ("func_80150E00", 0x80150E00, 0x418),
+            "DuelEffect_RunSelectedCardOverlay": ("func_8014FF40", 0x8014FF40, 0x4B8),
+            "DuelEffect_RunBackRowSweep": ("func_80152048", 0x80152048, 0xE7C),
             "DuelEffect_RunExodiaBurst": ("func_8014D3E8", 0x8014D3E8, 0xF74),
             "DuelEffect_RunStatPenalty": ("func_801503F8", 0x801503F8, 0xA08),
             "DuelEffect_RunRitual": ("func_8014A8E4", 0x8014A8E4, 0x2018),
