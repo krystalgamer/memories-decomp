@@ -686,7 +686,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B063,gMovie_bStreamEnded,gMovie_bStreamEnded,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,address,8,*(volatile u8 *)&gMovie_bStreamEnded = 1;
 0x8009B063,gMovie_bStreamEnded,gMovie_bStreamEnded,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (gMovie_bStreamEnded != 0) {
 0x8009B063,gMovie_bStreamEnded,gMovie_bStreamEnded,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read_write,8,gMovie_bStreamEnded = set; | if (gMovie_bStreamEnded != 0) { | (+1 more)
-0x8009B063,gMovie_bStreamEnded,gMovie_bStreamEnded,0x8005C690,Movie_OnStreamEnd,matching_c,game,C,src/game/func_8005C690.c,write,8,gMovie_bStreamEnded = 1;
+0x8009B063,gMovie_bStreamEnded,gMovie_bStreamEnded,0x8005C690,Movie_OnStreamEnd,matching_c,game,C,src/game/mdec_sync.c,write,8,gMovie_bStreamEnded = 1;
 0x8009B064,gMovie_bFadingOut,gMovie_bFadingOut,0x8005B8A0,Movie_OpenStream,matching_c,game,C,src/game/func_8005B8A0.c,write,8,gMovie_bFadingOut = 0;
 0x8009B064,gMovie_bFadingOut,gMovie_bFadingOut,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (gMovie_bFadingOut != 0) {
 0x8009B064,gMovie_bFadingOut,gMovie_bFadingOut,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,write,8,gMovie_bFadingOut = set;
