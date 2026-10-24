@@ -545,9 +545,6 @@ segments:
     - game/main_run_campaign
   - - 121020
     - c
-    - game/main_run_duel
-  - - 121524
-    - c
     - game/main_run_duel_and_library
   - - 121684
     - c

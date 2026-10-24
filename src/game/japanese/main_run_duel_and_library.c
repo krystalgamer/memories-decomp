@@ -5,5 +5,8 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009B26C gJapanese_bActiveMainMode
+#define D_8009B368 gJapanese_D_8009B368
+#define D_8009B369 gJapanese_DuelFlag
+#define D_8009B370 gJapanese_DuelValue0
 
 #include "../main_run_duel_and_library.c"
