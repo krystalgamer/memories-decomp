@@ -4,8 +4,9 @@
 #include "../../game/shared_work_base.h"
 #include "geometry_semantic_views.h"
 #include "display_semantic_views.h"
+#include "swords_field_semantic_views.h"
 
-void func_8014E3EC(void *buffer, s32 phase)
+void DuelEffect_RunSwordsField(void *buffer, s32 phase)
 {
     DuelEffect21Work *slots[2];
     MATRIX world;
@@ -19,7 +20,7 @@ void func_8014E3EC(void *buffer, s32 phase)
 
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_80146158;
+    scale = gDuelEffect_SwordsFieldInitialScale;
     slots[0] = (DuelEffect21Work *)(gRuntime_pSharedWorkBase + 0x2800);
     slots[1] = (DuelEffect21Work *)(gRuntime_pSharedWorkBase + 0x2880);
     if (phase >= 0) {
@@ -30,7 +31,7 @@ void func_8014E3EC(void *buffer, s32 phase)
         } else {
             for (i = 0; i < 10; i++) {
                 copyVector(&slots[__builtin_abs(phase) % 2]->positions[i],
-                           &D_8015AB68[i][phase % 2]);
+                           &gDuelEffect_SwordsFieldTilePositions[i][phase % 2]);
             }
             for (i = 0; i < 8; i++) {
                 a = rand() % 10;
