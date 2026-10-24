@@ -7,6 +7,7 @@
 #include "contour_burst_semantic_views.h"
 #include "damage_semantic_views.h"
 #include "recovery_semantic_views.h"
+#include "row_strike_semantic_views.h"
 #include "ritual_semantic_views.h"
 
 void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
@@ -72,7 +73,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     if (effect == 11) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
         SetGeomOffset(160, 108);
-        func_80146760(buffer, phase);
+        DuelEffect_RunCardBreakup(buffer, phase);
     }
     if (effect == 12) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
@@ -96,7 +97,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     if (effect == 16) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
         SetGeomOffset(160, 108);
-        func_80151558(buffer, phase);
+        DuelEffect_RunRowStrike(buffer, phase);
     }
     if (effect == 17) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
@@ -115,9 +116,9 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
         SetGeomOffset(160, 108);
         if (phase >= 0) {
-            func_80151558(buffer, 1);
+            DuelEffect_RunRowStrike(buffer, 1);
         } else {
-            func_80151558(buffer, phase);
+            DuelEffect_RunRowStrike(buffer, phase);
         }
     }
     if (effect == 21) {
