@@ -12,6 +12,7 @@
 #include "stat_penalty_semantic_views.h"
 #include "exodia_semantic_views.h"
 #include "selected_cards_semantic_views.h"
+#include "swords_field_semantic_views.h"
 
 void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
 {
@@ -127,7 +128,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     if (effect == 21) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
         SetGeomOffset(160, 108);
-        func_8014E3EC(buffer, phase);
+        DuelEffect_RunSwordsField(buffer, phase);
     }
     if (effect == 22) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;

@@ -33,7 +33,7 @@ address,size,name,status,module,notes
 0x8014D544,0x90,DuelEffect_DrawFullscreenColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014D5D4,0xA7C,DuelEffect_RunTerrainChange,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014E050,0xF74,DuelEffect_RunExodiaBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014EFC4,0x690,func_8014E3EC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014EFC4,0x690,DuelEffect_RunSwordsField,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F654,0xA0,DuelEffect_InitCircle32Vertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F6F4,0x170,DuelEffect_InitHalfStepXYRingVertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F864,0x180,DuelEffect_InitHalfStepXZRingVertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
