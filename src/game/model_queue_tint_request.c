@@ -2,6 +2,33 @@
 #include "model_queue_tint_request.h"
 #include "model.h"
 
+void Model_QueueTintRequestForParts(
+    s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3, s32 a4, ...)
+{
+    u8 bits[8];
+    u8 *arguments;
+    s32 value;
+    s32 byte_index;
+    s32 i;
+    u8 *cursor;
+
+    i = 7;
+    cursor = bits + 7;
+    for (; i >= 0; i--)
+        *cursor-- = 0;
+    arguments = (u8 *)&a4 + 4;
+    while (1) {
+        arguments += 4;
+        value = *(s32 *)(arguments - 4);
+        if (value < 0)
+            break;
+        byte_index = value >> 3;
+        bits[byte_index] |= 1 << (value - byte_index * 8);
+    }
+    a2.b3 = a1 & 127;
+    Model_QueueTintRequest(a0, a1 & 128, a2, a3, a4, bits);
+}
+
 void Model_QueueTintRequest(
     s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3, s32 a4,
     const u8 *bits)

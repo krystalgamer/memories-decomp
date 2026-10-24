@@ -5739,15 +5739,15 @@
     },
     {
       "address": "0x8005B668",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x100",
-      "source": "src/game/model_queue_tint_request_for_parts.c"
+      "source": "src/game/model_queue_tint_request.c"
     },
     {
       "address": "0x8005B768",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x144",
-      "source": "src/game/japanese/model_queue_tint_request.c"
+      "source": "src/game/model_queue_tint_request.c"
     },
     {
       "address": "0x8005B8AC",
