@@ -1,0 +1,26 @@
+==== USER CONTEXT ==== 
+ 
+#1 - Fused "Electric Snake" into "Spike Seadra" making "Twin-headed Thunder Dragon"
+#2 - Equipped "Beast Fangs" to "Twin-headed Thunder Dragon"
+#3 - Attacked with "Twin-headed Thunder Dragon" opponent's face-down defense monster which had guardian star advantage. Monster was "Ancient Jar", a bright light shine on it while guardian star symbols fly towards it and its stats go up. Since I attacked pressing square a 3D battle starts and the screen fades to black. Here the trace ends.
+
+The trace printed when I started a 3D battle, not sure if it was intended.
+ 
+==== TRACE RESULT ===== 
+ 
+script: duel_effect_atlas_quad 
+setup: debugger=on configured_cpu=interpreter active_cpu=unverified execution_breakpoint=observed 
+status: left the duel 
+frames: 2846 duel_frames: 2518 episodes: 3 control_hits: 2107 dispatch_hits: 152 foreign_module_hits: 0 atlas_calls: 0 sibling_calls: 0 
+verdict: func_80156D50 never executed, but neither did the sibling control (effects seen: 0,1,14); play effects 6 or 7 to make the negative count 
+ 
+ 
+-- t=   5.5s duel started; effects are numbered from here 
+#01 t=  24.4s START effect=1 phase=0 
+#01 t=  25.6s END   effect=1 frames=73 calls=73 helpers=none reason=finished 
+#02 t=  40.0s START effect=0 phase=0 
+#02 t=  40.5s END   effect=0 frames=31 calls=31 helpers=none reason=finished 
+#03 t=  45.8s START effect=14 phase=3 
+#03 t=  46.6s END   effect=14 frames=48 calls=48 helpers=none reason=finished 
+ 
+--- end of trace, copy everything above into tools/trace/result/duel_effect_atlas_quad.txt --- 
