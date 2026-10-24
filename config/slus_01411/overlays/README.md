@@ -246,8 +246,8 @@ build from that French source under `gcc_2_8_1_g0_split`, with resident bindings
 read from the USA image's own `jal` targets. Thirty more differ from their French entry only
 in a regional constant (a CLUT or the screen height) and build through North
 American wrappers that set it. Twenty-one more add a North American work-size
-`printf` to their French entry, under a macro the wrappers define. Two hundred
-forty-one more build from new North American C: ten under headers 111 and 241
+`printf` to their French entry, under a macro the wrappers define. Three hundred
+ninety-one more build from new North American C: ten under headers 111 and 241
 (`src/overlays/model_variant/variant111_entry.c`; see the
 [USA header-111 note](../../../notes/overlays/usa-model-variant111.md)),
 twenty-five under headers 118 and 248 (`variant118_entry.c`; see the
@@ -260,8 +260,14 @@ fourteen under headers 627 and 694 (`variant627_entry.c`; see the
 [USA header-627 note](../../../notes/overlays/usa-model-variant627.md)),
 forty-one under headers 647 and 714 (`variant647_entry.c`; see the
 [USA header-647 note](../../../notes/overlays/usa-model-variant647.md)),
+thirty under headers 752 and 849 (`variant752_entry.c`; see the
+[USA header-752 note](../../../notes/overlays/usa-model-variant752.md)),
+forty-nine under headers 754 and 851 (`variant754_entry.c`; see the
+[USA header-754 note](../../../notes/overlays/usa-model-variant754.md)),
 forty-eight under headers 756 and 853 (`variant756_entry.c`; see the
-[USA header-756 note](../../../notes/overlays/usa-model-variant756.md)) and
+[USA header-756 note](../../../notes/overlays/usa-model-variant756.md)),
 fifty-six under headers 766 and 863 (`variant766_entry.c`; see the
-[USA header-766 note](../../../notes/overlays/usa-model-variant766.md)). See the
+[USA header-766 note](../../../notes/overlays/usa-model-variant766.md)) and
+seventy-one under headers 779 and 876 (`variant779_entry.c`; see the
+[USA header-779 note](../../../notes/overlays/usa-model-variant779.md)). See the
 [USA French-entry images](../../../notes/overlays/usa-model-french-entries.md).
