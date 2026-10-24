@@ -675,9 +675,9 @@
     },
     {
       "address": "0x80018BC0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC4",
-      "source": "src/game/duel_update_draw_card_slide.c"
+      "source": "src/game/european/duel_draw_resolution.c"
     },
     {
       "address": "0x80018C84",
