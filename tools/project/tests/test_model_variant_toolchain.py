@@ -464,6 +464,41 @@ class ModelVariantToolchainTests(unittest.TestCase):
             572: (names(set(), set(), stage10_slot1={367, 395}, stage8_slot1={185, 391, 436, 504, 594}), 0x2CA8, 6),
             608: (names(set(), set(), stage10_slot1=set(), stage8_slot1={116, 576}), 0x2CD4, 6),
             598: (names(set(), stage8_slot1=set(), stage10_slot1={108, 573}), 0x43E4, 9),
+            # North American images whose entry is the French C of the same body (relocations differ only by binding).
+            59: (names({57, 447, 562}, {489}, stage10_slot1=set(), stage8_slot1=set()), 0xB98, 1),
+            60: (names({386}, {53, 84, 547}, stage10_slot1=set(), stage8_slot1=set()), 0xC18, 1),
+            65: (names({66}, set(), stage10_slot1=set(), stage8_slot1=set()), 0xDE4, 1),
+            70: (names(set(), {140, 584}, stage10_slot1=set(), stage8_slot1=set()), 0xA1C, 1),
+            80: (names({100}, {150}, stage10_slot1=set(), stage8_slot1=set()), 0x1158, 1),
+            84: (names({130}, set(), stage10_slot1=set(), stage8_slot1=set()), 0xAE4, 1),
+            90: (names({402}, {28, 85}, stage10_slot1=set(), stage8_slot1=set()), 0x1188, 1),
+            99: (names({422, 556}, {22, 73, 127, 454, 484, 504, 581, 701}, stage10_slot1=set(), stage8_slot1=set()), 0x115C, 1),
+            100: (names({139, 146}, {15}, stage10_slot1=set(), stage8_slot1=set()), 0x108C, 1),
+            104: (names({281, 502, 509, 514, 641}, {39, 227, 477, 514, 557, 708}, stage10_slot1=set(), stage8_slot1=set()), 0x10A8, 1),
+            112: (names({219}, {30, 355, 435, 490}, stage10_slot1=set(), stage8_slot1=set()), 0xFE8, 1),
+            114: (names({183, 273, 486, 490, 540, 637}, set(), stage10_slot1=set(), stage8_slot1=set()), 0x15BC, 1),
+            115: (names(set(), {416}, stage10_slot1=set(), stage8_slot1=set()), 0xEB8, 1),
+            124: (names({428, 445}, {20}, stage10_slot1=set(), stage8_slot1=set()), 0xF60, 1),
+            126: (names({481, 496}, {234, 546}, stage10_slot1=set(), stage8_slot1=set()), 0xFF4, 1),
+            189: (names(set(), set(), stage10_slot1={489}, stage8_slot1={57, 447, 562}), 0xB98, 1),
+            190: (names(set(), set(), stage10_slot1={53, 84, 547}, stage8_slot1={386}), 0xC18, 1),
+            195: (names(set(), set(), stage10_slot1=set(), stage8_slot1={66}), 0xDE4, 1),
+            200: (names(set(), set(), stage10_slot1={140, 584}, stage8_slot1=set()), 0xA1C, 1),
+            210: (names(set(), set(), stage10_slot1={150}, stage8_slot1={100}), 0x1158, 1),
+            214: (names(set(), set(), stage10_slot1=set(), stage8_slot1={130}), 0xAE4, 1),
+            220: (names(set(), set(), stage10_slot1={28, 85}, stage8_slot1={402}), 0x1188, 1),
+            229: (names(set(), set(), stage10_slot1={22, 73, 127, 454, 484, 504, 581, 701}, stage8_slot1={422, 556}), 0x115C, 1),
+            230: (names(set(), set(), stage10_slot1={15}, stage8_slot1={139}), 0x108C, 1),
+            234: (names(set(), set(), stage10_slot1={39, 227, 477, 514, 557, 708}, stage8_slot1={281, 502, 509, 514, 641}), 0x10A8, 1),
+            242: (names(set(), set(), stage10_slot1={30, 355, 435, 490}, stage8_slot1={219}), 0xFE8, 1),
+            244: (names(set(), set(), stage10_slot1=set(), stage8_slot1={183, 273, 486, 490, 540, 637}), 0x15BC, 1),
+            245: (names(set(), set(), stage10_slot1={416}, stage8_slot1=set()), 0xEB8, 1),
+            254: (names(set(), set(), stage10_slot1={20}, stage8_slot1={428, 445}), 0xF60, 1),
+            256: (names(set(), set(), stage10_slot1={234, 546}, stage8_slot1={481, 496}), 0xFF4, 1),
+            765: (names({58, 217, 453, 563, 612}, {78}, stage10_slot1=set(), stage8_slot1=set()), 0x14B0, 1),
+            812: (names({485}, set(), stage10_slot1=set(), stage8_slot1=set()), 0xF88, 1),
+            862: (names(set(), set(), stage10_slot1={78}, stage8_slot1={58, 217, 453, 563, 612}), 0x14B0, 1),
+            909: (names(set(), set(), stage10_slot1=set(), stage8_slot1={485}), 0xF88, 1),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
@@ -481,7 +516,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 252)
+        self.assertEqual(len(registered), 385)
 
 
 if __name__ == "__main__":

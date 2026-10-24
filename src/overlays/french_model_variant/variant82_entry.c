@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant82_entry.h"
+#include "../../psyq/libhmd.h"
 
 static const VECTOR D_8013BDE4 = {4096, 4096, 4096, 0};
 

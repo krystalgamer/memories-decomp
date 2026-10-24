@@ -1,5 +1,7 @@
 #include "../../types.h"
 #include "variant829_entry.h"
+#include "../../game/model_state_setters.h"
+#include "../../game/screen_projection.h"
 
 static const VECTOR D_8013BF88 = {4096, 4096, 4096, 0};
 

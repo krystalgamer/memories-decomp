@@ -1,5 +1,7 @@
 #include "../../types.h"
 #include "variant107_entry.h"
+#include "../../game/screen_projection.h"
+#include "../../psyq/libhmd.h"
 
 static const VECTOR D_8013C188 = {4096, 4096, 4096, 0};
 
