@@ -7,4 +7,5 @@
 #define DIALOG_TRANSITION_CHANNEL_FLAG 8
 #define DIALOG_BOX_X 0x08
 
+#define FUNC_8003DA40_CHANNEL_FLAG 8
 #include "../dialog_transition.c"

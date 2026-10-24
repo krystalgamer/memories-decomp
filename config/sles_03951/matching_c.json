@@ -3512,9 +3512,9 @@
     },
     {
       "address": "0x8003DC04",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x1DC",
-      "source": "src/game/spanish/func_8003DA40.c"
+      "source": "src/game/spanish/dialog_transition.c"
     },
     {
       "address": "0x8003DDE0",

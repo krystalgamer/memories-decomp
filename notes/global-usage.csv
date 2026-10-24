@@ -248,7 +248,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF74,D_8009AF74,D_8009AF74,0x8003D46C,DuelEffect_CreateChannel,matching_c,game,C,src/game/duel_effect_create_channel.c,address,16,channel->field_59 = *(u8 *)&D_8009AF74[1] - 1;
 0x8009AF74,D_8009AF74,D_8009AF74,0x8003D518,Dialog_UpdateSpotlightContraction,matching_c,game,C,src/game/dialog_transition.c,address,16,"DisplayObject_SetDepthOffset(object, (s8)(*(u8 *)&D_8009AF74[1] - 3));"
 0x8009AF74,D_8009AF74,D_8009AF74,0x8003D74C,Dialog_UpdateOpenTransition,matching_c,game,C,src/game/dialog_transition.c,address,16,"DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&D_8009AF74[1] - 2)); | DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&D_8009AF74[1] - 3));"
-0x8009AF74,D_8009AF74,D_8009AF74,0x8003DA40,Dialog_UpdateMessageTransition,matching_c,game,C,src/game/func_8003DA40.c,address,16,"DisplayObject_SetDepthOffset(e, (s8)(*(u8 *)&D_8009AF74[1] - 2));"
+0x8009AF74,D_8009AF74,D_8009AF74,0x8003DA40,Dialog_UpdateMessageTransition,matching_c,game,C,src/game/dialog_transition.c,address,16,"DisplayObject_SetDepthOffset(e, (s8)(*(u8 *)&D_8009AF74[1] - 2));"
 0x8009AF74,D_8009AF74,D_8009AF74,0x800400AC,DisplayObject_AcquireSlot,matching_c,game,C,src/game/display_object_core.c,read,16,slot->field_14 = D_8009AF74[slot->ot_index];
 0x8009AF74,D_8009AF74,D_8009AF74,0x800428EC,DisplayObject_SetDepthOffset,matching_c,game,C,src/game/display_object_helpers.c,address,16,volatile u16 *table = D_8009AF74;
 0x8009AF74,D_8009AF74,D_8009AF74,0x80042918,DisplayObject_SelectOrderingTable1,matching_c,game,C,src/game/display_object_helpers.c,read,16,object->field_14 = D_8009AF74[1] - object->field_16;
@@ -2013,7 +2013,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003D518,Dialog_UpdateSpotlightContraction,matching_c,game,C,src/game/dialog_transition.c,read_write,8,D_8009B3C1 = 0; | D_8009B3C1 = flags | 64; | (+3 more)
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003D614,Dialog_UpdateCloseTransition,matching_c,game,C,src/game/dialog_transition.c,read_write,8,D_8009B3C1 = 0; | D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED; | (+1 more)
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003D74C,Dialog_UpdateOpenTransition,matching_c,game,C,src/game/dialog_transition.c,read_write,8,D_8009B3C1 = | D_8009B3C1 = 0; | (+6 more)
-0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003DA40,Dialog_UpdateMessageTransition,matching_c,game,C,src/game/func_8003DA40.c,read_write,8,D_8009B3C1 = 0; | D_8009B3C1 = f | DUEL_EFFECT_STATE_FLAG_INITIALIZED; | (+3 more)
+0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003DA40,Dialog_UpdateMessageTransition,matching_c,game,C,src/game/dialog_transition.c,read_write,8,D_8009B3C1 = 0; | D_8009B3C1 = f | DUEL_EFFECT_STATE_FLAG_INITIALIZED; | (+3 more)
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003DC1C,MemCardWork_UpdateOperation,matching_c,game,C,src/game/mem_card_dialog.c,read_write,8,"CALL32(void (*)(MemCardWorkRoot *, MemCardWorkSlot *), gDialog_apfnTransitionSteps[D_8009B3C1 & 0xF])(root, slot); | D_8009B3C1 = 1; | (+2 more)"
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003E7D4,MemCardDialog_StepLoad,matching_c,game,C,src/game/mem_card_dialog.c,read_write,8,D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED; | if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003E80C,MemCardDialog_StepLoadUnprompted,matching_c,game,C,src/game/mem_card_dialog.c,read_write,8,D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED; | if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
@@ -2604,7 +2604,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/func_80039794.c,address,,p = D_800EB0F8;
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003D614,Dialog_UpdateCloseTransition,matching_c,game,C,src/game/dialog_transition.c,address,,entry = &D_800EB0F8[((u8 *)record)[0x1A]]; | entry = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003D74C,Dialog_UpdateOpenTransition,matching_c,game,C,src/game/dialog_transition.c,address,,r = &D_800EB0F8[((u8 *)record)[0x1A]]; | r = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
-0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003DA40,Dialog_UpdateMessageTransition,matching_c,game,C,src/game/func_8003DA40.c,address,,q = &D_800EB0F8[((u8 *)record)[0x1A]]; | q = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
+0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003DA40,Dialog_UpdateMessageTransition,matching_c,game,C,src/game/dialog_transition.c,address,,q = &D_800EB0F8[((u8 *)record)[0x1A]]; | q = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003DC1C,MemCardWork_UpdateOperation,matching_c,game,C,src/game/mem_card_dialog.c,address,,(u8 *)D_800EB0F8 + | DuelEffectChannel *text = &D_800EB0F8[root->text_index];
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003F2B0,MemCardDialog_StepSlide,matching_c,game,C,src/game/mem_card_dialog.c,address,,"&D_800EB0F8[saved_index],"
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003F388,MemCardDialog_CreateObject,matching_c,game,C,src/game/mem_card_dialog.c,address,,DuelEffectChannel *p = D_800EB0F8;
