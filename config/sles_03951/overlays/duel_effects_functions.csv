@@ -26,8 +26,8 @@ address,size,name,status,module,notes
 0x8014F3E8,0xA8,DuelEffect_InitXZRectVertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F490,0x94,DuelEffect_InitRectVertices,matching_c,overlay/duel_effects,Unchanged accepted French rectangle vertices; independent Spanish full-bank and object/ELF ownership proof; gcc_2_8_1_g0_split.
 0x8014F524,0x40,DuelEffect_PowS16,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F564,0x6C,func_8014F564,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F5D0,0x38,func_8014F5D0,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F564,0x6C,DuelEffect_PackTexturePageClut,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F5D0,0x38,DuelEffect_PackFixedPageClut,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F608,0x14C,DuelEffect_InitRandomVectorsXYZ,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F754,0x148,DuelEffect_InitRandomVectorsNegatedY,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F89C,0x104,DuelEffect_InitRandomVectorsXY,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -71,8 +71,8 @@ address,size,name,status,module,notes
 0x801566D4,0x400,DuelEffect_DrawProjectedNumber,matching_c,overlay/duel_effects,Complete projected-number renderer; exact whole-bank proof with canonical texture pair 9 and separate 96-byte glyph owner.
 0x80156AD4,0x6C,DuelEffect_CountDecimalDigitsS16,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x80156B40,0x100,DuelEffect_WriteNumberDigits,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
-0x80156C40,0x110,func_80156C40,matching_c,overlay/duel_effects,Shared textured-quad C; complete bank exact match and linked ownership verified; SDK addVector preserves expression grouping; gcc_2_8_1_g0_split.
-0x80156D50,0x108,func_80156D50,matching_c,overlay/duel_effects,Shared textured-quad C; complete bank exact match and linked ownership verified; SDK addVector preserves expression grouping; gcc_2_8_1_g0_split.
+0x80156C40,0x110,DuelEffect_DrawFixedTextureQuad,matching_c,overlay/duel_effects,Shared textured-quad C; complete bank exact match and linked ownership verified; SDK addVector preserves expression grouping; gcc_2_8_1_g0_split.
+0x80156D50,0x108,DuelEffect_DrawAtlasColumnQuad,matching_c,overlay/duel_effects,Shared textured-quad C; complete bank exact match and linked ownership verified; SDK addVector preserves expression grouping; gcc_2_8_1_g0_split.
 0x80156E58,0x14C,func_80156E58,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x80156FA4,0x10C,func_80156FA4,matching_c,overlay/duel_effects,Shared C; complete Spanish bank exact match; exact-size compiled and linked function ownership verified; gcc_2_8_1_g0_split.
 0x801570B0,0x2F8,func_801570B0,matching_c,overlay/duel_effects,Shared projected gradient-line C with one-time endpoint capture; complete Spanish bank and real object/ELF ownership; gcc_2_8_1_g0_split.

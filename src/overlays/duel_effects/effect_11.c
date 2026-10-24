@@ -3,6 +3,7 @@
 #include "effect_11.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "texture_semantic_views.h"
 
 void func_80146760(void *buffer, s32 phase)
 {
@@ -36,9 +37,9 @@ void func_80146760(void *buffer, s32 phase)
         } else {
             work->cross = 0;
             work->config = &D_8015A4E4;
-            func_8014F5D0(work->base_texture, &D_8015A430.variant.images[0]);
+            DuelEffect_PackFixedPageClut(work->base_texture, &D_8015A430.variant.images[0]);
             image = &D_8015A430.variant.images[variant];
-            func_8014F5D0(work->texture, image);
+            DuelEffect_PackFixedPageClut(work->texture, image);
             work->uv[0] = image->px;
             work->uv[1] = image->py;
             copyVector(&work->origin, &D_8015B7F8);
