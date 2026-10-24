@@ -1,5 +1,34 @@
 # French duel-bank effect twenty-three
 
+## Canonical back-row sweep
+
+`DuelEffect_RunBackRowSweep` binds the complete native `func_80152048`
+owner: NA `80152C20`, JP `801600DC`, PAL `80152048`, 3,708 instruction
+bytes. Resident `DuelEffect_ApplyHarpiesFeatherDuster` creates request
+`0x17` and supplies the opposing side's ground depth. The overlay calls
+the actual back-row collector, classifies five columns and sweeps across
+them while moving/fading the collected display objects. Resident code
+owns gameplay removal; the name describes the mechanism rather than
+claiming exclusive artwork or a new #418 observation.
+
+`gDuelEffect_BackRowSweepInitialScale` binds the separate 16-byte SDK
+VECTOR at native `D_801461A8`, NA `801461F0`, JP `80154200`.
+`selected_cards_semantic_views.h` provides extern-only canonical/native
+bindings without altering the private layout, generated storage, collector
+ABI, source profile or native maps. The paired selected-card overlay's
+sentinel-999 route uses the same back-row collector; other selectors are
+not narrowed to a back row.
+
+Keep all signed coordinate views, five states versus the compact collected
+list, three particles per column, asymmetric thresholds `70*i-44` and
+`236-70*i`, swing-reversal sound 36, 24-update particle lifetime and empty-row
+completion. All three rotation bytes still add `card_rotations[i].vx`;
+completion for nonempty rows still observes the last collected card.
+No symmetric-threshold correction, particle-wait requirement, null fallback
+or random/arithmetic reordering. The complete definition and dispatcher
+change only names/include; historical recovery and acceptance below remain
+historical.
+
 `func_80152048`, at `0x80152048..0x80152EC4`, is one complete 3,708-byte
 matching C object. The dispatcher routes effect 23 here; the resident
 Harpie's Feather Duster request uses this effect. Recovery uses the existing

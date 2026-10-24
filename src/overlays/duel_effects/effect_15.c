@@ -4,8 +4,9 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "selected_cards_semantic_views.h"
 
-void func_8014FF40(void *buffer, s32 phase)
+void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;
@@ -20,7 +21,7 @@ void func_8014FF40(void *buffer, s32 phase)
 
     memset(&translation, 0, sizeof(translation));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_80146168;
+    scale = gDuelEffect_SelectedCardOverlayInitialScale;
     packet = &polygon;
     work = buffer;
     if (phase >= 0) {
@@ -28,7 +29,7 @@ void func_8014FF40(void *buffer, s32 phase)
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015AC08[phase];
+            work->config = &gDuelEffect_SelectedCardOverlayConfigs[phase];
             if (work->config->selector == 999) {
                 Duel_CollectFieldRowCardObjects(D_8015B7A0, 1);
             } else {
