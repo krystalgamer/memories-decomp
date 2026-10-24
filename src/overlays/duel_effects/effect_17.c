@@ -8,6 +8,7 @@
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "stat_penalty_semantic_views.h"
 #include "exodia_semantic_views.h"
 
 void func_80148BA4(void *buffer, s32 phase)
@@ -68,7 +69,7 @@ void func_80148BA4(void *buffer, s32 phase)
                              work->config->color[1] / 8, work->config->color[2] / 8);
             }
             for (i = 0; i < 48; i++) {
-                func_8014FABC(24, 8, work->config->height, 8, work->paths[i]);
+                DuelEffect_InitJaggedColumnVertices(24, 8, work->config->height, 8, work->paths[i]);
                 DuelEffect_SetRgbColor((u8 *)&work->path_colors[i], work->config->burst_color[0],
                              work->config->burst_color[1], work->config->burst_color[2]);
                 setVector(&work->endpoints[i], 0, 0, 0);

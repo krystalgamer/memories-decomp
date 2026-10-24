@@ -55,11 +55,11 @@ address,size,name,status,module,notes
 0x80150474,0x104,DuelEffect_InitRandomVectorsXY,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80150578,0x9C,DuelEffect_InitIndexedQuadVertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80150614,0x80,DuelEffect_InitIndexedQuadToYZero,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80150694,0x344,func_8014FABC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80150694,0x344,DuelEffect_InitJaggedColumnVertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801509D8,0xD4,DuelEffect_InitQuadrantQuadVertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80150AAC,0x6C,DuelEffect_SwapVectorRecords,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80150B18,0x4B8,func_8014FF40,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80150FD0,0xA08,func_801503F8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80150FD0,0xA08,DuelEffect_RunStatPenalty,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801519D8,0x418,func_80150E00,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80151DF0,0x104,DuelEffect_ProjectSubmitFt4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80151EF4,0xD8,DuelEffect_ProjectSubmitGt4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

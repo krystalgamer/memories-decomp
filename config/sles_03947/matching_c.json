@@ -5481,15 +5481,15 @@
     },
     {
       "address": "0x80050834",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x338",
-      "source": "src/game/european/card_list_render_deck_box_stats.c"
+      "source": "src/game/european/card_list_deck_box.c"
     },
     {
       "address": "0x80050B6C",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x1AC",
-      "source": "src/game/european/func_80050B6C.c"
+      "source": "src/game/european/card_list_deck_box.c"
     },
     {
       "address": "0x80050D18",
