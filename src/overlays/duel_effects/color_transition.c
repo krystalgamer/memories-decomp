@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "color_helpers.h"
 
 void DuelEffect_DarkenColor(u8 *color, u16 step)

@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_21.h"
 #include "../../game/shared_work_base.h"
 

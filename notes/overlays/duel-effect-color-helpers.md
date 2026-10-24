@@ -3,10 +3,13 @@
 ## Scoped semantic C views
 
 The colour predicates, transitions and fullscreen helpers now use these
-canonical C names. The native labels remain available through explicit
-legacy prototypes and assembler-name declarations, as in the accepted
-credits C views. No new native exports, function storage or linker aliases
-are introduced.
+canonical C names. A separate `color_semantic_views.h` supplies the
+assembler-name declarations and explicit native contracts, as in the
+accepted credits C views. Both
+original helper headers and their native prototypes remain byte-for-byte
+unchanged: the shared utility header participates in the historical curve
+fingerprint. No record/hash guard is regenerated or weakened, and no new
+native exports, function storage or linker aliases are introduced.
 
 | Canonical C view | Native label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
@@ -56,8 +59,9 @@ arguments, casts, branches or sequencing. Pre-existing tests, fixtures,
 source selectors and negative controls remain byte-for-byte unchanged;
 no new C/source-string/native harness is added. Complete compiler/profile/CPP,
 native-symbol and compiler/MASPSX comparisons account only for the eight
-new declarations, explicit legacy `extern` spellings and eight function
-identifiers. NA executable/whole-ELF identity remains mandatory. Regional
+canonical declarations, eight native compatibility declarations and eight
+function identifiers. NA executable/whole-ELF
+identity remains mandatory. Regional
 bank and archive-copy acceptance stays on pull request validation, not a
 local cloud-test run.
 

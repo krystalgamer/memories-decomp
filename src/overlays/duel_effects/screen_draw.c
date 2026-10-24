@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "../../game/graphics_constants.h"
 #include "color_helpers.h"
 

@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_8.h"
 
 void func_80147B18(void *buffer, s32 phase)

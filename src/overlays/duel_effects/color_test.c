@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "utility_helpers.h"
 
 s32 DuelEffect_IsColorBlack(const u8 *color)

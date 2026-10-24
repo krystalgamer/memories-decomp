@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_7.h"
 
 #ifdef VERSION_EUROPE
