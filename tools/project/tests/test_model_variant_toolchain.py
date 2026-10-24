@@ -499,6 +499,17 @@ class ModelVariantToolchainTests(unittest.TestCase):
             812: (names({485}, set(), stage10_slot1=set(), stage8_slot1=set()), 0xF88, 1),
             862: (names(set(), set(), stage10_slot1={78}, stage8_slot1={58, 217, 453, 563, 612}), 0x14B0, 1),
             909: (names(set(), set(), stage10_slot1=set(), stage8_slot1={485}), 0xF88, 1),
+            # North American images whose entry is a French entry with its regional constants (burst CLUT, screen height).
+            79: (names(set(), {192, 196}, stage10_slot1=set(), stage8_slot1=set()), 0xC4C, 1),
+            127: (names(set(), {492}, stage10_slot1=set(), stage8_slot1=set()), 0xEB0, 1),
+            181: (names(set(), {508}, stage10_slot1=set(), stage8_slot1=set()), 0xD74, 1),
+            182: (names(set(), {243, 622}, stage10_slot1=set(), stage8_slot1=set()), 0x1594, 1),
+            209: (names(set(), set(), stage10_slot1={192, 196}, stage8_slot1=set()), 0xC4C, 1),
+            257: (names(set(), set(), stage10_slot1={492}, stage8_slot1=set()), 0xEB0, 1),
+            311: (names(set(), set(), stage10_slot1={508}, stage8_slot1=set()), 0xD74, 1),
+            312: (names(set(), set(), stage10_slot1={243, 622}, stage8_slot1=set()), 0x1594, 1),
+            753: (names({23, 85, 103, 239, 480, 499, 555}, {187, 596}, stage10_slot1=set(), stage8_slot1=set()), 0x16E8, 1),
+            850: (names(set(), set(), stage10_slot1={187, 596}, stage8_slot1={23, 85, 103, 239, 480, 499, 555}), 0x16E8, 1),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
@@ -516,7 +527,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 385)
+        self.assertEqual(len(registered), 415)
 
 
 if __name__ == "__main__":
