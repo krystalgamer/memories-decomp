@@ -3,7 +3,7 @@
 #include "drawing_helpers.h"
 #include "primitive_semantic_views.h"
 
-void DuelEffect_DrawSharedBaseTriangles(u8 *color, u16 width, SVECTOR *positions, u16 count, s16 bias)
+void func_80156E58(u8 *color, u16 width, SVECTOR *positions, u16 count, s16 bias)
 {
     SVECTOR left;
     SVECTOR right;

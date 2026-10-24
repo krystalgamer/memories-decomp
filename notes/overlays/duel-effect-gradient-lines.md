@@ -20,6 +20,9 @@ generalized clipping API. Effects 8, 11, 16, 17 and 22 use the triangles;
 effect 10 uses the flat quad; effects 13 and 17 use the gradient path and its
 returned state. All actual bank callers use the typed views. Three scoped
 registry rows use the actual NA inventory addresses, not native suffixes.
+The triangle implementation retains its original `func_80156E58`
+definition name so the existing paired native ABI guards remain unchanged;
+its canonical declaration still binds directly to that same native owner.
 The five configured bank inventories change only their fifteen name cells;
 addresses, sizes, profiles, manifests and non-name fields remain intact.
 No resident symbols or German/Italian bank coverage are inferred.
