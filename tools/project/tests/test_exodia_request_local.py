@@ -167,12 +167,12 @@ class ExodiaRequestLocalTests(unittest.TestCase):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
         source = (ROOT / "src/game/duel_draw_resolution.c").read_text()
-        # The unit also holds the draw-resolution functions and the card
-        # readback; keep the shared preamble and the Exodia result's own
-        # declarations. graphics_frame.h serves only the readback and does
-        # not compile on the host.
+        # The unit also holds the drawn-card slide, the draw-resolution
+        # functions and the card readback; keep the shared preamble and the
+        # Exodia result's own declarations. graphics_frame.h serves only the
+        # readback and does not compile on the host.
         prefix = (
-            source[:source.index("s32 Duel_HasAllExodiaPieces(void)")]
+            source[:source.index("void Duel_UpdateDrawCardSlide(DisplayObject *o)")]
             .replace('#include "graphics_frame.h"\n', "")
             + source[source.index("extern s32 D_800E9F04[];"):
                      source.index("void DuelScene_UpdateExodiaResult(void)")]
