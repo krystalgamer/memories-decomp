@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "drawing_semantic_views.h"
 
 void func_80151558(void *buffer, s32 phase)
 {
@@ -127,16 +128,16 @@ void func_80151558(void *buffer, s32 phase)
                     work->ages[j] = 4;
                     for (k = 0; k < 32; k++) {
                         DuelEffect_InitOffsetQuadVertices(quad, &(&work->positions[j * 5])[k]);
-                        func_80156064((u8 *)&work->secondary[j], quad, 1);
+                        DuelEffect_DrawRandomTileQuad((u8 *)&work->secondary[j], quad, 1);
                         addVector(&(&work->positions[j * 5])[k],
                             &(&work->velocities[j * 5])[k]);
                     }
                     setVector(&scale, work->scales[j], 4096, work->scales[j]);
                     DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-                    func_8015616C((u8 *)&color, work->rings[0], work->rings[1], work->rings[2], 32);
+                    DuelEffect_DrawTexturedRingStrip((u8 *)&color, work->rings[0], work->rings[1], work->rings[2], 32);
                     setVector(&scale, work->scales[j] / 2, 6144, work->scales[j] / 2);
                     DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-                    func_8015616C((u8 *)&work->secondary[j],
+                    DuelEffect_DrawTexturedRingStrip((u8 *)&work->secondary[j],
                         work->rings[0], work->rings[1], work->rings[2], 32);
                     if (work->scales[j] < 16384) {
                         work->scales[j] += 4096;

@@ -3,6 +3,7 @@
 #include "effect_4.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "drawing_semantic_views.h"
 
 void func_80159AAC(void *buffer, s32 phase)
 {
@@ -66,7 +67,7 @@ void func_80159AAC(void *buffer, s32 phase)
             setVector(&rotation, 0, 0, 0);
             setVector(&scale, 4096, 4096, 4096);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-            func_801558F4((u8 *)&work->color, work->card_rings[0],
+            DuelEffect_DrawQuadContour((u8 *)&work->color, work->card_rings[0],
                          work->card_rings[1], 0, 1);
             setPolyFT4(packet);
             packet->tpage = D_8015B748.pairs[work->config->texture][0];
@@ -100,14 +101,14 @@ void func_80159AAC(void *buffer, s32 phase)
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 for (i = 0; i < 24; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    func_80156064((u8 *)&work->color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
                 scale.vx = work->scale >> 3;
                 scale.vy = work->scale >> 3;
                 scale.vz = 4096;
                 DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-                func_80156448((u8 *)&work->color, work->rings[0],
+                DuelEffect_DrawGradientRingStrip((u8 *)&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 0);
                 scale.vx = work->scale;
                 scale.vy = work->scale;

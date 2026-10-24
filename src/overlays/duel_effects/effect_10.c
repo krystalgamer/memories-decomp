@@ -3,6 +3,7 @@
 #include "effect_10.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "drawing_semantic_views.h"
 
 void func_8014C8FC(void *buffer, s32 phase)
 {
@@ -91,7 +92,7 @@ void func_8014C8FC(void *buffer, s32 phase)
             }
         }
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->ring_color) && work->stage == 0) {
-            func_801558F4((u8 *)&work->ring_color, work->rings[0], work->rings[1], 1, 1);
+            DuelEffect_DrawQuadContour((u8 *)&work->ring_color, work->rings[0], work->rings[1], 1, 1);
             if (work->height < work->config->maximum_height) {
                 work->height += work->config->height_step;
                 for (i = 0; i < 4; i++) {
@@ -106,7 +107,7 @@ void func_8014C8FC(void *buffer, s32 phase)
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) && work->stage == 1) {
             for (i = 0; i < 64; i++) {
                 DuelEffect_InitOffsetQuadVertices(quad, &work->particles[i]);
-                func_80156064((u8 *)&work->color, quad, 80);
+                DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 80);
                 work->particles[i].vy -= work->speeds[i];
             }
             DuelEffect_DarkenColor((u8 *)&work->color, 8);

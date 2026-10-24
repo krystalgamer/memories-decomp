@@ -16,6 +16,7 @@
 #include "gather_effect.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "drawing_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define GATHER_CURVE_HEIGHT 106
@@ -155,7 +156,7 @@ void func_801481A8(void *buffer, s32 phase)
         for (i = 0; i < state->particle_b_count; i++) {
             if ((u16)DuelEffect_HasNonzeroColor(state->colors_b[i]) != 0) {
                 DuelEffect_InitOffsetQuadVertices(frame.quad, &state->particles_b[i]);
-                func_80156064(state->colors_b[i], frame.quad, 0);
+                DuelEffect_DrawRandomTileQuad(state->colors_b[i], frame.quad, 0);
                 if (__builtin_abs(state->particles_b[i].vx) >= 17 ||
                     __builtin_abs(state->particles_b[i].vy) >= 17) {
                     particle_b = (SVECTOR *)((u8 *)state + i * 8 + 0x5C4);
@@ -170,12 +171,12 @@ void func_801481A8(void *buffer, s32 phase)
             }
         }
         if ((u16)DuelEffect_HasNonzeroColor(state->color) != 0) {
-            func_801558F4(state->color, state->curves[0], state->curves[1], 0, 1);
+            DuelEffect_DrawQuadContour(state->color, state->curves[0], state->curves[1], 0, 1);
             frame.scale.vx = state->scale >> 3;
             frame.scale.vy = state->scale >> 3;
             frame.scale.vz = 0x1000;
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &frame.scale);
-            func_80156448(state->color, state->rings[0], state->rings[1], state->rings[2], 0);
+            DuelEffect_DrawGradientRingStrip(state->color, state->rings[0], state->rings[1], state->rings[2], 0);
             frame.scale.vx = state->scale;
             frame.scale.vy = state->scale;
             frame.scale.vz = 0x1000;
