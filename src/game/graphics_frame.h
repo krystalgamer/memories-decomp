@@ -80,7 +80,7 @@ extern s32 D_8009B0D8;
  *
  *   _IS_VOLATILE -- graphics_frame.c and src/game/main_init.c
  *   _IN_DATA     -- main_run_animated_battle.c and
- *                   main_run_duel_and_library.c and main_run_credits.c,
+ *                   main_run_duel_and_library.c and main_mode_runners.c,
  *                   all at -G8: out of small
  *                   data at the compiler, with its true width
  *   _IN_DATA_VOLATILE -- src/game/duel_effect_states.c: the same .data view,

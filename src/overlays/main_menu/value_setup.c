@@ -17,7 +17,7 @@
 #include "value_setup.h"
 
 /* The value-setup screen: the three lifecycle entry points
-   main_run_two_player_duel_setup.c
+   main_mode_runners.c
    calls - start, update per tick, finish - and the four helpers that only
    they and each other reach.
 
