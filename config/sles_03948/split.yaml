@@ -503,10 +503,7 @@ segments:
     - game/library_grid_cursor
   - - 111440
     - c
-    - game/library_draw_fading_card_outline
-  - - 111940
-    - c
-    - game/library_create_fading_card_outline
+    - game/library_fading_card_outline
   - - 112180
     - c
     - game/european/library_runtime

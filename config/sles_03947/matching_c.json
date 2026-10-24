@@ -1553,13 +1553,13 @@
       "address": "0x8002AA0C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1F4",
-      "source": "src/game/library_draw_fading_card_outline.c"
+      "source": "src/game/library_fading_card_outline.c"
     },
     {
       "address": "0x8002AC00",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0xF0",
-      "source": "src/game/library_create_fading_card_outline.c"
+      "source": "src/game/library_fading_card_outline.c"
     },
     {
       "address": "0x8002ACF0",

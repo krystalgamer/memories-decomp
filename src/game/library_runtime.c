@@ -57,7 +57,7 @@
 #include "fade.h"
 #include "card_preview_objects.h"
 #include "library_draw_wireframe_globe.h"
-#include "library_create_fading_card_outline.h"
+#include "library_fading_card_outline.h"
 #include "func_80039794.h"
 #include "model_set_slot_shadow_enabled.h"
 #include "input.h"
