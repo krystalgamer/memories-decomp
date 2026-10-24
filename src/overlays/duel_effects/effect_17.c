@@ -9,6 +9,7 @@
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
 #include "stat_penalty_semantic_views.h"
+#include "exodia_semantic_views.h"
 
 void func_80148BA4(void *buffer, s32 phase)
 {
@@ -37,19 +38,19 @@ void func_80148BA4(void *buffer, s32 phase)
             work->config = &D_8015A60C[phase];
             copyVector(&work->origin, &gDuelEffect_DrawOffset);
             if (work->config->mode == 0) {
-                Duel_CollectMatchingFieldCardObjects(D_8015B7A0, -1);
+                Duel_CollectMatchingFieldCardObjects(gDuelEffect_CardObjectScratchWords, -1);
                 setVector(&work->center, 0, -work->config->height, 0);
             } else {
-                Duel_CollectMatchingFieldCardObjects(D_8015B7A0, 0);
+                Duel_CollectMatchingFieldCardObjects(gDuelEffect_CardObjectScratchWords, 0);
                 setVector(&work->center, gDuelEffect_DrawOffset.vx,
                           gDuelEffect_DrawOffset.vy - work->config->height, gDuelEffect_DrawOffset.vz);
             }
             work->card_count = 0;
-            for (i = 0; D_8015B7A0[i] != 0; i++) {
+            for (i = 0; gDuelEffect_CardObjectScratchWords[i] != 0; i++) {
                 setVector(&work->card_velocities[i],
-                          (work->center.vx - (s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30) / 16,
-                          (work->center.vy - (s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_32) / 16,
-                          (work->center.vz - ((DisplayObject *)D_8015B7A0[i])->field_34.h.field_34) / 16);
+                          (work->center.vx - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30) / 16,
+                          (work->center.vy - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32) / 16,
+                          (work->center.vz - ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34) / 16);
                 setVector(&work->card_rotations[i],
                           (ratan2(work->card_velocities[i].vz, work->card_velocities[i].vy) % 256) / 16,
                           (ratan2(work->card_velocities[i].vx, work->card_velocities[i].vz) % 256) / 16,
@@ -200,14 +201,14 @@ void func_80148BA4(void *buffer, s32 phase)
             }
             for (i = 0; i < work->active_cards; i++) {
                 if (work->card_states[i] == 0) {
-                    ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 += work->card_velocities[i].vx;
-                    ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_32 += work->card_velocities[i].vy;
-                    ((DisplayObject *)D_8015B7A0[i])->field_34.h.field_34 += work->card_velocities[i].vz;
-                    ((DisplayObject *)D_8015B7A0[i])->field_44.h.field_44 -= 256;
-                    ((DisplayObject *)D_8015B7A0[i])->field_44.h.field_46 -= 256;
-                    ((DisplayObject *)D_8015B7A0[i])->field_20.b.field_20 += work->card_rotations[i].vx;
-                    ((DisplayObject *)D_8015B7A0[i])->field_20.b.field_21 += work->card_rotations[i].vy;
-                    ((DisplayObject *)D_8015B7A0[i])->field_20.b.field_22 += work->card_rotations[i].vz;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 += work->card_velocities[i].vx;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32 += work->card_velocities[i].vy;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 += work->card_velocities[i].vz;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.h.field_44 -= 256;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.h.field_46 -= 256;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_20 += work->card_rotations[i].vx;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_21 += work->card_rotations[i].vy;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_22 += work->card_rotations[i].vz;
                     work->card_ages[i]++;
                     if (work->card_ages[i] > 16) {
                         work->card_states[i] = 1;
@@ -215,7 +216,7 @@ void func_80148BA4(void *buffer, s32 phase)
                 }
                 if (work->card_states[i] == 1) {
                     work->completed++;
-                    ((DisplayObject *)D_8015B7A0[i])->flags &= ~0x40;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->flags &= ~0x40;
                     work->card_states[i] = 2;
                     DuelEffect_SetRgbColor((u8 *)&work->burst_color, work->config->burst_color[0],
                                  work->config->burst_color[1], work->config->burst_color[2]);

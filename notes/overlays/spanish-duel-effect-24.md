@@ -1,5 +1,14 @@
 # Spanish effect twenty-four reuse
 
+The current canonical bindings are `DuelEffect_RunExodiaBurst`,
+`gDuelEffect_ExodiaInitialScale` and the shared
+`gDuelEffect_CardObjectScratchWords[21]`; their native owners, storage,
+profiles and all six complete C consumers retain the original instruction
+and data contracts. The [canonical binding evidence](duel-effect-twentyfour.md)
+documents the resident producer and all five users of the 84-byte scratch
+object. The unchanged-source reuse and fingerprint below describe the
+historical Spanish registration, not a new fingerprint for renamed source.
+
 The accepted shared `src/overlays/duel_effects/effect_24.c` and `effect_24.h`
 from commit `0832a2be418661d9aa6970c5f75050d3a9e4a373` are reused unchanged.
 The complete `func_8014D3E8` extent is `0xF74` / **3,956 instruction bytes**.

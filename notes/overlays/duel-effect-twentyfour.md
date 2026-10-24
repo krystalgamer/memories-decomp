@@ -1,5 +1,42 @@
 # French effect twenty-four: Exodia burst
 
+## Canonical lifecycle and shared card-object scratch
+
+`DuelEffect_RunExodiaBurst` binds the complete native `func_8014D3E8`
+owner: NA `8014E050`, JP `8015B440`, PAL `8014D3E8`, 3,956 instruction
+bytes. The actual resident `DuelScene_UpdateExodiaResult` creates request
+`0x18` after the five staged objects and preceding centre sparkle. This
+names the overlay presentation, not the resident win-condition or result
+handoff. No new #418 runtime/artwork observation is claimed.
+
+`gDuelEffect_ExodiaInitialScale` names the separate 16-byte SDK VECTOR
+owner at native `D_80146148`, NA `80146190`, JP `80154148`.
+`gDuelEffect_CardObjectScratchWords[21]` names the full 84-byte owner
+at native `D_8015B7A0`, NA `8015B838`, JP `80169838`. It remains `u32[21]`,
+not a new five-pointer allocation or a changed pointer-bearing layout.
+The existing resident APIs deliberately accept integer-word destinations;
+all original casts and null-termination behavior remain intact.
+
+All five complete C consumers use the shared canonical scratch binding.
+Effect 15 fills it through the back-row or selector collector; effect 17
+uses matching-field collectors; effect 22 passes it as the existing
+`DuelRitualResult` destination (three tribute objects and a cleared fourth
+word); effect 23 collects a back row; effect 24 copies exactly five work
+slots and appends zero. The name describes common scratch storage, not
+ownership of objects, a uniform 21-object count, an Exodia-only list or
+new lifetime/concurrency guarantees. The five private compatibility
+declarations and actual generated storage remain unchanged.
+
+The extern-only semantic header is included after each original private
+header. The complete dispatcher and effect-24 definition use the canonical
+handler name; all six complete C units otherwise change only these three
+identifiers. Native maps, profiles, function/data extents, 24/28 centre
+adjustments, signed arithmetic, random draws, connections, projections and
+completion stores are unchanged. Existing dispatch checks add the callee
+without changing six live handler views, 25 unique callees or the six
+original data-owner assertions. Historical fingerprints and acceptance
+receipts below remain historical, not rewritten claims about renamed source.
+
 `func_8014D3E8`, `8014D3E8..8014E35C`, is a complete **3,956-byte**
 matching C lifecycle. It is independently recovered from the French bank
 with the existing `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81).
