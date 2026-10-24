@@ -92,6 +92,73 @@ executable/ELF must remain identical. Full five-bank and seven-copy
 acceptance uses the existing PR gates, including the targeted Japanese/UK
 bank steps, not a local cloud-test run.
 
+## Ring, rectangle and record C views
+
+The same semantic header also owns these eight related views. Its original
+sixteen declarations remain unchanged; native utility headers, SDK types,
+linker files and all pre-existing tests remain frozen.
+
+| C view | Native label | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `DuelEffect_InitCircle32Vertices` | `func_8014EA7C` | `0x8014F654` | `0x8015CB10` | `0x8014EA7C` |
+| `DuelEffect_InitHalfStepXYRingVertices` | `func_8014EB1C` | `0x8014F6F4` | `0x8015CBB0` | `0x8014EB1C` |
+| `DuelEffect_InitHalfStepXZRingVertices` | `func_8014EC8C` | `0x8014F864` | `0x8015CD20` | `0x8014EC8C` |
+| `DuelEffect_InitXZRingVertices` | `func_8014EE0C` | `0x8014F9E4` | `0x8015CEA0` | `0x8014EE0C` |
+| `DuelEffect_InitRandomVectorsUnscaled` | `func_8014EF2C` | `0x8014FB04` | `0x8015CFC0` | `0x8014EF2C` |
+| `DuelEffect_InitRectVertices` | `func_8014F490` | `0x80150068` | `0x8015D524` | `0x8014F490` |
+| `DuelEffect_InitQuadrantQuadVertices` | `func_8014FE00` | `0x801509D8` | `0x8015DE94` | `0x8014FE00` |
+| `DuelEffect_SwapVectorRecords` | `func_8014FED4` | `0x80150AAC` | `0x8015DF68` | `0x8014FED4` |
+
+The fixed circle writes exactly 32 XY points at repeated `i * 128` angles
+and zero Z. The variable XY ring first scales its unsigned-halfword extents
+with the original `csin(512) << 1` expressions, then uses the integer
+half-step formula. Its four-point callers use that same ring helper to
+construct quads; no special four-point implementation replaces it.
+
+The half-step XZ ring keeps both regional implementations. The NA/JP/UK/ES
+`polygon_vertices.c` body computes `level - offset` in its loop; the French
+`height_ring.c` body preserves its separate nonzero-count guard, signed
+count promotion and guarded height-difference setup. Both take full-word
+vertical arguments. Their sine-based extent scaling remains before the
+count test, so zero count still performs both SDK sine calls but no
+count-dependent division or vertex store. Do not unify the bodies, narrow
+the arguments, move the promotion or turn them into early returns.
+
+`DuelEffect_InitXZRingVertices` instead uses unadjusted angular steps and
+negates its signed-halfword height for Y. Its actual definition retains
+the native `func_8014EE0C` spelling and original typed signature, preserving
+the existing paired source/header ABI guard. Actual callers use the new
+assembler-bound semantic view; no comment spoof, wrapper, test rewrite or
+duplicate implementation stands in for that native definition.
+
+The unscaled random helper writes signed `rand() - rand()` remainders
+modulo 4096 to XYZ, with six target RNG calls per vector. Count zero
+performs no RNG or vector stores. It is not replaced by a call to a scaled
+initializer, normalized sampling or a claimed angle/velocity convention.
+
+The rectangle helper keeps its full `s32` width/local and signed-halfword
+height, original integer-power sign calls, corner order and zero Z. The
+quadrant helper constructs four corners against the coordinate axes and
+origin; its actual drawing caller supplies indices 0 through 3. Its `u16`
+index behavior outside that range, exponent narrowing, comparisons and
+power calls are still retained rather than masked, bounded or table-driven.
+
+All of these constructors write components without changing the SDK
+`SVECTOR` pad member. **The swap helper deliberately does the opposite:**
+its temporary structure assignments exchange complete records, including
+that pad member. Keep self/alias behavior and full-record transfers; an
+XYZ-only swap or new alias guard would change the contract.
+
+Forty name-only inventory cells and eight scoped NA registry rows describe
+these views across the five configured banks. Every grouped object,
+profile, extent and definition order remains. Exact CPP conservation
+accounts for the sixteen new declarations and for the already accepted
+sixteen declarations only where an added include makes them newly visible.
+Declarations already present in a baseline context are retained, not
+filtered away. All native outputs, symbols, NA executable/whole ELF and
+existing guards must match; existing five-bank/seven-copy CI remains the
+acceptance gate. No new C/native/source-string harness is added.
+
 ## Original matching groups
 
 Ten exact functions / 3,604 bytes are integrated as six complete source groups

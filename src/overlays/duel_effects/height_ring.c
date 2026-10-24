@@ -1,7 +1,8 @@
 #include "../../types.h"
 #include "utility_helpers.h"
+#include "geometry_semantic_views.h"
 
-void func_8014EC8C(u16 width, u16 depth, s32 top, s32 bottom,
+void DuelEffect_InitHalfStepXZRingVertices(u16 width, u16 depth, s32 top, s32 bottom,
                    SVECTOR *vertices, u16 count)
 {
     s32 i;

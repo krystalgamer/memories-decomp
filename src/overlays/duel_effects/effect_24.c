@@ -63,7 +63,7 @@ void func_8014D3E8(void *buffer, s32 phase)
             setVector(&work->velocities[i], -work->tails[i].vx / 8,
                       -work->tails[i].vy / 8, -work->tails[i].vz / 8);
         }
-        func_8014EF2C(32, work->rotations);
+        DuelEffect_InitRandomVectorsUnscaled(32, work->rotations);
         for (i = 0; i < 32; i++) {
             work->ray_scales[i] = 4096;
         }

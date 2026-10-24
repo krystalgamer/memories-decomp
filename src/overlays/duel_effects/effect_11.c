@@ -79,7 +79,7 @@ void func_80146760(void *buffer, s32 phase)
             work->width = work->config->width;
             work->height = work->config->height;
             for (i = 0; i < 3; i++) {
-                func_8014EE0C(work->config->radii[i], work->config->radii[i],
+                DuelEffect_InitXZRingVertices(work->config->radii[i], work->config->radii[i],
                              work->config->ring_height * i, work->rings[i], 32);
             }
             func_8014F020((u8 *)&work->glow, work->config->color.r,
@@ -196,7 +196,7 @@ void func_80146760(void *buffer, s32 phase)
                                128 + work->frames[i][j] * 32, 127,
                                159 + work->frames[i][j] * 32, 127);
                         for (k = 0; k < work->states[i][j]; k++) {
-                            func_8014F490(vertices, (s16)work->sizes[i][j][k], work->sizes[i][j][k] * 2);
+                            DuelEffect_InitRectVertices(vertices, (s16)work->sizes[i][j][k], work->sizes[i][j][k] * 2);
                             for (l = 0; l < 4; l++) {
                                 addVector(&vertices[l], &work->particles[i][j][k]);
                             }

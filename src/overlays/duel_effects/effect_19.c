@@ -23,9 +23,9 @@ void func_80153ADC(void *buffer, s32 phase)
         work->widths[0] = 64;
         work->widths[1] = 67;
         work->widths[2] = 68;
-        func_8014EF2C(64, work->rotations);
+        DuelEffect_InitRandomVectorsUnscaled(64, work->rotations);
         for (i = 0; i < 3; i++) {
-            func_8014EA7C(work->widths[i], work->rings[i]);
+            DuelEffect_InitCircle32Vertices(work->widths[i], work->rings[i]);
         }
         func_8014F030(6, work->positions, work->velocities, 32);
         work->scale = 4096;

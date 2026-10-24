@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "utility_helpers.h"
 #include "../../psyq/rand.h"
+#include "geometry_semantic_views.h"
 
 void func_8014EE0C(u16 width, u16 depth, s16 height, SVECTOR *vertices, u16 count)
 {
@@ -16,7 +17,7 @@ void func_8014EE0C(u16 width, u16 depth, s16 height, SVECTOR *vertices, u16 coun
     }
 }
 
-void func_8014EF2C(u16 count, SVECTOR *vertices)
+void DuelEffect_InitRandomVectorsUnscaled(u16 count, SVECTOR *vertices)
 {
     s32 i;
 

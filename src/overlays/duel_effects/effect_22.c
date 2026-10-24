@@ -85,10 +85,10 @@ void func_8014A8E4(void *buffer, s32 phase)
             work->card_states[i] = 0;
         }
         for (i = 0; i < 2; i++) {
-            func_8014EB1C(24 + 6 * i, 28 + 6 * i, work->rings[i], 4);
+            DuelEffect_InitHalfStepXYRingVertices(24 + 6 * i, 28 + 6 * i, work->rings[i], 4);
         }
         DuelEffect_InitRandomVectorsXY(work->points, work->config->spread, work->config->spread, 32);
-        func_8014EF2C(32, work->rotations);
+        DuelEffect_InitRandomVectorsUnscaled(32, work->rotations);
         DuelEffect_InitRandomVectorsXYZ(work->particles, 392, 392, 392, 32);
         for (i = 0; i < 64; i++) {
             setVector(&work->particle_velocities[i],
@@ -165,7 +165,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                 packet->clut = D_8015B748.pairs[17][1];
                 setRGB0(packet, work->portal_color.r, work->portal_color.g, work->portal_color.b);
                 setUV4(packet, 96, 64, 159, 64, 96, 127, 159, 127);
-                func_8014F490(vertices, (s16)((s16)func_8014F524(-1, i + 1) * 24), 24);
+                DuelEffect_InitRectVertices(vertices, (s16)((s16)func_8014F524(-1, i + 1) * 24), 24);
                 for (j = 0; j < 4; j++) {
                     addVector(&vertices[j], &work->positions[i]);
                 }
@@ -192,7 +192,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                        159 + work->texture_frames[i] * 32, 64,
                        128 + work->texture_frames[i] * 32, 127,
                        159 + work->texture_frames[i] * 32, 127);
-                func_8014F490(vertices, 24, 36);
+                DuelEffect_InitRectVertices(vertices, 24, 36);
                 for (j = 0; j < 4; j++) {
                     addVector(&vertices[j], &work->positions[i]);
                     vertices[j].vy -= 48;

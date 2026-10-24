@@ -56,10 +56,10 @@ void func_801481A8(void *buffer, s32 phase)
             state->sprite_u = (phase % 8) * 16 + 0x80;
             state->sprite_v = (phase / 8) * 16 + 0x30;
             for (i = 0; i < 3; i++) {
-                func_8014EA7C(state->descriptor->ring_radius[i], state->rings[i]);
+                DuelEffect_InitCircle32Vertices(state->descriptor->ring_radius[i], state->rings[i]);
             }
             for (i = 0; i < 2; i++) {
-                func_8014EB1C(0x46 + i * 6, GATHER_CURVE_HEIGHT + i * 6, state->curves[i], 4);
+                DuelEffect_InitHalfStepXYRingVertices(0x46 + i * 6, GATHER_CURVE_HEIGHT + i * 6, state->curves[i], 4);
             }
             for (i = 0; i < 32; i++) {
                 SVECTOR *velocity = (SVECTOR *)((u8 *)state + i * 8 + 0x104);
@@ -79,7 +79,7 @@ void func_801481A8(void *buffer, s32 phase)
                 velocity->vz = 0;
                 func_8014F010(state->colors_b[i], 1);
             }
-            func_8014EF2C(16, state->rotations);
+            DuelEffect_InitRandomVectorsUnscaled(16, state->rotations);
             func_8014F010(state->color, 1);
             state->done = 0;
             state->frame = 0;

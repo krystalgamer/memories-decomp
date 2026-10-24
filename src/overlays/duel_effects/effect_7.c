@@ -61,7 +61,7 @@ void func_801587D8(void *buffer, s32 phase)
             }
             setVector(&work->number_position, 0, 0, 0);
             for (i = 0; i < 3; i++) {
-                func_8014EA7C(work->config->radii[i], work->rings[i]);
+                DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }
             func_8014F010((u8 *)&work->background_color, 1);
             func_8014F020((u8 *)&work->number_color, work->config->number_color[0],

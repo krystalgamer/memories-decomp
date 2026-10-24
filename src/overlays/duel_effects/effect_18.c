@@ -34,20 +34,20 @@ void func_80154084(void *buffer, s32 phase)
             work->cross_frame = 0;
             work->config = &D_8015B078[phase];
             for (i = 0; i < 3; i++) {
-                func_8014EA7C(work->config->radii[i], work->rings[i]);
+                DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }
             for (i = 0; i < 2; i++) {
                 if (work->config->variant == 1) {
-                    func_8014EB1C(24 + i * 6, 28 + i * 6, work->quads[i], 4);
+                    DuelEffect_InitHalfStepXYRingVertices(24 + i * 6, 28 + i * 6, work->quads[i], 4);
                 } else {
-                    func_8014EB1C(70 + i * 6, EFFECT_18_RING_HEIGHT + i * 6, work->quads[i], 4);
+                    DuelEffect_InitHalfStepXYRingVertices(70 + i * 6, EFFECT_18_RING_HEIGHT + i * 6, work->quads[i], 4);
                 }
             }
-            func_8014EF2C(16, work->rotations);
+            DuelEffect_InitRandomVectorsUnscaled(16, work->rotations);
             func_8014F030(work->config->particle_speed, work->positions,
                          work->velocities, 32);
             for (i = 0; i < 3; i++) {
-                func_8014EA7C(work->config->outer_radii[i], work->outer_rings[i]);
+                DuelEffect_InitCircle32Vertices(work->config->outer_radii[i], work->outer_rings[i]);
             }
             func_8014F010((u8 *)&work->color, 1);
             work->scale = 4096;
