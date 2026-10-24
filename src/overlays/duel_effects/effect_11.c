@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_11.h"
 
 void func_80146760(void *buffer, s32 phase)
@@ -103,7 +104,7 @@ void func_80146760(void *buffer, s32 phase)
         setPolyFT4(packet);
         setPolyGT4(gradient_packet);
         func_801513F4(&world, &saved, &work->origin, &zero, &scale, 2);
-        if ((u16)func_8014D3AC((u8 *)&work->glow)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->glow)) {
             func_80156E58((u8 *)&work->glow, work->config->ray_width, work->rays,
                          work->config->ray_count, 64);
             for (i = 0; i < work->config->dust_count; i++) {
@@ -134,7 +135,7 @@ void func_80146760(void *buffer, s32 phase)
                 work->height = work->config->max_height;
             }
             if (work->height == work->config->max_height && work->width == work->config->min_width) {
-                func_80153F28((u8 *)&work->glow, 8);
+                DuelEffect_DarkenColor((u8 *)&work->glow, 8);
             }
             color = work->glow;
             color.r >>= 1;
@@ -152,7 +153,7 @@ void func_80146760(void *buffer, s32 phase)
         }
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 7; j++) {
-                if ((u16)func_8014D3AC((u8 *)&work->particle_colors[i][j])) {
+                if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->particle_colors[i][j])) {
                     if (work->states[i][j] == 0) {
                         if (work->modes[i][j] == 1) {
                             packet->tpage = work->base_texture[0];
@@ -206,7 +207,7 @@ void func_80146760(void *buffer, s32 phase)
                         if (work->states[i][j] > 16) {
                             work->states[i][j] = 16;
                         }
-                        func_80153F28((u8 *)&work->particle_colors[i][j], 31);
+                        DuelEffect_DarkenColor((u8 *)&work->particle_colors[i][j], 31);
                     }
                     if (work->states[i][j]) {
                         work->positions[i][j].vy -= 8;
@@ -243,7 +244,7 @@ void func_80146760(void *buffer, s32 phase)
                             work->states[i][j] = 1;
                         }
                     }
-                    if ((u16)func_8014D378((u8 *)&work->particle_colors[i][j])) {
+                    if ((u16)DuelEffect_IsColorBlack((u8 *)&work->particle_colors[i][j])) {
                         work->completed++;
                     }
                 }
@@ -251,7 +252,7 @@ void func_80146760(void *buffer, s32 phase)
         }
         work->tick++;
         PopMatrix();
-        if (work->completed == 28 && (u16)func_8014D378((u8 *)&work->glow)) {
+        if (work->completed == 28 && (u16)DuelEffect_IsColorBlack((u8 *)&work->glow)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

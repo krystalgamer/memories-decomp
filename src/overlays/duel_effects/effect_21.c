@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_21.h"
 #include "../../game/shared_work_base.h"
 
@@ -79,10 +80,10 @@ void func_8014E3EC(void *buffer, s32 phase)
             slots[__builtin_abs(phase + 1) % 2]->count = 10;
         }
         if (__builtin_abs(phase) > 2) {
-            func_80153F28((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color, 4);
+            DuelEffect_DarkenColor((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color, 4);
         }
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color) ||
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color) ||
             slots[__builtin_abs(phase + 1) % 2]->enabled == 0) {
             slots[__builtin_abs(phase + 1) % 2]->enabled = 0;
             func_8014F010((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color, 0);

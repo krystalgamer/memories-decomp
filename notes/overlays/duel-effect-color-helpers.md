@@ -1,5 +1,82 @@
 # Duel-effect color and fullscreen helpers
 
+## Scoped semantic C views
+
+The colour predicates, transitions and fullscreen helpers now use these
+canonical C names. A separate `color_semantic_views.h` supplies the
+assembler-name declarations and explicit native contracts, as in the
+accepted credits C views. Both
+original helper headers and their native prototypes remain byte-for-byte
+unchanged: the shared utility header participates in the historical curve
+fingerprint. No record/hash guard is regenerated or weakened, and no new
+native exports, function storage or linker aliases are introduced.
+
+| Canonical C view | Native label | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `DuelEffect_IsColorBlack` | `func_8014D378` | `0x80147B70` | `0x8015B3D0` | `0x8014D378` |
+| `DuelEffect_HasNonzeroColor` | `func_8014D3AC` | `0x80147BA4` | `0x8015B404` | `0x8014D3AC` |
+| `DuelEffect_DarkenColor` | `func_80153F28` | `0x80147CAC` | `0x80161FBC` | `0x80153F28` |
+| `DuelEffect_StepColorToTarget` | `func_80153F98` | `0x80147D1C` | `0x8016202C` | `0x80153F98` |
+| `DuelEffect_SetFogBaseColor` | `func_8015405C` | `0x80147DE0` | `0x801620F0` | `0x8015405C` |
+| `DuelEffect_DrawFadingFullscreenColor` | `func_801556F4` | `0x8014D3D4` | `0x80163784` | `0x801556F4` |
+| `DuelEffect_DrawFullscreenGradient` | `func_80155798` | `0x8014D478` | `0x80163828` | `0x80155798` |
+| `DuelEffect_DrawFullscreenColor` | `func_80155864` | `0x8014D544` | `0x801638F4` | `0x80155864` |
+
+The address column, not the numeric suffix of a historical native label,
+identifies a function in each image. The eight registry rows therefore use
+`overlay/duel_effects/function` and the actual NA inventory addresses, never
+unqualified resident `function` records. All forty name cells in the five
+configured bank inventories agree with the corresponding source views;
+every non-name cell, row order, compiler profile and grouped extent remains.
+The configured banks are NA, JP, UK, FR and ES, with seven verified terrain
+copies apiece. German/Italian duel banks are not configured, and this pass
+does not claim their coverage or add configuration for them.
+
+The predicates inspect only the first three bytes. Actual callers pass
+their colour triplets, skip geometry for a zero colour and use black
+completion to finish a request. The command/padding byte of a `CVECTOR`
+does not participate. The darkening and target-step helpers keep the exact
+thresholds described below, including zero/large steps, byte narrowing and
+explicit completion branches. They are not replaced with generic
+saturation or interpolation.
+
+The packed setter retains `high`, `middle`, `low` argument order and each
+explicit byte cast. Its existing header alias writes
+`gModel_dwFogBaseColor`; no new global is named and no RGB/BGR parameter
+order is inferred from grayscale callers. The frozen Japanese-colliding
+`D_8009B300` compatibility macro stays local and unchanged.
+
+The fullscreen routines keep every SDK packet operation, ordering-table
+argument, coordinate and submission. Width remains the existing default;
+height remains selected by each wrapper rather than being normalized
+between NA/JP and PAL. The fading flat draw submits **before** changing
+the caller's colour. The gradient's two top vertices are black and its
+two bottom vertices use the input colour. The other flat draw leaves
+the input colour alone.
+
+All actual bank callers use the same canonical C views without changing
+arguments, casts, branches or sequencing. Pre-existing tests, fixtures,
+source selectors and negative controls remain byte-for-byte unchanged;
+no new C/source-string/native harness is added. Complete compiler/profile/CPP,
+native-symbol and compiler/MASPSX comparisons account only for the eight
+canonical declarations, eight native compatibility declarations and eight
+function identifiers. NA executable/whole-ELF
+identity remains mandatory. Regional
+bank and archive-copy acceptance stays on pull request validation, not a
+local cloud-test run.
+
+The Japanese and UK reusable jobs also run exact matching for their selected
+duel-effect banks, not just the resident images. The existing extraction and
+build tools accept optional `--module NAME` selection alongside `--region`;
+omitting it preserves the complete regional operation. Selection is exact,
+retains the original module record and duplicate-copy checks, and rejects
+missing or duplicate names before any extraction/build. Metadata-only tests
+cover the selector and command dispatch; they add no C/native fixture.
+The CI steps select just these two banks rather than building more than
+3,500 unrelated configured modules in each region.
+
+## Original matching groups
+
 Two complete groups add six functions / 860 bytes with the existing
 `gcc_2_8_1_g0_split` profile:
 

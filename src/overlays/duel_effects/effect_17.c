@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_17.h"
 
 void func_80148BA4(void *buffer, s32 phase)
@@ -107,11 +108,11 @@ void func_80148BA4(void *buffer, s32 phase)
                 work->stage = 3;
             }
         }
-        func_8015405C(work->brightness, work->brightness, work->brightness);
+        DuelEffect_SetFogBaseColor(work->brightness, work->brightness, work->brightness);
         setVector(&rotation, 0, 0, work->config->spin * work->tick % 4096);
         func_801513F4(&world, &saved, &work->center, &rotation, &scale, 0);
         for (i = 0; i < work->active_particles; i++) {
-            if ((u16)func_8014D3AC((u8 *)&work->particle_colors[i])) {
+            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->particle_colors[i])) {
                 func_8014F2D4(vertices, &work->particles[i]);
                 if (!(i & 3)) {
                     func_80155BC0((u8 *)&work->particle_colors[i], 8, 1, &work->particles[i]);
@@ -121,11 +122,11 @@ void func_80148BA4(void *buffer, s32 phase)
                     __builtin_abs(work->particles[i].vy) > 32 ||
                     __builtin_abs(work->particles[i].vz) > 32) {
                     addVector(&work->particles[i], &work->velocities[i]);
-                    func_80153F98((u8 *)&work->particle_colors[i], work->config->color[0],
+                    DuelEffect_StepColorToTarget((u8 *)&work->particle_colors[i], work->config->color[0],
                                  work->config->color[1], work->config->color[2], 31);
                 } else {
-                    func_80153F28((u8 *)&work->particle_colors[i], 31);
-                    if ((u16)func_8014D378((u8 *)&work->particle_colors[i]) &&
+                    DuelEffect_DarkenColor((u8 *)&work->particle_colors[i], 31);
+                    if ((u16)DuelEffect_IsColorBlack((u8 *)&work->particle_colors[i]) &&
                         work->card_states[work->card_count - 1] == 0) {
                         setVector(&work->particles[i],
                                   work->config->radius * (s32)((u32)((rand() - rand()) % 4096) << 1) / 4096,
@@ -136,13 +137,13 @@ void func_80148BA4(void *buffer, s32 phase)
                         func_8014F020((u8 *)&work->particle_colors[i], work->config->color[0] / 8,
                                      work->config->color[1] / 8, work->config->color[2] / 8);
                     }
-                    if (!(u16)func_8014D378((u8 *)&work->particle_colors[i]) && work->stage >= 2) {
+                    if (!(u16)DuelEffect_IsColorBlack((u8 *)&work->particle_colors[i]) && work->stage >= 2) {
                         work->stage = 2;
                     }
                 }
             }
         }
-        if ((u16)func_8014D3AC((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             setPolyGT4(packet);
             packet->tpage = D_8015B748.pairs[15][0];
             packet->clut = D_8015B748.pairs[15][1];
@@ -172,10 +173,10 @@ void func_80148BA4(void *buffer, s32 phase)
                     work->field_1D94 -= 64;
                 }
                 if (work->stage < 2) {
-                    work->stage = func_80153F98((u8 *)&work->color, work->config->color[0],
+                    work->stage = DuelEffect_StepColorToTarget((u8 *)&work->color, work->config->color[0],
                                               work->config->color[1], work->config->color[0], 2);
                 } else {
-                    func_80153F28((u8 *)&work->color, 1);
+                    DuelEffect_DarkenColor((u8 *)&work->color, 1);
                 }
             }
         }
@@ -222,16 +223,16 @@ void func_80148BA4(void *buffer, s32 phase)
         setVector(&scale, 4096, 4096, 4096);
         setVector(&rotation, 0, 0, 0);
         func_801513F4(&world, &saved, &work->center, &rotation, &scale, 0);
-        if ((u16)func_8014D3AC((u8 *)&work->burst_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->burst_color)) {
             func_80155BC0((u8 *)&work->burst_color, 32, 1, 0);
             color = work->burst_color;
             color.r >>= 1;
             color.g >>= 1;
             color.b >>= 1;
             func_80156E58((u8 *)&color, 3, work->card_particles[work->completed - 1], 16, 36);
-            func_80153F28((u8 *)&work->burst_color, 15);
+            DuelEffect_DarkenColor((u8 *)&work->burst_color, 15);
             if (work->card_states[work->card_count - 1] >= 2 &&
-                (u16)func_8014D378((u8 *)&work->burst_color)) {
+                (u16)DuelEffect_IsColorBlack((u8 *)&work->burst_color)) {
                 work->stage = 2;
             }
         }
@@ -239,7 +240,7 @@ void func_80148BA4(void *buffer, s32 phase)
             for (i = 0; i < work->active_paths; i++) {
                 setVector(&rotation, 0, work->angles[i], 0);
                 func_801513F4(&world, &saved, &work->origin, &rotation, &scale, 2);
-                if ((u16)func_8014D3AC((u8 *)&work->path_colors[i])) {
+                if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->path_colors[i])) {
                     if (work->path_states[i] != 2) {
                         work->path_states[i] = func_801570B0((u8 *)&work->path_colors[i], work->path_ages[i],
                             work->paths[i], 16, 1, &work->endpoints[i], 1, &work->origin);
@@ -248,15 +249,15 @@ void func_80148BA4(void *buffer, s32 phase)
                             work->paths[i], 32, 0, &work->endpoints[i], 1, &work->origin);
                     }
                     if (work->path_states[i] == 2 &&
-                        (u16)func_8014D3AC((u8 *)&work->path_colors[i])) {
+                        (u16)DuelEffect_HasNonzeroColor((u8 *)&work->path_colors[i])) {
                         func_801513F4(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
                         func_80155BC0((u8 *)&work->path_colors[i], 4, 1, 0);
                     }
                     work->path_ages[i]++;
                     if (work->path_ages[i] >= 8) {
                         work->path_ages[i] = 7;
-                        func_80153F28((u8 *)&work->path_colors[i], 15);
-                        if ((u16)func_8014D378((u8 *)&work->path_colors[i]) && work->stage < 2) {
+                        DuelEffect_DarkenColor((u8 *)&work->path_colors[i], 15);
+                        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->path_colors[i]) && work->stage < 2) {
                             func_8014F020((u8 *)&work->path_colors[i], work->config->burst_color[0],
                                          work->config->burst_color[1], work->config->burst_color[2]);
                             work->path_ages[i] = 0;

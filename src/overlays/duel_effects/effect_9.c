@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_9.h"
 
 void func_801593A8(void *buffer, s32 phase)
@@ -65,13 +66,13 @@ void func_801593A8(void *buffer, s32 phase)
         PushMatrix();
         func_801531C4(&world);
         func_801513F4(&world, &saved, &translation, &rotation, &scale, 1);
-        if ((u16)func_8014D3AC((u8 *)&work->background_color)) {
-            func_80155798((u8 *)&work->background_color);
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
+            DuelEffect_DrawFullscreenGradient((u8 *)&work->background_color);
             if (work->stage != 0) {
-                func_80153F28((u8 *)&work->background_color, 4);
+                DuelEffect_DarkenColor((u8 *)&work->background_color, 4);
             }
         }
-        if ((u16)func_8014D3AC((u8 *)&work->negative_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->negative_color)) {
             func_801566D4(-work->config->value, (u8 *)&work->negative_color,
                          &work->negative, work->negative_mode, 16, 0);
             work->negative.vy += work->negative_step;
@@ -89,23 +90,23 @@ void func_801593A8(void *buffer, s32 phase)
                 } else {
                     work->negative_mode = 1;
                     work->negative_step = 0;
-                    func_80153F28((u8 *)&work->negative_color, 15);
+                    DuelEffect_DarkenColor((u8 *)&work->negative_color, 15);
                 }
             }
         }
-        if ((u16)func_8014D3AC((u8 *)&work->positive_color) &&
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->positive_color) &&
             work->positive.vy < 200) {
             func_801566D4(work->config->value, (u8 *)&work->positive_color,
                          &work->positive, work->positive_mode, 16, 0);
             work->positive.vy += work->positive_step;
             if (work->stage != 0) {
                 work->positive_mode = 1;
-                func_80153F28((u8 *)&work->positive_color, 15);
+                DuelEffect_DarkenColor((u8 *)&work->positive_color, 15);
             }
         } else if (work->positive.vy >= 200) {
             func_8014F010((u8 *)&work->positive_color, 0);
         }
-        if ((u16)func_8014D3AC((u8 *)&work->effects_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->effects_color)) {
             if (work->stage >= 2) {
                 for (i = 0; i < 32; i++) {
                     func_8014F2D4(quad, &work->positions[i]);
@@ -135,7 +136,7 @@ void func_801593A8(void *buffer, s32 phase)
                              work->config->height, 0);
             }
             if (work->stage != 0) {
-                func_80153F28((u8 *)&work->effects_color, 15);
+                DuelEffect_DarkenColor((u8 *)&work->effects_color, 15);
             }
         }
         if (work->stage == 1) {
@@ -148,10 +149,10 @@ void func_801593A8(void *buffer, s32 phase)
         work->frame += frame_step;
         work->tick++;
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->negative_color) &&
-            (u16)func_8014D378((u8 *)&work->background_color) &&
-            (u16)func_8014D378((u8 *)&work->effects_color) &&
-            (u16)func_8014D378((u8 *)&work->positive_color)) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->negative_color) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->background_color) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->effects_color) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->positive_color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_19.h"
 
 void func_80153ADC(void *buffer, s32 phase)
@@ -39,7 +40,7 @@ void func_80153ADC(void *buffer, s32 phase)
         PushMatrix();
         func_801531C4(&world);
         func_801513F4(&world, &saved, &position, &rotation, &scale, 1);
-        if ((u16)func_8014D3AC((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             if (work->fade_started == 1) {
                 for (i = 0; i < 32; i++) {
                     func_8014F2D4(quad, &work->positions[i]);
@@ -81,7 +82,7 @@ void func_80153ADC(void *buffer, s32 phase)
             }
             if (work->fade_started == 0) {
                 work->fade_started =
-                    func_80153F98((u8 *)&work->color, 255, 224, 240, 4);
+                    DuelEffect_StepColorToTarget((u8 *)&work->color, 255, 224, 240, 4);
                 if (work->scale < 0x5000) {
                     work->scale += 0x100;
                 } else {
@@ -89,12 +90,12 @@ void func_80153ADC(void *buffer, s32 phase)
                 }
             } else {
                 gDuelEffect_pActiveRequest->field_1D = 1;
-                func_801556F4((u8 *)&work->color, 8);
+                DuelEffect_DrawFadingFullscreenColor((u8 *)&work->color, 8);
             }
         }
         work->frame++;
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

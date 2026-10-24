@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_22.h"
 
 void func_8014A8E4(void *buffer, s32 phase)
@@ -152,11 +153,11 @@ void func_8014A8E4(void *buffer, s32 phase)
                 work->stage = 5;
             }
         }
-        func_8015405C(work->brightness, work->brightness, work->brightness);
+        DuelEffect_SetFogBaseColor(work->brightness, work->brightness, work->brightness);
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         func_801513F4(&world, &saved, &position, &rotation, &scale, 2);
-        if ((u16)func_8014D3AC((u8 *)&work->portal_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->portal_color)) {
             for (i = 0; i < 2; i++) {
                 setPolyFT4(packet);
                 packet->tpage = D_8015B748.pairs[17][0];
@@ -174,13 +175,13 @@ void func_8014A8E4(void *buffer, s32 phase)
                 }
             }
             if (work->stage < 4) {
-                func_80153F98((u8 *)&work->portal_color, 128, 128, 128, 4);
+                DuelEffect_StepColorToTarget((u8 *)&work->portal_color, 128, 128, 128, 4);
             } else {
-                func_80153F28((u8 *)&work->portal_color, 8);
+                DuelEffect_DarkenColor((u8 *)&work->portal_color, 8);
             }
         }
         if (work->portal_color.r == 128 && work->portal_color.g == 128 && work->portal_color.b == 128 &&
-            (u16)func_8014D3AC((u8 *)&work->flame_color)) {
+            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->flame_color)) {
             setPolyFT4(packet);
             setRGB0(packet, work->flame_color.r, work->flame_color.g, work->flame_color.b);
             for (i = 0; i < 2; i++) {
@@ -208,9 +209,9 @@ void func_8014A8E4(void *buffer, s32 phase)
                     SD_SEPlayFull(31);
                     work->sound_played = 1;
                 }
-                func_80153F98((u8 *)&work->flame_color, 128, 128, 128, 4);
+                DuelEffect_StepColorToTarget((u8 *)&work->flame_color, 128, 128, 128, 4);
             } else {
-                func_80153F28((u8 *)&work->flame_color, 8);
+                DuelEffect_DarkenColor((u8 *)&work->flame_color, 8);
             }
         }
         if (work->flame_color.r == 128 && work->flame_color.g == 128 && work->flame_color.b == 128 &&
@@ -246,7 +247,7 @@ void func_8014A8E4(void *buffer, s32 phase)
             }
         }
         if ((work->stage == 1 || work->stage == 2) &&
-            (u16)func_8014D3AC((u8 *)&work->flash_color)) {
+            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->flash_color)) {
             if (work->stage == 1) {
                 work->stage = 2;
             }
@@ -258,13 +259,13 @@ void func_8014A8E4(void *buffer, s32 phase)
             func_801514BC(&saved, &scale);
             setVector(&position, 0, 0, 0);
             func_80155BC0((u8 *)&work->flash_color, 12, 1, &position);
-            func_801556F4((u8 *)&work->flash_color, 8);
+            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 8);
             if (work->ring_scale < 28672) {
                 work->ring_scale += 4096;
             }
         }
         if ((work->stage == 2 || work->stage == 3) &&
-            (u16)func_8014D3AC((u8 *)&work->particle_color)) {
+            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->particle_color)) {
             if (work->frame % 2 == 0) {
                 func_8014F010((u8 *)&color, 255);
             } else {
@@ -331,7 +332,7 @@ void func_8014A8E4(void *buffer, s32 phase)
         }
         if (work->stage == 2 || work->stage == 3) {
             for (i = 0; i < work->active_particles; i++) {
-                if ((u16)func_8014D3AC((u8 *)&work->colors[i])) {
+                if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
                     func_8014F2D4(vertices, &work->particles[i]);
                     if (i % 4 == 0) {
                         func_80155BC0((u8 *)&work->colors[i], 4, 32, &work->particles[i]);
@@ -342,8 +343,8 @@ void func_8014A8E4(void *buffer, s32 phase)
                         __builtin_abs(work->particles[i].vz) > 32) {
                         addVector(&work->particles[i], &work->particle_velocities[i]);
                     } else {
-                        func_80153F28((u8 *)&work->colors[i], 31);
-                        if ((u16)func_8014D378((u8 *)&work->colors[i])) {
+                        DuelEffect_DarkenColor((u8 *)&work->colors[i], 31);
+                        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->colors[i])) {
                             setVector(&work->particles[i],
                                       ((rand() - rand()) % 4096) * 392 / 4096,
                                       ((rand() - rand()) % 4096) * 392 / 4096,
@@ -360,7 +361,7 @@ void func_8014A8E4(void *buffer, s32 phase)
             }
         }
         if ((work->stage == 2 || work->stage == 3) &&
-            (u16)func_8014D3AC((u8 *)&work->fan_color)) {
+            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->fan_color)) {
             setVector(&position, 0, -96, 0);
             setPolyGT4(gradient_packet);
             gradient_packet->tpage = D_8015B748.pairs[15][0];
@@ -390,7 +391,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                     }
                 }
             }
-            func_80153F98((u8 *)&work->fan_color, work->config->fan_color[0],
+            DuelEffect_StepColorToTarget((u8 *)&work->fan_color, work->config->fan_color[0],
                          work->config->fan_color[1], work->config->fan_color[2], 2);
             work->fan_speed++;
             if (work->fan_speed > 24) {
@@ -398,8 +399,8 @@ void func_8014A8E4(void *buffer, s32 phase)
             }
         }
         if (work->stage == 3) {
-            func_80155864((u8 *)&work->flash_color);
-            if ((u16)func_80153F98((u8 *)&work->flash_color, 192, 192, 192, 4)) {
+            DuelEffect_DrawFullscreenColor((u8 *)&work->flash_color);
+            if ((u16)DuelEffect_StepColorToTarget((u8 *)&work->flash_color, 192, 192, 192, 4)) {
                 work->stage = 4;
                 func_8014F010((u8 *)&work->flash_color, 255);
                 func_8014F020((u8 *)&work->particle_color,
@@ -409,7 +410,7 @@ void func_8014A8E4(void *buffer, s32 phase)
         }
         if (work->stage >= 4) {
             gDuelEffect_pActiveRequest->field_1D = 1;
-            func_801556F4((u8 *)&work->flash_color, 4);
+            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 4);
             setVector(&position, 0, -96, 0);
             func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
             for (i = 0; i < 64; i++) {
@@ -435,12 +436,12 @@ void func_8014A8E4(void *buffer, s32 phase)
                 func_80155D90((u8 *)&work->particle_color,
                              work->config->outer_widths, work->config->outer_height, 1);
             }
-            func_80153F28((u8 *)&work->particle_color, 4);
+            DuelEffect_DarkenColor((u8 *)&work->particle_color, 4);
         }
         work->frame++;
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->flash_color) &&
-            (u16)func_8014D378((u8 *)&work->flash_color) &&
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->flash_color) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->flash_color) &&
             work->stage == 5) {
             gDuelEffect_bRequestFinished = 1;
         }

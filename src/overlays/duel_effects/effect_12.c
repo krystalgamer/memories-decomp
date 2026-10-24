@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_12.h"
 
 void func_80150E00(void *buffer, s32 phase)
@@ -37,7 +38,7 @@ void func_80150E00(void *buffer, s32 phase)
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         func_801513F4(&world, &saved, &work->origin, &rotation, &scale, 3);
-        if ((u16)func_8014D3AC((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             for (i = 0; i < 32; i++) {
                 func_8014F2D4(quad, &work->positions[i]);
                 func_80156064((u8 *)&work->color, quad, 1);
@@ -68,12 +69,12 @@ void func_80150E00(void *buffer, s32 phase)
                 work->scale += 0x1000;
             } else {
                 gDuelEffect_pActiveRequest->field_1D = 1;
-                func_80153F28((u8 *)&work->color, 15);
+                DuelEffect_DarkenColor((u8 *)&work->color, 15);
             }
         }
         work->frame += frame_step;
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

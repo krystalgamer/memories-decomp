@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_5.h"
 
 #ifdef VERSION_EUROPE
@@ -75,31 +76,31 @@ void func_80157E10(void *buffer, s32 phase)
         func_801531C4(&world);
         func_801513F4(&world, &saved, &position, &rotation, &scale, 1);
         for (i = 0; i < work->spawned; i++) {
-            if ((u16)func_8014D3AC((u8 *)&work->rising_colors[i])) {
+            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->rising_colors[i])) {
                 func_8014F2D4(quad, &work->rising_positions[i]);
                 func_80156064((u8 *)&work->rising_colors[i], quad, 0);
                 work->rising_positions[i].vy += work->config->rise_speed;
             }
             if (work->rising_positions[i].vy < 0) {
-                func_80153F98((u8 *)&work->rising_colors[i], work->config->color[0],
+                DuelEffect_StepColorToTarget((u8 *)&work->rising_colors[i], work->config->color[0],
                              work->config->color[1], work->config->color[2], 31);
             } else {
-                func_80153F28((u8 *)&work->rising_colors[i], 15);
+                DuelEffect_DarkenColor((u8 *)&work->rising_colors[i], 15);
             }
         }
-        if ((u16)func_8014D3AC((u8 *)&work->background_color)) {
-            func_80155798((u8 *)&work->background_color);
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
+            DuelEffect_DrawFullscreenGradient((u8 *)&work->background_color);
             if (work->rising_positions[work->config->strip_count - 1].vy < 0) {
-                func_80153F98((u8 *)&work->background_color,
+                DuelEffect_StepColorToTarget((u8 *)&work->background_color,
                              work->config->color[0] >> 1,
                              work->config->color[1] >> 1,
                              work->config->color[2] >> 1, 4);
             } else if (work->variant < 5) {
-                func_80153F28((u8 *)&work->background_color, 4);
+                DuelEffect_DarkenColor((u8 *)&work->background_color, 4);
             }
         }
         if (work->rising_positions[work->config->strip_count - 1].vy > 0) {
-            if ((u16)func_8014D3AC((u8 *)&work->number_color)) {
+            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
                 func_801566D4(work->config->number, (u8 *)&work->number_color,
                              &work->number_position, work->number_state, 16, 0);
                 addVector(&work->number_position, &work->number_velocity);
@@ -113,14 +114,14 @@ void func_80157E10(void *buffer, s32 phase)
                         if (work->variant < 5) {
                             work->number_state = 1;
                             work->number_velocity.vy = 0;
-                            func_80153F28((u8 *)&work->number_color, 15);
+                            DuelEffect_DarkenColor((u8 *)&work->number_color, 15);
                         } else {
                             work->hold_frames++;
                         }
                     }
                 }
             }
-            if ((u16)func_8014D3AC((u8 *)&work->color)) {
+            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
                 for (i = 0; i < work->config->particle_count; i++) {
                     func_8014F2D4(quad, &work->positions[i]);
                     func_80156064((u8 *)&work->color, quad, 0);
@@ -157,7 +158,7 @@ void func_80157E10(void *buffer, s32 phase)
                     }
                 }
                 if (work->variant < 5) {
-                    func_80153F28((u8 *)&work->color, 15);
+                    DuelEffect_DarkenColor((u8 *)&work->color, 15);
                 }
                 if (work->scale < 0x7000) {
                     work->scale += 0x1000;
@@ -171,11 +172,11 @@ void func_80157E10(void *buffer, s32 phase)
         work->frame += frame_step;
         work->tick++;
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->background_color) &&
-            (u16)func_8014D378((u8 *)&work->color) &&
-            (u16)func_8014D378((u8 *)&work->number_color) && work->variant < 5) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->background_color) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->color) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->number_color) && work->variant < 5) {
             gDuelEffect_bRequestFinished = 1;
-        } else if ((u16)func_8014D378((u8 *)&work->rising_colors[work->config->strip_count - 1]) &&
+        } else if ((u16)DuelEffect_IsColorBlack((u8 *)&work->rising_colors[work->config->strip_count - 1]) &&
                    work->variant >= 5 && work->hold_frames >= 24) {
             gDuelEffect_bRequestFinished = 1;
         }

@@ -88,3 +88,9 @@ jobs:
           sha256sum --check --strict <<'EOF'
           49544302dbe341489ae0eaf7888cac002a6160c57454970c434cdcb171d2a40e  tmp/project-build/SLES_039.47
           EOF
+
+      - name: Verify the configured European duel-effect bank
+        run: |
+          tools/environments/python/bin/python tools/project/overlay_extract.py extract --region europe --module european_duel_effects
+          tools/environments/python/bin/python tools/project/overlay_build.py build --region europe --module european_duel_effects
+          tools/environments/python/bin/python tools/project/overlay_build.py verify --region europe --module european_duel_effects

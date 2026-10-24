@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_24.h"
 
 void func_8014D3E8(void *buffer, s32 phase)
@@ -88,7 +89,7 @@ void func_8014D3E8(void *buffer, s32 phase)
         setPolyFT4(packet);
         packet->tpage = D_8015B748.pairs[18][0];
         packet->clut = D_8015B748.pairs[18][1];
-        if ((u16)func_8014D3AC((u8 *)&work->center_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->center_color)) {
             setRGB0(packet, work->center_color.r, work->center_color.g, work->center_color.b);
             setUV4(packet, 192, 128, 255, 128, 192, 255, 255, 255);
             for (i = 0; i < 2; i++) {
@@ -99,7 +100,7 @@ void func_8014D3E8(void *buffer, s32 phase)
                 func_80151218(packet, vertices, 0, 1);
             }
         }
-        if ((u16)func_8014D3AC((u8 *)&work->line_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->line_color)) {
             if (!(work->tick & 1)) {
                 color = work->line_color;
                 color.r >>= 1;
@@ -138,7 +139,7 @@ void func_8014D3E8(void *buffer, s32 phase)
                         if (work->stage == 0) {
                             work->stage = 1;
                         }
-                        func_80153F98((u8 *)&work->center_color, 255, 255, 255, 1);
+                        DuelEffect_StepColorToTarget((u8 *)&work->center_color, 255, 255, 255, 1);
                     }
                 }
             }
@@ -223,19 +224,19 @@ void func_8014D3E8(void *buffer, s32 phase)
             work->stage < 2) {
             work->stage = 2;
         }
-        if ((u16)func_8014D3AC((u8 *)&work->flash_color) && work->stage == 0) {
-            func_801556F4((u8 *)&work->flash_color, 15);
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->flash_color) && work->stage == 0) {
+            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 15);
         }
         if (work->stage == 2) {
-            func_80155864((u8 *)&work->flash_color);
-            if ((u16)func_80153F98((u8 *)&work->flash_color, 192, 192, 192, 4)) {
+            DuelEffect_DrawFullscreenColor((u8 *)&work->flash_color);
+            if ((u16)DuelEffect_StepColorToTarget((u8 *)&work->flash_color, 192, 192, 192, 4)) {
                 func_8014F010((u8 *)&work->flash_color, 255);
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 work->stage = 3;
             }
         }
-        if ((u16)func_8014D3AC((u8 *)&work->flash_color) && work->stage == 3) {
-            func_801556F4((u8 *)&work->flash_color, 0);
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->flash_color) && work->stage == 3) {
+            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 0);
         }
         work->tick++;
         PopMatrix();

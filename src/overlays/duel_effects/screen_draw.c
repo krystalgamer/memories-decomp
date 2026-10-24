@@ -1,8 +1,9 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "../../game/graphics_constants.h"
 #include "color_helpers.h"
 
-void func_801556F4(u8 *color, u16 step)
+void DuelEffect_DrawFadingFullscreenColor(u8 *color, u16 step)
 {
     POLY_F4 polygon;
 
@@ -11,10 +12,10 @@ void func_801556F4(u8 *color, u16 step)
     setXY4(&polygon, 0, 0, GRAPHICS_DEFAULT_WIDTH, 0, 0, GRAPHICS_DEFAULT_HEIGHT,
            GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT);
     func_8005B260((u32 *)&polygon, D_8015B7F4, D_8015B800, 1);
-    func_80153F28(color, step);
+    DuelEffect_DarkenColor(color, step);
 }
 
-void func_80155798(u8 *color)
+void DuelEffect_DrawFullscreenGradient(u8 *color)
 {
     POLY_G4 polygon;
     POLY_G4 *packet = &polygon;
@@ -29,7 +30,7 @@ void func_80155798(u8 *color)
     func_8005B260((u32 *)packet, D_8015B7F4, D_8015B800, 1);
 }
 
-void func_80155864(u8 *color)
+void DuelEffect_DrawFullscreenColor(u8 *color)
 {
     POLY_F4 polygon;
     POLY_F4 *packet = &polygon;

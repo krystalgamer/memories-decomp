@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_13.h"
 
 void func_801503F8(void *buffer, s32 phase, s16 number)
@@ -74,7 +75,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
-        if ((u16)func_8014D3AC((u8 *)&work->glow_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->glow_color)) {
             setVector(&rotation, 0, 0, work->tick * 128);
             func_801513F4(&world, &saved, &work->origin, &rotation, scale_pointer, 0);
             if (work->config->blend != 1) {
@@ -92,28 +93,28 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
                 func_80155BC0((u8 *)&color, work->config->size * 2, 16, position_pointer);
             }
             if (work->active == 48) {
-                func_80153F28((u8 *)&work->glow_color, 15);
+                DuelEffect_DarkenColor((u8 *)&work->glow_color, 15);
             } else {
-                func_80153F98((u8 *)&work->glow_color, work->config->color[0] >> 1,
+                DuelEffect_StepColorToTarget((u8 *)&work->glow_color, work->config->color[0] >> 1,
                              work->config->color[1] >> 1, work->config->color[2] >> 1, 15);
             }
         }
         if (work->config->background == 1 &&
-            (u16)func_8014D3AC((u8 *)&work->background_color)) {
+            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
             setVector(&rotation, 0, 0, 0);
             func_801513F4(&world, &saved, &work->origin, &rotation, &scale, 0);
             func_801573A8((u8 *)&work->background_color, work->config->size * 2, 32);
             if (work->ready == 0) {
-                work->ready = func_80153F98((u8 *)&work->background_color, 128, 128, 128, 8);
+                work->ready = DuelEffect_StepColorToTarget((u8 *)&work->background_color, 128, 128, 128, 8);
             }
             if (work->active == 48) {
-                func_80153F28((u8 *)&work->background_color, 8);
+                DuelEffect_DarkenColor((u8 *)&work->background_color, 8);
             }
         }
         for (i = 0; i < work->active; i++) {
             setVector(&rotation, 0, work->angles[i], 0);
             func_801513F4(&world, &saved, &work->offset, &rotation, &scale, 2);
-            if ((u16)func_8014D3AC((u8 *)&work->colors[i])) {
+            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
                 if (work->states[i] != 2) {
                     work->states[i] = func_801570B0((u8 *)&work->colors[i], work->ages[i],
                         work->paths[i], 16, 1, &work->endpoints[i], work->config->blend,
@@ -126,7 +127,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
                 work->ages[i]++;
                 if (work->ages[i] >= 8) {
                     work->ages[i] = 7;
-                    func_80153F28((u8 *)&work->colors[i], 15);
+                    DuelEffect_DarkenColor((u8 *)&work->colors[i], 15);
                 }
             }
         }
@@ -136,13 +137,13 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
         }
         for (i = 0; i < work->active; i++) {
             if (work->states[i] == 2 &&
-                (u16)func_8014D3AC((u8 *)&work->colors[i])) {
+                (u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 func_801513F4(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
                 func_80155BC0((u8 *)&work->colors[i], work->config->particle_size, 1, &position);
             }
         }
-        if (work->active >= 12 && (u16)func_8014D3AC((u8 *)&work->number_color)) {
+        if (work->active >= 12 && (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
             setVector(&scale, 4096, 4096, 4096);
             setVector(&rotation, 0, 0, 0);
             func_801513F4(&world, &saved, &work->offset, &rotation, &scale, 0);
@@ -158,7 +159,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
                 } else {
                     work->number_mode = 1;
                     work->number_velocity.vy = 0;
-                    func_80153F28((u8 *)&work->number_color, 15);
+                    DuelEffect_DarkenColor((u8 *)&work->number_color, 15);
                 }
             }
         }
@@ -169,9 +170,9 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
         work->frame += frame_step;
         work->tick++;
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->colors[47]) &&
-            (u16)func_8014D378((u8 *)&work->background_color) &&
-            (u16)func_8014D378((u8 *)&work->number_color)) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->colors[47]) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->background_color) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->number_color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

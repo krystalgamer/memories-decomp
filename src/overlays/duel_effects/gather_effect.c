@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/memory.h"
@@ -119,7 +120,7 @@ void func_801481A8(void *buffer, s32 phase)
             state->particle_b_count = 0x30;
         }
         for (i = 0; i < state->particle_count; i++) {
-            if ((u16)func_8014D3AC(state->colors[i]) != 0) {
+            if ((u16)DuelEffect_HasNonzeroColor(state->colors[i]) != 0) {
                 setRGB0(packet, state->colors[i][0], state->colors[i][1], state->colors[i][2]);
                 func_8014F358(frame.quad, state->sizes[i]);
                 for (j = 0; j < 4; j++) {
@@ -143,14 +144,14 @@ void func_801481A8(void *buffer, s32 phase)
                 }
                 state->sizes[i] -= state->descriptor->size * 3 / 4 / state->descriptor->frames;
                 if (state->flags[i] == 0) {
-                    state->flags[i] = func_80153F98(state->colors[i], 0xFF, 0xFF, 0xFF, 0x2F);
+                    state->flags[i] = DuelEffect_StepColorToTarget(state->colors[i], 0xFF, 0xFF, 0xFF, 0x2F);
                 } else {
-                    func_80153F28(state->colors[i], 0xF);
+                    DuelEffect_DarkenColor(state->colors[i], 0xF);
                 }
             }
         }
         for (i = 0; i < state->particle_b_count; i++) {
-            if ((u16)func_8014D3AC(state->colors_b[i]) != 0) {
+            if ((u16)DuelEffect_HasNonzeroColor(state->colors_b[i]) != 0) {
                 func_8014F2D4(frame.quad, &state->particles_b[i]);
                 func_80156064(state->colors_b[i], frame.quad, 0);
                 if (__builtin_abs(state->particles_b[i].vx) >= 17 ||
@@ -160,13 +161,13 @@ void func_801481A8(void *buffer, s32 phase)
                     particle_b->vx += velocity_b->vx;
                     particle_b->vy += velocity_b->vy;
                     particle_b->vz += velocity_b->vz;
-                    func_80153F98(state->colors_b[i], 0xB0, 0xB0, 0xFF, 0xF);
+                    DuelEffect_StepColorToTarget(state->colors_b[i], 0xB0, 0xB0, 0xFF, 0xF);
                 } else {
-                    func_80153F28(state->colors_b[i], 0xF);
+                    DuelEffect_DarkenColor(state->colors_b[i], 0xF);
                 }
             }
         }
-        if ((u16)func_8014D3AC(state->color) != 0) {
+        if ((u16)DuelEffect_HasNonzeroColor(state->color) != 0) {
             func_801558F4(state->color, state->curves[0], state->curves[1], 0, 1);
             frame.scale.vx = state->scale >> 3;
             frame.scale.vy = state->scale >> 3;
@@ -196,15 +197,15 @@ void func_801481A8(void *buffer, s32 phase)
                 state->scale += 0x800;
             }
             if (state->done == 0) {
-                state->done = func_80153F98(state->color, 0xB0, 0xB0, 0xFF, 0xF);
+                state->done = DuelEffect_StepColorToTarget(state->color, 0xB0, 0xB0, 0xFF, 0xF);
             } else if (state->done == 2) {
-                func_80153F28(state->color, 0xF);
+                DuelEffect_DarkenColor(state->color, 0xF);
             }
         }
         state->frame += frame_step;
         PopMatrix();
-        if ((u16)func_8014D378(state->colors[31]) != 0 &&
-            (u16)func_8014D378(state->color) != 0) {
+        if ((u16)DuelEffect_IsColorBlack(state->colors[31]) != 0 &&
+            (u16)DuelEffect_IsColorBlack(state->color) != 0) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

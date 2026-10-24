@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_15.h"
 
 void func_8014FF40(void *buffer, s32 phase)
@@ -59,7 +60,7 @@ void func_8014FF40(void *buffer, s32 phase)
         scale.vx = work->scale;
         scale.vy = work->scale;
         scale.vz = work->scale;
-        if ((u16)func_8014D3AC((u8 *)&work->color) && work->visible != 0) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) && work->visible != 0) {
             setPolyFT4(packet);
             packet->tpage = D_8015B748.pairs[13][0];
             packet->clut = D_8015B748.pairs[13][1];
@@ -83,12 +84,12 @@ void func_8014FF40(void *buffer, s32 phase)
                 work->scale -= 512;
             }
             if (work->state == 0) {
-                work->state = func_80153F98((u8 *)&work->color,
+                work->state = DuelEffect_StepColorToTarget((u8 *)&work->color,
                     work->config->color.r, work->config->color.g,
                     work->config->color.b, 15);
             }
             if (work->state == 2 && work->scale == 1024) {
-                func_80153F28((u8 *)&work->color, 31);
+                DuelEffect_DarkenColor((u8 *)&work->color, 31);
             }
         }
         if (work->state == 1 && work->timer < 16) {
@@ -104,7 +105,7 @@ void func_8014FF40(void *buffer, s32 phase)
             work->state = 2;
         }
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

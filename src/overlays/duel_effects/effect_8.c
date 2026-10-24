@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "color_semantic_views.h"
 #include "effect_8.h"
 
 void func_80147B18(void *buffer, s32 phase)
@@ -58,7 +59,7 @@ void func_80147B18(void *buffer, s32 phase)
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         func_801513F4(&world, &saved, &work->origin, &rotation, &scale, 1);
-        if ((u16)func_8014D3AC((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             func_80156E58((u8 *)&work->color, work->config->ray_width, work->rays,
                          work->config->ray_count, 64);
             for (i = 0; i < work->config->particle_count; i++) {
@@ -93,7 +94,7 @@ void func_80147B18(void *buffer, s32 phase)
             }
             if (work->height == work->config->maximum_height &&
                 work->width == work->config->minimum_width) {
-                func_80153F28((u8 *)&work->color, 8);
+                DuelEffect_DarkenColor((u8 *)&work->color, 8);
             }
             if (work->config->draw_rings != 0) {
                 color_copy = work->color;
@@ -119,7 +120,7 @@ void func_80147B18(void *buffer, s32 phase)
         }
         work->frame += frame_step;
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }
