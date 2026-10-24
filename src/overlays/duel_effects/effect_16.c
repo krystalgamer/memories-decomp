@@ -9,8 +9,9 @@
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "row_strike_semantic_views.h"
 
-void func_80151558(void *buffer, s32 phase)
+void DuelEffect_RunRowStrike(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;
@@ -29,7 +30,7 @@ void func_80151558(void *buffer, s32 phase)
 
     memset(&translation, 0, sizeof(translation));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_80146198;
+    scale = gDuelEffect_RowStrikeInitialScale;
     packet = &polygon;
     work = buffer;
     if (phase >= 0) {
@@ -37,7 +38,7 @@ void func_80151558(void *buffer, s32 phase)
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015AEF4;
+            work->config = &gDuelEffect_RowStrikeConfig;
             for (i = 0; i < 5; i++) {
                 for (k = 0; k < 5; k++) {
                     for (l = 0; l < 4; l++) {

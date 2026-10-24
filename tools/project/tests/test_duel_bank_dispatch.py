@@ -30,6 +30,8 @@ class DuelBankDispatchTests(unittest.TestCase):
             inventory = {row["name"]: row for row in csv.DictReader(handle)}
         named_callees = {
             "DuelEffect_RunStatPenalty": ("func_801503F8", 0x801503F8, 0xA08),
+            "DuelEffect_RunCardBreakup": ("func_80146760", 0x80146760, 0x13B8),
+            "DuelEffect_RunRowStrike": ("func_80151558", 0x80151558, 0xAF0),
             "DuelEffect_RunLifePointRecovery": ("func_80157E10", 0x80157E10, 0x9C8),
             "DuelEffect_RunInvertedLifePointRecovery": ("func_801593A8", 0x801593A8, 0x704),
             "DuelEffect_RunDirectDamage": ("func_80154B30", 0x80154B30, 0xBC4),

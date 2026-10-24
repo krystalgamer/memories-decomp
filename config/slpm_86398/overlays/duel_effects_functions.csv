@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x801542B0,0x508,func_80146258,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x801547B8,0x13B8,func_80146760,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x801547B8,0x13B8,DuelEffect_RunCardBreakup,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80155B70,0x690,func_80147B18,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80156200,0x9FC,DuelEffect_RunGuardianStarBonus,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80156BFC,0x13EC,DuelEffect_RunBoardDestruction,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -44,7 +44,7 @@ address,size,name,status,module,notes
 0x8015F488,0xC8,DuelEffect_SetTransformMatrix,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015F550,0x3C,DuelEffect_SetScaledLocalScreenMatrix,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015F58C,0x60,DuelEffect_CopyMatrixComponents,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8015F5EC,0xAF0,func_80151558,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8015F5EC,0xAF0,DuelEffect_RunRowStrike,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801600DC,0xE7C,func_80152048,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80160F58,0xD8,DuelEffect_SubmitOffsetQuad,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80161030,0x114,DuelEffect_SubmitOffsetFt4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

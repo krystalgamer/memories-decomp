@@ -253,7 +253,6 @@ segments:
       - [0x20120, c, game/japanese/campaign_load_scene_package_stage]
       - [0x202b8, c, game/japanese/campaign_load_scene_package]
       - [0x20478, c, game/scene_script_slots]
-      - [0x2057c, c, game/japanese/scene_script_update_slots]
       - [0x205f8, c, game/japanese/script_readers]
       - [0x20638, c, game/display_object_brightness]
       - [0x20670, c, game/japanese/debug_menu_update_cursor_layout]
