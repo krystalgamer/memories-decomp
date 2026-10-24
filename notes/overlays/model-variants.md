@@ -12,14 +12,15 @@ French header-88 C and GCC 2.8.1. See the
 loader and callee evidence, and preserved unclassified suffixes.
 
 USA images under headers 111/241, 118/248, 119/249, 176/306, 627/694,
-647/714, 756/853 and 766/863 build from North American C; see [USA MODEL headers 111 and 241](usa-model-variant111.md),
+647/714, 756/853, 766/863 and 779/876 build from North American C; see [USA MODEL headers 111 and 241](usa-model-variant111.md),
 [USA MODEL headers 118 and 248](usa-model-variant118.md),
 [USA MODEL headers 119 and 249](usa-model-variant119.md),
 [USA MODEL headers 176 and 306](usa-model-variant176.md),
 [USA MODEL headers 627 and 694](usa-model-variant627.md),
 [USA MODEL headers 647 and 714](usa-model-variant647.md),
-[USA MODEL headers 756 and 853](usa-model-variant756.md) and
-[USA MODEL headers 766 and 863](usa-model-variant766.md).
+[USA MODEL headers 756 and 853](usa-model-variant756.md),
+[USA MODEL headers 766 and 863](usa-model-variant766.md) and
+[USA MODEL headers 779 and 876](usa-model-variant779.md).
 
 ## Compiler
 
