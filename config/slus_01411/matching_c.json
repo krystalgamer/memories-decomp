@@ -1256,9 +1256,9 @@
     },
     {
       "address": "0x80025EE0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/duel_swords_effect.c"
+      "source": "src/game/duel_field_effects.c"
     },
     {
       "address": "0x80025F3C",
@@ -1328,9 +1328,9 @@
     },
     {
       "address": "0x80027060",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xCC",
-      "source": "src/game/duel_select_trap_play.c"
+      "source": "src/game/duel_field_effects.c"
     },
     {
       "address": "0x8002712C",
