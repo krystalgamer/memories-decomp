@@ -142,3 +142,52 @@ unchanged: **59/85 bank C functions / 15,360 bytes**, **26 assembly
 boundaries**, and **183 configured C instances / 71,212 bytes**. Existing
 regional implementations and profiles are unchanged. Boot, other dynamic
 loads and remaining bank assembly still prevent a French completion claim.
+
+## North American human route evidence (#418)
+
+The human traces accepted in #7865 (`dcd8ee6743`) correlate numbered
+dispatcher episodes with visible actions. These are three separate routes,
+not three recordings of the same duel. The IDs run captured 21 episodes /
+1,163 dispatch calls; the texture run captured 18 episodes / 1,087 calls;
+the atlas run captured three episodes / 152 calls. All three observed
+execution breakpoints, live resident-update controls and the guarded NA
+dispatcher, with no foreign-module hits. The configured interpreter setting
+was reported, not an independent query of the active CPU engine.
+
+| Decimal effect ID | Actual NA handler | Native source symbol | Human observation | Observed initial phases |
+|---|---|---|---|---|
+| 0 | `0x80155104` | `func_80154688` | Equip animation: Beast Fangs on several monsters, and Mystical Moon on The Wicked Worm Beast; card movement/spin, brief light and stat increase. | `0` |
+| 1 | `0x80156438` | `func_80157794` | Successful two-card fusion, for either player: cards converge/spin, bright light, then the resulting monster. | `0` |
+| 2 | `0x80153DD8` | `func_80153200` | Slash/impact during monster attacks and direct attacks. A slash does not imply a destroyed card: the stronger monster in IDs episode 15 did not shake. | `0,1,4,5` |
+| 3 | `0x8014AA68` | `func_80149F90` | Defeated monsters go up in flames, in separate episodes following their slash/impact. | `0` |
+| 10 | `0x8014D5D4` | `func_8014C8FC` | Playing Mountain: the field glows white, particles rise, then the Mountain field appears. | `2` |
+| 14 | `0x8014A06C` | `func_801481A8` | Guardian-star advantage: bright light, guardian symbols moving inward and a stat increase, on either player's monster. | `1,3,5` |
+| 17 | `0x80158E84` | `func_80148BA4` | Playing Dark Hole in texture episode 11; this selects the statically recovered field-card vortex lifecycle. | `0` |
+
+Native suffixes in this table are not NA execution addresses. Initial phases
+are distinguished from negative continuation/termination values. These
+observations identify the sampled gameplay routes, not every phase or every
+card that can select a handler. In particular, Mountain does not identify
+the other terrain configurations, and Dark Hole does not identify effect
+17's phase-one configuration. No broader lifecycle or request-field rename
+is implied.
+
+The attack handler's signed request variant was observed as zero, positive
+and negative, including `1200`, `200` and `-700` in monster attacks.
+Direct-attack episodes used phases four or five and positive variants
+`1150`, `1600`, `2500` and `3300`. These are bounded observations of the
+existing `field_12` argument, not a meaning assigned to every request's
+variant field.
+
+The texture run's final Beast Fangs episode was still running when its
+three-minute window expired: only six dispatch calls were captured. Its
+partial slot usage must not be treated as a different complete equip
+animation. The atlas run ended as the human started a 3-D battle. That is
+consistent with its intended finish condition: after seeing duel mode, the
+script prints its document when the main mode leaves the duel. It did not
+report a script error.
+
+The completed scripts, results and their script-specific replay tests were
+removed after extracting this evidence. The raw observations remain in
+#7865's history; the durable texture associations and the atlas limitation
+are recorded in [the texture note](duel-effect-textured-quads.md#human-texture-observations-418).
