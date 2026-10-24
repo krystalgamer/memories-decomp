@@ -26,7 +26,7 @@ from build_baseline import (
     tool,
 )
 from overlay_sources import OverlaySourceError, c_segments
-from overlay_extract import OVERLAY_MANIFESTS
+from overlay_extract import OVERLAY_MANIFESTS, OverlayError, select_modules
 from workspace import (
     WorkspaceError,
     local_environment,
@@ -432,6 +432,9 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("command", choices=("build", "verify"))
     parser.add_argument("--region", choices=tuple(OVERLAY_MANIFESTS), default="usa")
+    parser.add_argument(
+        "--module", help="build or verify only this exact build-ready module name"
+    )
     return parser.parse_args()
 
 
@@ -440,6 +443,7 @@ def main() -> int:
     try:
         root = require_workspace_root()
         modules = load_modules(root, args.region)
+        modules = select_modules(modules, args.module)
         if args.command == "build":
             build_modules(root, modules, job_count())
         else:
@@ -447,6 +451,7 @@ def main() -> int:
                 verify_module(root, module)
     except (
         OverlayBuildError,
+        OverlayError,
         OverlaySourceError,
         BuildError,
         WorkspaceError,

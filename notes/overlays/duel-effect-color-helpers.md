@@ -52,14 +52,24 @@ two bottom vertices use the input colour. The other flat draw leaves
 the input colour alone.
 
 All actual bank callers use the same canonical C views without changing
-arguments, casts, branches or sequencing. Tests, fixtures, source
-selectors and negative controls remain byte-for-byte unchanged; no new
-C/source-string/native harness is added. Complete compiler/profile/CPP,
+arguments, casts, branches or sequencing. Pre-existing tests, fixtures,
+source selectors and negative controls remain byte-for-byte unchanged;
+no new C/source-string/native harness is added. Complete compiler/profile/CPP,
 native-symbol and compiler/MASPSX comparisons account only for the eight
 new declarations, explicit legacy `extern` spellings and eight function
 identifiers. NA executable/whole-ELF identity remains mandatory. Regional
 bank and archive-copy acceptance stays on pull request validation, not a
 local cloud-test run.
+
+The Japanese and UK reusable jobs also run exact matching for their selected
+duel-effect banks, not just the resident images. The existing extraction and
+build tools accept optional `--module NAME` selection alongside `--region`;
+omitting it preserves the complete regional operation. Selection is exact,
+retains the original module record and duplicate-copy checks, and rejects
+missing or duplicate names before any extraction/build. Metadata-only tests
+cover the selector and command dispatch; they add no C/native fixture.
+The CI steps select just these two banks rather than building more than
+3,500 unrelated configured modules in each region.
 
 ## Original matching groups
 

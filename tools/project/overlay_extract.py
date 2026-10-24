@@ -43,6 +43,19 @@ OVERLAY_MANIFESTS = {
 }
 
 
+def select_modules(
+    modules: list[dict[str, Any]], name: str | None
+) -> list[dict[str, Any]]:
+    if name is None:
+        return modules
+    selected = [module for module in modules if module.get("name") == name]
+    if not selected:
+        raise OverlayError(f"unknown overlay module: {name}")
+    if len(selected) != 1:
+        raise OverlayError(f"duplicate overlay module: {name}")
+    return selected
+
+
 def require_string(module: dict[str, Any], field: str) -> str:
     value = module[field]
     if not isinstance(value, str) or not value:
@@ -409,6 +422,9 @@ def parse_args() -> argparse.Namespace:
         "command", choices=("extract", "verify", "verify-metadata")
     )
     parser.add_argument("--region", choices=tuple(OVERLAY_MANIFESTS), default="usa")
+    parser.add_argument(
+        "--module", help="extract or verify only this exact regional module name"
+    )
     return parser.parse_args()
 
 
@@ -416,10 +432,13 @@ def main() -> int:
     args = parse_args()
     try:
         if args.command == "verify-metadata":
+            if args.module is not None:
+                raise OverlayError("--module cannot be used with verify-metadata")
             verify_metadata(require_metadata_root())
             return 0
         root = require_workspace_root()
         sector_size, modules = load_manifest(root, args.region)
+        modules = select_modules(modules, args.module)
         if args.command == "extract":
             extract(root, sector_size, modules)
         else:

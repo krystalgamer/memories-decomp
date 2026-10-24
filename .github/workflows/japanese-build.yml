@@ -87,3 +87,9 @@ jobs:
           sha256sum --check --strict <<'EOF'
           ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa89585  tmp/project-build/SLPM_863.98
           EOF
+
+      - name: Verify the configured Japanese duel-effect bank
+        run: |
+          tools/environments/python/bin/python tools/project/overlay_extract.py extract --region japan --module japanese_duel_effects
+          tools/environments/python/bin/python tools/project/overlay_build.py build --region japan --module japanese_duel_effects
+          tools/environments/python/bin/python tools/project/overlay_build.py verify --region japan --module japanese_duel_effects
