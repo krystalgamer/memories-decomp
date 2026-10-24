@@ -13,8 +13,9 @@
 --      DuelEffect_DrawLayeredTileQuad (NA 0x80147E08) at effect_17.c:232
 --      (burst, every phase) and :259 (paths, phase 1 only). addVector still
 --      reads the offset, so the quads are moved by whatever sits at RAM
---      0..5. Which calls pass NULL, which XYZ do they read, and what is
---      drawn?
+--      0..5. Dark Hole (phase 0) is covered by duel_effect_null_offset.lua
+--      (#7872), so this part reports only phase 1 (Dragon Capture Jar):
+--      which calls pass NULL, which XYZ do they read, and what is drawn?
 --   C. Effect 21 (Swords of Revealing Light, func_8014E3EC, NA 0x8014EFC4)
 --      initializes only tiles[8] of the ten its draw loop consumes. What
 --      do tiles[0..9] hold before init and at the first draw, and does
@@ -29,7 +30,7 @@
 --   2. Debug -> Lua editor, paste this file, and start a Free Duel with a
 --      deck holding as many of these as you can:
 --        - Sparks, Hinotama, Final Flame, Ookazi or Tremendous Fire
---        - Dark Hole and Dragon Capture Jar (with a dragon on the field)
+--        - Dragon Capture Jar (with a dragon on the field)
 --        - Swords of Revealing Light (best played after a few other effects)
 --   3. Play them in any order; 3D battles and leaving the duel do not stop
 --      the trace. It prints its document once all three parts are covered,
@@ -38,8 +39,8 @@
 --      tools/trace/result/duel_effect_followups.txt and fill in the context.
 --
 -- WHAT TO WRITE IN THE CONTEXT
---   One line per #NN: which card it was and what you saw. For Dark Hole and
---   Dragon Capture Jar, say whether a glowing square appeared somewhere odd
+--   One line per #NN: which card it was and what you saw. For Dragon
+--   Capture Jar, say whether a glowing square appeared somewhere odd
 --   (for example stuck at the centre or a corner). For the swords, say
 --   whether every sword looked right on its first frame.
 
@@ -197,6 +198,7 @@ local nullOrder = {}
 local nullRows = 0
 local nullCalls = 0
 local offsetCalls = 0
+local deferredNullCalls = 0
 local seenPhase17 = {}
 local swordsBefore = 0
 local swordsFirstDraw = 0
@@ -290,7 +292,7 @@ local function swordsRow(ep, what, index)
 end
 
 local function partsCovered()
-    return (helperCalls.sibling or 0) > 0 and seenPhase17[0] and seenPhase17[1]
+    return (helperCalls.sibling or 0) > 0 and seenPhase17[1]
         and swordsFirstDraw > 0
 end
 
@@ -326,7 +328,7 @@ local function finish(reason)
     print('==== USER CONTEXT ====')
     print('')
     print('<one line per #NN: the card you played and what you saw. For')
-    print(' Dark Hole and Dragon Capture Jar: any glowing square in an odd')
+    print(' Dragon Capture Jar: any glowing square in an odd')
     print(' place? For the swords: did every sword look right at once?>')
     print('')
     print('==== TRACE RESULT =====')
@@ -365,9 +367,10 @@ local function finish(reason)
         phases[#phases + 1] = tostring(p)
     end
     print(string.format('B: effect17_phases=%s null_offset_calls=%d '
-                        .. 'non_null_calls=%d',
+                        .. 'non_null_calls=%d phase0_null_calls_left_to_'
+                        .. 'duel_effect_null_offset=%d',
                         #phases > 0 and table.concat(phases, ',') or 'none',
-                        nullCalls, offsetCalls))
+                        nullCalls, offsetCalls, deferredNullCalls))
     -- Part C.
     print(string.format('C: before_init_rows=%d first_draw_rows=%d '
                         .. 'handler_tile_writes=%d other_tile_writers=%d',
@@ -463,6 +466,10 @@ local function onLayered()
     if tonumber(n.a3) ~= 0 then
         offsetCalls = offsetCalls + 1
         bump(ep, 'layered')
+        return
+    end
+    if ep ~= nil and ep.id == 17 and ep.phase == 0 then
+        deferredNullCalls = deferredNullCalls + 1
         return
     end
     bump(ep, 'layered_null')

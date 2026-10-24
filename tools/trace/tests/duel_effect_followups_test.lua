@@ -107,7 +107,7 @@ local function capture(options)
     return r
 end
 
--- The full route: a damage spell, Dark Hole, Dragon Capture Jar and the
+-- The full route: a damage spell, Dark Hole (left to #7872), the jar and the
 -- swords, ending once all three parts are covered.
 local duel = capture()
 assert(duel:count() == 9, 'nine breakpoints')
@@ -142,24 +142,25 @@ duel:frames(1)
 assert(duel:has('#01 t=   0.0s END   effect=6 frames=1 calls=1 '
                 .. 'helpers=siblingx2 reason=finished'))
 
--- Part B: Dark Hole (phase 0) and the jar (phase 1) pass NULL offsets.
+-- Part B: Dark Hole (phase 0) null calls are left to
+-- duel_effect_null_offset.lua; only the jar (phase 1) is reported.
 duel:u16(RAM_BASE, 3)
 duel:u16(RAM_BASE + 2, 0xfffe)
 duel:call(DISPATCH, { a0 = 17, a1 = 0, a3 = duel:request(1, 17) })
 duel:call(LAYERED, { a1 = 0x40, a2 = 5, a3 = 0, ra = 0x80158f00 })
-assert(duel:has('#02 t=   0.0s B null offset ra=0x80158F00 phase=0 size=64 '
-                .. 'depth=5 reads ram0=(3,-2,0)'))
 duel:call(LAYERED, { a1 = 0x40, a2 = 5, a3 = 0, ra = 0x80158f00 })
-assert(duel:countOf('B null offset') == 1, 'same RAM, same effect: no row')
+assert(duel:countOf('B null offset') == 0, 'phase 0 belongs to #7872')
 duel:call(LAYERED, { a1 = 0x40, a3 = 0x80100100, ra = 0x80158f80 })
 duel:release(1)
 duel:frames(1)
-assert(duel:has('helpers=layeredx1,layered_nullx2 reason=finished'))
+assert(duel:has('helpers=layeredx1 reason=finished'))
 duel:call(DISPATCH, { a0 = 17, a1 = 1, a3 = duel:request(1, 17) })
 duel:u16(RAM_BASE + 4, 9)
 duel:call(LAYERED, { a1 = 0x20, a3 = 0, ra = 0x80158f00 })
 assert(duel:has('#03 t=   0.1s B null offset ra=0x80158F00 phase=1 size=32 '
                 .. 'depth=0 reads ram0=(3,-2,9)'))
+duel:call(LAYERED, { a1 = 0x20, a3 = 0, ra = 0x80158f00 })
+assert(duel:countOf('B null offset') == 1, 'same RAM, same effect: no row')
 duel:release(1)
 duel:frames(1)
 
@@ -198,12 +199,13 @@ assert(duel:has('status: all three parts covered'))
 assert(duel:has('effects_seen: 6,17,21'))
 assert(duel:has('A verdict: DuelEffect_DrawAtlasColumnQuad never executed '
                 .. 'while its sibling control ran 2 times'))
-assert(duel:has('B: effect17_phases=0,1 null_offset_calls=3 non_null_calls=1'))
+assert(duel:has('B: effect17_phases=0,1 null_offset_calls=2 non_null_calls=1 '
+                .. 'phase0_null_calls_left_to_duel_effect_null_offset=2'))
 assert(duel:has('C: before_init_rows=1 first_draw_rows=1 '
                 .. 'handler_tile_writes=1 other_tile_writers=1'))
 assert(duel:has('A caller sibling DuelEffect_DrawFixedTextureQuad '
                 .. 'ra=0x80155B90 calls=2 sizes=48 indices=n/a effects=#01/e6'))
-assert(duel:has('B null caller ra=0x80158F00 calls=3 effects=#02/e17,#03/e17 '
+assert(duel:has('B null caller ra=0x80158F00 calls=2 effects=#03/e17 '
                 .. 'ram0=(3,-2,9)'))
 assert(duel:has('C tile writer pc=0x80030000 writes=2 effects=outside'))
 assert(duel:allDisabled())
@@ -285,7 +287,7 @@ busy:load(true)
 busy:mode(3)
 busy:frames(1)
 for i = 1, 40 do
-    busy:call(DISPATCH, { a0 = 17, a3 = busy:request(i % 8, 17) })
+    busy:call(DISPATCH, { a0 = 17, a1 = 1, a3 = busy:request(i % 8, 17) })
     busy:u16(RAM_BASE, i)
     busy:call(LAYERED, { a3 = 0, ra = 0x80158f00 })
 end
