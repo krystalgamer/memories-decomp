@@ -2,8 +2,9 @@
 #include "drawing_tail.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "drawing_semantic_views.h"
 
-void func_80155F94(u8 *color)
+void DuelEffect_DrawFixedTileQuad(u8 *color)
 {
     POLY_FT4 polygon;
     POLY_FT4 *packet = &polygon;
@@ -18,7 +19,7 @@ void func_80155F94(u8 *color)
     DuelEffect_ProjectSubmitFt4(packet, vertices, 0, 1);
 }
 
-void func_80156064(u8 *color, SVECTOR *vertices, s16 depth)
+void DuelEffect_DrawRandomTileQuad(u8 *color, SVECTOR *vertices, s16 depth)
 {
     POLY_FT4 polygon;
     POLY_FT4 *packet = &polygon;
@@ -36,7 +37,7 @@ void func_80156064(u8 *color, SVECTOR *vertices, s16 depth)
     DuelEffect_ProjectSubmitFt4(packet, vertices, depth, 1);
 }
 
-void func_8015616C(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, s16 mode)
+void DuelEffect_DrawTexturedRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, s16 mode)
 {
     POLY_GT4 polygon;
     POLY_GT4 *packet = &polygon;

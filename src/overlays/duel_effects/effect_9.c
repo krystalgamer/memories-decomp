@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "drawing_semantic_views.h"
 
 void func_801593A8(void *buffer, s32 phase)
 {
@@ -113,7 +114,7 @@ void func_801593A8(void *buffer, s32 phase)
             if (work->stage >= 2) {
                 for (i = 0; i < 32; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    func_80156064((u8 *)&work->effects_color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad((u8 *)&work->effects_color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
             }
@@ -121,7 +122,7 @@ void func_801593A8(void *buffer, s32 phase)
             scale.vy = work->scale >> 3;
             scale.vz = 4096;
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-            func_80156448((u8 *)&work->effects_color, work->rings[0],
+            DuelEffect_DrawGradientRingStrip((u8 *)&work->effects_color, work->rings[0],
                          work->rings[1], work->rings[2], 0);
             scale.vx = work->scale;
             scale.vy = work->scale;

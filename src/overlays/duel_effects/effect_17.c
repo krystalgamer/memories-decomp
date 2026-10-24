@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "primitive_semantic_views.h"
+#include "drawing_semantic_views.h"
 
 void func_80148BA4(void *buffer, s32 phase)
 {
@@ -120,7 +121,7 @@ void func_80148BA4(void *buffer, s32 phase)
                 if (!(i & 3)) {
                     func_80155BC0((u8 *)&work->particle_colors[i], 8, 1, &work->particles[i]);
                 }
-                func_80156064((u8 *)&work->particle_colors[i], vertices, 1);
+                DuelEffect_DrawRandomTileQuad((u8 *)&work->particle_colors[i], vertices, 1);
                 if (__builtin_abs(work->particles[i].vx) > 32 ||
                     __builtin_abs(work->particles[i].vy) > 32 ||
                     __builtin_abs(work->particles[i].vz) > 32) {

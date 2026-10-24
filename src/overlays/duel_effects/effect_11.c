@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "texture_semantic_views.h"
 #include "primitive_semantic_views.h"
+#include "drawing_semantic_views.h"
 
 void func_80146760(void *buffer, s32 phase)
 {
@@ -113,7 +114,7 @@ void func_80146760(void *buffer, s32 phase)
                          work->config->ray_count, 64);
             for (i = 0; i < work->config->dust_count; i++) {
                 DuelEffect_InitOffsetQuadVertices(vertices, &work->dust[i]);
-                func_80156064((u8 *)&work->glow, vertices, 1);
+                DuelEffect_DrawRandomTileQuad((u8 *)&work->glow, vertices, 1);
                 addVector(&work->dust[i], &work->dust_velocities[i]);
                 work->dust_velocities[i].vy += 0;
             }
@@ -147,10 +148,10 @@ void func_80146760(void *buffer, s32 phase)
             color.b >>= 1;
             setVector(&scale, work->scale, 4096, work->scale);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &zero, &scale, 3);
-            func_8015616C((u8 *)&color, work->rings[0], work->rings[1], work->rings[2], 1);
+            DuelEffect_DrawTexturedRingStrip((u8 *)&color, work->rings[0], work->rings[1], work->rings[2], 1);
             setVector(&scale, work->scale >> 1, 6144, work->scale >> 1);
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-            func_8015616C((u8 *)&work->glow, work->rings[0], work->rings[1], work->rings[2], 1);
+            DuelEffect_DrawTexturedRingStrip((u8 *)&work->glow, work->rings[0], work->rings[1], work->rings[2], 1);
             if (work->scale < 16384) {
                 work->scale += 4096;
             }
