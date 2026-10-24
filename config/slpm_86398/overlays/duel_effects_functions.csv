@@ -9,7 +9,7 @@ address,size,name,status,module,notes
 0x8015A954,0xA7C,DuelEffect_RunTerrainChange,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015B3D0,0x34,DuelEffect_IsColorBlack,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015B404,0x3C,DuelEffect_HasNonzeroColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8015B440,0xF74,func_8014D3E8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8015B440,0xF74,DuelEffect_RunExodiaBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015C3B4,0xCC,func_8014E35C,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015C480,0x690,func_8014E3EC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015CB10,0xA0,DuelEffect_InitCircle32Vertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
