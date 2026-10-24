@@ -530,18 +530,30 @@ local function onAllocate()
     end
 end
 
+local function swordsField(index, offset)
+    local slot = swordsSlot(index)
+    if slot == nil then return nil end
+    return u16(slot + offset)
+end
+
+-- Phase >= 0 disables an enabled slot, otherwise initialises it. Phases
+-- 0/1 start count at 0, so a negative call only draws once count > 0.
 local function onSwords(ep, phase)
+    ep.swords = ep.swords or {}
     if phase >= 0 then
         local index = math.abs(phase) % 2
-        if not ep.inited then
-            ep.inited = true
+        local enabled = swordsField(index, ENABLED)
+        if enabled ~= nil and enabled ~= 0 then
+            swordsRow(ep, 'disable (slot was enabled)', index)
+        else
             swordsBefore = swordsBefore + 1
-            swordsRow(ep, 'before init', index)
+            swordsRow(ep, 'before init phase=' .. phase, index)
         end
     else
         local index = math.abs(phase + 1) % 2
-        if not ep.drawn then
-            ep.drawn = true
+        local count = swordsField(index, COUNT)
+        if count ~= nil and count > 0 and not ep.swords[index] then
+            ep.swords[index] = true
             swordsFirstDraw = swordsFirstDraw + 1
             swordsRow(ep, 'first draw', index)
         end
