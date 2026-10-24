@@ -208,6 +208,11 @@ def load_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
     for path in sorted(directory.glob("*_functions.csv")):
         name = path.name[: -len("_functions.csv")]
         functions = load_inventory(path)
+        for function in functions:
+            if function.module != f"overlay/{name}":
+                raise ProgressError(
+                    f"{name}: unexpected function module {function.module}"
+                )
         matching = [
             function for function in functions if function.status == "matching_c"
         ]

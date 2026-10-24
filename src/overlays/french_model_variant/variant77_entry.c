@@ -1,5 +1,7 @@
 #include "../../types.h"
 #include "variant77_entry.h"
+#include "../../game/screen_projection.h"
+#include "../../psyq/libhmd.h"
 
 #define CLAMP(value, lower, upper) \
     ((value) < (lower) ? (lower) : ((value) > (upper) ? (upper) : (value)))

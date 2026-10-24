@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant101_entry.h"
+#include "../../game/screen_projection.h"
 
 const VECTOR D_8013BAE4 = {4096, 4096, 4096, 0};
 
