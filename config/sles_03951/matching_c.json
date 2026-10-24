@@ -3512,9 +3512,9 @@
     },
     {
       "address": "0x8003DC04",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x1DC",
-      "source": "src/game/spanish/func_8003DA40.c"
+      "source": "src/game/spanish/dialog_transition.c"
     },
     {
       "address": "0x8003DDE0",
@@ -5648,9 +5648,9 @@
     },
     {
       "address": "0x8005B9D0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x100",
-      "source": "src/game/model_queue_tint_request_for_parts.c"
+      "source": "src/game/model_queue_tint_request.c"
     },
     {
       "address": "0x8005BAD0",
@@ -5678,15 +5678,15 @@
     },
     {
       "address": "0x8005BEE0",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/model_get_slot_readiness.c"
+      "source": "src/game/model_state_getters.c"
     },
     {
       "address": "0x8005BF24",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
-      "source": "src/game/model_get_frame_step.c"
+      "source": "src/game/model_state_getters.c"
     },
     {
       "address": "0x8005BF44",

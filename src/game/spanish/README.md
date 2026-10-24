@@ -52,7 +52,7 @@ overrides and were formerly built through separate European wrappers:
 |---|---|---:|---:|---:|
 | `duel_effect_create_channel.c` | `0x8003D638` | 1 | 172 | 0 |
 | `dialog_transition.c` | `0x8003D6E4` | 3 | 1,312 | 0 |
-| `func_8003DA40.c` | `0x8003DC04` | 1 | 476 | 0 |
+| `func_8003DA40.c` (now part of `dialog_transition.c`) | `0x8003DC04` | 1 | 476 | 0 |
 | `mem_card_dialog.c` | `0x8003DDE0` | 22 | 9,140 | 368 |
 | Total | | 27 | 11,100 | 368 |
 
