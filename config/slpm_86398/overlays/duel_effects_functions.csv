@@ -80,7 +80,7 @@ address,size,name,status,module,notes
 0x80165524,0x138,DuelEffect_DrawTranslatedTileRect,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8016565C,0x1C8,DuelEffect_DrawGradientConnectionBands,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80165824,0x67C,DuelEffect_RunFusion,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80165EA0,0x9C8,func_80157E10,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80165EA0,0x9C8,DuelEffect_RunLifePointRecovery,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80166868,0xBCC,DuelEffect_RunReflectedDirectDamage,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80167434,0x704,func_801593A8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80167434,0x704,DuelEffect_RunInvertedLifePointRecovery,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80167B38,0x738,func_80159AAC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

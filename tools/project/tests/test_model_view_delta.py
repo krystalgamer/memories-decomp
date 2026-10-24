@@ -19,7 +19,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/model_update_background_scroll.c"
+SOURCE = REPOSITORY / "src/game/model_background.c"
 SEMANTIC_YAW_MISMATCH = 20
 EXPECTED_CASES = 1 + 4 * 4 * 65536 + 65535 + 16 * 16 * 3 * 7 + 24 * 24 * 9 * 3
 START = """
@@ -275,22 +275,26 @@ class ModelViewDeltaTests(unittest.TestCase):
             prefix="model-view-delta-", dir=REPOSITORY / "tmp"
         ) as temporary:
             directory = Path(temporary)
-            source = SOURCE
+            # The unit also holds the background renderer, whose callees the
+            # witness does not provide; compile the unit without it.
+            text = SOURCE.read_text()
+            start = text.index("void Model_DrawBackground(void)")
+            end = text.index("\n}\n", start) + 3
+            text = text[:start] + text[end:]
             if mutation:
-                text = SOURCE.read_text()
                 predicate = "__builtin_abs(dy) >= 0x801"
                 self.assertEqual(text.count(predicate), 1)
                 text = text.replace(predicate, "__builtin_abs(dy) >= 0x800")
-                text = re.sub(
-                    r'^#include "([^"]+)"',
-                    lambda match: '#include "'
-                    + str((SOURCE.parent / match[1]).resolve())
-                    + '"',
-                    text,
-                    flags=re.MULTILINE,
-                )
-                source = directory / "wrong-yaw-boundary.c"
-                source.write_text(text)
+            text = re.sub(
+                r'^#include "([^"]+)"',
+                lambda match: '#include "'
+                + str((SOURCE.parent / match[1]).resolve())
+                + '"',
+                text,
+                flags=re.MULTILINE,
+            )
+            source = directory / ("wrong-yaw-boundary.c" if mutation else "scroll.c")
+            source.write_text(text)
             witness = directory / "witness.c"
             witness.write_text(WITNESS)
             startup = directory / "start.S"
