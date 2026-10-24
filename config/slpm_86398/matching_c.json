@@ -1691,7 +1691,7 @@
       "address": "0x8002DA18",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x140",
-      "source": "src/game/japanese/main_run_two_player_duel_setup.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002CC44",
@@ -1779,9 +1779,9 @@
     },
     {
       "address": "0x8002D7FC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x21C",
-      "source": "src/game/japanese/main_run_credits.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002DB58",
