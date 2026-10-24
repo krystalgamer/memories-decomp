@@ -31,6 +31,8 @@ class DuelBankDispatchTests(unittest.TestCase):
         named_callees = {
             "DuelEffect_RunCardBreakup": ("func_80146760", 0x80146760, 0x13B8),
             "DuelEffect_RunRowStrike": ("func_80151558", 0x80151558, 0xAF0),
+            "DuelEffect_RunDirectDamage": ("func_80154B30", 0x80154B30, 0xBC4),
+            "DuelEffect_RunReflectedDirectDamage": ("func_801587D8", 0x801587D8, 0xBD0),
             "DuelEffect_PackTexturePageClut": ("func_8014F564", 0x8014F564, 0x6C),
             "DuelEffect_RunContourBurst": ("func_80154688", 0x80154688, 0x4A8),
             "DuelEffect_RunParticleContourBurst": ("func_80154084", 0x80154084, 0x604),

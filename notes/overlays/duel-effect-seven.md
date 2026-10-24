@@ -12,6 +12,34 @@ the 63 accepted C entries plus this candidate reproduced all 90,112 bytes:
 Production extraction/build verification covers all seven configured French
 images and all seven terrain copies of the bank.
 
+## Static reflection role and semantic bindings
+
+The resident `DuelEffect_ApplyDirectDamage` creates effect 7 after presenting
+the selected Goblin Fan trap (card 687). Its local index is recalculated
+from the original direct-damage card on each invocation, so this request
+uses configuration 0..4, not effect 6's initial trap-detected configuration
+5. The same resident path applies the damage to the active side; the
+unreflected path targets the opposite side. The five configured negative
+numbers match the five direct-damage magnitudes.
+
+The complete lifecycle is named `DuelEffect_RunReflectedDirectDamage`.
+`gDuelEffect_ReflectedDirectDamageConfigs[5]` and
+`gDuelEffect_ReflectedDirectDamageInitialScale` name the existing 150-byte
+table and 16-byte SDK vector copy. The shared extern-only
+[`damage_semantic_views.h`](../../src/overlays/duel_effects/damage_semantic_views.h)
+reuses the original private types and binds these names to native
+`func_801587D8`, `D_8015B5B8` and `D_80146228`. Actual NA addresses are
+`0x8015747C`, `0x8015B624` and `0x80146270`; the function is 3,020 bytes
+there, versus 3,024 in PAL. JP addresses are `0x80166868`, `0x80169644`
+and `0x80154280`.
+
+This role follows the resident caller and complete update body, not a
+runtime capture or an artwork identification. Preserve the distinct
+number gravity/bounces/fade, matrix copy and scaling order, all five
+configurations, regional constants, original native declarations, SDK
+layouts, generated owners and higher-phase cross fallback. The original
+effect-6/effect-7 sources remain separate complete translation units.
+
 ## Layout and behavior
 
 The target-compiled configuration has size 30; its five records occupy the

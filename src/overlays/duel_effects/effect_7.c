@@ -7,6 +7,7 @@
 #include "texture_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "damage_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_7_TRAIL_SPREAD 13
@@ -16,7 +17,7 @@
 #define EFFECT_7_TARGET_HEIGHT 98
 #endif
 
-void func_801587D8(void *buffer, s32 phase)
+void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX matrix;
@@ -34,14 +35,14 @@ void func_801587D8(void *buffer, s32 phase)
 
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_80146228;
+    scale = gDuelEffect_ReflectedDirectDamageInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 5) {
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015B5B8[phase];
+            work->config = &gDuelEffect_ReflectedDirectDamageConfigs[phase];
             for (i = 0; i < 16; i++) {
                 x = (rand() - rand()) % 4096;
                 y = (rand() - rand()) % 4096;
