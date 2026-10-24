@@ -10,6 +10,7 @@
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
 #include "ritual_semantic_views.h"
+#include "exodia_semantic_views.h"
 
 void DuelEffect_RunRitual(void *buffer, s32 phase)
 {
@@ -75,21 +76,21 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
         if (work->cross_frame == 1) {
             return;
         }
-        Duel_CheckRitual((DuelRitualResult *)D_8015B7A0, phase);
+        Duel_CheckRitual((DuelRitualResult *)gDuelEffect_CardObjectScratchWords, phase);
         setVector(&work->positions[0], 70, -48,
-                  (s16)((DisplayObject *)D_8015B7A0[0])->field_34.h.field_34 >= 0 ? 190 : -190);
+                  (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[0])->field_34.h.field_34 >= 0 ? 190 : -190);
         setVector(&work->positions[1], -70, -48,
-                  (s16)((DisplayObject *)D_8015B7A0[0])->field_34.h.field_34 >= 0 ? 190 : -190);
+                  (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[0])->field_34.h.field_34 >= 0 ? 190 : -190);
         work->texture_frames[0] = rand() % 4;
         work->texture_frames[1] = rand() % 4;
         for (i = 0; i < 3; i++) {
             setVector(&work->card_velocities[i],
-                      -(s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 / 32,
-                      (-96 - (s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_32) / 32,
-                      -(s16)((DisplayObject *)D_8015B7A0[i])->field_34.h.field_34 / 32);
+                      -(s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 / 32,
+                      (-96 - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32) / 32,
+                      -(s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 / 32);
             setVector(&work->card_rotations[i], 2,
-                      -((DisplayObject *)D_8015B7A0[i])->field_20.b.field_21 / 32,
-                      -((DisplayObject *)D_8015B7A0[i])->field_20.b.field_22 / 32);
+                      -((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_21 / 32,
+                      -((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_22 / 32);
             work->card_states[i] = 0;
         }
         for (i = 0; i < 2; i++) {
@@ -226,11 +227,11 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
         if (work->flame_color.r == 128 && work->flame_color.g == 128 && work->flame_color.b == 128 &&
             work->stage == 0) {
             for (i = 0; i < work->active_cards; i++) {
-                if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_32 <= -96) {
+                if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32 <= -96) {
                     if (work->card_states[i] == 0) {
-                        ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 = 0;
-                        *(s16 *)&((DisplayObject *)D_8015B7A0[i])->field_30.h.field_32 = -96;
-                        ((DisplayObject *)D_8015B7A0[i])->field_34.h.field_34 = 0;
+                        ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 = 0;
+                        *(s16 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32 = -96;
+                        ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 = 0;
                         work->card_states[i] = 1;
                         work->active_cards++;
                         if (work->active_cards > 3) {
@@ -238,19 +239,19 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                         }
                     }
                 } else {
-                    ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 += work->card_velocities[i].vx;
-                    ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_32 += work->card_velocities[i].vy;
-                    ((DisplayObject *)D_8015B7A0[i])->field_34.h.field_34 += work->card_velocities[i].vz;
-                    ((DisplayObject *)D_8015B7A0[i])->field_20.b.field_20 += work->card_rotations[i].vx;
-                    ((DisplayObject *)D_8015B7A0[i])->field_20.b.field_21 += work->card_rotations[i].vy;
-                    ((DisplayObject *)D_8015B7A0[i])->field_20.b.field_22 += work->card_rotations[i].vz;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 += work->card_velocities[i].vx;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32 += work->card_velocities[i].vy;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 += work->card_velocities[i].vz;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_20 += work->card_rotations[i].vx;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_21 += work->card_rotations[i].vy;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_22 += work->card_rotations[i].vz;
                 }
             }
             if (work->card_states[2] == 1) {
                 for (i = 0; i < 3; i++) {
-                    ((DisplayObject *)D_8015B7A0[i])->field_44.h.field_44 = 0;
-                    ((DisplayObject *)D_8015B7A0[i])->field_44.h.field_46 = 0;
-                    ((DisplayObject *)D_8015B7A0[i])->flags &= ~0x40;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.h.field_44 = 0;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.h.field_46 = 0;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->flags &= ~0x40;
                     work->stage = 1;
                 }
             }
