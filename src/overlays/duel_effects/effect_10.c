@@ -31,7 +31,7 @@ void func_8014C8FC(void *buffer, s32 phase)
             work->cross_frame = 0;
             work->config = &D_8015AB14[phase];
             for (i = 0; i < 2; i++) {
-                func_8014EC8C(175, 194, 16, (u16)(i * 8), work->rings[i], 4);
+                DuelEffect_InitHalfStepXZRingVertices(175, 194, 16, (u16)(i * 8), work->rings[i], 4);
             }
             func_8014F3E8(work->plane, 175, 16, 194);
             DuelEffect_InitRandomVectorsXYZ(work->particles, 175, 16, 194, 64);
@@ -125,7 +125,7 @@ void func_8014C8FC(void *buffer, s32 phase)
                         } else {
                             setRGB0(packet, 192 / (j + 1), 192 / (j + 1), 192 / (j + 1));
                         }
-                        func_8014F490(quad, (s16)(12 - j), (s16)(24 - j));
+                        DuelEffect_InitRectVertices(quad, (s16)(12 - j), (s16)(24 - j));
                         for (k = 0; k < 4; k++) {
                             addVector(&quad[k], &work->columns[i]);
                             quad[k].vy += (j + 1) * 10;

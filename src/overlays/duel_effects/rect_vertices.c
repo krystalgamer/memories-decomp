@@ -1,7 +1,8 @@
 #include "../../types.h"
 #include "utility_helpers.h"
+#include "geometry_semantic_views.h"
 
-void func_8014F490(SVECTOR *vertices, s32 width, s16 height)
+void DuelEffect_InitRectVertices(SVECTOR *vertices, s32 width, s16 height)
 {
     s32 i;
     s32 horizontal = width;

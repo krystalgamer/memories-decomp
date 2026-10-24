@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "display_quads.h"
+#include "geometry_semantic_views.h"
 
 void func_801573A8(u8 *color, u16 size, s16 depth)
 {
@@ -13,7 +14,7 @@ void func_801573A8(u8 *color, u16 size, s16 depth)
     setUV4(&packet->polygon, 128, 128, 191, 128, 128, 191, 191, 191);
     setRGB0(&packet->polygon, color[0], color[1], color[2]);
     for (i = 0; i < 4; i++) {
-        func_8014FE00(packet->vertices, size, i);
+        DuelEffect_InitQuadrantQuadVertices(packet->vertices, size, i);
         func_80151218(&packet->polygon, packet->vertices, depth, 1);
     }
 }

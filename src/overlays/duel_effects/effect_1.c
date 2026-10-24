@@ -27,7 +27,7 @@ void func_80157794(void *buffer, s32 phase)
             work->cross_frame = 0;
             work->config = &D_8015B420[phase];
             Model_SetFrameStepOverride(1);
-            func_8014EF2C(12, work->rotations);
+            DuelEffect_InitRandomVectorsUnscaled(12, work->rotations);
             func_8014F030(work->config->particle_speed, work->positions,
                          work->velocities, 64);
             func_8014F010((u8 *)&work->base_color, 1);

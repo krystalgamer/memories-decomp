@@ -34,7 +34,7 @@ void func_8014E3EC(void *buffer, s32 phase)
             for (i = 0; i < 8; i++) {
                 a = rand() % 10;
                 b = rand() % 10;
-                func_8014FED4(&slots[__builtin_abs(phase) % 2]->positions[a],
+                DuelEffect_SwapVectorRecords(&slots[__builtin_abs(phase) % 2]->positions[a],
                              &slots[__builtin_abs(phase) % 2]->positions[b]);
             }
             func_8014F010((u8 *)&slots[__builtin_abs(phase) % 2]->color, 128);

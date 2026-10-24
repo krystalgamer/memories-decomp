@@ -31,7 +31,7 @@ void func_80147B18(void *buffer, s32 phase)
             work->height = work->config->initial_height;
             copyVector(&work->origin, &D_8015B7F8);
             for (i = 0; i < 3; i++) {
-                func_8014EE0C(work->config->radii[i], work->config->radii[i],
+                DuelEffect_InitXZRingVertices(work->config->radii[i], work->config->radii[i],
                              work->config->ring_height * i, work->rings[i], 32);
             }
             DuelEffect_InitRandomVectorsNegatedY(work->rays, work->config->ray_range,

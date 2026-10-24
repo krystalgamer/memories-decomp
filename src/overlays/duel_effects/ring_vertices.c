@@ -1,7 +1,8 @@
 #include "../../types.h"
 #include "utility_helpers.h"
+#include "geometry_semantic_views.h"
 
-void func_8014EA7C(u16 radius, SVECTOR *vertices)
+void DuelEffect_InitCircle32Vertices(u16 radius, SVECTOR *vertices)
 {
     s32 i;
 
@@ -12,7 +13,7 @@ void func_8014EA7C(u16 radius, SVECTOR *vertices)
     }
 }
 
-void func_8014EB1C(u16 width, u16 height, SVECTOR *vertices, u16 count)
+void DuelEffect_InitHalfStepXYRingVertices(u16 width, u16 height, SVECTOR *vertices, u16 count)
 {
     s32 i;
     s32 angle;

@@ -36,11 +36,11 @@ void func_80153200(void *buffer, s32 phase, s16 number)
                 work->config = &D_8015AF18[phase];
             }
             for (i = 0; i < 3; i++) {
-                func_8014EA7C(work->config->radii[i], work->rings[i]);
+                DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }
             func_8014F030(work->config->particle_speed, work->positions,
                          work->velocities, work->config->particle_count);
-            func_8014EF2C(64, work->rotations);
+            DuelEffect_InitRandomVectorsUnscaled(64, work->rotations);
             work->scale = 0;
             func_8014F020((u8 *)&work->color, work->config->color[0],
                          work->config->color[1], work->config->color[2]);

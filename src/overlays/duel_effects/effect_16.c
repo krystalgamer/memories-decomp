@@ -59,7 +59,7 @@ void func_80151558(void *buffer, s32 phase)
                 work->activated[i] = 0;
             }
             for (k = 0; k < 3; k++) {
-                func_8014EE0C(work->config->ring_radii[k], work->config->ring_radii[k],
+                DuelEffect_InitXZRingVertices(work->config->ring_radii[k], work->config->ring_radii[k],
                     work->config->ring_height * k, work->rings[k], 32);
             }
             work->count = 0;

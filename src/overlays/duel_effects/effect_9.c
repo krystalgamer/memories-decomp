@@ -26,13 +26,13 @@ void func_801593A8(void *buffer, s32 phase)
             work->cross_frame = 0;
             work->config = &D_8015B650[phase];
             for (i = 0; i < 3; i++) {
-                func_8014EA7C(work->config->radii[i], work->rings[i]);
+                DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }
             setVector(&work->negative, 0, -120, 0);
             work->negative_step = 0;
             setVector(&work->positive, 0, 0, 0);
             work->positive_step = 0;
-            func_8014EF2C(work->config->rotation_count, work->rotations);
+            DuelEffect_InitRandomVectorsUnscaled(work->config->rotation_count, work->rotations);
             func_8014F030(work->config->particle_speed, work->positions,
                          work->velocities, 32);
             func_8014F020((u8 *)&work->negative_color, 255, 64, 64);

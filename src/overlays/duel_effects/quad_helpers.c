@@ -1,7 +1,8 @@
 #include "../../types.h"
 #include "utility_helpers.h"
+#include "geometry_semantic_views.h"
 
-void func_8014FE00(SVECTOR *vertices, u16 size, u16 index)
+void DuelEffect_InitQuadrantQuadVertices(SVECTOR *vertices, u16 size, u16 index)
 {
     vertices[0].vx = (s16)func_8014F524(-1, index + 1) * size;
     vertices[0].vy = (index - 2 < 0 ? -1 : 1) * size;
@@ -17,7 +18,7 @@ void func_8014FE00(SVECTOR *vertices, u16 size, u16 index)
     vertices[3].vz = 0;
 }
 
-void func_8014FED4(SVECTOR *first, SVECTOR *second)
+void DuelEffect_SwapVectorRecords(SVECTOR *first, SVECTOR *second)
 {
     SVECTOR temporary;
 

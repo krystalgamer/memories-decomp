@@ -23,7 +23,7 @@ void func_80150E00(void *buffer, s32 phase)
     if (phase >= 0) {
         work->config = &D_8015AEE4;
         for (i = 0; i < 3; i++) {
-            func_8014EE0C(work->config->radii[i], work->config->radii[i],
+            DuelEffect_InitXZRingVertices(work->config->radii[i], work->config->radii[i],
                          work->config->ring_height * i, work->rings[i], 32);
         }
         copyVector(&work->origin, &D_8015B7F8);

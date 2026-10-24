@@ -23,4 +23,22 @@ extern void func_8014F89C(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 count)
 extern void func_8014F9A0(SVECTOR *vertices, u16 top_width, u16 bottom_width, u16 top_height, u16 bottom_height, s16 *widths, s16 *heights);
 extern void func_8014FA3C(SVECTOR *vertices, u16 top_width, u16 bottom_width, u16 top_height, s16 *widths, s16 *heights);
 
+extern void DuelEffect_InitCircle32Vertices(u16 radius, SVECTOR *vertices) __asm__("func_8014EA7C");
+extern void DuelEffect_InitHalfStepXYRingVertices(u16 width, u16 height, SVECTOR *vertices, u16 count) __asm__("func_8014EB1C");
+extern void DuelEffect_InitHalfStepXZRingVertices(u16 width, u16 depth, s32 level, s32 offset, SVECTOR *vertices, u16 count) __asm__("func_8014EC8C");
+extern void DuelEffect_InitXZRingVertices(u16 width, u16 depth, s16 height, SVECTOR *vertices, u16 count) __asm__("func_8014EE0C");
+extern void DuelEffect_InitRandomVectorsUnscaled(u16 count, SVECTOR *vertices) __asm__("func_8014EF2C");
+extern void DuelEffect_InitRectVertices(SVECTOR *vertices, s32 width, s16 height) __asm__("func_8014F490");
+extern void DuelEffect_InitQuadrantQuadVertices(SVECTOR *vertices, u16 size, u16 index) __asm__("func_8014FE00");
+extern void DuelEffect_SwapVectorRecords(SVECTOR *first, SVECTOR *second) __asm__("func_8014FED4");
+
+extern void func_8014EA7C(u16 radius, SVECTOR *vertices);
+extern void func_8014EB1C(u16 width, u16 height, SVECTOR *vertices, u16 count);
+extern void func_8014EC8C(u16 width, u16 depth, s32 level, s32 offset, SVECTOR *vertices, u16 count);
+extern void func_8014EE0C(u16 width, u16 depth, s16 height, SVECTOR *vertices, u16 count);
+extern void func_8014EF2C(u16 count, SVECTOR *vertices);
+extern void func_8014F490(SVECTOR *vertices, s32 width, s16 height);
+extern void func_8014FE00(SVECTOR *vertices, u16 size, u16 index);
+extern void func_8014FED4(SVECTOR *first, SVECTOR *second);
+
 #endif

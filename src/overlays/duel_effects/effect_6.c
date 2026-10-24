@@ -65,7 +65,7 @@ void func_80154B30(void *buffer, s32 phase)
             work->column_step = 12;
             work->column_size = 3;
             for (i = 0; i < 3; i++) {
-                func_8014EA7C(work->config->radii[i], work->rings[i]);
+                DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }
             func_8014F010((u8 *)&work->background_color, 1);
             func_8014F020((u8 *)&work->column_color,
