@@ -3485,7 +3485,7 @@
       "address": "0x8003CFF4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D4",
-      "source": "src/game/japanese/func_8003da40.c"
+      "source": "src/game/japanese/dialog_transition.c"
     },
     {
       "address": "0x8003D1C8",
@@ -5739,15 +5739,15 @@
     },
     {
       "address": "0x8005B668",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x100",
-      "source": "src/game/model_queue_tint_request_for_parts.c"
+      "source": "src/game/model_queue_tint_request.c"
     },
     {
       "address": "0x8005B768",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x144",
-      "source": "src/game/japanese/model_queue_tint_request.c"
+      "source": "src/game/model_queue_tint_request.c"
     },
     {
       "address": "0x8005B8AC",
@@ -5775,15 +5775,15 @@
     },
     {
       "address": "0x8005BC08",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/model_get_slot_readiness.c"
+      "source": "src/game/japanese/model_state_getters.c"
     },
     {
       "address": "0x8005BC4C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
-      "source": "src/game/model_get_frame_step.c"
+      "source": "src/game/japanese/model_state_getters.c"
     },
     {
       "address": "0x8005BC6C",

@@ -341,7 +341,7 @@ typedef struct DisplayObject {
     u16 field_5E;                  /* 0x5E */
     /* An easing amount, agreed on in shape and not in name. dialog_transition.c
        sets it to -0x400 or +0x400 and sweeps it toward zero;
-       func_8003DA40.c sets -0x400 and adds 0x20; mem_card_dialog.c
+       its Dialog_UpdateMessageTransition sets -0x400 and adds 0x20; mem_card_dialog.c
        steps it by 0x40 and passes it to Widget_SlideSine, which takes it as
        `phase` for an rsin ease; display_object_property_transitions.c calls
        it `speed` in one function and `step` in the other. Four callers, four

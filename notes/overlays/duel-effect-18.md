@@ -18,6 +18,35 @@ Scale is not unconditionally clamped. The saved frame step advances time;
 matrix restoration and the final completion predicate remain outside the
 color-active branch.
 
+## Particle contour-burst family and semantic bindings
+
+`DuelEffect_RunParticleContourBurst` names native `func_80154084` from its
+complete contour/delay/expansion/fade sequence shared with effect 0, plus
+32 moving particles and variant-dependent outer-ring rendering. It is not
+merely a wrapper around effect 0: the two private configurations, work
+layouts, geometry and complete objects remain distinct.
+
+Both `DuelEffect_StartSwords` and `DuelEffect_StartRitual` create effect 18
+with phase 1. These independent static consumers rule out a Swords-only
+name; they do not establish an artwork identity or prove phase 0 unused.
+The ordinary branch signals the current request at the configured delay,
+not on every update or only when the entire animation is complete.
+
+The actual NA entry is `80154B00`, JP is `80162118`, and PAL keeps
+`80154084`; the complete owner is `604` bytes in each inventory.
+`gDuelEffect_ParticleContourBurstConfigs[2]` binds the existing 60-byte
+`D_8015B078` owner (NA `8015B144`, JP `80169104`, PAL `8015B078`).
+`gDuelEffect_ParticleContourBurstInitialScale` binds the existing 16-byte
+SDK VECTOR `D_801461D8` (NA `80146220`, JP `80154230`, PAL `801461D8`),
+copied to local scale at entry. Preserve the vector's padding and all bytes
+without assigning identity-value or const semantics.
+
+The extern-only header retains original private types and native function
+compatibility declarations. Preserve both configurations, the variant
+branch, regional 106/98 ring heights, matrix copies, particle/rotation
+updates, delay/request handshake and phase-at-least-2 cross fallback.
+These are code-supported mechanism names, not new runtime observations.
+
 ## Layout and storage
 
 The effect-specific work record has size `0x8D4`. Its independently recovered
