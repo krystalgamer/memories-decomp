@@ -13,7 +13,7 @@ none is registered as an unqualified resident `global`.
 
 ## PAL language selection
 
-`Main_InitHardware` and `Main_RunBootSequence` initialize/reset the byte to
+`Main_Init` and `Main_RunBootSequence` initialize/reset the byte to
 `BUILD_LANGUAGE_INDEX`. The debug editor reads it, writes the requested
 selection and restores the build default when the stored byte reaches five.
 The PAL options overlay reads and changes the same state before requesting
