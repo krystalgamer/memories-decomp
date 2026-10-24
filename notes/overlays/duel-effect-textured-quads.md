@@ -109,3 +109,72 @@ module, regional address `0x8014F564` and size `0x6C`.
 Both the canonical and original `func_8014F564` names are
 forbidden as absolute linker aliases. All six data-owner checks and the
 complete-pair, SDK/ABI and curve-fingerprint controls remain unchanged.
+
+## Human texture observations (#418)
+
+The NA texture trace accepted in #7865 captured 18 numbered episodes and
+72,468 watched table reads, with observed execution breakpoints and no
+foreign-module hits or foreign reads. The human action/handler associations
+and capture limits are recorded in
+[the dispatch note](duel-effect-dispatch.md#north-american-human-route-evidence-418).
+The three tables retain their distinct owners: image records at actual NA
+`0x8015A270` (native `D_8015A1E4`), overlapping modes/variant images at
+`0x8015A4BC` (`D_8015A430`), and packed word pairs at `0x8015B7E0`
+(`D_8015B748`).
+
+These eight packed-word slots were read in that route. Horizontal image
+coordinates and widths are VRAM **halfwords**, not texels; Y and height are
+rows. The last column gives the decoded texel dimensions. These values
+describe the captured table, not a promise that uploads or all future
+routes retain this layout.
+
+| Slot | Observed decimal effect IDs | Page / CLUT words | Image VRAM `(x,y,width,height)` | Texels / depth |
+|---|---|---|---|---|
+| 0 | `0,1,2,10,17` | `0x00B8 / 0x3C00` | `(512,256,32,64)` | `64x64`, 8-bit |
+| 1 | `0,1,2` | `0x0038 / 0x3C40` | `(544,256,8,64)` | `32x64`, 4-bit |
+| 2 | `1` | `0x00B8 / 0x3C80` | `(512,320,32,64)` | `64x64`, 8-bit |
+| 3 | `1,2,10,17` | `0x0038 / 0x3C41` | `(552,256,16,64)` | `64x64`, 4-bit |
+| 4 | `3` | `0x0038 / 0x3C42` | `(544,320,32,64)` | `128x64`, 4-bit |
+| 9 | `2` | `0x0038 / 0x3C47` | `(568,256,8,64)` | `32x64`, 4-bit |
+| 12 | `10` | `0x0038 / 0x3C4A` | `(568,448,8,32)` | `32x32`, 4-bit |
+| 15 | `17` | `0x0079 / 0x3C4F` | `(600,256,16,64)` | `64x64`, 4-bit |
+
+Slot 0's reading PCs were `0x80147E44` and `0x8015624C`; slot 1's were
+`0x80148008` and `0x80154150`. The other reading PCs were respectively
+`0x80148218`, `0x801482E0`, `0x8014AD20`, `0x80148AF4`,
+`0x8014DC18` and `0x80159818` for slots 2, 3, 4, 9, 12 and 15.
+Slot 9 was observed in all three direct-attack episodes (phases four/five),
+not in this run's monster-attack episodes. That does not establish global
+exclusivity.
+
+These are **use associations, not artwork identities**. The human's VRAM
+inspection recognized framebuffers and a large card preview, but did not
+identify individual effect-slot images. An effect uses several shared
+slots; seeing flames in an effect that reads slot 4 does not independently
+identify every pixel or frame in that image. Keep address-based table names
+and unconfirmed artwork names unchanged. Slots absent from the read summary
+are not proven unused.
+
+The repeated `variant0` rows are especially limited: every one was read at
+dispatcher PC `0x8014633C`. Mode 20 overlaps the low halfword of variant
+image zero's `pmode`, as represented by `DuelEffectImageInputs`. The
+dispatcher initializes all 21 pairs for nonnegative phase, so this watched
+read is not evidence that effect 11 ran or that variant image zero was
+drawn. No effect 11 episode was observed.
+
+## Atlas reachability remains unresolved
+
+The separate atlas run in #7865 saw effects 1/0/14, phases 0/0/3, over
+three completed episodes: 2,107 resident control hits and 152 guarded
+dispatch calls. The atlas helper at actual NA `0x80148F98` had zero
+calls, but so did its sibling control at `0x80148E88`. Neither this route
+nor the other two human routes exercised effects 6 or 7, the sibling's
+known static callers.
+
+This is not a controlled negative result for either helper and does not
+prove dead code, global unreachability or unused atlas artwork. The broad
+atlas probe and its result were retired rather than requesting another
+untargeted duel. A future probe first needs an actionable short route that
+exercises the sibling, then must distinguish the atlas count from that
+positive control. The existing static atlas-column interpretation is
+unchanged.

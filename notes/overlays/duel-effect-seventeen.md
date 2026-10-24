@@ -12,6 +12,36 @@ baseline, not an import of another pending lifecycle branch. The branch has
 C functions / 83,896 bytes**. The 836-byte curve generator at `8014FABC`
 remains generated assembly with a real function owner.
 
+## Human runtime observation (#418)
+
+In the NA texture trace accepted in #7865, episode 11 followed the human's
+activation of **Dark Hole** and entered effect 17 with phase zero. The
+episode completed over 183 frames / 182 dispatch calls. This supplies a
+concrete gameplay route for the phase-zero collector/vortex configuration;
+it does not identify phase one or every card selecting this lifecycle.
+The handler's actual NA entry is `0x80158E84`, not the native source
+suffix `0x80148BA4`.
+
+The trace observed packed texture slots 0, 3 and 15. Its first slot-0
+read was at helper PC `0x80147E44`, with return address `0x8015950C`.
+Inspection of the already verified native object distinguishes the three
+calls to `func_80155BC0` (actual NA `0x80147E08`):
+
+| Actual NA return address | Size argument | Offset argument |
+|---|---|---|
+| `0x8015950C` | 8 | Non-null `&work->particles[i]` |
+| `0x80159F34` | 32 | Literal null, burst-color branch |
+| `0x8015A130` | 4 | Literal null, completed-path branch |
+
+The trace prints only the first read of each slot per episode, so the
+recorded non-null caller neither confirms nor excludes either later
+null-offset call. It also did not watch the actual XYZ loads through those
+arguments. The shared helper's SDK `addVector` reads the offset components
+unconditionally: this evidence does not make null an optional/safe offset
+or justify adding a guard. The phase-zero Dark Hole route is useful for a
+future targeted burst-call probe; the optional-path branch additionally
+depends on the other configuration and remains untraced here.
+
 ## Recovered configuration and storage
 
 Two 16-byte records at `8015A60C` contain:
