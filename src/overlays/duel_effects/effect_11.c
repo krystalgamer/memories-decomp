@@ -6,6 +6,7 @@
 #include "texture_semantic_views.h"
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "layered_semantic_views.h"
 
 void func_80146760(void *buffer, s32 phase)
 {
@@ -118,7 +119,7 @@ void func_80146760(void *buffer, s32 phase)
                 addVector(&work->dust[i], &work->dust_velocities[i]);
                 work->dust_velocities[i].vy += 0;
             }
-            func_80155BC0((u8 *)&work->glow, work->config->glow_size, 64, &zero);
+            DuelEffect_DrawLayeredTileQuad((u8 *)&work->glow, work->config->glow_size, 64, &zero);
             gradient_packet->tpage = D_8015B748.pairs[11][0];
             gradient_packet->clut = D_8015B748.pairs[11][1];
             setUV4(gradient_packet, 0, 0, 31, 0, 0, 127, 31, 127);

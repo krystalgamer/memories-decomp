@@ -17,6 +17,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "layered_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define GATHER_CURVE_HEIGHT 106
@@ -181,7 +182,7 @@ void func_801481A8(void *buffer, s32 phase)
             frame.scale.vy = state->scale;
             frame.scale.vz = 0x1000;
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &frame.scale);
-            func_80155BC0(state->color, state->descriptor->curve_size, 0, &frame.position);
+            DuelEffect_DrawLayeredTileQuad(state->color, state->descriptor->curve_size, 0, &frame.position);
             frame.scale.vx = 0x1000;
             frame.scale.vy = state->scale;
             frame.scale.vz = 0x1000;
@@ -189,7 +190,7 @@ void func_801481A8(void *buffer, s32 phase)
                 SVECTOR *rotate;
 
                 DuelEffect_SetTransformMatrix(&frame.world, &saved, &frame.position, &state->rotations[i], &frame.scale, 2);
-                func_80155D90(state->color, state->descriptor->widths,
+                DuelEffect_DrawLayeredGradientTrapezoid(state->color, state->descriptor->widths,
                               state->descriptor->height, 0);
                 rotate = (SVECTOR *)((u8 *)state + i * 8 + 0x544);
                 rotate->vx += 0x80;

@@ -7,8 +7,8 @@ address,size,name,status,module,notes
 0x80147CAC,0x70,DuelEffect_DarkenColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80147D1C,0xC4,DuelEffect_StepColorToTarget,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80147DE0,0x28,DuelEffect_SetFogBaseColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80147E08,0x1D0,func_80155BC0,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80147FD8,0x204,func_80155D90,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80147E08,0x1D0,DuelEffect_DrawLayeredTileQuad,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80147FD8,0x204,DuelEffect_DrawLayeredGradientTrapezoid,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801481DC,0xD0,DuelEffect_DrawFixedTileQuad,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801482AC,0x108,DuelEffect_DrawRandomTileQuad,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801483B4,0x2DC,DuelEffect_DrawTexturedRingStrip,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

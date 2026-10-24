@@ -2,8 +2,9 @@
 #include "layered_drawing.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "layered_semantic_views.h"
 
-void func_80155BC0(u8 *color, u16 size, s16 depth, SVECTOR *offset)
+void DuelEffect_DrawLayeredTileQuad(u8 *color, u16 size, s16 depth, SVECTOR *offset)
 {
     DuelEffectTexturedQuad drawing;
     DuelEffectTexturedQuad *packet = &drawing;
@@ -27,7 +28,7 @@ void func_80155BC0(u8 *color, u16 size, s16 depth, SVECTOR *offset)
     DuelEffect_ProjectSubmitFt4(&packet->polygon, drawing.vertices, depth, 1);
 }
 
-void func_80155D90(u8 *color, u16 *widths, u16 height, s16 depth)
+void DuelEffect_DrawLayeredGradientTrapezoid(u8 *color, u16 *widths, u16 height, s16 depth)
 {
     DuelEffectGradientQuad drawing;
     DuelEffectGradientQuad *record = &drawing;

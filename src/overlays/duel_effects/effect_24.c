@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "layered_semantic_views.h"
 #include "display_semantic_views.h"
 
 void func_8014D3E8(void *buffer, s32 phase)
@@ -153,7 +154,7 @@ void func_8014D3E8(void *buffer, s32 phase)
                 DuelEffect_SetGrayColor((u8 *)&color, 255);
             }
             for (i = 0; i < 5; i++) {
-                func_80155BC0((u8 *)&color, 16, 0, &work->points[i]);
+                DuelEffect_DrawLayeredTileQuad((u8 *)&color, 16, 0, &work->points[i]);
                 if (work->arrival < 8) {
                     addVector(&work->points[i], &work->point_steps[i]);
                 }
@@ -195,12 +196,12 @@ void func_8014D3E8(void *buffer, s32 phase)
             DuelEffect_SetRgbColor((u8 *)&color, 255, 128, 128);
             setVector(&scale, work->scale, work->scale, work->scale);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
-            func_80155BC0((u8 *)&color, 8, 0, &position);
+            DuelEffect_DrawLayeredTileQuad((u8 *)&color, 8, 0, &position);
             DuelEffect_SetRgbColor((u8 *)&color, 127, 64, 64);
             for (i = 0; i < work->ray_count; i++) {
                 setVector(&scale, 4096, work->ray_scales[i], 4096);
                 DuelEffect_SetTransformMatrix(&world, &saved, &position, &work->rotations[i], &scale, 0);
-                func_80155D90((u8 *)&color, work->widths, 32, 0);
+                DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&color, work->widths, 32, 0);
                 if (work->ray_scales[i] < 0x6000) {
                     work->ray_scales[i] += 0x400;
                 } else {
