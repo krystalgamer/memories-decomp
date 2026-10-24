@@ -437,8 +437,6 @@ segments:
       - [0x040D1C, c, game/movie_stream_requests]
       - [0x040E84, c, game/file_cd_helpers]
       - [0x040F58, c, game/mdec_sync]
-      - [0x040FC0, c, game/movie_seek_and_start_read]
-      - [0x041024, c, game/func_8005C690]
       - [0x041034, c, game/european/card_list_render_deck_box_stats]
       - [0x04136C, c, game/european/func_80050B6C]
       - [0x041518, c, game/european/func_80061008]

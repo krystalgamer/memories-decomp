@@ -493,8 +493,6 @@ segments:
       - [0x5B084, c, game/movie_stream_requests]
       - [0x5B1EC, c, game/file_cd_helpers]
       - [0x5B2C0, c, game/mdec_sync]
-      - [0x5B328, c, game/movie_seek_and_start_read]
-      - [0x5B38C, c, game/func_8005C690]
       - [0x5B39C, c, game/european/card_list_render_deck_box_stats]
       - [0x5B6D4, c, game/european/func_80050B6C]
       - [0x5B880, c, game/spanish/func_80061008]

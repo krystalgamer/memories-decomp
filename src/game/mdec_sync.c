@@ -2,6 +2,10 @@
 #include "../psyq/libpress.h"
 #include "mdec_sync.h"
 #include "movie_frame_pipeline.h"
+#include "../psyq/libcd.h"
+#include "../psyq/libds.h"
+#include "movie_seek_and_start_read.h"
+#include "func_8005C690.h"
 
 void Movie_StartFadeOut(void)
 {
@@ -24,4 +28,14 @@ s32 Movie_WaitFrameDecoded(void)
     }
     gMovie_bFrameDecoded = 0;
     return 0;
+}
+
+#define CD_LOCATION_BYTES(location) ((u8 *)(location))
+#define DS_LOCATION_VIEW(location) ((DslLOC *)(location))
+
+void Movie_SeekAndStartRead(CdlLOC *loc){while(!CdControlB(CdlSetloc,CD_LOCATION_BYTES(loc),0)){}while(!CdControlB(CdlSeekP,CD_LOCATION_BYTES(loc),0)){}while(!DsRead2(DS_LOCATION_VIEW(loc),0x1E0)){} }
+
+void Movie_OnStreamEnd(void)
+{
+    gMovie_bStreamEnded = 1;
 }

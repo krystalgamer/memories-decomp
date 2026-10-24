@@ -6266,15 +6266,15 @@
     },
     {
       "address": "0x8006AB28",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x64",
-      "source": "src/game/movie_seek_and_start_read.c"
+      "source": "src/game/mdec_sync.c"
     },
     {
       "address": "0x8006AB8C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10",
-      "source": "src/game/func_8005C690.c"
+      "source": "src/game/mdec_sync.c"
     },
     {
       "address": "0x8006AB9C",
