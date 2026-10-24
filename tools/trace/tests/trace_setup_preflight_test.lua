@@ -7,8 +7,10 @@
 -- engine is fixed when the emulator starts and Lua cannot query it, so the
 -- Dynarec setting only describes the configured engine; the setup counts as
 -- confirmed only after one of the script's own execution breakpoints fires.
--- This loads each breakpoint trace against mocked settings and checks that:
---   * the setup block is the same in every script,
+-- The canonical block lives in trace_setup_block.lua, so it is checked even
+-- while no trace is waiting to be run. This loads each breakpoint trace
+-- against mocked settings and checks that:
+--   * every script carries the canonical setup block unchanged,
 --   * the debugger is on before the first breakpoint is installed,
 --   * a configured dynarec is named, and the active engine is never claimed,
 --   * nothing reports a confirmed setup until a breakpoint actually fires,
@@ -21,8 +23,10 @@ local BLOCK_START = '\n-- Breakpoints fire only while the debugger setting is on
 local BLOCK_END = '        .. \'silence is not evidence\'\nend\n'
 local RESULT_LINE = "print('setup: ' .. TRACE_SETUP .. ' ' .. traceExecutionStatus())"
 
+local BLOCK_FILE = 'tools/trace/tests/trace_setup_block.lua'
+
 local scripts = {}
-local listing = io.popen('ls tools/trace/*.lua')
+local listing = io.popen('ls tools/trace/*.lua 2>/dev/null')
 for path in listing:lines() do
     local handle = io.open(path)
     local text = handle:read('*a')
@@ -33,7 +37,6 @@ for path in listing:lines() do
     end
 end
 listing:close()
-assert(#scripts >= 1, 'expected at least one breakpoint trace')
 
 local function block(script)
     local i = script.text:find(BLOCK_START, 1, true)
@@ -44,7 +47,9 @@ local function block(script)
 end
 
 -- One shared block, and nothing below it bypasses the wrapper.
-local reference = block(scripts[1])
+local blockFile = assert(io.open(BLOCK_FILE))
+local reference = block({ path = BLOCK_FILE, text = blockFile:read('*a') })
+blockFile:close()
 for _, script in ipairs(scripts) do
     local text, finish = block(script)
     assert(text == reference, script.path .. ': setup block differs')
@@ -141,7 +146,7 @@ assert(plain.installed[1].invoker == nil)
 
 -- Every script: loads under the mock, never arms with the debugger off.
 local memory = ffi.new('uint8_t[?]', 0x200000)
-local function load(path, settings)
+local function load(path, settings, source)
     local output, invokers, listeners = {}, {}, {}
     local debugAtFirstBreakpoint = nil
     print = function(text) output[#output + 1] = tostring(text) end
@@ -169,7 +174,12 @@ local function load(path, settings)
             return {}
         end },
     }, { __index = function() return function() return 0 end end })
-    local ok, err = pcall(dofile, path)
+    local ok, err
+    if source ~= nil then
+        ok, err = pcall(assert(loadstring(source, path)))
+    else
+        ok, err = pcall(dofile, path)
+    end
     print = hostPrint
     assert(ok, path .. ': failed to load: ' .. tostring(err))
     return {
@@ -198,15 +208,23 @@ end
 assert(armed >= #scripts / 2, 'too few scripts armed under the mock to '
        .. 'prove the ordering: ' .. armed)
 
--- End to end on one script: the result document reports whether an execution
--- breakpoint fired, so a silent run cannot pass for a negative result.
+-- End to end on a minimal script built from the canonical block: the result
+-- document reports whether an execution breakpoint fired, so a silent run
+-- cannot pass for a negative result.
+local MINIMAL = "local SCRIPT_NAME = 'probe'\n" .. reference .. [[
+breakpoints_probe = { traceAddBreakpoint(0x80012345, 'Exec', 4,
+    SCRIPT_NAME .. ': probe', function() end) }
+listener_probe = PCSX.Events.createEventListener('GPU::Vsync', function()
+    print('setup: ' .. TRACE_SETUP .. ' ' .. traceExecutionStatus())
+end)
+]]
 local function endToEnd(hit)
     local settings = { emulator = { Debug = { Debug = true }, Dynarec = false } }
-    local run = load('tools/trace/title_idle_watch.lua', settings)
+    local run = load('minimal probe', settings, MINIMAL)
     local captured = {}
     print = function(text) captured[#captured + 1] = tostring(text) end
-    if hit then run.invokers[1](0x8002c400, 4, 'probe') end
-    for _ = 1, 5400 do run.listeners['GPU::Vsync']() end
+    if hit then run.invokers[1](0x80012345, 4, 'probe') end
+    run.listeners['GPU::Vsync']()
     print = hostPrint
     PCSX = nil
     return captured
@@ -215,7 +233,7 @@ local silent = endToEnd(false)
 assert(has(silent, 'setup: debugger=on configured_cpu=interpreter '
                .. 'active_cpu=unverified execution_breakpoint=NOT-observed'))
 local confirmed = endToEnd(true)
-assert(has(confirmed, 'title_idle_watch: execution breakpoint '
+assert(has(confirmed, 'probe: execution breakpoint '
                   .. 'observed; setup confirmed'))
 assert(has(confirmed, 'active_cpu=unverified execution_breakpoint=observed'))
 

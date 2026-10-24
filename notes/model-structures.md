@@ -307,7 +307,11 @@ These pairs tie the hand-written primitive drivers at `0x8006151C` through
 by primitive type once the key bits are decoded. In the same run neither
 dispatch map `func_8005FC1C` nor `func_8005FE44` was called once, and
 `Model_FindHandlerKey` was not called either, so neither the duel board,
-the field change nor the 3-D battle scenes reach them.
+the field change nor the 3-D battle scenes reach them. Those two maps are
+now `Model_MapToWireframePrimitiveHandler` and
+`Model_MapToBasePrimitiveHandler`. Later watch traces found neither called
+on the idle title screen, in the Library 3-D view of a monster, or on the
+duel board ([`trace-uncalled-functions.md`](trace-uncalled-functions.md)).
 
 ## Migration snapshot and exact-code exceptions
 

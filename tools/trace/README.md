@@ -98,8 +98,9 @@ purpose or expected output name, rename the script too so
   would let us name is not ready to be written.
 - Guard every pointer before dereferencing it. A bad read crashes the emulator
   rather than raising an error, and takes the user's session with it.
-- If the script installs breakpoints, copy the `TRACE_SETUP` block from an
-  existing one directly below `SCRIPT_NAME`, install every breakpoint through
+- If the script installs breakpoints, copy the `TRACE_SETUP` block from
+  `tests/trace_setup_block.lua` (everything below its header) directly below
+  `SCRIPT_NAME`, install every breakpoint through
   `traceAddBreakpoint`, and print `setup:` with `traceExecutionStatus()` after
   `script:` in the result. `tests/trace_setup_preflight_test.lua` enforces
   all three for every breakpoint trace. A silent result counts as negative
@@ -141,7 +142,9 @@ individual test above, or run the complete suite from the repository root:
 
 These replays validate script mechanics against mocked state. They do not
 replace the requested emulator route, visible observation, or saved result.
-Copy the `capture()` scaffold from an existing test — it stubs `getMemPtr`,
+Copy the `capture()` scaffold from an existing test, or from git history when
+none is left (for example
+`git show 7cd1467c72:tools/trace/tests/title_idle_watch_test.lua`). It stubs `getMemPtr`,
 `getRegisters`, `addBreakpoint` and `createEventListener`, captures `print`,
 and hands back helpers that drive one scenario.
 
