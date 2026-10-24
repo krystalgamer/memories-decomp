@@ -5,8 +5,9 @@
 #include "packet_semantic_views.h"
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "selected_cards_semantic_views.h"
 
-void func_80152048(void *buffer, s32 phase)
+void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;
@@ -20,7 +21,7 @@ void func_80152048(void *buffer, s32 phase)
     s32 j;
 
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_801461A8;
+    scale = gDuelEffect_BackRowSweepInitialScale;
     packet = &polygon;
     work = buffer;
     if (phase >= 0) {
