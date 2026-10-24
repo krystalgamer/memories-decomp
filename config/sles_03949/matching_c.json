@@ -1756,11 +1756,11 @@
       "address": "0x8002D0BC",
       "profile": "gcc_2_8_1_g8_comm",
       "size": "0x1F8",
-      "source": "src/game/main_run_duel.c"
+      "source": "src/game/main_run_duel_and_library.c"
     },
     {
       "address": "0x8002D2B4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0xA0",
       "source": "src/game/main_run_duel_and_library.c"
     },

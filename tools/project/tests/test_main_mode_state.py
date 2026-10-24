@@ -42,7 +42,6 @@ CONSUMERS = (
     "src/game/main_debug.c",
     "src/game/main_init.c",
     "src/game/main_loop.c",
-    "src/game/main_run_duel.c",
     "src/game/main_run_animated_battle.c",
     "src/game/main_run_selection_menus.c",
     "src/game/main_run_campaign.c",
@@ -74,7 +73,7 @@ ACTIVE_ARRAY = {
 }
 COMMON_ACTIVE = {
     "src/game/main_run_animated_battle.c", "src/game/main_run_selection_menus.c",
-    "src/game/main_run_duel.c",
+    "src/game/main_run_duel_and_library.c",
     "src/game/main_run_frontend_menus.c",
     "src/game/main_mode_runners.c",
 }
@@ -185,7 +184,7 @@ class MainModeStateTests(unittest.TestCase):
                     self.assert_views(self.preprocess(path), (next_view, active_view))
 
     def test_current_successors_and_common_inputs(self):
-        self.assertEqual(len(CONSUMERS), 29)
+        self.assertEqual(len(CONSUMERS), 28)
         commons = 0
         for source in CONSUMERS:
             with self.subTest(source=source):

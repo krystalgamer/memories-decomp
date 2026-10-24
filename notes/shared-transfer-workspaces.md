@@ -16,7 +16,7 @@ It adds no storage, allocation size, record layout, lifetime, synchronization
 or mutability guarantee. The adjacent words and the distinctions documented
 in [high-memory-load-addresses.md](high-memory-load-addresses.md) remain.
 
-The indexed consumers in `main_run_duel.c`, `duel_init_model_scene.c` and
+The indexed consumers in `main_run_duel_and_library.c`, `duel_init_model_scene.c` and
 `main_run_selection_menus.c` (`Main_RunBuildDeckMenu`) deliberately retain the legacy
 `HighMemoryModelAddressPrefix D_80010000[]` view. Their base-relative and
 indexed relocations still reach three payload words and two primary-module
