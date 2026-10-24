@@ -9,8 +9,9 @@
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "ritual_semantic_views.h"
 
-void func_8014A8E4(void *buffer, s32 phase)
+void DuelEffect_RunRitual(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;
@@ -37,7 +38,7 @@ void func_8014A8E4(void *buffer, s32 phase)
 
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_80146044;
+    scale = gDuelEffect_RitualInitialScale;
     packet = &polygon;
     gradient_packet = &gradient;
     line_packet = &line;
@@ -45,31 +46,31 @@ void func_8014A8E4(void *buffer, s32 phase)
     if (phase >= 0) {
         work->cross_frame = 0;
         switch (phase) {
-        case 671: work->config = &D_8015A658[1]; break;
-        case 673: work->config = &D_8015A658[2]; break;
-        case 674: work->config = &D_8015A658[3]; break;
-        case 675: work->config = &D_8015A658[4]; break;
-        case 676: work->config = &D_8015A658[5]; break;
-        case 677: work->config = &D_8015A658[6]; break;
-        case 678: work->config = &D_8015A658[7]; break;
-        case 679: work->config = &D_8015A658[8]; break;
-        case 680: work->config = &D_8015A658[9]; break;
-        case 691: work->config = &D_8015A658[10]; break;
-        case 692: work->config = &D_8015A658[11]; break;
-        case 693: work->config = &D_8015A658[12]; break;
-        case 694: work->config = &D_8015A658[13]; break;
-        case 695: work->config = &D_8015A658[14]; break;
-        case 696: work->config = &D_8015A658[15]; break;
-        case 697: work->config = &D_8015A658[16]; break;
-        case 698: work->config = &D_8015A658[17]; break;
-        case 699: work->config = &D_8015A658[18]; break;
-        case 700: work->config = &D_8015A658[19]; break;
-        case 721: work->config = &D_8015A658[20]; break;
-        case 665: work->config = &D_8015A658[21]; break;
-        case 666: work->config = &D_8015A658[22]; break;
-        case 667: work->config = &D_8015A658[23]; break;
+        case 671: work->config = &gDuelEffect_RitualConfigs[1]; break;
+        case 673: work->config = &gDuelEffect_RitualConfigs[2]; break;
+        case 674: work->config = &gDuelEffect_RitualConfigs[3]; break;
+        case 675: work->config = &gDuelEffect_RitualConfigs[4]; break;
+        case 676: work->config = &gDuelEffect_RitualConfigs[5]; break;
+        case 677: work->config = &gDuelEffect_RitualConfigs[6]; break;
+        case 678: work->config = &gDuelEffect_RitualConfigs[7]; break;
+        case 679: work->config = &gDuelEffect_RitualConfigs[8]; break;
+        case 680: work->config = &gDuelEffect_RitualConfigs[9]; break;
+        case 691: work->config = &gDuelEffect_RitualConfigs[10]; break;
+        case 692: work->config = &gDuelEffect_RitualConfigs[11]; break;
+        case 693: work->config = &gDuelEffect_RitualConfigs[12]; break;
+        case 694: work->config = &gDuelEffect_RitualConfigs[13]; break;
+        case 695: work->config = &gDuelEffect_RitualConfigs[14]; break;
+        case 696: work->config = &gDuelEffect_RitualConfigs[15]; break;
+        case 697: work->config = &gDuelEffect_RitualConfigs[16]; break;
+        case 698: work->config = &gDuelEffect_RitualConfigs[17]; break;
+        case 699: work->config = &gDuelEffect_RitualConfigs[18]; break;
+        case 700: work->config = &gDuelEffect_RitualConfigs[19]; break;
+        case 721: work->config = &gDuelEffect_RitualConfigs[20]; break;
+        case 665: work->config = &gDuelEffect_RitualConfigs[21]; break;
+        case 666: work->config = &gDuelEffect_RitualConfigs[22]; break;
+        case 667: work->config = &gDuelEffect_RitualConfigs[23]; break;
         default: work->cross_frame = 1;
-        case 670: work->config = &D_8015A658[0]; break;
+        case 670: work->config = &gDuelEffect_RitualConfigs[0]; break;
         }
         if (work->cross_frame == 1) {
             return;
