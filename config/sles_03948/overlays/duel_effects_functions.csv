@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x80146258,0x508,func_80146258,matching_c,overlay/duel_effects,Full French bank exact; complete C object and linked ownership verified.
-0x80146760,0x13B8,func_80146760,matching_c,overlay/duel_effects,"Independently recovered complete effect_11; exact French image, whole C object and real data owners."
+0x80146760,0x13B8,DuelEffect_RunCardBreakup,matching_c,overlay/duel_effects,"Independently recovered complete effect_11; exact French image, whole C object and real data owners."
 0x80147B18,0x690,func_80147B18,matching_c,overlay/duel_effects,Shared Spanish source; independent complete French image and real C/data owners; caller-backed halfword contracts.
 0x801481A8,0x9FC,DuelEffect_RunGuardianStarBonus,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
 0x80148BA4,0x13EC,DuelEffect_RunBoardDestruction,matching_c,overlay/duel_effects,"Independently recovered complete effect_17; exact French image, whole C object and real data owners."
@@ -44,7 +44,7 @@ address,size,name,status,module,notes
 0x801513F4,0xC8,DuelEffect_SetTransformMatrix,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801514BC,0x3C,DuelEffect_SetScaledLocalScreenMatrix,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801514F8,0x60,DuelEffect_CopyMatrixComponents,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80151558,0xAF0,func_80151558,matching_c,overlay/duel_effects,Complete French bank and whole C object exact; unchanged shared effect 16/20 lifecycle; real config and scale owners verified.
+0x80151558,0xAF0,DuelEffect_RunRowStrike,matching_c,overlay/duel_effects,Complete French bank and whole C object exact; unchanged shared effect 16/20 lifecycle; real config and scale owners verified.
 0x80152048,0xE7C,func_80152048,matching_c,overlay/duel_effects,"Independently recovered complete effect_23; exact French image, whole C object and real data owners."
 0x80152EC4,0xD8,DuelEffect_SubmitOffsetQuad,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80152F9C,0x114,DuelEffect_SubmitOffsetFt4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

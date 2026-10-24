@@ -1,5 +1,55 @@
 # Complete Spanish breakup effect
 
+## Canonical card-breakup lifecycle
+
+`DuelEffect_RunCardBreakup` names the complete effect-11 lifecycle, not a
+Raigeki-specific effect. `DuelEffect_ApplyRaigeki` creates effect 16 and
+waits for its request hit counter; each occupied slot then creates effect 11
+at that card object's position before resident code removes the card.
+`DuelEffect_ApplyMonsterRemoval` and `DuelScene_UpdateResume` also
+create effect 11. The animation does not perform the gameplay removal.
+
+The handler splits the selected image into a 4-by-7 grid of independently
+moving/rotating quads, then fragments each into up to 16 fading particles.
+Its initial glow combines rays, dust, a narrowing/tallening quad and two
+ring passes. The name describes this code and card-object callers, not a
+new runtime identification of texture artwork.
+
+The low phase nibble selects five existing image variants; values 5..15
+take the crossed-line fallback. The separate `(phase >> 7) == 1` test,
+texture-mode union overlap, random-denominator updates, zero dust
+acceleration read, carried scale, halfword wrapping and 28-piece completion
+remain unchanged. No phase is declared unreachable.
+
+| Binding | North America | Japan | PAL/native | Bytes |
+| --- | --- | --- | --- | --- |
+| `DuelEffect_RunCardBreakup` | `801467B8` | `801547B8` | `func_80146760` | 5,048 |
+| `gDuelEffect_CardBreakupConfig` | `8015A570` | `80168570` | `D_8015A4E4` | 48 |
+| `gDuelEffect_CardBreakupInitialScale` | `80146004` | `80154004` | `D_80146004` | 16 |
+
+The extern-only semantic view retains the original private configuration/work
+types and native compatibility declarations. Configuration and SDK VECTOR
+remain separate real generated owners, not new C storage, const contracts,
+absolute data aliases or a guessed vector identity. The two complete
+handlers and dispatcher change only six names and their semantic include;
+all five inventories change only two function-name cells each.
+
+The historical recovery/acceptance records below retain their original
+scope. See [effects 16/20](spanish-duel-effects-16-20.md) for the
+caller-linked row strike and its resident handshake.
+
+The naming candidate independently starts from accepted
+`1452b2ea9a7f96ce8004bdb09ce5284cd65e0cfa`, including its 67 USA MODEL
+images and getter/tint groupings but no pending damage/recovery/contour
+branch. All three actual GCC 2.8.1/MASPSX 2.81 objects retain identical
+compiler assembly, normalized assembly, native symbols and relocations.
+Fresh complete NA resident and rebuilt duel bank reproduce
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`
+and `baa203b937dc6bdf91b1826c5832f0f32e11ae5fe9d05193a4361bc08158b9e0`.
+Basic types, G32, metadata and source contracts pass (3,428 functions /
+870 source-profile pairs). These are not fresh five-bank or artwork
+observations; ordinary PR validation covers the other configured images.
+
 `func_80146760`, `80146760..80147B18`, adds a complete 5,048-byte lifecycle
 under `gcc_2_8_1_g0_split`. The source, private header, canonical image-input
 header and six paired dispatcher/helper files are reused verbatim from
