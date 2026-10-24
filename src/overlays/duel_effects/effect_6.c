@@ -7,6 +7,7 @@
 #include "texture_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "damage_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_6_START_HEIGHT 106
@@ -16,7 +17,7 @@
 #define EFFECT_6_TARGET_SPREAD 12
 #endif
 
-void func_80154B30(void *buffer, s32 phase)
+void DuelEffect_RunDirectDamage(void *buffer, s32 phase)
 {
     MATRIX world;
     SVECTOR position;
@@ -33,14 +34,14 @@ void func_80154B30(void *buffer, s32 phase)
 
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_801461F8;
+    scale = gDuelEffect_DirectDamageInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 6) {
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015B30C[phase];
+            work->config = &gDuelEffect_DirectDamageConfigs[phase];
             for (i = 0; i < 16; i++) {
                 x = (rand() - rand()) % 4096;
                 y = (rand() - rand()) % 4096;
