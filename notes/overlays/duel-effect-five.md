@@ -30,6 +30,36 @@ all 72 accepted entries and adds only effect 5: **73/85 bank C functions /
 instances / 96,896 bytes**. Both complete neighboring lifecycle objects
 and the intervening assembly boundaries remain explicit.
 
+## Static recovery role and semantic bindings
+
+Resident `DuelEffect_ApplyLifePointRecovery` creates effect 5 for cards
+338..342: Mooyan Curry, Red Medicine, Goblin's Secret Remedy, Soul of the
+Pure and Dian Keto the Cure Master. Ordinary requests use phases 0..4.
+Detecting Bad Reaction to Simochi (688) adds five to that initial phase,
+selecting 5..9. The resident recomputes the original 0..4 card index on
+later invocations; after trap presentation it creates effect 9, whose
+converted-recovery lifecycle is separate from this initial presentation.
+The resident, not either animation routine, applies the LP change.
+
+`DuelEffect_RunLifePointRecovery` names the complete native `func_80157E10`
+owner. Its actual NA address is `80156AB4`, JP is `80165EA0`, and PAL keeps
+`80157E10`; every measured owner is `9C8` bytes. The extern-only semantic
+header preserves the original native declaration and private types.
+`gDuelEffect_LifePointRecoveryConfigs[10]` binds the existing 360-byte
+`D_8015B450` owner (NA `8015B4BC`, JP `801694DC`, PAL `8015B450`).
+`gDuelEffect_LifePointRecoveryInitialScale` binds the existing 16-byte SDK
+VECTOR `D_80146218` (NA `80146260`, JP `80154270`, PAL `80146218`), copied
+to the local scale at entry. Neither name introduces storage, const
+qualification, padding meaning or an identity-vector contract.
+
+The ten configurations must remain ten despite the byte-identical pairs:
+phases 5..9 retain the background/number/secondary colors, freeze selected
+movement after the number starts holding, and finish using the 24-update
+hold and last rising-color conditions rather than ordinary fade completion.
+Keep this complete object separate from effect 9, preserve the regional
+106/98 height constants and retain the cross fallback for phases at least
+10. These are static producer/layout roles, not a human artwork capture.
+
 ## Experiments and exact acceptance
 
 The first candidate had exactly 2,504 bytes but 14 differing instruction

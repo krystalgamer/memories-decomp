@@ -29,6 +29,8 @@ class DuelBankDispatchTests(unittest.TestCase):
         with (directory / "duel_effects_functions.csv").open() as handle:
             inventory = {row["name"]: row for row in csv.DictReader(handle)}
         named_callees = {
+            "DuelEffect_RunLifePointRecovery": ("func_80157E10", 0x80157E10, 0x9C8),
+            "DuelEffect_RunInvertedLifePointRecovery": ("func_801593A8", 0x801593A8, 0x704),
             "DuelEffect_RunDirectDamage": ("func_80154B30", 0x80154B30, 0xBC4),
             "DuelEffect_RunReflectedDirectDamage": ("func_801587D8", 0x801587D8, 0xBD0),
             "DuelEffect_PackTexturePageClut": ("func_8014F564", 0x8014F564, 0x6C),

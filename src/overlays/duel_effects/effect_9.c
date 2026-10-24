@@ -6,8 +6,9 @@
 #include "number_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "recovery_semantic_views.h"
 
-void func_801593A8(void *buffer, s32 phase)
+void DuelEffect_RunInvertedLifePointRecovery(void *buffer, s32 phase)
 {
     MATRIX world;
     SVECTOR translation;
@@ -21,14 +22,14 @@ void func_801593A8(void *buffer, s32 phase)
 
     memset(&translation, 0, sizeof(translation));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_80146238;
+    scale = gDuelEffect_InvertedLifePointRecoveryInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 5) {
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015B650[phase];
+            work->config = &gDuelEffect_InvertedLifePointRecoveryConfigs[phase];
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }

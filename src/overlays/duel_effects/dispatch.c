@@ -6,6 +6,7 @@
 #include "texture_state_semantic_views.h"
 #include "contour_burst_semantic_views.h"
 #include "damage_semantic_views.h"
+#include "recovery_semantic_views.h"
 
 void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
 {
@@ -41,7 +42,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     }
     if (effect == 5) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
-        func_80157E10(buffer, phase);
+        DuelEffect_RunLifePointRecovery(buffer, phase);
     }
     if (effect == 6) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
@@ -60,7 +61,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
         /* Both stores are present; the callee takes only two arguments. */
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
-        func_801593A8(buffer, phase);
+        DuelEffect_RunInvertedLifePointRecovery(buffer, phase);
     }
     if (effect == 10) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;

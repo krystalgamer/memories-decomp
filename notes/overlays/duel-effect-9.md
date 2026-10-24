@@ -10,6 +10,36 @@ This independently based branch reaches 66/85 C functions and 28,944 C bytes,
 with 19 explicit assembly boundaries. Pending effects 2/21, 8/12 and 15/1
 are not stacked into this branch or counted in its totals.
 
+## Static converted-recovery role and semantic bindings
+
+`DuelEffect_RunInvertedLifePointRecovery` names the complete native
+`func_801593A8` lifecycle selected by effect 9. Resident
+`DuelEffect_ApplyLifePointRecovery` creates it after Bad Reaction to Simochi
+(688) presentation. Unlike the initial effect-5 request's phases 5..9,
+this later invocation recalculates the original recovery-card index 0..4.
+The resident subtracts the recovery magnitude from the active side, clamped
+at zero, rather than adding and capping it. This is inversion, not Goblin
+Fan's direct-damage reflection or a transfer of LP to the opponent.
+
+The animation draws the negative configured magnitude and a separate
+departing positive number, preserving the first-impact stage transition,
+sound 26, active-request flag, signed bounce divisors and all four color
+completion conditions. It does not itself apply the LP arithmetic. Its
+actual NA entry is `80158048`, JP is `80167434`, and PAL keeps `801593A8`;
+each complete owner is `704` bytes.
+
+The extern-only semantic header reuses the original private types and
+retains the native compatibility declaration.
+`gDuelEffect_InvertedLifePointRecoveryConfigs[5]` binds the existing
+180-byte `D_8015B650` owner (NA `8015B6BC`, JP `801696DC`, PAL `8015B650`).
+`gDuelEffect_InvertedLifePointRecoveryInitialScale` binds the 16-byte SDK
+VECTOR `D_80146238` (NA `80146280`, JP `80154290`, PAL `80146238`), copied
+at entry. Preserve five records, both unread configuration fields, vector
+padding and real generated storage; no const or new identity-value claim.
+Keep the complete object separate from effect 5 and retain the cross
+fallback for phases at least 5. These are static caller/layout roles,
+not a new runtime or artwork observation.
+
 ## Recovered storage and bounds
 
 Target-GCC layout verification fixes the work view at `0x740` bytes:
