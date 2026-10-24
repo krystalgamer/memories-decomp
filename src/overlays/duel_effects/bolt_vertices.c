@@ -1,7 +1,6 @@
 #include "../../types.h"
 #include "utility_helpers.h"
 #include "../../psyq/rand.h"
-#include "stat_penalty_semantic_views.h"
 
 /* Builds a jagged column of `count` vertices for the bolt effects: the base
  * sits at (x, -height, z) with x and z jittered by `spread`, and every later
@@ -9,7 +8,7 @@
  * it. csin is called inside the multiply's ternary condition, so the
  * multiplicand is sign-extended before the call, as in retail. */
 
-void DuelEffect_InitJaggedColumnVertices(u16 radius, u16 spread, u16 height, u16 count, SVECTOR *vertices)
+void func_8014FABC(u16 radius, u16 spread, u16 height, u16 count, SVECTOR *vertices)
 {
     s16 x;
     s16 z;

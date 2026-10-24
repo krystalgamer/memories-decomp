@@ -38,9 +38,10 @@ descriptors are used. Byte equality with the primary image table is not
 permission to merge them or make either immutable.
 
 The [jagged-column generator](spanish-duel-curve.md) also serves accepted
-board destruction. All four complete C consumers, including that caller,
+board destruction. All three complete C consumers, including that caller,
 use the canonical names without changing their instructions or native
-symbols. The archival effect-7/effect-13 recovery records below retain
+symbols; the generator definition keeps its exact historically fingerprinted
+source. The archival effect-7/effect-13 recovery records below retain
 their original scope; this naming change imports no pending damage,
 recovery or row-strike branch and no new #418 observation.
 

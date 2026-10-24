@@ -7,7 +7,10 @@ at native `func_8014FABC`: NA `80150694`, JP `8015DB50`, PAL `8014FABC`,
 836 bytes. The name describes the vertices, not lightning artwork or a
 stat-penalty-only role. Both effect 13 and the accepted board-destruction
 handler initialize 48 eight-point paths through this helper; both actual
-C callers migrate with the definition.
+C callers use the canonical declaration. The original definition remains
+byte-for-byte unchanged under its native name, preserving the historical
+source/utility-header fingerprint and its existing regression guard. The
+canonical extern binds that same real function, not a replacement or wrapper.
 
 The four unsigned-halfword parameters and `SVECTOR *` output remain the
 original contract. It independently jitters the first x/z position from
