@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_19.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80153ADC(void *buffer, s32 phase)
 {
@@ -39,7 +40,7 @@ void func_80153ADC(void *buffer, s32 phase)
         Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        func_801531C4(&world);
+        DuelEffect_InitBaseMatrix(&world);
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             if (work->fade_started == 1) {

@@ -15,6 +15,7 @@
 #include "drawing_tail.h"
 #include "gather_effect.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define GATHER_CURVE_HEIGHT 106
@@ -103,7 +104,7 @@ void func_801481A8(void *buffer, s32 phase)
         frame_step = Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        func_801531C4(&frame.world);
+        DuelEffect_InitBaseMatrix(&frame.world);
         DuelEffect_SetTransformMatrix(&frame.world, &saved, &frame.position, &frame.rotation, &frame.scale, 1);
         setPolyFT4(packet);
         packet->tpage = state->tpage;
@@ -132,7 +133,7 @@ void func_801481A8(void *buffer, s32 phase)
                     vertex->vy += particle->vy;
                     vertex->vz += particle->vz;
                 }
-                func_80151218(packet, frame.quad, 0, 1);
+                DuelEffect_ProjectSubmitFt4(packet, frame.quad, 0, 1);
                 if (__builtin_abs(state->particles[i].vx) >= 17 ||
                     __builtin_abs(state->particles[i].vy) >= 17) {
                     particle = (SVECTOR *)((u8 *)state + i * 8 + 0x4);

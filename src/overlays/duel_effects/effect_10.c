@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_10.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_8014C8FC(void *buffer, s32 phase)
 {
@@ -131,7 +132,7 @@ void func_8014C8FC(void *buffer, s32 phase)
                             quad[k].vy += (j + 1) * 10;
                             quad[k].vy -= work->ages[i];
                         }
-                        func_80151218(packet, quad, 1, work->config->mode);
+                        DuelEffect_ProjectSubmitFt4(packet, quad, 1, work->config->mode);
                     }
                     work->ages[i] += 12;
                     if (work->ages[i] > 160) {

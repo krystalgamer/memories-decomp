@@ -12,6 +12,7 @@
 #include "textured_quads.h"
 #include "dispatch.h"
 #include "tile_effect.h"
+#include "packet_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define TILE_ROW_STEP 30
@@ -136,12 +137,12 @@ void func_80149F90(void *buffer, s32 phase)
                         spark->y2 = quad[2].vy + state->radius[k][i];
                         spark->x3 = quad[3].vx + state->radius[k][i];
                         spark->y3 = quad[3].vy + state->radius[k][i];
-                        func_80152F9C(spark, 1);
+                        DuelEffect_SubmitOffsetFt4(spark, 1);
                         DuelEffect_DarkenColor(state->colors_b[k][i], 8);
                         state->sparkle[k][i] = (state->sparkle[k][i] + 1) % 4;
-                        func_801530B0(tile, 1);
+                        DuelEffect_SubmitOffsetGt4(tile, 1);
                     } else {
-                        func_801530B0(tile, 0);
+                        DuelEffect_SubmitOffsetGt4(tile, 0);
                     }
                 }
             }

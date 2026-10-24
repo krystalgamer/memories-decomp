@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_23.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80152048(void *buffer, s32 phase)
 {
@@ -94,9 +95,9 @@ void func_80152048(void *buffer, s32 phase)
             setVector(&vertices[2], 0, 128, 0);
             setVector(&vertices[3], work->speed >= 0 ? 48 : -48, 128, 0);
             if (*(u16 *)&work->color == 0x8080 && work->color.b == 128) {
-                func_80151218(packet, vertices, 32, 0);
+                DuelEffect_ProjectSubmitFt4(packet, vertices, 32, 0);
             } else {
-                func_80151218(packet, vertices, 32, 1);
+                DuelEffect_ProjectSubmitFt4(packet, vertices, 32, 1);
             }
             if (work->position.vy < -104) {
                 work->position.vy += 3;
@@ -191,7 +192,7 @@ void func_80152048(void *buffer, s32 phase)
                     work->ages[i]++;
                     for (j = 0; j < 3; j++) {
                         DuelEffect_SetTransformMatrix(&world, &saved, &work->particles[i][j], &rotation, &scale, 1);
-                        func_80151218(packet, vertices, 1, 1);
+                        DuelEffect_ProjectSubmitFt4(packet, vertices, 1, 1);
                         addVector(&work->particles[i][j], &work->velocities[i][j]);
                     }
                 }

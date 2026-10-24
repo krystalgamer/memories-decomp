@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "drawing_tail.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80155F94(u8 *color)
 {
@@ -14,7 +15,7 @@ void func_80155F94(u8 *color)
     setUV4(packet, 0, 64, 63, 64, 0, 127, 63, 127);
     DuelEffect_InitSquareVertices(vertices, 64);
     setRGB0(packet, color[0] >> 1, color[1] >> 1, color[2] >> 1);
-    func_80151218(packet, vertices, 0, 1);
+    DuelEffect_ProjectSubmitFt4(packet, vertices, 0, 1);
 }
 
 void func_80156064(u8 *color, SVECTOR *vertices, s16 depth)
@@ -32,7 +33,7 @@ void func_80156064(u8 *color, SVECTOR *vertices, s16 depth)
     v = rand() % 2;
     setUV4(packet, 160 + u * 32, v * 32, 191 + u * 32, v * 32,
            160 + u * 32, 31 + v * 32, 191 + u * 32, 31 + v * 32);
-    func_80151218(packet, vertices, depth, 1);
+    DuelEffect_ProjectSubmitFt4(packet, vertices, depth, 1);
 }
 
 void func_8015616C(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, s16 mode)
@@ -62,7 +63,7 @@ void func_8015616C(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, s1
         if (depth >= 0 && flag >= 0) {
             adjusted = depth + 1;
             if (mode == 0) {
-                func_801530B0(packet, 1);
+                DuelEffect_SubmitOffsetGt4(packet, 1);
             } else {
                 depth = adjusted - mode;
                 if (depth < 0) {
@@ -79,7 +80,7 @@ void func_8015616C(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, s1
         if (depth >= 0 && flag >= 0) {
             adjusted = depth + 1;
             if (mode == 0) {
-                func_801530B0(packet, 1);
+                DuelEffect_SubmitOffsetGt4(packet, 1);
             } else {
                 depth = adjusted - mode;
                 if (depth < 0) {

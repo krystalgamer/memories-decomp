@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../game/gpu_packets.h"
 #include "drawing_helpers.h"
+#include "packet_semantic_views.h"
 
 void func_80156448(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, u16 bias)
 {
@@ -25,7 +26,7 @@ void func_80156448(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, u1
         if (flag >= 0) {
             depth -= bias;
             if (bias == 0) {
-                func_80152EC4(packet, 1);
+                DuelEffect_SubmitOffsetQuad(packet, 1);
             } else {
                 if (depth < 0) {
                     depth = 0;
@@ -41,7 +42,7 @@ void func_80156448(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, u1
         if (flag >= 0) {
             depth -= bias;
             if (bias == 0) {
-                func_80152EC4(packet, 1);
+                DuelEffect_SubmitOffsetQuad(packet, 1);
             } else {
                 if (depth < 0) {
                     depth = 0;

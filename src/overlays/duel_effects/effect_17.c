@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_17.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80148BA4(void *buffer, s32 phase)
 {
@@ -165,7 +166,7 @@ void func_80148BA4(void *buffer, s32 phase)
                         setVector(&rotation, 0, 0,
                                   -(work->tick * ((j * 2 + 1) * work->config->fan_spin) + k * 32 + i * 1024) % 4096);
                         DuelEffect_SetTransformMatrix(&world, &saved, &work->center, &rotation, &scale, 0);
-                        func_8015131C(packet, vertices, 1, 1);
+                        DuelEffect_ProjectSubmitGt4(packet, vertices, 1, 1);
                     }
                 }
                 if (work->field_1D94 < 4096 && work->tick < 999) {
