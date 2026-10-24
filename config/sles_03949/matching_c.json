@@ -266,15 +266,15 @@
     },
     {
       "address": "0x800150CC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/fade_init.c"
+      "source": "src/game/european/fade_runtime.c"
     },
     {
       "address": "0x800150F4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x138",
-      "source": "src/game/european/fade_step_bands.c"
+      "source": "src/game/european/fade_runtime.c"
     },
     {
       "address": "0x8001522C",
