@@ -29,10 +29,12 @@ class DuelBankDispatchTests(unittest.TestCase):
         with (directory / "duel_effects_functions.csv").open() as handle:
             inventory = {row["name"]: row for row in csv.DictReader(handle)}
         named_callees = {
+            "DuelEffect_RunStatPenalty": ("func_801503F8", 0x801503F8, 0xA08),
+            "DuelEffect_RunDirectDamage": ("func_80154B30", 0x80154B30, 0xBC4),
+            "DuelEffect_RunReflectedDirectDamage": ("func_801587D8", 0x801587D8, 0xBD0),
             "DuelEffect_PackTexturePageClut": ("func_8014F564", 0x8014F564, 0x6C),
             "DuelEffect_RunContourBurst": ("func_80154688", 0x80154688, 0x4A8),
             "DuelEffect_RunParticleContourBurst": ("func_80154084", 0x80154084, 0x604),
-            "DuelEffect_RunStatPenalty": ("func_801503F8", 0x801503F8, 0xA08),
         }
         callees = set(re.findall(
             r"\b(func_[0-9A-F]+|"
