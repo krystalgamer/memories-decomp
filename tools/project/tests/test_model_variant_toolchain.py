@@ -532,6 +532,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             924: (names(set(), set(), stage10_slot1={147, 171, 260, 449, 463, 534}, stage8_slot1={4, 91, 150, 200, 294, 383, 403, 516, 521, 527, 546}), 0x1A30, 1),
             828: (names({50, 79, 122, 396, 397, 414, 513, 536, 560, 569, 578}, {64, 75, 225, 353, 374, 495, 567}, stage10_slot1=set(), stage8_slot1=set()), 0x1A38, 1),
             925: (names(set(), set(), stage10_slot1={64, 75, 225, 353, 374, 495, 567}, stage8_slot1={50, 79, 396, 397, 414, 513, 536, 560, 569, 578}), 0x1A38, 1),
+            654: (names({204, 503, 515, 526, 532, 547, 566, 589, 604}, {122, 487, 509, 538, 578, 585, 613}, stage10_slot1=set(), stage8_slot1=set()), 0x2370, 1),
+            721: (names(set(), set(), stage10_slot1={122, 151, 487, 509, 538, 578, 585, 613}, stage8_slot1={204, 503, 515, 526, 532, 547, 566, 589, 604}), 0x2370, 1),
             779: (names({5, 24, 49, 53, 98, 120, 154, 157, 177, 196, 221, 473, 559, 577, 586, 588}, {49, 80, 86, 124, 210, 265, 273, 376, 387, 402, 474, 559, 570, 580, 609, 620, 634, 637}, stage10_slot1=set(), stage8_slot1=set()), 0x20E0, 1),
             876: (names(set(), set(), stage10_slot1={49, 80, 86, 124, 210, 238, 265, 273, 376, 387, 402, 474, 559, 570, 580, 609, 620, 634, 637}, stage8_slot1={5, 24, 49, 53, 92, 98, 120, 136, 154, 157, 177, 196, 221, 473, 559, 577, 586, 588}), 0x20E0, 1),
             766: (names({65, 83, 90, 94, 109, 110, 114, 126, 160, 208, 230, 245, 298, 381, 404, 444, 468, 470, 478, 608, 633, 648}, {224, 226, 233, 450, 614, 617}, stage10_slot1=set(), stage8_slot1=set()), 0x1838, 1),
@@ -559,7 +561,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 894)
+        self.assertEqual(len(registered), 927)
 
 
 if __name__ == "__main__":
