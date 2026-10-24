@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "layered_drawing.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80155BC0(u8 *color, u16 size, s16 depth, SVECTOR *offset)
 {
@@ -17,13 +18,13 @@ void func_80155BC0(u8 *color, u16 size, s16 depth, SVECTOR *offset)
     for (i = 0; i < 4; i++) {
         addVector(&packet->vertices[i], offset);
     }
-    func_80151218(&packet->polygon, drawing.vertices, depth, 1);
+    DuelEffect_ProjectSubmitFt4(&packet->polygon, drawing.vertices, depth, 1);
     setRGB0(&packet->polygon, color[0] >> 1, color[1] >> 1, color[2] >> 1);
     DuelEffect_InitSquareVertices(drawing.vertices, size * 2);
     for (i = 0; i < 4; i++) {
         addVector(&drawing.vertices[i], offset);
     }
-    func_80151218(&packet->polygon, drawing.vertices, depth, 1);
+    DuelEffect_ProjectSubmitFt4(&packet->polygon, drawing.vertices, depth, 1);
 }
 
 void func_80155D90(u8 *color, u16 *widths, u16 height, s16 depth)
@@ -53,11 +54,11 @@ void func_80155D90(u8 *color, u16 *widths, u16 height, s16 depth)
     drawing.vertices[3].vx = widths[1];
     drawing.vertices[3].vy = 0;
     drawing.vertices[3].vz = 0;
-    func_8015131C(packet, drawing.vertices, depth, 1);
+    DuelEffect_ProjectSubmitGt4(packet, drawing.vertices, depth, 1);
     setRGB2(&drawing.polygon, color[0] >> 2, color[1] >> 2, color[2] >> 2);
     setRGB3(&drawing.polygon, color[0] >> 2, color[1] >> 2, color[2] >> 2);
     for (i = 0; i < 4; i++) {
         applyVector(&record->vertices[i], 2, 2, 0, *=);
     }
-    func_8015131C(packet, drawing.vertices, depth, 1);
+    DuelEffect_ProjectSubmitGt4(packet, drawing.vertices, depth, 1);
 }

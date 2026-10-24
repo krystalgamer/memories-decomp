@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_22.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_8014A8E4(void *buffer, s32 phase)
 {
@@ -170,9 +171,9 @@ void func_8014A8E4(void *buffer, s32 phase)
                     addVector(&vertices[j], &work->positions[i]);
                 }
                 if (work->portal_color.r == 128 && work->portal_color.g == 128 && work->portal_color.b == 128) {
-                    func_80151218(packet, vertices, 1, 0);
+                    DuelEffect_ProjectSubmitFt4(packet, vertices, 1, 0);
                 } else {
-                    func_80151218(packet, vertices, 1, 1);
+                    DuelEffect_ProjectSubmitFt4(packet, vertices, 1, 1);
                 }
             }
             if (work->stage < 4) {
@@ -197,7 +198,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                     addVector(&vertices[j], &work->positions[i]);
                     vertices[j].vy -= 48;
                 }
-                func_80151218(packet, vertices, 1, 1);
+                DuelEffect_ProjectSubmitFt4(packet, vertices, 1, 1);
                 /* Separate gates preserve the original nested-loop pointer allocation. */
                 if (work->stage >= 2) {
                     work->texture_frames[i] = (work->texture_frames[i] + 1) % 4;
@@ -388,7 +389,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                                   -(work->frame * ((i * 2 + 1) * work->fan_speed) +
                                     k * 32 + j * 1024) % 4096);
                         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
-                        func_8015131C(gradient_packet, vertices, 1, 1);
+                        DuelEffect_ProjectSubmitGt4(gradient_packet, vertices, 1, 1);
                     }
                 }
             }

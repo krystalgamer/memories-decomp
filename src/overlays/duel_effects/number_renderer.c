@@ -2,6 +2,7 @@
 #include "packet_helpers.h"
 #include "drawing_helpers.h"
 #include "textured_quads.h"
+#include "packet_semantic_views.h"
 
 void func_801566D4(s32 value, u8 *color, SVECTOR *offset, u16 mode, u16 size, u16 bias)
 {
@@ -69,7 +70,7 @@ void func_801566D4(s32 value, u8 *color, SVECTOR *offset, u16 mode, u16 size, u1
                     vertex += 2;
                     continue;
                 }
-                func_80152F9C(draw_packet, draw_mode);
+                DuelEffect_SubmitOffsetFt4(draw_packet, draw_mode);
             }
         } else {
             adjusted = depth + 1;

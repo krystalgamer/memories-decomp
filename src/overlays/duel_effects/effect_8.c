@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_8.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80147B18(void *buffer, s32 phase)
 {
@@ -84,7 +85,7 @@ void func_80147B18(void *buffer, s32 phase)
             setVector(&quad[1], work->width, -work->height, 0);
             setVector(&quad[2], -work->width, 0, 0);
             setVector(&quad[3], work->width, 0, 0);
-            func_8015131C(packet, quad, 32, 1);
+            DuelEffect_ProjectSubmitGt4(packet, quad, 32, 1);
             work->width -= work->config->width_step;
             if (work->width < work->config->minimum_width) {
                 work->width = work->config->minimum_width;

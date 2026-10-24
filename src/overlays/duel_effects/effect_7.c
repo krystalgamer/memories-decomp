@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_7.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_7_TRAIL_SPREAD 13
@@ -88,7 +89,7 @@ void func_801587D8(void *buffer, s32 phase)
         frame_step = Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        func_801531C4(&world);
+        DuelEffect_InitBaseMatrix(&world);
         for (i = 0; i < work->active; i++) {
             if (work->states[i] == 0) {
                 setVector(&scale, 4096, 4096, 4096);

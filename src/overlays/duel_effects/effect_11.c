@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_11.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80146760(void *buffer, s32 phase)
 {
@@ -126,7 +127,7 @@ void func_80146760(void *buffer, s32 phase)
             setVector(&vertices[1], work->width, -work->height, 0);
             setVector(&vertices[2], -work->width, 0, 0);
             setVector(&vertices[3], work->width, 0, 0);
-            func_8015131C(gradient_packet, vertices, 32, 1);
+            DuelEffect_ProjectSubmitGt4(gradient_packet, vertices, 32, 1);
             work->width -= work->config->shrink;
             if (work->width < work->config->min_width) {
                 work->width = work->config->min_width;
@@ -174,7 +175,7 @@ void func_80146760(void *buffer, s32 phase)
                         setRGB0(packet, work->colors[i][j].r, work->colors[i][j].g, work->colors[i][j].b);
                         DuelEffect_InitXZRectVertices(vertices, 6, 0, 4);
                         DuelEffect_SetTransformMatrix(&world, &saved, &work->positions[i][j], &work->rotations[i][j], &scale, 2);
-                        func_80151218(packet, vertices, 1, 0);
+                        DuelEffect_ProjectSubmitFt4(packet, vertices, 1, 0);
                     }
                     if (work->velocities[i][j].vy > 0 && work->states[i][j] == 0 &&
                         work->positions[i][j].vy >= -31) {
@@ -200,7 +201,7 @@ void func_80146760(void *buffer, s32 phase)
                             for (l = 0; l < 4; l++) {
                                 addVector(&vertices[l], &work->particles[i][j][k]);
                             }
-                            func_80151218(packet, vertices, 1, 1);
+                            DuelEffect_ProjectSubmitFt4(packet, vertices, 1, 1);
                             work->sizes[i][j][k]--;
                         }
                         work->frames[i][j] = (work->frames[i][j] + 1) % 4;

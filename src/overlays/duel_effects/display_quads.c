@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "display_quads.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_801573A8(u8 *color, u16 size, s16 depth)
 {
@@ -15,7 +16,7 @@ void func_801573A8(u8 *color, u16 size, s16 depth)
     setRGB0(&packet->polygon, color[0], color[1], color[2]);
     for (i = 0; i < 4; i++) {
         DuelEffect_InitQuadrantQuadVertices(packet->vertices, size, i);
-        func_80151218(&packet->polygon, packet->vertices, depth, 1);
+        DuelEffect_ProjectSubmitFt4(&packet->polygon, packet->vertices, depth, 1);
     }
 }
 
@@ -38,7 +39,7 @@ void func_80157494(u8 *color, SVECTOR *offset, u16 width, u16 height, u16 tile)
     for (i = 0; i < 4; i++) {
         addVector(&packet->vertices[i], offset);
     }
-    func_80151218(&packet->polygon, drawing.vertices, 1, 1);
+    DuelEffect_ProjectSubmitFt4(&packet->polygon, drawing.vertices, 1, 1);
 }
 
 void func_801575CC(u8 *color, DVECTOR *first, DVECTOR *last, u16 width)
@@ -67,7 +68,7 @@ void func_801575CC(u8 *color, DVECTOR *first, DVECTOR *last, u16 width)
             (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,
             (PSXLONG *)&p, (PSXLONG *)&flag);
         if (flag >= 0) {
-            func_80152EC4(packet, 1);
+            DuelEffect_SubmitOffsetQuad(packet, 1);
         }
     }
 }

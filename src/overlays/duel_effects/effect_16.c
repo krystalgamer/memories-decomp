@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_16.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80151558(void *buffer, s32 phase)
 {
@@ -97,7 +98,7 @@ void func_80151558(void *buffer, s32 phase)
                             quad[l].vx += (s16)func_8014F524(-1, l + 1) *
                                 work->config->widths[i];
                         }
-                        func_80151218(packet, quad, 32, 1);
+                        DuelEffect_ProjectSubmitFt4(packet, quad, 32, 1);
                     }
                     if (work->ages[j] == 4) {
                         func_80155BC0((u8 *)&work->secondary[j], work->config->glow_sizes[i] * 2,

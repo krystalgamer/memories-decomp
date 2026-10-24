@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "textured_quads.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80156C40(u8 *color, u16 size, SVECTOR *offset)
 {
@@ -17,7 +18,7 @@ void func_80156C40(u8 *color, u16 size, SVECTOR *offset)
     for (i = 0; i < 4; i++) {
         addVector(&packet->vertices[i], offset);
     }
-    func_80151218(&packet->polygon, drawing.vertices, 0, 1);
+    DuelEffect_ProjectSubmitFt4(&packet->polygon, drawing.vertices, 0, 1);
 }
 
 void func_80156D50(u16 size, u16 index, SVECTOR *offset)
@@ -36,5 +37,5 @@ void func_80156D50(u16 size, u16 index, SVECTOR *offset)
     for (i = 0; i < 4; i++) {
         addVector(&packet->vertices[i], offset);
     }
-    func_80151218(&packet->polygon, drawing.vertices, 1, 1);
+    DuelEffect_ProjectSubmitFt4(&packet->polygon, drawing.vertices, 1, 1);
 }

@@ -2,8 +2,9 @@
 #include "../../game/gpu_packets.h"
 #include "packet_helpers.h"
 #include "textured_quads.h"
+#include "packet_semantic_views.h"
 
-void func_80151218(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
+void DuelEffect_ProjectSubmitFt4(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
 {
     s32 p;
     s32 flag;
@@ -15,7 +16,7 @@ void func_80151218(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
                         (PSXLONG *)&p, (PSXLONG *)&flag);
     if (flag >= 0) {
         if (bias == 0) {
-            func_80152F9C(packet, mode);
+            DuelEffect_SubmitOffsetFt4(packet, mode);
         } else {
             depth = depth - (bias - 1);
             if (depth < 0) {
@@ -31,7 +32,7 @@ void func_80151218(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
     }
 }
 
-void func_8015131C(POLY_GT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
+void DuelEffect_ProjectSubmitGt4(POLY_GT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
 {
     s32 p;
     s32 flag;
@@ -43,7 +44,7 @@ void func_8015131C(POLY_GT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
                         (PSXLONG *)&p, (PSXLONG *)&flag);
     if (flag >= 0) {
         if (bias == 0) {
-            func_801530B0(packet, mode);
+            DuelEffect_SubmitOffsetGt4(packet, mode);
         } else {
             depth = depth - (bias - 1);
             if (depth < 0) {

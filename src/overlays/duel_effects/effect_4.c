@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_4.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80159AAC(void *buffer, s32 phase)
 {
@@ -58,7 +59,7 @@ void func_80159AAC(void *buffer, s32 phase)
         frame_step = Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        func_801531C4(&world);
+        DuelEffect_InitBaseMatrix(&world);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) ||
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->card_color)) {
             setVector(&position, 0, 0, 0);
@@ -86,9 +87,9 @@ void func_80159AAC(void *buffer, s32 phase)
             setVector(&quad[3], work->config->card_width,
                       work->config->card_height, 0);
             if ((*(u32 *)&work->card_color & 0xFFFFFF) == 0x808080) {
-                func_80151218(packet, quad, 0, 0);
+                DuelEffect_ProjectSubmitFt4(packet, quad, 0, 0);
             } else {
-                func_80151218(packet, quad, 0, 1);
+                DuelEffect_ProjectSubmitFt4(packet, quad, 0, 1);
             }
             if (work->frame >= work->config->duration) {
                 if (work->stage == 0) {

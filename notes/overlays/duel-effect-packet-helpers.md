@@ -1,5 +1,88 @@
 # Duel-effect packet helpers
 
+## Scoped packet/projection C views
+
+The complete four-function packet object and two-function projection object
+now expose six typed C views through `packet_semantic_views.h`. Original
+native headers, declarations, function labels, profiles and grouping remain
+unchanged. The new header follows each affected source's complete original
+SDK/header block.
+
+| C view | Native label | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `DuelEffect_SubmitOffsetQuad` | `func_80152EC4` | `0x80153A9C` | `0x80160F58` | `0x80152EC4` |
+| `DuelEffect_SubmitOffsetFt4` | `func_80152F9C` | `0x80153B74` | `0x80161030` | `0x80152F9C` |
+| `DuelEffect_SubmitOffsetGt4` | `func_801530B0` | `0x80153C88` | `0x80161144` | `0x801530B0` |
+| `DuelEffect_InitBaseMatrix` | `func_801531C4` | `0x80153D9C` | `0x80161258` | `0x801531C4` |
+| `DuelEffect_ProjectSubmitFt4` | `func_80151218` | `0x80151DF0` | `0x8015F2AC` | `0x80151218` |
+| `DuelEffect_ProjectSubmitGt4` | `func_8015131C` | `0x80151EF4` | `0x8015F3B0` | `0x8015131C` |
+
+Six registry records use `overlay/duel_effects/function` at the actual NA
+inventory addresses. Thirty name cells change across the five configured
+bank inventories, not their non-name fields, extents, order or profiles.
+Numeric label suffixes do not establish the NA VMA. No resident records,
+new native exports, linker aliases or German/Italian bank coverage are added.
+
+### Offset submission
+
+All three offset helpers keep four X updates followed by four Y updates,
+with their repeated halfword reads and narrowing. They retain these
+different submission paths:
+
+| View / condition | Submission |
+|---|---|
+| Generic quad, all flags | Original resident call with wrapped base priority plus one; flags forwarded |
+| FT4, mode 1 | Resident call at base priority with flags 1 |
+| FT4, every other `u16` mode | Clear semitransparency, SDK sort at base priority |
+| GT4, mode 1 | Resident call at base priority with flags 1 |
+| GT4, every other `u16` mode | Clear semitransparency, SDK sort at wrapped base priority plus one |
+
+The generic view remains `void *`: actual G4 packets and FT4-layout
+coordinates share the accessed XY offsets, as the original caller-backed
+contract below explains. It is not narrowed to FT4 or generalized to
+arbitrary incompatible packet layouts. No offset caching, reordered
+stores, mode-as-boolean normalization or priority widening is introduced.
+
+### Projection and base matrix
+
+Both projection helpers keep `RotAverage4` and its packed coordinate
+`PSXLONG *` output casts. Coordinates can be written even when the later
+signed flag test suppresses submission; a rejected flag does not make the
+whole function a no-op.
+
+With nonnegative flags and zero bias, each helper delegates to its typed
+offset path, retaining its fixed module priority and offset behavior.
+With nonzero bias, both retain `depth - (bias - 1)`, the negative-to-zero
+clamp and unsigned-halfword conversion after arithmetic shift by two.
+The FT4 mode-zero branch clears code mask `0x02` and SDK-sorts; other FT4
+modes use the resident call. The GT4 biased path always uses the resident
+call, including mode zero. Keep these differences, locals, comparison
+domains, casts and SDK/call order rather than unifying the routines.
+
+`DuelEffect_InitBaseMatrix` writes identity rotation components and
+translation `(0, 0, 300)`, not a wholly identity affine matrix. It retains
+the explicit diagonal and paired off-diagonal stores and leaves the SDK
+matrix pad untouched. Actual effect callers use it before layered transform
+setup. No new matrix type, storage, padding initialization or axis unit is
+inferred.
+
+### Conservation
+
+All actual bank callers use the six assembler-bound C views while twelve
+typed canonical/native declarations preserve the original ABI. Existing
+native owners, tests, fixtures, source selectors, negative controls and
+historical curve/paired-ABI guards remain unchanged. Module data stays
+native; this pass does not invent data namespaces or new global meanings.
+
+Accepted-parent CPP/native/whole-image comparisons account only for those
+declarations, one include per affected C file and the six identifiers.
+Raw compiler/MASPSX output, native symbols, ordinary/fallback assembly and
+the complete NA executable/ELF must match. Full five-bank and seven-copy
+acceptance uses the existing PR gates, not local cloud tests. No
+C/source-string/native harness is added.
+
+## Original matching evidence and contracts
+
 The complete contiguous group `0x80152EC4..0x80153200` contains four
 functions / 828 bytes, compiled with the unchanged `gcc_2_8_1_g0_split`
 profile. Existing SDK packet, vector and matrix types and resident-owned

@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_9.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_801593A8(void *buffer, s32 phase)
 {
@@ -65,7 +66,7 @@ void func_801593A8(void *buffer, s32 phase)
         frame_step = Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        func_801531C4(&world);
+        DuelEffect_InitBaseMatrix(&world);
         DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 1);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
             DuelEffect_DrawFullscreenGradient((u8 *)&work->background_color);

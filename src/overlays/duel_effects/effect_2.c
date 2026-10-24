@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_2.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_80153200(void *buffer, s32 phase, s16 number)
 {
@@ -77,7 +78,7 @@ void func_80153200(void *buffer, s32 phase, s16 number)
         frame_step = Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        func_801531C4(&world);
+        DuelEffect_InitBaseMatrix(&world);
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
         if (work->stage != 0 &&
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color) && work->number != 0) {
@@ -114,22 +115,22 @@ void func_80153200(void *buffer, s32 phase, s16 number)
             if (work->stage == 0) {
                 DuelEffect_InitIndexedQuadVertices(quad, 2, 3, 1, 2, work->config->widths,
                              work->config->heights);
-                func_8015131C(packet, quad, 0, 1);
+                DuelEffect_ProjectSubmitGt4(packet, quad, 0, 1);
                 DuelEffect_InitIndexedQuadVertices(quad, 4, 3, 3, 2, work->config->widths,
                              work->config->heights);
-                func_8015131C(packet, quad, 0, 1);
+                DuelEffect_ProjectSubmitGt4(packet, quad, 0, 1);
             } else {
                 if (work->stage == 1) {
                     DuelEffect_SetGrayColor((u8 *)&work->background_color, 255);
                 }
                 DuelEffect_InitIndexedQuadToYZero(quad, 2, 1, 1, work->config->widths,
                              work->config->heights);
-                func_8015131C(packet, quad, 0, 1);
+                DuelEffect_ProjectSubmitGt4(packet, quad, 0, 1);
             }
             if (work->stage >= 2) {
                 DuelEffect_InitIndexedQuadToYZero(quad, 0, 1, 0, work->config->widths,
                              work->config->heights);
-                func_8015131C(packet, quad, 0, 1);
+                DuelEffect_ProjectSubmitGt4(packet, quad, 0, 1);
             }
             if (work->stage != 0) {
                 gDuelEffect_pActiveRequest->field_1D = 1;

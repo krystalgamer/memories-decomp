@@ -2,6 +2,7 @@
 #include "../../game/gpu_packets.h"
 #include "layered_drawing.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_801558F4(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags)
 {
@@ -37,7 +38,7 @@ void func_801558F4(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flag
         if (flag >= 0) {
             depth++;
             if (bias == 0) {
-                func_80152EC4(edge, flags);
+                DuelEffect_SubmitOffsetQuad(edge, flags);
             } else {
                 depth -= bias;
                 func_8005B260((u32 *)edge, D_8015B7F4,
@@ -52,6 +53,6 @@ void func_801558F4(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flag
         for (j = 0; j < 4; j++) {
             addVector(&vertices[j], &inner[i]);
         }
-        func_80151218(packet, vertices, (s16)bias, flags);
+        DuelEffect_ProjectSubmitFt4(packet, vertices, (s16)bias, flags);
     }
 }

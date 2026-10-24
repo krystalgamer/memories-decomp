@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_24.h"
 #include "geometry_semantic_views.h"
+#include "packet_semantic_views.h"
 
 void func_8014D3E8(void *buffer, s32 phase)
 {
@@ -85,7 +86,7 @@ void func_8014D3E8(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         copyVector(&D_8015B7F8, &work->center);
         PushMatrix();
-        func_801531C4(&world);
+        DuelEffect_InitBaseMatrix(&world);
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
         setPolyFT4(packet);
         packet->tpage = D_8015B748.pairs[18][0];
@@ -98,7 +99,7 @@ void func_8014D3E8(void *buffer, s32 phase)
                 setVector(&vertices[1], 0, -work->half_height, 0);
                 setVector(&vertices[2], work->half_width * func_8014F524(-1, i + 1), work->half_height, 0);
                 setVector(&vertices[3], 0, work->half_height, 0);
-                func_80151218(packet, vertices, 0, 1);
+                DuelEffect_ProjectSubmitFt4(packet, vertices, 0, 1);
             }
         }
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->line_color)) {
