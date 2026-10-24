@@ -1,0 +1,15 @@
+==== USER CONTEXT ==== 
+ 
+With the emulator in Interpreter mode I booted up the game. When it reached the main menu screen where it says "Push Start Button" I injected the script and waited. No input from my controller.
+After a while the intro video played again and when it finished it sent me back to the same menu.
+
+There after a couple seconds the trace was printed.
+
+==== TRACE RESULT ===== 
+ 
+script: title_idle_watch 
+setup: debugger=on configured_cpu=interpreter active_cpu=unverified execution_breakpoint=observed 
+status: window ended 
+frames: 5400 control_hits: 4466 rows: 0 
+written D_8009AFA6 x0 
+not called: func_8002C400 zone offset, func_8002C484 zone offset, Model_GetSlotScale, func_800135FC orbit offset, func_8002C570 chest test, func_8003FFD8 BGM step, func_80059B90 rotation, func_8005C374 movie bytes, func_80058DC0 get D_8009AFA6, func_8005FC1C handler family, func_8005FE44 handler family 
