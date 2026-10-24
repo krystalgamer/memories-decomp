@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "exodia_semantic_views.h"
 #include "selected_cards_semantic_views.h"
 
 void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
@@ -31,13 +32,13 @@ void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
             work->cross_frame = 0;
             work->config = &gDuelEffect_SelectedCardOverlayConfigs[phase];
             if (work->config->selector == 999) {
-                Duel_CollectFieldRowCardObjects(D_8015B7A0, 1);
+                Duel_CollectFieldRowCardObjects(gDuelEffect_CardObjectScratchWords, 1);
             } else {
-                Duel_CollectMatchingFieldCardObjects(D_8015B7A0,
+                Duel_CollectMatchingFieldCardObjects(gDuelEffect_CardObjectScratchWords,
                                                      work->config->selector);
             }
             work->count = 0;
-            for (i = 0; D_8015B7A0[i] != 0; i++) {
+            for (i = 0; gDuelEffect_CardObjectScratchWords[i] != 0; i++) {
                 work->count++;
             }
             work->visible = 1;
@@ -77,9 +78,9 @@ void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
             DuelEffect_InitSquareVertices(quad, 128);
             for (i = 0; i < work->count; i++) {
                 setVector(&translation,
-                    ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30,
-                    ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_32,
-                    ((DisplayObject *)D_8015B7A0[i])->field_34.h.field_34);
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30,
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32,
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34);
                 DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 0);
                 DuelEffect_ProjectSubmitFt4(packet, quad, 32, 1);
                 DuelEffect_ProjectSubmitFt4(packet, quad, 32, 1);

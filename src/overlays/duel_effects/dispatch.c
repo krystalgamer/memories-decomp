@@ -10,6 +10,7 @@
 #include "row_strike_semantic_views.h"
 #include "ritual_semantic_views.h"
 #include "stat_penalty_semantic_views.h"
+#include "exodia_semantic_views.h"
 #include "selected_cards_semantic_views.h"
 
 void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
@@ -140,6 +141,6 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     }
     if (effect == 24) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
-        func_8014D3E8(buffer, phase);
+        DuelEffect_RunExodiaBurst(buffer, phase);
     }
 }
