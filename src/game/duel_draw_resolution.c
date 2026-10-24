@@ -1,5 +1,6 @@
 /*
- * Draw resolution and the Exodia result: Duel_HasAllExodiaPieces and
+ * Draw resolution and the Exodia result: Duel_UpdateDrawCardSlide eases a
+ * drawn card into place, Duel_HasAllExodiaPieces and
  * DuelScene_UpdateDrawResolution resolve the drawn card, DuelScene_UpdateExodiaResult
  * stages the five-piece presentation, and DuelCard_CaptureRoundedTexture reads a
  * drawn card back into the staging buffer. One object in every build.
@@ -64,6 +65,8 @@
 #include "duel_card_capture_rounded_texture.h"
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
+#include "display_object_interpolation.h"
+#include "display_object_lifecycle.h"
 
 #define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \
     ((u32)&((DuelEffectRequest *)0)->field_1D)
@@ -77,6 +80,24 @@
 #ifndef DUEL_DRAW_RESOLUTION_CARD_Y
 #define DUEL_DRAW_RESOLUTION_CARD_Y 0x92
 #endif
+
+void Duel_UpdateDrawCardSlide(DisplayObject *o)
+{
+    if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o)) {
+        o->field_2C.h.field_2C = 0x400 / o->field_60;
+        o->position.h.field_28 = o->field_30.h.field_30 - 0x140;
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
+        o->field_60 = -0x400;
+    }
+    Widget_SlideSine((DisplayObjectPosition *)o, (s16)o->position.h.field_28,
+                  (s16)o->field_30.h.field_32, o->field_60);
+    o->field_60 += o->field_2C.h.field_2C;
+    if (o->field_60 >= 0) {
+        o->update = 0;
+        o->field_6C = 0;
+        o->field_30.h.field_30 = (s16)o->position.h.field_28;
+    }
+}
 
 s32 Duel_HasAllExodiaPieces(void) {
     s16 hand[HAND_SIZE];
