@@ -1838,15 +1838,15 @@
     },
     {
       "address": "0x8002DA1C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x21C",
-      "source": "src/game/main_run_credits.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002DC38",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x13C",
-      "source": "src/game/main_run_two_player_duel_setup.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002DD74",

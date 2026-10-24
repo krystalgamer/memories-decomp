@@ -188,7 +188,7 @@ extern u8 *G32 gDuel_pActiveFieldGrid;
  * Initial value not read.
  *
  * duel_state_init.c reaches it gp-relative and takes the plain halfword;
- * main_run_two_player_duel_setup.c and src/game/main_init.c reach it through
+ * main_mode_runners.c and src/game/main_init.c reach it through
  * %hi/%lo and define the .data arm. */
 #ifdef D_8009B230_IN_DATA
 extern u16 gDuel_wTwoPlayerCardViewMode __attribute__((section(".data")));
@@ -207,7 +207,7 @@ extern u16 gDuel_wTwoPlayerCardViewMode;
  * unit touches them. Initial value not read.
  *
  * duel_state_init.c reaches both gp-relative and takes the plain
- * declarations; main_run_two_player_duel_setup.c reaches both through %hi/%lo
+ * declarations; main_mode_runners.c reaches both through %hi/%lo
  * defines the two .data arms, one control each. */
 #ifdef D_8009B234_IN_DATA
 extern u16 gDuel_wTwoPlayerSide0LifePoints __attribute__((section(".data")));
@@ -294,7 +294,7 @@ extern u8 gDuel_bPlayerLost;
  * it. Initial value not read.
  *
  * Retail reaches it through %hi/%lo at every site and never through $gp,
- * so frontend_scene_states.c, main_run_two_player_duel_setup.c and
+ * so frontend_scene_states.c, main_mode_runners.c and
  * src/game/main_run_duel.c -- units that reach other symbols through
  * $gp -- define the .data arm below; text_start_campaign_duel.c and the
  * overlay's screen_runtime.c take the plain byte. The `u8 [9]` and `u8 []`

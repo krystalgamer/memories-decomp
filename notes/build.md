@@ -1181,9 +1181,9 @@ declarations would become eight local `#define`s and one indirection -- churn
 without a reduction.
 
 Two smaller notes for anyone who picks this symbol up. It is **not** an
-unmatched symbol, so it is out of scope for the `unmatched.h` work: three
-units define it -- `main_run_two_player_duel_setup.c`, `main_mode_runners.c` and
-`main_run_animated_battle.c` -- as common symbols under the `*_comm`
+unmatched symbol, so it is out of scope for the `unmatched.h` work: two
+units define it -- `main_mode_runners.c`, which now also holds the two-player
+duel setup, and `main_run_animated_battle.c` -- as common symbols under the `*_comm`
 profiles. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
 live in its own right, read and written by `frontend_scene_states.c` and

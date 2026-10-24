@@ -116,7 +116,7 @@ value at `+0x14`, then clamps it to the `+0x16` value. The display counter at
 The constant is used only when `gDuel_bOpponentID >= 0`, the ordinary duel
 path. The negative-opponent-ID path is the 2P Duel setup: menu result `2`
 dispatches to
-[`Main_RunTwoPlayerDuelSetup`](../src/game/main_run_two_player_duel_setup.c),
+[`Main_RunTwoPlayerDuelSetup`](../src/game/main_mode_runners.c),
 which initializes
 `gDuel_wTwoPlayerSide0LifePoints` and `gDuel_wTwoPlayerSide1LifePoints` with `DUEL_STARTING_LIFE_POINTS` and passes
 both addresses to `MainMenu_StartValueSetup` at `0x80180FD8`. Its matching

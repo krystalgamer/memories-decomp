@@ -656,7 +656,7 @@ other C file needs it.
 ## Value-setup translation unit
 
 `value_setup.c` is the whole value-setup screen: the three lifecycle entry
-points `main_run_two_player_duel_setup.c` calls and the four helpers that only
+points `main_mode_runners.c` calls and the four helpers that only
 they and each
 other reach. It covers `0x80180FD8..0x80181F68` as one contiguous
 `gcc_2_8_1_g0_split` run, wired as one C subsegment at module offset `0xFD8`.
