@@ -87,9 +87,13 @@ Villager2. The player summoned Spike Seadra (448) face-up and later Dragon
 Zombie (97) face-down. The opponent set card 96 face-down and switched it
 to defense. The trace hit its 96-row limit before any battle took place.
 
-- **Pairing:** every flags-`3` transition was followed by a flags-`0xC`
-  transition, at each scene change where the field was shown (scenes
-  `0x8004` and `0x8005`).
+- **Pairing:** five completed flags-`3` episodes (starting at frames 1246,
+  1392, 1627, 1766 and 2044, in scenes `0x8004` and `0x8005`) were each
+  followed by a flags-`0xC` transition. A sixth flags-`3` episode started
+  at frame 2210 and returned to `0x0000` at frame 2235, where the capture
+  stopped at its 96-row limit. Its flags-`0xC` partner, if any, was not
+  observed, so the capture does not show the pairing holds for every
+  episode or for a whole duel.
 - **Selection view:** `Duel_UpdateCardToSelectionView` ran while bits `3`
   were set. It took eight calls for the face-up card and one for each
   face-down card (97 and 96), ending as the transition word went from
