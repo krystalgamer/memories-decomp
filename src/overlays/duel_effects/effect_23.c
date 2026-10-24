@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "exodia_semantic_views.h"
 
 void func_80152048(void *buffer, s32 phase)
 {
@@ -24,14 +25,14 @@ void func_80152048(void *buffer, s32 phase)
     packet = &polygon;
     work = buffer;
     if (phase >= 0) {
-        Duel_CollectFieldRowCardObjects(D_8015B7A0, 1);
+        Duel_CollectFieldRowCardObjects(gDuelEffect_CardObjectScratchWords, 1);
         setVector(&work->position,
                   (gDuelEffect_DrawOffset.vz >= 0 ? -140 : 140) + (gDuelEffect_DrawOffset.vz >= 0 ? -64 : 64),
                   -184, gDuelEffect_DrawOffset.vz >= 0 ? -190 : 190);
         work->speed = gDuelEffect_DrawOffset.vz >= 0 ? 4 : -4;
         setVector(&work->rotation, 0, 0, gDuelEffect_DrawOffset.vz >= 0 ? -384 : 384);
         work->count = 0;
-        while (D_8015B7A0[work->count] != 0) {
+        while (gDuelEffect_CardObjectScratchWords[work->count] != 0) {
             work->count++;
         }
         for (i = 4; i >= 0; i--) {
@@ -45,18 +46,18 @@ void func_80152048(void *buffer, s32 phase)
                       (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1),
                       (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1),
                       (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1));
-            if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 ==
+            if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? -140 : 140)) {
                 work->states[0] = 1;
-            } else if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 ==
+            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? -70 : 70)) {
                 work->states[1] = 1;
-            } else if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 == 0) {
+            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 == 0) {
                 work->states[2] = 1;
-            } else if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 ==
+            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? 70 : -70)) {
                 work->states[3] = 1;
-            } else if ((s16)((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 ==
+            } else if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? 140 : -140)) {
                 work->states[4] = 1;
             }
@@ -149,31 +150,31 @@ void func_80152048(void *buffer, s32 phase)
         }
         if (work->stage >= 2) {
             for (i = 0; i < work->active; i++) {
-                ((DisplayObject *)D_8015B7A0[i])->attribute |= 0x50000000;
-                ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30 += work->card_velocities[i].vx;
-                ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_32 += work->card_velocities[i].vy;
-                ((DisplayObject *)D_8015B7A0[i])->field_34.h.field_34 += work->card_velocities[i].vz;
-                ((DisplayObject *)D_8015B7A0[i])->field_20.b.field_20 += work->card_rotations[i].vx;
-                ((DisplayObject *)D_8015B7A0[i])->field_20.b.field_21 += work->card_rotations[i].vx;
-                ((DisplayObject *)D_8015B7A0[i])->field_20.b.field_22 += work->card_rotations[i].vx;
-                if (((u8 *)&((DisplayObject *)D_8015B7A0[i])->field_0C)[0] > 15) {
-                    ((u8 *)&((DisplayObject *)D_8015B7A0[i])->field_0C)[0] -= 15;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->attribute |= 0x50000000;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 += work->card_velocities[i].vx;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32 += work->card_velocities[i].vy;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 += work->card_velocities[i].vz;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_20 += work->card_rotations[i].vx;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_21 += work->card_rotations[i].vx;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_22 += work->card_rotations[i].vx;
+                if (((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_0C)[0] > 15) {
+                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_0C)[0] -= 15;
                 } else {
-                    ((u8 *)&((DisplayObject *)D_8015B7A0[i])->field_0C)[0] = 0;
+                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_0C)[0] = 0;
                 }
-                if (((u8 *)&((DisplayObject *)D_8015B7A0[i])->field_0C)[1] > 15) {
-                    ((u8 *)&((DisplayObject *)D_8015B7A0[i])->field_0C)[1] -= 15;
+                if (((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_0C)[1] > 15) {
+                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_0C)[1] -= 15;
                 } else {
-                    ((u8 *)&((DisplayObject *)D_8015B7A0[i])->field_0C)[1] = 0;
+                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_0C)[1] = 0;
                 }
-                if (((u8 *)&((DisplayObject *)D_8015B7A0[i])->field_0C)[2] > 15) {
-                    ((u8 *)&((DisplayObject *)D_8015B7A0[i])->field_0C)[2] -= 15;
+                if (((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_0C)[2] > 15) {
+                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_0C)[2] -= 15;
                 } else {
-                    ((u8 *)&((DisplayObject *)D_8015B7A0[i])->field_0C)[2] = 0;
+                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_0C)[2] = 0;
                 }
-                if ((((DisplayObject *)D_8015B7A0[i])->field_0C & 0xFFFFFF) == 0) {
+                if ((((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_0C & 0xFFFFFF) == 0) {
                     if (work->hidden < work->active) {
-                        ((DisplayObject *)D_8015B7A0[i])->flags &= ~0x40;
+                        ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->flags &= ~0x40;
                         work->hidden++;
                     }
                 }
@@ -203,7 +204,7 @@ void func_80152048(void *buffer, s32 phase)
         PopMatrix();
         if (work->count != 0) {
             if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color) &&
-                (((DisplayObject *)D_8015B7A0[work->count - 1])->field_0C & 0xFFFFFF) == 0) {
+                (((DisplayObject *)gDuelEffect_CardObjectScratchWords[work->count - 1])->field_0C & 0xFFFFFF) == 0) {
                 gDuelEffect_bRequestFinished = 1;
             }
         } else {
