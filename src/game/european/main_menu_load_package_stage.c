@@ -10,10 +10,10 @@ u8 gFile_szSuMrgPath[] __attribute__((section(".rodata"))) =
 
 #define VERSION_EUROPE
 
-/* The package's first sector is D_8009C02B * 0x88 (D_8009C02B read
+/* The package's first sector is gText_bLanguageIndex * 0x88 (gText_bLanguageIndex read
  * through $at). */
 #define D_8009C02B_IN_DATA
 #include "../duel_effect_resource_setup.h"
-#define MAIN_MENU_PACKAGE_FIRST_SECTOR (D_8009C02B * 0x88)
+#define MAIN_MENU_PACKAGE_FIRST_SECTOR (gText_bLanguageIndex * 0x88)
 
 #include "../main_menu_load_package_stage.c"

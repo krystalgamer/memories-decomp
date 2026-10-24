@@ -37,6 +37,18 @@ SYMBOL_LINE = re.compile(
 OVERLAY_FUNCTION_KIND = re.compile(
     r"^overlay/(?P<module>[a-z][a-z0-9_]*)/function$"
 )
+REGIONAL_GLOBAL_KIND = re.compile(
+    r"^regional/(?P<image>[a-z][a-z0-9_]*)/global$"
+)
+REGIONAL_IMAGES = frozenset({
+    "slpm_86398", "sles_03947", "sles_03948",
+    "sles_03949", "sles_03950", "sles_03951",
+})
+REGIONAL_ASSIGNMENT = re.compile(r"([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*;")
+REGIONAL_EXPRESSION = re.compile(
+    r"(?P<base>0[xX][0-9A-Fa-f]+|[0-9]+|[A-Za-z_][A-Za-z0-9_]*)"
+    r"(?:\s*(?P<operator>[+-])\s*(?P<offset>0[xX][0-9A-Fa-f]+|[0-9]+))?"
+)
 
 
 class SemanticNameError(RuntimeError):
@@ -71,6 +83,16 @@ def overlay_module(kind: str) -> str | None:
     return match.group("module") if match is not None else None
 
 
+def regional_image(kind: str) -> str | None:
+    match = REGIONAL_GLOBAL_KIND.fullmatch(kind)
+    if match is None:
+        return None
+    image = match.group("image")
+    if image not in REGIONAL_IMAGES:
+        raise SemanticNameError(f"unknown regional namespace: {image}")
+    return image
+
+
 def load_map(path: Path) -> list[Mapping]:
     with path.open("r", encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
@@ -85,7 +107,8 @@ def load_map(path: Path) -> list[Mapping]:
     for row in rows:
         kind = row["kind"]
         module = overlay_module(kind)
-        if kind not in {"function", "global"} and module is None:
+        image = regional_image(kind)
+        if kind not in {"function", "global"} and module is None and image is None:
             raise SemanticNameError(f"unsupported mapping kind: {kind}")
         address = parse_address(row["address"])
         name = row["name"]
@@ -96,7 +119,12 @@ def load_map(path: Path) -> list[Mapping]:
             raise SemanticNameError(
                 f"duplicate {kind} mapping at {address:#010x}"
             )
-        name_key = (f"overlay/{module}" if module is not None else "resident", name)
+        namespace = (
+            f"overlay/{module}" if module is not None
+            else f"regional/{image}" if image is not None
+            else "resident"
+        )
+        name_key = (namespace, name)
         if name_key in seen_names:
             raise SemanticNameError(f"duplicate semantic name: {name}")
         seen_addresses.add(key)
@@ -190,11 +218,15 @@ def symbol_state(
 
 
 def update_symbols(text: str, mappings: list[Mapping]) -> str:
+    mappings = [
+        mapping for mapping in mappings
+        if mapping.kind in {"function", "global"}
+    ]
+    if not mappings:
+        return text
     lines, by_address, by_name = symbol_state(text)
     additions: list[str] = []
     for mapping in mappings:
-        if overlay_module(mapping.kind) is not None:
-            continue
         existing_address = by_name.get(mapping.name)
         if existing_address is not None and existing_address != mapping.address:
             raise SemanticNameError(
@@ -284,6 +316,81 @@ def validate_overlay_function(
         )
 
 
+def regional_definitions(root: Path, image: str) -> dict[str, list[str]]:
+    definitions: dict[str, list[str]] = {}
+    for filename in ("symbols.txt", "link_symbols.ld"):
+        path = resolve_within(
+            root, f"config/{image}/{filename}", must_exist=True
+        )
+        text = re.sub(
+            r"/\*.*?\*/", "", path.read_text(encoding="utf-8"), flags=re.S
+        )
+        for line in text.splitlines():
+            match = REGIONAL_ASSIGNMENT.fullmatch(line.split("//", 1)[0].strip())
+            if match is not None:
+                name, expression = match.groups()
+                definitions.setdefault(name, []).append(expression)
+    return definitions
+
+
+def regional_symbol_value(
+    definitions: dict[str, list[str]], name: str, active: tuple[str, ...] = (),
+    resolved: dict[str, int] | None = None,
+) -> int:
+    if name in active:
+        raise SemanticNameError(f"cyclic regional alias: {' -> '.join((*active, name))}")
+    if len(active) >= 64:
+        raise SemanticNameError(f"regional alias chain too deep: {name}")
+    if resolved is None:
+        resolved = {}
+    if name in resolved:
+        return resolved[name]
+    expressions = definitions.get(name)
+    if expressions is None:
+        raise SemanticNameError(f"missing regional symbol: {name}")
+    values: set[int] = set()
+    for expression in expressions:
+        match = REGIONAL_EXPRESSION.fullmatch(expression)
+        if match is None:
+            raise SemanticNameError(
+                f"{name}: unsupported regional symbol expression: {expression}"
+            )
+        base = match.group("base")
+        value = (
+            regional_symbol_value(definitions, base, (*active, name), resolved)
+            if IDENTIFIER.fullmatch(base) else parse_address(base)
+        )
+        if match.group("operator") is not None:
+            offset = parse_address(match.group("offset"))
+            value += offset if match.group("operator") == "+" else -offset
+        if not 0 <= value <= 0xFFFFFFFF:
+            raise SemanticNameError(f"{name}: regional symbol is outside 32-bit range")
+        values.add(value)
+    if len(values) != 1:
+        raise SemanticNameError(f"conflicting regional symbol definitions: {name}")
+    value = values.pop()
+    resolved[name] = value
+    return value
+
+
+def validate_regional_global(
+    root: Path, mapping: Mapping, image: str,
+    definitions: dict[str, dict[str, list[str]]],
+) -> None:
+    if mapping.confidence not in {"confirmed", "high"}:
+        raise SemanticNameError(
+            f"{mapping.kind}: semantic names require confirmed or high confidence"
+        )
+    if image not in definitions:
+        definitions[image] = regional_definitions(root, image)
+    address = regional_symbol_value(definitions[image], mapping.name)
+    if address != mapping.address:
+        raise SemanticNameError(
+            f"{image}:{mapping.name}: regional symbol names {address:#010x}, "
+            f"not {mapping.address:#010x}"
+        )
+
+
 def plan(
     root: Path,
     mappings: list[Mapping],
@@ -319,12 +426,19 @@ def plan(
     replacements: dict[str, str] = {}
     moves: list[Move] = []
     overlay_inventories: dict[str, dict[int, dict[str, str]]] = {}
+    regional_symbols: dict[str, dict[str, list[str]]] = {}
 
     for mapping in mappings:
+        image = regional_image(mapping.kind)
+        if image is not None:
+            validate_regional_global(root, mapping, image, regional_symbols)
+            continue
         module = overlay_module(mapping.kind)
         if module is not None:
             validate_overlay_function(root, mapping, module, overlay_inventories)
             continue
+        if mapping.kind not in {"function", "global"}:
+            raise SemanticNameError(f"unsupported mapping kind: {mapping.kind}")
         if mapping.kind == "function":
             row = inventory.get(mapping.address)
             if row is None:

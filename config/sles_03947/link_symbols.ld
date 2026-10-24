@@ -1,4 +1,5 @@
 loaded_image_end = 0x801E0000;
+gText_bLanguageIndex = D_8009C02B;
 Base2_8009B2A8 = gScript_ViewportTargetX;
 Base2_8009B2AA = gScript_ViewportTargetY;
 gMovie_bStreamEnded = 0x8009BEFF;

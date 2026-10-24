@@ -77,6 +77,29 @@ duplicate within one namespace remains an error. Unknown scopes, absent
 addresses and not-yet-applied names are rejected rather than silently
 ignored. A scoped-only no-op does not rewrite unrelated resident files.
 
+## Regional global records
+
+Regional-only data uses `regional/<image>/global`, where `<image>` is the
+configuration directory: `slpm_86398` or `sles_03947` through `sles_03951`.
+An unqualified `global` still means the North American resident namespace;
+an old C identifier resembling an NA address does not establish NA ownership.
+
+These records are validation-only. Apply the source view and the selected
+image's linker export first. The tool requires `confirmed` or `high`
+confidence and resolves the canonical name from that image's `symbols.txt`
+and `link_symbols.ld`. Both paths must remain inside the workspace. Literal
+addresses, symbol aliases and optional literal addition/subtraction are
+supported; selected unsupported expressions, missing targets, cycles,
+overlong chains, conflicting definitions and incorrect addresses fail
+explicitly. Unrelated linker expressions are not evaluated.
+
+Names and addresses may repeat across images, but not within one image's
+namespace. Regional records never become NA token replacements, source
+moves or symbol entries. A scoped-only `--check` or `--apply` preserves
+resident files byte-for-byte, even their final-newline formatting. Mixed
+maps retain the existing resident transformations. See
+[regional text data views](regional-text-data-views.md) for the first users.
+
 ## Evidence coverage
 
 All nonambiguous descriptive function labels in `tmp/references/gms.c` were

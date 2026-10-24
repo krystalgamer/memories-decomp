@@ -6,7 +6,7 @@
 
 /* Localized duel-result outro sprite tables, one opponent/no-opponent pair
  * per language. DuelScene_UpdateResultOutro selects the pair by the language
- * index D_8009C02B, whose boot/reset default each single-language build sets
+ * index gText_bLanguageIndex, whose boot/reset default each single-language build sets
  * through BUILD_LANGUAGE_INDEX (1 French, 2 German, 3 Italian, 4 Spanish);
  * the debug language editor can store any value 1-4 in any of these builds,
  * so a table is chosen by the selector value rather than by the build. The

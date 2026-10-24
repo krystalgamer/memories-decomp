@@ -23,14 +23,15 @@ FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_i
  * left in callback_data. */
 void CardPreview_HandleResourceTransfer(FileTransferDescriptor *descriptor, s32 mode);
 
-/* European vertical layout selector used while preparing preview sprites. */
+/* PAL language selection shared by text, artwork and localized resources. */
 #ifdef D_8009C02B_IN_DATA
 extern u8 D_8009C02B __attribute__((section(".data")));
 #else
 extern u8 D_8009C02B;
 #endif
+#define gText_bLanguageIndex D_8009C02B
 
-/* The value D_8009C02B takes at boot and wraps back to in the debug menu:
+/* The value gText_bLanguageIndex takes at boot and wraps back to in the debug menu:
    the European release starts at 0 and asks, the single-language releases
    fix their own index. */
 #ifndef BUILD_LANGUAGE_INDEX

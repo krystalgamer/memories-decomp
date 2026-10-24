@@ -13,7 +13,7 @@
 #include "high_memory_addresses.h"
 
 /* Regional value: the main-menu package's first sector in SU.MRG. The US
- * package starts at 0; the European wrapper computes it from D_8009C02B. */
+ * package starts at 0; the European wrapper computes it from gText_bLanguageIndex. */
 #ifndef MAIN_MENU_PACKAGE_FIRST_SECTOR
 #define MAIN_MENU_PACKAGE_FIRST_SECTOR 0
 #endif

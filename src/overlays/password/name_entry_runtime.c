@@ -191,7 +191,7 @@ void NameEntry_Init(void)
 
     obj = DisplayObject_ConfigureScreenSprite(
         DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1),
-        265, 170, 32, 16, 88, D_8009C02B << 4, 22, 640, 226);
+        265, 170, 32, 16, 88, gText_bLanguageIndex << 4, 22, 640, 226);
     obj->attribute |= 0x1000000;
     gNameEntry_apKeySprites[2] = obj;
 #else

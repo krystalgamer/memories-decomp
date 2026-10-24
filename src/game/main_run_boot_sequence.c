@@ -56,7 +56,7 @@ void Main_RunBootSequence(s32 mode)
     gMain_bFrontendPhase = 0;
     gGraphics_wFlags = 0;
     if (mode != 0) {
-        func_80043BC8(D_8009C02B, 1);
+        func_80043BC8(gText_bLanguageIndex, 1);
         SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
     } else {
@@ -85,7 +85,7 @@ void Main_RunBootSequence(s32 mode)
         SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
         Main_HoldBootScreen(0xB4);
-        D_8009C02B = BUILD_LANGUAGE_INDEX;
+        gText_bLanguageIndex = BUILD_LANGUAGE_INDEX;
         func_80043BC8(BUILD_LANGUAGE_INDEX, 0);
         Fade_WaitInitOut();
         Main_ResetFrontendRuntime();

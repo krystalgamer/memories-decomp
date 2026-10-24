@@ -67,7 +67,7 @@ s32 Main_Init(void)
     gMain_dwFrameCounter = 0;
     t = gMain_dwFrameCounter;
 #ifdef VERSION_EUROPE
-    D_8009C02B = BUILD_LANGUAGE_INDEX;
+    gText_bLanguageIndex = BUILD_LANGUAGE_INDEX;
 #endif
     gMain_bVBlankSoundPending = 0;
     gGraphics_bExtraFrameStep = 0;

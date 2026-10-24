@@ -19,7 +19,7 @@ void PalOptions_Init(s32 mode)
 
     buffer = D_8009B118;
     gPalOptions_bMode = mode;
-    gPalOptions_bLanguage = D_8009C02B;
+    gPalOptions_bLanguage = gText_bLanguageIndex;
     rect = &gGraphics_aImageTransferRects[1];
     rect->x = 0x290;
     rect->y = 0;

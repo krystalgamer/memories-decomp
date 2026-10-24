@@ -10,7 +10,7 @@
 
 /* As in campaign_load_scene_package.c. */
 
-/* func_80030808 reaches D_8009C02B through $at. */
+/* func_80030808 reaches gText_bLanguageIndex through $at. */
 #define D_8009C02B_IN_DATA
 
 #include "../debug_menu_editor_entries.c"

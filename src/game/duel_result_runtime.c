@@ -288,25 +288,25 @@ void DuelScene_UpdateResultOutro(void)
             for (i = 0; i < DUEL_RESULT_OUTRO_SPRITE_LIMIT; i++) {
 #ifdef DUEL_RESULT_LOCALIZED_SPRITES
                 /* Fixed-language builds keep the selector in 1..4. */
-                if (D_8009C02B == 1) {
+                if (gText_bLanguageIndex == 1) {
                     if (gDuel_bOpponentID >= 0) {
                         spec = &gDuelResult_aFrenchSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                     } else {
                         spec = &gDuelResult_aFrenchSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
                     }
-                } else if (D_8009C02B == 2) {
+                } else if (gText_bLanguageIndex == 2) {
                     if (gDuel_bOpponentID >= 0) {
                         spec = &gDuelResult_aGermanSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                     } else {
                         spec = &gDuelResult_aGermanSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
                     }
-                } else if (D_8009C02B == 3) {
+                } else if (gText_bLanguageIndex == 3) {
                     if (gDuel_bOpponentID >= 0) {
                         spec = &gDuelResult_aItalianSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                     } else {
                         spec = &gDuelResult_aItalianSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
                     }
-                } else if (D_8009C02B == 4) {
+                } else if (gText_bLanguageIndex == 4) {
                     if (gDuel_bOpponentID >= 0) {
                         spec = &gDuelResult_aSpanishSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                     } else {
