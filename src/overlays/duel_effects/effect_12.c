@@ -1,12 +1,13 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_12.h"
+#include "field_burst_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
 
-void func_80150E00(void *buffer, s32 phase)
+void DuelEffect_RunStopDefenseBurst(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;
@@ -21,10 +22,10 @@ void func_80150E00(void *buffer, s32 phase)
 
     memset(&sprite_rotation, 0, sizeof(sprite_rotation));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_80146188;
+    scale = gDuelEffect_StopDefenseBurstInitialScale;
     work = buffer;
     if (phase >= 0) {
-        work->config = &D_8015AEE4;
+        work->config = &gDuelEffect_StopDefenseBurstConfig;
         for (i = 0; i < 3; i++) {
             DuelEffect_InitXZRingVertices(work->config->radii[i], work->config->radii[i],
                          work->config->ring_height * i, work->rings[i], 32);

@@ -11,6 +11,7 @@
 #include "ritual_semantic_views.h"
 #include "stat_penalty_semantic_views.h"
 #include "exodia_semantic_views.h"
+#include "field_burst_semantic_views.h"
 
 void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
 {
@@ -59,7 +60,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     if (effect == 8) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
         SetGeomOffset(160, 108);
-        func_80147B18(buffer, phase);
+        DuelEffect_RunFieldColumnBurst(buffer, phase);
     }
     if (effect == 9) {
         /* Both stores are present; the callee takes only two arguments. */
@@ -80,7 +81,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     if (effect == 12) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
         SetGeomOffset(160, 108);
-        func_80150E00(buffer, phase);
+        DuelEffect_RunStopDefenseBurst(buffer, phase);
     }
     if (effect == 13) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
