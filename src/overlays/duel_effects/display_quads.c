@@ -4,6 +4,7 @@
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
 #include "display_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void DuelEffect_DrawQuadrantTileQuads(u8 *color, u16 size, s16 depth)
 {
@@ -12,8 +13,8 @@ void DuelEffect_DrawQuadrantTileQuads(u8 *color, u16 size, s16 depth)
     s32 i;
 
     setPolyFT4(&packet->polygon);
-    packet->polygon.tpage = D_8015B748.named.page_at_1C;
-    packet->polygon.clut = D_8015B748.named.clut_at_1E;
+    packet->polygon.tpage = gDuelEffect_TexturePageClutPairs.named.page_at_1C;
+    packet->polygon.clut = gDuelEffect_TexturePageClutPairs.named.clut_at_1E;
     setUV4(&packet->polygon, 128, 128, 191, 128, 128, 191, 191, 191);
     setRGB0(&packet->polygon, color[0], color[1], color[2]);
     for (i = 0; i < 4; i++) {
@@ -29,8 +30,8 @@ void DuelEffect_DrawTranslatedTileRect(u8 *color, SVECTOR *offset, u16 width, u1
     s32 i;
 
     setPolyFT4(&packet->polygon);
-    packet->polygon.tpage = D_8015B748.named.page_at_20;
-    packet->polygon.clut = D_8015B748.named.clut_at_22;
+    packet->polygon.tpage = gDuelEffect_TexturePageClutPairs.named.page_at_20;
+    packet->polygon.clut = gDuelEffect_TexturePageClutPairs.named.clut_at_22;
     setUV4(&packet->polygon, 128 + tile * 32, 192, 159 + tile * 32, 192,
            128 + tile * 32, 255, 159 + tile * 32, 255);
     setRGB0(&packet->polygon, color[0], color[1], color[2]);

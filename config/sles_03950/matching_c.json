@@ -1090,13 +1090,13 @@
       "address": "0x800242BC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x188",
-      "source": "src/game/european/func_80024200.c"
+      "source": "src/game/european/duel_scene_update.c"
     },
     {
       "address": "0x80024444",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/duel_scene_update.c"
+      "source": "src/game/european/duel_scene_update.c"
     },
     {
       "address": "0x800244B0",
@@ -1756,11 +1756,11 @@
       "address": "0x8002D0BC",
       "profile": "gcc_2_8_1_g8_comm",
       "size": "0x1F8",
-      "source": "src/game/main_run_duel.c"
+      "source": "src/game/main_run_duel_and_library.c"
     },
     {
       "address": "0x8002D2B4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0xA0",
       "source": "src/game/main_run_duel_and_library.c"
     },
@@ -2264,15 +2264,15 @@
     },
     {
       "address": "0x800319DC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x8C",
-      "source": "src/game/european/build_deck_draw_sort_icons.c"
+      "source": "src/game/european/build_deck_draw_card_list_page.c"
     },
     {
       "address": "0x80031A68",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/european/build_deck_draw_sort_icons.c"
+      "source": "src/game/european/build_deck_draw_card_list_page.c"
     },
     {
       "address": "0x80031B58",
@@ -5872,13 +5872,13 @@
       "address": "0x8005CB04",
       "profile": "gcc_2_8_1_g0",
       "size": "0x54",
-      "source": "src/game/model_texture_upload_tim_file.c"
+      "source": "src/game/model_texture_upload_wrappers.c"
     },
     {
       "address": "0x8005CB58",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/model_texture_pack_page_clut_copy.c"
+      "source": "src/game/model_texture_upload_wrappers.c"
     },
     {
       "address": "0x8005CBB0",

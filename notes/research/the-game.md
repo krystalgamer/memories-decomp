@@ -785,7 +785,7 @@ this admits Magic (`20`) and Ritual (`22`). It stores the selected object in
 The retail jump-table entry at `0x80010158` sends that substate to
 `0x8001D1C4`. After its `D_8009B162` gate clears, the code at
 `0x8001D214..0x8001D218` selects **duel state 6**.
-The [`func_80024200`](../../src/game/func_80024200.c) dispatcher reads
+The [`func_80024200`](../../src/game/duel_scene_update.c) dispatcher reads
 through `gDuel_apfnSceneStateHandler[gDuel_wSceneStateFlags &
 DUEL_SCENE_PHASE_MASK]`; the retail entry at `0x800909B0`
 maps state 6 to [`DuelScene_UpdateCardUse`](../../src/game/duel_scene_update_card_use.c).
@@ -1098,7 +1098,7 @@ successful check sets `gDuel_wSceneStateFlags = 0xE`. This is a gated transition
 evidence that every action tests all win conditions or that presentation
 finishes in the same frame.
 
-The [duel dispatcher](../../src/game/func_80024200.c) and
+The [duel dispatcher](../../src/game/duel_scene_update.c) and
 [main loop](../../src/game/main_loop.c) use different tables. Their retail
 words connect the Exodia sequence to the animated-battle request:
 

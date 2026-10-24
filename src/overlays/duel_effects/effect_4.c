@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_80159AAC(void *buffer, s32 phase)
 {
@@ -71,8 +72,8 @@ void func_80159AAC(void *buffer, s32 phase)
             DuelEffect_DrawQuadContour((u8 *)&work->color, work->card_rings[0],
                          work->card_rings[1], 0, 1);
             setPolyFT4(packet);
-            packet->tpage = D_8015B748.pairs[work->config->texture][0];
-            packet->clut = D_8015B748.pairs[work->config->texture][1];
+            packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[work->config->texture][0];
+            packet->clut = gDuelEffect_TexturePageClutPairs.pairs[work->config->texture][1];
             setRGB0(packet, work->card_color.r, work->card_color.g,
                     work->card_color.b);
             setUV4(packet,

@@ -398,10 +398,7 @@ segments:
     - game/spanish/duel_update_card_pick_cursor
   - - 84668
     - c
-    - game/european/func_80024200
-  - - 85060
-    - c
-    - game/duel_scene_update
+    - game/european/duel_scene_update
   - - 85168
     - c
     - game/duel_shuffle_deck
@@ -545,9 +542,6 @@ segments:
     - game/main_run_campaign
   - - 121020
     - c
-    - game/main_run_duel
-  - - 121524
-    - c
     - game/main_run_duel_and_library
   - - 121684
     - c
@@ -673,9 +667,6 @@ segments:
     - c
     - game/european/duel_card_stat_display
   - - 139740
-    - c
-    - game/european/build_deck_draw_sort_icons
-  - - 140120
     - c
     - game/european/build_deck_draw_card_list_page
   - - 141432
@@ -1265,10 +1256,7 @@ segments:
     - game/file_query_wrappers
   - - 316164
     - c
-    - game/model_texture_upload_tim_file
-  - - 316248
-    - c
-    - game/model_texture_pack_page_clut_copy
+    - game/model_texture_upload_wrappers
   - - 316336
     - c
     - game/model_set_slot_shadow_enabled

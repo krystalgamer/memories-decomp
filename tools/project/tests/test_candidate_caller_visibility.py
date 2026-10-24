@@ -94,7 +94,7 @@ PAIRS = [
     ("src/game/model_scene_controllers.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_debug_controller.c", "Model_AdvanceSlotLoad", '#include "model_load_step.h"'),
     ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_parent_search.h"'),
-    ("src/game/func_80024200.c", "Duel_UpdateDisplayTransition", '#include "duel_field_display_objects.h"'),
+    ("src/game/duel_scene_update.c", "Duel_UpdateDisplayTransition", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_field_display_objects.c", "Duel_CreateFieldCardPanel", '#include "duel_card_object_helpers.h"'),
     ("src/game/duel_scene_field_actions.c", "Duel_CreateFieldCursorObject", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_scene_hand_actions.c", "DuelHand_PositionSelectionCursor", '#include "duel_hand_position_selection_cursor.h"'),
@@ -104,7 +104,7 @@ PAIRS = [
     ("src/game/build_deck_draw_card_list_page.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
     ("src/game/library_runtime.c", "Library_RefreshSelectedCardText", '#include "library_refresh_selected_card_text.h"'),
     ("src/game/main_run_selection_menus.c", "BuildDeck_InitScreen", '#include "build_deck_init_screen.h"'),
-    ("src/game/main_run_duel.c", "BuildDeck_InitScreen", '#include "../game/build_deck_init_screen.h"'),
+    ("src/game/main_run_duel_and_library.c", "BuildDeck_InitScreen", '#include "../game/build_deck_init_screen.h"'),
 ]
 
 # func_80028B08 was the last candidate pinned to this contract; it has since

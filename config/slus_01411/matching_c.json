@@ -1090,11 +1090,11 @@
       "address": "0x80024200",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x188",
-      "source": "src/game/func_80024200.c"
+      "source": "src/game/duel_scene_update.c"
     },
     {
       "address": "0x80024388",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
       "source": "src/game/duel_scene_update.c"
     },
@@ -1756,11 +1756,11 @@
       "address": "0x8002CEE8",
       "profile": "gcc_2_8_1_g8_comm",
       "size": "0x1F8",
-      "source": "src/game/main_run_duel.c"
+      "source": "src/game/main_run_duel_and_library.c"
     },
     {
       "address": "0x8002D0E0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_comm",
       "size": "0xA0",
       "source": "src/game/main_run_duel_and_library.c"
     },
@@ -2258,9 +2258,9 @@
     },
     {
       "address": "0x80031784",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0xF0",
-      "source": "src/game/build_deck_draw_sort_icons.c"
+      "source": "src/game/build_deck_draw_card_list_page.c"
     },
     {
       "address": "0x80031874",
@@ -5662,13 +5662,13 @@
       "address": "0x800599FC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x54",
-      "source": "src/game/model_texture_upload_tim_file.c"
+      "source": "src/game/model_texture_upload_wrappers.c"
     },
     {
       "address": "0x80059A50",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/model_texture_pack_page_clut_copy.c"
+      "source": "src/game/model_texture_upload_wrappers.c"
     },
     {
       "address": "0x80059AA8",
