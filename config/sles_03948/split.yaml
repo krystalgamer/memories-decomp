@@ -318,9 +318,6 @@ segments:
   - - 48884
     - c
     - game/european/duel_hand_selection_cursor
-  - - 49196
-    - c
-    - game/duel_hand_refresh_selection_colors
   - - 49324
     - c
     - game/european/func_8001B938
