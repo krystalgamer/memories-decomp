@@ -451,8 +451,6 @@ segments:
       - [0x4C2D0, c, game/model_queue_tint_request]
       - [0x4C414, c, game/european/model_texture_load_tim]
       - [0x4C6C8, c, game/model_state_getters]
-      - [0x4C6E0, c, game/model_get_slot_readiness]
-      - [0x4C724, c, game/model_get_frame_step]
       - [0x4C744, c, game/model_slot_queries]
       - [0x4C818, asm, generated/italian_8005c018]
       - [0x4C828, c, game/model_slot_support]

@@ -453,8 +453,6 @@ segments:
       - [0x4bf68, c, game/japanese/model_queue_tint_request]
       - [0x4c0ac, c, game/model_texture_upload]
       - [0x4c3f0, c, game/japanese/model_state_getters]
-      - [0x4c408, c, game/model_get_slot_readiness]
-      - [0x4c44c, c, game/model_get_frame_step]
       - [0x4c46c, c, game/japanese/model_slot_queries]
       - [0x4c540, asm, func_8005BD40]
       - [0x4c550, c, game/model_slot_support]

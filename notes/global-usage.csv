@@ -309,7 +309,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AFA2,gGraphics_bPacketBufferIndex,gGraphics_bPacketBufferIndex,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,write,8,gGraphics_bPacketBufferIndex = idx;
 0x8009AFA2,gGraphics_bPacketBufferIndex,gGraphics_bPacketBufferIndex,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,read,8,used -= gGraphics_bPacketBufferIndex * GRAPHICS_PACKET_BUFFER_SIZE;
 0x8009AFA3,gGraphics_bFrameStep,gGraphics_bFrameStep,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,write,8,gGraphics_bFrameStep = D_8009AFA4 ? 2 : D_8009B0D8;
-0x8009AFA3,gGraphics_bFrameStep,gGraphics_bFrameStep,0x80058E1C,Model_GetFrameStep,matching_c,game,C,src/game/model_get_frame_step.c,read,8,if (gGraphics_bFrameStep < 6) { | result = gGraphics_bFrameStep;
+0x8009AFA3,gGraphics_bFrameStep,gGraphics_bFrameStep,0x80058E1C,Model_GetFrameStep,matching_c,game,C,src/game/model_state_getters.c,read,8,if (gGraphics_bFrameStep < 6) { | result = gGraphics_bFrameStep;
 0x8009AFA4,D_8009AFA4,D_8009AFA4,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,8,D_8009AFA4 = 0; | gGraphics_bFrameStep = D_8009AFA4 ? 2 : D_8009B0D8;
 0x8009AFA4,D_8009AFA4,D_8009AFA4,0x80059AEC,Model_SetFrameStepOverride,matching_c,game,C,src/game/model_state_setters.c,write,8,D_8009AFA4 = value;
 0x8009AFA6,D_8009AFA6,D_8009AFA6,0x80058DC0,func_80058DC0,matching_c,game,C,src/game/model_state_getters.c,read,8,return D_8009AFA6;
@@ -2752,7 +2752,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80057E20,Model_GetSlotDimensionsWithMinimums,matching_c,game,C,src/game/model_get_slot_dimensions_with_minimums.c,address,,ModelSlot *rec = &gModel_aSlots[idx];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x800580D4,func_800580D4,matching_c,game,C,src/game/model_update_view_metrics.c,address,,slot = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80058938,Model_QueueTintRequest,matching_c,game,C,src/game/model_queue_tint_request.c,address,,slot = &gModel_aSlots[a0];
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x80058DD8,Model_GetSlotReadiness,matching_c,game,C,src/game/model_get_slot_readiness.c,address,,ModelSlot *entry = &gModel_aSlots[index];
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x80058DD8,Model_GetSlotReadiness,matching_c,game,C,src/game/model_state_getters.c,address,,ModelSlot *entry = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80058E3C,Model_GetSlotAnimationSpeed,matching_c,game,C,src/game/model_slot_queries.c,read,,return gModel_aSlots[index].field_E0D;
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80058E68,Model_GetSlotAnimationIndex,matching_c,game,C,src/game/model_slot_queries.c,read,,return gModel_aSlots[index].field_BF5;
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80058E94,Model_GetSlotAnimationFrame,matching_c,game,C,src/game/model_slot_queries.c,read,,return gModel_aSlots[index].field_E06 >> 4;
