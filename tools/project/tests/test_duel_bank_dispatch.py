@@ -29,6 +29,8 @@ class DuelBankDispatchTests(unittest.TestCase):
         with (directory / "duel_effects_functions.csv").open() as handle:
             inventory = {row["name"]: row for row in csv.DictReader(handle)}
         named_callees = {
+            "DuelEffect_RunSelectedCardOverlay": ("func_8014FF40", 0x8014FF40, 0x4B8),
+            "DuelEffect_RunBackRowSweep": ("func_80152048", 0x80152048, 0xE7C),
             "DuelEffect_RunExodiaBurst": ("func_8014D3E8", 0x8014D3E8, 0xF74),
             "DuelEffect_RunStatPenalty": ("func_801503F8", 0x801503F8, 0xA08),
             "DuelEffect_RunRitual": ("func_8014A8E4", 0x8014A8E4, 0x2018),
