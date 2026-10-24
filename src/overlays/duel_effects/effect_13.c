@@ -5,6 +5,7 @@
 #include "number_semantic_views.h"
 #include "primitive_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_801503F8(void *buffer, s32 phase, s16 number)
 {
@@ -83,7 +84,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
             setVector(&rotation, 0, 0, work->tick * 128);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, scale_pointer, 0);
             if (work->config->blend != 1) {
-                D_8015B748.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
+                gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
                     work->config->blend, D_8015AC48[0].px, D_8015AC48[0].py);
             }
             DuelEffect_DrawLayeredTileQuad((u8 *)&work->glow_color, work->config->size, 1, position_pointer);
@@ -92,7 +93,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
                 color.r /= 4;
                 color.r /= 4;
                 color.r /= 4;
-                D_8015B748.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
+                gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
                     1, D_8015AC48[0].px, D_8015AC48[0].py);
                 DuelEffect_DrawLayeredTileQuad((u8 *)&color, work->config->size * 2, 16, position_pointer);
             }
@@ -136,7 +137,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
             }
         }
         if (work->config->blend != 1) {
-            D_8015B748.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
+            gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
                 work->config->blend, D_8015AC48[0].px, D_8015AC48[0].py);
         }
         for (i = 0; i < work->active; i++) {

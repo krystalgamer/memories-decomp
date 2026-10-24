@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_8014D3E8(void *buffer, s32 phase)
 {
@@ -91,8 +92,8 @@ void func_8014D3E8(void *buffer, s32 phase)
         DuelEffect_InitBaseMatrix(&world);
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
         setPolyFT4(packet);
-        packet->tpage = D_8015B748.pairs[18][0];
-        packet->clut = D_8015B748.pairs[18][1];
+        packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[18][0];
+        packet->clut = gDuelEffect_TexturePageClutPairs.pairs[18][1];
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->center_color)) {
             setRGB0(packet, work->center_color.r, work->center_color.g, work->center_color.b);
             setUV4(packet, 192, 128, 255, 128, 192, 255, 255, 255);

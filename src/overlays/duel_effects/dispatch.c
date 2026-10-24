@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "dispatch.h"
 #include "texture_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
 {
@@ -11,7 +12,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     D_8015B800 = flags;
     if (phase >= 0) {
         for (i = 0; i < 21; i++) {
-            DuelEffect_PackTexturePageClut(D_8015B748.pairs[i], &D_8015A1E4[i], D_8015A430.modes[i]);
+            DuelEffect_PackTexturePageClut(gDuelEffect_TexturePageClutPairs.pairs[i], &gDuelEffect_TextureImages[i], gDuelEffect_TextureModesAndVariants.modes[i]);
         }
     }
     if (effect == 0) {

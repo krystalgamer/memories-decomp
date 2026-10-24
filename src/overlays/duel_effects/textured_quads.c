@@ -3,6 +3,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "texture_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void DuelEffect_DrawFixedTextureQuad(u8 *color, u16 size, SVECTOR *offset)
 {
@@ -11,8 +12,8 @@ void DuelEffect_DrawFixedTextureQuad(u8 *color, u16 size, SVECTOR *offset)
     s32 i;
 
     setPolyFT4(&packet->polygon);
-    packet->polygon.tpage = D_8015B748.named.page0;
-    packet->polygon.clut = D_8015B748.named.clut0;
+    packet->polygon.tpage = gDuelEffect_TexturePageClutPairs.named.page0;
+    packet->polygon.clut = gDuelEffect_TexturePageClutPairs.named.clut0;
     setUV4(&packet->polygon, 192, 128, 255, 128, 192, 191, 255, 191);
     setRGB0(&packet->polygon, color[0], color[1], color[2]);
     DuelEffect_InitSquareVertices(drawing.vertices, size);
@@ -29,8 +30,8 @@ void DuelEffect_DrawAtlasColumnQuad(u16 size, u16 index, SVECTOR *offset)
     s32 i;
 
     setPolyFT4(&packet->polygon);
-    packet->polygon.tpage = D_8015B748.named.page1;
-    packet->polygon.clut = D_8015B748.named.clut1;
+    packet->polygon.tpage = gDuelEffect_TexturePageClutPairs.named.page1;
+    packet->polygon.clut = gDuelEffect_TexturePageClutPairs.named.clut1;
     setUV4(&packet->polygon, index * 32, 0, index * 32 + 31, 0,
            index * 32, 31, index * 32 + 31, 31);
     setRGB0(&packet->polygon, 128, 128, 128);

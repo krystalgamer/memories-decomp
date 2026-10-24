@@ -7,6 +7,7 @@
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_80146760(void *buffer, s32 phase)
 {
@@ -40,8 +41,8 @@ void func_80146760(void *buffer, s32 phase)
         } else {
             work->cross = 0;
             work->config = &D_8015A4E4;
-            DuelEffect_PackFixedPageClut(work->base_texture, &D_8015A430.variant.images[0]);
-            image = &D_8015A430.variant.images[variant];
+            DuelEffect_PackFixedPageClut(work->base_texture, &gDuelEffect_TextureModesAndVariants.variant.images[0]);
+            image = &gDuelEffect_TextureModesAndVariants.variant.images[variant];
             DuelEffect_PackFixedPageClut(work->texture, image);
             work->uv[0] = image->px;
             work->uv[1] = image->py;
@@ -120,8 +121,8 @@ void func_80146760(void *buffer, s32 phase)
                 work->dust_velocities[i].vy += 0;
             }
             DuelEffect_DrawLayeredTileQuad((u8 *)&work->glow, work->config->glow_size, 64, &zero);
-            gradient_packet->tpage = D_8015B748.pairs[11][0];
-            gradient_packet->clut = D_8015B748.pairs[11][1];
+            gradient_packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[11][0];
+            gradient_packet->clut = gDuelEffect_TexturePageClutPairs.pairs[11][1];
             setUV4(gradient_packet, 0, 0, 31, 0, 0, 127, 31, 127);
             setRGB0(gradient_packet, 0, 0, 0);
             setRGB1(gradient_packet, 0, 0, 0);
@@ -192,8 +193,8 @@ void func_80146760(void *buffer, s32 phase)
                     }
                     if (work->states[i][j]) {
                         DuelEffect_SetTransformMatrix(&world, &saved, &work->positions[i][j], &zero, &scale, 0);
-                        packet->tpage = D_8015B748.pairs[4][0];
-                        packet->clut = D_8015B748.pairs[4][1];
+                        packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[4][0];
+                        packet->clut = gDuelEffect_TexturePageClutPairs.pairs[4][1];
                         setRGB0(packet, work->particle_colors[i][j].r,
                                 work->particle_colors[i][j].g, work->particle_colors[i][j].b);
                         setUV4(packet, 128 + work->frames[i][j] * 32, 64,

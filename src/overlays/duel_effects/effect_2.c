@@ -6,6 +6,7 @@
 #include "number_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_80153200(void *buffer, s32 phase, s16 number)
 {
@@ -103,8 +104,8 @@ void func_80153200(void *buffer, s32 phase, s16 number)
         }
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             setPolyGT4(packet);
-            packet->tpage = D_8015B748.named.page_at_04;
-            packet->clut = D_8015B748.named.clut_at_06;
+            packet->tpage = gDuelEffect_TexturePageClutPairs.named.page_at_04;
+            packet->clut = gDuelEffect_TexturePageClutPairs.named.clut_at_06;
             setUV4(packet, 128, 0, 159, 0, 128, 63, 159, 63);
             setRGB0(packet, 0, 0, 0);
             setRGB1(packet, 0, 0, 0);
