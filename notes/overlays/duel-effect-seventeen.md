@@ -42,6 +42,22 @@ or justify adding a guard. The phase-zero Dark Hole route is useful for a
 future targeted burst-call probe; the optional-path branch additionally
 depends on the other configuration and remains untraced here.
 
+The pending focused NA probe is
+[`duel_effect_null_offset.lua`](../../tools/trace/duel_effect_null_offset.lua).
+Its short route is to activate Dark Hole with at least one monster already
+on the field. It distinguishes the non-null particle control from the two
+null return addresses and observes `v1` after each native `lhu` and its
+load-delay instruction, before the following addition. Both passes and all
+four vertices are covered without a Lua dereference of guest address zero.
+The actual helper uses unsigned halfword loads; the report also shows
+their signed-16 interpretations. It requests no phase-one route and makes
+no runtime conclusion until a human result arrives.
+
+The [same-name callback replay](../../tools/trace/tests/duel_effect_null_offset_test.lua)
+checks the 24 distinct samples, first-call isolation, native/register guards
+and one-shot termination using the existing mocked PCSX/FFI pattern.
+It and the unchanged setup preflight supply no guest-execution evidence.
+
 ## Recovered configuration and storage
 
 Two 16-byte records at `8015A60C` contain:
