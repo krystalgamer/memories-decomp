@@ -175,7 +175,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090DD8,D_80090DD8,D_80090DD8,0x800323F8,BuildDeck_InitScreen,matching_c,game,C,src/game/build_deck_init_screen.c,address,8,icons = (s32)D_80090DD8;
 0x80090DD8,D_80090DD8,D_80090DD8,0x800330BC,BuildDeck_UpdateCardListInput,matching_c,game,C,src/game/card_list_sort.c,address,8,entry = D_80090DD8 + slot;
 0x80090DD8,D_80090DD8,D_80090DD8,0x80033CC4,CardList_UpdateSortMode,matching_c,game,C,src/game/card_list_update_sort_mode.c,address,8,p = D_80090DD8 + v1;
-0x80090DD8,D_80090DD8,D_80090DD8,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_render_deck_box_stats.c,address,8,tbl = D_80090DD8;
+0x80090DD8,D_80090DD8,D_80090DD8,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_deck_box.c,address,8,tbl = D_80090DD8;
 0x80090E0C,D_80090E0C,D_80090E0C,0x800357E8,Text_EncodeDecimalDigits,matching_c,game,C,src/game/text_encode_decimal_digits.c,read,32,s32 d = D_80090E0C[arg1];
 0x80090E58,gDuelEffect_awEntryRangeBoundaries,gDuelEffect_awEntryRangeBoundaries,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read,16,tent_DuelEffectEntries[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
 0x80090E58,gDuelEffect_awEntryRangeBoundaries,gDuelEffect_awEntryRangeBoundaries,0x80035AF0,DuelEffect_InitEntry,matching_c,game,C,src/game/duel_effect_init_entry.c,address,16,range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + offset);
@@ -1758,7 +1758,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x8002ACA4,Library_UpdateCardView,matching_c,game,C,src/game/library_runtime.c,read_write,16,gDuel_wSelectedCardID = (u16)state->motion.selected_card_id; | if (((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 0x1A) & 0x1F) >= 0x14) {
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80031CD4,CardList_CreateSlotTextBox,matching_c,game,C,src/game/card_list_text_boxes.c,write,16,gDuel_wSelectedCardID = list->entries[list->first + slot].id;
 0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80037DA4,Text_ExpandSelectedCardInfo,matching_c,game,C,src/game/duel_effect_command.c,read,16,id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> | id = gDuel_wSelectedCardID + 0x8000; | (+2 more)
-0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80060E70,func_80060E70,matching_c,game,C,src/game/func_80060E70.c,write,16,gDuel_wSelectedCardID = id;
+0x8009B338,gDuel_wSelectedCardID,gDuel_wSelectedCardID,0x80060E70,func_80060E70,matching_c,game,C,src/game/card_list_deck_box.c,write,16,gDuel_wSelectedCardID = id;
 0x8009B33A,gText_CurrentStreamCode,gText_CurrentStreamCode,0x80037D2C,Text_ExtendGlyphCode,matching_c,game,C,src/game/text_extend_glyph_code.c,address,16,volatile u16 *code = &gText_CurrentStreamCode;
 0x8009B33A,gText_CurrentStreamCode,gText_CurrentStreamCode,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read_write,16,"CALL32(void (*)(u8 *), handlers[(s16)gText_CurrentStreamCode - 0xF0])((u8 *)object); | DuelEffect_AppendEntry(object, tent_GlyphLookupTable[(s16)gText_CurrentStreamCode].packed & 0x8FF0FFFF); | (+3 more)"
 0x8009B33C,gText_CdSoundPollBudget,gText_CdSoundPollBudget,0x80037B40,Text_WaitForCdSoundTransfer,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,gText_CdSoundPollBudget--; | if (gText_CdSoundPollBudget != 0) { | (+1 more)
@@ -3103,8 +3103,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A8000,D_801A8000,D_801A8000,0x80056828,Model_AdvanceSlotLoad,matching_c,game,C,src/game/model_slot_control.c,address,8,"index, (u32 *)(D_801A8000 + (index << 11))"
 0x801A8000,D_801A8000,D_801A8000,0x80056D7C,Model_LoadMonsterMergeStage,matching_c,game,C,src/game/model_slot_control.c,address,8,(u32)(D_801A8000 + index * FILE_SECTOR_SIZE);
 0x801A8000,D_801A8000,D_801A8000,0x800577B0,Model_LoadSpecialBattlePackageStage,matching_c,game,C,src/game/model_slot_control.c,address,8,object->value_08 = (s32)D_801A8000; | object->value_0C = (s32)D_801A8000;
-0x801A8000,D_801A8000,D_801A8000,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_render_deck_box_stats.c,address,,rec = &D_801A8000[obj->field_6A];
-0x801A8000,D_801A8000,D_801A8000,0x80060E70,func_80060E70,matching_c,game,C,src/game/func_80060E70.c,address,,s = &D_801A8000[idx];
+0x801A8000,D_801A8000,D_801A8000,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_deck_box.c,address,,rec = &D_801A8000[obj->field_6A];
+0x801A8000,D_801A8000,D_801A8000,0x80060E70,func_80060E70,matching_c,game,C,src/game/card_list_deck_box.c,address,,s = &D_801A8000[idx];
 0x801A8000,D_801A8000,D_801A8000,0x80061008,CardList_CreateDeckBoxStatRows,matching_c,game,C,src/game/func_80061008.c,address,,CardListRowSet *record = D_801A8000;
 0x801A9800,gAiScript_abFieldScript,gAiScript_abFieldScript,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,address,8,d->value_08 = d->value_0C = (u32)gAiScript_abFieldScript;
 0x801A9800,gAiScript_abFieldScript,gAiScript_abFieldScript,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,address,8,AiScript_Init(gAiScript_abFieldScript);
@@ -3219,8 +3219,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80037DA4,Text_ExpandSelectedCardInfo,matching_c,game,C,src/game/duel_effect_command.c,read,32,id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> | stats = gDuel_adwCardStats[gDuel_wSelectedCardID - 1];
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x8004EB00,Model_UpdateAnimatedBattle,matching_c,game,C,src/game/model_scene_controllers.c,read,32,if (((gDuel_adwCardStats[gModel_aSlots[1].field_DF8] >> 0x1A) & 0x1F) == 1) {
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x800559D4,Model_UpdateSlotControl,matching_c,game,C,src/game/model_slot_control.c,read,32,sound_id = ((gDuel_adwCardStats[card_id] >> 26) & 0x1F) == 1 ? 3 : 4;
-0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_render_deck_box_stats.c,read,32,((gDuel_adwCardStats[id - 1] >> CARD_STAT_DEFENSE_SHIFT) & | (gDuel_adwCardStats[id - 1] & CARD_STAT_VALUE_MASK) * | (+1 more)
-0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80060E70,func_80060E70,matching_c,game,C,src/game/func_80060E70.c,read,32,if (((gDuel_adwCardStats[id - 1] >> CARD_STAT_TYPE_SHIFT) &
+0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_deck_box.c,read,32,((gDuel_adwCardStats[id - 1] >> CARD_STAT_DEFENSE_SHIFT) & | (gDuel_adwCardStats[id - 1] & CARD_STAT_VALUE_MASK) * | (+1 more)
+0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80060E70,func_80060E70,matching_c,game,C,src/game/card_list_deck_box.c,read,32,if (((gDuel_adwCardStats[id - 1] >> CARD_STAT_TYPE_SHIFT) &
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80071008,AiScript_CalcCardPower,matching_c,game,C,src/game/ai_script_opcodes.c,read,32,if (((gDuel_adwCardStats[card - 1] >> CARD_STAT_TYPE_SHIFT) &
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80071194,AiScript_TestDefenseAtLeastAttack,matching_c,game,C,src/game/ai_script_opcodes.c,read,32,if (((gDuel_adwCardStats[value - 1] >> CARD_STAT_TYPE_SHIFT) &
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80071248,AiScript_LoadCardType,matching_c,game,C,src/game/ai_script_opcodes.c,read,32,(gDuel_adwCardStats[index] >> CARD_STAT_TYPE_SHIFT) &
@@ -3235,7 +3235,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D5608,D_801D5608,D_801D5608,0x80031E5C,BuildDeck_RefreshCountDisplay,matching_c,game,C,src/game/build_deck_card_counts.c,write,,D_801D5608[0].build_deck.chest = record->chest_total; | D_801D5608[0].build_deck.deck = record->deck_total;
 0x801D5608,D_801D5608,D_801D5608,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog.c,write,,D_801D5608[0].blocks.needed = needed; | D_801D5608[0].blocks.used = MEM_CARD_BLOCK_COUNT - message;
 0x801D5608,D_801D5608,D_801D5608,0x8003FD14,SaveData_UpdateDuelLoad,matching_c,game,C,src/game/mem_card_dialog.c,address,,state = D_801D5608;
-0x801D5608,D_801D5608,D_801D5608,0x80060E70,func_80060E70,matching_c,game,C,src/game/func_80060E70.c,write,,D_801D5608[0].card.card_id = id; | dst = D_801D5608;
+0x801D5608,D_801D5608,D_801D5608,0x80060E70,func_80060E70,matching_c,game,C,src/game/card_list_deck_box.c,write,,D_801D5608[0].card.card_id = id; | dst = D_801D5608;
 0x801D5648,gMemCardDialog_CardNumberArg,gMemCardDialog_CardNumberArg,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog.c,write,32,gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;
 0x801D5648,gMemCardDialog_CardNumberArg,gMemCardDialog_CardNumberArg,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog.c,write,32,gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;
 0x801D5648,gMemCardDialog_CardNumberArg,gMemCardDialog_CardNumberArg,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog.c,write,32,gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;

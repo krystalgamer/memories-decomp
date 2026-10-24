@@ -1,5 +1,37 @@
 # Spanish duel-bank curve completion
 
+## Canonical jagged-column generator
+
+`DuelEffect_InitJaggedColumnVertices` names the complete shared generator
+at native `func_8014FABC`: NA `80150694`, JP `8015DB50`, PAL `8014FABC`,
+836 bytes. The name describes the vertices, not lightning artwork or a
+stat-penalty-only role. Both effect 13 and the accepted board-destruction
+handler initialize 48 eight-point paths through this helper; both actual
+C callers use the canonical declaration. The original definition remains
+byte-for-byte unchanged under its native name, preserving the historical
+source/utility-header fingerprint and its existing regression guard. The
+canonical extern binds that same real function, not a replacement or wrapper.
+
+The four unsigned-halfword parameters and `SVECTOR *` output remain the
+original contract. It independently jitters the first x/z position from
+`spread`, sets its y to `-height`, then advances y by
+`(height + 16) / count` per point. Later x/z positions add independently
+randomized radii modulated by `csin(2048 / count * i)`, with sign chosen
+from the initial axis. This is not an exact endpoint/convergence contract.
+The generic count is not narrowed to the observed eight.
+
+Preserve signed random remainders, halfword truncations, integer division
+order, both random-radius draws, calls inside conditional expressions,
+index-first pointer arithmetic and untouched vector padding. No guard
+for zero count or other behavior change is introduced. SDK `rand`/`csin`
+remain their original providers; no private replacement or new type is
+added. The extern-only semantic header also retains literal native
+compatibility prototypes for policy resolution.
+
+See [the stat-penalty lifecycle](spanish-duel-effects-7-13.md) for its
+resident producers, separate real data owners and region mappings.
+Historical matching evidence below is unchanged in scope.
+
 The final inventoried Spanish duel-bank function, `func_8014FABC`, now selects
 the accepted shared [`bolt_vertices.c`](../../src/overlays/duel_effects/bolt_vertices.c)
 body unchanged. Its 836 bytes at image `0x9ABC..0x9E00` and 80-byte stack
