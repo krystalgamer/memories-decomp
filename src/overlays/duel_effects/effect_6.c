@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "texture_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_6_START_HEIGHT 106
@@ -105,7 +106,7 @@ void func_80154B30(void *buffer, s32 phase)
                     color.r /= j + 1;
                     color.g /= j + 1;
                     color.b /= j + 1;
-                    func_80156C40((u8 *)&color, work->sizes[i] / (j + 1),
+                    DuelEffect_DrawFixedTextureQuad((u8 *)&color, work->sizes[i] / (j + 1),
                                  &work->trails[i][j]);
                     work->trails[i][j].vx += work->velocities[i].vx / (j + 1);
                     work->trails[i][j].vy += work->velocities[i].vy / (j + 1);
@@ -124,7 +125,7 @@ void func_80154B30(void *buffer, s32 phase)
                     DuelEffect_SetTransformMatrix(&world, &saved, &work->trails[i][0],
                                  &rotation, &scale, 1);
                     for (j = 0; j < work->config->particle_count; j++) {
-                        func_80156C40((u8 *)&work->colors[i],
+                        DuelEffect_DrawFixedTextureQuad((u8 *)&work->colors[i],
                                      work->config->particle_size,
                                      &work->particles[i][j]);
                         addVector(&work->particles[i][j],
