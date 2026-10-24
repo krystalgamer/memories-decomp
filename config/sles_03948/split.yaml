@@ -1268,10 +1268,7 @@ segments:
     - game/file_query_wrappers
   - - 316164
     - c
-    - game/model_texture_upload_tim_file
-  - - 316248
-    - c
-    - game/model_texture_pack_page_clut_copy
+    - game/model_texture_upload_wrappers
   - - 316336
     - c
     - game/model_set_slot_shadow_enabled
