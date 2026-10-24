@@ -245,7 +245,7 @@ void Library_RefreshSelectedCardText(const LibraryState *p)
     }
 
     o = TextBox_Create(1, mode, 0x10, LIBRARY_CARD_TEXT_BOX_Y, 0x120, 0x30);
-    gText_SelectedCardColorIndex = o->field_54;
+    gText_SelectedCardColorIndex = o->color_index_54;
     if (p->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
         gText_SelectedCardColorIndex = 4;
     }

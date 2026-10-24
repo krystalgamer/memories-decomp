@@ -21,7 +21,7 @@ void func_80180004(s32 index)
             }
             TextBox_DestroyIndex(i);
             channel = TextBox_CreateFlagged(i, text, 16, 40, 512, 256, 6);
-            channel->field_54 = 5;
+            channel->color_index_54 = 5;
             func_80039A14(channel);
             if (cue->flags & 1) {
                 DuelEffect_SetEntryControlBytes(channel, 8, 0);
@@ -32,7 +32,7 @@ void func_80180004(s32 index)
             if (cue->secondary) {
                 TextBox_DestroyIndex(i + 2);
                 channel = TextBox_CreateFlagged(i + 2, cue->secondary, 16, 40, 512, 256, 6);
-                channel->field_54 = 5;
+                channel->color_index_54 = 5;
                 func_80039A14(channel);
                 DuelEffect_SetEntryControlBytes(channel, 5, 0);
                 DuelEffect_ProcessEntries(channel);

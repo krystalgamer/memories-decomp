@@ -179,7 +179,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         }
     }
     handlers = gText_apfnPrimaryCommands;
-    object->delay_52 = object->field_53;
+    object->delay_52 = object->delay_reload_53;
 next_opcode:
     slot = &((TextStreamOwner *)object)->streams[object->stream_58];
     script = *slot;

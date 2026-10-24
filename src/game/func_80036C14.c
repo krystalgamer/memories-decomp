@@ -67,7 +67,7 @@ void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32
         glyph = (u16 *)Krom2RawAdd2(tagged_value & 0xFFFF);
     }
     lut = (u16 *)0x1F800000;
-    w = gText_awGlyphColorMasks[channel->field_54];
+    w = gText_awGlyphColorMasks[channel->color_index_54];
     p = lut;
     for (i = 0; i < 16; i++) {
         *p++ = gText_awGlyphNibblePatterns[i] & w;
@@ -142,7 +142,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     }
 
     entry->pad_0D[1] = glyph;
-    entry->pad_14[0] = channel->field_54;
+    entry->pad_14[0] = channel->color_index_54;
     entry->flags_11 = mode | 0x80;
 
     if (mode == 3) {
@@ -211,7 +211,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
         }
         q->field_10 = v;
         q->flags_11 = 0xC0;
-        c = p->field_54;
+        c = p->color_index_54;
         q->field_13 = 0;
         q->field_16 = c;
     } else {
@@ -236,7 +236,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
             r = (s16 *)(p->field_60 * 0x88 + (u8 *)r);
         }
         q->field_10 = 0;
-        b = p->field_54;
+        b = p->color_index_54;
 #endif
         q->flags_11 = 0x80;
         *(s32 *)q = a;

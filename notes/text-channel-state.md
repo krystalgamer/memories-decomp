@@ -35,10 +35,13 @@ address. The Japanese quit path's existing assembly-named byte view still
 addresses channel 3 at that latter address. The channel-1 and channel-0-word
 aliases retain their existing native providers independently.
 
-The standalone channels `D_800F04F8` and `D_800F055C` are outside this naming
-scope. Existing numeric declarations, native bindings and overlay imports
-remain available to frozen consumers. No historical dependency fingerprint is
-refreshed.
+The PAL password imports `D_800F04F8` and `D_800F055C` were outside this
+pass's naming scope. The later
+[channel-control views](text-channel-control-views.md) identify them as
+pool elements 2/3, not standalone allocations, and provide the regional-only
+`gText_Channel2View`/`gText_Channel3View` source aliases. Existing numeric
+declarations, native bindings and overlay imports remain available. No
+historical dependency fingerprint is refreshed.
 
 ## Completion acknowledgement
 

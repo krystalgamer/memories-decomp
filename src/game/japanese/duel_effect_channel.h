@@ -14,8 +14,8 @@ typedef struct {
     s16 field_40;
     s16 field_42;
     u8 pad_44[0x0F];
-    u8 field_53;
-    u8 field_54;
+    u8 delay_reload_53;
+    u8 color_index_54;
     u8 pad_55[2];
     u8 index_57;
     u8 pad_58;

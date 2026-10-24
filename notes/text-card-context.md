@@ -13,7 +13,7 @@ text cell a universal duel-only meaning.
 
 | NA address | Identity | Proven use |
 |---|---|---|
-| `0x8009B320` | `gText_SelectedCardColorIndex` | Field info stages guardian comparison color `4/1/6`; Library stages the selected channel's effective color or neutral `4`. Selected-card modifier bit `0x10` copies it to channel `field_54`. |
+| `0x8009B320` | `gText_SelectedCardColorIndex` | Field info stages guardian comparison color `4/1/6`; Library stages the selected channel's effective color or neutral `4`. Selected-card modifier bit `0x10` copies it to channel `color_index_54`. |
 | `0x8009B344` | `gText_GuardianGlyphCode` | Field info selects a guardian star and adds `0x17`; the guardian wrapper emits that encoded symbol. Not a raw star ordinal or stream pointer. |
 | `0x8009B34E` | `gText_BranchSelectorA` | Independent u16-table index consumed by selector jump A. |
 | `0x8009B355` | `gText_BranchSelectorB` | Independent u16-table index consumed by selector jump B. |

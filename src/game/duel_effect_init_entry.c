@@ -23,7 +23,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     wide = 16;
     size = flags & 3;
     e->index_57 = index;
-    e->field_54 = 0;
+    e->color_index_54 = 0;
     e->field_38 = 0;
     e->field_3A = 0;
     e->field_5A = narrow;
@@ -42,7 +42,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
         e->field_5B = wide;
         break;
     }
-    e->field_53 = 1;
+    e->delay_reload_53 = 1;
     range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + (index << 1));
     e->field_59 = 0;
     *(u16 *)((u8 *)e + 0x62) = 0;
@@ -71,7 +71,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     e->field_5A = 8;
     e->field_5B = 12;
 #endif
-    e->field_53 = 2;
+    e->delay_reload_53 = 2;
 #ifdef VERSION_JAPAN
     /* The 16-bit boundaries are stored modulo 256 in the compact channel. */
     range = (unsigned char *)gDuelEffect_awEntryRangeBoundaries + offset;
@@ -80,7 +80,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 #endif
     e->index_57 = index;
     e->field_36 = value;
-    e->field_54 = 0;
+    e->color_index_54 = 0;
     e->flags_34 = flags;
     e->field_38 = 0;
     e->field_3A = 0;

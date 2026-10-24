@@ -51,7 +51,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         *(u8 *G32 *)text = current;
     }
     if (op & 0x10) {
-        object->field_54 = gText_SelectedCardColorIndex;
+        object->color_index_54 = gText_SelectedCardColorIndex;
         return;
     }
     if (op & 0x20) {
@@ -125,7 +125,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         *(u8 *G32 *)text = current;
     }
     if (op & 0x10) {
-        object->field_54 = gText_SelectedCardColorIndex;
+        object->color_index_54 = gText_SelectedCardColorIndex;
         return;
     }
     if (op & 0x20) {
@@ -209,7 +209,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     }
     n = 0;
     if (op & 0x10) {
-        object->field_54 = gText_SelectedCardColorIndex;
+        object->color_index_54 = gText_SelectedCardColorIndex;
         return;
     }
     if (op & 0x20) {
@@ -599,7 +599,7 @@ void Text_SetColorIndex(DuelEffectChannel *object)
     if (v & 0x80) {
         w = gText_abColorSlots[v & 0xF];
     }
-    object->field_54 = w;
+    object->color_index_54 = w;
 }
 
 void Text_SetFastPrintMode(DuelEffectChannel *object)
