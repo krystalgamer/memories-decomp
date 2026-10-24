@@ -1334,10 +1334,7 @@ segments:
     - game/mdec_sync
   - - 373660
     - c
-    - game/european/card_list_render_deck_box_stats
-  - - 374484
-    - c
-    - game/european/func_80050B6C
+    - game/european/card_list_deck_box
   - - 374912
     - c
     - game/spanish/func_80061008
