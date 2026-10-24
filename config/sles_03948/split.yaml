@@ -491,9 +491,6 @@ segments:
     - game/european/library_draw_wireframe_globe
   - - 108616
     - c
-    - game/library_get_card_flags
-  - - 108636
-    - c
     - game/european/library_card_grid
   - - 110576
     - c
