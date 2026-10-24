@@ -5931,21 +5931,21 @@
     },
     {
       "address": "0x8005C4CC",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split_no_cse_follow_jumps",
       "size": "0x64",
-      "source": "src/game/japanese/model_slot_set_type.c"
+      "source": "src/game/japanese/model_slot_state_updates.c"
     },
     {
       "address": "0x8005C530",
       "profile": "gcc_2_8_1_g0_split_no_cse_follow_jumps",
       "size": "0xC8",
-      "source": "src/game/func_80059700.c"
+      "source": "src/game/japanese/model_slot_state_updates.c"
     },
     {
       "address": "0x8005C5F8",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_no_cse_follow_jumps",
       "size": "0xC4",
-      "source": "src/game/func_800597C8.c"
+      "source": "src/game/japanese/model_slot_state_updates.c"
     },
     {
       "address": "0x8005C6BC",

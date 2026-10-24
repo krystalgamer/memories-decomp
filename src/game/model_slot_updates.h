@@ -5,7 +5,7 @@
 #include "model.h"
 
 /* The two per-slot update steps model_slot_control.c and
- * Model_SetSlotPlaybackDirection (src/game/func_80059700.c) drive. Model_SetSlotPartSpeeds sets
+ * Model_SetSlotPlaybackDirection (src/game/model_slot_state_updates.c) drive. Model_SetSlotPartSpeeds sets
  * the playback speed of every part's GsSEQ in one slot; Model_SetSlotRootTransform takes
  * the slot record itself rather than its index, which is why the two do not
  * share a parameter shape. */
