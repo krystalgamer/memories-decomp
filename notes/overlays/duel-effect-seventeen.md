@@ -53,6 +53,11 @@ The actual helper uses unsigned halfword loads; the report also shows
 their signed-16 interpretations. It requests no phase-one route and makes
 no runtime conclusion until a human result arrives.
 
+The [same-name callback replay](../../tools/trace/tests/duel_effect_null_offset_test.lua)
+checks the 24 distinct samples, first-call isolation, native/register guards
+and one-shot termination using the existing mocked PCSX/FFI pattern.
+It and the unchanged setup preflight supply no guest-execution evidence.
+
 ## Recovered configuration and storage
 
 Two 16-byte records at `8015A60C` contain:
