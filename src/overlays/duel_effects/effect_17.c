@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 void func_80148BA4(void *buffer, s32 phase)
 {
@@ -31,14 +32,14 @@ void func_80148BA4(void *buffer, s32 phase)
         } else {
             work->cross = 0;
             work->config = &D_8015A60C[phase];
-            copyVector(&work->origin, &D_8015B7F8);
+            copyVector(&work->origin, &gDuelEffect_DrawOffset);
             if (work->config->mode == 0) {
                 Duel_CollectMatchingFieldCardObjects(D_8015B7A0, -1);
                 setVector(&work->center, 0, -work->config->height, 0);
             } else {
                 Duel_CollectMatchingFieldCardObjects(D_8015B7A0, 0);
-                setVector(&work->center, D_8015B7F8.vx,
-                          D_8015B7F8.vy - work->config->height, D_8015B7F8.vz);
+                setVector(&work->center, gDuelEffect_DrawOffset.vx,
+                          gDuelEffect_DrawOffset.vy - work->config->height, gDuelEffect_DrawOffset.vz);
             }
             work->card_count = 0;
             for (i = 0; D_8015B7A0[i] != 0; i++) {

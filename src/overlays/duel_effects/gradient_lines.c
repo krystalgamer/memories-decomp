@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "drawing_helpers.h"
 #include "primitive_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 u16 DuelEffect_DrawGradientPath(u8 *color, u16 count, SVECTOR *vertices, u16 bias,
                     u16 mode, SVECTOR *output, u16 flags, SVECTOR *offset)
@@ -25,7 +26,7 @@ u16 DuelEffect_DrawGradientPath(u8 *color, u16 count, SVECTOR *vertices, u16 bia
                             (PSXLONG *)&p, (PSXLONG *)&flag);
         depth -= bias;
         if (depth >= 0) {
-            GsSortGLine(packet, D_8015B7F4, (u16)(depth >> 2));
+            GsSortGLine(packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2));
         }
         if (mode == 1 && vertices[i + 1].vy > 0) {
             setVector(output, vertices[i + 1].vx, 0, vertices[i + 1].vz);

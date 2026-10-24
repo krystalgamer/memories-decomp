@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "number_semantic_views.h"
 #include "primitive_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 void func_801503F8(void *buffer, s32 phase, s16 number)
 {
@@ -31,9 +32,9 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
         } else {
             work->cross_frame = 0;
             work->config = &D_8015AE94[phase];
-            setVector(&work->offset, D_8015B7F8.vx, D_8015B7F8.vy, D_8015B7F8.vz);
+            setVector(&work->offset, gDuelEffect_DrawOffset.vx, gDuelEffect_DrawOffset.vy, gDuelEffect_DrawOffset.vz);
             setVector(&work->origin, 0, -work->config->height, 0);
-            addVector(&work->origin, &D_8015B7F8);
+            addVector(&work->origin, &gDuelEffect_DrawOffset);
             for (i = 0; i < 48; i++) {
                 func_8014FABC(work->config->radius, work->config->size >> 1,
                              work->config->height, 8, work->paths[i]);

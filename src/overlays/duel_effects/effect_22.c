@@ -6,6 +6,7 @@
 #include "number_semantic_views.h"
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 void func_8014A8E4(void *buffer, s32 phase)
 {
@@ -303,7 +304,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                 RotTransPers(&work->line_inner[i], (PSXLONG *)&line_packet->x0, (PSXLONG *)&p, (PSXLONG *)&flag);
                 depth = RotTransPers(&work->line_outer[i], (PSXLONG *)&line_packet->x1, (PSXLONG *)&p, (PSXLONG *)&flag);
                 if (depth >= 0 && flag >= 0) {
-                    GsSortGLine(line_packet, D_8015B7F4, (u16)(depth >> 2));
+                    GsSortGLine(line_packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2));
                 }
                 if (__builtin_abs(work->line_inner[i].vx) > 64 ||
                     __builtin_abs(work->line_inner[i].vy) > 64 ||

@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 void DuelEffect_DrawQuadContour(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags)
 {
@@ -42,7 +43,7 @@ void DuelEffect_DrawQuadContour(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 b
                 DuelEffect_SubmitOffsetQuad(edge, flags);
             } else {
                 depth -= bias;
-                func_8005B260((u32 *)edge, D_8015B7F4,
+                func_8005B260((u32 *)edge, gDuelEffect_pOrderingTable,
                     (u16)(depth >> 2), flags);
             }
         }

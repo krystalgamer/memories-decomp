@@ -1,5 +1,52 @@
 # Spanish duel-bank dispatcher
 
+## Scoped active render-state C views
+
+`render_state_semantic_views.h` exposes three independently stored context
+values through typed bindings to their unchanged native symbols. Their
+original declarations remain in `drawing_helpers.h`; all storage, symbol
+maps, relocations, inventories and generated-data owners remain unchanged.
+The pointer keeps `G32`, the vector keeps its SDK layout and padding, and
+the priority stays `u16`.
+
+| C view | Native symbol | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `gDuelEffect_pOrderingTable` | `D_8015B7F4` | `0x8015B88C` | `0x8016988C` | `0x8015B7F4` |
+| `gDuelEffect_DrawOffset` | `D_8015B7F8` | `0x8015B7D0` | `0x801697D0` | `0x8015B7F8` |
+| `gDuelEffect_wBasePriority` | `D_8015B800` | `0x8015B7C8` | `0x801697C8` | `0x8015B800` |
+
+The NTSC objects are not contiguous in the PAL order. These names do not
+introduce a packed context object, new allocation or linker alias.
+
+The dispatcher selects the active ordering table from request words 8/12.
+All 26 pointer writes remain in their original cases, including both writes
+in case nine. There is no new initialization or fallback for unknown IDs.
+
+The offset receives the request's three halfwords without writing vector
+padding. Packet helpers add its X/Y components to projected coordinates;
+effect initializers also copy all three components, and effects 16/23 use
+the Z sign to select orientation. Effect 24 overwrites it with its center.
+It is therefore neither a screen-only coordinate nor an immutable request
+origin; all copies, reads and writes remain uncached and in source order.
+
+The base-priority halfword is passed to SDK polygon/gradient-line sorters
+and resident packet submission, not tested as a bit mask. The historical
+dispatcher-only "flags" label below describes the input copy, not a
+recovered general flag contract. Fullscreen submissions use the base
+unchanged. Generic offset quads use narrowed `base + 1`; the FT4 SDK path
+uses the base, while the GT4 SDK path uses narrowed `base + 1`. The other
+mode branches retain their own base/depth behavior. No increment, clamp,
+mask, mode normalization or unified submission path is introduced.
+
+All twenty complete C consumers migrate only these three identifiers and
+one added include per file. Named-profile GCC/MASPSX output, native symbols
+and disassembly/relocations remain identical for every complete object.
+The original headers and ownership guards remain unchanged. Three scoped
+semantic records append at actual NA addresses; all prior registry bytes
+and every field in all five bank inventories remain unchanged.
+
+## Original dispatcher matching evidence
+
 `func_80146258` (`80146258..80146760`, 1,288 bytes) is complete matching C
 under `gcc_2_8_1_g0_split`. The independent Spanish integration also reuses
 the unchanged 148-byte French `rect_vertices.c` accepted in #6546.
