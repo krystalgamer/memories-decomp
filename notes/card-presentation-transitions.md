@@ -78,3 +78,39 @@ Validation compares complete ordinary compiler/MASPSX output and actual native
 translation units with only the three declared identities reversed, then
 requires a clean byte-identical resident executable. Regional/overlay image
 acceptance remains on the PR checks, not replaced by local source probes.
+
+## Runtime observation
+
+A `duel_display_callbacks` trace (#418; interpreter CPU, setup confirmed by
+1,538 control hits) covered the opening turns of a Free Duel against
+Villager2. The player summoned Spike Seadra (448) face-up and later Dragon
+Zombie (97) face-down. The opponent set card 96 face-down and switched it
+to defense. The trace hit its 96-row limit before any battle took place.
+
+- **Pairing:** every flags-`3` transition was followed by a flags-`0xC`
+  transition, at each scene change where the field was shown (scenes
+  `0x8004` and `0x8005`).
+- **Selection view:** `Duel_UpdateCardToSelectionView` ran while bits `3`
+  were set. It took eight calls for the face-up card and one for each
+  face-down card (97 and 96), ending as the transition word went from
+  `0x8003` to `0xC003`. On each occupied field card it turned record flag
+  `0x400` on.
+- **Field view:** `Duel_UpdateCardToFieldView` ran during bits `0xC` and
+  turned `0x400` off again.
+- **Other flags:** neither callback touched face-down (`0x1000`) or defense
+  (`0x800`).
+- **Bit `0x2` panel:** `Duel_CreateFieldCardPanel` was called nine times
+  from `Duel_UpdateDisplayTransition` (`0x80023784`) with `(0, 240)`. Each
+  call came on the frame a transition containing bit `0x2` started.
+
+The record flags also match the accepted names:
+
+| Card | Flags | Meaning |
+| --- | --- | --- |
+| 448, face-up | `0x8000` | occupied |
+| 97, face-down | `0x9000` | occupied, face-down |
+| 96, opponent's turn | `0xFC00` | occupied, used this turn, display marker, face-down, defense, selection view |
+| 96, next turn | `0xB800` | used-this-turn bit cleared |
+
+These rows were printed only at the end of the trace, so what was on screen
+at each transition is not recorded.

@@ -576,6 +576,19 @@ These consumers read copied side state, not `gDuel_wTwoPlayerCardViewMode` direc
 No complete visibility policy, option caption, or additional buffer layout
 is inferred here, and no new runtime trace is claimed.
 
+A later `duel_display_callbacks` trace (#418; interpreter CPU, setup
+confirmed) matched the nonnegative-opponent branch in a Free Duel against
+Villager2. The opponent's card already carried flag `0x2000` in hand record
+15 and kept it on field record 20, through a set, a defense switch and two
+turn changes. The player's records never had it.
+`Duel_UpdateCardMarkerRemovalTurn` did not run. Its only installer, in
+`DuelScene_UpdateCardPlacement`, skips single-card placements (scene flag
+`0x4000`) and turns only marked cards in the work slots. That suggests the
+marker is removed when the CPU places several hand cards at once, such as
+a fusion, or by `DuelEffect_UpdateRevealCard`. Neither was observed, and a
+player cannot make the CPU fuse on demand, so the flag keeps its neutral
+name.
+
 ## Typed migration snapshot
 
 The following matching C sources include `duel_card.h` and use its typed
