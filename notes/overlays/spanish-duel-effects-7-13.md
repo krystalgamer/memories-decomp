@@ -1,5 +1,50 @@
 # Complete Spanish effects 7 and 13
 
+## Canonical stat-penalty lifecycle
+
+`DuelEffect_RunStatPenalty` names the complete effect-13 animation.
+`DuelEffect_ApplyStatPenalty` creates requests for occupied field slots,
+selects phase 2 for Spellbinding Circle or phase 1 for the other penalty
+path, subtracts the corresponding resident stat modifier and supplies its
+negative magnitude in request `field_12`. The Reverse Trap path in
+`duel_scene_card_move.c` also creates effect 13 and supplies the negated
+pending equip bonus before resident code adjusts the modifier.
+The animation renders the number and marks request progress; it does not
+change card statistics or life points itself.
+
+All four configurations remain. Forty-eight independently rotated
+eight-point jagged columns activate two at a time; reached endpoints
+produce glow and the signed-halfword argument is drawn as `-abs(number)`
+after at least twelve paths activate. That argument, not the unused
+configuration `number` field, controls the displayed magnitude.
+The secondary glow's three red-only divisions, signed promotion before
+absolute value, bounce order, capped ages, mutable packed texture-page
+writes and three-color completion remain unchanged. Completion does not
+wait for the glow. Phases at least four still use the crossed-line fallback;
+the name does not assert that any lower phase is unused or exclusive.
+
+| Binding | North America | Japan | PAL/native | Bytes |
+| --- | --- | --- | --- | --- |
+| `DuelEffect_RunStatPenalty` | `80150FD0` | `8015E48C` | `func_801503F8` | 2,568 |
+| `gDuelEffect_StatPenaltyConfigs` | `8015AF60` | `80168F20` | `D_8015AE94` | 80 |
+| `gDuelEffect_StatPenaltyInitialScale` | `801461C0` | `801541D0` | `D_80146178` | 16 |
+| `gDuelEffect_StatPenaltyTextureImages` | `8015AD14` | `80168CD4` | `D_8015AC48` | 588 |
+
+The extern-only semantic header retains the private four-record config,
+SDK VECTOR and all 21 GsIMAGE descriptors in separate real generated
+owners: 684 bytes, not new storage or an absolute data alias. The code
+reads descriptor zero; naming the complete table does not claim all
+descriptors are used. Byte equality with the primary image table is not
+permission to merge them or make either immutable.
+
+The [jagged-column generator](spanish-duel-curve.md) also serves accepted
+board destruction. All three complete C consumers, including that caller,
+use the canonical names without changing their instructions or native
+symbols; the generator definition keeps its exact historically fingerprinted
+source. The archival effect-7/effect-13 recovery records below retain
+their original scope; this naming change imports no pending damage,
+recovery or row-strike branch and no new #418 observation.
+
 This independent batch reuses four shared source/header files verbatim:
 effect 7 from `ff4d65e1b13229527614ba0f8a8caa0e7efe9ea0`, and effect 13
 from `164234591c3f52c305a2f1e780361d9773ffd5d8`. No pending history,

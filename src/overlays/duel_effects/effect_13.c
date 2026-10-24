@@ -8,8 +8,9 @@
 #include "display_semantic_views.h"
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "stat_penalty_semantic_views.h"
 
-void func_801503F8(void *buffer, s32 phase, s16 number)
+void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
 {
     MATRIX world;
     MATRIX saved;
@@ -27,19 +28,19 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
     position_pointer = &position;
     memset(position_pointer, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
-    *scale_pointer = D_80146178;
+    *scale_pointer = gDuelEffect_StatPenaltyInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 4) {
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015AE94[phase];
+            work->config = &gDuelEffect_StatPenaltyConfigs[phase];
             setVector(&work->offset, gDuelEffect_DrawOffset.vx, gDuelEffect_DrawOffset.vy, gDuelEffect_DrawOffset.vz);
             setVector(&work->origin, 0, -work->config->height, 0);
             addVector(&work->origin, &gDuelEffect_DrawOffset);
             for (i = 0; i < 48; i++) {
-                func_8014FABC(work->config->radius, work->config->size >> 1,
+                DuelEffect_InitJaggedColumnVertices(work->config->radius, work->config->size >> 1,
                              work->config->height, 8, work->paths[i]);
                 setVector(&work->endpoints[i], 0, 0, 0);
                 DuelEffect_SetRgbColor((u8 *)&work->colors[i], work->config->color[0],
@@ -86,8 +87,8 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
             setVector(&rotation, 0, 0, work->tick * 128);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, scale_pointer, 0);
             if (work->config->blend != 1) {
-                gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
-                    work->config->blend, D_8015AC48[0].px, D_8015AC48[0].py);
+                gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(gDuelEffect_StatPenaltyTextureImages[0].pmode,
+                    work->config->blend, gDuelEffect_StatPenaltyTextureImages[0].px, gDuelEffect_StatPenaltyTextureImages[0].py);
             }
             DuelEffect_DrawLayeredTileQuad((u8 *)&work->glow_color, work->config->size, 1, position_pointer);
             if (work->config->blend != 1) {
@@ -95,8 +96,8 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
                 color.r /= 4;
                 color.r /= 4;
                 color.r /= 4;
-                gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
-                    1, D_8015AC48[0].px, D_8015AC48[0].py);
+                gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(gDuelEffect_StatPenaltyTextureImages[0].pmode,
+                    1, gDuelEffect_StatPenaltyTextureImages[0].px, gDuelEffect_StatPenaltyTextureImages[0].py);
                 DuelEffect_DrawLayeredTileQuad((u8 *)&color, work->config->size * 2, 16, position_pointer);
             }
             if (work->active == 48) {
@@ -139,8 +140,8 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
             }
         }
         if (work->config->blend != 1) {
-            gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
-                work->config->blend, D_8015AC48[0].px, D_8015AC48[0].py);
+            gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(gDuelEffect_StatPenaltyTextureImages[0].pmode,
+                work->config->blend, gDuelEffect_StatPenaltyTextureImages[0].px, gDuelEffect_StatPenaltyTextureImages[0].py);
         }
         for (i = 0; i < work->active; i++) {
             if (work->states[i] == 2 &&
