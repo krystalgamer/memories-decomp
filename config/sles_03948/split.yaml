@@ -677,9 +677,6 @@ segments:
     - game/european/duel_card_stat_display
   - - 139740
     - c
-    - game/european/build_deck_draw_sort_icons
-  - - 140120
-    - c
     - game/european/build_deck_draw_card_list_page
   - - 141432
     - c

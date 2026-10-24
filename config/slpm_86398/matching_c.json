@@ -2133,9 +2133,9 @@
     },
     {
       "address": "0x800314BC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0xF0",
-      "source": "src/game/japanese/build_deck_draw_sort_icons.c"
+      "source": "src/game/japanese/build_deck_draw_card_list_page.c"
     },
     {
       "address": "0x80031A0C",
