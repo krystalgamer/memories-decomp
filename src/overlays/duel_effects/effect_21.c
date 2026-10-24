@@ -3,6 +3,7 @@
 #include "effect_21.h"
 #include "../../game/shared_work_base.h"
 #include "geometry_semantic_views.h"
+#include "display_semantic_views.h"
 
 void func_8014E3EC(void *buffer, s32 phase)
 {
@@ -62,7 +63,7 @@ void func_8014E3EC(void *buffer, s32 phase)
         for (i = 0; i < slots[__builtin_abs(phase + 1) % 2]->count; i++) {
             copyVector(&position, &slots[__builtin_abs(phase + 1) % 2]->positions[i]);
             position.vy -= slots[__builtin_abs(phase + 1) % 2]->offsets[i];
-            func_80157494((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color,
+            DuelEffect_DrawTranslatedTileRect((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color,
                          &position, 30, 80,
                          slots[__builtin_abs(phase + 1) % 2]->tiles[i]);
             slots[__builtin_abs(phase + 1) % 2]->tiles[i] =

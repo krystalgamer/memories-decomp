@@ -1,5 +1,56 @@
 # Duel-effect display quads and gradient bands
 
+## Scoped display C views
+
+The complete three-function object exposes the following C names through
+`display_semantic_views.h`, with typed bindings to the original native
+labels. The original `display_quads.h`, SDK records, grouping, definition
+order and compiler profile remain unchanged.
+
+| C view | Native label | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `DuelEffect_DrawQuadrantTileQuads` | `func_801573A8` | `0x801495F0` | `0x80165438` | `0x801573A8` |
+| `DuelEffect_DrawTranslatedTileRect` | `func_80157494` | `0x801496DC` | `0x80165524` | `0x80157494` |
+| `DuelEffect_DrawGradientConnectionBands` | `func_801575CC` | `0x80149814` | `0x8016565C` | `0x801575CC` |
+
+Effect 13 calls the quadrant helper for its background pass; effect 21
+calls the translated rectangle with a per-slot tile value; effect 24
+connects five pairs of target XY prefixes with the gradient helper.
+The names describe these complete drawing bodies, not artwork, gameplay
+animation identity, runtime coverage or world/screen-space dimensions.
+
+The quadrant helper retains page/CLUT offsets `0x1C/0x1E`, fixed UVs
+`(128,128)..(191,191)`, and four ordered generator/projector attempts for
+indices zero through three. Every call forwards the original signed depth
+and mode one; no acceptance result gates the next quadrant.
+
+The rectangle retains page/CLUT offsets `0x20/0x22`, U endpoints
+`128 + tile * 32` and `159 + tile * 32`, and V endpoints 192/255. Width
+spans negative to positive X; height spans negative Y to zero. Keep direct
+`drawing.vertices` initialization and projector arguments distinct from
+pointer-relative `addVector` accesses. Both fixed projector arguments are
+one. The caller cycles tiles modulo three, but the helper does not bound or
+normalize its `u16` tile argument before the original byte UV stores.
+
+The gradient helper creates two G4 bands, each with black outer vertices
+and input-color inner vertices. Both offsets are along Y, not calculated
+perpendiculars to the endpoint segment. Keep both ordered power calls per
+band, their explicit `s16` narrowing, zero local Z, ignored projection
+depth and independent flag-only acceptance. Accepted bands use the common
+offset-quad submitter with mode one. The endpoint `DVECTOR` parameters
+describe only the observed XY prefixes, not entire caller-owned records.
+
+All four complete owner/caller sources retain their accepted-parent bodies
+after reversing only the three names and removing one added include per
+file. Actual named-profile GCC/MASPSX output, native symbols and
+disassembly/relocations remain identical. The five bank inventories change
+only fifteen name cells; three scoped records append at actual NA
+addresses without changing earlier registry bytes. Native headers, tests,
+data owners and all unrelated metadata remain unchanged. Full-image and
+regional acceptance uses ordinary project/PR gates.
+
+## Original matching evidence
+
 `display_quads.c` owns the complete contiguous interval
 `0x801573A8..0x80157794`, using the unchanged `gcc_2_8_1_g0_split` profile.
 
