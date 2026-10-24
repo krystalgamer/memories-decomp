@@ -44,7 +44,9 @@ scale role without guessing a getter caller or UI context.
 The getter has no static caller. A runtime trace under #418 (interpreter
 CPU, 2,448 control hits) saw no call while visiting the main menu, the
 Library including a monster's 3-D view, and Build Deck; a later trace of
-two 3-D battles did not watch it.
+two 3-D battles did not watch it. Later watch traces also saw no call on the
+idle title screen, in the Library 3-D view, or on the duel board; see
+[`trace-uncalled-functions.md`](trace-uncalled-functions.md).
 
 `Model_SetSlotScale` (`0x800594C0`) retains the whole four-word copy for a
 nonnull source. Null writes `MODEL_FIXED_ONE` to offsets eight, four and
