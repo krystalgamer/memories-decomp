@@ -57,7 +57,7 @@ address,size,name,status,module,notes
 0x801620F0,0x28,DuelEffect_SetFogBaseColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80162118,0x604,DuelEffect_RunParticleContourBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8016271C,0x4A8,DuelEffect_RunContourBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80162BC4,0xBC0,func_80154B30,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80162BC4,0xBC0,DuelEffect_RunDirectDamage,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80163784,0xA4,DuelEffect_DrawFadingFullscreenColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80163828,0xCC,DuelEffect_DrawFullscreenGradient,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801638F4,0x90,DuelEffect_DrawFullscreenColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -81,6 +81,6 @@ address,size,name,status,module,notes
 0x8016565C,0x1C8,DuelEffect_DrawGradientConnectionBands,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80165824,0x67C,DuelEffect_RunFusion,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80165EA0,0x9C8,DuelEffect_RunLifePointRecovery,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80166868,0xBCC,func_801587D8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80166868,0xBCC,DuelEffect_RunReflectedDirectDamage,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80167434,0x704,DuelEffect_RunInvertedLifePointRecovery,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80167B38,0x738,func_80159AAC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
