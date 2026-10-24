@@ -66,7 +66,7 @@ void func_80154084(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         func_801531C4(&world);
-        if ((u16)func_8014D3AC((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             setVector(&position, 0, 0, 0);
             setVector(&rotation, 0, 0, 0);
             setVector(&scale, 4096, 4096, 4096);
@@ -113,18 +113,18 @@ void func_80154084(void *buffer, s32 phase)
                                  work->config->height, 0);
                     applyVector(&work->rotations[i], 128, 128, 128, +=);
                 }
-                func_80153F28((u8 *)&work->color, 15);
+                DuelEffect_DarkenColor((u8 *)&work->color, 15);
                 if (work->scale < 0x7000) {
                     work->scale += 0x1000;
                 }
             } else {
-                func_80153F98((u8 *)&work->color, work->config->color.r,
+                DuelEffect_StepColorToTarget((u8 *)&work->color, work->config->color.r,
                              work->config->color.g, work->config->color.b, 31);
             }
         }
         work->frame += frame_step;
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

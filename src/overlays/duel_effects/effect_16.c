@@ -80,8 +80,8 @@ void func_80151558(void *buffer, s32 phase)
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         for (j = 0; j < work->count; j++) {
             func_801513F4(&world, &saved, &work->origins[j], &rotation, &scale, 3);
-            if ((u16)func_8014D3AC((u8 *)&work->primary[j]) ||
-                (u16)func_8014D3AC((u8 *)&work->secondary[j])) {
+            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->primary[j]) ||
+                (u16)DuelEffect_HasNonzeroColor((u8 *)&work->secondary[j])) {
                 setPolyFT4(packet);
                 packet->tpage = D_8015B748.pairs[14][0];
                 packet->clut = D_8015B748.pairs[14][1];
@@ -137,8 +137,8 @@ void func_80151558(void *buffer, s32 phase)
                     if (work->scales[j] < 16384) {
                         work->scales[j] += 4096;
                     }
-                    func_80153F28((u8 *)&work->primary[j], 31);
-                    func_80153F28((u8 *)&work->secondary[j], 15);
+                    DuelEffect_DarkenColor((u8 *)&work->primary[j], 31);
+                    DuelEffect_DarkenColor((u8 *)&work->secondary[j], 15);
                 }
             }
         }
@@ -150,8 +150,8 @@ void func_80151558(void *buffer, s32 phase)
             }
         }
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->primary[4]) &&
-            (u16)func_8014D378((u8 *)&work->secondary[4])) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->primary[4]) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->secondary[4])) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

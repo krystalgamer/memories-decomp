@@ -81,9 +81,9 @@ void func_80149F90(void *buffer, s32 phase)
         spark->clut = ((TileEffectTextureWords *)&D_8015B748)[state->descriptor->texture].clut;
         for (k = 0; k < 5; k++) {
             for (i = 0; i < 7; i++) {
-                if ((u16)func_8014D3AC(state->colors_a[k][i]) != 0 ||
-                    (u16)func_8014D3AC(state->colors_c[k][i]) != 0 ||
-                    (u16)func_8014D3AC(state->colors_b[k][i]) != 0) {
+                if ((u16)DuelEffect_HasNonzeroColor(state->colors_a[k][i]) != 0 ||
+                    (u16)DuelEffect_HasNonzeroColor(state->colors_c[k][i]) != 0 ||
+                    (u16)DuelEffect_HasNonzeroColor(state->colors_b[k][i]) != 0) {
                     setRGB0(tile, state->colors_a[k][i][0], state->colors_a[k][i][1], state->colors_a[k][i][2]);
                     setRGB1(tile, state->colors_a[k][i][0], state->colors_a[k][i][1], state->colors_a[k][i][2]);
                     setRGB2(tile, state->colors_c[k][i][0], state->colors_c[k][i][1], state->colors_c[k][i][2]);
@@ -113,8 +113,8 @@ void func_80149F90(void *buffer, s32 phase)
                     quad[3].vy = tile->y3 + state->jitter[k][i];
                     quad[3].vz = 0;
                     if (state->active[k][i] == 1) {
-                        func_80153F28(state->colors_a[k][i], 0xF);
-                        func_80153F28(state->colors_c[k][i], 0x1F);
+                        DuelEffect_DarkenColor(state->colors_a[k][i], 0xF);
+                        DuelEffect_DarkenColor(state->colors_c[k][i], 0x1F);
                         setRGB0(spark, state->colors_b[k][i][0], state->colors_b[k][i][1], state->colors_b[k][i][2]);
                         if (state->descriptor->texture == 4) {
                             setUV4(spark, state->sparkle[k][i] * 32 - 0x80, 0x40,
@@ -136,7 +136,7 @@ void func_80149F90(void *buffer, s32 phase)
                         spark->x3 = quad[3].vx + state->radius[k][i];
                         spark->y3 = quad[3].vy + state->radius[k][i];
                         func_80152F9C(spark, 1);
-                        func_80153F28(state->colors_b[k][i], 8);
+                        DuelEffect_DarkenColor(state->colors_b[k][i], 8);
                         state->sparkle[k][i] = (state->sparkle[k][i] + 1) % 4;
                         func_801530B0(tile, 1);
                     } else {

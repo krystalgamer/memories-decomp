@@ -81,7 +81,7 @@ void func_80152048(void *buffer, s32 phase)
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         func_801513F4(&world, &saved, &work->position, &work->rotation, &scale, 1);
-        if ((u16)func_8014D3AC((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             setPolyFT4(packet);
             packet->tpage = D_8015B748.pairs[19][0];
             packet->clut = D_8015B748.pairs[19][1];
@@ -119,7 +119,7 @@ void func_80152048(void *buffer, s32 phase)
             }
             if (work->speed > 0) {
                 if (work->position.vx > 210) {
-                    func_80153F28((u8 *)&work->color, 8);
+                    DuelEffect_DarkenColor((u8 *)&work->color, 8);
                 }
                 for (i = 0; i < 5; i++) {
                     if (work->position.vx >= i * 70 - 44 && work->states[i] == 1) {
@@ -129,7 +129,7 @@ void func_80152048(void *buffer, s32 phase)
                 }
             } else if (work->speed < 0) {
                 if (work->position.vx < -210) {
-                    func_80153F28((u8 *)&work->color, 8);
+                    DuelEffect_DarkenColor((u8 *)&work->color, 8);
                 }
                 for (i = 0; i < 5; i++) {
                     if (work->position.vx <= 236 - i * 70 && work->states[i] == 1) {
@@ -139,7 +139,7 @@ void func_80152048(void *buffer, s32 phase)
                 }
             }
             if (work->stage == 0) {
-                work->stage = func_80153F98((u8 *)&work->color, 128, 128, 128, 15);
+                work->stage = DuelEffect_StepColorToTarget((u8 *)&work->color, 128, 128, 128, 15);
             }
         }
         if (work->stage >= 2) {
@@ -197,12 +197,12 @@ void func_80152048(void *buffer, s32 phase)
         }
         PopMatrix();
         if (work->count != 0) {
-            if ((u16)func_8014D378((u8 *)&work->color) &&
+            if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color) &&
                 (((DisplayObject *)D_8015B7A0[work->count - 1])->field_0C & 0xFFFFFF) == 0) {
                 gDuelEffect_bRequestFinished = 1;
             }
         } else {
-            if ((u16)func_8014D378((u8 *)&work->color)) {
+            if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
                 gDuelEffect_bRequestFinished = 1;
             }
         }

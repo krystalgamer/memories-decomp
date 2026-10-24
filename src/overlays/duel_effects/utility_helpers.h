@@ -6,8 +6,12 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 
-s32 func_8014D378(const u8 *color);
-s32 func_8014D3AC(const u8 *color);
+extern s32 DuelEffect_IsColorBlack(const u8 *color) __asm__("func_8014D378");
+extern s32 DuelEffect_HasNonzeroColor(const u8 *color) __asm__("func_8014D3AC");
+
+/* Keep the bank's native identities available to legacy callers. */
+extern s32 func_8014D378(const u8 *color);
+extern s32 func_8014D3AC(const u8 *color);
 void func_8014EA7C(u16 radius, SVECTOR *vertices);
 void func_8014EC8C(u16 width, u16 depth, s32 level, s32 offset,
                    SVECTOR *vertices, u16 count);

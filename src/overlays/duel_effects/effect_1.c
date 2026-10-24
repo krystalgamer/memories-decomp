@@ -52,7 +52,7 @@ void func_80157794(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         func_801531C4(&world);
-        if ((u16)func_8014D3AC((u8 *)&work->base_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->base_color)) {
             scale.vx = 4096 + (work->growth >> 4);
             scale.vy = 4096 + (work->growth >> 4);
             scale.vz = 4096;
@@ -61,10 +61,10 @@ void func_80157794(void *buffer, s32 phase)
             func_801513F4(&world, &saved, &translation, &rotation, &scale, 0);
             func_80155F94((u8 *)&work->base_color);
             if (work->frame < work->config->first_end) {
-                func_80153F98((u8 *)&work->base_color, 128, 128, 128, 8);
+                DuelEffect_StepColorToTarget((u8 *)&work->base_color, 128, 128, 128, 8);
                 work->rotation_step += work->config->rotation_acceleration;
             } else if (work->frame < work->config->second_end) {
-                func_80153F98((u8 *)&work->beam_color, work->config->color.r,
+                DuelEffect_StepColorToTarget((u8 *)&work->beam_color, work->config->color.r,
                              work->config->color.g, work->config->color.b, 15);
                 if (work->growth < 0x7000) {
                     work->growth += 0x400;
@@ -75,10 +75,10 @@ void func_80157794(void *buffer, s32 phase)
                     func_8014F010((u8 *)&work->screen_color, 255);
                     work->rotation_step = work->config->initial_rotation_step;
                 }
-                func_80153F28((u8 *)&work->base_color, 15);
+                DuelEffect_DarkenColor((u8 *)&work->base_color, 15);
             }
         }
-        if ((u16)func_8014D3AC((u8 *)&work->beam_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->beam_color)) {
             scale.vx = 4096 + (work->growth >> 2);
             scale.vy = 4096 + (work->growth >> 2);
             scale.vz = 4096;
@@ -122,19 +122,19 @@ void func_80157794(void *buffer, s32 phase)
                 }
             }
             if (work->stage != 0) {
-                func_80153F28((u8 *)&work->beam_color, 8);
+                DuelEffect_DarkenColor((u8 *)&work->beam_color, 8);
             }
         }
-        if ((u16)func_8014D3AC((u8 *)&work->screen_color)) {
-            func_801556F4((u8 *)&work->screen_color, 15);
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->screen_color)) {
+            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->screen_color, 15);
             gDuelEffect_pActiveRequest->field_1D = 1;
         }
         work->frame += frame_step;
         work->tick++;
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->base_color) &&
-            (u16)func_8014D378((u8 *)&work->beam_color) &&
-            (u16)func_8014D378((u8 *)&work->screen_color)) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->base_color) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->beam_color) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->screen_color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

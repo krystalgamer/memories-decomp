@@ -109,7 +109,7 @@ void func_801587D8(void *buffer, s32 phase)
                 }
             } else if (work->states[i] == 1) {
                 gDuelEffect_pActiveRequest->field_1D = 1;
-                if ((u16)func_8014D3AC((u8 *)&work->colors[i])) {
+                if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
                     setVector(&scale, 4096, 4096, 4096);
                     func_801513F4(&world, &saved, &work->trails[i][0],
                                  &rotation, &scale, 1);
@@ -131,9 +131,9 @@ void func_801587D8(void *buffer, s32 phase)
                     if (work->scales[i] < 0x6000) {
                         work->scales[i] += 0x1000;
                     }
-                    func_80153F28((u8 *)&work->colors[i], 15);
+                    DuelEffect_DarkenColor((u8 *)&work->colors[i], 15);
                 } else {
-                    if ((u16)func_8014D378((u8 *)&work->colors[i])) {
+                    if ((u16)DuelEffect_IsColorBlack((u8 *)&work->colors[i])) {
                         work->states[i] = 2;
                     }
                 }
@@ -150,7 +150,7 @@ void func_801587D8(void *buffer, s32 phase)
         scale.vz = 4096;
         func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
         if (work->states[work->config->count - 1] != 0 &&
-            (u16)func_8014D3AC((u8 *)&work->number_color)) {
+            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
             func_801566D4(work->config->number, (u8 *)&work->number_color,
                          &work->number_position, work->number_mode, 16, 0);
             addVector(&work->number_position, &work->number_velocity);
@@ -163,26 +163,26 @@ void func_801587D8(void *buffer, s32 phase)
                 } else {
                     work->number_mode = 1;
                     work->number_velocity.vy = 0;
-                    func_80153F28((u8 *)&work->number_color, 15);
+                    DuelEffect_DarkenColor((u8 *)&work->number_color, 15);
                 }
             }
         }
-        if ((u16)func_8014D3AC((u8 *)&work->background_color)) {
-            func_80155798((u8 *)&work->background_color);
+        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
+            DuelEffect_DrawFullscreenGradient((u8 *)&work->background_color);
             if (work->states[work->config->count - 1] == 0) {
-                func_80153F98((u8 *)&work->background_color,
+                DuelEffect_StepColorToTarget((u8 *)&work->background_color,
                              work->config->color[0] >> 1, work->config->color[1] >> 1,
                              work->config->color[2] >> 1, 4);
             } else {
-                func_80153F28((u8 *)&work->background_color, 4);
+                DuelEffect_DarkenColor((u8 *)&work->background_color, 4);
             }
         }
         work->frame += frame_step;
         work->tick++;
         PopMatrix();
-        if ((u16)func_8014D378((u8 *)&work->colors[work->config->count - 1]) &&
-            (u16)func_8014D378((u8 *)&work->background_color) &&
-            (u16)func_8014D378((u8 *)&work->number_color)) {
+        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->colors[work->config->count - 1]) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->background_color) &&
+            (u16)DuelEffect_IsColorBlack((u8 *)&work->number_color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

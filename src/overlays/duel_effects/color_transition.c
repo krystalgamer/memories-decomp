@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "color_helpers.h"
 
-void func_80153F28(u8 *color, u16 step)
+void DuelEffect_DarkenColor(u8 *color, u16 step)
 {
     if (color[0] > step + 1) {
         color[0] -= step;
@@ -20,7 +20,7 @@ void func_80153F28(u8 *color, u16 step)
     }
 }
 
-s32 func_80153F98(u8 *color, u8 red, u8 green, u8 blue, u16 step)
+s32 DuelEffect_StepColorToTarget(u8 *color, u8 red, u8 green, u8 blue, u16 step)
 {
     if (color[0] < (u16)(red + 1) - step) {
         color[0] += step;
@@ -43,7 +43,7 @@ s32 func_80153F98(u8 *color, u8 red, u8 green, u8 blue, u16 step)
     return 0;
 }
 
-void func_8015405C(u16 high, u16 middle, u16 low)
+void DuelEffect_SetFogBaseColor(u16 high, u16 middle, u16 low)
 {
     D_8009B300 = ((u8)high << 16) | ((u8)middle << 8) | (u8)low;
 }
