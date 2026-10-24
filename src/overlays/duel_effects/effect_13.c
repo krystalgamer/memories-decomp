@@ -3,6 +3,7 @@
 #include "effect_13.h"
 #include "geometry_semantic_views.h"
 #include "number_semantic_views.h"
+#include "primitive_semantic_views.h"
 
 void func_801503F8(void *buffer, s32 phase, s16 number)
 {
@@ -118,11 +119,11 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
             DuelEffect_SetTransformMatrix(&world, &saved, &work->offset, &rotation, &scale, 2);
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
                 if (work->states[i] != 2) {
-                    work->states[i] = func_801570B0((u8 *)&work->colors[i], work->ages[i],
+                    work->states[i] = DuelEffect_DrawGradientPath((u8 *)&work->colors[i], work->ages[i],
                         work->paths[i], 16, 1, &work->endpoints[i], work->config->blend,
                         &work->offset);
                 } else {
-                    func_801570B0((u8 *)&work->colors[i], work->ages[i],
+                    DuelEffect_DrawGradientPath((u8 *)&work->colors[i], work->ages[i],
                         work->paths[i], 32, 0, &work->endpoints[i], work->config->blend,
                         &work->offset);
                 }

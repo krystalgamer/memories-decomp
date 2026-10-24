@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "texture_semantic_views.h"
+#include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
 
 void func_80146760(void *buffer, s32 phase)
@@ -109,7 +110,7 @@ void func_80146760(void *buffer, s32 phase)
         setPolyGT4(gradient_packet);
         DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &zero, &scale, 2);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->glow)) {
-            func_80156E58((u8 *)&work->glow, work->config->ray_width, work->rays,
+            DuelEffect_DrawSharedBaseTriangles((u8 *)&work->glow, work->config->ray_width, work->rays,
                          work->config->ray_count, 64);
             for (i = 0; i < work->config->dust_count; i++) {
                 DuelEffect_InitOffsetQuadVertices(vertices, &work->dust[i]);

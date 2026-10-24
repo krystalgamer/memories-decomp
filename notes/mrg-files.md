@@ -136,6 +136,14 @@ win/lose graphics described in
 labels come from the tutorial; the package boundaries, upload geometry, and
 final destination come from the resident request and matching callback.
 
+A `duel_result_rewards` trace (#418; interpreter CPU, setup confirmed)
+captured this load once after a won Free Duel, about 20 seconds before
+`Duel_AwardCard` ran. The callback ran modes 0 to 3 at disc LBA `0x4521`
+(WA_MRG's `0x2776` plus `0x1DAB`) with a `0x11000`-byte total. Mode 0 queued
+the `0x10000`-byte image phase to VRAM `(0,0x100)`, mode 1 set the
+`256 x 4` rectangle at `(0, 248)`, and the final pointer was `0x801AF000`,
+matching the table above.
+
 ### Menu background and symbol package
 
 Resident `func_8002F630` requests 50 WA sectors beginning at sector `0x1FA7`,

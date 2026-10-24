@@ -7,7 +7,10 @@
    runtime trace under #418 (interpreter CPU, 2,448 control hits) saw no call
    to either while visiting the main menu, the Library card list and a
    monster's 3-D view, and Build Deck, so those screens are ruled out; a duel
-   and the Free Duel opponent grid were not visited. */
+   and the Free Duel opponent grid were not visited. Later traces also saw
+   no call on the idle title screen with its intro movie, in the Library 3-D
+   view, or while moving the cursor over every zone of the duel board; see
+   notes/trace-uncalled-functions.md. */
 
 s32 CardGrid_GetColumnX(s32 value)
 {

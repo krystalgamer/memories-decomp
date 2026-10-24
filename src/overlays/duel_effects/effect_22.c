@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
 
 void func_8014A8E4(void *buffer, s32 phase)
@@ -257,7 +258,7 @@ void func_8014A8E4(void *buffer, s32 phase)
             }
             setVector(&position, 0, -96, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-            func_80156E58((u8 *)&work->flash_color, work->config->point_size, work->points, 32, 1);
+            DuelEffect_DrawSharedBaseTriangles((u8 *)&work->flash_color, work->config->point_size, work->points, 32, 1);
             DuelEffect_DrawQuadContour((u8 *)&work->flash_color, work->rings[0], work->rings[1], 1, 1);
             setVector(&scale, work->ring_scale, work->ring_scale, 4096);
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);

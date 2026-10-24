@@ -17,7 +17,10 @@ stores the low byte of its argument, not an arbitrary requested step.
 The other bytes are not inferred from that first-byte role. Byte one is
 unclassified. Byte two remains `D_8009AFA6`, and its getter
 `func_80058DC0` remains address-named because no semantic consumer or
-writer is established. Byte three is the credits controller's private
+writer is established. Three watch traces under #418 saw neither a call
+to the getter nor a write to the byte on the title loop, Library 3-D view
+or duel board
+([`trace-uncalled-functions.md`](trace-uncalled-functions.md)). Byte three is the credits controller's private
 slot selection, not the separate `gModel_bActiveSlotIndex`. The following
 halfwords are outside the four-byte NA backing. No replacement struct is
 introduced, and native array views do not create storage.

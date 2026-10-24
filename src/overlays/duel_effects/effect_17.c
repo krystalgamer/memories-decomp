@@ -3,6 +3,7 @@
 #include "effect_17.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
 
 void func_80148BA4(void *buffer, s32 phase)
@@ -232,7 +233,7 @@ void func_80148BA4(void *buffer, s32 phase)
             color.r >>= 1;
             color.g >>= 1;
             color.b >>= 1;
-            func_80156E58((u8 *)&color, 3, work->card_particles[work->completed - 1], 16, 36);
+            DuelEffect_DrawSharedBaseTriangles((u8 *)&color, 3, work->card_particles[work->completed - 1], 16, 36);
             DuelEffect_DarkenColor((u8 *)&work->burst_color, 15);
             if (work->card_states[work->card_count - 1] >= 2 &&
                 (u16)DuelEffect_IsColorBlack((u8 *)&work->burst_color)) {
@@ -245,10 +246,10 @@ void func_80148BA4(void *buffer, s32 phase)
                 DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 2);
                 if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->path_colors[i])) {
                     if (work->path_states[i] != 2) {
-                        work->path_states[i] = func_801570B0((u8 *)&work->path_colors[i], work->path_ages[i],
+                        work->path_states[i] = DuelEffect_DrawGradientPath((u8 *)&work->path_colors[i], work->path_ages[i],
                             work->paths[i], 16, 1, &work->endpoints[i], 1, &work->origin);
                     } else {
-                        func_801570B0((u8 *)&work->path_colors[i], work->path_ages[i],
+                        DuelEffect_DrawGradientPath((u8 *)&work->path_colors[i], work->path_ages[i],
                             work->paths[i], 32, 0, &work->endpoints[i], 1, &work->origin);
                     }
                     if (work->path_states[i] == 2 &&

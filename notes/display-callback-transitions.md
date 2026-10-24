@@ -86,3 +86,26 @@ for the sibling API. Numeric function aliases remain available. All
 pre-existing headers, overlays and test modules stay byte-identical; no
 harness, C fixture, probe or case is added. Full regional and cloud/witness
 execution remains PR-side validation.
+
+## Runtime observation
+
+A `duel_display_callbacks` trace (#418; interpreter CPU, setup confirmed by
+1,538 control hits) covered the opening turns of one Free Duel. The player
+placed a monster face-up and another face-down, and the opponent set one
+face-down. No battle took place.
+
+- **Marker turn:** `Duel_UpdateCardMarkerRemovalTurn` was never called,
+  even though both of the player's placements ran.
+- **Display marker:** `DUEL_CARD_FLAG_DISPLAY_MARKER` appeared only on the
+  opponent's card. It was already set in hand record 15 and stayed set on
+  field record 20 through the last row. The player's cards never carried
+  it.
+- **What this narrows:** the opponent's single marked card was placed
+  without the turn. This fits the installer, which skips single-card
+  placements; see [`duel-card-record.md`](duel-card-record.md).
+- **Plain slide:** `DisplayObject_UpdateCosineSlide` ran twice on the
+  opponent's hand record 15, 16 calls each time. It moved the card from
+  `(14,146)` to `(134,90)` and back, and the face-down bit was added
+  between the two slides.
+- **Not reached:** `DisplayObject_UpdateCosineSlideWithRollReset` never ran,
+  as expected without a battle.

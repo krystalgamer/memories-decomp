@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
+#include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
 
 void func_80151558(void *buffer, s32 phase)
@@ -117,7 +118,7 @@ void func_80151558(void *buffer, s32 phase)
                 copyVector(&translation, &work->paths[work->ages[j]][0][j]);
                 addVector(&translation, &work->origins[j]);
                 DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 2);
-                func_80156E58((u8 *)&color, work->config->line_width, work->clouds[j], 32, 32);
+                DuelEffect_DrawSharedBaseTriangles((u8 *)&color, work->config->line_width, work->clouds[j], 32, 32);
                 work->ages[j]++;
                 if (work->ages[j] >= 5) {
                     if (work->activated[j] == 0) {
