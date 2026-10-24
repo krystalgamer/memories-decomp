@@ -5,6 +5,7 @@
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "layered_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_5_RISING_HEIGHT 106
@@ -147,7 +148,7 @@ void func_80157E10(void *buffer, s32 phase)
                 matrix = saved;
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                func_80155BC0((u8 *)&work->color, work->config->sprite_size,
+                DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, work->config->sprite_size,
                              0, &position);
                 scale.vx = 4096;
                 scale.vy = work->scale;
@@ -155,7 +156,7 @@ void func_80157E10(void *buffer, s32 phase)
                 for (i = 0; i < work->config->strip_count; i++) {
                     DuelEffect_SetTransformMatrix(&world, &saved, &position, &work->rotations[i],
                                  &scale, 0);
-                    func_80155D90((u8 *)&work->color, work->config->widths,
+                    DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->color, work->config->widths,
                                  work->config->height, 0);
                     if (work->variant < 5 || work->hold_frames == 0) {
                         applyVector(&work->rotations[i], 128, 128, 128, +=);

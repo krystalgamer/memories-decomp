@@ -6,6 +6,7 @@
 #include "number_semantic_views.h"
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
 
 void func_80151558(void *buffer, s32 phase)
@@ -105,10 +106,10 @@ void func_80151558(void *buffer, s32 phase)
                         DuelEffect_ProjectSubmitFt4(packet, quad, 32, 1);
                     }
                     if (work->ages[j] == 4) {
-                        func_80155BC0((u8 *)&work->secondary[j], work->config->glow_sizes[i] * 2,
+                        DuelEffect_DrawLayeredTileQuad((u8 *)&work->secondary[j], work->config->glow_sizes[i] * 2,
                             32, &work->paths[work->ages[j]][i][j]);
                     } else {
-                        func_80155BC0((u8 *)&work->secondary[j], work->config->glow_sizes[i],
+                        DuelEffect_DrawLayeredTileQuad((u8 *)&work->secondary[j], work->config->glow_sizes[i],
                             32, &work->paths[work->ages[j]][i][j]);
                     }
                 }

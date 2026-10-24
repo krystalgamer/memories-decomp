@@ -6,6 +6,7 @@
 #include "number_semantic_views.h"
 #include "texture_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "layered_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_6_START_HEIGHT 106
@@ -138,7 +139,7 @@ void func_80154B30(void *buffer, s32 phase)
                     DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
                     DuelEffect_DrawTexturedRingStrip((u8 *)&work->colors[i], work->rings[0],
                                  work->rings[1], work->rings[2], 0);
-                    func_80155BC0((u8 *)&work->colors[i], work->sizes[i] * 2,
+                    DuelEffect_DrawLayeredTileQuad((u8 *)&work->colors[i], work->sizes[i] * 2,
                                  0, &position);
                     if (work->scales[i] < 0x6000) {
                         work->scales[i] += 0x1000;

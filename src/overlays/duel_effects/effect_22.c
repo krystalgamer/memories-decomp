@@ -6,6 +6,7 @@
 #include "number_semantic_views.h"
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
+#include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
 
 void func_8014A8E4(void *buffer, s32 phase)
@@ -264,7 +265,7 @@ void func_8014A8E4(void *buffer, s32 phase)
             setVector(&scale, work->ring_scale, work->ring_scale, 4096);
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
             setVector(&position, 0, 0, 0);
-            func_80155BC0((u8 *)&work->flash_color, 12, 1, &position);
+            DuelEffect_DrawLayeredTileQuad((u8 *)&work->flash_color, 12, 1, &position);
             DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 8);
             if (work->ring_scale < 28672) {
                 work->ring_scale += 4096;
@@ -287,13 +288,13 @@ void func_8014A8E4(void *buffer, s32 phase)
                 saved = backup;
                 RotMatrix(&work->rotations[i], &saved);
                 GsSetLsMatrix(&saved);
-                func_80155D90((u8 *)&color, work->config->inner_widths, work->config->inner_height, 1);
+                DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&color, work->config->inner_widths, work->config->inner_height, 1);
                 applyVector(&work->rotations[i], 16, 16, 16, +=);
             }
             setVector(&rotation, 0, 0, -(work->frame * 12) % 4096);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
             setVector(&position, 0, 0, 0);
-            func_80155BC0((u8 *)&color, 32, 64, &position);
+            DuelEffect_DrawLayeredTileQuad((u8 *)&color, 32, 64, &position);
             setVector(&rotation, 0, 0, 0);
             setVector(&position, 0, -96, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
@@ -341,7 +342,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                 if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
                     DuelEffect_InitOffsetQuadVertices(vertices, &work->particles[i]);
                     if (i % 4 == 0) {
-                        func_80155BC0((u8 *)&work->colors[i], 4, 32, &work->particles[i]);
+                        DuelEffect_DrawLayeredTileQuad((u8 *)&work->colors[i], 4, 32, &work->particles[i]);
                     }
                     DuelEffect_DrawRandomTileQuad((u8 *)&work->colors[i], vertices, 32);
                     if (__builtin_abs(work->particles[i].vx) > 32 ||
@@ -425,7 +426,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                 addVector(&work->particles[i], &work->particle_velocities[i]);
             }
             setVector(&position, 0, 0, 0);
-            func_80155BC0((u8 *)&work->particle_color, 128, 1, &position);
+            DuelEffect_DrawLayeredTileQuad((u8 *)&work->particle_color, 128, 1, &position);
             setVector(&position, 0, -96, 0);
             GsSetLsMatrix(&world);
             RotTrans(&position, (VECTOR *)&saved.t[0], (PSXLONG *)&flag);
@@ -439,7 +440,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                 saved = backup;
                 RotMatrix(&work->rotations[i], &saved);
                 GsSetLsMatrix(&saved);
-                func_80155D90((u8 *)&work->particle_color,
+                DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->particle_color,
                              work->config->outer_widths, work->config->outer_height, 1);
             }
             DuelEffect_DarkenColor((u8 *)&work->particle_color, 4);
