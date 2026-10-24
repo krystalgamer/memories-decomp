@@ -23,10 +23,17 @@ class DuelBankDispatchTests(unittest.TestCase):
         source = (DIRECTORY / "dispatch.c").read_text()
         with (directory / "duel_effects_functions.csv").open() as handle:
             inventory = {row["name"]: row for row in csv.DictReader(handle)}
-        callees = set(re.findall(r"\b(func_[0-9A-F]+)\(", source)) - {"func_80146258"}
+        callees = set(re.findall(
+            r"\b(func_[0-9A-F]+|DuelEffect_PackTexturePageClut)\(", source
+        )) - {"func_80146258"}
         self.assertEqual(len(callees), 25)
         for name in callees:
             self.assertNotIn(name + " =", aliases)
+            if name == "DuelEffect_PackTexturePageClut":
+                self.assertNotIn("func_8014F564 =", aliases)
+                self.assertEqual(inventory[name]["module"], "overlay/duel_effects")
+                self.assertEqual(int(inventory[name]["address"], 16), 0x8014F564)
+                self.assertEqual(int(inventory[name]["size"], 16), 0x6C)
             self.assertIn(inventory[name]["status"], ("matching_c", "unmatched_asm"))
         for address, size in (
             (0x8015A1E4, 0x24C), (0x8015A430, 0xB4),

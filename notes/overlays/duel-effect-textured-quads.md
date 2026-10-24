@@ -101,6 +101,11 @@ names at their measured local addresses. Only the four NA overlay addresses
 are appended to the scoped semantic registry: `0x8015013C`, `0x801501A8`,
 `0x80148E88` and `0x80148F98`, respectively. Native suffixes are not physical
 NA addresses. The complete three-function `texture_words.c` object retains
-the already accepted `DuelEffect_PowS16` unchanged. Existing real-storage,
-complete-pair, SDK/ABI and curve-fingerprint regression controls remain
-unchanged.
+the already accepted `DuelEffect_PowS16` unchanged. The dispatch real-owner
+regression recognizes the canonical packer call alongside native callee
+names: it still requires exactly 25 distinct callees and checks their actual
+inventory status. The canonical packer row must retain the duel-effects
+module, regional address `0x8014F564` and size `0x6C`.
+Both the canonical and original `func_8014F564` names are
+forbidden as absolute linker aliases. All six data-owner checks and the
+complete-pair, SDK/ABI and curve-fingerprint controls remain unchanged.
