@@ -8,6 +8,7 @@
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_8014A8E4(void *buffer, s32 phase)
 {
@@ -167,8 +168,8 @@ void func_8014A8E4(void *buffer, s32 phase)
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->portal_color)) {
             for (i = 0; i < 2; i++) {
                 setPolyFT4(packet);
-                packet->tpage = D_8015B748.pairs[17][0];
-                packet->clut = D_8015B748.pairs[17][1];
+                packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[17][0];
+                packet->clut = gDuelEffect_TexturePageClutPairs.pairs[17][1];
                 setRGB0(packet, work->portal_color.r, work->portal_color.g, work->portal_color.b);
                 setUV4(packet, 96, 64, 159, 64, 96, 127, 159, 127);
                 DuelEffect_InitRectVertices(vertices, (s16)((s16)DuelEffect_PowS16(-1, i + 1) * 24), 24);
@@ -192,8 +193,8 @@ void func_8014A8E4(void *buffer, s32 phase)
             setPolyFT4(packet);
             setRGB0(packet, work->flame_color.r, work->flame_color.g, work->flame_color.b);
             for (i = 0; i < 2; i++) {
-                packet->tpage = D_8015B748.pairs[4][0];
-                packet->clut = D_8015B748.pairs[4][1];
+                packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[4][0];
+                packet->clut = gDuelEffect_TexturePageClutPairs.pairs[4][1];
                 setUV4(packet, 128 + work->texture_frames[i] * 32, 64,
                        159 + work->texture_frames[i] * 32, 64,
                        128 + work->texture_frames[i] * 32, 127,
@@ -371,8 +372,8 @@ void func_8014A8E4(void *buffer, s32 phase)
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->fan_color)) {
             setVector(&position, 0, -96, 0);
             setPolyGT4(gradient_packet);
-            gradient_packet->tpage = D_8015B748.pairs[15][0];
-            gradient_packet->clut = D_8015B748.pairs[15][1];
+            gradient_packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[15][0];
+            gradient_packet->clut = gDuelEffect_TexturePageClutPairs.pairs[15][1];
             setUV4(gradient_packet, 96, 0, 159, 0, 96, 63, 159, 63);
             setVector(&vertices[0], -196, -196, 0);
             setVector(&vertices[1], -196, 0, 0);

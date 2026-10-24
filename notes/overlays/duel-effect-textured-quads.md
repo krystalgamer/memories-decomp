@@ -110,6 +110,44 @@ Both the canonical and original `func_8014F564` names are
 forbidden as absolute linker aliases. All six data-owner checks and the
 complete-pair, SDK/ABI and curve-fingerprint controls remain unchanged.
 
+## Scoped texture-state C views
+
+`texture_state_semantic_views.h` names the three complete texture-state
+owners through typed extern bindings to unchanged native symbols. It reuses
+the canonical SDK image type, `DuelEffectImageInputs` and
+`DuelEffectTextureTable`; it defines no storage, replacement layout or
+absolute linker alias. Original native declarations remain in their
+existing headers.
+
+| C view | Native symbol | Bytes | NA address | JP address | UK / FR / ES address |
+|---|---|---:|---|---|---|
+| `gDuelEffect_TextureImages` | `D_8015A1E4` | 588 | `0x8015A270` | `0x80168270` | `0x8015A1E4` |
+| `gDuelEffect_TextureModesAndVariants` | `D_8015A430` | 180 | `0x8015A4BC` | `0x801684BC` | `0x8015A430` |
+| `gDuelEffect_TexturePageClutPairs` | `D_8015B748` | 84 | `0x8015B7E0` | `0x801697E0` | `0x8015B748` |
+
+The dispatcher consumes 21 image records and 21 mode halfwords to build
+the 21 packed page/CLUT pairs for nonnegative phase. Mode 20 overlaps the
+low halfword of variant image zero's `pmode`; the same 180-byte owner also
+contains five phase-selected images used by effect 11. The two views must
+remain one overlapping union, not independent arrays or an invented
+42-byte owner. No read is hoisted, cached or made conditional on a guessed
+gameplay purpose.
+
+The packed table retains both the complete `pairs[21][2]` view and its
+48-byte named prefix. It is mutable, not a permanent copy of the input
+images: effect 10 replaces slot 12's page word, and effect 13 rewrites the
+first page word during its existing lifecycle. Tile selection retains its
+original cast/index arithmetic. Named prefix fields, SDK packet fields,
+all casts, load/store order and every caller's unchecked slot arithmetic
+remain unchanged.
+
+All twenty complete C consumers migrate only the three identifiers and
+one added semantic include per file. All native headers, symbol maps,
+generated-data owners, matching manifests and five function inventories
+remain unchanged. Three scoped registry records identify actual NA data
+addresses. These are mechanical table-role names, not texture artwork
+names or claims that unobserved variants executed.
+
 ## Human texture observations (#418)
 
 The NA texture trace accepted in #7865 captured 18 numbered episodes and
@@ -151,9 +189,9 @@ These are **use associations, not artwork identities**. The human's VRAM
 inspection recognized framebuffers and a large card preview, but did not
 identify individual effect-slot images. An effect uses several shared
 slots; seeing flames in an effect that reads slot 4 does not independently
-identify every pixel or frame in that image. Keep address-based table names
-and unconfirmed artwork names unchanged. Slots absent from the read summary
-are not proven unused.
+identify every pixel or frame in that image. Mechanical table-role names
+do not identify individual artwork; unconfirmed artwork names remain
+unchanged. Slots absent from the read summary are not proven unused.
 
 The repeated `variant0` rows are especially limited: every one was read at
 dispatcher PC `0x8014633C`. Mode 20 overlaps the low halfword of variant

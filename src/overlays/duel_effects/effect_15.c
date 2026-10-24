@@ -3,6 +3,7 @@
 #include "effect_15.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "texture_state_semantic_views.h"
 
 void func_8014FF40(void *buffer, s32 phase)
 {
@@ -64,8 +65,8 @@ void func_8014FF40(void *buffer, s32 phase)
         scale.vz = work->scale;
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) && work->visible != 0) {
             setPolyFT4(packet);
-            packet->tpage = D_8015B748.pairs[13][0];
-            packet->clut = D_8015B748.pairs[13][1];
+            packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[13][0];
+            packet->clut = gDuelEffect_TexturePageClutPairs.pairs[13][1];
             setRGB0(packet, work->color.r, work->color.g, work->color.b);
             if (work->scale > 1024) {
                 setUV4(packet, 32, 0, 95, 0, 32, 63, 95, 63);
