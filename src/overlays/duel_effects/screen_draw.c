@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "../../game/graphics_constants.h"
 #include "color_helpers.h"
+#include "render_state_semantic_views.h"
 
 void DuelEffect_DrawFadingFullscreenColor(u8 *color, u16 step)
 {
@@ -11,7 +12,7 @@ void DuelEffect_DrawFadingFullscreenColor(u8 *color, u16 step)
     setRGB0(&polygon, color[0], color[1], color[2]);
     setXY4(&polygon, 0, 0, GRAPHICS_DEFAULT_WIDTH, 0, 0, GRAPHICS_DEFAULT_HEIGHT,
            GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT);
-    func_8005B260((u32 *)&polygon, D_8015B7F4, D_8015B800, 1);
+    func_8005B260((u32 *)&polygon, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority, 1);
     DuelEffect_DarkenColor(color, step);
 }
 
@@ -27,7 +28,7 @@ void DuelEffect_DrawFullscreenGradient(u8 *color)
     setRGB3(packet, color[0], color[1], color[2]);
     setXY4(packet, 0, 0, GRAPHICS_DEFAULT_WIDTH, 0, 0, GRAPHICS_DEFAULT_HEIGHT,
            GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT);
-    func_8005B260((u32 *)packet, D_8015B7F4, D_8015B800, 1);
+    func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority, 1);
 }
 
 void DuelEffect_DrawFullscreenColor(u8 *color)
@@ -39,5 +40,5 @@ void DuelEffect_DrawFullscreenColor(u8 *color)
     setRGB0(packet, color[0], color[1], color[2]);
     setXY4(packet, 0, 0, GRAPHICS_DEFAULT_WIDTH, 0, 0, GRAPHICS_DEFAULT_HEIGHT,
            GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT);
-    func_8005B260((u32 *)packet, D_8015B7F4, D_8015B800, 1);
+    func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority, 1);
 }

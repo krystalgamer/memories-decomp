@@ -7,6 +7,7 @@
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 void func_80146760(void *buffer, s32 phase)
 {
@@ -45,7 +46,7 @@ void func_80146760(void *buffer, s32 phase)
             DuelEffect_PackFixedPageClut(work->texture, image);
             work->uv[0] = image->px;
             work->uv[1] = image->py;
-            copyVector(&work->origin, &D_8015B7F8);
+            copyVector(&work->origin, &gDuelEffect_DrawOffset);
             for (i = 0; i < 4; i++) {
                 for (j = 0; j < 7; j++) {
                     setVector(&work->positions[i][j], i * 12 - 18, 0, j * 8 - 24);

@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 void func_80150E00(void *buffer, s32 phase)
 {
@@ -28,7 +29,7 @@ void func_80150E00(void *buffer, s32 phase)
             DuelEffect_InitXZRingVertices(work->config->radii[i], work->config->radii[i],
                          work->config->ring_height * i, work->rings[i], 32);
         }
-        copyVector(&work->origin, &D_8015B7F8);
+        copyVector(&work->origin, &gDuelEffect_DrawOffset);
         DuelEffect_InitParticleVectorsNegatedY(work->config->particle_speed, work->positions,
                      work->velocities, 32);
         work->scale = 4096;

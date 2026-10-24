@@ -6,6 +6,7 @@
 #include "number_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "display_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 void func_8014D3E8(void *buffer, s32 phase)
 {
@@ -87,7 +88,7 @@ void func_8014D3E8(void *buffer, s32 phase)
     } else {
         Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
-        copyVector(&D_8015B7F8, &work->center);
+        copyVector(&gDuelEffect_DrawOffset, &work->center);
         PushMatrix();
         DuelEffect_InitBaseMatrix(&world);
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
@@ -171,12 +172,12 @@ void func_8014D3E8(void *buffer, s32 phase)
                 setRGB1(line_packet, 0, 0, 0);
                 RotTransPers(&work->heads[i], (PSXLONG *)&line_packet->x0, (PSXLONG *)&p, (PSXLONG *)&flag);
                 RotTransPers(&work->tails[i], (PSXLONG *)&line_packet->x1, (PSXLONG *)&p, (PSXLONG *)&flag);
-                line_packet->x0 += D_8015B7F8.vx;
-                line_packet->x1 += D_8015B7F8.vx;
-                line_packet->y0 += D_8015B7F8.vy;
-                line_packet->y1 += D_8015B7F8.vy;
+                line_packet->x0 += gDuelEffect_DrawOffset.vx;
+                line_packet->x1 += gDuelEffect_DrawOffset.vx;
+                line_packet->y0 += gDuelEffect_DrawOffset.vy;
+                line_packet->y1 += gDuelEffect_DrawOffset.vy;
                 if (flag >= 0) {
-                    GsSortGLine(line_packet, D_8015B7F4, D_8015B800);
+                    GsSortGLine(line_packet, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority);
                 }
                 if (__builtin_abs(work->heads[i].vx) > 32 ||
                     __builtin_abs(work->heads[i].vy) > 32 ||

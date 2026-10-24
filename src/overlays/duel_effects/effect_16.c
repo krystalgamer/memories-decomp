@@ -7,6 +7,7 @@
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "render_state_semantic_views.h"
 
 void func_80151558(void *buffer, s32 phase)
 {
@@ -59,8 +60,8 @@ void func_80151558(void *buffer, s32 phase)
                 DuelEffect_SetRgbColor((u8 *)&work->secondary[i], work->config->color.r,
                     work->config->color.g, work->config->color.b);
                 setVector(&work->origins[i],
-                    (70 * i - 140) * (D_8015B7F8.vz < 0 ? -1 : 1),
-                    -24, D_8015B7F8.vz >= 0 ? 95 : -95);
+                    (70 * i - 140) * (gDuelEffect_DrawOffset.vz < 0 ? -1 : 1),
+                    -24, gDuelEffect_DrawOffset.vz >= 0 ? 95 : -95);
                 work->activated[i] = 0;
             }
             for (k = 0; k < 3; k++) {
