@@ -5,6 +5,9 @@
 #include "display_object.h"
 #include "library_state.h"
 
+/* Returns the flags of the directly indexed card record, including ID zero. */
+u32 Library_GetCardFlags(const LibraryState *base, s32 index);
+
 /* Draws the Library card-list grid and its cursor box. Never called from C:
  * Library_InitializeScreen (library_runtime.c) and Library_UpdateCardView install its address in
  * gMain_apFrameServiceCallbacks[3], the per-frame draw callback slot. */
