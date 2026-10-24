@@ -1,13 +1,14 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_4.h"
+#include "card_flash_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "texture_state_semantic_views.h"
 
-void func_80159AAC(void *buffer, s32 phase)
+void DuelEffect_RunCardFlashBurst(void *buffer, s32 phase)
 {
     MATRIX world;
     POLY_FT4 polygon;
@@ -24,14 +25,14 @@ void func_80159AAC(void *buffer, s32 phase)
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
     packet = &polygon;
-    scale = D_80146248;
+    scale = gDuelEffect_CardFlashBurstInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 2) {
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015B704[phase];
+            work->config = &gDuelEffect_CardFlashBurstConfigs[phase];
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }

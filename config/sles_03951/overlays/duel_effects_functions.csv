@@ -51,7 +51,7 @@ address,size,name,status,module,notes
 0x801530B0,0x114,DuelEffect_SubmitOffsetGt4,matching_c,overlay/duel_effects,Shared C GT4 translation/submission; complete Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x801531C4,0x3C,DuelEffect_InitBaseMatrix,matching_c,overlay/duel_effects,Shared C matrix initialization preserving padding; complete Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x80153200,0x8DC,DuelEffect_RunAttackSlash,matching_c,overlay/duel_effects,Complete effect-2 lifecycle; independent whole-bank exact match; canonical resident request/global owners; gcc_2_8_1_g0_split.
-0x80153ADC,0x44C,func_80153ADC,matching_c,overlay/duel_effects,Complete effect-19 lifecycle; independent whole-bank exact match; canonical resident request/global owners; gcc_2_8_1_g0_split.
+0x80153ADC,0x44C,DuelEffect_RunExpandingRingBurst,matching_c,overlay/duel_effects,Complete effect-19 lifecycle; independent whole-bank exact match; canonical resident request/global owners; gcc_2_8_1_g0_split.
 0x80153F28,0x70,DuelEffect_DarkenColor,matching_c,overlay/duel_effects,Shared color decrement C; full Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x80153F98,0xC4,DuelEffect_StepColorToTarget,matching_c,overlay/duel_effects,Shared color transition C with halfword thresholds; full Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
 0x8015405C,0x28,DuelEffect_SetFogBaseColor,matching_c,overlay/duel_effects,Shared byte-packing C with resident-owned color word; full Spanish bank and exact object/ELF ownership verified; gcc_2_8_1_g0_split.
@@ -83,4 +83,4 @@ address,size,name,status,module,notes
 0x80157E10,0x9C8,DuelEffect_RunLifePointRecovery,matching_c,overlay/duel_effects,Complete effect-5 lifecycle; unchanged shared source from e49b78417; independently matched Spanish whole bank and real owners.
 0x801587D8,0xBD0,DuelEffect_RunReflectedDirectDamage,matching_c,overlay/duel_effects,Complete shared effect-7 lifecycle from ff4d65e1b; independent Spanish whole-bank proof and real data-owner verification.
 0x801593A8,0x704,DuelEffect_RunInvertedLifePointRecovery,matching_c,overlay/duel_effects,Complete effect-9 lifecycle; independent whole-bank exact match; canonical resident request/global owners; gcc_2_8_1_g0_split.
-0x80159AAC,0x738,func_80159AAC,matching_c,overlay/duel_effects,Complete effect-4 lifecycle; unchanged shared source from 4e18dd596; independently matched Spanish whole bank and real owners.
+0x80159AAC,0x738,DuelEffect_RunCardFlashBurst,matching_c,overlay/duel_effects,Complete effect-4 lifecycle; unchanged shared source from 4e18dd596; independently matched Spanish whole bank and real owners.

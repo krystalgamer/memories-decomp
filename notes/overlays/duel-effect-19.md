@@ -1,5 +1,36 @@
 # Spanish duel-bank effect 19
 
+## Canonical shared expanding-ring burst
+
+`DuelEffect_RunExpandingRingBurst` names the complete native `func_80153ADC`
+owner: PAL `80153ADC`, North American `801546B4`, Japanese `80161B70`,
+1,100 instruction bytes. The actual resident `DuelEffect_ApplyDarkPiercingLight`
+creates request `0x13` at `(160,104)`, waits for its `field_1D` progress,
+then installs the shared reveal callback on eligible field objects.
+The separate `DuelScene_UpdateExodiaResult` path also allocates request
+`0x13` at randomized screen positions with four alternating `0x2000` work
+offsets, and later once at `(160,120)` with offset `0x8000` before request
+`0x18`. The lifecycle is therefore not named exclusively for Dark Piercing
+Light, Exodia or gameplay reveal ownership.
+
+The complete handler and dispatcher use an extern-only semantic header.
+`gDuelEffect_ExpandingRingBurstInitialScale` binds the separate 16-byte SDK
+VECTOR at native `D_801461C8` (NA `80146210`, JP `80154220`).
+The effect has no configuration table to invent. Its original private work
+record, 64 rotation slots, three 32-point rings and 32 particle
+position/velocity slots remain unchanged; all SDK padding and native
+providers/maps/profiles retain their original owners.
+
+Preserve nonnegative-phase initialization, ignored frame-step query,
+fade-state recheck after the rotation loop, capped 64-element spawn count
+and scale update, three different scale passes and exact progress/fade
+transition. Keep both explicit color-predicate halfword narrowings and the
+apparently unused quarter-color copy: the actual trapezoid draw still receives
+the original color. Frame increment, matrix restoration and the separate
+black-color completion test remain outside the main nonzero-color body.
+No new initialization, copy removal, predicate simplification, gameplay
+rule or #418 artwork/runtime observation is introduced.
+
 `func_80153ADC` (`80153ADC..80153F28`, 1,100 bytes) is complete matching C
 under `gcc_2_8_1_g0_split`. The dispatcher's case 19 establishes the numeric
 effect identity; no card or visual-effect name is inferred.

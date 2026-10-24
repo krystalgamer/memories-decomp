@@ -1,5 +1,37 @@
 # Complete French duel effect 4
 
+## Canonical card-flash burst
+
+`DuelEffect_RunCardFlashBurst` binds the complete native `func_80159AAC`
+owner: PAL `80159AAC`, North American `8015874C`, Japanese `80167B38`,
+1,848 instruction bytes. The actual `DuelScene_UpdateCardPlacement` producer
+computes request id `((u32)((u16)gDuel_wEquipCardId - 301) < 2) * 4`.
+Thus card ids 301/302 select effect 4 instead of effect 0; id 302 supplies
+phase 1 and id 301 retains allocator-default phase 0. It positions the
+request over work slot zero's displayed card, then waits for `field_1D`
+before advancing the placement substep. The name describes the two-texture
+card flash and subsequent burst, not guessed card names or new artwork
+observations. Gameplay application remains resident.
+
+The complete handler and dispatcher use an extern-only semantic header.
+`gDuelEffect_CardFlashBurstConfigs[2]` binds native `D_8015B704`
+(NA `8015B770`, JP `80169790`), preserving both 28-byte private records
+and their real 56-byte generated owner. The separate SDK VECTOR
+`gDuelEffect_CardFlashBurstInitialScale` binds native `D_80146248`
+(NA `80146290`, JP `801542A0`), retaining all 16 bytes and padding.
+No private type, provider, layout, profile, native map or allocation changes.
+
+Preserve phases at least two selecting the crossed-line fallback, its
+first-update command and greater-than-180 completion, both four-point card
+rings, texture 5/6 UV arithmetic and the low-24-bit `0x808080` transparency
+decision. Keep the main-or-card-color gate, three independent color records,
+duration-triggered stage/progress stores, 24 particles, three 32-point rings,
+16 independently rotated strips, conditional growth without an extra clamp,
+screen fade and main-color-only completion. Do not synchronize the fade
+channels, reorder packet/scale initialization, narrow phases to observed
+callers or infer an exclusive card-artwork identity. No new #418 runtime
+evidence is claimed.
+
 `func_80159AAC` occupies `80159AAC..8015A1E4`: 1,848 bytes, the last
 function before bank data. It is a complete lifecycle routine selected by
 effect 4 in the accepted dispatcher, independently recovered from French
