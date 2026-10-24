@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "utility_helpers.h"
 #include "number_semantic_views.h"
+#include "texture_semantic_views.h"
 
 s32 DuelEffect_PowS16(s16 base, u16 exponent)
 {
@@ -13,7 +14,7 @@ s32 DuelEffect_PowS16(s16 base, u16 exponent)
     return (s16)result;
 }
 
-void func_8014F564(u16 *output, GsIMAGE *image, s32 mode)
+void DuelEffect_PackTexturePageClut(u16 *output, GsIMAGE *image, s32 mode)
 {
     output[0] = ((*(u16 *)&image->pmode & 3) << 7) |
                 ((mode & 3) << 5) |
@@ -24,7 +25,7 @@ void func_8014F564(u16 *output, GsIMAGE *image, s32 mode)
                 ((*(u16 *)&image->cx >> 4) & 0x3F);
 }
 
-void func_8014F5D0(u16 *output, GsIMAGE *image)
+void DuelEffect_PackFixedPageClut(u16 *output, GsIMAGE *image)
 {
     output[0] = ((*(u16 *)&image->pmode & 3) << 7) | 0x3E;
     output[1] = (*(u16 *)&image->cy << 6) |

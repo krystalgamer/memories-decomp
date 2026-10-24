@@ -13,6 +13,7 @@
 #include "dispatch.h"
 #include "tile_effect.h"
 #include "packet_semantic_views.h"
+#include "texture_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define TILE_ROW_STEP 30
@@ -43,7 +44,7 @@ void func_80149F90(void *buffer, s32 phase)
         } else {
             state->step = 0;
             state->descriptor = &D_8015A648[phase];
-            func_8014F564(state->texture_words, &D_8015A62C, 1);
+            DuelEffect_PackTexturePageClut(state->texture_words, &D_8015A62C, 1);
             for (k = 0; k < 5; k++) {
                 for (i = 0; i < 7; i++) {
                     DuelEffect_SetGrayColor(state->colors_a[k][i], 0x80);

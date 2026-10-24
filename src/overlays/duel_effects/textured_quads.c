@@ -2,8 +2,9 @@
 #include "textured_quads.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "texture_semantic_views.h"
 
-void func_80156C40(u8 *color, u16 size, SVECTOR *offset)
+void DuelEffect_DrawFixedTextureQuad(u8 *color, u16 size, SVECTOR *offset)
 {
     DuelEffectTexturedQuad drawing;
     DuelEffectTexturedQuad *packet = &drawing;
@@ -21,7 +22,7 @@ void func_80156C40(u8 *color, u16 size, SVECTOR *offset)
     DuelEffect_ProjectSubmitFt4(&packet->polygon, drawing.vertices, 0, 1);
 }
 
-void func_80156D50(u16 size, u16 index, SVECTOR *offset)
+void DuelEffect_DrawAtlasColumnQuad(u16 size, u16 index, SVECTOR *offset)
 {
     DuelEffectTexturedQuad drawing;
     DuelEffectTexturedQuad *packet = &drawing;

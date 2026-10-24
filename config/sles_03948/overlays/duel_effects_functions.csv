@@ -26,8 +26,8 @@ address,size,name,status,module,notes
 0x8014F3E8,0xA8,DuelEffect_InitXZRectVertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F490,0x94,DuelEffect_InitRectVertices,matching_c,overlay/duel_effects,Local width value resolves register allocation; complete bank and section-defined C ownership verified.
 0x8014F524,0x40,DuelEffect_PowS16,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F564,0x6C,func_8014F564,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F5D0,0x38,func_8014F5D0,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F564,0x6C,DuelEffect_PackTexturePageClut,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F5D0,0x38,DuelEffect_PackFixedPageClut,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F608,0x14C,DuelEffect_InitRandomVectorsXYZ,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F754,0x148,DuelEffect_InitRandomVectorsNegatedY,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F89C,0x104,DuelEffect_InitRandomVectorsXY,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -71,8 +71,8 @@ address,size,name,status,module,notes
 0x801566D4,0x400,DuelEffect_DrawProjectedNumber,matching_c,overlay/duel_effects,Complete French bank and whole C object exact; unchanged shared number renderer; separate 12-glyph owner verified.
 0x80156AD4,0x6C,DuelEffect_CountDecimalDigitsS16,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80156B40,0x100,DuelEffect_WriteNumberDigits,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80156C40,0x110,func_80156C40,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80156D50,0x108,func_80156D50,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80156C40,0x110,DuelEffect_DrawFixedTextureQuad,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80156D50,0x108,DuelEffect_DrawAtlasColumnQuad,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80156E58,0x14C,DuelEffect_DrawSharedBaseTriangles,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80156FA4,0x10C,DuelEffect_DrawProjectedFlatQuad,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801570B0,0x2F8,DuelEffect_DrawGradientPath,matching_c,overlay/duel_effects,Complete French bank and exact C object/ELF ownership verified; canonical SDK declarations.

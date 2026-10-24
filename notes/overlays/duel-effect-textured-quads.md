@@ -73,3 +73,39 @@ the [bank research](duel-effect-bank.md#regional-presence-and-spanish-integratio
 90,112 bytes for English PAL and North America, 98,304 for Japan. These are
 private portability proofs, not registered production builds or claims of
 complete regional C coverage. Unmatched code and data remain raw fallback.
+
+## Typed texture-word and quad views
+
+`texture_semantic_views.h` names the complete texture-word/quad component
+without modifying the original native headers, generated storage, linker
+symbols, compiler profiles or grouped source extents. Its declarations use
+the existing SDK `GsIMAGE` and `SVECTOR` types and bind to the original native
+function symbols; they introduce neither wrappers nor machine exports.
+
+| C view | Native binding | Evidence and limits |
+|---|---|---|
+| `DuelEffect_PackTexturePageClut` | `func_8014F564` | Writes a page word from the original image/mode expressions, followed by a CLUT word. Dispatch fills the 21-pair table; the tile effect fills its local pair. No image upload or allocation is performed. |
+| `DuelEffect_PackFixedPageClut` | `func_8014F5D0` | Effect 11 supplies variant images. The page word retains variable image-depth bits and fixed low bits `0x3E`; the whole word is not constant. The CLUT word still comes from image coordinates. |
+| `DuelEffect_DrawFixedTextureQuad` | `func_80156C40` | Trail callers supply RGB, size and vector offset. The fixed part is the UV rectangle/table pair, not the caller-sized geometry. It projects with bias `0`, mode `1`. |
+| `DuelEffect_DrawAtlasColumnQuad` | `func_80156D50` | The complete body selects the next table pair, neutral RGB and a 32-wide UV column, then projects with bias `1`, mode `1`. No caller was found in the owning bank's C sources; runtime reachability is not asserted. |
+
+The packers keep the exact halfword views, masks, signed shift grouping,
+store order and final narrowing. The quad pair keeps the 72-byte stack
+aggregate, local/definition order and SDK `addVector` comma expression.
+The unsigned-halfword size/index domains and byte UV narrowing are unchanged;
+the atlas index remains unchecked and may wrap its UV bytes. These views
+add no bounds check, animation interpretation or gameplay claim.
+
+All five configured bank inventories (NA, JP, UK, FR and ES) use the new C
+names at their measured local addresses. Only the four NA overlay addresses
+are appended to the scoped semantic registry: `0x8015013C`, `0x801501A8`,
+`0x80148E88` and `0x80148F98`, respectively. Native suffixes are not physical
+NA addresses. The complete three-function `texture_words.c` object retains
+the already accepted `DuelEffect_PowS16` unchanged. The dispatch real-owner
+regression recognizes the canonical packer call alongside native callee
+names: it still requires exactly 25 distinct callees and checks their actual
+inventory status. The canonical packer row must retain the duel-effects
+module, regional address `0x8014F564` and size `0x6C`.
+Both the canonical and original `func_8014F564` names are
+forbidden as absolute linker aliases. All six data-owner checks and the
+complete-pair, SDK/ABI and curve-fingerprint controls remain unchanged.
