@@ -53,6 +53,7 @@
 #include "card_type_icon_table.h"
 #include "build_deck_init_screen.h"
 #include "card_list_sort_icons.h"
+#include "build_deck_test_and_set_initialized.h"
 
 #define CARD_LIST_VIEW(list) ((CardList *)(list))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
@@ -318,4 +319,14 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 3, 0, 3, 0xB, 0x2F8);
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), -4);
     BuildDeck_RefreshCountDisplay(BUILD_DECK_TRANSITION_STATE_VIEW(state));
+}
+
+s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
+{
+    u16 flags = state->state;
+    if ((flags & 0x8000) == 0) {
+        state->state = flags | 0x8000;
+        return 0;
+    }
+    return 1;
 }

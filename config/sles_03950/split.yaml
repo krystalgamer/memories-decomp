@@ -273,7 +273,6 @@ segments:
       - [0x22C90, c, game/build_deck_add_card]
       - [0x22D58, c, game/european/card_list_setup]
       - [0x23024, c, game/european/build_deck_init_screen]
-      - [0x23834, c, game/build_deck_test_and_set_initialized]
       - [0x2385C, c, game/european/card_list_sort]
       - [0x24200, c, game/european/build_deck_pane_input]
       - [0x24698, c, game/european/build_deck_update]

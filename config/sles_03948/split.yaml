@@ -681,9 +681,6 @@ segments:
   - - 143396
     - c
     - game/european/build_deck_init_screen
-  - - 145460
-    - c
-    - game/build_deck_test_and_set_initialized
   - - 145500
     - c
     - game/european/card_list_sort
