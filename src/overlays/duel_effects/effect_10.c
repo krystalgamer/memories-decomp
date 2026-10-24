@@ -3,6 +3,7 @@
 #include "effect_10.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "primitive_semantic_views.h"
 
 void func_8014C8FC(void *buffer, s32 phase)
 {
@@ -79,8 +80,8 @@ void func_8014C8FC(void *buffer, s32 phase)
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) && work->stage == 0) {
-            func_80156FA4((u8 *)&work->color, work->plane, work->config->mode, 1);
-            func_80156FA4((u8 *)&work->plane_color, work->plane, work->config->mode, 1);
+            DuelEffect_DrawProjectedFlatQuad((u8 *)&work->color, work->plane, work->config->mode, 1);
+            DuelEffect_DrawProjectedFlatQuad((u8 *)&work->plane_color, work->plane, work->config->mode, 1);
             if (work->config->mode == 1) {
                 DuelEffect_StepColorToTarget((u8 *)&work->color, work->config->color.r,
                              work->config->color.g, work->config->color.b, 4);

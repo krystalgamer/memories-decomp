@@ -3,6 +3,7 @@
 #include "effect_8.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "primitive_semantic_views.h"
 
 void func_80147B18(void *buffer, s32 phase)
 {
@@ -62,7 +63,7 @@ void func_80147B18(void *buffer, s32 phase)
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 1);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
-            func_80156E58((u8 *)&work->color, work->config->ray_width, work->rays,
+            DuelEffect_DrawSharedBaseTriangles((u8 *)&work->color, work->config->ray_width, work->rays,
                          work->config->ray_count, 64);
             for (i = 0; i < work->config->particle_count; i++) {
                 DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
