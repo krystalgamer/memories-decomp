@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_6.h"
+#include "geometry_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_6_START_HEIGHT 106
@@ -96,7 +97,7 @@ void func_80154B30(void *buffer, s32 phase)
         for (i = 0; i < work->active; i++) {
             if (work->states[i] == 0) {
                 setVector(&scale, 4096, 4096, 4096);
-                func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
+                DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
                 for (j = 0; j < 4; j++) {
                     color = work->colors[i];
                     color.r /= j + 1;
@@ -118,7 +119,7 @@ void func_80154B30(void *buffer, s32 phase)
                 if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i]) &&
                     work->variant < 5) {
                     setVector(&scale, 4096, 4096, 4096);
-                    func_801513F4(&world, &saved, &work->trails[i][0],
+                    DuelEffect_SetTransformMatrix(&world, &saved, &work->trails[i][0],
                                  &rotation, &scale, 1);
                     for (j = 0; j < work->config->particle_count; j++) {
                         func_80156C40((u8 *)&work->colors[i],
@@ -130,7 +131,7 @@ void func_80154B30(void *buffer, s32 phase)
                     scale.vx = work->scales[i] >> 1;
                     scale.vy = work->scales[i] >> 1;
                     scale.vz = 0;
-                    func_801514BC(&saved, &scale);
+                    DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
                     func_8015616C((u8 *)&work->colors[i], work->rings[0],
                                  work->rings[1], work->rings[2], 0);
                     func_80155BC0((u8 *)&work->colors[i], work->sizes[i] * 2,
@@ -155,7 +156,7 @@ void func_80154B30(void *buffer, s32 phase)
         scale.vx = 4096;
         scale.vy = 4096;
         scale.vz = 4096;
-        func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
+        DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
         if (work->states[work->config->count - 1] != 0 &&
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->column_color) &&
             work->variant < 5) {

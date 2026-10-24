@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_0.h"
+#include "geometry_semantic_views.h"
 
 void func_80154688(void *buffer, s32 phase)
 {
@@ -54,7 +55,7 @@ void func_80154688(void *buffer, s32 phase)
             setVector(&position, 0, 0, 0);
             setVector(&rotation, 0, 0, 0);
             setVector(&scale, 4096, 4096, 4096);
-            func_801513F4(&world, &saved, &position, &rotation, &scale, 1);
+            DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
             func_801558F4((u8 *)&work->color, work->quads[0], work->quads[1], 0, 1);
             if (work->frame >= work->config->delay) {
                 gDuelEffect_pActiveRequest->field_1D = 1;
@@ -78,7 +79,7 @@ void func_80154688(void *buffer, s32 phase)
                 scale.vy = work->scale;
                 scale.vz = 4096;
                 for (i = 0; i < 16; i++) {
-                    func_801513F4(&world, &saved, &position,
+                    DuelEffect_SetTransformMatrix(&world, &saved, &position,
                                  &work->rotations[i], &scale, 2);
                     func_80155D90((u8 *)&work->color, work->config->widths,
                                  work->config->height, 0);

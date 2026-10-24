@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_12.h"
+#include "geometry_semantic_views.h"
 
 void func_80150E00(void *buffer, s32 phase)
 {
@@ -37,7 +38,7 @@ void func_80150E00(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
-        func_801513F4(&world, &saved, &work->origin, &rotation, &scale, 3);
+        DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 3);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             for (i = 0; i < 32; i++) {
                 func_8014F2D4(quad, &work->positions[i]);
@@ -51,13 +52,13 @@ void func_80150E00(void *buffer, s32 phase)
             scale.vx = work->scale;
             scale.vy = 4096;
             scale.vz = work->scale;
-            func_801514BC(&saved, &scale);
+            DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
             func_8015616C((u8 *)&color_copy, work->rings[0],
                          work->rings[1], work->rings[2], 1);
             scale.vx = work->scale >> 1;
             scale.vy = 6144;
             scale.vz = work->scale >> 1;
-            func_801514BC(&saved, &scale);
+            DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
             func_8015616C((u8 *)&work->color, work->rings[0],
                          work->rings[1], work->rings[2], 1);
             scale.vx = work->scale >> 1;

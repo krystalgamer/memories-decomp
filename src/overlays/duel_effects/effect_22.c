@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_22.h"
+#include "geometry_semantic_views.h"
 
 void func_8014A8E4(void *buffer, s32 phase)
 {
@@ -86,9 +87,9 @@ void func_8014A8E4(void *buffer, s32 phase)
         for (i = 0; i < 2; i++) {
             func_8014EB1C(24 + 6 * i, 28 + 6 * i, work->rings[i], 4);
         }
-        func_8014F89C(work->points, work->config->spread, work->config->spread, 32);
+        DuelEffect_InitRandomVectorsXY(work->points, work->config->spread, work->config->spread, 32);
         func_8014EF2C(32, work->rotations);
-        func_8014F608(work->particles, 392, 392, 392, 32);
+        DuelEffect_InitRandomVectorsXYZ(work->particles, 392, 392, 392, 32);
         for (i = 0; i < 64; i++) {
             setVector(&work->particle_velocities[i],
                       -work->particles[i].vx / 8,
@@ -156,7 +157,7 @@ void func_8014A8E4(void *buffer, s32 phase)
         DuelEffect_SetFogBaseColor(work->brightness, work->brightness, work->brightness);
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
-        func_801513F4(&world, &saved, &position, &rotation, &scale, 2);
+        DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->portal_color)) {
             for (i = 0; i < 2; i++) {
                 setPolyFT4(packet);
@@ -252,11 +253,11 @@ void func_8014A8E4(void *buffer, s32 phase)
                 work->stage = 2;
             }
             setVector(&position, 0, -96, 0);
-            func_801513F4(&world, &saved, &position, &rotation, &scale, 1);
+            DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
             func_80156E58((u8 *)&work->flash_color, work->config->point_size, work->points, 32, 1);
             func_801558F4((u8 *)&work->flash_color, work->rings[0], work->rings[1], 1, 1);
             setVector(&scale, work->ring_scale, work->ring_scale, 4096);
-            func_801514BC(&saved, &scale);
+            DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
             setVector(&position, 0, 0, 0);
             func_80155BC0((u8 *)&work->flash_color, 12, 1, &position);
             DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 8);
@@ -285,12 +286,12 @@ void func_8014A8E4(void *buffer, s32 phase)
                 applyVector(&work->rotations[i], 16, 16, 16, +=);
             }
             setVector(&rotation, 0, 0, -(work->frame * 12) % 4096);
-            func_801513F4(&world, &saved, &position, &rotation, &scale, 1);
+            DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
             setVector(&position, 0, 0, 0);
             func_80155BC0((u8 *)&color, 32, 64, &position);
             setVector(&rotation, 0, 0, 0);
             setVector(&position, 0, -96, 0);
-            func_801513F4(&world, &saved, &position, &rotation, &scale, 2);
+            DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
             for (i = 0; i < work->active_particles; i++) {
                 line_packet->attribute = 0x50000000;
                 setRGB0(line_packet, work->particle_color.r, work->particle_color.g, work->particle_color.b);
@@ -386,7 +387,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                         setVector(&rotation, 0, 0,
                                   -(work->frame * ((i * 2 + 1) * work->fan_speed) +
                                     k * 32 + j * 1024) % 4096);
-                        func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
+                        DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
                         func_8015131C(gradient_packet, vertices, 1, 1);
                     }
                 }
@@ -412,7 +413,7 @@ void func_8014A8E4(void *buffer, s32 phase)
             gDuelEffect_pActiveRequest->field_1D = 1;
             DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 4);
             setVector(&position, 0, -96, 0);
-            func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
+            DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
             for (i = 0; i < 64; i++) {
                 func_8014F2D4(vertices, &work->particles[i]);
                 func_80156064((u8 *)&work->particle_color, vertices, 8);

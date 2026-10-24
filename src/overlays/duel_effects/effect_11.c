@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_11.h"
+#include "geometry_semantic_views.h"
 
 void func_80146760(void *buffer, s32 phase)
 {
@@ -52,7 +53,7 @@ void func_80146760(void *buffer, s32 phase)
                               ratan2(work->velocities[i][j].vz, work->velocities[i][j].vy) / 8,
                               ratan2(work->velocities[i][j].vx, work->velocities[i][j].vz) / 8,
                               ratan2(work->velocities[i][j].vy, work->velocities[i][j].vx) / 8);
-                    func_8014F608(work->particles[i][j], work->config->spread,
+                    DuelEffect_InitRandomVectorsXYZ(work->particles[i][j], work->config->spread,
                                  work->config->spread, work->config->spread, 16);
                     addVector(&work->positions[i][j], &work->origin);
                     func_8014F010((u8 *)&work->colors[i][j], 128);
@@ -71,7 +72,7 @@ void func_80146760(void *buffer, s32 phase)
                     }
                 }
             }
-            func_8014F754(work->rays, work->config->ray_length, work->config->ray_length,
+            DuelEffect_InitRandomVectorsNegatedY(work->rays, work->config->ray_length, work->config->ray_length,
                          work->config->ray_length, work->config->ray_count);
             func_8014F180(work->config->dust_speed, work->dust,
                          work->dust_velocities, work->config->dust_count);
@@ -103,7 +104,7 @@ void func_80146760(void *buffer, s32 phase)
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         setPolyFT4(packet);
         setPolyGT4(gradient_packet);
-        func_801513F4(&world, &saved, &work->origin, &zero, &scale, 2);
+        DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &zero, &scale, 2);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->glow)) {
             func_80156E58((u8 *)&work->glow, work->config->ray_width, work->rays,
                          work->config->ray_count, 64);
@@ -142,10 +143,10 @@ void func_80146760(void *buffer, s32 phase)
             color.g >>= 1;
             color.b >>= 1;
             setVector(&scale, work->scale, 4096, work->scale);
-            func_801513F4(&world, &saved, &work->origin, &zero, &scale, 3);
+            DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &zero, &scale, 3);
             func_8015616C((u8 *)&color, work->rings[0], work->rings[1], work->rings[2], 1);
             setVector(&scale, work->scale >> 1, 6144, work->scale >> 1);
-            func_801514BC(&saved, &scale);
+            DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
             func_8015616C((u8 *)&work->glow, work->rings[0], work->rings[1], work->rings[2], 1);
             if (work->scale < 16384) {
                 work->scale += 4096;
@@ -172,7 +173,7 @@ void func_80146760(void *buffer, s32 phase)
                         }
                         setRGB0(packet, work->colors[i][j].r, work->colors[i][j].g, work->colors[i][j].b);
                         func_8014F3E8(vertices, 6, 0, 4);
-                        func_801513F4(&world, &saved, &work->positions[i][j], &work->rotations[i][j], &scale, 2);
+                        DuelEffect_SetTransformMatrix(&world, &saved, &work->positions[i][j], &work->rotations[i][j], &scale, 2);
                         func_80151218(packet, vertices, 1, 0);
                     }
                     if (work->velocities[i][j].vy > 0 && work->states[i][j] == 0 &&
@@ -185,7 +186,7 @@ void func_80146760(void *buffer, s32 phase)
                         }
                     }
                     if (work->states[i][j]) {
-                        func_801513F4(&world, &saved, &work->positions[i][j], &zero, &scale, 0);
+                        DuelEffect_SetTransformMatrix(&world, &saved, &work->positions[i][j], &zero, &scale, 0);
                         packet->tpage = D_8015B748.pairs[4][0];
                         packet->clut = D_8015B748.pairs[4][1];
                         setRGB0(packet, work->particle_colors[i][j].r,

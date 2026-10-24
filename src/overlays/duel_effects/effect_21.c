@@ -2,6 +2,7 @@
 #include "color_semantic_views.h"
 #include "effect_21.h"
 #include "../../game/shared_work_base.h"
+#include "geometry_semantic_views.h"
 
 void func_8014E3EC(void *buffer, s32 phase)
 {
@@ -57,7 +58,7 @@ void func_8014E3EC(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
-        func_801513F4(&world, &saved, &position, &rotation, &scale, 2);
+        DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
         for (i = 0; i < slots[__builtin_abs(phase + 1) % 2]->count; i++) {
             copyVector(&position, &slots[__builtin_abs(phase + 1) % 2]->positions[i]);
             position.vy -= slots[__builtin_abs(phase + 1) % 2]->offsets[i];

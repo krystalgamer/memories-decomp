@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_16.h"
+#include "geometry_semantic_views.h"
 
 void func_80151558(void *buffer, s32 phase)
 {
@@ -43,7 +44,7 @@ void func_80151558(void *buffer, s32 phase)
                         }
                     }
                 }
-                func_8014F608(work->clouds[i], work->config->particle_spread,
+                DuelEffect_InitRandomVectorsXYZ(work->clouds[i], work->config->particle_spread,
                     work->config->particle_spread, work->config->particle_spread, 32);
                 /* Retail advances overlapping 32-vector windows by five vectors. */
                 func_8014F180(8, &work->positions[i * 5], &work->velocities[i * 5], 32);
@@ -80,7 +81,7 @@ void func_80151558(void *buffer, s32 phase)
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         for (j = 0; j < work->count; j++) {
-            func_801513F4(&world, &saved, &work->origins[j], &rotation, &scale, 3);
+            DuelEffect_SetTransformMatrix(&world, &saved, &work->origins[j], &rotation, &scale, 3);
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->primary[j]) ||
                 (u16)DuelEffect_HasNonzeroColor((u8 *)&work->secondary[j])) {
                 setPolyFT4(packet);
@@ -112,7 +113,7 @@ void func_80151558(void *buffer, s32 phase)
                 color.b /= 2;
                 copyVector(&translation, &work->paths[work->ages[j]][0][j]);
                 addVector(&translation, &work->origins[j]);
-                func_801513F4(&world, &saved, &translation, &rotation, &scale, 2);
+                DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 2);
                 func_80156E58((u8 *)&color, work->config->line_width, work->clouds[j], 32, 32);
                 work->ages[j]++;
                 if (work->ages[j] >= 5) {
@@ -129,10 +130,10 @@ void func_80151558(void *buffer, s32 phase)
                             &(&work->velocities[j * 5])[k]);
                     }
                     setVector(&scale, work->scales[j], 4096, work->scales[j]);
-                    func_801514BC(&saved, &scale);
+                    DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
                     func_8015616C((u8 *)&color, work->rings[0], work->rings[1], work->rings[2], 32);
                     setVector(&scale, work->scales[j] / 2, 6144, work->scales[j] / 2);
-                    func_801514BC(&saved, &scale);
+                    DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
                     func_8015616C((u8 *)&work->secondary[j],
                         work->rings[0], work->rings[1], work->rings[2], 32);
                     if (work->scales[j] < 16384) {

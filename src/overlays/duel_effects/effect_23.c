@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_23.h"
+#include "geometry_semantic_views.h"
 
 void func_80152048(void *buffer, s32 phase)
 {
@@ -81,7 +82,7 @@ void func_80152048(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
-        func_801513F4(&world, &saved, &work->position, &work->rotation, &scale, 1);
+        DuelEffect_SetTransformMatrix(&world, &saved, &work->position, &work->rotation, &scale, 1);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             setPolyFT4(packet);
             packet->tpage = D_8015B748.pairs[19][0];
@@ -189,7 +190,7 @@ void func_80152048(void *buffer, s32 phase)
                         ((work->ages[i] / 3) % 4) * 32 + 31, (work->ages[i] / 12) * 32 + 223);
                     work->ages[i]++;
                     for (j = 0; j < 3; j++) {
-                        func_801513F4(&world, &saved, &work->particles[i][j], &rotation, &scale, 1);
+                        DuelEffect_SetTransformMatrix(&world, &saved, &work->particles[i][j], &rotation, &scale, 1);
                         func_80151218(packet, vertices, 1, 1);
                         addVector(&work->particles[i][j], &work->velocities[i][j]);
                     }

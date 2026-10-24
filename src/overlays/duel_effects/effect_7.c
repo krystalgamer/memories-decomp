@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_7.h"
+#include "geometry_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_7_TRAIL_SPREAD 13
@@ -91,7 +92,7 @@ void func_801587D8(void *buffer, s32 phase)
         for (i = 0; i < work->active; i++) {
             if (work->states[i] == 0) {
                 setVector(&scale, 4096, 4096, 4096);
-                func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
+                DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
                 for (j = 0; j < 4; j++) {
                     color = work->colors[i];
                     color.r /= j + 1;
@@ -112,7 +113,7 @@ void func_801587D8(void *buffer, s32 phase)
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
                     setVector(&scale, 4096, 4096, 4096);
-                    func_801513F4(&world, &saved, &work->trails[i][0],
+                    DuelEffect_SetTransformMatrix(&world, &saved, &work->trails[i][0],
                                  &rotation, &scale, 1);
                     for (j = 0; j < work->config->particle_count; j++) {
                         func_80156C40((u8 *)&work->colors[i], work->config->particle_size,
@@ -149,7 +150,7 @@ void func_801587D8(void *buffer, s32 phase)
         scale.vx = 4096;
         scale.vy = 4096;
         scale.vz = 4096;
-        func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
+        DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
         if (work->states[work->config->count - 1] != 0 &&
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
             func_801566D4(work->config->number, (u8 *)&work->number_color,

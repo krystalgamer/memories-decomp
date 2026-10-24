@@ -14,6 +14,7 @@
 #include "dispatch.h"
 #include "drawing_tail.h"
 #include "gather_effect.h"
+#include "geometry_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define GATHER_CURVE_HEIGHT 106
@@ -46,9 +47,9 @@ void func_801481A8(void *buffer, s32 phase)
         } else {
             state->step = 0;
             state->descriptor = &D_8015A5F8;
-            func_8014F89C(state->particles, state->descriptor->spread,
+            DuelEffect_InitRandomVectorsXY(state->particles, state->descriptor->spread,
                           state->descriptor->spread, 32);
-            func_8014F89C(state->particles_b, state->descriptor->spread,
+            DuelEffect_InitRandomVectorsXY(state->particles_b, state->descriptor->spread,
                           state->descriptor->spread, 48);
             state->tpage = 0x2B;
             state->clut = 0x3EA8;
@@ -103,7 +104,7 @@ void func_801481A8(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         func_801531C4(&frame.world);
-        func_801513F4(&frame.world, &saved, &frame.position, &frame.rotation, &frame.scale, 1);
+        DuelEffect_SetTransformMatrix(&frame.world, &saved, &frame.position, &frame.rotation, &frame.scale, 1);
         setPolyFT4(packet);
         packet->tpage = state->tpage;
         packet->clut = state->clut;
@@ -172,12 +173,12 @@ void func_801481A8(void *buffer, s32 phase)
             frame.scale.vx = state->scale >> 3;
             frame.scale.vy = state->scale >> 3;
             frame.scale.vz = 0x1000;
-            func_801514BC(&saved, &frame.scale);
+            DuelEffect_SetScaledLocalScreenMatrix(&saved, &frame.scale);
             func_80156448(state->color, state->rings[0], state->rings[1], state->rings[2], 0);
             frame.scale.vx = state->scale;
             frame.scale.vy = state->scale;
             frame.scale.vz = 0x1000;
-            func_801514BC(&saved, &frame.scale);
+            DuelEffect_SetScaledLocalScreenMatrix(&saved, &frame.scale);
             func_80155BC0(state->color, state->descriptor->curve_size, 0, &frame.position);
             frame.scale.vx = 0x1000;
             frame.scale.vy = state->scale;
@@ -185,7 +186,7 @@ void func_801481A8(void *buffer, s32 phase)
             for (i = 0; i < 16; i++) {
                 SVECTOR *rotate;
 
-                func_801513F4(&frame.world, &saved, &frame.position, &state->rotations[i], &frame.scale, 2);
+                DuelEffect_SetTransformMatrix(&frame.world, &saved, &frame.position, &state->rotations[i], &frame.scale, 2);
                 func_80155D90(state->color, state->descriptor->widths,
                               state->descriptor->height, 0);
                 rotate = (SVECTOR *)((u8 *)state + i * 8 + 0x544);

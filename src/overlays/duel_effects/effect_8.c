@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_8.h"
+#include "geometry_semantic_views.h"
 
 void func_80147B18(void *buffer, s32 phase)
 {
@@ -33,7 +34,7 @@ void func_80147B18(void *buffer, s32 phase)
                 func_8014EE0C(work->config->radii[i], work->config->radii[i],
                              work->config->ring_height * i, work->rings[i], 32);
             }
-            func_8014F754(work->rays, work->config->ray_range,
+            DuelEffect_InitRandomVectorsNegatedY(work->rays, work->config->ray_range,
                          work->config->ray_range, work->config->ray_range,
                          work->config->ray_count);
             func_8014F180(work->config->particle_speed, work->positions,
@@ -58,7 +59,7 @@ void func_80147B18(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
-        func_801513F4(&world, &saved, &work->origin, &rotation, &scale, 1);
+        DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 1);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             func_80156E58((u8 *)&work->color, work->config->ray_width, work->rays,
                          work->config->ray_count, 64);
@@ -104,13 +105,13 @@ void func_80147B18(void *buffer, s32 phase)
                 scale.vx = work->scale;
                 scale.vy = 4096;
                 scale.vz = work->scale;
-                func_801513F4(&world, &saved, &work->origin, &rotation, &scale, 3);
+                DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 3);
                 func_8015616C((u8 *)&color_copy, work->rings[0],
                              work->rings[1], work->rings[2], 1);
                 scale.vx = work->scale >> 1;
                 scale.vy = 6144;
                 scale.vz = work->scale >> 1;
-                func_801514BC(&saved, &scale);
+                DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
                 func_8015616C((u8 *)&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 1);
                 if (work->scale < 0x4000) {

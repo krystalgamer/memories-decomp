@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_1.h"
+#include "geometry_semantic_views.h"
 
 void func_80157794(void *buffer, s32 phase)
 {
@@ -59,7 +60,7 @@ void func_80157794(void *buffer, s32 phase)
             scale.vz = 4096;
             setVector(&rotation, 0, 0,
                       (work->rotation_step * work->tick) & 0xFFF);
-            func_801513F4(&world, &saved, &translation, &rotation, &scale, 0);
+            DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 0);
             func_80155F94((u8 *)&work->base_color);
             if (work->frame < work->config->first_end) {
                 DuelEffect_StepColorToTarget((u8 *)&work->base_color, 128, 128, 128, 8);
@@ -85,7 +86,7 @@ void func_80157794(void *buffer, s32 phase)
             scale.vz = 4096;
             setVector(&rotation, 0, 0,
                       (work->config->beam_rotation_step * work->tick) & 0xFFF);
-            func_801513F4(&world, &saved, &translation, &rotation, &scale, 0);
+            DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 0);
             color_copy = work->beam_color;
             color_copy.r >>= 2;
             color_copy.g >>= 2;
@@ -97,7 +98,7 @@ void func_80157794(void *buffer, s32 phase)
                 scale.vy = 4096 + (work->growth >> 3);
                 scale.vz = 4096;
                 for (i = 0; i < 12; i++) {
-                    func_801513F4(&world, &saved, &translation, &work->rotations[i],
+                    DuelEffect_SetTransformMatrix(&world, &saved, &translation, &work->rotations[i],
                                  &scale, 2);
                     /* The strip still uses the original color after this copy. */
                     color_copy = work->beam_color;
@@ -115,7 +116,7 @@ void func_80157794(void *buffer, s32 phase)
                 setVector(&scale, 4096, 4096, 4096);
                 setVector(&rotation, 0, 0,
                           (work->rotation_step * (work->tick << 1)) & 0xFFF);
-                func_801513F4(&world, &saved, &translation, &rotation, &scale, 0);
+                DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 0);
                 for (i = 0; i < 64; i++) {
                     func_8014F2D4(quad, &work->positions[i]);
                     func_80156064((u8 *)&work->beam_color, quad, 0);

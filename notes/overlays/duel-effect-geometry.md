@@ -1,5 +1,99 @@
 # French duel-effect geometry and rendering
 
+## Scoped transform/vector C views
+
+Eight shared helpers now have semantic C views in
+`geometry_semantic_views.h`. Their original assembler identities and exact
+types remain, with explicit native compatibility declarations. The original
+`utility_helpers.h`, curve source and historical fingerprint guard stay
+byte-for-byte unchanged. Existing SDK includes keep their order; the new
+view header follows each caller's complete leading include block.
+
+| C view | Native label | NA address | JP address | UK / FR / ES address |
+|---|---|---|---|---|
+| `DuelEffect_SetTransformMatrix` | `func_801513F4` | `0x80151FCC` | `0x8015F488` | `0x801513F4` |
+| `DuelEffect_SetScaledLocalScreenMatrix` | `func_801514BC` | `0x80152094` | `0x8015F550` | `0x801514BC` |
+| `DuelEffect_CopyMatrixComponents` | `func_801514F8` | `0x801520D0` | `0x8015F58C` | `0x801514F8` |
+| `DuelEffect_InitRandomVectorsXYZ` | `func_8014F608` | `0x801501E0` | `0x8015D69C` | `0x8014F608` |
+| `DuelEffect_InitRandomVectorsNegatedY` | `func_8014F754` | `0x8015032C` | `0x8015D7E8` | `0x8014F754` |
+| `DuelEffect_InitRandomVectorsXY` | `func_8014F89C` | `0x80150474` | `0x8015D930` | `0x8014F89C` |
+| `DuelEffect_InitIndexedQuadVertices` | `func_8014F9A0` | `0x80150578` | `0x8015DA34` | `0x8014F9A0` |
+| `DuelEffect_InitIndexedQuadToYZero` | `func_8014FA3C` | `0x80150614` | `0x8015DAD0` | `0x8014FA3C` |
+
+Only actual NA addresses enter the eight
+`overlay/duel_effects/function` registry rows. Numeric name suffixes are
+historical labels, not evidence of the NA address. All forty name cells
+across the five configured bank inventories change together; their other
+fields, row order, source grouping and compiler profiles remain unchanged.
+No German/Italian bank coverage or new native exports are claimed.
+
+### Matrix preparation
+
+`DuelEffect_SetTransformMatrix` first installs the supplied base, transforms
+the position into the local matrix's translation and constructs its rotation.
+The two conditional operations retain their exact domains:
+
+| `mode` | Compose base (`MulMatrix2`) | Save unscaled components |
+|---|---|---|
+| 0 | no | no |
+| 1 | no | yes |
+| 2 | yes | no |
+| 3 | yes | yes |
+| Other `u16` values | no | no |
+
+Scaling and installation of the result still follow those operations for
+every mode. Do not turn the comparisons into unrestricted bit tests, add an
+enum/range guard, reorder the SDK calls or remove the unused flag write and
+its `PSXLONG *` cast. Actual effect callers supply position, rotation and
+scale, and use the optional unscaled snapshot for later layered drawing.
+
+`DuelEffect_SetScaledLocalScreenMatrix` copies to a local matrix before
+scaling and installing it; it does not scale the input in place.
+`DuelEffect_CopyMatrixComponents` copies nine rotation halfwords and three
+translation words, interleaving each row with its translation component.
+It leaves the SDK matrix padding untouched. Neither structure assignment,
+`memcpy`, zero-initialization nor non-aliasing assumptions replace that loop.
+
+### Vector and indexed-quad initialization
+
+| View | Component expressions | RNG calls per vector |
+|---|---|---|
+| Random XYZ | Independent scaled signed differences modulo 4096 on each axis | 6 |
+| Negated-Y variant | Difference-based X/Z; Y uses the negated scale and one `rand() % 4096` | 5 |
+| Random XY | Difference-based X/Y; Z is literal zero | 4 |
+
+Particle/ray callers establish vector-array use without implying a uniform
+or normalized distribution, world up/down direction, velocity unit or frame
+duration. Preserve the target RNG call order, subtraction/remainder/division
+expressions, unsigned-halfword scales/count and signed-halfword stores.
+Zero count performs no RNG calls or vector stores. All variants leave
+`SVECTOR` padding untouched; none becomes a whole-record initialization.
+
+The two quad helpers use `u16` arguments as indices into existing signed
+halfword width/height tables, not as pixel extents. Both write four XY-plane
+vertices with zero Z; the second uses literal zero for both lower Y
+coordinates instead of another height-table lookup. Preserve signed table
+values, negation/narrowing, access/store order, unchecked indices and
+untouched padding. No ground-plane or allocation meaning is inferred.
+
+### Conservation boundary
+
+The matrix and five-function vector objects remain complete and in original
+definition order. All actual bank callers use the canonical views without
+changing their arguments, casts or control flow. Every pre-existing header,
+test, fixture, historical record, source selector and negative control
+remains unchanged. No new C/source-string/native harness is added.
+
+Fresh accepted-parent compiler/CPP/native comparisons account for eight
+canonical and eight native compatibility declarations, one semantic include
+per affected C file and eight identifier substitutions. All native symbols,
+compiler/MASPSX output, ordinary/fallback assembly and the whole NA
+executable/ELF must remain identical. Full five-bank and seven-copy
+acceptance uses the existing PR gates, including the targeted Japanese/UK
+bank steps, not a local cloud-test run.
+
+## Original matching groups
+
 Ten exact functions / 3,604 bytes are integrated as six complete source groups
 with the existing `gcc_2_8_1_g0_split` profile:
 

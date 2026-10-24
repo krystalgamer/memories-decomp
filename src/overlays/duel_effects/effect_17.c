@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_17.h"
+#include "geometry_semantic_views.h"
 
 void func_80148BA4(void *buffer, s32 phase)
 {
@@ -46,12 +47,12 @@ void func_80148BA4(void *buffer, s32 phase)
                           (ratan2(work->card_velocities[i].vz, work->card_velocities[i].vy) % 256) / 16,
                           (ratan2(work->card_velocities[i].vx, work->card_velocities[i].vz) % 256) / 16,
                           (ratan2(work->card_velocities[i].vy, work->card_velocities[i].vx) % 256) / 16);
-                func_8014F608(work->card_particles[i], 128, 128, 128, 16);
+                DuelEffect_InitRandomVectorsXYZ(work->card_particles[i], 128, 128, 128, 16);
                 work->card_count++;
                 work->card_states[i] = 0;
                 work->card_ages[i] = 0;
             }
-            func_8014F608(work->particles, work->config->radius * 2,
+            DuelEffect_InitRandomVectorsXYZ(work->particles, work->config->radius * 2,
                          work->config->radius * 2, work->config->radius * 2, 64);
             for (i = 0; i < 64; i++) {
                 setVector(&work->velocities[i], -work->particles[i].vx / 32,
@@ -110,7 +111,7 @@ void func_80148BA4(void *buffer, s32 phase)
         }
         DuelEffect_SetFogBaseColor(work->brightness, work->brightness, work->brightness);
         setVector(&rotation, 0, 0, work->config->spin * work->tick % 4096);
-        func_801513F4(&world, &saved, &work->center, &rotation, &scale, 0);
+        DuelEffect_SetTransformMatrix(&world, &saved, &work->center, &rotation, &scale, 0);
         for (i = 0; i < work->active_particles; i++) {
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->particle_colors[i])) {
                 func_8014F2D4(vertices, &work->particles[i]);
@@ -163,7 +164,7 @@ void func_80148BA4(void *buffer, s32 phase)
                     for (k = 0; k < 3; k++) {
                         setVector(&rotation, 0, 0,
                                   -(work->tick * ((j * 2 + 1) * work->config->fan_spin) + k * 32 + i * 1024) % 4096);
-                        func_801513F4(&world, &saved, &work->center, &rotation, &scale, 0);
+                        DuelEffect_SetTransformMatrix(&world, &saved, &work->center, &rotation, &scale, 0);
                         func_8015131C(packet, vertices, 1, 1);
                     }
                 }
@@ -222,7 +223,7 @@ void func_80148BA4(void *buffer, s32 phase)
         }
         setVector(&scale, 4096, 4096, 4096);
         setVector(&rotation, 0, 0, 0);
-        func_801513F4(&world, &saved, &work->center, &rotation, &scale, 0);
+        DuelEffect_SetTransformMatrix(&world, &saved, &work->center, &rotation, &scale, 0);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->burst_color)) {
             func_80155BC0((u8 *)&work->burst_color, 32, 1, 0);
             color = work->burst_color;
@@ -239,7 +240,7 @@ void func_80148BA4(void *buffer, s32 phase)
         if (work->config->mode && work->card_count) {
             for (i = 0; i < work->active_paths; i++) {
                 setVector(&rotation, 0, work->angles[i], 0);
-                func_801513F4(&world, &saved, &work->origin, &rotation, &scale, 2);
+                DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 2);
                 if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->path_colors[i])) {
                     if (work->path_states[i] != 2) {
                         work->path_states[i] = func_801570B0((u8 *)&work->path_colors[i], work->path_ages[i],
@@ -250,7 +251,7 @@ void func_80148BA4(void *buffer, s32 phase)
                     }
                     if (work->path_states[i] == 2 &&
                         (u16)DuelEffect_HasNonzeroColor((u8 *)&work->path_colors[i])) {
-                        func_801513F4(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
+                        DuelEffect_SetTransformMatrix(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
                         func_80155BC0((u8 *)&work->path_colors[i], 4, 1, 0);
                     }
                     work->path_ages[i]++;
