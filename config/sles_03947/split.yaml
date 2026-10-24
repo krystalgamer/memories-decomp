@@ -464,8 +464,6 @@ segments:
       - [0x04DF70, c, game/model_build_camera_relative_coordinate_unit]
       - [0x04E094, c, game/european/model_slot_properties]
       - [0x04E360, c, game/model_slot_state_updates]
-      - [0x04E3C4, c, game/func_80059700]
-      - [0x04E48C, c, game/func_800597C8]
       - [0x04E550, c, game/file_query_wrappers]
       - [0x04E6C0, c, game/model_texture_upload_wrappers]
       - [0x04E76C, c, game/model_set_slot_shadow_enabled]
