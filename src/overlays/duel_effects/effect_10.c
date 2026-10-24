@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_10.h"
+#include "geometry_semantic_views.h"
 
 void func_8014C8FC(void *buffer, s32 phase)
 {
@@ -33,12 +34,12 @@ void func_8014C8FC(void *buffer, s32 phase)
                 func_8014EC8C(175, 194, 16, (u16)(i * 8), work->rings[i], 4);
             }
             func_8014F3E8(work->plane, 175, 16, 194);
-            func_8014F608(work->particles, 175, 16, 194, 64);
+            DuelEffect_InitRandomVectorsXYZ(work->particles, 175, 16, 194, 64);
             for (i = 0; i < 64; i++) {
                 work->speeds[i] = work->config->particle_speed / 2 +
                     work->config->particle_speed * (rand() % 4096) / 4096;
             }
-            func_8014F608(work->columns, 139, 0, 182, 64);
+            DuelEffect_InitRandomVectorsXYZ(work->columns, 139, 0, 182, 64);
             for (i = 0; i < 64; i++) {
                 func_8014F010((u8 *)&work->column_colors[i], 1);
                 work->ages[i] = 0;
@@ -75,7 +76,7 @@ void func_8014C8FC(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
-        func_801513F4(&world, &saved, &position, &rotation, &scale, 2);
+        DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) && work->stage == 0) {
             func_80156FA4((u8 *)&work->color, work->plane, work->config->mode, 1);
             func_80156FA4((u8 *)&work->plane_color, work->plane, work->config->mode, 1);
@@ -100,7 +101,7 @@ void func_8014C8FC(void *buffer, s32 phase)
                 work->ring_ready = DuelEffect_StepColorToTarget((u8 *)&work->ring_color, 255, 255, 255, 8);
             }
         }
-        func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
+        DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) && work->stage == 1) {
             for (i = 0; i < 64; i++) {
                 func_8014F2D4(quad, &work->particles[i]);

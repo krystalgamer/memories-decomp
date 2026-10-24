@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_9.h"
+#include "geometry_semantic_views.h"
 
 void func_801593A8(void *buffer, s32 phase)
 {
@@ -65,7 +66,7 @@ void func_801593A8(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         func_801531C4(&world);
-        func_801513F4(&world, &saved, &translation, &rotation, &scale, 1);
+        DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 1);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
             DuelEffect_DrawFullscreenGradient((u8 *)&work->background_color);
             if (work->stage != 0) {
@@ -117,20 +118,20 @@ void func_801593A8(void *buffer, s32 phase)
             scale.vx = work->scale >> 3;
             scale.vy = work->scale >> 3;
             scale.vz = 4096;
-            func_801514BC(&saved, &scale);
+            DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
             func_80156448((u8 *)&work->effects_color, work->rings[0],
                          work->rings[1], work->rings[2], 0);
             scale.vx = work->scale;
             scale.vy = work->scale;
             scale.vz = 4096;
-            func_801514BC(&saved, &scale);
+            DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
             func_80155BC0((u8 *)&work->effects_color, work->config->sprite_size,
                          0, &translation);
             scale.vx = 4096;
             scale.vy = work->scale;
             scale.vz = 4096;
             for (i = 0; i < work->config->rotation_count; i++) {
-                func_801513F4(&world, &saved, &translation, &work->rotations[i],
+                DuelEffect_SetTransformMatrix(&world, &saved, &translation, &work->rotations[i],
                              &scale, 2);
                 func_80155D90((u8 *)&work->effects_color, work->config->widths,
                              work->config->height, 0);

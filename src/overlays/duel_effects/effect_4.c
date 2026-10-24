@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_4.h"
+#include "geometry_semantic_views.h"
 
 void func_80159AAC(void *buffer, s32 phase)
 {
@@ -63,7 +64,7 @@ void func_80159AAC(void *buffer, s32 phase)
             setVector(&position, 0, 0, 0);
             setVector(&rotation, 0, 0, 0);
             setVector(&scale, 4096, 4096, 4096);
-            func_801513F4(&world, &saved, &position, &rotation, &scale, 1);
+            DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
             func_801558F4((u8 *)&work->color, work->card_rings[0],
                          work->card_rings[1], 0, 1);
             setPolyFT4(packet);
@@ -104,20 +105,20 @@ void func_80159AAC(void *buffer, s32 phase)
                 scale.vx = work->scale >> 3;
                 scale.vy = work->scale >> 3;
                 scale.vz = 4096;
-                func_801514BC(&saved, &scale);
+                DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
                 func_80156448((u8 *)&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 0);
                 scale.vx = work->scale;
                 scale.vy = work->scale;
                 scale.vz = 4096;
-                func_801514BC(&saved, &scale);
+                DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
                 func_80155BC0((u8 *)&work->color, work->config->sprite_size,
                              0, &position);
                 scale.vx = 4096;
                 scale.vy = work->scale;
                 scale.vz = 4096;
                 for (i = 0; i < 16; i++) {
-                    func_801513F4(&world, &saved, &position, &work->rotations[i],
+                    DuelEffect_SetTransformMatrix(&world, &saved, &position, &work->rotations[i],
                                  &scale, 2);
                     func_80155D90((u8 *)&work->color, work->config->widths,
                                  work->config->height, 0);

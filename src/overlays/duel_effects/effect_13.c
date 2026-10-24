@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_13.h"
+#include "geometry_semantic_views.h"
 
 void func_801503F8(void *buffer, s32 phase, s16 number)
 {
@@ -77,7 +78,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->glow_color)) {
             setVector(&rotation, 0, 0, work->tick * 128);
-            func_801513F4(&world, &saved, &work->origin, &rotation, scale_pointer, 0);
+            DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, scale_pointer, 0);
             if (work->config->blend != 1) {
                 D_8015B748.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
                     work->config->blend, D_8015AC48[0].px, D_8015AC48[0].py);
@@ -102,7 +103,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
         if (work->config->background == 1 &&
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
             setVector(&rotation, 0, 0, 0);
-            func_801513F4(&world, &saved, &work->origin, &rotation, &scale, 0);
+            DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 0);
             func_801573A8((u8 *)&work->background_color, work->config->size * 2, 32);
             if (work->ready == 0) {
                 work->ready = DuelEffect_StepColorToTarget((u8 *)&work->background_color, 128, 128, 128, 8);
@@ -113,7 +114,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
         }
         for (i = 0; i < work->active; i++) {
             setVector(&rotation, 0, work->angles[i], 0);
-            func_801513F4(&world, &saved, &work->offset, &rotation, &scale, 2);
+            DuelEffect_SetTransformMatrix(&world, &saved, &work->offset, &rotation, &scale, 2);
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
                 if (work->states[i] != 2) {
                     work->states[i] = func_801570B0((u8 *)&work->colors[i], work->ages[i],
@@ -139,14 +140,14 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
             if (work->states[i] == 2 &&
                 (u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
                 gDuelEffect_pActiveRequest->field_1D = 1;
-                func_801513F4(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
+                DuelEffect_SetTransformMatrix(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
                 func_80155BC0((u8 *)&work->colors[i], work->config->particle_size, 1, &position);
             }
         }
         if (work->active >= 12 && (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
             setVector(&scale, 4096, 4096, 4096);
             setVector(&rotation, 0, 0, 0);
-            func_801513F4(&world, &saved, &work->offset, &rotation, &scale, 0);
+            DuelEffect_SetTransformMatrix(&world, &saved, &work->offset, &rotation, &scale, 0);
             func_801566D4(-__builtin_abs(work->number), (u8 *)&work->number_color,
                          &work->number_position, work->number_mode, 10, 1);
             addVector(&work->number_position, &work->number_velocity);

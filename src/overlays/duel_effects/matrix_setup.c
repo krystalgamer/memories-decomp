@@ -1,7 +1,8 @@
 #include "../../types.h"
 #include "utility_helpers.h"
+#include "geometry_semantic_views.h"
 
-void func_801513F4(MATRIX *world, MATRIX *saved, SVECTOR *position,
+void DuelEffect_SetTransformMatrix(MATRIX *world, MATRIX *saved, SVECTOR *position,
                     SVECTOR *rotation, VECTOR *scale, u16 mode)
 {
     MATRIX matrix;
@@ -14,7 +15,7 @@ void func_801513F4(MATRIX *world, MATRIX *saved, SVECTOR *position,
         MulMatrix2(world, &matrix);
     }
     if (mode == 1 || mode == 3) {
-        func_801514F8(&matrix, saved);
+        DuelEffect_CopyMatrixComponents(&matrix, saved);
     }
     ScaleMatrix(&matrix, scale);
     GsSetLsMatrix(&matrix);

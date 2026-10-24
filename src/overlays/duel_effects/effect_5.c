@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_5.h"
+#include "geometry_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_5_RISING_HEIGHT 106
@@ -74,7 +75,7 @@ void func_80157E10(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         func_801531C4(&world);
-        func_801513F4(&world, &saved, &position, &rotation, &scale, 1);
+        DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
         for (i = 0; i < work->spawned; i++) {
             if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->rising_colors[i])) {
                 func_8014F2D4(quad, &work->rising_positions[i]);
@@ -149,7 +150,7 @@ void func_80157E10(void *buffer, s32 phase)
                 scale.vy = work->scale;
                 scale.vz = 4096;
                 for (i = 0; i < work->config->strip_count; i++) {
-                    func_801513F4(&world, &saved, &position, &work->rotations[i],
+                    DuelEffect_SetTransformMatrix(&world, &saved, &position, &work->rotations[i],
                                  &scale, 0);
                     func_80155D90((u8 *)&work->color, work->config->widths,
                                  work->config->height, 0);

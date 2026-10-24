@@ -1,16 +1,17 @@
 #include "../../types.h"
 #include "utility_helpers.h"
+#include "geometry_semantic_views.h"
 
-void func_801514BC(MATRIX *source, VECTOR *scale)
+void DuelEffect_SetScaledLocalScreenMatrix(MATRIX *source, VECTOR *scale)
 {
     MATRIX matrix;
 
-    func_801514F8(source, &matrix);
+    DuelEffect_CopyMatrixComponents(source, &matrix);
     ScaleMatrix(&matrix, scale);
     GsSetLsMatrix(&matrix);
 }
 
-void func_801514F8(MATRIX *source, MATRIX *destination)
+void DuelEffect_CopyMatrixComponents(MATRIX *source, MATRIX *destination)
 {
     s32 i;
     s32 j;

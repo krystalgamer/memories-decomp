@@ -1,8 +1,9 @@
 #include "../../types.h"
 #include "../../psyq/rand.h"
 #include "utility_helpers.h"
+#include "geometry_semantic_views.h"
 
-void func_8014F608(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 z_scale, u16 count)
+void DuelEffect_InitRandomVectorsXYZ(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 z_scale, u16 count)
 {
     s32 i;
 
@@ -13,7 +14,7 @@ void func_8014F608(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 z_scale, u16 
     }
 }
 
-void func_8014F754(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 z_scale, u16 count)
+void DuelEffect_InitRandomVectorsNegatedY(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 z_scale, u16 count)
 {
     s32 i;
 
@@ -24,7 +25,7 @@ void func_8014F754(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 z_scale, u16 
     }
 }
 
-void func_8014F89C(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 count)
+void DuelEffect_InitRandomVectorsXY(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 count)
 {
     s32 i;
 
@@ -35,7 +36,7 @@ void func_8014F89C(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 count)
     }
 }
 
-void func_8014F9A0(SVECTOR *vertices, u16 top_width, u16 bottom_width,
+void DuelEffect_InitIndexedQuadVertices(SVECTOR *vertices, u16 top_width, u16 bottom_width,
                     u16 top_height, u16 bottom_height, s16 *widths, s16 *heights)
 {
     vertices[0].vx = -widths[top_width];
@@ -52,7 +53,7 @@ void func_8014F9A0(SVECTOR *vertices, u16 top_width, u16 bottom_width,
     vertices[3].vz = 0;
 }
 
-void func_8014FA3C(SVECTOR *vertices, u16 top_width, u16 bottom_width,
+void DuelEffect_InitIndexedQuadToYZero(SVECTOR *vertices, u16 top_width, u16 bottom_width,
                     u16 top_height, s16 *widths, s16 *heights)
 {
     vertices[0].vx = -widths[top_width];

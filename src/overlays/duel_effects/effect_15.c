@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_15.h"
+#include "geometry_semantic_views.h"
 
 void func_8014FF40(void *buffer, s32 phase)
 {
@@ -76,7 +77,7 @@ void func_8014FF40(void *buffer, s32 phase)
                     ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30,
                     ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_32,
                     ((DisplayObject *)D_8015B7A0[i])->field_34.h.field_34);
-                func_801513F4(&world, &saved, &translation, &rotation, &scale, 0);
+                DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 0);
                 func_80151218(packet, quad, 32, 1);
                 func_80151218(packet, quad, 32, 1);
             }

@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_24.h"
+#include "geometry_semantic_views.h"
 
 void func_8014D3E8(void *buffer, s32 phase)
 {
@@ -85,7 +86,7 @@ void func_8014D3E8(void *buffer, s32 phase)
         copyVector(&D_8015B7F8, &work->center);
         PushMatrix();
         func_801531C4(&world);
-        func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
+        DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
         setPolyFT4(packet);
         packet->tpage = D_8015B748.pairs[18][0];
         packet->clut = D_8015B748.pairs[18][1];
@@ -190,12 +191,12 @@ void func_8014D3E8(void *buffer, s32 phase)
             }
             func_8014F020((u8 *)&color, 255, 128, 128);
             setVector(&scale, work->scale, work->scale, work->scale);
-            func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
+            DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
             func_80155BC0((u8 *)&color, 8, 0, &position);
             func_8014F020((u8 *)&color, 127, 64, 64);
             for (i = 0; i < work->ray_count; i++) {
                 setVector(&scale, 4096, work->ray_scales[i], 4096);
-                func_801513F4(&world, &saved, &position, &work->rotations[i], &scale, 0);
+                DuelEffect_SetTransformMatrix(&world, &saved, &position, &work->rotations[i], &scale, 0);
                 func_80155D90((u8 *)&color, work->widths, 32, 0);
                 if (work->ray_scales[i] < 0x6000) {
                     work->ray_scales[i] += 0x400;

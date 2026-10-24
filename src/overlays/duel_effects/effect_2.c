@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_2.h"
+#include "geometry_semantic_views.h"
 
 void func_80153200(void *buffer, s32 phase, s16 number)
 {
@@ -77,7 +78,7 @@ void func_80153200(void *buffer, s32 phase, s16 number)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         func_801531C4(&world);
-        func_801513F4(&world, &saved, &position, &rotation, &scale, 1);
+        DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
         if (work->stage != 0 &&
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color) && work->number != 0) {
             func_801566D4(-__builtin_abs(work->number), (u8 *)&work->number_color,
@@ -109,24 +110,24 @@ void func_80153200(void *buffer, s32 phase, s16 number)
             scale.vy = 4096;
             scale.vz = 4096;
             setVector(&rotation, 0, 0, -1536);
-            func_801513F4(&world, &saved, &position, &rotation, &scale, 0);
+            DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
             if (work->stage == 0) {
-                func_8014F9A0(quad, 2, 3, 1, 2, work->config->widths,
+                DuelEffect_InitIndexedQuadVertices(quad, 2, 3, 1, 2, work->config->widths,
                              work->config->heights);
                 func_8015131C(packet, quad, 0, 1);
-                func_8014F9A0(quad, 4, 3, 3, 2, work->config->widths,
+                DuelEffect_InitIndexedQuadVertices(quad, 4, 3, 3, 2, work->config->widths,
                              work->config->heights);
                 func_8015131C(packet, quad, 0, 1);
             } else {
                 if (work->stage == 1) {
                     func_8014F010((u8 *)&work->background_color, 255);
                 }
-                func_8014FA3C(quad, 2, 1, 1, work->config->widths,
+                DuelEffect_InitIndexedQuadToYZero(quad, 2, 1, 1, work->config->widths,
                              work->config->heights);
                 func_8015131C(packet, quad, 0, 1);
             }
             if (work->stage >= 2) {
-                func_8014FA3C(quad, 0, 1, 0, work->config->widths,
+                DuelEffect_InitIndexedQuadToYZero(quad, 0, 1, 0, work->config->widths,
                              work->config->heights);
                 func_8015131C(packet, quad, 0, 1);
             }
@@ -140,13 +141,13 @@ void func_80153200(void *buffer, s32 phase, s16 number)
                 scale.vx = (work->scale >> 1) + 4096;
                 scale.vy = (work->scale >> 1) + 4096;
                 scale.vz = 0;
-                func_801513F4(&world, &saved, &position, &rotation, &scale, 1);
+                DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
                 func_80155BC0((u8 *)&work->color, work->config->sprite_size,
                              0, &position);
                 scale.vx = work->scale + 4096;
                 scale.vy = work->scale + 4096;
                 scale.vz = 0;
-                func_801514BC(&saved, &scale);
+                DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
                 color_copy = work->color;
                 color_copy.r >>= 1;
                 color_copy.g >>= 1;
@@ -157,14 +158,14 @@ void func_80153200(void *buffer, s32 phase, s16 number)
                     scale.vx = (work->scale + 4096) >> 1;
                     scale.vy = (work->scale + 4096) >> 1;
                     scale.vz = 0;
-                    func_801514BC(&saved, &scale);
+                    DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
                     func_8015616C((u8 *)&work->color, work->rings[0],
                                  work->rings[1], work->rings[2], 0);
                     scale.vx = 4096;
                     scale.vy = work->scale;
                     scale.vz = 4096;
                     for (i = 0; i < 64; i++) {
-                        func_801513F4(&world, &saved, &position,
+                        DuelEffect_SetTransformMatrix(&world, &saved, &position,
                                      &work->rotations[i], &scale, 2);
                         func_80155D90((u8 *)&work->color, work->config->strip_widths,
                                      work->config->strip_height, 0);
