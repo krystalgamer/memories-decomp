@@ -921,7 +921,7 @@ them agree.
 
 | Translation unit | Spelling | Bytes | Relocation |
 | --- | --- | --- | --- |
-| `src/game/func_80024200.c` | `extern u16 gDuel_wOutcomeFlags` | 2 | `R_MIPS_GPREL16` |
+| `src/game/duel_scene_update.c` | `extern u16 gDuel_wOutcomeFlags` | 2 | `R_MIPS_GPREL16` |
 | `src/game/duel_init_scene.c` | `extern u16 gDuel_wOutcomeFlags` | 2 | `R_MIPS_GPREL16` |
 | `debug_effect_screen.c` | `extern u8 gDuel_wOutcomeFlags[4]` | 4 | `R_MIPS_GPREL16` |
 | `src/game/main_run_duel.c` | `extern u16 gDuel_wOutcomeFlags` in `.data` | 2 | `R_MIPS_HI16` + `R_MIPS_LO16` |
