@@ -8,7 +8,6 @@
 #include "card_constants.h"
 #include "card_grid.h"
 #include "library_card_grid.h"
-#include "library_get_card_flags.h"
 #include "library_update_grid_scroll.h"
 #include "library_grid_cursor.h"
 #include "main_mode_state.h"

@@ -1857,9 +1857,9 @@
     },
     {
       "address": "0x80029C90",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
-      "source": "src/game/library_get_card_flags.c"
+      "source": "src/game/japanese/library_card_grid.c"
     },
     {
       "address": "0x8002C2A8",

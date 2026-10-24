@@ -6,7 +6,6 @@
 #include "text_box_blocking_build.h"
 #include "graphics_frame.h"
 #include "library_runtime.h"
-#include "library_get_card_flags.h"
 #include "card_constants.h"
 #include "../psyq/libgs.h"
 #include "ordering_tables.h"
@@ -23,9 +22,10 @@
 #include "text_message_staging.h"
 #include "library_card_grid.h"
 
-/* The Library card grid: Library_DrawCardGrid, the per-frame draw callback,
- * followed by the selected-card text refresh and the cursor tween that drives
- * it. All four functions are contiguous and share gcc_2_8_1_g8_split. */
+/* The Library card grid: the card-flag lookup Library_GetCardFlags and
+ * Library_DrawCardGrid, the per-frame draw callback that calls it, followed by
+ * the selected-card text refresh and the cursor tween that drives it. All five
+ * functions are contiguous and share gcc_2_8_1_g8_split. */
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
@@ -35,6 +35,11 @@
 #ifndef LIBRARY_GRID_SCREEN_HEIGHT
 #define LIBRARY_GRID_SCREEN_HEIGHT 0xF0
 #endif
+
+u32 Library_GetCardFlags(const LibraryState *base, s32 index)
+{
+    return base->cards[index].flags;
+}
 
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
    0x1F800320. The first visible row comes from the viewport scroll divided by
