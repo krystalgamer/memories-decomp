@@ -3,8 +3,9 @@
 #include "drawing_helpers.h"
 #include "textured_quads.h"
 #include "packet_semantic_views.h"
+#include "number_semantic_views.h"
 
-void func_801566D4(s32 value, u8 *color, SVECTOR *offset, u16 mode, u16 size, u16 bias)
+void DuelEffect_DrawProjectedNumber(s32 value, u8 *color, SVECTOR *offset, u16 mode, u16 size, u16 bias)
 {
     SVECTOR vertices[20];
     u16 digits[8];
@@ -22,8 +23,8 @@ void func_801566D4(s32 value, u8 *color, SVECTOR *offset, u16 mode, u16 size, u1
     POLY_FT4 *draw_packet;
     u16 tile;
 
-    count = func_80156AD4(value);
-    func_80156B40(__builtin_abs(value), digits);
+    count = DuelEffect_CountDecimalDigitsS16(value);
+    DuelEffect_WriteNumberDigits(__builtin_abs(value), digits);
     vertex = 0;
     setPolyFT4(packet);
     setRGB0(packet, color[0], color[1], color[2]);
@@ -31,7 +32,7 @@ void func_801566D4(s32 value, u8 *color, SVECTOR *offset, u16 mode, u16 size, u1
         setVector(&vertices[i],
             size * (i / 2 << 1)
                 - ((count + 1) / 2 * size * 2 + size * ((count + 1) % 2)),
-            (s16)func_8014F524(-1, i + 1) * size, 0);
+            (s16)DuelEffect_PowS16(-1, i + 1) * size, 0);
         addVector(&vertices[i], offset);
     }
     for (i = 0; i < count + 1; i++) {

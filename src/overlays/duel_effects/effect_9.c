@@ -3,6 +3,7 @@
 #include "effect_9.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "number_semantic_views.h"
 
 void func_801593A8(void *buffer, s32 phase)
 {
@@ -75,7 +76,7 @@ void func_801593A8(void *buffer, s32 phase)
             }
         }
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->negative_color)) {
-            func_801566D4(-work->config->value, (u8 *)&work->negative_color,
+            DuelEffect_DrawProjectedNumber(-work->config->value, (u8 *)&work->negative_color,
                          &work->negative, work->negative_mode, 16, 0);
             work->negative.vy += work->negative_step;
             work->negative_step += 4;
@@ -98,7 +99,7 @@ void func_801593A8(void *buffer, s32 phase)
         }
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->positive_color) &&
             work->positive.vy < 200) {
-            func_801566D4(work->config->value, (u8 *)&work->positive_color,
+            DuelEffect_DrawProjectedNumber(work->config->value, (u8 *)&work->positive_color,
                          &work->positive, work->positive_mode, 16, 0);
             work->positive.vy += work->positive_step;
             if (work->stage != 0) {

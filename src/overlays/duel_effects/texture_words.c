@@ -1,7 +1,8 @@
 #include "../../types.h"
 #include "utility_helpers.h"
+#include "number_semantic_views.h"
 
-s32 func_8014F524(s16 base, u16 exponent)
+s32 DuelEffect_PowS16(s16 base, u16 exponent)
 {
     s32 result = 1;
     s32 i;

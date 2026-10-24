@@ -3,6 +3,7 @@
 #include "effect_7.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "number_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_7_TRAIL_SPREAD 13
@@ -154,7 +155,7 @@ void func_801587D8(void *buffer, s32 phase)
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
         if (work->states[work->config->count - 1] != 0 &&
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
-            func_801566D4(work->config->number, (u8 *)&work->number_color,
+            DuelEffect_DrawProjectedNumber(work->config->number, (u8 *)&work->number_color,
                          &work->number_position, work->number_mode, 16, 0);
             addVector(&work->number_position, &work->number_velocity);
             work->number_velocity.vy += 4;

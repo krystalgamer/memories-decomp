@@ -3,6 +3,7 @@
 #include "effect_2.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "number_semantic_views.h"
 
 void func_80153200(void *buffer, s32 phase, s16 number)
 {
@@ -82,7 +83,7 @@ void func_80153200(void *buffer, s32 phase, s16 number)
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
         if (work->stage != 0 &&
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color) && work->number != 0) {
-            func_801566D4(-__builtin_abs(work->number), (u8 *)&work->number_color,
+            DuelEffect_DrawProjectedNumber(-__builtin_abs(work->number), (u8 *)&work->number_color,
                          &position, 1, 16, 0);
             if (work->number_state == 0) {
                 if (work->number > 0) {

@@ -1,7 +1,8 @@
 #include "../../types.h"
 #include "drawing_helpers.h"
+#include "number_semantic_views.h"
 
-u16 func_80156AD4(s16 value)
+u16 DuelEffect_CountDecimalDigitsS16(s16 value)
 {
     u16 count = 0;
     while (__builtin_abs(value) > 0) {
@@ -11,12 +12,12 @@ u16 func_80156AD4(s16 value)
     return count;
 }
 
-void func_80156B40(u16 value, u16 *digits)
+void DuelEffect_WriteNumberDigits(u16 value, u16 *digits)
 {
     s16 original = value;
     s32 i;
-    for (i = 0; i < func_80156AD4(original); i++) {
-        digits[i] = value / (s16)func_8014F524(10, func_80156AD4(original) - (i + 1));
-        value -= digits[i] * (s16)func_8014F524(10, func_80156AD4(original) - (i + 1));
+    for (i = 0; i < DuelEffect_CountDecimalDigitsS16(original); i++) {
+        digits[i] = value / (s16)DuelEffect_PowS16(10, DuelEffect_CountDecimalDigitsS16(original) - (i + 1));
+        value -= digits[i] * (s16)DuelEffect_PowS16(10, DuelEffect_CountDecimalDigitsS16(original) - (i + 1));
     }
 }

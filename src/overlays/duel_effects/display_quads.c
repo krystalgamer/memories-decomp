@@ -2,6 +2,7 @@
 #include "display_quads.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "number_semantic_views.h"
 
 void func_801573A8(u8 *color, u16 size, s16 depth)
 {
@@ -58,11 +59,11 @@ void func_801575CC(u8 *color, DVECTOR *first, DVECTOR *last, u16 width)
     setRGB3(packet, 0, 0, 0);
     for (i = 0; i < 2; i++) {
         setVector(&vertices[0], first->vx,
-            first->vy + (s16)func_8014F524(-1, i + 1) * width, 0);
+            first->vy + (s16)DuelEffect_PowS16(-1, i + 1) * width, 0);
         setVector(&vertices[1], first->vx, first->vy, 0);
         setVector(&vertices[2], last->vx, last->vy, 0);
         setVector(&vertices[3], last->vx,
-            last->vy + (s16)func_8014F524(-1, i + 1) * width, 0);
+            last->vy + (s16)DuelEffect_PowS16(-1, i + 1) * width, 0);
         RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
             (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
             (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,

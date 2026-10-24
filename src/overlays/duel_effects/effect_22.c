@@ -3,6 +3,7 @@
 #include "effect_22.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
+#include "number_semantic_views.h"
 
 void func_8014A8E4(void *buffer, s32 phase)
 {
@@ -166,7 +167,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                 packet->clut = D_8015B748.pairs[17][1];
                 setRGB0(packet, work->portal_color.r, work->portal_color.g, work->portal_color.b);
                 setUV4(packet, 96, 64, 159, 64, 96, 127, 159, 127);
-                DuelEffect_InitRectVertices(vertices, (s16)((s16)func_8014F524(-1, i + 1) * 24), 24);
+                DuelEffect_InitRectVertices(vertices, (s16)((s16)DuelEffect_PowS16(-1, i + 1) * 24), 24);
                 for (j = 0; j < 4; j++) {
                     addVector(&vertices[j], &work->positions[i]);
                 }
