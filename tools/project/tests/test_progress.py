@@ -204,6 +204,26 @@ class ProgressInventoryTests(unittest.TestCase):
         ):
             progress.load_european_overlay_inventories(REPOSITORY)
 
+    def test_north_american_overlay_inventories_name_their_own_module(self) -> None:
+        overlays = progress.load_overlay_inventories(REPOSITORY)
+        directory = REPOSITORY / "config/slus_01411/overlays"
+        for name in overlays:
+            for function in load_inventory(directory / f"{name}_functions.csv"):
+                self.assertEqual(function.module, f"overlay/{name}", name)
+
+    def test_north_american_overlay_rejects_foreign_module(self) -> None:
+        donor = [
+            Function(
+                0x8013B004, 0x10, "func_8013B004", "matching_c",
+                "overlay/model_variant_100_stage7_slot0",
+            )
+        ]
+        with (
+            mock.patch.object(progress, "load_inventory", return_value=donor),
+            self.assertRaisesRegex(progress.ProgressError, "unexpected function module"),
+        ):
+            progress.load_overlay_inventories(REPOSITORY)
+
     def test_japanese_overlay_rejects_overlapping_matches(self) -> None:
         module = {
             "name": "japanese_free_duel",
