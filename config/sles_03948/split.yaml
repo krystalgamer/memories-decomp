@@ -930,9 +930,6 @@ segments:
   - - 188132
     - c
     - game/spanish/dialog_transition
-  - - 189444
-    - c
-    - game/spanish/func_8003DA40
   - - 189920
     - c
     - game/spanish/mem_card_dialog

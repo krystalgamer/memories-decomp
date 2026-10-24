@@ -3485,7 +3485,7 @@
       "address": "0x8003CFF4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D4",
-      "source": "src/game/japanese/func_8003da40.c"
+      "source": "src/game/japanese/dialog_transition.c"
     },
     {
       "address": "0x8003D1C8",

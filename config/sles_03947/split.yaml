@@ -357,7 +357,6 @@ segments:
       - [0x02DAF8, c, game/european/checkerboard_background]
       - [0x02DC38, c, game/european/duel_effect_create_channel]
       - [0x02DCE4, c, game/european/dialog_transition]
-      - [0x02E204, c, game/european/func_8003DA40]
       - [0x02E3E0, c, game/european/mem_card_dialog]
       - [0x030794, c, game/save_data_set_mask_seed]
       - [0x0307A4, c, game/european/sound_frontend]

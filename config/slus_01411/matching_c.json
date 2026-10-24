@@ -3488,9 +3488,9 @@
     },
     {
       "address": "0x8003DA40",
-      "profile": "gcc_2_8_1_g8_no_split",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x1DC",
-      "source": "src/game/func_8003DA40.c"
+      "source": "src/game/dialog_transition.c"
     },
     {
       "address": "0x8003DC1C",

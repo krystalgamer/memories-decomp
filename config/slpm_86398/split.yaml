@@ -344,7 +344,6 @@ segments:
       - [0x2d0f0, c, game/checkerboard_background]
       - [0x2d230, c, game/japanese/duel_effect_create_channel]
       - [0x2d2dc, c, game/japanese/dialog_transition]
-      - [0x2d7f4, c, game/japanese/func_8003da40]
       - [0x2d9c8, c, game/japanese/mem_card_dialog]
       - [0x2fd50, c, game/save_data_set_mask_seed]
       - [0x2fd60, c, game/sound_frontend]

@@ -16,7 +16,7 @@
  * on: one passes 0x80D4 with set_flags zero, the other 0xD0.
  *
  * The return is the channel, and it is worth having typed: dialog_transition.c
- * already declared it DuelEffectChannel * while func_8003DA40.c held `u8 *`
+ * already declared it DuelEffectChannel * while Dialog_UpdateMessageTransition held `u8 *`
  * and reads the same record at raw +0x30 and +0x34. It casts. */
 extern u8 D_800EF6EA;
 
