@@ -267,15 +267,15 @@
     },
     {
       "address": "0x8001509C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/japanese/fade_init.c"
+      "source": "src/game/japanese/fade_runtime.c"
     },
     {
       "address": "0x800150C4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x138",
-      "source": "src/game/japanese/fade_step_bands.c"
+      "source": "src/game/japanese/fade_runtime.c"
     },
     {
       "address": "0x800151FC",

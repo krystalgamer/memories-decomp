@@ -40,7 +40,7 @@ declarations were used.
 
 ## Band-ramp mechanics
 
-The [`Fade_StepBands`](../src/game/fade_step_bands.c) source establishes
+The [`Fade_StepBands`](../src/game/fade_runtime.c) source establishes
 **high-confidence static semantics** for `field_08` in band mode: it is a
 signed sweep head, not another byte brightness value. The shared declaration
 remains `u16` to preserve the existing exact C; the walker explicitly casts
@@ -147,7 +147,7 @@ rather than inferred from a caller's name:
 |---|---|---|
 | `Fade_InitIn` in [`fade_runtime.c`](../src/game/fade_runtime.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
 | `Fade_InitOut` in [`fade_runtime.c`](../src/game/fade_runtime.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
-| `Fade_Init` in [`fade_init.c`](../src/game/fade_init.c) | untouched / `0` | boot reset from `Main_Init`: clears flags and `level`, sets step `8`, clears `D_8009B145`; no transition is armed |
+| `Fade_Init` in [`fade_runtime.c`](../src/game/fade_runtime.c) | untouched / `0` | boot reset from `Main_Init`: clears flags and `level`, sets step `8`, clears `D_8009B145`; no transition is armed |
 
 `Fade_StartIn` and `Fade_StartOut` call `Fade_InitIn` and `Fade_InitOut`,
 then request step `8` and flag `0x01` (band mode). However, both call a color

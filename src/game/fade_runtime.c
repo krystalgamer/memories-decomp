@@ -14,19 +14,81 @@
 #include "graphics_frame_controls.h"
 #include "graphics_ordering_table_views.h"
 
-/* The per-frame fade step and the complete fade overlay, setup, blocking,
-   and wrapper runtime. All thirty-one contiguous functions operate on
-   gFade_State and compile at gcc_2_8_1_g8_split_comm: Fade_Update's tint
-   bytes below are tentative definitions that must stay common, and the other
-   thirty functions are byte-identical with or without the comm section.
-   display_projection.c after the unit is owned by the pending #3859
-   reclassification. */
+/* Boot reset, band stepping, the per-frame fade step and the complete fade
+   overlay, setup, blocking, and wrapper runtime. All thirty-three contiguous
+   functions operate on gFade_State and compile at gcc_2_8_1_g8_split_comm:
+   Fade_Update's tint bytes below are tentative definitions that must stay
+   common, and the other functions are byte-identical with or without the
+   comm section. display_projection.c after the unit is owned by the pending
+   #3859 reclassification. */
 
 /* Tentative definitions keep these bytes common and gp-relative, supplying
    the three load-delay nops in the tint copy. c_symbols.ld overrides them. */
 u8 gGraphics_bClearBlue;
 u8 gGraphics_bClearGreen;
 u8 gGraphics_bClearRed;
+
+void Fade_Init(void)
+{
+    FadeTransitionState *state = &gFade_State;
+
+    state->flags = 0;
+    state->level = 0;
+    state->target_level = 0;
+    state->step = 8;
+    gFade_bWhiteLatch = 0;
+}
+
+/* Refills mirrored band pairs using the configured step. Increasing
+   transitions visit the middle pair first and subtract step from the signed
+   field_08 accumulator; decreasing transitions visit the outer pair first
+   and add step. Values are clamped between level and target_level. After
+   the pass, the head update uses the opposite sign, scaled by gGraphics_nBaseFrameStep. */
+void Fade_StepBands(void)
+{
+    FadeTransitionState *state = &gFade_State;
+    s32 step = state->step;
+    s32 i;
+    s32 level;
+    s32 acc;
+
+    if (state->level < state->target_level) {
+        acc = (s16)state->field_08;
+        for (i = FADE_BAND_COUNT / 2 - 1; i >= 0; i--) {
+            acc = acc - step;
+            level = acc;
+            if (level < state->level) {
+                level = state->level;
+            }
+            if (state->target_level < level) {
+                level = state->target_level;
+            }
+            state->band_levels[i] = level;
+            state->band_levels[FADE_BAND_COUNT - 1 - i] = level;
+        }
+        state->field_08 =
+            state->field_08 + step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
+    } else {
+        acc = (s16)state->field_08;
+        for (i = 0; i < FADE_BAND_COUNT / 2; i++) {
+            acc = acc + step;
+            level = acc;
+            if (level < state->target_level) {
+                level = state->target_level;
+            }
+            if (state->level < level) {
+                level = state->level;
+            }
+            state->band_levels[i] = level;
+            state->band_levels[FADE_BAND_COUNT - 1 - i] = level;
+        }
+        state->field_08 =
+            state->field_08 - step * *(volatile s32 *)&gGraphics_nBaseFrameStep;
+    }
+    if (level == state->target_level) {
+        state->level = level;
+    }
+}
 
 void Fade_Update(FadeTransitionState *p)
 {
