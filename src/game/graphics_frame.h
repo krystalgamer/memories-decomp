@@ -280,6 +280,9 @@ extern volatile DRAWENV D_800FE048[];
 #else
 extern DRAWENV D_800FE048[];
 #endif
+/* Preserve both array/qualifier arms without conflicting with GsDRAWENV. */
+#define gLibGs_DrawEnvView D_800FE048
+
 extern DISPENV GsDISPENV;
 
 typedef char GraphicsDrawEnvSize[sizeof(DRAWENV) == 0x5C ? 1 : -1];

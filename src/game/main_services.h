@@ -58,6 +58,9 @@ extern void (*G32 gMain_pfnExtraFrameService)(void);
 /* The signed per-frame watchdog owned and initialized by main_services.c. */
 extern s32 runtime_gp;
 
+/* Keep the native initialized symbol and expose only its countdown role. */
+#define gMain_nServiceResyncCountdown runtime_gp
+
 /* A one-byte state value Main_InitHardware sets alongside gGraphics_abOrderingTableLengths to
  * gGraphics_bOrderingTable2Length, and that the two menu runners set to 10 or 6 through index 0.
  * c_symbols.ld names D_8009B0A4 one byte on, so no spelling here claims the
