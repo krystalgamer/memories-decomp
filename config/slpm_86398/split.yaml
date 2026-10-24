@@ -270,7 +270,6 @@ segments:
       - [0x22624, c, game/build_deck_add_card]
       - [0x226ec, c, game/japanese/card_list_setup]
       - [0x22960, c, game/japanese/build_deck_init_screen]
-      - [0x230a0, c, game/build_deck_test_and_set_initialized]
       - [0x230c8, c, game/japanese/card_list_sort]
       - [0x23a68, c, game/japanese/build_deck_pane_input]
       - [0x23f00, c, game/japanese/build_deck_update]
