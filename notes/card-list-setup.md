@@ -51,6 +51,30 @@ marker even though the player still owns that card. Keep the signed halfword
 views, unchecked indices, integer reverse cursor and final decrement; do not
 replace them with a pointer formed before the array or a wider ownership test.
 
+## Runtime observation
+
+A `duel_result_rewards` trace (#418; interpreter CPU, setup confirmed by 359
+control hits) won a Free Duel against Villager1, received Cursebreaker
+(card 655), and opened Build Deck three times. Each `BuildDeck_InitScreen`
+called `CardList_LoadSharedGraphics` from `0x80032438`, and the stage
+callback then ran modes 0 to 3 in order over about 45 frames from
+`File_StepActiveTransfer` and `File_TransferReadyCallback`. The descriptor
+read disc LBA `0x48FF`, which is WA_MRG (LBA 10,102 = `0x2776`) plus
+`0x2189`, for `0x26000` bytes (`0x4C` sectors). The phases were mode 0 at
+`0x20000` bytes for VRAM `(0x300,0x100)`, mode 1 at `0x4000` for
+`(0x340,0)`, and mode 2 at `0x2000` (four sectors) into the staging
+buffer. Mode 3 transferred nothing further. Trade was not visited.
+
+`Duel_AwardCard`, called from `DuelScene_UpdateResultRewards`
+(`0x80021F1C`), pushed 655 onto the front of `gDuel_awRecentCardDrops` and
+dropped the trailing zero. The table already held card 10 twice, so
+duplicates are kept. `Library_PruneRecentCardDrops` ran on entry from
+`0x80032458` and on exit from `BuildDeck_UpdateExitConfirmation`
+(`0x80033BD0`). After the player moved Cursebreaker into the deck, the exit
+call found its chest count at zero and removed it, as predicted above, even
+though the card was still owned. The player sorted the trunk by "new" during
+that visit, but this run does not show whether that sort reads the table.
+
 ## Group and evidence preservation
 
 All seven current native manifests select the complete three-function object
