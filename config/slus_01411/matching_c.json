@@ -5468,15 +5468,15 @@
     },
     {
       "address": "0x80058DD8",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/model_get_slot_readiness.c"
+      "source": "src/game/model_state_getters.c"
     },
     {
       "address": "0x80058E1C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
-      "source": "src/game/model_get_frame_step.c"
+      "source": "src/game/model_state_getters.c"
     },
     {
       "address": "0x80058E3C",

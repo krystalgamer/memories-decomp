@@ -467,8 +467,6 @@ segments:
       - [0x04D68C, c, game/model_queue_tint_request]
       - [0x04D7D0, c, game/european/model_texture_load_tim]
       - [0x04DA84, c, game/model_state_getters]
-      - [0x04DA9C, c, game/model_get_slot_readiness]
-      - [0x04DAE0, c, game/model_get_frame_step]
       - [0x04DB00, c, game/model_slot_queries]
       - [0x04DBD4, asm, generated/text_04dbd4]
       - [0x04DBE4, c, game/model_slot_support]
