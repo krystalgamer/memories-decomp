@@ -53,7 +53,7 @@
 #include "file_transfer_state.h"
 #include "duel_effect_resource_setup.h"
 #include "duel_effect_resource_record.h"
-
+#define gDuel_sEffectWorkCounter D_8009B20C[1]
 /* Applies Swords of Revealing Light to the opposing side. The handler creates
  * its persistent effect object, stages the occupied field objects, then
  * installs the three-turn attack lock once the presentation completes. */
@@ -109,7 +109,7 @@ void DuelEffect_ApplySwords(void)
 
 /* One step of a field-wide effect sweep, driven once per 16 frames by the
  * gDuel_wStepCounter countdown. The first entry resets the step index in
- * D_8009B20C[1]; every later entry advances it and spawns a type-8 effect
+ * gDuel_sEffectWorkCounter; every later entry advances it and spawns a type-8 effect
  * object over the next slot of the third grid row (slots 10..14 of the acting
  * side), offsetting the object's depth by the step so the objects stagger.
  * Steps past the fifth clear gDuel_wCardEffectFlags and end the sweep. A card sitting in
@@ -130,7 +130,7 @@ void DuelEffect_ApplyCursebreaker(void) {
     u8 *grid;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        D_8009B20C[1] = -1;
+        gDuel_sEffectWorkCounter = -1;
         gDuel_wStepCounter = 0;
     }
 
@@ -141,8 +141,8 @@ void DuelEffect_ApplyCursebreaker(void) {
     }
 
     gDuel_wStepCounter = 0x10;
-    next = *(u16 *)&D_8009B20C[1] + 1;
-    D_8009B20C[1] = next;
+    next = *(u16 *)&gDuel_sEffectWorkCounter + 1;
+    gDuel_sEffectWorkCounter = next;
     if ((s16)next < DUEL_FIELD_ROW_SIZE) {
         /* This step walks the grid flat, with the side folded into base_slot
            below, while sibling DuelEffect_ApplySwords uses the two-dimensional view
@@ -160,7 +160,7 @@ void DuelEffect_ApplyCursebreaker(void) {
         record = &gDuel_aCardRecords[card];
         object = DuelEffect_AllocateRequest(8);
         positions = (u8 *)gDuel_aFieldGridGroundPositions;
-        step = D_8009B20C[1];
+        step = gDuel_sEffectWorkCounter;
         /* Keep the row bias in the typed index for retail scheduling. */
         position_index = step + DUEL_FIELD_SIDE_ZONE_COUNT;
         object->field_1A = 3;
@@ -308,11 +308,11 @@ void DuelEffect_ApplyRitual(void)
         object = gDuel_pCardPreviewObject;
         if (!(gDuel_wTrapPresentationMode & 0x80)) {
             gDuel_wTrapPresentationMode |= 0x80;
-            D_8009B20C[1] = 32;
+            gDuel_sEffectWorkCounter = 32;
         }
         if (!(gDuel_wTrapPresentationMode & 0x40)) {
-            timer = *(u16 *)&D_8009B20C[1] - 1;
-            D_8009B20C[1] = timer;
+            timer = *(u16 *)&gDuel_sEffectWorkCounter - 1;
+            gDuel_sEffectWorkCounter = timer;
             if ((s32)((u32)timer << 16) <= 0) {
                 gDuel_wTrapPresentationMode |= 0x40;
                 DuelCard_CaptureRoundedTexture(object);

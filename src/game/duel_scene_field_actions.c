@@ -73,7 +73,7 @@
 #include "sound.h"
 #include "ai_board_snapshot.h"
 #include "../unmatched.h"
-
+#define gDuel_wActionSubstate D_8009B20C[0]
 /* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
  * Circle, so a regional build names its own. */
 #ifndef DUEL_FIELD_ACTIONS_CONFIRM_MASK
@@ -182,10 +182,10 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_bSceneSubStep |= 0x80;
             Ai_RefreshBoardSnapshot();
             AiScript_Init(gAiScript_abFieldScript);
-            D_8009B20C[0] = 0;
+            gDuel_wActionSubstate = 0;
             return;
         }
-        flags = (u16)D_8009B20C[0];
+        flags = (u16)gDuel_wActionSubstate;
         k = flags & 0xF;
         switch (k) {
         case 0:
@@ -201,12 +201,12 @@ void DuelScene_UpdateFieldActions(void)
                 SD_SEPlayFull(0x30);
                 return;
             }
-            D_8009B20C[0] = 1;
+            gDuel_wActionSubstate = 1;
             return;
         case 1:
             if (!(flags & 0x8000)) {
                 a = gAi_bFieldSourceCode[0];
-                D_8009B20C[0] = flags | 0x8000;
+                gDuel_wActionSubstate = flags | 0x8000;
                 gDuelCursor_Direction = -1;
                 gDuelCursor_TargetRow = 2;
                 gDuelCursor_TargetColumn = (a - 1) % 5;
@@ -227,16 +227,16 @@ void DuelScene_UpdateFieldActions(void)
                 gDuel_bSceneSubStep = 2;
                 return;
             }
-            D_8009B20C[0] = 3;
+            gDuel_wActionSubstate = 3;
             if (gAi_Selection.bytes[0xB] != 0 && gAi_Selection.bytes[9] < 6) {
-                D_8009B20C[0] = 2;
+                gDuel_wActionSubstate = 2;
             }
             return;
         case 2:
             card = GRID_CARD(side);
             if (!(flags & 0x8000)) {
                 f = card->flags;
-                D_8009B20C[0] = flags | 0x8000;
+                gDuel_wActionSubstate = flags | 0x8000;
                 if (f & 0x8000) {
                     if (f & 0x800) {
                         card->flags = f | 0x4000;
@@ -261,10 +261,10 @@ void DuelScene_UpdateFieldActions(void)
             return;
         case 3:
             if (!(flags & 0x8000)) {
-                D_8009B20C[0] = flags | 0x8000;
+                gDuel_wActionSubstate = flags | 0x8000;
                 card = GRID_CARD(side);
                 if (card->flags & 0x800) {
-                    D_8009B20C[0] = flags | 0xC000;
+                    gDuel_wActionSubstate = flags | 0xC000;
                     o = card->object;
                     DISPLAY_OBJECT_VIEW(o)->update =
                         (DisplayObjectCallback)DuelCard_UpdateDefenseRotation;

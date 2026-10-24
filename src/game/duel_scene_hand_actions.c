@@ -78,7 +78,7 @@
 #include "sound.h"
 #include "ai_board_snapshot.h"
 #include "../unmatched.h"
-
+#define gDuel_wActionSubstate SUBSTATE
 #define SUBSTATE (*(u16 *)D_8009B20C)
 #define SIDE_CURSOR(base) \
     ((DuelSelectionRecord *)((base) + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE))
@@ -172,12 +172,12 @@ void DuelScene_UpdateHandActions(void)
     case 2:
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0x80;
-            SUBSTATE = 0;
+            gDuel_wActionSubstate = 0;
         }
-        switch (SUBSTATE & 0xF) {
+        switch (gDuel_wActionSubstate & 0xF) {
         case 0:
-            if (!(SUBSTATE & 0x8000)) {
-                SUBSTATE |= 0x8000;
+            if (!(gDuel_wActionSubstate & 0x8000)) {
+                gDuel_wActionSubstate |= 0x8000;
                 Ai_RefreshBoardSnapshot();
                 AiScript_Init(D_801A8000);
                 return;
@@ -188,22 +188,22 @@ void DuelScene_UpdateHandActions(void)
                 if (gAi_Selection.bytes[1] != 0) {
                     gDuel_wAiHandStackPending = 1;
                 }
-                SUBSTATE = 1;
+                gDuel_wActionSubstate = 1;
                 Duel_ApplyAiHandSelection();
                 return;
             }
             return;
         case 1:
-            if (!(SUBSTATE & 0x8000)) {
-                SUBSTATE |= 0x8000;
+            if (!(gDuel_wActionSubstate & 0x8000)) {
+                gDuel_wActionSubstate |= 0x8000;
                 gDuel_bAiSelectionCursor++;
                 value = gAi_Selection.bytes[(s8)gDuel_bAiSelectionCursor];
                 if (value == 0) {
                     DuelHand_RefreshSelectionColors(side);
-                    SUBSTATE = 2;
+                    gDuel_wActionSubstate = 2;
                     gDuel_wAiHandStackPending &= 1;
                     if (gDuel_wAiHandStackPending != 0) {
-                        SUBSTATE = 3;
+                        gDuel_wActionSubstate = 3;
                     }
                     SD_SEPlayFull(7);
                     return;
@@ -234,18 +234,18 @@ void DuelScene_UpdateHandActions(void)
                 if (gDuel_wAiHandStackPending & 1) {
                     DuelHand_CreateSelectionOrderMarker(side);
                 }
-                SUBSTATE &= 0x7FFF;
+                gDuel_wActionSubstate &= 0x7FFF;
                 return;
             }
             return;
         case 2:
             obj = HAND_CARD_OBJECT_VIEW(hand->object);
-            if (!(SUBSTATE & 0x8000)) {
-                SUBSTATE |= 0xC000;
+            if (!(gDuel_wActionSubstate & 0x8000)) {
+                gDuel_wActionSubstate |= 0xC000;
                 card_id = CARD_ID(obj->card_index);
                 if (CARD_KIND(card_id) < CARD_TYPE_MAGIC) {
                     if (gAi_Selection.bytes[8] == 0) {
-                        SUBSTATE = 3;
+                        gDuel_wActionSubstate = 3;
                         return;
                     }
                 }
@@ -259,13 +259,13 @@ void DuelScene_UpdateHandActions(void)
                 side->cursor_object->flags &= 0xFFBF;
                 return;
             }
-            if (SUBSTATE & 0x4000) {
+            if (gDuel_wActionSubstate & 0x4000) {
                 if (DisplayObject_FindAllocatedByTag(1) == 0) {
-                    SUBSTATE &= 0xBFFF;
-                    if (SUBSTATE & 0x1000) {
+                    gDuel_wActionSubstate &= 0xBFFF;
+                    if (gDuel_wActionSubstate & 0x1000) {
                         DisplayObject_SetDepthOffset(
                             DISPLAY_OBJECT_VIEW(obj), (s8)(obj->depth - 4));
-                        SUBSTATE = 3;
+                        gDuel_wActionSubstate = 3;
                         side->cursor_object->flags |= 0x40;
                         return;
                     }
@@ -273,17 +273,17 @@ void DuelScene_UpdateHandActions(void)
                     obj->saved.xy.y = obj->home_y;
                     if (gAi_Selection.bytes[8] != 0) {
                         SD_SEPlayFull(0xB);
-                        SUBSTATE |= 0x2000;
+                        gDuel_wActionSubstate |= 0x2000;
                         obj->flags |= 4;
                         return;
                     }
                 }
-            } else if (SUBSTATE & 0x2000) {
+            } else if (gDuel_wActionSubstate & 0x2000) {
                 obj->face += 8;
                 if ((s8)obj->face < 0) {
                     obj->face = 0x80;
                     gDuel_aCardRecords[obj->card_index].flags |= 0x1000;
-                    SUBSTATE &= 0xDFFF;
+                    gDuel_wActionSubstate &= 0xDFFF;
                     return;
                 }
             } else {
@@ -297,7 +297,7 @@ void DuelScene_UpdateHandActions(void)
                     return;
                 }
                 obj->update = DisplayObject_UpdateCosineSlide;
-                SUBSTATE |= 0x5000;
+                gDuel_wActionSubstate |= 0x5000;
                 *(s32 *)&obj->target = *(s32 *)&obj->saved;
                 obj->saved.xy.x = 0x10;
                 obj->field_6C = 1;
@@ -309,8 +309,8 @@ void DuelScene_UpdateHandActions(void)
                 gDuelCursor_Direction = -1;
                 return;
             }
-            if (!(SUBSTATE & 0x8000)) {
-                SUBSTATE |= 0xC000;
+            if (!(gDuel_wActionSubstate & 0x8000)) {
+                gDuel_wActionSubstate |= 0xC000;
                 Duel_BeginFieldPlacementSelection(side);
                 D_8009B208[2] = gAi_Selection.bytes[6] - 6;
                 if (D_8009B208[2] < 0) {
@@ -652,7 +652,7 @@ void DuelScene_UpdateHandActions(void)
     }
 }
 
-#undef SUBSTATE
+#undef gDuel_wActionSubstate
 #undef SIDE_CURSOR
 #undef HAND_CARD_INDEX
 #undef FIELD_CURSOR
