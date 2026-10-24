@@ -36,7 +36,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
                 func_8014FABC(work->config->radius, work->config->size >> 1,
                              work->config->height, 8, work->paths[i]);
                 setVector(&work->endpoints[i], 0, 0, 0);
-                func_8014F020((u8 *)&work->colors[i], work->config->color[0],
+                DuelEffect_SetRgbColor((u8 *)&work->colors[i], work->config->color[0],
                              work->config->color[1], work->config->color[2]);
                 work->ages[i] = 0;
                 work->states[i] = 0;
@@ -51,14 +51,14 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
             work->ready = 0;
             work->number_mode = 0;
             work->number = number;
-            func_8014F020((u8 *)&work->glow_color, work->config->color[0] >> 3,
+            DuelEffect_SetRgbColor((u8 *)&work->glow_color, work->config->color[0] >> 3,
                          work->config->color[1] >> 3, work->config->color[2] >> 3);
             if (work->config->background == 0) {
-                func_8014F010((u8 *)&work->background_color, 0);
+                DuelEffect_SetGrayColor((u8 *)&work->background_color, 0);
             } else {
-                func_8014F010((u8 *)&work->background_color, 1);
+                DuelEffect_SetGrayColor((u8 *)&work->background_color, 1);
             }
-            func_8014F020((u8 *)&work->number_color, work->config->number_color[0],
+            DuelEffect_SetRgbColor((u8 *)&work->number_color, work->config->number_color[0],
                          work->config->number_color[1], work->config->number_color[2]);
         }
     } else if (work->cross_frame != 0) {

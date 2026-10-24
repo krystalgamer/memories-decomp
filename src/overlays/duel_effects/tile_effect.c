@@ -45,9 +45,9 @@ void func_80149F90(void *buffer, s32 phase)
             func_8014F564(state->texture_words, &D_8015A62C, 1);
             for (k = 0; k < 5; k++) {
                 for (i = 0; i < 7; i++) {
-                    func_8014F010(state->colors_a[k][i], 0x80);
-                    func_8014F010(state->colors_c[k][i], 0x80);
-                    func_8014F010(state->colors_b[k][i], 0x80);
+                    DuelEffect_SetGrayColor(state->colors_a[k][i], 0x80);
+                    DuelEffect_SetGrayColor(state->colors_c[k][i], 0x80);
+                    DuelEffect_SetGrayColor(state->colors_b[k][i], 0x80);
                     state->active[k][i] = 0;
                     state->sparkle[k][i] = rand() % 4;
                     state->cursor[k] = 6;

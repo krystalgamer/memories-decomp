@@ -37,11 +37,11 @@ void func_80147B18(void *buffer, s32 phase)
             DuelEffect_InitRandomVectorsNegatedY(work->rays, work->config->ray_range,
                          work->config->ray_range, work->config->ray_range,
                          work->config->ray_count);
-            func_8014F180(work->config->particle_speed, work->positions,
+            DuelEffect_InitParticleVectorsNegatedY(work->config->particle_speed, work->positions,
                          work->velocities, work->config->particle_count);
             work->scale = 4096;
             work->frame = 0;
-            func_8014F020((u8 *)&work->color, work->config->color.r,
+            DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color.r,
                          work->config->color.g, work->config->color.b);
         }
     } else if (work->cross_frame != 0) {
@@ -64,7 +64,7 @@ void func_80147B18(void *buffer, s32 phase)
             func_80156E58((u8 *)&work->color, work->config->ray_width, work->rays,
                          work->config->ray_count, 64);
             for (i = 0; i < work->config->particle_count; i++) {
-                func_8014F2D4(quad, &work->positions[i]);
+                DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
                 func_80156064((u8 *)&work->color, quad, 1);
                 addVector(&work->positions[i], &work->velocities[i]);
                 /* The zero acceleration retains the original halfword read. */

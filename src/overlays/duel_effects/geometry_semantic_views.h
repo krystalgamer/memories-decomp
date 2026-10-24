@@ -41,4 +41,16 @@ extern void func_8014F490(SVECTOR *vertices, s32 width, s16 height);
 extern void func_8014FE00(SVECTOR *vertices, u16 size, u16 index);
 extern void func_8014FED4(SVECTOR *first, SVECTOR *second);
 
+extern void DuelEffect_InitParticleVectors(u16 scale, SVECTOR *positions, SVECTOR *velocities, u16 count) __asm__("func_8014F030");
+extern void DuelEffect_InitParticleVectorsNegatedY(u16 scale, SVECTOR *positions, SVECTOR *velocities, u16 count) __asm__("func_8014F180");
+extern void DuelEffect_InitOffsetQuadVertices(SVECTOR *vertices, SVECTOR *offset) __asm__("func_8014F2D4");
+extern void DuelEffect_InitSquareVertices(SVECTOR *vertices, u16 size) __asm__("func_8014F358");
+extern void DuelEffect_InitXZRectVertices(SVECTOR *vertices, u16 width, u16 height, u16 depth) __asm__("func_8014F3E8");
+
+extern void func_8014F030(u16 scale, SVECTOR *positions, SVECTOR *velocities, u16 count);
+extern void func_8014F180(u16 scale, SVECTOR *positions, SVECTOR *velocities, u16 count);
+extern void func_8014F2D4(SVECTOR *vertices, SVECTOR *offset);
+extern void func_8014F358(SVECTOR *vertices, u16 size);
+extern void func_8014F3E8(SVECTOR *vertices, u16 width, u16 height, u16 depth);
+
 #endif

@@ -68,7 +68,7 @@ void func_801481A8(void *buffer, s32 phase)
                 velocity->vy = -state->particles[i].vy / state->descriptor->frames;
                 velocity->vz = 0;
                 state->sizes[i] = state->descriptor->size;
-                func_8014F010(state->colors[i], 1);
+                DuelEffect_SetGrayColor(state->colors[i], 1);
                 state->flags[i] = 0;
             }
             for (i = 0; i < 48; i++) {
@@ -77,10 +77,10 @@ void func_801481A8(void *buffer, s32 phase)
                 velocity->vx = -state->particles_b[i].vx / state->descriptor->frames;
                 velocity->vy = -state->particles_b[i].vy / state->descriptor->frames;
                 velocity->vz = 0;
-                func_8014F010(state->colors_b[i], 1);
+                DuelEffect_SetGrayColor(state->colors_b[i], 1);
             }
             DuelEffect_InitRandomVectorsUnscaled(16, state->rotations);
-            func_8014F010(state->color, 1);
+            DuelEffect_SetGrayColor(state->color, 1);
             state->done = 0;
             state->frame = 0;
             state->particle_count = 0;
@@ -123,7 +123,7 @@ void func_801481A8(void *buffer, s32 phase)
         for (i = 0; i < state->particle_count; i++) {
             if ((u16)DuelEffect_HasNonzeroColor(state->colors[i]) != 0) {
                 setRGB0(packet, state->colors[i][0], state->colors[i][1], state->colors[i][2]);
-                func_8014F358(frame.quad, state->sizes[i]);
+                DuelEffect_InitSquareVertices(frame.quad, state->sizes[i]);
                 for (j = 0; j < 4; j++) {
                     SVECTOR *vertex = (SVECTOR *)((u8 *)&frame + j * 8 + 0x68);
                     SVECTOR *particle = (SVECTOR *)((u8 *)state + i * 8 + 0x4);
@@ -153,7 +153,7 @@ void func_801481A8(void *buffer, s32 phase)
         }
         for (i = 0; i < state->particle_b_count; i++) {
             if ((u16)DuelEffect_HasNonzeroColor(state->colors_b[i]) != 0) {
-                func_8014F2D4(frame.quad, &state->particles_b[i]);
+                DuelEffect_InitOffsetQuadVertices(frame.quad, &state->particles_b[i]);
                 func_80156064(state->colors_b[i], frame.quad, 0);
                 if (__builtin_abs(state->particles_b[i].vx) >= 17 ||
                     __builtin_abs(state->particles_b[i].vy) >= 17) {

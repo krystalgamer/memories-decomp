@@ -23,4 +23,9 @@ extern void func_801556F4(u8 *color, u16 step);
 extern void func_80155798(u8 *color);
 extern void func_80155864(u8 *color);
 
+extern void DuelEffect_SetGrayColor(u8 *color, u8 value) __asm__("func_8014F010");
+extern void DuelEffect_SetRgbColor(u8 *color, u8 red, u8 green, u8 blue) __asm__("func_8014F020");
+extern void func_8014F010(u8 *color, u8 value);
+extern void func_8014F020(u8 *color, u8 red, u8 green, u8 blue);
+
 #endif

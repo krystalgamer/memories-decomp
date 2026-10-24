@@ -74,7 +74,7 @@ void func_80152048(void *buffer, s32 phase)
         }
         work->active = 0;
         work->hidden = 0;
-        func_8014F010((u8 *)&work->color, 1);
+        DuelEffect_SetGrayColor((u8 *)&work->color, 1);
         work->stage = 0;
         work->swing = 0;
     } else {
@@ -181,7 +181,7 @@ void func_80152048(void *buffer, s32 phase)
                     packet->tpage = D_8015B748.pairs[20][0];
                     packet->clut = D_8015B748.pairs[20][1];
                     setRGB0(packet, 32, 32, 32);
-                    func_8014F358(vertices, 32);
+                    DuelEffect_InitSquareVertices(vertices, 32);
                     setVector(&rotation, 0, 0, 0);
                     setUV4(packet,
                         ((work->ages[i] / 3) % 4) * 32, (work->ages[i] / 12) * 32 + 192,

@@ -95,7 +95,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                       -work->particles[i].vx / 8,
                       -work->particles[i].vy / 8,
                       -work->particles[i].vz / 8);
-            func_8014F020((u8 *)&work->colors[i],
+            DuelEffect_SetRgbColor((u8 *)&work->colors[i],
                          work->config->color[0], work->config->color[1], work->config->color[2]);
             j = (rand() - rand()) % 4096;
             k = (rand() - rand()) % 4096;
@@ -116,13 +116,13 @@ void func_8014A8E4(void *buffer, s32 phase)
         work->hold = 0;
         work->active_particles = 0;
         work->fan_speed = 8;
-        func_8014F010((u8 *)&work->portal_color, 1);
-        func_8014F010((u8 *)&work->flame_color, 1);
-        func_8014F020((u8 *)&work->flash_color,
+        DuelEffect_SetGrayColor((u8 *)&work->portal_color, 1);
+        DuelEffect_SetGrayColor((u8 *)&work->flame_color, 1);
+        DuelEffect_SetRgbColor((u8 *)&work->flash_color,
                      work->config->color[0], work->config->color[1], work->config->color[2]);
-        func_8014F020((u8 *)&work->particle_color,
+        DuelEffect_SetRgbColor((u8 *)&work->particle_color,
                      work->config->color[0], work->config->color[1], work->config->color[2]);
-        func_8014F020((u8 *)&work->fan_color,
+        DuelEffect_SetRgbColor((u8 *)&work->fan_color,
                      work->config->fan_color[0] / 8,
                      work->config->fan_color[1] / 8,
                      work->config->fan_color[2] / 8);
@@ -268,7 +268,7 @@ void func_8014A8E4(void *buffer, s32 phase)
         if ((work->stage == 2 || work->stage == 3) &&
             (u16)DuelEffect_HasNonzeroColor((u8 *)&work->particle_color)) {
             if (work->frame % 2 == 0) {
-                func_8014F010((u8 *)&color, 255);
+                DuelEffect_SetGrayColor((u8 *)&color, 255);
             } else {
                 color = work->particle_color;
             }
@@ -334,7 +334,7 @@ void func_8014A8E4(void *buffer, s32 phase)
         if (work->stage == 2 || work->stage == 3) {
             for (i = 0; i < work->active_particles; i++) {
                 if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
-                    func_8014F2D4(vertices, &work->particles[i]);
+                    DuelEffect_InitOffsetQuadVertices(vertices, &work->particles[i]);
                     if (i % 4 == 0) {
                         func_80155BC0((u8 *)&work->colors[i], 4, 32, &work->particles[i]);
                     }
@@ -354,7 +354,7 @@ void func_8014A8E4(void *buffer, s32 phase)
                                       -work->particles[i].vx / 8,
                                       -work->particles[i].vy / 8,
                                       -work->particles[i].vz / 8);
-                            func_8014F020((u8 *)&work->colors[i],
+                            DuelEffect_SetRgbColor((u8 *)&work->colors[i],
                                          work->config->color[0], work->config->color[1], work->config->color[2]);
                         }
                     }
@@ -403,10 +403,10 @@ void func_8014A8E4(void *buffer, s32 phase)
             DuelEffect_DrawFullscreenColor((u8 *)&work->flash_color);
             if ((u16)DuelEffect_StepColorToTarget((u8 *)&work->flash_color, 192, 192, 192, 4)) {
                 work->stage = 4;
-                func_8014F010((u8 *)&work->flash_color, 255);
-                func_8014F020((u8 *)&work->particle_color,
+                DuelEffect_SetGrayColor((u8 *)&work->flash_color, 255);
+                DuelEffect_SetRgbColor((u8 *)&work->particle_color,
                              work->config->color[0], work->config->color[1], work->config->color[2]);
-                func_8014F030(4, work->particles, work->particle_velocities, 64);
+                DuelEffect_InitParticleVectors(4, work->particles, work->particle_velocities, 64);
             }
         }
         if (work->stage >= 4) {
@@ -415,7 +415,7 @@ void func_8014A8E4(void *buffer, s32 phase)
             setVector(&position, 0, -96, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
             for (i = 0; i < 64; i++) {
-                func_8014F2D4(vertices, &work->particles[i]);
+                DuelEffect_InitOffsetQuadVertices(vertices, &work->particles[i]);
                 func_80156064((u8 *)&work->particle_color, vertices, 8);
                 addVector(&work->particles[i], &work->particle_velocities[i]);
             }

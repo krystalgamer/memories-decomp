@@ -33,7 +33,7 @@ void func_8014C8FC(void *buffer, s32 phase)
             for (i = 0; i < 2; i++) {
                 DuelEffect_InitHalfStepXZRingVertices(175, 194, 16, (u16)(i * 8), work->rings[i], 4);
             }
-            func_8014F3E8(work->plane, 175, 16, 194);
+            DuelEffect_InitXZRectVertices(work->plane, 175, 16, 194);
             DuelEffect_InitRandomVectorsXYZ(work->particles, 175, 16, 194, 64);
             for (i = 0; i < 64; i++) {
                 work->speeds[i] = work->config->particle_speed / 2 +
@@ -41,14 +41,14 @@ void func_8014C8FC(void *buffer, s32 phase)
             }
             DuelEffect_InitRandomVectorsXYZ(work->columns, 139, 0, 182, 64);
             for (i = 0; i < 64; i++) {
-                func_8014F010((u8 *)&work->column_colors[i], 1);
+                DuelEffect_SetGrayColor((u8 *)&work->column_colors[i], 1);
                 work->ages[i] = 0;
             }
-            func_8014F020((u8 *)&work->color, work->config->color.r >> 3,
+            DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color.r >> 3,
                          work->config->color.g >> 3, work->config->color.b >> 3);
-            func_8014F010((u8 *)&work->screen_color, 255);
-            func_8014F010((u8 *)&work->ring_color, 1);
-            func_8014F010((u8 *)&work->plane_color, 1);
+            DuelEffect_SetGrayColor((u8 *)&work->screen_color, 255);
+            DuelEffect_SetGrayColor((u8 *)&work->ring_color, 1);
+            DuelEffect_SetGrayColor((u8 *)&work->plane_color, 1);
             work->height = 8;
             work->stage = 0;
             work->ring_ready = 0;
@@ -104,7 +104,7 @@ void func_8014C8FC(void *buffer, s32 phase)
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) && work->stage == 1) {
             for (i = 0; i < 64; i++) {
-                func_8014F2D4(quad, &work->particles[i]);
+                DuelEffect_InitOffsetQuadVertices(quad, &work->particles[i]);
                 func_80156064((u8 *)&work->color, quad, 80);
                 work->particles[i].vy -= work->speeds[i];
             }
@@ -138,7 +138,7 @@ void func_8014C8FC(void *buffer, s32 phase)
                         DuelEffect_DarkenColor((u8 *)&work->column_colors[i], 15);
                         if ((u16)DuelEffect_IsColorBlack((u8 *)&work->column_colors[i])) {
                             work->ages[i] = 0;
-                            func_8014F010((u8 *)&work->column_colors[i], 1);
+                            DuelEffect_SetGrayColor((u8 *)&work->column_colors[i], 1);
                         }
                     } else {
                         DuelEffect_StepColorToTarget((u8 *)&work->column_colors[i],
@@ -162,7 +162,7 @@ void func_8014C8FC(void *buffer, s32 phase)
         }
         if (work->stage == 0 && phase < -1) {
             if (work->config->mode == 2) {
-                func_8014F010((u8 *)&work->color, 64);
+                DuelEffect_SetGrayColor((u8 *)&work->color, 64);
             }
             work->stage = 1;
         }

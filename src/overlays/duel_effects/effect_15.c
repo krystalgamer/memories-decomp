@@ -41,7 +41,7 @@ void func_8014FF40(void *buffer, s32 phase)
             work->state = 0;
             work->timer = 0;
             work->scale = 4096;
-            func_8014F010((u8 *)&work->color, 1);
+            DuelEffect_SetGrayColor((u8 *)&work->color, 1);
         }
     } else if (work->cross_frame != 0) {
         if (work->cross_frame == 1) {
@@ -71,7 +71,7 @@ void func_8014FF40(void *buffer, s32 phase)
             } else {
                 setUV4(packet, 32, 64, 95, 64, 32, 127, 95, 127);
             }
-            func_8014F358(quad, 128);
+            DuelEffect_InitSquareVertices(quad, 128);
             for (i = 0; i < work->count; i++) {
                 setVector(&translation,
                     ((DisplayObject *)D_8015B7A0[i])->field_30.h.field_30,

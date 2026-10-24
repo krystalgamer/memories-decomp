@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "layered_drawing.h"
+#include "geometry_semantic_views.h"
 
 void func_80155BC0(u8 *color, u16 size, s16 depth, SVECTOR *offset)
 {
@@ -12,13 +13,13 @@ void func_80155BC0(u8 *color, u16 size, s16 depth, SVECTOR *offset)
     packet->polygon.clut = D_8015B748.named.clut_at_02;
     setUV4(&packet->polygon, 0, 0, 63, 0, 0, 63, 63, 63);
     setRGB0(&packet->polygon, color[0], color[1], color[2]);
-    func_8014F358(drawing.vertices, size);
+    DuelEffect_InitSquareVertices(drawing.vertices, size);
     for (i = 0; i < 4; i++) {
         addVector(&packet->vertices[i], offset);
     }
     func_80151218(&packet->polygon, drawing.vertices, depth, 1);
     setRGB0(&packet->polygon, color[0] >> 1, color[1] >> 1, color[2] >> 1);
-    func_8014F358(drawing.vertices, size * 2);
+    DuelEffect_InitSquareVertices(drawing.vertices, size * 2);
     for (i = 0; i < 4; i++) {
         addVector(&drawing.vertices[i], offset);
     }

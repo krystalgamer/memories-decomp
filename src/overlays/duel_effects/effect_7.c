@@ -50,21 +50,21 @@ void func_801587D8(void *buffer, s32 phase)
                 work->velocities[i].vy =
                     (((rand() - rand()) % 4096) * EFFECT_7_TARGET_HEIGHT / 4096 -
                      work->trails[i][0].vy) / work->config->duration;
-                func_8014F020((u8 *)&work->colors[i], work->config->color[0],
+                DuelEffect_SetRgbColor((u8 *)&work->colors[i], work->config->color[0],
                              work->config->color[1], work->config->color[2]);
                 work->ages[i] = 0;
                 work->sizes[i] = work->config->size;
                 work->scales[i] = 0;
                 work->states[i] = 0;
-                func_8014F030(work->config->particle_speed, work->particles[i],
+                DuelEffect_InitParticleVectors(work->config->particle_speed, work->particles[i],
                              work->particle_velocities[i], 32);
             }
             setVector(&work->number_position, 0, 0, 0);
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }
-            func_8014F010((u8 *)&work->background_color, 1);
-            func_8014F020((u8 *)&work->number_color, work->config->number_color[0],
+            DuelEffect_SetGrayColor((u8 *)&work->background_color, 1);
+            DuelEffect_SetRgbColor((u8 *)&work->number_color, work->config->number_color[0],
                          work->config->number_color[1], work->config->number_color[2]);
             work->number_mode = 0;
             work->active = 0;

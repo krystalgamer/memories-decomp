@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "drawing_tail.h"
+#include "geometry_semantic_views.h"
 
 void func_80155F94(u8 *color)
 {
@@ -11,7 +12,7 @@ void func_80155F94(u8 *color)
     packet->tpage = D_8015B748.named.page_at_08;
     packet->clut = D_8015B748.named.clut_at_0A;
     setUV4(packet, 0, 64, 63, 64, 0, 127, 63, 127);
-    func_8014F358(vertices, 64);
+    DuelEffect_InitSquareVertices(vertices, 64);
     setRGB0(packet, color[0] >> 1, color[1] >> 1, color[2] >> 1);
     func_80151218(packet, vertices, 0, 1);
 }

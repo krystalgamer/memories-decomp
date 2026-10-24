@@ -23,7 +23,7 @@ void func_8014E3EC(void *buffer, s32 phase)
     slots[1] = (DuelEffect21Work *)(gRuntime_pSharedWorkBase + 0x2880);
     if (phase >= 0) {
         if (slots[__builtin_abs(phase) % 2]->enabled != 0) {
-            func_8014F010((u8 *)&slots[__builtin_abs(phase) % 2]->color, 0);
+            DuelEffect_SetGrayColor((u8 *)&slots[__builtin_abs(phase) % 2]->color, 0);
             slots[__builtin_abs(phase) % 2]->enabled = 0;
             gDuelEffect_pActiveRequest->field_1A = phase;
         } else {
@@ -37,7 +37,7 @@ void func_8014E3EC(void *buffer, s32 phase)
                 DuelEffect_SwapVectorRecords(&slots[__builtin_abs(phase) % 2]->positions[a],
                              &slots[__builtin_abs(phase) % 2]->positions[b]);
             }
-            func_8014F010((u8 *)&slots[__builtin_abs(phase) % 2]->color, 128);
+            DuelEffect_SetGrayColor((u8 *)&slots[__builtin_abs(phase) % 2]->color, 128);
             /* The original initializes only tile 8 after the eight swaps. */
             slots[__builtin_abs(phase) % 2]->tiles[i] = rand() % 3;
             slots[__builtin_abs(phase) % 2]->enabled = 1;
@@ -87,7 +87,7 @@ void func_8014E3EC(void *buffer, s32 phase)
         if ((u16)DuelEffect_IsColorBlack((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color) ||
             slots[__builtin_abs(phase + 1) % 2]->enabled == 0) {
             slots[__builtin_abs(phase + 1) % 2]->enabled = 0;
-            func_8014F010((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color, 0);
+            DuelEffect_SetGrayColor((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color, 0);
             gDuelEffect_bRequestFinished = 1;
         }
     }

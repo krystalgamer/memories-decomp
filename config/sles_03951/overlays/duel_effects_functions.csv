@@ -17,13 +17,13 @@ address,size,name,status,module,notes
 0x8014EC8C,0x180,DuelEffect_InitHalfStepXZRingVertices,matching_c,overlay/duel_effects,Complete offset-height polygon; whole-bank exact match; gcc_2_8_1_g0_split; see notes/overlays/duel-effect-polygon.md.
 0x8014EE0C,0x120,DuelEffect_InitXZRingVertices,matching_c,overlay/duel_effects,Unchanged accepted French shared C; full contiguous grouped object and independent Spanish whole-bank proof; gcc_2_8_1_g0_split.
 0x8014EF2C,0xE4,DuelEffect_InitRandomVectorsUnscaled,matching_c,overlay/duel_effects,Shared signed random-vector C preserving six calls per vertex and padding; full Spanish bank and exact object/ELF ownership; gcc_2_8_1_g0_split.
-0x8014F010,0x10,func_8014F010,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F020,0x10,func_8014F020,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F030,0x150,func_8014F030,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F180,0x154,func_8014F180,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F2D4,0x84,func_8014F2D4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F358,0x90,func_8014F358,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8014F3E8,0xA8,func_8014F3E8,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F010,0x10,DuelEffect_SetGrayColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F020,0x10,DuelEffect_SetRgbColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F030,0x150,DuelEffect_InitParticleVectors,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F180,0x154,DuelEffect_InitParticleVectorsNegatedY,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F2D4,0x84,DuelEffect_InitOffsetQuadVertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F358,0x90,DuelEffect_InitSquareVertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8014F3E8,0xA8,DuelEffect_InitXZRectVertices,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F490,0x94,DuelEffect_InitRectVertices,matching_c,overlay/duel_effects,Unchanged accepted French rectangle vertices; independent Spanish full-bank and object/ELF ownership proof; gcc_2_8_1_g0_split.
 0x8014F524,0x40,func_8014F524,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014F564,0x6C,func_8014F564,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

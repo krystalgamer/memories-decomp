@@ -32,7 +32,7 @@ void func_80154688(void *buffer, s32 phase)
                 DuelEffect_InitHalfStepXYRingVertices(24 + i * 6, 28 + i * 6, work->quads[i], 4);
             }
             DuelEffect_InitRandomVectorsUnscaled(16, work->rotations);
-            func_8014F010((u8 *)&work->color, 1);
+            DuelEffect_SetGrayColor((u8 *)&work->color, 1);
             work->scale = 4096;
             work->frame = 0;
         }

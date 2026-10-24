@@ -50,15 +50,15 @@ void func_80154B30(void *buffer, s32 phase)
                     (work->config->target_y +
                      ((rand() - rand()) % 4096) * EFFECT_6_TARGET_SPREAD / 4096 -
                      work->trails[i][0].vy) / work->config->duration;
-                func_8014F010((u8 *)&work->colors[i], 1);
-                func_8014F020((u8 *)&work->colors[i],
+                DuelEffect_SetGrayColor((u8 *)&work->colors[i], 1);
+                DuelEffect_SetRgbColor((u8 *)&work->colors[i],
                              work->config->color[0], work->config->color[1],
                              work->config->color[2]);
                 work->ages[i] = 0;
                 work->sizes[i] = work->config->size;
                 work->scales[i] = 0;
                 work->states[i] = 0;
-                func_8014F030(work->config->particle_speed, work->particles[i],
+                DuelEffect_InitParticleVectors(work->config->particle_speed, work->particles[i],
                              work->particle_velocities[i], 32);
             }
             setVector(&work->column, 0, -60, 0);
@@ -67,8 +67,8 @@ void func_80154B30(void *buffer, s32 phase)
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }
-            func_8014F010((u8 *)&work->background_color, 1);
-            func_8014F020((u8 *)&work->column_color,
+            DuelEffect_SetGrayColor((u8 *)&work->background_color, 1);
+            DuelEffect_SetRgbColor((u8 *)&work->column_color,
                          work->config->column_color[0],
                          work->config->column_color[1],
                          work->config->column_color[2]);

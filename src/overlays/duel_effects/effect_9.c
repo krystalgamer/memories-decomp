@@ -33,14 +33,14 @@ void func_801593A8(void *buffer, s32 phase)
             setVector(&work->positive, 0, 0, 0);
             work->positive_step = 0;
             DuelEffect_InitRandomVectorsUnscaled(work->config->rotation_count, work->rotations);
-            func_8014F030(work->config->particle_speed, work->positions,
+            DuelEffect_InitParticleVectors(work->config->particle_speed, work->positions,
                          work->velocities, 32);
-            func_8014F020((u8 *)&work->negative_color, 255, 64, 64);
-            func_8014F020((u8 *)&work->background_color, work->config->color[0] >> 2,
+            DuelEffect_SetRgbColor((u8 *)&work->negative_color, 255, 64, 64);
+            DuelEffect_SetRgbColor((u8 *)&work->background_color, work->config->color[0] >> 2,
                          work->config->color[1] >> 2, work->config->color[2] >> 2);
-            func_8014F020((u8 *)&work->effects_color, work->config->color[0],
+            DuelEffect_SetRgbColor((u8 *)&work->effects_color, work->config->color[0],
                          work->config->color[1], work->config->color[2]);
-            func_8014F020((u8 *)&work->positive_color, work->config->number_color[0],
+            DuelEffect_SetRgbColor((u8 *)&work->positive_color, work->config->number_color[0],
                          work->config->number_color[1], work->config->number_color[2]);
             work->bounce_count = 1;
             work->unused_72C = 0;
@@ -105,12 +105,12 @@ void func_801593A8(void *buffer, s32 phase)
                 DuelEffect_DarkenColor((u8 *)&work->positive_color, 15);
             }
         } else if (work->positive.vy >= 200) {
-            func_8014F010((u8 *)&work->positive_color, 0);
+            DuelEffect_SetGrayColor((u8 *)&work->positive_color, 0);
         }
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->effects_color)) {
             if (work->stage >= 2) {
                 for (i = 0; i < 32; i++) {
-                    func_8014F2D4(quad, &work->positions[i]);
+                    DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
                     func_80156064((u8 *)&work->effects_color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
@@ -143,8 +143,8 @@ void func_801593A8(void *buffer, s32 phase)
         if (work->stage == 1) {
             SD_SEPlayFull(26);
             gDuelEffect_pActiveRequest->field_1D = 1;
-            func_8014F020((u8 *)&work->background_color, 63, 16, 63);
-            func_8014F020((u8 *)&work->effects_color, 255, 64, 255);
+            DuelEffect_SetRgbColor((u8 *)&work->background_color, 63, 16, 63);
+            DuelEffect_SetRgbColor((u8 *)&work->effects_color, 255, 64, 255);
             work->stage = 2;
         }
         work->frame += frame_step;

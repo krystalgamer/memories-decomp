@@ -27,11 +27,11 @@ void func_80150E00(void *buffer, s32 phase)
                          work->config->ring_height * i, work->rings[i], 32);
         }
         copyVector(&work->origin, &D_8015B7F8);
-        func_8014F180(work->config->particle_speed, work->positions,
+        DuelEffect_InitParticleVectorsNegatedY(work->config->particle_speed, work->positions,
                      work->velocities, 32);
         work->scale = 4096;
         work->frame = 0;
-        func_8014F020((u8 *)&work->color, work->config->color.r,
+        DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color.r,
                      work->config->color.g, work->config->color.b);
     } else {
         frame_step = Model_GetFrameStep();
@@ -41,7 +41,7 @@ void func_80150E00(void *buffer, s32 phase)
         DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 3);
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
             for (i = 0; i < 32; i++) {
-                func_8014F2D4(quad, &work->positions[i]);
+                DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
                 func_80156064((u8 *)&work->color, quad, 1);
                 addVector(&work->positions[i], &work->velocities[i]);
             }
