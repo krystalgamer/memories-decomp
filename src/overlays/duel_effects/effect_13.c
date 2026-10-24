@@ -4,6 +4,7 @@
 #include "geometry_semantic_views.h"
 #include "number_semantic_views.h"
 #include "primitive_semantic_views.h"
+#include "layered_semantic_views.h"
 
 void func_801503F8(void *buffer, s32 phase, s16 number)
 {
@@ -85,7 +86,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
                 D_8015B748.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
                     work->config->blend, D_8015AC48[0].px, D_8015AC48[0].py);
             }
-            func_80155BC0((u8 *)&work->glow_color, work->config->size, 1, position_pointer);
+            DuelEffect_DrawLayeredTileQuad((u8 *)&work->glow_color, work->config->size, 1, position_pointer);
             if (work->config->blend != 1) {
                 color = work->glow_color;
                 color.r /= 4;
@@ -93,7 +94,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
                 color.r /= 4;
                 D_8015B748.named.page_at_00 = getTPage(D_8015AC48[0].pmode,
                     1, D_8015AC48[0].px, D_8015AC48[0].py);
-                func_80155BC0((u8 *)&color, work->config->size * 2, 16, position_pointer);
+                DuelEffect_DrawLayeredTileQuad((u8 *)&color, work->config->size * 2, 16, position_pointer);
             }
             if (work->active == 48) {
                 DuelEffect_DarkenColor((u8 *)&work->glow_color, 15);
@@ -143,7 +144,7 @@ void func_801503F8(void *buffer, s32 phase, s16 number)
                 (u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
                 gDuelEffect_pActiveRequest->field_1D = 1;
                 DuelEffect_SetTransformMatrix(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
-                func_80155BC0((u8 *)&work->colors[i], work->config->particle_size, 1, &position);
+                DuelEffect_DrawLayeredTileQuad((u8 *)&work->colors[i], work->config->particle_size, 1, &position);
             }
         }
         if (work->active >= 12 && (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
