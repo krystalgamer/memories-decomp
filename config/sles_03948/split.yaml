@@ -1062,9 +1062,6 @@ segments:
   - - 241868
     - c
     - game/sound_voice_setup
-  - - 242536
-    - c
-    - game/sd_reset_secondary_playback_thunk
   - - 242568
     - c
     - game/sound_voice_envelope

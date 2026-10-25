@@ -401,7 +401,6 @@ segments:
       - [0x03AD08, c, game/sound_voice_volume]
       - [0x03AD84, c, game/sound_spatialization]
       - [0x03AEC8, c, game/sound_voice_setup]
-      - [0x03B164, c, game/sd_reset_secondary_playback_thunk]
       - [0x03B184, c, game/sound_voice_envelope]
       - [0x03B24C, c, game/sd_key_off_secondary_object]
       - [0x03B2E0, c, game/sound_secondary_object_selection]

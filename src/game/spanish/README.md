@@ -26,7 +26,7 @@ definition order. Integration then passed the complete executable hash and
 exact linked-symbol extent checks.
 
 The same batch directly reuses the European bust-up entry wrapper (now part
-of `european/debug_menu_update.c`), `european/func_8003C224.c`, `sd_reset_secondary_playback_thunk.c`, and `func_8005C690.c` (now part of `mdec_sync.c`) for another
+of `european/debug_menu_update.c`), `european/func_8003C224.c`, `sd_reset_secondary_playback_thunk.c` (now part of `sound_voice_setup.c`), and `func_8005C690.c` (now part of `mdec_sync.c`) for another
 four functions / 476 bytes. These small units were selected from the remaining
 game-function inventory, then independently linked and byte-compared; a
 masked-instruction resemblance alone was not accepted.

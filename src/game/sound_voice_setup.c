@@ -5,6 +5,7 @@
 #include "../psyq/libspu.h"
 #include "sound_sequence_constants.h"
 #include "sound_spatialization.h"
+#include "sd_reset_secondary_playback_thunk.h"
 
 #define SD_SECONDARY_OFFSET_VIEW(type, state, offset) \
     ((type *)((u8 *)(state) + (offset)))
@@ -144,4 +145,9 @@ void SD_ResetSecondaryPlayback(void) {
     } while (i < SD_SEQUENCE_CHANNEL_COUNT);
 
     SpuSetKey(SPU_OFF, mask);
+}
+
+void SD_ResetSecondaryPlaybackThunk(void)
+{
+    SD_ResetSecondaryPlayback();
 }
