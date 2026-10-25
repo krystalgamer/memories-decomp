@@ -39,7 +39,11 @@ extern u8 gModel_szAnimationSoundTraceFormat[];
  * field_DFE + 3 when it has frames, moves the camera towards the other slot
  * for two thirds of that length (at least 60, or the record's override), and
  * sets gModel_bCameraHoldState from the record's flag bits. */
+#ifdef VERSION_JAPAN
+extern void Model_StartBattleSlotAction(s32 index) asm("func_800547E0");
+#else
 void Model_StartBattleSlotAction(s32 index);
+#endif
 void Model_PlaySlotAnimationSounds(s32 index);
 
 /* Last selected model IDs (including slot 2's stage) and the two model flags

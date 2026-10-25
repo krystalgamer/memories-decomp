@@ -12,7 +12,11 @@
  * yaw to a quarter turn -- or, if the other slot is ready, to that slot's
  * coordinate yaw plus a quarter turn modulo a full turn -- clears the x/z
  * rotation and translation, updates the matrix and runs the slot handlers. */
+#ifdef VERSION_JAPAN
+extern void Model_UpdateCreditsMonsterSlot(s32 index) asm("func_80053E40");
+#else
 void Model_UpdateCreditsMonsterSlot(s32 index);
+#endif
 void Model_UpdateCreditsPresentation(void);
 
 /* Scene mode 15's phase controller, which Model_UpdateScene runs while

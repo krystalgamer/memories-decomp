@@ -903,7 +903,7 @@ address,size,name,status,module,notes
 0x8004FB40,0x94,Model_RefreshEffectKeySlotValues,matching_c,game,
 0x8004FBD4,0x58,Model_BuildCubicCoefficients,matching_c,game,
 0x8004FC2C,0x628,Model_InitSlot,matching_c,game,
-0x80050254,0x48C,func_80051610,matching_c,game,
+0x80050254,0x48C,tent_Model_RebaseTexturedPrimitives,matching_c,game,
 0x800506E0,0x1D0,Model_ResetSlotAnimationTables,matching_c,game,
 0x800508B0,0x1B8,Model_BuildSlotAnimationTables,matching_c,game,
 0x80050A68,0x200,Model_LinkSlotAnimationRows,matching_c,game,

@@ -923,7 +923,7 @@ address,size,name,status,module,notes
 0x80050E08,0xF0,MainMenu_CreateTradeReadyIndicator,matching_c,game,
 0x80050EF8,0xF0,MainMenu_CreateTradeDecisionMenu,matching_c,game,
 0x80050FE8,0x628,Model_InitSlot,matching_c,game,
-0x80051610,0x48C,func_80051610,matching_c,game,
+0x80051610,0x48C,tent_Model_RebaseTexturedPrimitives,matching_c,game,
 0x80051A9C,0x1D0,Model_ResetSlotAnimationTables,matching_c,game,
 0x80051C6C,0x1B8,Model_BuildSlotAnimationTables,matching_c,game,
 0x80051E24,0x200,Model_LinkSlotAnimationRows,matching_c,game,
