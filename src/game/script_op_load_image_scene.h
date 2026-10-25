@@ -3,6 +3,8 @@
 
 #include "../types.h"
 
+#define SCRIPT_LOAD_IMAGE_SCENE_CONTROL_FADE_PHASE 0x800
+
 /* gScript_apfnCommandHandlers handler: enters a script image scene. Resets the viewport pair,
  * releases the three image slots through ScriptImage_ReleaseObjects, then
  * takes a 16-bit

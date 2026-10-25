@@ -122,6 +122,10 @@ extern s16 gScript_WaitCounter;
 struct DisplayObject;
 extern struct DisplayObject *G32 gScript_TransitionObject;
 
+#define SCRIPT_IMAGE_OPERAND_ID_MASK 0xFFF
+#define SCRIPT_IMAGE_OPERAND_SKIP_FADE_IN 0x4000
+#define SCRIPT_IMAGE_OPERAND_HAS_VIEWPORT 0x8000
+
 /* The show-image command's halfword operand. Script_OpLoadImageScene and
  * Script_OpStageImage
  * read it from the stream as `cursor[0] | (cursor[1] << 8)`: the low twelve
@@ -133,7 +137,8 @@ extern struct DisplayObject *G32 gScript_TransitionObject;
  * Retail is sh/lhu gp-relative at all three, so the plain u16 they already wrote.
  *
  * The text callbacks store TextStream_ReadU16LE's result through $at, requiring
- * the unsized-array arm rather than a small scalar. */
+ * the unsized-array arm rather than a small scalar. Their optional viewport
+ * form consumes one byte then one halfword, not two halfwords. */
 #ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 extern u16 gScript_ImageOperand[];
 #else

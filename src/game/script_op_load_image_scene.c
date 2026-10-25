@@ -30,8 +30,8 @@ void Script_OpLoadImageScene(void)
         gScript_StreamCursor = next;
         value = script[0] | (script[1] << 8);
         gScript_ImageOperand = value;
-        if ((value & 0x8000) != 0) {
-            gScript_ImageOperand = value & 0xFFF;
+        if ((value & SCRIPT_IMAGE_OPERAND_HAS_VIEWPORT) != 0) {
+            gScript_ImageOperand = value & SCRIPT_IMAGE_OPERAND_ID_MASK;
             next2 = script + 4;
             gScript_StreamCursor = next2;
             gGraphics_sViewportX = script[2] | (next[1] << 8);
@@ -42,10 +42,10 @@ void Script_OpLoadImageScene(void)
             SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), gScript_ImageOperand);
     }
     flags = gScript_wCommandWord;
-    if ((flags & 0x800) == 0) {
+    if ((flags & SCRIPT_LOAD_IMAGE_SCENE_CONTROL_FADE_PHASE) == 0) {
         if (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              gFile_dwCancelRequestState_abs) == 0) {
-            gScript_wCommandWord = flags | 0x800;
+            gScript_wCommandWord = flags | SCRIPT_LOAD_IMAGE_SCENE_CONTROL_FADE_PHASE;
             ScriptImage_RebuildObjects(
                 SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), -1);
             Fade_StartIn();

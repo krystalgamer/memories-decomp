@@ -34,7 +34,7 @@
 #endif
 #define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
 
-void Script_OpStageImage(void){register unsigned char*p=gScript_StreamCursor;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;gScript_ViewportTargetY=0;gScript_ViewportTargetX=0;gScript_StreamCursor=p2;value=p[0]|(p[1]<<8);gScript_ImageOperand=value;if(value&0x8000){p4=p+4;gScript_StreamCursor=p4;gScript_ViewportTargetX=p[2]|(p2[1]<<8);gScript_StreamCursor=p+6;gScript_ViewportTargetY=p[4]|(p4[1]<<8);}gScript_wCommandWord=5;}
+void Script_OpStageImage(void){register unsigned char*p=gScript_StreamCursor;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;gScript_ViewportTargetY=0;gScript_ViewportTargetX=0;gScript_StreamCursor=p2;value=p[0]|(p[1]<<8);gScript_ImageOperand=value;if(value&SCRIPT_IMAGE_OPERAND_HAS_VIEWPORT){p4=p+4;gScript_StreamCursor=p4;gScript_ViewportTargetX=p[2]|(p2[1]<<8);gScript_StreamCursor=p+6;gScript_ViewportTargetY=p[4]|(p4[1]<<8);}gScript_wCommandWord=5;}
 
 void Script_OpShowImage(void) {
     DisplayObject *rec;
@@ -67,8 +67,8 @@ void Script_OpShowImage(void) {
     }
 
     flags = gScript_wCommandWord;
-    if (!(flags & 0x4000)) {
-        gScript_wCommandWord = flags | 0x4000;
+    if (!(flags & SCRIPT_SHOW_IMAGE_CONTROL_TRANSFER_PHASE)) {
+        gScript_wCommandWord = flags | SCRIPT_SHOW_IMAGE_CONTROL_TRANSFER_PHASE;
         rec = DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 3);
         DisplayObject_ConfigureScreenSprite(rec, 0, 0, VRAM_COPY_WIDTH,
             VRAM_COPY_HEIGHT, 0, 0, 0x17, SCRIPT_IMAGE_SCREEN_X,
@@ -82,15 +82,15 @@ void Script_OpShowImage(void) {
             Fade_StartOutKeepOverlay(gFade_bWhiteLatch);
         }
         ScriptImage_RequestTransfer(
-            SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), gScript_ImageOperand & 0xFFF);
+            SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), gScript_ImageOperand & SCRIPT_IMAGE_OPERAND_ID_MASK);
         return;
     }
-    if (!(flags & 0x2000)) {
-        gScript_wCommandWord = flags | 0x2000;
+    if (!(flags & SCRIPT_SHOW_IMAGE_CONTROL_REBUILD_PHASE)) {
+        gScript_wCommandWord = flags | SCRIPT_SHOW_IMAGE_CONTROL_REBUILD_PHASE;
         DisplayObject_ReleaseIfPresent(gScript_TransitionObject);
         ScriptImage_RebuildObjects(
             SCRIPT_IMAGE_OBJECT_SET_VIEW(gSceneScript_Slots), -1);
-        if (gFade_bWhiteLatch == 0 && !(gScript_ImageOperand & 0x4000)) {
+        if (gFade_bWhiteLatch == 0 && !(gScript_ImageOperand & SCRIPT_IMAGE_OPERAND_SKIP_FADE_IN)) {
             Fade_StartInKeepOverlay();
         }
         return;
