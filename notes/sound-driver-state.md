@@ -978,8 +978,8 @@ The header uses GCC-2.8.1-compatible negative-array assertions for the
 the major top-level offsets.
 
 The adjacent envelope setters `SD_SetVoiceEnvelopeFromTone` (`0x8004A6F8`) and
-`SD_ResetVoiceEnvelope` (`0x8004A764`) are again one
-[`sound_voice_envelope.c`](../src/game/sound_voice_envelope.c) unit after post-terminal refinements removed
+`SD_ResetVoiceEnvelope` (`0x8004A764`) are pure C in
+[`sound_voice_setup.c`](../src/game/sound_voice_setup.c), following the pitch and reset helpers, since post-terminal refinements removed
 their hard-register and inline-assembly dependency. They use the same
 `SpuVoiceAttr` block at `+0x4C0`: the first copies ADSR values from the
 caller's tone record, while the second sets the initialization defaults before

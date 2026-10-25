@@ -79,8 +79,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004A27C,SD_SetVoiceVolume,matching_c,game,C,src/game/sound_voice_volume.c,read,32,s->voice_attr.voice = gSD_adwVoiceMasks[voice];
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004A43C,SD_UpdateSecondaryObjectPitch,matching_c,game,C,src/game/sound_voice_setup.c,read,32,gSD_pSecondaryState->voice_attr.voice = gSD_adwVoiceMasks[p->voice_index];
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004A518,SD_ResetSecondaryPlayback,matching_c,game,C,src/game/sound_voice_setup.c,address,32,tbl = gSD_adwVoiceMasks;
-0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004A6F8,SD_SetVoiceEnvelopeFromTone,matching_c,game,C,src/game/sound_voice_envelope.c,read,32,p->voice_attr.voice = gSD_adwVoiceMasks[index];
-0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004A764,SD_ResetVoiceEnvelope,matching_c,game,C,src/game/sound_voice_envelope.c,read,32,p->voice_attr.voice = gSD_adwVoiceMasks[index];
+0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004A6F8,SD_SetVoiceEnvelopeFromTone,matching_c,game,C,src/game/sound_voice_setup.c,read,32,p->voice_attr.voice = gSD_adwVoiceMasks[index];
+0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004A764,SD_ResetVoiceEnvelope,matching_c,game,C,src/game/sound_voice_setup.c,read,32,p->voice_attr.voice = gSD_adwVoiceMasks[index];
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004A7C0,SD_KeyOffSecondaryObject,matching_c,game,C,src/game/sd_key_off_secondary_object.c,address,32,item = &gSD_adwVoiceMasks[index];
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004AAFC,SD_UpdateSecondaryObjectVoices,matching_c,game,C,src/game/sd_update_secondary_object_voices.c,address,32,t = gSD_adwVoiceMasks;
 0x80011434,gSD_adwVoiceMasks,gSD_adwVoiceMasks,0x8004ADE8,SD_KeyOnSecondaryNote,matching_c,game,C,src/game/sound_sequence_channel_events.c,address,32,s32 *m = &gSD_adwVoiceMasks[vi]; | voice = &gSD_adwVoiceMasks[idx];
@@ -2205,8 +2205,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A2F8,SD_UpdateSecondaryObjectVolumes,matching_c,game,C,src/game/sound_spatialization.c,read,,SDSecondaryState *state = gSD_pSecondaryState; | current = gSD_pSecondaryState; | (+1 more)
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A43C,SD_UpdateSecondaryObjectPitch,matching_c,game,C,src/game/sound_voice_setup.c,read,,SpuSetVoiceAttr(&gSD_pSecondaryState->voice_attr); | e = &gSD_pSecondaryState->channels[p->channel_index]; | (+3 more)
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A518,SD_ResetSecondaryPlayback,matching_c,game,C,src/game/sound_voice_setup.c,read,,"SDSecondaryRecord, gSD_pSecondaryState, channel_off); | SDSequenceTrack, gSD_pSecondaryState, track_off); | (+1 more)"
-0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A6F8,SD_SetVoiceEnvelopeFromTone,matching_c,game,C,src/game/sound_voice_envelope.c,read,,SDSecondaryState *p = gSD_pSecondaryState;
-0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A764,SD_ResetVoiceEnvelope,matching_c,game,C,src/game/sound_voice_envelope.c,read,,SDSecondaryState *p = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A6F8,SD_SetVoiceEnvelopeFromTone,matching_c,game,C,src/game/sound_voice_setup.c,read,,SDSecondaryState *p = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A764,SD_ResetVoiceEnvelope,matching_c,game,C,src/game/sound_voice_setup.c,read,,SDSecondaryState *p = gSD_pSecondaryState;
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A7C0,SD_KeyOffSecondaryObject,matching_c,game,C,src/game/sd_key_off_secondary_object.c,read,,"gSD_pSecondaryState, SD_SECONDARY_OBJECT_ARRAY_OFFSET + object_offset);"
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A854,SD_FindLowestPrioritySecondaryObject,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = gSD_pSecondaryState; | state = gSD_pSecondaryState;
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004A8E4,SD_PrepareSecondaryObjectReuse,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = gSD_pSecondaryState;
