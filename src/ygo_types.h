@@ -1020,7 +1020,7 @@ struct FileTransferDescriptor {
     u32 position;
     u32 phase_index;
     u16 buffer_index;
-    u8 done;
+    u8 transfer_mode;
     u8 substate;
 };
 
@@ -1060,8 +1060,8 @@ typedef char FileTransferDescriptor_field_32_offset_must_be_0x32[
 typedef char FileTransferDescriptor_callback_data_offset_must_be_0x38[
     YGO_TYPE_OFFSET(FileTransferDescriptor, callback_data) == 0x38 ? 1 : -1
 ];
-typedef char FileTransferDescriptor_done_offset_must_be_0x46[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, done) == 0x46 ? 1 : -1
+typedef char FileTransferDescriptor_transfer_mode_offset_must_be_0x46[
+    YGO_TYPE_OFFSET(FileTransferDescriptor, transfer_mode) == 0x46 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_substate_offset_must_be_0x47[
     YGO_TYPE_OFFSET(FileTransferDescriptor, substate) == 0x47 ? 1 : -1

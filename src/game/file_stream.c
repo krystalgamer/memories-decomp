@@ -73,7 +73,7 @@ FileTransferDescriptor *File_InitTransferDescriptor(
 {
     transfer->loader_argument = source;
     File_SetTransferLocation(transfer, flags, sector, -vertical);
-    transfer->done = 1;
+    transfer->transfer_mode = 1;
     transfer->substate = 0;
     transfer->buffer_index = 0;
     transfer->phase_size = 0;
@@ -85,12 +85,12 @@ FileTransferDescriptor *File_InitTransferDescriptor(
         } else {
             transfer->phase_size = transfer->total_bytes;
             if (length < 0) {
-                transfer->done = 1;
+                transfer->transfer_mode = 1;
                 transfer->alternate_sector_destination = length;
                 transfer->sector_destination = length;
             } else {
                 flags |= 0x10000;
-                transfer->done = 2;
+                transfer->transfer_mode = 2;
                 transfer->field_30.h.field_32 = ((u32)length) >> 16;
                 transfer->field_30.h.counter = length;
                 transfer->w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
@@ -115,7 +115,7 @@ FileTransferDescriptor *File_RequestSecondarySeek(s32 file_index, s32 sector_off
     File_SetTransferLocation(
         transfer, file_index & FILE_TRANSFER_FILE_INDEX_MASK, sector_offset, 0
     );
-    transfer->done = 0;
+    transfer->transfer_mode = 0;
     transfer->status_flags = 0x00100000;
     gFile_dwTransferState |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return transfer;

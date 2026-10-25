@@ -62,7 +62,7 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->phase_size =
             OPTIONS_PACKAGE_STAGE_MODE_0_SECTORS * FILE_SECTOR_SIZE;
         gFile_dwTransferState |= 0x10000;
-        object->done = 2;
+        object->transfer_mode = 2;
         object->sector_destination = gFile_TransferBufferBase;
         object->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
@@ -72,7 +72,7 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = gFile_TransferBufferBase;
         object->sector_destination = gFile_TransferBufferBase;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 2:
@@ -85,7 +85,7 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->sector_destination = (s32)gDisplay_abResourceBank0;
         object->phase_size = OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 3:
@@ -100,7 +100,7 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->phase_size = OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
 #endif
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
     }
 }
@@ -151,7 +151,7 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gFile_dwTransferState &= 0xFFDDFFFF;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
         gFile_dwTransferState |= 0x10000;
-        object->done = 2;
+        object->transfer_mode = 2;
         object->sector_destination = gFile_TransferBufferBase;
         object->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
         break;
@@ -161,7 +161,7 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = gFile_TransferBufferBase;
         object->sector_destination = gFile_TransferBufferBase;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 2:
@@ -174,7 +174,7 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->sector_destination = (s32)gDisplay_abResourceBank0;
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
     }
 }

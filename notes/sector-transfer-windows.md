@@ -118,6 +118,50 @@ profiles remain authoritative. Naming these fields does not normalize
 flags, invalid-mode behavior, callbacks, signed inputs, buffer counts,
 overlap behavior, or completion/failure policy.
 
+## Transfer-mode byte, not a completion flag
+
+The former `FileTransferDescriptor.done` member at `+0x46` is now
+`transfer_mode`. This is a high-confidence consumer-derived name, not an
+original symbol: `File_TransferReadyCallback` switches on the byte to select
+the RAM-sector path (1), alternating-buffer VRAM upload (2), or RAM-staged
+SPU upload (3). Those branches remain active while the same descriptor
+contains outstanding bytes. Completion instead follows `total_bytes`,
+`phase_remaining`, transfer-state flags and the existing callback handoffs;
+the byte is not normalized to a completed/not-completed Boolean.
+
+The wider transfer lifecycle uses the same byte without the ready callback
+interpreting every value. Seek-only setup stores zero, but the seek path
+is selected by the existing transfer-state flag, not by zero alone.
+Sector-range setup stores four and sets the range flag; activation tests
+four before setting its step flag. Cancellation service stores five and
+clears `substate`; the non-range stepper handles that mode by ending ready
+callbacks and submitting Pause, then finishes after its existing completion
+callback sets `substate` to one. These relationships do not define a new
+enum, make mode zero an idle/completion state, or bypass the separate range
+and cancellation flags.
+
+Every direct typed production access is renamed, including the independent
+Japanese card-data transfer and the package, card-preview, script-image,
+Library, boot, display-effect and model-slot callbacks. Their stage/mode
+arguments, callback-result increments and the descriptor's byte selector
+remain distinct. No callback stage number is changed to a transfer-mode
+name, and all numeric assignments, local `one` values, switch cases and
+unknown-mode behavior remain unchanged.
+
+The representation is still a plain `u8` at `+0x46`, followed by `substate`
+at `+0x47`, in the same `0x48`-byte descriptor. The existing size and offset
+assertions retain their values; only the affected member/assertion
+identifiers change. The `FileTransferDescriptorWords` copy, byte-offset
+constant, loose callback ABI, pointer annotations, aliases and compiler
+profiles are untouched. Unrelated model/effect records' `done` members
+remain unchanged.
+
+The two existing executable controls that name this typed member receive
+only `descriptor.done` to `descriptor.transfer_mode` substitutions. Their
+complete remaining sources, scenarios, callbacks, assertions, mutation
+paths, values and offsets stay exact. No test, fixture, generated-C,
+source-string harness or local cloud-test execution is added.
+
 ## Callback phase cursor and initial request argument
 
 The former `FileTransferDescriptor.result` word at `+0x40` is now

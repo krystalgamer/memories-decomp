@@ -44,7 +44,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         w = gFile_dwTransferState;
         w |= 0x10000;
         gFile_dwTransferState = w;
-        p->done = 2;
+        p->transfer_mode = 2;
         b = gFile_TransferBufferBase;
         p->field_30.h.counter = 0x340 - n * 192;
         p->sector_destination = b;
@@ -60,7 +60,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         gFile_dwTransferState = v_1;
         p->alternate_sector_destination = t;
         p->sector_destination = t;
-        p->done = 1;
+        p->transfer_mode = 1;
         break;
 
     case 2:
@@ -79,7 +79,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         gFile_dwTransferState = v_2;
         p->alternate_sector_destination = t;
         p->sector_destination = t;
-        p->done = 1;
+        p->transfer_mode = 1;
         break;
     }
 }
