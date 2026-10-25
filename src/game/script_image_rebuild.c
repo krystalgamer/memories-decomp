@@ -81,7 +81,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
         p->entries[0].pointer = (u8 *)o;
         t = &gScriptImage_OverlayPlacements.rows[n];
         p->entries[0].callback_control = 0;
-        if (t->mask & 1) {
+        if (t->mask & SCRIPT_IMAGE_OVERLAY_FIRST_PRESENT) {
             ScriptImage_CreateObject(&p->entries[1],
                                      0x14, 1);
             SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->field_30.h.field_30 =
@@ -89,7 +89,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
             SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->field_30.h.field_32 =
                 t->y1;
         }
-        if (t->mask & 2) {
+        if (t->mask & SCRIPT_IMAGE_OVERLAY_SECOND_PRESENT) {
             ScriptImage_CreateObject(&p->entries[2],
                                      0x16, 2);
             SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->field_30.h.field_30 =
@@ -97,7 +97,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
             SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->field_30.h.field_32 =
                 t->y2;
             p->entries[2].callback_control = t->callback_index;
-            if (t->mask & 0x80) {
+            if (t->mask & SCRIPT_IMAGE_OVERLAY_SECOND_SCREEN_SPACE) {
                 SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->flags |=
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             }
@@ -108,11 +108,11 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
             k = ((n >> 4) & 0xF) * 10 + (n & 0xF);
             b = gScriptImage_OverlayPairs;
             n = b[k].mask;
-            if (n & 1) {
+            if (n & SCRIPT_IMAGE_OVERLAY_FIRST_PRESENT) {
                 ScriptImage_CreateObject(&p->entries[1],
                                          0x12, 1);
             }
-            if (n & 2) {
+            if (n & SCRIPT_IMAGE_OVERLAY_SECOND_PRESENT) {
                 ScriptImage_CreateObject(&p->entries[2],
                                          0x14, 2);
                 p->entries[2].callback_control = b[k].callback_index;

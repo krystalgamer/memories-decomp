@@ -3,6 +3,9 @@
 
 #include "../types.h"
 
+#define SCRIPT_SHOW_IMAGE_CONTROL_TRANSFER_PHASE 0x4000
+#define SCRIPT_SHOW_IMAGE_CONTROL_REBUILD_PHASE 0x2000
+
 /* The two adjacent image opcodes. Script_OpStageImage leaves the viewport
  * pair gScript_ViewportTargetX/gScript_ViewportTargetY and state 5 in gScript_wCommandWord; Script_OpShowImage
  * publishes that viewport when it draws. */
