@@ -144,7 +144,8 @@ This is the same shape as `fade.h`, which already publishes
 Four of the old spellings looked load-bearing and are not. Each was removed
 and the full executable still matched:
 
-- `D_8009B0F4_signed asm("D_8009B0F4")` in `file_transfer_flags.c`. Its uses
+- `D_8009B0F4_signed asm("D_8009B0F4")` in the former `file_transfer_flags.c`
+  (now part of `file_transfer_runtime.c`). Its uses
   are `|=`, `&` and a whole-word assignment, none of which depend on
   signedness, and the plain name reproduces them.
 - `D_8009B0F4_array[] asm("D_8009B0F4")` in `movie_playback_control.c`, which
@@ -216,6 +217,6 @@ where retail issues one `lw $3` and keeps it live across the zero test, the
 bit test and the or. Two globals sixteen words apart in the same subsystem,
 with opposite answers; neither was assumed.
 
-`D_8009B134_signed asm("D_8009B134")` in `file_transfer_flags.c` is a fifth
+`D_8009B134_signed asm("D_8009B134")` in the former `file_transfer_flags.c` is a fifth
 checked negative: its only use is inside the blocked predicate, and the plain
 name reproduces it.

@@ -720,7 +720,8 @@ declares
     extern volatile u16 D_8009B124;
     extern volatile s32 D_8009B0E8;
 
-where `file_stream.c` declares both without the qualifier, and no header owns
+where the former `file_stream.c` (now part of `file_transfer_runtime.c`)
+declared both without the qualifier, and no header owns
 either symbol though `file_transfer.h` already owns the rest of that family.
 Dropping the two qualifiers does not merely change the encoding; the
 executable comes out four bytes short and fails on size alone. The cause is
@@ -757,8 +758,8 @@ disassembly is what settled it.
 
 The obvious conclusion from that is the guarded two-arm form `input.h` and
 `sound.h` use, one arm per spelling. It is also wrong, and it took a second
-build to find out. `file_stream.c` clears the pair once each inside
-`File_InitTransferState` and does nothing else with them, so giving *it* the
+build to find out. `File_InitTransferState`, then in `file_stream.c`, clears
+the pair once each and does nothing else with them, so giving *it* the
 volatile view costs nothing: one flat `extern volatile` declaration in
 `file_transfer.h` serves both files and builds byte for byte.
 

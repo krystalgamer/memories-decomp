@@ -256,7 +256,7 @@ new helper at `0x8007C458` retains its address name because no original symbol
 for that split boundary has been recovered.
 
 Four game sources already called three of these by address. `file_stream.c`
-and `main_run_boot_sequence.c` call `DsInit`, and `func_80013C28.c`
+(now part of `file_transfer_runtime.c`) and `main_run_boot_sequence.c` call `DsInit`, and `func_80013C28.c`
 issues every loader command through `DsCommand` and
 `DsPacket`. Their private prototypes are gone in favour of `libds.h`, with
 `DslLOC *` and `DslCB` casts at the call sites. The build stays byte-identical.
