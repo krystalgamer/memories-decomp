@@ -400,7 +400,6 @@ segments:
       - [0x3AF0C, c, game/sound_voice_volume]
       - [0x3AF88, c, game/sound_spatialization]
       - [0x3B0CC, c, game/sound_voice_setup]
-      - [0x3B388, c, game/sound_voice_envelope]
       - [0x3B450, c, game/sd_key_off_secondary_object]
       - [0x3B4E4, c, game/sound_secondary_object_selection]
       - [0x3B78C, c, game/sd_update_secondary_object_voices]

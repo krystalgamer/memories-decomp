@@ -10,7 +10,7 @@
  * VOLL|VOLR|VOLMODEL|VOLMODER; volmode is cleared so both channels stay in
  * direct mode, and the 7.7 products are shifted back down by 7.
  *
- * The voice-mask table is const, as in sound_voice_envelope.c. A load from an
+ * The voice-mask table is const, as in sound_voice_setup.c. A load from an
  * unchanging table does not depend on the stores through `s`, so the scheduler
  * is free to place it after the right-channel master is read: the table
  * address then occupies $v0 across that master's life, which puts the master

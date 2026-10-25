@@ -862,12 +862,12 @@ extern SDSecondaryState *G32 gSD_pSecondaryState;
  * both of which take a voice mask.
  *
  * D_80011434_IS_CONST is a codegen input, measured rather than assumed:
- * with sound_voice_envelope.c on the plain declaration that unit compiled to
- * 204 bytes of text instead of 200 and the executable stopped linking,
+ * with the envelope setters in sound_voice_setup.c on the plain declaration
+ * their former unit compiled to 204 bytes of text instead of 200 and the executable stopped linking,
  * because .initialized_data then overlapped .text. SD_SetVoiceVolume needs it
  * too: only an unchanging table load is free of the stores through the state
  * pointer, which is what puts its right-channel master in $a1.
- * sound_voice_envelope.c and sound_voice_volume.c define it.
+ * sound_voice_setup.c and sound_voice_volume.c define it.
  */
 #ifdef D_80011434_IS_CONST
 extern const s32 gSD_adwVoiceMasks[20];
