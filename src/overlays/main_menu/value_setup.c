@@ -41,18 +41,17 @@
    arithmetic with it; all five handles and the tween's own pointer are
    DisplayObject *, which builds byte-identically.
 
-   D_801845BC[2] and D_801845BE remain two names for one byte, as
-   that header recorded. That overlap is untouched here: the two are
-   distinct symbols at distinct addresses as far as C is concerned, so one
-   unit does not force it and naming it is #2602's business. */
+   The choice array and scalar toggle-choice view retain their separate
+   native bindings, including the overlap at the array's third byte. */
 
 /* Value-setup screen state. PR #3069 gave these a shared header when four
    sources drove them and each carried its own copy; they remain centralized
    in value_setup.h after those sources were coalesced. Nothing it found is
    dropped.
 
-     D_801845BC  At least three bytes. [0] is the live value, [1] its start,
-                 and [2] the toggle result the screen computes.
+     gMainMenu_abValueSetupChoices  [0/1] are the two players' cursor choices:
+                 left/right shared-toggle positions or their value row.
+                 [2] is the shared toggle choice, not a third player's row.
      gMainMenu_pValueSetupToggle  Points at the toggle byte the caller handed in; the finish
                  step writes through it.
      gMainMenu_aValueSetupEntries  The two values being edited, each a ValueSetupEntry: the
@@ -61,11 +60,10 @@
                  indexed [0]/[1] and [6]/[7], with the two pointers reached
                  by byte offset; the entry spelling builds byte-identically.
 
-   D_801845BC[2] and D_801845BE are the same storage, since D_801845BC is at
-   0x801845BC: the drawing code writes it through the array and the finisher
-   reads it by its own name. Left exactly as it is. They are distinct symbols
-   at distinct addresses as far as C is concerned, so one unit does not force
-   the question, and naming it is what #2602 exists for. */
+   gMainMenu_abValueSetupChoices[2] and gMainMenu_bValueSetupToggleChoice
+   view the same byte at 0x801845BE through distinct native symbols. Input
+   writes the array; finish reads the scalar and preserves its != 1 rule.
+   The resident caller finishes on both accept and cancel, committing both. */
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_MAIN_MENU_START_VALUE_SETUP) || \
     defined(VERSION_EUROPE_MAIN_MENU_START_VALUE_SETUP)
@@ -150,8 +148,8 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     }
 
     gMainMenu_pValueSetupToggle = toggle;
-    D_801845BC[2] = (*toggle == 0);
-    D_801845BC[0] = D_801845BC[1] = 2;
+    gMainMenu_abValueSetupChoices[2] = (*toggle == 0);
+    gMainMenu_abValueSetupChoices[0] = gMainMenu_abValueSetupChoices[1] = MAIN_MENU_VALUE_SETUP_CHOICE_VALUE;
     gMainMenu_aValueSetupEntries[0].out = first;
     gMainMenu_aValueSetupEntries[1].out = second;
     gMainMenu_aValueSetupEntries[0].value = gMainMenu_aValueSetupEntries[0].shown = *first;
@@ -227,20 +225,20 @@ s32 MainMenu_UpdateValueSetup(void)
     }
 
     if (busyA == 0) {
-        if (D_801845BC[0] < 2) {
+        if (gMainMenu_abValueSetupChoices[0] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
             if (gInput_wPad1Repeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 SD_SEPlay(6, 0xFF, 0);
                 if (gInput_wPad1Repeat[0] & PAD_DIRECTION_LEFT) {
-                    D_801845BC[2] = 0;
+                    gMainMenu_abValueSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_LEFT;
                 } else {
-                    D_801845BC[2] = 1;
+                    gMainMenu_abValueSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT;
                 }
-                D_801845BC[0] = D_801845BC[2];
-                if (D_801845BC[1] < 2) {
-                    D_801845BC[1] = D_801845BC[2];
+                gMainMenu_abValueSetupChoices[0] = gMainMenu_abValueSetupChoices[2];
+                if (gMainMenu_abValueSetupChoices[1] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
+                    gMainMenu_abValueSetupChoices[1] = gMainMenu_abValueSetupChoices[2];
                 }
             } else if (gInput_wPad1Repeat[0] & PAD_DIRECTION_DOWN) {
-                MainMenu_StartValueWidgetTween(0, 2);
+                MainMenu_StartValueWidgetTween(0, MAIN_MENU_VALUE_SETUP_CHOICE_VALUE);
             }
         } else {
             if (gInput_wPad1Repeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
@@ -261,26 +259,26 @@ s32 MainMenu_UpdateValueSetup(void)
                 }
                 gMainMenu_aValueSetupEntries[0].value = value;
             } else if (gInput_wPad1Repeat[0] & PAD_DIRECTION_UP) {
-                MainMenu_StartValueWidgetTween(0, D_801845BC[2]);
+                MainMenu_StartValueWidgetTween(0, gMainMenu_abValueSetupChoices[2]);
             }
         }
     }
 
     if (busyB == 0) {
-        if (D_801845BC[1] < 2) {
+        if (gMainMenu_abValueSetupChoices[1] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
             if (gInput_wPad1Repeat[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 SD_SEPlay(6, 0xFF, 0);
                 if (gInput_wPad1Repeat[1] & PAD_DIRECTION_LEFT) {
-                    D_801845BC[2] = 0;
+                    gMainMenu_abValueSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_LEFT;
                 } else {
-                    D_801845BC[2] = 1;
+                    gMainMenu_abValueSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT;
                 }
-                D_801845BC[1] = D_801845BC[2];
-                if (D_801845BC[0] < 2) {
-                    D_801845BC[0] = D_801845BC[2];
+                gMainMenu_abValueSetupChoices[1] = gMainMenu_abValueSetupChoices[2];
+                if (gMainMenu_abValueSetupChoices[0] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
+                    gMainMenu_abValueSetupChoices[0] = gMainMenu_abValueSetupChoices[2];
                 }
             } else if (gInput_wPad1Repeat[1] & PAD_DIRECTION_DOWN) {
-                MainMenu_StartValueWidgetTween(1, 2);
+                MainMenu_StartValueWidgetTween(1, MAIN_MENU_VALUE_SETUP_CHOICE_VALUE);
             }
         } else {
             if (gInput_wPad1Repeat[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
@@ -301,7 +299,7 @@ s32 MainMenu_UpdateValueSetup(void)
                 }
                 gMainMenu_aValueSetupEntries[1].value = value;
             } else if (gInput_wPad1Repeat[1] & PAD_DIRECTION_UP) {
-                MainMenu_StartValueWidgetTween(1, D_801845BC[2]);
+                MainMenu_StartValueWidgetTween(1, gMainMenu_abValueSetupChoices[2]);
             }
         }
     }
@@ -338,7 +336,7 @@ void MainMenu_DrawValueSetup(void)
     first = gMainMenu_aValueSetupEntries[0].shown;
     second = gMainMenu_aValueSetupEntries[1].shown;
     mk = gMainMenu_apValueSetupCursors[2];
-    if (D_801845BC[2] == 0) {
+    if (gMainMenu_abValueSetupChoices[2] == MAIN_MENU_VALUE_SETUP_CHOICE_LEFT) {
         x = 116;
     } else {
         x = 220;
@@ -347,7 +345,7 @@ void MainMenu_DrawValueSetup(void)
     gMainMenu_apValueSetupCursors[2]->field_30.h.field_32 = 74;
 
     w = gMainMenu_apValueSetupCursors[0];
-    if (w->update != 0 || D_801845BC[0] == 2) {
+    if (w->update != 0 || gMainMenu_abValueSetupChoices[0] == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
         w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         w = gMainMenu_apValueSetupCursors[0];
         if (w->update == 0) {
@@ -361,7 +359,7 @@ void MainMenu_DrawValueSetup(void)
     }
 
     w = gMainMenu_apValueSetupCursors[1];
-    if (w->update != 0 || D_801845BC[1] == 2) {
+    if (w->update != 0 || gMainMenu_abValueSetupChoices[1] == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
         w->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         w = gMainMenu_apValueSetupCursors[1];
         if (w->update == 0) {
@@ -535,7 +533,7 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     targetY = (s16)widget->field_30.h.field_32;
     valueA = gMainMenu_aValueSetupEntries[0].shown;
     valueB = gMainMenu_aValueSetupEntries[1].shown;
-    if (o->field_6C == 2) {
+    if (o->field_6C == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
         if (o->field_6B == 0) {
             targetX = (valueA * 128) / DUEL_STARTING_LIFE_POINTS + 176;
             targetY = 111;
@@ -547,7 +545,7 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     remaining = o->field_60 - 1;
     o->field_60 = remaining;
     if (remaining <= 0) {
-        D_801845BC[o->field_6B] = o->field_6C;
+        gMainMenu_abValueSetupChoices[o->field_6B] = o->field_6C;
         o->update = 0;
     }
     o->field_30.h.field_30 =
@@ -566,7 +564,7 @@ void MainMenu_FinishValueSetup(void)
 {
     *gMainMenu_aValueSetupEntries[0].out = gMainMenu_aValueSetupEntries[0].value;
     *gMainMenu_aValueSetupEntries[1].out = gMainMenu_aValueSetupEntries[1].value;
-    *gMainMenu_pValueSetupToggle = (D_801845BE != 1);
+    *gMainMenu_pValueSetupToggle = (gMainMenu_bValueSetupToggleChoice != MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT);
     DisplayObject_ReleaseIfPresent(D_801845A0);
     D_801845A0 = 0;
     DisplayObject_ReleaseIfPresent(D_801845A4);
