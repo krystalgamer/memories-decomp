@@ -19,26 +19,26 @@ int SD_OpenSequenceTrack(SDSequenceTrack *entry)
 }
 
 /* Rescales the track's delta count from the sequence's own timebase to the
-   runtime tick, carrying the remainder in field_0018. */
+   runtime tick, carrying the remainder in delta_scale_remainder. */
 void SD_ScaleSequenceDelta(SDSequenceTrack *entry)
 {
     switch (gSD_pSecondaryState->timebase) {
     case 0x30:
         entry->delta_remaining = entry->delta_remaining * 10;
-        entry->delta_remaining = entry->delta_remaining + entry->field_0018;
-        entry->field_0018 = entry->delta_remaining & 3;
+        entry->delta_remaining = entry->delta_remaining + entry->delta_scale_remainder;
+        entry->delta_scale_remainder = entry->delta_remaining & 3;
         entry->delta_remaining = entry->delta_remaining >> 2;
         return;
     case 0x60:
         entry->delta_remaining = entry->delta_remaining * 5;
-        entry->delta_remaining = entry->delta_remaining + entry->field_0018;
-        entry->field_0018 = entry->delta_remaining & 3;
+        entry->delta_remaining = entry->delta_remaining + entry->delta_scale_remainder;
+        entry->delta_scale_remainder = entry->delta_remaining & 3;
         entry->delta_remaining = entry->delta_remaining >> 2;
         return;
     case 0xC0:
     case 0xF0:
-        entry->delta_remaining = entry->delta_remaining + entry->field_0018;
-        entry->field_0018 = entry->delta_remaining & 1;
+        entry->delta_remaining = entry->delta_remaining + entry->delta_scale_remainder;
+        entry->delta_scale_remainder = entry->delta_remaining & 1;
         entry->delta_remaining = entry->delta_remaining >> 1;
         return;
     case 0x120:
@@ -47,14 +47,14 @@ void SD_ScaleSequenceDelta(SDSequenceTrack *entry)
         return;
     case 0x180:
     case 0x1E0:
-        entry->delta_remaining = entry->delta_remaining + entry->field_0018;
-        entry->field_0018 = entry->delta_remaining & 3;
+        entry->delta_remaining = entry->delta_remaining + entry->delta_scale_remainder;
+        entry->delta_scale_remainder = entry->delta_remaining & 3;
         entry->delta_remaining = entry->delta_remaining >> 2;
         return;
     case 0x300:
     case 0x3C0:
-        entry->delta_remaining = entry->delta_remaining + entry->field_0018;
-        entry->field_0018 = entry->delta_remaining & 7;
+        entry->delta_remaining = entry->delta_remaining + entry->delta_scale_remainder;
+        entry->delta_scale_remainder = entry->delta_remaining & 7;
         entry->delta_remaining = entry->delta_remaining >> 3;
         return;
     default:
@@ -95,7 +95,7 @@ s32 SD_StartSequenceTracks(void)
     s32 i;
     s32 offset;
 
-    initial->field_0804 = 0;
+    initial->delta_scale_gate = 0;
     initial->field_0800 = 0;
     SD_ReadSequenceHeader();
     {
@@ -121,8 +121,8 @@ s32 SD_StartSequenceTracks(void)
                 {
                     SDSecondaryState *flags_state = gSD_pSecondaryState;
                     entry->delta_remaining = value;
-                    entry->field_0018 = 0;
-                    if (flags_state->field_0804 != 0) {
+                    entry->delta_scale_remainder = 0;
+                    if (flags_state->delta_scale_gate != 0) {
                         SD_ScaleSequenceDelta(entry);
                     }
                 }

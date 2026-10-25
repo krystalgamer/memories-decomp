@@ -87,7 +87,7 @@ s32 SD_ReadSequenceHeader(void) {
         v = (u32)SD_ReadSequenceU32BE(p) >> 8;
         r = v;
         k = 60000000;
-        gSD_pSecondaryState->field_0808 = r;
+        gSD_pSecondaryState->tempo_us_per_quarter = r;
     } while (0);
 
     v = k / r;
@@ -121,11 +121,11 @@ store:
     SD_ReadSequenceByte(p);
 
     if (gSD_pSecondaryState->timebase >= 0x60) {
-        gSD_pSecondaryState->field_0804 = gSD_pSecondaryState->timebase;
+        gSD_pSecondaryState->delta_scale_gate = gSD_pSecondaryState->timebase;
     } else {
-        gSD_pSecondaryState->field_0804 = 0;
+        gSD_pSecondaryState->delta_scale_gate = 0;
     }
-    gSD_pSecondaryState->field_0804 = gSD_pSecondaryState->timebase;
+    gSD_pSecondaryState->delta_scale_gate = gSD_pSecondaryState->timebase;
     return 1;
 }
 
@@ -162,7 +162,7 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 arg1)
         v = v | (SD_ReadSequenceByte(p) << 8);
         v = v | SD_ReadSequenceByte(p);
         e = gSD_pSecondaryState;
-        e->field_0808 = v;
+        e->tempo_us_per_quarter = v;
         v = 0x3938700 / v;
         v = v * 100 / 115;
         if (v >= 0x100) {
@@ -279,7 +279,7 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                             t->loop_count = d2;
                             t->pos_saved = t->pos;
                             t->delta_remaining_saved = t->delta_remaining;
-                            t->field_0018_saved = t->field_0018;
+                            t->delta_scale_remainder_saved = t->delta_scale_remainder;
                             seq = gSD_pSecondaryState;
                             i++;
                         } while (i < seq->track_count);
@@ -307,7 +307,7 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                                 t->running_status = t->running_status_saved;
                                 t->pos = t->pos_saved;
                                 t->delta_remaining = t->delta_remaining_saved;
-                                t->field_0018 = t->field_0018_saved;
+                                t->delta_scale_remainder = t->delta_scale_remainder_saved;
                                 seq = gSD_pSecondaryState;
                                 i++;
                             } while (i < seq->track_count);
