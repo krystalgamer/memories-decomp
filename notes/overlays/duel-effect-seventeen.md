@@ -53,20 +53,34 @@ effective offset was (0,0,0) on this run. The completed-path return
 `0x8015A130` was not called.
 
 This only records what happened on this run: low RAM held zeros. It does
-not make null a supported "zero offset" argument, add a guard, or settle
-the second null call.
+not make null a supported "zero offset" argument or add a guard. The jar
+run below later saw the second (path) null call.
 
 In the follow-up run (`duel_effect_followups`, #7930), Dragon Capture Jar
 was activated while the opponent had no monster. Effect 17 ran phase 1
 for 183 frames and 182 calls. The human saw a purple effect like Dark
 Hole, and the board did not change. That episode made no layered-helper
-calls, null or non-null. The phase-1 null path therefore stays
-unobserved. The pending probe
-[`duel_effect_jar_null_offset.lua`](../../tools/trace/duel_effect_jar_null_offset.lua)
-asks for the jar with an opponent Dragon on the field, and records the same
-24 loads for whichever null callers execute. Its
-[mocked callback replay](../../tools/trace/tests/duel_effect_jar_null_offset_test.lua)
-is not evidence that the game runs that path.
+calls, null or non-null.
+
+The targeted probe (`duel_effect_jar_null_offset`, result in #7948) used
+the jar against an opponent Blue-Eyes Ultimate Dragon. The human saw a
+spinning purple hole pull in white blobs with pink outlines, lightning of
+the same colour strike the board, the Dragon get sucked in, and a flash in
+the middle. One phase-1 episode ran (167 effect-17 calls, 1,054 non-null
+particle calls, no calls from phase 0). Both null callers ran in phase 1:
+
+| Return | Null calls | Size | Loads |
+|---|---|---|---|
+| path `0x8015A130` | 2,832 | 4 | 24/24 |
+| burst `0x80159F34` | 17 | 32 | 24/24 |
+
+The probe recorded both passes of the first call from each site. Every
+load came from guest addresses `0x0`, `0x2` and `0x4` and read zero, as in
+the Dark Hole run. Coverage is now: the burst null call was observed in
+phases 0 and 1; the path null call was observed in phase 1 only, and its
+phase-0 execution remains unobserved. On these runs the offset was (0,0,0)
+because low RAM held zeros. That is still an observation, not a contract: null is not a
+supported "zero offset", and no guard or host-C safety claim follows.
 
 ## Recovered configuration and storage
 

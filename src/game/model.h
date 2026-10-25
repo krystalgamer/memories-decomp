@@ -255,7 +255,12 @@ typedef struct {
     s32 ambient_rgb_scale[3];
     u8 pad_DAC[4];
     ModelSlotS32Quad field_DB0;
-    u8 field_DC0[8];
+    /* Fade tint: [0..2] target RGB (0x80 neutral; 0 invisible in the
+     * observed mode-5 fades, see Model_DrawSlot's zero-RGB skip), [3] blend
+     * mode (0 opaque; 5 additive, the 3-D battle fade-in/out), [4..6] the
+     * current RGB that Model_DrawSlot ramps toward [0..2] while [7] % 6 is
+     * non-zero, [7] fade flag. [4..7] are static readings only. */
+    u8 tint[8];
     u16 field_DC8[4];
     s16 field_DD0[4];
     /* The command list and the three pointers beside it, all installed by
@@ -390,7 +395,7 @@ typedef struct {
 /* One of the MODEL_TINT_REQUEST_COUNT tint requests at gModel_aTintRequests.
  * Model_QueueTintRequest fills a free entry in; Model_UpdateTintRequests walks the table once a
  * frame, lerps `start` towards `end` by elapsed/duration, drops the result
- * into the model slot's field_DC0, redraws through it and then restores
+ * into the model slot's tint, redraws through it and then restores
  * everything it touched.
  *
  * bit 0 of `flags` marks the entry live, bit 1 selects the model slot and
@@ -499,7 +504,7 @@ typedef char ModelSlot_field_DB0_offset_must_be_0xDB0[
     MODEL_OFFSET(ModelSlot, field_DB0) == 0xDB0 ? 1 : -1
 ];
 typedef char ModelSlot_field_DC0_offset_must_be_0xDC0[
-    MODEL_OFFSET(ModelSlot, field_DC0) == 0xDC0 ? 1 : -1
+    MODEL_OFFSET(ModelSlot, tint) == 0xDC0 ? 1 : -1
 ];
 typedef char ModelSlot_field_DC8_offset_must_be_0xDC8[
     MODEL_OFFSET(ModelSlot, field_DC8) == 0xDC8 ? 1 : -1

@@ -235,10 +235,10 @@ void Model_UpdateAnimatedBattle(void)
             }
             gModel_aSlots[0].field_E15++;
         }
-        if ((s8)gModel_aSlots[0].field_DC0[0] >= 0) {
-            gModel_aSlots[0].field_DC0[0] += 2;
-            gModel_aSlots[0].field_DC0[1] += 2;
-            gModel_aSlots[0].field_DC0[2] += 2;
+        if ((s8)gModel_aSlots[0].tint[0] >= 0) {
+            gModel_aSlots[0].tint[0] += 2;
+            gModel_aSlots[0].tint[1] += 2;
+            gModel_aSlots[0].tint[2] += 2;
         } else {
             if (gModel_aSlots[0].draw_mode_request != 4) {
                 Model_SetSlotDrawMode(0, 3);
@@ -278,10 +278,10 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 9:
-        if ((s8)gModel_aSlots[1].field_DC0[0] >= 0) {
-            gModel_aSlots[1].field_DC0[0] += 2;
-            gModel_aSlots[1].field_DC0[1] += 2;
-            gModel_aSlots[1].field_DC0[2] += 2;
+        if ((s8)gModel_aSlots[1].tint[0] >= 0) {
+            gModel_aSlots[1].tint[0] += 2;
+            gModel_aSlots[1].tint[1] += 2;
+            gModel_aSlots[1].tint[2] += 2;
         } else {
             Model_ControlSlotAnimation(1, 2, 1);
             gModel_bPresentationTimer = 0;
@@ -551,10 +551,10 @@ void Model_UpdateAnimatedBattle(void)
             }
             slot->field_E15++;
         }
-        if (slot->field_DC0[0] != 0) {
-            slot->field_DC0[0] -= 2;
-            slot->field_DC0[1] -= 2;
-            slot->field_DC0[2] -= 2;
+        if (slot->tint[0] != 0) {
+            slot->tint[0] -= 2;
+            slot->tint[1] -= 2;
+            slot->tint[2] -= 2;
             break;
         }
         v = (s16)gModel_wViewYaw;
@@ -636,10 +636,10 @@ void Model_UpdateAnimatedBattle(void)
         }
         base = gModel_aSlots;
         slot = &base[f];
-        if (slot->field_DC0[0] != 0) {
-            slot->field_DC0[0] -= 2;
-            slot->field_DC0[1] -= 2;
-            slot->field_DC0[2] -= 2;
+        if (slot->tint[0] != 0) {
+            slot->tint[0] -= 2;
+            slot->tint[1] -= 2;
+            slot->tint[2] -= 2;
         } else {
             gModel_bPresentationPhase++;
         }
@@ -662,10 +662,10 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     case 32:
-        if (gModel_aSlots[1].field_DC0[0] != 0) {
-            gModel_aSlots[1].field_DC0[0] -= 2;
-            gModel_aSlots[1].field_DC0[1] -= 2;
-            gModel_aSlots[1].field_DC0[2] -= 2;
+        if (gModel_aSlots[1].tint[0] != 0) {
+            gModel_aSlots[1].tint[0] -= 2;
+            gModel_aSlots[1].tint[1] -= 2;
+            gModel_aSlots[1].tint[2] -= 2;
         } else {
             s32 a = (s16)gModel_wViewYaw + 0xC00;
 
@@ -686,10 +686,10 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     case 34:
-        if (gModel_aSlots[0].field_DC0[0] != 0) {
-            gModel_aSlots[0].field_DC0[0] -= 2;
-            gModel_aSlots[0].field_DC0[1] -= 2;
-            gModel_aSlots[0].field_DC0[2] -= 2;
+        if (gModel_aSlots[0].tint[0] != 0) {
+            gModel_aSlots[0].tint[0] -= 2;
+            gModel_aSlots[0].tint[1] -= 2;
+            gModel_aSlots[0].tint[2] -= 2;
         } else {
             gModel_bPresentationPhase = 0x28;
         }
@@ -795,10 +795,10 @@ check_ready:
         break;
     case 2: {
         ModelSlot *current = gModel_aSlots;
-        if ((s8)current->field_DC0[0] >= 0) {
-            current->field_DC0[0] += 2;
-            current->field_DC0[1] += 2;
-            current->field_DC0[2] += 2;
+        if ((s8)current->tint[0] >= 0) {
+            current->tint[0] += 2;
+            current->tint[1] += 2;
+            current->tint[2] += 2;
         } else {
             Model_SetSlotTintTarget(0, 0, 0x80, 0x80, 0x80);
             gModel_bPresentationPhase++;
@@ -1049,7 +1049,7 @@ void Model_UpdateCreditsPresentation(void)
         if ( (MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + active_offset)->field_E15 & 3) == 0 )
         {
           active_color = MODEL_SLOT_VIEW(
-              MODEL_SLOT_RAW_BYTES(gModel_aSlots) + active_offset)->field_DC0;
+              MODEL_SLOT_RAW_BYTES(gModel_aSlots) + active_offset)->tint;
           red_sample = rand() >> 8;
           red_sample %= 24;
           red_target = red_sample + 8;
@@ -1156,10 +1156,10 @@ void Model_UpdateCreditsPresentation(void)
       {
         outgoing_color = MODEL_SLOT_VIEW(
             MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-            (crossfade_offset) * 4)->field_DC0;
+            (crossfade_offset) * 4)->tint;
         incoming_color = MODEL_SLOT_VIEW(
             MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-            (904 * ((u8)ACTIVE_SLOT ^ 1)) * 4)->field_DC0;
+            (904 * ((u8)ACTIVE_SLOT ^ 1)) * 4)->tint;
         if ( outgoing_color[0] )
           --outgoing_color[0];
         if (outgoing_color[1])
@@ -1191,23 +1191,23 @@ void Model_UpdateCreditsPresentation(void)
                 MODEL_SLOT_RAW_BYTES(fade_models) +
                 (904 * (u8)ACTIVE_SLOT) * 4)->field_E15 & 3) != 0 )
         goto tick_active_slot;
-      fade_a = fade_models[0].field_DC0;
-      fade_b = fade_models[1].field_DC0;
-      if ( fade_models[0].field_DC0[0] )
-        --fade_models[0].field_DC0[0];
+      fade_a = fade_models[0].tint;
+      fade_b = fade_models[1].tint;
+      if ( fade_models[0].tint[0] )
+        --fade_models[0].tint[0];
       if ( fade_a[1] )
         --fade_a[1];
       if ( fade_a[2] )
         --fade_a[2];
-      if ( fade_models[1].field_DC0[0] )
-        fade_models[1].field_DC0[0] = fade_models[1].field_DC0[0] - 1;
+      if ( fade_models[1].tint[0] )
+        fade_models[1].tint[0] = fade_models[1].tint[0] - 1;
       if ( fade_b[1] )
         --fade_b[1];
       if ( fade_b[2] )
         --fade_b[2];
-      if ( fade_models[0].field_DC0[0]
+      if ( fade_models[0].tint[0]
         || fade_a[1] || fade_a[2]
-        || fade_models[1].field_DC0[0]
+        || fade_models[1].tint[0]
         || fade_b[1] || fade_b[2] )
       {
         goto tick_active_slot;
@@ -1321,8 +1321,8 @@ void Model_PlaySlotAnimationSounds(s32 index) {
     if (m->is_active == 0) {
         return;
     }
-    if (m->field_DC0[3] >= 2) {
-        if ((*(u32 *)m->field_DC0 & 0xFFFFFF) == 0) {
+    if (m->tint[3] >= 2) {
+        if ((*(u32 *)m->tint & 0xFFFFFF) == 0) {
             return;
         }
     }
@@ -1564,8 +1564,8 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
     moved = 0;
     hits = 0;
     if (gModel_aSlots[0].is_active != 0) {
-        if (gModel_aSlots[0].field_DC0[3] >= 2) {
-            if ((*(u32 *)gModel_aSlots[0].field_DC0 & 0xFFFFFF) == 0) {
+        if (gModel_aSlots[0].tint[3] >= 2) {
+            if ((*(u32 *)gModel_aSlots[0].tint & 0xFFFFFF) == 0) {
                 dist.values[0] = -1;
             }
         }
@@ -1573,8 +1573,8 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
         dist.values[0] = -1;
     }
     if (gModel_aSlots[1].is_active != 0) {
-        if (gModel_aSlots[1].field_DC0[3] >= 2) {
-            if ((*(u32 *)gModel_aSlots[1].field_DC0 & 0xFFFFFF) == 0) {
+        if (gModel_aSlots[1].tint[3] >= 2) {
+            if ((*(u32 *)gModel_aSlots[1].tint & 0xFFFFFF) == 0) {
                 dist.values[1] = -1;
             }
         }
@@ -2112,12 +2112,12 @@ void Model_UpdateTintRequests(void)
         keep = slot->field_BF5;
         old = Model_SetSlotShadowEnabled(side, 0);
         sid = part;
-        save = *MODEL_TINT_COLOR_VIEW(slot->field_DC0);
+        save = *MODEL_TINT_COLOR_VIEW(slot->tint);
         col.b3 = e->start.b3;
         col.b0 = e->start.b0 * (hi - lo) / hi + e->end.b0 * lo / hi;
         col.b1 = e->start.b1 * (hi - lo) / hi + e->end.b1 * lo / hi;
         col.b2 = e->start.b2 * (hi - lo) / hi + e->end.b2 * lo / hi;
-        *MODEL_TINT_COLOR_VIEW(slot->field_DC0) = col;
+        *MODEL_TINT_COLOR_VIEW(slot->tint) = col;
 
         aa = a;
         for (j = 0; j < slot->animation_sequence_count; j++) {
@@ -2152,7 +2152,7 @@ void Model_UpdateTintRequests(void)
         }
 
         Model_SetSlotShadowEnabled(side, old);
-        *MODEL_TINT_COLOR_VIEW(slot->field_DC0) = save;
+        *MODEL_TINT_COLOR_VIEW(slot->tint) = save;
 tail:
         e->elapsed += Model_GetFrameStep();
         if (e->elapsed >= e->duration) {

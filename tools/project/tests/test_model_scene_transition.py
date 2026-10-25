@@ -265,7 +265,7 @@ static s32 color_targets(void)
         gModel_aSlots[active].is_active = 1;
         gModel_aSlots[active].field_E15 = frame;
         gModel_aSlots[active].field_E0F = busy;
-        rgb = gModel_aSlots[active].field_DC0;
+        rgb = gModel_aSlots[active].tint;
         rgb[0] = 0; rgb[1] = 255; rgb[2] = 8;
         if (negative) {
             random_values[0] = -256;
@@ -359,8 +359,8 @@ static s32 crossfade(void)
         gModel_aSlots[0].is_active = gModel_aSlots[1].is_active = 1;
         gModel_aSlots[active].field_E15 = gate ? 4 : 3;
         gModel_aSlots[active ^ 1].field_E15 = 255;
-        a = gModel_aSlots[active].field_DC0;
-        b = gModel_aSlots[active ^ 1].field_DC0;
+        a = gModel_aSlots[active].tint;
+        b = gModel_aSlots[active ^ 1].tint;
         a[0] = 0; a[1] = 1; a[2] = finish ? 1 : 255;
         b[0] = 0; b[1] = 7; b[2] = 9;
         Model_UpdateCreditsPresentation();
@@ -390,7 +390,7 @@ static s32 final_fade(void)
         gModel_aSlots[0].is_active = gModel_aSlots[1].is_active = 1;
         gModel_aSlots[active].field_E15 = gate ? 252 : 255;
         gModel_aSlots[active].field_E0F = busy;
-        a = gModel_aSlots[0].field_DC0; b = gModel_aSlots[1].field_DC0;
+        a = gModel_aSlots[0].tint; b = gModel_aSlots[1].tint;
         a[0] = 0; a[1] = a[2] = 1;
         b[0] = b[1] = 1; b[2] = finish ? 1 : 255;
         Model_UpdateCreditsPresentation();
@@ -526,8 +526,8 @@ static s32 opaque_reloads(void)
     random_action = 1;
     Model_UpdateCreditsPresentation();
     CHECK(invariant() && random_count == 3 && ACTIVE == 1 &&
-          gModel_aSlots[0].field_DC0[0] == 1 &&
-          !gModel_aSlots[1].field_DC0[0] &&
+          gModel_aSlots[0].tint[0] == 1 &&
+          !gModel_aSlots[1].tint[0] &&
           gModel_aSlots[1].field_E15 == 2 && find(12) < 0, 98);
 
     setup(-2, 0);

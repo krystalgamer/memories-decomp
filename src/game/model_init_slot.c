@@ -64,14 +64,14 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     if (flags >= 0) {
         base->draw_mode_request = flags & 0x7F;
         if (flags & 0x80) {
-            base->field_DC0[7] = 5;
+            base->tint[7] = 5;
         } else {
-            base->field_DC0[7] = 0;
+            base->tint[7] = 0;
         }
     }
-    base->field_DC0[6] = 0;
-    base->field_DC0[5] = 0;
-    base->field_DC0[4] = 0;
+    base->tint[6] = 0;
+    base->tint[5] = 0;
+    base->tint[4] = 0;
     base->field_DC8[0] = 0;
     base->field_DC8[1] = 0;
     base->field_DC8[2] = 0;

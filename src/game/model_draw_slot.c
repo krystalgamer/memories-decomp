@@ -194,7 +194,7 @@ void Model_DrawSlot(s32 index)
         && slot->ambient_rgb_scale[2] == slot->ambient_rgb_scale[1]) {
         return;
     }
-    if (slot->draw_mode_request != 1 && slot->field_DC0[3] >= 2 && !(W(slot->field_DC0, 0) & 0xFFFFFF)) {
+    if (slot->draw_mode_request != 1 && slot->tint[3] >= 2 && !(W(slot->tint, 0) & 0xFFFFFF)) {
         return;
     }
     GsSetFlatLight(0, (GsF_LIGHT *)&slot->field_D70[0]);
@@ -208,7 +208,7 @@ void Model_DrawSlot(s32 index)
     }
     if (index < 2) {
         ot->length = 0xE;
-        if ((slot->field_DC0[7] % 6) && slot->field_DC0[3] == 0 && gModel_bCurrentDrawMode == 0) {
+        if ((slot->tint[7] % 6) && slot->tint[3] == 0 && gModel_bCurrentDrawMode == 0) {
             s32 step;
             s32 colour;
             s32 r;
@@ -219,49 +219,49 @@ void Model_DrawSlot(s32 index)
             s32 limb;
 
             step = Model_GetFrameStep() * 2;
-            h = slot->field_DC0[6];
-            w = slot->field_DC0[5];
-            r = slot->field_DC0[4];
+            h = slot->tint[6];
+            w = slot->tint[5];
+            r = slot->tint[4];
             colour = (h << 16) | (w << 8) | r;
-            fl = slot->field_DC0[7];
+            fl = slot->tint[7];
             MODEL_STAMP_TEMPLATES(colour, r, w, h, fl, mode);
             gModel_bCurrentDrawMode = 3;
-            lim = slot->field_DC0[0];
-            if (slot->field_DC0[4] + step < lim) {
-                lim = slot->field_DC0[4] + step;
+            lim = slot->tint[0];
+            if (slot->tint[4] + step < lim) {
+                lim = slot->tint[4] + step;
             }
-            slot->field_DC0[4] = lim;
-            limg = slot->field_DC0[1];
-            if (slot->field_DC0[5] + step < limg) {
-                limg = slot->field_DC0[5] + step;
+            slot->tint[4] = lim;
+            limg = slot->tint[1];
+            if (slot->tint[5] + step < limg) {
+                limg = slot->tint[5] + step;
             }
-            slot->field_DC0[5] = limg;
-            limb = slot->field_DC0[2];
-            if (slot->field_DC0[6] + step < limb) {
-                limb = slot->field_DC0[6] + step;
+            slot->tint[5] = limg;
+            limb = slot->tint[2];
+            if (slot->tint[6] + step < limb) {
+                limb = slot->tint[6] + step;
             }
-            slot->field_DC0[6] = limb;
-            if (slot->field_DC0[4] >= slot->field_DC0[0] && slot->field_DC0[5] >= slot->field_DC0[1]
-                && (u32)(limb & 0xFF) >= slot->field_DC0[2]) {
-                slot->field_DC0[7] = 0;
+            slot->tint[6] = limb;
+            if (slot->tint[4] >= slot->tint[0] && slot->tint[5] >= slot->tint[1]
+                && (u32)(limb & 0xFF) >= slot->tint[2]) {
+                slot->tint[7] = 0;
             }
         } else if (gModel_bCurrentDrawMode != 1) {
             s32 colour;
             s32 fl;
             s32 mode;
 
-            h = slot->field_DC0[2];
-            w = slot->field_DC0[1];
-            y = slot->field_DC0[0];
-            fl = slot->field_DC0[3];
+            h = slot->tint[2];
+            w = slot->tint[1];
+            y = slot->tint[0];
+            fl = slot->tint[3];
             colour = h << 16;
             colour |= w << 8;
             colour |= y;
             MODEL_STAMP_TEMPLATES(colour, y, w, h, fl, mode);
-            if (W(slot->field_DC0, 0) != 0x808080) {
+            if (W(slot->tint, 0) != 0x808080) {
                 gModel_bCurrentDrawMode = 3;
             }
-            slot->field_DC0[7] = 0;
+            slot->tint[7] = 0;
         } else {
             goto neutral;
         }

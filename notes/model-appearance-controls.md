@@ -78,7 +78,7 @@ inputs, channel matrix, oracles, negative controls and compiler flags stay
 identical. No new synthetic/generated-C/source-string harness, fixture or
 control is added; actual cloud/runtime validation remains on the PR.
 
-The loader/activity/animation fields, playback speed, mixed `field_DC0`
+The loader/activity/animation fields, playback speed, mixed `tint`
 record, tentative textured-primitive helper, packet/cache accounting,
 SDK headers, source groups, compiler profiles, linker inputs and semantic
 ledger are outside this change and remain frozen. These runtime members

@@ -122,7 +122,7 @@ void Model_UpdateSlotAnimation(s32 index) {
         }
         if (m->field_E10 == 0) {
             if (m->field_E16 == 0x3E ? m->animation_position >= length : m->animation_position == 0) {
-                if (m->field_DC0[7] == 6) {
+                if (m->tint[7] == 6) {
                     m->field_BF4 = 2;
                 }
                 if (m->field_BF4 != m->field_BF6) {
@@ -131,9 +131,9 @@ void Model_UpdateSlotAnimation(s32 index) {
                     if (m->field_E0F != 0) {
                         Model_ControlSlotAnimation(index, 0, 0);
                     }
-                    if (m->field_DC0[7] == 6) {
+                    if (m->tint[7] == 6) {
                         Model_QueueEffectEndpointPair(-1, index + 2, m->animation_duration_rows[2].max);
-                        m->field_DC0[7] = 0;
+                        m->tint[7] = 0;
                         m->field_BF4 = 1;
                     }
                 }
@@ -475,13 +475,13 @@ void Model_ResetSlot(s32 arg0)
     p->field_DB0.field_08 = MODEL_FIXED_ONE;
     p->field_DB0.field_04 = MODEL_FIXED_ONE;
     p->field_DB0.field_00 = MODEL_FIXED_ONE;
-    p->field_DC0[2] = 0x80;
-    p->field_DC0[1] = 0x80;
-    p->field_DC0[0] = 0x80;
+    p->tint[2] = 0x80;
+    p->tint[1] = 0x80;
+    p->tint[0] = 0x80;
     p->texture_tint_control = 7;
     p->field_E0D = 8;
     p->load_step = 0xFF;
-    p->field_DC0[3] = 0;
+    p->tint[3] = 0;
     *(s16 *)&p->texture_tint_scale = COLOR_FIXED_ONE;
     p->field_E1D = 0;
     p->field_DFE = arg0;
