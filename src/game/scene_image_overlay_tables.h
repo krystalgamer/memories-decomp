@@ -3,6 +3,10 @@
 
 #include "../types.h"
 
+#define SCRIPT_IMAGE_OVERLAY_FIRST_PRESENT 1
+#define SCRIPT_IMAGE_OVERLAY_SECOND_PRESENT 2
+#define SCRIPT_IMAGE_OVERLAY_SECOND_SCREEN_SPACE 0x80
+
 /* The two overlay tables ScriptImage_RebuildObjects reads when it rebuilds a
  * scene-script
    image record. Declared here so the source that defines them and the one

@@ -190,3 +190,54 @@ rows. Final clean acceptance reproduces retail SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`;
 the seven related repository policy gates pass. No generated artifacts,
 retail inputs, test harnesses or controls are included.
+
+## Image operand, command-phase and overlay-mask domains
+
+Nine names distinguish three existing bit domains without changing a
+literal's type or value:
+
+| Domain | Names and original values |
+| --- | --- |
+| Image operand | `SCRIPT_IMAGE_OPERAND_ID_MASK` = `0xFFF`, `SCRIPT_IMAGE_OPERAND_SKIP_FADE_IN` = `0x4000`, `SCRIPT_IMAGE_OPERAND_HAS_VIEWPORT` = `0x8000` |
+| Command control | `SCRIPT_SHOW_IMAGE_CONTROL_TRANSFER_PHASE` = `0x4000`, `SCRIPT_SHOW_IMAGE_CONTROL_REBUILD_PHASE` = `0x2000`, `SCRIPT_LOAD_IMAGE_SCENE_CONTROL_FADE_PHASE` = `0x800` |
+| Overlay mask | `SCRIPT_IMAGE_OVERLAY_FIRST_PRESENT` = `1`, `SCRIPT_IMAGE_OVERLAY_SECOND_PRESENT` = `2`, `SCRIPT_IMAGE_OVERLAY_SECOND_SCREEN_SPACE` = `0x80` |
+
+The two `0x4000` names are deliberately not interchangeable. The operand
+bit suppresses `Fade_StartInKeepOverlay` in the show-image path, still
+subject to the separate white latch. The command-control bit selects its
+transfer/setup phase; it is published before that phase's work, not a
+new assertion of successful transfer completion. The rebuild and
+load-scene fade-phase markers retain their own stores before callbacks.
+Other commands' uses of the shared command word remain unrelated.
+
+All three viewport-bit producers are wired. `Script_OpStageImage` retains
+the complete operand and consumes two little-endian halfwords when the
+bit is set, storing the pending viewport pair. `Script_OpLoadImageScene`
+also consumes two halfwords, but updates the live viewport and masks the
+operand only inside that optional-coordinate branch. Its no-coordinate
+path still passes the original word. The show-image path masks at its
+existing request site instead. No common decoder or unconditional
+normalization is introduced.
+
+`Text_StageScriptImage` uses the same presence bit but a different
+payload: one unsigned byte followed by a little-endian halfword. Its
+stream-slot reloads, cursor advances, complete operand store and dispatch
+state stores remain exact. Scalar and unsized-array views of the same
+retained script state are not merged. A viewport flag does not promise
+one universal bytecode width or an exclusively owned scratch word.
+
+Overlay bits zero and one create the first and second optional objects;
+the screen-space bit is tested only inside the second-overlay branch.
+It is not applied to the base or first overlay. Missing mask bits do not
+newly clear stale pointers. Packed-BCD decode, signed family comparisons,
+unchecked indices, table callback controls, request sizes, coordinates,
+blend attributes, release/fade ordering and regional screen positions
+are unchanged.
+
+Only seventeen production literals in four real C units become names.
+The nine definitions keep their original unsuffixed decimal/hex literals.
+Every other source byte and all initialized overlay, command and text
+callback data remain exact. Existing controls, numeric oracle values,
+native bindings, profiles, inventories and the entire semantic registry
+are untouched. No new guard, enum, shared decoder, testcase, generated-C
+harness, source-string control or local cloud-test execution is added.
