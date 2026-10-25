@@ -441,7 +441,7 @@ address,size,name,status,module,notes
 0x80036F7C,0x118,Dialog_ReadChoiceInput,matching_c,game,
 0x80037094,0x98,Widget_UpdatePulseColour,matching_c,game,
 0x8003712C,0x1B4,Dialog_UpdateChoice,matching_c,game,
-0x800372E0,0x74,func_800370E0,matching_c,game,
+0x800372E0,0x74,DuelEffect_HasActiveEntry,matching_c,game,
 0x80037354,0x5C,DuelEffect_SetEntryControlBytes,matching_c,game,
 0x800373B0,0x90,Text_CompletePageAdvance,matching_c,game,
 0x80037440,0x4C,Text_BeginPageClear,matching_c,game,
