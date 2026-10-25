@@ -54,9 +54,10 @@
 #define MODEL_AUX_LOOKUP_RECORD_SIZE 0xB2
 #define MODEL_AUX_LOOKUP_VALUE_OFFSET 0xA0
 
+/* GsUNIT view retaining the original integer coordinate-address storage. */
 typedef struct {
-    u32 field_00;
-    void *G32 field_04;
+    u32 coordinate_address;
+    void *G32 primitive_data;
 } ModelSlotHeadEntry;
 
 /* One of the MODEL_SLOT_ROW_COUNT accumulator rows at slot offset 0x750.
@@ -220,7 +221,7 @@ typedef struct {
 } ModelBytes8;
 
 typedef struct {
-    ModelSlotHeadEntry field_000[MODEL_SLOT_UNIT_COUNT];
+    ModelSlotHeadEntry hmd_units[MODEL_SLOT_UNIT_COUNT];
     ModelSlotPart *G32 animation_sequences[MODEL_SLOT_PART_COUNT];
     /* Model_ResetSlotAnimationTables fills the keys with 0xFFFF at a 0x74
      * stride over MODEL_SLOT_ROW_COUNT rows. Model_BuildSlotAnimationTables
@@ -414,6 +415,16 @@ typedef struct {
 
 typedef char ModelSlotHeadEntry_size_must_be_0x8[
     sizeof(ModelSlotHeadEntry) == 0x8 ? 1 : -1
+];
+typedef char ModelSlotHeadEntry_layout_must_match[
+    MODEL_OFFSET(ModelSlotHeadEntry, coordinate_address) == 0 &&
+    sizeof(((ModelSlotHeadEntry *)0)->coordinate_address) == 4 &&
+    MODEL_OFFSET(ModelSlotHeadEntry, primitive_data) == 4 &&
+    sizeof(((ModelSlotHeadEntry *)0)->primitive_data) == 4 ? 1 : -1
+];
+typedef char ModelSlot_hmd_units_extent_must_be_0x1E0[
+    MODEL_OFFSET(ModelSlot, hmd_units) == 0 &&
+    sizeof(((ModelSlot *)0)->hmd_units) == 0x1E0 ? 1 : -1
 ];
 typedef char ModelSlotRow_size_must_be_0x76[
     sizeof(ModelSlotRow) == 0x76 ? 1 : -1

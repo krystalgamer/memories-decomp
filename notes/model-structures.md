@@ -43,7 +43,7 @@ Verified shared fields and partial arrays are:
 
 | Offset | Shared member | Exact local evidence |
 |---:|---|---|
-| `0x000` | `field_000`, partial array of `0x8`-byte entries | `Model_TransformPartVertex` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads the pointer at `+4` |
+| `0x000` | `hmd_units[60]`, `0x8`-byte `GsUNIT` views | `Model_InitSlot` fills the SDK `coord` and `primtop` views; `Model_TransformPartVertex` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads `primitive_data` at `+4` |
 | `0x1E0` | `animation_sequences[58]`, `ModelSlotPart *` (a `GsSEQ`) | `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` advance pointers by 4, bounded at runtime by `animation_sequence_count`; `Model_ResetSlotAnimationTables` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
 | `0x2C8` | `animation_command_indices[10][58]`, `u16` | `Model_ResetSlotAnimationTables` fills it with `0xFFFF` at a `0x74` stride over ten rows; `Model_BuildSlotAnimationTables` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
 | `0x750` | `animation_duration_rows[10]`, `ModelSlotRow` | `Model_ResetSlotAnimationTables` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `Model_BuildSlotAnimationTables` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `field_BF5 * 118` |
@@ -75,9 +75,9 @@ Verified shared fields and partial arrays are:
 | `0xE1B` | `animation_sequence_count` | pointer-array count in `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` |
 | `0xE1F` | `is_active` | status tests in `func_80058DD8` and `Model_RunSlotHandlers` |
 
-`field_000` is still a one-element declaration: it expresses verified element
-layout and stride only, because the runtime count establishes it is an array
-without proving its static bound.
+`hmd_units` retains the existing `MODEL_SLOT_UNIT_COUNT` (60) declaration,
+occupying `0x1E0` bytes before `animation_sequences`. The initializer retains
+its byte-count capture and clamp to 60; no new bound or guard is introduced.
 
 `tint` (formerly `field_DC0`) reads statically as four sub-fields:
 
@@ -246,6 +246,47 @@ the matching code proves a temporary render override rather than a persistent
 slot-colour assignment. Although animated battle reaches this processor through `Model_UpdateScene`,
 the pipeline is shared; current matching callers do not justify calling the
 queue battle-exclusive.
+
+## HMD unit views and primitive-data chains
+
+The loader, renderer, vertex transformer and primitive-handler walkers
+share the slot's leading `GsUNIT`-compatible records:
+
+| Original member | Canonical member | Preserved representation |
+| --- | --- | --- |
+| `ModelSlot.field_000` | `hmd_units` | `ModelSlotHeadEntry[60]`, `+0` |
+| `ModelSlotHeadEntry.field_00` | `coordinate_address` | raw `u32`, `+0` |
+| `ModelSlotHeadEntry.field_04` | `primitive_data` | `void *G32`, `+4` |
+
+The authoritative local `GsUNIT` declaration places `coord` at `+0` and
+`primtop` at `+4`. `Model_InitSlot` casts this exact array to `GsUNIT *`,
+clears each processed `coord`, installs the input block pointer in
+`primtop`, and scans its unit records. Its later link loop assigns
+coordinate entries only over its existing indices `1 .. count-2`.
+`Model_DrawSlot` hands the same record to `GsSortUnit`, obtains matrices
+through its coordinate address, and traverses its primitive-data blocks.
+
+`Model_RunSlotHandlers` walks that same pointer's linked blocks, retaining
+all three header words and the `-1` terminator.
+The palette-flash completion path performs the corresponding handler
+remap. `Model_TransformPartVertex` retains its integer address sum for
+`hmd_units[part+1]`, SDK view and subsequent vertex-data chase; direct
+member indexing changes the measured instruction sequence.
+
+`primitive_data` denotes the SDK `primtop` data, not a packet buffer,
+drawn-polygon count or promise that all scanned blocks are polygon data.
+The initializer also dispatches coordinate and animation unit records.
+`coordinate_address` stays an integer word, not a newly typed pointer;
+all existing SDK casts and the separately typed `void *G32` storage stay.
+No pointee ownership, universal nonnull pairing or fully initialized
+array invariant is inferred. Partial initialization, null-input early
+return, stale records outside the processed range and every original
+guard/order remain unchanged.
+
+The record remains eight bytes and the array remains `0x1E0` bytes,
+with explicit member-width/offset and array-extent checks in `model.h`.
+No SDK declarations, primitive parsing, handler selection, coordinate
+selection, counts, numeric constants or source/profile owners change.
 
 ## `D_800F56F0`: 32-byte reference-view record
 
