@@ -162,8 +162,7 @@ segments:
       - [0x00DD10, c, game/duel_cursor_step_toward_target]
       - [0x00DDCC, c, game/european/duel_scene_field_actions]
       - [0x00F3CC, c, game/display_object_motion]
-      - [0x00F5A0, c, game/duel_battle_stats]
-      - [0x00F82C, c, game/european/duel_trap_resolution]
+      - [0x00F5A0, c, game/european/duel_battle_stats]
       - [0x00FCB8, c, game/european/duel_scene_battle]
       - [0x0110E4, c, game/duel_update_card_use_confirmation]
       - [0x011340, c, game/european/duel_result_load_outro_package_stage]
@@ -512,7 +511,7 @@ segments:
     subsegments:
       - [0x081EE0, data, initialized_data_800916e0]
       - [0x08C684, sdata, initialized_sdata_8009be84]
-      - [0x08C6A0, .sdata, game/european/duel_trap_resolution]
+      - [0x08C6A0, .sdata, game/european/duel_battle_stats]
       - {start: 0x8C6A6, type: bin, name: initialized_data_8c6a6, linker_section_order: .sdata}
       - [0x08C6AC, .sdata, game/duel_card_effects]
       - [0x08C6B9, pad]

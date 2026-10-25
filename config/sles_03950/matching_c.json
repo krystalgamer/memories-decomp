@@ -862,37 +862,37 @@
       "address": "0x8001EDA4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD8",
-      "source": "src/game/duel_battle_stats.c"
+      "source": "src/game/european/duel_battle_stats.c"
     },
     {
       "address": "0x8001EE7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/duel_battle_stats.c"
+      "source": "src/game/european/duel_battle_stats.c"
     },
     {
       "address": "0x8001EED8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/duel_battle_stats.c"
+      "source": "src/game/european/duel_battle_stats.c"
     },
     {
       "address": "0x8001EF34",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xFC",
-      "source": "src/game/duel_battle_stats.c"
+      "source": "src/game/european/duel_battle_stats.c"
     },
     {
       "address": "0x8001F030",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x294",
-      "source": "src/game/european/duel_trap_resolution.c"
+      "source": "src/game/european/duel_battle_stats.c"
     },
     {
       "address": "0x8001F2C4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F8",
-      "source": "src/game/european/duel_trap_resolution.c"
+      "source": "src/game/european/duel_battle_stats.c"
     },
     {
       "address": "0x8001F4BC",

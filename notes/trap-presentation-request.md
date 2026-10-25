@@ -1,6 +1,6 @@
 # Trap presentation request ownership
 
-`Duel_UpdateTrapPresentation` in `src/game/duel_trap_resolution.c` receives
+`Duel_UpdateTrapPresentation` in `src/game/duel_battle_stats.c` receives
 an actual `DuelEffectRequest *` from `DuelEffect_CreateRequest(8)`.
 That typed API already returns a request-pool entry; no byte API,
 display-object allocation or new pointer owner is introduced.

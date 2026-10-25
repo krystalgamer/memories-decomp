@@ -34,11 +34,11 @@ Small-data order follows text order. Checking the two owners that appear in
 
 | Owner | first `.text` | `.sdata` |
 |---|---|---|
-| `duel_trap_resolution` | `0x8001F0D0` | `0x8009AF24` |
+| `duel_battle_stats` | `0x8001EE44` | `0x8009AF24` |
 | `duel_card_effects` | `0x800250C8` | `0x8009AF30` |
 
 The blob at `0x8009AF2A` sits between those two, so its owner must be a unit
-whose text sits between `0x8001F0D0` and `0x800250C8`.
+whose text sits between `0x8001EE44` and `0x800250C8`.
 `debug_effect_screen.c` does, at `0x800220B8`.
 
 That prediction is confirmed independently: `debug_effect_screen.c` is the
@@ -49,7 +49,7 @@ The build already supports this. `generate_build_config.py` separates
 `SMALL_SECTION_TYPES` from `TEXT_CLAIMED_SECTION_TYPES` precisely so a
 matched text unit can own its `.sdata` in place, and pointing the subsegment
 at `game/debug_effect_screen` produced a correct linker script — the object's
-`.sdata` was emitted between `duel_trap_resolution`'s and
+`.sdata` was emitted between `duel_battle_stats`' and
 `duel_card_effects`', exactly where the blob had been.
 
 So the ordering half of this work is not the obstacle.

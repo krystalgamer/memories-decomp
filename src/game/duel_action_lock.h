@@ -64,7 +64,7 @@ extern s16 gDuel_sEffectWorkCounter;
  * this address got its own scalar.
  *
  * It is the trap presentation's mode: Duel_UpdateTrapPresentation in
- * duel_trap_resolution.c sequences on `gDuel_wTrapPresentationMode & 0xF` through four modes
+ * duel_battle_stats.c sequences on `gDuel_wTrapPresentationMode & 0xF` through four modes
  * and stores 1, 2 and 3 itself, and duel_card_effects.c clears it to 0 at the
  * two points the effect finishes. Four further writers are still assembly,
  * all `sh $zero`.

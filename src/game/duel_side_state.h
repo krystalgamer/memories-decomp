@@ -154,7 +154,7 @@ extern u8 gDuel_bAnimatedBattleRequested;
  * eight in DuelScene_UpdateBattle), so the halfword is signed; the stores
  * are sh and cannot
  * say. Every access in all five listings is gp-relative, so this is the
- * plain declaration for duel_card_effects.c, duel_trap_resolution.c and
+ * plain declaration for duel_card_effects.c, duel_battle_stats.c and
  * duel_select_trap_by_card_id.c alike, and the `u16` one of them used to write was the same
  * halfword under the other sign. Initial value not read. */
 extern s16 gDuel_wSelectedTrapCardId;

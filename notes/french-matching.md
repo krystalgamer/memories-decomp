@@ -177,7 +177,7 @@ is never sufficient for acceptance.
 ## Compiler-owned initialized small data
 
 This batch adds **11 functions / 4,772 text bytes** from the unchanged
-`european/duel_trap_resolution.c` and `duel_card_effects.c` translation units.
+`european/duel_battle_stats.c` and `duel_card_effects.c` translation units.
 Their existing named profiles produce **19 bytes of initialized `.sdata`**.
 The batch retains all prior matches and introduces no new C, inline assembly,
 source-local extern declarations, or compiler flags.

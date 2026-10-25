@@ -1,9 +1,8 @@
 #include "../../types.h"
 #define VERSION_JAPAN
 
-/* SLPM-86398 build of src/game/duel_battle_stats.c: the symbols below sit at other addresses in the
- * Japanese executable and their US names are taken there, so they are aliased
- * (config/slpm_86398/symbols.txt has the addresses). The US source is included
- * unchanged. */
+/* SLPM-86398 build of src/game/duel_battle_stats.c. The US source is included
+ * unchanged; the owning headers bind the Japanese names of the duel globals
+ * it reads. */
 
 #include "../duel_battle_stats.c"
