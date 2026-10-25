@@ -58,7 +58,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->phase_size = 64 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs = flags & mask;
         gFile_dwTransferState_abs |= 0x10000;
-        d->done = 2;
+        d->transfer_mode = 2;
         d->result = 0x10;
         d->sector_destination = (u32)gFile_TransferBufferBase;
         d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
@@ -69,7 +69,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->h = 0x10;
         gFile_dwTransferState_abs &= 0xFFDDFFFF;
         gFile_dwTransferState_abs |= 0x10000;
-        d->done = 2;
+        d->transfer_mode = 2;
         d->phase_size = 64 * FILE_SECTOR_SIZE;
         d->sector_destination = (u32)gFile_TransferBufferBase;
         d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
@@ -100,7 +100,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         d->sector_destination = d->alternate_sector_destination = (u32)gFile_TransferBufferBase;
-        d->done = 1;
+        d->transfer_mode = 1;
         break;
     case 2:
 #ifdef VERSION_EUROPE
@@ -116,25 +116,25 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->sector_destination = d->alternate_sector_destination = (u32)gDuel_awEquipTable;
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->done = 1;
+        d->transfer_mode = 1;
         break;
     case 3:
         d->sector_destination = d->alternate_sector_destination = (u32)gDuel_aFusionTable;
         d->phase_size = 32 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->done = 1;
+        d->transfer_mode = 1;
         break;
     case 4:
         d->sector_destination = d->alternate_sector_destination = (u32)gDuel_awRitualData;
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->done = 1;
+        d->transfer_mode = 1;
         break;
     case 5:
         d->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         d->sector_destination = d->alternate_sector_destination = (u32)gFile_TransferBufferBase;
-        d->done = 1;
+        d->transfer_mode = 1;
         break;
     case 6: {
         u32 flags;
@@ -161,7 +161,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
             mask = 0x10000;
             d->phase_size = mask;
             gFile_dwTransferState_abs |= mask;
-            d->done = 2;
+            d->transfer_mode = 2;
             d->h = 0x10;
             image_ptr = gFile_TransferBufferBase;
             d->sector_destination = (u32)image_ptr;
@@ -174,19 +174,19 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->phase_size = DUEL_PACKAGE_STAGE7_SECTORS * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= mask;
         d->sector_destination = d->alternate_sector_destination = (u32)gFile_pDuelBankBase;
-        d->done = 1;
+        d->transfer_mode = 1;
         break;
     case 8:
         d->sector_destination = d->alternate_sector_destination = (u32)D_801A8000;
         d->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->done = 1;
+        d->transfer_mode = 1;
         break;
     case 9:
         d->sector_destination = d->alternate_sector_destination = (u32)gAiScript_abFieldScript;
         d->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->done = 1;
+        d->transfer_mode = 1;
         break;
     case 10: {
         u32 cleared;
@@ -201,7 +201,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         do { enabled = 0x10000; } while (0);
         d->field_30.h.field_32 = 0;
         gFile_dwTransferState_abs = loaded | enabled;
-        d->done = 2;
+        d->transfer_mode = 2;
         d->phase_size = 8 * FILE_SECTOR_SIZE;
         d->sector_destination = (u32)gFile_TransferBufferBase;
         d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
@@ -218,13 +218,13 @@ europe_transfer_tail:
         gFile_dwTransferState_abs = masked;
         d->alternate_sector_destination = destination;
         d->sector_destination = destination;
-        d->done = 1;
+        d->transfer_mode = 1;
         break;
 #else
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         d->sector_destination = d->alternate_sector_destination = (u32)gRuntime_pSharedWorkBase;
-        d->done = 1;
+        d->transfer_mode = 1;
         break;
 #endif
     case 12: {
@@ -242,7 +242,7 @@ europe_transfer_tail:
             mask = 0x10000;
             d->phase_size = mask;
             gFile_dwTransferState_abs |= mask;
-            d->done = 2;
+            d->transfer_mode = 2;
             d->h = 0x10;
             image_ptr = gFile_TransferBufferBase;
             d->sector_destination = (u32)image_ptr;

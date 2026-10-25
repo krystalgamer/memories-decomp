@@ -52,7 +52,7 @@ m0:
     do {
         p->phase_size = m;
         gFile_dwTransferState = w | m;
-        p->done = 2;
+        p->transfer_mode = 2;
         d = gFile_TransferBufferBase;
         p->h = 0x10;
     } while (0);
@@ -89,5 +89,5 @@ m2:
     gFile_dwTransferState = x & 0xFFDCFFFF;
 
 tail:
-    p->done = one;
+    p->transfer_mode = one;
 }

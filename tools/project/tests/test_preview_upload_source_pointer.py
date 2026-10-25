@@ -77,7 +77,7 @@ int main(void)
                     expected.flags &= 0xFFDCFFFF;
                     expected.descriptor.alternate_sector_destination = (u32)state.buffer;
                     expected.descriptor.sector_destination = (u32)state.buffer;
-                    expected.descriptor.done = 1;
+                    expected.descriptor.transfer_mode = 1;
                 } else {
                     rects = (u8 *)&expected.records[slot] + 8;
                     rectangle(rects, value, value ^ 0x8000, 0x33, 0x60);

@@ -77,7 +77,7 @@ m0:
     do {
         *(s32 *)&object->phase_size = k;
         gFile_dwTransferState = w | n;
-        object->done = 2;
+        object->transfer_mode = 2;
         d = gFile_TransferBufferBase;
         object->h = 0x10;
     } while (0);
@@ -94,7 +94,7 @@ m1:
     gFile_dwTransferState = v2 & 0xFFDDFFFF;
     w2 = gFile_dwTransferState;
     gFile_dwTransferState = w2 | 0x10000;
-    object->done = 2;
+    object->transfer_mode = 2;
     d2 = gFile_TransferBufferBase;
     *(s32 *)&object->phase_size = 16 * FILE_SECTOR_SIZE;
     object->sector_destination = d2;
@@ -137,7 +137,7 @@ tail:
     gFile_dwTransferState = x;
     object->alternate_sector_destination = (s32)y;
     object->sector_destination = (s32)y;
-    object->done = one;
+    object->transfer_mode = one;
 }
 
 void File_RequestNameEntryPackage(void){File_RequestAsyncTransfer(0,0,NAME_ENTRY_PACKAGE_START_SECTOR,FILE_WA_NAME_ENTRY_SECTOR_COUNT,NameEntry_LoadPackageStage,0,0);File_WaitForTransfers();}

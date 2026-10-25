@@ -32,7 +32,7 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         obj->h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
-        obj->done = 2;
+        obj->transfer_mode = 2;
         obj->phase_size = (s32)obj->callback_data << FILE_SECTOR_SHIFT;
         obj->sector_destination = gFile_TransferBufferBase;
         obj->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
@@ -43,7 +43,7 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         gFile_dwTransferState &= 0xFFDCFFFF;
         obj->alternate_sector_destination = gFile_TransferBufferBase;
         obj->sector_destination = gFile_TransferBufferBase;
-        obj->done = 1;
+        obj->transfer_mode = 1;
         break;
 
     case 2:

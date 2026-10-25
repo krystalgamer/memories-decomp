@@ -35,7 +35,7 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         object->h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
-        object->done = 2;
+        object->transfer_mode = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
         object->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
@@ -46,7 +46,7 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = gFile_TransferBufferBase;
         object->sector_destination = gFile_TransferBufferBase;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 2:
@@ -59,7 +59,7 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         object->sector_destination = (s32)D_801A8000;
         object->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 3:
@@ -67,7 +67,7 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         gFile_dwTransferState &= 0xFFDCFFFF;
         object->alternate_sector_destination = (u32)gFile_pScreenBankBase;
         object->sector_destination = (u32)gFile_pScreenBankBase;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
     }
 }
