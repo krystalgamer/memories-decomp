@@ -593,13 +593,13 @@
       "address": "0x80017768",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps",
       "size": "0xF8",
-      "source": "src/game/duel_project_card_slot_screen_positions.c"
+      "source": "src/game/duel_ground_projection.c"
     },
     {
       "address": "0x80017860",
-      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps",
       "size": "0xD0",
-      "source": "src/game/duel_init_ground_projection_reference.c"
+      "source": "src/game/duel_ground_projection.c"
     },
     {
       "address": "0x80017930",

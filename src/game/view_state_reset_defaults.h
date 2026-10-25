@@ -9,7 +9,7 @@
  * rotation and the three coordinate fields, pushes the projection distance
  * into the GTE through GsSetProjection, and finishes with ViewState_ApplyOrbit.
  *
- * Duel_InitGroundProjectionReference (src/game/duel_init_ground_projection_reference.c) is the
+ * Duel_InitGroundProjectionReference (src/game/duel_ground_projection.c) is the
  * observed consumer and calls this before and after its reference sample.
  * The second call returns the view to these defaults rather than restoring
  * an arbitrary prior camera state.
