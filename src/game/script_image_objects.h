@@ -46,6 +46,11 @@ void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set);
  * it. It also sets field_10. ScriptImage_RebuildObjects is the only
  * caller outside this unit, and called it with no prototype at all before
  * this header. */
+#ifdef VERSION_EUROPE
+extern void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode)
+    asm("func_8002E10C");
+#else
 void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode);
+#endif
 
 #endif
