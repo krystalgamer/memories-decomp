@@ -77,8 +77,8 @@ s32 SD_ReadSequenceHeader(void) {
     p = b->tracks;
     b->field_0801 = 0;
     do {
-        gSD_pSecondaryState->field_07F0 = 0;
-        gSD_pSecondaryState->field_07F4 = 0;
+        gSD_pSecondaryState->sequence_tick_count = 0;
+        gSD_pSecondaryState->sequence_tick_count_saved = 0;
         b->tracks[0].pos = 8;
         gSD_pSecondaryState->timebase = SD_ReadSequenceU16BE(p);
         gSD_pSecondaryState->track_count = 1;
@@ -284,7 +284,7 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                             i++;
                         } while (i < seq->track_count);
                     }
-                    gSD_pSecondaryState->field_07F4 = gSD_pSecondaryState->field_07F0;
+                    gSD_pSecondaryState->sequence_tick_count_saved = gSD_pSecondaryState->sequence_tick_count;
                 } else {
                     p->loop_count = SD_SEQUENCE_LOOP_UNCOUNTED;
                     p->pos_saved = p->pos;
@@ -312,7 +312,7 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                                 i++;
                             } while (i < seq->track_count);
                         }
-                        gSD_pSecondaryState->field_07F0 = gSD_pSecondaryState->field_07F4;
+                        gSD_pSecondaryState->sequence_tick_count = gSD_pSecondaryState->sequence_tick_count_saved;
                     } else {
                         p->pos = p->pos_saved;
                     }

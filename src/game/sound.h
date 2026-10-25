@@ -414,8 +414,8 @@ typedef struct {
     s16 field_07E6;
     u8 *G32 sequence_source;
     s32 sequence_read_limit;
-    s32 field_07F0;
-    s32 field_07F4;
+    s32 sequence_tick_count;
+    s32 sequence_tick_count_saved;
     u16 field_07F8;
     u16 track_count;
     u16 timebase;
@@ -425,8 +425,8 @@ typedef struct {
     u8 pad0802[2];
     s32 field_0804;
     s32 field_0808;
-    s32 field_080C;
-    s32 field_0810;
+    s32 fast_forward_target_address;
+    s32 last_track_cursor_address;
     u8 sequence_updates_enabled;
     u8 field_0815;
     u8 pad0816[2];
@@ -758,6 +758,12 @@ typedef char SDSecondaryState_update_dispatch_offsets_must_match[
     SD_STATE_OFFSET(SDSecondaryState, vsync_update_mode) == 0x509 &&
     SD_STATE_OFFSET(SDSecondaryState, timer_maintenance_callback) == 0x50C &&
     SD_STATE_OFFSET(SDSecondaryState, sequence_updates_enabled) == 0x814 ? 1 : -1
+];
+typedef char SDSecondaryState_clock_and_cursor_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, sequence_tick_count) == 0x7F0 &&
+    SD_STATE_OFFSET(SDSecondaryState, sequence_tick_count_saved) == 0x7F4 &&
+    SD_STATE_OFFSET(SDSecondaryState, fast_forward_target_address) == 0x80C &&
+    SD_STATE_OFFSET(SDSecondaryState, last_track_cursor_address) == 0x810 ? 1 : -1
 ];
 typedef char SDSecondaryState_sequence_tick_mode_offset_must_be_0x81C[
     SD_STATE_OFFSET(SDSecondaryState, sequence_tick_mode) == 0x81C ? 1 : -1

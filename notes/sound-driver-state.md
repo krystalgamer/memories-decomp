@@ -886,12 +886,15 @@ above.
 | `0x07E4`, `0x07E6` | two `s16` | `field_07E4`, `field_07E6` | Existing signed secondary spatial levels; unchanged here. |
 | `0x07E8` | pointer | `sequence_source` | Input pointer retained by an accepted `SD_OpenSequence`; copied to the read base only on play/fast-forward. |
 | `0x07EC` | `s32` | `sequence_read_limit` | Fixed `0x10000` offset guard for the byte reader and `MTrk` search, not a recovered source-buffer length. |
+| `0x07F0` | `s32` | `sequence_tick_count` | Logical tick counter incremented on the selected track's tempo carry; nonzero-selector loop handling can restore it. |
+| `0x07F4` | `s32` | `sequence_tick_count_saved` | Snapshot of that counter taken and restored alongside the nonzero-selector all-track loop state. |
+| `0x07F8` | `u16` | `field_07F8` | Equality selector for the counted track and zero/nonzero loop-scope gate; not renamed here. |
 | `0x07FA` | `u16` | `track_count` | `SD_HandleSequenceMetaEvent` and `SD_StartSequenceTracks` bound `0x2C`-byte work-record loops. |
 | `0x07FC` | `u16` | `timebase` | `SD_HandleSequenceMetaEvent` and `SD_ScaleSequenceDelta` select timing conversions from it. |
 | `0x0800` | `u8` | `field_0800` | Cleared by `SD_StartSequenceTracks`. |
 | `0x0804`, `0x0808` | `s32` | offset-based fields | Timing/playback routines establish word accesses; their broader roles remain uncertain. |
-| `0x080C` | `s32` | `field_080C` | Fast-forward target read address. `SD_PlaySequenceFastForward` sets it and sound init clears it. While it is nonzero, `SD_ProcessSequenceTracks` skips the delta-time countdown, and it clears the field once a track's `sequence_read_base + pos` reaches it. |
-| `0x0810` | `s32` | `field_0810` | Each time a track advances a sequencer tick, `SD_ProcessSequenceTracks` stores that track's read address (`sequence_read_base + pos`) here. Sound init clears it, and no matched code reads it. |
+| `0x080C` | `s32` | `fast_forward_target_address` | Zero disables countdown skipping; a ticking track clears the global target when its unsigned cursor address reaches it. |
+| `0x0810` | `s32` | `last_track_cursor_address` | Latest ticking track's `sequence_read_base + pos` snapshot, even on a countdown-only step; no matched C reader is established. |
 | `0x0814` | `u8` | `sequence_updates_enabled` | `SD_ResetSecondaryState` clears it; enabling sets it after optional event setup, and both timer and explicit secondary-update paths require it. |
 | `0x0815` | `u8` | `field_0815` | `SD_EnableSecondaryPanning` clears it, while `SD_DisableSecondaryPanning` sets it; when set, `SD_SpatializeSecondaryObject` forces centre pan instead of using its computed value. |
 | `0x0818` | `u32` | `bytes_consumed` | `SD_VabOpenHead` clears it and `SD_VabTransBodyChunk` advances it across a transfer window. |
@@ -956,6 +959,62 @@ is `1`.
 `SD_SetSecondarySpatialLevels` and `SD_SetSecondaryMasterLevels` read the same
 halfword for a different question, skipping `SD_UpdateSecondaryObjectVolumes`
 while it is `2`.
+
+### Sequencer clock, loop snapshot and fast-forward cursors
+
+Four signed words connect the logical sequencer clock to loop restoration
+and address-based fast-forwarding: `sequence_tick_count` at `+0x07F0`,
+`sequence_tick_count_saved` at `+0x07F4`, `fast_forward_target_address` at
+`+0x080C`, and `last_track_cursor_address` at `+0x0810`. No type or
+signedness changes; the address-valued fields remain integer words, not
+new stored-pointer declarations.
+
+The clock increments only when an unended track's tempo accumulator
+produces its existing carry and that track index equals `field_07F8`.
+It is not an interrupt, frame, byte or event count. The pump retains its
+track-array-relative `STATE_WORD(s32, 0x7F0)` increment and the adjacent
+raw `0x7F8` selector access; only the clock's member-name comment changes.
+Header parsing still clears the clock, its saved word and `field_07F8`
+in the original order.
+
+The selector deliberately remains unnamed. Its equality use selects
+which track increments the clock, but its nonzero tests also choose the
+all-track loop-save/restore/count path instead of the current-track path.
+Only the zero initializer is established among matched C writers. This
+does not justify declaring it a MIDI-format number or naming only one
+of its two roles.
+
+For the nonzero-selector path, the existing loop-start controller copies
+the current clock into `sequence_tick_count_saved` after saving the
+tracks' parser state; loop-end restores that clock with the track state.
+The zero-selector path only saves/restores the current track's position
+and does not newly snapshot or rewind this global clock. Therefore the
+clock is not promised monotonic, and the saved word is not a universal
+loop-start time. Loop counts, saved fields, reloads and ordering remain.
+
+`SD_PlaySequenceFastForward` stores its existing signed target argument
+after starting the tracks. A nonzero `fast_forward_target_address` bypasses
+the ordinary nonzero-delta countdown; it does not bypass playback-state,
+ended-track or tempo-carry gates. At the existing accumulation label,
+the pump computes `(int)sequence_read_base + pos`, publishes the cursor,
+then compares it and the target with the original unsigned casts.
+The first ticking track reaching the address clears the one global target;
+later tracks in the same pump call can consequently resume ordinary
+countdown behavior. This is not a per-track or all-tracks seek-complete
+test, an offset target, or a newly validated destination.
+
+`last_track_cursor_address` is a snapshot of whichever track most recently
+reached that accumulation point. The countdown-only branch reaches it
+without reading a new event, so publication does not prove new bytes were
+consumed or that the address increased. No matched C reader is established;
+do not infer a debug consumer, completion flag or public progress API.
+Secondary-state reset clears the two address words; header parsing clears
+the clock words. Stop and close do not newly clear either address.
+
+One assertion block pins all four offsets. Pointer-to-integer addition,
+signed storage, unsigned comparison, zero-target behavior, raw displacement
+views, every branch and literal remain exact. No new callback, bounds
+check, clamp, enum, witness migration, test or harness is introduced.
 
 ### Timer/VSync dispatch and maintenance cadence
 

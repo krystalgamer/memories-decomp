@@ -39,10 +39,10 @@ loop:
         if ((u16)sum >= 0x100) {
             entry->tempo_accumulator = (u8)sum;
             if (i == STATE_WORD(u16, 0x7F8)) /* field_07F8 */
-                STATE_WORD(s32, 0x7F0)++;   /* field_07F0 */
+                STATE_WORD(s32, 0x7F0)++;   /* sequence_tick_count */
             {
                 u32 count = entry->delta_remaining;
-                if (count != 0 && gSD_pSecondaryState->field_080C == 0) {
+                if (count != 0 && gSD_pSecondaryState->fast_forward_target_address == 0) {
                     entry->delta_remaining = count - 1;
                     goto accumulate;
                 }
@@ -65,12 +65,12 @@ accumulate:
             {
                 SDSecondaryState *root = gSD_pSecondaryState;
                 int total = (int)root->sequence_read_base + entry->pos;
-                int threshold = root->field_080C;
+                int threshold = root->fast_forward_target_address;
 
-                root->field_0810 = total;
+                root->last_track_cursor_address = total;
                 if (threshold != 0 && (unsigned int)total >=
                                       (unsigned int)threshold)
-                    root->field_080C = 0;
+                    root->fast_forward_target_address = 0;
             }
         }
     }
