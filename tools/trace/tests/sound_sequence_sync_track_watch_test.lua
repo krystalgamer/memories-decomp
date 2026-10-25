@@ -103,6 +103,12 @@ local function capture(options)
         if bp.enabled or force then bp.callback() end
     end
     function r:track(index) return STATE + 0x518 + index * 0x2c end
+    function r:loopCount(index, value)
+        memory[STATE + 0x518 + index * 0x2c + 0x26 - RAM_BASE] = value
+    end
+    function r:mode(channel, value)
+        memory[STATE + channel * 0x18 + 0x12 - RAM_BASE] = value
+    end
     function r:allDisabled()
         for _, bp in pairs(breakpoints) do
             if bp.enabled then return false end
@@ -166,20 +172,41 @@ do
     r:call(DISPATCH, {a0 = r:track(1), a1 = 0xb2, a2 = 0x07, a3 = 0x64})
     assert(r:countOf('LOOP start') == 1, 'repeats and non-loop events hidden')
     assert(r:has('#007 t=   0.1s Q01 LOOP start track=1 ch=2 value=20 '
-        .. 'field_07F8=0 branch=own-track ticks=0'))
+        .. 'field_07F8=0 loop_count=0 mode=0x00 branch=own-track ticks=0'))
+    -- Controller 6 outside loop mode is an ordinary controller.
+    r:call(DISPATCH, {a0 = r:track(1), a1 = 0xb2, a2 = 0x06, a3 = 0x40})
+    assert(r:has('Q01 LOOP data_entry track=1 ch=2 value=64 field_07F8=0 '
+        .. 'loop_count=0 mode=0x00 branch=not-taken:mode=0x00'))
+    r:mode(2, 0x14)
     r:call(DISPATCH, {a0 = r:track(1), a1 = 0xb2, a2 = 0x06, a3 = 0x7f})
-    assert(r:has('#008 t=   0.1s Q01 LOOP data_entry track=1 ch=2 value=127'))
+    assert(r:has('Q01 LOOP data_entry track=1 ch=2 value=127 field_07F8=0 '
+        .. 'loop_count=0 mode=0x14 branch=own-track'))
+    -- A loop end with loop_count 0 restores nothing.
+    r:call(DISPATCH, {a0 = r:track(1), a1 = 0xb2, a2 = 0x63, a3 = 0x1e})
+    assert(r:has('Q01 LOOP end track=1 ch=2 value=30 field_07F8=0 '
+        .. 'loop_count=0 mode=0x14 branch=not-taken:loop_count=0'))
+    r:loopCount(1, 0x7f)
+    r:call(DISPATCH, {a0 = r:track(1), a1 = 0xb2, a2 = 0x63, a3 = 0x1e})
+    assert(r:has('Q01 LOOP end track=1 ch=2 value=30 field_07F8=0 '
+        .. 'loop_count=127 mode=0x14 branch=own-track'))
     r:store(0x80045a00, 0x10002)
-    assert(r:has('#009 t=   0.1s Q01 STORE undecoded by SD_StepActiveCommand '
+    assert(r:has('Q01 STORE undecoded by SD_StepActiveCommand '
         .. 'pc=0x80045A00'), 'a non-store word is reported, not decoded')
     r:field(2)
     r:frames(1)
     assert(r:has('Q01 FIELD field_07F8 0 -> 2'))
+    r:loopCount(0, 2)
     r:call(DISPATCH, {a0 = r:track(0), a1 = 0xb0, a2 = 0x63, a3 = 0x1e})
     assert(r:has('Q01 LOOP end track=0 ch=0 value=30 field_07F8=2 '
-        .. 'branch=all-tracks'))
+        .. 'loop_count=2 mode=0x00 branch=all-tracks'))
+    r:call(DISPATCH, {a0 = r:track(0), a1 = 0xb0, a2 = 0x06, a3 = 0x05})
+    assert(r:has('Q01 LOOP data_entry track=0 ch=0 value=5 field_07F8=2 '
+        .. 'loop_count=2 mode=0x00 branch=not-taken:mode=0x00'),
+        'a nonzero field does not make an ordinary controller a loop')
     r:call(DISPATCH, {a0 = STATE + 0x100, a1 = 0xb0, a2 = 0x63, a3 = 0x1e})
     assert(r:has('Q01 LOOP end track=? ch=0'), 'pointer outside track array')
+    r:call(DISPATCH, {a0 = 0x00000010, a1 = 0xb0, a2 = 0x63, a3 = 0x1e})
+    assert(r:has('loop_count=unreadable mode=0x00 branch=unknown'))
     r:tracks(4)
     r:frames(1)
     assert(r:has('Q01 TRACKS track_count 3 -> 4'))
@@ -195,6 +222,8 @@ do
         .. 'count=3'))
     assert(r:has('loop Q01 end track=0 ch=0 value=30 branch=all-tracks '
         .. 'count=1'))
+    assert(r:has('loop Q01 end track=1 ch=2 value=30 '
+        .. 'branch=not-taken:loop_count=0 count=1'))
     print = originalPrint
 end
 

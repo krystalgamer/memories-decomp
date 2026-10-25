@@ -25,7 +25,10 @@
 --     * STORE rows: every store that hits field_07F8 (writer, old, new),
 --     * FIELD/TRACKS rows: any polled change of field_07F8 or track_count,
 --     * LOOP rows: the first loop control per sequence for each kind, track
---       and branch; repeats are counted in the final document.
+--       and branch; repeats are counted in the final document. The branch
+--       is read from the same guards the dispatcher tests: a loop end with
+--       loop_count 0, or controller 6 while the channel's mode is not 0x14,
+--       is reported as not-taken rather than as a loop branch.
 --
 -- HOW TO RUN
 --   1. Open PCSX-Redux with the game and enable the debugger. Select the
@@ -135,6 +138,9 @@ local TRACK_COUNT = 0x7fa
 local TIMEBASE = 0x7fc
 local CONTROL_MODE, LOOP_START, LOOP_END = 0x63, 0x14, 0x1e
 local DATA_ENTRY = 6
+local TRACK_LOOP_COUNT = 0x26
+local CHANNEL_SIZE = 0x18
+local CHANNEL_CONTROL_MODE = 0x12
 
 -- {address, first instruction word, name}
 local CONTROL = {0x8001306c, 0x27bdffe0, 'control Main_RunFrameServices'}
@@ -401,10 +407,27 @@ local function onDispatch()
         and (p - base - TRACKS) % TRACK_SIZE == 0 then
         track = tostring((p - base - TRACKS) / TRACK_SIZE)
     end
-    local branch = field == nil and 'unknown'
-        or field ~= 0 and 'all-tracks' or 'own-track'
+    -- The breakpoint runs before the dispatcher, so these are the values its
+    -- guards test: a loop end restores only with a nonzero loop_count, and
+    -- controller 6 is loop data only while the channel's mode is 0x14.
+    local ch = status % 0x10
+    local loopCount = u8(p + TRACK_LOOP_COUNT)
+    local mode = base and u8(base + ch * CHANNEL_SIZE + CHANNEL_CONTROL_MODE)
+    local branch
+    if kind == 'end' and loopCount == nil
+        or kind == 'data_entry' and mode == nil then
+        branch = 'unknown'
+    elseif kind == 'end' and loopCount == 0 then
+        branch = 'not-taken:loop_count=0'
+    elseif kind == 'data_entry' and mode ~= LOOP_START then
+        branch = string.format('not-taken:mode=0x%02X', mode)
+    elseif field == nil then
+        branch = 'unknown'
+    else
+        branch = field ~= 0 and 'all-tracks' or 'own-track'
+    end
     local key = string.format('Q%02d %s track=%s ch=%d value=%d branch=%s',
-                              sequence, kind, track, status % 0x10, d2, branch)
+                              sequence, kind, track, ch, d2, branch)
     if loops[key] == nil then
         loops[key] = 0
         loopOrder[#loopOrder + 1] = key
@@ -415,8 +438,9 @@ local function onDispatch()
     seen[seenKey] = true
     loopRows = loopRows + 1
     live(string.format('LOOP %s track=%s ch=%d value=%d field_07F8=%s '
-                       .. 'branch=%s ticks=%s', kind, track, status % 0x10, d2,
-                       show(field), branch,
+                       .. 'loop_count=%s mode=%s branch=%s ticks=%s', kind,
+                       track, ch, d2, show(field), show(loopCount),
+                       show(mode, '0x%02X'), branch,
                        show(base and u32(base + TICKS))))
 end
 
