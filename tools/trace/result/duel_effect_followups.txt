@@ -1,0 +1,81 @@
+==== USER CONTEXT ==== 
+
+#1 - "Swords of Revealing Light" card glew on the borders
+#2 - continuation of #1, light swords fell on the opponent side of the field. They're not on a straight line
+#3 - Opponent fused a monster
+#4 - I played Hinotama, fire balls flew towards the enemy and a "-100" appeared on screen
+#5 - Opponent made another fusion
+#6 - I attacked the opponents monster in defense position, it made the slash animation
+#7 - Opponent's monster went up in flames
+#8 - I played a "Dragon Capture Jar" but since the opponent had no monster cards the board stayed the same. An effect similar to "Dark Hole" but purple played.
+#9 - I attacked opponent's monster in defense position, it made the slash animation
+#10 - Opoonent's monster went up in flames
+
+Trace printed here.
+
+Not sure why at the end there's an extra #02
+ 
+==== TRACE RESULT ===== 
+ 
+script: duel_effect_followups 
+setup: debugger=on configured_cpu=interpreter active_cpu=unverified execution_breakpoint=observed 
+status: all three parts covered 
+frames: 6667 duel_frames: 6189 episodes: 10 control_hits: 5737 dispatch_hits: 5661 foreign_module_hits: 0 
+shared_work_base: 0x80100000 
+effects_seen: 1,2,3,6,17,18,21 
+A verdict: DuelEffect_DrawAtlasColumnQuad never executed while its sibling control ran 1008 times 
+B: effect17_phases=-1,1 null_offset_calls=0 non_null_calls=247 phase0_null_calls_left_to_duel_effect_null_offset=0 
+C: before_init_rows=1 first_draw_rows=1 handler_tile_writes=50906 other_tile_writers=10 
+ 
+A caller sibling DuelEffect_DrawFixedTextureQuad ra=0x80155B90 calls=360 sizes=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,20,22,24,26,28,30,32 indices=n/a effects=#04/e6 
+A caller sibling DuelEffect_DrawFixedTextureQuad ra=0x80155D24 calls=648 sizes=4 indices=n/a effects=#04/e6 
+C tile writer pc=0x8007E4A0 writes=2 effects=outside 
+C tile writer pc=0x80032644 writes=4 effects=outside 
+C tile writer pc=0x800326B8 writes=4 effects=outside 
+C tile writer pc=0x80032648 writes=2 effects=outside 
+C tile writer pc=0x8003265C writes=2 effects=outside 
+C tile writer pc=0x80032678 writes=2 effects=outside 
+C tile writer pc=0x80032698 writes=2 effects=outside 
+C tile writer pc=0x80032D0C writes=2 effects=outside 
+C tile writer pc=0x8008E580 writes=40 effects=outside 
+C tile writer pc=0x8008E574 writes=64 effects=outside 
+ 
+-- t=   3.1s C tile write pc=0x8007E4A0 addr=unreadable width=unreadable value=unreadable 
+-- t=   8.0s duel started; effects are numbered from here 
+-- t=   8.0s swords at duel start slot0@0x80102800 enabled=15152 count=13868 tiles=6944,10016,8205,6155,2840,6923,6935,6936,14379,13107 
+-- t=   8.0s swords at duel start slot1@0x80102880 enabled=12583 count=11313 tiles=15139,14907,15161,11564,15161,8490,8481,9509,11306,11565 
+-- t=   9.7s C tile write pc=0x80032644 addr=0x80102851 width=1 value=0x0 
+-- t=   9.7s C tile write pc=0x800326B8 addr=0x80102851 width=1 value=0x1 
+-- t=   9.7s C tile write pc=0x80032648 addr=0x80102858 width=2 value=0x286 
+-- t=   9.7s C tile write pc=0x8003265C addr=0x8010285E width=1 value=0x10 
+-- t=   9.7s C tile write pc=0x80032678 addr=0x8010285A width=2 value=0x514 
+-- t=   9.7s C tile write pc=0x80032698 addr=0x8010285C width=2 value=0x2BC 
+-- t=   9.7s C tile write pc=0x80032D0C addr=0x80102854 width=4 value=0x286 
+-- t=   9.7s C tile write pc=0x8008E580 addr=0x80102850 width=1 value=0x36 
+-- t=   9.7s C tile write pc=0x8008E574 addr=0x80102854 width=1 value=0x8B 
+#01 t=  25.1s START effect=18 phase=1 
+#01 t=  25.6s END   effect=18 frames=31 calls=31 helpers=layeredx17 reason=finished 
+#02 t=  26.1s START effect=21 phase=1 
+#02 t=  26.1s swords before init phase=1 slot1@0x80102880 enabled=0 count=655 tiles=291,14907,654,0,654,0,0,9495,298,11565 
+#02 t=  26.2s swords first draw slot1@0x80102880 enabled=1 count=1 tiles=291,14907,654,0,654,0,0,9495,1,11565 
+#03 t=  36.1s START effect=1 phase=0 
+#03 t=  37.4s END   effect=1 frames=73 calls=73 helpers=layeredx56 reason=finished 
+#04 t=  46.5s START effect=6 phase=1 
+#04 t=  46.5s A sibling ra=0x80155B90 size=32 index=nil offset=(-33,-96,0) 
+#04 t=  46.8s A sibling ra=0x80155D24 size=4 index=nil offset=(0,0,0) 
+#04 t=  47.8s END   effect=6 frames=79 calls=79 helpers=layeredx54,siblingx1008 reason=finished 
+#05 t=  53.3s START effect=1 phase=0 
+#05 t=  54.5s END   effect=1 frames=73 calls=73 helpers=layeredx56 reason=finished 
+#06 t=  80.7s START effect=2 phase=0 
+#06 t=  81.2s END   effect=2 frames=34 calls=34 helpers=layeredx32 reason=finished 
+#07 t=  81.4s START effect=3 phase=0 
+#07 t=  81.9s END   effect=3 frames=29 calls=29 helpers=none reason=finished 
+#08 t=  94.7s START effect=17 phase=1 
+#08 t=  97.7s END   effect=17 frames=183 calls=182 helpers=none reason=finished 
+#09 t= 107.0s START effect=2 phase=0 
+#09 t= 107.5s END   effect=2 frames=34 calls=34 helpers=layeredx32 reason=finished 
+#10 t= 107.7s START effect=3 phase=0 
+#10 t= 108.2s END   effect=3 frames=29 calls=29 helpers=none reason=finished 
+#02 t= 111.1s END   effect=21 frames=5098 calls=5097 helpers=none reason=finished 
+ 
+--- end of trace, copy everything above into tools/trace/result/duel_effect_followups.txt --- 
