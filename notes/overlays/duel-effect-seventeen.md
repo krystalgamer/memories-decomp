@@ -76,9 +76,10 @@ particle calls, no calls from phase 0). Both null callers ran in phase 1:
 
 The probe recorded both passes of the first call from each site. Every
 load came from guest addresses `0x0`, `0x2` and `0x4` and read zero, as in
-the Dark Hole run. So both null sites run in both phases when there is a
-target, and on these runs the offset was (0,0,0) because low RAM held
-zeros. That is still an observation, not a contract: null is not a
+the Dark Hole run. Coverage is now: the burst null call was observed in
+phases 0 and 1; the path null call was observed in phase 1 only, and its
+phase-0 execution remains unobserved. On these runs the offset was (0,0,0)
+because low RAM held zeros. That is still an observation, not a contract: null is not a
 supported "zero offset", and no guard or host-C safety claim follows.
 
 ## Recovered configuration and storage

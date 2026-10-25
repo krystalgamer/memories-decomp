@@ -255,7 +255,8 @@ typedef struct {
     s32 ambient_rgb_scale[3];
     u8 pad_DAC[4];
     ModelSlotS32Quad field_DB0;
-    /* Fade tint: [0..2] target RGB (0x80 neutral, 0 invisible), [3] blend
+    /* Fade tint: [0..2] target RGB (0x80 neutral; 0 invisible in the
+     * observed mode-5 fades, see Model_DrawSlot's zero-RGB skip), [3] blend
      * mode (0 opaque; 5 additive, the 3-D battle fade-in/out), [4..6] the
      * current RGB that Model_DrawSlot ramps toward [0..2] while [7] % 6 is
      * non-zero, [7] fade flag. [4..7] are static readings only. */

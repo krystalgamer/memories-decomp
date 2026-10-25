@@ -93,7 +93,10 @@ without proving its static bound.
 The `model_slot_dc0_watch` trace (result in #7948) covered three Free Duel
 battles plus one non-battle scene, with 784 `Model_SetSlotTintTarget` calls
 and 8,849 decoded stores. Slot 0 was the player's monster, slot 1 the
-opponent's, and slot 2 kept `808080:00` throughout.
+opponent's. Slot 2's frame-polled snapshots were always `808080:00`; its
+only observed changes were inside `Model_ResetSlot`, where
+`Model_FillWords` clears RGB to `00` and the following stores restore
+`80` within the same call.
 
 Bytes 0-3 are the monster's fade. Byte 3 only ever held 0 or 5:
 
@@ -106,8 +109,11 @@ Bytes 0-3 are the monster's fade. Byte 3 only ever held 0 or 5:
 | surviving monster fades out at the end | `Model_UpdateAnimatedBattle` (`0x8004FB0C`, `0x8004FC5C`, `0x8004FD68`) switches to 5, then its own stores | 128→0 in steps of 2, 129 frames | 5 |
 | scene ends | `Model_ResetSlot`, through `Model_FillWords` | 128 | 0 |
 
-So byte 3 = 5 is the additive fade mode. Bytes 0-2 act as the monster's
-brightness: 0 is invisible and 128 is normal. Byte 3 = 0 with 128 is the
+So byte 3 = 5 is the additive fade mode. In those mode-5 fades bytes 0-2
+act as the monster's brightness: 0 is invisible and 128 is normal. This is
+scoped to mode 5: `Model_DrawSlot` skips a zero-RGB slot only when
+`draw_mode_request != 1` and byte 3 is at least 2, so zero RGB in mode 0
+is not by itself a hidden model. Byte 3 = 0 with 128 is the
 opaque, untinted model. The destroyed-monster fade matched slot 0 in #3
 (Dragon Piper lost) and slot 1 in #2 (Armored Zombie lost). A MODEL.MRG
 variant overlay (return `0x8013C960`) also set slot 1 to mode 0 at 128
