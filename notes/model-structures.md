@@ -79,6 +79,18 @@ Verified shared fields and partial arrays are:
 layout and stride only, because the runtime count establishes it is an array
 without proving its static bound.
 
+`field_DC0` reads statically as four sub-fields, none named yet:
+
+| Bytes | Static role |
+|---|---|
+| 0-2 | target RGB: `Model_SetSlotTintTarget` arguments and the scene controllers' ±2 fade steps |
+| 3 | blend selector: non-zero sets semi-transparency in `Model_DrawSlot`; 1-4 select draw-mode rate `byte - 1`, 5 uses rate 1 (additive) plus the second-pass CLUT word |
+| 4-6 | current RGB: `Model_DrawSlot` steps it toward 0-2 while byte 7 % 6 is non-zero and byte 3 is 0 |
+| 7 | fade/one-shot flag: `Model_InitSlot` stores 5 for flag `0x80`; 6 makes `Model_UpdateSlotControl` queue an endpoint |
+
+`tools/trace/model_slot_dc0_watch.lua` records the live values per 3-D scene
+so they can be matched to what is on screen.
+
 `animation_sequences` and the run at `0x750` are no longer in that position. The reset
 in `Model_ResetSlotAnimationTables` walks both to fixed bounds -- ten rows and 58 parts, from
 its `i < 0xA` and `j < 0x3A` loops and their `0x74` and `0x76` strides -- and
