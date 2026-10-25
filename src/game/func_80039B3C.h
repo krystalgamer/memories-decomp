@@ -5,6 +5,6 @@
 
 struct DuelEffectChannel;
 
-void func_80039B3C(struct DuelEffectChannel *record, void *context);
+extern void func_80039B3C(struct DuelEffectChannel *record, void *context);
 
 #endif

@@ -9,6 +9,9 @@
 #include "display_object_fade_callbacks.h"
 #include "duel_effect_entry_occupancy.h"
 #include "graphics_frame_controls.h"
+#ifdef VERSION_EUROPE
+#include "european_glyph_fade_callbacks.h"
+#endif
 
 #define DUEL_EFFECT_FIELD_04_WORD(type, object) \
     (*(type *)&(object)->field_04)
@@ -19,7 +22,7 @@
 #define EU_ENTRY_FADE_VALUE(record) (((u8 *)(record))[0x15])
 
 #ifdef VERSION_EUROPE_FUNC_80039B3C
-void func_80039B3C(DuelEffectChannel *record, void *context)
+void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context)
 {
     s32 radius;
     s32 value;
@@ -95,17 +98,17 @@ clamp_value:
 #endif
 
 #ifdef VERSION_EUROPE_FUNC_80039D84
-void func_80039D84(DuelEffectChannel *record, void *context)
+void DuelEffect_StartGlyphSpiralConceal(DuelEffectChannel *record, void *context)
 {
     EU_ENTRY(record)->field_14 = ((rand() & 0x1F) + 8) | -0x80;
     EU_ENTRY(record)->field_14 = ((rand() & 0x1F) + 32) | -0x80;
     EU_ENTRY(record)->field_13 = 4;
-    func_80039B3C(record, context);
+    DuelEffect_UpdateGlyphSpiralFade(record, context);
 }
 #endif
 
 #ifdef VERSION_EUROPE_FUNC_80039DF8
-void func_80039DF8(DuelEffectChannel *record)
+void DuelEffect_UpdateGlyphLinearFade(DuelEffectChannel *record)
 {
     s32 value;
 
@@ -138,28 +141,28 @@ void func_80039DF8(DuelEffectChannel *record)
 #endif
 
 #ifdef VERSION_EUROPE_FUNC_80039E88
-void func_80039E88(DuelEffectChannel *record)
+void DuelEffect_UpdateGlyphFadeIn(DuelEffectChannel *record)
 {
     EU_ENTRY(record)->field_14 = 0;
-    func_80039DF8(record);
+    DuelEffect_UpdateGlyphLinearFade(record);
 }
 #endif
 
 #ifdef VERSION_EUROPE_FUNC_80039EA8
-void func_80039EA8(DuelEffectChannel *record)
+void DuelEffect_UpdateGlyphFadeOut(DuelEffectChannel *record)
 {
     EU_ENTRY(record)->field_14 = 0x80;
-    func_80039DF8(record);
+    DuelEffect_UpdateGlyphLinearFade(record);
 }
 #endif
 
 #ifdef VERSION_EUROPE_FUNC_80039D24
-void func_80039D24(DuelEffectChannel *record, void *context)
+void DuelEffect_StartGlyphSpiralReveal(DuelEffectChannel *record, void *context)
 {
     EU_ENTRY(record)->field_14 = (rand() & 0x1F) + 8;
     EU_ENTRY(record)->field_14 = (rand() & 0x1F) + 32;
     EU_ENTRY(record)->field_13 = 4;
-    func_80039B3C(record, context);
+    DuelEffect_UpdateGlyphSpiralFade(record, context);
 }
 #endif
 
