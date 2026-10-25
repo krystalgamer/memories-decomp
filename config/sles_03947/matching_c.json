@@ -4713,9 +4713,9 @@
     },
     {
       "address": "0x8004929C",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0xE0",
-      "source": "src/game/sd_reset_music_state.c"
+      "source": "src/game/sound_sequence_state.c"
     },
     {
       "address": "0x8004937C",
