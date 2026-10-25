@@ -19,8 +19,8 @@ void SD_SetSecondaryMasterLevels(s16 left, s16 right)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
 
-    state->field_0514 = left;
-    state->field_0516 = right;
+    state->master_level_left = left;
+    state->master_level_right = right;
     if (state->field_07E2 != 2)
         SD_UpdateSecondaryObjectVolumes();
 }

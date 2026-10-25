@@ -103,8 +103,8 @@ void SD_ResetSecondaryState(void)
     state->field_0814 = 0;
     other = gSD_pSecondaryState;
     state->field_0512 = 127;
-    state->field_0514 = 127;
-    state->field_0516 = 127;
+    state->master_level_left = 127;
+    state->master_level_right = 127;
     other->field_0815 = 0;
     third = gSD_pSecondaryState;
     third->transfer.field_0019 = 127;

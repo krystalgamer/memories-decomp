@@ -72,7 +72,7 @@ void SD_UpdateFades(void) {
     if (changed) {
         u16 v;
 
-        v = g_SDValue->field_0044;
+        v = g_SDValue->secondary_mix_scale;
         if (v) {
             v *= g_SDValue->bgm_fade_level + 1;
             v >>= 8;

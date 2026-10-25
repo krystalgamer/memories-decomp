@@ -24,8 +24,8 @@ void SD_SetVoiceVolume(s32 voice, s32 left, s32 right) {
     s = gSD_pSecondaryState;
     s->voice_attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_VOLMODEL | SPU_VOICE_VOLMODER;
     s->voice_attr.voice = gSD_adwVoiceMasks[voice];
-    s->voice_attr.volume.left = (left * (u16)s->field_0514) >> 7;
-    s->voice_attr.volume.right = (right * (u16)s->field_0516) >> 7;
+    s->voice_attr.volume.left = (left * (u16)s->master_level_left) >> 7;
+    s->voice_attr.volume.right = (right * (u16)s->master_level_right) >> 7;
     s->voice_attr.volmode.left = SPU_VOICE_DIRECT;
     s->voice_attr.volmode.right = SPU_VOICE_DIRECT;
     SpuSetVoiceAttr(&s->voice_attr);
