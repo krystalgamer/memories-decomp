@@ -1,5 +1,3 @@
-
-
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
@@ -9,6 +7,9 @@
 #define D_8009B230_IN_DATA
 #define D_8009B234_IN_DATA
 #define D_8009B236_IN_DATA
+#define D_8009B0D1_IN_DATA
+#define GFREEDUEL_BRETURNFLAGS_IN_DATA
+#define D_8009B3D4_IN_DATA
 #include "../types.h"
 #include "text_box_blocking_build.h"
 #include "display_object_interpolation.h"
@@ -57,6 +58,99 @@
 #include "main_debug.h"
 #include "main_loop.h"
 #include "main_reset_frontend_runtime.h"
+#include "duel_effect_mode_7.h"
+#include "main_menu_selection.h"
+#include "../overlays/password/name_entry_main.h"
+#include "../overlays/free_duel/free_duel.h"
+#include "mem_card.h"
+#include "../overlays/main_menu/frontend.h"
+#include "../overlays/password/name_entry_keyboard.h"
+#include "../overlays/password/shop.h"
+#include "../psyq/rand.h"
+#include "../psyq/setjmp.h"
+
+void Main_ApplyMenuSelection(MainMenuSelection selection)
+{
+    D_8009B268 = 1;
+    gMain_bRequestedMenuID = selection;
+
+    switch (selection) {
+    case MAIN_MENU_SELECTION_NEW_GAME:
+        File_RequestNameEntryPackage();
+        NameEntry_Main();
+        gCampaignSavedSceneIndex[0] = 0x30;
+        gCampaignSceneIndex = 0x30;
+        gSaveData_AllowIdentityBypass = 1;
+        D_8009B0D1 = 0;
+        gMain_bActiveModeState = MAIN_MODE_CAMPAIGN;
+        break;
+    case MAIN_MENU_SELECTION_TWO_PLAYER_DUEL:
+        gMain_bActiveModeState = MAIN_MODE_TWO_PLAYER_DUEL_SETUP;
+        break;
+    case MAIN_MENU_SELECTION_TRADE:
+        gMain_bActiveModeState = MAIN_MODE_TRADE;
+        break;
+    case MAIN_MENU_SELECTION_LIBRARY:
+        gMain_bActiveModeState = MAIN_MODE_LIBRARY;
+        break;
+    case MAIN_MENU_SELECTION_CAMPAIGN:
+        gCampaignSceneIndex = gCampaignSavedSceneIndex[0];
+        gMain_bActiveModeState = MAIN_MODE_CAMPAIGN;
+        break;
+    case MAIN_MENU_SELECTION_FREE_DUEL:
+        gFreeDuel_bReturnFlags = 0;
+        gMain_bActiveModeState = MAIN_MODE_FREE_DUEL;
+        break;
+    case MAIN_MENU_SELECTION_BUILD_DECK:
+        BuildDeck_EnterNarrowConfirmMode();
+        D_8009B268 = 0;
+        break;
+    case MAIN_MENU_SELECTION_OPTIONS:
+        gMain_bActiveModeState = MAIN_MODE_OPTIONS;
+        D_8009B268 = 0;
+        break;
+    case MAIN_MENU_SELECTION_PASSWORD:
+        gMain_bActiveModeState = MAIN_MODE_PASSWORD;
+        D_8009B268 = 0;
+        break;
+    case MAIN_MENU_SELECTION_SAVE:
+    default:
+        gMain_bActiveModeState = MAIN_MODE_DEBUG;
+        break;
+    }
+}
+
+void Main_RunMenu(void){unsigned char f=gMain_bActiveModeState;int r;if((f&0x40)==0){gMain_bActiveModeState=f|0x40;File_RequestMainMenuPackage();File_WaitForTransfers();DisplayEffect_ResetMenuRecords();MainMenu_InitFrontendMenu(D_8009B268,gMain_bRequestedMenuID);Fade_WaitIn();}rand();r=MainMenu_UpdateFrontendMenu();if(r>=0){SD_BGMFadeOut();Fade_WaitOut();MainMenu_DestroyFrontendMenu();Main_ApplyMenuSelection(r);gMain_bReturnMode=8;}}
+
+u8 gMain_bActiveModeState;
+
+void Main_RunNameEntry(void)
+{
+    u8 flags = gMain_bActiveModeState;
+    u8 value;
+
+    if ((flags & 0x40) == 0) {
+        gMain_bActiveModeState = flags | 0x40;
+        File_RequestNameEntryPackage();
+        NameEntry_Init();
+    }
+    if (NameEntry_PollCompletion()) {
+        value = gMain_bReturnMode;
+        gMain_bActiveModeState = value;
+    }
+}
+
+void Main_RunPasswordMenu(void)
+{
+    unsigned char flags = gMain_bActiveModeState;
+
+    if ((flags & 0x40) == 0) {
+        gMain_bActiveModeState = flags | 0x40;
+        File_RequestPasswordPackage();
+        Password_InitShopScreen();
+    }
+    Password_UpdateShopScreen();
+}
 
 #ifndef MAIN_RUN_TRADE_TEXT_BOX_HEIGHT
 #define MAIN_RUN_TRADE_TEXT_BOX_HEIGHT 0x20
@@ -93,7 +187,6 @@
 /* The grouped mode runners use common-symbol forms overridden by the tracked
    link symbols, so these definitions do not allocate storage here. */
 u8 gMain_bReturnMode;
-u8 gMain_bActiveModeState;
 u8 gMain_bModeRunnerStep;
 
 void Main_RunOptionsMenu(void)

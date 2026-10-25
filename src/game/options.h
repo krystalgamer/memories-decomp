@@ -66,7 +66,8 @@ extern DisplayObject *G32 gOptions_pSelectionCursor;
  * every global it writes.
  *
  * Main_RunOptionsMenu (src/candidates/func_8002D6C8.c) is the only caller;
- * main_run_frontend_menus.c, which held it, had the only declaration. */
+ * the former main_run_frontend_menus.c (now part of main_mode_runners.c),
+ * which held it, had the only declaration. */
 #ifndef OPTIONS_INIT_ARGS
 #define OPTIONS_INIT_ARGS void
 #endif

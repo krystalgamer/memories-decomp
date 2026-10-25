@@ -259,7 +259,7 @@ extern SaveDataDuelistRecord gFreeDuel_aDuelistRecords[];
 extern u16 gDuel_awPlayerDeck[];
 
 /* The campaign scene index as it is kept inside that block, which is what
- * makes it survive a save: Main_ApplyMenuSelection (main_run_frontend_menus.c)
+ * makes it survive a save: Main_ApplyMenuSelection (main_mode_runners.c)
  * writes 0x30 into it when a new game starts and reads it back into the
  * runtime gCampaignSceneIndex when the campaign is resumed. Those two are
  * different objects -- the runtime one is at 0x8009B27A, outside this block --

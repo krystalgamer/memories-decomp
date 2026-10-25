@@ -77,7 +77,7 @@ segments:
       - [0x9C0, .rodata, game/european/duel_field_effects]
       - {start: 0x9D8, type: bin, name: italian_raw_800101d8, linker_section_order: .rodata}
       - [0x9EC, .rodata, game/european/library_runtime]
-      - [0xA34, .rodata, game/main_run_frontend_menus]
+      - [0xA34, .rodata, game/european/main_mode_runners]
       - [0xA60, .rodata, game/italian/debug_menu_editor_entries]
       - [0xA98, .rodata, game/european/card_list_setup]
       - {start: 0xAAC, type: bin, name: italian_raw_800102ac, linker_section_order: .rodata}
@@ -220,8 +220,7 @@ segments:
       - [0x1D8BC, c, game/main_run_duel_and_library]
       - [0x1DB54, c, game/european/main_run_animated_battle]
       - [0x1DCAC, c, game/main_run_selection_menus]
-      - [0x1DE2C, c, game/main_run_frontend_menus]
-      - [0x1E09C, c, game/european/main_mode_runners]
+      - [0x1DE2C, c, game/european/main_mode_runners]
       - [0x1E7E8, c, game/spanish/script_image_objects]
       - [0x1EBC0, c, game/european/script_image_rebuild]
       - [0x1EE0C, c, game/european/duel_effect_mark_object_if_active]

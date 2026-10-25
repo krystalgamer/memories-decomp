@@ -82,7 +82,7 @@ The generator feeds multiple systems. Confirmed matching-C examples include:
 | `AiScript_SetRandom` (`0x80070E20`) | Writes a value in a scripted inclusive range |
 | `duel_result_runtime.c` | Selects post-duel rewards |
 | `NameEntry_BuildStarterDeck` | Builds the new-game starter deck from seven weighted rows |
-| `main_run_frontend_menus.c` | Advances randomness while the main menu runs |
+| `main_mode_runners.c` | Advances randomness while the main menu runs |
 
 Additional matching and unmatched callers use the same SDK routine for duel
 state, animation timing, and selection logic.

@@ -83,7 +83,7 @@ segments:
       - [0x9C0, .rodata, game/duel_field_effects]
       - [0x9D8, rodata, initial_data_0b2]
       - [0x9E0, .rodata, game/library_runtime]
-      - [0xA24, .rodata, game/main_run_frontend_menus]
+      - [0xA24, .rodata, game/main_mode_runners]
       - [0xA50, .rodata, game/debug_menu_editor_entries]
       - [0xA88, rodata, initial_data_1]
       - [0xA94, .rodata, game/card_list_sort]

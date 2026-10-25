@@ -1793,25 +1793,25 @@
       "address": "0x8002D62C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x130",
-      "source": "src/game/main_run_frontend_menus.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D75C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA4",
-      "source": "src/game/main_run_frontend_menus.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D800",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/main_run_frontend_menus.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D858",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/main_run_frontend_menus.c"
+      "source": "src/game/european/main_mode_runners.c"
     },
     {
       "address": "0x8002D89C",

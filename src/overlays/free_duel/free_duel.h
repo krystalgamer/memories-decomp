@@ -13,7 +13,7 @@
  * runtime walks the cursor toward the target.
  *
  * gFreeDuel_bReturnFlags has two spellings. The overlay reaches it through
- * the plain arm below; the resident writers main_run_frontend_menus.c and
+ * the plain arm below; the resident writers main_mode_runners.c and
  * debug_menu_leave_entries.c address it with %hi/%lo and define
  * GFREEDUEL_BRETURNFLAGS_IN_DATA to take the .data arm, the same shape fade.h
  * uses for gFade_bOrderingTableMode.
