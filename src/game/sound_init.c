@@ -118,8 +118,8 @@ void SD_ResetSecondaryState(void)
     final->sequence_state = 0;
     final->field_07E6 = SD_SECONDARY_LEVEL_MAX;
     final->field_07E4 = SD_SECONDARY_LEVEL_MAX;
-    final->field_080C = 0;
-    final->field_0810 = 0;
+    final->fast_forward_target_address = 0;
+    final->last_track_cursor_address = 0;
     final->sequence_tick_mode = 0x1000;
 }
 
