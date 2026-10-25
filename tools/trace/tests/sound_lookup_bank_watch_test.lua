@@ -91,6 +91,18 @@ local function capture(options)
         half(STATE + 0x44c + bank * 0x40 + index * 2, value)
     end
     function r:note(key, value) half(NOTE_TABLE + key * 2, value) end
+    function r:block(address, count)
+        word(address, count % 0x100000000)
+        return address
+    end
+    function r:lastMarker(prefix)
+        local found = nil
+        for _, line in ipairs(output) do
+            local m = line:match('^#(%d+) .* ' .. prefix)
+            if m then found = m end
+        end
+        return found
+    end
     function r:call(address, values, force)
         for _, name in ipairs({'a0', 'a1', 'a2', 'a3', 'ra'}) do
             gpr.n[name] = values[name] or 0
@@ -130,8 +142,9 @@ do
     local r = capture()
     r:call(CONTROL, {})
     r:frames(2)
-    r:call(LOAD, {a0 = 1, a1 = 0x801a8800, ra = ADVANCE_LOAD + 0x40})
-    assert(r:has('#001 t=   0.0s --- LOAD bank=1 src=0x801A8800 '
+    r:call(LOAD, {a0 = 1, a1 = r:block(0x801a8800, 4),
+                  ra = ADVANCE_LOAD + 0x40})
+    assert(r:has('#001 t=   0.0s --- LOAD bank=1 src=0x801A8800 count=4 '
         .. 'caller=Model_AdvanceSlotLoad(0x80056868) mode=0'))
     r:key(1, 0, 0x0123)
     r:key(1, 3, 0x0456)
@@ -168,7 +181,8 @@ do
     r:call(SLOT_SOUNDS, {a0 = 1})
     r:call(SLOT_SOUNDS, {a0 = 1})
 
-    -- A bank change without a load, then a library load that changes nothing.
+    -- A bank change without a load, then a library load with no entries
+    -- that changes nothing.
     r:key(0, 1, 0x0777)
     r:frames(1)
     assert(r:has('BANK bank0 changed without a LOAD: 1 keys 01=0777'))
@@ -196,8 +210,87 @@ do
         .. 'calls=3'))
     assert(r:has('tagged SD_SESetPan id=0x4E05 caller=SD_SEPlayFull<'
         .. 'DuelScene_UpdateBattle calls=1'))
-    assert(r:has('final bank1 from=#'))
-    assert(r:has('final bank0 from=none 1 keys 01=0777'))
+    assert(r:has('final bank1 from=LOAD#001,unknown 2 keys 00=0123 03=0456'))
+    assert(r:has('final bank0 from=unknown 1 keys 01=0777'))
+end
+
+-- Both banks loaded before one VSync keep their own LOADs, and two LOADs of
+-- one bank are both named.
+do
+    local r = capture()
+    r:call(CONTROL, {})
+    r:call(LOAD, {a0 = 0, a1 = r:block(0x801a8000, 2)})
+    r:call(LOAD, {a0 = 1, a1 = r:block(0x801a8800, 2)})
+    r:key(0, 0, 0x0010)
+    r:key(1, 0, 0x0020)
+    r:frames(1)
+    assert(r:has('BANK bank0 filled by LOAD #001: 1 keys 00=0010'))
+    assert(r:has('BANK bank1 filled by LOAD #002: 1 keys 00=0020'))
+    assert(not r:has('without a LOAD'))
+    r:call(LOAD, {a0 = 0, a1 = 0x801a8000})
+    r:call(LOAD, {a0 = 0, a1 = 0x801a8000})
+    r:key(0, 1, 0x0011)
+    r:frames(1)
+    assert(r:has('BANK bank0 filled by LOAD #005,#006: 2 keys'))
+    r:call(SE_PLAY, {a0 = 0x4001})
+    assert(r:has('SD_SEPlay id=0x4001 bank=0 idx=1 -> key=0x0011 note=0 '
+        .. 'from=LOAD#006'))
+    r:reset()
+end
+
+-- A shorter reload leaves the higher entries with their older LOAD, also
+-- once the BANK-row cap has been reached.
+do
+    local r = capture()
+    r:call(CONTROL, {})
+    for _ = 1, 61 do
+        r:call(LOAD, {a0 = 1, a1 = r:block(0x801a8800, 4)})
+        r:key(1, 3, 0x0033)
+        r:frames(1)
+    end
+    assert(r:countOf('BANK bank1') == 60, 'BANK rows are capped')
+    local long = r:lastMarker('LOAD bank=1')
+    r:call(LOAD, {a0 = 1, a1 = r:block(0x801a9000, 2)})
+    local short = r:lastMarker('LOAD bank=1')
+    r:key(1, 0, 0x0030)
+    r:frames(1)
+    r:call(SE_PLAY, {a0 = 0x4100})
+    r:call(SE_PLAY, {a0 = 0x4103})
+    assert(r:has('id=0x4100 bank=1 idx=0 -> key=0x0030 note=0 from=LOAD#'
+        .. short))
+    assert(r:has('id=0x4103 bank=1 idx=3 -> key=0x0033 note=0 from=LOAD#'
+        .. long))
+    r:reset()
+end
+
+-- Entries changed outside the written range lose their origin; a count past
+-- bank 0 runs into bank 1, and an unreadable count is marked uncertain.
+do
+    local r = capture()
+    r:call(CONTROL, {})
+    r:call(LOAD, {a0 = 1, a1 = r:block(0x801a8800, 1)})
+    r:key(1, 0, 0x0040)
+    r:key(1, 5, 0x0045)
+    r:frames(1)
+    assert(r:has('BANK bank1 filled by LOAD #001: 2 keys 00=0040 05=0045 '
+        .. '(1 entries changed outside the loaded range)'))
+    r:call(SE_PLAY, {a0 = 0x4105})
+    assert(r:has('id=0x4105 bank=1 idx=5 -> key=0x0045 note=0 from=unknown'))
+    r:call(LOAD, {a0 = 0, a1 = r:block(0x801a8000, 40)})
+    r:call(SE_PLAY, {a0 = 0x4107})
+    assert(r:has('id=0x4107 bank=1 idx=7 -> key=none note=- from=LOAD#004'))
+    r:call(SE_PLAY, {a0 = 0x4108})
+    assert(r:has('id=0x4108 bank=1 idx=8 -> key=none note=- from=unknown'))
+    r:call(LOAD, {a0 = 1, a1 = r:block(0x801a9000, 1000)})
+    assert(r:has('LOAD bank=1 src=0x801A9000 count=1000'))
+    r:call(SE_PLAY, {a0 = 0x411f})
+    assert(r:has('id=0x411F bank=1 idx=31 -> key=none note=- from=LOAD#007?'))
+    r:call(LOAD, {a0 = 1, a1 = r:block(0x801a9800, -1)})
+    assert(r:has('count=-1'))
+    r:call(SE_PLAY, {a0 = 0x411e})
+    assert(r:has('id=0x411E bank=1 idx=30 -> key=none note=- from=LOAD#007?'),
+        'a negative count writes nothing')
+    r:reset()
 end
 
 -- No g_SDValue yet: everything is unreadable, nothing crashes.
@@ -210,7 +303,7 @@ do
     r:frames(1)
     r:reset()
     stopped(r, 'reset')
-    assert(r:has('final bank0 from=none unreadable'))
+    assert(r:has('final bank0 from=unknown unreadable'))
 end
 
 -- Eight scenes, the load window, missing control, timeout, callback error,

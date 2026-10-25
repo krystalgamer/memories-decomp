@@ -19,13 +19,17 @@
 --
 --   Every row is printed the moment it happens with a running #NNN marker and
 --   a time stamp, so it can be matched to what was on screen:
---     * LOAD rows: each SD_LoadSequenceBankPair call (bank, source, caller),
---       followed by a BANK row with the keys the bank holds once it ran,
+--     * LOAD rows: each SD_LoadSequenceBankPair call (bank, source, the
+--       source block's entry count, caller), followed on the next VSync by a
+--       BANK row naming every LOAD since the last VSync for that bank,
 --     * BANK rows for any other change of a bank's contents,
 --     * SCENE rows when a 3-D model scene starts or ends (active slots),
 --     * tagged-call rows: the first call per scene of each function, caller
---       and id, with the bank, index, resolved key and the LOAD that filled
---       that bank. Repeats are counted in the final document.
+--       and id, with the bank, index, resolved key and the LOAD whose written
+--       range covers that entry (a LOAD only writes entries below its count,
+--       so a shorter reload leaves higher entries with their older origin;
+--       'LOAD#NNN?' when the count was unreadable, 'unknown' when no LOAD
+--       explains the entry). Repeats are counted in the final document.
 --   Untagged sound-effect calls are only counted.
 --
 -- HOW TO RUN
@@ -121,6 +125,7 @@ local BANKS = 0x44c
 local BANK_STRIDE = 0x40
 local BANK_ENTRIES = 32
 local KEY_NONE = 0xffff
+local BLOCK_CAPACITY = 204 -- key slots in one source block
 local SLOTS = 0x800f2c40
 local SLOT_SIZE = 0xe20
 local SLOT_COUNT = 3
@@ -208,8 +213,12 @@ local untagged = {}
 local slotSoundCalls = {}
 local lastFullCaller = nil
 local banks = {}        -- last seen contents, '' when unreadable
-local bankSource = {}   -- marker of the LOAD that last filled each bank
-local pendingLoad = nil
+local bankKeys = {}     -- last seen key tables
+-- Origin of each of the 64 entries (bank * 32 + index), set when a LOAD
+-- starts: 'LOAD#NNN' for entries inside its written range, 'LOAD#NNN?' when
+-- its range could not be read, nil when no LOAD explains the entry.
+local entrySource = {}
+local pendingLoads = {} -- LOADs not yet described by a BANK row
 local calls, callOrder = {}, {}
 local mismatches = {}
 local callbackError = nil
@@ -328,9 +337,17 @@ local function finish(reason)
     for _, m in ipairs(mismatches) do print('signature_mismatch: ' .. m) end
     if callbackError ~= nil then print('callback_error: ' .. callbackError) end
     for b = 0, 1 do
+        local sources, seenSource = {}, {}
+        for i = 0, BANK_ENTRIES - 1 do
+            local src = entrySource[b * BANK_ENTRIES + i] or 'unknown'
+            if not seenSource[src] then
+                seenSource[src] = true
+                sources[#sources + 1] = src
+            end
+        end
         print(string.format('final bank%d from=%s %s', b,
-                            bankSource[b] and string.format('#%03d', bankSource[b])
-                                or 'none', describe(readBank(b))))
+                            table.concat(sources, ','),
+                            describe(readBank(b))))
     end
     print('')
     for _, key in ipairs(callOrder) do
@@ -343,43 +360,95 @@ local function finish(reason)
           .. 'tools/trace/result/' .. SCRIPT_NAME .. '.txt ---')
 end
 
-local function pollBanks(origin)
+local function markers(list)
+    local parts = {}
+    for _, load in ipairs(list) do
+        parts[#parts + 1] = string.format('#%03d', load.marker)
+    end
+    return table.concat(parts, ',')
+end
+
+-- Entries that changed outside every pending LOAD's written range lose
+-- their origin; the row says how many.
+local function pollBanks(origins)
     for b = 0, 1 do
         local keys = readBank(b)
         local sig = signature(keys)
-        if banks[b] ~= nil and banks[b] ~= sig and bankRows < MAX_BANK_ROWS then
-            bankRows = bankRows + 1
-            if origin ~= nil and origin.bank == b then
-                bankSource[b] = origin.marker
-                live(string.format('BANK bank%d filled by LOAD #%03d: %s', b,
-                                   origin.marker, describe(keys)))
-            else
-                bankSource[b] = nil
-                live(string.format('BANK bank%d changed without a LOAD: %s', b,
-                                   describe(keys)))
-            end
-        elseif origin ~= nil and origin.bank == b and banks[b] == sig then
-            bankSource[b] = origin.marker
-            if bankRows < MAX_BANK_ROWS then
-                bankRows = bankRows + 1
-                live(string.format('BANK bank%d unchanged by LOAD #%03d: %s', b,
-                                   origin.marker, describe(keys)))
+        local mine, covered = {}, {}
+        for _, load in ipairs(origins) do
+            if load.bank == b then mine[#mine + 1] = load end
+            for k = load.first, load.last do covered[k] = true end
+        end
+        local stray = 0
+        local old = bankKeys[b]
+        if keys ~= nil and old ~= nil then
+            for i = 0, BANK_ENTRIES - 1 do
+                local flat = b * BANK_ENTRIES + i
+                if keys[i] ~= old[i] and not covered[flat] then
+                    stray = stray + 1
+                    entrySource[flat] = nil
+                end
             end
         end
+        local text = nil
+        if banks[b] ~= nil and banks[b] ~= sig then
+            if #mine > 0 then
+                text = string.format('BANK bank%d filled by LOAD %s: %s', b,
+                                     markers(mine), describe(keys))
+                if stray > 0 then
+                    text = text .. string.format(
+                        ' (%d entries changed outside the loaded range)',
+                        stray)
+                end
+            else
+                if keys == nil or old == nil then
+                    for i = 0, BANK_ENTRIES - 1 do
+                        entrySource[b * BANK_ENTRIES + i] = nil
+                    end
+                end
+                text = string.format('BANK bank%d changed without a LOAD: %s',
+                                     b, describe(keys))
+            end
+        elseif #mine > 0 then
+            text = string.format('BANK bank%d unchanged by LOAD %s: %s', b,
+                                 markers(mine), describe(keys))
+        end
+        if text ~= nil and bankRows < MAX_BANK_ROWS then
+            bankRows = bankRows + 1
+            live(text)
+        end
         banks[b] = sig
+        bankKeys[b] = keys
     end
 end
 
+-- SD_LoadSequenceBankPair writes field_044C[side][j] for every j below the
+-- source block's s32 count, as one flat run that would pass the end of
+-- bank 0 into bank 1. The call is synchronous, so the origin is recorded now
+-- and is already right for any sound call before the next VSync.
 local function onLoad()
     local n = PCSX.getRegisters().GPR.n
     local side, src, ra = tonumber(n.a0), tonumber(n.a1), tonumber(n.ra)
     loads = loads + 1
     firstLoadFrame = firstLoadFrame or frames
-    local id = live(string.format('LOAD bank=%d src=0x%08X caller=%s mode=%s',
-                                  side, src, caller(ra), show(u8(MAIN_MODE))))
-    if side == 0 or side == 1 then
-        pendingLoad = {bank = side, marker = id}
+    local count = u32(src)
+    if count ~= nil and count >= 0x80000000 then count = count - 0x100000000 end
+    local id = live(string.format('LOAD bank=%d src=0x%08X count=%s caller=%s '
+                                  .. 'mode=%s', side, src, show(count),
+                                  caller(ra), show(u8(MAIN_MODE))))
+    if side ~= 0 and side ~= 1 then return end
+    local first = side * BANK_ENTRIES
+    local label = string.format('LOAD#%03d', id)
+    local last
+    if count == nil or count > BLOCK_CAPACITY then
+        last = first + BANK_ENTRIES - 1
+        label = label .. '?'
+    else
+        last = math.min(first + count, 2 * BANK_ENTRIES) - 1
     end
+    for k = first, last do entrySource[k] = label end
+    pendingLoads[#pendingLoads + 1] = {bank = side, marker = id,
+                                       first = first, last = last}
 end
 
 local function onTagged(name)
@@ -434,9 +503,8 @@ local function onTagged(name)
                        key == KEY_NONE and 'none' or show(key, '0x%04X'),
                        (key == nil or key == KEY_NONE) and '-'
                            or note == KEY_NONE and 'none' or show(note),
-                       bankSource[bank] and string.format('LOAD#%03d',
-                                                          bankSource[bank])
-                           or 'unknown', who, args))
+                       entrySource[bank * BANK_ENTRIES + index] or 'unknown',
+                       who, args))
 end
 
 local function poll()
@@ -458,9 +526,9 @@ local function poll()
         live('SCENE END')
         scene = nil
     end
-    local origin = pendingLoad
-    pendingLoad = nil
-    pollBanks(origin)
+    local origins = pendingLoads
+    pendingLoads = {}
+    pollBanks(origins)
     if sceneCount >= MAX_SCENES and scene == nil then
         finish('captured ' .. MAX_SCENES .. ' scenes')
     elseif firstLoadFrame ~= nil
@@ -516,7 +584,10 @@ for _, target in ipairs(SE_FUNCTIONS) do
     add(target, function() onTagged(name) end)
 end
 
-for b = 0, 1 do banks[b] = signature(readBank(b)) end
+for b = 0, 1 do
+    bankKeys[b] = readBank(b)
+    banks[b] = signature(bankKeys[b])
+end
 
 listeners_sound_lookup_bank_watch = {
     PCSX.Events.createEventListener('GPU::Vsync', function()
