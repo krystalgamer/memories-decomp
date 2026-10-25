@@ -32,7 +32,11 @@ extern s16 gDuel_wViewTweenFramesRemaining;
  * biased by 0x8000, and the final four words are the per-frame deltas. */
 extern s16 gDuel_wViewTweenDistanceTarget;
 extern s16 gDuel_wViewTweenOrbitAngleTarget;
+#ifdef VERSION_JAPAN
+extern s16 gDuel_wViewTweenHeadingTarget asm("gJapanese_DuelViewTweenHeadingTarget");
+#else
 extern s16 gDuel_wViewTweenHeadingTarget;
+#endif
 extern s16 gDuel_wViewTweenReferenceZTarget;
 
 extern s32 gDuel_dwViewTweenDistanceAccumulator;
@@ -42,7 +46,11 @@ extern s32 gDuel_dwViewTweenReferenceZAccumulator;
 
 extern s32 gDuel_dwViewTweenDistanceStep;
 extern s32 gDuel_dwViewTweenOrbitAngleStep;
+#ifdef VERSION_JAPAN
+extern s32 gDuel_dwViewTweenHeadingStep asm("gJapanese_DuelViewTweenHeadingStep");
+#else
 extern s32 gDuel_dwViewTweenHeadingStep;
+#endif
 extern s32 gDuel_dwViewTweenReferenceZStep;
 
 #endif

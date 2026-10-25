@@ -4,6 +4,10 @@
 #include "../types.h"
 
 /* Opposing view headings, indexed by duel side. */
+#ifdef VERSION_JAPAN
+extern u16 gDuel_awSideViewHeadings[2] asm("gJapanese_DuelSideViewHeadings");
+#else
 extern u16 gDuel_awSideViewHeadings[2];
+#endif
 
 #endif

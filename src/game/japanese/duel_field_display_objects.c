@@ -3,10 +3,4 @@
 
 #define VERSION_JAPAN
 #define DUEL_FIELD_DISPLAY_CHANNEL_TYPE JapaneseDuelEffectChannel
-#define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
-#define gDuel_awSideViewHeadings gJapanese_DuelSideViewHeadings
-#define gDuel_wViewTweenHeadingTarget gJapanese_DuelViewTweenHeadingTarget
-#define gDuel_dwViewTweenHeadingStep gJapanese_DuelViewTweenHeadingStep
-#define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
-#define gDuel_aCardRecords gJapanese_DuelCardRecords
 #include "../duel_field_display_objects.c"

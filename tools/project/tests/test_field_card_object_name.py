@@ -155,7 +155,11 @@ class FieldCardObjectNameTests(unittest.TestCase):
         japanese = (ROOT / "src/game/japanese/duel_card_record_lifecycle.c").read_text()
         self.assertNotIn("func_80024C1C", japanese)
         self.assertNotIn("func_80024A48", japanese)
-        self.assertIn("#define gDuel_aCardRecords gJapanese_DuelCardRecords", japanese)
+        self.assertIn("#define VERSION_JAPAN\n", japanese)
+        self.assertIn(
+            'extern DuelCardRecord gDuel_aCardRecords[] asm("gJapanese_DuelCardRecords");',
+            (ROOT / "src/game/duel_card.h").read_text(),
+        )
         with (ROOT / "notes/semantic-symbol-map.csv").open(newline="") as handle:
             entry, = [row for row in csv.DictReader(handle) if row["name"] == NAME]
         self.assertEqual((entry["kind"], entry["address"], entry["confidence"]),

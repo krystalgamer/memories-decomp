@@ -1,4 +1,5 @@
 #include "../../types.h"
+#define VERSION_JAPAN
 
 /* SLPM-86398 build of src/game/duel_effect_apply_terrain.c. The Japanese WA.MRG gives each
  * terrain package 0xEF sectors (see duel_load_terrain_package.c), and a
@@ -7,5 +8,4 @@
     ((((terrain) * 15) * 16 - (terrain)) + 0x1784)
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
-#define gDuel_aCardRecords gJapanese_DuelCardRecords
 #include "../duel_effect_apply_terrain.c"
