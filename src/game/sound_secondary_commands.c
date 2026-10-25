@@ -59,7 +59,7 @@ void SD_HandleSequenceControlChange(s32 arg0, s32 arg1, u8 arg2)
         ok = 1;
         break;
     case 0x1E:
-        b->field_0512 = arg2;
+        b->sequence_level = arg2;
         SD_UpdateSecondaryObjectVolumes();
         break;
     case 0x30:

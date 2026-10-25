@@ -90,8 +90,8 @@ void SD_StopSequence(void)
         state = gSD_pSecondaryState;
         state->flag_0500 = 0;
         other = gSD_pSecondaryState;
-        state->field_07E6 = SD_SECONDARY_LEVEL_MAX;
-        state->field_07E4 = SD_SECONDARY_LEVEL_MAX;
+        state->spatial_level_right = SD_SECONDARY_LEVEL_MAX;
+        state->spatial_level_left = SD_SECONDARY_LEVEL_MAX;
         state->sequence_state = 2;
         other->flag_0502 = 0;
     }
@@ -105,8 +105,8 @@ void SD_CloseSequence(void)
         state->flag_0500 = 1;
         gSD_pSecondaryState->sequence_open_token = -1;
         gSD_pSecondaryState->sequence_state = 0;
-        gSD_pSecondaryState->field_07E6 = SD_SECONDARY_LEVEL_MAX;
-        gSD_pSecondaryState->field_07E4 = SD_SECONDARY_LEVEL_MAX;
+        gSD_pSecondaryState->spatial_level_right = SD_SECONDARY_LEVEL_MAX;
+        gSD_pSecondaryState->spatial_level_left = SD_SECONDARY_LEVEL_MAX;
         gSD_pSecondaryState->flag_0500 = 0;
     }
 }

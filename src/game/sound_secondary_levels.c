@@ -9,8 +9,8 @@ void SD_SetSecondarySpatialLevels(s32 arg0, s32 arg1)
     SDSecondaryState *state = gSD_pSecondaryState;
     s32 mode = state->sequence_state;
 
-    state->field_07E4 = arg0 & SD_SECONDARY_LEVEL_MASK;
-    state->field_07E6 = arg1 & SD_SECONDARY_LEVEL_MASK;
+    state->spatial_level_left = arg0 & SD_SECONDARY_LEVEL_MASK;
+    state->spatial_level_right = arg1 & SD_SECONDARY_LEVEL_MASK;
     if (mode != 2)
         SD_UpdateSecondaryObjectVolumes();
 }

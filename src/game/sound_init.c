@@ -102,22 +102,22 @@ void SD_ResetSecondaryState(void)
     state->object_count = SD_SECONDARY_OBJECT_COUNT;
     state->sequence_updates_enabled = 0;
     other = gSD_pSecondaryState;
-    state->field_0512 = 127;
+    state->sequence_level = 127;
     state->master_level_left = 127;
     state->master_level_right = 127;
-    other->field_0815 = 0;
+    other->pan_center_override = 0;
     third = gSD_pSecondaryState;
     third->transfer.field_0019 = 127;
     fourth = gSD_pSecondaryState;
     third->transfer.field_0000 = SD_TRANSFER_STATE_INACTIVE;
     fourth->transfer.field_001A = 127;
     fifth = gSD_pSecondaryState;
-    fifth->transfer.field_001B = 64;
+    fifth->transfer.vab_pan = 64;
     final = gSD_pSecondaryState;
     final->sequence_open_token = -1;
     final->sequence_state = 0;
-    final->field_07E6 = SD_SECONDARY_LEVEL_MAX;
-    final->field_07E4 = SD_SECONDARY_LEVEL_MAX;
+    final->spatial_level_right = SD_SECONDARY_LEVEL_MAX;
+    final->spatial_level_left = SD_SECONDARY_LEVEL_MAX;
     final->fast_forward_target_address = 0;
     final->last_track_cursor_address = 0;
     final->sequence_tick_mode = 0x1000;
@@ -162,12 +162,12 @@ void SD_UpdateSecondarySequenceIfEnabled(void)
 
 void SD_EnableSecondaryPanning(void)
 {
-    gSD_pSecondaryState->field_0815 = 0;
+    gSD_pSecondaryState->pan_center_override = 0;
 }
 
 void SD_DisableSecondaryPanning(void)
 {
-    gSD_pSecondaryState->field_0815 = 1;
+    gSD_pSecondaryState->pan_center_override = 1;
 }
 
 /* Validates a byte value against the secondary-object capacity and stores it
