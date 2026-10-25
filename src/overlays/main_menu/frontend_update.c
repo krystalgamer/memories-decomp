@@ -128,19 +128,19 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
     fade_done:
         if (gMainMenu_nFadeDirection < 0) {
-            ent2 = D_80184560;
+            ent2 = gMainMenu_pStartPrompt;
             ((u8 *)&ent2->field_0C)[2] = 0x80;
             ((u8 *)&ent2->field_0C)[1] = 0x80;
             ((u8 *)&ent2->field_0C)[0] = 0x80;
             ent2->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
-            D_80184560->field_6C = 0x3C;
-            D_80184560->field_34.h.field_36 = 0;
+            gMainMenu_pStartPrompt->field_6C = 0x3C;
+            gMainMenu_pStartPrompt->field_34.h.field_36 = 0;
         }
         gMainMenu_nFadeDirection = 0;
         goto ret_m1;
     }
 
-    entry = D_80184560;
+    entry = gMainMenu_pStartPrompt;
     if (entry != 0 &&
         (entry->flags & DISPLAY_OBJECT_FLAG_RENDERABLE) != 0) {
         if (entry->field_6C != 0) {
@@ -150,26 +150,26 @@ s32 MainMenu_UpdateFrontendMenu(void)
             ((u8 *)&entry->field_0C)[2] = lvl;
             ((u8 *)&entry->field_0C)[1] = lvl;
             ((u8 *)&entry->field_0C)[0] = lvl;
-            entry = D_80184560;
+            entry = gMainMenu_pStartPrompt;
             chr = ((u8 *)&entry->field_0C)[0];
             if ((u32)(chr - 0x41) >= 0x3F) {
                 if ((s8)chr < 0) {
                     entry->field_6C = 0x3C;
                 }
-                ent5 = D_80184560;
+                ent5 = gMainMenu_pStartPrompt;
                 neg = ent5->field_60;
                 ent5->field_60 = -neg;
             }
         }
         if ((gInput_wPad1Pressed & PAD_BUTTON_START) != 0) {
             SD_SEPlay(7, 0xFF, 0);
-            ent3 = D_80184560;
+            ent3 = gMainMenu_pStartPrompt;
             ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             MainMenu_StartFrontendEntryTransition(0);
             gMainMenu_nFadeDirection = 1;
             goto ret_m1;
         }
-        ent6 = D_80184560;
+        ent6 = gMainMenu_pStartPrompt;
         acc = (u16)ent6->field_34.h.field_36 + (u16)D_8009B0D8;
         ent6->field_34.h.field_36 = acc;
         if ((s16)acc >= 0xBB8) {
