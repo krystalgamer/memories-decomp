@@ -23,7 +23,7 @@ typedef struct {
 /* The card-slot projection coordinates and the two duel-result sprite
    tables, declared here so the source that defines them and the units that
    read them cannot drift apart. gDuel_aCardSlotGroundPositions is read as u16 halfwords by
-   debug_effect_screen.c, duel_project_card_slot_screen_positions.c and duel_project_card_slot_screen_x.c. The
+   debug_effect_screen.c, duel_ground_projection.c and duel_project_card_slot_screen_x.c. The
    DuelFieldPosition arm is selected by the
    defining unit and by duel_card_record_lifecycle.c, whose Duel_SetupFieldCardFromDeck
    loads the pair with lh. The pair supplies ground X/Z; consumers choose

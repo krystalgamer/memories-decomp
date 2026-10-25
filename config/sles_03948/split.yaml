@@ -266,10 +266,7 @@ segments:
     - game/duel_state_init
   - - 32616
     - c
-    - game/duel_project_card_slot_screen_positions
-  - - 32864
-    - c
-    - game/duel_init_ground_projection_reference
+    - game/duel_ground_projection
   - - 33072
     - c
     - game/european/duel_load_terrain_package
