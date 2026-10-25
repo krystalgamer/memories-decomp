@@ -66,3 +66,47 @@ that the current leaf frame getter actually mutates the move record.
 declaration controls, measured field offsets and widths, real definition/caller
 compilation, and the explicit five-argument orbit caller view. Neither suite
 replaces clean resident-executable or overlay matching.
+
+## Japanese correction and hold-state providers
+
+The Japanese scene-controller and effect-state wrappers already use the
+same three canonical C functions below. Their former private function
+macros hid the names from the Japanese function inventory and duplicated
+the hold-state binding between its real definition and callers.
+
+| Canonical function | Japanese native provider | Bytes |
+| --- | --- | --- |
+| `Model_CorrectViewPitch` | `func_80055D7C` | `0x16C` |
+| `Model_CorrectViewDistance` | `func_80055EE8` | `0x1DC` |
+| `Model_SetCameraHoldState` | `func_8004EBD0` | `0xC` |
+
+`model_view_adjustments.h` now owns the two correction declarations and
+`model_transfer_flags.h` owns the hold-state setter declaration with explicit
+`VERSION_JAPAN` native assembly labels. Other regions keep their existing
+declarations. Native providers, profiles, grouped object order and all common
+C bodies remain unchanged. The three inventory names cover 852 bytes;
+they do not add newly decompiled functions.
+
+Distance correction keeps its signed target-slot read, slot-adjusted
+700/1000 range, separation call and both pitch-correction calls, one before
+and one after the distance steps. Japan only clears flag bit zero on
+separation: it does not step `field_04` in either direction or access the
+absent `field_06`. The Japanese wrapper therefore retains its compact-layout
+selector. NA's one-unit and PAL's two-unit field updates remain independent.
+The existing signed distance reads, 150/300 thresholds, step caps, nonzero
+`s32` argument test and repeated helper/field accesses are not rewritten.
+
+Pitch correction retains the signed `0x801` test, 3968/3755 interpolation,
+target band, `0xEAB` floor and asymmetric orbit steps. The hold-state setter
+still assigns its `s32` argument to the existing byte, including truncation;
+it is not a Boolean setter. Battle-slot setup can write 2 before animated
+battle promotes it to 1. The separate handler-callback byte and the existing
+guards requiring both bytes to read exactly 1 are unchanged.
+
+Native conservation covers all six actual source/profile routes for the
+complete common, Japanese and PAL scene-controller/effect-state units:
+39 functions per image, 24,364 instruction bytes for NA, 24,084 for Japan
+and 24,384 for each PAL image. Complete compiler/MASPSX assembly, native
+symbols and disassembly/relocations are compared, not isolated replacement
+function bodies. Regional executable and witness validation remains on the
+PR; this local evidence does not claim regional image execution.

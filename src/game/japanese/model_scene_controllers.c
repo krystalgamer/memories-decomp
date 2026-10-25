@@ -16,9 +16,6 @@
 #define D_800F2B4A D_800F03E8
 #define Model_UpdateCreditsMonsterSlot func_80053E40
 #define Model_StartBattleSlotAction func_800547E0
-#define Model_CorrectViewPitch func_80055D7C
-#define Model_CorrectViewDistance func_80055EE8
-#define Model_SetCameraHoldState func_8004EBD0
 #define func_801807B0 func_80180820
 #define func_80180A24 func_80180900
 #define func_80181C4C func_80181B88
