@@ -184,7 +184,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             "src/overlays/model_variant/variant414_webs_slot1.c",
             "src/overlays/model_variant/variant415_bands.c",
             "src/overlays/model_variant/variant415_bands_slot1.c",
-            "src/overlays/model_variant/variant415_draw.c",
+            "src/overlays/spanish_model_variant/variant432_draw.c",
             "src/overlays/model_variant/variant415_draw_slot1.c",
             "src/overlays/model_variant/variant415_entry.c",
             "src/overlays/model_variant/variant415_entry_slot1.c",

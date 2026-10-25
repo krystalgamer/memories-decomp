@@ -56,7 +56,7 @@ segments:
     subsegments:
       - [0x4, c, overlays/model_variant/variant415_entry]
       - [0xDB0, c, overlays/model_variant/variant415_ribbons]
-      - [0x134C, c, overlays/model_variant/variant415_draw]
+      - [0x134C, c, overlays/spanish_model_variant/variant432_draw]
       - [0x16A0, c, overlays/model_variant/variant415_layers]
       - [0x1B18, c, overlays/model_variant/variant415_bands]
       - [0x1F7C, data, overlays/model_variant_401_stage9_slot0/data]

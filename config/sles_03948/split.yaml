@@ -51,7 +51,7 @@ segments:
     - initial_data
   - - 2116
     - .rodata
-    - game/european/file_transfer_runtime
+    - game/file_transfer_runtime
   - - 2144
     - rodata
     - initial_data_860
@@ -221,7 +221,7 @@ segments:
     - game/file_stream
   - - 16928
     - c
-    - game/european/file_transfer_runtime
+    - game/file_transfer_runtime
   - - 21816
     - c
     - game/file_transfer_flags
@@ -923,7 +923,7 @@ segments:
     - game/save_data_set_mask_seed
   - - 199076
     - c
-    - game/european/sound_frontend
+    - game/sound_frontend
   - - 199504
     - c
     - game/european/display_object_core
@@ -1001,7 +1001,7 @@ segments:
     - game/european/sd_update_bank_load
   - - 227960
     - c
-    - game/european/sound_output
+    - game/sound_output
   - - 229648
     - c
     - game/sd_init_voice_state
@@ -1118,7 +1118,7 @@ segments:
     - game/model_word_memory
   - - 254372
     - c
-    - game/european/model_queue_relative_camera_orbit
+    - game/model_queue_relative_camera_orbit
   - - 254900
     - c
     - game/european/model_keyframe_update
@@ -1220,7 +1220,7 @@ segments:
     - game/func_80059B90
   - - 316704
     - c
-    - game/european/model_scene_states
+    - game/model_scene_states
   - - 317380
     - c
     - game/model_effect_requests
