@@ -164,7 +164,7 @@ void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
             DuelEffect_DrawFadingFullscreenColor((u8 *)&work->screen_color, 15);
         }
         if (*(u32 *)&work->color_ready == 0x10001) {
-            gDuelEffect_pActiveRequest->field_1D = 1;
+            gDuelEffect_pActiveRequest->progress = 1;
         }
         if (work->stage == 0 && phase < -1) {
             if (work->config->mode == 2) {

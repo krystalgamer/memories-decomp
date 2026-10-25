@@ -437,7 +437,7 @@ void DuelScene_UpdateBattle(void)
                         arg += DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
                         req->field_02 = arg;
                         pos = result - 1;
-                        req->field_1A = pos;
+                        req->phase = pos;
                         gDuel_bSceneSubStep = t | 0x60;
                     }
                 }
@@ -567,7 +567,7 @@ void DuelScene_UpdateBattle(void)
                     if (result >= 3) {
                         result = 2;
                     }
-                    req->field_1A = result;
+                    req->phase = result;
                     if (wins[gDuel_bPresentationCursor] > 0) {
                         gDuel_bSceneSubStep |= 0x20;
                     }
@@ -594,7 +594,7 @@ void DuelScene_UpdateBattle(void)
                     return;
                 }
                 if (!(f & 0x20) &&
-                    gDuelEffect_pTrackedRequest->field_1D != 0) {
+                    gDuelEffect_pTrackedRequest->progress != 0) {
                     side->field_30.h.field_30 = side->position.h.field_28 + ((rand() & 3) - 2);
                     side->field_30.h.field_32 = side->position.h.field_2A + ((rand() & 3) - 2);
                     return;
@@ -624,13 +624,13 @@ void DuelScene_UpdateBattle(void)
             req->field_00 = 0xF0;
             req->field_02 = 0x78;
             result = Duel_CompareBattleStrength(gDisplayObject_apWorkSlots[0], 0);
-            req->field_1A = result / 1000;
-            if (req->field_1A >= 3) {
-                req->field_1A = 2;
+            req->phase = result / 1000;
+            if (req->phase >= 3) {
+                req->phase = 2;
             }
-            SD_SEPlayFull(req->field_1A + 0x10);
+            SD_SEPlayFull(req->phase + 0x10);
             req->field_12 = result;
-            req->field_1A = req->field_1A + 3;
+            req->phase = req->phase + 3;
             return;
         }
         gDuel_bSceneSubStep = 0xB;
@@ -649,7 +649,7 @@ void DuelScene_UpdateBattle(void)
                 side->field_30.h.field_32 +
                 DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
             if (gDuel_wSelectedTrapCardId != 0) {
-                req->field_1A = 1;
+                req->phase = 1;
             }
             gDuel_wStepCounter = 2;
             return;

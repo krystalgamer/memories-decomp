@@ -122,7 +122,7 @@ void DuelEffect_RunDirectDamage(void *buffer, s32 phase)
                     work->sizes[i] -= work->config->shrink;
                 }
             } else if (work->states[i] == 1) {
-                gDuelEffect_pActiveRequest->field_1D = 1;
+                gDuelEffect_pActiveRequest->progress = 1;
                 if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i]) &&
                     work->variant < 5) {
                     setVector(&scale, 4096, 4096, 4096);

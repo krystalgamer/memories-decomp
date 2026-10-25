@@ -129,7 +129,7 @@ void DuelEffect_RunRowStrike(void *buffer, s32 phase)
                     if (work->activated[j] == 0) {
                         work->hits++;
                         work->activated[j] = 1;
-                        gDuelEffect_pActiveRequest->field_1D = work->hits;
+                        gDuelEffect_pActiveRequest->progress = work->hits;
                     }
                     work->ages[j] = 4;
                     for (k = 0; k < 32; k++) {

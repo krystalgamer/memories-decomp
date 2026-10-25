@@ -51,7 +51,7 @@ void DuelEffect_ApplyTerrain(void) {
         n = gDuel_bTerrain - 1;
         e = DuelEffect_AllocateRequest(0xA);
         gDuelEffect_pTrackedRequest = e;
-        e->field_1A = n;
+        e->phase = n;
         SD_SEPlayFull(0x13);
         return;
     }
@@ -59,7 +59,7 @@ void DuelEffect_ApplyTerrain(void) {
     f = gDuel_wCardEffectFlags;
 
     if ((f & 0x40) == 0) {
-        if (gDuelEffect_pTrackedRequest->field_1D != 0) {
+        if (gDuelEffect_pTrackedRequest->progress != 0) {
             gDuel_wCardEffectFlags = f | 0x40;
             File_RequestAsyncTransfer(
                 0, (u8 *)0,
@@ -75,7 +75,7 @@ void DuelEffect_ApplyTerrain(void) {
              gFile_dwCancelRequestState_abs) == 0) {
             a = (DisplayObjectConfig *)gDuel_pTerrainIcon;
             b = gDuel_bTerrain;
-            gDuelEffect_pTrackedRequest->field_1A = -2;
+            gDuelEffect_pTrackedRequest->phase = -2;
             DisplayObject_SetResourceVariant(a, b);
             gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x20;
         }

@@ -44,8 +44,8 @@ class DuelSceneRequestPointerTests(unittest.TestCase):
                         "void *generic(void) { return gDuelEffect_pTrackedRequest; }\n"
                         "typedef char handle_width[sizeof(gDuelEffect_pTrackedRequest) == 4 ? 1 : -1];\n"
                         "typedef char request_extent[sizeof(DuelEffectRequest) == 0x20 ? 1 : -1];\n"
-                        "typedef char progress[(u32)&((DuelEffectRequest *)0)->field_1D"
-                        " == 0x1D && sizeof(((DuelEffectRequest *)0)->field_1D) == 1 ? 1 : -1];\n"
+                        "typedef char progress[(u32)&((DuelEffectRequest *)0)->progress"
+                        " == 0x1D && sizeof(((DuelEffectRequest *)0)->progress) == 1 ? 1 : -1];\n"
                     )
                     result = subprocess.run(
                         [

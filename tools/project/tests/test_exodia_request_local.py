@@ -84,7 +84,7 @@ void SD_SEPlayFull(u32 id)
         (u16)state.request.field_00 != ((value + 0x1A) & 0xFFFF) ||
         (u16)state.request.field_02 != (((value ^ 0x8000) + 0x1E) & 0xFFFF) ||
         (u32)state.request.buffer != word + 0xA000 + initial_counter * 0x1000 ||
-        state.request.field_1A != 9) error = 4;
+        state.request.phase != 9) error = 4;
     events = events * 10 + 4;
 }
 static int run_case(u32 which, u32 bits, u32 counter, u32 address)
@@ -125,7 +125,7 @@ static int run_case(u32 which, u32 bits, u32 counter, u32 address)
         put16(&expected.request.field_00, bits + 0x1A);
         put16(&expected.request.field_02, (bits ^ 0x8000) + 0x1E);
         put32(&expected.request.buffer, address + 0xA000 + counter * 0x1000);
-        expected.request.field_1A = 9;
+        expected.request.phase = 9;
         expected.counter = counter + 1;
     }
     events = error = 0;

@@ -63,7 +63,7 @@ void DuelEffect_RunContourBurst(void *buffer, s32 phase)
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
             DuelEffect_DrawQuadContour((u8 *)&work->color, work->quads[0], work->quads[1], 0, 1);
             if (work->frame >= work->config->delay) {
-                gDuelEffect_pActiveRequest->field_1D = 1;
+                gDuelEffect_pActiveRequest->progress = 1;
                 scale.vx = work->scale >> 3;
                 scale.vy = work->scale >> 3;
                 scale.vz = 4096;

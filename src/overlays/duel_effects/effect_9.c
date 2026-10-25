@@ -148,7 +148,7 @@ void DuelEffect_RunInvertedLifePointRecovery(void *buffer, s32 phase)
         }
         if (work->stage == 1) {
             SD_SEPlayFull(26);
-            gDuelEffect_pActiveRequest->field_1D = 1;
+            gDuelEffect_pActiveRequest->progress = 1;
             DuelEffect_SetRgbColor((u8 *)&work->background_color, 63, 16, 63);
             DuelEffect_SetRgbColor((u8 *)&work->effects_color, 255, 64, 255);
             work->stage = 2;

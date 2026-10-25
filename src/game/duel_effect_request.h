@@ -45,9 +45,9 @@ typedef struct DuelEffectRequest {
     s16 field_12;   /* 0x12 */
     void *G32 buffer;   /* 0x14 */
     s16 id;         /* 0x18 */
-    s16 field_1A;   /* 0x1A */
+    s16 phase;      /* 0x1A */
     u8 flags;       /* 0x1C */
-    u8 field_1D;    /* 0x1D */
+    u8 progress;    /* 0x1D */
 } DuelEffectRequest;
 
 typedef char DuelEffectRequest_size_must_be_0x20[
@@ -65,14 +65,22 @@ typedef char DuelEffectRequest_buffer_offset_must_be_0x14[
 typedef char DuelEffectRequest_id_offset_must_be_0x18[
     DUEL_EFFECT_REQUEST_OFFSET(id) == 0x18 ? 1 : -1
 ];
-typedef char DuelEffectRequest_field_1A_offset_must_be_0x1A[
-    DUEL_EFFECT_REQUEST_OFFSET(field_1A) == 0x1A ? 1 : -1
+typedef char DuelEffectRequest_phase_offset_must_be_0x1A[
+    DUEL_EFFECT_REQUEST_OFFSET(phase) == 0x1A ? 1 : -1
 ];
 typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
     DUEL_EFFECT_REQUEST_OFFSET(flags) == 0x1C ? 1 : -1
 ];
 
 #undef DUEL_EFFECT_REQUEST_OFFSET
+
+/* The allocator starts phase at zero. The updater saves its signed value
+ * before replacing an uninitialized request's stored phase with -1, then
+ * dispatches the saved value. Controllers and Swords can publish later
+ * positive or negative commands; it is not just an initialization flag.
+ * Progress is handler-defined: row strike writes a hit count and Swords
+ * writes both 1 and 2. It is separate from flags and the shared finished
+ * byte that releases an active request. */
 
 /* The request tracked by the duel's phase/effect controllers across updates,
  * not the dispatcher's current request or the only active pool entry.

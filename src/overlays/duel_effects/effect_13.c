@@ -147,7 +147,7 @@ void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
         for (i = 0; i < work->active; i++) {
             if (work->states[i] == 2 &&
                 (u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
-                gDuelEffect_pActiveRequest->field_1D = 1;
+                gDuelEffect_pActiveRequest->progress = 1;
                 DuelEffect_SetTransformMatrix(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
                 DuelEffect_DrawLayeredTileQuad((u8 *)&work->colors[i], work->config->particle_size, 1, &position);
             }

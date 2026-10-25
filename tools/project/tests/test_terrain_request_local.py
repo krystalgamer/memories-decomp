@@ -53,13 +53,13 @@ void SD_SEPlayFull(u32 id)
 {
     if (id != 0x13 || allocations != 1 ||
         handle_block.scene != &request_block.request ||
-        request_block.request.field_1A != (s32)terrain - 1) error = 2;
+        request_block.request.phase != (s32)terrain - 1) error = 2;
     sounds++;
 }
 int main(void)
 {
     u32 side, value, i, counter, payload, cases = 0;
-    payload = (u8 *)&request_block.request.field_1A - (u8 *)&request_block;
+    payload = (u8 *)&request_block.request.phase - (u8 *)&request_block;
     for (side = 0; side < 2; side++) {
         gDuel_pActiveSideState = &side_block.sides[side];
         counter = (u8 *)&side_block.sides[side].rank.field_0A - (u8 *)&side_block;

@@ -1,5 +1,16 @@
 # Spanish duel-bank dispatcher
 
+## Canonical resident/bank handoff
+
+The complete provider and resident updater now call the existing entry
+`DuelEffect_DispatchRequest`, preserving both original native labels and
+the separate measured caller/provider ABI views. Canonical request members
+`phase` and `progress` retain signed-halfword/unsigned-byte storage at
+`0x1A/0x1D`; progress is a handler-defined count, not final completion.
+See the [full handoff contract](../duel-effect-request-handoff.md).
+All 26 independent comparisons, 25 distinct handlers, prior setup, special
+argument forwarding and current owner/callee assertions remain unchanged.
+
 ## Scoped active render-state C views
 
 `render_state_semantic_views.h` exposes three independently stored context

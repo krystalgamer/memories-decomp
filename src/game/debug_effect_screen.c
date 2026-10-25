@@ -216,7 +216,7 @@ void DebugEffect_UpdatePreview(void) {
         p = DuelEffect_AllocateRequest(
             gDebugEffect_abOperands[0]);
         DEBUG_EFFECT_PAGE_BYTE = (DEBUG_EFFECT_PAGE_BYTE + 1) & 7;
-        p->field_1A = gDebugEffect_abOperands[1];
+        p->phase = gDebugEffect_abOperands[1];
         switch (gDebugEffect_bPage) {
         case 0:
             p->field_00 = gDuel_aCardSlotGroundPositions[0xC];

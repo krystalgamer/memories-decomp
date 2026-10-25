@@ -77,8 +77,8 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 arg0)
         p->flags = DUEL_EFFECT_REQUEST_FLAG_ACTIVE;
         t = gGraphics_apOrderingTables;
         p->id = arg0;
-        p->field_1A = 0;
-        p->field_1D = 0;
+        p->phase = 0;
+        p->progress = 0;
         p->buffer = q + 0x3800;
         p->field_08 = (s32)t[2];
         b = (s32)t[1];
@@ -112,9 +112,9 @@ DuelEffectRequest *DuelEffect_CreateRequest(s32 id)
 /* Clears the blocking status, then walks the eight gDuelEffect_aRequests.
    For each active request: raises the blocking status unless the request is
    nonblocking; clears gDuelEffect_bRequestFinished; if the initialized flag is not set yet,
-   sets it and resets field_1A to -1; copies gGraphics_apOrderingTables[1]/[2] into
+   sets it and resets phase to -1; copies gGraphics_apOrderingTables[1]/[2] into
    field_0C/field_08, stashes the request at gDuelEffect_pActiveRequest, and calls
-   func_801462B0(id, the ORIGINAL field_1A read before the possible reset,
+   DuelEffect_DispatchRequest(id, the ORIGINAL phase read before the possible reset,
    buffer, request). It then restores the geometry state and clears flags
    when gDuelEffect_bRequestFinished ends up 1. Returns the blocking status.
 
@@ -141,16 +141,16 @@ s32 DuelEffect_UpdateRequests(void) {
             }
             gDuelEffect_bRequestFinished = 0;
             flags2 = rec->flags;
-            savedF1A = rec->field_1A;
+            savedF1A = rec->phase;
             if (!(flags2 & DUEL_EFFECT_REQUEST_FLAG_INITIALIZED)) {
                 rec->flags =
                     flags2 | DUEL_EFFECT_REQUEST_FLAG_INITIALIZED;
-                rec->field_1A = -1;
+                rec->phase = -1;
             }
             rec->field_0C = (s32)gGraphics_apOrderingTables[1];
             gDuelEffect_pActiveRequest = rec;
             rec->field_08 = (s32)gGraphics_apOrderingTables[2];
-            func_801462B0(rec->id, savedF1A, (s32)rec->buffer, rec);
+            DuelEffect_DispatchRequest(rec->id, savedF1A, (s32)rec->buffer, rec);
             SetGeomOffset(0, 0);
             SetGeomScreen(gViewState_Current.projection);
             if (gDuelEffect_bRequestFinished == 1) {

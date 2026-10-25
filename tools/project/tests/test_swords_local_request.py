@@ -52,7 +52,7 @@ void SD_SEPlayFull(u32 id)
         handle_block.swords[gDuel_bActiveSide ^ 1] != request ||
         !(request->flags & DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING) ||
         request->field_00 != 0xA0 || request->field_02 != 0x78 ||
-        request->field_1A != (gDuel_bActiveSide ^ 1)) error = 2;
+        request->phase != (gDuel_bActiveSide ^ 1)) error = 2;
     sounds++;
 }
 int main(void)

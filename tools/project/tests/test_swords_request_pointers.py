@@ -46,7 +46,7 @@ int main(void)
         gDuel_bActiveSide = side;
         gDuel_pActiveSideState = &side_block.sides[side];
         counter = (u8 *)&side_block.sides[side].swords_turns_remaining - (u8 *)&side_block;
-        request = (u8 *)&request_block.requests[side].field_1A - (u8 *)&request_block;
+        request = (u8 *)&request_block.requests[side].phase - (u8 *)&request_block;
         pointer = (u8 *)&handle_block.slots[side] - (u8 *)&handle_block;
         for (value = 0; value < 256; value++) {
             for (i = 0; i < sizeof(side_block); i++)
@@ -103,8 +103,8 @@ class SwordsRequestPointerTests(unittest.TestCase):
                         "DuelEffectRequest *(*request_allocator)(s32) = DuelEffect_AllocateRequest;\n"
                         "typedef char count[DUEL_SIDE_COUNT == 2 ? 1 : -1];\n"
                         "typedef char extent[sizeof(gDuel_apSwordsEffectObjects) == 8 ? 1 : -1];\n"
-                        "typedef char command[(u32)&((DuelEffectRequest *)0)->field_1A"
-                        " == 0x1A && sizeof(((DuelEffectRequest *)0)->field_1A) == 2 ? 1 : -1];\n"
+                        "typedef char command[(u32)&((DuelEffectRequest *)0)->phase"
+                        " == 0x1A && sizeof(((DuelEffectRequest *)0)->phase) == 2 ? 1 : -1];\n"
                     )
                     result = subprocess.run(
                         [str(COMPILER), "-S", "-O2", "-G0", "-Werror",
@@ -151,8 +151,8 @@ class SwordsRequestPointerTests(unittest.TestCase):
                     code = code.replace("if (c <= 0)", "if (c < 0)")
                 elif mutation == "wide-command":
                     code = code.replace(
-                        "gDuel_apSwordsEffectObjects[gDuel_bActiveSide]->field_1A =",
-                        "*(u32 *)&gDuel_apSwordsEffectObjects[gDuel_bActiveSide]->field_1A =",
+                        "gDuel_apSwordsEffectObjects[gDuel_bActiveSide]->phase =",
+                        "*(u32 *)&gDuel_apSwordsEffectObjects[gDuel_bActiveSide]->phase =",
                     )
                 else:
                     self.assertIsNone(mutation)
