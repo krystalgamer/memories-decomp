@@ -83,7 +83,6 @@ PAIRS = [
         "DisplayObject_SetResourceVariant",
         '#include "display_object_config.h"',
     ),
-    ("src/game/file_stream.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/file_transfer_runtime.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/file_transfer_runtime.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/movie_stream_requests.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),

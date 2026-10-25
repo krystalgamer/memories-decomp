@@ -1,9 +1,11 @@
 /*
- * The CD file-transfer runtime: the primary and secondary descriptor setup,
- * the ready callback and the command-completion callbacks
- * (0x80013B04-0x80014294), then transfer activation, stepping and the
+ * The CD file-transfer runtime: file-state initialization, the position query
+ * and the transfer setup helpers (0x80013898-0x80013B04); the primary and
+ * secondary descriptor setup, the ready callback and the command-completion
+ * callbacks (0x80013B04-0x80014294); transfer activation, stepping and the
  * per-frame service through SD_ConfigureTransferPhase and
- * File_RequestSecondarySlot.
+ * File_RequestSecondarySlot; and last the descriptor request, cancellation and
+ * phase-stepping helpers (0x80014E1C-0x800151B0).
  *
  * FILE_TRANSFER_BYTE_VIEWS only adds the byte views D_801D4200_raw and
  * gFile_FilterParamsByte from file_transfer.h, so it is selected for the whole unit.
@@ -23,6 +25,119 @@
 #include "../external_funcs.h"
 #include "../unmatched.h"
 #include "file_transfer_buffer.h"
+
+void File_InitTransferState(s32 value)
+{
+    gFile_TransferBufferBase = value;
+    D_8009B110 = 0;
+    D_8009B108 = 0;
+    gFile_dwTransferState = 0;
+    gFile_RangePauseCallback = 0;
+    gFile_RangeReadCallback = 0;
+    gFile_dwCancelRequestState = 0;
+    gFile_wTransferStepFlags = 0;
+    gFile_BeforePrimaryRequestCallback = 0;
+    D_8009B12C = 0;
+    gFile_ServiceCallGate = 0;
+    gFile_ServiceReentryLatch = 0;
+    gFile_CommandRetryCount = 0;
+    while (DsInit() == 0) {
+    }
+    D_8009B0FC = 1;
+}
+
+void File_GetPosition(s32 *output, const char *path)
+{
+    DslFILE file;
+
+    while (DsSearchFile(&file, (char *)path) == 0) {
+    }
+    *output = CdPosToInt_8007E710((const CdlLOC *)&file.pos);
+}
+
+void File_SetTransferLocation(
+    FileTransferDescriptor *transfer,
+    s32 file_index,
+    s32 sector_offset,
+    s32 vertical
+)
+{
+    transfer->total_bytes = vertical;
+    file_index &= FILE_TRANSFER_FILE_INDEX_MASK;
+    if (vertical < 0)
+        transfer->total_bytes = -(vertical << FILE_SECTOR_SHIFT);
+
+    if (sector_offset < 0) {
+        transfer->file_bytes = 0;
+        transfer->absolute_lba = -sector_offset;
+    } else {
+        register volatile s32 *lbas = gFile_anLba;
+
+        transfer->file_bytes = sector_offset << FILE_SECTOR_SHIFT;
+        transfer->absolute_lba = lbas[file_index] + sector_offset;
+    }
+}
+
+FileTransferDescriptor *File_InitTransferDescriptor(
+    FileTransferDescriptor *transfer,
+    s32 flags,
+    u8 *source,
+    s32 sector,
+    s32 vertical,
+    FileTransferCallback callback,
+    s32 initial_phase_index,
+    s32 length
+)
+{
+    transfer->loader_argument = source;
+    File_SetTransferLocation(transfer, flags, sector, -vertical);
+    transfer->transfer_mode = 1;
+    transfer->substate = 0;
+    transfer->buffer_index = 0;
+    transfer->phase_size = 0;
+    transfer->phase_callback = callback;
+    transfer->phase_index = initial_phase_index;
+    if (length) {
+        if (flags & 0x1000000) {
+            transfer->direct_destination = length;
+        } else {
+            transfer->phase_size = transfer->total_bytes;
+            if (length < 0) {
+                transfer->transfer_mode = 1;
+                transfer->alternate_sector_destination = length;
+                transfer->sector_destination = length;
+            } else {
+                flags |= 0x10000;
+                transfer->transfer_mode = 2;
+                transfer->field_30.h.field_32 = ((u32)length) >> 16;
+                transfer->field_30.h.counter = length;
+                transfer->w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
+                transfer->h = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
+                transfer->sector_destination = gFile_TransferBufferBase;
+                transfer->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
+            }
+        }
+    }
+    transfer->status_flags = flags;
+    return transfer;
+}
+
+FileTransferDescriptor *File_RequestSecondarySeek(s32 file_index, s32 sector_offset)
+{
+    FileTransferDescriptor *transfer;
+
+    if (gFile_dwTransferState & FILE_TRANSFER_STATE_SECONDARY_PENDING)
+        return 0;
+
+    transfer = &gFile_SecondaryTransferDescriptor;
+    File_SetTransferLocation(
+        transfer, file_index & FILE_TRANSFER_FILE_INDEX_MASK, sector_offset, 0
+    );
+    transfer->transfer_mode = 0;
+    transfer->status_flags = 0x00100000;
+    gFile_dwTransferState |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
+    return transfer;
+}
 
 FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 index, s32 offset)
 {
@@ -676,4 +791,131 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
     }
 
     return (s32)e;
+}
+
+FileTransferDescriptor *File_RequestAsyncTransfer(
+    s32 arg0,
+    u8 *arg1,
+    s32 arg2,
+    s32 arg3,
+    FileTransferCallback callback,
+    s32 initial_phase_index,
+    s32 arg6
+)
+{
+    FileTransferDescriptor *result;
+
+    gFile_dwTransferState |= FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;
+    if (gFile_BeforePrimaryRequestCallback == 0) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) != 0) {
+            result = (FileTransferDescriptor *)0;
+            goto out;
+        }
+    } else {
+        CALL32(void (*)(void), gFile_BeforePrimaryRequestCallback)();
+    }
+    File_InitTransferDescriptor(
+        &gFile_PrimaryTransferDescriptor,
+        arg0, arg1, arg2, arg3, callback, initial_phase_index, arg6
+    );
+    result = &gFile_PrimaryTransferDescriptor;
+out:
+    gFile_dwTransferState =
+        result->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+    return result;
+}
+
+FileTransferDescriptor *File_TryRequestAsyncTransfer(
+    s32 arg0,
+    u8 *arg1,
+    s32 arg2,
+    s32 arg3,
+    FileTransferCallback callback,
+    s32 initial_phase_index,
+    s32 arg6
+)
+{
+    if (gFile_BeforePrimaryRequestCallback == 0) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) != 0) {
+            return (FileTransferDescriptor *)0;
+        }
+    } else {
+        CALL32(void (*)(void), gFile_BeforePrimaryRequestCallback)();
+    }
+    File_InitTransferDescriptor(
+        &gFile_PrimaryTransferDescriptor,
+        arg0, arg1, arg2, arg3, callback, initial_phase_index, arg6
+    );
+    return &gFile_PrimaryTransferDescriptor;
+}
+
+void File_CancelTransfers(void)
+{
+    s32 value;
+
+    if ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState) {
+        value = 0x80;
+        if ((gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+            (gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
+            File_StopRangeTransfer();
+        }
+        gFile_dwCancelRequestState = value;
+    }
+}
+
+void File_StopRangeTransfer(void)
+{
+    gFile_wTransferStepFlags &= 0x3FFC;
+    gFile_wTransferStepFlags |= 2;
+}
+
+void File_StopActiveRangeTransfer(void)
+{
+    if ((gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+        (gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
+        File_StopRangeTransfer();
+    }
+}
+
+FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
+    s32 arg0,
+    u8 *arg1,
+    s32 arg2,
+    s32 arg3,
+    FileTransferCallback callback,
+    s32 initial_phase_index,
+    s32 arg6
+)
+{
+    FileTransferDescriptor *state;
+
+    gFile_dwTransferState &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
+    if ((gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) &&
+        (gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE)) {
+        File_StopRangeTransfer();
+    }
+
+    state = &gFile_SecondaryTransferDescriptor;
+    File_InitTransferDescriptor(
+        state, arg0, arg1, arg2, arg3, callback, initial_phase_index, arg6
+    );
+    gFile_dwTransferState |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
+    return state;
+}
+
+/* Counts the current phase down one sector and fires its callback at zero. */
+void File_StepTransferPhase(FileTransferDescriptor *object)
+{
+    object->phase_remaining -= FILE_SECTOR_SIZE;
+    if (object->phase_remaining <= 0) {
+        object->phase_size = 0;
+        if (object->phase_callback != 0) {
+            s32 count = object->phase_index++;
+
+            CALL32(FileTransferCallback, object->phase_callback)(object, count);
+        }
+        object->phase_remaining = object->phase_size;
+    }
 }
