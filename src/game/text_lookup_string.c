@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "text_constants.h"
 #include "text_string_bank_views.h"
+#include "european_text_bank_views.h"
 
 #ifdef VERSION_EUROPE
 u8 *Text_LookupString(s32 arg0, s32 arg1)
@@ -9,7 +10,7 @@ u8 *Text_LookupString(s32 arg0, s32 arg1)
     if (arg1 <= 0x7FFF) {
         if (arg1 >= 0x500) {
             arg1 -= 0x100;
-            return (u8 *)(((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) |
+            return (u8 *)(((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) |
                 gText_PrimaryStringOffsets[arg1]);
         }
         return (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) | gText_PrimaryStringOffsets[arg1]);

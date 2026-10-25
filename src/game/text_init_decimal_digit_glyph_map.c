@@ -4,6 +4,7 @@
 #include "text_decimal_key_views.h"
 #include "text_constants.h"
 #include "text_glyph_lookup.h"
+#include "european_text_bank_views.h"
 
 /* Copies the ten two-byte Shift-JIS digit keys from gText_DecimalDigitSjisKeys
    into a local buffer and walks them as big-endian u16 keys. Each key is
@@ -37,11 +38,11 @@ s32 func_8003B758(s32 key)
 }
 
 /* The European map stores the ten digit codes themselves, read from the
-   byte string at D_801BF870: a byte from 0xF0 up starts a two-byte code
+   byte string at gText_DecimalDigitGlyphString: a byte from 0xF0 up starts a two-byte code
    (its low nibble is the high byte), and 0xFF ends the string early. */
 void Text_InitDecimalDigitGlyphMap(void)
 {
-    u8 *p = D_801BF870;
+    u8 *p = gText_DecimalDigitGlyphString;
     s32 i = 0;
     s32 c = *p;
 
