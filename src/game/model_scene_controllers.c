@@ -2050,13 +2050,13 @@ last:
 
 /* Per-frame tint pass over the ten requests at gModel_aTintRequests. A live request
  * interpolates its start colour towards its end colour, redraws the slot with
- * the requested part id, then restores the slot and advances the request.
+ * the saved animation selector, then restores the slot and advances the request.
  *
  * What the allocation rests on: the shifted flag word `v` is masked into its
  * own name, `part`, ahead of the Model_SetSlotShadowEnabled call, and `part`
  * is copied to `sid` after it. `part` therefore lives and dies inside the one
  * basic block while crossing the call, so local-alloc gives the flag word,
- * shift and mask $s2 and pushes field_0A to $s3; `sid` then inherits $s2
+ * shift and mask $s2 and pushes animation_position_snapshot to $s3; `sid` then inherits $s2
  * through its
  * copy preference. `v` itself never crosses the call, which is what holds the
  * srl and andi ahead of it where the scheduler would otherwise sink them to
@@ -2097,11 +2097,11 @@ void Model_UpdateTintRequests(void)
         if (gModel_aSlots[(e->flags >> 1) & 1].is_active == 0) {
             continue;
         }
-        if (Model_HasInsufficientBufferSpace((e->flags >> 1) & 1, e->start.b3)) {
+        if (Model_HasInsufficientBufferSpace((e->flags >> 1) & 1, e->start.blend_mode)) {
             goto tail;
         }
         v = e->flags;
-        a = e->field_0A;
+        a = e->animation_position_snapshot;
         lo = e->elapsed;
         hi = e->duration;
         side = (v >> 1) & 1;
@@ -2113,10 +2113,10 @@ void Model_UpdateTintRequests(void)
         old = Model_SetSlotShadowEnabled(side, 0);
         sid = part;
         save = *MODEL_TINT_COLOR_VIEW(slot->tint);
-        col.b3 = e->start.b3;
-        col.b0 = e->start.b0 * (hi - lo) / hi + e->end.b0 * lo / hi;
-        col.b1 = e->start.b1 * (hi - lo) / hi + e->end.b1 * lo / hi;
-        col.b2 = e->start.b2 * (hi - lo) / hi + e->end.b2 * lo / hi;
+        col.blend_mode = e->start.blend_mode;
+        col.r = e->start.r * (hi - lo) / hi + e->end.r * lo / hi;
+        col.g = e->start.g * (hi - lo) / hi + e->end.g * lo / hi;
+        col.b = e->start.b * (hi - lo) / hi + e->end.b * lo / hi;
         *MODEL_TINT_COLOR_VIEW(slot->tint) = col;
 
         aa = a;

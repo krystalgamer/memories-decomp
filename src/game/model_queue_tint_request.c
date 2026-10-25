@@ -25,7 +25,7 @@ void Model_QueueTintRequestForParts(
         byte_index = value >> 3;
         bits[byte_index] |= 1 << (value - byte_index * 8);
     }
-    a2.b3 = a1 & 127;
+    a2.blend_mode = a1 & 127;
     Model_QueueTintRequest(a0, a1 & 128, a2, a3, a4, bits);
 }
 
@@ -67,7 +67,7 @@ void Model_QueueTintRequest(
             sel = off;
             f = f6 | ((slot->field_BF5 & 0x1F) << 3);
             r->flags = f;
-            r->field_0A = slot->animation_position;
+            r->animation_position_snapshot = slot->animation_position;
             r->elapsed = 0;
             r->duration = (a4 *= 2);
             r->start = a2;

@@ -69,12 +69,12 @@ s32 func_8013B004(u8 *context, s32 command)
     time = Model_GetSlotAnimationFrame(Model_GetActiveSlotIndex()) - config->anim_start;
     if (time >= 0 && time < (s16)config->anim_span / 2 && time % 3 < 2 && work->tint == 1) {
         Model_SetFrameStepOverride(1);
-        tint_start.b0 = 96;
-        tint_start.b1 = 96;
-        tint_start.b2 = 96;
-        tint_end.b0 = 0;
-        tint_end.b1 = 0;
-        tint_end.b2 = 0;
+        tint_start.r = 96;
+        tint_start.g = 96;
+        tint_start.b = 96;
+        tint_end.r = 0;
+        tint_end.g = 0;
+        tint_end.b = 0;
         Model_QueueTintRequestForAllParts(Model_GetActiveSlotIndex(), 2, tint_start, tint_end,
             (s16)config->anim_span / 2 - time);
     }
