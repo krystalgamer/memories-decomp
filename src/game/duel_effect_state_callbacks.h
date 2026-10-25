@@ -19,7 +19,12 @@ extern s8 gText_PageAdvanceHoldCountdown;
 void Text_StageScriptImage(DuelEffectChannel *object);
 /* State 11 stages command 7, with the original signed Y-threshold wait. */
 void Text_StartViewportTween(DuelEffectChannel *object);
+#ifdef VERSION_EUROPE
+extern void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
+    asm("func_80037544");
+#else
 void TextBox_WaitForScriptCompletion(DuelEffectChannel *object);
+#endif
 /* State 6: wait for setup, then finish or run the ordinary continuation once. */
 void Text_ContinueDisplayEffect(DuelEffectChannel *object);
 /* State 7 releases on step zero; state 8 only observes completion. */

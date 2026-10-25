@@ -510,7 +510,7 @@ void Text_SetPenX(DuelEffectChannel *object)
 #ifdef VERSION_EUROPE
 /* A European-only command, next to Text_SetPenX in the image: the same
    read into field_3A. */
-void func_80038168(DuelEffectChannel *object)
+void Text_SetPenY(DuelEffectChannel *object)
 {
     object->field_3A = TextStream_ReadU16LE(object);
 }

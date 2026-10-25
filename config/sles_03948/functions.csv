@@ -449,7 +449,7 @@ address,size,name,status,module,notes
 0x8003753C,0xD8,Text_WaitForPageAdvance,matching_c,game,Shared European C at 0x8003733C; French relocations and complete executable SHA-256 verified.
 0x80037614,0xA0,Text_StageScriptImage,matching_c,game,Shared European C at 0x80037414; French relocations and complete executable SHA-256 verified.
 0x800376B4,0x90,Text_StartViewportTween,matching_c,game,Shared European C at 0x800374B4; French relocations and complete executable SHA-256 verified.
-0x80037744,0x1C,func_80037544,matching_c,game,Shared European C at 0x80037544; French relocations and complete executable SHA-256 verified.
+0x80037744,0x1C,TextBox_WaitForScriptCompletion,matching_c,game,Shared European C at 0x80037544; French relocations and complete executable SHA-256 verified.
 0x80037760,0xB4,Text_ContinueDisplayEffect,matching_c,game,Shared European C at 0x80037560; French relocations and complete executable SHA-256 verified.
 0x80037814,0x5C,Text_WaitForDisplayEffectAndRelease,matching_c,game,Shared European C at 0x80037614; French relocations and complete executable SHA-256 verified.
 0x80037870,0x3C,Text_WaitForDisplayEffect,matching_c,game,Shared European C at 0x80037670; French relocations and complete executable SHA-256 verified.
@@ -474,7 +474,7 @@ address,size,name,status,module,notes
 0x80038218,0xD4,Text_SetFontMode,matching_c,game,Unmodified European/shared C at 0x80038018; complete French executable SHA-256 verified.
 0x800382EC,0x54,Text_SetGlyphCellSize,matching_c,game,Unmodified European/shared C at 0x800380EC; complete French executable SHA-256 verified.
 0x80038340,0x28,Text_SetPenX,matching_c,game,Shared European C at 0x80038140; French relocations and complete executable SHA-256 verified.
-0x80038368,0x28,func_80038168,matching_c,game,Shared European C at 0x80038168; French relocations and complete executable SHA-256 verified.
+0x80038368,0x28,Text_SetPenY,matching_c,game,Shared European C at 0x80038168; French relocations and complete executable SHA-256 verified.
 0x80038390,0x30,Text_SetOutputLimit,matching_c,game,Shared European C at 0x80038190; French relocations and complete executable SHA-256 verified.
 0x800383C0,0xAC,Text_PushStagedString,matching_c,game,Shared European C at 0x800381C0; French relocations and complete executable SHA-256 verified.
 0x8003846C,0x4C,Text_SetColorIndex,matching_c,game,Unmodified European/shared C at 0x8003826C; complete French executable SHA-256 verified.

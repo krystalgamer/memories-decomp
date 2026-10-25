@@ -67,3 +67,60 @@ the aliases resolve before compilation. Native assembly, relocations,
 initializer values and ordering are unchanged. Existing witnesses and
 mutations retain their complete bytes; no new source-string harness,
 fixture, pointer representation, SDK declaration or profile is added.
+
+## Regional pen and state-callback interfaces
+
+Three existing matching identities now agree with their regional inventories
+and existing declaration owners:
+
+| Function | Japan | UK | France / Germany / Italy / Spain | Bytes |
+| --- | --- | --- | --- | --- |
+| `Text_SetPenY` | not built in this unit | `0x80038168` | `0x80038368` | `0x28` |
+| `TextBox_WaitForScriptCompletion` | existing canonical name | `0x80037544` | `0x80037744` | `0x1C` |
+| `Dialog_OpenChoice` | `0x80036CAC` | existing canonical name | existing canonical name | `0xB0` in Japan |
+
+The PAL-only pen helper consumes one little-endian halfword through
+`TextStream_ReadU16LE` and stores it into channel `+0x3A`, the existing
+unsigned pen-Y halfword. Its adjacent X setter and the reset-X/advance-Y
+handler independently establish that role. Only the definition identifier
+changes. `duel_effect_command.h` provides the explicit native `func_80038168`
+assembly label under the existing `VERSION_EUROPE` selector.
+
+All operand values, stream advancement and the halfword store remain.
+No signed coordinate, clamp, combined X/Y setter or new font/layout policy
+is introduced. This name does not assign a secondary-command opcode or
+claim the helper occupies NA's slot seven; native image adjacency is not
+a table-position proof. See [text-layout-commands.md](text-layout-commands.md).
+
+The script-completion callback already has its canonical C name. Its
+`duel_effect_state_callbacks.h` owner now supplies the PAL native
+`func_80037544` assembly label, replacing only the private producer-wrapper
+mapping. NA/Japanese declarations remain unchanged. It tests the existing
+shared byte `gText_ScriptDispatchGate` and clears state `+0x51` only when
+that byte is zero; otherwise the state remains untouched.
+
+The gate is not a per-channel token, timer or command-table index. Existing
+image/tween producers, gate/command publication and the builder's separate
+whole-command-word completion test remain unchanged. The initialized NA
+state table keeps this callback at slot ten. No identical regional table
+contents or lengths are inferred. See [text-script-bridge.md](text-script-bridge.md).
+
+The Japanese `Dialog_OpenChoice` entry was already canonical in the real
+C definition, `dialog_choice_state.h` and native linker symbols; only its
+inventory name was stale. It still returns the unchecked cursor allocation,
+configures the existing record-derived position, sets its sprite flags,
+selects ordering table one and applies the signed-byte depth offset from
+`field_59 + 1`. Cursor storage, input polling and release remain the callers'
+responsibility. No new binding, alias, type or callback is added.
+See [text-page-transition.md](text-page-transition.md).
+
+All function bodies, layouts, stream/table bounds and initialized table
+contents stay unchanged. Native conservation covers eight actual complete
+source/profile routes: three regional command units with named
+`gcc_2_8_1_g8_split`, three callback/constructor units with named
+`gcc_2_8_1_g8`, and both NA initialized command/state-table owners with named
+`gcc_2_8_1_g0`. Complete compiler/MASPSX assembly, symbols and
+disassembly/relocations are compared. Coverage is 30 functions / 3,928
+instruction bytes for NA, 30 / 3,676 for Japan and 31 / 3,988 for each PAL
+image. No synthetic/generated-C/source-string harness or new testcase is
+added; regional image and witness execution stays on the PR.
