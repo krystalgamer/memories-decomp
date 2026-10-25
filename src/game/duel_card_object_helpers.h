@@ -23,7 +23,7 @@ s32 Duel_GetCardEffectVariant(CardObject *object);
 
 /* Allocates a type 2 display object, passes arg0/arg1 to DisplayObject_ConfigureSpriteAtPosition as
    its x/y, and marks it screen space. Defined in
-   duel_card_object_helpers.c; Duel_UpdateDisplayTransition creates the field-card panel
+   duel_card_display_objects.c; Duel_UpdateDisplayTransition creates the field-card panel
    through it. */
 DisplayObject *Duel_CreateFieldCardPanel(int arg0, int arg1);
 
