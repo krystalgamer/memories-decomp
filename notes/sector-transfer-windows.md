@@ -162,6 +162,53 @@ complete remaining sources, scenarios, callbacks, assertions, mutation
 paths, values and offsets stay exact. No test, fixture, generated-C,
 source-string harness or local cloud-test execution is added.
 
+## Callback phase cursor and initial request argument
+
+The former `FileTransferDescriptor.result` word at `+0x40` is now
+`phase_index`. Its high-confidence role comes from all four callback
+dispatch sites: ready-sector completion, the shared VRAM/SPU tail,
+initial active-transfer setup and `File_StepTransferPhase`. Each supplies
+the current word as the callback's phase argument while post-incrementing
+the stored word. This is an input cursor for the next callback, not its
+return value or a completion/error status.
+
+The request constructors propagate the existing signed
+`initial_phase_index` argument into this unchanged `u32` member. The three
+primary/secondary request definitions and their owning declarations now
+name that argument and the callback argument without changing parameter
+order, widths, calling convention or the loose callback typedef.
+
+The cursor is not necessarily monotonic or zero-based. The card-data
+callback, including its independent Japanese implementation, writes one
+or two to select the next data/skip step. The PAL duel-package callback
+writes `0x10` to visit its extra language stage, then writes one through
+the existing signed word view to resume the ordinary path. The sound
+phase callback can write two before falling through to its reduced
+payload leg. All such redirects remain in the same order.
+
+Unsigned post-increment wraps at the original word boundary, including
+`0xFFFFFFFF` to zero. The callback sees the old phase value, may observe the
+already-incremented stored cursor, and may replace it with any word.
+The callbacks' signed phase arguments retain their original bit
+conversions. No validation, signedness change, cached stable-descriptor
+assumption, fixed stage count, automatic reset or completion policy is added.
+Every descriptor/global reload, partial-sector path and callback-side
+descriptor replacement remains intact.
+
+The representation stays a plain `u32` at `+0x40`, before the unchanged
+buffer-index halfword at `+0x44` and transfer-mode byte at `+0x46`.
+Descriptor size, offsets, word-copy representation, stage/mode arguments,
+transfer-state flags and all other members are unchanged. In particular,
+`file_bytes` is not renamed or assigned an unproven source-cursor role,
+and unrelated AI/ritual/SDK `result` identifiers remain untouched.
+
+The existing CD-ready executable control changes only its six typed member
+identifiers. Its complete remaining source, wrap/redirect observations,
+callback replacement scenarios, assertions, numeric values, mutations and
+generator remain exact. No new case, harness or local cloud-test execution
+is introduced. The original field-relative identity, evidence and caveats
+are recorded here rather than inventing a linker address for a member.
+
 ## Ready-sector options and skip producers
 
 Three high-confidence option names now expose existing ready-callback

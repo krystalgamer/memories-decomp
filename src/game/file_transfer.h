@@ -35,20 +35,22 @@ void File_GetPosition(s32 *, const char *);
 void File_SetTransferLocation(
     FileTransferDescriptor *, s32 file_index, s32 sector_offset, s32 vertical
 );
+/* The signed initial_phase_index is stored in the descriptor's u32 phase
+ * cursor. Callbacks may redirect it; it is not a return/completion status. */
 FileTransferDescriptor *File_RequestAsyncTransfer(
-    s32, u8 *, s32, s32, FileTransferCallback, s32, s32
+    s32, u8 *, s32, s32, FileTransferCallback callback, s32 initial_phase_index, s32
 );
 FileTransferDescriptor *File_TryRequestAsyncTransfer(
-    s32, u8 *, s32, s32, FileTransferCallback, s32, s32
+    s32, u8 *, s32, s32, FileTransferCallback callback, s32 initial_phase_index, s32
 );
 FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
-    s32, u8 *, s32, s32, FileTransferCallback, s32, s32
+    s32, u8 *, s32, s32, FileTransferCallback callback, s32 initial_phase_index, s32
 );
 FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     s32, s32, s32, s32
 );
 FileTransferDescriptor *File_InitTransferDescriptor(
-    FileTransferDescriptor *, s32, u8 *, s32, s32, FileTransferCallback, s32,
+    FileTransferDescriptor *, s32, u8 *, s32, s32, FileTransferCallback callback, s32 initial_phase_index,
     s32
 );
 FileTransferDescriptor *File_RequestSecondarySeek(s32 file_index, s32 sector_offset);
