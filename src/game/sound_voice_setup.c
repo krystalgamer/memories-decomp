@@ -70,7 +70,7 @@ void SD_ResetSecondaryPlayback(void) {
     cff = 0xFF;
     track_off = (u32)&((SDSecondaryState *)0)->tracks;
     base = gSD_pSecondaryState;
-    base->field_0512 = 0x7F;
+    base->sequence_level = 0x7F;
     do {
         track = SD_SECONDARY_OFFSET_VIEW(
             SDSequenceTrack, gSD_pSecondaryState, track_off);

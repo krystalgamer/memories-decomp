@@ -870,7 +870,7 @@ above.
 |---|---:|---|---|
 | `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `SD_HandleSequenceControlChange`, `SD_SetSequenceChannelProgram`, and `SD_SetSequenceChannelPitchBendMsb` establish `program`, `pan`, `volume`, `expression`, `pitch_bend_msb`, and staged controller selector/mode/value bytes; `+0x06` and `+0x10` retain offset-based names. |
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `SD_HandleSequenceControlChange`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
-| `0x04A4` | `0x1C` | `transfer` | `SD_ResetSecondaryState`, `SD_VabOpenHead`, `SD_VabTransBody`, `SD_VabTransBodyChunk`, and `SD_ResetVabTransferState`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
+| `0x04A4` | `0x1C` | `transfer` | `SD_ResetSecondaryState`, `SD_VabOpenHead`, `SD_VabTransBody`, `SD_VabTransBodyChunk`, and `SD_ResetVabTransferState`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, `u8 vab_master_volume +0x18`, unnamed bytes `+0x19/+0x1A`, and `u8 vab_pan +0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
 | `0x0503` | `u8` | `event_guard` | `SD_OpenSequenceTimerEvent` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
 | `0x0504` | `long` | `event_handle` | `SD_OpenSequenceTimerEvent` stores the `OpenEvent` result; `SD_CloseSequenceTimerEvent` disables and closes the same handle. |
@@ -878,12 +878,12 @@ above.
 | `0x0509` | `u8` | `vsync_update_mode` | Nonzero selects the `SD_VSync` secondary-update path and suppresses timer-callback work. |
 | `0x050C` | callback pointer | `timer_maintenance_callback` | `SD_InitState` installs `SD_UpdateVoiceSlots`; called only at the timer maintenance threshold. |
 | `0x0510` | `s16` | `object_count` | Initialized by `SD_ResetSecondaryState` and validated/set by `SD_SetSecondaryObjectCount`; bounds the `0x28`-byte object scans in several matched functions. |
-| `0x0512` | `s16` | `field_0512` | Existing signed spatialization parameter; not renamed here. |
+| `0x0512` | `s16` | `sequence_level` | Sequence-wide gain: controller `0x1E` stores its byte value here; spatialization multiplies it with the retained VAB master volume. |
 | `0x0514`, `0x0516` | `u16` | `master_level_left`, `master_level_right` | Stored stereo master levels applied by secondary note-on and `SD_SetVoiceVolume`; setter parameters remain signed halfwords. |
 | `0x07DC` | pointer | `sequence_read_base` | Copied from `sequence_source` on play/fast-forward; base for the byte reader, `MTrk` search and track read-address calculation. |
 | `0x07E0` | `s16` | `sequence_open_token` | Retained `SD_OpenSequence` second argument; `-1` gates the closed state, with no bank-index use established. |
 | `0x07E2` | `s16` | `sequence_state` | Open/play/stop/close and mute/restore state; all-track-ended status is latched only by polling. |
-| `0x07E4`, `0x07E6` | two `s16` | `field_07E4`, `field_07E6` | Existing signed secondary spatial levels; unchanged here. |
+| `0x07E4`, `0x07E6` | two `s16` | `spatial_level_left`, `spatial_level_right` | Independent post-pan spatial gains, masked to seven bits by `SD_SetSecondarySpatialLevels`; separate from the output masters at `0x0514/0x0516`. |
 | `0x07E8` | pointer | `sequence_source` | Input pointer retained by an accepted `SD_OpenSequence`; copied to the read base only on play/fast-forward. |
 | `0x07EC` | `s32` | `sequence_read_limit` | Fixed `0x10000` offset guard for the byte reader and `MTrk` search, not a recovered source-buffer length. |
 | `0x07F0` | `s32` | `sequence_tick_count` | Logical tick counter incremented on the selected track's tempo carry; nonzero-selector loop handling can restore it. |
@@ -897,7 +897,7 @@ above.
 | `0x080C` | `s32` | `fast_forward_target_address` | Zero disables countdown skipping; a ticking track clears the global target when its unsigned cursor address reaches it. |
 | `0x0810` | `s32` | `last_track_cursor_address` | Latest ticking track's `sequence_read_base + pos` snapshot, even on a countdown-only step; no matched C reader is established. |
 | `0x0814` | `u8` | `sequence_updates_enabled` | `SD_ResetSecondaryState` clears it; enabling sets it after optional event setup, and both timer and explicit secondary-update paths require it. |
-| `0x0815` | `u8` | `field_0815` | `SD_EnableSecondaryPanning` clears it, while `SD_DisableSecondaryPanning` sets it; when set, `SD_SpatializeSecondaryObject` forces centre pan instead of using its computed value. |
+| `0x0815` | `u8` | `pan_center_override` | Panning enable clears it and disable sets it; nonzero forces centre pan before the independent left/right spatial gains, not equal final outputs. |
 | `0x0818` | `u32` | `bytes_consumed` | `SD_VabOpenHead` clears it and `SD_VabTransBodyChunk` advances it across a transfer window. |
 | `0x081C` | `s32` | `sequence_tick_mode` | Stored tick selector: initialization uses `2` (`SS_TICK240`), reset uses `0x1000` (`SS_NOTICK`), and enable/reset-runtime paths consider timer open/close only for values `1` through `3`. |
 | `0x0844`, `0x0845` | `u8` | offset-based fields | `SD_ApplySequenceReverbParameter` stores two control-event byte values. |
@@ -930,6 +930,56 @@ caller's tone record, while the second sets the initialization defaults before
 the caller turns the voice off. Both now match as pure C at
 `gcc_2_8_1_g8_split`, with the `const` table declaration still preserving the
 original address materialization.
+
+### Secondary spatial gain and pan inputs
+
+Six names follow the existing spatialization chain without changing storage:
+transfer-relative `vab_master_volume` at `+0x18` and `vab_pan` at `+0x1B`
+remain `u8`; secondary-state `sequence_level` at `+0x512` and
+`spatial_level_left` / `spatial_level_right` at `+0x7E4/+0x7E6` remain
+`s16`; `pan_center_override` at `+0x815` remains `u8`. The existing
+transfer, spatial-level and override assertions now use those member names.
+Unrelated command/track `field_0018` owners are not renamed by this change.
+
+`SD_VabOpenHead` copies the local `SDVabHeader.master_volume` and `.pan`
+bytes into the transfer record. These are retained VAB inputs, not a
+transfer byte count or one of the later output masters. Secondary-state
+reset sets `vab_pan` to 64 but does not initialize `vab_master_volume`;
+the adjacent unnamed transfer bytes still receive their own 127 stores.
+No default master-volume store or new bank-open validation is added.
+
+`SD_HandleSequenceControlChange` controller `0x1E` stores its `u8` value
+into the signed halfword `sequence_level`, then refreshes object volumes
+without a seven-bit mask or the spatial setter's state check. This is
+sequence-wide state, not a field in the selected channel. Both secondary
+reset and playback reset restore 127. Spatialization preserves the
+explicit `(u16)` view when multiplying it by the VAB master volume.
+
+With no override, pan is VAB pan plus program pan, tone pan and channel
+pan minus the existing three-centre bias, clamped to `0..127`. A nonzero
+override selects centre 64 instead. Enable-panning stores zero and
+disable-panning stores one; neither setter newly refreshes live volumes.
+This is a centre-pan override, not a promise to make final stereo
+levels equal: the later left/right spatial gains can still differ.
+
+The gain chain retains its exact signed arithmetic and staging: VAB
+master volume times the unsigned-view sequence level, then channel
+expression and volume, shift right 14, program volume, tone volume,
+shift right 14, then the existing piecewise pan calculation. After pan,
+left and right multiply their corresponding signed spatial halfwords,
+shift right 7, separately reload the volatile velocity byte masked to
+seven bits, multiply and shift right 7 into the object's `u16` levels.
+Do not combine the two shifts, reorder products, widen intermediates,
+merge velocity reads or normalize the special centre-pan branch.
+
+`SD_SetSecondarySpatialLevels` masks each word argument with `0x7F`
+before storing the signed halfwords. It snapshots `sequence_state`
+before both stores and skips the refresh only for state 2. Stop and
+close restore the pair to 127 in their existing right-before-left order,
+as does secondary-state reset; playback reset does not newly reset them.
+These gains remain distinct from `master_level_left/right`, applied
+later by the output-volume path. No new clamp, enum, public API,
+hardware-rate claim, callback, test or witness migration is introduced.
 
 ### The sequencer state halfword (`sequence_state`)
 

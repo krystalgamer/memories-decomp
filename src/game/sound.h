@@ -351,10 +351,10 @@ typedef struct {
     s32 field_000C;
     s32 field_0010;
     u8 *G32 field_0014;
-    u8 field_0018;
+    u8 vab_master_volume;
     u8 field_0019;
     u8 field_001A;
-    u8 field_001B;
+    u8 vab_pan;
 } SDSecondaryTransfer;
 
 /* One MIDI track reader inside SDSecondaryState, at +0x518. `pos` is a byte
@@ -401,7 +401,7 @@ typedef struct {
     u8 pad050A[2];
     void (*G32 timer_maintenance_callback)(void);
     s16 object_count;
-    s16 field_0512;
+    s16 sequence_level;
     u16 master_level_left;
     u16 master_level_right;
     SDSequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
@@ -410,8 +410,8 @@ typedef struct {
     /* Retained open argument; only compared with the -1 closed marker. */
     s16 sequence_open_token;
     s16 sequence_state;
-    s16 field_07E4;
-    s16 field_07E6;
+    s16 spatial_level_left;
+    s16 spatial_level_right;
     u8 *G32 sequence_source;
     s32 sequence_read_limit;
     s32 sequence_tick_count;
@@ -428,7 +428,7 @@ typedef struct {
     s32 fast_forward_target_address;
     s32 last_track_cursor_address;
     u8 sequence_updates_enabled;
-    u8 field_0815;
+    u8 pan_center_override;
     u8 pad0816[2];
     u32 bytes_consumed;
     s32 sequence_tick_mode;
@@ -697,20 +697,20 @@ typedef char SDSecondaryState_transfer_offset_must_be_0x4A4[
     SD_STATE_OFFSET(SDSecondaryState, transfer) == 0x4A4 ? 1 : -1
 ];
 typedef char SDSecondaryState_transfer_gain_pan_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, transfer.field_0018) == 0x4BC &&
-    SD_STATE_OFFSET(SDSecondaryState, transfer.field_001B) == 0x4BF ? 1 : -1
+    SD_STATE_OFFSET(SDSecondaryState, transfer.vab_master_volume) == 0x4BC &&
+    SD_STATE_OFFSET(SDSecondaryState, transfer.vab_pan) == 0x4BF ? 1 : -1
 ];
 typedef char SDSecondaryState_master_level_offsets_must_match[
     SD_STATE_OFFSET(SDSecondaryState, master_level_left) == 0x514 &&
     SD_STATE_OFFSET(SDSecondaryState, master_level_right) == 0x516 ? 1 : -1
 ];
 typedef char SDSecondaryState_spatial_level_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, field_0512) == 0x512 &&
-    SD_STATE_OFFSET(SDSecondaryState, field_07E4) == 0x7E4 &&
-    SD_STATE_OFFSET(SDSecondaryState, field_07E6) == 0x7E6 ? 1 : -1
+    SD_STATE_OFFSET(SDSecondaryState, sequence_level) == 0x512 &&
+    SD_STATE_OFFSET(SDSecondaryState, spatial_level_left) == 0x7E4 &&
+    SD_STATE_OFFSET(SDSecondaryState, spatial_level_right) == 0x7E6 ? 1 : -1
 ];
 typedef char SDSecondaryState_pan_override_offset_must_be_0x815[
-    SD_STATE_OFFSET(SDSecondaryState, field_0815) == 0x815 ? 1 : -1
+    SD_STATE_OFFSET(SDSecondaryState, pan_center_override) == 0x815 ? 1 : -1
 ];
 typedef char SDSecondaryState_flag_0500_offset_must_be_0x500[
     SD_STATE_OFFSET(SDSecondaryState, flag_0500) == 0x500 ? 1 : -1
