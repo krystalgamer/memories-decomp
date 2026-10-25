@@ -5,8 +5,9 @@
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "card_flash_semantic_views.h"
 
-void func_80153ADC(void *buffer, s32 phase)
+void DuelEffect_RunExpandingRingBurst(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;
@@ -20,7 +21,7 @@ void func_80153ADC(void *buffer, s32 phase)
 
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_801461C8;
+    scale = gDuelEffect_ExpandingRingBurstInitialScale;
     work = buffer;
     if (phase >= 0) {
         work->widths[0] = 64;

@@ -14,6 +14,7 @@
 #include "selected_cards_semantic_views.h"
 #include "swords_field_semantic_views.h"
 #include "field_burst_semantic_views.h"
+#include "card_flash_semantic_views.h"
 
 void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
 {
@@ -45,7 +46,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     }
     if (effect == 4) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
-        func_80159AAC(buffer, phase);
+        DuelEffect_RunCardFlashBurst(buffer, phase);
     }
     if (effect == 5) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
@@ -115,7 +116,7 @@ void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *conte
     }
     if (effect == 19) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
-        func_80153ADC(buffer, phase);
+        DuelEffect_RunExpandingRingBurst(buffer, phase);
     }
     if (effect == 20) {
         gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
