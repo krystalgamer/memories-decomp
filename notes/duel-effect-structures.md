@@ -428,3 +428,10 @@ The completed pass retained the full executable SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88` with
 `MAKEFLAGS=-j2 make match`. `make basic-types`, `make global-usage`, and
 `make check-global-usage` also passed after the final source changes.
+
+## PAL native label for the active-entry test
+
+The PAL builds reach `DuelEffect_HasActiveEntry` through the native label
+`func_800370E0`, declared under `VERSION_EUROPE` in
+`duel_effect_entry_control.h`, instead of macros in the entry-control and
+save-prompt wrappers. Other regions keep the plain declaration.

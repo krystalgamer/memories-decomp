@@ -84,8 +84,7 @@ class SpanishModelIntroTests(unittest.TestCase):
                     self.assertEqual(resident_aliases[name], address)
                 else:
                     row = inventory[int(address, 0)]
-                    canonical = "func_800370E0" if name == "DuelEffect_HasActiveEntry" else name
-                    self.assertEqual(row["name"], canonical)
+                    self.assertEqual(row["name"], name)
                     self.assertEqual(row["status"], "matching_c")
         manifest = json.loads((self.config.parent / "matching_c.json").read_text())
         self.assertEqual(sum(
