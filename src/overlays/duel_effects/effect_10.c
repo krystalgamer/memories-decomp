@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_10.h"
+#include "live_handler_data_semantic_views.h"
 #include "handler_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
@@ -27,14 +28,14 @@ void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
     memset(&rotation, 0, sizeof(rotation));
     memset(&position, 0, sizeof(position));
     packet = &polygon;
-    scale = D_80146138;
+    scale = gDuelEffect_TerrainChangeInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 6) {
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015AB14[phase];
+            work->config = &gDuelEffect_TerrainChangeConfigs[phase];
             for (i = 0; i < 2; i++) {
                 DuelEffect_InitHalfStepXZRingVertices(175, 194, 16, (u16)(i * 8), work->rings[i], 4);
             }
@@ -62,8 +63,8 @@ void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
             work->tick = 0;
             work->spawned = 0;
             if (work->config->mode != 1) {
-                gDuelEffect_TexturePageClutPairs.pairs[12][0] = getTPage(D_8015A8C8[12].pmode,
-                    work->config->mode, D_8015A8C8[12].px, D_8015A8C8[12].py);
+                gDuelEffect_TexturePageClutPairs.pairs[12][0] = getTPage(gDuelEffect_TerrainChangeTextureImages[12].pmode,
+                    work->config->mode, gDuelEffect_TerrainChangeTextureImages[12].px, gDuelEffect_TerrainChangeTextureImages[12].py);
             }
         }
     } else if (work->cross_frame != 0) {

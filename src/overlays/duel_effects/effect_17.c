@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_17.h"
+#include "live_handler_data_semantic_views.h"
 #include "handler_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
@@ -28,7 +29,7 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
     s32 k;
 
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_80146034;
+    scale = gDuelEffect_BoardDestructionInitialScale;
     packet = &polygon;
     work = buffer;
     if (phase >= 0) {
@@ -36,7 +37,7 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
             work->cross = 1;
         } else {
             work->cross = 0;
-            work->config = &D_8015A60C[phase];
+            work->config = &gDuelEffect_BoardDestructionConfigs[phase];
             copyVector(&work->origin, &gDuelEffect_DrawOffset);
             if (work->config->mode == 0) {
                 Duel_CollectMatchingFieldCardObjects(gDuelEffect_CardObjectScratchWords, -1);

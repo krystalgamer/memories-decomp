@@ -12,6 +12,7 @@
 #include "textured_quads.h"
 #include "dispatch.h"
 #include "tile_effect.h"
+#include "live_handler_data_semantic_views.h"
 #include "handler_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "texture_semantic_views.h"
@@ -45,8 +46,8 @@ void DuelEffect_RunDestroyFlames(void *buffer, s32 phase)
             state->step = 1;
         } else {
             state->step = 0;
-            state->descriptor = &D_8015A648[phase];
-            DuelEffect_PackTexturePageClut(state->texture_words, &D_8015A62C, 1);
+            state->descriptor = &gDuelEffect_DestroyFlamesConfigs[phase];
+            DuelEffect_PackTexturePageClut(state->texture_words, &gDuelEffect_DestroyFlamesTextureImage, 1);
             for (k = 0; k < 5; k++) {
                 for (i = 0; i < 7; i++) {
                     DuelEffect_SetGrayColor(state->colors_a[k][i], 0x80);
