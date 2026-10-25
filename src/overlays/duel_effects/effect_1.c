@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_1.h"
+#include "fusion_attack_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
@@ -21,14 +22,14 @@ void func_80157794(void *buffer, s32 phase)
 
     memset(&rotation, 0, sizeof(rotation));
     memset(&translation, 0, sizeof(translation));
-    scale = D_80146208;
+    scale = gDuelEffect_FusionInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 2) {
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015B420[phase];
+            work->config = &gDuelEffect_FusionConfigs[phase];
             Model_SetFrameStepOverride(1);
             DuelEffect_InitRandomVectorsUnscaled(12, work->rotations);
             DuelEffect_InitParticleVectors(work->config->particle_speed, work->positions,

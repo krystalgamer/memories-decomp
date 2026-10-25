@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_2.h"
+#include "fusion_attack_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
@@ -28,7 +29,7 @@ void func_80153200(void *buffer, s32 phase, s16 number)
     memset(&position, 0, sizeof(position));
     value = number;
     packet = &polygon;
-    scale = D_801461B8;
+    scale = gDuelEffect_AttackSlashInitialScale;
     work = buffer;
     if (phase >= 0) {
         if (phase >= 7) {
@@ -36,9 +37,9 @@ void func_80153200(void *buffer, s32 phase, s16 number)
         } else {
             work->cross_frame = 0;
             if (number == 0) {
-                work->config = &D_8015AF18[6];
+                work->config = &gDuelEffect_AttackSlashConfigs[6];
             } else {
-                work->config = &D_8015AF18[phase];
+                work->config = &gDuelEffect_AttackSlashConfigs[phase];
             }
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
