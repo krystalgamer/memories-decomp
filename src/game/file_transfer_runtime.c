@@ -124,7 +124,7 @@ void File_TransferReadyCallback(s32 arg)
         if (q->phase_remaining <= 0) {
             q->phase_size = 0;
             if (q->phase_callback != 0) {
-                CALL32(FileTransferCallback, q->phase_callback)(q, q->result++);
+                CALL32(FileTransferCallback, q->phase_callback)(q, q->phase_index++);
             }
             q->phase_remaining = q->phase_size;
         }
@@ -209,7 +209,7 @@ void File_TransferReadyCallback(s32 arg)
     step:
         q->phase_size = 0;
         if (q->phase_callback != 0) {
-            CALL32(FileTransferCallback, q->phase_callback)(q, q->result++);
+            CALL32(FileTransferCallback, q->phase_callback)(q, q->phase_index++);
         }
         q->phase_remaining = q->phase_size;
     counter:
@@ -488,7 +488,7 @@ call_back:
     if (!(gFile_dwTransferState & 0x800000)) {
         gFile_dwTransferState = gFile_dwTransferState | 0x800000;
         if (p->phase_callback != 0) {
-            CALL32(FileTransferCallback, p->phase_callback)(p, p->result++);
+            CALL32(FileTransferCallback, p->phase_callback)(p, p->phase_index++);
         }
         p->phase_remaining = p->phase_size;
         return;
@@ -568,7 +568,7 @@ high:
     return;
 full:
     if (shared->field_14 == 0) {
-        object->result = 2;
+        object->phase_index = 2;
         goto reduced;
     }
     object->done = 3;

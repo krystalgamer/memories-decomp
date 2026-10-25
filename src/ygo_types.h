@@ -1018,7 +1018,7 @@ struct FileTransferDescriptor {
     s32 direct_destination;
     void *G32 callback_data;
     u32 position;
-    u32 result;
+    u32 phase_index;
     u16 buffer_index;
     u8 done;
     u8 substate;

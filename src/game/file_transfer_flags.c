@@ -7,8 +7,8 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     u8 *arg1,
     s32 arg2,
     s32 arg3,
-    FileTransferCallback arg4,
-    s32 arg5,
+    FileTransferCallback callback,
+    s32 initial_phase_index,
     s32 arg6
 )
 {
@@ -26,7 +26,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
-        arg0, arg1, arg2, arg3, arg4, arg5, arg6
+        arg0, arg1, arg2, arg3, callback, initial_phase_index, arg6
     );
     result = &gFile_PrimaryTransferDescriptor;
 out:
@@ -40,8 +40,8 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
     u8 *arg1,
     s32 arg2,
     s32 arg3,
-    FileTransferCallback arg4,
-    s32 arg5,
+    FileTransferCallback callback,
+    s32 initial_phase_index,
     s32 arg6
 )
 {
@@ -55,7 +55,7 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
-        arg0, arg1, arg2, arg3, arg4, arg5, arg6
+        arg0, arg1, arg2, arg3, callback, initial_phase_index, arg6
     );
     return &gFile_PrimaryTransferDescriptor;
 }
@@ -93,8 +93,8 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
     u8 *arg1,
     s32 arg2,
     s32 arg3,
-    FileTransferCallback arg4,
-    s32 arg5,
+    FileTransferCallback callback,
+    s32 initial_phase_index,
     s32 arg6
 )
 {
@@ -108,7 +108,7 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
 
     state = &gFile_SecondaryTransferDescriptor;
     File_InitTransferDescriptor(
-        state, arg0, arg1, arg2, arg3, arg4, arg5, arg6
+        state, arg0, arg1, arg2, arg3, callback, initial_phase_index, arg6
     );
     gFile_dwTransferState |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return state;
@@ -121,7 +121,7 @@ void File_StepTransferPhase(FileTransferDescriptor *object)
     if (object->phase_remaining <= 0) {
         object->phase_size = 0;
         if (object->phase_callback != 0) {
-            s32 count = object->result++;
+            s32 count = object->phase_index++;
 
             CALL32(FileTransferCallback, object->phase_callback)(object, count);
         }

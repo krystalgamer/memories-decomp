@@ -59,7 +59,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gFile_dwTransferState_abs = flags & mask;
         gFile_dwTransferState_abs |= 0x10000;
         d->done = 2;
-        d->result = 0x10;
+        d->phase_index = 0x10;
         d->sector_destination = (u32)gFile_TransferBufferBase;
         d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
 #else
@@ -78,10 +78,10 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 #ifdef VERSION_EUROPE
     case 16:
         /* Keep both stores before the flag load, then share the later tail so
-           result and done retain separate constant materializations. */
+           phase index and transfer mode retain separate constant materializations. */
         mask = 0xFFDCFFFF;
         *(s32 *)&d->phase_size = 5 * FILE_SECTOR_SIZE;
-        *(s32 *)&d->result = 1;
+        *(s32 *)&d->phase_index = 1;
         masked = gFile_dwTransferState_abs;
         destination = (u32)gFile_TransferBufferBase;
         masked &= mask;
