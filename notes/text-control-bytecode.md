@@ -175,3 +175,50 @@ FF decrements stream depth:
 
 FF is therefore both a nested-stream return and the final terminator. Calling
 it simply “end” is accurate only for the outermost stream.
+
+## Regional choice-command setup and input handoff
+
+The Japanese inventory's old `func_800382A8` label at `0x800382A8`
+(`0x124` bytes) identifies the already-canonical `Text_HandleChoiceCommand`
+definition in the actual Japanese `text_control_commands.c` wrapper. It is
+not a new function, ABI or native alias. The North American definition is at
+`0x80038BF0`; the European definition is at `0x800389F0` (`0x80038BF0`
+in the other PAL images). Source ownership, grouped order and named
+`gcc_2_8_1_g8_split` profiles remain unchanged. FB is established by the NA
+initialized table; this inventory alignment does not assign a regional opcode.
+
+The command, options byte and published control byte have distinct domains:
+
+- `TEXT_CHOICE_COMMAND_COUNT_MASK` (`7`) publishes the raw three-bit count.
+  It is neither validated nor clamped to the four enabled-mask bits; zero
+  and counts above four retain their original behavior.
+- `TEXT_CHOICE_COMMAND_HAS_OPTIONS` (`0x08`) consumes an options byte
+  **before** testing `TEXT_CHOICE_COMMAND_BRANCH` (`0x80`). This also applies
+  when both bits are set. Without the options byte, the local defaults to
+  `TEXT_CHOICE_OPTIONS_ENABLED_MASK` (`0x0F`).
+- During setup, the options low nibble becomes the enabled mask.
+  `TEXT_CHOICE_OPTIONS_INPUT_FLAG` (`0x80`) sets the shared input byte to
+  exactly `1`; it is not the command's selected-branch bit and is not the
+  later `DIALOG_CHOICE_INPUT_CANCELLED` status, despite sharing its value.
+  No new input producer or external-input protocol is inferred.
+- `DIALOG_CHOICE_CONTROL_MASK` (`0xF0`) publishes the control high nibble.
+  `DIALOG_CHOICE_CONTROL_LAYOUT_MASK` (`0x30`) remains a raw masked value,
+  not a shifted enum or Boolean. `DuelEffect_UpdateObjectLayout` uses it
+  directly in Japan/PAL and with the existing row-specific arithmetic in
+  NA. `Text_TryCompleteChoiceLayout` changes the count to two when those
+  bits are nonzero, only after comparing the rendered line count with the
+  originally published count and clearing the pending callback.
+- `DIALOG_CHOICE_CONTROL_RETAIN_HIGHLIGHT` (`0x40`) leaves the current
+  highlight object stored at channel `+0x30` after an enabled choice is
+  accepted. State is still written to zero. With the bit clear, the object
+  is released, its pointer cleared and state set to three. This bit does
+  not bypass disabled-choice rejection or describe eventual caller cleanup.
+
+Setup still publishes disposition before consuming operands, resets selection,
+input and line state in the original order, installs the same volatile-channel
+layout callback and sets channel bit `0x1000`. That channel bit has other text
+uses; it is not renamed as an exclusively choice-owned flag. NA/Japan clear
+both occupancy value and matching marker; PAL omits only the occupancy clear.
+The branch path still skips the signed selected index times two and calls the
+existing regional cursor-offset helper. No new bounds, input normalization,
+table entries, layout fields or constructor/release behavior are introduced.

@@ -90,7 +90,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 
     p->state_51 = 0;
     SD_SEPlayFull(7);
-    if ((gDialog_bChoiceControl & 0x40) == 0) {
+    if ((gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_RETAIN_HIGHLIGHT) == 0) {
         DisplayObject_ReleaseIfPresent(p->field_30);
         p->field_30 = 0;
         p->state_51 = 3;

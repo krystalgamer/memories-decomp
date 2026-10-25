@@ -496,7 +496,7 @@ address,size,name,status,module,notes
 0x800381C4,0x40,Text_CloseChoice,matching_c,game,
 0x80038204,0x5C,Text_DispatchSecondaryCommand,matching_c,game,
 0x80038260,0x48,Text_SetCursorOffset,matching_c,game,
-0x800382A8,0x124,func_800382A8,matching_c,game,
+0x800382A8,0x124,Text_HandleChoiceCommand,matching_c,game,
 0x800383CC,0x18,Text_StartPageWait,matching_c,game,
 0x800383E4,0x8C,Text_HandleCampaignFlagCommand,matching_c,game,
 0x80038470,0x64,Text_PushStreamOffset,matching_c,game,
