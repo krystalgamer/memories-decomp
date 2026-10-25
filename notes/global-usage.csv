@@ -159,7 +159,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090AD4,gDuelEffect_abGroupByEffectId,gDuelEffect_abGroupByEffectId,0x80026B34,DuelEffect_UpdateCardEffect,matching_c,game,C,src/game/duel_field_effects.c,address,8,u8 *indices = gDuelEffect_abGroupByEffectId;
 0x80090B3C,gDuelEffect_apfnStateHandler,gDuelEffect_apfnStateHandler,0x8002892C,DuelEffect_UpdateState,matching_c,game,C,src/game/duel_effect_states.c,read,,gDuelEffect_apfnStateHandler[gDuel_bActiveEffectState]();
 0x80090B50,gCredits_awSecretNumbers,gCredits_awSecretNumbers,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_mode_runners.c,address,16,table = (u16 *)gCredits_awSecretNumbers;
-0x80090B64,gMain_apfnModeRunner,gMain_apfnModeRunner,0x8002DD74,Main_Loop,matching_c,game,C,src/game/main_loop.c,read,,gMain_apfnModeRunner[v & 0x1F]();
+0x80090B64,gMain_apfnModeRunner,gMain_apfnModeRunner,0x8002DD74,Main_Loop,matching_c,game,C,src/game/main_mode_runners.c,read,,gMain_apfnModeRunner[v & 0x1F]();
 0x80090BA8,gScriptImage_OverlayPairs,gScriptImage_OverlayPairs,0x8002E128,ScriptImage_RebuildObjects,matching_c,game,C,src/game/script_image_rebuild.c,address,,b = gScriptImage_OverlayPairs;
 0x80090C00,gScriptImage_OverlayPlacements,gScriptImage_OverlayPlacements,0x8002E128,ScriptImage_RebuildObjects,matching_c,game,C,src/game/script_image_rebuild.c,address,,t = &gScriptImage_OverlayPlacements.rows[n];
 0x80090C50,gScript_apfnCommandHandlers,gScript_apfnCommandHandlers,0x8002FA54,Script_RunTick,matching_c,game,C,src/game/script_run_tick.c,read,,gScript_apfnCommandHandlers[gScript_wCommandWord & 0x1F]();
@@ -1509,7 +1509,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002D7CC,Main_RunTrade,matching_c,game,C,src/game/main_mode_runners.c,read_write,8,D_8009B26C = D_8009B269; | D_8009B26C = D_8009B26C | 0x40; | (+1 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_mode_runners.c,write,8,D_8009B26C = mode | 0x40; | mode = D_8009B26C;
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002DC38,Main_RunTwoPlayerDuelSetup,matching_c,game,C,src/game/main_mode_runners.c,read_write,8,D_8009B26C = D_8009B269; | D_8009B26C = D_8009B26C | 0x40; | (+1 more)
-0x8009B26C,D_8009B26C,D_8009B26C,0x8002DD74,Main_Loop,matching_c,game,C,src/game/main_loop.c,write,8,D_8009B26C = v | 0x80; | if ((D_8009B26C & 0x40) == 0) Fade_WaitOut(); | (+1 more)
+0x8009B26C,D_8009B26C,D_8009B26C,0x8002DD74,Main_Loop,matching_c,game,C,src/game/main_mode_runners.c,write,8,D_8009B26C = v | 0x80; | if ((D_8009B26C & 0x40) == 0) Fade_WaitOut(); | (+1 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002EB48,Script_OpOpenCampaignMap,matching_c,game,C,src/game/script_op_open_campaign_map.c,write,8,D_8009B26C[0] = 5;
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002EE94,Script_OpSavePrompt,matching_c,game,C,src/game/script_op_save_prompt.c,write,8,D_8009B26C = 8;
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002F930,Script_OpGameOver,matching_c,game,C,src/game/script_control_commands.c,write,8,D_8009B26C[0] = 12;

@@ -1099,7 +1099,7 @@ evidence that every action tests all win conditions or that presentation
 finishes in the same frame.
 
 The [duel dispatcher](../../src/game/duel_scene_update.c) and
-[main loop](../../src/game/main_loop.c) use different tables. Their retail
+[main loop](../../src/game/main_mode_runners.c) use different tables. Their retail
 words connect the Exodia sequence to the animated-battle request:
 
 | Dispatch selection | Table word address | Target |

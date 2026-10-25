@@ -540,9 +540,6 @@ segments:
   - - 123036
     - c
     - game/european/main_mode_runners
-  - - 124768
-    - c
-    - game/main_loop
   - - 124904
     - c
     - game/spanish/script_image_objects

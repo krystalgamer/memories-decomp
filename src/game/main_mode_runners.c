@@ -1,3 +1,5 @@
+
+
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
@@ -51,6 +53,10 @@
 #include "card_constants.h"
 #include "../overlays/main_menu/value_setup.h"
 #include "duel_session_controls.h"
+#include "main_frame.h"
+#include "main_debug.h"
+#include "main_loop.h"
+#include "main_reset_frontend_runtime.h"
 
 #ifndef MAIN_RUN_TRADE_TEXT_BOX_HEIGHT
 #define MAIN_RUN_TRADE_TEXT_BOX_HEIGHT 0x20
@@ -448,6 +454,22 @@ void Main_RunTwoPlayerDuelSetup(void)
             gDuel_bPostDuelMainMode = 8;
         } else {
             gMain_bActiveModeState = gMain_bReturnMode;
+        }
+    }
+}
+
+void Main_Loop(void) {
+    Main_PrepareFrontendLoop();
+    for (;;) {
+        u8 v;
+        Main_AdvanceFrame();
+        v = gMain_bActiveModeState;
+        if ((v & 0x80) == 0) {
+            gMain_bActiveModeState = v | 0x80;
+            Main_ResetFrontendRuntime();
+        } else {
+            gMain_apfnModeRunner[v & 0x1F]();
+            if ((gMain_bActiveModeState & 0x40) == 0) Fade_WaitOut();
         }
     }
 }

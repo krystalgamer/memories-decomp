@@ -226,7 +226,6 @@ segments:
       - [0x1DCAC, c, game/main_run_selection_menus]
       - [0x1DE2C, c, game/main_run_frontend_menus]
       - [0x1E09C, c, game/european/main_mode_runners]
-      - [0x1E760, c, game/main_loop]
       - [0x1E7E8, c, game/spanish/script_image_objects]
       - [0x1EBC0, c, game/european/script_image_rebuild]
       - [0x1EE0C, c, game/european/duel_effect_mark_object_if_active]
