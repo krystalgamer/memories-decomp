@@ -104,7 +104,7 @@ void SD_StepActiveCommand(void)
         default:
             return;
         }
-        g_SDValue->field_0534 = 0xFFFF;
+        g_SDValue->cd_request_code = 0xFFFF;
         if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
             goto clear_7d_7c;
         }
@@ -136,9 +136,9 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->field_0C = 0;
             gSD_pFileRequest->field_14 = 0;
             gSD_pFileRequest->field_1C = 0;
-            gSD_pFileRequest->field_1F = g_SDValue->field_0530;
+            gSD_pFileRequest->field_1F = g_SDValue->cd_filter_channel;
             second_word &= first_word;
-            gSD_pFileRequest->field_1E = g_SDValue->field_0531;
+            gSD_pFileRequest->field_1E = g_SDValue->cd_filter_file;
             base_offset = (s32)g_SDValue->field_0050;
             gSD_pFileRequest->field_00 = 6;
             second_word += base_offset;
@@ -165,27 +165,27 @@ void SD_StepActiveCommand(void)
 
             low_a = first_word & value_mask;
             value_mask &= second_word;
-            entry_state->field_0528 = low_a;
-            entry_state->field_0531 = (first_word & 0x1F000000) >> 24;
-            entry_state->field_052C = value_mask;
-            g_SDValue->field_0530 = (second_word & 0x1F000000) >> 24;
+            entry_state->cd_start_sector_offset = low_a;
+            entry_state->cd_filter_file = (first_word & 0x1F000000) >> 24;
+            entry_state->cd_end_sector_offset = value_mask;
+            g_SDValue->cd_filter_channel = (second_word & 0x1F000000) >> 24;
             second_word >>= 31;
             g_SDValue->field_0532 = second_word;
             first_word >>= 29;
             g_SDValue->mix_multiplier = first_word;
-            g_SDValue->field_0528 =
-                g_SDValue->field_0528 + (s32)g_SDValue->field_0050;
-            g_SDValue->field_052C =
-                g_SDValue->field_052C + (s32)g_SDValue->field_0050;
+            g_SDValue->cd_start_sector_offset =
+                g_SDValue->cd_start_sector_offset + (s32)g_SDValue->field_0050;
+            g_SDValue->cd_end_sector_offset =
+                g_SDValue->cd_end_sector_offset + (s32)g_SDValue->field_0050;
             gSD_pFileRequest->field_10 = 0;
             gSD_pFileRequest->field_18 = 0;
             gSD_pFileRequest->field_0C = 0;
             gSD_pFileRequest->field_14 = 0;
-            gSD_pFileRequest->field_1C = (u16)g_SDValue->field_052C
-                                   - (u16)g_SDValue->field_0528 + 0x10;
-            gSD_pFileRequest->field_1F = g_SDValue->field_0530;
-            gSD_pFileRequest->field_1E = g_SDValue->field_0531;
-            request_offset = g_SDValue->field_0528;
+            gSD_pFileRequest->field_1C = (u16)g_SDValue->cd_end_sector_offset
+                                   - (u16)g_SDValue->cd_start_sector_offset + 0x10;
+            gSD_pFileRequest->field_1F = g_SDValue->cd_filter_channel;
+            gSD_pFileRequest->field_1E = g_SDValue->cd_filter_file;
+            request_offset = g_SDValue->cd_start_sector_offset;
             gSD_pFileRequest->field_00 = 6;
             gSD_pFileRequest->field_04 = request_offset;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);

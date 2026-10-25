@@ -253,24 +253,24 @@ s32 SD_EnqueueCdPlay(u16 arg0, s32 unused)
     if (a->flags_004A & 0x80) {
         if ((a->flags_004A & 0x40) || code <= 0x9FFF) {
             if (arg0 & 0x8000) {
-                *(s16 *)&a->field_0534 = arg0;
+                *(s16 *)&a->cd_request_code = arg0;
                 switch (arg0 & 0xF000) {
                 case 0x8000:
                     code = arg0 + 0x8000;
-                    table = (u8 **)a->bank_0518[1];
+                    table = (u8 **)a->cd_descriptor_banks[1];
                     second = (u8 *)&table[2];
                     kind = 0x50;
                     break;
                 case 0x9000:
                     code = arg0 + 0x7000;
-                    table = (u8 **)a->bank_0518[0];
+                    table = (u8 **)a->cd_descriptor_banks[0];
                     second = (u8 *)&table[2];
                     kind = 0x60;
                     break;
                 default:
                     code = code + 0x6000;
                     kind = 0x70;
-                    table = (u8 **)g_SDValue->bank_0518[2];
+                    table = (u8 **)g_SDValue->cd_descriptor_banks[2];
                     second = (u8 *)&table[2];
                     break;
                 }
@@ -322,18 +322,18 @@ void SD_EnqueueCdSeek(s32 arg0)
         return;
     }
     value = arg0 & 0xF000;
-    *(s16 *)&a->field_0534 = arg0;
+    *(s16 *)&a->cd_request_code = arg0;
     switch (value) {
     case 0x8000:
         value = arg0 + value;
         code = value;
-        table = (u8 **)a->bank_0518[1];
+        table = (u8 **)a->cd_descriptor_banks[1];
         second = (u8 *)&table[2];
         kind = 0x50;
         break;
     case 0x9000:
         code = arg0 + 0x7000;
-        table = (u8 **)a->bank_0518[0];
+        table = (u8 **)a->cd_descriptor_banks[0];
         second = (u8 *)&table[2];
         kind = 0x60;
         break;
@@ -341,7 +341,7 @@ void SD_EnqueueCdSeek(s32 arg0)
         code += 0x6000;
         kind = 0x70;
         b = g_SDValue;
-        table = (u8 **)b->bank_0518[2];
+        table = (u8 **)b->cd_descriptor_banks[2];
         second = (u8 *)&table[2];
         break;
     }

@@ -139,9 +139,9 @@ void SD_UpdateBankLoad(void) {
 #endif
                 }
             }
-            g_SDValue->bank_0518[0] = (u8 *)0x801E8800;
-            g_SDValue->bank_0518[1] = (u8 *)0x801E9000;
-            g_SDValue->bank_0518[2] = (u8 *)0x801EA000;
+            g_SDValue->cd_descriptor_banks[0] = (u8 *)0x801E8800;
+            g_SDValue->cd_descriptor_banks[1] = (u8 *)0x801E9000;
+            g_SDValue->cd_descriptor_banks[2] = (u8 *)0x801EA000;
             g_SDValue->bank_load_phase += 1;
             return;
         }
