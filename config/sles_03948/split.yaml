@@ -1038,9 +1038,6 @@ segments:
   - - 237200
     - c
     - game/sound_init
-  - - 238224
-    - c
-    - game/sd_set_secondary_object_count
   - - 238288
     - c
     - game/sound_transfer_lifecycle

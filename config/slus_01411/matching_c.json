@@ -4784,9 +4784,9 @@
     },
     {
       "address": "0x80049600",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x40",
-      "source": "src/game/sd_set_secondary_object_count.c"
+      "source": "src/game/sound_init.c"
     },
     {
       "address": "0x80049640",
