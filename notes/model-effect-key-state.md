@@ -85,3 +85,15 @@ is a different object and is not renamed. No new regional address or
 additional code-generation alias is introduced. The array's existing
 image-backed storage is retained; no C initializer or allocation is added
 for it.
+
+## Regional labels for the key cursor and count
+
+The Japanese and PAL builds keep these two globals at other addresses under
+their own linker names: `gJapanese_D_8009B074`/`gJapanese_D_8009B078` and
+`gEuropean_D_8009B074`/`gEuropean_D_8009B078`. `model_transfer_flags.h`
+binds `gModel_pCurrentEffectKey` and `gModel_bEffectKeyCount` to those names
+under `VERSION_JAPAN` and `VERSION_EUROPE`, replacing the wrapper macros in
+the regional `model_effect_state.c` and `model_keyframe_update.c` builds.
+Three of those wrappers gained the selector; none of the sources otherwise
+test it. Types, storage, symbol maps and every access are unchanged.
+
