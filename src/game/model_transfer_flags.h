@@ -60,7 +60,11 @@ extern u8 gModel_bCameraHoldState;
 extern u8 gModel_bHandlerCallbackState;
 
 s32 Model_GetCameraHoldState(void);
+#ifdef VERSION_JAPAN
+extern void Model_SetCameraHoldState(s32 value) asm("func_8004EBD0");
+#else
 void Model_SetCameraHoldState(s32 value);
+#endif
 s32 Model_GetHandlerCallbackState(void);
 void Model_SetHandlerCallbackState(s32 value);
 
