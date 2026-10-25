@@ -239,7 +239,7 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
             DuelEffect_DrawFullscreenColor((u8 *)&work->flash_color);
             if ((u16)DuelEffect_StepColorToTarget((u8 *)&work->flash_color, 192, 192, 192, 4)) {
                 DuelEffect_SetGrayColor((u8 *)&work->flash_color, 255);
-                gDuelEffect_pActiveRequest->field_1D = 1;
+                gDuelEffect_pActiveRequest->progress = 1;
                 work->stage = 3;
             }
         }

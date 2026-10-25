@@ -10,7 +10,9 @@
 
 extern GsIMAGE D_8015A1E4[21];
 
-void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context);
+extern void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context);
+extern void DuelEffect_DispatchRequest(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
+    __asm__("func_80146258");
 void func_80146760(void *work, s32 phase);
 void func_80147B18(void *work, s32 phase);
 void func_801481A8(void *work, s32 phase);

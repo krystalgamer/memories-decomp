@@ -63,7 +63,7 @@ void DuelEffect_StartSwords(void)
         object = DuelEffect_CreateRequest(0x12);
         object->field_00 = 0xA0;
         object->field_02 = 0x78;
-        object->field_1A = 1;
+        object->phase = 1;
         SD_SEPlayFull(2);
     } else {
         gDuel_wCardEffectFlags = 0;
@@ -94,10 +94,10 @@ void DuelEffect_ApplySwords(void)
         object->field_00 = 0xA0;
         object->field_02 = 0x78;
         field_side = DUEL_SIDE_SELECTOR_VOLATILE ^ 1;
-        object->field_1A = field_side;
+        object->phase = field_side;
         SD_SEPlayFull(0x23);
     } else if (!(gDuel_wCardEffectFlags & 0x40)) {
-        if (gDuelEffect_pTrackedRequest->field_1D != 0) {
+        if (gDuelEffect_pTrackedRequest->progress != 0) {
             gDuel_wCardEffectFlags |= 0x40;
             for (
                 slot = DUEL_FIELD_ROW_SIZE;
@@ -116,7 +116,7 @@ void DuelEffect_ApplySwords(void)
             }
         }
     } else if (DisplayObject_FindAllocatedByTag(1) == 0 &&
-               gDuelEffect_pTrackedRequest->field_1D >= 2) {
+               gDuelEffect_pTrackedRequest->progress >= 2) {
         gDuel_aSideStates[DUEL_SIDE_SELECTOR_VOLATILE ^ 1].swords_turns_remaining =
             DUEL_SWORDS_INITIAL_COUNTER;
         gDuel_wCardEffectFlags = 0;
@@ -179,7 +179,7 @@ void DuelEffect_ApplyCursebreaker(void) {
         step = gDuel_sEffectWorkCounter;
         /* Keep the row bias in the typed index for retail scheduling. */
         position_index = step + DUEL_FIELD_SIDE_ZONE_COUNT;
-        object->field_1A = 3;
+        object->phase = 3;
         position = (DuelFieldPosition *)(
             (u32)&((DuelFieldPosition *)0)[position_index] +
             DUEL_SIDE_SELECTOR_VOLATILE * DUEL_FIELD_SIDE_POSITION_BYTES +
@@ -195,7 +195,7 @@ void DuelEffect_ApplyCursebreaker(void) {
         if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             if (record->stat_modifier < 0) {
                 record->stat_modifier = 0;
-                object->field_1A = 5;
+                object->phase = 5;
             }
         }
     } else {
@@ -212,7 +212,7 @@ void DuelEffect_StartRitual(void)
 
             request->field_00 = 0xA0;
             request->field_02 = 0x78;
-            request->field_1A = 1;
+            request->phase = 1;
             SD_SEPlayFull(2);
             CardPreview_RequestResourceTransfer(1, gDuel_RitualResultCardId);
         }
@@ -257,7 +257,7 @@ void DuelEffect_ApplyRitual(void)
             Duel_MarkCreatedCardKnown((s32)gDuel_RitualResultCardId);
             gDuelEffect_pTrackedRequest = DuelEffect_AllocateRequest(22);
             gDuel_wTrapPresentationMode = 0;
-            gDuelEffect_pTrackedRequest->field_1A = gDuel_wEffectCardID;
+            gDuelEffect_pTrackedRequest->phase = gDuel_wEffectCardID;
             SD_CdSoundPlay(0x8022);
         } else {
             goto done;
@@ -266,7 +266,7 @@ void DuelEffect_ApplyRitual(void)
     }
     switch (gDuel_wTrapPresentationMode & 0xF) {
     case 0:
-        if (gDuelEffect_pTrackedRequest->field_1D) {
+        if (gDuelEffect_pTrackedRequest->progress) {
             gDuel_bCardMoveSlot = gDisplayObject_apWorkSlots.slots[3]->field_6A;
             DuelCard_DeactivateRecord(&gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[2]->field_6A]);
             DuelCard_DeactivateRecord(&gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[3]->field_6A]);

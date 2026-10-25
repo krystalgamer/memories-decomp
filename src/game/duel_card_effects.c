@@ -69,7 +69,7 @@ void DuelEffect_ApplyLifePointRecovery(void) {
         obj = DuelEffect_CreateRequest(5);
         obj->field_00 = 0xA0;
         obj->field_02 = 0x78;
-        obj->field_1A = s1;
+        obj->phase = s1;
         SD_SEPlayFull(0x14);
         return;
     }
@@ -97,7 +97,7 @@ block_9:
             obj = DuelEffect_CreateRequest(9);
             obj->field_00 = 0xA0;
             obj->field_02 = 0x78;
-            obj->field_1A = s1;
+            obj->phase = s1;
         }
     } else {
         u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
@@ -129,7 +129,7 @@ void DuelEffect_ApplyDirectDamage(void) {
         obj = DuelEffect_CreateRequest(6);
         obj->field_00 = 0xA0;
         obj->field_02 = 0x78;
-        obj->field_1A = unit;
+        obj->phase = unit;
         SD_SEPlayFull(0x1C);
         return;
     }
@@ -148,7 +148,7 @@ void DuelEffect_ApplyDirectDamage(void) {
             obj = DuelEffect_CreateRequest(7);
             obj->field_00 = 0xA0;
             obj->field_02 = 0x78;
-            obj->field_1A = unit;
+            obj->phase = unit;
             SD_SEPlayFull(0x1C);
         }
     } else {
@@ -194,7 +194,7 @@ void DuelEffect_ApplyMonsterRemoval(void) {
             }
             i += DUEL_MONSTER_REMOVAL_RULE_SIZE;
         }
-        p->field_1A = i / DUEL_MONSTER_REMOVAL_RULE_SIZE;
+        p->phase = i / DUEL_MONSTER_REMOVAL_RULE_SIZE;
         m = gDuel_abMonsterRemovalRules[
             i + DUEL_MONSTER_REMOVAL_SELECTOR_OFFSET
         ];
@@ -248,7 +248,7 @@ hit:
     p->field_00 = DISPLAY_OBJECT_VIEW(e->object)->field_30.h.field_30;
     p->field_02 = DISPLAY_OBJECT_VIEW(e->object)->field_30.h.field_32;
     p->field_04 = *(u16 *)&DISPLAY_OBJECT_VIEW(e->object)->field_34;
-    p->field_1A = Duel_GetCardEffectVariant((CardObject *)e->object);
+    p->phase = Duel_GetCardEffectVariant((CardObject *)e->object);
     DuelCard_RemoveFromField(e);
     SD_SEPlayFull(0x1F);
 }
@@ -272,7 +272,7 @@ void DuelEffect_ApplyStopDefense(void) {
 
     if ((f & 0x40) != 0) {
         if ((f & 0x20) == 0) {
-            if (gDuelEffect_pTrackedRequest->field_1D != 0) {
+            if (gDuelEffect_pTrackedRequest->progress != 0) {
                 n = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                     DUEL_FIELD_ROW_SIZE;
                 c = gDuel_abFieldGridCardRecordIndices[gDuel_sEffectWorkCounter + n];
@@ -341,7 +341,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
         e = DuelEffect_CreateRequest(0x11);
         if (gDuel_wEffectCardID == DUEL_DRAGON_CAPTURE_JAR_CARD_ID) {
             g = gDuel_wCardEffectFlags;
-            e->field_1A = 1;
+            e->phase = 1;
             gDuel_wCardEffectFlags = g | 0x40;
         }
         e->field_00 = 0;
@@ -424,7 +424,7 @@ void DuelEffect_ApplyRaigeki(void) {
         return;
     }
 
-    if (gDuelEffect_pTrackedRequest->field_1D ==
+    if (gDuelEffect_pTrackedRequest->progress ==
         gDuel_sEffectWorkCounter + 1) {
         SD_SEPlayFull(0x15);
         n = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
@@ -439,7 +439,7 @@ void DuelEffect_ApplyRaigeki(void) {
             q->field_00 = DISPLAY_OBJECT_VIEW(r->object)->field_30.h.field_30;
             q->field_02 = DISPLAY_OBJECT_VIEW(r->object)->field_30.h.field_32;
             q->field_04 = *(u16 *)&DISPLAY_OBJECT_VIEW(r->object)->field_34;
-            q->field_1A = Duel_GetCardEffectVariant((CardObject *)r->object);
+            q->phase = Duel_GetCardEffectVariant((CardObject *)r->object);
             DuelCard_RemoveFromField(r);
             a = 0x1F;
 call:
@@ -493,7 +493,7 @@ void DuelEffect_ApplyDarkPiercingLight(void)
     }
     flags = gDuel_wCardEffectFlags;
     if ((flags & 0x40) == 0 &&
-        gDuelEffect_pTrackedRequest->field_1D != 0) {
+        gDuelEffect_pTrackedRequest->progress != 0) {
         gDuel_wCardEffectFlags = flags | 0x40;
         SD_SEPlayFull(0x1D);
         for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
@@ -554,12 +554,12 @@ void DuelEffect_ApplyStatPenalty(void) {
         object->buffer =
             (void *)((s32)object->buffer + ((s16)gDuel_wStepCounter << 14));
         if (gDuel_wEffectCardID == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
-            object->field_1A = 2;
+            object->phase = 2;
             record->stat_modifier =
                 record->stat_modifier - DUEL_STAT_PENALTY_PER_LEVEL;
             object->field_12 = -DUEL_STAT_PENALTY_PER_LEVEL;
         } else {
-            object->field_1A = 1;
+            object->phase = 1;
             record->stat_modifier =
                 record->stat_modifier - 2 * DUEL_STAT_PENALTY_PER_LEVEL;
             object->field_12 = -2 * DUEL_STAT_PENALTY_PER_LEVEL;

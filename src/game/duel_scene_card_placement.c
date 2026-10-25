@@ -545,11 +545,11 @@ request_combination:
                 gDuelEffect_pTrackedRequest = effect;
                 effect->field_02 = PLACEMENT_PY(gDisplayObject_apWorkSlots[0]) + 30;
                 if (gDuel_wEquipCardId == 302)
-                effect->field_1A = 1;
+                effect->phase = 1;
                 if (gDuel_wEquipCardId == 0x291)
-                effect->field_1A = 10;
+                effect->phase = 10;
                 SD_SEPlayFull(22);
-            } else if (gDuelEffect_pTrackedRequest->field_1D) {
+            } else if (gDuelEffect_pTrackedRequest->progress) {
                 gDuel_bSceneSubStep = 4;
             }
             break;
@@ -602,12 +602,12 @@ finish_effect_step:
                     gDuelEffect_pTrackedRequest = request;
                     slots = gDisplayObject_apWorkSlots;
                     if (slots[0]->field_68 >= 20 || slots[1]->field_68 >= 20)
-                    request->field_1A = 1;
+                    request->phase = 1;
                 }
                 SD_SEPlayFull(24);
                 return;
             }
-            if (gDuelEffect_pTrackedRequest->field_1D) {
+            if (gDuelEffect_pTrackedRequest->progress) {
                 DisplayObject *G32 *slots;
                 slots = gDisplayObject_apWorkSlots;
                 slots[0]->flags &= ~0x40;

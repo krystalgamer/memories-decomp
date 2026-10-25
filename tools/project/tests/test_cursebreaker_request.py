@@ -68,7 +68,7 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
 }
 void SD_SEPlayFull(u32 id)
 {
-    if (id != 0x14 || allocations != 1 || state.request.field_1A != 3 ||
+    if (id != 0x14 || allocations != 1 || state.request.phase != 3 ||
         (u16)state.cards[selected].stat_modifier != old_stat) error = 2;
     sounds++;
     events = events * 10 + 2;
@@ -112,10 +112,10 @@ static int run_case(u32 side, s32 previous, u32 timer, u32 first,
             put16(&expected.request.field_02, 0);
             put16(&expected.request.field_04, value ^ 0x8000);
             put32(&expected.request.buffer, addresses[value & 3] + step * 0x3000);
-            expected.request.field_1A = 3;
+            expected.request.phase = 3;
             if (occupied && (stat & 0x8000)) {
                 expected.cards[selected].stat_modifier = 0;
-                expected.request.field_1A = 5;
+                expected.request.phase = 5;
             }
         } else expected.flags = 0;
     }

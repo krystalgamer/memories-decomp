@@ -58,7 +58,7 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
 void SD_SEPlayFull(u32 id)
 {
     if (id != 0x21 || allocations != 1 ||
-        request_block.request.field_1A != (penalty == 500 ? 2 : 1) ||
+        request_block.request.phase != (penalty == 500 ? 2 : 1) ||
         request_block.request.field_12 != -(s32)penalty) error = 2;
     sounds++;
 }

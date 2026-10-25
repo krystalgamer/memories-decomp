@@ -80,7 +80,7 @@ void DuelEffect_RunParticleContourBurst(void *buffer, s32 phase)
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
             DuelEffect_DrawQuadContour((u8 *)&work->color, work->quads[0], work->quads[1], 0, 1);
             if (work->frame >= work->config->delay) {
-                gDuelEffect_pActiveRequest->field_1D = 1;
+                gDuelEffect_pActiveRequest->progress = 1;
                 for (i = 0; i < 32; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
                     DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);

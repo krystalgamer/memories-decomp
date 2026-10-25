@@ -135,7 +135,7 @@ void DuelEffect_RunFusion(void *buffer, s32 phase)
         }
         if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->screen_color)) {
             DuelEffect_DrawFadingFullscreenColor((u8 *)&work->screen_color, 15);
-            gDuelEffect_pActiveRequest->field_1D = 1;
+            gDuelEffect_pActiveRequest->progress = 1;
         }
         work->frame += frame_step;
         work->tick++;

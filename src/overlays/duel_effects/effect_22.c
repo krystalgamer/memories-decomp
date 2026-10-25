@@ -420,7 +420,7 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
             }
         }
         if (work->stage >= 4) {
-            gDuelEffect_pActiveRequest->field_1D = 1;
+            gDuelEffect_pActiveRequest->progress = 1;
             DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 4);
             setVector(&position, 0, -96, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);

@@ -102,7 +102,7 @@ void DuelEffect_RunCardFlashBurst(void *buffer, s32 phase)
                     DuelEffect_SetGrayColor((u8 *)&work->screen_color, 255);
                     work->stage = 1;
                 }
-                gDuelEffect_pActiveRequest->field_1D = 1;
+                gDuelEffect_pActiveRequest->progress = 1;
                 for (i = 0; i < 24; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
                     DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);

@@ -94,7 +94,7 @@ void DuelEffect_RunExpandingRingBurst(void *buffer, s32 phase)
                     work->scale = 0x5000;
                 }
             } else {
-                gDuelEffect_pActiveRequest->field_1D = 1;
+                gDuelEffect_pActiveRequest->progress = 1;
                 DuelEffect_DrawFadingFullscreenColor((u8 *)&work->color, 8);
             }
         }

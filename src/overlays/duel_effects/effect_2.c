@@ -140,7 +140,7 @@ void DuelEffect_RunAttackSlash(void *buffer, s32 phase, s16 number)
                 DuelEffect_ProjectSubmitGt4(packet, quad, 0, 1);
             }
             if (work->stage != 0) {
-                gDuelEffect_pActiveRequest->field_1D = 1;
+                gDuelEffect_pActiveRequest->progress = 1;
                 for (i = 0; i < work->config->particle_count; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
                     DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);

@@ -18,7 +18,10 @@ types and persistent arrays are not globally changed.
 The allocator's byte-return API is deliberately retained. Actual request
 locals publish directly; byte/partial-view producers keep explicit casts
 at the stored-handle boundary. The two direct byte-index status reads use
-the canonical unsigned `field_1D`, avoiding scaled request-array indexing.
+the canonical unsigned `progress` (formerly `field_1D`), avoiding scaled
+request-array indexing. Its handler-defined counts and separation from
+finished/ACTIVE status are documented in the
+[resident/bank handoff](duel-effect-request-handoff.md).
 All other partial casts, capture/store/call order, masks and scalar math
 remain unchanged. The battle's now-unused byte-publication macro is removed.
 

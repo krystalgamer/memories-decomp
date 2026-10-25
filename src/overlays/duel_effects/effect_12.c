@@ -73,7 +73,7 @@ void DuelEffect_RunStopDefenseBurst(void *buffer, s32 phase)
             if (work->scale < 0x4000) {
                 work->scale += 0x1000;
             } else {
-                gDuelEffect_pActiveRequest->field_1D = 1;
+                gDuelEffect_pActiveRequest->progress = 1;
                 DuelEffect_DarkenColor((u8 *)&work->color, 15);
             }
         }

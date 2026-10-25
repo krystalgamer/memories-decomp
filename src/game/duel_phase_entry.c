@@ -105,7 +105,7 @@ void DuelScene_UpdateResume(void)
         for (i = 0; i < DUEL_SIDE_COUNT; i++) {
             if (gDuel_aSideStates[i].swords_turns_remaining != 0) {
                 obj = DuelEffect_AllocateRequest(0x15);
-                obj->field_1A = i + 2;
+                obj->phase = i + 2;
                 obj->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
                 gDuel_apSwordsEffectObjects[i] = obj;
             }
@@ -171,7 +171,7 @@ void DuelScene_UpdateResume(void)
     obj->field_00 = card->field_30.h.field_30;
     obj->field_02 = card->field_30.h.field_32;
     obj->field_04 = *(u16 *)&card->field_34;
-    obj->field_1A = Duel_GetCardEffectVariant((CardObject *)card);
+    obj->phase = Duel_GetCardEffectVariant((CardObject *)card);
     DuelCard_RemoveFromField(&gDuel_aCardRecords[card->field_6A]);
     SD_SEPlayFull(0x1F);
 }
@@ -309,7 +309,7 @@ void DuelScene_UpdateDrawPhase(void) {
             gDuel_pActiveSideState->swords_turns_remaining = c;
             if (c <= 0) {
                 gDuel_pActiveSideState->swords_turns_remaining = 0;
-                gDuel_apSwordsEffectObjects[gDuel_bActiveSide]->field_1A =
+                gDuel_apSwordsEffectObjects[gDuel_bActiveSide]->phase =
                     0xFFFD - gDuel_bActiveSide;
                 gDuel_apSwordsEffectObjects[gDuel_bActiveSide] = 0;
             }

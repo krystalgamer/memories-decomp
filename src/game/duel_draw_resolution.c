@@ -69,7 +69,7 @@
 #include "display_object_lifecycle.h"
 
 #define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \
-    ((u32)&((DuelEffectRequest *)0)->field_1D)
+    ((u32)&((DuelEffectRequest *)0)->progress)
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 #define DUEL_CARD_READBACK_HALFWORDS(buffer) ((u16 *)(buffer))
@@ -211,7 +211,7 @@ void DuelScene_UpdateDrawResolution(void) {
  * DisplayObject cursor, and cross-path reuse of `side` preserve the retail
  * scheduling and register allocation. The first position store keeps a signed
  * address-of-member view so GCC materializes -0x40 like retail. The two
- * request-completion tests read the actual DuelEffectRequest::field_1D byte.
+ * request-completion tests read the actual DuelEffectRequest::progress byte.
  */
 extern s32 D_800E9F04[];
 
@@ -314,7 +314,7 @@ next_obj:
             return;
         }
         if (gDuelEffect_pTrackedRequest != 0) {
-            if (gDuelEffect_pTrackedRequest->field_1D == 0) {
+            if (gDuelEffect_pTrackedRequest->progress == 0) {
                 return;
             }
             SD_SEPlayFull(0x1D);
@@ -360,13 +360,13 @@ next_obj:
         sum = (k << 12) + 0xA000;
         anim = (s32)fx->buffer + sum;
         fx->buffer = (void *)anim;
-        fx->field_1A = 9;
+        fx->phase = 9;
         SD_SEPlayFull(0x17);
         gDuel_bPresentationCursor = gDuel_bPresentationCursor + 1;
         return;
     }
     if (flags & 0x1000) {
-        if (gDuelEffect_pTrackedRequest->field_1D == 0) {
+        if (gDuelEffect_pTrackedRequest->progress == 0) {
             return;
         }
         D_8009B23A = flags & 0xEFFF;

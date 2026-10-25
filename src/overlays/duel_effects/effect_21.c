@@ -27,7 +27,7 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
         if (slots[__builtin_abs(phase) % 2]->enabled != 0) {
             DuelEffect_SetGrayColor((u8 *)&slots[__builtin_abs(phase) % 2]->color, 0);
             slots[__builtin_abs(phase) % 2]->enabled = 0;
-            gDuelEffect_pActiveRequest->field_1A = phase;
+            gDuelEffect_pActiveRequest->phase = phase;
         } else {
             for (i = 0; i < 10; i++) {
                 copyVector(&slots[__builtin_abs(phase) % 2]->positions[i],
@@ -54,7 +54,7 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
                     slots[__builtin_abs(phase) % 2]->offsets[i] = 0;
                 }
             }
-            gDuelEffect_pActiveRequest->field_1A = ~(__builtin_abs(phase) % 2);
+            gDuelEffect_pActiveRequest->phase = ~(__builtin_abs(phase) % 2);
         }
     } else {
         Model_SetFrameStepOverride(1);
@@ -72,10 +72,10 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
             if (slots[__builtin_abs(phase + 1) % 2]->offsets[i] != 0) {
                 slots[__builtin_abs(phase + 1) % 2]->offsets[i] -= 16;
             } else {
-                gDuelEffect_pActiveRequest->field_1D = 1;
+                gDuelEffect_pActiveRequest->progress = 1;
                 slots[__builtin_abs(phase + 1) % 2]->offsets[i] = 0;
                 if (i == 9) {
-                    gDuelEffect_pActiveRequest->field_1D = 2;
+                    gDuelEffect_pActiveRequest->progress = 2;
                 }
             }
         }

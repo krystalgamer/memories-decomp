@@ -16,7 +16,7 @@
 #include "field_burst_semantic_views.h"
 #include "card_flash_semantic_views.h"
 
-void func_80146258(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
+void DuelEffect_DispatchRequest(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
 {
     s32 i;
     u16 flags = context->field_10;

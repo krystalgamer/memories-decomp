@@ -5,6 +5,12 @@ This pass is limited to the shared records rooted at `D_800EB0F8` and
 widths and offsets, not recovered original Konami names. Offset-based field
 names remain where semantics or signedness are uncertain.
 
+The separate canonical request now names its signed dispatch `phase` and
+unsigned handler `progress` at `0x1A/0x1D`; see the
+[complete resident/bank handoff](duel-effect-request-handoff.md). These are
+not fields of the channel structures below or a blanket rename of display
+and legacy partial-view members.
+
 ## `D_800EB0F8`: four `0x64`-byte channels
 
 `DuelEffectChannel` has size `0x64`, and `D_800EB0F8` is declared as four
