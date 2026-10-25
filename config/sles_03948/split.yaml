@@ -1028,9 +1028,6 @@ segments:
     - game/sound_voice_data
   - - 236704
     - c
-    - game/sd_reset_music_state
-  - - 236928
-    - c
     - game/sound_sequence_state
   - - 237000
     - c

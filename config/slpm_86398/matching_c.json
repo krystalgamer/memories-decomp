@@ -4683,9 +4683,9 @@
     },
     {
       "address": "0x800486FC",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0xE0",
-      "source": "src/game/japanese/sd_reset_music_state.c"
+      "source": "src/game/japanese/sound_sequence_state.c"
     },
     {
       "address": "0x800487DC",
