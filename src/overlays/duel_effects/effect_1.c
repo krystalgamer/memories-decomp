@@ -1,12 +1,13 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_1.h"
+#include "handler_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 
-void func_80157794(void *buffer, s32 phase)
+void DuelEffect_RunFusion(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;

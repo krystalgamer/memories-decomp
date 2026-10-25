@@ -14,6 +14,7 @@
 #include "dispatch.h"
 #include "drawing_tail.h"
 #include "gather_effect.h"
+#include "handler_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
@@ -25,7 +26,7 @@
 #define GATHER_CURVE_HEIGHT 98
 #endif
 
-void func_801481A8(void *buffer, s32 phase)
+void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
 {
     GatherEffectState *state;
     GatherEffectFrame frame;
