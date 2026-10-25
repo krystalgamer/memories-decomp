@@ -1214,3 +1214,66 @@ The clean complete NA resident retains retail SHA-256
 This is not local full PAL-image execution; ordinary applicable exact-head
 regional image/regression gates remain mandatory. No synthetic/generated-C
 or source-string harness, new testcase or local cloud suite is added.
+
+## Regional alternate-save step and Japanese Options request
+
+The Japanese and PAL step-three callback is
+`MemCardDialog_StepAlternateSave`, not NA's empty `MemCardDialog_StepNone`.
+It latches the existing callback entered bit once, clears both the transfer
+offset and operation state, raises modal flag `0x100`, and calls
+`MemCardDialog_UpdateSave` on every pass, including the first. Native
+declarations belong to `mem_card_dialog.h`, selected by the existing regional
+defines; no replacement owner, adapter or runtime gate is introduced.
+
+| Function | Japan | UK | France / Germany / Italy / Spain |
+| --- | --- | --- | --- |
+| `MemCardDialog_StepAlternateSave` | `0x8003E56C` | `0x8003EF9C` | `0x8003F19C` |
+| `SaveData_RequestOptionsWrite` | `0x8003EFA8` | not built here | not built here |
+| `SaveData_RequestLoad` | `0x8003EEA8` | existing canonical name | existing canonical name |
+
+The alternate step retains all `0x48` bytes per regional image. The Japanese
+Options request retains `0x30` bytes, and its already-canonical ordinary load
+request retains `0x3C`. Only the latter's stale Japanese inventory name
+changes: its C definition, shared declaration and native linker symbol
+already agree on `SaveData_RequestLoad`.
+
+`SaveData_RequestOptionsWrite` takes no arguments. Its existing
+`data_transfer_request.h` owner gives the Japanese-only declaration the
+native `func_8003EFA8` assembly label. The real `Options_Update` caller
+sets its entered bit before calling once in state two, polls
+`MemCardDialog_Poll`, stays there on zero, and otherwise falls through
+state three to restore the active state. This is not an unconditional
+per-frame request, a success-only test or an exit from Options.
+
+The request itself passes the fixed pointer `0x80140000`, size `0x8000`,
+existing file-name pointer `D_8001032C` and step three. It does not copy the
+ordinary `0x680`-byte save state or build its replicated payload. Options
+identifies the observed caller, not a recovered format for those 32 KiB:
+no settings-only payload, regional equivalent or PAL reachability is claimed.
+The ordinary load request still clears its original numeric status byte
+and requests `SAVE_DATA_STATE_SIZE` through step zero.
+
+`MemCardDialog_Request` first seeds offset `0x200`; the alternate step
+subsequently resets it to zero. Flag `0x100` retains its distinct messages,
+SDK-probe route, read-back bypass and no header-pointer/size adjustment
+on file creation. Successful alternate saves still neither clear the
+independent identity allowance nor advance the normal save sequence.
+All request, write, retry, failure, cancel and delayed modal-outcome paths
+remain unchanged. A canonical name does not enable this request outside Japan
+or make the PAL callback reachable from an Options screen.
+
+Two definition identifiers and the real Japanese caller identifier change;
+all function bodies otherwise remain identical. The two PAL wrappers lose
+only the obsolete private callback mapping and its comment. Explicit native
+labels preserve original definitions, calls and generated table references.
+NA keeps its empty step-three function and initialized table unchanged.
+The Japanese compact text-channel stride and all SDK aliases remain.
+
+Native conservation uses seven actual source/profile routes: four complete
+regional dialog units, the real NA/Japanese Options units and the initialized
+NA dialog-step-table owner. Dialog/Options use named `gcc_2_8_1_g8_split`;
+the data owner keeps `gcc_2_8_1_g0`. Complete compiler/MASPSX assembly,
+native symbols and disassembly/relocations are compared. Coverage is
+27 functions / 9,924 instruction bytes for NA, 28 / 10,368 for Japan and
+22 / 9,140 for each PAL image. No synthetic/generated-C/source-string
+harness or new testcase is added; regional execution stays on the PR.
