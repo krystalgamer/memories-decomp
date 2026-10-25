@@ -29,7 +29,7 @@
    package request out into two helpers: the package is one 110-sector
    package per text language, from 0x1962, and the main path asks for
    BUILD_LANGUAGE_INDEX once the logos are done. */
-void func_80043B7C(void)
+void Main_InitDebugFont(void)
 {
     FntLoad(0x2C0, 0);
     SetDumpFnt(FntOpen(
@@ -37,14 +37,14 @@ void func_80043B7C(void)
     ));
 }
 
-void func_80043BC8(s32 language, s32 wait)
+void Main_RequestLanguageBootPackage(s32 language, s32 wait)
 {
     File_RequestAsyncTransfer(
         0, 0, language * 110 + 0x1962, 110, Main_LoadBootPackageStage, 0, 0
     );
     if (wait) {
         File_WaitForTransfers();
-        func_80043B7C();
+        Main_InitDebugFont();
     }
 }
 
@@ -56,7 +56,7 @@ void Main_RunBootSequence(s32 mode)
     gMain_bFrontendPhase = 0;
     gGraphics_wFlags = 0;
     if (mode != 0) {
-        func_80043BC8(gText_bLanguageIndex, 1);
+        Main_RequestLanguageBootPackage(gText_bLanguageIndex, 1);
         SD_ReplaceValueLink(2);
         Main_AdvanceFrames(4);
     } else {
@@ -86,14 +86,14 @@ void Main_RunBootSequence(s32 mode)
         Main_AdvanceFrames(4);
         Main_HoldBootScreen(0xB4);
         gText_bLanguageIndex = BUILD_LANGUAGE_INDEX;
-        func_80043BC8(BUILD_LANGUAGE_INDEX, 0);
+        Main_RequestLanguageBootPackage(BUILD_LANGUAGE_INDEX, 0);
         Fade_WaitInitOut();
         Main_ResetFrontendRuntime();
         while (((gFile_dwTransferState_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
                 gFile_dwCancelRequestState_abs) != 0) {
             Main_AdvanceFrame();
         }
-        func_80043B7C();
+        Main_InitDebugFont();
         File_RequestMainMenuPackage();
     }
     File_WaitForTransfers();
