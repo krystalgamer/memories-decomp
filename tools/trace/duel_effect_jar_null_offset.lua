@@ -107,6 +107,10 @@ local frames, event, controlHits, handlerHits = 0, 0, 0, 0
 local phaseOne, helperHits, particleCalls, foreignHits = 0, 0, 0, 0
 local guardFailures, dropped, unknownNulls = 0, 0, 0
 local current, firstReturnedFrame
+-- Phase of the latest nonnegative effect-17 entry. Continuation calls are
+-- negative, so they inherit it; only phase-one episodes may capture.
+local episodePhase
+local wrongPhaseNulls = 0
 local sawHandler, done = false, false
 breakpoints_duel_effect_jar_null_offset = {}
 
@@ -154,9 +158,9 @@ local function finish(reason)
     print(string.format('frames: %d control_hits: %d effect17_hits: %d '
         .. 'phase1_initializations: %d helper_hits: %d particle_calls: %d '
         .. 'foreign_hits: %d guard_failures: %d unknown_null_callers: %d '
-        .. 'dropped_rows: %d', frames, controlHits, handlerHits, phaseOne,
-        helperHits, particleCalls, foreignHits, guardFailures, unknownNulls,
-        dropped))
+        .. 'dropped_rows: %d wrong_phase_null_calls: %d', frames,
+        controlHits, handlerHits, phaseOne, helperHits, particleCalls,
+        foreignHits, guardFailures, unknownNulls, dropped, wrongPhaseNulls))
     local complete = 0
     for _, site in ipairs(sites) do
         print(string.format('%s return=0x%08X null_calls=%d loads=%d/24 '
@@ -190,6 +194,7 @@ local function guardModule()
     if resident() then return true end
     foreignHits = foreignHits + 1
     current = nil
+    episodePhase = nil
     return false
 end
 
@@ -201,6 +206,7 @@ local function onHandler()
     if phase >= 0x80000000 then phase = phase - 0x100000000 end
     if phase >= 0 then
         event = event + 1
+        episodePhase = phase
         if phase == 1 then phaseOne = phaseOne + 1 end
         live(string.format('#%02d t=%.2fs START effect=17 phase=%d',
             event, frames / FPS, phase))
@@ -213,10 +219,17 @@ local function onHelper()
     helperHits = helperHits + 1
     local n = PCSX.getRegisters().GPR.n
     local ra, pointer = tonumber(n.ra), tonumber(n.a3)
-    if ra == PARTICLE_RETURN and pointer ~= 0 then
+    local jar = episodePhase == 1
+    if jar and ra == PARTICLE_RETURN and pointer ~= 0 then
         particleCalls = particleCalls + 1
     end
     if pointer ~= 0 then return end
+    if not jar then
+        -- Dark Hole (phase 0) also reaches the burst caller; it must not
+        -- consume the jar's first-call slot or start the stop timer.
+        wrongPhaseNulls = wrongPhaseNulls + 1
+        return
+    end
     for _, site in ipairs(sites) do
         if ra == site.ra then
             site.calls = site.calls + 1

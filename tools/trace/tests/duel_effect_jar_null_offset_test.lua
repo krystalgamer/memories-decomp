@@ -19,7 +19,7 @@ local LOADS = {
     {0x158, 2, 0}, {0x16c, 2, 1}, {0x180, 2, 2},
 }
 
-local function capture()
+local function capture(jarEpisode)
     local memory = ffi.new('uint8_t[?]', 0x200000)
     local registers = {pc = 0, GPR = {n = {}}}
     local events, breakpoints, output = {}, {}, {}
@@ -117,6 +117,11 @@ local function capture()
     local count = 0
     for _ in pairs(breakpoints) do count = count + 1 end
     assert(count == 10, 'ten distinct execution breakpoints')
+    -- Unless disabled, start a phase-one jar episode and continue it once.
+    if jarEpisode ~= false then
+        r:call(HANDLER, {a1 = 1})
+        r:call(HANDLER, {a1 = 0xffffffff})
+    end
     return r
 end
 
@@ -140,7 +145,7 @@ end
 
 -- Both known callers qualify independently for the phase-one route.
 for _, site in ipairs({{BURST, 'burst'}, {PATH, 'path'}}) do
-    local r = capture()
+    local r = capture(false)
     r:call(CONTROL, {})
     r:call(HANDLER, {a1 = 1})
     r:call(HANDLER, {a1 = 0xffffffff})
@@ -237,7 +242,9 @@ for address, value in pairs(MODULE) do
     swapped:samples()
     swapped:returnCall()
     swapped:reset()
-    assert(swapped:has('null_calls=2 loads=1/24 returned=false'))
+    -- Losing residency also ends the episode, so the re-entry is not a jar call.
+    assert(swapped:has('null_calls=1 loads=1/24 returned=false'))
+    assert(swapped:has('wrong_phase_null_calls: 1'))
     incomplete(swapped)
 end
 
@@ -279,7 +286,7 @@ assert(badReturn:has('loads=24/24 returned=false'))
 assert(badReturn:has('guard_failures: 1'))
 incomplete(badReturn)
 
-local unqualified = capture()
+local unqualified = capture(false)
 unqualified:call(CONTROL, {})
 unqualified:call(HANDLER, {a1 = 1})
 unqualified:enter(PARTICLE, 0x80100000)
@@ -293,7 +300,7 @@ assert(unqualified:has('but neither target null caller was observed'))
 incomplete(unqualified)
 
 -- Dark Hole's phase zero is logged but is not the requested route.
-local darkHole = capture()
+local darkHole = capture(false)
 darkHole:call(CONTROL, {})
 darkHole:call(HANDLER, {a1 = 0})
 darkHole:enter(PARTICLE, 0x80100000)
@@ -303,7 +310,62 @@ assert(darkHole:has('phase1_initializations: 0'))
 assert(darkHole:has('verdict: requested route/control evidence is incomplete'))
 incomplete(darkHole)
 
-local timeout = capture()
+-- Dark Hole's burst, including its continuation, must not satisfy the jar
+-- probe or start the stop timer; a later genuine jar episode still captures.
+local mixed = capture(false)
+mixed:call(CONTROL, {})
+mixed:call(HANDLER, {a1 = 0})
+mixed:enter(BURST)
+mixed:samples()
+mixed:returnCall()
+mixed:call(HANDLER, {a1 = 0xffffffff})
+mixed:enter(BURST)
+mixed:samples()
+mixed:returnCall()
+mixed:frames(180)
+assert(not mixed:has('script: duel_effect_jar_null_offset'),
+    'a phase-zero burst does not stop the probe')
+assert(mixed:countOf('effective=') == 0)
+mixed:call(HANDLER, {a1 = 1})
+mixed:call(HANDLER, {a1 = 0xffffffff})
+mixed:enter(PARTICLE, 0x80100000)
+mixed:enter(BURST)
+mixed:samples()
+mixed:returnCall()
+mixed:frames(179)
+assert(not mixed:has('script: duel_effect_jar_null_offset'))
+mixed:frames(1)
+assert(mixed:has('#02 t=3.00s START effect=17 phase=1'))
+assert(mixed:has('#02 t=3.00s NULL burst'))
+assert(mixed:has('burst return=0x80159F34 null_calls=1 loads=24/24 returned=true'))
+assert(mixed:has('phase1_initializations: 1'))
+assert(mixed:has('particle_calls: 1'))
+assert(mixed:has('wrong_phase_null_calls: 2'))
+assert(mixed:has('verdict: a null caller executed both passes'))
+stopped(mixed, 'three seconds after the first target null return')
+
+-- A targetless jar episode followed by Dark Hole stays incomplete.
+local targetless = capture(false)
+targetless:call(CONTROL, {})
+targetless:call(HANDLER, {a1 = 1})
+targetless:call(HANDLER, {a1 = 0xffffffff})
+targetless:call(HANDLER, {a1 = 0})
+targetless:enter(PARTICLE, 0x80100000)
+targetless:enter(BURST)
+targetless:samples()
+targetless:returnCall()
+targetless:frames(180)
+assert(not targetless:has('script: duel_effect_jar_null_offset'))
+targetless:reset()
+assert(targetless:has('phase1_initializations: 1'))
+assert(targetless:has('particle_calls: 0'))
+assert(targetless:has('wrong_phase_null_calls: 1'))
+assert(targetless:has('burst return=0x80159F34 null_calls=0 loads=0/24 returned=false'))
+assert(targetless:has('verdict: requested route/control evidence is incomplete'))
+incomplete(targetless)
+stopped(targetless, 'reset; reload the script after returning to the duel')
+
+local timeout = capture(false)
 timeout:frames(7199)
 assert(not timeout:has('script: duel_effect_jar_null_offset'))
 timeout:frames(1)
