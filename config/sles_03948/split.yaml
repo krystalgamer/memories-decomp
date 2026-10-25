@@ -270,9 +270,6 @@ segments:
   - - 34708
     - c
     - game/duel_card_display_objects
-  - - 35040
-    - c
-    - game/duel_card_object_helpers
   - - 35308
     - c
     - game/european/duel_phase_entry
