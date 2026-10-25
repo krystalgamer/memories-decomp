@@ -15,7 +15,7 @@ typedef char ScriptImageObjectSet_image_id_offset_must_be_0x3C[
 
 /* Three of the scene script's image slots at gSceneScript_Slots, as
  * ScriptImage_ReleaseObjects
- * releases them: a display-object pointer and the image id that filled it.
+ * releases them: a display-object pointer and callback-control halfword.
  * This is not the whole slot table -- the same function writes the mode
  * halfword in ScriptImageObjectSet after these three entries -- and the
  * callers hold their own wider views under their own names. The shared
@@ -34,16 +34,16 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *transfer, s32 mode);
 void ScriptImage_RequestTransfer(
     volatile ScriptImageObjectSet *owner, s32 value);
 
-/* Releases the three image slots: each pointer goes to DisplayObject_ReleaseIfPresent and both
- * words are zeroed, and image_id is set to -1 first so the next request
- * treats the record as empty. */
+/* Releases the three image slots, setting image_id to -1 first.
+ * Each pointer goes to DisplayObject_ReleaseIfPresent before the pointer
+ * and callback-control halfword are zeroed. */
 void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set);
 
 /* Builds one display object for a script image and stores it at `owner`, a
  * ScriptImageEntry, with `size` the object's request size and `mode`
  * selecting the blend arms: mode 2 takes GsALON | GsAONE and sets the entry's
- * `value` halfword to 1, anything else takes 0x01000000 and clears it. It
- * also sets the entry's field_10. ScriptImage_RebuildObjects is the only
+ * `callback_control` halfword to 1; anything else takes 0x01000000 and clears
+ * it. It also sets field_10. ScriptImage_RebuildObjects is the only
  * caller outside this unit, and called it with no prototype at all before
  * this header. */
 void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode);

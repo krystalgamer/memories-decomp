@@ -20,14 +20,14 @@
  * 5 * 0x14. Our matching tree reads exactly those two words at +0x14 and
  * +0x28 in byte-exact functions.
  *
- * unk00 holds a display object: Script_OpDuelResult creates one and stores it into
+ * object_address holds a display object: Script_OpDuelResult stores it into
  * records 0, 1 and 2, and SceneScript_UpdateColorPulse reads records 0 and 1 back. It is
  * left s32 here on purpose. ScriptImageEntry has a separate stored-pointer
  * view of the same prefix; naming the table does not merge these access forms.
  *
  * script_op_duel_result.c takes this declaration too. Its three stores are
- * the first word of slots 0, 1 and 2, written gSceneScript_Slots[i].unk00; that
- * spelling builds the unit's .text, relocations and data sections identical
+ * the first word of slots 0, 1 and 2, as gSceneScript_Slots[i].object_address.
+ * That spelling builds the unit's .text, relocations and data sections identical
  * to the pointer-array view it used to declare privately. (A cast of the
  * table to `Object **` indexed [0], [5] and [10] was the spelling that
  * differed from byte 0x8002F780.) SceneScriptSlot's measured layout is

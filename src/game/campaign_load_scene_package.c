@@ -67,8 +67,8 @@ void Campaign_LoadScenePackage(s16 arg0)
 
     SCENE_SCRIPT_SLOT_SIGNED_HEAD(&slot[3]) = -1;
     for (i = 0; i < 3; i++) {
-        slot[i].unk00 = 0;
-        slot[i].unk04 = 0;
+        slot[i].object_address = 0;
+        slot[i].callback_control = 0;
     }
     File_WaitForTransfers();
 

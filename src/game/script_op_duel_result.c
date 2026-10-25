@@ -79,12 +79,12 @@ void Script_OpDuelResult(void) {
         o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        gSceneScript_Slots[0].unk00 = (s32)o;
+        gSceneScript_Slots[0].object_address = (s32)o;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o, 0, 0, 0x140, 0x100, 0, 0, 0x19, 0x280, 0xD5);
         DisplayObject_SetDepthOffset(o, -1);
-        gSceneScript_Slots[1].unk00 = (s32)o;
-        gSceneScript_Slots[2].unk00 = 0;
+        gSceneScript_Slots[1].object_address = (s32)o;
+        gSceneScript_Slots[2].object_address = 0;
         q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
         DisplayObject_InitializeGouraudQuad(q, 1);
         q->field_30.word = 0x140;
@@ -107,15 +107,15 @@ void Script_OpDuelResult(void) {
         o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        gSceneScript_Slots[0].unk00 = (s32)o;
+        gSceneScript_Slots[0].object_address = (s32)o;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
         DisplayObject_SetDepthOffset(o, -1);
-        gSceneScript_Slots[1].unk00 = (s32)o;
+        gSceneScript_Slots[1].object_address = (s32)o;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
         DisplayObject_SetDepthOffset(o, -1);
-        gSceneScript_Slots[2].unk00 = (s32)o;
+        gSceneScript_Slots[2].object_address = (s32)o;
         q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
         DisplayObject_InitializeGouraudQuad(q, 0);
         color = 0xF00140;
