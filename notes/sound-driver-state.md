@@ -1736,6 +1736,50 @@ The incidental cursor spelling in `tent_SD_KeyOffVoiceById` follows the same
 member rename without promoting that helper or removing its reachability
 caveat.
 
+### Secondary-transfer filename buffers
+
+The initializer and command-`0x20` request branches establish the three
+separate filename buffers in `SDValue`:
+
+| Offset | Member | Initial text | Copied bytes, including NUL |
+|---|---|---|---|
+| `+0x1619` | `bgm_file_name` | `SD_bgm.dat` | 11 |
+| `+0x1629` | `se_file_name` | `SD_se.dat` | 10 |
+| `+0x1639` | `master_xa_file_name` | `MASTER.XA` | 10 |
+
+The literal bytes are independently checked in the retail loaded image at
+`0x80010784`, `0x80010790` and `0x8001079C`, respectively, not inferred
+from the existing `gSD_szBgmFileName`, `gSD_szSeFileName` and
+`gSD_szMasterXaFileName` symbol spellings. Preserve the mixed-case text.
+`SD_InitState` first clears the resident state through `0x801EA7FF`, then
+copies these strings with its existing `SDInitBlk11`/`SDInitBlk10`
+assignments. Those block types contain exactly eleven or ten bytes;
+the copies include each terminator, not a sixteen-byte string copy.
+
+The existing `u8[0x10]` declarations remain, with their offsets and extents
+pinned. The historical extent caveat above still applies: separately
+passed addresses establish three starts, not the complete ownership or
+capacity of each interval. Neither the string lengths nor this naming
+supplies new evidence for the retained sixteen-byte extents.
+
+In `SD_StepActiveCommand`, the three existing branches of
+`field_005C[0] & 0xF0` select SE at `0x10` with request file index 4,
+BGM at `0x20` with index 5, and MASTER.XA at `0x40` with index 6.
+Each passes its buffer as the second argument to
+`File_RequestSecondarySlot`. The ordinary nonzero-size data-transfer path
+forwards that pointer to `File_InitTransferDescriptor`, which stores it
+in `FileTransferDescriptor.loader_argument` at `+0x18`.
+This establishes initialized filename storage and a descriptor handoff,
+not a downstream text lookup, open operation, diagnostic display or DMA
+destination. No such reader is established by this route; file-index
+selection remains independent of the pointer's text.
+
+Only the three member names change in the two C units. Preserve the block
+assignments, copy widths, array types, request payloads, masks, guards,
+busy callback, phase updates and all reloads. The initializer's old
+"three tables ... from ROM" comment is corrected to loaded-image file
+names; no initialization or transfer behavior changes.
+
 ### Sound-bank header geometry and startup phases
 
 The packed eight-byte header copy in `SD_UpdateBankLoad`, the initializer,

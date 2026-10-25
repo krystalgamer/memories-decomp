@@ -17,11 +17,11 @@
 
 /* Brings the sound subsystem's resident state up from cold. The state block
  * starts at the end of the loaded image and runs to 0x801EA7FF; it is zeroed a
- * word at a time, the two command callbacks are installed, three tables are
- * copied in from ROM, the mode byte is seeded (0xF0 extra bits when arg0 is
- * set), the mix defaults are seeded from the values just written at +0x1649
- * and +0x164A, and the subsystem initialisers run before the secondary state's
- * tick callback is armed.
+ * word at a time, the two command callbacks are installed, three file names
+ * are copied from the loaded image, the mode byte is seeded (0xF0 extra bits
+ * when arg0 is set), the mix defaults are seeded from the values just written
+ * at +0x1649 and +0x164A, and the subsystem initialisers run before the
+ * secondary state's tick callback is armed.
  *
  * The image bounds are plain integer constants rather than `&loaded_image_end`
  * (which the linker also puts at 0x801E0000): the retail code derives
@@ -47,11 +47,11 @@ void SD_InitState(u8 arg0)
     } while (p <= (u32 *)0x801EA7FF);
     gFile_RangeReadCallback = SD_FadeInStreamAudio;
     gFile_RangePauseCallback = SD_FadeOutStreamAudio;
-    *SD_INIT_BLOCK_11_VIEW(g_SDValue->field_1619) =
+    *SD_INIT_BLOCK_11_VIEW(g_SDValue->bgm_file_name) =
         *SD_INIT_BLOCK_11_VIEW(gSD_szBgmFileName);
-    *SD_INIT_BLOCK_10_VIEW(g_SDValue->field_1629) =
+    *SD_INIT_BLOCK_10_VIEW(g_SDValue->se_file_name) =
         *SD_INIT_BLOCK_10_VIEW(gSD_szSeFileName);
-    *SD_INIT_BLOCK_10_VIEW(g_SDValue->field_1639) =
+    *SD_INIT_BLOCK_10_VIEW(g_SDValue->master_xa_file_name) =
         *SD_INIT_BLOCK_10_VIEW(gSD_szMasterXaFileName);
     g_SDValue->flags_004A = 3;
     if (arg0 != 0) {

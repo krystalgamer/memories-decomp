@@ -56,15 +56,15 @@ void SD_StepActiveCommand(void)
             switch ((s32)g_SDValue->field_005C[0] & 0xF0) {
             case 0x10:
                 gSD_pFileRequest->field_00 = 4;
-                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->field_1629);
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->se_file_name);
                 break;
             case 0x20:
                 gSD_pFileRequest->field_00 = 5;
-                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->field_1619);
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->bgm_file_name);
                 break;
             case 0x40:
                 gSD_pFileRequest->field_00 = 6;
-                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->field_1639);
+                File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->master_xa_file_name);
                 break;
             }
             SD_ArmBusyCallback();
