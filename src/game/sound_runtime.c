@@ -117,16 +117,16 @@ void SD_UpdateRuntime(void)
     SDValue *q;
     SDValue *r;
 
-    SpuGetAllKeysStatus((char *)g_SDValue->field_15D8);
+    SpuGetAllKeysStatus((char *)g_SDValue->voice_key_status);
     p = g_SDValue;
-    mask = (p->field_15EC == 3) << SD_VOICE_SLOT_KEY_SHIFT;
-    if (p->field_15ED == 3) {
+    mask = (p->voice_key_status[20] == 3) << SD_VOICE_SLOT_KEY_SHIFT;
+    if (p->voice_key_status[21] == 3) {
         mask |= SD_VOICE_SLOT_MASK_BASE << 1;
     }
-    if (p->field_15EE == 3) {
+    if (p->voice_key_status[22] == 3) {
         mask |= SD_VOICE_SLOT_MASK_BASE << 2;
     }
-    if (p->field_15EF == 3) {
+    if (p->voice_key_status[23] == 3) {
         mask |= SD_VOICE_SLOT_MASK_BASE << 3;
     }
     if (mask != 0) {

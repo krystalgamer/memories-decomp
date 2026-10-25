@@ -243,11 +243,7 @@ typedef struct {
     s16 field_1588;
     u8 field_158A;
     u8 pad158B[0x4D];
-    u8 field_15D8[0x14];
-    u8 field_15EC;
-    u8 field_15ED;
-    u8 field_15EE;
-    u8 field_15EF;
+    u8 voice_key_status[24];
     u8 pad15F0[4];
     s16 field_15F4;
     u8 pad15F6[0x22];
@@ -549,8 +545,8 @@ typedef char SDValue_field_1580_offset_must_be_0x1580[
 typedef char SDValue_field_158A_offset_must_be_0x158A[
     SD_STATE_OFFSET(SDValue, field_158A) == 0x158A ? 1 : -1
 ];
-typedef char SDValue_field_15EC_offset_must_be_0x15EC[
-    SD_STATE_OFFSET(SDValue, field_15EC) == 0x15EC ? 1 : -1
+typedef char SDValue_voice_key_status_20_offset_must_be_0x15EC[
+    SD_STATE_OFFSET(SDValue, voice_key_status[20]) == 0x15EC ? 1 : -1
 ];
 typedef char SDValue_field_15F4_offset_must_be_0x15F4[
     SD_STATE_OFFSET(SDValue, field_15F4) == 0x15F4 ? 1 : -1

@@ -267,9 +267,9 @@ void SD_KeyOffVoiceSlots(void)
 
     do {
         SpuSetKey(SPU_OFF, SD_VOICE_SLOT_MASK_ALL);
-        SpuGetAllKeysStatus((char *)g_SDValue->field_15D8);
-        total = g_SDValue->field_15EF + g_SDValue->field_15ED +
-                g_SDValue->field_15EE + g_SDValue->field_15EF;
+        SpuGetAllKeysStatus((char *)g_SDValue->voice_key_status);
+        total = g_SDValue->voice_key_status[23] + g_SDValue->voice_key_status[21] +
+                g_SDValue->voice_key_status[22] + g_SDValue->voice_key_status[23];
         count++;
     } while (total != 0 && count < 24);
 }
