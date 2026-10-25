@@ -85,9 +85,12 @@ twice the packet budget for mode 5. This establishes a blend selector,
 not an animation selector or a direct two-bit GPU ABR value.
 
 The end descriptor's `blend_mode` remains copied but unread. The
-matching variant118/119 and French variant144 producers initialize
-only RGB before calling the all-parts wrapper; their unused end byte
-is deliberately not initialized by this change. Those three sources
+matching variant118/119 producers initialize only RGB before calling
+`Model_QueueTintRequestForAllParts`. The French variant144 producer
+also initializes only RGB, but calls `Model_QueueTintRequestForParts`
+with its configured part list instead. Both wrappers install the same
+masked start blend byte, but construct different part masks. The unused
+end byte is deliberately not initialized by this change. Those three sources
 serve 23 tracked image bindings, all retaining their existing named
 compiler profiles. No gameplay event or new human execution is inferred.
 
