@@ -1937,19 +1937,19 @@
       "address": "0x8002E6F0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/script_flag_commands.c"
+      "source": "src/game/japanese/script_image_commands.c"
     },
     {
       "address": "0x8002E778",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/script_flag_commands.c"
+      "source": "src/game/japanese/script_image_commands.c"
     },
     {
       "address": "0x8002E7E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x13C",
-      "source": "src/game/script_flag_commands.c"
+      "source": "src/game/japanese/script_image_commands.c"
     },
     {
       "address": "0x8002E920",

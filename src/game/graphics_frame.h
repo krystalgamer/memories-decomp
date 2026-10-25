@@ -370,16 +370,19 @@ extern u8 gGraphics_bClearRed;
 
    Files that reach these through `__attribute__((section(".data")))`, or as an
    unsized or [4] array, select the guarded view below because those spellings
-   change how the address is materialised, not just how the value reads. */
+   change how the address is materialised, not just how the value reads.
+   The unsigned [4] view has its own C names, so a unit may select it
+   together with the signed .data view (script_image_commands.c does). */
 #ifdef GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
 extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
 extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
-#elif defined(GRAPHICS_VIEWPORT_IN_DATA)
+#endif
+#if defined(GRAPHICS_VIEWPORT_IN_DATA)
 extern s16 gGraphics_sViewportX __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY __attribute__((section(".data")));
-#else
+#elif !defined(GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA)
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
 #endif

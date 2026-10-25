@@ -237,7 +237,6 @@ segments:
       - [0x1EF0C, c, game/european/script_op_load_image_scene]
       - [0x1F048, c, game/european/script_op_show_dialog]
       - [0x1F148, c, game/european/script_image_commands]
-      - [0x1F3AC, c, game/script_flag_commands]
       - [0x1F5DC, c, game/script_op_open_campaign_map]
       - [0x1F60C, c, game/script_op_show_menu]
       - [0x1F708, c, game/european/script_stream_commands]
