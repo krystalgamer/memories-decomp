@@ -595,7 +595,7 @@ address,size,name,status,module,notes
 0x8003E760,0x48,MemCardDialog_StepLoadUnprompted,matching_c,game,
 0x8003E7A8,0x7BC,MemCardDialog_UpdateSave,matching_c,game,
 0x8003EF64,0x38,MemCardDialog_StepSave,matching_c,game,
-0x8003EF9C,0x48,func_8003EF9C,matching_c,game,
+0x8003EF9C,0x48,MemCardDialog_StepAlternateSave,matching_c,game,
 0x8003EFE4,0x3E0,MemCardDialog_UpdateTradeSave,matching_c,game,
 0x8003F3C4,0xD8,MemCardDialog_StepSlide,matching_c,game,
 0x8003F49C,0xCC,MemCardDialog_CreateObject,matching_c,game,

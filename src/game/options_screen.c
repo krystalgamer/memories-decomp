@@ -231,7 +231,7 @@ s32 Options_Update(void)
 #ifdef VERSION_JAPAN
         if ((gOptions_bState & 0x80) == 0) {
             gOptions_bState |= 0x80;
-            func_8003EFA8();
+            SaveData_RequestOptionsWrite();
         }
         if (MemCardDialog_Poll() == 0) {
             break;

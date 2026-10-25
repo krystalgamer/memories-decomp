@@ -7,8 +7,8 @@
 /* The first four entries of the memory-card dialog step table gMemCardDialog_apfnSteps.
  * The load and save callbacks latch DUEL_EFFECT_STATE_FLAG_INITIALIZED, seed
  * gMemCardDialog_OperationState, and then pump the corresponding state machine. Step 1 skips the
- * load confirmation prompt. NA step 3 is empty; the existing Japanese and
- * European builds retain their alternative save-initialization step. */
+ * load confirmation prompt. NA step 3 is empty; the Japanese and European
+ * builds use MemCardDialog_StepAlternateSave instead. */
 #ifdef VERSION_EUROPE
 extern void MemCardDialog_UpdateLoad(void) asm("func_8003E3E4");
 #else
@@ -19,6 +19,11 @@ void MemCardDialog_StepLoadUnprompted(void);
 void MemCardDialog_UpdateSave(void);
 void MemCardDialog_StepSave(void);
 void MemCardDialog_StepNone(void);
+#ifdef VERSION_JAPAN
+extern void MemCardDialog_StepAlternateSave(void) asm("func_8003E56C");
+#elif defined(VERSION_EUROPE)
+extern void MemCardDialog_StepAlternateSave(void) asm("func_8003EF9C");
+#endif
 
 /* The memory card dialog's modal runtime.
  *

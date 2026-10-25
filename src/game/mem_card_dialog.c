@@ -1221,7 +1221,7 @@ void MemCardDialog_StepNone(void)
    MemCardDialog_StepNone: MemCardDialog_StepSave's one-time setup, plus
    clearing the transfer offset and raising dialog flag 0x100, before the
    save update runs. */
-void func_8003E56C(void)
+void MemCardDialog_StepAlternateSave(void)
 {
     if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
@@ -1667,7 +1667,7 @@ void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)
 /* Japanese only, with no US counterpart: opens the memory-card dialog at
    step 3 for the 0x8000-byte buffer at 0x80140000, under the file name the
    Japanese image keeps at 0x8001032C ("BISLPMP86398-YUGIOH"). */
-void func_8003EFA8(void)
+void SaveData_RequestOptionsWrite(void)
 {
     MemCardDialog_Request((u8 *)0x80140000, 0x8000, D_8001032C, 3);
 }
