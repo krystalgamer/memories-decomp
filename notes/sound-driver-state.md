@@ -864,6 +864,60 @@ existing left/right depth conversion. Unhandled selectors remain unchanged;
 the work-area queries retain the check-versus-diagnostic contract described
 above.
 
+### VAB transfer state, sizes and address bases
+
+Six names recover the existing `SDSecondaryTransfer` core without changing
+its `0x1C` layout or the secondary-state transfer offset `0x4A4`:
+
+| Transfer offset | Existing type | Name | Established use |
+|---|---|---|---|
+| `0x00` | `s16` | `state_token` | Zero on accepted open, `-1` on reset; compared with caller tokens by both body writers. |
+| `0x04` | `u8 *G32` | `vab_header` | Retained header byte pointer used by note-on to locate programs, tones and the VAG size table. |
+| `0x08` | `s32` | `header_size_bytes` | `(program_count << 9) + 0xA20`, used to derive the body size from the VAB file size. |
+| `0x0C` | `s32` | `full_body_source_address` | Source integer address retained only after a successful whole-body write; no matched C reader is established. |
+| `0x10` | `s32` | `body_size_bytes` | Header-derived body byte count used by whole-body and chunked writes. |
+| `0x14` | `u8 *G32` | `spu_body_base` | SPU byte-address base used for transfers and note-on sample addresses, not a dereferenced RAM buffer. |
+
+`SD_VabOpenHead` clears `bytes_consumed` before its possible rejection.
+Only a requested token of `-1` checks the existing token and can reject
+an occupied slot; other requested values bypass that check. Accepted
+open always stores zero, not the requested ID. Both established callers
+pass zero. This does not establish a multi-bank index or an incrementing
+transfer identifier. Reset changes the token to `-1` without clearing
+the retained header, sizes, source snapshot or SPU base.
+
+The header-size expression includes the fixed header/program/offset-table
+areas and the program-count-dependent tone area. Body size keeps the
+existing unsigned-file-size subtraction into signed storage; no new
+underflow check, allocation extent or validated buffer length is inferred.
+The header remains a byte pointer with the note-on cast to `SDVabHeader`;
+do not replace its stored type or the existing pointer views.
+
+The whole-body writer compares its signed-halfword token, sets the SPU
+base, then writes the complete retained body size. A short write returns
+`-1` before updating `full_body_source_address`; a successful write stores
+the integer source and returns the current token. It does not advance
+`bytes_consumed`. Neither open nor reset newly clears this source snapshot,
+and the chunk writer does not maintain it. No reader or general-purpose
+source cursor is inferred from the name.
+
+The chunk writer compares `(s16)state`, sets the destination to SPU base
+plus the current byte count, computes remaining bytes and retains its
+unsigned clamp comparison. Only a successful exact-length write advances
+the unsigned counter. Reaching the unsigned-view body size returns the
+signed-halfword token; otherwise it returns `-2`. A mismatch or short
+write returns `-1`. Preserve signedness, narrowing, reloads, pointer
+arithmetic and the lack of new negative-count or bounds guards.
+
+Note-on also consumes the SPU base: it sums the existing VAG size-table
+entries, keeps `sum + sum * 7` to convert their units to bytes, then adds
+that byte displacement to the integer-view base for `voice_attr.addr`.
+This is distinct from the transfer counter's byte displacement. Keep
+the table location, signed VAG test, summation order and address casts.
+The completion helper still only queries the SDK; it does not change
+this token or counter. Existing ambient-argument reset caller views,
+SDK contracts, control bytes and all other owners' fields remain exact.
+
 ### Confirmed secondary-state fields
 
 | Offset | Width | Field | Local matching-C evidence |

@@ -83,18 +83,18 @@ s32 SD_VabOpenHead(SDVabHeader *vab, s16 vab_id, s32 spu_addr)
     initial = gSD_pSecondaryState;
     initial->bytes_consumed = 0;
     if (requested == SD_TRANSFER_STATE_INACTIVE &&
-        initial->transfer.field_0000 != requested) {
+        initial->transfer.state_token != requested) {
         return SD_TRANSFER_ERROR;
     }
     state = gSD_pSecondaryState;
-    state->transfer.field_0000 = zero;
+    state->transfer.state_token = zero;
     entry = &state->transfer;
-    entry->field_0004 = (u8 *)vab;
-    entry->field_0008 = (vab->program_count << 9) + 0xA20;
-    entry->field_0010 = vab->file_size - entry->field_0008;
+    entry->vab_header = (u8 *)vab;
+    entry->header_size_bytes = (vab->program_count << 9) + 0xA20;
+    entry->body_size_bytes = vab->file_size - entry->header_size_bytes;
     entry->vab_master_volume = vab->master_volume;
     entry->vab_pan = vab->pan;
-    entry->field_0014 = (u8 *)spu_addr;
+    entry->spu_body_base = (u8 *)spu_addr;
     return 0;
 }
 
@@ -102,18 +102,18 @@ s32 SD_VabTransBody(s32 value, s16 expected)
 {
     register int saved;
     SDSecondaryState *state = gSD_pSecondaryState;
-    short current = state->transfer.field_0000;
+    short current = state->transfer.state_token;
 
     if (current != expected)
         return SD_TRANSFER_ERROR;
     saved = value;
     {
         SDSecondaryTransfer *entry = &state->transfer;
-        SpuSetTransferStartAddr((u32)entry->field_0014);
-        if (SpuWrite((u8 *)saved, (u32)entry->field_0010) !=
-            entry->field_0010)
+        SpuSetTransferStartAddr((u32)entry->spu_body_base);
+        if (SpuWrite((u8 *)saved, (u32)entry->body_size_bytes) !=
+            entry->body_size_bytes)
             return SD_TRANSFER_ERROR;
-        entry->field_000C = saved;
+        entry->full_body_source_address = saved;
     }
     return current;
 }
@@ -129,17 +129,17 @@ s32 SD_VabTransBodyChunk(u8 *rec, s32 count, s32 state) {
     SDSecondaryTransfer *s1;
     s32 result;
 
-    if (v1->transfer.field_0000 != (s16)state) {
+    if (v1->transfer.state_token != (s16)state) {
         return SD_TRANSFER_ERROR;
     }
 
     s1 = &v1->transfer;
     SpuSetTransferStartAddr(
-        (u32)(s1->field_0014 + v1->bytes_consumed)
+        (u32)(s1->spu_body_base + v1->bytes_consumed)
     );
 
     {
-        s32 remaining = s1->field_0010 - gSD_pSecondaryState->bytes_consumed;
+        s32 remaining = s1->body_size_bytes - gSD_pSecondaryState->bytes_consumed;
         if ((u32)remaining < (u32)count) {
             count = remaining;
         }
@@ -153,7 +153,7 @@ s32 SD_VabTransBodyChunk(u8 *rec, s32 count, s32 state) {
     {
         u32 total = gSD_pSecondaryState->bytes_consumed + count;
         gSD_pSecondaryState->bytes_consumed = total;
-        if (total >= (u32)s1->field_0010) {
+        if (total >= (u32)s1->body_size_bytes) {
             return (s16)state;
         }
     }
@@ -170,7 +170,7 @@ s16 SD_VabTransCompleted(s16 wait)
 
 void SD_ResetVabTransferState(void)
 {
-    s16 *value = &gSD_pSecondaryState->transfer.field_0000;
+    s16 *value = &gSD_pSecondaryState->transfer.state_token;
 
     if (*value != SD_TRANSFER_STATE_INACTIVE)
         *value = SD_TRANSFER_STATE_INACTIVE;
