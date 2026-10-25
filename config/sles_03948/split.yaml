@@ -977,9 +977,6 @@ segments:
     - game/sound_mix
   - - 220344
     - c
-    - game/sd_enqueue_cd_fade
-  - - 220408
-    - c
     - game/sound_output_state
   - - 221464
     - c

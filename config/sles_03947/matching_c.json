@@ -4305,9 +4305,9 @@
     },
     {
       "address": "0x800452B4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x40",
-      "source": "src/game/sd_enqueue_cd_fade.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x800452F4",
