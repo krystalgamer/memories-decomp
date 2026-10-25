@@ -100,7 +100,7 @@ void SD_ResetSecondaryState(void)
     gSD_pSecondaryState->flag_0502 = 0;
     state = gSD_pSecondaryState;
     state->object_count = SD_SECONDARY_OBJECT_COUNT;
-    state->field_0814 = 0;
+    state->sequence_updates_enabled = 0;
     other = gSD_pSecondaryState;
     state->field_0512 = 127;
     state->master_level_left = 127;
@@ -120,7 +120,7 @@ void SD_ResetSecondaryState(void)
     final->field_07E4 = SD_SECONDARY_LEVEL_MAX;
     final->field_080C = 0;
     final->field_0810 = 0;
-    final->field_081C = 0x1000;
+    final->sequence_tick_mode = 0x1000;
 }
 
 void SD_InitSecondaryWorkArea(s32 *data)
@@ -140,23 +140,23 @@ void SD_InitSecondaryWorkArea(s32 *data)
 
 void SD_EnableSecondarySequenceUpdates(void)
 {
-    s32 value = gSD_pSecondaryState->field_081C;
+    s32 value = gSD_pSecondaryState->sequence_tick_mode;
 
     if (value > 0) {
         if (value < 4)
             SD_OpenSequenceTimerEvent();
     }
-    gSD_pSecondaryState->field_0814 = 1;
+    gSD_pSecondaryState->sequence_updates_enabled = 1;
 }
 
 void SD_SetSequenceTickMode(s32 value)
 {
-    gSD_pSecondaryState->field_081C = value;
+    gSD_pSecondaryState->sequence_tick_mode = value;
 }
 
 void SD_UpdateSecondarySequenceIfEnabled(void)
 {
-    if (gSD_pSecondaryState->field_0814)
+    if (gSD_pSecondaryState->sequence_updates_enabled)
         SD_UpdateSecondarySequence();
 }
 

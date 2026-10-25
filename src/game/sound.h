@@ -396,10 +396,10 @@ typedef struct {
     u8 flag_0502;
     u8 event_guard;
     PSXLONG event_handle;
-    u8 field_0508;
-    u8 field_0509;
+    u8 timer_maintenance_counter;
+    u8 vsync_update_mode;
     u8 pad050A[2];
-    void (*G32 field_050C)(void);
+    void (*G32 timer_maintenance_callback)(void);
     s16 object_count;
     s16 field_0512;
     u16 master_level_left;
@@ -427,11 +427,11 @@ typedef struct {
     s32 field_0808;
     s32 field_080C;
     s32 field_0810;
-    u8 field_0814;
+    u8 sequence_updates_enabled;
     u8 field_0815;
     u8 pad0816[2];
     u32 bytes_consumed;
-    s32 field_081C;
+    s32 sequence_tick_mode;
     u8 pad0820[0x24];
     u8 field_0844;
     u8 field_0845;
@@ -753,8 +753,14 @@ typedef char SDSecondaryState_timebase_offset_must_be_0x7FC[
 typedef char SDSecondaryState_bytes_consumed_offset_must_be_0x818[
     SD_STATE_OFFSET(SDSecondaryState, bytes_consumed) == 0x818 ? 1 : -1
 ];
-typedef char SDSecondaryState_field_081C_offset_must_be_0x81C[
-    SD_STATE_OFFSET(SDSecondaryState, field_081C) == 0x81C ? 1 : -1
+typedef char SDSecondaryState_update_dispatch_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, timer_maintenance_counter) == 0x508 &&
+    SD_STATE_OFFSET(SDSecondaryState, vsync_update_mode) == 0x509 &&
+    SD_STATE_OFFSET(SDSecondaryState, timer_maintenance_callback) == 0x50C &&
+    SD_STATE_OFFSET(SDSecondaryState, sequence_updates_enabled) == 0x814 ? 1 : -1
+];
+typedef char SDSecondaryState_sequence_tick_mode_offset_must_be_0x81C[
+    SD_STATE_OFFSET(SDSecondaryState, sequence_tick_mode) == 0x81C ? 1 : -1
 ];
 typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
     SD_STATE_OFFSET(SDSecondaryState, field_0844) == 0x844 ? 1 : -1

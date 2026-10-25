@@ -11,7 +11,7 @@ void SD_ResetSecondaryRuntime(void)
     s32 value;
 
     SD_ResetSecondaryPlaybackThunk();
-    value = gSD_pSecondaryState->field_081C;
+    value = gSD_pSecondaryState->sequence_tick_mode;
     if (value > 0) {
         if (value < 4)
             SD_CloseSequenceTimerEvent();

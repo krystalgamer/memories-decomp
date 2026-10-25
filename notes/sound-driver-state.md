@@ -874,9 +874,9 @@ above.
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
 | `0x0503` | `u8` | `event_guard` | `SD_OpenSequenceTimerEvent` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
 | `0x0504` | `long` | `event_handle` | `SD_OpenSequenceTimerEvent` stores the `OpenEvent` result; `SD_CloseSequenceTimerEvent` disables and closes the same handle. |
-| `0x0508` | `u8` | `field_0508` | `SD_SequenceTimerCallback` increments and wraps it at 11. |
-| `0x0509` | `u8` | `field_0509` | `SD_SetSequenceVSyncMode` sets it; `SD_VSync` and `SD_SequenceTimerCallback` test it. |
-| `0x050C` | callback pointer | `field_050C` | `SD_InitState` installs `SD_UpdateVoiceSlots`; `SD_SequenceTimerCallback` conditionally invokes it. |
+| `0x0508` | `u8` | `timer_maintenance_counter` | Counts inner timer sequencer calls; reaching 11 triggers object maintenance and the optional callback. |
+| `0x0509` | `u8` | `vsync_update_mode` | Nonzero selects the `SD_VSync` secondary-update path and suppresses timer-callback work. |
+| `0x050C` | callback pointer | `timer_maintenance_callback` | `SD_InitState` installs `SD_UpdateVoiceSlots`; called only at the timer maintenance threshold. |
 | `0x0510` | `s16` | `object_count` | Initialized by `SD_ResetSecondaryState` and validated/set by `SD_SetSecondaryObjectCount`; bounds the `0x28`-byte object scans in several matched functions. |
 | `0x0512` | `s16` | `field_0512` | Existing signed spatialization parameter; not renamed here. |
 | `0x0514`, `0x0516` | `u16` | `master_level_left`, `master_level_right` | Stored stereo master levels applied by secondary note-on and `SD_SetVoiceVolume`; setter parameters remain signed halfwords. |
@@ -892,9 +892,10 @@ above.
 | `0x0804`, `0x0808` | `s32` | offset-based fields | Timing/playback routines establish word accesses; their broader roles remain uncertain. |
 | `0x080C` | `s32` | `field_080C` | Fast-forward target read address. `SD_PlaySequenceFastForward` sets it and sound init clears it. While it is nonzero, `SD_ProcessSequenceTracks` skips the delta-time countdown, and it clears the field once a track's `sequence_read_base + pos` reaches it. |
 | `0x0810` | `s32` | `field_0810` | Each time a track advances a sequencer tick, `SD_ProcessSequenceTracks` stores that track's read address (`sequence_read_base + pos`) here. Sound init clears it, and no matched code reads it. |
-| `0x0814`, `0x0815` | `u8` | offset-based fields | `SD_Init` clears `0x0814`, `SD_EnableSecondarySequenceUpdates` sets it after optional timer-event setup, and both `SD_SequenceTimerCallback` and `SD_UpdateSecondarySequenceIfEnabled` require it before advancing the secondary sequence. `SD_EnableSecondaryPanning` clears `0x0815`, while `SD_DisableSecondaryPanning` sets it; when set, `SD_SpatializeSecondaryObject` forces centre pan instead of using its computed value. |
+| `0x0814` | `u8` | `sequence_updates_enabled` | `SD_ResetSecondaryState` clears it; enabling sets it after optional event setup, and both timer and explicit secondary-update paths require it. |
+| `0x0815` | `u8` | `field_0815` | `SD_EnableSecondaryPanning` clears it, while `SD_DisableSecondaryPanning` sets it; when set, `SD_SpatializeSecondaryObject` forces centre pan instead of using its computed value. |
 | `0x0818` | `u32` | `bytes_consumed` | `SD_VabOpenHead` clears it and `SD_VabTransBodyChunk` advances it across a transfer window. |
-| `0x081C` | `s32` | `field_081C` | Sequence tick mode set by `SD_SetSequenceTickMode`: initialization selects `2` (`SS_TICK240`), reset restores `0x1000` (`SS_NOTICK`), and update/termination paths open or close the timer event only for modes `1` through `3`. |
+| `0x081C` | `s32` | `sequence_tick_mode` | Stored tick selector: initialization uses `2` (`SS_TICK240`), reset uses `0x1000` (`SS_NOTICK`), and enable/reset-runtime paths consider timer open/close only for values `1` through `3`. |
 | `0x0844`, `0x0845` | `u8` | offset-based fields | `SD_ApplySequenceReverbParameter` stores two control-event byte values. |
 
 `SD_OpenSequenceTimerEvent` registers `SD_SequenceTimerCallback` for an
@@ -955,6 +956,61 @@ is `1`.
 `SD_SetSecondarySpatialLevels` and `SD_SetSecondaryMasterLevels` read the same
 halfword for a different question, skipping `SD_UpdateSecondaryObjectVolumes`
 while it is `2`.
+
+### Timer/VSync dispatch and maintenance cadence
+
+The five timer-dispatch names describe separate controls, not one playback
+boolean or a newly inferred hardware frequency. The stored callback remains
+`void (*G32 timer_maintenance_callback)(void)`; the SDK event handler still
+returns `PSXLONG`, and no callback ABI or event registration changes.
+
+`SD_SequenceTimerCallback` first checks `sequence_updates_enabled`, the
+existing mutation guard, and `vsync_update_mode`, in that order. Those
+early exits still return one. If the separate update guard is already held,
+the handler still returns zero without processing. Otherwise it retains
+the ignored `GetRCnt(RCntCNT2)` call and holds the update guard across its
+eight inner iterations.
+
+Each iteration calls `SD_ProcessSequenceTracks` and then increments the
+byte `timer_maintenance_counter`, even if that call immediately returns
+because playback is inactive or no tracks exist. Reaching 11 clears the
+counter, updates secondary-object reuse countdowns and voices, then
+reloads and conditionally calls `timer_maintenance_callback`. Cold init
+installs `SD_UpdateVoiceSlots` there. Thus this is not an interrupt count,
+a count of successful track advances, or an asserted 11-frame interval.
+The counter carries between interrupts; secondary-state reset does not
+newly reset it, the callback pointer, or the VSync selector. Their cold
+zeroing and later initialization remain at the original points.
+
+The VSync path is intentionally different. A nonzero `vsync_update_mode`
+makes `SD_VSync` call `SD_UpdateSecondarySequenceIfEnabled` before the
+existing runtime/bank work. That helper requires the enabled byte, then
+the shared secondary updater uses ten explicit track calls only when its
+existing run flag is set, followed by object maintenance once. It neither
+advances this timer counter nor invokes this stored callback. These two
+paths are not combined, equalized or assigned a common frame rate.
+
+`SD_SetSequenceVSyncMode` still stores its word argument into the byte,
+reloads that byte, then sets or clears `flag_0500` from the stored value.
+It does not stop/restart a counter or open/close an event. Do not replace
+this with a test of the untruncated argument or normalize it to a boolean.
+
+`sequence_updates_enabled` is cleared by `SD_ResetSecondaryState`, not
+`SD_Init`. Enabling first considers event setup for signed tick modes
+greater than zero and less than four, then always stores one, even if the
+event guard causes setup to return early. `SD_SetSequenceTickMode` only
+stores the signed word. `SD_ResetSecondaryRuntime` uses the same range
+before closing the event and resetting state. Startup selects mode two;
+reset restores `0x1000`. The local SDK labels these `SS_TICK240` and
+`SS_NOTICK`, but neither the names nor this change establish an observed
+interrupt frequency or make the selector itself reconfigure the timer.
+
+All numeric loop counts, threshold comparisons, pointer reloads, null
+checks, flag-store ordering, event guards and SDK calls remain exact.
+One new assertion block pins counter, selector, callback and enable-byte
+offsets; the existing tick-mode assertion follows its renamed field.
+No witness contains these old member names, and no new test or harness is
+added. Cloud and witness suites remain for ordinary PR validation.
 
 ### Transfer-window state and results
 
