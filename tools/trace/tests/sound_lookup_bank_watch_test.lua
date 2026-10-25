@@ -281,14 +281,22 @@ do
     assert(r:has('id=0x4107 bank=1 idx=7 -> key=none note=- from=LOAD#004'))
     r:call(SE_PLAY, {a0 = 0x4108})
     assert(r:has('id=0x4108 bank=1 idx=8 -> key=none note=- from=unknown'))
+    r:key(1, 7, 0x0047)
+    r:frames(1)
+    assert(r:has('BANK bank1 filled by LOAD #004: 3 keys 00=0040 05=0045 '
+        .. '07=0047'), 'a bank-0 range past 32 is named for bank 1')
+    assert(r:has('BANK bank0 unchanged by LOAD #004: empty'))
+    assert(not r:has('without a LOAD'))
+    r:call(SE_PLAY, {a0 = 0x4107})
+    assert(r:has('id=0x4107 bank=1 idx=7 -> key=0x0047 note=0 from=LOAD#004'))
     r:call(LOAD, {a0 = 1, a1 = r:block(0x801a9000, 1000)})
     assert(r:has('LOAD bank=1 src=0x801A9000 count=1000'))
     r:call(SE_PLAY, {a0 = 0x411f})
-    assert(r:has('id=0x411F bank=1 idx=31 -> key=none note=- from=LOAD#007?'))
+    assert(r:has('id=0x411F bank=1 idx=31 -> key=none note=- from=LOAD#010?'))
     r:call(LOAD, {a0 = 1, a1 = r:block(0x801a9800, -1)})
     assert(r:has('count=-1'))
     r:call(SE_PLAY, {a0 = 0x411e})
-    assert(r:has('id=0x411E bank=1 idx=30 -> key=none note=- from=LOAD#007?'),
+    assert(r:has('id=0x411E bank=1 idx=30 -> key=none note=- from=LOAD#010?'),
         'a negative count writes nothing')
     r:reset()
 end

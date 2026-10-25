@@ -368,15 +368,20 @@ local function markers(list)
     return table.concat(parts, ',')
 end
 
--- Entries that changed outside every pending LOAD's written range lose
--- their origin; the row says how many.
+-- A bank's row names every pending LOAD whose written range reaches it, so a
+-- bank-0 count above 32 is named for bank 1 too. Entries that changed
+-- outside every pending LOAD's written range lose their origin; the row says
+-- how many.
 local function pollBanks(origins)
     for b = 0, 1 do
         local keys = readBank(b)
         local sig = signature(keys)
         local mine, covered = {}, {}
         for _, load in ipairs(origins) do
-            if load.bank == b then mine[#mine + 1] = load end
+            if load.bank == b or load.first < (b + 1) * BANK_ENTRIES
+                and load.last >= b * BANK_ENTRIES then
+                mine[#mine + 1] = load
+            end
             for k = load.first, load.last do covered[k] = true end
         end
         local stray = 0
