@@ -71,6 +71,110 @@
 #include "model_state_setters.h"
 #include "../psyq/libgs.h"
 #include "view_state_current.h"
+#include "graphics_packet_submission.h"
+#include "display_object_projection.h"
+#include "gpu_packets.h"
+
+/* The draw callback Library_CreateFadingCardOutline installs at 0x4C on the object it
+   builds: it fades the object out over its own field_60 countdown, projects
+   it, and emits a four-vertex flat polyline (one colour word, length 6)
+   and then, with the length cut to 3 and x3/y3 copied into x1/y1, a single
+   flat line from the first vertex to the last, both through Graphics_SubmitDrawModePacket.
+   The record is the canonical DisplayObject.
+
+   The scratchpad side is typed as well: a LINE_F4 at 0x1F8002A0, the four
+   SVECTOR corners RotAverage4 projects into its x0..x3, and the
+   ProjectionOut DisplayObject_ProjectRotationFacing leaves at 0x1F800398. That
+   is load-bearing. Written through byte pointers, those stores are not struct
+   references, and
+   GCC floats the object's struct-member reads of 0x32 and 0x3E across them
+   where the target does not. With both sides typed the plain member reads
+   keep their place.
+
+   b0[1].vx and b0[2].vy are b1->vx and b2->vy: the target addresses those
+   two stores from the first corner's base, and spelling them through b1 and
+   b2 changes the code. */
+void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
+{
+    s32 sp28;
+    s32 sp2C;
+    LINE_F4 *q;
+    struct ProjectionOut *r;
+    SVECTOR *b0;
+    SVECTOR *b1;
+    SVECTOR *b2;
+    SVECTOR *b3;
+    s32 n;
+    s32 e;
+    s32 m;
+    s32 z;
+    s32 k;
+    s32 v;
+    s32 w;
+
+    n = *(u16 *)&o->field_60 - 0x10;
+    o->field_60 = n;
+    if ((s16)n <= 0) {
+        DisplayObject_ReleaseIfPresent(o);
+        return;
+    }
+
+    r = (struct ProjectionOut *)0x1F800398;
+    ((u8 *)&o->field_0C)[2] = *(u8 *)&o->field_60;
+    DisplayObject_ProjectRotationFacing(o,
+                  *(s16 *)&o->field_30.h.field_30 + *(s16 *)&o->field_18,
+                  *(s16 *)&o->field_30.h.field_32 + *(s16 *)&o->field_1A,
+                  r);
+
+    q = (LINE_F4 *)0x1F8002A0;
+    b0 = (SVECTOR *)0x1F800300;
+    m = 0x55555555;
+    b2 = (SVECTOR *)0x1F800310;
+    b3 = (SVECTOR *)0x1F800318;
+    b1 = (SVECTOR *)0x1F800308;
+
+    z = *(s32 *)&o->field_0C;
+    setlen(q, 6);
+    q->pad = m;
+    *(s32 *)&q->r0 = z;
+    q->code = 0x4C;
+
+    v = o->field_30.h.field_30 - (u16)r->x;
+    b2->vx = v;
+    b0->vx = v;
+    v += o->field_3C.h.field_3C;
+    b3->vx = v;
+    b0[1].vx = v;
+
+    w = o->field_30.h.field_32 - (u16)r->y;
+    b1->vy = w;
+    b0->vy = w;
+    e = o->field_3C.h.field_3E;
+    b3->vz = 0;
+    b2->vz = 0;
+    b1->vz = 0;
+    b0->vz = 0;
+
+    w += e;
+    b3->vy = w;
+    b0[2].vy = w;
+
+    RotAverage4(
+        b0, b1, b2, b3,
+        (PSXLONG *)&q->x0, (PSXLONG *)&q->x1,
+        (PSXLONG *)&q->x3, (PSXLONG *)&q->x2,
+        (PSXLONG *)&sp28, (PSXLONG *)&sp2C
+    );
+
+    Graphics_SubmitDrawModePacket((u32 *)q, ot, *(u16 *)&o->field_14, 1);
+    setlen(q, 3);
+    q->code = 0x40;
+    k = *(u16 *)&o->field_14;
+    *(s32 *)&q->x1 = *(s32 *)&q->x3;
+    Graphics_SubmitDrawModePacket((u32 *)q, ot, (u16)k, 1);
+}
+
+DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){DisplayObject*o=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),6);o->field_48.word=src->field_48.word;*(s32*)&o->field_18=*(s32*)&src->field_18;o->field_60=0x100;*(s16*)&o->field_3C.h.field_3C=*(s16*)&o->field_18*2;*(s16*)&o->field_3C.h.field_3E=*(s16*)&o->field_1A*2;o->field_30.word=src->field_30.word;o->field_20.word=src->field_20.word;o->field_44.word=src->field_44.word;o->field_0C=0;DisplayObject_SelectOrderingTable1(o);DisplayObject_SetDepthOffset(o,(signed char)(*(u8*)&src->field_16+add));o->field_10=1;o->field_4C=(s32)Library_DrawFadingCardOutline;o->attribute=(o->attribute|(GsALON | GsAONE))&~GsROTOFF;return o;}
 
 /* The seven contiguous functions of the Library screen: the card-view state
    handler Library_UpdateCardView, the trivial state handlers for states 0 and 3, the
