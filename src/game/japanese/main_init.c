@@ -4,8 +4,7 @@
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
-#define gSaveData_dwVBlankCounter gJapanese_SaveDataVBlankCounter
-#define gGraphics_dwSyncVBlankCounter gJapanese_GraphicsSyncVBlankCounter
+#define VERSION_JAPAN
 #define D_8009B0D8 gJapanese_FrameStep
 
 #include "../main_init.c"
