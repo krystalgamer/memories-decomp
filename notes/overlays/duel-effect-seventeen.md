@@ -61,7 +61,12 @@ was activated while the opponent had no monster. Effect 17 ran phase 1
 for 183 frames and 182 calls. The human saw a purple effect like Dark
 Hole, and the board did not change. That episode made no layered-helper
 calls, null or non-null. The phase-1 null path therefore stays
-unobserved; a run with a target monster on the field would be needed.
+unobserved. The pending probe
+[`duel_effect_jar_null_offset.lua`](../../tools/trace/duel_effect_jar_null_offset.lua)
+asks for the jar with an opponent Dragon on the field, and records the same
+24 loads for whichever null callers execute. Its
+[mocked callback replay](../../tools/trace/tests/duel_effect_jar_null_offset_test.lua)
+is not evidence that the game runs that path.
 
 ## Recovered configuration and storage
 
