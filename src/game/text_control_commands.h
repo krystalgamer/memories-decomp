@@ -12,12 +12,18 @@
  * call site. */
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object);
 
-/* gText_SecondaryCommandHandlers entry: sets up a dialog choice. It reads a control byte, and a
- * second one when bit 3 is set, then either advances the object's stream cursor
- * by the already-made choice and re-runs Text_SetCursorOffset (bit 7), or
- * publishes a new choice -- count from the low three bits, style from the high
- * nibble, enabled mask from the second byte -- and puts the dialog input state
- * at 1 when that byte's bit 7 is set. Always raises gText_CommandDisposition. */
+#define TEXT_CHOICE_COMMAND_COUNT_MASK 7
+#define TEXT_CHOICE_COMMAND_HAS_OPTIONS 0x08
+#define TEXT_CHOICE_COMMAND_BRANCH 0x80
+#define TEXT_CHOICE_OPTIONS_ENABLED_MASK 0x0F
+#define TEXT_CHOICE_OPTIONS_INPUT_FLAG 0x80
+
+/* Primary FB handler in the NA table. Consumes the optional options byte
+ * before either setup or selected-branch handling. Setup without options uses
+ * enabled mask 0xF and input state zero. Setup publishes the unchecked
+ * three-bit count, high control nibble and low enabled nibble; options bit 7
+ * sets input state to 1. Branching skips choice * 2 bytes and calls
+ * Text_SetCursorOffset. Both forms raise gText_CommandDisposition. */
 void Text_HandleChoiceCommand(DuelEffectChannel *object);
 
 /* Two gText_SecondaryCommandHandlers entries. Text_StartPageWait puts the object into wait state

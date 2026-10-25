@@ -54,7 +54,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
        field_18 % 10 selection, and one y step from the choice row (8 in the
        Japanese build, 10 in the European one, whose wrapper defines its own)
        rather than the US spacings below. */
-    v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) + (gDialog_bChoiceControl & 0x30) +
+    v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) + (gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK) +
         ((s32)(*(u8 *)&gDialog_bChoice << 24) >> 20);
     q->position.h.field_2A = v;
 
@@ -74,7 +74,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     ].field_18 % 10;
 
     if (k == 1) {
-        t = gDialog_bChoiceControl & 0x30;
+        t = gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
         a = t / 16 * 0x10;
         v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) +
             a + gDialog_bChoice * 0x10;
@@ -94,14 +94,14 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     }
 
     if (k == 2) {
-        t2 = gDialog_bChoiceControl & 0x30;
+        t2 = gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
         b = t2 / 16 * 0xC;
         v2 = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) +
              b + gDialog_bChoice * 0xC;
         x = v2 - 2;
         y = v2 + 6;
     } else if (k == 0) {
-        t0 = gDialog_bChoiceControl & 0x30;
+        t0 = gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
         c = t0 / 16 * 0xC;
         v0 = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) +
              c + gDialog_bChoice * 0xC;
