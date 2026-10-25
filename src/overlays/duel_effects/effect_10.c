@@ -1,13 +1,14 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_10.h"
+#include "handler_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "primitive_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "texture_state_semantic_views.h"
 
-void func_8014C8FC(void *buffer, s32 phase)
+void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;

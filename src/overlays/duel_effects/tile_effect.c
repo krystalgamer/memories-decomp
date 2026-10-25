@@ -12,6 +12,7 @@
 #include "textured_quads.h"
 #include "dispatch.h"
 #include "tile_effect.h"
+#include "handler_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "texture_semantic_views.h"
 #include "texture_state_semantic_views.h"
@@ -26,7 +27,7 @@
 #define TILE_V_BOTTOM 126
 #endif
 
-void func_80149F90(void *buffer, s32 phase)
+void DuelEffect_RunDestroyFlames(void *buffer, s32 phase)
 {
     TileEffectState *state;
     POLY_GT4 polygon;

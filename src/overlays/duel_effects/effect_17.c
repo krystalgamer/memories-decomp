@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_17.h"
+#include "handler_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "primitive_semantic_views.h"
@@ -11,7 +12,7 @@
 #include "stat_penalty_semantic_views.h"
 #include "exodia_semantic_views.h"
 
-void func_80148BA4(void *buffer, s32 phase)
+void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;
