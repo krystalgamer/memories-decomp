@@ -344,13 +344,13 @@ typedef struct {
 } SDSecondaryObject;
 
 typedef struct {
-    s16 field_0000;
+    s16 state_token;
     u8 pad0002[2];
-    u8 *G32 field_0004;
-    s32 field_0008;
-    s32 field_000C;
-    s32 field_0010;
-    u8 *G32 field_0014;
+    u8 *G32 vab_header;
+    s32 header_size_bytes;
+    s32 full_body_source_address;
+    s32 body_size_bytes;
+    u8 *G32 spu_body_base;
     u8 vab_master_volume;
     u8 field_0019;
     u8 field_001A;
@@ -683,6 +683,14 @@ typedef char SDSequenceTrack_running_status_offset_must_be_0x29[
 ];
 typedef char SDSecondaryTransfer_size_must_be_0x1C[
     sizeof(SDSecondaryTransfer) == 0x1C ? 1 : -1
+];
+typedef char SDSecondaryTransfer_core_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryTransfer, state_token) == 0x00 &&
+    SD_STATE_OFFSET(SDSecondaryTransfer, vab_header) == 0x04 &&
+    SD_STATE_OFFSET(SDSecondaryTransfer, header_size_bytes) == 0x08 &&
+    SD_STATE_OFFSET(SDSecondaryTransfer, full_body_source_address) == 0x0C &&
+    SD_STATE_OFFSET(SDSecondaryTransfer, body_size_bytes) == 0x10 &&
+    SD_STATE_OFFSET(SDSecondaryTransfer, spu_body_base) == 0x14 ? 1 : -1
 ];
 typedef char SDSecondaryState_size_must_be_0x848[
     sizeof(SDSecondaryState) == 0x848 ? 1 : -1

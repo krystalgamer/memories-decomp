@@ -109,7 +109,7 @@ void SD_ResetSecondaryState(void)
     third = gSD_pSecondaryState;
     third->transfer.field_0019 = 127;
     fourth = gSD_pSecondaryState;
-    third->transfer.field_0000 = SD_TRANSFER_STATE_INACTIVE;
+    third->transfer.state_token = SD_TRANSFER_STATE_INACTIVE;
     fourth->transfer.field_001A = 127;
     fifth = gSD_pSecondaryState;
     fifth->transfer.vab_pan = 64;

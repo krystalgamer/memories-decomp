@@ -133,7 +133,7 @@ u8 velocity;
 
     channel = arg0;
     note = arg1;
-    hdr = (SDVabHeader *)gSD_pSecondaryState->transfer.field_0004;
+    hdr = (SDVabHeader *)gSD_pSecondaryState->transfer.vab_header;
     rec = &gSD_pSecondaryState->channels[channel & 0xFF];
     program = rec->program;
     vab = (u8 *)hdr;
@@ -193,7 +193,7 @@ u8 velocity;
         i = 0;
         sum = 0;
         vag = tone->vag;
-        sizes = (u16 *)(gSD_pSecondaryState->transfer.field_0004
+        sizes = (u16 *)(gSD_pSecondaryState->transfer.vab_header
                         + hdr->program_count * 512 + 0x820);
         obj = &gSD_pSecondaryState->objects[idx];
         if (vag > 0) {
@@ -208,7 +208,7 @@ u8 velocity;
         gSD_pSecondaryState->voice_attr.mask = 0x6019F;
         gSD_pSecondaryState->voice_attr.volmode.left = 0;
         gSD_pSecondaryState->voice_attr.volmode.right = 0;
-        nb = (s32)gSD_pSecondaryState->transfer.field_0014;
+        nb = (s32)gSD_pSecondaryState->transfer.spu_body_base;
         gSD_pSecondaryState->voice_attr.voice = vm;
         gSD_pSecondaryState->voice_attr.addr = nb + sum;
         adsr1 = tone->adsr1;
