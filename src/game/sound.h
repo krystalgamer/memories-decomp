@@ -138,11 +138,13 @@ typedef struct {
     u8 flags_004A;
     u8 pad004B;
     s16 command_count;
-    u16 field_004E;
-    u32 field_0050;
-    u32 field_0054;
-    u32 field_0058;
-    u32 field_005C[8];
+    /* Snapshot of queue +2, +4/+8/+C and +0x10..+0x2F.
+       Payload meanings depend on active_command. */
+    u16 active_command_value;
+    u32 active_command_arg0;
+    u32 active_command_arg1;
+    u32 active_command_arg2;
+    u32 active_command_tail[8];
     u8 active_command;
     u8 active_command_phase;
     u8 active_cd_fade_wait;
@@ -229,7 +231,7 @@ typedef struct {
     u8 pad1568[0x10];
     s16 opened_music_package_id;
     s16 music_vab_open_result;
-    /* Token copied from field_004E after a successful sequence open. */
+    /* Token copied from active_command_value after a successful sequence open. */
     s16 opened_sequence_command;
     s16 sequence_open_result;
     s16 bgm_fade_level;
@@ -246,7 +248,7 @@ typedef struct {
     u8 pad15F6[0x22];
     u8 busy;
     /* Filename buffers seeded by SD_InitState. SD_StepActiveCommand passes
-       them separately to File_RequestSecondarySlot: field_005C[0] & 0xF0
+       them separately to File_RequestSecondarySlot: active_command_tail[0] & 0xF0
        selects SE at 0x10, BGM at 0x20 and MASTER.XA at 0x40. */
     u8 bgm_file_name[0x10];
     u8 se_file_name[0x10];
@@ -439,6 +441,14 @@ typedef struct {
 typedef char SDCommand_size_must_be_0x30[
     sizeof(SDCommand) == SD_COMMAND_RECORD_SIZE ? 1 : -1
 ];
+typedef char SDCommand_payload_offsets_must_match[
+    SD_STATE_OFFSET(SDCommand, field_0002) == 0x02 &&
+    SD_STATE_OFFSET(SDCommand, field_0004) == 0x04 &&
+    SD_STATE_OFFSET(SDCommand, field_0008) == 0x08 &&
+    SD_STATE_OFFSET(SDCommand, field_000C) == 0x0C &&
+    SD_STATE_OFFSET(SDCommand, field_0010) == 0x10 &&
+    SD_STATE_OFFSET(SDCommand, field_002C) == 0x2C ? 1 : -1
+];
 typedef char SDCommandTail_size_must_be_0x20[
     sizeof(SDCommandTail) == 0x20 ? 1 : -1
 ];
@@ -573,8 +583,13 @@ typedef char SDValue_cd_mix_default_offset_must_be_0x1649[
 typedef char SDValue_secondary_mix_default_offset_must_be_0x164A[
     SD_STATE_OFFSET(SDValue, secondary_mix_default) == 0x164A ? 1 : -1
 ];
-typedef char SDValue_field_004E_offset_must_be_0x4E[
-    SD_STATE_OFFSET(SDValue, field_004E) == 0x4E ? 1 : -1
+typedef char SDValue_active_payload_layout_must_match[
+    SD_STATE_OFFSET(SDValue, active_command_value) == 0x4E &&
+    SD_STATE_OFFSET(SDValue, active_command_arg0) == 0x50 &&
+    SD_STATE_OFFSET(SDValue, active_command_arg1) == 0x54 &&
+    SD_STATE_OFFSET(SDValue, active_command_arg2) == 0x58 &&
+    SD_STATE_OFFSET(SDValue, active_command_tail) == 0x5C &&
+    sizeof(((SDValue *)0)->active_command_tail) == sizeof(SDCommandTail) ? 1 : -1
 ];
 typedef char SDValue_active_command_offsets_must_match[
     SD_STATE_OFFSET(SDValue, active_command) == 0x7C &&

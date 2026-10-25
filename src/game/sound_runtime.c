@@ -190,15 +190,15 @@ void SD_UpdateRuntime(void)
     p->active_command = e->command;
     g_SDValue->active_command_phase = 0;
     p = g_SDValue;
-    p->field_004E = (u16)e->field_0002;
-    p->field_0050 = e->field_0004;
-    p->field_0054 = e->field_0008;
-    p->field_0058 = e->field_000C;
+    p->active_command_value = (u16)e->field_0002;
+    p->active_command_arg0 = e->field_0004;
+    p->active_command_arg1 = e->field_0008;
+    p->active_command_arg2 = e->field_000C;
     p->active_cd_fade_wait = e->wait_for_cd_fade;
     /* The second global read preserves separate pointers for the tail copy
        and queue bookkeeping after CSE. */
     r = g_SDValue;
-    *(SDCommandTail *)&r->field_005C[0] = *(SDCommandTail *)&e->field_0010;
+    *(SDCommandTail *)&r->active_command_tail[0] = *(SDCommandTail *)&e->field_0010;
     q = g_SDValue;
     q->field_15F4 = 8;
     q->command_count = q->command_count - 1;

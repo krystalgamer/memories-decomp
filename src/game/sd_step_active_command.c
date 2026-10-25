@@ -20,8 +20,8 @@ void SD_StepActiveCommand(void)
 
     switch (g_SDValue->active_command) {
     case 81:
-        SD_RegisterSeqBlockNotes((SDSeqBlock *)g_SDValue->field_0058,
-                     (u32)g_SDValue->field_0050);
+        SD_RegisterSeqBlockNotes((SDSeqBlock *)g_SDValue->active_command_arg2,
+                     (u32)g_SDValue->active_command_arg0);
         goto clear_7d_7c;
 
     case 32:
@@ -38,22 +38,22 @@ void SD_StepActiveCommand(void)
                 FileRequestSlot *b = gSD_pFileRequest;
                 s32 final_word;
 
-                b->field_10 = (s32)sd->field_005C[4];
-                b->field_0C = (s32)sd->field_005C[3];
-                b->field_04 = (s32)sd->field_005C[1];
-                b->field_18 = (s32)sd->field_005C[6];
-                final_word = (s32)sd->field_005C[5];
+                b->field_10 = (s32)sd->active_command_tail[4];
+                b->field_0C = (s32)sd->active_command_tail[3];
+                b->field_04 = (s32)sd->active_command_tail[1];
+                b->field_18 = (s32)sd->active_command_tail[6];
+                final_word = (s32)sd->active_command_tail[5];
                 b->field_1F = 0;
                 b->field_1C = 0;
                 b->field_14 = final_word;
                 gSD_pFileRequest->field_1E = 0;
             }
-            gSD_pFileRequest->field_00 = (s32)g_SDValue->field_005C[0];
+            gSD_pFileRequest->field_00 = (s32)g_SDValue->active_command_tail[0];
             if (gSD_pFileRequest->field_18 == 0 && gSD_pFileRequest->field_14 == 0) {
                 g_SDValue->active_command_phase = 0;
                 goto clear_7c;
             }
-            switch ((s32)g_SDValue->field_005C[0] & 0xF0) {
+            switch ((s32)g_SDValue->active_command_tail[0] & 0xF0) {
             case 0x10:
                 gSD_pFileRequest->field_00 = 4;
                 File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->se_file_name);
@@ -127,8 +127,8 @@ void SD_StepActiveCommand(void)
 
             first_word = 0xFFFFFF;
             e = (SoundCommandPair *)(
-                (u32)&((SoundCommandPair *)0)[g_SDValue->field_004E]
-                + (u32)g_SDValue->field_0058);
+                (u32)&((SoundCommandPair *)0)[g_SDValue->active_command_value]
+                + (u32)g_SDValue->active_command_arg2);
             second_word = e->a;
 
             gSD_pFileRequest->field_10 = 0;
@@ -139,7 +139,7 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->field_1F = g_SDValue->cd_filter_channel;
             second_word &= first_word;
             gSD_pFileRequest->field_1E = g_SDValue->cd_filter_file;
-            base_offset = (s32)g_SDValue->field_0050;
+            base_offset = (s32)g_SDValue->active_command_arg0;
             gSD_pFileRequest->field_00 = 6;
             second_word += base_offset;
             gSD_pFileRequest->field_04 = second_word;
@@ -158,8 +158,8 @@ void SD_StepActiveCommand(void)
             u32 low_a;
 
             entry_state = g_SDValue;
-            e = (SoundCommandPair *)((u32)entry_state->field_004E * 8
-                                     + (u32)entry_state->field_0058);
+            e = (SoundCommandPair *)((u32)entry_state->active_command_value * 8
+                                     + (u32)entry_state->active_command_arg2);
             first_word = e->a;
             second_word = e->b;
 
@@ -174,9 +174,9 @@ void SD_StepActiveCommand(void)
             first_word >>= 29;
             g_SDValue->mix_multiplier = first_word;
             g_SDValue->cd_start_sector_offset =
-                g_SDValue->cd_start_sector_offset + (s32)g_SDValue->field_0050;
+                g_SDValue->cd_start_sector_offset + (s32)g_SDValue->active_command_arg0;
             g_SDValue->cd_end_sector_offset =
-                g_SDValue->cd_end_sector_offset + (s32)g_SDValue->field_0050;
+                g_SDValue->cd_end_sector_offset + (s32)g_SDValue->active_command_arg0;
             gSD_pFileRequest->field_10 = 0;
             gSD_pFileRequest->field_18 = 0;
             gSD_pFileRequest->field_0C = 0;
@@ -229,7 +229,7 @@ void SD_StepActiveCommand(void)
 
             entry_state = g_SDValue;
             l = (CommandIndexTable *)entry_state->music_track;
-            i = entry_state->field_004E & 0xF;
+            i = entry_state->active_command_value & 0xF;
 
             if (i >= l->count) {
                 g_SDValue->active_command = 0;
@@ -240,13 +240,13 @@ void SD_StepActiveCommand(void)
                     (u32)&((u8 (*)[16])0)[l->index_records[i][0]] + (u32)l),
                                              entry_state->music_vab_open_result);
             if ((s16)g_SDValue->sequence_open_result == 0) {
-                g_SDValue->opened_sequence_command = g_SDValue->field_004E;
+                g_SDValue->opened_sequence_command = g_SDValue->active_command_value;
                 SD_PlaySequence(1, 1);
                 {
                     SDValue *sd = g_SDValue;
                     sd->sequence_fade_target = 0xFF;
                     sd->flags_0040 = sd->flags_0040 | 0x80;
-                    sd->sequence_fade_step = (u16)sd->field_0054;
+                    sd->sequence_fade_step = (u16)sd->active_command_arg1;
                 }
             }
         }
