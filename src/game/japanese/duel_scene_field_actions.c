@@ -1,14 +1,11 @@
 #include "../../types.h"
+#define VERSION_JAPAN
 
 /* SLPM-86398 build of src/game/duel_scene_field_actions.c: the symbols below sit at other addresses in the
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * as is. */
-#define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
-#define gDuel_awSideViewHeadings gJapanese_DuelSideViewHeadings
-#define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
 #define D_8009B360 gJapanese_DuelPlayerState
-#define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 /* Values that differ in the Japanese release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

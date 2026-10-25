@@ -32,7 +32,13 @@
  * it either; s16 is kept from the declaration the unit matched with. The next
  * named symbol is gDuel_RitualResultCardId, two bytes on, so the declared width fills the
  * gap exactly. */
+#if defined(VERSION_JAPAN)
+extern s16 gDuel_wAiHandStackPending asm("gJapanese_D_8009B19E");
+#elif defined(VERSION_EUROPE)
+extern s16 gDuel_wAiHandStackPending asm("gEuropean_D_8009B19E");
+#else
 extern s16 gDuel_wAiHandStackPending;
+#endif
 
 /* The cursor into the AI's pending selection list gAi_Selection (ai.h). The
  * scripted step sets it to -1 through a signed lvalue cast, and each following
@@ -45,7 +51,11 @@ extern s16 gDuel_wAiHandStackPending;
  * stays unsigned and the cast at the use is what keeps the signed read. The
  * next named symbol, gDuel_wAiSelectionStepDelay below, is two bytes on, so
  * the one-byte gap is not evidence of a wider object. */
+#ifdef VERSION_JAPAN
+extern u8 gDuel_bAiSelectionCursor asm("gJapanese_D_8009B1E2");
+#else
 extern u8 gDuel_bAiSelectionCursor;
+#endif
 
 /* The step delay for that walk. Each selection entry loads it with 6, every
  * tick takes one off, and the step runs once the signed value reaches zero or
@@ -54,7 +64,11 @@ extern u8 gDuel_bAiSelectionCursor;
  * Declared u16. The single load is lhu and the three stores are sh; the one
  * signed read is spelled (s16) at the bound test, which is where the private
  * declaration put it. */
+#ifdef VERSION_JAPAN
+extern u16 gDuel_wAiSelectionStepDelay asm("gJapanese_D_8009B1E4");
+#else
 extern u16 gDuel_wAiSelectionStepDelay;
+#endif
 
 /* "Com Error SelCard\n", the scripted path's complaint about a selection byte
  * below 0xB. It stays in generated .rodata: retail keeps the string at

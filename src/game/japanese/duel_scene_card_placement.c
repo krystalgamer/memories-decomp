@@ -1,4 +1,5 @@
 #include "../../types.h"
+#define VERSION_JAPAN
 
 /* SLPM-86398 build of src/game/duel_scene_card_placement.c: the symbols below sit at other addresses in the
  * Japanese executable and their US names are taken there, so they are aliased
@@ -6,8 +7,6 @@
  * unchanged. */
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
-#define gDuel_pActiveSelectionRecord gJapanese_DuelActiveSelectionRecord
 #define D_8009B218 gJapanese_D_8009B218
-#define gDuel_aCardRecords gJapanese_DuelCardRecords
 
 #include "../duel_scene_card_placement.c"

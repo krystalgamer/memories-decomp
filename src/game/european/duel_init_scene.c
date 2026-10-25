@@ -6,5 +6,4 @@
 #define DUEL_INIT_DUELIST_DATA_FIRST_SECTOR 0x2218
 #define DUEL_INIT_RESOURCE_FIELD_2C 0x280
 #define DUEL_INIT_RESOURCE_FIELD_2E 0xDF
-#define gDuel_pSide1SaveData gEuropean_D_8009B1DC
 #include "../duel_init_scene.c"

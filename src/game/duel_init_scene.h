@@ -50,6 +50,10 @@ extern SaveDataState *G32 gDuel_pSide0SaveData[2];
 #else
 extern u8 *G32 gDuel_pSide0SaveData;
 #endif
+#ifdef VERSION_EUROPE
+extern u8 *G32 gDuel_pSide1SaveData asm("gEuropean_D_8009B1DC");
+#else
 extern u8 *G32 gDuel_pSide1SaveData;
+#endif
 
 #endif
