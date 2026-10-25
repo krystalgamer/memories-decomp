@@ -10,6 +10,6 @@
 
 /* ScriptImage_CreateObject takes the splat name of its European address,
  * as in script_image_rebuild's wrapper. */
-#define ScriptImage_CreateObject func_8002E10C
+#define VERSION_EUROPE
 
 #include "../script_image_objects.c"

@@ -99,7 +99,6 @@ PAIRS = [
     ("src/game/duel_scene_field_actions.c", "Duel_CreateFieldCursorObject", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_scene_hand_actions.c", "DuelHand_PositionSelectionCursor", '#include "duel_hand_position_selection_cursor.h"'),
     ("src/game/duel_scene_hand_actions.c", "DuelHand_CreateSelectionOrderMarker", '#include "duel_hand_selection_cursor.h"'),
-    ("src/game/build_deck_draw_card_list_page.c", "func_80031784", '#include "build_deck_draw_sort_icons.h"'),
     ("src/game/build_deck_draw_card_list_page.c", "CardList_DrawDecimalDigits", '#include "duel_card_stat_display.h"'),
     ("src/game/build_deck_draw_card_list_page.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
     ("src/game/library_runtime.c", "Library_RefreshSelectedCardText", '#include "library_refresh_selected_card_text.h"'),
@@ -279,7 +278,6 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     "duel_hand_position_selection_cursor.h",
                     "duel_hand_selection_cursor.h",
                     "duel_card_object_helpers.h",
-                    "build_deck_draw_sort_icons.h",
                     "duel_card_stat_display.h",
                     "text_encode_decimal_no_padding.h",
                 )

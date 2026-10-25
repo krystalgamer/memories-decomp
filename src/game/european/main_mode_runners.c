@@ -21,7 +21,6 @@
 #define MAIN_RUN_CREDITS_TEXT_BOX_FLAGS 0x12
 #define MAIN_RUN_CREDITS_COMPLETION_FLAG 0x10
 #define MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
-#define gCredits_awSecretNumbers gEuropean_D_80091B54
 #define MainMenu_StartValueSetup func_80181050
 #define MainMenu_UpdateValueSetup func_80181408
 #define MainMenu_FinishValueSetup func_80181F88

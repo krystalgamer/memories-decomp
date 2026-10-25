@@ -11,12 +11,14 @@
  * D_80090DD8 byte pairs; the icon whose low nibble equals `selected` is
  * drawn at full grey, the others dimmed. `ot` is the ordering table it sorts
  * each icon into, which is what its one caller already holds. */
+#ifdef VERSION_JAPAN
+extern void BuildDeck_DrawSortIcons(
+    GsSPRITE *sprite, GsOT *ordering_table, u8 *data, s32 selected)
+    asm("func_80031784");
+#else
 void BuildDeck_DrawSortIcons(
     GsSPRITE *sprite, GsOT *ordering_table, u8 *data, s32 selected);
-
-/* Compatibility symbol used by the independently owned caller. */
-void func_80031784(
-    GsSPRITE *sprite, GsOT *ordering_table, u8 *data, s32 selected);
+#endif
 
 #ifdef VERSION_EUROPE
 void CardList_DrawHeaderDecimalDigits(

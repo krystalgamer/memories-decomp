@@ -10,6 +10,11 @@
 void Main_LoadBootPackageStage(
     FileTransferDescriptor *descriptor, s32 stage
 );
+#ifdef VERSION_JAPAN
+extern void Main_LoadBootImageStage(FileTransferDescriptor *descriptor, s32 mode)
+    asm("func_80042B64");
+#else
 void Main_LoadBootImageStage(FileTransferDescriptor *descriptor, s32 mode);
+#endif
 
 #endif

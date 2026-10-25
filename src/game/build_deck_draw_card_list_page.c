@@ -170,13 +170,13 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
 #ifndef VERSION_EUROPE
         header->y = y + 0xF;
 #endif
-        func_80031784(header, ot, gCardList_SortIconTable, list->sort_mode);
+        BuildDeck_DrawSortIcons(header, ot, gCardList_SortIconTable, list->sort_mode);
     } else {
         header->x = x + 0x6A;
 #ifndef VERSION_EUROPE
         header->y = y + 0xF;
 #endif
-        func_80031784(header, ot, &gCardList_SortIconTable[kind * 16],
+        BuildDeck_DrawSortIcons(header, ot, &gCardList_SortIconTable[kind * 16],
                       list->sort_mode);
     }
 #ifdef VERSION_EUROPE
