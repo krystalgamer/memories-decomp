@@ -4034,21 +4034,21 @@
     },
     {
       "address": "0x80043178",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
-      "source": "src/game/display_object_interpolation.c"
+      "source": "src/game/display_object_helpers.c"
     },
     {
       "address": "0x8004318C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xA4",
-      "source": "src/game/display_object_interpolation.c"
+      "source": "src/game/display_object_helpers.c"
     },
     {
       "address": "0x80043230",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xF8",
-      "source": "src/game/display_object_interpolation.c"
+      "source": "src/game/display_object_helpers.c"
     },
     {
       "address": "0x80043328",

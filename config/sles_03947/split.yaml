@@ -357,7 +357,6 @@ segments:
       - [0x032690, c, game/display_object_update_command_stream]
       - [0x0327AC, c, game/display_object_projection_checks]
       - [0x032AB8, c, game/european/display_object_helpers]
-      - [0x033AA8, c, game/display_object_interpolation]
       - [0x033C58, c, game/european/main_boot_load_stages]
       - [0x034078, c, game/european/display_object_transition]
       - [0x03437C, c, game/european/main_run_boot_sequence]

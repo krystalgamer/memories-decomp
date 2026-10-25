@@ -930,9 +930,6 @@ segments:
   - - 208056
     - c
     - game/european/display_object_helpers
-  - - 212136
-    - c
-    - game/display_object_interpolation
   - - 212568
     - c
     - game/european/main_boot_load_stages

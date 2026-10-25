@@ -4041,15 +4041,15 @@
     },
     {
       "address": "0x8004286C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xA4",
-      "source": "src/game/display_object_interpolation.c"
+      "source": "src/game/japanese/display_object_helpers.c"
     },
     {
       "address": "0x80042910",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xF8",
-      "source": "src/game/display_object_interpolation.c"
+      "source": "src/game/japanese/display_object_helpers.c"
     },
     {
       "address": "0x80042A08",
@@ -4221,9 +4221,9 @@
     },
     {
       "address": "0x80042858",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
-      "source": "src/game/display_object_interpolation.c"
+      "source": "src/game/japanese/display_object_helpers.c"
     },
     {
       "address": "0x800443F8",
