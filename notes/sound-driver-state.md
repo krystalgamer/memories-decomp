@@ -540,7 +540,7 @@ selected, so that the unit declares none of those three symbols itself, the
 candidate's object is byte-identical. Pointing the same reads at `SDValue`
 instead is not: the object changes. What that is not caused by was measured
 one at a time. Every offset the unit reads -- `flags_0040` at 0x40,
-`command_count` at 0x4C, `field_007C` and `field_007D`, `field_157E`, and
+`command_count` at 0x4C, `active_command` and `active_command_phase`, `field_157E`, and
 `commands` at 0x80 -- asserts at the offset the private struct places it, and
 the three halfword widths assert equal. Padding the private struct out to
 `SDValue`'s 0x164C changes nothing. Giving the private struct alignment 4,
@@ -863,6 +863,60 @@ reverb mode, and `SD_SEQUENCE_PARAMETER_REVERB_DEPTH` (`0x10`) applies its
 existing left/right depth conversion. Unhandled selectors remain unchanged;
 the work-area queries retain the check-versus-diagnostic contract described
 above.
+
+### Active command staging and CD-fade wait
+
+Four names connect the queue record to its active work state without
+changing storage: `SDCommand.wait_for_cd_fade` at `+0x01` and
+`SDValue.active_command`, `active_command_phase`, `active_cd_fade_wait`
+at `+0x7C/+0x7D/+0x7E` all remain `u8`. The record stays `0x30` bytes,
+the queue stays at `+0x80`, and its byte/record/trailing-copy views remain.
+One new record-byte assertion and the expanded active-state assertion
+pin these four offsets. No generic payload fields are renamed.
+
+After the existing fade update, `SD_UpdateRuntime` services a nonzero
+active command and returns without dequeuing another command that update,
+even when the active step clears it. Otherwise, if the queue is nonempty,
+it retains the command-specific fade preparation, copies the first
+record's command into active state, clears the phase and stages the
+payload fields and wait byte in their existing order.
+
+The active step runs before the existing queue compaction. Preserve
+the separate state-pointer reloads, command-count snapshot/update,
+eight-word tail copy and both byte-store and whole-record queue copies.
+Zero remains the inactive/clear marker; do not change queued-zero
+handling, queue limits or command dispatch to a new enum or drain loop.
+
+The phase byte is command-local state, not a timer or transfer counter.
+Command `0x20` uses phase zero to attempt the secondary-slot request
+and phase one to wait for the separate `busy` byte to clear. Its
+zero-length path, request selection, callback arming, phase increment,
+early returns and post-completion flag masks remain exact.
+Command `0x11` uses phases zero/one around the existing CD fade-to-zero
+and queued-stream checks. Other phase values retain their early returns;
+no phase normalization, new initialization or generic completion rule.
+
+The runtime copies `wait_for_cd_fade` into `active_cd_fade_wait` without
+normalizing either byte. Only active commands `0x29/0x2A` use the wait
+byte among matched C readers: nonzero plus a nonzero current
+`cd_fade_step` retains the active command; otherwise its existing
+command/phase clears run. This waits on the driver's current CD fade,
+not an allocation, callback token or proof that this command started
+a new fade or reached its requested target. Keep the dequeue-time
+condition that only installs a fade while its existing step is zero.
+
+`SD_EnqueueCdFade` narrows its third argument into the queued byte.
+Its existing no-retail-caller caveat remains; this naming does not
+claim a new reachable wrapper or human visual route. No record memset,
+new field initialization or changed unused argument is introduced.
+Runtime reset clears command, phase and wait at their existing points.
+
+CD-command dropping and music-request cancellation clear only their
+selected active command/phase pair, not the retained wait byte. The
+North American and separate Japanese drop units keep their own exact
+loop forms, command sets, decrement and trailing-record-copy behavior.
+All command numbers, generic payload views, partial clears, fade
+targets/steps, flags and unrelated driver state remain unchanged.
 
 ### VAB transfer state, sizes and address bases
 

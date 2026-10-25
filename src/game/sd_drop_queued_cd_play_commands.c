@@ -30,12 +30,12 @@ void SD_DropQueuedCdPlayCommands(void)
             break;
         }
     }
-    switch (g_SDValue[0]->field_007C) {
+    switch (g_SDValue[0]->active_command) {
     case 0x24:
     case 0x29:
     case 0x2B:
-        g_SDValue[0]->field_007C = 0;
-        g_SDValue[0]->field_007D = 0;
+        g_SDValue[0]->active_command = 0;
+        g_SDValue[0]->active_command_phase = 0;
         break;
     }
 }

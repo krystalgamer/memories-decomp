@@ -58,11 +58,11 @@ void SD_ResetRuntime(void)
         g_SDValue->voice_ids[i] = 0;
     }
     t = g_SDValue;
-    t->field_007C = 0;
+    t->active_command = 0;
     t->command_count = 0;
-    g_SDValue->field_007D = 0;
+    g_SDValue->active_command_phase = 0;
     u = g_SDValue;
-    u->field_007E = 0;
+    u->active_cd_fade_wait = 0;
     w = g_SDValue;
     u->field_004E = 0;
     u->field_0050 = 0;
