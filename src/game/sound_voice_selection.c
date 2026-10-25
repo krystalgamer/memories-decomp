@@ -123,16 +123,16 @@ s32 SD_ReplaceValueLink(s32 value)
     u16 index = value;
     SDValue *state = g_SDValue;
 
-    if (state->field_0448[index].field_0004 == 0)
+    if (state->value_links[index].spu_size == 0)
         return 1;
-    if (state->field_0442 == index)
+    if (state->value_link_request_index == index)
         return 1;
     SD_KeyOffDynamicVoices();
     SD_ResetPendingEntries();
     {
         register SDValue *final = g_SDValue;
         register s32 call_value = index;
-        final->field_0442 = value;
+        final->value_link_request_index = value;
         final->flags_0040 |= 2;
         SD_QueueValueLinkTransfer(call_value);
     }
@@ -143,9 +143,9 @@ s32 SD_RequestValueLink(u16 value)
 {
     SDValue *state = g_SDValue;
 
-    if (state->field_0442 == value)
+    if (state->value_link_request_index == value)
         return 1;
-    state->field_0442 = value;
+    state->value_link_request_index = value;
     state->flags_0040 |= 2;
     SD_QueueValueLinkTransfer(value);
     return 1;
@@ -327,10 +327,10 @@ s16 SD_CountActiveSoundEffectVoices(s32 a0) {
 void SD_StartSoundEffectVoice(u16 id, u8 voice, s32 pitch_add, u8 volume, s16 pan, u8 flags, u8 value) {
     u16 idx;
 
-    idx = g_SDValue->field_043C[id];
+    idx = g_SDValue->note_index_by_id[id];
     if (idx != 0xFFFF) {
-        g_SDValue->voice_attr.volume.left = ((g_SDValue->field_0444[idx].volume * volume) >> 1) | 0xFF;
-        g_SDValue->voice_attr.volume.right = ((g_SDValue->field_0444[idx].volume * volume) >> 1) | 0xFF;
+        g_SDValue->voice_attr.volume.left = ((g_SDValue->note_table[idx].volume * volume) >> 1) | 0xFF;
+        g_SDValue->voice_attr.volume.right = ((g_SDValue->note_table[idx].volume * volume) >> 1) | 0xFF;
         if (pan != 0) {
             if ((u16)(pan - 1) < 0x80) {
                 g_SDValue->voice_attr.volume.left = g_SDValue->voice_attr.volume.left * (0x80 - pan) / 128;
@@ -339,9 +339,9 @@ void SD_StartSoundEffectVoice(u16 id, u8 voice, s32 pitch_add, u8 volume, s16 pa
                 g_SDValue->voice_attr.volume.right = g_SDValue->voice_attr.volume.right * (pan + 0x80) / 128;
             }
         }
-        g_SDValue->voice_attr.note = g_SDValue->field_0444[idx].pitch + pitch_add;
+        g_SDValue->voice_attr.note = g_SDValue->note_table[idx].pitch + pitch_add;
         g_SDValue->voice_attr.voice = 1 << (voice + SD_VOICE_SLOT_KEY_SHIFT);
-        g_SDValue->voice_attr.addr = g_SDValue->field_0444[idx].field_0006 << 4;
+        g_SDValue->voice_attr.addr = g_SDValue->note_table[idx].spu_address_div16 << 4;
         SpuSetKey(SPU_OFF, g_SDValue->voice_attr.voice);
         g_SDValue->voice_active_mask |= 1 << voice;
         g_SDValue->voice_priority[voice] = value;
@@ -351,7 +351,7 @@ void SD_StartSoundEffectVoice(u16 id, u8 voice, s32 pitch_add, u8 volume, s16 pa
         g_SDValue->voice_volume_right[voice] = g_SDValue->voice_attr.volume.right;
         g_SDValue->voice_value[voice] = 0xFF;
         g_SDValue->voice_step[voice] = 0;
-        g_SDValue->voice_timer[voice] = g_SDValue->field_0444[idx].timer << 2;
+        g_SDValue->voice_timer[voice] = g_SDValue->note_table[idx].timer << 2;
         SpuSetKeyOnWithAttr(&g_SDValue->voice_attr);
     }
 }

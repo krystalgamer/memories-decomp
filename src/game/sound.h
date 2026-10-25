@@ -53,7 +53,8 @@ typedef struct {
     /* Relative sector added after the resident value-table header blocks. */
     u16 sector_offset;
     u8 pad_0002[2];
-    u32 field_0004;
+    /* Raw phase-size encoding, also used as the SPU cursor increment. */
+    u32 spu_size;
 } SDValueLink;
 
 /* Prefix shared by the music packages consumed by SD_StepActiveCommand and
@@ -82,7 +83,7 @@ typedef struct {
     u8 priority;
     u8 mode;
     u16 pitch;
-    u16 field_0006;
+    u16 spu_address_div16;
 } SDNote;
 
 /* The eight-byte bank header SD_UpdateBankLoad copies into the start of SDValue.
@@ -192,12 +193,12 @@ typedef struct {
     u8 voice_active_mask;
     u8 voice_allocation_cursor;
     u8 pad0436[2];
-    u32 field_0438;
-    u16 *G32 field_043C;
-    u16 field_0440;
-    u16 field_0442;
-    SDNote *G32 field_0444;
-    SDValueLink *G32 field_0448;
+    u32 next_link_spu_address;
+    u16 *G32 note_index_by_id;
+    u16 next_note_index;
+    u16 value_link_request_index;
+    SDNote *G32 note_table;
+    SDValueLink *G32 value_links;
     u16 field_044C[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
     s32 field_04CC;
     u8 pad04D0[0x510 - (SD_VOICE_LOOKUP_END_BYTE_OFFSET + 4)];
@@ -461,11 +462,25 @@ typedef char SDNote_priority_offset_must_be_0x02[
 typedef char SDNote_mode_offset_must_be_0x03[
     SD_STATE_OFFSET(SDNote, mode) == 0x03 ? 1 : -1
 ];
+typedef char SDNote_spu_address_div16_must_be_at_0x06[
+    SD_STATE_OFFSET(SDNote, spu_address_div16) == 6 ? 1 : -1
+];
 typedef char SDValueLink_size_must_be_0x08[
     sizeof(SDValueLink) == SD_VALUE_LINK_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDValueLink_sector_offset_must_be_at_0x00[
     SD_STATE_OFFSET(SDValueLink, sector_offset) == 0 ? 1 : -1
+];
+typedef char SDValueLink_spu_size_must_be_at_0x04[
+    SD_STATE_OFFSET(SDValueLink, spu_size) == 4 ? 1 : -1
+];
+typedef char SDValue_note_and_link_offsets_must_match[
+    SD_STATE_OFFSET(SDValue, next_link_spu_address) == 0x438 &&
+    SD_STATE_OFFSET(SDValue, note_index_by_id) == 0x43C &&
+    SD_STATE_OFFSET(SDValue, next_note_index) == 0x440 &&
+    SD_STATE_OFFSET(SDValue, value_link_request_index) == 0x442 &&
+    SD_STATE_OFFSET(SDValue, note_table) == 0x444 &&
+    SD_STATE_OFFSET(SDValue, value_links) == 0x448 ? 1 : -1
 ];
 typedef char SDValue_size_must_be_0x164C[
     sizeof(SDValue) == 0x164C ? 1 : -1

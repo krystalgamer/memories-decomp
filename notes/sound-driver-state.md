@@ -1259,3 +1259,65 @@ identical. No test case or harness is added or executed locally.
 The incidental cursor spelling in `tent_SD_KeyOffVoiceById` follows the same
 member rename without promoting that helper or removing its reachability
 caveat.
+
+### Note import, sample addresses and value-link transfer state
+
+The existing initializer, two note importers, playback/parameter consumers
+and value-link request paths establish one connected memory lifecycle:
+
+| Location | Field | Established role |
+|---|---|---|
+| `SDValue +0x0438` | `next_link_spu_address` | SPU destination passed to the next value-link transfer and its queued note-import command, then advanced by the selected link's raw size word. |
+| `SDValue +0x043C` | `note_index_by_id` | Halfword lookup from sound ID to note-table index, with the existing `0xFFFF` missing-entry marker. |
+| `SDValue +0x0440` | `next_note_index` | Halfword append index assigned to each imported live key, incremented only for non-sentinel input keys. |
+| `SDValue +0x0442` | `value_link_request_index` | Individual-request duplicate-suppression cache, not proof of a completed load or the last link in a list. |
+| `SDValue +0x0444` | `note_table` | Pointer to the existing eight-byte `SDNote` records. |
+| `SDValue +0x0448` | `value_links` | Pointer to the existing eight-byte `SDValueLink` records. |
+| `SDNote +0x06` | `spu_address_div16` | Halfword sample address in sixteen-byte units, relocated by the importers and shifted back by playback. |
+| `SDValueLink +0x04` | `spu_size` | Raw SPU phase-size word, also used as the destination cursor increment. |
+
+`SD_InitVoiceState` keeps the link table at `0x801E2800`, ID map at
+`0x801E4000`, and its original sixteen-byte-aligned integer address
+calculation for the note-table base. `SD_ResetPendingEntries` still clears
+only the original ID range from `field_0004` to `field_0000`, resets the
+request cache to `0xFFFF`, copies `field_0004` into the append index and
+sets the SPU cursor to the first link's size plus `0x1010`. These header
+fields are not newly named, and no bound or capacity is inferred.
+
+`SD_RegisterSeqBlockNotes` binds each non-sentinel input key to the append
+index, copies its note, adds `spu_addr >> 4` to the copied halfword and then
+increments the index. `SD_LoadSequenceBankPair` retains the other-bank-first
+copy order, its two fixed SPU bases, integer address-sum spelling, halfword
+narrowing and per-key cursor advancement. `SD_StartSoundEffectVoice` reads
+the mapped note's same halfword and shifts it left by four into the SDK
+voice address. Relative input and relocated records share the existing
+type; no new conversion, overflow handling or alignment guard is added.
+
+`SD_QueueValueLinkTransfer` passes `spu_size` as argument four of
+`SD_EnqueueSpuRamTransfer`: command `+0x24`, active tail word five,
+`FileRequestSlot +0x14`, then SPU transfer mode three. It also queues type
+`0x51` with the current SPU destination and the same RAM staging buffer,
+then adds the original raw size word to the cursor. The name deliberately
+does not promise an unconditional byte count: the shared phase code uses
+positive sizes as bytes but transforms a negative signed value through
+`-(value << FILE_SECTOR_SHIFT)`. The unsigned table field, signed call
+conversion and raw cursor addition remain exact, not normalized.
+
+The individual replace/request helpers retain their different zero-size
+checks and original cache-store ordering. `SD_QueueValueLinkList` resets
+the cache and queues its non-sentinel items without storing each list item
+there. It therefore does not turn this cache into a last-loaded-link field.
+
+Existing consumers are not made artificially consistent by the new names.
+Play retains its map validation while passing the resolved sound ID to the
+allocator. Existing setters retain their returned-index comparisons; pan
+setters still read `note_table[voice_id]` directly. No extra map lookup,
+comparison repair, SDK observation reordering or global-pointer caching is
+introduced. All literal shifts, sentinels, integer sums and reloads remain.
+
+The six state offsets, note address offset and link size offset are pinned
+alongside the existing record and state size assertions. Stored pointers
+retain their original types and `G32`. The two existing dispatch/allocator
+witnesses change only member identifiers; every input, fixture, stub,
+state oracle, event and negative control remains unchanged. No new test or
+harness is added, and neither witness is executed locally.
