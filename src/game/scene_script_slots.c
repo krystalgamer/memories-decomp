@@ -24,12 +24,12 @@ void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
     s32 component;
     DisplayObject *object;
 
-    if (((u16)state->unk04 & 0x8000) == 0) {
-        state->unk04 |= 0x8000;
-        state->unk06 = 0;
+    if (((u16)state->callback_control & 0x8000) == 0) {
+        state->callback_control |= 0x8000;
+        state->pulse_angle = 0;
     }
-    angle = ((u16)state->unk06 + 32) & TRIG_ANGLE_MASK;
-    state->unk06 = angle;
+    angle = ((u16)state->pulse_angle + 32) & TRIG_ANGLE_MASK;
+    state->pulse_angle = angle;
     intensity = rsin(angle) * 24 / ONE;
     if (intensity == 0)
         intensity = 1;
@@ -39,14 +39,14 @@ void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
     DISPLAY_OBJECT_COLOR_BYTES(color)[2] = component;
     DISPLAY_OBJECT_COLOR_BYTES(color)[1] = component;
     DISPLAY_OBJECT_COLOR_BYTES(color)[0] = component;
-    object = (DisplayObject *)gSceneScript_Slots[0].unk00;
+    object = (DisplayObject *)gSceneScript_Slots[0].object_address;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
         DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
         DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
         DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
     }
-    object = (DisplayObject *)gSceneScript_Slots[1].unk00;
+    object = (DisplayObject *)gSceneScript_Slots[1].object_address;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
         DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
@@ -58,9 +58,9 @@ void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
 void SceneScript_UpdateSlots(SceneScriptSlot *records) {
     s32 i;
     for (i = 0; i < 3; i++) {
-        s32 value = records->unk00;
+        s32 value = records->object_address;
         if (value != 0) {
-            gSceneScript_RecordCallbacks[*(u8 *)&records->unk04](records, value);
+            gSceneScript_RecordCallbacks[*(u8 *)&records->callback_control](records, value);
         }
         records++;
     }

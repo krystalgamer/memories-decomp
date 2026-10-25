@@ -137,7 +137,7 @@ void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set)
     for (i = 0; i < 3; i++, entries++) {
         DisplayObject_ReleaseIfPresent(entries->pointer);
         entries->pointer = 0;
-        entries->value = 0;
+        entries->callback_control = 0;
     }
 }
 
@@ -150,10 +150,10 @@ void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode)
     DisplayObject_SetDepthOffset(object, (s8)mode);
     record->field_10 = 1;
     if (mode == 2) {
-        record->value = 1;
+        record->callback_control = 1;
         object->attribute |= (GsALON | GsAONE);
     } else {
-        record->value = 0;
+        record->callback_control = 0;
         object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     }
     /* Through the parameter rather than record: with every store on record,
