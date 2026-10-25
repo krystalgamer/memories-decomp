@@ -206,18 +206,17 @@ typedef struct {
     s16 cd_fade_step;
     u8 channel_volume[2];
     u8 pad0516[2];
-    /* The three mixer-out bank bases SD_UpdateBankLoad installs once the
-       "VolInf" signature checks out: the bank itself and the two records
-       that follow it. */
-    u8 *G32 bank_0518[3];
+    /* Three descriptor-table bases within the CD mixer-out bank, installed
+       after its trailer check even when the signature does not match. */
+    u8 *G32 cd_descriptor_banks[3];
     u8 pad0524[4];
-    u32 field_0528;
-    u32 field_052C;
-    u8 field_0530;
-    u8 field_0531;
+    u32 cd_start_sector_offset;
+    u32 cd_end_sector_offset;
+    u8 cd_filter_channel;
+    u8 cd_filter_file;
     u8 field_0532;
     u8 mix_multiplier;
-    u16 field_0534;
+    u16 cd_request_code;
     u8 pad0536[2];
     s32 decoded_half;
     SpuDecodedData decoded_data;
@@ -556,8 +555,15 @@ typedef char SDValue_bank_header_offsets_must_match[
 typedef char SDValue_bank_load_phase_offset_must_be_0x3C[
     SD_STATE_OFFSET(SDValue, bank_load_phase) == 0x3C ? 1 : -1
 ];
-typedef char SDValue_bank_0518_offset_must_be_0x518[
-    SD_STATE_OFFSET(SDValue, bank_0518) == 0x518 ? 1 : -1
+typedef char SDValue_cd_descriptor_banks_offset_must_be_0x518[
+    SD_STATE_OFFSET(SDValue, cd_descriptor_banks) == 0x518 ? 1 : -1
+];
+typedef char SDValue_cd_descriptor_offsets_must_match[
+    SD_STATE_OFFSET(SDValue, cd_start_sector_offset) == 0x528 &&
+    SD_STATE_OFFSET(SDValue, cd_end_sector_offset) == 0x52C &&
+    SD_STATE_OFFSET(SDValue, cd_filter_channel) == 0x530 &&
+    SD_STATE_OFFSET(SDValue, cd_filter_file) == 0x531 &&
+    SD_STATE_OFFSET(SDValue, cd_request_code) == 0x534 ? 1 : -1
 ];
 typedef char SDValue_mix_multiplier_offset_must_be_0x533[
     SD_STATE_OFFSET(SDValue, mix_multiplier) == 0x533 ? 1 : -1

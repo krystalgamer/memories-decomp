@@ -510,10 +510,10 @@ The 11 are a header addition, and the evidence behind each width is of
 three different kinds -- which is worth saying plainly, because "it has a
 use in this unit" flattens them into one.
 
-  * **Five are read here**: `field_04CC`, `field_0528`, `field_052C`,
-    `field_0530` and `field_0531`. The read's own width is the evidence.
+  * **Five are read here**: `field_04CC`, `cd_start_sector_offset`, `cd_end_sector_offset`,
+    `cd_filter_channel` and `cd_filter_file`. The read's own width is the evidence.
   * **Three are only written**: `field_0532 = b >> 31`,
-    `field_0534 = 0xFFFF` and `field_157C = field_004E`. What the width
+    `cd_request_code = 0xFFFF` and `field_157C = field_004E`. What the width
     rests on is the store and the private declaration this unit already
     carried, not a measured read.
   * **Three are passed by address**: 0x1619, 0x1629 and 0x1639. They are
@@ -863,6 +863,61 @@ reverb mode, and `SD_SEQUENCE_PARAMETER_REVERB_DEPTH` (`0x10`) applies its
 existing left/right depth conversion. Unhandled selectors remain unchanged;
 the work-area queries retain the check-versus-diagnostic contract described
 above.
+
+### CD descriptor tables, sector offsets and XA filters
+
+The bank loader, CD request wrappers, active-command dispatcher and file
+runtime establish this component without changing their shared request ABI:
+
+| Location | Field | Established role |
+|---|---|---|
+| `SDValue +0x0518` | `cd_descriptor_banks[3]` | Three table bases selected by the play/seek wrappers. |
+| `SDValue +0x0528` | `cd_start_sector_offset` | Selected entry's low-24-bit start plus its bank's base sector offset. |
+| `SDValue +0x052C` | `cd_end_sector_offset` | Entry's low-24-bit end plus the same base, before the request's span adjustment. |
+| `SDValue +0x0530` | `cd_filter_channel` | Entry word B bits 24-28, routed to the XA channel filter byte. |
+| `SDValue +0x0531` | `cd_filter_file` | Entry word A bits 24-28, routed to the XA file filter byte. |
+| `SDValue +0x0534` | `cd_request_code` | Gated play/seek input's low halfword, written before queue submission; stop writes `0xFFFF`. |
+
+`SD_UpdateBankLoad` installs the three bases `0x801E8800`, `0x801E9000` and
+`0x801EA000` after inspecting the CD bank's trailer, even if its signature
+does not match. The wrappers keep their `0x8000`/`0x9000`/other selection
+of banks 1/0/2, original code narrowing and arithmetic, first-word base
+read, and eight-byte header skip before the paired descriptor words.
+The pointer declarations, casts and unusual conditional base read remain.
+
+Active command `0x24` stages both offsets and filter bytes. The offsets
+are relative to `MASTER.XA`, not absolute LBAs: `File_RequestSecondarySlot`
+adds `gFile_nMasterXaLba` to the staged start. It receives the original
+`(u16)end - (u16)start + 0x10` assignment to signed `FileRequestSlot +0x1C`.
+The staged end therefore is not the submitted exclusive range end.
+Both halfword truncations, final narrowing and the extra sixteen sectors
+remain. Zero span still selects the seek path; negative span still takes
+the existing range-control branch. No order, extent or validity check is added.
+
+The request's byte `+0x1F` supplies channel and `+0x1E` supplies file.
+`File_RequestSecondaryRangeTransfer` carries them in bytes 0 and 1 of
+`callback_data`; `File_StepActiveTransfer` places file before channel in the
+two-byte `DslSetfilter` payload. This complete byte route, rather than the
+order of the struct members or guessed table types, establishes the names.
+
+Active command `0x21` computes its seek offset from the new entry's word A,
+but copies the retained filter bytes without refreshing this staging state.
+Its zero span selects seek, not a new filter submission. Both commands
+retain their existing busy-slot rejection and command-clear order.
+
+The two wrappers store `cd_request_code` through their original signed
+halfword views before attempting to enqueue; no full-width seek token is
+retained. Play still reports an accepted
+wrapper path even when the queue rejects submission, and seek still has no
+return value. Command `0x11` clears this marker only at its existing stop
+phase. No tracked C reader is established: this is not a deduplication
+cache, successful-load token or guarantee of the most recently playing code.
+
+The write-only byte `field_0532` still receives word B shifted by 31.
+No loop/repeat meaning is inferred for it. The separate `mix_multiplier`
+extraction, generic command payloads, raw request fields, pointer reloads,
+flag updates and SDK ordering remain unchanged. No enum, new initializer,
+struct view, replay or behavioral harness is introduced.
 
 ### Active command staging and CD-fade wait
 
