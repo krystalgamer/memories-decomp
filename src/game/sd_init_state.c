@@ -53,9 +53,9 @@ void SD_InitState(u8 arg0)
         *SD_INIT_BLOCK_10_VIEW(gSD_szSeFileName);
     *SD_INIT_BLOCK_10_VIEW(g_SDValue->master_xa_file_name) =
         *SD_INIT_BLOCK_10_VIEW(gSD_szMasterXaFileName);
-    g_SDValue->flags_004A = 3;
+    g_SDValue->data_source_flags = 3;
     if (arg0 != 0) {
-        g_SDValue->flags_004A |= 0xF0;
+        g_SDValue->data_source_flags |= 0xF0;
     }
     g_SDValue->cd_mix_default = 0xFF;
     g_SDValue->secondary_mix_default = 0xD2;
@@ -77,5 +77,5 @@ void SD_InitState(u8 arg0)
     sec = gSD_pSecondaryState;
     st2 = g_SDValue;
     sec->timer_maintenance_callback = SD_UpdateVoiceSlots;
-    st2->flags_0040 = 0;
+    st2->status_flags = 0;
 }

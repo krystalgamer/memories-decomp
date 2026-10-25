@@ -129,13 +129,13 @@ typedef struct {
     u16 dynamic_note_start;
     u8 pad0006[0x36];
     u32 bank_load_phase;
-    u16 flags_0040;
+    u16 status_flags;
     u16 mix_scale;
     u16 secondary_mix_scale;
     u8 pad0046[2];
     u8 output_type;
     u8 cd_fade_target;
-    u8 flags_004A;
+    u8 data_source_flags;
     u8 pad004B;
     s16 command_count;
     /* Snapshot of queue +2, +4/+8/+C and +0x10..+0x2F.
@@ -563,6 +563,12 @@ typedef char SDValue_bank_header_offsets_must_match[
 ];
 typedef char SDValue_bank_load_phase_offset_must_be_0x3C[
     SD_STATE_OFFSET(SDValue, bank_load_phase) == 0x3C ? 1 : -1
+];
+typedef char SDValue_flag_domains_layout_must_match[
+    SD_STATE_OFFSET(SDValue, status_flags) == 0x40 &&
+    sizeof(((SDValue *)0)->status_flags) == 2 &&
+    SD_STATE_OFFSET(SDValue, data_source_flags) == 0x4A &&
+    sizeof(((SDValue *)0)->data_source_flags) == 1 ? 1 : -1
 ];
 typedef char SDValue_cd_descriptor_banks_offset_must_be_0x518[
     SD_STATE_OFFSET(SDValue, cd_descriptor_banks) == 0x518 ? 1 : -1

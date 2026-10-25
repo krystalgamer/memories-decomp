@@ -22,7 +22,7 @@ s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1) {
         SpuSetReverbModeType(SPU_REV_MODE_OFF);
 
         q = g_SDValue;
-        q->flags_0040 |= 2;
+        q->status_flags |= 2;
         off = ((arg0 & 0xFF0) >> 4) * sizeof(SDMusicTableEntry);
         entry = (SDMusicTableEntry *)(off + (s32)q->music_table);
 

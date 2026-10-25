@@ -16,8 +16,8 @@ void SD_FadeInStreamAudio(void)
     first->cd_fade_target = 255;
     state = g_SDValue;
     first->cd_fade_step = 64;
-    state->flags_0040 = (state->flags_0040 & 0xFFFC) | 4;
-    if ((state->flags_0040 & 0x80) &&
+    state->status_flags = (state->status_flags & 0xFFFC) | 4;
+    if ((state->status_flags & 0x80) &&
         state->sequence_fade_step >= 0) {
         state->sequence_fade_step = -16;
         state->bgm_fade_target = 220;
@@ -34,20 +34,20 @@ void SD_FadeOutStreamAudio(void)
     SDValue *state = g_SDValue;
     SDValue *flags;
 
-    if (state->flags_0040 & 0x80) {
+    if (state->status_flags & 0x80) {
         state->sequence_fade_step = 8;
         state->bgm_fade_target = 255;
         state = g_SDValue;
         state->cd_fade_target = 0;
         flags = g_SDValue;
         state->cd_fade_step = -64;
-        flags->flags_0040 &= 0xFFFB;
+        flags->status_flags &= 0xFFFB;
         return;
     }
     state->cd_fade_target = 0;
     flags = g_SDValue;
     state->cd_fade_step = -64;
-    flags->flags_0040 &= 0xFFFB;
+    flags->status_flags &= 0xFFFB;
 }
 
 #ifndef VERSION_JAPAN

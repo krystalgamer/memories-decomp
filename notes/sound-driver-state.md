@@ -14,11 +14,11 @@ Konami type or field naming.
 
 | Offset | Field | Evidence |
 |---|---|---|
-| `0x0040` | `flags_0040` | `Sound_InitFrontend` sets startup bits `0x0A` and polls bit `0x08` until it clears; other control and cleanup routines use the remaining status bits. |
+| `0x0040` | `status_flags` | `Sound_InitFrontend` sets startup bits `0x0A` and polls bit `0x08` until it clears; other control and cleanup routines use the remaining status bits. |
 | `0x0042` | `mix_scale` | CD mix calculation uses it as a 16-bit scale. |
 | `0x0044` | `secondary_mix_scale` | Base scale multiplied by the two fade levels before publishing secondary stereo master levels. |
 | `0x0048` | `output_type` | `SD_SetOutputType`; live stereo/mono traces establish values 0 and 1. |
-| `0x004A` | `flags_004A` | Initialization and command processing use independent bits. |
+| `0x004A` | `data_source_flags` | Initialization and command processing use independent bits. |
 | `0x004C` | `command_count` | Bounds the 16-entry command scan. |
 | `0x0080` | `commands[16]` | 16 records, each `0x30` bytes; command at `+0x00` and eight verified 32-bit argument/result slots at `+0x10`-`+0x2C`. |
 | `0x0404` | `voice_ids[4]` | Four 16-bit voice identifiers. |
@@ -47,6 +47,63 @@ Konami type or field naming.
 
 The remaining named `field_XXXX` members have verified offsets and widths but
 insufficient semantic evidence for stronger names.
+
+### Runtime status and data-source configuration
+
+The status getter, cold initializer, source-LBA initializer, request
+wrappers and active-command/stream callbacks establish two separate
+flag domains in `SDValue`:
+
+| Offset | Member | Retained storage and role |
+|---|---|---|
+| `+0x0040` | `status_flags` | `u16` runtime bookkeeping returned through the existing signed-halfword status getter. |
+| `+0x004A` | `data_source_flags` | `u8` startup-bank and public request configuration, not current transfer status. |
+
+`SD_GetStatusFlags` still returns `(s16)status_flags`, not a boolean or an
+unsigned normalized result. `SD_InitState` clears the runtime word after
+its existing subsystem initialization, and `SD_ResetRuntime` clears it
+without resetting the configuration byte.
+
+The observed status bits have different producers and lifetimes:
+
+| Bit | Observed operations; limits on interpretation |
+|---|---|
+| `0x01` | CD play/seek wrappers set it and clear `0x04` after attempting enqueue. Queue-full failure is still ignored, so this is not proof of a submitted or playing request. |
+| `0x02` | Data-transfer and value-link/package request paths set it. Command `0x20` clears the low two bits only when no queued stream command remains; it is not a hardware-DMA-busy oracle. |
+| `0x04` | `SD_FadeInStreamAudio` clears `0x01`/`0x02` and sets it; `SD_FadeOutStreamAudio` clears it. Its lifetime is not the CD fade-step lifetime. |
+| `0x08` | `SD_InitDataSourceFlags` raises it; `SD_VSync` gates bank-loader service with it and `Sound_InitFrontend` polls it. The loader default clears it only when the low three status bits are clear. |
+| `0x80` | Command `0x48` sets it after a zero sequence-open result. It gates several sequence update, fade and cleanup paths, not an unconditional guarantee of SDK playback state. |
+
+Keep each existing clear mask and polling comparison. In particular,
+`SD_UpdateRuntime` tests `SD_PollSequenceState() != 1`, whereas
+`SD_CancelMusicRequests` tests `== 1` before its stop call; these paths
+are not normalized into one interpretation of the status bit.
+`SD_MeasureCdAudioLevel` still computes/stores its measurements but returns
+zero when `status_flags & 3` is nonzero.
+
+The configuration bits are established by their actual gates:
+
+| Bit | Observed gate |
+|---|---|
+| `0x01` | The SE-bank startup request in loader phase 0. |
+| `0x02` | The music-table startup request in phase 6 and the public BGM preload/play wrappers. |
+| `0x40` | Permits CD play/seek codes above `0x9FFF` through their existing wrapper checks. |
+| `0x80` | The CD descriptor-bank request in phase 8 and the CD play, seek and stop wrappers. |
+
+`SD_InitState` seeds the byte to 3 and optionally ORs `0xF0`.
+`Sound_InitFrontend` passes the SE, BGM and MASTER.XA LBAs to
+`SD_InitDataSourceFlags`; zero arguments clear `0x01`, `0x02` and `0x40`,
+respectively, while nonzero arguments do not set them. That initializer
+also resets `bank_load_phase` and ORs `0x0A` into the status word.
+The XA-zero clear is deliberately `0x40`, not the loader/wrapper `0x80`
+gate. Do not repair that difference or assign meanings to the other bits.
+
+`tent_SD_SetDataSourceFlags` retains `(old & 0xF0) | value` before the
+existing byte-store truncation. Its value is not masked to four bits:
+the name does not promise a strict low-nibble setter, and the function
+keeps its tentative qualifier. The field names introduce no enum,
+bit-constant substitution, queue-success check, initialization change,
+mask adjustment, cast removal or scheduling change.
 
 ## Sound-effect voice allocation
 
@@ -131,8 +188,8 @@ sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
 `gFile_anLba[4]`, `[5]`, and `[6]` to `SD_InitDataSourceFlags`. The runtime file table
 identifies those positions as `SD_SE.DAT`, `SD_BGM.DAT`, and `MASTER.XA`.
 `SD_InitDataSourceFlags` clears `bank_load_phase`, clears bits `0x01`, `0x02`, or `0x40` in
-`flags_004A` when the corresponding file position is zero, and sets
-`flags_0040 |= 0x0A`. The frontend then calls `Main_AdvanceFrame` while
+`data_source_flags` when the corresponding file position is zero, and sets
+`status_flags |= 0x0A`. The frontend then calls `Main_AdvanceFrame` while
 `SD_GetStatusFlags` continues to expose bit `0x08`, making that bit the
 game-facing startup-busy condition.
 
@@ -281,7 +338,7 @@ It stores the returned half, `SPU_DECODED_FIRSTHALF` or the second half, in
 the word `decoded_half` at `+0x538`, and sums the selected half's 256 signed
 sample squares, each shifted right by eight, into `output_level` at `+0x154C`.
 It then publishes that sum's signed high halfword as both the new
-accumulator and the return value, unless `flags_0040 & 3` mutes it to zero.
+accumulator and the return value, unless `status_flags & 3` mutes it to zero.
 The neighbouring word `field_1550` gets the same treatment from its own high
 halfword, but nothing in C accumulates into it. Both words are `SDLevelWord`
 unions (`sum` and `halves[2]`), so the high-halfword reads stay member reads.
@@ -539,7 +596,7 @@ the last paragraph of this section. With `sound.h` included and its `G_SDVALUE_I
 selected, so that the unit declares none of those three symbols itself, the
 candidate's object is byte-identical. Pointing the same reads at `SDValue`
 instead is not: the object changes. What that is not caused by was measured
-one at a time. Every offset the unit reads -- `flags_0040` at 0x40,
+one at a time. Every offset the unit reads -- `status_flags` at 0x40,
 `command_count` at 0x4C, `active_command` and `active_command_phase`, `field_157E`, and
 `commands` at 0x80 -- asserts at the offset the private struct places it, and
 the three halfword widths assert equal. Padding the private struct out to
@@ -612,7 +669,7 @@ view. The global pointer is volatile in that routine, which the unit
 selects by defining `G_SDVALUE_VOLATILE` -- an arm of `sound.h`'s own
 declaration chain rather than a suppression of it -- and `sound.h` carries
 the measurement. Its accesses are typed members (`p->music_track`,
-`q->flags_0040`, `q->field_1560`); the `u8 * volatile` redeclaration and
+`q->status_flags`, `q->field_1560`); the `u8 * volatile` redeclaration and
 the offset expressions this note described were removed by `98f79757`
 ("Take every g_SDValue declaration from sound.h (#2610)") and `548c78cb`
 ("Reach the sound driver's state block through SDValue, not byte offsets

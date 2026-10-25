@@ -13,11 +13,11 @@ void SD_StartCdFade(s16 value, u8 flag, s32 unused);
    the level unless the two low bits of the 0x40 flag word are set. */
 s32 SD_MeasureCdAudioLevel(void);
 
-/* Enqueues command 0x11, the CD-audio stop, when flags_004A bit 0x80 is set
+/* Enqueues command 0x11, the CD-audio stop, when data_source_flags bit 0x80 is set
    and none of the last three queue slots already holds one. It starts the
    fade with SD_StartCdFade(-0x20, 0, 1); the command pump then waits for the
    CD volume to reach zero before resetting cd_request_code and the low
-   flags_0040 bits. The BGM and sound-effect stop paths call it for bit-15
+   status_flags bits. The BGM and sound-effect stop paths call it for bit-15
    (CD) ids. */
 void SD_EnqueueCdStop(void);
 
