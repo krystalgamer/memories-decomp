@@ -86,3 +86,21 @@ it return to zero each frame after a store, as `Model_DrawSlot` clears
 it. Slot 2 also read four at each switch into duel main mode `0x03` and
 back to zero on the way into a battle, without a setter call, so another
 writer stores four directly.
+
+A later five-scene run (#7930; four 3-D battles after the board scene)
+identified that other writer. `Model_InitSlot` stores four from its
+`flags & 0x7F` argument at NA `0x8004CBA4` for slot 2 while the board
+scene (scene mode `195`) is active. It stores zero for every slot in battle
+scenes (`193`). `Model_DrawSlotUnitsOnly` stores one around its units-only
+draw and then restores the earlier byte, including four.
+`Model_SetSlotAmbient` stores three 607 times in battles and zero twice.
+`Model_DrawSlot` cleared the byte 10,234 times. All 928 setter calls again
+stored three, from the same six return addresses inside
+`Model_UpdateAnimatedBattle`. The run queued no tint requests, and the
+human saw no colour change in any battle.
+
+The code consumers fit this split. Zero takes the neutral template path,
+one returns before the tint/shadow stages, three is the value that the
+non-neutral template stamp also publishes, and four survives the per-frame
+clear. These are observed values. They do not add an enum, and they do not
+show that no other value is ever requested.

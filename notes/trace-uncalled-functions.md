@@ -40,3 +40,15 @@ the campaign map, dialogue, Trade, Password, the duel result screens, fusion
 and ritual summons, and the credits. Names that are still address-based stay
 that way: never being called is not evidence of a role, and these results do
 not show that the code is unreachable.
+
+A narrower menu tour (`screen_tour_watch`, #7930; 9,572 frames, 9,086
+control hits, 40 screen changes) watched only `func_80058DC0` and stores to
+bytes one and two of `gGraphics_FrameStepControl`. The route went through
+the main menu, Password, Library (including a card's 3-D view), Trade with
+its memory-card dialogue, campaign dialogue with Simon Muran, the world map,
+the Card Shop with a save, Return to Title, and the Free Duel menu. There
+were no getter calls and no writes to either byte. The watch caught 9,086
+other stores to the control word, about one per frame, and none of them
+touched bytes one or two. Password, Trade, the campaign map and
+dialogue are now covered for this getter only. Duel results, fusion and
+ritual summons, and the credits remain uncovered for all of them.

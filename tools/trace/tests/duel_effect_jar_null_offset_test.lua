@@ -1,10 +1,10 @@
 -- Run from the repository root:
---   luajit tools/trace/tests/duel_effect_null_offset_test.lua
+--   luajit tools/trace/tests/duel_effect_jar_null_offset_test.lua
 -- Replays callbacks with mock PCSX events and real LuaJIT FFI memory.
 local ffi = require('ffi')
 assert(PCSX == nil, 'run this standalone, not inside the emulator console')
 local originalPrint = print
-local scriptPath = SCRIPT_UNDER_TEST or 'tools/trace/duel_effect_null_offset.lua'
+local scriptPath = SCRIPT_UNDER_TEST or 'tools/trace/duel_effect_jar_null_offset.lua'
 
 local RAM_BASE, ENTRY_SP = 0x80000000, 0x801ff000
 local HELPER, HANDLER, CONTROL = 0x80147e08, 0x80158e84, 0x8002c6c8
@@ -19,7 +19,7 @@ local LOADS = {
     {0x158, 2, 0}, {0x16c, 2, 1}, {0x180, 2, 2},
 }
 
-local function capture()
+local function capture(jarEpisode)
     local memory = ffi.new('uint8_t[?]', 0x200000)
     local registers = {pc = 0, GPR = {n = {}}}
     local events, breakpoints, output = {}, {}, {}
@@ -53,8 +53,8 @@ local function capture()
             end,
         },
     }
-    breakpoints_duel_effect_null_offset = nil
-    listeners_duel_effect_null_offset = nil
+    breakpoints_duel_effect_jar_null_offset = nil
+    listeners_duel_effect_jar_null_offset = nil
     dofile(scriptPath)
 
     local r = {output = output, word = function(_, ...) word(...) end}
@@ -117,18 +117,23 @@ local function capture()
     local count = 0
     for _ in pairs(breakpoints) do count = count + 1 end
     assert(count == 10, 'ten distinct execution breakpoints')
+    -- Unless disabled, start a phase-one jar episode and continue it once.
+    if jarEpisode ~= false then
+        r:call(HANDLER, {a1 = 1})
+        r:call(HANDLER, {a1 = 0xffffffff})
+    end
     return r
 end
 
 local function stopped(r, status)
     assert(r:has('status: ' .. status))
-    assert(r:countOf('script: duel_effect_null_offset') == 1)
+    assert(r:countOf('script: duel_effect_jar_null_offset') == 1)
     assert(r:allDisabled())
     r:frames(7201)
     r:reset()
     r:call(CONTROL, {}, true)
     r:call(HELPER, {}, true)
-    assert(r:countOf('script: duel_effect_null_offset') == 1)
+    assert(r:countOf('script: duel_effect_jar_null_offset') == 1)
     assert(r:countOf('==== TRACE RESULT') == 1)
     assert(r:countOf('--- end of trace') == 1,
         'termination emits one final document, even after late callbacks')
@@ -138,13 +143,14 @@ local function incomplete(r)
     assert(not r:has('verdict: a null caller executed both passes'))
 end
 
--- Both known callers qualify independently; no phase-one runtime is presumed.
+-- Both known callers qualify independently for the phase-one route.
 for _, site in ipairs({{BURST, 'burst'}, {PATH, 'path'}}) do
-    local r = capture()
+    local r = capture(false)
     r:call(CONTROL, {})
-    r:call(HANDLER, {a1 = 0})
+    r:call(HANDLER, {a1 = 1})
     r:call(HANDLER, {a1 = 0xffffffff})
-    assert(r:countOf('START effect=17 phase=') == 1)
+    assert(r:countOf('START effect=17 phase=1') == 1)
+    assert(r:has('#01 '))
     r:frames(37)
     r:enter(site[1])
     r:samples()
@@ -166,7 +172,7 @@ for _, site in ipairs({{BURST, 'burst'}, {PATH, 'path'}}) do
     assert(r:has('loaded_u16=0xFFFF as_s16=-1'))
     r:returnCall()
     r:frames(179)
-    assert(not r:has('script: duel_effect_null_offset'))
+    assert(not r:has('script: duel_effect_jar_null_offset'))
     r:frames(1)
     assert(r:has('frames: 217 '))
     assert(r:has(site[2] .. string.format(' return=0x%08X ', site[1])
@@ -208,7 +214,7 @@ for index, ra in ipairs({BURST, PATH}) do
     separate:returnCall()
 end
 separate:frames(79)
-assert(not separate:has('script: duel_effect_null_offset'))
+assert(not separate:has('script: duel_effect_jar_null_offset'))
 separate:frames(1)
 assert(separate:countOf('null_calls=1 loads=12/24 returned=true') == 2)
 incomplete(separate)
@@ -236,7 +242,9 @@ for address, value in pairs(MODULE) do
     swapped:samples()
     swapped:returnCall()
     swapped:reset()
-    assert(swapped:has('null_calls=2 loads=1/24 returned=false'))
+    -- Losing residency also ends the episode, so the re-entry is not a jar call.
+    assert(swapped:has('null_calls=1 loads=1/24 returned=false'))
+    assert(swapped:has('wrong_phase_null_calls: 1'))
     incomplete(swapped)
 end
 
@@ -278,9 +286,9 @@ assert(badReturn:has('loads=24/24 returned=false'))
 assert(badReturn:has('guard_failures: 1'))
 incomplete(badReturn)
 
-local unqualified = capture()
+local unqualified = capture(false)
 unqualified:call(CONTROL, {})
-unqualified:call(HANDLER, {a1 = 0})
+unqualified:call(HANDLER, {a1 = 1})
 unqualified:enter(PARTICLE, 0x80100000)
 unqualified:enter(BURST, 0x80100000)
 unqualified:enter(BURST - 4)
@@ -291,9 +299,75 @@ assert(unqualified:has('null_calls=0 loads=0/24 returned=false'))
 assert(unqualified:has('but neither target null caller was observed'))
 incomplete(unqualified)
 
-local timeout = capture()
+-- Dark Hole's phase zero is logged but is not the requested route.
+local darkHole = capture(false)
+darkHole:call(CONTROL, {})
+darkHole:call(HANDLER, {a1 = 0})
+darkHole:enter(PARTICLE, 0x80100000)
+darkHole:reset()
+assert(darkHole:has('#01 t=0.00s START effect=17 phase=0'))
+assert(darkHole:has('phase1_initializations: 0'))
+assert(darkHole:has('verdict: requested route/control evidence is incomplete'))
+incomplete(darkHole)
+
+-- Dark Hole's burst, including its continuation, must not satisfy the jar
+-- probe or start the stop timer; a later genuine jar episode still captures.
+local mixed = capture(false)
+mixed:call(CONTROL, {})
+mixed:call(HANDLER, {a1 = 0})
+mixed:enter(BURST)
+mixed:samples()
+mixed:returnCall()
+mixed:call(HANDLER, {a1 = 0xffffffff})
+mixed:enter(BURST)
+mixed:samples()
+mixed:returnCall()
+mixed:frames(180)
+assert(not mixed:has('script: duel_effect_jar_null_offset'),
+    'a phase-zero burst does not stop the probe')
+assert(mixed:countOf('effective=') == 0)
+mixed:call(HANDLER, {a1 = 1})
+mixed:call(HANDLER, {a1 = 0xffffffff})
+mixed:enter(PARTICLE, 0x80100000)
+mixed:enter(BURST)
+mixed:samples()
+mixed:returnCall()
+mixed:frames(179)
+assert(not mixed:has('script: duel_effect_jar_null_offset'))
+mixed:frames(1)
+assert(mixed:has('#02 t=3.00s START effect=17 phase=1'))
+assert(mixed:has('#02 t=3.00s NULL burst'))
+assert(mixed:has('burst return=0x80159F34 null_calls=1 loads=24/24 returned=true'))
+assert(mixed:has('phase1_initializations: 1'))
+assert(mixed:has('particle_calls: 1'))
+assert(mixed:has('wrong_phase_null_calls: 2'))
+assert(mixed:has('verdict: a null caller executed both passes'))
+stopped(mixed, 'three seconds after the first target null return')
+
+-- A targetless jar episode followed by Dark Hole stays incomplete.
+local targetless = capture(false)
+targetless:call(CONTROL, {})
+targetless:call(HANDLER, {a1 = 1})
+targetless:call(HANDLER, {a1 = 0xffffffff})
+targetless:call(HANDLER, {a1 = 0})
+targetless:enter(PARTICLE, 0x80100000)
+targetless:enter(BURST)
+targetless:samples()
+targetless:returnCall()
+targetless:frames(180)
+assert(not targetless:has('script: duel_effect_jar_null_offset'))
+targetless:reset()
+assert(targetless:has('phase1_initializations: 1'))
+assert(targetless:has('particle_calls: 0'))
+assert(targetless:has('wrong_phase_null_calls: 1'))
+assert(targetless:has('burst return=0x80159F34 null_calls=0 loads=0/24 returned=false'))
+assert(targetless:has('verdict: requested route/control evidence is incomplete'))
+incomplete(targetless)
+stopped(targetless, 'reset; reload the script after returning to the duel')
+
+local timeout = capture(false)
 timeout:frames(7199)
-assert(not timeout:has('script: duel_effect_null_offset'))
+assert(not timeout:has('script: duel_effect_jar_null_offset'))
 timeout:frames(1)
 assert(timeout:has('execution_breakpoint=NOT-observed'))
 incomplete(timeout)
@@ -317,6 +391,6 @@ incomplete(broken)
 stopped(broken, 'callback error:')
 
 print, PCSX = originalPrint, nil
-breakpoints_duel_effect_null_offset = nil
-listeners_duel_effect_null_offset = nil
-io.stdout:write('duel_effect_null_offset_test: ok\n')
+breakpoints_duel_effect_jar_null_offset = nil
+listeners_duel_effect_jar_null_offset = nil
+io.stdout:write('duel_effect_jar_null_offset_test: ok\n')

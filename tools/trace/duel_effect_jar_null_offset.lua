@@ -1,28 +1,31 @@
--- duel_effect_null_offset.lua
+-- duel_effect_jar_null_offset.lua
 --
--- QUESTION: Does effect 17's null-offset burst actually execute the shared
--- quad's XYZ loads, and which halfwords does the CPU load?
+-- QUESTION: When Dragon Capture Jar (effect 17, phase 1) has a target, do
+-- its two null-offset calls to the shared quad helper execute, and which
+-- halfwords does the CPU load for the offset?
 --
--- NA only. With Dark Hole already in hand and at least one monster on the
--- field, enable the debugger and select the interpreter (restart before
--- loading the duel if needed). Paste this in the Lua editor BEFORE playing
--- Dark Hole, then activate it once in the 2-D duel. Do not reset during the
--- run. The #NN marker identifies the effect being observed.
+-- NA only. Follow-up to #7930: with no opponent monster the jar made no
+-- helper calls at all, so the phase-one null path is still unobserved.
+-- With Dragon Capture Jar in hand and at least one Dragon-type monster on
+-- the OPPONENT's side, enable the debugger and select the interpreter
+-- (restart before loading the duel if needed). Paste this in the Lua editor
+-- BEFORE playing the jar, then activate it once in the 2-D duel. Do not
+-- reset during the run. The live #NN marker identifies the effect episode.
 --
 -- Stops three seconds after the first targeted null call returns, after
 -- two minutes, on reset, or if the observed duel bank goes away.
--- Paste the final document into tools/trace/result/duel_effect_null_offset.txt.
--- Context: one sentence saying what vanished and whether its burst looked
--- centered, displaced or otherwise unusual. No VRAM inspection is needed.
+-- Paste the final document into
+-- tools/trace/result/duel_effect_jar_null_offset.txt.
+-- Context: one sentence per #NN saying which monsters were on the field,
+-- what happened to the dragon, and how the effect looked.
 --
--- Unlike the earlier first-per-slot trace, this observes all 24 offset LHU
--- results in the first call from each known null caller. Breakpoints are
--- after the load-delay instruction, before the addition consumes v1.
--- No Lua read dereferences the guest null pointer. Phase zero is the known
--- Dark Hole route; the optional phase-one path is not required or presumed.
+-- This observes all 24 offset LHU results in the first call from each known
+-- null caller. Breakpoints are after the load-delay instruction, before the
+-- addition consumes v1. No Lua read dereferences the guest null pointer.
+-- The Dark Hole result (phase 0, #7930) is not presumed for phase 1.
 
 local ffi = require('ffi')
-local SCRIPT_NAME = 'duel_effect_null_offset'
+local SCRIPT_NAME = 'duel_effect_jar_null_offset'
 
 -- Breakpoints fire only while the debugger setting is on and the interpreter
 -- CPU is the engine actually running. PCSX-Redux reads the debugger flag live,
@@ -101,11 +104,15 @@ local loads = {
     {0x158, 2, 0}, {0x16c, 2, 1}, {0x180, 2, 2},
 }
 local frames, event, controlHits, handlerHits = 0, 0, 0, 0
-local phaseZero, helperHits, particleCalls, foreignHits = 0, 0, 0, 0
+local phaseOne, helperHits, particleCalls, foreignHits = 0, 0, 0, 0
 local guardFailures, dropped, unknownNulls = 0, 0, 0
 local current, firstReturnedFrame
+-- Phase of the latest nonnegative effect-17 entry. Continuation calls are
+-- negative, so they inherit it; only phase-one episodes may capture.
+local episodePhase
+local wrongPhaseNulls = 0
 local sawHandler, done = false, false
-breakpoints_duel_effect_null_offset = {}
+breakpoints_duel_effect_jar_null_offset = {}
 
 local function word(address)
     if mem == nil or address < 0x80000000 or address + 4 > 0x80200000
@@ -138,21 +145,22 @@ end
 local function finish(reason)
     if done then return end
     done = true
-    for _, bp in ipairs(breakpoints_duel_effect_null_offset) do
+    for _, bp in ipairs(breakpoints_duel_effect_jar_null_offset) do
         pcall(function() bp:disable() end)
     end
     print('\n==== USER CONTEXT ====\n')
-    print('One sentence: what vanished, and how did the burst look?\n')
+    print('One sentence per #NN: monsters on the field, what happened to '
+        .. 'the dragon, and how the effect looked.\n')
     print('==== TRACE RESULT =====\n')
     print('script: ' .. SCRIPT_NAME)
     print('setup: ' .. TRACE_SETUP .. ' ' .. traceExecutionStatus())
     print('status: ' .. reason)
     print(string.format('frames: %d control_hits: %d effect17_hits: %d '
-        .. 'phase0_initializations: %d helper_hits: %d particle_calls: %d '
+        .. 'phase1_initializations: %d helper_hits: %d particle_calls: %d '
         .. 'foreign_hits: %d guard_failures: %d unknown_null_callers: %d '
-        .. 'dropped_rows: %d', frames, controlHits, handlerHits, phaseZero,
-        helperHits, particleCalls, foreignHits, guardFailures, unknownNulls,
-        dropped))
+        .. 'dropped_rows: %d wrong_phase_null_calls: %d', frames,
+        controlHits, handlerHits, phaseOne, helperHits, particleCalls,
+        foreignHits, guardFailures, unknownNulls, dropped, wrongPhaseNulls))
     local complete = 0
     for _, site in ipairs(sites) do
         print(string.format('%s return=0x%08X null_calls=%d loads=%d/24 '
@@ -167,8 +175,8 @@ local function finish(reason)
     elseif sites[1].calls + sites[2].calls > 0 then
         print('verdict: null entry observed but complete load evidence is '
             .. 'missing; do not infer zero/safe coordinates')
-    elseif phaseZero > 0 and particleCalls > 0 and controlHits > 0 then
-        print('verdict: phase-zero and non-null particle controls worked, '
+    elseif phaseOne > 0 and particleCalls > 0 and controlHits > 0 then
+        print('verdict: phase-one and non-null particle controls worked, '
             .. 'but neither target null caller was observed in this window')
     else
         print('verdict: requested route/control evidence is incomplete; '
@@ -186,6 +194,7 @@ local function guardModule()
     if resident() then return true end
     foreignHits = foreignHits + 1
     current = nil
+    episodePhase = nil
     return false
 end
 
@@ -197,7 +206,8 @@ local function onHandler()
     if phase >= 0x80000000 then phase = phase - 0x100000000 end
     if phase >= 0 then
         event = event + 1
-        if phase == 0 then phaseZero = phaseZero + 1 end
+        episodePhase = phase
+        if phase == 1 then phaseOne = phaseOne + 1 end
         live(string.format('#%02d t=%.2fs START effect=17 phase=%d',
             event, frames / FPS, phase))
     end
@@ -209,10 +219,17 @@ local function onHelper()
     helperHits = helperHits + 1
     local n = PCSX.getRegisters().GPR.n
     local ra, pointer = tonumber(n.ra), tonumber(n.a3)
-    if ra == PARTICLE_RETURN and pointer ~= 0 then
+    local jar = episodePhase == 1
+    if jar and ra == PARTICLE_RETURN and pointer ~= 0 then
         particleCalls = particleCalls + 1
     end
     if pointer ~= 0 then return end
+    if not jar then
+        -- Dark Hole (phase 0) also reaches the burst caller; it must not
+        -- consume the jar's first-call slot or start the stop timer.
+        wrongPhaseNulls = wrongPhaseNulls + 1
+        return
+    end
     for _, site in ipairs(sites) do
         if ra == site.ra then
             site.calls = site.calls + 1
@@ -277,8 +294,8 @@ local function add(address, label, callback)
             local ok, err = pcall(callback)
             if not ok then finish('callback error: ' .. tostring(err)) end
         end)
-    breakpoints_duel_effect_null_offset[
-        #breakpoints_duel_effect_null_offset + 1] = bp
+    breakpoints_duel_effect_jar_null_offset[
+        #breakpoints_duel_effect_jar_null_offset + 1] = bp
 end
 
 add(CONTROL, 'resident update control', function()
@@ -292,7 +309,7 @@ for _, load in ipairs(loads) do
 end
 add(HELPER + 0x1c8, 'layered tile return', onReturn)
 
-listeners_duel_effect_null_offset = {
+listeners_duel_effect_jar_null_offset = {
     PCSX.Events.createEventListener('GPU::Vsync', function()
         if done then return end
         local ok, err = pcall(function()
@@ -312,5 +329,6 @@ listeners_duel_effect_null_offset = {
         finish('reset; reload the script after returning to the duel')
     end),
 }
-print(SCRIPT_NAME .. ': 10 breakpoints installed; with Dark Hole in hand '
-    .. 'and a field monster present, activate it once in the 2-D duel')
+print(SCRIPT_NAME .. ': 10 breakpoints installed; with Dragon Capture Jar '
+    .. 'in hand and an opponent Dragon on the field, activate it once in '
+    .. 'the 2-D duel')

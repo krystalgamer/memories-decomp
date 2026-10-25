@@ -216,3 +216,12 @@ untargeted duel. A future probe first needs an actionable short route that
 exercises the sibling, then must distinguish the atlas count from that
 positive control. The existing static atlas-column interpretation is
 unchanged.
+
+The targeted follow-up in #7930 (`duel_effect_followups`, part A) supplied
+that control. Hinotama ran effect 6 with phase 1. During it, the sibling
+`DuelEffect_DrawFixedTextureQuad` was called 1,008 times: 360 from
+`0x80155B90` with sizes 1..32 and 648 from `0x80155D24` with size 4. Over
+the same 10-episode duel, which also covered effects 1, 2, 3, 17, 18 and
+21, the atlas helper at `0x80148F98` was called zero times. Effect 7 still
+has not been seen. This is controlled negative evidence for those routes
+only. It does not prove that the atlas helper is dead code.

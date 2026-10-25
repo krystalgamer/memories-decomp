@@ -42,21 +42,31 @@ or justify adding a guard. The phase-zero Dark Hole route is useful for a
 future targeted burst-call probe; the optional-path branch additionally
 depends on the other configuration and remains untraced here.
 
-The pending focused NA probe is
-[`duel_effect_null_offset.lua`](../../tools/trace/duel_effect_null_offset.lua).
-Its short route is to activate Dark Hole with at least one monster already
-on the field. It distinguishes the non-null particle control from the two
-null return addresses and observes `v1` after each native `lhu` and its
-load-delay instruction, before the following addition. Both passes and all
-four vertices are covered without a Lua dereference of guest address zero.
-The actual helper uses unsigned halfword loads; the report also shows
-their signed-16 interpretations. It requests no phase-one route and makes
-no runtime conclusion until a human result arrives.
+The focused NA probe (`duel_effect_null_offset`, result in #7930) followed
+Dark Hole with one monster on each side. The human saw a spinning green
+hole pull in white-green blobs and then both monsters while a light shone,
+before the hole faded. Phase 0 ran once (182 effect-17 dispatch calls,
+1,238 non-null particle calls). The burst return `0x80159F34` made 25 null
+calls. Both passes of the first call loaded all 24 offset halfwords from
+guest addresses `0x0`, `0x2` and `0x4`, and every load was zero, so the
+effective offset was (0,0,0) on this run. The completed-path return
+`0x8015A130` was not called.
 
-The [same-name callback replay](../../tools/trace/tests/duel_effect_null_offset_test.lua)
-checks the 24 distinct samples, first-call isolation, native/register guards
-and one-shot termination using the existing mocked PCSX/FFI pattern.
-It and the unchanged setup preflight supply no guest-execution evidence.
+This only records what happened on this run: low RAM held zeros. It does
+not make null a supported "zero offset" argument, add a guard, or settle
+the second null call.
+
+In the follow-up run (`duel_effect_followups`, #7930), Dragon Capture Jar
+was activated while the opponent had no monster. Effect 17 ran phase 1
+for 183 frames and 182 calls. The human saw a purple effect like Dark
+Hole, and the board did not change. That episode made no layered-helper
+calls, null or non-null. The phase-1 null path therefore stays
+unobserved. The pending probe
+[`duel_effect_jar_null_offset.lua`](../../tools/trace/duel_effect_jar_null_offset.lua)
+asks for the jar with an opponent Dragon on the field, and records the same
+24 loads for whichever null callers execute. Its
+[mocked callback replay](../../tools/trace/tests/duel_effect_jar_null_offset_test.lua)
+is not evidence that the game runs that path.
 
 ## Recovered configuration and storage
 
