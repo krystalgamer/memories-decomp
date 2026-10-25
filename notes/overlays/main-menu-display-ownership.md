@@ -77,9 +77,12 @@ inventories, native maps, the complete loaded module-state owner and all
 retail bytes remain unchanged. The scoped C bindings are inherited by
 regional wrappers, without claiming local Japanese/PAL full-image execution.
 
-No test, fixture, expected value, mutation, source-string model or synthetic
-harness is added or changed; cloud tests are left to ordinary PR CI. The
-entire accepted semantic registry is preserved before two ownership rows.
+No test or fixture is added. The complete existing frontend-update control
+changes only its four prompt identifier occurrences; all model types,
+expected values, mutations, scenarios and compiler setup remain exact.
+No synthetic/source-string harness is added, and cloud tests are left to
+ordinary PR CI. The entire accepted semantic registry is preserved before
+two ownership rows.
 All accepted duel lifecycle/data/header/guard work, sound/MODEL groupings,
 Exodia scratch, native bolt/utility/history/regression and focused
 null-offset probe/replay remain outside this component.

@@ -42,7 +42,7 @@ __asm__(".globl gMain_bMenuID\n.set gMain_bMenuID, state\n"
         ".globl gMainMenu_bLoadPending\n.set gMainMenu_bLoadPending, state+7\n"
         ".globl gMainMenu_bTradeLoadPending\n.set gMainMenu_bTradeLoadPending, state+8\n"
         ".globl gMainMenu_bDuelLoadPending\n.set gMainMenu_bDuelLoadPending, state+9\n");
-DisplayObject *D_80184560;
+DisplayObject *gMainMenu_pStartPrompt;
 u8 *gMain_apMenuEntries[11];
 volatile u16 gInput_wPad1Pressed;
 u16 gInput_wPad1Repeat;
@@ -131,7 +131,7 @@ static void reset(void)
     for (i=0; i<SIZE; i++) memory[i] = i * 13 + 17;
     for (i=0; i<10; i++) state[i] = 0;
     for (i=0; i<11; i++) gMain_apMenuEntries[i] = 0;
-    D_80184560 = 0;
+    gMainMenu_pStartPrompt = 0;
     gInput_wPad1Pressed = gInput_wPad1Repeat = 0;
     D_8009B0D8 = 0;
     gSaveData_PairSetupState = 0xA5; gSaveData_LoadPairState = 0x5A;
@@ -148,7 +148,7 @@ static void check(s32 result, s32 slot, s32 prompt)
     if (!equal(state, expected_state, 10)) fail(23);
     for (i=0; i<11; i++)
         if (gMain_apMenuEntries[i] != (i == slot ? object : 0)) fail(24);
-    if (D_80184560 != (prompt ? (DisplayObject *)object : 0)) fail(25);
+    if (gMainMenu_pStartPrompt != (prompt ? (DisplayObject *)object : 0)) fail(25);
     if (gInput_wPad1Pressed || gInput_wPad1Repeat ||
         gSaveData_PairSetupState != 0xA5 || gSaveData_LoadPairState != 0x5A) fail(26);
 }
@@ -219,7 +219,7 @@ static void prompts(void)
     static const s32 counters[] = {2998,2999,3000,32767,65535};
     s32 c,delta,accumulated;
     for (c=0; c<5; c++) for (delta=0; delta<3; delta++) {
-        reset(); D_80184560 = (DisplayObject *)object;
+        reset(); gMainMenu_pStartPrompt = (DisplayObject *)object;
         put16(object+8, 0x155); object[0x6C] = 1;
         put16(object+0x36, counters[c]); D_8009B0D8 = delta;
         snapshot();
