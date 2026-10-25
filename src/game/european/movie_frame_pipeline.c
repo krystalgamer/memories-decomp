@@ -9,7 +9,7 @@
 #define DecDCTout func_80090DB8
 #define D_800F5D44 D_800F6CD4
 #define StCdInterrupt func_80078A34
-/* As in european/func_8005B8A0.c. */
+/* As in european/movie_open_stream.c. */
 #define D_8009B4A0 gEuropean_D_8009B4A0
 #define D_8009B4A1 gEuropean_D_8009B4A1
 #define D_8009B4A2 gEuropean_D_8009B4A2

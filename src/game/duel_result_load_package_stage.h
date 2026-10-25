@@ -15,7 +15,7 @@
  * nothing about its arguments, and Script_OpDuelResult only ever took its address.
  * Between them, no site in the tree could compare a declaration against the
  * definition. Declaring it in the defining unit's own header, which
- * func_8002F4C0.c includes, makes the compiler check it on every build. */
+ * duel_result_load_package_stage.c includes, makes the compiler check it on every build. */
 void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode);
 
 #endif

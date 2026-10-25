@@ -69,7 +69,7 @@ PAIRS = [
     ("src/game/fade_runtime.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/sd_update_secondary_object_voices.c", "SD_UpdateSecondaryObjectPitch", '#include "sound.h"'),
-    ("src/game/func_8001B938.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
+    ("src/game/duel_field_selection.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
     ("src/game/debug_menu_editor_entries.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
     ("src/game/duel_result_runtime.c", "DisplayObject_AcquireSlot", '#include "display_object_core.h"'),
     ("src/game/duel_result_runtime.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_config.h"'),

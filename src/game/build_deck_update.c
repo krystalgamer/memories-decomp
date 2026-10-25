@@ -11,7 +11,7 @@
 #include "card_constants.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
 #include "build_deck_transition_state.h"

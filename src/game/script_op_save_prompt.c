@@ -19,7 +19,7 @@
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "text_box_runtime.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "duel_effect_set_entry_range_layout.h"
 #include "display_object.h"
 #include "display_object_interpolation.h"

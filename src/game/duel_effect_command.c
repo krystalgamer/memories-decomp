@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "card_constants.h"
-#include "func_80036C14.h"
+#include "duel_effect_entries.h"
 #include "duel_card.h"
 #include "text_constants.h"
 #include "text_string_bank_views.h"

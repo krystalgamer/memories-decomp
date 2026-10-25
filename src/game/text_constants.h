@@ -106,7 +106,7 @@ extern u8 gText_abColorSlots[];
  * halfword, stops at a zero word, and emits the entry index as the glyph
  * code; TextBox_BuildStep (text_box_build_step.c) reads packed at a
  * script byte's index and masks it with 0x8FF0FFFF.
- * func_80039794.c reads bits 0-2 of halves.upper;
+ * text_box_update_channels.c reads bits 0-2 of halves.upper;
  * text_init_decimal_digit_glyph_map.c reaches entry 1 under its own name,
  * tent_GlyphLookupTableEntries, with a const that its note explains. 0x174 bytes to D_801D9174,
  * 93 entries; the first word is zero in the image and no C unit writes the table.

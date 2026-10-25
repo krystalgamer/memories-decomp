@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_8003A560.h"
+#include "display_effect_update_resource_acquisition.h"
 #include "menu_record.h"
 #include "display_menu_records.h"
 #include "menu_record_reset.h"

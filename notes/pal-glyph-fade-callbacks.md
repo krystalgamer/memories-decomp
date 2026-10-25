@@ -24,7 +24,7 @@ at `0x11`, `field_14` at `0x12`, and `field_15` at `0x13`. The callbacks'
 `EU_ENTRY_FADE_VALUE` is instead the raw byte at physical `0x15`.
 It must not be substituted with the member named `field_15`.
 
-The actual PAL `TextBox_DrawEntries` in `func_80035E20.c` starts its
+The actual PAL `TextBox_DrawEntries` in `text_box_draw_entries.c` starts its
 cursor at the entry's physical `0x15`. It reads mode from `p[-2]`
 (physical `0x13`), and case 3 writes `p[0]` to all three sprite RGB
 components before two `GsSortFastSprite` submissions. The first uses

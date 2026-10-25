@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "file_cd_helpers.h"
 #include "file_constants.h"
-#include "func_8005B8A0.h"
+#include "movie_open_stream.h"
 #include "movie_stream_requests.h"
 #include "movie_stream_ranges.h"
 #include "../unmatched.h"

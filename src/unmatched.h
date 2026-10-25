@@ -225,7 +225,7 @@ extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags *
  * is the honest form for a function nobody calls by name. It keeps a declared
  * return type here because its consumer casts the address, not the result.
  * TextBox_DrawEntries, which used to sit beside it, has matched and is declared by
- * game/func_80035E20.h. */
+ * game/text_box_draw_entries.h. */
 int func_80067220();
 
 /* Three more undefined globals, moved together for the same reason as the

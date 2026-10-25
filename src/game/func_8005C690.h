@@ -1,6 +1,0 @@
-#ifndef MEMORIES_DECOMP_FUNC_8005C690_H
-#define MEMORIES_DECOMP_FUNC_8005C690_H
-
-void Movie_OnStreamEnd(void);
-
-#endif

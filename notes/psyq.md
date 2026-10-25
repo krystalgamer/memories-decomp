@@ -1276,7 +1276,7 @@ includes `libcd.h` for `StSetRing`, `StClearRing`, `StSetStream`, and
 `DecDCTReset(1)` call used when its decode wait times out.
 
 The direct `libpress.h` consumer inventory is complete at three matching
-sources. `func_8005B8A0.c` resets the decoder, installs
+sources. `movie_open_stream.c` resets the decoder, installs
 `Movie_OnDecodeOutput` through `DecDCToutCallback`, and builds the game-owned VLC
 table through a layout-only `u16 *` cast. `movie_frame_pipeline.c` clears that
 callback during teardown and uses `DecDCTin`, `DecDCTout`, and `DecDCTvlc2`
@@ -1445,7 +1445,7 @@ The `memory.h` consumer inventory is complete at seven matching sources.
 `ai_script_vm.c` uses `bzero` to clear the interpreter state, operand memory,
 and auxiliary block. The six `memset` consumers are
 `model_build_camera_relative_coordinate_unit.c`, `func_8005D994.c`,
-`model_distance_queries.c`, `func_80059B90.c`, `model_effect_state.c`, and
+`model_distance_queries.c`, `model_get_slot0_offset_world_position.c`, `model_effect_state.c`, and
 `model_scene_controllers.c`. The former
 `model_update_view_metrics.c` user, `func_800580D4`, now shares that
 translation unit with `Model_UpdateViewMetrics`. Across those
@@ -1779,7 +1779,7 @@ The existing C sources expose several useful starting points:
 | Local four-byte CD position buffers | `DslLOC` in `libds.h`; `CdlLOC` in `libcd.h` | Typed migration is established in [`file_stream.c`](../src/game/file_stream.c) and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `File_GetPosition` explicitly views `DslFILE.pos` as `CdlLOC`, while movie streaming keeps native `CdlLOC` storage; [`mdec_sync.c`](../src/game/mdec_sync.c) defines `Movie_SeekAndStartRead` with a native `CdlLOC *` parameter, converts it to `u8 *` at the two `CdControlB` calls, and to `DslLOC *` at the `DsRead2` boundary. |
 | `DslFILE` in [`libds.h`](../src/psyq/libds.h) | Ds file-search result | Migration complete in [`file_stream.c`](../src/game/file_stream.c) and `File_Exists` in [`file_cd_helpers.c`](../src/game/file_cd_helpers.c); the latter preserves its integer wrapper interface with explicit casts at the SDK boundary. |
 | Local movie-sector metadata | `StHEADER` in `libcd.h` / `libds.h` | Native migration is established by `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `StGetNext` supplies the typed header, whose `loc`, `nSectors`, `frameCount`, `width`, and `height` fields drive stream bounds and frame geometry; `libpress.h` remains the separate owner of the `DecDCT*` codec interfaces. |
-| Game-owned movie work-area prefix | `DECDCTTAB` in `libpress.h` | ABI-compatible submission boundaries are established across [`func_8005B8A0.c`](../src/game/func_8005B8A0.c) and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): the 34,816-entry `u16` table occupies exactly `0x11000` bytes at the work-area base, the CD ring begins immediately afterward, and `DecDCTvlc2` receives the same base as its table argument; retain the shared `u8 *` because the rest of the allocation contains unrelated streaming state. |
+| Game-owned movie work-area prefix | `DECDCTTAB` in `libpress.h` | ABI-compatible submission boundaries are established across [`movie_open_stream.c`](../src/game/movie_open_stream.c) and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): the 34,816-entry `u16` table occupies exactly `0x11000` bytes at the work-area base, the CD ring begins immediately afterward, and `DecDCTvlc2` receives the same base as its table argument; retain the shared `u8 *` because the rest of the allocation contains unrelated streaming state. |
 | Local 40-byte memory-card directory buffers | `DIRENTRY` in `kernel.h`; `firstfile` / `nextfile` in `libapi.h` | Migration complete in `mem_card_driver.c`: its size guard ties the SDK record to `MEM_CARD_DIRECTORY_ENTRY_SIZE`, and `DIRENTRY *` stepping drives enumeration; the free-space and name consumers deliberately retain byte-oriented 40-byte views. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Typed migration is established in `Duel_SetupCardRecord`, the native local `RECT` records in [`main_menu_load_package_stage.c`](../src/game/main_menu_load_package_stage.c) and `Model_ResetSceneState`, and `func_80057544`/`func_800577B0` in [`model_slot_control.c`](../src/game/model_slot_control.c); preserve byte-offset selection and layout-compatible casts elsewhere when exact code generation requires them. |
 | Game-owned TIM metadata buffer | `GsIMAGE` in `libgs.h` | ABI-compatible migration is established in `model_texture_upload.c`: `GsGetTimInfo` fills the 28-byte local texture record, whose image and CLUT rectangles and pointers are then consumed through a native local `RECT` by the upload path; retain `ModelTextureParams` because later mode-specific coordinate edits are game-owned. |

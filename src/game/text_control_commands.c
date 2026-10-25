@@ -43,7 +43,7 @@
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
 #include "color_constants.h"
-#include "func_80035E20.h"
+#include "text_box_draw_entries.h"
 #include "text_box_runtime.h"
 #include "text_control_commands.h"
 #include "../unmatched.h"

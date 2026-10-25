@@ -1,3 +1,3 @@
 #include "../../types.h"
 
-#include "../func_8002827C.c"
+#include "../duel_card_get_guardian_star.c"

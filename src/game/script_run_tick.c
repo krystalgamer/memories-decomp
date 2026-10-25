@@ -4,7 +4,7 @@
 #include "../psyq/rand.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "script_op_show_dialog.h"
 #include "script_command_table.h"
 #include "script_run_tick.h"

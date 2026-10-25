@@ -32,7 +32,7 @@
 #include "duel_init_scene.h"
 #include "file_transfer.h"
 #include "file_transfer_state.h"
-#include "func_80020BE4.h"
+#include "duel_result_load_outro_package_stage.h"
 #include "sound.h"
 #include "sound_output.h"
 #include "fade.h"

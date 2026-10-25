@@ -38,7 +38,7 @@
 #include "text_staging.h"
 #include "text_message_staging.h"
 #include "data_transfer_request.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "graphics_frame.h"
 #include "model.h"
 #include "model_scene_controllers.h"

@@ -51,7 +51,7 @@ FIXTURE = r"""
 #include "src/game/model_transfer_flags.h"
 #include "src/game/model_link_slot_animation_rows.h"
 #include "src/game/model_apply_texture_tint.h"
-#include "src/game/func_8004DC38.h"
+#include "src/game/model_slot_part_animation.h"
 #include "src/game/sound_voice_data.h"
 #include "src/game/script_state.h"
 

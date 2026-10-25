@@ -26,7 +26,7 @@
 #include "dialog_choice.h"
 #include "dialog_read_choice_input.h"
 #include "text_box_lifecycle.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "duel_select_trap_by_card_id.h"
 #include "duel_effect_set_entry_range_layout.h"
 

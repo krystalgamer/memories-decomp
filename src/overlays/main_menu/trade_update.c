@@ -21,7 +21,7 @@
 #include "../../game/sound.h"
 #include "../../game/input.h"
 #include "../../game/text_box_lifecycle.h"
-#include "../../game/func_80061008.h"
+#include "../../game/card_list_create_deck_box_stat_rows.h"
 #include "../../game/func_800610E0.h"
 #include "../../game/func_800611D0.h"
 #include "../../unmatched.h"

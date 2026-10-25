@@ -12,10 +12,10 @@
 #include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
 #include "text_box_runtime.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "duel_effect_create_channel.h"
 #include "dialog_transition.h"
-#include "func_8003DA40.h"
+#include "dialog_update_message_transition.h"
 #include "dialog_layout.h"
 #include "dialog_choice.h"
 

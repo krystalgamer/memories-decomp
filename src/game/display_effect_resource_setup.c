@@ -7,7 +7,7 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 
 #include "../types.h"
-#include "func_8003A198.h"
+#include "display_effect_has_resource_entry.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -21,9 +21,9 @@
 #include "file_transfer_state.h"
 #include "util_memory.h"
 #include "display_effect_load_resource_stage.h"
-#include "func_8003A1EC.h"
-#include "func_8003A440.h"
-#include "func_8003A560.h"
+#include "display_effect_build_resource_objects.h"
+#include "display_effect_set_object_row_blend.h"
+#include "display_effect_update_resource_acquisition.h"
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "../unmatched.h"

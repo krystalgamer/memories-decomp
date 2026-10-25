@@ -69,7 +69,7 @@ extern u8 gDuel_abFieldGridCardRecordIndices[];
  * want the flat view: duel_draw_resolution.c reads
  * gDuel_abHandCardRecordIndices[i + gDuel_bActiveSide * HAND_SIZE], the hand-action
  * controller indexes its selected hand slot, and Duel_ApplyAiHandSelection
- * (func_8001B938.c) takes the base pointer. */
+ * (duel_field_selection.c) takes the base pointer. */
 extern u8 gDuel_abHandCardRecordIndices[];
 
 /* The ground-plane position of every field slot, defined with initialisers in

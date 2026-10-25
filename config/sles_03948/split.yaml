@@ -302,7 +302,7 @@ segments:
     - game/display_object_alpha_transition
   - - 41824
     - c
-    - game/func_80019BD0
+    - game/duel_update_card_marker_removal_turn
   - - 42072
     - c
     - game/duel_mark_created_card_known
@@ -320,7 +320,7 @@ segments:
     - game/european/duel_hand_selection_cursor
   - - 49324
     - c
-    - game/european/func_8001B938
+    - game/european/duel_field_selection
   - - 50364
     - c
     - game/duel_check_quit_input
@@ -359,7 +359,7 @@ segments:
     - game/duel_update_card_use_confirmation
   - - 70468
     - c
-    - game/european/func_80020BE4
+    - game/european/duel_result_load_outro_package_stage
   - - 70832
     - c
     - game/spanish/duel_result_runtime
@@ -437,7 +437,7 @@ segments:
     - game/duel_card_state_helpers
   - - 101124
     - c
-    - game/func_8002827C
+    - game/duel_card_get_guardian_star
   - - 101232
     - c
     - game/european/duel_effect_dialog_state
@@ -596,7 +596,7 @@ segments:
     - game/script_op_fade_out
   - - 130852
     - c
-    - game/european/func_8002F4C0
+    - game/european/duel_result_load_package_stage
   - - 131224
     - c
     - game/european/script_op_duel_result
@@ -731,10 +731,10 @@ segments:
     - game/european/duel_effect_entry_occupancy
   - - 158360
     - c
-    - game/european/func_80035E20
+    - game/european/text_box_draw_entries
   - - 160868
     - c
-    - game/european/func_80036C14
+    - game/european/duel_effect_entries
   - - 161276
     - c
     - game/text_stream_read_le
@@ -797,7 +797,7 @@ segments:
     - game/european/text_box_build_step
   - - 171888
     - c
-    - game/european/func_80039794
+    - game/european/text_box_update_channels
   - - 172304
     - c
     - game/text_box_runtime
@@ -905,7 +905,7 @@ segments:
     - game/spanish/save_data_payload
   - - 187596
     - c
-    - game/func_8003D300
+    - game/mem_card_work_initialize_operation
   - - 187640
     - c
     - game/european/checkerboard_background
@@ -1136,7 +1136,7 @@ segments:
     - game/european/model_slot_row_tables
   - - 267368
     - c
-    - game/func_8004DC38
+    - game/model_slot_part_animation
   - - 268152
     - c
     - game/european/model_background
@@ -1214,10 +1214,10 @@ segments:
     - game/model_state_setters
   - - 316416
     - c
-    - game/func_80059AF8
+    - game/model_queue_tint_request_for_all_parts
   - - 316568
     - c
-    - game/func_80059B90
+    - game/model_get_slot0_offset_world_position
   - - 316704
     - c
     - game/european/model_scene_states
@@ -1289,7 +1289,7 @@ segments:
     - text_68c60
   - - 370064
     - c
-    - game/european/func_8005B8A0
+    - game/european/movie_open_stream
   - - 370812
     - c
     - game/european/movie_frame_pipeline
@@ -1307,7 +1307,7 @@ segments:
     - game/european/card_list_deck_box
   - - 374912
     - c
-    - game/spanish/func_80061008
+    - game/spanish/card_list_create_deck_box_stat_rows
   - - 375152
     - c
     - game/main_menu_create_trade_ready_indicator

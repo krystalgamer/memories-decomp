@@ -31,7 +31,7 @@
 #include "duel_effect_entry_ranges.h"
 #include "dialog_choice_state.h"
 #include "text_box_lifecycle.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "input_is_pad1_confirm_pressed.h"
 #include "display_object_core.h"
 #include "duel_effect_set_entry_range_layout.h"
