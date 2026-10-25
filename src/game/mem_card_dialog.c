@@ -31,7 +31,7 @@
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "duel_effect_mark_object_if_active.h"
 #include "mem_card_dialog_steps.h"
 #include "dialog_layout.h"

@@ -7,7 +7,7 @@ remain intact; the historical display-object-fade source paths are kept.
 
 ## Renderer and callback evidence
 
-The renderer in `func_80035E20.c` interprets mode two's bytes +4..+7 as
+The renderer in `text_box_draw_entries.c` interprets mode two's bytes +4..+7 as
 four Gouraud corner shades and byte +0x14 as a width/skew term. Mode one
 interprets bytes +8..+0xA as three rotation components, multiplied by16
 before `RotMatrixZYX_gte`. The latter is not another color fade.

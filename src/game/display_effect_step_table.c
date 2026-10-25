@@ -1,13 +1,13 @@
 #include "../types.h"
 #include "display_effect_step_table.h"
-#include "func_8003A560.h"
+#include "display_effect_update_resource_acquisition.h"
 #include "dialog_transition.h"
 #include "display_effect_lifecycle.h"
-#include "func_8003AC48.h"
-#include "func_8003A990.h"
-#include "func_8003AAE4.h"
+#include "display_effect_fade_out_record.h"
+#include "display_effect_update_position_tween.h"
+#include "display_effect_fade_in_record.h"
 #include "display_effect_update_callbacks.h"
-#include "func_8003DA40.h"
+#include "dialog_update_message_transition.h"
 
 /* Initialized data at 0x80090F68: the display effect step table.
  *

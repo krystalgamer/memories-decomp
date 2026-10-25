@@ -15,7 +15,7 @@
 #define DUEL_PACKAGE_STAGE_RAW_ARENAS
 
 #include "../types.h"
-#include "func_8004DC38.h"
+#include "model_slot_part_animation.h"
 #include "model_scene_controllers.h"
 #include "model.h"
 #include "model_get_frame_step.h"

@@ -6,7 +6,7 @@
 #include "duel_check_quit_input.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "duel_scene_callbacks.h"
 #include "duel_scene_state.h"
 #include "duel_scene_update.h"

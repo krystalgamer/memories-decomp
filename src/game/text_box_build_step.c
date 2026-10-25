@@ -15,7 +15,7 @@
 #include "european_text_bank_views.h"
 #include "display_object_core.h"
 #include "text_box_runtime.h"
-#include "func_80036C14.h"
+#include "duel_effect_entries.h"
 #include "menu_record_reset.h"
 #include "script_command_table.h"
 #include "script_state.h"

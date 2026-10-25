@@ -11,7 +11,7 @@
 #include "../../game/display_object_lifecycle.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/text_box_runtime.h"
-#include "../../game/func_80039794.h"
+#include "../../game/text_box_update_channels.h"
 #include "../../game/duel_effect_set_entry_range_layout.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/sound.h"

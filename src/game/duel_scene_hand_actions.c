@@ -44,7 +44,7 @@
 #include "duel_scene_resume.h"
 #include "duel_side_state.h"
 #include "duel_selection_layout.h"
-#include "func_8001B938.h"
+#include "duel_field_selection.h"
 #include "duel_hand_selection_colors.h"
 #include "card_constants.h"
 #include "duel_hand.h"

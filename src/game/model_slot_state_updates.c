@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_8004DC38.h"
+#include "model_slot_part_animation.h"
 #include "model.h"
 #include "model_slot_state_updates.h"
 #include "model_slot_updates.h"

@@ -26,7 +26,7 @@
 #include "../../game/display_object_helpers.h"
 #define DISPLAY_OBJECT_RELEASE_IF_PRESENT_AMBIENT_OBJECT
 #include "../../game/display_object_core.h"
-#include "../../game/func_80039794.h"
+#include "../../game/text_box_update_channels.h"
 #define DISPLAY_OBJECT_UPDATE_COMMAND_STREAM_AMBIENT_ARGS
 #include "../../game/display_object_update_command_stream.h"
 #include "../../game/main_start_duel.h"

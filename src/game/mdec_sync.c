@@ -5,7 +5,7 @@
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
 #include "movie_seek_and_start_read.h"
-#include "func_8005C690.h"
+#include "movie_on_stream_end.h"
 
 void Movie_StartFadeOut(void)
 {

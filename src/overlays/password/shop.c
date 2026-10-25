@@ -18,7 +18,7 @@
 #include "../../game/file_transfer.h"
 #include "../../game/duel_rewards.h"
 #include "../../game/duel_effect_set_entry_range_layout.h"
-#include "../../game/func_80039794.h"
+#include "../../game/text_box_update_channels.h"
 #include "../../game/text_constants.h"
 #include "../../game/text_box_runtime.h"
 #include "../../game/text_staging.h"

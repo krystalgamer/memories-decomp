@@ -4997,7 +4997,7 @@ cursor reproduces the seven remaining prologue positions. The two cursors,
 The terminal post-policy result was recorded with `record_external_attempt.py`
 and promoted through `integrate_verified_match.py`. All address-based callees
 were checked against the current inventory. The promoted source is
-`src/game/func_80039794.c`; its only promotion adjustment is the relative
+`src/game/text_box_update_channels.c`; its only promotion adjustment is the relative
 `src/types.h` include. The stored candidate entry was removed.
 
 `MAKEFLAGS=-j2 make clean` followed by `MAKEFLAGS=-j2 make match` passed without

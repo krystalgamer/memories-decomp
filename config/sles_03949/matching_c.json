@@ -742,7 +742,7 @@
       "address": "0x80019B60",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF8",
-      "source": "src/game/func_80019BD0.c"
+      "source": "src/game/duel_update_card_marker_removal_turn.c"
     },
     {
       "address": "0x80019C58",
@@ -790,13 +790,13 @@
       "address": "0x8001B8AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
-      "source": "src/game/european/func_8001B938.c"
+      "source": "src/game/european/duel_field_selection.c"
     },
     {
       "address": "0x8001BA64",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x258",
-      "source": "src/game/european/func_8001B938.c"
+      "source": "src/game/european/duel_field_selection.c"
     },
     {
       "address": "0x8001BCBC",
@@ -916,7 +916,7 @@
       "address": "0x80020B44",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x16C",
-      "source": "src/game/european/func_80020BE4.c"
+      "source": "src/game/european/duel_result_load_outro_package_stage.c"
     },
     {
       "address": "0x80020CB0",
@@ -1390,7 +1390,7 @@
       "address": "0x80028304",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
-      "source": "src/game/func_8002827C.c"
+      "source": "src/game/duel_card_get_guardian_star.c"
     },
     {
       "address": "0x80028370",
@@ -2014,7 +2014,7 @@
       "address": "0x8002F724",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x174",
-      "source": "src/game/european/func_8002F4C0.c"
+      "source": "src/game/european/duel_result_load_package_stage.c"
     },
     {
       "address": "0x8002F898",
@@ -2584,13 +2584,13 @@
       "address": "0x80036298",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce_no_cse_skip_blocks",
       "size": "0x9CC",
-      "source": "src/game/european/func_80035E20.c"
+      "source": "src/game/european/text_box_draw_entries.c"
     },
     {
       "address": "0x80036C64",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x198",
-      "source": "src/game/european/func_80036C14.c"
+      "source": "src/game/european/duel_effect_entries.c"
     },
     {
       "address": "0x80036DFC",
@@ -3028,7 +3028,7 @@
       "address": "0x80039770",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x1A0",
-      "source": "src/game/european/func_80039794.c"
+      "source": "src/game/european/text_box_update_channels.c"
     },
     {
       "address": "0x80039910",
@@ -3472,7 +3472,7 @@
       "address": "0x8003D4CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/func_8003D300.c"
+      "source": "src/game/mem_card_work_initialize_operation.c"
     },
     {
       "address": "0x8003D4F8",
@@ -5422,13 +5422,13 @@
       "address": "0x80050C68",
       "profile": "gcc_2_8_1_g8",
       "size": "0x124",
-      "source": "src/game/func_8004DC38.c"
+      "source": "src/game/model_slot_part_animation.c"
     },
     {
       "address": "0x80050D8C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1EC",
-      "source": "src/game/func_8004DC38.c"
+      "source": "src/game/model_slot_part_animation.c"
     },
     {
       "address": "0x80050F78",
@@ -5902,13 +5902,13 @@
       "address": "0x8005CC00",
       "profile": "gcc_2_8_1_g0",
       "size": "0x98",
-      "source": "src/game/func_80059AF8.c"
+      "source": "src/game/model_queue_tint_request_for_all_parts.c"
     },
     {
       "address": "0x8005CC98",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x88",
-      "source": "src/game/func_80059B90.c"
+      "source": "src/game/model_get_slot0_offset_world_position.c"
     },
     {
       "address": "0x8005CD20",
@@ -6190,7 +6190,7 @@
       "address": "0x80069D90",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",
-      "source": "src/game/european/func_8005B8A0.c"
+      "source": "src/game/european/movie_open_stream.c"
     },
     {
       "address": "0x8006A07C",
@@ -6292,7 +6292,7 @@
       "address": "0x8006B080",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF0",
-      "source": "src/game/spanish/func_80061008.c"
+      "source": "src/game/spanish/card_list_create_deck_box_stat_rows.c"
     },
     {
       "address": "0x8006B170",

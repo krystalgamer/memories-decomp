@@ -45,7 +45,7 @@
 #include "dialog_read_choice_input.h"
 #include "dialog_choice.h"
 #include "input.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "../psyq/rand.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

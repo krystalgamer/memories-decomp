@@ -67,7 +67,7 @@ void Model_UpdateViewMetrics(GsRVIEW2 *view);
 /* Builds a GsCOORDUNIT from an input vector: arg2 is the SVECTOR read in,
    arg3 is the unit written out. The input follows RotTransSV's SDK type;
    the output retains its compatible tagged coordinate-unit declaration.
-   func_80059B90.c is the only outside consumer
+   model_get_slot0_offset_world_position.c is the only outside consumer
    and is the sole observed call, passing index 0 and arg1 15 with both
    pointers into one stack scratch block.
    Those two leading scalars keep their address-based names because a single

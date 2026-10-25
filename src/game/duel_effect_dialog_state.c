@@ -6,7 +6,7 @@
 #include "sound.h"
 #include "duel_effect_dialog_state.h"
 #include "dialog_choice_state.h"
-#include "func_80039794.h"
+#include "text_box_update_channels.h"
 #include "input_is_pad1_confirm_pressed.h"
 
 #ifndef DUEL_EFFECT_DIALOG_DONE_FLAG
