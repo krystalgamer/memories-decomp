@@ -1000,7 +1000,8 @@ struct FileTransferDescriptor {
 
        As two halfwords it is a pair: duel_card_data_transfer.c counts
        sectors in `counter` alone, the phase-2 paths write a VRAM position
-       pair, and file_stream.c splits a byte count across the two halves.
+       pair, and the file-state setup in file_transfer_runtime.c splits a byte
+       count across the two halves.
        As one word it is a single packed constant, which is what the phase-3
        paths of Library_LoadPackageStage and Model_LoadSpecialBattlePackageStage store in one instruction.
 
