@@ -54,6 +54,22 @@
 #include "duel_effect_resource_setup.h"
 #include "duel_effect_resource_record.h"
 #define gDuel_sEffectWorkCounter D_8009B20C[1]
+
+void DuelEffect_StartSwords(void)
+{
+    DuelEffectRequest *object;
+
+    if (DuelEffect_MarkInitialized() == 0) {
+        object = DuelEffect_CreateRequest(0x12);
+        object->field_00 = 0xA0;
+        object->field_02 = 0x78;
+        object->field_1A = 1;
+        SD_SEPlayFull(2);
+    } else {
+        gDuel_wCardEffectFlags = 0;
+    }
+}
+
 /* Applies Swords of Revealing Light to the opposing side. The handler creates
  * its persistent effect object, stages the occupied field objects, then
  * installs the three-turn attack lock once the presentation completes. */
@@ -709,4 +725,25 @@ s32 Duel_SelectEquipPair(void) {
         }
     }
     return 1;
+}
+
+s32 Duel_SelectTrapPlay(void) {
+    DuelCardRecord *sp10[6];
+    s32 slot;
+    s8 v;
+
+    if (Duel_CollectFieldCardsByType(sp10, 0, CARD_TYPE_TRAP) == 0) {
+        return 1;
+    }
+    slot = Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);
+    if (slot < 0) {
+        return 1;
+    }
+    v = sp10[0]->table_index;
+    gAi_Selection.bytes[8] = 1;
+    gAi_Selection.bytes[1] = 0;
+    gAi_Selection.bytes[7] = 0;
+    gAi_Selection.bytes[6] = slot % DUEL_FIELD_ROW_SIZE + 6;
+    gAi_Selection.bytes[0] = v % DUEL_FIELD_ROW_SIZE + 0xB;
+    return 0;
 }
