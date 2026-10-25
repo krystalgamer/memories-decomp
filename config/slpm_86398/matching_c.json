@@ -4947,9 +4947,9 @@
     },
     {
       "address": "0x80049DC4",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x20",
-      "source": "src/game/sd_reset_secondary_playback_thunk.c"
+      "source": "src/game/sound_voice_setup.c"
     },
     {
       "address": "0x80049DE4",

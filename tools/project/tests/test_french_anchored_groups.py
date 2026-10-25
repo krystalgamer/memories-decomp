@@ -24,7 +24,7 @@ class FrenchAnchoredGroupTests(unittest.TestCase):
         french = self.manifest("sles_03948")
         groups = EMPTY_GROUPS + (
             ("src/game/spanish/script_image_objects.c", 0x8002DFE8, 4),
-            ("src/game/sd_reset_secondary_playback_thunk.c", 0x8004AB68, 1),
+            ("src/game/sound_voice_setup.c", 0x8004A8CC, 3),
         )
         for source, address, count in groups:
             with self.subTest(source=source):
