@@ -12,6 +12,8 @@
 #include "display_object_packet_submit.h"
 #include "display_object_helpers.h"
 #include "display_object_depth_bases.h"
+#include "trig_constants.h"
+#include "display_object_interpolation.h"
 
 /* Regional value: DIVPOLYGON4 piv (272 -> 288). The European build
  * (src/game/european/) defines its own. */
@@ -552,5 +554,46 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
             *(s32 *)&poly[j].x0 = *(s32 *)&poly[j].x2;
             *(s32 *)&poly[j].x1 = *(s32 *)&poly[j].x3;
         }
+    }
+}
+
+void DisplayObject_SavePosition(DisplayObjectSnapshot *object)
+{
+    object->field_36 = object->field_30;
+    object->field_38 = object->field_32;
+}
+
+void DisplayObject_InterpolatePositionCosine(
+    DisplayObjectPosition *object, s32 arg1, s32 arg2, s32 arg3
+)
+{
+    s32 x = (object->x + arg1) >> 1;
+    s32 y = (object->y + arg2) >> 1;
+    s32 scale = rcos(arg3);
+    s32 scale2 = scale;
+
+    object->out_x = x + (object->x - x) * scale / ONE;
+    object->out_y = y + (object->y - y) * scale2 / ONE;
+}
+
+void Widget_SlideSine(
+    DisplayObjectPosition *object,
+    int target_x,
+    int target_y,
+    int phase
+)
+{
+    int dx = object->x - target_x;
+    int dy = object->y - target_y;
+    int factor;
+
+    if (phase < 0) {
+        factor = rsin(phase + TRIG_ANGLE_QUARTER_TURN);
+        object->out_x = object->x - (dx * factor) / ONE;
+        object->out_y = object->y - (dy * factor) / ONE;
+    } else {
+        factor = -rsin(phase);
+        object->out_x = target_x - (dx * factor) / ONE;
+        object->out_y = target_y - (dy * factor) / ONE;
     }
 }
