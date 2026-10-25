@@ -31,6 +31,10 @@ s32 SD_ReadSequenceEvent(SDSequenceTrack *arg0);
  * polyphonic pressure, control change) and 0xE (pitch bend), 1 for 0xC-0xD
  * (program change, channel pressure). SD_ReadSequenceEvent is its only
  * reader. */
+#ifdef VERSION_JAPAN
+extern s32 gSD_adwStatusDataByteCounts[16] asm("gJapanese_D_80011484");
+#else
 extern s32 gSD_adwStatusDataByteCounts[16];
+#endif
 
 #endif
