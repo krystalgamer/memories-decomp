@@ -34,7 +34,7 @@ void SD_UpdateBankLoad(void) {
     s32 a3;
     u8 c;
 
-    switch (g_SDValue->field_003C) {
+    switch (g_SDValue->bank_load_phase) {
     case 0:
         if (g_SDValue->flags_004A & 1) {
             a0 = (u8 *)0x801E6800;
@@ -43,42 +43,42 @@ void SD_UpdateBankLoad(void) {
             a3 = 0x10;
             goto call;
         }
-        g_SDValue->field_003C += 6;
+        g_SDValue->bank_load_phase += 6;
         return;
     case 1:
         if ((SD_GetStatusFlags() & 7) == 0) {
             *(SDBankHeaderWords *)g_SDValue =
                 *(SDBankHeaderWords *)0x801E6800;
-            g_SDValue->field_003C += 1;
+            g_SDValue->bank_load_phase += 1;
             return;
         }
         return;
     case 2:
 #ifndef VERSION_EUROPE
-        printf(gSD_szSeGroupCountFormat, g_SDValue->field_0002);
+        printf(gSD_szSeGroupCountFormat, g_SDValue->value_link_count);
 #endif
         a0 = (u8 *)0x801E2800;
         a1 = 1;
-        a2 = g_SDValue->field_0002;
+        a2 = g_SDValue->value_link_count;
         a3 = 0x10;
         a2 = a2 * 8;
         goto call;
     case 3:
         if ((SD_GetStatusFlags() & 7) == 0) {
             SD_InitVoiceState();
-            g_SDValue->field_003C += 1;
+            g_SDValue->bank_load_phase += 1;
             return;
         }
         break;
     case 4:
         SD_QueueValueLinkTransfer(0);
-        g_SDValue->field_003C += 1;
+        g_SDValue->bank_load_phase += 1;
         return;
     case 5:
         if (SD_GetStatusFlags() & 7) {
             return;
         }
-        g_SDValue->field_003C += 1;
+        g_SDValue->bank_load_phase += 1;
         return;
     case 6:
         if (g_SDValue->flags_004A & 2) {
@@ -88,7 +88,7 @@ void SD_UpdateBankLoad(void) {
             a3 = 0x20;
             goto call;
         }
-        g_SDValue->field_003C += 2;
+        g_SDValue->bank_load_phase += 2;
         return;
     case 7:
         if ((SD_GetStatusFlags() & 7) == 0) {
@@ -105,7 +105,7 @@ void SD_UpdateBankLoad(void) {
 #endif
                 }
             }
-            g_SDValue->field_003C += 1;
+            g_SDValue->bank_load_phase += 1;
             return;
         }
         break;
@@ -119,10 +119,10 @@ void SD_UpdateBankLoad(void) {
         a3 = 0x40;
     call:
         SD_EnqueueRamTransfer((s32)a0, a1, a2, a3);
-        g_SDValue->field_003C += 1;
+        g_SDValue->bank_load_phase += 1;
         return;
     no8:
-        g_SDValue->field_003C = 0x3E7;
+        g_SDValue->bank_load_phase = 0x3E7;
         return;
     case 9:
         if ((SD_GetStatusFlags() & 7) == 0) {
@@ -142,7 +142,7 @@ void SD_UpdateBankLoad(void) {
             g_SDValue->bank_0518[0] = (u8 *)0x801E8800;
             g_SDValue->bank_0518[1] = (u8 *)0x801E9000;
             g_SDValue->bank_0518[2] = (u8 *)0x801EA000;
-            g_SDValue->field_003C += 1;
+            g_SDValue->bank_load_phase += 1;
             return;
         }
         break;

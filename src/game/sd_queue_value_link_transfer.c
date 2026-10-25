@@ -17,7 +17,7 @@ void SD_QueueValueLinkTransfer(s32 index)
     SDValueLink *entry;
 
     a = g_SDValue;
-    step = (s32)(a->field_0002 << 3);
+    step = (s32)(a->value_link_count << 3);
     step = (step + SD_VALUE_LINK_BLOCK_SIZE - 1) /
            SD_VALUE_LINK_BLOCK_SIZE;
     step = step + 1;

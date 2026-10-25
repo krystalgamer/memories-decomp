@@ -54,16 +54,16 @@ void SD_InitVoiceState(void) {
     p->value_link_request_index = 0xFFFF;
     p->note_table =
         (SDNote *)(
-            (((u32)&((u16 *)0)[p->field_0000] + 0xF) & 0xFFF0) +
+            (((u32)&((u16 *)0)[p->note_id_count] + 0xF) & 0xFFF0) +
             0x801E4000);
 
     i = 0;
-    if (p->field_0000 != 0) {
+    if (p->note_id_count != 0) {
         r = p;
         do {
             r->note_index_by_id[i] = SD_PENDING_ENTRY_NONE;
             i++;
-        } while (i < r->field_0000);
+        } while (i < r->note_id_count);
     }
 
     i = 0;
