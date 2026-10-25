@@ -9,7 +9,7 @@ void PalOptions_StoreLanguageImage(void)
 {
     RECT *rect;
 
-    func_80043B7C();
+    Main_InitDebugFont();
     rect = gGraphics_aImageTransferRects;
     rect->x = 0x290;
     rect->y = 0;
