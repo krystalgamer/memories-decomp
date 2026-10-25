@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MAIN_MENU_FRONTEND_H
 
 #include "../../types.h"
+#include "display_resources.h"
 
 struct DisplayObject;
 
@@ -66,6 +67,8 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
 extern struct DisplayObject *G32 D_80184558;
 extern struct DisplayObject *G32 D_8018455C;
 extern struct DisplayObject *G32 D_80184560;
+/* The blinking singleton gates Start input before the menu wheel. */
+extern struct DisplayObject *G32 gMainMenu_pStartPrompt __asm__("D_80184560");
 extern s8 gMainMenu_nFadeDirection;
 extern u8 gMain_bMenuID;
 extern u8 *G32 gMain_apMenuEntries[];

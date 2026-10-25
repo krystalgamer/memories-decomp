@@ -224,8 +224,8 @@ void MainMenu_DestroyFrontendMenu(void)
     D_80184558 = 0;
     DisplayObject_ReleaseIfPresent(D_8018455C);
     D_8018455C = 0;
-    DisplayObject_ReleaseIfPresent(D_80184560);
-    D_80184560 = 0;
+    DisplayObject_ReleaseIfPresent(gMainMenu_pStartPrompt);
+    gMainMenu_pStartPrompt = 0;
     for (i = 0; i < 0xB; i++) {
         if (gMain_apMenuEntries[i] != 0) {
             DisplayObject_ReleaseIfPresent(gMain_apMenuEntries[i]);
@@ -247,7 +247,7 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, (s16)entry->field_30.h.field_30,
                       (s16)entry->field_30.h.field_32, 0, 0, entry->field_69,
-                      0x18, 0, D_801AF800);
+                      0x18, 0, gMainMenu_DisplayResources);
         object->attribute |= 0x51000000;
         object->flags |=
             DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

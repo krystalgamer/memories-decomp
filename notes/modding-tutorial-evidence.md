@@ -504,6 +504,15 @@ data is globally unused. The code also does not establish visual names for
 the three row-`241` singleton objects, so those remain identified by ownership
 rather than appearance.
 
+The third singleton now has the behavioral C view
+`gMainMenu_pStartPrompt`: its visible update branch pulses its shade, handles
+the Start button and hides it before opening the menu wheel. That is input
+and lifecycle evidence, not identification of its texture or wording.
+The other two singleton names remain native. The separately loaded
+`D_801AF800` bank is exposed as `gMainMenu_DisplayResources`, retaining the
+original unsized byte view; see
+[main-menu display ownership](overlays/main-menu-display-ownership.md).
+
 The resident startup request in `Main_InitHardware` and movie entry/exit requests
 in `Movie_OpenStream` and `Movie_StopStream` use the same `320 x 240` dimensions
 with `GsInitGraph` or `GsInitGraph2`. `graphics_constants.h` names those
