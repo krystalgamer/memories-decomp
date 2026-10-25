@@ -2184,11 +2184,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800495DC,SD_EnableSecondaryPanning,matching_c,game,C,src/game/sound_init.c,read,,gSD_pSecondaryState->field_0815 = 0;
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800495EC,SD_DisableSecondaryPanning,matching_c,game,C,src/game/sound_init.c,read,,gSD_pSecondaryState->field_0815 = 1;
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049600,SD_SetSecondaryObjectCount,matching_c,game,C,src/game/sound_init.c,read,,gSD_pSecondaryState->object_count = x;
-0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049640,SD_ResetSecondaryRuntime,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,value = gSD_pSecondaryState->field_081C;
-0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800496C4,SD_VabOpenHead,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,initial = gSD_pSecondaryState; | state = gSD_pSecondaryState;
-0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004975C,SD_VabTransBody,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,SDSecondaryState *state = gSD_pSecondaryState;
-0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800497E0,SD_VabTransBodyChunk,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,SDSecondaryState *v1 = gSD_pSecondaryState; | gSD_pSecondaryState->bytes_consumed = total; | (+2 more)
-0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800498F8,SD_ResetVabTransferState,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,s16 *value = &gSD_pSecondaryState->transfer.field_0000;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049640,SD_ResetSecondaryRuntime,matching_c,game,C,src/game/sound_init.c,read,,value = gSD_pSecondaryState->field_081C;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800496C4,SD_VabOpenHead,matching_c,game,C,src/game/sound_init.c,read,,initial = gSD_pSecondaryState; | state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004975C,SD_VabTransBody,matching_c,game,C,src/game/sound_init.c,read,,SDSecondaryState *state = gSD_pSecondaryState;
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800497E0,SD_VabTransBodyChunk,matching_c,game,C,src/game/sound_init.c,read,,SDSecondaryState *v1 = gSD_pSecondaryState; | gSD_pSecondaryState->bytes_consumed = total; | (+2 more)
+0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x800498F8,SD_ResetVabTransferState,matching_c,game,C,src/game/sound_init.c,read,,s16 *value = &gSD_pSecondaryState->transfer.field_0000;
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049920,tent_SD_KeyOffSilentSecondaryObjects,matching_c,game,C,src/game/func_80049920.c,read,,b1 = gSD_pSecondaryState; | b2 = gSD_pSecondaryState; | (+1 more)
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049A64,SD_OpenSequence,matching_c,game,C,src/game/sound_secondary_playback.c,read,,gSD_pSecondaryState->flag_0500 = 1; | state = gSD_pSecondaryState;
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x80049AF4,SD_PlaySequence,matching_c,game,C,src/game/sound_secondary_playback.c,read,,gSD_pSecondaryState->field_07DC = gSD_pSecondaryState->field_07E8; | gSD_pSecondaryState->field_07E2 = 1; | (+6 more)
