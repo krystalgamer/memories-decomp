@@ -10,8 +10,6 @@
 extern s32 European_D_8009B3C8 asm("D_8009B3F0");
 #define MEM_CARD_MESSAGE_COMPLETION_MASK 0x2010
 #define MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE 0xB7
-#define MemCardDialog_UpdateLoad func_8003E3E4
-#define MemCardDialog_Update func_8003F568
 /* The splat name of its European address. */
 #define func_8003E56C func_8003EF9C
 #define D_8009AF70 gEuropean_D_8009AF70
