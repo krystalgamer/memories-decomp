@@ -1,5 +1,17 @@
 #include "../../types.h"
 #include "variant157_entry.h"
+#include "../../game/screen_projection.h"
+
+/* PAL height; the North American wrappers define 240. */
+#ifndef GRAPHICS_DEFAULT_HEIGHT
+#define GRAPHICS_DEFAULT_HEIGHT 256
+#endif
+#include "../../game/graphics_constants.h"
+
+/* The North American build reports the work size once per setup command. */
+#if defined(VARIANT157_PRINT_WORK_SIZE)
+#include "../../psyq/stdio.h"
+#endif
 
 static const VECTOR D_8013C058 = {4096, 4096, 4096, 0};
 
@@ -57,6 +69,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->elapsed = 0;
         work->completed = 0;
         work->toggle = 0;
+#if defined(VARIANT157_PRINT_WORK_SIZE)
+        printf("%d (0x%x) Byte\n", sizeof(Model157State), sizeof(Model157State));
+#endif
         return 0;
     }
     config = work->config;
@@ -218,7 +233,7 @@ s32 func_8013B004(u8 *context, s32 command)
     time = work->elapsed - config->delay - config->ring_duration;
     if (time >= 0 && time < config->flash_duration) {
         red = (config->flash_duration - time) * 255 / config->flash_duration;
-        setXY4(&flash, 0, 0, 320, 0, 0, 256, 320, 256);
+        setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
         setRGB0(&flash, red, red, red);
         func_8005B260((u32 *)&flash, ot, 1, 1);
     }
@@ -226,7 +241,7 @@ s32 func_8013B004(u8 *context, s32 command)
     time = phase_time - config->spacing * 32;
     if (time >= 0 && time < config->flash_duration) {
         red = (config->flash_duration - time) * 255 / config->flash_duration;
-        setXY4(&flash, 0, 0, 320, 0, 0, 256, 320, 256);
+        setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
         setRGB0(&flash, red, red, red);
         func_8005B260((u32 *)&flash, ot, 1, 1);
     }
