@@ -618,7 +618,7 @@ def ritual_section(text: str) -> str:
     # of the unit reference state this fixture does not back.
     start = text.index("void DuelEffect_StartRitual(void)")
     end = text.index("void DuelEffect_ApplyHarpiesFeatherDuster(void)")
-    return text.split("void DuelEffect_ApplySwords(void)", 1)[0] + text[start:end]
+    return text.split("void DuelEffect_StartSwords(void)", 1)[0] + text[start:end]
 
 
 def resolve_includes(text: str) -> str:
@@ -630,8 +630,8 @@ def resolve_includes(text: str) -> str:
 
 
 def include_prefix(path: Path) -> str:
-    # The prefix ends at the unit's first function, DuelEffect_ApplySwords.
-    text = path.read_text().split("void DuelEffect_ApplySwords(void)", 1)[0]
+    # The prefix ends at the unit's first function, DuelEffect_StartSwords.
+    text = path.read_text().split("void DuelEffect_StartSwords(void)", 1)[0]
     # A regional guard opened just above that function belongs to it,
     # continuation lines included.
     text = re.sub(r"^#if [^\n]*(?:\\\n[^\n]*)*\n\Z", "", text, flags=re.MULTILINE)

@@ -7,6 +7,7 @@
 #include "layered_semantic_views.h"
 #include "texture_state_semantic_views.h"
 #include "card_flash_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 void DuelEffect_RunCardFlashBurst(void *buffer, s32 phase)
 {
@@ -51,9 +52,9 @@ void DuelEffect_RunCardFlashBurst(void *buffer, s32 phase)
         }
     } else if (work->cross_frame != 0) {
         if (work->cross_frame == 1) {
-            func_8014E35C(1);
+            DuelEffect_DrawErrorCross(1);
         } else {
-            func_8014E35C(0);
+            DuelEffect_DrawErrorCross(0);
         }
         work->cross_frame++;
         if (work->cross_frame > 180) {

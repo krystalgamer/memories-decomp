@@ -12,9 +12,11 @@
 #include "textured_quads.h"
 #include "dispatch.h"
 #include "tile_effect.h"
+#include "handler_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "texture_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define TILE_ROW_STEP 30
@@ -26,7 +28,7 @@
 #define TILE_V_BOTTOM 126
 #endif
 
-void func_80149F90(void *buffer, s32 phase)
+void DuelEffect_RunDestroyFlames(void *buffer, s32 phase)
 {
     TileEffectState *state;
     POLY_GT4 polygon;
@@ -66,9 +68,9 @@ void func_80149F90(void *buffer, s32 phase)
     } else {
         if (state->step != 0) {
             if (state->step == 1) {
-                func_8014E35C(1);
+                DuelEffect_DrawErrorCross(1);
             } else {
-                func_8014E35C(0);
+                DuelEffect_DrawErrorCross(0);
             }
             state->step++;
             if (state->step >= 0xB5) {

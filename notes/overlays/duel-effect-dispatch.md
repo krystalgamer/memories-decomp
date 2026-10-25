@@ -45,6 +45,42 @@ The original headers and ownership guards remain unchanged. Three scoped
 semantic records append at actual NA addresses; all prior registry bytes
 and every field in all five bank inventories remain unchanged.
 
+## Complete accepted live-handler definitions
+
+The six already accepted live-traced names in `handler_semantic_views.h`
+now also name their complete real C definitions, rather than only dispatcher
+calls. Each provider includes that unchanged header after its private
+declarations, so the existing `__asm__` binding preserves the original
+native function label. No new semantic inference, extra name, wrapper,
+inventory change, registry row or data allocation is introduced.
+
+| Definition | Source | Native label | NA address | Size |
+|---|---|---|---|---|
+| `DuelEffect_RunFusion` | `effect_1.c` | `func_80157794` | `80156438` | `67C` |
+| `DuelEffect_RunAttackSlash` | `effect_2.c` | `func_80153200` | `80153DD8` | `8DC` |
+| `DuelEffect_RunDestroyFlames` | `tile_effect.c` | `func_80149F90` | `8014AA68` | `954` |
+| `DuelEffect_RunTerrainChange` | `effect_10.c` | `func_8014C8FC` | `8014D5D4` | `A7C` |
+| `DuelEffect_RunGuardianStarBonus` | `gather_effect.c` | `func_801481A8` | `8014A06C` | `9FC` |
+| `DuelEffect_RunBoardDestruction` | `effect_17.c` | `func_80148BA4` | `80158E84` | `13EC` |
+
+Addresses and sizes are hexadecimal. This finishes the existing binding
+surface; it does not claim new human-trace evidence or broader artwork
+ownership. Each entire C source reverses byte-for-byte to accepted master
+after undoing only its definition name and one include. Parameters retain
+their original types and names, including the attack-slash signed-halfword
+third argument. Every statement, private work/config declaration, SDK call,
+arithmetic operation, fallback/counter path, progress/completion store and
+regional conditional remains untouched.
+
+In particular, board destruction retains its accepted jagged-column helper
+call/stat header and integer-word Exodia scratch binding. The native bolt
+definition/utility header, original attempt history and regression remain
+byte-exact. The dispatcher, six-view semantic header, all five inventories,
+complete semantic registry, owner guard and native maps/profiles are unchanged.
+No pending card-flash or fallback component is imported. Native compiler,
+MASPSX, symbol and relocation comparison covers all six complete providers;
+full-image acceptance remains mandatory.
+
 ## Original dispatcher matching evidence
 
 `func_80146258` (`80146258..80146760`, 1,288 bytes) is complete matching C
