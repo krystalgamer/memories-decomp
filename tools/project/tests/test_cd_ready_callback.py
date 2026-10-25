@@ -530,10 +530,15 @@ class CdReadyBehaviorTests(unittest.TestCase):
         directory = Path(temporary.name)
         witness = directory / "witness.c"
         witness.write_text(WITNESS)
-        # The witness links the unit's ready-callback half: everything before
-        # the transfer-control half's first function.
+        # The witness links the unit's ready-callback half: the include block,
+        # then everything from the primary-transfer starter up to the
+        # transfer-control half's first function (the file-state setup
+        # helpers that open the unit are left out).
         runtime = directory / "file_transfer_runtime.c"
-        section = SOURCE.read_text().split("void File_HandleSetFilterEvent(", 1)[0]
+        text = SOURCE.read_text()
+        head = text.split("void File_InitTransferState(", 1)[0]
+        callbacks = text[text.index("FileTransferDescriptor *File_TryStartPrimaryTransfer("):]
+        section = head + callbacks.split("void File_HandleSetFilterEvent(", 1)[0]
         runtime.write_text(re.sub(
             r'^#include "([^"]+)"',
             lambda m: '#include "' + str((SOURCE.parent / m[1]).resolve()) + '"',
