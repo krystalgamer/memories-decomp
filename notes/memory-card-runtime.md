@@ -1152,3 +1152,65 @@ and identifier-only witness updates remain intact. The combined comparison
 aligns only those three accepted paired names in the saved resident
 baseline before reversing the three owned workspace names. Every complete
 output remains, followed by a fresh clean retail gate.
+
+## PAL script prompt and modal providers
+
+Three existing canonical interfaces now carry their PAL native assembler
+bindings in the owning headers rather than private wrapper name macros:
+
+| Interface | UK address / bytes | France, Germany, Italy, Spain address / bytes |
+|---|---|---|
+| `Script_OpSavePrompt` | `0x8002EF3C` / `0x56C` | `0x8002F128` / `0x56C` |
+| `MemCardDialog_UpdateLoad` | `0x8003E3E4` / `0x344` | `0x8003E5E4` / `0x344` |
+| `MemCardDialog_Update` | `0x8003F568` / `0x2C8` | `0x8003F768` / `0x2C8` |
+
+`VERSION_EUROPE` selects explicit `extern void(void)` bindings to native
+`func_8002EF3C`, `func_8003E3E4` and `func_8003F568`. They remain the actual
+compiled owners, not absolute aliases or replacement definitions. The NA
+and Japanese declarations keep their existing signatures and labels.
+Five inventories change only these three name fields; existing addresses,
+sizes, statuses, modules and old notes remain intact.
+
+The prompt consumes two little-endian halfwords only on its initial
+command phase and keeps the existing retained scene operand. Its `0x80`
+phase polls the modal dialog before restoring choice count four, choice
+zero and control zero. Every confirmed choice stages the scene halfword
+before dispatch, including slide-out/cancel; the save arm repeats that
+store before `SaveData_RequestWrite`. Build-deck, return-to-menu,
+incomplete-deck and slide-out paths remain separate. Preserve the initial
+busy latch, one-pass choice loop, synchronous object-creation pumps,
+PAL box geometry/flags and original signed slide narrowing. No script
+stream, choice timing or save behavior is changed.
+
+The modal update remains the sole pump called by `MemCardDialog_Poll`.
+Polling returns zero while modal flags survive, not the outcome byte.
+Closing still destroys text, releases the display object and nulls its
+pointer before a later null-object invocation clears the flags. PAL
+session startup keeps its extra helper after `MemCardStart`; shutdown
+keeps `MemCardStop` before its regional helper. The SDK sync return,
+command output, result output and final dialog outcome stay distinct.
+
+Both load entry steps still seed operation state zero or one and call the
+same load machine. Preserve its fallthroughs, shared I/O-pending tail,
+retry/validation paths, separate error targets and outcome one/three
+stores. The unsized card-number argument, absolute choice view and
+volatile flag stores retain their old addressing and order. The PAL
+controller's out-parameter and modal sync word still have different
+addresses despite their historical `D_8009B3F0` spellings; neither is
+merged, retyped or rebound.
+
+Only the five private name macros are removed from the three existing
+PAL wrappers. Every shared function body, private layout, initialized
+command/step table, other wrapper selector, compiler profile, manifest,
+symbol/import map, save workspace and existing test/control is unchanged.
+The actual native comparison covers eleven unique source/profile units:
+the seven regional prompt/dialog units, both deck-branch consumers and
+the two NA initialized command/step tables. Complete compiler assembly,
+MASPSX output, symbol tables and disassembly/relocations remain identical.
+The three PAL functions retain all `0xB78` instruction bytes per image.
+
+The clean complete NA resident retains retail SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+This is not local full PAL-image execution; ordinary applicable exact-head
+regional image/regression gates remain mandatory. No synthetic/generated-C
+or source-string harness, new testcase or local cloud suite is added.

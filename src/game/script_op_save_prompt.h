@@ -16,7 +16,11 @@ extern u16 gScript_SavePromptSceneOperand;
  * DECK_SIZE entry of gDuel_awPlayerDeck is zero, 0 as soon as one is -- and
  * Script_OpJumpIfDeckIncomplete branches the script on it. It lives here because this is the
  * unit that defines it; nothing about it is specific to the choice step. */
-void Script_OpSavePrompt(void);
+#ifdef VERSION_EUROPE
+extern void Script_OpSavePrompt(void) asm("func_8002EF3C");
+#else
+extern void Script_OpSavePrompt(void);
+#endif
 s32 Duel_IsPlayerDeckComplete(void);
 
 #endif
