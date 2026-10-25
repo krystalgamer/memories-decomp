@@ -18,7 +18,7 @@ inventories change only the two name fields in each of five releases.
 ## Request, optional wait and font setup
 
 The request helper retains the full original signature
-`void (s32 language, s32 wait)` and passes all eight original arguments to
+`void (s32 language, s32 wait)` and passes all seven original arguments to
 `File_RequestAsyncTransfer`: language selects sector
 `language * 110 + 0x1962`, the request spans 110 sectors, and
 `Main_LoadBootPackageStage` is the staged callback. It does not clamp or
