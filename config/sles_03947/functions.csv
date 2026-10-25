@@ -358,7 +358,7 @@ address,size,name,status,module,notes
 0x80030200,0xA0,DebugMenu_Init,matching_c,game,
 0x800302A0,0x44,DebugMenu_OpenValueEditor,matching_c,game,
 0x800302E4,0x524,DebugMenu_UpdateValueEditor,matching_c,game,
-0x80030808,0xE8,func_80030808,matching_c,game,
+0x80030808,0xE8,DebugMenu_UpdateLanguageEntry,matching_c,game,
 0x800308F0,0x1E0,DebugMenu_UpdateSoundEntry,matching_c,game,
 0x80030AD0,0x23C,DebugMenu_UpdateCampaignEntry,matching_c,game,
 0x80030D0C,0xA0,DebugMenu_UpdateMapEntry,matching_c,game,
@@ -559,7 +559,7 @@ address,size,name,status,module,notes
 0x8003C1C4,0x60,File_RequestEgyptOverworldPackage,matching_c,game,
 0x8003C224,0x1A0,func_8003C224,matching_c,game,The first PAL frontend package callback reuses the shared four-mode stage with 640x224 upload coordinates and exact G0 no-split code generation.
 0x8003C3C4,0x1A8,func_8003C3C4,matching_c,game,The second PAL frontend package callback reuses the same four-mode stage with a 48-sector opening phase and exact G0 no-split code generation.
-0x8003C56C,0x1A0,func_8003C56C,matching_c,game,
+0x8003C56C,0x1A0,Options_LoadPackageStage,matching_c,game,
 0x8003C70C,0x60,File_RequestOptionsPackage,matching_c,game,
 0x8003C76C,0x174,GameOver_LoadPackageStage,matching_c,game,The shared three-mode game-over package callback matches exactly under the G0 no-split profile with the European 640x208 texture upload coordinates.
 0x8003C8E0,0x64,File_RequestGameOverPackage,matching_c,game,The shared package request matches exactly under the G8 profile with the language-indexed European WA.MRG sector expression.

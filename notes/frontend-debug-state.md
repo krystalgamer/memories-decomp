@@ -138,3 +138,44 @@ Matching `DebugMenu_UpdateValueEditor` owns its three initialized local tables a
 bytes of `.rodata` at ROM `0xA50`. Its uniform G8 object, declarations, and
 full executable reproduce the retail SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+
+## PAL language entry and later asset selection
+
+`DebugMenu_UpdateLanguageEntry` is native `func_80030808`, 232 bytes at
+UK `0x80030808` and the other four PAL releases' `0x800309F4`. The existing
+editor owner header publishes an explicit `extern void(void)` native-asm
+binding only under `VERSION_EUROPE`. NA/Japan still have no such function.
+The common source changes only the definition's identifier; the native
+owner, its address, signature and every instruction remain unchanged.
+
+First entry sets the entered bit, dims the primary display object, copies
+the current language byte into the shared halfword editor value and opens
+the existing one-row, one-digit language editor. It still writes three
+to the separate row-one/two digit counts even though this entry selects
+one row. A zero editor result keeps waiting. A negative result clears the
+step byte and restores the primary display object without changing the
+language.
+
+A positive result compares the whole edited halfword with the current
+language byte. Only when unequal does it store the value into the byte,
+then compare that narrowed byte against five and substitute the build
+language if needed. Preserve that comparison/store/test order, not a
+halfword clamp before narrowing. The fallback remains zero in the UK
+wrapper and one/two/three/four in the existing localized wrappers.
+Confirmation does not clear the step, restore the object, request a boot
+package or wait for any transfer. This is not the Options screen's
+separate language-switch/loading lifecycle.
+
+The later `File_RequestOptionsPackage` computes its start sector from the
+then-current language byte and supplies `Options_LoadPackageStage`. The
+stage provider is native `func_8003C56C`, not either of the two earlier
+lookalike package callbacks. See the PAL addendum in
+`options-screen.md` for the exact phase and binding scope.
+
+Complete native conservation covers all seven actual editor wrappers,
+the five actual frontend-package units and the initialized NA frontend
+step-table owner: thirteen unique source/profile pairs. The earlier two
+unclassified PAL callbacks are included in that comparison but are not
+renamed or assigned an inferred screen. No table entries, bounds, layout,
+format bytes, input policy, profile, wrapper language default or existing
+test/control is changed, and no local PAL runtime observation is claimed.

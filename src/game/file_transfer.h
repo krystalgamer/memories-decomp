@@ -87,7 +87,12 @@ void File_RequestPasswordPackage(void);
 void File_RequestEgyptOverworldPackage(void);
 void File_RequestOptionsPackage(void);
 void File_RequestGameOverPackage(void);
+#ifdef VERSION_EUROPE_FILE_REQUEST_OPTIONS_PACKAGE
+extern void Options_LoadPackageStage(
+    FileTransferDescriptor *descriptor, s32 mode) asm("func_8003C56C");
+#else
 void Options_LoadPackageStage(FileTransferDescriptor *descriptor, s32 mode);
+#endif
 void GameOver_LoadPackageStage(
     FileTransferDescriptor *descriptor,
     s32 mode
