@@ -221,7 +221,7 @@ reads or change the range, filter, state, or callback operations.
 
 `File_SetTransferLocation` interprets its third argument (`position`) and
 fourth argument (`size`) by sign. The matching body in
-`src/game/file_stream.c` applies:
+`src/game/file_transfer_runtime.c` applies:
 
 ```c
 file_index = file_flags & FILE_TRANSFER_FILE_INDEX_MASK;
