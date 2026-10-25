@@ -545,6 +545,12 @@ class ModelVariantToolchainTests(unittest.TestCase):
             270: (names(set(), set(), stage10_slot1={131, 145}, stage8_slot1=set()), 0x106C, 1),
             160: (names(set(), {164, 191, 494, 521, 599}, stage10_slot1=set(), stage8_slot1=set()), 0x11B0, 1),
             290: (names(set(), set(), stage10_slot1={164, 191, 494, 521, 599}, stage8_slot1=set()), 0x11B0, 1),
+            145: (names({37}, set(), stage10_slot1=set(), stage8_slot1=set()), 0xDC0, 1),
+            275: (names(set(), set(), stage10_slot1=set(), stage8_slot1={37}), 0xDC0, 1),
+            146: (names(set(), {37}, stage10_slot1=set(), stage8_slot1=set()), 0xEBC, 1),
+            276: (names(set(), set(), stage10_slot1={37}, stage8_slot1=set()), 0xEBC, 1),
+            161: (names(set(), {141}, stage10_slot1=set(), stage8_slot1=set()), 0xD48, 1),
+            291: (names(set(), set(), stage10_slot1={141}, stage8_slot1=set()), 0xD48, 1),
             # North American images whose entry is North American C (headers 111, 118, 119, 176, 627, 647, 752, 754, 756, 766, 779, 827 and 828).
             111: (names({466, 483, 548}, {247, 486}, stage10_slot1=set(), stage8_slot1=set()), 0xCF8, 1),
             241: (names(set(), set(), stage10_slot1={247, 486}, stage8_slot1={466, 483, 548}), 0xCF8, 1),
@@ -597,7 +603,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 1009)
+        self.assertEqual(len(registered), 1015)
 
 
 if __name__ == "__main__":

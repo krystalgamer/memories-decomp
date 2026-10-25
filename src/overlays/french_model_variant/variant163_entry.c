@@ -1,5 +1,18 @@
 #include "../../types.h"
 #include "variant163_entry.h"
+#include "../../game/screen_projection.h"
+#include "../../psyq/libhmd.h"
+
+/* PAL height; the North American wrappers define 240. */
+#ifndef GRAPHICS_DEFAULT_HEIGHT
+#define GRAPHICS_DEFAULT_HEIGHT 256
+#endif
+#include "../../game/graphics_constants.h"
+
+/* The North American build reports the work size once per setup command. */
+#if defined(VARIANT163_PRINT_WORK_SIZE)
+#include "../../psyq/stdio.h"
+#endif
 
 static const VECTOR D_8013BEA8 = {4096, 4096, 4096, 0};
 
@@ -74,6 +87,9 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->elapsed = 0;
         work->completed = 0;
+#if defined(VARIANT163_PRINT_WORK_SIZE)
+        printf("%d (0x%x) Byte\n", sizeof(Model163State), sizeof(Model163State));
+#endif
         return 0;
     }
     config = work->config;
@@ -205,7 +221,7 @@ s32 func_8013B004(u8 *context, s32 command)
     time = work->elapsed - config->delay - config->split_time;
     if (time >= 0 && time < config->flash_duration) {
         s32 brightness;
-        setXY4(&flash, 0, 0, 320, 0, 0, 256, 320, 256);
+        setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
         brightness = 255 * (config->split_time - time) / config->split_time;
         setRGB0(&flash, brightness, brightness, brightness);
         func_8005B260((u32 *)&flash, ot, 1, 1);

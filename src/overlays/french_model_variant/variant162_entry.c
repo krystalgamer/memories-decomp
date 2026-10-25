@@ -1,7 +1,24 @@
 #include "../../types.h"
 #include "variant162_entry.h"
+#include "../../game/screen_projection.h"
+
+/* PAL height; the North American wrappers define 240. */
+#ifndef GRAPHICS_DEFAULT_HEIGHT
+#define GRAPHICS_DEFAULT_HEIGHT 256
+#endif
+#include "../../game/graphics_constants.h"
+
+/* The North American build reports the work size once per setup command. */
+#if defined(VARIANT162_PRINT_WORK_SIZE)
+#include "../../psyq/stdio.h"
+#endif
 
 const VECTOR D_8013BDAC = {4096, 4096, 4096, 0};
+
+#if defined(VARIANT162_PRINT_WORK_SIZE)
+/* North American retail fills the three bytes after the string with 0x18, 0x20, 0x02. */
+static const char work_size_format[20] = "%d ( %x ) Byte.\n\0\030 \002";
+#endif
 
 s32 func_8013B004(u8 *context, s32 command)
 {
@@ -44,6 +61,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->elapsed = 0;
             work->completed = 0;
+#if defined(VARIANT162_PRINT_WORK_SIZE)
+            printf(work_size_format, sizeof(Model162State), sizeof(Model162State));
+#endif
             return 0;
         }
         config = work->config;
@@ -151,7 +171,7 @@ s32 func_8013B004(u8 *context, s32 command)
         time = work->elapsed - config->quad_delay;
         if (time >= 0 && time < config->quad_duration) {
             s32 brightness;
-            setXY4(&flash, 0, 0, 320, 0, 0, 256, 320, 256);
+            setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
             brightness = 255 * (config->quad_duration - time) / config->quad_duration;
             setRGB0(&flash, brightness, brightness, brightness);
             func_8005B260((u32 *)&flash, ot, 1, 1);

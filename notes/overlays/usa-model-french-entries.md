@@ -94,22 +94,29 @@ both slots, are byte-identical to the objects built before these changes.
 
 ## The work-size printf
 
-Forty-one more images have a French entry with one North American addition: the
-setup command prints the size of the work area with
+Forty-seven more images have a French entry with one North American addition:
+the setup command prints the size of the work area with
 `printf("%d (0x%x) Byte\n", sizeof(state), sizeof(state))` (0x1244 for
-`Model173State`, 0x450 for `Model153State`, 0x738 for `Model184State`, 0x5B0
-for `Model177State`, 0x820 for `Model157State`), which also moves the entry's
+`Model173State`, 0x450 for `Model153State` and `Model178State`, 0x738 for
+`Model184State`, 0x5B0 for `Model177State`, 0x820 for `Model157State` and
+`Model162State`, 0x464 for `Model163State`), which also moves the entry's
 `.rodata` and data after it. Each of these French sources adds the call under
 its own `VARIANTnnn_PRINT_WORK_SIZE` macro; the North American wrappers define
 the macro and rename the image-local data symbols to their North American
-addresses. The `variant177_entry` and `variant157_entry` wrappers also define
-the North American screen height, 240, for the full-screen flash, through the
-same `GRAPHICS_DEFAULT_HEIGHT` default that header 198 uses. The
-`variant173_entry`, `variant153_entry` and `variant157_entry` sources also
-include the header that declares `Model_GetLightSourceMatrix`, and
-`variant184_entry` the one that declares `Model_CopySlotPosition`, so the
-North American wrappers do not call either through an implicit declaration.
-All five French objects are byte-identical to the objects built before.
+addresses. The `variant177_entry`, `variant157_entry`, `variant163_entry` and
+`variant162_entry` wrappers also define the North American screen height, 240,
+for the full-screen flash, through the same `GRAPHICS_DEFAULT_HEIGHT` default
+that header 198 uses. Under its macro, `variant178_entry` also ends with the
+plain completion test (`if (work->completed == 0) { ...; return 1; } return 0;`)
+that North American retail's shared return block needs. The `variant162_entry`
+call prints `"%d ( %x ) Byte.\n"` instead, and retail leaves `0x18, 0x20, 0x02`
+in the three bytes that pad that string to the image view, so the source spells
+the format as a 20-byte array that holds them. The French sources
+include the headers that declare the functions they call
+(`Model_GetLightSourceMatrix`, `Model_CopySlotPosition`, `GsGetLwUnit`), so the
+North American wrappers do not call any of them through an implicit
+declaration. All eight French objects are byte-identical to the objects built
+before.
 
 | Header | Entry size | North American source | Images |
 |---:|---:|---|---|
@@ -123,6 +130,12 @@ All five French objects are byte-identical to the objects built before.
 | 270 | `0x1068` | `variant157_entry_usa.c` | `131_stage10_slot1`, `145_stage10_slot1` |
 | 160 | `0x11AC` | `variant177_entry_usa.c` | `164_stage9_slot0`, `191_stage9_slot0`, `494_stage9_slot0`, `521_stage9_slot0`, `599_stage9_slot0` |
 | 290 | `0x11AC` | `variant177_entry_usa.c` | `164_stage10_slot1`, `191_stage10_slot1`, `494_stage10_slot1`, `521_stage10_slot1`, `599_stage10_slot1` |
+| 145 | `0xDBC` | `variant162_entry_usa.c` | `37_pos0_slot0` |
+| 275 | `0xDBC` | `variant162_entry_usa.c` | `37_stage8_slot1` |
+| 146 | `0xEB8` | `variant163_entry_usa.c` | `37_stage9_slot0` |
+| 276 | `0xEB8` | `variant163_entry_usa.c` | `37_stage10_slot1` |
+| 161 | `0xD44` | `variant178_entry_usa.c` | `141_stage9_slot0` |
+| 291 | `0xD44` | `variant178_entry_usa.c` | `141_stage10_slot1` |
 
 ## What remains
 
@@ -137,7 +150,7 @@ masked, so the counts are orders of magnitude:
 | Framed functions | about 3,300 |
 | Distinct bodies (masked) | 624 |
 | Instructions, one copy of each distinct body | about 709,000 |
-| Images now built from French C (this note) | 204 |
+| Images now built from French C (this note) | 210 |
 | Images now built from North American C ([header 72](usa-model-variant72.md), [header 110](usa-model-variant110.md), [header 111](usa-model-variant111.md), [header 118](usa-model-variant118.md), [header 119](usa-model-variant119.md), [header 176](usa-model-variant176.md), [header 627](usa-model-variant627.md), [header 634](usa-model-variant634.md), [header 647](usa-model-variant647.md), [header 654](usa-model-variant654.md), [header 752](usa-model-variant752.md), [header 754](usa-model-variant754.md), [header 756](usa-model-variant756.md), [header 766](usa-model-variant766.md), [header 779](usa-model-variant779.md), [header 827](usa-model-variant827.md), [header 828](usa-model-variant828.md)) | 553 |
 
 All framed functions use the gcc 2.8.1 epilogue (`jr ra` with the frame
