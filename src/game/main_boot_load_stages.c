@@ -10,6 +10,7 @@
 #include "file_transfer_buffer.h"
 #ifdef VERSION_EUROPE
 #include "high_memory_addresses.h"
+#include "european_text_bank_views.h"
 #endif
 
 /* Main_RunBootSequence queues the boot image with Main_LoadBootImageStage
@@ -162,24 +163,24 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)(gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE));
         obj->phase_size = 30 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->alternate_sector_destination = (s32)D_800101E0;
-        obj->sector_destination = (s32)D_800101E0;
+        obj->alternate_sector_destination = (s32)gFile_pBootTextStage5Destination;
+        obj->sector_destination = (s32)gFile_pBootTextStage5Destination;
         obj->done = 1;
         break;
 
     case 6:
         obj->phase_size = 32 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->alternate_sector_destination = (s32)D_800101E4;
-        obj->sector_destination = (s32)D_800101E4;
+        obj->alternate_sector_destination = (s32)gFile_pBootTextStage6Destination;
+        obj->sector_destination = (s32)gFile_pBootTextStage6Destination;
         obj->done = 1;
         break;
 
     case 7:
         obj->phase_size = 7 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->alternate_sector_destination = (s32)D_800101E8;
-        obj->sector_destination = (s32)D_800101E8;
+        obj->alternate_sector_destination = (s32)gFile_pBootTextStage7Destination;
+        obj->sector_destination = (s32)gFile_pBootTextStage7Destination;
         obj->done = 1;
         break;
     }
