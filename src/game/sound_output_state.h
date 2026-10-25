@@ -3,8 +3,8 @@
 
 #include "../types.h"
 
-/* Starts a CD-volume fade: field_0512 receives the signed per-update step
-   that SD_UpdateFades adds to cd_volume, and field_0049 the volume it stops
+/* Starts a CD-volume fade: cd_fade_step receives the signed per-update step
+   that SD_UpdateFades adds to cd_volume, and cd_fade_target the volume it stops
    at. The third argument is written by no path in the definition; every
    caller passes 1. */
 void SD_StartCdFade(s16 value, u8 flag, s32 unused);

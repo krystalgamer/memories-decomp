@@ -5,7 +5,7 @@
 #include "sd_reset_music_state.h"
 
 /* Retires the driver's two pending requests, in the same *g_SDValue struct
-   whose field_1582/field_1584 tent_SD_StartBgmFadeCopy and SD_StartBgmFade
+   whose bgm_fade_step/bgm_fade_target tent_SD_StartBgmFadeCopy and SD_StartBgmFade
    write.
 
    If the 0x157E slot is active, it stops that sequence through SD_StopSequence
@@ -31,23 +31,23 @@ void SD_ResetMusicState(void) {
         g_SDValue->field_1578 = -1;
     }
 
-    g_SDValue->field_1588 = 0;
-    g_SDValue->field_1586 = 0;
+    g_SDValue->sequence_fade_step = 0;
+    g_SDValue->sequence_fade_level = 0;
 }
 
 void tent_SD_StartBgmFadeCopy(s16 value, u8 flag)
 {
-    g_SDValue->field_1582 = value;
-    g_SDValue->field_1584 = flag;
+    g_SDValue->bgm_fade_step = value;
+    g_SDValue->bgm_fade_target = flag;
 }
 
 void SD_StartBgmFade(s16 step, u8 target)
 {
-    g_SDValue->field_1582 = step;
-    g_SDValue->field_1584 = target;
+    g_SDValue->bgm_fade_step = step;
+    g_SDValue->bgm_fade_target = target;
 }
 
 s32 SD_IsBgmFadeActive(void)
 {
-    return g_SDValue->field_1582 != 0;
+    return g_SDValue->bgm_fade_step != 0;
 }

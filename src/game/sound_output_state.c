@@ -21,7 +21,7 @@ void SD_InitBufferState(void)
     base->buffer_ptrs_153C[0] = base->buffer_053C[0];
     base->buffer_ptrs_153C[1] = base->buffer_053C[1];
     base->buffer_ptrs_153C[2] = base->buffer_053C[2];
-    base->field_0512 = 0;
+    base->cd_fade_step = 0;
     base->buffer_ptrs_153C[3] = base->buffer_053C[3];
 }
 
@@ -101,10 +101,10 @@ void SD_SetCdVolumeImmediate(s32 value)
     }
     CdMix(&data);
     first = g_SDValue;
-    first->field_0049 = value;
+    first->cd_fade_target = value;
     second = g_SDValue;
     first->cd_volume = value;
-    second->field_0512 = 0;
+    second->cd_fade_step = 0;
 }
 
 s32 SD_GetCdVolume(void)
@@ -118,7 +118,7 @@ s32 SD_GetCdVolume(void)
 #include "sound_output_state.h"
 
 /* Queues CD fade command 41: field_0008 is the signed per-update step and
-   field_0002 the target volume, loaded into field_0512/field_0049 when
+   field_0002 the target volume, loaded into cd_fade_step/cd_fade_target when
    SD_UpdateRuntime dequeues it. field_0001 becomes field_007E; while it is
    nonzero, SD_StepActiveCommand keeps the command active until the fade
    ends. No caller is present in the retail executable or its overlays. */
@@ -133,8 +133,8 @@ s32 SD_EnqueueCdFade(s32 a0, s32 a1, s32 a2) {
 
 void SD_StartCdFade(s16 value, u8 flag, s32 unused)
 {
-    g_SDValue->field_0512 = value;
-    g_SDValue->field_0049 = flag;
+    g_SDValue->cd_fade_step = value;
+    g_SDValue->cd_fade_target = flag;
 }
 
 #ifndef VERSION_JAPAN

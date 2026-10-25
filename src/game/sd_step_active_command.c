@@ -93,11 +93,11 @@ void SD_StepActiveCommand(void)
                 g_SDValue->field_007D = 1;
                 return;
             }
-            if (g_SDValue->field_0512 < 0) {
+            if (g_SDValue->cd_fade_step < 0) {
                 return;
             }
-            g_SDValue->field_0512 = -0x20;
-            g_SDValue->field_0049 = 0;
+            g_SDValue->cd_fade_step = -0x20;
+            g_SDValue->cd_fade_target = 0;
             return;
         case 1:
             break;
@@ -194,7 +194,7 @@ void SD_StepActiveCommand(void)
 
     case 41:
     case 42:
-        if (g_SDValue->field_007E != 0 && g_SDValue->field_0512 != 0) {
+        if (g_SDValue->field_007E != 0 && g_SDValue->cd_fade_step != 0) {
             return;
         }
         g_SDValue->field_007C = 0;
@@ -216,8 +216,8 @@ void SD_StepActiveCommand(void)
             if ((g_SDValue->flags_0040 & 0x80) != 0) {
                 SD_StopSequence(0);
                 SD_SetSecondaryMasterLevels(0, 0);
-                g_SDValue->field_1586 = 0;
-                g_SDValue->field_1588 = 0;
+                g_SDValue->sequence_fade_level = 0;
+                g_SDValue->sequence_fade_step = 0;
                 g_SDValue->flags_0040 = g_SDValue->flags_0040 & 0xFF7F;
             }
             SD_CloseSequence(g_SDValue->field_157E);
@@ -244,9 +244,9 @@ void SD_StepActiveCommand(void)
                 SD_PlaySequence(1, 1);
                 {
                     SDValue *sd = g_SDValue;
-                    sd->field_158A = 0xFF;
+                    sd->sequence_fade_target = 0xFF;
                     sd->flags_0040 = sd->flags_0040 | 0x80;
-                    sd->field_1588 = (u16)sd->field_0054;
+                    sd->sequence_fade_step = (u16)sd->field_0054;
                 }
             }
         }
