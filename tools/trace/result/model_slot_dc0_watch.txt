@@ -1,0 +1,484 @@
+==== USER CONTEXT ==== 
+
+Important context, for 3D battles it first stars by the camera panning in the duel arena to my monster spot and some circles in different colors spinning and convering into one spot. Then purple flames start appearing around the circle and my monster fades in, then it pans to the opponent monster, then it's when my monster attacks. This is where it branches and leads to different outcomes.
+
+
+#1 - not a battle, started right with the duel ended when #2 started
+#2 - "Twin-headed Thunder Dragon" (id 613) vs "Armored Zombie" (id 96).  Around t=40 my monster starts fading in and the purple flames move up. Around t=60 "Armored Zombie" after being headbutted by my monster drops dead and light beams start flashing under him while he fades out. t=68 my monster fades out. Twin-headed defeats "Armored Zombie"
+#3 - "Dragon Piper" (id 40) vs "Trap Master" (id 224). Around t=120 "Dragon Piper" fades in (but seems not the same trace lines are printed for it). My "Dragon Piper" atatcks but since it's weaker "Trap Master" attacks back. t=146 my "Dragon Piper" is defeated and the same lightbeams start flashing under him while it fades out. t=157 "Trap Master" fades out after playing his animation.
+#4 - "Mushroom Man" (id 8) vs "Trap Master", this time "Trap Master" was in defense position. Roughly at t=190 "Mushroom Man" fades in (but I don't see the same log lines as for Twin-Headed). My "Mushroom Man" attacks with two yellow lasers coming out of his eyes but "Trap Master" defends with a multi-colored spinning bipyramid/octahedron. t=210 "Trap Master" fades out. t=218 "Mushroom Man" fades out. Both monsters survived because "Mushroom Man" attacked a defense position monster.
+ 
+==== TRACE RESULT ===== 
+ 
+script: model_slot_dc0_watch 
+setup: debugger=on configured_cpu=interpreter active_cpu=unverified execution_breakpoint=observed 
+status: four-minute window after the first scene ended 
+frames: 14401 scenes: 4 control_hits: 10345 tint_target_calls: 784 dc0_stores: 8849 undecoded_stores: 0 dropped_rows: 0 
+bytes are shown as RGB(0..2):byte3:RGB(4..6):byte7 
+ 
+tint_target caller=Model_UpdateAnimatedBattle(0x8004EBDC) slot=0 mode=5 rgb=0/0/0 calls=3 
+tint_target caller=Model_UpdateAnimatedBattle(0x8004EBF4) slot=1 mode=5 rgb=0/0/0 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=0/0/0 calls=428 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=4/4/4 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=8/8/8 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=12/12/12 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=16/16/16 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=20/20/20 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=24/24/24 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=28/28/28 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=32/32/32 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=36/36/36 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=40/40/40 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=44/44/44 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=48/48/48 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=52/52/52 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=56/56/56 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=60/60/60 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=64/64/64 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=68/68/68 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=72/72/72 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=76/76/76 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=80/80/80 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=84/84/84 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=88/88/88 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=92/92/92 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=96/96/96 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=100/100/100 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=104/104/104 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=108/108/108 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=112/112/112 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=116/116/116 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=120/120/120 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=124/124/124 calls=3 
+tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=0 rgb=128/128/128 calls=51 
+tint_target caller=Model_UpdateAnimatedBattle(0x8004EEC0) slot=0 mode=0 rgb=128/128/128 calls=3 
+tint_target caller=Model_UpdateAnimatedBattle(0x8004EED8) slot=1 mode=0 rgb=128/128/128 calls=3 
+tint_target caller=Model_UpdateAnimatedBattle(0x8004F7C0) slot=1 mode=5 rgb=128/128/128 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=128/128/128 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=126/126/126 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=124/124/124 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=122/122/122 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=120/120/120 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=118/118/118 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=116/116/116 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=114/114/114 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=112/112/112 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=110/110/110 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=108/108/108 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=106/106/106 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=104/104/104 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=102/102/102 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=100/100/100 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=98/98/98 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=96/96/96 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=94/94/94 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=92/92/92 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=90/90/90 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=88/88/88 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=86/86/86 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=84/84/84 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=82/82/82 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=80/80/80 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=78/78/78 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=76/76/76 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=74/74/74 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=72/72/72 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=70/70/70 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=68/68/68 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=66/66/66 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=64/64/64 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=62/62/62 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=60/60/60 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=58/58/58 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=56/56/56 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=54/54/54 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=52/52/52 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=50/50/50 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=48/48/48 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=46/46/46 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=44/44/44 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=42/42/42 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=40/40/40 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=38/38/38 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=36/36/36 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=34/34/34 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=32/32/32 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=30/30/30 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=28/28/28 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=26/26/26 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=24/24/24 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=22/22/22 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=20/20/20 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=18/18/18 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=16/16/16 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=14/14/14 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=12/12/12 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=10/10/10 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=8/8/8 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=6/6/6 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=4/4/4 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=2/2/2 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007022C) slot=1 mode=5 rgb=0/0/0 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=0/0/0 calls=31 
+tint_target caller=Model_UpdateAnimatedBattle(0x8004FB0C) slot=0 mode=5 rgb=128/128/128 calls=1 
+tint_target caller=unknown(0x8013C960) slot=1 mode=0 rgb=128/128/128 calls=2 
+tint_target caller=Model_UpdateAnimatedBattle(0x8004F7C0) slot=0 mode=5 rgb=128/128/128 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=128/128/128 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=126/126/126 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=124/124/124 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=122/122/122 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=120/120/120 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=118/118/118 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=116/116/116 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=114/114/114 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=112/112/112 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=110/110/110 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=108/108/108 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=106/106/106 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=104/104/104 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=102/102/102 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=100/100/100 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=98/98/98 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=96/96/96 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=94/94/94 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=92/92/92 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=90/90/90 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=88/88/88 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=86/86/86 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=84/84/84 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=82/82/82 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=80/80/80 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=78/78/78 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=76/76/76 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=74/74/74 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=72/72/72 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=70/70/70 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=68/68/68 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=66/66/66 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=64/64/64 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=62/62/62 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=60/60/60 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=58/58/58 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=56/56/56 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=54/54/54 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=52/52/52 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=50/50/50 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=48/48/48 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=46/46/46 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=44/44/44 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=42/42/42 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=40/40/40 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=38/38/38 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=36/36/36 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=34/34/34 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=32/32/32 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=30/30/30 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=28/28/28 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=26/26/26 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=24/24/24 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=22/22/22 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=20/20/20 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=18/18/18 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=16/16/16 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=14/14/14 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=12/12/12 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=10/10/10 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=8/8/8 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=6/6/6 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=4/4/4 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=2/2/2 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007022C) slot=0 mode=5 rgb=0/0/0 calls=1 
+tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=0 mode=5 rgb=0/0/0 calls=31 
+tint_target caller=Model_UpdateAnimatedBattle(0x8004FB0C) slot=1 mode=5 rgb=128/128/128 calls=1 
+tint_target caller=Model_UpdateAnimatedBattle(0x8004FC5C) slot=1 mode=5 rgb=128/128/128 calls=1 
+tint_target caller=Model_UpdateAnimatedBattle(0x8004FD68) slot=0 mode=5 rgb=128/128/128 calls=1 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=0 byte=0 count=6 changed=3 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=0 byte=1 count=6 changed=3 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=0 byte=2 count=6 changed=3 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=0 byte=3 count=6 changed=3 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=0 byte=4 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=0 byte=5 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=0 byte=6 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=0 byte=7 count=6 changed=0 values=00 
+store pc=0x80056184 Model_ResetSlot slot=0 byte=2 count=6 changed=6 values=80 
+store pc=0x80056188 Model_ResetSlot slot=0 byte=1 count=6 changed=6 values=80 
+store pc=0x8005618C Model_ResetSlot slot=0 byte=0 count=6 changed=6 values=80 
+store pc=0x800561B8 Model_ResetSlot slot=0 byte=3 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=1 byte=0 count=6 changed=3 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=1 byte=1 count=6 changed=3 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=1 byte=2 count=6 changed=3 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=1 byte=3 count=6 changed=3 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=1 byte=4 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=1 byte=5 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=1 byte=6 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=1 byte=7 count=6 changed=0 values=00 
+store pc=0x80056184 Model_ResetSlot slot=1 byte=2 count=6 changed=6 values=80 
+store pc=0x80056188 Model_ResetSlot slot=1 byte=1 count=6 changed=6 values=80 
+store pc=0x8005618C Model_ResetSlot slot=1 byte=0 count=6 changed=6 values=80 
+store pc=0x800561B8 Model_ResetSlot slot=1 byte=3 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=2 byte=0 count=6 changed=6 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=2 byte=1 count=6 changed=6 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=2 byte=2 count=6 changed=6 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=2 byte=3 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=2 byte=4 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=2 byte=5 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=2 byte=6 count=6 changed=0 values=00 
+store pc=0x8005B608 Model_FillWords<Model_ResetSlot slot=2 byte=7 count=6 changed=0 values=00 
+store pc=0x80056184 Model_ResetSlot slot=2 byte=2 count=6 changed=6 values=80 
+store pc=0x80056188 Model_ResetSlot slot=2 byte=1 count=6 changed=6 values=80 
+store pc=0x8005618C Model_ResetSlot slot=2 byte=0 count=6 changed=6 values=80 
+store pc=0x800561B8 Model_ResetSlot slot=2 byte=3 count=6 changed=0 values=00 
+store pc=0x8004CBBC Model_InitSlot slot=2 byte=7 count=6 changed=0 values=00 
+store pc=0x8004CBC4 Model_InitSlot slot=2 byte=6 count=9 changed=0 values=00 
+store pc=0x8004CBC8 Model_InitSlot slot=2 byte=5 count=9 changed=0 values=00 
+store pc=0x8004CBCC Model_InitSlot slot=2 byte=4 count=9 changed=0 values=00 
+store pc=0x800595B4 Model_SetSlotTintTarget slot=0 byte=3 count=677 changed=9 values=05,00 
+store pc=0x800595B8 Model_SetSlotTintTarget slot=0 byte=0 count=677 changed=163 values=00,04,08,0C,10,14,18,1C 
+store pc=0x800595BC Model_SetSlotTintTarget slot=0 byte=1 count=677 changed=163 values=00,04,08,0C,10,14,18,1C 
+store pc=0x800595C4 Model_SetSlotTintTarget slot=0 byte=2 count=677 changed=163 values=00,04,08,0C,10,14,18,1C 
+store pc=0x800595B4 Model_SetSlotTintTarget slot=1 byte=3 count=107 changed=9 values=05,00 
+store pc=0x800595B8 Model_SetSlotTintTarget slot=1 byte=0 count=107 changed=70 values=00,80,7E,7C,7A,78,76,74 
+store pc=0x800595BC Model_SetSlotTintTarget slot=1 byte=1 count=107 changed=70 values=00,80,7E,7C,7A,78,76,74 
+store pc=0x800595C4 Model_SetSlotTintTarget slot=1 byte=2 count=107 changed=70 values=00,80,7E,7C,7A,78,76,74 
+store pc=0x8004CBBC Model_InitSlot slot=0 byte=7 count=3 changed=0 values=00 
+store pc=0x8004CBC4 Model_InitSlot slot=0 byte=6 count=6 changed=0 values=00 
+store pc=0x8004CBC8 Model_InitSlot slot=0 byte=5 count=6 changed=0 values=00 
+store pc=0x8004CBCC Model_InitSlot slot=0 byte=4 count=6 changed=0 values=00 
+store pc=0x8004CBBC Model_InitSlot slot=1 byte=7 count=3 changed=0 values=00 
+store pc=0x8004CBC4 Model_InitSlot slot=1 byte=6 count=6 changed=0 values=00 
+store pc=0x8004CBC8 Model_InitSlot slot=1 byte=5 count=6 changed=0 values=00 
+store pc=0x8004CBCC Model_InitSlot slot=1 byte=4 count=6 changed=0 values=00 
+store pc=0x800545FC Model_DrawSlot slot=0 byte=7 count=285 changed=0 values=00 
+store pc=0x80054484 Model_DrawSlot slot=0 byte=7 count=2207 changed=0 values=00 
+store pc=0x80054484 Model_DrawSlot slot=1 byte=7 count=2078 changed=0 values=00 
+store pc=0x800545FC Model_DrawSlot slot=1 byte=7 count=192 changed=0 values=00 
+store pc=0x8004FD90 Model_UpdateAnimatedBattle slot=0 byte=0 count=128 changed=128 values=7E,7C,7A,78,76,74,72,70 
+store pc=0x8004FDA4 Model_UpdateAnimatedBattle slot=0 byte=1 count=128 changed=128 values=7E,7C,7A,78,76,74,72,70 
+store pc=0x8004FDAC Model_UpdateAnimatedBattle slot=0 byte=2 count=128 changed=128 values=7E,7C,7A,78,76,74,72,70 
+store pc=0x8004FD90 Model_UpdateAnimatedBattle slot=1 byte=0 count=64 changed=64 values=7E,7C,7A,78,76,74,72,70 
+store pc=0x8004FDA4 Model_UpdateAnimatedBattle slot=1 byte=1 count=64 changed=64 values=7E,7C,7A,78,76,74,72,70 
+store pc=0x8004FDAC Model_UpdateAnimatedBattle slot=1 byte=2 count=64 changed=64 values=7E,7C,7A,78,76,74,72,70 
+store pc=0x8004FC80 Model_UpdateAnimatedBattle slot=1 byte=0 count=64 changed=64 values=7E,7C,7A,78,76,74,72,70 
+store pc=0x8004FC94 Model_UpdateAnimatedBattle slot=1 byte=1 count=64 changed=64 values=7E,7C,7A,78,76,74,72,70 
+store pc=0x8004FC9C Model_UpdateAnimatedBattle slot=1 byte=2 count=64 changed=64 values=7E,7C,7A,78,76,74,72,70 
+ 
+#01 t=   0.0s START active=--2 mode=195 dc0=808080:00:000000:00|808080:00:000000:00|808080:00:000000:00 
+#01 t=  30.9s colour slot=0 bytes=0..2 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=80->00 before=808080:00:000000:00 
+#01 t=  30.9s colour slot=0 bytes=4..6 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=00->00 before=000000:00:000000:00 
+#01 t=  30.9s colour slot=0 bytes=0..2 by Model_ResetSlot pc=0x80056184 store=00->80 before=000000:00:000000:00 
+#01 t=  30.9s colour slot=0 bytes=0..2 by Model_ResetSlot pc=0x80056188 store=00->80 before=000080:00:000000:00 
+#01 t=  30.9s colour slot=0 bytes=0..2 by Model_ResetSlot pc=0x8005618C store=00->80 before=008080:00:000000:00 
+#01 t=  30.9s colour slot=1 bytes=0..2 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=80->00 before=808080:00:000000:00 
+#01 t=  30.9s colour slot=1 bytes=4..6 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=00->00 before=000000:00:000000:00 
+#01 t=  30.9s colour slot=1 bytes=0..2 by Model_ResetSlot pc=0x80056184 store=00->80 before=000000:00:000000:00 
+#01 t=  30.9s colour slot=1 bytes=0..2 by Model_ResetSlot pc=0x80056188 store=00->80 before=000080:00:000000:00 
+#01 t=  30.9s colour slot=1 bytes=0..2 by Model_ResetSlot pc=0x8005618C store=00->80 before=008080:00:000000:00 
+#01 t=  30.9s colour slot=2 bytes=0..2 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=80->00 before=808080:00:000000:00 
+#01 t=  30.9s colour slot=2 bytes=4..6 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=00->00 before=000000:00:000000:00 
+#01 t=  30.9s colour slot=2 bytes=0..2 by Model_ResetSlot pc=0x80056184 store=00->80 before=000000:00:000000:00 
+#01 t=  30.9s colour slot=2 bytes=0..2 by Model_ResetSlot pc=0x80056188 store=00->80 before=000080:00:000000:00 
+#01 t=  30.9s colour slot=2 bytes=0..2 by Model_ResetSlot pc=0x8005618C store=00->80 before=008080:00:000000:00 
+#01 t=  30.9s END   frames=1856 tint_target_calls=0 flag_changes=0 reason=no slot active 
+-- t=  32.2s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBC4 store=00->00 before=808080:00:000000:00 
+-- t=  32.2s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBC8 store=00->00 before=808080:00:000000:00 
+-- t=  32.2s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBCC store=00->00 before=808080:00:000000:00 
+-- t=  33.3s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBC4 store=00->00 before=808080:00:000000:00 
+-- t=  33.3s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBC8 store=00->00 before=808080:00:000000:00 
+-- t=  33.3s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBCC store=00->00 before=808080:00:000000:00 
+-- t=  33.5s byte3 slot=0 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+-- t=  33.5s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595B8 store=80->00 before=808080:05:000000:00 
+-- t=  33.5s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595BC store=80->00 before=008080:05:000000:00 
+-- t=  33.5s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595C4 store=80->00 before=000080:05:000000:00 
+-- t=  33.5s byte3 slot=1 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+-- t=  33.5s colour slot=1 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595B8 store=80->00 before=808080:05:000000:00 
+-- t=  33.5s colour slot=1 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595BC store=80->00 before=008080:05:000000:00 
+-- t=  33.5s colour slot=1 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595C4 store=80->00 before=000080:05:000000:00 
+#02 t=  33.5s START active=--2 mode=193 dc0=000000:05:000000:00|000000:05:000000:00|808080:00:000000:00 
+#02 t=  33.5s colour slot=0 bytes=4..6 by Model_InitSlot pc=0x8004CBC4 store=00->00 before=000000:05:000000:00 
+#02 t=  33.5s colour slot=0 bytes=4..6 by Model_InitSlot pc=0x8004CBC8 store=00->00 before=000000:05:000000:00 
+#02 t=  33.5s colour slot=0 bytes=4..6 by Model_InitSlot pc=0x8004CBCC store=00->00 before=000000:05:000000:00 
+#02 t=  33.5s ramp slot=0 808080:00:000000:00 -> 000000:05:000000:00 frames=1 
+#02 t=  33.5s ramp slot=1 808080:00:000000:00 -> 000000:05:000000:00 frames=1 
+#02 t=  36.1s colour slot=1 bytes=4..6 by Model_InitSlot pc=0x8004CBC4 store=00->00 before=000000:05:000000:00 
+#02 t=  36.1s colour slot=1 bytes=4..6 by Model_InitSlot pc=0x8004CBC8 store=00->00 before=000000:05:000000:00 
+#02 t=  36.1s colour slot=1 bytes=4..6 by Model_InitSlot pc=0x8004CBCC store=00->00 before=000000:05:000000:00 
+#02 t=  39.0s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=0/0/0 
+#02 t=  39.0s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595B8 store=00->00 before=000000:05:000000:00 
+#02 t=  39.0s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595BC store=00->00 before=000000:05:000000:00 
+#02 t=  39.0s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595C4 store=00->00 before=000000:05:000000:00 
+#02 t=  43.8s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=4/4/4 
+#02 t=  43.8s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=8/8/8 
+#02 t=  43.9s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=12/12/12 
+#02 t=  43.9s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=16/16/16 
+#02 t=  43.9s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=20/20/20 
+#02 t=  44.0s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=24/24/24 
+#02 t=  44.0s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=28/28/28 
+#02 t=  44.0s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=32/32/32 
+#02 t=  44.1s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=36/36/36 
+#02 t=  44.1s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=40/40/40 
+#02 t=  44.1s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=44/44/44 
+#02 t=  44.2s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=48/48/48 
+#02 t=  44.2s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=52/52/52 
+#02 t=  44.2s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=56/56/56 
+#02 t=  44.3s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=60/60/60 
+#02 t=  44.3s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=64/64/64 
+#02 t=  44.3s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=68/68/68 
+#02 t=  44.4s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=72/72/72 
+#02 t=  44.4s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=76/76/76 
+#02 t=  44.4s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=80/80/80 
+#02 t=  44.5s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=84/84/84 
+#02 t=  44.5s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=88/88/88 
+#02 t=  44.5s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=92/92/92 
+#02 t=  44.6s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=96/96/96 
+#02 t=  44.6s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=100/100/100 
+#02 t=  44.6s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=104/104/104 
+#02 t=  44.7s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=108/108/108 
+#02 t=  44.7s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=112/112/112 
+#02 t=  44.7s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=116/116/116 
+#02 t=  44.8s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=120/120/120 
+#02 t=  44.8s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=5 rgb=124/124/124 
+#02 t=  44.8s tint_target caller=Model_UpdateBurstEffect(0x8006F0C4) slot=0 mode=0 rgb=128/128/128 
+#02 t=  44.8s byte3 slot=0 05 -> 00 by Model_SetSlotTintTarget pc=0x800595B4 
+#02 t=  44.9s ramp slot=0 000000:05:000000:00 -> 808080:00:000000:00 frames=63 
+#02 t=  45.4s tint_target caller=Model_UpdateAnimatedBattle(0x8004EEC0) slot=0 mode=0 rgb=128/128/128 
+#02 t=  45.4s tint_target caller=Model_UpdateAnimatedBattle(0x8004EED8) slot=1 mode=0 rgb=128/128/128 
+#02 t=  45.4s byte3 slot=1 05 -> 00 by Model_SetSlotTintTarget pc=0x800595B4 
+#02 t=  45.4s colour slot=1 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595B8 store=00->80 before=000000:00:000000:00 
+#02 t=  45.4s colour slot=1 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595BC store=00->80 before=800000:00:000000:00 
+#02 t=  45.4s colour slot=1 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595C4 store=00->80 before=808000:00:000000:00 
+#02 t=  45.4s ramp slot=1 000000:05:000000:00 -> 808080:00:000000:00 frames=1 
+#02 t=  60.8s tint_target caller=Model_UpdateAnimatedBattle(0x8004F7C0) slot=1 mode=5 rgb=128/128/128 
+#02 t=  60.8s byte3 slot=1 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+#02 t=  60.9s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=128/128/128 
+#02 t=  60.9s ramp slot=1 808080:00:000000:00 -> 808080:05:000000:00 frames=1 
+#02 t=  60.9s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=126/126/126 
+#02 t=  60.9s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=124/124/124 
+#02 t=  61.0s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=122/122/122 
+#02 t=  61.0s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=120/120/120 
+#02 t=  61.0s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=118/118/118 
+#02 t=  61.1s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=116/116/116 
+#02 t=  61.1s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=114/114/114 
+#02 t=  61.1s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=112/112/112 
+#02 t=  61.2s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=110/110/110 
+#02 t=  61.2s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=108/108/108 
+#02 t=  61.2s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=106/106/106 
+#02 t=  61.3s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=104/104/104 
+#02 t=  61.3s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=102/102/102 
+#02 t=  61.3s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=100/100/100 
+#02 t=  61.4s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=98/98/98 
+#02 t=  61.4s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=96/96/96 
+#02 t=  61.4s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=94/94/94 
+#02 t=  61.5s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=92/92/92 
+#02 t=  61.5s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=90/90/90 
+#02 t=  61.5s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=88/88/88 
+#02 t=  61.6s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=86/86/86 
+#02 t=  61.6s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=84/84/84 
+#02 t=  61.6s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=82/82/82 
+#02 t=  61.7s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=80/80/80 
+#02 t=  61.7s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=78/78/78 
+#02 t=  61.7s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=76/76/76 
+#02 t=  61.8s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=74/74/74 
+#02 t=  61.8s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=72/72/72 
+#02 t=  61.8s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=70/70/70 
+#02 t=  61.9s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=68/68/68 
+#02 t=  61.9s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=66/66/66 
+#02 t=  61.9s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=64/64/64 
+#02 t=  62.0s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=62/62/62 
+#02 t=  62.0s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=60/60/60 
+#02 t=  62.0s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=58/58/58 
+#02 t=  62.1s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=56/56/56 
+#02 t=  62.1s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=54/54/54 
+#02 t=  62.1s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=52/52/52 
+#02 t=  62.2s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=50/50/50 
+#02 t=  62.2s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=48/48/48 
+#02 t=  62.2s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=46/46/46 
+#02 t=  62.3s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=44/44/44 
+#02 t=  62.3s tint_target caller=Model_UpdateSparkEffect(0x8007019C) slot=1 mode=5 rgb=42/42/42 
+#02 t=  63.0s ramp slot=1 808080:05:000000:00 -> 000000:05:000000:00 frames=125 
+#02 t=  69.5s byte3 slot=0 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+#02 t=  69.5s colour slot=0 bytes=0..2 by Model_UpdateAnimatedBattle pc=0x8004FD90 store=80->7E before=808080:05:000000:00 
+#02 t=  69.5s colour slot=0 bytes=0..2 by Model_UpdateAnimatedBattle pc=0x8004FDA4 store=80->7E before=7E8080:05:000000:00 
+#02 t=  69.5s colour slot=0 bytes=0..2 by Model_UpdateAnimatedBattle pc=0x8004FDAC store=80->7E before=7E7E80:05:000000:00 
+#02 t=  71.7s ramp slot=0 808080:00:000000:00 -> 000000:05:000000:00 frames=129 
+#02 t=  75.5s colour slot=0 bytes=0..2 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=00->00 before=000000:05:000000:00 
+#02 t=  75.5s byte3 slot=0 05 -> 00 by Model_FillWords<Model_ResetSlot pc=0x8005B608 
+#02 t=  75.5s colour slot=0 bytes=4..6 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=00->00 before=000000:00:000000:00 
+#02 t=  75.5s colour slot=0 bytes=0..2 by Model_ResetSlot pc=0x80056184 store=00->80 before=000000:00:000000:00 
+#02 t=  75.5s colour slot=0 bytes=0..2 by Model_ResetSlot pc=0x80056188 store=00->80 before=000080:00:000000:00 
+#02 t=  75.5s colour slot=0 bytes=0..2 by Model_ResetSlot pc=0x8005618C store=00->80 before=008080:00:000000:00 
+#02 t=  75.5s colour slot=1 bytes=0..2 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=00->00 before=000000:05:000000:00 
+#02 t=  75.5s byte3 slot=1 05 -> 00 by Model_FillWords<Model_ResetSlot pc=0x8005B608 
+#02 t=  75.5s colour slot=1 bytes=4..6 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=00->00 before=000000:00:000000:00 
+#02 t=  75.5s colour slot=1 bytes=0..2 by Model_ResetSlot pc=0x80056184 store=00->80 before=000000:00:000000:00 
+#02 t=  75.5s colour slot=1 bytes=0..2 by Model_ResetSlot pc=0x80056188 store=00->80 before=000080:00:000000:00 
+#02 t=  75.5s colour slot=1 bytes=0..2 by Model_ResetSlot pc=0x8005618C store=00->80 before=008080:00:000000:00 
+#02 t=  75.5s colour slot=2 bytes=0..2 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=80->00 before=808080:00:000000:00 
+#02 t=  75.5s colour slot=2 bytes=4..6 by Model_FillWords<Model_ResetSlot pc=0x8005B608 store=00->00 before=000000:00:000000:00 
+#02 t=  75.5s colour slot=2 bytes=0..2 by Model_ResetSlot pc=0x80056184 store=00->80 before=000000:00:000000:00 
+#02 t=  75.5s colour slot=2 bytes=0..2 by Model_ResetSlot pc=0x80056188 store=00->80 before=000080:00:000000:00 
+#02 t=  75.5s colour slot=2 bytes=0..2 by Model_ResetSlot pc=0x8005618C store=00->80 before=008080:00:000000:00 
+#02 t=  75.5s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBC4 store=00->00 before=808080:00:000000:00 
+#02 t=  75.5s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBC8 store=00->00 before=808080:00:000000:00 
+#02 t=  75.5s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBCC store=00->00 before=808080:00:000000:00 
+#02 t=  75.5s ramp slot=0 000000:05:000000:00 -> 808080:00:000000:00 frames=1 
+#02 t=  75.5s ramp slot=1 000000:05:000000:00 -> 808080:00:000000:00 frames=1 
+#02 t= 107.1s END   frames=4413 tint_target_calls=292 flag_changes=6 reason=no slot active 
+-- t= 108.3s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBC4 store=00->00 before=808080:00:000000:00 
+-- t= 108.3s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBC8 store=00->00 before=808080:00:000000:00 
+-- t= 108.3s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBCC store=00->00 before=808080:00:000000:00 
+-- t= 109.4s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBC4 store=00->00 before=808080:00:000000:00 
+-- t= 109.4s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBC8 store=00->00 before=808080:00:000000:00 
+-- t= 109.4s colour slot=2 bytes=4..6 by Model_InitSlot pc=0x8004CBCC store=00->00 before=808080:00:000000:00 
+-- t= 109.6s byte3 slot=0 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+-- t= 109.6s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595B8 store=80->00 before=808080:05:000000:00 
+-- t= 109.6s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595BC store=80->00 before=008080:05:000000:00 
+-- t= 109.6s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595C4 store=80->00 before=000080:05:000000:00 
+-- t= 109.6s byte3 slot=1 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+-- t= 109.6s colour slot=1 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595B8 store=80->00 before=808080:05:000000:00 
+-- t= 109.6s colour slot=1 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595BC store=80->00 before=008080:05:000000:00 
+-- t= 109.6s colour slot=1 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595C4 store=80->00 before=000080:05:000000:00 
+#03 t= 109.6s START active=--2 mode=193 dc0=000000:05:000000:00|000000:05:000000:00|808080:00:000000:00 
+#03 t= 109.6s colour slot=0 bytes=4..6 by Model_InitSlot pc=0x8004CBC4 store=00->00 before=000000:05:000000:00 
+#03 t= 109.6s colour slot=0 bytes=4..6 by Model_InitSlot pc=0x8004CBC8 store=00->00 before=000000:05:000000:00 
+#03 t= 109.6s colour slot=0 bytes=4..6 by Model_InitSlot pc=0x8004CBCC store=00->00 before=000000:05:000000:00 
+#03 t= 109.6s ramp slot=0 808080:00:000000:00 -> 000000:05:000000:00 frames=1 
+#03 t= 109.6s ramp slot=1 808080:00:000000:00 -> 000000:05:000000:00 frames=1 
+#03 t= 112.2s colour slot=1 bytes=4..6 by Model_InitSlot pc=0x8004CBC4 store=00->00 before=000000:05:000000:00 
+#03 t= 112.2s colour slot=1 bytes=4..6 by Model_InitSlot pc=0x8004CBC8 store=00->00 before=000000:05:000000:00 
+#03 t= 112.2s colour slot=1 bytes=4..6 by Model_InitSlot pc=0x8004CBCC store=00->00 before=000000:05:000000:00 
+#03 t= 115.1s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595B8 store=00->00 before=000000:05:000000:00 
+#03 t= 115.1s colour slot=0 bytes=0..2 by Model_SetSlotTintTarget pc=0x800595BC store=00->00 before=000000:05:000000:00 
+#03 t= 120.8s byte3 slot=0 05 -> 00 by Model_SetSlotTintTarget pc=0x800595B4 
+#03 t= 120.9s ramp slot=0 000000:05:000000:00 -> 808080:00:000000:00 frames=63 
+#03 t= 121.3s byte3 slot=1 05 -> 00 by Model_SetSlotTintTarget pc=0x800595B4 
+#03 t= 121.4s ramp slot=1 000000:05:000000:00 -> 808080:00:000000:00 frames=1 
+#03 t= 146.6s byte3 slot=0 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+#03 t= 146.6s ramp slot=0 808080:00:000000:00 -> 808080:05:000000:00 frames=1 
+#03 t= 148.7s ramp slot=0 808080:05:000000:00 -> 000000:05:000000:00 frames=125 
+#03 t= 157.1s byte3 slot=1 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+#03 t= 159.3s ramp slot=1 808080:00:000000:00 -> 000000:05:000000:00 frames=129 
+#03 t= 163.1s byte3 slot=0 05 -> 00 by Model_FillWords<Model_ResetSlot pc=0x8005B608 
+#03 t= 163.1s byte3 slot=1 05 -> 00 by Model_FillWords<Model_ResetSlot pc=0x8005B608 
+#03 t= 163.2s ramp slot=0 000000:05:000000:00 -> 808080:00:000000:00 frames=1 
+#03 t= 163.2s ramp slot=1 000000:05:000000:00 -> 808080:00:000000:00 frames=1 
+#03 t= 181.7s END   frames=4326 tint_target_calls=291 flag_changes=6 reason=no slot active 
+-- t= 184.2s byte3 slot=0 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+-- t= 184.2s byte3 slot=1 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+#04 t= 184.3s START active=--2 mode=193 dc0=000000:05:000000:00|000000:05:000000:00|808080:00:000000:00 
+#04 t= 184.3s ramp slot=0 808080:00:000000:00 -> 000000:05:000000:00 frames=1 
+#04 t= 184.3s ramp slot=1 808080:00:000000:00 -> 000000:05:000000:00 frames=1 
+#04 t= 195.6s byte3 slot=0 05 -> 00 by Model_SetSlotTintTarget pc=0x800595B4 
+#04 t= 195.6s ramp slot=0 000000:05:000000:00 -> 808080:00:000000:00 frames=63 
+#04 t= 196.1s byte3 slot=1 05 -> 00 by Model_SetSlotTintTarget pc=0x800595B4 
+#04 t= 196.1s ramp slot=1 000000:05:000000:00 -> 808080:00:000000:00 frames=1 
+#04 t= 214.2s byte3 slot=1 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+#04 t= 216.3s ramp slot=1 808080:00:000000:00 -> 000000:05:000000:00 frames=129 
+#04 t= 218.8s byte3 slot=0 00 -> 05 by Model_SetSlotTintTarget pc=0x800595B4 
+#04 t= 220.9s ramp slot=0 808080:00:000000:00 -> 000000:05:000000:00 frames=129 
+#04 t= 224.8s byte3 slot=0 05 -> 00 by Model_FillWords<Model_ResetSlot pc=0x8005B608 
+#04 t= 224.8s byte3 slot=1 05 -> 00 by Model_FillWords<Model_ResetSlot pc=0x8005B608 
+#04 t= 224.8s ramp slot=0 000000:05:000000:00 -> 808080:00:000000:00 frames=1 
+#04 t= 224.8s ramp slot=1 000000:05:000000:00 -> 808080:00:000000:00 frames=1 
+#04 t= 240.0s END   frames=3345 tint_target_calls=195 flag_changes=6 reason=still running 
+ 
+--- end of trace, copy everything above into tools/trace/result/model_slot_dc0_watch.txt --- 
