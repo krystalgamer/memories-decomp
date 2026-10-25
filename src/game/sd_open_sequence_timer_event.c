@@ -20,6 +20,6 @@ void SD_OpenSequenceTimerEvent(void)
     SetRCnt(RCntCNT2, 0xE000, RCntMdINTR);
     StartRCnt(RCntCNT2);
     ExitCriticalSection();
-    gSD_pSecondaryState->flag_0500 = 0;
+    gSD_pSecondaryState->timer_update_inhibit = 0;
     gSD_pSecondaryState->event_guard = 0;
 }
