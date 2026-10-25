@@ -108,7 +108,7 @@ void SD_KeyOffDynamicVoices(void)
     s32 i;
     u32 mask = SD_VOICE_SLOT_MASK_BASE;
     u32 result = 0;
-    u16 threshold = g_SDValue->field_0004;
+    u16 threshold = g_SDValue->dynamic_note_start;
 
     for (i = 0; i < SD_VOICE_SLOT_COUNT; i++) {
         if (g_SDValue->voice_ids[i] >= threshold)

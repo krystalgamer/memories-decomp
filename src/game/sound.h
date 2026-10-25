@@ -124,11 +124,11 @@ typedef union {
 } SDLevelWord;
 
 typedef struct {
-    u16 field_0000;
-    u16 field_0002;
-    u16 field_0004;
+    u16 note_id_count;
+    u16 value_link_count;
+    u16 dynamic_note_start;
     u8 pad0006[0x36];
-    u32 field_003C;
+    u32 bank_load_phase;
     u16 flags_0040;
     u16 mix_scale;
     u16 secondary_mix_scale;
@@ -548,8 +548,13 @@ typedef char SDValue_voice_allocation_offsets_must_match[
 typedef char SDValue_secondary_mix_scale_offset_must_be_0x44[
     SD_STATE_OFFSET(SDValue, secondary_mix_scale) == 0x44 ? 1 : -1
 ];
-typedef char SDValue_field_0002_offset_must_be_0x02[
-    SD_STATE_OFFSET(SDValue, field_0002) == 0x02 ? 1 : -1
+typedef char SDValue_bank_header_offsets_must_match[
+    SD_STATE_OFFSET(SDValue, note_id_count) == 0x00 &&
+    SD_STATE_OFFSET(SDValue, value_link_count) == 0x02 &&
+    SD_STATE_OFFSET(SDValue, dynamic_note_start) == 0x04 ? 1 : -1
+];
+typedef char SDValue_bank_load_phase_offset_must_be_0x3C[
+    SD_STATE_OFFSET(SDValue, bank_load_phase) == 0x3C ? 1 : -1
 ];
 typedef char SDValue_bank_0518_offset_must_be_0x518[
     SD_STATE_OFFSET(SDValue, bank_0518) == 0x518 ? 1 : -1

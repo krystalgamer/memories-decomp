@@ -130,7 +130,7 @@ the same full-volume arguments. This effect-call maximum is distinct from
 sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
 `gFile_anLba[4]`, `[5]`, and `[6]` to `SD_InitDataSourceFlags`. The runtime file table
 identifies those positions as `SD_SE.DAT`, `SD_BGM.DAT`, and `MASTER.XA`.
-`SD_InitDataSourceFlags` clears `field_003C`, clears bits `0x01`, `0x02`, or `0x40` in
+`SD_InitDataSourceFlags` clears `bank_load_phase`, clears bits `0x01`, `0x02`, or `0x40` in
 `flags_004A` when the corresponding file position is zero, and sets
 `flags_0040 |= 0x0A`. The frontend then calls `Main_AdvanceFrame` while
 `SD_GetStatusFlags` continues to expose bit `0x08`, making that bit the
@@ -142,7 +142,7 @@ lifecycle. `SD_ResetPendingEntries` resets `field_0442` to `SD_VALUE_LINK_INDEX_
 `field_0438` to the first link's second word plus `0x1010`.
 `SD_ReplaceValueLink` ignores a requested index when that entry's second word
 is zero or when the same index is already selected. Otherwise it keys off
-every voice whose `voice_ids` entry is at or above `field_0004` through
+every voice whose `voice_ids` entry is at or above `dynamic_note_start` through
 `SD_KeyOffDynamicVoices`, calls `SD_ResetPendingEntries`, and stores the
 accepted index in `field_0442` before dispatch. `SD_RequestValueLink` is the direct request
 path: it suppresses only a duplicate selected index, then stores the new
@@ -1681,6 +1681,50 @@ The incidental cursor spelling in `tent_SD_KeyOffVoiceById` follows the same
 member rename without promoting that helper or removing its reachability
 caveat.
 
+### Sound-bank header geometry and startup phases
+
+The packed eight-byte header copy in `SD_UpdateBankLoad`, the initializer,
+pending-note reset and dynamic-voice key-off establish these shared members:
+
+| Location | Field | Established role |
+|---|---|---|
+| `SDValue +0x0000` | `note_id_count` | Number of halfword ID-map entries initialized before the aligned note-table base. |
+| `SDValue +0x0002` | `value_link_count` | Number of eight-byte link records used for the table load and source-sector calculation. |
+| `SDValue +0x0004` | `dynamic_note_start` | Shared reset/key-off boundary for sound IDs and reset value of the note-table append index. |
+| `SDValue +0x003C` | `bank_load_phase` | Unsigned startup bank-loader phase, separate from active-command and transfer phases. |
+
+`SD_InitVoiceState` clears ID-map entries `[0, note_id_count)` to the
+existing `0xFFFF` marker. It locates `note_table` after that many halfwords
+at `0x801E4000`, using the original sixteen-byte alignment expression.
+The name does not turn this ID-map extent into a separately measured
+note-table capacity or add an import-key check.
+
+`SD_UpdateBankLoad` copies the entire eight-byte header from `0x801E6800`
+with the existing packed-word assignment, then loads `value_link_count * 8`
+bytes into `0x801E2800`. `SD_QueueValueLinkTransfer` uses the same count to
+skip `ceil(value_link_count * 8 / 0x800) + 1` source sectors before adding
+the selected link's `sector_offset`. The original integer operations,
+fixed bases, unsigned halfwords and unchecked masked link selection remain.
+The header's remaining two bytes are not assigned a new meaning.
+
+`SD_ResetPendingEntries` invalidates only IDs in
+`[dynamic_note_start, note_id_count)` and resets `next_note_index` to that
+same raw boundary. `SD_KeyOffDynamicVoices` compares each slot's sound ID,
+not its mapped note index, against it. The two domains deliberately keep
+their existing shared value; the name does not claim a count of live
+resident notes or require a populated prefix. The first-link SPU cursor
+reset, duplicate-request behavior and importer ordering remain unchanged.
+
+`SD_InitDataSourceFlags` resets `bank_load_phase` to zero and retains all
+existing flag masks. The loader keeps cases 0 through 9, conditional jumps
+by six or two, per-arm increments, shared transfer-call block and `0x3E7`
+skip path. Its default arm clears startup-busy bit `0x08` only when the
+low three `SD_GetStatusFlags` bits are clear; it does not normalize the
+phase. A failed mixer-signature check does not block the case-7/9
+increments. In particular, the initializer's `0x40` clear and loader's
+`0x80` test are not made consistent. No enum, bound check, initialization,
+transfer or scheduling change is added.
+
 ### Note import, sample addresses and value-link transfer state
 
 The existing initializer, two note importers, playback/parameter consumers
@@ -1700,10 +1744,10 @@ and value-link request paths establish one connected memory lifecycle:
 `SD_InitVoiceState` keeps the link table at `0x801E2800`, ID map at
 `0x801E4000`, and its original sixteen-byte-aligned integer address
 calculation for the note-table base. `SD_ResetPendingEntries` still clears
-only the original ID range from `field_0004` to `field_0000`, resets the
-request cache to `0xFFFF`, copies `field_0004` into the append index and
+only the original ID range from `dynamic_note_start` to `note_id_count`, resets the
+request cache to `0xFFFF`, copies `dynamic_note_start` into the append index and
 sets the SPU cursor to the first link's size plus `0x1010`. These header
-fields are not newly named, and no bound or capacity is inferred.
+roles are detailed above; no new bound or capacity check is introduced.
 
 `SD_RegisterSeqBlockNotes` binds each non-sentinel input key to the append
 index, copies its note, adds `spu_addr >> 4` to the copied halfword and then

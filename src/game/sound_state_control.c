@@ -16,7 +16,7 @@ void SD_SetSequenceVSyncMode(s32 value)
 
 void SD_InitDataSourceFlags(s32 first, s32 second, s32 third)
 {
-    g_SDValue->field_003C = 0;
+    g_SDValue->bank_load_phase = 0;
     if (first == 0)
         g_SDValue->flags_004A &= 0xFE;
     if (second == 0)
