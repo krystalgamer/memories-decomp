@@ -7,10 +7,10 @@
  * whether it is non-zero into timer_update_inhibit. */
 void SD_SetSequenceVSyncMode(s32 value);
 
-/* Takes the LBAs of the three sound data sources, in order SE, BGM and XA
- * (Sound_InitFrontend passes them from gFile_anLba). A zero LBA clears that
- * source's bit in g_SDValue->flags_004A (0x01, 0x02 and 0x40). It also zeroes
- * field_003C and raises 0xA in flags_0040. */
+/* Takes SE, BGM and XA LBAs from Sound_InitFrontend. Zero arguments clear
+ * data_source_flags bits 0x01, 0x02 and 0x40; nonzero arguments do not set them.
+ * Resets bank_load_phase and raises 0x0A in status_flags. The XA-zero clear
+ * is 0x40, not the loader/CD-wrapper gate at 0x80. */
 void SD_InitDataSourceFlags(s32 first, s32 second, s32 third);
 
 #endif

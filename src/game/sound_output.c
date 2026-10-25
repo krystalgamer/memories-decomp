@@ -35,7 +35,7 @@ void SD_ResetRuntime(void)
     if (q->sequence_open_result != -1) {
         if ((s16)SD_PollSequenceState() != 1) {
             SD_StopSequence(g_SDValue->sequence_open_result);
-            g_SDValue->flags_0040 &= 0xFF7F;
+            g_SDValue->status_flags &= 0xFF7F;
         }
         SD_CloseSequence(g_SDValue->sequence_open_result);
     }
@@ -68,7 +68,7 @@ void SD_ResetRuntime(void)
     u->active_command_arg0 = 0;
     u->active_command_arg1 = 0;
     u->active_command_arg2 = 0;
-    w->flags_0040 = 0;
+    w->status_flags = 0;
 }
 
 #include "sound_init.h"
@@ -105,13 +105,13 @@ s32 SD_GetOutputType(void)
 
 void tent_SD_SetDataSourceFlags(s32 value)
 {
-    g_SDValue->flags_004A =
-        (g_SDValue->flags_004A & 0xF0) | value;
+    g_SDValue->data_source_flags =
+        (g_SDValue->data_source_flags & 0xF0) | value;
 }
 
 s32 SD_GetStatusFlags(void)
 {
-    return (s16)g_SDValue->flags_0040;
+    return (s16)g_SDValue->status_flags;
 }
 
 void SD_VSync(void)
@@ -119,7 +119,7 @@ void SD_VSync(void)
     if (gSD_pSecondaryState->vsync_update_mode)
         SD_UpdateSecondarySequenceIfEnabled();
     SD_UpdateRuntime();
-    if (g_SDValue->flags_0040 & 8)
+    if (g_SDValue->status_flags & 8)
         SD_UpdateBankLoad();
 }
 
@@ -128,7 +128,7 @@ void SD_EnqueueRamTransfer(s32 first, s32 second, s32 third, s32 fourth)
     SDCommand command;
 
     SD_StartCdFade(-32, 0, 1);
-    g_SDValue->flags_0040 |= 2;
+    g_SDValue->status_flags |= 2;
     command.command = 32;
     command.field_0010 = fourth;
     command.field_0014 = second;
@@ -144,7 +144,7 @@ void SD_EnqueueSpuTransfer(s32 first, s32 second, s32 third, s32 fourth)
     SDCommand command;
 
     SD_StartCdFade(-32, 0, 1);
-    g_SDValue->flags_0040 |= 2;
+    g_SDValue->status_flags |= 2;
     command.command = 32;
     command.field_0010 = fourth;
     command.field_0014 = second;
@@ -167,7 +167,7 @@ void SD_EnqueueSpuRamTransfer(
     SDCommand command;
 
     SD_StartCdFade(-32, 0, 1);
-    g_SDValue->flags_0040 |= 2;
+    g_SDValue->status_flags |= 2;
     command.command = 32;
     command.field_0010 = a5;
     command.field_0014 = a2;
@@ -188,7 +188,7 @@ void SD_BGMPreload(s32 arg0)
 {
     u16 saved = arg0;
 
-    if ((g_SDValue->flags_004A & 2) == 0)
+    if ((g_SDValue->data_source_flags & 2) == 0)
         return;
 
     if (arg0 & 0x8000) {
@@ -211,7 +211,7 @@ void SD_BGMPlayWithStep(s32 arg0, s32 arg1)
 {
     u16 saved = arg0;
 
-    if ((g_SDValue->flags_004A & 2) == 0)
+    if ((g_SDValue->data_source_flags & 2) == 0)
         return;
 
     if (arg0 & 0x8000) {

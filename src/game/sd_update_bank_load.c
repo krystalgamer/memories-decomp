@@ -36,7 +36,7 @@ void SD_UpdateBankLoad(void) {
 
     switch (g_SDValue->bank_load_phase) {
     case 0:
-        if (g_SDValue->flags_004A & 1) {
+        if (g_SDValue->data_source_flags & 1) {
             a0 = (u8 *)0x801E6800;
             a1 = 0;
             a2 = 0x800;
@@ -81,7 +81,7 @@ void SD_UpdateBankLoad(void) {
         g_SDValue->bank_load_phase += 1;
         return;
     case 6:
-        if (g_SDValue->flags_004A & 2) {
+        if (g_SDValue->data_source_flags & 2) {
             a0 = (u8 *)0x801E2000;
             a1 = 0;
             a2 = 0x800;
@@ -110,7 +110,7 @@ void SD_UpdateBankLoad(void) {
         }
         break;
     case 8:
-        if ((g_SDValue->flags_004A & 0x80) == 0) {
+        if ((g_SDValue->data_source_flags & 0x80) == 0) {
             goto no8;
         }
         a0 = (u8 *)0x801E8800;
@@ -148,7 +148,7 @@ void SD_UpdateBankLoad(void) {
         break;
     default:
         if ((SD_GetStatusFlags() & 7) == 0) {
-            g_SDValue->flags_0040 &= 0xFFF7;
+            g_SDValue->status_flags &= 0xFFF7;
         }
         break;
     }

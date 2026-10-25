@@ -198,7 +198,7 @@ s32 SD_MeasureCdAudioLevel(void)
         do {
             result = state->output_level.halves[1];
         } while (0);
-        flags = state->flags_0040;
+        flags = state->status_flags;
         other = state->field_1550.halves[1];
         flags &= 3;
         state->output_level.sum = result;
@@ -215,7 +215,7 @@ void SD_EnqueueCdStop(void)
     SDValue *state = g_SDValue;
     s32 count;
 
-    if ((state->flags_004A & 0x80) == 0)
+    if ((state->data_source_flags & 0x80) == 0)
         return;
     count = state->command_count;
     if (state->commands.c[count].command == 0x11)
@@ -250,8 +250,8 @@ s32 SD_EnqueueCdPlay(u16 arg0, s32 unused)
     u8 *second;
     SDCommand req;
 
-    if (a->flags_004A & 0x80) {
-        if ((a->flags_004A & 0x40) || code <= 0x9FFF) {
+    if (a->data_source_flags & 0x80) {
+        if ((a->data_source_flags & 0x40) || code <= 0x9FFF) {
             if (arg0 & 0x8000) {
                 *(s16 *)&a->cd_request_code = arg0;
                 switch (arg0 & 0xF000) {
@@ -288,7 +288,7 @@ s32 SD_EnqueueCdPlay(u16 arg0, s32 unused)
                     SD_EnqueueCommand(&req);
                     SD_ResetCdPan();
                 }
-                g_SDValue->flags_0040 = (g_SDValue->flags_0040 | 1) & 0xFFFB;
+                g_SDValue->status_flags = (g_SDValue->status_flags | 1) & 0xFFFB;
                 return 1;
             }
         }
@@ -310,10 +310,10 @@ void SD_EnqueueCdSeek(s32 arg0)
 
     a = g_SDValue;
     code = arg0;
-    if ((a->flags_004A & 0x80) == 0) {
+    if ((a->data_source_flags & 0x80) == 0) {
         return;
     }
-    if ((a->flags_004A & 0x40) == 0) {
+    if ((a->data_source_flags & 0x40) == 0) {
         if ((u32)(code & 0xFFFF) > 0x9FFF) {
             return;
         }
@@ -360,7 +360,7 @@ void SD_EnqueueCdSeek(s32 arg0)
         SD_EnqueueCommand(&req);
     }
     c = g_SDValue;
-    c->flags_0040 = (c->flags_0040 | 1) & 0xFFFB;
+    c->status_flags = (c->status_flags | 1) & 0xFFFB;
 }
 
 void SD_ClearBusyFlag(void)

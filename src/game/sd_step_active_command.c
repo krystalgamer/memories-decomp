@@ -83,7 +83,7 @@ void SD_StepActiveCommand(void)
         if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
             return;
         }
-        g_SDValue->flags_0040 = g_SDValue->flags_0040 & 0xFFFC;
+        g_SDValue->status_flags = g_SDValue->status_flags & 0xFFFC;
         return;
 
     case 17:
@@ -110,9 +110,9 @@ void SD_StepActiveCommand(void)
         }
         {
             SDValue *sd = g_SDValue;
-            u16 flags = sd->flags_0040;
+            u16 flags = sd->status_flags;
             sd->active_command_phase = 0;
-            sd->flags_0040 = flags & 0xFFF8;
+            sd->status_flags = flags & 0xFFF8;
             g_SDValue->active_command = 0;
         }
         return;
@@ -213,12 +213,12 @@ void SD_StepActiveCommand(void)
             }
         }
         if (g_SDValue->sequence_open_result == 0) {
-            if ((g_SDValue->flags_0040 & 0x80) != 0) {
+            if ((g_SDValue->status_flags & 0x80) != 0) {
                 SD_StopSequence(0);
                 SD_SetSecondaryMasterLevels(0, 0);
                 g_SDValue->sequence_fade_level = 0;
                 g_SDValue->sequence_fade_step = 0;
-                g_SDValue->flags_0040 = g_SDValue->flags_0040 & 0xFF7F;
+                g_SDValue->status_flags = g_SDValue->status_flags & 0xFF7F;
             }
             SD_CloseSequence(g_SDValue->sequence_open_result);
             g_SDValue->sequence_open_result = -1;
@@ -245,7 +245,7 @@ void SD_StepActiveCommand(void)
                 {
                     SDValue *sd = g_SDValue;
                     sd->sequence_fade_target = 0xFF;
-                    sd->flags_0040 = sd->flags_0040 | 0x80;
+                    sd->status_flags = sd->status_flags | 0x80;
                     sd->sequence_fade_step = (u16)sd->active_command_arg1;
                 }
             }
