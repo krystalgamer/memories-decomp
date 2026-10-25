@@ -37,8 +37,8 @@ void SD_AllocateSoundEffectVoice(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode
             slot = 0;
             do {
                 if (mask & 1) {
-                    g_SDValue->field_0435 = slot;
-                    SD_StartSoundEffectVoice(sound_id, g_SDValue->field_0435, pitch, volume,
+                    g_SDValue->voice_allocation_cursor = slot;
+                    SD_StartSoundEffectVoice(sound_id, g_SDValue->voice_allocation_cursor, pitch, volume,
                                   pan, mode_snapshot, value);
                     return;
                 }
@@ -63,8 +63,8 @@ void SD_AllocateSoundEffectVoice(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode
                 if (g_SDValue->voice_ids[slot] == observed) {
                     count++;
                     if (count == occurrence) {
-                        g_SDValue->field_0435 = slot;
-                        SD_StartSoundEffectVoice(sound_id, g_SDValue->field_0435, pitch, volume,
+                        g_SDValue->voice_allocation_cursor = slot;
+                        SD_StartSoundEffectVoice(sound_id, g_SDValue->voice_allocation_cursor, pitch, volume,
                                       pan, mode_snapshot, value);
                         return;
                     }
@@ -73,43 +73,43 @@ void SD_AllocateSoundEffectVoice(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode
         }
     }
 
-    mask = 1 << g_SDValue->field_0435;
+    mask = 1 << g_SDValue->voice_allocation_cursor;
     if (found == 0) {
         index = 0;
         do {
             SpuGetVoiceEnvelope(
-                g_SDValue->field_0435 + SD_VOICE_SLOT_FIRST_VOICE, &envelope
+                g_SDValue->voice_allocation_cursor + SD_VOICE_SLOT_FIRST_VOICE, &envelope
             );
             if (envelope == 0) {
                 found = 1;
-                SD_StartSoundEffectVoice(sound_id, g_SDValue->field_0435, pitch, volume, pan,
+                SD_StartSoundEffectVoice(sound_id, g_SDValue->voice_allocation_cursor, pitch, volume, pan,
                               mode_snapshot, value);
             }
             mask <<= 1;
             if ((mask & 0x10) != 0) {
                 mask = 1;
             }
-            g_SDValue->field_0435 = g_SDValue->field_0435 + 1;
-            g_SDValue->field_0435 = g_SDValue->field_0435 & 3;
+            g_SDValue->voice_allocation_cursor = g_SDValue->voice_allocation_cursor + 1;
+            g_SDValue->voice_allocation_cursor = g_SDValue->voice_allocation_cursor & 3;
             index++;
         } while (index < SD_VOICE_SLOT_COUNT && found == 0);
     }
 
     if (found == 0) {
         index = 0;
-        mask = 1 << g_SDValue->field_0435;
+        mask = 1 << g_SDValue->voice_allocation_cursor;
         do {
-            if (value >= g_SDValue->field_040C[g_SDValue->field_0435]) {
+            if (value >= g_SDValue->voice_priority[g_SDValue->voice_allocation_cursor]) {
                 found = 1;
-                SD_StartSoundEffectVoice(sound_id, g_SDValue->field_0435, pitch, volume, pan,
+                SD_StartSoundEffectVoice(sound_id, g_SDValue->voice_allocation_cursor, pitch, volume, pan,
                               mode_snapshot, value);
             }
             mask <<= 1;
             if ((mask & 0x10) != 0) {
                 mask = 1;
             }
-            g_SDValue->field_0435 = g_SDValue->field_0435 + 1;
-            g_SDValue->field_0435 = g_SDValue->field_0435 & 3;
+            g_SDValue->voice_allocation_cursor = g_SDValue->voice_allocation_cursor + 1;
+            g_SDValue->voice_allocation_cursor = g_SDValue->voice_allocation_cursor & 3;
             index++;
         } while (index < SD_VOICE_SLOT_COUNT && found == 0);
     }

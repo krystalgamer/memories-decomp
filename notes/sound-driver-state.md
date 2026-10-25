@@ -1194,3 +1194,56 @@ initialization clear it. Command 72 still does not write the package-ID cache.
 All these asymmetric stores, stale-token lifetimes, call orders and pointer
 reloads are retained. Existing fade fields and the full 24-voice status
 array are unchanged; no package buffer, command record or public API is retyped.
+
+### Sound-effect slot allocation and volume attribute packet
+
+The active sound-effect chain supplies both allocation and output evidence:
+`SD_SEPlay` reads `SDNote.priority`, passes it to
+`SD_AllocateSoundEffectVoice`, and the selected-slot start helper stores it
+in `SDValue.voice_priority[4]` at `+0x040C`. The fallback allocator accepts
+an occupied slot when the incoming byte is greater than or equal to that
+slot's priority. This is not the per-slot volume/gain byte.
+
+`voice_allocation_cursor` names the existing byte at `+0x0435`.
+Group/occurrence selection stores the chosen slot there and returns after
+starting it. Fallback scans advance and mask the cursor after every attempted
+slot, including a successful start. It is therefore not always the last
+selected voice. Silent-slot search still precedes priority stealing;
+equal priority remains eligible. Both initialization and runtime reset clear
+the cursor and priorities in their original order.
+
+`SD_ApplyVoiceSlotVolume` uses a separate SDK `SpuVoiceAttr` packet at
+`+0x03C4`, now `voice_volume_attr`, immediately after the existing key-on
+packet `voice_attr`. The four former scalar fields and following `0x34`
+padding bytes occupy exactly one `0x40`-byte SDK record, ending at the
+existing voice-ID array at `+0x0404`. Its observed fields are:
+
+| Offset | SDK member | Use |
+|---|---|---|
+| `0x03C4` | `voice_volume_attr.voice` | Conditional shift of the existing four-slot SPU mask. |
+| `0x03C8` | `voice_volume_attr.mask` | `SPU_VOICE_VOLL \| SPU_VOICE_VOLR`, not a key-on request. |
+| `0x03CC` | `voice_volume_attr.volume.left` | Low halfword of the unsigned left-volume/gain product shifted by eight. |
+| `0x03CE` | `voice_volume_attr.volume.right` | Corresponding right-volume/gain product. |
+
+The SDK declaration supplies unsigned 32-bit voice/mask words and signed
+16-bit volume members. The old view used signed words and unsigned volume
+halfwords, but these sites only store and submit them: the unsigned product
+arithmetic, shifts and stored bits remain unchanged. No new read, clamp,
+sign extension or reinterpretation of the slot-volume arrays is introduced.
+`SpuSetVoiceAttr` now receives the typed member address without a cast.
+
+The mask assignment still precedes the voice assignment in C; reversing
+them changes the retail register allocation. The temporary product reuse,
+global-pointer observation, conditional mask shift and SDK-call order remain.
+The key-on packet, its initialization and the unused volume-packet fields are
+not merged or newly initialized. Both complete packet boundaries, the four
+observed SDK offsets, allocation fields and total `SDValue` size are pinned.
+
+All existing call contracts, numeric literals, native bindings, grouped
+sources and named compiler profiles remain. The existing allocator witness
+changes only the two member identifiers, including both sides of its cursor
+mutation; inputs, state oracles, event sequences and negative controls stay
+identical. No test case or harness is added or executed locally.
+The incidental cursor spelling in `tent_SD_KeyOffVoiceById` follows the same
+member rename without promoting that helper or removing its reachability
+caveat.

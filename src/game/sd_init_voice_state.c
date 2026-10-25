@@ -14,10 +14,10 @@ void SD_InitVoiceState(void) {
     s32 k;
 
     g_SDValue->voice_active_mask = 0;
-    g_SDValue->field_0435 = 0;
+    g_SDValue->voice_allocation_cursor = 0;
 
     for (i = 0; i < SD_VOICE_SLOT_COUNT; i++) {
-        g_SDValue->field_040C[i] = 0;
+        g_SDValue->voice_priority[i] = 0;
         g_SDValue->voice_flags[i] = 0;
         g_SDValue->voice_ids[i] = 0;
         g_SDValue->voice_volume_left[i] = 0;

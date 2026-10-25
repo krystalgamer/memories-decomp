@@ -179,13 +179,10 @@ typedef struct {
        ADSR. Both were reaching it by offset before; the region is exactly one
        SpuVoiceAttr wide, which the assertion below pins. */
     SpuVoiceAttr voice_attr;
-    s32 field_03C4;
-    s32 field_03C8;
-    u16 field_03CC;
-    u16 field_03CE;
-    u8 pad03D0[0x34];
+    /* Separate volume-only packet submitted by SD_ApplyVoiceSlotVolume. */
+    SpuVoiceAttr voice_volume_attr;
     u16 voice_ids[SD_VOICE_SLOT_COUNT];
-    u8 field_040C[SD_VOICE_SLOT_COUNT];
+    u8 voice_priority[SD_VOICE_SLOT_COUNT];
     u8 voice_flags[SD_VOICE_SLOT_COUNT];
     u16 voice_volume_left[SD_VOICE_SLOT_COUNT];
     u16 voice_volume_right[SD_VOICE_SLOT_COUNT];
@@ -193,7 +190,7 @@ typedef struct {
     u8 voice_step[SD_VOICE_SLOT_COUNT];
     u16 voice_timer[SD_VOICE_SLOT_COUNT];
     u8 voice_active_mask;
-    u8 field_0435;
+    u8 voice_allocation_cursor;
     u8 pad0436[2];
     u32 field_0438;
     u16 *G32 field_043C;
@@ -512,9 +509,23 @@ typedef char SDValue_voice_attr_note_offset_must_be_0x39A[
     SD_STATE_OFFSET(SDValue, voice_attr) +
         SD_STATE_OFFSET(SpuVoiceAttr, note) == 0x39A ? 1 : -1
 ];
-typedef char SDValue_voice_attr_must_end_at_field_03C4[
+typedef char SDValue_voice_attr_must_end_at_voice_volume_attr[
     SD_STATE_OFFSET(SDValue, voice_attr) + sizeof(SpuVoiceAttr) ==
-        SD_STATE_OFFSET(SDValue, field_03C4) ? 1 : -1
+        SD_STATE_OFFSET(SDValue, voice_volume_attr) ? 1 : -1
+];
+typedef char SDValue_voice_volume_attr_offsets_must_match[
+    SD_STATE_OFFSET(SDValue, voice_volume_attr.voice) == 0x3C4 &&
+    SD_STATE_OFFSET(SDValue, voice_volume_attr.mask) == 0x3C8 &&
+    SD_STATE_OFFSET(SDValue, voice_volume_attr.volume.left) == 0x3CC &&
+    SD_STATE_OFFSET(SDValue, voice_volume_attr.volume.right) == 0x3CE ? 1 : -1
+];
+typedef char SDValue_voice_volume_attr_must_end_at_voice_ids[
+    SD_STATE_OFFSET(SDValue, voice_volume_attr) + sizeof(SpuVoiceAttr) ==
+        SD_STATE_OFFSET(SDValue, voice_ids) ? 1 : -1
+];
+typedef char SDValue_voice_allocation_offsets_must_match[
+    SD_STATE_OFFSET(SDValue, voice_priority) == 0x40C &&
+    SD_STATE_OFFSET(SDValue, voice_allocation_cursor) == 0x435 ? 1 : -1
 ];
 typedef char SDValue_field_0044_offset_must_be_0x44[
     SD_STATE_OFFSET(SDValue, field_0044) == 0x44 ? 1 : -1
