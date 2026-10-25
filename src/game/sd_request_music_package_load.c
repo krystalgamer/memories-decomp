@@ -24,12 +24,12 @@ s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1) {
         q = g_SDValue;
         q->flags_0040 |= 2;
         off = ((arg0 & 0xFF0) >> 4) * sizeof(SDMusicTableEntry);
-        entry = (SDMusicTableEntry *)(off + (s32)q->field_1560);
+        entry = (SDMusicTableEntry *)(off + (s32)q->music_table);
 
-        SD_EnqueueSpuRamTransfer(entry->field_04, (s32)q->music_track,
-                                 entry->field_02,
-                                 entry->field_00 << FILE_SECTOR_SHIFT,
-                                 entry->field_01 << FILE_SECTOR_SHIFT, 0x20);
+        SD_EnqueueSpuRamTransfer(entry->spu_address, (s32)q->music_track,
+                                 entry->sector_offset,
+                                 entry->ram_sector_count << FILE_SECTOR_SHIFT,
+                                 entry->spu_sector_count << FILE_SECTOR_SHIFT, 0x20);
 
         *g_SDValue->music_track = 0xFFFF;
     }

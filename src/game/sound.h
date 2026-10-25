@@ -7,6 +7,7 @@
 #include "sound_sequence_constants.h"
 #include "sound_voice_constants.h"
 #include "sound_transfer_lifecycle.h"
+#include "sd_request_music_package_load.h"
 
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 #define SD_COMMAND_QUEUE_COUNT 16
@@ -227,14 +228,14 @@ typedef struct {
     SDLevelWord output_level;
     SDLevelWord field_1550;
     u8 pad1554[0xC];
-    u8 *G32 field_1560;
+    SDMusicTableEntry *G32 music_table;
     u16 *G32 music_track;
     u8 pad1568[0x10];
-    s16 field_1578;
-    s16 field_157A;
-    /* Token copied from field_004E after sequence setup, or -1 when inactive. */
-    s16 field_157C;
-    s16 field_157E;
+    s16 opened_music_package_id;
+    s16 music_vab_open_result;
+    /* Token copied from field_004E after a successful sequence open. */
+    s16 opened_sequence_command;
+    s16 sequence_open_result;
     s16 bgm_fade_level;
     s16 bgm_fade_step;
     u8 bgm_fade_target;
@@ -544,6 +545,13 @@ typedef char SDValue_bgm_fade_level_offset_must_be_0x1580[
 ];
 typedef char SDValue_sequence_fade_target_offset_must_be_0x158A[
     SD_STATE_OFFSET(SDValue, sequence_fade_target) == 0x158A ? 1 : -1
+];
+typedef char SDValue_music_package_state_offsets_must_match[
+    SD_STATE_OFFSET(SDValue, music_table) == 0x1560 &&
+    SD_STATE_OFFSET(SDValue, opened_music_package_id) == 0x1578 &&
+    SD_STATE_OFFSET(SDValue, music_vab_open_result) == 0x157A &&
+    SD_STATE_OFFSET(SDValue, opened_sequence_command) == 0x157C &&
+    SD_STATE_OFFSET(SDValue, sequence_open_result) == 0x157E ? 1 : -1
 ];
 typedef char SDValue_voice_key_status_20_offset_must_be_0x15EC[
     SD_STATE_OFFSET(SDValue, voice_key_status[20]) == 0x15EC ? 1 : -1
@@ -914,7 +922,7 @@ s32 SD_PollSequenceState(void);
 
 /* Three no-argument steps of the secondary path that every caller reaches WITH
    an argument. Each is defined `void (void)` and ignores it, but the retail
-   call sites compute g_SDValue->field_157E, or a zero, into $a0 first, and it
+   call sites compute g_SDValue->sequence_open_result, or a zero, into $a0 first, and it
    is the caller's declaration that keeps that setup alive: making a caller
    agree with the definition costs four instructions -- measured, see
    notes/research/matching-evidence.md.
@@ -922,7 +930,7 @@ s32 SD_PollSequenceState(void);
    SD_ResetVabTransferState's two callers pass a constant 0 and an s32 local,
    so its
    ambient arm can state s32 exactly. SD_StopSequence's three callers all pass
-   the s16 field_157E, which default-promotes to s32, so its arm can too;
+   the s16 sequence_open_result, which default-promotes to s32, so its arm can too;
    SD_CloseSequence's two callers pass the same field and use the same promoted
    type. The defining units take the arm below and are still checked against
    their definitions. */
