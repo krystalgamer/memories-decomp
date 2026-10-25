@@ -1,7 +1,6 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_8.h"
-#include "fallback_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "primitive_semantic_views.h"
@@ -9,8 +8,10 @@
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "field_burst_semantic_views.h"
+#include "fallback_semantic_views.h"
 
-void func_80147B18(void *buffer, s32 phase)
+void DuelEffect_RunFieldColumnBurst(void *buffer, s32 phase)
 {
     MATRIX world;
     MATRIX saved;
@@ -25,7 +26,7 @@ void func_80147B18(void *buffer, s32 phase)
     s32 frame_step;
 
     memset(&rotation, 0, sizeof(rotation));
-    scale = D_80146014;
+    scale = gDuelEffect_FieldColumnBurstInitialScale;
     packet = &polygon;
     work = buffer;
     if (phase >= 0) {
@@ -33,7 +34,7 @@ void func_80147B18(void *buffer, s32 phase)
             work->cross_frame = 1;
         } else {
             work->cross_frame = 0;
-            work->config = &D_8015A514[phase];
+            work->config = &gDuelEffect_FieldColumnBurstConfigs[phase];
             work->width = work->config->initial_width;
             work->height = work->config->initial_height;
             copyVector(&work->origin, &gDuelEffect_DrawOffset);

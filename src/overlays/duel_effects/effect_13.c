@@ -1,7 +1,6 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_13.h"
-#include "fallback_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "number_semantic_views.h"
 #include "primitive_semantic_views.h"
@@ -10,6 +9,7 @@
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
 #include "stat_penalty_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
 {

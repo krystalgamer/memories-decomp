@@ -1,7 +1,6 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_11.h"
-#include "fallback_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "texture_semantic_views.h"
@@ -11,6 +10,7 @@
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
 #include "row_strike_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
 {

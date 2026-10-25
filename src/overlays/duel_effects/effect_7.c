@@ -1,7 +1,6 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_7.h"
-#include "fallback_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
@@ -9,6 +8,7 @@
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "damage_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_7_TRAIL_SPREAD 13

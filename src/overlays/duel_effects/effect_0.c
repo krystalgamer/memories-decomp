@@ -1,12 +1,12 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_0.h"
-#include "fallback_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "contour_burst_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 void DuelEffect_RunContourBurst(void *buffer, s32 phase)
 {

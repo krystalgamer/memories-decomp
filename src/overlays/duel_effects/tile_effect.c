@@ -12,10 +12,10 @@
 #include "textured_quads.h"
 #include "dispatch.h"
 #include "tile_effect.h"
-#include "fallback_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "texture_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define TILE_ROW_STEP 30

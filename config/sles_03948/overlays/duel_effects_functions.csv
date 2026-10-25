@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x80146258,0x508,func_80146258,matching_c,overlay/duel_effects,Full French bank exact; complete C object and linked ownership verified.
 0x80146760,0x13B8,DuelEffect_RunCardBreakup,matching_c,overlay/duel_effects,"Independently recovered complete effect_11; exact French image, whole C object and real data owners."
-0x80147B18,0x690,func_80147B18,matching_c,overlay/duel_effects,Shared Spanish source; independent complete French image and real C/data owners; caller-backed halfword contracts.
+0x80147B18,0x690,DuelEffect_RunFieldColumnBurst,matching_c,overlay/duel_effects,Shared Spanish source; independent complete French image and real C/data owners; caller-backed halfword contracts.
 0x801481A8,0x9FC,DuelEffect_RunGuardianStarBonus,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
 0x80148BA4,0x13EC,DuelEffect_RunBoardDestruction,matching_c,overlay/duel_effects,"Independently recovered complete effect_17; exact French image, whole C object and real data owners."
 0x80149F90,0x954,DuelEffect_RunDestroyFlames,matching_c,overlay/duel_effects,Full French bank and whole C object exact; shared source and measured PAL geometry.
@@ -38,7 +38,7 @@ address,size,name,status,module,notes
 0x8014FED4,0x6C,DuelEffect_SwapVectorRecords,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8014FF40,0x4B8,DuelEffect_RunSelectedCardOverlay,matching_c,overlay/duel_effects,Shared Spanish source; complete French image and real code/data owners; canonical card-object contracts.
 0x801503F8,0xA08,DuelEffect_RunStatPenalty,matching_c,overlay/duel_effects,"Independently recovered complete effect_13; exact French image, whole C object and real data owners."
-0x80150E00,0x418,func_80150E00,matching_c,overlay/duel_effects,Shared Spanish source; independent complete French image and real C/data owners; caller-backed halfword contracts.
+0x80150E00,0x418,DuelEffect_RunStopDefenseBurst,matching_c,overlay/duel_effects,Shared Spanish source; independent complete French image and real C/data owners; caller-backed halfword contracts.
 0x80151218,0x104,DuelEffect_ProjectSubmitFt4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015131C,0xD8,DuelEffect_ProjectSubmitGt4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801513F4,0xC8,DuelEffect_SetTransformMatrix,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.

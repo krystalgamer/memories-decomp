@@ -1,7 +1,6 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_22.h"
-#include "fallback_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "number_semantic_views.h"
@@ -12,6 +11,7 @@
 #include "texture_state_semantic_views.h"
 #include "ritual_semantic_views.h"
 #include "exodia_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 void DuelEffect_RunRitual(void *buffer, s32 phase)
 {
