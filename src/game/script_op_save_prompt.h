@@ -3,6 +3,14 @@
 
 #include "../types.h"
 
+#define SCRIPT_SAVE_PROMPT_CONTROL_CARD_DIALOG 0x80
+#define SCRIPT_SAVE_PROMPT_CONTROL_DECK_ERROR 0x200
+#define SCRIPT_SAVE_PROMPT_CONTROL_EXIT_CONFIRM 0x400
+#define SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED 0x800
+#define SCRIPT_SAVE_PROMPT_CONTROL_SLIDE_OUT 0x1000
+#define SCRIPT_SAVE_PROMPT_CONTROL_SLIDE_IN 0x2000
+#define SCRIPT_SAVE_PROMPT_CONTROL_FOLLOWUP_PHASE 0x4000
+
 /* Retained LE16 scene operand across prompt phases. The halfword workspace
  * stores write the scene byte and opaque companion; only the build-deck
  * handoff explicitly narrows it to u8. This does not assert allocation

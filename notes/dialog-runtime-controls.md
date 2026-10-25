@@ -91,3 +91,50 @@ The Password overlay's raw `D_8009B34D` choice-index view remains
 deliberately separate. That byte is already `gDialog_bChoice` in the
 resident tree; it is not another unknown symbol or part of either new
 packed control.
+
+## Script save-prompt command phases
+
+`SCRIPT_SAVE_PROMPT_CONTROL_*` names seven existing bits of
+`gScript_wCommandWord` only while `Script_OpSavePrompt` owns the command.
+These are not text-channel flags or universal meanings for the shared
+script command word. Each definition retains its original unsuffixed
+literal; the source changes only seventeen literal occurrences.
+
+| Bit | Control | Existing producer and consumer |
+| --- | --- | --- |
+| `0x80` | `CARD_DIALOG` | Choice zero requests a save, then selects the early `MemCardDialog_Poll` branch. |
+| `0x200` | `DECK_ERROR` | The zero-entry deck predicate fails; the later branch opens text `0x1C`. |
+| `0x400` | `EXIT_CONFIRM` | Choice two selects the channel-two confirmation using text `0x12`. |
+| `0x800` | `SUBPHASE_STARTED` | Shared first-entry latch for exit confirmation, deck error and slide-out. |
+| `0x1000` | `SLIDE_OUT` | Choice three selects the slide-out that eventually destroys channel three and clears the command. |
+| `0x2000` | `SLIDE_IN` | The existing `0x6000` store selects channel three's entrance animation. |
+| `0x4000` | `FOLLOWUP_PHASE` | Set after initial channel readiness and inactive-entry checks, before testing the deck or creating the choice box. |
+
+These bits select work, not successful completion. In particular, polling
+zero retains `CARD_DIALOG`; any nonzero poll result restores four choices,
+selects zero, clears the separate choice control, and applies the original
+`0xFF7F` mask. There is no new distinction between save success, cancellation
+or failure, and no rollback of the live-workspace scene stores.
+
+The initial readiness test still examines the channel's distinct `0x2000`
+flag and its active effect entry. `FOLLOWUP_PHASE` is published before the
+deck check and all following UI work. `SUBPHASE_STARTED` likewise precedes
+its existing box creation or position-save calls. It is one shared latch,
+not three independent flags or an assertion that those calls succeeded.
+
+Exit confirmation still clears exactly `0xC00` through the literal
+`0xF3FF` mask, destroys its prompt, and takes the existing main-mode handoff
+only for a nonzero choice. The deck-error branch retains its regional
+completion test, including its original polarity. Slide-in still clears
+only `0x2000` through `0xDFFF`; slide-out still clears the entire command
+only after its signed endpoint test. The mixed `0x6000` store and all three
+clear masks remain literal and unchanged.
+
+Preserve branch priority, the first-invocation return, blocking box-build
+loops, callback/store ordering, signed halfword animation reads, narrowing,
+position aliases, and the load-bearing one-pass choice loop. Both scene
+workspace writes and the build-deck-only byte narrowing remain intact.
+Japanese channel stride, button mask and box geometry, and the European
+helper binding and completion flags, retain their original wrapper paths.
+No dispatch bound, valid-choice guard, enum, shared decoder, initialized
+table, provider declaration, compiler profile or executable control changes.
