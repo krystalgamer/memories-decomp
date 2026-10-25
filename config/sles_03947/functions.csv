@@ -314,7 +314,7 @@ address,size,name,status,module,notes
 0x8002DEA4,0x134,ScriptImage_TransferCallback,matching_c,game,
 0x8002DFD8,0xE0,ScriptImage_RequestTransfer,matching_c,game,
 0x8002E0B8,0x54,ScriptImage_ReleaseObjects,matching_c,game,
-0x8002E10C,0xC8,func_8002E10C,matching_c,game,
+0x8002E10C,0xC8,ScriptImage_CreateObject,matching_c,game,
 0x8002E1D4,0x24C,ScriptImage_RebuildObjects,matching_c,game,
 0x8002E420,0x44,DuelEffect_MarkObjectIfActive,matching_c,game,
 0x8002E464,0x28,ScriptCommand_MarkStarted,matching_c,game,

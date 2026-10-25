@@ -61,11 +61,12 @@ Japan `0x1F90/0x22`, Europe `0x2503/0x25`. Boot package requests, mode
 branches, waits, logo creation, executable handoff and frontend reset stay
 in their original order.
 
-Japan deliberately keeps the numeric native image identity
-`func_80042B64`. The caller adapter now maps
-`Main_LoadBootImageStage` to that identity, exactly as the implementation
-adapter already does. Its inventory, fixed bindings and compiled definition
-are not promoted or renamed. The European numeric-to-canonical caller
+Japan keeps the numeric native image identity `func_80042B64` as the
+compiled label. `main_boot_load_stages.h` binds `Main_LoadBootImageStage` to
+it under `VERSION_JAPAN`, so both the implementation and the boot-sequence
+caller reach it without wrapper macros, and the Japanese inventory entry
+carries the canonical name. Fixed bindings and the compiled definition are
+unchanged. The European numeric-to-canonical caller
 macro becomes obsolete and is removed; its other native aliases remain.
 The unused NA fixed-address compatibility label remains untouched.
 
