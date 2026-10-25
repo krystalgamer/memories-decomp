@@ -138,7 +138,6 @@ segments:
       - [0x8130, c, game/european/duel_load_terrain_package]
       - [0x818C, c, game/european/duel_init_scene]
       - [0x8794, c, game/duel_card_display_objects]
-      - [0x88E0, c, game/duel_card_object_helpers]
       - [0x89EC, c, game/european/duel_phase_entry]
       - [0x93C4, c, game/european/duel_draw_resolution]
       - [0x9CF4, c, game/european/duel_create_card_effect_overlay]
