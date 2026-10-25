@@ -230,7 +230,7 @@ table of relocations and a typed record array. Five things make one of these:
    file cannot also supply them from another segment; `make split` says so
    rather than letting the bytes land in the wrong place. It lists no
    small-data section, which is why `.sdata` and `.sbss` can go back into the
-   matched text unit that owns them, the way `duel_trap_resolution.c` does.
+   matched text unit that owns them, the way `duel_battle_stats.c` does.
 3. **Name the profile in `config/slus_01411/data_c.json`.** Data units are not
    in `matching_c.json`, which describes functions; the build gets its compiler
    profile from this manifest, and `make split` rejects a file that owns a
@@ -557,7 +557,7 @@ units interleave in address order.
 Small data goes back into the **matched translation unit that owns it**, not
 into a data-only unit: at `-G8` a definition of eight bytes or fewer lands in
 `.sdata` by itself, and a text segment claims no small-data section.
-`duel_trap_resolution.c` owns the six trap thresholds and `duel_card_effects.c`
+`duel_battle_stats.c` owns the six trap thresholds and `duel_card_effects.c`
 the two life-point tables this way.
 
 **The consumer's addressing form says whether it owns the symbol.** At `-G8`
@@ -567,7 +567,7 @@ two. So a file that reaches a small symbol through the two-instruction form did
 not define it in retail, and moving the definition there makes its text four
 bytes shorter. `duel_field_effects.c` reads the `"%d\n"` trace format
 at 0x8009AF40 that way, so that symbol belongs to some other unit and the blob
-keeps it; `duel_trap_resolution.c` and `duel_card_effects.c` reach theirs
+keeps it; `duel_battle_stats.c` and `duel_card_effects.c` reach theirs
 gp-relative, which is why the definitions land there and the build stays
 byte-exact. The failure is loud but indirect: the shortened function shifts
 every jump-table entry after it.

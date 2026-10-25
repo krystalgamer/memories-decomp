@@ -347,10 +347,7 @@ segments:
     - game/display_object_motion
   - - 62884
     - c
-    - game/duel_battle_stats
-  - - 63536
-    - c
-    - game/european/duel_trap_resolution
+    - game/european/duel_battle_stats
   - - 64700
     - c
     - game/european/duel_scene_battle
@@ -1364,7 +1361,7 @@ segments:
     - resident_tail
   - - 576180
     - .sdata
-    - game/european/duel_trap_resolution
+    - game/european/duel_battle_stats
   - start: 576186
     type: bin
     name: resident_tail_8caba

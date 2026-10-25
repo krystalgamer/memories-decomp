@@ -99,8 +99,12 @@ class TrapPresentationRequestTests(unittest.TestCase):
     def test_actual_copy_removal_fragment_and_regression_controls(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        source = (ROOT / "src/game/duel_trap_resolution.c").read_text()
-        prefix = source[:source.index("u8 gDuel_abTrapAttackThresholds[")]
+        source = (ROOT / "src/game/duel_battle_stats.c").read_text()
+        # The unit opens with the battle arithmetic; keep only its include
+        # block and the trap section's own preamble.
+        includes = re.match(r"(?:#[^\n]*\n|[ \t]*\n)*", source).group()
+        trap_start = source.index("#define DUEL_ATTACK_TRAP_SCRATCH_VIEW")
+        prefix = includes + source[trap_start:source.index("u8 gDuel_abTrapAttackThresholds[")]
         match = re.search(
             r"(?s)e = DuelEffect_CreateRequest\(8\);.*?gDuel_wTrapPresentationMode = 2;", source,
         )

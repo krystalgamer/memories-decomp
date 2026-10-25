@@ -1182,7 +1182,7 @@ map to resident addresses `0x8009AF24`-`0x8009AF29`:
 | `0x8B729` | `0x8009AF29` | `255` | `25500` | Widespread Ruin (`686`) |
 
 The matching trap-selection path in
-[`Duel_SelectAttackTrap`](../src/game/duel_trap_resolution.c) sizes the table
+[`Duel_SelectAttackTrap`](../src/game/duel_battle_stats.c) sizes the table
 with
 `DUEL_ATTACK_TRAP_COUNT` and scans from
 `DUEL_ATTACK_TRAP_COUNT - 1` through zero. For each available trap it loads

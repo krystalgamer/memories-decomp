@@ -28,7 +28,7 @@
  * they are not named here. Two callers disagree about them and both are
  * right for their own id: DuelEffect_StartSwords (id 0x12) writes 0xA0/0x78
  * into +0x00 and +0x02, the centre of a 320x240 screen, while
- * DuelScene_UpdateResume (id 0xB) and duel_trap_resolution.c (id 8) copy a card
+ * DuelScene_UpdateResume (id 0xB) and duel_battle_stats.c (id 8) copy a card
  * record's +0x30/+0x32/+0x34 triple straight into all three, and
  * DuelEffect_ApplyHarpiesFeatherDuster (id 0x17) reads +0x04 back as a y
  * coordinate. Naming the pair

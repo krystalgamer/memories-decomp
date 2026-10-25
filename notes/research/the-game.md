@@ -918,7 +918,7 @@ trap can destroy that attacker.
 
 The normal battle lookup also has a **Fake Trap fallback**, beyond the
 card-text trigger summary above. Matching
-[`Duel_SelectAttackTrap`](../../src/game/duel_trap_resolution.c) searches the
+[`Duel_SelectAttackTrap`](../../src/game/duel_battle_stats.c) searches the
 same
 opposing magic/trap row for occupied card ID `690` if no threshold-qualified
 ID `681`-`686` was selected. It publishes that card through the same selected
@@ -1342,7 +1342,7 @@ finished or changed a target. This corroborates the normal handler's
 accounting, not every route into it, other writers, or a new runtime trace.
 
 **When an attack trap is credited.** Matching
-[`Duel_SelectAttackTrap`](../../src/game/duel_trap_resolution.c) selects the
+[`Duel_SelectAttackTrap`](../../src/game/duel_battle_stats.c) selects the
 trap ID
 in `gDuel_wSelectedTrapCardId` and its record index in `gDuel_bSelectedTrapSlot`, but does not increment
 the statistic. Matching `Duel_UpdateTrapPresentation` in the same source runs
