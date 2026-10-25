@@ -387,3 +387,23 @@ final validation retained SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`
 with `MAKEFLAGS=-j2 make match`. `make basic-types`, `make global-usage`,
 and `make check-global-usage` also passed.
+
+## Regional native labels for scene and slot functions
+
+The Japanese and European builds reach five shared model functions through
+native labels declared in their owning headers, not through wrapper macros:
+
+| Function | Region | Native label | Owner header |
+|---|---|---|---|
+| `Model_UpdateCreditsMonsterSlot` | Japan | `func_80053E40` | `model_scene_states.h` |
+| `Model_StartBattleSlotAction` | Japan | `func_800547E0` | `model_scene_controllers.h` |
+| `tent_Model_RebaseTexturedPrimitives` | PAL | `func_80051610` | `model_slot_row_tables.h` |
+| `ModelTexture_LoadTim` | PAL | `func_8005CFD0` | `model_texture_upload.h` |
+| `ModelTexture_PackPageClut` | PAL | `func_8005EE50` | `model_texture_upload.h` |
+
+Each binding sits under the region's existing `VERSION_JAPAN` or
+`VERSION_EUROPE` selector; other regions keep the plain declaration. The PAL
+`model_init_slot.c` wrapper now defines `VERSION_EUROPE` so its rebase calls
+see the binding; neither that source nor its headers otherwise test the
+selector. Function bodies, symbol maps and profiles are unchanged.
+
