@@ -1101,3 +1101,42 @@ uncalled-duplicate and voice-ID-domain caveats are not resolved by naming
 the active ramp members. No caller, reachability, historical naming evidence,
 callback signature, initialized table, compiler profile or executable
 control is changed.
+
+## Complete SPU voice-key status snapshots
+
+`SDValue.voice_key_status` is one `u8[24]` at `+0x15D8`, replacing the
+old twenty-byte `field_15D8` followed by the four byte members
+`field_15EC` through `field_15EF`. No byte is added, removed or reordered;
+the following padding and all later members stay at their original offsets.
+The existing `+0x15EC` layout assertion now checks array element twenty.
+
+The extent follows the actual producer, not the four sound-effect slots.
+The retained SDK `SpuGetAllKeysStatus` at `0x800773C4` sets its loop limit
+to twenty-four, writes exactly one byte per iteration, increments the
+destination by one and returns after all twenty-four voices. Its four
+stored values are the existing SDK key/envelope status codes, not Boolean
+active flags. The SDK implementation and declaration remain unchanged.
+
+`SD_UpdateRuntime` and `SD_KeyOffVoiceSlots` pass this entire buffer to
+that SDK function. Runtime then tests elements twenty through twenty-three
+for the existing literal status three and forms the original four SPU
+voice masks. No new loop, symbolic-status substitution or cached pointer
+replaces those individual reads.
+
+The key-off retry path intentionally keeps the original sum:
+`status[23] + status[21] + status[22] + status[23]`. It still reads element
+twenty-three twice and does not include element twenty. The all-slot key
+mask, SDK call order, nonzero-sum test, increment and twenty-four-attempt
+limit remain exact. This type recovery does not repair that asymmetry or
+assert that retry completion proves all four voices are off.
+
+`SD_UpdateSecondaryObjectVoices` keeps its separate stack-local
+twenty-four-byte snapshot; only its old `sp10` identifier becomes
+`voice_key_status`. Its cursor walk, object-count bound, lifecycle stages,
+channel ownership and key-off cleanup remain unchanged. This local buffer
+is not merged with the retained `SDValue` buffer or with the twenty
+secondary objects, sixteen channels or sixteen sequence tracks.
+
+All three actual SDK call sites retain their original `char *` casts,
+storage duration and pointer reloads. There is no new structure, union,
+allocation, status refresh, bound, test harness or callback signature.

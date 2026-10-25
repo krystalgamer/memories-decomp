@@ -17,7 +17,7 @@
  * SpuSetKey call. */
 
 void SD_UpdateSecondaryObjectVoices(void) {
-    u8 sp10[0x18];
+    u8 voice_key_status[0x18];
     SDSecondaryState *p;
     SDSecondaryObject *e;
     u8 *q;
@@ -33,7 +33,7 @@ void SD_UpdateSecondaryObjectVoices(void) {
     u32 c;
     s32 v;
 
-    SpuGetAllKeysStatus((char *)sp10);
+    SpuGetAllKeysStatus((char *)voice_key_status);
     p = gSD_pSecondaryState;
     i = 0;
     m = i;
@@ -41,7 +41,7 @@ void SD_UpdateSecondaryObjectVoices(void) {
     if (p->object_count > 0) {
         key_off_env_on = SPU_OFF_ENV_ON;
         t = gSD_adwVoiceMasks;
-        q = sp10;
+        q = voice_key_status;
         o = SD_SECONDARY_OBJECT_ARRAY_OFFSET;
         do {
             e = SD_SECONDARY_OBJECT_OFFSET_VIEW(p, o);
