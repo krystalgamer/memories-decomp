@@ -14,6 +14,7 @@
 #include "dispatch.h"
 #include "drawing_tail.h"
 #include "gather_effect.h"
+#include "fallback_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
@@ -93,9 +94,9 @@ void func_801481A8(void *buffer, s32 phase)
     } else {
         if (state->step != 0) {
             if (state->step == 1) {
-                func_8014E35C(1);
+                DuelEffect_DrawErrorCross(1);
             } else {
-                func_8014E35C(0);
+                DuelEffect_DrawErrorCross(0);
             }
             state->step++;
             if (state->step >= 0xB5) {

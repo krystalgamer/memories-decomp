@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
 #include "effect_17.h"
+#include "fallback_semantic_views.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "primitive_semantic_views.h"
@@ -91,9 +92,9 @@ void func_80148BA4(void *buffer, s32 phase)
         }
     } else if (work->cross) {
         if (work->cross == 1) {
-            func_8014E35C(1);
+            DuelEffect_DrawErrorCross(1);
         } else {
-            func_8014E35C(0);
+            DuelEffect_DrawErrorCross(0);
         }
         work->cross++;
         if (work->cross > 180) {

@@ -993,6 +993,47 @@ header as `gNorthAmerican_D_80146014` and `gNorthAmerican_D_8014602C`, which
 are North American `0x80146014`/`0x8014602C` and Japanese
 `0x80154158`/`0x80154170`.
 
+### Canonical shared invalid-variant fallback
+
+`DuelEffect_DrawErrorCross` now binds the real `func_8014E35C` owner:
+NA `80147BE0`, JP `8015C3B4` (204 bytes), PAL `8014E35C` (144 bytes).
+It always submits both white diagonal `GsLINE` records, with attribute
+`0x50000000`, priority zero and the current overlay ordering table. Endpoints
+remain `(0,0)..(320,height)` and `(320,0)..(0,height)`, using height 240 in
+NTSC and 256 through the unchanged PAL wrapper.
+
+All 19 actual lifecycle callers use the canonical helper: effects
+0/1/2/4/5/6/7/8/9/10/11/13/15/16/17/18/22, the guardian-star gather
+effect and the destruction tile effect. Each retains its original
+variant-limit predicate, first-error mode 1, later mode 0, counter
+increment/completion comparison, early return and request-completion store.
+This is a drawing/diagnostic helper, not a variant validator, timer owner or
+request allocator. Its generic signed-word input and explicit unsigned-halfword
+mode tests remain intact: on NTSC a nonzero low halfword prints the generic
+message and low halfword exactly 1 additionally prints the invalid-ID message.
+Do not narrow it to a boolean or test the full word instead.
+
+`gDuelEffect_ErrorMessage` and `gDuelEffect_InvalidVariantMessage` bind the
+existing NTSC-only `gNorthAmerican_D_80146014` and
+`gNorthAmerican_D_8014602C` objects. Their NA addresses are `80146014` and
+`8014602C`; JP addresses are `80154158` and `80154170`.
+Keep unsized `char[]` declarations and every original data byte, including
+the 24-byte and 64-byte generated storage spans, embedded terminator and
+trailing bytes. No copied/repacked literals, new C allocation, const change
+or PAL string provider is introduced. The PAL `#ifndef VERSION_EUROPE`
+boundary still removes both logging calls completely, not just their output.
+
+The extern-only semantic header binds the existing native function and data
+labels without replacing private declarations. All 20 complete changed C
+units differ only by these three identifiers and one include each. The
+unchanged PAL wrapper is also compiled independently to preserve its actual
+logging-free instruction variant. Original function/data maps, SDK calls,
+profiles, ordering-table binding, accepted lifecycle names and generated
+storage remain authoritative. The frozen bolt generator/utility header,
+original attempt ledger and regression stay byte-exact; no historical receipt
+or existing owner guard is rewritten. No new #418 artwork/runtime evidence
+is claimed.
+
 `effect_13.c` (#6582), `effect_23.c` (#6583), `effect_11.c` (#6593) and
 `effect_17.c` (#6596) match the North American, Japanese and European banks
 unchanged. `effect_17.c` is the North American `func_80148BA4` at

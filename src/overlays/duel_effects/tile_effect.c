@@ -12,6 +12,7 @@
 #include "textured_quads.h"
 #include "dispatch.h"
 #include "tile_effect.h"
+#include "fallback_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "texture_semantic_views.h"
 #include "texture_state_semantic_views.h"
@@ -66,9 +67,9 @@ void func_80149F90(void *buffer, s32 phase)
     } else {
         if (state->step != 0) {
             if (state->step == 1) {
-                func_8014E35C(1);
+                DuelEffect_DrawErrorCross(1);
             } else {
-                func_8014E35C(0);
+                DuelEffect_DrawErrorCross(0);
             }
             state->step++;
             if (state->step >= 0xB5) {

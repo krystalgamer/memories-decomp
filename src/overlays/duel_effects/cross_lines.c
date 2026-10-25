@@ -2,9 +2,10 @@
 #include "../../psyq/stdio.h"
 #include "../../game/graphics_constants.h"
 #include "drawing_helpers.h"
+#include "fallback_semantic_views.h"
 #include "render_state_semantic_views.h"
 
-void func_8014E35C(s32 mode)
+void DuelEffect_DrawErrorCross(s32 mode)
 {
     GsLINE line;
 
@@ -22,9 +23,9 @@ void func_8014E35C(s32 mode)
     GsSortLine(&line, gDuelEffect_pOrderingTable, 0);
 #ifndef VERSION_EUROPE
     if ((u16)mode != 0) {
-        printf(gNorthAmerican_D_80146014);
+        printf(gDuelEffect_ErrorMessage);
         if ((u16)mode == 1) {
-            printf(gNorthAmerican_D_8014602C);
+            printf(gDuelEffect_InvalidVariantMessage);
         }
     }
 #endif
