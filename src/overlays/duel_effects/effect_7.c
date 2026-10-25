@@ -8,6 +8,7 @@
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "damage_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_7_TRAIL_SPREAD 13
@@ -82,9 +83,9 @@ void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
         }
     } else if (work->cross_frame != 0) {
         if (work->cross_frame == 1) {
-            func_8014E35C(1);
+            DuelEffect_DrawErrorCross(1);
         } else {
-            func_8014E35C(0);
+            DuelEffect_DrawErrorCross(0);
         }
         work->cross_frame++;
         if (work->cross_frame > 180) {

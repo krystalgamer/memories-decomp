@@ -8,6 +8,7 @@
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "texture_state_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 void DuelEffect_RunAttackSlash(void *buffer, s32 phase, s16 number)
 {
@@ -71,9 +72,9 @@ void DuelEffect_RunAttackSlash(void *buffer, s32 phase, s16 number)
         }
     } else if (work->cross_frame != 0) {
         if (work->cross_frame == 1) {
-            func_8014E35C(1);
+            DuelEffect_DrawErrorCross(1);
         } else {
-            func_8014E35C(0);
+            DuelEffect_DrawErrorCross(0);
         }
         work->cross_frame++;
         if (work->cross_frame > 180) {

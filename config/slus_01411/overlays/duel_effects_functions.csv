@@ -3,7 +3,7 @@ address,size,name,status,module,notes
 0x801467B8,0x13B8,DuelEffect_RunCardBreakup,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80147B70,0x34,DuelEffect_IsColorBlack,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80147BA4,0x3C,DuelEffect_HasNonzeroColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x80147BE0,0xCC,func_8014E35C,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x80147BE0,0xCC,DuelEffect_DrawErrorCross,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80147CAC,0x70,DuelEffect_DarkenColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80147D1C,0xC4,DuelEffect_StepColorToTarget,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80147DE0,0x28,DuelEffect_SetFogBaseColor,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
