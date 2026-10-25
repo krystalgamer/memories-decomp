@@ -1,5 +1,11 @@
 # Main Menu Overlay
 
+The frontend's Start-button prompt and its shared, separately loaded
+display-resource bank now have canonical C bindings. The two other singleton
+sprites retain native names because their artwork is not identified. See
+[display ownership](../../../notes/overlays/main-menu-display-ownership.md)
+for the input/lifecycle evidence, exact storage views and regional scope.
+
 This directory contains matching source from the main-menu runtime
 module.
 
