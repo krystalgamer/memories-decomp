@@ -146,7 +146,7 @@ void Script_OpSavePrompt(void)
         return;
     }
 
-    if ((gScript_wCommandWord & 0x80) != 0) {
+    if ((gScript_wCommandWord & SCRIPT_SAVE_PROMPT_CONTROL_CARD_DIALOG) != 0) {
         if (MemCardDialog_Poll() == 0) {
             return;
         }
@@ -159,7 +159,7 @@ void Script_OpSavePrompt(void)
 
     TextBox_UpdateChannels();
     flags = gScript_wCommandWord;
-    if ((flags & 0x4000) == 0) {
+    if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_FOLLOWUP_PHASE) == 0) {
         chan = gText_aChannels;
         if ((chan->flags_34 & 0x2000) == 0) {
             return;
@@ -167,9 +167,9 @@ void Script_OpSavePrompt(void)
         if (DuelEffect_HasActiveEntry(chan) != 0) {
             return;
         }
-        gScript_wCommandWord |= 0x4000;
+        gScript_wCommandWord |= SCRIPT_SAVE_PROMPT_CONTROL_FOLLOWUP_PHASE;
         if (Duel_IsPlayerDeckComplete() == 0) {
-            gScript_wCommandWord |= 0x200;
+            gScript_wCommandWord |= SCRIPT_SAVE_PROMPT_CONTROL_DECK_ERROR;
             SD_SEPlayFull(0x2A);
             return;
         }
@@ -191,9 +191,9 @@ void Script_OpSavePrompt(void)
     box = SAVE_PROMPT_CHANNEL(3);
     obj = box->field_28;
 
-    if ((flags & 0x400) != 0) {
-        if ((flags & 0x800) == 0) {
-            gScript_wCommandWord = flags | 0x800;
+    if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_EXIT_CONFIRM) != 0) {
+        if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED) == 0) {
+            gScript_wCommandWord = flags | SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED;
             SAVE_PROMPT_PREPARE_BOX();
             box = TextBox_Create(2, 0x12, 0x90, SAVE_PROMPT_CHOICE_BOX_RECT);
             DuelEffect_MarkObjectIfActive((MenuRecord *)box);
@@ -218,9 +218,9 @@ void Script_OpSavePrompt(void)
         return;
     }
 
-    if ((flags & 0x200) != 0) {
-        if ((flags & 0x800) == 0) {
-            gScript_wCommandWord = flags | 0x800;
+    if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_DECK_ERROR) != 0) {
+        if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED) == 0) {
+            gScript_wCommandWord = flags | SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED;
             SAVE_PROMPT_PREPARE_BOX();
             DuelEffect_MarkObjectIfActive(TextBox_CreateFlagged(
                 0,
@@ -243,9 +243,9 @@ void Script_OpSavePrompt(void)
         return;
     }
 
-    if ((flags & 0x1000) != 0) {
-        if ((flags & 0x800) == 0) {
-            gScript_wCommandWord = flags | 0x800;
+    if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SLIDE_OUT) != 0) {
+        if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED) == 0) {
+            gScript_wCommandWord = flags | SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED;
             DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
             *(s16 *)&box->field_28->field_60 = 0x400;
         }
@@ -262,7 +262,7 @@ void Script_OpSavePrompt(void)
         return;
     }
 
-    if ((flags & 0x2000) != 0) {
+    if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SLIDE_IN) != 0) {
         step = *(u16 *)&obj->field_60 + 0x40;
         obj->field_60 = step;
         if ((s16)step >= 0) {
@@ -300,7 +300,7 @@ void Script_OpSavePrompt(void)
             gSaveData_Workspace[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
                       sizeof(s16)] = gScript_SavePromptSceneOperand;
             SaveData_RequestWrite();
-            gScript_wCommandWord |= 0x80;
+            gScript_wCommandWord |= SCRIPT_SAVE_PROMPT_CONTROL_CARD_DIALOG;
             break;
         case 1:
             SD_SEPlayFull(7);
@@ -310,11 +310,11 @@ void Script_OpSavePrompt(void)
             break;
         case 2:
             SD_SEPlayFull(7);
-            gScript_wCommandWord |= 0x400;
+            gScript_wCommandWord |= SCRIPT_SAVE_PROMPT_CONTROL_EXIT_CONFIRM;
             break;
         case 3:
             SD_SEPlayFull(8);
-            gScript_wCommandWord |= 0x1000;
+            gScript_wCommandWord |= SCRIPT_SAVE_PROMPT_CONTROL_SLIDE_OUT;
             break;
         }
     } while (0);
