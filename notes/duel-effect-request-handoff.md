@@ -34,8 +34,11 @@ argument expressions and all call-site instructions remain exact.
 
 The dispatcher still copies the request's three neutral payload halfwords
 to the draw offset and the original halfword to base priority. It initializes
-21 packed texture pairs only for nonnegative phase, then retains all 26
-independent effect comparisons and exactly 25 distinct handlers. Unknown
+21 packed texture pairs only for nonnegative phase, then retains all 25
+independent effect-ID comparisons and exactly 24 distinct handlers. The
+26 syntactic handler call sites include case twenty's two alternatives;
+the guard's 25 distinct overlay callees also include the texture helper.
+Unknown
 IDs still receive preceding setup. Case nine retains both OT writes; only
 cases two and thirteen receive the request's signed auxiliary halfword.
 Case twenty retains both explicit calls and its nonnegative-to-one command
@@ -111,7 +114,7 @@ introduced, and cloud tests are not executed locally.
 Only the intended dispatcher name cell changes in each of the five bank
 inventories; addresses, sizes, statuses and owners remain exact. Native
 maps, manifest profiles, data definitions, the six live semantic bindings,
-complete canonical-callee/data-owner guard and all 25 handler identities
+complete canonical-callee/data-owner guard and all 25 overlay callee identities
 are unchanged. The complete accepted registry remains an exact prefix
 before one dispatcher row; member semantics are documented here rather
 than pretending struct offsets are new global addresses.

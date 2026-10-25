@@ -8,8 +8,10 @@ the separate measured caller/provider ABI views. Canonical request members
 `phase` and `progress` retain signed-halfword/unsigned-byte storage at
 `0x1A/0x1D`; progress is a handler-defined count, not final completion.
 See the [full handoff contract](../duel-effect-request-handoff.md).
-All 26 independent comparisons, 25 distinct handlers, prior setup, special
+All 25 independent effect-ID comparisons, 24 distinct handlers, prior setup, special
 argument forwarding and current owner/callee assertions remain unchanged.
+The guard's 25 distinct overlay callees include the texture-packing helper;
+the handler call-site count is 26 because case twenty has two alternatives.
 
 ## Scoped active render-state C views
 
