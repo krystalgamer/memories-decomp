@@ -232,7 +232,7 @@ out:
    table: it edits gText_bLanguageIndex (the index duel_effect_resource_setup.c
    reads) through the same editor as the sound entry, and sets it back to
    BUILD_LANGUAGE_INDEX from 5 up. */
-void func_80030808(void)
+void DebugMenu_UpdateLanguageEntry(void)
 {
     s32 flags;
     s32 result;

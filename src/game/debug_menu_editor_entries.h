@@ -12,6 +12,10 @@
  * "Sound" label: edits and plays sound IDs. */
 void DebugMenu_UpdateSoundEntry(void);
 
+#ifdef VERSION_EUROPE
+extern void DebugMenu_UpdateLanguageEntry(void) asm("func_80030808");
+#endif
+
 /* Entry 2 of gDebugMenu_apfnPrimaryPageSteps (frontend_step_tables.c), the
  * "Campaign" label.
  * Switches between message-preview and campaign-index editors, preserving

@@ -116,3 +116,53 @@ North American executable path even though resident input cannot select a
 non-audio row. That association is static and exact; the purpose of loading
 both variants, and any visible labels connected to the disabled machinery,
 remain unresolved.
+
+## PAL language-indexed package addendum
+
+The NA evidence and UI claims above are unchanged. This separate
+source-backed PAL contract comes from the existing regional wrapper and
+complete common stage/request bodies, not a local PAL runtime session.
+
+`Options_LoadPackageStage` retains native `func_8003C56C`: 416 bytes at
+UK `0x8003C56C`, or `0x8003C76C` in France, Germany, Italy and Spain.
+Its `void(FileTransferDescriptor *, s32)` binding now lives in the
+existing transfer owner header under the already-existing
+`VERSION_EUROPE_FILE_REQUEST_OPTIONS_PACKAGE` selector. Only the private
+name macro in the actual Options wrapper is removed. The two earlier
+wrappers keep their native `func_8003C224` and `func_8003C3C4` mappings;
+neither is claimed as another Options provider or given a screen name.
+NA/Japan declarations and native ownership remain unchanged.
+
+The request reads the then-current language byte and queues seven
+arguments: `0, 0, language * 0x29 + 0x2797, 0x29, callback, 0, 0`.
+It waits once, with no second-block request in PAL. This consumes 41
+sectors across the four existing callback phases:
+
+| Phase | Sectors | Existing PAL behavior |
+|---|---:|---|
+| 0 | 32 | initializes image-transfer dimensions and alternating sector buffers |
+| 1 | 1 | selects the shared transfer buffer for the palette stage |
+| 2 | 2 | uploads a 256-by-4 rectangle at `(640, 224)`, then selects resource bank zero |
+| 3 | 6 | selects the pointer currently stored in `gFile_pScreenBankBase` |
+
+The stage keeps all descriptor stores, transfer-state masks, done values,
+common-tail ordering and repeated destination-pointer reads. The image
+upload still precedes phase-two destination selection; no new upload
+retry, validation or wait is added. The callback itself does not select a
+language or request the whole package.
+
+`DebugMenu_UpdateLanguageEntry` only edits the shared language byte; it
+does not initiate these transfers. The existing Options-screen
+language-boot request and font initialization remain separate and
+unchanged. See `frontend-debug-state.md` for the editor's byte-narrowing,
+build-default and confirmation/cancellation behavior.
+
+Both providers' inventories change only two name fields per PAL release;
+ten scoped semantic rows record the evidence. Complete actual native
+compiler/MASPSX output, symbols and disassembly/relocations remain exact.
+The fresh clean NA resident retains SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+Ordinary exact-head regional image/regression checks remain mandatory;
+native-unit conservation is not local full PAL-image execution. No new
+testcase, synthetic/generated-C/source-string harness or local cloud
+suite is introduced.
