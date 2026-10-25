@@ -89,8 +89,11 @@ macro or duplicate request layout is added.
 This independent component starts from accepted music-grouping master
 `caeafc5637a5782ba94701fa9e588f5d9ef9bc6f`. It preserves accepted fallback,
 canonical live definitions, all MODEL/grouping registrations/deletions and
-all previous lifecycle/data work. Pending Fusion/Attack Slash and remaining
-live-handler data components are not imported.
+all previous lifecycle/data work. It normally integrates the subsequently
+accepted Fusion/Attack Slash data squash
+`f353063c35a3ef75ed0a724c405855e696e291bc`, preserving its complete registry
+prefix, both full canonical providers, four data views and original owners.
+The remaining live-handler data component is not imported while pending.
 
 For each of the 26 complete actual C sources, the only changes are these
 member/function identifiers, including their comments. Forward substitution
