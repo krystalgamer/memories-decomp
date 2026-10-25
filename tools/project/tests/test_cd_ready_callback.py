@@ -175,10 +175,10 @@ static void phase(FileTransferDescriptor *p, s32 sequence)
     event(7);
     callback_calls++;
     if (p != &descriptor || (u32)sequence != expected_sequence ||
-        p->result != expected_sequence + 1 || p->phase_size != 0)
+        p->phase_index != expected_sequence + 1 || p->phase_size != 0)
         error = 3;
     p->phase_size = 0x1234;
-    p->result = 0xABCDEF01;
+    p->phase_index = 0xABCDEF01;
     if (callback_action == 1) p->total_bytes = 0;
     if (callback_action == 2) p->total_bytes = 0x1800;
     if (callback_action == 3) gFile_ReadyTransferDescriptor = &alternate;
@@ -204,7 +204,7 @@ static void setup(s32 mode, s32 software)
     descriptor.total_bytes = 0x1800;
     descriptor.phase_remaining = 0x1800;
     descriptor.phase_size = 0x8888;
-    descriptor.result = 41;
+    descriptor.phase_index = 41;
     descriptor.w = 64;
     descriptor.h = 16;
     descriptor.field_30.h.counter = 64;
@@ -368,12 +368,12 @@ static s32 phase_callbacks(void)
         descriptor.phase_remaining = 2048;
         descriptor.total_bytes = finish ? 2048 : 6144;
         descriptor.phase_callback = (FileTransferCallback)phase;
-        descriptor.result = expected_sequence = 0xFFFFFFFF;
+        descriptor.phase_index = expected_sequence = 0xFFFFFFFF;
         callback_action = action;
         alternate.total_bytes = 4096;
         alternate.buffer_index = 9;
         File_TransferReadyCallback(1);
-        CHECK(!error && callback_calls == 1 && descriptor.result == 0xABCDEF01 &&
+        CHECK(!error && callback_calls == 1 && descriptor.phase_index == 0xABCDEF01 &&
               descriptor.phase_remaining == 0x1234 && descriptor.phase_size == 0x1234, 60);
         CHECK(events[event_count - 1] == 7, 61);
         if (finish) CHECK(events[0] == 2 && events[1] == 3, 62);
@@ -403,7 +403,7 @@ static s32 completion(void)
               !(gFile_dwTransferState & 0x100) && !error, 70);
         CHECK(events[software ? 0 : 1] == 2 && events[software ? 1 : 2] == 3, 71);
         CHECK(descriptor.phase_size == 0 && descriptor.phase_remaining == 0 &&
-              descriptor.result == 41 && callback_calls == 0, 72);
+              descriptor.phase_index == 41 && callback_calls == 0, 72);
         CHECK(descriptor.buffer_index == (mode == 1 ? 0xFFFF : 0), 73);
         CHECK((gFile_dwTransferState & ~0x100) == (0x410 | (software ? 0x40000000 : 0)), 74);
     }

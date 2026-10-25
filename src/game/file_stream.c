@@ -67,7 +67,7 @@ FileTransferDescriptor *File_InitTransferDescriptor(
     s32 sector,
     s32 vertical,
     FileTransferCallback callback,
-    s32 field_40,
+    s32 initial_phase_index,
     s32 length
 )
 {
@@ -78,7 +78,7 @@ FileTransferDescriptor *File_InitTransferDescriptor(
     transfer->buffer_index = 0;
     transfer->phase_size = 0;
     transfer->phase_callback = callback;
-    transfer->result = field_40;
+    transfer->phase_index = initial_phase_index;
     if (length) {
         if (flags & 0x1000000) {
             transfer->direct_destination = length;
