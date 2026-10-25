@@ -100,6 +100,34 @@ Spanish, French, English PAL, Japanese and North American overlay matching.
 Spanish copies, metadata, both new layouts/data owners, accepted effect-6
 ownership and dispatcher ownership are rechecked after integration.
 
+## Human runtime observation (#418, #7930)
+
+In an NA duel the human activated Swords of Revealing Light. The trace saw
+effect 18 phase 1 for 31 frames (the card's border glow), then effect 21
+phase 1. The light swords fell on the opponent's side, not in a straight
+line, which matches the eight random swaps. Episode #02 stayed active for
+5,098 frames through later turns. Its END row therefore appears last.
+
+Before initialization, slot 1 (`shared work + 0x2880`) held
+`count=655` and tiles `291,14907,654,0,654,0,0,9495,298,11565`. After the
+first update, only `tiles[8]` had changed (298 to 1), which confirms the
+tile-eight-only initialization at runtime. The other nine tiles keep their
+stale values. Writes seen before the duel came from outside the bank:
+`BuildDeck_InitScreen` (`0x80032644..0x800326B8`),
+`BuildDeck_SortCardList` (`0x80032D0C`), Psy-Q `qsexc`
+(`0x8008E574`/`0x8008E580`) and `CD_getsector` (`0x8007E4A0`). The deck
+builder and its sort therefore reuse this shared-work range.
+
+The draw loop renders tile `i` only once `count > i`, and advances a tile
+only when it draws it. Each stale tile is therefore drawn once with its
+leftover value, then becomes `(x + 1) % 3`.
+`DuelEffect_DrawTranslatedTileRect` stores `128 + tile * 32` into `u8` UV
+fields, so a stale tile starts at U `(128 + 32 * tile) & 0xFF` for that
+frame. The observed values give 224, 64, 96 and 32, outside the usual
+128..223 columns. The
+human reported no visible glitch. This records the original behaviour; do
+not add initialization for the other selectors.
+
 ## Accepted effects 8/12 integration
 
 After additive rebase onto accepted `3d43de926`, all 67 accepted Spanish

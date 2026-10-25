@@ -467,6 +467,31 @@ advances the two 16.16 accumulators, publishes their high halves as the
 viewport origin, and decrements the frame count. The last update clears the
 active command and snaps both viewport coordinates to the exact targets.
 
+## Observed `+0x2C`, `+0x60` and `+0x6C` values
+
+A 40-screen menu and campaign tour (`screen_tour_watch`, #418, #7930)
+recorded these fields for every live object, grouped by update and draw
+callback. Each callback uses them in its own way:
+
+| Callback | Field | Observed values |
+|---|---|---|
+| Main-menu overlay draws `0x801AF8B4..0x801AFA18`, Password draws `0x801AD724`/`0x801AD760` | `+0x60` | set to 16, then counts down by 1 per frame during the button fly-out and fade |
+| Library overlay draws `0x801AD434`/`0x801AD484` | `+0x60` | rises in steps of 102, up to 2142 |
+| World-map overlay draws `0x801AF318`/`0x801AF368` | `+0x60` | rises in steps of 341, up to 2046 |
+| `TextBox_DrawEntries` | `+0x60` | -1024..960 in steps of 64 |
+| `Library_DrawFadingCardOutline` | `+0x60` | 240 down to 16 in steps of 16 |
+| `Widget_UpdatePulseColour` (update) | `+0x2C` | 8224..16191, steps of ±257 and -514, i.e. equal steps in two packed bytes |
+| World-map overlay draws | `+0x2C`/`+0x2E` | constants up to 41120 / 160, no per-frame steps |
+| Untyped objects with no callbacks | `+0x6C` | 128 down to 0 in one step of 128; other values 60 or 129 are constant |
+
+Most of these objects had a null update callback, so the overlay code
+changes the fields rather than the object's own update. The evidence fits
+the existing per-offset comments in `display_object.h`: `+0x60` is a
+per-caller countdown or easing amount, with no single unit or direction.
+`+0x2C` is a colour word for the pulse widget and some other packed value
+elsewhere. No field is renamed. Duel callbacks such as
+`Duel_UpdateDrawCardSlide` were not visited on this route.
+
 ## Evidence boundary
 
 The counts, strides, links, flags, list heads, callback order, scratchpad

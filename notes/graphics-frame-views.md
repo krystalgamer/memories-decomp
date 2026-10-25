@@ -19,7 +19,7 @@ unclassified. Byte two remains `D_8009AFA6`, and its getter
 `func_80058DC0` remains address-named because no semantic consumer or
 writer is established. Three watch traces under #418 saw neither a call
 to the getter nor a write to the byte on the title loop, Library 3-D view
-or duel board
+or duel board, and a 40-screen menu/campaign tour saw neither as well
 ([`trace-uncalled-functions.md`](trace-uncalled-functions.md)). Byte three is the credits controller's private
 slot selection, not the separate `gModel_bActiveSlotIndex`. The following
 halfwords are outside the four-byte NA backing. No replacement struct is

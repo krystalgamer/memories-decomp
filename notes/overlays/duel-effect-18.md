@@ -47,6 +47,15 @@ branch, regional 106/98 ring heights, matrix copies, particle/rotation
 updates, delay/request handshake and phase-at-least-2 cross fallback.
 These are code-supported mechanism names, not new runtime observations.
 
+## Human runtime observation (#418, #7930)
+
+When the human activated Swords of Revealing Light in an NA duel, effect 18
+ran with phase 1 for 31 frames and made 17 layered-helper calls. During
+that time the card's borders glowed. Effect 21, the falling swords,
+followed straight after. This matches the `DuelEffect_StartSwords`
+requester. The ritual requester was not exercised, so the glow is one use
+of the contour burst and does not justify a card-specific name.
+
 ## Layout and storage
 
 The effect-specific work record has size `0x8D4`. Its independently recovered
