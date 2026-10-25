@@ -28,8 +28,8 @@ s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1) {
 
         SD_EnqueueSpuRamTransfer(entry->spu_address, (s32)q->music_track,
                                  entry->sector_offset,
-                                 entry->ram_sector_count << FILE_SECTOR_SHIFT,
-                                 entry->spu_sector_count << FILE_SECTOR_SHIFT, 0x20);
+                                 entry->spu_sector_count << FILE_SECTOR_SHIFT,
+                                 entry->ram_sector_count << FILE_SECTOR_SHIFT, 0x20);
 
         *g_SDValue->music_track = 0xFFFF;
     }
