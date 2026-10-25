@@ -52,9 +52,9 @@ void SD_ResetRuntime(void)
     s->sequence_fade_step = 0;
     SpuSetKey(SPU_OFF, 0xFFFFFF);
     g_SDValue->voice_active_mask = 0;
-    g_SDValue->field_0435 = 0;
+    g_SDValue->voice_allocation_cursor = 0;
     for (i = 0; i < 4; i++) {
-        g_SDValue->field_040C[i] = 0;
+        g_SDValue->voice_priority[i] = 0;
         g_SDValue->voice_ids[i] = 0;
     }
     t = g_SDValue;

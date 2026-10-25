@@ -214,7 +214,7 @@ static void event(u32 kind, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g)
     const Event *want;
     CHECK(events < test->event_count);
     want = &test->events[events++];
-    CHECK(want->kind == kind && want->cursor == g_SDValue->field_0435);
+    CHECK(want->kind == kind && want->cursor == g_SDValue->voice_allocation_cursor);
     CHECK(want->args[0] == a && want->args[1] == b && want->args[2] == c);
     CHECK(want->args[3] == d && want->args[4] == e && want->args[5] == f && want->args[6] == g);
 }
@@ -232,7 +232,7 @@ void SpuGetVoiceEnvelope(int voice, short *envelope)
     *envelope = value;
     if (++queries == 1) {
         if (test->swap) g_SDValue = &states[1];
-        if (test->after_envelope >= 0) g_SDValue->field_0435 = test->after_envelope;
+        if (test->after_envelope >= 0) g_SDValue->voice_allocation_cursor = test->after_envelope;
         if (test->replace_ids) {
             for (i = 0; i < 4; i++) g_SDValue->voice_ids[i] = test->replacement_ids[i];
         }
@@ -243,8 +243,8 @@ void SD_StartSoundEffectVoice(u16 id, u8 voice, s32 pitch, u8 volume, s16 pan, u
     event(3, id, voice, pitch, volume, (s32)pan, flags, value);
     CHECK(voice < 4);
     g_SDValue->voice_ids[voice] = id;
-    g_SDValue->field_040C[voice] = value;
-    if (test->after_start >= 0) g_SDValue->field_0435 = test->after_start;
+    g_SDValue->voice_priority[voice] = value;
+    if (test->after_start >= 0) g_SDValue->voice_allocation_cursor = test->after_start;
 }
 int main(void)
 {
@@ -253,18 +253,18 @@ int main(void)
         test = &cases[case_index]; events = queries = 0;
         for (i = 0; i < sizeof(states); i++) ((u8 *)states)[i] = 0xA5;
         for (i = 0; i < 2; i++) {
-            states[i].field_0435 = test->cursor; states[i].field_043C = table;
+            states[i].voice_allocation_cursor = test->cursor; states[i].field_043C = table;
             for (j = 0; j < 4; j++) {
                 states[i].voice_ids[j] = test->ids[j];
-                states[i].field_040C[j] = test->priorities[j];
+                states[i].voice_priority[j] = test->priorities[j];
             }
         }
         for (i = 0; i < sizeof(states); i++) ((u8 *)expected)[i] = ((u8 *)states)[i];
         for (i = 0; i < 2; i++) {
-            expected[i].field_0435 = test->cursors[i];
+            expected[i].voice_allocation_cursor = test->cursors[i];
             for (j = 0; j < 4; j++) {
                 expected[i].voice_ids[j] = test->final_ids[i][j];
-                expected[i].field_040C[j] = test->final_priorities[i][j];
+                expected[i].voice_priority[j] = test->final_priorities[i][j];
             }
         }
         g_SDValue = states; table[(u16)test->id] = test->missing ? 0xFFFF : 3;
@@ -297,7 +297,7 @@ class SoundVoiceAllocatorTests(unittest.TestCase):
                 edits = {
                     "id-narrowing": ("observed = (u16)sound_id;", "observed = id;"),
                     "priority-equality": ("value >= g_SDValue", "value > g_SDValue"),
-                    "cursor-wrap": ("field_0435 & 3", "field_0435 & 1"),
+                    "cursor-wrap": ("voice_allocation_cursor & 3", "voice_allocation_cursor & 1"),
                     "occurrence": ("& 0xF0) >> 4", "& 0xF0) >> 3"),
                     "envelope-order": (
                         "index + SD_VOICE_SLOT_FIRST_VOICE",

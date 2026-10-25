@@ -37,16 +37,16 @@ void SD_ApplyVoiceSlotVolume(s32 index)
         mask <<= index;
     }
     state = g_SDValue;
-    state->field_03C8 = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
-    state->field_03C4 = mask;
+    state->voice_volume_attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
+    state->voice_volume_attr.voice = mask;
     {
         u32 first = state->voice_volume_left[index];
         product = first * (u32)state->voice_value[index];
     }
-    state->field_03CC = product >> 8;
+    state->voice_volume_attr.volume.left = product >> 8;
     product = state->voice_volume_right[index] * (u32)state->voice_value[index];
-    state->field_03CE = product >> 8;
-    SpuSetVoiceAttr((SpuVoiceAttr *)&state->field_03C4);
+    state->voice_volume_attr.volume.right = product >> 8;
+    SpuSetVoiceAttr(&state->voice_volume_attr);
 }
 
 void SD_UpdateVoiceSlots(void)
@@ -190,7 +190,7 @@ void tent_SD_KeyOffVoiceById(s32 value)
     s32 normalized = tent_SD_FilterCdFlaggedId((u16)value);
     SDValue *state = g_SDValue;
     s32 tries = 0;
-    s32 slot = state->field_0435;
+    s32 slot = state->voice_allocation_cursor;
     s32 bit = 1 << (u8)slot;
     s32 command = 1 << ((u8)slot + SD_VOICE_SLOT_KEY_SHIFT);
 
@@ -199,7 +199,7 @@ void tent_SD_KeyOffVoiceById(s32 value)
         if (state->voice_active_mask & bit) {
             if (state->voice_ids[(u8)slot] == (u16)normalized) {
                 SD_KeyOffVoice(command);
-                g_SDValue->field_0435 = slot;
+                g_SDValue->voice_allocation_cursor = slot;
                 g_SDValue->voice_active_mask &= ~bit;
                 break;
             }
@@ -344,7 +344,7 @@ void SD_StartSoundEffectVoice(u16 id, u8 voice, s32 pitch_add, u8 volume, s16 pa
         g_SDValue->voice_attr.addr = g_SDValue->field_0444[idx].field_0006 << 4;
         SpuSetKey(SPU_OFF, g_SDValue->voice_attr.voice);
         g_SDValue->voice_active_mask |= 1 << voice;
-        g_SDValue->field_040C[voice] = value;
+        g_SDValue->voice_priority[voice] = value;
         g_SDValue->voice_flags[voice] = flags;
         g_SDValue->voice_ids[voice] = id;
         g_SDValue->voice_volume_left[voice] = g_SDValue->voice_attr.volume.left;
