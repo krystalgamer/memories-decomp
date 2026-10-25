@@ -132,13 +132,13 @@ PSXLONG SD_SequenceTimerCallback(void)
 
     if (state->sequence_updates_enabled == 0)
         return 1;
-    if (state->flag_0500 != 0)
+    if (state->timer_update_inhibit != 0)
         return 1;
     if (state->vsync_update_mode != 0)
         return 1;
-    if (state->flag_0501 == 0) {
+    if (state->update_in_progress == 0) {
         GetRCnt(RCntCNT2);
-        gSD_pSecondaryState->flag_0501 = 1;
+        gSD_pSecondaryState->update_in_progress = 1;
         for (i = 0; i < 8; i++) {
             void (*callback)(void);
 
@@ -154,7 +154,7 @@ PSXLONG SD_SequenceTimerCallback(void)
                     callback();
             }
         }
-        gSD_pSecondaryState->flag_0501 = 0;
+        gSD_pSecondaryState->update_in_progress = 0;
     }
     return 0;
 }

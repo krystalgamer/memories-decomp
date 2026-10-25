@@ -391,9 +391,9 @@ typedef struct {
     u8 pad04A0[4];
     SDSecondaryTransfer transfer;
     SpuVoiceAttr voice_attr;
-    u8 flag_0500;
-    u8 flag_0501;
-    u8 flag_0502;
+    u8 timer_update_inhibit;
+    u8 update_in_progress;
+    u8 shared_track_updates_enabled;
     u8 event_guard;
     PSXLONG event_handle;
     u8 timer_maintenance_counter;
@@ -720,8 +720,10 @@ typedef char SDSecondaryState_spatial_level_offsets_must_match[
 typedef char SDSecondaryState_pan_override_offset_must_be_0x815[
     SD_STATE_OFFSET(SDSecondaryState, pan_center_override) == 0x815 ? 1 : -1
 ];
-typedef char SDSecondaryState_flag_0500_offset_must_be_0x500[
-    SD_STATE_OFFSET(SDSecondaryState, flag_0500) == 0x500 ? 1 : -1
+typedef char SDSecondaryState_update_gate_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, timer_update_inhibit) == 0x500 &&
+    SD_STATE_OFFSET(SDSecondaryState, update_in_progress) == 0x501 &&
+    SD_STATE_OFFSET(SDSecondaryState, shared_track_updates_enabled) == 0x502 ? 1 : -1
 ];
 typedef char SDSecondaryState_event_guard_offset_must_be_0x503[
     SD_STATE_OFFSET(SDSecondaryState, event_guard) == 0x503 ? 1 : -1

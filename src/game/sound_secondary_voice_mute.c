@@ -23,7 +23,7 @@ void SD_MuteSecondaryVoices(void)
     s32 offset;
     s32 *voice_bits;
 
-    initial->flag_0500 = 1;
+    initial->timer_update_inhibit = 1;
     state = gSD_pSecondaryState;
     if (state->object_count > 0) {
         s32 count;
@@ -63,7 +63,7 @@ void SD_MuteSecondaryVoices(void)
     }
     state = gSD_pSecondaryState;
     state->sequence_state = 4;
-    state->flag_0500 = 0;
+    state->timer_update_inhibit = 0;
 }
 
 /*
@@ -86,7 +86,7 @@ void SD_RestoreSecondaryVoiceVolumes(void)
     s32 offset;
     s32 *voice_bits;
 
-    initial->flag_0500 = 1;
+    initial->timer_update_inhibit = 1;
     state = gSD_pSecondaryState;
     if (state->object_count > 0) {
         s32 count;
@@ -128,5 +128,5 @@ void SD_RestoreSecondaryVoiceVolumes(void)
     }
     state = gSD_pSecondaryState;
     state->sequence_state = 1;
-    state->flag_0500 = 0;
+    state->timer_update_inhibit = 0;
 }

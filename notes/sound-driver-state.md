@@ -925,7 +925,9 @@ SDK contracts, control bytes and all other owners' fields remain exact.
 | `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `SD_HandleSequenceControlChange`, `SD_SetSequenceChannelProgram`, and `SD_SetSequenceChannelPitchBendMsb` establish `program`, `pan`, `volume`, `expression`, `pitch_bend_msb`, and staged controller selector/mode/value bytes; `+0x06` and `+0x10` retain offset-based names. |
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `SD_HandleSequenceControlChange`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
 | `0x04A4` | `0x1C` | `transfer` | `SD_ResetSecondaryState`, `SD_VabOpenHead`, `SD_VabTransBody`, `SD_VabTransBodyChunk`, and `SD_ResetVabTransferState`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, `u8 vab_master_volume +0x18`, unnamed bytes `+0x19/+0x1A`, and `u8 vab_pan +0x1B`. |
-| `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
+| `0x0500` | `u8` | `timer_update_inhibit` | Nonzero makes the timer callback return before processing; the shared updater does not check it. |
+| `0x0501` | `u8` | `update_in_progress` | Plain byte tested/set/cleared around both timer and shared secondary updates, including their maintenance calls. |
+| `0x0502` | `u8` | `shared_track_updates_enabled` | Gates only the shared updater's ten track calls; neither its maintenance nor the timer's eight-call path uses this gate. |
 | `0x0503` | `u8` | `event_guard` | `SD_OpenSequenceTimerEvent` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
 | `0x0504` | `long` | `event_handle` | `SD_OpenSequenceTimerEvent` stores the `OpenEvent` result; `SD_CloseSequenceTimerEvent` disables and closes the same handle. |
 | `0x0508` | `u8` | `timer_maintenance_counter` | Counts inner timer sequencer calls; reaching 11 triggers object maintenance and the optional callback. |
@@ -1176,6 +1178,57 @@ signed storage, unsigned comparison, zero-target behavior, raw displacement
 views, every branch and literal remain exact. No new callback, bounds
 check, clamp, enum, witness migration, test or harness is introduced.
 
+### Separate timer, shared-update and track-call gates
+
+The three adjacent bytes now name their distinct matched-C roles:
+`timer_update_inhibit` at `+0x500`, `update_in_progress` at `+0x501`,
+and `shared_track_updates_enabled` at `+0x502`. All remain `u8`;
+the existing single-offset assertion becomes one three-offset assertion.
+They are separate from `sequence_updates_enabled` at `+0x814`,
+`vsync_update_mode` at `+0x509` and playback's `sequence_state`.
+
+Only the timer callback reads `timer_update_inhibit` among matched C
+consumers. Nonzero returns one after the global-enable test and before
+the VSync-mode test. Playback, mute and restore paths bracket their
+existing work with inhibit stores, but the shared updater does not
+test it. This is not a general mutation lock, hardware interrupt mask
+or guarantee that every update path is excluded.
+
+`SD_OpenSequence` sets inhibition before checking the input tag. Its
+unsupported-tag return leaves inhibition set; valid-tag accepted and
+occupied-slot returns clear it at their original points. Do not add
+a cleanup store. Timer open clears inhibition after its event-setup
+calls, while its event-guard early return does not; timer stop
+and close retain their final clear after the critical-section calls.
+
+The VSync setter first narrows its word argument into the stored mode
+byte, reloads that byte, then sets or clears inhibition from the stored
+value. Keep this order rather than testing the original argument.
+Later playback or timer-lifecycle calls may clear inhibition without
+changing VSync mode; the callback independently checks both bytes.
+
+Both timer and shared update paths test `update_in_progress`, then
+set it for their existing track and object-maintenance work and clear
+it afterward. The timer retains its ignored `GetRCnt` call before the
+store and its return-zero path when the byte is already set. The
+shared updater returns immediately when it is set. This remains a
+plain non-atomic byte with the original tests and stores, not a new
+mutex, nesting counter or stronger synchronization contract.
+
+`shared_track_updates_enabled` guards exactly ten explicit track calls
+inside the shared updater; object reuse and voice maintenance still
+run once when that byte is zero, provided the update guard was clear.
+The timer's separate eight calls and maintenance counter do not test
+this byte. The track pump still applies its own state/ended/tempo gates.
+Do not unify these paths or equate this byte with active playback.
+
+Secondary-state reset clears all three bytes. Nonzero-start playback
+and fast-forward set the shared track gate; stop clears it only in its
+existing open-token branch. Zero-start playback, close, mute and restore
+do not newly clear or set it. These retained values do not supersede
+the pump's independent state checks. Every branch, return, literal,
+count, callback, SDK operation and state-pointer reload remains exact.
+
 ### Timer/VSync dispatch and maintenance cadence
 
 The five timer-dispatch names describe separate controls, not one playback
@@ -1210,7 +1263,7 @@ advances this timer counter nor invokes this stored callback. These two
 paths are not combined, equalized or assigned a common frame rate.
 
 `SD_SetSequenceVSyncMode` still stores its word argument into the byte,
-reloads that byte, then sets or clears `flag_0500` from the stored value.
+reloads that byte, then sets or clears `timer_update_inhibit` from the stored value.
 It does not stop/restart a counter or open/close an event. Do not replace
 this with a test of the untruncated argument or normalize it to a boolean.
 
@@ -1738,7 +1791,7 @@ No precheck, clamp, extent inference or error-return change is introduced.
 
 Existing assertions pin the renamed read base and token; one new block
 pins state, source and limit. Pointer reloads, alias views, the invalid-tag
-return before clearing `flag_0500`, ambient-argument declarations, compiler
+return before clearing `timer_update_inhibit`, ambient-argument declarations, compiler
 profiles and every runtime literal remain exact. No witness needs a
 member-name migration; no new test or harness is added, and no cloud or
 witness suite is run locally.

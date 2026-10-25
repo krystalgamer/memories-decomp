@@ -9,9 +9,9 @@ void SD_SetSequenceVSyncMode(s32 value)
     gSD_pSecondaryState->vsync_update_mode = value;
     state = gSD_pSecondaryState;
     if (state->vsync_update_mode != 0)
-        state->flag_0500 = 1;
+        state->timer_update_inhibit = 1;
     else
-        state->flag_0500 = 0;
+        state->timer_update_inhibit = 0;
 }
 
 void SD_InitDataSourceFlags(s32 first, s32 second, s32 third)

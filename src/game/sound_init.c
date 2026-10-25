@@ -95,9 +95,9 @@ void SD_ResetSecondaryState(void)
     SDSecondaryState *fifth;
     SDSecondaryState *final;
 
-    gSD_pSecondaryState->flag_0500 = 0;
-    gSD_pSecondaryState->flag_0501 = 0;
-    gSD_pSecondaryState->flag_0502 = 0;
+    gSD_pSecondaryState->timer_update_inhibit = 0;
+    gSD_pSecondaryState->update_in_progress = 0;
+    gSD_pSecondaryState->shared_track_updates_enabled = 0;
     state = gSD_pSecondaryState;
     state->object_count = SD_SECONDARY_OBJECT_COUNT;
     state->sequence_updates_enabled = 0;

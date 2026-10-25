@@ -12,7 +12,7 @@ void SD_CloseSequenceTimerEvent(void)
     DisableEvent(gSD_pSecondaryState->event_handle);
     CloseEvent(gSD_pSecondaryState->event_handle);
     ExitCriticalSection();
-    gSD_pSecondaryState->flag_0500 = 0;
+    gSD_pSecondaryState->timer_update_inhibit = 0;
 }
 
 void SD_StopSequenceTimer(void)
@@ -21,15 +21,15 @@ void SD_StopSequenceTimer(void)
     EnterCriticalSection();
     StopRCnt(RCntCNT2);
     ExitCriticalSection();
-    gSD_pSecondaryState->flag_0500 = 0;
+    gSD_pSecondaryState->timer_update_inhibit = 0;
 }
 
 void SD_UpdateSecondarySequence(void)
 {
-    if (gSD_pSecondaryState->flag_0501)
+    if (gSD_pSecondaryState->update_in_progress)
         return;
-    gSD_pSecondaryState->flag_0501 = 1;
-    if (gSD_pSecondaryState->flag_0502) {
+    gSD_pSecondaryState->update_in_progress = 1;
+    if (gSD_pSecondaryState->shared_track_updates_enabled) {
         SD_ProcessSequenceTracks();
         SD_ProcessSequenceTracks();
         SD_ProcessSequenceTracks();
@@ -43,7 +43,7 @@ void SD_UpdateSecondarySequence(void)
     }
     SD_UpdateSecondaryObjectReuseCountdowns();
     SD_UpdateSecondaryObjectVoices();
-    gSD_pSecondaryState->flag_0501 = 0;
+    gSD_pSecondaryState->update_in_progress = 0;
 }
 
 #include "sound_sequence_reader.h"
