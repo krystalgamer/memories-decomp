@@ -479,9 +479,6 @@ segments:
     - game/library_grid_cursor
   - - 111440
     - c
-    - game/library_fading_card_outline
-  - - 112180
-    - c
     - game/european/library_runtime
   - - 118228
     - c

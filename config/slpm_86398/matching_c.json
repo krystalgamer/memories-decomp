@@ -1527,15 +1527,15 @@
     },
     {
       "address": "0x8002A7A0",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F4",
-      "source": "src/game/library_fading_card_outline.c"
+      "source": "src/game/japanese/library_runtime.c"
     },
     {
       "address": "0x8002A994",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/library_fading_card_outline.c"
+      "source": "src/game/japanese/library_runtime.c"
     },
     {
       "address": "0x8002B88C",

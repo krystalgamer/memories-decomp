@@ -78,20 +78,19 @@ class LibraryCardOutlineTests(unittest.TestCase):
             "sles_03951": (0x8002AB50, 0x8002AD44),
         }
         owners = (
-            ("Library_DrawFadingCardOutline",
-             "src/game/library_fading_card_outline.c", 0x1F4,
-             "gcc_2_8_1_g0_split"),
-            ("Library_CreateFadingCardOutline",
-             "src/game/library_fading_card_outline.c", 0xF0,
-             "gcc_2_8_1_g0_split"),
+            ("Library_DrawFadingCardOutline", 0x1F4),
+            ("Library_CreateFadingCardOutline", 0xF0),
         )
+        profile = "gcc_2_8_1_g8_split"
+        wrappers = {"slus_01411": "", "slpm_86398": "japanese/"}
         for region, addresses in pairs.items():
             directory = ROOT / "config" / region
             manifest = json.loads((directory / "matching_c.json").read_text())
             with (directory / "functions.csv").open() as handle:
                 inventory = list(csv.DictReader(handle))
             self.assertEqual(addresses[1] - addresses[0], 0x1F4)
-            for address, (name, source, size, profile) in zip(addresses, owners):
+            source = f"src/game/{wrappers.get(region, 'european/')}library_runtime.c"
+            for address, (name, size) in zip(addresses, owners):
                 with self.subTest(region=region, function=name):
                     entry, = [
                         item for item in manifest["functions"]
@@ -101,7 +100,7 @@ class LibraryCardOutlineTests(unittest.TestCase):
                     self.assertEqual(int(entry["size"], 0), size)
                     self.assertEqual(entry["profile"], profile)
                     self.assertEqual(
-                        sum(item["source"] == source for item in manifest["functions"]), 2
+                        sum(item["source"] == source for item in manifest["functions"]), 9
                     )
                     row, = [
                         item for item in inventory if int(item["address"], 0) == address
@@ -123,7 +122,7 @@ class LibraryCardOutlineTests(unittest.TestCase):
     def test_actual_fade_prefix_and_regression_controls(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        draw = (ROOT / "src/game/library_fading_card_outline.c").read_text()
+        draw = (ROOT / "src/game/library_runtime.c").read_text()
         prefix = re.search(
             r"(?ms)^    n = \*\(u16 \*\)&o->field_60 - 0x10;.*?^    \}",
             draw,
