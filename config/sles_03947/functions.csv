@@ -515,12 +515,12 @@ address,size,name,status,module,notes
 0x800398C4,0xE4,DuelEffect_UpdateGlyphReveal,matching_c,game,
 0x800399A8,0xC4,DuelEffect_UpdateGlyphConceal,matching_c,game,
 0x80039A6C,0xD0,DuelEffect_UpdateDelayedGlyphRotation,matching_c,game,
-0x80039B3C,0x1E8,func_80039B3C,matching_c,game,Exact European radial fade callback match with saved origin pointers and source labels preserving the retail radius-clamp schedule.
-0x80039D24,0x60,func_80039D24,matching_c,game,
-0x80039D84,0x74,func_80039D84,matching_c,game,
-0x80039DF8,0x90,func_80039DF8,matching_c,game,
-0x80039E88,0x20,func_80039E88,matching_c,game,Exact European fade-in wrapper with the 0x16-byte duel-effect entry layout.
-0x80039EA8,0x24,func_80039EA8,matching_c,game,Exact European fade-out wrapper with the 0x16-byte duel-effect entry layout.
+0x80039B3C,0x1E8,DuelEffect_UpdateGlyphSpiralFade,matching_c,game,Exact European radial fade callback match with saved origin pointers and source labels preserving the retail radius-clamp schedule.
+0x80039D24,0x60,DuelEffect_StartGlyphSpiralReveal,matching_c,game,
+0x80039D84,0x74,DuelEffect_StartGlyphSpiralConceal,matching_c,game,
+0x80039DF8,0x90,DuelEffect_UpdateGlyphLinearFade,matching_c,game,
+0x80039E88,0x20,DuelEffect_UpdateGlyphFadeIn,matching_c,game,Exact European fade-in wrapper with the 0x16-byte duel-effect entry layout.
+0x80039EA8,0x24,DuelEffect_UpdateGlyphFadeOut,matching_c,game,Exact European fade-out wrapper with the 0x16-byte duel-effect entry layout.
 0x80039ECC,0x160,DuelEffect_ProcessEntries,matching_c,game,The shared compaction loop matches exactly with the European 0x16-byte entry layout.
 0x8003A02C,0x80,DisplayEffect_ResetMenuRecords,matching_c,game,
 0x8003A0AC,0x28,DisplayEffect_MarkInitialized,matching_c,game,
