@@ -37,10 +37,16 @@ typedef char OptionsLayoutBuffer_size_must_be_12[
  *
  * An incomplete array is what produces cc1psx's pair, and no spelling at the
  * use site substitutes for it. */
-#ifdef D_8009AF5C_AS_BYTE_ARRAY
-extern u8 gOptions_SelectionRowPositions[];
+#ifdef VERSION_JAPAN
+#define OPTIONS_SELECTION_ROW_POSITIONS_LABEL asm("gJapanese_OptionsLayoutPositions")
 #else
-extern OptionsLayoutPositionData gOptions_SelectionRowPositions;
+#define OPTIONS_SELECTION_ROW_POSITIONS_LABEL
+#endif
+#ifdef D_8009AF5C_AS_BYTE_ARRAY
+extern u8 gOptions_SelectionRowPositions[] OPTIONS_SELECTION_ROW_POSITIONS_LABEL;
+#else
+extern OptionsLayoutPositionData gOptions_SelectionRowPositions
+    OPTIONS_SELECTION_ROW_POSITIONS_LABEL;
 #endif
 
 #endif

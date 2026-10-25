@@ -8,7 +8,6 @@
 #define D_8009B26C gJapanese_bActiveMainMode
 #define gDebugMenu_wMessageId D_8009AE8C
 #define gDebugMenu_wCampaignScene D_8009AE8E
-#define gDebugMenu_awNibbleMasks gJapanese_D_8009AF4C
 
 /* Values that differ in the Japanese release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

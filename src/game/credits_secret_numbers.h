@@ -8,6 +8,11 @@
 /* The five eight-digit secret numbers the credits display, each stored as a
    high/low four-digit pair. Main_RunCredits picks one by the save's game id
    modulo five. src/game/credits_secret_numbers.c owns them at 0x80090B50. */
+#ifdef VERSION_EUROPE
+extern u16 gCredits_awSecretNumbers[CREDITS_SECRET_NUMBER_COUNT][2]
+    asm("gEuropean_D_80091B54");
+#else
 extern u16 gCredits_awSecretNumbers[CREDITS_SECRET_NUMBER_COUNT][2];
+#endif
 
 #endif

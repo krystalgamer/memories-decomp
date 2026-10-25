@@ -14,10 +14,15 @@ extern u16 gDebugMenu_wCampaignScene;
  * has. The element type is not the lever -- `u8 []` and `u16 []` give the
  * same object under the same Bytes8 access, so the arm keeps the type the
  * scalar states. */
-#ifdef D_8009AF4C_IS_AGGREGATE
-extern u16 gDebugMenu_awNibbleMasks[];
+#ifdef VERSION_JAPAN
+#define FRONTEND_DEBUG_NIBBLE_MASKS_LABEL asm("gJapanese_D_8009AF4C")
 #else
-extern u16 gDebugMenu_awNibbleMasks;
+#define FRONTEND_DEBUG_NIBBLE_MASKS_LABEL
+#endif
+#ifdef D_8009AF4C_IS_AGGREGATE
+extern u16 gDebugMenu_awNibbleMasks[] FRONTEND_DEBUG_NIBBLE_MASKS_LABEL;
+#else
+extern u16 gDebugMenu_awNibbleMasks FRONTEND_DEBUG_NIBBLE_MASKS_LABEL;
 #endif
 
 #endif
