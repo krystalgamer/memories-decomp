@@ -2120,15 +2120,15 @@
     },
     {
       "address": "0x80030198",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xB8",
-      "source": "src/game/duel_interface_setup.c"
+      "source": "src/game/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030250",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/duel_interface_setup.c"
+      "source": "src/game/debug_menu_editor_entries.c"
     },
     {
       "address": "0x80030294",
