@@ -220,9 +220,8 @@ typedef struct {
     u16 field_0534;
     u8 pad0536[2];
     s32 decoded_half;
-    u8 buffer_053C[4][0x200];
-    u8 pad0D3C[0x800];
-    u8 *G32 buffer_ptrs_153C[4];
+    SpuDecodedData decoded_data;
+    s16 *G32 decoded_cd_halves[4];
     SDLevelWord output_level;
     SDLevelWord field_1550;
     u8 pad1554[0xC];
@@ -587,6 +586,22 @@ typedef char SDValue_field_15F4_offset_must_be_0x15F4[
 ];
 typedef char SDValue_decoded_half_offset_must_be_0x538[
     SD_STATE_OFFSET(SDValue, decoded_half) == 0x538 ? 1 : -1
+];
+typedef char SDDecodedData_half_and_record_sizes_must_match[
+    SPU_DECODEDDATA_SIZE == 2 * SD_MIX_SAMPLE_COUNT &&
+    sizeof(((SpuDecodedData *)0)->cd_left) == 0x400 &&
+    sizeof(SpuDecodedData) == 0x1000 ? 1 : -1
+];
+typedef char SDValue_decoded_data_offsets_must_match[
+    SD_STATE_OFFSET(SDValue, decoded_data.cd_left) == 0x53C &&
+    SD_STATE_OFFSET(SDValue, decoded_data.cd_right) == 0x93C &&
+    SD_STATE_OFFSET(SDValue, decoded_data.voice1) == 0xD3C &&
+    SD_STATE_OFFSET(SDValue, decoded_data.voice3) == 0x113C ? 1 : -1
+];
+typedef char SDValue_decoded_data_must_end_at_cd_halves[
+    SD_STATE_OFFSET(SDValue, decoded_data) + sizeof(SpuDecodedData) ==
+        SD_STATE_OFFSET(SDValue, decoded_cd_halves) &&
+    SD_STATE_OFFSET(SDValue, decoded_cd_halves) == 0x153C ? 1 : -1
 ];
 typedef char SDValue_output_level_offset_must_be_0x154C[
     SD_STATE_OFFSET(SDValue, output_level) == 0x154C &&
