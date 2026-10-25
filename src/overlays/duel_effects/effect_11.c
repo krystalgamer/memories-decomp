@@ -10,6 +10,7 @@
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
 #include "row_strike_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
 {
@@ -98,9 +99,9 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
         }
     } else if (work->cross) {
         if (work->cross == 1) {
-            func_8014E35C(1);
+            DuelEffect_DrawErrorCross(1);
         } else {
-            func_8014E35C(0);
+            DuelEffect_DrawErrorCross(0);
         }
         work->cross++;
         if (work->cross > 180) {

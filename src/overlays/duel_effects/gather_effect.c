@@ -19,6 +19,7 @@
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
+#include "fallback_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define GATHER_CURVE_HEIGHT 106
@@ -94,9 +95,9 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
     } else {
         if (state->step != 0) {
             if (state->step == 1) {
-                func_8014E35C(1);
+                DuelEffect_DrawErrorCross(1);
             } else {
-                func_8014E35C(0);
+                DuelEffect_DrawErrorCross(0);
             }
             state->step++;
             if (state->step >= 0xB5) {
