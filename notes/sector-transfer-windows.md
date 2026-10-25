@@ -161,3 +161,42 @@ only `descriptor.done` to `descriptor.transfer_mode` substitutions. Their
 complete remaining sources, scenarios, callbacks, assertions, mutation
 paths, values and offsets stay exact. No test, fixture, generated-C,
 source-string harness or local cloud-test execution is added.
+
+## Ready-sector options and skip producers
+
+Three high-confidence option names now expose existing ready-callback
+decisions without changing the request/state word or any numeric bit:
+
+| Option | Bit | Exact consuming branch |
+| --- | --- | --- |
+| `FILE_TRANSFER_FLAG_SKIP_RAM_WRITE` | `0x200000` | Mode 1 bypasses both incoming-sector copy and destination advancement |
+| `FILE_TRANSFER_FLAG_IMAGE_ADVANCE_X` | `0x20000` | Mode 2 advances its stored X coordinate by `0x40` instead of taking the Y-first path |
+| `FILE_TRANSFER_FLAG_MEMORY_SOURCE` | `0x40000000` | Modes 1/2/3 take their existing software-copy paths instead of `CdGetSector` |
+
+The skip option is also named at all twelve direct setters: ten existing
+auxiliary-model package skip branches and the common and independent
+Japanese card-data gap branches. Skipping still consumes the original
+sector budget and callback phases. In mode 1, the separate ready-source
+cursor still advances even when no copy or destination advance occurs.
+There is no new cancellation, pause, byte-count adjustment or completion
+meaning in this option.
+
+The image option retains the exact fixed X increment, Y increment, wrap
+test and alternate-buffer selection. It is not used to replace a phase
+size: the equal-valued `0x20000` in card-list image setup remains a byte
+count, and unrelated model/GPU fields are untouched.
+
+Memory-source selection does not initialize that cursor, establish its
+allocation, or by itself bypass disc-command scheduling. Mode 1 retains
+its unconditional source-cursor advance; image mode advances it only on
+the software path, and SPU mode retains its partial-sector byte advance.
+The software loop's destination-member reloads, descriptor aliases,
+callback/global reloads and all ordering remain exact.
+
+Only seventeen proven production literals are replaced across four C
+units. The three definitions retain the original unsuffixed integer
+literals. Mixed phase clear masks, `0x10000` setup stores, request arguments,
+signed tests, all other bits and every existing executable control remain
+byte-for-byte untouched. No exhaustive flag set, new type, new expression,
+guard, harness, testcase, source-string control or local cloud-test
+execution is introduced.

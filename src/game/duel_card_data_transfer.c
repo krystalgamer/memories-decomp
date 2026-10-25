@@ -35,7 +35,7 @@ void Duel_StepCardDataTransfer(FileTransferDescriptor *o, int mode) {
         o->phase_size = FILE_SECTOR_SIZE;
         o->result = 2;
         gFile_dwTransferState &= ~0x30000;
-        gFile_dwTransferState |= 0x200000;
+        gFile_dwTransferState |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
         o->transfer_mode = 1;
     }
 }

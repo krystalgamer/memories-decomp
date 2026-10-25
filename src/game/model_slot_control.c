@@ -1015,7 +1015,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         } else {
             d->phase_size = 16 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= 0x200000;
+            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             d->transfer_mode = 1;
         }
         break;
@@ -1045,7 +1045,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         } else {
             d->phase_size = 16 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= 0x200000;
+            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             d->transfer_mode = 1;
         }
         break;
@@ -1058,7 +1058,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= 0x200000;
+            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             d->transfer_mode = 1;
         }
         break;
@@ -1071,7 +1071,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= 0x200000;
+            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             d->transfer_mode = 1;
         }
         break;
@@ -1084,7 +1084,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= 0x200000;
+            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             d->transfer_mode = 1;
         }
         break;
@@ -1097,7 +1097,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         } else {
             d->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= 0x200000;
+            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             d->transfer_mode = 1;
         }
         break;
@@ -1110,7 +1110,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         } else {
             d->phase_size = 2 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= 0x200000;
+            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             d->transfer_mode = 1;
         }
         break;
@@ -1123,7 +1123,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         } else {
             d->phase_size = 2 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= 0x200000;
+            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             d->transfer_mode = 1;
         }
         break;
@@ -1131,7 +1131,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         if (slot->field_E1D != 0) {
             d->phase_size = FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
-            gFile_dwTransferState_abs |= 0x200000;
+            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             d->transfer_mode = 1;
         } else {
             d->sector_destination = d->alternate_sector_destination =
@@ -1147,7 +1147,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
             do { mask = 0xFFFCFFFF; } while (0);
             d->phase_size = 50 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= mask;
-            gFile_dwTransferState_abs |= 0x200000;
+            gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
             d->transfer_mode = 1;
         } else {
             d->transfer_mode = 3;
