@@ -169,3 +169,19 @@ void SD_DisableSecondaryPanning(void)
 {
     gSD_pSecondaryState->field_0815 = 1;
 }
+
+/* Validates a byte value against the secondary-object capacity and stores it
+   into the s16 field 0x510 of *gSD_pSecondaryState. Returns the stored value, or 0xFF
+   if out of range or zero. */
+s32 SD_SetSecondaryObjectCount(u32 a0) {
+    u8 x = a0 & 0xFF;
+
+    if (x >= SD_SECONDARY_OBJECT_COUNT + 1) {
+        return 0xFF;
+    }
+    if (x == 0) {
+        return 0xFF;
+    }
+    gSD_pSecondaryState->object_count = x;
+    return x;
+}
