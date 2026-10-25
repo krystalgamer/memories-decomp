@@ -1,5 +1,35 @@
 # Complete Spanish duel effect 12
 
+## Canonical Stop Defense burst
+
+`DuelEffect_RunStopDefenseBurst` names the complete native `func_80150E00`
+owner: PAL `80150E00`, North American `801519D8`, Japanese `8015EE94`,
+1,048 instruction bytes. The actual resident `DuelEffect_ApplyStopDefense`
+allocates request `0xC` for each of five ground positions in sequence and
+tracks its request. When the handler raises `field_1D`, the resident caller
+tests the corresponding occupied defense-position card, starts its alpha
+transition and clears its defense flag. The caller then waits for the request's
+active flag to clear before advancing. The overlay renders the burst and
+signals progress/completion; it does not own card eligibility or position rules.
+
+The complete handler and dispatcher use an extern-only semantic header.
+`gDuelEffect_StopDefenseBurstConfig` binds the one 16-byte native
+`D_8015AEE4` owner (NA `8015AFB0`, JP `80168F70`).
+`gDuelEffect_StopDefenseBurstInitialScale` binds separate native
+`D_80146188` (NA `801461D0`, JP `801541E0`), retaining its 16-byte SDK
+VECTOR and padding. These remain two real generated objects, not new
+definitions, absolute data aliases or an invented variant table.
+
+Every nonnegative phase still selects that same record. Preserve all three
+32-point rings and 32 particle position/velocity slots, captured frame step,
+signed-halfword ring-height contract, two differently scaled ring passes,
+half-color copy and the final three scale assignments without adding an
+unobserved matrix update before the sprite. Keep the `0x4000` threshold,
+progress store before fade-by-15, separate black-color completion, frame
+advance and matrix restoration. Private layouts, profiles, maps and gameplay
+callers remain unchanged; no exclusive artwork or new #418 runtime evidence
+is claimed.
+
 The dispatcher-selected effect-12 routine `func_80150E00` at
 `80150E00..80151218` is now a complete 1,048-byte C translation unit using
 `gcc_2_8_1_g0_split`. Recovery used the Spanish bank instructions and established
