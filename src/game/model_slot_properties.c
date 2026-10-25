@@ -65,8 +65,8 @@ void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source)
 u8 *Model_GetSlotTintDescriptor(s32 index)
 {
     ModelSlot *entry = &gModel_aSlots[index];
-    s32 remainder = entry->field_DC0[7] % 6;
-    u8 *descriptor = entry->field_DC0;
+    s32 remainder = entry->tint[7] % 6;
+    u8 *descriptor = entry->tint;
 
     if (remainder != 0 && descriptor[3] == 0) {
         descriptor += 4;
@@ -83,10 +83,10 @@ void Model_SetSlotTintTarget(
 {
     ModelSlot *entry = &gModel_aSlots[slot];
 
-    entry->field_DC0[3] = mode;
-    entry->field_DC0[0] = target0;
-    entry->field_DC0[1] = target1;
-    entry->field_DC0[2] = target2;
+    entry->tint[3] = mode;
+    entry->tint[0] = target0;
+    entry->tint[1] = target1;
+    entry->tint[2] = target2;
 }
 
 void Model_SetSlotAmbient(s32 index, s32 x, s32 y, s32 z)

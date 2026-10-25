@@ -61,7 +61,7 @@ statically proven scale view is not evidence that a call was observed.
 ## Tint descriptor and ambient triplet
 
 `Model_GetSlotTintDescriptor` (`0x80059520`) keeps its raw `u8 *` return.
-It chooses `field_DC0` or `field_DC0 + 4` only when the original remainder
+It chooses `tint` or `tint + 4` only when the original remainder
 of byte seven modulo six is nonzero and byte three is zero. The renderer
 uses these target/transitional color-and-mode blocks, model primary
 overlays copy a `CVECTOR` view, and buffer-space accounting reads byte

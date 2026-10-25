@@ -56,7 +56,7 @@ Verified shared fields and partial arrays are:
 | `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `Model_DrawSlot` and `Model_DrawBackground` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
 | `0xDA0` | `ambient_rgb_scale[3]` | three adjacent clamped `s32` writes in `Model_SetSlotAmbient` |
 | `0xDB0` | `field_DB0` | four-word copy/reset block in `Model_SetSlotScale` |
-| `0xDC0` | `field_DC0[8]` | target colour/mode writes in `Model_SetSlotTintTarget` and selection in `Model_GetSlotTintDescriptor` |
+| `0xDC0` | `tint[8]` | fade tint: target colour/mode writes in `Model_SetSlotTintTarget` and selection in `Model_GetSlotTintDescriptor`; live 3-D battle values below (formerly `field_DC0`) |
 | `0xDC8` | `field_DC8[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `Model_SeekSlotAnimation` |
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
 | `0xDF8` | `field_DF8` | first property in `Model_SetSlotProperties`; mirrored to `gModel_awSlotModelIds[index]` for all three slots when non-negative |
@@ -79,7 +79,7 @@ Verified shared fields and partial arrays are:
 layout and stride only, because the runtime count establishes it is an array
 without proving its static bound.
 
-`field_DC0` reads statically as four sub-fields, none named yet:
+`tint` (formerly `field_DC0`) reads statically as four sub-fields:
 
 | Bytes | Static role |
 |---|---|
@@ -88,8 +88,35 @@ without proving its static bound.
 | 4-6 | current RGB: `Model_DrawSlot` steps it toward 0-2 while byte 7 % 6 is non-zero and byte 3 is 0 |
 | 7 | fade/one-shot flag: `Model_InitSlot` stores 5 for flag `0x80`; 6 makes `Model_UpdateSlotControl` queue an endpoint |
 
-`tools/trace/model_slot_dc0_watch.lua` records the live values per 3-D scene
-so they can be matched to what is on screen.
+### Live values in 3-D battles
+
+The `model_slot_dc0_watch` trace (result in #7948) covered three Free Duel
+battles plus one non-battle scene, with 784 `Model_SetSlotTintTarget` calls
+and 8,849 decoded stores. Slot 0 was the player's monster, slot 1 the
+opponent's, and slot 2 kept `808080:00` throughout.
+
+Bytes 0-3 are the monster's fade. Byte 3 only ever held 0 or 5:
+
+| Moment on screen | Writer | Bytes 0-2 | Byte 3 |
+|---|---|---|---|
+| battle set-up, before either monster appears | `Model_SetSlotTintTarget`, both slots | `00` | 0→5 |
+| player monster fades in among the purple flames | `Model_UpdateBurstEffect` (ra `0x8006F0C4`), slot 0 | 0→124 in steps of 4, 63 frames, then 128 | 5, then 0 |
+| opponent appears | `Model_UpdateAnimatedBattle` (`0x8004EED8`) | 128 at once | 0 |
+| destroyed monster, with light beams under it | `Model_UpdateAnimatedBattle` (`0x8004F7C0`) switches to 5, then `Model_UpdateSparkEffect` (`0x8007019C`) | 128→0 in steps of 2, 125 frames | 5 |
+| surviving monster fades out at the end | `Model_UpdateAnimatedBattle` (`0x8004FB0C`, `0x8004FC5C`, `0x8004FD68`) switches to 5, then its own stores | 128→0 in steps of 2, 129 frames | 5 |
+| scene ends | `Model_ResetSlot`, through `Model_FillWords` | 128 | 0 |
+
+So byte 3 = 5 is the additive fade mode. Bytes 0-2 act as the monster's
+brightness: 0 is invisible and 128 is normal. Byte 3 = 0 with 128 is the
+opaque, untinted model. The destroyed-monster fade matched slot 0 in #3
+(Dragon Piper lost) and slot 1 in #2 (Armored Zombie lost). A MODEL.MRG
+variant overlay (return `0x8013C960`) also set slot 1 to mode 0 at 128
+twice; which variant is not identified.
+
+Byte 7 never became non-zero: all 4,762 `Model_DrawSlot` stores to it
+wrote 0 over 0, so the bytes 4-6 ramp branch never ran in these
+battles. Bytes 4-6 stayed 0, written only by `Model_InitSlot` and
+`Model_ResetSlot`. Their roles and byte-3 values 1-4 remain unobserved.
 
 `animation_sequences` and the run at `0x750` are no longer in that position. The reset
 in `Model_ResetSlotAnimationTables` walks both to fixed bounds -- ten rows and 58 parts, from
@@ -198,7 +225,7 @@ active, the processor:
 1. computes three colour bytes as linear integer interpolation from entry
    bytes `+0x10..+0x12` toward `+0x14..+0x16`, using elapsed `+0x0C` over
    duration `+0x0E`, while retaining byte `+0x13` as the fourth channel;
-2. saves the slot colour at `field_DC0`, `field_BF5`, `animation_position`, and the
+2. saves the slot colour at `tint`, `field_BF5`, `animation_position`, and the
    affected per-part bytes, installs the request values, and redraws the slot;
 3. clears the two draw-context globals, restores every saved model value, and
    restores the prior `Model_SetSlotShadowEnabled` state;
