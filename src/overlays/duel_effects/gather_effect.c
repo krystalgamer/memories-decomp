@@ -20,6 +20,7 @@
 #include "drawing_semantic_views.h"
 #include "layered_semantic_views.h"
 #include "fallback_semantic_views.h"
+#include "live_handler_data_semantic_views.h"
 
 #ifdef VERSION_EUROPE
 #define GATHER_CURVE_HEIGHT 106
@@ -44,14 +45,14 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
     memset(&frame.rotation, 0, sizeof(frame.rotation));
     memset(&frame.position, 0, sizeof(frame.position));
     packet = &frame.polygon;
-    frame.scale = D_80146024;
+    frame.scale = gDuelEffect_GuardianStarBonusInitialScale;
     state = buffer;
     if (phase >= 0) {
         if (phase >= 10) {
             state->step = 1;
         } else {
             state->step = 0;
-            state->descriptor = &D_8015A5F8;
+            state->descriptor = &gDuelEffect_GuardianStarBonusConfig;
             DuelEffect_InitRandomVectorsXY(state->particles, state->descriptor->spread,
                           state->descriptor->spread, 32);
             DuelEffect_InitRandomVectorsXY(state->particles_b, state->descriptor->spread,

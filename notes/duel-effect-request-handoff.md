@@ -96,7 +96,11 @@ all previous lifecycle/data work. It normally integrates the subsequently
 accepted Fusion/Attack Slash data squash
 `f353063c35a3ef75ed0a724c405855e696e291bc`, preserving its complete registry
 prefix, both full canonical providers, four data views and original owners.
-The remaining live-handler data component is not imported while pending.
+It also normally integrates the subsequently accepted remaining live-handler
+data squash `e975a55339e541083b98365ae44e25e0530b224a`, retaining all nine
+data-owner records before the dispatcher row, all four complete providers
+and their original storage. Terrain's accepted data names/include coexist
+with the progress member rename and canonical live/fallback calls.
 
 For each of the 26 complete actual C sources, the only changes are these
 member/function identifiers, including their comments. Forward substitution

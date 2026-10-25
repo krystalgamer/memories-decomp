@@ -4271,37 +4271,37 @@
       "address": "0x80045204",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/sound_mix.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x8004525C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x20",
-      "source": "src/game/sound_mix.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x8004527C",
       "profile": "gcc_2_8_1_g0",
       "size": "0xD0",
-      "source": "src/game/sound_mix.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x8004534C",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC8",
-      "source": "src/game/sound_mix.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x80045414",
       "profile": "gcc_2_8_1_g0",
       "size": "0x8C",
-      "source": "src/game/sound_mix.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x800454A0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x18",
-      "source": "src/game/sound_mix.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x800454B8",

@@ -968,9 +968,6 @@ segments:
     - game/spanish/mem_card_io_result_callbacks
   - - 219652
     - c
-    - game/sound_mix
-  - - 220344
-    - c
     - game/sound_output_state
   - - 221464
     - c

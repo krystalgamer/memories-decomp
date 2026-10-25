@@ -4241,37 +4241,37 @@
       "address": "0x80044434",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
-      "source": "src/game/japanese/sound_mix.c"
+      "source": "src/game/japanese/sound_output_state.c"
     },
     {
       "address": "0x8004448C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x20",
-      "source": "src/game/japanese/sound_mix.c"
+      "source": "src/game/japanese/sound_output_state.c"
     },
     {
       "address": "0x800444AC",
       "profile": "gcc_2_8_1_g0",
       "size": "0xD0",
-      "source": "src/game/japanese/sound_mix.c"
+      "source": "src/game/japanese/sound_output_state.c"
     },
     {
       "address": "0x8004457C",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC8",
-      "source": "src/game/japanese/sound_mix.c"
+      "source": "src/game/japanese/sound_output_state.c"
     },
     {
       "address": "0x80044644",
       "profile": "gcc_2_8_1_g0",
       "size": "0x8C",
-      "source": "src/game/japanese/sound_mix.c"
+      "source": "src/game/japanese/sound_output_state.c"
     },
     {
       "address": "0x800446D0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x18",
-      "source": "src/game/japanese/sound_mix.c"
+      "source": "src/game/japanese/sound_output_state.c"
     },
     {
       "address": "0x800446E8",
