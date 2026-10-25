@@ -62,7 +62,7 @@ segments:
     align: 4
     subsegments:
       - {start: 0x800, type: bin, name: italian_raw_80010000, linker_section_order: .rodata}
-      - [0x844, .rodata, game/european/file_transfer_runtime]
+      - [0x844, .rodata, game/file_transfer_runtime]
       - {start: 0x860, type: bin, name: italian_raw_80010060, linker_section_order: .rodata}
       - [0x8B0, .rodata, game/european/duel_load_package_stage]
       - {start: 0x8F4, type: bin, name: italian_raw_800100f4, linker_section_order: .rodata}
@@ -119,7 +119,7 @@ segments:
       - [0x3E00, c, game/european/file_set_position_table]
       - [0x3F00, c, game/file_wait_for_transfers]
       - [0x3FB4, c, game/file_stream]
-      - [0x4220, c, game/european/file_transfer_runtime]
+      - [0x4220, c, game/file_transfer_runtime]
       - [0x5538, c, game/file_transfer_flags]
       - [0x58CC, c, game/european/fade_runtime]
       - [0x6434, c, game/display_object_project_ground_position]
@@ -353,7 +353,7 @@ segments:
       - [0x2DEE4, c, game/spanish/dialog_transition]
       - [0x2E5E0, c, game/spanish/mem_card_dialog]
       - [0x30994, c, game/save_data_set_mask_seed]
-      - [0x309A4, c, game/european/sound_frontend]
+      - [0x309A4, c, game/sound_frontend]
       - [0x30B50, c, game/european/display_object_core]
       - [0x31348, c, game/display_object_render_sprite_sheet_list]
       - [0x31404, c, game/european/display_object_runtime]
@@ -379,7 +379,7 @@ segments:
       - [0x37424, c, game/sd_init_state]
       - [0x37618, c, game/sound_state_control]
       - [0x376C4, c, game/european/sd_update_bank_load]
-      - [0x37A78, c, game/european/sound_output]
+      - [0x37A78, c, game/sound_output]
       - [0x38110, c, game/sd_init_voice_state]
       - [0x382CC, c, game/sound_pending_entries]
       - [0x38418, c, game/sd_queue_value_link_transfer]
@@ -418,7 +418,7 @@ segments:
       - [0x3D79C, asm, generated/italian_8004cf9c]
       - [0x3DDB8, c, game/gpu_packets]
       - [0x3E154, c, game/model_word_memory]
-      - [0x3E1A4, c, game/european/model_queue_relative_camera_orbit]
+      - [0x3E1A4, c, game/model_queue_relative_camera_orbit]
       - [0x3E3B4, c, game/european/model_keyframe_update]
       - [0x3F018, c, game/european/model_effect_state]
       - [0x4042C, c, game/european/model_init_slot]
@@ -452,7 +452,7 @@ segments:
       - [0x4D3E8, c, game/model_state_setters]
       - [0x4D400, c, game/model_queue_tint_request_for_all_parts]
       - [0x4D498, c, game/model_get_slot0_offset_world_position]
-      - [0x4D520, c, game/european/model_scene_states]
+      - [0x4D520, c, game/model_scene_states]
       - [0x4D7C4, c, game/model_effect_requests]
       - [0x4DA90, c, game/model_lock_orbit_direction]
       - [0x4DAFC, c, game/model_distance_queries]
