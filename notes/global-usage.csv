@@ -2234,12 +2234,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004C8C8,SD_ProcessSequenceTracks,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,SDSecondaryState *root = gSD_pSecondaryState; | if (count != 0 && gSD_pSecondaryState->field_080C == 0) { | (+2 more)
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004CA60,SD_ResetSequenceTracks,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,for (i = 0; i < gSD_pSecondaryState->track_count; i++) { | gSD_pSecondaryState->tracks[i].ended = 1; | (+1 more)
 0x8009B458,gSD_pSecondaryState,gSD_pSecondaryState,0x8004CABC,SD_GetSequenceStatus,matching_c,game,C,src/game/sd_sequence_tracks.c,read,,SDSecondaryState *object = gSD_pSecondaryState;
-0x8009B45C,g_SDValue,g_SDValue,0x80044D48,SD_InitBufferState,matching_c,game,C,src/game/sound_mix.c,read,,base = g_SDValue;
-0x8009B45C,g_SDValue,g_SDValue,0x80044DA0,SD_ResetCdPan,matching_c,game,C,src/game/sound_mix.c,read,,g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX; | g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
-0x8009B45C,g_SDValue,g_SDValue,0x80044DC0,SD_SetCdVolume,matching_c,game,C,src/game/sound_mix.c,read,,SDValue *p = g_SDValue; | g_SDValue->cd_volume = s0;
-0x8009B45C,g_SDValue,g_SDValue,0x80044E90,SD_SetCdPan,matching_c,game,C,src/game/sound_mix.c,read,,SD_SetCdVolume(g_SDValue->cd_volume); | g_SDValue->channel_volume[0] = -SD_CHANNEL_VOLUME_MAX - saved; | (+3 more)
-0x8009B45C,g_SDValue,g_SDValue,0x80044F58,SD_SetCdVolumeImmediate,matching_c,game,C,src/game/sound_mix.c,read,,first = g_SDValue; | g_SDValue->mix_multiplier = 7; | (+2 more)
-0x8009B45C,g_SDValue,g_SDValue,0x80044FE4,SD_GetCdVolume,matching_c,game,C,src/game/sound_mix.c,read,,return g_SDValue->cd_volume;
+0x8009B45C,g_SDValue,g_SDValue,0x80044D48,SD_InitBufferState,matching_c,game,C,src/game/sound_output_state.c,read,,base = g_SDValue;
+0x8009B45C,g_SDValue,g_SDValue,0x80044DA0,SD_ResetCdPan,matching_c,game,C,src/game/sound_output_state.c,read,,g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX; | g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
+0x8009B45C,g_SDValue,g_SDValue,0x80044DC0,SD_SetCdVolume,matching_c,game,C,src/game/sound_output_state.c,read,,SDValue *p = g_SDValue; | g_SDValue->cd_volume = s0;
+0x8009B45C,g_SDValue,g_SDValue,0x80044E90,SD_SetCdPan,matching_c,game,C,src/game/sound_output_state.c,read,,SD_SetCdVolume(g_SDValue->cd_volume); | g_SDValue->channel_volume[0] = -SD_CHANNEL_VOLUME_MAX - saved; | (+3 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80044F58,SD_SetCdVolumeImmediate,matching_c,game,C,src/game/sound_output_state.c,read,,first = g_SDValue; | g_SDValue->mix_multiplier = 7; | (+2 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80044FE4,SD_GetCdVolume,matching_c,game,C,src/game/sound_output_state.c,read,,return g_SDValue->cd_volume;
 0x8009B45C,g_SDValue,g_SDValue,0x8004503C,SD_StartCdFade,matching_c,game,C,src/game/sound_output_state.c,read,,g_SDValue->field_0049 = flag; | g_SDValue->field_0512 = value;
 0x8009B45C,g_SDValue,g_SDValue,0x80045114,SD_EnqueueCdStop,matching_c,game,C,src/game/sound_output_state.c,read,,SDValue *state = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80045208,SD_EnqueueCdPlay,matching_c,game,C,src/game/sound_output_state.c,read,,SDValue *a = g_SDValue; | g_SDValue->flags_0040 = (g_SDValue->flags_0040 | 1) & 0xFFFB; | (+1 more)

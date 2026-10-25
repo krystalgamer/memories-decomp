@@ -1,4 +1,117 @@
+/* The sound driver's CD-audio control, SD_InitBufferState (0x80044D48)
+   through SD_ClearBusyFlag: the CD mix state first -- work-buffer pointer
+   setup (which first centres the pan and applies CD volume 255), the pan
+   reset that sets both channel volumes to SD_CHANNEL_VOLUME_MAX, the three CD
+   volume/pan setters and the CD volume reader -- then the CD command queuers,
+   CD-level measurement and busy-state completion. */
+
 #include "../types.h"
+#include "sd_set_cd_volume.h"
+#include "sound.h"
+#include "../psyq/libcd.h"
+#include "sound_mix.h"
+
+void SD_InitBufferState(void)
+{
+    SDValue *base;
+
+    SD_ResetCdPan();
+    SD_SetCdVolume(255);
+    base = g_SDValue;
+    base->buffer_ptrs_153C[0] = base->buffer_053C[0];
+    base->buffer_ptrs_153C[1] = base->buffer_053C[1];
+    base->buffer_ptrs_153C[2] = base->buffer_053C[2];
+    base->field_0512 = 0;
+    base->buffer_ptrs_153C[3] = base->buffer_053C[3];
+}
+
+void SD_ResetCdPan(void)
+{
+    g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
+    g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
+}
+
+/* Sibling of SD_SetCdVolumeImmediate: builds the same 4-byte CdMix volume
+   packet, but here val0/val1-or-val2 are scaled DSP-style from a0 instead
+   of copied verbatim. g_SDValue's fields 0x514/0x515 are
+   per-channel volume scalars; f42 and f533 combine with (a0+1) to derive a
+   shared 0-8191 "shift" factor, which each channel's scalar is then
+   multiplied against and rescaled (>>7) into its packet byte. f48 picks
+   which of val1/val2 carries the scaled value (the other gets 0), matching
+   SD_SetCdVolumeImmediate's f48-based slot selection. Reloads
+   g_SDValue through a fresh alias for the trailing f510 write, same
+   pattern as project_d8009b45c_reload_pointer_trick. */
+void SD_SetCdVolume(s16 a0) {
+    SDValue *p = g_SDValue;
+    s32 prod1 = (a0 + 1) * p->mix_scale;
+    s32 prod2 = p->mix_multiplier * (prod1 >> 8);
+    s32 shift = ((u32)(u16)prod2) >> 3;
+    CdlATV local;
+    s16 s0 = a0;
+
+    local.val0 = (shift * p->channel_volume[0]) >> 7;
+    local.val3 = 0;
+
+    if (p->output_type == 0) {
+        local.val1 = 0;
+        local.val2 = (shift * p->channel_volume[1]) >> 7;
+    } else {
+        local.val1 = (shift * p->channel_volume[1]) >> 7;
+        local.val2 = 0;
+    }
+
+    CdMix(&local);
+
+    g_SDValue->cd_volume = s0;
+}
+
+void SD_SetCdPan(s32 pan)
+{
+    s16 saved = pan;
+
+    if ((u16)((u32)pan - 1) < SD_CHANNEL_VOLUME_MAX) {
+        g_SDValue->channel_volume[0] = -SD_CHANNEL_VOLUME_MAX - saved;
+        g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
+    } else if ((u16)((u32)pan + SD_CHANNEL_VOLUME_MAX) <
+        SD_CHANNEL_VOLUME_MAX) {
+        g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
+        g_SDValue->channel_volume[1] = -SD_CHANNEL_VOLUME_MAX - saved;
+    } else {
+        g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
+        g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
+    }
+    SD_SetCdVolume(g_SDValue->cd_volume);
+}
+
+void SD_SetCdVolumeImmediate(s32 value)
+{
+    CdlATV data;
+    SDValue *first;
+    SDValue *second;
+
+    g_SDValue->mix_multiplier = 7;
+    data.val0 = value;
+    data.val3 = 0;
+    if (g_SDValue->output_type == 0) {
+        data.val1 = 0;
+        data.val2 = value;
+    } else {
+        data.val1 = value;
+        data.val2 = 0;
+    }
+    CdMix(&data);
+    first = g_SDValue;
+    first->field_0049 = value;
+    second = g_SDValue;
+    first->cd_volume = value;
+    second->field_0512 = 0;
+}
+
+s32 SD_GetCdVolume(void)
+{
+    return g_SDValue->cd_volume;
+}
+
 #include "../psyq/libspu.h"
 
 #include "sound.h"
