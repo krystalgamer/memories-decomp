@@ -73,7 +73,7 @@ address,size,name,status,module,notes
 0x80153C88,0x114,DuelEffect_SubmitOffsetGt4,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80153D9C,0x3C,DuelEffect_InitBaseMatrix,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80153DD8,0x8DC,DuelEffect_RunAttackSlash,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x801546B4,0x44C,func_80153ADC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x801546B4,0x44C,DuelEffect_RunExpandingRingBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80154B00,0x604,DuelEffect_RunParticleContourBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80155104,0x4A8,DuelEffect_RunContourBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x801555AC,0xBC0,DuelEffect_RunDirectDamage,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
@@ -82,5 +82,5 @@ address,size,name,status,module,notes
 0x80156AB4,0x9C8,DuelEffect_RunLifePointRecovery,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x8015747C,0xBCC,DuelEffect_RunReflectedDirectDamage,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80158048,0x704,DuelEffect_RunInvertedLifePointRecovery,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
-0x8015874C,0x738,func_80159AAC,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
+0x8015874C,0x738,DuelEffect_RunCardFlashBurst,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
 0x80158E84,0x13EC,DuelEffect_RunBoardDestruction,matching_c,overlay/duel_effects,Complete bank byte identity and section-defined C ownership verified.
