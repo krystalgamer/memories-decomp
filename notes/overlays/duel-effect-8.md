@@ -1,5 +1,36 @@
 # Complete Spanish duel effect 8
 
+## Canonical shared field-column burst
+
+`DuelEffect_RunFieldColumnBurst` names the complete native `func_80147B18`
+owner: PAL `80147B18`, North American `801499DC`, Japanese `80155B70`,
+1,680 instruction bytes. The name describes the shared presentation, not
+exclusive Cursebreaker artwork or gameplay ownership. The actual resident
+`DuelEffect_ApplyCursebreaker` allocates request 8 at each of five ground
+positions, chooses phase 3 normally or 5 for an occupied negatively modified
+card, and clears the modifier itself. The same request is created by
+`Duel_UpdateTrapPresentation` over the selected trap's display position before
+resident `DuelCard_RemoveFromField` removes it. That path uses the allocator's
+default phase; it does not establish an exclusive card-effect identity.
+
+The complete handler and dispatcher use an extern-only semantic header.
+`gDuelEffect_FieldColumnBurstConfigs[6]` binds native `D_8015A514`
+(NA `8015A600`, JP `801685A0`), preserving all six 38-byte records and their
+228-byte generated owner. `gDuelEffect_FieldColumnBurstInitialScale` binds
+separate native `D_80146014` (NA `8014606C`, JP `80154014`), preserving the
+16-byte SDK VECTOR. Private recovered work/config types, SDK padding,
+all native maps/profiles and real data allocations remain unchanged.
+
+Preserve all six configurations, phases at least six selecting the crossed-line
+fallback, its first-update command and greater-than-180 completion, and the
+unaligned color at work offset `81A`. The ordinary path retains the captured
+frame step, 64-entry particle spans, 32 rays, zero-acceleration halfword read,
+unsigned width/height updates and joint-limit fade, optional two ring passes,
+texture-page pair, exact matrix call order and color completion. Do not rename
+this shared lifecycle as Cursebreaker alone, shrink arrays to retail counts,
+initialize unused fields or alter arithmetic. No new #418 runtime/artwork
+observation is claimed.
+
 `func_80147B18` at `80147B18..801481A8` is a complete 1,680-byte C
 translation unit using `gcc_2_8_1_g0_split`. The accepted dispatcher selects
 it for effect 8. Recovery used the Spanish bank's instructions and established
