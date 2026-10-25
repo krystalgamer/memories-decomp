@@ -49,6 +49,10 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object);
 /* Secondary command 6: read the channel-local glyph pen X from two stream
  * bytes. Wrapping remains a separate operation. */
 void Text_SetPenX(DuelEffectChannel *object);
+#ifdef VERSION_EUROPE
+/* PAL-only two-byte pen-Y operand; no opcode index is assigned here. */
+extern void Text_SetPenY(DuelEffectChannel *object) asm("func_80038168");
+#endif
 /* Secondary command 7: reset progress and set a glyph (NA/Japan) or pixel
  * (Europe) completion limit. Zero disables this limit check. */
 void Text_SetOutputLimit(DuelEffectChannel *object);
