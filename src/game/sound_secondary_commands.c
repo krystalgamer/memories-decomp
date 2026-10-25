@@ -130,11 +130,11 @@ PSXLONG SD_SequenceTimerCallback(void)
     SDSecondaryState *state = gSD_pSecondaryState;
     s32 i;
 
-    if (state->field_0814 == 0)
+    if (state->sequence_updates_enabled == 0)
         return 1;
     if (state->flag_0500 != 0)
         return 1;
-    if (state->field_0509 != 0)
+    if (state->vsync_update_mode != 0)
         return 1;
     if (state->flag_0501 == 0) {
         GetRCnt(RCntCNT2);
@@ -143,13 +143,13 @@ PSXLONG SD_SequenceTimerCallback(void)
             void (*callback)(void);
 
             SD_ProcessSequenceTracks();
-            gSD_pSecondaryState->field_0508++;
+            gSD_pSecondaryState->timer_maintenance_counter++;
             state = gSD_pSecondaryState;
-            if (state->field_0508 >= 11) {
-                state->field_0508 = 0;
+            if (state->timer_maintenance_counter >= 11) {
+                state->timer_maintenance_counter = 0;
                 SD_UpdateSecondaryObjectReuseCountdowns();
                 SD_UpdateSecondaryObjectVoices();
-                callback = gSD_pSecondaryState->field_050C;
+                callback = gSD_pSecondaryState->timer_maintenance_callback;
                 if (callback != 0)
                     callback();
             }

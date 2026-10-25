@@ -73,9 +73,9 @@ void SD_InitState(u8 arg0)
     SD_InitBufferState();
     SD_InitSecondaryRuntime();
     SD_SetOutputType(0);
-    gSD_pSecondaryState->field_0509 = 0;
+    gSD_pSecondaryState->vsync_update_mode = 0;
     sec = gSD_pSecondaryState;
     st2 = g_SDValue;
-    sec->field_050C = SD_UpdateVoiceSlots;
+    sec->timer_maintenance_callback = SD_UpdateVoiceSlots;
     st2->flags_0040 = 0;
 }
