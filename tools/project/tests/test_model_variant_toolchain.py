@@ -392,6 +392,30 @@ class ModelVariantToolchainTests(unittest.TestCase):
         self.assertEqual(counts["matching_c_bytes"], 0x1128 + 0x4F4 + 0x6E4 + 0x70C + 0x4EC + 0x558 + 0x314 + 0x380 + 0x368)
 
     @unittest.skipUnless((ROOT / "game/DATA/MODEL.MRG").is_file(), "requires the retail MODEL input")
+    def test_image_data_symbols_fit_their_images(self):
+        # A byte-identical build does not check symbol extents, so a raw-data
+        # symbol that runs past the image end would go unnoticed.
+        manifest = json.loads((self.config / "overlays.json").read_text())
+        checked = 0
+        for module in manifest["modules"]:
+            name = module["name"]
+            if not name.startswith("model_variant_"):
+                continue
+            path = self.config / "overlays" / f"{name}_symbols.txt"
+            if not path.exists():
+                continue
+            start = int(module["load_address"], 16)
+            end = start + module["sector_count"] * 2048
+            for line in path.read_text().splitlines():
+                if not line.startswith("D_") or " size:0x" not in line:
+                    continue
+                address = int(line.split("=", 1)[1].split(";", 1)[0], 16)
+                size = int(line.split(" size:0x", 1)[1].split()[0], 16)
+                self.assertGreaterEqual(address, start, (name, line))
+                self.assertLessEqual(address + size, end, (name, line))
+                checked += 1
+        self.assertGreater(checked, 0)
+
     def test_header_families_share_text(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
         modules = {m["name"]: m for m in manifest["modules"] if m["name"].startswith("model_variant_")}
