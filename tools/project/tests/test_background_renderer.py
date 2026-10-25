@@ -103,7 +103,7 @@ void Model_UpdateBackgroundScroll(s32 value)
 int GsSetFlatLight(int id, GsF_LIGHT *light)
 {
     event(2, id, 0);
-    if (id < 0 || id > 2 || light != (GsF_LIGHT *)&gModel_aSlots[2].field_D70[id]) error = 3;
+    if (id < 0 || id > 2 || light != (GsF_LIGHT *)&gModel_aSlots[2].flat_lights[id]) error = 3;
     return 0;
 }
 void GsSetAmbient(long r, long g, long b)
