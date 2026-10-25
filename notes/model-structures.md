@@ -7,6 +7,47 @@ where semantics, signedness, array bounds, or pointee layouts are uncertain.
 GMS and the Unchiga decompilation/recompilation inventories were used as
 corroborating evidence, not as sources of guessed reference types.
 
+## Model-slot directional lights
+
+The three records at slot offsets `0xD70`, `0xD80` and `0xD90` are now
+`ModelSlot.flat_lights[3]`. The evidence is the complete local producer and
+consumer chain, not resemblance to a vector or a reference declaration:
+
+| Original member | Canonical member | Preserved representation |
+| --- | --- | --- |
+| `ModelSlot.field_D70` | `flat_lights` | three `0x10`-byte records at `+0xD70` |
+| `ModelSlotLightEntry.field_00` | `direction_x` | `s32`, `+0` |
+| `ModelSlotLightEntry.field_04` | `direction_y` | `s32`, `+4` |
+| `ModelSlotLightEntry.field_08` | `direction_z` | `s32`, `+8` |
+| `ModelSlotLightEntry.field_0C` | `rgb` | `u8[3]`, `+0xC` |
+
+`Model_InitLightTriplet` seeds directions `(3000, 5000, 2000)`,
+`(-3000, 5000, -2000)` and `(0, -5000, 0)`. Its first two RGB triplets
+are `(128, 128, 128)` and its third is `(64, 64, 64)`.
+`Model_DrawSlot` and `Model_DrawBackground` pass these exact records to
+`GsSetFlatLight(0..2)`. The local SDK declaration names the corresponding
+words `vx/vy/vz` and bytes `r/g/b`; compile-time checks retain their offsets
+and sizes without importing the SDK header chain into `model.h`.
+
+These are directional-light inputs, not point positions, Euler angles or
+unit vectors. No coordinate-space, normalization, channel-clamping or
+universal key/fill/rim assignment is inferred. The words stay signed, RGB
+stays a three-byte array and `pad_0F` remains an uninterpreted byte.
+
+`Model_GetFlatLight` retains its legacy byte-pointer return, unsigned
+light-index fallback to zero for indices at least three, unchecked model
+index and separately relocated `gModel_aSlot0FlatLights` interior alias
+at `0x800F39B0`. It is not rewritten as a direct slot-member address.
+
+The Library card-view path obtains lights two and zero through that
+accessor. Its nine direction-word stores now use the same canonical names.
+Its three packed color stores remain full `s32` writes at `+0xC`, `+0x1C`
+and `+0x2C`, including each record's padding byte; replacing them with RGB
+byte stores would change behavior. All computations, values, writes,
+SDK-call order, render gates, native bindings and grouped owners remain
+unchanged. Historical code-generation experiments below retain their
+original offset spellings.
+
 ## `D_800F2C40`: three `0xE20`-byte slots
 
 `ModelSlot` has size `0xE20`, and `D_800F2C40` is declared as three entries.
@@ -53,7 +94,7 @@ Verified shared fields and partial arrays are:
 | `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `Model_StartBattleSlotAction` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `Model_GetSlotDataEntry`, `Model_GetCurrentDataEntry`, and `Model_TransformPartVertex` |
 | `0xD18` | `field_D18` | `Model_BuildCameraRelativeCoordinateUnit` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
-| `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `Model_DrawSlot` and `Model_DrawBackground` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
+| `0xD70` | `flat_lights[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `Model_DrawSlot` and `Model_DrawBackground` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
 | `0xDA0` | `ambient_rgb_scale[3]` | three adjacent clamped `s32` writes in `Model_SetSlotAmbient` |
 | `0xDB0` | `field_DB0` | four-word copy/reset block in `Model_SetSlotScale` |
 | `0xDC0` | `tint[8]` | fade tint: target colour/mode writes in `Model_SetSlotTintTarget` and selection in `Model_GetSlotTintDescriptor`; live 3-D battle values below (formerly `field_DC0`) |

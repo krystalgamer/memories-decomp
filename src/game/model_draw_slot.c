@@ -197,9 +197,9 @@ void Model_DrawSlot(s32 index)
     if (slot->draw_mode_request != 1 && slot->tint[3] >= 2 && !(W(slot->tint, 0) & 0xFFFFFF)) {
         return;
     }
-    GsSetFlatLight(0, (GsF_LIGHT *)&slot->field_D70[0]);
-    GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
-    GsSetFlatLight(2, (GsF_LIGHT *)&slot->field_D70[2]);
+    GsSetFlatLight(0, (GsF_LIGHT *)&slot->flat_lights[0]);
+    GsSetFlatLight(1, (GsF_LIGHT *)&slot->flat_lights[1]);
+    GsSetFlatLight(2, (GsF_LIGHT *)&slot->flat_lights[2]);
     GsSetAmbient(slot->ambient_rgb_scale[0], slot->ambient_rgb_scale[1], slot->ambient_rgb_scale[2]);
     gModel_dwLitColorCacheBase = slot->lit_color_cache_address;
     gModel_bCurrentDrawMode = slot->draw_mode_request;

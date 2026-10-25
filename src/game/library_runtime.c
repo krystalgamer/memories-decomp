@@ -464,9 +464,9 @@ void Library_UpdateCardView(LibraryState *state)
         c = a * rsin(vs->field_04) / 4096;
         a = b * rsin(vs->angle + 0x800) / 4096;
         b = b * rcos(vs->angle + 0x800) / 4096;
-        light->field_00 = b;
-        light->field_04 = c;
-        light->field_08 = a;
+        light->direction_x = b;
+        light->direction_y = c;
+        light->direction_z = a;
         flags = state->motion.card_view_phase;
         if (!(flags & 0x80)) {
             state->motion.card_view_phase = flags | 0x80;
@@ -478,13 +478,13 @@ void Library_UpdateCardView(LibraryState *state)
             if (!(flags & 0x40)) {
                 state->motion.state = flags | 0x40;
                 light = (ModelSlotLightEntry *)Model_GetFlatLight(0, 0);
-                light[0].field_04 = -0x1000;
-                light[0].field_00 = 0;
-                light[0].field_08 = 0;
+                light[0].direction_y = -0x1000;
+                light[0].direction_x = 0;
+                light[0].direction_z = 0;
                 W(light, 0xC) = 0xFFFFFF;
-                light[1].field_00 = 0;
-                light[1].field_04 = 0x1000;
-                light[1].field_08 = 0;
+                light[1].direction_x = 0;
+                light[1].direction_y = 0x1000;
+                light[1].direction_z = 0;
                 W(light, 0x1C) = 0x404040;
                 W(light, 0x2C) = 0xC0C0C0;
                 Model_SetSlotAmbient(0, 0x400, 0x400, 0x400);

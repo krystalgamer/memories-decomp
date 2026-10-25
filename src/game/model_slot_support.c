@@ -77,38 +77,36 @@ void Model_DrawSlotUnitsOnly(s32 index)
     entry->draw_mode_request = old;
 }
 
-// Per-index (stride 0xE20) table; this function seeds 3 records of
-// {s32,s32,s32,u8,u8,u8} at +0xD70/+0xD80/+0xD90 -- looks like X/Y/Z offsets
-// plus an intensity-byte triple for a 3-point light/particle rig.
+/* Three directional-light records consumed by GsSetFlatLight, not positions. */
 void Model_InitLightTriplet(s32 index)
 {
     ModelSlot *slot = &gModel_aSlots[index];
 
-    slot->field_D70[0].field_00 = 3000;
-    slot->field_D70[0].field_04 = 5000;
-    slot->field_D70[0].field_08 = 2000;
-    slot->field_D70[0].field_0C[0] = MODEL_LIGHT_BASE_INTENSITY;
-    slot->field_D70[0].field_0C[1] = MODEL_LIGHT_BASE_INTENSITY;
-    slot->field_D70[0].field_0C[2] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[0].direction_x = 3000;
+    slot->flat_lights[0].direction_y = 5000;
+    slot->flat_lights[0].direction_z = 2000;
+    slot->flat_lights[0].rgb[0] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[0].rgb[1] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[0].rgb[2] = MODEL_LIGHT_BASE_INTENSITY;
 
-    slot->field_D70[1].field_00 = -3000;
-    slot->field_D70[1].field_04 = 5000;
-    slot->field_D70[1].field_08 = -2000;
-    slot->field_D70[1].field_0C[0] = MODEL_LIGHT_BASE_INTENSITY;
-    slot->field_D70[1].field_0C[1] = MODEL_LIGHT_BASE_INTENSITY;
-    slot->field_D70[1].field_0C[2] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[1].direction_x = -3000;
+    slot->flat_lights[1].direction_y = 5000;
+    slot->flat_lights[1].direction_z = -2000;
+    slot->flat_lights[1].rgb[0] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[1].rgb[1] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[1].rgb[2] = MODEL_LIGHT_BASE_INTENSITY;
 
-    slot->field_D70[2].field_00 = 0;
-    slot->field_D70[2].field_04 = -5000;
-    slot->field_D70[2].field_08 = 0;
-    slot->field_D70[2].field_0C[0] = MODEL_LIGHT_DIM_INTENSITY;
-    slot->field_D70[2].field_0C[1] = MODEL_LIGHT_DIM_INTENSITY;
-    slot->field_D70[2].field_0C[2] = MODEL_LIGHT_DIM_INTENSITY;
+    slot->flat_lights[2].direction_x = 0;
+    slot->flat_lights[2].direction_y = -5000;
+    slot->flat_lights[2].direction_z = 0;
+    slot->flat_lights[2].rgb[0] = MODEL_LIGHT_DIM_INTENSITY;
+    slot->flat_lights[2].rgb[1] = MODEL_LIGHT_DIM_INTENSITY;
+    slot->flat_lights[2].rgb[2] = MODEL_LIGHT_DIM_INTENSITY;
 }
 
 /* Returns flat light `light` of model slot `index`: Model_DrawSlot and
-   Model_DrawBackground hand the three field_D70 records to
-   GsSetFlatLight(0..2). This is gModel_aSlots[0].field_D70, but spelling the
+   Model_DrawBackground hand the three flat_lights records to
+   GsSetFlatLight(0..2). This is gModel_aSlots[0].flat_lights, but spelling the
    base that way materializes the 0xD70 offset and makes this function one
    instruction longer. */
 unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light)
