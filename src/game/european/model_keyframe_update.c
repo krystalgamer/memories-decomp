@@ -1,5 +1,4 @@
 #include "../../types.h"
 
-#define gModel_pCurrentEffectKey gEuropean_D_8009B074
-#define gModel_bEffectKeyCount gEuropean_D_8009B078
+#define VERSION_EUROPE
 #include "../model_keyframe_update.c"

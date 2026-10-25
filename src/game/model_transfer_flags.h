@@ -52,8 +52,16 @@
  * former s32 spellings were casts around a pointer. Every retail access
  * is gp-relative, so no unit needs an arm.
  */
+#if defined(VERSION_JAPAN)
+extern Key *G32 gModel_pCurrentEffectKey asm("gJapanese_D_8009B074");
+extern u8 gModel_bEffectKeyCount asm("gJapanese_D_8009B078");
+#elif defined(VERSION_EUROPE)
+extern Key *G32 gModel_pCurrentEffectKey asm("gEuropean_D_8009B074");
+extern u8 gModel_bEffectKeyCount asm("gEuropean_D_8009B078");
+#else
 extern Key *G32 gModel_pCurrentEffectKey;
 extern u8 gModel_bEffectKeyCount;
+#endif
 extern u8 gModel_bEffectKeyPreparationPending;
 extern s8 gModel_nEffectKeyBatchOrdinal;
 extern u8 gModel_bCameraHoldState;
