@@ -3022,23 +3022,23 @@
       "address": "0x80039794",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x1A0",
-      "source": "src/game/text_box_update_channels.c"
+      "source": "src/game/text_box_runtime.c"
     },
     {
       "address": "0x80039934",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0xE0",
       "source": "src/game/text_box_runtime.c"
     },
     {
       "address": "0x80039A14",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x4C",
       "source": "src/game/text_box_runtime.c"
     },
     {
       "address": "0x80039A60",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x4C",
       "source": "src/game/text_box_runtime.c"
     },

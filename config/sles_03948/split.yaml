@@ -791,10 +791,7 @@ segments:
     - game/european/text_box_build_step
   - - 171888
     - c
-    - game/european/text_box_update_channels
-  - - 172304
-    - c
-    - game/text_box_runtime
+    - game/european/text_box_runtime
   - - 172680
     - c
     - game/european/display_object_fade_helpers

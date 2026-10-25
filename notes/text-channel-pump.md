@@ -5,7 +5,7 @@ frame pump, called by the scene/menu/dialog runtimes and resident-linked
 overlays. It is not a replacement for the single-channel
 `TextBox_BuildStep` or either synchronous build wrapper.
 The matching source/header paths remain
-[`text_box_update_channels.c`](../src/game/text_box_update_channels.c) and
+[`text_box_runtime.c`](../src/game/text_box_runtime.c) and
 [`text_box_update_channels.h`](../src/game/text_box_update_channels.h).
 
 ## Two cursors, one record
