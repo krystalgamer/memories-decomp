@@ -16,7 +16,7 @@ class GroupedScriptGameOverUnitTests(unittest.TestCase):
         }
 
     def test_script_state_functions_have_one_owner(self) -> None:
-        owner = "src/game/script_flag_commands.c"
+        owner = "src/game/script_image_commands.c"
         for address in ("0x8002E918", "0x8002E9A0", "0x8002EA0C"):
             self.assertEqual(self.functions[address]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_8002E918.c").exists())

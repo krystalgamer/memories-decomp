@@ -573,9 +573,6 @@ segments:
   - - 127304
     - c
     - game/european/script_image_commands
-  - - 127916
-    - c
-    - game/script_flag_commands
   - - 128476
     - c
     - game/script_op_open_campaign_map

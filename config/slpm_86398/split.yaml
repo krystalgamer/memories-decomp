@@ -234,7 +234,6 @@ segments:
       - [0x1ea54, c, game/japanese/script_op_load_image_scene]
       - [0x1eb90, c, game/japanese/script_op_show_dialog]
       - [0x1ec90, c, game/japanese/script_image_commands]
-      - [0x1eef0, c, game/script_flag_commands]
       - [0x1f120, c, game/japanese/script_op_open_campaign_map]
       - [0x1f150, c, game/japanese/script_op_show_menu]
       - [0x1f24c, c, game/japanese/script_stream_commands]
