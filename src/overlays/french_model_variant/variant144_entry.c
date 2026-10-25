@@ -77,12 +77,12 @@ s32 func_8013B004(u8 *context, s32 command)
                 Model_SetFrameStepOverride(1);
             }
             /* Native code leaves both fourth color bytes uninitialized. */
-            tint_start.b0 = 96;
-            tint_start.b1 = 96;
-            tint_start.b2 = 96;
-            tint_end.b0 = 0;
-            tint_end.b1 = 0;
-            tint_end.b2 = 0;
+            tint_start.r = 96;
+            tint_start.g = 96;
+            tint_start.b = 96;
+            tint_end.r = 0;
+            tint_end.g = 0;
+            tint_end.b = 0;
             Model_QueueTintRequestForParts(Model_GetActiveSlotIndex(), 2, tint_start, tint_end,
                 config->tint_ramp_durations[i], config->parts[0], config->parts[1], config->parts[2],
                 config->parts[3], config->parts[4], config->parts[5], config->parts[6], config->parts[7]);

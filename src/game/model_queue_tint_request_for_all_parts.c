@@ -5,6 +5,6 @@
 void Model_QueueTintRequestForAllParts(
     s32 arg0, s32 arg1, ModelTintColor arg2, ModelTintColor arg3, s32 arg4)
 {
-    arg2.b3 = arg1 & 0x7F;
+    arg2.blend_mode = arg1 & 0x7F;
     Model_QueueTintRequest(arg0, 0, arg2, arg3, arg4, 0);
 }

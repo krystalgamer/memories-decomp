@@ -381,17 +381,14 @@ typedef struct {
     ModelCameraLeg target;
 } ModelCameraMove;
 
-/* One end of a tint ramp. Model_QueueTintRequest takes a whole one by value and stores
- * it as a single word, so all four bytes are live even though only b0..b2 are
- * the colour: Model_UpdateTintRequests interpolates those three and copies b3 of the
- * start colour straight through as the part id it draws with. The end
- * colour's b3 at +0x17 is written and never read, which is why it is a member
- * here and not padding -- Model_UpdateTintRequests used to call it pad_17. */
+/* Four-byte tint descriptor, passed and copied whole. Only RGB is
+ * interpolated; the start blend mode reaches the renderer unchanged.
+ * The end blend mode is still copied but never read, not padding. */
 typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 blend_mode;
 } ModelTintColor;
 
 /* One of the MODEL_TINT_REQUEST_COUNT tint requests at gModel_aTintRequests.
@@ -401,13 +398,13 @@ typedef struct {
  * everything it touched.
  *
  * bit 0 of `flags` marks the entry live, bit 1 selects the model slot and
- * bits 3..7 carry the part id override. field_0A is the slot's animation_position as
- * it stood when the request was made; Model_UpdateTintRequests pushes it back through
- * the part records for the duration of the redraw. */
+ * bits 3..7 carry the saved animation-sequence selector override.
+ * animation_position_snapshot is the slot's animation_position when queued;
+ * Model_UpdateTintRequests seeks the part sequences to it for the redraw. */
 typedef struct {
     u16 flags;             /* 0x00 */
     u8 pad_02[8];          /* 0x02 */
-    u16 field_0A;          /* 0x0A */
+    u16 animation_position_snapshot; /* 0x0A */
     u16 elapsed;           /* 0x0C */
     u16 duration;          /* 0x0E */
     ModelTintColor start;  /* 0x10 */
@@ -705,8 +702,22 @@ typedef struct {
 typedef char ModelTintColor_size_must_be_0x4[
     sizeof(ModelTintColor) == 0x4 ? 1 : -1
 ];
+typedef char ModelTintColor_layout_must_match[
+    MODEL_OFFSET(ModelTintColor, r) == 0 &&
+    sizeof(((ModelTintColor *)0)->r) == 1 &&
+    MODEL_OFFSET(ModelTintColor, g) == 1 &&
+    sizeof(((ModelTintColor *)0)->g) == 1 &&
+    MODEL_OFFSET(ModelTintColor, b) == 2 &&
+    sizeof(((ModelTintColor *)0)->b) == 1 &&
+    MODEL_OFFSET(ModelTintColor, blend_mode) == 3 &&
+    sizeof(((ModelTintColor *)0)->blend_mode) == 1 ? 1 : -1
+];
 typedef char ModelTintRequest_size_must_be_0x18[
     sizeof(ModelTintRequest) == 0x18 ? 1 : -1
+];
+typedef char ModelTintRequest_animation_position_snapshot_layout_must_match[
+    MODEL_OFFSET(ModelTintRequest, animation_position_snapshot) == 0xA &&
+    sizeof(((ModelTintRequest *)0)->animation_position_snapshot) == 2 ? 1 : -1
 ];
 typedef char ModelTintRequest_elapsed_offset_must_be_0xC[
     MODEL_OFFSET(ModelTintRequest, elapsed) == 0xC ? 1 : -1
