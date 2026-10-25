@@ -389,7 +389,6 @@ segments:
       - [0x039A9C, c, game/sound_sequence_state]
       - [0x039BC4, c, game/sd_request_music_package_load]
       - [0x039C8C, c, game/sound_init]
-      - [0x03A0CC, c, game/sound_transfer_lifecycle]
       - [0x03A3AC, c, game/func_80049920]
       - [0x03A4F0, c, game/sound_secondary_playback]
       - [0x03A784, c, game/sound_secondary_voice_mute]

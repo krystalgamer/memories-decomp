@@ -1026,9 +1026,6 @@ segments:
   - - 237200
     - c
     - game/sound_init
-  - - 238288
-    - c
-    - game/sound_transfer_lifecycle
   - - 239024
     - c
     - game/func_80049920
