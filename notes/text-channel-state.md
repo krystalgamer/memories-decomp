@@ -52,7 +52,7 @@ change the done bit, advance a frame, destroy an object or yield the current
 text pass.
 
 The flag's owner is visible in `TextBox_UpdateChannels`
-(`src/game/text_box_update_channels.c`). When building first reaches done with this flag
+(`src/game/text_box_runtime.c`). When building first reaches done with this flag
 set, it creates the existing completion prompt with `Dialog_OpenChoice`.
 On a later update, confirmation clears the flag, releases that prompt and
 plays sound `0xB`. `Script_RunTick`, the memory-card result path and

@@ -780,7 +780,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0C0,gGraphics_bSyncVBlankTarget,gGraphics_bSyncVBlankTarget,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_mode_runners.c,write,8,gGraphics_bSyncVBlankTarget = one;
 0x8009B0C1,gGraphics_bExtraFrameStep,gGraphics_bExtraFrameStep,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,8,gGraphics_bExtraFrameStep = 0;
 0x8009B0C1,gGraphics_bExtraFrameStep,gGraphics_bExtraFrameStep,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,8,D_8009B0D8 = gGraphics_bExtraFrameStep + 1; | gGraphics_bExtraFrameStep = 1; | (+2 more)
-0x8009B0C1,gGraphics_bExtraFrameStep,gGraphics_bExtraFrameStep,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_update_channels.c,read,8,if (cnt >= gGraphics_bExtraFrameStep) {
+0x8009B0C1,gGraphics_bExtraFrameStep,gGraphics_bExtraFrameStep,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_runtime.c,read,8,if (cnt >= gGraphics_bExtraFrameStep) {
 0x8009B0C3,gMain_bVBlankSoundPending,gMain_bVBlankSoundPending,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,8,gMain_bVBlankSoundPending = 0;
 0x8009B0C3,gMain_bVBlankSoundPending,gMain_bVBlankSoundPending,0x80012CD4,Main_VBlankCB,matching_c,game,C,src/game/main_frame.c,write,8,gMain_bVBlankSoundPending = 0; | gMain_bVBlankSoundPending = 1;
 0x8009B0C4,gSaveData_dwVBlankCounter,gSaveData_dwVBlankCounter,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,32,gSaveData_dwVBlankCounter = t;
@@ -1813,13 +1813,13 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B355,gText_BranchSelectorB,gText_BranchSelectorB,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/duel_result_runtime.c,read_write,8,gText_BranchSelectorB += 2; | gText_BranchSelectorB = 0; | (+1 more)
 0x8009B355,gText_BranchSelectorB,gText_BranchSelectorB,0x80023144,DuelField_CreateCardInfoTextBox,matching_c,game,C,src/game/duel_field_display_objects.c,read_write,8,gText_BranchSelectorB = 0; | gText_BranchSelectorB = 1; | (+1 more)
 0x8009B355,gText_BranchSelectorB,gText_BranchSelectorB,0x80038A44,Text_JumpBySelectorB,matching_c,game,C,src/game/duel_effect_object_commands.c,read,8,owner->streams[object->stream_58] += gText_BranchSelectorB * 2;
-0x8009B356,gText_PreviousGlyphKind,gText_PreviousGlyphKind,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_update_channels.c,read_write,8,arg = gText_PreviousGlyphKind; | gText_PreviousGlyphKind = kind;
+0x8009B356,gText_PreviousGlyphKind,gText_PreviousGlyphKind,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_runtime.c,read_write,8,arg = gText_PreviousGlyphKind; | gText_PreviousGlyphKind = kind;
 0x8009B357,gText_ScriptDispatchGate,gText_ScriptDispatchGate,0x8003767C,Text_StageScriptImage,matching_c,game,C,src/game/duel_effect_state_callbacks.c,write,8,gText_ScriptDispatchGate = 5;
 0x8009B357,gText_ScriptDispatchGate,gText_ScriptDispatchGate,0x8003771C,Text_StartViewportTween,matching_c,game,C,src/game/duel_effect_state_callbacks.c,write,8,gText_ScriptDispatchGate = 7;
 0x8009B357,gText_ScriptDispatchGate,gText_ScriptDispatchGate,0x800377AC,TextBox_WaitForScriptCompletion,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,8,if (gText_ScriptDispatchGate == 0) {
 0x8009B357,gText_ScriptDispatchGate,gText_ScriptDispatchGate,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read_write,8,gText_ScriptDispatchGate = 0; | if (gText_ScriptDispatchGate != 0) {
 0x8009B35A,gText_PumpedGlyphIndex,gText_PumpedGlyphIndex,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,write,16,gText_PumpedGlyphIndex = gText_CurrentStreamCode;
-0x8009B35A,gText_PumpedGlyphIndex,gText_PumpedGlyphIndex,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_update_channels.c,read_write,16,gText_PumpedGlyphIndex = 0; | gText_PumpedGlyphIndex = reset_value; | (+1 more)
+0x8009B35A,gText_PumpedGlyphIndex,gText_PumpedGlyphIndex,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_runtime.c,read_write,16,gText_PumpedGlyphIndex = 0; | gText_PumpedGlyphIndex = reset_value; | (+1 more)
 0x8009B360,D_8009B360,D_8009B360,0x800175A0,Duel_InitSideStates,matching_c,game,C,src/game/duel_state_init.c,read,8,if (D_8009B360 < 0) {
 0x8009B360,D_8009B360,D_8009B360,0x80019CC8,Duel_MarkCreatedCardKnown,matching_c,game,C,src/game/duel_mark_created_card_known.c,read,8,if (gDuel_bActiveSide == 0 && D_8009B360 < 0 && gDuel_bOpponentID[0] >= 0) {
 0x8009B360,D_8009B360,D_8009B360,0x8001B170,DuelScene_UpdateCardMove,matching_c,game,C,src/game/duel_scene_card_move.c,read,8,if (D_8009B360[gDuel_bActiveSide] >= 0 &&
@@ -1943,7 +1943,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800371A8,Dialog_UpdateChoice,matching_c,game,C,src/game/dialog_update_choice.c,read,16,if ((gInput_wPad1Pressed & DIALOG_UPDATE_CHOICE_CONFIRM_MASK) == 0) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800375A4,Text_WaitForPageAdvance,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,16,void Text_WaitForPageAdvance(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZE...
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read,16,(gInput_wPad1Pressed & TEXT_BOX_ADVANCE_MASK)) {
-0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_update_channels.c,read,16,if (gInput_wPad1Pressed &
+0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_runtime.c,read,16,if (gInput_wPad1Pressed &
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8003B734,Input_IsPad1ConfirmPressed,matching_c,game,C,src/game/input_is_pad1_confirm_pressed.c,read,16,return gInput_wPad1Pressed[0] & PAD_BUTTON_CONFIRM_MASK;
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_screen.c,read,16,(gInput_wPad1Pressed & OPTIONS_CONFIRM_MASK)) { | (gInput_wPad1Pressed & PAD_DIRECTION_HORIZONTAL_MASK)) { | (+2 more)
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8003CA5C,GameOver_Update,matching_c,game,C,src/game/game_over.c,read,16,tail_bits = gInput_wPad1Pressed;
@@ -2601,7 +2601,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035AB8,TextBox_SetRect,matching_c,game,C,src/game/text_box_set_rect.c,address,,&((TEXT_BOX_RECT_CHANNEL_TYPE *)D_800EB0F8)[index];
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035AF0,DuelEffect_InitEntry,matching_c,game,C,src/game/duel_effect_init_entry.c,address,,e = &D_800EB0F8[index];
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80035E20,TextBox_DrawEntries,matching_c,game,C,src/game/text_box_draw_entries.c,read,,code = (u16 *)D_800EB0F8[obj->field_67].entry_head_24;
-0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_update_channels.c,address,,p = D_800EB0F8;
+0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_runtime.c,address,,p = D_800EB0F8;
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003D614,Dialog_UpdateCloseTransition,matching_c,game,C,src/game/dialog_transition.c,address,,entry = &D_800EB0F8[((u8 *)record)[0x1A]]; | entry = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003D74C,Dialog_UpdateOpenTransition,matching_c,game,C,src/game/dialog_transition.c,address,,r = &D_800EB0F8[((u8 *)record)[0x1A]]; | r = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003DA40,Dialog_UpdateMessageTransition,matching_c,game,C,src/game/dialog_transition.c,address,,q = &D_800EB0F8[((u8 *)record)[0x1A]]; | q = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
@@ -3249,7 +3249,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D5800,D_801D5800,D_801D5800,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read,16,D_801D5800[id - TEXT_GLOBAL_STRING_ID_BASE]); | text = (u8 *)(((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) +
 0x801D5800,D_801D5800,D_801D5800,0x8003B744,Text_LookupString,matching_c,game,C,src/game/text_lookup_string.c,read,16,D_801D5800[index - TEXT_GLOBAL_STRING_ID_BASE]); | return (u8 *)(((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) |
 0x801D9000,tent_GlyphLookupTable,tent_GlyphLookupTable,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read,,"DuelEffect_AppendEntry(object, tent_GlyphLookupTable[(s16)gText_CurrentStreamCode].packed & 0x8FF0FFFF);"
-0x801D9000,tent_GlyphLookupTable,tent_GlyphLookupTable,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_update_channels.c,address,,table = tent_GlyphLookupTable;
+0x801D9000,tent_GlyphLookupTable,tent_GlyphLookupTable,0x80039794,TextBox_UpdateChannels,matching_c,game,C,src/game/text_box_runtime.c,address,,table = tent_GlyphLookupTable;
 0x801D9000,tent_GlyphLookupTable,tent_GlyphLookupTable,0x8003BC40,Text_SjisToGlyphCodes,matching_c,game,C,src/game/text_sjis_to_glyph_codes.c,address,,TextGlyphLookupEntry *entry = &tent_GlyphLookupTable[index];
 0x801D9004,tent_GlyphLookupTableEntries,tent_GlyphLookupTableEntries,0x8003B5C8,Text_InitDecimalDigitGlyphMap,matching_c,game,C,src/game/text_init_decimal_digit_glyph_map.c,read,,e = tent_GlyphLookupTableEntries; | if (tent_GlyphLookupTableEntries[0].packed != 0) {
 0x801D9174,D_801D9174,D_801D9174|D_801D9174_b,0x80036BCC,Text_FindRecordById,matching_c,game,C,src/game/duel_effect_entries.c,address,8,key = D_801D9174_b; | rec = D_801D9174;

@@ -3029,25 +3029,25 @@
       "address": "0x80039570",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x1A0",
-      "source": "src/game/european/text_box_update_channels.c"
+      "source": "src/game/european/text_box_runtime.c"
     },
     {
       "address": "0x80039710",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0xE0",
-      "source": "src/game/text_box_runtime.c"
+      "source": "src/game/european/text_box_runtime.c"
     },
     {
       "address": "0x800397F0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x4C",
-      "source": "src/game/text_box_runtime.c"
+      "source": "src/game/european/text_box_runtime.c"
     },
     {
       "address": "0x8003983C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x4C",
-      "source": "src/game/text_box_runtime.c"
+      "source": "src/game/european/text_box_runtime.c"
     },
     {
       "address": "0x80039888",
