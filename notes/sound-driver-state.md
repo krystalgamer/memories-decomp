@@ -1140,3 +1140,57 @@ secondary objects, sixteen channels or sixteen sequence tracks.
 All three actual SDK call sites retain their original `char *` casts,
 storage duration and pointer reloads. There is no new structure, union,
 allocation, status refresh, bound, test harness or callback signature.
+
+### Music-package table and cached open results
+
+The package request, VAB-open, sequence-open and cleanup paths establish one
+connected set of fields. These are local usage-derived names, not recovered
+original declarations:
+
+| Location | Field | Established role |
+|---|---|---|
+| `SDValue +0x1560` | `music_table` | Pointer to eight-byte `SDMusicTableEntry` records, initialized to `0x801E2000`. |
+| table entry `+0x00` | `ram_sector_count` | Byte count of sectors expanded to bytes for the RAM phase. |
+| table entry `+0x01` | `spu_sector_count` | Byte count of sectors expanded to bytes for the SPU phase. |
+| table entry `+0x02` | `sector_offset` | Unsigned halfword passed unshifted as the file-relative sector offset. |
+| table entry `+0x04` | `spu_address` | Signed word passed as the SPU destination, not a CPU pointer. |
+| `SDValue +0x1578` | `opened_music_package_id` | Package's leading halfword copied by `SD_OpenMusicVab` after its VAB-open path succeeds. |
+| `SDValue +0x157A` | `music_vab_open_result` | Narrowed return from `SD_VabOpenHead`; also passed as the VAB argument to `SD_OpenSequence`. |
+| `SDValue +0x157C` | `opened_sequence_command` | `field_004E` token copied after sequence-open returns zero. |
+| `SDValue +0x157E` | `sequence_open_result` | Narrowed return from `SD_OpenSequence`, tested by the stop/close paths. |
+
+`sound.h` imports the existing `SDMusicTableEntry` owner instead of retaining
+an untyped byte pointer for its table. The initializer uses that pointer type.
+The request still selects the record through its original integer byte sum:
+`((arg0 & 0xFF0) >> 4) * sizeof(SDMusicTableEntry)` plus the table base.
+It does not become typed pointer arithmetic with an extra eight-byte scale.
+The signed `arg0 >> 4` cache comparison remains distinct from that mask, and
+the caller's original signed-halfword argument and lack of bounds checks remain.
+
+The table names follow the actual six-argument `SD_EnqueueSpuRamTransfer`
+mapping, not the arguments' order alone. Its fourth argument becomes the
+RAM length in `FileRequestSlot +0x18`, and its fifth becomes the SPU length
+at `+0x14`; the two byte counts are still shifted by `FILE_SECTOR_SHIFT`.
+The first argument becomes the SPU address at `+0x0C`, and the third becomes
+the sector offset at `+0x04`. `SD_StepActiveCommand` preserves that mapping;
+`SD_ConfigureTransferPhase` selects SPU mode 3 before RAM mode 1.
+`File_RequestSecondarySlot` passes the offset to `File_InitTransferDescriptor`,
+whose `File_SetTransferLocation` adds it to the selected file's LBA without
+another unit conversion. Sector-rounded transfer lengths do not establish
+exact logical payload lengths.
+
+Both open-result fields remain signed halfwords, not Boolean flags or newly
+invented hardware handles. The local implementations return zero on success
+and minus one on rejection; existing callers retain their different zero and
+minus-one tests, narrowing, flags and ambient-argument call forms. In
+particular, the stop/close implementations do not consume the apparent
+sequence argument passed by these callers. No public contract is changed.
+
+The two copied tokens are not fresh playback-status observations.
+`opened_music_package_id` has no reader in the tracked resident C.
+`SD_ResetMusicState` leaves `opened_sequence_command` unchanged even after
+closing the sequence, whereas `SD_ResetRuntime` and secondary-runtime
+initialization clear it. Command 72 still does not write the package-ID cache.
+All these asymmetric stores, stale-token lifetimes, call orders and pointer
+reloads are retained. Existing fade fields and the full 24-voice status
+array are unchanged; no package buffer, command record or public API is retyped.

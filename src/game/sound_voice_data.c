@@ -232,12 +232,12 @@ void SD_InitSecondaryRuntime(void)
     a->bgm_fade_target = 0xFF;
     c = g_SDValue;
     a->bgm_fade_step = 0;
-    c->field_1578 = -1;
-    c->field_157A = -1;
-    c->field_157C = -1;
-    c->field_157E = -1;
+    c->opened_music_package_id = -1;
+    c->music_vab_open_result = -1;
+    c->opened_sequence_command = -1;
+    c->sequence_open_result = -1;
     c->music_track = (u16 *)0x801EA800;
-    c->field_1560 = (u8 *)0x801E2000;
+    c->music_table = (SDMusicTableEntry *)0x801E2000;
     c->music_track[0] = 0xFFFF;
     c->music_track[1] = 0;
     *(s32 *)&c->music_track[2] = 0;

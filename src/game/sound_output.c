@@ -32,23 +32,23 @@ void SD_ResetRuntime(void)
     SD_SetCdVolume(0);
     q = g_SDValue;
     q->cd_fade_step = 0;
-    if (q->field_157E != -1) {
+    if (q->sequence_open_result != -1) {
         if ((s16)SD_PollSequenceState() != 1) {
-            SD_StopSequence(g_SDValue->field_157E);
+            SD_StopSequence(g_SDValue->sequence_open_result);
             g_SDValue->flags_0040 &= 0xFF7F;
         }
-        SD_CloseSequence(g_SDValue->field_157E);
+        SD_CloseSequence(g_SDValue->sequence_open_result);
     }
     r = g_SDValue;
-    value = r->field_157A;
-    r->field_157C = -1;
-    r->field_157E = -1;
+    value = r->music_vab_open_result;
+    r->opened_sequence_command = -1;
+    r->sequence_open_result = -1;
     if (value != -1) {
         SD_ResetVabTransferState(value);
     }
     s = g_SDValue;
-    s->field_1578 = -1;
-    s->field_157A = -1;
+    s->opened_music_package_id = -1;
+    s->music_vab_open_result = -1;
     s->sequence_fade_step = 0;
     SpuSetKey(SPU_OFF, 0xFFFFFF);
     g_SDValue->voice_active_mask = 0;

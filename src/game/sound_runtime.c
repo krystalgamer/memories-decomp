@@ -135,9 +135,9 @@ void SD_UpdateRuntime(void)
 
     p = g_SDValue;
     if ((p->flags_0040 & 0x80) != 0 &&
-        p->field_157E != -1 &&
+        p->sequence_open_result != -1 &&
         SD_PollSequenceState() != 1) {
-        SD_StopSequence(g_SDValue->field_157E);
+        SD_StopSequence(g_SDValue->sequence_open_result);
         p = g_SDValue;
         value = p->flags_0040;
         p->sequence_fade_step = -0x80;

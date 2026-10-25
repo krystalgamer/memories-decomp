@@ -44,22 +44,22 @@ void SD_OpenMusicVab(void)
 {
     SDValue *state = g_SDValue;
 
-    if (state->field_157A != 0) {
+    if (state->music_vab_open_result != 0) {
         SDMusicPackage *entry = (SDMusicPackage *)state->music_track;
         s32 result =
             SD_VabOpenHead(&entry->vab_header, 0, entry->spu_address);
 
-        g_SDValue->field_157A = result;
+        g_SDValue->music_vab_open_result = result;
         if ((result << 16) != 0) {
-            g_SDValue->field_1578 = -1;
-            g_SDValue->field_157A = -1;
+            g_SDValue->opened_music_package_id = -1;
+            g_SDValue->music_vab_open_result = -1;
             return;
         }
     }
     {
         register SDValue *final = g_SDValue;
         register u16 *entry = final->music_track;
-        final->field_1578 = *entry;
+        final->opened_music_package_id = *entry;
     }
 }
 

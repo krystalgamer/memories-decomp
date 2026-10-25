@@ -15,20 +15,20 @@
    0x157A/0x1578 inactive. Always zeroes 0x1586/0x1588. */
 
 void SD_ResetMusicState(void) {
-    if (g_SDValue->field_157E != -1) {
+    if (g_SDValue->sequence_open_result != -1) {
         if (g_SDValue->flags_0040 & 0x80) {
-            SD_StopSequence(g_SDValue->field_157E);
+            SD_StopSequence(g_SDValue->sequence_open_result);
             g_SDValue->flags_0040 =
                 g_SDValue->flags_0040 & 0xFF7F;
         }
-        SD_CloseSequence(g_SDValue->field_157E);
-        g_SDValue->field_157E = -1;
+        SD_CloseSequence(g_SDValue->sequence_open_result);
+        g_SDValue->sequence_open_result = -1;
     }
 
-    if (g_SDValue->field_157A == 0) {
+    if (g_SDValue->music_vab_open_result == 0) {
         SD_ResetVabTransferState(0);
-        g_SDValue->field_157A = -1;
-        g_SDValue->field_1578 = -1;
+        g_SDValue->music_vab_open_result = -1;
+        g_SDValue->opened_music_package_id = -1;
     }
 
     g_SDValue->sequence_fade_step = 0;

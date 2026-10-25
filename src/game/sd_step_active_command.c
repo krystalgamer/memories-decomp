@@ -201,18 +201,18 @@ void SD_StepActiveCommand(void)
         goto clear_7d;
 
     case 72:
-        if (g_SDValue->field_157A != 0) {
+        if (g_SDValue->music_vab_open_result != 0) {
             SDMusicPackage *list = (SDMusicPackage *)g_SDValue->music_track;
 
-            g_SDValue->field_157A = SD_VabOpenHead(
+            g_SDValue->music_vab_open_result = SD_VabOpenHead(
                 &list->vab_header, 0, list->spu_address
             );
-            if ((s16)g_SDValue->field_157A != 0) {
+            if ((s16)g_SDValue->music_vab_open_result != 0) {
                 g_SDValue->field_007C = 0;
                 return;
             }
         }
-        if (g_SDValue->field_157E == 0) {
+        if (g_SDValue->sequence_open_result == 0) {
             if ((g_SDValue->flags_0040 & 0x80) != 0) {
                 SD_StopSequence(0);
                 SD_SetSecondaryMasterLevels(0, 0);
@@ -220,8 +220,8 @@ void SD_StepActiveCommand(void)
                 g_SDValue->sequence_fade_step = 0;
                 g_SDValue->flags_0040 = g_SDValue->flags_0040 & 0xFF7F;
             }
-            SD_CloseSequence(g_SDValue->field_157E);
-            g_SDValue->field_157E = -1;
+            SD_CloseSequence(g_SDValue->sequence_open_result);
+            g_SDValue->sequence_open_result = -1;
         }
         {
             CommandIndexTable *l;
@@ -235,12 +235,12 @@ void SD_StepActiveCommand(void)
                 g_SDValue->field_007C = 0;
                 return;
             }
-            g_SDValue->field_157E = SD_OpenSequence(
+            g_SDValue->sequence_open_result = SD_OpenSequence(
                 (u8 *)(
                     (u32)&((u8 (*)[16])0)[l->index_records[i][0]] + (u32)l),
-                                             entry_state->field_157A);
-            if ((s16)g_SDValue->field_157E == 0) {
-                g_SDValue->field_157C = g_SDValue->field_004E;
+                                             entry_state->music_vab_open_result);
+            if ((s16)g_SDValue->sequence_open_result == 0) {
+                g_SDValue->opened_sequence_command = g_SDValue->field_004E;
                 SD_PlaySequence(1, 1);
                 {
                     SDValue *sd = g_SDValue;
