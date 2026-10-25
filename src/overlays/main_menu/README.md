@@ -424,11 +424,16 @@ declaration and emitted address setup.
 
 The two twelve-byte state records hold target/display halfwords at offsets
 `0/2` and `0x0C/0x0E`, with output pointers at `+4/+0x10`.
-`D_801845BC[0/1]` are side modes, and `[2]` is **one shared choice**.
-Modes 0/1 address its two positions; mode 2 is a side's value-bar position.
+`gMainMenu_abValueSetupChoices[0/1]` are side modes, and `[2]` is
+**one shared choice**. `MAIN_MENU_VALUE_SETUP_CHOICE_LEFT/RIGHT` are 0/1;
+`MAIN_MENU_VALUE_SETUP_CHOICE_VALUE` is 2, a side's value-bar position.
 Setup initializes the choice to `(*toggle == 0)`, and finish writes
 `(choice != 1)`: choice 0 writes 1, choice 1 writes 0. The visible option
-caption remains unproved. The
+caption remains unproved. The separate scalar
+`gMainMenu_bValueSetupToggleChoice` retains native `D_801845BE`, overlapping
+the array's third byte without merging their C identities. See
+[choice lifecycle](../../../notes/overlays/main-menu-value-choices.md)
+for the input, draw, tween, commit and real data-owner evidence. The
 [resident handoff](../../../notes/duel-card-record.md#per-side-view-mode-handoff)
 conditionally copies the byte into per-side view state with known
 card-object/text consumers; it is not itself a literal image-resource index
@@ -703,16 +708,18 @@ the other three users only do byte arithmetic, which a cast covers.
 because the starter does pointer arithmetic on them and the finisher only
 passes and clears them. All three are byte-identical, which is the argument.
 
-`D_801845BC[2]` and `D_801845BE` remain two names for one byte. One unit does
-not force that one: they are distinct symbols at distinct addresses as far as
-C is concerned, so it stays exactly as `value_setup.h` recorded it.
+`gMainMenu_abValueSetupChoices[2]` and `gMainMenu_bValueSetupToggleChoice`
+remain two views of one byte, retaining separate `D_801845BC` and
+`D_801845BE` asm labels. The unsized array/scalar declarations, real aggregate
+owner and original alias-sensitive access pattern are unchanged.
 
 The renderer and the widget tween it drives, previously the subject of this
 section, remain adjacent inside the unit. Both read the same displayed-value halfword table
-`gMainMenu_aValueSetupEntries` and the same per-side mode array `D_801845BC`, and both work in
+`gMainMenu_aValueSetupEntries` and the same per-side mode array
+`gMainMenu_abValueSetupChoices`, and both work in
 the value-lane geometry described below: the tween drives a side widget
 toward the bar endpoint at Y 111/139 that the renderer draws, and it writes
-the settled mode back into `D_801845BC` when the tween expires.
+the settled mode back into `gMainMenu_abValueSetupChoices` when the tween expires.
 
 The definitions remain in executable order: `MainMenu_DrawValueSetup`
 occupies `0x80181728..0x80181CB8` and `MainMenu_UpdateValueWidgetTween` runs
