@@ -77,13 +77,13 @@ void MainMenu_InitTradeScreen(void)
 #endif
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    D_801845E0 = (MainMenuWidget *)object;
+    gTrade_pStatsModeDisplay = (MainMenuWidget *)object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPosition(object, 0, -3, 0, 4, 4, 0xC, 0x208);
-        D_801845E0->flags |=
+        gTrade_pStatsModeDisplay->flags |=
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset(D_801845E0, -1);
+        DisplayObject_SetDepthOffset(gTrade_pStatsModeDisplay, -1);
     }
 
     CardList_CreateDeckBoxStatRows(0, 0x25, 0xA0, 0x25);
@@ -196,7 +196,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     dirty1.dirty = dirty0;
     cursor0 = 1;
     cursor1 = cursor0;
-    value = D_801845E0->frame - 4;
+    value = gTrade_pStatsModeDisplay->frame - 4;
     previousFlags = value;
     flags = value;
     maximum = MAIN_MENU_TRADE_MAXIMUM;
@@ -646,7 +646,7 @@ update:
     }
     if (flags != previousFlags) {
         SD_SEPlay(30, 255, 0);
-        DisplayObject_SetResourceVariant(D_801845E0, flags + 4);
+        DisplayObject_SetResourceVariant(gTrade_pStatsModeDisplay, flags + 4);
     }
     if (dirty0 != 0) {
         MainMenu_RebuildTradeInventoryRows(0);

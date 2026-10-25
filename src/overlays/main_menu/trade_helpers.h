@@ -70,6 +70,7 @@ typedef union {
    overlay staging base. */
 #ifdef MAIN_MENU_TRADE_STATE_BUFFER
 extern MainMenuState D_801A8000[];
+extern MainMenuState gTrade_aInventoryRowSets[] __asm__("D_801A8000");
 #endif
 
 /* The main-menu view of a display-object pool record. Named for this overlay
@@ -102,6 +103,8 @@ typedef struct {
  * here; only the DisplayObject_SetDepthOffset sites cast to bytes. */
 extern MainMenuWidget *G32 D_801845DC;
 extern MainMenuWidget *G32 D_801845E0;
+/* Resource variant minus four carries the two players' stats-mode bits. */
+extern MainMenuWidget *G32 gTrade_pStatsModeDisplay __asm__("D_801845E0");
 
 /* Resident callers must load the main-menu image before using these entries. */
 void MainMenu_InitTradeScreen(void);
