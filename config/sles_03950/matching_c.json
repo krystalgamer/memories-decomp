@@ -2120,15 +2120,15 @@
     },
     {
       "address": "0x800303EC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/european/duel_interface_setup.c"
+      "source": "src/game/italian/debug_menu_editor_entries.c"
     },
     {
       "address": "0x8003048C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/european/duel_interface_setup.c"
+      "source": "src/game/italian/debug_menu_editor_entries.c"
     },
     {
       "address": "0x800304D0",

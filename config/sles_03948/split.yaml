@@ -608,9 +608,6 @@ segments:
     - game/debug_menu_update_cursor_layout
   - - 134124
     - c
-    - game/european/duel_interface_setup
-  - - 134352
-    - c
     - game/french/debug_menu_editor_entries
   - - 136952
     - c
