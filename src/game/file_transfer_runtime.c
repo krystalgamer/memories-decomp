@@ -92,8 +92,8 @@ void File_TransferReadyCallback(s32 arg)
     p = gFile_ReadyTransferDescriptor;
     switch (p->transfer_mode) {
     case 1:
-        if ((gFile_dwTransferState & 0x200000) == 0) {
-            if ((gFile_dwTransferState & 0x40000000) == 0) {
+        if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_SKIP_RAM_WRITE) == 0) {
+            if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_MEMORY_SOURCE) == 0) {
                 CdGetSector(
                     (void *)p->sector_destination,
                     FILE_SECTOR_SIZE / sizeof(u32)
@@ -142,7 +142,7 @@ void File_TransferReadyCallback(s32 arg)
             (u32)p + ((p->buffer_index & 1) << 2) +
             (u32)&((FileTransferDescriptor *)0)->sector_destination
         );
-        if ((gFile_dwTransferState & 0x40000000) == 0) {
+        if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_MEMORY_SOURCE) == 0) {
             CdGetSector(dst, FILE_SECTOR_SIZE / sizeof(u32));
         } else {
             src = gFile_ReadySourceCursor;
@@ -161,7 +161,7 @@ void File_TransferReadyCallback(s32 arg)
         image->y = image->field_30.h.field_32;
         while (LoadImage2((RECT *)gFile_ReadyTransferDescriptor, (u32 *)dst)) {
         }
-        if ((gFile_dwTransferState & 0x20000) != 0) {
+        if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_IMAGE_ADVANCE_X) != 0) {
             gFile_ReadyTransferDescriptor->field_30.h.counter += 0x40;
         } else {
             r = gFile_ReadyTransferDescriptor;
@@ -184,7 +184,7 @@ void File_TransferReadyCallback(s32 arg)
         if (p->phase_remaining < n) {
             n = p->phase_remaining;
         }
-        if ((gFile_dwTransferState & 0x40000000) == 0) {
+        if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_MEMORY_SOURCE) == 0) {
             CdGetSector(dst, n / 4);
         } else {
             src = gFile_ReadySourceCursor;
