@@ -942,7 +942,10 @@ the same `u32[8]`, copied through `SDCommandTail` in one block assignment;
 the queue and active-state layout checks pin both ends and the copy size.
 
 Command `0x51` reads argument 2 as an `SDSeqBlock *` and argument 0 as
-its note-registration count. Commands `0x21` and `0x24` instead use
+the SPU base address. The callee adds `active_command_arg0 >> 4` to
+each copied note's `spu_address_div16`; its loop count comes from
+`SDSeqBlock::count` in the block addressed by argument 2.
+Commands `0x21` and `0x24` instead use
 argument 2 as the descriptor-pair table base, the value halfword as its
 index, and argument 0 as the common sector-base offset. Command `0x48`
 uses the value's low nibble to select the sequence index, copies the
