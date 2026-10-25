@@ -110,3 +110,20 @@ Final clean resident matching, data ownership/policy checks and fresh
 applicable PR checks remain required. Regional retail inputs are not
 available locally; no local cloud/full regional/overlay or witness suite
 is run.
+
+## Japanese labels for the frame and save timing globals
+
+The Japanese build keeps three of these globals under its own linker names.
+`graphics_frame.h` binds them under `VERSION_JAPAN`, on every declaration arm
+that exists for them, replacing wrapper macros in six Japanese builds:
+
+| Global | Japanese label | Arms |
+|---|---|---|
+| `gGraphics_dwSyncVBlankCounter` | `gJapanese_GraphicsSyncVBlankCounter` | `.data` and volatile |
+| `gSaveData_dwVBlankCounter` | `gJapanese_SaveDataVBlankCounter` | `.data` and volatile |
+| `gGraphics_bClearBackground` | `gJapanese_D_8009B0D0` | plain |
+
+The Japanese `graphics_frame.c` and `main_init.c` wrappers gained
+`VERSION_JAPAN`; neither source otherwise tests it. Types, sections,
+volatility, symbol maps and every access are unchanged.
+

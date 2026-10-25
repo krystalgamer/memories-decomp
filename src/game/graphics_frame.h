@@ -170,9 +170,17 @@ extern u8 gMain_bVBlankSoundPending;
  * justified by a control build recorded in the PR that added this
  * block. */
 #ifdef D_8009B0C8_IN_DATA
-extern s32 gGraphics_dwSyncVBlankCounter __attribute__((section(".data")));
+extern s32 gGraphics_dwSyncVBlankCounter
+#ifdef VERSION_JAPAN
+    asm("gJapanese_GraphicsSyncVBlankCounter")
+#endif
+    __attribute__((section(".data")));
 #else
-extern volatile s32 gGraphics_dwSyncVBlankCounter;
+extern volatile s32 gGraphics_dwSyncVBlankCounter
+#ifdef VERSION_JAPAN
+    asm("gJapanese_GraphicsSyncVBlankCounter")
+#endif
+    ;
 #endif
 
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
@@ -231,9 +239,17 @@ extern volatile s32 gMain_dwFrameCounter;
  * while reaching another symbol through $gp, so save_data_payload.c, which
  * holds both, defines the .data arm. */
 #ifdef D_8009B0C4_IN_DATA
-extern s32 gSaveData_dwVBlankCounter __attribute__((section(".data")));
+extern s32 gSaveData_dwVBlankCounter
+#ifdef VERSION_JAPAN
+    asm("gJapanese_SaveDataVBlankCounter")
+#endif
+    __attribute__((section(".data")));
 #else
-extern volatile s32 gSaveData_dwVBlankCounter;
+extern volatile s32 gSaveData_dwVBlankCounter
+#ifdef VERSION_JAPAN
+    asm("gJapanese_SaveDataVBlankCounter")
+#endif
+    ;
 #endif
 
 /* A flags halfword. Graphics_SyncFrame skips DrawSync(0) when bit 0x8000
@@ -438,7 +454,11 @@ extern u8 gGraphics_abPacketBuffers[];
  * measured views at the owner instead of leaving private declarations in the
  * startup source. */
 extern u8 gGraphics_bDither;
-extern u8 gGraphics_bClearBackground;
+extern u8 gGraphics_bClearBackground
+#ifdef VERSION_JAPAN
+    asm("gJapanese_D_8009B0D0")
+#endif
+    ;
 extern u8 D_8009B0A8;
 
 #ifdef GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
