@@ -18,11 +18,11 @@ void SD_InitBufferState(void)
     SD_ResetCdPan();
     SD_SetCdVolume(255);
     base = g_SDValue;
-    base->buffer_ptrs_153C[0] = base->buffer_053C[0];
-    base->buffer_ptrs_153C[1] = base->buffer_053C[1];
-    base->buffer_ptrs_153C[2] = base->buffer_053C[2];
+    base->decoded_cd_halves[0] = base->decoded_data.cd_left;
+    base->decoded_cd_halves[1] = &base->decoded_data.cd_left[SD_MIX_SAMPLE_COUNT];
+    base->decoded_cd_halves[2] = base->decoded_data.cd_right;
     base->cd_fade_step = 0;
-    base->buffer_ptrs_153C[3] = base->buffer_053C[3];
+    base->decoded_cd_halves[3] = &base->decoded_data.cd_right[SD_MIX_SAMPLE_COUNT];
 }
 
 void SD_ResetCdPan(void)
@@ -164,7 +164,7 @@ extern SDValue *G32 volatile g_SDValue_output_level asm("g_SDValue");
 s32 SD_MeasureCdAudioLevel(void)
 {
     s32 select = SpuReadDecodedData(
-        (SpuDecodedData *)g_SDValue_output_level->buffer_053C, SPU_CDONLY
+        &g_SDValue_output_level->decoded_data, SPU_CDONLY
     );
     SDValue *choice_state = g_SDValue_output_level;
     s16 *values;
@@ -174,9 +174,9 @@ s32 SD_MeasureCdAudioLevel(void)
 
     choice_state->decoded_half = select;
     if (select == SPU_DECODED_FIRSTHALF) {
-        values = (s16 *)choice_state->buffer_ptrs_153C[0];
+        values = choice_state->decoded_cd_halves[0];
     } else {
-        values = (s16 *)choice_state->buffer_ptrs_153C[1];
+        values = choice_state->decoded_cd_halves[1];
     }
     loaded = g_SDValue_output_level;
     i = 0;

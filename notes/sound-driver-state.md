@@ -35,8 +35,8 @@ Konami type or field naming.
 | `0x0514` | `channel_volume[2]` | Two byte channel-volume scalars. |
 | `0x0533` | `mix_multiplier` | Multiplies the shared CD mix scale. |
 | `0x0538` | `decoded_half` | `SD_MeasureCdAudioLevel` stores `SpuReadDecodedData`'s returned half here. |
-| `0x053C` | `buffer_053C[4][0x200]` | Four work buffers whose addresses are installed during sound initialization. |
-| `0x153C` | `buffer_ptrs_153C[4]` | Pointers to the four work buffers. |
+| `0x053C` | `decoded_data` | Complete `0x1000`-byte SDK `SpuDecodedData` record. |
+| `0x153C` | `decoded_cd_halves[4]` | Signed-halfword pointers to the first/second left-CD halves, then first/second right-CD halves. |
 | `0x154C` | `output_level` | `SD_MeasureCdAudioLevel` sums squared CD samples into it and publishes its signed high halfword as the level. |
 | `0x1560` | `field_1560` | Base pointer used to select a music/sequence table entry. |
 | `0x1564` | `music_track` | Pointer defaults to `0x801EA800`; its first 16-bit value is initialized to `0xFFFF`. |
@@ -270,7 +270,7 @@ size.
 
 ```c
 SpuReadDecodedData(
-    (SpuDecodedData *)g_SDValue_output_level->buffer_053C, SPU_CDONLY
+    &g_SDValue_output_level->decoded_data, SPU_CDONLY
 );
 ```
 
@@ -284,12 +284,45 @@ halfword, but nothing in C accumulates into it. Both words are `SDLevelWord`
 unions (`sum` and `halves[2]`), so the high-halfword reads stay member reads.
 
 `SpuDecodedData` is four arrays of `0x200` signed halfwords (`cd_left`,
-`cd_right`, `voice1`, and `voice3`), so this call establishes a
-`0x1000`-byte SDK view over `g_SDValue+0x53C` through `+0x153B`. The shared
-`SDValue` definition retains its existing byte-array and padding split because
-other matching functions use narrower buffer views; the cast documents an
-additional ABI-compatible interpretation rather than changing their source
-shape.
+`cd_right`, `voice1`, and `voice3`). `SDValue.decoded_data` now records that
+complete `0x1000`-byte object at `+0x053C` through `+0x153B`, replacing the
+old `0x800`-byte CD array and following `0x800` bytes of padding. The voice
+arrays occupy that former padding; this path still requests `SPU_CDONLY`,
+without newly initializing or reading those voice arrays.
+
+The old four `0x200`-byte buffers were halves of two CD channels, not four
+complete SDK channels. `SD_InitBufferState` keeps their exact addresses in
+the four stored `s16 *G32 decoded_cd_halves` pointers:
+
+| Pointer | SDK samples | Relative state address |
+|---|---|---|
+| `[0]` | `cd_left[0..255]` | `+0x053C` |
+| `[1]` | `cd_left[256..511]` | `+0x073C` |
+| `[2]` | `cd_right[0..255]` | `+0x093C` |
+| `[3]` | `cd_right[256..511]` | `+0x0B3C` |
+
+The initializer still resets pan, applies CD volume 255, stores the first
+three pointers, clears `cd_fade_step`, and only then stores pointer three.
+The measurement chooses pointer zero only for `SPU_DECODED_FIRSTHALF` and
+pointer one otherwise, including any non-first return value. It still
+measures only the left CD channel; the two right-channel pointers remain
+installed but unused by the tracked measurement. This is not a stereo mix
+or a new error-handling path.
+
+The SDK call takes the typed record address without a cast. The sample
+walkers also no longer need casts because their stored pointers already
+have the existing signed-halfword sample type. The volatile pointer view,
+snapshot/reload boundaries, sample count and increment, unsigned square
+shift, accumulator initialization/publication, high-halfword ordering,
+single-iteration scope and low-two-bit output gate are unchanged.
+`field_1550` remains unnamed: recovering the SDK record does not establish
+that otherwise unaccumulated word as a right-channel level.
+
+Assertions pin all four SDK member addresses, the full record size/end at
+the pointer array, and the SDK channel's two `SD_MIX_SAMPLE_COUNT` halves.
+Existing level and complete-state offsets and sizes remain pinned. No
+extra union, scratch buffer, SDK declaration, local raw view, bound, clamp,
+callback contract, test case or harness is introduced.
 
 ### Reverb work-area queries
 
@@ -406,7 +439,7 @@ longer has any: its former base-local byte views are now the
 
 None of the three exceptions this note used to document is still a
 byte-pointer access. The first, `SD_MeasureCdAudioLevel`'s decoded-data argument,
-is now the `buffer_053C` member quoted in the SPU section above. The other
+is now the `decoded_data` member quoted in the SPU section above. The other
 two:
 
 - `SD_ResetMusicTrackBuffer` writes the music-track pointer through
