@@ -191,6 +191,54 @@ rows. Final clean acceptance reproduces retail SHA-256
 the seven related repository policy gates pass. No generated artifacts,
 retail inputs, test harnesses or controls are included.
 
+## Slot callback-control and pulse-angle member names
+
+The separate slot views now name six high-confidence member identities:
+
+| Original member | Canonical member | Unchanged representation |
+| --- | --- | --- |
+| `SceneScriptSlot.unk00` | `object_address` | signed word at `+0x00` |
+| `SceneScriptSlot.unk04` | `callback_control` | signed halfword at `+0x04` |
+| `SceneScriptSlot.unk06` | `pulse_angle` | signed halfword at `+0x06` |
+| `ScriptImageEntry.value` | `callback_control` | signed halfword at `+0x04` |
+| `ScriptImageOverlayPair.value` | `callback_index` | byte at `+0x01` |
+| `ScriptImageOverlayPlacement.value` | `callback_index` | byte at `+0x05` |
+
+The per-tick sweep supplies the nonzero `object_address` word as its
+existing second argument, indexing the callback table with only the raw
+low byte of `callback_control`. The pulse callback uses that same
+halfword's high `0x8000` bit as its initialization latch, clears
+`pulse_angle` on first entry, and then advances the angle in that same
+invocation. The control is not a Boolean, an image ID or a bounded enum.
+No index check, mask, callback prototype or argument conversion changes.
+
+Image construction seeds the halfword with one for mode two and zero
+otherwise, independently of its display-object blend attributes. Rebuild
+may replace the third slot's control with the overlay table's byte;
+the existing unsigned-byte load and signed-halfword store clear the
+other control bits exactly as before. The two table fields name only
+the index byte, not the pulse latch. Releasing an image clears each
+pointer and callback-control halfword after setting the separate image-ID
+halfword at set `+0x3C` to minus one. These stores retain their order.
+
+The integer object-address view is not retyped as a pointer or merged
+with `ScriptImageEntry.pointer`. Its role is established for the three
+dispatched records; slot three's separately cast image-ID head and the
+historical five-record/unresolved-boundary caveats above remain distinct.
+Unused words, `ScriptImageEntry.field_10`, its padding and the explicit
+signed-halfword image-ID view stay unchanged. No reader or stronger role
+is invented for the creation marker at `+0x10`.
+
+Only the twenty-five typed member accesses in the five production C
+units change. The complete remaining C source, signed/unsigned views,
+arithmetic, repeated alias-sensitive object loads/writes and regional
+branches are exact. Both initialized tables, their padding and callback
+casts retain every byte/relocation. Existing controls, inventories,
+native bindings, profiles and the entire semantic registry are untouched.
+This field-relative naming evidence does not invent linker addresses or
+new registry kinds. No harness, testcase, source-string control, new
+guard or local cloud-test execution is introduced.
+
 ## Image operand, command-phase and overlay-mask domains
 
 Nine names distinguish three existing bit domains without changing a

@@ -394,18 +394,18 @@ typedef struct {
 
 /* One 0x14-byte scene-script slot at gSceneScript_Slots. */
 typedef struct {
-    s32 unk00;
-    s16 unk04;
-    s16 unk06;
+    s32 object_address;
+    s16 callback_control;
+    s16 pulse_angle;
     s32 unk08;
     s32 unk0C;
     s32 unk10;
 } SceneScriptSlot;
 
-/* Script image slot prefix: the owned display object and its image id. */
+/* Script image slot prefix: the owned object and callback control. */
 typedef struct {
     void *G32 pointer;
-    s16 value;
+    s16 callback_control;
     u8 pad_06[10];
     /* Set to 1 by ScriptImage_CreateObject and ScriptImage_RebuildObjects
        whenever they build a display object into the slot; no matched code

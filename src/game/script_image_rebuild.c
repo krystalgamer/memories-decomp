@@ -80,7 +80,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
         p->entries[0].field_10 = 1;
         p->entries[0].pointer = (u8 *)o;
         t = &gScriptImage_OverlayPlacements.rows[n];
-        p->entries[0].value = 0;
+        p->entries[0].callback_control = 0;
         if (t->mask & SCRIPT_IMAGE_OVERLAY_FIRST_PRESENT) {
             ScriptImage_CreateObject(&p->entries[1],
                                      0x14, 1);
@@ -96,7 +96,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
                 t->x2;
             SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->field_30.h.field_32 =
                 t->y2;
-            p->entries[2].value = t->value;
+            p->entries[2].callback_control = t->callback_index;
             if (t->mask & SCRIPT_IMAGE_OVERLAY_SECOND_SCREEN_SPACE) {
                 SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->flags |=
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -115,7 +115,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
             if (n & SCRIPT_IMAGE_OVERLAY_SECOND_PRESENT) {
                 ScriptImage_CreateObject(&p->entries[2],
                                          0x14, 2);
-                p->entries[2].value = b[k].value;
+                p->entries[2].callback_control = b[k].callback_index;
             }
         } else {
             p->entries[1].pointer = 0;
