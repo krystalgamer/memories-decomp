@@ -64,14 +64,14 @@ test:
         }
     }
 after:
-    switch (g_SDValue->field_007C) {
+    switch (g_SDValue->active_command) {
     case 0x42:
     case 0x43:
     case 0x45:
     case 0x46:
     case 0x48:
-        g_SDValue->field_007C = 0;
-        g_SDValue->field_007D = 0;
+        g_SDValue->active_command = 0;
+        g_SDValue->active_command_phase = 0;
         break;
     }
 

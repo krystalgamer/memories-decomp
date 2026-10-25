@@ -30,7 +30,7 @@
 
 typedef struct {
     u8 command;
-    u8 field_0001;
+    u8 wait_for_cd_fade;
     s16 field_0002;
     s32 field_0004;
     s32 field_0008;
@@ -143,9 +143,9 @@ typedef struct {
     u32 field_0054;
     u32 field_0058;
     u32 field_005C[8];
-    u8 field_007C;
-    u8 field_007D;
-    u8 field_007E;
+    u8 active_command;
+    u8 active_command_phase;
+    u8 active_cd_fade_wait;
     u8 pad007F;
     /* The queue is read two ways and this union records both, which is the
        idiom display_object.h already uses eleven times.  Every dispatcher
@@ -447,6 +447,9 @@ typedef char SDCommandTail_size_must_be_0x20[
 typedef char SDCommand_field_0002_offset_must_be_0x02[
     SD_STATE_OFFSET(SDCommand, field_0002) == 0x02 ? 1 : -1
 ];
+typedef char SDCommand_cd_fade_wait_offset_must_be_0x01[
+    SD_STATE_OFFSET(SDCommand, wait_for_cd_fade) == 0x01 ? 1 : -1
+];
 typedef char SDCommand_field_0004_offset_must_be_0x04[
     SD_STATE_OFFSET(SDCommand, field_0004) == 0x04 ? 1 : -1
 ];
@@ -563,8 +566,10 @@ typedef char SDValue_secondary_mix_default_offset_must_be_0x164A[
 typedef char SDValue_field_004E_offset_must_be_0x4E[
     SD_STATE_OFFSET(SDValue, field_004E) == 0x4E ? 1 : -1
 ];
-typedef char SDValue_field_007C_offset_must_be_0x7C[
-    SD_STATE_OFFSET(SDValue, field_007C) == 0x7C ? 1 : -1
+typedef char SDValue_active_command_offsets_must_match[
+    SD_STATE_OFFSET(SDValue, active_command) == 0x7C &&
+    SD_STATE_OFFSET(SDValue, active_command_phase) == 0x7D &&
+    SD_STATE_OFFSET(SDValue, active_cd_fade_wait) == 0x7E ? 1 : -1
 ];
 typedef char SDValue_bgm_fade_level_offset_must_be_0x1580[
     SD_STATE_OFFSET(SDValue, bgm_fade_level) == 0x1580 ? 1 : -1

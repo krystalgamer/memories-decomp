@@ -18,14 +18,14 @@ void SD_StepActiveCommand(void)
     u32 first_word;
     u32 second_word;
 
-    switch (g_SDValue->field_007C) {
+    switch (g_SDValue->active_command) {
     case 81:
         SD_RegisterSeqBlockNotes((SDSeqBlock *)g_SDValue->field_0058,
                      (u32)g_SDValue->field_0050);
         goto clear_7d_7c;
 
     case 32:
-        switch (g_SDValue->field_007D) {
+        switch (g_SDValue->active_command_phase) {
         case 0:
             if (File_RequestSecondarySlot(0, 0) != 0) {
                 return;
@@ -50,7 +50,7 @@ void SD_StepActiveCommand(void)
             }
             gSD_pFileRequest->field_00 = (s32)g_SDValue->field_005C[0];
             if (gSD_pFileRequest->field_18 == 0 && gSD_pFileRequest->field_14 == 0) {
-                g_SDValue->field_007D = 0;
+                g_SDValue->active_command_phase = 0;
                 goto clear_7c;
             }
             switch ((s32)g_SDValue->field_005C[0] & 0xF0) {
@@ -68,7 +68,7 @@ void SD_StepActiveCommand(void)
                 break;
             }
             SD_ArmBusyCallback();
-            g_SDValue->field_007D = g_SDValue->field_007D + 1;
+            g_SDValue->active_command_phase = g_SDValue->active_command_phase + 1;
             return;
         case 1:
             break;
@@ -78,8 +78,8 @@ void SD_StepActiveCommand(void)
         if (g_SDValue->busy != 0) {
             return;
         }
-        g_SDValue->field_007D = 0;
-        g_SDValue->field_007C = 0;
+        g_SDValue->active_command_phase = 0;
+        g_SDValue->active_command = 0;
         if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
             return;
         }
@@ -87,10 +87,10 @@ void SD_StepActiveCommand(void)
         return;
 
     case 17:
-        switch (g_SDValue->field_007D) {
+        switch (g_SDValue->active_command_phase) {
         case 0:
             if (g_SDValue->cd_volume == 0) {
-                g_SDValue->field_007D = 1;
+                g_SDValue->active_command_phase = 1;
                 return;
             }
             if (g_SDValue->cd_fade_step < 0) {
@@ -111,9 +111,9 @@ void SD_StepActiveCommand(void)
         {
             SDValue *sd = g_SDValue;
             u16 flags = sd->flags_0040;
-            sd->field_007D = 0;
+            sd->active_command_phase = 0;
             sd->flags_0040 = flags & 0xFFF8;
-            g_SDValue->field_007C = 0;
+            g_SDValue->active_command = 0;
         }
         return;
 
@@ -194,10 +194,10 @@ void SD_StepActiveCommand(void)
 
     case 41:
     case 42:
-        if (g_SDValue->field_007E != 0 && g_SDValue->cd_fade_step != 0) {
+        if (g_SDValue->active_cd_fade_wait != 0 && g_SDValue->cd_fade_step != 0) {
             return;
         }
-        g_SDValue->field_007C = 0;
+        g_SDValue->active_command = 0;
         goto clear_7d;
 
     case 72:
@@ -208,7 +208,7 @@ void SD_StepActiveCommand(void)
                 &list->vab_header, 0, list->spu_address
             );
             if ((s16)g_SDValue->music_vab_open_result != 0) {
-                g_SDValue->field_007C = 0;
+                g_SDValue->active_command = 0;
                 return;
             }
         }
@@ -232,7 +232,7 @@ void SD_StepActiveCommand(void)
             i = entry_state->field_004E & 0xF;
 
             if (i >= l->count) {
-                g_SDValue->field_007C = 0;
+                g_SDValue->active_command = 0;
                 return;
             }
             g_SDValue->sequence_open_result = SD_OpenSequence(
@@ -250,7 +250,7 @@ void SD_StepActiveCommand(void)
                 }
             }
         }
-        g_SDValue->field_007C = 0;
+        g_SDValue->active_command = 0;
         goto clear_7d;
 
     case 0:
@@ -260,11 +260,11 @@ void SD_StepActiveCommand(void)
     goto clear_7d_7c;
 
 clear_7d:
-    g_SDValue->field_007D = 0;
+    g_SDValue->active_command_phase = 0;
     return;
 
 clear_7d_7c:
-    g_SDValue->field_007D = 0;
+    g_SDValue->active_command_phase = 0;
 clear_7c:
-    g_SDValue->field_007C = 0;
+    g_SDValue->active_command = 0;
 }

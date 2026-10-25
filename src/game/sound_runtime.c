@@ -148,7 +148,7 @@ void SD_UpdateRuntime(void)
 
     SD_UpdateFades();
     p = g_SDValue;
-    if (p->field_007C != 0) {
+    if (p->active_command != 0) {
         SD_StepActiveCommand();
         return;
     }
@@ -187,14 +187,14 @@ void SD_UpdateRuntime(void)
     }
 
     p = g_SDValue;
-    p->field_007C = e->command;
-    g_SDValue->field_007D = 0;
+    p->active_command = e->command;
+    g_SDValue->active_command_phase = 0;
     p = g_SDValue;
     p->field_004E = (u16)e->field_0002;
     p->field_0050 = e->field_0004;
     p->field_0054 = e->field_0008;
     p->field_0058 = e->field_000C;
-    p->field_007E = e->field_0001;
+    p->active_cd_fade_wait = e->wait_for_cd_fade;
     /* The second global read preserves separate pointers for the tail copy
        and queue bookkeeping after CSE. */
     r = g_SDValue;
