@@ -61,12 +61,12 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         if (v == 0xFFFF) {
             return;
         }
-        n = a->field_043C[v];
+        n = a->note_index_by_id[v];
         if (n == 0xFFFF) {
             return;
         }
         /* Array indexing changes the direct-ID path's address registers. */
-        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)a->field_0444);
+        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)a->note_table);
         t2 = e->priority;
         last_arg = t2;
         vol &= 0xFF;
@@ -74,11 +74,11 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
     } else {
         SDValue *b = g_SDValue;
 
-        n = b->field_043C[tags.words.copy & 0xFFFF];
+        n = b->note_index_by_id[tags.words.copy & 0xFFFF];
         if (n == 0xFFFF) {
             return;
         }
-        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)b->field_0444);
+        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)b->note_table);
         t2 = e->priority;
         last_arg = t2;
         vol &= 0xFF;
@@ -123,7 +123,7 @@ void SD_SESetPan(s32 arg0, s32 arg1)
         if (pt == arg0) {
             return;
         }
-        key = ((SDValue *)base)->field_043C[pt];
+        key = ((SDValue *)base)->note_index_by_id[pt];
         if (key == arg0) {
             return;
         }
@@ -143,12 +143,12 @@ loop:
             if (env[0] != 0) {
                 if (pan != 0) {
                     if (near) {
-                        prod = g_SDValue->field_0444[v].volume;
+                        prod = g_SDValue->note_table[v].volume;
                         prod *= lo;
                         g_SDValue->voice_volume_left[i] = prod;
                     }
                     if ((u16)(pan2 + 0x80) < 0x80) {
-                        prod = g_SDValue->field_0444[v].volume;
+                        prod = g_SDValue->note_table[v].volume;
                         prod *= hi;
                         g_SDValue->voice_volume_right[i] = prod;
                     }
@@ -193,7 +193,7 @@ void SD_SESetVolume(s32 arg0, s32 arg1)
         if (v == ff) {
             return;
         }
-        id = a->field_043C[v];
+        id = a->note_index_by_id[v];
         if (id == ff) {
             return;
         }

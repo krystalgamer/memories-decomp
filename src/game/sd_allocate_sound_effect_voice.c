@@ -22,7 +22,7 @@ void SD_AllocateSoundEffectVoice(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode
     s16 mode_snapshot;
 
     mode_snapshot = mode;
-    if (g_SDValue->field_043C[(u16)sound_id] == 0xFFFF) {
+    if (g_SDValue->note_index_by_id[(u16)sound_id] == 0xFFFF) {
         return;
     }
     if ((id & 0x8000) != 0) {

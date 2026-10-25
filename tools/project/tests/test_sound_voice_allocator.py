@@ -253,7 +253,7 @@ int main(void)
         test = &cases[case_index]; events = queries = 0;
         for (i = 0; i < sizeof(states); i++) ((u8 *)states)[i] = 0xA5;
         for (i = 0; i < 2; i++) {
-            states[i].voice_allocation_cursor = test->cursor; states[i].field_043C = table;
+            states[i].voice_allocation_cursor = test->cursor; states[i].note_index_by_id = table;
             for (j = 0; j < 4; j++) {
                 states[i].voice_ids[j] = test->ids[j];
                 states[i].voice_priority[j] = test->priorities[j];

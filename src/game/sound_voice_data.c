@@ -8,7 +8,7 @@
 
 /* Sets the level and pan of every live voice playing one sound id. Bit
  * 0x8000 in `id` sets the CD volume instead; an id carrying the lookup tag is
- * first translated through the bank table at field_044C and field_043C.
+ * first translated through the bank table at field_044C and note_index_by_id.
  * `word` is a signed pan offset: left and right get 0x80 minus and plus it,
  * each only when it stays inside the byte range.
  *
@@ -63,7 +63,7 @@ void SD_SESetVolumePan(id, value, word)
         if (v == ff) {
             return;
         }
-        id = a->field_043C[v];
+        id = a->note_index_by_id[v];
         if (id == ff) {
             return;
         }
@@ -91,7 +91,7 @@ loop:
                     SDValue *c = g_SDValue;
                     s32 v;
 
-                    v = c->field_0444[vid].volume;
+                    v = c->note_table[vid].volume;
                     v *= left;
                     c->voice_volume_left[i] = v;
                 }
@@ -99,7 +99,7 @@ loop:
                     SDValue *d = g_SDValue;
                     s32 v;
 
-                    v = d->field_0444[vid].volume;
+                    v = d->note_table[vid].volume;
                     v *= right;
                     d->voice_volume_right[i] = v;
                 }
@@ -177,20 +177,20 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
         for (j = 0; j < cur->count; j++) {
             u16 key = cur->keys[j];
             if (key != SD_PENDING_ENTRY_NONE) {
-                u16 n = g_SDValue->field_0440;
+                u16 n = g_SDValue->next_note_index;
                 u16 v;
 
-                g_SDValue->field_043C[key] = n;
-                g_SDValue->field_0444[n] = cur->data[j];
+                g_SDValue->note_index_by_id[key] = n;
+                g_SDValue->note_table[n] = cur->data[j];
                 e = (SDNote *)(
                     (u32)&((SDNote *)0)[n] +
-                    (u32)g_SDValue->field_0444
+                    (u32)g_SDValue->note_table
                 );
-                v = e->field_0006;
-                e->field_0006 =
+                v = e->spu_address_div16;
+                e->spu_address_div16 =
                     (i != 0) ? (u16)(v + (addr_side >> 4))
                              : (u16)(v + (addr_other >> 4));
-                g_SDValue->field_0440 = g_SDValue->field_0440 + 1;
+                g_SDValue->next_note_index = g_SDValue->next_note_index + 1;
             }
             if (i != 0) {
                 g_SDValue->field_044C[side][j] = key;

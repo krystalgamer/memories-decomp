@@ -22,17 +22,17 @@ void SD_QueueValueLinkTransfer(s32 index)
            SD_VALUE_LINK_BLOCK_SIZE;
     step = step + 1;
     off = (index & SD_VALUE_LINK_INDEX_MASK) * SD_VALUE_LINK_RECORD_SIZE;
-    entry = (SDValueLink *)(off + (s32)a->field_0448);
-    SD_EnqueueSpuRamTransfer(a->field_0438, 0x801E6800,
-                  step + entry->sector_offset, entry->field_0004,
+    entry = (SDValueLink *)(off + (s32)a->value_links);
+    SD_EnqueueSpuRamTransfer(a->next_link_spu_address, 0x801E6800,
+                  step + entry->sector_offset, entry->spu_size,
                   SD_VALUE_LINK_BLOCK_SIZE, 0x10);
     b = g_SDValue;
     req.command = 0x51;
-    req.field_0004 = b->field_0438;
+    req.field_0004 = b->next_link_spu_address;
     req.field_000C = 0x801E6800;
     SD_EnqueueCommand(&req);
     c = g_SDValue;
-    off += (s32)c->field_0448;
+    off += (s32)c->value_links;
     entry = (SDValueLink *)off;
-    c->field_0438 = c->field_0438 + entry->field_0004;
+    c->next_link_spu_address = c->next_link_spu_address + entry->spu_size;
 }

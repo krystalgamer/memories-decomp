@@ -105,8 +105,8 @@ static void run(s32 family,u32 request,s32 resolved,s32 note,
     s32 bank,index,i,j,pan_bits;
     cases++; seen=0; expected_call=NONE;
     for (i=0;i<2;i++) for (j=0;j<32;j++) memory.state.field_044C[i][j]=65535;
-    memory.state.field_043C=memory.indices;
-    memory.state.field_0444=memory.notes;
+    memory.state.note_index_by_id=memory.indices;
+    memory.state.note_table=memory.notes;
     g_SDValue=&memory.state;
     if (family==STOP) {
         /* Even forming a state-derived table access must not precede stop. */
@@ -118,11 +118,11 @@ static void run(s32 family,u32 request,s32 resolved,s32 note,
             memory.state.field_044C[bank][index]=resolved;
         }
         if (resolved==65535) {
-            memory.state.field_043C=0; memory.state.field_0444=0;
+            memory.state.note_index_by_id=0; memory.state.note_table=0;
         } else {
             memory.indices[resolved]=note;
             if (note==65535) {
-                memory.state.field_0444=0;
+                memory.state.note_table=0;
             } else {
                 /* Canonical SDNote fields, not a copied reference layout. */
                 memory.notes[note].priority=value;
