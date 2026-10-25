@@ -536,6 +536,10 @@ class ModelVariantToolchainTests(unittest.TestCase):
             721: (names(set(), set(), stage10_slot1={122, 151, 487, 509, 538, 578, 585, 613}, stage8_slot1={204, 503, 515, 526, 532, 547, 566, 589, 604}), 0x2370, 1),
             634: (names({256, 409, 605, 629}, {47, 476}, stage10_slot1=set(), stage8_slot1=set()), 0x1360, 1),
             701: (names(set(), set(), stage10_slot1={47, 476}, stage8_slot1={48, 256, 409, 605, 629}), 0x1360, 1),
+            72: (names({30, 137, 233, 234, 617}, {9, 45, 104, 176, 186, 572, 592, 595}, stage10_slot1=set(), stage8_slot1=set()), 0x1D68, 1),
+            202: (names(set(), set(), stage10_slot1={45, 104, 176, 186, 572, 592, 595}, stage8_slot1={30, 137, 233, 234, 617}), 0x1D68, 1),
+            110: (names({28, 191, 393, 467, 479, 599}, {112, 250, 445, 533, 574, 625}, stage10_slot1=set(), stage8_slot1=set()), 0x1918, 1),
+            240: (names(set(), set(), stage10_slot1={112, 250, 445, 533, 574, 625}, stage8_slot1={28, 191, 393, 467, 479, 599}), 0x1918, 1),
             779: (names({5, 24, 49, 53, 98, 120, 154, 157, 177, 196, 221, 473, 559, 577, 586, 588}, {49, 80, 86, 124, 210, 265, 273, 376, 387, 402, 474, 559, 570, 580, 609, 620, 634, 637}, stage10_slot1=set(), stage8_slot1=set()), 0x20E0, 1),
             876: (names(set(), set(), stage10_slot1={49, 80, 86, 124, 210, 238, 265, 273, 376, 387, 402, 474, 559, 570, 580, 609, 620, 634, 637}, stage8_slot1={5, 24, 49, 53, 92, 98, 120, 136, 154, 157, 177, 196, 221, 473, 559, 577, 586, 588}), 0x20E0, 1),
             766: (names({65, 83, 90, 94, 109, 110, 114, 126, 160, 208, 230, 245, 298, 381, 404, 444, 468, 470, 478, 608, 633, 648}, {224, 226, 233, 450, 614, 617}, stage10_slot1=set(), stage8_slot1=set()), 0x1838, 1),
@@ -563,7 +567,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 940)
+        self.assertEqual(len(registered), 989)
 
 
 if __name__ == "__main__":
