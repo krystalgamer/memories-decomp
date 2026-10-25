@@ -245,13 +245,12 @@ typedef struct {
     s16 field_15F4;
     u8 pad15F6[0x22];
     u8 busy;
-    /* Three 0x10-byte buffers, not one 0x30 region: SD_StepActiveCommand passes
-       each of the three separately to File_RequestSecondarySlot, selected by
-       field_005C[0] & 0xF0 -- bits 4 to 7, the high nibble of the low
-       byte -- with cases 0x10, 0x20 and 0x40. */
-    u8 field_1619[0x10];
-    u8 field_1629[0x10];
-    u8 field_1639[0x10];
+    /* Filename buffers seeded by SD_InitState. SD_StepActiveCommand passes
+       them separately to File_RequestSecondarySlot: field_005C[0] & 0xF0
+       selects SE at 0x10, BGM at 0x20 and MASTER.XA at 0x40. */
+    u8 bgm_file_name[0x10];
+    u8 se_file_name[0x10];
+    u8 master_xa_file_name[0x10];
     /* Cached CD/secondary mixer defaults from the "VolInfo" trailers.
        Runtime reset restores the active scales from these bytes. */
     u8 cd_mix_default;
@@ -600,6 +599,16 @@ typedef char SDValue_voice_key_status_20_offset_must_be_0x15EC[
 ];
 typedef char SDValue_field_15F4_offset_must_be_0x15F4[
     SD_STATE_OFFSET(SDValue, field_15F4) == 0x15F4 ? 1 : -1
+];
+typedef char SDValue_file_name_offsets_must_match[
+    SD_STATE_OFFSET(SDValue, bgm_file_name) == 0x1619 &&
+    SD_STATE_OFFSET(SDValue, se_file_name) == 0x1629 &&
+    SD_STATE_OFFSET(SDValue, master_xa_file_name) == 0x1639 ? 1 : -1
+];
+typedef char SDValue_file_name_sizes_must_match[
+    sizeof(((SDValue *)0)->bgm_file_name) == 0x10 &&
+    sizeof(((SDValue *)0)->se_file_name) == 0x10 &&
+    sizeof(((SDValue *)0)->master_xa_file_name) == 0x10 ? 1 : -1
 ];
 typedef char SDValue_decoded_half_offset_must_be_0x538[
     SD_STATE_OFFSET(SDValue, decoded_half) == 0x538 ? 1 : -1
