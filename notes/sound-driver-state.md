@@ -1150,8 +1150,8 @@ original declarations:
 | Location | Field | Established role |
 |---|---|---|
 | `SDValue +0x1560` | `music_table` | Pointer to eight-byte `SDMusicTableEntry` records, initialized to `0x801E2000`. |
-| table entry `+0x00` | `ram_sector_count` | Byte count of sectors expanded to bytes for the RAM phase. |
-| table entry `+0x01` | `spu_sector_count` | Byte count of sectors expanded to bytes for the SPU phase. |
+| table entry `+0x00` | `spu_sector_count` | Byte count of sectors expanded to bytes for the SPU phase. |
+| table entry `+0x01` | `ram_sector_count` | Byte count of sectors expanded to bytes for the RAM phase. |
 | table entry `+0x02` | `sector_offset` | Unsigned halfword passed unshifted as the file-relative sector offset. |
 | table entry `+0x04` | `spu_address` | Signed word passed as the SPU destination, not a CPU pointer. |
 | `SDValue +0x1578` | `opened_music_package_id` | Package's leading halfword copied by `SD_OpenMusicVab` after its VAB-open path succeeds. |
@@ -1167,13 +1167,25 @@ It does not become typed pointer arithmetic with an extra eight-byte scale.
 The signed `arg0 >> 4` cache comparison remains distinct from that mask, and
 the caller's original signed-halfword argument and lack of bounds checks remain.
 
-The table names follow the actual six-argument `SD_EnqueueSpuRamTransfer`
-mapping, not the arguments' order alone. Its fourth argument becomes the
-RAM length in `FileRequestSlot +0x18`, and its fifth becomes the SPU length
-at `+0x14`; the two byte counts are still shifted by `FILE_SECTOR_SHIFT`.
-The first argument becomes the SPU address at `+0x0C`, and the third becomes
-the sector offset at `+0x04`. `SD_StepActiveCommand` preserves that mapping;
-`SD_ConfigureTransferPhase` selects SPU mode 3 before RAM mode 1.
+The earlier RAM/SPU count labels were reversed. The corrected names follow
+the complete `SD_EnqueueSpuRamTransfer` command-tail and transfer path:
+
+| Wrapper argument | Queued `SDCommand` | Active `SDValue` | `FileRequestSlot` | Consumer |
+|---|---|---|---|---|
+| fourth (`a3`) | `field_0024` | `field_005C[5]` | `field_14` at `+0x14` | SPU phase size, transfer mode 3 |
+| fifth (`a4`) | `field_0028` | `field_005C[6]` | `field_18` at `+0x18` | RAM phase size, transfer mode 1 |
+
+`SD_EnqueueCommand` copies the complete command without rearranging its
+members. `SD_UpdateRuntime` copies the eight tail words from `+0x10`
+unchanged, and `SD_StepActiveCommand` assigns the indexed words above.
+`SD_ConfigureTransferPhase` selects SPU mode 3 before RAM mode 1;
+`File_TransferReadyCallback` confirms mode 3 through `SpuSetTransferStartAddr`
+and `SpuWrite`, rather than a CPU destination copy. The first wrapper
+argument becomes the SPU address at `+0x0C`, and the third becomes the
+sector offset at `+0x04`. Both table counts still shift by
+`FILE_SECTOR_SHIFT`; swapping both declarations and their request-site names
+preserves the original field offsets, loaded bytes and transfer behavior.
+Assertions pin the SPU count at zero and RAM count at one.
 `File_RequestSecondarySlot` passes the offset to `File_InitTransferDescriptor`,
 whose `File_SetTransferLocation` adds it to the selected file's LBA without
 another unit conversion. Sector-rounded transfer lengths do not establish
