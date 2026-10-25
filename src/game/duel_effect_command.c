@@ -4,6 +4,7 @@
 #include "duel_card.h"
 #include "text_constants.h"
 #include "text_string_bank_views.h"
+#include "european_text_bank_views.h"
 #include "duel_effect.h"
 #include "text_encode_decimal_digits.h"
 #include "text_stream_read_le.h"
@@ -164,7 +165,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         if (id >= 0x500) {
             s32 n = id - 0x100;
 
-            text = (u8 *)(((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) +
+            text = (u8 *)(((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) +
                           gText_PrimaryStringOffsets[n]);
         } else {
             text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
@@ -556,7 +557,7 @@ u8 *G32 *Text_PushStagedString(DuelEffectChannel *a0) {
         if (a2 >= 0x500) {
             s32 n = a2 - 0x100;
 
-            v1 = ((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[n];
+            v1 = ((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[n];
         } else {
             v1 = ((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[a2];
         }

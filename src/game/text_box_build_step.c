@@ -12,6 +12,7 @@
 #include "text_constants.h"
 #include "text_glyph_lookup.h"
 #include "text_string_bank_views.h"
+#include "european_text_bank_views.h"
 #include "display_object_core.h"
 #include "text_box_runtime.h"
 #include "func_80036C14.h"
@@ -107,7 +108,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
             if (id >= 0x500) {
                 s32 n = id - 0x100;
 
-                text = (u8 *)(((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) +
+                text = (u8 *)(((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) +
                     gText_PrimaryStringOffsets[n]);
             } else {
                 text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +

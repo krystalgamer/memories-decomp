@@ -39,6 +39,18 @@ source. They occur in different call paths and preserve different relocation
 sites: one general model base, one phase-callback destination, and one direct
 SU destination.
 
+## PAL boot text tail
+
+The PAL boot text tail is a separate, later cohort outside the fourteen
+NA words above. `gFile_pBootTextStage5Destination`,
+`gFile_pBootTextStage6Destination` and `gFile_pBootTextStage7Destination`
+retain the original stored `u8 *G32` views of `D_800101E0/4/8`, under the
+European build guard only. Boot stages 5/6/7 read those individual words
+for their 30/32/7-sector transfers. The names identify the measured
+transfer roles, not independently verified pointer contents, allocation
+sizes or a uniform text-bank format. See the
+[PAL text handoff](european-text-bank-handoff.md).
+
 ## MODEL record phase map
 
 The
