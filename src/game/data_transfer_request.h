@@ -18,7 +18,10 @@ void MemCardDialog_Start(s32 step);
  * options-screen save) and 4. */
 void MemCardDialog_Request(u8 *buf, s32 size, u8 *name, s32 step);
 
-/* Japanese options-screen save request, using memory-card step 3. */
-void func_8003EFA8(void);
+#ifdef VERSION_JAPAN
+/* Options invokes step 3 for the fixed 0x8000-byte buffer at 0x80140000;
+ * this does not establish that the buffer contains only option settings. */
+extern void SaveData_RequestOptionsWrite(void) asm("func_8003EFA8");
+#endif
 
 #endif
