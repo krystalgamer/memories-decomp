@@ -87,7 +87,7 @@ void Model_UpdateScene(void)
 void Model_RunSlotHandlers(s32 index)
 {
     ModelSlot *base = &gModel_aSlots[index];
-    ModelSlotHeadEntry *slot = base->field_000;
+    ModelSlotHeadEntry *slot = base->hmd_units;
     s32 (*callback)(s32) = Model_MapToWireframePrimitiveHandler;
     u32 *node;
     u32 *next;
@@ -97,7 +97,7 @@ void Model_RunSlotHandlers(s32 index)
         return;
     }
     for (i = 0; i < base->hmd_unit_count; i++, slot++) {
-        node = slot->field_04;
+        node = slot->primitive_data;
         if (node != 0) {
             while (1) {
                 if (node[2] != 0) {

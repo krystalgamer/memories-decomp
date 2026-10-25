@@ -286,7 +286,7 @@ void Model_DrawSlot(s32 index)
         gModel_dwDrawModeTemplate = 0xE1000220;
     }
 
-    e = slot->field_000;
+    e = slot->hmd_units;
     if (gModel_bCurrentDrawMode >= 3) {
         gModel_dwLitColorCacheBase = 0;
     }
@@ -307,17 +307,17 @@ void Model_DrawSlot(s32 index)
                 }
             }
         }
-        if (e->field_04 == 0) {
+        if (e->primitive_data == 0) {
             continue;
         }
         if (slot->field_D1C != 0 &&
-            GS_COORD_UNIT_VIEW(e->field_00)->super == slot->field_D1C) {
+            GS_COORD_UNIT_VIEW(e->coordinate_address)->super == slot->field_D1C) {
             s32 k;
             s32 found;
             u8 n;
             s32 idx;
 
-            idx = (GS_COORD_UNIT_VIEW(e->field_00) -
+            idx = (GS_COORD_UNIT_VIEW(e->coordinate_address) -
                    GS_COORD_UNIT_VIEW(slot->entries)) * 0x14 + 0x04000001;
             k = 0;
             found = 0;
@@ -334,19 +334,19 @@ void Model_DrawSlot(s32 index)
             }
             if (found) {
                 ScaleMatrix(
-                    &GS_COORD_UNIT_VIEW(e->field_00)->matrix,
+                    &GS_COORD_UNIT_VIEW(e->coordinate_address)->matrix,
                     VECTOR_VIEW(&slot->field_DB0));
             } else {
                 Model_UpdateCoordinateUnitMatrix(
-                    GS_COORD_UNIT_VIEW(e->field_00),
+                    GS_COORD_UNIT_VIEW(e->coordinate_address),
                     VECTOR_VIEW(&slot->field_DB0));
             }
         }
-        if (W(e->field_04, 0) != -1 || W(e->field_04, 8) != 0) {
+        if (W(e->primitive_data, 0) != -1 || W(e->primitive_data, 8) != 0) {
             if (a) {
                 memset(&zero, 0, 0x20);
                 GsSetLsMatrix(&zero);
-            } else if ((unit = GS_COORD_UNIT_VIEW(e->field_00)) != 0) {
+            } else if ((unit = GS_COORD_UNIT_VIEW(e->coordinate_address)) != 0) {
                 if (gModel_bCurrentDrawMode != 0) {
                     s32 k;
                     s32 m;
@@ -409,11 +409,11 @@ void Model_DrawSlot(s32 index)
         minz = miny = minx = 0x7FFF;
         maxz = maxy = maxx = -0x8000;
         count = x = y = z = 0;
-        e = slot->field_000;
+        e = slot->hmd_units;
         for (i = 0; i < slot->hmd_unit_count; i++, e++) {
-            unit = GS_COORD_UNIT_VIEW(e->field_00);
-            if (unit != 0 && e->field_04 != 0
-                && (W(e->field_04, 0) != -1 || W(e->field_04, 8) != 0)) {
+            unit = GS_COORD_UNIT_VIEW(e->coordinate_address);
+            if (unit != 0 && e->primitive_data != 0
+                && (W(e->primitive_data, 0) != -1 || W(e->primitive_data, 8) != 0)) {
                 count++;
                 x += unit->workm.t[0];
                 y += unit->workm.t[1];
@@ -436,10 +436,10 @@ void Model_DrawSlot(s32 index)
         z = Model_MirrorOffset(index, z, blk[6] * 0x10);
         count = y = 0;
         slot->field_DD0[2] = z;
-        e = slot->field_000;
+        e = slot->hmd_units;
         for (i = 0; i < slot->hmd_unit_count; i++, e++) {
-            unit = GS_COORD_UNIT_VIEW(e->field_00);
-            if (unit != slot->field_D1C && unit != slot->field_D18 && unit != 0 && (list = e->field_04) != 0) {
+            unit = GS_COORD_UNIT_VIEW(e->coordinate_address);
+            if (unit != slot->field_D1C && unit != slot->field_D18 && unit != 0 && (list = e->primitive_data) != 0) {
                 s32 uy;
 
                 if (unit->super == slot->field_D1C) {
@@ -738,11 +738,11 @@ void Model_DrawSlot(s32 index)
                 s32 (*fn)(s32);
 
                 s = &gModel_aSlots[index];
-                se = s->field_000;
+                se = s->hmd_units;
                 fn = Model_MapToBasePrimitiveHandler;
                 if (s->is_active != 0) {
                     for (i = 0; i < s->hmd_unit_count; i++, se++) {
-                        list = se->field_04;
+                        list = se->primitive_data;
                         if (list != 0) {
                             for (;;) {
                                 if (W(list, 8) != 0) {

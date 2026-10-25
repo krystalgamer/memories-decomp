@@ -50,7 +50,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
 
     handler = (s32)GsU_00000000;
     base = &gModel_aSlots[index];
-    slot = GS_UNIT_VIEW(base->field_000);
+    slot = GS_UNIT_VIEW(base->hmd_units);
     cursor = hmd;
     if (index < 2) {
         table = gGraphics_apOrderingTables[2];
@@ -200,7 +200,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
             slot++;
         } while (i < base->hmd_unit_count);
     }
-    slot = GS_UNIT_VIEW(base->field_000) + 1;
+    slot = GS_UNIT_VIEW(base->hmd_units) + 1;
     i = 1;
     base->packet_budget_bytes = count;
     base->lit_color_cache_entry_count = acc + i;
@@ -235,7 +235,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
         cur = GS_COORD_UNIT_VIEW(base->entries) + base->field_E19;
         base->field_D1C = cur;
     retry:
-        slot = GS_UNIT_VIEW(base->field_000);
+        slot = GS_UNIT_VIEW(base->hmd_units);
         loaded_limit = base->hmd_unit_count;
         i = 0;
         if (loaded_limit != 0) {

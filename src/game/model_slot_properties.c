@@ -25,9 +25,9 @@ s32 Model_TransformPartVertex(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 
     p = &gModel_aSlots[arg0];
     /* The part's GsUNIT, reached as an integer sum: indexed as
-       &p->field_000[arg1 + 1], GCC folds the +8 into the load and drops
+       &p->hmd_units[arg1 + 1], GCC folds the +8 into the load and drops
        the instruction retail spends on it. */
-    e = (GsUNIT *)((s32)p->field_000 + (arg1 + 1) * (s32)sizeof(GsUNIT));
+    e = (GsUNIT *)((s32)p->hmd_units + (arg1 + 1) * (s32)sizeof(GsUNIT));
     q = (u32 *)e->primtop[1];
     base = (SVECTOR *)q[2];
 
