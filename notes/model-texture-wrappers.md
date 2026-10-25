@@ -37,3 +37,70 @@ at unchanged addresses while preserving every other binding and attribute.
 Existing controls migrate identifiers/include paths only. Historical
 attempts, reuse records, compiler claims, profiles and the full Lua tree
 remain unchanged; no new source-string or synthetic harness is added.
+
+## PAL provider inventory alignment
+
+The two underlying providers already have canonical C interfaces and
+resident linker bindings. Their five PAL inventories now use those same
+names rather than the older native spellings:
+
+| Release | `ModelTexture_LoadTim` | `ModelTexture_PackPageClut` |
+|---|---|---|
+| UK SLES-03947 | `0x8005CFD0`, `0x2B4` bytes | `0x8005EE50`, `0xC4` bytes |
+| French SLES-03948 | `0x8005BC14`, `0x2B4` bytes | `0x8005DA94`, `0xC4` bytes |
+| German SLES-03949 | `0x8005BC14`, `0x2B4` bytes | `0x8005DA94`, `0xC4` bytes |
+| Italian SLES-03950 | `0x8005BC14`, `0x2B4` bytes | `0x8005DA94`, `0xC4` bytes |
+| Spanish SLES-03951 | `0x8005BC14`, `0x2B4` bytes | `0x8005DA94`, `0xC4` bytes |
+
+Actual compiled PAL definitions remain native `func_8005CFD0` and
+`func_8005EE50`, selected by the existing wrappers. UK keeps its symbolic
+linker aliases; the other four releases keep their existing numeric
+canonical bindings. Neither is newly introduced or changed, and an alias
+is not substituted for the real compiled owner. The inventory change is
+only two name fields per release, not new code, a new ABI or a linker
+override.
+
+### Inline loader bias is not the standalone side contract
+
+The PAL loader's wrapper selects an `extern inline` packing helper with
+`MODEL_TEXTURE_PACK_SIDE_BIAS` equal to three. The shared loader passes its
+original mode to that inline helper for modes at least three, so the
+effective side is `(mode - 3) & 1`. The separate public PAL packer instead
+receives a side directly and retains `side & 1`. Moving the subtraction
+into that exported helper would change callers such as the copy wrapper.
+No inline/out-of-line definition or subtraction is relocated.
+
+PAL also deliberately leaves low-page CLUT X unchanged, unlike the
+NA/Japanese subtraction of `0x80`. The special CLUT-Y remap from eight,
+high-page CLUT placement, pixel placement, masks, packed word and mutation
+order remain the existing regional code. The packer changes its input
+descriptor; the copy wrapper's whole-structure copy remains important.
+
+The loader retains its original signed mode/override tests, paired default
+coordinate tests, decoded-coordinate behavior in mode two, host-file
+failure return, GPU polling/retry loops and pixel-then-CLUT uploads.
+Neither the descriptor nor the packed signed/unsigned return contracts
+is retyped. No CLUT upload is skipped, failure behavior improved or
+coordinate range validated.
+
+### Conservation evidence
+
+This alignment changes only the five regional inventories, ten scoped
+registry rows and this note. Every C/header byte, compiler profile,
+manifest, wrapper, symbol/import map, existing test/control and historical
+fingerprint remains unchanged, including all frozen overlay callers.
+
+The actual native routes comprise three unique source/profile units:
+NA/Japan share the complete two-function `model_texture_upload.c` unit
+(836 bytes), while five PAL manifests select the existing loader and
+standalone packer units (888 bytes together). All retain the named
+`gcc_2_8_1_g0` profile. Complete untouched/candidate compiler output,
+MASPSX assembly, symbol tables and disassembly/relocations remain
+identical, including the loader's inlined helper and standalone export.
+
+The clean complete NA resident retains retail SHA-256
+`84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
+That is not local full PAL-image execution; ordinary applicable exact-head
+regional PR image/ownership checks remain mandatory. No new tests,
+synthetic/generated-C/source-string harness, local cloud/regional/witness
+suite or manual CI rerun is introduced.

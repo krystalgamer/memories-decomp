@@ -947,7 +947,7 @@ address,size,name,status,module,notes
 0x8005B7BC,0x214,SD_ApplyPositionalSound,matching_c,game,Shared European C at 0x8005CB78; French relocations and complete executable SHA-256 verified.
 0x8005B9D0,0x100,Model_QueueTintRequestForParts,matching_c,game,Shared European C at 0x8005CD8C; French relocations and complete executable SHA-256 verified.
 0x8005BAD0,0x144,Model_QueueTintRequest,matching_c,game,Shared European C at 0x8005CE8C; French relocations and complete executable SHA-256 verified.
-0x8005BC14,0x2B4,func_8005CFD0,matching_c,game,Shared European C at 0x8005CFD0; French relocations and complete executable SHA-256 verified.
+0x8005BC14,0x2B4,ModelTexture_LoadTim,matching_c,game,Shared European C at 0x8005CFD0; French relocations and complete executable SHA-256 verified.
 0x8005BEC8,0xC,func_80058DC0,matching_c,game,Shared European C at 0x8005D284; French relocations and complete executable SHA-256 verified.
 0x8005BED4,0xC,Model_GetActiveSlotIndex,matching_c,game,Shared European C at 0x8005D290; French relocations and complete executable SHA-256 verified.
 0x8005BEE0,0x44,Model_GetSlotReadiness,matching_c,game,Shared European C at 0x8005D29C; French relocations and complete executable SHA-256 verified.
@@ -1015,7 +1015,7 @@ address,size,name,status,module,notes
 0x8005D7B0,0x1D0,SD_CalcSpatialVolumePan,matching_c,game,Shared European C at 0x8005EB6C; French relocations and complete executable SHA-256 verified.
 0x8005D980,0x4C,Model_IsCameraMoveComplete,matching_c,game,Shared European C at 0x8005ED3C; French relocations and complete executable SHA-256 verified.
 0x8005D9CC,0xC8,Model_HasInsufficientBufferSpace,matching_c,game,Shared European C at 0x8005ED88; French relocations and complete executable SHA-256 verified.
-0x8005DA94,0xC4,func_8005EE50,matching_c,game,Shared European C at 0x8005EE50; French relocations and complete executable SHA-256 verified.
+0x8005DA94,0xC4,ModelTexture_PackPageClut,matching_c,game,Shared European C at 0x8005EE50; French relocations and complete executable SHA-256 verified.
 0x8005DB58,0xD4,Model_LinkSlotAnimationUnit,matching_c,game,Shared European C at 0x8005EF14; French text/rodata relocations and complete executable SHA-256 verified.
 0x8005DC2C,0x78,Model_GetAnimationInterpolationHandler,matching_c,game,Shared European C at 0x8005EFE8; French text/rodata relocations and complete executable SHA-256 verified.
 0x8005DCA4,0x734,Model_UpdateAnimationUnit,matching_c,game,Shared European C at 0x8005F060; French relocations and complete executable SHA-256 verified.
