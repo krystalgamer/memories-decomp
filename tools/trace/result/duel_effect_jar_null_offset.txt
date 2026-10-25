@@ -1,0 +1,71 @@
+==== USER CONTEXT ====
+ 
+#1 - I had no monsters while the opponent had "Blue-eyes Ultimate Dragon" (id 380) and a face-down card in the backrow (magic or trap). Spinning purple hole (similar to dark hole one) appeared, white blobs with pinkish glowing outlines being sucked in. Lightning bolts with the same color of the blobs were coming out of the hole and hitting the board. The opponent card was sucked into the hole and a light flashed in middle with same color scheme as the blobs and lightning.
+
+ 
+==== TRACE RESULT =====
+ 
+script: duel_effect_jar_null_offset 
+setup: debugger=on configured_cpu=interpreter active_cpu=unverified execution_breakpoint=observed 
+status: three seconds after the first target null return 
+frames: 3797 control_hits: 3697 effect17_hits: 167 phase1_initializations: 1 helper_hits: 4197 particle_calls: 1054 foreign_hits: 0 guard_failures: 0 unknown_null_callers: 0 dropped_rows: 0 wrong_phase_null_calls: 0 
+burst return=0x80159F34 null_calls=17 loads=24/24 returned=true 
+path return=0x8015A130 null_calls=2832 loads=24/24 returned=true 
+verdict: a null caller executed both passes of offset loads; rows report actual post-LHU register values, not a Lua dereference or an optional-null contract 
+Unobserved calls/phases remain unresolved. No global reachability, host-C safety or artwork claim follows. 
+ 
+#01 t=59.80s START effect=17 phase=1 
+#01 t=60.28s NULL path ra=0x8015A130 size=4 depth=1 offset=0 
+#01 t=60.28s path pass=1 vertex=0 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=0 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=0 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=1 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=1 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=1 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=2 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=2 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=2 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=3 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=3 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=1 vertex=3 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=0 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=0 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=0 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=1 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=1 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=1 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=2 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=2 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=2 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=3 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=3 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s path pass=2 vertex=3 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=60.28s RETURN path loads=24/24 
+#01 t=61.55s NULL burst ra=0x80159F34 size=32 depth=1 offset=0 
+#01 t=61.55s burst pass=1 vertex=0 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=0 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=0 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=1 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=1 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=1 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=2 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=2 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=2 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=3 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=3 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=1 vertex=3 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=0 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=0 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=0 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=1 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=1 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=1 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=2 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=2 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=2 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=3 axis=X effective=0x00000000 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=3 axis=Y effective=0x00000002 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s burst pass=2 vertex=3 axis=Z effective=0x00000004 loaded_u16=0x0000 as_s16=0 
+#01 t=61.55s RETURN burst loads=24/24 
+
+--- end of trace, copy everything above into tools/trace/result/duel_effect_jar_null_offset.txt --- 
