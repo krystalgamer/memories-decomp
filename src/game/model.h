@@ -119,11 +119,12 @@ typedef struct {
     u16 flags;
 } ModelSlotSoundEntry;
 
+/* Game-owned GsF_LIGHT view without importing the SDK header chain. */
 typedef struct {
-    s32 field_00;
-    s32 field_04;
-    s32 field_08;
-    u8 field_0C[3];
+    s32 direction_x;
+    s32 direction_y;
+    s32 direction_z;
+    u8 rgb[3];
     u8 pad_0F;
 } ModelSlotLightEntry;
 
@@ -250,7 +251,7 @@ typedef struct {
      * that function's header comment. */
     struct _GsCOORDUNIT *G32 field_D1C;
     u8 pad_D20[0x50];
-    ModelSlotLightEntry field_D70[3];
+    ModelSlotLightEntry flat_lights[3];
     /* Signed ambient channels; retain the slot-2 negative-one sentinel. */
     s32 ambient_rgb_scale[3];
     u8 pad_DAC[4];
@@ -461,6 +462,14 @@ typedef char ModelSlotCF8Block_field_0C_offset_must_be_0xC[
 typedef char ModelSlotLightEntry_size_must_be_0x10[
     sizeof(ModelSlotLightEntry) == 0x10 ? 1 : -1
 ];
+typedef char ModelSlotLightEntry_layout_must_match[
+    MODEL_OFFSET(ModelSlotLightEntry, direction_x) == 0 &&
+    MODEL_OFFSET(ModelSlotLightEntry, direction_y) == 4 &&
+    MODEL_OFFSET(ModelSlotLightEntry, direction_z) == 8 &&
+    MODEL_OFFSET(ModelSlotLightEntry, rgb) == 0xC &&
+    sizeof(((ModelSlotLightEntry *)0)->rgb) == 3 &&
+    MODEL_OFFSET(ModelSlotLightEntry, pad_0F) == 0xF ? 1 : -1
+];
 typedef char ModelSlotS32Quad_size_must_be_0x10[
     sizeof(ModelSlotS32Quad) == 0x10 ? 1 : -1
 ];
@@ -494,8 +503,9 @@ typedef char ModelSlot_field_D18_offset_must_be_0xD18[
 typedef char ModelSlot_field_D1C_offset_must_be_0xD1C[
     MODEL_OFFSET(ModelSlot, field_D1C) == 0xD1C ? 1 : -1
 ];
-typedef char ModelSlot_field_D70_offset_must_be_0xD70[
-    MODEL_OFFSET(ModelSlot, field_D70) == 0xD70 ? 1 : -1
+typedef char ModelSlot_flat_lights_offset_must_be_0xD70[
+    MODEL_OFFSET(ModelSlot, flat_lights) == 0xD70 &&
+    sizeof(((ModelSlot *)0)->flat_lights) == 0x30 ? 1 : -1
 ];
 typedef char ModelSlot_ambient_rgb_scale_offset_must_be_0xDA0[
     MODEL_OFFSET(ModelSlot, ambient_rgb_scale) == 0xDA0 ? 1 : -1
@@ -721,7 +731,7 @@ extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
  * claims that same-named fields from adjacent slots are contiguous arrays.
  *
  * 0x800F3938 = gModel_aSlots[0].field_CF8
- * 0x800F39B0 = gModel_aSlots[0].field_D70
+ * 0x800F39B0 = gModel_aSlots[0].flat_lights
  * 0x800F39F0 = gModel_aSlots[0].field_DB0
  * 0x800F3A10 = gModel_aSlots[0].field_DD0
  *

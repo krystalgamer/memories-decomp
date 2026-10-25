@@ -61,9 +61,9 @@ void Model_DrawBackground(void)
     sprite.attribute = 0;
     if (gModel_pBackgroundRecord->texture_height_flags & 0xE000)
         sprite.attribute = 0x01000000;
-    GsSetFlatLight(0, (GsF_LIGHT *)&slot->field_D70[0]);
-    GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
-    GsSetFlatLight(2, (GsF_LIGHT *)&slot->field_D70[2]);
+    GsSetFlatLight(0, (GsF_LIGHT *)&slot->flat_lights[0]);
+    GsSetFlatLight(1, (GsF_LIGHT *)&slot->flat_lights[1]);
+    GsSetFlatLight(2, (GsF_LIGHT *)&slot->flat_lights[2]);
     GsSetAmbient(slot->ambient_rgb_scale[0], slot->ambient_rgb_scale[1], slot->ambient_rgb_scale[2]);
     GsSetLightMatrix(&gModel_CameraCoordinateUnit.matrix);
     NormalColorCol(&normals.values[0], &colors[0], CVECTOR_VIEW(&sprite.r));

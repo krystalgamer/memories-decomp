@@ -123,7 +123,7 @@ remain unchanged.
 The card-view light local uses the existing model-owned
 `ModelSlotLightEntry`, rather than inventing a Library record or replacing
 it with an SDK view. `Model_GetFlatLight` returns a clamped element of the
-slot's three `field_D70` records; both model render paths pass those same
+slot's three `flat_lights` records; both model render paths pass those same
 records to `GsSetFlatLight`. Two explicit casts mark the unchanged legacy
 byte-pointer accessor boundary. Nine signed direction-word writes now use
 the canonical members, including the two adjacent records in the setup
