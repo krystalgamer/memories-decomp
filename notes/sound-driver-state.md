@@ -892,7 +892,8 @@ above.
 | `0x07FA` | `u16` | `track_count` | `SD_HandleSequenceMetaEvent` and `SD_StartSequenceTracks` bound `0x2C`-byte work-record loops. |
 | `0x07FC` | `u16` | `timebase` | `SD_HandleSequenceMetaEvent` and `SD_ScaleSequenceDelta` select timing conversions from it. |
 | `0x0800` | `u8` | `field_0800` | Cleared by `SD_StartSequenceTracks`. |
-| `0x0804`, `0x0808` | `s32` | offset-based fields | Timing/playback routines establish word accesses; their broader roles remain uncertain. |
+| `0x0804` | `s32` | `delta_scale_gate` | Retained timebase word tested for nonzero before delta scaling; the header's final unconditional copy overrides its preceding conditional stores. |
+| `0x0808` | `s32` | `tempo_us_per_quarter` | Retains the header's upper 24-bit tempo or meta-event `0x51` tempo before conversion; no matched C reader is established. |
 | `0x080C` | `s32` | `fast_forward_target_address` | Zero disables countdown skipping; a ticking track clears the global target when its unsigned cursor address reaches it. |
 | `0x0810` | `s32` | `last_track_cursor_address` | Latest ticking track's `sequence_read_base + pos` snapshot, even on a countdown-only step; no matched C reader is established. |
 | `0x0814` | `u8` | `sequence_updates_enabled` | `SD_ResetSecondaryState` clears it; enabling sets it after optional event setup, and both timer and explicit secondary-update paths require it. |
@@ -959,6 +960,61 @@ is `1`.
 `SD_SetSecondarySpatialLevels` and `SD_SetSecondaryMasterLevels` read the same
 halfword for a different question, skipping `SD_UpdateSecondaryObjectVolumes`
 while it is `2`.
+
+### Sequence delta rescaling and retained tempo
+
+Four names preserve existing storage: `SDSequenceTrack.delta_scale_remainder`
+at `+0x18` and `delta_scale_remainder_saved` at `+0x1A` remain `u16`;
+`SDSecondaryState.delta_scale_gate` at `+0x804` and
+`tempo_us_per_quarter` at `+0x808` remain `s32`. Two assertion blocks
+pin these four offsets without changing either record's size or layout.
+Unrelated command/transfer members named `field_0018` are not renamed.
+
+`SD_ScaleSequenceDelta` selects on the separate `timebase` halfword.
+Its arithmetic uses the existing `u32 delta_remaining`, staged operations
+and `u16` remainder stores:
+
+| Timebase | Existing rescaling |
+|---|---|
+| `0x30` | Multiply by 10, add remainder, save low 2 bits, shift right 2. |
+| `0x60` | Multiply by 5, add remainder, save low 2 bits, shift right 2. |
+| `0xC0`, `0xF0` | Add remainder, save low bit, shift right 1. |
+| `0x120`, `0x168` | Divide by 3; neither read nor update the remainder. |
+| `0x180`, `0x1E0` | Add remainder, save low 2 bits, shift right 2. |
+| `0x300`, `0x3C0` | Add remainder, save low 3 bits, shift right 3. |
+| Other values | Leave delta and remainder unchanged. |
+
+Do not rationally fold the multiply/add/mask/shift stages, widen their
+intermediates or invent fractional carry for the divide-by-three cases.
+`SD_StartSequenceTracks` clears the gate before header parsing, reads each
+track's first delta, clears its live remainder, then conditionally scales.
+`SD_ResetSecondaryPlayback` also clears only the live remainder. Neither
+path newly initializes the saved remainder. The normal track pump scales
+new nonzero deltas only when the retained gate is nonzero.
+
+The header first conditionally copies `timebase` into the gate for values
+at least `0x60`, otherwise storing zero, but then unconditionally copies
+`timebase` again. That final store overrides the apparent high-resolution
+filter. This is a retained signed word used as a nonzero predicate, not
+a normalized boolean or a high-resolution-only flag. Every store, reload
+and comparison remains; the scaler reads `timebase`, not the gate's value.
+
+The header stores the upper 24 bits returned by `SD_ReadSequenceU32BE`
+as `tempo_us_per_quarter`. Meta-event `0x51` reads and stores three tempo
+bytes in the same word. Standard tempo units are microseconds per quarter
+note, not BPM, a tempo step or an observed hardware frequency. Both paths
+calculate from their existing locals, not a reload of this retained word;
+no matched C reader is established. Keep `60000000 / tempo`, `*100/115`,
+the `255` clamp and timebase-dependent shifts, including zero-tempo
+behavior without a new guard. Meta tempo updates every track's
+`tempo_step` and `tempo_accumulator` but does not reset its delta remainder.
+
+The nonzero `field_07F8` controller-loop path saves and restores each
+track's remainder beside its existing parser snapshots, with unchanged
+counts and global reloads. The zero-selector path saves/restores only
+the current track position; no remainder snapshot, reset or clock rewind
+is added. The selector remains unnamed, and all accepted clock/cursor,
+timer, source/state and mixer semantics remain unchanged.
 
 ### Sequencer clock, loop snapshot and fast-forward cursors
 

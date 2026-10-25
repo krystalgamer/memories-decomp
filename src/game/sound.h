@@ -371,8 +371,8 @@ typedef struct {
     s32 chunk_start;
     u16 tempo_accumulator;
     u16 tempo_step;
-    u16 field_0018;
-    u16 field_0018_saved;
+    u16 delta_scale_remainder;
+    u16 delta_scale_remainder_saved;
     u32 delta_remaining;
     u32 delta_remaining_saved;
     u8 ended;
@@ -423,8 +423,8 @@ typedef struct {
     u8 field_0800;
     u8 field_0801;
     u8 pad0802[2];
-    s32 field_0804;
-    s32 field_0808;
+    s32 delta_scale_gate;
+    s32 tempo_us_per_quarter;
     s32 fast_forward_target_address;
     s32 last_track_cursor_address;
     u8 sequence_updates_enabled;
@@ -671,6 +671,10 @@ typedef char SDSequenceTrack_tempo_accumulator_offset_must_be_0x14[
 typedef char SDSequenceTrack_delta_remaining_offset_must_be_0x1C[
     SD_STATE_OFFSET(SDSequenceTrack, delta_remaining) == 0x1C ? 1 : -1
 ];
+typedef char SDSequenceTrack_delta_scale_remainder_offsets_must_match[
+    SD_STATE_OFFSET(SDSequenceTrack, delta_scale_remainder) == 0x18 &&
+    SD_STATE_OFFSET(SDSequenceTrack, delta_scale_remainder_saved) == 0x1A ? 1 : -1
+];
 typedef char SDSequenceTrack_ended_offset_must_be_0x24[
     SD_STATE_OFFSET(SDSequenceTrack, ended) == 0x24 ? 1 : -1
 ];
@@ -752,6 +756,10 @@ typedef char SDSecondaryState_timebase_offset_must_be_0x7FC[
 ];
 typedef char SDSecondaryState_bytes_consumed_offset_must_be_0x818[
     SD_STATE_OFFSET(SDSecondaryState, bytes_consumed) == 0x818 ? 1 : -1
+];
+typedef char SDSecondaryState_delta_timing_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, delta_scale_gate) == 0x804 &&
+    SD_STATE_OFFSET(SDSecondaryState, tempo_us_per_quarter) == 0x808 ? 1 : -1
 ];
 typedef char SDSecondaryState_update_dispatch_offsets_must_match[
     SD_STATE_OFFSET(SDSecondaryState, timer_maintenance_counter) == 0x508 &&

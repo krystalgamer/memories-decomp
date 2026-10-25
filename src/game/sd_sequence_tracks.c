@@ -53,7 +53,7 @@ retry:
                     entry->delta_remaining = value;
                     if (value == 0)
                         goto retry;
-                    if (gSD_pSecondaryState->field_0804 != 0)
+                    if (gSD_pSecondaryState->delta_scale_gate != 0)
                         SD_ScaleSequenceDelta(entry);
                     if (entry->delta_remaining == 0)
                         goto retry;

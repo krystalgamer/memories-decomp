@@ -7,10 +7,10 @@
 /* Opens one sequence track from its MTrk header, as sound.h's SDSequenceTrack
  * notes describe, and returns whether it opened.
  *
- * SD_ScaleSequenceDelta rescales that track's pending delta after a tempo or
- * resolution change. sd_sequence_tracks.c runs the same step over its own
- * track walk and used to declare the function itself, in the identical
- * spelling. */
+ * SD_ScaleSequenceDelta rescales the pending delta for the sequence timebase,
+ * carrying the track's remainder in its mask/shift cases, but not its /3 cases.
+ * sd_sequence_tracks.c runs the same step over its own track walk and used to
+ * declare the function itself, in the identical spelling. */
 int SD_OpenSequenceTrack(SDSequenceTrack *entry);
 void SD_ScaleSequenceDelta(SDSequenceTrack *entry);
 

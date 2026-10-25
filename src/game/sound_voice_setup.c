@@ -85,7 +85,7 @@ void SD_ResetSecondaryPlayback(void) {
         track->tempo_step = c72;
         track->ended = one;
         track->chunk_start = 0;
-        track->field_0018 = 0;
+        track->delta_scale_remainder = 0;
         track->field_0027 = 0;
         track->running_status_held = cff;
         track->running_status = 0;
