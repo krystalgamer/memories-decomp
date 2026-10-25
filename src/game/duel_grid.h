@@ -34,10 +34,17 @@ typedef struct {
  *
  * Left unsized on purpose: a declared size is a -G input for this toolchain,
  * and no consumer needs the bound. */
+#ifdef VERSION_JAPAN
+#define DUEL_FIELD_GRID_LABEL asm("gJapanese_DuelFieldGridCardRecordIndices")
+#define DUEL_FIELD_GRID_ALIAS_LABEL DUEL_FIELD_GRID_LABEL
+#else
+#define DUEL_FIELD_GRID_LABEL
+#define DUEL_FIELD_GRID_ALIAS_LABEL asm("gDuel_abFieldGridCardRecordIndices")
+#endif
 #ifdef DUEL_FIELD_GRID_ALIASES
 extern u8 D_800907D8_2d
-    [DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] asm("gDuel_abFieldGridCardRecordIndices");
-extern u8 D_800907D8_flat[] asm("gDuel_abFieldGridCardRecordIndices");
+    [DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] DUEL_FIELD_GRID_ALIAS_LABEL;
+extern u8 D_800907D8_flat[] DUEL_FIELD_GRID_ALIAS_LABEL;
 #define gDuel_abFieldGridCardRecordIndices D_800907D8_flat
 #elif defined(DUEL_FIELD_GRID_2D)
 /* duel_card_effects.c and DuelEffect_ApplySwords
@@ -50,9 +57,10 @@ extern u8 D_800907D8_flat[] asm("gDuel_abFieldGridCardRecordIndices");
  * DuelEffect_ApplyCursebreaker and DuelEffect_ApplyHarpiesFeatherDuster, which
  * walk the grid flat, so the unit defines DUEL_FIELD_GRID_2D for the
  * [side][slot] user and casts at the flat ones. */
-extern u8 gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
+extern u8 gDuel_abFieldGridCardRecordIndices[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT]
+    DUEL_FIELD_GRID_LABEL;
 #else
-extern u8 gDuel_abFieldGridCardRecordIndices[];
+extern u8 gDuel_abFieldGridCardRecordIndices[] DUEL_FIELD_GRID_LABEL;
 #endif
 
 /* The hand table defined immediately before that grid, in the same unit:

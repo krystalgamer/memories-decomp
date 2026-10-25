@@ -71,7 +71,11 @@ typedef char DuelCardRecord_table_index_offset_must_be_0x18[
 
 #undef DUEL_CARD_RECORD_OFFSET
 
+#ifdef VERSION_JAPAN
+extern DuelCardRecord gDuel_aCardRecords[] asm("gJapanese_DuelCardRecords");
+#else
 extern DuelCardRecord gDuel_aCardRecords[];
+#endif
 
 /* The same table, entered five records in: 0x801A7B64 is 0x8C past
  * gDuel_aCardRecords and 0x8C is 5 * DUEL_CARD_RECORD_SIZE, so this is

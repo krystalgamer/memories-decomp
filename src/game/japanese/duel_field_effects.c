@@ -5,8 +5,6 @@
  * there, so they are aliased (config/slpm_86398/symbols.txt has the
  * addresses). */
 #define VERSION_JAPAN
-#define gDuel_abFieldGridCardRecordIndices gJapanese_DuelFieldGridCardRecordIndices
-#define gDuel_aCardRecords gJapanese_DuelCardRecords
 #define D_8009AF40 gJapanese_D_8009AF40
 #define D_8009B360 gJapanese_DuelPlayerState
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
