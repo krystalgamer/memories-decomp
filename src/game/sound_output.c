@@ -64,10 +64,10 @@ void SD_ResetRuntime(void)
     u = g_SDValue;
     u->active_cd_fade_wait = 0;
     w = g_SDValue;
-    u->field_004E = 0;
-    u->field_0050 = 0;
-    u->field_0054 = 0;
-    u->field_0058 = 0;
+    u->active_command_value = 0;
+    u->active_command_arg0 = 0;
+    u->active_command_arg1 = 0;
+    u->active_command_arg2 = 0;
     w->flags_0040 = 0;
 }
 

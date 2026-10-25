@@ -475,7 +475,7 @@ below, and the two answers are different.
 only exception left. Its private `SD` named 36 offsets. An exact pairing
 against `SDValue`, taken by compiling the header and reading `offsetof`
 rather than by matching names, put them in three buckets: 19 offsets the
-canonical already named, 6 covered by `field_005C[8]`, and 11 that fell
+canonical already named, 6 covered by `active_command_tail[8]`, and 11 that fell
 inside five padding regions -- `pad04CC`, `pad0524`, `pad0534`, `pad157C`
 and `pad1619`.
 
@@ -513,13 +513,13 @@ use in this unit" flattens them into one.
   * **Five are read here**: `field_04CC`, `cd_start_sector_offset`, `cd_end_sector_offset`,
     `cd_filter_channel` and `cd_filter_file`. The read's own width is the evidence.
   * **Three are only written**: `field_0532 = b >> 31`,
-    `cd_request_code = 0xFFFF` and `field_157C = field_004E`. What the width
+    `cd_request_code = 0xFFFF` and `field_157C = active_command_value`. What the width
     rests on is the store and the private declaration this unit already
     carried, not a measured read.
   * **Three are passed by address**: 0x1619, 0x1629 and 0x1639. They are
     worth naming separately rather than as one 0x30 region, because the
     unit hands each of the three to `File_RequestSecondarySlot` on its own, selected by
-    `field_005C[0] & 0xF0`. Three distinct call arguments 0x10 apart fix
+    `active_command_tail[0] & 0xF0`. Three distinct call arguments 0x10 apart fix
     where each buffer *starts*; the 0x10 extent is the private
     declaration's, carried across, and is not proved here.
 
@@ -918,6 +918,55 @@ No loop/repeat meaning is inferred for it. The separate `mix_multiplier`
 extraction, generic command payloads, raw request fields, pointer reloads,
 flag updates and SDK ordering remain unchanged. No enum, new initializer,
 struct view, replay or behavioral harness is introduced.
+
+### Active-command payload snapshot
+
+`SD_UpdateRuntime` stages the queue head into a separate payload before
+calling `SD_StepActiveCommand`. The copy establishes the following names;
+the argument numbers describe queue-word positions, not one shared
+operation-specific meaning:
+
+| Queue source | `SDValue` destination | Name |
+|---|---|---|
+| `+0x02`, signed halfword | `+0x004E`, unsigned halfword | `active_command_value` |
+| `+0x04`, signed word | `+0x0050`, unsigned word | `active_command_arg0` |
+| `+0x08`, signed word | `+0x0054`, unsigned word | `active_command_arg1` |
+| `+0x0C`, signed word | `+0x0058`, unsigned word | `active_command_arg2` |
+| `+0x10..+0x2F`, eight words | `+0x005C..+0x007B`, eight unsigned words | `active_command_tail` |
+
+The halfword still uses the explicit `(u16)` conversion. The three word
+assignments retain the canonical unsigned storage and each consumer's
+existing signed, narrowing or pointer view. In particular, argument 2
+remains a raw `u32`, not a newly typed or stored C pointer. The tail stays
+the same `u32[8]`, copied through `SDCommandTail` in one block assignment;
+the queue and active-state layout checks pin both ends and the copy size.
+
+Command `0x51` reads argument 2 as an `SDSeqBlock *` and argument 0 as
+its note-registration count. Commands `0x21` and `0x24` instead use
+argument 2 as the descriptor-pair table base, the value halfword as its
+index, and argument 0 as the common sector-base offset. Command `0x48`
+uses the value's low nibble to select the sequence index, copies the
+complete value to `opened_sequence_command` only after a zero open result,
+and narrows argument 1 to the sequence fade step. None of these views
+renames a generic argument into a universal count, offset or pointer.
+
+Command `0x20` reads tail words 0, 1, 3, 4, 5 and 6 for the existing
+source selector, sector offset, SPU destination, RAM destination, SPU
+phase size and RAM phase size. The selector rewrite and filename-buffer
+handoffs retain the separately documented `0x10`/`0x20`/`0x40` branches.
+Queue-head fade preparation for `0x29`/`0x2A` and `0x44`/`0x45` still
+reads the queue record, not a substituted active-payload view.
+
+The producer keeps opcode/phase setup, separate global reloads, payload
+copies, wait-byte copy, tail copy, the unexplained `field_15F4 = 8`,
+count decrement, first active step and later queue compaction in their
+original order. The value 8 does not establish a role for `field_15F4`.
+`SD_ResetRuntime` clears only the four prefix members; it does not clear
+the tail. Active-command completion still clears only its original
+opcode/phase bytes. Commands populate only the fields they need, so a
+snapshot does not promise that every copied word is initialized or
+meaningful for every opcode. No zeroing, union, enum, validation, alias
+rewrite or scheduling change accompanies the names.
 
 ### Active command staging and CD-fade wait
 
@@ -1632,7 +1681,7 @@ original declarations:
 | table entry `+0x04` | `spu_address` | Signed word passed as the SPU destination, not a CPU pointer. |
 | `SDValue +0x1578` | `opened_music_package_id` | Package's leading halfword copied by `SD_OpenMusicVab` after its VAB-open path succeeds. |
 | `SDValue +0x157A` | `music_vab_open_result` | Narrowed return from `SD_VabOpenHead`; also passed as the VAB argument to `SD_OpenSequence`. |
-| `SDValue +0x157C` | `opened_sequence_command` | `field_004E` token copied after sequence-open returns zero. |
+| `SDValue +0x157C` | `opened_sequence_command` | `active_command_value` token copied after sequence-open returns zero. |
 | `SDValue +0x157E` | `sequence_open_result` | Narrowed return from `SD_OpenSequence`, tested by the stop/close paths. |
 
 `sound.h` imports the existing `SDMusicTableEntry` owner instead of retaining
@@ -1648,8 +1697,8 @@ the complete `SD_EnqueueSpuRamTransfer` command-tail and transfer path:
 
 | Wrapper argument | Queued `SDCommand` | Active `SDValue` | `FileRequestSlot` | Consumer |
 |---|---|---|---|---|
-| fourth (`a3`) | `field_0024` | `field_005C[5]` | `field_14` at `+0x14` | SPU phase size, transfer mode 3 |
-| fifth (`a4`) | `field_0028` | `field_005C[6]` | `field_18` at `+0x18` | RAM phase size, transfer mode 1 |
+| fourth (`a3`) | `field_0024` | `active_command_tail[5]` | `field_14` at `+0x14` | SPU phase size, transfer mode 3 |
+| fifth (`a4`) | `field_0028` | `active_command_tail[6]` | `field_18` at `+0x18` | RAM phase size, transfer mode 1 |
 
 `SD_EnqueueCommand` copies the complete command without rearranging its
 members. `SD_UpdateRuntime` copies the eight tail words from `+0x10`
@@ -1763,7 +1812,7 @@ capacity of each interval. Neither the string lengths nor this naming
 supplies new evidence for the retained sixteen-byte extents.
 
 In `SD_StepActiveCommand`, the three existing branches of
-`field_005C[0] & 0xF0` select SE at `0x10` with request file index 4,
+`active_command_tail[0] & 0xF0` select SE at `0x10` with request file index 4,
 BGM at `0x20` with index 5, and MASTER.XA at `0x40` with index 6.
 Each passes its buffer as the second argument to
 `File_RequestSecondarySlot`. The ordinary nonzero-size data-transfer path
