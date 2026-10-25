@@ -3,8 +3,8 @@
 
 #include "../types.h"
 
-/* The two BGM fade setters. Both store a signed per-tick step in field_1582
- * and a target level in field_1584; SD_UpdateFades moves field_1580 by the
+/* The two BGM fade setters. Both store a signed per-tick step in bgm_fade_step
+ * and a target level in bgm_fade_target; SD_UpdateFades moves bgm_fade_level by the
  * step until it reaches the target. Their bodies are identical -- retail has
  * two symbols for the same two stores. SD_BGMFade reaches SD_StartBgmFade;
  * tent_SD_StartBgmFadeCopy is reached only from tent_SD_BGMFadeCopy, which

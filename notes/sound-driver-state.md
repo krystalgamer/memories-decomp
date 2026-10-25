@@ -1046,6 +1046,62 @@ Unchiga's generated `m2c_types.h` and focused decompilation sources corroborate
 the `0x848` clear size and several offsets, but the declarations above were
 derived and exact-tested from this repository's matched C.
 
+## Three active fade ramps
+
+The following `SDValue` members name the existing producer-to-output paths,
+without changing their types, offsets, arithmetic or ownership:
+
+| Offset | Field | Existing type and role |
+| --- | --- | --- |
+| `0x0049` | `cd_fade_target` | `u8`, endpoint for the existing `cd_volume` ramp. |
+| `0x0512` | `cd_fade_step` | `s16`, signed increment applied to `cd_volume`. |
+| `0x1580` | `bgm_fade_level` | `s16`, first multiplier of the secondary master level. |
+| `0x1582` | `bgm_fade_step` | `s16`, increment set by the BGM fade setters and playback request. |
+| `0x1584` | `bgm_fade_target` | `u8`, endpoint of that first multiplier. |
+| `0x1586` | `sequence_fade_level` | `s16`, second secondary-master multiplier. |
+| `0x1588` | `sequence_fade_step` | `s16`, increment used by sequence start/stop and streaming callbacks. |
+| `0x158A` | `sequence_fade_target` | `u8`, second multiplier's endpoint. |
+
+`SD_UpdateFades` updates the sequence ramp first, the BGM ramp second and
+the CD ramp last. Each nonzero step is added through the original signed
+halfword store before the original negative/positive endpoint tests.
+Reaching the endpoint clears that ramp's step and stores its target level.
+Zero step means no update; changing a target alone does not start a ramp.
+These are increments per updater invocation, not durations or guaranteed
+once-per-frame counters. No widening, clamp, range check or normalization
+is added.
+
+When either secondary-master ramp is active, the existing arithmetic
+multiplies the base level by `(bgm_fade_level + 1)`, shifts eight, then
+multiplies by `(sequence_fade_level + 1)` and shifts again, retaining
+the original zero branches and narrow intermediates before publishing
+both channels through `SD_SetSecondaryMasterLevels`. The CD path remains
+separate and calls `SD_SetCdVolume` after its own update.
+
+The playback request seeds the BGM step and target `255`; sequence start
+sets the sequence target to `255` and imports its existing step. Reset and
+initialization keep their distinct stores and pointer reloads. The immediate
+CD-volume setter still sets current and target together and clears the step.
+Queued CD fades still use command fields `0x0008` and `0x0002`, and their
+existing optional wait still tests the CD step.
+
+Do not repair the cross-ramp writes: commands `0x44`/`0x45` test and set
+the sequence step but store the BGM target. The stream callbacks likewise
+write a sequence step while retargeting the BGM ramp to `220` or `255`;
+they do not change the sequence target. The previously documented clamp
+behavior, branch polarity and repeated alias-sensitive reads remain exact.
+
+`SDSecondaryState.field_0512` is a different signed halfword at the same
+relative offset in a different backing object. Its initialization, spatial
+scaling, command consumers and layout assertion remain untouched. The
+`sound_init.c` secondary-state store is not a CD-fade-step store.
+
+The six tentative sound-function names remain tentative. Their existing
+uncalled-duplicate and voice-ID-domain caveats are not resolved by naming
+the active ramp members. No caller, reachability, historical naming evidence,
+callback signature, initialized table, compiler profile or executable
+control is changed.
+
 ## Complete SPU voice-key status snapshots
 
 `SDValue.voice_key_status` is one `u8[24]` at `+0x15D8`, replacing the

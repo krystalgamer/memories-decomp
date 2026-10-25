@@ -29,8 +29,8 @@ void SD_RequestBgmPlayback(s32 value, s32 data)
     command.field_0002 = value;
     command.field_0008 = (s16)data;
     SD_EnqueueCommand(&command);
-    g_SDValue->field_1582 = data;
-    g_SDValue->field_1584 = 255;
+    g_SDValue->bgm_fade_step = data;
+    g_SDValue->bgm_fade_target = 255;
 }
 
 void SD_Init(void)

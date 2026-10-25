@@ -31,7 +31,7 @@ void SD_ResetRuntime(void)
     p->field_0044 = p->field_164A;
     SD_SetCdVolume(0);
     q = g_SDValue;
-    q->field_0512 = 0;
+    q->cd_fade_step = 0;
     if (q->field_157E != -1) {
         if ((s16)SD_PollSequenceState() != 1) {
             SD_StopSequence(g_SDValue->field_157E);
@@ -49,7 +49,7 @@ void SD_ResetRuntime(void)
     s = g_SDValue;
     s->field_1578 = -1;
     s->field_157A = -1;
-    s->field_1588 = 0;
+    s->sequence_fade_step = 0;
     SpuSetKey(SPU_OFF, 0xFFFFFF);
     g_SDValue->voice_active_mask = 0;
     g_SDValue->field_0435 = 0;

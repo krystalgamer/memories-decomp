@@ -63,11 +63,11 @@ void SD_InitState(u8 arg0)
     st = g_SDValue;
     x = st->field_1649;
     y = st->field_164A;
-    st->field_0049 = 0xFF;
+    st->cd_fade_target = 0xFF;
     q = g_SDValue;
     st->mix_scale = x;
     st->field_0044 = y;
-    q->field_1584 = 0xFF;
+    q->bgm_fade_target = 0xFF;
     SD_InitSecondaryWorkArea((s32 *)0x801E1670);
     SD_InitSpuCommonVolume();
     SD_InitBufferState();

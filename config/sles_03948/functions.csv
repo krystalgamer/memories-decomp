@@ -441,7 +441,7 @@ address,size,name,status,module,notes
 0x80036F7C,0x118,Dialog_ReadChoiceInput,matching_c,game,"Shared localized C at Spanish 0x80036F7C; measured French language index 1 where required, exact object bindings and complete executable SHA-256 verified."
 0x80037094,0x98,Widget_UpdatePulseColour,matching_c,game,Shared European C at 0x80036E94; French relocations and complete executable SHA-256 verified.
 0x8003712C,0x1B4,Dialog_UpdateChoice,matching_c,game,Shared European C at 0x80036F2C; French relocations and complete executable SHA-256 verified.
-0x800372E0,0x74,func_800370E0,matching_c,game,Shared European C at 0x800370E0; French relocations and complete executable SHA-256 verified.
+0x800372E0,0x74,DuelEffect_HasActiveEntry,matching_c,game,Shared European C at 0x800370E0; French relocations and complete executable SHA-256 verified.
 0x80037354,0x5C,DuelEffect_SetEntryControlBytes,matching_c,game,Shared European C at 0x80037154; French relocations and complete executable SHA-256 verified.
 0x800373B0,0x90,Text_CompletePageAdvance,matching_c,game,Shared European C at 0x800371B0; French relocations and complete executable SHA-256 verified.
 0x80037440,0x4C,Text_BeginPageClear,matching_c,game,Shared European C at 0x80037240; French relocations and complete executable SHA-256 verified.

@@ -132,7 +132,7 @@ typedef struct {
     u16 field_0044;
     u8 pad0046[2];
     u8 output_type;
-    u8 field_0049;
+    u8 cd_fade_target;
     u8 flags_004A;
     u8 pad004B;
     s16 command_count;
@@ -204,7 +204,7 @@ typedef struct {
     s32 field_04CC;
     u8 pad04D0[0x510 - (SD_VOICE_LOOKUP_END_BYTE_OFFSET + 4)];
     s16 cd_volume;
-    s16 field_0512;
+    s16 cd_fade_step;
     u8 channel_volume[2];
     u8 pad0516[2];
     /* The three mixer-out bank bases SD_UpdateBankLoad installs once the
@@ -235,13 +235,13 @@ typedef struct {
     /* Token copied from field_004E after sequence setup, or -1 when inactive. */
     s16 field_157C;
     s16 field_157E;
-    s16 field_1580;
-    s16 field_1582;
-    u8 field_1584;
+    s16 bgm_fade_level;
+    s16 bgm_fade_step;
+    u8 bgm_fade_target;
     u8 pad1585;
-    s16 field_1586;
-    s16 field_1588;
-    u8 field_158A;
+    s16 sequence_fade_level;
+    s16 sequence_fade_step;
+    u8 sequence_fade_target;
     u8 pad158B[0x4D];
     u8 voice_key_status[24];
     u8 pad15F0[4];
@@ -539,11 +539,11 @@ typedef char SDValue_field_004E_offset_must_be_0x4E[
 typedef char SDValue_field_007C_offset_must_be_0x7C[
     SD_STATE_OFFSET(SDValue, field_007C) == 0x7C ? 1 : -1
 ];
-typedef char SDValue_field_1580_offset_must_be_0x1580[
-    SD_STATE_OFFSET(SDValue, field_1580) == 0x1580 ? 1 : -1
+typedef char SDValue_bgm_fade_level_offset_must_be_0x1580[
+    SD_STATE_OFFSET(SDValue, bgm_fade_level) == 0x1580 ? 1 : -1
 ];
-typedef char SDValue_field_158A_offset_must_be_0x158A[
-    SD_STATE_OFFSET(SDValue, field_158A) == 0x158A ? 1 : -1
+typedef char SDValue_sequence_fade_target_offset_must_be_0x158A[
+    SD_STATE_OFFSET(SDValue, sequence_fade_target) == 0x158A ? 1 : -1
 ];
 typedef char SDValue_voice_key_status_20_offset_must_be_0x15EC[
     SD_STATE_OFFSET(SDValue, voice_key_status[20]) == 0x15EC ? 1 : -1

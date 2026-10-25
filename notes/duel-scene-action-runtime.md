@@ -129,3 +129,9 @@ retains the address-based
 `D_8009B23A` declaration
 as a lexical contract. Its linked target and the rest of the runtime use
 `gDuel_wSceneStateFlags`.
+
+## Japanese native label for the card-move step
+
+The Japanese build reaches `DuelScene_UpdateCardMove` through the native label
+`func_8001AFEC`, declared under `VERSION_JAPAN` in `duel_scene_callbacks.h`,
+instead of a wrapper macro. Other regions keep the plain declaration.

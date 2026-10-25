@@ -13,14 +13,14 @@ void SD_FadeInStreamAudio(void)
     SDValue *first = g_SDValue;
     SDValue *state;
 
-    first->field_0049 = 255;
+    first->cd_fade_target = 255;
     state = g_SDValue;
-    first->field_0512 = 64;
+    first->cd_fade_step = 64;
     state->flags_0040 = (state->flags_0040 & 0xFFFC) | 4;
     if ((state->flags_0040 & 0x80) &&
-        state->field_1588 >= 0) {
-        state->field_1588 = -16;
-        state->field_1584 = 220;
+        state->sequence_fade_step >= 0) {
+        state->sequence_fade_step = -16;
+        state->bgm_fade_target = 220;
     }
 }
 
@@ -35,18 +35,18 @@ void SD_FadeOutStreamAudio(void)
     SDValue *flags;
 
     if (state->flags_0040 & 0x80) {
-        state->field_1588 = 8;
-        state->field_1584 = 255;
+        state->sequence_fade_step = 8;
+        state->bgm_fade_target = 255;
         state = g_SDValue;
-        state->field_0049 = 0;
+        state->cd_fade_target = 0;
         flags = g_SDValue;
-        state->field_0512 = -64;
+        state->cd_fade_step = -64;
         flags->flags_0040 &= 0xFFFB;
         return;
     }
-    state->field_0049 = 0;
+    state->cd_fade_target = 0;
     flags = g_SDValue;
-    state->field_0512 = -64;
+    state->cd_fade_step = -64;
     flags->flags_0040 &= 0xFFFB;
 }
 

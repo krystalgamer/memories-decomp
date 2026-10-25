@@ -41,32 +41,32 @@ void SD_UpdateFades(void) {
     s16 y;
 
     changed = 0;
-    if (g_SDValue->field_1588 != 0) {
-        g_SDValue->field_1586 += g_SDValue->field_1588;
+    if (g_SDValue->sequence_fade_step != 0) {
+        g_SDValue->sequence_fade_level += g_SDValue->sequence_fade_step;
         changed = 1;
-        if (g_SDValue->field_1586 <= g_SDValue->field_158A &&
-            g_SDValue->field_1588 < 0) {
-            g_SDValue->field_1588 = 0;
-            g_SDValue->field_1586 = g_SDValue->field_158A;
+        if (g_SDValue->sequence_fade_level <= g_SDValue->sequence_fade_target &&
+            g_SDValue->sequence_fade_step < 0) {
+            g_SDValue->sequence_fade_step = 0;
+            g_SDValue->sequence_fade_level = g_SDValue->sequence_fade_target;
         }
-        if (g_SDValue->field_1586 >= g_SDValue->field_158A &&
-            g_SDValue->field_1588 > 0) {
-            g_SDValue->field_1588 = 0;
-            g_SDValue->field_1586 = g_SDValue->field_158A;
+        if (g_SDValue->sequence_fade_level >= g_SDValue->sequence_fade_target &&
+            g_SDValue->sequence_fade_step > 0) {
+            g_SDValue->sequence_fade_step = 0;
+            g_SDValue->sequence_fade_level = g_SDValue->sequence_fade_target;
         }
     }
-    if (g_SDValue->field_1582 != 0) {
-        g_SDValue->field_1580 += g_SDValue->field_1582;
+    if (g_SDValue->bgm_fade_step != 0) {
+        g_SDValue->bgm_fade_level += g_SDValue->bgm_fade_step;
         changed = 1;
-        if (g_SDValue->field_1580 <= g_SDValue->field_1584 &&
-            g_SDValue->field_1582 < 0) {
-            g_SDValue->field_1582 = 0;
-            g_SDValue->field_1580 = g_SDValue->field_1584;
+        if (g_SDValue->bgm_fade_level <= g_SDValue->bgm_fade_target &&
+            g_SDValue->bgm_fade_step < 0) {
+            g_SDValue->bgm_fade_step = 0;
+            g_SDValue->bgm_fade_level = g_SDValue->bgm_fade_target;
         }
-        if (g_SDValue->field_1580 >= g_SDValue->field_1584 &&
-            g_SDValue->field_1582 > 0) {
-            g_SDValue->field_1582 = 0;
-            g_SDValue->field_1580 = g_SDValue->field_1584;
+        if (g_SDValue->bgm_fade_level >= g_SDValue->bgm_fade_target &&
+            g_SDValue->bgm_fade_step > 0) {
+            g_SDValue->bgm_fade_step = 0;
+            g_SDValue->bgm_fade_level = g_SDValue->bgm_fade_target;
         }
     }
     if (changed) {
@@ -74,13 +74,13 @@ void SD_UpdateFades(void) {
 
         v = g_SDValue->field_0044;
         if (v) {
-            v *= g_SDValue->field_1580 + 1;
+            v *= g_SDValue->bgm_fade_level + 1;
             v >>= 8;
         } else {
             v = 0;
         }
         if (v) {
-            v *= g_SDValue->field_1586 + 1;
+            v *= g_SDValue->sequence_fade_level + 1;
             v >>= 8;
         } else {
             v = 0;
@@ -88,17 +88,17 @@ void SD_UpdateFades(void) {
         y = v;
         SD_SetSecondaryMasterLevels(y, y);
     }
-    if (g_SDValue->field_0512 != 0) {
-        g_SDValue->cd_volume += g_SDValue->field_0512;
-        if (g_SDValue->cd_volume <= g_SDValue->field_0049 &&
-            g_SDValue->field_0512 < 0) {
-            g_SDValue->field_0512 = 0;
-            g_SDValue->cd_volume = g_SDValue->field_0049;
+    if (g_SDValue->cd_fade_step != 0) {
+        g_SDValue->cd_volume += g_SDValue->cd_fade_step;
+        if (g_SDValue->cd_volume <= g_SDValue->cd_fade_target &&
+            g_SDValue->cd_fade_step < 0) {
+            g_SDValue->cd_fade_step = 0;
+            g_SDValue->cd_volume = g_SDValue->cd_fade_target;
         }
-        if (g_SDValue->cd_volume >= g_SDValue->field_0049 &&
-            g_SDValue->field_0512 > 0) {
-            g_SDValue->field_0512 = 0;
-            g_SDValue->cd_volume = g_SDValue->field_0049;
+        if (g_SDValue->cd_volume >= g_SDValue->cd_fade_target &&
+            g_SDValue->cd_fade_step > 0) {
+            g_SDValue->cd_fade_step = 0;
+            g_SDValue->cd_volume = g_SDValue->cd_fade_target;
         }
         y = g_SDValue->cd_volume;
         SD_SetCdVolume(y);
@@ -140,8 +140,8 @@ void SD_UpdateRuntime(void)
         SD_StopSequence(g_SDValue->field_157E);
         p = g_SDValue;
         value = p->flags_0040;
-        p->field_1588 = -0x80;
-        p->field_158A = 0;
+        p->sequence_fade_step = -0x80;
+        p->sequence_fade_target = 0;
         value &= 0xFF7F;
         p->flags_0040 = value;
     }
@@ -161,27 +161,27 @@ void SD_UpdateRuntime(void)
     value = p->commands.c[0].command;
     switch (value) {
     case 0x44:
-        if (p->field_1588 == 0) {
-            p->field_1588 = (u16)e->field_0008;
-            p->field_1584 = (u8)e->field_0002;
+        if (p->sequence_fade_step == 0) {
+            p->sequence_fade_step = (u16)e->field_0008;
+            p->bgm_fade_target = (u8)e->field_0002;
         }
         break;
     case 0x45:
-        if (p->field_1588 == 0) {
-            p->field_1588 = (u16)e->field_0008;
-            p->field_1584 = (u8)e->field_0002;
+        if (p->sequence_fade_step == 0) {
+            p->sequence_fade_step = (u16)e->field_0008;
+            p->bgm_fade_target = (u8)e->field_0002;
         }
         break;
     case 0x29:
-        if (p->field_0512 == 0) {
-            p->field_0512 = (u16)e->field_0008;
-            p->field_0049 = (u8)e->field_0002;
+        if (p->cd_fade_step == 0) {
+            p->cd_fade_step = (u16)e->field_0008;
+            p->cd_fade_target = (u8)e->field_0002;
         }
         break;
     case 0x2A:
-        if (p->field_0512 == 0) {
-            p->field_0512 = (u16)e->field_0008;
-            p->field_0049 = (u8)e->field_0002;
+        if (p->cd_fade_step == 0) {
+            p->cd_fade_step = (u16)e->field_0008;
+            p->cd_fade_target = (u8)e->field_0002;
         }
         break;
     }
