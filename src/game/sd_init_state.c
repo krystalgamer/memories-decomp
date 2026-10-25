@@ -57,16 +57,16 @@ void SD_InitState(u8 arg0)
     if (arg0 != 0) {
         g_SDValue->flags_004A |= 0xF0;
     }
-    g_SDValue->field_1649 = 0xFF;
-    g_SDValue->field_164A = 0xD2;
+    g_SDValue->cd_mix_default = 0xFF;
+    g_SDValue->secondary_mix_default = 0xD2;
     g_SDValue->field_164B = 0xFF;
     st = g_SDValue;
-    x = st->field_1649;
-    y = st->field_164A;
+    x = st->cd_mix_default;
+    y = st->secondary_mix_default;
     st->cd_fade_target = 0xFF;
     q = g_SDValue;
     st->mix_scale = x;
-    st->field_0044 = y;
+    st->secondary_mix_scale = y;
     q->bgm_fade_target = 0xFF;
     SD_InitSecondaryWorkArea((s32 *)0x801E1670);
     SD_InitSpuCommonVolume();

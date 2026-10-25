@@ -27,8 +27,8 @@ void SD_ResetRuntime(void)
     s32 value;
 
     p = g_SDValue;
-    p->mix_scale = p->field_1649;
-    p->field_0044 = p->field_164A;
+    p->mix_scale = p->cd_mix_default;
+    p->secondary_mix_scale = p->secondary_mix_default;
     SD_SetCdVolume(0);
     q = g_SDValue;
     q->cd_fade_step = 0;

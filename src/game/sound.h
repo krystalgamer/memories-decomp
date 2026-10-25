@@ -131,7 +131,7 @@ typedef struct {
     u32 field_003C;
     u16 flags_0040;
     u16 mix_scale;
-    u16 field_0044;
+    u16 secondary_mix_scale;
     u8 pad0046[2];
     u8 output_type;
     u8 cd_fade_target;
@@ -253,10 +253,10 @@ typedef struct {
     u8 field_1619[0x10];
     u8 field_1629[0x10];
     u8 field_1639[0x10];
-    /* The two "VolInf" trailer bytes, one per mixer-out bank; SD_UpdateBankLoad
-       latches each into field_0042 / field_0044 as it loads them. */
-    u8 field_1649;
-    u8 field_164A;
+    /* Cached CD/secondary mixer defaults from the "VolInfo" trailers.
+       Runtime reset restores the active scales from these bytes. */
+    u8 cd_mix_default;
+    u8 secondary_mix_default;
     u8 field_164B;
 } SDValue;
 
@@ -402,8 +402,8 @@ typedef struct {
     void (*G32 field_050C)(void);
     s16 object_count;
     s16 field_0512;
-    u16 field_0514;
-    u16 field_0516;
+    u16 master_level_left;
+    u16 master_level_right;
     SDSequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
     u8 pad07D8[4];
     u8 *G32 field_07DC;
@@ -541,8 +541,8 @@ typedef char SDValue_voice_allocation_offsets_must_match[
     SD_STATE_OFFSET(SDValue, voice_priority) == 0x40C &&
     SD_STATE_OFFSET(SDValue, voice_allocation_cursor) == 0x435 ? 1 : -1
 ];
-typedef char SDValue_field_0044_offset_must_be_0x44[
-    SD_STATE_OFFSET(SDValue, field_0044) == 0x44 ? 1 : -1
+typedef char SDValue_secondary_mix_scale_offset_must_be_0x44[
+    SD_STATE_OFFSET(SDValue, secondary_mix_scale) == 0x44 ? 1 : -1
 ];
 typedef char SDValue_field_0002_offset_must_be_0x02[
     SD_STATE_OFFSET(SDValue, field_0002) == 0x02 ? 1 : -1
@@ -553,11 +553,11 @@ typedef char SDValue_bank_0518_offset_must_be_0x518[
 typedef char SDValue_mix_multiplier_offset_must_be_0x533[
     SD_STATE_OFFSET(SDValue, mix_multiplier) == 0x533 ? 1 : -1
 ];
-typedef char SDValue_field_1649_offset_must_be_0x1649[
-    SD_STATE_OFFSET(SDValue, field_1649) == 0x1649 ? 1 : -1
+typedef char SDValue_cd_mix_default_offset_must_be_0x1649[
+    SD_STATE_OFFSET(SDValue, cd_mix_default) == 0x1649 ? 1 : -1
 ];
-typedef char SDValue_field_164A_offset_must_be_0x164A[
-    SD_STATE_OFFSET(SDValue, field_164A) == 0x164A ? 1 : -1
+typedef char SDValue_secondary_mix_default_offset_must_be_0x164A[
+    SD_STATE_OFFSET(SDValue, secondary_mix_default) == 0x164A ? 1 : -1
 ];
 typedef char SDValue_field_004E_offset_must_be_0x4E[
     SD_STATE_OFFSET(SDValue, field_004E) == 0x4E ? 1 : -1
@@ -694,6 +694,10 @@ typedef char SDSecondaryState_transfer_offset_must_be_0x4A4[
 typedef char SDSecondaryState_transfer_gain_pan_offsets_must_match[
     SD_STATE_OFFSET(SDSecondaryState, transfer.field_0018) == 0x4BC &&
     SD_STATE_OFFSET(SDSecondaryState, transfer.field_001B) == 0x4BF ? 1 : -1
+];
+typedef char SDSecondaryState_master_level_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, master_level_left) == 0x514 &&
+    SD_STATE_OFFSET(SDSecondaryState, master_level_right) == 0x516 ? 1 : -1
 ];
 typedef char SDSecondaryState_spatial_level_offsets_must_match[
     SD_STATE_OFFSET(SDSecondaryState, field_0512) == 0x512 &&

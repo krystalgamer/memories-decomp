@@ -249,10 +249,10 @@ u8 velocity;
             &gSD_pSecondaryState->channels[ch]);
         gSD_pSecondaryState->voice_attr.volume.left =
             (obj->level_left *
-             gSD_pSecondaryState->field_0514) >> 7;
+             gSD_pSecondaryState->master_level_left) >> 7;
         gSD_pSecondaryState->voice_attr.volume.right =
             (obj->level_right *
-             gSD_pSecondaryState->field_0516) >> 7;
+             gSD_pSecondaryState->master_level_right) >> 7;
         obj->key_note = level;
         obj->field_001C = rec->pitch_bend_msb;
         obj->cached_pitch_bend = -1;

@@ -98,10 +98,10 @@ void SD_UpdateBankLoad(void) {
                 if (c == 'o' && 'l' == b->signature[1] &&
                     'I' == b->signature[2] && 'n' == b->signature[3] &&
                     'f' == b->signature[4] && b->signature[5] == c) {
-                    g_SDValue->field_164A = b->volume;
-                    g_SDValue->field_0044 = g_SDValue->field_164A;
+                    g_SDValue->secondary_mix_default = b->volume;
+                    g_SDValue->secondary_mix_scale = g_SDValue->secondary_mix_default;
 #ifndef VERSION_EUROPE
-                    printf(gSD_szSmfMixerOutFormat, g_SDValue->field_164A);
+                    printf(gSD_szSmfMixerOutFormat, g_SDValue->secondary_mix_default);
 #endif
                 }
             }
@@ -132,10 +132,10 @@ void SD_UpdateBankLoad(void) {
                 if (c == 'o' && 'l' == b->signature[1] &&
                     'I' == b->signature[2] && 'n' == b->signature[3] &&
                     'f' == b->signature[4] && b->signature[5] == c) {
-                    g_SDValue->field_1649 = b->volume;
-                    g_SDValue->mix_scale = g_SDValue->field_1649;
+                    g_SDValue->cd_mix_default = b->volume;
+                    g_SDValue->mix_scale = g_SDValue->cd_mix_default;
 #ifndef VERSION_EUROPE
-                    printf(gSD_szCdMixerOutFormat, g_SDValue->field_1649);
+                    printf(gSD_szCdMixerOutFormat, g_SDValue->cd_mix_default);
 #endif
                 }
             }

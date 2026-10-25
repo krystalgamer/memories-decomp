@@ -16,6 +16,7 @@ Konami type or field naming.
 |---|---|---|
 | `0x0040` | `flags_0040` | `Sound_InitFrontend` sets startup bits `0x0A` and polls bit `0x08` until it clears; other control and cleanup routines use the remaining status bits. |
 | `0x0042` | `mix_scale` | CD mix calculation uses it as a 16-bit scale. |
+| `0x0044` | `secondary_mix_scale` | Base scale multiplied by the two fade levels before publishing secondary stereo master levels. |
 | `0x0048` | `output_type` | `SD_SetOutputType`; live stereo/mono traces establish values 0 and 1. |
 | `0x004A` | `flags_004A` | Initialization and command processing use independent bits. |
 | `0x004C` | `command_count` | Bounds the 16-entry command scan. |
@@ -41,6 +42,8 @@ Konami type or field naming.
 | `0x1560` | `field_1560` | Base pointer used to select a music/sequence table entry. |
 | `0x1564` | `music_track` | Pointer defaults to `0x801EA800`; its first 16-bit value is initialized to `0xFFFF`. |
 | `0x1618` | `busy` | Command registration tests and sets this byte. |
+| `0x1649` | `cd_mix_default` | Cached CD mixer trailer byte, seeded to `0xFF` and restored into `mix_scale` by runtime reset. |
+| `0x164A` | `secondary_mix_default` | Cached secondary mixer trailer byte, seeded to `0xD2` and restored into `secondary_mix_scale` by runtime reset. |
 
 The remaining named `field_XXXX` members have verified offsets and widths but
 insufficient semantic evidence for stronger names.
@@ -789,7 +792,7 @@ miss at that point (it has since matched and now lives in
 `src/game/sound_sequence_channel_events.c`).
 The matched note starter no longer needs `SDSECONDARYSTATE_AS_BYTES`
 either: its channel-record, object, transfer-pointer, `voice_attr` and
-`field_0514/0516` accesses are typed members, with identical bytes in every
+`master_level_left/right` accesses are typed members, with identical bytes in every
 region, and the byte-pointer arm has been removed from `sound.h`.
 
 The volume sweep retains four raw reads: two channel-index byte reads at
@@ -875,7 +878,8 @@ above.
 | `0x0509` | `u8` | `field_0509` | `SD_SetSequenceVSyncMode` sets it; `SD_VSync` and `SD_SequenceTimerCallback` test it. |
 | `0x050C` | callback pointer | `field_050C` | `SD_InitState` installs `SD_UpdateVoiceSlots`; `SD_SequenceTimerCallback` conditionally invokes it. |
 | `0x0510` | `s16` | `object_count` | Initialized by `SD_ResetSecondaryState` and validated/set by `SD_SetSecondaryObjectCount`; bounds the `0x28`-byte object scans in several matched functions. |
-| `0x0512`, `0x0514`, `0x0516` | `s16` | `field_0512`, `field_0514`, `field_0516` | Initialization and parameter-update functions establish signed halfword accesses; `SD_SetSecondaryMasterLevels` writes the latter pair consumed by `SD_SetVoiceVolume`. |
+| `0x0512` | `s16` | `field_0512` | Existing signed spatialization parameter; not renamed here. |
+| `0x0514`, `0x0516` | `u16` | `master_level_left`, `master_level_right` | Stored stereo master levels applied by secondary note-on and `SD_SetVoiceVolume`; setter parameters remain signed halfwords. |
 | `0x07DC` | pointer | `field_07DC` | Playback copies `field_07E8` here; `SD_ReadSequenceByte` reads indexed stream bytes through it, and `SD_FindMidiTrackChunk` scans for `MTrk`. |
 | `0x07E0`-`0x07E6` | four `s16` | `field_07E0`-`field_07E6` | Playback setup/reset and parameter functions consistently use halfword accesses. |
 | `0x07E8` | pointer | `field_07E8` | `SD_OpenSequence` stores the sequence/stream input pointer. |
@@ -1354,3 +1358,58 @@ retain their original types and `G32`. The two existing dispatch/allocator
 witnesses change only member identifiers; every input, fixture, stub,
 state oracle, event and negative control remains unchanged. No new test or
 harness is added, and neither witness is executed locally.
+
+### Mixer defaults, fade scale and secondary stereo masters
+
+The cached bank bytes, reset path, fade calculation and both secondary
+voice-volume submission paths establish five related fields:
+
+| Owner and offset | Field | Established role |
+|---|---|---|
+| `SDValue +0x0044` | `secondary_mix_scale` (`u16`) | Active base scale for the BGM/sequence fade product. |
+| `SDValue +0x1649` | `cd_mix_default` (`u8`) | Cached default restored into the existing CD `mix_scale`. |
+| `SDValue +0x164A` | `secondary_mix_default` (`u8`) | Cached default restored into `secondary_mix_scale`. |
+| `SDSecondaryState +0x0514` | `master_level_left` (`u16`) | Left per-voice master scale for the secondary sound engine. |
+| `SDSecondaryState +0x0516` | `master_level_right` (`u16`) | Corresponding right scale. |
+
+`SD_InitState` seeds the cached defaults to `0xFF` and `0xD2`, then copies
+them into the two active scales. `SD_ResetRuntime` restores those same
+cached bytes, not unconditional literals, before its existing cleanup
+calls. `SD_UpdateBankLoad` replaces each cache and its active scale only
+after the existing `VolInfo` trailer check succeeds. The `0x801E2000`
+staging bank feeds the secondary default and the retail
+`Set SMF Mixer Out:%d` diagnostic; `0x801E8800` feeds the CD default and
+`Set CD Mixer Out:%d`. The source route and actual consumers establish
+these roles, not the legacy SE/SMF names of the leading-signature symbols.
+Those global symbols and their relocations are not renamed here.
+
+The cache is a reset default, not a guarantee that a new SDK volume has
+already been submitted. The bank-loader stores do not themselves invoke
+`CdMix` or refresh the secondary voices. Existing refresh triggers and
+signature-failure, disabled-source and pending-transfer paths remain exact.
+
+`SD_UpdateFades` uses `secondary_mix_scale` as its existing `u16`
+intermediate, multiplies by `(bgm_fade_level + 1)`, narrows and shifts
+eight, then does the same with `(sequence_fade_level + 1)`. It retains
+both zero branches and passes the narrowed result to both channels of
+`SD_SetSecondaryMasterLevels`. This path is separate from
+`SD_SetCdVolume`, which continues to combine `mix_scale`,
+`mix_multiplier`, the requested CD level and channel-volume bytes.
+No product is widened, folded, clamped or made newly unconditional.
+
+`SD_ResetSecondaryState` still initializes the two stereo masters to
+127, not 128. `SD_SetSecondaryMasterLevels` still accepts signed `s16`
+arguments, stores their bits into the existing unsigned halfwords, and
+skips object-volume refresh in sequence state two. Both note-on and
+`SD_SetVoiceVolume` multiply the object's channel level by its master
+and shift seven before submitting SDK voice volumes. The latter's
+explicit `u16` casts remain. These are per-voice scales, not the SPU's
+global hardware master-volume registers or a gain for the separate
+four-slot sound-effect engine.
+
+The earlier field table's blanket `s16` description for all three
+`+0x0512/+0x0514/+0x0516` fields is corrected: only `field_0512` is signed
+in the existing shared declaration. No member type or signedness changes.
+Existing main-state offset assertions follow the new names; new assertions
+pin the stereo master offsets. Every reload, numeric literal, SDK call,
+return gate, compiler profile and witness/control remains unchanged.
