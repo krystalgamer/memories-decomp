@@ -11,7 +11,8 @@
  *
  *   gDialog_bChoiceEnabled  One bit per choice, tested as
  *                           `(gDialog_bChoiceEnabled >> gDialog_bChoice) & 1`
- *                           and set from `d & 0xF`, so four choices at most.
+ *                           and set from the options byte's low four bits.
+ *                           This does not clamp the independent choice count.
  *   gDialog_bChoiceCount    How many are offered; read into an s32 and set to
  *                           4 and 7 at different prompts.
  *
@@ -66,8 +67,8 @@ extern s8 gDialog_bChoice;
 #endif
 
 /* The prompt's input state, the third member of that same shared set.
- * Text_HandleChoiceCommand arms it when the command arrives -- 1 if the
- * command byte's 0x80 bit is set, otherwise 0 -- and Dialog_UpdateChoice is
+ * Text_HandleChoiceCommand arms it during setup -- 1 if the optional
+ * options byte's 0x80 bit is set, otherwise 0 -- and Dialog_UpdateChoice is
  * the reader that spends it, clearing it back to 0.
  *
  * Declared u8, and one reader deliberately disagrees with that in place:

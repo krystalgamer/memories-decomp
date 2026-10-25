@@ -78,22 +78,22 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
     gText_CommandDisposition = 1;
     t = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58]++;
     c = t;
-    d = 0xF;
-    if (c & 8) {
+    d = TEXT_CHOICE_OPTIONS_ENABLED_MASK;
+    if (c & TEXT_CHOICE_COMMAND_HAS_OPTIONS) {
         u = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58]++;
         t = u;
         d = t;
     }
-    if (c & 0x80) {
+    if (c & TEXT_CHOICE_COMMAND_BRANCH) {
         TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58] +=
             gDialog_bChoice * 2;
         Text_SetCursorOffset(object);
     } else {
-        gDialog_bChoiceCount = 7;
+        gDialog_bChoiceCount = TEXT_CHOICE_COMMAND_COUNT_MASK;
         gDialog_bChoiceCount = c & gDialog_bChoiceCount;
-        gDialog_bChoiceControl = c & 0xF0;
-        gDialog_bChoiceEnabled = d & 0xF;
-        w = d & 0x80;
+        gDialog_bChoiceControl = c & DIALOG_CHOICE_CONTROL_MASK;
+        gDialog_bChoiceEnabled = d & TEXT_CHOICE_OPTIONS_ENABLED_MASK;
+        w = d & TEXT_CHOICE_OPTIONS_INPUT_FLAG;
         gDialog_bChoice = 0;
         gDialog_bInputState = 0;
         if (w != 0) {

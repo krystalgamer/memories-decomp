@@ -16,7 +16,7 @@ void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object)
         control = gDialog_bChoiceControl;
         gText_ChoiceLayoutCallback = 0;
         flags &= 0xEFFF;
-        control &= 0x30;
+        control &= DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
         ((DuelEffectChannel *)object)->flags_34 = flags;
         if (control != 0)
             gDialog_bChoiceCount = 2;
