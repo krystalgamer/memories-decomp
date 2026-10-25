@@ -174,8 +174,8 @@ void MainMenu_ReleaseTradeDisplayHandles(void)
 {
     DisplayObject_ReleaseIfPresent(D_801845DC);
     D_801845DC = 0;
-    DisplayObject_ReleaseIfPresent(D_801845E0);
-    D_801845E0 = 0;
+    DisplayObject_ReleaseIfPresent(gTrade_pStatsModeDisplay);
+    gTrade_pStatsModeDisplay = 0;
     gMain_apFrameServiceCallbacks[1] = 0;
 }
 #endif

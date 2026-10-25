@@ -184,7 +184,8 @@ itself establish atomic persistence across two memory cards.
 
 After the updater finishes, the resident caller performs its fades and calls
 `MainMenu_ReleaseTradeDisplayHandles` (`0x80183FE4`). That helper releases
-and clears only `D_801845DC` and `D_801845E0`, then clears the Trade drawing
+and clears only `D_801845DC` and `gTrade_pStatsModeDisplay` (native
+`D_801845E0`), then clears the Trade drawing
 callback. It does not itself clear inventory cursors, offers, counts or
 navigation, save data, fade or unload the module. Its release helper handles
 null handles.
@@ -283,6 +284,16 @@ optionally sorts the selected row and publishes its view mode. Do not
 normalize that cross-side loop: refreshing one side can deduct the other
 side's outstanding offers again. This is a static observation, not a
 runtime reproduction or a proposed behavior change.
+
+The stats-mode display retains native `D_801845E0`: its existing `frame`
+byte is a resource variant encoding four plus the two players' stats bits.
+The row rebuild passes the selected side's raw bit, including 2 for side 1,
+to the resident text/stat renderer boundary. Separately,
+`gTrade_aInventoryRowSets` retains the original `MainMenuState[]` view of
+shared `D_801A8000` staging RAM; refresh writes each row object's sort-icon
+selection through that view. Sort choice and stats flags are distinct.
+See [Trade row/display state](../../../notes/overlays/trade-row-display-state.md)
+for the complete handoff, original type boundaries and storage evidence.
 
 The offer pass is `MainMenu_ApplyTradeOfferInventoryDelta` (`0x80184030`).
 It visits each offered ID and adjusts that card's working inventory quantity,

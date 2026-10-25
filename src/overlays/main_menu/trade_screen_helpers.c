@@ -22,7 +22,7 @@
 
    Unlike the offer group they do not call each other. What ties them is the
    screen and its data: all three take their declarations from
-   trade_helpers.h, and the row rebuild walks gTrade_aWorkingCards and D_801845E0, the
+   trade_helpers.h, and the row rebuild walks gTrade_aWorkingCards and gTrade_pStatsModeDisplay, the
    same trade inventory and display handle the offer group writes. */
 
 #ifdef VERSION_EUROPE
@@ -120,7 +120,7 @@ void MainMenu_RebuildTradeInventoryRows(s32 side)
 {
     s32 flags;
 
-    flags = D_801845E0->frame - 4;
+    flags = gTrade_pStatsModeDisplay->frame - 4;
     func_80060E70((u16 *)(side * 2888 + (s32)gTrade_aWorkingCards + gTrade_aListScroll[side][0] * 4), side,
                   flags & (1 << side), flags);
 }
