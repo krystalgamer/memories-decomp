@@ -10,13 +10,13 @@ s32 SD_FindMidiTrackChunk(s32 offset)
     do {
         if (SD_CompareBytes(
                 gSD_szMidiTrackMarker,
-                gSD_pSecondaryState->field_07DC + offset,
+                gSD_pSecondaryState->sequence_read_base + offset,
                 SD_SEQUENCE_MARKER_SIZE) == 0) {
             return offset + SD_SEQUENCE_MARKER_SIZE;
         }
 
         offset++;
-    } while ((u32)gSD_pSecondaryState->field_07EC >= (u32)offset);
+    } while ((u32)gSD_pSecondaryState->sequence_read_limit >= (u32)offset);
 
     return -1;
 }

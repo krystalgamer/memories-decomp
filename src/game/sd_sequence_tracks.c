@@ -26,7 +26,7 @@ int SD_ProcessSequenceTracks(void) {
     int i;
     SDSequenceTrack *entry;
 
-    if (STATE_WORD(s16, 0x7E2) != 1) /* field_07E2 */
+    if (STATE_WORD(s16, 0x7E2) != 1) /* sequence_state */
         return 0;
     if (STATE_WORD(u16, 0x7FA) == 0) /* track_count */
         return 0;
@@ -64,7 +64,7 @@ retry:
 accumulate:
             {
                 SDSecondaryState *root = gSD_pSecondaryState;
-                int total = (int)root->field_07DC + entry->pos;
+                int total = (int)root->sequence_read_base + entry->pos;
                 int threshold = root->field_080C;
 
                 root->field_0810 = total;

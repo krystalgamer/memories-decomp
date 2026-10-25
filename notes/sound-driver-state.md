@@ -880,16 +880,18 @@ above.
 | `0x0510` | `s16` | `object_count` | Initialized by `SD_ResetSecondaryState` and validated/set by `SD_SetSecondaryObjectCount`; bounds the `0x28`-byte object scans in several matched functions. |
 | `0x0512` | `s16` | `field_0512` | Existing signed spatialization parameter; not renamed here. |
 | `0x0514`, `0x0516` | `u16` | `master_level_left`, `master_level_right` | Stored stereo master levels applied by secondary note-on and `SD_SetVoiceVolume`; setter parameters remain signed halfwords. |
-| `0x07DC` | pointer | `field_07DC` | Playback copies `field_07E8` here; `SD_ReadSequenceByte` reads indexed stream bytes through it, and `SD_FindMidiTrackChunk` scans for `MTrk`. |
-| `0x07E0`-`0x07E6` | four `s16` | `field_07E0`-`field_07E6` | Playback setup/reset and parameter functions consistently use halfword accesses. |
-| `0x07E8` | pointer | `field_07E8` | `SD_OpenSequence` stores the sequence/stream input pointer. |
-| `0x07EC` | `s32` | `field_07EC` | Playback initializes the bound to `0x10000`; `SD_ReadSequenceByte` and `SD_FindMidiTrackChunk` compare reader offsets against it. |
+| `0x07DC` | pointer | `sequence_read_base` | Copied from `sequence_source` on play/fast-forward; base for the byte reader, `MTrk` search and track read-address calculation. |
+| `0x07E0` | `s16` | `sequence_open_token` | Retained `SD_OpenSequence` second argument; `-1` gates the closed state, with no bank-index use established. |
+| `0x07E2` | `s16` | `sequence_state` | Open/play/stop/close and mute/restore state; all-track-ended status is latched only by polling. |
+| `0x07E4`, `0x07E6` | two `s16` | `field_07E4`, `field_07E6` | Existing signed secondary spatial levels; unchanged here. |
+| `0x07E8` | pointer | `sequence_source` | Input pointer retained by an accepted `SD_OpenSequence`; copied to the read base only on play/fast-forward. |
+| `0x07EC` | `s32` | `sequence_read_limit` | Fixed `0x10000` offset guard for the byte reader and `MTrk` search, not a recovered source-buffer length. |
 | `0x07FA` | `u16` | `track_count` | `SD_HandleSequenceMetaEvent` and `SD_StartSequenceTracks` bound `0x2C`-byte work-record loops. |
 | `0x07FC` | `u16` | `timebase` | `SD_HandleSequenceMetaEvent` and `SD_ScaleSequenceDelta` select timing conversions from it. |
 | `0x0800` | `u8` | `field_0800` | Cleared by `SD_StartSequenceTracks`. |
 | `0x0804`, `0x0808` | `s32` | offset-based fields | Timing/playback routines establish word accesses; their broader roles remain uncertain. |
-| `0x080C` | `s32` | `field_080C` | Fast-forward target read address. `SD_PlaySequenceFastForward` sets it and sound init clears it. While it is nonzero, `SD_ProcessSequenceTracks` skips the delta-time countdown, and it clears the field once a track's `field_07DC + pos` reaches it. |
-| `0x0810` | `s32` | `field_0810` | Each time a track advances a sequencer tick, `SD_ProcessSequenceTracks` stores that track's read address (`field_07DC + pos`) here. Sound init clears it, and no matched code reads it. |
+| `0x080C` | `s32` | `field_080C` | Fast-forward target read address. `SD_PlaySequenceFastForward` sets it and sound init clears it. While it is nonzero, `SD_ProcessSequenceTracks` skips the delta-time countdown, and it clears the field once a track's `sequence_read_base + pos` reaches it. |
+| `0x0810` | `s32` | `field_0810` | Each time a track advances a sequencer tick, `SD_ProcessSequenceTracks` stores that track's read address (`sequence_read_base + pos`) here. Sound init clears it, and no matched code reads it. |
 | `0x0814`, `0x0815` | `u8` | offset-based fields | `SD_Init` clears `0x0814`, `SD_EnableSecondarySequenceUpdates` sets it after optional timer-event setup, and both `SD_SequenceTimerCallback` and `SD_UpdateSecondarySequenceIfEnabled` require it before advancing the secondary sequence. `SD_EnableSecondaryPanning` clears `0x0815`, while `SD_DisableSecondaryPanning` sets it; when set, `SD_SpatializeSecondaryObject` forces centre pan instead of using its computed value. |
 | `0x0818` | `u32` | `bytes_consumed` | `SD_VabOpenHead` clears it and `SD_VabTransBodyChunk` advances it across a transfer window. |
 | `0x081C` | `s32` | `field_081C` | Sequence tick mode set by `SD_SetSequenceTickMode`: initialization selects `2` (`SS_TICK240`), reset restores `0x1000` (`SS_NOTICK`), and update/termination paths open or close the timer event only for modes `1` through `3`. |
@@ -924,14 +926,14 @@ the caller turns the voice off. Both now match as pure C at
 `gcc_2_8_1_g8_split`, with the `const` table declaration still preserving the
 original address materialization.
 
-### The sequencer state halfword (`field_07E2`)
+### The sequencer state halfword (`sequence_state`)
 
 Every value the state halfword at `0x07E2` takes has a matching-C writer, and
 all of them are in `src/game/`:
 
 | Value | Meaning | Written by |
 |---:|---|---|
-| `0` | no sequence open | `SD_InitState`, beside `field_07E0 = -1`, and the close step `SD_CloseSequence`, which also restores `field_07E0` to `-1` |
+| `0` | no sequence open | `SD_ResetSecondaryState`, beside `sequence_open_token = -1`, and the close step `SD_CloseSequence`, which also restores `sequence_open_token` to `-1` |
 | `1` | playing | `SD_PlaySequence` when the low byte of its argument is nonzero, `SD_PlaySequenceFastForward` always, and `SD_RestoreSecondaryVoiceVolumes` |
 | `2` | staged or stopped | `SD_OpenSequence` once it has staged an input, and `SD_StopSequence` |
 | `3` | every track ended | `SD_PollSequenceState`, and nothing else |
@@ -947,7 +949,7 @@ latches the answer. So a finished sequence is only observable after something
 polls it.
 
 Its three callers all pair that with `SDValue`'s flag `0x80` and
-`field_157E != -1`: `SD_UpdateRuntime` and `SD_ResetRuntime` stop the sequence
+`sequence_open_result != -1`: `SD_UpdateRuntime` and `SD_ResetRuntime` stop the sequence
 when the poll is not `1`, and `SD_CancelMusicRequests` stops it when the poll
 is `1`.
 `SD_SetSecondarySpatialLevels` and `SD_SetSecondaryMasterLevels` read the same
@@ -1413,3 +1415,55 @@ in the existing shared declaration. No member type or signedness changes.
 Existing main-state offset assertions follow the new names; new assertions
 pin the stereo master offsets. Every reload, numeric literal, SDK call,
 return gate, compiler profile and witness/control remains unchanged.
+
+### Sequence source, open token and read-base lifecycle
+
+Five named secondary-state fields connect sequence opening to playback,
+track parsing and closing without changing their declarations' types:
+`sequence_read_base` at `+0x07DC`, `sequence_open_token` at `+0x07E0`,
+`sequence_state` at `+0x07E2`, `sequence_source` at `+0x07E8`, and
+`sequence_read_limit` at `+0x07EC`. The two stored pointers retain `G32`,
+the token and state remain signed halfwords, and the limit remains `s32`.
+
+`sequence_open_token` is deliberately not called a VAB index or a sequence
+access number. `SD_OpenSequence` copies its second argument, currently
+named `vab_id`, into it; the command pump supplies the main state's
+`music_vab_open_result`. The actual `SD_VabOpenHead` returns zero on
+success and `-1` on failure, and no matched consumer indexes a bank with
+the retained token. Its established use is the `-1` eligibility gate for
+open, play, fast-forward, stop and close. The separate open call return
+is still stored in `SDValue.sequence_open_result`; it is not this field.
+
+After the existing tag and open-token checks, opening stores the input
+as `sequence_source` and sets state two. It does not also replace
+`sequence_read_base`. Play and fast-forward set the limit to `0x10000`,
+copy the retained source into the read base, then start the tracks.
+The byte reader uses that base plus each track's `pos`; the pointer itself
+does not advance. `SD_FindMidiTrackChunk` and the track pump's fast-forward
+address calculation use the same base. Stop and close do not clear either
+pointer; closing restores the token to `-1` and state zero without adding
+allocation, copying, deallocation or a new lifetime guarantee.
+
+The existing state-value table above remains the complete writer map.
+Initialization's zero writer is `SD_ResetSecondaryState`, not its caller
+`SD_InitState`. Polling alone changes playing state one into ended state
+three, including the zero-track case; the track pump never publishes that
+transition itself. Its track-array-relative `STATE_WORD(s16, 0x7E2)`
+access remains raw to preserve register allocation; only its explanatory
+member-name comment changes. Mute/restore states four/one, staged/stopped
+state two, both volume-refresh gates and all flag-store ordering remain.
+
+`sequence_read_limit` is a fixed software offset guard, not an actual
+allocation size or a newly enforced pre-read bound. The byte reader still
+loads first, increments `pos`, and only then compares the incremented
+offset against the limit using the existing unsigned casts. The `MTrk`
+search still compares four bytes before incrementing and testing its loop
+bound. Header parsing still writes `0x10000` at its existing point.
+No precheck, clamp, extent inference or error-return change is introduced.
+
+Existing assertions pin the renamed read base and token; one new block
+pins state, source and limit. Pointer reloads, alias views, the invalid-tag
+return before clearing `flag_0500`, ambient-argument declarations, compiler
+profiles and every runtime literal remain exact. No witness needs a
+member-name migration; no new test or harness is added, and no cloud or
+witness suite is run locally.

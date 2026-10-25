@@ -7,7 +7,7 @@
 void SD_SetSecondarySpatialLevels(s32 arg0, s32 arg1)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
-    s32 mode = state->field_07E2;
+    s32 mode = state->sequence_state;
 
     state->field_07E4 = arg0 & SD_SECONDARY_LEVEL_MASK;
     state->field_07E6 = arg1 & SD_SECONDARY_LEVEL_MASK;
@@ -21,7 +21,7 @@ void SD_SetSecondaryMasterLevels(s16 left, s16 right)
 
     state->master_level_left = left;
     state->master_level_right = right;
-    if (state->field_07E2 != 2)
+    if (state->sequence_state != 2)
         SD_UpdateSecondaryObjectVolumes();
 }
 
@@ -29,10 +29,10 @@ s32 SD_PollSequenceState(void)
 {
     s32 value;
 
-    if (gSD_pSecondaryState->field_07E2 == 1) {
+    if (gSD_pSecondaryState->sequence_state == 1) {
         value = (s16)SD_GetSequenceStatus();
         if (value == 3)
-            gSD_pSecondaryState->field_07E2 = value;
+            gSD_pSecondaryState->sequence_state = value;
     }
-    return gSD_pSecondaryState->field_07E2;
+    return gSD_pSecondaryState->sequence_state;
 }

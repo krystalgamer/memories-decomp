@@ -15,10 +15,10 @@ int SD_OpenSequence(u8 *input, short vab_id)
         tag != SD_SEQUENCE_TAG_KDT && tag != SD_SEQUENCE_TAG_KDT1)
         return -1;
     state = gSD_pSecondaryState;
-    if (state->field_07E0 == -1) {
-        state->field_07E8 = input;
-        state->field_07E0 = vab_id;
-        state->field_07E2 = 2;
+    if (state->sequence_open_token == -1) {
+        state->sequence_source = input;
+        state->sequence_open_token = vab_id;
+        state->sequence_state = 2;
         state->flag_0500 = 0;
         return 0;
     }
@@ -31,20 +31,20 @@ void SD_PlaySequence(s32 arg0)
     u8 one = 1;
 
     gSD_pSecondaryState->flag_0500 = one;
-    if (gSD_pSecondaryState->field_07E0 == -1) {
+    if (gSD_pSecondaryState->sequence_open_token == -1) {
         gSD_pSecondaryState->flag_0500 = 0;
         return;
     }
-    gSD_pSecondaryState->field_07EC = 0x10000;
-    gSD_pSecondaryState->field_07DC = gSD_pSecondaryState->field_07E8;
+    gSD_pSecondaryState->sequence_read_limit = 0x10000;
+    gSD_pSecondaryState->sequence_read_base = gSD_pSecondaryState->sequence_source;
     SD_StartSequenceTracks();
 
     arg0 = (u16)arg0;
     if ((arg0 & 0xFF) == 0) {
-        gSD_pSecondaryState->field_07E2 = 4;
+        gSD_pSecondaryState->sequence_state = 4;
     } else {
         gSD_pSecondaryState->flag_0502 = one;
-        gSD_pSecondaryState->field_07E2 = 1;
+        gSD_pSecondaryState->sequence_state = 1;
     }
     gSD_pSecondaryState->flag_0500 = 0;
 }
@@ -52,7 +52,7 @@ void SD_PlaySequence(s32 arg0)
 /* The play branch of SD_PlaySequence plus a fast-forward target in
    field_080C. While that is nonzero, SD_ProcessSequenceTracks dispatches each
    track's next event group on every tick instead of waiting out its delta
-   time, and clears it once a track's read address (field_07DC + pos) reaches
+   time, and clears it once a track's read address (sequence_read_base + pos) reaches
    target. */
 void SD_PlaySequenceFastForward(s32 target)
 {
@@ -60,19 +60,19 @@ void SD_PlaySequenceFastForward(s32 target)
 
     gSD_pSecondaryState->flag_0500 = 1;
     state = gSD_pSecondaryState;
-    if (state->field_07E0 == -1) {
+    if (state->sequence_open_token == -1) {
         state->flag_0500 = 0;
     } else {
         SDSecondaryState *first;
         SDSecondaryState *second;
-        state->field_07EC = 0x10000;
-        state->field_07DC = state->field_07E8;
+        state->sequence_read_limit = 0x10000;
+        state->sequence_read_base = state->sequence_source;
         SD_StartSequenceTracks_no_arg();
         first = gSD_pSecondaryState;
         first->flag_0502 = 1;
         second = gSD_pSecondaryState;
         first->field_080C = target;
-        second->field_07E2 = 1;
+        second->sequence_state = 1;
         second->flag_0500 = 0;
     }
 }
@@ -81,7 +81,7 @@ void SD_StopSequence(void)
 {
     SDSecondaryState *initial = gSD_pSecondaryState;
 
-    if (initial->field_07E0 != -1) {
+    if (initial->sequence_open_token != -1) {
         SDSecondaryState *state;
         SDSecondaryState *other;
         initial->flag_0500 = 1;
@@ -92,7 +92,7 @@ void SD_StopSequence(void)
         other = gSD_pSecondaryState;
         state->field_07E6 = SD_SECONDARY_LEVEL_MAX;
         state->field_07E4 = SD_SECONDARY_LEVEL_MAX;
-        state->field_07E2 = 2;
+        state->sequence_state = 2;
         other->flag_0502 = 0;
     }
 }
@@ -101,10 +101,10 @@ void SD_CloseSequence(void)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
 
-    if (state->field_07E0 != -1) {
+    if (state->sequence_open_token != -1) {
         state->flag_0500 = 1;
-        gSD_pSecondaryState->field_07E0 = -1;
-        gSD_pSecondaryState->field_07E2 = 0;
+        gSD_pSecondaryState->sequence_open_token = -1;
+        gSD_pSecondaryState->sequence_state = 0;
         gSD_pSecondaryState->field_07E6 = SD_SECONDARY_LEVEL_MAX;
         gSD_pSecondaryState->field_07E4 = SD_SECONDARY_LEVEL_MAX;
         gSD_pSecondaryState->flag_0500 = 0;

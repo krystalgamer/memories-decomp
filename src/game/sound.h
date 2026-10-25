@@ -358,7 +358,7 @@ typedef struct {
 } SDSecondaryTransfer;
 
 /* One MIDI track reader inside SDSecondaryState, at +0x518. `pos` is a byte
-   offset into the sequence data at SDSecondaryState::field_07DC, which is how
+   offset into the sequence data at SDSecondaryState::sequence_read_base, which is how
    SD_ReadSequenceByte reads through it; the chunk triple is filled in by
    SD_OpenSequenceTrack from the MTrk header. Every `_saved` field is the copy taken
    by controller 0x63/0x14 (loop start) and put back by 0x63/0x1E (loop end)
@@ -406,13 +406,14 @@ typedef struct {
     u16 master_level_right;
     SDSequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
     u8 pad07D8[4];
-    u8 *G32 field_07DC;
-    s16 field_07E0;
-    s16 field_07E2;
+    u8 *G32 sequence_read_base;
+    /* Retained open argument; only compared with the -1 closed marker. */
+    s16 sequence_open_token;
+    s16 sequence_state;
     s16 field_07E4;
     s16 field_07E6;
-    u8 *G32 field_07E8;
-    s32 field_07EC;
+    u8 *G32 sequence_source;
+    s32 sequence_read_limit;
     s32 field_07F0;
     s32 field_07F4;
     u16 field_07F8;
@@ -725,11 +726,16 @@ typedef char SpuVoiceAttr_size_must_be_0x40[
 typedef char SDSecondaryState_object_count_offset_must_be_0x510[
     SD_STATE_OFFSET(SDSecondaryState, object_count) == 0x510 ? 1 : -1
 ];
-typedef char SDSecondaryState_field_07DC_offset_must_be_0x7DC[
-    SD_STATE_OFFSET(SDSecondaryState, field_07DC) == 0x7DC ? 1 : -1
+typedef char SDSecondaryState_sequence_read_base_offset_must_be_0x7DC[
+    SD_STATE_OFFSET(SDSecondaryState, sequence_read_base) == 0x7DC ? 1 : -1
 ];
-typedef char SDSecondaryState_field_07E0_offset_must_be_0x7E0[
-    SD_STATE_OFFSET(SDSecondaryState, field_07E0) == 0x7E0 ? 1 : -1
+typedef char SDSecondaryState_sequence_open_token_offset_must_be_0x7E0[
+    SD_STATE_OFFSET(SDSecondaryState, sequence_open_token) == 0x7E0 ? 1 : -1
+];
+typedef char SDSecondaryState_sequence_control_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, sequence_state) == 0x7E2 &&
+    SD_STATE_OFFSET(SDSecondaryState, sequence_source) == 0x7E8 &&
+    SD_STATE_OFFSET(SDSecondaryState, sequence_read_limit) == 0x7EC ? 1 : -1
 ];
 typedef char SDSecondaryState_tracks_offset_must_be_0x518[
     SD_STATE_OFFSET(SDSecondaryState, tracks) ==
@@ -945,7 +951,7 @@ s32 SD_GetSequenceStatus(void);
 s32 SD_OpenSequence(u8 *input, s16 vab_id);
 
 /* SD_PollSequenceState reports the secondary path's state halfword,
-   field_07E2, promoting a SD_GetSequenceStatus of 3 into it on the way.
+   sequence_state, promoting a SD_GetSequenceStatus of 3 into it on the way.
    It is the only writer of that 3, and SD_ProcessSequenceTracks stops
    advancing once the halfword leaves 1 without ever updating it, so a
    finished sequence stays marked playing until this is called.
@@ -998,7 +1004,7 @@ void SD_SetOutputType(s16);
 void func_80049DD8(void);
 
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
- * fields of *gSD_pSecondaryState and refreshes the object volumes unless field_07E2 is
+ * fields of *gSD_pSecondaryState and refreshes the object volumes unless sequence_state is
  * 2. SD_UpdateFades (src/game/sound_runtime.c) passes the same value
  * twice; it declared this itself before, in the same s16 pair the definition
  * takes. It is not the only caller -- sd_step_active_command.c calls it with two
