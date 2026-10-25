@@ -33,7 +33,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->h = 0x10;
         gFile_dwTransferState_abs &= 0xFFDDFFFF;
         gFile_dwTransferState_abs |= 0x10000;
-        object->done = 2;
+        object->transfer_mode = 2;
         object->phase_size = 64 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
         object->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
@@ -46,7 +46,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->h = 0x10;
         gFile_dwTransferState_abs &= 0xFFDDFFFF;
         gFile_dwTransferState_abs |= 0x10000;
-        object->done = 2;
+        object->transfer_mode = 2;
         object->phase_size = 32 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
         object->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
@@ -57,7 +57,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->sector_destination = (s32)gFile_abPackageStagingBuffer;
         object->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 3:
@@ -67,7 +67,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->alternate_sector_destination = gMainMenu_dwSuModuleBase;
         object->sector_destination = gMainMenu_dwSuModuleBase;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 4:
@@ -75,7 +75,7 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->sector_destination = (s32)gDisplay_abResourceBank1;
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
     }
 }

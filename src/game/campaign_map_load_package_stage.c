@@ -43,7 +43,7 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->alternate_sector_destination = (u32)gFile_pScreenBankBase;
         object->sector_destination = (u32)gFile_pScreenBankBase;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 1:
@@ -51,7 +51,7 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         object->phase_size = 134 * FILE_SECTOR_SIZE;
         object->alternate_sector_destination = (s32)gRuntime_pSharedWorkBase;
         object->sector_destination = (s32)gRuntime_pSharedWorkBase;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 2:
@@ -59,7 +59,7 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         object->sector_destination = (s32)gDisplay_abResourceBank0;
         object->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 3:
@@ -69,7 +69,7 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         object->h = 0x10;
         gFile_dwTransferState_abs &= 0xFFDDFFFF;
         gFile_dwTransferState_abs |= 0x10000;
-        object->done = 2;
+        object->transfer_mode = 2;
         object->phase_size = 16 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
         object->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
@@ -80,7 +80,7 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
         object->alternate_sector_destination = gFile_TransferBufferBase;
         object->sector_destination = gFile_TransferBufferBase;
-        object->done = 1;
+        object->transfer_mode = 1;
         break;
 
     case 5:

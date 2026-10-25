@@ -30,7 +30,7 @@ FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 index, s32 offset)
          gFile_dwCancelRequestState) == 0) {
         gFile_PrimaryTransferDescriptor.absolute_lba =
             gFile_anLba[index] + offset;
-        gFile_PrimaryTransferDescriptor.done = 0;
+        gFile_PrimaryTransferDescriptor.transfer_mode = 0;
         gFile_dwTransferState = 0x100010;
         return &gFile_PrimaryTransferDescriptor;
     }
@@ -59,7 +59,7 @@ FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     callback_data = (u8 *)&p->callback_data;
     callback_data[0] = (u8)c;
     callback_data[1] = (u8)d;
-    p->done = 4;
+    p->transfer_mode = 4;
     p->status_flags = FILE_TRANSFER_FLAG_SECTOR_RANGE;
     gFile_dwTransferState |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return p;
@@ -90,7 +90,7 @@ void File_TransferReadyCallback(s32 arg)
     }
     gFile_ReadyDataEventCount = (s32)((u32)gFile_ReadyDataEventCount + 1);
     p = gFile_ReadyTransferDescriptor;
-    switch (p->done) {
+    switch (p->transfer_mode) {
     case 1:
         if ((gFile_dwTransferState & 0x200000) == 0) {
             if ((gFile_dwTransferState & 0x40000000) == 0) {
@@ -330,7 +330,7 @@ void File_ActivateTransfer(void)
         *(FileTransferDescriptorWords *)&gFile_SecondaryTransferDescriptor;
     *(FileRequestSlot *)D_801D4200_raw =
         *(FileRequestSlot *)(D_801D4200_raw + 32);
-    if (gFile_PrimaryTransferDescriptor.done == 4)
+    if (gFile_PrimaryTransferDescriptor.transfer_mode == 4)
         gFile_wTransferStepFlags |= 1;
     gFile_dwTransferState =
         gFile_PrimaryTransferDescriptor.status_flags |
@@ -449,7 +449,7 @@ call_back:
         }
         return;
     }
-    if (p->done == 5) {
+    if (p->transfer_mode == 5) {
         switch (p->substate) {
         case 0:
             DsEndReadySystem();
@@ -528,7 +528,7 @@ void File_ServiceTransfers(s32 arg0)
     if (gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
         if (gFile_dwCancelRequestState != 0 && !(gFile_dwCancelRequestState & 0x40)) {
             gFile_dwCancelRequestState |= 0x40;
-            gFile_PrimaryTransferDescriptor.done = 5;
+            gFile_PrimaryTransferDescriptor.transfer_mode = 5;
             gFile_PrimaryTransferDescriptor.substate = 0;
         }
         File_StepActiveTransfer();
@@ -543,7 +543,7 @@ void File_ServiceTransfers(s32 arg0)
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first
    argument is the descriptor that entry point fills in. It programs the same
    fields the other two do -- the sector_destination/alternate_sector_destination source window,
-   phase_size, the word at field_30 and done -- which is what its old private
+   phase_size, the word at field_30 and transfer_mode -- which is what its old private
    record named
    value_8, value_c, value_1c, value_30 and mode_46. */
 void SD_ConfigureTransferPhase(FileTransferDescriptor *object, s32 mode)
@@ -571,7 +571,7 @@ full:
         object->result = 2;
         goto reduced;
     }
-    object->done = 3;
+    object->transfer_mode = 3;
     base = gFile_TransferBufferBase;
     object->sector_destination = base;
     object->alternate_sector_destination = base + FILE_SECTOR_SIZE;
@@ -586,7 +586,7 @@ reduced:
     gFile_dwTransferState &= 0xFFDCFFFF;
     object->alternate_sector_destination = position;
     object->sector_destination = position;
-    object->done = 1;
+    object->transfer_mode = 1;
     value = shared->field_18;
     object->phase_size = value;
 fix:

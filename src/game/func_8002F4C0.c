@@ -44,7 +44,7 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         u0 = gFile_dwTransferState;
         *(s32 *)&d->phase_size = n;
         gFile_dwTransferState = u0 | 0x10000;
-        d->done = 2;
+        d->transfer_mode = 2;
         v0 = gFile_TransferBufferBase;
         do {
             d->h = 0x10;
@@ -86,7 +86,7 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState = t2 & m2;
 join:
-        d->done = one;
+        d->transfer_mode = one;
         break;
     }
 }

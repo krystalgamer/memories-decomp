@@ -198,7 +198,7 @@ static void setup(s32 mode, s32 software)
     gFile_dwTransferState = 0x510 | (software ? 0x40000000 : 0);
     gFile_ReadyEventCount = 9;
     gFile_ReadyDataEventCount = 17;
-    descriptor.done = mode;
+    descriptor.transfer_mode = mode;
     descriptor.sector_destination = (u32)buffers[0];
     descriptor.alternate_sector_destination = (u32)buffers[1];
     descriptor.total_bytes = 0x1800;
