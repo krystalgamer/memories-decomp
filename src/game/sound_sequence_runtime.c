@@ -66,11 +66,11 @@ s32 SD_ReadSequenceByte(SDSequenceTrack *reader)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
     int offset = reader->pos;
-    int value = state->field_07DC[offset];
+    int value = state->sequence_read_base[offset];
 
     offset++;
     reader->pos = offset;
-    if ((u32)state->field_07EC < (u32)offset) {
+    if ((u32)state->sequence_read_limit < (u32)offset) {
         reader->ended = 1;
         return -1;
     }

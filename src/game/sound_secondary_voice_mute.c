@@ -62,7 +62,7 @@ void SD_MuteSecondaryVoices(void)
         } while (i < count);
     }
     state = gSD_pSecondaryState;
-    state->field_07E2 = 4;
+    state->sequence_state = 4;
     state->flag_0500 = 0;
 }
 
@@ -127,6 +127,6 @@ void SD_RestoreSecondaryVoiceVolumes(void)
         } while (i < count);
     }
     state = gSD_pSecondaryState;
-    state->field_07E2 = 1;
+    state->sequence_state = 1;
     state->flag_0500 = 0;
 }

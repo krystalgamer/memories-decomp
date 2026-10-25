@@ -114,8 +114,8 @@ void SD_ResetSecondaryState(void)
     fifth = gSD_pSecondaryState;
     fifth->transfer.field_001B = 64;
     final = gSD_pSecondaryState;
-    final->field_07E0 = -1;
-    final->field_07E2 = 0;
+    final->sequence_open_token = -1;
+    final->sequence_state = 0;
     final->field_07E6 = SD_SECONDARY_LEVEL_MAX;
     final->field_07E4 = SD_SECONDARY_LEVEL_MAX;
     final->field_080C = 0;

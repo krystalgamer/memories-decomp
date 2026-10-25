@@ -83,7 +83,7 @@ s32 SD_ReadSequenceHeader(void) {
         gSD_pSecondaryState->timebase = SD_ReadSequenceU16BE(p);
         gSD_pSecondaryState->track_count = 1;
         gSD_pSecondaryState->field_07F8 = 0;
-        gSD_pSecondaryState->field_07EC = 0x10000;
+        gSD_pSecondaryState->sequence_read_limit = 0x10000;
         v = (u32)SD_ReadSequenceU32BE(p) >> 8;
         r = v;
         k = 60000000;
