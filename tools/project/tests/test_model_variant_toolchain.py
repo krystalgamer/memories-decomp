@@ -391,7 +391,6 @@ class ModelVariantToolchainTests(unittest.TestCase):
         self.assertEqual(counts["matching_c_function_count"], 9)
         self.assertEqual(counts["matching_c_bytes"], 0x1128 + 0x4F4 + 0x6E4 + 0x70C + 0x4EC + 0x558 + 0x314 + 0x380 + 0x368)
 
-    @unittest.skipUnless((ROOT / "game/DATA/MODEL.MRG").is_file(), "requires the retail MODEL input")
     def test_image_data_symbols_fit_their_images(self):
         # A byte-identical build does not check symbol extents, so a raw-data
         # symbol that runs past the image end would go unnoticed.
@@ -416,6 +415,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 checked += 1
         self.assertGreater(checked, 0)
 
+    @unittest.skipUnless((ROOT / "game/DATA/MODEL.MRG").is_file(), "requires the retail MODEL input")
     def test_header_families_share_text(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
         modules = {m["name"]: m for m in manifest["modules"] if m["name"].startswith("model_variant_")}
