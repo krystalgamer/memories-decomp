@@ -133,7 +133,7 @@ stores, assembly patches or altered compiler flags are used.
 ## Entry reconstruction
 
 The resident controller `func_800559D4`, selected at French `80058B4C`,
-calls the slot's loaded code at base plus four with `field_DEC` as the original
+calls the slot's loaded code at base plus four with `variant_module_data_address` as the original
 context. Initialization receives the nonnegative request modulo 1,000;
 updates receive `-1`. Fresh reads of the two models' metadata give `641000`,
 so these four observed instances select descriptor zero at `2E34`. This

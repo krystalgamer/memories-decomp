@@ -125,7 +125,7 @@ helper callees, including `RotTransPers3`, and the three matching resident
 initializer/controller/loader owners agree with the fresh exact French
 resident. The existing 36 family bindings already supply every name.
 
-The fixed slot contexts `0x80136000/0x80176000`, passed through `field_DEC`,
+The fixed slot contexts `0x80136000/0x80176000`, passed through `variant_module_data_address`,
 have a direct-entry access minimum of `0x2760` (10,080 bytes). This is not
 an allocated-capacity declaration. The selected model/primary/secondary
 loads do not overlap that view; whole-game lifetime isolation and all

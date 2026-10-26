@@ -127,7 +127,7 @@ independently of the compiler output.
 ## Context provenance and limitations
 
 The matching resident initializer supplies fixed `0x80136000/0x80176000`
-context pointers through slot `field_DEC`; the matching controller and
+context pointers through slot `variant_module_data_address`; the matching controller and
 transfer phase establish secondary dispatch and selected load ranges.
 Their three sized C owners agree with a fresh exact resident image.
 Direct entry accesses establish a minimum extent of `0x2864` (10,340

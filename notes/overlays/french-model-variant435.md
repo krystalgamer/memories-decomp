@@ -227,7 +227,7 @@ bindings already supply every required name; the 37-address set is unchanged.
 
 Direct entry accesses establish a minimum context view through `+0x1BB4`
 (7,092 bytes). The fixed `0x80136000/0x80176000` contexts passed through
-slot `field_DEC` do not overlap the selected model/primary/secondary
+slot `variant_module_data_address` do not overlap the selected model/primary/secondary
 loads. This is not a whole-context capacity or global lifetime claim;
 three initialized web records likewise do not define the entire allocation.
 

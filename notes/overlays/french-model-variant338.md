@@ -79,7 +79,7 @@ not only against extracted copies.
 ## Context provenance and limits
 
 The matched resident initializer copies `D_80010024/28` into slot
-`field_DEC`; retail values are `0x80136000/0x80176000`. The matched
+`variant_module_data_address`; retail values are `0x80136000/0x80176000`. The matched
 controller dispatches the selected secondary callback with this context,
 initially with request modulo 1,000 and subsequently with `-1`. The
 matched loader establishes the selected model/primary/secondary load

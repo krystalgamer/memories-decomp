@@ -86,7 +86,7 @@ single owning suffix; no duplicate descriptor storage is introduced.
 ## Context ownership and limits
 
 The matching resident initializer supplies fixed pointers
-`0x80136000/0x80176000` through `D_80010024/28` and slot `field_DEC`.
+`0x80136000/0x80176000` through `D_80010024/28` and slot `variant_module_data_address`.
 The matching controller passes that field to secondary module `+4`,
 first with the selected command modulo 1,000 and then with update `-1`.
 The initializer, controller and transfer-phase function all have sized

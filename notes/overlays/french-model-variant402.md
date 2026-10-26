@@ -206,7 +206,7 @@ Three resident initializer/controller/loader owners have sized matching C
 symbols and retail-identical bytes.
 
 The initializer passes fixed `0x80136000/0x80176000` contexts through
-slot `field_DEC`; the controller supplies the selected command or `-1`
+slot `variant_module_data_address`; the controller supplies the selected command or `-1`
 to secondary entry. The selected model/primary/secondary load ranges do
 not overlap the measured minimum view. Complete allocation capacity,
 all primary-context writes and whole-game lifetime isolation are not

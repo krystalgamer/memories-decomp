@@ -188,8 +188,8 @@ void Model_UpdateSlotControl(s32 index)
     ModelSlot *other;
     ModelControlHandler handler;
     ModelControlHandler primary_handler;
-    u8 *primary = (u8 *)slot->field_DE8;
-    u8 *secondary = (u8 *)slot->field_DEC;
+    u8 *primary = (u8 *)slot->primary_module_data_address;
+    u8 *secondary = (u8 *)slot->variant_module_data_address;
     u16 *own_stats;
     u16 *other_stats;
     u8 *stats_base;
@@ -846,7 +846,7 @@ void Model_AdvanceSlotLoad(s32 index)
         s32 position;
         s32 i;
         work = ((ModelControlCommandView *)p)->commands[2];
-        context = (u8 *)p->field_DE8;
+        context = (u8 *)p->primary_module_data_address;
         gModel_bActiveSlotIndex = index;
         if (work >= 0) {
             if (index != 0) {

@@ -101,18 +101,18 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     base->field_E19 = 0;
     base->animation_sequence_count = 0;
     base->field_E1C = 0;
-    base->field_DE8 = 0;
-    base->field_DEC = 0;
+    base->primary_module_data_address = 0;
+    base->variant_module_data_address = 0;
     if (index < 2) {
         if (index != 0) {
-            base->field_DE8 = gModel_Slot1PrimaryDataAddress;
+            base->primary_module_data_address = gModel_Slot1PrimaryDataAddress;
         } else {
-            base->field_DE8 = gModel_Slot0PrimaryDataAddress;
+            base->primary_module_data_address = gModel_Slot0PrimaryDataAddress;
         }
         if (index != 0) {
-            base->field_DEC = gModel_Slot1VariantDataAddress;
+            base->variant_module_data_address = gModel_Slot1VariantDataAddress;
         } else {
-            base->field_DEC = gModel_Slot0VariantDataAddress;
+            base->variant_module_data_address = gModel_Slot0VariantDataAddress;
         }
     }
     base->lit_color_cache_address = 0;
