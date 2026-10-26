@@ -92,6 +92,19 @@ occupancy release and Japanese name-entry image-copy consumers keep their
 original accesses and ordering. See [text-glyph-renderer.md](text-glyph-renderer.md)
 for the full slot/variant chain and the PAL channel-field overlap.
 
+## Output counters are staging indices, not occupancy slots
+
+Under the original 0x200 flag, append uses the channel's current
+output_count to select the 0x88-byte scratch slot: NA +0x60 or Japan
++0x5E. The builder increments that counter only after the append call.
+Japan's glyph_index instead comes from the non-reserving occupancy
+query and supplies the raster destination's VRAM coordinates. Keep
+these indices separate, including rejection ordering, byte narrowing,
+original buffer arithmetic and LoadImage/LoadImage2 choice. No new
+counter reset, allocation guarantee or buffer bound is introduced.
+The complete regional limit contract is in
+[duel-effect-structures.md](duel-effect-structures.md).
+
 ## Occupancy start coordinates and lookup
 
 `gDuelEffect_OccupancyStartColumn` and `gDuelEffect_OccupancyStartRow`

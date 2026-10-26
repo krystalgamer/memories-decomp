@@ -35,8 +35,8 @@ volatile u16 gText_CurrentStreamCode;
    there, and that release confirms with Circle rather than Cross. A regional
    build supplies its own. */
 #ifndef TEXT_BOX_GLYPH_COUNT
-#define TEXT_BOX_GLYPH_COUNT(o) ((o)->field_60)
-#define TEXT_BOX_GLYPH_LIMIT(o) ((o)->field_61)
+#define TEXT_BOX_GLYPH_COUNT(o) ((o)->output_count)
+#define TEXT_BOX_GLYPH_LIMIT(o) ((o)->output_limit)
 #define TEXT_BOX_RANGE_START(o) ((o)->range_start_5C)
 #endif
 #ifndef TEXT_BOX_ENTRY_TYPE

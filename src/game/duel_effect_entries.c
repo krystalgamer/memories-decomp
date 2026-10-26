@@ -227,13 +227,13 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
             return;
         }
         if (p->flags_34 & 0x200) {
-            r = (s16 *)(((JapaneseDuelEffectChannel *)p)->pad_5E * 0x88 + (u8 *)r);
+            r = (s16 *)(((JapaneseDuelEffectChannel *)p)->output_count * 0x88 + (u8 *)r);
         }
         q->glyph_index = v;
         DuelEffect_RasterizeGlyph(p, a, v, r + 4);
 #else
         if (f & 0x200) {
-            r = (s16 *)(p->field_60 * 0x88 + (u8 *)r);
+            r = (s16 *)(p->output_count * 0x88 + (u8 *)r);
         }
         q->glyph_index = 0;
         b = p->color_index_54;
