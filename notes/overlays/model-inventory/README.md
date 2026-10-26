@@ -77,9 +77,14 @@ manifest) into a function inventory. Matched or hand-maintained layouts are
 never touched. Its census walk (`resolve_flow`) adds three rules to the
 published census rules, which stay the default:
 
-- a GCC switch `lw reg, off(table + index); jr reg` follows its table when the
-  base register resolves to an in-image constant and the entry count equals
-  the preceding `sltiu` bound;
+- a GCC switch `lw reg, off(table + index); jr reg` follows its table only
+  when the whole chain is proven: the jump register's last write is that load
+  (with no branch, jump or clobber in between), the load address's last write
+  is an `addu` of an in-image table constant and an index, the index is
+  `sll x, 2`, and a `sltiu t, x, N` guarded by `beq/bne t, zero` bounds `x`
+  with no intervening write to `x`. The table must hold exactly `N` in-span
+  targets. Anything else, including strength-reduced loop indexes, stays an
+  unresolved indirect jump;
 - `j` leaving the span is a tail call to user RAM and counts as an exit;
 - any direct call or jump outside user RAM (`0x80010000`-`0x80200000`), such as
   `j 0x8053D830`, rejects the body. Such bodies were linked for another address
@@ -89,22 +94,31 @@ Every closed-CFG body becomes an `unmatched_asm` row and its own
 `unmatched_<offset>` generated-assembly segment. The 4-byte header stays
 `data`; every other byte (gaps, truncated bodies at the image end, unresolved
 flow, residue, tables and assets) stays raw `bin`. A preamble whose closed span
-ends exactly with the next closed body is split and noted as a fall-through. Row
-notes record reachability: the loader entry, bodies reached from it through local
-calls or in-image `lui`/`addiu` address references, and closed bodies with
-unresolved reachability (kept visible rather than excluded).
+ends exactly with the next closed body is split and noted as a fall-through.
 
-| Release | Layouts | Functions | Function bytes | Entry | Reached | Unresolved reachability |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| North America | 2,522 | 3,503 | 13,476,896 | 2,522 | 728 | 253 |
-| Japan | 3,574 | 5,714 | 20,673,012 | 3,573 | 1,409 | 732 |
-| Europe | 3,572 | 5,701 | 20,629,192 | 3,571 | 1,401 | 729 |
-| France | 1,686 | 1,700 | 14,460,768 | 1,686 | 12 | 2 |
-| Germany | 3,572 | 5,701 | 20,629,192 | 3,571 | 1,401 | 729 |
-| Italy | 3,572 | 5,701 | 20,629,192 | 3,571 | 1,401 | 729 |
-| Spain | 3,185 | 3,490 | 16,305,596 | 3,185 | 268 | 37 |
-| **Total** | **21,683** | **31,510** | **126,803,848** | | | |
+Row notes record reachability from rooted edges only. The loader entry is
+traversed first, then bodies whose addresses resident code references. Edges
+come from the reached body itself: local calls, in-image tail jumps, its own
+`lui`/`addiu` address references, and the fall-through successor of a split
+preamble. A reference made by an unreached body proves nothing, so the other
+closed bodies keep an explicit unresolved-reachability note rather than being
+excluded.
 
+| Release | Layouts | Functions | Function bytes | Entry | From entry | Resident-rooted | Unresolved reachability | Left raw |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| North America | 2,516 | 3,497 | 13,400,312 | 2,516 | 728 | 0 | 253 | 6 |
+| Japan | 3,568 | 5,708 | 20,596,428 | 3,567 | 1,404 | 5 | 732 | 6 |
+| Europe | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
+| France | 1,680 | 1,694 | 14,384,280 | 1,680 | 12 | 0 | 2 | 6 |
+| Germany | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
+| Italy | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
+| Spain | 3,179 | 3,484 | 16,229,108 | 3,179 | 268 | 0 | 37 | 6 |
+| **Total** | **21,641** | **31,468** | **126,268,240** | | | | | **42** |
+
+The six images per release left raw share one loader whose entry switches index
+their tables through a strength-reduced loop register (`$s4 = 4 * $fp`), which
+the straight-line chain cannot prove. With no closed body proven, each remains a
+single raw baseline and still appears in the progress tables' uninventoried count.
 The Japanese and the shared English/German/Italian SU intro/credits image has
 no closed loader entry; its other closed bodies are still inventoried.
 Identical payloads are repeated across slots and releases, so these totals are
