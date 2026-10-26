@@ -6,7 +6,7 @@
 s32 Model_GetSlotCameraPresetYaw(s32 index)
 {
     s32 offset = index * MODEL_SLOT_SIZE;
-    ModelEffectCoefficient *coefficient;
+    ModelCameraOrbitPreset *coefficient;
     s32 value;
     ModelSlotCF8TailView *record;
     s32 biased;
@@ -19,7 +19,7 @@ s32 Model_GetSlotCameraPresetYaw(s32 index)
         ] & 0x1F
     );
 
-    value = coefficient->angle;
+    value = coefficient->yaw;
     if (index <= 0) {
         biased = value + TRIG_ANGLE_FULL_TURN +
                  3 * TRIG_ANGLE_QUARTER_TURN;

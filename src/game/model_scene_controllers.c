@@ -172,7 +172,7 @@ void Model_UpdateAnimatedBattle(void)
         gModel_bPresentationPhase++;
         break;
     case 3: {
-        ModelEffectCoefficient *coef;
+        ModelCameraOrbitPreset *coef;
         s32 a;
 
         *(ModelBytes8 *)&offset = *(ModelBytes8 *)gModel_AnimatedBattleCameraEndpoint;
@@ -188,10 +188,10 @@ void Model_UpdateAnimatedBattle(void)
             break;
         case 2:
             coef = ModelEffect_GetCoefficient(0xA);
-            Model_SetCameraOrbit(2, 0x64, coef->angle + 0x800, -0x400, 0);
-            offset.vx = coef->field_00;
+            Model_SetCameraOrbit(2, 0x64, coef->yaw + 0x800, -0x400, 0);
+            offset.vx = coef->distance;
             offset.vy = -0x1000;
-            offset.vz = coef->field_04 + 0x400;
+            offset.vz = coef->pitch + 0x400;
             a = 0x96;
             break;
         }

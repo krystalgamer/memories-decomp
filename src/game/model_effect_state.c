@@ -299,7 +299,7 @@ void Model_SetHandlerCallbackState(s32 value)
     gModel_bHandlerCallbackState = value;
 }
 
-ModelEffectCoefficient *ModelEffect_GetCoefficient(s32 index)
+ModelCameraOrbitPreset *ModelEffect_GetCoefficient(s32 index)
 {
     return &gModel_aCameraOrbitPresets[index];
 }
@@ -337,7 +337,7 @@ s32 Model_AdjustCameraDistanceForSlot(s32 level, s32 value)
 
 void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
 {
-    ModelEffectCoefficient *r;
+    ModelCameraOrbitPreset *r;
     s32 v;
     s32 d;
     s32 t;
@@ -353,7 +353,7 @@ void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
         }
     }
 
-    v = r->field_00;
+    v = r->distance;
 
     if (arg0 < 2) {
         Model_GetSlotDimensionsWithOverrides(arg0, (s16 *)&sp18);
@@ -374,7 +374,7 @@ void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
         }
     }
 
-    Model_SetCameraOrbit(arg0, v, r->angle, r->field_04, arg2);
+    Model_SetCameraOrbit(arg0, v, r->yaw, r->pitch, arg2);
 }
 
 void Model_SetCameraOrbit(int mode, int y, int a, int b, SVECTOR *offset)
@@ -431,14 +431,14 @@ void Model_SetEffectKeyBatchingEnabled(int value)
 /* Applies the same slot-dependent camera-distance adjustment, then queues
    relative orbit endpoints through Model_QueueRelativeCameraOrbit. */
 void Model_QueueCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
-    ModelEffectCoefficient *rec = &gModel_aCameraOrbitPresets[arg1];
+    ModelCameraOrbitPreset *rec = &gModel_aCameraOrbitPresets[arg1];
     s32 s0;
 
     if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == gModel_bCameraHoldState) {
         return;
     }
 
-    s0 = rec->field_00;
+    s0 = rec->distance;
 
     if (arg0 < 2) {
         ModelEffectAdjustment adjustment;
@@ -457,7 +457,7 @@ void Model_QueueCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *offset, s32 a
         }
     }
 
-    Model_QueueRelativeCameraOrbit(arg0, s0, rec->angle, rec->field_04, offset, arg3);
+    Model_QueueRelativeCameraOrbit(arg0, s0, rec->yaw, rec->pitch, offset, arg3);
 }
 
 void Model_QueueEffectEndpointPair(s32 a, s32 b, s32 c)

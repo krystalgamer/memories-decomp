@@ -3,7 +3,7 @@
 
 #include "model.h"
 
-ModelEffectCoefficient *ModelEffect_GetCoefficient(s32 index);
+ModelCameraOrbitPreset *ModelEffect_GetCoefficient(s32 index);
 s32 Model_AdjustCameraDistanceForSlot(s32 level, s32 value);
 
 #endif

@@ -784,11 +784,11 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
 #endif
 
 /* One entry of the eight-byte table at gModel_aCameraOrbitPresets.  Every access in the tree
- * is sixteen bits wide: Model_QueueCameraOrbitFromPreset reads field_00, Model_SetCameraOrbitFromPreset reads
- * field_00, angle and field_04 of one record, and Model_GetSlotCameraPresetYaw reads
- * `angle` and wraps it modulo a full turn.  The retail bytes agree -- the
+ * is sixteen bits wide: Model_QueueCameraOrbitFromPreset reads distance, Model_SetCameraOrbitFromPreset reads
+ * distance, yaw and pitch of one record, and Model_GetSlotCameraPresetYaw reads
+ * `yaw` and wraps it modulo a full turn.  The retail bytes agree -- the
  * first entries are 02BC / FE00 / FF00 / 0000 and 02BC / 0200 / FF00 / 0000,
- * where field_00 is a constant 700 and the second halfword steps in eighths
+ * where distance is a constant 700 and the second halfword steps in eighths
  * of a turn.  Nothing reads the record as two 32-bit words.
  *
  * The table is fifteen records: it ends at 0x800915E8, where the next object
@@ -798,11 +798,11 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
  * would say otherwise.
  */
 typedef struct {
-    s16 field_00;
-    s16 angle;
-    s16 field_04;
+    s16 distance;
+    s16 yaw;
+    s16 pitch;
     s16 field_06;
-} ModelEffectCoefficient;
+} ModelCameraOrbitPreset;
 
 typedef char ModelTintColor_size_must_be_0x4[
     sizeof(ModelTintColor) == 0x4 ? 1 : -1
@@ -834,20 +834,28 @@ typedef char ModelTintRequest_end_offset_must_be_0x14[
     MODEL_OFFSET(ModelTintRequest, end) == 0x14 ? 1 : -1
 ];
 
-typedef char ModelEffectCoefficient_size_must_be_0x8[
-    sizeof(ModelEffectCoefficient) == 0x8 ? 1 : -1
+typedef char ModelCameraOrbitPreset_size_must_be_0x8[
+    sizeof(ModelCameraOrbitPreset) == 0x8 ? 1 : -1
 ];
-typedef char ModelEffectCoefficient_angle_offset_must_be_0x2[
-    MODEL_OFFSET(ModelEffectCoefficient, angle) == 0x2 ? 1 : -1
+typedef char ModelCameraOrbitPreset_yaw_offset_must_be_0x2[
+    MODEL_OFFSET(ModelCameraOrbitPreset, yaw) == 0x2 ? 1 : -1
 ];
-typedef char ModelEffectCoefficient_field_04_offset_must_be_0x4[
-    MODEL_OFFSET(ModelEffectCoefficient, field_04) == 0x4 ? 1 : -1
+typedef char ModelCameraOrbitPreset_pitch_offset_must_be_0x4[
+    MODEL_OFFSET(ModelCameraOrbitPreset, pitch) == 0x4 ? 1 : -1
+];
+typedef char ModelCameraOrbitPreset_halfword_layout_must_match[
+    MODEL_OFFSET(ModelCameraOrbitPreset, distance) == 0 &&
+    sizeof(((ModelCameraOrbitPreset *)0)->distance) == 2 &&
+    sizeof(((ModelCameraOrbitPreset *)0)->yaw) == 2 &&
+    sizeof(((ModelCameraOrbitPreset *)0)->pitch) == 2 &&
+    MODEL_OFFSET(ModelCameraOrbitPreset, field_06) == 6 &&
+    sizeof(((ModelCameraOrbitPreset *)0)->field_06) == 2 ? 1 : -1
 ];
 
 #undef MODEL_OFFSET
 
 #ifndef MODEL_EFFECT_COEFFICIENT_CUSTOM_EXTERN
-extern ModelEffectCoefficient gModel_aCameraOrbitPresets[];
+extern ModelCameraOrbitPreset gModel_aCameraOrbitPresets[];
 #endif
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
