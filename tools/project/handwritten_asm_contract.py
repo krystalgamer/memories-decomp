@@ -11,6 +11,15 @@ for functions in that address range.
 After preprocessing, every asm statement must consist solely of allowlisted
 instructions with "r"/"=r" operands and an optional "memory" clobber. Any other
 asm, including asm written directly in the unexpanded source, is rejected.
+
+Three narrow forms reproduce encodings GCC 2.8.1 cannot emit from C:
+
+* ``lwr %0, N(%1)`` tied to its own input ("0") merges an unaligned halfword
+  into a word that C already loaded;
+* a ``.set noreorder`` block holding exactly one compare branch to a C label
+  (an "i" operand spelled ``&&label``) and one delay-slot instruction, which
+  is either a GTE register write or a word load;
+* nothing else: no other branch, jump, label or register name is accepted.
 """
 
 from __future__ import annotations
@@ -44,9 +53,20 @@ ALLOWED_INSTRUCTIONS = tuple(
         r"cfc2 %0, \$31",
         r"nop",
         r"\.word 0x(?P<word>[0-9A-Fa-f]{8})",
+        rf"lwr %0, {_OFFSET}\(%1\)",
     )
 )
-ALLOWED_CONSTRAINTS = frozenset({"r", "=r"})
+NOREORDER = ".set noreorder"
+REORDER = ".set reorder"
+BRANCH_INSTRUCTIONS = (
+    re.compile(r"beq %0, %1, %2"),
+    re.compile(r"beqz %1, %2"),
+)
+DELAY_SLOT_INSTRUCTIONS = (
+    re.compile(rf"mtc2 %0, {_GTE_REGISTER}"),
+    re.compile(rf"lw %0, {_OFFSET}\(%3\)"),
+)
+ALLOWED_CONSTRAINTS = frozenset({"r", "=r", "0", "i"})
 ALLOWED_CLOBBERS = frozenset({"memory"})
 _STRING = re.compile(r'"((?:\\.|[^"\\])*)"')
 _ASM_STATEMENT = re.compile(
@@ -102,14 +122,41 @@ def _strings(text: str, code: str, start: int, end: int) -> list[str]:
     return values
 
 
-def _check_template(template: str) -> None:
-    instructions = 0
+def _instructions(template: str) -> list[str]:
+    template = template.replace("\\n", ";").replace("\\t", " ")
+    normalized_instructions: list[str] = []
     for instruction in template.split(";"):
         normalized = re.sub(r"\s+", " ", instruction).strip()
         normalized = re.sub(r"\( ", "(", re.sub(r" \)", ")", normalized))
-        if not normalized:
-            continue
-        instructions += 1
+        if normalized:
+            normalized_instructions.append(normalized)
+    return normalized_instructions
+
+
+def _check_branch_block(instructions: list[str]) -> None:
+    if (
+        len(instructions) != 4
+        or instructions[0] != NOREORDER
+        or instructions[3] != REORDER
+    ):
+        raise HandwrittenAsmError(
+            "a .set noreorder block must hold exactly one branch and its delay slot"
+        )
+    branch, slot = instructions[1], instructions[2]
+    if not any(pattern.fullmatch(branch) for pattern in BRANCH_INSTRUCTIONS):
+        raise HandwrittenAsmError(f"branch is not allowlisted: {branch}")
+    if not any(pattern.fullmatch(slot) for pattern in DELAY_SLOT_INSTRUCTIONS):
+        raise HandwrittenAsmError(f"delay-slot instruction is not allowlisted: {slot}")
+
+
+def _check_template(template: str) -> None:
+    instructions = _instructions(template)
+    if not instructions:
+        raise HandwrittenAsmError("asm templates without an instruction are not allowed")
+    if NOREORDER in instructions or REORDER in instructions:
+        _check_branch_block(instructions)
+        return
+    for normalized in instructions:
         for pattern in ALLOWED_INSTRUCTIONS:
             match = pattern.fullmatch(normalized)
             if match is None:
@@ -120,8 +167,6 @@ def _check_template(template: str) -> None:
             break
         else:
             raise HandwrittenAsmError(f"instruction is not allowlisted: {normalized}")
-    if not instructions:
-        raise HandwrittenAsmError("asm templates without an instruction are not allowed")
 
 
 def _check_operands(text: str, code: str, start: int, end: int) -> None:
@@ -131,6 +176,11 @@ def _check_operands(text: str, code: str, start: int, end: int) -> None:
         if after.startswith("("):
             if value not in ALLOWED_CONSTRAINTS:
                 raise HandwrittenAsmError(f"unsupported asm constraint: {value}")
+            if value == "i":
+                operand_end = _matching_paren(code, match.end() + code[match.end():end].index("("))
+                operand = code[match.end():operand_end + 1]
+                if re.fullmatch(r"\s*\(\s*&&\s*[A-Za-z_]\w*\s*\)", operand) is None:
+                    raise HandwrittenAsmError("an \"i\" operand must be the address of a C label")
         elif value not in ALLOWED_CLOBBERS:
             raise HandwrittenAsmError(f"unsupported asm clobber: {value}")
 

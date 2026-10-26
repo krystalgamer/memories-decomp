@@ -40,6 +40,47 @@ class HandwrittenAsmContractTests(unittest.TestCase):
             [],
         )
 
+    def test_lwr_and_branch_delay_slot_forms_are_accepted(self) -> None:
+        source = (
+            "unsigned int *f(unsigned char *p, unsigned int w, unsigned int z) {\n"
+            '  __asm__ volatile("lwr %0, 10(%1)" : "=r"(w) : "r"(p), "0"(w));\n'
+            '  __asm__ volatile(".set\\tnoreorder\\n" "beq %0, %1, %2\\n"'
+            ' "mtc2 %0, $17\\n" ".set\\treorder"'
+            ' : : "r"(z), "r"(w), "i"(&&next));\n'
+            '  __asm__ volatile(".set\\tnoreorder\\n" "beqz %1, %2\\n"'
+            ' "lw %0, 16(%3)\\n" ".set\\treorder"'
+            ' : "=r"(w) : "r"(z), "i"(&&next), "r"(p));\n'
+            "next:\n"
+            "  return 0;\n"
+            "}\n"
+        )
+        self.assertFalse(uses_disallowed_handwritten_asm(source))
+
+    def test_branch_blocks_outside_the_narrow_form_are_rejected(self) -> None:
+        for template, operands in (
+            ('".set\\tnoreorder\\n" "beq %0, %1, %2\\n" ".set\\treorder"',
+             ': : "r"(z), "r"(z), "i"(&&next)'),
+            ('".set\\tnoreorder\\n" "beq %0, %1, %2\\n" "addiu $2, $2, 1\\n"'
+             ' ".set\\treorder"', ': : "r"(z), "r"(z), "i"(&&next)'),
+            ('".set\\tnoreorder\\n" "j %2\\n" "nop\\n" ".set\\treorder"',
+             ': : "r"(z), "r"(z), "i"(&&next)'),
+            ('".set\\tnoreorder\\n" "beq %0, %1, %2\\n" "mtc2 %0, $17"',
+             ': : "r"(z), "r"(z), "i"(&&next)'),
+            ('"beq %0, %1, %2"', ': : "r"(z), "r"(z), "i"(&&next)'),
+            ('".set\\tnoreorder\\n" "beq %0, %1, %2\\n" "mtc2 %0, $17\\n"'
+             ' ".set\\treorder"', ': : "r"(z), "r"(z), "i"(4)'),
+            ('"lwr %0, 2(%1)"', ': "=r"(z) : "r"(z), "m"(z)'),
+        ):
+            with self.subTest(template=template, operands=operands):
+                source = (
+                    "void f(int z) {\n"
+                    f"  __asm__ volatile({template} {operands});\n"
+                    "next:\n"
+                    "  return;\n"
+                    "}\n"
+                )
+                self.assertTrue(uses_disallowed_handwritten_asm(source))
+
     def test_unlisted_instruction_is_rejected(self) -> None:
         for template in (
             "jr $31",
