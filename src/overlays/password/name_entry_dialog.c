@@ -84,7 +84,7 @@ void NameEntry_UpdateDialog(void)
                     func_80039A14((struct DuelEffectChannel *)box);
                     D_8009B34D = 0;
                 }
-                box->field_30 = Dialog_OpenChoice(box);
+                box->prompt_object = Dialog_OpenChoice(box);
             } else {
 #ifdef VERSION_EUROPE
                 box->flags_34 |= 0x10;
@@ -93,14 +93,14 @@ void NameEntry_UpdateDialog(void)
 #endif
                 do {
                     TextBox_UpdateChannels();
-                } while (box->field_30 == 0);
+                } while (box->prompt_object == 0);
             }
             caret = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             DisplayObject_ConfigureSpriteAtPosition(caret, 16, 248, 0, 0, 0, 23, 257);
             DisplayObject_SelectOrderingTable1(caret);
             DisplayObject_SetDepthOffset(caret, 19);
             caret->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-            box->field_2C = caret;
+            box->aux_object = caret;
             DisplayObject_SavePosition(caret);
             caret->slide = -1024;
             gNameEntry_bStateFlags |= 2;
@@ -111,7 +111,7 @@ void NameEntry_UpdateDialog(void)
 #else
         box = &D_800EB1C0;
 #endif
-        caret = (DialogCaret *)box->field_2C;
+        caret = (DialogCaret *)box->aux_object;
         if ((flags & 2) != 0) {
             pos = caret->slide;
             if (pos >= 0) {

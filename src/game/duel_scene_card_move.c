@@ -121,7 +121,7 @@ void DuelScene_UpdateCardMove(void)
 #endif
             do {
                 TextBox_UpdateChannels();
-            } while (box->field_30 == 0);
+            } while (box->prompt_object == 0);
             break;
         }
         if (gDuel_bSceneSubStep & 0x10) {

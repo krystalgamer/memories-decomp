@@ -38,7 +38,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     s32 x;
     s32 y;
 
-    q = (DisplayObject *)p->field_30;
+    q = (DisplayObject *)p->prompt_object;
     n = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_x);
     q->field_48.h.field_48 = n;
     q->field_38.h.field_38 = n;

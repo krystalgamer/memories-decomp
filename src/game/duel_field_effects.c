@@ -434,7 +434,7 @@ void DuelEffect_ApplyRitual(void)
 #endif
                 do {
                     TextBox_UpdateChannels();
-                } while (!text->field_30);
+                } while (!text->prompt_object);
                 gDuel_wTrapPresentationMode |= 0x40;
             }
         } else if (!(gDuel_wTrapPresentationMode & 0x20)) {

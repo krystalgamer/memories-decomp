@@ -302,7 +302,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
 /* Lays the text box's second object out as a six-point outline around the
  * first, eight pixels outside its top, sides, and bottom. */
 void TextBox_UpdateOutline(struct DuelEffectChannel *record) {
-    DisplayObject *a = record->field_28, *b = record->field_2C;
+    DisplayObject *a = record->render_object, *b = record->aux_object;
     u16 v;
     b->field_18 = a->field_18;
     b->field_1A = a->field_1A;
@@ -346,7 +346,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     s32 b;
     s32 f;
 
-    e = p->field_28;
+    e = p->render_object;
     if (e == (DisplayObject *)0) {
         e = DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 6);
         b = p->index_57;
@@ -357,7 +357,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
         e->field_4C = (s32)TextBox_DrawEntries;
         e->field_67 = b;
         e->flags = f | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        p->field_28 = e;
+        p->render_object = e;
     }
 
     DisplayObject_SelectOrderingTable1(e);
@@ -375,12 +375,12 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     e->field_48.h.field_4A = v;
 
     if ((p->flags_34 & TEXT_BOX_LAYOUT_QUAD_FLAG) != 0) {
-        if (p->field_2C != 0) {
-            DisplayObject_ReleaseIfPresent(p->field_2C);
+        if (p->aux_object != 0) {
+            DisplayObject_ReleaseIfPresent(p->aux_object);
         }
         e = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
         DisplayObject_InitializeGouraudQuad(e, 1);
-        p->field_2C = e;
+        p->aux_object = e;
         e->attribute = e->attribute | (GsALON | GsATWO);
         DisplayObject_SelectOrderingTable1(e);
         DisplayObject_SetDepthOffset(e, (s8)(p->field_59 - 1));

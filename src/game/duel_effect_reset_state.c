@@ -11,9 +11,9 @@ void DuelEffect_ResetState(void)
 
     do {
         entry->flags_34 = 0;
-        entry->field_30 = 0;
-        entry->field_2C = 0;
-        entry->field_28 = 0;
+        entry->prompt_object = 0;
+        entry->aux_object = 0;
+        entry->render_object = 0;
 #ifdef VERSION_JAPAN
         entry = (DuelEffectChannel *)((u8 *)entry + 0x60);
 #elif defined(VERSION_EUROPE)

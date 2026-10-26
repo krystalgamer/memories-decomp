@@ -136,10 +136,10 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         object->text_00 = text;
         object->field_56 = 0;
         object->state_51 = 0;
-        DisplayObject_ReleaseIfPresent(object->field_30);
-        DisplayObject_ReleaseIfPresent(object->field_2C);
-        object->field_30 = (void *)0;
-        object->field_2C = 0;
+        DisplayObject_ReleaseIfPresent(object->prompt_object);
+        DisplayObject_ReleaseIfPresent(object->aux_object);
+        object->prompt_object = (void *)0;
+        object->aux_object = 0;
         TextBox_RefreshDisplayObjects(object);
         if ((object->flags_34 & TEXT_BOX_BUILD_OWN_ENTRIES_FLAG) == 0) {
             entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)gDuelEffect_aEntries)[

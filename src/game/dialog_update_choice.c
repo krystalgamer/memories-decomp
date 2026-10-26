@@ -42,8 +42,8 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         DisplayObject_InitializeGouraudQuad(e, 1);
         DisplayObject_SelectOrderingTable1(e);
         DisplayObject_SetDepthOffset(e,
-                      (s8)(p->field_28->field_16 + 1));
-        p->field_30 = e;
+                      (s8)(p->render_object->field_16 + 1));
+        p->prompt_object = e;
         *(s32 *)&e->field_54 = 0x2000;
         e->field_4C = 0x2000;
         e->field_34.word = 0x2000;
@@ -91,8 +91,8 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
     p->state_51 = 0;
     SD_SEPlayFull(7);
     if ((gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_RETAIN_HIGHLIGHT) == 0) {
-        DisplayObject_ReleaseIfPresent(p->field_30);
-        p->field_30 = 0;
+        DisplayObject_ReleaseIfPresent(p->prompt_object);
+        p->prompt_object = 0;
         p->state_51 = 3;
     }
 }

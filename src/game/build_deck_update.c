@@ -69,7 +69,7 @@ int BuildDeck_HasOpenDeckSlot(void)
  * (BuildDeck_HasOpenDeckSlot), bit 14 of the state word at +0x633E is set, a
  * confirmation box is created (the wide
  * one in the 640-wide mode selected by bit 7 of gBuildDeck_bConfirmMode, the narrow one
- * otherwise, which is then waited on until its field_30 pointer is filled),
+ * otherwise, which is then waited on until its prompt_object pointer is filled),
  * Fade_SetTargetLevel(0xA0, 2) runs and gFade_bKeepOverlayDepth is set from gDisplayObject_awOrderingTableDepthBases[1] - 8.
  * With bit 14 set the effect channel at gText_aChannels is polled: once its flags
  * match TEXT_BOX_FLAG_DONE under TEXT_BOX_COMPLETION_MASK, the box is
@@ -107,7 +107,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
                 box->field_59 = 0xA;
                 do {
                     TextBox_UpdateChannels();
-                } while (box->field_30 == 0);
+                } while (box->prompt_object == 0);
             }
             Fade_SetTargetLevel(BUILD_DECK_CONFIRM_FADE_LEVEL, 2);
             gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 8;

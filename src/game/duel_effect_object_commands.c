@@ -73,8 +73,8 @@ void Text_UnlockDuelist(DuelEffectChannel *object)
 
 void Text_CloseChoice(DuelEffectChannel *object)
 {
-    DisplayObject_ReleaseIfPresent(object->field_30);
-    object->field_30 = 0;
+    DisplayObject_ReleaseIfPresent(object->prompt_object);
+    object->prompt_object = 0;
     object->state_51 = 2;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     object->field_62 = 0;

@@ -159,7 +159,7 @@ void Dialog_UpdateOpenTransition(MenuRecord *record)
         r->flags_34 = r->flags_34 | DIALOG_TRANSITION_CHANNEL_FLAG;
         do {
             TextBox_UpdateChannels();
-        } while (r->field_30 == 0);
+        } while (r->prompt_object == 0);
         TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
                        *(s16 *)&p->field_30.h.field_32);
     }
@@ -248,7 +248,7 @@ void Dialog_UpdateMessageTransition(MenuRecord *record)
         q->flags_34 = q->flags_34 | FUNC_8003DA40_CHANNEL_FLAG;
         do {
             TextBox_UpdateChannels();
-        } while (q->field_30 == 0);
+        } while (q->prompt_object == 0);
         TextBox_SetPos(q,
                        *(s16 *)&e->field_30.h.field_30,
                        *(s16 *)&e->field_30.h.field_32);

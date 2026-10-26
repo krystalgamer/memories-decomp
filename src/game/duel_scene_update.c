@@ -65,7 +65,7 @@ void DuelScene_Update(void)
                                       DUEL_QUIT_BOX_HEIGHT, DUEL_QUIT_BOX_FLAGS);
             do {
                 TextBox_UpdateChannels();
-            } while (window->field_30 == 0);
+            } while (window->prompt_object == 0);
         } else {
             DuelEffectChannel *cleanup;
 
