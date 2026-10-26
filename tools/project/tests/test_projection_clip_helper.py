@@ -193,7 +193,10 @@ class ProjectionClipHelperTests(unittest.TestCase):
         scratch.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(dir=scratch) as temporary:
             directory = Path(temporary)
+            # The two projection checks open the display-object helper unit;
+            # compile them alone, ending where the packet helpers begin.
             text = SOURCE.read_text()
+            text = text[:text.index("/* Regional value: DIVPOLYGON4 piv")]
             self.assertNotIn("libgte_abi_variants.h", text)
             self.assertIn("RotAverageNclip3_nom(v308, v310, v318);", text)
             self.assertIn("SetGeomScreen(MODEL_DEFAULT_PROJECTION);", text)

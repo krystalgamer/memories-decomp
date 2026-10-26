@@ -120,9 +120,11 @@ class CardPreviewResourceRequestNameTests(unittest.TestCase):
                 self.assertEqual(int(entry["size"], 0), size)
                 matching = json.loads((directory / "matching_c.json").read_text())["functions"]
                 owner = "src/game/" + tier + "duel_effect_resource_setup.c"
+                # The request/constructor pair opens the resource-setup unit;
+                # the resource-object helpers follow it.
                 group = [row for row in matching if row["source"] == owner]
                 self.assertEqual(
-                    [(int(row["address"], 0), int(row["size"], 0), row["profile"]) for row in group],
+                    [(int(row["address"], 0), int(row["size"], 0), row["profile"]) for row in group[:2]],
                     [(address, size, "gcc_2_8_1_g8_split"),
                      (address + size, constructor_size, "gcc_2_8_1_g8_split")],
                 )
