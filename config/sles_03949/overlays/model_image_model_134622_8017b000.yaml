@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: german_model_image_model_134622_8017b000
 sha1: b4a9048876f9864c65a8633f193111e4300a8e81
 
@@ -40,11 +41,32 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8017b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/german_model_image_model_134622_8017b000/unclassified_image]
+      - [0x0, data, overlays/german_model_image_model_134622_8017b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8017b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/german_model_image_model_134622_8017b000/unmatched_4]
+  - name: unmatched_1490
+    type: code
+    start: 0x1490
+    vram: 0x8017c490
+    align: 4
+    subsegments:
+      - [0x1490, asm, overlays/german_model_image_model_134622_8017b000/unmatched_1490]
+  - name: unclassified_tail
+    type: code
+    start: 0x1b7c
+    vram: 0x8017cb7c
+    align: 4
+    subsegments:
+      - [0x1b7c, bin, overlays/german_model_image_model_134622_8017b000/unclassified_tail]
   - [0x5000]

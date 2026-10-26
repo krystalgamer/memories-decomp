@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: german_model_image_model_48500_8013b000
 sha1: 2ab610589a8dec7becb0daf6632a0b2c0a9655e1
 
@@ -40,11 +41,53 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/german_model_image_model_48500_8013b000/unclassified_image]
+      - [0x0, data, overlays/german_model_image_model_48500_8013b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/german_model_image_model_48500_8013b000/unmatched_4]
+  - name: unmatched_db4
+    type: code
+    start: 0xdb4
+    vram: 0x8013bdb4
+    align: 4
+    subsegments:
+      - [0xdb4, asm, overlays/german_model_image_model_48500_8013b000/unmatched_db4]
+  - name: unmatched_14e8
+    type: code
+    start: 0x14e8
+    vram: 0x8013c4e8
+    align: 4
+    subsegments:
+      - [0x14e8, asm, overlays/german_model_image_model_48500_8013b000/unmatched_14e8]
+  - name: unmatched_1dc4
+    type: code
+    start: 0x1dc4
+    vram: 0x8013cdc4
+    align: 4
+    subsegments:
+      - [0x1dc4, asm, overlays/german_model_image_model_48500_8013b000/unmatched_1dc4]
+  - name: unmatched_240c
+    type: code
+    start: 0x240c
+    vram: 0x8013d40c
+    align: 4
+    subsegments:
+      - [0x240c, asm, overlays/german_model_image_model_48500_8013b000/unmatched_240c]
+  - name: unclassified_tail
+    type: code
+    start: 0x291c
+    vram: 0x8013d91c
+    align: 4
+    subsegments:
+      - [0x291c, bin, overlays/german_model_image_model_48500_8013b000/unclassified_tail]
   - [0x5000]

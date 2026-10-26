@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: german_model_image_model_167456_8013b000
 sha1: dcc61102d85a87b82d709ebde7c5496263cd1341
 
@@ -40,11 +41,60 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/german_model_image_model_167456_8013b000/unclassified_image]
+      - [0x0, data, overlays/german_model_image_model_167456_8013b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/german_model_image_model_167456_8013b000/unmatched_4]
+  - name: unmatched_cd4
+    type: code
+    start: 0xcd4
+    vram: 0x8013bcd4
+    align: 4
+    subsegments:
+      - [0xcd4, asm, overlays/german_model_image_model_167456_8013b000/unmatched_cd4]
+  - name: unmatched_1344
+    type: code
+    start: 0x1344
+    vram: 0x8013c344
+    align: 4
+    subsegments:
+      - [0x1344, asm, overlays/german_model_image_model_167456_8013b000/unmatched_1344]
+  - name: unmatched_19a4
+    type: code
+    start: 0x19a4
+    vram: 0x8013c9a4
+    align: 4
+    subsegments:
+      - [0x19a4, asm, overlays/german_model_image_model_167456_8013b000/unmatched_19a4]
+  - name: unmatched_1e9c
+    type: code
+    start: 0x1e9c
+    vram: 0x8013ce9c
+    align: 4
+    subsegments:
+      - [0x1e9c, asm, overlays/german_model_image_model_167456_8013b000/unmatched_1e9c]
+  - name: unmatched_2410
+    type: code
+    start: 0x2410
+    vram: 0x8013d410
+    align: 4
+    subsegments:
+      - [0x2410, asm, overlays/german_model_image_model_167456_8013b000/unmatched_2410]
+  - name: unclassified_tail
+    type: code
+    start: 0x2e7c
+    vram: 0x8013de7c
+    align: 4
+    subsegments:
+      - [0x2e7c, bin, overlays/german_model_image_model_167456_8013b000/unclassified_tail]
   - [0x5000]

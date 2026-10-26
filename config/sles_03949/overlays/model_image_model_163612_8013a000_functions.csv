@@ -1,1 +1,2 @@
 address,size,name,status,module,notes
+0x8013A004,0x8,func_8013A004,unmatched_asm,overlay/model_image_model_163612_8013a000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.

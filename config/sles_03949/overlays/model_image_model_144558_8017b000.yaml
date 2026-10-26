@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: german_model_image_model_144558_8017b000
 sha1: 7cfd00d6bf805245209efa3c8a4fc2b83feeef9e
 
@@ -40,11 +41,81 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8017b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/german_model_image_model_144558_8017b000/unclassified_image]
+      - [0x0, data, overlays/german_model_image_model_144558_8017b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8017b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/german_model_image_model_144558_8017b000/unmatched_4]
+  - name: unmatched_124c
+    type: code
+    start: 0x124c
+    vram: 0x8017c24c
+    align: 4
+    subsegments:
+      - [0x124c, asm, overlays/german_model_image_model_144558_8017b000/unmatched_124c]
+  - name: unmatched_166c
+    type: code
+    start: 0x166c
+    vram: 0x8017c66c
+    align: 4
+    subsegments:
+      - [0x166c, asm, overlays/german_model_image_model_144558_8017b000/unmatched_166c]
+  - name: unmatched_256c
+    type: code
+    start: 0x256c
+    vram: 0x8017d56c
+    align: 4
+    subsegments:
+      - [0x256c, asm, overlays/german_model_image_model_144558_8017b000/unmatched_256c]
+  - name: unmatched_2ab4
+    type: code
+    start: 0x2ab4
+    vram: 0x8017dab4
+    align: 4
+    subsegments:
+      - [0x2ab4, asm, overlays/german_model_image_model_144558_8017b000/unmatched_2ab4]
+  - name: unmatched_3014
+    type: code
+    start: 0x3014
+    vram: 0x8017e014
+    align: 4
+    subsegments:
+      - [0x3014, asm, overlays/german_model_image_model_144558_8017b000/unmatched_3014]
+  - name: unmatched_331c
+    type: code
+    start: 0x331c
+    vram: 0x8017e31c
+    align: 4
+    subsegments:
+      - [0x331c, asm, overlays/german_model_image_model_144558_8017b000/unmatched_331c]
+  - name: unmatched_3698
+    type: code
+    start: 0x3698
+    vram: 0x8017e698
+    align: 4
+    subsegments:
+      - [0x3698, asm, overlays/german_model_image_model_144558_8017b000/unmatched_3698]
+  - name: unmatched_39fc
+    type: code
+    start: 0x39fc
+    vram: 0x8017e9fc
+    align: 4
+    subsegments:
+      - [0x39fc, asm, overlays/german_model_image_model_144558_8017b000/unmatched_39fc]
+  - name: unclassified_tail
+    type: code
+    start: 0x4354
+    vram: 0x8017f354
+    align: 4
+    subsegments:
+      - [0x4354, bin, overlays/german_model_image_model_144558_8017b000/unclassified_tail]
   - [0x5000]
