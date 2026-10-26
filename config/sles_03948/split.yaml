@@ -1164,9 +1164,6 @@ segments:
   - - 370064
     - c
     - game/european/movie_open_stream
-  - - 370812
-    - c
-    - game/european/movie_frame_pipeline
   - - 372868
     - c
     - game/movie_stream_requests

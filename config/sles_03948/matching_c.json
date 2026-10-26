@@ -6197,31 +6197,31 @@
       "address": "0x8006A07C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2D8",
-      "source": "src/game/european/movie_frame_pipeline.c"
+      "source": "src/game/european/movie_open_stream.c"
     },
     {
       "address": "0x8006A354",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x184",
-      "source": "src/game/european/movie_frame_pipeline.c"
+      "source": "src/game/european/movie_open_stream.c"
     },
     {
       "address": "0x8006A4D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x22C",
-      "source": "src/game/european/movie_frame_pipeline.c"
+      "source": "src/game/european/movie_open_stream.c"
     },
     {
       "address": "0x8006A704",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x16C",
-      "source": "src/game/european/movie_frame_pipeline.c"
+      "source": "src/game/european/movie_open_stream.c"
     },
     {
       "address": "0x8006A870",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
-      "source": "src/game/european/movie_frame_pipeline.c"
+      "source": "src/game/european/movie_open_stream.c"
     },
     {
       "address": "0x8006A884",

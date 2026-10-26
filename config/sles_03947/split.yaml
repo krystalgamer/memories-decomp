@@ -392,7 +392,6 @@ segments:
       - [0x03E1B0, c, game/european/model_keyframe_update]
       - [0x03EE14, c, game/european/model_effect_state]
       - [0x040228, c, game/european/movie_open_stream]
-      - [0x040514, c, game/european/movie_frame_pipeline]
       - [0x040D1C, c, game/movie_stream_requests]
       - [0x040E84, c, game/file_cd_helpers]
       - [0x040F58, c, game/mdec_sync]

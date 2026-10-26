@@ -434,7 +434,6 @@ segments:
       - [0x59410, c, game/european/model_find_handler_key]
       - [0x59460, asm, generated/german_80068c60]
       - [0x5A590, c, game/european/movie_open_stream]
-      - [0x5A87C, c, game/european/movie_frame_pipeline]
       - [0x5B084, c, game/movie_stream_requests]
       - [0x5B1EC, c, game/file_cd_helpers]
       - [0x5B2C0, c, game/mdec_sync]
