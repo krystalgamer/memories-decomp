@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: italian_model_image_model_40496_8013b000
 sha1: 2be3cd540f12f776a342f97d909f3e0c4454c608
 
@@ -40,11 +41,67 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/italian_model_image_model_40496_8013b000/unclassified_image]
+      - [0x0, data, overlays/italian_model_image_model_40496_8013b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/italian_model_image_model_40496_8013b000/unmatched_4]
+  - name: unmatched_e00
+    type: code
+    start: 0xe00
+    vram: 0x8013be00
+    align: 4
+    subsegments:
+      - [0xe00, asm, overlays/italian_model_image_model_40496_8013b000/unmatched_e00]
+  - name: unmatched_12f8
+    type: code
+    start: 0x12f8
+    vram: 0x8013c2f8
+    align: 4
+    subsegments:
+      - [0x12f8, asm, overlays/italian_model_image_model_40496_8013b000/unmatched_12f8]
+  - name: unmatched_195c
+    type: code
+    start: 0x195c
+    vram: 0x8013c95c
+    align: 4
+    subsegments:
+      - [0x195c, asm, overlays/italian_model_image_model_40496_8013b000/unmatched_195c]
+  - name: unmatched_1fe8
+    type: code
+    start: 0x1fe8
+    vram: 0x8013cfe8
+    align: 4
+    subsegments:
+      - [0x1fe8, asm, overlays/italian_model_image_model_40496_8013b000/unmatched_1fe8]
+  - name: unmatched_24bc
+    type: code
+    start: 0x24bc
+    vram: 0x8013d4bc
+    align: 4
+    subsegments:
+      - [0x24bc, asm, overlays/italian_model_image_model_40496_8013b000/unmatched_24bc]
+  - name: unmatched_2cac
+    type: code
+    start: 0x2cac
+    vram: 0x8013dcac
+    align: 4
+    subsegments:
+      - [0x2cac, asm, overlays/italian_model_image_model_40496_8013b000/unmatched_2cac]
+  - name: unclassified_tail
+    type: code
+    start: 0x36d4
+    vram: 0x8013e6d4
+    align: 4
+    subsegments:
+      - [0x36d4, bin, overlays/italian_model_image_model_40496_8013b000/unclassified_tail]
   - [0x5000]

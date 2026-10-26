@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: italian_model_image_su_1686_8013b000
 sha1: 30776f4df8890edefcc3643019bd65de125855a8
 
@@ -40,11 +41,39 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/italian_model_image_su_1686_8013b000/unclassified_image]
+      - [0x0, data, overlays/italian_model_image_su_1686_8013b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/italian_model_image_su_1686_8013b000/unmatched_4]
+  - name: unmatched_860
+    type: code
+    start: 0x860
+    vram: 0x8013b860
+    align: 4
+    subsegments:
+      - [0x860, asm, overlays/italian_model_image_su_1686_8013b000/unmatched_860]
+  - name: unmatched_c0c
+    type: code
+    start: 0xc0c
+    vram: 0x8013bc0c
+    align: 4
+    subsegments:
+      - [0xc0c, asm, overlays/italian_model_image_su_1686_8013b000/unmatched_c0c]
+  - name: unclassified_tail
+    type: code
+    start: 0x17ac
+    vram: 0x8013c7ac
+    align: 4
+    subsegments:
+      - [0x17ac, bin, overlays/italian_model_image_su_1686_8013b000/unclassified_tail]
   - [0x5000]
