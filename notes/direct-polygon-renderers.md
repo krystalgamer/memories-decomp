@@ -2,8 +2,9 @@
 
 The thirty-two game-owned handwritten callbacks selected by
 `Model_GetPrimitiveHandler` have names derived from their actual polygon
-templates, backface handling, command bits and record layouts. They remain
-`handwritten_asm`; no body is converted to C.
+templates, backface handling, command bits and record layouts. The 24
+Ft3/Gt3/Ft4 bodies are matched C (see "Matched C" below); the eight Gt4
+bodies remain `handwritten_asm`.
 
 ## Complete feature matrix
 
@@ -52,16 +53,47 @@ polygon; names do not promise drawing on every invocation.
 headers. The fog-special C drivers' existing delegation calls and return
 values keep that exact shape.
 
-The other thirty retain their existing address-use `void (void)`
-declarations. Similar assembly does not justify inventing typed interfaces
-for them, and the two typed exceptions are not generalized away.
-`direct_polygon_renderers.h` reuses the old typed headers without changing
-any existing header bytes.
+The matched Ft3/Gt3/Ft4 drivers use the same `u32 *(GsARGUNIT_NORMAL *)`
+shape: each consumes one primitive block and returns the next. The remaining
+seven Gt4 drivers keep their address-use `void (void)` declarations until a
+body is matched.
 
 All caller-scratch save/restore offsets, return values, packet-work-cursor
 stores, lighting/cache branches, culling/FLAG tests, window commands,
 additional-pass behavior, packet links and terminators are untouched.
 No wrapper, direct call, prototype repair or handwritten instruction is added.
+
+## Matched C
+
+The Ft3/Gt3/Ft4 drivers of each variant are contiguous, so each variant is one
+translation unit, `src/game/polygon_renderers_<variant>.c` (`base`,
+`window_record`, `two_sided`, `two_sided_window_record`, `semi`,
+`semi_window_record`, `two_sided_semi`, `two_sided_semi_window_record`). They
+use the `gcc_2_8_1_g0_handwritten_asm` policy described in
+`notes/decompilation-workflow.md`: hard-register declarations, with inline
+assembly only for the s-register save/restore and GTE operations in
+`src/game/handwritten_asm.h`.
+
+Points that the C has to reproduce:
+
+- The borrowed s-registers (s0-s3 and s6/s7, plus s4/s5 for window-record
+  variants) are file-scope global register variables, saved and restored
+  through `HW_SAVE_REGS*`/`HW_RESTORE_REGS*` at the argument-block offsets.
+- `$30` is reserved although the originals never touch it. With every other
+  register pinned, each function's `zero` pseudo then gets no register;
+  reload substitutes the constant, so `gHw_Zero - zero` ($0 is a global
+  register variable) assembles to the original `li reg, 0`, and
+  `gHw_Zero <<= zero` assembles to the original `nop` word.
+- Semi variants put that nop in the delay slot of `beqz s2`: it sits after a
+  label kept alive by `HW_KEEP_LABEL`, so CSE cannot fold the shift away, and
+  reorg's backward fill moves it into the slot.
+- Gt3 places `sll t0,t0,16` in the `beqz s2` slot by shifting before the test
+  and shifting back on the fall-through path.
+
+The eight Gt4 drivers are deferred. Each loads its second UV/CLUT word with
+`lw t0,12(a3); lwr t0,10(a3)`. GCC 2.8.1 emits `lwr` only inside an
+`lwl`/`lwr` unaligned-load pair or a block move, so the lone pair needs
+non-GTE inline assembly, which the profile forbids.
 
 ## Native boundaries and acceptance
 

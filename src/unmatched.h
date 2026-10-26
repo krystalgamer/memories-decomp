@@ -330,8 +330,9 @@ extern s16 gDisplayObject_wSpriteSheetListHead;
  * match on it. */
 extern u8 gFile_nMasterXaLba[];
 
-/* The thirty-two primitive handler entry points, in retail's own arm order in
- * memory.
+/* The Gt4 primitive handler entry points, in retail's own arm order in
+ * memory. The Ft3/Gt3/Ft4 handlers are matched C declared in
+ * direct_polygon_renderers.h.
  *
  * These are hand-written assembly rather than the unmatched assembly the rest
  * of this header covers, so they have no defining C translation unit either.
@@ -348,35 +349,12 @@ extern u8 gFile_nMasterXaLba[];
  * the guard and includes it. The entry points stay here because, like everything else in
  * this header, they have no defining C translation unit.
  */
-void func_800612C0(void);
-void func_800617E0(void);
-void func_80061DDC(void);
-void func_80062058(void);
-void func_8006233C(void);
 void func_80062600(void);
-void func_80062978(void);
-void func_80062BC0(void);
-void func_80062E70(void);
 void func_80063100(void);
-void func_80063444(void);
-void func_800636AC(void);
-void func_8006397C(void);
 void func_80063C2C(void);
-void func_80063F90(void);
-void func_80064248(void);
-void func_80064568(void);
 void func_80064868(void);
-void func_80064C1C(void);
-void func_80064EF4(void);
-void func_80065234(void);
 void func_80065554(void);
-void func_80065928(void);
-void func_80065BCC(void);
-void func_80065ED8(void);
 void func_800661C4(void);
-void func_80066564(void);
-void func_80066828(void);
-void func_80066B54(void);
 void func_80066E60(void);
 
 /* The sixteen object handler entry points Model_GetSharedPrimitiveHandler
