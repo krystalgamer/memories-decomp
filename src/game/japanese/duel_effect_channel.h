@@ -22,8 +22,8 @@ typedef struct {
     u8 depth_offset;
     u8 glyph_advance_x;
     u8 line_advance_y;
-    u8 range_start_5C;
-    u8 range_count_5D;
+    u8 entry_range_start;
+    u8 entry_range_count;
     u8 output_count;
     u8 output_limit;
 } JapaneseDuelEffectChannel;

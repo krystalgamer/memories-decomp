@@ -9,9 +9,9 @@
 #define DUEL_EFFECT_ENTRY_TYPE JapaneseDuelEffectEntry
 #define DUEL_EFFECT_ENTRIES ((JapaneseDuelEffectEntry *)gDuelEffect_aEntries)
 #define DUEL_EFFECT_RANGE_START(channel) \
-    (((JapaneseDuelEffectEntryRange *)(channel))->range_start_5C)
+    (((JapaneseDuelEffectEntryRange *)(channel))->entry_range_start)
 #define DUEL_EFFECT_RANGE_COUNT(channel) \
-    (((JapaneseDuelEffectEntryRange *)(channel))->range_count_5D)
+    (((JapaneseDuelEffectEntryRange *)(channel))->entry_range_count)
 #elif defined(VERSION_EUROPE)
 #include "duel_effect_entry_occupancy.h"
 
@@ -19,15 +19,15 @@
    and 0x13. */
 #define DUEL_EFFECT_ENTRY_TYPE EuropeanDuelEffectEntry
 #define DUEL_EFFECT_ENTRIES ((EuropeanDuelEffectEntry *)gDuelEffect_aEntries)
-#define DUEL_EFFECT_RANGE_START(channel) ((channel)->range_start_5C)
-#define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->range_count_5E)
+#define DUEL_EFFECT_RANGE_START(channel) ((channel)->entry_range_start)
+#define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->entry_range_count)
 #define DUEL_EFFECT_FIELD_13_OFFSET 0x11
 #define DUEL_EFFECT_FIELD_15_OFFSET 0x13
 #else
 #define DUEL_EFFECT_ENTRY_TYPE DuelEffectEntry
 #define DUEL_EFFECT_ENTRIES gDuelEffect_aEntries
-#define DUEL_EFFECT_RANGE_START(channel) ((channel)->range_start_5C)
-#define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->range_count_5E)
+#define DUEL_EFFECT_RANGE_START(channel) ((channel)->entry_range_start)
+#define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->entry_range_count)
 #endif
 
 #ifndef DUEL_EFFECT_FIELD_13_OFFSET

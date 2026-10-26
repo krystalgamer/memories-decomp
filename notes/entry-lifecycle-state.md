@@ -89,3 +89,43 @@ The original declaration owner changes only the stale restart prose.
 Its declarations and code, every regional type/header, source group,
 compiler profile, wrapper, test and physical ownership control remain
 unchanged. No new harness, fixture, probe or testcase is added.
+
+## Configured ranges, entry start and append cursor
+
+The channel's existing fields now spell entry_write_cursor (entry_end_20,
+stored pointer +0x20), entry_begin (entry_head_24, stored pointer +0x24),
+entry_range_start (range_start_5C) and entry_range_count (range_count_5E
+in NA/PAL, range_count_5D in Japan). These are distinct roles, not a new
+allocator, collection abstraction or enforced capacity.
+
+| Existing channel/view | Configured start | Configured count |
+| --- | --- | --- |
+| Shared NA/PAL channel | u16 +0x5C | u16 +0x5E |
+| Compact Japanese channel / narrow entry-range view | u8 +0x5C | u8 +0x5D |
+
+The constructor retains consecutive boundary-word subtraction in NA/PAL.
+Japan keeps its byte view of the SAME u16 boundary table, range[0] and
+range[2] reads and byte stores: no high bytes are recovered or widened.
+The two pointer fields gain no constructor initialization. First build
+seeds BOTH pointers from the configured start only under the original
+regional own-entries gate; the retained-entries path gains no reset.
+
+Append uses entry_write_cursor, preserves all original pre-rejection
+stores and rejection exits, writes the next sentinel and then publishes
+the advanced pointer. There is still no range-count or capacity check.
+Regional record strides, raw casts, upload behavior and tag stores stay.
+
+The handler walk starts at entry_begin, stops at the first inactive flag
+and keeps the original full-byte handler gate before masked dispatch.
+It does NOT use entry_write_cursor or entry_range_count as a new bound.
+When compaction is requested, scan and destination start independently at
+the configured range base, scan to the OLD write cursor and copy whole
+active records in order. Only the write cursor is republished; entry_begin
+is not rewritten. The next flags byte is cleared without clearing stale
+tails, resetting tags, restarting handlers or extending request lifetime.
+
+Drawing and name-entry lookup likewise walk from entry_begin until the
+existing inactive sentinel. Their regional strides, raw byte-cursor
+biases, signed coordinate tests and display binding remain unchanged.
+The configured count bounds only the existing control/query helpers,
+not all consumers of the range.

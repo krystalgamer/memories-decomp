@@ -116,7 +116,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     s32 result;
 
     flags = 0;
-    entry = (EuropeanDuelEffectEntry *)channel->entry_end_20;
+    entry = (EuropeanDuelEffectEntry *)channel->entry_write_cursor;
     entry->owner_channel_tag = channel->channel_index + 1;
     entry->handler_state = 1;
     entry->render_mode = 0;
@@ -176,7 +176,7 @@ append:
     }
     entry++;
     entry->flags_11 = 0;
-    channel->entry_end_20 = (DuelEffectEntry *)entry;
+    channel->entry_write_cursor = (DuelEffectEntry *)entry;
     return result;
 }
 #else
@@ -189,7 +189,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     s32 b;
     s32 c;
 
-    q = p->entry_end_20;
+    q = p->entry_write_cursor;
     q->owner_channel_tag = p->channel_index + 1;
     q->handler_state = 1;
     q->render_mode = 0;
@@ -273,6 +273,6 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     q++;
 #endif
     q->flags_11 = 0;
-    p->entry_end_20 = q;
+    p->entry_write_cursor = q;
 }
 #endif

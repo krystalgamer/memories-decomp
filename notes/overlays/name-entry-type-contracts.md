@@ -103,3 +103,16 @@ tag/release timing changes. NameEntry_SpawnGlyphSprite retains signed
 coordinate casts before adding channel rect_x/rect_y and all PAL atlas
 metrics. The shared NA/Japanese x_0C/y_0E spellings, original NA pre-null
 code read and unchecked allocation are not changed or generalized.
+
+## Glyph lookup starts from the channel's entry beginning
+
+entry_begin is the original stored entry_head_24 pointer at channel
++0x24. TextBox_GetGlyphAt retains its existing regional channel selection:
+shared NA/PAL indexing and the compact Japanese stride followed by the
+same shared prefix cast. It still walks local node pointers to the first
+inactive flag, not to entry_write_cursor or entry_range_count.
+
+All entry strides, signed equality comparisons and PAL local_x/local_y
+casts remain. No new bounds, null guard, pointer ownership, source-node
+lifetime or clone behavior is introduced; the query does not move the
+channel's entry_begin pointer. No fixture or harness changes are needed.
