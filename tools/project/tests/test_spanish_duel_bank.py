@@ -171,10 +171,6 @@ class SpanishDuelBankTests(unittest.TestCase):
             "cross_lines": [(0x8014E35C, 0x90)],
             "ring_vertices": [(0x8014EA7C, 0xA0), (0x8014EB1C, 0x170)],
             "radial_random_vectors": [(0x8014EE0C, 0x120), (0x8014EF2C, 0xE4)],
-            "gradient_lines": [(0x801570B0, 0x2F8)],
-            "display_quads": [
-                (0x801573A8, 0xEC), (0x80157494, 0x138), (0x801575CC, 0x1C8),
-            ],
             "projected_wrappers": [(0x80151218, 0x104), (0x8015131C, 0xD8)],
             "contour_quads": [(0x801558F4, 0x2CC)],
             "layered_drawing": [
@@ -195,7 +191,11 @@ class SpanishDuelBankTests(unittest.TestCase):
             "quad_helpers": [(0x8014FE00, 0xD4), (0x8014FED4, 0x6C)],
             "matrix_helpers": [(0x801513F4, 0xC8), (0x801514BC, 0x3C), (0x801514F8, 0x60)],
             "number_renderer": [(0x801566D4, 0x400), (0x80156AD4, 0x6C), (0x80156B40, 0x100)],
-            "primitive_draw": [(0x80156E58, 0x14C), (0x80156FA4, 0x10C)],
+            "primitive_draw": [
+                (0x80156C40, 0x110), (0x80156D50, 0x108), (0x80156E58, 0x14C),
+                (0x80156FA4, 0x10C), (0x801570B0, 0x2F8), (0x801573A8, 0xEC),
+                (0x80157494, 0x138), (0x801575CC, 0x1C8),
+            ],
         }
         # The PAL arms of these shared sources are registered through wrappers.
         pal_wrapped = {
