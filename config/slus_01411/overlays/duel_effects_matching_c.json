@@ -484,19 +484,19 @@
       "address": "0x80156AB4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x9C8",
-      "source": "src/overlays/duel_effects/effect_5.c"
+      "source": "src/overlays/duel_effects/life_point_effects.c"
     },
     {
       "address": "0x8015747C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBCC",
-      "source": "src/overlays/duel_effects/effect_7.c"
+      "source": "src/overlays/duel_effects/life_point_effects.c"
     },
     {
       "address": "0x80158048",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x704",
-      "source": "src/overlays/duel_effects/effect_9.c"
+      "source": "src/overlays/duel_effects/life_point_effects.c"
     },
     {
       "address": "0x8015874C",

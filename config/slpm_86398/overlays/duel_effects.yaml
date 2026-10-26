@@ -108,9 +108,7 @@ segments:
       - [0x10764, c, overlays/duel_effects/number_renderer]
       - [0x10CD0, c, overlays/duel_effects/primitive_draw]
       - [0x11824, c, overlays/duel_effects/effect_1]
-      - [0x11EA0, c, overlays/duel_effects/effect_5]
-      - [0x12868, c, overlays/duel_effects/effect_7]
-      - [0x13434, c, overlays/duel_effects/effect_9]
+      - [0x11EA0, c, overlays/duel_effects/life_point_effects]
       - [0x13B38, c, overlays/duel_effects/effect_4]
       - [0x14270, data, overlays/japanese_duel_effects/data]
 
