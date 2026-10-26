@@ -120,3 +120,21 @@ declaration/reference names. Its winner/multiplayer oracle, sentinel values,
 cases, diagnostics and controls remain unchanged. No new test, fixture,
 synthetic source, scenario or runtime capture is added, and cloud tests stay
 on the PR. Full clean executable matching remains mandatory.
+
+## North American wide-icon staging is not a universal channel field
+
+The first-guardian case of Text_ExpandSelectedCardInfo stages channel
+field_62 from card type only in the original non-monster range 20..23.
+The direct-icon append path copies that byte into entry icon_variant;
+the renderer combines it with glyph_index to select its wide-icon atlas,
+geometry and palettes. The command's initial zero, color-only early
+return, opcode priority and absent-second-star behavior remain unchanged.
+Text_CloseChoice and Text_CompletePageAdvance retain their NA-only clears.
+Generic symbol emission gains no staging reset.
+
+Do not rename the shared channel field_62 to icon_variant: Europe's
+Text_SetOutputLimit and TextBox_BuildStep use the u16 at +0x62/+0x63 as
+an output limit. Japan's compact channel has neither field. This scope
+keeps those halfword casts, pad_63, regional guards and all numeric values;
+only the shared entry and its established callback-prefix index acquire
+semantic names. See [text-glyph-renderer.md](text-glyph-renderer.md).

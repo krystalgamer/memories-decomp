@@ -583,8 +583,8 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     if (w != 0) {
         r = &gNameEntry_aGlyphVramRects[gNameEntry_bGlyphVramSlot];
         c = gNameEntry_bGlyphSequence;
-        r->x = ((w->field_10 & 0xF) << 2) + 0x280;
-        r->y = w->field_10 & 0xF0;
+        r->x = ((w->glyph_index & 0xF) << 2) + 0x280;
+        r->y = w->glyph_index & 0xF0;
         r->w = 4;
         r->h = 16;
         MoveImage(r, ((c & 0xF) << 2) | 0x240, (c & 0xF0) | 0x100);

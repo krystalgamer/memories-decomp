@@ -81,6 +81,17 @@ entry range and retained by append, including partial/rejected writes;
 no new append or initializer default is introduced. See the complete
 producer/renderer distinctions in [text-glyph-renderer.md](text-glyph-renderer.md).
 
+## Kind-dependent glyph indices and icon variants
+
+The existing shared +0x10 glyph_index is a direct icon index, extracted
+symbol index or Japanese raster occupancy slot according to the original
+flags; ordinary NA glyphs retain their zero store and separate code word.
+The +0x17 icon_variant is copied only by the existing NA direct-icon path.
+No partial/rejected entry gains a write or new default. The callback-local
+occupancy release and Japanese name-entry image-copy consumers keep their
+original accesses and ordering. See [text-glyph-renderer.md](text-glyph-renderer.md)
+for the full slot/variant chain and the PAL channel-field overlap.
+
 ## Occupancy start coordinates and lookup
 
 `gDuelEffect_OccupancyStartColumn` and `gDuelEffect_OccupancyStartRow`

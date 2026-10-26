@@ -311,15 +311,15 @@ typedef struct {
     } field_08;
     s16 x_0C;
     s16 y_0E;
-    u8 field_10;
+    u8 glyph_index;
     u8 flags_11;
     u8 owner_channel_tag;
     u8 handler_state;
     u8 field_14;
     u8 render_mode;
-    /* Palette selection varies by glyph kind; the icon variant stays unnamed. */
+    /* Glyph-kind palette and wide-icon variant selection stay distinct. */
     u8 palette_index;
-    u8 field_17;
+    u8 icon_variant;
     u8 layout_selector;
     u8 pad_19[3];
 } DuelEffectEntry;
@@ -345,8 +345,8 @@ typedef char DuelEffectEntry_x_0C_offset_must_be_0x0C[
 typedef char DuelEffectEntry_y_0E_offset_must_be_0x0E[
     YGO_TYPE_OFFSET(DuelEffectEntry, y_0E) == 0x0E ? 1 : -1
 ];
-typedef char DuelEffectEntry_field_10_offset_must_be_0x10[
-    YGO_TYPE_OFFSET(DuelEffectEntry, field_10) == 0x10 ? 1 : -1
+typedef char DuelEffectEntry_glyph_index_offset_must_be_0x10[
+    YGO_TYPE_OFFSET(DuelEffectEntry, glyph_index) == 0x10 ? 1 : -1
 ];
 typedef char DuelEffectEntry_flags_11_offset_must_be_0x11[
     YGO_TYPE_OFFSET(DuelEffectEntry, flags_11) == 0x11 ? 1 : -1
@@ -366,8 +366,8 @@ typedef char DuelEffectEntry_render_mode_offset_must_be_0x15[
 typedef char DuelEffectEntry_palette_index_offset_must_be_0x16[
     YGO_TYPE_OFFSET(DuelEffectEntry, palette_index) == 0x16 ? 1 : -1
 ];
-typedef char DuelEffectEntry_field_17_offset_must_be_0x17[
-    YGO_TYPE_OFFSET(DuelEffectEntry, field_17) == 0x17 ? 1 : -1
+typedef char DuelEffectEntry_icon_variant_offset_must_be_0x17[
+    YGO_TYPE_OFFSET(DuelEffectEntry, icon_variant) == 0x17 ? 1 : -1
 ];
 typedef char DuelEffectEntry_layout_selector_offset_must_be_0x18[
     YGO_TYPE_OFFSET(DuelEffectEntry, layout_selector) == 0x18 ? 1 : -1
@@ -538,9 +538,9 @@ typedef struct DuelEffectChannel {
     u16 field_0E;
     /* The object's slot in the tent_DuelEffectOccupancy occupancy table and the byte
        beside it; DisplayObjectFade_ReleaseChannel clears
-       tent_DuelEffectOccupancy[field_10] and zeroes
+       tent_DuelEffectOccupancy[glyph_index] and zeroes
        field_11 when it releases the slot. */
-    u8 field_10;
+    u8 glyph_index;
     u8 field_11;
     u8 pad_12;
     u8 handler_state;
@@ -592,9 +592,9 @@ typedef struct DuelEffectChannel {
     u16 range_count_5E;
     u8 field_60;
     u8 field_61;
-    /* Written with a type value by Text_ExpandSelectedCardInfo, Text_CloseChoice, and
-       duel_effect_entry_control.c, then read by DuelEffect_AppendEntry. The byte's
-       meaning remains unresolved. */
+    /* NA stages an icon variant here; choice/page completion clears it.
+       PAL instead uses this byte and pad_63 as a u16 output limit.
+       Keep the offset name for these distinct regional interpretations. */
     u8 field_62;
     u8 pad_63;
 } DuelEffectChannel;
