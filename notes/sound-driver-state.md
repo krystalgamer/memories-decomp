@@ -372,6 +372,11 @@ representation, offsets, extent and sentinel. SD_SEPlay now uses the
 already-established code/index/bank constants and missing-entry marker;
 no new masks, numeric values or decoding helper are introduced.
 
+The lookup-bank trace and its dedicated replay are retired now that this
+producer/consumer chain establishes the member name. No emulator run or
+monster-to-bank attribution is claimed. The separate field_07F8 trace
+remains pending.
+
 The play decoder's bank shift retains the original literal `<< 6` because
 the existing bank-negative control selects that exact production statement.
 Its mutation target, replacement, occurrence check and numeric expectations
