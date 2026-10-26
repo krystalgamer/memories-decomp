@@ -257,9 +257,9 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
             o->state = 9;
             return;
         } else if (flags & 0x20) {
-            e->field_32 &= 0xEF;
+            e->variant_update_flags &= 0xEF;
             if (flags & 1) {
-                e->field_32 |= 0x10;
+                e->variant_update_flags |= 0x10;
             }
             return;
         }

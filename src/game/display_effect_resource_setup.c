@@ -238,6 +238,6 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
         DisplayEffect_BuildResourceObjects(
             (MenuRecord *)a, (DisplayObject **)a, a->resource_entry_index);
         a->state = 0;
-        a->field_32 |= 0x40;
+        a->variant_update_flags |= 0x40;
     }
 }

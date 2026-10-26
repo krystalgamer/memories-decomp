@@ -17,7 +17,7 @@
 typedef struct {
     u8 pad_00[0x31];
     u8 resource_entry_index;
-    u8 field_32;
+    u8 variant_update_flags;
     u8 state;
     u16 field_34;
     u16 field_36;

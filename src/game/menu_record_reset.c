@@ -23,9 +23,9 @@ s8 *DisplayEffect_ResetMenuRecords(void)
         MenuRecord *record = &gDisplayEffect_aMenuRecords[i];
 
         record->effect_id = -1;
-        record->field_32 = 0;
-        record->field_3A = 0;
-        record->field_3B = 0;
+        record->variant_update_flags = 0;
+        record->requested_variant = 0;
+        record->variant_update_counter = 0;
         for (column = 2; column >= 0; column--) {
             record->grid[0][column] = 0;
             record->grid[1][column] = 0;

@@ -19,7 +19,7 @@ s32 DisplayEffect_MarkInitialized(DisplayEffectState *object)
 void DisplayEffect_ResetRecordState(DisplayEffectState *object)
 {
     object->field_34 = 0x68;
-    object->field_32 = 0;
+    object->variant_update_flags = 0;
     object->state = 0;
     object->resource_entry_index = 0;
     object->field_36 = 0xB2;
@@ -45,10 +45,10 @@ void DisplayEffect_ReleaseRecord(MenuRecord *record)
 
 void DisplayEffect_FinishStepWhenIdle(DisplayEffectState *object)
 {
-    u8 flags = object->field_32;
+    u8 flags = object->variant_update_flags;
 
     if ((flags & 3) == 0) {
-        object->field_32 = flags | 0x10;
+        object->variant_update_flags = flags | 0x10;
         object->state = 0;
     }
 }

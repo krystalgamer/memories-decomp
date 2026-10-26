@@ -137,7 +137,7 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
 
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         *(s16 *)&p->field_34 = 0x68;
-        p->field_32 |= 0x10;
+        p->variant_update_flags |= 0x10;
         if (p->slot_index != 0) {
             *(s16 *)&p->field_34 = 0xD8;
         }
@@ -164,7 +164,7 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], 0,
                       DISPLAY_OBJECT_VIEW(p->grid[0][0])->depth_offset);
         DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
-        p->field_32 &= 0xEF;
+        p->variant_update_flags &= 0xEF;
     } else {
         m = p->field_40;
         m |= (m << 8) | (m << 16);
@@ -192,7 +192,7 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
     s32 i;
 
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
-        p->field_32 |= 0x10;
+        p->variant_update_flags |= 0x10;
         h = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         x = h->depth_offset;
         y = h->field_67;
@@ -242,7 +242,7 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     DisplayObject *o;
 
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
-        p->field_32 |= 0x10;
+        p->variant_update_flags |= 0x10;
         r = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         a = r->field_67;
         b = r->depth_offset;
@@ -276,7 +276,7 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
         DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
         DisplayEffect_ReleaseObjectRow((void **)p->grid[2]);
         DisplayEffect_ReleaseObjectRow((void **)p->grid[3]);
-        p->field_32 &= 0xEF;
+        p->variant_update_flags &= 0xEF;
         return;
     }
     c = n;

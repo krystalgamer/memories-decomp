@@ -65,7 +65,7 @@ normalized away.
 
 ## Fade-out and crossfade requests
 
-Both request callbacks read `field_32` and do nothing while its low two
+Both request callbacks read `variant_update_flags` and do nothing while its low two
 bits are nonzero. Once clear, they OR `0x10`, publish effect step 6 or 4,
 and write literal text state 8. They do not introduce an initialization
 latch or perform the renderer transition themselves.
@@ -134,3 +134,51 @@ include-path update are preserved. The combined-tree proof aligns only
 that accepted source filename in its two complete outputs, then reverses
 the seven owned names. No output is dropped, and a fresh clean gate
 covers the complete combined tree.
+
+
+## Shared resource-variant controls
+
+MenuRecord +0x32 is variant_update_flags, also named in the existing
+DisplayEffectState and DisplayEffectVramState views. Acquisition sets
+0x40 only after its later primary-row construction, and the dispatcher
+tests that bit before updating variants. This is separate from the
+acquisition state byte's 0x40 bit and the step/initialization byte at +0x33.
+
+The low bits describe the two existing child paths: 0x01 for grid[0][1]'s
+randomized variant-zero/one cycle, and 0x02 for grid[0][2]'s requested
+variant path. The update's 0x10 arm clears only those low two bits and
+returns, retaining 0x10 itself. Text adjustment can set or clear 0x10;
+fade/crossfade setup and idle-finish/request callbacks set it, while
+fade-in/crossfade completion clears it. Fade-out/release does not gain
+a clear. The flags stay a raw byte: no enum, Boolean or invented bits.
+
+MenuRecord +0x3A is requested_variant: the narrowed last explicit value
+passed to DisplayObject_SetResourceVariant for grid[0][2]. Its only
+named C stores are global reset and this publication; it is not read back
+to choose a variant. The slow path's request for live variant zero does
+not rewrite it, nor does the partial lifecycle reset. It is not a cache
+of the live object's selector or the first resource-table entry index.
+The setter retains its own byte store and resource-resolution-bit clear.
+
+MenuRecord +0x3B is variant_update_counter, not a pure countdown or frame
+clock. Under bit 0x02 it is decremented and stored before the child
+field_5A gate, then tested through the original signed-byte local cast.
+A nonpositive request can clear it and bit 0x02; an explicit request
+stores six and publishes requested_variant. With that bit clear and a
+negative input, the slow path instead increments the same byte and tests
+its stored value as s8 against six before conditionally requesting zero.
+There is no new saturation, reset at six, underflow repair or reordering.
+Both byte wrap and the distinct pre/post-narrowing signed tests remain.
+
+TextBox_UpdateChannels supplies its existing glyph-kind selection,
+including previous-kind reuse and the negative no-glyph sentinel.
+Script_OpShowMenu supplies zero; the debug caller supplies its existing
+Rand_GetInterval result. Calls can occur per active text channel, so this
+counter does not establish a once-per-frame rate or an audio dependency.
+No facial-expression, speech or blink meaning is claimed.
+
+Global menu reset retains zero stores to all three named bytes. The
+partial lifecycle reset clears only variant_update_flags among these
+three; record release adds no control reset. Missing-child returns,
+child field_5A gates, RNG timing, the separate variant_countdown halfword,
+all raw masks, caller order, object rows and selectors remain unchanged.
