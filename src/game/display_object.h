@@ -265,7 +265,7 @@ typedef struct DisplayObject {
             s16 field_4A;
         } h;
     } field_48;                    /* 0x48 */
-    /* Read two ways, like 0x44, and for the same reason: 0x4C is the fifth of
+    /* Read several ways, like 0x44: 0x4C is the fifth of
        the six words at stride 8 -- 0x2C, 0x34, 0x3C, 0x44, 0x4C, 0x54 -- that
        display_object_helpers.c zeroes in one run.
 
@@ -280,8 +280,12 @@ typedef struct DisplayObject {
        src/game/duel_init_scene.c and func_8002ABB4.c each store a
        function's address here.
 
-       Neither reading governs, so the offset is the name. s32 is the spelling
-       that serves both: the callback writers in this file already cast the
+       Timed sprite streams instead store the frame_data byte pointer here;
+       the sheet renderer consumes its SpriteSheetHeader and parts. That
+       narrow reading belongs to DisplayObjectStreamState.
+
+       No reading governs, so the offset is the name. s32 is the spelling
+       that serves them: the callback writers in this file already cast the
        function to it, and a colour word is not a pointer. DuelCardDisplayObject
        in duel_card_display_state.h names the same word field_4C, as a void *,
        because on that view only the callback reading occurs. */
@@ -320,13 +324,12 @@ typedef struct DisplayObject {
         } h;
     } field_50;                    /* 0x50 */
     void *G32 field_54;                /* 0x54 */
-    /* Named field_58 and field_5A by DisplayObjectStreamState in
-       ygo_types.h, on this same record and at this same pair of offsets, on
-       the grounds the 0x50 comment above already gives: that view is
-       DisplayObjectStream_ReadNextCommand's reading of the script buffer. DisplayObject_UpdateCommandStream resets
-       both when it opens a script and then counts 0x5A down by D_8009B0D8
-       until it reaches zero, which is what says the pair is a status field
-       and a countdown rather than four padding bytes. */
+    /* DisplayObjectStreamState names this pair command_offset/frame_delay.
+       ReadNextCommand fetches current + (u16)command_offset and advances by
+       three; resets and jumps clear the offset. UpdateCommandStream opens
+       the script and counts the delay down by gGraphics_nBaseFrameStep.
+       These are stream-only names: other object kinds reuse these words
+       as packet coordinates/colours, so the generic offsets remain. */
     s16 field_58;                  /* 0x58 */
     s16 field_5A;                  /* 0x5A */
     u16 field_5C;                  /* 0x5C */

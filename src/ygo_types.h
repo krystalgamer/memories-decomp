@@ -1218,45 +1218,44 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
     (u32)&((FadeTransitionState *)0)->band_levels == 0x0A ? 1 : -1
 ];
 
-/* Display-object script state shared by the seven tent_DisplayObjectStreamCommandTable handlers,
-   DisplayObjectStream_Stop through DisplayObjectStream_ConfigureRotation.
-   The two pointers delimit the script buffer and the trailing halfwords are
-   handler status fields. */
+/* Command-stream view shared by the seven handlers and ReadNextCommand.
+   current is the selected script origin; base is the resource origin, not
+   a buffer bound. These member meanings apply only to this view. */
 typedef struct {
     u8 pad_00[4];
-    u32 flags;
+    u32 attribute;
     u8 pad_08[0x1A];
     /* DisplayObjectStream_ConfigureRotation loads its angle operand here. */
-    u8 field_22;
+    u8 rotation_z;
     u8 pad_23[0x25];
     /* DisplayObjectStream_ConfigureRotation stores its little-endian x pivot
-       in field_48 and its sign-extended y pivot byte in field_4A. */
-    s16 field_48;
-    s16 field_4A;
+       in pivot_x and its sign-extended y pivot byte in pivot_y. */
+    s16 pivot_x;
+    s16 pivot_y;
     /* DisplayObjectStream_ReadNextCommand points this at the current opcode's
        operand target: base plus the little-endian halfword that follows the
        opcode. */
-    u8 *G32 field_4C;
+    u8 *G32 frame_data;
     u8 *G32 current;
     u8 *G32 base;
-    s16 field_58;
-    s16 field_5A;
+    s16 command_offset;
+    s16 frame_delay;
 } DisplayObjectStreamState;
 
 typedef char DisplayObjectStreamState_size_must_be_0x5C[
     sizeof(DisplayObjectStreamState) == 0x5C ? 1 : -1
 ];
-typedef char DisplayObjectStreamState_field_22_offset_must_be_0x22[
-    (u32)&((DisplayObjectStreamState *)0)->field_22 == 0x22 ? 1 : -1
+typedef char DisplayObjectStreamState_rotation_z_offset_must_be_0x22[
+    (u32)&((DisplayObjectStreamState *)0)->rotation_z == 0x22 ? 1 : -1
 ];
-typedef char DisplayObjectStreamState_field_48_offset_must_be_0x48[
-    (u32)&((DisplayObjectStreamState *)0)->field_48 == 0x48 ? 1 : -1
+typedef char DisplayObjectStreamState_pivot_x_offset_must_be_0x48[
+    (u32)&((DisplayObjectStreamState *)0)->pivot_x == 0x48 ? 1 : -1
 ];
-typedef char DisplayObjectStreamState_field_4A_offset_must_be_0x4A[
-    (u32)&((DisplayObjectStreamState *)0)->field_4A == 0x4A ? 1 : -1
+typedef char DisplayObjectStreamState_pivot_y_offset_must_be_0x4A[
+    (u32)&((DisplayObjectStreamState *)0)->pivot_y == 0x4A ? 1 : -1
 ];
-typedef char DisplayObjectStreamState_field_4C_offset_must_be_0x4C[
-    (u32)&((DisplayObjectStreamState *)0)->field_4C == 0x4C ? 1 : -1
+typedef char DisplayObjectStreamState_frame_data_offset_must_be_0x4C[
+    (u32)&((DisplayObjectStreamState *)0)->frame_data == 0x4C ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_current_offset_must_be_0x50[
     (u32)&((DisplayObjectStreamState *)0)->current == 0x50 ? 1 : -1
@@ -1264,11 +1263,11 @@ typedef char DisplayObjectStreamState_current_offset_must_be_0x50[
 typedef char DisplayObjectStreamState_base_offset_must_be_0x54[
     (u32)&((DisplayObjectStreamState *)0)->base == 0x54 ? 1 : -1
 ];
-typedef char DisplayObjectStreamState_field_58_offset_must_be_0x58[
-    (u32)&((DisplayObjectStreamState *)0)->field_58 == 0x58 ? 1 : -1
+typedef char DisplayObjectStreamState_command_offset_offset_must_be_0x58[
+    (u32)&((DisplayObjectStreamState *)0)->command_offset == 0x58 ? 1 : -1
 ];
-typedef char DisplayObjectStreamState_field_5A_offset_must_be_0x5A[
-    (u32)&((DisplayObjectStreamState *)0)->field_5A == 0x5A ? 1 : -1
+typedef char DisplayObjectStreamState_frame_delay_offset_must_be_0x5A[
+    (u32)&((DisplayObjectStreamState *)0)->frame_delay == 0x5A ? 1 : -1
 ];
 
 typedef struct {

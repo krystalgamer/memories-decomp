@@ -9,7 +9,7 @@ void DisplayObjectStream_ReadNextCommand(DisplayObjectStreamState *object)
     s32 (**table)(DisplayObjectStreamState *, const u8 *);
     s32 value;
 
-    p = object->current + (u16)object->field_58;
+    p = object->current + (u16)object->command_offset;
     op = *p;
     p++;
 
@@ -19,14 +19,14 @@ void DisplayObjectStream_ReadNextCommand(DisplayObjectStreamState *object)
             if (table[op ^ 0xFF](object, p) == -1) {
                 return;
             }
-            p = object->current + (u16)object->field_58;
+            p = object->current + (u16)object->command_offset;
             op = *p;
             p++;
         } while (op >= 0xF0);
     }
 
-    object->field_5A = op;
+    object->frame_delay = op;
     value = (p[1] << 8) | p[0];
-    object->field_4C = object->base + value;
-    object->field_58 += 3;
+    object->frame_data = object->base + value;
+    object->command_offset += 3;
 }
