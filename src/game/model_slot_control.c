@@ -218,8 +218,8 @@ void Model_UpdateSlotControl(s32 index)
         Model_SetHandlerCallbackState(0);
     }
     if (slot->animation_control_state == 6) {
-        if (slot->current_animation_row == slot->field_DFE + 3
-            || slot->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {
+        if (slot->current_animation_row == slot->guardian_star_selection + 3
+            || slot->model_id == MODEL_SPECIAL_BATTLE_ID) {
             slot->animation_control_state = 7;
         } else {
             slot->animation_control_state = 2;
@@ -229,7 +229,7 @@ void Model_UpdateSlotControl(s32 index)
     if (state == 2) {
         return;
     }
-    if (((ModelControlCommandView *)slot)->commands[slot->field_DFE] < 0) {
+    if (((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection] < 0) {
         goto no_handler;
     }
     if (index != 0) {
@@ -240,15 +240,15 @@ void Model_UpdateSlotControl(s32 index)
     if (slot->animation_control_state == 7) {
         Model_SetHandlerCallbackState(1);
         {
-            s32 request = ((ModelControlCommandView *)slot)->commands[slot->field_DFE];
+            s32 request = ((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection];
             handler(secondary, request % 1000);
         }
         Model_SetHandlerCallbackState(0);
         slot->animation_control_state = 8;
         slot->animation_sound_position = 0;
     }
-    if (slot->current_animation_row != slot->field_DFE + 3
-        && slot->field_DF8 != MODEL_SPECIAL_BATTLE_ID) {
+    if (slot->current_animation_row != slot->guardian_star_selection + 3
+        && slot->model_id != MODEL_SPECIAL_BATTLE_ID) {
         s32 eligible = slot->animation_control_state;
         if (eligible != 0 && eligible != 3 && eligible != 1 && eligible != 4 && eligible != 5) {
             return;
@@ -269,7 +269,7 @@ void Model_UpdateSlotControl(s32 index)
         stat_base = base + (u32)&((ModelSlot *)0)->field_CF8;
         own_record = own_offset + stat_base;
         other_record = other_offset + stat_base;
-        if (other->field_DFF != 0) {
+        if (other->defense_position != 0) {
             {
                 u16 own_value =
                     MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
@@ -380,7 +380,7 @@ void Model_UpdateSlotControl(s32 index)
         if (gModel_bSceneMode == 0xF && changed != 0 && command == 8) {
             u32 card_id;
             s32 sound_id;
-            do { card_id = other->field_DF8; } while (0);
+            do { card_id = other->model_id; } while (0);
             sound_id = ((gDuel_adwCardStats[card_id] >> 26) & 0x1F) == 1 ? 3 : 4;
             SD_SEPlay(sound_id, 0xFF, 0);
         }
@@ -401,7 +401,7 @@ no_handler:
         s32 offset;
         s32 own_record;
         s32 other_record;
-        if (slot->current_animation_row == slot->field_DFE + 3) {
+        if (slot->current_animation_row == slot->guardian_star_selection + 3) {
             s32 current_frame = slot->animation_position >> 4;
             s32 midpoint = slot->animation_duration_rows[slot->current_animation_row].max >> 1;
             if (current_frame >= midpoint) {
@@ -484,8 +484,8 @@ void Model_ResetSlot(s32 arg0)
     p->tint[3] = 0;
     *(s16 *)&p->texture_tint_scale = COLOR_FIXED_ONE;
     p->field_E1D = 0;
-    p->field_DFE = arg0;
-    p->field_DFF = 0;
+    p->guardian_star_selection = arg0;
+    p->defense_position = 0;
     p->field_DFC = 0xFFFF;
     p->field_DFA = 0xFFFF;
 
@@ -635,9 +635,9 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
     flags = slot & 0x80;
     slot &= 0x7F;
     if (model < 0) {
-        model = gModel_aSlots[slot].field_DF8;
+        model = gModel_aSlots[slot].model_id;
     } else {
-        gModel_aSlots[slot].field_DF8 = model;
+        gModel_aSlots[slot].model_id = model;
     }
     if (flags == 0) {
         SD_KeyOffVoiceSlots();
@@ -686,13 +686,13 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
                 gModel_aSlots[slot].field_DFC = p3;
             }
             if (p4 >= 0) {
-                gModel_aSlots[slot].field_DFE = p4 != 0;
+                gModel_aSlots[slot].guardian_star_selection = p4 != 0;
             }
             if (p5 >= 0) {
-                gModel_aSlots[slot].field_DFF = p5 != 0;
+                gModel_aSlots[slot].defense_position = p5 != 0;
             }
             transfer->callback_data = (void *)slot;
-            transfer->position = gModel_aSlots[slot].field_DFE;
+            transfer->position = gModel_aSlots[slot].guardian_star_selection;
             gFile_dwTransferState_abs = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
             gModel_aSlots[slot].load_step = 0;
@@ -1473,7 +1473,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
         break;
     default:
         prev = m->active_animation_command_row;
-        if (anim != m->field_DFE + 3) {
+        if (anim != m->guardian_star_selection + 3) {
             m->animation_control_state = 2;
         }
         if (m->animation_duration_rows[anim].max == 0) {
@@ -1486,8 +1486,8 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
             m->queued_animation_row_latch = m->queued_animation_row;
             Model_ControlSlotAnimation(index, 0, 0);
         }
-        if (anim == m->field_DFE + 3
-            || m->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {
+        if (anim == m->guardian_star_selection + 3
+            || m->model_id == MODEL_SPECIAL_BATTLE_ID) {
             m->animation_control_state = 7;
         }
         m->active_animation_command_row = anim;

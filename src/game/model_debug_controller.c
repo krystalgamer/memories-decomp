@@ -49,7 +49,7 @@ s32 ModelDebug_UpdateController(void)
     if (!slots[2].is_active) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
-        FntPrint(gModelDebug_szLoadStageFormat, slots[2].field_DF8, slots[2].load_step);
+        FntPrint(gModelDebug_szLoadStageFormat, slots[2].model_id, slots[2].load_step);
 #endif
         if (slots[2].load_step == 255) {
             if (!((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs))
@@ -81,7 +81,7 @@ s32 ModelDebug_UpdateController(void)
     } else if (!slots[0].is_active) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
-        FntPrint(gModelDebug_szLoadModel0Format, slots[0].field_DF8, slots[0].load_step);
+        FntPrint(gModelDebug_szLoadModel0Format, slots[0].model_id, slots[0].load_step);
 #endif
         if (slots[0].load_step == 255) {
             if (!((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs))
@@ -94,7 +94,7 @@ s32 ModelDebug_UpdateController(void)
     } else if (!slots[1].is_active) {
         Model_SetFrameStepOverride(1);
 #ifndef VERSION_JAPAN
-        FntPrint(gModelDebug_szLoadModel1Format, slots[1].field_DF8, slots[1].load_step);
+        FntPrint(gModelDebug_szLoadModel1Format, slots[1].model_id, slots[1].load_step);
 #endif
         if (slots[1].load_step == 255) {
             if (!((gFile_dwTransferState_abs & 0x2000030) | gFile_dwCancelRequestState_abs))
@@ -122,7 +122,7 @@ s32 ModelDebug_UpdateController(void)
             } while ((u32)value >= 722);
             if ((u32)(value - 300) >= 50 && (u32)(value - 650) >= 50 && value != excluded) {
                 gModel_awSlotModelIds[i] = value;
-                if ((u16)value != gModel_aSlots[i].field_DF8) {
+                if ((u16)value != gModel_aSlots[i].model_id) {
                     i++;
                     if (i >= 2)
                         break;

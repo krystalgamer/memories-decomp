@@ -27,17 +27,22 @@ typedef enum {
 typedef void (*MainModeRunner)(void);
 
 /* One of the two 8-byte model-property records Main_RunAnimatedBattle passes
- * to Model_SetSlotProperties during scene initialization. */
+ * to Model_SetSlotProperties during scene initialization. The final
+ * bytes retain the duel's defense-position and guardian-star choices. */
 typedef struct {
     s16 model_id;
     s16 field_02;
     s16 field_04;
-    u8 field_06;
-    u8 field_07;
+    u8 defense_position;
+    u8 guardian_star_selection;
 } AnimatedBattleModelProperties;
 
 typedef char AnimatedBattleModelProperties_size_must_be_0x8[
-    sizeof(AnimatedBattleModelProperties) == 0x8 ? 1 : -1
+    sizeof(AnimatedBattleModelProperties) == 0x8 &&
+    (u32)&((AnimatedBattleModelProperties *)0)->defense_position == 0x6 &&
+    sizeof(((AnimatedBattleModelProperties *)0)->defense_position) == 1 &&
+    (u32)&((AnimatedBattleModelProperties *)0)->guardian_star_selection == 0x7 &&
+    sizeof(((AnimatedBattleModelProperties *)0)->guardian_star_selection) == 1 ? 1 : -1
 ];
 
 /* Two animated-battle model-property records. Exodia writes only the first

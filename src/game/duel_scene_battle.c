@@ -502,15 +502,15 @@ void DuelScene_UpdateBattle(void)
             gDuel_bBattleRemovalSlot1 = -1;
             gDuel_bBattleRemovalSlot0 = -1;
             models[0].model_id = H(left, 0xC);
-            models[0].field_06 = 0;
+            models[0].defense_position = 0;
             models[0].field_02 = 0;
             models[0].field_04 = 0;
-            models[0].field_07 = (gDuel_awSavedRecordFlags[0] >> 9) & 1;
+            models[0].guardian_star_selection = (gDuel_awSavedRecordFlags[0] >> 9) & 1;
             models[1].model_id = right->card_id;
-            models[1].field_07 = (gDuel_awSavedRecordFlags[1] >> 9) & 1;
+            models[1].guardian_star_selection = (gDuel_awSavedRecordFlags[1] >> 9) & 1;
             models[1].field_02 = 0;
             models[1].field_04 = 0;
-            models[1].field_06 = (gDuel_awSavedRecordFlags[1] >> 0xB) & 1;
+            models[1].defense_position = (gDuel_awSavedRecordFlags[1] >> 0xB) & 1;
             result = Duel_CompareBattleStrength(pair[0], pair[1]);
             if (result == -1) {
                 gDuel_bBattleRemovalSlot0 = pair[0]->field_6A;

@@ -105,11 +105,11 @@ Verified shared fields and partial arrays are:
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
 | `0xDE8` | `primary_module_data_address`, `s32` | independently selected primary data word passed to the primary module at base +4 |
 | `0xDEC` | `variant_module_data_address`, `s32` | independently selected variant data word passed to variant/presentation handlers |
-| `0xDF8` | `field_DF8` | first property in `Model_SetSlotProperties`; mirrored to `gModel_awSlotModelIds[index]` for all three slots when non-negative |
+| `0xDF8` | `model_id` | first property in `Model_SetSlotProperties`; mirrored to `gModel_awSlotModelIds[index]` for all three slots when non-negative |
 | `0xDFA` | `field_DFA` | second property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
 | `0xDFC` | `field_DFC` | third property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
-| `0xDFE` | `field_DFE` | fourth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotAfFlags[index]` |
-| `0xDFF` | `field_DFF` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotGfFlags[index]` |
+| `0xDFE` | `guardian_star_selection` | fourth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotAfFlags[index]` |
+| `0xDFF` | `defense_position` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotGfFlags[index]` |
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
 | `0xE06` | `animation_position` | 12.4 fixed-point animation frame returned as an integer by `Model_GetSlotAnimationFrame`; write/read in `Model_SeekSlotAnimation` |
 | `0xE08` | `animation_sound_position` | separate wrapping command-branch sound cursor; original volatile diagnostic reload retained |
@@ -251,23 +251,84 @@ equality and negative requests are not newly rejected.
 0x50-byte stride. No SDK layout, pointer type, G32 marker, allocation,
 stable-parent lifetime, API or validation behavior changes.
 
+### Model IDs, guardian-star selection and defense posture
+
+The property producer establishes three meanings independently of the
+debug AF/GF abbreviations:
+
+| Original | Canonical | Unchanged representation |
+| --- | --- | --- |
+| `ModelSlot.field_DF8` | `model_id` | `u16`, +0xDF8 |
+| `ModelSlot.field_DFE` | `guardian_star_selection` | `u8`, +0xDFE |
+| `ModelSlot.field_DFF` | `defense_position` | `u8`, +0xDFF |
+| `AnimatedBattleModelProperties.field_07` | `guardian_star_selection` | `u8`, +0x07 |
+| `AnimatedBattleModelProperties.field_06` | `defense_position` | `u8`, +0x06 |
+
+`DuelScene_UpdateBattle` case 5 copies saved record flag bit 9 to both
+guardian-star selections. That is the same 0x200 bit
+`DuelCard_GetGuardianStar` and `Duel_CalcGuardianStarBonus` use to choose
+the second, rather than first, guardian-star nibble. It is a selection
+between two stars, not a star ID or a newly checked array bound.
+The attacker receives defense position zero; the defender receives
+saved bit 11, the 0x800 position bit. `Duel_CompareBattleStrength`
+independently selects defense rather than attack with that bit.
+`Main_RunAnimatedBattle` passes these two input bytes in fourth/fifth
+property order, retaining the original load order and model-id minus one.
+
+`Model_SetSlotProperties` preserves every negative signed argument.
+For a nonnegative model ID it retains the u16 store and, outside Japan,
+the debug mirror. For nonnegative fourth/fifth properties it retains
+`!= 0` and the AF/GF mirrors. No expansion of those abbreviations is
+needed. Slot 2 still consumes only the model/terrain property and keeps
+the same lookup refresh and unconditional scene-mode write.
+
+`Model_LoadMonsterMerge` reuses the stored ID for a negative model
+argument; otherwise it stores the original argument BEFORE validating
+or compacting it for the MRG request. Ordinary, special-battle and
+auxiliary IDs remain distinct; no valid-ID, one-based-card-ID, range or
+mirror-equality invariant is introduced.
+Its accepted ordinary-model branch retains the conditional property
+writes and copies the guardian-star selection to transfer position.
+That same selection indexes the variant command and camera/duration
+metadata and selects animation row `selection + 3`, including its
+sound-command paths. Defense position selects the opponent's comparison
+halfword and the existing presentation reactions. The CF8 tail view's
+relative `field_106`/`field_107` aliases denote these same bytes; their
+names, raw-address reads and offset constants remain unchanged.
+
+Reset still writes the slot index into guardian-star selection, including
+2 for the auxiliary slot, and zero into defense position. Only the
+nonnegative property setters normalize values; no universal Boolean,
+duelist-only record, live-model or readiness guarantee is inferred.
+Repeated selector loads, volatile diagnostics, callback order, random
+calls, fallback branches and all source groups/profiles remain intact.
+
+The two middle properties stay `field_DFA`/`field_DFC`, and the input
+halfwords stay `field_02`/`field_04`. The battle producer deliberately
+supplies zero/one comparison overrides to replay the already determined
+result, not the cards' calculated attack/defense totals. Their 0xFFFF
+reset sentinels, signed-argument preservation and conditional CF8 copies
+are not changed or promoted to guessed stat types.
+The unrelated Spanish `Variant408EntryState.field_DF8` remains unchanged.
+
 ### Variadic slot-property update
 
 Matching `Model_SetSlotProperties` (`0x80053248`) takes a
 slot index followed by signed 32-bit properties. A negative value leaves its
 corresponding field unchanged. The arguments themselves must still be supplied:
 five properties for slots 0 and 1, or one for slot 2. The
-first property writes `field_DF8` for any of the three slots and mirrors it to
+first property writes `model_id` for any of the three slots and mirrors it to
 `gModel_awSlotModelIds[index]`. Slots 0 and 1 consume four more properties for
-`field_DFA`, `field_DFC`, `field_DFE`, and `field_DFF`; the final two are
+`field_DFA`, `field_DFC`, `guardian_star_selection`, and `defense_position`; the final two are
 normalized to zero or one and mirrored to `gModelDebug_abSlotAfFlags[index]` and
 `gModelDebug_abSlotGfFlags[index]`.
 
 Slot 2 consumes only the first property, then refreshes `D_8009AF88` from the
 `0xB2`-byte table selected by `gModel_awStageSlotModelId[0]`. Every call finishes by setting
 `gModel_bSceneMode` to `15`. These writes establish field widths, slot bounds, and
-mirror relationships, but not the user-facing meaning of the five properties
-or the purpose of the final value `15`. The array supports indices 0 through 2;
+mirror relationships. The preceding producer trace establishes the model ID,
+guardian-star selection and defense posture; the middle comparison words
+and the purpose of the final value `15` remain unclassified. The array supports indices 0 through 2;
 the function does not validate its index, and its `idx >= 2` arm is not evidence
 for additional slots.
 
@@ -283,10 +344,10 @@ Two retail callers corroborate the contract independently of the setter:
   supplies just slot 2 and the third halfword mirror, `D_8009B48C`.
 
 This supports the high-confidence name `Model_SetSlotProperties` without
-assigning speculative meanings to the individual offset-named fields.
+assigning meanings from the debug abbreviations alone.
 `main_modes.h` records the two eight-byte inputs as
-`AnimatedBattleModelProperties`, retaining mechanical names for the four
-properties whose meanings are still unknown.
+`AnimatedBattleModelProperties`, now sharing the confirmed choice names
+while retaining mechanical names for the two comparison halfwords.
 
 The animated-battle calls belong to the ordinary initialization branch,
 not every mode tick: `D_8009B26C & 0x40` gates initialization, and a first
@@ -627,7 +688,7 @@ code-generation inputs.
 The interior alias `D_800F3938` now has a separate
 `ModelSlotCF8TailView`, rooted at slot offset `0xCF8` and extending through
 the property bytes at relative offsets `0x106`/`0x107` (slot
-`field_DFE`/`field_DFF`). Its first twelve bytes are one
+`guardian_star_selection`/`defense_position`). Its first twelve bytes are one
 `ModelSlotCF8Prefix` union: the byte arm preserves the threshold and
 `field_0A` table consumers, while the value arm exposes the comparison
 halfwords at `+0`/`+2` and the flag word spanning `+8..+0xB`.

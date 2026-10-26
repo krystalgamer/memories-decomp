@@ -116,7 +116,7 @@ static s32 module(s32 side, s32 secondary, u8 *context, s32 command)
     if (mutate) {
         u16 *stats = (u16 *)&other->field_CF8;
         stats[0] ^= 0x20;
-        other->field_DFF ^= 1;
+        other->defense_position ^= 1;
     }
     return result_state;
 }
@@ -163,7 +163,7 @@ void Model_ControlSlotAnimation(s32 index, s32 animation, s32 flag)
     event(31, index, animation, flag);
     gModel_aSlots[index].active_animation_command_row = animation;
     gModel_aSlots[index].animation_position = 0;
-    if (mutate) gModel_aSlots[index].field_DF8 ^= 1;
+    if (mutate) gModel_aSlots[index].model_id ^= 1;
 }
 
 void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part, s32 animation, u32 frame)
@@ -195,7 +195,7 @@ static s32 selection(ModelSlot *self, ModelSlot *other, s32 index)
 {
     u16 *a = (u16 *)&self->field_CF8;
     u16 *b = (u16 *)&other->field_CF8;
-    if (other->field_DFF) return a[0] > b[1] ? 6 : 8;
+    if (other->defense_position) return a[0] > b[1] ? 6 : 8;
     if (a[0] > b[0]) return 6;
     if (a[0] < b[0]) return 5;
     return index ? 6 : 0x85;
@@ -216,10 +216,10 @@ static void reference(s32 index)
         Model_SetHandlerCallbackState(0);
     }
     if (self->animation_control_state == 6)
-        self->animation_control_state = self->current_animation_row == self->field_DFE + 3 || self->field_DF8 == 0x309 ? 7 : 2;
+        self->animation_control_state = self->current_animation_row == self->guardian_star_selection + 3 || self->model_id == 0x309 ? 7 : 2;
     if (self->animation_control_state == 2) return;
-    if (commands[self->field_DFE] < 0) {
-        if (self->current_animation_row == self->field_DFE + 3) {
+    if (commands[self->guardian_star_selection] < 0) {
+        if (self->current_animation_row == self->guardian_star_selection + 3) {
             if ((s32)(self->animation_position >> 4) >= (s32)(self->animation_duration_rows[self->current_animation_row].max >> 1)) {
                 Model_ControlSlotAnimation(index ^ 1, selection(self, other, index) & 0x7F, 1);
                 self->animation_control_state = 2;
@@ -230,13 +230,13 @@ static void reference(s32 index)
     }
     if (self->animation_control_state == 7) {
         Model_SetHandlerCallbackState(1);
-        handler(*(u8 **)((u8 *)self + 0xDEC), commands[self->field_DFE] % 1000);
+        handler(*(u8 **)((u8 *)self + 0xDEC), commands[self->guardian_star_selection] % 1000);
         Model_SetHandlerCallbackState(0);
         self->animation_control_state = 8;
         self->animation_sound_position = 0;
     }
     state = self->animation_control_state;
-    if (self->current_animation_row != self->field_DFE + 3 && self->field_DF8 != 0x309 &&
+    if (self->current_animation_row != self->guardian_star_selection + 3 && self->model_id != 0x309 &&
         state != 0 && state != 1 && state != 3 && state != 4 && state != 5) return;
     decision = selection(self, other, index);
     Model_SetHandlerCallbackState(1);
@@ -286,7 +286,7 @@ static void reference(s32 index)
         if ((rand() >> 8) & 1) changed = 1;
     }
     if (gModel_bSceneMode == 15 && changed && decision == 8)
-        SD_SEPlay(((gDuel_adwCardStats[other->field_DF8] >> 26) & 31) == 1 ? 3 : 4, 255, 0);
+        SD_SEPlay(((gDuel_adwCardStats[other->model_id] >> 26) & 31) == 1 ? 3 : 4, 255, 0);
 }
 
 static void setup(void)
@@ -312,9 +312,9 @@ static void setup(void)
     *(u8 **)((u8 *)self + 0xDEC) = &contexts[chosen_index * 2 + 1];
     self->is_active = serial % 11 != 0;
     self->animation_control_state = initial_state;
-    self->field_DFE = serial & 1;
-    self->current_animation_row = serial & 2 ? self->field_DFE + 3 : 0;
-    self->field_DF8 = serial % 5 ? 1 : 0x309;
+    self->guardian_star_selection = serial & 1;
+    self->current_animation_row = serial & 2 ? self->guardian_star_selection + 3 : 0;
+    self->model_id = serial % 5 ? 1 : 0x309;
     self->animation_position = frames[(serial + 1) % 7];
     self->animation_sound_position = 0x1234;
     self->playback_speed = serial % 7 ? 1 + serial % 4 : 255;
@@ -329,8 +329,8 @@ static void setup(void)
     other->playback_state = serial % 7 ? 0 : 0x23;
     other->animation_sequence_count = serial % 3;
     other->current_animation_row = 4;
-    other->field_DFF = defense;
-    other->field_DF8 = serial & 1;
+    other->defense_position = defense;
+    other->model_id = serial & 1;
     a = (u16 *)&self->field_CF8;
     b = (u16 *)&other->field_CF8;
     a[0] = serial & 8 ? 0xFFFF : 100;
@@ -399,10 +399,10 @@ class ModelControlTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="model-control-", dir=REPOSITORY / "tmp") as temporary:
             directory = Path(temporary)
             text = controller_section()
-            old = "commands[slot->field_DFE]"
+            old = "commands[slot->guardian_star_selection]"
             self.assertIn(old, text)
             if mutation:
-                text = text.replace(old, "commands[slot->field_DFE + 1]")
+                text = text.replace(old, "commands[slot->guardian_star_selection + 1]")
             text = re.sub(
                 r'^#include "([^"]+)"',
                 lambda m: '#include "' + str((SOURCE.parent / m[1]).resolve()) + '"',
