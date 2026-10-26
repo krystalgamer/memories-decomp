@@ -979,7 +979,7 @@ address,size,name,status,module,notes
 0x8005D3D4,0x10,func_80058F10,sdk_asm,psyq/sdk,
 0x8005D3E4,0x54,Model_GetSlotDataEntry,matching_c,game,
 0x8005D438,0x3C,Model_GetCurrentDataEntry,matching_c,game,
-0x8005D474,0x50,Model_CopySlotU16Values,matching_c,game,
+0x8005D474,0x50,Model_CopySlotPosition,matching_c,game,
 0x8005D4C4,0xDC,Model_GetSlotDimensionsWithOverrides,matching_c,game,
 0x8005D5A0,0x58,Model_DrawSlotUnitsOnly,matching_c,game,
 0x8005D5F8,0x8C,Model_InitLightTriplet,matching_c,game,

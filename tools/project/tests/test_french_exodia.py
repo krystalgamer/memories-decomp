@@ -91,7 +91,7 @@ class FrenchExodiaTests(unittest.TestCase):
         bindings = (ROOT / f"config/{self.config}/overlays/exodia_linker_symbols.txt").read_text()
         addresses = [int(value, 0) for value in re.findall(r"= (0x[0-9A-F]+);", bindings)]
         self.assertEqual(len(addresses), 34)
-        self.assertIn("Model_CopySlotU16Values = 0x8005C0B8;", bindings)
+        self.assertIn("Model_CopySlotPosition = 0x8005C0B8;", bindings)
         self.assertIn("SetPolyF4 = 0x80082E88;", bindings)
         self.assertIn("func_80059B90 = 0x8005CC98;", bindings)
         self.assertIn("Graphics_SubmitDrawModePacket = 0x8004D5B8;", bindings)

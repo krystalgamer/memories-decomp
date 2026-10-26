@@ -1377,7 +1377,7 @@ void Model_PlaySlotAnimationSounds(s32 index) {
         }
     }
     SD_CalcSpatialVolumePan(
-        m->field_DD0[0], m->field_DD0[2], &out[0], &out[1]
+        m->cached_position[0], m->cached_position[2], &out[0], &out[1]
     );
     i = 0;
 loop:
@@ -1540,19 +1540,19 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
 
     ref = gModel_RView.vpx;
     ref = ref + ox;
-    dy.values[0] = ref - *(s16 *)&rec[0].field_DD0[0];
-    dy.values[1] = ref - *(s16 *)&rec[1].field_DD0[0];
+    dy.values[0] = ref - *(s16 *)&rec[0].cached_position[0];
+    dy.values[1] = ref - *(s16 *)&rec[1].cached_position[0];
     dx = dy;
     nv = gModel_RView.vpy;
-    dz.values[0] = nv - *(s16 *)&rec[0].field_DD0[1];
-    dz1 = nv - *(s16 *)&rec[1].field_DD0[1];
+    dz.values[0] = nv - *(s16 *)&rec[0].cached_position[1];
+    dz1 = nv - *(s16 *)&rec[1].cached_position[1];
     do {
         dz.values[1] = dz1;
     } while (0);
     dy = dz;
     ry = gModel_RView.vpz + oz;
-    dist.values[0] = ry - *(s16 *)&rec[0].field_DD0[2];
-    dist.values[1] = ry - *(s16 *)&rec[1].field_DD0[2];
+    dist.values[0] = ry - *(s16 *)&rec[0].cached_position[2];
+    dist.values[1] = ry - *(s16 *)&rec[1].cached_position[2];
     dz = dist;
 
     t.values[0] = SquareRoot0(
@@ -1722,8 +1722,8 @@ void Model_UpdateCamera(void)
             s32 dy;
 
             slot = base + eye_slots[0];
-            dx = (s16)slot->field_DD0[0] - gModel_CameraMove.eye.start_x;
-            dy = (s16)slot->field_DD0[1] - gModel_CameraMove.eye.start_y;
+            dx = (s16)slot->cached_position[0] - gModel_CameraMove.eye.start_x;
+            dy = (s16)slot->cached_position[1] - gModel_CameraMove.eye.start_y;
             gModel_CameraMove.eye.start_x = gModel_CameraMove.eye.start_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
@@ -1739,9 +1739,9 @@ void Model_UpdateCamera(void)
             s32 dz;
 
             slot = base + eye_slots[1];
-            dx = (s16)slot->field_DD0[0] - gModel_CameraMove.eye.end_x;
-            dy = (s16)slot->field_DD0[1] - gModel_CameraMove.eye.end_y;
-            dz = (s16)slot->field_DD0[2] - gModel_CameraMove.eye.end_z;
+            dx = (s16)slot->cached_position[0] - gModel_CameraMove.eye.end_x;
+            dy = (s16)slot->cached_position[1] - gModel_CameraMove.eye.end_y;
+            dz = (s16)slot->cached_position[2] - gModel_CameraMove.eye.end_z;
             gModel_CameraMove.eye.end_x = gModel_CameraMove.eye.end_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
@@ -1759,8 +1759,8 @@ void Model_UpdateCamera(void)
             s32 dy;
 
             slot = base + target_slots[0];
-            dx = (s16)slot->field_DD0[0] - gModel_CameraMove.target.start_x;
-            dy = (s16)slot->field_DD0[1] - gModel_CameraMove.target.start_y;
+            dx = (s16)slot->cached_position[0] - gModel_CameraMove.target.start_x;
+            dy = (s16)slot->cached_position[1] - gModel_CameraMove.target.start_y;
             gModel_CameraMove.target.start_x = gModel_CameraMove.target.start_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
@@ -1776,9 +1776,9 @@ void Model_UpdateCamera(void)
             s32 dz;
 
             slot = base + target_slots[1];
-            dx = (s16)slot->field_DD0[0] - gModel_CameraMove.target.end_x;
-            dy = (s16)slot->field_DD0[1] - gModel_CameraMove.target.end_y;
-            dz = (s16)slot->field_DD0[2] - gModel_CameraMove.target.end_z;
+            dx = (s16)slot->cached_position[0] - gModel_CameraMove.target.end_x;
+            dy = (s16)slot->cached_position[1] - gModel_CameraMove.target.end_y;
+            dz = (s16)slot->cached_position[2] - gModel_CameraMove.target.end_z;
             gModel_CameraMove.target.end_x = gModel_CameraMove.target.end_x +
                 (dx > 0 ? (dx < 31 ? dx : 30) :
                 (dx >= -30 ? dx : -30));
@@ -1829,9 +1829,9 @@ void Model_UpdateCamera(void)
         s32 dz;
 
         slot = base + eye_slots[1];
-        dx = (s16)slot->field_DD0[0] - gModel_RView.vpx;
-        dy = (s16)slot->field_DD0[1] - gModel_RView.vpy;
-        dz = (s16)slot->field_DD0[2] - gModel_RView.vpz;
+        dx = (s16)slot->cached_position[0] - gModel_RView.vpx;
+        dy = (s16)slot->cached_position[1] - gModel_RView.vpy;
+        dz = (s16)slot->cached_position[2] - gModel_RView.vpz;
         gModel_RView.vpx = gModel_RView.vpx +
             (dx > 0 ? (dx < 31 ? dx : 30) :
             (dx >= -30 ? dx : -30));
@@ -1852,9 +1852,9 @@ void Model_UpdateCamera(void)
         s32 dz;
 
         slot = base + target_slots[1];
-        dx = (s16)slot->field_DD0[0] - gModel_RView.vrx;
-        dy = (s16)slot->field_DD0[1] - gModel_RView.vry;
-        dz = (s16)slot->field_DD0[2] - gModel_RView.vrz;
+        dx = (s16)slot->cached_position[0] - gModel_RView.vrx;
+        dy = (s16)slot->cached_position[1] - gModel_RView.vry;
+        dz = (s16)slot->cached_position[2] - gModel_RView.vrz;
         gModel_RView.vrx = gModel_RView.vrx +
             (dx > 0 ? (dx < 31 ? dx : 30) :
             (dx >= -30 ? dx : -30));
@@ -2255,7 +2255,7 @@ have_flags:
         p->eye.start_x = a.vx;
         p->eye.start_y = a.vy;
         p->eye.start_z = a.vz;
-        /* arg1/arg2 now hold a slot's field_DD0 position or &a/&b; both
+        /* arg1/arg2 now hold a slot's cached_position position or &a/&b; both
            are SVECTOR-shaped. */
         p->eye.end_x = SVECTOR_VIEW(arg1)->vx;
         p->eye.end_y = SVECTOR_VIEW(arg1)->vy;

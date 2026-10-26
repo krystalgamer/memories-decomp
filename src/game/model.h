@@ -267,7 +267,8 @@ typedef struct {
     u8 tint[8];
     /* Padded/smoothed origin spans; [3] is separate horizontal history. */
     u16 cached_dimensions[4];
-    s16 field_DD0[4];
+    /* Cached XYZ and a separately derived Y value; copy all four. */
+    s16 cached_position[4];
     /* The command list and the three pointers beside it, all installed by
      * Model_ResetSlotAnimationTables from the two blocks in the command
      * chain. Model_ControlSlotAnimation reads animation_commands as the base of
@@ -567,8 +568,12 @@ typedef char ModelSlot_scale_dimension_layout_must_match[
     sizeof(((ModelSlot *)0)->cached_dimensions) == 8 &&
     sizeof(((ModelSlot *)0)->cached_dimensions[0]) == 2 ? 1 : -1
 ];
-typedef char ModelSlot_field_DD0_offset_must_be_0xDD0[
-    MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0 ? 1 : -1
+typedef char ModelSlot_cached_position_offset_must_be_0xDD0[
+    MODEL_OFFSET(ModelSlot, cached_position) == 0xDD0 ? 1 : -1
+];
+typedef char ModelSlot_cached_position_width_must_match[
+    sizeof(((ModelSlot *)0)->cached_position) == 8 &&
+    sizeof(((ModelSlot *)0)->cached_position[0]) == 2 ? 1 : -1
 ];
 typedef char ModelSlot_animation_snapshot_pointer_layout_must_match[
     MODEL_OFFSET(ModelSlot, animation_parameter_base) == 0xDDC &&
@@ -842,9 +847,9 @@ extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
  * 0x800F3938 = gModel_aSlots[0].field_CF8
  * 0x800F39B0 = gModel_aSlots[0].flat_lights
  * 0x800F39F0 = gModel_aSlots[0].render_scale
- * 0x800F3A10 = gModel_aSlots[0].field_DD0
+ * 0x800F3A10 = gModel_aSlots[0].cached_position
  *
- * For example, the field_DD0 consumers use the equivalent byte-stride form
+ * For example, the cached_position consumers use the equivalent byte-stride form
  *
  *     entry = (u8 *)gModel_awSlot0Position + index * MODEL_SLOT_SIZE;
  *

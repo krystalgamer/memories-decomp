@@ -15,7 +15,7 @@
 #include "image_transfer_rects.h"
 #include "library_runtime.h"
 #include "library_reference_y.h"
-#include "model_copy_slot_u16_values.h"
+#include "model_copy_slot_position.h"
 #include "model_update_view_metrics.h"
 #include "sound_voice_data.h"
 #include "view_state.h"
@@ -488,7 +488,7 @@ void Library_UpdateCardView(LibraryState *state)
                 W(light, 0x1C) = 0x404040;
                 W(light, 0x2C) = 0xC0C0C0;
                 Model_SetSlotAmbient(0, 0x400, 0x400, 0x400);
-                Model_CopySlotU16Values(0, (u16 *)0x80181000);
+                Model_CopySlotPosition(0, (u16 *)0x80181000);
                 p = (SVECTOR *)0x80181000;
                 gViewState_Current.view.vrx = p->vx;
                 gViewState_Current.view.vry = p->vy;
@@ -697,7 +697,7 @@ void Library_UpdateScreen(void)
         r = Model_GetSlotReadiness(0);
         if (r == one) {
             if (Model_GetSlotAnimationIndex(0) != r) {
-                Model_CopySlotU16Values(0, (u16 *)0x80181010);
+                Model_CopySlotPosition(0, (u16 *)0x80181010);
                 r = gLibrary_sSampledReferenceY - gLibrary_sCapturedReferenceY;
                 a = r >= 0 ? r : -r;
                 step = a / 24;

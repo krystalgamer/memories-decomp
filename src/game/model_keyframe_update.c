@@ -22,7 +22,7 @@
 #include "model_effect_state.h"
 #include "model_get_slot_readiness.h"
 #include "model_get_frame_step.h"
-#include "model_copy_slot_u16_values.h"
+#include "model_copy_slot_position.h"
 #include "model_update_view_metrics.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "model_step_view_orbit.h"
@@ -109,7 +109,7 @@ void Model_UpdateEffectKeyframes(void)
             if (Model_GetSlotReadiness(slot) != 1) {
                 break;
             }
-            Model_CopySlotU16Values(slot, (u16 *)position);
+            Model_CopySlotPosition(slot, (u16 *)position);
             {
                 s16 *relative = (s16 *)((u8 *)gModel_pCurrentEffectKey + offset);
                 position[0] += (u16)relative[0];
@@ -149,7 +149,7 @@ void Model_UpdateEffectKeyframes(void)
             if (Model_GetSlotReadiness(slot) != 1) {
                 break;
             }
-            Model_CopySlotU16Values(slot, (u16 *)target);
+            Model_CopySlotPosition(slot, (u16 *)target);
             {
                 s16 *following = (s16 *)((u8 *)gModel_pCurrentEffectKey + offset);
                 delta[0] = target[0] - (u16)following[8];

@@ -19,7 +19,7 @@ the cursor. Direct camera setup calls it after updating the view.
 
 A nonzero `capture_endpoints` flag additionally examines the current key,
 if present. Requested endpoint kinds 2 and 3 supply model-slot indices;
-`Model_CopySlotU16Values` reads each selected slot's four halfwords into
+`Model_CopySlotPosition` reads each selected slot's four halfwords into
 the corresponding resolved endpoint at key offsets `0x10` and `0x18`.
 This is a read from model slots, not a write back to them.
 

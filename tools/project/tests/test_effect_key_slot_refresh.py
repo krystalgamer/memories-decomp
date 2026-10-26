@@ -28,7 +28,7 @@ HEADERS = r"""
 #include "src/types.h"
 #include "src/game/model_transfer_state.h"
 #include "src/game/model_transfer_flags.h"
-#include "src/game/model_copy_slot_u16_values.h"
+#include "src/game/model_copy_slot_position.h"
 """
 WITNESS = HEADERS + r"""
 typedef struct { u8 before[16]; Key key; u8 after[16]; } Guarded;
@@ -60,7 +60,7 @@ static void mutate(u8 *key)
     if (mutation_mode == 2) put16(key + 14, 0);
 }
 
-void Model_CopySlotU16Values(s32 slot, u16 *output)
+void Model_CopySlotPosition(s32 slot, u16 *output)
 {
     Event *event;
     u32 word;

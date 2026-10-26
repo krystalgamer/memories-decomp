@@ -81,7 +81,7 @@ class LibraryViewTargetTests(unittest.TestCase):
         body = source[start:source.index("\n}\n", start)]
         self.assertRegex(body, r"\bSVECTOR\s*\*\s*p\s*;")
         match = re.search(
-            r"Model_CopySlotU16Values\(0, \(u16 \*\)0x80181000\);\s*"
+            r"Model_CopySlotPosition\(0, \(u16 \*\)0x80181000\);\s*"
             r"p = \(SVECTOR \*\)0x80181000;\s*"
             r"(?P<reads>(?:gViewState_Current\.view\.\w+\s*=\s*[^;]+;\s*){3})",
             body,

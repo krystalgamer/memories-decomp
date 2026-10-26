@@ -38,7 +38,7 @@ FIXTURE = r"""
 #include "src/game/gpu_packets.h"
 #include "src/game/model_get_slot_dimensions_with_minimums.h"
 #include "src/game/model_get_frame_step.h"
-#include "src/game/model_copy_slot_u16_values.h"
+#include "src/game/model_copy_slot_position.h"
 
 typedef char ilp32[sizeof(void *) == 4 && sizeof(long) == 4 ? 1 : -1];
 enum { BYTES = 0x1318, GUARD = 32, TOTAL = BYTES + 64, CAPACITY = 384,
@@ -250,7 +250,7 @@ void GsSetLsMatrix(MATRIX *m)
 {
     s32 args[8]={0}; u8 data[30]; matrix_bytes(data,m); event(LS,args,data,30);
 }
-void Model_CopySlotU16Values(s32 slot,u16 *out)
+void Model_CopySlotPosition(s32 slot,u16 *out)
 {
     s32 args[8]={0}; args[0]=slot; event(COPY,args,0,0);
     out[0]=19; out[1]=(u16)-27; out[2]=41; out[3]=0x6A2B;
@@ -372,7 +372,7 @@ static s32 oracle(s32 mode)
     elapsed=(s32)get32(object+0x1310); remaining=(s32)get32(object+0x1314);
     rotation.vx=0; rotation.vy=(u32)elapsed<<5; rotation.vz=0;
     GsSetLsMatrix(&base);
-    Model_CopySlotU16Values(Model_GetActiveSlotIndex(),(u16 *)&position);
+    Model_CopySlotPosition(Model_GetActiveSlotIndex(),(u16 *)&position);
     GsSetLsMatrix(&base); RotTrans(&position,(VECTOR *)matrix.t,&flag);
     RotMatrix(&rotation,&matrix); MulMatrix2(&base,&matrix);
     ScaleMatrix(&matrix,&scale); GsSetLsMatrix(&matrix);

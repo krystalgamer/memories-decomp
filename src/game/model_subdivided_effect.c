@@ -8,7 +8,7 @@
 #include "model_geometry_tables.h"
 #include "model_get_slot_dimensions_with_minimums.h"
 #include "model_get_frame_step.h"
-#include "model_copy_slot_u16_values.h"
+#include "model_copy_slot_position.h"
 #include "gpu_packets.h"
 #include "model_subdivided_effect.h"
 #include "triangle_subdivision.h"
@@ -161,7 +161,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
         rotation.vy = (u32)elapsed << 5;
         rotation.vz = 0;
         GsSetLsMatrix(&base);
-        Model_CopySlotU16Values(Model_GetActiveSlotIndex(), (u16 *)&position);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&position);
         GsSetLsMatrix(&base);
         /* RotTrans writes three words, exactly the extent of MATRIX.t. */
         RotTrans(&position, (VECTOR *)matrix.t, (PSXLONG *)&flag);
