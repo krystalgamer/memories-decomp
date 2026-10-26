@@ -283,11 +283,11 @@ typedef struct {
      * Partial resets can clear only its base; no live-interval invariant. */
     s32 lit_color_cache_address;
     s32 lit_color_cache_end_address;
-    u16 field_DF8;
+    u16 model_id;
     u16 field_DFA;
     u16 field_DFC;
-    u8 field_DFE;
-    u8 field_DFF;
+    u8 guardian_star_selection;
+    u8 defense_position;
     /* Pre-cull packet-byte budget from the unit scan, not actual usage. */
     u16 packet_budget_bytes;
     /* Ordinary-unit scanned normal-index bound plus one; original u16 truncation. */
@@ -581,8 +581,8 @@ typedef char ModelSlot_module_data_address_layout_must_match[
     MODEL_OFFSET(ModelSlot, variant_module_data_address) == 0xDEC &&
     sizeof(((ModelSlot *)0)->variant_module_data_address) == 4 ? 1 : -1
 ];
-typedef char ModelSlot_field_DF8_offset_must_be_0xDF8[
-    MODEL_OFFSET(ModelSlot, field_DF8) == 0xDF8 ? 1 : -1
+typedef char ModelSlot_model_id_offset_must_be_0xDF8[
+    MODEL_OFFSET(ModelSlot, model_id) == 0xDF8 ? 1 : -1
 ];
 typedef char ModelSlot_field_DFA_offset_must_be_0xDFA[
     MODEL_OFFSET(ModelSlot, field_DFA) == 0xDFA ? 1 : -1
@@ -590,11 +590,19 @@ typedef char ModelSlot_field_DFA_offset_must_be_0xDFA[
 typedef char ModelSlot_field_DFC_offset_must_be_0xDFC[
     MODEL_OFFSET(ModelSlot, field_DFC) == 0xDFC ? 1 : -1
 ];
-typedef char ModelSlot_field_DFE_offset_must_be_0xDFE[
-    MODEL_OFFSET(ModelSlot, field_DFE) == 0xDFE ? 1 : -1
+typedef char ModelSlot_guardian_star_selection_offset_must_be_0xDFE[
+    MODEL_OFFSET(ModelSlot, guardian_star_selection) == 0xDFE ? 1 : -1
 ];
-typedef char ModelSlot_field_DFF_offset_must_be_0xDFF[
-    MODEL_OFFSET(ModelSlot, field_DFF) == 0xDFF ? 1 : -1
+typedef char ModelSlot_defense_position_offset_must_be_0xDFF[
+    MODEL_OFFSET(ModelSlot, defense_position) == 0xDFF ? 1 : -1
+];
+typedef char ModelSlot_battle_property_layout_must_match[
+    MODEL_OFFSET(ModelSlot, model_id) == 0xDF8 &&
+    sizeof(((ModelSlot *)0)->model_id) == 2 &&
+    MODEL_OFFSET(ModelSlot, guardian_star_selection) == 0xDFE &&
+    sizeof(((ModelSlot *)0)->guardian_star_selection) == 1 &&
+    MODEL_OFFSET(ModelSlot, defense_position) == 0xDFF &&
+    sizeof(((ModelSlot *)0)->defense_position) == 1 ? 1 : -1
 ];
 typedef char ModelSlot_packet_budget_bytes_offset_must_be_0xE00[
     MODEL_OFFSET(ModelSlot, packet_budget_bytes) == 0xE00 ? 1 : -1

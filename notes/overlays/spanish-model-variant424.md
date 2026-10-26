@@ -45,7 +45,7 @@ labels or a whole-image hash. The resident SHA-256 is
 
 The selected loader at `0x8005967C`, transfer callback at `0x80059EF4`, slot
 setup at `0x8004FC2C` and dispatcher at `0x80058B4C` establish both alternates.
-The loader stores `p4 != 0` in slot `field_DFE` when `p4 >= 0`, then copies
+The loader stores `p4 != 0` in slot `guardian_star_selection` when `p4 >= 0`, then copies
 that selector to transfer `position`; `callback_data` carries the slot index.
 The callback phase counts are
 `(96,48,2,1,16,1,16,10,10,10,10,2,2,1,50,1)`, totaling 276 sectors.
@@ -56,7 +56,7 @@ Load-pointer storage `0x80010014/18` selects `0x8013B000/0x8017B000`.
 Context-pointer storage `0x80010024/28` selects `0x80136000/0x80176000`.
 The first phase and primary-module pointer owners were also checked.
 Final record-sector words `+0x110/+0x114` reach slot command words
-`+0xD08/+0xD0C`; the dispatcher selects `commands[field_DFE]`. Initialization
+`+0xD08/+0xD0C`; the dispatcher selects `commands[guardian_star_selection]`. Initialization
 receives the actual command modulo 1,000 and updates receive minus one.
 
 Actual commands are 590000, 590001, 590002 and 590004 through 590013.

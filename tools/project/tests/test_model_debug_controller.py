@@ -205,7 +205,7 @@ void observe_print(char *format, s32 a, s32 b)
     print_count++; print_total++;
     if (format == gModelDebug_szLoadStageFormat || format == gModelDebug_szLoadModel0Format || format == gModelDebug_szLoadModel1Format) {
         slot = format == gModelDebug_szLoadStageFormat ? 2 : format == gModelDebug_szLoadModel0Format ? 0 : 1;
-        CHECK(a == gModel_aSlots[slot].field_DF8 && b == gModel_aSlots[slot].load_step);
+        CHECK(a == gModel_aSlots[slot].model_id && b == gModel_aSlots[slot].load_step);
         return;
     }
     CHECK(display_cursor < 13);
@@ -238,7 +238,7 @@ static void reset(void)
     for (i = 0; i < 3; i++) {
         gModel_aSlots[i].is_active = 1;
         gModel_aSlots[i].load_step = 0;
-        gModel_aSlots[i].field_DF8 = 5 + i * 2;
+        gModel_aSlots[i].model_id = 5 + i * 2;
         gModel_aSlots[i].root_coordinate = &units[i];
     }
     gModel_bPresentationPhase = 0; gModelDebug_bSelectedDigit = 0;
