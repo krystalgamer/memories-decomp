@@ -49,8 +49,9 @@ inventory cutoff. Each release then has all
 | **Total** | **24,902** | **23,841** |
 
 README progress tables summarize uninventoried layouts in a count row rather
-than adding thousands of empty rows. The manifests and generated progress JSON
-retain the individual modules; the summary does not claim function coverage.
+than adding thousands of empty rows; inventoried layouts without matching C
+share a single summary row with their function and byte totals. The manifests
+and generated progress JSON retain the individual modules.
 
 Run from the repository root (requires the corresponding legal retail inputs):
 
@@ -66,7 +67,58 @@ tools/environments/python/bin/python tools/project/register_model_images.py \
 ```
 
 The normal regional `*-match-overlays` targets consume these registrations;
-North America uses `make match-overlays`. The historical tables below retain
+North America uses `make match-overlays`.
+
+## Function inventory follow-up
+
+`tools/project/inventory_model_images.py` turns every still-raw baseline
+(the exact `layout_text`, a header-only function CSV and an empty matching-C
+manifest) into a function inventory. Matched or hand-maintained layouts are
+never touched. Its census walk (`resolve_flow`) adds three rules to the
+published census rules, which stay the default:
+
+- a GCC switch `lw reg, off(table + index); jr reg` follows its table when the
+  base register resolves to an in-image constant and the entry count equals
+  the preceding `sltiu` bound;
+- `j` leaving the span is a tail call to user RAM and counts as an exit;
+- any direct call or jump outside user RAM (`0x80010000`-`0x80200000`), such as
+  `j 0x8053D830`, rejects the body. Such bodies were linked for another address
+  and are stale image residue.
+
+Every closed-CFG body becomes an `unmatched_asm` row and its own
+`unmatched_<offset>` generated-assembly segment. The 4-byte header stays
+`data`; every other byte (gaps, truncated bodies at the image end, unresolved
+flow, residue, tables and assets) stays raw `bin`. A preamble whose closed span
+ends exactly with the next closed body is split and noted as a fall-through. Row
+notes record reachability: the loader entry, bodies reached from it through local
+calls or in-image `lui`/`addiu` address references, and closed bodies with
+unresolved reachability (kept visible rather than excluded).
+
+| Release | Layouts | Functions | Function bytes | Entry | Reached | Unresolved reachability |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| North America | 2,522 | 3,503 | 13,476,896 | 2,522 | 728 | 253 |
+| Japan | 3,574 | 5,714 | 20,673,012 | 3,573 | 1,409 | 732 |
+| Europe | 3,572 | 5,701 | 20,629,192 | 3,571 | 1,401 | 729 |
+| France | 1,686 | 1,700 | 14,460,768 | 1,686 | 12 | 2 |
+| Germany | 3,572 | 5,701 | 20,629,192 | 3,571 | 1,401 | 729 |
+| Italy | 3,572 | 5,701 | 20,629,192 | 3,571 | 1,401 | 729 |
+| Spain | 3,185 | 3,490 | 16,305,596 | 3,185 | 268 | 37 |
+| **Total** | **21,683** | **31,510** | **126,803,848** | | | |
+
+The Japanese and the shared English/German/Italian SU intro/credits image has
+no closed loader entry; its other closed bodies are still inventoried.
+Identical payloads are repeated across slots and releases, so these totals are
+work-distribution denominators, not counts of distinct algorithms.
+Each regional `*-match-overlays` target rebuilds every image byte-for-byte.
+
+```sh
+tools/environments/python/bin/python tools/project/inventory_model_images.py \
+  --region usa --region japan --region europe --region france \
+  --region germany --region italy --region spain
+# Read-only; fails if a raw baseline or generated inventory is stale.
+tools/environments/python/bin/python tools/project/inventory_model_images.py \
+  --check --region usa
+``` The historical tables below retain
 their original cutoff rather than silently changing the inventory's evidence.
 
 ## Why the denominator is not 722
