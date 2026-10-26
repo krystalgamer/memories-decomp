@@ -156,13 +156,12 @@ class SpanishDuelBankTests(unittest.TestCase):
             "effect_17": [(0x80148BA4, 0x13EC)],
             "effect_13": [(0x801503F8, 0xA08)],
             "effect_24": [(0x8014D3E8, 0xF74)],
-            "effect_0": [(0x80154688, 0x4A8)],
             "effect_1": [(0x80157794, 0x67C)],
             "effect_6": [(0x80154B30, 0xBC4)],
             "effect_8": [(0x80147B18, 0x690)],
             "effect_12": [(0x80150E00, 0x418)],
             "effect_15": [(0x8014FF40, 0x4B8)],
-            "effect_18": [(0x80154084, 0x604)],
+            "contour_burst_effects": [(0x80154084, 0x604), (0x80154688, 0x4A8)],
             "effect_19": [(0x80153ADC, 0x44C)],
             "polygon_vertices": [(0x8014EC8C, 0x180)],
             "dispatch": [(0x80146258, 0x508)],
@@ -199,7 +198,8 @@ class SpanishDuelBankTests(unittest.TestCase):
         }
         # The PAL arms of these shared sources are registered through wrappers.
         pal_wrapped = {
-            "cross_lines", "life_point_effects", "effect_6", "effect_18", "screen_draw",
+            "cross_lines", "life_point_effects", "effect_6", "contour_burst_effects",
+            "screen_draw",
         }
         for unit, extents in expected.items():
             source = f"src/overlays/duel_effects/{unit}.c"

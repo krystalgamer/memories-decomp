@@ -1151,7 +1151,7 @@ the same addresses and the same `gcc_2_8_1_g0_split` profile.
 
 ## Grouped sources
 
-Three runs of contiguous `gcc_2_8_1_g0_split` units are now one source each,
+Four runs of contiguous `gcc_2_8_1_g0_split` units are now one source each,
 in every duel-effect image (#39):
 
 - `life_point_effects.c`: effects 5, 7 and 9 (life-point recovery, reflected
@@ -1160,6 +1160,9 @@ in every duel-effect image (#39):
   `src/overlays/european/duel_effects/life_point_effects.c` wrapper.
 - `row_attack_effects.c`: effects 16 and 23 (row strike and back-row sweep),
   formerly `effect_16.c` and `effect_23.c`.
+- `contour_burst_effects.c`: effects 18 and 0 (particle and plain contour
+  bursts), formerly `effect_18.c` and `effect_0.c`, built in the PAL images
+  through `src/overlays/european/duel_effects/contour_burst_effects.c`.
 - `projection_helpers.c`: the projected Ft4/Gt4 submit wrappers and the
   matrix setup helpers, formerly `projected_wrappers.c` and
   `matrix_helpers.c`.

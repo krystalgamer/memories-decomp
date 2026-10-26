@@ -62,7 +62,7 @@ class NorthAmericanDuelBankTests(unittest.TestCase):
             "src/overlays/duel_effects/gather_effect.c",
             "src/overlays/duel_effects/tile_effect.c",
             "src/overlays/duel_effects/screen_draw.c",
-            "src/overlays/duel_effects/effect_18.c",
+            "src/overlays/duel_effects/contour_burst_effects.c",
             "src/overlays/duel_effects/life_point_effects.c",
             "src/overlays/duel_effects/effect_6.c",
             "src/overlays/duel_effects/cross_lines.c",

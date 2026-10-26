@@ -340,13 +340,13 @@
       "address": "0x80154084",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x604",
-      "source": "src/overlays/european/duel_effects/effect_18.c"
+      "source": "src/overlays/european/duel_effects/contour_burst_effects.c"
     },
     {
       "address": "0x80154688",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4A8",
-      "source": "src/overlays/duel_effects/effect_0.c"
+      "source": "src/overlays/european/duel_effects/contour_burst_effects.c"
     },
     {
       "address": "0x80154B30",

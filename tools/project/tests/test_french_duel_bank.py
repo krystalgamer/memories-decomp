@@ -174,7 +174,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("packet_helpers", 0x80152EC4, 0x80153200, 4),
             ("effect_2", 0x80153200, 0x80153ADC, 1),
             ("color_transition", 0x80153F28, 0x80154084, 3),
-            ("effect_0", 0x80154688, 0x80154B30, 1),
+            ("contour_burst_effects", 0x80154084, 0x80154B30, 2),
             ("effect_6", 0x80154B30, 0x801556F4, 1),
             ("screen_draw", 0x801556F4, 0x801558F4, 3),
             ("contour_quads", 0x801558F4, 0x80155BC0, 1),
@@ -188,7 +188,8 @@ class FrenchDuelBankTests(unittest.TestCase):
                 # These are registered through their PAL wrappers.
                 registered = (source.replace("/duel_effects/", "/european/duel_effects/")
                               if name in ("screen_draw", "cross_lines", "effect_6",
-                                          "life_point_effects") else source)
+                                          "life_point_effects", "contour_burst_effects")
+                              else source)
                 functions = [row for row in manifest["functions"] if row["source"] == registered]
                 names = []
                 cursor = start
@@ -204,14 +205,14 @@ class FrenchDuelBankTests(unittest.TestCase):
             json.loads((ROOT / f"config/{region}/overlays/duel_effects_matching_c.json").read_text())
             for region in ("sles_03948", "sles_03951")
         ]
-        for name, count in (("dispatch", 1), ("effect_18", 1), ("effect_19", 1),
+        for name, count in (("dispatch", 1), ("contour_burst_effects", 2), ("effect_19", 1),
                             ("number_renderer", 3), ("primitive_draw", 8),
                             ("packet_helpers", 4),
                             ("color_transition", 3),
                             ("screen_draw", 3), ("contour_quads", 1), ("layered_drawing", 6),
-                            ("effect_0", 1), ("effect_6", 1),
+                            ("effect_6", 1),
                             ("life_point_effects", 3)):
-            prefix = ("european/" if name in ("effect_6", "effect_18", "screen_draw",
+            prefix = ("european/" if name in ("effect_6", "contour_burst_effects", "screen_draw",
                                               "life_point_effects") else "")
             source = f"src/overlays/{prefix}duel_effects/{name}.c"
             groups = [[row for row in manifest["functions"] if row["source"] == source]
@@ -227,7 +228,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("gather_effect", ((0x801481A8, 2556),), True),
             ("tile_effect", ((0x80149F90, 2388),), True),
             ("effect_19", ((0x80153ADC, 1100),), False),
-            ("effect_18", ((0x80154084, 1540),), True),
+            ("contour_burst_effects", ((0x80154084, 1540), (0x80154688, 1192)), True),
             ("effect_17", ((0x80148BA4, 5100),), False),
             ("effect_11", ((0x80146760, 5048),), False),
             ("effect_22", ((0x8014A8E4, 8216),), False),
