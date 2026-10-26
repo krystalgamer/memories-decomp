@@ -79,6 +79,43 @@ INSTRUCTION_WORD_PATTERN = re.compile(
 )
 
 
+def instruction_shape(value: int) -> int:
+    opcode = value >> 26
+    if opcode in (2, 3):
+        return value & 0xFC000000
+    if opcode not in (0, 16, 17, 18, 19):
+        return value & 0xFFFF0000
+    return value
+
+
+PSX_EXE_HEADER_SIZE = 0x800
+
+
+def executable_shapes(
+    executable: Path, functions: list[Function]
+) -> dict[str, tuple[int, ...]]:
+    """Instruction shapes read from a verified PS-X EXE for functions whose
+    assembly is no longer generated because they now match in C."""
+    data = executable.read_bytes()
+    if len(data) < PSX_EXE_HEADER_SIZE or data[:8] != b"PS-X EXE":
+        raise InventoryError(f"{executable}: not a PS-X EXE")
+    load = int.from_bytes(data[0x18:0x1C], "little")
+    text_size = int.from_bytes(data[0x1C:0x20], "little")
+    shapes: dict[str, tuple[int, ...]] = {}
+    for function in functions:
+        offset = function.address - load
+        if offset < 0 or offset + function.size > text_size or function.size % 4:
+            raise InventoryError(
+                f"{executable}: {function.name} lies outside the image"
+            )
+        start = PSX_EXE_HEADER_SIZE + offset
+        shapes[function.name] = tuple(
+            instruction_shape(int.from_bytes(data[at:at + 4], "little"))
+            for at in range(start, start + function.size, 4)
+        )
+    return shapes
+
+
 def instruction_shapes(
     assembly_root: Path, names: set[str]
 ) -> dict[str, tuple[int, ...]]:
@@ -99,13 +136,9 @@ def instruction_shapes(
                 continue
             word = INSTRUCTION_WORD_PATTERN.match(line)
             if current is not None and word is not None:
-                value = int.from_bytes(bytes.fromhex(word.group("bytes")), "little")
-                opcode = value >> 26
-                if opcode in (2, 3):
-                    value &= 0xFC000000
-                elif opcode not in (0, 16, 17, 18, 19):
-                    value &= 0xFFFF0000
-                words.append(value)
+                words.append(instruction_shape(
+                    int.from_bytes(bytes.fromhex(word.group("bytes")), "little")
+                ))
         if current is not None:
             if current in shapes:
                 raise InventoryError(f"{assembly_root}: duplicate {current}")
@@ -159,6 +192,18 @@ def matching_functions(
     return matching
 
 
+HANDWRITTEN_C_NOTE = "handwritten_asm.h"
+
+
+def is_handwritten_reference(function: Function) -> bool:
+    """North American handwritten routines, including ones matched in C."""
+    if function.module != "game":
+        return False
+    return function.status == "handwritten_asm" or (
+        function.status == "matching_c" and HANDWRITTEN_C_NOTE in function.notes
+    )
+
+
 def refresh_inventory(
     generated: list[Function],
     matching: list[Function],
@@ -182,10 +227,10 @@ def refresh_inventory(
     reference = {
         function.name: function
         for function in handwritten_reference or []
-        if function.status == "handwritten_asm" and function.module == "game"
+        if is_handwritten_reference(function)
     }
     if len(reference) != sum(
-        function.status == "handwritten_asm" and function.module == "game"
+        is_handwritten_reference(function)
         for function in handwritten_reference or []
     ):
         raise InventoryError("handwritten reference has duplicate names")
@@ -289,6 +334,10 @@ def parse_arguments() -> argparse.Namespace:
         "--reference-assembly-root",
         help="generated assembly of the handwritten reference image",
     )
+    parser.add_argument(
+        "--reference-executable",
+        help="verified reference executable, for handwritten routines matched in C",
+    )
     return parser.parse_args()
 
 
@@ -323,19 +372,36 @@ def main() -> int:
         )
         existing = load_inventory(output) if output.exists() else []
         if reference is not None:
-            names = {
+            generated_names = {function.name for function in generated}
+            assembly_names = {
                 function.name for function in reference
-                if function.status == "handwritten_asm" and function.module == "game"
+                if function.status == "handwritten_asm"
+                and is_handwritten_reference(function)
+                and function.name in generated_names
             }
-            handwritten_names = {
-                function.name for function in generated
-                if function.name in names
-            }
+            matched_reference = [
+                function for function in reference
+                if function.status == "matching_c"
+                and is_handwritten_reference(function)
+                and function.name in generated_names
+            ]
             reference_root = resolve_within(
                 root, args.reference_assembly_root, must_exist=True
             )
-            reference_shapes = instruction_shapes(reference_root, handwritten_names)
-            japanese_shapes = instruction_shapes(assembly_root, handwritten_names)
+            reference_shapes = instruction_shapes(reference_root, assembly_names)
+            if matched_reference:
+                if not args.reference_executable:
+                    raise InventoryError(
+                        "--reference-executable is required for handwritten "
+                        "routines matched in C"
+                    )
+                reference_shapes.update(executable_shapes(
+                    resolve_within(root, args.reference_executable, must_exist=True),
+                    matched_reference,
+                ))
+            japanese_shapes = instruction_shapes(
+                assembly_root, assembly_names | {f.name for f in matched_reference}
+            )
         else:
             reference_shapes = japanese_shapes = None
         refreshed = refresh_inventory(

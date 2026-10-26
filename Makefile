@@ -525,6 +525,7 @@ japanese-inventory: japanese-match
 		--regions config/slpm_86398/function_regions.json \
 		--handwritten-reference config/slus_01411/functions.csv \
 		--reference-assembly-root tmp/splat/asm \
+		--reference-executable game/SLUS_014.11 \
 		--output config/slpm_86398/functions.csv
 	@set -e; for name in free_duel main_menu overworld_before_coup overworld_after_coup password duel_effects; do \
 		$(PYTHON) tools/project/regional_inventory.py \
@@ -544,6 +545,7 @@ european-inventory: european-match
 		--regions config/sles_03947/function_regions.json \
 		--handwritten-reference config/slus_01411/functions.csv \
 		--reference-assembly-root tmp/splat/asm \
+		--reference-executable game/SLUS_014.11 \
 		--output config/sles_03947/functions.csv
 
 classify-functions: inventory
