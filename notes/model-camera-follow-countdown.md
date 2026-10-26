@@ -27,9 +27,9 @@ short-circuit call order, narrowing and store placement are unchanged.
 It does not start motion or modify duration, elapsed, selectors or flags.
 
 The signed scalar alias and the controller's unsigned record-field view
-are both retained. The field and global themselves keep their existing
-names; no stored layout, broader alias rewrite, new range check or
-overflow guarantee is introduced.
+are both retained. The later member name is follow_countdown at +2;
+the global alias, stored layout and request ABI remain unchanged. No
+broader alias rewrite, range check or overflow guarantee is introduced.
 
 ## Group and regional identity
 

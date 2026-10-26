@@ -7,7 +7,7 @@
  *
  * It returns nonzero when the camera move record D_800F2B20 (ModelCameraMove,
  * model.h) has `flags == 0`, and -- only when `arg` is zero -- additionally
- * requires `mode` or `field_02` to be zero. The unit defines this one function
+ * requires `mode` or `follow_countdown` to be zero. The unit defines this one function
  * and nothing else.
  *
  * Model_UpdateAnimatedBattle, the model scene mode 15 controller

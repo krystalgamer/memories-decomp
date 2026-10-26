@@ -31,12 +31,21 @@ remains incomplete, not a new scalar or allocation.
 | Other PAL images | `0x800F4058` | `0x800F405A` | `0x800F4082` | `0x2C` |
 
 Full layouts put `target` at `+0x1C` and its slot at `+0xE`, yielding
-`+0x2A`. Japan lacks `field_06`, puts `target` at `+0x1A` and therefore
+`+0x2A`. Japan lacks `base_orbit_step`, puts `target` at `+0x1A` and therefore
 uses `+0x28`. Original compact-layout selection and the full declaration
 used by the Japanese completion routine's common-prefix accesses remain.
 
 The French literal labels suffixed `_French` at the NA numeric addresses
 are not these logical PAL camera bindings. They remain untouched.
+
+## Named control halfwords
+
+The record keeps follow_countdown u16 at +2 and orbit_step u16 at +4;
+full records also keep base_orbit_step u16 at +6. Japan does not gain
+that absent word. The signed countdown alias remains independent.
+Setup, guarded setters, follow completion and region-specific adaptive
+orbit behavior are traced in [the controller protocol](model-camera-controller.md#follow-countdown-and-adaptive-orbit-step).
+Names do not establish a new range, hard cap, time unit or layout.
 
 ## Two different presentation defaults
 

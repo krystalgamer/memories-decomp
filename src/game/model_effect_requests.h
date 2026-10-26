@@ -32,8 +32,8 @@ void Model_SetCameraTargetSlots(s32 first, s32 second);
  * (src/game/model_scene_controllers.c:413) while already including this header.
  * Its two immediate neighbours in the file, Model_SetCameraMoveDurationFromMagnitude and Model_SetCameraOrbitStep,
  * have no uses outside the unit at all, which is why they are still not
- * declared here. The latter writes both field_06 and field_04 in the US
- * camera record, but only field_04 in the compact Japanese record. */
+ * declared here. The latter writes both base_orbit_step and orbit_step in the US
+ * camera record, but only orbit_step in the compact Japanese record. */
 void Model_SetCameraFollowCountdown(s32 value);
 
 #endif

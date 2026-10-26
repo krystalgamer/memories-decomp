@@ -256,7 +256,7 @@ static void reset(void)
     fill((u8 *)&key_record, sizeof(key_record), 0);
     gModel_CameraMove.mode = 1; gModel_CameraMove.flags = 3;
     gModel_CameraMove.duration = 100; gModel_CameraMove.elapsed = 40;
-    gModel_CameraMove.field_04 = 8; gModel_bOrbitDirection = -1;
+    gModel_CameraMove.orbit_step = 8; gModel_bOrbitDirection = -1;
     for (i = 0; i < 4; i++) put16(move_storage + GUARD + 18 + i * 8, -1);
     for (i = 0; i < 2; i++)
         for (axis = 0; axis < 3; axis++) {
@@ -341,14 +341,14 @@ int main(void)
                 reset(); gate = 0; have_key = c;
                 key_record.requested[0].kind = a == 3 ? -1 : a;
                 key_record.requested[1].kind = b == 3 ? -32768 : b;
-                gModel_CameraMove.field_02 = 10; steps[1] = 3; steps[2] = 7;
+                gModel_CameraMove.follow_countdown = 10; steps[1] = 3; steps[2] = 7;
                 gModel_bOrbitDirection = a == 0 ? -128 : a == 1 ? 127 : -1;
                 run();
             }
     for (a = 0; a < 5; a++)
         for (b = 0; b < 2; b++) {
             reset(); gate = 0; have_key = 1; key_record.requested[0].kind = 4;
-            gModel_CameraMove.field_02 = a == 4 ? 65535 : a * 3;
+            gModel_CameraMove.follow_countdown = a == 4 ? 65535 : a * 3;
             steps[0] = 6; steps[1] = b ? 11 : 2;
             run();
         }
@@ -363,7 +363,7 @@ int main(void)
         }
     for (a = 0; a < 3; a++) {
         reset(); gate = 0; have_key = 1; key_record.requested[1].kind = 4;
-        gModel_CameraMove.field_02 = 10;
+        gModel_CameraMove.follow_countdown = 10;
         mutate_kind = STEP; mutate_offset = 2; mutate_value = a * 6;
         steps[0] = 6; steps[1] = 3;
         run();
@@ -404,8 +404,8 @@ class ModelCameraControllerTests(unittest.TestCase):
                     ),
                     "key-kind": ("key->requested[1].kind != 4", "key->requested[1].kind != 3"),
                     "timer-step": (
-                        "step = Model_GetFrameStep();\n            progress = move->field_02 - step;",
-                        "step = 6;\n            progress = move->field_02 - step;",
+                        "step = Model_GetFrameStep();\n            progress = move->follow_countdown - step;",
+                        "step = 6;\n            progress = move->follow_countdown - step;",
                     ),
                     "late-index": (
                         "slot = base + eye_slots[1];",

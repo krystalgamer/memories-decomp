@@ -372,16 +372,16 @@ typedef struct {
  * `duration` is twice the absolute duration the caller asked for, clamped to
  * 0xFFFF. Model_UpdateCamera tracks paired-slot X/Y and end-slot X/Y/Z by at most
  * 30 per update. The 0xFFFF sentinel skips elapsed advancement, not tracking
- * or interpolation. Model_CorrectViewDistance adjusts field_04 using field_06 as its
- * baseline; Model_UpdateCamera uses field_04 for orbit yaw and decrements field_02
+ * or interpolation. Model_CorrectViewDistance adjusts orbit_step using base_orbit_step as its
+ * baseline; Model_UpdateCamera uses orbit_step for orbit yaw and decrements follow_countdown
  * in follow mode. */
 typedef struct {
     u8 mode;
     u8 flags;
-    u16 field_02;
-    u16 field_04;
+    u16 follow_countdown;
+    u16 orbit_step;
 #ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
-    u16 field_06;
+    u16 base_orbit_step;
 #endif
     u16 elapsed;
     u16 duration;
@@ -741,6 +741,19 @@ typedef char ModelCameraLeg_end_x_offset_must_be_0x8[
 typedef char ModelCameraLeg_slot_offset_must_be_0xE[
     MODEL_OFFSET(ModelCameraLeg, slot) == 0xE ? 1 : -1
 ];
+
+typedef char ModelCameraMove_control_prefix_must_match[
+    MODEL_OFFSET(ModelCameraMove, follow_countdown) == 2 &&
+    sizeof(((ModelCameraMove *)0)->follow_countdown) == 2 &&
+    MODEL_OFFSET(ModelCameraMove, orbit_step) == 4 &&
+    sizeof(((ModelCameraMove *)0)->orbit_step) == 2 ? 1 : -1
+];
+#ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
+typedef char ModelCameraMove_baseline_word_must_match[
+    MODEL_OFFSET(ModelCameraMove, base_orbit_step) == 6 &&
+    sizeof(((ModelCameraMove *)0)->base_orbit_step) == 2 ? 1 : -1
+];
+#endif
 
 #ifdef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
 typedef char ModelCameraMove_size_must_be_0x2A[
