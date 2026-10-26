@@ -126,8 +126,6 @@ segments:
       - [0x6C18, c, game/european/duel_draw_field_cards]
       - [0x6E94, c, game/display_object_set_resource_variant_from_sign]
       - [0x6EA0, c, game/european/duel_card_and_status_draw]
-      - [0x7728, c, game/duel_selected_card_checks]
-      - [0x77E4, c, game/duel_calc_card_stats]
       - [0x784C, c, game/view_state_reset_defaults]
       - [0x78C4, c, game/european/duel_load_package_stage]
       - [0x7D00, c, game/european/duel_init_model_scene]

@@ -441,7 +441,7 @@ Corroboration agrees without defining the shared type:
 
 ## Stat computation and comparison
 
-Matching [`Duel_CalcCardStats`](../src/game/duel_calc_card_stats.c) uses
+Matching [`Duel_CalcCardStats`](../src/game/duel_card_and_status_draw.c) uses
 signed halfword views of `attack`, `defense`, `stat_modifier`, and
 `terrain_modifier`. It independently clamps
 `attack + stat_modifier + terrain_modifier` and

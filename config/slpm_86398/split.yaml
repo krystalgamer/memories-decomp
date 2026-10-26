@@ -123,8 +123,6 @@ segments:
       - [0x6be8, c, game/duel_draw_field_cards]
       - [0x6e64, c, game/display_object_set_resource_variant_from_sign]
       - [0x6e70, c, game/japanese/duel_card_and_status_draw]
-      - [0x76f8, c, game/japanese/duel_selected_card_checks]
-      - [0x7764, c, game/duel_calc_card_stats]
       - [0x77cc, c, game/view_state_reset_defaults]
       - [0x7844, c, game/japanese/duel_load_package_stage]
       - [0x7bf8, c, game/japanese/duel_init_model_scene]
