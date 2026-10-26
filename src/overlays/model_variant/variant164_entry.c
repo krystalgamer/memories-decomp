@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "variant164_entry.h"
 #include "../../game/screen_projection.h"
+#include "../../game/graphics_constants.h"
 
 /* The entry draws particles that rise from one of the slot's parts, pulse
  * around their targets, gather onto a point next to the other slot and burst
@@ -72,7 +73,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->frames = 0;
         work->completed = 0;
         work->mode = command / 100;
+#ifndef VERSION_FRENCH
         printf("%d (0x%x) Byte\n", sizeof(Model164State), sizeof(Model164State));
+#endif
         return 0;
     }
     config = work->config;
@@ -349,7 +352,7 @@ s32 func_8013B004(u8 *context, s32 command)
     }
     t = work->elapsed - config->start - config->gather;
     if (t >= 0 && t < config->burst) {
-        setXY4(&flash, 0, 0, 320, 0, 0, 240, 320, 240);
+        setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
         s = (config->burst - t) * 255 / config->burst;
         setRGB0(&flash, s, s, s);
         Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
