@@ -50,7 +50,7 @@ void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object)
         }
     }
     if (op & 0x80) {
-        object->state_51 = 0xC;
+        object->playback_state = 0xC;
         gText_CommandDisposition = 1;
     }
 }
@@ -62,7 +62,7 @@ void DuelEffect_PlaySoundCommand(DuelEffectChannel *object) {
     if (value & 0x8000) {
         SD_CdSoundPlay((u16)value);
         gText_CdSoundPollBudget = TextStream_ReadU16LE(object);
-        object->state_51 = 0x11;
+        object->playback_state = 0x11;
         gText_CommandDisposition = 1;
     } else {
         SD_SEPlayFull((u16)value);

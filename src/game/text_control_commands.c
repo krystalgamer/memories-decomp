@@ -114,7 +114,7 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
 
 void Text_StartPageWait(DuelEffectChannel *value)
 {
-    value->state_51 = 4;
+    value->playback_state = 4;
     gText_CommandDisposition = 1;
 }
 
@@ -165,7 +165,7 @@ void Text_NewLine(DuelEffectChannel *record)
 #else
     if (TextBox_WrapLineIfNeeded(record)) {
 #endif
-        record->state_51 = 4;
+        record->playback_state = 4;
     }
     gText_CommandDisposition = 1;
     if (gText_ChoiceLayoutCallback) {

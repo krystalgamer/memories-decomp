@@ -42,7 +42,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
         e->line_advance_y = wide;
         break;
     }
-    e->delay_reload_53 = 1;
+    e->glyph_delay = 1;
     range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + (index << 1));
     e->depth_offset = 0;
     *(u16 *)((u8 *)e + 0x62) = 0;
@@ -71,7 +71,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     e->glyph_advance_x = 8;
     e->line_advance_y = 12;
 #endif
-    e->delay_reload_53 = 2;
+    e->glyph_delay = 2;
 #ifdef VERSION_JAPAN
     /* The 16-bit boundaries are stored modulo 256 in the compact channel. */
     range = (unsigned char *)gDuelEffect_awEntryRangeBoundaries + offset;

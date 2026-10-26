@@ -121,3 +121,18 @@ combined-tree comparison aligns only its `GameOver_Update` identity in
 the saved baseline, then reverses these five media identities, retaining
 all whole outputs. A fresh clean retail gate covers the integrated tree
 and its complete accepted ordered ledger insertion.
+
+## Shared countdown member, unchanged watchdog
+
+The channel bytes now spell playback_state and delay_countdown rather
+than state_51 and delay_52. The latter is the SAME u8 at +0x52 used by
+normal glyph cadence, not a new CD-only timer or a promised frame duration.
+glyph_delay at +0x53 remains the parser's reload byte, not this wait's
+0xFF re-arm value.
+
+Keep initialization's same-call decrement, both 0xFF re-arms, deliberate
+phase fallthrough, incoming initialized-zero wrap, shared signed poll
+budget, preserved 0x40 latch and every original exit. Completion still
+clears playback_state and writes delay_countdown = 1. This naming neither
+restarts sound playback nor changes phase/budget ownership or the file/BGM
+wait predicates, sound-command stream operands or yield timing.

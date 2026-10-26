@@ -11,6 +11,6 @@ void Text_SetStateFromStream(DuelEffectChannel *object)
     u8 value = current[0];
 
     *stream = current + 1;
-    object->state_51 = value;
+    object->playback_state = value;
     gText_CommandDisposition = 1;
 }

@@ -157,7 +157,7 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
 
     TextBox_Destroy(D_800EB0F8);
     object = TextBox_Create(0, message_id, 0x98, 0x98, 0xA0, 0x40);
-    object->delay_reload_53 = 1;
+    object->glyph_delay = 1;
     if (flags & 0xF) {
         func_80039A14((struct DuelEffectChannel *)object);
     }

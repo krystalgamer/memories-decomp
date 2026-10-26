@@ -85,7 +85,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         id = object->initial_string_id;
         gText_ScriptDispatchGate = 0;
         gText_ChoiceLayoutCallback = 0;
-        object->delay_52 = 1;
+        object->delay_countdown = 1;
         TEXT_BOX_GLYPH_COUNT(object) = 0;
         object->stream_58 = 0;
 #ifdef VERSION_JAPAN
@@ -135,7 +135,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
 #endif
         object->text_00 = text;
         object->explicit_newline_count = 0;
-        object->state_51 = 0;
+        object->playback_state = 0;
         DisplayObject_ReleaseIfPresent(object->prompt_object);
         DisplayObject_ReleaseIfPresent(object->aux_object);
         object->prompt_object = (void *)0;
@@ -162,8 +162,8 @@ void TextBox_BuildStep(DuelEffectChannel *object)
             gText_ScriptDispatchGate = 0;
         }
     }
-    if (object->state_51 != 0) {
-        gTextBox_apfnStateCallbacks[object->state_51 & DUEL_EFFECT_STATE_INDEX_MASK](object);
+    if (object->playback_state != 0) {
+        gTextBox_apfnStateCallbacks[object->playback_state & DUEL_EFFECT_STATE_INDEX_MASK](object);
         object->flags_34 = object->flags_34 & 0xFBFF;
         return;
     }
@@ -171,16 +171,16 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         if ((gInput_wPad1Held & PAD_BUTTON_SQUARE) ||
             (gInput_wPad1Pressed & TEXT_BOX_ADVANCE_MASK)) {
             DuelEffect_SetEntryControlBytes(object, 0, 0);
-            object->delay_52 = 1;
+            object->delay_countdown = 1;
             object->flags_34 = object->flags_34 | 0x400;
         }
-        object->delay_52 = object->delay_52 - 1;
-        if (object->delay_52 != 0) {
+        object->delay_countdown = object->delay_countdown - 1;
+        if (object->delay_countdown != 0) {
             return;
         }
     }
     handlers = gText_apfnPrimaryCommands;
-    object->delay_52 = object->delay_reload_53;
+    object->delay_countdown = object->glyph_delay;
 next_opcode:
     slot = &((TextStreamOwner *)object)->streams[object->stream_58];
     script = *slot;
@@ -198,7 +198,7 @@ next_opcode:
         }
     }
     if (TextBox_WrapLineIfNeeded(object) != 0) {
-        object->state_51 = 4;
+        object->playback_state = 4;
         return;
     }
     gText_PumpedGlyphIndex = gText_CurrentStreamCode;

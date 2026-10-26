@@ -118,3 +118,32 @@ preserves #7614's accepted `DebugMenu_UpdateMapEntry` name and complete
 ordered ledger update, aligning that additional identity in the baseline.
 No code or directive filtering is introduced; the combined tree also
 requires a fresh clean retail match.
+
+## Playback-state and cadence bytes
+
+The channel's u8 state_51 is now playback_state, delay_52 is
+delay_countdown and delay_reload_53 is glyph_delay. These remain bytes at
++0x51/+0x52/+0x53 in every region; the compact Japanese view still declares
+only the reload byte and retains its preceding padding.
+
+BuildStep tests the FULL playback_state for nonzero before masking the
+callback index with 0x1F. The eighteen-entry table remains unsized, raw
+stream state values remain unchecked, and the original 0x80 initialization
+and callback-specific 0x40 latches survive. This is not entry handler_state,
+channel flags, the shared script gate or command disposition. The narrow
+EffectObject.state producer view remains unchanged at the same +0x51.
+
+First build arms delay_countdown to one and clears playback_state. Normal
+parsing decrements the countdown before its zero test, then reloads
+glyph_delay before command dispatch; commands can continue in that same
+call. Held/pressed skip input still forces one, resets entry control bytes
+and sets the original channel flag. The 0x1C00 batching flags bypass only
+the original countdown block, not a newly normalized scheduler.
+
+Both countdown and reload are u8. Zero is not converted into immediate
+output: when the original countdown block runs, an incoming zero wraps to
+255. These are BuildStep calls, not guaranteed frames; the channel pump
+can invoke BuildStep repeatedly for extra steps or batching. The CD-sound
+callback also borrows delay_countdown as a watchdog, so it is deliberately
+not named glyph-only or frame-only state. See
+[text-media-waits.md](text-media-waits.md).
