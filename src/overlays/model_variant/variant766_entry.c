@@ -76,7 +76,11 @@ s32 func_8013B004(u8 *context, s32 command)
         work->flash_color.rgb.g = work->config->flash_g;
         work->flash_color.rgb.b = work->config->flash_b;
         work->burst_tpage = 0xAE;
+#ifdef VERSION_FRENCH
+        work->burst_clut = 0x3D28;
+#else
         work->burst_clut = 0x3D20;
+#endif
         for (i = 0; i < 2; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C848[i]);
         }

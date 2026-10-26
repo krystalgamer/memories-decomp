@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant119_entry.h"
+#include "../../game/graphics_constants.h"
 
 /* Header 119's entry: waves of 16 textured blades turning around the camera
  * part, each wave growing and fading over the row's fade time, with a
@@ -80,7 +81,7 @@ s32 func_8013B004(u8 *context, s32 command)
     }
     SetPolyFT4(&quad);
     SetPolyF4(&flash);
-    setXY4(&flash, 0, 0, 320, 0, 0, 240, 320, 240);
+    setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
     quad.tpage = work->texture[0] >> 16;
     quad.clut = work->texture[0];
     SetSemiTrans(&quad, 1);

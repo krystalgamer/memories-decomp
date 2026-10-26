@@ -74,7 +74,11 @@ s32 func_8013B004(u8 *context, s32 command)
         work->elapsed = 0;
         work->tick = 0;
         work->sparkle_count = 0;
+#ifdef VERSION_FRENCH
+        work->burst_clut = 0x3D28;
+#else
         work->burst_clut = 0x3D20;
+#endif
         for (i = 0; i < 3; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C990[i]);
         }
