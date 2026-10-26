@@ -165,7 +165,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("ring_vertices", 0x8014EA7C, 0x8014EC8C, 2),
             ("height_ring", 0x8014EC8C, 0x8014EE0C, 1),
             ("radial_random_vectors", 0x8014EE0C, 0x8014F010, 2),
-            ("rect_vertices", 0x8014F490, 0x8014F524, 1),
+            ("utility_helpers", 0x8014F010, 0x8014F524, 8),
             ("bolt_vertices", 0x8014FABC, 0x8014FE00, 1),
             ("quad_helpers", 0x8014FE00, 0x8014FF40, 2),
             ("effect_12", 0x80150E00, 0x80151218, 1),

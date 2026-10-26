@@ -81,3 +81,15 @@ void DuelEffect_InitXZRectVertices(SVECTOR *vertices, u16 width, u16 height, u16
         vertices[i].vz = (i - 2 < 0 ? -1 : 1) * depth;
     }
 }
+
+void DuelEffect_InitRectVertices(SVECTOR *vertices, s32 width, s16 height)
+{
+    s32 i;
+    s32 horizontal = width;
+
+    for (i = 0; i < 4; i++) {
+        vertices[i].vx = horizontal * DuelEffect_PowS16(-1, i + 1);
+        vertices[i].vy = (i - 2 < 0 ? -1 : 1) * height;
+        vertices[i].vz = 0;
+    }
+}
