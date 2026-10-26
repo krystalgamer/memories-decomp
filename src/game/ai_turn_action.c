@@ -1,3 +1,5 @@
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define DUEL_CARD_STAGING_DECK_VIEW
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "ai.h"
@@ -12,8 +14,10 @@
 #include "ai_turn_action.h"
 #include "duel_battle_stats.h"
 #include "../unmatched.h"
-
-#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#include "duel_card_staging.h"
+#include "duel_card_display_state.h"
+#include "duel_deck_card.h"
+#include "ai_board_snapshot.h"
 
 /* The AI's turn-action run: spell and fusion searches feed the action pick
    through gAi_Selection, followed by the occupied and face-up field-target
@@ -403,4 +407,152 @@ loop:
         goto loop;
     }
     return 0;
+}
+
+void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
+    DuelCardRecord *base;
+    s32 i;
+
+    base = &gDuel_aCardRecords[side * DUEL_CARD_SIDE_RECORD_COUNT];
+
+    {
+        DuelCardRecord *rec;
+        s32 *tbl;
+
+        rec = base + DUEL_FIELD_ROW_SIZE;
+        i = 0;
+        tbl = gDuel_adwCardStats;
+        do {
+            out->card_id = 0;
+            if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
+                s32 r;
+                s32 t;
+
+                out->card_id = rec->card_id;
+                r = Duel_CalcCardStats(rec);
+                out->attack = r;
+                out->defense = r >> 16;
+                out->flags = rec->flags;
+                out->card_type =
+                    ((DuelCardDisplayObject *)rec->object)->field_68;
+                if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
+                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                        CARD_STAT_GUARDIAN_STAR_2_SHIFT;
+                } else {
+                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                        CARD_STAT_GUARDIAN_STAR_1_SHIFT;
+                }
+                out->guardian_star = t & CARD_STAT_GUARDIAN_STAR_MASK;
+            }
+            i += 1;
+            out += 1;
+            rec += 1;
+        } while (i < DUEL_FIELD_ROW_SIZE);
+    }
+
+    {
+        DuelCardRecord *rec;
+        s32 *tbl;
+
+        rec = base + DUEL_FIELD_SIDE_ZONE_COUNT;
+        i = 0;
+        tbl = gDuel_adwCardStats;
+        do {
+            out->card_id = 0;
+            if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
+                s32 r;
+                s32 t;
+
+                out->card_id = rec->card_id;
+                r = Duel_CalcCardStats(rec);
+                out->attack = r;
+                out->defense = r >> 16;
+                out->flags = rec->flags;
+                out->card_type =
+                    ((DuelCardDisplayObject *)rec->object)->field_68;
+                if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
+                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                        CARD_STAT_GUARDIAN_STAR_2_SHIFT;
+                } else {
+                    t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
+                        CARD_STAT_GUARDIAN_STAR_1_SHIFT;
+                }
+                out->guardian_star = t & CARD_STAT_GUARDIAN_STAR_MASK;
+            }
+            i += 1;
+            out += 1;
+            rec += 1;
+        } while (i < DUEL_FIELD_ROW_SIZE);
+    }
+
+    {
+        s32 *tbl;
+
+        i = 0;
+        do {
+            s32 n;
+
+            n = gDuel_aSideStates[side].hand[i];
+            if (n >= 0) {
+                s32 *p;
+                s32 id;
+
+                id = D_8015C424_cards.cards[n].id;
+                out->card_id = id;
+                tbl = gDuel_adwCardStats;
+                p = (s32 *) (((id - 1) << 2) + (u32) tbl);
+                out->attack = (*p & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                out->defense = ((*p >> CARD_STAT_DEFENSE_SHIFT) &
+                                CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                out->flags = 0;
+                out->card_type =
+                    (*p >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+                out->guardian_star =
+                    (*p >> CARD_STAT_GUARDIAN_STAR_1_SHIFT) &
+                    CARD_STAT_GUARDIAN_STAR_MASK;
+                out->guardian_star_2 =
+                    (*p >> CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
+                    CARD_STAT_GUARDIAN_STAR_MASK;
+                out += 1;
+            }
+            i += 1;
+        } while (i < HAND_SIZE);
+    }
+
+    {
+        DuelDeckCardRecord *rp;
+
+        i = gDuel_aSideStates[side].deck_draw_cursor;
+        rp = &gDuel_aDeckCardRecords[i + side * DECK_SIZE];
+        if (i < DECK_SIZE) {
+            s32 *tbl;
+
+            tbl = gDuel_adwCardStats;
+            do {
+                s32 *p;
+                s32 id;
+
+                id = rp->id;
+                out->card_id = id;
+                p = (s32 *) (((id - 1) << 2) + (u32) tbl);
+                out->attack = (*p & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                out->defense = ((*p >> CARD_STAT_DEFENSE_SHIFT) &
+                                CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                out->flags = 0;
+                out->card_type =
+                    (*p >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+                i += 1;
+                out->guardian_star =
+                    (*p >> CARD_STAT_GUARDIAN_STAR_1_SHIFT) &
+                    CARD_STAT_GUARDIAN_STAR_MASK;
+                out->guardian_star_2 =
+                    (*p >> CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
+                    CARD_STAT_GUARDIAN_STAR_MASK;
+                out->deck_index = rp->deck_index;
+                rp += 1;
+                out += 1;
+            } while (i < DECK_SIZE);
+        }
+    }
+    out->card_id = 0;
 }

@@ -176,7 +176,6 @@ segments:
       - [0x015834, c, game/duel_card_effects]
       - [0x01664C, c, game/european/duel_field_effects]
       - [0x017870, c, game/ai_turn_action]
-      - [0x01853C, c, game/ai_export_side_snapshot]
       - [0x018964, c, game/duel_card_state_helpers]
       - [0x0189C0, c, game/duel_card_get_guardian_star]
       - [0x018A2C, c, game/european/duel_effect_dialog_state]

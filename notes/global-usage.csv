@@ -2500,7 +2500,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9FF0,gDuel_aSideStates,gDuel_aSideStates,0x80023144,DuelField_CreateCardInfoTextBox,matching_c,game,C,src/game/duel_field_display_objects.c,read,,rank = gDuel_aSideStates[gDuel_bActiveSide ^ 1].swords_turns_remaining; | rank = gDuel_aSideStates[side].swords_turns_remaining;
 0x800E9FF0,gDuel_aSideStates,gDuel_aSideStates,0x8002525C,DuelEffect_ApplyDirectDamage,matching_c,game,C,src/game/duel_card_effects.c,address,,p = &gDuel_aSideStates[gDuel_bActiveSide ^ 1]; | p = &gDuel_aSideStates[gDuel_bActiveSide];
 0x800E9FF0,gDuel_aSideStates,gDuel_aSideStates,0x80025F3C,DuelEffect_ApplySwords,matching_c,game,C,src/game/duel_field_effects.c,write,,gDuel_aSideStates[DUEL_SIDE_SELECTOR_VOLATILE ^ 1].swords_turns_remaining =
-0x800E9FF0,gDuel_aSideStates,gDuel_aSideStates,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_export_side_snapshot.c,read,,i = gDuel_aSideStates[side].deck_draw_cursor; | n = gDuel_aSideStates[side].hand[i];
+0x800E9FF0,gDuel_aSideStates,gDuel_aSideStates,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_turn_action.c,read,,i = gDuel_aSideStates[side].deck_draw_cursor; | n = gDuel_aSideStates[side].hand[i];
 0x800E9FF0,gDuel_aSideStates,gDuel_aSideStates,0x800713B8,AiScript_LoadLifePoint,matching_c,game,C,src/game/ai_script_opcodes.c,read,,p[AiScript_ReadByte()] = gDuel_aSideStates[1 - i].life_points.signed_value;
 0x800E9FF0,gDuel_aSideStates,gDuel_aSideStates,0x8007154C,AiScript_TestSwordsActive,matching_c,game,C,src/game/ai_script_combo.c,read,,gDuel_aSideStates[(gDuel_bActiveSide[0] ^ 1) ^ index].
 0x800EA02F,gDuel_bSide1CardViewMode,gDuel_bSide1CardViewMode,0x800175A0,Duel_InitSideStates,matching_c,game,C,src/game/duel_state_init.c,write,8,gDuel_bSide1CardViewMode[0] = -1;
@@ -3002,7 +3002,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8015C424,gDuel_abCardStagingBuffer,gDuel_abCardStagingBuffer,0x800249E0,Duel_SetupCardRecord,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,8,tb = gDuel_abCardStagingBuffer;
 0x8015C424,gDuel_abCardStagingBuffer,gDuel_abCardStagingBuffer,0x80024D34,Duel_SetupFieldCardFromDeck,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,8,tb = gDuel_abCardStagingBuffer;
 0x8015C424,gDuel_abCardStagingBuffer,D_8015C424_cards,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/duel_field_effects.c,read,,D_8015C424_cards.field_cards[object->field_6A].card_id;
-0x8015C424,gDuel_abCardStagingBuffer,D_8015C424_cards,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_export_side_snapshot.c,read,,id = D_8015C424_cards.cards[n].id;
+0x8015C424,gDuel_abCardStagingBuffer,D_8015C424_cards,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_turn_action.c,read,,id = D_8015C424_cards.cards[n].id;
 0x801683EC,NameEntry_Init,NameEntry_Init,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,read,,NameEntry_Init();
 0x80168FCC,CampaignMap_UpdateLocation,CampaignMap_UpdateLocation,0x8002D2D8,Main_RunCampaignMap,matching_c,game,C,src/game/main_run_selection_menus.c,read,,void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;gGraphics_bOrderingTable3...
 0x80169C08,NameEntry_PollCompletion,NameEntry_PollCompletion,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,read,,if (NameEntry_PollCompletion()) {
@@ -3079,7 +3079,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,gDuel_aCardRecords,gDuel_aCardRecords,0x8002778C,Ai_FindFavorableFieldTarget,matching_c,game,C,src/game/ai_turn_action.c,address,,DuelCardRecord *entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[position]];
 0x801A7AD8,gDuel_aCardRecords,gDuel_aCardRecords,0x800278A0,Ai_FindFavorableFaceUpFieldTarget,matching_c,game,C,src/game/ai_turn_action.c,address,,entry = &gDuel_aCardRecords[row];
 0x801A7AD8,gDuel_aCardRecords,gDuel_aCardRecords,0x800279BC,Ai_SelectFieldPlay,matching_c,game,C,src/game/ai_turn_action.c,address,,recs = gDuel_aCardRecords; | scanbase = &gDuel_aCardRecords[5];
-0x801A7AD8,gDuel_aCardRecords,gDuel_aCardRecords,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_export_side_snapshot.c,address,,base = &gDuel_aCardRecords[side * DUEL_CARD_SIDE_RECORD_COUNT];
+0x801A7AD8,gDuel_aCardRecords,gDuel_aCardRecords,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_turn_action.c,address,,base = &gDuel_aCardRecords[side * DUEL_CARD_SIDE_RECORD_COUNT];
 0x801A7AD8,gDuel_aCardRecords,gDuel_aCardRecords,0x8002C7E8,Duel_CheckRitual,matching_c,game,C,src/game/duel_check_ritual.c,address,,c = &gDuel_aCardRecords[i];
 0x801A7AD8,gDuel_aCardRecords,gDuel_aCardRecords,0x8002C938,Duel_CollectFieldRowCardObjects,matching_c,game,C,src/game/duel_field_card_objects.c,address,,"entry = DUEL_CARD_RECORD_AT_OFFSET(gDuel_aCardRecords, scaled);"
 0x801A7AD8,gDuel_aCardRecords,gDuel_aCardRecords,0x8002C9B4,Duel_CollectMatchingFieldCardObjects,matching_c,game,C,src/game/duel_field_card_objects.c,address,,entry = &gDuel_aCardRecords[base];
@@ -3091,7 +3091,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7E20,gDuel_aDeckCardRecords,gDuel_aDeckCardRecords,0x80018608,DuelScene_UpdateStartup,matching_c,game,C,src/game/duel_phase_entry.c,address,,rec = &gDuel_aDeckCardRecords[DECK_SIZE]; | rec = gDuel_aDeckCardRecords;
 0x801A7E20,gDuel_aDeckCardRecords,gDuel_aDeckCardRecords,0x80024824,Duel_PopulateCombinedDeckData,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,,DuelDeckCardRecord *rec = gDuel_aDeckCardRecords;
 0x801A7E20,gDuel_aDeckCardRecords,gDuel_aDeckCardRecords,0x800249E0,Duel_SetupCardRecord,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,,p->data = &gDuel_aDeckCardRecords[b];
-0x801A7E20,gDuel_aDeckCardRecords,gDuel_aDeckCardRecords,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_export_side_snapshot.c,address,,rp = &gDuel_aDeckCardRecords[i + side * DECK_SIZE];
+0x801A7E20,gDuel_aDeckCardRecords,gDuel_aDeckCardRecords,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_turn_action.c,address,,rp = &gDuel_aDeckCardRecords[i + side * DECK_SIZE];
 0x801A8000,D_801A8000,D_801A8000,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,address,8,d->value_08 = d->value_0C = (u32)D_801A8000;
 0x801A8000,D_801A8000,D_801A8000,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,address,8,AiScript_Init(D_801A8000);
 0x801A8000,D_801A8000,D_801A8000,0x8002E918,Script_OpStoryFlag,matching_c,game,C,src/game/script_image_commands.c,address,8,gScript_StreamCursor = D_801A8000 + offset;
@@ -3205,7 +3205,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80026C6C,Duel_CollectFieldCardsBelowType,matching_c,game,C,src/game/duel_field_effects.c,address,32,s32 *t = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80026D18,Duel_CollectFieldCardsByType,matching_c,game,C,src/game/duel_field_effects.c,address,32,s32 *t = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80027508,Ai_SelectHandPlay,matching_c,game,C,src/game/ai_turn_action.c,read,32,if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGI... | if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) == CARD_TYPE_EQU...
-0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_export_side_snapshot.c,address,32,tbl = gDuel_adwCardStats;
+0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80027DF8,Ai_ExportSideSnapshot,matching_c,game,C,src/game/ai_turn_action.c,address,32,tbl = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x8002827C,DuelCard_GetGuardianStar,matching_c,game,C,src/game/duel_card_get_guardian_star.c,address,32,s32 *table = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x800283F4,DuelEffect_UpdateCardViewerState,matching_c,game,C,src/game/duel_effect_states.c,address,32,stats = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x800291E0,CardPreview_CreateResourceObjects,matching_c,game,C,src/game/duel_effect_resource_setup.c,read,32,(s16)(((gDuel_adwCardStats[card_id - 1] >> 9) & 0x1FF) * 10); | (s16)((gDuel_adwCardStats[card_id - 1] & 0x1FF) * 10); | (+1 more)

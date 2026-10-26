@@ -54,7 +54,7 @@ pointer. The incomplete array declaration and the direct alias relocation
 remain; no use is rewritten to a base-plus-one expression and no array
 capacity is invented.
 
-[`Ai_ExportSideSnapshot`](../src/game/ai_export_side_snapshot.c) takes an
+[`Ai_ExportSideSnapshot`](../src/game/ai_turn_action.c) takes an
 output cursor and a physical duel-side index. It writes four consecutive
 segments in their original order:
 

@@ -172,7 +172,6 @@ segments:
       - [0x156ec, c, game/japanese/duel_card_effects]
       - [0x16504, c, game/japanese/duel_field_effects]
       - [0x17740, c, game/japanese/ai_turn_action]
-      - [0x1840c, c, game/japanese/ai_export_side_snapshot]
       - [0x18834, c, game/japanese/duel_card_state_helpers]
       - [0x18890, c, game/duel_card_get_guardian_star]
       - [0x188fc, c, game/japanese/duel_effect_dialog_state]

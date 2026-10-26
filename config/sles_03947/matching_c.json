@@ -1371,9 +1371,9 @@
     },
     {
       "address": "0x80027D3C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x428",
-      "source": "src/game/ai_export_side_snapshot.c"
+      "source": "src/game/ai_turn_action.c"
     },
     {
       "address": "0x80028164",
