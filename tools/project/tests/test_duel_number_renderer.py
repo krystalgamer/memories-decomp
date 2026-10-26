@@ -15,11 +15,11 @@ class DuelNumberRendererTests(unittest.TestCase):
         manifest = json.loads((CONFIG / "duel_effects_matching_c.json").read_text())
         entries = [entry for entry in manifest["functions"]
                    if entry["source"] == "src/overlays/duel_effects/number_renderer.c"]
-        self.assertEqual(entries, [{
-            "address": "0x801566D4", "size": "0x400",
-            "source": "src/overlays/duel_effects/number_renderer.c",
-            "profile": "gcc_2_8_1_g0_split",
-        }])
+        # The renderer opens the unit; its two digit helpers follow it.
+        self.assertEqual([(e["address"], e["size"]) for e in entries],
+                         [("0x801566D4", "0x400"), ("0x80156AD4", "0x6C"),
+                          ("0x80156B40", "0x100")])
+        self.assertEqual({e["profile"] for e in entries}, {"gcc_2_8_1_g0_split"})
         with (CONFIG / "duel_effects_functions.csv").open() as handle:
             rows = {row["address"]: row for row in csv.DictReader(handle)}
         self.assertEqual(rows["0x801566D4"]["status"], "matching_c")

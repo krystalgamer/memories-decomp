@@ -1129,3 +1129,15 @@ The European (English) bank's same five, at the Spanish addresses
 (`0x8014A8E4`, `0x8014D3E8`, `0x8014FABC`, `0x80151558`, `0x801566D4`, with
 effect 22's jump table at `0x54`), also compile unchanged: **85 C functions /
 81,804 bytes** of 85.
+
+## Later groupings
+
+The sections above record units as they were accepted. Two pairs have since
+been merged by meaning (#39), with no change to any image:
+- `matrix_setup.c` (`DuelEffect_SetTransformMatrix`) now opens
+  `matrix_helpers.c`, ahead of the scaled local-screen and matrix-copy helpers;
+- `number_helpers.c` (the decimal digit counter and digit writer) now follows
+  `DuelEffect_DrawProjectedNumber` in `number_renderer.c`.
+
+Every region's `duel_effects` layout and manifest names the merged sources at
+the same addresses and the same `gcc_2_8_1_g0_split` profile.
