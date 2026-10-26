@@ -59,7 +59,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->elapsed = 0;
         work->frames = 0;
         work->completed = 0;
+#ifndef VERSION_FRENCH
         printf("%d (0x%x) Byte\n", sizeof(Model172State), sizeof(Model172State));
+#endif
         return 0;
     }
     config = work->config;

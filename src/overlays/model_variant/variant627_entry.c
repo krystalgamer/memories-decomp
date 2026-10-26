@@ -26,7 +26,9 @@ s32 func_8013B004(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model627State));
+#ifndef VERSION_FRENCH
         printf("E_DATA size = %x byte\n", sizeof(Model627State));
+#endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->elapsed = 0;

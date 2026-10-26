@@ -9,7 +9,9 @@
 
 static const VECTOR D_8013C3A4 = {4096, 4096, 4096, 0};
 /* The work-size format string; retail's sixteenth byte after the terminator is 0x0C. */
+#ifndef VERSION_FRENCH
 static const char D_8013C3B4[16] = "%d (%x) Byte.\n\0\f";
+#endif
 
 s32 func_8013B004(u8 *context, s32 command)
 {
@@ -82,7 +84,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->completed = 0;
         work->elapsed = 0;
         work->unknown_B1D = 0;
+#ifndef VERSION_FRENCH
         printf(D_8013C3B4, sizeof(Model176State), sizeof(Model176State));
+#endif
         return 0;
     }
     config = work->config;
