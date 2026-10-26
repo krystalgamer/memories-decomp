@@ -73,11 +73,11 @@ static __inline__ void setup_rotation(
 
     unit->flg = 0;
     unit->rot.vx =
-        turn - ((volatile ModelSlot *)gModel_aSlots)->field_D18->rot.vx;
+        turn - ((volatile ModelSlot *)gModel_aSlots)->root_coordinate->rot.vx;
     unit->rot.vy =
-        turn - ((volatile ModelSlot *)gModel_aSlots)->field_D18->rot.vy;
+        turn - ((volatile ModelSlot *)gModel_aSlots)->root_coordinate->rot.vy;
     unit->rot.vz =
-        turn - (u16)((volatile ModelSlot *)gModel_aSlots)->field_D18->rot.vz;
+        turn - (u16)((volatile ModelSlot *)gModel_aSlots)->root_coordinate->rot.vz;
     RotMatrixZXY(&unit->rot, &unit->matrix);
 }
 
@@ -99,7 +99,7 @@ void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 arg1, SVECTOR *arg2, G
 
     slot = &gModel_aSlots[index];
     if (slot->entry_count < arg1) {
-        arg1 = slot->field_E18;
+        arg1 = slot->root_coordinate_index;
     }
 
     GsGetLwUnit(

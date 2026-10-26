@@ -67,15 +67,15 @@ s32 ModelDebug_UpdateController(void)
             *(u16 *)&D_8009B004.fields.height =
                 gModel_pBackgroundRecord->stage_height;
             height = D_8009B004.fields.height;
-            if (stage->field_D18) {
-                stage->field_D18->rot.vx = 0;
-                stage->field_D18->rot.vy = 0;
-                stage->field_D18->rot.vz = 0;
-                stage->field_D18->matrix.t[0] = 0;
-                stage->field_D18->matrix.t[1] = height;
-                stage->field_D18->matrix.t[2] = 0;
+            if (stage->root_coordinate) {
+                stage->root_coordinate->rot.vx = 0;
+                stage->root_coordinate->rot.vy = 0;
+                stage->root_coordinate->rot.vz = 0;
+                stage->root_coordinate->matrix.t[0] = 0;
+                stage->root_coordinate->matrix.t[1] = height;
+                stage->root_coordinate->matrix.t[2] = 0;
             }
-            Model_UpdateCoordinateUnitMatrix(stage->field_D18, 0);
+            Model_UpdateCoordinateUnitMatrix(stage->root_coordinate, 0);
             gModel_bPresentationPhase = 0;
         }
     } else if (!slots[0].is_active) {
@@ -158,15 +158,15 @@ s32 ModelDebug_UpdateController(void)
 
                 stage += 2;
                 height = D_8009B004.fields.height;
-                if (stage->field_D18) {
-                    stage->field_D18->rot.vx = 0;
-                    stage->field_D18->rot.vy = 0;
-                    stage->field_D18->rot.vz = 0;
-                    stage->field_D18->matrix.t[0] = 0;
-                    stage->field_D18->matrix.t[1] = height;
-                    stage->field_D18->matrix.t[2] = 0;
+                if (stage->root_coordinate) {
+                    stage->root_coordinate->rot.vx = 0;
+                    stage->root_coordinate->rot.vy = 0;
+                    stage->root_coordinate->rot.vz = 0;
+                    stage->root_coordinate->matrix.t[0] = 0;
+                    stage->root_coordinate->matrix.t[1] = height;
+                    stage->root_coordinate->matrix.t[2] = 0;
                 }
-                Model_UpdateCoordinateUnitMatrix(stage->field_D18, 0);
+                Model_UpdateCoordinateUnitMatrix(stage->root_coordinate, 0);
             }
         }
     } else if (gInput_wPad1Repeat & 0x5000) {

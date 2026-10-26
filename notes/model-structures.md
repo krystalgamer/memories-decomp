@@ -95,7 +95,8 @@ Verified shared fields and partial arrays are:
 | `0xBF8` | `sound_entries[64]` | `model_slot_control.c` clears 64 four-byte records; `Model_PlaySlotAnimationSounds` reads each record as `{animation_row, sound_id, flags}` |
 | `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `Model_StartBattleSlotAction` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `Model_GetSlotDataEntry`, `Model_GetCurrentDataEntry`, and `Model_TransformPartVertex` |
-| `0xD18` | `field_D18` | `Model_BuildCameraRelativeCoordinateUnit` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
+| `0xD18` | `root_coordinate` | `Model_BuildCameraRelativeCoordinateUnit` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
+| `0xD1C` | `render_parent_coordinate` | selected parent/fallback for child scaling and world-position bounds; not the parent of every rendered unit |
 | `0xD70` | `flat_lights[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `Model_DrawSlot` and `Model_DrawBackground` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
 | `0xDA0` | `ambient_rgb_scale[3]` | three adjacent clamped `s32` writes in `Model_SetSlotAmbient` |
 | `0xDB0` | `field_DB0` | four-word copy/reset block in `Model_SetSlotScale` |
@@ -117,7 +118,9 @@ Verified shared fields and partial arrays are:
 | `0xE12` | `shadow_enabled` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `Model_DrawSlot` guards its projected ground-fan path with the same byte |
 | `0xE13` | `stone_texture_state` | STONE reaction seeds 0x80/0xFF; qualifying draws grayscale, remap handlers, finalize at 0xFE and clear |
 | `0xE14` | `load_step` | sentinel test in `func_80058DD8` |
-| `0xE16`-`0xE18` | byte fields | notification test in `Model_SetSlotPlaybackSpeed`; clamp/index fields in `Model_GetSlotDataEntry` and `Model_GetCurrentDataEntry` |
+| `0xE16`-`0xE17` | `playback_state`, `entry_count` | raw playback mode and coordinate entry bound; original notification and request comparisons retained |
+| `0xE18` | `root_coordinate_index` | parentless coordinate scan result, narrowed to u8; strict out-of-count request fallback |
+| `0xE19` | `render_parent_coordinate_index` | initialization selection/replacement index; can remain stale when its pointer becomes null |
 | `0xE1A` | `hmd_unit_count` | head-entry count in `Model_RunSlotHandlers` |
 | `0xE1B` | `animation_sequence_count` | pointer-array count in `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` |
 | `0xE1F` | `is_active` | status tests in `func_80058DD8` and `Model_RunSlotHandlers` |
@@ -192,6 +195,61 @@ field.
 The reset, table builder and subsequent command-row linker are named and
 traced through their producer/consumer chain in
 `notes/model-animation-tables.md`.
+
+### Root and selected render-parent coordinates
+
+The paired pointer/index roles are now explicit:
+
+| Original | Canonical | Unchanged representation |
+|---|---|---|
+| `field_D18` | `root_coordinate` | stored `struct _GsCOORDUNIT *G32`, +0xD18 |
+| `field_D1C` | `render_parent_coordinate` | stored `struct _GsCOORDUNIT *G32`, +0xD1C |
+| `field_E18` | `root_coordinate_index` | `u8`, +0xE18 |
+| `field_E19` | `render_parent_coordinate_index` | `u8`, +0xE19 |
+
+`Model_InitSlot` clears all four before its null-HMD return. With a
+mapped coordinate run, it scans to the first entry whose SDK `super`
+is null, stores the original scan count through the root index byte
+and computes the root pointer from the original integer count. Keep
+that distinction: narrowing is not an invitation to recompute the
+pointer from the stored byte, clamp the scan or add a root/count guard.
+
+The initializer asks `Model_FindBranchingChildCoord` for a child that
+itself has a child. It stores the returned index through the original
+byte conversion, falls back to the root index under the existing
+comparison, and initially selects that coordinate as render parent.
+Its retry scan keeps the exact non-null coordinate/list checks and
+primitive-header test while looking for a unit parented by the current
+coordinate. It can descend another branching child before selecting
+the current coordinate's parent. A parent equal to the root retains
+the earlier selection. A different parent replaces the pointer, but
+only a non-null replacement updates the index. Thus null pointers,
+retained fallback selections and stale indices remain possible;
+no pointer/index round-trip, unique subtree or readiness invariant
+is implied. All loop forms, sentinels, limits and partial writes survive.
+
+`Model_SetSlotRootTransform`, debug setup and credits-monster setup
+write root translation/yaw and retain their original matrix-refresh
+calls, including calls outside a pointer guard. The two view builders
+read root rotations; the view-relative builder still repeatedly reads
+slot ZERO through its volatile view, not the selected slot. Background
+height reads slot 2's root local Y before its active check; the default
+shadow plane uses that field in its original draw path.
+
+The renderer tests `unit->super == render_parent_coordinate` for its
+existing child scaling path and uses this selected coordinate's world
+translation as a fallback in the centroid/height passes. It excludes
+both coordinate pointers from the second bounds pass. The name does
+not make this the direct parent of every rendered unit, the model's
+centroid or an anatomical bone. Keep all part masks, live-list tests,
+cached/world matrix choices, averaging, clamps and draw order.
+
+`Model_GetSlotDataEntry` and `Model_BuildViewRelativeCoordinateUnit`
+retain the strictly-greater-than-count fallback to the root index;
+equality and negative requests are not newly rejected.
+`Model_GetCurrentDataEntry` keeps its integer-address return and
+0x50-byte stride. No SDK layout, pointer type, G32 marker, allocation,
+stable-parent lifetime, API or validation behavior changes.
 
 ### Variadic slot-property update
 
@@ -556,7 +614,7 @@ model-base views:
   keeps the accepted address construction.
 
 `Model_UpdateCreditsMonsterSlot` now uses `ModelSlot` and `GsCOORDUNIT` for both model slots
-and their placement units. Its repeated `field_D18` member expressions are
+and their placement units. Its repeated `root_coordinate` member expressions are
 intentional: GCC 2.8.1 must reload the coordinate pointer before each rotation
 and translation store to preserve the retail schedule. The case-10 staging
 path in `file_transfer_steps.c` likewise reaches the sound-entry run,

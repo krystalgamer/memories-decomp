@@ -12,7 +12,7 @@ compiler profile or source-file movement.
 
 The first argument selects `gModel_aSlots[index]`. The second requests an
 80-byte coordinate entry. The original comparison remains strictly
-`entry_count < requested`: that case substitutes `field_E18`. Equality,
+`entry_count < requested`: that case substitutes `root_coordinate_index`. Equality,
 negative requests and caller validation are not changed, and no anatomical
 meaning is assigned to entry fifteen or the fallback.
 

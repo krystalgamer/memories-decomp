@@ -3366,10 +3366,10 @@ What was safe, all confirmed against the full-executable hash:
     type. `*(s32 *)&e->field_4C` on an `s32` member folds straight back into
     a member read; spell it `*(u32 *)&`.
   - The mirror case also happens. In `func_800580D4` a volatile pointer load
-    written as `*(GsCOORDUNIT * volatile *)&D_800F2C40[0].field_D18` is a
+    written as `*(GsCOORDUNIT * volatile *)&D_800F2C40[0].root_coordinate` is a
     fixed-address scalar and floated above a store through the varying
     `arg3`. Written as a struct reference,
-    `((volatile ModelSlot *)D_800F2C40)->field_D18`, it stays put.
+    `((volatile ModelSlot *)D_800F2C40)->root_coordinate`, it stays put.
 
 - **When converting a record to a typed pointer, convert every access to it
   at once.** `func_800289BC` reaches a `0x40`-byte record through `u8 *e`

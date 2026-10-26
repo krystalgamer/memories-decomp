@@ -254,7 +254,7 @@ static void setup(void)
     clear(events, sizeof(events)); clear(sprites, sizeof(sprites));
     clear(normal_outputs, sizeof(normal_outputs));
     clear(&ordering, sizeof(ordering));
-    gModel_aSlots[2].field_D18 = &coordinate;
+    gModel_aSlots[2].root_coordinate = &coordinate;
     gModel_aSlots[2].is_active = 1;
     gModel_aSlots[2].ambient_rgb_scale[0] = 100;
     gModel_aSlots[2].ambient_rgb_scale[1] = 200;

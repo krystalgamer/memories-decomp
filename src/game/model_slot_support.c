@@ -15,7 +15,7 @@ void *Model_GetSlotDataEntry(s32 index, s32 slot)
     ModelSlot *entry = &gModel_aSlots[index];
 
     if (slot > entry->entry_count) {
-        slot = entry->field_E18;
+        slot = entry->root_coordinate_index;
     }
     return entry->entries + slot * MODEL_SLOT_DATA_ENTRY_SIZE;
 }
@@ -25,7 +25,7 @@ u32 Model_GetCurrentDataEntry(s32 index)
     ModelSlot *entry = &gModel_aSlots[index];
 
     return (u32)entry->entries +
-           entry->field_E18 * MODEL_SLOT_DATA_ENTRY_SIZE;
+           entry->root_coordinate_index * MODEL_SLOT_DATA_ENTRY_SIZE;
 }
 
 void Model_CopySlotU16Values(s32 idx, u16 *out) {

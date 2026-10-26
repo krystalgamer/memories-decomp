@@ -94,11 +94,11 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     base->active_animation_command_row = 0;
     base->part_command_reset_pending = 0;
     base->entry_count = 0;
-    base->field_E18 = 0;
-    base->field_D18 = 0;
+    base->root_coordinate_index = 0;
+    base->root_coordinate = 0;
     base->entries = 0;
-    base->field_D1C = 0;
-    base->field_E19 = 0;
+    base->render_parent_coordinate = 0;
+    base->render_parent_coordinate_index = 0;
     base->animation_sequence_count = 0;
     base->field_E1C = 0;
     base->primary_module_data_address = 0;
@@ -225,15 +225,15 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
             scan++;
             i++;
         }
-        base->field_E18 = i;
+        base->root_coordinate_index = i;
         q = GS_COORD_UNIT_VIEW(base->entries) + i;
-        base->field_D18 = q;
-        base->field_E19 = Model_FindBranchingChildCoord(base, q);
-        if (!(base->field_E19 < base->entry_count)) {
-            base->field_E19 = base->field_E18;
+        base->root_coordinate = q;
+        base->render_parent_coordinate_index = Model_FindBranchingChildCoord(base, q);
+        if (!(base->render_parent_coordinate_index < base->entry_count)) {
+            base->render_parent_coordinate_index = base->root_coordinate_index;
         }
-        cur = GS_COORD_UNIT_VIEW(base->entries) + base->field_E19;
-        base->field_D1C = cur;
+        cur = GS_COORD_UNIT_VIEW(base->entries) + base->render_parent_coordinate_index;
+        base->render_parent_coordinate = cur;
     retry:
         slot = GS_UNIT_VIEW(base->hmd_units);
         loaded_limit = base->hmd_unit_count;
@@ -267,10 +267,10 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
         goto retry;
     found:
         rec = cur->super;
-        if (rec != base->field_D18) {
-            base->field_D1C = rec;
+        if (rec != base->root_coordinate) {
+            base->render_parent_coordinate = rec;
             if (rec != 0) {
-                base->field_E19 = rec - GS_COORD_UNIT_VIEW(base->entries);
+                base->render_parent_coordinate_index = rec - GS_COORD_UNIT_VIEW(base->entries);
             }
         }
     }

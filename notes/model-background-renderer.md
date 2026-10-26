@@ -10,7 +10,7 @@ instruction; no linker alias or duplicate allocation is needed.
 `gModel_CameraCoordinateUnit`, returned by `Model_GetCameraCoordinateUnit`, is the actual SDK
 `GsCOORDUNIT`, `0x50` bytes. Its `matrix`
 subobject begins at `+4`; `D_800F56A4` must not be separately allocated.
-The model slot's `field_D18` points to another `GsCOORDUNIT`; the renderer
+The model slot's `root_coordinate` points to another `GsCOORDUNIT`; the renderer
 reads `matrix.t[1]` at coordinate offset `0x1C` and adds 300. The three
 `flat_lights` entries have the `GsF_LIGHT` size/layout, `ambient_rgb_scale` supplies
 the three ambient words, and `is_active` is the active byte.
@@ -33,7 +33,7 @@ records and two trailing bytes. Their initialized texture depth codes are
 The renderer reads the record at `+0xAC` and `+0xA8/+0xAA`, and reads the
 coordinate Y value, **before** the slot-active guard. Both pointers must
 therefore be valid even when the slot is inactive. The model initializer at
-`Model_InitSlot` initially clears `field_D18`, then installs a coordinate from
+`Model_InitSlot` initially clears `root_coordinate`, then installs a coordinate from
 the slot's 80-byte entry run during model setup. Reset state alone is not a
 valid input to this renderer.
 
