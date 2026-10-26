@@ -317,10 +317,10 @@ typedef struct {
     u8 handler_state;
     u8 field_14;
     u8 render_mode;
-    /* Rendering interprets these by glyph kind; keep the shared offset names. */
-    u8 field_16;
+    /* Palette selection varies by glyph kind; the icon variant stays unnamed. */
+    u8 palette_index;
     u8 field_17;
-    u8 field_18;
+    u8 layout_selector;
     u8 pad_19[3];
 } DuelEffectEntry;
 
@@ -363,14 +363,14 @@ typedef char DuelEffectEntry_field_14_offset_must_be_0x14[
 typedef char DuelEffectEntry_render_mode_offset_must_be_0x15[
     YGO_TYPE_OFFSET(DuelEffectEntry, render_mode) == 0x15 ? 1 : -1
 ];
-typedef char DuelEffectEntry_field_16_offset_must_be_0x16[
-    YGO_TYPE_OFFSET(DuelEffectEntry, field_16) == 0x16 ? 1 : -1
+typedef char DuelEffectEntry_palette_index_offset_must_be_0x16[
+    YGO_TYPE_OFFSET(DuelEffectEntry, palette_index) == 0x16 ? 1 : -1
 ];
 typedef char DuelEffectEntry_field_17_offset_must_be_0x17[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_17) == 0x17 ? 1 : -1
 ];
-typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
-    YGO_TYPE_OFFSET(DuelEffectEntry, field_18) == 0x18 ? 1 : -1
+typedef char DuelEffectEntry_layout_selector_offset_must_be_0x18[
+    YGO_TYPE_OFFSET(DuelEffectEntry, layout_selector) == 0x18 ? 1 : -1
 ];
 
 #define TEXT_STREAM_SLOT_COUNT 22

@@ -213,7 +213,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
         q->flags_11 = 0xC0;
         c = p->color_index_54;
         q->handler_state = 0;
-        q->field_16 = c;
+        q->palette_index = c;
     } else {
         a &= 0x8000FFFF;
 #ifdef VERSION_JAPAN
@@ -241,7 +241,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
         q->flags_11 = 0x80;
         *(s32 *)q = a;
 #ifndef VERSION_JAPAN
-        q->field_16 = b;
+        q->palette_index = b;
 #endif
 #ifdef VERSION_JAPAN
         r[0] = 0x280 + ((v & 0xF) << 2);

@@ -119,7 +119,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
 }
 
 /* Clears the marker byte in every entry; the North American layout also
-   clears field_18, the Japanese and European ones do not. */
+   clears layout_selector, the Japanese and European ones do not. */
 void DuelEffect_ResetEntryMarkers(void) {
     DUEL_EFFECT_MARKER_ENTRY_TYPE *v0;
     int v1;
@@ -134,7 +134,7 @@ void DuelEffect_ResetEntryMarkers(void) {
     for (; v1 != 0; v1 = v1 - 1) {
         v0->flags_11 = 0;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-        v0->field_18 = 0;
+        v0->layout_selector = 0;
 #endif
         v0 = v0 + 1;
     }
