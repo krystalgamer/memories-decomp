@@ -343,7 +343,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             "-ffreestanding", "-fno-builtin", "-fno-stack-protector",
             "-fno-strict-aliasing", "-Werror=incompatible-pointer-types",
             "-I", str(ROOT / "src/game"), str(source),
-            str(ROOT / "src/game/duel_check_ritual.c"), str(startup),
+            str(ROOT / "src/game/duel_effect_object_pool.c"), str(startup),
             "-o", str(binary),
         ])
         self.assertEqual(compilation.returncode, 0, compilation.stderr)

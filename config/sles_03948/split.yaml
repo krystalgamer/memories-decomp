@@ -447,9 +447,6 @@ segments:
   - - 118596
     - c
     - game/duel_effect_object_pool
-  - - 119228
-    - c
-    - game/duel_check_ritual
   - - 119564
     - c
     - game/duel_field_card_objects

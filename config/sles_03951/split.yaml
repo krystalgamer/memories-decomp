@@ -195,7 +195,6 @@ segments:
       - [0x1CEB0, c, game/duel_deck_lookup]
       - [0x1CF34, c, game/noop_callbacks]
       - [0x1CF44, c, game/duel_effect_object_pool]
-      - [0x1D1BC, c, game/duel_check_ritual]
       - [0x1D30C, c, game/duel_field_card_objects]
       - [0x1D524, c, game/display_object_copy_work_slots]
       - [0x1D554, c, game/duel_card_stat_rules]
