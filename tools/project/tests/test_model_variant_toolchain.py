@@ -553,7 +553,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
             291: (names(set(), set(), stage10_slot1={141}, stage8_slot1=set()), 0xD48, 1),
             150: (names(set(), {71}, stage10_slot1=set(), stage8_slot1=set()), 0xF18, 1),
             280: (names(set(), set(), stage10_slot1={71}, stage8_slot1=set()), 0xF18, 1),
-            # North American images whose entry is North American C (headers 111, 118, 119, 176, 627, 647, 752, 754, 756, 766, 779, 827 and 828).
+            # North American images whose entry is North American C (headers 111, 118, 119, 172, 176, 627, 647, 752, 754, 756, 766, 779, 827 and 828).
             111: (names({466, 483, 548}, {247, 486}, stage10_slot1=set(), stage8_slot1=set()), 0xCF8, 1),
             241: (names(set(), set(), stage10_slot1={247, 486}, stage8_slot1={466, 483, 548}), 0xCF8, 1),
             627: (names({489, 505}, {13, 286, 421, 482, 541}, stage10_slot1=set(), stage8_slot1=set()), 0x136C, 1),
@@ -586,6 +586,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             248: (names(set(), set(), stage10_slot1={51, 390, 510, 511}, stage8_slot1={16, 17, 59, 224, 358, 378, 452, 484, 564}), 0x1044, 1),
             119: (names({3, 25, 369, 705}, {16, 17, 96, 155, 436, 717}, stage10_slot1=set(), stage8_slot1=set()), 0xA1C, 1),
             249: (names(set(), set(), stage10_slot1={16, 17, 96, 155, 436, 717}, stage8_slot1={3, 25, 369, 705}), 0xA1C, 1),
+            172: (names(set(), {7, 56, 157, 179, 228, 505, 552, 588, 593, 615}, stage10_slot1=set(), stage8_slot1=set()), 0xCF8, 1),
+            302: (names(set(), set(), stage10_slot1={7, 56, 157, 179, 228, 505, 552, 588, 593, 615}, stage8_slot1=set()), 0xCF8, 1),
             176: (names({13, 52, 127, 388, 462, 506, 581}, {177, 213, 467, 479, 544, 608}, stage10_slot1=set(), stage8_slot1=set()), 0x13A4, 1),
             306: (names(set(), set(), stage10_slot1={177, 208, 213, 467, 479, 544, 608}, stage8_slot1={13, 52, 127, 388, 462, 506, 581}), 0x13A4, 1),
         }
@@ -605,7 +607,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 1017)
+        self.assertEqual(len(registered), 1037)
 
 
 if __name__ == "__main__":

@@ -11,12 +11,13 @@ French header-88 C and GCC 2.8.1. See the
 [USA header-71 integration](usa-model-variant71.md) for its fourteen images,
 loader and callee evidence, and preserved unclassified suffixes.
 
-USA images under headers 72/202, 110/240, 111/241, 118/248, 119/249, 176/306, 627/694, 634/701,
+USA images under headers 72/202, 110/240, 111/241, 118/248, 119/249, 172/302, 176/306, 627/694, 634/701,
 647/714, 654/721, 752/849, 754/851, 756/853, 766/863, 779/876, 827/924 and 828/925 build from North American C; see [USA MODEL headers 72 and 202](usa-model-variant72.md),
 [USA MODEL headers 110 and 240](usa-model-variant110.md),
 [USA MODEL headers 111 and 241](usa-model-variant111.md),
 [USA MODEL headers 118 and 248](usa-model-variant118.md),
 [USA MODEL headers 119 and 249](usa-model-variant119.md),
+[USA MODEL headers 172 and 302](usa-model-variant172.md),
 [USA MODEL headers 176 and 306](usa-model-variant176.md),
 [USA MODEL headers 627 and 694](usa-model-variant627.md),
 [USA MODEL headers 634 and 701](usa-model-variant634.md),
