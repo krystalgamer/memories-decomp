@@ -1,11 +1,12 @@
 #define DUEL_CARD_STAGING_DECK_VIEW
-#include "../types.h"
-#include "duel_scene_state.h"
 #define D_8009B360_AS_SIDE_ARRAY
 #define D_800EAE8F_IS_ARRAY
 #define GDIALOG_CHOICE_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA
+#define FUNC_80018004_AMBIENT_POSITION_ARGS
+#include "../types.h"
+#include "duel_scene_state.h"
 #include "ai.h"
 #include "display_object_work_slots.h"
 #include "display_object_interpolation.h"
@@ -29,6 +30,24 @@
 #include "text_box_update_channels.h"
 #include "duel_select_trap_by_card_id.h"
 #include "duel_effect_set_entry_range_layout.h"
+#include "display_object_config.h"
+#include "display_object.h"
+#include "card_constants.h"
+#include "duel_card_display_state.h"
+#include "duel_selection_layout.h"
+#include "sound.h"
+#include "display_object_helpers.h"
+#include "duel_hand_position_selection_cursor.h"
+#include "duel_hand_selection_cursor.h"
+#include "duel_display.h"
+#include "duel_hand.h"
+#include "duel_hand_selection_colors.h"
+#include "duel_deck_card.h"
+#include "ai_constants.h"
+#include "duel_card_layout.h"
+#include "duel_grid.h"
+#include "../unmatched.h"
+#include "duel_field_selection.h"
 
 /* One screen height above the top: -0xF0 in the US build, -0x100 in the
    European one, whose wrapper defines its own. */
@@ -220,3 +239,200 @@ state_four:
         break;
     }
 }
+
+/* Regional values: the inner object's y (194 -> 210), and the count sprite's
+ * field_5D (0xB8 -> 0xB0) and field_40, its CLUT x (0x250 -> 0x2D0). The
+ * European build (src/game/european/) defines its own. */
+#ifndef DUEL_HAND_STACK_INNER_Y
+#define DUEL_HAND_STACK_INNER_Y 194
+#endif
+#ifndef DUEL_HAND_STACK_COUNT_FIELD_5D
+#define DUEL_HAND_STACK_COUNT_FIELD_5D 0xB8
+#endif
+#ifndef DUEL_HAND_STACK_COUNT_CX
+#define DUEL_HAND_STACK_COUNT_CX 0x250
+#endif
+
+#define DUEL_CARD_DISPLAY_OBJECT_VIEW(object) \
+    ((DuelCardDisplayObject *)(object))
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+
+void DuelHand_PositionSelectionCursor(DuelSelectionRecord *object)
+{
+    DisplayObject *inner = object->cursor_object;
+
+    inner->field_30.h.field_30 = (s8)object->field_0E * 60 + 14;
+    inner->field_30.h.field_32 = DUEL_HAND_STACK_INNER_Y;
+}
+
+void DuelHand_CreateSelectionOrderMarker(DuelSelectionRecord *arg)
+{
+ register DuelSelectionRecord*object=arg;register DuelHandSlot*slot=&gDuelHand_aSlots[(s8)object->field_0E];register DuelCardDisplayObject*child;
+ DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y-=4;child=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),1);DisplayObject_ConfigureScreenSprite(DISPLAY_OBJECT_VIEW(child),DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_x,DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y,0x10,0x10,object->field_15<<4,DUEL_HAND_STACK_COUNT_FIELD_5D,0xB,DUEL_HAND_STACK_COUNT_CX,0xFC);
+ DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(child));DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(child),(s8)((u8)slot->object->depth_offset+1));slot->order_marker=DISPLAY_OBJECT_VIEW(child);object->field_15++;slot->selection_order=object->field_15;SD_SEPlayFull(0x2F);
+}
+
+void DuelHand_RefreshSelectionColors(DuelSelectionRecord *side) {
+    s32 i;
+    for (i = 0; i < HAND_SIZE; i++)
+        if (gDuelHand_aSlots[i].selection_order == 0)
+            gDuelHand_aSlots[i].object->rgb =
+                DUEL_DISPLAY_COLOR_DIMMED;
+    if (side->field_15 == 0)
+        gDuelHand_aSlots[(s8)side->field_0E].object->rgb =
+            DUEL_DISPLAY_COLOR_NORMAL;
+}
+
+/* Regional value: the cursor's field_0C (0x74 -> 0x84). The European build
+ * (src/game/european/) defines its own. */
+#ifndef DUEL_SELECTION_CURSOR_FIELD_0C
+#define DUEL_SELECTION_CURSOR_FIELD_0C 0x74
+#endif
+
+/* Private helpers of the same duel action controller,
+   DuelScene_UpdateHandActions:
+   field-placement selection setup followed by execution of the
+   AI-script hand/field selection in state 0. */
+
+void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
+    DisplayObject *r;
+    DuelCardRecord *e;
+    u8 *b;
+    DuelCardReplayRecordBlock *g;
+    s32 k;
+    s32 c;
+    s32 i;
+
+    gDuel_pActiveSelectionRecord = (DuelSelectionRecord *)(gDuel_abSelectionRecord2 +
+                                       gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE);
+    gDuel_pActiveSelectionRecord->status = 0;
+    gDuel_pActiveSelectionRecord->field_13 = 1;
+    gDuel_pActiveSelectionRecord->field_0C = DUEL_SELECTION_CURSOR_FIELD_0C;
+    gDuel_pActiveSelectionRecord->field_18 = 0;
+    gDuel_pActiveSelectionRecord->row_min = 2;
+    gDuel_pActiveSelectionRecord->row_end = 3;
+
+    if (selection->field_15 == 0) {
+        b = gDuel_abCardStagingBuffer;
+        r = gDuelHand_aSlots[(s8)selection->field_0E].object;
+        g = (DuelCardReplayRecordBlock *)(
+            (u8 *)&((DuelCardRecord *)b)[r->field_6A] +
+            DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+        i = (gDuel_adwCardStats[((DuelDeckCardRecord *)g->record.data)->id - 1] >>
+             CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+    k = i;
+        if (k >= CARD_TYPE_MAGIC) {
+            if (r->field_20.b.field_21 != 0 || k == CARD_TYPE_TRAP) {
+                gDuel_pActiveSelectionRecord->row_min = 3;
+                gDuel_pActiveSelectionRecord->row_end = 4;
+            }
+        }
+    }
+
+    gDuel_pActiveSelectionRecord->row = gDuel_pActiveSelectionRecord->row_min;
+    c = gDuel_abFieldGridCardRecordIndices[
+        gDuel_pActiveSelectionRecord->row * DUEL_FIELD_ROW_SIZE +
+        gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+    ];
+    e = &gDuel_aCardRecords[c];
+
+    for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++, e++) {
+        if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) == 0) {
+            gDuel_pActiveSelectionRecord->col = i;
+            break;
+        }
+    }
+
+    gDuel_wDisplayTransitionFlags = 3;
+}
+
+/* The deck records sit 0x31E0 bytes below the active-card table, and retail
+   forms their base from that table's address rather than from a label of its
+   own. */
+#define DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS \
+    ((DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0))
+
+/* Applies gAi_Selection to the hand: reserves existing hand picks in the
+ * local availability list, swaps pool-card records into other occupied hand
+ * slots, rebuilds their objects, and rewrites picks as hand-slot codes.
+ *
+ * The slot search is a goto loop inside a one-pass do/while, and the order
+ * and card-record bases are added as integers: those forms keep the retail
+ * loop-invariant placement, operand order and register roles. */
+void Duel_ApplyAiHandSelection(void)
+{
+    s8 sel[HAND_SIZE];
+    DuelDeckCardRecord tmp;
+    DuelDeckCardRecord *rec;
+    DuelDeckCardRecord *other;
+    DuelCardDisplayObject *spawned;
+    DuelHandSlot *slot;
+    DuelCardRecord *records;
+    AiActiveCard *card;
+    u8 *order;
+    s32 i;
+    s32 j;
+    s32 v;
+    s32 id;
+    s32 k;
+
+    for (i = 0; i < HAND_SIZE; i++) {
+        sel[i] = gDuel_pActiveSideState->hand[i];
+    }
+    for (i = 0; i < HAND_SIZE; i++) {
+        v = gAi_Selection.bytes[i];
+        if (v == 0) {
+            break;
+        }
+        if (v < 0x10) {
+            sel[v - 0xB] = -1;
+        }
+    }
+    for (i = 0; i < HAND_SIZE; i++) {
+        v = gAi_Selection.bytes[i];
+        if (v == 0) {
+            return;
+        }
+        if (v >= 0x10) {
+            do {
+                j = 0;
+                order = gDuel_abHandCardRecordIndices;
+                records = gDuel_aCardRecords;
+                slot = gDuelHand_aSlots;
+            search:
+                if (sel[j] >= 0) {
+                    card = &gDuel_aActiveCards[v];
+                    rec = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS + sel[j];
+                    other = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS +
+                            card->deck_index;
+                    v = rec->deck_index;
+                    rec->deck_index = other->deck_index;
+                    other->deck_index = v;
+                    tmp = *rec;
+                    *rec = *other;
+                    *other = tmp;
+                    k = gDuel_bActiveSide * HAND_SIZE;
+                    id = *(u8 *)((j + k) + (s32)order);
+                    spawned = (DuelCardDisplayObject *)slot->object;
+                    Duel_SetupCardRecord(id, rec->deck_index);
+                    slot->object = (DisplayObject *)Duel_CreateHandCardDisplayObject(
+                        (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE +
+                                           (s32)records),
+                        spawned->out_x, spawned->out_y);
+                    DisplayObject_ReleaseIfPresent(spawned);
+                    gDuel_pActiveSideState->hand[j] = rec->deck_index;
+                    gAi_Selection.bytes[i] = j + 0xB;
+                    sel[j] = -1;
+                    continue;
+                }
+                j++;
+                slot++;
+                if (j < HAND_SIZE) {
+                    goto search;
+                }
+            } while (0);
+        }
+    }
+}
+
+#undef DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS

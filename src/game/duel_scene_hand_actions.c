@@ -78,6 +78,9 @@
 #include "sound.h"
 #include "ai_board_snapshot.h"
 #include "../unmatched.h"
+#include "display_object_lifecycle.h"
+#include "display_object_layout.h"
+#include "duel_card_defense_rotation.h"
 #define gDuel_wActionSubstate SUBSTATE
 #define SUBSTATE (*(u16 *)D_8009B20C)
 #define SIDE_CURSOR(base) \
@@ -660,3 +663,32 @@ void DuelScene_UpdateHandActions(void)
 #undef CARD_ID
 #undef CARD_KIND
 #undef SPRITE_FLAGS
+
+void DuelCard_UpdateDefenseRotation(DisplayObject *o)
+{
+    if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o)) {
+        o->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
+        if (!o->field_20.b.field_22) {
+            *(s16 *)&o->position.h.field_28 = -8;
+            o->position.h.field_2A = 0xC0;
+        } else {
+            o->position.h.field_28 = 8;
+            o->position.h.field_2A = 0;
+        }
+    }
+    o->field_20.b.field_22 += (s16)o->position.h.field_28;
+    if (o->field_20.b.field_22 < 0xC0) {
+        DuelCardRecord *e = &gDuel_aCardRecords[o->field_6A];
+
+        e->flags |= DUEL_CARD_FLAG_DEFENSE_POSITION;
+        o->field_20.b.field_22 = (s16)o->position.h.field_2A;
+        if (!o->field_20.b.field_22) {
+            e->flags &= ~DUEL_CARD_FLAG_DEFENSE_POSITION;
+            if (!o->field_20.b.field_21) {
+                o->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
+            }
+        }
+        o->field_6C = 0;
+        o->update = 0;
+    }
+}

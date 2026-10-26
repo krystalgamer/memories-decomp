@@ -40,7 +40,7 @@ typedef char ModelViewMetrics_pitch_offset_must_be_0x4[
  */
 /* The three cached values that function recomputes, in address order.
  *
- * The arithmetic in model_update_view_metrics.c fixes what each one is: with
+ * The arithmetic in model_slot_control.c fixes what each one is: with
  * `m` the GsRVIEW2, gModel_wViewDistance takes SquareRoot0 of the squared differences
  * between viewpoint and reference point, gModel_wViewYaw takes ratan2 of the
  * difference at +8 (z), and gModel_wViewPitch takes ratan2 of the difference at +4

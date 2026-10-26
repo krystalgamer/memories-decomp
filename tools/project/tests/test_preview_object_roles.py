@@ -120,7 +120,7 @@ class PreviewObjectRoleTests(unittest.TestCase):
     def test_actual_helpers_and_link_tail_with_regression_controls(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        unit = (ROOT / "src/game/duel_effect_resource_objects.c").read_text()
+        unit = (ROOT / "src/game/duel_effect_resource_setup.c").read_text()
         release = unit[
             unit.index("void DuelEffect_ReleaseResourceObjects("):
             unit.index("void DuelEffect_ClearResourceObjectPointers(")

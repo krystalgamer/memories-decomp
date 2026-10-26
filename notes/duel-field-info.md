@@ -4,7 +4,7 @@ This contract joins the five functions in
 [`duel_field_display_objects.c`](../src/game/duel_field_display_objects.c)
 with the two
 [`parent-link helpers`](../src/game/display_parent_links.c) and the existing
-[`linked-object callback`](../src/game/duel_selection_update_linked_object.c).
+[`linked-object callback`](../src/game/duel_card_turn_animations.c).
 All claims describe the matching C and its real producer/caller chain, not a
 new runtime capture.
 

@@ -45,8 +45,9 @@ class DuelCardFrameNameTests(unittest.TestCase):
                      (callback, 0x28, "gcc_2_8_1_g8_split")],
                 )
                 self.assertEqual(address + 0x580, callback)
-                # The three life-point and deck-count functions follow in the same unit.
-                self.assertEqual(len(group), 5)
+                # The three life-point and deck-count functions follow in the same
+                # unit, then the two selected-card checks and the stat calculator.
+                self.assertEqual(len(group), 8)
                 self.assertEqual(int(group[2]["address"], 0), callback + 0x28)
                 self.assertTrue((ROOT / owner).is_file())
                 self.assertIsNotNone(

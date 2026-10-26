@@ -35,7 +35,7 @@
 
      ...or section(".data") does it while keeping the scalar, which is what
      buys the assembler macro form these functions need:
-         src/game/duel_init_scene.c, duel_effect_apply_terrain.c (gcc_2_8_1_g8_split),
+         src/game/duel_init_scene.c, duel_action_lock.c (gcc_2_8_1_g8_split),
          main_run_animated_battle.c (gcc_2_8_1_g8_split_comm),
          ai_script_load_duel_globals.c (gcc_2_8_1_g8_split)
              extern u8 gDuel_bTerrain __attribute__((section(".data")));

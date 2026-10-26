@@ -2,6 +2,7 @@
 #include "text_constants.h"
 #include "text_string_bank_views.h"
 #include "european_text_bank_views.h"
+#include "text_stream_commands.h"
 
 #ifdef VERSION_EUROPE
 u8 *Text_LookupString(s32 arg0, s32 arg1)
@@ -43,3 +44,8 @@ u8 *Text_LookupString(s32 arg0, s32 arg1)
 #endif
 }
 #endif
+
+u8 TextStream_ReadByte(TextStreamOwner *object)
+{
+    return *object->streams[object->stream_index]++;
+}

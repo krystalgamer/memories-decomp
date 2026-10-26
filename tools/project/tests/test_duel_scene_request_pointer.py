@@ -11,7 +11,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[3]
 COMPILER = ROOT / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 CLIENTS = (
-    "duel_field_effects.c", "duel_effect_apply_terrain.c",
+    "duel_field_effects.c", "duel_action_lock.c",
     "duel_scene_card_placement.c",
     "duel_card_effects.c", "duel_draw_resolution.c", "duel_scene_battle.c",
 )

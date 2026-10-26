@@ -934,7 +934,7 @@ result monster; if the required materials are missing, the ritual card is
 consumed without a summon.
 
 The
-[`Duel_CheckRitual`](../../src/game/duel_check_ritual.c) source checks the recipe
+[`Duel_CheckRitual`](../../src/game/duel_effect_object_pool.c) source checks the recipe
 against three **distinct occupied monster-row records** on the acting side.
 It tests `DUEL_CARD_FLAG_OCCUPIED` and the required card IDs, not the
 face-down or defence-position bits. Face-down matching tributes are therefore
@@ -973,7 +973,7 @@ An attack-position monster attacks one target on the opponent's field, or —
 **if the opponent has no monsters at all — attacks directly**, and the
 attacker's full ATK is taken from the opponent's LP.
 
-Matching [`Duel_CalcCardStats`](../../src/game/duel_calc_card_stats.c)
+Matching [`Duel_CalcCardStats`](../../src/game/duel_card_and_status_draw.c)
 first adds the record's stat and terrain modifiers to its stored ATK and
 DEF, clamping each combined value to `0..9999`. The guardian-star relation
 then supplies a **signed relative adjustment**: `+500` for the left card's
@@ -1287,7 +1287,7 @@ establish every possible writer to the byte or add a runtime observation.
 is zero and the selected hand object's `+0x21` is nonzero.
 
 The selection byte is the raised-card count: matching
-[`DuelHand_CreateSelectionOrderMarker`](../../src/game/duel_hand_selection_cursor.c) increments it when numbering
+[`DuelHand_CreateSelectionOrderMarker`](../../src/game/duel_scene_card_move.c) increments it when numbering
 a hand card and stores the resulting order in that hand slot's `+0x09`.
 The orientation test is also code-backed: at `0x8001CCAC..0x8001CCE8`, the
 same placement handler clears the card record's face-down flag `0x1000`,

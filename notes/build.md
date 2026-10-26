@@ -648,7 +648,7 @@ carried the pattern, and both would overrun their neighbours if read literally:
   `section(".data")` arm `sound.h` guards instead.
 
 The last row is why the forms are not interchangeable, and it is worth
-measuring rather than assuming. Relaxing `duel_effect_apply_terrain.c`'s `[8]` to an
+measuring rather than assuming. Relaxing `duel_action_lock.c`'s `[8]` to an
 incomplete `[]` costs four bytes of text, because that file assembles at `-G4`;
 the identical relaxation in `duel_load_terrain_package.c`, which assembles at `-G8`, is
 exact. `options_init.c` used to sit on the `-G4` assembler arm with a sized
@@ -777,7 +777,7 @@ thirty-one matching-C sites already including `unmatched.h`.
 
 The next batch demonstrates why the include intersection is evidence only
 after checking behavior. Twelve globals locally declared by
-`duel_view_tween.c` also appeared in files including `view_state.h`, but their
+`duel_card_turn_animations.c` also appeared in files including `view_state.h`, but their
 actual contract is narrower: the matching function publishes four targets,
 four 16.16 starting accumulators, and four per-frame deltas for
 `func_800235C0` to advance. They therefore live with the producer in

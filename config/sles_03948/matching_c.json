@@ -533,19 +533,19 @@
       "address": "0x80016F28",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/duel_selected_card_checks.c"
+      "source": "src/game/european/duel_card_and_status_draw.c"
     },
     {
       "address": "0x80016F50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/duel_selected_card_checks.c"
+      "source": "src/game/european/duel_card_and_status_draw.c"
     },
     {
       "address": "0x80016FE4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x68",
-      "source": "src/game/duel_calc_card_stats.c"
+      "source": "src/game/european/duel_card_and_status_draw.c"
     },
     {
       "address": "0x8001704C",
@@ -773,31 +773,31 @@
       "address": "0x8001B6F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/european/duel_hand_selection_cursor.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B720",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x10C",
-      "source": "src/game/european/duel_hand_selection_cursor.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B82C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x80",
-      "source": "src/game/european/duel_hand_selection_cursor.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B8AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
-      "source": "src/game/european/duel_field_selection.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001BA64",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x258",
-      "source": "src/game/european/duel_field_selection.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001BCBC",
@@ -815,7 +815,7 @@
       "address": "0x8001D1A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x104",
-      "source": "src/game/duel_card_defense_rotation.c"
+      "source": "src/game/european/duel_scene_hand_actions.c"
     },
     {
       "address": "0x8001D2A4",
@@ -837,9 +837,9 @@
     },
     {
       "address": "0x8001D514",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xBC",
-      "source": "src/game/duel_cursor_step_toward_target.c"
+      "source": "src/game/duel_action_ready_marker.c"
     },
     {
       "address": "0x8001D5D0",
@@ -993,13 +993,13 @@
     },
     {
       "address": "0x80022730",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x380",
       "source": "src/game/duel_card_turn_animations.c"
     },
     {
       "address": "0x80022AB0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3A0",
       "source": "src/game/duel_card_turn_animations.c"
     },
@@ -1007,13 +1007,13 @@
       "address": "0x80022E50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x158",
-      "source": "src/game/duel_view_tween.c"
+      "source": "src/game/duel_card_turn_animations.c"
     },
     {
       "address": "0x80022FA8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xAC",
-      "source": "src/game/duel_selection_update_linked_object.c"
+      "source": "src/game/duel_card_turn_animations.c"
     },
     {
       "address": "0x80023054",
@@ -1179,21 +1179,21 @@
     },
     {
       "address": "0x80024EE0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/duel_action_lock.c"
+      "source": "src/game/european/duel_action_lock.c"
     },
     {
       "address": "0x80024F08",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/duel_action_lock.c"
+      "source": "src/game/european/duel_action_lock.c"
     },
     {
       "address": "0x80024F14",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C4",
-      "source": "src/game/european/duel_effect_apply_terrain.c"
+      "source": "src/game/european/duel_action_lock.c"
     },
     {
       "address": "0x800250D8",
@@ -1371,9 +1371,9 @@
     },
     {
       "address": "0x80027E80",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x428",
-      "source": "src/game/ai_export_side_snapshot.c"
+      "source": "src/game/ai_turn_action.c"
     },
     {
       "address": "0x800282A8",
@@ -1427,13 +1427,13 @@
       "address": "0x80028A24",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/european/duel_effect_noop_handlers.c"
+      "source": "src/game/european/duel_effect_states.c"
     },
     {
       "address": "0x80028A2C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/european/duel_effect_noop_handlers.c"
+      "source": "src/game/european/duel_effect_states.c"
     },
     {
       "address": "0x80028AA0",
@@ -1467,15 +1467,15 @@
     },
     {
       "address": "0x800296C0",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/duel_effect_resource_objects.c"
+      "source": "src/game/european/duel_effect_resource_setup.c"
     },
     {
       "address": "0x8002970C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C",
-      "source": "src/game/duel_effect_resource_objects.c"
+      "source": "src/game/european/duel_effect_resource_setup.c"
     },
     {
       "address": "0x80029728",
@@ -1679,7 +1679,7 @@
       "address": "0x8002C9BC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x150",
-      "source": "src/game/duel_check_ritual.c"
+      "source": "src/game/duel_effect_object_pool.c"
     },
     {
       "address": "0x8002CB0C",
@@ -2751,7 +2751,7 @@
     },
     {
       "address": "0x80037C0C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
       "source": "src/game/text_box_wrap_line.c"
     },
@@ -2759,7 +2759,7 @@
       "address": "0x80037C78",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/text_try_complete_choice_layout.c"
+      "source": "src/game/text_box_wrap_line.c"
     },
     {
       "address": "0x80037CC4",
@@ -3273,9 +3273,9 @@
     },
     {
       "address": "0x8003BACC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x28",
-      "source": "src/game/text_stream_read_byte.c"
+      "source": "src/game/european/text_lookup_string.c"
     },
     {
       "address": "0x8003BAF4",
@@ -5613,33 +5613,33 @@
     },
     {
       "address": "0x8005AFA4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x118",
-      "source": "src/game/model_get_slot_dimensions_with_minimums.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005B0BC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x19C",
-      "source": "src/game/model_update_view_metrics.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005B258",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1EC",
-      "source": "src/game/model_update_view_metrics.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005B444",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x188",
-      "source": "src/game/european/model_apply_texture_tint.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005B5CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F0",
-      "source": "src/game/model_step_view_orbit.c"
+      "source": "src/game/european/model_slot_control.c"
     },
     {
       "address": "0x8005B7BC",
@@ -5717,121 +5717,121 @@
       "address": "0x8005C028",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C07C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C0B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C108",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C1E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C23C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8C",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C2C8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C304",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C310",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C31C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C328",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C334",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/model_update_coordinate_unit_matrix.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C38C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/model_set_slot_draw_mode.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C3B4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x124",
-      "source": "src/game/model_build_camera_relative_coordinate_unit.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C4D8",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xCC",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C5A4",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C5C8",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C628",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x70",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C698",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C6D0",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C7A4",
@@ -5885,7 +5885,7 @@
       "address": "0x8005CBB0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",
-      "source": "src/game/model_set_slot_shadow_enabled.c"
+      "source": "src/game/model_texture_upload_wrappers.c"
     },
     {
       "address": "0x8005CBE8",
@@ -6191,7 +6191,7 @@
       "address": "0x80069D90",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",
-      "source": "src/game/european/movie_open_stream.c"
+      "source": "src/game/european/movie_frame_pipeline.c"
     },
     {
       "address": "0x8006A07C",

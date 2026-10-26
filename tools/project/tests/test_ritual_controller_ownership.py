@@ -283,6 +283,16 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             self.assertRegex(result.stdout, r"R_MIPS_LO16\s+" + symbol)
             self.assertNotRegex(result.stdout, r"R_MIPS_GPREL16\s+" + symbol)
 
+    def ritual_check_source(self) -> Path:
+        """Duel_CheckRitual closes duel_effect_object_pool.c; compile it with
+        the unit's include block only, not the request-pool functions."""
+        text = (ROOT / "src/game/duel_effect_object_pool.c").read_text()
+        head = text[:text.index("int Library_CheckCardInChest(")]
+        body = text[text.index("s32 Duel_CheckRitual("):]
+        source = self.scratch / "check_ritual.c"
+        source.write_text(head + body)
+        return source
+
     def native_storage_witness(self, five_slot_control: bool) -> int:
         if not (
             CC and platform.system() == "Linux"
@@ -343,7 +353,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             "-ffreestanding", "-fno-builtin", "-fno-stack-protector",
             "-fno-strict-aliasing", "-Werror=incompatible-pointer-types",
             "-I", str(ROOT / "src/game"), str(source),
-            str(ROOT / "src/game/duel_check_ritual.c"), str(startup),
+            str(self.ritual_check_source()), str(startup),
             "-o", str(binary),
         ])
         self.assertEqual(compilation.returncode, 0, compilation.stderr)

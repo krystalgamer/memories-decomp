@@ -1,3 +1,6 @@
+#include "../types.h"
+#include "duel_effect_noop_handlers.h"
+
 /* gGraphics_bSyncVBlankTarget is volatile here. reorg will not look past a volatile store
  * for a delay-slot candidate, so the DuelEffect_ClearResourceObjectPointers call cannot take its own
  * `li a0,3`. That goes to the entry branch instead, and the call is filled
@@ -12,7 +15,6 @@
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
-#include "../types.h"
 #include "text_box_blocking_build.h"
 #include "duel_effect_state_latch.h"
 #include "graphics_frame.h"
@@ -361,3 +363,38 @@ s32 DuelEffect_UpdateState(void) {
     gDuelEffect_apfnStateHandler[gDuel_bActiveEffectState]();
     return 1;
 }
+
+#ifdef VERSION_EUROPE
+#include "../psyq/rand.h"
+#include "duel_effect.h"
+#include "duel_effect_state_latch.h"
+#include "data_transfer_request.h"
+#include "mem_card.h"
+#include "save_data.h"
+#endif
+
+void func_800289AC(void)
+{
+}
+
+#ifdef VERSION_EUROPE
+/* European only: this last duel-effect state handler is not empty. Once,
+   it stores (rand() << 8) + 1 as the save's duelist code, sets gSaveData_AllowIdentityBypass
+   and requests a save write; then, while MemCardDialog_Poll returns
+   nonzero, it sets bit 0x40 of gDuel_bEffectState. */
+void DuelEffect_UpdateIdentitySave(void)
+{
+    if (DuelEffect_MarkStateInitialized() == 0) {
+        ((SaveDataState *)gDuel_awPlayerDeck)->duelist_code = (rand() << 8) + 1;
+        gSaveData_AllowIdentityBypass = 1;
+        SaveData_RequestWrite();
+    }
+    if (MemCardDialog_Poll() != 0) {
+        gDuel_bEffectState |= 0x40;
+    }
+}
+#else
+void DuelEffect_UpdateIdentitySave(void)
+{
+}
+#endif

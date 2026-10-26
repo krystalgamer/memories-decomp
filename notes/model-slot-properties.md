@@ -1,6 +1,6 @@
 # Model slot property interfaces
 
-The six-function `model_slot_properties.c` group remains one contiguous
+The six-function `model_slot_support.c` group remains one contiguous
 `gcc_2_8_1_g0` object, from resident `0x800593D0` through `0x8005969C`.
 The common NA/JP source and European wrapper keep their original definition
 order, types, layouts, native addresses and profiles. These names describe

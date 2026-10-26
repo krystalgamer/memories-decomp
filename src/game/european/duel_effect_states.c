@@ -9,4 +9,5 @@
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134
 
+#define D_8009B3D4_IN_DATA
 #include "../duel_effect_states.c"

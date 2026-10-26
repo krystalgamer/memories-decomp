@@ -1,3 +1,4 @@
+#define DISPLAY_OBJECT_FIELD_5E_BYTES(object) ((u8 *)&(object)->field_5E)
 #include "../types.h"
 #include "card_constants.h"
 #include "file_transfer.h"
@@ -11,8 +12,6 @@
 #include "duel_card.h"
 #include "card_preview_objects.h"
 #include "card_preview_callbacks.h"
-
-#define DISPLAY_OBJECT_FIELD_5E_BYTES(object) ((u8 *)&(object)->field_5E)
 
 #ifndef DUEL_RESOURCE_TRANSFER_POSITION
 #define DUEL_RESOURCE_TRANSFER_POSITION(value) \
@@ -226,4 +225,22 @@ shared_tail:
         secondary->field_54 = primary;
     }
     return object;
+}
+
+void DuelEffect_ReleaseResourceObjects(s32 index)
+{
+    DuelEffectResourceRecord *entry = &gCardPreview_Resources[index];
+
+    DisplayObject_ReleaseIfPresent(entry->primary_object);
+    DisplayObject_ReleaseIfPresent(entry->secondary_object);
+    entry->secondary_object = 0;
+    entry->primary_object = 0;
+}
+
+void DuelEffect_ClearResourceObjectPointers(int index)
+{
+    DuelEffectResourceRecord *entry = &gCardPreview_Resources[index];
+
+    entry->secondary_object = 0;
+    entry->primary_object = 0;
 }
