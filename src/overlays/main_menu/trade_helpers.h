@@ -152,7 +152,7 @@ extern u8 gTrade_abSortMode[2];
 /* The per-side working card table, two rows of CARD_COUNT CardCountEntry
  * (ygo_types.h) records. Three sources reach it and all three already include
  * this header. The two-dimensional shape is the one that matched
- * MainMenu_RefreshTradeInventory (trade_inventory.c stores
+ * MainMenu_RefreshTradeInventory (trade_update.c stores
  * `[slot][i].id` and `.count`, then sorts `[slot]`; the module's functions.csv
  * row for 0x8018338C records why), and the other two sources reach the same
  * rows through it: MainMenu_AdjustTradeCardCount walks row 0 from

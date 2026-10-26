@@ -210,9 +210,9 @@ The three functions form one contiguous `gcc_2_8_1_g0_split` run:
 `MainMenu_UpdateTradeScreen` through `0x8018338C`, then
 `MainMenu_RefreshTradeInventory` through `0x80183514`; the differently
 profiled card-stat comparator unit starts immediately afterward.
-`trade_update.c` supplies one grouped C subsegment for the first two
-functions, and the refresh keeps its own C subsegment at `0x338C` in
-[`trade_inventory.c`](trade_inventory.c).
+[`trade_update.c`](trade_update.c) supplies one grouped C subsegment for the
+first two functions and the inventory refresh at `0x338C` that follows them
+(formerly its own `trade_inventory.c`).
 
 The updater was reclassified in #3859 because its exact source pinned four
 variables to hard registers. Its replacement is pure C: natural restore-copy
