@@ -1142,6 +1142,9 @@ been merged by meaning (#39), with no change to any image:
   `primitive_draw.c`, which now holds the eight contiguous projected-primitive
   drawers from `DuelEffect_DrawFixedTextureQuad` through
   `DuelEffect_DrawGradientConnectionBands`.
+- `rect_vertices.c` (`DuelEffect_InitRectVertices`) now closes
+  `utility_helpers.c`, after `DuelEffect_InitXZRectVertices` and the other
+  vertex initializers.
 
 Every region's `duel_effects` layout and manifest names the merged sources at
 the same addresses and the same `gcc_2_8_1_g0_split` profile.
