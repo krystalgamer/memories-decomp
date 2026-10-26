@@ -40,7 +40,8 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
                     (NAME, "matching_c", "game", 0x100),
                 )
                 rows = json.loads((directory / "matching_c.json").read_text())["functions"]
-                group = [row for row in rows if row["source"] == owner]
+                group = sorted((row for row in rows if row["source"] == owner),
+                               key=lambda row: int(row["address"], 0))[:len(expected_group)]
                 self.assertEqual(
                     [(int(row["address"], 0), int(row["size"], 0)) for row in group],
                     list(expected_group),
@@ -60,28 +61,26 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
         self.assertFalse((ROOT / "src/game/japanese/func_80017f04.c").exists())
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
-    def test_actual_owner_wide_ambient_arity_return_and_name_controls(self):
+    def test_actual_owner_arity_return_and_name_controls(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
         with tempfile.TemporaryDirectory(prefix="card-factory-name-", dir=ROOT / "tmp") as name:
             directory = Path(name)
-            for ambient, owner, declaration, accepted, diagnostic in (
-                (False, True, f"DuelCardDisplayObject *(*checked)(DuelCardRecord *, s32, s32) = {NAME};", True, ""),
-                (True, True, f"DuelCardDisplayObject *use(DuelCardRecord *card) {{ return {NAME}((u8 *)card); }}", True, ""),
-                (False, True, f"DuelCardDisplayObject *use(DuelCardRecord *card) {{ return {NAME}(card); }}", False,
+            for owner, declaration, accepted, diagnostic in (
+                (True, f"DuelCardDisplayObject *(*checked)(DuelCardRecord *, s32, s32) = {NAME};", True, ""),
+                (True, f"DuelCardDisplayObject *use(DuelCardRecord *card) {{ return {NAME}(card); }}", False,
                  "too few arguments"),
-                (False, True, f"u8 *(*checked)(DuelCardRecord *, s32, s32) = {NAME};",
+                (True, f"u8 *(*checked)(DuelCardRecord *, s32, s32) = {NAME};",
                  False, "incompatible pointer type"),
-                (False, True, f"DuelCardDisplayObject *(*checked)(DuelCardRecord *, s16, s16) = {NAME};",
+                (True, f"DuelCardDisplayObject *(*checked)(DuelCardRecord *, s16, s16) = {NAME};",
                  False, "incompatible pointer type"),
-                (False, True, "__typeof__(&func_80017F04) checked = func_80017F04;", False, "undeclared"),
-                (False, False, f"__typeof__(&{NAME}) checked = {NAME};", False, "undeclared"),
+                (True, "__typeof__(&func_80017F04) checked = func_80017F04;", False, "undeclared"),
+                (False, f"__typeof__(&{NAME}) checked = {NAME};", False, "undeclared"),
             ):
-                with self.subTest(ambient=ambient, owner=owner, declaration=declaration):
+                with self.subTest(owner=owner, declaration=declaration):
                     source = directory / "probe.c"
-                    prefix = "#define FUNC_80017F04_AMBIENT_POSITION_ARGS\n" if ambient else ""
                     include = "duel_card_display_state.h" if owner else "duel_card.h"
-                    source.write_text(prefix + f'#include "../../src/game/{include}"\n' + declaration + "\n")
+                    source.write_text(f'#include "../../src/game/{include}"\n' + declaration + "\n")
                     result = subprocess.run(
                         [str(GCC), "-S", "-O2", "-G8", "-Werror", "-o",
                          str(directory / "probe.s"), str(source)],

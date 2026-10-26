@@ -21,15 +21,15 @@ polymorphic fields is inferred.
 
 ## Ambient-position boundary
 
-The ordinary owner declaration returns `DuelCardDisplayObject *` from
-`(DuelCardRecord *, s32, s32)`. Both owner arms expose the actual
-card-rendering view; byte/canonical clients convert explicitly.
-The separate `FUNC_80017F04_AMBIENT_POSITION_ARGS` arm intentionally
-retains an old-style declaration: `Duel_CreateHandCardDisplayObject` passes only its record
-word, leaving incoming `$a1/$a2` untouched for the constructor's initial
-position. Its `(u8 *)card` cast, parameter count and all
-three-argument callers remain unchanged. The macro retains its original
-address-based spelling, as do regional version-selection guards.
+The owner declaration returns `DuelCardDisplayObject *` from
+`(DuelCardRecord *, s32, s32)` and exposes the actual card-rendering view;
+byte/canonical clients convert explicitly.
+`Duel_CreateHandCardDisplayObject`, now in the same unit, calls the constructor
+through an unprototyped cast and passes only its record word, leaving incoming
+`$a1/$a2` untouched for the constructor's initial position. That cast replaces
+the former `FUNC_80017F04_AMBIENT_POSITION_ARGS` declaration arm, which could
+not sit beside the real definition. Its `(u8 *)card` cast, parameter count and
+all three-argument callers remain unchanged.
 
 The North American four-function scene group and European three-function
 display-state group retain order, extent and compiler profile; the European

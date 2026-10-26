@@ -130,7 +130,6 @@ segments:
       - [0x7e50, c, game/japanese/duel_ground_projection]
       - [0x8018, c, game/japanese/duel_load_terrain_package]
       - [0x8078, c, game/japanese/duel_init_scene]
-      - [0x8680, c, game/japanese/duel_card_display_objects]
       - [0x88d8, c, game/japanese/duel_phase_entry]
       - [0x92b0, c, game/japanese/duel_draw_resolution]
       - [0x9be0, c, game/duel_create_card_effect_overlay]

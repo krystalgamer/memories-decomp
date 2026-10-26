@@ -261,9 +261,6 @@ segments:
   - - 33164
     - c
     - game/european/duel_init_scene
-  - - 34708
-    - c
-    - game/duel_card_display_objects
   - - 35308
     - c
     - game/european/duel_phase_entry

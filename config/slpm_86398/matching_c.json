@@ -599,7 +599,7 @@
       "address": "0x80017EFC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD0",
-      "source": "src/game/japanese/duel_card_display_objects.c"
+      "source": "src/game/japanese/duel_init_scene.c"
     },
     {
       "address": "0x80017650",
@@ -641,19 +641,19 @@
       "address": "0x80017E80",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C",
-      "source": "src/game/japanese/duel_card_display_objects.c"
+      "source": "src/game/japanese/duel_init_scene.c"
     },
     {
       "address": "0x80017FCC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x9C",
-      "source": "src/game/japanese/duel_card_display_objects.c"
+      "source": "src/game/japanese/duel_init_scene.c"
     },
     {
       "address": "0x80018068",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x70",
-      "source": "src/game/japanese/duel_card_display_objects.c"
+      "source": "src/game/japanese/duel_init_scene.c"
     },
     {
       "address": "0x800180D8",

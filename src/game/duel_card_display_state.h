@@ -60,13 +60,8 @@ typedef struct {
 void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object);
 void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object);
 
-/* Duel_CreateHandCardDisplayObject calls with the record alone so its incoming a1/a2 values pass
- * through unchanged. The arm below preserves that old-style call while every
- * ordinary caller gets the real three-argument prototype. */
-#ifdef FUNC_80017F04_AMBIENT_POSITION_ARGS
-DuelCardDisplayObject *Duel_CreateCardDisplayObject();
-#else
+/* Duel_CreateHandCardDisplayObject calls this through an unprototyped cast
+ * with the record alone, so its incoming a1/a2 values pass through. */
 DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 arg1, s32 arg2);
-#endif
 
 #endif
