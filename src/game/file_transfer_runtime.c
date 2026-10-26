@@ -153,31 +153,31 @@ FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 file_index, s32 sector_
 }
 
 FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
-    s32 a,
-    s32 b,
-    s32 c,
-    s32 d
+    s32 start_lba,
+    s32 end_lba,
+    s32 filter_channel,
+    s32 filter_file
 )
 {
-    FileTransferDescriptor *p;
+    FileTransferDescriptor *transfer;
     u8 *callback_data;
 
     gFile_dwTransferState &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
-    p = &gFile_SecondaryTransferDescriptor;
+    transfer = &gFile_SecondaryTransferDescriptor;
     if (gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) {
         if (gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE) {
             File_StopRangeTransfer();
         }
     }
-    p->absolute_lba = a;
-    p->direct_destination = b;
-    callback_data = (u8 *)&p->callback_data;
-    callback_data[0] = (u8)c;
-    callback_data[1] = (u8)d;
-    p->transfer_mode = 4;
-    p->status_flags = FILE_TRANSFER_FLAG_SECTOR_RANGE;
+    transfer->absolute_lba = start_lba;
+    transfer->direct_destination = end_lba;
+    callback_data = (u8 *)&transfer->callback_data;
+    callback_data[0] = (u8)filter_channel;
+    callback_data[1] = (u8)filter_file;
+    transfer->transfer_mode = 4;
+    transfer->status_flags = FILE_TRANSFER_FLAG_SECTOR_RANGE;
     gFile_dwTransferState |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
-    return p;
+    return transfer;
 }
 
 void File_TransferReadyCallback(s32 arg)
@@ -456,14 +456,14 @@ void File_FinishActiveTransfer(void){gFile_dwTransferState&=FILE_TRANSFER_STATE_
 
 void File_StepActiveTransfer(void)
 {
-    FileTransferDescriptor *p;
-    void (*cb)(void);
-    void (*cb2)(void);
-    u8 *q;
+    FileTransferDescriptor *transfer;
+    void (*pause_callback)(void);
+    void (*read_callback)(void);
+    u8 *filter_channel;
     s32 n;
     s32 m;
 
-    p = &gFile_PrimaryTransferDescriptor;
+    transfer = &gFile_PrimaryTransferDescriptor;
     if (gFile_dwTransferState & FILE_TRANSFER_STATE_POSITION_QUERY_PENDING) {
         if (!(gFile_dwTransferState & FILE_TRANSFER_STATE_POSITION_QUERY_BUSY)) {
             if (DsCommand(DslGetlocL, 0,
@@ -489,7 +489,7 @@ void File_StepActiveTransfer(void)
             if (gFile_wTransferStepFlags & 2) {
                 gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0xFFFE;
             } else {
-                p->field_30.word = 0;
+                transfer->field_30.word = 0;
             }
         }
         switch (gFile_wStepState) {
@@ -501,7 +501,7 @@ void File_StepActiveTransfer(void)
                 return;
             }
             gFile_dwTransferState = gFile_dwTransferState | FILE_TRANSFER_STATE_COMMAND_BUSY;
-            cb = gFile_RangePauseCallback;
+            pause_callback = gFile_RangePauseCallback;
             goto call_back;
         case 2:
             gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0xDFFF;
@@ -516,12 +516,12 @@ set_state3:
             gFile_wStepState = 3;
         case 3:
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x1000;
-            q = &gFile_FilterParamsByte + 1;
+            filter_channel = &gFile_FilterParamsByte + 1;
             /* In sector-range mode the word at 0x38 carries the
                CdlSetfilter channel (low byte) and file (next byte). */
-            *q = ((u8 *)&p->callback_data)[0];
-            q[-1] = ((u8 *)&p->callback_data)[1];
-            if (DsCommand(DslSetfilter, (u8 *)(q - 1),
+            *filter_channel = ((u8 *)&transfer->callback_data)[0];
+            filter_channel[-1] = ((u8 *)&transfer->callback_data)[1];
+            if (DsCommand(DslSetfilter, (u8 *)(filter_channel - 1),
                           (DslCB)File_HandleSetFilterEvent, -1) <= 0) {
                 return;
             }
@@ -529,7 +529,7 @@ set_state3:
             return;
         case 4:
             CdIntToPos_8007E600(
-                p->absolute_lba, CDL_LOC_VIEW(gFile_TargetLoc)
+                transfer->absolute_lba, CDL_LOC_VIEW(gFile_TargetLoc)
             );
             if (DsPacket(
                     0x4A, DSL_LOC_VIEW(gFile_TargetLoc), 0x1B,
@@ -543,29 +543,29 @@ set_state3:
             gFile_RangeWaitCountdown = 0x258;
             gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0xEFFF;
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x4000;
-            cb2 = gFile_RangeReadCallback;
-            if (cb2 != 0) {
-                cb2();
+            read_callback = gFile_RangeReadCallback;
+            if (read_callback != 0) {
+                read_callback();
             }
         case 6:
             gFile_RangeWaitCountdown = gFile_RangeWaitCountdown - 1;
             if ((s16)gFile_RangeWaitCountdown > 0) {
-                if ((s32)p->field_30.word < p->direct_destination) {
+                if ((s32)transfer->field_30.word < transfer->direct_destination) {
                     return;
                 }
             }
             gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0x3FFC;
-            cb = gFile_RangePauseCallback;
+            pause_callback = gFile_RangePauseCallback;
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 2;
 call_back:
-            if (cb != 0) {
-                cb();
+            if (pause_callback != 0) {
+                pause_callback();
             }
         }
         return;
     }
-    if (p->transfer_mode == 5) {
-        switch (p->substate) {
+    if (transfer->transfer_mode == 5) {
+        switch (transfer->substate) {
         case 0:
             DsEndReadySystem();
             CdReadyCallback(0);
@@ -587,7 +587,7 @@ call_back:
         }
         goto call_144B8;
     }
-    CdIntToPos_8007E600(p->absolute_lba, CDL_LOC_VIEW(gFile_TargetLoc));
+    CdIntToPos_8007E600(transfer->absolute_lba, CDL_LOC_VIEW(gFile_TargetLoc));
     if (gFile_dwTransferState & 0x100000) {
         if ((s32)gFile_dwTransferState < 0) {
             goto call_144B8;
@@ -602,10 +602,10 @@ call_back:
     }
     if (!(gFile_dwTransferState & 0x800000)) {
         gFile_dwTransferState = gFile_dwTransferState | 0x800000;
-        if (p->phase_callback != 0) {
-            CALL32(FileTransferCallback, p->phase_callback)(p, p->phase_index++);
+        if (transfer->phase_callback != 0) {
+            CALL32(FileTransferCallback, transfer->phase_callback)(transfer, transfer->phase_index++);
         }
-        p->phase_remaining = p->phase_size;
+        transfer->phase_remaining = transfer->phase_size;
         return;
     }
     if (gFile_dwTransferState & 0x400000) {
@@ -661,120 +661,120 @@ void File_ServiceTransfers(s32 arg0)
    phase_size, the word at field_30 and transfer_mode -- which is what its old private
    record named
    value_8, value_c, value_1c, value_30 and mode_46. */
-void SD_ConfigureTransferPhase(FileTransferDescriptor *object, s32 mode)
+void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_index)
 {
-    FileRequestSlot *shared;
-    s32 value;
-    s32 base;
-    s32 position;
-    void (*callback)(void);
+    FileRequestSlot *request;
+    s32 phase_size;
+    s32 sector_buffer;
+    s32 ram_destination;
+    void (*complete_callback)(void);
 
-    shared = &gFile_ActiveRequestSlot;
-    if (mode == 1)
+    request = &gFile_ActiveRequestSlot;
+    if (phase_index == 1)
         goto reduced;
-    if (mode >= 2)
+    if (phase_index >= 2)
         goto high;
-    if (mode == 0)
+    if (phase_index == 0)
         goto full;
     return;
 high:
-    if (mode == 2)
+    if (phase_index == 2)
         goto tail;
     return;
 full:
-    if (shared->spu_transfer_size == 0) {
-        object->phase_index = 2;
+    if (request->spu_transfer_size == 0) {
+        descriptor->phase_index = 2;
         goto reduced;
     }
-    object->transfer_mode = 3;
-    base = gFile_TransferBufferBase;
-    object->sector_destination = base;
-    object->alternate_sector_destination = base + FILE_SECTOR_SIZE;
-    object->field_30.word = shared->spu_destination;
-    value = shared->spu_transfer_size;
-    object->phase_size = value;
+    descriptor->transfer_mode = 3;
+    sector_buffer = gFile_TransferBufferBase;
+    descriptor->sector_destination = sector_buffer;
+    descriptor->alternate_sector_destination = sector_buffer + FILE_SECTOR_SIZE;
+    descriptor->field_30.word = request->spu_destination;
+    phase_size = request->spu_transfer_size;
+    descriptor->phase_size = phase_size;
     goto fix;
 reduced:
-    if (shared->ram_transfer_size == 0)
+    if (request->ram_transfer_size == 0)
         goto tail;
-    position = shared->ram_destination;
+    ram_destination = request->ram_destination;
     gFile_dwTransferState &= 0xFFDCFFFF;
-    object->alternate_sector_destination = position;
-    object->sector_destination = position;
-    object->transfer_mode = 1;
-    value = shared->ram_transfer_size;
-    object->phase_size = value;
+    descriptor->alternate_sector_destination = ram_destination;
+    descriptor->sector_destination = ram_destination;
+    descriptor->transfer_mode = 1;
+    phase_size = request->ram_transfer_size;
+    descriptor->phase_size = phase_size;
 fix:
-    if (value < 0)
-        object->phase_size = -(value << FILE_SECTOR_SHIFT);
+    if (phase_size < 0)
+        descriptor->phase_size = -(phase_size << FILE_SECTOR_SHIFT);
     return;
 tail:
-    callback = gFile_SecondaryPayloadCompleteCallback;
-    if (callback != 0)
-        callback();
+    complete_callback = gFile_SecondaryPayloadCompleteCallback;
+    if (complete_callback != 0)
+        complete_callback();
 }
 
-s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
-    u8 *e;
-    u8 *r;
-    FileTransferCallback f;
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 n;
-    s32 m;
-    s32 v;
-    s32 w;
-    s32 t;
+s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
+    u8 *descriptor_bytes;
+    u8 *request_slots;
+    FileTransferCallback phase_callback;
+    s32 size;
+    s32 ram_size;
+    s32 range_sector_count;
+    s32 start_lba;
+    s32 sector_offset;
+    s32 flags;
+    s32 file_selector;
+    s32 request_size;
 
-    if (p == (FileRequestSlot *)0) {
+    if (request == (FileRequestSlot *)0) {
         return gFile_dwTransferState & FILE_TRANSFER_STATE_SECONDARY_PENDING;
     }
 
-    a = p->spu_transfer_size;
-    b = p->ram_transfer_size;
-    c = p->range_sector_count;
+    size = request->spu_transfer_size;
+    ram_size = request->ram_transfer_size;
+    range_sector_count = request->range_sector_count;
 
-    if ((a | b | c) == 0) {
-        return (s32)File_RequestSecondarySeek(p->file_selector, p->sector_offset);
+    if ((size | ram_size | range_sector_count) == 0) {
+        return (s32)File_RequestSecondarySeek(request->file_selector, request->sector_offset);
     }
 
-    if (c != 0) {
-        if (c < 0) {
+    if (range_sector_count != 0) {
+        if (range_sector_count < 0) {
             gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0x3FFC;
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 2;
             return 1;
         }
-        n = *(s32 *)gFile_nMasterXaLba + p->sector_offset;
+        start_lba = *(s32 *)gFile_nMasterXaLba + request->sector_offset;
         return (s32)File_RequestSecondaryRangeTransfer(
-            n, n + c, p->cd_filter_channel, p->cd_filter_file
+            start_lba, start_lba + range_sector_count, request->cd_filter_channel, request->cd_filter_file
         );
     }
 
-    a = a + b;
-    if (a == 0) {
+    size = size + ram_size;
+    if (size == 0) {
         return 0;
     }
 
     {
-        w = p->file_selector;
-        /* Borrowed local: `m`'s real assignment is three lines down and this
-         * one is dead, but it ties the negation's pseudo to m's allocation
+        file_selector = request->file_selector;
+        /* Borrowed local: `sector_offset`'s real assignment is three lines down and this
+         * one is dead, but it ties the negation's pseudo to sector_offset's allocation
          * and rotates $s2/$s3/$s4 into retail's order. A fresh name, six
          * declaration orders and four statement orders are all 6. */
-        m = a;
-        t = -m;
-        r = D_801D4200_raw;
-        *(FileRequestSlot *)(r + 0x20) = *p;
+        sector_offset = size;
+        request_size = -sector_offset;
+        request_slots = D_801D4200_raw;
+        *(FileRequestSlot *)(request_slots + 0x20) = *request;
         /* The post-copy reload goes through the member's address as u32:
-           a plain p->sector_offset (or an s32 cast, which fold turns back into
+           a plain request->sector_offset (or an s32 cast, which fold turns back into
            one) exchanges the request pointer's and sector-offset local's
            allocation and changes 24 words. */
-        m = *(u32 *)&p->sector_offset;
+        sector_offset = *(u32 *)&request->sector_offset;
         gFile_dwTransferState =
             gFile_dwTransferState & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
-        v = w | 0x1400000;
-        f = SD_ConfigureTransferPhase_callback;
+        flags = file_selector | 0x1400000;
+        phase_callback = SD_ConfigureTransferPhase_callback;
 
         if ((gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) != 0) {
             if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE) != 0) {
@@ -783,14 +783,14 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
         }
 
         File_InitTransferDescriptor(
-            &gFile_SecondaryTransferDescriptor, v, q, m, t, f, 0, (s32)p
+            &gFile_SecondaryTransferDescriptor, flags, loader_argument, sector_offset, request_size, phase_callback, 0, (s32)request
         );
-        e = (u8 *)&gFile_SecondaryTransferDescriptor;
+        descriptor_bytes = (u8 *)&gFile_SecondaryTransferDescriptor;
         gFile_dwTransferState =
             gFile_dwTransferState | FILE_TRANSFER_STATE_SECONDARY_PENDING;
     }
 
-    return (s32)e;
+    return (s32)descriptor_bytes;
 }
 
 FileTransferDescriptor *File_RequestAsyncTransfer(

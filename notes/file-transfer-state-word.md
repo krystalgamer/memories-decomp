@@ -220,3 +220,54 @@ with opposite answers; neither was assumed.
 `D_8009B134_signed asm("D_8009B134")` in the former `file_transfer_flags.c` is a fifth
 checked negative: its only use is inside the blocked predicate, and the plain
 name reproduces it.
+
+
+## Secondary request, range-filter and phase argument views
+
+The named arguments and locals follow the complete local sound producer,
+request submission, activation and phase/range consumer chain. No runtime
+observation or original source-name claim is needed. SD_StepActiveCommand
+cases 32, 33 and 36 retain their existing request construction and calls.
+
+File_RequestSecondarySlot's request is still a borrowed FileRequestSlot;
+null polls only the secondary-pending bit and returns that raw mask.
+All three size fields zero still submit the seek helper. A negative
+range_sector_count still writes the shared stop-bit sequence and returns
+one without queuing a descriptor. A positive count submits start_lba and
+start_lba+count using the master-XA LBA base, not file_selector. With no
+range, the original SPU-plus-RAM sum and zero-result no-work return remain.
+The local size first holds the SPU size, then their sum; request_size is
+its existing negation, not a new byte/sector conversion or mixed-size rule.
+
+The payload path copies the entire 0x20-byte request to request slot one,
+including padding and stale members. The borrowed sector_offset local
+still receives the intentionally dead size assignment before the negation,
+then reloads through the same u32 member-address view after the copy.
+Its s32 declaration, flags OR 0x1400000, loader_argument forwarding,
+callback cast, initial phase zero, original request-pointer target and
+all pending/range-stop stores remain. descriptor_bytes retains its u8
+pointer type and the final s32 cast; status, one, zero and descriptor
+returns do not become a common success code or pointer-only API.
+
+File_ActivateTransfer still copies both whole records into the primary
+descriptor and active request slot zero. SD_ConfigureTransferPhase reads
+that active request. Its phase_index is the existing callback argument:
+zero configures staged SPU mode 3, one configures direct RAM mode 1,
+and two reaches completion. Zero SPU size still redirects the descriptor
+cursor to two before trying RAM; absent RAM still reaches the existing
+completion tail. Other phase indices retain their original return paths.
+Positive phase sizes remain bytes and negative sizes retain the signed
+sector shift/negation. Destination fields, two shared buffers, global
+mask, skip behavior and completion callback load/null test are unchanged.
+
+File_RequestSecondaryRangeTransfer takes start_lba/end_lba and the
+filter_channel/filter_file operands. The end is the original stop
+comparison operand, not a newly imposed inclusive/exclusive policy.
+Channel narrows into callback_data's low byte and file into its next byte.
+File_StepActiveTransfer then writes channel to filter parameter byte one
+and file to byte zero before DslSetfilter: the two byte orders deliberately
+differ. The descriptor's pointer-shaped callback_data member is not
+retyped or renamed globally. The range pause/read locals name their actual
+hooks without changing their loads, same-call fallthrough, countdown,
+signed position comparison, command-busy gates or common call tail.
+Non-range cancellation, seek, SPU and phase handling remain unchanged.
