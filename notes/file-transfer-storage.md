@@ -187,3 +187,31 @@ ASM alias, exact 0x20-byte copies and existing phase/request branching.
 
 No descriptor/cursor/request-slot-only PR is opened. Existing controls stay
 intact; any necessary witness migration remains identifier-only.
+
+## Sound-command transfer envelope
+
+Command 0x20's queued fields now follow their proven destination roles.
+This is a scoped view of SDCommand, not a new request type or universal
+interpretation of every queued command:
+
+| Queued member | Active tail word | Existing FileRequestSlot destination |
+|---|---:|---|
+| transfer_selector | 0 | file_selector, before the original source rewrite |
+| transfer_sector_offset | 1 | sector_offset |
+| transfer_spu_destination | 3 | spu_destination |
+| transfer_ram_destination | 4 | ram_destination |
+| transfer_spu_size | 5 | spu_transfer_size |
+| transfer_ram_size | 6 | ram_transfer_size |
+
+All six queued members remain signed s32. The active snapshot remains
+eight unsigned words with its existing signed reloads and whole-tail copy.
+The selector keeps its original full-word producer values, strict 0x20
+cancellation comparison and independent masked 0x10/0x20/0x40 dispatch.
+No default branch, new validation or reordered request/pointer reload.
+
+The size names do NOT assert byte-only or nonnegative lengths: the existing
+phase consumer retains positive byte sizes and negative shifted encodings.
+Sector offsets keep the original negative absolute-LBA behavior; addresses
+stay integer words. SPU-first/RAM-second phases, skipped-phase behavior,
+zero-size seek/stop/sum branches, raw callbacks and cursor arithmetic stay.
+No FileRequestSlot, descriptor or transfer implementation changes here.

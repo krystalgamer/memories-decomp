@@ -2207,3 +2207,50 @@ return before clearing `timer_update_inhibit`, ambient-argument declarations, co
 profiles and every runtime literal remain exact. No witness needs a
 member-name migration; no new test or harness is added, and no cloud or
 witness suite is run locally.
+
+### Queued-command payload members
+
+The queue side of the established active-payload snapshot now uses
+opcode-scoped names, without a new union or record layout:
+
+| Original SDCommand member | Canonical member | Unchanged storage |
+|---|---|---|
+| field_0002 | value | s16 +0x02 |
+| field_0004 | arg0 | s32 +0x04 |
+| field_0008 | arg1 | s32 +0x08 |
+| field_000C | arg2 | s32 +0x0C |
+| field_0010 | transfer_selector | s32 +0x10 |
+| field_0014 | transfer_sector_offset | s32 +0x14 |
+| field_001C | transfer_spu_destination | s32 +0x1C |
+| field_0020 | transfer_ram_destination | s32 +0x20 |
+| field_0024 | transfer_spu_size | s32 +0x24 |
+| field_0028 | transfer_ram_size | s32 +0x28 |
+
+value and arg0-2 retain their DIFFERENT opcode-specific interpretations:
+descriptor index/base/pointer-shaped address words for CD seek/play,
+sequence selection and fade step for BGM, and SPU destination/sequence
+block address for command 0x51. Address-shaped words remain signed s32,
+not stored pointers. Fade preparation still reads the queue head before
+staging; 0x44/0x45 retain sequence_fade_step plus bgm_fade_target, not a
+repaired target pairing. Every cast and signed/unsigned view is unchanged.
+
+The transfer-prefixed names apply ONLY to command 0x20. The eight-word
+SDCommandTail block copy from +0x10 to active_command_tail remains a
+single assignment; tail words two/seven stay field_0018/field_002C.
+No array conversion, new initializer, zero fill or meaning for those
+opaque words is introduced. Other opcodes still populate only their
+original fields; whole-record transport does not establish initialization.
+
+The three RAM/SPU wrappers retain every original argument-to-word store,
+including zeroing only the opposite phase's two words. The downstream
+request mapping is documented in file-transfer-storage.md. Cancellation
+still tests the COMPLETE transfer_selector word for equality with 0x20;
+the dispatcher separately masks 0xF0. Neither becomes a normalized enum,
+masked cancellation test or universal pure file index.
+
+Queue capacity/reloads, duplicate byte publication before the full copy,
+fade and wait gates, staging/decrement/first-step order, byte-view queue
+compaction and the existing trailing-record copy all remain unchanged.
+Unexplained field_15F4 and default-step field_164B are not renamed.
+All fixtures, source selectors, assertions, oracles, mutations, scenarios
+and numeric controls retain their complete bytes; none runs locally.

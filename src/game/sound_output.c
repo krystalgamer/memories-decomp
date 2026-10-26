@@ -130,12 +130,12 @@ void SD_EnqueueRamTransfer(s32 first, s32 second, s32 third, s32 fourth)
     SD_StartCdFade(-32, 0, 1);
     g_SDValue->status_flags |= 2;
     command.command = 32;
-    command.field_0010 = fourth;
-    command.field_0014 = second;
-    command.field_0020 = first;
-    command.field_0028 = third;
-    command.field_001C = 0;
-    command.field_0024 = 0;
+    command.transfer_selector = fourth;
+    command.transfer_sector_offset = second;
+    command.transfer_ram_destination = first;
+    command.transfer_ram_size = third;
+    command.transfer_spu_destination = 0;
+    command.transfer_spu_size = 0;
     SD_EnqueueCommand(&command);
 }
 
@@ -146,12 +146,12 @@ void SD_EnqueueSpuTransfer(s32 first, s32 second, s32 third, s32 fourth)
     SD_StartCdFade(-32, 0, 1);
     g_SDValue->status_flags |= 2;
     command.command = 32;
-    command.field_0010 = fourth;
-    command.field_0014 = second;
-    command.field_0020 = 0;
-    command.field_0028 = 0;
-    command.field_001C = first;
-    command.field_0024 = third;
+    command.transfer_selector = fourth;
+    command.transfer_sector_offset = second;
+    command.transfer_ram_destination = 0;
+    command.transfer_ram_size = 0;
+    command.transfer_spu_destination = first;
+    command.transfer_spu_size = third;
     SD_EnqueueCommand(&command);
 }
 
@@ -169,12 +169,12 @@ void SD_EnqueueSpuRamTransfer(
     SD_StartCdFade(-32, 0, 1);
     g_SDValue->status_flags |= 2;
     command.command = 32;
-    command.field_0010 = a5;
-    command.field_0014 = a2;
-    command.field_0020 = a1;
-    command.field_0028 = a4;
-    command.field_001C = a0;
-    command.field_0024 = a3;
+    command.transfer_selector = a5;
+    command.transfer_sector_offset = a2;
+    command.transfer_ram_destination = a1;
+    command.transfer_ram_size = a4;
+    command.transfer_spu_destination = a0;
+    command.transfer_spu_size = a3;
     SD_EnqueueCommand(&command);
 }
 

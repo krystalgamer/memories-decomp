@@ -26,8 +26,8 @@ void SD_RequestBgmPlayback(s32 value, s32 data)
     if (*g_SDValue->music_track != (small >> 4))
         SD_RequestMusicPackageLoad(small, 1);
     command.command = 0x48;
-    command.field_0002 = value;
-    command.field_0008 = (s16)data;
+    command.value = value;
+    command.arg1 = (s16)data;
     SD_EnqueueCommand(&command);
     g_SDValue->bgm_fade_step = data;
     g_SDValue->bgm_fade_target = 255;
