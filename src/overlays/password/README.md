@@ -261,8 +261,8 @@ subsegment at module offset `0x138` and owns the glyph atlas rodata at module
 offset `0x4`. `NameEntry_UpdateKeyboard` was reclassified in #3859 because
 its earlier match depended on register bindings. Its binding-free replacement
 now closes [`name_entry_runtime.c`](name_entry_runtime.c), whose C subsegment
-also covers `0x113C` (formerly the standalone `name_entry_keyboard_update.c`); the last two are
-[`name_entry_dialog.c`](name_entry_dialog.c) at `0x1734`.
+also covers `0x113C` (formerly the standalone `name_entry_keyboard_update.c`) and the last two
+at `0x1734` (formerly `name_entry_dialog.c`).
 
 The keyboard's complete `PasswordGlyphCoordinates` initializer keeps both
 coordinate words defined together. Replacing it with separate member stores
@@ -382,8 +382,8 @@ completion entry point, the dialog state machine behind it, the keyboard
 handler that machine drives, and the caret helper both of them use. They
 occupy `0x8016909C..0x80169C30`. The caret helper ends
 `name_entry_runtime.c`, the keyboard handler is a build-integrated candidate since
-#3859, and the dialog machine and the completion entry point are
-`name_entry_dialog.c`.
+#3859, and the dialog machine and the completion entry point close
+`name_entry_runtime.c`.
 
 | Address | Function |
 |---|---|

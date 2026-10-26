@@ -10,9 +10,8 @@
  * name_entry_frame.h and name_entry_keyboard.h already cover this screen's
  * drawing prefix and its keyboard entry points; neither is a home for the
  * screen's data. The fourteen-function name-entry pipeline uses this header
- * as the single view of that state: eleven functions in
- * name_entry_runtime.c, two in name_entry_dialog.c, and
- * NameEntry_UpdateKeyboard in name_entry_runtime.c.
+ * as the single view of that state: all fourteen live in
+ * name_entry_runtime.c.
  *
  * What the uses show (the evidence-backed ones are named):
  *
@@ -48,7 +47,7 @@
  *               uses it to pick one of sixteen gNameEntry_aGlyphVramRects and
  *               then advances it modulo 16.
  *   D_8016D41C  Cleared to 0 by the dialog teardown in
- *               name_entry_dialog.c. Nothing else touches it.
+ *               NameEntry_UpdateDialog. Nothing else touches it.
  *   gNameEntry_bCharacterSet  The keyboard character set: the reset sets 2
  *               (0 in the Japanese build), and the Japanese mode key cycles it
  *               through 0, 1 and 2, rebuilding the keyboard each time.

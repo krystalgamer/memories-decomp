@@ -307,9 +307,9 @@ extern u8 D_801D2200[];
  * (save_data_payload.c:191); NameEntry_Init does the same from
  * gSaveData_aPlayerNameSjis and NameEntry_UpdateDialog does the same from
  * gNameEntry_pNameBuffer. The two name-entry paths live in
- * src/overlays/password/name_entry_runtime.c and name_entry_dialog.c and call
+ * src/overlays/password/name_entry_runtime.c and call
  * the converter by address, as func_8003BC40. The one reader is
- * NameEntry_UpdateDialog's byte scan in name_entry_dialog.c, which runs to
+ * NameEntry_UpdateDialog's byte scan in name_entry_runtime.c, which runs to
  * TEXT_STRING_TERMINATOR. Every access
  * takes the address (the resident listing func_8003D0F4.s:7-8 forms it with
  * lui/addiu), so the listings do not say how wide the object is. The resident

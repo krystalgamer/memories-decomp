@@ -6,7 +6,7 @@
 /* The resident dialog choice index, as this overlay has to spell it.
  *
  * Password_UpdateShopScreen (shop.c) tests it against 0 after a
- * prompt and name_entry_dialog.c clears it before raising one and tests it
+ * prompt and NameEntry_UpdateDialog clears it before raising one and tests it
  * afterwards, so both read it as the option the player settled on.
  *
  * The address-based name is kept on purpose. 0x8009B34D is the byte the
