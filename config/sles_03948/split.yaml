@@ -860,6 +860,9 @@ segments:
     - game/display_object_update_command_stream
   - - 207276
     - c
+    - game/display_object_projection_checks
+  - - 208056
+    - c
     - game/european/display_object_helpers
   - - 212568
     - c
@@ -904,9 +907,6 @@ segments:
     - c
     - game/sound_output_transition
   - - 226340
-    - c
-    - game/display_object_projection_checks
-  - - 208056
     - c
     - game/sd_init_state
   - - 226840
