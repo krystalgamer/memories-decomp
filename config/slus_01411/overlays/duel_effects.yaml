@@ -74,8 +74,6 @@ segments:
       - [0x1BE0, c, overlays/duel_effects/cross_lines]
       - [0x1CAC, c, overlays/duel_effects/color_transition]
       - [0x1E08, c, overlays/duel_effects/layered_drawing]
-      - [0x21DC, c, overlays/duel_effects/drawing_tail]
-      - [0x2690, c, overlays/duel_effects/gradient_strip]
       - [0x291C, c, overlays/duel_effects/number_renderer]
       - [0x2E88, c, overlays/duel_effects/textured_quads]
       - [0x30A0, c, overlays/duel_effects/primitive_draw]

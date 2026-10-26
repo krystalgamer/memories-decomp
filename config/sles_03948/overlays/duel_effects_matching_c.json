@@ -394,25 +394,25 @@
       "address": "0x80155F94",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD0",
-      "source": "src/overlays/duel_effects/drawing_tail.c"
+      "source": "src/overlays/duel_effects/layered_drawing.c"
     },
     {
       "address": "0x80156064",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x108",
-      "source": "src/overlays/duel_effects/drawing_tail.c"
+      "source": "src/overlays/duel_effects/layered_drawing.c"
     },
     {
       "address": "0x8015616C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x2DC",
-      "source": "src/overlays/duel_effects/drawing_tail.c"
+      "source": "src/overlays/duel_effects/layered_drawing.c"
     },
     {
       "address": "0x80156448",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x28C",
-      "source": "src/overlays/duel_effects/gradient_strip.c"
+      "source": "src/overlays/duel_effects/layered_drawing.c"
     },
     {
       "address": "0x801566D4",
