@@ -103,13 +103,13 @@ def _strings(text: str, code: str, start: int, end: int) -> list[str]:
 
 
 def _check_template(template: str) -> None:
-    if not template.strip():
-        raise HandwrittenAsmError("empty asm templates are not allowed")
+    instructions = 0
     for instruction in template.split(";"):
         normalized = re.sub(r"\s+", " ", instruction).strip()
         normalized = re.sub(r"\( ", "(", re.sub(r" \)", ")", normalized))
         if not normalized:
             continue
+        instructions += 1
         for pattern in ALLOWED_INSTRUCTIONS:
             match = pattern.fullmatch(normalized)
             if match is None:
@@ -120,6 +120,8 @@ def _check_template(template: str) -> None:
             break
         else:
             raise HandwrittenAsmError(f"instruction is not allowlisted: {normalized}")
+    if not instructions:
+        raise HandwrittenAsmError("asm templates without an instruction are not allowed")
 
 
 def _check_operands(text: str, code: str, start: int, end: int) -> None:

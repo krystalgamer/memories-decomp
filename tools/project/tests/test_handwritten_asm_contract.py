@@ -50,10 +50,25 @@ class HandwrittenAsmContractTests(unittest.TestCase):
             "li $1, 1",
             "li %0, -1",
             "",
+            ";",
+            " ; ; ",
+            "\\n\\t;",
         ):
             with self.subTest(template=template):
                 source = f'void f(int *p) {{ __asm__ volatile("{template}" : : "r"(p)); }}\n'
                 self.assertTrue(uses_disallowed_handwritten_asm(source))
+
+    def test_instruction_free_barriers_are_rejected(self) -> None:
+        for template in ("", ";", " ; ; ", "\\n;\\t"):
+            with self.subTest(template=template):
+                source = (
+                    f'void f(void) {{ __asm__ volatile("{template}" : : : "memory"); }}\n'
+                )
+                self.assertTrue(uses_disallowed_handwritten_asm(source))
+                self.assertNotEqual(
+                    source_violations(source, set(), allow_handwritten_asm_macros=True),
+                    [],
+                )
 
     def test_unlisted_constraints_and_clobbers_are_rejected(self) -> None:
         for operands in (': : "m"(*p)', ': : "r"(p) : "$2"'):
