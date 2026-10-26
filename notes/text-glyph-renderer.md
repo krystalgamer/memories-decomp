@@ -114,3 +114,54 @@ updates one existing comment identifier. All widths, offsets,
 sizes, alignment, qualifiers, G32 and numeric assertions remain. Other
 DisplayObject, selection and cursor field_18 owners stay unchanged.
 There are zero fixture edits and no compatibility-label/call rewrites.
+
+## Glyph indices, occupancy release and wide-icon variants
+
+glyph_index names the shared entry's original u8 field_10 at +0x10.
+Its meaning follows the existing glyph-kind flags, not a new global
+character encoding. The direct 0x80 append path narrows the input into
+this byte, while the 0x100 path extracts bits 20..27. The NA ordinary
+glyph path still stores zero and renders from the separate code word.
+Japan's ordinary path stores the queried occupancy-slot index before
+rasterization; the query still does not reserve that slot. Rasterization
+publishes channel_index+1 to the occupancy table in the original order.
+No bounds, tag rejection, allocation or publication behavior changes.
+
+The Japanese renderer keeps its raw +0x10 UV reads. The Japanese
+NameEntry_SpawnGlyphSprite reads the same glyph_index through the existing
+shared prefix to derive its original 4-word-wide, 16-row VRAM rectangle,
+then calls MoveImage and advances the existing copy-slot/sequence bytes.
+This does not change the NA constructor's code-before-null read or its
+unchecked allocation, nor Europe's distinct glyph byte and atlas metrics.
+JapaneseDuelEffectEntry.pad_10 stays opaque; no regional record is split.
+
+The legacy DuelEffectChannel entry-callback view at +0x10 uses the same
+glyph_index spelling. DisplayObjectFade_ReleaseChannel still clears
+occupancy[glyph_index] in NA/Japan, regardless of glyph kind, then clears
+the existing occupied byte and requests compaction. Europe keeps its
+occupancy-clear omission and physical+0x0F marker. No clamp, ownership
+check, new reservation, lifetime change or real stream-pointer meaning
+is introduced; unrelated DisplayObject/ScriptImage field_10 stays intact.
+
+icon_variant names the shared entry's original u8 field_17 at +0x17.
+Only the original NA direct-icon append path copies channel field_62.
+Other glyph kinds gain no store, and Japan's trailing pad_16 is unsplit.
+The NA renderer retains the FULL-byte >=0x14 and glyph_index<0x18 guard.
+Variants 0x14/0x15/0x16/0x17 keep their exact U/CLUT-Y cases and default,
+page 0x1E, 32x16 geometry, CLUT X 0x100 and attribute-bit update.
+This is not palette_index, the glyph code, a Boolean or a closed enum:
+values above the explicit cases still take the original default.
+
+The selected-card command stages NA field_62 from non-monster card type
+on its first-guardian path; its initial zero, opcode priority, color-only
+early return, absent-second-star suppression and string expansion stay.
+Choice/page completion keep their NA-only clears. Channel field_62 itself
+remains address-named because Europe reads/writes a u16 output limit over
+that byte and pad_63. No shared icon-variant name, new alias, union, padding
+split, regional field, reset or expression rewrite is imposed on it.
+
+Four whole C units change fourteen qualified member identifiers only.
+The whole shared header changes three declarations, two existing offset
+assertions' member/label identifiers and three existing comments. Widths,
+offsets, alignment, qualifiers, G32, numeric assertions, raw regional
+views, all other owner fields and all fixtures remain unchanged.

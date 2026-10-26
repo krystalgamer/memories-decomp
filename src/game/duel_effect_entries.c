@@ -196,20 +196,20 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     r = gText_GlyphUploadScratch;
     f = p->flags_34;
     if (f & 0x80) {
-        q->field_10 = a;
+        q->glyph_index = a;
 #ifndef VERSION_JAPAN
         b = p->field_62;
 #endif
         q->flags_11 = 0xA0;
 #ifndef VERSION_JAPAN
-        q->field_17 = b;
+        q->icon_variant = b;
 #endif
     } else if (f & 0x100) {
         v = (a >> 20) & 0xFF;
         if (v == 0) {
             return;
         }
-        q->field_10 = v;
+        q->glyph_index = v;
         q->flags_11 = 0xC0;
         c = p->color_index_54;
         q->handler_state = 0;
@@ -229,13 +229,13 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
         if (p->flags_34 & 0x200) {
             r = (s16 *)(((JapaneseDuelEffectChannel *)p)->pad_5E * 0x88 + (u8 *)r);
         }
-        q->field_10 = v;
+        q->glyph_index = v;
         DuelEffect_RasterizeGlyph(p, a, v, r + 4);
 #else
         if (f & 0x200) {
             r = (s16 *)(p->field_60 * 0x88 + (u8 *)r);
         }
-        q->field_10 = 0;
+        q->glyph_index = 0;
         b = p->color_index_54;
 #endif
         q->flags_11 = 0x80;

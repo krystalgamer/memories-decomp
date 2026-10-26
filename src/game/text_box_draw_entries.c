@@ -529,7 +529,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         if (f & 0x60) {
             if (f & 0x20) {
                 sprites[1]->tpage = 0xB;
-                res[0] = GLYPH_ENTRY(p)->field_10;
+                res[0] = GLYPH_ENTRY(p)->glyph_index;
                 spr = sprites[1];
                 if (res[0] >= 0x22) {
                     tt = (u8)res[0];
@@ -555,9 +555,9 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                     spr->attribute = obj->attribute | 0x08000000;
                     spr->w = 0x10;
                     spr->h = 0x10;
-                    if ((u8)GLYPH_ENTRY(p)->field_17 >= 0x14 && (u8)GLYPH_ENTRY(p)->field_10 < 0x18) {
+                    if ((u8)GLYPH_ENTRY(p)->icon_variant >= 0x14 && (u8)GLYPH_ENTRY(p)->glyph_index < 0x18) {
                         sprites[1]->tpage = 0x1E;
-                        switch (GLYPH_ENTRY(p)->field_17) {
+                        switch (GLYPH_ENTRY(p)->icon_variant) {
                         case 0x14:
                             cyv = 0xF2;
                             spr->u = 0;
@@ -591,8 +591,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 spr = sprites[2];
                 spr->cx = (GLYPH_ENTRY(p)->palette_index * 0x10) + 0x290;
                 spr->cy = 0xFA;
-                spr->u = ((GLYPH_ENTRY(p)->field_10 & 0xF) * 8) - 0x80;
-                spr->v = (u32)(GLYPH_ENTRY(p)->field_10 & 0xF0) >> 1;
+                spr->u = ((GLYPH_ENTRY(p)->glyph_index & 0xF) * 8) - 0x80;
+                spr->v = (u32)(GLYPH_ENTRY(p)->glyph_index & 0xF0) >> 1;
             }
             spr->x = (u16)GLYPH_ENTRY(p)->x_0C + x;
             spr->y = (u16)GLYPH_ENTRY(p)->y_0E + y;
