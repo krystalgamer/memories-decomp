@@ -313,7 +313,7 @@ typedef struct {
     s16 y_0E;
     u8 field_10;
     u8 flags_11;
-    u8 field_12;
+    u8 owner_channel_tag;
     u8 field_13;
     u8 field_14;
     u8 field_15;
@@ -351,8 +351,8 @@ typedef char DuelEffectEntry_field_10_offset_must_be_0x10[
 typedef char DuelEffectEntry_flags_11_offset_must_be_0x11[
     YGO_TYPE_OFFSET(DuelEffectEntry, flags_11) == 0x11 ? 1 : -1
 ];
-typedef char DuelEffectEntry_field_12_offset_must_be_0x12[
-    YGO_TYPE_OFFSET(DuelEffectEntry, field_12) == 0x12 ? 1 : -1
+typedef char DuelEffectEntry_owner_channel_tag_offset_must_be_0x12[
+    YGO_TYPE_OFFSET(DuelEffectEntry, owner_channel_tag) == 0x12 ? 1 : -1
 ];
 typedef char DuelEffectEntry_field_13_offset_must_be_0x13[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_13) == 0x13 ? 1 : -1
@@ -579,7 +579,7 @@ typedef struct DuelEffectChannel {
     u8 color_index_54;
     u8 pad_55;
     u8 explicit_newline_count;
-    u8 index_57;
+    u8 channel_index;
     /* Which leading pointer word is the live byte stream. Every reader scales
        it by four; it is signed because all three consumers read it as s8. */
     s8 stream_58;
@@ -640,8 +640,8 @@ typedef char DuelEffectChannel_delay_reload_53_offset_must_be_0x53[
 typedef char DuelEffectChannel_explicit_newline_count_offset_must_be_0x56[
     YGO_TYPE_OFFSET(DuelEffectChannel, explicit_newline_count) == 0x56 ? 1 : -1
 ];
-typedef char DuelEffectChannel_index_57_offset_must_be_0x57[
-    YGO_TYPE_OFFSET(DuelEffectChannel, index_57) == 0x57 ? 1 : -1
+typedef char DuelEffectChannel_channel_index_offset_must_be_0x57[
+    YGO_TYPE_OFFSET(DuelEffectChannel, channel_index) == 0x57 ? 1 : -1
 ];
 typedef char DuelEffectChannel_stream_58_offset_must_be_0x58[
     YGO_TYPE_OFFSET(DuelEffectChannel, stream_58) == 0x58 ? 1 : -1

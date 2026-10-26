@@ -39,7 +39,7 @@ Verified channel fields used by matching C include:
 | `0x3E`, `0x42` | `rect_width`, `rect_height` | signed halfword extents set by `TextBox_SetRect`; wrap and display geometry consumers |
 | `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
-| `0x53`-`0x5B` | byte fields and `index_57` | initialization sequence in `DuelEffect_InitEntry` |
+| `0x53`-`0x5B` | byte fields and `channel_index` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `explicit_newline_count` | explicit `Text_NewLine` accounting for page/choice state; automatic wraps do not increment it |
 | `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, [`duel_effect_object_commands.c`](../src/game/duel_effect_object_commands.c), and [`duel_effect_command.c`](../src/game/duel_effect_command.c) |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
@@ -641,3 +641,51 @@ The PAL builds reach `DuelEffect_HasActiveEntry` through the native label
 `func_800370E0`, declared under `VERSION_EUROPE` in
 `duel_effect_entry_control.h`, instead of macros in the entry-control and
 save-prompt wrappers. Other regions keep the plain declaration.
+
+## Channel indices and entry ownership tags
+
+The channel's original u8 index_57 at +0x57 is channel_index in both
+the shared 0x64-byte and compact Japanese 0x60-byte records.
+DuelEffect_InitEntry (0x80035AF0) uses its index argument to select that
+same gText_aChannels element, stores the narrowed byte, and selects its
+entry-range boundaries. The original regional arithmetic and store order
+remain exact; no bounds check, new default or layout unification is added.
+
+DuelEffect_AppendEntry (0x80036C14) writes channel_index + 1 into the
+entry's original field_12. owner_channel_tag names that byte: it is NOT
+the raw zero-based channel index. The North American/Japanese byte is at
++0x12, while the European member with the same original name is at +0x10.
+The shared, Japanese and European entry types retain their original
+0x1C, 0x18 and 0x16 sizes and alignment. Every append mode and rejection
+keeps the tag store at its original point, including writes that precede
+a rejected glyph. The +1 expression and byte narrowing are unchanged.
+
+The Japanese DuelEffect_RasterizeGlyph (0x800362AC in SLPM-86398)
+publishes the same channel_index + 1 to the occupancy slot. Zero remains
+the occupancy allocator's free-slot value; this does NOT establish that
+an inactive entry has a zero ownership tag. DuelEffect_ClearOccupancyValue
+(0x80035CA8) increments its original integer argument before comparing
+all 240 occupancy bytes. DuelEffect_ClearMatchingMarker (0x80035DB8)
+likewise increments its argument before scanning owner_channel_tag,
+and clears flags_11 rather than the tag. The entry reset also clears
+flags, not ownership; compaction retains the whole original record.
+Neither clear routine gains a narrowed comparison or a new tag reset.
+European entry count/stride and the absence of its occupancy clear remain.
+
+TextBox_Destroy, the initial-build cleanup and choice setup supply the
+same stored channel_index to these clears, retaining every regional
+guard and order. DuelEffect_UpdateObjectLayout indexes the channel's
+entry-range boundaries with it. TextBox_RefreshDisplayObjects copies it
+into its newly acquired renderer's DisplayObject.field_67, and
+TextBox_DrawEntries uses that byte to select gText_aChannels, including
+the compact Japanese record view. Reused renderers do not gain a new
+binding write. field_67 remains generic: preview resources, deck-list
+labels, card markers and command-stream selectors give it other meanings.
+No DisplayObject byte is globally renamed or given a text-only type.
+
+Only seven complete C units change under eighteen owner-qualified
+non-comment member identifiers and one existing marker comment's member
+identifier. Three whole headers change five declarations and the two
+existing shared offset assertions' member/label identifiers. All types,
+widths, offsets, numeric assertions, sizes, qualifiers, G32 annotations,
+expressions and other record owners remain. There are zero fixture edits.

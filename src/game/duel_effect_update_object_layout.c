@@ -70,7 +70,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     q->field_48.h.field_4A = w;
 #else
     k = gDuelEffect_aEntries[
-        gDuelEffect_awEntryRangeBoundaries[p->index_57]
+        gDuelEffect_awEntryRangeBoundaries[p->channel_index]
     ].field_18 % 10;
 
     if (k == 1) {

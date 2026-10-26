@@ -83,7 +83,7 @@ s32 DuelEffect_FindFreeOccupancySlot(void)
 #define DUEL_EFFECT_MARKER_ENTRY_COUNT DUEL_EFFECT_ENTRY_COUNT
 #endif
 
-/* Clears the marker on each regional entry whose field_12 equals a0 + 1. */
+/* Clears the marker on each regional entry whose owner_channel_tag equals a0 + 1. */
 void DuelEffect_ClearMatchingMarker(int a0) {
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
     DUEL_EFFECT_MARKER_ENTRY_TYPE *v1;
@@ -93,7 +93,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     a0 = a0 + 1;
     v1 = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)gDuelEffect_aEntries;
     do {
-        v0 = v1->field_12;
+        v0 = v1->owner_channel_tag;
         if (v0 == a0) {
             v1->flags_11 = 0;
         }
@@ -108,7 +108,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     a0 = a0 + 1;
     v1 = gDuelEffect_aEntries;
     do {
-        v0 = v1->field_12;
+        v0 = v1->owner_channel_tag;
         if (v0 == a0) {
             v1->flags_11 = 0;
         }

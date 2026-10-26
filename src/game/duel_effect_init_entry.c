@@ -22,7 +22,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     narrow = 8;
     wide = 16;
     size = flags & 3;
-    e->index_57 = index;
+    e->channel_index = index;
     e->color_index_54 = 0;
     e->pen_x = 0;
     e->pen_y = 0;
@@ -78,7 +78,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 #else
     range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + offset);
 #endif
-    e->index_57 = index;
+    e->channel_index = index;
     e->initial_string_id = value;
     e->color_index_54 = 0;
     e->flags_34 = flags;
