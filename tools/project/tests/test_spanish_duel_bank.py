@@ -100,9 +100,9 @@ class SpanishDuelBankTests(unittest.TestCase):
             f"src/overlays/duel_effects/{name}.c"
             for name in (
                 "utility_helpers", "texture_words", "vector_init",
-                "color_test", "quad_helpers", "matrix_helpers",
-                "projected_wrappers",
-                "ring_vertices", "radial_random_vectors", "bolt_vertices", "effect_23", "effect_24",
+                "color_test", "quad_helpers", "projection_helpers",
+                "ring_vertices", "radial_random_vectors", "bolt_vertices", "row_attack_effects",
+                "effect_24",
             )
         }
         for row in manifest["functions"]:
@@ -144,33 +144,34 @@ class SpanishDuelBankTests(unittest.TestCase):
         expected = {
             "bolt_vertices": [(0x8014FABC, 0x344)],
             "effect_22": [(0x8014A8E4, 0x2018)],
-            "effect_16": [(0x80151558, 0xAF0)],
+            "row_attack_effects": [(0x80151558, 0xAF0), (0x80152048, 0xE7C)],
             "effect_4": [(0x80159AAC, 0x738)],
-            "effect_5": [(0x80157E10, 0x9C8)],
+            "life_point_effects": [
+                (0x80157E10, 0x9C8), (0x801587D8, 0xBD0), (0x801593A8, 0x704),
+            ],
             "effect_10": [(0x8014C8FC, 0xA7C)],
             "effect_21": [(0x8014E3EC, 0x690)],
             "effect_2": [(0x80153200, 0x8DC)],
             "effect_11": [(0x80146760, 0x13B8)],
             "effect_17": [(0x80148BA4, 0x13EC)],
-            "effect_7": [(0x801587D8, 0xBD0)],
             "effect_13": [(0x801503F8, 0xA08)],
-            "effect_23": [(0x80152048, 0xE7C)],
             "effect_24": [(0x8014D3E8, 0xF74)],
-            "effect_0": [(0x80154688, 0x4A8)],
             "effect_1": [(0x80157794, 0x67C)],
             "effect_6": [(0x80154B30, 0xBC4)],
             "effect_8": [(0x80147B18, 0x690)],
             "effect_12": [(0x80150E00, 0x418)],
-            "effect_9": [(0x801593A8, 0x704)],
             "effect_15": [(0x8014FF40, 0x4B8)],
-            "effect_18": [(0x80154084, 0x604)],
+            "contour_burst_effects": [(0x80154084, 0x604), (0x80154688, 0x4A8)],
             "effect_19": [(0x80153ADC, 0x44C)],
             "polygon_vertices": [(0x8014EC8C, 0x180)],
             "dispatch": [(0x80146258, 0x508)],
             "cross_lines": [(0x8014E35C, 0x90)],
             "ring_vertices": [(0x8014EA7C, 0xA0), (0x8014EB1C, 0x170)],
             "radial_random_vectors": [(0x8014EE0C, 0x120), (0x8014EF2C, 0xE4)],
-            "projected_wrappers": [(0x80151218, 0x104), (0x8015131C, 0xD8)],
+            "projection_helpers": [
+                (0x80151218, 0x104), (0x8015131C, 0xD8),
+                (0x801513F4, 0xC8), (0x801514BC, 0x3C), (0x801514F8, 0x60),
+            ],
             "contour_quads": [(0x801558F4, 0x2CC)],
             "layered_drawing": [
                 (0x80155BC0, 0x1D0), (0x80155D90, 0x204), (0x80155F94, 0xD0),
@@ -188,7 +189,6 @@ class SpanishDuelBankTests(unittest.TestCase):
             ],
             "color_test": [(0x8014D378, 0x34), (0x8014D3AC, 0x3C)],
             "quad_helpers": [(0x8014FE00, 0xD4), (0x8014FED4, 0x6C)],
-            "matrix_helpers": [(0x801513F4, 0xC8), (0x801514BC, 0x3C), (0x801514F8, 0x60)],
             "number_renderer": [(0x801566D4, 0x400), (0x80156AD4, 0x6C), (0x80156B40, 0x100)],
             "primitive_draw": [
                 (0x80156C40, 0x110), (0x80156D50, 0x108), (0x80156E58, 0x14C),
@@ -198,7 +198,8 @@ class SpanishDuelBankTests(unittest.TestCase):
         }
         # The PAL arms of these shared sources are registered through wrappers.
         pal_wrapped = {
-            "cross_lines", "effect_5", "effect_6", "effect_7", "effect_18", "screen_draw",
+            "cross_lines", "life_point_effects", "effect_6", "contour_burst_effects",
+            "screen_draw",
         }
         for unit, extents in expected.items():
             source = f"src/overlays/duel_effects/{unit}.c"
