@@ -56,7 +56,7 @@ typedef struct {
     u8 pad_5E[0x09];
     u8 deck_number_marker;
     u8 card_type;
-    u8 field_69;
+    u8 is_back_facing;
     u8 card_index;
     u8 deck_index;
 } DuelCardDisplayObject;

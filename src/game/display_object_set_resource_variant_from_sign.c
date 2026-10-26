@@ -7,5 +7,5 @@ void DisplayObject_SetResourceVariantFromSign(
     u32 value
 )
 {
-    object->field_69 = value >> 31;
+    object->resource_variant = value >> 31;
 }

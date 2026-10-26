@@ -1000,7 +1000,7 @@ void SD_UpdateBankLoad(void);
 /* Sets the live secondary-object count in the 0x510 field of *gSD_pSecondaryState,
    accepting 1 .. SD_SECONDARY_OBJECT_COUNT and returning 0xFF when the byte
    is zero or out of range. SD_InitSecondaryRuntime
-   (src/game/sound_voice_data.c)
+   (src/game/sound_effect_request.c)
    is the only caller, passes the constant 0x14, and discards the result; its
    original local extern disagreed with the definition on both the return
    type and the parameter's signedness. */

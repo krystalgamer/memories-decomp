@@ -150,7 +150,7 @@ class CardFacingControlViewTests(unittest.TestCase):
                 elif mutation == "inverted-sign":
                     candidate = candidate.replace("value >> 31", "(value >> 31) ^ 1")
                 elif mutation == "wrong-selector":
-                    candidate = candidate.replace("object->field_69", "object->field_68")
+                    candidate = candidate.replace("object->resource_variant", "object->resource_branch_index")
                 elif mutation == "lost-flags":
                     candidate = candidate[:-1] + "    object->flags = 0;\n}"
                 elif mutation == "guard-store":

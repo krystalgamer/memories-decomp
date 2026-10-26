@@ -32,9 +32,9 @@ static s32 old_rerun;
 void DisplayObject_SetResourceVariant(DisplayObjectConfig *object, s32 value)
 {
     if ((void *)object != (void *)&state.object || events != 0 ||
-        value != wanted || object->field_69 != original_selector ||
+        value != wanted || object->resource_variant != original_selector ||
         state.rerun != old_rerun) error = 1;
-    object->field_69 = value;
+    object->resource_variant = value;
     events = events * 10 + 1;
 }
 void DisplayObject_UpdateCommandStream(DisplayObject *object)

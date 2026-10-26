@@ -10,7 +10,9 @@ struct DisplayObject;
 
 /* The narrower view DisplayObject_SetResourceVariant and
  * DisplayObject_UpdateResourceVariant use: the flags halfword at 0x08 and the
- * three selector bytes at 0x67..0x69. It is the same record
+ * three selector bytes at 0x67..0x69. Root/branch names identify the first
+ * two serialized offset-table indices, not package-specific contents.
+ * resource_variant selects the final table entry. It is the same record
  * DisplayObjectConfigView below describes, seen through the only fields these
  * two writers touch, and it is spelt separately for the same reason that one
  * is: neither is the canonical DisplayObject in display_object.h. */
@@ -18,9 +20,9 @@ typedef struct {
     u8 pad_00[8];
     u16 flags;
     u8 pad_0A[0x5D];
-    u8 field_67;
-    u8 field_68;
-    u8 field_69;
+    u8 resource_root_index;
+    u8 resource_branch_index;
+    u8 resource_variant;
 } DisplayObjectConfig;
 
 /* Clears bit 0x10 of the flags halfword and stores `value` into the 0x69
@@ -38,7 +40,7 @@ void DisplayObject_UpdateResourceVariant(
     s32 value
 );
 void DisplayObject_SetResourcePath(
-    DisplayObjectConfig *object, u8 field_67, u8 field_68, u8 field_69
+    DisplayObjectConfig *object, u8 resource_root_index, u8 resource_branch_index, u8 resource_variant
 );
 
 /* Narrow position/extent view retained for Duel_CreateCardEffectOverlay,
@@ -75,8 +77,8 @@ typedef struct {
  * the narrow views above cover. The two callers that still hand it a byte
  * cursor keep their own view and name the record at the call: shop.c its
  * byte arithmetic, DuelScene_UpdateHandActions its hand-card view. */
-void *DisplayObject_ConfigureSpriteResource(struct DisplayObject *object, s32 field_67,
-                    s32 field_68, s32 field_69, s32 color, s32 texture);
+void *DisplayObject_ConfigureSpriteResource(struct DisplayObject *object, s32 resource_root_index,
+                    s32 resource_branch_index, s32 resource_variant, s32 color, s32 texture);
 
 struct DisplayObject *DisplayObject_ConfigureScreenSprite(
     struct DisplayObject *object,

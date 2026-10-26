@@ -31,3 +31,27 @@ patterns and every low halfword yield 524,288 calls at each of O0/O2.
 Fixed-offset byte expectations protect both full records and their guards.
 Wrong/inverted sign, wrong selector, lost flags and guard writes must fail.
 No generic projection, GTE, renderer, allocator or engine is executed.
+
+
+## Pre-mirror backface cache
+
+The card-only DuelCardDisplayObject byte at +0x69 is is_back_facing.
+Both card factories retain their zero initialization and install the
+same sign-bit callback. DisplayObject_ProjectRotationFacing calls that
+callback with the ORIGINAL signed NCLIP area before it mirrors X/Z and
+reprojects. The callback receives those bits as u32 and stores value >> 31,
+so it writes exactly 0 or 1, not an arithmetic-shift 0xFF mask.
+
+Duel_DrawCardFrame resets the generic +0x69 byte before projection. After
+the callback, zero permits the front frame/art/stat path; nonzero selects
+the back-frame UV and CLUT. The cache describes pre-mirror facing, not
+the record's face-down flag, the final mirrored area or persistent card
+state. All clears, early returns, callback gating and drawing order stay.
+
+DisplayObjectConfig calls the same physical byte resource_variant:
+that resource selector view and the card-only cache have distinct names.
+The canonical pool view remains field_69 because card-list selected-icon
+indices, result sprite kinds and other users reuse it. The row-set's
+reused card-display pointer receives no new card-only interpretation.
+No generic callback signature, raw +0x10 word, flag, stored pointer type,
+padding, stale-value policy or literal control changes.

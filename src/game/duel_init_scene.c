@@ -261,7 +261,7 @@ DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 ar
     tbl = gDuel_adwCardStats;
     p->deck_number_marker = 0;
     p->card_type = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
-    p->field_69 = 0;
+    p->is_back_facing = 0;
     p->card_index =
         ((u32)arg0 - (u32)gDuel_aCardRecords) / DUEL_CARD_RECORD_SIZE;
     p->deck_index = ((u8 *)arg0->data)[2];
