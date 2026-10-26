@@ -15,7 +15,7 @@
  * differences were views of one signature.
  *
  * The parameter is now the record's own type. The five fields this function
- * reads -- field_3C, field_3E, field_40, field_42 and field_59 -- are all
+ * reads -- rect_x, rect_width, rect_y, rect_height and depth_offset -- are all
  * declared in DuelEffectChannel at those offsets and at these widths, and
  * every caller, duel_effect_dialog_state.c included, holds a DuelEffectChannel *.
  *

@@ -37,7 +37,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
         DIALOG_BOX_WIDTH,
         DUEL_EFFECT_CHANNEL_HEIGHT
     );
-    channel->field_59 = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 1;
+    channel->depth_offset = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 1;
 
     if (set_flags != 0) {
         channel->flags_34 |= DUEL_EFFECT_CHANNEL_CREATE_FLAGS;

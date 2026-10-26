@@ -19,7 +19,7 @@ typedef struct {
     u8 pad_55[2];
     u8 index_57;
     u8 pad_58;
-    u8 field_59;
+    u8 depth_offset;
     u8 glyph_advance_x;
     u8 line_advance_y;
     u8 range_start_5C;

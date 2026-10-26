@@ -101,10 +101,10 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
             if (mode) {
                 ((DuelEffectChannel *)TextBox_CreateFlagged(
                     0, 8, 0x28, BUILD_DECK_WIDE_BOX_Y, 0xF0, 0x10, BUILD_DECK_WIDE_BOX_FLAGS
-                ))->field_59 = 0xA;
+                ))->depth_offset = 0xA;
             } else {
                 box = TextBox_CreateFlagged(0, 9, 0x30, BUILD_DECK_NARROW_BOX_Y, 0xE0, 0x30, BUILD_DECK_NARROW_BOX_FLAGS);
-                box->field_59 = 0xA;
+                box->depth_offset = 0xA;
                 do {
                     TextBox_UpdateChannels();
                 } while (box->prompt_object == 0);

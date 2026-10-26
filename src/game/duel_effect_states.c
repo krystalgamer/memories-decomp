@@ -178,7 +178,7 @@ void DuelEffect_UpdateCardViewerState(void)
                 box->color_index_54 = 0;
 #endif
 #endif
-                box->field_59 = 0x15;
+                box->depth_offset = 0x15;
                 D_8009B250 = box;
                 TextBox_BuildBlocking((struct DuelEffectChannel *)box);
                 break;

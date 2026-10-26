@@ -97,7 +97,7 @@
    current position (field_30/field_32) back to the base position in one 32-bit
    copy, and returns. Otherwise, while gGraphics_dwSyncedFrameCount's bit 0 is set, spawns a
    companion slot object at the object's current position (tagged via
-   sub_table_lookup_set_flag using field_16-1), then advances the angle and
+   sub_table_lookup_set_flag using depth_offset-1), then advances the angle and
    recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
 
 void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
@@ -126,7 +126,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
             slot->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             slot->attribute |= (GsALON | GsAONE);
-            DisplayObject_SetDepthOffset(slot, (u8)arg0->field_16 - 1);
+            DisplayObject_SetDepthOffset(slot, (u8)arg0->depth_offset - 1);
             slot->field_60 = 8;
             slot->update = (DisplayObjectCallback)DisplayObject_FadeBrightnessAndRelease;
         }

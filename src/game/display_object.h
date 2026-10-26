@@ -72,7 +72,7 @@ typedef struct DisplayObject {
        or's it with 0x10000, 0xF0000 and 0x30000 into a mode word. Taking one
        consumer's reading for the shared record is the mistake 0x6A avoids. */
     u16 field_14;                  /* 0x14 */
-    s8 field_16;                   /* 0x16 */
+    s8 depth_offset;                   /* 0x16 */
     /* An ordering-table index, not a texture index. Duel_DrawDecimalDigits uses it
        to pick gGraphics_apOrderingTables[ot_index], a GsOT * element, and hands it
        to GsSortFastSprite as the ordering table; display_object_core.c indexes the

@@ -98,6 +98,11 @@ prompt-publication stubs. Every assertion, oracle, numeric expectation,
 mutation, flag and scenario remains unchanged. No new behavioral harness
 or local cloud-fixture execution.
 
+The channel's depth_offset is the original raw u8 at +0x59 in both views.
+It is narrowed only at the existing display-object depth calls, including
+the original +/-1 expressions. The complete protocol and signed object byte
+are documented in [Display-object Runtime](display-object-runtime.md).
+
 ### Text-channel pen and rectangle
 
 The six channel halfwords have high-confidence names from their complete

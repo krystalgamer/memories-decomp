@@ -1487,7 +1487,7 @@ void MemCardDialog_Update(void)
                 gMemCardDialog_ChannelIndex, gMemCardDialog_MessageCode, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30
             );
             DuelEffect_MarkObjectIfActive((MenuRecord *)p);
-            p->field_59 = 0x10;
+            p->depth_offset = 0x10;
             if ((gMemCard_wDialogFlags & 0x20) != 0) {
                 do {
                     TextBox_UpdateChannels();
@@ -1717,7 +1717,7 @@ s32 SaveData_UpdateLoadPair(void)
             a = gMemCardDialog_ChannelIndex;
             gMemCard_pDialogObject->field_60 = -0x400;
             o = TextBox_Create(a, 0xC2, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30);
-            o->field_59 = 0x10;
+            o->depth_offset = 0x10;
             TextBox_BuildBlocking(o);
         }
         if (MemCardDialog_StepSlide(
@@ -1792,7 +1792,7 @@ s32 SaveData_UpdateLoadPair(void)
             b = gSaveData_PairMessageCode;
             gMemCard_pDialogObject->field_60 = -0x400;
             o = TextBox_CreateFlagged(a, b, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30, SAVE_DATA_LOAD_BOX_FLAGS);
-            o->field_59 = 0x10;
+            o->depth_offset = 0x10;
             do {
                 TextBox_UpdateChannels();
             } while ((o->flags_34 & TEXT_BOX_FLAG_DONE) == 0);

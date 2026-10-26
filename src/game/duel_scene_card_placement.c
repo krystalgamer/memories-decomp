@@ -255,7 +255,7 @@ void DuelScene_UpdateCardPlacement(void)
                 object->field_60 = 8;
                 PLACEMENT_VX(object) = placement_velocity((64 - (s16)PLACEMENT_PX(object)) * 256);
                 PLACEMENT_VY(object) = placement_velocity((82 - (s16)PLACEMENT_PY(object)) * 256);
-                DisplayObject_SetDepthOffset(gDisplayObject_apWorkSlots[0], (s8)((u8)object->field_16 - 1));
+                DisplayObject_SetDepthOffset(gDisplayObject_apWorkSlots[0], (s8)((u8)object->depth_offset - 1));
                 SD_SEPlayFull(10);
                 gDuel_wPlacementCardId = 0;
                 if (gDisplayObject_apWorkSlots[0]) {

@@ -100,7 +100,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->field_40.word = 0;
         slot->field_5E = 0;
         slot->field_65 = 0;
-        slot->field_16 = 0;
+        slot->depth_offset = 0;
         slot->field_14 = gDisplayObject_awOrderingTableDepthBases[slot->ot_index];
     }
     return slot;

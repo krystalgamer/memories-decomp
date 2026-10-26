@@ -42,7 +42,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         DisplayObject_InitializeGouraudQuad(e, 1);
         DisplayObject_SelectOrderingTable1(e);
         DisplayObject_SetDepthOffset(e,
-                      (s8)(p->render_object->field_16 + 1));
+                      (s8)(p->render_object->depth_offset + 1));
         p->prompt_object = e;
         *(s32 *)&e->field_54 = 0x2000;
         e->field_4C = 0x2000;
