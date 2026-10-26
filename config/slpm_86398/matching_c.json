@@ -6669,27 +6669,27 @@
     },
     {
       "address": "0x80071B2C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
-      "source": "src/game/ai_script_skip.c"
+      "source": "src/game/ai_fusion.c"
     },
     {
       "address": "0x80071B64",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
-      "source": "src/game/ai_script_skip.c"
+      "source": "src/game/ai_fusion.c"
     },
     {
       "address": "0x80071B9C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC4",
-      "source": "src/game/ai_script_actions.c"
+      "source": "src/game/ai_fusion.c"
     },
     {
       "address": "0x80071C60",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/ai_script_actions.c"
+      "source": "src/game/ai_fusion.c"
     },
     {
       "address": "0x80071C9C",

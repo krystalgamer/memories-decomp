@@ -67,7 +67,7 @@ typedef struct {
 extern AiScriptState gAiScript_State;
 
 /* The AI's pending selection at gAi_Selection, written three ways by different
- * callers: ai_script_actions.c fills 0x00..0x05 as a combo list, the turn
+ * callers: AiScript_PlayFaceUp (ai_fusion.c) fills 0x00..0x05 as a combo list, the turn
  * logic writes the slot/flag bytes at 0x00, 0x01, 0x06, 0x07 and 0x08, and
  * the field-card path writes 0x09..0x0B. Previously that was split across
  * two competing typedefs -- this one in the header covering 0x09..0x0B, and
@@ -116,7 +116,7 @@ extern u8 tent_AiSelectionRandom;
 /* Byte 0x01 of the same selection -- AiSelection.fields.field1 -- has the
  * address-based name D_800EAE89 in the generated listings, but no source
  * declares it. Seven sites across three sources write the byte:
- * ai_script_actions.c stores the second of the five combo bytes as
+ * AiScript_PlayFaceUp (ai_fusion.c) stores the second of the five combo bytes as
  * gAi_Selection.bytes[1], duel_field_effects.c clears it the same way in
  * Duel_SelectEquipPair and Duel_SelectTrapPlay, and ai_turn_action.c writes
  * it as gAi_Selection.fields.field1.

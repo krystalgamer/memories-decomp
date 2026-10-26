@@ -266,8 +266,8 @@ was read from the handler; none was inferred.
 | 29 | FindFirstType | 3 | rType ->rD | Unused. | `0x800726F4` |
 | 2A | FindBestCombo | 4 | rDepth rSets ->rD | Search AI field monsters and the hand window, up to depth+1 cards, for the highest ATK-or-DEF result (`Ai_CompleteFusion`, `0x800727C0`). Result: 0 = the combo starts in the hand, 1 = it starts on the field and uses more cards, 2 = the field card alone is best, 3 = nothing. | `0x80072A48` |
 | 2B | EvaluateFusion | 5 | rCard rDepth rSets ->rD | Same search, seeded with one given card. 0 = something better was found. | `0x80072DC0` |
-| 2C / 2D | SkipHand / SkipField | 5 | b b b b | Read and ignore four bytes. Unused. | `ai_script_skip.c` `0x80072F1C` / `0x80072F54` |
-| 2E | PlayFaceUp | 6 | r0..r4 | Write selection bytes 0-4, the hand slots to play. The name is mechanical. | `ai_script_actions.c` `0x80072F8C` |
+| 2C / 2D | SkipHand / SkipField | 5 | b b b b | Read and ignore four bytes. Unused. | `ai_fusion.c` `0x80072F1C` / `0x80072F54` |
+| 2E | PlayFaceUp | 6 | r0..r4 | Write selection bytes 0-4, the hand slots to play. The name is mechanical. | `ai_fusion.c` `0x80072F8C` |
 | 2F | SetPosition | 2 | rSlot | selection byte 6 (destination slot) | `0x80073050` |
 | 30 | FindBestAttack | 3 | rHide ->rD | Unused. The decompiled outer loop has no increment; do not rely on it. | `ai_script_find_best_attack.c` `0x8007308C` |
 | 31 | PushComboCard | 1 | - | Clear selection bytes 0-5, then copy the combo's hand slots (>= 11) into them. | `ai_script_state_ops.c` `0x80073220` |
