@@ -16,9 +16,14 @@
  * GTE commands are emitted without the Psy-Q inline_c.h nop padding because
  * the originals interleave independent work into those cycles.
  *
- * Inline assembly is limited to that save/restore and to GTE operations;
- * every expansion is checked by tools/project/handwritten_asm_contract.py,
- * and only profiles that set "handwritten_asm_macros" may use this header.
+ * Inline assembly is limited to that save/restore, to GTE operations and to
+ * three shapes GCC 2.8.1 cannot emit: a lone lwr merged into a C-loaded word
+ * (HW_LWR) and a branch whose delay slot holds a GTE write or a load
+ * (HW_GTE_WRITE_BEQ, HW_BEQZ_LOAD). Those branches jump to C labels that GCC
+ * does not see as control-flow edges, so only the exact image match vouches
+ * for the code around them. Every expansion is checked, with its exact
+ * operand signature, by tools/project/handwritten_asm_contract.py, and only
+ * profiles that set "handwritten_asm_macros" may use this header.
  */
 
 /* Register numbers: s0..s7 are $16..$23. */
@@ -50,6 +55,10 @@
 #define HW_KEEP_LABEL(label)                                               \
     static void *const label##_keep __attribute__((section(".discard"))) =  \
         &&label
+
+/* Merge the unaligned halfword below an already loaded word (lw + lwr). */
+#define HW_LWR(val, offset, p)                                             \
+    __asm__ volatile("lwr %0, " #offset "(%1)" : "=r"(val) : "r"(p), "0"(val))
 
 /* GTE data registers: VXY/VZ pairs 0-5, SXY0-2 12-14, OTZ 7, flag $31. */
 #define HW_GTE_LOAD_V0(p)                                                  \
@@ -85,14 +94,44 @@
 /* RTPS, NCCS and NCCT after the two nops the originals keep before them. */
 #define HW_GTE_RTPS()                                                      \
     __asm__ volatile("nop;" "nop;" ".word 0x4A180001")
+#define HW_GTE_RTPS_RAW() __asm__ volatile(".word 0x4A180001")
+#define HW_GTE_NCCS_RAW() __asm__ volatile(".word 0x4B08041B")
 #define HW_GTE_NCCS() __asm__ volatile("nop;" "nop;" ".word 0x4B08041B")
 #define HW_GTE_NCCT() __asm__ volatile("nop;" "nop;" ".word 0x4B18043F")
 #define HW_GTE_NCLIP() __asm__ volatile(".word 0x4B400006")
+/* NCLIP after a GTE register write, then read MAC0 with its load delay. */
+#define HW_GTE_NCLIP_MAC0_WAIT(out)                                        \
+    __asm__ volatile("nop;" "nop;" ".word 0x4B400006;" "mfc2 %0, $24;" "nop" \
+                     : "=r"(out))
 /* NCLIP, then read MAC0 with its load-delay nop. */
 #define HW_GTE_NCLIP_MAC0(out)                                             \
     __asm__ volatile(".word 0x4B400006;" "mfc2 %0, $24;" "nop" : "=r"(out))
 #define HW_GTE_AVSZ3() __asm__ volatile(".word 0x4B58002D")
 #define HW_GTE_AVSZ4() __asm__ volatile(".word 0x4B68002E")
+#define HW_GTE_READ(reg, out)                                              \
+    __asm__ volatile("mfc2 %0, $" #reg : "=r"(out))
+/*
+ * if (value == cmp) goto label, with mtc2 value -> reg executed in the
+ * branch delay slot either way. GCC cannot fill a slot across inline asm,
+ * so the original branch-and-write pair has to be spelled out together.
+ */
+#define HW_GTE_WRITE_BEQ(reg, value, cmp, label)                           \
+    __asm__ volatile(".set\tnoreorder\n"                                   \
+                     "beq %0, %1, %2\n"                                     \
+                     "mtc2 %0, $" #reg "\n"                                 \
+                     ".set\treorder"                                        \
+                     : : "r"(value), "r"(cmp), "i"(&&label))
+/*
+ * if (test == 0) goto label, with out = *(u32 *)(base + offset) executed in
+ * the branch delay slot either way (GCC never fills a slot with a load).
+ */
+#define HW_BEQZ_LOAD(test, label, out, offset, base)                       \
+    __asm__ volatile(".set\tnoreorder\n"                                   \
+                     "beqz %1, %2\n"                                        \
+                     "lw %0, " #offset "(%3)\n"                              \
+                     ".set\treorder"                                        \
+                     : "=r"(out)                                            \
+                     : "r"(test), "i"(&&label), "r"(base))
 #define HW_GTE_OTZ(out) __asm__ volatile("mfc2 %0, $7" : "=r"(out))
 
 /* Write SXY0, SXY1, SXY2 into a polygon packet. */

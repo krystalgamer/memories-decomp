@@ -4,20 +4,27 @@ This component names the complete game-owned handwritten shared dispatch
 family selected by `Model_GetSharedPrimitiveHandler`: one cache-preparation
 stage and sixteen cached-input polygon drivers. All 119 actual native
 function records across the seven resident images retain their original
-ownership, `handwritten_asm` status, extents and instructions. No C
-implementation, wrapper, new call or profile is introduced.
+ownership, extents and instructions; regional images keep `handwritten_asm`.
 
-The NA bodies cannot currently be matched under the
-`gcc_2_8_1_g0_handwritten_asm` policy, and the attempt ledger records why:
+The NA bodies are matched C under the `gcc_2_8_1_g0_handwritten_asm` policy:
+the sixteen drivers in `src/game/shared_polygon_renderers.c` and the
+preparation stage in `src/game/shared_primitive_cache_prepare.c` (its own
+translation unit because it pins `$25`/`$12` differently). GCC cannot
+produce three shapes the originals use, so `src/game/handwritten_asm.h`
+supplies narrow macros the contract checker accepts only in fixed forms:
 
-- All sixteen drivers put a vertex-cache `mtc2` in branch delay slots. GCC
-  2.8.1 reorg never moves an asm insn into a delay slot (`stop_search_p`), and
-  MASPSX pads an unfilled slot with `nop`.
-- The Gt4 drivers also share the direct Gt4 `lw`+`lwr` blocker described in
-  `notes/direct-polygon-renderers.md`.
+- All sixteen drivers put a vertex-cache `mtc2` in a branch delay slot. GCC
+  2.8.1 reorg never moves an asm insn into a slot (`stop_search_p`), so
+  `HW_GTE_WRITE_BEQ(reg, value, cmp, label)` emits the `beq`/`mtc2` pair in
+  one `.set noreorder` block. GCC does not see that branch, so only the exact
+  image match vouches for the surrounding flow.
+- The Gt4 drivers also use the direct Gt4 `HW_LWR` load and a two-stage
+  NCLIP (`HW_GTE_NCLIP_MAC0_WAIT`) behind a kept `cull_test` label.
 - `Model_PrepareSharedPrimitiveCaches` fills three branch delay slots with
-  loads. The MIPS1 machine description gives loads `dslot=yes`, so reorg
-  never places a load in a delay slot.
+  loads, which reorg never does on MIPS1 (`dslot=yes`), so
+  `HW_BEQZ_LOAD(test, label, out, offset, base)` emits `beqz`/`lw`.
+- Kept labels (`HW_KEEP_LABEL`) before some tests block reorg's backward
+  fill, reproducing the original `nop` slots.
 
 ## Dispatch and names
 

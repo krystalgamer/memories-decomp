@@ -2,9 +2,8 @@
 
 The thirty-two game-owned handwritten callbacks selected by
 `Model_GetPrimitiveHandler` have names derived from their actual polygon
-templates, backface handling, command bits and record layouts. The 24
-Ft3/Gt3/Ft4 bodies are matched C (see "Matched C" below); the eight Gt4
-bodies remain `handwritten_asm`.
+templates, backface handling, command bits and record layouts. All 32 NA
+bodies are matched C (see "Matched C" below).
 
 ## Complete feature matrix
 
@@ -53,10 +52,8 @@ polygon; names do not promise drawing on every invocation.
 headers. The fog-special C drivers' existing delegation calls and return
 values keep that exact shape.
 
-The matched Ft3/Gt3/Ft4 drivers use the same `u32 *(GsARGUNIT_NORMAL *)`
-shape: each consumes one primitive block and returns the next. The remaining
-seven Gt4 drivers keep their address-use `void (void)` declarations until a
-body is matched.
+Every matched driver uses the same `u32 *(GsARGUNIT_NORMAL *)` shape: each
+consumes one primitive block and returns the next.
 
 All caller-scratch save/restore offsets, return values, packet-work-cursor
 stores, lighting/cache branches, culling/FLAG tests, window commands,
@@ -65,14 +62,14 @@ No wrapper, direct call, prototype repair or handwritten instruction is added.
 
 ## Matched C
 
-The Ft3/Gt3/Ft4 drivers of each variant are contiguous, so each variant is one
+The Ft3/Gt3/Ft4/Gt4 drivers of each variant are contiguous, so each variant is one
 translation unit, `src/game/polygon_renderers_<variant>.c` (`base`,
 `window_record`, `two_sided`, `two_sided_window_record`, `semi`,
 `semi_window_record`, `two_sided_semi`, `two_sided_semi_window_record`). They
 use the `gcc_2_8_1_g0_handwritten_asm` policy described in
 `notes/decompilation-workflow.md`: hard-register declarations, with inline
-assembly only for the s-register save/restore and GTE operations in
-`src/game/handwritten_asm.h`.
+assembly only for the s-register save/restore, GTE operations and the few
+load/branch shapes listed below, all in `src/game/handwritten_asm.h`.
 
 Points that the C has to reproduce:
 
@@ -90,11 +87,12 @@ Points that the C has to reproduce:
 - Gt3 places `sll t0,t0,16` in the `beqz s2` slot by shifting before the test
   and shifting back on the fall-through path.
 
-The eight Gt4 drivers are deferred. Each loads its second UV/CLUT word with
-`lw t0,12(a3); lwr t0,10(a3)`. GCC 2.8.1 emits `lwr` only inside an
-`lwl`/`lwr` unaligned-load pair or a block move, so the lone pair needs
-non-GTE inline assembly, which the profile forbids. The attempt ledger
-records this blocker.
+- Gt4 loads its second UV/CLUT word with `lw t0,12(a3); lwr t0,10(a3)`.
+  GCC 2.8.1 emits `lwr` only inside an `lwl`/`lwr` pair or a block move, so
+  the lone `lwr` is `HW_LWR(val, 10, p)`, which merges into the C-loaded word.
+- Gt4 computes the normals pointer before the `gHw_DrawMode` test so the
+  `beqz` slot gets the original instruction, and RTPS for the fourth vertex
+  uses `HW_GTE_RTPS_RAW()` because the original schedules its own hazards.
 
 ## Native boundaries and acceptance
 
