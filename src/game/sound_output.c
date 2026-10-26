@@ -123,45 +123,45 @@ void SD_VSync(void)
         SD_UpdateBankLoad();
 }
 
-void SD_EnqueueRamTransfer(s32 first, s32 second, s32 third, s32 fourth)
+void SD_EnqueueRamTransfer(s32 ram_destination, s32 sector_offset, s32 ram_size, s32 source_selector)
 {
     SDCommand command;
 
     SD_StartCdFade(-32, 0, 1);
     g_SDValue->status_flags |= 2;
     command.command = 32;
-    command.transfer_selector = fourth;
-    command.transfer_sector_offset = second;
-    command.transfer_ram_destination = first;
-    command.transfer_ram_size = third;
+    command.transfer_selector = source_selector;
+    command.transfer_sector_offset = sector_offset;
+    command.transfer_ram_destination = ram_destination;
+    command.transfer_ram_size = ram_size;
     command.transfer_spu_destination = 0;
     command.transfer_spu_size = 0;
     SD_EnqueueCommand(&command);
 }
 
-void SD_EnqueueSpuTransfer(s32 first, s32 second, s32 third, s32 fourth)
+void SD_EnqueueSpuTransfer(s32 spu_destination, s32 sector_offset, s32 spu_size, s32 source_selector)
 {
     SDCommand command;
 
     SD_StartCdFade(-32, 0, 1);
     g_SDValue->status_flags |= 2;
     command.command = 32;
-    command.transfer_selector = fourth;
-    command.transfer_sector_offset = second;
+    command.transfer_selector = source_selector;
+    command.transfer_sector_offset = sector_offset;
     command.transfer_ram_destination = 0;
     command.transfer_ram_size = 0;
-    command.transfer_spu_destination = first;
-    command.transfer_spu_size = third;
+    command.transfer_spu_destination = spu_destination;
+    command.transfer_spu_size = spu_size;
     SD_EnqueueCommand(&command);
 }
 
 void SD_EnqueueSpuRamTransfer(
-    s32 a0,
-    s32 a1,
-    s32 a2,
-    s32 a3,
-    s32 a4,
-    s32 a5
+    s32 spu_destination,
+    s32 ram_destination,
+    s32 sector_offset,
+    s32 spu_size,
+    s32 ram_size,
+    s32 source_selector
 )
 {
     SDCommand command;
@@ -169,12 +169,12 @@ void SD_EnqueueSpuRamTransfer(
     SD_StartCdFade(-32, 0, 1);
     g_SDValue->status_flags |= 2;
     command.command = 32;
-    command.transfer_selector = a5;
-    command.transfer_sector_offset = a2;
-    command.transfer_ram_destination = a1;
-    command.transfer_ram_size = a4;
-    command.transfer_spu_destination = a0;
-    command.transfer_spu_size = a3;
+    command.transfer_selector = source_selector;
+    command.transfer_sector_offset = sector_offset;
+    command.transfer_ram_destination = ram_destination;
+    command.transfer_ram_size = ram_size;
+    command.transfer_spu_destination = spu_destination;
+    command.transfer_spu_size = spu_size;
     SD_EnqueueCommand(&command);
 }
 

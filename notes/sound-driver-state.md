@@ -2259,3 +2259,53 @@ compaction and the existing trailing-record copy all remain unchanged.
 Unexplained field_15F4 and default-step field_164B are not renamed.
 All fixtures, source selectors, assertions, oracles, mutations, scenarios
 and numeric controls retain their complete bytes; none runs locally.
+
+
+## Sound-transfer producer arguments and handoff
+
+The three command-0x20 enqueue bodies name their existing arguments by
+the exact destination words they populate: ram_destination or
+spu_destination, sector_offset, ram_size or spu_size, and source_selector.
+The six-argument form keeps SPU destination, RAM destination, sector
+offset, SPU size, RAM size, selector in that order. The public RAM and
+combined prototypes agree; the unused SPU-only entry gains no export or
+invented caller. All argument types remain s32, including raw addresses.
+
+Sizes retain the signed phase encoding: positive byte counts, negative
+sector counts converted by the existing negated sector shift, and zero
+skipping that phase. Neither enqueue nor its callers normalize them.
+Each helper retains fade(-32,0,1), status bit 0x02, command 32, its exact
+six tail stores including opposite-phase zeros, and the ignored enqueue
+result. Other local command bytes remain untouched; no memset, default
+initialization, rollback, bound or failure handling is added.
+
+SD_UpdateBankLoad names the four shared call-block locals by that RAM
+transfer contract. Its table-tail and first-signature-byte locals retain
+their exact types. All bank phases, shared call/goto placement, source
+selectors, addresses, sizes, two-step count scaling, packed header copy,
+VolInfo checks, byte zero extension and regional printf guards remain.
+The names do not assert package contents beyond the existing checks.
+
+SD_QueueValueLinkTransfer names its masked link_index, data_start_sector
+calculation, registration_command and three separately reloaded state
+locals. The sector value remains ceil(value_link_count * 8 / 0x800) + 1
+before adding the entry offset. Its reused off word still changes from
+record byte offset to absolute address. Keep the two enqueue operations
+and every separate global reload; the SPU cursor still advances by the
+entry's RAW spu_size, not a converted byte/sector count.
+
+Only command 32's existing nested local block in SD_StepActiveCommand
+names transfer_state, request and spu_size. Other command domains keep
+their locals. The raw eight-word snapshot and exact tail positions
+0/1/3/4/5/6 remain; no typed overlay or common descriptor meaning is
+introduced. Keep both submission guards, signed reads, separate global
+request reloads, zero-size retirement and the original source-nibble
+selection of file 4/5/6 and filename argument. An unrecognized nibble
+still reaches the existing busy-arm/phase advance without submission.
+Field_04CC remains unclassified.
+
+The unchanged phase callback retains staged SPU transfer before direct
+RAM transfer, skipped-phase cursor handling, signed size conversion and
+completion timing. The queue still copies whole 0x30-byte records and
+activates the existing 0x20-byte tail snapshot. No storage layout,
+manifest, compiler profile, transfer mode or command lifetime changes.

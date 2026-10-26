@@ -27,20 +27,20 @@
 
 /* The European build makes none of the three printf calls. */
 void SD_UpdateBankLoad(void) {
-    SDBankStagingBuffer *b;
-    u8 *a0;
-    s32 a1;
-    s32 a2;
-    s32 a3;
-    u8 c;
+    SDBankStagingBuffer *bank_tail;
+    u8 *ram_destination;
+    s32 sector_offset;
+    s32 ram_size;
+    s32 source_selector;
+    u8 signature_first;
 
     switch (g_SDValue->bank_load_phase) {
     case 0:
         if (g_SDValue->data_source_flags & 1) {
-            a0 = (u8 *)0x801E6800;
-            a1 = 0;
-            a2 = 0x800;
-            a3 = 0x10;
+            ram_destination = (u8 *)0x801E6800;
+            sector_offset = 0;
+            ram_size = 0x800;
+            source_selector = 0x10;
             goto call;
         }
         g_SDValue->bank_load_phase += 6;
@@ -57,11 +57,11 @@ void SD_UpdateBankLoad(void) {
 #ifndef VERSION_EUROPE
         printf(gSD_szSeGroupCountFormat, g_SDValue->value_link_count);
 #endif
-        a0 = (u8 *)0x801E2800;
-        a1 = 1;
-        a2 = g_SDValue->value_link_count;
-        a3 = 0x10;
-        a2 = a2 * 8;
+        ram_destination = (u8 *)0x801E2800;
+        sector_offset = 1;
+        ram_size = g_SDValue->value_link_count;
+        source_selector = 0x10;
+        ram_size = ram_size * 8;
         goto call;
     case 3:
         if ((SD_GetStatusFlags() & 7) == 0) {
@@ -82,23 +82,23 @@ void SD_UpdateBankLoad(void) {
         return;
     case 6:
         if (g_SDValue->data_source_flags & 2) {
-            a0 = (u8 *)0x801E2000;
-            a1 = 0;
-            a2 = 0x800;
-            a3 = 0x20;
+            ram_destination = (u8 *)0x801E2000;
+            sector_offset = 0;
+            ram_size = 0x800;
+            source_selector = 0x20;
             goto call;
         }
         g_SDValue->bank_load_phase += 2;
         return;
     case 7:
         if ((SD_GetStatusFlags() & 7) == 0) {
-            b = (SDBankStagingBuffer *)0x801E2000;
+            bank_tail = (SDBankStagingBuffer *)0x801E2000;
             if (gSD_SeBankVolInfoTag == 'V') {
-                c = b->signature[0];
-                if (c == 'o' && 'l' == b->signature[1] &&
-                    'I' == b->signature[2] && 'n' == b->signature[3] &&
-                    'f' == b->signature[4] && b->signature[5] == c) {
-                    g_SDValue->secondary_mix_default = b->volume;
+                signature_first = bank_tail->signature[0];
+                if (signature_first == 'o' && 'l' == bank_tail->signature[1] &&
+                    'I' == bank_tail->signature[2] && 'n' == bank_tail->signature[3] &&
+                    'f' == bank_tail->signature[4] && bank_tail->signature[5] == signature_first) {
+                    g_SDValue->secondary_mix_default = bank_tail->volume;
                     g_SDValue->secondary_mix_scale = g_SDValue->secondary_mix_default;
 #ifndef VERSION_EUROPE
                     printf(gSD_szSmfMixerOutFormat, g_SDValue->secondary_mix_default);
@@ -113,12 +113,12 @@ void SD_UpdateBankLoad(void) {
         if ((g_SDValue->data_source_flags & 0x80) == 0) {
             goto no8;
         }
-        a0 = (u8 *)0x801E8800;
-        a1 = 0;
-        a2 = 0x2000;
-        a3 = 0x40;
+        ram_destination = (u8 *)0x801E8800;
+        sector_offset = 0;
+        ram_size = 0x2000;
+        source_selector = 0x40;
     call:
-        SD_EnqueueRamTransfer((s32)a0, a1, a2, a3);
+        SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
         g_SDValue->bank_load_phase += 1;
         return;
     no8:
@@ -126,13 +126,13 @@ void SD_UpdateBankLoad(void) {
         return;
     case 9:
         if ((SD_GetStatusFlags() & 7) == 0) {
-            b = (SDBankStagingBuffer *)0x801E8800;
+            bank_tail = (SDBankStagingBuffer *)0x801E8800;
             if (gSD_SmfBankVolInfoTag == 'V') {
-                c = b->signature[0];
-                if (c == 'o' && 'l' == b->signature[1] &&
-                    'I' == b->signature[2] && 'n' == b->signature[3] &&
-                    'f' == b->signature[4] && b->signature[5] == c) {
-                    g_SDValue->cd_mix_default = b->volume;
+                signature_first = bank_tail->signature[0];
+                if (signature_first == 'o' && 'l' == bank_tail->signature[1] &&
+                    'I' == bank_tail->signature[2] && 'n' == bank_tail->signature[3] &&
+                    'f' == bank_tail->signature[4] && bank_tail->signature[5] == signature_first) {
+                    g_SDValue->cd_mix_default = bank_tail->volume;
                     g_SDValue->mix_scale = g_SDValue->cd_mix_default;
 #ifndef VERSION_EUROPE
                     printf(gSD_szCdMixerOutFormat, g_SDValue->cd_mix_default);
