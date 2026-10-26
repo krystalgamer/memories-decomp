@@ -264,7 +264,11 @@ save/restore, GTE, lone-`lwr` and fixed branch-plus-delay-slot macros in
 preprocessing, `tools/project/handwritten_asm_contract.py` checks each asm
 statement against an instruction, GTE command-word, constraint and clobber
 allowlist; empty templates and anything else are rejected. The profile cannot
-be combined with `--allow-psyq-inline-macros`. See
+be combined with `--allow-psyq-inline-macros`. When such a function already has a
+deferred canonical history, record the exact result with
+`record_external_attempt.py --mode post_terminal_resolution --profile
+gcc_2_8_1_g0_handwritten_asm --allow-register-pins`; the recorder applies the
+same range and contract checks. See
 `notes/wireframe-renderers.md` for the first matched family and
 `notes/direct-polygon-renderers.md` and
 `notes/shared-primitive-renderers.md` for the polygon drivers.
