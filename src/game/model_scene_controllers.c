@@ -506,7 +506,7 @@ void Model_UpdateAnimatedBattle(void)
         if (slot->animation_control_state == 2) {
             if (slot->active_animation_command_row == 0 && gModel_aSlots[f].playback_state == 0x23) {
                 if (gModel_aSlots[1].defense_position == 0
-                    && gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00) {
+                    && gModel_aSlots[0].field_CF8.prefix.values.attack_compare_value == gModel_aSlots[1].field_CF8.prefix.values.attack_compare_value) {
                     if (gModel_aSlots[1].stone_texture_state == 0xFF) {
                         gModel_aSlots[1].stone_texture_state = 0x80;
                     }
@@ -581,7 +581,7 @@ void Model_UpdateAnimatedBattle(void)
         if (Model_IsEffectKeyQueueEmpty() != 0) {
             s32 a = (s16)gModel_wViewDistance;
             if (Model_AdjustCameraDistanceForSlot(f, 0x2BC) + 0xA >= a && Model_IsCameraMoveComplete(1) != 0) {
-                if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
+                if (gModel_aSlots[0].field_CF8.prefix.values.attack_compare_value == gModel_aSlots[1].field_CF8.prefix.values.attack_compare_value
                     && gModel_aSlots[1].defense_position == 0) {
                     gModel_bActiveSlotIndex = 1;
                     handlers[3](gModel_aSlots[1].variant_module_data_address, 0);
@@ -626,7 +626,7 @@ void Model_UpdateAnimatedBattle(void)
         ModelSlot *slot;
         ModelSlot *base;
 
-        if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
+        if (gModel_aSlots[0].field_CF8.prefix.values.attack_compare_value == gModel_aSlots[1].field_CF8.prefix.values.attack_compare_value
             && gModel_aSlots[1].defense_position == 0 && gModel_aSlots[1].field_E15 == 0) {
             gModel_bActiveSlotIndex = 1;
             if (handlers[3](gModel_aSlots[1].variant_module_data_address, -1) != 2) {
@@ -2368,10 +2368,10 @@ void Model_SetSlotProperties(s32 idx, ...)
         p4 = va_arg(ap, s32);
         p5 = va_arg(ap, s32);
         if (p2 >= 0) {
-            gModel_aSlots[idx].field_DFA = p2;
+            gModel_aSlots[idx].attack_compare_override = p2;
         }
         if (p3 >= 0) {
-            gModel_aSlots[idx].field_DFC = p3;
+            gModel_aSlots[idx].defense_compare_override = p3;
         }
         if (p4 >= 0) {
             gModel_aSlots[idx].guardian_star_selection = (p4 != 0);

@@ -143,8 +143,8 @@ typedef union {
         u8 guardian_star_options[2];
     } bytes;
     struct {
-        u16 field_00;
-        u16 field_02;
+        u16 attack_compare_value;
+        u16 defense_compare_value;
         u8 field_04[4];
         u32 field_08;
     } values;
@@ -287,8 +287,8 @@ typedef struct {
     s32 lit_color_cache_address;
     s32 lit_color_cache_end_address;
     u16 model_id;
-    u16 field_DFA;
-    u16 field_DFC;
+    u16 attack_compare_override;
+    u16 defense_compare_override;
     u8 guardian_star_selection;
     u8 defense_position;
     /* Pre-cull packet-byte budget from the unit scan, not actual usage. */
@@ -596,11 +596,11 @@ typedef char ModelSlot_module_data_address_layout_must_match[
 typedef char ModelSlot_model_id_offset_must_be_0xDF8[
     MODEL_OFFSET(ModelSlot, model_id) == 0xDF8 ? 1 : -1
 ];
-typedef char ModelSlot_field_DFA_offset_must_be_0xDFA[
-    MODEL_OFFSET(ModelSlot, field_DFA) == 0xDFA ? 1 : -1
+typedef char ModelSlot_attack_compare_override_offset_must_be_0xDFA[
+    MODEL_OFFSET(ModelSlot, attack_compare_override) == 0xDFA ? 1 : -1
 ];
-typedef char ModelSlot_field_DFC_offset_must_be_0xDFC[
-    MODEL_OFFSET(ModelSlot, field_DFC) == 0xDFC ? 1 : -1
+typedef char ModelSlot_defense_compare_override_offset_must_be_0xDFC[
+    MODEL_OFFSET(ModelSlot, defense_compare_override) == 0xDFC ? 1 : -1
 ];
 typedef char ModelSlot_guardian_star_selection_offset_must_be_0xDFE[
     MODEL_OFFSET(ModelSlot, guardian_star_selection) == 0xDFE ? 1 : -1

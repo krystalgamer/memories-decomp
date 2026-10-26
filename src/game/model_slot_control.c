@@ -286,16 +286,16 @@ void Model_UpdateSlotControl(s32 index)
         if (other->defense_position != 0) {
             {
                 u16 own_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
+                    MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
                 u16 other_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_02;
+                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
                 selected = own_value > other_value ? 6 : 8;
             }
         } else {
             u16 own_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
+                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
             u16 other_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_00;
+                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
             selected = own_value > other_value ? 6 : 5;
             if (own_value == other_value) {
                 selected |= 0x80;
@@ -346,16 +346,16 @@ void Model_UpdateSlotControl(s32 index)
         if ((((u8 *)&gModel_Slot0MetadataView) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
             {
                 u32 own_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
+                    MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
                 u32 other_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_02;
+                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
                 reaction = other_value < own_value ? 6 : 8;
             }
         } else {
             u32 own_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
+                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
             u32 other_value =
-                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_00;
+                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
             reaction = other_value < own_value ? 6 : 5;
             if (own_value == other_value) {
                 reaction |= 0x80;
@@ -428,19 +428,19 @@ no_handler:
                     {
                         u32 own_value =
                             MODEL_SLOT_CF8_TAIL_VIEW(own_record)->
-                                prefix.values.field_00;
+                                prefix.values.attack_compare_value;
                         u32 other_value =
                             MODEL_SLOT_CF8_TAIL_VIEW(other_record)->
-                                prefix.values.field_02;
+                                prefix.values.defense_compare_value;
                         fallback_action = other_value < own_value ? 6 : 8;
                     }
                 } else {
                     u32 own_value =
                         MODEL_SLOT_CF8_TAIL_VIEW(own_record)->
-                            prefix.values.field_00;
+                            prefix.values.attack_compare_value;
                     u32 other_value =
                         MODEL_SLOT_CF8_TAIL_VIEW(other_record)->
-                            prefix.values.field_00;
+                            prefix.values.attack_compare_value;
                     fallback_action = other_value < own_value ? 6 : 5;
                     if (own_value == other_value) {
                         fallback_action |= 0x80;
@@ -500,8 +500,8 @@ void Model_ResetSlot(s32 arg0)
     p->skip_sound_setup = 0;
     p->guardian_star_selection = arg0;
     p->defense_position = 0;
-    p->field_DFC = 0xFFFF;
-    p->field_DFA = 0xFFFF;
+    p->defense_compare_override = 0xFFFF;
+    p->attack_compare_override = 0xFFFF;
 
     n = 1;
     i = 3;
@@ -694,10 +694,10 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
                 0, 0
             );
             if (p2 >= 0) {
-                gModel_aSlots[slot].field_DFA = p2;
+                gModel_aSlots[slot].attack_compare_override = p2;
             }
             if (p3 >= 0) {
-                gModel_aSlots[slot].field_DFC = p3;
+                gModel_aSlots[slot].defense_compare_override = p3;
             }
             if (p4 >= 0) {
                 gModel_aSlots[slot].guardian_star_selection = p4 != 0;
@@ -1191,11 +1191,11 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         if (slot->field_CF8.prefix.values.field_08 & 0x20200000) {
             Model_SetSlotDrawMode(index, 4);
         }
-        if (slot->field_DFA < 0xFFFF) {
-            slot->field_CF8.prefix.values.field_00 = slot->field_DFA;
+        if (slot->attack_compare_override < 0xFFFF) {
+            slot->field_CF8.prefix.values.attack_compare_value = slot->attack_compare_override;
         }
-        if (slot->field_DFC < 0xFFFF) {
-            slot->field_CF8.prefix.values.field_02 = slot->field_DFC;
+        if (slot->defense_compare_override < 0xFFFF) {
+            slot->field_CF8.prefix.values.defense_compare_value = slot->defense_compare_override;
         }
         if (slot->skip_sound_setup != 0) {
             slot->field_CF8.first_star_module_command = -1;
@@ -1412,8 +1412,8 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
         dst->field_CF8.first_star_module_command = -1;
         dst->field_CF8.second_star_module_command = -1;
         dst->field_CF8.primary_module_command = -1;
-        dst->field_CF8.prefix.values.field_00 = 0;
-        dst->field_CF8.prefix.values.field_02 = 0;
+        dst->field_CF8.prefix.values.attack_compare_value = 0;
+        dst->field_CF8.prefix.values.defense_compare_value = 0;
         dst->load_step = 1;
         break;
     }

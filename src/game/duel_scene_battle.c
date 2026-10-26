@@ -503,13 +503,13 @@ void DuelScene_UpdateBattle(void)
             gDuel_bBattleRemovalSlot0 = -1;
             models[0].model_id = H(left, 0xC);
             models[0].defense_position = 0;
-            models[0].field_02 = 0;
-            models[0].field_04 = 0;
+            models[0].attack_compare_override = 0;
+            models[0].defense_compare_override = 0;
             models[0].guardian_star_selection = (gDuel_awSavedRecordFlags[0] >> 9) & 1;
             models[1].model_id = right->card_id;
             models[1].guardian_star_selection = (gDuel_awSavedRecordFlags[1] >> 9) & 1;
-            models[1].field_02 = 0;
-            models[1].field_04 = 0;
+            models[1].attack_compare_override = 0;
+            models[1].defense_compare_override = 0;
             models[1].defense_position = (gDuel_awSavedRecordFlags[1] >> 0xB) & 1;
             result = Duel_CompareBattleStrength(pair[0], pair[1]);
             if (result == -1) {
@@ -517,12 +517,12 @@ void DuelScene_UpdateBattle(void)
                 gDuel_bBattleRemovalSlot1 = pair[1]->field_6A;
             } else {
                 if (result > 0) {
-                    models[0].field_02 = 1;
+                    models[0].attack_compare_override = 1;
                     gDuel_bBattleRemovalSlot0 = pair[1]->field_6A;
                 }
                 if (result < 0) {
                     if (!(right->flags & 0x800)) {
-                        models[1].field_02 = 1;
+                        models[1].attack_compare_override = 1;
                         gDuel_bBattleRemovalSlot0 = pair[0]->field_6A;
                     }
                 }
