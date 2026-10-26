@@ -168,7 +168,7 @@ segments:
     - game/european/model_slot_control
   - - 7924
     - .rodata
-    - game/european/model_packet_handlers
+    - game/european/model_animation_unit
   - - 8014
     - rodata
     - initial_data_1f4e
@@ -1214,10 +1214,7 @@ segments:
     - game/european/model_texture_pack_page_clut
   - - 320344
     - c
-    - game/european/model_packet_handlers
-  - - 320676
-    - c
-    - game/model_animation_unit
+    - game/european/model_animation_unit
   - - 325244
     - c
     - game/european/model_process_type2_unit

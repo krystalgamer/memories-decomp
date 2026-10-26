@@ -554,11 +554,15 @@ class ModelSequenceDispatchTests(unittest.TestCase):
         self.source = SOURCE.resolve()
         self.source.relative_to(ROOT)
         self.original = self.source.read_text()
-        # The unit continues with the HMD interpolators; the witness links the
-        # sequence dispatcher alone.
-        self.dispatcher = self.original[
-            :self.original.index("/* Advances one animation track")
+        # The unit opens with the animation-unit link/handler helpers and
+        # continues with the HMD interpolators; the witness links the sequence
+        # dispatcher alone, after the unit's include block.
+        head = self.original[:self.original.index("void Model_LinkSlotAnimationUnit(")]
+        driver = self.original[
+            self.original.index("/*\n * All 1844 bytes"):
+            self.original.index("/* Advances one animation track")
         ]
+        self.dispatcher = head + driver
         (ROOT / "tmp").mkdir(exist_ok=True)
         temporary = tempfile.TemporaryDirectory(
             prefix="model-sequence-dispatch-", dir=ROOT / "tmp"

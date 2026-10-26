@@ -6014,15 +6014,15 @@
     },
     {
       "address": "0x8005C6A0",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC8",
-      "source": "src/game/model_packet_handlers.c"
+      "source": "src/game/model_animation_unit.c"
     },
     {
       "address": "0x8005C768",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/model_packet_handlers.c"
+      "source": "src/game/model_animation_unit.c"
     },
     {
       "address": "0x8005C7BC",

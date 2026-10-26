@@ -1,4 +1,4 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#include "../model_packet_handlers.c"
+#include "../model_animation_unit.c"
