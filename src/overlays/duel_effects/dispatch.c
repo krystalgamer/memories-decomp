@@ -19,7 +19,7 @@
 void DuelEffect_DispatchRequest(s32 effect, s32 phase, void *buffer, DuelEffectRequest *context)
 {
     s32 i;
-    u16 flags = context->field_10;
+    u16 flags = context->base_priority;
 
     setVector(&gDuelEffect_DrawOffset, context->field_00, context->field_02, context->field_04);
     gDuelEffect_wBasePriority = flags;
@@ -29,97 +29,97 @@ void DuelEffect_DispatchRequest(s32 effect, s32 phase, void *buffer, DuelEffectR
         }
     }
     if (effect == 0) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunContourBurst(buffer, phase);
     }
     if (effect == 1) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunFusion(buffer, phase);
     }
     if (effect == 2) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunAttackSlash(buffer, phase, context->field_12);
     }
     if (effect == 3) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunDestroyFlames(buffer, phase);
     }
     if (effect == 4) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunCardFlashBurst(buffer, phase);
     }
     if (effect == 5) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunLifePointRecovery(buffer, phase);
     }
     if (effect == 6) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunDirectDamage(buffer, phase);
     }
     if (effect == 7) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunReflectedDirectDamage(buffer, phase);
     }
     if (effect == 8) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunFieldColumnBurst(buffer, phase);
     }
     if (effect == 9) {
         /* Both stores are present; the callee takes only two arguments. */
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunInvertedLifePointRecovery(buffer, phase);
     }
     if (effect == 10) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunTerrainChange(buffer, phase);
     }
     if (effect == 11) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunCardBreakup(buffer, phase);
     }
     if (effect == 12) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunStopDefenseBurst(buffer, phase);
     }
     if (effect == 13) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunStatPenalty(buffer, phase, context->field_12);
     }
     if (effect == 14) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunGuardianStarBonus(buffer, phase);
     }
     if (effect == 15) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunSelectedCardOverlay(buffer, phase);
     }
     if (effect == 16) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunRowStrike(buffer, phase);
     }
     if (effect == 17) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunBoardDestruction(buffer, phase);
     }
     if (effect == 18) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunParticleContourBurst(buffer, phase);
     }
     if (effect == 19) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunExpandingRingBurst(buffer, phase);
     }
     if (effect == 20) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         if (phase >= 0) {
             DuelEffect_RunRowStrike(buffer, 1);
@@ -128,22 +128,22 @@ void DuelEffect_DispatchRequest(s32 effect, s32 phase, void *buffer, DuelEffectR
         }
     }
     if (effect == 21) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunSwordsField(buffer, phase);
     }
     if (effect == 22) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunRitual(buffer, phase);
     }
     if (effect == 23) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_08;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_2;
         SetGeomOffset(160, 108);
         DuelEffect_RunBackRowSweep(buffer, phase);
     }
     if (effect == 24) {
-        gDuelEffect_pOrderingTable = (GsOT *)context->field_0C;
+        gDuelEffect_pOrderingTable = (GsOT *)context->ordering_table_1;
         DuelEffect_RunExodiaBurst(buffer, phase);
     }
 }

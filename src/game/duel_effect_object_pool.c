@@ -80,14 +80,14 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 arg0)
         p->phase = 0;
         p->progress = 0;
         p->buffer = q + 0x3800;
-        p->field_08 = (s32)t[2];
+        p->ordering_table_2 = (s32)t[2];
         b = (s32)t[1];
-        p->field_10 = 8;
+        p->base_priority = 8;
         p->field_00 = 0;
         p->field_02 = 0;
         p->field_04 = 0;
         p->field_12 = 0;
-        p->field_0C = b;
+        p->ordering_table_1 = b;
     }
 
     return p;
@@ -113,7 +113,7 @@ DuelEffectRequest *DuelEffect_CreateRequest(s32 id)
    For each active request: raises the blocking status unless the request is
    nonblocking; clears gDuelEffect_bRequestFinished; if the initialized flag is not set yet,
    sets it and resets phase to -1; copies gGraphics_apOrderingTables[1]/[2] into
-   field_0C/field_08, stashes the request at gDuelEffect_pActiveRequest, and calls
+   ordering_table_1/ordering_table_2, stashes the request at gDuelEffect_pActiveRequest, and calls
    DuelEffect_DispatchRequest(id, the ORIGINAL phase read before the possible reset,
    buffer, request). It then restores the geometry state and clears flags
    when gDuelEffect_bRequestFinished ends up 1. Returns the blocking status.
@@ -147,9 +147,9 @@ s32 DuelEffect_UpdateRequests(void) {
                     flags2 | DUEL_EFFECT_REQUEST_FLAG_INITIALIZED;
                 rec->phase = -1;
             }
-            rec->field_0C = (s32)gGraphics_apOrderingTables[1];
+            rec->ordering_table_1 = (s32)gGraphics_apOrderingTables[1];
             gDuelEffect_pActiveRequest = rec;
-            rec->field_08 = (s32)gGraphics_apOrderingTables[2];
+            rec->ordering_table_2 = (s32)gGraphics_apOrderingTables[2];
             DuelEffect_DispatchRequest(rec->id, savedF1A, (s32)rec->buffer, rec);
             SetGeomOffset(0, 0);
             SetGeomScreen(gViewState_Current.projection);
