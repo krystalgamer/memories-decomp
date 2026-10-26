@@ -1061,7 +1061,7 @@
       "address": "0x80023B38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2B4",
-      "source": "src/game/japanese/duel_cursor_grid_direction.c"
+      "source": "src/game/japanese/duel_field_display_objects.c"
     },
     {
       "address": "0x80023DEC",

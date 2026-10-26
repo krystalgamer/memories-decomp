@@ -342,9 +342,6 @@ segments:
   - - 80204
     - c
     - game/european/duel_field_display_objects
-  - - 83396
-    - c
-    - game/duel_cursor_grid_direction
   - - 84088
     - c
     - game/duel_cursor_held_grid_direction

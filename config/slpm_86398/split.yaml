@@ -157,7 +157,6 @@ segments:
       - [0x12cbc, c, game/japanese/duel_card_turn_animations]
       - [0x135e0, c, game/display_parent_links]
       - [0x136d8, c, game/japanese/duel_field_display_objects]
-      - [0x14338, c, game/japanese/duel_cursor_grid_direction]
       - [0x145ec, c, game/duel_cursor_held_grid_direction]
       - [0x14690, c, game/duel_cursor_status]
       - [0x146e0, c, game/japanese/duel_update_card_pick_cursor]

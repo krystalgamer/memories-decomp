@@ -161,7 +161,6 @@ segments:
       - [0x012DEC, c, game/duel_card_turn_animations]
       - [0x013710, c, game/display_parent_links]
       - [0x013808, c, game/european/duel_field_display_objects]
-      - [0x014480, c, game/duel_cursor_grid_direction]
       - [0x014734, c, game/duel_cursor_held_grid_direction]
       - [0x0147D8, c, game/duel_cursor_status]
       - [0x014828, c, game/european/duel_update_card_pick_cursor]
