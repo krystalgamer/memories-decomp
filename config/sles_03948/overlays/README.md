@@ -274,6 +274,19 @@ placement, raw data, and the overworld assembly block at `0x1618..0x17D0`.
 That block is **not** claimed as matching C. Scratch probes, objects,
 extracted modules and retail archives remain untracked.
 
+Another 433 MODEL variant images are single-entry images whose text is the
+North American entry for the US header 17 below their own (French headers 89,
+127, 128, 135, 136, 769, 771, 773, 783, 796, 844, 845 and their slot-one
+counterparts 219, 257, 258, 265, 266, 866, 868, 870, 880, 893, 941, 942). They
+build from the accepted `model_variant/variant{72,110,111,118,827,828}_entry`
+sources and their `_slot1` copies unchanged. The
+`variant{119,752,754,756,766,779}_entry` families compile through
+`src/overlays/french_model_variant/` wrappers that define `VERSION_FRENCH`. That
+selects the French burst CLUT (`0x3D28` instead of `0x3D20`), and in
+`variant{119,754}` the 256-line `GRAPHICS_DEFAULT_HEIGHT` sizes the full-screen
+flash quad. Each source family has one `model_variant<header>_linker_symbols.txt`
+file with the French resident addresses.
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are
