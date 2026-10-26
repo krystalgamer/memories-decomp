@@ -13,8 +13,8 @@
  * slot's playback state and part speed;
  * Model_SeekSlotAnimation sets the slot's frame and, when the animation
  * argument is nonzero, its current animation, seeking every part there. */
-void Model_SetSlotPlaybackSpeed(s32 index, s32 type);
-void Model_SetSlotPlaybackDirection(s32 index, s32 sign);
-void Model_SeekSlotAnimation(s32 idx, s32 flag, s32 val);
+void Model_SetSlotPlaybackSpeed(s32 slot_index, s32 speed);
+void Model_SetSlotPlaybackDirection(s32 slot_index, s32 sign);
+void Model_SeekSlotAnimation(s32 slot_index, s32 animation_row, s32 frame_position);
 
 #endif

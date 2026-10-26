@@ -6,10 +6,10 @@
  * command the part stopped at, tframe the length of that command and rframe
  * the time left in it. 0x6000 is the clamp Model_SeekSlotPartAnimation applies in mode
  * 0x3C. */
-s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *p, s32 i)
+s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *slot, s32 part_index)
 {
     s32 acc;
-    s32 n;
+    s32 animation_row;
     ModelSlotPart *e;
     s32 *tbl;
     s32 *lim;
@@ -18,25 +18,25 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *p, s32 i)
     s32 v;
 
     acc = 0;
-    n = 1;
-    e = p->animation_sequences[i];
+    animation_row = 1;
+    e = slot->animation_sequences[part_index];
     if (e == 0) {
         return 0;
     }
-    lim = p->animation_commands + e->ti;
+    lim = slot->animation_commands + e->ti;
     if (*lim < 0) {
         return 0;
     }
-    tbl = p->animation_commands;
-    for (n = 1; n < 10; n++) {
-        k = p->animation_command_indices[n][i];
+    tbl = slot->animation_commands;
+    for (animation_row = 1; animation_row < 10; animation_row++) {
+        k = slot->animation_command_indices[animation_row][part_index];
         q = tbl + k;
         if (k != 0xFFFF && lim >= q - 1 &&
             tbl + *(u16 *)(q - 1) >= lim) {
             break;
         }
     }
-    if (n < 10) {
+    if (animation_row < 10) {
         while (q < lim) {
             acc += ((u8 *)q)[2];
             q++;
@@ -46,22 +46,22 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *p, s32 i)
             acc += (e->tframe - v) / 16;
         }
     } else {
-        n = 0;
+        animation_row = 0;
     }
-    return (n << 24) | acc;
+    return (animation_row << 24) | acc;
 }
 
-/* Seeks channel i of model slot p to position pos within sequence n. The
- * sequence's entry index comes from animation_command_indices[n][i] and its step count from
- * animation_duration_rows[n].values[i]. The command list at animation_commands holds 4-byte entries
+/* Seeks channel part_index of model slot slot to position scaled_position within sequence animation_row. The
+ * sequence's entry index comes from animation_command_indices[animation_row][part_index] and its step count from
+ * animation_duration_rows[animation_row].values[part_index]. The command list at animation_commands holds 4-byte entries
  * whose byte 2 is multiplied by 16 for this walk, and the halfword of the entry
- * before a sequence's first is its length. The walk consumes pos modulo one
+ * before a sequence's first is its length. The walk consumes scaled_position modulo one
  * step's length, entry by entry. It stops at the first entry that outlasts
  * the remainder, at a negative entry, or at the end, then skips forward over
  * non-negative entries to find the next stop. The part's GsSEQ receives the
  * stop index (ti), the entry before it (ci), the entry length (tframe) and
  * the time left in it (rframe); mode 0x3C clamps that last value to 0x6000. */
-void Model_SeekSlotPartAnimation(ModelSlot *p, s32 i, s32 n, u32 pos) {
+void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_row, u32 scaled_position) {
     s32 *tbl;
     ModelSlotPart *e;
     s32 *q;
@@ -81,13 +81,13 @@ void Model_SeekSlotPartAnimation(ModelSlot *p, s32 i, s32 n, u32 pos) {
 
     /* Both channel offsets are materialised up front and never read by
        name: cse reuses them for the animation_sequences and animation_command_indices indexing just
-       below, and that is what moves p out of $a0 into $t3 at entry.
+       below, and that is what moves slot out of $a0 into $t3 at entry.
        Dropping either one changes the entry sequence. */
-    off4 = i * 4;
-    off2 = i * 2;
-    k = p->animation_command_indices[n][i];
-    tbl = p->animation_commands;
-    e = p->animation_sequences[i];
+    off4 = part_index * 4;
+    off2 = part_index * 2;
+    k = slot->animation_command_indices[animation_row][part_index];
+    tbl = slot->animation_commands;
+    e = slot->animation_sequences[part_index];
     q = tbl + k;
     if (e == 0) {
         return;
@@ -97,14 +97,14 @@ void Model_SeekSlotPartAnimation(ModelSlot *p, s32 i, s32 n, u32 pos) {
     }
     /* Read twice rather than through a local: cse folds the second read,
        and the extra reference is what puts the address in $v1. */
-    if (p->animation_duration_rows[n].values[i] == 0) {
+    if (slot->animation_duration_rows[animation_row].values[part_index] == 0) {
         return;
     }
-    step = p->animation_duration_rows[n].values[i] * 16;
-    rem = pos % step;
+    step = slot->animation_duration_rows[animation_row].values[part_index] * 16;
+    rem = scaled_position % step;
     cp = q - 1;
     if (rem == 0) {
-        if (pos != 0 && p->playback_state != 0x3C) {
+        if (scaled_position != 0 && slot->playback_state != 0x3C) {
             rem = step;
         }
     }
@@ -118,7 +118,7 @@ void Model_SeekSlotPartAnimation(ModelSlot *p, s32 i, s32 n, u32 pos) {
         return;
     }
     for (; idx < *(u16 *)cp; idx++) {
-        if (p->playback_state != 0x3C) {
+        if (slot->playback_state != 0x3C) {
             d = rem - (((u8 *)q)[2] << 4);
             if (d <= 0) {
                 break;
@@ -152,19 +152,19 @@ scan:
             goto scan;
         }
     }
-    x = q - p->animation_commands;
+    x = q - slot->animation_commands;
     e->ti = x;
     if (x != 0) {
         x = x - 1;
     } else {
-        x = v - p->animation_commands;
+        x = v - slot->animation_commands;
     }
     e->ci = x;
     y = ((u8 *)q)[2] << 4;
     z = y - rem;
     e->tframe = y;
     e->rframe = z;
-    if (p->playback_state != 0x3C) {
+    if (slot->playback_state != 0x3C) {
         return;
     }
     if ((s16)z < e->tframe) {
