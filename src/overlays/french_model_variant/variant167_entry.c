@@ -1,5 +1,11 @@
 #include "../../types.h"
 #include "variant167_entry.h"
+#include "../../game/screen_projection.h"
+
+/* The North American build reports the work size once per setup command. */
+#if defined(VARIANT167_PRINT_WORK_SIZE)
+#include "../../psyq/stdio.h"
+#endif
 
 static const VECTOR D_8013BED8 = {4096, 4096, 4096, 0};
 
@@ -31,10 +37,10 @@ s32 func_8013B004(u8 *context, s32 command)
         config = work->config = &D_8013BF20[command % 100];
         offset = work->offsets;
         increment = work->increments;
-        for (i = 0; i < 256; offset++, increment++, i++) {
+        for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; offset++, increment++, i++) {
             *offset = 0;
             *increment = config->amplitude
-                + config->amplitude * csin(i * 32) / 4096;
+                + config->amplitude * csin(i * 8192 / GRAPHICS_DEFAULT_HEIGHT) / 4096;
         }
         work->phase = 0;
         point = work->points;
@@ -57,6 +63,9 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->elapsed = 0;
         work->started = 0;
+#if defined(VARIANT167_PRINT_WORK_SIZE)
+        printf("%d (0x%x) Byte\n", sizeof(Model167State), sizeof(Model167State));
+#endif
         return 0;
     }
     config = work->config;
@@ -108,7 +117,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         setRGB0(&quad, red, green, blue);
         offset = work->offsets;
-        for (i = 0; i < 256; offset++, i++) {
+        for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; offset++, i++) {
             setUV4(&quad, 0, (work->scroll / 256 + i) % 64,
                 192, (work->scroll / 256 + i) % 64,
                 0, (work->scroll / 256 + i) % 64 + 1,
@@ -122,7 +131,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         offset = work->offsets;
         increment = &work->increments[work->phase];
-        for (i = 0; i < 256 - work->phase; offset++, increment++, i++) {
+        for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT - work->phase; offset++, increment++, i++) {
             *offset += *increment;
             *offset %= 16384;
         }
@@ -132,7 +141,7 @@ s32 func_8013B004(u8 *context, s32 command)
             *offset %= 16384;
         }
         work->scroll = (work->scroll + (step << 8)) % 16384;
-        work->phase = (work->phase + step) % 256;
+        work->phase = (work->phase + step) % GRAPHICS_DEFAULT_HEIGHT;
     }
     SetSemiTrans(&quad, 1);
     quad.tpage = work->texture[0] >> 16;
@@ -179,12 +188,20 @@ s32 func_8013B004(u8 *context, s32 command)
         } else if (time < 0) {
             return 4;
         } else {
+#if defined(VARIANT167_PRINT_WORK_SIZE)
+            if (work->started == 0) {
+                work->started++;
+                return 1;
+            }
+            return 0;
+#else
             if (!work->started) {
                 work->started++;
                 return 1;
             } else {
                 return 0;
             }
+#endif
         }
     }
 }

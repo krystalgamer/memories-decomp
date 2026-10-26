@@ -14,6 +14,12 @@
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 
+/* PAL height; the North American wrappers define 240. */
+#ifndef GRAPHICS_DEFAULT_HEIGHT
+#define GRAPHICS_DEFAULT_HEIGHT 256
+#endif
+#include "../../game/graphics_constants.h"
+
 typedef struct {
     u8 red, green, blue, particle_red, particle_green, particle_blue;
     u8 unknown_06[2];
@@ -24,7 +30,7 @@ typedef struct {
 typedef struct {
     Model167Config *G32 config;
     SVECTOR points[64];
-    s16 offsets[256], increments[256];
+    s16 offsets[GRAPHICS_DEFAULT_HEIGHT], increments[GRAPHICS_DEFAULT_HEIGHT];
     s16 phase, scroll;
     u32 texture[2];
     u8 started;

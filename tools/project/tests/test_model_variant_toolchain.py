@@ -551,6 +551,8 @@ class ModelVariantToolchainTests(unittest.TestCase):
             276: (names(set(), set(), stage10_slot1={37}, stage8_slot1=set()), 0xEBC, 1),
             161: (names(set(), {141}, stage10_slot1=set(), stage8_slot1=set()), 0xD48, 1),
             291: (names(set(), set(), stage10_slot1={141}, stage8_slot1=set()), 0xD48, 1),
+            150: (names(set(), {71}, stage10_slot1=set(), stage8_slot1=set()), 0xF18, 1),
+            280: (names(set(), set(), stage10_slot1={71}, stage8_slot1=set()), 0xF18, 1),
             # North American images whose entry is North American C (headers 111, 118, 119, 176, 627, 647, 752, 754, 756, 766, 779, 827 and 828).
             111: (names({466, 483, 548}, {247, 486}, stage10_slot1=set(), stage8_slot1=set()), 0xCF8, 1),
             241: (names(set(), set(), stage10_slot1={247, 486}, stage8_slot1={466, 483, 548}), 0xCF8, 1),
@@ -603,7 +605,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 1015)
+        self.assertEqual(len(registered), 1017)
 
 
 if __name__ == "__main__":
