@@ -104,3 +104,50 @@ That is not local full PAL-image execution; ordinary applicable exact-head
 regional PR image/ownership checks remain mandatory. No new tests,
 synthetic/generated-C/source-string harness, local cloud/regional/witness
 suite or manual CI rerun is introduced.
+
+## Placement, blend and coordinate arguments
+
+The four complete texture entry definitions now expose the same argument
+roles without changing their values, types or forwarding:
+
+| Entry | Existing names | Argument roles |
+| --- | --- | --- |
+| ModelTexture_LoadTim | mode / arg3 / x / y / z / w | destination_mode / blend_mode / pixel_x / pixel_y / clut_x / clut_y |
+| ModelTexture_UploadTimFile | b / c / d / e / f / g | The same six arguments, in the same order |
+| ModelTexture_PackPageClut | mode | blend_mode |
+| ModelTexture_PackPageClutCopy | a0 / a1 | side / blend_mode |
+
+blend_mode is the two-bit ABR selector at texture-page bits 5..6.
+The local Psy-Q libgpu.h getTPage macro independently establishes that
+encoding; it is not the GsIMAGE pixel mode, a continuous opacity or a
+new blend formula. Both pack paths preserve the signed mask and original
+high-page/low-CLUT construction.
+
+destination_mode is deliberately NOT named slot_index. The loader's
+signed below-two path applies paired default-coordinate tests and
+nonnegative pixel/CLUT overrides. Negative modes still enter that path:
+the original mode-and-one pixel offset and palette-Y addition remain.
+Mode two keeps the decoded TIM coordinates; modes at least three use
+the existing regional packing helper. Override arguments stay ignored
+outside the original below-two path.
+
+PAL's loader still passes destination_mode to its extern-inline helper
+with side bias three; NA/JP still pass destination_mode minus three.
+The standalone packer and copy wrapper instead accept side directly.
+No subtraction, inline/export definition, low-page CLUT-X omission,
+special CLUT-Y case, mask, coordinate narrowing or mutation is relocated.
+
+The upload wrapper keeps its 32-byte scratch, void return and six int
+arguments; the loader keeps s32 arguments/return, paired defaults,
+host-file failure return and every GPU poll/retry. Pixels are uploaded
+BEFORE the CLUT. The copy wrapper keeps its full GsIMAGE copy, s32
+arguments, non-const source pointer and u32 return. Its neighboring
+shadow setter is unchanged.
+
+Only bounded parameter identifiers in two complete C units, their owning
+header, two existing header comments and four existing registry NOTES
+cells migrate. RECT/GsIMAGE members, all expressions, callers, frozen
+overlay spellings, aliases, source groups, compiler profiles, initialized
+data, ABI and existing fixtures/stubs/oracles/scenarios/mutations/counts/
+numeric controls stay unchanged. No new harness or local cloud-fixture
+execution is introduced.

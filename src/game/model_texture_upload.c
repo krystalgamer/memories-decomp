@@ -12,7 +12,7 @@
 #if !defined(VERSION_EUROPE) || \
     defined(VERSION_EUROPE_MODEL_TEXTURE_PACK_PAGE_CLUT)
 MODEL_TEXTURE_PACK_DECL ModelTexture_PackPageClut(
-    int side, int mode, GsIMAGE *params)
+    int side, int blend_mode, GsIMAGE *params)
 {
     register int offset;
     u32 high;
@@ -36,7 +36,7 @@ MODEL_TEXTURE_PACK_DECL ModelTexture_PackPageClut(
         *(u16 *)&params->cx -= 0x280;
         *(u16 *)&params->cx += offset;
     }
-    high = ((*(u16 *)&params->pmode & 3) << 7) | ((mode & 3) << 5) |
+    high = ((*(u16 *)&params->pmode & 3) << 7) | ((blend_mode & 3) << 5) |
            (((*(u16 *)&params->py & 0x100) << 16) >> 20) |
            ((*(u16 *)&params->px & 0x3FF) >> 6) |
            ((*(u16 *)&params->py & 0x200) << 2);
@@ -47,8 +47,8 @@ MODEL_TEXTURE_PACK_DECL ModelTexture_PackPageClut(
 #endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MODEL_TEXTURE_LOAD_TIM)
-s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 mode, s32 arg3, s32 x,
-                         s32 y, s32 z, s32 w)
+s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 destination_mode, s32 blend_mode, s32 pixel_x,
+                         s32 pixel_y, s32 clut_x, s32 clut_y)
 {
     RECT bounds;
     s32 high;
@@ -59,7 +59,7 @@ s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 mode, s32 arg3, s32 x,
 
     if (HostFile_ReadAll(path, (char *)0x80400000) > 0) {
         GsGetTimInfo((unsigned PSXLONG *)0x80400004, data);
-        if (mode < 2) {
+        if (destination_mode < 2) {
             if (*(s32 *)&data->px == 0) {
                 data->px = 0xC0;
                 data->py = 0x100;
@@ -72,28 +72,28 @@ s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 mode, s32 arg3, s32 x,
 #endif
                 data->cy = 0xF2;
             }
-            if (x >= 0) {
-                data->px = x;
+            if (pixel_x >= 0) {
+                data->px = pixel_x;
             } else {
                 *(u16 *)&data->px =
-                    *(u16 *)&data->px + ((mode & 1) << 8);
+                    *(u16 *)&data->px + ((destination_mode & 1) << 8);
             }
-            if (y >= 0) {
-                data->py = y;
+            if (pixel_y >= 0) {
+                data->py = pixel_y;
             }
-            if (z >= 0) {
-                data->cx = z;
+            if (clut_x >= 0) {
+                data->cx = clut_x;
             }
-            if (w >= 0) {
-                data->cy = w;
+            if (clut_y >= 0) {
+                data->cy = clut_y;
             } else {
-                *(u16 *)&data->cy = *(u16 *)&data->cy + mode;
+                *(u16 *)&data->cy = *(u16 *)&data->cy + destination_mode;
             }
-        } else if (mode >= 3) {
+        } else if (destination_mode >= 3) {
 #ifdef VERSION_EUROPE
-            ModelTexture_PackPageClut(mode, arg3, data);
+            ModelTexture_PackPageClut(destination_mode, blend_mode, data);
 #else
-            ModelTexture_PackPageClut(mode - 3, arg3, data);
+            ModelTexture_PackPageClut(destination_mode - 3, blend_mode, data);
 #endif
         }
 
@@ -119,7 +119,7 @@ s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 mode, s32 arg3, s32 x,
         }
         while (IsIdleGPU(3) != 0) {
         }
-        high = ((*(u16 *)&data->pmode & 3) << 7) | ((arg3 & 3) << 5) |
+        high = ((*(u16 *)&data->pmode & 3) << 7) | ((blend_mode & 3) << 5) |
                (((s32)(*(u16 *)&data->py & 0x100) << 16) >> 20) |
                ((*(u16 *)&data->px & 0x3FF) >> 6) |
                ((*(u16 *)&data->py & 0x200) << 2);
