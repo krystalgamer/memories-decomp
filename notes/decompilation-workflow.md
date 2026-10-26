@@ -264,7 +264,9 @@ preprocessing, `tools/project/handwritten_asm_contract.py` checks each asm
 statement against an instruction, GTE command-word, constraint and clobber
 allowlist; empty templates and anything else are rejected. The profile cannot
 be combined with `--allow-psyq-inline-macros`. See
-`notes/wireframe-renderers.md` for the first matched family.
+`notes/wireframe-renderers.md` for the first matched family and
+`notes/direct-polygon-renderers.md` for the direct Ft3/Gt3/Ft4 drivers and
+the deferred Gt4/shared blockers.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:

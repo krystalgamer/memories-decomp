@@ -32,6 +32,14 @@
                      "lw $" #r1 ", " #o1 "(%0);"                           \
                      "lw $" #r2 ", " #o2 "(%0)"                            \
                      : : "r"(obj) : "memory")
+#define HW_SAVE_REGS2(obj, r0, o0, r1, o1)                                 \
+    __asm__ volatile("sw $" #r0 ", " #o0 "(%0);"                           \
+                     "sw $" #r1 ", " #o1 "(%0)"                            \
+                     : : "r"(obj) : "memory")
+#define HW_RESTORE_REGS2(obj, r0, o0, r1, o1)                              \
+    __asm__ volatile("lw $" #r0 ", " #o0 "(%0);"                           \
+                     "lw $" #r1 ", " #o1 "(%0)"                            \
+                     : : "r"(obj) : "memory")
 
 /*
  * Keep LABEL in the insn stream without emitting code or data. The address
@@ -70,6 +78,29 @@
 /* AVSZ3, then read OTZ. */
 #define HW_GTE_AVSZ3_OTZ(out)                                              \
     __asm__ volatile(".word 0x4B58002D;" "mfc2 %0, $7" : "=r"(out))
+
+/* Flag register read followed by its load-delay nop. */
+#define HW_GTE_READ_FLAG_WAIT(out)                                         \
+    __asm__ volatile("cfc2 %0, $31;" "nop" : "=r"(out))
+/* RTPS, NCCS and NCCT after the two nops the originals keep before them. */
+#define HW_GTE_RTPS()                                                      \
+    __asm__ volatile("nop;" "nop;" ".word 0x4A180001")
+#define HW_GTE_NCCS() __asm__ volatile("nop;" "nop;" ".word 0x4B08041B")
+#define HW_GTE_NCCT() __asm__ volatile("nop;" "nop;" ".word 0x4B18043F")
+#define HW_GTE_NCLIP() __asm__ volatile(".word 0x4B400006")
+/* NCLIP, then read MAC0 with its load-delay nop. */
+#define HW_GTE_NCLIP_MAC0(out)                                             \
+    __asm__ volatile(".word 0x4B400006;" "mfc2 %0, $24;" "nop" : "=r"(out))
+#define HW_GTE_AVSZ3() __asm__ volatile(".word 0x4B58002D")
+#define HW_GTE_AVSZ4() __asm__ volatile(".word 0x4B68002E")
+#define HW_GTE_OTZ(out) __asm__ volatile("mfc2 %0, $7" : "=r"(out))
+
+/* Write SXY0, SXY1, SXY2 into a polygon packet. */
+#define HW_GTE_STORE_SXY3(p, o0, o1, o2)                                   \
+    __asm__ volatile("swc2 $12, " #o0 "(%0);"                              \
+                     "swc2 $13, " #o1 "(%0);"                              \
+                     "swc2 $14, " #o2 "(%0)"                               \
+                     : : "r"(p) : "memory")
 
 /* Write SXY0, SXY1, SXY2, SXY0 as a closed four-point line. */
 #define HW_GTE_STORE_SXY_LOOP(p, o0, o1, o2, o3)                           \

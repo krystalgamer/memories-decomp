@@ -6283,6 +6283,150 @@
       "source": "src/game/main_menu_create_trade_decision_menu.c"
     },
     {
+      "address": "0x800612C0",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x25C",
+      "source": "src/game/polygon_renderers_base.c"
+    },
+    {
+      "address": "0x8006151C",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2C4",
+      "source": "src/game/polygon_renderers_base.c"
+    },
+    {
+      "address": "0x800617E0",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2A4",
+      "source": "src/game/polygon_renderers_base.c"
+    },
+    {
+      "address": "0x80061DDC",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x27C",
+      "source": "src/game/polygon_renderers_window_record.c"
+    },
+    {
+      "address": "0x80062058",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2E4",
+      "source": "src/game/polygon_renderers_window_record.c"
+    },
+    {
+      "address": "0x8006233C",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2C4",
+      "source": "src/game/polygon_renderers_window_record.c"
+    },
+    {
+      "address": "0x80062978",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x248",
+      "source": "src/game/polygon_renderers_two_sided.c"
+    },
+    {
+      "address": "0x80062BC0",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2B0",
+      "source": "src/game/polygon_renderers_two_sided.c"
+    },
+    {
+      "address": "0x80062E70",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x290",
+      "source": "src/game/polygon_renderers_two_sided.c"
+    },
+    {
+      "address": "0x80063444",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x268",
+      "source": "src/game/polygon_renderers_two_sided_window_record.c"
+    },
+    {
+      "address": "0x800636AC",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2D0",
+      "source": "src/game/polygon_renderers_two_sided_window_record.c"
+    },
+    {
+      "address": "0x8006397C",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2B0",
+      "source": "src/game/polygon_renderers_two_sided_window_record.c"
+    },
+    {
+      "address": "0x80063F90",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2B8",
+      "source": "src/game/polygon_renderers_semi.c"
+    },
+    {
+      "address": "0x80064248",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x320",
+      "source": "src/game/polygon_renderers_semi.c"
+    },
+    {
+      "address": "0x80064568",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x300",
+      "source": "src/game/polygon_renderers_semi.c"
+    },
+    {
+      "address": "0x80064C1C",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2D8",
+      "source": "src/game/polygon_renderers_semi_window_record.c"
+    },
+    {
+      "address": "0x80064EF4",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x340",
+      "source": "src/game/polygon_renderers_semi_window_record.c"
+    },
+    {
+      "address": "0x80065234",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x320",
+      "source": "src/game/polygon_renderers_semi_window_record.c"
+    },
+    {
+      "address": "0x80065928",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2A4",
+      "source": "src/game/polygon_renderers_two_sided_semi.c"
+    },
+    {
+      "address": "0x80065BCC",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x30C",
+      "source": "src/game/polygon_renderers_two_sided_semi.c"
+    },
+    {
+      "address": "0x80065ED8",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2EC",
+      "source": "src/game/polygon_renderers_two_sided_semi.c"
+    },
+    {
+      "address": "0x80066564",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2C4",
+      "source": "src/game/polygon_renderers_two_sided_semi_window_record.c"
+    },
+    {
+      "address": "0x80066828",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x32C",
+      "source": "src/game/polygon_renderers_two_sided_semi_window_record.c"
+    },
+    {
+      "address": "0x80066B54",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x30C",
+      "source": "src/game/polygon_renderers_two_sided_semi_window_record.c"
+    },
+    {
       "address": "0x80069E44",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x150",
