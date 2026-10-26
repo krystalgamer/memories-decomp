@@ -1,8 +1,11 @@
 # Model wireframe renderer family
 
 The twelve game-owned handwritten callbacks returned by
-`Model_MapToWireframePrimitiveHandler` now have source-format-based names.
-They remain `handwritten_asm`, not new C implementations or SDK renames.
+`Model_MapToWireframePrimitiveHandler` have source-format-based names. In the
+North American resident executable they are matched in C by
+`src/game/wireframe_renderers.c` under the named
+`gcc_2_8_1_g0_handwritten_asm` profile; the regional images keep their
+`handwritten_asm` records.
 
 ## Source formats, not line shading
 
@@ -41,38 +44,51 @@ instead of transforming XYZ vertices. They have no RTPT/RTPS, retain the
 cached-depth `-1` sentinel and populate the GTE depth FIFO from those entries.
 No cache layout or structure declaration is introduced.
 
-## Handwritten ABI and packet preservation
+## Handwritten ABI and its C form
 
-The existing `void (void)` declarations are address-use shapes only.
-`wireframe_renderers.h` preserves them so the mapper can retain its exact
-`s32` function-address casts. They are not a newly recovered callable C ABI.
-No `GsARGUNIT *` signature, wrapper or direct C call is added.
+Each routine is an HMD primitive driver, `u32 *(GsARGUNIT_NORMAL *)` or
+`u32 *(GsARGUNIT_SHARED *)`, returning the next primitive block
+(`primp + 2`) in `$v0`. The mapper keeps its exact `s32` address casts.
 
-The actual bodies save registers in the caller scratch object at `0x20` or
-`0x28`, not ordinary C stack frames. Every scratch offset, record advance,
-clipping/sentinel branch, depth/ordering-table operation, packet terminator,
-return-header calculation and packet-work-cursor store remains unchanged.
-The full-word load/comparison at the byte-named current-draw-mode symbol is
-not narrowed to a byte operation.
+The originals have no stack frame. They park the caller's s0-s2 in scratch
+words of the argument block (`0x20`-`0x28`, or `0x28`-`0x30` for the shared
+paths), keep the line, draw-mode and `0x55555555` terminator words in those
+registers, and use `$at` directly for `beq $13,1` and `rol $13,$13,24`, which
+GCC never allocates. The C therefore relies on:
 
-Equivalent-looking variants keep their distinct addresses and bodies.
-No generated assembly is manually edited, no instruction is rewritten and
-no C source/profile or attempt-ledger entry is added for a renderer.
+- register declarations for every live value (file-scope global register
+  variables for s0-s2 and `$at`, local `register ... asm("$N")` for the rest);
+- inline assembly only for the s0-s2 save/restore and GTE operations, from
+  `src/game/handwritten_asm.h`, validated by
+  `tools/project/handwritten_asm_contract.py`;
+- the profile's `-fno-schedule-insns -fno-schedule-insns2`, so statements
+  keep the original instruction order;
+- `HW_KEEP_LABEL`, which keeps a label in front of the final return. GCC's
+  delay-slot filler stops at labels, so the epilogue keeps its
+  `addiu $v0,$v0,8; jr $ra; nop` order. The label address is stored in a
+  `.discard` section that the linker script drops, so no data is emitted.
+
+Without register declarations no C form matches: the `$at` macro expansions
+and the use of s0-s2 while `$t4` stays free cannot come from GCC's allocator.
+
+Every scratch offset, record advance, clipping/sentinel branch,
+depth/ordering-table operation, packet terminator, return-header calculation
+and packet-work-cursor store is reproduced exactly. Triangle variants use
+`gModel_dwLineF4Template`; quad variants use `gModel_dwLineF3Template`.
 
 ## Native bindings and acceptance
 
-All eighty-four function records across the seven images are explicitly
-game-owned `handwritten_asm`. Regional C-reference bindings are resolved
-before selecting each actual native boundary: some inventories use raw
+Outside the North American resident executable, the remaining seventy-two
+function records across the other images stay game-owned `handwritten_asm`.
+Regional C-reference bindings are resolved before selecting each actual
+native boundary: some inventories use raw
 native-address names or borrowed-country labels rather than the NA suffix.
 No address is guessed from a reference name, and the template inventory is
 not treated as an executable image.
 
-The mapper's twelve address references use canonical declarations while
-every pre-existing header remains byte-identical. Original logical
-reference names remain available as linker compatibility bindings. All
-matching manifests, profiles, overlay C/import maps/metadata, tests, accepted
-traces and historical fingerprints remain unchanged.
+The mapper's twelve address references use the declarations in
+`wireframe_renderers.h`, now the driver signatures above. Original logical
+reference names remain available as linker compatibility bindings.
 
 Validation compares complete caller compiler/MASPSX output and complete
 generated fallback assembly with only declared identities reversed, preserving

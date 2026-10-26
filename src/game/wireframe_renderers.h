@@ -2,19 +2,23 @@
 #define MEMORIES_DECOMP_WIREFRAME_RENDERERS_H
 
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 
-/* Address-only declarations; the handwritten caller-scratch ABI is unchanged. */
-void Model_DrawFt3Wireframes(void);
-void Model_DrawGt3Wireframes(void);
-void Model_DrawFt4Wireframes(void);
-void Model_DrawGt4Wireframes(void);
-void Model_DrawFt3WindowRecordWireframes(void);
-void Model_DrawGt3WindowRecordWireframes(void);
-void Model_DrawFt4WindowRecordWireframes(void);
-void Model_DrawGt4WindowRecordWireframes(void);
-void Model_DrawSharedGt3Wireframes(void);
-void Model_DrawSharedGt4Wireframes(void);
-void Model_DrawSharedGt3WindowRecordWireframes(void);
-void Model_DrawSharedGt4WindowRecordWireframes(void);
+/* HMD primitive drivers: each consumes one primitive block and returns the next. */
+u32 *Model_DrawFt3Wireframes(GsARGUNIT_NORMAL *arg);
+u32 *Model_DrawGt3Wireframes(GsARGUNIT_NORMAL *arg);
+u32 *Model_DrawFt4Wireframes(GsARGUNIT_NORMAL *arg);
+u32 *Model_DrawGt4Wireframes(GsARGUNIT_NORMAL *arg);
+u32 *Model_DrawFt3WindowRecordWireframes(GsARGUNIT_NORMAL *arg);
+u32 *Model_DrawGt3WindowRecordWireframes(GsARGUNIT_NORMAL *arg);
+u32 *Model_DrawFt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg);
+u32 *Model_DrawGt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg);
+u32 *Model_DrawSharedGt3Wireframes(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedGt4Wireframes(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedGt3WindowRecordWireframes(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedGt4WindowRecordWireframes(GsARGUNIT_SHARED *arg);
 
 #endif

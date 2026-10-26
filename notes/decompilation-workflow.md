@@ -253,6 +253,19 @@ macros are not expanded and therefore do not cause false failures. Run this
 target after installing the matching compiler; the toolchain-backed CI build
 runs it separately from the toolchain-free metadata job.
 
+The one exception covers the game's hand-written model renderers
+(`0x800612C0`-`0x8006AF74`), which have no stack frame and keep caller
+registers in their argument block. A profile with `"handwritten_asm_macros":
+true` (currently `gcc_2_8_1_g0_handwritten_asm`) may be used only for those
+addresses in `config/slus_01411/matching_c.json`. Such a source may declare
+hard registers, and its inline assembly is limited to the register
+save/restore and GTE macros in `src/game/handwritten_asm.h`. After
+preprocessing, `tools/project/handwritten_asm_contract.py` checks each asm
+statement against an instruction, GTE command-word, constraint and clobber
+allowlist; empty templates and anything else are rejected. The profile cannot
+be combined with `--allow-psyq-inline-macros`. See
+`notes/wireframe-renderers.md` for the first matched family.
+
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:
 

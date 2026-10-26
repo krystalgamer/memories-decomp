@@ -13,6 +13,7 @@ from classify_functions import ClassificationError
 from function_inventory import Function, InventoryError, parse_generated_function_tree
 from overlay_build import clear_generated_assembly
 from regional_inventory import (
+    executable_shapes,
     instruction_shapes,
     load_matching_ranges,
     matching_functions,
@@ -167,6 +168,75 @@ class RegionalInventoryTests(unittest.TestCase):
         )
         self.assertEqual(result[0].status, "handwritten_asm")
         self.assertIn("0x00002000", result[0].notes)
+
+    def test_handwritten_reference_includes_routines_matched_in_c(self) -> None:
+        regions = [
+            {
+                "name": "game", "start": 0x1000, "end": 0x1004,
+                "module": "game", "status": None,
+            },
+        ]
+        function = Function(0x1000, 4, "first", "unmatched_asm")
+        reference = [
+            Function(
+                0x2000, 4, "first", "matching_c", "game",
+                "Matched in C with handwritten_asm.h macros.",
+            )
+        ]
+        with self.assertRaisesRegex(InventoryError, "instruction shapes differ"):
+            refresh_inventory(
+                [function], [], [],
+                regions=regions,
+                handwritten_reference=reference,
+                handwritten_shapes={"first": (0x8E020000,)},
+                generated_shapes={"first": (0x8E030000,)},
+            )
+        result = refresh_inventory(
+            [function], [], [],
+            regions=regions,
+            handwritten_reference=reference,
+            handwritten_shapes={"first": (0x8E020000,)},
+            generated_shapes={"first": (0x8E020000,)},
+        )
+        self.assertEqual(result[0].status, "handwritten_asm")
+
+    def test_executable_shapes_mask_like_generated_assembly(self) -> None:
+        header = bytearray(0x800)
+        header[:8] = b"PS-X EXE"
+        header[0x18:0x1C] = (0x80010000).to_bytes(4, "little")
+        header[0x1C:0x20] = (8).to_bytes(4, "little")
+        body = (0x0C004000).to_bytes(4, "little") + (0x8E021234).to_bytes(4, "little")
+        executable = self.directory / "image.exe"
+        executable.write_bytes(bytes(header) + body)
+        function = Function(0x80010000, 8, "first", "matching_c", "game")
+        self.assertEqual(
+            executable_shapes(executable, [function]),
+            {"first": (0x0C000000, 0x8E020000)},
+        )
+        with self.assertRaisesRegex(InventoryError, "outside the image"):
+            executable_shapes(
+                executable, [Function(0x80010004, 8, "late", "matching_c", "game")]
+            )
+
+    def test_executable_shapes_reject_truncated_payload(self) -> None:
+        header = bytearray(0x800)
+        header[:8] = b"PS-X EXE"
+        header[0x18:0x1C] = (0x80010000).to_bytes(4, "little")
+        header[0x1C:0x20] = (8).to_bytes(4, "little")
+        function = Function(0x80010000, 8, "first", "matching_c", "game")
+        for payload in (b"", b"\x00" * 4, b"\x00" * 7):
+            with self.subTest(payload=len(payload)):
+                executable = self.directory / "truncated.exe"
+                executable.write_bytes(bytes(header) + payload)
+                with self.assertRaisesRegex(InventoryError, "truncated"):
+                    executable_shapes(executable, [function])
+        header[0x1C:0x20] = (7).to_bytes(4, "little")
+        executable = self.directory / "unaligned.exe"
+        executable.write_bytes(bytes(header) + b"\x00" * 8)
+        with self.assertRaisesRegex(InventoryError, "not word-aligned"):
+            executable_shapes(
+                executable, [Function(0x80010000, 4, "first", "matching_c", "game")]
+            )
 
 
 if __name__ == "__main__":
