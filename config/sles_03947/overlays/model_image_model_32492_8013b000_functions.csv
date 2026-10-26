@@ -1,1 +1,4 @@
 address,size,name,status,module,notes
+0x8013B004,0x1480,func_8013B004,unmatched_asm,overlay/model_image_model_32492_8013b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8013C484,0x4D4,func_8013C484,unmatched_asm,overlay/model_image_model_32492_8013b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8013C958,0x468,func_8013C958,unmatched_asm,overlay/model_image_model_32492_8013b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."

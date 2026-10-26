@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: european_model_image_model_140388_8013b000
 sha1: 1c5dfe6ad8b2b62286e01f582f0ee4b803f99bb8
 
@@ -40,11 +41,60 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/european_model_image_model_140388_8013b000/unclassified_image]
+      - [0x0, data, overlays/european_model_image_model_140388_8013b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/european_model_image_model_140388_8013b000/unmatched_4]
+  - name: unmatched_b98
+    type: code
+    start: 0xb98
+    vram: 0x8013bb98
+    align: 4
+    subsegments:
+      - [0xb98, asm, overlays/european_model_image_model_140388_8013b000/unmatched_b98]
+  - name: unmatched_1534
+    type: code
+    start: 0x1534
+    vram: 0x8013c534
+    align: 4
+    subsegments:
+      - [0x1534, asm, overlays/european_model_image_model_140388_8013b000/unmatched_1534]
+  - name: unmatched_1bc4
+    type: code
+    start: 0x1bc4
+    vram: 0x8013cbc4
+    align: 4
+    subsegments:
+      - [0x1bc4, asm, overlays/european_model_image_model_140388_8013b000/unmatched_1bc4]
+  - name: unmatched_20d8
+    type: code
+    start: 0x20d8
+    vram: 0x8013d0d8
+    align: 4
+    subsegments:
+      - [0x20d8, asm, overlays/european_model_image_model_140388_8013b000/unmatched_20d8]
+  - name: unmatched_28ec
+    type: code
+    start: 0x28ec
+    vram: 0x8013d8ec
+    align: 4
+    subsegments:
+      - [0x28ec, asm, overlays/european_model_image_model_140388_8013b000/unmatched_28ec]
+  - name: unclassified_tail
+    type: code
+    start: 0x2fbc
+    vram: 0x8013dfbc
+    align: 4
+    subsegments:
+      - [0x2fbc, bin, overlays/european_model_image_model_140388_8013b000/unclassified_tail]
   - [0x5000]

@@ -49,8 +49,9 @@ inventory cutoff. Each release then has all
 | **Total** | **24,902** | **23,841** |
 
 README progress tables summarize uninventoried layouts in a count row rather
-than adding thousands of empty rows. The manifests and generated progress JSON
-retain the individual modules; the summary does not claim function coverage.
+than adding thousands of empty rows; inventoried layouts without matching C
+share a single summary row with their function and byte totals. The manifests
+and generated progress JSON retain the individual modules.
 
 Run from the repository root (requires the corresponding legal retail inputs):
 
@@ -66,7 +67,80 @@ tools/environments/python/bin/python tools/project/register_model_images.py \
 ```
 
 The normal regional `*-match-overlays` targets consume these registrations;
-North America uses `make match-overlays`. The historical tables below retain
+North America uses `make match-overlays`.
+
+## Function inventory follow-up
+
+`tools/project/inventory_model_images.py` turns every still-raw baseline
+(the exact `layout_text`, a header-only function CSV and an empty matching-C
+manifest) into a function inventory. Matched or hand-maintained layouts are
+never touched. Its census walk (`resolve_flow`) adds three rules to the
+published census rules, which stay the default:
+
+- a GCC switch `lw reg, off(table + index); jr reg` follows its table only
+  when the whole chain is proven. The straight-line chain proposes targets:
+  the jump register's last write is that load, the load address is an `addu`
+  of an in-image table constant and an `sll x, 2` index, a `sltiu t, x, N`
+  bounds `x`, the first control transfer after it is `beq t, zero, exit` with
+  `exit` outside the dispatch, and the table holds exactly `N` in-span targets.
+  A forward must-dataflow over every walked edge of the function must then
+  confirm them (`unproven_switch` otherwise). At the `jr`, on every path, the
+  jump register must hold the word loaded from `table + 4 * s`, and a
+  `beq`/`bne` on `sltiu t, s, N` must already have bounded that same selector
+  value `s`. Values merge only when equal on all incoming paths, a value is
+  forgotten wherever it was copied once its instruction runs again, calls
+  clobber caller-saved registers, and a register is unknown in its load delay
+  slot. Any path that clobbers the table base, index, selector or flag, or
+  re-enters the dispatch without re-proving them, therefore leaves the switch
+  unresolved;
+- `j` leaving the span is a tail call to user RAM and counts as an exit;
+- any direct call or jump outside user RAM (`0x80010000`-`0x80200000`), such as
+  `j 0x8053D830`, rejects the body. Such bodies were linked for another address
+  and are stale image residue.
+
+Every closed-CFG body becomes an `unmatched_asm` row and its own
+`unmatched_<offset>` generated-assembly segment. The 4-byte header stays
+`data`; every other byte (gaps, truncated bodies at the image end, unresolved
+flow, residue, tables and assets) stays raw `bin`. A preamble whose closed span
+ends exactly with the next closed body is split and noted as a fall-through.
+
+Row notes record reachability from rooted edges only. The loader entry is
+traversed first, then bodies whose addresses resident code references. Edges
+come from the reached body itself: local calls, in-image tail jumps, its own
+`lui`/`addiu` address references, and the fall-through successor of a split
+preamble. A reference made by an unreached body proves nothing, so the other
+closed bodies keep an explicit unresolved-reachability note rather than being
+excluded.
+
+| Release | Layouts | Functions | Function bytes | Entry | From entry | Resident-rooted | Unresolved reachability | Left raw |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| North America | 2,502 | 3,483 | 13,291,504 | 2,502 | 728 | 0 | 253 | 6 |
+| Japan | 3,568 | 5,708 | 20,596,428 | 3,567 | 1,404 | 5 | 732 | 6 |
+| Europe | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
+| France | 1,680 | 1,694 | 14,384,280 | 1,680 | 12 | 0 | 2 | 6 |
+| Germany | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
+| Italy | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
+| Spain | 3,179 | 3,484 | 16,229,108 | 3,179 | 268 | 0 | 37 | 6 |
+| **Total** | **21,627** | **31,454** | **126,159,432** | | | | | **42** |
+
+The six images per release left raw share one loader whose entry switches index
+their tables through a strength-reduced loop register (`$s4 = 4 * $fp`), which
+the switch proof does not track. With no closed body proven, each remains a
+single raw baseline and still appears in the progress tables' uninventoried count.
+The Japanese and the shared English/German/Italian SU intro/credits image has
+no closed loader entry; its other closed bodies are still inventoried.
+Identical payloads are repeated across slots and releases, so these totals are
+work-distribution denominators, not counts of distinct algorithms.
+Each regional `*-match-overlays` target rebuilds every image byte-for-byte.
+
+```sh
+tools/environments/python/bin/python tools/project/inventory_model_images.py \
+  --region usa --region japan --region europe --region france \
+  --region germany --region italy --region spain
+# Read-only; fails if a raw baseline or generated inventory is stale.
+tools/environments/python/bin/python tools/project/inventory_model_images.py \
+  --check --region usa
+``` The historical tables below retain
 their original cutoff rather than silently changing the inventory's evidence.
 
 ## Why the denominator is not 722

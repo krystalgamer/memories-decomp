@@ -1,1 +1,7 @@
 address,size,name,status,module,notes
+0x8017B004,0x155C,func_8017B004,unmatched_asm,overlay/model_image_model_147042_8017b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8017C560,0x638,func_8017C560,unmatched_asm,overlay/model_image_model_147042_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8017CB98,0x65C,func_8017CB98,unmatched_asm,overlay/model_image_model_147042_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8017D1F4,0x93C,func_8017D1F4,unmatched_asm,overlay/model_image_model_147042_8017b000,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
+0x8017DB30,0x538,func_8017DB30,unmatched_asm,overlay/model_image_model_147042_8017b000,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
+0x8017E068,0x454,func_8017E068,unmatched_asm,overlay/model_image_model_147042_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."

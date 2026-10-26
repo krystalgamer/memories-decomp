@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: italian_model_image_model_164430_8017b000
 sha1: 954a6ead47c327e4f4bef49e45af81e3e3a2d59c
 
@@ -40,11 +41,60 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8017b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/italian_model_image_model_164430_8017b000/unclassified_image]
+      - [0x0, data, overlays/italian_model_image_model_164430_8017b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8017b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/italian_model_image_model_164430_8017b000/unmatched_4]
+  - name: unmatched_12b4
+    type: code
+    start: 0x12b4
+    vram: 0x8017c2b4
+    align: 4
+    subsegments:
+      - [0x12b4, asm, overlays/italian_model_image_model_164430_8017b000/unmatched_12b4]
+  - name: unmatched_18a4
+    type: code
+    start: 0x18a4
+    vram: 0x8017c8a4
+    align: 4
+    subsegments:
+      - [0x18a4, asm, overlays/italian_model_image_model_164430_8017b000/unmatched_18a4]
+  - name: unmatched_2024
+    type: code
+    start: 0x2024
+    vram: 0x8017d024
+    align: 4
+    subsegments:
+      - [0x2024, asm, overlays/italian_model_image_model_164430_8017b000/unmatched_2024]
+  - name: unmatched_2508
+    type: code
+    start: 0x2508
+    vram: 0x8017d508
+    align: 4
+    subsegments:
+      - [0x2508, asm, overlays/italian_model_image_model_164430_8017b000/unmatched_2508]
+  - name: unmatched_2a34
+    type: code
+    start: 0x2a34
+    vram: 0x8017da34
+    align: 4
+    subsegments:
+      - [0x2a34, asm, overlays/italian_model_image_model_164430_8017b000/unmatched_2a34]
+  - name: unclassified_tail
+    type: code
+    start: 0x2fb8
+    vram: 0x8017dfb8
+    align: 4
+    subsegments:
+      - [0x2fb8, bin, overlays/italian_model_image_model_164430_8017b000/unclassified_tail]
   - [0x5000]

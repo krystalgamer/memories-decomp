@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: model_image_model_99816_8013b000
 sha1: 7432578efa8b129c90db0028e2d418ba67c0489c
 
@@ -40,11 +41,74 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/model_image_model_99816_8013b000/unclassified_image]
+      - [0x0, data, overlays/model_image_model_99816_8013b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/model_image_model_99816_8013b000/unmatched_4]
+  - name: unmatched_13e4
+    type: code
+    start: 0x13e4
+    vram: 0x8013c3e4
+    align: 4
+    subsegments:
+      - [0x13e4, asm, overlays/model_image_model_99816_8013b000/unmatched_13e4]
+  - name: unmatched_19e0
+    type: code
+    start: 0x19e0
+    vram: 0x8013c9e0
+    align: 4
+    subsegments:
+      - [0x19e0, asm, overlays/model_image_model_99816_8013b000/unmatched_19e0]
+  - name: unmatched_2008
+    type: code
+    start: 0x2008
+    vram: 0x8013d008
+    align: 4
+    subsegments:
+      - [0x2008, asm, overlays/model_image_model_99816_8013b000/unmatched_2008]
+  - name: unmatched_263c
+    type: code
+    start: 0x263c
+    vram: 0x8013d63c
+    align: 4
+    subsegments:
+      - [0x263c, asm, overlays/model_image_model_99816_8013b000/unmatched_263c]
+  - name: unmatched_32c0
+    type: code
+    start: 0x32c0
+    vram: 0x8013e2c0
+    align: 4
+    subsegments:
+      - [0x32c0, asm, overlays/model_image_model_99816_8013b000/unmatched_32c0]
+  - name: unmatched_3ac0
+    type: code
+    start: 0x3ac0
+    vram: 0x8013eac0
+    align: 4
+    subsegments:
+      - [0x3ac0, asm, overlays/model_image_model_99816_8013b000/unmatched_3ac0]
+  - name: unmatched_4080
+    type: code
+    start: 0x4080
+    vram: 0x8013f080
+    align: 4
+    subsegments:
+      - [0x4080, asm, overlays/model_image_model_99816_8013b000/unmatched_4080]
+  - name: unclassified_tail
+    type: code
+    start: 0x45ec
+    vram: 0x8013f5ec
+    align: 4
+    subsegments:
+      - [0x45ec, bin, overlays/model_image_model_99816_8013b000/unclassified_tail]
   - [0x5000]

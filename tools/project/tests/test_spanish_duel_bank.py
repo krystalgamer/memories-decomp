@@ -134,7 +134,7 @@ class SpanishDuelBankTests(unittest.TestCase):
         self.assertEqual(len(modules), 3596)
         self.assertEqual(modules["duel_effects"]["function_count"], 85)
         self.assertEqual(modules["duel_effects"]["matching_c_function_count"], 85)
-        self.assertEqual(sum(m["function_count"] for m in modules.values()), 2635)
+        self.assertEqual(sum(m["function_count"] for m in modules.values()), 6119)
         self.assertEqual(sum(m["matching_c_function_count"] for m in modules.values()), 2033)
         self.assertEqual(sum(m["matching_c_bytes"] for m in modules.values()), 2891892)
 

@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: european_model_image_model_38278_8017b000
 sha1: c1be3bbde61d6de49a2ebfa175945610c2f9ed82
 
@@ -40,11 +41,67 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8017b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/european_model_image_model_38278_8017b000/unclassified_image]
+      - [0x0, data, overlays/european_model_image_model_38278_8017b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8017b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/european_model_image_model_38278_8017b000/unmatched_4]
+  - name: unmatched_1228
+    type: code
+    start: 0x1228
+    vram: 0x8017c228
+    align: 4
+    subsegments:
+      - [0x1228, asm, overlays/european_model_image_model_38278_8017b000/unmatched_1228]
+  - name: unmatched_1990
+    type: code
+    start: 0x1990
+    vram: 0x8017c990
+    align: 4
+    subsegments:
+      - [0x1990, asm, overlays/european_model_image_model_38278_8017b000/unmatched_1990]
+  - name: unmatched_1e74
+    type: code
+    start: 0x1e74
+    vram: 0x8017ce74
+    align: 4
+    subsegments:
+      - [0x1e74, asm, overlays/european_model_image_model_38278_8017b000/unmatched_1e74]
+  - name: unmatched_23e4
+    type: code
+    start: 0x23e4
+    vram: 0x8017d3e4
+    align: 4
+    subsegments:
+      - [0x23e4, asm, overlays/european_model_image_model_38278_8017b000/unmatched_23e4]
+  - name: unmatched_26ec
+    type: code
+    start: 0x26ec
+    vram: 0x8017d6ec
+    align: 4
+    subsegments:
+      - [0x26ec, asm, overlays/european_model_image_model_38278_8017b000/unmatched_26ec]
+  - name: unmatched_2a68
+    type: code
+    start: 0x2a68
+    vram: 0x8017da68
+    align: 4
+    subsegments:
+      - [0x2a68, asm, overlays/european_model_image_model_38278_8017b000/unmatched_2a68]
+  - name: unclassified_tail
+    type: code
+    start: 0x2dcc
+    vram: 0x8017ddcc
+    align: 4
+    subsegments:
+      - [0x2dcc, bin, overlays/european_model_image_model_38278_8017b000/unclassified_tail]
   - [0x5000]

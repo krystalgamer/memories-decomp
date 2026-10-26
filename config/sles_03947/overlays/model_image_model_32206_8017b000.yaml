@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: european_model_image_model_32206_8017b000
 sha1: 94c6dc06f19a1895fb93f29485a71634ad43834d
 
@@ -40,11 +41,60 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8017b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/european_model_image_model_32206_8017b000/unclassified_image]
+      - [0x0, data, overlays/european_model_image_model_32206_8017b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8017b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/european_model_image_model_32206_8017b000/unmatched_4]
+  - name: unmatched_e98
+    type: code
+    start: 0xe98
+    vram: 0x8017be98
+    align: 4
+    subsegments:
+      - [0xe98, asm, overlays/european_model_image_model_32206_8017b000/unmatched_e98]
+  - name: unmatched_1978
+    type: code
+    start: 0x1978
+    vram: 0x8017c978
+    align: 4
+    subsegments:
+      - [0x1978, asm, overlays/european_model_image_model_32206_8017b000/unmatched_1978]
+  - name: unmatched_1e34
+    type: code
+    start: 0x1e34
+    vram: 0x8017ce34
+    align: 4
+    subsegments:
+      - [0x1e34, asm, overlays/european_model_image_model_32206_8017b000/unmatched_1e34]
+  - name: unmatched_21e0
+    type: code
+    start: 0x21e0
+    vram: 0x8017d1e0
+    align: 4
+    subsegments:
+      - [0x21e0, asm, overlays/european_model_image_model_32206_8017b000/unmatched_21e0]
+  - name: unmatched_2520
+    type: code
+    start: 0x2520
+    vram: 0x8017d520
+    align: 4
+    subsegments:
+      - [0x2520, asm, overlays/european_model_image_model_32206_8017b000/unmatched_2520]
+  - name: unclassified_tail
+    type: code
+    start: 0x2d38
+    vram: 0x8017dd38
+    align: 4
+    subsegments:
+      - [0x2d38, bin, overlays/european_model_image_model_32206_8017b000/unclassified_tail]
   - [0x5000]

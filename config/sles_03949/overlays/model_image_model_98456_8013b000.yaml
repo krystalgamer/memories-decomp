@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: german_model_image_model_98456_8013b000
 sha1: a5ced587c4c7d05cfb2a91445a40cda22653f1dd
 
@@ -40,11 +41,60 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/german_model_image_model_98456_8013b000/unclassified_image]
+      - [0x0, data, overlays/german_model_image_model_98456_8013b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/german_model_image_model_98456_8013b000/unmatched_4]
+  - name: unmatched_f5c
+    type: code
+    start: 0xf5c
+    vram: 0x8013bf5c
+    align: 4
+    subsegments:
+      - [0xf5c, asm, overlays/german_model_image_model_98456_8013b000/unmatched_f5c]
+  - name: unmatched_1478
+    type: code
+    start: 0x1478
+    vram: 0x8013c478
+    align: 4
+    subsegments:
+      - [0x1478, asm, overlays/german_model_image_model_98456_8013b000/unmatched_1478]
+  - name: unmatched_1b00
+    type: code
+    start: 0x1b00
+    vram: 0x8013cb00
+    align: 4
+    subsegments:
+      - [0x1b00, asm, overlays/german_model_image_model_98456_8013b000/unmatched_1b00]
+  - name: unmatched_21b8
+    type: code
+    start: 0x21b8
+    vram: 0x8013d1b8
+    align: 4
+    subsegments:
+      - [0x21b8, asm, overlays/german_model_image_model_98456_8013b000/unmatched_21b8]
+  - name: unmatched_26b4
+    type: code
+    start: 0x26b4
+    vram: 0x8013d6b4
+    align: 4
+    subsegments:
+      - [0x26b4, asm, overlays/german_model_image_model_98456_8013b000/unmatched_26b4]
+  - name: unclassified_tail
+    type: code
+    start: 0x2eb4
+    vram: 0x8013deb4
+    align: 4
+    subsegments:
+      - [0x2eb4, bin, overlays/german_model_image_model_98456_8013b000/unclassified_tail]
   - [0x5000]

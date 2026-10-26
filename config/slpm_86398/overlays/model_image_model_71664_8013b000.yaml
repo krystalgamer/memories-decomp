@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: japanese_model_image_model_71664_8013b000
 sha1: e638af75acb320b855e69cb48c2274d3263ce8c6
 
@@ -40,11 +41,88 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/japanese_model_image_model_71664_8013b000/unclassified_image]
+      - [0x0, data, overlays/japanese_model_image_model_71664_8013b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/japanese_model_image_model_71664_8013b000/unmatched_4]
+  - name: unmatched_1178
+    type: code
+    start: 0x1178
+    vram: 0x8013c178
+    align: 4
+    subsegments:
+      - [0x1178, asm, overlays/japanese_model_image_model_71664_8013b000/unmatched_1178]
+  - name: unmatched_1568
+    type: code
+    start: 0x1568
+    vram: 0x8013c568
+    align: 4
+    subsegments:
+      - [0x1568, asm, overlays/japanese_model_image_model_71664_8013b000/unmatched_1568]
+  - name: unmatched_1f14
+    type: code
+    start: 0x1f14
+    vram: 0x8013cf14
+    align: 4
+    subsegments:
+      - [0x1f14, asm, overlays/japanese_model_image_model_71664_8013b000/unmatched_1f14]
+  - name: unmatched_28f8
+    type: code
+    start: 0x28f8
+    vram: 0x8013d8f8
+    align: 4
+    subsegments:
+      - [0x28f8, asm, overlays/japanese_model_image_model_71664_8013b000/unmatched_28f8]
+  - name: unmatched_2cc0
+    type: code
+    start: 0x2cc0
+    vram: 0x8013dcc0
+    align: 4
+    subsegments:
+      - [0x2cc0, asm, overlays/japanese_model_image_model_71664_8013b000/unmatched_2cc0]
+  - name: unmatched_32f4
+    type: code
+    start: 0x32f4
+    vram: 0x8013e2f4
+    align: 4
+    subsegments:
+      - [0x32f4, asm, overlays/japanese_model_image_model_71664_8013b000/unmatched_32f4]
+  - name: unmatched_3a00
+    type: code
+    start: 0x3a00
+    vram: 0x8013ea00
+    align: 4
+    subsegments:
+      - [0x3a00, asm, overlays/japanese_model_image_model_71664_8013b000/unmatched_3a00]
+  - name: unmatched_3d14
+    type: code
+    start: 0x3d14
+    vram: 0x8013ed14
+    align: 4
+    subsegments:
+      - [0x3d14, asm, overlays/japanese_model_image_model_71664_8013b000/unmatched_3d14]
+  - name: unmatched_4094
+    type: code
+    start: 0x4094
+    vram: 0x8013f094
+    align: 4
+    subsegments:
+      - [0x4094, asm, overlays/japanese_model_image_model_71664_8013b000/unmatched_4094]
+  - name: unclassified_tail
+    type: code
+    start: 0x43fc
+    vram: 0x8013f3fc
+    align: 4
+    subsegments:
+      - [0x43fc, bin, overlays/japanese_model_image_model_71664_8013b000/unclassified_tail]
   - [0x5000]

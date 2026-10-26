@@ -34,6 +34,7 @@ LOAD_POINTER_ADDRESSES = (0x80010000, 0x80010004, 0x80010008, 0x8001000C,
                          0x80010030, 0x800101D8, 0x800101DC)
 PROLOGUE = re.compile(rb"[\x00-\xff][\x80-\xff]\xbd\x27")
 RETURN = re.compile(rb"\x08\x00\xe0\x03")
+RAM_START, RAM_END = 0x80010000, 0x80200000
 LOADER_SOURCES = (
     "src/game/model_slot_control.c",
     "src/game/model.h", "src/game/european/model_slot_control.c",
@@ -91,7 +92,385 @@ def valid_instruction(ins, word: int) -> bool:
     return ins.isValid() and ins.isImplemented() and not ins.isBranchLikely()
 
 
-def walk_function(data: bytes, base: int, start: int, size: int | None = None) -> dict:
+def register_constant(data: bytes, start: int, before: int, register: int, depth: int = 0) -> int | None:
+    """Return the straight-line constant last written to `register` before `before`."""
+    if register == 0:
+        return 0
+    if depth > 4:
+        return None
+    for at in range(before - 4, start - 4, -4):
+        word = struct.unpack_from("<I", data, at)[0]
+        op = word >> 26
+        if op == 0 and word & 63 in (8, 9, 12, 13, 24, 25, 26, 27):
+            continue
+        written = word >> 11 & 31 if op == 0 else 31 if op == 3 else word >> 16 & 31
+        if op in (1, 2, 3, 4, 5, 6, 7, 40, 41, 43, 50, 58) or written != register:
+            continue
+        immediate = word & 65535
+        if op == 15:
+            return immediate << 16
+        if op in (9, 13):
+            source = register_constant(data, start, at, word >> 21 & 31, depth + 1)
+            if source is None:
+                return None
+            if op == 13:
+                return source | immediate
+            return (source + immediate - (65536 if immediate & 32768 else 0)) & 0xFFFFFFFF
+        return None
+    return None
+
+
+def written_register(word: int) -> int | None:
+    """Return the general register an instruction writes, if any."""
+    op = word >> 26
+    if op == 0:
+        funct = word & 63
+        if funct in (8, 12, 13, 17, 19, 24, 25, 26, 27):
+            return None
+        return word >> 11 & 31 or None
+    if op == 1:
+        return 31 if word >> 16 & 31 in (16, 17) else None
+    if op == 3:
+        return 31
+    if op in (2, 4, 5, 6, 7, 40, 41, 42, 43, 46, 50, 56, 57, 58, 59):
+        return None
+    if op in (16, 18):
+        return word >> 16 & 31 if word >> 21 & 31 in (0, 2) else None
+    return word >> 16 & 31 or None
+
+
+def is_control_transfer(word: int) -> bool:
+    op = word >> 26
+    return op in (1, 2, 3, 4, 5, 6, 7) or (op == 0 and word & 63 in (8, 9))
+
+
+def last_writer(data: bytes, start: int, before: int, register: int,
+                *, straight: bool = False) -> int | None:
+    """Return the nearest instruction before `before` writing `register`.
+
+    With `straight`, the search fails at any branch or jump, so the writer is
+    proven live on the only path into `before`.
+    """
+    for at in range(before - 4, start - 4, -4):
+        word = struct.unpack_from("<I", data, at)[0]
+        if straight and is_control_transfer(word):
+            return None
+        if written_register(word) == register:
+            return at
+    return None
+
+
+def switch_dispatch(data: bytes, base: int, start: int, pc: int) -> list[int] | None:
+    """Resolve a GCC switch table read by `lw reg, off(table + index); jr reg`.
+
+    The whole chain must be proven: the jump register's last write is the load,
+    the load address's last write is the sum, the index is `sll x, 2`, and a
+    `sltiu t, x, N` bounds `x` with no write to `x` in between. The first
+    control transfer after the bound must be `beq t, zero, exit` with `exit`
+    outside the dispatch, and its fall-through must run straight to the `jr`.
+    This only proposes targets; `prove_switches` must then show the chain holds
+    on every path through the function. Anything ambiguous stays unresolved.
+    """
+    reg = struct.unpack_from("<I", data, pc)[0] >> 21 & 31
+    load_at = last_writer(data, start, pc, reg, straight=True)
+    if load_at is None:
+        return None
+    load_word = struct.unpack_from("<I", data, load_at)[0]
+    if load_word >> 26 != 35:
+        return None
+    offset = (load_word & 65535) - (65536 if load_word & 32768 else 0)
+    sum_at = last_writer(data, start, load_at, load_word >> 21 & 31, straight=True)
+    if sum_at is None:
+        return None
+    sum_word = struct.unpack_from("<I", data, sum_at)[0]
+    if sum_word >> 26 != 0 or sum_word & 63 != 33:
+        return None
+    candidates = []
+    for table_shift, index_shift in ((21, 16), (16, 21)):
+        table = register_constant(data, start, sum_at, sum_word >> table_shift & 31)
+        if table is not None:
+            candidates.append(((table + offset) & 0xFFFFFFFF, sum_word >> index_shift & 31))
+    if len(candidates) != 1:
+        return None
+    table, index = candidates[0]
+    if not base <= table < base + len(data) or table % 4:
+        return None
+    shift_at = last_writer(data, start, sum_at, index)
+    if shift_at is None:
+        return None
+    shift_word = struct.unpack_from("<I", data, shift_at)[0]
+    if shift_word >> 26 != 0 or shift_word & 63 != 0 or shift_word >> 6 & 31 != 2:
+        return None
+    selector = shift_word >> 16 & 31
+    bound = None
+    for at in range(pc - 4, max(start, pc - 64) - 4, -4):
+        word = struct.unpack_from("<I", data, at)[0]
+        if word >> 26 == 11 and word >> 21 & 31 == selector:
+            bound = at, word >> 16 & 31, word & 65535
+            break
+    if bound is None or not bound[2]:
+        return None
+    bound_at, flag, count = bound
+    first, last = min(bound_at, shift_at), max(bound_at, shift_at)
+    if any(written_register(struct.unpack_from("<I", data, at)[0]) == selector
+           for at in range(first + 4, last, 4)):
+        return None
+    guard_at = None
+    for at in range(bound_at + 4, pc, 4):
+        word = struct.unpack_from("<I", data, at)[0]
+        if is_control_transfer(word):
+            guard_at = at
+            break
+        if written_register(word) == flag:
+            return None
+    # Only `beq t, zero, exit` proves the fall-through path is in range.
+    if guard_at is None:
+        return None
+    guard = struct.unpack_from("<I", data, guard_at)[0]
+    if guard >> 26 != 4 or {guard >> 21 & 31, guard >> 16 & 31} != {flag, 0}:
+        return None
+    if any(is_control_transfer(struct.unpack_from("<I", data, at)[0]) for at in range(guard_at + 8, pc, 4)):
+        return None
+    exit_at = guard_at + 4 + ((guard & 65535) - (65536 if guard & 32768 else 0)) * 4
+    if min(bound_at, shift_at) < exit_at <= pc:
+        return None
+    cursor = table - base
+    if cursor + count * 4 > len(data):
+        return None
+    targets = [struct.unpack_from("<I", data, cursor + 4 * i)[0] - base for i in range(count)]
+    if any(not start <= target < len(data) or target % 4 for target in targets):
+        return None
+    return targets
+
+
+CALLER_SAVED = (*range(1, 16), 24, 25, 31)
+LOADS = range(32, 39)  # lb, lh, lwl, lw, lbu, lhu, lwr
+
+
+SYMBOLS = ("in", "op", "phi")
+
+
+def _mentions(value, at: int, kind: str = "op") -> bool:
+    if value is None or value[0] == "c":
+        return False
+    if value[0] in SYMBOLS:
+        return value[0] == kind and value[1] == at
+    return any(isinstance(part, tuple) and _mentions(part, at, kind) for part in value[1:])
+
+
+def _selector(value) -> bool:
+    """A symbol, or a symbol plus a constant, may be a switch selector."""
+    return value[0] in SYMBOLS or value[0] == "add" and value[2][0] in SYMBOLS
+
+
+def _offset(value, amount: int):
+    """Abstract `value + amount`; only constants and one symbolic term are kept."""
+    if value is None:
+        return None
+    if value[0] == "c":
+        return "c", (value[1] + amount) & 0xFFFFFFFF
+    if value[0] == "add":
+        value, amount = value[2], value[1] + amount
+    elif value[0] not in (*SYMBOLS, "sll2"):
+        return None
+    amount &= 0xFFFFFFFF
+    return value if not amount else ("add", amount, value)
+
+
+def _step(state, at: int, word: int, observed: dict | None = None):
+    """Execute one instruction on an abstract register state.
+
+    Values are constants, the entry value of a register (`in`), the latest
+    result of one instruction (`op`, forgotten wherever it was copied once that
+    instruction runs again), a register's value on the latest entry to a join
+    (`phi`, likewise forgotten when the join is entered again), `sll2`, `lt` (an `sltiu` flag) or constant + term.
+    `None` is unknown. A register just written by a load is unknown to the next
+    instruction (the R3000 load delay slot).
+    """
+    registers, facts, loaded = state
+    op, rs, rt = word >> 26, word >> 21 & 31, word >> 16 & 31
+    immediate = word & 65535
+    signed = immediate - (65536 if immediate & 32768 else 0)
+
+    def read(register):
+        if register == 0:
+            return "c", 0
+        return None if register in loaded else registers[register]
+
+    if op == 35 and observed is not None:
+        observed.setdefault(at, []).append((_offset(read(rs), signed), facts))
+    target = written_register(word)
+    if target is None:
+        return registers, facts, frozenset()
+    value = None
+    if op == 15:
+        value = "c", immediate << 16
+    elif op == 9:
+        value = _offset(read(rs), signed)
+    elif op == 13 and (source := read(rs)) and source[0] == "c":
+        value = "c", source[1] | immediate
+    elif op == 11 and not immediate & 32768 and (source := read(rs)):
+        if source[0] == "c":
+            value = "c", int(source[1] < immediate)
+        elif _selector(source):
+            value = "lt", source, immediate
+    elif op == 0 and word & 63 == 0 and (source := read(rt)):
+        shift = word >> 6 & 31
+        if source[0] == "c":
+            value = "c", source[1] << shift & 0xFFFFFFFF
+        elif shift == 2 and _selector(source):
+            value = "sll2", source
+    elif op == 0 and word & 63 in (33, 37):
+        left, right = read(rs), read(rt)
+        if left and right and left[0] == right[0] == "c":
+            value = "c", (left[1] + right[1] if word & 63 == 33 else left[1] | right[1]) & 0xFFFFFFFF
+        elif right and right[0] == "c" and (word & 63 == 33 or not right[1]):
+            value = _offset(left, right[1])
+        elif left and left[0] == "c" and (word & 63 == 33 or not left[1]):
+            value = _offset(right, left[1])
+    if value is None:
+        value = "op", at
+    registers = tuple(None if _mentions(item, at) else item for item in registers)
+    facts = frozenset(fact for fact in facts if not _mentions(fact[0], at))
+    registers = registers[:target] + (value,) + registers[target + 1:]
+    is_load = op in LOADS or op in (16, 18) and rs in (0, 2)
+    return registers, facts, frozenset({target}) if is_load else frozenset()
+
+
+def _merge(states, join: int | None = None, widened: set | None = None):
+    """Meet incoming states; at a join, disagreeing registers get a fresh `phi`.
+
+    Once a register has needed a `phi` at a join it keeps one there, so the
+    iteration cannot oscillate.
+    """
+    states = list(states)
+    if join is not None:
+        states = [(tuple(None if _mentions(item, join, "phi") else item for item in registers),
+                   frozenset(fact for fact in facts if not _mentions(fact[0], join, "phi")), loaded)
+                  for registers, facts, loaded in states]
+    registers = []
+    for index, item in enumerate(states[0][0]):
+        if join is None or not index:
+            registers.append(item if all(state[0][index] == item for state in states) else None)
+        elif (join, index) in widened or any(state[0][index] != item for state in states):
+            widened.add((join, index))
+            registers.append(("phi", join, index))
+        else:
+            registers.append(item)
+    registers = tuple(registers)
+    facts = frozenset.intersection(*(state[1] for state in states))
+    return registers, facts, frozenset().union(*(state[2] for state in states))
+
+
+def _node(data: bytes, pc: int, kind: str, successors: list[int], state, observed=None):
+    """Return the abstract state on each outgoing edge of one walked node."""
+    word = struct.unpack_from("<I", data, pc)[0]
+    if kind == "seq":
+        return [(successors[0], _step(state, pc, word, observed))] if successors else []
+    gained = None
+    if word >> 26 in (4, 5):
+        registers, _, loaded = state
+        pair = [None if r in loaded else ("c", 0) if r == 0 else registers[r]
+                for r in (word >> 21 & 31, word >> 16 & 31)]
+        if ("c", 0) in pair:
+            flag = pair[1] if pair[0] == ("c", 0) else pair[0]
+            if flag and flag[0] == "lt":
+                gained = flag[1:]
+    if kind == "end":
+        return []
+    after = _step(state, pc + 4, struct.unpack_from("<I", data, pc + 4)[0], observed)
+    if kind == "call":
+        registers = tuple(None if index in CALLER_SAVED else item for index, item in enumerate(after[0]))
+        return [(successors[0], (registers, after[1], frozenset()))]
+    if gained and _mentions(gained[0], pc + 4):
+        gained = None
+    edges = []
+    for index, successor in enumerate(successors):
+        facts = after[1]
+        # beq flag, zero falls through, and bne flag, zero branches, with flag set.
+        if gained and kind == "branch" and (index == 1) == (word >> 26 == 4):
+            facts = facts | {gained}
+        edges.append((successor, (after[0], facts, after[2])))
+    return edges
+
+
+def prove_switches(data: bytes, base: int, start: int, flow: dict, switches: dict) -> set[int]:
+    """Return the switch dispatches whose proposed targets are not proven.
+
+    A forward must-dataflow over every walked edge has to show, at each `jr`,
+    that the jump register holds a word loaded from `table + 4 * s` for a
+    constant in-image table and a selector value `s` that a `beq`/`bne` on
+    `sltiu t, s, N` already bounded on every path, with exactly the proposed
+    `N` targets. Any clobber of the table base, index, selector or flag on any
+    path into the dispatch leaves it unproven.
+    """
+    if not switches:
+        return set()
+    if any(successor not in flow for _, successors in flow.values() for successor in successors):
+        return set(switches)
+    entry = (("c", 0),) + tuple(("in", register) for register in range(1, 32)), frozenset(), frozenset()
+    incoming: dict[int, dict[int, tuple]] = {pc: {} for pc in flow}
+    states: dict[int, tuple] = {}
+    widened: set[tuple[int, int]] = set()
+    work = [start]
+    budget = 64 * len(flow)
+    while work:
+        budget -= 1
+        if budget < 0:
+            return set(switches)
+        pc = work.pop()
+        sources = list(incoming[pc].values()) + ([entry] if pc == start else [])
+        state = _merge(sources, pc, widened)
+        if states.get(pc) == state:
+            continue
+        states[pc] = state
+        kind, successors = flow[pc]
+        grouped: dict[int, list] = {}
+        for successor, out in _node(data, pc, kind, successors, state):
+            grouped.setdefault(successor, []).append(out)
+        for successor, outs in grouped.items():
+            out = _merge(outs)
+            if incoming[successor].get(pc) != out:
+                incoming[successor][pc] = out
+                work.append(successor)
+    observed: dict[int, list] = {}
+    for pc, state in states.items():
+        _node(data, pc, *flow[pc], state, observed)
+    failed = set()
+    for pc, targets in switches.items():
+        registers, _, loaded = states.get(pc, (None, None, None))
+        register = struct.unpack_from("<I", data, pc)[0] >> 21 & 31
+        jump = None if registers is None or register in loaded else registers[register]
+        proven = None
+        if jump and jump[0] == "op" and jump[1] in observed:
+            addresses = {address for address, _ in observed[jump[1]]}
+            address = addresses.pop() if len(addresses) == 1 else None
+            if address and address[0] == "add" and address[2][0] == "sll2":
+                selector = address[2][1]
+                facts = frozenset.intersection(*(facts for _, facts in observed[jump[1]]))
+                bounds = [count for value, count in facts if value == selector]
+                table = address[1] - base
+                if bounds and 0 <= table and not table % 4 and table + 4 * min(bounds) <= len(data):
+                    proven = [struct.unpack_from("<I", data, table + 4 * index)[0] - base
+                              for index in range(min(bounds))]
+        if proven != targets:
+            failed.add(pc)
+    return failed
+
+
+
+def jump_table_targets(data: bytes, base: int, start: int, pc: int) -> list[int] | None:
+    return switch_dispatch(data, base, start, pc)
+
+
+def walk_function(data: bytes, base: int, start: int, size: int | None = None,
+                  *, resolve_flow: bool = False) -> dict:
+    """Follow one function's control flow.
+
+    `resolve_flow` additionally treats jumps leaving the span as tail calls,
+    follows GCC switch tables and rejects direct targets outside user RAM (stale
+    bodies linked for another address); the default keeps the census rules.
+    """
     limit = len(data) if size is None else start + size
     if start < 0 or start % 4 or limit > len(data) or limit <= start:
         raise CensusError(f"invalid function interval {start}:{limit}")
@@ -102,6 +481,8 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None) -
     problems: set[str] = set()
     returns = 0
     indirect_calls = 0
+    flow: dict[int, tuple[str, list[int]]] = {}
+    switches: dict[int, list[int]] = {}
     while pending:
         pc = pending.pop()
         if pc in visited:
@@ -117,7 +498,9 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None) -
         visited.add(pc)
         if not ins.hasDelaySlot():
             if word >> 26 == 0 and word & 63 == 13:
+                flow[pc] = "end", []
                 continue
+            flow[pc] = "seq", [pc + 4]
             pending.append(pc + 4)
             continue
         if pc + 8 > limit:
@@ -129,6 +512,7 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None) -
             problems.add(f"unsupported_delay_slot@{pc:#x}")
             continue
         visited.add(pc + 4)
+        flow[pc] = "end", []
         if ins.isReturn():
             returns += 1
             continue
@@ -137,26 +521,47 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None) -
             if op == 3:
                 target = ((base + pc + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
                 (calls if base <= target < base + len(data) else external).add(target)
+                if resolve_flow and not RAM_START <= target < RAM_END:
+                    problems.add(f"invalid_target@{target:#x}")
             elif ins.isBranch():
                 displacement = (word & 65535) - (65536 if word & 32768 else 0)
                 target = base + pc + 4 + displacement * 4
                 (calls if base <= target < base + len(data) else external).add(target)
+                if resolve_flow and not RAM_START <= target < RAM_END:
+                    problems.add(f"invalid_target@{target:#x}")
             else:
                 indirect_calls += 1
+            flow[pc] = "call", [pc + 8]
             pending.append(pc + 8)
         elif ins.isBranch():
             displacement = (word & 65535) - (65536 if word & 32768 else 0)
-            pending.append(pc + 4 + displacement * 4)
+            successors = [pc + 4 + displacement * 4]
             if not ins.isUnconditionalBranch():
-                pending.append(pc + 8)
+                successors.append(pc + 8)
+            flow[pc] = "branch", successors
+            pending.extend(successors)
         elif op == 2:
             target = ((base + pc + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
             if base + start <= target < base + limit:
                 pending.append(target - base)
+                flow[pc] = "jump", [target - base]
+            elif resolve_flow and RAM_START <= target < RAM_END:
+                external.add(target)
+                returns += 1
+            elif resolve_flow:
+                problems.add(f"invalid_target@{target:#x}")
             else:
                 problems.add(f"tail_target@{target:#x}")
         else:
-            problems.add(f"indirect_jump@{pc:#x}")
+            dispatch = switch_dispatch(data, base, start, pc) if resolve_flow else None
+            if dispatch is None:
+                problems.add(f"indirect_jump@{pc:#x}")
+            else:
+                pending.extend(dispatch)
+                flow[pc] = "switch", dispatch
+                switches[pc] = dispatch
+    for pc in sorted(prove_switches(data, base, start, flow, switches)):
+        problems.add(f"unproven_switch@{pc:#x}")
     extent = max(visited, default=start - 4) + 4 - start
     contiguous = bool(visited) and len(visited) * 4 == extent
     if not returns:
@@ -180,7 +585,8 @@ def prologue_offsets(data: bytes):
             yield offset
 
 
-def discover_functions(data: bytes, base: int, known: dict, entries: set[int], resident_calls: set[int]):
+def discover_functions(data: bytes, base: int, known: dict, entries: set[int], resident_calls: set[int],
+                       *, resolve_flow: bool = False):
     seeds: dict[int, set[str]] = defaultdict(set)
     for offset in known:
         seeds[offset].add("registered_boundary")
@@ -206,7 +612,8 @@ def discover_functions(data: bytes, base: int, known: dict, entries: set[int], r
             continue
         if offset not in known and any(begin < offset < begin + row["size"] for begin, row in known.items()):
             continue
-        result = walk_function(data, base, offset, known[offset]["size"] if offset in known else None)
+        result = walk_function(data, base, offset, known[offset]["size"] if offset in known else None,
+                               resolve_flow=resolve_flow)
         analyzed[offset] = result
         for target in result["calls"]:
             child = target - base
