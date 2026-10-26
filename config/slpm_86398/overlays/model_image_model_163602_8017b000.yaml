@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: japanese_model_image_model_163602_8017b000
 sha1: 32f6dc9faa9198e7f2ee89f2d771a5c1fb7c37bc
 
@@ -40,11 +41,60 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8017b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/japanese_model_image_model_163602_8017b000/unclassified_image]
+      - [0x0, data, overlays/japanese_model_image_model_163602_8017b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8017b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/japanese_model_image_model_163602_8017b000/unmatched_4]
+  - name: unmatched_12b8
+    type: code
+    start: 0x12b8
+    vram: 0x8017c2b8
+    align: 4
+    subsegments:
+      - [0x12b8, asm, overlays/japanese_model_image_model_163602_8017b000/unmatched_12b8]
+  - name: unmatched_18ac
+    type: code
+    start: 0x18ac
+    vram: 0x8017c8ac
+    align: 4
+    subsegments:
+      - [0x18ac, asm, overlays/japanese_model_image_model_163602_8017b000/unmatched_18ac]
+  - name: unmatched_202c
+    type: code
+    start: 0x202c
+    vram: 0x8017d02c
+    align: 4
+    subsegments:
+      - [0x202c, asm, overlays/japanese_model_image_model_163602_8017b000/unmatched_202c]
+  - name: unmatched_2514
+    type: code
+    start: 0x2514
+    vram: 0x8017d514
+    align: 4
+    subsegments:
+      - [0x2514, asm, overlays/japanese_model_image_model_163602_8017b000/unmatched_2514]
+  - name: unmatched_2a44
+    type: code
+    start: 0x2a44
+    vram: 0x8017da44
+    align: 4
+    subsegments:
+      - [0x2a44, asm, overlays/japanese_model_image_model_163602_8017b000/unmatched_2a44]
+  - name: unclassified_tail
+    type: code
+    start: 0x2fe0
+    vram: 0x8017dfe0
+    align: 4
+    subsegments:
+      - [0x2fe0, bin, overlays/japanese_model_image_model_163602_8017b000/unclassified_tail]
   - [0x5000]

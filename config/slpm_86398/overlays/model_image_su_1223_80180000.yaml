@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: japanese_model_image_su_1223_80180000
 sha1: aea77b5657e6453597dbdf479fa70478a749c448
 
@@ -40,11 +41,60 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x80180000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/japanese_model_image_su_1223_80180000/unclassified_image]
+      - [0x0, data, overlays/japanese_model_image_su_1223_80180000/module_header]
+  - name: unclassified_4
+    type: code
+    start: 0x4
+    vram: 0x80180004
+    align: 4
+    subsegments:
+      - [0x4, bin, overlays/japanese_model_image_su_1223_80180000/unclassified_4]
+  - name: unmatched_820
+    type: code
+    start: 0x820
+    vram: 0x80180820
+    align: 4
+    subsegments:
+      - [0x820, asm, overlays/japanese_model_image_su_1223_80180000/unmatched_820]
+  - name: unmatched_900
+    type: code
+    start: 0x900
+    vram: 0x80180900
+    align: 4
+    subsegments:
+      - [0x900, asm, overlays/japanese_model_image_su_1223_80180000/unmatched_900]
+  - name: unmatched_e34
+    type: code
+    start: 0xe34
+    vram: 0x80180e34
+    align: 4
+    subsegments:
+      - [0xe34, asm, overlays/japanese_model_image_su_1223_80180000/unmatched_e34]
+  - name: unmatched_1638
+    type: code
+    start: 0x1638
+    vram: 0x80181638
+    align: 4
+    subsegments:
+      - [0x1638, asm, overlays/japanese_model_image_su_1223_80180000/unmatched_1638]
+  - name: unmatched_1b88
+    type: code
+    start: 0x1b88
+    vram: 0x80181b88
+    align: 4
+    subsegments:
+      - [0x1b88, asm, overlays/japanese_model_image_su_1223_80180000/unmatched_1b88]
+  - name: unclassified_tail
+    type: code
+    start: 0x1c64
+    vram: 0x80181c64
+    align: 4
+    subsegments:
+      - [0x1c64, bin, overlays/japanese_model_image_su_1223_80180000/unclassified_tail]
   - [0x8000]

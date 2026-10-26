@@ -75,8 +75,12 @@ class InventoryModelImagesTests(unittest.TestCase):
         self.assertEqual(kinds, ["data", "asm", "bin", "asm", "bin"])
         self.assertIn("unclassified_3c", text)
         self.assertTrue(text.endswith("  - [0x800]\n"))
-        with self.assertRaisesRegex(inventory.InventoryError, "loader entry"):
-            inventory.inventory_layout_text(module, sha1, [(8, 4)])
+        with self.assertRaisesRegex(inventory.InventoryError, "module header"):
+            inventory.inventory_layout_text(module, sha1, [(0, 8)])
+        with self.assertRaisesRegex(inventory.InventoryError, "module header"):
+            inventory.inventory_layout_text(module, sha1, [])
+        late = inventory.inventory_layout_text(module, sha1, [(0xF4, 8)])
+        self.assertIn("[0x4, bin, overlays/model_image_model_1_8013b000/unclassified_4]", late)
         with self.assertRaisesRegex(inventory.InventoryError, "invalid function span"):
             inventory.inventory_layout_text(module, sha1, [(4, 8), (8, 4)])
 

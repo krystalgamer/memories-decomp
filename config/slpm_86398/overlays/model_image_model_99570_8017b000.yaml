@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: japanese_model_image_model_99570_8017b000
 sha1: 8a197e79c1c8af9ca015948b6dcdae8aeb7cd3b0
 
@@ -40,11 +41,74 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8017b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/japanese_model_image_model_99570_8017b000/unclassified_image]
+      - [0x0, data, overlays/japanese_model_image_model_99570_8017b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8017b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/japanese_model_image_model_99570_8017b000/unmatched_4]
+  - name: unmatched_fe4
+    type: code
+    start: 0xfe4
+    vram: 0x8017bfe4
+    align: 4
+    subsegments:
+      - [0xfe4, asm, overlays/japanese_model_image_model_99570_8017b000/unmatched_fe4]
+  - name: unmatched_1764
+    type: code
+    start: 0x1764
+    vram: 0x8017c764
+    align: 4
+    subsegments:
+      - [0x1764, asm, overlays/japanese_model_image_model_99570_8017b000/unmatched_1764]
+  - name: unmatched_1ca4
+    type: code
+    start: 0x1ca4
+    vram: 0x8017cca4
+    align: 4
+    subsegments:
+      - [0x1ca4, asm, overlays/japanese_model_image_model_99570_8017b000/unmatched_1ca4]
+  - name: unmatched_2210
+    type: code
+    start: 0x2210
+    vram: 0x8017d210
+    align: 4
+    subsegments:
+      - [0x2210, asm, overlays/japanese_model_image_model_99570_8017b000/unmatched_2210]
+  - name: unmatched_2728
+    type: code
+    start: 0x2728
+    vram: 0x8017d728
+    align: 4
+    subsegments:
+      - [0x2728, asm, overlays/japanese_model_image_model_99570_8017b000/unmatched_2728]
+  - name: unmatched_2a3c
+    type: code
+    start: 0x2a3c
+    vram: 0x8017da3c
+    align: 4
+    subsegments:
+      - [0x2a3c, asm, overlays/japanese_model_image_model_99570_8017b000/unmatched_2a3c]
+  - name: unmatched_2dbc
+    type: code
+    start: 0x2dbc
+    vram: 0x8017ddbc
+    align: 4
+    subsegments:
+      - [0x2dbc, asm, overlays/japanese_model_image_model_99570_8017b000/unmatched_2dbc]
+  - name: unclassified_tail
+    type: code
+    start: 0x3124
+    vram: 0x8017e124
+    align: 4
+    subsegments:
+      - [0x3124, bin, overlays/japanese_model_image_model_99570_8017b000/unclassified_tail]
   - [0x5000]

@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: japanese_model_image_model_200_8013b000
 sha1: 9c51f4cd9ff826824348af0aa927400570cd3e14
 
@@ -40,11 +41,67 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/japanese_model_image_model_200_8013b000/unclassified_image]
+      - [0x0, data, overlays/japanese_model_image_model_200_8013b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/japanese_model_image_model_200_8013b000/unmatched_4]
+  - name: unmatched_ee8
+    type: code
+    start: 0xee8
+    vram: 0x8013bee8
+    align: 4
+    subsegments:
+      - [0xee8, asm, overlays/japanese_model_image_model_200_8013b000/unmatched_ee8]
+  - name: unmatched_134c
+    type: code
+    start: 0x134c
+    vram: 0x8013c34c
+    align: 4
+    subsegments:
+      - [0x134c, asm, overlays/japanese_model_image_model_200_8013b000/unmatched_134c]
+  - name: unmatched_1d7c
+    type: code
+    start: 0x1d7c
+    vram: 0x8013cd7c
+    align: 4
+    subsegments:
+      - [0x1d7c, asm, overlays/japanese_model_image_model_200_8013b000/unmatched_1d7c]
+  - name: unmatched_268c
+    type: code
+    start: 0x268c
+    vram: 0x8013d68c
+    align: 4
+    subsegments:
+      - [0x268c, asm, overlays/japanese_model_image_model_200_8013b000/unmatched_268c]
+  - name: unmatched_2b7c
+    type: code
+    start: 0x2b7c
+    vram: 0x8013db7c
+    align: 4
+    subsegments:
+      - [0x2b7c, asm, overlays/japanese_model_image_model_200_8013b000/unmatched_2b7c]
+  - name: unmatched_32c0
+    type: code
+    start: 0x32c0
+    vram: 0x8013e2c0
+    align: 4
+    subsegments:
+      - [0x32c0, asm, overlays/japanese_model_image_model_200_8013b000/unmatched_32c0]
+  - name: unclassified_tail
+    type: code
+    start: 0x387c
+    vram: 0x8013e87c
+    align: 4
+    subsegments:
+      - [0x387c, bin, overlays/japanese_model_image_model_200_8013b000/unclassified_tail]
   - [0x5000]

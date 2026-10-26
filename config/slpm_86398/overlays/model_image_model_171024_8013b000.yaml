@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: japanese_model_image_model_171024_8013b000
 sha1: 2658f35191ce20d90561d6de88dd572fc69cfb84
 
@@ -40,11 +41,53 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8013b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/japanese_model_image_model_171024_8013b000/unclassified_image]
+      - [0x0, data, overlays/japanese_model_image_model_171024_8013b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/japanese_model_image_model_171024_8013b000/unmatched_4]
+  - name: unmatched_1110
+    type: code
+    start: 0x1110
+    vram: 0x8013c110
+    align: 4
+    subsegments:
+      - [0x1110, asm, overlays/japanese_model_image_model_171024_8013b000/unmatched_1110]
+  - name: unmatched_1738
+    type: code
+    start: 0x1738
+    vram: 0x8013c738
+    align: 4
+    subsegments:
+      - [0x1738, asm, overlays/japanese_model_image_model_171024_8013b000/unmatched_1738]
+  - name: unmatched_1d3c
+    type: code
+    start: 0x1d3c
+    vram: 0x8013cd3c
+    align: 4
+    subsegments:
+      - [0x1d3c, asm, overlays/japanese_model_image_model_171024_8013b000/unmatched_1d3c]
+  - name: unmatched_2888
+    type: code
+    start: 0x2888
+    vram: 0x8013d888
+    align: 4
+    subsegments:
+      - [0x2888, asm, overlays/japanese_model_image_model_171024_8013b000/unmatched_2888]
+  - name: unclassified_tail
+    type: code
+    start: 0x2c34
+    vram: 0x8013dc34
+    align: 4
+    subsegments:
+      - [0x2c34, bin, overlays/japanese_model_image_model_171024_8013b000/unclassified_tail]
   - [0x5000]

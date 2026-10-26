@@ -58,8 +58,8 @@ def inventory_layout_text(module: dict, sha1: str, functions: list[tuple[int, in
     name = module["name"]
     raw = layout_text(module, sha1)
     head = raw[raw.index("\nname:") + 1:raw.index("segments:\n")]
-    if not functions or functions[0][0] != 4:
-        raise InventoryError(f"{name}: inventory must start with the loader entry at +4")
+    if not functions or functions[0][0] < 4:
+        raise InventoryError(f"{name}: inventory needs functions after the 4-byte module header")
     segments = [("module_header", 0, "data")]
     cursor = 4
     for offset, length in functions:
