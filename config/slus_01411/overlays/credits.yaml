@@ -60,7 +60,7 @@ segments:
     vram: 0x8018079C
     align: 4
     subsegments:
-      - [0x79C, .rodata, overlays/credits/update]
+      - [0x79C, .rodata, overlays/credits/credits]
 
   - name: module
     type: code
@@ -68,11 +68,7 @@ segments:
     vram: 0x801807B0
     align: 4
     subsegments:
-      - [0x7B0, c, overlays/credits/init]
-      - [0xA24, c, overlays/credits/update]
-      - [0xF58, c, overlays/credits/text]
-      - [0x173C, c, overlays/credits/draw]
-      - [0x1C4C, c, overlays/credits/lines]
+      - [0x7B0, c, overlays/credits/credits]
       - [0x1D38, data, overlays/credits/data]
 
   - [0x8000]
