@@ -327,6 +327,12 @@ representation, offsets, extent and sentinel. SD_SEPlay now uses the
 already-established code/index/bank constants and missing-entry marker;
 no new masks, numeric values or decoding helper are introduced.
 
+The play decoder's bank shift retains the original literal `<< 6` because
+the existing bank-negative control selects that exact production statement.
+Its mutation target, replacement, occurrence check and numeric expectations
+remain unchanged; replacing the literal with an equal constant hides the
+control's target even though the executable still matches.
+
 SD_InitVoiceState resets both banks to SD_PENDING_ENTRY_NONE using its
 original byte-offset/pre-folded-shift expression, not typed indexing.
 SD_LoadSequenceBankPair still rejects sides outside the existing pair,

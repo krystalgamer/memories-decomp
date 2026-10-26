@@ -56,7 +56,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         lo = (tags.words.original & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
         t2 = tags.words.original & SD_VOICE_LOOKUP_BANK_FLAG;
         hi = t2;
-        hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
+        hi = (hi != 0) << 6;
 
         table = (u8 *)&a->indirect_sound_ids;
         v = *(u16 *)(table + (lo + hi));
