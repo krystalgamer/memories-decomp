@@ -14,6 +14,6 @@
  * fills the keys with 0xFFFF and imports the command list in animation_commands.
  * Model_BuildSlotAnimationTables then claims the keys and accumulates row
  * durations. This relink pass follows it in model-load phase 3. */
-void Model_LinkSlotAnimationRows(s32 slot);
+void Model_LinkSlotAnimationRows(s32 slot_index);
 
 #endif

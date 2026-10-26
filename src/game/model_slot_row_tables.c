@@ -15,9 +15,9 @@
    byte cursors reach the part bitfield through ModelSlot::extended_animation_part_mask. */
 
 /* Primitive decoder: walks the header's record count through records of the
-   kind selected by unit->type's low halfword. For slot half `mode` it
-   rebases two halfwords in each record, keeps *best as the running maximum
-   of the record's index halfwords, and adds the kind's step to *total; it returns the count, or 0
+   kind selected by unit->type's low halfword. For slot half `slot_index` it
+   rebases two halfwords in each record, keeps *max_lit_color_index as the running maximum
+   of the record's index halfwords, and adds the kind's step to *packet_bytes; it returns the count, or 0
    for an unknown kind. Every selector arm is written out in both switches,
    the two pairs with equal strides included, and carries its own final
    compare; cross-jumping folds them into retail's shared tails. */
@@ -26,7 +26,7 @@
    than applying loop strength reduction. */
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MODEL_SLOT_DECODER)
 s32 tent_Model_RebaseTexturedPrimitives(
-    s32 mode, const GsTYPEUNIT *unit, GsARGUNIT *ctx, s32 *best, s32 *total
+    s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx, s32 *max_lit_color_index, s32 *packet_bytes
 )
 {
     ModelPrimitiveBlockHeader *hdr;
@@ -69,9 +69,9 @@ s32 tent_Model_RebaseTexturedPrimitives(
     rec = base + hdr->word_offset * 4;
     n = count;
 #ifdef VERSION_EUROPE
-    if ((u32)mode >= 3) {
+    if ((u32)slot_index >= 3) {
 #else
-    if ((u32)mode >= 2) {
+    if ((u32)slot_index >= 2) {
 #endif
         return 0;
     }
@@ -135,8 +135,8 @@ s32 tent_Model_RebaseTexturedPrimitives(
     }
 
     if (--n != -1) {
-        add1 = (mode << 2) - 0xA;
-        add2 = (mode << 4) + 0x3BD8;
+        add1 = (slot_index << 2) - 0xA;
+        add2 = (slot_index << 4) + 0x3BD8;
 #ifdef VERSION_EUROPE
         p = rec + 0x1C;
         q = rec + MODEL_SECOND_OFFSET;
@@ -146,7 +146,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
             field = rec + off1;
             off2 = MODEL_CHANNEL_HALFWORD(field);
             v = ((u32)off2 >> 7) & 3;
-            if (mode < 2) {
+            if (slot_index < 2) {
                 off2 += add1;
                 MODEL_CHANNEL_HALFWORD(field) = off2;
                 if (v >= 3) {
@@ -158,7 +158,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     v = MODEL_CHANNEL_HALFWORD(q);
                     off2 = ((u32)v >> 6) & 0xF;
                     off2 += 0xD0;
-                    off2 += mode << 4;
+                    off2 += slot_index << 4;
                     adjusted = off2;
                     packed = adjusted << 6;
                     v &= 0x3F;
@@ -187,7 +187,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
                 }
             }
 #else
-            if (mode < 2) {
+            if (slot_index < 2) {
                 p = rec + off1;
                 v = MODEL_CHANNEL_HALFWORD(p);
                 adjusted = v + add1;
@@ -211,7 +211,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
                 }
             }
 #endif
-            if (best != 0) {
+            if (max_lit_color_index != 0) {
 #ifdef VERSION_EUROPE
 #define MODEL_CURRENT_MAX off2
 #define MODEL_MAX_CANDIDATE v
@@ -232,118 +232,118 @@ s32 tent_Model_RebaseTexturedPrimitives(
                 switch (k) {
 #endif
                 case 9:
-                    MODEL_CURRENT_MAX = *best;
+                    MODEL_CURRENT_MAX = *max_lit_color_index;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xC);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     break;
                 case 0x209:
-                    MODEL_CURRENT_MAX = *best;
+                    MODEL_CURRENT_MAX = *max_lit_color_index;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     break;
                 case 0xD:
-                    MODEL_CURRENT_MAX = *best;
+                    MODEL_CURRENT_MAX = *max_lit_color_index;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xC);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
-                        *best = MODEL_MAX_CANDIDATE;
+                        *max_lit_color_index = MODEL_MAX_CANDIDATE;
                     }
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     break;
                 case 0x20D:
-                    MODEL_CURRENT_MAX = *best;
+                    MODEL_CURRENT_MAX = *max_lit_color_index;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
-                        *best = MODEL_MAX_CANDIDATE;
+                        *max_lit_color_index = MODEL_MAX_CANDIDATE;
                     }
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x18);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     break;
                 case 0x11:
-                    MODEL_CURRENT_MAX = *best;
+                    MODEL_CURRENT_MAX = *max_lit_color_index;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xE);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     break;
                 case 0x211:
-                    MODEL_CURRENT_MAX = *best;
+                    MODEL_CURRENT_MAX = *max_lit_color_index;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x12);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     break;
                 case 0x15:
-                    MODEL_CURRENT_MAX = *best;
+                    MODEL_CURRENT_MAX = *max_lit_color_index;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xA);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x10);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
-                        *best = MODEL_MAX_CANDIDATE;
+                        *max_lit_color_index = MODEL_MAX_CANDIDATE;
                     }
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x18);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     break;
                 case 0x215:
-                    MODEL_CURRENT_MAX = *best;
+                    MODEL_CURRENT_MAX = *max_lit_color_index;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0xE);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x14);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
-                        *best = MODEL_MAX_CANDIDATE;
+                        *max_lit_color_index = MODEL_MAX_CANDIDATE;
                     }
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x18);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     MODEL_MAX_CANDIDATE = MODEL_MAX_VALUE(0x1C);
                     if (MODEL_CURRENT_MAX < MODEL_MAX_CANDIDATE) {
                         MODEL_CURRENT_MAX = MODEL_MAX_CANDIDATE;
                     }
-                    *best = MODEL_CURRENT_MAX;
+                    *max_lit_color_index = MODEL_CURRENT_MAX;
                     break;
                 }
 #undef MODEL_MAX_CANDIDATE
@@ -355,7 +355,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
             q += stride;
 #endif
             rec = rec + stride;
-            *total = *total + step;
+            *packet_bytes = *packet_bytes + step;
         } while (--n != -1);
     }
 #undef MODEL_SECOND_OFFSET
@@ -364,7 +364,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
 #endif
 
 #ifndef MODEL_SLOT_DECODER_ONLY
-void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
+void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd)
 {
     ModelSlot *ch;
     u8 *t;
@@ -403,7 +403,7 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
     ff = 0xFFFF;
     n = 0;
     m = 0;
-    ch = &gModel_aSlots[arg0];
+    ch = &gModel_aSlots[slot_index];
     t = (u8 *)ch;
     c = t;
     ch->animation_position = 0;
@@ -451,7 +451,7 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
         i--;
         q--;
     } while (i >= 0);
-    e = *(u8 **)(arg1 + 0x10);
+    e = *(u8 **)(hmd + 0x10);
     if (e == (u8 *)0) {
         return;
     }
@@ -505,7 +505,7 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
     }
 }
 
-void Model_BuildSlotAnimationTables(s32 index)
+void Model_BuildSlotAnimationTables(s32 slot_index)
 {
     ModelSlot *ch;
     ModelSlotPart *slot;
@@ -515,7 +515,7 @@ void Model_BuildSlotAnimationTables(s32 index)
     s32 i;
     s32 key;
 
-    ch = &gModel_aSlots[index];
+    ch = &gModel_aSlots[slot_index];
     if (ch->animation_commands == 0) {
         return;
     }
@@ -575,7 +575,7 @@ void Model_BuildSlotAnimationTables(s32 index)
    compiler a second one, which costs a callee-saved register and two
    instructions. Written left to right so the base is the first addend, which
    is also what the retail sum does. */
-void Model_LinkSlotAnimationRows(s32 arg0)
+void Model_LinkSlotAnimationRows(s32 slot_index)
 {
     ModelSlot *ch;
     s32 *a;
@@ -597,7 +597,7 @@ void Model_LinkSlotAnimationRows(s32 arg0)
     s32 mask;
     s32 bit;
 
-    ch = &gModel_aSlots[arg0];
+    ch = &gModel_aSlots[slot_index];
     o = 0;
     if (ch->animation_commands == 0) {
         return;

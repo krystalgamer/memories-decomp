@@ -30,18 +30,20 @@ typedef char ModelPrimitiveContexts_share_primtop_offset_0x14[
 
 #ifdef VERSION_EUROPE
 extern s32 tent_Model_RebaseTexturedPrimitives(
-    s32 mode, const GsTYPEUNIT *unit, GsARGUNIT *ctx, s32 *best, s32 *total
+    s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx,
+    s32 *max_lit_color_index, s32 *packet_bytes
 ) asm("func_80051610");
 #else
 s32 tent_Model_RebaseTexturedPrimitives(
-    s32 mode, const GsTYPEUNIT *unit, GsARGUNIT *ctx, s32 *best, s32 *total
+    s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx,
+    s32 *max_lit_color_index, s32 *packet_bytes
 );
 #endif
 
 /* Clears animation keys/durations and imports the mapped owner-block payloads. */
-void Model_ResetSlotAnimationTables(s32 slot, u8 *commands);
+void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd);
 
 /* Indexes each part's animation rows and computes their duration maxima. */
-void Model_BuildSlotAnimationTables(s32 slot);
+void Model_BuildSlotAnimationTables(s32 slot_index);
 
 #endif
