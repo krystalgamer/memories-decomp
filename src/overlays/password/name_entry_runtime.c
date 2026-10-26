@@ -274,13 +274,13 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 
 #if defined(VERSION_JAPAN)
     node = (JapaneseDuelEffectEntry *)
-        ((DuelEffectChannel *)&((JapaneseDuelEffectChannel *)D_800EB0F8)[index])->entry_head_24;
+        ((DuelEffectChannel *)&((JapaneseDuelEffectChannel *)D_800EB0F8)[index])->entry_begin;
 #elif defined(VERSION_EUROPE)
     base = D_800EB0F8;
-    node = (EuropeanDuelEffectEntry *)base[index].entry_head_24;
+    node = (EuropeanDuelEffectEntry *)base[index].entry_begin;
 #else
     base = D_800EB0F8;
-    node = base[index].entry_head_24;
+    node = base[index].entry_begin;
 #endif
     for (;;) {
 #ifdef VERSION_EUROPE

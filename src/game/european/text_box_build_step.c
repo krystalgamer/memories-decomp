@@ -8,6 +8,6 @@
 #define TEXT_BOX_ENTRY_TYPE EuropeanDuelEffectEntry
 #define TEXT_BOX_GLYPH_COUNT(o) (*(u16 *)&(o)->output_count)
 #define TEXT_BOX_GLYPH_LIMIT(o) (*(u16 *)&(o)->field_62)
-#define TEXT_BOX_RANGE_START(o) ((o)->range_start_5C)
+#define TEXT_BOX_RANGE_START(o) ((o)->entry_range_start)
 
 #include "../text_box_build_step.c"

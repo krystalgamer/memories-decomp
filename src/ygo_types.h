@@ -509,7 +509,7 @@ typedef char LibraryMotionState_size_must_be_0x48[
 /* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
    decoded string the record is playing back (TextBox_BuildStep stores it
    there), and 0x20/0x24 bracket the record's slice of tent_DuelEffectEntries:
-   TextBox_BuildStep seeds both with &tent_DuelEffectEntries[range_start_5C],
+   TextBox_BuildStep seeds both with &tent_DuelEffectEntries[entry_range_start],
    DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
 typedef struct DuelEffectChannel {
     u8 *G32 text_00;
@@ -547,8 +547,8 @@ typedef struct DuelEffectChannel {
     u8 field_14;
     u8 render_mode;
     u8 pad_16[10];
-    DuelEffectEntry *G32 entry_end_20;
-    DuelEffectEntry *G32 entry_head_24;
+    DuelEffectEntry *G32 entry_write_cursor;
+    DuelEffectEntry *G32 entry_begin;
     /* Every consumer proves this is a DisplayObject pointer:
        TextBox_RefreshDisplayObjects and Script_OpSavePrompt cast it, card-list text
        reaches ->flags through it, and Dialog_UpdateChoice used to read it
@@ -588,8 +588,8 @@ typedef struct DuelEffectChannel {
     u8 depth_offset;
     u8 glyph_advance_x;
     u8 line_advance_y;
-    u16 range_start_5C;
-    u16 range_count_5E;
+    u16 entry_range_start;
+    u16 entry_range_count;
     /* NA byte counter/limit; PAL overlays both with one u16 pixel count.
        PAL's u16 limit remains over field_62/pad_63. */
     u8 output_count;
@@ -604,11 +604,11 @@ typedef struct DuelEffectChannel {
 typedef char DuelEffectChannel_size_must_be_0x64[
     sizeof(DuelEffectChannel) == 0x64 ? 1 : -1
 ];
-typedef char DuelEffectChannel_entry_end_20_offset_must_be_0x20[
-    YGO_TYPE_OFFSET(DuelEffectChannel, entry_end_20) == 0x20 ? 1 : -1
+typedef char DuelEffectChannel_entry_write_cursor_offset_must_be_0x20[
+    YGO_TYPE_OFFSET(DuelEffectChannel, entry_write_cursor) == 0x20 ? 1 : -1
 ];
-typedef char DuelEffectChannel_entry_head_24_offset_must_be_0x24[
-    YGO_TYPE_OFFSET(DuelEffectChannel, entry_head_24) == 0x24 ? 1 : -1
+typedef char DuelEffectChannel_entry_begin_offset_must_be_0x24[
+    YGO_TYPE_OFFSET(DuelEffectChannel, entry_begin) == 0x24 ? 1 : -1
 ];
 typedef char DuelEffectChannel_render_object_offset_must_be_0x28[
     YGO_TYPE_OFFSET(DuelEffectChannel, render_object) == 0x28 ? 1 : -1
@@ -660,8 +660,8 @@ typedef char DuelEffectChannel_glyph_metrics_must_be_bytes[
     sizeof(((DuelEffectChannel *)0)->glyph_advance_x) == 1 &&
     sizeof(((DuelEffectChannel *)0)->line_advance_y) == 1 ? 1 : -1
 ];
-typedef char DuelEffectChannel_range_start_5C_offset_must_be_0x5C[
-    YGO_TYPE_OFFSET(DuelEffectChannel, range_start_5C) == 0x5C ? 1 : -1
+typedef char DuelEffectChannel_entry_range_start_offset_must_be_0x5C[
+    YGO_TYPE_OFFSET(DuelEffectChannel, entry_range_start) == 0x5C ? 1 : -1
 ];
 typedef char DuelEffectChannel_output_limit_offset_must_be_0x61[
     YGO_TYPE_OFFSET(DuelEffectChannel, output_limit) == 0x61 ? 1 : -1

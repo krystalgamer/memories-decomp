@@ -6,8 +6,8 @@
 
 typedef struct {
     u8 pad_00[0x5C];
-    u8 range_start_5C;
-    u8 range_count_5D;
+    u8 entry_range_start;
+    u8 entry_range_count;
 } JapaneseDuelEffectEntryRange;
 
 /* DuelEffect_HasActiveEntry checks the active prefix for a nonzero control

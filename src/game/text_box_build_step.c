@@ -37,7 +37,7 @@ volatile u16 gText_CurrentStreamCode;
 #ifndef TEXT_BOX_GLYPH_COUNT
 #define TEXT_BOX_GLYPH_COUNT(o) ((o)->output_count)
 #define TEXT_BOX_GLYPH_LIMIT(o) ((o)->output_limit)
-#define TEXT_BOX_RANGE_START(o) ((o)->range_start_5C)
+#define TEXT_BOX_RANGE_START(o) ((o)->entry_range_start)
 #endif
 #ifndef TEXT_BOX_ENTRY_TYPE
 #define TEXT_BOX_ENTRY_TYPE DuelEffectEntry
@@ -144,8 +144,8 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         if ((object->flags_34 & TEXT_BOX_BUILD_OWN_ENTRIES_FLAG) == 0) {
             entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)gDuelEffect_aEntries)[
                 TEXT_BOX_RANGE_START(object)];
-            object->entry_head_24 = entry;
-            object->entry_end_20 = entry;
+            object->entry_begin = entry;
+            object->entry_write_cursor = entry;
 #ifndef VERSION_EUROPE
             /* The European build no longer clears the channel's occupancy
                value, as in TextBox_Destroy. */

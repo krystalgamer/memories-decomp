@@ -110,3 +110,22 @@ validation remains PR-side.
 The separate halfword delay and optional viewport-shake states are covered
 in [text-delay-shake.md](text-delay-shake.md); their initial-call decrement
 and shared state must not be conflated with this page hold counter.
+
+## Range names preserve different stopping predicates
+
+entry_range_start/entry_range_count replace the original range_start_5C
+and regional range_count_5E/range_count_5D names. Shared storage remains
+u16 +0x5C/+0x5E; Japanese channel and narrow entry-range view remain
+u8 +0x5C/+0x5D. No padding, stride, narrowing or macro selection changes.
+
+HasActiveEntry still returns zero for an empty count or the first
+inactive flag, and one for the first nonzero handler byte in that active
+prefix. SetEntryControlBytes still stops on the first inactive entry or
+the original count and stores handler-before-render bytes through its biased
+regional view; it is not a gap-skipping or whole-allocation operation.
+
+CompletePageAdvance still checks ONLY the first configured entry after
+its original initialization/return path, even when a new count guard might
+look desirable. It does not scan to entry_write_cursor or add an empty-
+range special case. State/pen/newline resets and NA field_62 behavior stay.
+The names add no bounds, capacity policy or handler/release timing.
