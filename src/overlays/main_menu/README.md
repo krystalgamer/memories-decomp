@@ -159,10 +159,9 @@ separate value/Trade setup. Clearing the callback has no ownership test, so
 valid frontend lifecycle remains a caller precondition. The resident-facing
 declarations in `entrypoints.h` are included by definitions and both callers.
 
-The init entry point is [`frontend.c`](frontend.c); the transition
-initializer and teardown, the background drawer and the afterimage pair are
-[`frontend_background.c`](frontend_background.c), after the standalone update
-entry point -- see *The frontend translation unit* below.
+The init entry point, the update entry point, the transition initializer and
+teardown, the background drawer and the afterimage pair are all in
+[`frontend.c`](frontend.c) -- see *The frontend translation unit* below.
 
 ## Trade-screen ownership
 
@@ -613,7 +612,7 @@ included by definitions and callers. The release call explicitly passes the
 object instead of relying on an unwritten argument-register assumption.
 
 Producer and update callback are the last two definitions in
-[`frontend_background.c`](frontend_background.c), in that order. Their contiguous `0xE4 + 0x88`
+[`frontend.c`](frontend.c), in that order. Their contiguous `0xE4 + 0x88`
 bytes cover `0x80180E6C-0x80180FD8` exactly, with callback object offset
 `0xE4`, and the unit ends there: `MainMenu_StartValueSetup` begins at
 `0x80180FD8` and belongs to the value-setup screen.
@@ -622,14 +621,13 @@ bytes cover `0x80180E6C-0x80180FD8` exactly, with callback object offset
 
 The front-end screen is `0x8018001C..0x80180FD8`, one contiguous
 `gcc_2_8_1_g0_split` run. It was five sources, then one, `frontend.c`; #3859
-later restored generated assembly for the register-bound updater. The run now
-uses two C subsegments: `frontend.c` at module offset `0x1C` holds the
-initializer and the binding-free updater at `0x390` (formerly
-`frontend_update.c`), and `frontend_background.c` at `0xB4C` holds the five
-following functions. The Japanese and European builds still compile the
-initializer and updater separately, each wrapper selecting one function from
-`frontend.c` through its `VERSION_*_MAIN_MENU_{INIT,UPDATE}_FRONTEND_MENU`
-guard.
+later restored generated assembly for the register-bound updater and split
+the run into three C subsegments. It is one again: `frontend.c` at module
+offset `0x1C` holds the initializer, the binding-free updater at `0x390`
+(formerly `frontend_update.c`) and the five functions from `0xB4C` (formerly
+`frontend_background.c`). The Japanese and European builds still compile
+each function separately, each wrapper selecting one function from
+`frontend.c` through its `VERSION_*_MAIN_MENU_*` guard.
 Their boundaries and compiler profile are unchanged.
 
 The updater retains a shared scratch value for menu-group selection, the

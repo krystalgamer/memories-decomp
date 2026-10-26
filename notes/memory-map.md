@@ -79,7 +79,7 @@ tree at once:
 
 | Reached as | Where | Declared |
 | --- | --- | --- |
-| `gGraphics_apOrderingTables[1]` | `frontend_background.c` and two more | `GsOT *gGraphics_apOrderingTables[]` |
+| `gGraphics_apOrderingTables[1]` | `frontend.c` and two more | `GsOT *gGraphics_apOrderingTables[]` |
 | `D_800E9D94` | `trade_screen_helpers.c` | `GsOT *D_800E9D94` |
 | `gGraphics_apOrderingTables[2]` | `value_setup.c`, `trade_offers.c`, `model_init_slot.c` | `GsOT *gGraphics_apOrderingTables[]` |
 | `D_800E9D98` | `src/game/duel_field_card_render.c` | `void *D_800E9D98[]` |
