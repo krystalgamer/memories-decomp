@@ -83,7 +83,7 @@ class ModelCameraOwnershipTests(unittest.TestCase):
             "typedef char eye_end[OFFSET(ModelCameraMove, eye.slot) == 26 ? 1 : -1];\n"
             "typedef char target_index[OFFSET(ModelCameraMove, target.pair_slot) == 34 ? 1 : -1];\n"
             "typedef char target_end[OFFSET(ModelCameraMove, target.slot) == 42 ? 1 : -1];\n"
-            "typedef char slot_position[OFFSET(ModelSlot, field_DD0) == 0xDD0 ? 1 : -1];\n"
+            "typedef char slot_position[OFFSET(ModelSlot, cached_position) == 0xDD0 ? 1 : -1];\n"
             "typedef char slots_size[sizeof(gModel_aSlots) == 3 * 0xE20 ? 1 : -1];\n"
             "typedef char first_kind[OFFSET(Key, requested[0].kind) == 6 ? 1 : -1];\n"
             "typedef char second_kind[OFFSET(Key, requested[1].kind) == 14 ? 1 : -1];\n"
