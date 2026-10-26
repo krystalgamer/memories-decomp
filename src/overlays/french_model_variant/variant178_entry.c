@@ -1,5 +1,11 @@
 #include "../../types.h"
 #include "variant178_entry.h"
+#include "../../game/screen_projection.h"
+
+/* The North American build reports the work size once per setup command. */
+#if defined(VARIANT178_PRINT_WORK_SIZE)
+#include "../../psyq/stdio.h"
+#endif
 
 const VECTOR D_8013BD3C = {4096, 4096, 4096, 0};
 
@@ -53,6 +59,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->texture[0] = func_80059A50(Model_GetActiveSlotIndex(), 2, &D_8013BD4C[0]);
         work->elapsed = 0;
         work->completed = 0;
+#if defined(VARIANT178_PRINT_WORK_SIZE)
+        printf("%d (0x%x) Byte\n", sizeof(Model178State), sizeof(Model178State));
+#endif
         return 0;
     }
     config = work->config;
@@ -163,6 +172,13 @@ s32 func_8013B004(u8 *context, s32 command)
     if (time < config->spacing * config->count) {
         return 4;
     }
+#if defined(VARIANT178_PRINT_WORK_SIZE)
+    if (work->completed == 0) {
+        work->completed++;
+        return 1;
+    }
+    return 0;
+#else
     {
         u8 result;
         if (work->completed != 0) {
@@ -173,4 +189,5 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         return result;
     }
+#endif
 }
