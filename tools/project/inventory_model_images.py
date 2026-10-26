@@ -107,9 +107,17 @@ def image_functions(data: bytes, base: int, entries: set[int], calls: set[int]) 
             if row["cfg_closed"]]
     spans = {int(row["offset"], 0): row for row in rows}
     ordered = sorted(spans)
-    if any(left + spans[left]["observed_extent"] > right for left, right in zip(ordered, ordered[1:])):
-        raise InventoryError("closed candidate spans overlap")
-    taken = address_references(data, base, [(offset, spans[offset]["observed_extent"]) for offset in ordered])
+    sizes = {offset: spans[offset]["observed_extent"] for offset in ordered}
+    falls = set()
+    for left, right in zip(ordered, ordered[1:]):
+        if left + sizes[left] <= right:
+            continue
+        if right + sizes[right] != left + sizes[left]:
+            raise InventoryError(f"closed candidate spans overlap at {right:#x}")
+        # A preamble that falls through into the next body shares its exit.
+        sizes[left] = right - left
+        falls.add(left)
+    taken = address_references(data, base, [(offset, sizes[offset]) for offset in ordered])
     reached = set()
     pending = [offset for offset in ordered if offset in entries or offset in taken
                or "resident_address_reference" in spans[offset]["seed_evidence"]]
@@ -123,7 +131,10 @@ def image_functions(data: bytes, base: int, entries: set[int], calls: set[int]) 
     for offset in ordered:
         kind = "entry" if offset in entries else "reachable" if offset in reached else "unreached"
         evidence = spans[offset]["seed_evidence"].replace("_", " ").replace(";", " and ")
-        result.append((offset, spans[offset]["observed_extent"], NOTES[kind].format(evidence=evidence)))
+        notes = NOTES[kind].format(evidence=evidence)
+        if offset in falls:
+            notes += f" Falls through into func_{base + offset + sizes[offset]:08X}."
+        result.append((offset, sizes[offset], notes))
     return result
 
 

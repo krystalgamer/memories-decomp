@@ -64,6 +64,16 @@ class InventoryModelImagesTests(unittest.TestCase):
         self.assertTrue(rows[0][2].startswith("Loader entry"))
         self.assertIn("reachability is unresolved", rows[1][2])
 
+    def test_preamble_falling_through_into_a_framed_body_is_split(self):
+        data = bytearray(image())
+        for offset, word in {0x80: 0x00002021, 0x84: 0x27BDFFF8, 0x88: 0x03E00008,
+                             0x8C: 0x27BD0008}.items():
+            struct.pack_into("<I", data, offset, word)
+        rows = inventory.image_functions(bytes(data), BASE, {4, 0x80}, set())
+        self.assertIn((0x80, 4), [(offset, size) for offset, size, _ in rows])
+        self.assertIn((0x84, 0xC), [(offset, size) for offset, size, _ in rows])
+        self.assertIn("Falls through into func_8013B084.", dict((o, n) for o, _, n in rows)[0x80])
+
     def test_layout_keeps_gaps_raw_and_covers_the_image(self):
         module = {"name": "model_image_model_1_8013b000", "load_address": "0x8013B000",
                   "sector_count": 1, "output": "tmp/overlays/model_image_model_1_8013b000/module.bin"}
