@@ -180,10 +180,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("contour_quads", 0x801558F4, 0x80155BC0, 1),
             ("layered_drawing", 0x80155BC0, 0x801566D4, 6),
             ("number_renderer", 0x801566D4, 0x80156C40, 3),
-            ("textured_quads", 0x80156C40, 0x80156E58, 2),
-            ("primitive_draw", 0x80156E58, 0x801570B0, 2),
-            ("gradient_lines", 0x801570B0, 0x801573A8, 1),
-            ("display_quads", 0x801573A8, 0x80157794, 3),
+            ("primitive_draw", 0x80156C40, 0x80157794, 8),
         ):
             with self.subTest(source=name):
                 source = f"src/overlays/duel_effects/{name}.c"
@@ -206,10 +203,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             for region in ("sles_03948", "sles_03951")
         ]
         for name, count in (("dispatch", 1), ("effect_18", 1), ("effect_19", 1),
-                            ("number_renderer", 3), ("primitive_draw", 2),
-                            ("textured_quads", 2), ("packet_helpers", 4),
-                            ("gradient_lines", 1),
-                            ("display_quads", 3),
+                            ("number_renderer", 3), ("primitive_draw", 8),
+                            ("packet_helpers", 4),
                             ("color_transition", 3),
                             ("screen_draw", 3), ("contour_quads", 1), ("layered_drawing", 6),
                             ("effect_0", 1), ("effect_6", 1),
