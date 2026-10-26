@@ -75,11 +75,11 @@ PAIRS = [
     ("src/game/duel_result_runtime.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_config.h"'),
     ("src/game/duel_field_effects.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
     ("src/game/duel_scene_field_actions.c", "Duel_GetOrCreateActionReadyMarker", '#include "duel_action_ready_marker.h"'),
-    ("src/game/duel_effect_apply_terrain.c", "SD_SEPlayFull", '#include "sound.h"'),
+    ("src/game/duel_action_lock.c", "SD_SEPlayFull", '#include "sound.h"'),
     ("src/game/duel_scene_field_actions.c", "Duel_UpdateCardUseConfirmation", '#include "duel_update_card_use_confirmation.h"'),
     ("src/game/duel_scene_field_actions.c", "DuelCursor_StepTowardTarget", '#include "duel_cursor_step_toward_target.h"'),
     (
-        "src/game/duel_effect_apply_terrain.c",
+        "src/game/duel_action_lock.c",
         "DisplayObject_SetResourceVariant",
         '#include "display_object_config.h"',
     ),

@@ -111,7 +111,7 @@ class TerrainRequestLocalTests(unittest.TestCase):
     def test_actual_initialization_prefix_and_regression_controls(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        source = (ROOT / "src/game/duel_effect_apply_terrain.c").read_text()
+        source = (ROOT / "src/game/duel_action_lock.c").read_text()
         match = re.search(
             r"(?s)if \(DuelEffect_MarkInitialized\(\) == 0\) \{(?P<init>.*?)"
             r"\}\s*f = gDuel_wCardEffectFlags;", source,

@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/duel_effect_apply_terrain.c. The European WA.MRG gives
+/* SLES-03947 build of src/game/duel_action_lock.c. The European WA.MRG gives
  * each terrain package 0xF0 sectors (see duel_load_terrain_package.c), and
  * a terrain's effect data starts at 0x1C58 + 0xF0 * terrain. */
 
@@ -13,4 +13,4 @@
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134
 
-#include "../duel_effect_apply_terrain.c"
+#include "../duel_action_lock.c"

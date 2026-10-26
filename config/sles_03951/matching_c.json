@@ -1178,21 +1178,21 @@
     },
     {
       "address": "0x80024EE0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/duel_action_lock.c"
+      "source": "src/game/european/duel_action_lock.c"
     },
     {
       "address": "0x80024F08",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/duel_action_lock.c"
+      "source": "src/game/european/duel_action_lock.c"
     },
     {
       "address": "0x80024F14",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C4",
-      "source": "src/game/european/duel_effect_apply_terrain.c"
+      "source": "src/game/european/duel_action_lock.c"
     },
     {
       "address": "0x800250D8",

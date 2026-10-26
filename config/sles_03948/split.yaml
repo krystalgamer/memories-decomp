@@ -374,10 +374,7 @@ segments:
     - game/main_start_duel
   - - 87776
     - c
-    - game/duel_action_lock
-  - - 87828
-    - c
-    - game/european/duel_effect_apply_terrain
+    - game/european/duel_action_lock
   - - 88280
     - c
     - game/duel_select_trap_by_card_id

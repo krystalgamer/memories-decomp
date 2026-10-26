@@ -1178,13 +1178,13 @@
     },
     {
       "address": "0x80024E24",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
       "source": "src/game/duel_action_lock.c"
     },
     {
       "address": "0x80024E4C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
       "source": "src/game/duel_action_lock.c"
     },
@@ -1192,7 +1192,7 @@
       "address": "0x80024E58",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D0",
-      "source": "src/game/duel_effect_apply_terrain.c"
+      "source": "src/game/duel_action_lock.c"
     },
     {
       "address": "0x80025028",
