@@ -1103,13 +1103,13 @@
       "address": "0x80024220",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1AC",
-      "source": "src/game/duel_shuffle_deck.c"
+      "source": "src/game/japanese/duel_scene_update.c"
     },
     {
       "address": "0x800243CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/duel_shuffle_deck.c"
+      "source": "src/game/japanese/duel_scene_update.c"
     },
     {
       "address": "0x80024418",

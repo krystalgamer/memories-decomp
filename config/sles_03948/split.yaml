@@ -357,9 +357,6 @@ segments:
   - - 84668
     - c
     - game/european/duel_scene_update
-  - - 85168
-    - c
-    - game/duel_shuffle_deck
   - - 85672
     - c
     - game/duel_card_data_transfer

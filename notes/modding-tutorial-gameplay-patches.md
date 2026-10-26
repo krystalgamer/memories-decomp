@@ -532,9 +532,9 @@ Opponent IDs below `39` call the shuffle helper with `(player_deck, NULL)`.
 Duel Master K is opponent `39`, so the retail comparison fails and the
 fallthrough changes the call to `(player_deck, player_deck)`. The matching C
 for
-[`Duel_ShuffleBothDecks`](../src/game/duel_shuffle_deck.c) passes those
+[`Duel_ShuffleBothDecks`](../src/game/duel_scene_update.c) passes those
 two arguments independently to the player and CPU
-[`Duel_ShuffleDeck`](../src/game/duel_shuffle_deck.c) calls. Exact matching
+[`Duel_ShuffleDeck`](../src/game/duel_scene_update.c) calls. Exact matching
 `Duel_ShuffleDeck` confirms that a null source generates `DECK_SIZE` cards
 from `gDuel_awOpponentDeckPool`, while a non-null source copies its
 `DECK_SIZE` card IDs before shuffling. Duel Master K therefore receives a

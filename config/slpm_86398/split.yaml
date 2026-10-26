@@ -162,7 +162,6 @@ segments:
       - [0x14690, c, game/duel_cursor_status]
       - [0x146e0, c, game/japanese/duel_update_card_pick_cursor]
       - [0x14830, c, game/japanese/duel_scene_update]
-      - [0x14a20, c, game/duel_shuffle_deck]
       - [0x14c18, c, game/japanese/duel_card_data_transfer]
       - [0x14d30, c, game/util_compare_s16]
       - [0x14d60, c, game/japanese/duel_card_record_lifecycle]

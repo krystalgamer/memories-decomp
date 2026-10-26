@@ -3007,12 +3007,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80168FCC,CampaignMap_UpdateLocation,CampaignMap_UpdateLocation,0x8002D2D8,Main_RunCampaignMap,matching_c,game,C,src/game/main_run_selection_menus.c,read,,void Main_RunCampaignMap(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;gGraphics_bOrderingTable3...
 0x80169C08,NameEntry_PollCompletion,NameEntry_PollCompletion,0x8002D62C,Main_RunNameEntry,matching_c,game,C,src/game/main_run_frontend_menus.c,read,,if (NameEntry_PollCompletion()) {
 0x80177EA4,gDuel_aCardUploadRects,gDuel_aCardUploadRects,0x800249E0,Duel_SetupCardRecord,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,,base = gDuel_aCardUploadRects;
-0x80177FE8,gDuel_awPlayerShuffledDeck,gDuel_awPlayerShuffledDeck,0x800245A0,Duel_ShuffleBothDecks,matching_c,game,C,src/game/duel_shuffle_deck.c,address,16,u16 *base = gDuel_awPlayerShuffledDeck;
+0x80177FE8,gDuel_awPlayerShuffledDeck,gDuel_awPlayerShuffledDeck,0x800245A0,Duel_ShuffleBothDecks,matching_c,game,C,src/game/duel_scene_update.c,address,16,u16 *base = gDuel_awPlayerShuffledDeck;
 0x8017808C,gDuel_awCombinedDeckCardIds,gDuel_awCombinedDeckCardIds,0x80024734,Duel_RequestCombinedDeckData,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,16,u16 *source = gDuel_awCombinedDeckCardIds;
 0x80178130,gDuel_awUniqueDeckCardIds,gDuel_awUniqueDeckCardIds,0x80024734,Duel_RequestCombinedDeckData,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,16,result->callback_data = gDuel_awUniqueDeckCardIds;
 0x80178130,gDuel_awUniqueDeckCardIds,gDuel_awUniqueDeckCardIds,0x80024824,Duel_PopulateCombinedDeckData,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,16,p = gDuel_awUniqueDeckCardIds;
 0x801781D8,gDuel_awOpponentDeckPool,gDuel_awOpponentDeckPool,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,address,16,(s32)gDuel_awOpponentDeckPool
-0x801781D8,gDuel_awOpponentDeckPool,gDuel_awOpponentDeckPool,0x800243F4,Duel_ShuffleDeck,matching_c,game,C,src/game/duel_shuffle_deck.c,address,16,t = gDuel_awOpponentDeckPool;
+0x801781D8,gDuel_awOpponentDeckPool,gDuel_awOpponentDeckPool,0x800243F4,Duel_ShuffleDeck,matching_c,game,C,src/game/duel_scene_update.c,address,16,t = gDuel_awOpponentDeckPool;
 0x8017878C,gDuel_awSaPowCardDrops,gDuel_awSaPowCardDrops,0x80021810,Duel_SelectCardDrop,matching_c,game,C,src/game/duel_result_runtime.c,address,,DuelDropTable *table = &gDuel_awSaPowCardDrops[pool_index];
 0x801798A8,gDuel_awRankScoreChange,gDuel_awRankScoreChange,0x80021558,Duel_CalcRankScoreChange,matching_c,game,C,src/game/duel_result_runtime.c,address,,DuelRankScoreChangeEntry *p = &gDuel_awRankScoreChange[arg0][0];
 0x801799D8,gDuel_awRitualData,gDuel_awRitualData,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,address,16,d->value_08 = d->value_0C = (u32)gDuel_awRitualData;

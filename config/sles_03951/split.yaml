@@ -165,7 +165,6 @@ segments:
       - [0x1491C, c, game/duel_cursor_status]
       - [0x1496C, c, game/spanish/duel_update_card_pick_cursor]
       - [0x14ABC, c, game/european/duel_scene_update]
-      - [0x14CB0, c, game/duel_shuffle_deck]
       - [0x14EA8, c, game/duel_card_data_transfer]
       - [0x14FC0, c, game/util_compare_s16]
       - [0x14FF0, c, game/european/duel_card_record_lifecycle]
