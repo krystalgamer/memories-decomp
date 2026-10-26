@@ -141,10 +141,10 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     up->vy = 0x1000;
     up->vz = 0;
     *color = obj->rgb;
-    rot[0].vx = obj->field_20.b.field_20 << 4;
-    y = obj->field_20.b.field_21 << 4;
+    rot[0].vx = obj->field_20.b.rotation_x << 4;
+    y = obj->field_20.b.rotation_y << 4;
     rot[0].vy = y;
-    rot[0].vz = obj->field_20.b.field_22 << 4;
+    rot[0].vz = obj->field_20.b.rotation_z << 4;
     if ((s8)holder->table_index >= 0xF) {
         rot[0].vy = y + 0x800;
     }

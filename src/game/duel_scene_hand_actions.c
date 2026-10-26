@@ -668,7 +668,7 @@ void DuelCard_UpdateDefenseRotation(DisplayObject *o)
 {
     if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o)) {
         o->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
-        if (!o->field_20.b.field_22) {
+        if (!o->field_20.b.rotation_z) {
             *(s16 *)&o->position.h.field_28 = -8;
             o->position.h.field_2A = 0xC0;
         } else {
@@ -676,15 +676,15 @@ void DuelCard_UpdateDefenseRotation(DisplayObject *o)
             o->position.h.field_2A = 0;
         }
     }
-    o->field_20.b.field_22 += (s16)o->position.h.field_28;
-    if (o->field_20.b.field_22 < 0xC0) {
+    o->field_20.b.rotation_z += (s16)o->position.h.field_28;
+    if (o->field_20.b.rotation_z < 0xC0) {
         DuelCardRecord *e = &gDuel_aCardRecords[o->field_6A];
 
         e->flags |= DUEL_CARD_FLAG_DEFENSE_POSITION;
-        o->field_20.b.field_22 = (s16)o->position.h.field_2A;
-        if (!o->field_20.b.field_22) {
+        o->field_20.b.rotation_z = (s16)o->position.h.field_2A;
+        if (!o->field_20.b.rotation_z) {
             e->flags &= ~DUEL_CARD_FLAG_DEFENSE_POSITION;
-            if (!o->field_20.b.field_21) {
+            if (!o->field_20.b.rotation_y) {
                 o->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             }
         }

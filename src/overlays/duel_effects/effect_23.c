@@ -155,9 +155,9 @@ void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 += work->card_velocities[i].vx;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32 += work->card_velocities[i].vy;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 += work->card_velocities[i].vz;
-                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_20 += work->card_rotations[i].vx;
-                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_21 += work->card_rotations[i].vx;
-                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_22 += work->card_rotations[i].vx;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_x += work->card_rotations[i].vx;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_y += work->card_rotations[i].vx;
+                ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_z += work->card_rotations[i].vx;
                 if (((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[0] > 15) {
                     ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[0] -= 15;
                 } else {

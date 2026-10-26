@@ -78,7 +78,7 @@ void DuelScene_UpdateCardUse(void)
             p = (DisplayObject *)CardPreview_CreateResourceObjects(0, -1, -1);
             p->field_30.h.field_30 = 0x5A;
             p->field_30.h.field_32 = DUEL_CARD_USE_OBJECT_Y;
-            p->field_20.b.field_21 = 0xC0;
+            p->field_20.b.rotation_y = 0xC0;
             DisplayObject_SetDepthOffset(p, -0xA);
             p->flags =
                 (p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST) &
@@ -87,8 +87,8 @@ void DuelScene_UpdateCardUse(void)
             return;
         }
         if ((state & 0x40) == 0) {
-            v1 = p->field_20.b.field_21 + 6;
-            p->field_20.b.field_21 = v1;
+            v1 = p->field_20.b.rotation_y + 6;
+            p->field_20.b.rotation_y = v1;
             if ((u8)v1 < 0x40) {
                 return;
             }
@@ -101,13 +101,13 @@ void DuelScene_UpdateCardUse(void)
         }
         p = gDisplayObject_apWorkSlots[1];
         if ((state & 0x20) == 0) {
-            v2 = p->field_20.b.field_21 + 6;
-            p->field_20.b.field_21 = v2;
+            v2 = p->field_20.b.rotation_y + 6;
+            p->field_20.b.rotation_y = v2;
             if ((s8)v2 < 0) {
                 return;
             }
             p->field_60 = 0x1E;
-            p->field_20.b.field_21 = 0;
+            p->field_20.b.rotation_y = 0;
             f3 = p->flags;
             st = gDuel_bSceneSubStep | 0x20;
             p->flags = f3 & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;

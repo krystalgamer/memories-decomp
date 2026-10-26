@@ -343,7 +343,7 @@ void DisplayObject_RenderSpriteList(void) {
                     }
                     mode = e->ot_depth | 0xF0000;
                 } else if ((p->attribute & GsROTOFF) == 0) {
-                    p->rotate = e->field_20.h.field_22 * 5760;
+                    p->rotate = e->field_20.h.rotation_z * 5760;
                     p->scale = e->field_44.word;
                     p->mxmy.word = e->field_48.word;
                     p->xy.h.x = p->xy.h.x + p->mxmy.h.x;

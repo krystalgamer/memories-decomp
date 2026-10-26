@@ -546,7 +546,7 @@ void DuelScene_UpdateFieldActions(void)
             o = (u8 *)Duel_CreateCardDisplayObject(card, card->screen_x, card->screen_y);
             card->flags &= 0x7FFF;
             if (card->flags & 0x1000) {
-                DISPLAY_OBJECT_VIEW(o)->field_20.b.field_21 = 0x80;
+                DISPLAY_OBJECT_VIEW(o)->field_20.b.rotation_y = 0x80;
                 H(o, 8) |= 4;
             }
             DISPLAY_OBJECT_VIEW(o)->field_60 = 0xC;

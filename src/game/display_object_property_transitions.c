@@ -54,8 +54,8 @@ void DisplayObject_UpdateColorTransition(DisplayObject *object)
 
 void DisplayObject_UpdatePositionRotationTransition(DisplayObject*o)
 {
- if(!DisplayObject_MarkInitialized((DisplayObjectLifecycle*)o)){if((s16)o->field_2C.h.field_2C!=o->field_20.b.field_21)o->flags|=DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_2C.h.field_2E=o->field_60;DisplayObject_SavePosition((DisplayObjectSnapshot*)o);o->field_60=0;}
- if(o->field_20.b.field_21!=(s16)o->field_2C.h.field_2C)o->field_20.b.field_21+=0x80/o->field_2C.h.field_2E;
+ if(!DisplayObject_MarkInitialized((DisplayObjectLifecycle*)o)){if((s16)o->field_2C.h.field_2C!=o->field_20.b.rotation_y)o->flags|=DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_2C.h.field_2E=o->field_60;DisplayObject_SavePosition((DisplayObjectSnapshot*)o);o->field_60=0;}
+ if(o->field_20.b.rotation_y!=(s16)o->field_2C.h.field_2C)o->field_20.b.rotation_y+=0x80/o->field_2C.h.field_2E;
  DisplayObject_InterpolatePositionCosine((DisplayObjectPosition *)o,(s16)o->position.h.field_28,(s16)o->position.h.field_2A,o->field_60);o->field_60+=TRIG_ANGLE_HALF_TURN/o->field_2C.h.field_2E;
- if(o->field_60>=TRIG_ANGLE_HALF_TURN){u8 target=(s16)o->field_2C.h.field_2C;int position=o->position.word;o->field_20.b.field_21=target;o->field_30.word=position;if(!(target&0xFF))o->flags&=~DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_6C=0;o->update=0;}
+ if(o->field_60>=TRIG_ANGLE_HALF_TURN){u8 target=(s16)o->field_2C.h.field_2C;int position=o->position.word;o->field_20.b.rotation_y=target;o->field_30.word=position;if(!(target&0xFF))o->flags&=~DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_6C=0;o->update=0;}
 }

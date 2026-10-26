@@ -85,22 +85,21 @@ typedef struct DisplayObject {
        retail's: display_object_core.c clears the whole word with one sw,
        and the two sprite renderers read only the byte. Neither view is a
        superset, so the record carries both rather than choosing. */
-    /* The byte at 0x21 is inside the halfword at 0x20, so it gets a third
-       view rather than a new field: display_object_property_transitions.c
-       reads and writes it alone, and DuelCardDisplayObject in
-       duel_card_display_state.h already names the same byte field_21 on this
-       record. */
+    /* The packed bytes are Euler X/Y/Z angles: projection expands each
+       byte by 16 for RotMatrixZYX_gte. The sprite renderers expand the same
+       Z byte by 5760 for GsSPRITE.rotate. Preserve the word/halfword aliases
+       and the opaque fourth byte rather than splitting the word stores. */
     union {
         u32 word;
         struct {
             u16 field_20;
-            u8 field_22;
+            u8 rotation_z;
             u8 field_23;
         } h;
         struct {
-            u8 field_20;
-            u8 field_21;
-            u8 field_22;
+            u8 rotation_x;
+            u8 rotation_y;
+            u8 rotation_z;
             u8 field_23;
         } b;
     } field_20;                    /* 0x20 */
@@ -427,8 +426,8 @@ typedef struct DisplayObject {
 typedef char DisplayObject_size_must_match_record_size[
     sizeof(DisplayObject) == DISPLAY_OBJECT_RECORD_SIZE ? 1 : -1
 ];
-typedef char DisplayObject_field_22_must_be_at_0x22[
-    DISPLAY_OBJECT_OFFSET(field_20.h.field_22) == 0x22 ? 1 : -1
+typedef char DisplayObject_rotation_z_must_be_at_0x22[
+    DISPLAY_OBJECT_OFFSET(field_20.h.rotation_z) == 0x22 ? 1 : -1
 ];
 typedef char DisplayObject_update_must_be_at_0x24[
     DISPLAY_OBJECT_OFFSET(update) == 0x24 ? 1 : -1

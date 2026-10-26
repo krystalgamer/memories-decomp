@@ -118,7 +118,7 @@ void DuelEffect_UpdateCardViewerState(void)
         adj = gDuel_bCardViewerYOffset;
 #endif
         *(s16 *)&obj->field_30.h.field_30 = -0x8C;
-        obj->field_20.b.field_21 = 0x80;
+        obj->field_20.b.rotation_y = 0x80;
 #ifndef VERSION_EUROPE
         obj->field_30.h.field_32 += adj;
 #endif
@@ -303,10 +303,10 @@ void DuelEffect_UpdateCardViewerState(void)
 
     if ((state & 0x20) == 0) {
         obj = D_8009B24C;
-        obj->field_20.b.field_21 += 0xC;
-        if (obj->field_20.b.field_21 < 0x40) {
+        obj->field_20.b.rotation_y += 0xC;
+        if (obj->field_20.b.rotation_y < 0x40) {
             objflags = obj->flags;
-            obj->field_20.b.field_21 = 0;
+            obj->field_20.b.rotation_y = 0;
             state = D_8009B248 | 0x20;
             obj->flags = objflags & 0xFFFB;
             D_8009B248 = state;

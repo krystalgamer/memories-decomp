@@ -47,8 +47,8 @@
 #define PLACEMENT_TY(object) ((object)->position.h.field_2A)
 #define PLACEMENT_VX(object) ((object)->field_34.h.field_36)
 #define PLACEMENT_VY(object) ((object)->field_38.h.field_38)
-#define PLACEMENT_ALPHA(object) ((object)->field_20.b.field_21)
-#define PLACEMENT_ROTATION(object) ((object)->field_20.b.field_22)
+#define PLACEMENT_ALPHA(object) ((object)->field_20.b.rotation_y)
+#define PLACEMENT_ROTATION(object) ((object)->field_20.b.rotation_z)
 #define PLACEMENT_REPLAY_CARD(object) (D_8015C424_cards.field_cards[(object)->field_6A])
 #define DISPLAY_OBJECT_VELOCITY_VIEW(object) \
     ((DisplayObjectVelocity *)(object))

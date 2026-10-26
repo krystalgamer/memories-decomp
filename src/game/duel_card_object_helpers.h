@@ -5,12 +5,12 @@
 #include "display_object.h"
 
 /* The two fields Duel_GetCardEffectVariant reads out of a card's display object: the
-   flag byte at 0x22 and the type byte at 0x68. It is a view of those two
+   rotation_z byte at 0x22 and the type byte at 0x68. It is a view of those two
    offsets, not a claim about the rest of the record, which is why the gaps
    are still padding. */
 typedef struct {
     char pad_00[0x22];
-    u8 flag;
+    u8 rotation_z;
     char pad_23[0x45];
     u8 type;
 } CardObject;

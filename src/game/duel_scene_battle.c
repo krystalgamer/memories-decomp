@@ -244,7 +244,7 @@ void DuelScene_UpdateBattle(void)
             o = gDisplayObject_apWorkSlots[0];
             gDuel_bSceneSubStep = f | 0x80;
             {
-                s32 b21 = o->field_20.b.field_21;
+                s32 b21 = o->field_20.b.rotation_y;
 
                 DisplayObject_StartAlphaTransition(o, b21, b21 + 0x40, 8);
             }
@@ -254,7 +254,7 @@ void DuelScene_UpdateBattle(void)
             effects[0].stat_palette_flags |= 0x40;
             o->field_30.h.field_30 = 0xA;
             o->field_30.h.field_32 = DUEL_BATTLE_STAT_DISPLAY_Y;
-            o->field_20.b.field_21 = 0xC0;
+            o->field_20.b.rotation_y = 0xC0;
             DisplayObject_SetDepthOffset(o, -0xA);
             o->flags = (o->flags | 4) & 0xFFBF;
             gDisplayObject_apWorkSlots[2] = o;
@@ -262,7 +262,7 @@ void DuelScene_UpdateBattle(void)
             gDisplayObject_apWorkSlots[3] = 0;
             if (o != 0) {
                 {
-                    s32 b21 = o->field_20.b.field_21;
+                    s32 b21 = o->field_20.b.rotation_y;
 
                     DisplayObject_StartAlphaTransition(o, b21, b21 + 0x40, 8);
                 }
@@ -279,7 +279,7 @@ void DuelScene_UpdateBattle(void)
             if (o != 0) {
                 o->field_30.h.field_30 = 0xAA;
                 o->field_30.h.field_32 = DUEL_BATTLE_STAT_DISPLAY_Y;
-                o->field_20.b.field_21 = 0xC0;
+                o->field_20.b.rotation_y = 0xC0;
                 DisplayObject_SetDepthOffset(o, -0xA);
                 o->flags = (o->flags | 4) & 0xFFBF;
                 gDisplayObject_apWorkSlots[3] = o;
@@ -313,16 +313,16 @@ void DuelScene_UpdateBattle(void)
                 }
             }
         } else {
-            gDisplayObject_apWorkSlots[2]->field_20.b.field_21 += 8;
-            if ((s8)gDisplayObject_apWorkSlots[2]->field_20.b.field_21 >= 0) {
-                gDisplayObject_apWorkSlots[2]->field_20.b.field_21 = 0;
+            gDisplayObject_apWorkSlots[2]->field_20.b.rotation_y += 8;
+            if ((s8)gDisplayObject_apWorkSlots[2]->field_20.b.rotation_y >= 0) {
+                gDisplayObject_apWorkSlots[2]->field_20.b.rotation_y = 0;
                 gDuel_bSceneSubStep = 3;
                 gDisplayObject_apWorkSlots[2]->flags &= 0xFFFB;
             }
             if (gDisplayObject_apWorkSlots[3] != 0) {
-                u8 fade = gDisplayObject_apWorkSlots[2]->field_20.b.field_21;
+                u8 fade = gDisplayObject_apWorkSlots[2]->field_20.b.rotation_y;
 
-                gDisplayObject_apWorkSlots[3]->field_20.b.field_21 = fade;
+                gDisplayObject_apWorkSlots[3]->field_20.b.rotation_y = fade;
                 if (fade == 0) {
                     gDisplayObject_apWorkSlots[3]->flags &= 0xFFFB;
                     return;

@@ -8,11 +8,11 @@
    steps byte 0x21 until it passes the target and then uninstalls itself. */
 
 void DisplayObject_UpdateAlphaTransition(DisplayObject *object) {
-    s32 n = object->field_20.b.field_21 +
+    s32 n = object->field_20.b.rotation_y +
         *(u8 *)&object->position.h.field_2A;
     s32 d;
 
-    object->field_20.b.field_21 = n;
+    object->field_20.b.rotation_y = n;
     if (*(s16 *)&object->position.h.field_2A >= 0) {
         d = *(u8 *)&object->position.h.field_28 - n;
     } else {
@@ -24,7 +24,7 @@ void DisplayObject_UpdateAlphaTransition(DisplayObject *object) {
 
         object->field_6C = 0;
         object->update = 0;
-        object->field_20.b.field_21 = c;
+        object->field_20.b.rotation_y = c;
         if (c == 0) {
             object->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
@@ -34,7 +34,7 @@ void DisplayObject_UpdateAlphaTransition(DisplayObject *object) {
 void DisplayObject_StartAlphaTransition(DisplayObject *arg0, u8 arg1, s16 arg2, s16 arg3)
 {
     arg0->field_6C = 1;
-    arg0->field_20.b.field_21 = arg1;
+    arg0->field_20.b.rotation_y = arg1;
     *(s16 *)&arg0->position.h.field_28 = arg2;
     *(s16 *)&arg0->position.h.field_2A = arg3;
     arg0->update = (DisplayObjectCallback)DisplayObject_UpdateAlphaTransition;
