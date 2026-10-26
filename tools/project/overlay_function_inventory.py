@@ -244,7 +244,7 @@ def switch_dispatch(data: bytes, base: int, start: int, pc: int) -> list[int] | 
 
 
 CALLER_SAVED = (*range(1, 16), 24, 25, 31)
-LOADS = (32, 33, 34, 35, 36, 38)
+LOADS = range(32, 39)  # lb, lh, lwl, lw, lbu, lhu, lwr
 
 
 SYMBOLS = ("in", "op", "phi")

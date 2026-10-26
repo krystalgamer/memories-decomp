@@ -113,6 +113,26 @@ class InventoryModelImagesTests(unittest.TestCase):
         self.assertFalse(switch["closed"])
         self.assertIn("unproven_switch@0x24", switch["problems"])
 
+    def test_switch_rejects_a_bound_on_the_selector_in_its_load_delay_slot(self):
+        for load in (0x80A40000, 0x84A40000, 0x8CA40000, 0x90A40000, 0x94A40000):  # lb lh lw lbu lhu a0, 0(a1)
+            data = bytearray(0x200)
+            for offset, word in {
+                0x04: 0x3C028014, 0x08: 0x2453B100, 0x0C: load, 0x10: 0x2C820002,
+                0x14: 0x10400006, 0x18: 0x00041080, 0x1C: 0x00531021, 0x20: 0x8C420000,
+                0x28: 0x00400008, 0x30: 0x03E00008, 0x38: 0x03E00008,
+                0x100: BASE + 0x30, 0x104: BASE + 0x38,
+            }.items():
+                struct.pack_into("<I", data, offset, word)
+            with self.subTest(load=load):
+                self.assertEqual(census.jump_table_targets(bytes(data), BASE, 4, 0x28), [0x30, 0x38])
+                switch = census.walk_function(bytes(data), BASE, 4, resolve_flow=True)
+                self.assertIn("unproven_switch@0x28", switch["problems"])
+                # Loading the selector before the table base keeps it out of the delay slot.
+                struct.pack_into("<I", data, 0x04, load)
+                struct.pack_into("<I", data, 0x08, 0x3C028014)
+                struct.pack_into("<I", data, 0x0C, 0x2453B100)
+                self.assertTrue(census.walk_function(bytes(data), BASE, 4, resolve_flow=True)["closed"])
+
     def test_switch_rejects_a_jump_register_read_in_the_load_delay_slot(self):
         data = bytearray(image())
         struct.pack_into("<I", data, 0x18, 0x00000000)
