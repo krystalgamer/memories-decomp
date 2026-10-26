@@ -190,3 +190,59 @@ flag bits select the raw phase window; bit 15 selects the CD-tagged code
 and its phase-zero seek. The byte ID still contributes to the unchanged
 CD/SFX code packing. Preserve terminators, both cue tests, entry stride,
 the metadata block copy, call order and every store narrowing.
+
+## Control lifecycle, active command row and playback state
+
+Four further raw bytes are named from their complete resident chains:
+
+| Original member | Canonical member | Unchanged representation |
+|---|---|---|
+| ModelSlot.field_E0E | animation_control_state | u8, +0xE0E |
+| ModelSlot.field_E0F | active_animation_command_row | u8, +0xE0F |
+| ModelSlot.field_E10 | part_command_reset_pending | u8, +0xE10 |
+| ModelSlot.field_E16 | playback_state | u8, +0xE16 |
+
+`animation_control_state` combines lifecycle states and the narrowed
+secondary callback result, not just the callback's last return value.
+Initialization and the load path seed 6. The existing update promotes 6
+to 7 for its selected/special row, otherwise to 2. With a selected handler,
+state 7 invokes its initializer, stores 8 and clears the separate sound cursor.
+The subsequent callback result is stored through the original byte before
+dispatch: 0 continue, 5 back, 3 stone, 1 hit, 4 ouch and 2 termination are
+corroborated by the existing trace strings. The default still traces WHY
+and writes 2. Primary-callback invocation/ignored return, missing-handler
+fallback, eligibility gates, special-model path and all transitions remain
+unchanged. No enum, exhaustive range or callback-result validation is added.
+
+`active_animation_command_row` selects the command-index/snapshot row in
+`Model_ControlSlotAnimation`; it is distinct from the current seek row at
++0xBF5 and the queued row/latch. Zero is its existing inactive sentinel.
+Starting a different row records command indices in each sequence's `ii`
+and saves three/five words for each qualified part. A zero control request
+copies the active row's saved words back and clears that row. Same-row
+re-entry reaching the seek branch uses selector zero and position zero
+without rearming the pending reset. Preserve the earlier state write before a zero-duration
+return, flag-controlled replacement, raw row indexing and byte narrowing.
+
+`part_command_reset_pending` is consumed by the ordinary draw's call to
+`Model_ControlSlotAnimation(index, -1, 0)`. That branch clears the byte and
+sets each linked sequence's `ii` to 0xFFFF. It does NOT restore snapshots,
+clear the active command row, or change the lifecycle state. While pending,
+the existing animation-end queue handoff is suppressed; a subsequent draw
+can reconcile the active command row with the current seek row. Units-only
+drawing returns before this consumption. Preserve the active-slot gate,
+partial resets, all copy order and the separate queue/latch behavior.
+
+`Model_SetSlotPlaybackDirection` maps positive, zero and negative arguments
+to raw `playback_state` values 0x3E (forward), 0x23 (held) and 0x3C (reverse).
+It supplies twice the raw speed, zero or the negated doubled speed to the
+part-speed setter. Reset/load, per-frame advance, renderer/controllers and
+part seeking use the same byte; the seek path's reverse-boundary behavior
+is retained. These are observed codes, not a new restricted type or a new
+policy for other raw values. Keep every comparison, arithmetic operation,
+store conversion and existing frame-step/hold/wrap condition.
+
+All four member types, offsets and widths remain fixed. Existing fixtures
+receive identifier-only substitutions, including oracle and mutation-source
+members; their numeric expectations, scenarios, controls, assertions and
+compiler flags are retained. No new behavioral harness or runtime capture.

@@ -309,9 +309,12 @@ typedef struct {
     /* Packed palette hue/invert control, not a Boolean or plain hue. */
     u8 texture_tint_control;
     u8 playback_speed;
-    u8 field_E0E;
-    u8 field_E0F;
-    u8 field_E10;
+    /* Control lifecycle and narrowed secondary-callback result share this byte. */
+    u8 animation_control_state;
+    /* Command/snapshot row, distinct from the current seek row. */
+    u8 active_animation_command_row;
+    /* Draw consumes this by clearing each sequence ii to 0xFFFF. */
+    u8 part_command_reset_pending;
     /* Latched for drawing; mode 4 persists and forced draws restore it. */
     u8 draw_mode_request;
     u8 field_E12;
@@ -319,7 +322,8 @@ typedef struct {
     /* Staged initialization step; 0 waits for transfer, 0xFF is idle. */
     u8 load_step;
     u8 field_E15;
-    u8 field_E16;
+    /* Raw codes: 0x3E forward, 0x3C reverse, 0x23 held. */
+    u8 playback_state;
     u8 entry_count;
     u8 field_E18;
     u8 field_E19;
@@ -448,8 +452,8 @@ typedef char ModelSlot_extended_animation_part_mask_offset_must_be_0xBEC[
 typedef char ModelSlot_animation_commands_offset_must_be_0xDD8[
     MODEL_OFFSET(ModelSlot, animation_commands) == 0xDD8 ? 1 : -1
 ];
-typedef char ModelSlot_field_E0E_offset_must_be_0xE0E[
-    MODEL_OFFSET(ModelSlot, field_E0E) == 0xE0E ? 1 : -1
+typedef char ModelSlot_animation_control_state_offset_must_be_0xE0E[
+    MODEL_OFFSET(ModelSlot, animation_control_state) == 0xE0E ? 1 : -1
 ];
 typedef char ModelSlotCF8Block_size_must_be_0x1C[
     sizeof(ModelSlotCF8Block) == 0x1C ? 1 : -1
@@ -593,8 +597,17 @@ typedef char ModelSlot_field_E12_offset_must_be_0xE12[
 typedef char ModelSlot_load_step_offset_must_be_0xE14[
     MODEL_OFFSET(ModelSlot, load_step) == 0xE14 ? 1 : -1
 ];
-typedef char ModelSlot_field_E16_offset_must_be_0xE16[
-    MODEL_OFFSET(ModelSlot, field_E16) == 0xE16 ? 1 : -1
+typedef char ModelSlot_playback_state_offset_must_be_0xE16[
+    MODEL_OFFSET(ModelSlot, playback_state) == 0xE16 ? 1 : -1
+];
+typedef char ModelSlot_animation_control_state_layout_must_match[
+    MODEL_OFFSET(ModelSlot, animation_control_state) == 0xE0E &&
+    sizeof(((ModelSlot *)0)->animation_control_state) == 1 &&
+    MODEL_OFFSET(ModelSlot, active_animation_command_row) == 0xE0F &&
+    sizeof(((ModelSlot *)0)->active_animation_command_row) == 1 &&
+    MODEL_OFFSET(ModelSlot, part_command_reset_pending) == 0xE10 &&
+    sizeof(((ModelSlot *)0)->part_command_reset_pending) == 1 &&
+    sizeof(((ModelSlot *)0)->playback_state) == 1 ? 1 : -1
 ];
 typedef char ModelSlot_entry_count_offset_must_be_0xE17[
     MODEL_OFFSET(ModelSlot, entry_count) == 0xE17 ? 1 : -1

@@ -85,16 +85,16 @@ void Model_UpdateSlotAnimation(s32 index) {
         speed = m->playback_speed * Model_GetFrameStep();
         if (anim == 6) {
             lim = length - speed;
-            if ((m->field_E16 == 0x3E && m->animation_position >= lim) ||
-                (m->field_E16 == 0x3C && m->animation_position < 2)) {
+            if ((m->playback_state == 0x3E && m->animation_position >= lim) ||
+                (m->playback_state == 0x3C && m->animation_position < 2)) {
                 Model_SetSlotPlaybackDirection(index, 0);
             }
         }
         if (index < 2) {
             Model_PlaySlotAnimationSounds(index);
         }
-        if (m->field_E16 != 0x23) {
-            if (m->field_E16 == 0x3E) {
+        if (m->playback_state != 0x23) {
+            if (m->playback_state == 0x3E) {
                 s32 v;
 
                 if (m->animation_position >= length) {
@@ -120,15 +120,15 @@ void Model_UpdateSlotAnimation(s32 index) {
                 }
             }
         }
-        if (m->field_E10 == 0) {
-            if (m->field_E16 == 0x3E ? m->animation_position >= length : m->animation_position == 0) {
+        if (m->part_command_reset_pending == 0) {
+            if (m->playback_state == 0x3E ? m->animation_position >= length : m->animation_position == 0) {
                 if (m->tint[7] == 6) {
                     m->queued_animation_row = 2;
                 }
                 if (m->queued_animation_row != m->queued_animation_row_latch) {
                     Model_SeekSlotAnimation(index, m->queued_animation_row, 0);
                     m->queued_animation_row_latch = m->queued_animation_row;
-                    if (m->field_E0F != 0) {
+                    if (m->active_animation_command_row != 0) {
                         Model_ControlSlotAnimation(index, 0, 0);
                     }
                     if (m->tint[7] == 6) {
@@ -140,7 +140,7 @@ void Model_UpdateSlotAnimation(s32 index) {
             }
         }
     }
-    if (m->field_E16 != 0x23) {
+    if (m->playback_state != 0x23) {
         if (m->playback_speed == 0x10) {
             if (Model_GetFrameStep() == 2) {
                 return;
@@ -217,15 +217,15 @@ void Model_UpdateSlotControl(s32 index)
         primary_handler(primary, -1);
         Model_SetHandlerCallbackState(0);
     }
-    if (slot->field_E0E == 6) {
+    if (slot->animation_control_state == 6) {
         if (slot->current_animation_row == slot->field_DFE + 3
             || slot->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {
-            slot->field_E0E = 7;
+            slot->animation_control_state = 7;
         } else {
-            slot->field_E0E = 2;
+            slot->animation_control_state = 2;
         }
     }
-    state = slot->field_E0E;
+    state = slot->animation_control_state;
     if (state == 2) {
         return;
     }
@@ -237,19 +237,19 @@ void Model_UpdateSlotControl(s32 index)
     } else {
         handler = (ModelControlHandler)((u8 *)gModel_Slot0VariantModuleAddress + 4);
     }
-    if (slot->field_E0E == 7) {
+    if (slot->animation_control_state == 7) {
         Model_SetHandlerCallbackState(1);
         {
             s32 request = ((ModelControlCommandView *)slot)->commands[slot->field_DFE];
             handler(secondary, request % 1000);
         }
         Model_SetHandlerCallbackState(0);
-        slot->field_E0E = 8;
+        slot->animation_control_state = 8;
         slot->animation_sound_position = 0;
     }
     if (slot->current_animation_row != slot->field_DFE + 3
         && slot->field_DF8 != MODEL_SPECIAL_BATTLE_ID) {
-        s32 eligible = slot->field_E0E;
+        s32 eligible = slot->animation_control_state;
         if (eligible != 0 && eligible != 3 && eligible != 1 && eligible != 4 && eligible != 5) {
             return;
         }
@@ -293,15 +293,15 @@ void Model_UpdateSlotControl(s32 index)
         action = selected;
     }
     Model_SetHandlerCallbackState(1);
-    slot->field_E0E = handler(secondary, -1);
+    slot->animation_control_state = handler(secondary, -1);
     Model_SetHandlerCallbackState(0);
-    switch (slot->field_E0E) {
+    switch (slot->animation_control_state) {
     case 0:
         MODEL_CONTROL_TRACE(gModel_szContinueTrace);
         return;
     case 5:
         MODEL_CONTROL_TRACE(gModel_szBackTrace);
-        if (other->field_E0F == 5 && other->animation_position >= 0x60) {
+        if (other->active_animation_command_row == 5 && other->animation_position >= 0x60) {
             Model_ControlSlotAnimation(index ^ 1, 1, 1);
         }
         return;
@@ -352,17 +352,17 @@ void Model_UpdateSlotControl(s32 index)
         }
         command = reaction & 0x7F;
         changed = 0;
-        if (slot->field_E0E == 1) {
+        if (slot->animation_control_state == 1) {
             MODEL_CONTROL_TRACE(gModel_szHitTrace);
         }
-        if (slot->field_E0E == 4) {
+        if (slot->animation_control_state == 4) {
             MODEL_CONTROL_TRACE(gModel_szOuchTrace);
-            if (slot->field_E0E == 4 && command == 6 && other->field_E0F != 6) {
+            if (slot->animation_control_state == 4 && command == 6 && other->active_animation_command_row != 6) {
                 command = 5;
             }
         }
-        if (other->field_E0F == command) {
-            if (other->field_E16 != 0x23 && other->animation_position >= 0xA0 &&
+        if (other->active_animation_command_row == command) {
+            if (other->playback_state != 0x23 && other->animation_position >= 0xA0 &&
                 ((rand() >> 8) & 3) != 0) {
                 other->animation_position -= amount;
                 frame = other->animation_position;
@@ -391,7 +391,7 @@ void Model_UpdateSlotControl(s32 index)
         return;
     default:
         MODEL_CONTROL_TRACE(gModel_szWhyTrace);
-        slot->field_E0E = 2;
+        slot->animation_control_state = 2;
         return;
     }
 
@@ -436,13 +436,13 @@ no_handler:
                     }
                 }
                 Model_ControlSlotAnimation(index ^ 1, fallback_action & 0x7F, 1);
-                slot->field_E0E = 2;
+                slot->animation_control_state = 2;
             }
         } else if (state == 8) {
-            slot->field_E0E = 2;
+            slot->animation_control_state = 2;
         }
-        if (slot->field_E0E == 7) {
-            slot->field_E0E = 8;
+        if (slot->animation_control_state == 7) {
+            slot->animation_control_state = 8;
         }
     }
 }
@@ -505,7 +505,7 @@ void Model_ResetSlot(s32 arg0)
     p->field_CF8.field_10 = -1;
     p->field_CF8.field_14 = -1;
     p->field_CF8.field_18 = -1;
-    p->field_E16 = 0x3E;
+    p->playback_state = 0x3E;
     p->is_active = 0;
     Model_InitLightTriplet(arg0);
 }
@@ -580,7 +580,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     Model_DrawSlotUnitsOnly(arg0);
     v = e->playback_speed * 2;
     w = v;
-    switch (e->field_E16) {
+    switch (e->playback_state) {
     case 0x23:
         w = 0;
         Model_SetSlotPartSpeeds(arg0, w);
@@ -816,7 +816,7 @@ void Model_AdvanceSlotLoad(s32 index)
         ModelSlot *p = &gModel_aSlots[index];
         amount = p->playback_speed * 2;
         offset = amount;
-        switch (p->field_E16) {
+        switch (p->playback_state) {
         case 0x23:
             offset = 0;
             Model_SetSlotPartSpeeds(index, offset);
@@ -859,7 +859,7 @@ void Model_AdvanceSlotLoad(s32 index)
             Model_SetHandlerCallbackState(0);
         }
         selected = p->current_animation_row;
-        p->field_E0E = 6;
+        p->animation_control_state = 6;
         position = p->animation_position;
         for (i = 0; i < p->animation_sequence_count; i++) {
             s32 current = p->current_animation_row;
@@ -1441,17 +1441,17 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
     }
     switch (anim) {
     case -1:
-        m->field_E10 = 0;
+        m->part_command_reset_pending = 0;
         for (i = 0; i < m->animation_sequence_count; parts++, i++) {
             (*parts)->ii = 0xFFFF;
         }
         break;
     case 0:
-        if (m->field_E0F == 0) {
+        if (m->active_animation_command_row == 0) {
             return;
         }
         for (i = 0; i < m->animation_sequence_count; i++) {
-            restore_row = m->animation_command_indices[m->field_E0F][i];
+            restore_row = m->animation_command_indices[m->active_animation_command_row][i];
             src = (u16 *)&m->animation_commands[restore_row];
             if (restore_row != 0xFFFF) {
                 restore_bit = i;
@@ -1469,12 +1469,12 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
                 dst += restore_words * 4;
             }
         }
-        m->field_E0F = 0;
+        m->active_animation_command_row = 0;
         break;
     default:
-        prev = m->field_E0F;
+        prev = m->active_animation_command_row;
         if (anim != m->field_DFE + 3) {
-            m->field_E0E = 2;
+            m->animation_control_state = 2;
         }
         if (m->animation_duration_rows[anim].max == 0) {
             return;
@@ -1488,16 +1488,16 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
         }
         if (anim == m->field_DFE + 3
             || m->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {
-            m->field_E0E = 7;
+            m->animation_control_state = 7;
         }
-        m->field_E0F = anim;
+        m->active_animation_command_row = anim;
         if (prev == anim) {
             Model_SeekSlotAnimation(index, 0, 0);
             return;
         }
-        m->field_E10 = 1;
+        m->part_command_reset_pending = 1;
         for (i = 0; i < m->animation_sequence_count; parts++, i++) {
-            copy_row = m->animation_command_indices[m->field_E0F][i];
+            copy_row = m->animation_command_indices[m->active_animation_command_row][i];
             src = (u16 *)&m->animation_commands[copy_row];
             if (copy_row != 0xFFFF) {
                 copy_bit = i;

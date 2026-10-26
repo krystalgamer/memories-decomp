@@ -12,7 +12,7 @@ void Model_SetSlotPlaybackSpeed(s32 index, s32 type)
         type = 8;
     }
     slot->playback_speed = type;
-    if (slot->field_E16 == 0x3E) {
+    if (slot->playback_state == 0x3E) {
         Model_SetSlotPlaybackDirection(index, 1);
     }
 }
@@ -34,19 +34,19 @@ void Model_SetSlotPlaybackDirection(s32 index, s32 sign)
         goto state_62;
     if (sign >= 0)
         goto state_35;
-    slot->field_E16 = 60;
+    slot->playback_state = 60;
     goto update;
 state_35:
-    slot->field_E16 = 35;
+    slot->playback_state = 35;
     goto update;
 state_62:
-    slot->field_E16 = 62;
+    slot->playback_state = 62;
 update:
     {
         ModelSlot *current = &gModel_aSlots[index];
 
         doubled = current->playback_speed * 2;
-        state = current->field_E16;
+        state = current->playback_state;
     }
     doubled_copy = doubled;
     velocity = doubled;

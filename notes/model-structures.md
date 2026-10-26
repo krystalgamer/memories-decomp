@@ -458,7 +458,7 @@ model-base views:
   explicit offsets while preserving its accepted compiler schedule.
 - `Model_LoadSlot` uses `MODEL_SLOT_SIZE` while keeping the duel-side layout
   pass in raw offsets.
-- `Model_SetSlotPlaybackDirection` uses shared `playback_speed` and `field_E16` members while
+- `Model_SetSlotPlaybackDirection` uses shared `playback_speed` and `playback_state` members while
   selecting the signed velocity passed to `Model_SetSlotPartSpeeds`.
 - `Model_HasInsufficientBufferSpace` includes `model.h` for
   `MODEL_SLOT_SIZE`, but retains a byte-array extern so its `+0xE00` size load

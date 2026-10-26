@@ -108,7 +108,7 @@ static s32 module(s32 side, s32 secondary, u8 *context, s32 command)
         gModel_bActiveSlotIndex != chosen_index) fixture_error = 3;
     event(10 + secondary, side, command, context_id);
     if (!secondary) {
-        if (mutate && (serial & 1)) slot->field_E0E = 6;
+        if (mutate && (serial & 1)) slot->animation_control_state = 6;
         return 0;
     }
     if (command != -1) return 0;
@@ -130,7 +130,7 @@ void Model_SetHandlerCallbackState(s32 value)
 {
     event(1, value, 0, 0);
     if (!value && executed) {
-        if (mutate && serial % 5 == 0) gModel_aSlots[chosen_index].field_E0E = 4;
+        if (mutate && serial % 5 == 0) gModel_aSlots[chosen_index].animation_control_state = 4;
         executed = 0;
     }
 }
@@ -147,7 +147,7 @@ int FntPrint(char *text)
     if (text == gModel_szWhyTrace) label = 6;
     if (label < 0) fixture_error = 4;
     event(20, label, 0, 0);
-    if (mutate && label == 4) gModel_aSlots[chosen_index].field_E0E = 1;
+    if (mutate && label == 4) gModel_aSlots[chosen_index].animation_control_state = 1;
     return 0;
 }
 
@@ -161,7 +161,7 @@ void Model_ControlSlotAnimation(s32 index, s32 animation, s32 flag)
 {
     if (index != (chosen_index ^ 1) || flag != 1) fixture_error = 5;
     event(31, index, animation, flag);
-    gModel_aSlots[index].field_E0F = animation;
+    gModel_aSlots[index].active_animation_command_row = animation;
     gModel_aSlots[index].animation_position = 0;
     if (mutate) gModel_aSlots[index].field_DF8 ^= 1;
 }
@@ -215,39 +215,39 @@ static void reference(s32 index)
         (index ? primary1 : primary0)(*(u8 **)((u8 *)self + 0xDE8), -1);
         Model_SetHandlerCallbackState(0);
     }
-    if (self->field_E0E == 6)
-        self->field_E0E = self->current_animation_row == self->field_DFE + 3 || self->field_DF8 == 0x309 ? 7 : 2;
-    if (self->field_E0E == 2) return;
+    if (self->animation_control_state == 6)
+        self->animation_control_state = self->current_animation_row == self->field_DFE + 3 || self->field_DF8 == 0x309 ? 7 : 2;
+    if (self->animation_control_state == 2) return;
     if (commands[self->field_DFE] < 0) {
         if (self->current_animation_row == self->field_DFE + 3) {
             if ((s32)(self->animation_position >> 4) >= (s32)(self->animation_duration_rows[self->current_animation_row].max >> 1)) {
                 Model_ControlSlotAnimation(index ^ 1, selection(self, other, index) & 0x7F, 1);
-                self->field_E0E = 2;
+                self->animation_control_state = 2;
             }
-        } else if (self->field_E0E == 8) self->field_E0E = 2;
-        if (self->field_E0E == 7) self->field_E0E = 8;
+        } else if (self->animation_control_state == 8) self->animation_control_state = 2;
+        if (self->animation_control_state == 7) self->animation_control_state = 8;
         return;
     }
-    if (self->field_E0E == 7) {
+    if (self->animation_control_state == 7) {
         Model_SetHandlerCallbackState(1);
         handler(*(u8 **)((u8 *)self + 0xDEC), commands[self->field_DFE] % 1000);
         Model_SetHandlerCallbackState(0);
-        self->field_E0E = 8;
+        self->animation_control_state = 8;
         self->animation_sound_position = 0;
     }
-    state = self->field_E0E;
+    state = self->animation_control_state;
     if (self->current_animation_row != self->field_DFE + 3 && self->field_DF8 != 0x309 &&
         state != 0 && state != 1 && state != 3 && state != 4 && state != 5) return;
     decision = selection(self, other, index);
     Model_SetHandlerCallbackState(1);
-    self->field_E0E = handler(*(u8 **)((u8 *)self + 0xDEC), -1);
+    self->animation_control_state = handler(*(u8 **)((u8 *)self + 0xDEC), -1);
     Model_SetHandlerCallbackState(0);
-    switch (self->field_E0E) {
+    switch (self->animation_control_state) {
     case 0: FntPrint(gModel_szContinueTrace); return;
     case 2: FntPrint(gModel_szTermTrace); return;
     case 5:
         FntPrint(gModel_szBackTrace);
-        if (other->field_E0F == 5 && other->animation_position >= 0x60) Model_ControlSlotAnimation(index ^ 1, 1, 1);
+        if (other->active_animation_command_row == 5 && other->animation_position >= 0x60) Model_ControlSlotAnimation(index ^ 1, 1, 1);
         return;
     case 3:
         FntPrint(gModel_szStoneTrace);
@@ -264,21 +264,21 @@ static void reference(s32 index)
         break;
     case 1:
     case 4: break;
-    default: FntPrint(gModel_szWhyTrace); self->field_E0E = 2; return;
+    default: FntPrint(gModel_szWhyTrace); self->animation_control_state = 2; return;
     }
     step = Model_GetFrameStep();
     step = self->playback_speed * (step + 1);
     decision = selection(self, other, index) & 0x7F;
     changed = 0;
-    if (self->field_E0E == 1) FntPrint(gModel_szHitTrace);
-    if (self->field_E0E == 4) {
+    if (self->animation_control_state == 1) FntPrint(gModel_szHitTrace);
+    if (self->animation_control_state == 4) {
         FntPrint(gModel_szOuchTrace);
-        if (self->field_E0E == 4 && decision == 6 && other->field_E0F != 6) decision = 5;
+        if (self->animation_control_state == 4 && decision == 6 && other->active_animation_command_row != 6) decision = 5;
     }
-    if (other->field_E0F != decision) {
+    if (other->active_animation_command_row != decision) {
         Model_ControlSlotAnimation(index ^ 1, decision, 1);
         changed = 1;
-    } else if (other->field_E16 != 0x23 && other->animation_position >= 0xA0 && ((rand() >> 8) & 3)) {
+    } else if (other->playback_state != 0x23 && other->animation_position >= 0xA0 && ((rand() >> 8) & 3)) {
         other->animation_position -= step;
         frame = other->animation_position;
         for (part = 0; part < other->animation_sequence_count; part++)
@@ -311,7 +311,7 @@ static void setup(void)
     *(u8 **)((u8 *)self + 0xDE8) = &contexts[chosen_index * 2];
     *(u8 **)((u8 *)self + 0xDEC) = &contexts[chosen_index * 2 + 1];
     self->is_active = serial % 11 != 0;
-    self->field_E0E = initial_state;
+    self->animation_control_state = initial_state;
     self->field_DFE = serial & 1;
     self->current_animation_row = serial & 2 ? self->field_DFE + 3 : 0;
     self->field_DF8 = serial % 5 ? 1 : 0x309;
@@ -324,9 +324,9 @@ static void setup(void)
     commands[2] = serial & 4 ? -1 : 7;
     for (i = 0; i < MODEL_SLOT_ROW_COUNT; i++)
         self->animation_duration_rows[i].max = (self->animation_position >> 4) * 2 + (serial % 3) * 2;
-    other->field_E0F = animations[serial % 4];
+    other->active_animation_command_row = animations[serial % 4];
     other->animation_position = frames[serial % 7];
-    other->field_E16 = serial % 7 ? 0 : 0x23;
+    other->playback_state = serial % 7 ? 0 : 0x23;
     other->animation_sequence_count = serial % 3;
     other->current_animation_row = 4;
     other->field_DFF = defense;

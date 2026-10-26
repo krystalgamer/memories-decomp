@@ -104,7 +104,7 @@ void Model_SeekSlotPartAnimation(ModelSlot *p, s32 i, s32 n, u32 pos) {
     rem = pos % step;
     cp = q - 1;
     if (rem == 0) {
-        if (pos != 0 && p->field_E16 != 0x3C) {
+        if (pos != 0 && p->playback_state != 0x3C) {
             rem = step;
         }
     }
@@ -118,7 +118,7 @@ void Model_SeekSlotPartAnimation(ModelSlot *p, s32 i, s32 n, u32 pos) {
         return;
     }
     for (; idx < *(u16 *)cp; idx++) {
-        if (p->field_E16 != 0x3C) {
+        if (p->playback_state != 0x3C) {
             d = rem - (((u8 *)q)[2] << 4);
             if (d <= 0) {
                 break;
@@ -164,7 +164,7 @@ scan:
     z = y - rem;
     e->tframe = y;
     e->rframe = z;
-    if (p->field_E16 != 0x3C) {
+    if (p->playback_state != 0x3C) {
         return;
     }
     if ((s16)z < e->tframe) {
