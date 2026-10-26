@@ -96,6 +96,18 @@ void SpuGetVoiceEnvelope(s32 voice,s16 *envelope)
     (void)voice; (void)envelope;
 }
 void SD_ApplyVoiceSlotVolume(s32 index) { (void)index; }
+/* Callees of the sequence-bank, runtime-initializer and music-reset
+ * functions that share this unit; no scenario reaches them. */
+PSXLONG SpuReserveReverbWorkArea(PSXLONG on_off) { (void)on_off; return 0; }
+PSXLONG SpuSetReverb(PSXLONG on_off) { (void)on_off; return 0; }
+void SD_ResetPendingEntries(void) {}
+PSXLONG SpuSetReverbModeParam(SpuReverbAttr *attr) { (void)attr; return 0; }
+void SD_SetSequenceTickMode(s32 value) { (void)value; }
+s32 SD_SetSecondaryObjectCount(u32 count) { (void)count; return 0; }
+void SD_EnableSecondarySequenceUpdates(void) {}
+void SD_StopSequence(void) {}
+void SD_CloseSequence(void) {}
+void SD_ResetVabTransferState(void) {}
 /* The scenario supplies its expected dispatch class and resolved ID; the
  * oracle does not classify the request using the implementation's masks.
  * Entire state/index/note allocations, including unused records, are frozen. */
