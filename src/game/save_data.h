@@ -289,7 +289,7 @@ extern u8 gSaveData_aHeaderTemplate[];
  * `D_801D1200 + 0x1000`; that unit also names +0x1000 as D_801D2200),
  * SaveData_UpdateDuelLoad (mem_card_dialog.c, the
  * second `+ TWO_PLAYER_SAVE_SLOT_STRIDE`), MainMenu_RefreshTradeInventory
- * (src/overlays/main_menu/trade_inventory.c:41, `+ slot * 0x1000`) and
+ * (MainMenu_RefreshTradeInventory in src/overlays/main_menu/trade_update.c, `+ slot * 0x1000`) and
  * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c, through
  * its 16-byte block view, cast at the use). The
  * resident listings form the address with lui/addiu (Duel_InitScene.s:226-227,

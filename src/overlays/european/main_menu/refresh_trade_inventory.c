@@ -1,3 +1,4 @@
 #include "../../../types.h"
 #define VERSION_EUROPE
-#include "../../main_menu/trade_inventory.c"
+#define VERSION_EUROPE_MAIN_MENU_REFRESH_TRADE_INVENTORY
+#include "../../main_menu/trade_update.c"

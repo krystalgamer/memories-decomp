@@ -82,8 +82,8 @@ counts are untouched.
 
 ## Complete-source and image conservation
 
-The four complete actual C units are `trade_update.c`, `trade_inventory.c`,
-`trade_offers.c` and `trade_screen_helpers.c`: eleven NA functions and
+The complete actual C units are `trade_update.c` (which now also holds the
+former `trade_inventory.c`), `trade_offers.c` and `trade_screen_helpers.c`: eleven NA functions and
 7,680 instruction bytes, under the unchanged named
 `gcc_2_8_1_g0_split` profile. Their only changes are the two native-bound
 identifiers, including the directly related helper comment.

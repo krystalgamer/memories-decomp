@@ -672,3 +672,48 @@ out:
 #undef MAIN_MENU_TRADE_PAGE_STEP
 #undef MAIN_MENU_TRADE_SCROLL_MAX
 #endif
+
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_REFRESH_TRADE_INVENTORY) || \
+    defined(VERSION_EUROPE_MAIN_MENU_REFRESH_TRADE_INVENTORY)
+void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
+{
+    MainMenuComparators comparators;
+    u8 *row;
+    u8 *counts;
+    s32 i;
+    s32 mode;
+    s32 id;
+
+    mode = gTrade_abSortMode[slot];
+    comparators = gMainMenu_aCardSortComparators;
+
+    if (force != 0 || mode == 0) {
+        row = gSaveData_aPairWorkspace + slot * TWO_PLAYER_SAVE_SLOT_STRIDE;
+        counts = row + SAVE_DATA_CARD_QUANTITIES_OFFSET;
+        for (i = 0; i < CARD_COUNT; i++) {
+            if (counts[i] != 0) {
+                id = i + 1;
+            } else {
+                id = 0;
+            }
+            gTrade_aWorkingCards[slot][i].id = id;
+            gTrade_aWorkingCards[slot][i].count = counts[i];
+        }
+        for (i = 0; i < 2; i++) {
+            MainMenu_ApplyTradeOfferInventoryDelta(i, -1);
+        }
+    }
+
+    if (mode != 0) {
+        qsort(
+            gTrade_aWorkingCards[slot],
+            CARD_COUNT,
+            sizeof(CardCountEntry),
+            comparators.entries[mode - 1]
+        );
+    }
+
+    gTrade_aInventoryRowSets[slot].object[0x69] = mode;
+}
+#endif
