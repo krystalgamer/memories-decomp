@@ -101,7 +101,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             for name in (
                 "utility_helpers", "texture_words", "vector_init",
                 "color_test", "quad_helpers", "matrix_helpers",
-                "projected_wrappers", "rect_vertices",
+                "projected_wrappers",
                 "ring_vertices", "radial_random_vectors", "bolt_vertices", "effect_23", "effect_24",
             )
         }
@@ -167,7 +167,6 @@ class SpanishDuelBankTests(unittest.TestCase):
             "effect_19": [(0x80153ADC, 0x44C)],
             "polygon_vertices": [(0x8014EC8C, 0x180)],
             "dispatch": [(0x80146258, 0x508)],
-            "rect_vertices": [(0x8014F490, 0x94)],
             "cross_lines": [(0x8014E35C, 0x90)],
             "ring_vertices": [(0x8014EA7C, 0xA0), (0x8014EB1C, 0x170)],
             "radial_random_vectors": [(0x8014EE0C, 0x120), (0x8014EF2C, 0xE4)],

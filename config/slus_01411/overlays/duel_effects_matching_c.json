@@ -286,7 +286,7 @@
       "address": "0x80150068",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x94",
-      "source": "src/overlays/duel_effects/rect_vertices.c"
+      "source": "src/overlays/duel_effects/utility_helpers.c"
     },
     {
       "address": "0x801500FC",
