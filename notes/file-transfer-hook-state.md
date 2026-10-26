@@ -145,3 +145,52 @@ justifies adding a loader reset for the fourth slot.
 
 No individual callback-slot PR is opened. Regional/cloud validation stays
 PR-side, and no new test harness is added.
+
+
+## Submission argument views
+
+The three async request wrappers forward the same seven operands unchanged
+to File_InitTransferDescriptor: flags, loader_argument, sector_offset,
+size, callback, initial_phase_index and target. The initializer's leading
+transfer argument selects the descriptor. File_TryStartPrimaryTransfer
+uses the same file_index/sector_offset spelling as its existing prototype.
+These are argument names only, not new APIs, parameter types or validation.
+
+Flags retain both the low masked file index and all higher control bits.
+The initializer stores loader_argument verbatim in the identically named
+descriptor member; its u8 pointer is not retyped or claimed to be a path.
+File_SetTransferLocation masks the file index even for an absolute request.
+A negative sector_offset sets file_bytes to zero and uses its negation as
+absolute_lba; otherwise the offset is shifted into file_bytes and added to
+the indexed LBA. The primary try-start helper retains its direct unmasked
+table lookup and addition, rather than acquiring the location helper's
+mask or absolute-location convention.
+
+Size deliberately has opposite signed conventions at the two layers.
+File_SetTransferLocation stores a nonnegative size directly as bytes;
+a negative size becomes -(size << FILE_SECTOR_SHIFT). The initializer
+passes -size to that helper, so its ordinary positive sizes represent
+sectors and its negative sizes represent the negated byte count.
+The request wrappers do not convert size themselves. Existing signed
+negation, shifts, zero cases and overflow behavior are not normalized.
+
+Target replaces the misleading length/arg6 spelling without claiming a
+single unit or pointer type. Zero leaves the phase_size zero and skips the
+target setup. With flag 0x1000000, a nonzero target is copied unchanged to
+direct_destination. Otherwise phase_size receives total_bytes: a negative
+target becomes both RAM sector destinations in mode 1, while a positive
+target is split into the existing two field_30 halfwords, enables 0x10000
+and mode 2, and selects the two shared sector buffers and default image
+dimensions. The packed image-position halfwords, truncation and all
+initialization order remain. This does not name unrelated uses of
+direct_destination or make target a universal destination address.
+
+Callback and signed initial_phase_index retain their existing names and
+ABI. The ordinary request still raises its lock before hook arbitration
+and retains its original result/common-tail dereference, including the
+blocked null-result path. The try request still returns null directly
+without adding that lock. Secondary submission still clears pending,
+conditionally stops the active range, initializes its own descriptor and
+sets pending again. No guard, wait, reset, callback policy or error repair
+is introduced. Range submission and its separate byte arguments are
+outside this argument-forwarding component.

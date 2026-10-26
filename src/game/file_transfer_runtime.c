@@ -59,13 +59,13 @@ void File_SetTransferLocation(
     FileTransferDescriptor *transfer,
     s32 file_index,
     s32 sector_offset,
-    s32 vertical
+    s32 size
 )
 {
-    transfer->total_bytes = vertical;
+    transfer->total_bytes = size;
     file_index &= FILE_TRANSFER_FILE_INDEX_MASK;
-    if (vertical < 0)
-        transfer->total_bytes = -(vertical << FILE_SECTOR_SHIFT);
+    if (size < 0)
+        transfer->total_bytes = -(size << FILE_SECTOR_SHIFT);
 
     if (sector_offset < 0) {
         transfer->file_bytes = 0;
@@ -81,36 +81,36 @@ void File_SetTransferLocation(
 FileTransferDescriptor *File_InitTransferDescriptor(
     FileTransferDescriptor *transfer,
     s32 flags,
-    u8 *source,
-    s32 sector,
-    s32 vertical,
+    u8 *loader_argument,
+    s32 sector_offset,
+    s32 size,
     FileTransferCallback callback,
     s32 initial_phase_index,
-    s32 length
+    s32 target
 )
 {
-    transfer->loader_argument = source;
-    File_SetTransferLocation(transfer, flags, sector, -vertical);
+    transfer->loader_argument = loader_argument;
+    File_SetTransferLocation(transfer, flags, sector_offset, -size);
     transfer->transfer_mode = 1;
     transfer->substate = 0;
     transfer->buffer_index = 0;
     transfer->phase_size = 0;
     transfer->phase_callback = callback;
     transfer->phase_index = initial_phase_index;
-    if (length) {
+    if (target) {
         if (flags & 0x1000000) {
-            transfer->direct_destination = length;
+            transfer->direct_destination = target;
         } else {
             transfer->phase_size = transfer->total_bytes;
-            if (length < 0) {
+            if (target < 0) {
                 transfer->transfer_mode = 1;
-                transfer->alternate_sector_destination = length;
-                transfer->sector_destination = length;
+                transfer->alternate_sector_destination = target;
+                transfer->sector_destination = target;
             } else {
                 flags |= 0x10000;
                 transfer->transfer_mode = 2;
-                transfer->field_30.h.field_32 = ((u32)length) >> 16;
-                transfer->field_30.h.counter = length;
+                transfer->field_30.h.field_32 = ((u32)target) >> 16;
+                transfer->field_30.h.counter = target;
                 transfer->w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
                 transfer->h = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
                 transfer->sector_destination = gFile_TransferBufferBase;
@@ -139,12 +139,12 @@ FileTransferDescriptor *File_RequestSecondarySeek(s32 file_index, s32 sector_off
     return transfer;
 }
 
-FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 index, s32 offset)
+FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 file_index, s32 sector_offset)
 {
     if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
          gFile_dwCancelRequestState) == 0) {
         gFile_PrimaryTransferDescriptor.absolute_lba =
-            gFile_anLba[index] + offset;
+            gFile_anLba[file_index] + sector_offset;
         gFile_PrimaryTransferDescriptor.transfer_mode = 0;
         gFile_dwTransferState = 0x100010;
         return &gFile_PrimaryTransferDescriptor;
@@ -794,13 +794,13 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
 }
 
 FileTransferDescriptor *File_RequestAsyncTransfer(
-    s32 arg0,
-    u8 *arg1,
-    s32 arg2,
-    s32 arg3,
+    s32 flags,
+    u8 *loader_argument,
+    s32 sector_offset,
+    s32 size,
     FileTransferCallback callback,
     s32 initial_phase_index,
-    s32 arg6
+    s32 target
 )
 {
     FileTransferDescriptor *result;
@@ -817,7 +817,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
-        arg0, arg1, arg2, arg3, callback, initial_phase_index, arg6
+        flags, loader_argument, sector_offset, size, callback, initial_phase_index, target
     );
     result = &gFile_PrimaryTransferDescriptor;
 out:
@@ -827,13 +827,13 @@ out:
 }
 
 FileTransferDescriptor *File_TryRequestAsyncTransfer(
-    s32 arg0,
-    u8 *arg1,
-    s32 arg2,
-    s32 arg3,
+    s32 flags,
+    u8 *loader_argument,
+    s32 sector_offset,
+    s32 size,
     FileTransferCallback callback,
     s32 initial_phase_index,
-    s32 arg6
+    s32 target
 )
 {
     if (gFile_BeforePrimaryRequestCallback == 0) {
@@ -846,7 +846,7 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
-        arg0, arg1, arg2, arg3, callback, initial_phase_index, arg6
+        flags, loader_argument, sector_offset, size, callback, initial_phase_index, target
     );
     return &gFile_PrimaryTransferDescriptor;
 }
@@ -880,13 +880,13 @@ void File_StopActiveRangeTransfer(void)
 }
 
 FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
-    s32 arg0,
-    u8 *arg1,
-    s32 arg2,
-    s32 arg3,
+    s32 flags,
+    u8 *loader_argument,
+    s32 sector_offset,
+    s32 size,
     FileTransferCallback callback,
     s32 initial_phase_index,
-    s32 arg6
+    s32 target
 )
 {
     FileTransferDescriptor *state;
@@ -899,7 +899,7 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
 
     state = &gFile_SecondaryTransferDescriptor;
     File_InitTransferDescriptor(
-        state, arg0, arg1, arg2, arg3, callback, initial_phase_index, arg6
+        state, flags, loader_argument, sector_offset, size, callback, initial_phase_index, target
     );
     gFile_dwTransferState |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return state;
