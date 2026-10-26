@@ -1484,12 +1484,12 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
     oz = rsin(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096;
 
     rec = gModel_aSlots;
-    v = (s16)rec[0].field_DC8[3] / 2;
+    v = (s16)rec[0].cached_dimensions[3] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
     e0.values[0] = v;
-    v = (s16)rec[1].field_DC8[3] / 2;
+    v = (s16)rec[1].cached_dimensions[3] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
@@ -1497,12 +1497,12 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
         e0.values[1] = v;
     } while (0);
     e3 = e0;
-    v = (s16)rec[0].field_DC8[0] / 2;
+    v = (s16)rec[0].cached_dimensions[0] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
     e1.values[0] = v;
-    v = (s16)rec[1].field_DC8[0] / 2;
+    v = (s16)rec[1].cached_dimensions[0] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
@@ -1510,12 +1510,12 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
         e1.values[1] = v;
     } while (0);
     e0 = e1;
-    v = (s16)rec[0].field_DC8[1] / 2;
+    v = (s16)rec[0].cached_dimensions[1] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
     e2.values[0] = v;
-    v = (s16)rec[1].field_DC8[1] / 2;
+    v = (s16)rec[1].cached_dimensions[1] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
@@ -1523,12 +1523,12 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
         e2.values[1] = v;
     } while (0);
     e1 = e2;
-    v = (s16)rec[0].field_DC8[2] / 2;
+    v = (s16)rec[0].cached_dimensions[2] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
     dx.values[0] = v;
-    v5 = (s16)rec[1].field_DC8[2] / 2;
+    v5 = (s16)rec[1].cached_dimensions[2] / 2;
     if (v5 < min_extent) {
         v5 = min_extent;
     }

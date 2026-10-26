@@ -72,10 +72,10 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     base->tint[6] = 0;
     base->tint[5] = 0;
     base->tint[4] = 0;
-    base->field_DC8[0] = 0;
-    base->field_DC8[1] = 0;
-    base->field_DC8[2] = 0;
-    base->field_DC8[3] = 0;
+    base->cached_dimensions[0] = 0;
+    base->cached_dimensions[1] = 0;
+    base->cached_dimensions[2] = 0;
+    base->cached_dimensions[3] = 0;
     base->field_DD0[0] = 0;
     base->field_DD0[3] = -0x15E;
     base->field_DD0[1] = -0x15E;

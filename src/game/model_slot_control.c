@@ -472,9 +472,9 @@ void Model_ResetSlot(s32 arg0)
     p->ambient_rgb_scale[2] = MODEL_FIXED_HALF;
     p->ambient_rgb_scale[1] = MODEL_FIXED_HALF;
     p->ambient_rgb_scale[0] = MODEL_FIXED_HALF;
-    p->field_DB0.field_08 = MODEL_FIXED_ONE;
-    p->field_DB0.field_04 = MODEL_FIXED_ONE;
-    p->field_DB0.field_00 = MODEL_FIXED_ONE;
+    p->render_scale.field_08 = MODEL_FIXED_ONE;
+    p->render_scale.field_04 = MODEL_FIXED_ONE;
+    p->render_scale.field_00 = MODEL_FIXED_ONE;
     p->tint[2] = 0x80;
     p->tint[1] = 0x80;
     p->tint[0] = 0x80;

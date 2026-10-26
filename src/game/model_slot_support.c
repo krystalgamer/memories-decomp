@@ -42,7 +42,7 @@ void Model_GetSlotDimensionsWithOverrides(s32 index, s16 *output)
     register u8 *source = entry->field_CF8.prefix.bytes.field_00;
     s32 value;
 
-    *(ModelBytes8 *)output = *(ModelBytes8 *)entry->field_DC8;
+    *(ModelBytes8 *)output = *(ModelBytes8 *)entry->cached_dimensions;
     value = source[7];
     if (value) {
         output[0] = value << 4;

@@ -35,7 +35,7 @@ interpretation, declaration adapter or compiler flag.
 
 ## Slot scale quad
 
-`Model_GetSlotScale` (`0x8005949C`) returns the `field_DB0` interior
+`Model_GetSlotScale` (`0x8005949C`) returns the `render_scale` interior
 `ModelSlotS32Quad` through `gModel_Slot0Scale` and the original slot stride.
 `Model_DrawSlot` passes that same member as a `VECTOR` view to
 `ScaleMatrix` or `Model_UpdateCoordinateUnitMatrix`; this establishes its
@@ -57,6 +57,56 @@ The unreferenced-helper trace still seeks the getter's actual callers.
 Its numeric `slot-quad func_8005949C` runtime label, breakpoint, address
 formula, observations and existing controls remain unchanged. Naming the
 statically proven scale view is not evidence that a call was observed.
+
+## Cached coordinate-origin dimensions
+
+`ModelSlot.field_DC8` is now `cached_dimensions`, retaining `u16[4]` at
++0xDC8. It is distinct from the adjacent tint bytes and is not a tight
+mesh AABB, radius vector or universally current model size.
+
+After the original part-mask early return, `Model_DrawSlot` updates it
+only for slots below two with a nonnull render-parent coordinate. Its
+second unit walk excludes the root and render-parent coordinates, keeps
+the original primitive-list tests and uses eligible `workm.t` origins,
+not mesh vertices. The signed 16-bit min/max cursors and their initial
+sentinels remain, including the behavior when no origin qualifies.
+
+The first three raw spans are max-minus-min along X/Y/Z. BEFORE adding
+the 0x32 margin, the renderer compares raw X then raw Z against the
+signed view of word three and stores through its original u16 type.
+That word is separate horizontal history; Y and the margin are absent.
+No nonnegative or monotonic invariant survives arbitrary narrowing,
+signed observations or resets.
+
+For each first-three span, the renderer adds 0x32 and either stores it
+directly when the old signed value is zero or moves the existing value
+toward it by at most 0x14. Preserve each test, signed read, per-axis
+update order and original u16 truncation. Do not replace the loop with
+an exact bound, clamp empty inputs or call it a per-frame timer.
+The part-mask, slot and coordinate gates can leave these values stale.
+
+`Model_InitSlot` clears all four words before its null-HMD return.
+`Model_SeekSlotAnimation` clears ONLY word three after its existing
+sequence work, retaining the smoothed X/Y/Z values. View-separation
+setup reads all four through signed halfword views, divides by two and
+applies its own minimum; its fourth-word use remains distinct.
+
+`Model_GetSlotDimensionsWithMinimums` copies the original eight bytes,
+then floors each axis against a nonzero CF8 threshold times sixteen.
+`Model_GetSlotDimensionsWithOverrides` instead REPLACES an axis for a
+nonzero threshold, even if the replacement is smaller. Both recompute
+the returned maximum from X/Y/Z in their existing order, rather than
+exporting the stored horizontal-history word unchanged. Preserve the
+different typed and alignment-one block-copy views, pointer ABIs,
+signed comparisons and policies; do not unify the two helpers.
+
+The paired +0xDB0 member is now `render_scale`, still the four-word
+`ModelSlotS32Quad`. Its existing VECTOR views apply only to the original
+selected render-parent children and animation/mask/primitive paths.
+The scale and cached dimensions are related draw inputs/derived state,
+not reciprocal units or a promise that every coordinate was scaled.
+No SDK type, generic quad submember, function group, native alias,
+profile, fixture or runtime capture changes.
 
 ## Tint descriptor and ambient triplet
 
@@ -102,5 +152,6 @@ calling the old labels and fails the existing binding-coverage controls.
 
 All seven resident manifests retain the same six-function group and G0
 profile, including the already named `Model_SetSlotTintTarget` between the
-descriptor getter and ambient setter. The original record fields and
-interior data alias are not renamed or reorganized.
+descriptor getter and ambient setter. The later member names `render_scale`
+and `cached_dimensions` preserve their representations; the native interior
+data alias and generic quad submembers remain unchanged.

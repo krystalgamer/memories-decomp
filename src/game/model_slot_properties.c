@@ -7,7 +7,7 @@
 #include "model_slot_properties.h"
 #include "../unmatched.h"
 
-/* &gModel_aSlots[0].field_DB0. The interior alias keeps the retail address
+/* &gModel_aSlots[0].render_scale. The interior alias keeps the retail address
  * construction; MODEL_SLOT_SIZE preserves the stride between slots. */
 
 /* RotTrans types the last three: the vertex run reached through the slot's
@@ -54,11 +54,11 @@ void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source)
     ModelSlot *entry = &gModel_aSlots[index];
 
     if (source != 0) {
-        entry->field_DB0 = *source;
+        entry->render_scale = *source;
     } else {
-        entry->field_DB0.field_08 = MODEL_FIXED_ONE;
-        entry->field_DB0.field_04 = MODEL_FIXED_ONE;
-        entry->field_DB0.field_00 = MODEL_FIXED_ONE;
+        entry->render_scale.field_08 = MODEL_FIXED_ONE;
+        entry->render_scale.field_04 = MODEL_FIXED_ONE;
+        entry->render_scale.field_00 = MODEL_FIXED_ONE;
     }
 }
 
