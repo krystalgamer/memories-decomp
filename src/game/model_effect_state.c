@@ -6,7 +6,7 @@
 #include "model_effect_state.h"
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
-#include "model_copy_slot_u16_values.h"
+#include "model_copy_slot_position.h"
 #include "model.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "model_step_view_orbit.h"
@@ -111,7 +111,7 @@ void Model_PrepareEffectKey(Key *state)
             if (Model_GetSlotReadiness(slot) != 1) {
                 continue;
             }
-            Model_CopySlotU16Values(slot, (u16 *)pos);
+            Model_CopySlotPosition(slot, (u16 *)pos);
             pos[0] = pos[0] + (u16)e->x;
             pos[1] = pos[1] + (u16)e->y;
             pos[2] = pos[2] + (u16)e->z;
@@ -270,7 +270,7 @@ void Model_CaptureKeyframePose(s32 capture_endpoints)
                 s32 kind = *(s16 *)(entry + 6);
                 if (kind < 4) {
                     if (kind >= 2)
-                        Model_CopySlotU16Values(
+                        Model_CopySlotPosition(
                             *(s16 *)entry, (u16 *)(KEY_BYTES(key) + offset)
                         );
                 }
@@ -385,7 +385,7 @@ void Model_SetCameraOrbit(int mode, int y, int a, int b, SVECTOR *offset)
         return;
     if (mode >= 0) {
         short v[4];
-        Model_CopySlotU16Values(mode, (u16 *)v);
+        Model_CopySlotPosition(mode, (u16 *)v);
         p->vrx = v[0];
         p->vry = v[1];
         p->vrz = v[2];
@@ -684,7 +684,7 @@ void Model_RefreshEffectKeySlotValues(Key *key)
         /* Key storage is halfword-aligned; packed member reads use bytes. */
         if (*(s16 *)&item->kind < 4) {
             if (*(s16 *)&item->kind >= 2) {
-                Model_CopySlotU16Values(
+                Model_CopySlotPosition(
                     *(s16 *)&item->x,
                     (u16 *)(data + 0x10 + i * sizeof(u16[4]))
                 );

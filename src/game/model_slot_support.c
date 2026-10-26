@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "model.h"
-#include "model_copy_slot_u16_values.h"
+#include "model_copy_slot_position.h"
 #include "model_init_light_triplet.h"
 #include "model_slot_data.h"
 #include "../game/model_draw_slot.h"
@@ -28,12 +28,12 @@ u32 Model_GetCurrentDataEntry(s32 index)
            entry->root_coordinate_index * MODEL_SLOT_DATA_ENTRY_SIZE;
 }
 
-void Model_CopySlotU16Values(s32 idx, u16 *out) {
+void Model_CopySlotPosition(s32 idx, u16 *out) {
     ModelSlot *rec = &gModel_aSlots[idx];
-    out[0] = rec->field_DD0[0];
-    out[1] = rec->field_DD0[1];
-    out[2] = rec->field_DD0[2];
-    out[3] = rec->field_DD0[3];
+    out[0] = rec->cached_position[0];
+    out[1] = rec->cached_position[1];
+    out[2] = rec->cached_position[2];
+    out[3] = rec->cached_position[3];
 }
 
 void Model_GetSlotDimensionsWithOverrides(s32 index, s16 *output)

@@ -107,7 +107,7 @@ the North American screen height, 240, for the full-screen flash, through the
 same `GRAPHICS_DEFAULT_HEIGHT` default that header 198 uses. The
 `variant173_entry`, `variant153_entry` and `variant157_entry` sources also
 include the header that declares `Model_GetLightSourceMatrix`, and
-`variant184_entry` the one that declares `Model_CopySlotU16Values`, so the
+`variant184_entry` the one that declares `Model_CopySlotPosition`, so the
 North American wrappers do not call either through an implicit declaration.
 All five French objects are byte-identical to the objects built before.
 

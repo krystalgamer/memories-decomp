@@ -9,7 +9,7 @@
 #include "../game/model_subdivided_effect.h"
 #include "../game/model_get_slot_dimensions_with_minimums.h"
 #include "../game/model_get_frame_step.h"
-#include "../game/model_copy_slot_u16_values.h"
+#include "../game/model_copy_slot_position.h"
 #include "../game/gpu_packets.h"
 #include "../game/model_graphics_state.h"
 #include "../game/model_geometry_tables.h"
@@ -140,7 +140,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     scale.vx = v;
     scale.vy = v;
     scale.vz = v;
-    Model_CopySlotU16Values(Model_GetActiveSlotIndex(), (u16 *)&pos);
+    Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&pos);
     GsSetLsMatrix(&ls);
     RotTrans(&pos, (VECTOR *)m.t, (PSXLONG *)&flag);
     RotMatrix(&rot, &m);
@@ -309,7 +309,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
         e->smoke_r = 0x80;
         e->smoke_g = 0x40;
         e->smoke_b = 0x79;
-        Model_CopySlotU16Values(slot, (u16 *)&rot);
+        Model_CopySlotPosition(slot, (u16 *)&rot);
         rot.vy = 0;
         copyVector(&e->origin, &rot);
         e->phase = 0;
@@ -326,7 +326,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 arg1)
     Model_SetFrameStepOverride(1);
     PushMatrix();
     ls = *(MATRIX *)Model_GetLightSourceMatrix();
-    Model_CopySlotU16Values(slot, (u16 *)&pos);
+    Model_CopySlotPosition(slot, (u16 *)&pos);
     pos.vy = 0;
     copyVector(&e->origin, &pos);
     if (e->phase == 0) {
@@ -825,7 +825,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 arg1)
     Model_SetFrameStepOverride(1);
     PushMatrix();
     ls = *(MATRIX *)Model_GetLightSourceMatrix();
-    Model_CopySlotU16Values(slot, (u16 *)&pos);
+    Model_CopySlotPosition(slot, (u16 *)&pos);
     pos.vy = 0;
     GsSetLsMatrix(&ls);
     RotTrans(&pos, (VECTOR *)m.t, (PSXLONG *)&flag);

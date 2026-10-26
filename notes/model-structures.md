@@ -58,7 +58,7 @@ instructions in multiple functions:
   `Model_GetSlotAnimationFrame` all compile the index
   as `((index * 8 - index) * 16 + index) * 32`, which is `index * 0xE20`,
   before accessing three different late-slot fields.
-- `Model_GetCurrentDataEntry`, `Model_CopySlotU16Values`, `func_80059284`,
+- `Model_GetCurrentDataEntry`, `Model_CopySlotPosition`, `func_80059284`,
   `Model_SetSlotTintTarget`, and `Model_SetSlotShadowEnabled` independently
   produce the same stride
   while accessing unrelated pointers, arrays, and bytes.
@@ -102,7 +102,7 @@ Verified shared fields and partial arrays are:
 | `0xDB0` | `render_scale` | four-word copy/reset block in `Model_SetSlotScale` |
 | `0xDC0` | `tint[8]` | fade tint: target colour/mode writes in `Model_SetSlotTintTarget` and selection in `Model_GetSlotTintDescriptor`; live 3-D battle values below (formerly `field_DC0`) |
 | `0xDC8` | `cached_dimensions[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `Model_SeekSlotAnimation` |
-| `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
+| `0xDD0` | `cached_position[4]` | four adjacent `u16` reads in `Model_CopySlotPosition` |
 | `0xDDC` | `animation_parameter_base`, `u8 *G32` | command-halfword word offsets address live words saved before a row and restored afterward |
 | `0xDE0` | `animation_snapshot_buffer`, `u8 *G32` | contiguous three/five-word snapshots; imported or hmd+size fallback, followed by cache work span |
 | `0xDE8` | `primary_module_data_address`, `s32` | independently selected primary data word passed to the primary module at base +4 |
@@ -199,6 +199,17 @@ field.
 The reset, table builder and subsequent command-row linker are named and
 traced through their producer/consumer chain in
 `notes/model-animation-tables.md`.
+
+### Cached slot positions
+
+`ModelSlot.field_DD0` is now `cached_position`, preserving s16[4]
+at +0xDD0. The first three values cache eligible unit-origin means
+plus signed mirrored offsets; word three separately derives Y from
+the direct-render-parent-child pass. Neither pass is a mesh centroid
+or a universal current model origin. The renamed Model_CopySlotPosition
+still copies ALL four through its u16-pointer ABI. Init defaults,
+stale gates, narrowing, fourth-word guards and the interior alias
+remain. See [the complete producer/consumer protocol](model-slot-properties.md#cached-slot-positions-and-four-halfword-copy).
 
 ### Render scale and cached coordinate-origin dimensions
 
@@ -671,7 +682,7 @@ all include the shared header:
 `Model_GetSlotAnimationIndex`,
 `Model_GetSlotAnimationFrame`, `Model_GetSlotAnimationLength`, `Model_GetSlotDataEntry`,
 `Model_GetCurrentDataEntry`,
-`Model_CopySlotU16Values`, `func_80059000`, `Model_DrawSlotUnitsOnly`,
+`Model_CopySlotPosition`, `func_80059000`, `Model_DrawSlotUnitsOnly`,
 `Model_InitLightTriplet`, `func_80059284`,
 `Model_BuildCameraRelativeCoordinateUnit`, `Model_TransformPartVertex`,
 `Model_SetSlotScale`, `Model_GetSlotTintDescriptor`, `Model_SetSlotTintTarget`, `Model_SetSlotAmbient`,

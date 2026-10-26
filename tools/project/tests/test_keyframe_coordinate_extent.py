@@ -17,7 +17,7 @@ CALLER = REPOSITORY / "src/game/model_effect_state.c"
 # Model_PrepareEffectKey shares its unit with the effect-state runtime; the
 # witness compiles it alone against the contracts it uses.
 CALLER_HEADERS = (
-    "../types.h", "camera_view.h", "model_copy_slot_u16_values.h",
+    "../types.h", "camera_view.h", "model_copy_slot_position.h",
     "model_get_slot_readiness.h", "model_keyframe_spline.h", "model_transfer_state.h",
     "model_transfer_flags.h",
 )
@@ -59,7 +59,7 @@ class KeyframeCoordinateExtentTests(unittest.TestCase):
         if Path.cwd().resolve() != REPOSITORY:
             raise RuntimeError("run these tests from the repository root")
         copier = re.search(
-            r"void Model_CopySlotU16Values\([^{}]+\)\s*\{[^{}]+\}",
+            r"void Model_CopySlotPosition\([^{}]+\)\s*\{[^{}]+\}",
             COPIER.read_text(),
         )
         self.assertIsNotNone(copier)
@@ -82,7 +82,7 @@ class KeyframeCoordinateExtentTests(unittest.TestCase):
             witness.write_text(
                 r"""
 #include "src/types.h"
-#include "src/game/model_copy_slot_u16_values.h"
+#include "src/game/model_copy_slot_position.h"
 
 typedef char pointer_must_be_ilp32[sizeof(void *) == 4 ? 1 : -1];
 
@@ -125,15 +125,15 @@ static void copy_bytes(void *destination, const void *source, u32 length)
 }
 
 static void checked_copy(s32 slot, u16 *out, u32 extent);
-#define Model_CopySlotU16Values(slot, out) \
+#define Model_CopySlotPosition(slot, out) \
     checked_copy((slot), (out), __builtin_object_size((out), 0))
 """
                 + '#include "' + str(caller) + '"\n'
                 + r"""
-#undef Model_CopySlotU16Values
+#undef Model_CopySlotPosition
 
 /* Only the copier's input field is needed by this host fixture. */
-typedef struct { u16 field_DD0[4]; } ModelSlot;
+typedef struct { u16 cached_position[4]; } ModelSlot;
 static ModelSlot gModel_aSlots[2] = {
     {{0xFFFE, 0xFFFD, 0xFFFC, 0x1357}},
     {{0x8000, 0xFFFF, 0, 0x2468}}
@@ -153,9 +153,9 @@ static void checked_copy(s32 slot, u16 *out, u32 extent)
         fixture_exit(7);
     }
     if (slot < 0 || slot >= 2) fixture_exit(8);
-    out[3] = (u16)~gModel_aSlots[slot].field_DD0[3];
-    Model_CopySlotU16Values(slot, out);
-    if (*(volatile u16 *)(out + 3) != gModel_aSlots[slot].field_DD0[3]) fixture_exit(9);
+    out[3] = (u16)~gModel_aSlots[slot].cached_position[3];
+    Model_CopySlotPosition(slot, out);
+    if (*(volatile u16 *)(out + 3) != gModel_aSlots[slot].cached_position[3]) fixture_exit(9);
     copies++;
 }
 

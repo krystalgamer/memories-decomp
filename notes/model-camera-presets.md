@@ -5,7 +5,7 @@
 `Model_SetCameraOrbit` is the former `func_8005F3B8`. The existing live-view
 and metric getters still run before the two-byte effect-state guard.
 When permitted, a nonnegative slot selects the reference point through
-`Model_CopySlotU16Values`; a negative slot retains the current point.
+`Model_CopySlotPosition`; a negative slot retains the current point.
 An optional `SVECTOR` offset keeps the original side-dependent signs.
 
 The helper then writes distance, biased yaw and pitch into the existing

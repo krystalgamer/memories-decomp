@@ -20,7 +20,7 @@ literal materialization and the independent symbol relocations.
 ## Captured reference
 
 Under the existing card-view `0x40` guard,
-`Model_CopySlotU16Values(0, (u16 *)0x80181000)` copies all four slot
+`Model_CopySlotPosition(0, (u16 *)0x80181000)` copies all four slot
 halfwords. The already accepted local `SVECTOR *` view supplies the first
 three signed coordinates to `view.vrx/vry/vrz`. The independent `+2`
 label is the captured Y consumed by the dispatcher's return path.
@@ -29,10 +29,12 @@ The globe renderer still copies the same eight bytes from literal
 `0x80181000` as an `SVECTOR`. Its whole-word copy, scratchpad destination
 and literal `lui/ori` materialization remain unchanged.
 
-This is a Library-local coordinate interpretation. The generic model
-helper and `ModelSlot.field_DD0` stay unchanged: four `u16` values are
-copied, and no global model-position type or meaning for the fourth
-halfword is introduced. The capture guard is unchanged; the name is
+This remains a Library-local coordinate view. The later canonical
+`Model_CopySlotPosition` name and `ModelSlot.cached_position` member
+retain the four-u16-copy ABI and s16[4] storage. The draw producer
+separately derives word three from Y; it is not SVECTOR padding or
+a new shared position type. See notes/model-slot-properties.md.
+The capture guard is unchanged; the name is
 not a promise of fresh contents on every entry or invocation.
 
 ## Sampled reference and movement

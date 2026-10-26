@@ -33,6 +33,57 @@ The part lookup deliberately remains an integer sum. A typed indexed
 instruction required by retail. There is no new bounds check, result
 interpretation, declaration adapter or compiler flag.
 
+## Cached slot positions and four-halfword copy
+
+`ModelSlot.field_DD0` is now `cached_position`, still `s16[4]` at
++0xDD0. `Model_CopySlotPosition` is the former `Model_CopySlotU16Values`
+at resident 0x80058FB0. Its ABI is still `(s32, u16 *)`: it copies ALL
+FOUR halfwords in 0/1/2/3 order, preserving their bit patterns. This is
+not a three-component copy or permission to retype storage as SVECTOR,
+clear its fourth word, normalize signedness or change caller extents.
+
+Before the HMD test, `Model_InitSlot` writes X=0, Y=-350, word three=-350
+and Z=450/-450/0 for slot zero/one/other, in the original store order.
+`Model_ResetSlot` still clears the entire record independently.
+
+After the part-mask early return, `Model_DrawSlot` refreshes the quad
+only for slots below two with a render-parent coordinate. Its FIRST
+unit-origin pass averages workm.t X/Y/Z from nonnull coordinates with
+nonnull eligible primitive lists. Unlike the later dimension pass, it
+does NOT exclude root or render-parent units. A zero count falls back
+to the render-parent workm.t; no mesh vertices or tight-box center is
+involved. Original sums, division order and s16 stores remain.
+
+Signed CF8 bytes four/five/six provide offsets multiplied by sixteen.
+X/Z use Model_MirrorOffset: add for index <=0 and subtract for index >0;
+Y adds directly. The separate second pass averages Y only for eligible
+direct children of the selected render parent, excluding root and parent,
+and falls back to the parent's workm.t Y when empty. Its count is taken
+BEFORE the primitive-list content test used by the dimension extrema.
+Word three remains `(y - 700) / 3 + signed_CF8_byte5 * 16`, with original
+integer division and narrowing. It is not a homogeneous coordinate or
+padding, and no universal camera-target interpretation is asserted.
+
+Camera orbit setup, endpoint capture/following, eye/target distances and
+view separation use this position chain. Animation-sound spatialization
+also reads its X/Z without changing any cue gate. Effect placement uses its XYZ
+through existing local SDK views; several handlers replace Y with zero.
+The Library copies all eight bytes to its original literal work arenas
+and reads XYZ through its existing local SVECTOR view. Those consumer
+views do not redefine the shared storage or establish freshness, range,
+ownership, readiness, units, exact model origin or geometric-centroid
+invariants. Existing gates can leave the cache stale.
+
+The gModel_awSlot0Position interior alias and independent byte/halfword
+stride constructions remain unchanged. The new canonical header keeps
+one explicit old-name preprocessor bridge, and the old include path
+forwards to it. Frozen overlay C bodies, terminal fingerprints and all
+attempt/dependency ledgers remain byte-for-byte untouched. Native import
+tables use only the canonical name at their original addresses.
+Existing fixture edits are identifiers/include spellings only; every
+oracle, fourth-halfword guard, assertion, mutation, scenario and numeric
+expectation remains unchanged. No fixture or cloud tests ran locally.
+
 ## Slot scale quad
 
 `Model_GetSlotScale` (`0x8005949C`) returns the `render_scale` interior

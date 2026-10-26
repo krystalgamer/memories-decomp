@@ -169,7 +169,7 @@ newly matched functions received mechanical, evidence-backed names:
 - `Duel_UpdateCardPickCursor`;
 - `Duel_ApplyCardObjectFlags`;
 - six `DuelEffect_` table/entry maintenance helpers;
-- `Model_CopySlotU16Values`;
+- `Model_CopySlotPosition`;
 - `Model_InitLightTriplet`;
 - `Model_RegisterHandlerKey`;
 - `Model_FindHandlerKey`;

@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "model_update_view_metrics.h"
-#include "model_copy_slot_u16_values.h"
+#include "model_copy_slot_position.h"
 #include "../psyq/memory.h"
 #include "model.h"
 #include "model_transfer_flags.h"
@@ -36,7 +36,7 @@ void Model_QueueRelativeCameraOrbit(
     }
 
     if (arg0 == 2) {
-        Model_CopySlotU16Values(2, (u16 *)a);
+        Model_CopySlotPosition(2, (u16 *)a);
         a[3] = one;
     }
 

@@ -1,6 +1,6 @@
 GsSetLsMatrix = 0x80085558;
 GsSortBoxFill = 0x800841C8;
-Model_CopySlotU16Values = 0x8005C0B8;
+Model_CopySlotPosition = 0x8005C0B8;
 Model_GetActiveSlotIndex = 0x8005BED4;
 Model_GetFrameStep = 0x8005BF24;
 Model_GetLightSourceMatrix = 0x8005C328;

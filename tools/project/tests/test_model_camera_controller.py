@@ -266,7 +266,7 @@ static void reset(void)
         }
     for (i = 0; i < 3; i++)
         for (axis = 0; axis < 3; axis++)
-            gModel_aSlots[i].field_DD0[axis] = (s16)(i * 160 - 200 + axis * 80);
+            gModel_aSlots[i].cached_position[axis] = (s16)(i * 160 - 200 + axis * 80);
     gate = 1; have_key = 0;
     for (i = 0; i < 4; i++) steps[i] = 6;
     mutate_kind = 0; mutate_offset = 0; mutate_value = 0;
@@ -325,7 +325,7 @@ int main(void)
             reset(); gate = b;
             for (i = 0; i < 4; i++) put16(move_storage + GUARD + 18 + i * 8, 0);
             for (i = 0; i < 3; i++) {
-                gModel_aSlots[0].field_DD0[i] = -200 + boundaries[a];
+                gModel_aSlots[0].cached_position[i] = -200 + boundaries[a];
                 put16(move_storage + GUARD + 12 + i * 2, -200);
                 put16(move_storage + GUARD + 20 + i * 2, -200);
                 put16(move_storage + GUARD + 28 + i * 2, -200);
@@ -398,9 +398,9 @@ class ModelCameraControllerTests(unittest.TestCase):
                 edits = {
                     "clamp": ("dx < 31 ? dx : 30", "dx < 31 ? dx : 29"),
                     "start-z": (
-                        "dy = (s16)slot->field_DD0[1] - gModel_CameraMove.eye.start_y;",
-                        "dy = (s16)slot->field_DD0[1] - gModel_CameraMove.eye.start_y;\n"
-                        "            gModel_CameraMove.eye.start_z = slot->field_DD0[2];",
+                        "dy = (s16)slot->cached_position[1] - gModel_CameraMove.eye.start_y;",
+                        "dy = (s16)slot->cached_position[1] - gModel_CameraMove.eye.start_y;\n"
+                        "            gModel_CameraMove.eye.start_z = slot->cached_position[2];",
                     ),
                     "key-kind": ("key->requested[1].kind != 4", "key->requested[1].kind != 3"),
                     "timer-step": (

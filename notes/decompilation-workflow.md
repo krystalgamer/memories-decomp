@@ -463,7 +463,7 @@ knowing because a scan reports all of them as clean:
   all tried". The bias belongs to the reducer, not the spelling.
 
 - **The base is a second symbol for storage another symbol already names.**
-  `gModel_awSlot0Position` is `D_800F2C40[0].field_DD0` and `D_800F56FC` is
+  `gModel_awSlot0Position` is `D_800F2C40[0].cached_position` and `D_800F56FC` is
   `&D_800F56F0.vrx`; both headers keep the interior symbol deliberately,
   because the matched sites reach the field through it and spelling it as an
   offset from the enclosing object changes which symbol their relocations

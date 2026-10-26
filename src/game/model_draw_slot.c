@@ -430,12 +430,12 @@ void Model_DrawSlot(s32 index)
             z = slot->render_parent_coordinate->workm.t[2];
         }
         x = Model_MirrorOffset(index, x, blk[4] * 0x10);
-        slot->field_DD0[0] = x;
+        slot->cached_position[0] = x;
         y += blk[5] * 0x10;
-        slot->field_DD0[1] = y;
+        slot->cached_position[1] = y;
         z = Model_MirrorOffset(index, z, blk[6] * 0x10);
         count = y = 0;
-        slot->field_DD0[2] = z;
+        slot->cached_position[2] = z;
         e = slot->hmd_units;
         for (i = 0; i < slot->hmd_unit_count; i++, e++) {
             unit = GS_COORD_UNIT_VIEW(e->coordinate_address);
@@ -476,7 +476,7 @@ void Model_DrawSlot(s32 index)
         } else {
             y = slot->render_parent_coordinate->workm.t[1];
         }
-        slot->field_DD0[3] = (y - 700) / 3 + blk[5] * 0x10;
+        slot->cached_position[3] = (y - 700) / 3 + blk[5] * 0x10;
         w = maxx - minx;
         h = maxy - miny;
         d = maxz - minz;

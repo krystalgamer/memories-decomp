@@ -35,7 +35,7 @@ WITNESS = r"""
 #include "src/game/model_transfer_flags.h"
 #include "src/game/model_get_slot_readiness.h"
 #include "src/game/model_get_frame_step.h"
-#include "src/game/model_copy_slot_u16_values.h"
+#include "src/game/model_copy_slot_position.h"
 #include "src/game/model_update_view_metrics.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "src/game/model_step_view_orbit.h"
@@ -209,7 +209,7 @@ GsRVIEW2 *Model_GetCameraViewBuffer(void) { return (GsRVIEW2 *)invoke(1,GET,0,0,
 void Model_PrepareEffectKey(Key *key) { invoke(1,PREPARE,(u32)key,0,0,0,0,0); }
 s32 Model_GetFrameStep(void) { return invoke(1,TIMING,0,0,0,0,0,0); }
 s32 Model_GetSlotReadiness(s32 slot) { return invoke(1,READY,slot,0,0,0,0,0); }
-void Model_CopySlotU16Values(s32 slot,u16 *out)
+void Model_CopySlotPosition(s32 slot,u16 *out)
 { invoke(1,COPY,slot,out != 0,0,0,0,(s16 *)out); }
 void Model_EvaluateKeyframeSpline(Key *key,s32 channel,s32 elapsed,s32 denominator,s16 *out)
 { invoke(1,EVALUATE,(u32)key,channel,elapsed,denominator,out != 0,out); }

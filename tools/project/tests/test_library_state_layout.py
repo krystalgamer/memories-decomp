@@ -220,7 +220,7 @@ class LibraryStateLayoutTests(unittest.TestCase):
                 " sizeof(SVECTOR), (u32)&((SVECTOR *)0)->vx,\n"
                 " (u32)&((SVECTOR *)0)->vy, (u32)&((SVECTOR *)0)->vz,\n"
                 " sizeof(((SVECTOR *)0)->vx), (u32)&((SVECTOR *)0)->pad,\n"
-                " sizeof(((ModelSlot *)0)->field_DD0),\n"
+                " sizeof(((ModelSlot *)0)->cached_position),\n"
                 " sizeof(DisplayObject), (u32)&((DisplayObject *)0)->flags,\n"
                 " sizeof(((DisplayObject *)0)->flags)\n"
                 "};\n"

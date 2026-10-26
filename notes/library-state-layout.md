@@ -198,7 +198,7 @@ therefore leaves the header byte-for-byte intact rather than rewriting
 historical attempt evidence or weakening its fingerprint check.
 
 The card-view handler also reads its fixed model-copy buffer at `0x80181000`
-through a local SDK `SVECTOR *`. `Model_CopySlotU16Values` still writes all
+through a local SDK `SVECTOR *`. `Model_CopySlotPosition` still writes all
 four halfwords through its unchanged `u16 *` call, and the globe renderer
 already copies those same eight bytes as an `SVECTOR`. The handler consumes
 only the first three signed halfwords as `view.vrx/vry/vrz`, preserving the

@@ -42,7 +42,7 @@ invented point semantics conceal this native behavior.
 The straight path keeps signed division before multiplication:
 `-height * i / 128 * 3`. The curved path uses angle `i * 3072 / 85` and divides
 the signed width by two before trigonometric multiplication. Two17-point
-rings include their seam duplicates. The existing `Model_CopySlotU16Values`
+rings include their seam duplicates. The existing `Model_CopySlotPosition`
 copies four values from the opposite slot; only copied Y is cleared.
 
 The otherwise unused initial `Model_GetActiveSlotIndex` call remains.

@@ -76,18 +76,18 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     base->cached_dimensions[1] = 0;
     base->cached_dimensions[2] = 0;
     base->cached_dimensions[3] = 0;
-    base->field_DD0[0] = 0;
-    base->field_DD0[3] = -0x15E;
-    base->field_DD0[1] = -0x15E;
+    base->cached_position[0] = 0;
+    base->cached_position[3] = -0x15E;
+    base->cached_position[1] = -0x15E;
     switch (index) {
     default:
-        base->field_DD0[2] = 0;
+        base->cached_position[2] = 0;
         break;
     case 0:
-        base->field_DD0[2] = 0x1C2;
+        base->cached_position[2] = 0x1C2;
         break;
     case 1:
-        base->field_DD0[2] = -0x1C2;
+        base->cached_position[2] = -0x1C2;
         break;
     }
     base->animation_control_state = 6;
