@@ -23,7 +23,7 @@ void DisplayEffect_ResetRecordState(DisplayEffectState *object)
     object->state = 0;
     object->field_31 = 0;
     object->field_36 = 0xB2;
-    object->field_3E =
+    object->variant_countdown =
         (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE;
 }
 
@@ -39,7 +39,7 @@ void DisplayEffect_ReleaseObjectRow(void **objects)
 
 void DisplayEffect_ReleaseRecord(MenuRecord *record)
 {
-    record->field_30 = -1;
+    record->effect_id = -1;
     DisplayEffect_ReleaseObjectRow((void **)record->grid[0]);
 }
 

@@ -10,7 +10,7 @@
 #endif
 
 /* Walks gDisplayEffect_aMenuRecords backward from the last record to the first; on the first
-   record whose field_30 marker is non-negative, sets bit 0x2 in the caller's
+   record whose effect_id marker is non-negative, sets bit 0x2 in the caller's
    field_34 and returns. Does nothing if every marker is negative.
 
    The argument is another record from the same table, not a separate type:
@@ -24,7 +24,7 @@ void DuelEffect_MarkObjectIfActive(MenuRecord *a0) {
     count = MENU_RECORD_COUNT - 1;
     p = &gDisplayEffect_aMenuRecords[count];
     do {
-        v0 = p->field_30;
+        v0 = p->effect_id;
         count -= 1;
         if (v0 >= 0) {
             a0->field_34 |= DUEL_EFFECT_MARK_OBJECT_FLAG;

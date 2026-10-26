@@ -5,7 +5,7 @@
 #include "menu_record.h"
 
 /* Sets bit 0x2 in `record`'s field_34 if any D_800EB010 record is still active
- * -- it walks that table backward and stops at the first non-negative field_30
+ * -- it walks that table backward and stops at the first non-negative effect_id
  * marker -- and does nothing when every marker is negative.
  *
  * The parameter is a MenuRecord because that is what the definition takes, and

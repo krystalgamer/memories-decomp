@@ -27,7 +27,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
     if (p->grid[0][1] != 0) {
         if ((f & 1) != 0) {
             if (((DisplayObject *)p->grid[0][1])->field_5A == 0) {
-                p->field_3E =
+                p->variant_countdown =
                     (rand() & DISPLAY_EFFECT_DELAY_MASK) +
                     DISPLAY_EFFECT_DELAY_BASE;
                 p->field_32 = p->field_32 & 0xFE;
@@ -35,8 +35,8 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
                     DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][1]), 0);
             }
         } else {
-            v = p->field_3E - 1;
-            p->field_3E = v;
+            v = p->variant_countdown - 1;
+            p->variant_countdown = v;
             if ((s16)v <= 0) {
                 p->field_32 = p->field_32 | 1;
                 DisplayObject_SetResourceVariant(
@@ -94,7 +94,7 @@ void DisplayEffect_ProcessMenuRecords(s32 value) {
     void (**t)(MenuRecord *) = gDisplayEffect_apfnSteps;
 
     do {
-        if (record->field_30 >= 0) {
+        if (record->effect_id >= 0) {
             if (record->field_32 & 0x40) {
                 DisplayEffect_UpdateMenuRecord(record, value);
             }

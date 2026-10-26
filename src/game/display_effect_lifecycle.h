@@ -22,7 +22,7 @@ typedef struct {
     u16 field_34;
     u16 field_36;
     u8 pad_38[0x06];
-    u16 field_3E;
+    u16 variant_countdown;
 } DisplayEffectState;
 
 /* Zero on the first mark; one when bit 0x80 was already present. */

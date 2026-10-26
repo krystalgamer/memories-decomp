@@ -23,14 +23,14 @@ void Script_OpShowMenu(void)
         o = &gDisplayEffect_aMenuRecords[bit >> 7];
         gScript_pMenuRecord = o;
 
-        if (o->field_30 >= 0) {
+        if (o->effect_id >= 0) {
             DisplayEffect_ReleaseRecord(o);
         }
         DisplayEffect_ResetMenuRecords();
         DisplayEffect_ResetRecordState((DisplayEffectState *)o);
 
         o->field_31 = flags & 15;
-        o->field_30 = first;
+        o->effect_id = first;
         o->field_3C = bit >> 7;
         o->display_effect_step = 2;
         if (bit) {

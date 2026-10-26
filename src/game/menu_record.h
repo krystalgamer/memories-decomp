@@ -9,7 +9,7 @@
  * selects a record with `((bit >> 7) * 0x4C)`, and DisplayEffect_ResetMenuRecords and
  * DuelEffect_MarkObjectIfActive both walk indices 2..0.
  *
- * field_30 is the signed marker the walkers test for `>= 0`;
+ * effect_id is the signed marker the walkers test for `>= 0`;
  * display_effect_step selects the gDisplayEffect_apfnSteps lifecycle handler; field_34 is
  * the halfword Script_OpShowMenu seeds with 0xD8 and
  * DuelEffect_MarkObjectIfActive later ORs bit 1 into.
@@ -43,7 +43,7 @@ typedef struct {
        those users, so the integer slots stay and each user's cast
        states the view it takes. */
     s32 grid[4][3];
-    s8 field_30;
+    s8 effect_id;
     /* DisplayEffectState names this same byte field_31 on this same
        memory; Script_OpShowMenu and display_effect_update_callbacks.c
        reach it too. Named to agree with that view. */
@@ -66,11 +66,11 @@ typedef struct {
        here; none of them says what it carries. */
     u8 field_3C;
     u8 pad_3D;
-    /* DisplayEffectState names this same halfword field_3E on this
+    /* DisplayEffectState names this same halfword variant_countdown on this
        same memory, and DisplayEffect_UpdateMenuRecord works it as a countdown: it
        seeds it from rand() and decrements it to zero. Named to agree
        with that view, as field_31 was in #3534. */
-    u16 field_3E;
+    u16 variant_countdown;
     /* The six halfwords the sweep in DisplayEffect_UpdatePositionTween works, and the tail this
        record had no names for.
 
@@ -105,8 +105,8 @@ typedef struct {
 typedef char MenuRecord_size_must_be_0x4C[
     sizeof(MenuRecord) == 0x4C ? 1 : -1
 ];
-typedef char MenuRecord_field_30_must_be_at_0x30[
-    MENU_RECORD_OFFSET(field_30) == 0x30 ? 1 : -1
+typedef char MenuRecord_effect_id_must_be_at_0x30[
+    MENU_RECORD_OFFSET(effect_id) == 0x30 ? 1 : -1
 ];
 typedef char MenuRecord_field_31_must_be_at_0x31[
     MENU_RECORD_OFFSET(field_31) == 0x31 ? 1 : -1

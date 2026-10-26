@@ -11,7 +11,7 @@
  * consume the same record through their narrower DisplayEffectState view. */
 typedef struct {
     u8 pad_00[0x30];
-    s8 field_30;
+    s8 effect_id;
     u8 field_31;
     u8 field_32;
     u8 state;
@@ -20,7 +20,7 @@ typedef struct {
     u8 pad_38[0x04];
     u8 field_3C;
     u8 pad_3D;
-    u16 field_3E;
+    u16 variant_countdown;
 } DisplayEffectVramState;
 
 typedef struct {
@@ -38,7 +38,7 @@ typedef char DisplayEffectVramSlot_size_must_be_0x18C10[
 /* DISPLAY_EFFECT_VRAM_SLOT_COUNT bytes, one per DisplayEffectVramSlot of
  * D_80010000 that DisplayEffect_UpdateResourceAcquisition walks: it starts slot at the last one, steps
  * i down to 0 and slot with it, takes i into gDisplayEffect_ResourceCacheWriteSlot when the entry is
- * negative, compares each entry with a->field_30, stores a->field_30 at that
+ * negative, compares each entry with a->effect_id, stores a->effect_id at that
  * selected index and indexes the D_80010000 slots with the same byte;
  * DisplayEffect_ResetMenuRecords stores -1 into all of them (menu_record_reset.c:28-35).
  * The declaration stays unsized: display_effect_resource_setup.c builds
