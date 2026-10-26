@@ -602,9 +602,6 @@ segments:
     - game/display_object_brightness
   - - 133916
     - c
-    - game/debug_menu_update_cursor_layout
-  - - 134124
-    - c
     - game/french/debug_menu_editor_entries
   - - 136952
     - c
