@@ -78,17 +78,21 @@ never touched. Its census walk (`resolve_flow`) adds three rules to the
 published census rules, which stay the default:
 
 - a GCC switch `lw reg, off(table + index); jr reg` follows its table only
-  when the whole chain is proven: the jump register's last write is that load
-  (with no branch, jump or clobber in between), the load address's last write
-  is an `addu` of an in-image table constant and an index, the index is
-  `sll x, 2`, and a `sltiu t, x, N` bounds `x` with no intervening write to
-  `x`. The first control transfer after the bound must be `beq t, zero, exit`
-  with `exit` outside the dispatch, and its fall-through must run straight to
-  the `jr`. No other edge of the function may enter the bound check or dispatch,
-  except a branch to the guard whose nearest prior flag write (its delay slot or
-  the straight-line code before it) is the identical `sltiu`. The table must
-  hold exactly `N` in-span targets. Anything else stays an unresolved indirect
-  jump;
+  when the whole chain is proven. The straight-line chain proposes targets:
+  the jump register's last write is that load, the load address is an `addu`
+  of an in-image table constant and an `sll x, 2` index, a `sltiu t, x, N`
+  bounds `x`, the first control transfer after it is `beq t, zero, exit` with
+  `exit` outside the dispatch, and the table holds exactly `N` in-span targets.
+  A forward must-dataflow over every walked edge of the function must then
+  confirm them (`unproven_switch` otherwise). At the `jr`, on every path, the
+  jump register must hold the word loaded from `table + 4 * s`, and a
+  `beq`/`bne` on `sltiu t, s, N` must already have bounded that same selector
+  value `s`. Values merge only when equal on all incoming paths, a value is
+  forgotten wherever it was copied once its instruction runs again, calls
+  clobber caller-saved registers, and a register is unknown in its load delay
+  slot. Any path that clobbers the table base, index, selector or flag, or
+  re-enters the dispatch without re-proving them, therefore leaves the switch
+  unresolved;
 - `j` leaving the span is a tail call to user RAM and counts as an exit;
 - any direct call or jump outside user RAM (`0x80010000`-`0x80200000`), such as
   `j 0x8053D830`, rejects the body. Such bodies were linked for another address
@@ -110,22 +114,19 @@ excluded.
 
 | Release | Layouts | Functions | Function bytes | Entry | From entry | Resident-rooted | Unresolved reachability | Left raw |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| North America | 2,487 | 3,468 | 12,992,584 | 2,487 | 728 | 0 | 253 | 21 |
-| Japan | 3,553 | 5,693 | 20,297,508 | 3,552 | 1,404 | 5 | 732 | 21 |
-| Europe | 3,551 | 5,680 | 20,254,024 | 3,550 | 1,396 | 6 | 728 | 21 |
-| France | 1,665 | 1,679 | 14,085,600 | 1,665 | 12 | 0 | 2 | 21 |
-| Germany | 3,551 | 5,680 | 20,254,024 | 3,550 | 1,396 | 6 | 728 | 21 |
-| Italy | 3,551 | 5,680 | 20,254,024 | 3,550 | 1,396 | 6 | 728 | 21 |
-| Spain | 3,164 | 3,469 | 15,930,428 | 3,164 | 268 | 0 | 37 | 21 |
-| **Total** | **21,522** | **31,349** | **124,068,192** | | | | | **147** |
+| North America | 2,502 | 3,483 | 13,291,504 | 2,502 | 728 | 0 | 253 | 6 |
+| Japan | 3,568 | 5,708 | 20,596,428 | 3,567 | 1,404 | 5 | 732 | 6 |
+| Europe | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
+| France | 1,680 | 1,694 | 14,384,280 | 1,680 | 12 | 0 | 2 | 6 |
+| Germany | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
+| Italy | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
+| Spain | 3,179 | 3,484 | 16,229,108 | 3,179 | 268 | 0 | 37 | 6 |
+| **Total** | **21,627** | **31,454** | **126,159,432** | | | | | **42** |
 
-The 21 images per release left raw have loader entries whose switch sits in a
-loop: either the table index is a strength-reduced loop register
-(`$s4 = 4 * $fp`), or the loop back edge re-enters between a hoisted `sll`
-index and its bound. Proving either safe needs loop-invariant dominance
-analysis, which the straight-line chain does not attempt. With no closed body
-proven, each remains a single raw baseline and still appears in the progress
-tables' uninventoried count.
+The six images per release left raw share one loader whose entry switches index
+their tables through a strength-reduced loop register (`$s4 = 4 * $fp`), which
+the switch proof does not track. With no closed body proven, each remains a
+single raw baseline and still appears in the progress tables' uninventoried count.
 The Japanese and the shared English/German/Italian SU intro/credits image has
 no closed loader entry; its other closed bodies are still inventoried.
 Identical payloads are repeated across slots and releases, so these totals are
