@@ -406,9 +406,9 @@ Verified entry fields are:
 | Offset | Shared field | Evidence |
 |---:|---|---|
 | `0x11` | `flags_11` | bit `0x80` gates exact scans; target `Text_CompletePageAdvance` and `DuelEffect_ProcessEntries` agree |
-| `0x12` | `field_12` | compared with the requested marker plus one |
-| `0x13` | `field_13` | active-value test/write in the bounded scan pair |
-| `0x15` | `field_15` | second byte written by `func_800373C8` |
+| `0x12` | `owner_channel_tag` | original channel index plus one; marker clear leaves the tag unchanged |
+| `0x13` | `handler_state` | complete-byte activity test; low-five-bit handler selector plus latch/phase flags |
+| `0x15` | `render_mode` | entry draw selector written by append/control/callback paths |
 | `0x18` | `field_18` | range write in `DuelEffect_SetEntryRangeLayout`; `DuelEffect_UpdateObjectLayout` reads it |
 
 Exact C for `DuelEffect_ProcessEntries` (`0x80039D64`) copies complete

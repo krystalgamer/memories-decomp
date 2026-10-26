@@ -11,9 +11,9 @@ typedef struct {
     u8 pad_10;
     u8 flags_11;
     u8 owner_channel_tag;
-    u8 field_13;
+    u8 handler_state;
     u8 pad_14;
-    u8 field_15;
+    u8 render_mode;
     u8 pad_16[2];
 } JapaneseDuelEffectEntry;
 
@@ -45,9 +45,9 @@ typedef struct {
     u8 pad_0D[2];
     u8 flags_11;    /* 0x0F */
     u8 owner_channel_tag;    /* 0x10 */
-    u8 field_13;    /* 0x11 */
+    u8 handler_state;    /* 0x11 */
     u8 field_14;
-    u8 field_15;    /* 0x13 */
+    u8 render_mode;    /* 0x13 */
     u8 pad_14[2];
 } EuropeanDuelEffectEntry;
 

@@ -15,7 +15,7 @@
 #elif defined(VERSION_EUROPE)
 #include "duel_effect_entry_occupancy.h"
 
-/* The European entries are 0x16 bytes, with field_13 and field_15 at 0x11
+/* The European entries are 0x16 bytes, with handler_state and render_mode at 0x11
    and 0x13. */
 #define DUEL_EFFECT_ENTRY_TYPE EuropeanDuelEffectEntry
 #define DUEL_EFFECT_ENTRIES ((EuropeanDuelEffectEntry *)gDuelEffect_aEntries)
@@ -45,7 +45,7 @@
 
 /* Starting from the record's entry range, scans its active entries;
    returns 1 on the first entry with DUEL_EFFECT_ENTRY_FLAG_ACTIVE set and
-   field_13 nonzero, 0
+   handler_state nonzero, 0
    if that flag clears, the count runs out, or the range is empty. */
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_HAS_ACTIVE_ENTRY)
 int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
@@ -66,7 +66,7 @@ loop:
          DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
         return 0;
     }
-    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->field_13 != 0) {
+    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->handler_state != 0) {
         return 1;
     }
     count--;
@@ -90,7 +90,7 @@ loop:
     if (v0 == 0) {
         return v0;
     }
-    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->field_13 != 0) {
+    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->handler_state != 0) {
         return 1;
     }
     count = count - 1;
@@ -105,7 +105,7 @@ ret_zero_a:
 #endif
 
 /* Starting from the record's entry range, walks its active entries;
-   for each active entry, writes a1 to field_13 and a2 to field_15,
+   for each active entry, writes a1 to handler_state and a2 to render_mode,
    stopping at the first entry with that flag clear or when the count runs
    out. */
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800373C8)
@@ -154,8 +154,8 @@ loop:
     }
 #endif
     count = count - 1;
-    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->field_13 = a1;
-    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->field_15 = a2;
+    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->handler_state = a1;
+    DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->render_mode = a2;
     v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
     if (count != 0) {
         goto loop;

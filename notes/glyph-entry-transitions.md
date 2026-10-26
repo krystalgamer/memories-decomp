@@ -134,3 +134,59 @@ European-only orbit/opacity extensions remain unchanged in this bundle,
 including their RNG/store behavior and native source selectors. Accepted
 trace consolidation and existing controls stay intact. No test or trace
 harness is added, and regional/cloud validation stays PR-side.
+
+## Handler state and rendering mode bytes
+
+The original field_13 is handler_state: u8 +0x13 in the NA/Japanese
+entry, but +0x11 in the European entry. Its low five bits select the
+existing unsized gDuelEffect_EntryHandlers view. The COMPLETE byte gates
+DuelEffect_ProcessEntries and DuelEffect_HasActiveEntry: nonzero is not
+replaced by a masked selector test. DisplayObjectFade_MarkInitialized
+sets the original 0x80 initialization latch; callbacks retain the 0x40
+second-phase flag. Neither flag is a separate field or a new enum.
+
+Append initially selects handler one and render mode zero, retaining all
+existing suppression branches and early/rejected-glyph stores. The bounded
+control setter still writes its two original bytes and walks exactly the
+same active entry range. Page clearing selects handler three, and page
+advance selects handler two; fast printing still writes
+zero. Every numeric selector, state update, repeated read and store order
+remains; the original logical-offset pointer macros are not rewritten.
+
+The original field_15 is render_mode: u8 +0x15 in NA/Japan, +0x13 in
+Europe. The NA renderer's typed switch and the JP/PAL biased byte switches
+prove mode zero is the plain sprite, one selects rotation with the original
+zero-rotation sprite fallback, and two selects corner shading/geometry.
+Europe also has mode three: its raw physical +0x15 byte supplies RGB to
+two blend submissions. That raw byte is NOT render_mode and remains the
+separate EU_ENTRY_FADE_VALUE view. No universal alpha field, timer or
+unified regional rendering enum is inferred.
+
+Reveal/conceal retain their first-call progression, signed-byte endpoints,
+NA word versus PAL halfword shade stores, frame-step factors, release
+timing and final mirrored writes. Delayed rotation retains its narrowed
+coordinate-derived delay, decrement in the first invocation, zero test,
+component-store order and per-call rotation. PAL spiral/linear paths keep
+both overwritten RNG writes, direction bits, selector four, all early
+returns and the absence of terminal raw-intensity stores.
+
+The legacy DuelEffectChannel prefix exposes these bytes to the existing
+callbacks, so its two member names follow the entry views. This is NOT a
+claim about live channel stream-pointer storage or a new shared layout.
+No record retyping, callback signature/arity change, table definition,
+cast, array bound, selector mask or dispatch/storage normalization occurs.
+The overlapping one-argument secondary owner and two-argument entry view
+retain their original declarations and regional interior addresses.
+The locally hash-verified NA table prefix is conceal/reveal/conceal/rotation.
+Regional retail inputs were unavailable for a new raw PAL/JP table scan;
+the existing regional source evidence and unsized views remain, including
+Spanish intro callers selecting handlers 5, 6, 8 and 9. No four-entry
+regional bound or complete PAL table-content claim is introduced.
+
+Six whole C units change only 46 owner-qualified non-comment member
+identifiers and five existing entry-control comment identifiers. Two whole
+headers change eight declarations, two existing entry assertions'
+member/label identifiers and the existing legacy-view explanation.
+All widths, strides, alignment, numeric assertions, G32 and qualifiers
+remain. Other sound/selection field_13/field_15 owners stay untouched.
+There are zero fixture edits; all existing controls remain unchanged.

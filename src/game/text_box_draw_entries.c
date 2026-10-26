@@ -751,7 +751,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 spr->y = (u16)GLYPH_ENTRY(p)->y_0E + y + 2;
             }
         }
-        switch (GLYPH_ENTRY(p)->field_15) {
+        switch (GLYPH_ENTRY(p)->render_mode) {
         case 0:
             GsSortFastSprite(spr, ot, pri);
             break;

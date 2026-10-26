@@ -16,13 +16,13 @@ The complete six-function family spans 912 instruction bytes in each PAL
 release. Existing wrappers, grouped E88/EA8 definition order, named
 profiles, native labels and compatibility declarations remain intact.
 
-## Renderer evidence: two different byte-15 views
+## Renderer evidence: draw mode and raw intensity
 
 `EuropeanDuelEffectEntry` is the existing two-byte-aligned, `0x16`-byte
-record. Its member names retain NA logical offsets: `field_13` is actually
-at `0x11`, `field_14` at `0x12`, and `field_15` at `0x13`. The callbacks'
+record. Its `handler_state` is
+at `0x11`, `field_14` at `0x12`, and `render_mode` at `0x13`. The callbacks'
 `EU_ENTRY_FADE_VALUE` is instead the raw byte at physical `0x15`.
-It must not be substituted with the member named `field_15`.
+It must not be substituted with the member named `render_mode`.
 
 The actual PAL `TextBox_DrawEntries` in `text_box_draw_entries.c` starts its
 cursor at the entry's physical `0x15`. It reads mode from `p[-2]`

@@ -118,8 +118,8 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     flags = 0;
     entry = (EuropeanDuelEffectEntry *)channel->entry_end_20;
     entry->owner_channel_tag = channel->channel_index + 1;
-    entry->field_13 = 1;
-    entry->field_15 = 0;
+    entry->handler_state = 1;
+    entry->render_mode = 0;
     entry->field_0C = channel->pen_x;
     entry->field_0E = channel->pen_y;
     entry->code_00 = tagged_value;
@@ -172,7 +172,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
 
 append:
     if (channel->flags_34 & 0x1C00) {
-        entry->field_13 = 0;
+        entry->handler_state = 0;
     }
     entry++;
     entry->flags_11 = 0;
@@ -191,8 +191,8 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 
     q = p->entry_end_20;
     q->owner_channel_tag = p->channel_index + 1;
-    q->field_13 = 1;
-    q->field_15 = 0;
+    q->handler_state = 1;
+    q->render_mode = 0;
     r = gText_GlyphUploadScratch;
     f = p->flags_34;
     if (f & 0x80) {
@@ -212,7 +212,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
         q->field_10 = v;
         q->flags_11 = 0xC0;
         c = p->color_index_54;
-        q->field_13 = 0;
+        q->handler_state = 0;
         q->field_16 = c;
     } else {
         a &= 0x8000FFFF;
@@ -263,7 +263,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 #endif
     }
     if (p->flags_34 & 0x1C00) {
-        q->field_13 = 0;
+        q->handler_state = 0;
     }
     q->x_0C = p->pen_x;
     q->y_0E = p->pen_y;
