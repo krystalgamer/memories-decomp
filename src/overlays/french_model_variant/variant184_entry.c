@@ -1,5 +1,11 @@
 #include "../../types.h"
 #include "variant184_entry.h"
+#include "../../game/model_copy_slot_u16_values.h"
+
+/* The North American build reports the work size once per setup command. */
+#if defined(VARIANT184_PRINT_WORK_SIZE)
+#include "../../psyq/stdio.h"
+#endif
 
 static const VECTOR D_8013BEF4 = {4096, 4096, 4096, 0};
 
@@ -62,6 +68,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->updates = 0;
         work->completed = 0;
         work->command_group = command / 100;
+#if defined(VARIANT184_PRINT_WORK_SIZE)
+        printf("%d (0x%x) Byte\n", sizeof(Model184State), sizeof(Model184State));
+#endif
         return 0;
     }
     config = work->config;

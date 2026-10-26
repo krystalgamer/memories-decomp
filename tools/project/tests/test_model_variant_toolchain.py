@@ -391,6 +391,30 @@ class ModelVariantToolchainTests(unittest.TestCase):
         self.assertEqual(counts["matching_c_function_count"], 9)
         self.assertEqual(counts["matching_c_bytes"], 0x1128 + 0x4F4 + 0x6E4 + 0x70C + 0x4EC + 0x558 + 0x314 + 0x380 + 0x368)
 
+    def test_image_data_symbols_fit_their_images(self):
+        # A byte-identical build does not check symbol extents, so a raw-data
+        # symbol that runs past the image end would go unnoticed.
+        manifest = json.loads((self.config / "overlays.json").read_text())
+        checked = 0
+        for module in manifest["modules"]:
+            name = module["name"]
+            if not name.startswith("model_variant_"):
+                continue
+            path = self.config / "overlays" / f"{name}_symbols.txt"
+            if not path.exists():
+                continue
+            start = int(module["load_address"], 16)
+            end = start + module["sector_count"] * 2048
+            for line in path.read_text().splitlines():
+                if not line.startswith("D_") or " size:0x" not in line:
+                    continue
+                address = int(line.split("=", 1)[1].split(";", 1)[0], 16)
+                size = int(line.split(" size:0x", 1)[1].split()[0], 16)
+                self.assertGreaterEqual(address, start, (name, line))
+                self.assertLessEqual(address + size, end, (name, line))
+                checked += 1
+        self.assertGreater(checked, 0)
+
     @unittest.skipUnless((ROOT / "game/DATA/MODEL.MRG").is_file(), "requires the retail MODEL input")
     def test_header_families_share_text(self):
         manifest = json.loads((self.config / "overlays.json").read_text())
@@ -515,6 +539,12 @@ class ModelVariantToolchainTests(unittest.TestCase):
             156: (names({392}, {8, 113, 350, 386, 448}, stage10_slot1=set(), stage8_slot1=set()), 0xEC4, 1),
             266: (names(set(), set(), stage10_slot1={167, 356}, stage8_slot1={38, 271, 635}), 0xE18, 1),
             286: (names(set(), set(), stage10_slot1={8, 113, 350, 386, 448}, stage8_slot1={392}), 0xEC4, 1),
+            167: (names(set(), {169, 524, 591}, stage10_slot1=set(), stage8_slot1=set()), 0xF08, 1),
+            297: (names(set(), set(), stage10_slot1={169, 524, 591}, stage8_slot1=set()), 0xF08, 1),
+            140: (names(set(), {131, 145}, stage10_slot1=set(), stage8_slot1=set()), 0x106C, 1),
+            270: (names(set(), set(), stage10_slot1={131, 145}, stage8_slot1=set()), 0x106C, 1),
+            160: (names(set(), {164, 191, 494, 521, 599}, stage10_slot1=set(), stage8_slot1=set()), 0x11B0, 1),
+            290: (names(set(), set(), stage10_slot1={164, 191, 494, 521, 599}, stage8_slot1=set()), 0x11B0, 1),
             # North American images whose entry is North American C (headers 111, 118, 119, 176, 627, 647, 752, 754, 756, 766, 779, 827 and 828).
             111: (names({466, 483, 548}, {247, 486}, stage10_slot1=set(), stage8_slot1=set()), 0xCF8, 1),
             241: (names(set(), set(), stage10_slot1={247, 486}, stage8_slot1={466, 483, 548}), 0xCF8, 1),
@@ -567,7 +597,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 989)
+        self.assertEqual(len(registered), 1009)
 
 
 if __name__ == "__main__":
