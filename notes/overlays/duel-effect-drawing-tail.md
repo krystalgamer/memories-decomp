@@ -89,7 +89,7 @@ Regional/runtime coverage remains subject to the existing ordinary PR gates.
 ## Original matching evidence
 
 The contiguous Spanish bank interval `0x80155F94..0x80156448` is owned by
-`src/overlays/duel_effects/drawing_tail.c`, in definition order, with the
+`drawing_tail.c` (now part of `src/overlays/duel_effects/layered_drawing.c`), in definition order, with the
 unchanged `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81).
 
 | Function | Bytes | Recovered behavior |
@@ -140,3 +140,11 @@ Additive integration of the accepted layered-drawing group preserves all
 provisional assembly boundaries. Configured Spanish overlays reach 167/209
 matching instances / 65,112 bytes. All source groups, shared declarations and
 texture offsets remain intact; no unreviewed runtime coverage is claimed.
+
+## Later grouping
+
+`layered_drawing.c`, `drawing_tail.c` and `gradient_strip.c` have since been
+merged by meaning (#39) into one `layered_drawing.c` unit of six contiguous
+primitive-drawing functions, from the layered tile quad through the gradient
+ring strip, at the same `gcc_2_8_1_g0_split` profile in every region. The
+sections above, and the bank notes, record the units as they were accepted.

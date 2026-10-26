@@ -175,13 +175,12 @@ class SpanishDuelBankTests(unittest.TestCase):
             "display_quads": [
                 (0x801573A8, 0xEC), (0x80157494, 0x138), (0x801575CC, 0x1C8),
             ],
-            "gradient_strip": [(0x80156448, 0x28C)],
             "projected_wrappers": [(0x80151218, 0x104), (0x8015131C, 0xD8)],
-            "drawing_tail": [
-                (0x80155F94, 0xD0), (0x80156064, 0x108), (0x8015616C, 0x2DC),
-            ],
             "contour_quads": [(0x801558F4, 0x2CC)],
-            "layered_drawing": [(0x80155BC0, 0x1D0), (0x80155D90, 0x204)],
+            "layered_drawing": [
+                (0x80155BC0, 0x1D0), (0x80155D90, 0x204), (0x80155F94, 0xD0),
+                (0x80156064, 0x108), (0x8015616C, 0x2DC), (0x80156448, 0x28C),
+            ],
             "color_transition": [
                 (0x80153F28, 0x70), (0x80153F98, 0xC4), (0x8015405C, 0x28),
             ],
