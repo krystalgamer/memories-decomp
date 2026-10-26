@@ -47,7 +47,7 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
     s32, u8 *, s32, s32, FileTransferCallback callback, s32 initial_phase_index, s32
 );
 FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
-    s32, s32, s32, s32
+    s32 start_lba, s32 end_lba, s32 filter_channel, s32 filter_file
 );
 FileTransferDescriptor *File_InitTransferDescriptor(
     FileTransferDescriptor *, s32, u8 *, s32, s32, FileTransferCallback callback, s32 initial_phase_index,
@@ -77,10 +77,10 @@ void func_80013C28(s32);
 #endif
 void File_StepActiveTransfer(void);
 void File_ServiceTransfers(s32 arg0);
-void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 mode);
+void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_index);
 /* The sound producer passes FileRequestSlot directly; null polls the pending
    state. The result retains its historical status-or-descriptor integer ABI. */
-s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *source);
+s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument);
 void File_ActivateTransfer(void);
 void File_WaitForTransfers(void);
 void File_RequestMainMenuPackage(void);
