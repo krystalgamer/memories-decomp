@@ -3230,9 +3230,9 @@
     },
     {
       "address": "0x8003B7E0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x28",
-      "source": "src/game/text_stream_read_byte.c"
+      "source": "src/game/text_lookup_string.c"
     },
     {
       "address": "0x8003B808",

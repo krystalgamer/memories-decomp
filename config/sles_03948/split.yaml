@@ -777,9 +777,6 @@ segments:
   - - 180788
     - c
     - game/european/text_lookup_string
-  - - 180940
-    - c
-    - game/text_stream_read_byte
   - - 180980
     - c
     - game/european/free_duel_load_package_stage
