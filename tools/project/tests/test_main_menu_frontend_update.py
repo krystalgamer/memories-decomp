@@ -11,7 +11,15 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/overlays/main_menu/frontend_update.c"
+SOURCE = ROOT / "src/overlays/main_menu/frontend.c"
+GUARD = "#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE))"
+
+
+def update_text():
+    """The unit's shared head plus the update's own section, unguarded."""
+    head, _initialiser, update = SOURCE.read_text().split(GUARD, 2)
+    body = update.split("\n", 3)[3]  # drop the rest of the 3-line guard
+    return head + body[:body.rindex("#endif")]
 SCRATCH = ROOT / "tmp/main-menu-frontend-witness"
 START = r"""
 .text
@@ -254,7 +262,6 @@ class MainMenuFrontendUpdateTests(unittest.TestCase):
         SCRATCH.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="run-", dir=SCRATCH) as temporary:
             directory = Path(temporary)
-            source = SOURCE
             def normalized(code):
                 return re.sub(
                     r'^#include "([^"]+)"',
@@ -264,7 +271,9 @@ class MainMenuFrontendUpdateTests(unittest.TestCase):
                     code, flags=re.MULTILINE,
                 )
 
-            prefix = SOURCE.read_text().split(
+            source = directory / "update.c"
+            source.write_text(normalized(update_text()))
+            prefix = update_text().split(
                 "s32 MainMenu_UpdateFrontendMenu(void)", 1
             )[0]
             (directory / "declarations.h").write_text(normalized(prefix))
@@ -284,7 +293,7 @@ class MainMenuFrontendUpdateTests(unittest.TestCase):
                     "timer": ("timer = step - 1;", "timer = step - 2;"),
                     "sign": ("delta = first - value;", "delta = value - first;"),
                 }[mutation]
-                code = SOURCE.read_text()
+                code = update_text()
                 self.assertEqual(code.count(original), 1, "mutation must be active")
                 code = code.replace(original, replacement)
                 source = directory / "mutated.c"
