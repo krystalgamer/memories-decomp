@@ -202,10 +202,10 @@ void Text_WaitForDisplayEffect(DuelEffectChannel *object)
 
 void Text_RequestDisplayEffectFadeOut(DuelEffectChannel *object)
 {
-    u8 flags = gText_DisplayEffectRecord->field_32;
+    u8 flags = gText_DisplayEffectRecord->variant_update_flags;
 
     if ((flags & 3) == 0) {
-        gText_DisplayEffectRecord->field_32 = flags | 0x10;
+        gText_DisplayEffectRecord->variant_update_flags = flags | 0x10;
         gText_DisplayEffectRecord->display_effect_step = 6;
         object->playback_state = 8;
     }
@@ -213,10 +213,10 @@ void Text_RequestDisplayEffectFadeOut(DuelEffectChannel *object)
 
 void Text_RequestDisplayEffectCrossfade(DuelEffectChannel *object)
 {
-    u8 flags = gText_DisplayEffectRecord->field_32;
+    u8 flags = gText_DisplayEffectRecord->variant_update_flags;
 
     if ((flags & 3) == 0) {
-        gText_DisplayEffectRecord->field_32 = flags | 0x10;
+        gText_DisplayEffectRecord->variant_update_flags = flags | 0x10;
         gText_DisplayEffectRecord->display_effect_step = 4;
         object->playback_state = 8;
     }

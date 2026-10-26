@@ -48,7 +48,8 @@ typedef struct {
        memory; Script_OpShowMenu and display_effect_update_callbacks.c
        reach it too. Named to agree with that view. */
     u8 resource_entry_index;
-    u8 field_32;
+    /* Resource-variant activity/control bits, separate from the step byte. */
+    u8 variant_update_flags;
     u8 display_effect_step;
     u16 field_34;
     /* The second half of the pair DisplayEffect_ResetRecordState seeds -- 0x34 with 0x68 and
@@ -58,8 +59,10 @@ typedef struct {
        same memory. */
     u16 field_36;
     u8 pad_38[2];
-    u8 field_3A;
-    u8 field_3B;
+    /* Last explicit grid[0][2] request, not the live object's selector. */
+    u8 requested_variant;
+    /* The grid[0][2] update paths count both down and up. */
+    u8 variant_update_counter;
     /* Selected shared record index: script stores bit 7's 0/1 and text
        stores the chosen 0/1/2 slot. Consumers preserve raw coordinate
        arithmetic and zero/nonzero resource-bank and side tests; it is not

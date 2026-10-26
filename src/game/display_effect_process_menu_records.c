@@ -18,9 +18,9 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
     s32 c;
     s32 v;
 
-    f = p->field_32;
+    f = p->variant_update_flags;
     if ((f & 0x10) != 0) {
-        p->field_32 = f & 0xFC;
+        p->variant_update_flags = f & 0xFC;
         return;
     }
 
@@ -30,7 +30,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
                 p->variant_countdown =
                     (rand() & DISPLAY_EFFECT_DELAY_MASK) +
                     DISPLAY_EFFECT_DELAY_BASE;
-                p->field_32 = p->field_32 & 0xFE;
+                p->variant_update_flags = p->variant_update_flags & 0xFE;
                 DisplayObject_SetResourceVariant(
                     DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][1]), 0);
             }
@@ -38,7 +38,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
             v = p->variant_countdown - 1;
             p->variant_countdown = v;
             if ((s16)v <= 0) {
-                p->field_32 = p->field_32 | 1;
+                p->variant_update_flags = p->variant_update_flags | 1;
                 DisplayObject_SetResourceVariant(
                     DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][1]), 1);
             }
@@ -49,10 +49,10 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
         return;
     }
 
-    g = p->field_32;
+    g = p->variant_update_flags;
     if ((g & 2) != 0) {
-        c = p->field_3B - 1;
-        p->field_3B = c;
+        c = p->variant_update_counter - 1;
+        p->variant_update_counter = c;
         if (((DisplayObject *)p->grid[0][2])->field_5A != 0) {
             return;
         }
@@ -60,26 +60,26 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
             return;
         }
         if (n <= 0) {
-            p->field_3B = 0;
-            p->field_32 = p->field_32 & 0xFD;
+            p->variant_update_counter = 0;
+            p->variant_update_flags = p->variant_update_flags & 0xFD;
             return;
         }
     } else {
         if (n < 0) {
             goto slow;
         }
-        p->field_32 = g | 2;
+        p->variant_update_flags = g | 2;
     }
 
-    p->field_3B = 6;
-    p->field_3A = n;
+    p->variant_update_counter = 6;
+    p->requested_variant = n;
     DisplayObject_SetResourceVariant(
         DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][2]), n);
     return;
 
 slow:
-    p->field_3B = p->field_3B + 1;
-    if ((s8)p->field_3B < 6) {
+    p->variant_update_counter = p->variant_update_counter + 1;
+    if ((s8)p->variant_update_counter < 6) {
         return;
     }
     DisplayObject_UpdateResourceVariant(
@@ -95,7 +95,7 @@ void DisplayEffect_ProcessMenuRecords(s32 value) {
 
     do {
         if (record->effect_id >= 0) {
-            if (record->field_32 & 0x40) {
+            if (record->variant_update_flags & 0x40) {
                 DisplayEffect_UpdateMenuRecord(record, value);
             }
 
