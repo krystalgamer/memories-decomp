@@ -131,7 +131,7 @@ or real-time duration is inferred from the phase byte.
 
 As everywhere in this module, one compiler profile covers the whole overlay,
 so a profile change does not mark this boundary. The two externally reached
-functions are the pair `Main_RunPasswordMenu` (`src/game/main_run_frontend_menus.c`) calls: init once and update
+functions are the pair `Main_RunPasswordMenu` (`src/game/main_mode_runners.c`) calls: init once and update
 per tick. Every other function in the table is called or installed by that
 pair.
 

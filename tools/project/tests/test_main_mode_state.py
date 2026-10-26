@@ -38,7 +38,6 @@ CONSUMERS = (
     "src/game/script_op_return_to_menu.c",
     "src/game/debug_menu_editor_entries.c",
     "src/game/debug_menu_leave_entries.c",
-    "src/game/main_run_frontend_menus.c",
     "src/game/main_debug.c",
     "src/game/main_init.c",
     "src/game/main_run_animated_battle.c",
@@ -73,7 +72,6 @@ ACTIVE_ARRAY = {
 COMMON_ACTIVE = {
     "src/game/main_run_animated_battle.c", "src/game/main_run_selection_menus.c",
     "src/game/main_run_duel_and_library.c",
-    "src/game/main_run_frontend_menus.c",
     "src/game/main_mode_runners.c",
 }
 
@@ -183,7 +181,7 @@ class MainModeStateTests(unittest.TestCase):
                     self.assert_views(self.preprocess(path), (next_view, active_view))
 
     def test_current_successors_and_common_inputs(self):
-        self.assertEqual(len(CONSUMERS), 27)
+        self.assertEqual(len(CONSUMERS), 26)
         commons = 0
         for source in CONSUMERS:
             with self.subTest(source=source):
@@ -201,7 +199,7 @@ class MainModeStateTests(unittest.TestCase):
                     common.append("gMain_bReturnMode")
                 commons += len(common)
                 self.assert_views(self.preprocess(path), expected, common)
-        self.assertEqual(commons, 6)
+        self.assertEqual(commons, 5)
 
     def test_one_owner_and_current_candidate_keys(self):
         index = candidate_builds.canonical_declaration_index(set(SYMBOLS), ROOT / "src")
