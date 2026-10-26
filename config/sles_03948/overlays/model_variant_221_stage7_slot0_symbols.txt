@@ -1,0 +1,26 @@
+// French MODEL.MRG model 221 (record 221), sector 61176, loaded at 0x8013B000; header 796/893, the North American variant779_entry.c with the PAL CLUT.
+func_8013B004 = 0x8013B004; // type:func size:0x20DC defined:true
+D_8013D0F0 = 0x8013D0F0; // type:u8 size:0x54 defined:true
+D_8013D144 = 0x8013D144; // type:u8 size:0x2EBC defined:true
+Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
+Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
+func_80058F10 = 0x8005C018; // type:func absolute:true
+Model_GetSlotDataEntry = 0x8005C028; // type:func absolute:true
+Model_GetLightSourceMatrix = 0x8005C328; // type:func absolute:true
+Model_SetSlotAmbient = 0x8005C6D0; // type:func absolute:true
+ModelTexture_PackPageClutCopy = 0x8005CB58; // type:func absolute:true
+Model_SetFrameStepOverride = 0x8005CBF4; // type:func absolute:true
+Graphics_SubmitDrawModePacket = 0x8004D5B8; // type:func absolute:true
+GsSetLsMatrix = 0x80085558; // type:func absolute:true
+ccos = 0x800868A8; // type:func absolute:true
+csin = 0x80086B38; // type:func absolute:true
+PushMatrix = 0x80087158; // type:func absolute:true
+PopMatrix = 0x800871FC; // type:func absolute:true
+MulMatrix2 = 0x80087408; // type:func absolute:true
+ScaleMatrix = 0x800875F8; // type:func absolute:true
+RotTrans = 0x800878F8; // type:func absolute:true
+RotAverage4 = 0x80087A38; // type:func absolute:true
+RotMatrix = 0x80087CB8; // type:func absolute:true
+GsGetLwUnit = 0x8008A428; // type:func absolute:true
+memset = 0x8008F548; // type:func absolute:true
+rand = 0x8008F708; // type:func absolute:true

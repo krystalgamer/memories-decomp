@@ -51,3 +51,10 @@ rest of the image is one raw tail that starts at `0x20F0`. Inside it, the
 layout names the three texture descriptors `D_8013D0F0` and the command table
 `D_8013D144`. The `0x8017B000` images use the same offsets. The resident
 bindings are in `config/slus_01411/overlays/variant779_linker_symbols.txt`.
+
+## French images
+
+French headers 796 and 893 hold the same entry. The French wrappers in
+`src/overlays/french_model_variant/variant796_entry{,_slot1}.c` set
+`MODEL_VARIANT779_CLUT_X` to 640, the PAL burst palette; see
+[French MODEL entries reusing North American C](french-model-usa-entry-reuse.md).

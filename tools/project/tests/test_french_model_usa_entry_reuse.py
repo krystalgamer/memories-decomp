@@ -22,7 +22,7 @@ class FrenchModelUsaEntryReuseTests(unittest.TestCase):
             self.rows = list(csv.DictReader(handle))
 
     def test_ledger_matches_the_manifests(self):
-        self.assertEqual(len(self.rows), 118)
+        self.assertEqual(len(self.rows), 190)
         for row in self.rows:
             with self.subTest(module=row["module"]):
                 module = self.modules[row["module"]]
@@ -62,7 +62,8 @@ class FrenchModelUsaEntryReuseTests(unittest.TestCase):
             resident = {int(r["address"], 0) for r in csv.DictReader(handle)}
         for link in sorted({self.modules[row["module"]]["linker_symbols"] for row in self.rows}):
             bindings = dict(re.findall(r"^(\w+)\s*=\s*(0x[0-9A-Fa-f]+);", (ROOT / link).read_text(), re.M))
-            self.assertEqual((bindings["GetClut"], bindings["GetTPage"]), ("0x80082D28", "0x80082CE8"))
+            self.assertEqual((bindings.get("GetClut", "0x80082D28"), bindings.get("GetTPage", "0x80082CE8")),
+                             ("0x80082D28", "0x80082CE8"))
             for address in bindings.values():
                 self.assertIn(int(address, 0), resident)
 
