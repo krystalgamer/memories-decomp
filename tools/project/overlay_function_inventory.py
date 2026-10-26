@@ -160,13 +160,17 @@ def last_writer(data: bytes, start: int, before: int, register: int,
     return None
 
 
-def jump_table_targets(data: bytes, base: int, start: int, pc: int) -> list[int] | None:
+def switch_dispatch(data: bytes, base: int, start: int, pc: int) -> tuple[list[int], tuple] | None:
     """Resolve a GCC switch table read by `lw reg, off(table + index); jr reg`.
 
     The whole chain must be proven: the jump register's last write is the load,
     the load address's last write is the sum, the index is `sll x, 2`, and a
-    `sltiu t, x, N` guarded by `beq/bne t, zero` bounds `x` with no write to
-    `x` in between. Anything ambiguous stays unresolved.
+    `sltiu t, x, N` bounds `x` with no write to `x` in between. The first
+    control transfer after the bound must be `beq t, zero, exit` with `exit`
+    outside the dispatch, and its fall-through must run straight to the `jr`.
+    Returns the targets and the guarded window, which other edges of the
+    function may enter only as proven by `guarded_entry`. Anything ambiguous
+    stays unresolved.
     """
     reg = struct.unpack_from("<I", data, pc)[0] >> 21 & 31
     load_at = last_writer(data, start, pc, reg, straight=True)
@@ -212,15 +216,25 @@ def jump_table_targets(data: bytes, base: int, start: int, pc: int) -> list[int]
     if any(written_register(struct.unpack_from("<I", data, at)[0]) == selector
            for at in range(first + 4, last, 4)):
         return None
-    guarded = False
+    guard_at = None
     for at in range(bound_at + 4, pc, 4):
         word = struct.unpack_from("<I", data, at)[0]
-        if word >> 26 in (4, 5) and {word >> 21 & 31, word >> 16 & 31} == {flag, 0}:
-            guarded = True
+        if is_control_transfer(word):
+            guard_at = at
             break
         if written_register(word) == flag:
             return None
-    if not guarded:
+    # Only `beq t, zero, exit` proves the fall-through path is in range.
+    if guard_at is None:
+        return None
+    guard = struct.unpack_from("<I", data, guard_at)[0]
+    if guard >> 26 != 4 or {guard >> 21 & 31, guard >> 16 & 31} != {flag, 0}:
+        return None
+    if any(is_control_transfer(struct.unpack_from("<I", data, at)[0]) for at in range(guard_at + 8, pc, 4)):
+        return None
+    window = min(bound_at, shift_at) + 4, pc, guard_at, bound_at, flag, selector
+    exit_at = guard_at + 4 + ((guard & 65535) - (65536 if guard & 32768 else 0)) * 4
+    if window[0] <= exit_at <= window[1]:
         return None
     cursor = table - base
     if cursor + count * 4 > len(data):
@@ -228,7 +242,35 @@ def jump_table_targets(data: bytes, base: int, start: int, pc: int) -> list[int]
     targets = [struct.unpack_from("<I", data, cursor + 4 * i)[0] - base for i in range(count)]
     if any(not start <= target < len(data) or target % 4 for target in targets):
         return None
-    return targets
+    return targets, window
+
+
+def guarded_entry(data: bytes, start: int, source: int | None, window: tuple, edges: set) -> bool:
+    """Prove a branch at `source` into the guard carries the same bound flag.
+
+    GCC also reaches the guard from other branches whose delay slot, or the
+    straight-line code before them, computes the identical `sltiu`. The nearest
+    flag write before the delay slot must be that word, with no selector write,
+    control transfer or other incoming edge in between.
+    """
+    _, _, guard_at, bound_at, flag, selector = window
+    bound = struct.unpack_from("<I", data, bound_at)[0]
+    if source is None:
+        return False
+    for at in [source + 4] + list(range(source - 4, start - 4, -4)):
+        word = struct.unpack_from("<I", data, at)[0]
+        if at != source + 4 and (is_control_transfer(word) or any(at < edge <= source for edge, _ in edges)):
+            return False
+        if written_register(word) == flag:
+            return word == bound
+        if written_register(word) == selector:
+            return False
+    return False
+
+
+def jump_table_targets(data: bytes, base: int, start: int, pc: int) -> list[int] | None:
+    dispatch = switch_dispatch(data, base, start, pc)
+    return None if dispatch is None else dispatch[0]
 
 
 def walk_function(data: bytes, base: int, start: int, size: int | None = None,
@@ -249,6 +291,8 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None,
     problems: set[str] = set()
     returns = 0
     indirect_calls = 0
+    edges = {(start, None)}
+    windows: dict[int, tuple[int, int]] = {}
     while pending:
         pc = pending.pop()
         if pc in visited:
@@ -298,12 +342,14 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None,
         elif ins.isBranch():
             displacement = (word & 65535) - (65536 if word & 32768 else 0)
             pending.append(pc + 4 + displacement * 4)
+            edges.add((pc + 4 + displacement * 4, pc))
             if not ins.isUnconditionalBranch():
                 pending.append(pc + 8)
         elif op == 2:
             target = ((base + pc + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
             if base + start <= target < base + limit:
                 pending.append(target - base)
+                edges.add((target - base, pc))
             elif resolve_flow and RAM_START <= target < RAM_END:
                 external.add(target)
                 returns += 1
@@ -312,11 +358,19 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None,
             else:
                 problems.add(f"tail_target@{target:#x}")
         else:
-            targets = jump_table_targets(data, base, start, pc) if resolve_flow else None
-            if targets is None:
+            dispatch = switch_dispatch(data, base, start, pc) if resolve_flow else None
+            if dispatch is None:
                 problems.add(f"indirect_jump@{pc:#x}")
             else:
-                pending.extend(targets)
+                pending.extend(dispatch[0])
+                edges.update((target, None) for target in dispatch[0])
+                windows[pc] = dispatch[1]
+    for pc, window in windows.items():
+        low, high, guard_at = window[:3]
+        # Any other entry into the bounds check or dispatch must carry the bound.
+        if any(low <= edge <= high and not (edge == guard_at and guarded_entry(data, start, source, window, edges))
+               for edge, source in edges):
+            problems.add(f"unguarded_switch@{pc:#x}")
     extent = max(visited, default=start - 4) + 4 - start
     contiguous = bool(visited) and len(visited) * 4 == extent
     if not returns:

@@ -69,11 +69,29 @@ class InventoryModelImagesTests(unittest.TestCase):
     def test_switch_table_requires_a_guarded_bound_on_its_selector(self):
         for offset, word in ((0x0C, 0x00000000),   # no sltiu
                              (0x0C, 0x2CA20002),   # sltiu bounds a1, not the a0 selector
-                             (0x10, 0x00000000)):  # no beqz guard on the bound flag
+                             (0x10, 0x00000000),   # no beqz guard on the bound flag
+                             (0x10, 0x14400006),   # inverted bnez: out of range falls into the table read
+                             (0x10, 0x10400001)):  # beqz exit lands inside the dispatch
             data = bytearray(image())
             struct.pack_into("<I", data, offset, word)
             with self.subTest(offset=offset, word=word):
                 self.assertIsNone(census.jump_table_targets(bytes(data), BASE, 4, 0x24))
+
+    def test_switch_rejects_paths_that_rejoin_the_guarded_dispatch(self):
+        data = bytearray(image())
+        struct.pack_into("<I", data, 0x34, 0x1000FFF8)  # case 1: b 0x18, past the bound check
+        switch = census.walk_function(bytes(data), BASE, 4, resolve_flow=True)
+        self.assertFalse(switch["closed"])
+        self.assertIn("unguarded_switch@0x24", switch["problems"])
+
+    def test_switch_accepts_guard_entries_that_recompute_the_bound(self):
+        data = bytearray(image())
+        struct.pack_into("<I", data, 0x34, 0x1000FFF6)  # case 1: b 0x10 (the guard)
+        struct.pack_into("<I", data, 0x38, 0x2C820002)  # delay slot: sltiu v0, a0, 2
+        self.assertTrue(census.walk_function(bytes(data), BASE, 4, resolve_flow=True)["closed"])
+        struct.pack_into("<I", data, 0x38, 0x00000000)  # without it the flag is stale
+        switch = census.walk_function(bytes(data), BASE, 4, resolve_flow=True)
+        self.assertIn("unguarded_switch@0x24", switch["problems"])
 
     def test_reachability_only_follows_edges_from_rooted_bodies(self):
         data = bytearray(image())
