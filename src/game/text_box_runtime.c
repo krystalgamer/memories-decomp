@@ -54,7 +54,7 @@ void TextBox_UpdateChannels(void)
     n = 4;
     reset_value = -1;
     table = gText_aGlyphLookup;
-    q = (ChoiceChannelCursor *)&p->field_30;
+    q = (ChoiceChannelCursor *)&p->prompt_object;
     do {
         if (q->choice.flags & 0x8000) {
             gText_PumpedGlyphIndex = 0;
@@ -126,14 +126,14 @@ void TextBox_SetPos(DuelEffectChannel *record, s32 x, s32 y)
 {
     DisplayObject *object;
 
-    object = record->field_28;
+    object = record->render_object;
     record->rect_x = x;
     record->rect_y = y;
     if (object != 0) {
         object->field_30.h.field_30 = x;
         object->field_30.h.field_32 = y;
     }
-    object = record->field_2C;
+    object = record->aux_object;
     if (object != 0) {
         if (object->field_1E == 4)
             TextBox_UpdateOutline(record);
@@ -142,7 +142,7 @@ void TextBox_SetPos(DuelEffectChannel *record, s32 x, s32 y)
             object->field_30.h.field_32 = y;
         }
     }
-    object = record->field_30;
+    object = record->prompt_object;
     if (object != 0) {
         if (object->field_1E == 4)
             DuelEffect_UpdateObjectLayout(record);

@@ -443,7 +443,7 @@ void Library_UpdateCardView(LibraryState *state)
                 state->motion.display_objects.all[i]->flags &= 0xFFBF;
                 i++;
             } while (i < 9);
-            H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) &= 0xFFBF;
+            H(LIBRARY_EFFECT_CHANNEL(3)->render_object, 8) &= 0xFFBF;
             state->motion.card_view_phase = 3;
             SD_SEPlayFull(0x31);
     case 3:
@@ -610,7 +610,7 @@ void Library_UpdateCardView(LibraryState *state)
                 state->motion.display_objects.all[i]->flags |= 0x40;
                 i++;
             } while (i < 9);
-            H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) |= 0x40;
+            H(LIBRARY_EFFECT_CHANNEL(3)->render_object, 8) |= 0x40;
             gMain_apFrameServiceCallbacks[3] = Library_DrawCardGrid;
             Fade_StartInKeepOverlay();
             state->motion.card_view_slide_phase = 2;
@@ -1087,8 +1087,8 @@ void Library_InitializeScreen(void) {
     m->line_advance_y = 0x10;
 #endif
     TextBox_BuildBlocking(m);
-    DisplayObject_SelectOrderingTable3(m->field_28);
-    m->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    DisplayObject_SelectOrderingTable3(m->render_object);
+    m->render_object->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Library_RefreshSelectedCardText((const LibraryState *)r);
     SD_BGMPlay(0x72D0);
 }

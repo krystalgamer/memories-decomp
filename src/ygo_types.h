@@ -551,13 +551,13 @@ typedef struct DuelEffectChannel {
        TextBox_RefreshDisplayObjects and Script_OpSavePrompt cast it, card-list text
        reaches ->flags through it, and Dialog_UpdateChoice used to read it
        through a pointer cast. */
-    struct DisplayObject *G32 field_28;
+    struct DisplayObject *G32 render_object;
     /* The second owned display object has the same evidence: producers store
        the object they just built and consumers release it through
        DisplayObject_ReleaseIfPresent. Integer-looking field_2C writes elsewhere belong to the
        unrelated DuelEffectResourceRecord. */
-    struct DisplayObject *G32 field_2C;
-    struct DisplayObject *G32 field_30;
+    struct DisplayObject *G32 aux_object;
+    struct DisplayObject *G32 prompt_object;
     u16 flags_34;
     u16 field_36;
     u16 pen_x;
@@ -606,14 +606,14 @@ typedef char DuelEffectChannel_entry_end_20_offset_must_be_0x20[
 typedef char DuelEffectChannel_entry_head_24_offset_must_be_0x24[
     YGO_TYPE_OFFSET(DuelEffectChannel, entry_head_24) == 0x24 ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_28_offset_must_be_0x28[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_28) == 0x28 ? 1 : -1
+typedef char DuelEffectChannel_render_object_offset_must_be_0x28[
+    YGO_TYPE_OFFSET(DuelEffectChannel, render_object) == 0x28 ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_2C_offset_must_be_0x2C[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_2C) == 0x2C ? 1 : -1
+typedef char DuelEffectChannel_aux_object_offset_must_be_0x2C[
+    YGO_TYPE_OFFSET(DuelEffectChannel, aux_object) == 0x2C ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_30_offset_must_be_0x30[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_30) == 0x30 ? 1 : -1
+typedef char DuelEffectChannel_prompt_object_offset_must_be_0x30[
+    YGO_TYPE_OFFSET(DuelEffectChannel, prompt_object) == 0x30 ? 1 : -1
 ];
 typedef char DuelEffectChannel_flags_34_offset_must_be_0x34[
     YGO_TYPE_OFFSET(DuelEffectChannel, flags_34) == 0x34 ? 1 : -1

@@ -19,7 +19,7 @@
  * declared in DuelEffectChannel at those offsets and at these widths, and
  * every caller, duel_effect_dialog_state.c included, holds a DuelEffectChannel *.
  *
- * The returned display object is stored in the channel's field_30 slot and
+ * The returned display object is stored in the channel's prompt_object slot and
  * released through the display-object lifecycle helpers. */
 struct DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record);
 

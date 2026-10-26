@@ -1491,7 +1491,7 @@ void MemCardDialog_Update(void)
             if ((gMemCard_wDialogFlags & 0x20) != 0) {
                 do {
                     TextBox_UpdateChannels();
-                } while (p->field_30 == 0);
+                } while (p->prompt_object == 0);
                 return;
             }
             if ((gMemCard_wDialogFlags & 0x10) != 0) {

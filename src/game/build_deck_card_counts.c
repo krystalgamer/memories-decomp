@@ -37,7 +37,7 @@ void BuildDeck_RefreshCountDisplay(BuildDeckTransitionState *record) {
     gText_StagedValues[0].build_deck.deck = record->deck_total;
     p = TextBox_CreateFlagged(3, 0xE, 0x16, BUILD_DECK_COUNT_BOX_Y, 0x280, 0x10, BUILD_DECK_COUNT_BOX_FLAGS);
     TextBox_BuildBlocking(p);
-    p->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    p->render_object->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
 void BuildDeck_ReturnCardToChest(BuildDeckTransitionState *base, s32 index)

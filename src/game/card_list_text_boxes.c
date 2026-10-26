@@ -49,7 +49,7 @@ void CardList_CreateSlotTextBox(CardList *list, s32 slot)
                          CARD_LIST_SLOT_BOX_Y, 0x120,
                          CARD_LIST_SLOT_BOX_HEIGHT);
     box->pen_y = slot * 22;
-    box->field_28->flags &=
+    box->render_object->flags &=
         ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     if ((list->entries[list->first + slot].flags & 0x80) != 0) {
         box->color_index_54 = 4;

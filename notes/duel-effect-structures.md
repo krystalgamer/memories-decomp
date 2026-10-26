@@ -29,8 +29,9 @@ Verified channel fields used by matching C include:
 
 | Offset | Shared field | Evidence |
 |---:|---|---|
-| `0x28`, `0x2C` | `field_28`, `field_2C` | cleared across four entries by `DuelEffect_ResetState` |
-| `0x30` | `field_30` | pointer-sized assignment in `DuelEffect_UpdateDialogState`; cleared by `DuelEffect_ResetState` |
+| `0x28` | `render_object` | primary entry-render object installed by `TextBox_RefreshDisplayObjects` |
+| `0x2C` | `aux_object` | outline, custom trade sprite or name-entry caret; shared owned auxiliary slot |
+| `0x30` | `prompt_object` | page/completion cursor or choice highlight; retained and released by channel state paths |
 | `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `DuelEffect_ResetState` |
 | `0x36` | `field_36` | halfword initialization in `DuelEffect_InitEntry` |
 | `0x38`, `0x3A` | `pen_x`, `pen_y` | unsigned halfword pen initialization, stream commands and entry-position publication |
@@ -43,6 +44,59 @@ Verified channel fields used by matching C include:
 | `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, [`duel_effect_object_commands.c`](../src/game/duel_effect_object_commands.c), and [`duel_effect_command.c`](../src/game/duel_effect_command.c) |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
+
+### Retained channel display objects
+
+The three stored DisplayObject pointers have high-confidence ownership
+names from their complete local creation, placement, use and release chain:
+render_object at +0x28 (formerly field_28), aux_object at +0x2C
+(field_2C), and prompt_object at +0x30 (field_30). Their pointer types,
+G32 annotations, order and offset assertions are unchanged. These are
+qualified channel names, not a global rename of DisplayObject unions,
+MenuRecord/DuelEffectResourceRecord payloads or FileTransferDescriptor.
+
+TextBox_RefreshDisplayObjects (0x800391E4) lazily creates render_object,
+installs TextBox_DrawEntries and the channel index, then publishes geometry,
+ordering-table and narrowed depth values. An existing object is reused
+without reinstalling its callback. The name denotes the channel's entry
+renderer, not a claim that every channel or entry is text-only. Card-list,
+library and save-dialog paths still alter this object's flags, ordering
+table or animation through the original typed pointer and raw aliases.
+
+The same refresh routine conditionally replaces aux_object with a Gouraud
+outline. This slot is NOT universally an outline or shadow: trade-menu
+constructors store custom sprites, and password/name entry stores its
+separate animated caret there. TextBox_SetPos (0x80039934) retains the type-4
+outline update versus direct-position branch; all custom sprite/caret
+publication and subsequent casts remain in their original order.
+
+Dialog_OpenChoice produces the lower-corner sprite used for page waits
+and completion prompts. Dialog_UpdateChoice (0x800371A8) instead stores
+a highlighted-choice quad in prompt_object. Highlight colour, regional
+choice geometry, optional highlight retention, page-advance initialization,
+countdown/input handling and CloseChoice's release/state/yield sequence
+are unchanged. Existing callers polling this pointer still wait only for
+its non-null publication, not for input confirmation or completed clearing.
+TextBox_UpdateChannels (0x80039794) retains its separate +0x30
+ChoiceChannelCursor, stored obj/flags view and original regional stride.
+
+TextBox_BuildStep (0x800393B0) releases and nulls prompt_object and
+aux_object before refreshing the renderer. TextBox_Destroy (0x80035B7C)
+keeps prompt/aux/render release order followed by the original pointer
+clears, including Europe's active-channel guard and occupancy differences.
+DuelEffect_ResetState (0x80035A64) only clears the stored pointers; it
+does not release those objects. No new releases or ownership transfer.
+All zero stores, unchecked allocations, raw views and compact Japanese
+0x60-byte traversal remain exact. The compact Japanese prefix declaration
+itself stays unchanged; no new region-wide record view is introduced.
+
+Twenty-five existing C units change only qualified member identifiers
+and one existing build-deck comment identifier. The existing library layout
+fixture changes two member identifiers in its offset/width checks; the
+existing ritual fixture changes two member identifiers in its original
+prompt-publication stubs. Every assertion, oracle, numeric expectation,
+mutation, flag and scenario remains unchanged. No new behavioral harness
+or local cloud-fixture execution.
 
 ### Text-channel pen and rectangle
 
@@ -492,7 +546,7 @@ local `EffectEntry` view and is not counted among the six shared-header users.
 so its accepted source does not broaden the shared declaration.
 `func_8003DA40` is matching C as well, and now takes its dialog channel as a
 `DuelEffectChannel *`, both the one `DuelEffect_CreateChannel` returns and the
-`D_800EB0F8` element it selects later (`flags_34`, `field_30`). The index it
+`D_800EB0F8` element it selects later (`flags_34`, `prompt_object`). The index it
 selects that element with is still the raw byte at `+0x1A` of its
 `MenuRecord`, which `dialog_transition.c` reads the same way.
 `func_8003D74C`, which coordinates the duel-intro card reveal, likewise

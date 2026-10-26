@@ -17,23 +17,23 @@ void TextBox_Destroy(DuelEffectChannel *record)
     if (record->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
         DuelEffect_ClearMatchingMarker(record->index_57);
         record->flags_34 = 0;
-        DisplayObject_ReleaseIfPresent(record->field_30);
-        DisplayObject_ReleaseIfPresent(record->field_2C);
-        DisplayObject_ReleaseIfPresent(record->field_28);
-        record->field_30 = 0;
-        record->field_2C = 0;
-        record->field_28 = 0;
+        DisplayObject_ReleaseIfPresent(record->prompt_object);
+        DisplayObject_ReleaseIfPresent(record->aux_object);
+        DisplayObject_ReleaseIfPresent(record->render_object);
+        record->prompt_object = 0;
+        record->aux_object = 0;
+        record->render_object = 0;
     }
 #else
     DuelEffect_ClearOccupancyValue(record->index_57);
     DuelEffect_ClearMatchingMarker(record->index_57);
     record->flags_34 = 0;
-    DisplayObject_ReleaseIfPresent(record->field_30);
-    DisplayObject_ReleaseIfPresent(record->field_2C);
-    DisplayObject_ReleaseIfPresent(record->field_28);
-    record->field_30 = 0;
-    record->field_2C = 0;
-    record->field_28 = 0;
+    DisplayObject_ReleaseIfPresent(record->prompt_object);
+    DisplayObject_ReleaseIfPresent(record->aux_object);
+    DisplayObject_ReleaseIfPresent(record->render_object);
+    record->prompt_object = 0;
+    record->aux_object = 0;
+    record->render_object = 0;
 #endif
 }
 

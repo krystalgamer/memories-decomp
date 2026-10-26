@@ -487,7 +487,7 @@ void DebugMenu_UpdateCampaignEntry(void)
         textbox = gText_aChannels;
         if ((gDebugMenu_bStep & 0x20) == 0) {
             if ((textbox->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
-                textbox->field_30 = Dialog_OpenChoice(textbox);
+                textbox->prompt_object = Dialog_OpenChoice(textbox);
                 gDebugMenu_bStep = gDebugMenu_bStep | 0x20;
             }
         } else if (Input_IsPad1ConfirmPressed() != 0) {
