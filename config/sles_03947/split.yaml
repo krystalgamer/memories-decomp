@@ -148,7 +148,6 @@ segments:
       - [0x00B8FC, c, game/european/duel_scene_card_move]
       - [0x00C4B8, c, game/duel_check_quit_input]
       - [0x00C4F8, c, game/european/duel_scene_hand_actions]
-      - [0x00D99C, c, game/duel_card_defense_rotation]
       - [0x00DAA0, c, game/display_object_property_transitions]
       - [0x00DC74, c, game/duel_action_ready_marker]
       - [0x00DD10, c, game/duel_cursor_step_toward_target]

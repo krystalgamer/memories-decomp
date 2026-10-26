@@ -303,9 +303,6 @@ segments:
   - - 50428
     - c
     - game/european/duel_scene_hand_actions
-  - - 55712
-    - c
-    - game/duel_card_defense_rotation
   - - 55972
     - c
     - game/display_object_property_transitions

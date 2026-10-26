@@ -815,7 +815,7 @@
       "address": "0x8001D088",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x104",
-      "source": "src/game/japanese/duel_card_defense_rotation.c"
+      "source": "src/game/japanese/duel_scene_hand_actions.c"
     },
     {
       "address": "0x8001D18C",
