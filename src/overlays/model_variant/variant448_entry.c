@@ -1,6 +1,11 @@
 #include "../../types.h"
 #include "variant448_entry.h"
 
+/* PAL images load the effect palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT448_CLUT_X
+#define MODEL_VARIANT448_CLUT_X 512
+#endif
+
 /* Header 448's entry: the header-404 entry shape with a 0x34-byte config, a
  * radial record, twelve spiral arms, three fan units and an orbit in place of
  * the glow and band records, five image uploads and three per-frame helpers.
@@ -85,9 +90,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(512, 244);
+        clut = GetClut(MODEL_VARIANT448_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(512, 244);
+        GetClut(MODEL_VARIANT448_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F3E4 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
