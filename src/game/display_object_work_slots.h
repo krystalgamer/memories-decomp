@@ -18,7 +18,7 @@ typedef char DisplayObjectWorkSlots_flags_offset_must_be_0x08[
     DISPLAY_OBJECT_WORK_OFFSET(flags) == 0x08 ? 1 : -1
 ];
 typedef char DisplayObjectWorkSlots_colour_offset_must_be_0x0C[
-    DISPLAY_OBJECT_WORK_OFFSET(field_0C) == 0x0C ? 1 : -1
+    DISPLAY_OBJECT_WORK_OFFSET(rgb) == 0x0C ? 1 : -1
 ];
 typedef char DisplayObjectWorkSlots_position_offsets_must_match[
     DISPLAY_OBJECT_WORK_OFFSET(field_30.h.field_30) == 0x30 &&

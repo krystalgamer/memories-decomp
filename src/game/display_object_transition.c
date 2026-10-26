@@ -60,8 +60,8 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
 
     do {
         c = ((i << 16) | (i << 8)) | i;
-        b->field_0C = c;
-        y->field_0C = c;
+        b->rgb = c;
+        y->rgb = c;
         if (a != (DisplayObject *)0) {
             c = hi - i;
             v = c * 0x60 + 0x1000;
@@ -70,8 +70,8 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
             y->field_44.h.field_44 = v;
             b->field_44.h.field_46 = v;
             b->field_44.h.field_44 = v;
-            a->field_0C = c;
-            x->field_0C = c;
+            a->rgb = c;
+            x->rgb = c;
         }
         i += 8;
         Main_AdvanceFrame();

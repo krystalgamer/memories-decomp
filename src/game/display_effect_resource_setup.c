@@ -119,7 +119,7 @@ void DisplayEffect_SetObjectRowBlend(u8 **arg0, u32 arg1, s32 arg2)
                 e->attribute = e->attribute & ~(GsALON | GsATWO | GsAONE);
                 e->attribute = e->attribute | GsALON;
                 DisplayObject_SetDepthOffset(e, c);
-                e->field_0C = COLOR_RGB24_NEUTRAL_GREY;
+                e->rgb = COLOR_RGB24_NEUTRAL_GREY;
                 e->field_40.h.field_42 -= 1;
             }
         }

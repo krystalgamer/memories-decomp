@@ -106,7 +106,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     origin = (DisplayObjectPacketOrigin *)0x1F800398;
     PRM = (SpritePrim *)0x1F800320;
     packet = (POLY_FT4 *)0x1F800344;
-    arg = (((s16)win->field_14 - 1) & 0xFFFF) | 0x10000;
+    arg = (((s16)win->ot_depth - 1) & 0xFFFF) | 0x10000;
     if (flags & 0x4) {
         obj->field_20.word = win->field_20.word;
         f4 = obj->attribute & ~(1<<27) ;
@@ -120,8 +120,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
             ) <= 0) {
             return;
         }
-        arg = (((s16)win->field_14 - 1) & 0xFFFF) | 0xF0000;
-        *(u32 *)&packet->r0 = win->field_0C;
+        arg = (((s16)win->ot_depth - 1) & 0xFFFF) | 0xF0000;
+        *(u32 *)&packet->r0 = win->rgb;
         setlen(packet, 9);
         packet->code = 0x2C;
     }
@@ -131,7 +131,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
     PRM->xy.h.y = win->field_30.h.field_32 + 0x32;
     PRM->extent.wh.w.word = 0x66;
     PRM->extent.wh.h = 0x60;
-    PRM->rgb = win->field_0C;
+    PRM->rgb = win->rgb;
     PRM->cxcy.word = obj->field_40.word;
     PRM->uv.word = obj->field_5C;
     PRM->tpage = obj->field_66;
@@ -152,14 +152,14 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 arg1) {
 #ifdef VERSION_EUROPE
     /* The European frame is drawn at three quarters of the object's colour,
        which is then restored. */
-    ((u8 *)&PRM->rgb)[0] = packet->r0 = ((u8 *)&obj->field_0C)[0] * 3u >> 2;
-    ((u8 *)&PRM->rgb)[1] = packet->g0 = ((u8 *)&obj->field_0C)[1] * 3u >> 2;
-    ((u8 *)&PRM->rgb)[2] = packet->b0 = ((u8 *)&obj->field_0C)[2] * 3u >> 2;
+    ((u8 *)&PRM->rgb)[0] = packet->r0 = ((u8 *)&obj->rgb)[0] * 3u >> 2;
+    ((u8 *)&PRM->rgb)[1] = packet->g0 = ((u8 *)&obj->rgb)[1] * 3u >> 2;
+    ((u8 *)&PRM->rgb)[2] = packet->b0 = ((u8 *)&obj->rgb)[2] * 3u >> 2;
     DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);
-    packet->r0 = ((u8 *)&obj->field_0C)[0];
-    packet->g0 = ((u8 *)&obj->field_0C)[1];
-    packet->b0 = ((u8 *)&obj->field_0C)[2];
-    PRM->rgb = win->field_0C;
+    packet->r0 = ((u8 *)&obj->rgb)[0];
+    packet->g0 = ((u8 *)&obj->rgb)[1];
+    packet->b0 = ((u8 *)&obj->rgb)[2];
+    PRM->rgb = win->rgb;
     PRM->attribute = (PRM->attribute & 0x8FFFFFFF) | 0x60000000;
 #else
     DisplayObject_SubmitPacket(PRM, packet, (GsOT *)arg1, arg, origin);

@@ -28,7 +28,7 @@
 #define SPRITE_SHEET_HEADER(object) \
     ((SpriteSheetHeader *)(object)->field_4C)
 #define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 #ifndef SPRITE_SHEET_SCREEN_HEIGHT
 #define SPRITE_SHEET_SCREEN_HEIGHT 240
 #endif
@@ -68,7 +68,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s3
     p->tpage = e->field_66;
     p->xy.word = e->field_30.word;
     p->cxcy.word = e->field_40.word;
-    p->rgb = e->field_0C;
+    p->rgb = e->rgb;
     fl = e->flags;
     p->uv.word = e->field_5C;
     if ((fl & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
@@ -150,7 +150,7 @@ void DisplayObject_RenderSpriteStripList(void)
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 DisplayObject_RenderSpriteStrips(object, table[object->ot_index],
-                              (s16)object->field_14);
+                              (s16)object->ot_depth);
             }
         } while (i >= 0);
     }
@@ -313,7 +313,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                 }
 
                 DisplayObject_SubmitAttributePacket(v, POLY_G4_BYTES(g), tb[e->ot_index],
-                                           e->field_14 | bit, h);
+                                           e->ot_depth | bit, h);
 
                 if (*(u8 *)&e->field_5A != 0) {
                     x0 = e->field_48.word;
@@ -329,7 +329,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     setcode(g, hi);
                     *(s32 *)&g->r1 = x2;
                     DisplayObject_SubmitAttributePacket(v, POLY_G4_BYTES(g), tb[e->ot_index],
-                                               e->field_14 | bit, h);
+                                               e->ot_depth | bit, h);
                 }
             }
         next:
@@ -431,7 +431,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                 }
 
                 DisplayObject_SubmitAttributePacket(v, POLY_GT4_BYTES(g), tb[e->ot_index],
-                                           e->field_14 | bit, h);
+                                           e->ot_depth | bit, h);
 
                 if (DISPLAY_OBJECT_BYTES(e)[0x72] != 0) {
                     x0 = *(s32 *)&e->field_58;
@@ -446,7 +446,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     setcode(g, hi);
                     *(u16 *)&g->u1 = x2;
                     DisplayObject_SubmitAttributePacket(v, POLY_GT4_BYTES(g), tb[e->ot_index],
-                                               e->field_14 | bit, h);
+                                               e->ot_depth | bit, h);
                 }
             }
         next:

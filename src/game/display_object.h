@@ -59,19 +59,12 @@ typedef struct DisplayObject {
     u16 flags;                     /* 0x08 */
     u8 field_0A;                   /* 0x0A */
     u8 field_0B;                   /* 0x0B */
-    u32 field_0C;                  /* 0x0C */
+    u32 rgb;                  /* 0x0C */
     u32 field_10;                  /* 0x10 */
-    /* DuelStatusPosition called this priority before it was retired into
-       this record, and for its own consumer that is right: Duel_DrawDecimalDigits
-       passes it to GsSortFastSprite as the ordering-table depth, and
-       display_object_core.c seeds it from D_8009AF74[ot_index].
-
-       The name is not taken, because four other consumers treat it as a bit
-       field rather than a depth: duel_card_effects.c adds gDuel_wStepCounter << 14,
-       duel_field_effects.c adds step * 0x3000, and display_object_core.c
-       or's it with 0x10000, 0xF0000 and 0x30000 into a mode word. Taking one
-       consumer's reading for the shared record is the mistake 0x6A avoids. */
-    u16 field_14;                  /* 0x14 */
+    /* Cached ordering-table depth. SubmitPacket reads the signed low half
+       of its mode word; the upper half selects a handler. The effect-request
+       buffer at +0x14 belongs to a separate record, not this field. */
+    u16 ot_depth;                  /* 0x14 */
     s8 depth_offset;                   /* 0x16 */
     /* An ordering-table index, not a texture index. Duel_DrawDecimalDigits uses it
        to pick gGraphics_apOrderingTables[ot_index], a GsOT * element, and hands it

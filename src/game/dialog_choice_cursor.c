@@ -16,7 +16,7 @@ void Dialog_HighlightChoice(DuelEffectChannel *record)
 
     if (((gDialog_bChoiceEnabled >> gDialog_bChoice) & 1) == 0) value = 0xC0;
     else value = 0xC0C0;
-    sub->field_0C = value;
+    sub->rgb = value;
     record->prompt_object->field_3C.word = value;
     record->prompt_object->field_44.word = value;
     value = value / 4;

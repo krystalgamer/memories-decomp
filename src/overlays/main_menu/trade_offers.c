@@ -56,30 +56,30 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
 
     if (D_80185CC8 != 0) {
         MainMenu_DrawTradeColumnOverlay(0);
-        ((u8 *)&obj[0]->field_0C)[0] = ((u8 *)&obj[0]->field_0C)[1] =
-            ((u8 *)&obj[0]->field_0C)[2] = 0x40;
+        ((u8 *)&obj[0]->rgb)[0] = ((u8 *)&obj[0]->rgb)[1] =
+            ((u8 *)&obj[0]->rgb)[2] = 0x40;
         obj[0]->field_60 = 2;
     } else {
-        ((u8 *)&obj[0]->field_0C)[0] += *(u8 *)&obj[0]->field_60;
-        ((u8 *)&obj[0]->field_0C)[1] += *(u8 *)&obj[0]->field_60;
-        ((u8 *)&obj[0]->field_0C)[2] += *(u8 *)&obj[0]->field_60;
-        if (((u8 *)&obj[0]->field_0C)[0] < 0x41 ||
-            (s8)((u8 *)&obj[0]->field_0C)[0] < 0) {
+        ((u8 *)&obj[0]->rgb)[0] += *(u8 *)&obj[0]->field_60;
+        ((u8 *)&obj[0]->rgb)[1] += *(u8 *)&obj[0]->field_60;
+        ((u8 *)&obj[0]->rgb)[2] += *(u8 *)&obj[0]->field_60;
+        if (((u8 *)&obj[0]->rgb)[0] < 0x41 ||
+            (s8)((u8 *)&obj[0]->rgb)[0] < 0) {
             obj[0]->field_60 *= -1;
         }
     }
 
     if (D_80185CC9 != 0) {
         MainMenu_DrawTradeColumnOverlay(1);
-        ((u8 *)&obj[1]->field_0C)[0] = ((u8 *)&obj[1]->field_0C)[1] =
-            ((u8 *)&obj[1]->field_0C)[2] = 0x40;
+        ((u8 *)&obj[1]->rgb)[0] = ((u8 *)&obj[1]->rgb)[1] =
+            ((u8 *)&obj[1]->rgb)[2] = 0x40;
         obj[1]->field_60 = 2;
     } else {
-        ((u8 *)&obj[1]->field_0C)[0] += *(u8 *)&obj[1]->field_60;
-        ((u8 *)&obj[1]->field_0C)[1] += *(u8 *)&obj[1]->field_60;
-        ((u8 *)&obj[1]->field_0C)[2] += *(u8 *)&obj[1]->field_60;
-        if (((u8 *)&obj[1]->field_0C)[0] < 0x41 ||
-            (s8)((u8 *)&obj[1]->field_0C)[0] < 0) {
+        ((u8 *)&obj[1]->rgb)[0] += *(u8 *)&obj[1]->field_60;
+        ((u8 *)&obj[1]->rgb)[1] += *(u8 *)&obj[1]->field_60;
+        ((u8 *)&obj[1]->rgb)[2] += *(u8 *)&obj[1]->field_60;
+        if (((u8 *)&obj[1]->rgb)[0] < 0x41 ||
+            (s8)((u8 *)&obj[1]->rgb)[0] < 0) {
             obj[1]->field_60 *= -1;
         }
     }

@@ -88,7 +88,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->field_1E = key;
         slot->field_0A = index;
         slot->field_0B = 0;
-        slot->field_0C = 0x00808080;
+        slot->rgb = 0x00808080;
         slot->field_20.word = 0;
         slot->field_10 = 0;
         slot->field_1C = 0;
@@ -101,7 +101,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->field_5E = 0;
         slot->field_65 = 0;
         slot->depth_offset = 0;
-        slot->field_14 = gDisplayObject_awOrderingTableDepthBases[slot->ot_index];
+        slot->ot_depth = gDisplayObject_awOrderingTableDepthBases[slot->ot_index];
     }
     return slot;
 }
@@ -310,12 +310,12 @@ void DisplayObject_RenderSpriteList(void) {
                 }
                 p->attribute = e->attribute;
                 idx = e->ot_index;
-                p->rgb = e->field_0C;
+                p->rgb = e->rgb;
                 p->xy.word = e->field_30.word;
                 p->extent.word = e->field_3C.word;
                 p->cxcy.word = e->field_40.word;
                 p->uv.word = e->field_5C;
-                mode = e->field_14 | 0x10000;
+                mode = e->ot_depth | 0x10000;
                 ot = tb[idx];
                 p->tpage = e->field_66;
 
@@ -341,14 +341,14 @@ void DisplayObject_RenderSpriteList(void) {
                     if ((p->attribute & GsALON) != 0) {
                         SetSemiTrans(g, 1);
                     }
-                    mode = e->field_14 | 0xF0000;
+                    mode = e->ot_depth | 0xF0000;
                 } else if ((p->attribute & GsROTOFF) == 0) {
                     p->rotate = e->field_20.h.field_22 * 5760;
                     p->scale = e->field_44.word;
                     p->mxmy.word = e->field_48.word;
                     p->xy.h.x = p->xy.h.x + p->mxmy.h.x;
                     p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
-                    mode = e->field_14 | 0x30000;
+                    mode = e->ot_depth | 0x30000;
                 }
                 DisplayObject_SubmitPacket(p, (u8 *)g, ot, mode, h->out);
                 break;

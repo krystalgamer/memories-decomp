@@ -46,7 +46,7 @@
 #define BUILD_DECK_CONFIRM_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
 #endif
 
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 
 /* Reports whether the deck has a free slot: the first of DECK_SIZE entries in
  * gBuildDeck_pState->lists[1] whose flags byte is zero. The exit step below

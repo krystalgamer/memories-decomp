@@ -353,13 +353,13 @@ void DuelEffect_ApplyRitual(void)
             second->field_44.h.field_44 = value;
             first->field_44.h.field_46 = value;
             first->field_44.h.field_44 = value;
-            value = *(u8 *)&gDisplayObject_apWorkSlots.slots[0]->field_0C;
+            value = *(u8 *)&gDisplayObject_apWorkSlots.slots[0]->rgb;
             value -= 4;
             if (value < 0)
                 value = 0;
             value = value | ((value << 16) | (value << 8));
-            gDisplayObject_apWorkSlots.slots[0]->field_0C = value;
-            gDisplayObject_apWorkSlots.slots[1]->field_0C = value;
+            gDisplayObject_apWorkSlots.slots[0]->rgb = value;
+            gDisplayObject_apWorkSlots.slots[1]->rgb = value;
             if (!value) {
                 DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots.slots[0]);
                 DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots.slots[1]);

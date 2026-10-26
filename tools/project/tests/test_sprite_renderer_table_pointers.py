@@ -63,7 +63,7 @@ int main(void)
                 for (i = 0; i < 4; i++) guarded.tables[i] = &guarded.descriptors[i];
                 selected_object = &guarded.objects[which];
                 selected_object->ot_index = slot;
-                selected_object->field_14 = low;
+                selected_object->ot_depth = low;
                 selected_table = &guarded.descriptors[slot];
                 selected_depth = low < 32768 ? (s32)low : (s32)low - 65536;
                 for (i = 0; i < sizeof(guarded); i++) ((u8 *)&expected)[i] = ((u8 *)&guarded)[i];
@@ -122,11 +122,11 @@ class SpriteRendererTablePointerTests(unittest.TestCase):
         strips = (ROOT / "src/game/display_object_runtime.c").read_text()
         sheets = (ROOT / "src/game/display_object_render_sprite_sheet_list.c").read_text()
         strip_match = re.search(
-            r"DisplayObject_RenderSpriteStrips\(object, table\[object->ot_index\],\n\s*\(s16\)object->field_14\);",
+            r"DisplayObject_RenderSpriteStrips\(object, table\[object->ot_index\],\n\s*\(s16\)object->ot_depth\);",
             strips,
         )
         sheet_match = re.search(
-            r"DisplayObject_RenderSpriteSheet\(\n\s*\(DisplayObject \*\)q, t\[p->ot_index\],\n\s*\(s16\)p->field_14\n\s*\);",
+            r"DisplayObject_RenderSpriteSheet\(\n\s*\(DisplayObject \*\)q, t\[p->ot_index\],\n\s*\(s16\)p->ot_depth\n\s*\);",
             sheets,
         )
         self.assertIsNotNone(strip_match)
@@ -139,7 +139,7 @@ class SpriteRendererTablePointerTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 strip, sheet = originals
                 if mutation == "unsigned-depth":
-                    strip = strip.replace("(s16)object->field_14", "(u16)object->field_14")
+                    strip = strip.replace("(s16)object->ot_depth", "(u16)object->ot_depth")
                 elif mutation == "wrong-table":
                     strip = strip.replace("table[object->ot_index]", "table[(object->ot_index + 1) & 3]")
                 elif mutation == "wrong-object":

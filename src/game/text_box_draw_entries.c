@@ -103,7 +103,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     SetGeomScreen(0x12C);
     x = (s16)obj->field_30.h.field_30;
     y = (s16)obj->field_30.h.field_32;
-    pri = (s16)obj->field_14;
+    pri = (s16)obj->ot_depth;
     if (!(obj->flags & 8)) {
         x = x - gGraphics_sViewportX;
         y = y - gGraphics_sViewportY;
@@ -141,9 +141,9 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     ft4->tpage = t | b;
     sprites[0]->attribute = sprites[1]->attribute = sprites[2]->attribute =
         obj->attribute | 0x08000000;
-    GS_SPRITE_COLOR_WORD(sprites[0]) = obj->field_0C;
-    GS_SPRITE_COLOR_WORD(sprites[1]) = obj->field_0C;
-    GS_SPRITE_COLOR_WORD(sprites[2]) = obj->field_0C;
+    GS_SPRITE_COLOR_WORD(sprites[0]) = obj->rgb;
+    GS_SPRITE_COLOR_WORD(sprites[1]) = obj->rgb;
+    GS_SPRITE_COLOR_WORD(sprites[2]) = obj->rgb;
 #ifdef VERSION_EUROPE
     *(u32 *)&sprites[0]->w = 0x100008;
     *(u32 *)&sprites[0]->cx = obj->field_40.word;
@@ -472,7 +472,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     SetGeomScreen(0x12C);
     x = (s16)obj->field_30.h.field_30;
     y = (s16)obj->field_30.h.field_32;
-    pri = (s16)obj->field_14;
+    pri = (s16)obj->ot_depth;
     if (!(obj->flags & 8)) {
         x = x - gGraphics_sViewportX;
         y = y - gGraphics_sViewportY;
@@ -503,9 +503,9 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     ft4->tpage = t | b;
     sprites[0]->attribute = sprites[1]->attribute = sprites[2]->attribute =
         obj->attribute | 0x08000000;
-    GS_SPRITE_COLOR_WORD(sprites[0]) = obj->field_0C;
-    GS_SPRITE_COLOR_WORD(sprites[1]) = obj->field_0C;
-    GS_SPRITE_COLOR_WORD(sprites[2]) = obj->field_0C;
+    GS_SPRITE_COLOR_WORD(sprites[0]) = obj->rgb;
+    GS_SPRITE_COLOR_WORD(sprites[1]) = obj->rgb;
+    GS_SPRITE_COLOR_WORD(sprites[2]) = obj->rgb;
     *(u32 *)&sprites[0]->w = 0x100010;
     *(u32 *)&sprites[1]->w = 0x100010;
     *(u32 *)&sprites[2]->w = 0x80008;

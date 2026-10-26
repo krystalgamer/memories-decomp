@@ -18,6 +18,59 @@ constants: `DISPLAY_OBJECT_RECORD_SIZE` is `0x70`,
 `DISPLAY_OBJECT_RENDERABLE_MASK` is `0xC0`. The header deliberately defines
 only shared geometry and flags, not a complete display-object structure.
 
+## Display-object colour and cached ordering depth
+
+The shared record names u32 +0x0C rgb (original field_0C) and u16 +0x14
+ot_depth (original field_14). These names follow the complete local
+producer/consumer chain, not reference types or observed runtime output.
+All storage widths, signedness, offsets, padding and G32 annotations remain.
+
+DisplayObject_AcquireSlot (0x800400AC) initializes a newly allocated
+object's rgb to 0x00808080 and ot_depth from the selected base table.
+Already allocated objects still return without reinitialization.
+DisplayObject_RenderSpriteList (0x80040588) copies rgb into SpritePrim.rgb.
+The strip/sheet and text renderers, duel card frames and projected cards,
+preview panels and fading library outlines consume the same colour word.
+Byte views remain byte views: red/green/blue updates, uniform brightness,
+the library outline's blue-only update and the Spanish intro's red-byte
+brightness all retain their exact loads, stores, masks and narrowing.
+rgb is still an entire u32 word; the rename does not mask or normalize
+the high byte, reinterpret it as alpha, or replace packed writes.
+
+DisplayObject_SetDepthOffset (0x800428EC) keeps its signed-byte offset,
+volatile base read, unchecked index, low-halfword ot_depth store and full
+signed return. SelectOrderingTable1 (0x80042918) and SelectOrderingTable3
+(0x8004293C) retain the original index-before-depth stores. The cached
+u16 is not retyped signed: individual consumers retain their signed
+casts, unsigned loads or explicit low-halfword masking before subtraction.
+This includes the preview's depth-minus-one and its 0xFFFF mask.
+
+The old header caveat conflated two distinct owners. DuelEffectRequest
+is a separate 0x20-byte request pool record: AllocateRequest (0x8002C604)
+initializes its buffer pointer at +0x14 from the shared work area.
+The step<<14 and step*0x3000 expressions in duel_card_effects.c and
+duel_field_effects.c advance that request buffer, NOT DisplayObject's
+cached depth. Those request bodies and their declarations are unchanged.
+Likewise OR-ing the cached depth with 0x10000, 0xF0000 or 0x30000 does not
+make it a shared bitfield: DisplayObject_SubmitPacket (0x80042188) first
+extracts (s16)mode as depth, then dispatches on the separate upper half.
+Every sprite/prepared-quad/default projected-or-subdivided path preserves
+that split, including the original (u16) casts for draw-mode packets.
+
+Only owner-qualified DisplayObject members are renamed. Other records'
+field_0C/field_14 remain unchanged, particularly request ordering-table
+words, ritual-result scratch, selection cursors, view state, glyph entry
+coordinates/metadata and checkerboard or digit packet fields. No forced
+name for overloaded vertex/motion words or the unrelated field_6A.
+
+Existing library-outline, preview-packet and sprite-table fixtures change
+member identifiers only, including their original selectors and negative
+mutation replacements. Signed-to-unsigned depth controls, wrong-colour-byte
+controls, masks, packet codes/lengths, oracles, assertions, scenarios and
+numeric expectations remain identical under the identifier inverse.
+Ritual scratch fixtures and the sound-bank literal/mutation anchors are
+unchanged. No local cloud-fixture execution or new behavioral harness.
+
 ## Pool and list geometry
 
 `DisplayObject_ResetPool` clears the field at slot offset `+0x08` across 96
@@ -65,7 +118,7 @@ DisplayObject_AcquireSlot (0x800400AC) zeroes the offset only when claiming
 a previously free slot. Existing allocated slots still return unchanged.
 DisplayObject_SetDepthOffset (0x800428EC) stores its original signed-byte
 argument, reads the volatile base table through ot_index, computes base
-minus offset, stores the original low halfword in field_14 and returns
+minus offset, stores the original low halfword in ot_depth and returns
 the original full signed result. SelectOrderingTable1 (0x80042918) and
 SelectOrderingTable3 (0x8004293C) retain their index stores and subtract
 the current signed offset from the selected base. No reordered table
@@ -87,13 +140,13 @@ including the hand marker, selected-card/fade resources, afterimage,
 free-duel sparkle and library outline. No common helper or cached operand
 replaces these deliberately different expression and publication orders.
 
-Only typed channel/DisplayObject accesses change across twenty-one
-existing C units. Unrelated DuelEffectEntry.field_16 glyph metadata and
-every field_14 declaration, renderer read and packed mode expression stay
-unchanged. The existing sprite-renderer source-sensitive signed-priority
-controls therefore retain their exact production targets. Public comments
-use current member names; the existing choice-constructor comment also
-updates its four already accepted rectangle names.
+The depth-offset rename changed only typed channel/DisplayObject
+accesses across twenty-one existing C units. Unrelated DuelEffectEntry.field_16
+glyph metadata remains unchanged. The subsequent colour/depth rename above
+names the cached field_14 ot_depth without changing renderer casts or packed
+mode expressions. Existing sprite-renderer signed-priority controls retain
+their casts and mutation behavior. Public comments use current member names;
+the choice-constructor comment also uses the accepted rectangle names.
 
 The existing library layout fixture changes only four channel member
 identifiers in its original shared/Japanese offset/width probe. All

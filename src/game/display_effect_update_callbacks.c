@@ -39,7 +39,7 @@
 #define DISPLAY_EFFECT_STATE_VIEW(record) \
     ((DisplayEffectState *)(record))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 #define DISPLAY_POSITION_GROUP_VIEW(record) \
     ((DisplayPositionGroup *)(record))
 
@@ -170,10 +170,10 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
         m |= (m << 8) | (m << 16);
         for (i = 2, c = &p->grid[0][2]; i >= 0; i--, c--) {
             if (c[0] != 0) {
-                DISPLAY_OBJECT_VIEW(c[0])->field_0C = m;
+                DISPLAY_OBJECT_VIEW(c[0])->rgb = m;
             }
             if (c[3] != 0) {
-                DISPLAY_OBJECT_VIEW(c[3])->field_0C = m;
+                DISPLAY_OBJECT_VIEW(c[3])->rgb = m;
             }
         }
     }
@@ -216,11 +216,11 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
         for (i = 2; i >= 0; i--) {
             e = DISPLAY_OBJECT_VIEW(p->grid[0][i]);
             if (e != 0) {
-                e->field_0C = m;
+                e->rgb = m;
             }
             e = DISPLAY_OBJECT_VIEW(p->grid[1][i]);
             if (e != 0) {
-                e->field_0C = m;
+                e->rgb = m;
             }
         }
     }
@@ -284,11 +284,11 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     for (m = 2; m >= 0; m--) {
         o = *(DisplayObject **)&p->grid[2][m];
         if (o != 0) {
-            o->field_0C = c;
+            o->rgb = c;
         }
         o = *(DisplayObject **)&p->grid[3][m];
         if (o != 0) {
-            o->field_0C = c;
+            o->rgb = c;
         }
     }
     c = 0x80 - p->field_40;
@@ -296,11 +296,11 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     for (m = 2; m >= 0; m--) {
         o = *(DisplayObject **)&p->grid[0][m];
         if (o != 0) {
-            o->field_0C = c;
+            o->rgb = c;
         }
         o = *(DisplayObject **)&p->grid[1][m];
         if (o != 0) {
-            o->field_0C = c;
+            o->rgb = c;
         }
     }
     dd[0] = p->field_40 / 8;
@@ -357,7 +357,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
             *(u16 *)&o->field_40.h.field_42 +=
                 idx % CAMPAIGN_DIALOG_PORTRAIT_CLUT_ROWS_PER_COLUMN;
             *(u16 *)&o->field_44.h.field_46 = 0;
-            o->field_0C = 0;
+            o->rgb = 0;
             o->attribute |=
                 GsALON | GsAONE | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
             DisplayObject_SelectOrderingTable1(o);
@@ -386,7 +386,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     }
     if (o->field_60 <= 0) {
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
-        o->field_0C = COLOR_RGB24_NEUTRAL_GREY;
+        o->rgb = COLOR_RGB24_NEUTRAL_GREY;
         *(u16 *)&o->field_44.h.field_46 = 0x1000;
         DisplayObject_ReleaseIfPresent(o2);
         record->grid[0][1] = 0;

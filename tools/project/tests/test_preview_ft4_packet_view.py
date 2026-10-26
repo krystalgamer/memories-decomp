@@ -56,12 +56,12 @@ int main(void)
             for (i = 0; i < sizeof(guarded); i++) ((u8 *)&guarded)[i] = i * 37 + low;
             rgb = (low & 255) | ((low >> 8) << 8) |
                   (((low & 255) ^ (low >> 8)) << 16) | (h * 0x55U << 24);
-            guarded.object.field_0C = rgb;
-            guarded.window.field_0C = rgb ^ 0xA55A3322;
+            guarded.object.rgb = rgb;
+            guarded.window.rgb = rgb ^ 0xA55A3322;
             guarded.packet.tag = ((low & 255) << 24) | (tags[h] ^ low);
             for (i = 0; i < sizeof(guarded); i++) ((u8 *)&expected)[i] = ((u8 *)&guarded)[i];
             packet[3] = 9;
-            for (i = 0; i < 3; i++) packet[4 + i] = ((u8 *)&guarded.window.field_0C)[i];
+            for (i = 0; i < 3; i++) packet[4 + i] = ((u8 *)&guarded.window.rgb)[i];
             packet[7] = 0x2C;
             prepare();
             if (!same()) return 1;
@@ -70,14 +70,14 @@ int main(void)
             blend();
             if (!same()) return 1;
             for (i = 0; i < 3; i++) {
-                u32 scaled = ((u32)((u8 *)&guarded.object.field_0C)[i] * 3) / 4;
+                u32 scaled = ((u32)((u8 *)&guarded.object.rgb)[i] * 3) / 4;
                 packet[4 + i] = scaled;
                 ((u8 *)&expected.sprite.rgb)[i] = scaled;
             }
             quarter();
             if (!same()) return 1;
-            for (i = 0; i < 3; i++) packet[4 + i] = ((u8 *)&guarded.object.field_0C)[i];
-            expected.sprite.rgb = guarded.window.field_0C;
+            for (i = 0; i < 3; i++) packet[4 + i] = ((u8 *)&guarded.object.rgb)[i];
+            expected.sprite.rgb = guarded.window.rgb;
             expected.sprite.attribute = (expected.sprite.attribute & 0x8FFFFFFF) | 0x60000000;
             restore();
             if (!same()) return 1;
@@ -129,10 +129,10 @@ class PreviewFt4PacketViewTests(unittest.TestCase):
             raise RuntimeError("run these tests from the repository root")
         source = (ROOT / "src/game/card_preview_draw_detail_panel.c").read_text()
         patterns = (
-            r"        \*\(u32 \*\)&packet->r0 = win->field_0C;\n        setlen\(packet, 9\);\n        packet->code = 0x2C;",
+            r"        \*\(u32 \*\)&packet->r0 = win->rgb;\n        setlen\(packet, 9\);\n        packet->code = 0x2C;",
             r"    packet->code \|= 2;",
             r"    \(\(u8 \*\)&PRM->rgb\)\[0\] = packet->r0 =.*?\n    \(\(u8 \*\)&PRM->rgb\)\[1\] = packet->g0 =.*?\n    \(\(u8 \*\)&PRM->rgb\)\[2\] = packet->b0 =[^;\n]*;",
-            r"    packet->r0 = \(\(u8 \*\)&obj->field_0C\)\[0\];\n    packet->g0 =.*?\n    packet->b0 =.*?\n    PRM->rgb = win->field_0C;\n    PRM->attribute =[^;\n]*;",
+            r"    packet->r0 = \(\(u8 \*\)&obj->rgb\)\[0\];\n    packet->g0 =.*?\n    packet->b0 =.*?\n    PRM->rgb = win->rgb;\n    PRM->attribute =[^;\n]*;",
         )
         fragments = []
         for pattern in patterns:

@@ -49,9 +49,9 @@ void DuelHand_RefreshSelectionColors(DuelSelectionRecord *side) {
     s32 i;
     for (i = 0; i < HAND_SIZE; i++)
         if (gDuelHand_aSlots[i].selection_order == 0)
-            gDuelHand_aSlots[i].object->field_0C =
+            gDuelHand_aSlots[i].object->rgb =
                 DUEL_DISPLAY_COLOR_DIMMED;
     if (side->field_15 == 0)
-        gDuelHand_aSlots[(s8)side->field_0E].object->field_0C =
+        gDuelHand_aSlots[(s8)side->field_0E].object->rgb =
             DUEL_DISPLAY_COLOR_NORMAL;
 }

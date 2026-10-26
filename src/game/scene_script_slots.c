@@ -15,7 +15,7 @@ void SceneScript_NoOpRecordCallback(void)
 {
 }
 
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 
 void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
 {
