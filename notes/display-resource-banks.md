@@ -85,3 +85,36 @@ No harness, fixture, probe or testcase is added.
 Cloud/regional/overlay/witness suites are not executed locally. Native
 compiler conservation is not independent full regional-image proof;
 fresh exact-head PR checks and maintainer review remain required.
+
+
+## Serialized resource selector view
+
+DisplayObjectConfig names its unchanged u8 bytes at +0x67/+0x68/+0x69
+resource_root_index/resource_branch_index/resource_variant. These names
+describe table levels, not player sides, languages, object kinds or a
+permanent resource taxonomy. DisplayObject_UpdateCommandStream starts at
+field_54, indexes the root u16-offset table with +0x67, indexes the next
+table with +0x68, then indexes the final table with +0x69. EVERY offset is
+relative to the original resource base. DisplayEffect_HasResourceEntry
+independently walks the same three base-relative tables.
+
+The existing setter/configuration parameter names follow that order.
+SetResourceVariant always stores the s32 argument through the original
+u8 byte and clears resolution bit 0x10. UpdateResourceVariant retains its
+comparison of the promoted old u8 against the FULL s32 argument before
+storing/truncating; it is not changed to compare narrowed values.
+SetResourcePath retains three u8 parameters and its existing flag clear.
+ConfigureSpriteResource and ConfigureSpriteAtPosition retain their s32
+parameters, all stores, return views, texture arithmetic and callback ABI.
+Canonical DisplayObject still uses polymorphic field_67/68/69 names,
+including the untouched command-stream resolver and its ambient arguments.
+
+PAL Options changes the branch index to select a language, then calls the
+existing unconditional variant setter with its unchanged variant to
+invalidate the resource. The order and apparently redundant calls remain.
+CardPreview_UpdateVariant retains its signed facing test, fallback 2,
+full comparison, setter/stream/retry order and already-selected fast path.
+The three existing fixtures migrate FIVE owner-qualified member words
+on FOUR lines only. Independent expected offsets, flags, truncation,
+event order, backing, cases, scenarios, assertions and all mutation
+controls remain. No fixture is run locally and no harness is added.
