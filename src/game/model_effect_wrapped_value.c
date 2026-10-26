@@ -14,7 +14,7 @@ s32 Model_GetSlotCameraPresetYaw(s32 index)
     record = (ModelSlotCF8TailView *)(offset + (s32)&gModel_Slot0MetadataView);
     /* Retail rebuilds the alias base for the selector-byte load. */
     coefficient = ModelEffect_GetCoefficient(
-        record->prefix.bytes.field_0A[
+        record->prefix.bytes.guardian_star_options[
             (((u8 *)&gModel_Slot0MetadataView) + offset)[MODEL_SLOT_CF8_DFE_OFFSET]
         ] & 0x1F
     );

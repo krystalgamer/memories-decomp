@@ -53,6 +53,13 @@ labels, breakpoint/return addresses, messages, observations and controls
 unchanged. These static names do not claim a new trace run or settle the
 selector byte's broader gameplay meaning.
 
+The selector bytes are now named guardian_star_options in the CF8
+prefix. They pack low-five-bit preset selection with separate camera
+and draw options; they are not a pure preset-index array. The existing
+direct-yaw index, animated-battle remapping and all unchecked accesses
+remain distinct. The paired battle_camera_duration_overrides and tail
+property mirrors are documented in [the metadata protocol](model-structures.md#guardian-star-presentation-metadata).
+
 ## Initialized orbit presets
 
 `gModel_aCameraOrbitPresets` is the former
