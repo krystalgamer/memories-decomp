@@ -283,6 +283,66 @@ equality and negative requests are not newly rejected.
 0x50-byte stride. No SDK layout, pointer type, G32 marker, allocation,
 stable-parent lifetime, API or validation behavior changes.
 
+### Guardian-star presentation metadata
+
+The mixed CF8 block retains its original views and transport widths.
+Only its independently traced guardian-star options, camera timing and
+already-established tail property mirrors receive semantic names:
+
+| Existing view/member | Canonical member | Unchanged representation |
+| --- | --- | --- |
+| ModelSlotCF8Prefix.bytes.field_0A | guardian_star_options | u8[2] at +0xA |
+| ModelSlotCF8Block.field_0C | battle_camera_duration_overrides | u16[2] at +0xC |
+| ModelSlotCF8TailView.field_0C | battle_camera_duration_overrides | same u16[2] view at +0xC |
+| ModelSlotCF8TailView.field_106 | guardian_star_selection | u8 at +0x106, slot +0xDFE |
+| ModelSlotCF8TailView.field_107 | defense_position | u8 at +0x107, slot +0xDFF |
+
+Model_LoadMonsterMergeStage case 16 copies the original complete
+0x1C-byte metadata block after the sound entries. Its existing word load
+at prefix +8 tests 0x20200000: on the PSX little-endian layout these are
+bit 0x20 of EITHER guardian_star_options byte, requesting draw mode four.
+Keep that one word load and the original mask; it also spans two dimension
+bytes and is not rewritten as separate byte tests. Stat-property writes
+and the three command resets are independent and retain their order.
+The auxiliary/special-battle word transports remain unchanged as well.
+
+The low five bits have distinct camera consumers. Model_GetSlotCameraPresetYaw
+uses the selected byte AND 0x1F as its direct unchecked preset index,
+retaining the CF8 interior alias and separately rebuilt selector address.
+The animated-battle scene instead maps 0/1/2/3 to 3/0/1/2 and all larger
+masked values to three before queueing its orbit preset. Its original
+signed timing adjustment and branches remain; this is not a new common
+index helper, bound, enum or guarantee that every option byte is a preset.
+
+Model_StartBattleSlotAction derives animation row selection+3 and calls
+the animation controller only for a nonzero row length. Its camera
+request uses two thirds of that length, floored to sixty, UNLESS the
+selected u16 duration override is nonzero. A nonzero override is used
+directly and can be below sixty. Zero is not an explicit zero-duration
+move. No physical unit, saturation or universal final-duration bound
+is inferred from the override's name.
+
+After the camera request, the selected option's bit 0x80 chooses the
+first Model_SetCameraHoldState argument: zero if set, two if clear.
+A separately read bit 0x40 then causes a SECOND call with one when set.
+Neither the calls nor repeated option/selection reads are collapsed:
+opaque animation/request/state helpers may intervene. No new Boolean
+or general camera-hold policy is asserted.
+
+The tail members denote the SAME bytes as ModelSlot's accepted guardian
+selection and defense position, proved by relative/absolute offset and
+width checks. MODEL_SLOT_CF8_DFE_OFFSET and MODEL_SLOT_CF8_DFF_OFFSET
+address constructions and the independent gModel_Slot0MetadataView
+relocation remain. Reset can
+still store the auxiliary slot index two in guardian_star_selection;
+only the established property setters normalize nonnegative requests.
+The two-element arrays and getter mask add no new index validation.
+
+No other CF8 values or command words gain speculative names. All fixture
+oracles, scenarios, mutations, assertions and numeric expectations stay
+byte-for-byte unchanged, including the existing packed-transfer mask
+controls. No new harness, fixture/cloud execution or runtime capture.
+
 ### Model IDs, guardian-star selection and defense posture
 
 The property producer establishes three meanings independently of the
@@ -325,8 +385,9 @@ That same selection indexes the variant command and camera/duration
 metadata and selects animation row `selection + 3`, including its
 sound-command paths. Defense position selects the opponent's comparison
 halfword and the existing presentation reactions. The CF8 tail view's
-relative `field_106`/`field_107` aliases denote these same bytes; their
-names, raw-address reads and offset constants remain unchanged.
+relative `guardian_star_selection`/`defense_position` aliases denote
+these same bytes; their raw-address reads and offset constants remain
+unchanged. Their former names were `field_106`/`field_107`.
 
 Reset still writes the slot index into guardian-star selection, including
 2 for the auxiliary slot, and zero into defense position. Only the
@@ -789,12 +850,12 @@ The interior alias `D_800F3938` now has a separate
 the property bytes at relative offsets `0x106`/`0x107` (slot
 `guardian_star_selection`/`defense_position`). Its first twelve bytes are one
 `ModelSlotCF8Prefix` union: the byte arm preserves the threshold and
-`field_0A` table consumers, while the value arm exposes the comparison
+`guardian_star_options` table consumers, while the value arm exposes the comparison
 halfwords at `+0`/`+2` and the flag word spanning `+8..+0xB`.
 `func_800559D4` keeps its signed address cursors, which are
 allocation-sensitive, but reads their first and second halfwords through the
 view instead of untyped dereferences. `func_8005A618` likewise uses the
-prefix's `field_0A` table. Its selector load and the two selector loads in
+prefix's `guardian_star_options` table. Its selector load and the two selector loads in
 `func_800559D4` retain byte-pointer address forms using the asserted
 relative-offset constants: direct member syntax merges two independently
 constructed addresses in `func_8005A618`, while it shortens

@@ -140,7 +140,7 @@ typedef struct {
 typedef union {
     struct {
         u8 field_00[0xA];
-        u8 field_0A[2];
+        u8 guardian_star_options[2];
     } bytes;
     struct {
         u16 field_00;
@@ -164,7 +164,7 @@ typedef union {
 
 typedef struct {
     ModelSlotCF8Prefix prefix;
-    u16 field_0C[2];
+    u16 battle_camera_duration_overrides[2];
     s32 field_10;
     s32 field_14;
     s32 field_18;
@@ -172,18 +172,18 @@ typedef struct {
 
 /* View rooted at the gModel_Slot0MetadataView interior alias and extending through the two
  * slot property bytes at DFE/DFF. The first words are compared by
- * Model_UpdateSlotControl, while Model_GetSlotCameraPresetYaw selects field_0A through field_106.
- * Relative names retain the alias-rooted offsets without claiming semantics
- * for the copied CF8 payload. */
+ * Model_UpdateSlotControl; camera-yaw selection uses guardian_star_options
+ * through guardian_star_selection. Other CF8 members retain relative
+ * names where the payload's semantics are not established. */
 typedef struct {
     ModelSlotCF8Prefix prefix;
-    u16 field_0C[2];
+    u16 battle_camera_duration_overrides[2];
     s32 field_10;
     s32 field_14;
     s32 field_18;
     u8 pad_1C[0xEA];
-    u8 field_106;
-    u8 field_107;
+    u8 guardian_star_selection;
+    u8 defense_position;
 } ModelSlotCF8TailView;
 
 /* A ModelSlotCF8Block's worth of words, for the one place that copies a whole
@@ -470,11 +470,11 @@ typedef char ModelTransferMetadata_field_CF8_offset_must_be_0x100[
 typedef char ModelBytes8_size_must_be_8[
     sizeof(ModelBytes8) == 8 ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_field_0A_offset_must_be_0xA[
-    MODEL_OFFSET(ModelSlotCF8Block, prefix.bytes.field_0A) == 0xA ? 1 : -1
+typedef char ModelSlotCF8Block_guardian_star_options_offset_must_be_0xA[
+    MODEL_OFFSET(ModelSlotCF8Block, prefix.bytes.guardian_star_options) == 0xA ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_field_0C_offset_must_be_0xC[
-    MODEL_OFFSET(ModelSlotCF8Block, field_0C) == 0xC ? 1 : -1
+typedef char ModelSlotCF8Block_battle_camera_duration_overrides_offset_must_be_0xC[
+    MODEL_OFFSET(ModelSlotCF8Block, battle_camera_duration_overrides) == 0xC ? 1 : -1
 ];
 typedef char ModelSlotLightEntry_size_must_be_0x10[
     sizeof(ModelSlotLightEntry) == 0x10 ? 1 : -1
@@ -692,8 +692,8 @@ typedef char ModelSlot_is_active_offset_must_be_0xE1F[
 typedef char ModelSlotCF8TailView_size_must_be_0x108[
     sizeof(ModelSlotCF8TailView) == 0x108 ? 1 : -1
 ];
-typedef char ModelSlotCF8TailView_field_0A_offset_must_be_0xA[
-    MODEL_OFFSET(ModelSlotCF8TailView, prefix.bytes.field_0A) == 0xA ? 1 : -1
+typedef char ModelSlotCF8TailView_guardian_star_options_offset_must_be_0xA[
+    MODEL_OFFSET(ModelSlotCF8TailView, prefix.bytes.guardian_star_options) == 0xA ? 1 : -1
 ];
 typedef char ModelSlotCF8Prefix_size_must_be_0xC[
     sizeof(ModelSlotCF8Prefix) == 0xC ? 1 : -1
@@ -710,13 +710,29 @@ typedef char ModelSlotCF8Block_field_14_offset_must_be_0x14[
 typedef char ModelSlotCF8Block_field_18_offset_must_be_0x18[
     MODEL_OFFSET(ModelSlotCF8Block, field_18) == 0x18 ? 1 : -1
 ];
-typedef char ModelSlotCF8TailView_field_106_offset_must_be_0x106[
-    MODEL_OFFSET(ModelSlotCF8TailView, field_106) ==
+typedef char ModelSlotCF8TailView_guardian_star_selection_offset_must_be_0x106[
+    MODEL_OFFSET(ModelSlotCF8TailView, guardian_star_selection) ==
         MODEL_SLOT_CF8_DFE_OFFSET ? 1 : -1
 ];
-typedef char ModelSlotCF8TailView_field_107_offset_must_be_0x107[
-    MODEL_OFFSET(ModelSlotCF8TailView, field_107) ==
+typedef char ModelSlotCF8TailView_defense_position_offset_must_be_0x107[
+    MODEL_OFFSET(ModelSlotCF8TailView, defense_position) ==
         MODEL_SLOT_CF8_DFF_OFFSET ? 1 : -1
+];
+
+typedef char ModelSlotCF8_guardian_star_metadata_layout_must_match[
+    sizeof(((ModelSlotCF8Prefix *)0)->bytes.guardian_star_options) == 2 &&
+    MODEL_OFFSET(ModelSlotCF8Block, battle_camera_duration_overrides) == 0xC &&
+    sizeof(((ModelSlotCF8Block *)0)->battle_camera_duration_overrides) == 4 &&
+    MODEL_OFFSET(ModelSlotCF8TailView, battle_camera_duration_overrides) == 0xC &&
+    sizeof(((ModelSlotCF8TailView *)0)->battle_camera_duration_overrides) == 4 &&
+    sizeof(((ModelSlotCF8TailView *)0)->guardian_star_selection) == 1 &&
+    sizeof(((ModelSlotCF8TailView *)0)->defense_position) == 1 &&
+    MODEL_OFFSET(ModelSlot, field_CF8) +
+        MODEL_OFFSET(ModelSlotCF8TailView, guardian_star_selection) ==
+        MODEL_OFFSET(ModelSlot, guardian_star_selection) &&
+    MODEL_OFFSET(ModelSlot, field_CF8) +
+        MODEL_OFFSET(ModelSlotCF8TailView, defense_position) ==
+        MODEL_OFFSET(ModelSlot, defense_position) ? 1 : -1
 ];
 
 typedef char ModelHandlerRegistryEntry_size_must_be_0x8[

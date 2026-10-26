@@ -295,7 +295,7 @@ void Model_UpdateAnimatedBattle(void)
                 s32 kind;
                 s32 off;
 
-                kind = gModel_aSlots[0].field_CF8.prefix.bytes.field_0A[gModel_aSlots[0].guardian_star_selection] & 0x1F;
+                kind = gModel_aSlots[0].field_CF8.prefix.bytes.guardian_star_options[gModel_aSlots[0].guardian_star_selection] & 0x1F;
                 off = -0x14;
                 if (kind == 1) {
                     goto s10_m0;
@@ -1282,14 +1282,14 @@ void Model_StartBattleSlotAction(s32 arg0)
     if (value < 60) {
         value = 60;
     }
-    if (q->field_0C[p->guardian_star_selection] != 0) {
-        value = q->field_0C[p->guardian_star_selection];
+    if (q->battle_camera_duration_overrides[p->guardian_star_selection] != 0) {
+        value = q->battle_camera_duration_overrides[p->guardian_star_selection];
     }
     Model_RequestCameraMoveToSlots(1, -1, arg0 ^ 1, value);
     Model_SetCameraHoldState(
-        ((q->prefix.bytes.field_0A[p->guardian_star_selection] & 0x80) == 0) << 1
+        ((q->prefix.bytes.guardian_star_options[p->guardian_star_selection] & 0x80) == 0) << 1
     );
-    if ((q->prefix.bytes.field_0A[p->guardian_star_selection] & 0x40) != 0) {
+    if ((q->prefix.bytes.guardian_star_options[p->guardian_star_selection] & 0x40) != 0) {
         Model_SetCameraHoldState(1);
     }
 }
