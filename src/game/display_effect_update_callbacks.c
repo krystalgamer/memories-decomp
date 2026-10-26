@@ -343,7 +343,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
             o = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
             *(u16 *)&o->field_60 = 0;
         } else {
-            id = record->field_30;
+            id = record->effect_id;
             idx = id - CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID;
             o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
             DisplayObject_ConfigureScreenSprite(o, (s16)record->field_34, (s16)record->field_36, 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);

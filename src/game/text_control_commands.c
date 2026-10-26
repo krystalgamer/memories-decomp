@@ -209,9 +209,9 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     e = gDisplayEffect_aMenuRecords;
     if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         e += 2;
-    } else if (e->field_30 != id) {
+    } else if (e->effect_id != id) {
         e++;
-        if (e->field_30 != id) {
+        if (e->effect_id != id) {
             e = 0;
         }
     }
@@ -271,7 +271,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     }
     e = &gDisplayEffect_aMenuRecords[slot];
     DisplayEffect_ResetRecordState((DisplayEffectState *)e);
-    e->field_30 = id;
+    e->effect_id = id;
     e->field_3C = slot;
     if (slot != 0) {
         *(s16 *)&e->field_34 = 0x178;

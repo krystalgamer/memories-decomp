@@ -22,7 +22,7 @@ s8 *DisplayEffect_ResetMenuRecords(void)
     for (i = MENU_RECORD_COUNT - 1; i >= 0; i--) {
         MenuRecord *record = &gDisplayEffect_aMenuRecords[i];
 
-        record->field_30 = -1;
+        record->effect_id = -1;
         record->field_32 = 0;
         record->field_3A = 0;
         record->field_3B = 0;

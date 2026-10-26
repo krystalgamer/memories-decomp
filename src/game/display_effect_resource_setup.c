@@ -169,7 +169,7 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
             if (DISPLAY_EFFECT_SLOT_ID(i) < 0) {
                 gDisplayEffect_ResourceCacheWriteSlot = i;
             }
-            if (DISPLAY_EFFECT_SLOT_ID(i) == a->field_30) {
+            if (DISPLAY_EFFECT_SLOT_ID(i) == a->effect_id) {
                 while (IsIdleGPU(10) != 0) {
                     ;
                 }
@@ -199,7 +199,7 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
             return;
         }
         req = File_TryRequestAsyncTransfer(
-            0, 0, a->field_30 * 50 + DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR, 50,
+            0, 0, a->effect_id * 50 + DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR, 50,
             DisplayEffect_LoadResourceStage, 0, 0
         );
         req->callback_data = gDisplay_abResourceBank0;
@@ -214,7 +214,7 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
             return;
         }
         a->state |= 0x40;
-        DISPLAY_EFFECT_SLOT_ID(gDisplayEffect_ResourceCacheWriteSlot) = a->field_30;
+        DISPLAY_EFFECT_SLOT_ID(gDisplayEffect_ResourceCacheWriteSlot) = a->effect_id;
         while (IsIdleGPU(10) != 0) {
             ;
         }

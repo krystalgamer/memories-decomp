@@ -135,7 +135,7 @@ void Text_ContinueDisplayEffect(DuelEffectChannel *arg0) {
     {
         u8 w = arg0->playback_state;
 
-        if ((w & 0x40) || p->field_30 >= 0x41) {
+        if ((w & 0x40) || p->effect_id >= 0x41) {
             arg0->playback_state = 0;
 
             return;
