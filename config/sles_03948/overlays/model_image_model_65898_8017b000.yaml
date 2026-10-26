@@ -48,18 +48,25 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/french_model_image_model_65898_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_image_model_65898_8017b000/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant796_entry_slot1]
+  - name: rodata
+    type: code
+    start: 0x20E0
+    vram: 0x8017D0E0
+    align: 4
+    subsegments:
+      - [0x20E0, .rodata, overlays/french_model_variant/variant796_entry_slot1]
   - name: unclassified_tail
     type: code
-    start: 0x20e0
-    vram: 0x8017d0e0
+    start: 0x20F0
+    vram: 0x8017D0F0
     align: 4
     subsegments:
-      - [0x20e0, bin, overlays/french_model_image_model_65898_8017b000/unclassified_tail]
+      - [0x20F0, bin, overlays/french_model_image_model_65898_8017b000/unclassified_tail]
   - [0x5000]

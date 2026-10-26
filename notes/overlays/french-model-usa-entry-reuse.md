@@ -33,3 +33,6 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
 images rebuild exactly; no other release uses these sources. The
 [ledger](french-model-usa-entry-reuse.csv) lists every image, its North
 American body, the French wrapper and both fingerprints.
+
+The [newer North American entries](french-model-usa-new-entry-reuse.md)
+are reused the same way.

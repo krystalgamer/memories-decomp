@@ -48,17 +48,17 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/french_model_image_model_62014_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_image_model_62014_8017b000/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant135_entry_slot1]
   - name: unclassified_tail
     type: code
     start: 0x1044
-    vram: 0x8017c044
+    vram: 0x8017C044
     align: 4
     subsegments:
       - [0x1044, bin, overlays/french_model_image_model_62014_8017b000/unclassified_tail]
