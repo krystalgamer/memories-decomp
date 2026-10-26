@@ -4,20 +4,20 @@
 #include "model_slot_state_updates.h"
 #include "model_slot_updates.h"
 
-void Model_SetSlotPlaybackSpeed(s32 index, s32 type)
+void Model_SetSlotPlaybackSpeed(s32 slot_index, s32 speed)
 {
-    ModelSlot *slot = &gModel_aSlots[index];
+    ModelSlot *slot = &gModel_aSlots[slot_index];
 
-    if ((u32)(type - 4) >= 29) {
-        type = 8;
+    if ((u32)(speed - 4) >= 29) {
+        speed = 8;
     }
-    slot->playback_speed = type;
+    slot->playback_speed = speed;
     if (slot->playback_state == 0x3E) {
-        Model_SetSlotPlaybackDirection(index, 1);
+        Model_SetSlotPlaybackDirection(slot_index, 1);
     }
 }
 
-void Model_SetSlotPlaybackDirection(s32 index, s32 sign)
+void Model_SetSlotPlaybackDirection(s32 slot_index, s32 sign)
 {
     ModelSlot *slot;
     s32 doubled_copy;
@@ -28,7 +28,7 @@ void Model_SetSlotPlaybackDirection(s32 index, s32 sign)
     {
         ModelSlot *base = gModel_aSlots;
 
-        slot = base + index;
+        slot = base + slot_index;
     }
     if (sign > 0)
         goto state_62;
@@ -43,7 +43,7 @@ state_62:
     slot->playback_state = 62;
 update:
     {
-        ModelSlot *current = &gModel_aSlots[index];
+        ModelSlot *current = &gModel_aSlots[slot_index];
 
         doubled = current->playback_speed * 2;
         state = current->playback_state;
@@ -66,38 +66,38 @@ update:
 negate:
     velocity = -velocity;
 apply:
-    Model_SetSlotPartSpeeds(index, velocity);
+    Model_SetSlotPartSpeeds(slot_index, velocity);
 }
 
-void Model_SeekSlotAnimation(s32 idx, s32 flag, s32 val)
+void Model_SeekSlotAnimation(s32 slot_index, s32 animation_row, s32 frame_position)
 {
-    s32 i = 0;
-    ModelSlot *rec = &gModel_aSlots[idx];
+    s32 part_index = 0;
+    ModelSlot *slot = &gModel_aSlots[slot_index];
     s32 count;
-    s32 arg3;
+    s32 scaled_position;
 
-    count = rec->animation_sequence_count;
-    rec->animation_position = val << 4;
-    arg3 = rec->animation_position;
+    count = slot->animation_sequence_count;
+    slot->animation_position = frame_position << 4;
+    scaled_position = slot->animation_position;
 
     if (count != 0) {
         do {
-            s32 arg2 = rec->current_animation_row;
+            s32 selected_row = slot->current_animation_row;
 
-            if (flag != 0) {
-                ModelSlotPart *part = rec->animation_sequences[i];
-                arg2 = flag;
-                part->sid = flag;
+            if (animation_row != 0) {
+                ModelSlotPart *part = slot->animation_sequences[part_index];
+                selected_row = animation_row;
+                part->sid = animation_row;
             }
 
-            Model_SeekSlotPartAnimation(rec, i, arg2, arg3);
-            count = rec->animation_sequence_count;
-            i++;
-        } while (i < count);
+            Model_SeekSlotPartAnimation(slot, part_index, selected_row, scaled_position);
+            count = slot->animation_sequence_count;
+            part_index++;
+        } while (part_index < count);
     }
 
-    if (flag != 0) {
-        rec->current_animation_row = flag;
+    if (animation_row != 0) {
+        slot->current_animation_row = animation_row;
     }
-    rec->cached_dimensions[3] = 0;
+    slot->cached_dimensions[3] = 0;
 }

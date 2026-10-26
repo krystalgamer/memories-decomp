@@ -309,3 +309,53 @@ stays unchanged. Other locals, fields and SDK declarations stay intact.
 All existing fixtures, independent stub names, oracles, scenarios,
 mutations, assertions and numeric controls are unchanged. No new
 behavioral harness or local cloud-fixture execution is introduced.
+
+## Playback and seek argument views
+
+The complete five-definition playback/seek component now distinguishes
+slot indices from slot pointers, part indices from animation rows, and
+integer frame inputs from the narrowed sixteenth-frame clock.
+
+| Entry | Definition argument names |
+| --- | --- |
+| Model_SetSlotPlaybackSpeed | slot_index / speed |
+| Model_SetSlotPlaybackDirection | slot_index / sign |
+| Model_SeekSlotAnimation | slot_index / animation_row / frame_position |
+| Model_SeekSlotPartAnimation | slot / part_index / animation_row / scaled_position |
+| tent_Model_GetSlotPartAnimationPosition | slot / part_index |
+
+The speed setter keeps its unsigned 4..32 test and fallback eight, and
+reapplies forward direction only in state 0x3E. The direction setter
+keeps the sign branches, states 35/60/62 and original doubled-speed
+velocity path; no new playback, pause or timing policy accompanies
+these parameter names.
+
+The whole-slot seek's animation_row is NOT a Boolean flag. Zero keeps
+the slot's current row; a nonzero argument reaches each part's sid and
+then the slot's current row. Its loop locals selected_row and part_index
+name those existing values. frame_position is shifted left four,
+stored to the u16 animation_position, then reloaded into scaled_position
+BEFORE per-part calls. No widening, rounding, clamp or direct forwarding
+of the pre-store value replaces that narrowing. Only cached_dimensions[3]
+is cleared afterward, including the original zero-part path.
+
+The part seek receives an unsigned scaled_position in sixteenth-frame
+units, not the whole-slot integer frame input. Keep both materialized
+part offsets, unchecked row/part indexing, missing-part/key/zero-duration
+returns, repeated row and header reads, modulo arithmetic, exact-zero
+boundary, playback-state-specific strict comparison and forward scan.
+All ti/ci/tframe/rframe writes and the signed-halfword 0x6000 clamp stay
+in their original order; no loop or command interpretation is rewritten.
+
+The contiguous getter's row-scan local is also animation_row, but its
+identity remains tentative. It still packs that row above a sum in
+duration-byte units and uses its distinct table-base-relative header
+comparison. It is NOT an exact inverse of the seek and no caller or
+new reachability is established by argument naming. Its 0x6000/0x7000
+exclusions and every zero-return path remain unchanged.
+
+Only bounded bare identifiers in two complete C units, matching
+prototype/comment identifiers in their two whole headers, this owning
+note and five existing registry NOTES cells change. Qualified members,
+types, arithmetic, statement order, accepted source groups, named
+profiles, callers, initialized data and all existing controls stay exact.
