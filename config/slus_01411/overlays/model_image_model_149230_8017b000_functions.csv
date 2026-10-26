@@ -1,1 +1,10 @@
 address,size,name,status,module,notes
+0x8017B004,0x11BC,func_8017B004,unmatched_asm,overlay/model_image_model_149230_8017b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8017C1C0,0x584,func_8017C1C0,unmatched_asm,overlay/model_image_model_149230_8017b000,"Closed CFG found by stack prologue; no loader-entry call or address reference found, so reachability is unresolved; generated assembly retained."
+0x8017C744,0x6A8,func_8017C744,unmatched_asm,overlay/model_image_model_149230_8017b000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
+0x8017CDEC,0x61C,func_8017CDEC,unmatched_asm,overlay/model_image_model_149230_8017b000,"Closed CFG found by stack prologue; no loader-entry call or address reference found, so reachability is unresolved; generated assembly retained."
+0x8017D408,0x634,func_8017D408,unmatched_asm,overlay/model_image_model_149230_8017b000,"Closed CFG found by stack prologue; no loader-entry call or address reference found, so reachability is unresolved; generated assembly retained."
+0x8017DA3C,0x62C,func_8017DA3C,unmatched_asm,overlay/model_image_model_149230_8017b000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
+0x8017E068,0x5D8,func_8017E068,unmatched_asm,overlay/model_image_model_149230_8017b000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
+0x8017E640,0xB28,func_8017E640,unmatched_asm,overlay/model_image_model_149230_8017b000,"Closed CFG found by stack prologue; no loader-entry call or address reference found, so reachability is unresolved; generated assembly retained."
+0x8017F168,0x60C,func_8017F168,unmatched_asm,overlay/model_image_model_149230_8017b000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.

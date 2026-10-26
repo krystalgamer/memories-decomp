@@ -1,4 +1,5 @@
-# Baseline image only: instruction-shaped bytes remain unclassified.
+# Generated function inventory: closed-CFG functions are generated assembly;
+# every other byte remains raw and unclassified.
 name: model_image_model_90994_8017b000
 sha1: 1c8b61ab58aadb3bd304d99b99c60f9753476e7b
 
@@ -40,11 +41,67 @@ options:
     - ".bss"
 
 segments:
-  - name: unclassified_image
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x8017b000
     align: 4
     subsegments:
-      - [0x0, bin, overlays/model_image_model_90994_8017b000/unclassified_image]
+      - [0x0, data, overlays/model_image_model_90994_8017b000/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8017b004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/model_image_model_90994_8017b000/unmatched_4]
+  - name: unmatched_fd4
+    type: code
+    start: 0xfd4
+    vram: 0x8017bfd4
+    align: 4
+    subsegments:
+      - [0xfd4, asm, overlays/model_image_model_90994_8017b000/unmatched_fd4]
+  - name: unmatched_151c
+    type: code
+    start: 0x151c
+    vram: 0x8017c51c
+    align: 4
+    subsegments:
+      - [0x151c, asm, overlays/model_image_model_90994_8017b000/unmatched_151c]
+  - name: unmatched_1f6c
+    type: code
+    start: 0x1f6c
+    vram: 0x8017cf6c
+    align: 4
+    subsegments:
+      - [0x1f6c, asm, overlays/model_image_model_90994_8017b000/unmatched_1f6c]
+  - name: unmatched_2b58
+    type: code
+    start: 0x2b58
+    vram: 0x8017db58
+    align: 4
+    subsegments:
+      - [0x2b58, asm, overlays/model_image_model_90994_8017b000/unmatched_2b58]
+  - name: unmatched_3068
+    type: code
+    start: 0x3068
+    vram: 0x8017e068
+    align: 4
+    subsegments:
+      - [0x3068, asm, overlays/model_image_model_90994_8017b000/unmatched_3068]
+  - name: unmatched_37dc
+    type: code
+    start: 0x37dc
+    vram: 0x8017e7dc
+    align: 4
+    subsegments:
+      - [0x37dc, asm, overlays/model_image_model_90994_8017b000/unmatched_37dc]
+  - name: unclassified_tail
+    type: code
+    start: 0x3cbc
+    vram: 0x8017ecbc
+    align: 4
+    subsegments:
+      - [0x3cbc, bin, overlays/model_image_model_90994_8017b000/unclassified_tail]
   - [0x5000]

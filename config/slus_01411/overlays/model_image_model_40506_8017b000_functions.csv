@@ -1,1 +1,8 @@
 address,size,name,status,module,notes
+0x8017B004,0xE00,func_8017B004,unmatched_asm,overlay/model_image_model_40506_8017b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8017BE04,0x504,func_8017BE04,unmatched_asm,overlay/model_image_model_40506_8017b000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
+0x8017C308,0x660,func_8017C308,unmatched_asm,overlay/model_image_model_40506_8017b000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
+0x8017C968,0x674,func_8017C968,unmatched_asm,overlay/model_image_model_40506_8017b000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
+0x8017CFDC,0x4D8,func_8017CFDC,unmatched_asm,overlay/model_image_model_40506_8017b000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
+0x8017D4B4,0x7E8,func_8017D4B4,unmatched_asm,overlay/model_image_model_40506_8017b000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
+0x8017DC9C,0x9F8,func_8017DC9C,unmatched_asm,overlay/model_image_model_40506_8017b000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
