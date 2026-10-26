@@ -35,10 +35,13 @@ HEADER = "# Generated function inventory: closed-CFG functions are generated ass
 NOTES = {
     "entry": "Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; "
              "generated assembly retained. Other raw bytes remain unclassified.",
-    "reachable": "Reached from the loader entry through local calls or in-image address references; "
-                 "closed CFG; generated assembly retained.",
-    "unreached": "Closed CFG found by {evidence}; no loader-entry call or address reference found, "
-                 "so reachability is unresolved; generated assembly retained.",
+    "reachable": "Reached from the loader entry through local calls, tail jumps, fall-through or "
+                 "in-image address references; closed CFG; generated assembly retained.",
+    "resident": "Address referenced by resident code; closed CFG; generated assembly retained.",
+    "resident_reached": "Reached from a resident-referenced body through local calls, tail jumps, "
+                        "fall-through or in-image address references; closed CFG; generated assembly retained.",
+    "unreached": "Closed CFG found by {evidence}; not reached from the loader entry or a resident "
+                 "address reference, so reachability is unresolved; generated assembly retained.",
 }
 
 
@@ -90,15 +93,15 @@ def functions_text(rows: list[dict]) -> str:
     return output.getvalue()
 
 
-def address_references(data: bytes, base: int, spans: list[tuple[int, int]]) -> set[int]:
+def address_references(data: bytes, base: int, start: int, length: int) -> set[int]:
+    """Return in-image offsets materialized by `lui`/`addiu`/`ori` in one body."""
     taken = set()
-    for start, length in spans:
-        for pc in range(start, start + length, 4):
-            word = struct.unpack_from("<I", data, pc)[0]
-            if word >> 26 in (9, 13):
-                value = register_constant(data, start, pc + 4, word >> 16 & 31)
-                if value is not None and base <= value < base + len(data):
-                    taken.add(value - base)
+    for pc in range(start, start + length, 4):
+        word = struct.unpack_from("<I", data, pc)[0]
+        if word >> 26 in (9, 13):
+            value = register_constant(data, start, pc + 4, word >> 16 & 31)
+            if value is not None and base <= value < base + len(data):
+                taken.add(value - base)
     return taken
 
 
@@ -108,7 +111,7 @@ def image_functions(data: bytes, base: int, entries: set[int], calls: set[int]) 
     spans = {int(row["offset"], 0): row for row in rows}
     ordered = sorted(spans)
     sizes = {offset: spans[offset]["observed_extent"] for offset in ordered}
-    falls = set()
+    falls = {}
     for left, right in zip(ordered, ordered[1:]):
         if left + sizes[left] <= right:
             continue
@@ -116,24 +119,37 @@ def image_functions(data: bytes, base: int, entries: set[int], calls: set[int]) 
             raise InventoryError(f"closed candidate spans overlap at {right:#x}")
         # A preamble that falls through into the next body shares its exit.
         sizes[left] = right - left
-        falls.add(left)
-    taken = address_references(data, base, [(offset, sizes[offset]) for offset in ordered])
-    reached = set()
-    pending = [offset for offset in ordered if offset in entries or offset in taken
-               or "resident_address_reference" in spans[offset]["seed_evidence"]]
-    while pending:
-        offset = pending.pop()
-        if offset in reached or offset not in spans:
-            continue
-        reached.add(offset)
-        pending.extend(int(target, 16) - base for target in spans[offset]["local_calls"].split(";") if target)
+        falls[left] = right
+    edges = {}
+    for offset in ordered:
+        targets = {int(target, 16) - base for field in ("local_calls", "external_calls")
+                   for target in spans[offset][field].split(";") if target}
+        targets |= address_references(data, base, offset, sizes[offset])
+        if offset in falls:
+            targets.add(falls[offset])
+        edges[offset] = targets & spans.keys()
+
+    def closure(roots: set[int]) -> set[int]:
+        reached, pending = set(), sorted(roots & spans.keys())
+        while pending:
+            offset = pending.pop()
+            if offset not in reached:
+                reached.add(offset)
+                pending.extend(edges[offset])
+        return reached
+
+    from_entry = closure(entries)
+    resident = {offset for offset in ordered if "resident_address_reference" in spans[offset]["seed_evidence"]}
+    from_resident = closure(resident)
     result = []
     for offset in ordered:
-        kind = "entry" if offset in entries else "reachable" if offset in reached else "unreached"
+        kind = ("entry" if offset in entries else "reachable" if offset in from_entry else
+                "resident" if offset in resident else
+                "resident_reached" if offset in from_resident else "unreached")
         evidence = spans[offset]["seed_evidence"].replace("_", " ").replace(";", " and ")
         notes = NOTES[kind].format(evidence=evidence)
         if offset in falls:
-            notes += f" Falls through into func_{base + offset + sizes[offset]:08X}."
+            notes += f" Falls through into func_{base + falls[offset]:08X}."
         result.append((offset, sizes[offset], notes))
     return result
 
@@ -147,7 +163,7 @@ def inventory_region(root: Path, region: str, check: bool) -> dict:
     by_name = {label: image for image in images for label in image["configured"]}
     _, modules = load_manifest(root, region)
     prefix = PREFIXES[region] + "model_image_"
-    summary = {"baselines": 0, "inventoried": 0, "functions": 0, "function_bytes": 0, "stale": []}
+    summary = {"baselines": 0, "inventoried": 0, "functions": 0, "function_bytes": 0, "stale": [], "raw": []}
     for module in modules:
         if not module["name"].startswith(prefix) or "linker_symbols" in module:
             continue
@@ -165,20 +181,25 @@ def inventory_region(root: Path, region: str, check: bool) -> dict:
         except InventoryError as error:
             raise InventoryError(f"{module['name']}: {error}") from None
         sha1 = re.search(r"^sha1: ([0-9a-f]{40})$", text, re.MULTILINE)[1]
-        expected_layout = inventory_layout_text(module, sha1, [(offset, size) for offset, size, _ in functions])
+        is_baseline = baseline_text(module, text) and \
+            inventory.read_text(encoding="utf-8") == ",".join(FIELDS) + "\n"
+        if not is_baseline and not text.startswith(HEADER):
+            continue
+        if functions:
+            expected_layout = inventory_layout_text(module, sha1, [(offset, size) for offset, size, _ in functions])
+            summary["baselines"] += is_baseline
+            summary["inventoried"] += 1
+            summary["functions"] += len(functions)
+            summary["function_bytes"] += sum(size for _, size, _ in functions)
+        else:
+            # Without a proven closed body the image stays one raw baseline.
+            expected_layout = layout_text(module, sha1)
+            summary["raw"].append(module["name"])
         expected_rows = functions_text([{
             "address": f"0x{base + offset:08X}", "size": f"0x{size:X}", "name": f"func_{base + offset:08X}",
             "status": "unmatched_asm", "module": f"overlay/{layout.stem}",
             "notes": notes,
         } for offset, size, notes in functions])
-        is_baseline = baseline_text(module, text) and \
-            inventory.read_text(encoding="utf-8") == ",".join(FIELDS) + "\n"
-        if not is_baseline and not text.startswith(HEADER):
-            continue
-        summary["baselines"] += is_baseline
-        summary["inventoried"] += 1
-        summary["functions"] += len(functions)
-        summary["function_bytes"] += sum(size for _, size, _ in functions)
         if text == expected_layout and inventory.read_text(encoding="utf-8") == expected_rows:
             continue
         if check:
@@ -200,7 +221,8 @@ def main() -> int:
         for region in args.region:
             summary = inventory_region(root, region, args.check)
             print(f"{region}: {summary['inventoried']} layouts ({summary['baselines']} raw baselines), "
-                  f"{summary['functions']} functions, {summary['function_bytes']:,} bytes"
+                  f"{summary['functions']} functions, {summary['function_bytes']:,} bytes, "
+                  f"{len(summary['raw'])} without a closed body left raw"
                   + (f", {len(summary['stale'])} stale" if args.check else ""), flush=True)
             failed |= bool(summary["stale"])
         return 1 if failed else 0

@@ -58,6 +58,41 @@ class InventoryModelImagesTests(unittest.TestCase):
         struct.pack_into("<I", data, 0x104, 0x12345678)
         self.assertIsNone(census.jump_table_targets(bytes(data), BASE, 4, 0x24))
 
+    def test_switch_table_rejects_a_clobbered_jump_register(self):
+        data = bytearray(image())
+        struct.pack_into("<I", data, 0x20, 0x24020000)  # addiu v0, zero, 0
+        self.assertIsNone(census.jump_table_targets(bytes(data), BASE, 4, 0x24))
+        switch = census.walk_function(bytes(data), BASE, 4, resolve_flow=True)
+        self.assertFalse(switch["closed"])
+        self.assertIn("indirect_jump@0x24", switch["problems"])
+
+    def test_switch_table_requires_a_guarded_bound_on_its_selector(self):
+        for offset, word in ((0x0C, 0x00000000),   # no sltiu
+                             (0x0C, 0x2CA20002),   # sltiu bounds a1, not the a0 selector
+                             (0x10, 0x00000000)):  # no beqz guard on the bound flag
+            data = bytearray(image())
+            struct.pack_into("<I", data, offset, word)
+            with self.subTest(offset=offset, word=word):
+                self.assertIsNone(census.jump_table_targets(bytes(data), BASE, 4, 0x24))
+
+    def test_reachability_only_follows_edges_from_rooted_bodies(self):
+        data = bytearray(image())
+        for offset, word in {
+            # U takes V's address but is itself unreachable.
+            0x40: 0x27BDFFF8, 0x44: 0x3C048014, 0x48: 0x2484B060, 0x4C: 0x03E00008, 0x50: 0x27BD0008,
+            0x60: 0x27BDFFF8, 0x64: 0x03E00008, 0x68: 0x27BD0008,
+        }.items():
+            struct.pack_into("<I", data, offset, word)
+        notes = {offset: note for offset, _, note in inventory.image_functions(bytes(data), BASE, {4}, set())}
+        self.assertIn("reachability is unresolved", notes[0x40])
+        self.assertIn("reachability is unresolved", notes[0x60])
+        notes = {offset: note for offset, _, note in inventory.image_functions(bytes(data), BASE, {0x40}, set())}
+        self.assertTrue(notes[0x60].startswith("Reached from the loader entry"))
+        notes = {offset: note for offset, _, note in
+                 inventory.image_functions(bytes(data), BASE, {4}, {BASE + 0x40})}
+        self.assertTrue(notes[0x40].startswith("Address referenced by resident code"))
+        self.assertTrue(notes[0x60].startswith("Reached from a resident-referenced body"))
+
     def test_functions_classify_entry_and_unreached_closed_bodies(self):
         rows = inventory.image_functions(image(), BASE, {4}, set())
         self.assertEqual([(offset, size) for offset, size, _ in rows], [(4, 0x38), (0x40, 0xC)])
@@ -73,6 +108,8 @@ class InventoryModelImagesTests(unittest.TestCase):
         self.assertIn((0x80, 4), [(offset, size) for offset, size, _ in rows])
         self.assertIn((0x84, 0xC), [(offset, size) for offset, size, _ in rows])
         self.assertIn("Falls through into func_8013B084.", dict((o, n) for o, _, n in rows)[0x80])
+        notes = {offset: note for offset, _, note in inventory.image_functions(bytes(data), BASE, {0x80}, set())}
+        self.assertTrue(notes[0x84].startswith("Reached from the loader entry"))
 
     def test_layout_keeps_gaps_raw_and_covers_the_image(self):
         module = {"name": "model_image_model_1_8013b000", "load_address": "0x8013B000",

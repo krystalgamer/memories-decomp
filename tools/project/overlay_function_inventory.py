@@ -120,35 +120,113 @@ def register_constant(data: bytes, start: int, before: int, register: int, depth
     return None
 
 
-def jump_table_targets(data: bytes, base: int, start: int, pc: int) -> list[int] | None:
-    """Resolve a GCC switch table read by `lw reg, off(base + index); jr reg`."""
-    reg = struct.unpack_from("<I", data, pc)[0] >> 21 & 31
-    words = [(at, struct.unpack_from("<I", data, at)[0]) for at in range(pc - 4, max(start, pc - 64) - 4, -4)]
-    load = next(((at, word) for at, word in words if word >> 26 == 35 and word >> 16 & 31 == reg), None)
-    if load is None:
+def written_register(word: int) -> int | None:
+    """Return the general register an instruction writes, if any."""
+    op = word >> 26
+    if op == 0:
+        funct = word & 63
+        if funct in (8, 12, 13, 17, 19, 24, 25, 26, 27):
+            return None
+        return word >> 11 & 31 or None
+    if op == 1:
+        return 31 if word >> 16 & 31 in (16, 17) else None
+    if op == 3:
+        return 31
+    if op in (2, 4, 5, 6, 7, 40, 41, 42, 43, 46, 50, 56, 57, 58, 59):
         return None
-    load_at, load_word = load
+    if op in (16, 18):
+        return word >> 16 & 31 if word >> 21 & 31 in (0, 2) else None
+    return word >> 16 & 31 or None
+
+
+def is_control_transfer(word: int) -> bool:
+    op = word >> 26
+    return op in (1, 2, 3, 4, 5, 6, 7) or (op == 0 and word & 63 in (8, 9))
+
+
+def last_writer(data: bytes, start: int, before: int, register: int,
+                *, straight: bool = False) -> int | None:
+    """Return the nearest instruction before `before` writing `register`.
+
+    With `straight`, the search fails at any branch or jump, so the writer is
+    proven live on the only path into `before`.
+    """
+    for at in range(before - 4, start - 4, -4):
+        word = struct.unpack_from("<I", data, at)[0]
+        if straight and is_control_transfer(word):
+            return None
+        if written_register(word) == register:
+            return at
+    return None
+
+
+def jump_table_targets(data: bytes, base: int, start: int, pc: int) -> list[int] | None:
+    """Resolve a GCC switch table read by `lw reg, off(table + index); jr reg`.
+
+    The whole chain must be proven: the jump register's last write is the load,
+    the load address's last write is the sum, the index is `sll x, 2`, and a
+    `sltiu t, x, N` guarded by `beq/bne t, zero` bounds `x` with no write to
+    `x` in between. Anything ambiguous stays unresolved.
+    """
+    reg = struct.unpack_from("<I", data, pc)[0] >> 21 & 31
+    load_at = last_writer(data, start, pc, reg, straight=True)
+    if load_at is None:
+        return None
+    load_word = struct.unpack_from("<I", data, load_at)[0]
+    if load_word >> 26 != 35:
+        return None
     offset = (load_word & 65535) - (65536 if load_word & 32768 else 0)
-    address = load_word >> 21 & 31
-    sum_at = next((at for at, word in words
-                   if at < load_at and word >> 26 == 0 and word & 63 == 33 and word >> 11 & 31 == address), None)
+    sum_at = last_writer(data, start, load_at, load_word >> 21 & 31, straight=True)
     if sum_at is None:
         return None
-    word = struct.unpack_from("<I", data, sum_at)[0]
-    tables = [register_constant(data, start, sum_at, word >> shift & 31) for shift in (21, 16)]
-    tables = [(value + offset) & 0xFFFFFFFF for value in tables if value is not None]
-    if len(tables) != 1 or not base <= tables[0] < base + len(data) or tables[0] % 4:
+    sum_word = struct.unpack_from("<I", data, sum_at)[0]
+    if sum_word >> 26 != 0 or sum_word & 63 != 33:
         return None
-    bound = next((word & 65535 for at, word in words if word >> 26 == 11), None)
-    targets = []
-    cursor = tables[0] - base
-    while cursor + 4 <= len(data) and len(targets) < (bound or 512):
-        target = struct.unpack_from("<I", data, cursor)[0] - base
-        if not start <= target < len(data) or target % 4:
+    candidates = []
+    for table_shift, index_shift in ((21, 16), (16, 21)):
+        table = register_constant(data, start, sum_at, sum_word >> table_shift & 31)
+        if table is not None:
+            candidates.append(((table + offset) & 0xFFFFFFFF, sum_word >> index_shift & 31))
+    if len(candidates) != 1:
+        return None
+    table, index = candidates[0]
+    if not base <= table < base + len(data) or table % 4:
+        return None
+    shift_at = last_writer(data, start, sum_at, index)
+    if shift_at is None:
+        return None
+    shift_word = struct.unpack_from("<I", data, shift_at)[0]
+    if shift_word >> 26 != 0 or shift_word & 63 != 0 or shift_word >> 6 & 31 != 2:
+        return None
+    selector = shift_word >> 16 & 31
+    bound = None
+    for at in range(pc - 4, max(start, pc - 64) - 4, -4):
+        word = struct.unpack_from("<I", data, at)[0]
+        if word >> 26 == 11 and word >> 21 & 31 == selector:
+            bound = at, word >> 16 & 31, word & 65535
             break
-        targets.append(target)
-        cursor += 4
-    if not targets or (bound is not None and len(targets) != bound):
+    if bound is None or not bound[2]:
+        return None
+    bound_at, flag, count = bound
+    first, last = min(bound_at, shift_at), max(bound_at, shift_at)
+    if any(written_register(struct.unpack_from("<I", data, at)[0]) == selector
+           for at in range(first + 4, last, 4)):
+        return None
+    guarded = False
+    for at in range(bound_at + 4, pc, 4):
+        word = struct.unpack_from("<I", data, at)[0]
+        if word >> 26 in (4, 5) and {word >> 21 & 31, word >> 16 & 31} == {flag, 0}:
+            guarded = True
+            break
+        if written_register(word) == flag:
+            return None
+    if not guarded:
+        return None
+    cursor = table - base
+    if cursor + count * 4 > len(data):
+        return None
+    targets = [struct.unpack_from("<I", data, cursor + 4 * i)[0] - base for i in range(count)]
+    if any(not start <= target < len(data) or target % 4 for target in targets):
         return None
     return targets
 
