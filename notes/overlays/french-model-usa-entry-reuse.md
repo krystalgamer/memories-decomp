@@ -1,6 +1,6 @@
 # French MODEL entries reusing accepted North American C
 
-The entry functions of eight French MODEL variant families are the accepted
+The entry functions of nine French MODEL variant families are the accepted
 North American entry bodies. Under the project's GCC 2.8.1 split profile they
 produce byte-identical code, except that the PAL images load the effect palette
 from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
@@ -13,6 +13,7 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
 | 424 | 30 | `model_variant/variant407_entry.c` | `0x12D4` |
 | 433 | 4 | `model_variant/variant416_entry.c` | `0x104C` |
 | 435 | 26 | `model_variant/variant418_entry.c` | `0x1080` |
+| 442 | 4 | `model_variant/variant425_entry.c` | `0x1170` |
 | 445 | 12 | `model_variant/variant428_entry.c` | `0x1030` |
 | 450 | 2 | `model_variant/variant433_entry.c` | `0x0DD4` |
 
@@ -28,11 +29,11 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
   temporaries. The French images match only `gcc_2_8_1_g0_split`.
 - Each family binding file gains only the missing SDK bindings these bodies
   call (for example `GetTPage`, `GetClut` and `SetPolyGT4`). Every bound
-  address is a French resident function start. Family 450 already bound
-  those addresses as `func_french_<address>` placeholders, so its file renames
+  address is a French resident function start. Families 442 and 450 already
+  bound those addresses as `func_french_<address>` placeholders, so their files rename
   them to the canonical SDK names instead of adding entries.
 
-**120 French C instances** were added. All French and North American overlay
+**124 French C instances** were added. All French and North American overlay
 images rebuild exactly; no other release uses these sources. The
 [ledger](french-model-usa-entry-reuse.csv) lists every image, its North
 American body, the French wrapper and both fingerprints.
