@@ -149,9 +149,9 @@ void TextBox_BuildStep(DuelEffectChannel *object)
 #ifndef VERSION_EUROPE
             /* The European build no longer clears the channel's occupancy
                value, as in TextBox_Destroy. */
-            DuelEffect_ClearOccupancyValue(object->index_57);
+            DuelEffect_ClearOccupancyValue(object->channel_index);
 #endif
-            DuelEffect_ClearMatchingMarker(object->index_57);
+            DuelEffect_ClearMatchingMarker(object->channel_index);
         }
         return;
     }

@@ -102,9 +102,9 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
 #ifndef VERSION_EUROPE
         /* The European build no longer clears the channel's occupancy value
            here, as in TextBox_Destroy. */
-        DuelEffect_ClearOccupancyValue(object->index_57);
+        DuelEffect_ClearOccupancyValue(object->channel_index);
 #endif
-        DuelEffect_ClearMatchingMarker(object->index_57);
+        DuelEffect_ClearMatchingMarker(object->channel_index);
         v = object->flags_34;
         object->explicit_newline_count = 0;
         gText_ChoiceLayoutCallback = Text_TryCompleteChoiceLayout;
@@ -349,7 +349,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     e = p->render_object;
     if (e == (DisplayObject *)0) {
         e = DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 6);
-        b = p->index_57;
+        b = p->channel_index;
         e->field_40.h.field_40 = TEXT_BOX_LAYOUT_WIDTH;
         e->field_40.h.field_42 = TEXT_BOX_LAYOUT_HEIGHT;
         e->field_66 = 0xA;

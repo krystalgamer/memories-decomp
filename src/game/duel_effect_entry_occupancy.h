@@ -10,7 +10,7 @@ typedef struct {
     u32 pad_00[4];
     u8 pad_10;
     u8 flags_11;
-    u8 field_12;
+    u8 owner_channel_tag;
     u8 field_13;
     u8 pad_14;
     u8 field_15;
@@ -44,7 +44,7 @@ typedef struct {
     u8 field_0A;
     u8 pad_0D[2];
     u8 flags_11;    /* 0x0F */
-    u8 field_12;    /* 0x10 */
+    u8 owner_channel_tag;    /* 0x10 */
     u8 field_13;    /* 0x11 */
     u8 field_14;
     u8 field_15;    /* 0x13 */

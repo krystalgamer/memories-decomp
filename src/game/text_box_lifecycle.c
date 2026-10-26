@@ -15,7 +15,7 @@ void TextBox_Destroy(DuelEffectChannel *record)
     /* The European build leaves an inactive channel alone and no longer
        clears the channel's occupancy value. */
     if (record->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
-        DuelEffect_ClearMatchingMarker(record->index_57);
+        DuelEffect_ClearMatchingMarker(record->channel_index);
         record->flags_34 = 0;
         DisplayObject_ReleaseIfPresent(record->prompt_object);
         DisplayObject_ReleaseIfPresent(record->aux_object);
@@ -25,8 +25,8 @@ void TextBox_Destroy(DuelEffectChannel *record)
         record->render_object = 0;
     }
 #else
-    DuelEffect_ClearOccupancyValue(record->index_57);
-    DuelEffect_ClearMatchingMarker(record->index_57);
+    DuelEffect_ClearOccupancyValue(record->channel_index);
+    DuelEffect_ClearMatchingMarker(record->channel_index);
     record->flags_34 = 0;
     DisplayObject_ReleaseIfPresent(record->prompt_object);
     DisplayObject_ReleaseIfPresent(record->aux_object);

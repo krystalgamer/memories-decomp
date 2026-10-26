@@ -60,7 +60,7 @@ void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32
     s32 v;
     s32 i;
 
-    gDuelEffect_aOccupancyValues[slot] = channel->index_57 + 1;
+    gDuelEffect_aOccupancyValues[slot] = channel->channel_index + 1;
     if (tagged_value < 0) {
         glyph = (u16 *)Text_FindRecordById(tagged_value & 0xFFFF);
     } else {
@@ -117,7 +117,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
 
     flags = 0;
     entry = (EuropeanDuelEffectEntry *)channel->entry_end_20;
-    entry->field_12 = channel->index_57 + 1;
+    entry->owner_channel_tag = channel->channel_index + 1;
     entry->field_13 = 1;
     entry->field_15 = 0;
     entry->field_0C = channel->pen_x;
@@ -190,7 +190,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     s32 c;
 
     q = p->entry_end_20;
-    q->field_12 = p->index_57 + 1;
+    q->owner_channel_tag = p->channel_index + 1;
     q->field_13 = 1;
     q->field_15 = 0;
     r = gText_GlyphUploadScratch;
