@@ -189,3 +189,14 @@ Run `make french-match-overlays` and
 `tools.project.tests.test_french_model_variant432` for French coverage.
 The French subclass reuses the canonical Spanish fixture with an independent
 three-helper tuple; each region checks its own manifests and legal inputs.
+
+## French entry
+
+The French entry at `0x4` (`0xDA8` bytes) in both images is now matching C.
+It is the North American header-415 entry
+(`model_variant/variant415_entry.c`), built through
+`french_model_variant/variant432_entry{,_slot1}.c` with the PAL palette x (640),
+the in-image helper and data addresses, and `VERSION_FRENCH`. The French body
+advances the bar index at the end of the bar loop, not at the top. The French
+tuple adds the entry, and only the helper at `0xDAC` remains assembly. See
+[the reuse note](french-model-usa-entry-reuse.md).

@@ -9,6 +9,7 @@ class FrenchModelVariant432Tests(spanish.SpanishModelVariant432Tests):
     archive_path = "game/france/DATA/MODEL.MRG"
     load_inventories = staticmethod(load_french_overlay_inventories)
     matching_helpers = (
+        (4, 3496, "french_model_variant/variant432_entry"),
         (0x134C, 848, "variant432_draw"),
         (0x169C, 1064, "variant432_layers"),
         (0x1AC4, 1052, "variant432_bands"),
