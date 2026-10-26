@@ -24,8 +24,8 @@ typedef struct {
     u8 line_advance_y;
     u8 range_start_5C;
     u8 range_count_5D;
-    u8 pad_5E;
-    u8 field_5F;
+    u8 output_count;
+    u8 output_limit;
 } JapaneseDuelEffectChannel;
 
 typedef char JapaneseDuelEffectChannel_size_must_be_0x60[

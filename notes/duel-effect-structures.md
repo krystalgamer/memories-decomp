@@ -43,7 +43,8 @@ Verified channel fields used by matching C include:
 | `0x56` | `explicit_newline_count` | explicit `Text_NewLine` accounting for page/choice state; automatic wraps do not increment it |
 | `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, [`duel_effect_object_commands.c`](../src/game/duel_effect_object_commands.c), and [`duel_effect_command.c`](../src/game/duel_effect_command.c) |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
-| `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
+| `0x60` | `output_count` | NA byte count; PAL halfword pixel view includes +0x61 |
+| `0x61` | `output_limit` | NA byte threshold cleared in `DuelEffect_InitEntry`; PAL high counter byte |
 
 ### Starting string and explicit-newline bookkeeping
 
@@ -280,35 +281,54 @@ its two-argument interface remain intact.
 
 ### Text-command counter and limit writes
 
-`Text_SetOutputLimit` (originally `func_800383B0`, `0x800383B0`) clears
-the North American channel's byte counter at
-`field_60` and stores the low byte of `TextStream_ReadU16LE` in
-`field_61`. `TextBox_BuildStep` increments the counter after a glyph and
-sets the existing done flag when it reaches a nonzero limit. The handler
-now writes those existing members directly rather than indexing a byte
-pointer with a configurable result offset.
+output_count and output_limit name the NA channel's original u8
+field_60/field_61 at +0x60/+0x61 and the compact Japanese channel's
+original u8 pad_5E/field_5F at +0x5E/+0x5F. Japanese pad_5E was an
+actively used counter, not unused padding. Both channel sizes, all
+widths/offsets, the existing +0x61 assertion and range members remain.
 
-The Japanese command retains its compact `JapaneseDuelEffectChannel`
-view: the counter is the existing `pad_5E` byte and the limit is
-`field_5F`. The neutral member spelling is retained, not a claim that the
-byte is unused padding. The European command instead clears the halfword
-over `field_60` and writes the halfword over `field_62` from one operand
-byte shifted left by three; its proportional-font builder counts pixels,
-not glyphs. These explicit width views match the existing European reader.
+DuelEffect_InitEntry clears only the existing limit byte in NA/Japan;
+it gains NO counter store. The PAL initializer retains its raw u16+0x62
+limit clear. TextBox_BuildStep clears the counter only in its original
+initial-build path. Text_SetOutputLimit (0x800383B0; secondary slot 7)
+clears the counter before consuming the operand, then stores the low byte
+of TextStream_ReadU16LE as the NA/Japanese limit. It retains the two-byte
+cursor advance and byte narrowing, with no clamp or high-byte validation.
+Japan retains its actual 0x80037AAC command primary.
 
-The retail secondary text-command slot 7 at `0x80090EC8` contains the
-North American handler address. `Text_DispatchSecondaryCommand` reads the
-slot number from the current stream and invokes it with the same channel.
-The name covers both glyph and pixel units; it does not claim a timer or
-font-size operation. A zero limit disables only this completion-threshold
-test, and the command does not clear an already set done flag or remove
-other completion conditions. Japan names its actual `0x80037AAC` primary
-rather than keeping the obsolete North American wrapper alias.
+NA/Japan call append, increment the byte counter and test the original
+nonzero limit using count>=limit, then advance the pen. The counter can
+wrap as a byte and still advances when append rejects a glyph; it is not
+a count of successfully allocated or currently active entries. Zero
+disables only this threshold check. No done flag is cleared and other
+completion paths remain unchanged.
 
-No record layout, callback signature, operand width, narrowing, stream
-advance, store/call order or completion policy changes. Source ownership
-and compiler profiles remain unchanged; no new record type or shared
-member rename is introduced.
+PAL instead reads/writes a u16 pixel counter over output_count AND the
+NA output_limit byte at +0x60/+0x61. Its distinct u16 limit remains over
+address-named field_62 and pad_63 at +0x62/+0x63; channel field_62 also
+stages NA icons, so it is not renamed to a universal limit. PAL consumes
+one operand byte shifted left by three. The existing halfword casts
+are retained, NOT replaced by the new byte members.
+
+The PAL builder adds the signed append adjustment to glyph_advance_x,
+updates the pen and halfword counter, and retains the exact signed
+look-ahead test: for nonzero signed limit, done is set only when
+limit < (s16)n + glyph_advance_x, not count>=limit. Preserve n's existing
+width, halfword store, signed casts, strict comparison and ordering;
+this is neither a universal glyph threshold nor a new pixel clamp.
+
+Append's 0x200 scratch-buffer calculation uses the CURRENT counter
+before the builder increments it, at the original 0x88-byte stride.
+That staging index is distinct from Japan's queried glyph_index
+occupancy slot. Neither a reservation nor a new scratch bound is added.
+
+Six whole C units change fourteen qualified member identifiers only.
+The whole shared and Japanese headers change four declarations, the
+one existing offset assertion's member/label and one overlap comment.
+No record, padding split, union, callback, macro name, expression,
+operand width, narrowing, cursor advance, store/call order, compiler
+profile or completion policy changes. DisplayObject field_60 and
+unrelated pad_5E storage retain their original names and behavior.
 
 Matching C users across the duel-effect and text-box paths include the shared
 header and use `DuelEffectChannel`. In particular, `TextBox_BuildStep` passes

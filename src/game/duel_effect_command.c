@@ -521,16 +521,16 @@ void Text_SetOutputLimit(DuelEffectChannel *object)
 #ifdef VERSION_EUROPE
     /* The European build clears the pixel counter and sets the limit
        (halfwords at 0x60 and 0x62) from one operand byte, times eight. */
-    *(u16 *)&object->field_60 = 0;
+    *(u16 *)&object->output_count = 0;
     *(u16 *)&object->field_62 =
         read_operand(object) << 3;
 #elif defined(VERSION_JAPAN)
-    ((JapaneseDuelEffectChannel *)object)->pad_5E = 0;
-    ((JapaneseDuelEffectChannel *)object)->field_5F =
+    ((JapaneseDuelEffectChannel *)object)->output_count = 0;
+    ((JapaneseDuelEffectChannel *)object)->output_limit =
         TextStream_ReadU16LE(object);
 #else
-    object->field_60 = 0;
-    object->field_61 = TextStream_ReadU16LE(object);
+    object->output_count = 0;
+    object->output_limit = TextStream_ReadU16LE(object);
 #endif
 }
 

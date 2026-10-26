@@ -86,11 +86,11 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     e->pen_y = 0;
     e->depth_offset = 0;
 #ifdef VERSION_JAPAN
-    e->field_5F = 0;
+    e->output_limit = 0;
     e->range_start_5C = range[0];
     e->range_count_5D = range[2] - range[0];
 #else
-    e->field_61 = 0;
+    e->output_limit = 0;
     e->range_start_5C = range[0];
     e->range_count_5E = range[1] - range[0];
 #endif

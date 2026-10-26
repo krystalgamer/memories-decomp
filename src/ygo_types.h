@@ -590,8 +590,10 @@ typedef struct DuelEffectChannel {
     u8 line_advance_y;
     u16 range_start_5C;
     u16 range_count_5E;
-    u8 field_60;
-    u8 field_61;
+    /* NA byte counter/limit; PAL overlays both with one u16 pixel count.
+       PAL's u16 limit remains over field_62/pad_63. */
+    u8 output_count;
+    u8 output_limit;
     /* NA stages an icon variant here; choice/page completion clears it.
        PAL instead uses this byte and pad_63 as a u16 output limit.
        Keep the offset name for these distinct regional interpretations. */
@@ -661,8 +663,8 @@ typedef char DuelEffectChannel_glyph_metrics_must_be_bytes[
 typedef char DuelEffectChannel_range_start_5C_offset_must_be_0x5C[
     YGO_TYPE_OFFSET(DuelEffectChannel, range_start_5C) == 0x5C ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_61_offset_must_be_0x61[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_61) == 0x61 ? 1 : -1
+typedef char DuelEffectChannel_output_limit_offset_must_be_0x61[
+    YGO_TYPE_OFFSET(DuelEffectChannel, output_limit) == 0x61 ? 1 : -1
 ];
 
 typedef void (*NameEntryGlyphUpdate)(u8 *sprite);
