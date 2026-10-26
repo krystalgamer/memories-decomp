@@ -31,8 +31,8 @@ typedef void (*MainModeRunner)(void);
  * bytes retain the duel's defense-position and guardian-star choices. */
 typedef struct {
     s16 model_id;
-    s16 field_02;
-    s16 field_04;
+    s16 attack_compare_override;
+    s16 defense_compare_override;
     u8 defense_position;
     u8 guardian_star_selection;
 } AnimatedBattleModelProperties;

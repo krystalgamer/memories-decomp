@@ -108,8 +108,8 @@ Verified shared fields and partial arrays are:
 | `0xDE8` | `primary_module_data_address`, `s32` | independently selected primary data word passed to the primary module at base +4 |
 | `0xDEC` | `variant_module_data_address`, `s32` | independently selected variant data word passed to variant/presentation handlers |
 | `0xDF8` | `model_id` | first property in `Model_SetSlotProperties`; mirrored to `gModel_awSlotModelIds[index]` for all three slots when non-negative |
-| `0xDFA` | `field_DFA` | second property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
-| `0xDFC` | `field_DFC` | third property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
+| `0xDFA` | `attack_compare_override` | second property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
+| `0xDFC` | `defense_compare_override` | third property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
 | `0xDFE` | `guardian_star_selection` | fourth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotAfFlags[index]` |
 | `0xDFF` | `defense_position` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotGfFlags[index]` |
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
@@ -449,8 +449,8 @@ duelist-only record, live-model or readiness guarantee is inferred.
 Repeated selector loads, volatile diagnostics, callback order, random
 calls, fallback branches and all source groups/profiles remain intact.
 
-The two middle properties stay `field_DFA`/`field_DFC`, and the input
-halfwords stay `field_02`/`field_04`. The battle producer deliberately
+The two middle properties and input halfwords now name the attack and
+defense comparison overrides described below. The battle producer deliberately
 supplies zero/one comparison overrides to replay the already determined
 result, not the cards' calculated attack/defense totals. Their 0xFFFF
 reset sentinels, signed-argument preservation and conditional CF8 copies
@@ -480,7 +480,7 @@ corresponding field unchanged. The arguments themselves must still be supplied:
 five properties for slots 0 and 1, or one for slot 2. The
 first property writes `model_id` for any of the three slots and mirrors it to
 `gModel_awSlotModelIds[index]`. Slots 0 and 1 consume four more properties for
-`field_DFA`, `field_DFC`, `guardian_star_selection`, and `defense_position`; the final two are
+`attack_compare_override`, `defense_compare_override`, `guardian_star_selection`, and `defense_position`; the final two are
 normalized to zero or one and mirrored to `gModelDebug_abSlotAfFlags[index]` and
 `gModelDebug_abSlotGfFlags[index]`.
 
@@ -488,8 +488,8 @@ Slot 2 consumes only the first property, then refreshes `D_8009AF88` from the
 `0xB2`-byte table selected by `gModel_awStageSlotModelId[0]`. Every call finishes by setting
 `gModel_bSceneMode` to `15`. These writes establish field widths, slot bounds, and
 mirror relationships. The preceding producer trace establishes the model ID,
-guardian-star selection and defense posture; the middle comparison words
-and the purpose of the final value `15` remain unclassified. The array supports indices 0 through 2;
+guardian-star selection and defense posture. The middle words now name only
+their presentation comparison roles; the final value `15` remains unclassified. The array supports indices 0 through 2;
 the function does not validate its index, and its `idx >= 2` arm is not evidence
 for additional slots.
 
@@ -508,7 +508,7 @@ This supports the high-confidence name `Model_SetSlotProperties` without
 assigning meanings from the debug abbreviations alone.
 `main_modes.h` records the two eight-byte inputs as
 `AnimatedBattleModelProperties`, now sharing the confirmed choice names
-while retaining mechanical names for the two comparison halfwords.
+with explicit override names for the two comparison halfwords.
 
 The animated-battle calls belong to the ordinary initialization branch,
 not every mode tick: `D_8009B26C & 0x40` gates initialization, and a first
@@ -959,3 +959,50 @@ Each binding sits under the region's existing `VERSION_JAPAN` or
 `model_init_slot.c` wrapper now defines `VERSION_EUROPE` so its rebase calls
 see the binding; neither that source nor its headers otherwise test the
 selector. Function bodies, symbol maps and profiles are unchanged.
+
+## Presentation comparison values and overrides
+
+These six member names follow the complete local producer, load and
+reaction chain. They do NOT claim that the presentation operands are
+the cards' calculated attack/defense totals.
+
+| Original member | Canonical member | Unchanged representation |
+| --- | --- | --- |
+| ModelSlotCF8Prefix.values.field_00 | attack_compare_value | u16, prefix +0 / slot +0xCF8 |
+| ModelSlotCF8Prefix.values.field_02 | defense_compare_value | u16, prefix +2 / slot +0xCFA |
+| ModelSlot.field_DFA | attack_compare_override | u16, slot +0xDFA |
+| ModelSlot.field_DFC | defense_compare_override | u16, slot +0xDFC |
+| AnimatedBattleModelProperties.field_02 | attack_compare_override | s16, input +2 |
+| AnimatedBattleModelProperties.field_04 | defense_compare_override | s16, input +4 |
+
+Model_UpdateSlotControl always compares the acting slot's attack value
+against the peer's defense value when the peer is in defense position,
+or against the peer's attack value otherwise. Its primary decision,
+handler-reaction and no-handler fallback retain the same comparisons,
+animation choices and equality tie-break. Model_UpdateAnimatedBattle
+uses attack-value equality only in its existing non-defense tie paths.
+No numerical total, damage unit or universal model validity is inferred.
+
+Model_ResetSlot seeds both overrides with FFFF. Signed negative inputs
+to Model_SetSlotProperties and the ordinary Model_LoadMonsterMerge path
+leave them unchanged; nonnegative inputs retain the original halfword
+narrowing. At transfer stage 16, the full metadata block is copied FIRST,
+then each override replaces its corresponding copied value only when
+the stored halfword is below FFFF. FFFF remains the sentinel, not a new
+out-of-range rule. The special-package callback still sets both copied
+values to zero for slot zero and does not apply these overrides.
+
+DuelScene_UpdateBattle supplies zero to all four input halfwords, then
+raises only the winning side's attack override to one, preserving the
+existing defense-position exception and mutual-removal branch.
+Main_RunAnimatedBattle passes those signed halfwords unchanged to the
+setter. That synthesizes relative operands to replay Duel_CompareBattleStrength,
+rather than forwarding real stat totals. Debug submissions still use -1
+to retain the two overrides; no new default or initialization is added.
+
+The prefix byte arm, threshold arm, raw copied words and all interior
+aliases remain separate views. Only the two values-arm declarations and
+their qualified users change; other field_00/field_02 members and the
+unrelated Spanish variant408 field_DFC remain untouched. All types,
+offsets, existing assertions, signed reads, narrowing, comparisons,
+copy/write order, source groups, profiles and existing controls remain.

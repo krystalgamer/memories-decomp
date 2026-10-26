@@ -51,8 +51,8 @@ void Main_RunAnimatedBattle(void)
             Model_SetSlotProperties(
                 0,
                 p->model_id - 1,
-                p->field_02,
-                p->field_04,
+                p->attack_compare_override,
+                p->defense_compare_override,
                 p->guardian_star_selection,
                 p->defense_position
             );
@@ -60,8 +60,8 @@ void Main_RunAnimatedBattle(void)
             Model_SetSlotProperties(
                 1,
                 p->model_id - 1,
-                p->field_02,
-                p->field_04,
+                p->attack_compare_override,
+                p->defense_compare_override,
                 p->guardian_star_selection,
                 p->defense_position
             );
