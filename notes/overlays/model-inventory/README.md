@@ -106,14 +106,14 @@ excluded.
 
 | Release | Layouts | Functions | Function bytes | Entry | From entry | Resident-rooted | Unresolved reachability | Left raw |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| North America | 2,516 | 3,497 | 13,400,312 | 2,516 | 728 | 0 | 253 | 6 |
+| North America | 2,502 | 3,483 | 13,291,504 | 2,502 | 728 | 0 | 253 | 6 |
 | Japan | 3,568 | 5,708 | 20,596,428 | 3,567 | 1,404 | 5 | 732 | 6 |
 | Europe | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
 | France | 1,680 | 1,694 | 14,384,280 | 1,680 | 12 | 0 | 2 | 6 |
 | Germany | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
 | Italy | 3,566 | 5,695 | 20,552,704 | 3,565 | 1,396 | 6 | 728 | 6 |
 | Spain | 3,179 | 3,484 | 16,229,108 | 3,179 | 268 | 0 | 37 | 6 |
-| **Total** | **21,641** | **31,468** | **126,268,240** | | | | | **42** |
+| **Total** | **21,627** | **31,454** | **126,159,432** | | | | | **42** |
 
 The six images per release left raw share one loader whose entry switches index
 their tables through a strength-reduced loop register (`$s4 = 4 * $fp`), which
