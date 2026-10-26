@@ -113,7 +113,7 @@ class FrenchDuelBankTests(unittest.TestCase):
         symbols = (directory / "duel_effects_symbols.txt").read_text()
         aliases = (directory / "duel_effects_linker_symbols.txt").read_text()
         for address, size, offset, name in (
-            ("0x80151558", "0xAF0", "0xB558", "effect_16"),
+            ("0x80151558", "0xAF0", "0xB558", "row_attack_effects"),
             ("0x801566D4", "0x400", "0x106D4", "number_renderer"),
         ):
             with self.subTest(name=name):
@@ -169,8 +169,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("bolt_vertices", 0x8014FABC, 0x8014FE00, 1),
             ("quad_helpers", 0x8014FE00, 0x8014FF40, 2),
             ("effect_12", 0x80150E00, 0x80151218, 1),
-            ("projected_wrappers", 0x80151218, 0x801513F4, 2),
-            ("matrix_helpers", 0x801513F4, 0x80151558, 3),
+            ("projection_helpers", 0x80151218, 0x80151558, 5),
+            ("row_attack_effects", 0x80151558, 0x80152EC4, 2),
             ("packet_helpers", 0x80152EC4, 0x80153200, 4),
             ("effect_2", 0x80153200, 0x80153ADC, 1),
             ("color_transition", 0x80153F28, 0x80154084, 3),
@@ -181,12 +181,14 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("layered_drawing", 0x80155BC0, 0x801566D4, 6),
             ("number_renderer", 0x801566D4, 0x80156C40, 3),
             ("primitive_draw", 0x80156C40, 0x80157794, 8),
+            ("life_point_effects", 0x80157E10, 0x80159AAC, 3),
         ):
             with self.subTest(source=name):
                 source = f"src/overlays/duel_effects/{name}.c"
                 # These are registered through their PAL wrappers.
                 registered = (source.replace("/duel_effects/", "/european/duel_effects/")
-                              if name in ("screen_draw", "cross_lines", "effect_6") else source)
+                              if name in ("screen_draw", "cross_lines", "effect_6",
+                                          "life_point_effects") else source)
                 functions = [row for row in manifest["functions"] if row["source"] == registered]
                 names = []
                 cursor = start
@@ -208,8 +210,9 @@ class FrenchDuelBankTests(unittest.TestCase):
                             ("color_transition", 3),
                             ("screen_draw", 3), ("contour_quads", 1), ("layered_drawing", 6),
                             ("effect_0", 1), ("effect_6", 1),
-                            ("effect_9", 1)):
-            prefix = "european/" if name in ("effect_6", "effect_18", "screen_draw") else ""
+                            ("life_point_effects", 3)):
+            prefix = ("european/" if name in ("effect_6", "effect_18", "screen_draw",
+                                              "life_point_effects") else "")
             source = f"src/overlays/{prefix}duel_effects/{name}.c"
             groups = [[row for row in manifest["functions"] if row["source"] == source]
                       for manifest in manifests]
@@ -220,24 +223,23 @@ class FrenchDuelBankTests(unittest.TestCase):
         entries = json.loads(
             (ROOT / "config/sles_03948/overlays/duel_effects_matching_c.json").read_text()
         )["functions"]
-        for name, address, size, pal in (
-            ("gather_effect", 0x801481A8, 2556, True),
-            ("tile_effect", 0x80149F90, 2388, True),
-            ("effect_19", 0x80153ADC, 1100, False),
-            ("effect_18", 0x80154084, 1540, True),
-            ("effect_17", 0x80148BA4, 5100, False),
-            ("effect_11", 0x80146760, 5048, False),
-            ("effect_22", 0x8014A8E4, 8216, False),
-            ("effect_24", 0x8014D3E8, 3956, False),
-            ("effect_23", 0x80152048, 3708, False),
-            ("effect_13", 0x801503F8, 2568, False),
-            ("effect_7", 0x801587D8, 3024, True),
-            ("effect_10", 0x8014C8FC, 2684, False),
-            ("effect_5", 0x80157E10, 2504, True),
-            ("effect_4", 0x80159AAC, 1848, False),
-            ("effect_15", 0x8014FF40, 1208, False),
-            ("effect_1", 0x80157794, 1660, False),
-            ("effect_9", 0x801593A8, 1796, False),
+        for name, extents, pal in (
+            ("gather_effect", ((0x801481A8, 2556),), True),
+            ("tile_effect", ((0x80149F90, 2388),), True),
+            ("effect_19", ((0x80153ADC, 1100),), False),
+            ("effect_18", ((0x80154084, 1540),), True),
+            ("effect_17", ((0x80148BA4, 5100),), False),
+            ("effect_11", ((0x80146760, 5048),), False),
+            ("effect_22", ((0x8014A8E4, 8216),), False),
+            ("effect_24", ((0x8014D3E8, 3956),), False),
+            ("effect_13", ((0x801503F8, 2568),), False),
+            ("effect_10", ((0x8014C8FC, 2684),), False),
+            ("effect_4", ((0x80159AAC, 1848),), False),
+            ("effect_15", ((0x8014FF40, 1208),), False),
+            ("effect_1", ((0x80157794, 1660),), False),
+            ("row_attack_effects", ((0x80151558, 2800), (0x80152048, 3708)), False),
+            ("life_point_effects",
+             ((0x80157E10, 2504), (0x801587D8, 3024), (0x801593A8, 1796)), True),
         ):
             with self.subTest(source=name):
                 prefix = "european/" if pal else ""
@@ -245,7 +247,7 @@ class FrenchDuelBankTests(unittest.TestCase):
                 self.assertEqual([row for row in entries if row["source"] == source], [{
                     "address": f"0x{address:X}", "size": f"0x{size:X}",
                     "source": source, "profile": "gcc_2_8_1_g0_split",
-                }])
+                } for address, size in extents])
 
     def test_effect_data_and_resident_bindings_keep_real_owners(self) -> None:
         directory = ROOT / "config/sles_03948"

@@ -44,7 +44,7 @@ the original private include order fixes that compile failure without a
 new declaration, private-header edit or compiler flag.
 
 The complete `func_80151558` interval, `0x80151558..0x80152048`, is
-2,800 bytes of C in `src/overlays/duel_effects/effect_16.c`. Its existing
+2,800 bytes of C in `src/overlays/duel_effects/row_attack_effects.c`. Its existing
 GCC 2.8.1 / MASPSX 2.81 profile is `gcc_2_8_1_g0_split`. The dispatcher
 uses the same lifecycle for effects 16 and 20; effect 20 maps nonnegative
 phases to 1 and preserves negative update phases.

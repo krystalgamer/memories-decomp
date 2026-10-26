@@ -1148,3 +1148,20 @@ been merged by meaning (#39), with no change to any image:
 
 Every region's `duel_effects` layout and manifest names the merged sources at
 the same addresses and the same `gcc_2_8_1_g0_split` profile.
+
+## Grouped sources
+
+Three runs of contiguous `gcc_2_8_1_g0_split` units are now one source each,
+in every duel-effect image (#39):
+
+- `life_point_effects.c`: effects 5, 7 and 9 (life-point recovery, reflected
+  direct damage and inverted life-point recovery), formerly `effect_5.c`,
+  `effect_7.c` and `effect_9.c`. The PAL images build it through one
+  `src/overlays/european/duel_effects/life_point_effects.c` wrapper.
+- `row_attack_effects.c`: effects 16 and 23 (row strike and back-row sweep),
+  formerly `effect_16.c` and `effect_23.c`.
+- `projection_helpers.c`: the projected Ft4/Gt4 submit wrappers and the
+  matrix setup helpers, formerly `projected_wrappers.c` and
+  `matrix_helpers.c`.
+
+The tables above keep the historical per-file names they were measured under.

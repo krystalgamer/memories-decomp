@@ -15,7 +15,7 @@ class DuelEffect16Tests(unittest.TestCase):
         entries = [row for row in manifest["functions"] if row["address"] == "0x80151558"]
         self.assertEqual(entries, [{
             "address": "0x80151558", "size": "0xAF0",
-            "source": "src/overlays/duel_effects/effect_16.c",
+            "source": "src/overlays/duel_effects/row_attack_effects.c",
             "profile": "gcc_2_8_1_g0_split",
         }])
 
