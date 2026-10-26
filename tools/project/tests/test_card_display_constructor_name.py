@@ -15,14 +15,18 @@ GCC = ROOT / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 NAME = "Duel_CreateCardDisplayObject"
 REGIONS = (
     ("slus_01411", 0x80017F04, "src/game/duel_init_scene.c",
-     ((0x800179F4, 0x3C0), (0x80017DB4, 0x88), (0x80017E3C, 0xC8), (0x80017F04, 0x100))),
+     ((0x800179F4, 0x3C0), (0x80017DB4, 0x88), (0x80017E3C, 0xC8), (0x80017F04, 0x100),
+      (0x80018004, 0x7C), (0x80018080, 0xD0), (0x80018150, 0x9C), (0x800181EC, 0x70))),
     ("slpm_86398", 0x80017D80, "src/game/japanese/duel_init_scene.c",
-     ((0x80017878, 0x3B8), (0x80017C30, 0x88), (0x80017CB8, 0xC8), (0x80017D80, 0x100))),
+     ((0x80017878, 0x3B8), (0x80017C30, 0x88), (0x80017CB8, 0xC8), (0x80017D80, 0x100),
+      (0x80017E80, 0x7C), (0x80017EFC, 0xD0), (0x80017FCC, 0x9C), (0x80018068, 0x70))),
     ("sles_03947", 0x80017E90, "src/game/european/duel_init_scene.c",
-     ((0x80017988, 0x3B8), (0x80017D40, 0x88), (0x80017DC8, 0xC8), (0x80017E90, 0x100))),
+     ((0x80017988, 0x3B8), (0x80017D40, 0x88), (0x80017DC8, 0xC8), (0x80017E90, 0x100),
+      (0x80017F90, 0x7C), (0x8001800C, 0xD0), (0x800180DC, 0x9C), (0x80018178, 0x70))),
 ) + tuple(
     (region, 0x80017E94, "src/game/european/duel_init_scene.c",
-     ((0x8001798C, 0x3B8), (0x80017D44, 0x88), (0x80017DCC, 0xC8), (0x80017E94, 0x100)))
+     ((0x8001798C, 0x3B8), (0x80017D44, 0x88), (0x80017DCC, 0xC8), (0x80017E94, 0x100),
+      (0x80017F94, 0x7C), (0x80018010, 0xD0), (0x800180E0, 0x9C), (0x8001817C, 0x70)))
     for region in ("sles_03948", "sles_03949", "sles_03950", "sles_03951")
 )
 
@@ -41,7 +45,7 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
                 )
                 rows = json.loads((directory / "matching_c.json").read_text())["functions"]
                 group = sorted((row for row in rows if row["source"] == owner),
-                               key=lambda row: int(row["address"], 0))[:len(expected_group)]
+                               key=lambda row: int(row["address"], 0))
                 self.assertEqual(
                     [(int(row["address"], 0), int(row["size"], 0)) for row in group],
                     list(expected_group),
@@ -70,6 +74,13 @@ class CardDisplayConstructorNameTests(unittest.TestCase):
                 (True, f"DuelCardDisplayObject *(*checked)(DuelCardRecord *, s32, s32) = {NAME};", True, ""),
                 (True, f"DuelCardDisplayObject *use(DuelCardRecord *card) {{ return {NAME}(card); }}", False,
                  "too few arguments"),
+                # Duel_CreateHandCardDisplayObject's record-only call goes through an
+                # unprototyped cast so the caller's $a1/$a2 pass through.
+                (True, f"DuelCardDisplayObject *use(DuelCardRecord *card) "
+                       f"{{ return ((DuelCardDisplayObject *(*)()){NAME})((u8 *)card); }}", True, ""),
+                (True, f"DuelCardDisplayObject *use(DuelCardRecord *card) "
+                       f"{{ return ((u8 *(*)()){NAME})((u8 *)card); }}", False,
+                 "incompatible pointer type"),
                 (True, f"u8 *(*checked)(DuelCardRecord *, s32, s32) = {NAME};",
                  False, "incompatible pointer type"),
                 (True, f"DuelCardDisplayObject *(*checked)(DuelCardRecord *, s16, s16) = {NAME};",

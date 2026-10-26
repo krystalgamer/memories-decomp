@@ -152,6 +152,9 @@ class CardDisplayConstructorReturnTests(unittest.TestCase):
                 ("u8 *", "DuelCardRecord *, s32, s32", False),
                 ("DisplayObject *", "DuelCardRecord *, s32, s32", False),
                 ("DuelCardDisplayObject *", "DuelCardRecord *, s16, s16", False),
+                # The unprototyped view used by the hand-card constructor's cast.
+                ("DuelCardDisplayObject *", "", True),
+                ("u8 *", "", False),
             ):
                 with self.subTest(result_type=result_type, parameters=parameters):
                     source = directory / "probe.c"
