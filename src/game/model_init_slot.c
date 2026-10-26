@@ -121,10 +121,10 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     base->prepared_primitive_count = 0;
     base->lit_color_cache_end_address = 0;
     base->field_E15 = 0;
-    base->field_E1E = 0;
+    base->animation_sound_enabled = 0;
     base->is_active = 0;
     if (hmd == 0) {
-        base->field_E1D = 0;
+        base->skip_sound_setup = 0;
         base->load_step = 0xFF;
         return;
     }

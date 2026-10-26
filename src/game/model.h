@@ -334,12 +334,10 @@ typedef struct {
     /* Number of linked animation-sequence pointers, not all HMD units. */
     u8 animation_sequence_count;
     u8 field_E1C;
-    /* Model_ResetSlot clears this byte and
-     * Model_LoadMonsterMerge writes its transfer flags here,
-     * reaching it as pad_E1C[1] and noting in a comment that this
-     * record still covered it with padding. */
-    u8 field_E1D;
-    u8 field_E1E;
+    /* Raw packed-slot 0x80 setup option, not a Boolean or mute state. */
+    u8 skip_sound_setup;
+    /* Independent cue gate, also subject to the active/tint checks. */
+    u8 animation_sound_enabled;
     /* Raw active gate; transient activation is separate from load readiness. */
     u8 is_active;
 } ModelSlot;
@@ -664,8 +662,14 @@ typedef char ModelSlot_animation_sequence_count_offset_must_be_0xE1B[
 typedef char ModelSlot_field_E1C_offset_must_be_0xE1C[
     MODEL_OFFSET(ModelSlot, field_E1C) == 0xE1C ? 1 : -1
 ];
-typedef char ModelSlot_field_E1E_offset_must_be_0xE1E[
-    MODEL_OFFSET(ModelSlot, field_E1E) == 0xE1E ? 1 : -1
+typedef char ModelSlot_animation_sound_enabled_offset_must_be_0xE1E[
+    MODEL_OFFSET(ModelSlot, animation_sound_enabled) == 0xE1E ? 1 : -1
+];
+typedef char ModelSlot_sound_gate_layout_must_match[
+    MODEL_OFFSET(ModelSlot, skip_sound_setup) == 0xE1D &&
+    sizeof(((ModelSlot *)0)->skip_sound_setup) == 1 &&
+    MODEL_OFFSET(ModelSlot, animation_sound_enabled) == 0xE1E &&
+    sizeof(((ModelSlot *)0)->animation_sound_enabled) == 1 ? 1 : -1
 ];
 typedef char ModelSlot_is_active_offset_must_be_0xE1F[
     MODEL_OFFSET(ModelSlot, is_active) == 0xE1F ? 1 : -1

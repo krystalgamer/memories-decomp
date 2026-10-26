@@ -1326,7 +1326,7 @@ void Model_PlaySlotAnimationSounds(s32 index) {
             return;
         }
     }
-    if (m->field_E1E == 0) {
+    if (m->animation_sound_enabled == 0) {
         return;
     }
     anim = m->current_animation_row;
