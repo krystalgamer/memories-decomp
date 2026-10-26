@@ -954,7 +954,7 @@ void Model_UpdateCreditsMonsterSlot(s32 arg0) {
             q = b + (arg0 ^ 1);
             a = MODEL_ANGLE_QUARTER_TURN;
             if (q->is_active != 0) {
-                r = q->field_D18;
+                r = q->root_coordinate;
                 if (r != (GsCOORDUNIT *)0) {
                     t = r->rot.vy + MODEL_ANGLE_QUARTER_TURN;
                     a = t / MODEL_ANGLE_FULL_TURN;
@@ -962,15 +962,15 @@ void Model_UpdateCreditsMonsterSlot(s32 arg0) {
                 }
             }
             s = gModel_aSlots + arg0;
-            if (s->field_D18 != (GsCOORDUNIT *)0) {
-                s->field_D18->rot.vx = 0;
-                s->field_D18->rot.vy = a;
-                s->field_D18->rot.vz = 0;
-                s->field_D18->matrix.t[0] = 0;
-                s->field_D18->matrix.t[1] = 0;
-                s->field_D18->matrix.t[2] = 0;
+            if (s->root_coordinate != (GsCOORDUNIT *)0) {
+                s->root_coordinate->rot.vx = 0;
+                s->root_coordinate->rot.vy = a;
+                s->root_coordinate->rot.vz = 0;
+                s->root_coordinate->matrix.t[0] = 0;
+                s->root_coordinate->matrix.t[1] = 0;
+                s->root_coordinate->matrix.t[2] = 0;
             }
-            Model_UpdateCoordinateUnitMatrix(s->field_D18, 0);
+            Model_UpdateCoordinateUnitMatrix(s->root_coordinate, 0);
             Model_RunSlotHandlers(arg0);
             s->field_E15 = 0;
         }

@@ -10,7 +10,7 @@
 
 #define MODEL_UNIT_OFFSET(member) ((u32)&(((GsCOORDUNIT *)0)->member))
 
-/* The slot data entries at ModelSlot.entries, the record field_D18 points at
+/* The slot data entries at ModelSlot.entries, the record root_coordinate points at
  * and the block func_800580D4 builds on the stack are all one type: libhmd's
  * GsCOORDUNIT. These pin every offset the game still reaches by hand. */
 extern char ModelSlotDataEntry_must_be_a_GsCOORDUNIT[
@@ -75,13 +75,13 @@ void Model_SetSlotPartSpeeds(s32 arg0, s32 arg1)
  * The unit pointer is reloaded per store, as retail does. */
 void Model_SetSlotRootTransform(ModelSlot *e, int a, int b, int c, int d)
 {
-    if (e->field_D18) {
-        e->field_D18->rot.vx = 0;
-        e->field_D18->rot.vy = d;
-        e->field_D18->rot.vz = 0;
-        e->field_D18->matrix.t[0] = a;
-        e->field_D18->matrix.t[1] = b;
-        e->field_D18->matrix.t[2] = c;
+    if (e->root_coordinate) {
+        e->root_coordinate->rot.vx = 0;
+        e->root_coordinate->rot.vy = d;
+        e->root_coordinate->rot.vz = 0;
+        e->root_coordinate->matrix.t[0] = a;
+        e->root_coordinate->matrix.t[1] = b;
+        e->root_coordinate->matrix.t[2] = c;
     }
-    Model_UpdateCoordinateUnitMatrix(e->field_D18, 0);
+    Model_UpdateCoordinateUnitMatrix(e->root_coordinate, 0);
 }

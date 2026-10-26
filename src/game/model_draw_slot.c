@@ -29,7 +29,7 @@
  *   with the call argument and kept in a callee-saved register;
  * - the mirrored x and z offsets go through a static inline, whose parameter
  *   copy is retail's `move v1,v0` in the branch delay slot;
- * - the second bounding loop reads slot->field_D1C directly. The extra load
+ * - the second bounding loop reads slot->render_parent_coordinate directly. The extra load
  *   keeps the loop above loop.c's size threshold, so -1 and the unit count
  *   stay inside the loop while the twice-used D1C load is still hoisted;
  * - the shadow clamps assign a conditional expression back to each vertex
@@ -310,8 +310,8 @@ void Model_DrawSlot(s32 index)
         if (e->primitive_data == 0) {
             continue;
         }
-        if (slot->field_D1C != 0 &&
-            GS_COORD_UNIT_VIEW(e->coordinate_address)->super == slot->field_D1C) {
+        if (slot->render_parent_coordinate != 0 &&
+            GS_COORD_UNIT_VIEW(e->coordinate_address)->super == slot->render_parent_coordinate) {
             s32 k;
             s32 found;
             u8 n;
@@ -396,7 +396,7 @@ void Model_DrawSlot(s32 index)
         }
         return;
     }
-    if (index < 2 && slot->field_D1C != 0) {
+    if (index < 2 && slot->render_parent_coordinate != 0) {
         s16 minx;
         s16 miny;
         s16 minz;
@@ -425,9 +425,9 @@ void Model_DrawSlot(s32 index)
             y /= count;
             z /= count;
         } else {
-            x = slot->field_D1C->workm.t[0];
-            y = slot->field_D1C->workm.t[1];
-            z = slot->field_D1C->workm.t[2];
+            x = slot->render_parent_coordinate->workm.t[0];
+            y = slot->render_parent_coordinate->workm.t[1];
+            z = slot->render_parent_coordinate->workm.t[2];
         }
         x = Model_MirrorOffset(index, x, blk[4] * 0x10);
         slot->field_DD0[0] = x;
@@ -439,10 +439,10 @@ void Model_DrawSlot(s32 index)
         e = slot->hmd_units;
         for (i = 0; i < slot->hmd_unit_count; i++, e++) {
             unit = GS_COORD_UNIT_VIEW(e->coordinate_address);
-            if (unit != slot->field_D1C && unit != slot->field_D18 && unit != 0 && (list = e->primitive_data) != 0) {
+            if (unit != slot->render_parent_coordinate && unit != slot->root_coordinate && unit != 0 && (list = e->primitive_data) != 0) {
                 s32 uy;
 
-                if (unit->super == slot->field_D1C) {
+                if (unit->super == slot->render_parent_coordinate) {
                     count++;
                     y += unit->workm.t[1];
                 }
@@ -474,7 +474,7 @@ void Model_DrawSlot(s32 index)
         if (count != 0) {
             y /= count;
         } else {
-            y = slot->field_D1C->workm.t[1];
+            y = slot->render_parent_coordinate->workm.t[1];
         }
         slot->field_DD0[3] = (y - 700) / 3 + blk[5] * 0x10;
         w = maxx - minx;
@@ -591,7 +591,7 @@ void Model_DrawSlot(s32 index)
             if (gModel_wScreenYOverride != 0x8000) {
                 y = (s16)gModel_wScreenYOverride;
             } else {
-                y = gModel_aSlots[2].field_D18->matrix.t[1] + gModel_pBackgroundRecord->shadow_y_offset;
+                y = gModel_aSlots[2].root_coordinate->matrix.t[1] + gModel_pBackgroundRecord->shadow_y_offset;
             }
             a = w / 2;
             b = d / 2;

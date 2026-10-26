@@ -138,10 +138,10 @@ class ModelDebugOwnershipTests(unittest.TestCase):
         self.probe(
             '#include "model.h"\n#include "camera_view.h"\n'
             "#define OFFSET(t, m) ((u32)&(((t *)0)->m))\n"
-            "typedef char placement[OFFSET(ModelSlot, field_D18) == 0xD18 ? 1 : -1];\n"
+            "typedef char placement[OFFSET(ModelSlot, root_coordinate) == 0xD18 ? 1 : -1];\n"
             "typedef char rotation[OFFSET(GsCOORDUNIT, rot) == 0x44 ? 1 : -1];\n"
             "typedef char height[OFFSET(GsCOORDUNIT, matrix.t[1]) == 0x1C ? 1 : -1];\n"
-            "GsCOORDUNIT **unit = &gModel_aSlots[2].field_D18;\n"
+            "GsCOORDUNIT **unit = &gModel_aSlots[2].root_coordinate;\n"
         )
 
     @unittest.skipUnless((ROOT / "game/SLUS_014.11").is_file(), "requires the retail input")

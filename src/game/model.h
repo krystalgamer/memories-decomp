@@ -94,7 +94,7 @@ typedef struct {
  *                rearm restarts from both: ti = start, sid = start_sid
  *
  * Mirrored rather than taken from libhmd.h so this header stays free of the
- * libgte/libgpu/libgs/libhmd chain, as field_D18 below does for
+ * libgte/libgpu/libgs/libhmd chain, as root_coordinate below does for
  * GsCOORDUNIT. model_slot_updates.c asserts the two layouts agree. */
 typedef struct {
     u32 rewrite_idx;
@@ -248,10 +248,10 @@ typedef struct {
      * MODEL_SLOT_DATA_ENTRY_SIZE-stride run at `entries`. Left incomplete
      * here so this header stays free of the libgte/libgpu/libgs/libhmd
      * chain; sources that reach through it include "../psyq/libhmd.h". */
-    struct _GsCOORDUNIT *G32 field_D18;
+    struct _GsCOORDUNIT *G32 root_coordinate;
     /* The coordinate Model_InitSlot selects once the units are linked; see
      * that function's header comment. */
-    struct _GsCOORDUNIT *G32 field_D1C;
+    struct _GsCOORDUNIT *G32 render_parent_coordinate;
     u8 pad_D20[0x50];
     ModelSlotLightEntry flat_lights[3];
     /* Signed ambient channels; retain the slot-2 negative-one sentinel. */
@@ -327,8 +327,8 @@ typedef struct {
     /* Raw codes: 0x3E forward, 0x3C reverse, 0x23 held. */
     u8 playback_state;
     u8 entry_count;
-    u8 field_E18;
-    u8 field_E19;
+    u8 root_coordinate_index;
+    u8 render_parent_coordinate_index;
     /* Low-byte HMD unit count capped by the existing initializer. */
     u8 hmd_unit_count;
     /* Number of linked animation-sequence pointers, not all HMD units. */
@@ -532,11 +532,17 @@ typedef char ModelSlot_field_CF8_offset_must_be_0xCF8[
 typedef char ModelSlot_entries_offset_must_be_0xD14[
     MODEL_OFFSET(ModelSlot, entries) == 0xD14 ? 1 : -1
 ];
-typedef char ModelSlot_field_D18_offset_must_be_0xD18[
-    MODEL_OFFSET(ModelSlot, field_D18) == 0xD18 ? 1 : -1
+typedef char ModelSlot_root_coordinate_offset_must_be_0xD18[
+    MODEL_OFFSET(ModelSlot, root_coordinate) == 0xD18 ? 1 : -1
 ];
-typedef char ModelSlot_field_D1C_offset_must_be_0xD1C[
-    MODEL_OFFSET(ModelSlot, field_D1C) == 0xD1C ? 1 : -1
+typedef char ModelSlot_render_parent_coordinate_offset_must_be_0xD1C[
+    MODEL_OFFSET(ModelSlot, render_parent_coordinate) == 0xD1C ? 1 : -1
+];
+typedef char ModelSlot_coordinate_pointer_layout_must_match[
+    MODEL_OFFSET(ModelSlot, root_coordinate) == 0xD18 &&
+    sizeof(((ModelSlot *)0)->root_coordinate) == 4 &&
+    MODEL_OFFSET(ModelSlot, render_parent_coordinate) == 0xD1C &&
+    sizeof(((ModelSlot *)0)->render_parent_coordinate) == 4 ? 1 : -1
 ];
 typedef char ModelSlot_flat_lights_offset_must_be_0xD70[
     MODEL_OFFSET(ModelSlot, flat_lights) == 0xD70 &&
@@ -620,8 +626,14 @@ typedef char ModelSlot_animation_control_state_layout_must_match[
 typedef char ModelSlot_entry_count_offset_must_be_0xE17[
     MODEL_OFFSET(ModelSlot, entry_count) == 0xE17 ? 1 : -1
 ];
-typedef char ModelSlot_field_E18_offset_must_be_0xE18[
-    MODEL_OFFSET(ModelSlot, field_E18) == 0xE18 ? 1 : -1
+typedef char ModelSlot_root_coordinate_index_offset_must_be_0xE18[
+    MODEL_OFFSET(ModelSlot, root_coordinate_index) == 0xE18 ? 1 : -1
+];
+typedef char ModelSlot_coordinate_index_layout_must_match[
+    MODEL_OFFSET(ModelSlot, root_coordinate_index) == 0xE18 &&
+    sizeof(((ModelSlot *)0)->root_coordinate_index) == 1 &&
+    MODEL_OFFSET(ModelSlot, render_parent_coordinate_index) == 0xE19 &&
+    sizeof(((ModelSlot *)0)->render_parent_coordinate_index) == 1 ? 1 : -1
 ];
 typedef char ModelSlot_hmd_unit_count_offset_must_be_0xE1A[
     MODEL_OFFSET(ModelSlot, hmd_unit_count) == 0xE1A ? 1 : -1

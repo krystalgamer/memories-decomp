@@ -5,7 +5,7 @@
 
 /* Address of one MODEL_SLOT_DATA_ENTRY_SIZE entry of model slot `index`'s data.
  * `slot` beyond the slot's entry_count falls back to its current entry,
- * field_E18. */
+ * root_coordinate_index. */
 void *Model_GetSlotDataEntry(s32 index, s32 slot);
 
 /* The same address for the current entry, returned as an integer. The only

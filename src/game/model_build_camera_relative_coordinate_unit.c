@@ -30,11 +30,11 @@ void Model_BuildCameraRelativeCoordinateUnit(
 
     unit->flg = 0;
     unit->rot.vx =
-        (s16)(MODEL_ANGLE_FULL_TURN - slot->field_D18->rot.vx);
+        (s16)(MODEL_ANGLE_FULL_TURN - slot->root_coordinate->rot.vx);
     unit->rot.vy =
-        (s16)(MODEL_ANGLE_FULL_TURN - slot->field_D18->rot.vy);
+        (s16)(MODEL_ANGLE_FULL_TURN - slot->root_coordinate->rot.vy);
     unit->rot.vz =
-        (s16)(MODEL_ANGLE_FULL_TURN - slot->field_D18->rot.vz);
+        (s16)(MODEL_ANGLE_FULL_TURN - slot->root_coordinate->rot.vz);
 
     RotMatrixZXY(&unit->rot, &unit->matrix);
     RotMatrix_gte(&packed, &sp20);

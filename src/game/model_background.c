@@ -51,7 +51,7 @@ void Model_DrawBackground(void)
     vbase = gModel_pBackgroundRecord->texture_v_page.bytes.v;
     ubase = (gModel_pBackgroundRecord->texture_u_page & 0x3F) <<
         (2 - ((gModel_pBackgroundRecord->texture_height_flags >> 13) & 3));
-    height = slot->field_D18->matrix.t[1] + 300;
+    height = slot->root_coordinate->matrix.t[1] + 300;
     if (!slot->is_active)
         return;
     if (slot->ambient_rgb_scale[0] == -4096 &&

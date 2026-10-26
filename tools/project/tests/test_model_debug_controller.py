@@ -151,7 +151,7 @@ void Model_UpdateCoordinateUnitMatrix(GsCOORDUNIT *unit, VECTOR *scale)
 {
     GsCOORDUNIT expected;
     s32 i;
-    CHECK(scale == 0 && unit == gModel_aSlots[2].field_D18);
+    CHECK(scale == 0 && unit == gModel_aSlots[2].root_coordinate);
     event(PLACE, (s32)unit, 0, 0, 0, 0, 0);
     if (unit) {
         bytes(&expected, &original_units[2], sizeof(expected));
@@ -239,7 +239,7 @@ static void reset(void)
         gModel_aSlots[i].is_active = 1;
         gModel_aSlots[i].load_step = 0;
         gModel_aSlots[i].field_DF8 = 5 + i * 2;
-        gModel_aSlots[i].field_D18 = &units[i];
+        gModel_aSlots[i].root_coordinate = &units[i];
     }
     gModel_bPresentationPhase = 0; gModelDebug_bSelectedDigit = 0;
     D_8009B004.word = 0x0123BEEF; gModelDebug_Display.word = 0xABCDEF01;
@@ -309,7 +309,7 @@ int main(void)
         gFile_dwCancelRequestState_abs = i == 3;
         CHECK(run() == 0 && event_count == 1 && events[0][0] == FRAME);
     }
-    reset(); gModel_aSlots[2].is_active = 0; gModel_aSlots[2].field_D18 = 0; complete_slot = 2;
+    reset(); gModel_aSlots[2].is_active = 0; gModel_aSlots[2].root_coordinate = 0; complete_slot = 2;
     CHECK(run() == 0 && events[2][0] == PLACE && events[2][1] == 0);
     reset(); gModelDebug_Display.word &= ~255u;
     CHECK(run() == 0 && print_count == 0);
