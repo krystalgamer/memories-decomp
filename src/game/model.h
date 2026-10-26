@@ -165,9 +165,9 @@ typedef union {
 typedef struct {
     ModelSlotCF8Prefix prefix;
     u16 battle_camera_duration_overrides[2];
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
+    s32 first_star_module_command;
+    s32 second_star_module_command;
+    s32 primary_module_command;
 } ModelSlotCF8Block;
 
 /* View rooted at the gModel_Slot0MetadataView interior alias and extending through the two
@@ -178,9 +178,9 @@ typedef struct {
 typedef struct {
     ModelSlotCF8Prefix prefix;
     u16 battle_camera_duration_overrides[2];
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
+    s32 first_star_module_command;
+    s32 second_star_module_command;
+    s32 primary_module_command;
     u8 pad_1C[0xEA];
     u8 guardian_star_selection;
     u8 defense_position;
@@ -701,14 +701,14 @@ typedef char ModelSlotCF8Prefix_size_must_be_0xC[
 typedef char ModelSlotCF8Prefix_field_08_offset_must_be_0x8[
     MODEL_OFFSET(ModelSlotCF8Prefix, values.field_08) == 0x8 ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_field_10_offset_must_be_0x10[
-    MODEL_OFFSET(ModelSlotCF8Block, field_10) == 0x10 ? 1 : -1
+typedef char ModelSlotCF8Block_first_star_module_command_offset_must_be_0x10[
+    MODEL_OFFSET(ModelSlotCF8Block, first_star_module_command) == 0x10 ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_field_14_offset_must_be_0x14[
-    MODEL_OFFSET(ModelSlotCF8Block, field_14) == 0x14 ? 1 : -1
+typedef char ModelSlotCF8Block_second_star_module_command_offset_must_be_0x14[
+    MODEL_OFFSET(ModelSlotCF8Block, second_star_module_command) == 0x14 ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_field_18_offset_must_be_0x18[
-    MODEL_OFFSET(ModelSlotCF8Block, field_18) == 0x18 ? 1 : -1
+typedef char ModelSlotCF8Block_primary_module_command_offset_must_be_0x18[
+    MODEL_OFFSET(ModelSlotCF8Block, primary_module_command) == 0x18 ? 1 : -1
 ];
 typedef char ModelSlotCF8TailView_guardian_star_selection_offset_must_be_0x106[
     MODEL_OFFSET(ModelSlotCF8TailView, guardian_star_selection) ==
@@ -733,6 +733,18 @@ typedef char ModelSlotCF8_guardian_star_metadata_layout_must_match[
     MODEL_OFFSET(ModelSlot, field_CF8) +
         MODEL_OFFSET(ModelSlotCF8TailView, defense_position) ==
         MODEL_OFFSET(ModelSlot, defense_position) ? 1 : -1
+];
+
+typedef char ModelSlotCF8_module_command_widths_must_match[
+    sizeof(((ModelSlotCF8Block *)0)->first_star_module_command) == 4 &&
+    sizeof(((ModelSlotCF8Block *)0)->second_star_module_command) == 4 &&
+    sizeof(((ModelSlotCF8Block *)0)->primary_module_command) == 4 &&
+    MODEL_OFFSET(ModelSlotCF8TailView, first_star_module_command) == 0x10 &&
+    MODEL_OFFSET(ModelSlotCF8TailView, second_star_module_command) == 0x14 &&
+    MODEL_OFFSET(ModelSlotCF8TailView, primary_module_command) == 0x18 &&
+    sizeof(((ModelSlotCF8TailView *)0)->first_star_module_command) == 4 &&
+    sizeof(((ModelSlotCF8TailView *)0)->second_star_module_command) == 4 &&
+    sizeof(((ModelSlotCF8TailView *)0)->primary_module_command) == 4 ? 1 : -1
 ];
 
 typedef char ModelHandlerRegistryEntry_size_must_be_0x8[

@@ -502,9 +502,9 @@ void Model_ResetSlot(s32 arg0)
         p->sound_entries[i].animation_row = 0;
     }
 
-    p->field_CF8.field_10 = -1;
-    p->field_CF8.field_14 = -1;
-    p->field_CF8.field_18 = -1;
+    p->field_CF8.first_star_module_command = -1;
+    p->field_CF8.second_star_module_command = -1;
+    p->field_CF8.primary_module_command = -1;
     p->playback_state = 0x3E;
     p->is_active = 0;
     Model_InitLightTriplet(arg0);
@@ -1184,9 +1184,9 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
             slot->field_CF8.prefix.values.field_02 = slot->field_DFC;
         }
         if (slot->skip_sound_setup != 0) {
-            slot->field_CF8.field_10 = -1;
-            slot->field_CF8.field_14 = -1;
-            slot->field_CF8.field_18 = -1;
+            slot->field_CF8.first_star_module_command = -1;
+            slot->field_CF8.second_star_module_command = -1;
+            slot->field_CF8.primary_module_command = -1;
         }
         slot->load_step = 1;
         break;
@@ -1395,9 +1395,9 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
         );
         *(ModelSlotCF8BlockWords *)&dst->field_CF8 =
             ((ModelTransferMetadata *)src)->field_CF8;
-        dst->field_CF8.field_10 = -1;
-        dst->field_CF8.field_14 = -1;
-        dst->field_CF8.field_18 = -1;
+        dst->field_CF8.first_star_module_command = -1;
+        dst->field_CF8.second_star_module_command = -1;
+        dst->field_CF8.primary_module_command = -1;
         dst->field_CF8.prefix.values.field_00 = 0;
         dst->field_CF8.prefix.values.field_02 = 0;
         dst->load_step = 1;

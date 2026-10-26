@@ -20,7 +20,8 @@ void Model_UpdateSlotAnimation(s32 index);
 typedef s32 (*ModelControlHandler)(u8 *context, s32 command);
 
 /* Non-owning view of the signed command words at +0xD08 through +0xD10.
- * The final word is also the separately tested primary command. */
+ * Entries 0/1 are the first/second-star module commands; entry 2 is
+ * primary_module_command. Preserve unchecked selection and this view. */
 typedef struct {
     u8 prefix[0xD08];
     s32 commands[3];
@@ -29,6 +30,15 @@ typedef struct {
 typedef char ModelControlCommandOffset[
     (u32)&((ModelControlCommandView *)0)->commands ==
         (u32)&((ModelSlot *)0)->field_CF8 + 0x10 ? 1 : -1
+];
+typedef char ModelControlCommandMembersMatchSlot[
+    (u32)&((ModelControlCommandView *)0)->commands[0] ==
+        (u32)&((ModelSlot *)0)->field_CF8.first_star_module_command &&
+    (u32)&((ModelControlCommandView *)0)->commands[1] ==
+        (u32)&((ModelSlot *)0)->field_CF8.second_star_module_command &&
+    (u32)&((ModelControlCommandView *)0)->commands[2] ==
+        (u32)&((ModelSlot *)0)->field_CF8.primary_module_command &&
+    sizeof(((ModelControlCommandView *)0)->commands) == 12 ? 1 : -1
 ];
 typedef char ModelControlCommandViewFitsSlot[
     sizeof(ModelControlCommandView) <= sizeof(ModelSlot) ? 1 : -1

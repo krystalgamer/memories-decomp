@@ -200,6 +200,59 @@ The reset, table builder and subsequent command-row linker are named and
 traced through their producer/consumer chain in
 `notes/model-animation-tables.md`.
 
+### Loaded-module command words
+
+The signed CF8 words are now named from their complete initialization,
+callback and animation-cue consumers. Both the block and its interior
+tail view preserve the same three SCALAR s32 members:
+
+| Original | Canonical | Unchanged slot/CF8 offsets |
+| --- | --- | --- |
+| field_10 | first_star_module_command | +0xD08 / +0x10 |
+| field_14 | second_star_module_command | +0xD0C / +0x14 |
+| field_18 | primary_module_command | +0xD10 / +0x18 |
+
+ModelControlCommandView.commands[3] remains the existing non-owning
+indexed view, not a new array allocation or a replacement struct layout.
+Offset/width checks map ALL three entries back to these exact members.
+The shared commands spelling and every indexed load are unchanged.
+
+Model_AdvanceSlotLoad step nine tests entry two for nonnegativity, selects
+the existing slot-zero/nonzero primary module entry at base+4 and calls
+it with the primary data context and the FRESH command remainder modulo
+1000, inside the original callback-state bracket. Model_UpdateSlotControl
+independently tests entry two before its primary poll with argument -1.
+Neither test promises a valid/live module, immutable word or Boolean flag.
+
+For ordinary guardian selections zero/one, entry zero/one supplies the
+variant-module request. Its negative test retains the existing fallback;
+the state-seven path reloads the selected word before passing remainder
+modulo 1000. The later poll still passes -1 and narrows the callback result
+through the existing control-state byte. No selector is cached, normalized
+or bounded: reset can set selection two for the auxiliary slot, so the
+same indexed view may also reach the third word. The primary name does
+not introduce a disjoint ownership or primary-only access invariant.
+
+Model_PlaySlotAnimationSounds uses a selected command's sign to choose
+its existing special/ordinary animation-row and cursor path. Outside
+Japan it also reloads the selection/word for the original quotient and
+remainder diagnostic and keeps the volatile sound-cursor reread. These
+are module-control request words, NOT newly inferred sound IDs, sequence
+IDs, bank numbers or packed command enums. The meanings of the quotient
+and individual module requests remain unclaimed.
+
+Reset writes ALL three -1 sentinels in order. Monster metadata transfer
+still copies the full 0x1C-byte block before conditional skip-sound clears;
+the special-battle transfer and Exodia path retain their three clears.
+There is no new common reset helper, array rewrite, shortened copy,
+extra clear, command-range clamp or partial-reset/liveness guarantee.
+
+The two pre-existing Spanish variant479 layout fixtures replace ONLY
+field_18 with primary_module_command in their existing offset spellings.
+Both 0xD10 expectations and every other byte remain; the command-array
+0xD08 checks and all scenarios/mutations/assertions are unchanged.
+No fixture/cloud execution, new harness, runtime capture or profile change.
+
 ### Cached slot positions
 
 `ModelSlot.field_DD0` is now `cached_position`, preserving s16[4]
