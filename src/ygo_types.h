@@ -314,9 +314,9 @@ typedef struct {
     u8 field_10;
     u8 flags_11;
     u8 owner_channel_tag;
-    u8 field_13;
+    u8 handler_state;
     u8 field_14;
-    u8 field_15;
+    u8 render_mode;
     /* Rendering interprets these by glyph kind; keep the shared offset names. */
     u8 field_16;
     u8 field_17;
@@ -354,14 +354,14 @@ typedef char DuelEffectEntry_flags_11_offset_must_be_0x11[
 typedef char DuelEffectEntry_owner_channel_tag_offset_must_be_0x12[
     YGO_TYPE_OFFSET(DuelEffectEntry, owner_channel_tag) == 0x12 ? 1 : -1
 ];
-typedef char DuelEffectEntry_field_13_offset_must_be_0x13[
-    YGO_TYPE_OFFSET(DuelEffectEntry, field_13) == 0x13 ? 1 : -1
+typedef char DuelEffectEntry_handler_state_offset_must_be_0x13[
+    YGO_TYPE_OFFSET(DuelEffectEntry, handler_state) == 0x13 ? 1 : -1
 ];
 typedef char DuelEffectEntry_field_14_offset_must_be_0x14[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_14) == 0x14 ? 1 : -1
 ];
-typedef char DuelEffectEntry_field_15_offset_must_be_0x15[
-    YGO_TYPE_OFFSET(DuelEffectEntry, field_15) == 0x15 ? 1 : -1
+typedef char DuelEffectEntry_render_mode_offset_must_be_0x15[
+    YGO_TYPE_OFFSET(DuelEffectEntry, render_mode) == 0x15 ? 1 : -1
 ];
 typedef char DuelEffectEntry_field_16_offset_must_be_0x16[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_16) == 0x16 ? 1 : -1
@@ -519,8 +519,10 @@ typedef struct DuelEffectChannel {
        0x80808080), which those sites spell as a width over field_04 rather
        than a separate member.
 
-       0x13 is the byte DisplayObjectFade_MarkInitialized tests and sets, and
-       the one carrying DISPLAY_OBJECT_FADE_FLAG_*. The rest keep field_NN:
+       handler_state at 0x13 combines the handler selector with
+       DISPLAY_OBJECT_FADE_FLAG_*; render_mode at 0x15 selects entry drawing.
+       These names describe the legacy entry-callback view, not live stream
+       pointers. The remaining component bytes keep field_NN:
        0x04-0x07 and 0x08-0x0A are each written as a run of equal bytes stepped
        together, which says component groups without saying which component
        is which. */
@@ -541,9 +543,9 @@ typedef struct DuelEffectChannel {
     u8 field_10;
     u8 field_11;
     u8 pad_12;
-    u8 field_13;
+    u8 handler_state;
     u8 field_14;
-    u8 field_15;
+    u8 render_mode;
     u8 pad_16[10];
     DuelEffectEntry *G32 entry_end_20;
     DuelEffectEntry *G32 entry_head_24;

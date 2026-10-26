@@ -14,10 +14,10 @@
 #ifdef VERSION_EUROPE
 /* The European channel is laid out as a EuropeanDuelEffectEntry: the latch
    byte sits at 0x11 and the occupied byte at 0xF. */
-#define FADE_LATCH(object) (((EuropeanDuelEffectEntry *)(object))->field_13)
+#define FADE_LATCH(object) (((EuropeanDuelEffectEntry *)(object))->handler_state)
 #define FADE_OCCUPIED(object) (((EuropeanDuelEffectEntry *)(object))->flags_11)
 #else
-#define FADE_LATCH(object) ((object)->field_13)
+#define FADE_LATCH(object) ((object)->handler_state)
 #define FADE_OCCUPIED(object) ((object)->field_11)
 #endif
 
