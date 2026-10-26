@@ -309,9 +309,6 @@ segments:
   - - 56440
     - c
     - game/duel_action_ready_marker
-  - - 56596
-    - c
-    - game/duel_cursor_step_toward_target
   - - 56784
     - c
     - game/european/duel_scene_field_actions

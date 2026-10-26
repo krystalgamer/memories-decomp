@@ -150,7 +150,6 @@ segments:
       - [0x00C4F8, c, game/european/duel_scene_hand_actions]
       - [0x00DAA0, c, game/display_object_property_transitions]
       - [0x00DC74, c, game/duel_action_ready_marker]
-      - [0x00DD10, c, game/duel_cursor_step_toward_target]
       - [0x00DDCC, c, game/european/duel_scene_field_actions]
       - [0x00F3CC, c, game/display_object_motion]
       - [0x00F5A0, c, game/european/duel_battle_stats]

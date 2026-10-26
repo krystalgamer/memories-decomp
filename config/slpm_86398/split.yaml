@@ -146,7 +146,6 @@ segments:
       - [0xc3e8, c, game/japanese/duel_scene_hand_actions]
       - [0xd98c, c, game/display_object_property_transitions]
       - [0xdb60, c, game/duel_action_ready_marker]
-      - [0xdbfc, c, game/duel_cursor_step_toward_target]
       - [0xdcb8, c, game/japanese/duel_scene_field_actions]
       - [0xf2b8, c, game/display_object_motion]
       - [0xf48c, c, game/japanese/duel_battle_stats]

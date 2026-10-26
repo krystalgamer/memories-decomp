@@ -837,9 +837,9 @@
     },
     {
       "address": "0x8001D510",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xBC",
-      "source": "src/game/duel_cursor_step_toward_target.c"
+      "source": "src/game/duel_action_ready_marker.c"
     },
     {
       "address": "0x8001D5CC",
