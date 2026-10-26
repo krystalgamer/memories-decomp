@@ -252,12 +252,12 @@ static void reference(s32 index)
     case 3:
         FntPrint(gModel_szStoneTrace);
         if (decision == 6) {
-            other->field_E13 = 0x80;
+            other->stone_texture_state = 0x80;
             Model_ControlSlotAnimation(index ^ 1, 6, 1);
             return;
         }
         if (decision & 0x80) {
-            other->field_E13 = 0xFF;
+            other->stone_texture_state = 0xFF;
             Model_ControlSlotAnimation(index ^ 1, 5, 1);
             return;
         }

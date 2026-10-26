@@ -543,7 +543,7 @@ void Model_DrawSlot(s32 index)
         } else {
             slot->field_DC8[2] = d;
         }
-        if (slot->field_E12 != 0) {
+        if (slot->shadow_enabled != 0) {
             SVECTOR v0;
             SVECTOR v1;
             SVECTOR v2;
@@ -648,7 +648,7 @@ void Model_DrawSlot(s32 index)
             slot->queued_animation_row_latch = 0;
         }
     }
-    fl = slot->field_E13;
+    fl = slot->stone_texture_state;
     if (fl != 0 && fl != 0xFF) {
         RECT rect;
         u16 pal[16];
@@ -696,16 +696,16 @@ void Model_DrawSlot(s32 index)
                 }
             }
             Model_SetSlotPlaybackDirection(index, 0);
-            slot->field_E13 = 0;
+            slot->stone_texture_state = 0;
         } else {
             u16 *cp;
 
-            slot->field_E13 = fl - 1;
+            slot->stone_texture_state = fl - 1;
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
-            prect.x = 0x280 + slot->field_E13 * 2;
+            prect.x = 0x280 + slot->stone_texture_state * 2;
             prect.y = (index << 4) + 0xD8;
 #else
-            prect.x = (index << 8) + slot->field_E13 * 2;
+            prect.x = (index << 8) + slot->stone_texture_state * 2;
             prect.y = 0xF8;
 #endif
             prect.w = 2;
@@ -730,7 +730,7 @@ void Model_DrawSlot(s32 index)
             }
             while (IsIdleGPU(3) != 0) {
             }
-            if (slot->field_E13 == 0) {
+            if (slot->stone_texture_state == 0) {
                 ModelSlot *s;
                 ModelSlotHeadEntry *se;
                 u8 *list;
@@ -758,7 +758,7 @@ void Model_DrawSlot(s32 index)
                         }
                     }
                 }
-                slot->field_E13 = 0xFE;
+                slot->stone_texture_state = 0xFE;
             }
         }
     }

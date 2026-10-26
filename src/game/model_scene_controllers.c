@@ -507,8 +507,8 @@ void Model_UpdateAnimatedBattle(void)
             if (slot->active_animation_command_row == 0 && gModel_aSlots[f].playback_state == 0x23) {
                 if (gModel_aSlots[1].field_DFF == 0
                     && gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00) {
-                    if (gModel_aSlots[1].field_E13 == 0xFF) {
-                        gModel_aSlots[1].field_E13 = 0x80;
+                    if (gModel_aSlots[1].stone_texture_state == 0xFF) {
+                        gModel_aSlots[1].stone_texture_state = 0x80;
                     }
                     Model_ControlSlotAnimation(1, 6, 1);
                 }
@@ -529,7 +529,7 @@ void Model_UpdateAnimatedBattle(void)
         s32 f = gModel_aSlots[0].active_animation_command_row != 6;
         ModelSlot *slot = &gModel_aSlots[f];
 
-        if (slot->field_E13 == 0 && Model_IsCameraMoveComplete(1) != 0) {
+        if (slot->stone_texture_state == 0 && Model_IsCameraMoveComplete(1) != 0) {
             Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
             gModel_bActiveSlotIndex = f;
             handlers[3](slot->field_DEC, 0);
@@ -612,7 +612,7 @@ void Model_UpdateAnimatedBattle(void)
     case 26: {
         s32 f = gModel_aSlots[0].active_animation_command_row == 6;
 
-        if (gModel_aSlots[f].field_E13 == 0 && Model_IsCameraMoveComplete(1) != 0) {
+        if (gModel_aSlots[f].stone_texture_state == 0 && Model_IsCameraMoveComplete(1) != 0) {
             gModel_bPresentationTimer += Model_GetFrameStep();
             if (gModel_bPresentationTimer >= 0x3C) {
                 Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);

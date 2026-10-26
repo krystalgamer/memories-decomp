@@ -59,8 +59,8 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     }
     count = 0;
     acc = 0;
-    base->field_E13 = 0;
-    base->field_E12 = 0;
+    base->stone_texture_state = 0;
+    base->shadow_enabled = 0;
     if (flags >= 0) {
         base->draw_mode_request = flags & 0x7F;
         if (flags & 0x80) {

@@ -308,12 +308,12 @@ void Model_UpdateSlotControl(s32 index)
     case 3:
         MODEL_CONTROL_TRACE(gModel_szStoneTrace);
         if (action == 6) {
-            other->field_E13 = 0x80;
+            other->stone_texture_state = 0x80;
             Model_ControlSlotAnimation(index ^ 1, 6, 1);
             return;
         }
         if (action & 0x80) {
-            other->field_E13 = 0xFF;
+            other->stone_texture_state = 0xFF;
             Model_ControlSlotAnimation(index ^ 1, 5, 1);
             return;
         }

@@ -112,7 +112,8 @@ Verified shared fields and partial arrays are:
 | `0xE08` | `animation_sound_position` | separate wrapping command-branch sound cursor; original volatile diagnostic reload retained |
 | `0xE0D` | `playback_speed` | `Model_GetSlotAnimationSpeed` reads it and `Model_SetSlotPlaybackSpeed` writes it |
 | `0xE11` | `draw_mode_request` | `Model_DrawSlotUnitsOnly`, `func_80059284`, and `Model_SetSlotAmbient` |
-| `0xE12` | `field_E12` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `Model_DrawSlot` guards its projected ground-fan path with the same byte |
+| `0xE12` | `shadow_enabled` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `Model_DrawSlot` guards its projected ground-fan path with the same byte |
+| `0xE13` | `stone_texture_state` | STONE reaction seeds 0x80/0xFF; qualifying draws grayscale, remap handlers, finalize at 0xFE and clear |
 | `0xE14` | `load_step` | sentinel test in `func_80058DD8` |
 | `0xE16`-`0xE18` | byte fields | notification test in `Model_SetSlotPlaybackSpeed`; clamp/index fields in `Model_GetSlotDataEntry` and `Model_GetCurrentDataEntry` |
 | `0xE1A` | `hmd_unit_count` | head-entry count in `Model_RunSlotHandlers` |
@@ -290,6 +291,54 @@ the matching code proves a temporary render override rather than a persistent
 slot-colour assignment. Although animated battle reaches this processor through `Model_UpdateScene`,
 the pipeline is shared; current matching callers do not justify calling the
 queue battle-exclusive.
+
+### Shadow gate and stone texture state
+
+The raw bytes `ModelSlot.field_E12` and `ModelSlot.field_E13` are now
+`shadow_enabled` and `stone_texture_state`, retaining `u8` at +0xE12
+and +0xE13. These names follow the full setter/control/draw/presentation
+chains, not a new runtime capture or a recovered card-status enumeration.
+
+`Model_InitSlot` clears both. `Model_SetSlotShadowEnabled` returns the
+old shadow byte and writes a nonnegative argument through the original
+byte conversion; a negative argument only reads it. Do not normalize
+nonzero values, clamp a large argument, change the public signature or
+add an index guard. The renderer tests nonzero only for the projected
+ground-shadow fan, not whole-slot visibility. Library/debug callers
+enable it; the timed-tint pass saves it, disables it and restores it.
+Keep all other draw gates, ground-height/clipping conditions and the
+units-only early return.
+
+The secondary-result 3 branch traces STONE and writes the opposing
+slot's texture state to 0x80 or 0xFF along its existing reaction paths.
+The presentation controller can resume 0xFF as 0x80 under its original
+conditions, and later waits for zero. Zero means no pending texture
+work; 0xFF holds it. This is not just a monotonic countdown or a
+guaranteed once-per-frame timer: it advances on qualifying draw calls,
+and the original early returns can leave it unchanged.
+
+For an ordinary nonzero value other than 0xFF or 0xFE, drawing first
+decrements the stored byte, then uses that value to select a two-by-eight
+halfword rectangle. All sixteen BGR555 words still pass through
+`Color_TintBgr555Pixel` with raw flags 6 and scale 0x1000, followed by
+the original 0x7FFF mask. The local color constants and helper establish
+that 6 is grayscale; no guessed palette type or alternate color formula
+is introduced. Preserve the distinct source/destination rectangles,
+European texture layout, GPU waits, transfers and store narrowing.
+
+When that decrement reaches zero, the existing HMD primitive-data chains
+are walked through `Model_RemapPrimitiveHandlers` with
+`Model_MapToBasePrimitiveHandler`, and the byte becomes 0xFE. On the next
+qualifying draw, 0xFE processes the two existing 256-by-four-word texture
+bands, sets bit 0x8000 only on nonzero words, keeps the exact GPU call
+order, holds playback through `Model_SetSlotPlaybackDirection(index, 0)`
+and finally stores zero. Do not move finalization into the last grayscale
+step or omit the original list/count/active checks.
+
+No new enum, legal-value range, completion/readiness invariant, restoration
+rule or elapsed-time behavior follows from the names. All source logic,
+types, dimensions, sentinels, regions, packet behavior and existing fixture
+oracles/mutation controls remain unchanged.
 
 ## HMD unit views and primitive-data chains
 

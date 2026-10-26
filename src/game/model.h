@@ -317,8 +317,10 @@ typedef struct {
     u8 part_command_reset_pending;
     /* Latched for drawing; mode 4 persists and forced draws restore it. */
     u8 draw_mode_request;
-    u8 field_E12;
-    u8 field_E13;
+    /* Raw ground-shadow gate, not a normalized Boolean or slot visibility. */
+    u8 shadow_enabled;
+    /* Draw-driven stone protocol: 0xFF held, 0xFE finalization. */
+    u8 stone_texture_state;
     /* Staged initialization step; 0 waits for transfer, 0xFF is idle. */
     u8 load_step;
     u8 field_E15;
@@ -591,8 +593,14 @@ typedef char ModelSlot_playback_speed_offset_must_be_0xE0D[
 typedef char ModelSlot_draw_mode_request_offset_must_be_0xE11[
     MODEL_OFFSET(ModelSlot, draw_mode_request) == 0xE11 ? 1 : -1
 ];
-typedef char ModelSlot_field_E12_offset_must_be_0xE12[
-    MODEL_OFFSET(ModelSlot, field_E12) == 0xE12 ? 1 : -1
+typedef char ModelSlot_shadow_enabled_offset_must_be_0xE12[
+    MODEL_OFFSET(ModelSlot, shadow_enabled) == 0xE12 ? 1 : -1
+];
+typedef char ModelSlot_post_draw_state_layout_must_match[
+    MODEL_OFFSET(ModelSlot, shadow_enabled) == 0xE12 &&
+    sizeof(((ModelSlot *)0)->shadow_enabled) == 1 &&
+    MODEL_OFFSET(ModelSlot, stone_texture_state) == 0xE13 &&
+    sizeof(((ModelSlot *)0)->stone_texture_state) == 1 ? 1 : -1
 ];
 typedef char ModelSlot_load_step_offset_must_be_0xE14[
     MODEL_OFFSET(ModelSlot, load_step) == 0xE14 ? 1 : -1

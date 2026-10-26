@@ -15,9 +15,9 @@ int Model_SetSlotShadowEnabled(int index, int value)
         entry = (ModelSlot *)((unsigned int)entry + (unsigned int)base);
     }
 
-    old = entry->field_E12;
+    old = entry->shadow_enabled;
     if (value >= 0) {
-        entry->field_E12 = value;
+        entry->shadow_enabled = value;
     }
     return old;
 }
