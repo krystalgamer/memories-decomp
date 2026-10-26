@@ -21,7 +21,7 @@ Alternate-0 stages 7/8 are different images and are not registered here.
 
 | Offset range | Bytes | Owner | Entry-call reachable |
 |---|---:|---|---|
-| `0x4..0x135C` | 4,952 | generated assembly | yes |
+| `0x4..0x135C` | 4,952 | entry C | yes |
 | `0x135C..0x170C` | 944 | sheet C | yes |
 | `0x170C..0x20BC` | 2,480 | spiral C | yes |
 | `0x20BC..0x247C` | 960 | webs C | no |
@@ -36,8 +36,9 @@ compatibility does not prove runtime execution.
 
 Each four-byte header and 7,308-byte suffix has one sized raw owner.
 The suffix at `0x3374..0x5000` remains unclassified, not proven non-code.
-The remaining unmatched entry per image stays generated assembly rather
-than an opaque raw prefix or a C coverage claim.
+The entry is the accepted North American header-459 body with the PAL
+palette x = 640 (`variant476_entry{,_slot1}.c`); see
+[French MODEL entries reusing North American C](french-model-usa-entry-reuse.md).
 
 ## Entry-called spiral follow-up
 
