@@ -23,7 +23,7 @@ int TextStream_ReadU16LE(DuelEffectChannel *object);
  * little-endian here, unlike the sequence readers in the sound path.
  *
  * DuelEffectChannel has the same stream-pointer prefix and calls its selector
- * stream_58; the sole caller casts that wider record to this narrow view.
+ * stream_index; the sole caller casts that wider record to this narrow view.
  *
  * Text_PushFormattedDecimal is the only consumer. */
 u32 TextStream_ReadU32LE(TextStreamOwner *object);

@@ -159,9 +159,9 @@ following 16-bit table; `DE 15` is target `0x15DE` for choice zero.
 
 ## Nested streams and completion
 
-FC reads a little-endian offset, writes it into the low half of the next
-stream slot while preserving that slot's high half, and increments the signed
-stream-depth byte. String 1350 contains `FC 5A 12`, which pushes offset
+FC reads a little-endian offset, combines it with the current stream
+cursor's high half, stores the result in the next slot, and increments the
+signed stream-depth byte. String 1350 contains `FC 5A 12`, which pushes offset
 `0x125A`.
 
 FD reads an offset and replaces the low half of the current stream cursor.
@@ -222,3 +222,38 @@ both occupancy value and matching marker; PAL omits only the occupancy clear.
 The branch path still skips the signed selected index times two and calls the
 existing regional cursor-offset helper. No new bounds, input normalization,
 table entries, layout fields or constructor/release behavior are introduced.
+
+## Canonical channel stream-storage names
+
+stream_index names the channel's original s8 stream_58 at +0x58, matching
+the existing narrow TextStreamOwner.stream_index. root_stream names its
+original stored u8 pointer text_00 at +0x00: it is the mutable cursor for
+slot zero, NOT a saved immutable root-string base. decimal_buffer names
+the original u8 text_44[0x0D] at +0x44. No pointer array, stack allocation,
+record layout or narrow-view field is added or changed.
+
+BuildStep stores zero to stream_index and the selected bank pointer to
+root_stream on first build. All ordinary byte/halfword readers select the
+same pointer word with the signed byte; U32LE retains its unchanged
+TextStreamOwner view. Cursor updates, secondary dispatch and command
+operand order remain exactly as before.
+
+FC retains the current slot's high half AFTER its two-byte operand read,
+not the previous contents of the next slot. FD retains its own original
+current-slot replacement. FF keeps signed decrement, the below-zero
+completion test, original flags and disposition. Staged-string push keeps
+its special unsigned-byte increment/store followed by the signed slot
+cast and pointer-slot return. No underflow, overflow or slot bound is
+introduced; the existing 22-pointer view is not a validated depth limit.
+
+Selected-card expansions, formatted decimal and the PAL-only player-name
+push retain their original index/store order, bank expressions and native
+wrappers. The display-effect command's narrow EffectObject.depth view and
+the byte/U32 readers' existing TextStreamOwner.stream_index remain
+unchanged. The new names identify existing storage, not a unified parser
+or new stream-lifetime policy.
+
+The existing campaign-duel fixture changes five identifier words only:
+three stream-zero cursor accesses, one selector access and the existing
+stream-zero docstring label. All numeric expectations, snapshots, mutation
+logic, assertions and scenarios remain unchanged; no fixture is run locally.

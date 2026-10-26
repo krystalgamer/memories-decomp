@@ -76,7 +76,7 @@ void Text_StageScriptImage(DuelEffectChannel *state)
 
     if (result & SCRIPT_IMAGE_OPERAND_HAS_VIEWPORT) {
         u8 *G32 *slot =
-            &((TextStreamOwner *)state)->streams[state->stream_58];
+            &((TextStreamOwner *)state)->streams[state->stream_index];
         u8 *script = *slot;
         s32 value = *script;
 

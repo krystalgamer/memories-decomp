@@ -25,7 +25,7 @@ rather than a new guard, clamp, negative-value policy or safer loop.
 
 After formatting, the channel's stream byte increments before the buffer
 pointer is assigned to the selected slot. The command pushes the existing
-`text_44` buffer; it does not allocate storage or directly rasterize glyphs.
+`decimal_buffer` buffer; it does not allocate storage or directly rasterize glyphs.
 The callback remains `void(DuelEffectChannel *)` in the generic table.
 
 | Target | Callback address | Size |
@@ -142,3 +142,24 @@ between lookup-index and encoded-code regions.
 Only evidenced identities and declaration ownership change. Existing
 controls may receive strictly proved identifier migrations where needed;
 no harness is added and no cloud/regional/overlay suite is run locally.
+
+## Decimal buffer and signed stream selector
+
+decimal_buffer is the original channel-local u8 text_44[0x0D] at +0x44;
+stream_index is the original s8 stream_58 at +0x58. The formatter still
+reads its pointed signed value through the unchanged U32LE pointer
+operand, consumes the modifier byte, uses the local eight-byte digit
+buffer and writes the same one-/two-byte glyph encoding and terminator.
+
+Keep the full-byte modifier branches and leading-blank scan distinct from
+the low-nibble reverse do/while count. Unsupported widths gain no clamp,
+guard, buffer extension or safer loop. After formatting, the original
+signed index increment still precedes storing decimal_buffer into the
+selected pointer slot; no allocator or glyph upload is substituted.
+
+Staged-string push still resolves its regional bank BEFORE byte increment,
+keeps the explicit u8 store and subsequent s8 slot cast, and returns the
+address of pointer storage. Every regional ID mask/adjustment, OR versus
+addition, independent table/anchor and generic-table return-value cast
+remains. root_stream is slot zero's mutable cursor, not storage for either
+of these nested stream pushes.
