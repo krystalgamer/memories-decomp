@@ -118,3 +118,45 @@ The three existing fixtures migrate FIVE owner-qualified member words
 on FOUR lines only. Independent expected offsets, flags, truncation,
 event order, backing, cases, scenarios, assertions and all mutation
 controls remain. No fixture is run locally and no harness is added.
+
+## Narrow screen-sprite texture metadata
+
+DisplayObjectConfigView names its unchanged s16 +0x40/+0x42
+clut_x/clut_y, u8 +0x5C/+0x5D texture_u/texture_v, and u8 +0x66
+texture_page. ConfigureScreenSprite names its five corresponding s32
+parameters without changing their original order, types or call ABI.
+
+The complete writer at 0x80040510 stores these bytes/halfwords through
+the existing canonical DisplayObject view. RenderSpriteList and the
+independent RenderSpriteStrips copy +0x40 into SpritePrim.cxcy, +0x5C into
+SpritePrim.uv and +0x66 into SpritePrim.tpage. The local GsSPRITE
+declaration independently identifies cx/cy, u/v and tpage.
+DisplayObject_SubmitPacket passes that sprite to libgs in cases 1-3.
+Its projected-quad path packs clut = (cy << 6) | ((cx >> 4) & 0x3F),
+copies the UV bytes into the quad corners, and combines the stored page
+with the existing attribute-derived colour-mode/transparency bits.
+These consumers establish texture/palette roles, not an RGB colour write.
+
+The typed BuildDeck_CreateCardTransferIcon consumer offsets clut_x by
+0x10/0x20/0x30 for its existing card-type cases. It retains
+DISPLAY_OBJECT_UNSIGNED_HALFWORD, including the same unsigned-halfword
+read/modify/write, wrap, switch, table load, allocation result and final
+flag/store order. The view's CLUT members remain s16; they are not
+retyped to match the explicit unsigned access. Texture members remain
+bytes, and full s32 configuration arguments still truncate as before.
+
+Only this narrow view and the five measured configurator parameter
+identities change. Canonical pool fields remain offset-named because
+Gouraud packet colours/coordinates and other owners overlap them.
+Height/width names and ordering, division by two, duplicate half-extents,
+SCREEN_SPACE, pivot stores, regional constants, callers and returns stay
+exact. The separate ConfigureSpriteResource packed color/texture arguments
+are outside this rename and gain no guessed encoding or reinterpretation.
+
+The existing card-stat fixture changes one member word in its original
+trap-only mutation anchor. Its independent configurator-stub parameter
+names, 111744-case count, byte-layout oracle, guarded backing, constants,
+assertions, scenarios and every negative control remain unchanged.
+No fixture is executed locally and no behavioral harness is added.
+CSV EVIDENCE remains historical; two NOTES cells connect old offsets to
+these typed names and clarify that the page byte is not RGB.

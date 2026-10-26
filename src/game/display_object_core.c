@@ -238,11 +238,11 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
     s32 y,
     s32 height,
     s32 width,
-    s32 field_5C,
-    s32 field_5D,
-    s32 field_66,
-    s32 field_40,
-    s32 field_42)
+    s32 texture_u,
+    s32 texture_v,
+    s32 texture_page,
+    s32 clut_x,
+    s32 clut_y)
 {
     s32 half_height;
     s32 half_width;
@@ -258,11 +258,11 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
 
     object->field_3C.h.field_3E = width;
     half_width = width / 2;
-    *(u8 *)&object->field_5C = field_5C;
-    ((u8 *)&object->field_5C)[1] = field_5D;
-    object->field_66 = field_66;
-    object->field_40.h.field_40 = field_40;
-    object->field_40.h.field_42 = field_42;
+    *(u8 *)&object->field_5C = texture_u;
+    ((u8 *)&object->field_5C)[1] = texture_v;
+    object->field_66 = texture_page;
+    object->field_40.h.field_40 = clut_x;
+    object->field_40.h.field_42 = clut_y;
     object->field_1A = half_width;
     object->field_48.h.field_4A = half_width;
     return object;
