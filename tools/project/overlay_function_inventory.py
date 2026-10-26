@@ -34,6 +34,7 @@ LOAD_POINTER_ADDRESSES = (0x80010000, 0x80010004, 0x80010008, 0x8001000C,
                          0x80010030, 0x800101D8, 0x800101DC)
 PROLOGUE = re.compile(rb"[\x00-\xff][\x80-\xff]\xbd\x27")
 RETURN = re.compile(rb"\x08\x00\xe0\x03")
+RAM_START, RAM_END = 0x80010000, 0x80200000
 LOADER_SOURCES = (
     "src/game/model_slot_control.c",
     "src/game/model.h", "src/game/european/model_slot_control.c",
@@ -91,7 +92,75 @@ def valid_instruction(ins, word: int) -> bool:
     return ins.isValid() and ins.isImplemented() and not ins.isBranchLikely()
 
 
-def walk_function(data: bytes, base: int, start: int, size: int | None = None) -> dict:
+def register_constant(data: bytes, start: int, before: int, register: int, depth: int = 0) -> int | None:
+    """Return the straight-line constant last written to `register` before `before`."""
+    if register == 0:
+        return 0
+    if depth > 4:
+        return None
+    for at in range(before - 4, start - 4, -4):
+        word = struct.unpack_from("<I", data, at)[0]
+        op = word >> 26
+        if op == 0 and word & 63 in (8, 9, 12, 13, 24, 25, 26, 27):
+            continue
+        written = word >> 11 & 31 if op == 0 else 31 if op == 3 else word >> 16 & 31
+        if op in (1, 2, 3, 4, 5, 6, 7, 40, 41, 43, 50, 58) or written != register:
+            continue
+        immediate = word & 65535
+        if op == 15:
+            return immediate << 16
+        if op in (9, 13):
+            source = register_constant(data, start, at, word >> 21 & 31, depth + 1)
+            if source is None:
+                return None
+            if op == 13:
+                return source | immediate
+            return (source + immediate - (65536 if immediate & 32768 else 0)) & 0xFFFFFFFF
+        return None
+    return None
+
+
+def jump_table_targets(data: bytes, base: int, start: int, pc: int) -> list[int] | None:
+    """Resolve a GCC switch table read by `lw reg, off(base + index); jr reg`."""
+    reg = struct.unpack_from("<I", data, pc)[0] >> 21 & 31
+    words = [(at, struct.unpack_from("<I", data, at)[0]) for at in range(pc - 4, max(start, pc - 64) - 4, -4)]
+    load = next(((at, word) for at, word in words if word >> 26 == 35 and word >> 16 & 31 == reg), None)
+    if load is None:
+        return None
+    load_at, load_word = load
+    offset = (load_word & 65535) - (65536 if load_word & 32768 else 0)
+    address = load_word >> 21 & 31
+    sum_at = next((at for at, word in words
+                   if at < load_at and word >> 26 == 0 and word & 63 == 33 and word >> 11 & 31 == address), None)
+    if sum_at is None:
+        return None
+    word = struct.unpack_from("<I", data, sum_at)[0]
+    tables = [register_constant(data, start, sum_at, word >> shift & 31) for shift in (21, 16)]
+    tables = [(value + offset) & 0xFFFFFFFF for value in tables if value is not None]
+    if len(tables) != 1 or not base <= tables[0] < base + len(data) or tables[0] % 4:
+        return None
+    bound = next((word & 65535 for at, word in words if word >> 26 == 11), None)
+    targets = []
+    cursor = tables[0] - base
+    while cursor + 4 <= len(data) and len(targets) < (bound or 512):
+        target = struct.unpack_from("<I", data, cursor)[0] - base
+        if not start <= target < len(data) or target % 4:
+            break
+        targets.append(target)
+        cursor += 4
+    if not targets or (bound is not None and len(targets) != bound):
+        return None
+    return targets
+
+
+def walk_function(data: bytes, base: int, start: int, size: int | None = None,
+                  *, resolve_flow: bool = False) -> dict:
+    """Follow one function's control flow.
+
+    `resolve_flow` additionally treats jumps leaving the span as tail calls,
+    follows GCC switch tables and rejects direct targets outside user RAM (stale
+    bodies linked for another address); the default keeps the census rules.
+    """
     limit = len(data) if size is None else start + size
     if start < 0 or start % 4 or limit > len(data) or limit <= start:
         raise CensusError(f"invalid function interval {start}:{limit}")
@@ -137,10 +206,14 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None) -
             if op == 3:
                 target = ((base + pc + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
                 (calls if base <= target < base + len(data) else external).add(target)
+                if resolve_flow and not RAM_START <= target < RAM_END:
+                    problems.add(f"invalid_target@{target:#x}")
             elif ins.isBranch():
                 displacement = (word & 65535) - (65536 if word & 32768 else 0)
                 target = base + pc + 4 + displacement * 4
                 (calls if base <= target < base + len(data) else external).add(target)
+                if resolve_flow and not RAM_START <= target < RAM_END:
+                    problems.add(f"invalid_target@{target:#x}")
             else:
                 indirect_calls += 1
             pending.append(pc + 8)
@@ -153,10 +226,19 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None) -
             target = ((base + pc + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
             if base + start <= target < base + limit:
                 pending.append(target - base)
+            elif resolve_flow and RAM_START <= target < RAM_END:
+                external.add(target)
+                returns += 1
+            elif resolve_flow:
+                problems.add(f"invalid_target@{target:#x}")
             else:
                 problems.add(f"tail_target@{target:#x}")
         else:
-            problems.add(f"indirect_jump@{pc:#x}")
+            targets = jump_table_targets(data, base, start, pc) if resolve_flow else None
+            if targets is None:
+                problems.add(f"indirect_jump@{pc:#x}")
+            else:
+                pending.extend(targets)
     extent = max(visited, default=start - 4) + 4 - start
     contiguous = bool(visited) and len(visited) * 4 == extent
     if not returns:
@@ -180,7 +262,8 @@ def prologue_offsets(data: bytes):
             yield offset
 
 
-def discover_functions(data: bytes, base: int, known: dict, entries: set[int], resident_calls: set[int]):
+def discover_functions(data: bytes, base: int, known: dict, entries: set[int], resident_calls: set[int],
+                       *, resolve_flow: bool = False):
     seeds: dict[int, set[str]] = defaultdict(set)
     for offset in known:
         seeds[offset].add("registered_boundary")
@@ -206,7 +289,8 @@ def discover_functions(data: bytes, base: int, known: dict, entries: set[int], r
             continue
         if offset not in known and any(begin < offset < begin + row["size"] for begin, row in known.items()):
             continue
-        result = walk_function(data, base, offset, known[offset]["size"] if offset in known else None)
+        result = walk_function(data, base, offset, known[offset]["size"] if offset in known else None,
+                               resolve_flow=resolve_flow)
         analyzed[offset] = result
         for target in result["calls"]:
             child = target - base

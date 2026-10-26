@@ -8,6 +8,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "tools/project"))
 
+import inventory_model_images as inventory
 import register_model_images as registration
 from progress import ProgressError, render_overlay_progress, validate_overlay_inventory
 
@@ -62,7 +63,7 @@ class ModelImageRegistrationTests(unittest.TestCase):
                 total += len(images)
         self.assertEqual(total, 26103)
 
-    def test_baselines_do_not_promote_functions_or_disassemble_guessed_boundaries(self):
+    def test_unpromoted_images_are_raw_baselines_or_generated_inventories(self):
         count = 0
         for region, manifest in registration.OVERLAY_MANIFESTS.items():
             modules = json.loads((ROOT / manifest).read_text())["modules"]
@@ -78,11 +79,20 @@ class ModelImageRegistrationTests(unittest.TestCase):
                 text = path.read_text()
                 sha1 = re.search(r"^sha1: ([0-9a-f]{40})$", text, re.MULTILINE)
                 self.assertIsNotNone(sha1)
-                self.assertEqual(text, registration.layout_text(module, sha1[1]))
-                self.assertEqual(
-                    path.with_name(path.stem + "_functions.csv").read_text(),
-                    ",".join(registration.FIELDS) + "\n",
-                )
+                functions = path.with_name(path.stem + "_functions.csv").read_text()
+                if text == registration.layout_text(module, sha1[1]):
+                    self.assertEqual(functions, ",".join(registration.FIELDS) + "\n")
+                else:
+                    # Only the generated closed-CFG inventory may replace a raw baseline.
+                    rows = list(csv.DictReader(functions.splitlines()))
+                    self.assertTrue(rows)
+                    base = int(module["load_address"], 0)
+                    for row in rows:
+                        self.assertEqual(row["status"], "unmatched_asm")
+                        self.assertEqual(row["module"], f"overlay/{path.stem}")
+                        self.assertEqual(row["name"], f"func_{row['address'][2:]}")
+                    spans = [(int(row["address"], 0) - base, int(row["size"], 0)) for row in rows]
+                    self.assertEqual(text, inventory.inventory_layout_text(module, sha1[1], spans))
                 self.assertEqual(json.loads(path.with_name(path.stem + "_matching_c.json").read_text()),
                                  {"schema": 1, "functions": []})
                 count += 1
@@ -113,3 +123,16 @@ class ModelImageRegistrationTests(unittest.TestCase):
         self.assertEqual(len(lines), 6)
         self.assertIn("| Uninventoried layouts: 3,729 | Not inventoried | Unclassified |", lines)
         self.assertEqual(len(overlays), 3729)
+
+    def test_inventoried_layouts_without_matching_c_share_one_summary_row(self):
+        overlays = {
+            f"generated_{index}": dict(function_count=2, function_bytes=12,
+                                      matching_c_function_count=0, matching_c_bytes=0)
+            for index in range(3000)
+        }
+        overlays["known"] = dict(function_count=2, function_bytes=8,
+                                 matching_c_function_count=1, matching_c_bytes=4)
+        lines = render_overlay_progress(overlays)
+        self.assertEqual(len(lines), 7)
+        self.assertIn("| Inventoried layouts without matching C: 3,000 | 0 / 6,000 (0.00%) | "
+                      "0 (`0x0`) / 36,000 (`0x8CA0`) (0.00%) |", lines)

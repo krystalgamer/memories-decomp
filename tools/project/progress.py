@@ -350,6 +350,7 @@ def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
         "|---|---:|---:|",
     ]
     uninventoried = 0
+    unstarted = [0, 0, 0]
     for name in sorted(overlays):
         overlay = overlays[name]
         count = overlay["matching_c_function_count"]
@@ -359,12 +360,25 @@ def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
         if total_count == 0 and total_bytes == 0:
             uninventoried += 1
             continue
+        if count == 0:
+            # Thousands of generated MODEL inventories; one summary row keeps totals visible.
+            unstarted[0] += 1
+            unstarted[1] += total_count
+            unstarted[2] += total_bytes
+            continue
         lines.append(
             f"| `{name}` | "
             f"{count:,} / {total_count:,} "
             f"({format_percentage(count, total_count)}) | "
             f"{format_bytes(matched)} / {format_bytes(total_bytes)} "
             f"({format_percentage(matched, total_bytes)}) |"
+        )
+    if unstarted[0]:
+        layouts, total_count, total_bytes = unstarted
+        lines.append(
+            f"| Inventoried layouts without matching C: {layouts:,} | "
+            f"0 / {total_count:,} ({format_percentage(0, total_count)}) | "
+            f"{format_bytes(0)} / {format_bytes(total_bytes)} ({format_percentage(0, total_bytes)}) |"
         )
     if uninventoried:
         lines.append(f"| Uninventoried layouts: {uninventoried:,} | Not inventoried | Unclassified |")
