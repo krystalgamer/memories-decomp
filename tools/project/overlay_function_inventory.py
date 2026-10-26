@@ -160,7 +160,7 @@ def last_writer(data: bytes, start: int, before: int, register: int,
     return None
 
 
-def switch_dispatch(data: bytes, base: int, start: int, pc: int) -> tuple[list[int], tuple] | None:
+def switch_dispatch(data: bytes, base: int, start: int, pc: int) -> list[int] | None:
     """Resolve a GCC switch table read by `lw reg, off(table + index); jr reg`.
 
     The whole chain must be proven: the jump register's last write is the load,
@@ -168,9 +168,8 @@ def switch_dispatch(data: bytes, base: int, start: int, pc: int) -> tuple[list[i
     `sltiu t, x, N` bounds `x` with no write to `x` in between. The first
     control transfer after the bound must be `beq t, zero, exit` with `exit`
     outside the dispatch, and its fall-through must run straight to the `jr`.
-    Returns the targets and the guarded window, which other edges of the
-    function may enter only as proven by `guarded_entry`. Anything ambiguous
-    stays unresolved.
+    This only proposes targets; `prove_switches` must then show the chain holds
+    on every path through the function. Anything ambiguous stays unresolved.
     """
     reg = struct.unpack_from("<I", data, pc)[0] >> 21 & 31
     load_at = last_writer(data, start, pc, reg, straight=True)
@@ -232,9 +231,8 @@ def switch_dispatch(data: bytes, base: int, start: int, pc: int) -> tuple[list[i
         return None
     if any(is_control_transfer(struct.unpack_from("<I", data, at)[0]) for at in range(guard_at + 8, pc, 4)):
         return None
-    window = min(bound_at, shift_at) + 4, pc, guard_at, bound_at, flag, selector
     exit_at = guard_at + 4 + ((guard & 65535) - (65536 if guard & 32768 else 0)) * 4
-    if window[0] <= exit_at <= window[1]:
+    if min(bound_at, shift_at) < exit_at <= pc:
         return None
     cursor = table - base
     if cursor + count * 4 > len(data):
@@ -242,35 +240,227 @@ def switch_dispatch(data: bytes, base: int, start: int, pc: int) -> tuple[list[i
     targets = [struct.unpack_from("<I", data, cursor + 4 * i)[0] - base for i in range(count)]
     if any(not start <= target < len(data) or target % 4 for target in targets):
         return None
-    return targets, window
+    return targets
 
 
-def guarded_entry(data: bytes, start: int, source: int | None, window: tuple, edges: set) -> bool:
-    """Prove a branch at `source` into the guard carries the same bound flag.
+CALLER_SAVED = (*range(1, 16), 24, 25, 31)
+LOADS = (32, 33, 34, 35, 36, 38)
 
-    GCC also reaches the guard from other branches whose delay slot, or the
-    straight-line code before them, computes the identical `sltiu`. The nearest
-    flag write before the delay slot must be that word, with no selector write,
-    control transfer or other incoming edge in between.
-    """
-    _, _, guard_at, bound_at, flag, selector = window
-    bound = struct.unpack_from("<I", data, bound_at)[0]
-    if source is None:
+
+SYMBOLS = ("in", "op", "phi")
+
+
+def _mentions(value, at: int, kind: str = "op") -> bool:
+    if value is None or value[0] == "c":
         return False
-    for at in [source + 4] + list(range(source - 4, start - 4, -4)):
-        word = struct.unpack_from("<I", data, at)[0]
-        if at != source + 4 and (is_control_transfer(word) or any(at < edge <= source for edge, _ in edges)):
-            return False
-        if written_register(word) == flag:
-            return word == bound
-        if written_register(word) == selector:
-            return False
-    return False
+    if value[0] in SYMBOLS:
+        return value[0] == kind and value[1] == at
+    return any(isinstance(part, tuple) and _mentions(part, at, kind) for part in value[1:])
+
+
+def _selector(value) -> bool:
+    """A symbol, or a symbol plus a constant, may be a switch selector."""
+    return value[0] in SYMBOLS or value[0] == "add" and value[2][0] in SYMBOLS
+
+
+def _offset(value, amount: int):
+    """Abstract `value + amount`; only constants and one symbolic term are kept."""
+    if value is None:
+        return None
+    if value[0] == "c":
+        return "c", (value[1] + amount) & 0xFFFFFFFF
+    if value[0] == "add":
+        value, amount = value[2], value[1] + amount
+    elif value[0] not in (*SYMBOLS, "sll2"):
+        return None
+    amount &= 0xFFFFFFFF
+    return value if not amount else ("add", amount, value)
+
+
+def _step(state, at: int, word: int, observed: dict | None = None):
+    """Execute one instruction on an abstract register state.
+
+    Values are constants, the entry value of a register (`in`), the latest
+    result of one instruction (`op`, forgotten wherever it was copied once that
+    instruction runs again), a register's value on the latest entry to a join
+    (`phi`, likewise forgotten when the join is entered again), `sll2`, `lt` (an `sltiu` flag) or constant + term.
+    `None` is unknown. A register just written by a load is unknown to the next
+    instruction (the R3000 load delay slot).
+    """
+    registers, facts, loaded = state
+    op, rs, rt = word >> 26, word >> 21 & 31, word >> 16 & 31
+    immediate = word & 65535
+    signed = immediate - (65536 if immediate & 32768 else 0)
+
+    def read(register):
+        if register == 0:
+            return "c", 0
+        return None if register in loaded else registers[register]
+
+    if op == 35 and observed is not None:
+        observed.setdefault(at, []).append((_offset(read(rs), signed), facts))
+    target = written_register(word)
+    if target is None:
+        return registers, facts, frozenset()
+    value = None
+    if op == 15:
+        value = "c", immediate << 16
+    elif op == 9:
+        value = _offset(read(rs), signed)
+    elif op == 13 and (source := read(rs)) and source[0] == "c":
+        value = "c", source[1] | immediate
+    elif op == 11 and not immediate & 32768 and (source := read(rs)):
+        if source[0] == "c":
+            value = "c", int(source[1] < immediate)
+        elif _selector(source):
+            value = "lt", source, immediate
+    elif op == 0 and word & 63 == 0 and (source := read(rt)):
+        shift = word >> 6 & 31
+        if source[0] == "c":
+            value = "c", source[1] << shift & 0xFFFFFFFF
+        elif shift == 2 and _selector(source):
+            value = "sll2", source
+    elif op == 0 and word & 63 in (33, 37):
+        left, right = read(rs), read(rt)
+        if left and right and left[0] == right[0] == "c":
+            value = "c", (left[1] + right[1] if word & 63 == 33 else left[1] | right[1]) & 0xFFFFFFFF
+        elif right and right[0] == "c" and (word & 63 == 33 or not right[1]):
+            value = _offset(left, right[1])
+        elif left and left[0] == "c" and (word & 63 == 33 or not left[1]):
+            value = _offset(right, left[1])
+    if value is None:
+        value = "op", at
+    registers = tuple(None if _mentions(item, at) else item for item in registers)
+    facts = frozenset(fact for fact in facts if not _mentions(fact[0], at))
+    registers = registers[:target] + (value,) + registers[target + 1:]
+    is_load = op in LOADS or op in (16, 18) and rs in (0, 2)
+    return registers, facts, frozenset({target}) if is_load else frozenset()
+
+
+def _merge(states, join: int | None = None, widened: set | None = None):
+    """Meet incoming states; at a join, disagreeing registers get a fresh `phi`.
+
+    Once a register has needed a `phi` at a join it keeps one there, so the
+    iteration cannot oscillate.
+    """
+    states = list(states)
+    if join is not None:
+        states = [(tuple(None if _mentions(item, join, "phi") else item for item in registers),
+                   frozenset(fact for fact in facts if not _mentions(fact[0], join, "phi")), loaded)
+                  for registers, facts, loaded in states]
+    registers = []
+    for index, item in enumerate(states[0][0]):
+        if join is None or not index:
+            registers.append(item if all(state[0][index] == item for state in states) else None)
+        elif (join, index) in widened or any(state[0][index] != item for state in states):
+            widened.add((join, index))
+            registers.append(("phi", join, index))
+        else:
+            registers.append(item)
+    registers = tuple(registers)
+    facts = frozenset.intersection(*(state[1] for state in states))
+    return registers, facts, frozenset().union(*(state[2] for state in states))
+
+
+def _node(data: bytes, pc: int, kind: str, successors: list[int], state, observed=None):
+    """Return the abstract state on each outgoing edge of one walked node."""
+    word = struct.unpack_from("<I", data, pc)[0]
+    if kind == "seq":
+        return [(successors[0], _step(state, pc, word, observed))] if successors else []
+    gained = None
+    if word >> 26 in (4, 5):
+        registers, _, loaded = state
+        pair = [None if r in loaded else ("c", 0) if r == 0 else registers[r]
+                for r in (word >> 21 & 31, word >> 16 & 31)]
+        if ("c", 0) in pair:
+            flag = pair[1] if pair[0] == ("c", 0) else pair[0]
+            if flag and flag[0] == "lt":
+                gained = flag[1:]
+    if kind == "end":
+        return []
+    after = _step(state, pc + 4, struct.unpack_from("<I", data, pc + 4)[0], observed)
+    if kind == "call":
+        registers = tuple(None if index in CALLER_SAVED else item for index, item in enumerate(after[0]))
+        return [(successors[0], (registers, after[1], frozenset()))]
+    if gained and _mentions(gained[0], pc + 4):
+        gained = None
+    edges = []
+    for index, successor in enumerate(successors):
+        facts = after[1]
+        # beq flag, zero falls through, and bne flag, zero branches, with flag set.
+        if gained and kind == "branch" and (index == 1) == (word >> 26 == 4):
+            facts = facts | {gained}
+        edges.append((successor, (after[0], facts, after[2])))
+    return edges
+
+
+def prove_switches(data: bytes, base: int, start: int, flow: dict, switches: dict) -> set[int]:
+    """Return the switch dispatches whose proposed targets are not proven.
+
+    A forward must-dataflow over every walked edge has to show, at each `jr`,
+    that the jump register holds a word loaded from `table + 4 * s` for a
+    constant in-image table and a selector value `s` that a `beq`/`bne` on
+    `sltiu t, s, N` already bounded on every path, with exactly the proposed
+    `N` targets. Any clobber of the table base, index, selector or flag on any
+    path into the dispatch leaves it unproven.
+    """
+    if not switches:
+        return set()
+    if any(successor not in flow for _, successors in flow.values() for successor in successors):
+        return set(switches)
+    entry = (("c", 0),) + tuple(("in", register) for register in range(1, 32)), frozenset(), frozenset()
+    incoming: dict[int, dict[int, tuple]] = {pc: {} for pc in flow}
+    states: dict[int, tuple] = {}
+    widened: set[tuple[int, int]] = set()
+    work = [start]
+    budget = 64 * len(flow)
+    while work:
+        budget -= 1
+        if budget < 0:
+            return set(switches)
+        pc = work.pop()
+        sources = list(incoming[pc].values()) + ([entry] if pc == start else [])
+        state = _merge(sources, pc, widened)
+        if states.get(pc) == state:
+            continue
+        states[pc] = state
+        kind, successors = flow[pc]
+        grouped: dict[int, list] = {}
+        for successor, out in _node(data, pc, kind, successors, state):
+            grouped.setdefault(successor, []).append(out)
+        for successor, outs in grouped.items():
+            out = _merge(outs)
+            if incoming[successor].get(pc) != out:
+                incoming[successor][pc] = out
+                work.append(successor)
+    observed: dict[int, list] = {}
+    for pc, state in states.items():
+        _node(data, pc, *flow[pc], state, observed)
+    failed = set()
+    for pc, targets in switches.items():
+        registers, _, loaded = states.get(pc, (None, None, None))
+        register = struct.unpack_from("<I", data, pc)[0] >> 21 & 31
+        jump = None if registers is None or register in loaded else registers[register]
+        proven = None
+        if jump and jump[0] == "op" and jump[1] in observed:
+            addresses = {address for address, _ in observed[jump[1]]}
+            address = addresses.pop() if len(addresses) == 1 else None
+            if address and address[0] == "add" and address[2][0] == "sll2":
+                selector = address[2][1]
+                facts = frozenset.intersection(*(facts for _, facts in observed[jump[1]]))
+                bounds = [count for value, count in facts if value == selector]
+                table = address[1] - base
+                if bounds and 0 <= table and not table % 4 and table + 4 * min(bounds) <= len(data):
+                    proven = [struct.unpack_from("<I", data, table + 4 * index)[0] - base
+                              for index in range(min(bounds))]
+        if proven != targets:
+            failed.add(pc)
+    return failed
+
 
 
 def jump_table_targets(data: bytes, base: int, start: int, pc: int) -> list[int] | None:
-    dispatch = switch_dispatch(data, base, start, pc)
-    return None if dispatch is None else dispatch[0]
+    return switch_dispatch(data, base, start, pc)
 
 
 def walk_function(data: bytes, base: int, start: int, size: int | None = None,
@@ -291,8 +481,8 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None,
     problems: set[str] = set()
     returns = 0
     indirect_calls = 0
-    edges = {(start, None)}
-    windows: dict[int, tuple[int, int]] = {}
+    flow: dict[int, tuple[str, list[int]]] = {}
+    switches: dict[int, list[int]] = {}
     while pending:
         pc = pending.pop()
         if pc in visited:
@@ -308,7 +498,9 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None,
         visited.add(pc)
         if not ins.hasDelaySlot():
             if word >> 26 == 0 and word & 63 == 13:
+                flow[pc] = "end", []
                 continue
+            flow[pc] = "seq", [pc + 4]
             pending.append(pc + 4)
             continue
         if pc + 8 > limit:
@@ -320,6 +512,7 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None,
             problems.add(f"unsupported_delay_slot@{pc:#x}")
             continue
         visited.add(pc + 4)
+        flow[pc] = "end", []
         if ins.isReturn():
             returns += 1
             continue
@@ -338,18 +531,20 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None,
                     problems.add(f"invalid_target@{target:#x}")
             else:
                 indirect_calls += 1
+            flow[pc] = "call", [pc + 8]
             pending.append(pc + 8)
         elif ins.isBranch():
             displacement = (word & 65535) - (65536 if word & 32768 else 0)
-            pending.append(pc + 4 + displacement * 4)
-            edges.add((pc + 4 + displacement * 4, pc))
+            successors = [pc + 4 + displacement * 4]
             if not ins.isUnconditionalBranch():
-                pending.append(pc + 8)
+                successors.append(pc + 8)
+            flow[pc] = "branch", successors
+            pending.extend(successors)
         elif op == 2:
             target = ((base + pc + 4) & 0xF0000000) | ((word & 0x3FFFFFF) << 2)
             if base + start <= target < base + limit:
                 pending.append(target - base)
-                edges.add((target - base, pc))
+                flow[pc] = "jump", [target - base]
             elif resolve_flow and RAM_START <= target < RAM_END:
                 external.add(target)
                 returns += 1
@@ -362,15 +557,11 @@ def walk_function(data: bytes, base: int, start: int, size: int | None = None,
             if dispatch is None:
                 problems.add(f"indirect_jump@{pc:#x}")
             else:
-                pending.extend(dispatch[0])
-                edges.update((target, None) for target in dispatch[0])
-                windows[pc] = dispatch[1]
-    for pc, window in windows.items():
-        low, high, guard_at = window[:3]
-        # Any other entry into the bounds check or dispatch must carry the bound.
-        if any(low <= edge <= high and not (edge == guard_at and guarded_entry(data, start, source, window, edges))
-               for edge, source in edges):
-            problems.add(f"unguarded_switch@{pc:#x}")
+                pending.extend(dispatch)
+                flow[pc] = "switch", dispatch
+                switches[pc] = dispatch
+    for pc in sorted(prove_switches(data, base, start, flow, switches)):
+        problems.add(f"unproven_switch@{pc:#x}")
     extent = max(visited, default=start - 4) + 4 - start
     contiguous = bool(visited) and len(visited) * 4 == extent
     if not returns:

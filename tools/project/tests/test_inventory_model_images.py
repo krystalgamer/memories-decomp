@@ -82,7 +82,7 @@ class InventoryModelImagesTests(unittest.TestCase):
         struct.pack_into("<I", data, 0x34, 0x1000FFF8)  # case 1: b 0x18, past the bound check
         switch = census.walk_function(bytes(data), BASE, 4, resolve_flow=True)
         self.assertFalse(switch["closed"])
-        self.assertIn("unguarded_switch@0x24", switch["problems"])
+        self.assertIn("unproven_switch@0x24", switch["problems"])
 
     def test_switch_accepts_guard_entries_that_recompute_the_bound(self):
         data = bytearray(image())
@@ -91,7 +91,36 @@ class InventoryModelImagesTests(unittest.TestCase):
         self.assertTrue(census.walk_function(bytes(data), BASE, 4, resolve_flow=True)["closed"])
         struct.pack_into("<I", data, 0x38, 0x00000000)  # without it the flag is stale
         switch = census.walk_function(bytes(data), BASE, 4, resolve_flow=True)
-        self.assertIn("unguarded_switch@0x24", switch["problems"])
+        self.assertIn("unproven_switch@0x24", switch["problems"])
+
+    def test_switch_guard_entries_must_preserve_the_table_base(self):
+        data = bytearray(image())
+        struct.pack_into("<I", data, 0x34, 0x24130000)  # case 1: addiu s3, zero, 0
+        struct.pack_into("<I", data, 0x38, 0x1000FFF5)  # b 0x10 (the guard)
+        struct.pack_into("<I", data, 0x3C, 0x2C820002)  # delay slot: sltiu v0, a0, 2
+        self.assertEqual(census.jump_table_targets(bytes(data), BASE, 4, 0x24), [0x2C, 0x34])
+        switch = census.walk_function(bytes(data), BASE, 4, resolve_flow=True)
+        self.assertFalse(switch["closed"])
+        self.assertIn("unproven_switch@0x24", switch["problems"])
+
+    def test_switch_rejects_a_selector_changed_after_its_bound(self):
+        data = bytearray(image())
+        struct.pack_into("<I", data, 0x34, 0x2C820002)  # case 1: sltiu v0, a0, 2
+        struct.pack_into("<I", data, 0x38, 0x1000FFF5)  # b 0x10 (the guard)
+        struct.pack_into("<I", data, 0x3C, 0x24840005)  # delay slot: addiu a0, a0, 5
+        self.assertEqual(census.jump_table_targets(bytes(data), BASE, 4, 0x24), [0x2C, 0x34])
+        switch = census.walk_function(bytes(data), BASE, 4, resolve_flow=True)
+        self.assertFalse(switch["closed"])
+        self.assertIn("unproven_switch@0x24", switch["problems"])
+
+    def test_switch_rejects_a_jump_register_read_in_the_load_delay_slot(self):
+        data = bytearray(image())
+        struct.pack_into("<I", data, 0x18, 0x00000000)
+        struct.pack_into("<I", data, 0x1C, 0x00531021)  # addu v0, v0, s3
+        struct.pack_into("<I", data, 0x20, 0x8C420000)  # lw v0, 0(v0)
+        self.assertEqual(census.jump_table_targets(bytes(data), BASE, 4, 0x24), [0x2C, 0x34])
+        switch = census.walk_function(bytes(data), BASE, 4, resolve_flow=True)
+        self.assertIn("unproven_switch@0x24", switch["problems"])
 
     def test_reachability_only_follows_edges_from_rooted_bodies(self):
         data = bytearray(image())
