@@ -17,7 +17,8 @@ GUARD = "#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE))"
 
 def update_text():
     """The unit's shared head plus the update's own section, unguarded."""
-    head, _initialiser, update = SOURCE.read_text().split(GUARD, 2)
+    sections = SOURCE.read_text().split(GUARD)
+    head, update = sections[0], sections[2]  # sections[1] is the initialiser
     body = update.split("\n", 3)[3]  # drop the rest of the 3-line guard
     return head + body[:body.rindex("#endif")]
 SCRATCH = ROOT / "tmp/main-menu-frontend-witness"
