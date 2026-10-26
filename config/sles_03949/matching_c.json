@@ -2116,7 +2116,7 @@
       "address": "0x8003031C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD0",
-      "source": "src/game/debug_menu_update_cursor_layout.c"
+      "source": "src/game/german/debug_menu_editor_entries.c"
     },
     {
       "address": "0x800303EC",

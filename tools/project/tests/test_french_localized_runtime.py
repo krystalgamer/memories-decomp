@@ -7,7 +7,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[3]
 GROUPS = (
     ("main_init", 0x80012A44, 1, 404),
-    ("debug_menu_editor_entries", 0x800303EC, 6, 2828),
+    ("debug_menu_editor_entries", 0x8003031C, 7, 3036),
     ("main_run_boot_sequence", 0x80043D7C, 3, 776),
     ("dialog_choice_cursor", 0x80036EF0, 2, 420),
 )
