@@ -104,7 +104,7 @@ static void run(s32 family,u32 request,s32 resolved,s32 note,
 {
     s32 bank,index,i,j,pan_bits;
     cases++; seen=0; expected_call=NONE;
-    for (i=0;i<2;i++) for (j=0;j<32;j++) memory.state.field_044C[i][j]=65535;
+    for (i=0;i<2;i++) for (j=0;j<32;j++) memory.state.indirect_sound_ids[i][j]=65535;
     memory.state.note_index_by_id=memory.indices;
     memory.state.note_table=memory.notes;
     g_SDValue=&memory.state;
@@ -115,7 +115,7 @@ static void run(s32 family,u32 request,s32 resolved,s32 note,
     } else {
         if (family==MAPPED) {
             bank=(request/256)%2; index=request%32;
-            memory.state.field_044C[bank][index]=resolved;
+            memory.state.indirect_sound_ids[bank][index]=resolved;
         }
         if (resolved==65535) {
             memory.state.note_index_by_id=0; memory.state.note_table=0;

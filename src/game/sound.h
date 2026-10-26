@@ -201,7 +201,8 @@ typedef struct {
     u16 value_link_request_index;
     SDNote *G32 note_table;
     SDValueLink *G32 value_links;
-    u16 field_044C[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
+    /* Indirect-code banks hold sound IDs, not note-table indices. */
+    u16 indirect_sound_ids[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
     s32 field_04CC;
     u8 pad04D0[0x510 - (SD_VOICE_LOOKUP_END_BYTE_OFFSET + 4)];
     s16 cd_volume;
@@ -505,7 +506,7 @@ typedef char SDCommandShiftView_must_fit_inside_SDValue[
     sizeof(SDCommandShiftView) <= sizeof(SDValue) ? 1 : -1
 ];
 typedef char SDValue_lookup_bank_size_must_match_stride[
-    sizeof(((SDValue *)0)->field_044C[0]) ==
+    sizeof(((SDValue *)0)->indirect_sound_ids[0]) ==
         SD_VOICE_LOOKUP_BANK_BYTE_STRIDE ? 1 : -1
 ];
 typedef char SDVoiceLookup_tag_must_fit_code_mask[
@@ -518,12 +519,12 @@ typedef char SDVoiceLookup_selector_fields_must_not_overlap[
     (SD_VOICE_LOOKUP_INDEX_MASK & SD_VOICE_LOOKUP_BANK_FLAG) == 0 ? 1 : -1
 ];
 typedef char SDValue_lookup_offset_must_be_0x44C[
-    SD_STATE_OFFSET(SDValue, field_044C) ==
+    SD_STATE_OFFSET(SDValue, indirect_sound_ids) ==
         SD_VOICE_LOOKUP_BYTE_OFFSET ? 1 : -1
 ];
 typedef char SDValue_lookup_end_must_match_extent[
-    SD_STATE_OFFSET(SDValue, field_044C) +
-        sizeof(((SDValue *)0)->field_044C) ==
+    SD_STATE_OFFSET(SDValue, indirect_sound_ids) +
+        sizeof(((SDValue *)0)->indirect_sound_ids) ==
         SD_VOICE_LOOKUP_END_BYTE_OFFSET ? 1 : -1
 ];
 typedef char SDValue_commands_offset_must_be_0x80[

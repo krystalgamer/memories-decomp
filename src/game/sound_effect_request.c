@@ -47,24 +47,24 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         SD_EnqueueCdSePlay(stop_value & 0xFFFF, 0);
         return;
     }
-    if ((tags.words.original & 0xF000) == 0x4000) {
+    if ((tags.words.original & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
         SDValue *a = g_SDValue;
         u8 *table;
         u16 v;
         s32 n;
 
-        lo = (tags.words.original & 0x1F) << 1;
-        t2 = tags.words.original & 0x100;
+        lo = (tags.words.original & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
+        t2 = tags.words.original & SD_VOICE_LOOKUP_BANK_FLAG;
         hi = t2;
         hi = (hi != 0) << 6;
 
-        table = (u8 *)&a->field_044C;
+        table = (u8 *)&a->indirect_sound_ids;
         v = *(u16 *)(table + (lo + hi));
-        if (v == 0xFFFF) {
+        if (v == SD_PENDING_ENTRY_NONE) {
             return;
         }
         n = a->note_index_by_id[v];
-        if (n == 0xFFFF) {
+        if (n == SD_PENDING_ENTRY_NONE) {
             return;
         }
         /* Array indexing changes the direct-ID path's address registers. */
@@ -77,7 +77,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         SDValue *b = g_SDValue;
 
         n = b->note_index_by_id[tags.words.copy & 0xFFFF];
-        if (n == 0xFFFF) {
+        if (n == SD_PENDING_ENTRY_NONE) {
             return;
         }
         e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)b->note_table);
@@ -120,7 +120,7 @@ void SD_SESetPan(s32 arg0, s32 arg1)
         off += flag << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         base = (u8 *)g_SDValue;
         /* Keep the state base first in the sum to preserve retail's addu order. */
-        pt = *(u16 *)(base + off + (u32)&((SDValue *)0)->field_044C);
+        pt = *(u16 *)(base + off + (u32)&((SDValue *)0)->indirect_sound_ids);
         arg0 = SD_PENDING_ENTRY_NONE;
         if (pt == arg0) {
             return;
@@ -189,7 +189,7 @@ void SD_SESetVolume(s32 arg0, s32 arg1)
         hi = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
         hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         /* Keep the table base separate from the byte offset for allocation. */
-        table = (u8 *)&a->field_044C;
+        table = (u8 *)&a->indirect_sound_ids;
         v = *(u16 *)(table + (lo + hi));
         ff = SD_PENDING_ENTRY_NONE;
         if (v == ff) {
@@ -217,7 +217,7 @@ void SD_SESetVolume(s32 arg0, s32 arg1)
 
 /* Sets the level and pan of every live voice playing one sound id. Bit
  * 0x8000 in `id` sets the CD volume instead; an id carrying the lookup tag is
- * first translated through the bank table at field_044C and note_index_by_id.
+ * first translated through the bank table at indirect_sound_ids and note_index_by_id.
  * `word` is a signed pan offset: left and right get 0x80 minus and plus it,
  * each only when it stays inside the byte range.
  *
@@ -266,7 +266,7 @@ void SD_SESetVolumePan(id, value, word)
         hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         /* As in SD_SESetVolume, the table base stays separate from the
            byte offset so the add keeps retail's operand order. */
-        table = (u8 *)&a->field_044C;
+        table = (u8 *)&a->indirect_sound_ids;
         v = *(u16 *)(table + (lo + hi));
         ff = SD_PENDING_ENTRY_NONE;
         if (v == ff) {

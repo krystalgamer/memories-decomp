@@ -40,7 +40,7 @@ word, size conversion, range narrowing, mask or completion behavior changes.
 | `0x0438` | `field_0438` | Cursor initialized from the first link entry and advanced by each selected entry's second word. |
 | `0x0442` | `field_0442` | Selected link-table index; reset to `0xFFFF` and used to suppress duplicate requests. |
 | `0x0448` | `field_0448` | Pointer to the 8-byte `SDValueLink` table used by pending sound-data requests. |
-| `0x044C` | `field_044C[2][32]` | Two halfword lookup banks, reset by `SD_InitVoiceState`, populated by `SD_LoadSequenceBankPair`, and selected by the indirect voice-code decoders. |
+| `0x044C` | `indirect_sound_ids[2][32]` | Two halfword lookup banks, reset by `SD_InitVoiceState`, populated by `SD_LoadSequenceBankPair`, and selected by the indirect voice-code decoders. |
 | `0x0510` | `cd_volume` | Sound output changes recalculate and store this signed 16-bit value. |
 | `0x0514` | `channel_volume[2]` | Two byte channel-volume scalars. |
 | `0x0533` | `mix_multiplier` | Multiplies the shared CD mix scale. |
@@ -362,6 +362,58 @@ reinterpret masks used by other sound-command families.
 `+0x4CC`. Assertions tie both boundaries to the shared member, while raw
 accesses and local padding views reuse the integer byte offsets without
 changing address arithmetic, array extents, or the following fields.
+
+### Indirect sound-ID banks and decoder stages
+
+The shared member at +0x44C is indirect_sound_ids (formerly field_044C).
+Each u16 entry is a sound ID from SDSeqBlock.keys, not a note-table index
+or a hardware voice number. The two 32-entry banks keep their exact
+representation, offsets, extent and sentinel. SD_SEPlay now uses the
+already-established code/index/bank constants and missing-entry marker;
+no new masks, numeric values or decoding helper are introduced.
+
+The play decoder's bank shift retains the original literal `<< 6` because
+the existing bank-negative control selects that exact production statement.
+Its mutation target, replacement, occurrence check and numeric expectations
+remain unchanged; replacing the literal with an equal constant hides the
+control's target even though the executable still matches.
+
+SD_InitVoiceState resets both banks to SD_PENDING_ENTRY_NONE using its
+original byte-offset/pre-folded-shift expression, not typed indexing.
+SD_LoadSequenceBankPair still rejects sides outside the existing pair,
+copies the selected input block and resets pending note registrations.
+It registers the OTHER block before the selected block, retaining each
+note's own SPU relocation base. Only the selected-block pass publishes
+keys into indirect_sound_ids[side][j], including sentinel keys.
+The count-driven loops are unchanged: no count <= 32 guarantee, tail clear,
+new bounds or claim that every lookup entry is refreshed. The separate
+pending-input capacity remains 204, not the lookup bank's size.
+
+The earlier high-bit/CD route still precedes the indirect-code test.
+The code tag selects the bank/index lookup; a missing bank result returns
+before any dependent note-index or note-table access. Consumers retain
+their DIFFERENT second stages:
+
+- SD_SEPlay maps the resolved sound ID through note_index_by_id and rejects
+  its sentinel, then reads the note; allocation receives the RESOLVED
+  SOUND ID, not the note index. Its direct-ID branch remains separate.
+- SD_SEStop compares the resolved sound ID directly with voice_ids,
+  without the second mapping.
+- SD_SESetPan, SD_SESetVolume and SD_SESetVolumePan retain their existing
+  second mapping through note_index_by_id before matching voice_ids.
+  Naming does not repair, unify or reinterpret that behavior.
+
+All pointer reloads, duplicate consumed-ID snapshots, casts, branch order,
+old-style promoted parameters, signed-pan handling and original table/base
+address spellings remain. In particular the pan decoder retains its
+state-base-first integer sum; the other byte-table forms are not factored
+into a common helper. No stored pointer, note/voice identity, call argument,
+initialization or SDK interface changes.
+
+The existing request fixture changes ONLY its two qualified member
+identifiers. Every oracle, assertion, scenario, mutation, numeric value
+and control byte remains unchanged. No new behavioral harness or local
+cloud-fixture execution is used.
 
 `SD_ArmBusyCallback` now expresses the registration path in pure C: it sets
 `busy` and installs `SD_ClearBusyFlag` in the main callback slot. This replaces

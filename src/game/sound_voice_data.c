@@ -70,7 +70,7 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
                 g_SDValue->next_note_index = g_SDValue->next_note_index + 1;
             }
             if (i != 0) {
-                g_SDValue->field_044C[side][j] = key;
+                g_SDValue->indirect_sound_ids[side][j] = key;
             }
         }
     }

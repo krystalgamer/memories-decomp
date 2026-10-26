@@ -229,7 +229,7 @@ void SD_SEStop(s32 id)
         return;
     }
     if ((value & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
-        u8 *table = (u8 *)g_SDValue->field_044C[0];
+        u8 *table = (u8 *)g_SDValue->indirect_sound_ids[0];
         s32 offset = (value & SD_VOICE_LOOKUP_INDEX_MASK) * 2;
         s32 bank = 0;
 
