@@ -253,32 +253,32 @@ void DisplayObject_InitializeTexturedGouraudQuad(
 
 void DisplayObject_ConfigureSpriteWithResource(
     DisplayObject *object,
-    s32 arg1,
-    s32 arg2,
-    s32 arg3,
-    s32 arg4,
-    s32 arg5,
+    s32 resource_root_index,
+    s32 resource_branch_index,
+    s32 resource_variant,
+    s32 texture_config,
+    s32 palette_config,
     void *resource
 )
 {
     object->field_54 = resource;
-    DisplayObject_ConfigureSpriteResource(object, arg1, arg2, arg3, arg4, arg5);
+    DisplayObject_ConfigureSpriteResource(object, resource_root_index, resource_branch_index, resource_variant, texture_config, palette_config);
 }
 
 void DisplayObject_ConfigureSpriteAtPositionWithResource(
     DisplayObject *object,
-    s32 arg1,
-    s32 arg2,
-    s32 arg3,
-    s32 arg4,
-    s32 arg5,
-    s32 arg6,
-    s32 arg7,
+    s32 x,
+    s32 y,
+    s32 resource_root_index,
+    s32 resource_branch_index,
+    s32 resource_variant,
+    s32 texture_config,
+    s32 palette_config,
     void *resource
 )
 {
     object->field_54 = resource;
-    DisplayObject_ConfigureSpriteAtPosition(object, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+    DisplayObject_ConfigureSpriteAtPosition(object, x, y, resource_root_index, resource_branch_index, resource_variant, texture_config, palette_config);
 }
 
 s32 DisplayObject_SetDepthOffset(DisplayObject *obj, s8 value)
