@@ -24,8 +24,8 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     size = flags & 3;
     e->index_57 = index;
     e->color_index_54 = 0;
-    e->field_38 = 0;
-    e->field_3A = 0;
+    e->pen_x = 0;
+    e->pen_y = 0;
     e->glyph_advance_x = narrow;
     e->line_advance_y = wide;
     switch (size) {
@@ -82,8 +82,8 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     e->field_36 = value;
     e->color_index_54 = 0;
     e->flags_34 = flags;
-    e->field_38 = 0;
-    e->field_3A = 0;
+    e->pen_x = 0;
+    e->pen_y = 0;
     e->field_59 = 0;
 #ifdef VERSION_JAPAN
     e->field_5F = 0;

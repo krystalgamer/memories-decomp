@@ -100,7 +100,7 @@ plain:
     object->flags_34 |= 0x80;
     DuelEffect_AppendEntry(object, id);
     object->flags_34 &= 0xFF7F;
-    object->field_38 += 0x10;
+    object->pen_x += 0x10;
 }
 #elif defined(VERSION_EUROPE)
 /* The European card-text command: the Japanese shape (no field_62 reset,
@@ -181,7 +181,7 @@ plain:
     object->flags_34 |= 0x100;
     DuelEffect_AppendEntry(object, id);
     object->flags_34 &= 0xFEFF;
-    object->field_38 += 0x10;
+    object->pen_x += 0x10;
 }
 #else
 void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
@@ -274,7 +274,7 @@ plain:
         DuelEffect_AppendEntry(object, id);
     }
     object->flags_34 &= 0xFF7F;
-    object->field_38 += 0x10;
+    object->pen_x += 0x10;
 }
 #endif
 
@@ -290,7 +290,7 @@ void Text_EmitSymbolGlyph(DuelEffectChannel *object, s32 value)
     object->flags_34 |= DUEL_EFFECT_SELECTOR_FLAG;
     DuelEffect_AppendEntry(object, value);
     object->flags_34 &= 0xFFFF ^ DUEL_EFFECT_SELECTOR_FLAG;
-    object->field_38 += 0x10;
+    object->pen_x += 0x10;
 }
 
 void Text_EmitGuardianStarGlyph(DuelEffectChannel *object)
@@ -312,14 +312,14 @@ void Text_ResetPenXAndAdvanceY(DuelEffectChannel *object)
     register u8 *current;
     register u32 value;
 
-    object->field_38 = 0;
+    object->pen_x = 0;
     stream =
         &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
     current = *stream;
     value = current[0];
     current++;
     *stream = current;
-    object->field_3A += (s8)value;
+    object->pen_y += (s8)value;
 }
 
 void Text_AdvancePenX(DuelEffectChannel *object)
@@ -332,7 +332,7 @@ void Text_AdvancePenX(DuelEffectChannel *object)
 
     current++;
     *slot = current;
-    object->field_38 += value;
+    object->pen_x += value;
 }
 
 void Text_PushFormattedDecimal(DuelEffectChannel *object)
@@ -504,7 +504,7 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object)
 
 void Text_SetPenX(DuelEffectChannel *object)
 {
-    object->field_38 = TextStream_ReadU16LE(object);
+    object->pen_x = TextStream_ReadU16LE(object);
 }
 
 #ifdef VERSION_EUROPE
@@ -512,7 +512,7 @@ void Text_SetPenX(DuelEffectChannel *object)
    read into field_3A. */
 void Text_SetPenY(DuelEffectChannel *object)
 {
-    object->field_3A = TextStream_ReadU16LE(object);
+    object->pen_y = TextStream_ReadU16LE(object);
 }
 #endif
 

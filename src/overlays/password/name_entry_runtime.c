@@ -591,7 +591,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         p = &((NAME_ENTRY_SPAWN_CHANNEL_TYPE *)D_800EB0F8)[slot];
         gNameEntry_bGlyphVramSlot = (gNameEntry_bGlyphVramSlot + 1) & 0xF;
         DisplayObject_ConfigureScreenSprite(
-            obj, p->field_3C + w->x_0C, p->field_40 + w->y_0E,
+            obj, p->rect_x + w->x_0C, p->rect_y + w->y_0E,
             16, 16, (gNameEntry_bGlyphSequence & 0xF) << 4, gNameEntry_bGlyphSequence & 0xF0, 25, 0x210, 0xFF
         );
         obj->sequence = gNameEntry_bGlyphSequence;
@@ -623,8 +623,8 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         cell = node->pad_0D[1];
         DisplayObject_ConfigureScreenSprite(
             obj,
-            p->field_3C + (s16)node->field_0C,
-            p->field_40 + (s16)node->field_0E,
+            p->rect_x + (s16)node->field_0C,
+            p->rect_y + (s16)node->field_0E,
             12, 16, (cell % 21) * 12, (cell / 21) * 16 + 80,
             10, 640, 192
         );
@@ -720,7 +720,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
 draw:
         DisplayObject_ConfigureScreenSprite(
             obj,
-            p->field_3C + w->x_0C + shift, p->field_40 + w->y_0E,
+            p->rect_x + w->x_0C + shift, p->rect_y + w->y_0E,
             16, 16, u, v, 10, 640, p->color_index_54 + 232
         );
         obj->sequence = gNameEntry_bGlyphSequence;

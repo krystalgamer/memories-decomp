@@ -12,7 +12,7 @@
 
 /* Lays out the choice widget's six x/y pairs on the display object the
    channel holds at 0x30. The pairs sit at stride 8 from 0x28; three of them
-   take the channel's field_3C as x and three take field_3C + field_3E, and
+   take the channel's rect_x as x and three take rect_x + rect_width, and
    the y values come from the entry's field_18 modulo ten, which selects the
    dialog's row spacing. The record is the canonical DisplayObject:
    Dialog_UpdateChoice stores one there, through the same 0x30. */
@@ -39,12 +39,12 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     s32 y;
 
     q = (DisplayObject *)p->field_30;
-    n = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_3C);
+    n = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_x);
     q->field_48.h.field_48 = n;
     q->field_38.h.field_38 = n;
     q->position.h.field_28 = n;
-    m = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_3C) +
-        DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_3E);
+    m = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_x) +
+        DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_width);
     q->field_50.h.field_50 = m;
     q->field_40.h.field_40 = m;
     q->field_30.h.field_30 = m;
@@ -54,7 +54,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
        field_18 % 10 selection, and one y step from the choice row (8 in the
        Japanese build, 10 in the European one, whose wrapper defines its own)
        rather than the US spacings below. */
-    v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) + (gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK) +
+    v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_y) + (gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK) +
         ((s32)(*(u8 *)&gDialog_bChoice << 24) >> 20);
     q->position.h.field_2A = v;
 
@@ -76,7 +76,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     if (k == 1) {
         t = gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
         a = t / 16 * 0x10;
-        v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) +
+        v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_y) +
             a + gDialog_bChoice * 0x10;
         q->position.h.field_2A = v;
 
@@ -96,14 +96,14 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     if (k == 2) {
         t2 = gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
         b = t2 / 16 * 0xC;
-        v2 = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) +
+        v2 = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_y) +
              b + gDialog_bChoice * 0xC;
         x = v2 - 2;
         y = v2 + 6;
     } else if (k == 0) {
         t0 = gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
         c = t0 / 16 * 0xC;
-        v0 = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) +
+        v0 = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_y) +
              c + gDialog_bChoice * 0xC;
         x = v0 + 2;
         y = v0 + 0xA;

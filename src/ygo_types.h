@@ -560,12 +560,12 @@ typedef struct DuelEffectChannel {
     struct DisplayObject *G32 field_30;
     u16 flags_34;
     u16 field_36;
-    u16 field_38;
-    u16 field_3A;
-    s16 field_3C;
-    s16 field_3E;
-    s16 field_40;
-    s16 field_42;
+    u16 pen_x;
+    u16 pen_y;
+    s16 rect_x;
+    s16 rect_width;
+    s16 rect_y;
+    s16 rect_height;
     /* The glyph buffer Text_PushFormattedDecimal formats a decimal number into; it then
        pushes the buffer as the channel's next stream. */
     u8 text_44[0x0D];
@@ -618,18 +618,18 @@ typedef char DuelEffectChannel_field_30_offset_must_be_0x30[
 typedef char DuelEffectChannel_flags_34_offset_must_be_0x34[
     YGO_TYPE_OFFSET(DuelEffectChannel, flags_34) == 0x34 ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_38_offset_must_be_0x38[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_38) == 0x38 ? 1 : -1
+typedef char DuelEffectChannel_pen_x_offset_must_be_0x38[
+    YGO_TYPE_OFFSET(DuelEffectChannel, pen_x) == 0x38 ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_3A_offset_must_be_0x3A[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_3A) == 0x3A ? 1 : -1
+typedef char DuelEffectChannel_pen_y_offset_must_be_0x3A[
+    YGO_TYPE_OFFSET(DuelEffectChannel, pen_y) == 0x3A ? 1 : -1
 ];
 typedef char DuelEffectChannel_pen_fields_must_be_halfwords[
-    sizeof(((DuelEffectChannel *)0)->field_38) == 2 &&
-    sizeof(((DuelEffectChannel *)0)->field_3A) == 2 ? 1 : -1
+    sizeof(((DuelEffectChannel *)0)->pen_x) == 2 &&
+    sizeof(((DuelEffectChannel *)0)->pen_y) == 2 ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_3C_offset_must_be_0x3C[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_3C) == 0x3C ? 1 : -1
+typedef char DuelEffectChannel_rect_x_offset_must_be_0x3C[
+    YGO_TYPE_OFFSET(DuelEffectChannel, rect_x) == 0x3C ? 1 : -1
 ];
 typedef char DuelEffectChannel_state_51_offset_must_be_0x51[
     YGO_TYPE_OFFSET(DuelEffectChannel, state_51) == 0x51 ? 1 : -1

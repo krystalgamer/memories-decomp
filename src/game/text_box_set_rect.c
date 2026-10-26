@@ -11,8 +11,8 @@ void TextBox_SetRect(int index, int x, int y, int width, int height)
 {
     TEXT_BOX_RECT_CHANNEL_TYPE *entry =
         &((TEXT_BOX_RECT_CHANNEL_TYPE *)gText_aChannels)[index];
-    entry->field_3C = x;
-    entry->field_40 = y;
-    entry->field_3E = width;
-    entry->field_42 = height;
+    entry->rect_x = x;
+    entry->rect_y = y;
+    entry->rect_width = width;
+    entry->rect_height = height;
 }
