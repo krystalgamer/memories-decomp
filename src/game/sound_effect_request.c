@@ -10,6 +10,8 @@
 #include "sound_voice_selection.h"
 #include "sound_voice_pan.h"
 #include "sd_set_cd_volume.h"
+#include "sound_pending_entries.h"
+#include "sound_voice_data.h"
 
 void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
 {
@@ -211,4 +213,127 @@ void SD_SESetVolume(s32 arg0, s32 arg1)
             SD_ApplyVoiceSlotVolume(i);
         }
     } while (++i < SD_VOICE_SLOT_COUNT);
+}
+
+/* Sets the level and pan of every live voice playing one sound id. Bit
+ * 0x8000 in `id` sets the CD volume instead; an id carrying the lookup tag is
+ * first translated through the bank table at field_044C and note_index_by_id.
+ * `word` is a signed pan offset: left and right get 0x80 minus and plus it,
+ * each only when it stays inside the byte range.
+ *
+ * Three spellings are load bearing, each measured against the retail words:
+ *
+ * - The definition is old style with u16/u8/u16 parameters. The callers and
+ *   sound_voice_data.h still see three words, which old-style promotion keeps
+ *   compatible, but inside the function GCC keeps each incoming register and
+ *   a narrowed copy apart. That is retail's shape: the early tests read
+ *   $a0/$a2 and the voice loop reads the copies in $s2/$s3/$s7.
+ * - The voice loop is a goto loop: retail recomputes i * 2 every pass, which
+ *   loop.c would have strength-reduced in a structured loop. The one-iteration
+ *   do/while around the voice_value store is the only loop weighting left.
+ *   It doubles that reference in flow's count, and without it `value` sinks
+ *   below right/left/leftOk in global-alloc priority and the $s3..$s7 roles
+ *   rotate.
+ * - Each level product goes through one local that first holds the note
+ *   volume. That gives the pseudo register uses on both sides of the mult,
+ *   so it is allocated $v0 (lbu/mult/mflo $v0) instead of LO plus a reload. */
+void SD_SESetVolumePan(id, value, word)
+    u16 id;
+    u8 value;
+    u16 word;
+{
+    s32 i;
+    s32 pan;
+    s32 right;
+    s32 left;
+    s32 leftOk;
+    s32 lo;
+    s32 hi;
+    s32 ff;
+
+    if (id & 0x8000) {
+        g_SDValue->cd_volume = value;
+        SD_SetCdPan((s16)word);
+        return;
+    }
+    if ((id & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
+        SDValue *a = g_SDValue;
+        u8 *table;
+        u16 v;
+
+        lo = (id & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
+        hi = id & SD_VOICE_LOOKUP_BANK_FLAG;
+        hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
+        /* As in SD_SESetVolume, the table base stays separate from the
+           byte offset so the add keeps retail's operand order. */
+        table = (u8 *)&a->field_044C;
+        v = *(u16 *)(table + (lo + hi));
+        ff = SD_PENDING_ENTRY_NONE;
+        if (v == ff) {
+            return;
+        }
+        id = a->note_index_by_id[v];
+        if (id == ff) {
+            return;
+        }
+    }
+    i = 0;
+    leftOk = (u16)(word - 1) < 0x80;
+    pan = (s16)word;
+    left = 0x80 - pan;
+    right = pan + 0x80;
+loop:
+    {
+        s16 local;
+        SDValue *b;
+        u16 vid;
+
+        SpuGetVoiceEnvelope(i + SD_VOICE_SLOT_FIRST_VOICE, &local);
+        b = g_SDValue;
+        vid = b->voice_ids[i];
+        if (vid == (id & 0xFFFF) && local != 0) {
+            do {
+                b->voice_value[i] = value;
+            } while (0);
+            if (pan != 0) {
+                if (leftOk) {
+                    SDValue *c = g_SDValue;
+                    s32 v;
+
+                    v = c->note_table[vid].volume;
+                    v *= left;
+                    c->voice_volume_left[i] = v;
+                }
+                if ((u16)(word + 0x80) < 0x80) {
+                    SDValue *d = g_SDValue;
+                    s32 v;
+
+                    v = d->note_table[vid].volume;
+                    v *= right;
+                    d->voice_volume_right[i] = v;
+                }
+            }
+            SD_ApplyVoiceSlotVolume(i);
+        }
+    }
+    if (++i < SD_VOICE_SLOT_COUNT) {
+        goto loop;
+    }
+}
+
+void SD_FadeOutSoundEffectVoices(u16 id, u8 step)
+{
+    s32 i;
+    s32 mask;
+
+    if (step == 0)
+        return;
+    mask = 1;
+    for (i = 0; i < SD_VOICE_SLOT_COUNT; i++, mask <<= 1) {
+        SDValue *state = g_SDValue;
+        if (state->voice_ids[i] == id &&
+            (state->voice_active_mask & mask)) {
+            state->voice_step[i] = step;
+        }
+    }
 }

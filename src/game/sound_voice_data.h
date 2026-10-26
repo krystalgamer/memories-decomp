@@ -5,8 +5,9 @@
 
 /* The voice data unit's entry points.
  *
- * SD_SESetVolumePan takes three plain words at the call site. Its definition in
- * sound_voice_data.c is old style with u16/u8/u16 parameters, which default
+ * SD_SESetVolumePan takes three plain words at the call site. Its definition,
+ * with SD_FadeOutSoundEffectVoices among the sound-effect controls in
+ * sound_effect_request.c, is old style with u16/u8/u16 parameters, which default
  * promotion keeps compatible with this prototype: the narrowing happens in
  * the callee, where GCC keeps each incoming register and its narrowed copy
  * apart exactly as retail does.

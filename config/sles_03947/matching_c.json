@@ -4685,13 +4685,13 @@
       "address": "0x80048CB4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1E4",
-      "source": "src/game/sound_voice_data.c"
+      "source": "src/game/sound_effect_request.c"
     },
     {
       "address": "0x80048E98",
       "profile": "gcc_2_8_1_g0",
       "size": "0x64",
-      "source": "src/game/sound_voice_data.c"
+      "source": "src/game/sound_effect_request.c"
     },
     {
       "address": "0x80048EFC",
