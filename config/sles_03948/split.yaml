@@ -1089,9 +1089,6 @@ segments:
   - - 316164
     - c
     - game/model_texture_upload_wrappers
-  - - 316336
-    - c
-    - game/model_set_slot_shadow_enabled
   - - 316392
     - c
     - game/model_state_setters

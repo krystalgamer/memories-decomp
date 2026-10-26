@@ -2773,7 +2773,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x8005969C,Model_SetSlotPlaybackSpeed,matching_c,game,C,src/game/model_slot_state_updates.c,address,,ModelSlot *slot = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059700,Model_SetSlotPlaybackDirection,matching_c,game,C,src/game/model_slot_state_updates.c,address,,ModelSlot *base = gModel_aSlots; | ModelSlot *current = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x800597C8,Model_SeekSlotAnimation,matching_c,game,C,src/game/model_slot_state_updates.c,address,,ModelSlot *rec = &gModel_aSlots[idx];
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059AA8,Model_SetSlotShadowEnabled,matching_c,game,C,src/game/model_set_slot_shadow_enabled.c,address,,register ModelSlot *base = gModel_aSlots;
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059AA8,Model_SetSlotShadowEnabled,matching_c,game,C,src/game/model_texture_upload_wrappers.c,address,,register ModelSlot *base = gModel_aSlots;
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059DD8,Model_RunSlotHandlers,matching_c,game,C,src/game/model_scene_states.c,address,,ModelSlot *base = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x8005A468,Model_SetSlotPartSpeeds,matching_c,game,C,src/game/model_slot_updates.c,address,,ModelSlot *rec = &gModel_aSlots[arg0];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,address,,"record = MODEL_SLOT_AT_OFFSET(gModel_aSlots, index * MODEL_SLOT_SIZE);"

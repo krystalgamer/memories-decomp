@@ -408,7 +408,6 @@ segments:
       - [0x4cccc, c, game/model_slot_state_updates]
       - [0x4cebc, c, game/file_query_wrappers]
       - [0x4d02c, c, game/model_texture_upload_wrappers]
-      - [0x4d0d8, c, game/model_set_slot_shadow_enabled]
       - [0x4d110, c, game/japanese/model_state_setters]
       - [0x4d128, c, game/model_queue_tint_request_for_all_parts]
       - [0x4d1c0, c, game/model_get_slot0_offset_world_position]

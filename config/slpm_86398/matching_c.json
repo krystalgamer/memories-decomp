@@ -5981,7 +5981,7 @@
       "address": "0x8005C8D8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",
-      "source": "src/game/model_set_slot_shadow_enabled.c"
+      "source": "src/game/model_texture_upload_wrappers.c"
     },
     {
       "address": "0x8005C910",
