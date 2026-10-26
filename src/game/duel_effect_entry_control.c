@@ -62,7 +62,7 @@ int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
     }
     v1 = (u8 *)(address + DUEL_EFFECT_FIELD_13_OFFSET);
 loop:
-    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->flags_11 &
+    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->entry_flags &
          DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
         return 0;
     }
@@ -85,7 +85,7 @@ loop:
     }
     v1 = v1 + DUEL_EFFECT_FIELD_13_OFFSET;
 loop:
-    v0 = DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->flags_11 &
+    v0 = DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->entry_flags &
          DUEL_EFFECT_ENTRY_FLAG_ACTIVE;
     if (v0 == 0) {
         return v0;
@@ -142,13 +142,13 @@ void DuelEffect_SetEntryControlBytes(DuelEffectChannel *a0, u8 a1, u8 a2) {
 #endif
 loop:
 #ifdef VERSION_EUROPE
-    active = DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->flags_11 &
+    active = DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->entry_flags &
              DUEL_EFFECT_ENTRY_FLAG_ACTIVE;
     if (active == 0) {
         return;
     }
 #else
-    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->flags_11 &
+    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->entry_flags &
          DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
         return;
     }
@@ -176,7 +176,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
     }
 
     entry = &DUEL_EFFECT_ENTRIES[DUEL_EFFECT_RANGE_START(object)];
-    if (entry->flags_11 & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
+    if (entry->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         return;
     }
 

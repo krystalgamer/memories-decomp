@@ -297,7 +297,7 @@ typedef struct {
 /* Shared text/effect node. The word members preserve the alignment required
    by the resident compactor's whole-entry lw/sw copies. */
 typedef struct {
-    u16 code_00;
+    u16 glyph_code;
     u16 pad_02;
     /* Mode 2 (gouraud quad) shades corners 0-3 from these bytes. */
     union {
@@ -312,7 +312,7 @@ typedef struct {
     s16 x_0C;
     s16 y_0E;
     u8 glyph_index;
-    u8 flags_11;
+    u8 entry_flags;
     u8 owner_channel_tag;
     u8 handler_state;
     u8 field_14;
@@ -330,8 +330,8 @@ typedef char DuelEffectEntry_size_must_be_0x1C[
 typedef char DuelEffectEntry_must_be_four_byte_aligned[
     sizeof(struct { u8 lead; DuelEffectEntry entry; }) == 0x20 ? 1 : -1
 ];
-typedef char DuelEffectEntry_code_00_offset_must_be_0[
-    YGO_TYPE_OFFSET(DuelEffectEntry, code_00) == 0 ? 1 : -1
+typedef char DuelEffectEntry_glyph_code_offset_must_be_0[
+    YGO_TYPE_OFFSET(DuelEffectEntry, glyph_code) == 0 ? 1 : -1
 ];
 typedef char DuelEffectEntry_field_04_offset_must_be_0x04[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_04) == 0x04 ? 1 : -1
@@ -348,8 +348,8 @@ typedef char DuelEffectEntry_y_0E_offset_must_be_0x0E[
 typedef char DuelEffectEntry_glyph_index_offset_must_be_0x10[
     YGO_TYPE_OFFSET(DuelEffectEntry, glyph_index) == 0x10 ? 1 : -1
 ];
-typedef char DuelEffectEntry_flags_11_offset_must_be_0x11[
-    YGO_TYPE_OFFSET(DuelEffectEntry, flags_11) == 0x11 ? 1 : -1
+typedef char DuelEffectEntry_entry_flags_offset_must_be_0x11[
+    YGO_TYPE_OFFSET(DuelEffectEntry, entry_flags) == 0x11 ? 1 : -1
 ];
 typedef char DuelEffectEntry_owner_channel_tag_offset_must_be_0x12[
     YGO_TYPE_OFFSET(DuelEffectEntry, owner_channel_tag) == 0x12 ? 1 : -1
@@ -539,9 +539,9 @@ typedef struct DuelEffectChannel {
     /* The object's slot in the tent_DuelEffectOccupancy occupancy table and the byte
        beside it; DisplayObjectFade_ReleaseChannel clears
        tent_DuelEffectOccupancy[glyph_index] and zeroes
-       field_11 when it releases the slot. */
+       entry_flags when it releases the slot. */
     u8 glyph_index;
-    u8 field_11;
+    u8 entry_flags;
     u8 pad_12;
     u8 handler_state;
     u8 field_14;

@@ -168,7 +168,7 @@ static void reset(s32 row,s32 col)
     fill(&gPassword_ModuleState,sizeof(gPassword_ModuleState),0xA5);
     fill(&frame,sizeof(frame),0x5A); fill(sprites,sizeof(sprites),0xD5);
     fill(name,sizeof(name),0xBE); fill(nodes,sizeof(nodes),0);
-    nodes[0].code_00=0x1234; nodes[1].code_00=0xABCD;
+    nodes[0].glyph_code=0x1234; nodes[1].glyph_code=0xABCD;
     gPassword_ModuleState.flags=5; gPassword_ModuleState.keyboardFlags=0x123;
     gPassword_ModuleState.keyboardRow=row; gPassword_ModuleState.keyboardColumn=col;
     gPassword_ModuleState.savedKeyboardRow=(row+4)%9;

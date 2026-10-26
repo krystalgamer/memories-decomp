@@ -116,3 +116,20 @@ All entry strides, signed equality comparisons and PAL local_x/local_y
 casts remain. No new bounds, null guard, pointer ownership, source-node
 lifetime or clone behavior is introduced; the query does not move the
 channel's entry_begin pointer. No fixture or harness changes are needed.
+
+## Entry identity is separate from rendering and source lifetime
+
+The existing shared entry's u16 code_00 is now glyph_code, and its
+active/glyph-kind flags_11 is entry_flags. TextBox_GetGlyphAt retains
+the same regional channel/record strides, sentinel-only walk and coordinate
+matching; it gains no count limit or stronger validity guarantee.
+NameEntry_SpawnGlyphSprite keeps its NA glyph-code read BEFORE the null
+test, original code remaps, atlas arithmetic and unchecked allocation.
+Japan retains its distinct glyph-index/VRAM-copy path rather than acquiring
+a new glyph-code read. Keyboard selection still clears the destination
+halfword before copying a nonnull node's code, with unchanged regional
+branches, callback setup and source hide/restore behavior.
+
+One existing keyboard fixture changes only its two node-member identifiers.
+Every input, assertion, oracle, scenario, numeric control and mutation stays
+byte-for-byte unchanged; no fixture or generated behavioral model is added.

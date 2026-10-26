@@ -520,7 +520,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 
     while (1) {
     loop:
-        f = GLYPH_ENTRY(p)->flags_11;
+        f = GLYPH_ENTRY(p)->entry_flags;
         c = *code;
         nudge = 0;
         if (!(f & 0x80)) {
@@ -800,7 +800,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             gt4->r2 = gt4->g2 = gt4->b2 = GLYPH_ENTRY(p)->field_04.corner_shade[2];
             gt4->r3 = gt4->g3 = gt4->b3 = GLYPH_ENTRY(p)->field_04.corner_shade[3];
             gt4->x0 = gt4->x2 = spr->x;
-            if (GLYPH_ENTRY(p)->layout_selector == 1 || (GLYPH_ENTRY(p)->flags_11 & 0x20)) {
+            if (GLYPH_ENTRY(p)->layout_selector == 1 || (GLYPH_ENTRY(p)->entry_flags & 0x20)) {
                 gt4->x1 = gt4->x3 = spr->x + (GLYPH_ENTRY(p)->field_14 + 0x10);
                 gt4->y0 = spr->y + ((u8)GLYPH_ENTRY(p)->field_14 >> 2);
                 gt4->y1 = spr->y;
@@ -835,7 +835,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 gt4->v2 = 0xFF;
             }
             gt4->tpage = spr->tpage | 0x20;
-            if (GLYPH_ENTRY(p)->flags_11 & 0x20) {
+            if (GLYPH_ENTRY(p)->entry_flags & 0x20) {
                 gt4->clut = (spr->cy << 6) | (((u16)spr->cx >> 4) & 0x3F);
             } else {
                 gt4->clut = ((GLYPH_ENTRY(p)->palette_index + 0xE8) << 6) | 0x28;

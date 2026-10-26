@@ -284,7 +284,7 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 #endif
     for (;;) {
 #ifdef VERSION_EUROPE
-        if (!(node->flags_11 & 0x80)) {
+        if (!(node->entry_flags & 0x80)) {
             return (DuelEffectEntry *)0;
         }
         if ((s16)node->local_x == x &&
@@ -292,7 +292,7 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
             return (DuelEffectEntry *)node;
         }
 #else
-        if (!(((DuelEffectEntry *)node)->flags_11 & 0x80)) {
+        if (!(((DuelEffectEntry *)node)->entry_flags & 0x80)) {
             return (DuelEffectEntry *)0;
         }
         if (((DuelEffectEntry *)node)->x_0C == x &&
@@ -663,7 +663,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     u = 0;
     v = 0;
     /* Preserve the pre-null-test read; this is not a null-safe C contract. */
-    code = w->code_00;
+    code = w->glyph_code;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     if (w != 0) {
         p = &D_800EB0F8[slot];
@@ -1016,7 +1016,7 @@ select:
         slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
         *slot = 0;
         if (node != 0) {
-            *slot = node->code_00;
+            *slot = node->glyph_code;
         }
         object = NameEntry_SpawnGlyphSprite(1, node);
         object->field_60 = 8;
@@ -1114,7 +1114,7 @@ join:
         slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
         *slot = 0;
         if (node != 0) {
-            *slot = node->code_00;
+            *slot = node->glyph_code;
         }
         obj = NameEntry_SpawnGlyphSprite(1, node);
         ((DisplayObject *)obj)->field_60 = 8;

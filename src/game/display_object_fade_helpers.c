@@ -15,10 +15,10 @@
 /* The European channel is laid out as a EuropeanDuelEffectEntry: the latch
    byte sits at 0x11 and the occupied byte at 0xF. */
 #define FADE_LATCH(object) (((EuropeanDuelEffectEntry *)(object))->handler_state)
-#define FADE_OCCUPIED(object) (((EuropeanDuelEffectEntry *)(object))->flags_11)
+#define FADE_OCCUPIED(object) (((EuropeanDuelEffectEntry *)(object))->entry_flags)
 #else
 #define FADE_LATCH(object) ((object)->handler_state)
-#define FADE_OCCUPIED(object) ((object)->field_11)
+#define FADE_OCCUPIED(object) ((object)->entry_flags)
 #endif
 
 s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *object)
