@@ -74,7 +74,7 @@ void SD_InitVoiceState(void) {
         for (; j < SD_VOICE_LOOKUP_BANK_ENTRY_COUNT; j++) {
             /* The bank shift is already folded into k, and retail adds the
                record base to it in that order, so this keeps the byte form
-               rather than becoming q->field_044C[i][j]. */
+               rather than becoming q->indirect_sound_ids[i][j]. */
             *(u16 *)((u8 *)q + k + SD_VOICE_LOOKUP_BYTE_OFFSET) =
                 SD_PENDING_ENTRY_NONE;
             k += 2;
