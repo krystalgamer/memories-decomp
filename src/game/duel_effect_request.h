@@ -39,9 +39,9 @@ typedef struct DuelEffectRequest {
     s16 field_02;   /* 0x02 */
     s16 field_04;   /* 0x04 */
     u8 pad_06[2];   /* 0x06 */
-    s32 field_08;   /* 0x08 */
-    s32 field_0C;   /* 0x0C */
-    s16 field_10;   /* 0x10 */
+    s32 ordering_table_2;   /* 0x08 */
+    s32 ordering_table_1;   /* 0x0C */
+    s16 base_priority;   /* 0x10 */
     s16 field_12;   /* 0x12 */
     void *G32 buffer;   /* 0x14 */
     s16 id;         /* 0x18 */
@@ -56,8 +56,8 @@ typedef char DuelEffectRequest_size_must_be_0x20[
 typedef char DuelEffectRequest_field_04_offset_must_be_0x4[
     DUEL_EFFECT_REQUEST_OFFSET(field_04) == 0x4 ? 1 : -1
 ];
-typedef char DuelEffectRequest_field_08_offset_must_be_0x8[
-    DUEL_EFFECT_REQUEST_OFFSET(field_08) == 0x8 ? 1 : -1
+typedef char DuelEffectRequest_ordering_table_2_offset_must_be_0x8[
+    DUEL_EFFECT_REQUEST_OFFSET(ordering_table_2) == 0x8 ? 1 : -1
 ];
 typedef char DuelEffectRequest_buffer_offset_must_be_0x14[
     DUEL_EFFECT_REQUEST_OFFSET(buffer) == 0x14 ? 1 : -1

@@ -45,6 +45,52 @@ Case twenty retains both explicit calls and its nonnegative-to-one command
 mapping. No dispatch table, new fallback, cached context or renderer
 reordering is introduced.
 
+## Request ordering-table and base-priority bindings
+
+The rendering handoff names three more proven members of the same request:
+ordering_table_2 is the original s32 field_08 at +0x08,
+ordering_table_1 is the original s32 field_0C at +0x0C, and
+base_priority is the original s16 field_10 at +0x10. The numeric suffixes
+identify the actual gGraphics_apOrderingTables elements, not guessed
+foreground/background ownership or an exclusive effect category.
+
+DuelEffect_AllocateRequest (0x8002C604) writes table [2] to the first word,
+loads table [1] through its original local into the second word and stores
+8 as base priority. DuelEffect_UpdateRequests (0x8002C6C8) refreshes both
+addresses for every active entry before dispatch, retaining the original
+table-[1] store, active-request publication, table-[2] store order. These
+are current per-dispatch bindings, not pointers latched only on allocation.
+All integer-word declarations, pointer casts, local widths and separate
+table loads remain unchanged; the names do not convert them to C pointers.
+
+DuelEffect_DispatchRequest reads the stored signed priority halfword through
+its original u16 local and writes the existing u16 gDuelEffect_wBasePriority.
+Do not retype the member, sign-extend the load, add a mask or normalize the
+local. The named render-state view and complete screen/packet helpers prove
+the role: they submit to gDuelEffect_pOrderingTable at base priority or the
+original wrapped base-priority-plus-one. Their separate flags/mode operands
+and FT4/GT4 branch-specific arithmetic remain unchanged.
+
+The complete 25-case dispatcher retains all 26 ordering-table stores:
+13 from each binding. In particular case nine still stores table [2]
+and then table [1] before inverted recovery; the first store is not
+deleted as redundant. Cases that set geometry offset (160, 108) retain
+that call and its order. Unknown IDs still receive the original offset,
+priority and nonnegative-phase texture setup, with no new default.
+No comparison, handler, auxiliary argument, command mapping, completion
+rule or packet submission changes.
+
+Only the two complete producer/dispatcher C units change under 32
+owner-qualified non-comment member identifiers and two existing updater
+comment identifiers. The request header changes three declaration names,
+the existing +0x08 assertion's member and its label, without changing any
+type, width, size, offset, annotation, assertion expression or numeric
+expectation. Other field_08/field_0C/field_10 owners are untouched,
+including ritual scratch, glyph/view/cursor state and display callbacks.
+There are zero fixture edits and no local cloud-fixture execution.
+Payload coordinates and the signed auxiliary halfword remain anonymous:
+these bindings do not resolve their handler-dependent meanings.
+
 ## Signed phase is a command, not a Boolean
 
 The allocator sets phase to zero. Before the first dispatch, the updater
@@ -61,10 +107,11 @@ Swords writes a positive phase while clearing an enabled slot, or
 and the later `abs(phase + 1)` lookup. Its final fade test remains separate.
 The name does not assert a uniform enum, card identity or monotonic state.
 
-The payload members at `0x00/0x02/0x04`, both integer-word OT addresses,
-base-priority halfword and signed auxiliary halfword remain unchanged.
-In particular, the coordinate ambiguity recorded in the original request
-header is not resolved by renaming unrelated fields.
+The payload members at `0x00/0x02/0x04` and signed auxiliary halfword
+remain anonymous. The rendering bindings named above retain both original
+integer-word OT addresses and the base-priority halfword representation.
+The coordinate ambiguity recorded in the original request header is not
+resolved by naming those independent bindings.
 
 ## Progress is distinct from lifetime and finished status
 
