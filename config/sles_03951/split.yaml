@@ -87,7 +87,7 @@ segments:
       - [0xAEC, .rodata, game/european/campaign_map_load_package_stage]
       - {start: 0xB04, type: bin, name: spanish_raw_80010304, linker_section_order: .rodata}
       - [0xB1C, .rodata, game/spanish/mem_card_dialog]
-      - [0xC8C, .rodata, game/european/display_object_projection_checks]
+      - [0xC8C, .rodata, game/european/display_object_helpers]
       - [0xCA4, .rodata, game/european/main_boot_load_stages]
       - {start: 0xCC4, type: bin, name: spanish_raw_800104c4, linker_section_order: .rodata}
       - [0xCD4, .rodata, game/european/mem_card_driver]
@@ -332,7 +332,7 @@ segments:
       - [0x31404, c, game/european/display_object_runtime]
       - [0x327BC, c, game/display_object_stream_read_next_command]
       - [0x32890, c, game/display_object_update_command_stream]
-      - [0x329AC, c, game/european/display_object_projection_checks]
+      - [0x329AC, c, game/european/display_object_helpers]
       - [0x33E58, c, game/european/main_boot_load_stages]
       - [0x34278, c, game/european/display_object_transition]
       - [0x3457C, c, game/spanish/main_run_boot_sequence]
@@ -433,7 +433,7 @@ segments:
       - [0x593B0, c, game/european/model_register_handler_key]
       - [0x59410, c, game/european/model_find_handler_key]
       - [0x59460, asm, generated/spanish_80068c60]
-      - [0x5A590, c, game/european/movie_open_stream]
+      - [0x5A590, c, game/european/movie_frame_pipeline]
       - [0x5B084, c, game/movie_stream_requests]
       - [0x5B1EC, c, game/file_cd_helpers]
       - [0x5B2C0, c, game/mdec_sync]

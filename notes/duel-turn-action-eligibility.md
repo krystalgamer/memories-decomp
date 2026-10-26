@@ -118,7 +118,7 @@ record only when:
 ```
 
 An accepted position change installs `func_8001D240` on the card object.
-Matching [`duel_card_defense_rotation.c`](../src/game/duel_scene_hand_actions.c) toggles only
+Matching [`duel_scene_hand_actions.c`](../src/game/duel_scene_hand_actions.c) toggles only
 `DUEL_CARD_FLAG_DEFENSE_POSITION`; it does not set the used bit.
 
 Consequently:

@@ -33,7 +33,7 @@ index, matrix calls, volatile slot-member reads, local unit lifetime,
 output stores and parent pointer are unchanged. The separate flag scratch
 and `PSXLONG *` boundary remain intact. No aliasing barrier is simplified.
 
-Both functions in `model_update_view_metrics.c` keep their contiguous
+Both functions in `model_slot_control.c` keep their contiguous
 definitions and `gcc_2_8_1_g8_split` profile: the view-metric updater's
 `0x19C` bytes followed by this helper's `0x1EC` bytes, totaling `0x388`.
 No source move, section, address, layout, compiler setting or overlay

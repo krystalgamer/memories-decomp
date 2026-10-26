@@ -130,7 +130,7 @@ class PacketOrderingTablePointerTests(unittest.TestCase):
     def test_actual_sdk_boundaries_and_org_depth_expression_with_negatives(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        source = (ROOT / "src/game/display_object_projection_checks.c").read_text()
+        source = (ROOT / "src/game/display_object_helpers.c").read_text()
         macros = []
         for name in ("GS_SPRITE_VIEW", "GS_OT_VIEW"):
             match = re.search(rf"(?m)^#define {name}[^\n]*", source)

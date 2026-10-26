@@ -12,7 +12,7 @@
    the former duel_init_ground_projection_reference.c (now in
    duel_ground_projection.c) and
    `State { s16 x, y, z; char p6[0x1E]; int value; }` in
-   duel_view_tween.c -- which is exactly the re-definition issue #2501 is about.
+   duel_card_turn_animations.c -- which is exactly the re-definition issue #2501 is about.
    They agree on the layout and disagree on the names and on where the record
    ends; this is the union of what they touch.
 

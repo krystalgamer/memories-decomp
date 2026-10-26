@@ -25,4 +25,4 @@
 #define D_8009B4A1 gEuropean_D_8009B4A1
 #define D_8009B4A2 gEuropean_D_8009B4A2
 #define StUnSetRing func_80078664
-#include "../movie_open_stream.c"
+#include "../movie_frame_pipeline.c"

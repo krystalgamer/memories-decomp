@@ -7,7 +7,7 @@
 /* The two callers consume different duel_cursor_status.h contracts, and both
    reasons are deliberate.
 
-   duel_cursor_step_toward_target.c selects FUNC_80024088_WIDE_DIRECTION and calls
+   duel_action_ready_marker.c selects FUNC_80024088_WIDE_DIRECTION and calls
    DuelCursor_UpdateDirection with two arguments while the definition takes
    one; the second reaches $a1 and the call site's argument setup is what the
    image contains, so the one-argument prototype would remove an instruction.

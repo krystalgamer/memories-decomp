@@ -11,7 +11,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/game/display_object_projection_checks.c"
+SOURCE = ROOT / "src/game/display_object_helpers.c"
 START = """
 .text
 .globl _start

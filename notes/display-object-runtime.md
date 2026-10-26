@@ -412,7 +412,7 @@ unchanged from the object.
 |---|---|---|
 | `DISPLAY_OBJECT_ATTRIBUTE_8BPP` | Texture-page step of `2` per wrap | `DisplayObject_RenderSpriteStrips` |
 | `DISPLAY_OBJECT_ATTRIBUTE_16BPP` | Texture-page step of `4`, taking precedence | `DisplayObject_RenderSpriteStrips` |
-| `0x08000000` | When **clear**, selects the alternate size/offset path in `DisplayObject_RenderSpriteList`; also gates a projection path in `DisplayObject_ProjectRotationFacing` (`src/game/display_object_projection_checks.c`), and is copied into the clip state as `c->flag` | both renderers |
+| `0x08000000` | When **clear**, selects the alternate size/offset path in `DisplayObject_RenderSpriteList`; also gates a projection path in `DisplayObject_ProjectRotationFacing` (`src/game/display_object_helpers.c`), and is copied into the clip state as `c->flag` | both renderers |
 | `0x40000000` | Adds `SetSemiTrans(g, 1)` in the clip-test path | `DisplayObject_RenderSpriteList` |
 
 The step values are the texture-page advance applied when a strip's `u`
@@ -518,7 +518,7 @@ The consequence for typing: the parameter cannot be declared `GsSPRITE *`. It
 is a word that means a `GsSPRITE *` in cases `1`-`3` and an attribute in cases
 `4`-`5`, which is why the inventory row's caution was right.
 
-The matched definition in `src/game/display_object_projection_checks.c` confirms
+The matched definition in `src/game/display_object_helpers.c` confirms
 it. It takes the header's default `SpritePrim *` view. Cases `1`-`3` cast the
 argument to `GsSPRITE *`. Cases `4` and `5` test `(u32)sprite & 0x04000000`
 before projecting the prepared quad, and test bit 30 before routing it through
