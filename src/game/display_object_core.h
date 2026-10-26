@@ -24,7 +24,7 @@ void DisplayObject_ReleaseIfPresent(void *object);
 void DisplayObject_Reset(void);
 void DisplayObject_ConfigureSpriteAtPosition(
     void *object, s32 x, s32 y, s32 resource_root_index, s32 resource_branch_index,
-    s32 resource_variant, s32 color, s32 texture
+    s32 resource_variant, s32 texture_config, s32 palette_config
 );
 
 #endif

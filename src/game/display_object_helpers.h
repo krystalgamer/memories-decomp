@@ -76,11 +76,11 @@ void DisplayObject_InitializeTexturedGouraudQuad(
 );
 void DisplayObject_ConfigureSpriteWithResource(
     DisplayObject *object,
-    s32 arg1,
-    s32 arg2,
-    s32 arg3,
-    s32 arg4,
-    s32 arg5,
+    s32 resource_root_index,
+    s32 resource_branch_index,
+    s32 resource_variant,
+    s32 texture_config,
+    s32 palette_config,
     void *resource
 );
 /* resource is a pointer, not an integer. Every caller passes one -- the
@@ -91,13 +91,13 @@ void DisplayObject_ConfigureSpriteWithResource(
    through the canonical record. */
 void DisplayObject_ConfigureSpriteAtPositionWithResource(
     DisplayObject *object,
-    s32 arg1,
-    s32 arg2,
-    s32 arg3,
-    s32 arg4,
-    s32 arg5,
-    s32 arg6,
-    s32 arg7,
+    s32 x,
+    s32 y,
+    s32 resource_root_index,
+    s32 resource_branch_index,
+    s32 resource_variant,
+    s32 texture_config,
+    s32 palette_config,
     void *resource
 );
 /* Stores the object's depth order and returns its resulting ordering-table

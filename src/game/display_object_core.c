@@ -194,7 +194,7 @@ void DisplayObject_SetResourcePath(
 }
 
 void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int resource_root_index, int resource_branch_index,
-                    int resource_variant, int color, int texture)
+                    int resource_variant, int texture_config, int palette_config)
 {
     u16 flags;
 #ifdef DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE
@@ -204,32 +204,32 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int resou
     configured->field_67 = resource_root_index;
     configured->field_68 = resource_branch_index;
     configured->field_69 = resource_variant;
-    configured->field_66 = color;
-    *(u8 *)&configured->field_5E = color >> 16;
-    *((u8 *)&configured->field_5E + 1) = color >> 8;
-    configured->field_40.h.field_40 = DISPLAY_OBJECT_SPRITE_TEXTURE_U(texture);
+    configured->field_66 = texture_config;
+    *(u8 *)&configured->field_5E = texture_config >> 16;
+    *((u8 *)&configured->field_5E + 1) = texture_config >> 8;
+    configured->field_40.h.field_40 = DISPLAY_OBJECT_SPRITE_TEXTURE_U(palette_config);
 #ifdef DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE
-    texture_v = DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE(texture);
-    configured->field_40.h.field_42 = texture_v + (texture & 0xF);
+    texture_v = DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE(palette_config);
+    configured->field_40.h.field_42 = texture_v + (palette_config & 0xF);
 #else
-    configured->field_40.h.field_42 = DISPLAY_OBJECT_SPRITE_TEXTURE_V(texture);
+    configured->field_40.h.field_42 = DISPLAY_OBJECT_SPRITE_TEXTURE_V(palette_config);
 #endif
     flags = configured->flags & ~DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     configured->flags = flags;
-    if (texture & 0x8000) {
+    if (palette_config & 0x8000) {
         configured->flags = flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     }
     return configured;
 }
 
 void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 resource_root_index, s32 resource_branch_index,
-                   s32 resource_variant, s32 color, s32 texture)
+                   s32 resource_variant, s32 texture_config, s32 palette_config)
 {
     DisplayObject *o = object;
 
     o->field_30.h.field_30 = x;
     o->field_30.h.field_32 = y;
-    DisplayObject_ConfigureSpriteResource(object, resource_root_index, resource_branch_index, resource_variant, color, texture);
+    DisplayObject_ConfigureSpriteResource(object, resource_root_index, resource_branch_index, resource_variant, texture_config, palette_config);
 }
 
 DisplayObject *DisplayObject_ConfigureScreenSprite(

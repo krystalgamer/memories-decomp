@@ -208,8 +208,8 @@ The separate configurator migration extends the same header with:
 
 ```c
 void DisplayObject_ConfigureSpriteAtPosition(
-    void *object, s32 x, s32 y, s32 field_67, s32 field_68,
-    s32 field_69, s32 color, s32 texture
+    void *object, s32 x, s32 y, s32 resource_root_index, s32 resource_branch_index,
+    s32 resource_variant, s32 texture_config, s32 palette_config
 );
 ```
 
@@ -664,3 +664,48 @@ scenario, mutation, numeric control or behavioral harness is added or
 changed, and no cloud fixture is executed locally. Existing CSV EVIDENCE
 remains historical; its NOTES connect the old offset spellings to this
 typed view without renaming another function or linker symbol.
+
+## Packed sprite-resource argument chain
+
+ConfigureSpriteResource and ConfigureSpriteAtPosition name their original
+signed packed arguments texture_config/palette_config, replacing the
+misleading color/texture parameter names without changing either value.
+No RGB word is written by this configuration route.
+
+texture_config's low byte is stored at +0x66 for the texture page. Its
+bits 16..23 are stored in the first byte at +0x5E and bits 8..15 in the
+second byte. The sheet renderer consumes those bytes as its U/V offsets.
+The original signed shifts and byte narrowing remain, including all
+high/sign bits; this is not a new packed type or validated encoding.
+
+palette_config selects the existing palette coordinates and cell-offset
+mode, not a raw SDK CLUT ID:
+
+| Build | Existing CLUT X | Existing CLUT Y |
+| --- | --- | --- |
+| Shared/JP | value & 0x3F0 | (value & 0xF) + 0xF0 |
+| European | (value & 0xF0) + 0x280 | ((value & 0x300) >> 4) + 0xD0 + (value & 0xF) |
+
+The existing bit 0x8000 test controls DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET.
+Keep the flags clear, store and optional set in their original order.
+Existing macros and European overrides retain their names, expressions
+and conditional compilation; no formula is merged or rewritten.
+
+The positioned core entry stores x/y before forwarding the five
+configuration words. ConfigureSpriteWithResource exposes the same
+root/branch/variant/texture_config/palette_config sequence.
+ConfigureSpriteAtPositionWithResource additionally exposes x/y first.
+Both pointer wrappers still publish resource to canonical +0x54 BEFORE
+delegating, with their original void returns and unchanged resource type.
+The uncalled non-positioned wrapper gains no invented reachability.
+
+Only the four complete definitions and their owning config/core/helpers
+declarations migrate parameter identifiers. All callers, generic pool
+members, numeric controls, int/s32 types, prototypes, ABI, source groups,
+profiles, initialized data and statement order remain. This does not
+rename unrelated color/texture/argN variables or replace overlapping
+fields with a new aggregate. Existing independent fixture stub names and
+all oracles/scenarios/mutations/counts/assertions remain unchanged.
+No fixture is executed locally and no behavioral harness is introduced.
+Four existing CSV NOTES bridge the old parameter names; historical
+EVIDENCE, including its older RGB wording, stays byte-for-byte.

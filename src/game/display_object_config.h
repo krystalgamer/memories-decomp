@@ -69,16 +69,16 @@ typedef struct {
     u8 texture_page;
 } DisplayObjectConfigView;
 
-/* Writes the three glyph-selector bytes at 0x67..0x69 plus the colour and
- * texture fields, and returns the object. Every caller discards the result,
+/* Writes the three resource selectors plus packed texture-page/UV and
+ * palette settings, and returns the object. Every caller discards the result,
  * which is how three of the four declared it as returning void.
  *
- * It takes the canonical record: it writes seven of its members and nothing
- * the narrow views above cover. The two callers that still hand it a byte
+ * It takes the canonical record, whose offset members retain overlapping
+ * meanings. The two callers that still hand it a byte
  * cursor keep their own view and name the record at the call: shop.c its
  * byte arithmetic, DuelScene_UpdateHandActions its hand-card view. */
 void *DisplayObject_ConfigureSpriteResource(struct DisplayObject *object, s32 resource_root_index,
-                    s32 resource_branch_index, s32 resource_variant, s32 color, s32 texture);
+                    s32 resource_branch_index, s32 resource_variant, s32 texture_config, s32 palette_config);
 
 struct DisplayObject *DisplayObject_ConfigureScreenSprite(
     struct DisplayObject *object,
