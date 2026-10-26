@@ -62,10 +62,12 @@ No wrapper, direct call, prototype repair or handwritten instruction is added.
 
 ## Matched C
 
-The Ft3/Gt3/Ft4/Gt4 drivers of each variant are contiguous, so each variant is one
-translation unit, `src/game/polygon_renderers_<variant>.c` (`base`,
-`window_record`, `two_sided`, `two_sided_window_record`, `semi`,
-`semi_window_record`, `two_sided_semi`, `two_sided_semi_window_record`). They
+The Ft3/Gt3/Ft4/Gt4 drivers of all eight variants (`base`, `window_record`,
+`two_sided`, `two_sided_window_record`, `semi`, `semi_window_record`,
+`two_sided_semi`, `two_sided_semi_window_record`) are contiguous from
+`0x800612C0` to `0x80067220`, so they form one translation unit,
+`src/game/polygon_renderers.c`, which declares the shared register variables
+once and keeps each variant's functions in image order. They
 use the `gcc_2_8_1_g0_handwritten_asm` policy described in
 `notes/decompilation-workflow.md`: hard-register declarations, with inline
 assembly only for the s-register save/restore, GTE operations and the few
