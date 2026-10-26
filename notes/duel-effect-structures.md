@@ -33,17 +33,66 @@ Verified channel fields used by matching C include:
 | `0x2C` | `aux_object` | outline, custom trade sprite or name-entry caret; shared owned auxiliary slot |
 | `0x30` | `prompt_object` | page/completion cursor or choice highlight; retained and released by channel state paths |
 | `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `DuelEffect_ResetState` |
-| `0x36` | `field_36` | halfword initialization in `DuelEffect_InitEntry` |
+| `0x36` | `initial_string_id` | constructor string ID consumed by initial `TextBox_BuildStep` bank lookup |
 | `0x38`, `0x3A` | `pen_x`, `pen_y` | unsigned halfword pen initialization, stream commands and entry-position publication |
 | `0x3C`, `0x40` | `rect_x`, `rect_y` | signed halfword origins set by `TextBox_SetRect` and `TextBox_SetPos` |
 | `0x3E`, `0x42` | `rect_width`, `rect_height` | signed halfword extents set by `TextBox_SetRect`; wrap and display geometry consumers |
 | `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `index_57` | initialization sequence in `DuelEffect_InitEntry` |
-| `0x56` | `field_56` | cleared by `TextBox_BuildStep`; keeps the offset for a name, as the other files reaching `0x56` do so on other records |
+| `0x56` | `explicit_newline_count` | explicit `Text_NewLine` accounting for page/choice state; automatic wraps do not increment it |
 | `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, [`duel_effect_object_commands.c`](../src/game/duel_effect_object_commands.c), and [`duel_effect_command.c`](../src/game/duel_effect_command.c) |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
+
+### Starting string and explicit-newline bookkeeping
+
+The parser's initial_string_id names the original u16 field_36 at +0x36
+in both shared and compact Japanese channels. TextBox_Create and
+TextBox_CreateFlagged forward their string_id
+to DuelEffect_InitEntry (0x80035AF0), which stores it with the original
+halfword narrowing and regional initialization order. TextBox_BuildStep
+(0x800393B0) reads that stored ID only in its original initial-build path
+and applies the original region-specific bank thresholds, masks,
+adjustments and address composition before publishing text_00.
+The name identifies the starting/root string, not each later nested
+stream or the live stream cursor. No lookup is hoisted or normalized.
+
+explicit_newline_count names the shared channel's original u8 field_56
+at +0x56. It counts Text_NewLine commands, NOT automatic line wraps,
+glyphs, pixels or a universal rendered-row count. The primary command
+table selects Text_NewLine for FE; that complete routine alone increments
+the byte, retains pen_x=0x1000, calls the original wrap helper, applies
+the regional page-wait guard and invokes the pending choice callback.
+The European guard still requires count>=4 after wrap failure; other
+regions retain their unconditional-on-failure state change.
+
+Automatic glyph wrapping calls TextBox_WrapLineIfNeeded directly from
+BuildStep without incrementing this byte. Neither the wrap helper nor
+the glyph/pixel counters are changed. Byte overflow/narrowing is retained;
+no saturation, inferred row count or new layout policy is introduced.
+
+BuildStep resets the count only in its initial-build path. The choice
+command resets it before publishing the layout callback. The volatile
+Text_TryCompleteChoiceLayout (0x80037CE0) compares it to the original
+choice count, resets it at the same completion point, and retains all
+volatile reads, ordinary flag-store cast, callback/control stores and
+optional count=2 behavior. This is choice-label command accounting, not
+confirmation of input or a promise that automatic wraps count as choices.
+Text_CompletePageAdvance (0x8003741C) resets it only after the first-call
+clear request and the active-entry wait have completed, together with
+the original pen/state resets and region-specific field_62 store.
+The channel initializer does not gain a new zero store.
+
+Only five complete C units change under ten owner-qualified member
+identifiers. The shared header changes two declarations and the existing
++0x56 assertion member/label; the Japanese header changes only its
++0x36 declaration. Its pad_55 still covers the +0x56 byte: no new member,
+padding split, stride unification or pointer-prefix invention. All
+types, widths, offsets, sizes, qualifiers, annotations, expressions and
+numeric assertions remain. Other field_36 members are display/resource
+geometry or velocity and remain untouched, including text-control's
+DisplayObject e at +0x36. There are zero fixture edits.
 
 ### Retained channel display objects
 
