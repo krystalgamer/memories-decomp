@@ -346,7 +346,7 @@ class CardStatDisplayTests(unittest.TestCase):
                 text, count = re.subn(
                     r"(case CARD_TYPE_TRAP:\s*"
                     r"DISPLAY_OBJECT_UNSIGNED_HALFWORD"
-                    r"\(object->field_40\) \+= )0x20;",
+                    r"\(object->clut_x\) \+= )0x20;",
                     r"\g<1>0x10;",
                     text,
                 )

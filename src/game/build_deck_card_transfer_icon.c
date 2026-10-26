@@ -74,7 +74,7 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
     }
 }
 
-/* Regional values: the icon sprite's field_5D (0xC8 -> 0xC0) and field_40,
+/* Regional values: the icon sprite's texture_v (0xC8 -> 0xC0) and clut_x,
  * its CLUT x (0x260 -> 0x2E0). The European build (src/game/european/)
  * defines its own. */
 #ifndef DUEL_CARD_TYPE_ICON_FIELD_5D
@@ -122,13 +122,13 @@ DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 arg1, s32 arg2, s
     switch (kind) {
     case CARD_TYPE_MAGIC:
     case CARD_TYPE_EQUIP:
-        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->field_40) += 0x10;
+        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->clut_x) += 0x10;
         break;
     case CARD_TYPE_TRAP:
-        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->field_40) += 0x20;
+        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->clut_x) += 0x20;
         break;
     case CARD_TYPE_RITUAL:
-        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->field_40) += 0x30;
+        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->clut_x) += 0x30;
         break;
     }
     DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(object));

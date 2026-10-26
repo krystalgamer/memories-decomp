@@ -43,7 +43,7 @@ void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object, u8 resource_root_index, u8 resource_branch_index, u8 resource_variant
 );
 
-/* Narrow position/extent view retained for Duel_CreateCardEffectOverlay,
+/* Narrow position/extent/texture view retained for Duel_CreateCardEffectOverlay,
  * whose source object is not otherwise exposed as the canonical record. */
 typedef struct {
     u8 pad_00[0x08];
@@ -57,16 +57,16 @@ typedef struct {
     u8 pad_34[0x08];
     s16 height;
     s16 width;
-    s16 field_40;
-    s16 field_42;
+    s16 clut_x;
+    s16 clut_y;
     u8 pad_44[0x04];
     s16 half_height_2;
     s16 half_width_2;
     u8 pad_4C[0x10];
-    u8 field_5C;
-    u8 field_5D;
+    u8 texture_u;
+    u8 texture_v;
     u8 pad_5E[0x08];
-    u8 field_66;
+    u8 texture_page;
 } DisplayObjectConfigView;
 
 /* Writes the three glyph-selector bytes at 0x67..0x69 plus the colour and
@@ -86,10 +86,10 @@ struct DisplayObject *DisplayObject_ConfigureScreenSprite(
     s32 y,
     s32 height,
     s32 width,
-    s32 field_5C,
-    s32 field_5D,
-    s32 field_66,
-    s32 field_40,
-    s32 field_42);
+    s32 texture_u,
+    s32 texture_v,
+    s32 texture_page,
+    s32 clut_x,
+    s32 clut_y);
 
 #endif
