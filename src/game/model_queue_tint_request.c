@@ -3,9 +3,9 @@
 #include "model.h"
 
 void Model_QueueTintRequestForParts(
-    s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3, s32 a4, ...)
+    s32 slot, s32 mode, ModelTintColor start, ModelTintColor end, s32 duration, ...)
 {
-    u8 bits[8];
+    u8 part_mask[8];
     u8 *arguments;
     s32 value;
     s32 byte_index;
@@ -13,29 +13,29 @@ void Model_QueueTintRequestForParts(
     u8 *cursor;
 
     i = 7;
-    cursor = bits + 7;
+    cursor = part_mask + 7;
     for (; i >= 0; i--)
         *cursor-- = 0;
-    arguments = (u8 *)&a4 + 4;
+    arguments = (u8 *)&duration + 4;
     while (1) {
         arguments += 4;
         value = *(s32 *)(arguments - 4);
         if (value < 0)
             break;
         byte_index = value >> 3;
-        bits[byte_index] |= 1 << (value - byte_index * 8);
+        part_mask[byte_index] |= 1 << (value - byte_index * 8);
     }
-    a2.blend_mode = a1 & 127;
-    Model_QueueTintRequest(a0, a1 & 128, a2, a3, a4, bits);
+    start.blend_mode = mode & 127;
+    Model_QueueTintRequest(slot, mode & 128, start, end, duration, part_mask);
 }
 
 void Model_QueueTintRequest(
-    s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3, s32 a4,
-    const u8 *bits)
+    s32 slot, s32 selection, ModelTintColor start, ModelTintColor end, s32 duration,
+    const u8 *part_mask)
 {
-    ModelSlot *slot;
+    ModelSlot *slot_state;
     ModelTintRequest *r;
-    ModelTintRequest *end;
+    ModelTintRequest *request_end;
     register u8 *base = (u8 *)gModel_aTintRequests;
     s32 off;
     s32 fill;
@@ -44,13 +44,13 @@ void Model_QueueTintRequest(
     s32 f1, f2, f3, f4, f5, f6;
     s32 sel;
 
-    slot = &gModel_aSlots[a0];
-    mode = (a0 & 1) << 1;
-    sel = (a1 & 1) << 2;
+    slot_state = &gModel_aSlots[slot];
+    mode = (slot & 1) << 1;
+    sel = (selection & 1) << 2;
     fill = 0xFF;
     off = 0;
     r = gModel_aTintRequests;
-    end = r + MODEL_TINT_REQUEST_COUNT;
+    request_end = r + MODEL_TINT_REQUEST_COUNT;
     do {
         if ((*(u8 *)r & 1) == 0) {
             f = r->flags;
@@ -65,19 +65,19 @@ void Model_QueueTintRequest(
             r->flags = f5;
             f6 = f5 & 0xFF07;
             sel = off;
-            f = f6 | ((slot->current_animation_row & 0x1F) << 3);
+            f = f6 | ((slot_state->current_animation_row & 0x1F) << 3);
             r->flags = f;
-            r->animation_position_snapshot = slot->animation_position;
+            r->animation_position_snapshot = slot_state->animation_position;
             r->elapsed = 0;
-            r->duration = (a4 *= 2);
-            r->start = a2;
-            r->end = a3;
+            r->duration = (duration *= 2);
+            r->start = start;
+            r->end = end;
             for (; mode < 8; mode++) {
-                base[mode + sel + 1] = bits ? bits[mode] : fill;
+                base[mode + sel + 1] = part_mask ? part_mask[mode] : fill;
             }
             break;
         }
         off += sizeof(ModelTintRequest);
         r++;
-    } while ((s32)r < (s32)end);
+    } while ((s32)r < (s32)request_end);
 }

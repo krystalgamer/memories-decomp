@@ -3,8 +3,8 @@
 #include "model.h"
 
 void Model_QueueTintRequestForAllParts(
-    s32 arg0, s32 arg1, ModelTintColor arg2, ModelTintColor arg3, s32 arg4)
+    s32 slot, s32 mode, ModelTintColor start, ModelTintColor end, s32 duration)
 {
-    arg2.blend_mode = arg1 & 0x7F;
-    Model_QueueTintRequest(arg0, 0, arg2, arg3, arg4, 0);
+    start.blend_mode = mode & 0x7F;
+    Model_QueueTintRequest(slot, 0, start, end, duration, 0);
 }

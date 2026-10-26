@@ -107,3 +107,41 @@ mode normalization or initialization policy accompanies these names.
 | Ten-request table | `0x800F2B50` | `0x800F03F0` | `0x800F3C80` | `0x800F4088` |
 | Masked-only byte | `0x8009AF9B` | `0x8009AF03` | `0x8009BF23` | `0x8009C32B` |
 | Raw mask-address word | `0x8009AF9C` | `0x8009AF04` | `0x8009BF24` | `0x8009C32C` |
+
+## Submission argument names
+
+All three complete submission definitions now use the names already
+declared by model_queue_tint_request.h: slot, mode or selection, start,
+end, duration and part_mask. The variadic wrapper's eight-byte local
+mask has the same part_mask name; the allocator's existing slot pointer
+and request-table end pointer are slot_state and request_end to avoid
+colliding with the by-value argument names.
+
+slot still indexes gModel_aSlots without validation, while only its low
+bit reaches the request flags. mode is deliberately NOT blend_mode:
+the wrappers copy its low seven bits into start.blend_mode, but the
+variadic wrapper also forwards mode & 128 as selection. The allocator
+still tests selection & 1, not bit seven. That existing mismatch is
+preserved; these names do not assert that the wrapper enables the
+masked-only redraw flag or repair its forwarding.
+
+The variadic cursor still starts four bytes after the named duration
+argument, reads four-byte part indices until the first negative value,
+and sets unchecked bits in the eight-byte local mask. A null part_mask
+still fills all eight request bytes with FF, beginning at raw request
+offset one and overlapping the high flags byte. No standard varargs
+helper, bound, mask relocation or new selection policy is introduced.
+
+start and end remain four-byte descriptors passed and copied by value.
+Only start.blend_mode is installed by the wrappers; the end byte is
+still copied but unread. duration retains its in-place multiplication
+by two and assignment to the request halfword, with no zero guard,
+clamp, unit conversion or overflow change. The first free request is
+still claimed, partial writes and animation snapshots retain their
+order, and a full queue still returns without a status or allocation.
+
+Only bounded bare argument/local identifiers in the two complete C
+units and three existing registry NOTES cells change. The whole header,
+qualified descriptor/request members, types, arithmetic, statement order,
+accepted source grouping, named profiles, initialized data, callers and
+all existing fixtures/controls remain exact.
