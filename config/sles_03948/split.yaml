@@ -1217,10 +1217,7 @@ segments:
     - game/european/model_packet_handlers
   - - 320676
     - c
-    - game/model_sequence_dispatch
-  - - 322520
-    - c
-    - game/model_interpolate_transform
+    - game/model_animation_unit
   - - 325244
     - c
     - game/european/model_process_type2_unit

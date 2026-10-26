@@ -10,7 +10,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/model_interpolate_transform.c"
+SOURCE = REPOSITORY / "src/game/model_animation_unit.c"
 
 
 @unittest.skipUnless(os.name == "posix" and shutil.which("cc"), "requires a POSIX host C compiler")

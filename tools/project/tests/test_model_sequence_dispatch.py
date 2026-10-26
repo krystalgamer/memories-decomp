@@ -24,7 +24,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/game/model_sequence_dispatch.c"
+SOURCE = ROOT / "src/game/model_animation_unit.c"
 EXPECTED_CASES = 377
 EXPECTED_CALLBACKS = 316
 SEMANTIC_TRAVELING_MISMATCH = 21
@@ -554,6 +554,11 @@ class ModelSequenceDispatchTests(unittest.TestCase):
         self.source = SOURCE.resolve()
         self.source.relative_to(ROOT)
         self.original = self.source.read_text()
+        # The unit continues with the HMD interpolators; the witness links the
+        # sequence dispatcher alone.
+        self.dispatcher = self.original[
+            :self.original.index("/* Advances one animation track")
+        ]
         (ROOT / "tmp").mkdir(exist_ok=True)
         temporary = tempfile.TemporaryDirectory(
             prefix="model-sequence-dispatch-", dir=ROOT / "tmp"
@@ -565,6 +570,15 @@ class ModelSequenceDispatchTests(unittest.TestCase):
         self.assertEqual(fixtures(self.directory), (EXPECTED_CASES, EXPECTED_CALLBACKS))
         (self.directory / "witness.c").write_text(WITNESS)
         (self.directory / "start.S").write_text(START)
+        self.dispatcher_source = self.directory / "dispatcher.c"
+        self.dispatcher_source.write_text(self.absolute_includes(self.dispatcher))
+
+    def absolute_includes(self, text):
+        return re.sub(
+            r'^#include "([^"]+)"',
+            lambda match: '#include "' + str((self.source.parent / match[1]).resolve()) + '"',
+            text, flags=re.MULTILINE,
+        )
 
     def tearDown(self):
         self.assertEqual(self.source.read_text(), self.original, "SOURCE must remain unchanged")
@@ -576,14 +590,9 @@ class ModelSequenceDispatchTests(unittest.TestCase):
         self.assertTrue(checkpoints)
         self.assertEqual(first.mem.get(PRIM + 4, "traveling"), 0)
         store = "track->traveling = 0;"
-        self.assertEqual(self.original.count(store), 1,
+        self.assertEqual(self.dispatcher.count(store), 1,
                          "require exactly one actual traveling-reset store")
-        text = self.original.replace(store, "", 1)
-        text = re.sub(
-            r'^#include "([^"]+)"',
-            lambda match: '#include "' + str((self.source.parent / match[1]).resolve()) + '"',
-            text, flags=re.MULTILINE,
-        )
+        text = self.absolute_includes(self.dispatcher.replace(store, "", 1))
         source = self.directory / "omitted-traveling-reset.c"
         source.write_text(text)
         return source
@@ -608,7 +617,7 @@ class ModelSequenceDispatchTests(unittest.TestCase):
         return witness
 
     def run_witness(self, optimization, source=None, witness=None):
-        source = self.source if source is None else source
+        source = self.dispatcher_source if source is None else source
         witness = self.directory / "witness.c" if witness is None else witness
         actual_object = self.directory / "actual.o"
         witness_object = self.directory / "witness.o"
