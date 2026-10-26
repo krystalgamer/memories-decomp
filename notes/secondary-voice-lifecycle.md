@@ -124,8 +124,11 @@ or new evidence that anything calls it. The tentative symbol, no-caller
 caveat and differences from SD_UpdateSecondaryObjectVoices remain intact.
 
 All seven resident matching manifests select the same original function,
-address, size and named compiler profile through the new path. The C bytes,
-includes, source-group boundary, types and every statement are unchanged.
+address, size and named compiler profile through the new path. The six
+static regional split C entries use that same source identity, preserving
+their offsets, segment types and adjacent boundaries; the North American
+split derives it from its manifest. The C bytes, includes, source-group
+boundary, types and every statement are unchanged.
 Compiler/MASPSX assembly changes only the source filename directive. Raw ELF
 objects differ in the corresponding local STT_FILE string and its required
 string-table/layout offsets; instructions, data, relocation entries, native

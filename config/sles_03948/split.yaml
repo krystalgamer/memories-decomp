@@ -950,7 +950,7 @@ segments:
     - game/sound_init
   - - 239024
     - c
-    - game/func_80049920
+    - game/sound_secondary_silent_key_off
   - - 239348
     - c
     - game/sound_secondary_playback

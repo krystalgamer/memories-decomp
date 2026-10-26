@@ -353,7 +353,7 @@ segments:
       - [0x38efc, c, game/sound_sequence_state]
       - [0x39024, c, game/sd_request_music_package_load]
       - [0x390ec, c, game/sound_init]
-      - [0x3980c, c, game/func_80049920]
+      - [0x3980c, c, game/sound_secondary_silent_key_off]
       - [0x39950, c, game/sound_secondary_playback]
       - [0x39be4, c, game/sound_secondary_voice_mute]
       - [0x39db4, c, game/sound_secondary_levels]
