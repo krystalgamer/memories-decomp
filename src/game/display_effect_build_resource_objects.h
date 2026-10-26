@@ -15,7 +15,7 @@
  * discards that result.
  *
  * The first parameter is the record itself. menu_record.h already names the
- * three fields this reads -- field_3C selects which of the two buffer bases
+ * three fields this reads -- slot_index selects which of the two buffer bases
  * and which layer constants to use, and field_34/field_36 are the x/y pair
  * that header documents as "the pair DisplayEffect_UpdatePositionTween and DisplayEffect_FadeInRecord hand to
  * the position helpers". They are u16 there and read signed here, so the two

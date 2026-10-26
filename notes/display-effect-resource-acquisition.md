@@ -15,8 +15,8 @@ transition callers establish their roles; the old descriptions alone do not.
 ## Producers and three distinct acquisition paths
 
 `Script_OpShowMenu` and `Text_HandleDisplayEffectCommand` write the signed
-resource ID at `+0x30`, the object-resource selector at `+0x31`, the side
-byte at `+0x3C` and step two at `+0x33`. These are separate values. The
+resource ID at `+0x30`, `resource_entry_index` at `+0x31`, `slot_index`
+at `+0x3C` and step two at `+0x33`. These are separate values. The
 step table retains its cast from `DisplayEffectVramState *` to the public
 `MenuRecord *` callback ABI; neither record layout changes.
 
@@ -50,7 +50,7 @@ the resource ID at the shared write-slot index *before* its GPU wait and
 into that RAM slot. This does not fall through to object construction.
 
 Only a subsequent call whose state bit `0x40` is already set invokes
-`DisplayEffect_BuildResourceObjects` for row zero with `field_31`, ignores
+`DisplayEffect_BuildResourceObjects` for row zero with `resource_entry_index`, ignores
 its existing return value, clears the whole step byte and ORs `0x40` into
 `field_32`. The two `0x40` bits live in different bytes. There is no new
 same-call build, polling timeout, error result or buffer lifetime.
@@ -138,3 +138,40 @@ ordered ledger edits are retained. The combined-tree proof explicitly
 aligns only those five accepted names in the saved baseline before
 reversing the four owned resource names. Every complete artifact remains
 in the comparison, and a fresh clean gate covers the integrated tree.
+
+
+## Resource-entry and shared-slot member views
+
+The +0x31 byte is resource_entry_index in MenuRecord,
+DisplayEffectState and DisplayEffectVramState. It is the first index
+passed to the three-level resource-table probe and object constructor,
+not the effect/package ID at +0x30 or a claimed facial expression.
+Script stores flags & 15; text adjustment stores flags & 3, while an
+ordinary start only overwrites the reset zero when flags & 0x10,
+using (flags >> 1) & 3. Portrait start retains its early return.
+All masks, conditional stores, narrowing and the existing partial reset
+remain; no archive-dependent bounds policy is added.
+
+The +0x3C byte is slot_index in MenuRecord and DisplayEffectVramState.
+Script publishes the selected record's 0/1 index; text publishes its
+chosen 0/1/2 index, including the portrait value two. This explains the
+side/resource-bank consumers without retyping the byte as Boolean.
+Zero selects bank zero and nonzero bank one, but image/CLUT coordinates
+retain their raw slot multiplications. The loader still forwards this
+byte into the transfer descriptor's generic position word; phases zero
+and two use that original value in the same upload-coordinate formulas.
+That descriptor word is not renamed globally or given a universal role.
+
+Fade-in placement, crossfade direction and continuation placement retain
+their original zero/nonzero slot tests. Crossfade rebuilds the two new
+rows from resource_entry_index and the two old rows from the live
+object's field_67; neither is substituted for the other. Existing
+fade-in/out back-row selectors also keep their live-object reads.
+The row builder still returns early on a missing first entry and leaves
+its output array untouched on that path; no null filling is added there.
+
+The lifecycle reset still clears only resource_entry_index, not
+slot_index. Global menu-record reset and record release do not gain
+stores to either member. Stale values, incomplete arrays, all signed
+position views, integer object-grid casts, regional constants and the
+separate effect identity/variant-countdown roles remain unchanged.

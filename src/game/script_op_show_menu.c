@@ -29,9 +29,9 @@ void Script_OpShowMenu(void)
         DisplayEffect_ResetMenuRecords();
         DisplayEffect_ResetRecordState((DisplayEffectState *)o);
 
-        o->field_31 = flags & 15;
+        o->resource_entry_index = flags & 15;
         o->effect_id = first;
-        o->field_3C = bit >> 7;
+        o->slot_index = bit >> 7;
         o->display_effect_step = 2;
         if (bit) {
             o->field_34 = 0xD8;

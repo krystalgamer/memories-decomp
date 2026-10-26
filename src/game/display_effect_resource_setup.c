@@ -47,7 +47,7 @@ s32 DisplayEffect_BuildResourceObjects(
     s32 h;
     s32 m;
 
-    if (a->field_3C != 0) {
+    if (a->slot_index != 0) {
         f = -0xA;
         tb = gDisplay_abResourceBank1;
         g = 0x1A;
@@ -173,17 +173,17 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
                 while (IsIdleGPU(10) != 0) {
                     ;
                 }
-                slot->image_rect.x = 832 - a->field_3C * 192;
+                slot->image_rect.x = 832 - a->slot_index * 192;
                 slot->image_rect.y = 256;
                 slot->image_rect.w = 192;
                 slot->image_rect.h = 256;
                 LoadImage(&slot->image_rect, (u32 *)slot->image);
                 slot->clut_rect.x = DISPLAY_EFFECT_CLUT_X;
-                slot->clut_rect.y = a->field_3C * 2 + 240;
+                slot->clut_rect.y = a->slot_index * 2 + 240;
                 slot->clut_rect.w = 256;
                 slot->clut_rect.h = 2;
                 LoadImage(&slot->clut_rect, (u32 *)slot->clut);
-                if (a->field_3C != 0) {
+                if (a->slot_index != 0) {
                     Util_CopyWords(gDisplay_abResourceBank1, slot->extra, 0x800);
                 } else {
                     Util_CopyWords(gDisplay_abResourceBank0, slot->extra, 0x800);
@@ -203,8 +203,8 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
             DisplayEffect_LoadResourceStage, 0, 0
         );
         req->callback_data = gDisplay_abResourceBank0;
-        req->position = a->field_3C;
-        if (a->field_3C != 0) {
+        req->position = a->slot_index;
+        if (a->slot_index != 0) {
             req->callback_data = gDisplay_abResourceBank1;
         }
         gFile_dwTransferState_abs = req->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
@@ -219,24 +219,24 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
             ;
         }
         slot = &((DisplayEffectVramSlot *)gRuntime_pSharedWorkBase)[gDisplayEffect_ResourceCacheWriteSlot];
-        slot->image_rect.x = 832 - a->field_3C * 192;
+        slot->image_rect.x = 832 - a->slot_index * 192;
         slot->image_rect.y = 256;
         slot->image_rect.w = 192;
         slot->image_rect.h = 256;
         StoreImage(&slot->image_rect, (u32 *)slot->image);
         slot->clut_rect.x = DISPLAY_EFFECT_CLUT_X;
-        slot->clut_rect.y = a->field_3C * 2 + 240;
+        slot->clut_rect.y = a->slot_index * 2 + 240;
         slot->clut_rect.w = 256;
         slot->clut_rect.h = 2;
         StoreImage(&slot->clut_rect, (u32 *)slot->clut);
-        if (a->field_3C != 0) {
+        if (a->slot_index != 0) {
             Util_CopyWords(slot->extra, gDisplay_abResourceBank1, 0x800);
         } else {
             Util_CopyWords(slot->extra, gDisplay_abResourceBank0, 0x800);
         }
     } else {
         DisplayEffect_BuildResourceObjects(
-            (MenuRecord *)a, (DisplayObject **)a, a->field_31);
+            (MenuRecord *)a, (DisplayObject **)a, a->resource_entry_index);
         a->state = 0;
         a->field_32 |= 0x40;
     }

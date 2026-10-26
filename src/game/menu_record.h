@@ -44,10 +44,10 @@ typedef struct {
        states the view it takes. */
     s32 grid[4][3];
     s8 effect_id;
-    /* DisplayEffectState names this same byte field_31 on this same
+    /* DisplayEffectState names this same byte resource_entry_index on this same
        memory; Script_OpShowMenu and display_effect_update_callbacks.c
        reach it too. Named to agree with that view. */
-    u8 field_31;
+    u8 resource_entry_index;
     u8 field_32;
     u8 display_effect_step;
     u16 field_34;
@@ -60,16 +60,16 @@ typedef struct {
     u8 pad_38[2];
     u8 field_3A;
     u8 field_3B;
-    /* Written by Script_OpShowMenu and Text_HandleDisplayEffectCommand and read by
-       display_effect_update_callbacks.c and
-       duel_effect_state_callbacks.c. Four sites prove a byte is
-       here; none of them says what it carries. */
-    u8 field_3C;
+    /* Selected shared record index: script stores bit 7's 0/1 and text
+       stores the chosen 0/1/2 slot. Consumers preserve raw coordinate
+       arithmetic and zero/nonzero resource-bank and side tests; it is not
+       normalized to a Boolean or cleared by the partial state reset. */
+    u8 slot_index;
     u8 pad_3D;
     /* DisplayEffectState names this same halfword variant_countdown on this
        same memory, and DisplayEffect_UpdateMenuRecord works it as a countdown: it
        seeds it from rand() and decrements it to zero. Named to agree
-       with that view, as field_31 was in #3534. */
+       with that view, as resource_entry_index was in #3534. */
     u16 variant_countdown;
     /* The six halfwords the sweep in DisplayEffect_UpdatePositionTween works, and the tail this
        record had no names for.
@@ -108,8 +108,8 @@ typedef char MenuRecord_size_must_be_0x4C[
 typedef char MenuRecord_effect_id_must_be_at_0x30[
     MENU_RECORD_OFFSET(effect_id) == 0x30 ? 1 : -1
 ];
-typedef char MenuRecord_field_31_must_be_at_0x31[
-    MENU_RECORD_OFFSET(field_31) == 0x31 ? 1 : -1
+typedef char MenuRecord_resource_entry_index_must_be_at_0x31[
+    MENU_RECORD_OFFSET(resource_entry_index) == 0x31 ? 1 : -1
 ];
 typedef char MenuRecord_display_effect_step_must_be_at_0x33[
     MENU_RECORD_OFFSET(display_effect_step) == 0x33 ? 1 : -1
@@ -120,8 +120,8 @@ typedef char MenuRecord_field_34_must_be_at_0x34[
 typedef char MenuRecord_field_36_must_be_at_0x36[
     MENU_RECORD_OFFSET(field_36) == 0x36 ? 1 : -1
 ];
-typedef char MenuRecord_field_3C_must_be_at_0x3C[
-    MENU_RECORD_OFFSET(field_3C) == 0x3C ? 1 : -1
+typedef char MenuRecord_slot_index_must_be_at_0x3C[
+    MENU_RECORD_OFFSET(slot_index) == 0x3C ? 1 : -1
 ];
 typedef char MenuRecord_field_40_must_be_at_0x40[
     MENU_RECORD_OFFSET(field_40) == 0x40 ? 1 : -1

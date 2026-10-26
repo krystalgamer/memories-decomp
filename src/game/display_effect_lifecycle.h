@@ -16,7 +16,7 @@
  * display_effect_update_callbacks.c does. */
 typedef struct {
     u8 pad_00[0x31];
-    u8 field_31;
+    u8 resource_entry_index;
     u8 field_32;
     u8 state;
     u16 field_34;
