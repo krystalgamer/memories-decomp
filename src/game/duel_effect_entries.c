@@ -120,8 +120,8 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     entry->owner_channel_tag = channel->channel_index + 1;
     entry->handler_state = 1;
     entry->render_mode = 0;
-    entry->field_0C = channel->pen_x;
-    entry->field_0E = channel->pen_y;
+    entry->local_x = channel->pen_x;
+    entry->local_y = channel->pen_y;
     entry->code_00 = tagged_value;
     flags = channel->flags_34;
     result = 0;
@@ -146,26 +146,26 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     entry->flags_11 = mode | 0x80;
 
     if (mode == 3) {
-        entry->field_0C += 2;
+        entry->local_x += 2;
     }
     if (mode == 2) {
         if (glyph == 0x28 || glyph == 0x42 || glyph == 0x45) {
-            entry->field_0C -= 2;
+            entry->local_x -= 2;
             result = -4;
         }
         if (glyph == 0x3F || glyph == 0x43 || glyph == 0x4D) {
-            entry->field_0C -= 1;
+            entry->local_x -= 1;
             result = -2;
         }
     }
     if (mode == 0) {
         if (glyph == 7) {
-            entry->field_0C -= 3;
+            entry->local_x -= 3;
             result = -6;
         }
         if (glyph == 0x3F || glyph == 0x42 || glyph == 0x45 ||
             glyph == 0xE || glyph == 0xC) {
-            entry->field_0C -= 1;
+            entry->local_x -= 1;
             result = -2;
         }
     }

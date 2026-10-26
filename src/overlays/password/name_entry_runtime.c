@@ -287,8 +287,8 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
         if (!(node->flags_11 & 0x80)) {
             return (DuelEffectEntry *)0;
         }
-        if ((s16)node->field_0C == x &&
-            (s16)node->field_0E == y) {
+        if ((s16)node->local_x == x &&
+            (s16)node->local_y == y) {
             return (DuelEffectEntry *)node;
         }
 #else
@@ -331,8 +331,8 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)sprite) == 0) {
         if (source != 0) {
 #ifdef VERSION_EUROPE
-            obj->savedSourceX = source->field_0C;
-            source->field_0C = 0x400;
+            obj->savedSourceX = source->local_x;
+            source->local_x = 0x400;
 #else
             obj->savedSourceX = source->x_0C;
             source->x_0C = 0x400;
@@ -366,7 +366,7 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
     if (frame >= 12) {
         if (source != 0) {
 #ifdef VERSION_EUROPE
-            source->field_0C = obj->savedSourceX;
+            source->local_x = obj->savedSourceX;
 #else
             source->x_0C = obj->savedSourceX;
 #endif
@@ -623,8 +623,8 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         cell = node->pad_0D[1];
         DisplayObject_ConfigureScreenSprite(
             obj,
-            p->rect_x + (s16)node->field_0C,
-            p->rect_y + (s16)node->field_0E,
+            p->rect_x + (s16)node->local_x,
+            p->rect_y + (s16)node->local_y,
             12, 16, (cell % 21) * 12, (cell / 21) * 16 + 80,
             10, 640, 192
         );

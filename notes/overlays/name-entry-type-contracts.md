@@ -91,3 +91,15 @@ The screen's four interface headers therefore contain declarations and
 imports, not record definitions. All seven public type names involved in
 this contract have one central definition or alias, and the resident
 source-node layout retains all its original assertions.
+
+## PAL source-node coordinates remain local, not clone state
+
+PAL EuropeanDuelEffectEntry local_x/local_y name its original u16
+field_0C/field_0E at physical +0x02/+0x04. TextBox_GetGlyphAt retains its
+explicit (s16) casts and both equality tests. NameEntry_UpdateGlyphPulse
+still saves the SOURCE node's X, stores 0x400 and restores the saved value
+at the same frame boundary; neither source ownership nor clone scale/
+tag/release timing changes. NameEntry_SpawnGlyphSprite retains signed
+coordinate casts before adding channel rect_x/rect_y and all PAL atlas
+metrics. The shared NA/Japanese x_0C/y_0E spellings, original NA pre-null
+code read and unchecked allocation are not changed or generalized.

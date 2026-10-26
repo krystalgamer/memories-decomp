@@ -165,3 +165,45 @@ The whole shared header changes three declarations, two existing offset
 assertions' member/label identifiers and three existing comments. Widths,
 offsets, alignment, qualifiers, G32, numeric assertions, raw regional
 views, all other owner fields and all fixtures remain unchanged.
+
+## Regional entry-local coordinate views
+
+local_x/local_y name the original u16 field_0C/field_0E in the PAL
+entry and legacy entry-callback prefix. The logical coordinates agree,
+but their physical offsets do not:
+
+| Existing view | Coordinate members | Physical offsets | Stored type |
+| --- | --- | --- | --- |
+| Shared NA entry / Japanese shared prefix | x_0C / y_0E, unchanged | +0x0C / +0x0E | s16 |
+| Legacy DuelEffectChannel entry-callback prefix | local_x / local_y | +0x0C / +0x0E | u16 |
+| EuropeanDuelEffectEntry | local_x / local_y | +0x02 / +0x04 | u16 |
+
+The names describe glyph positions relative to their owning text display,
+not the live channel's pen_x/pen_y, display-object world positions or
+additional real stream fields. Append copies the pen into PAL coordinates
+before its original rejection paths and retains the exact X-only glyph
+metric adjustments and signed return values. The renderer adds its
+display-object origin using the existing raw unsigned halfword reads;
+its source, viewport handling, strides and byte-cursor biases do not change.
+
+The PAL spiral callback saves these coordinates through its existing
+halfword origin views, restores them on the same terminal path and keeps
+the original rcos/rsin position updates. The delayed-rotation callback
+reads the pair through the PAL or legacy prefix and retains its signed
+shifts, byte delay narrowing and same-call first decrement. Neither
+consumer gains a new coordinate conversion, type or callback signature.
+
+PAL name-entry lookup keeps its (s16) casts and local-coordinate equality
+tests. Glyph pulse still saves X, parks the SOURCE glyph at 0x400, and
+restores it only at the original frame boundary. Sprite construction
+still adds channel rect_x/rect_y to the explicitly signed local pair.
+Shared x_0C/y_0E, Japanese padding, NA code-before-null/unchecked allocation
+and all regional atlas, frame/tag and source-lifetime behavior remain.
+
+Three whole C units change twenty-four qualified member identifiers only.
+Two whole headers change four u16 declarations and one existing callback-
+view comment; no type, offset, width, assertion, alignment, G32 or numeric
+expression changes. Unrelated selection, view, packet and ritual fields
+stay untouched, as do all fixtures. The remaining field_04/field_08/
+field_14 storage is deliberately not given universal shade/rotation names:
+handlers also use it for delay, saved origins, angle/radius and flags.

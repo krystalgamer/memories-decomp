@@ -101,3 +101,16 @@ This is not local full PAL-image execution; ordinary applicable exact-head
 regional PR image/regression gates remain mandatory. No new tests,
 synthetic/generated-C/source-string harness, local cloud/regional/witness
 suite or manual CI rerun is introduced.
+
+## Position names preserve the original local space
+
+The PAL entry's old logical field_0C/field_0E now spell local_x/local_y,
+still u16 at physical +0x02/+0x04, not +0x0C/+0x0E. The spiral core
+keeps its existing halfword saved-origin views, RNG calls, direction and
+radius masks, signed trigonometric arithmetic, terminal restore and
+X-before-Y writes. The raw renderer still reads these same local values
+and adds the display-object origin. Its record size and signed/unsigned
+consumer views are unchanged. Only qualified coordinate identifiers in
+the callback change; origin storage, field_04/field_08/field_14 meanings,
+raw intensity +0x15, two-argument ABI and table ownership stay intact.
+See [text-glyph-renderer.md](text-glyph-renderer.md).
