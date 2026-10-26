@@ -673,18 +673,9 @@ out:
 #undef MAIN_MENU_TRADE_SCROLL_MAX
 #endif
 
-#undef MAIN_MENU_TRADE_STATE_BUFFER
-#include "../../game/display_object_config.h"
-#include "../../game/data_transfer_request.h"
-#include "../../game/duel_card_viewer.h"
-#include "../../game/duel_effect.h"
-#include "../../game/sound.h"
-#include "../../game/input.h"
-#include "../../game/text_box_lifecycle.h"
-#include "../../game/card_list_create_deck_box_stat_rows.h"
-#include "../../game/func_800610E0.h"
-#include "../../game/func_800611D0.h"
-
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_REFRESH_TRADE_INVENTORY) || \
+    defined(VERSION_EUROPE_MAIN_MENU_REFRESH_TRADE_INVENTORY)
 void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
 {
     MainMenuComparators comparators;
@@ -725,3 +716,4 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
 
     gTrade_aInventoryRowSets[slot].object[0x69] = mode;
 }
+#endif
