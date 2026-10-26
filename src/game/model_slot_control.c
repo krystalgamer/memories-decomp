@@ -483,7 +483,7 @@ void Model_ResetSlot(s32 arg0)
     p->load_step = 0xFF;
     p->tint[3] = 0;
     *(s16 *)&p->texture_tint_scale = COLOR_FIXED_ONE;
-    p->field_E1D = 0;
+    p->skip_sound_setup = 0;
     p->field_DFE = arg0;
     p->field_DFF = 0;
     p->field_DFC = 0xFFFF;
@@ -644,7 +644,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
     }
     File_WaitForTransfers();
     Model_InitSlot(slot, 0, 0, arg6);
-    gModel_aSlots[slot].field_E1D = flags;
+    gModel_aSlots[slot].skip_sound_setup = flags;
     if (slot < 2) {
         if (model == MODEL_SPECIAL_BATTLE_ID) {
             transfer = File_TryRequestAsyncTransfer(
@@ -875,15 +875,15 @@ void Model_AdvanceSlotLoad(s32 index)
         break;
     }
     case 10:
-        if (slot->field_E1D == 0) {
+        if (slot->skip_sound_setup == 0) {
             SD_LoadSequenceBankPair(
                 index, (u32 *)(D_801A8000 + (index << 11))
             );
         }
         break;
     case 11:
-        if (slot->field_E1D == 0) {
-            slot->field_E1E = 1;
+        if (slot->skip_sound_setup == 0) {
+            slot->animation_sound_enabled = 1;
         }
         slot->is_active = 1;
         break;
@@ -1128,7 +1128,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         }
         break;
     case 13:
-        if (slot->field_E1D != 0) {
+        if (slot->skip_sound_setup != 0) {
             d->phase_size = FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
@@ -1142,7 +1142,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         }
         break;
     case 14:
-        if (slot->field_E1D != 0) {
+        if (slot->skip_sound_setup != 0) {
             u32 mask;
             do { mask = 0xFFFCFFFF; } while (0);
             d->phase_size = 50 * FILE_SECTOR_SIZE;
@@ -1183,7 +1183,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
         if (slot->field_DFC < 0xFFFF) {
             slot->field_CF8.prefix.values.field_02 = slot->field_DFC;
         }
-        if (slot->field_E1D != 0) {
+        if (slot->skip_sound_setup != 0) {
             slot->field_CF8.field_10 = -1;
             slot->field_CF8.field_14 = -1;
             slot->field_CF8.field_18 = -1;

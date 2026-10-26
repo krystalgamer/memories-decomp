@@ -125,6 +125,8 @@ Verified shared fields and partial arrays are:
 | `0xE19` | `render_parent_coordinate_index` | initialization selection/replacement index; can remain stale when its pointer becomes null |
 | `0xE1A` | `hmd_unit_count` | head-entry count in `Model_RunSlotHandlers` |
 | `0xE1B` | `animation_sequence_count` | pointer-array count in `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` |
+| `0xE1D` | `skip_sound_setup`, `u8` | raw packed-slot 0x80 option skips sequence/sample setup and clears three CF8 commands; not a mute/active state |
+| `0xE1E` | `animation_sound_enabled`, `u8` | independent nonzero animation-cue gate; cleared before HMD test, conditionally armed at load step 11 |
 | `0xE1F` | `is_active` | status tests in `func_80058DD8` and `Model_RunSlotHandlers` |
 
 `hmd_units` retains the existing `MODEL_SLOT_UNIT_COUNT` (60) declaration,
@@ -252,6 +254,21 @@ equality and negative requests are not newly rejected.
 `Model_GetCurrentDataEntry` keeps its integer-address return and
 0x50-byte stride. No SDK layout, pointer type, G32 marker, allocation,
 stable-parent lifetime, API or validation behavior changes.
+
+### Sound-setup option and animation-sound gate
+
+`ModelSlot.field_E1D` and `ModelSlot.field_E1E` now have the separate
+roles `skip_sound_setup` and `animation_sound_enabled`, retaining both
+raw bytes and exact offsets. The credits request's packed 0x80 option
+skips voice shutdown, sequence-sector RAM write, SPU sample upload and
+sequence-bank registration; it also resets three copied CF8 commands
+and does not arm the cue gate at step 11. Existing voices are not muted.
+Phase 14's mode 3 is authoritatively SPU audio, not the image mode 2.
+The cue gate remains independent of active/load state and follows the
+original active and tint tests. Null-HMD/nonnull-HMD resets, conditional
+writes, all copied metadata, transfer masks/order and byte narrowing
+remain intact; no Boolean inverse, silence or readiness guarantee.
+See [the complete audio load/cue protocol](model-slot-lifecycle.md#sound-setup-and-animation-cue-gates).
 
 ### Variadic slot-property update
 

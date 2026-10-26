@@ -91,15 +91,69 @@ promotion, truncation and overflow behavior. No new limit or assumption
 that it equals `hmd_unit_count` is introduced. Resetting a count does not
 newly clear old sequence pointers.
 
-## Deliberately unclassified request flag
+## Sound setup and animation-cue gates
 
-`field_E1D` is not renamed to "has model." `Model_LoadMonsterMerge` stores
-the caller's raw packed-slot bit `0x80` there. It affects voice shutdown,
-optional metadata/sample transfers, sequence-bank setup and metadata
-control words. A nonzero request flag is not a Boolean loaded/active
-property, and its existing representation and behavior remain untouched.
-The separate `field_E1E` and other control bytes are also outside this
-component.
+The later audio component identifies two independent raw bytes:
+
+| Original member | Canonical member | Preserved representation |
+| --- | --- | --- |
+| `field_E1D` | `skip_sound_setup` | `u8`, +0xE1D; packed-slot option retains 0x80 |
+| `field_E1E` | `animation_sound_enabled` | `u8`, +0xE1E; existing nonzero cue gate |
+
+`Model_LoadMonsterMerge` captures `slot & 0x80`, then retains the original
+`slot &= 0x7F`. Only the zero-option path calls `SD_KeyOffVoiceSlots`.
+It waits for transfers and calls `Model_InitSlot` with a null HMD before
+storing the original raw option byte. The only traced flagged caller is
+`Model_UpdateCreditsMonsterSlot`, which passes `arg0 | 0x80` while cycling
+random models. Ordinary debug, Library and special-battle calls retain
+their unflagged arguments. No new slot bounds, Boolean conversion or
+caller-domain restriction is introduced.
+
+In `Model_LoadMonsterMergeStage`, nonzero skip state consumes phase 13's
+one sector and phase 14's fifty sectors through the original mode-1
+skip-RAM-write path. The unflagged phase 13 writes the sequence block to
+`D_801A8000 + index * FILE_SECTOR_SIZE`. Unflagged phase 14 keeps both
+descriptor destination assignments and uses mode 3 with SPU address
+`0xD810 + index * 0x19000`. This is sample audio, NOT an image upload:
+`File_TransferReadyCallback` case 3 uses `SpuSetTransferStartAddr` and
+`SpuWrite`, whereas image writes are its separate case 2. The SPU bases
+and 0x19000-byte sample regions independently agree with
+`SD_LoadSequenceBankPair`'s two-side note-address rebasing.
+Mode 3 reads `sector_destination`; assigning the alternate pointer is
+not evidence that sample writes alternate buffers like image mode 2.
+All phase sizes, masks, descriptor writes and sector consumption stay exact.
+
+Phase 16 still copies every sound entry and the complete CF8 block, applies
+the existing comparison overrides, and only then resets all THREE CF8
+command words to -1 for a skipped setup. This option therefore also
+disables those command requests; it is not permission to discard copied
+metadata or simplify the control callbacks. The loader still publishes
+step 1, and the mapped-HMD initialization retains the skip byte.
+
+Staged-load step 10 registers the sequence bank only when skip state is
+zero. Step 11 sets `animation_sound_enabled` to 1 only in that same
+unflagged case, but sets `is_active` unconditionally. The flagged arm
+does NOT add an explicit clear of the cue byte. `Model_InitSlot` already
+clears that byte before testing HMD nullness; it clears skip state only
+in the null-HMD branch, before the loader restores its captured option.
+`Model_ResetSlot` retains its whole-record clear and explicit skip-byte
+zero. Do not infer a global inverse relationship between these bytes
+from one complete load path or alter partial/reset/direct-load behavior.
+
+`Model_PlaySlotAnimationSounds` keeps its active test first, its exact
+tint-mode/black-RGB gate next, then its nonzero animation-sound gate.
+The ordinary entry walk and special command branch retain animation
+selection, duration/frame windows, spatial volume/pan, CD seek and sound
+dispatch, repeated selector reads, the volatile diagnostic cursor reload
+and Japan's absent debug print. Neither byte is a ready/visible predicate.
+Skipping setup does not mute existing SPU voices or guarantee silence:
+the flagged request deliberately avoids the original voice key-off.
+Enabling cues does not promise that a bank, entry or command is valid.
+
+The existing offset-based model-transfer oracle, its mutations, exact
+byte expectations and every other fixture are entirely unchanged.
+No new behavioral harness, fixture execution, SDK declaration, profile,
+manifest, source group or runtime invariant is introduced.
 
 The tentative textured-primitive helper, palette conversion research,
 packet/cache fields and unrelated records are not changed.
