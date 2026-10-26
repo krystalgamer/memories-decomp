@@ -58,7 +58,7 @@ fields and cache addressing. These routines keep their handwritten
 classification and unchanged instruction bytes.
 
 `Model_LoadSlot` and staged-load case 4 preserve the original per-part
-work-span calculation after `field_DE0`. They store that resulting address
+work-span calculation after `animation_snapshot_buffer`. They store that resulting address
 as `lit_color_cache_address`, then derive `lit_color_cache_end_address`
 by adding `lit_color_cache_entry_count * 4`. This names the existing
 accounting interval, not a new allocation or a validated address range.

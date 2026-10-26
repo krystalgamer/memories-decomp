@@ -269,11 +269,11 @@ typedef struct {
     /* The command list and the three pointers beside it, all installed by
      * Model_ResetSlotAnimationTables from the two blocks in the command
      * chain. Model_ControlSlotAnimation reads animation_commands as the base of
-     * 4-byte command records and field_DDC / field_DE0 as its transfer
-     * source and destination. */
+     * 4-byte command records and animation_parameter_base / animation_snapshot_buffer as its live-parameter base
+     * and saved-word buffer. */
     s32 *G32 animation_commands;
-    u8 *G32 field_DDC;
-    u8 *G32 field_DE0;
+    u8 *G32 animation_parameter_base;
+    u8 *G32 animation_snapshot_buffer;
     u8 *G32 field_DE4;
     /* The module data words gModel_Slot0PrimaryDataAddress..gModel_Slot1VariantDataAddress Model_InitSlot copies in
      * for slots 0 and 1 (see high_memory_addresses.h). */
@@ -556,6 +556,12 @@ typedef char ModelSlot_field_DC8_offset_must_be_0xDC8[
 ];
 typedef char ModelSlot_field_DD0_offset_must_be_0xDD0[
     MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0 ? 1 : -1
+];
+typedef char ModelSlot_animation_snapshot_pointer_layout_must_match[
+    MODEL_OFFSET(ModelSlot, animation_parameter_base) == 0xDDC &&
+    sizeof(((ModelSlot *)0)->animation_parameter_base) == 4 &&
+    MODEL_OFFSET(ModelSlot, animation_snapshot_buffer) == 0xDE0 &&
+    sizeof(((ModelSlot *)0)->animation_snapshot_buffer) == 4 ? 1 : -1
 ];
 typedef char ModelSlot_primary_module_data_address_offset_must_be_0xDE8[
     MODEL_OFFSET(ModelSlot, primary_module_data_address) == 0xDE8 ? 1 : -1
