@@ -91,6 +91,16 @@ promotion, truncation and overflow behavior. No new limit or assumption
 that it equals `hmd_unit_count` is introduced. Resetting a count does not
 newly clear old sequence pointers.
 
+## Loaded-module command words
+
+The three signed CF8 reset words now have their recovered module roles:
+first_star_module_command, second_star_module_command and
+primary_module_command. The existing indexed command view, sign gates,
+modulo-1000 requests, primary/variant callback order and cue selection
+are preserved. They are not new sound IDs or Boolean enable bytes.
+See [the complete command protocol](model-structures.md#loaded-module-command-words),
+including auxiliary selection two and the unchanged three-sentinel resets.
+
 ## Sound setup and animation-cue gates
 
 The later audio component identifies two independent raw bytes:

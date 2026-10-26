@@ -105,7 +105,7 @@ class SpanishModelVariant479SheetsTests(unittest.TestCase):
             ("O(POLY_GT4,x0)", 8), ("O(POLY_GT4,x1)", 20), ("O(POLY_GT4,x2)", 32),
             ("O(POLY_GT4,x3)", 44), ("O(ModelSlot,field_CF8)", 0xCF8),
             ("O(ModelSlot,primary_module_data_address)", 0xDE8), ("O(ModelSlot,variant_module_data_address)", 0xDEC),
-            ("O(ModelControlCommandView,commands)", 0xD08), ("O(ModelSlot,field_CF8.field_18)", 0xD10),
+            ("O(ModelControlCommandView,commands)", 0xD08), ("O(ModelSlot,field_CF8.primary_module_command)", 0xD10),
             ("O(ModelTransferMetadata,field_CF8)", 0x100), ("sizeof(ModelSlotCF8BlockWords)", 0x1C),
         )
         directory = ROOT / "tmp/test-spanish-model479-sheets-layout"

@@ -774,9 +774,9 @@ check_ready:
         slot->queued_animation_row_latch = 1;
         slot->queued_animation_row = 2;
         SD_BGMPlayDefaultStep(0x7310);
-        current->field_CF8.field_10 = -1;
-        current->field_CF8.field_14 = -1;
-        current->field_CF8.field_18 = -1;
+        current->field_CF8.first_star_module_command = -1;
+        current->field_CF8.second_star_module_command = -1;
+        current->field_CF8.primary_module_command = -1;
         gModel_bActiveSlotIndex = 0;
         first(gModel_Slot0VariantDataAddress, 0);
         second(gModel_Slot1VariantDataAddress, 0);
