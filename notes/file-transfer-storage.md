@@ -112,6 +112,70 @@ witness, control, fixture, trace and tool remains unchanged. The entire
 prior semantic ledger gains one row describing the named C view, not a
 new allocation or renamed linker symbol.
 
+## Staged sound request members
+
+The complete producer, submission, promotion, phase and ready-sector chain
+establishes all nine non-padding members of the existing FileRequestSlot:
+
+| Former member | Canonical member | Retained representation |
+| --- | --- | --- |
+| field_00 | file_selector | s32 at +0x00 |
+| field_04 | sector_offset | s32 at +0x04 |
+| field_0C | spu_destination | s32 address word at +0x0C |
+| field_10 | ram_destination | s32 address word at +0x10 |
+| field_14 | spu_transfer_size | s32 at +0x14 |
+| field_18 | ram_transfer_size | s32 at +0x18 |
+| field_1C | range_sector_count | s16 at +0x1C |
+| field_1E | cd_filter_file | u8 at +0x1E |
+| field_1F | cd_filter_channel | u8 at +0x1F |
+
+The record stays 0x20 bytes. pad_08 stays four uninterpreted bytes:
+neither submission nor naming initializes it, and both whole-record copies
+still transport it. Addresses stay signed integer words, not new pointers.
+
+SD_StepActiveCommand case 32 preserves the exact active-tail assignments,
+including the fresh request-pointer reloads. Its source-selector cases
+0x10/0x20/0x40 still rewrite file_selector to 4/5/6 and choose the existing
+SE/BGM/MASTER.XA filename buffer. No default case, mask, validation, failure
+handling or new dispatch is added. The general submission path still ORs
+the original selector word with 0x1400000; the name is not a promise that
+the input is a pure masked file index or that every value is supported.
+sector_offset retains its signed value and the existing location helper's
+negative/absolute-LBA treatment; it is not converted to a byte offset.
+
+File_RequestSecondarySlot keeps FIVE distinct non-null branches:
+all phase sizes and range count zero attempt the existing seek; negative
+range count only requests a stop through the shared range flags and returns
+one; positive range count adds MASTER.XA's base and submits start/end plus
+the channel/file bytes; zero range count with a cancelling signed phase-size
+sum returns zero; otherwise the full pending record is copied before the
+unsigned sector-offset member-address reload and descriptor initialization.
+A null pointer remains only the pending-bit poll, not queue submission.
+No branch is collapsed into a Boolean success result or a common busy gate.
+
+SD_ConfigureTransferPhase preserves its mode dispatch and gotos. Phase zero
+uses spu_transfer_size and spu_destination for mode-three staged SPU writes;
+zero size redirects phase_index to two before trying the RAM phase. The RAM
+phase uses ram_transfer_size and ram_destination with mode one and the
+original global flag mask. A positive phase size is bytes, but a negative
+signed size is transformed by the ORIGINAL -(value << FILE_SECTOR_SHIFT).
+The fields are not universally byte counts, sector counts or nonnegative
+lengths. Preserve the SPU-first/RAM-second order, skipped-phase cursor,
+staging buffer pair, callback and mode-specific source-cursor advancement.
+
+Range command 0x24 retains `(u16)end - (u16)start + 0x10` narrowed to the
+signed range_sector_count. Zero chooses seek, negative chooses range-stop,
+and positive is the submitted sector span; there is no repaired endpoint,
+range/order check, saturation or monotonicity invariant. Command 0x21
+still builds a seek request. cd_filter_channel at +0x1F and cd_filter_file
+at +0x1E reach callback_data bytes zero/one and the existing Setfilter
+file/channel order. Their names do not change masks or normalize bytes.
+
+The scalar first-slot ASM view, raw active/pending aliases, 0x20-byte
+copies, request pointer and native identities are unchanged. Every fixture,
+control, assertion, mutation, scenario and numeric expectation remains
+byte-for-byte unchanged. No new harness or local cloud-fixture execution.
+
 ## Bundle boundary
 
 The descriptor, source cursor and scalar/raw request views form one

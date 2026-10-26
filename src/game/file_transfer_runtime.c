@@ -682,7 +682,7 @@ high:
         goto tail;
     return;
 full:
-    if (shared->field_14 == 0) {
+    if (shared->spu_transfer_size == 0) {
         object->phase_index = 2;
         goto reduced;
     }
@@ -690,19 +690,19 @@ full:
     base = gFile_TransferBufferBase;
     object->sector_destination = base;
     object->alternate_sector_destination = base + FILE_SECTOR_SIZE;
-    object->field_30.word = shared->field_0C;
-    value = shared->field_14;
+    object->field_30.word = shared->spu_destination;
+    value = shared->spu_transfer_size;
     object->phase_size = value;
     goto fix;
 reduced:
-    if (shared->field_18 == 0)
+    if (shared->ram_transfer_size == 0)
         goto tail;
-    position = shared->field_10;
+    position = shared->ram_destination;
     gFile_dwTransferState &= 0xFFDCFFFF;
     object->alternate_sector_destination = position;
     object->sector_destination = position;
     object->transfer_mode = 1;
-    value = shared->field_18;
+    value = shared->ram_transfer_size;
     object->phase_size = value;
 fix:
     if (value < 0)
@@ -731,12 +731,12 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
         return gFile_dwTransferState & FILE_TRANSFER_STATE_SECONDARY_PENDING;
     }
 
-    a = p->field_14;
-    b = p->field_18;
-    c = p->field_1C;
+    a = p->spu_transfer_size;
+    b = p->ram_transfer_size;
+    c = p->range_sector_count;
 
     if ((a | b | c) == 0) {
-        return (s32)File_RequestSecondarySeek(p->field_00, p->field_04);
+        return (s32)File_RequestSecondarySeek(p->file_selector, p->sector_offset);
     }
 
     if (c != 0) {
@@ -745,9 +745,9 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 2;
             return 1;
         }
-        n = *(s32 *)gFile_nMasterXaLba + p->field_04;
+        n = *(s32 *)gFile_nMasterXaLba + p->sector_offset;
         return (s32)File_RequestSecondaryRangeTransfer(
-            n, n + c, p->field_1F, p->field_1E
+            n, n + c, p->cd_filter_channel, p->cd_filter_file
         );
     }
 
@@ -757,7 +757,7 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
     }
 
     {
-        w = p->field_00;
+        w = p->file_selector;
         /* Borrowed local: `m`'s real assignment is three lines down and this
          * one is dead, but it ties the negation's pseudo to m's allocation
          * and rotates $s2/$s3/$s4 into retail's order. A fresh name, six
@@ -767,10 +767,10 @@ s32 File_RequestSecondarySlot(FileRequestSlot *p, u8 *q) {
         r = D_801D4200_raw;
         *(FileRequestSlot *)(r + 0x20) = *p;
         /* The post-copy reload goes through the member's address as u32:
-           a plain p->field_04 (or an s32 cast, which fold turns back into
+           a plain p->sector_offset (or an s32 cast, which fold turns back into
            one) exchanges the request pointer's and sector-offset local's
            allocation and changes 24 words. */
-        m = *(u32 *)&p->field_04;
+        m = *(u32 *)&p->sector_offset;
         gFile_dwTransferState =
             gFile_dwTransferState & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
         v = w | 0x1400000;
