@@ -171,14 +171,15 @@ lifetime changes.
 ## Marker data record
 
 The marker refresh and `Duel_CreateHandCardDisplayObject` read data +0x04 through
-`DuelDeckCardRecord::flags_04`. `Duel_SetupCardRecord` supplies a pointer
+`DuelDeckCardRecord::pre_shuffle_index`. `Duel_SetupCardRecord` supplies a pointer
 into that six-byte record array, and `Duel_PopulateCombinedDeckData` fills
 the same byte. The separate five-byte `DuelCardDisplayData` prefix is no
 longer needed.
 
 This reuse is limited to those two reads. The global `data` member stays
-opaque, and the byte's broader flag meaning is not inferred. The plus-one
-byte conversion, view-mode reads and negative-mode override remain exact.
+opaque. The byte is the pre-shuffle slot, not a flag mask or current
+combined-deck index. The plus-one byte conversion, view-mode reads and
+negative-mode override remain exact.
 
 ## Ritual deck-entry views
 
@@ -212,8 +213,8 @@ pre-shuffle index bytes at +0x1BB70 and 80 halfword card IDs at +0x1BBC4.
 `Duel_ShuffleBothDecks` supplies two 40-entry runs: `Duel_ShuffleDeck`
 initializes each byte to its pre-shuffle slot and permutes it together
 with the ID. The population step copies those bytes into the existing
-deck record's `flags_04`; this does not rename that member or infer
-additional flag behavior.
+deck record's `pre_shuffle_index`. This names the paired original-slot
+payload only; it does not introduce any flag behavior.
 
 The shuffle API uses optional `const u16 *` source lists, `u16 *` ID
 outputs and `u8 *` original-slot outputs. Each ID step remains two bytes;
@@ -730,3 +731,40 @@ initialised data at `0x8015B890`, which is 22 words.
 The assembly-user set changes whenever another function is integrated.
 Consult the `D_801A7AD8` rows in `notes/global-usage.csv` rather than copying
 that volatile list here.
+
+## Original deck provenance and display metadata
+
+pre_shuffle_index is the unchanged u8 at DuelDeckCardRecord +0x04.
+Duel_ShuffleDeck seeds a 0..39 original-slot byte in both supplied-deck
+and weighted-generated paths, then swaps that byte together with its ID.
+Duel_ShuffleBothDecks supplies two separate forty-entry runs; population
+copies the shuffled byte from DuelCombinedDeckInput.pre_shuffle_indices.
+This differs from deck_index at +0x02, which population seeds with the
+current combined-deck index, and data_block_index at +0x03.
+
+The card-specific display view names +0x67 deck_number_marker.
+The screen factory initializes it to zero; marker refresh and the hand
+factory copy pre_shuffle_index + 1, including the original u8 conversion.
+The negative view mode still performs the nonzero-mode data read before
+overriding with 0xFF. Mode zero can retain the old byte. The renderer draws
+digits only for 1..40; any nonzero marker still selects its marker frame,
+so 0xFF is not normalized to zero or treated as a visible decimal value.
+Marker-flag clears, the packed record +0x14 gate and helper order stay.
+
+card_type at display +0x68 retains the original stat-word extraction and
+AI comparisons. The world-space factory uses its own signed shift before
+the existing mask; neither factory gains a new interpretation or clamp.
+The display view's u8 deck_index at +0x6B caches the constructor's original
+unsigned data[2] read. Its source record's canonical deck_index is s8:
+those distinct declarations, casts and promotions are not unified.
+Scene-move and battle readers pass that cached byte back to the field
+setup path. The world-space factory still does not initialize it.
+
+These names apply only to DuelDeckCardRecord and DuelCardDisplayObject.
+Canonical DisplayObject, resource/configuration, preview, text and parser
+views retain their polymorphic offset names. One non-card row-set write
+retains field_68 through the existing generic DisplayObject view: it is an
+enabled flag, not card_type. No new type, union alias, default, clear,
+callback, group boundary or argument change follows.
+The shared sign-selector byte +0x69 and the two helpers' different +0x21/
++0x22 mappings remain unchanged, including stale orientation bytes.

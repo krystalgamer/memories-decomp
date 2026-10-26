@@ -47,3 +47,19 @@ factory, graphics, allocation runtime or engine. Complete affected
 compiler/MASPSX output, after only identifier normalization, and a clean
 whole-executable exact match remain required. Historical attempt/research
 evidence, generated reports and frozen headers are not rewritten.
+
+## Card-specific metadata identities
+
+The factory's existing DuelCardDisplayObject bytes now read
+deck_number_marker (+0x67), card_type (+0x68) and deck_index (+0x6B).
+Marker zero, the stat-table type mask and the unsigned data[2] copy are
+unchanged. The record's +0x04 is pre_shuffle_index, established by the
+paired ID/original-slot shuffle and population chain, not a flag mask.
+Both marker helpers retain their plus-one narrowing and negative-mode
+0xFF override. Generic display/configuration/preview/text/parser views
+keep their distinct offset names; +0x69 remains the existing sign selector.
+
+The existing constructor-return fixture changes only its one marker
+member identifier. Its independent expected byte at 0x67, 0xFE mutation,
+all cases, guarded backing, assertions and negative controls are intact.
+No new fixture or behavioral harness is introduced or run locally.

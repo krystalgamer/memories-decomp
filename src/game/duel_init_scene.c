@@ -215,10 +215,10 @@ void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object)
         return;
     }
     if (gDuel_pActiveSideState->card_view_mode != 0) {
-        object->field_67 = ((DuelDeckCardRecord *)card->data)->flags_04 + 1;
+        object->deck_number_marker = ((DuelDeckCardRecord *)card->data)->pre_shuffle_index + 1;
     }
     if (gDuel_pActiveSideState->card_view_mode < 0) {
-        object->field_67 = 0xFF;
+        object->deck_number_marker = 0xFF;
     }
 }
 
@@ -228,7 +228,7 @@ void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object)
     u16 flags;
 
     if (!(card->flags & DUEL_CARD_FLAG_DISPLAY_MARKER)) {
-        object->field_67 = 0;
+        object->deck_number_marker = 0;
     }
     flags = object->flags & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
     object->flags = flags;
@@ -259,12 +259,12 @@ DuelCardDisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *arg0, s32 ar
 
     k = arg0->card_id - 1;
     tbl = gDuel_adwCardStats;
-    p->field_67 = 0;
-    p->field_68 = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+    p->deck_number_marker = 0;
+    p->card_type = (tbl[k] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     p->field_69 = 0;
     p->card_index =
         ((u32)arg0 - (u32)gDuel_aCardRecords) / DUEL_CARD_RECORD_SIZE;
-    p->field_6B = ((u8 *)arg0->data)[2];
+    p->deck_index = ((u8 *)arg0->data)[2];
     p->out_x = arg1;
     p->out_y = arg2;
     p->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
@@ -284,10 +284,10 @@ DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card)
 
     if (gDuel_pActiveSideState->card_view_mode != 0) {
         card->flags |= DUEL_CARD_FLAG_DISPLAY_MARKER;
-        result->field_67 =
-            ((DuelDeckCardRecord *)card->data)->flags_04 + 1;
+        result->deck_number_marker =
+            ((DuelDeckCardRecord *)card->data)->pre_shuffle_index + 1;
         if (gDuel_pActiveSideState->card_view_mode < 0) {
-            result->field_67 = 0xFF;
+            result->deck_number_marker = 0xFF;
         }
     }
     return result;
@@ -301,7 +301,7 @@ DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card)
    field_22 and field_21 from the selected gDuel_aCardRecords record's face-down and
    defense-position flags; always sets color to DUEL_DISPLAY_COLOR_NORMAL, or
    DUEL_DISPLAY_COLOR_DIMMED if DUEL_CARD_FLAG_USED_THIS_TURN is set; runs
-   Duel_UpdateCardDisplayMarker, then clears field_67 unless
+   Duel_UpdateCardDisplayMarker, then clears deck_number_marker unless
    DUEL_CARD_FLAG_DISPLAY_MARKER is set. */
 void Duel_ApplyCardObjectFlags(DuelCardDisplayObject *object) {
     u16 flags = object->flags;
@@ -325,7 +325,7 @@ void Duel_ApplyCardObjectFlags(DuelCardDisplayObject *object) {
     }
     Duel_UpdateCardDisplayMarker(object);
     if (!(rec->flags & DUEL_CARD_FLAG_DISPLAY_MARKER)) {
-        object->field_67 = 0;
+        object->deck_number_marker = 0;
     }
 }
 

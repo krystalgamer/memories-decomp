@@ -434,7 +434,7 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
                 out->defense = r >> 16;
                 out->flags = rec->flags;
                 out->card_type =
-                    ((DuelCardDisplayObject *)rec->object)->field_68;
+                    ((DuelCardDisplayObject *)rec->object)->card_type;
                 if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
                     t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_2_SHIFT;
@@ -469,7 +469,7 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
                 out->defense = r >> 16;
                 out->flags = rec->flags;
                 out->card_type =
-                    ((DuelCardDisplayObject *)rec->object)->field_68;
+                    ((DuelCardDisplayObject *)rec->object)->card_type;
                 if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
                     t = *(s32 *) ((((s16) rec->card_id - 1) << 2) + (u32) tbl) >>
                         CARD_STAT_GUARDIAN_STAR_2_SHIFT;

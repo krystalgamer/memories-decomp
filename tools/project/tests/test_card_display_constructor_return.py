@@ -107,7 +107,7 @@ void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object)
 void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object)
 {
     if (phase++ != 4 || object != selected || !same()) error = 1;
-    object->field_67 = 0xFE;
+    object->deck_number_marker = 0xFE;
     expected_object[0x67] = 0xFE;
 }
 int main(void)

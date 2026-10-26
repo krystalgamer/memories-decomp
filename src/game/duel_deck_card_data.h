@@ -22,7 +22,7 @@ void Duel_RequestCombinedDeckData(void);
 /* Fills gDuel_aDeckCardRecords once the transfer Duel_RequestCombinedDeckData
  * starts has landed.
  *
- * For each of the combined deck's entries it takes the id and the flag byte
+ * For each combined-deck entry it takes the id and the pre-shuffle index byte
  * from their two tables, records the entry's own index twice, and then finds
  * that id in the unique id list to locate its data block, copying the block
  * to the running destination.
