@@ -2,6 +2,11 @@
 #include "variant779_entry.h"
 #include "../../game/screen_projection.h"
 
+/* PAL images load the burst palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT779_CLUT_X
+#define MODEL_VARIANT779_CLUT_X 512
+#endif
+
 /* Header 779's entry: two ring-buffer trails that follow four parts of the
  * slot and fade towards their tails, then two bursts in front of the slot,
  * each with animated sparks, animated flares and a four-point star at every
@@ -82,7 +87,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->colors[3][i].b = work->config->star_b;
         }
         work->burst_tpage = 0xAE;
-        work->burst_clut = 0x3D20;
+        work->burst_clut = (244 << 6) | (MODEL_VARIANT779_CLUT_X >> 4);
         for (i = 0; i < 3; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D0F0[i]);
         }

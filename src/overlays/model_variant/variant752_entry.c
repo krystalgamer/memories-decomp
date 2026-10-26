@@ -2,6 +2,11 @@
 #include "variant752_entry.h"
 #include "../../game/screen_projection.h"
 
+/* PAL images load the burst palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT752_CLUT_X
+#define MODEL_VARIANT752_CLUT_X 512
+#endif
+
 /* Header 752's entry, a sibling of header 754's: while the camera moves
  * through the row's presets and the slot's parts are tinted, a burst in front
  * of the slot draws a growing cloud of small four-point sparkles that grow and
@@ -74,7 +79,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->elapsed = 0;
         work->tick = 0;
         work->sparkle_count = 0;
-        work->burst_clut = 0x3D20;
+        work->burst_clut = (244 << 6) | (MODEL_VARIANT752_CLUT_X >> 4);
         for (i = 0; i < 3; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C990[i]);
         }

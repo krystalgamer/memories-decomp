@@ -1,6 +1,12 @@
 #include "../../types.h"
 #include "variant754_entry.h"
 #include "../../game/screen_projection.h"
+#include "../../game/graphics_constants.h"
+
+/* PAL images load the burst palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT754_CLUT_X
+#define MODEL_VARIANT754_CLUT_X 512
+#endif
 
 /* Header 754's entry: while the camera moves through the row's presets and the
  * slot's parts are tinted, a burst in front of the slot draws a growing cloud
@@ -77,7 +83,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->elapsed = 0;
         work->tick = 0;
         work->smoke_count = 0;
-        work->burst_clut = 0x3D20;
+        work->burst_clut = (244 << 6) | (MODEL_VARIANT754_CLUT_X >> 4);
         for (i = 0; i < 3; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C96C[i]);
         }
@@ -311,7 +317,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (work->flash.word & 0xFFFFFF) {
         setPolyF4(flash_packet);
         setRGB0(flash_packet, work->flash.rgb.r, work->flash.rgb.g, work->flash.rgb.b);
-        setXY4(flash_packet, 0, 0, 320, 0, 0, 240, 320, 240);
+        setXY4(flash_packet, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
         Graphics_SubmitDrawModePacket((u32 *)flash_packet, ot, 0, 1);
         if (work->flash.rgb.r > 31) work->flash.rgb.r -= 31;
         else work->flash.rgb.r = 0;

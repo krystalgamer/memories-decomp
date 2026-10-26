@@ -2,6 +2,11 @@
 #include "variant766_entry.h"
 #include "../../game/screen_projection.h"
 
+/* PAL images load the burst palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT766_CLUT_X
+#define MODEL_VARIANT766_CLUT_X 512
+#endif
+
 /* Header 766's entry, a sibling of the French header-770 entry: a gouraud
  * trail between two parts of the active slot, then a flash that spins and
  * widens, a burst of two stars, falling sparks and a fan of light columns
@@ -76,7 +81,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->flash_color.rgb.g = work->config->flash_g;
         work->flash_color.rgb.b = work->config->flash_b;
         work->burst_tpage = 0xAE;
-        work->burst_clut = 0x3D20;
+        work->burst_clut = (244 << 6) | (MODEL_VARIANT766_CLUT_X >> 4);
         for (i = 0; i < 2; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C848[i]);
         }

@@ -2,6 +2,11 @@
 #include "variant756_entry.h"
 #include "../../game/screen_projection.h"
 
+/* PAL images load the burst palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT756_CLUT_X
+#define MODEL_VARIANT756_CLUT_X 512
+#endif
+
 /* Header 756's entry, an extension of the header-766 entry: the same gouraud
  * trail, stars, sparks and light columns, plus a cloud of animated smoke
  * puffs, a debris burst and a ring of embers in front of the slot. The smoke
@@ -91,7 +96,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->burst_color.rgb.g = work->config->burst_g;
         work->burst_color.rgb.b = work->config->burst_b;
         work->burst_tpage = 0xAE;
-        work->burst_clut = 0x3D20;
+        work->burst_clut = (244 << 6) | (MODEL_VARIANT756_CLUT_X >> 4);
         for (i = 0; i < 3; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D010[i]);
         }
