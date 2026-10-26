@@ -155,8 +155,6 @@ segments:
       - [0x11394, c, game/japanese/duel_result_runtime]
       - [0x12700, c, game/japanese/debug_effect_screen]
       - [0x12cbc, c, game/japanese/duel_card_turn_animations]
-      - [0x133dc, c, game/japanese/duel_view_tween]
-      - [0x13534, c, game/duel_selection_update_linked_object]
       - [0x135e0, c, game/display_parent_links]
       - [0x136d8, c, game/japanese/duel_field_display_objects]
       - [0x14338, c, game/japanese/duel_cursor_grid_direction]

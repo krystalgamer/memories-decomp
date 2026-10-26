@@ -159,8 +159,6 @@ segments:
       - [0x0114AC, c, game/european/duel_result_runtime]
       - [0x012830, c, game/european/debug_effect_screen]
       - [0x012DEC, c, game/duel_card_turn_animations]
-      - [0x01350C, c, game/duel_view_tween]
-      - [0x013664, c, game/duel_selection_update_linked_object]
       - [0x013710, c, game/display_parent_links]
       - [0x013808, c, game/european/duel_field_display_objects]
       - [0x014480, c, game/duel_cursor_grid_direction]

@@ -158,8 +158,6 @@ segments:
       - [0x114B0, c, game/spanish/duel_result_runtime]
       - [0x12974, c, game/spanish/debug_effect_screen]
       - [0x12F30, c, game/duel_card_turn_animations]
-      - [0x13650, c, game/duel_view_tween]
-      - [0x137A8, c, game/duel_selection_update_linked_object]
       - [0x13854, c, game/display_parent_links]
       - [0x1394C, c, game/european/duel_field_display_objects]
       - [0x145C4, c, game/duel_cursor_grid_direction]

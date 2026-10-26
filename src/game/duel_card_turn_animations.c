@@ -8,6 +8,13 @@
 #include "duel_card_display_state.h"
 #include "duel_card_display_objects.h"
 #include "display_object_lifecycle.h"
+#include "view_state.h"
+#include "duel_view_tween.h"
+#include "../unmatched.h"
+#include "view_state_current.h"
+#include "duel_selection_layout.h"
+#include "duel_selection_update_linked_object.h"
+#include "display_object_core.h"
 
 /* The mirror of Duel_UpdateCardToFieldView: the card turn-back animation step. Picks
  * the mode (+0x2E) from the card record's flags when DisplayObject_MarkInitialized says
@@ -321,4 +328,54 @@ alt2:
     }
     p->tint.channel[0] = 0;
     goto reset;
+}
+
+void Duel_StartViewTween(
+    s32 frames, s32 distance, s32 orbit_angle, s32 heading, s32 target_z)
+{
+    s16 current_distance = gViewState_Current.field_00;
+    s32 distance_step = ((distance - current_distance) << 16) / frames;
+    s16 current_orbit_angle = gViewState_Current.field_04;
+    s32 orbit_step = ((orbit_angle - current_orbit_angle) << 16) / frames;
+    s16 current_heading = gViewState_Current.angle;
+    s32 heading_step = ((heading - current_heading) << 16) / frames;
+    s32 current_target_z = gViewState_Current.view.vrz;
+    s32 target_z_step = ((target_z - current_target_z) << 16) / frames;
+
+    gDuel_wViewTweenFramesRemaining = frames;
+    gDuel_wViewTweenDistanceTarget = distance;
+    gDuel_wViewTweenOrbitAngleTarget = orbit_angle;
+    gDuel_wViewTweenHeadingTarget = heading;
+    gDuel_wViewTweenReferenceZTarget = target_z;
+    gDuel_dwViewTweenDistanceAccumulator = (current_distance << 16) | 0x8000;
+    gDuel_dwViewTweenOrbitAngleAccumulator = (current_orbit_angle << 16) | 0x8000;
+    gDuel_dwViewTweenHeadingAccumulator = (current_heading << 16) | 0x8000;
+    gDuel_dwViewTweenReferenceZAccumulator = (current_target_z << 16) | 0x8000;
+    gDuel_dwViewTweenDistanceStep = distance_step;
+    gDuel_dwViewTweenOrbitAngleStep = orbit_step;
+    gDuel_dwViewTweenHeadingStep = heading_step;
+    gDuel_dwViewTweenReferenceZStep = target_z_step;
+}
+
+void DuelSelection_UpdateLinkedObject(DisplayObject *object)
+{
+    u8 *base = gDuel_abSelectionSides;
+    s32 offset =
+        (s16)object->field_2C.h.field_2C * DUEL_SELECTION_RECORD_SIZE;
+    DisplayObject *parent;
+
+    offset += gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE;
+    parent = ((DuelSelectionRecord *)(base + offset))->field_00;
+    if (parent == 0) {
+        DisplayObject_ReleaseIfPresent(object);
+    } else {
+        object->field_30.h.field_30 =
+            parent->field_30.h.field_30 + object->position.h.field_28;
+        object->field_30.h.field_32 =
+            parent->field_30.h.field_32 + object->position.h.field_2A;
+        if (parent->field_6C == 0) {
+            object->field_6C = 0;
+            object->update = 0;
+        }
+    }
 }
