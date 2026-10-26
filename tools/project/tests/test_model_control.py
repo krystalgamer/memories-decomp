@@ -172,7 +172,7 @@ void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part, s32 animation, u32 f
     if (index != (chosen_index ^ 1)) fixture_error = 6;
     event(32, part, animation, frame);
     if (mutate && seeks++ == 0) {
-        slot->field_BF5 ^= 1;
+        slot->current_animation_row ^= 1;
         slot->animation_position++;
         if (serial & 1) slot->animation_sequence_count = 1;
     }
@@ -216,11 +216,11 @@ static void reference(s32 index)
         Model_SetHandlerCallbackState(0);
     }
     if (self->field_E0E == 6)
-        self->field_E0E = self->field_BF5 == self->field_DFE + 3 || self->field_DF8 == 0x309 ? 7 : 2;
+        self->field_E0E = self->current_animation_row == self->field_DFE + 3 || self->field_DF8 == 0x309 ? 7 : 2;
     if (self->field_E0E == 2) return;
     if (commands[self->field_DFE] < 0) {
-        if (self->field_BF5 == self->field_DFE + 3) {
-            if ((s32)(self->animation_position >> 4) >= (s32)(self->animation_duration_rows[self->field_BF5].max >> 1)) {
+        if (self->current_animation_row == self->field_DFE + 3) {
+            if ((s32)(self->animation_position >> 4) >= (s32)(self->animation_duration_rows[self->current_animation_row].max >> 1)) {
                 Model_ControlSlotAnimation(index ^ 1, selection(self, other, index) & 0x7F, 1);
                 self->field_E0E = 2;
             }
@@ -233,10 +233,10 @@ static void reference(s32 index)
         handler(*(u8 **)((u8 *)self + 0xDEC), commands[self->field_DFE] % 1000);
         Model_SetHandlerCallbackState(0);
         self->field_E0E = 8;
-        self->field_E08 = 0;
+        self->animation_sound_position = 0;
     }
     state = self->field_E0E;
-    if (self->field_BF5 != self->field_DFE + 3 && self->field_DF8 != 0x309 &&
+    if (self->current_animation_row != self->field_DFE + 3 && self->field_DF8 != 0x309 &&
         state != 0 && state != 1 && state != 3 && state != 4 && state != 5) return;
     decision = selection(self, other, index);
     Model_SetHandlerCallbackState(1);
@@ -267,7 +267,7 @@ static void reference(s32 index)
     default: FntPrint(gModel_szWhyTrace); self->field_E0E = 2; return;
     }
     step = Model_GetFrameStep();
-    step = self->field_E0D * (step + 1);
+    step = self->playback_speed * (step + 1);
     decision = selection(self, other, index) & 0x7F;
     changed = 0;
     if (self->field_E0E == 1) FntPrint(gModel_szHitTrace);
@@ -282,7 +282,7 @@ static void reference(s32 index)
         other->animation_position -= step;
         frame = other->animation_position;
         for (part = 0; part < other->animation_sequence_count; part++)
-            Model_SeekSlotPartAnimation(other, part, other->field_BF5, frame);
+            Model_SeekSlotPartAnimation(other, part, other->current_animation_row, frame);
         if ((rand() >> 8) & 1) changed = 1;
     }
     if (gModel_bSceneMode == 15 && changed && decision == 8)
@@ -313,11 +313,11 @@ static void setup(void)
     self->is_active = serial % 11 != 0;
     self->field_E0E = initial_state;
     self->field_DFE = serial & 1;
-    self->field_BF5 = serial & 2 ? self->field_DFE + 3 : 0;
+    self->current_animation_row = serial & 2 ? self->field_DFE + 3 : 0;
     self->field_DF8 = serial % 5 ? 1 : 0x309;
     self->animation_position = frames[(serial + 1) % 7];
-    self->field_E08 = 0x1234;
-    self->field_E0D = serial % 7 ? 1 + serial % 4 : 255;
+    self->animation_sound_position = 0x1234;
+    self->playback_speed = serial % 7 ? 1 + serial % 4 : 255;
     commands = (s32 *)((u8 *)self + 0xD08);
     commands[0] = command_mode == 0 ? -1 : command_mode == 1 ? 0 : 1234567;
     commands[1] = command_mode == 0 ? -1 : command_mode == 1 ? 999 : 2001000;
@@ -328,7 +328,7 @@ static void setup(void)
     other->animation_position = frames[serial % 7];
     other->field_E16 = serial % 7 ? 0 : 0x23;
     other->animation_sequence_count = serial % 3;
-    other->field_BF5 = 4;
+    other->current_animation_row = 4;
     other->field_DFF = defense;
     other->field_DF8 = serial & 1;
     a = (u16 *)&self->field_CF8;

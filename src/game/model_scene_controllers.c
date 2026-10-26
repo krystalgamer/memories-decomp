@@ -771,8 +771,8 @@ check_ready:
         }
         Model_SetSlotPlaybackDirection(0, 1);
         Model_SetSlotTintTarget(0, 5, 0, 0, 0);
-        slot->field_BF6 = 1;
-        slot->field_BF4 = 2;
+        slot->queued_animation_row_latch = 1;
+        slot->queued_animation_row = 2;
         SD_BGMPlayDefaultStep(0x7310);
         current->field_CF8.field_10 = -1;
         current->field_CF8.field_14 = -1;
@@ -865,7 +865,7 @@ check_ready:
         }
         break;
     case 10:
-        if (slot->field_BF5 == 2) {
+        if (slot->current_animation_row == 2) {
             gModel_bPresentationPhase++;
         }
         break;
@@ -901,9 +901,9 @@ check_ready:
         }
         break;
     case 15: {
-        s32 remaining = slot->animation_duration_rows[slot->field_BF5].max << 4;
+        s32 remaining = slot->animation_duration_rows[slot->current_animation_row].max << 4;
         s32 timing = Model_GetFrameStep();
-        remaining -= slot->field_E0D * timing;
+        remaining -= slot->playback_speed * timing;
         if (slot->animation_position >= remaining) {
             Model_SetSlotPlaybackDirection(0, 0);
         }
@@ -1329,9 +1329,9 @@ void Model_PlaySlotAnimationSounds(s32 index) {
     if (m->field_E1E == 0) {
         return;
     }
-    anim = m->field_BF5;
+    anim = m->current_animation_row;
     length = m->animation_duration_rows[anim].max << 4;
-    speed = m->field_E0D * Model_GetFrameStep();
+    speed = m->playback_speed * Model_GetFrameStep();
     e = m->sound_entries;
     tag = (index << 8) + 0x4000;
     if (length != 0) {
@@ -1350,23 +1350,23 @@ void Model_PlaySlotAnimationSounds(s32 index) {
         }
         if (show) {
 #ifdef VERSION_JAPAN
-            speed2 = m->field_E0D * Model_GetFrameStep();
-            phase = m->field_E08;
-            m->field_E08 = phase + speed2;
+            speed2 = m->playback_speed * Model_GetFrameStep();
+            phase = m->animation_sound_position;
+            m->animation_sound_position = phase + speed2;
             anim = m->field_DFE + 3;
 #else
             s32 cur2;
             s32 value2;
 
-            speed2 = m->field_E0D * Model_GetFrameStep();
+            speed2 = m->playback_speed * Model_GetFrameStep();
             cur2 = m->field_DFE;
-            phase = m->field_E08;
-            m->field_E08 = phase + speed2;
+            phase = m->animation_sound_position;
+            m->animation_sound_position = phase + speed2;
             value2 = ((ModelControlCommandView *)m)->commands[cur2];
             anim = m->field_DFE + 3;
-            /* Retail loads field_E08 again after the store above; read
+            /* Retail loads animation_sound_position again after the store above; read
                plainly, GCC reuses the value it just stored instead. */
-            sprintf(buf, gModel_szAnimationSoundTraceFormat, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->field_E08 >> 4);
+            sprintf(buf, gModel_szAnimationSoundTraceFormat, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->animation_sound_position >> 4);
             FntPrint(buf);
 #endif
         }
@@ -1382,7 +1382,7 @@ void Model_PlaySlotAnimationSounds(s32 index) {
     i = 0;
 loop:
     flag = e->flags & 0x8000;
-    id = e->id;
+    id = e->sound_id;
     /* A one-pass block around the loop body; it decides which of phase
      * and the counter get $s1 and $s3. */
     do {
@@ -1391,10 +1391,10 @@ loop:
         } else {
             code = (u16)tag | id;
         }
-        if (e->frame == 0) {
+        if (e->animation_row == 0) {
             return;
         }
-        if (e->frame == anim) {
+        if (e->animation_row == anim) {
             if (flag != 0 && phase == 0) {
                 SD_EnqueueCdSeek(code);
             }
@@ -2060,7 +2060,7 @@ last:
  * through its
  * copy preference. `v` itself never crosses the call, which is what holds the
  * srl and andi ahead of it where the scheduler would otherwise sink them to
- * the end of the block. The saved field_BF5 is one name, `keep`, across both
+ * the end of the block. The saved current_animation_row is one name, `keep`, across both
  * loops. */
 void Model_UpdateTintRequests(void)
 {
@@ -2109,7 +2109,7 @@ void Model_UpdateTintRequests(void)
         slot = &gModel_aSlots[side];
         sav06 = slot->animation_position;
         part = v & 0x1F;
-        keep = slot->field_BF5;
+        keep = slot->current_animation_row;
         old = Model_SetSlotShadowEnabled(side, 0);
         sid = part;
         save = *MODEL_TINT_COLOR_VIEW(slot->tint);
@@ -2121,7 +2121,7 @@ void Model_UpdateTintRequests(void)
 
         aa = a;
         for (j = 0; j < slot->animation_sequence_count; j++) {
-            s32 t = slot->field_BF5;
+            s32 t = slot->current_animation_row;
             if (sid != 0) {
                 slot->animation_sequences[j]->sid = sid;
                 t = sid;
@@ -2129,7 +2129,7 @@ void Model_UpdateTintRequests(void)
             Model_SeekSlotPartAnimation(slot, j, t, aa);
         }
         if (sid != 0) {
-            slot->field_BF5 = sid;
+            slot->current_animation_row = sid;
         }
 
         gModel_PartMaskAddress = off + rowbase;
@@ -2140,7 +2140,7 @@ void Model_UpdateTintRequests(void)
 
         sv = sav06;
         for (k = 0; k < slot->animation_sequence_count; k++) {
-            s32 t = slot->field_BF5;
+            s32 t = slot->current_animation_row;
             if (keep != 0) {
                 slot->animation_sequences[k]->sid = keep;
                 t = keep;
@@ -2148,7 +2148,7 @@ void Model_UpdateTintRequests(void)
             Model_SeekSlotPartAnimation(slot, k, t, sv);
         }
         if (keep != 0) {
-            slot->field_BF5 = keep;
+            slot->current_animation_row = keep;
         }
 
         Model_SetSlotShadowEnabled(side, old);

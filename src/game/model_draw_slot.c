@@ -325,8 +325,8 @@ void Model_DrawSlot(s32 index)
             for (; k < n; k++) {
                 if (slot->animation_sequences[k]->rewrite_idx == idx) {
                     if (slot->animation_sequences[k]->aframe == 0xFFFF
-                        && ((slot->field_BEC[k / 8] >> (k % 8)) & 1)
-                        && slot->animation_duration_rows[slot->field_BF5].values[k] != 0) {
+                        && ((slot->extended_animation_part_mask[k / 8] >> (k % 8)) & 1)
+                        && slot->animation_duration_rows[slot->current_animation_row].values[k] != 0) {
                         found = 1;
                     }
                     break;
@@ -642,10 +642,10 @@ void Model_DrawSlot(s32 index)
     if (slot->field_E10 != 0) {
         Model_ControlSlotAnimation(index, -1, 0);
     } else if (slot->field_E0F != 0) {
-        if (slot->field_E0F != slot->field_BF5) {
+        if (slot->field_E0F != slot->current_animation_row) {
             Model_SeekSlotAnimation(index, slot->field_E0F, 0);
         } else if (slot->field_E16 != 0x23) {
-            slot->field_BF6 = 0;
+            slot->queued_animation_row_latch = 0;
         }
     }
     fl = slot->field_E13;

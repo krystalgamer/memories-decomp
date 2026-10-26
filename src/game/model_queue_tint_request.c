@@ -65,7 +65,7 @@ void Model_QueueTintRequest(
             r->flags = f5;
             f6 = f5 & 0xFF07;
             sel = off;
-            f = f6 | ((slot->field_BF5 & 0x1F) << 3);
+            f = f6 | ((slot->current_animation_row & 0x1F) << 3);
             r->flags = f;
             r->animation_position_snapshot = slot->animation_position;
             r->elapsed = 0;
