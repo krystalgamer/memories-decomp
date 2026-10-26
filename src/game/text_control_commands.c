@@ -56,7 +56,7 @@
 
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
-    u8 *G32 *pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58];
+    u8 *G32 *pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index];
     u8 *p = *pp;
     s32 op = *p;
 
@@ -64,7 +64,7 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
     gText_SecondaryCommandHandlers[op](object);
 }
 
-  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 *G32 *p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}
+  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 *G32 *p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}
 
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
@@ -76,16 +76,16 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
     s32 d;
 
     gText_CommandDisposition = 1;
-    t = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58]++;
+    t = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index]++;
     c = t;
     d = TEXT_CHOICE_OPTIONS_ENABLED_MASK;
     if (c & TEXT_CHOICE_COMMAND_HAS_OPTIONS) {
-        u = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58]++;
+        u = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index]++;
         t = u;
         d = t;
     }
     if (c & TEXT_CHOICE_COMMAND_BRANCH) {
-        TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58] +=
+        TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index] +=
             gDialog_bChoice * 2;
         Text_SetCursorOffset(object);
     } else {
@@ -134,7 +134,7 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
         target &= 0xFFFF;
         if (Campaign_TestStoryFlag(flag) != 0) {
             s32 *cursor = (s32 *)(
-                (u32)object + (u32)&((u8 **)0)[object->stream_58]);
+                (u32)object + (u32)&((u8 **)0)[object->stream_index]);
 
             *cursor = (*cursor & TEXT_STREAM_CURSOR_HIGH_MASK) | target;
         }
@@ -148,11 +148,11 @@ void Text_PushStreamOffset(DuelEffectChannel *arg0)
     s32 v;
 
     v = TextStream_ReadU16LE(arg0);
-    c = arg0->stream_58;
+    c = arg0->stream_index;
     owner->streams[c + 1] =
         (u8 *)(((u32)owner->streams[c] & TEXT_STREAM_CURSOR_HIGH_MASK) |
                (v & 0xFFFF));
-    arg0->stream_58++;
+    arg0->stream_index++;
 }
 
 void Text_NewLine(DuelEffectChannel *record)
@@ -177,8 +177,8 @@ void Text_EndStream(DuelEffectChannel *record)
 {
     u16 flags;
 
-    record->stream_58--;
-    if (record->stream_58 < 0) {
+    record->stream_index--;
+    if (record->stream_index < 0) {
         flags = record->flags_34;
         gText_CommandDisposition = 1;
         flags |= 0x2000;

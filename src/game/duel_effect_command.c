@@ -40,7 +40,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     u8 *text;
     u8 *current;
 
-    text = (u8 *)(s32)object->stream_58;
+    text = (u8 *)(s32)object->stream_index;
     text = (u8 *)((u32)text * 4);
     {
         u8 *stream = (u8 *)object;
@@ -82,7 +82,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         }
         id += 0x8300;
     }
-    object->stream_58++;
+    object->stream_index++;
     n = id;
     if (id & TEXT_GLOBAL_STRING_ID_BASE) {
         text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
@@ -94,7 +94,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) |
                       gText_PrimaryStringOffsets[n]);
     }
-    TEXT_STREAM_OWNER(object)->streams[object->stream_58] = text;
+    TEXT_STREAM_OWNER(object)->streams[object->stream_index] = text;
     return;
 plain:
     object->flags_34 |= 0x80;
@@ -114,7 +114,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     u8 *text;
     u8 *current;
 
-    text = (u8 *)(s32)object->stream_58;
+    text = (u8 *)(s32)object->stream_index;
     text = (u8 *)((u32)text * 4);
     {
         u8 *stream = (u8 *)object;
@@ -160,7 +160,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         }
         id += 0x8300;
     }
-    object->stream_58++;
+    object->stream_index++;
     if (id <= 0x7FFF) {
         if (id >= 0x500) {
             s32 n = id - 0x100;
@@ -175,7 +175,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
                       gText_GlobalStringOffsets[id - 0x8000]);
     }
-    TEXT_STREAM_OWNER(object)->streams[object->stream_58] = text;
+    TEXT_STREAM_OWNER(object)->streams[object->stream_index] = text;
     return;
 plain:
     object->flags_34 |= 0x100;
@@ -196,7 +196,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     u8 *current;
     u8 *G32 *slot;
 
-    text = (u8 *)(s32)object->stream_58;
+    text = (u8 *)(s32)object->stream_index;
     object->field_62 = 0;
     text = (u8 *)((u32)text * 4);
     {
@@ -250,7 +250,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         }
         id += 0x8300;
     }
-    object->stream_58++;
+    object->stream_index++;
     n = id;
     if (id > 0xCFFF) {
         text = (u8 *)((u32)gText_PrimaryStringOffsets & 0xFFFF0000) +
@@ -265,7 +265,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         text = (u8 *)((u32)gText_PrimaryStringAddressAnchor & 0xFFFF0000) + gText_PrimaryStringOffsets[n];
     }
 store:
-    slot = &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
+    slot = &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
     *slot = text;
     return;
 plain:
@@ -301,7 +301,7 @@ void Text_EmitGuardianStarGlyph(DuelEffectChannel *object)
 void Text_EmitNextSymbolGlyph(DuelEffectChannel *object)
 {
     u8 *G32 *stream =
-        &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
+        &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
 
     Text_EmitSymbolGlyph(object, *(*stream)++);
 }
@@ -314,7 +314,7 @@ void Text_ResetPenXAndAdvanceY(DuelEffectChannel *object)
 
     object->pen_x = 0;
     stream =
-        &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
+        &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
     current = *stream;
     value = current[0];
     current++;
@@ -325,7 +325,7 @@ void Text_ResetPenXAndAdvanceY(DuelEffectChannel *object)
 void Text_AdvancePenX(DuelEffectChannel *object)
 {
     u8 *G32 *stream =
-        &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
+        &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
     register u8 *G32 *slot = stream;
     register u8 *current = *slot;
     register u32 value = current[0];
@@ -349,7 +349,7 @@ void Text_PushFormattedDecimal(DuelEffectChannel *object)
     s32 w;
 
     r = TextStream_ReadU32LE(TEXT_STREAM_OWNER(object));
-    t = *TEXT_STREAM_OWNER(object)->streams[object->stream_58]++;
+    t = *TEXT_STREAM_OWNER(object)->streams[object->stream_index]++;
     c = t;
     Text_EncodeDecimalDigits(*(s32 *)r, c & 0xF, buf);
 
@@ -360,12 +360,12 @@ void Text_PushFormattedDecimal(DuelEffectChannel *object)
             goto skip;
         }
         h = *(u16 *)&gText_DecimalDigitGlyphMap[0];
-        e = object->text_44;
+        e = object->decimal_buffer;
         goto write;
     }
 
     if (c < 2) {
-        e = object->text_44;
+        e = object->decimal_buffer;
         goto write;
     }
 
@@ -383,7 +383,7 @@ void Text_PushFormattedDecimal(DuelEffectChannel *object)
     }
 
 skip:
-    e = object->text_44;
+    e = object->decimal_buffer;
 
 write:
     i = (c & 0xF) - 1;
@@ -404,15 +404,15 @@ write:
     } while (i >= 0);
 
     *e = TEXT_STRING_TERMINATOR;
-    object->stream_58++;
-    TEXT_STREAM_OWNER(object)->streams[object->stream_58] = object->text_44;
+    object->stream_index++;
+    TEXT_STREAM_OWNER(object)->streams[object->stream_index] = object->decimal_buffer;
 }
 
 /* Inlining keeps the stream value and channel in independent live ranges. */
 static __inline__ u32 read_operand(DuelEffectChannel *object)
 {
     u8 *G32 *stream =
-        &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
+        &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
     u8 *cursor = *stream;
     u32 value = *cursor++;
 
@@ -484,7 +484,7 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object)
     /* Separate lifetimes preserve allocation across the two stream reads. */
     {
         u8 *G32 *stream =
-            &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
+            &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
         u8 *current = *stream;
         u8 value = *current++;
 
@@ -493,7 +493,7 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object)
     }
     {
         u8 *G32 *stream =
-            &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
+            &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
         u8 *current = *stream;
         u8 value = *current++;
 
@@ -580,8 +580,8 @@ u8 *G32 *Text_PushStagedString(DuelEffectChannel *a0) {
     }
 #endif
 
-    counter = *(u8 *)&a3->stream_58 + 1;
-    *(u8 *)&a3->stream_58 = counter;
+    counter = *(u8 *)&a3->stream_index + 1;
+    *(u8 *)&a3->stream_index = counter;
     slot = &TEXT_STREAM_OWNER(a3)->streams[(s8)counter];
     *slot = (u8 *)v1;
     return slot;
@@ -590,7 +590,7 @@ u8 *G32 *Text_PushStagedString(DuelEffectChannel *a0) {
 void Text_SetColorIndex(DuelEffectChannel *object)
 {
     u8 *G32 *slot =
-        &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
+        &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
     u8 *q = *slot;
     s32 v = *q;
     s32 w;
@@ -612,7 +612,7 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
 
     obj = object;
     obj->flags_34 &= 0xEFFF;
-    stream = &TEXT_STREAM_OWNER(obj)->streams[obj->stream_58];
+    stream = &TEXT_STREAM_OWNER(obj)->streams[obj->stream_index];
     current = *stream;
     value = *current;
     current++;

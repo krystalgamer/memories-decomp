@@ -61,7 +61,7 @@ void Text_SetOutputLimit(DuelEffectChannel *object);
  * gText_StagedStringId. North America selects three banks; Japan selects D_801D6000
  * for ids with bit 15 set and D_801C0000 otherwise. It hands back the slot.
  *
- * Its parameter is the DuelEffectChannel whose stream_58 byte selects one of
+ * Its parameter is the DuelEffectChannel whose stream_index byte selects one of
  * the pointer words at the front of the record. It returns the selected slot,
  * although the generic command table discards that result. The slot holds
  * a stored byte-stream pointer, not an integer payload word. */

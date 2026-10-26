@@ -33,7 +33,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 *G32 *p;
         u8 *q;
         u32 v;
-        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];
+        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
         q = *p;
         v = *q++;
         *p = q;
@@ -43,7 +43,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 *G32 *p;
         u8 *q;
         u32 v;
-        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];
+        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
         q = *p;
         v = *q++;
         *p = q;
@@ -53,7 +53,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 *G32 *p;
         u8 *q;
         u32 v;
-        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];
+        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
         q = *p;
         v = *q++;
         *p = q;
@@ -63,7 +63,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 *G32 *p;
         u8 *q;
         u32 v;
-        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];
+        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
         q = *p;
         v = *q++;
         *p = q;

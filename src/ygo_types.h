@@ -512,7 +512,7 @@ typedef char LibraryMotionState_size_must_be_0x48[
    TextBox_BuildStep seeds both with &tent_DuelEffectEntries[range_start_5C],
    DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
 typedef struct DuelEffectChannel {
-    u8 *G32 text_00;
+    u8 *G32 root_stream;
     /* The fade callbacks in gText_SecondaryCommandHandlers reach this block. They are reached as
        bytes at 0x04-0x0A, as local XY halfwords at 0x0C/0x0E, and as single bytes
        at 0x13-0x15; 0x04 is additionally written as one word (0 and
@@ -570,7 +570,7 @@ typedef struct DuelEffectChannel {
     s16 rect_height;
     /* The glyph buffer Text_PushFormattedDecimal formats a decimal number into; it then
        pushes the buffer as the channel's next stream. */
-    u8 text_44[0x0D];
+    u8 decimal_buffer[0x0D];
     /* TextBox_BuildStep dispatches on the low five bits through D_80090E64.
        0x80 is an initialization latch set by every callback on entry. */
     u8 state_51;
@@ -584,7 +584,7 @@ typedef struct DuelEffectChannel {
     u8 channel_index;
     /* Which leading pointer word is the live byte stream. Every reader scales
        it by four; it is signed because all three consumers read it as s8. */
-    s8 stream_58;
+    s8 stream_index;
     u8 depth_offset;
     u8 glyph_advance_x;
     u8 line_advance_y;
@@ -647,8 +647,8 @@ typedef char DuelEffectChannel_explicit_newline_count_offset_must_be_0x56[
 typedef char DuelEffectChannel_channel_index_offset_must_be_0x57[
     YGO_TYPE_OFFSET(DuelEffectChannel, channel_index) == 0x57 ? 1 : -1
 ];
-typedef char DuelEffectChannel_stream_58_offset_must_be_0x58[
-    YGO_TYPE_OFFSET(DuelEffectChannel, stream_58) == 0x58 ? 1 : -1
+typedef char DuelEffectChannel_stream_index_offset_must_be_0x58[
+    YGO_TYPE_OFFSET(DuelEffectChannel, stream_index) == 0x58 ? 1 : -1
 ];
 typedef char DuelEffectChannel_glyph_advance_x_offset_must_be_0x5A[
     YGO_TYPE_OFFSET(DuelEffectChannel, glyph_advance_x) == 0x5A ? 1 : -1

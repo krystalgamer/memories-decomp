@@ -31,10 +31,10 @@ void Text_JumpBySelectorA(DuelEffectChannel *object)
     TextStreamOwner *owner = (TextStreamOwner *)object;
     s32 value;
 
-    owner->streams[object->stream_58] += gText_BranchSelectorA * 2;
+    owner->streams[object->stream_index] += gText_BranchSelectorA * 2;
     value = TextStream_ReadU16LE(object);
-    owner->streams[object->stream_58] =
-        (u8 *)(((u32)owner->streams[object->stream_58] &
+    owner->streams[object->stream_index] =
+        (u8 *)(((u32)owner->streams[object->stream_index] &
                 DUEL_EFFECT_STREAM_HIGH_MASK) |
                (value & 0xFFFF));
 }
@@ -44,10 +44,10 @@ void Text_JumpBySelectorB(DuelEffectChannel *object)
     TextStreamOwner *owner = (TextStreamOwner *)object;
     s32 value;
 
-    owner->streams[object->stream_58] += gText_BranchSelectorB * 2;
+    owner->streams[object->stream_index] += gText_BranchSelectorB * 2;
     value = TextStream_ReadU16LE(object);
-    owner->streams[object->stream_58] =
-        (u8 *)(((u32)owner->streams[object->stream_58] &
+    owner->streams[object->stream_index] =
+        (u8 *)(((u32)owner->streams[object->stream_index] &
                 DUEL_EFFECT_STREAM_HIGH_MASK) |
                (value & 0xFFFF));
 }
@@ -59,7 +59,7 @@ void Text_UnlockDuelist(DuelEffectChannel *object)
     u8 *G32 *stream;
     u8 *cursor;
 
-    stream = &((TextStreamOwner *)object)->streams[object->stream_58];
+    stream = &((TextStreamOwner *)object)->streams[object->stream_index];
     cursor = *stream;
     value = *cursor++;
     duelist_id = value;
@@ -87,7 +87,7 @@ void Text_CloseChoice(DuelEffectChannel *object)
    next text stream. */
 void Text_PushPlayerNameStream(DuelEffectChannel *object)
 {
-    ((TextStreamOwner *)object)->streams[object->stream_58 + 1] = gText_aCurrentPlayerNameGlyphs;
-    object->stream_58++;
+    ((TextStreamOwner *)object)->streams[object->stream_index + 1] = gText_aCurrentPlayerNameGlyphs;
+    object->stream_index++;
 }
 #endif

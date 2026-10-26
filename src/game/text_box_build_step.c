@@ -87,7 +87,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         gText_ChoiceLayoutCallback = 0;
         object->delay_52 = 1;
         TEXT_BOX_GLYPH_COUNT(object) = 0;
-        object->stream_58 = 0;
+        object->stream_index = 0;
 #ifdef VERSION_JAPAN
         /* The Japanese two-bank layout, as in its Text_LookupString. */
         if (id & TEXT_GLOBAL_STRING_ID_BASE) {
@@ -133,7 +133,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
                 gText_PrimaryStringOffsets[id]);
         }
 #endif
-        object->text_00 = text;
+        object->root_stream = text;
         object->explicit_newline_count = 0;
         object->state_51 = 0;
         DisplayObject_ReleaseIfPresent(object->prompt_object);
@@ -182,7 +182,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     handlers = gText_apfnPrimaryCommands;
     object->delay_52 = object->delay_reload_53;
 next_opcode:
-    slot = &((TextStreamOwner *)object)->streams[object->stream_58];
+    slot = &((TextStreamOwner *)object)->streams[object->stream_index];
     script = *slot;
     gText_CurrentStreamCode = script[0];
     op = (s16)gText_CurrentStreamCode;

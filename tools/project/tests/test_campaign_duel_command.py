@@ -3,7 +3,7 @@
 Compile the actual command and word reader as separate translation units.
 A linker wrapper observes the call boundary, then either returns the real
 reader's halfword or an opaque int and changes the opponent before bank lookup.
-Only stream 0 (DuelEffectChannel.text_00, as used by text_box_build_step.c) is
+Only stream 0 (DuelEffectChannel.root_stream, as used by text_box_build_step.c) is
 selected; this does not test or promise malformed-index safety.
 """
 
@@ -160,13 +160,13 @@ static void setup(u32 value, u32 rotation)
     for (i = 0; i < 4; i++)
         command[i] = value + offsets[(i + rotation) & 3];
     halfword(command + 4, words[word_index]);
-    object.channel.text_00 = command;
-    object.channel.stream_58 = 0;
+    object.channel.root_stream = command;
+    object.channel.stream_index = 0;
     copy(saved_stream, stream, sizeof(stream));
     copy(&expected_before, &object, sizeof(object));
-    expected_before.channel.text_00 = command + 4;
+    expected_before.channel.root_stream = command + 4;
     copy(&expected_after, &object, sizeof(object));
-    expected_after.channel.text_00 = command + 6;
+    expected_after.channel.root_stream = command + 6;
 
     copy(before_call, global_bytes, sizeof(global_bytes));
     before_call[0x100] = 0xFF;
