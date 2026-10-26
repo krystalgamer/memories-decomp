@@ -12,13 +12,13 @@
 typedef struct {
     u8 pad_00[0x30];
     s8 effect_id;
-    u8 field_31;
+    u8 resource_entry_index;
     u8 field_32;
     u8 state;
     u16 field_34;
     u16 field_36;
     u8 pad_38[0x04];
-    u8 field_3C;
+    u8 slot_index;
     u8 pad_3D;
     u16 variant_countdown;
 } DisplayEffectVramState;

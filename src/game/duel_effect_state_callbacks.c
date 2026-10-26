@@ -155,7 +155,7 @@ void Text_ContinueDisplayEffect(DuelEffectChannel *arg0) {
 
         *(u16 *)&r->field_40 = 0x68;
 
-        if (r->field_3C != 0) {
+        if (r->slot_index != 0) {
             *(u16 *)&r->field_40 = 0xD8;
         }
     }

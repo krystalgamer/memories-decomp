@@ -138,7 +138,7 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         *(s16 *)&p->field_34 = 0x68;
         p->field_32 |= 0x10;
-        if (p->field_3C != 0) {
+        if (p->slot_index != 0) {
             *(s16 *)&p->field_34 = 0xD8;
         }
         DisplayPositionGroup_SetChildPositions(
@@ -248,10 +248,10 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
         b = r->depth_offset;
         DisplayEffect_ReleaseObjectRow((void **)p->grid[0]);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[0], p->field_31);
+            p, (DisplayObject **)p->grid[0], p->resource_entry_index);
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), b);
         DisplayEffect_BuildResourceObjects(
-            p, (DisplayObject **)p->grid[1], p->field_31);
+            p, (DisplayObject **)p->grid[1], p->resource_entry_index);
         d = b - 1;
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[1], (GsALON | GsATWO), d);
         DisplayEffect_BuildResourceObjects(
@@ -306,7 +306,7 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     dd[0] = p->field_40 / 8;
     w = (0x80 - p->field_40) / 8;
     dd[1] = -w;
-    if (p->field_3C == 0) {
+    if (p->slot_index == 0) {
         dd[0] = -dd[0];
         dd[1] = w;
     }

@@ -229,7 +229,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
             o->state = 0xE;
             return;
         }
-        if (e->field_3C != 0) {
+        if (e->slot_index != 0) {
             e->field_40 = 0x178;
         } else {
             e->field_40 = -0x38;
@@ -253,7 +253,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         }
         gText_DisplayEffectRecord = e;
         if (flags & 0x40) {
-            e->field_31 = flags & 3;
+            e->resource_entry_index = flags & 3;
             o->state = 9;
             return;
         } else if (flags & 0x20) {
@@ -272,7 +272,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     e = &gDisplayEffect_aMenuRecords[slot];
     DisplayEffect_ResetRecordState((DisplayEffectState *)e);
     e->effect_id = id;
-    e->field_3C = slot;
+    e->slot_index = slot;
     if (slot != 0) {
         *(s16 *)&e->field_34 = 0x178;
     } else {
@@ -282,7 +282,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     gText_DisplayEffectRecord = e;
     if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         e->display_effect_step = 5;
-        e->field_3C = 2;
+        e->slot_index = 2;
         *(s16 *)&e->field_34 = 0xF0;
         e->field_40 = 0;
         *(s16 *)&e->field_36 = 0x60;
@@ -295,7 +295,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         e->field_40 = 7;
     }
     if (flags & 0x10) {
-        e->field_31 = (flags >> 1) & 3;
+        e->resource_entry_index = (flags >> 1) & 3;
     }
 }
 
