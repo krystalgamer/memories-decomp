@@ -119,7 +119,8 @@ class FrenchDuelBankTests(unittest.TestCase):
             with self.subTest(name=name):
                 source = f"src/overlays/duel_effects/{name}.c"
                 self.assertEqual(
-                    [row for row in manifest["functions"] if row["source"] == source],
+                    [row for row in manifest["functions"]
+                     if row["source"] == source and row["address"] == address],
                     [{"address": address, "size": size, "source": source,
                       "profile": "gcc_2_8_1_g0_split"}],
                 )
@@ -169,8 +170,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("quad_helpers", 0x8014FE00, 0x8014FF40, 2),
             ("effect_12", 0x80150E00, 0x80151218, 1),
             ("projected_wrappers", 0x80151218, 0x801513F4, 2),
-            ("matrix_setup", 0x801513F4, 0x801514BC, 1),
-            ("matrix_helpers", 0x801514BC, 0x80151558, 2),
+            ("matrix_helpers", 0x801513F4, 0x80151558, 3),
             ("packet_helpers", 0x80152EC4, 0x80153200, 4),
             ("effect_2", 0x80153200, 0x80153ADC, 1),
             ("color_transition", 0x80153F28, 0x80154084, 3),
@@ -181,7 +181,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             ("layered_drawing", 0x80155BC0, 0x80155F94, 2),
             ("drawing_tail", 0x80155F94, 0x80156448, 3),
             ("gradient_strip", 0x80156448, 0x801566D4, 1),
-            ("number_helpers", 0x80156AD4, 0x80156C40, 2),
+            ("number_renderer", 0x801566D4, 0x80156C40, 3),
             ("textured_quads", 0x80156C40, 0x80156E58, 2),
             ("primitive_draw", 0x80156E58, 0x801570B0, 2),
             ("gradient_lines", 0x801570B0, 0x801573A8, 1),
@@ -208,7 +208,7 @@ class FrenchDuelBankTests(unittest.TestCase):
             for region in ("sles_03948", "sles_03951")
         ]
         for name, count in (("dispatch", 1), ("effect_18", 1), ("effect_19", 1),
-                            ("number_helpers", 2), ("primitive_draw", 2),
+                            ("number_renderer", 3), ("primitive_draw", 2),
                             ("textured_quads", 2), ("packet_helpers", 4),
                             ("gradient_strip", 1), ("gradient_lines", 1),
                             ("display_quads", 3),

@@ -101,7 +101,7 @@ class SpanishDuelBankTests(unittest.TestCase):
             for name in (
                 "utility_helpers", "texture_words", "vector_init",
                 "color_test", "quad_helpers", "matrix_helpers",
-                "projected_wrappers", "matrix_setup", "rect_vertices",
+                "projected_wrappers", "rect_vertices",
                 "ring_vertices", "radial_random_vectors", "bolt_vertices", "effect_23", "effect_24",
             )
         }
@@ -145,7 +145,6 @@ class SpanishDuelBankTests(unittest.TestCase):
             "bolt_vertices": [(0x8014FABC, 0x344)],
             "effect_22": [(0x8014A8E4, 0x2018)],
             "effect_16": [(0x80151558, 0xAF0)],
-            "number_renderer": [(0x801566D4, 0x400)],
             "effect_4": [(0x80159AAC, 0x738)],
             "effect_5": [(0x80157E10, 0x9C8)],
             "effect_10": [(0x8014C8FC, 0xA7C)],
@@ -178,7 +177,6 @@ class SpanishDuelBankTests(unittest.TestCase):
             ],
             "gradient_strip": [(0x80156448, 0x28C)],
             "projected_wrappers": [(0x80151218, 0x104), (0x8015131C, 0xD8)],
-            "matrix_setup": [(0x801513F4, 0xC8)],
             "drawing_tail": [
                 (0x80155F94, 0xD0), (0x80156064, 0x108), (0x8015616C, 0x2DC),
             ],
@@ -196,8 +194,8 @@ class SpanishDuelBankTests(unittest.TestCase):
             ],
             "color_test": [(0x8014D378, 0x34), (0x8014D3AC, 0x3C)],
             "quad_helpers": [(0x8014FE00, 0xD4), (0x8014FED4, 0x6C)],
-            "matrix_helpers": [(0x801514BC, 0x3C), (0x801514F8, 0x60)],
-            "number_helpers": [(0x80156AD4, 0x6C), (0x80156B40, 0x100)],
+            "matrix_helpers": [(0x801513F4, 0xC8), (0x801514BC, 0x3C), (0x801514F8, 0x60)],
+            "number_renderer": [(0x801566D4, 0x400), (0x80156AD4, 0x6C), (0x80156B40, 0x100)],
             "primitive_draw": [(0x80156E58, 0x14C), (0x80156FA4, 0x10C)],
         }
         # The PAL arms of these shared sources are registered through wrappers.
