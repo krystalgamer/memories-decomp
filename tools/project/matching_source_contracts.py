@@ -9,6 +9,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from handwritten_asm_contract import (
+    HANDWRITTEN_ASM_MANIFEST,
+    HANDWRITTEN_ASM_PROFILE_KEY,
+    in_handwritten_range,
+)
 from integrate_verified_match import (
     contains_register_pin,
     IntegrationError,
@@ -17,6 +22,7 @@ from integrate_verified_match import (
     profile_g_value,
     strip_c_comments,
     uses_asm_extension,
+    uses_disallowed_handwritten_asm,
     uses_disallowed_psyq_inline_asm,
     validate_effective_profile,
 )
@@ -33,13 +39,25 @@ def source_violations(
     *,
     allow_psyq_inline_macros: bool = False,
     psyq_inline_macro: str = "rtps",
+    allow_register_pins: bool = False,
+    allow_handwritten_asm_macros: bool = False,
 ) -> list[str]:
     text = strip_c_comments(source)
     violations: list[str] = []
-    if contains_register_pin(text):
+    if (
+        not allow_register_pins
+        and not allow_handwritten_asm_macros
+        and contains_register_pin(text)
+    ):
         violations.append("contains a hard-register variable")
     if (
-        uses_disallowed_psyq_inline_asm(
+        uses_disallowed_handwritten_asm(
+            source,
+            allow_symbol_aliases=True,
+            tracked_symbol_names=tracked_symbol_names,
+        )
+        if allow_handwritten_asm_macros
+        else uses_disallowed_psyq_inline_asm(
             source,
             macro_family=psyq_inline_macro,
             allow_register_pins=True,
@@ -127,6 +145,22 @@ def audit(root: Path) -> list[str]:
                 )
                 continue
 
+            handwritten_asm = profile.get(HANDWRITTEN_ASM_PROFILE_KEY) is True
+            if handwritten_asm:
+                try:
+                    in_range = in_handwritten_range(int(str(address), 0))
+                except ValueError:
+                    in_range = False
+                if (
+                    str(manifest.relative_to(root)) != HANDWRITTEN_ASM_MANIFEST
+                    or not in_range
+                ):
+                    problems.append(
+                        f"{label}: hand-written asm macros are limited to the "
+                        "formerly hand-written renderer range"
+                    )
+                    continue
+
             source_key = (source_name, profile_name)
             if source_key in checked_sources:
                 continue
@@ -138,12 +172,17 @@ def audit(root: Path) -> list[str]:
             except (IntegrationError, WorkspaceError, OSError, UnicodeError) as error:
                 problems.append(f"{label}: {error}")
                 continue
-            violations = source_violations(source, tracked_symbol_names)
+            violations = source_violations(
+                source,
+                tracked_symbol_names,
+                allow_register_pins=handwritten_asm,
+            )
             for violation in source_violations(
                 preprocessed,
                 tracked_symbol_names,
                 allow_psyq_inline_macros=allow_psyq_inline_macros,
                 psyq_inline_macro=profile.get("psyq_inline_macro", "rtps"),
+                allow_handwritten_asm_macros=handwritten_asm,
             ):
                 if violation not in violations:
                     violations.append(violation)
