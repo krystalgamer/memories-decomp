@@ -1083,8 +1083,8 @@ void Library_InitializeScreen(void) {
     m = TextBox_Create(3, 0xF8, 0x58, -0x18, 0x90, 0x10);
 #endif
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-    m->field_5A = 0x10;
-    m->field_5B = 0x10;
+    m->glyph_advance_x = 0x10;
+    m->line_advance_y = 0x10;
 #endif
     TextBox_BuildBlocking(m);
     DisplayObject_SelectOrderingTable3(m->field_28);

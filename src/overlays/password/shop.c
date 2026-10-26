@@ -115,8 +115,8 @@ void Password_RefreshDigitDisplay(void)
     func_80039A14((struct DuelEffectChannel *)&gText_Channel2View);
 #else
     boxes = D_800EB0F8;
-    boxes[2].field_5A = 0x10;
-    boxes[2].field_5B = 0x10;
+    boxes[2].glyph_advance_x = 0x10;
+    boxes[2].line_advance_y = 0x10;
     func_80039A14((struct DuelEffectChannel *)&boxes[2]);
 #endif
 }
@@ -141,8 +141,8 @@ void Password_RefreshStarchipDisplay(void)
     func_80039A14((struct DuelEffectChannel *)&gText_Channel3View);
 #else
     boxes = D_800EB0F8;
-    boxes[3].field_5A = 0x10;
-    boxes[3].field_5B = 0x10;
+    boxes[3].glyph_advance_x = 0x10;
+    boxes[3].line_advance_y = 0x10;
     func_80039A14((struct DuelEffectChannel *)&boxes[3]);
 #endif
 }

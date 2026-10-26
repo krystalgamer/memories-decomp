@@ -72,8 +72,8 @@ void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 #endif
     object = TextBox_Create(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0);
 #endif
-    object->field_5A = 0x14;
-    object->field_5B = 0x12;
+    object->glyph_advance_x = 0x14;
+    object->line_advance_y = 0x12;
     func_80039A14((struct DuelEffectChannel *)object);
 }
 #endif
@@ -178,8 +178,8 @@ void NameEntry_Init(void)
     func_80039A14((struct DuelEffectChannel *)D_800EB0F8);
 #else
     boxes = D_800EB0F8;
-    boxes[3].field_5A = 16;
-    boxes[3].field_5B = 16;
+    boxes[3].glyph_advance_x = 16;
+    boxes[3].line_advance_y = 16;
     func_80039A14((struct DuelEffectChannel *)&boxes[3]);
     func_8003B6AC(0, 1);
 #endif
@@ -205,8 +205,8 @@ void NameEntry_Init(void)
     gNameEntry_apKeySprites[2] = obj;
 #else
     sprite = TextBox_Create(0, 243, 262, 60, 100, 100);
-    sprite->field_5A = 20;
-    sprite->field_5B = 18;
+    sprite->glyph_advance_x = 20;
+    sprite->line_advance_y = 18;
     func_80039A14((struct DuelEffectChannel *)sprite);
 #endif
 #ifdef VERSION_JAPAN

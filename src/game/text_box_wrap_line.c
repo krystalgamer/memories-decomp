@@ -6,11 +6,11 @@
 s32 TextBox_WrapLineIfNeeded(DuelEffectChannel *object) {
     if (DUEL_EFFECT_SIGNED_HALFWORD(object->field_38) >= object->field_3E) {
         object->field_38 = 0;
-        object->field_3A += object->field_5B;
+        object->field_3A += object->line_advance_y;
     }
     if (object->field_42 <
-        DUEL_EFFECT_SIGNED_HALFWORD(object->field_3A) + object->field_5B) {
-        object->field_3A -= object->field_5B;
+        DUEL_EFFECT_SIGNED_HALFWORD(object->field_3A) + object->line_advance_y) {
+        object->field_3A -= object->line_advance_y;
         return 1;
     }
     return 0;

@@ -26,20 +26,20 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     e->color_index_54 = 0;
     e->field_38 = 0;
     e->field_3A = 0;
-    e->field_5A = narrow;
-    e->field_5B = wide;
+    e->glyph_advance_x = narrow;
+    e->line_advance_y = wide;
     switch (size) {
     case 1:
-        e->field_5A = narrow;
-        e->field_5B = narrow;
+        e->glyph_advance_x = narrow;
+        e->line_advance_y = narrow;
         break;
     case 2:
-        e->field_5A = 12;
-        e->field_5B = wide;
+        e->glyph_advance_x = 12;
+        e->line_advance_y = wide;
         break;
     case 3:
-        e->field_5A = wide;
-        e->field_5B = wide;
+        e->glyph_advance_x = wide;
+        e->line_advance_y = wide;
         break;
     }
     e->delay_reload_53 = 1;
@@ -65,11 +65,11 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 #endif
     flags |= DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
 #ifdef VERSION_JAPAN
-    e->field_5B = 16;
-    e->field_5A = 16;
+    e->line_advance_y = 16;
+    e->glyph_advance_x = 16;
 #else
-    e->field_5A = 8;
-    e->field_5B = 12;
+    e->glyph_advance_x = 8;
+    e->line_advance_y = 12;
 #endif
     e->delay_reload_53 = 2;
 #ifdef VERSION_JAPAN

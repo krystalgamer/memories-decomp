@@ -584,8 +584,8 @@ typedef struct DuelEffectChannel {
        it by four; it is signed because all three consumers read it as s8. */
     s8 stream_58;
     u8 field_59;
-    u8 field_5A;
-    u8 field_5B;
+    u8 glyph_advance_x;
+    u8 line_advance_y;
     u16 range_start_5C;
     u16 range_count_5E;
     u8 field_60;
@@ -646,15 +646,15 @@ typedef char DuelEffectChannel_index_57_offset_must_be_0x57[
 typedef char DuelEffectChannel_stream_58_offset_must_be_0x58[
     YGO_TYPE_OFFSET(DuelEffectChannel, stream_58) == 0x58 ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_5A_offset_must_be_0x5A[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_5A) == 0x5A ? 1 : -1
+typedef char DuelEffectChannel_glyph_advance_x_offset_must_be_0x5A[
+    YGO_TYPE_OFFSET(DuelEffectChannel, glyph_advance_x) == 0x5A ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_5B_offset_must_be_0x5B[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_5B) == 0x5B ? 1 : -1
+typedef char DuelEffectChannel_line_advance_y_offset_must_be_0x5B[
+    YGO_TYPE_OFFSET(DuelEffectChannel, line_advance_y) == 0x5B ? 1 : -1
 ];
 typedef char DuelEffectChannel_glyph_metrics_must_be_bytes[
-    sizeof(((DuelEffectChannel *)0)->field_5A) == 1 &&
-    sizeof(((DuelEffectChannel *)0)->field_5B) == 1 ? 1 : -1
+    sizeof(((DuelEffectChannel *)0)->glyph_advance_x) == 1 &&
+    sizeof(((DuelEffectChannel *)0)->line_advance_y) == 1 ? 1 : -1
 ];
 typedef char DuelEffectChannel_range_start_5C_offset_must_be_0x5C[
     YGO_TYPE_OFFSET(DuelEffectChannel, range_start_5C) == 0x5C ? 1 : -1

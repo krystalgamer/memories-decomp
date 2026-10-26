@@ -98,8 +98,8 @@ void DebugMenu_Init(void)
 #endif
     text_box = TextBox_Create(1, 15, 16, 16, 0x120, 0xA0);
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-    text_box->field_5A = 16;
-    text_box->field_5B = 16;
+    text_box->glyph_advance_x = 16;
+    text_box->line_advance_y = 16;
 #endif
     TextBox_BuildBlocking(text_box);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
