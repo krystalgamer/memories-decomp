@@ -29,9 +29,8 @@
 
 /* The end of the name-entry screen pipeline: the confirmation dialog and
    completion polling, on the same gNameEntry_bStateFlags state block as the rest. They
-   follow NameEntry_UpdateKeyboard, the binding-free matching C function in
-   name_entry_keyboard_update.c; the earlier stages are in
-   name_entry_runtime.c. The shop display unit after them has no proven
+   follow NameEntry_UpdateKeyboard, the binding-free matching C function that
+   closes name_entry_runtime.c after the earlier stages. The shop display unit after them has no proven
    ownership in this lifecycle. */
 
 #ifndef NAME_ENTRY_DIALOG_CHANNEL_TYPE

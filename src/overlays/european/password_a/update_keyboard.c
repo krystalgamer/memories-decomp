@@ -1,3 +1,4 @@
 #include "../../../types.h"
 #define VERSION_EUROPE
-#include "../../password/name_entry_keyboard_update.c"
+#define VERSION_EUROPE_PASSWORD_UPDATE_KEYBOARD
+#include "../../password/name_entry_runtime.c"

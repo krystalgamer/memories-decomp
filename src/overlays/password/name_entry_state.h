@@ -12,7 +12,7 @@
  * screen's data. The fourteen-function name-entry pipeline uses this header
  * as the single view of that state: eleven functions in
  * name_entry_runtime.c, two in name_entry_dialog.c, and
- * NameEntry_UpdateKeyboard in name_entry_keyboard_update.c.
+ * NameEntry_UpdateKeyboard in name_entry_runtime.c.
  *
  * What the uses show (the evidence-backed ones are named):
  *

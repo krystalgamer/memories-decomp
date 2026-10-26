@@ -23,7 +23,7 @@ or inline asm, to build-integrated candidates in
 `NameEntry_UpdateKeyboard` and `Password_UpdateShopScreen`.
 The frontend and keyboard updaters have since returned to matching C without
 bindings in [`frontend.c`](../../src/overlays/main_menu/frontend.c)
-and [`name_entry_keyboard_update.c`](../../src/overlays/password/name_entry_keyboard_update.c).
+and [`name_entry_runtime.c`](../../src/overlays/password/name_entry_runtime.c).
 Historical residuals below are not a current work queue; consult the
 per-module inventories and matching manifests before treating an old
 candidate as unfinished work.
@@ -936,7 +936,7 @@ not evidence that the original author used the same union declaration.
 password image without an output patch or an inline assembly statement.
 
 The current binding-free
-[`name_entry_keyboard_update.c`](../../src/overlays/password/name_entry_keyboard_update.c)
+[`name_entry_runtime.c`](../../src/overlays/password/name_entry_runtime.c)
 instead uses a complete automatic aggregate initializer for that same
 coordinate contract. This reproduces the pair allocation without a binding
 or a preliminary zeroing operation. The glyph-code helper's in-place column
