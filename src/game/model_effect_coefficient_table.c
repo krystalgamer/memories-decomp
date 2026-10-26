@@ -3,7 +3,7 @@
 
 /* Initialized data at 0x80091570: fifteen camera-orbit preset records in
    the order consumed by ModelEffect_GetCoefficient, Model_SetCameraOrbitFromPreset and Model_QueueCameraOrbitFromPreset. */
-ModelEffectCoefficient gModel_aCameraOrbitPresets[] = {
+ModelCameraOrbitPreset gModel_aCameraOrbitPresets[] = {
     { 700, -512, -256, 0 },
     { 700, 512, -256, 0 },
     { 700, 1536, -256, 0 },
