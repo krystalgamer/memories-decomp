@@ -16,9 +16,14 @@
  * GTE commands are emitted without the Psy-Q inline_c.h nop padding because
  * the originals interleave independent work into those cycles.
  *
- * Inline assembly is limited to that save/restore and to GTE operations;
- * every expansion is checked by tools/project/handwritten_asm_contract.py,
- * and only profiles that set "handwritten_asm_macros" may use this header.
+ * Inline assembly is limited to that save/restore, to GTE operations and to
+ * three shapes GCC 2.8.1 cannot emit: a lone lwr merged into a C-loaded word
+ * (HW_LWR) and a branch whose delay slot holds a GTE write or a load
+ * (HW_GTE_WRITE_BEQ, HW_BEQZ_LOAD). Those branches jump to C labels that GCC
+ * does not see as control-flow edges, so only the exact image match vouches
+ * for the code around them. Every expansion is checked, with its exact
+ * operand signature, by tools/project/handwritten_asm_contract.py, and only
+ * profiles that set "handwritten_asm_macros" may use this header.
  */
 
 /* Register numbers: s0..s7 are $16..$23. */
