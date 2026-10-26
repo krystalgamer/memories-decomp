@@ -19,11 +19,12 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
              (0x27C0, 0x2D88), (0x2D88, 0x310C), (0x310C, 0x3940))
     helpers = ((0xDD8, 2492, "ribbons", "func_8013BDD8"),
                (0x1794, 1848, "bands", "func_8013C794"),
+               (0x1ECC, 2292, "rings", "func_8013CECC"),
                (0x27C0, 1480, "quads", "func_8013D7C0"),
                (0x2D88, 900, "lines", "func_8013DD88"),
                (0x310C, 2100, "coils", "func_8013E10C"))
     source_directories = {"quads": "spanish_model_variant", "lines": "spanish_model_variant"}
-    reachable_helpers = {0xDD8, 0x27C0, 0x2D88}
+    reachable_helpers = {0xDD8, 0x1ECC, 0x27C0, 0x2D88}
     local_call_targets = {0xDD8, 0x1ECC, 0x27C0, 0x2D88}
     models_by_stage = ((9, (174,)),)
     entry_anchors = {0xC38: 0x02602021, 0xC40: 0x02602021,
@@ -111,7 +112,7 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
         directory = family435.ROOT / "src/overlays/french_model_variant"
         with (family435.ROOT / "notes/overlays/french-model-variant450-attempts.csv").open() as handle:
             all_rows = list(csv.DictReader(handle))
-        self.assertEqual(len(all_rows), 90)
+        self.assertEqual(len(all_rows), 98)
         rows = [row for row in all_rows if row["function_offset"] == "0x1794"]
         expected = [(1808, 377), (1848, 12), (1848, 8), (1808, 373),
                     (1848, 2), (1848, 0), (1848, 0)]
@@ -121,6 +122,22 @@ class FrenchModelVariant450Tests(family435.FrenchModelVariant435Tests):
             self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual(row["profile"], "gcc_2_8_1_g0_split")
 
+
+    def test_ring_attempts_and_symbol_only_wrapper(self):
+        directory = family435.ROOT / "src/overlays/french_model_variant"
+        with (family435.ROOT / "notes/overlays/french-model-variant450-attempts.csv").open() as handle:
+            rows = [row for row in csv.DictReader(handle) if row["function_offset"] == "0x1ECC"]
+        self.assertEqual([(int(row["instruction_bytes"]), int(row["different_words"])) for row in rows[::2]],
+                         [(2260, 364), (2272, 351), (2280, 296), (2292, 0)])
+        self.assertEqual([row["slot"] for row in rows], ["0", "1"] * 4)
+        for slot, row in enumerate(rows[-2:]):
+            source = directory / f"variant450_rings{'_slot1' if slot else ''}.c"
+            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertEqual(row["result"], "matched")
+            self.assertEqual(source.read_text().splitlines(),
+                             ['#include "../../types.h"', "#define VERSION_FRENCH",
+                              f"#define func_8013CE7C func_801{'7' if slot else '3'}CECC",
+                              '#include "../model_variant/variant433_rings.c"'])
 
     def test_target_compiled_band_views(self):
         checks = {

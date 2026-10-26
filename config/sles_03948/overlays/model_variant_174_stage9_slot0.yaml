@@ -60,13 +60,13 @@ segments:
     align: 4
     subsegments:
       - [0x1794, c, overlays/french_model_variant/variant450_bands]
-  - name: unmatched_1ECC
+  - name: rings
     type: code
     start: 0x1ECC
     vram: 0x8013CECC
     align: 4
     subsegments:
-      - [0x1ECC, asm, overlays/french_model_variant_174_stage9_slot0/unmatched_1ECC]
+      - [0x1ECC, c, overlays/french_model_variant/variant450_rings]
   - name: quads
     type: code
     start: 0x27C0
