@@ -126,7 +126,7 @@ segments:
     - game/spanish/mem_card_dialog
   - - 3212
     - .rodata
-    - game/european/display_object_helpers
+    - game/european/display_object_projection_checks
   - - 3236
     - .rodata
     - game/european/main_boot_load_stages
@@ -860,10 +860,7 @@ segments:
     - game/display_object_update_command_stream
   - - 207276
     - c
-    - game/display_object_projection_checks
-  - - 208056
-    - c
-    - game/european/display_object_helpers
+    - game/european/display_object_projection_checks
   - - 212568
     - c
     - game/european/main_boot_load_stages
