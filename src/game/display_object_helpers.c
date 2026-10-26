@@ -215,9 +215,9 @@ void DisplayObject_InitializeGouraudQuad(
     object->field_34.word = 0;
     object->field_2C.word = 0;
     object->field_10 = 0;
-    object->field_20.b.field_21 = 0;
-    object->field_20.b.field_20 = 0;
-    object->field_20.b.field_22 = 0;
+    object->field_20.b.rotation_y = 0;
+    object->field_20.b.rotation_x = 0;
+    object->field_20.b.rotation_z = 0;
     object->field_1C = 0;
     object->field_1A = 0;
     object->field_18 = 0;
@@ -241,9 +241,9 @@ void DisplayObject_InitializeTexturedGouraudQuad(
     object->field_38.word = initial;
     object->field_2C.word = initial;
     object->field_10 = 0;
-    object->field_20.b.field_21 = 0;
-    object->field_20.b.field_20 = 0;
-    object->field_20.b.field_22 = 0;
+    object->field_20.b.rotation_y = 0;
+    object->field_20.b.rotation_x = 0;
+    object->field_20.b.rotation_z = 0;
     object->field_1C = 0;
     object->field_1A = 0;
     object->field_18 = 0;

@@ -322,7 +322,7 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
              CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     k = i;
         if (k >= CARD_TYPE_MAGIC) {
-            if (r->field_20.b.field_21 != 0 || k == CARD_TYPE_TRAP) {
+            if (r->field_20.b.rotation_y != 0 || k == CARD_TYPE_TRAP) {
                 gDuel_pActiveSelectionRecord->row_min = 3;
                 gDuel_pActiveSelectionRecord->row_end = 4;
             }

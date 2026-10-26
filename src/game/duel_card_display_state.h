@@ -27,6 +27,8 @@
    0x4C is a second callback slot, which DisplayObject covers with pad_4C,
    and all that is known here is that Duel_CreateCardDisplayObject stores
    Duel_DrawCardAtOutputPosition into it. */
+/* The +0x21/+0x22 bytes are the common display rotation_y/rotation_z.
+   The two card-state helpers deliberately map card flags to them differently. */
 typedef struct {
     u8 pad_00[0x04];
     u32 attribute;
@@ -38,8 +40,8 @@ typedef struct {
         void (*G32 callback)(DisplayObjectConfig *, u32);
     } field_10;
     u8 pad_14[0x0D];
-    u8 field_21;
-    u8 field_22;
+    u8 rotation_y;
+    u8 rotation_z;
     u8 pad_23[0x0D];
     s16 out_x;
     s16 out_y;

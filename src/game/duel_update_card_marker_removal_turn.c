@@ -13,25 +13,25 @@ void Duel_UpdateCardMarkerRemovalTurn(DisplayObject *o)
     if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o)) {
         o->field_2C.h.field_2E = 0x40;
         o->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
-        if (o->field_20.b.field_21) {
+        if (o->field_20.b.rotation_y) {
             o->field_2C.h.field_2E = 0xC0;
         }
     }
-    current = o->field_20.b.field_21 + 8;
-    o->field_20.b.field_21 = current;
+    current = o->field_20.b.rotation_y + 8;
+    o->field_20.b.rotation_y = current;
     if (o->field_6C & 0x40) {
         if ((signed char)current >= 0) {
-            o->field_20.b.field_21 = 0;
+            o->field_20.b.rotation_y = 0;
             gDuel_aCardRecords[o->field_6A].flags &= ~DUEL_CARD_FLAG_DISPLAY_MARKER;
-            if ((o->field_20.b.field_22 | o->field_20.b.field_20) == 0) {
+            if ((o->field_20.b.rotation_z | o->field_20.b.rotation_x) == 0) {
                 o->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             }
             o->field_6C = 0;
             o->update = 0;
         }
-    } else if (o->field_20.b.field_21 >= o->field_2C.h.field_2E) {
+    } else if (o->field_20.b.rotation_y >= o->field_2C.h.field_2E) {
         o->field_6C |= 0x40;
-        o->field_20.b.field_21 = 0xC0;
+        o->field_20.b.rotation_y = 0xC0;
         o->field_67 = 0;
     }
 }

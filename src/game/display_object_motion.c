@@ -31,8 +31,8 @@ void DisplayObject_UpdateCosineSlideWithRollReset(DisplayObject *object)
         object->field_60 = 0;
         object->field_2C.h.field_2E = 0;
     }
-    if (object->field_20.b.field_22) {
-        object->field_20.b.field_22 += 0x40 / (s16)object->field_2C.h.field_2C;
+    if (object->field_20.b.rotation_z) {
+        object->field_20.b.rotation_z += 0x40 / (s16)object->field_2C.h.field_2C;
     }
     DisplayObject_InterpolatePositionCosine((DisplayObjectPosition *)object, (s16)object->position.h.field_28,
                  (s16)object->position.h.field_2A, object->field_60);
@@ -40,8 +40,8 @@ void DisplayObject_UpdateCosineSlideWithRollReset(DisplayObject *object)
         TRIG_ANGLE_HALF_TURN / (s16)object->field_2C.h.field_2C;
     if (object->field_60 >= TRIG_ANGLE_HALF_TURN) {
         object->field_30.word = object->position.word;
-        object->field_20.b.field_22 = 0;
-        if (!object->field_20.b.field_21) {
+        object->field_20.b.rotation_z = 0;
+        if (!object->field_20.b.rotation_y) {
             object->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
         object->field_6C = 0;

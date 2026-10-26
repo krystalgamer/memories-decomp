@@ -84,9 +84,9 @@ s32 DisplayObject_ProjectRotationFacing(
     SetGeomOffset(x, y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
 
-    v308->vx = (s16)(obj->field_20.b.field_20 * 0x10);
-    v308->vy = (s16)(obj->field_20.b.field_21 * 0x10);
-    v308->vz = (s16)(obj->field_20.b.field_22 * 0x10);
+    v308->vx = (s16)(obj->field_20.b.rotation_x * 0x10);
+    v308->vy = (s16)(obj->field_20.b.rotation_y * 0x10);
+    v308->vz = (s16)(obj->field_20.b.rotation_z * 0x10);
     RotMatrixZYX_gte(v308, mtx);
 
     mtx->t[0] = 0;

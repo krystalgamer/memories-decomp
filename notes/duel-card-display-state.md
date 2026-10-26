@@ -14,8 +14,8 @@ The complete body clears the marker byte only when
 `DUEL_CARD_FLAG_DISPLAY_MARKER` is absent, always clears the display
 clip-test bit, and re-enables clipping when the card is face-down or
 in defense position. Only inside that orientation branch does it
-set the two rotation bytes: face-down selects `field_21 = 0x80`,
-defense selects `field_22 = 0xC0`, with the unselected component zero.
+set the two rotation bytes: face-down selects `rotation_y = 0x80`,
+defense selects `rotation_z = 0xC0`, with the unselected component zero.
 When neither flag is present, both old rotation bytes remain untouched.
 Colour is always reset to neutral `0x808080` or used-turn `0x404040`.
 
@@ -43,7 +43,7 @@ controllers, callbacks or rendering.
 ## View-mode marker refresh
 
 `Duel_UpdateCardDisplayMarker` (`0x80017DB4`, size `0x88`) updates the
-existing `field_67` marker from the active side's signed view mode.
+existing `deck_number_marker` marker from the active side's signed view mode.
 The packed read at record +0x14 requires both occupied and display-marker
 flags. Mode zero leaves the old marker untouched. A nonzero mode reads
 data +0x04 and stores its value plus one as a byte; a negative mode then
@@ -51,5 +51,41 @@ overrides that byte with `0xFF`.
 
 The frame renderer prints marker values 1-40 and selects alternate frame
 content for a nonzero marker, including the nonnumeric `0xFF` form. The
-data byte's broader meaning is not renamed. The packed load, both mode
-expressions, pre-override data read and byte conversion remain unchanged.
+source byte is pre_shuffle_index, the original slot permuted with its ID.
+The packed load, both mode expressions, pre-override data read and byte conversion remain unchanged.
+
+## Packed Euler rotation bytes
+
+DisplayObject.field_20.b names the unchanged u8 bytes at +0x20/+0x21/
++0x22 rotation_x/rotation_y/rotation_z. DisplayObject_ProjectRotationFacing
+and Duel_RenderFieldCard3D independently pass those components, multiplied
+by 16, to RotMatrixZYX_gte as vx/vy/vz. The packed-rotation projector
+unpacks the same three bytes into the same axes. The sprite renderers
+read the +0x22 alias and multiply it by 5760 for GsSPRITE.rotate:
+both representations therefore give one complete turn per 256 byte units.
+The existing field_20.h byte alias also names rotation_z. The aggregate
+word, the halfword containing X/Y, the fourth byte and all overlapping
+access widths retain their existing declarations and identities.
+
+DuelCardDisplayObject names +0x21/+0x22 rotation_y/rotation_z, including
+the result outro's departing sprite. CardObject's former flag byte at
++0x22 is also rotation_z. Duel_GetCardEffectVariant still sets bit 7 for
+ANY nonzero value, not just a face-down constant or a normalized Boolean.
+The state refresh maps face-down to Y and defense to Z conditionally;
+ApplyCardObjectFlags maps face-down to Z and defense to Y, with its
+existing unconditional clears. Neither is replaced by the other.
+
+These are member-only identities, not new angle conversions, clamps,
+flag meanings or callback contracts. Alpha-named helpers/macros retain
+their existing names and operations; the byte at +0x21 is the geometric
+Y component, not evidence of a transparency channel. Signed casts,
+byte narrowing/wrap, stale values, callback timing, clip gates, mirror/
+backface decisions, source groups and every numeric control remain.
+Effect 23 deliberately retains its existing vx addition to ALL THREE
+rotation bytes; effects 17/22 retain their distinct vx/vy/vz additions.
+No apparent axis inconsistency is repaired.
+
+The existing state fixture migrates four member words on two mutation
+lines only. Its independent +0x21/+0x22 expected-byte writes, 131072-case
+count, guarded backing, flags, stale-byte oracle and all negative controls
+remain byte-for-byte. No fixture is executed locally.

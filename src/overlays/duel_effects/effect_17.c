@@ -209,9 +209,9 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 += work->card_velocities[i].vz;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.h.field_44 -= 256;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.h.field_46 -= 256;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_20 += work->card_rotations[i].vx;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_21 += work->card_rotations[i].vy;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_22 += work->card_rotations[i].vz;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_x += work->card_rotations[i].vx;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_y += work->card_rotations[i].vy;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_z += work->card_rotations[i].vz;
                     work->card_ages[i]++;
                     if (work->card_ages[i] > 16) {
                         work->card_states[i] = 1;

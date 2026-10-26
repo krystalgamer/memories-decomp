@@ -90,8 +90,8 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                       (-96 - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32) / 32,
                       -(s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 / 32);
             setVector(&work->card_rotations[i], 2,
-                      -((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_21 / 32,
-                      -((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_22 / 32);
+                      -((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_y / 32,
+                      -((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_z / 32);
             work->card_states[i] = 0;
         }
         for (i = 0; i < 2; i++) {
@@ -243,9 +243,9 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_30 += work->card_velocities[i].vx;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_30.h.field_32 += work->card_velocities[i].vy;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.field_34 += work->card_velocities[i].vz;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_20 += work->card_rotations[i].vx;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_21 += work->card_rotations[i].vy;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.field_22 += work->card_rotations[i].vz;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_x += work->card_rotations[i].vx;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_y += work->card_rotations[i].vy;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_z += work->card_rotations[i].vz;
                 }
             }
             if (work->card_states[2] == 1) {

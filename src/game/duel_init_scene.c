@@ -235,13 +235,13 @@ void Duel_UpdateCardDisplayState(DuelCardDisplayObject *object)
     if (card->flags &
         (DUEL_CARD_FLAG_DEFENSE_POSITION | DUEL_CARD_FLAG_FACE_DOWN)) {
         object->flags = flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
-        object->field_21 = 0;
+        object->rotation_y = 0;
         if (card->flags & DUEL_CARD_FLAG_FACE_DOWN) {
-            object->field_21 = 0x80;
+            object->rotation_y = 0x80;
         }
-        object->field_22 = 0;
+        object->rotation_z = 0;
         if (card->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) {
-            object->field_22 = 0xC0;
+            object->rotation_z = 0xC0;
         }
     }
     object->color = DUEL_DISPLAY_COLOR_NORMAL;
@@ -294,11 +294,11 @@ DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card)
 }
 
 /* Same gDuel_aCardRecords[] stat table (0x1C-byte stride) as Duel_UpdateCardDisplayState, but with
-   the field_21/field_22 bit mapping SWAPPED relative to it: here the face-down
-   flag marks field_22, while the defense-position flag marks field_21.
+   the rotation_y/rotation_z bit mapping SWAPPED relative to it: here the face-down
+   flag marks rotation_z, while the defense-position flag marks rotation_y.
 
-   Clears the display flags' clip-test bit and field_22, then re-derives
-   field_22 and field_21 from the selected gDuel_aCardRecords record's face-down and
+   Clears the display flags' clip-test bit and rotation_z, then re-derives
+   rotation_z and rotation_y from the selected gDuel_aCardRecords record's face-down and
    defense-position flags; always sets color to DUEL_DISPLAY_COLOR_NORMAL, or
    DUEL_DISPLAY_COLOR_DIMMED if DUEL_CARD_FLAG_USED_THIS_TURN is set; runs
    Duel_UpdateCardDisplayMarker, then clears deck_number_marker unless
@@ -308,16 +308,16 @@ void Duel_ApplyCardObjectFlags(DuelCardDisplayObject *object) {
     s32 type = object->card_index;
     DuelCardRecord *rec;
 
-    object->field_22 = 0;
+    object->rotation_z = 0;
     object->flags = flags & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
     rec = &gDuel_aCardRecords[type];
 
     if (rec->flags & DUEL_CARD_FLAG_FACE_DOWN) {
-        object->field_22 = DUEL_CARD_DISPLAY_FACE_DOWN_VALUE;
+        object->rotation_z = DUEL_CARD_DISPLAY_FACE_DOWN_VALUE;
     }
-    object->field_21 = 0;
+    object->rotation_y = 0;
     if (rec->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) {
-        object->field_21 = DUEL_CARD_DISPLAY_DEFENSE_VALUE;
+        object->rotation_y = DUEL_CARD_DISPLAY_DEFENSE_VALUE;
     }
     object->color = DUEL_DISPLAY_COLOR_NORMAL;
     if (rec->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
@@ -355,6 +355,6 @@ int Duel_GetCardEffectVariant(CardObject *object)
         value = 4;
         break;
     }
-    if (object->flag != 0) value |= 0x80;
+    if (object->rotation_z != 0) value |= 0x80;
     return value;
 }

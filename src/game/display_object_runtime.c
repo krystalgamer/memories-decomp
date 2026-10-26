@@ -97,7 +97,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, GsOT *ordering_table, s3
         c->flag = GsROTOFF;
         mode = mode16 | 0xF0000;
     } else if ((p->attribute & GsROTOFF) == 0) {
-        p->rotate = e->field_20.h.field_22 * 5760;
+        p->rotate = e->field_20.h.rotation_z * 5760;
         p->scale = e->field_44.word;
         mode = mode16 | 0x30000;
         p->mxmy.word = e->field_48.word;
@@ -614,7 +614,7 @@ retry:
         work->cy += SPRITE_SHEET_HEADER(object)->clut >> 4;
     }
     sheet = (u8 *)object->field_4C;
-    sprite->rotate = object->field_20.h.field_22 * 5760;
+    sprite->rotate = object->field_20.h.rotation_z * 5760;
     GS_SPRITE_VIEW(sprite)->scalex = object->field_44.h.field_44;
     GS_SPRITE_VIEW(sprite)->scaley = object->field_44.h.field_46;
     sprite->mxmy.h.y = 0;

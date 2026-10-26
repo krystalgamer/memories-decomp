@@ -146,8 +146,8 @@ void DuelResult_UpdateDepartingSprite(DuelCardDisplayObject *object)
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
         object->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
     }
-    object->field_21 -= 2;
-    if (object->field_21 < 0xC0) {
+    object->rotation_y -= 2;
+    if (object->rotation_y < 0xC0) {
         DisplayObject_ReleaseIfPresent((u8 *)object);
     }
 }

@@ -78,8 +78,8 @@ s32 Duel_UpdateCardUseConfirmation(void) {
     if ((gDuel_bConfirmFlags & 0x40) != 0) {
         *(s16 *)&q->flags =
             *(s16 *)&q->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
-        v = q->field_20.b.field_21 + *(u8 *)&q->field_60;
-        q->field_20.b.field_21 = v;
+        v = q->field_20.b.rotation_y + *(u8 *)&q->field_60;
+        q->field_20.b.rotation_y = v;
         w = v;
         if ((v & 0x7F) != 0) {
             return 0;
@@ -108,7 +108,7 @@ s32 Duel_UpdateCardUseConfirmation(void) {
         if ((gInput_wPad1Pressed & FUNC_80020988_CANCEL_BUTTON) != 0) {
             return -1;
         }
-        if (q->field_20.b.field_21 == 0) {
+        if (q->field_20.b.rotation_y == 0) {
             return 1;
         }
         return 2;

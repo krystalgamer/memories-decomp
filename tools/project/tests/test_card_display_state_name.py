@@ -163,9 +163,9 @@ class CardDisplayStateNameTests(unittest.TestCase):
             with self.subTest(optimization=optimization, mutation=mutation):
                 candidate = helper
                 if mutation == "angle-mapping":
-                    candidate = candidate.replace("object->field_21 = 0x80;", "object->field_22 = 0x80;")
+                    candidate = candidate.replace("object->rotation_y = 0x80;", "object->rotation_z = 0x80;")
                 elif mutation == "unconditional-angles":
-                    candidate = candidate.replace("u16 flags;", "u16 flags;\n    object->field_21 = 0;\n    object->field_22 = 0;")
+                    candidate = candidate.replace("u16 flags;", "u16 flags;\n    object->rotation_y = 0;\n    object->rotation_z = 0;")
                 elif mutation == "marker-gate":
                     candidate = candidate.replace("if (!(card->flags & DUEL_CARD_FLAG_DISPLAY_MARKER))",
                                                   "if (card->flags & DUEL_CARD_FLAG_DISPLAY_MARKER)")
