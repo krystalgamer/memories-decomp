@@ -33,8 +33,8 @@ typedef char JapaneseDuelEffectEntry_alignment_must_be_4[
 
 typedef struct {
     u16 code_00;
-    u16 field_0C;   /* 0x02 */
-    u16 field_0E;   /* 0x04 */
+    u16 local_x;   /* 0x02 */
+    u16 local_y;   /* 0x04 */
     u8 field_04;    /* 0x06 */
     u8 field_05;
     u8 field_06;

@@ -40,8 +40,8 @@ void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context)
         if ((rand() & 0xFF) >= 0x80) {
             EU_ENTRY(record)->field_14 |= 0x40;
         }
-        *origin_x = EU_ENTRY(record)->field_0C;
-        *origin_y = EU_ENTRY(record)->field_0E;
+        *origin_x = EU_ENTRY(record)->local_x;
+        *origin_y = EU_ENTRY(record)->local_y;
         *(u16 *)&EU_ENTRY(record)->field_08 = rand() & 0xFFF;
         *(u16 *)&EU_ENTRY(record)->field_0A = 0x100;
         if (EU_ENTRY(record)->field_14 & 0x80) {
@@ -66,8 +66,8 @@ void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context)
     if (radius > 0) {
         goto clamp_value;
     }
-    EU_ENTRY(record)->field_0C = *origin_x;
-    EU_ENTRY(record)->field_0E = *origin_y;
+    EU_ENTRY(record)->local_x = *origin_x;
+    EU_ENTRY(record)->local_y = *origin_y;
     EU_ENTRY(record)->render_mode = 0;
     EU_ENTRY(record)->handler_state = 0;
     return;
@@ -90,9 +90,9 @@ clamp_value:
     }
     value = next_angle & 0xFFF;
     *(u16 *)&EU_ENTRY(record)->field_08 = value;
-    EU_ENTRY(record)->field_0C =
+    EU_ENTRY(record)->local_x =
         *origin_x + rcos(value) * radius / 0x1000;
-    EU_ENTRY(record)->field_0E =
+    EU_ENTRY(record)->local_y =
         *origin_y + rsin(value) * radius / 0x1000;
 }
 #endif
@@ -306,8 +306,8 @@ void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *record) {
         s32 b;
 
         EU_ENTRY(record)->render_mode = 1;
-        a = EU_ENTRY(record)->field_0C;
-        b = EU_ENTRY(record)->field_0E;
+        a = EU_ENTRY(record)->local_x;
+        b = EU_ENTRY(record)->local_y;
         EU_ENTRY(record)->field_08 = 0;
         EU_ENTRY(record)->field_09 = 0;
         EU_ENTRY(record)->field_0A = 0;
@@ -341,8 +341,8 @@ void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *arg0) {
         s32 b;
 
         arg0->render_mode = 1;
-        a = arg0->field_0C;
-        b = arg0->field_0E;
+        a = arg0->local_x;
+        b = arg0->local_y;
         arg0->field_08 = 0;
         arg0->field_09 = 0;
         arg0->field_0A = 0;

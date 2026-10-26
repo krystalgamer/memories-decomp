@@ -514,7 +514,7 @@ typedef char LibraryMotionState_size_must_be_0x48[
 typedef struct DuelEffectChannel {
     u8 *G32 text_00;
     /* The fade callbacks in gText_SecondaryCommandHandlers reach this block. They are reached as
-       bytes at 0x04-0x0A, as halfwords at 0x0C and 0x0E, and as single bytes
+       bytes at 0x04-0x0A, as local XY halfwords at 0x0C/0x0E, and as single bytes
        at 0x13-0x15; 0x04 is additionally written as one word (0 and
        0x80808080), which those sites spell as a width over field_04 rather
        than a separate member.
@@ -534,8 +534,8 @@ typedef struct DuelEffectChannel {
     u8 field_09;
     u8 field_0A;
     u8 pad_0B;
-    u16 field_0C;
-    u16 field_0E;
+    u16 local_x;
+    u16 local_y;
     /* The object's slot in the tent_DuelEffectOccupancy occupancy table and the byte
        beside it; DisplayObjectFade_ReleaseChannel clears
        tent_DuelEffectOccupancy[glyph_index] and zeroes
