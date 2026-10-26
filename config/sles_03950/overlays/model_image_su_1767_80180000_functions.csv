@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
-0x80180004,0x18,func_80180004,unmatched_asm,overlay/model_image_su_1767_80180000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained. Falls through into func_8018001C.
-0x8018001C,0x180,func_8018001C,unmatched_asm,overlay/model_image_su_1767_80180000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
-0x8018019C,0x8,func_8018019C,unmatched_asm,overlay/model_image_su_1767_80180000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained. Falls through into func_801801A4.
-0x801801A4,0x27C,func_801801A4,unmatched_asm,overlay/model_image_su_1767_80180000,"Closed CFG found by stack prologue; no loader-entry call or address reference found, so reachability is unresolved; generated assembly retained."
-0x80180420,0x80,func_80180420,unmatched_asm,overlay/model_image_su_1767_80180000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
-0x801804B0,0x120,func_801804B0,unmatched_asm,overlay/model_image_su_1767_80180000,Reached from the loader entry through local calls or in-image address references; closed CFG; generated assembly retained.
+0x80180004,0x18,func_80180004,unmatched_asm,overlay/model_image_su_1767_80180000,Address referenced by resident code; closed CFG; generated assembly retained. Falls through into func_8018001C.
+0x8018001C,0x180,func_8018001C,unmatched_asm,overlay/model_image_su_1767_80180000,Address referenced by resident code; closed CFG; generated assembly retained.
+0x8018019C,0x8,func_8018019C,unmatched_asm,overlay/model_image_su_1767_80180000,Address referenced by resident code; closed CFG; generated assembly retained. Falls through into func_801801A4.
+0x801801A4,0x27C,func_801801A4,unmatched_asm,overlay/model_image_su_1767_80180000,"Reached from a resident-referenced body through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x80180420,0x80,func_80180420,unmatched_asm,overlay/model_image_su_1767_80180000,Address referenced by resident code; closed CFG; generated assembly retained.
+0x801804B0,0x120,func_801804B0,unmatched_asm,overlay/model_image_su_1767_80180000,"Reached from a resident-referenced body through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."

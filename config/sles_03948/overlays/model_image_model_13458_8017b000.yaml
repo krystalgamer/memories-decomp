@@ -1,5 +1,4 @@
-# Generated function inventory: closed-CFG functions are generated assembly;
-# every other byte remains raw and unclassified.
+# Baseline image only: instruction-shaped bytes remain unclassified.
 name: french_model_image_model_13458_8017b000
 sha1: a476a0cc8ce4190cfef43446b0e719b354257cec
 
@@ -41,25 +40,11 @@ options:
     - ".bss"
 
 segments:
-  - name: module_header
+  - name: unclassified_image
     type: code
     start: 0x0
     vram: 0x8017b000
     align: 4
     subsegments:
-      - [0x0, data, overlays/french_model_image_model_13458_8017b000/module_header]
-  - name: unmatched_4
-    type: code
-    start: 0x4
-    vram: 0x8017b004
-    align: 4
-    subsegments:
-      - [0x4, asm, overlays/french_model_image_model_13458_8017b000/unmatched_4]
-  - name: unclassified_tail
-    type: code
-    start: 0x31d0
-    vram: 0x8017e1d0
-    align: 4
-    subsegments:
-      - [0x31d0, bin, overlays/french_model_image_model_13458_8017b000/unclassified_tail]
+      - [0x0, bin, overlays/french_model_image_model_13458_8017b000/unclassified_image]
   - [0x5000]
