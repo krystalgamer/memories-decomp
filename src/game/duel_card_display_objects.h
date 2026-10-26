@@ -8,7 +8,7 @@
 /* Creates a hand-card display object and marks it if the duel is
  * showing card markers: nonzero gDuel_pActiveSideState->card_view_mode sets
  * DUEL_CARD_FLAG_DISPLAY_MARKER on the record and copies data byte +0x04
- * plus one into field_67, or 0xFF when the view mode is negative.
+ * plus one into deck_number_marker, or 0xFF when the view mode is negative.
  *
  * The declaration is the interesting part. The definition takes the record
  * alone, but all three callers pass three arguments -- record, x, y -- and
@@ -38,7 +38,7 @@ DuelCardDisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card);
 /* Re-derives a duel card object's visual state from its own card record:
  * gDuel_aCardRecords[object->card_index] is the record, and every field this writes
  * comes from that record's flags. Face-down sets field_22, defense-position
- * sets field_21, DUEL_CARD_FLAG_USED_THIS_TURN dims the colour, and field_67
+ * sets field_21, DUEL_CARD_FLAG_USED_THIS_TURN dims the colour, and deck_number_marker
  * is cleared unless DUEL_CARD_FLAG_DISPLAY_MARKER asks to keep it.
  *
  * The thing a prototype cannot say is why every caller calls it: the object

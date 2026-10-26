@@ -178,7 +178,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
     s = &gCardList_aRowSets[idx];
     base = 0x18;
     s->enabled = flag;
-    s->object->field_68 = flag;
+    ((DisplayObject *)s->object)->field_68 = flag;
     if (flag != 0) {
         base = 0x1A;
     }

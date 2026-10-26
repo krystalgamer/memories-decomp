@@ -102,7 +102,7 @@ void Duel_PopulateCombinedDeckData(void)
         v = input->card_ids[i];
         rec->id = v;
         id = (s16)v;
-        rec->flags_04 = input->pre_shuffle_indices[i];
+        rec->pre_shuffle_index = input->pre_shuffle_indices[i];
         rec->deck_index = i;
         rec->data_block_index = i;
 
@@ -238,7 +238,7 @@ DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 cardId, s32 x, s32 y) {
     obj->out_y = -0x18;
     obj->out_x = x;
     obj->field_34 = y;
-    obj->field_67 = 0;
+    obj->deck_number_marker = 0;
     obj->field_69 = 0;
     obj->attribute = obj->attribute | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
 
@@ -249,7 +249,7 @@ DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 cardId, s32 x, s32 y) {
 
     type = (s32)desc >> CARD_STAT_TYPE_SHIFT;
     type &= CARD_STAT_TYPE_MASK;
-    obj->field_68 = (u8)type;
+    obj->card_type = (u8)type;
     obj->icon_variant = 0;
 
     if (type < CARD_TYPE_MAGIC) {

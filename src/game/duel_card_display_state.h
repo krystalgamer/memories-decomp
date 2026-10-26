@@ -21,7 +21,9 @@
    display_object.h, and out_x/out_y at 0x30/0x32 from DisplayObjectPosition
    in display_object_interpolation.h, where the interpolation helpers leave
    their eased result. Duel_CreateCardDisplayObject writes that pair as the object's initial
-   position. The rest stay field_NN because no existing view names them:
+   position. The card-rendering metadata names the original-deck number
+   marker at 0x67, cached card type at 0x68 and deck-entry index at 0x6B.
+   Other views of these polymorphic bytes keep their own names. Offset
    0x4C is a second callback slot, which DisplayObject covers with pad_4C,
    and all that is known here is that Duel_CreateCardDisplayObject stores
    Duel_DrawCardAtOutputPosition into it. */
@@ -50,11 +52,11 @@ typedef struct {
     u8 icon_state;
     u8 field_5D;
     u8 pad_5E[0x09];
-    u8 field_67;
-    u8 field_68;
+    u8 deck_number_marker;
+    u8 card_type;
     u8 field_69;
     u8 card_index;
-    u8 field_6B;
+    u8 deck_index;
 } DuelCardDisplayObject;
 
 void Duel_UpdateCardDisplayMarker(DuelCardDisplayObject *object);

@@ -23,7 +23,8 @@ typedef struct {
        with signed byte loads before passing it to Duel_SetupCardRecord. */
     s8 deck_index;
     u8 data_block_index;
-    u8 flags_04;
+    /* Slot before shuffle, kept paired with the ID; the marker stores this + 1. */
+    u8 pre_shuffle_index;
     u8 unk_05;
 } DuelDeckCardRecord;
 
@@ -40,8 +41,8 @@ typedef char DuelDeckCardRecord_index_offset_must_be_2[
 typedef char DuelDeckCardRecord_data_block_offset_must_be_3[
     DUEL_DECK_CARD_OFFSET(data_block_index) == 3 ? 1 : -1
 ];
-typedef char DuelDeckCardRecord_flags_offset_must_be_4[
-    DUEL_DECK_CARD_OFFSET(flags_04) == 4 ? 1 : -1
+typedef char DuelDeckCardRecord_pre_shuffle_index_offset_must_be_4[
+    DUEL_DECK_CARD_OFFSET(pre_shuffle_index) == 4 ? 1 : -1
 ];
 typedef char DuelDeckCardRecord_unknown_offset_must_be_5[
     DUEL_DECK_CARD_OFFSET(unk_05) == 5 ? 1 : -1
