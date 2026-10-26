@@ -15,9 +15,13 @@ SOURCE = ROOT / "src/overlays/password/name_entry_runtime.c"
 KEYBOARD_GUARD = "    defined(VERSION_EUROPE_PASSWORD_UPDATE_KEYBOARD)\n"
 
 
+DIALOG_MARKER = "/* The end of the name-entry screen pipeline"
+
+
 def keyboard_text():
     """The unit's leading selector/include block plus the keyboard updater's
-    own section, unguarded; the rest of the unit is the name-entry runtime."""
+    own section, unguarded; the rest of the unit is the name-entry runtime
+    and its closing dialog."""
     text = SOURCE.read_text()
     head = []
     for line in text.splitlines(keepends=True):
@@ -28,6 +32,8 @@ def keyboard_text():
     while head and not head[-1].startswith(("#include", "#define")) and head[-1].strip():
         head.pop()
     section = text.split(KEYBOARD_GUARD, 1)[1]
+    # The dialog and completion functions that close the unit follow it.
+    section = section.split(DIALOG_MARKER, 1)[0]
     return "".join(head) + "\n" + section[:section.rindex("#endif")]
 SCRATCH = ROOT / "tmp/name-entry-keyboard-witness"
 START = r"""
