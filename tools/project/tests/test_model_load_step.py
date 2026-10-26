@@ -443,13 +443,13 @@ class ModelLoadStepTests(unittest.TestCase):
             if mutation:
                 changes = {
                     "idle-state": ("state == 0 || state == 255", "state == 0"),
-                    "bitfield-base": ("p->field_BEC[byte]", "*((u8 *)p + 0xBEC + i * 2 + byte)"),
+                    "bitfield-base": ("p->extended_animation_part_mask[byte]", "*((u8 *)p + 0xBEC + i * 2 + byte)"),
                     "third-slot-limit": (
                         "amount = (p->lit_color_cache_address = (s32)p->field_DE0 + sum);",
                         "amount = (s32)p->field_DE0 + sum;\n        if (index < 2) p->lit_color_cache_address = amount;",
                     ),
                     "live-sequence-base": (
-                        "s32 current = p->field_BF5;",
+                        "s32 current = p->current_animation_row;",
                         "s32 current = *((u8 *)p + 0xBF5 + i * 4);",
                     ),
                 }

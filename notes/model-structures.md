@@ -87,10 +87,12 @@ Verified shared fields and partial arrays are:
 | `0x000` | `hmd_units[60]`, `0x8`-byte `GsUNIT` views | `Model_InitSlot` fills the SDK `coord` and `primtop` views; `Model_TransformPartVertex` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads `primitive_data` at `+4` |
 | `0x1E0` | `animation_sequences[58]`, `ModelSlotPart *` (a `GsSEQ`) | `Model_SeekSlotAnimation` and `Model_SetSlotPartSpeeds` advance pointers by 4, bounded at runtime by `animation_sequence_count`; `Model_ResetSlotAnimationTables` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
 | `0x2C8` | `animation_command_indices[10][58]`, `u16` | `Model_ResetSlotAnimationTables` fills it with `0xFFFF` at a `0x74` stride over ten rows; `Model_BuildSlotAnimationTables` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
-| `0x750` | `animation_duration_rows[10]`, `ModelSlotRow` | `Model_ResetSlotAnimationTables` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `Model_BuildSlotAnimationTables` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `field_BF5 * 118` |
-| `0xBEC` | `field_BEC[8]`, part bitfield | `Model_ResetSlotAnimationTables` sets bit `part % 8` of byte `part / 8`; `Model_ControlSlotAnimation` reads it back the same way; `Model_LoadSlot` widens a card for the parts it flags |
-| `0xBF5` | `field_BF5` | `Model_GetSlotAnimationIndex` returns it; `Model_GetSlotAnimationLength` uses it to select an animation row, while `Model_SeekSlotAnimation` stores an animation row after seeking each part to it |
-| `0xBF8` | `sound_entries[64]` | `model_slot_control.c` clears 64 four-byte records; `Model_PlaySlotAnimationSounds` reads each record as `{frame, id, flags}` |
+| `0x750` | `animation_duration_rows[10]`, `ModelSlotRow` | `Model_ResetSlotAnimationTables` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `Model_BuildSlotAnimationTables` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `current_animation_row * 118` |
+| `0xBEC` | `extended_animation_part_mask[8]`, part bitfield | `Model_ResetSlotAnimationTables` sets bit `part % 8` of byte `part / 8`; `Model_ControlSlotAnimation` reads it back the same way; `Model_LoadSlot` reserves 20 rather than 12 snapshot bytes for qualified flagged parts |
+| `0xBF4` | `queued_animation_row` | end-of-animation request compared with its latch before seeking |
+| `0xBF5` | `current_animation_row` | `Model_GetSlotAnimationIndex` returns it; `Model_GetSlotAnimationLength` uses it to select an animation row, while `Model_SeekSlotAnimation` stores an animation row after seeking each part to it |
+| `0xBF6` | `queued_animation_row_latch` | acknowledged queue value; can be invalidated or copied without a seek |
+| `0xBF8` | `sound_entries[64]` | `model_slot_control.c` clears 64 four-byte records; `Model_PlaySlotAnimationSounds` reads each record as `{animation_row, sound_id, flags}` |
 | `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `Model_StartBattleSlotAction` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `Model_GetSlotDataEntry`, `Model_GetCurrentDataEntry`, and `Model_TransformPartVertex` |
 | `0xD18` | `field_D18` | `Model_BuildCameraRelativeCoordinateUnit` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
@@ -107,7 +109,8 @@ Verified shared fields and partial arrays are:
 | `0xDFF` | `field_DFF` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `gModelDebug_abSlotGfFlags[index]` |
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
 | `0xE06` | `animation_position` | 12.4 fixed-point animation frame returned as an integer by `Model_GetSlotAnimationFrame`; write/read in `Model_SeekSlotAnimation` |
-| `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `Model_SetSlotPlaybackSpeed` writes it |
+| `0xE08` | `animation_sound_position` | separate wrapping command-branch sound cursor; original volatile diagnostic reload retained |
+| `0xE0D` | `playback_speed` | `Model_GetSlotAnimationSpeed` reads it and `Model_SetSlotPlaybackSpeed` writes it |
 | `0xE11` | `draw_mode_request` | `Model_DrawSlotUnitsOnly`, `func_80059284`, and `Model_SetSlotAmbient` |
 | `0xE12` | `field_E12` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `Model_DrawSlot` guards its projected ground-fan path with the same byte |
 | `0xE14` | `load_step` | sentinel test in `func_80058DD8` |
@@ -272,7 +275,7 @@ active, the processor:
 1. computes three colour bytes as linear integer interpolation from entry
    bytes `+0x10..+0x12` toward `+0x14..+0x16`, using elapsed `+0x0C` over
    duration `+0x0E`, while retaining byte `+0x13` as the fourth channel;
-2. saves the slot colour at `tint`, `field_BF5`, `animation_position`, and the
+2. saves the slot colour at `tint`, `current_animation_row`, `animation_position`, and the
    affected per-part bytes, installs the request values, and redraws the slot;
 3. clears the two draw-context globals, restores every saved model value, and
    restores the prior `Model_SetSlotShadowEnabled` state;
@@ -455,7 +458,7 @@ model-base views:
   explicit offsets while preserving its accepted compiler schedule.
 - `Model_LoadSlot` uses `MODEL_SLOT_SIZE` while keeping the duel-side layout
   pass in raw offsets.
-- `Model_SetSlotPlaybackDirection` uses shared `field_E0D` and `field_E16` members while
+- `Model_SetSlotPlaybackDirection` uses shared `playback_speed` and `field_E16` members while
   selecting the signed velocity passed to `Model_SetSlotPartSpeeds`.
 - `Model_HasInsufficientBufferSpace` includes `model.h` for
   `MODEL_SLOT_SIZE`, but retains a byte-array extern so its `+0xE00` size load

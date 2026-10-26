@@ -11,7 +11,7 @@ void Model_SetSlotPlaybackSpeed(s32 index, s32 type)
     if ((u32)(type - 4) >= 29) {
         type = 8;
     }
-    slot->field_E0D = type;
+    slot->playback_speed = type;
     if (slot->field_E16 == 0x3E) {
         Model_SetSlotPlaybackDirection(index, 1);
     }
@@ -45,7 +45,7 @@ update:
     {
         ModelSlot *current = &gModel_aSlots[index];
 
-        doubled = current->field_E0D * 2;
+        doubled = current->playback_speed * 2;
         state = current->field_E16;
     }
     doubled_copy = doubled;
@@ -82,7 +82,7 @@ void Model_SeekSlotAnimation(s32 idx, s32 flag, s32 val)
 
     if (count != 0) {
         do {
-            s32 arg2 = rec->field_BF5;
+            s32 arg2 = rec->current_animation_row;
 
             if (flag != 0) {
                 ModelSlotPart *part = rec->animation_sequences[i];
@@ -97,7 +97,7 @@ void Model_SeekSlotAnimation(s32 idx, s32 flag, s32 val)
     }
 
     if (flag != 0) {
-        rec->field_BF5 = flag;
+        rec->current_animation_row = flag;
     }
     rec->field_DC8[3] = 0;
 }

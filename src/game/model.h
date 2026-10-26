@@ -114,9 +114,10 @@ typedef struct {
     u8 traveling;
 } ModelSlotPart;
 
+/* Row zero terminates; flags retains the packed cue phase and CD bit. */
 typedef struct {
-    u8 frame;
-    u8 id;
+    u8 animation_row;
+    u8 sound_id;
     u16 flags;
 } ModelSlotSoundEntry;
 
@@ -235,10 +236,10 @@ typedef struct {
      * from the command block. Model_ControlSlotAnimation reads it the same
      * way, and Model_LoadSlot widens a card from 0xC to 0x14 for flagged
      * parts. */
-    u8 field_BEC[8];
-    u8 field_BF4;
-    u8 field_BF5;
-    u8 field_BF6;
+    u8 extended_animation_part_mask[8];
+    u8 queued_animation_row;
+    u8 current_animation_row;
+    u8 queued_animation_row_latch;
     u8 field_BF7;
     ModelSlotSoundEntry sound_entries[MODEL_SLOT_SOUND_ENTRY_COUNT];
     ModelSlotCF8Block field_CF8;
@@ -297,17 +298,17 @@ typedef struct {
     u16 animation_position;
     /* Model_ResetSlotAnimationTables clears this halfword beside animation_position
      * in src/game/model_slot_row_tables.c. */
-    u16 field_E08;
+    u16 animation_sound_position;
     /* Model_ResetSlot seeds this halfword with 0x1000 and
      * Model_LoadSlot reads it back; this unit's own header describes
      * the pair as "the halfword at +0xE0A". */
     u16 texture_tint_scale;
-    /* Seeded 7 beside field_E0D's 8 by Model_ResetSlot and read back
+    /* Seeded 7 beside playback_speed's 8 by Model_ResetSlot and read back
      * by Model_LoadSlot, which its unit calls "the pair at
      * +0xE0C/+0xE0D". */
     /* Packed palette hue/invert control, not a Boolean or plain hue. */
     u8 texture_tint_control;
-    u8 field_E0D;
+    u8 playback_speed;
     u8 field_E0E;
     u8 field_E0F;
     u8 field_E10;
@@ -440,8 +441,9 @@ typedef char ModelSlot_animation_command_indices_offset_must_be_0x2C8[
 typedef char ModelSlot_animation_duration_rows_offset_must_be_0x750[
     MODEL_OFFSET(ModelSlot, animation_duration_rows) == 0x750 ? 1 : -1
 ];
-typedef char ModelSlot_field_BEC_offset_must_be_0xBEC[
-    MODEL_OFFSET(ModelSlot, field_BEC) == 0xBEC ? 1 : -1
+typedef char ModelSlot_extended_animation_part_mask_offset_must_be_0xBEC[
+    MODEL_OFFSET(ModelSlot, extended_animation_part_mask) == 0xBEC &&
+    sizeof(((ModelSlot *)0)->extended_animation_part_mask) == 8 ? 1 : -1
 ];
 typedef char ModelSlot_animation_commands_offset_must_be_0xDD8[
     MODEL_OFFSET(ModelSlot, animation_commands) == 0xDD8 ? 1 : -1
@@ -493,8 +495,27 @@ typedef char ModelSlot_animation_sequences_offset_must_be_0x1E0[
 typedef char ModelSlot_animation_duration_rows_max_offset_must_be_0x7C4[
     MODEL_OFFSET(ModelSlot, animation_duration_rows[0].max) == 0x7C4 ? 1 : -1
 ];
-typedef char ModelSlot_field_BF5_offset_must_be_0xBF5[
-    MODEL_OFFSET(ModelSlot, field_BF5) == 0xBF5 ? 1 : -1
+typedef char ModelSlot_current_animation_row_offset_must_be_0xBF5[
+    MODEL_OFFSET(ModelSlot, current_animation_row) == 0xBF5 ? 1 : -1
+];
+typedef char ModelSlot_animation_control_layout_must_match[
+    MODEL_OFFSET(ModelSlot, queued_animation_row) == 0xBF4 &&
+    sizeof(((ModelSlot *)0)->queued_animation_row) == 1 &&
+    sizeof(((ModelSlot *)0)->current_animation_row) == 1 &&
+    MODEL_OFFSET(ModelSlot, queued_animation_row_latch) == 0xBF6 &&
+    sizeof(((ModelSlot *)0)->queued_animation_row_latch) == 1 &&
+    MODEL_OFFSET(ModelSlot, animation_sound_position) == 0xE08 &&
+    sizeof(((ModelSlot *)0)->animation_sound_position) == 2 &&
+    sizeof(((ModelSlot *)0)->playback_speed) == 1 ? 1 : -1
+];
+typedef char ModelSlotSoundEntry_layout_must_match[
+    sizeof(ModelSlotSoundEntry) == 4 &&
+    MODEL_OFFSET(ModelSlotSoundEntry, animation_row) == 0 &&
+    sizeof(((ModelSlotSoundEntry *)0)->animation_row) == 1 &&
+    MODEL_OFFSET(ModelSlotSoundEntry, sound_id) == 1 &&
+    sizeof(((ModelSlotSoundEntry *)0)->sound_id) == 1 &&
+    MODEL_OFFSET(ModelSlotSoundEntry, flags) == 2 &&
+    sizeof(((ModelSlotSoundEntry *)0)->flags) == 2 ? 1 : -1
 ];
 typedef char ModelSlot_sound_entries_offset_must_be_0xBF8[
     MODEL_OFFSET(ModelSlot, sound_entries) == 0xBF8 ? 1 : -1
@@ -560,8 +581,8 @@ typedef char ModelSlot_prepared_primitive_count_offset_must_be_0xE04[
 typedef char ModelSlot_animation_position_offset_must_be_0xE06[
     MODEL_OFFSET(ModelSlot, animation_position) == 0xE06 ? 1 : -1
 ];
-typedef char ModelSlot_field_E0D_offset_must_be_0xE0D[
-    MODEL_OFFSET(ModelSlot, field_E0D) == 0xE0D ? 1 : -1
+typedef char ModelSlot_playback_speed_offset_must_be_0xE0D[
+    MODEL_OFFSET(ModelSlot, playback_speed) == 0xE0D ? 1 : -1
 ];
 typedef char ModelSlot_draw_mode_request_offset_must_be_0xE11[
     MODEL_OFFSET(ModelSlot, draw_mode_request) == 0xE11 ? 1 : -1

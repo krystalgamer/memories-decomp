@@ -631,8 +631,8 @@ class ModelIntroControllerTests(unittest.TestCase):
                     "terminal-state": ("gModel_bPresentationPhase = -2;", "gModel_bPresentationPhase = -3;"),
                     "unsequenced-timing": (
                         "s32 timing = Model_GetFrameStep();\n"
-                        "        remaining -= slot->field_E0D * timing;",
-                        "remaining -= slot->field_E0D * Model_GetFrameStep();",
+                        "        remaining -= slot->playback_speed * timing;",
+                        "remaining -= slot->playback_speed * Model_GetFrameStep();",
                     ),
                 }
                 original, replacement = replacements[mutation]

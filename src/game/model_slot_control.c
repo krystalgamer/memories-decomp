@@ -58,7 +58,7 @@
 
 /* Per-frame animation tick for a model slot. When the slot is active and
    has an animation loaded it takes the current animation's length and this
-   tick's frame advance, lets the slot-6 idle/loop cases hand off through
+   tick's frame advance, lets the animation-6 idle/loop cases hand off through
    Model_SetSlotPlaybackDirection, runs the sound trigger for the two duelist slots, advances
    or rewinds the frame counter (state 0x3E plays forward and clamps, other
    states play backward and wrap), and when the animation has run out with
@@ -80,9 +80,9 @@ void Model_UpdateSlotAnimation(s32 index) {
         return;
     }
     if (m->animation_commands != 0) {
-        anim = m->field_BF5;
+        anim = m->current_animation_row;
         length = m->animation_duration_rows[anim].max << 4;
-        speed = m->field_E0D * Model_GetFrameStep();
+        speed = m->playback_speed * Model_GetFrameStep();
         if (anim == 6) {
             lim = length - speed;
             if ((m->field_E16 == 0x3E && m->animation_position >= lim) ||
@@ -123,25 +123,25 @@ void Model_UpdateSlotAnimation(s32 index) {
         if (m->field_E10 == 0) {
             if (m->field_E16 == 0x3E ? m->animation_position >= length : m->animation_position == 0) {
                 if (m->tint[7] == 6) {
-                    m->field_BF4 = 2;
+                    m->queued_animation_row = 2;
                 }
-                if (m->field_BF4 != m->field_BF6) {
-                    Model_SeekSlotAnimation(index, m->field_BF4, 0);
-                    m->field_BF6 = m->field_BF4;
+                if (m->queued_animation_row != m->queued_animation_row_latch) {
+                    Model_SeekSlotAnimation(index, m->queued_animation_row, 0);
+                    m->queued_animation_row_latch = m->queued_animation_row;
                     if (m->field_E0F != 0) {
                         Model_ControlSlotAnimation(index, 0, 0);
                     }
                     if (m->tint[7] == 6) {
                         Model_QueueEffectEndpointPair(-1, index + 2, m->animation_duration_rows[2].max);
                         m->tint[7] = 0;
-                        m->field_BF4 = 1;
+                        m->queued_animation_row = 1;
                     }
                 }
             }
         }
     }
     if (m->field_E16 != 0x23) {
-        if (m->field_E0D == 0x10) {
+        if (m->playback_speed == 0x10) {
             if (Model_GetFrameStep() == 2) {
                 return;
             }
@@ -151,7 +151,7 @@ void Model_UpdateSlotAnimation(s32 index) {
     if (m->animation_sequence_count != 0) {
         i = 0;
         do {
-            Model_SeekSlotPartAnimation(m, i, m->field_BF5, frame);
+            Model_SeekSlotPartAnimation(m, i, m->current_animation_row, frame);
             i++;
         } while (i < m->animation_sequence_count);
     }
@@ -218,7 +218,7 @@ void Model_UpdateSlotControl(s32 index)
         Model_SetHandlerCallbackState(0);
     }
     if (slot->field_E0E == 6) {
-        if (slot->field_BF5 == slot->field_DFE + 3
+        if (slot->current_animation_row == slot->field_DFE + 3
             || slot->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {
             slot->field_E0E = 7;
         } else {
@@ -245,9 +245,9 @@ void Model_UpdateSlotControl(s32 index)
         }
         Model_SetHandlerCallbackState(0);
         slot->field_E0E = 8;
-        slot->field_E08 = 0;
+        slot->animation_sound_position = 0;
     }
-    if (slot->field_BF5 != slot->field_DFE + 3
+    if (slot->current_animation_row != slot->field_DFE + 3
         && slot->field_DF8 != MODEL_SPECIAL_BATTLE_ID) {
         s32 eligible = slot->field_E0E;
         if (eligible != 0 && eligible != 3 && eligible != 1 && eligible != 4 && eligible != 5) {
@@ -328,7 +328,7 @@ void Model_UpdateSlotControl(s32 index)
         do { own_record = offset + (s32)&gModel_Slot0MetadataView; } while (0);
         offset = (index ^ 1) * MODEL_SLOT_SIZE;
         other_record = offset + (s32)&gModel_Slot0MetadataView;
-        amount = slot->field_E0D * (amount + 1);
+        amount = slot->playback_speed * (amount + 1);
         if ((((u8 *)&gModel_Slot0MetadataView) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
             {
                 u32 own_value =
@@ -367,7 +367,7 @@ void Model_UpdateSlotControl(s32 index)
                 other->animation_position -= amount;
                 frame = other->animation_position;
                 for (part = 0; part < other->animation_sequence_count; part++) {
-                    Model_SeekSlotPartAnimation(other, part, other->field_BF5, frame);
+                    Model_SeekSlotPartAnimation(other, part, other->current_animation_row, frame);
                 }
                 if ((rand() >> 8) & 1) {
                     changed++;
@@ -401,9 +401,9 @@ no_handler:
         s32 offset;
         s32 own_record;
         s32 other_record;
-        if (slot->field_BF5 == slot->field_DFE + 3) {
+        if (slot->current_animation_row == slot->field_DFE + 3) {
             s32 current_frame = slot->animation_position >> 4;
-            s32 midpoint = slot->animation_duration_rows[slot->field_BF5].max >> 1;
+            s32 midpoint = slot->animation_duration_rows[slot->current_animation_row].max >> 1;
             if (current_frame >= midpoint) {
                 offset = index * MODEL_SLOT_SIZE;
                 own_record = offset + (s32)&gModel_Slot0MetadataView;
@@ -479,7 +479,7 @@ void Model_ResetSlot(s32 arg0)
     p->tint[1] = 0x80;
     p->tint[0] = 0x80;
     p->texture_tint_control = 7;
-    p->field_E0D = 8;
+    p->playback_speed = 8;
     p->load_step = 0xFF;
     p->tint[3] = 0;
     *(s16 *)&p->texture_tint_scale = COLOR_FIXED_ONE;
@@ -498,8 +498,8 @@ void Model_ResetSlot(s32 arg0)
 
     for (i = 0; i < 0x40; i++) {
         *(s32 *)&p->sound_entries[i] &= 0x8000FFFF;
-        p->sound_entries[i].id = 0;
-        p->sound_entries[i].frame = 0;
+        p->sound_entries[i].sound_id = 0;
+        p->sound_entries[i].animation_row = 0;
     }
 
     p->field_CF8.field_10 = -1;
@@ -548,7 +548,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
             do {
                 if (p->animation_command_indices[1][i] != m) {
                     k = i / 8;
-                    if ((p->field_BEC[k] >> (i - k * 8)) & 1) {
+                    if ((p->extended_animation_part_mask[k] >> (i - k * 8)) & 1) {
                         sum += 0x14;
                     } else {
                         sum += 0xC;
@@ -578,7 +578,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     e = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b);
     e->is_active = 1;
     Model_DrawSlotUnitsOnly(arg0);
-    v = e->field_E0D * 2;
+    v = e->playback_speed * 2;
     w = v;
     switch (e->field_E16) {
     case 0x23:
@@ -777,7 +777,7 @@ void Model_AdvanceSlotLoad(s32 index)
                 do {
                     if (p->animation_command_indices[1][i] != missing) {
                         byte = i / 8;
-                        if ((p->field_BEC[byte] >> (i - byte * 8)) & 1) {
+                        if ((p->extended_animation_part_mask[byte] >> (i - byte * 8)) & 1) {
                             sum += 0x14;
                         } else {
                             sum += 0xC;
@@ -814,7 +814,7 @@ void Model_AdvanceSlotLoad(s32 index)
         break;
     case 7: {
         ModelSlot *p = &gModel_aSlots[index];
-        amount = p->field_E0D * 2;
+        amount = p->playback_speed * 2;
         offset = amount;
         switch (p->field_E16) {
         case 0x23:
@@ -858,11 +858,11 @@ void Model_AdvanceSlotLoad(s32 index)
             handler(context, ((ModelControlCommandView *)p)->commands[2] % 1000);
             Model_SetHandlerCallbackState(0);
         }
-        selected = p->field_BF5;
+        selected = p->current_animation_row;
         p->field_E0E = 6;
         position = p->animation_position;
         for (i = 0; i < p->animation_sequence_count; i++) {
-            s32 current = p->field_BF5;
+            s32 current = p->current_animation_row;
             if (selected != 0) {
                 p->animation_sequences[i]->sid = selected;
                 current = selected;
@@ -870,7 +870,7 @@ void Model_AdvanceSlotLoad(s32 index)
             Model_SeekSlotPartAnimation(p, i, current, position);
         }
         if (selected != 0) {
-            p->field_BF5 = selected;
+            p->current_animation_row = selected;
         }
         break;
     }
@@ -1408,7 +1408,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
 /* Starts, restores or stops one model slot's part animation.
  *
  * -1 clears every part's command index. 0 restores the words the active row
- * saved, three per part or five for parts flagged in field_BEC, and clears
+ * saved, three per part or five for parts flagged in extended_animation_part_mask, and clears
  * the active row. Any other row saves the parts' current words, records each
  * part's command index and makes that row active, restoring the previous row
  * first when the caller allows it.
@@ -1459,7 +1459,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
                     restore_bit = i + 7;
                 }
                 restore_words = 3;
-                if ((m->field_BEC[restore_bit >> restore_words] >>
+                if ((m->extended_animation_part_mask[restore_bit >> restore_words] >>
                      (i - ((restore_bit >> restore_words) << restore_words))) &
                     1) {
                     restore_words = 5;
@@ -1483,7 +1483,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
             if (flag == 0) {
                 return;
             }
-            m->field_BF6 = m->field_BF4;
+            m->queued_animation_row_latch = m->queued_animation_row;
             Model_ControlSlotAnimation(index, 0, 0);
         }
         if (anim == m->field_DFE + 3
@@ -1505,7 +1505,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
                     copy_bit = i + 7;
                 }
                 copy_words = 3;
-                if ((m->field_BEC[copy_bit >> copy_words] >>
+                if ((m->extended_animation_part_mask[copy_bit >> copy_words] >>
                      (i - ((copy_bit >> copy_words) << copy_words))) &
                     1) {
                     copy_words = 5;

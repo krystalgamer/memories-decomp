@@ -12,7 +12,7 @@
    decoder; slot setup later walks the imported list. The reset fills keys
    with 0xFFFF, zeroes rows and maxima, and stores the command list at 0xDD8;
    the walk claims those keys, accumulates rows, and reads the same list. The
-   byte cursors reach the part bitfield through ModelSlot::field_BEC. */
+   byte cursors reach the part bitfield through ModelSlot::extended_animation_part_mask. */
 
 /* Primitive decoder: walks the header's record count through records of the
    kind selected by unit->type's low halfword. For slot half `mode` it
@@ -407,7 +407,7 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
     t = (u8 *)ch;
     c = t;
     ch->animation_position = 0;
-    ch->field_E08 = 0;
+    ch->animation_sound_position = 0;
     ch->animation_commands = 0;
     *(s32 *)&ch->field_DDC = 0;
     *(s32 *)&ch->field_DE0 = 0;
@@ -447,7 +447,7 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
     i = 7;
     q = t + i;
     do {
-        q[(u32)&((ModelSlot *)0)->field_BEC] = 0;
+        q[(u32)&((ModelSlot *)0)->extended_animation_part_mask] = 0;
         i--;
         q--;
     } while (i >= 0);
@@ -483,14 +483,14 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
                 } while (0);
                 s = t + qd;
                 d = qd << 3;
-                y = s[(u32)&((ModelSlot *)0)->field_BEC];
+                y = s[(u32)&((ModelSlot *)0)->extended_animation_part_mask];
                 flag = *(volatile s32 *)(g + 4) & 0x100;
                 if (flag != 0) {
                     x = y | (one << (i - d));
                 } else {
                     x = y;
                 }
-                s[(u32)&((ModelSlot *)0)->field_BEC] = x;
+                s[(u32)&((ModelSlot *)0)->extended_animation_part_mask] = x;
                 g += 4;
                 i++;
             } while ((u32)i < *(u16 *)k);

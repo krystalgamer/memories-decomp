@@ -72,7 +72,7 @@ and captures `slot->animation_position` before the per-frame updater
 uses that snapshot in `Model_SeekSlotPartAnimation`. The updater saves
 the current slot animation position and selector separately for its
 restoration pass; it does not advance or replace the request snapshot.
-Its flag bits 3..7 come from `slot->field_BF5` and override sequence
+Its flag bits 3..7 come from `slot->current_animation_row` and override sequence
 `sid` only when nonzero. They are not the descriptor's fourth byte
 and are not a geometric part index.
 

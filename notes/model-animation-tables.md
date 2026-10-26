@@ -109,7 +109,7 @@ changing the original halfword conversions.
 The per-frame update preserves its forward/reverse states, clamp/wrap
 behavior, hold and queued-animation conditions, frame-step scheduling
 and per-part seek order. The sound consumer can use position modulo row
-length, but its alternate `field_E08` cursor is separate and still unnamed.
+length, but its alternate `animation_sound_position` cursor remains separate.
 Queued tint requests retain their existing raw position capture.
 
 A bounded observation of North American `MODEL.MRG` record 0 corroborates
@@ -127,3 +127,66 @@ controls and compiler flags remain unchanged. The French
 retain their names. Other playback state, part flags, transfer pointers,
 the tentative position helper, SDK declarations, source groups, profiles
 and historical symbol evidence are not promoted or rewritten by association.
+
+## Playback selectors, extended part state and sound cues
+
+These names follow the complete resident producer/consumer chains, not
+new asset or runtime observations. All member types and offsets stay fixed.
+
+| Original member | Canonical member | Unchanged representation |
+|---|---|---|
+| ModelSlot.field_BEC | extended_animation_part_mask | u8[8], +0xBEC |
+| ModelSlot.field_BF4 | queued_animation_row | u8, +0xBF4 |
+| ModelSlot.field_BF5 | current_animation_row | u8, +0xBF5 |
+| ModelSlot.field_BF6 | queued_animation_row_latch | u8, +0xBF6 |
+| ModelSlot.field_E08 | animation_sound_position | u16, +0xE08 |
+| ModelSlot.field_E0D | playback_speed | u8, +0xE0D |
+| ModelSlotSoundEntry.frame | animation_row | u8, +0 |
+| ModelSlotSoundEntry.id | sound_id | u8, +1 |
+
+`Model_SeekSlotAnimation` uses the current row when its selector is zero;
+otherwise it writes the nonzero selector into the part sequences' `sid`
+and the slot's current row. Queries, row-duration lookup, rendering,
+control and sound use the same row. The tint allocator captures its low
+five bits, and the temporary tint pass restores it separately from the
+slot's frame position. No row bounds or new zero-selector meaning is added.
+
+At the existing animation-end/hold gate, `Model_UpdateSlotAnimation`
+compares the queued row to its latch, seeks when they differ, then copies
+the queued value into the latch. Scene setup seeds the pair; rendering
+can invalidate the latch with zero. `Model_ControlSlotAnimation` can also
+copy the queue into the latch while restoring an earlier overlay, without
+seeking that queued row. The latch is an acknowledgment cache, not a
+second current row or a universal proof that a seek occurred. Keep the
+four-byte reset seed and all partial reset/invalidation behavior.
+
+`playback_speed` is the raw byte multiplied by `Model_GetFrameStep`.
+The public setter retains its 4..32 check and fallback 8, and updates
+part speeds through the original direction path. Other raw stores and
+existing witnesses can supply values outside that range: the name does
+not impose a global bound, new clamp, time unit or frame-rate conversion.
+
+The table reset clears the eight-byte part mask and imports each enabled
+kind-3 part word's bit 0x100. Loaders use it to reserve 20 rather than
+12 snapshot bytes for a qualified part; overlay control copies five rather
+than three words. The renderer combines it with the unchanged `aframe`,
+row-duration and coordinate-owner conditions before its `ScaleMatrix`
+path. This is not a new scale-only flag interpretation or a claim that
+all 64 stored bits correspond to valid parts. Keep every bit calculation,
+byte cursor, signed rounding path, command-key sentinel and loop bound.
+
+`animation_sound_position` is a separate wrapping halfword, cleared by
+table reset and the command transition. The sound pass normally uses
+animation position modulo row length; its existing command branch instead
+uses this cursor and increments it by the raw speed/frame-step product.
+The non-Japanese diagnostic still reloads it through volatile and shifts
+by four; Japan keeps its distinct print-free path. No cursor is merged
+with the ordinary animation position or advanced on a newly added path.
+
+The four-byte sound entry is animation row, sound ID and packed flags.
+Row zero terminates the existing 64-record scan; other rows are compared
+to the selected animation, not interpreted as cue times. The low fifteen
+flag bits select the raw phase window; bit 15 selects the CD-tagged code
+and its phase-zero seek. The byte ID still contributes to the unchanged
+CD/SFX code packing. Preserve terminators, both cue tests, entry stride,
+the metadata block copy, call order and every store narrowing.
