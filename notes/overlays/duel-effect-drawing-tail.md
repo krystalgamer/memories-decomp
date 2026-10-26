@@ -89,7 +89,7 @@ Regional/runtime coverage remains subject to the existing ordinary PR gates.
 ## Original matching evidence
 
 The contiguous Spanish bank interval `0x80155F94..0x80156448` is owned by
-`src/overlays/duel_effects/drawing_tail.c`, in definition order, with the
+`drawing_tail.c` (now part of `src/overlays/duel_effects/layered_drawing.c`), in definition order, with the
 unchanged `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81).
 
 | Function | Bytes | Recovered behavior |
