@@ -4841,7 +4841,7 @@
       "address": "0x8004900C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x144",
-      "source": "src/game/func_80049920.c"
+      "source": "src/game/sound_secondary_silent_key_off.c"
     },
     {
       "address": "0x80049150",

@@ -112,4 +112,27 @@ Primary evidence is in `sound.h`, `tent_sd_age_secondary_objects.c`,
 `sound_sequence_channel_events.c`, `sound_secondary_object_selection.c`,
 `sd_update_secondary_object_voices.c`, `sound_voice_setup.c`,
 `sound_secondary_commands.c`, `sound_sequence_runtime.c`,
-`sound_secondary_voice_mute.c`, and `func_80049920.c`.
+`sound_secondary_voice_mute.c`, and `sound_secondary_silent_key_off.c`.
+
+## Classified helper source filename
+
+The unchanged source at func_80049920.c now lives at
+sound_secondary_silent_key_off.c. Its namespace, SPU status reads and
+existing body establish the secondary-voice/silent-envelope grouping;
+this filename is not a promotion of tent_SD_KeyOffSilentSecondaryObjects
+or new evidence that anything calls it. The tentative symbol, no-caller
+caveat and differences from SD_UpdateSecondaryObjectVoices remain intact.
+
+All seven resident matching manifests select the same original function,
+address, size and named compiler profile through the new path. The C bytes,
+includes, source-group boundary, types and every statement are unchanged.
+Compiler/MASPSX assembly changes only the source filename directive. Raw ELF
+objects differ in the corresponding local STT_FILE string and its required
+string-table/layout offsets; instructions, data, relocation entries, native
+symbol identities and disassembly are unchanged.
+Historical external-attempt records and optional generated global-usage
+output keep their original paths rather than being rewritten as new evidence.
+
+The empty func_800136D4 and func_800283EC units retain their address-based
+filenames: no supported subsystem or purpose has been established for them.
+No stub name is invented merely to remove the func_ prefix.
