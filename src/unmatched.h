@@ -315,7 +315,7 @@ extern s32 D_8009B12C;
 extern u8 gDuel_bSelectedTrapSlot;
 extern u8 gMain_bModeRunnerStep;
 extern s32 gGameOver_pTitleObject;
-/* An interior label, not separate storage: gModel_aSlots[2].field_DF8, the
+/* An interior label, not separate storage: gModel_aSlots[2].model_id, the
  * stage slot's model id (0x800F2C40 + 2 * 0xE20 + 0xDF8). Model_SetSlotProperties
  * reads it through this label to pick gModel_pBackgroundRecord. */
 extern u16 gModel_awStageSlotModelId[];

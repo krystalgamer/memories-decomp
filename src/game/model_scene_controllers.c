@@ -155,7 +155,7 @@ void Model_UpdateAnimatedBattle(void)
 
     *(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)gModel_apfnEffectHandlers;
     n = 1;
-    if (((gDuel_adwCardStats[gModel_aSlots[1].field_DF8] >> 0x1A) & 0x1F) == 1) {
+    if (((gDuel_adwCardStats[gModel_aSlots[1].model_id] >> 0x1A) & 0x1F) == 1) {
         n = 2;
     }
     switch ((s8)(gModel_bPresentationPhase + 1)) {
@@ -295,7 +295,7 @@ void Model_UpdateAnimatedBattle(void)
                 s32 kind;
                 s32 off;
 
-                kind = gModel_aSlots[0].field_CF8.prefix.bytes.field_0A[gModel_aSlots[0].field_DFE] & 0x1F;
+                kind = gModel_aSlots[0].field_CF8.prefix.bytes.field_0A[gModel_aSlots[0].guardian_star_selection] & 0x1F;
                 off = -0x14;
                 if (kind == 1) {
                     goto s10_m0;
@@ -413,7 +413,7 @@ void Model_UpdateAnimatedBattle(void)
         if (Model_IsCameraMoveComplete(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
             && gModel_aSlots[0].animation_control_state == 2 && gModel_aSlots[0].active_animation_command_row == 0
             && gModel_aSlots[1].animation_control_state == 2 && gModel_aSlots[1].active_animation_command_row == 0) {
-            if (gModel_aSlots[1].field_DFF != 0) {
+            if (gModel_aSlots[1].defense_position != 0) {
                 Model_SetCameraFollowCountdown(0x78);
                 gModel_bPresentationPhase = 0x1E;
             } else {
@@ -505,7 +505,7 @@ void Model_UpdateAnimatedBattle(void)
 
         if (slot->animation_control_state == 2) {
             if (slot->active_animation_command_row == 0 && gModel_aSlots[f].playback_state == 0x23) {
-                if (gModel_aSlots[1].field_DFF == 0
+                if (gModel_aSlots[1].defense_position == 0
                     && gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00) {
                     if (gModel_aSlots[1].stone_texture_state == 0xFF) {
                         gModel_aSlots[1].stone_texture_state = 0x80;
@@ -582,7 +582,7 @@ void Model_UpdateAnimatedBattle(void)
             s32 a = (s16)gModel_wViewDistance;
             if (Model_AdjustCameraDistanceForSlot(f, 0x2BC) + 0xA >= a && Model_IsCameraMoveComplete(1) != 0) {
                 if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
-                    && gModel_aSlots[1].field_DFF == 0) {
+                    && gModel_aSlots[1].defense_position == 0) {
                     gModel_bActiveSlotIndex = 1;
                     handlers[3](gModel_aSlots[1].variant_module_data_address, 0);
                     gModel_aSlots[1].field_E15 = 0;
@@ -627,7 +627,7 @@ void Model_UpdateAnimatedBattle(void)
         ModelSlot *base;
 
         if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
-            && gModel_aSlots[1].field_DFF == 0 && gModel_aSlots[1].field_E15 == 0) {
+            && gModel_aSlots[1].defense_position == 0 && gModel_aSlots[1].field_E15 == 0) {
             gModel_bActiveSlotIndex = 1;
             if (handlers[3](gModel_aSlots[1].variant_module_data_address, -1) != 2) {
                 break;
@@ -1273,7 +1273,7 @@ void Model_StartBattleSlotAction(s32 arg0)
 
     p = &gModel_aSlots[arg0];
     q = &gModel_aSlots[arg0].field_CF8;
-    index = p->field_DFE + 3;
+    index = p->guardian_star_selection + 3;
     value = p->animation_duration_rows[index].max;
     if (value != 0) {
         Model_ControlSlotAnimation(arg0, index, 1);
@@ -1282,14 +1282,14 @@ void Model_StartBattleSlotAction(s32 arg0)
     if (value < 60) {
         value = 60;
     }
-    if (q->field_0C[p->field_DFE] != 0) {
-        value = q->field_0C[p->field_DFE];
+    if (q->field_0C[p->guardian_star_selection] != 0) {
+        value = q->field_0C[p->guardian_star_selection];
     }
     Model_RequestCameraMoveToSlots(1, -1, arg0 ^ 1, value);
     Model_SetCameraHoldState(
-        ((q->prefix.bytes.field_0A[p->field_DFE] & 0x80) == 0) << 1
+        ((q->prefix.bytes.field_0A[p->guardian_star_selection] & 0x80) == 0) << 1
     );
-    if ((q->prefix.bytes.field_0A[p->field_DFE] & 0x40) != 0) {
+    if ((q->prefix.bytes.field_0A[p->guardian_star_selection] & 0x40) != 0) {
         Model_SetCameraHoldState(1);
     }
 }
@@ -1339,7 +1339,7 @@ void Model_PlaySlotAnimationSounds(s32 index) {
     } else {
         phase = 0;
     }
-    cur = m->field_DFE;
+    cur = m->guardian_star_selection;
     value = ((ModelControlCommandView *)m)->commands[cur];
     show = 0;
     if (value >= 0) {
@@ -1353,17 +1353,17 @@ void Model_PlaySlotAnimationSounds(s32 index) {
             speed2 = m->playback_speed * Model_GetFrameStep();
             phase = m->animation_sound_position;
             m->animation_sound_position = phase + speed2;
-            anim = m->field_DFE + 3;
+            anim = m->guardian_star_selection + 3;
 #else
             s32 cur2;
             s32 value2;
 
             speed2 = m->playback_speed * Model_GetFrameStep();
-            cur2 = m->field_DFE;
+            cur2 = m->guardian_star_selection;
             phase = m->animation_sound_position;
             m->animation_sound_position = phase + speed2;
             value2 = ((ModelControlCommandView *)m)->commands[cur2];
-            anim = m->field_DFE + 3;
+            anim = m->guardian_star_selection + 3;
             /* Retail loads animation_sound_position again after the store above; read
                plainly, GCC reuses the value it just stored instead. */
             sprintf(buf, gModel_szAnimationSoundTraceFormat, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->animation_sound_position >> 4);
@@ -2357,7 +2357,7 @@ void Model_SetSlotProperties(s32 idx, ...)
     va_start(ap, idx);
     p1 = va_arg(ap, s32);
     if (p1 >= 0) {
-        gModel_aSlots[idx].field_DF8 = p1;
+        gModel_aSlots[idx].model_id = p1;
 #ifndef VERSION_JAPAN
         gModel_awSlotModelIds[idx] = p1;
 #endif
@@ -2374,13 +2374,13 @@ void Model_SetSlotProperties(s32 idx, ...)
             gModel_aSlots[idx].field_DFC = p3;
         }
         if (p4 >= 0) {
-            gModel_aSlots[idx].field_DFE = (p4 != 0);
+            gModel_aSlots[idx].guardian_star_selection = (p4 != 0);
 #ifndef VERSION_JAPAN
             gModelDebug_abSlotAfFlags[idx] = (p4 != 0);
 #endif
         }
         if (p5 >= 0) {
-            gModel_aSlots[idx].field_DFF = (p5 != 0);
+            gModel_aSlots[idx].defense_position = (p5 != 0);
 #ifndef VERSION_JAPAN
             gModelDebug_abSlotGfFlags[idx] = (p5 != 0);
 #endif

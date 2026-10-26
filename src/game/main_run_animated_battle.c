@@ -53,8 +53,8 @@ void Main_RunAnimatedBattle(void)
                 p->model_id - 1,
                 p->field_02,
                 p->field_04,
-                p->field_07,
-                p->field_06
+                p->guardian_star_selection,
+                p->defense_position
             );
             p++;
             Model_SetSlotProperties(
@@ -62,8 +62,8 @@ void Main_RunAnimatedBattle(void)
                 p->model_id - 1,
                 p->field_02,
                 p->field_04,
-                p->field_07,
-                p->field_06
+                p->guardian_star_selection,
+                p->defense_position
             );
             Model_SetSlotProperties(2, gDuel_bTerrain);
         }

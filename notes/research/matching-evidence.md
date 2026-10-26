@@ -3896,7 +3896,7 @@ member reference.
 with `u8 *` bases and hex offsets it reaches the exact instruction count with
 every register allocated as retail has it, and four `addu`s in the wrong order.
 Regrouping the two unscaled sites closed those; the two scaled sites needed the
-types. Naming `ModelSlot.field_DFE`, giving the `0xCF8`-`0xD13` window the type
+types. Naming `ModelSlot.guardian_star_selection`, giving the `0xCF8`-`0xD13` window the type
 `ModelSlotCF8Block`, and reaching `field_750[]`, `field_0A[]` and `field_0C[]`
 through struct members closes all four.
 
@@ -3904,7 +3904,7 @@ The block's own shape is fixed by evidence rather than guessed: it starts at
 `0xCF8` and cannot reach past `field_D14`, which bounds it at `0x1C` bytes; the
 halfword access at `+0xC` bounds the leading byte array at two elements; and the
 remaining `0x10` bytes are exactly eight halfwords. Both arrays are indexed by
-the same `field_DFE`.
+the same `guardian_star_selection`.
 
 Note the contrast with "Do not name an array base to reproduce a materialised
 base register": that result says introducing a *variable* for a base costs an

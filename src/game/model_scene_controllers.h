@@ -36,7 +36,7 @@ extern s16 gModel_ImageCopyRectH;
 extern u8 gModel_szAnimationSoundTraceFormat[];
 
 /* Model_UpdateAnimatedBattle's per-slot action: plays animation
- * field_DFE + 3 when it has frames, moves the camera towards the other slot
+ * guardian_star_selection + 3 when it has frames, moves the camera towards the other slot
  * for two thirds of that length (at least 60, or the record's override), and
  * sets gModel_bCameraHoldState from the record's flag bits. */
 #ifdef VERSION_JAPAN

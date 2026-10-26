@@ -40,7 +40,7 @@ Each image occupies ten 2,048-byte sectors in a 276-sector compact MODEL
 record. Stages 7/8 occupy record sectors 180/190; stages 9/10 occupy 200/210.
 Loads are `0x8013B000` and `0x8017B000`, entry `+4`.
 
-The loader copies slot `field_DFE` to transfer `position` and the slot index
+The loader copies slot `guardian_star_selection` to transfer `position` and the slot index
 to `callback_data`. The transfer callback selects both actual alternate
 routes. Record sector 275 at `+0x110/+0x114` supplies slot commands at
 `+0xD08/+0xD0C`; the dispatcher passes the selected command modulo 1000 to

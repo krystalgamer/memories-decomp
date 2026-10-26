@@ -59,7 +59,7 @@ three callers and both context-pointer storage owners.
 
 The selected loader at `0x8005967C`, transfer callback at `0x80059EF4`, slot
 setup at `0x8004FC2C` and dispatcher at `0x80058B4C` establish both alternates.
-`Model_LoadMonsterMerge` writes `p4 != 0` to `field_DFE` when `p4 >= 0`, then
+`Model_LoadMonsterMerge` writes `p4 != 0` to `guardian_star_selection` when `p4 >= 0`, then
 passes the slot and alternate through `callback_data` and `position`. The
 callback consumes those actual fields. Stage counts are
 `(96,48,2,1,16,1,16,10,10,10,10,2,2,1,50,1)`, totaling 276 sectors.
@@ -69,7 +69,7 @@ Stages 7/8 select alternate zero, stages 9/10 alternate one; their starts are
 Load-pointer storage `0x80010014/18` selects `0x8013B000/0x8017B000`; context
 storage `0x80010024/28` selects `0x80136000/0x80176000`. Final record-sector
 words `+0x110/+0x114` reach slot `+0xD08/+0xD0C`. The command view indexes
-`commands[field_DFE]`, initialization receives `command % 1000` (all values
+`commands[guardian_star_selection]`, initialization receives `command % 1000` (all values
 zero through five occur), and updates receive minus one.
 
 Descriptors start at image `+0x4168`, stride 60, inside retained raw storage.
