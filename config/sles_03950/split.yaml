@@ -145,8 +145,6 @@ segments:
       - [0xA4A8, c, game/european/duel_scene_card_placement]
       - [0xB85C, c, game/duel_project_card_slot_screen_x]
       - [0xB900, c, game/european/duel_scene_card_move]
-      - [0xBEF4, c, game/european/duel_hand_selection_cursor]
-      - [0xC0AC, c, game/european/duel_field_selection]
       - [0xC4BC, c, game/duel_check_quit_input]
       - [0xC4FC, c, game/european/duel_scene_hand_actions]
       - [0xD9A0, c, game/duel_card_defense_rotation]

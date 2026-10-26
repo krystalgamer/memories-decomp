@@ -772,31 +772,31 @@
       "address": "0x8001B6F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/european/duel_hand_selection_cursor.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B720",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x10C",
-      "source": "src/game/european/duel_hand_selection_cursor.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B82C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x80",
-      "source": "src/game/european/duel_hand_selection_cursor.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B8AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
-      "source": "src/game/european/duel_field_selection.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001BA64",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x258",
-      "source": "src/game/european/duel_field_selection.c"
+      "source": "src/game/european/duel_scene_card_move.c"
     },
     {
       "address": "0x8001BCBC",

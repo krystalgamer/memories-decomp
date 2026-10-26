@@ -773,31 +773,31 @@
       "address": "0x8001B5E0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/japanese/duel_hand_selection_cursor.c"
+      "source": "src/game/japanese/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B60C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x10C",
-      "source": "src/game/japanese/duel_hand_selection_cursor.c"
+      "source": "src/game/japanese/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B718",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x80",
-      "source": "src/game/japanese/duel_hand_selection_cursor.c"
+      "source": "src/game/japanese/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B798",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
-      "source": "src/game/japanese/duel_field_selection.c"
+      "source": "src/game/japanese/duel_scene_card_move.c"
     },
     {
       "address": "0x8001B950",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x258",
-      "source": "src/game/japanese/duel_field_selection.c"
+      "source": "src/game/japanese/duel_scene_card_move.c"
     },
     {
       "address": "0x8001BBA8",
