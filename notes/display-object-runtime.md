@@ -602,3 +602,65 @@ arguments above come from local matching C. Shared pool geometry and flag
 names now live in `display_object_layout.h`; slot fields and list globals
 remain address- or offset-based because their complete ownership and original
 type names are not yet established.
+
+## Timed command-stream view
+
+DisplayObjectStreamState names seven existing members only within the
+0x5C-byte script/handler view. It is not a new whole-pool structure.
+
+| Original member | Stream name | Unchanged storage |
+| --- | --- | --- |
+| flags | attribute | u32 +0x04 |
+| field_22 | rotation_z | u8 +0x22 |
+| field_48 / field_4A | pivot_x / pivot_y | s16 +0x48 / +0x4A |
+| field_4C | frame_data | u8 *G32 +0x4C |
+| field_58 | command_offset | s16 +0x58 |
+| field_5A | frame_delay | s16 +0x5A |
+
+The seven handlers at 0x8004141C through 0x80041534 and the shared/Japanese
+ReadNextCommand bodies establish the producer/consumer chain. The reader
+fetches at current + (u16)command_offset, dispatches table[op ^ 0xFF] while
+op >= 0xF0, and returns immediately for a handler result of -1. A normal
+opcode becomes frame_delay; its following little-endian halfword resolves
+frame_data = base + value, then command_offset advances by three.
+All base-relative offsets refer to the original resource origin, not the
+selected script origin. current and base do not delimit a buffer.
+
+DisplayObject_UpdateCommandStream resolves the same three resource-table
+levels documented in display-resource-banks.md. It initializes the offset
+and delay, and the later countdown path subtracts gGraphics_nBaseFrameStep
+through the original 16-bit arithmetic before requesting another command
+at a nonpositive result. Zero delay still suppresses that path. No new
+timer unit, clamp, bound, overflow handling or opcode validation is implied.
+
+The reachable sheet-list walker calls the updater before the sheet
+renderer. CardPreview_UpdateVariant also invokes it before requesting a
+render retry. Free Duel's sparkle path invokes it before copying the
+widget's existing frame pointer. The sheet renderer treats +0x4C as a
+SpriteSheetHeader followed by parts, copies +0x48/+0x4A into its pivot
+work, and expands rotation_z by 5760 for GsSPRITE.rotate. The other sprite
+renderer independently uses the same Z conversion. ConfigureRotation
+stores the same byte, sign-extends its y-pivot operand and narrows the
+little-endian x-pivot pair into the existing signed halfword.
+
+The stream attribute is the canonical +0x04 word, not DisplayObject.flags
+at +0x08. ToggleFlagAndJumpToOffset still XORs 0x00800000, while
+ConfigureRotation still SETS GsROTOFF and advances current by FOUR.
+Stop clears the delay and returns -1; jumps/reset retain their offset
+clears, and Noop and ResetOffset gain no cursor advance. Random selection
+retains rand() % data[0] without a zero guard. Dispatch gains no bounds
+check, and no apparently unusual control flow is repaired.
+
+Only the typed handler region and both complete reader units migrate
+member identifiers. The generic updater, sheet renderer/list, callback
+ABI, ambient a1/a2 call sequence, model handler table, initialization,
+packet views, casts, widths, G32, padding and all numeric offset assertions
+remain. Generic DisplayObject +0x48/+0x4C/+0x58/+0x5A keep offset names
+because other kinds store coordinates, colours and callbacks there.
+All other ygo_types.h records retain their existing members.
+
+No existing fixture names this stream-state type. No fixture, oracle,
+scenario, mutation, numeric control or behavioral harness is added or
+changed, and no cloud fixture is executed locally. Existing CSV EVIDENCE
+remains historical; its NOTES connect the old offset spellings to this
+typed view without renaming another function or linker symbol.

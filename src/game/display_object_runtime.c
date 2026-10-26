@@ -474,7 +474,7 @@ void DisplayObject_RenderFrame(void)
 /* Entries 0 through 4 of tent_DisplayObjectStreamCommandTable. */
 s32 DisplayObjectStream_Stop(DisplayObjectStreamState *object, const u8 *data)
 {
-    object->field_5A = 0;
+    object->frame_delay = 0;
     return -1;
 }
 
@@ -483,7 +483,7 @@ s32 DisplayObjectStream_ResetOffset(
     const u8 *data
 )
 {
-    object->field_58 = 0;
+    object->command_offset = 0;
     return 1;
 }
 
@@ -500,7 +500,7 @@ s32 DisplayObjectStream_JumpToOffset(
     const u8 *data
 )
 {
-    object->field_58 = 0;
+    object->command_offset = 0;
     object->current = object->base + ((data[1] << 8) | data[0]);
     return 1;
 }
@@ -510,8 +510,8 @@ s32 DisplayObjectStream_ToggleFlagAndJumpToOffset(
     const u8 *data
 )
 {
-    object->flags ^= 0x800000;
-    object->field_58 = 0;
+    object->attribute ^= 0x800000;
+    object->command_offset = 0;
     object->current = object->base + ((data[1] << 8) | data[0]);
     return 1;
 }
@@ -529,7 +529,7 @@ s32 DisplayObjectStream_JumpToRandomOffset(
     hi = data[1];
     lo = data[0];
     base = object->base;
-    object->field_58 = 0;
+    object->command_offset = 0;
     object->current = base + ((hi << 8) | lo);
     return 1;
 }
@@ -541,13 +541,13 @@ s32 DisplayObjectStream_ConfigureRotation(
 {
     int high;
     int low;
-    object->flags |= GsROTOFF;
-    object->field_22 = data[0];
-    object->field_4A = (signed char)data[1];
+    object->attribute |= GsROTOFF;
+    object->rotation_z = data[0];
+    object->pivot_y = (signed char)data[1];
     high = data[3] << 8;
     low = data[2];
     object->current += 4;
-    object->field_48 = high | low;
+    object->pivot_x = high | low;
     return 1;
 }
 

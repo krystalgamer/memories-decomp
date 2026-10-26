@@ -38,7 +38,7 @@ s32 DisplayObjectStream_JumpToRandomOffset(
 /* Display-object stream opcode 0xF9, entry 6 of tent_DisplayObjectStreamCommandTable
  * (model_record_tables.c). It reads the rotation byte, a signed y pivot, and
  * a little-endian x pivot from four operand bytes. It also raises GsROTOFF in
- * the attribute word `flags` and advances `current` by 4. Returns 1. */
+ * the attribute word `attribute` and advances `current` by 4. Returns 1. */
 s32 DisplayObjectStream_ConfigureRotation(
     DisplayObjectStreamState *object,
     const u8 *data
