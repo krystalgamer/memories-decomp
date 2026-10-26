@@ -102,6 +102,8 @@ Verified shared fields and partial arrays are:
 | `0xDC0` | `tint[8]` | fade tint: target colour/mode writes in `Model_SetSlotTintTarget` and selection in `Model_GetSlotTintDescriptor`; live 3-D battle values below (formerly `field_DC0`) |
 | `0xDC8` | `field_DC8[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `Model_SeekSlotAnimation` |
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
+| `0xDE8` | `primary_module_data_address`, `s32` | independently selected primary data word passed to the primary module at base +4 |
+| `0xDEC` | `variant_module_data_address`, `s32` | independently selected variant data word passed to variant/presentation handlers |
 | `0xDF8` | `field_DF8` | first property in `Model_SetSlotProperties`; mirrored to `gModel_awSlotModelIds[index]` for all three slots when non-negative |
 | `0xDFA` | `field_DFA` | second property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
 | `0xDFC` | `field_DFC` | third property in `Model_SetSlotProperties` for slots 0 and 1; negative leaves unchanged |
@@ -257,6 +259,46 @@ boundaries, preventing their validity checks from drifting apart. The same
 header owns the measured `0x114` model-MRG sector count, `0x74` auxiliary
 sector count, `0xB2`-byte auxiliary lookup stride, and the special battle
 file start sector/count used only for `MODEL_SPECIAL_BATTLE_ID`.
+
+### Paired module data arguments
+
+`ModelSlot.field_DE8` and `ModelSlot.field_DEC` are now
+`primary_module_data_address` and `variant_module_data_address`.
+Both remain signed `s32` address words at +0xDE8/+0xDEC, not pointer
+members, callable entries, newly allocated contexts or a common record type.
+The independently named words in `high_memory_addresses.h` and the complete
+initializer/dispatcher/presentation chains establish the pairing.
+
+`Model_InitSlot` first clears both words, then retains its original
+`index < 2` selection of the four independently labeled data constants.
+Normal slot 0 receives 0x80135000/0x80136000; slot 1 receives
+0x80175000/0x80176000. This happens before the null-HMD early return,
+so a cleared or inactive slot does not imply zero module arguments.
+Do not add index, sign, lifetime or load-readiness guards.
+
+`Model_UpdateSlotControl` captures the primary and variant addresses as
+the original local byte-pointer views. The primary module is selected
+separately and called at base +4 with the primary data and request -1;
+its return remains ignored. The variant module receives the variant
+data with the selected request modulo 1000 on the existing state-7
+path, then with -1 on subsequent eligible updates. Keep callback-state
+bracketing, state transitions, narrowed results and every missing-handler,
+active-slot and special-model path. `Model_AdvanceSlotLoad` stage 9 uses
+the same primary argument for the initial modulo-1000 request.
+
+Presentation phases pass the variant address to their existing selected
+effect handlers with unchanged requests, including 0, -1, -2 and 0x18E.
+They do not turn the data word into the called address. French variant
+notes independently trace the same fixed-RAM argument while retaining
+their measured context views and non-overlap/lifetime caveats. No one
+context layout, capacity, ownership or completion contract is inferred
+for every module. The address-based fields of the unrelated
+`Variant393EntryState` are intentionally unchanged despite coincident
+numeric offsets.
+
+See [high-memory-load-addresses.md](high-memory-load-addresses.md).
+All source expressions, casts, signatures, absolute relocations, per-region
+profiles and existing fixture layout expectations are unchanged.
 
 ### Timed model-tint requests
 

@@ -110,6 +110,12 @@ archive destinations.
 This distinction is why the four data words cannot safely be folded into an
 array named only for load arenas.
 
+The slot members are now `primary_module_data_address` at +0xDE8 and
+`variant_module_data_address` at +0xDEC. Both retain their signed `s32`
+storage and the exact absolute-word producers and callback argument casts;
+see [the paired argument protocol](model-structures.md#paired-module-data-arguments).
+No pointer retyping, shared context layout or stronger lifetime follows.
+
 ## SU-specific tail
 
 The last three words are a separate SU cohort:

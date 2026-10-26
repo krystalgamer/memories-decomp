@@ -221,7 +221,7 @@ void Model_UpdateAnimatedBattle(void)
                 Model_QueueCameraOrbitFromPreset(0, 0, 0, -0xC);
                 Model_QueueEffectEndpointPair(0, 0, 0x4000);
                 gModel_bActiveSlotIndex = 0;
-                handlers[0](gModel_aSlots[0].field_DEC, 0);
+                handlers[0](gModel_aSlots[0].variant_module_data_address, 0);
                 gModel_aSlots[0].field_E15 = 0;
                 gModel_bPresentationPhase++;
             }
@@ -230,7 +230,7 @@ void Model_UpdateAnimatedBattle(void)
     case 6:
         if (gModel_aSlots[0].field_E15 == 0) {
             gModel_bActiveSlotIndex = 0;
-            if (handlers[0](gModel_aSlots[0].field_DEC, -1) != 2) {
+            if (handlers[0](gModel_aSlots[0].variant_module_data_address, -1) != 2) {
                 break;
             }
             gModel_aSlots[0].field_E15++;
@@ -349,7 +349,7 @@ void Model_UpdateAnimatedBattle(void)
             if (d >= 0 ? b >= d : b >= a - (s16)gModel_wViewYaw) {
                 Model_StartBattleSlotAction(0);
                 gModel_bActiveSlotIndex = 1;
-                handlers[n](gModel_aSlots[1].field_DEC, 0x18E);
+                handlers[n](gModel_aSlots[1].variant_module_data_address, 0x18E);
                 gModel_aSlots[1].field_E15 = 0xFF;
                 gModel_bPresentationPhase++;
             }
@@ -377,7 +377,7 @@ void Model_UpdateAnimatedBattle(void)
         }
         if (gModel_aSlots[1].field_E15 == 0) {
             gModel_bActiveSlotIndex = 1;
-            handlers[n](gModel_aSlots[1].field_DEC, -1);
+            handlers[n](gModel_aSlots[1].variant_module_data_address, -1);
         }
         if (gModel_aSlots[0].animation_control_state == 2) {
             if (gModel_aSlots[0].active_animation_command_row == 0) {
@@ -408,7 +408,7 @@ void Model_UpdateAnimatedBattle(void)
         }
         if (gModel_aSlots[1].field_E15 == 0) {
             gModel_bActiveSlotIndex = 1;
-            handlers[n](gModel_aSlots[1].field_DEC, -1);
+            handlers[n](gModel_aSlots[1].variant_module_data_address, -1);
         }
         if (Model_IsCameraMoveComplete(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
             && gModel_aSlots[0].animation_control_state == 2 && gModel_aSlots[0].active_animation_command_row == 0
@@ -532,7 +532,7 @@ void Model_UpdateAnimatedBattle(void)
         if (slot->stone_texture_state == 0 && Model_IsCameraMoveComplete(1) != 0) {
             Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
             gModel_bActiveSlotIndex = f;
-            handlers[3](slot->field_DEC, 0);
+            handlers[3](slot->variant_module_data_address, 0);
             slot->field_E15 = 0;
             gModel_bPresentationPhase++;
         }
@@ -546,7 +546,7 @@ void Model_UpdateAnimatedBattle(void)
 
         if (slot->field_E15 == 0) {
             gModel_bActiveSlotIndex = f;
-            if (handlers[3](slot->field_DEC, -1) != 2) {
+            if (handlers[3](slot->variant_module_data_address, -1) != 2) {
                 break;
             }
             slot->field_E15++;
@@ -584,7 +584,7 @@ void Model_UpdateAnimatedBattle(void)
                 if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
                     && gModel_aSlots[1].field_DFF == 0) {
                     gModel_bActiveSlotIndex = 1;
-                    handlers[3](gModel_aSlots[1].field_DEC, 0);
+                    handlers[3](gModel_aSlots[1].variant_module_data_address, 0);
                     gModel_aSlots[1].field_E15 = 0;
                     gModel_bPresentationPhase = 0x19;
                     gModel_bPresentationTimer = 0;
@@ -629,7 +629,7 @@ void Model_UpdateAnimatedBattle(void)
         if (gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00
             && gModel_aSlots[1].field_DFF == 0 && gModel_aSlots[1].field_E15 == 0) {
             gModel_bActiveSlotIndex = 1;
-            if (handlers[3](gModel_aSlots[1].field_DEC, -1) != 2) {
+            if (handlers[3](gModel_aSlots[1].variant_module_data_address, -1) != 2) {
                 break;
             }
             gModel_aSlots[1].field_E15++;
@@ -653,7 +653,7 @@ void Model_UpdateAnimatedBattle(void)
     case 31:
         if (gModel_aSlots[1].field_E15 == 0) {
             gModel_bActiveSlotIndex = 1;
-            if (handlers[n](gModel_aSlots[1].field_DEC, -2) == 2) {
+            if (handlers[n](gModel_aSlots[1].variant_module_data_address, -2) == 2) {
                 gModel_aSlots[1].field_E15++;
             }
         } else if (Model_IsCameraMoveComplete(1) != 0) {

@@ -277,8 +277,8 @@ typedef struct {
     u8 *G32 field_DE4;
     /* The module data words gModel_Slot0PrimaryDataAddress..gModel_Slot1VariantDataAddress Model_InitSlot copies in
      * for slots 0 and 1 (see high_memory_addresses.h). */
-    s32 field_DE8;
-    s32 field_DEC;
+    s32 primary_module_data_address;
+    s32 variant_module_data_address;
     /* Signed address words for the derived lit-color cache interval.
      * Partial resets can clear only its base; no live-interval invariant. */
     s32 lit_color_cache_address;
@@ -557,11 +557,17 @@ typedef char ModelSlot_field_DC8_offset_must_be_0xDC8[
 typedef char ModelSlot_field_DD0_offset_must_be_0xDD0[
     MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0 ? 1 : -1
 ];
-typedef char ModelSlot_field_DE8_offset_must_be_0xDE8[
-    MODEL_OFFSET(ModelSlot, field_DE8) == 0xDE8 ? 1 : -1
+typedef char ModelSlot_primary_module_data_address_offset_must_be_0xDE8[
+    MODEL_OFFSET(ModelSlot, primary_module_data_address) == 0xDE8 ? 1 : -1
 ];
-typedef char ModelSlot_field_DEC_offset_must_be_0xDEC[
-    MODEL_OFFSET(ModelSlot, field_DEC) == 0xDEC ? 1 : -1
+typedef char ModelSlot_variant_module_data_address_offset_must_be_0xDEC[
+    MODEL_OFFSET(ModelSlot, variant_module_data_address) == 0xDEC ? 1 : -1
+];
+typedef char ModelSlot_module_data_address_layout_must_match[
+    MODEL_OFFSET(ModelSlot, primary_module_data_address) == 0xDE8 &&
+    sizeof(((ModelSlot *)0)->primary_module_data_address) == 4 &&
+    MODEL_OFFSET(ModelSlot, variant_module_data_address) == 0xDEC &&
+    sizeof(((ModelSlot *)0)->variant_module_data_address) == 4 ? 1 : -1
 ];
 typedef char ModelSlot_field_DF8_offset_must_be_0xDF8[
     MODEL_OFFSET(ModelSlot, field_DF8) == 0xDF8 ? 1 : -1

@@ -36,12 +36,12 @@ instruction masking or binary patching is used for acceptance.
 ## Descriptors and context views
 
 The matched resident initializer `Model_InitSlot` copies `D_80010024/28`
-into each slot's `field_DEC`. The French retail values are
+into each slot's `variant_module_data_address`. The French retail values are
 `0x80136000` and `0x80176000`. The matched controller `func_800559D4`
 passes this field to the secondary entry at module `+4`, initializes with
 the request modulo 1,000 in state 7, then transitions to state 8.
 Subsequent updates pass `-1`. The primary handler receives the distinct
-`field_DE8` context.
+`primary_module_data_address` context.
 
 All four selected archive records have command 17,001 and therefore use
 descriptor 1 at module offset `0xA32`. A descriptor is 22 bytes:
@@ -71,7 +71,7 @@ ten-sector secondary module—do not overlap these context accesses.
 These are fixed-RAM pointers, not allocator returns. Total reservation
 capacity, primary-context write extents and whole-game interference from
 other scene controllers are not inferred. Other scene controllers also
-use `field_DEC`; this evidence is specific to the selected loader and
+use `variant_module_data_address`; this evidence is specific to the selected loader and
 callback path, not a global lifetime audit.
 
 ## Exactness evidence
