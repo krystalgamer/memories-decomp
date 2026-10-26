@@ -407,7 +407,7 @@ void Library_UpdateCardView(LibraryState *state)
         /* The European build does not write color_index_54 here. */
         box->color_index_54 = LIBRARY_CARD_VIEW_BOX_FIELD_54;
 #endif
-        box->delay_reload_53 = 1;
+        box->glyph_delay = 1;
         box->depth_offset = 4;
         state->motion.card_view_phase = 1;
         return;

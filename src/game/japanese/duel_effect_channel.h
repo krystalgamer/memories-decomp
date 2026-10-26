@@ -14,7 +14,7 @@ typedef struct {
     s16 rect_y;
     s16 rect_height;
     u8 pad_44[0x0F];
-    u8 delay_reload_53;
+    u8 glyph_delay;
     u8 color_index_54;
     u8 pad_55[2];
     u8 channel_index;

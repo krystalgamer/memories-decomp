@@ -171,10 +171,10 @@ void DuelEffect_UpdateCardViewerState(void)
 #ifdef VERSION_JAPAN
                 box = TextBox_Create(i, kind, 0x148, 0xE, 0xA0, 0xC0);
                 box->color_index_54 = 4;
-                box->delay_reload_53 = 1;
+                box->glyph_delay = 1;
 #else
                 box = TextBox_Create(i, kind, 0x148, 0xE, 0xA8, 0xC0);
-                box->delay_reload_53 = 1;
+                box->glyph_delay = 1;
                 box->color_index_54 = 0;
 #endif
 #endif

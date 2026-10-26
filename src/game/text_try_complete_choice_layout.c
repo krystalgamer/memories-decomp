@@ -10,7 +10,7 @@ void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object)
     u8 control;
 
     if (object->explicit_newline_count >= gDialog_bChoiceCount) {
-        object->state_51 = 1;
+        object->playback_state = 1;
         flags = object->flags_34;
         object->explicit_newline_count = 0;
         control = gDialog_bChoiceControl;

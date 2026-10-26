@@ -166,11 +166,11 @@ loop:
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_COMPLETE_PAGE_ADVANCE)
 void Text_CompletePageAdvance(DuelEffectChannel *object)
 {
-    u8 state = object->state_51;
+    u8 state = object->playback_state;
     DUEL_EFFECT_ENTRY_TYPE *entry;
 
     if ((state & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
-        object->state_51 = state | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        object->playback_state = state | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         DuelEffect_SetEntryControlBytes(object, 2, 0);
         return;
     }
@@ -183,7 +183,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
     object->explicit_newline_count = 0;
     object->pen_x = 0;
     object->pen_y = 0;
-    object->state_51 = 0;
+    object->playback_state = 0;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     object->field_62 = 0;
 #endif

@@ -80,3 +80,29 @@ compares complete ordinary compiler/MASPSX output and actual native
 translation units, retaining zero substitutions for frozen outputs, and
 requires a clean full-executable match. Regional/overlay full-image acceptance
 remains on the PR checks; local source probes do not replace it.
+
+## Playback cadence ownership
+
+playback_state, delay_countdown and glyph_delay replace the original
+state_51/delay_52/delay_reload_53 names without changing the byte fields,
+the two existing offset assertions or either regional layout. The shared
+NA/PAL channel and compact Japanese view keep glyph_delay at +0x53.
+
+DuelEffect_InitEntry stores a reload of two in NA/Japan and one in PAL;
+it does not gain initialization stores to playback_state or the countdown.
+Library_UpdateCardView, the existing duel-effect card-view paths and the
+password shop message helper retain their explicit reload-of-one writes,
+including all original regional guards, creation flags and cleanup.
+
+State producers include the raw stream byte, wrap/page/choice transitions,
+sound waits and the existing narrow EffectObject.state view. Consumers
+retain full-byte activity before masked dispatch, callback-specific latch
+tests, first-call early returns, shared script/media/viewport cells and
+their original completion boundaries. No state enum, validation, renamed
+callback table, per-channel wait allocation or new cadence control is
+introduced. The entry handler/render state bytes are separate owners.
+
+The existing library layout fixture changes only four member identifiers
+for its +0x53 offset/size probes. Every numeric expectation, assertion,
+scenario, mutation and control remains byte-for-byte the same. It is not
+executed locally; ordinary PR validation remains authoritative.

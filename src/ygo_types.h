@@ -572,12 +572,12 @@ typedef struct DuelEffectChannel {
        pushes the buffer as the channel's next stream. */
     u8 text_44[0x0D];
     /* TextBox_BuildStep dispatches on the low five bits through D_80090E64.
-       0x80 is an initialization latch set by every callback on entry. */
-    u8 state_51;
-    /* Reloaded from delay_reload_53, decremented once per call, and used to return
-       while the countdown remains nonzero. */
-    u8 delay_52;
-    u8 delay_reload_53;
+       0x80 is an initialization latch used by the waiting callbacks. */
+    u8 playback_state;
+    /* Reloaded from glyph_delay during glyph parsing; the CD-sound wait also
+       uses this byte as a polling watchdog, not a guaranteed frame count. */
+    u8 delay_countdown;
+    u8 glyph_delay;
     u8 color_index_54;
     u8 pad_55;
     u8 explicit_newline_count;
@@ -635,11 +635,11 @@ typedef char DuelEffectChannel_pen_fields_must_be_halfwords[
 typedef char DuelEffectChannel_rect_x_offset_must_be_0x3C[
     YGO_TYPE_OFFSET(DuelEffectChannel, rect_x) == 0x3C ? 1 : -1
 ];
-typedef char DuelEffectChannel_state_51_offset_must_be_0x51[
-    YGO_TYPE_OFFSET(DuelEffectChannel, state_51) == 0x51 ? 1 : -1
+typedef char DuelEffectChannel_playback_state_offset_must_be_0x51[
+    YGO_TYPE_OFFSET(DuelEffectChannel, playback_state) == 0x51 ? 1 : -1
 ];
-typedef char DuelEffectChannel_delay_reload_53_offset_must_be_0x53[
-    YGO_TYPE_OFFSET(DuelEffectChannel, delay_reload_53) == 0x53 ? 1 : -1
+typedef char DuelEffectChannel_glyph_delay_offset_must_be_0x53[
+    YGO_TYPE_OFFSET(DuelEffectChannel, glyph_delay) == 0x53 ? 1 : -1
 ];
 typedef char DuelEffectChannel_explicit_newline_count_offset_must_be_0x56[
     YGO_TYPE_OFFSET(DuelEffectChannel, explicit_newline_count) == 0x56 ? 1 : -1

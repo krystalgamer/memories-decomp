@@ -36,8 +36,8 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
     s32 g;
     s32 m;
 
-    if ((p->state_51 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
-        p->state_51 = p->state_51 | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+    if ((p->playback_state & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        p->playback_state = p->playback_state | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         e = DisplayObject_AcquireSlot((s32)DisplayObject_FindFreeSlot(), 4);
         DisplayObject_InitializeGouraudQuad(e, 1);
         DisplayObject_SelectOrderingTable1(e);
@@ -88,11 +88,11 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         return;
     }
 
-    p->state_51 = 0;
+    p->playback_state = 0;
     SD_SEPlayFull(7);
     if ((gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_RETAIN_HIGHLIGHT) == 0) {
         DisplayObject_ReleaseIfPresent(p->prompt_object);
         p->prompt_object = 0;
-        p->state_51 = 3;
+        p->playback_state = 3;
     }
 }
