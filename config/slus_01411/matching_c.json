@@ -5570,57 +5570,57 @@
     },
     {
       "address": "0x8005922C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/model_update_coordinate_unit_matrix.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x80059284",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/model_set_slot_draw_mode.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x800592AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x124",
-      "source": "src/game/model_build_camera_relative_coordinate_unit.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x800593D0",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xCC",
-      "source": "src/game/model_slot_properties.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x8005949C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/model_slot_properties.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x800594C0",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/model_slot_properties.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x80059520",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x70",
-      "source": "src/game/model_slot_properties.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x80059590",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/model_slot_properties.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x800595C8",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
-      "source": "src/game/model_slot_properties.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x8005969C",

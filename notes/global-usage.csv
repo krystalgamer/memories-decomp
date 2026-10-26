@@ -2327,13 +2327,13 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_controllers.c,write,16,gModel_wViewYaw = 0xC00;
 0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_slot_control.c,write,16,"gModel_wViewYaw = (*(s16 *)&gModel_wViewYaw + MODEL_ANGLE_FULL_TURN) % | gModel_wViewYaw = ratan2(*(s32 *)&view->vpz - *(s32 *)&view->vrz,"
 0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x80058434,Model_StepViewOrbit,matching_c,game,C,src/game/model_slot_control.c,write,16,c = rcos(*(s16 *)&gModel_wViewYaw); | gModel_wViewYaw = v - v / MODEL_ANGLE_FULL_TURN * | (+2 more)
-0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x800592AC,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,C,src/game/model_build_camera_relative_coordinate_unit.c,read,16,raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - gModel_wViewYaw);
+0x8009B47A,gModel_wViewYaw,gModel_wViewYaw,0x800592AC,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,C,src/game/model_slot_support.c,read,16,raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - gModel_wViewYaw);
 0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/model_background.c,read,16,a = gModel_wViewPitch; | b = gModel_wViewPitch; | (+1 more)
 0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x80052528,Model_CorrectViewPitch,matching_c,game,C,src/game/model_scene_controllers.c,address,16,c = *(s16 *)&gModel_wViewPitch; | if (*(s16 *)&gModel_wViewPitch >= 0x801) {
 0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_controllers.c,write,16,gModel_wViewPitch = 0;
 0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_slot_control.c,write,16,"gModel_wViewPitch = (*(s16 *)&gModel_wViewPitch + MODEL_ANGLE_FULL_TURN) % | gModel_wViewPitch = ratan2(*(s32 *)&view->vpy - *(s32 *)&view->vry,"
 0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x80058434,Model_StepViewOrbit,matching_c,game,C,src/game/model_slot_control.c,write,16,c = rcos(*(s16 *)&gModel_wViewPitch); | gModel_wViewPitch = v - v / MODEL_ANGLE_FULL_TURN * | (+2 more)
-0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x800592AC,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,C,src/game/model_build_camera_relative_coordinate_unit.c,read,16,raw.vz = (s16)gModel_wViewPitch;
+0x8009B47C,gModel_wViewPitch,gModel_wViewPitch,0x800592AC,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,C,src/game/model_slot_support.c,read,16,raw.vz = (s16)gModel_wViewPitch;
 0x8009B480,gModel_ViewSnapshot,gModel_ViewSnapshot,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/model_background.c,write,,gModel_ViewSnapshot = gModel_wViewDistance;
 0x8009B480,gModel_ViewSnapshot,gModel_ViewSnapshot,0x800530C4,Model_ResetSceneView,matching_c,game,C,src/game/model_scene_controllers.c,write,,gModel_ViewSnapshot = D_8009B478_p;
 0x8009B482,gModel_wViewYawSnapshot,gModel_wViewYawSnapshot,0x8004E7B0,Model_UpdateBackgroundScroll,matching_c,game,C,src/game/model_background.c,read,16,dy = gModel_wViewYaw - gModel_wViewYawSnapshot;
@@ -2763,13 +2763,13 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059000,Model_GetSlotDimensionsWithOverrides,matching_c,game,C,src/game/model_slot_support.c,address,,register ModelSlot *entry = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x800590DC,Model_DrawSlotUnitsOnly,matching_c,game,C,src/game/model_slot_support.c,address,,ModelSlot *entry = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059134,Model_InitLightTriplet,matching_c,game,C,src/game/model_slot_support.c,address,,ModelSlot *slot = &gModel_aSlots[index];
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059284,Model_SetSlotDrawMode,matching_c,game,C,src/game/model_set_slot_draw_mode.c,write,,gModel_aSlots[index].field_E11 = value;
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x800592AC,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,C,src/game/model_build_camera_relative_coordinate_unit.c,address,,slot = &gModel_aSlots[arg0];
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x800593D0,Model_TransformPartVertex,matching_c,game,C,src/game/model_slot_properties.c,address,,p = &gModel_aSlots[arg0];
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x800594C0,Model_SetSlotScale,matching_c,game,C,src/game/model_slot_properties.c,address,,ModelSlot *entry = &gModel_aSlots[index];
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059520,Model_GetSlotTintDescriptor,matching_c,game,C,src/game/model_slot_properties.c,address,,ModelSlot *entry = &gModel_aSlots[index];
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059590,Model_SetSlotTintTarget,matching_c,game,C,src/game/model_slot_properties.c,address,,ModelSlot *entry = &gModel_aSlots[slot];
-0x800F2C40,gModel_aSlots,gModel_aSlots,0x800595C8,Model_SetSlotAmbient,matching_c,game,C,src/game/model_slot_properties.c,address,,ModelSlot *record = &gModel_aSlots[index];
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059284,Model_SetSlotDrawMode,matching_c,game,C,src/game/model_slot_support.c,write,,gModel_aSlots[index].field_E11 = value;
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x800592AC,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,C,src/game/model_slot_support.c,address,,slot = &gModel_aSlots[arg0];
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x800593D0,Model_TransformPartVertex,matching_c,game,C,src/game/model_slot_support.c,address,,p = &gModel_aSlots[arg0];
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x800594C0,Model_SetSlotScale,matching_c,game,C,src/game/model_slot_support.c,address,,ModelSlot *entry = &gModel_aSlots[index];
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059520,Model_GetSlotTintDescriptor,matching_c,game,C,src/game/model_slot_support.c,address,,ModelSlot *entry = &gModel_aSlots[index];
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059590,Model_SetSlotTintTarget,matching_c,game,C,src/game/model_slot_support.c,address,,ModelSlot *entry = &gModel_aSlots[slot];
+0x800F2C40,gModel_aSlots,gModel_aSlots,0x800595C8,Model_SetSlotAmbient,matching_c,game,C,src/game/model_slot_support.c,address,,ModelSlot *record = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x8005969C,Model_SetSlotPlaybackSpeed,matching_c,game,C,src/game/model_slot_state_updates.c,address,,ModelSlot *slot = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x80059700,Model_SetSlotPlaybackDirection,matching_c,game,C,src/game/model_slot_state_updates.c,address,,ModelSlot *base = gModel_aSlots; | ModelSlot *current = &gModel_aSlots[index];
 0x800F2C40,gModel_aSlots,gModel_aSlots,0x800597C8,Model_SeekSlotAnimation,matching_c,game,C,src/game/model_slot_state_updates.c,address,,ModelSlot *rec = &gModel_aSlots[idx];
@@ -2780,7 +2780,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F3938,gModel_Slot0MetadataView,gModel_Slot0MetadataView,0x800559D4,Model_UpdateSlotControl,matching_c,game,C,src/game/model_slot_control.c,address,,do { own_record = offset + (s32)&gModel_Slot0MetadataView; } while (0); | if ((((u8 *)&gModel_Slot0MetadataView) + | (+3 more)
 0x800F3938,gModel_Slot0MetadataView,gModel_Slot0MetadataView,0x8005A618,Model_GetSlotCameraPresetYaw,matching_c,game,C,src/game/model_effect_wrapped_value.c,address,,(((u8 *)&gModel_Slot0MetadataView) + offset)[MODEL_SLOT_CF8_DFE_OFFSET] | record = (ModelSlotCF8TailView *)(offset + (s32)&gModel_Slot0MetadataView);
 0x800F39B0,gModel_aSlot0FlatLights,gModel_aSlot0FlatLights,0x800591C0,Model_GetFlatLight,matching_c,game,C,src/game/model_slot_support.c,address,,entry = (u8 *)gModel_aSlot0FlatLights + index * MODEL_SLOT_SIZE;
-0x800F39F0,gModel_Slot0Scale,gModel_Slot0Scale,0x8005949C,Model_GetSlotScale,matching_c,game,C,src/game/model_slot_properties.c,address,,(u8 *)&gModel_Slot0Scale + index * MODEL_SLOT_SIZE
+0x800F39F0,gModel_Slot0Scale,gModel_Slot0Scale,0x8005949C,Model_GetSlotScale,matching_c,game,C,src/game/model_slot_support.c,address,,(u8 *)&gModel_Slot0Scale + index * MODEL_SLOT_SIZE
 0x800F3A10,gModel_awSlot0Position,gModel_awSlot0Position,0x80052D2C,Model_StartCameraMove,matching_c,game,C,src/game/model_scene_controllers.c,address,16,"arg1 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index); | arg2 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index);"
 0x800F3A10,gModel_awSlot0Position,gModel_awSlot0Position,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,address,16,"u16 *entry = MODEL_SLOT_HALFWORDS(gModel_awSlot0Position, index);"
 0x800F3A10,gModel_awSlot0Position,gModel_awSlot0Position,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,address,16,"u16 *entry = MODEL_SLOT_HALFWORDS(gModel_awSlot0Position, index);"

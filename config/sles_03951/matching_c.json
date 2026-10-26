@@ -5716,121 +5716,121 @@
       "address": "0x8005C028",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C07C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C0B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C108",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C1E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C23C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8C",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C2C8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C304",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C310",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C31C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C328",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/model_slot_support.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C334",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/model_update_coordinate_unit_matrix.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C38C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/model_set_slot_draw_mode.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C3B4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x124",
-      "source": "src/game/model_build_camera_relative_coordinate_unit.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C4D8",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xCC",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C5A4",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C5C8",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C628",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x70",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C698",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C6D0",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
-      "source": "src/game/european/model_slot_properties.c"
+      "source": "src/game/european/model_slot_support.c"
     },
     {
       "address": "0x8005C7A4",
