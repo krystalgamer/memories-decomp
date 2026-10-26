@@ -22,7 +22,7 @@
    leading words are unnamed but must stay four-byte aligned: retail copies a
    whole entry with aligned lw/sw pairs during the compaction in
    DuelEffect_ProcessEntries, and a byte-aligned struct turns that into
-   lwl/lwr. The password overlay reads two of the fields: code_00 is the
+   lwl/lwr. The password overlay reads two of the fields: glyph_code is the
    entry's Shift-JIS glyph code, and the 0x0C pair is its local pixel
    position, which TextBox_GetGlyphAt searches to find the node under a
    coordinate. */

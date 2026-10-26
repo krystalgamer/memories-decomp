@@ -20,7 +20,7 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
     p = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)arg0->entry_begin;
     gDuelEffect_nCompactionRequested = 0;
 
-    while (p->flags_11 & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
+    while (p->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         if (p->handler_state != 0) {
             CALL32(void (*)(DuelEffectEntry *, DuelEffectChannel *),
                    gDuelEffect_EntryHandlers[p->handler_state & DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK])(
@@ -35,13 +35,13 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
         e = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)arg0->entry_write_cursor;
         s = q;
         while (s != e) {
-            if (s->flags_11 & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
+            if (s->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
                 *q = *s;
                 q++;
             }
             s++;
         }
         arg0->entry_write_cursor = (DuelEffectEntry *)q;
-        q->flags_11 = 0;
+        q->entry_flags = 0;
     }
 }

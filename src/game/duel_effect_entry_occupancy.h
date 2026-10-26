@@ -9,7 +9,7 @@ typedef struct {
     /* Word alignment preserves whole-record copies during compaction. */
     u32 pad_00[4];
     u8 pad_10;
-    u8 flags_11;
+    u8 entry_flags;
     u8 owner_channel_tag;
     u8 handler_state;
     u8 pad_14;
@@ -32,7 +32,7 @@ typedef char JapaneseDuelEffectEntry_alignment_must_be_4[
 #define EUROPEAN_DUEL_EFFECT_ENTRY_COUNT 800
 
 typedef struct {
-    u16 code_00;
+    u16 glyph_code;
     u16 local_x;   /* 0x02 */
     u16 local_y;   /* 0x04 */
     u8 field_04;    /* 0x06 */
@@ -43,7 +43,7 @@ typedef struct {
     u8 field_09;
     u8 field_0A;
     u8 pad_0D[2];
-    u8 flags_11;    /* 0x0F */
+    u8 entry_flags;    /* 0x0F */
     u8 owner_channel_tag;    /* 0x10 */
     u8 handler_state;    /* 0x11 */
     u8 field_14;

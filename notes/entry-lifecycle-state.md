@@ -129,3 +129,28 @@ existing inactive sentinel. Their regional strides, raw byte-cursor
 biases, signed coordinate tests and display binding remain unchanged.
 The configured count bounds only the existing control/query helpers,
 not all consumers of the range.
+
+## Entry flags are not occupancy tags or callback state
+
+entry_flags replaces flags_11 in the shared, Japanese and European entry
+views, and field_11 in the legacy entry-callback prefix of DuelEffectChannel.
+The byte remains at +0x11 in NA/Japan and physical +0x0F in PAL; record
+sizes, word alignment and the separate owner_channel_tag do not change.
+It combines the existing active bit 0x80 with glyph-kind information;
+it is not a Boolean, channel tag, handler selector or occupancy-table value.
+PAL also retains the original low two font-mode bits on its normal path.
+
+Append preserves the original 0xA0/0xC0/0x80 stores in NA/Japan and
+0xC0 or mode|0x80 in PAL, every partial write/rejection and the next
+inactive sentinel before publishing entry_write_cursor. Handler and
+render selection remain separate bytes. Release still clears occupancy
+only in NA/Japan, then zeroes this byte and requests compaction.
+Marker clearing still compares the full owner tag with the unmasked
+input-plus-one expression; resetting still clears layout_selector only
+in NA. None of these paths gains a reservation, bounds check or new clear.
+
+Handler/draw/name-entry walks keep their active-prefix stopping rules;
+count-bounded helpers and first-entry-only page completion remain distinct.
+Compaction scans to the old append cursor, copies whole active records in
+order, republishes only that cursor and clears its next flag byte. No new
+collection lifetime, gap skipping, handler restart or stale-tail reset follows.

@@ -122,13 +122,13 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     entry->render_mode = 0;
     entry->local_x = channel->pen_x;
     entry->local_y = channel->pen_y;
-    entry->code_00 = tagged_value;
+    entry->glyph_code = tagged_value;
     flags = channel->flags_34;
     result = 0;
 
     if (flags & 0x100) {
         entry->pad_0D[1] = tagged_value;
-        entry->flags_11 = 0xC0;
+        entry->entry_flags = 0xC0;
         goto append;
     }
 
@@ -143,7 +143,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
 
     entry->pad_0D[1] = glyph;
     entry->pad_14[0] = channel->color_index_54;
-    entry->flags_11 = mode | 0x80;
+    entry->entry_flags = mode | 0x80;
 
     if (mode == 3) {
         entry->local_x += 2;
@@ -175,7 +175,7 @@ append:
         entry->handler_state = 0;
     }
     entry++;
-    entry->flags_11 = 0;
+    entry->entry_flags = 0;
     channel->entry_write_cursor = (DuelEffectEntry *)entry;
     return result;
 }
@@ -200,7 +200,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 #ifndef VERSION_JAPAN
         b = p->field_62;
 #endif
-        q->flags_11 = 0xA0;
+        q->entry_flags = 0xA0;
 #ifndef VERSION_JAPAN
         q->icon_variant = b;
 #endif
@@ -210,7 +210,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
             return;
         }
         q->glyph_index = v;
-        q->flags_11 = 0xC0;
+        q->entry_flags = 0xC0;
         c = p->color_index_54;
         q->handler_state = 0;
         q->palette_index = c;
@@ -238,7 +238,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
         q->glyph_index = 0;
         b = p->color_index_54;
 #endif
-        q->flags_11 = 0x80;
+        q->entry_flags = 0x80;
         *(s32 *)q = a;
 #ifndef VERSION_JAPAN
         q->palette_index = b;
@@ -272,7 +272,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 #else
     q++;
 #endif
-    q->flags_11 = 0;
+    q->entry_flags = 0;
     p->entry_write_cursor = q;
 }
 #endif

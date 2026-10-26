@@ -207,3 +207,23 @@ expression changes. Unrelated selection, view, packet and ritual fields
 stay untouched, as do all fixtures. The remaining field_04/field_08/
 field_14 storage is deliberately not given universal shade/rotation names:
 handlers also use it for delay, saved origins, angle/radius and flags.
+
+## Glyph code and entry-flag identities
+
+glyph_code replaces the existing u16 code_00 at entry +0x00 in the
+shared and PAL views. Ordinary NA glyphs and the password overlay establish
+its Shift-JIS role; this does not make every icon or regional entry a
+fully initialized character record. NA/Japan keep the original masked
+WHOLE-word store through the entry base, including its retained high bit
+and adjacent halfword. PAL keeps its original narrowing store of the
+tagged input; its extracted glyph byte still uses pad_0D[1]. The Japanese
+marker-only prefix is not split or given a new code member.
+
+entry_flags is the original active/glyph-kind byte (flags_11), not a
+replacement for glyph_index, palette_index, icon_variant or handler_state.
+All bit tests and branch order stay literal, including the renderer's
+0x80 active check, 0x60 kind test, 0x20 icon override and existing full
+layout-selector comparisons. The biased renderer cursor and separately
+cached raw code cursor remain unchanged, as do PAL/Japanese raw views.
+The legacy entry callback's same flag byte gains the same spelling;
+real channel stream pointers gain no entry-data interpretation.

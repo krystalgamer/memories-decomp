@@ -95,7 +95,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     do {
         v0 = v1->owner_channel_tag;
         if (v0 == a0) {
-            v1->flags_11 = 0;
+            v1->entry_flags = 0;
         }
         a1 -= 1;
         v1 += 1;
@@ -110,7 +110,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     do {
         v0 = v1->owner_channel_tag;
         if (v0 == a0) {
-            v1->flags_11 = 0;
+            v1->entry_flags = 0;
         }
         a1 -= 1;
         v1 += 1;
@@ -132,7 +132,7 @@ void DuelEffect_ResetEntryMarkers(void) {
     v0 = gDuelEffect_aEntries;
 #endif
     for (; v1 != 0; v1 = v1 - 1) {
-        v0->flags_11 = 0;
+        v0->entry_flags = 0;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
         v0->layout_selector = 0;
 #endif
