@@ -1,3 +1,18 @@
+#define TEXTURE_TINT_RECT ((RECT *)&gModel_sTextureTintRectX)
+#define TEXTURE_TINT_WORDS(buffer) ((u32 *)(buffer))
+#include "../types.h"
+#include "model_get_slot_dimensions_with_minimums.h"
+#include "model.h"
+#include "../unmatched.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "color_constants.h"
+#include "color.h"
+#include "model_apply_texture_tint.h"
+#include "model_update_view_metrics.h"
+#include "camera_view.h"
+#include "model_step_view_orbit.h"
+
 /*
  * The per-slot model runtime: the per-frame slot animation tick
  * (Model_UpdateSlotAnimation), the per-slot control step (Model_UpdateSlotControl), slot reset and
@@ -1517,5 +1532,361 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
             }
         }
         break;
+    }
+}
+
+/* Copies the four cached halfwords at record[idx]+0xDC8 into *out, then
+   clamps each axis up to the per-record minimum the slot's
+   CF8 prefix carries for it: min_x, min_y and min_z, each a byte multiplied
+   by 16, with 0 meaning "no clamp". Finally sets out->max to the largest of
+   {x (if positive), y, z}. */
+void Model_GetSlotDimensionsWithMinimums(s32 idx, ModelEffectAdjustment *out) {
+    ModelSlot *rec = &gModel_aSlots[idx];
+    ModelSlotCF8Prefix *cf8 = &rec->field_CF8.prefix;
+
+    *out = *(ModelEffectAdjustment *)rec->cached_dimensions;
+
+    if (cf8->thresholds.min_x != 0) {
+        s32 t = cf8->thresholds.min_x << 4;
+        if (out->x < t) {
+            out->x = t;
+        }
+    }
+    if (cf8->thresholds.min_y != 0) {
+        s32 t = cf8->thresholds.min_y << 4;
+        if (out->y < t) {
+            out->y = t;
+        }
+    }
+    if (cf8->thresholds.min_z != 0) {
+        s32 t = cf8->thresholds.min_z << 4;
+        if (out->z < t) {
+            out->z = t;
+        }
+    }
+
+    out->max = 0;
+    if (out->x > 0) {
+        out->max = out->x;
+    }
+    if (out->max < out->y) {
+        out->max = out->y;
+    }
+    if (out->max < out->z) {
+        out->max = out->z;
+    }
+}
+
+/* The first of the two steps of the camera-relative model transform.
+ *
+ * Model_UpdateViewMetrics recomputes the cached distance, yaw and pitch of
+ * the current view. Model_BuildViewRelativeCoordinateUnit combines those
+ * angles with a selected coordinate entry, retaining its slot-zero rotation
+ * reads and lifetime-sensitive automatic parent link.
+ *
+ * The view is a GsRVIEW2 and the six offsets read here are its members:
+ * 0x00, 0x04 and 0x08 are vpx, vpy and vpz, 0x0C, 0x10 and 0x14 are vrx,
+ * vry and vrz. Three things say so -- this function already casts m to
+ * GsRVIEW2 * to copy it whole into gModel_RView, camera_view.h declares that
+ * global as GsRVIEW2, and the arithmetic reads as the standard camera
+ * derivation: the horizontal distance and the yaw both take vp - vr in x
+ * and z, and the pitch takes the y pair against that distance.
+ *
+ * They are read as *(s32 *)&view->vpx rather than view->vpx, and that is
+ * measured. The plain member reads keep the instruction count at 226 but
+ * rename registers across the whole function. Taking each member's address
+ * keeps every read a scalar reference, as the old (m + offset) casts were,
+ * and builds byte-identically. It is the same device
+ * the two DisplayObject_Render*GouraudQuadList functions use; they too store to
+ * fixed addresses between the reads.
+ */
+#include "../types.h"
+#include "camera_view.h"
+#include "model_update_view_metrics.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
+#include "../psyq/memory.h"
+#include "model.h"
+#include "model_view_coordinate_helpers.h"
+
+void Model_UpdateViewMetrics(GsRVIEW2 *m) {
+    GsRVIEW2 *b;
+    GsRVIEW2 *view;
+
+    b = &gModel_RView;
+    if (m == 0) {
+        m = b;
+    } else if (b != 0 && m != b) {
+        gModel_RView = *m;
+    }
+    view = m;
+
+    *(s16 *)&gModel_wViewDistance = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *)&view->vrx) + (*(s32 *)&view->vpz - *(s32 *)&view->vrz) * (*(s32 *)&view->vpz - *(s32 *)&view->vrz));
+
+    gModel_wViewYaw = ratan2(*(s32 *)&view->vpz - *(s32 *)&view->vrz,
+                        *(s32 *)&view->vpx - *(s32 *)&view->vrx);
+
+    gModel_wViewPitch = ratan2(*(s32 *)&view->vpy - *(s32 *)&view->vry,
+                        *(s16 *)&gModel_wViewDistance);
+
+    *(s16 *)&gModel_wViewDistance = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *)&view->vrx) + (*(s32 *)&view->vpy - *(s32 *)&view->vry) * (*(s32 *)&view->vpy - *(s32 *)&view->vry) + (*(s32 *)&view->vpz - *(s32 *)&view->vrz) * (*(s32 *)&view->vpz - *(s32 *)&view->vrz));
+
+    gModel_wViewYaw = (*(s16 *)&gModel_wViewYaw + MODEL_ANGLE_FULL_TURN) %
+        MODEL_ANGLE_FULL_TURN;
+    gModel_wViewPitch = (*(s16 *)&gModel_wViewPitch + MODEL_ANGLE_FULL_TURN) %
+        MODEL_ANGLE_FULL_TURN;
+}
+
+static __inline__ void setup_rotation(
+    SVECTOR *source,
+    SVECTOR *copy,
+    s32 turn,
+    GsCOORDUNIT *unit
+)
+{
+    source->vy = turn - gModel_wViewYaw;
+    source->vz = gModel_wViewPitch;
+    *copy = *source;
+
+    unit->flg = 0;
+    unit->rot.vx =
+        turn - ((volatile ModelSlot *)gModel_aSlots)->root_coordinate->rot.vx;
+    unit->rot.vy =
+        turn - ((volatile ModelSlot *)gModel_aSlots)->root_coordinate->rot.vy;
+    unit->rot.vz =
+        turn - (u16)((volatile ModelSlot *)gModel_aSlots)->root_coordinate->rot.vz;
+    RotMatrixZXY(&unit->rot, &unit->matrix);
+}
+
+static __inline__ void build_work_matrix(SVECTOR *rotation, MATRIX *work)
+{
+    RotMatrix_gte(rotation, work);
+}
+
+void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 arg1, SVECTOR *arg2, GsCOORDUNIT *arg3)
+{
+    GsCOORDUNIT unit;
+    SVECTOR ang;
+    MATRIX ls;
+    SVECTOR sv88;
+    SVECTOR sv90;
+    MATRIX work;
+    u8 scratch[8];
+    ModelSlot *slot;
+
+    slot = &gModel_aSlots[index];
+    if (slot->entry_count < arg1) {
+        arg1 = slot->root_coordinate_index;
+    }
+
+    GsGetLwUnit(
+        (GsCOORDUNIT *)(slot->entries + arg1 * MODEL_SLOT_DATA_ENTRY_SIZE),
+        &ls
+    );
+    GsSetLsMatrix(&ls);
+
+    RotTransSV(arg2, &ang, (PSXLONG *)scratch);
+
+    unit.rot.vz = 0;
+    unit.rot.vy = 0;
+    unit.rot.vx = 0;
+    RotMatrix_gte(&unit.rot, &unit.matrix);
+
+    unit.flg = 1;
+    unit.matrix.t[0] = ang.vx;
+    unit.matrix.t[1] = ang.vy;
+    unit.matrix.t[2] = ang.vz;
+    unit.workm = unit.matrix;
+    unit.super = NULL;
+    memset(&sv90, 0, sizeof(sv90));
+
+    setup_rotation(&sv90, &sv88, MODEL_ANGLE_FULL_TURN, arg3);
+
+    build_work_matrix(&sv88, &work);
+    MulMatrix(&arg3->matrix, &work);
+
+    arg3->matrix.t[2] = 0;
+    arg3->matrix.t[1] = 0;
+    arg3->matrix.t[0] = 0;
+    arg3->super = &unit;
+}
+
+#ifdef VERSION_EUROPE
+void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
+{
+    /* The European build keeps each side's two rows at x 0x280, y
+       (arg0 << 4) + 0xD0 and 0xD8, where the US build has x arg0 << 8 and
+       y 0xF0 and 0xF8. */
+    u16 buf[0x400];
+    u16 *q;
+    s32 y;
+    s32 i;
+    s32 base;
+
+    if ((u32)arg0 < 2) {
+        base = (arg0 << 4) + 0xD0;
+
+        if (arg1 >= COLOR_TINT_KEEP_HUE &&
+            (arg1 & COLOR_TINT_INVERT) == 0 && arg2 >= COLOR_FIXED_ONE) {
+            goto big;
+        }
+
+        y = 0;
+        gModel_sTextureTintRectX = 0x280;
+        gModel_sTextureTintRectY = base + 8;
+        gModel_sTextureTintRectW = 0x100;
+        gModel_sTextureTintRectH = 4;
+
+        do {
+            {
+                s32 row = y + 8;
+
+                gModel_sTextureTintRectY = base + row;
+            }
+            while (IsIdleGPU(3) != 0) {
+            }
+            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            }
+            while (IsIdleGPU(3) != 0) {
+            }
+
+            q = buf;
+            for (i = 0; i < 0x400; i++, q++) {
+                *q = Color_TintBgr555Pixel(*q, (u8)arg1, (u16)arg2);
+            }
+
+            gModel_sTextureTintRectY = base + y;
+            while (IsIdleGPU(3) != 0) {
+            }
+            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            }
+            while (IsIdleGPU(3) != 0) {
+            }
+            y += 4;
+        } while (y < 8);
+    }
+
+    return;
+
+big:
+    gModel_sTextureTintRectX = 0x280;
+    gModel_sTextureTintRectY = base + 8;
+    gModel_sTextureTintRectW = 0x100;
+    gModel_sTextureTintRectH = 8;
+    MoveImage(TEXTURE_TINT_RECT, 0x280, base);
+}
+#else
+void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
+{
+    u16 buf[0x400];
+    u16 *q;
+    s32 y;
+    s32 i;
+
+    if ((u32)arg0 < 2) {
+        y = 0;
+
+        if (arg1 >= COLOR_TINT_KEEP_HUE &&
+            (arg1 & COLOR_TINT_INVERT) == 0 && arg2 >= COLOR_FIXED_ONE) {
+            goto big;
+        }
+
+        gModel_sTextureTintRectX = arg0 << 8;
+        gModel_sTextureTintRectY = 0xF8;
+        gModel_sTextureTintRectW = 0x100;
+        gModel_sTextureTintRectH = 4;
+
+        do {
+            gModel_sTextureTintRectY = y + 0xF8;
+            while (IsIdleGPU(3) != 0) {
+            }
+            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            }
+            while (IsIdleGPU(3) != 0) {
+            }
+
+            q = buf;
+            for (i = 0; i < 0x400; i++, q++) {
+                *q = Color_TintBgr555Pixel(*q, (u8)arg1, (u16)arg2);
+            }
+
+            gModel_sTextureTintRectY = y + 0xF0;
+            while (IsIdleGPU(3) != 0) {
+            }
+            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            }
+            while (IsIdleGPU(3) != 0) {
+            }
+            y += 4;
+        } while (y < 8);
+    }
+
+    return;
+
+big:
+    gModel_sTextureTintRectY = 0xF8;
+    gModel_sTextureTintRectW = 0x100;
+    gModel_sTextureTintRectX = arg0 << 8;
+    gModel_sTextureTintRectH = 8;
+    MoveImage(TEXTURE_TINT_RECT, arg0 << 8, 0xF0);
+}
+#endif
+
+/* &gModel_RView.vrx. Keep the interior symbol so the object retains the retail
+ * relocation target while the canonical GsRVIEW2 owns the surrounding view. */
+
+void Model_StepViewOrbit(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+{
+    PSXLONG *b;
+    PSXLONG *t;
+    s32 c;
+    s32 sn;
+    s32 r;
+    s32 u;
+    s32 w;
+    s32 z;
+    s32 v;
+
+    /* b and t are the two long triples at the head of the reference view,
+       vpx..vpz and vrx..vrz: t is moved around b. */
+    if (arg0 > 0) {
+        b = (PSXLONG *)gModel_ViewReferencePoint;
+        t = b - 3;
+    } else {
+        b = &gModel_RView.vpx;
+        t = b + 3;
+    }
+
+    if (*(s16 *)&gModel_wViewDistance + arg3 >= 0xB) {
+        *(u16 *)&gModel_wViewDistance = *(u16 *)&gModel_wViewDistance + arg3;
+    }
+
+    if ((arg1 & MODEL_ANGLE_MASK) != 0) {
+        v = *(s16 *)&gModel_wViewYaw + arg1 + MODEL_ANGLE_FULL_TURN;
+        gModel_wViewYaw = v - v / MODEL_ANGLE_FULL_TURN *
+            MODEL_ANGLE_FULL_TURN;
+    }
+
+    if ((arg2 & MODEL_ANGLE_MASK) != 0) {
+        v = *(s16 *)&gModel_wViewPitch + arg2 + MODEL_ANGLE_FULL_TURN;
+        gModel_wViewPitch = v - v / MODEL_ANGLE_FULL_TURN *
+            MODEL_ANGLE_FULL_TURN;
+    }
+
+    if (arg1 != 0 || arg2 != 0 || arg3 != 0) {
+        c = rcos(*(s16 *)&gModel_wViewPitch);
+        sn = rsin(*(s16 *)&gModel_wViewPitch);
+        r = *(s16 *)&gModel_wViewDistance;
+        u = r * c / MODEL_FIXED_ONE;
+        w = r * sn / MODEL_FIXED_ONE;
+        c = rcos(*(s16 *)&gModel_wViewYaw);
+        sn = rsin(*(s16 *)&gModel_wViewYaw);
+        z = u * sn / MODEL_FIXED_ONE;
+        u = u * c / MODEL_FIXED_ONE;
+        t[0] = b[0] + u * arg0;
+        t[1] = b[1] + w * arg0;
+        t[2] = b[2] + z * arg0;
     }
 }
