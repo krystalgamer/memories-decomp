@@ -702,7 +702,7 @@ five modules. In the original scan, `MainMenu_DrawTradeOffersAndHighlights`,
 the volatile-local control, reported 3 and `MainMenu_UpdateFrontendMenu`
 reported 1. Those are historical measurements. Both functions now match;
 the frontend updater's binding-free replacement is
-[`src/overlays/main_menu/frontend_update.c`](../../src/overlays/main_menu/frontend_update.c),
+in [`src/overlays/main_menu/frontend.c`](../../src/overlays/main_menu/frontend.c),
 superseding the register-bound source reclassified in #3859.
 
 ### The second tell: a reload of the address a store just wrote

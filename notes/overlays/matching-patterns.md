@@ -22,7 +22,7 @@ or inline asm, to build-integrated candidates in
 `MainMenu_UpdateFrontendMenu`, `MainMenu_UpdateTradeScreen`,
 `NameEntry_UpdateKeyboard` and `Password_UpdateShopScreen`.
 The frontend and keyboard updaters have since returned to matching C without
-bindings in [`frontend_update.c`](../../src/overlays/main_menu/frontend_update.c)
+bindings in [`frontend.c`](../../src/overlays/main_menu/frontend.c)
 and [`name_entry_keyboard_update.c`](../../src/overlays/password/name_entry_keyboard_update.c).
 Historical residuals below are not a current work queue; consult the
 per-module inventories and matching manifests before treating an old

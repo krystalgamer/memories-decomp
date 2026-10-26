@@ -82,7 +82,7 @@ rather than initialised content.
 `MainMenu_UpdateFrontendMenu` and `MainMenu_DestroyFrontendMenu`.
 All three build from matching C. `MainMenu_UpdateFrontendMenu` was
 reclassified in #3859 because its old match used register bindings; the
-binding-free replacement is now [`frontend_update.c`](frontend_update.c).
+binding-free replacement now follows the initializer in [`frontend.c`](frontend.c).
 These frontend entries are distinct from the Trade-screen entries below.
 
 The loaded bytes contain resident call targets throughout `0x80180xxx` and
@@ -623,9 +623,13 @@ bytes cover `0x80180E6C-0x80180FD8` exactly, with callback object offset
 The front-end screen is `0x8018001C..0x80180FD8`, one contiguous
 `gcc_2_8_1_g0_split` run. It was five sources, then one, `frontend.c`; #3859
 later restored generated assembly for the register-bound updater. The run now
-uses three C subsegments: `frontend.c` at module offset `0x1C` holds the
-initializer, `frontend_update.c` at `0x390` holds the binding-free updater,
-and `frontend_background.c` at `0xB4C` holds the five following functions.
+uses two C subsegments: `frontend.c` at module offset `0x1C` holds the
+initializer and the binding-free updater at `0x390` (formerly
+`frontend_update.c`), and `frontend_background.c` at `0xB4C` holds the five
+following functions. The Japanese and European builds still compile the
+initializer and updater separately, each wrapper selecting one function from
+`frontend.c` through its `VERSION_*_MAIN_MENU_{INIT,UPDATE}_FRONTEND_MENU`
+guard.
 Their boundaries and compiler profile are unchanged.
 
 The updater retains a shared scratch value for menu-group selection, the
@@ -640,7 +644,7 @@ existing `DisplayObject` layout and configuration view.
 | Address | Function | Was |
 |---|---|---|
 | `0x8018001C` | `MainMenu_InitFrontendMenu` | `frontend_init.c` |
-| `0x80180390` | `MainMenu_UpdateFrontendMenu` | `frontend_update.c` |
+| `0x80180390` | `MainMenu_UpdateFrontendMenu` | `frontend.c` |
 | `0x80180B4C` | `MainMenu_DrawFrontendBackground` | `draw_frontend_background.c` |
 | `0x80180D2C` | `MainMenu_StartFrontendEntryTransition` | `frontend_lifecycle.c` |
 | `0x80180DD0` | `MainMenu_DestroyFrontendMenu` | `frontend_lifecycle.c` |
@@ -672,8 +676,8 @@ parameter. All four now live in `frontend.h`.
 `GINPUT_PAD1_PRESSED_IS_VOLATILE` was defined for the whole unit rather than
 for one function, because it has to precede `input.h`. That was safe:
 `MainMenu_UpdateFrontendMenu` is the only front-end function that reads
-`gInput_wPad1Pressed` at all. `frontend_update.c` keeps the define; neither
-other C file needs it.
+`gInput_wPad1Pressed` at all. `frontend.c` keeps the define for the merged
+initializer and updater; the initializer reads no pad state.
 
 ## Value-setup translation unit
 
