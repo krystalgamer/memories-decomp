@@ -42,7 +42,7 @@ void SD_CancelMusicRequests(void)
                    the queue-base add and the following load. */
                 if (*(s32 *)(STATE_BYTES + offset +
                         SD_COMMAND_QUEUE_BYTE_OFFSET +
-                        (u32)&((SDCommand *)0)->field_0010) != 0x20) {
+                        (u32)&((SDCommand *)0)->transfer_selector) != 0x20) {
                     goto test;
                 }
                 *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =

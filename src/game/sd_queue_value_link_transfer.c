@@ -28,8 +28,8 @@ void SD_QueueValueLinkTransfer(s32 index)
                   SD_VALUE_LINK_BLOCK_SIZE, 0x10);
     b = g_SDValue;
     req.command = 0x51;
-    req.field_0004 = b->next_link_spu_address;
-    req.field_000C = 0x801E6800;
+    req.arg0 = b->next_link_spu_address;
+    req.arg2 = 0x801E6800;
     SD_EnqueueCommand(&req);
     c = g_SDValue;
     off += (s32)c->value_links;

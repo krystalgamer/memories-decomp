@@ -162,26 +162,26 @@ void SD_UpdateRuntime(void)
     switch (value) {
     case 0x44:
         if (p->sequence_fade_step == 0) {
-            p->sequence_fade_step = (u16)e->field_0008;
-            p->bgm_fade_target = (u8)e->field_0002;
+            p->sequence_fade_step = (u16)e->arg1;
+            p->bgm_fade_target = (u8)e->value;
         }
         break;
     case 0x45:
         if (p->sequence_fade_step == 0) {
-            p->sequence_fade_step = (u16)e->field_0008;
-            p->bgm_fade_target = (u8)e->field_0002;
+            p->sequence_fade_step = (u16)e->arg1;
+            p->bgm_fade_target = (u8)e->value;
         }
         break;
     case 0x29:
         if (p->cd_fade_step == 0) {
-            p->cd_fade_step = (u16)e->field_0008;
-            p->cd_fade_target = (u8)e->field_0002;
+            p->cd_fade_step = (u16)e->arg1;
+            p->cd_fade_target = (u8)e->value;
         }
         break;
     case 0x2A:
         if (p->cd_fade_step == 0) {
-            p->cd_fade_step = (u16)e->field_0008;
-            p->cd_fade_target = (u8)e->field_0002;
+            p->cd_fade_step = (u16)e->arg1;
+            p->cd_fade_target = (u8)e->value;
         }
         break;
     }
@@ -190,15 +190,15 @@ void SD_UpdateRuntime(void)
     p->active_command = e->command;
     g_SDValue->active_command_phase = 0;
     p = g_SDValue;
-    p->active_command_value = (u16)e->field_0002;
-    p->active_command_arg0 = e->field_0004;
-    p->active_command_arg1 = e->field_0008;
-    p->active_command_arg2 = e->field_000C;
+    p->active_command_value = (u16)e->value;
+    p->active_command_arg0 = e->arg0;
+    p->active_command_arg1 = e->arg1;
+    p->active_command_arg2 = e->arg2;
     p->active_cd_fade_wait = e->wait_for_cd_fade;
     /* The second global read preserves separate pointers for the tail copy
        and queue bookkeeping after CSE. */
     r = g_SDValue;
-    *(SDCommandTail *)&r->active_command_tail[0] = *(SDCommandTail *)&e->field_0010;
+    *(SDCommandTail *)&r->active_command_tail[0] = *(SDCommandTail *)&e->transfer_selector;
     q = g_SDValue;
     q->field_15F4 = 8;
     q->command_count = q->command_count - 1;

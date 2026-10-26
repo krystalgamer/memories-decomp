@@ -28,20 +28,22 @@
 #define SD_TRANSFER_ERROR (-1)
 #define SD_TRANSFER_INCOMPLETE (-2)
 
+/* value/arg0-2 are opcode-specific. transfer_* names apply only to command
+ * 0x20; the other tail words retain their existing opaque declarations. */
 typedef struct {
     u8 command;
     u8 wait_for_cd_fade;
-    s16 field_0002;
-    s32 field_0004;
-    s32 field_0008;
-    s32 field_000C;
-    s32 field_0010;
-    s32 field_0014;
+    s16 value;
+    s32 arg0;
+    s32 arg1;
+    s32 arg2;
+    s32 transfer_selector;
+    s32 transfer_sector_offset;
     s32 field_0018;
-    s32 field_001C;
-    s32 field_0020;
-    s32 field_0024;
-    s32 field_0028;
+    s32 transfer_spu_destination;
+    s32 transfer_ram_destination;
+    s32 transfer_spu_size;
+    s32 transfer_ram_size;
     s32 field_002C;
 } SDCommand;
 
@@ -444,27 +446,27 @@ typedef char SDCommand_size_must_be_0x30[
     sizeof(SDCommand) == SD_COMMAND_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDCommand_payload_offsets_must_match[
-    SD_STATE_OFFSET(SDCommand, field_0002) == 0x02 &&
-    SD_STATE_OFFSET(SDCommand, field_0004) == 0x04 &&
-    SD_STATE_OFFSET(SDCommand, field_0008) == 0x08 &&
-    SD_STATE_OFFSET(SDCommand, field_000C) == 0x0C &&
-    SD_STATE_OFFSET(SDCommand, field_0010) == 0x10 &&
+    SD_STATE_OFFSET(SDCommand, value) == 0x02 &&
+    SD_STATE_OFFSET(SDCommand, arg0) == 0x04 &&
+    SD_STATE_OFFSET(SDCommand, arg1) == 0x08 &&
+    SD_STATE_OFFSET(SDCommand, arg2) == 0x0C &&
+    SD_STATE_OFFSET(SDCommand, transfer_selector) == 0x10 &&
     SD_STATE_OFFSET(SDCommand, field_002C) == 0x2C ? 1 : -1
 ];
 typedef char SDCommandTail_size_must_be_0x20[
     sizeof(SDCommandTail) == 0x20 ? 1 : -1
 ];
-typedef char SDCommand_field_0002_offset_must_be_0x02[
-    SD_STATE_OFFSET(SDCommand, field_0002) == 0x02 ? 1 : -1
+typedef char SDCommand_value_offset_must_be_0x02[
+    SD_STATE_OFFSET(SDCommand, value) == 0x02 ? 1 : -1
 ];
 typedef char SDCommand_cd_fade_wait_offset_must_be_0x01[
     SD_STATE_OFFSET(SDCommand, wait_for_cd_fade) == 0x01 ? 1 : -1
 ];
-typedef char SDCommand_field_0004_offset_must_be_0x04[
-    SD_STATE_OFFSET(SDCommand, field_0004) == 0x04 ? 1 : -1
+typedef char SDCommand_arg0_offset_must_be_0x04[
+    SD_STATE_OFFSET(SDCommand, arg0) == 0x04 ? 1 : -1
 ];
-typedef char SDCommand_field_0010_offset_must_be_0x10[
-    SD_STATE_OFFSET(SDCommand, field_0010) == 0x10 ? 1 : -1
+typedef char SDCommand_transfer_selector_offset_must_be_0x10[
+    SD_STATE_OFFSET(SDCommand, transfer_selector) == 0x10 ? 1 : -1
 ];
 typedef char SDNote_size_must_be_0x08[
     sizeof(SDNote) == SD_NOTE_RECORD_SIZE ? 1 : -1

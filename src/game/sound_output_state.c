@@ -117,16 +117,16 @@ s32 SD_GetCdVolume(void)
 #include "sound.h"
 #include "sound_output_state.h"
 
-/* Queues CD fade command 41: field_0008 is the signed per-update step and
-   field_0002 the target volume, loaded into cd_fade_step/cd_fade_target when
+/* Queues CD fade command 41: arg1 is the signed per-update step and
+   value the target volume, loaded into cd_fade_step/cd_fade_target when
    SD_UpdateRuntime dequeues it. wait_for_cd_fade becomes active_cd_fade_wait; while it is
    nonzero, SD_StepActiveCommand keeps the command active until the fade
    ends. No caller is present in the retail executable or its overlays. */
 s32 SD_EnqueueCdFade(s32 a0, s32 a1, s32 a2) {
     SDCommand s;
     s.command = 41;
-    s.field_0008 = (s16) a0;
-    s.field_0002 = (s16) (u8) a1;
+    s.arg1 = (s16) a0;
+    s.value = (s16) (u8) a1;
     s.wait_for_cd_fade = (u8) a2;
     return SD_EnqueueCommand(&s);
 }
@@ -281,10 +281,10 @@ s32 SD_EnqueueCdPlay(u16 arg0, s32 unused)
 
                     SD_DropQueuedCdPlayCommands();
                     req.command = 0x24;
-                    req.field_0002 = code;
-                    req.field_0004 = first;
-                    req.field_000C = (s32)second;
-                    req.field_0008 = kind;
+                    req.value = code;
+                    req.arg0 = first;
+                    req.arg2 = (s32)second;
+                    req.arg1 = kind;
                     SD_EnqueueCommand(&req);
                     SD_ResetCdPan();
                 }
@@ -353,10 +353,10 @@ void SD_EnqueueCdSeek(s32 arg0)
 
         SD_DropQueuedCdPlayCommands();
         req.command = 0x21;
-        req.field_0002 = code;
-        req.field_0004 = first;
-        req.field_000C = (s32)second;
-        req.field_0008 = kind;
+        req.value = code;
+        req.arg0 = first;
+        req.arg2 = (s32)second;
+        req.arg1 = kind;
         SD_EnqueueCommand(&req);
     }
     c = g_SDValue;
