@@ -5,7 +5,19 @@ family selected by `Model_GetSharedPrimitiveHandler`: one cache-preparation
 stage and sixteen cached-input polygon drivers. All 119 actual native
 function records across the seven resident images retain their original
 ownership, `handwritten_asm` status, extents and instructions. No C
-implementation, wrapper, new call, profile or attempt entry is introduced.
+implementation, wrapper, new call or profile is introduced.
+
+The NA bodies cannot currently be matched under the
+`gcc_2_8_1_g0_handwritten_asm` policy, and the attempt ledger records why:
+
+- All sixteen drivers put a vertex-cache `mtc2` in branch delay slots. GCC
+  2.8.1 reorg never moves an asm insn into a delay slot (`stop_search_p`), and
+  MASPSX pads an unfilled slot with `nop`.
+- The Gt4 drivers also share the direct Gt4 `lw`+`lwr` blocker described in
+  `notes/direct-polygon-renderers.md`.
+- `Model_PrepareSharedPrimitiveCaches` fills three branch delay slots with
+  loads. The MIPS1 machine description gives loads `dslot=yes`, so reorg
+  never places a load in a delay slot.
 
 ## Dispatch and names
 

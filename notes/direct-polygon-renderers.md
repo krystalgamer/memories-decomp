@@ -93,7 +93,8 @@ Points that the C has to reproduce:
 The eight Gt4 drivers are deferred. Each loads its second UV/CLUT word with
 `lw t0,12(a3); lwr t0,10(a3)`. GCC 2.8.1 emits `lwr` only inside an
 `lwl`/`lwr` unaligned-load pair or a block move, so the lone pair needs
-non-GTE inline assembly, which the profile forbids.
+non-GTE inline assembly, which the profile forbids. The attempt ledger
+records this blocker.
 
 ## Native boundaries and acceptance
 
