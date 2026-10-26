@@ -7,7 +7,7 @@ int Model_IsCameraMoveComplete(int arg)
 {
     int result = 0;
     if (gModel_CameraMove.flags == 0) {
-        if (arg != 0 || gModel_CameraMove.mode == 0 || gModel_CameraMove.field_02 == 0)
+        if (arg != 0 || gModel_CameraMove.mode == 0 || gModel_CameraMove.follow_countdown == 0)
             result = 1;
     }
     return result;

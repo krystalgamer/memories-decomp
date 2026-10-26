@@ -1800,7 +1800,7 @@ void Model_UpdateCamera(void)
                 gModel_RView.vpy = -100;
         } else if (gModel_CameraMove.mode) {
             rate = Model_GetFrameStep();
-            Model_StepViewOrbit(1, gModel_CameraMove.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
+            Model_StepViewOrbit(1, gModel_CameraMove.orbit_step * rate * gModel_bOrbitDirection, 0, 0, 0);
         }
         if (gModel_CameraMove.flags & 2) {
             gModel_RView.vrx = (gModel_CameraMove.target.end_x - gModel_CameraMove.target.start_x) *
@@ -1869,21 +1869,21 @@ void Model_UpdateCamera(void)
     }
     if (!key || (key->requested[0].kind != 4 && key->requested[1].kind != 4)) {
         rate = Model_GetFrameStep();
-        Model_StepViewOrbit(1, gModel_CameraMove.field_04 * rate * gModel_bOrbitDirection, 0, 0, 0);
+        Model_StepViewOrbit(1, gModel_CameraMove.orbit_step * rate * gModel_bOrbitDirection, 0, 0, 0);
         Model_CorrectViewDistance(1);
     }
-    if (gModel_CameraMove.field_02) {
+    if (gModel_CameraMove.follow_countdown) {
         ModelCameraMove *move = &gModel_CameraMove;
         s32 step;
 
         step = Model_GetFrameStep();
-        if (move->field_02 - step > 0) {
+        if (move->follow_countdown - step > 0) {
             step = Model_GetFrameStep();
-            progress = move->field_02 - step;
+            progress = move->follow_countdown - step;
         } else {
             progress = 0;
         }
-        move->field_02 = progress;
+        move->follow_countdown = progress;
     }
 }
 
@@ -1960,18 +1960,18 @@ void Model_CorrectViewDistance(s32 arg0) {
     }
 
     /* The Japanese build only clears the flag bit here; it neither steps
-       field_04 up nor, on the other branch, back down towards field_06. */
+       orbit_step up nor, on the other branch, back down towards base_orbit_step. */
     if (Model_SeparateViewFromSlots(1, 0x96, 0) != 0) {
         e = &gModel_CameraMove;
 #ifdef VERSION_EUROPE
-        /* The European build steps field_04 by 2 up to 0x200, and back
-           down by 2 without passing field_06. */
-        if (e->field_04 < 0x200) {
-            e->field_04 = e->field_04 + 2;
+        /* The European build steps orbit_step by 2 up to 0x200, and back
+           down by 2 without passing base_orbit_step. */
+        if (e->orbit_step < 0x200) {
+            e->orbit_step = e->orbit_step + 2;
         }
 #elif !defined(VERSION_JAPAN)
-        if (e->field_04 < 0x10) {
-            e->field_04 = e->field_04 + 1;
+        if (e->orbit_step < 0x10) {
+            e->orbit_step = e->orbit_step + 1;
         }
 #endif
         e->flags = e->flags & 0xFE;
@@ -1982,20 +1982,20 @@ void Model_CorrectViewDistance(s32 arg0) {
         u16 v;
 
         g = &gModel_CameraMove;
-        floor = g->field_06;
-        if (floor < g->field_04) {
-            v = g->field_04 - 2;
-            g->field_04 = v;
+        floor = g->base_orbit_step;
+        if (floor < g->orbit_step) {
+            v = g->orbit_step - 2;
+            g->orbit_step = v;
             if (v < floor) {
-                g->field_04 = floor;
+                g->orbit_step = floor;
             }
         }
     }
 #elif !defined(VERSION_JAPAN)
     else {
         g = &gModel_CameraMove;
-        if (g->field_06 < g->field_04) {
-            g->field_04 = g->field_04 - 1;
+        if (g->base_orbit_step < g->orbit_step) {
+            g->orbit_step = g->orbit_step - 1;
         }
     }
 #endif
@@ -2230,11 +2230,11 @@ have_flags:
     {
         ModelCameraMove *p = &gModel_CameraMove;
 
-        p->field_02 = MODEL_DEFAULT_PROJECTION;
+        p->follow_countdown = MODEL_DEFAULT_PROJECTION;
 #ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
-        p->field_06 = 8;
+        p->base_orbit_step = 8;
 #endif
-        p->field_04 = 8;
+        p->orbit_step = 8;
         p->flags = 0;
         if (arg1 != 0) {
             p->flags = 1;

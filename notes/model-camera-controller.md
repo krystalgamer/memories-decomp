@@ -42,6 +42,69 @@ zero duration: `Model_SetCameraMoveDurationFromMagnitude` writes a duration dire
 retail division behavior is preserved, without inventing a zero-divisor
 fallback or general signed-overflow guarantee.
 
+## Follow countdown and adaptive orbit step
+
+The existing ModelCameraMove halfwords now have evidence-backed names:
+
+| Original | Canonical | Unchanged representation |
+| --- | --- | --- |
+| field_02 | follow_countdown | u16 at +2 in both layouts |
+| field_04 | orbit_step | u16 at +4 in both layouts |
+| field_06 | base_orbit_step | u16 at +6 in the full layout ONLY |
+
+Model_StartCameraMove keeps its original 300 default through the
+projection-named constant, then baseline/current defaults of eight in
+their original order. This is not evidence that the countdown is a
+projection, physical time unit or the separate elapsed/duration pair.
+The compact Japanese record still lacks the baseline word; later
+members retain their two-byte layout difference.
+
+Model_SetCameraFollowCountdown still stores twice its signed request
+through the independent signed s16 gModel_wCameraFollowCountdown alias.
+The record view stays u16. Preserve the alias, guard, multiplication,
+narrowing and independent address construction instead of replacing the
+store with typed record indexing or a saturating/absolute-value setter.
+
+Model_UpdateCamera decrements the word only after entering its follow
+path with nonzero mode. The first frame-step getter and record read
+decide whether the remainder is positive; that true branch calls the
+getter AGAIN and reads the word AGAIN before subtracting. Only the other
+branch explicitly stores zero. Do not cache either getter/read or clamp
+the second subtraction before its original u16 store. Active-move
+elapsed advancement returns before this work.
+
+Model_IsCameraMoveComplete still first requires flags == 0. It then
+accepts nonzero arg, zero mode OR zero follow_countdown. All established
+static callers pass one; no new zero-argument runtime observation is
+claimed. Mode, flags and duration retain their distinct protocols.
+
+Both orbit paths multiply orbit_step by the existing live frame step
+and signed direction byte for Model_StepViewOrbit's yaw-delta argument.
+The follow path still suppresses orbit/correction when either requested
+key endpoint is kind four. No degree/radian, wall-clock speed, signed
+range, Boolean or guaranteed-positive-step interpretation is introduced.
+
+Model_SetCameraOrbitStep narrows its s32 request to both baseline and
+current words in full records, but only current in Japan, under the
+unchanged two-state short-circuit guard. The setter remains statically
+uncalled; the role follows its body and downstream math, not a capture.
+Distance correction calls separation first and clears eye flag bit zero
+on a hit. NA adds one when the OLD step is below 0x10; PAL adds two when
+the OLD step is below 0x200. When separation is absent, NA subtracts one
+only above baseline. PAL retains its u16 subtraction temporary and
+post-store comparison against the baseline. Do not turn these into
+universal hard caps or a generic nonwrapping clamp. Japan performs
+NEITHER adaptive step update and accesses no absent baseline.
+
+All target-slot reads, distance/pitch correction ordering, both pitch
+calls, endpoint tracking, sentinel-duration behavior, interpolation,
+completion requests, frame getters and mutation boundaries remain.
+Only member identifiers change in C. The existing controller fixture
+receives inverse-byte-preserving name changes, including its mutation
+spellings; every numeric-offset oracle, assertion and scenario remains.
+Other fixtures, raw providers, source/profile groups and aliases stay
+unchanged. No fixture/cloud execution, harness or new runtime result.
+
 ## Matching and witnesses
 
 The full reconstruction replaces the historical incomplete controller spines.
@@ -90,8 +153,8 @@ they do not add newly decompiled functions.
 Distance correction keeps its signed target-slot read, slot-adjusted
 700/1000 range, separation call and both pitch-correction calls, one before
 and one after the distance steps. Japan only clears flag bit zero on
-separation: it does not step `field_04` in either direction or access the
-absent `field_06`. The Japanese wrapper therefore retains its compact-layout
+separation: it does not step `orbit_step` in either direction or access the
+absent `base_orbit_step`. The Japanese wrapper therefore retains its compact-layout
 selector. NA's one-unit and PAL's two-unit field updates remain independent.
 The existing signed distance reads, 150/300 thresholds, step caps, nonzero
 `s32` argument test and repeated helper/field accesses are not rewritten.

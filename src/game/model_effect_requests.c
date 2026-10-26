@@ -92,7 +92,7 @@ void Model_SetCameraOrbitStep(s32 value)
     }
     move = &gModel_CameraMove;
 #ifndef VERSION_JAPAN
-    move->field_06 = value;
+    move->base_orbit_step = value;
 #endif
-    move->field_04 = value;
+    move->orbit_step = value;
 }
