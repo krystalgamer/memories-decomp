@@ -433,8 +433,9 @@ typedef struct {
     u32 bytes_consumed;
     s32 sequence_tick_mode;
     u8 pad0820[0x24];
-    u8 field_0844;
-    u8 field_0845;
+    /* Post-call control-byte mirrors, not queried SPU register values. */
+    u8 reverb_mode_control;
+    u8 reverb_depth_control;
     u8 pad0846[2];
 } SDSecondaryState;
 
@@ -832,8 +833,15 @@ typedef char SDSecondaryState_clock_and_cursor_offsets_must_match[
 typedef char SDSecondaryState_sequence_tick_mode_offset_must_be_0x81C[
     SD_STATE_OFFSET(SDSecondaryState, sequence_tick_mode) == 0x81C ? 1 : -1
 ];
-typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
-    SD_STATE_OFFSET(SDSecondaryState, field_0844) == 0x844 ? 1 : -1
+typedef char SDSecondaryState_reverb_mode_control_offset_must_be_0x844[
+    SD_STATE_OFFSET(SDSecondaryState, reverb_mode_control) == 0x844 ? 1 : -1
+];
+
+typedef char SDSecondaryState_reverb_control_layout_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, reverb_mode_control) == 0x844 &&
+    SD_STATE_OFFSET(SDSecondaryState, reverb_depth_control) == 0x845 &&
+    sizeof(((SDSecondaryState *)0)->reverb_mode_control) == 1 &&
+    sizeof(((SDSecondaryState *)0)->reverb_depth_control) == 1 ? 1 : -1
 ];
 
 #undef SD_STATE_OFFSET

@@ -105,6 +105,51 @@ keeps its tentative qualifier. The field names introduce no enum,
 bit-constant substitution, queue-success check, initialization change,
 mask adjustment, cast removal or scheduling change.
 
+## Secondary sequencer reverb controls
+
+The two trailing control-byte mirrors are now reverb_mode_control
+(former field_0844, u8 at +0x844) and reverb_depth_control
+(former field_0845, u8 at +0x845). The complete secondary state still
+has its original size and trailing padding. No storage or reset is added.
+
+The private sequence-controller path establishes these roles, not a guessed
+SDK register layout. SD_DispatchSequenceChannelEvent forwards the existing
+Control Change message. Controller 0x62 selects the parameter; controller
+0x63 selects the control mode. Data Entry controller six stores control_value
+and invokes SD_ApplySequenceReverbParameter only when control_mode is neither
+the loop-start code 0x14 nor loop-end code 0x1E. Existing loop handling occurs
+before the call and is not folded into this reverb path.
+
+Parameter selector 0x0F retains the complete SDK sequence: disable reverb
+only if SpuGetReverb reports SPU_ON; conditionally release reserved work
+area; submit SPU_REV_MODE and the channel's control value; conditionally
+reserve after the diagnostic check; turn reverb on; THEN copy a fresh
+control_value into reverb_mode_control through the freshly read state pointer.
+All checks, return-value treatment, calls and repeated reads remain.
+
+Selector 0x10 retains SPU_REV_DEPTHL | SPU_REV_DEPTHR, both original
+control_value << 8 expressions, SpuSetReverbModeParam and SpuSetReverb(SPU_ON),
+then a fresh unshifted control-byte copy into reverb_depth_control.
+The stored byte is not the signed SDK depth halfword or a measured gain.
+No clamp, saturation, common packet initializer or rewritten shift is added.
+
+These are POST-CALL mirrors, not proof of accepted SPU settings, initialized
+defaults or a successful allocation. SDK return values remain ignored where
+they were ignored. Opaque calls separate packet preparation from the final
+control-byte reads: do not cache the input or require a mirror to equal the
+value previously put into the packet. No local reader of either mirror was
+found, and naming does not invent a GUI, trace observation or gameplay use.
+
+The channel's separate reverb_mode byte remains its existing note-on policy:
+zero defers to the tone mode, one disables reverb, other values enable it.
+It is not renamed, merged with the global mode parameter or normalized.
+Unknown secondary-state/channel fields retain their offset names.
+
+The whole channel-event source changes ONLY two qualified member tokens.
+All fixture/control/oracle/scenario/assertion/mutation/numeric bytes,
+frozen overlays, SDK declarations and existing profiles remain unchanged.
+There is no new harness or local fixture/cloud execution.
+
 ## Sound-effect voice allocation
 
 ### Count and selected-slot start helpers

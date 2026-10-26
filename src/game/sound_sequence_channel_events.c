@@ -30,7 +30,7 @@ void SD_ApplySequenceReverbParameter(SDSecondaryRecord *entry, int unused)
         if (SpuIsReverbWorkAreaReserved(SPU_DIAG) != 0)
             SpuReserveReverbWorkArea(SPU_ON);
         SpuSetReverb(SPU_ON);
-        gSD_pSecondaryState->field_0844 = entry->control_value;
+        gSD_pSecondaryState->reverb_mode_control = entry->control_value;
         break;
     case SD_SEQUENCE_PARAMETER_REVERB_DEPTH:
         packet.mask = SPU_REV_DEPTHL | SPU_REV_DEPTHR;
@@ -38,7 +38,7 @@ void SD_ApplySequenceReverbParameter(SDSecondaryRecord *entry, int unused)
         packet.depth.right = entry->control_value << 8;
         SpuSetReverbModeParam(&packet);
         SpuSetReverb(SPU_ON);
-        gSD_pSecondaryState->field_0845 = entry->control_value;
+        gSD_pSecondaryState->reverb_depth_control = entry->control_value;
         break;
     }
 }
