@@ -194,7 +194,7 @@ load.
 Actual matching resident callers establish initialization with
 `handler(secondary, request % 1000)` and updates with
 `handler(secondary, -1)`. The returned value is stored in the model slot's
-`field_E0E` and dispatched through its existing control switch. Metadata
+`animation_control_state` and dispatched through its existing control switch. Metadata
 requests 503001/503004/503007 select descriptor indices 1/4/7; their complete
 36-byte windows and positive growth/fade intervals are checked independently
 in each image. Unsigned frame comparison gates ribbon/ring dispatch;

@@ -254,7 +254,7 @@ void Model_UpdateAnimatedBattle(void)
         if (gModel_aSlots[0].draw_mode_request != 4) {
             Model_SetSlotDrawMode(0, 3);
         }
-        if (gModel_aSlots[0].field_E0F == 0) {
+        if (gModel_aSlots[0].active_animation_command_row == 0) {
             gModel_bPresentationTimer += Model_GetFrameStep();
             if (gModel_bPresentationTimer >= 0x3C && gModel_aSlots[1].is_active != 0) {
                 Model_SetEffectKeyBatchingEnabled(1);
@@ -289,7 +289,7 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     case 10:
-        if (gModel_aSlots[1].field_E0F == 0) {
+        if (gModel_aSlots[1].active_animation_command_row == 0) {
             gModel_bPresentationTimer += Model_GetFrameStep();
             if (gModel_bPresentationTimer >= 0x3C) {
                 s32 kind;
@@ -359,9 +359,9 @@ void Model_UpdateAnimatedBattle(void)
         s32 a;
         s32 cl;
 
-        if (gModel_aSlots[1].field_E0F != 5) {
-            if (gModel_aSlots[1].field_E0F != 6) {
-                if (gModel_aSlots[1].field_E0F == 8) {
+        if (gModel_aSlots[1].active_animation_command_row != 5) {
+            if (gModel_aSlots[1].active_animation_command_row != 6) {
+                if (gModel_aSlots[1].active_animation_command_row == 8) {
                     a = 3;
                 } else {
                     a = 0;
@@ -372,15 +372,15 @@ void Model_UpdateAnimatedBattle(void)
         } else {
             a = 1;
         }
-        if (gModel_aSlots[1].field_E15 == 0xFF && gModel_aSlots[1].field_E0F == 8) {
+        if (gModel_aSlots[1].field_E15 == 0xFF && gModel_aSlots[1].active_animation_command_row == 8) {
             gModel_aSlots[1].field_E15 = 0;
         }
         if (gModel_aSlots[1].field_E15 == 0) {
             gModel_bActiveSlotIndex = 1;
             handlers[n](gModel_aSlots[1].field_DEC, -1);
         }
-        if (gModel_aSlots[0].field_E0E == 2) {
-            if (gModel_aSlots[0].field_E0F == 0) {
+        if (gModel_aSlots[0].animation_control_state == 2) {
+            if (gModel_aSlots[0].active_animation_command_row == 0) {
                 a = 4;
             }
         } else if (Model_GetCameraHoldState() == 0) {
@@ -402,7 +402,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 14:
-        if (gModel_aSlots[1].field_E0F == 6) {
+        if (gModel_aSlots[1].active_animation_command_row == 6) {
             gModel_bPresentationPhase = 0x14;
             break;
         }
@@ -411,8 +411,8 @@ void Model_UpdateAnimatedBattle(void)
             handlers[n](gModel_aSlots[1].field_DEC, -1);
         }
         if (Model_IsCameraMoveComplete(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
-            && gModel_aSlots[0].field_E0E == 2 && gModel_aSlots[0].field_E0F == 0
-            && gModel_aSlots[1].field_E0E == 2 && gModel_aSlots[1].field_E0F == 0) {
+            && gModel_aSlots[0].animation_control_state == 2 && gModel_aSlots[0].active_animation_command_row == 0
+            && gModel_aSlots[1].animation_control_state == 2 && gModel_aSlots[1].active_animation_command_row == 0) {
             if (gModel_aSlots[1].field_DFF != 0) {
                 Model_SetCameraFollowCountdown(0x78);
                 gModel_bPresentationPhase = 0x1E;
@@ -446,9 +446,9 @@ void Model_UpdateAnimatedBattle(void)
         s32 a;
         s32 cl;
 
-        if (gModel_aSlots[0].field_E0F != 5) {
-            if (gModel_aSlots[0].field_E0F != 6) {
-                if (gModel_aSlots[0].field_E0F == 8) {
+        if (gModel_aSlots[0].active_animation_command_row != 5) {
+            if (gModel_aSlots[0].active_animation_command_row != 6) {
+                if (gModel_aSlots[0].active_animation_command_row == 8) {
                     a = 3;
                 } else {
                     a = 0;
@@ -459,8 +459,8 @@ void Model_UpdateAnimatedBattle(void)
         } else {
             a = 1;
         }
-        if (gModel_aSlots[1].field_E0E == 2) {
-            if (gModel_aSlots[1].field_E0F == 0) {
+        if (gModel_aSlots[1].animation_control_state == 2) {
+            if (gModel_aSlots[1].active_animation_command_row == 0) {
                 a = 4;
             }
         } else if (Model_GetCameraHoldState() == 0) {
@@ -482,7 +482,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 18:
-        if (gModel_aSlots[0].field_E0F == 6) {
+        if (gModel_aSlots[0].active_animation_command_row == 6) {
             gModel_bPresentationPhase = 0x14;
             break;
         }
@@ -493,18 +493,18 @@ void Model_UpdateAnimatedBattle(void)
         }
 #else
         if (Model_IsCameraMoveComplete(1) != 0 && Model_IsEffectKeyQueueEmpty() != 0
-            && gModel_aSlots[0].field_E0E == 2 && gModel_aSlots[0].field_E0F == 0
-            && gModel_aSlots[1].field_E0E == 2 && gModel_aSlots[1].field_E0F == 0) {
+            && gModel_aSlots[0].animation_control_state == 2 && gModel_aSlots[0].active_animation_command_row == 0
+            && gModel_aSlots[1].animation_control_state == 2 && gModel_aSlots[1].active_animation_command_row == 0) {
             FntPrint(gModel_szWhyTrace);
         }
 #endif
         break;
     case 21: {
-        s32 f = gModel_aSlots[0].field_E0F != 6;
+        s32 f = gModel_aSlots[0].active_animation_command_row != 6;
         ModelSlot *slot = &gModel_aSlots[f ^ 1];
 
-        if (slot->field_E0E == 2) {
-            if (slot->field_E0F == 0 && gModel_aSlots[f].field_E16 == 0x23) {
+        if (slot->animation_control_state == 2) {
+            if (slot->active_animation_command_row == 0 && gModel_aSlots[f].playback_state == 0x23) {
                 if (gModel_aSlots[1].field_DFF == 0
                     && gModel_aSlots[0].field_CF8.prefix.values.field_00 == gModel_aSlots[1].field_CF8.prefix.values.field_00) {
                     if (gModel_aSlots[1].field_E13 == 0xFF) {
@@ -526,7 +526,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 22: {
-        s32 f = gModel_aSlots[0].field_E0F != 6;
+        s32 f = gModel_aSlots[0].active_animation_command_row != 6;
         ModelSlot *slot = &gModel_aSlots[f];
 
         if (slot->field_E13 == 0 && Model_IsCameraMoveComplete(1) != 0) {
@@ -539,7 +539,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 23: {
-        s32 f = gModel_aSlots[0].field_E0F != 6;
+        s32 f = gModel_aSlots[0].active_animation_command_row != 6;
         ModelSlot *slot = &gModel_aSlots[f];
         s32 a;
         s32 v;
@@ -576,7 +576,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 24: {
-        s32 f = gModel_aSlots[0].field_E0F == 6;
+        s32 f = gModel_aSlots[0].active_animation_command_row == 6;
 
         if (Model_IsEffectKeyQueueEmpty() != 0) {
             s32 a = (s16)gModel_wViewDistance;
@@ -599,9 +599,9 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 25: {
-        s32 f = gModel_aSlots[0].field_E0F == 6;
+        s32 f = gModel_aSlots[0].active_animation_command_row == 6;
 
-        if (gModel_aSlots[f].field_E0F != 7) {
+        if (gModel_aSlots[f].active_animation_command_row != 7) {
             Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
             Model_RequestCameraMoveToSlots(1, -1, f, -0x1E);
             gModel_bPresentationTimer = 0x3C;
@@ -610,7 +610,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 26: {
-        s32 f = gModel_aSlots[0].field_E0F == 6;
+        s32 f = gModel_aSlots[0].active_animation_command_row == 6;
 
         if (gModel_aSlots[f].field_E13 == 0 && Model_IsCameraMoveComplete(1) != 0) {
             gModel_bPresentationTimer += Model_GetFrameStep();
@@ -622,7 +622,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 27: {
-        s32 f = gModel_aSlots[0].field_E0F == 6;
+        s32 f = gModel_aSlots[0].active_animation_command_row == 6;
         ModelSlot *slot;
         ModelSlot *base;
 
@@ -766,7 +766,7 @@ check_ready:
         }
         Model_SetCameraOrbit(0, 10000, 0xE00, 0, 0);
         Model_SeekSlotAnimation(0, 1, 0);
-        if (slot->field_E0F) {
+        if (slot->active_animation_command_row) {
             Model_ControlSlotAnimation(0, 0, 0);
         }
         Model_SetSlotPlaybackDirection(0, 1);
@@ -1091,7 +1091,7 @@ void Model_UpdateCreditsPresentation(void)
           Model_UpdateCreditsMonsterSlot((u8)ACTIVE_SLOT ^ 1);
         lookup_base = gModel_aSlots;
         active_model = (s32 *)&lookup_base[(u8)ACTIVE_SLOT];
-        if ( !MODEL_SLOT_VIEW(active_model)->field_E0F )
+        if ( !MODEL_SLOT_VIEW(active_model)->active_animation_command_row )
         {
           frame = MODEL_SLOT_VIEW(active_model)->field_E15;
           animation = -1;
@@ -1343,8 +1343,8 @@ void Model_PlaySlotAnimationSounds(s32 index) {
     value = ((ModelControlCommandView *)m)->commands[cur];
     show = 0;
     if (value >= 0) {
-        if (m->field_E0E != 8) {
-            if (m->field_E0E != 2 || cur + 3 == anim) {
+        if (m->animation_control_state != 8) {
+            if (m->animation_control_state != 2 || cur + 3 == anim) {
                 show = 1;
             }
         }
@@ -1372,7 +1372,7 @@ void Model_PlaySlotAnimationSounds(s32 index) {
         }
     }
     if (show == 0) {
-        if (m->field_E16 == 0x23) {
+        if (m->playback_state == 0x23) {
             return;
         }
     }

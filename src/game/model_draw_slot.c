@@ -639,12 +639,12 @@ void Model_DrawSlot(s32 index)
         }
         return;
     }
-    if (slot->field_E10 != 0) {
+    if (slot->part_command_reset_pending != 0) {
         Model_ControlSlotAnimation(index, -1, 0);
-    } else if (slot->field_E0F != 0) {
-        if (slot->field_E0F != slot->current_animation_row) {
-            Model_SeekSlotAnimation(index, slot->field_E0F, 0);
-        } else if (slot->field_E16 != 0x23) {
+    } else if (slot->active_animation_command_row != 0) {
+        if (slot->active_animation_command_row != slot->current_animation_row) {
+            Model_SeekSlotAnimation(index, slot->active_animation_command_row, 0);
+        } else if (slot->playback_state != 0x23) {
             slot->queued_animation_row_latch = 0;
         }
     }

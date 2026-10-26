@@ -90,9 +90,9 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
         base->field_DD0[2] = -0x1C2;
         break;
     }
-    base->field_E0E = 6;
-    base->field_E0F = 0;
-    base->field_E10 = 0;
+    base->animation_control_state = 6;
+    base->active_animation_command_row = 0;
+    base->part_command_reset_pending = 0;
     base->entry_count = 0;
     base->field_E18 = 0;
     base->field_D18 = 0;

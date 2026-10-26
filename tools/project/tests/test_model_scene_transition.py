@@ -147,7 +147,7 @@ void Model_UpdateCreditsMonsterSlot(s32 index)
         ACTIVE ^= 1;
         if (activate_action == 3) gModel_aSlots[ACTIVE].is_active = 1;
     }
-    if (activate_action == 4) gModel_aSlots[ACTIVE].field_E0F = 1;
+    if (activate_action == 4) gModel_aSlots[ACTIVE].active_animation_command_row = 1;
     if (activate_action == 5) FLAGS[1] = 1;
 }
 
@@ -264,7 +264,7 @@ static s32 color_targets(void)
         FLAGS[1] = 1;
         gModel_aSlots[active].is_active = 1;
         gModel_aSlots[active].field_E15 = frame;
-        gModel_aSlots[active].field_E0F = busy;
+        gModel_aSlots[active].active_animation_command_row = busy;
         rgb = gModel_aSlots[active].tint;
         rgb[0] = 0; rgb[1] = 255; rgb[2] = 8;
         if (negative) {
@@ -389,7 +389,7 @@ static s32 final_fade(void)
         setup(2, active);
         gModel_aSlots[0].is_active = gModel_aSlots[1].is_active = 1;
         gModel_aSlots[active].field_E15 = gate ? 252 : 255;
-        gModel_aSlots[active].field_E0F = busy;
+        gModel_aSlots[active].active_animation_command_row = busy;
         a = gModel_aSlots[0].tint; b = gModel_aSlots[1].tint;
         a[0] = 0; a[1] = a[2] = 1;
         b[0] = b[1] = 1; b[2] = finish ? 1 : 255;
@@ -465,7 +465,7 @@ static s32 opaque_reloads(void)
 
     setup(0, 0);
     gModel_aSlots[0].is_active = 1;
-    gModel_aSlots[0].field_E0F = 1;
+    gModel_aSlots[0].active_animation_command_row = 1;
     gModel_aSlots[0].field_E15 = 1;
     gModel_aSlots[1].field_E15 = 30;
     activate_action = 2;
