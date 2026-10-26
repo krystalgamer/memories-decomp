@@ -239,7 +239,7 @@ DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 cardId, s32 x, s32 y) {
     obj->out_x = x;
     obj->field_34 = y;
     obj->deck_number_marker = 0;
-    obj->field_69 = 0;
+    obj->is_back_facing = 0;
     obj->attribute = obj->attribute | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
 
     desc = gDuel_adwCardStats[cardId - 1];

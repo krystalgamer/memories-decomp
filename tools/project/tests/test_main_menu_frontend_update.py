@@ -120,7 +120,7 @@ void DisplayObject_SetResourceVariant(DisplayObjectConfig *entry, s32 selector)
     consume(CONFIGURE, selector);
     /* Owned contract: src/game/display_object_core.c,
        DisplayObject_SetResourceVariant. */
-    entry->field_69 = selector;
+    entry->resource_variant = selector;
     entry->flags &= 0xFFEF;
 }
 s32 SaveData_PollLoad(void) { fail(10); }

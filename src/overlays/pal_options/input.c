@@ -37,10 +37,10 @@ void PalOptions_HandleInput(void)
             }
             gPalOptions_bLanguage = selection;
             DisplayObject_SetResourceVariant(gPalOptions_pLanguageSprite, selection);
-            gPalOptions_pLabelSprite->field_68 = selection;
-            DisplayObject_SetResourceVariant(gPalOptions_pLabelSprite, gPalOptions_pLabelSprite->field_69);
-            gPalOptions_pSoundTypeSprite->field_68 = selection;
-            DisplayObject_SetResourceVariant(gPalOptions_pSoundTypeSprite, gPalOptions_pSoundTypeSprite->field_69);
+            gPalOptions_pLabelSprite->resource_branch_index = selection;
+            DisplayObject_SetResourceVariant(gPalOptions_pLabelSprite, gPalOptions_pLabelSprite->resource_variant);
+            gPalOptions_pSoundTypeSprite->resource_branch_index = selection;
+            DisplayObject_SetResourceVariant(gPalOptions_pSoundTypeSprite, gPalOptions_pSoundTypeSprite->resource_variant);
             SD_SEPlayFull(0x2F);
         }
     }

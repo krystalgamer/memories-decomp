@@ -165,7 +165,7 @@ void DisplayObject_Reset(void)
 
 void DisplayObject_SetResourceVariant(DisplayObjectConfig *object, s32 value)
 {
-    object->field_69 = value;
+    object->resource_variant = value;
     object->flags &= 0xFFEF;
 }
 
@@ -174,36 +174,36 @@ void DisplayObject_UpdateResourceVariant(
     s32 value
 )
 {
-    if (object->field_69 != value) {
-        object->field_69 = value;
+    if (object->resource_variant != value) {
+        object->resource_variant = value;
         object->flags &= 0xFFEF;
     }
 }
 
 void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object,
-    u8 field_67,
-    u8 field_68,
-    u8 field_69
+    u8 resource_root_index,
+    u8 resource_branch_index,
+    u8 resource_variant
 )
 {
-    object->field_67 = field_67;
-    object->field_68 = field_68;
-    object->field_69 = field_69;
+    object->resource_root_index = resource_root_index;
+    object->resource_branch_index = resource_branch_index;
+    object->resource_variant = resource_variant;
     object->flags &= 0xFFEF;
 }
 
-void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field_67, int field_68,
-                    int field_69, int color, int texture)
+void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int resource_root_index, int resource_branch_index,
+                    int resource_variant, int color, int texture)
 {
     u16 flags;
 #ifdef DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE
     int texture_v;
 #endif
 
-    configured->field_67 = field_67;
-    configured->field_68 = field_68;
-    configured->field_69 = field_69;
+    configured->field_67 = resource_root_index;
+    configured->field_68 = resource_branch_index;
+    configured->field_69 = resource_variant;
     configured->field_66 = color;
     *(u8 *)&configured->field_5E = color >> 16;
     *((u8 *)&configured->field_5E + 1) = color >> 8;
@@ -222,14 +222,14 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field
     return configured;
 }
 
-void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 field_67, s32 field_68,
-                   s32 field_69, s32 color, s32 texture)
+void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 resource_root_index, s32 resource_branch_index,
+                   s32 resource_variant, s32 color, s32 texture)
 {
     DisplayObject *o = object;
 
     o->field_30.h.field_30 = x;
     o->field_30.h.field_32 = y;
-    DisplayObject_ConfigureSpriteResource(object, field_67, field_68, field_69, color, texture);
+    DisplayObject_ConfigureSpriteResource(object, resource_root_index, resource_branch_index, resource_variant, color, texture);
 }
 
 DisplayObject *DisplayObject_ConfigureScreenSprite(
