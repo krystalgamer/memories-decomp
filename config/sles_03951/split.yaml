@@ -101,7 +101,7 @@ segments:
       - [0x1CD8, .rodata, game/european/model_scene_controllers]
       - {start: 0x1E1C, type: bin, name: spanish_raw_8001161c, linker_section_order: .rodata}
       - [0x1E20, .rodata, game/european/model_slot_control]
-      - [0x1EF4, .rodata, game/european/model_packet_handlers]
+      - [0x1EF4, .rodata, game/european/model_animation_unit]
       - {start: 0x1F4E, type: bin, name: spanish_raw_8001174e, linker_section_order: .rodata}
       - [0x1F84, .rodata, game/european/model_primitive_handler]
       - [0x1FFB, pad]
@@ -450,8 +450,7 @@ segments:
       - [0x4E180, c, game/model_is_camera_move_complete]
       - [0x4E1CC, c, game/model_has_insufficient_buffer_space]
       - [0x4E294, c, game/european/model_texture_pack_page_clut]
-      - [0x4E358, c, game/european/model_packet_handlers]
-      - [0x4E4A4, c, game/model_animation_unit]
+      - [0x4E358, c, game/european/model_animation_unit]
       - [0x4F67C, c, game/european/model_process_type2_unit]
       - [0x4F86C, c, game/european/model_primitive_handler]
       - [0x50020, asm, generated/spanish_8005f820]

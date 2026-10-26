@@ -4,12 +4,73 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "../psyq/stdio.h"
+#include "model.h"
+#include "model_packet_handlers.h"
+#include "../unmatched.h"
 #include "../psyq/exit.h"
 #include "model_handler_state.h"
-#include "model_packet_handlers.h"
 #include "model_sequence_descriptor.h"
-#include "model.h"
 #include "../ygo_types.h"
+
+#define MODEL_ANIMATION_SEQUENCE_SLOT(entry) \
+    ((GsSEQ **)&(entry)->animation_sequences[(entry)->animation_sequence_count])
+#define MODEL_ANIMATION_WORDS(object) ((u32 *)(object)[1])
+
+void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry)
+{
+    int local[2];
+    int count;
+    void *handler;
+
+    if (object[0] != 0x03800000) {
+#ifdef VERSION_EUROPE
+        printf("unsupported ANIMATION primitive 0x%08lx.\n", object[0]);
+#endif
+        handler = (void *)GsU_00000000;
+        *(void **)object[1] = handler;
+        return;
+    }
+    handler = Model_UpdateAnimationUnit;
+    *(void **)object[1] = handler;
+    count = GsLinkAnim(
+        MODEL_ANIMATION_SEQUENCE_SLOT(entry),
+        MODEL_ANIMATION_WORDS(object)
+    );
+    if (GsScanAnim(MODEL_ANIMATION_WORDS(object), 0)) {
+        while (GsScanAnim(0, (GsTYPEUNIT *)local)) {
+            *(void **)local[1] =
+                Model_GetAnimationInterpolationHandler(local[0]);
+        }
+        entry->animation_sequence_count += count;
+    }
+}
+
+void *Model_GetAnimationInterpolationHandler(u32 value)
+{
+    u32 masked;
+
+    if ((value & 0xFFFF0000) != 0x03000000) {
+        goto default_case;
+    }
+    masked = value & 0xFFFF;
+    if (masked == 0x2019) {
+        goto case_2019;
+    }
+    if (masked == 0x2119) {
+        goto case_2119;
+    }
+    goto default_case;
+
+case_2019:
+    return Model_InterpolateTransRot;
+case_2119:
+    return Model_InterpolateTransRotScale;
+default_case:
+#ifdef VERSION_EUROPE
+    printf("unsupported ANIMATION interpolation 0x%08lx.\n", value);
+#endif
+    return (void *)GsU_00000000;
+}
 
 /*
  * All 1844 bytes match under gcc_2_8_1_g0 and, byte for byte, under this

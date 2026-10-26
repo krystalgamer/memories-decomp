@@ -6189,33 +6189,33 @@
     },
     {
       "address": "0x8005EF14",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
-      "source": "src/game/european/model_packet_handlers.c"
+      "source": "src/game/european/model_animation_unit.c"
     },
     {
       "address": "0x8005EFE8",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/european/model_packet_handlers.c"
+      "source": "src/game/european/model_animation_unit.c"
     },
     {
       "address": "0x8005F060",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x734",
-      "source": "src/game/model_animation_unit.c"
+      "source": "src/game/european/model_animation_unit.c"
     },
     {
       "address": "0x8005F794",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x488",
-      "source": "src/game/model_animation_unit.c"
+      "source": "src/game/european/model_animation_unit.c"
     },
     {
       "address": "0x8005FC1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x61C",
-      "source": "src/game/model_animation_unit.c"
+      "source": "src/game/european/model_animation_unit.c"
     },
     {
       "address": "0x80060238",

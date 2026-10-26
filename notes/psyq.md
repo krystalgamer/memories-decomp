@@ -706,8 +706,8 @@ Every row below is now an applied project symbol.
 | `0x80089C20` | `NormalColorCol` | Applied from the unique 32-byte Psy-Q 4.6 `LIBGTE.LIB/SMP_7.OBJ` signature; the zero-wildcard pattern exactly covers the inventory function extent. |
 | `0x80089C70` | `AverageZ3` | Applied from the unique 32-byte Psy-Q 4.6 `LIBGTE.LIB/SMP_00_7.OBJ` signature; the zero-wildcard pattern exactly covers the inventory function extent. |
 | `0x80089CC0` | `RotTransSV` | Applied from the unique 48-byte Psy-Q 4.6 `LIBGTE.LIB/SMP_01_1.OBJ` signature; the zero-wildcard pattern exactly covers the inventory function extent, and matching `func_800580D4` uses the canonical `libgte.h` declaration. |
-| `0x80089D30` | `GsScanAnim` | Applied at offset zero of the unique exact Psy-Q 4.6 `LIBHMD.LIB/ANIM.OBJ` signature. Matching `model_packet_handlers.c` first passes the animation packet with a null output, then passes a null packet repeatedly to enumerate `GsTYPEUNIT` records through the canonical `libhmd.h` interface. |
-| `0x80089DD8` | `GsLinkAnim` | Applied at offset `0xA8` of the same unique `ANIM.OBJ` signature. Matching `model_packet_handlers.c` passes its sequence-table slot and animation packet, then advances the sequence cursor by the returned count. |
+| `0x80089D30` | `GsScanAnim` | Applied at offset zero of the unique exact Psy-Q 4.6 `LIBHMD.LIB/ANIM.OBJ` signature. Matching `Model_LinkSlotAnimationUnit` (`model_animation_unit.c`) first passes the animation packet with a null output, then passes a null packet repeatedly to enumerate `GsTYPEUNIT` records through the canonical `libhmd.h` interface. |
+| `0x80089DD8` | `GsLinkAnim` | Applied at offset `0xA8` of the same unique `ANIM.OBJ` signature. Matching `Model_LinkSlotAnimationUnit` passes its sequence-table slot and animation packet, then advances the sequence cursor by the returned count. |
 | `0x80089E20` | `GsU_00000000` | Applied from the unique exact Psy-Q 4.6 `LIBHMD.LIB/00000000.OBJ` signature. Canonical `libhmd.h` declares the shared `u32 *(GsARGUNIT *)` handler shape; matching model packet and primitive dispatch returns this entry for default types, and both handler-registry directions treat its address as the no-handler sentinel. |
 | `0x80089E40` | `GsU_02000000` | Applied from the unique exact Psy-Q 4.6 `LIBHMD.LIB/02000000.OBJ` signature. Matching `Model_GetImagePrimitiveHandler` returns the canonical handler for the exact primitive type word `0x02000000`. |
 | `0x80089ED0` | `GsU_02000001` | Applied from the unique exact Psy-Q 4.6 `LIBHMD.LIB/02000001.OBJ` signature. Matching `Model_GetImagePrimitiveHandler` returns the canonical handler for the exact primitive type word `0x02000001`. |
@@ -1109,7 +1109,7 @@ object, packet, and sorting paths also use `libgs.h`, including
 [`gpu_packets.c`](../src/game/gpu_packets.c),
 `model_scene_controllers.c`, `model_scene_states.c`, and `model_texture_upload.c`.
 Current hierarchical-model C also includes `libhmd.h`. Representative
-consumers are `model_packet_handlers.c` for `GsSEQ`, `GsTYPEUNIT`, and the
+consumers are `model_animation_unit.c` for `GsSEQ`, `GsTYPEUNIT`, and the
 animation APIs; `model_slot_updates.c` for the `GsCOORDUNIT` layout; and
 `model_handler_registry.c` for the imported HMD handler sentinels. These
 imports justify their specific API and field uses; a local render or model
