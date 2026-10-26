@@ -1,10 +1,3 @@
-#include "../types.h"
-#include "display_object.h"
-#include "display_object_lifecycle.h"
-#include "display_object_layout.h"
-#include "duel_card.h"
-#include "duel_card_defense_rotation.h"
-
 /*
  * Duel scene-state 4: the player's hand. It builds the hand cursor, runs the
  * scripted selection when the side is computer controlled, lets the player
@@ -85,6 +78,9 @@
 #include "sound.h"
 #include "ai_board_snapshot.h"
 #include "../unmatched.h"
+#include "display_object_lifecycle.h"
+#include "display_object_layout.h"
+#include "duel_card_defense_rotation.h"
 #define gDuel_wActionSubstate SUBSTATE
 #define SUBSTATE (*(u16 *)D_8009B20C)
 #define SIDE_CURSOR(base) \

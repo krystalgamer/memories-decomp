@@ -22,7 +22,6 @@
    Duel_UpdateLifePointDisplay at gcc_2_8_1_g0_split and gcc_2_8_1_g8; all
    compile to identical objects at this unit's gcc_2_8_1_g8_split. */
 
-#include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "text_encode_decimal_digits.h"

@@ -29,7 +29,6 @@
 #define D_8009B118_IS_POINTER_IN_DATA
 #define DUEL_PACKAGE_STAGE_RAW_ARENAS
 
-#include "../types.h"
 #include "model_slot_part_animation.h"
 #include "model_scene_controllers.h"
 #include "model.h"
@@ -1600,7 +1599,6 @@ void Model_GetSlotDimensionsWithMinimums(s32 idx, ModelEffectAdjustment *out) {
  * the two DisplayObject_Render*GouraudQuadList functions use; they too store to
  * fixed addresses between the reads.
  */
-#include "../types.h"
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
 #include "../psyq/libgte.h"
