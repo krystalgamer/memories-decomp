@@ -218,6 +218,26 @@ class RegionalInventoryTests(unittest.TestCase):
                 executable, [Function(0x80010004, 8, "late", "matching_c", "game")]
             )
 
+    def test_executable_shapes_reject_truncated_payload(self) -> None:
+        header = bytearray(0x800)
+        header[:8] = b"PS-X EXE"
+        header[0x18:0x1C] = (0x80010000).to_bytes(4, "little")
+        header[0x1C:0x20] = (8).to_bytes(4, "little")
+        function = Function(0x80010000, 8, "first", "matching_c", "game")
+        for payload in (b"", b"\x00" * 4, b"\x00" * 7):
+            with self.subTest(payload=len(payload)):
+                executable = self.directory / "truncated.exe"
+                executable.write_bytes(bytes(header) + payload)
+                with self.assertRaisesRegex(InventoryError, "truncated"):
+                    executable_shapes(executable, [function])
+        header[0x1C:0x20] = (7).to_bytes(4, "little")
+        executable = self.directory / "unaligned.exe"
+        executable.write_bytes(bytes(header) + b"\x00" * 8)
+        with self.assertRaisesRegex(InventoryError, "not word-aligned"):
+            executable_shapes(
+                executable, [Function(0x80010000, 4, "first", "matching_c", "game")]
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

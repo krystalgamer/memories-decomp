@@ -101,17 +101,30 @@ def executable_shapes(
         raise InventoryError(f"{executable}: not a PS-X EXE")
     load = int.from_bytes(data[0x18:0x1C], "little")
     text_size = int.from_bytes(data[0x1C:0x20], "little")
+    if text_size % 4 or len(data) < PSX_EXE_HEADER_SIZE + text_size:
+        raise InventoryError(
+            f"{executable}: text payload is truncated or not word-aligned"
+        )
     shapes: dict[str, tuple[int, ...]] = {}
     for function in functions:
         offset = function.address - load
-        if offset < 0 or offset + function.size > text_size or function.size % 4:
+        if (
+            offset < 0
+            or offset % 4
+            or function.size <= 0
+            or function.size % 4
+            or offset + function.size > text_size
+        ):
             raise InventoryError(
                 f"{executable}: {function.name} lies outside the image"
             )
         start = PSX_EXE_HEADER_SIZE + offset
+        words = data[start:start + function.size]
+        if len(words) != function.size:
+            raise InventoryError(f"{executable}: {function.name} is truncated")
         shapes[function.name] = tuple(
-            instruction_shape(int.from_bytes(data[at:at + 4], "little"))
-            for at in range(start, start + function.size, 4)
+            instruction_shape(int.from_bytes(words[at:at + 4], "little"))
+            for at in range(0, function.size, 4)
         )
     return shapes
 
