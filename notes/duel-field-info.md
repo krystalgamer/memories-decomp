@@ -86,8 +86,8 @@ selection and unsigned display-depth byte interpretation remain unchanged.
 The comparison retains its first typed byte-offset calculation before the
 record-base load and the second record's independent table alias.
 
-The settling-move path still declares the refresh with no argument expression
-under `DUEL_FIELD_INFO_AMBIENT_SOURCE`. `DuelCursor_ProcessGridDirection`
+The settling-move path still supplies no argument expression: it calls the
+refresh through a `void (*)(void)` cast. `DuelCursor_ProcessGridDirection`
 deliberately leaves the actual record in `$a0`; no synthesized argument or
 new movement step is introduced.
 

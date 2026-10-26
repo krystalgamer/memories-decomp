@@ -142,24 +142,24 @@ int main(void)
 class CardDisplayConstructorReturnTests(unittest.TestCase):
 
     @unittest.skipUnless(GCC.is_file(), "requires supported GCC 2.8.1")
-    def test_normal_and_ambient_owners_accept_only_the_recovered_return_view(self):
+    def test_owner_accepts_only_the_recovered_return_view(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
         with tempfile.TemporaryDirectory(prefix="card-return-type-", dir=ROOT / "tmp") as name:
             directory = Path(name)
-            for ambient, result_type, parameters, accepted in (
-                (False, "DuelCardDisplayObject *", "DuelCardRecord *, s32, s32", True),
-                (False, "u8 *", "DuelCardRecord *, s32, s32", False),
-                (False, "DisplayObject *", "DuelCardRecord *, s32, s32", False),
-                (False, "DuelCardDisplayObject *", "DuelCardRecord *, s16, s16", False),
-                (True, "DuelCardDisplayObject *", "", True),
-                (True, "u8 *", "", False),
+            for result_type, parameters, accepted in (
+                ("DuelCardDisplayObject *", "DuelCardRecord *, s32, s32", True),
+                ("u8 *", "DuelCardRecord *, s32, s32", False),
+                ("DisplayObject *", "DuelCardRecord *, s32, s32", False),
+                ("DuelCardDisplayObject *", "DuelCardRecord *, s16, s16", False),
+                # The unprototyped view used by the hand-card constructor's cast.
+                ("DuelCardDisplayObject *", "", True),
+                ("u8 *", "", False),
             ):
-                with self.subTest(ambient=ambient, result_type=result_type, parameters=parameters):
+                with self.subTest(result_type=result_type, parameters=parameters):
                     source = directory / "probe.c"
                     source.write_text(
-                        ("#define FUNC_80017F04_AMBIENT_POSITION_ARGS\n" if ambient else "")
-                        + '#include "../../src/game/duel_card_display_state.h"\n'
+                        '#include "../../src/game/duel_card_display_state.h"\n'
                         '#include "../../src/game/display_object.h"\n'
                         + f"{result_type}(*checked)({parameters}) = {NAME};\n"
                     )

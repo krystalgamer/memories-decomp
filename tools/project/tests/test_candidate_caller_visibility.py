@@ -451,7 +451,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         self.assertIn("Model_FindBranchingChildCoord", found)
 
     def test_cursor_motion_object_and_direction_views(self) -> None:
-        definition = "src/game/duel_cursor_grid_direction.c"
+        definition = "src/game/duel_field_display_objects.c"
         ambient = "#define FUNC_80023D08_AMBIENT_DIRECTION_ARG\n"
         views = [
             ("", "DuelSelectionRecord *, s32", True),

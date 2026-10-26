@@ -34,6 +34,8 @@
 #include "view_state.h"
 #include "../unmatched.h"
 #include "view_state_current.h"
+#include "sound.h"
+#include "duel_cursor_grid_direction.h"
 
 /* Regional value: the 0xF0 passed to Duel_CreateFieldCardPanel and stored in position
  * field_2A, the screen height (0xF0 -> 0x100). The European build
@@ -447,4 +449,76 @@ s32 Duel_UpdateDisplayTransition(void)
         result = busy;
     }
     return result;
+}
+
+void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
+    DisplayObject *d;
+    s32 pos;
+    s32 shift;
+    s32 index;
+    s32 q;
+
+    d = o->cursor_object;
+    if (o->status & 0x80) {
+        if (gDuel_wDisplayTransitionFlags != 0) {
+            return;
+        }
+        /* The record is deliberately left in $a0 rather than passed. */
+        ((void (*)(void))DuelField_RefreshCursorCardInfo)();
+        o->status &= 0x3F;
+        SD_SEPlayFull(6);
+        return;
+    }
+    if (dir < 0) {
+        return;
+    }
+    if (dir & 1) {
+        pos = o->row + 1;
+        if (dir & 2) {
+            pos = o->row - 1;
+        }
+        if (pos >= (s8)o->row_end) {
+            return;
+        }
+        if (pos < (s8)o->row_min) {
+            return;
+        }
+        shift = 0x10;
+        if ((o->row ^ pos) != 3) {
+            shift = 8;
+        }
+        Duel_StartViewTween(shift, 0x14E, 0x3FE, gDuel_awSideViewHeadings[gDuel_bActiveSide],
+                      gDuel_awFieldGridRowViewTargetZ[gDuel_bActiveSide][o->field_18][pos]);
+        o->row = pos;
+        index = pos * DUEL_FIELD_ROW_SIZE + o->col;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)d);
+        d->field_6C = 0;
+        d->field_60 = shift;
+        d->field_2C.h.field_2C = (s16)d->position.h.field_28;
+        d->field_2C.h.field_2E = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].y;
+        q = ((d->field_2C.h.field_2E - (s16)d->position.h.field_2A) << 8) / shift;
+        gDuel_wDisplayTransitionFlags = 0x50;
+        d->field_38.h.field_3A = q;
+        o->status |= 0xC0;
+    } else {
+        pos = o->col + 1;
+        if (dir & 2) {
+            pos = o->col - 1;
+        }
+        if ((u32)pos >= DUEL_FIELD_ROW_SIZE) {
+            return;
+        }
+        o->col = pos;
+        index = o->row * DUEL_FIELD_ROW_SIZE + (s8)pos;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)d);
+        shift = 8;
+        d->field_60 = shift;
+        d->field_6C = 0;
+        d->field_2C.h.field_2C = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].x;
+        gDuel_wDisplayTransitionFlags = 0x40;
+        d->field_2C.h.field_2E = (s16)d->position.h.field_2A;
+        d->field_34.h.field_36 =
+            (((s16)d->field_2C.h.field_2C - (s16)d->position.h.field_28) << shift) / shift;
+        o->status |= 0x80;
+    }
 }

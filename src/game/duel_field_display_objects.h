@@ -13,13 +13,8 @@
 s32 DuelField_GetGuardianStarDisplayCode(
     DuelSelectionRecord *cursor_a, DuelSelectionRecord *cursor_b);
 
-/* The settling-move caller supplies no expression: it deliberately leaves
- * its selection record in $a0. */
-#ifdef DUEL_FIELD_INFO_AMBIENT_SOURCE
-void DuelField_RefreshCursorCardInfo(void);
-#else
+/* Rebuilds the card information box for the record's grid cell. */
 void DuelField_RefreshCursorCardInfo(DuelSelectionRecord *source);
-#endif
 
 /* Stages the selected live card and creates its information text box. */
 void DuelField_CreateCardInfoTextBox(
