@@ -77,7 +77,7 @@ void NameEntry_UpdateDialog(void)
             box = TextBox_Create(2, gNameEntry_wPendingDialogId & 0xFFF, 16, 248,
                                  288, 48);
 #endif
-            box->field_59 = 20;
+            box->depth_offset = 20;
             id = gNameEntry_wPendingDialogId;
             if ((id & 0x8000) == 0) {
                 if ((id & 0x4000) == 0) {

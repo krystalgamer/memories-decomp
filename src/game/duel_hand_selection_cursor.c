@@ -42,7 +42,7 @@ void DuelHand_CreateSelectionOrderMarker(DuelSelectionRecord *arg)
 {
  register DuelSelectionRecord*object=arg;register DuelHandSlot*slot=&gDuelHand_aSlots[(s8)object->field_0E];register DuelCardDisplayObject*child;
  DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y-=4;child=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),1);DisplayObject_ConfigureScreenSprite(DISPLAY_OBJECT_VIEW(child),DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_x,DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y,0x10,0x10,object->field_15<<4,DUEL_HAND_STACK_COUNT_FIELD_5D,0xB,DUEL_HAND_STACK_COUNT_CX,0xFC);
- DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(child));DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(child),(s8)((u8)slot->object->field_16+1));slot->order_marker=DISPLAY_OBJECT_VIEW(child);object->field_15++;slot->selection_order=object->field_15;SD_SEPlayFull(0x2F);
+ DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(child));DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(child),(s8)((u8)slot->object->depth_offset+1));slot->order_marker=DISPLAY_OBJECT_VIEW(child);object->field_15++;slot->selection_order=object->field_15;SD_SEPlayFull(0x2F);
 }
 
 void DuelHand_RefreshSelectionColors(DuelSelectionRecord *side) {

@@ -174,7 +174,7 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     Graphics_SubmitDrawModePacket((u32 *)q, ot, (u16)k, 1);
 }
 
-DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){DisplayObject*o=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),6);o->field_48.word=src->field_48.word;*(s32*)&o->field_18=*(s32*)&src->field_18;o->field_60=0x100;*(s16*)&o->field_3C.h.field_3C=*(s16*)&o->field_18*2;*(s16*)&o->field_3C.h.field_3E=*(s16*)&o->field_1A*2;o->field_30.word=src->field_30.word;o->field_20.word=src->field_20.word;o->field_44.word=src->field_44.word;o->field_0C=0;DisplayObject_SelectOrderingTable1(o);DisplayObject_SetDepthOffset(o,(signed char)(*(u8*)&src->field_16+add));o->field_10=1;o->field_4C=(s32)Library_DrawFadingCardOutline;o->attribute=(o->attribute|(GsALON | GsAONE))&~GsROTOFF;return o;}
+DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){DisplayObject*o=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),6);o->field_48.word=src->field_48.word;*(s32*)&o->field_18=*(s32*)&src->field_18;o->field_60=0x100;*(s16*)&o->field_3C.h.field_3C=*(s16*)&o->field_18*2;*(s16*)&o->field_3C.h.field_3E=*(s16*)&o->field_1A*2;o->field_30.word=src->field_30.word;o->field_20.word=src->field_20.word;o->field_44.word=src->field_44.word;o->field_0C=0;DisplayObject_SelectOrderingTable1(o);DisplayObject_SetDepthOffset(o,(signed char)(*(u8*)&src->depth_offset+add));o->field_10=1;o->field_4C=(s32)Library_DrawFadingCardOutline;o->attribute=(o->attribute|(GsALON | GsAONE))&~GsROTOFF;return o;}
 
 /* The seven contiguous functions of the Library screen: the card-view state
    handler Library_UpdateCardView, the trivial state handlers for states 0 and 3, the
@@ -408,7 +408,7 @@ void Library_UpdateCardView(LibraryState *state)
         box->color_index_54 = LIBRARY_CARD_VIEW_BOX_FIELD_54;
 #endif
         box->delay_reload_53 = 1;
-        box->field_59 = 4;
+        box->depth_offset = 4;
         state->motion.card_view_phase = 1;
         return;
     case 1:

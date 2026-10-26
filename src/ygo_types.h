@@ -583,7 +583,7 @@ typedef struct DuelEffectChannel {
     /* Which leading pointer word is the live byte stream. Every reader scales
        it by four; it is signed because all three consumers read it as s8. */
     s8 stream_58;
-    u8 field_59;
+    u8 depth_offset;
     u8 glyph_advance_x;
     u8 line_advance_y;
     u16 range_start_5C;

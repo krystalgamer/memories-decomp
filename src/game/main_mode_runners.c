@@ -260,7 +260,7 @@ void Main_RunTrade(void)
             0xA0,
             MAIN_RUN_TRADE_TEXT_BOX_FLAGS
         );
-        box->field_59 = 0x10;
+        box->depth_offset = 0x10;
         TextBox_BuildBlocking(box);
         obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);

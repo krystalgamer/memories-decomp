@@ -147,7 +147,7 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
             *(s16 *)&p->field_36
         );
         q = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
-        a = q->field_16;
+        a = q->depth_offset;
         b = q->field_67;
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), a);
         e = p->grid[1];
@@ -162,7 +162,7 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
     if (p->field_40 >= 0x80) {
         p->display_effect_step = 0;
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], 0,
-                      DISPLAY_OBJECT_VIEW(p->grid[0][0])->field_16);
+                      DISPLAY_OBJECT_VIEW(p->grid[0][0])->depth_offset);
         DisplayEffect_ReleaseObjectRow((void **)p->grid[1]);
         p->field_32 &= 0xEF;
     } else {
@@ -194,7 +194,7 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
     if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->field_32 |= 0x10;
         h = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
-        x = h->field_16;
+        x = h->depth_offset;
         y = h->field_67;
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], (GsALON | GsAONE), x);
         d = (u8 **)p->grid[1];
@@ -245,7 +245,7 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
         p->field_32 |= 0x10;
         r = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         a = r->field_67;
-        b = r->field_16;
+        b = r->depth_offset;
         DisplayEffect_ReleaseObjectRow((void **)p->grid[0]);
         DisplayEffect_BuildResourceObjects(
             p, (DisplayObject **)p->grid[0], p->field_31);
@@ -267,7 +267,7 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     if (n <= 0) {
         p->display_effect_step = 0;
         DisplayEffect_SetObjectRowBlend((u8 **)p->grid[0], 0,
-                      DISPLAY_OBJECT_VIEW(p->grid[0][0])->field_16);
+                      DISPLAY_OBJECT_VIEW(p->grid[0][0])->depth_offset);
         DisplayPositionGroup_SetChildPositions(
             DISPLAY_POSITION_GROUP_VIEW(p),
             *(s16 *)&p->field_34,

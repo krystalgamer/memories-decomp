@@ -287,7 +287,7 @@ s32 DisplayObject_SetDepthOffset(DisplayObject *obj, s8 value)
     volatile u16 *table = gDisplayObject_awOrderingTableDepthBases;
     s32 result;
 
-    obj->field_16 = value;
+    obj->depth_offset = value;
     result = table[index] - value;
     obj->field_14 = result;
     return result;
@@ -296,13 +296,13 @@ s32 DisplayObject_SetDepthOffset(DisplayObject *obj, s8 value)
 void DisplayObject_SelectOrderingTable1(DisplayObject *object)
 {
     object->ot_index = 1;
-    object->field_14 = gDisplayObject_awOrderingTableDepthBases[1] - object->field_16;
+    object->field_14 = gDisplayObject_awOrderingTableDepthBases[1] - object->depth_offset;
 }
 
 void DisplayObject_SelectOrderingTable3(DisplayObject *object)
 {
     object->ot_index = 3;
-    object->field_14 = gDisplayObject_awOrderingTableDepthBases[3] - object->field_16;
+    object->field_14 = gDisplayObject_awOrderingTableDepthBases[3] - object->depth_offset;
 }
 
 int DisplayObject_RunUpdateAndCheckRenderable(DisplayObject *object)

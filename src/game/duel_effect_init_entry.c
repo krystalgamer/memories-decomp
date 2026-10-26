@@ -44,7 +44,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     }
     e->delay_reload_53 = 1;
     range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + (index << 1));
-    e->field_59 = 0;
+    e->depth_offset = 0;
     *(u16 *)((u8 *)e + 0x62) = 0;
     e->range_start_5C = range[0];
     e->range_count_5E = range[1] - range[0];
@@ -84,7 +84,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     e->flags_34 = flags;
     e->pen_x = 0;
     e->pen_y = 0;
-    e->field_59 = 0;
+    e->depth_offset = 0;
 #ifdef VERSION_JAPAN
     e->field_5F = 0;
     e->range_start_5C = range[0];

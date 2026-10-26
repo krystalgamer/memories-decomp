@@ -183,7 +183,7 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
         (s16)source->field_00->field_30.h.field_32 + source->text_y_offset,
         0x120, 0x40
     );
-    box->field_59 = *(u8 *)&source->field_00->field_16 + 1;
+    box->depth_offset = *(u8 *)&source->field_00->depth_offset + 1;
     TextBox_BuildBlocking((struct DuelEffectChannel *)box);
 }
 

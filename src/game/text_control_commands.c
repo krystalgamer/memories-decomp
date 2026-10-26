@@ -361,7 +361,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     }
 
     DisplayObject_SelectOrderingTable1(e);
-    DisplayObject_SetDepthOffset(e, (s8)p->field_59);
+    DisplayObject_SetDepthOffset(e, (s8)p->depth_offset);
 
     e->field_30.h.field_30 = (u16)p->rect_x;
     e->field_30.h.field_32 = (u16)p->rect_y;
@@ -383,7 +383,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
         p->aux_object = e;
         e->attribute = e->attribute | (GsALON | GsATWO);
         DisplayObject_SelectOrderingTable1(e);
-        DisplayObject_SetDepthOffset(e, (s8)(p->field_59 - 1));
+        DisplayObject_SetDepthOffset(e, (s8)(p->depth_offset - 1));
         *(s32 *)&e->field_54 = 0xA0A0A0;
         e->field_4C = 0xA0A0A0;
         e->field_34.word = 0xA0A0A0;

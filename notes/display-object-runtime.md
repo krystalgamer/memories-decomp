@@ -52,6 +52,55 @@ neighboring links and clears its allocation flags.
 `DisplayObject_MoveToListHead` removes and reinserts an existing slot under
 the selected list key while preserving its flags.
 
+## Channel and display-object depth offsets
+
+The paired depth_offset members have high-confidence names from the complete
+local ordering-table producer/consumer chain, not reference declarations:
+DisplayObject +0x16 is the original s8 field_16; shared and compact Japanese
+channel +0x59 is the original u8 field_59. All three declaration widths,
+signedness, layouts and offsets remain unchanged. The channel is raw byte
+storage, not a newly signed field or a promise that its values are positive.
+
+DisplayObject_AcquireSlot (0x800400AC) zeroes the offset only when claiming
+a previously free slot. Existing allocated slots still return unchanged.
+DisplayObject_SetDepthOffset (0x800428EC) stores its original signed-byte
+argument, reads the volatile base table through ot_index, computes base
+minus offset, stores the original low halfword in field_14 and returns
+the original full signed result. SelectOrderingTable1 (0x80042918) and
+SelectOrderingTable3 (0x8004293C) retain their index stores and subtract
+the current signed offset from the selected base. No reordered table
+read, retyped cached field, clamp, bound or return-value normalization.
+
+DuelEffect_InitEntry (0x80035AF0) retains its channel byte zero stores.
+DuelEffect_CreateChannel (0x8003D46C) instead stores the low-byte view of
+the volatile second table base minus one. This is NOT a sequence number:
+the constructor keeps its original byte load, promotion, narrowing,
+flags and optional blocking build. Every reachable menu, library,
+card-viewer, save-dialog and password producer retains its original value.
+
+TextBox_RefreshDisplayObjects narrows the raw channel byte to s8 for the
+renderer and the original channel-byte-minus-one expression for an
+outline. Dialog_OpenChoice narrows channel-byte-plus-one; the choice quad
+instead inherits the render object's signed offset plus one. Other
+effects retain their exact signed or explicit u8 views before +/-1,
+including the hand marker, selected-card/fade resources, afterimage,
+free-duel sparkle and library outline. No common helper or cached operand
+replaces these deliberately different expression and publication orders.
+
+Only typed channel/DisplayObject accesses change across twenty-one
+existing C units. Unrelated DuelEffectEntry.field_16 glyph metadata and
+every field_14 declaration, renderer read and packed mode expression stay
+unchanged. The existing sprite-renderer source-sensitive signed-priority
+controls therefore retain their exact production targets. Public comments
+use current member names; the existing choice-constructor comment also
+updates its four already accepted rectangle names.
+
+The existing library layout fixture changes only four channel member
+identifiers in its original shared/Japanese offset/width probe. All
+assertions, numeric expectations, oracles, mutations, scenarios, flags
+and controls remain unchanged. No new behavioral harness and no local
+cloud-fixture execution.
+
 ## Shared index and allocation API
 
 [`display_object_core.h`](../src/game/display_object_core.h) is the sole C
