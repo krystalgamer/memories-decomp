@@ -2,24 +2,30 @@
 #define GAME_SHARED_PRIMITIVE_RENDERERS_H
 
 #include "../types.h"
+#include "../psyq/libhmd.h"
 
-/* Preserve the existing unspecified-parameter address-use declarations. */
-int Model_PrepareSharedPrimitiveCaches();
-int Model_DrawSharedGt3Primitives();
-int Model_DrawSharedGt4Primitives();
-int Model_DrawSharedGt3WindowRecordPrimitives();
-int Model_DrawSharedGt4WindowRecordPrimitives();
-int Model_DrawSharedTwoSidedGt3Primitives();
-int Model_DrawSharedTwoSidedGt4Primitives();
-int Model_DrawSharedTwoSidedGt3WindowRecordPrimitives();
-int Model_DrawSharedTwoSidedGt4WindowRecordPrimitives();
-int Model_DrawSharedSemiGt3Primitives();
-int Model_DrawSharedSemiGt4Primitives();
-int Model_DrawSharedSemiGt3WindowRecordPrimitives();
-int Model_DrawSharedSemiGt4WindowRecordPrimitives();
-int Model_DrawSharedTwoSidedSemiGt3Primitives();
-int Model_DrawSharedTwoSidedSemiGt4Primitives();
-int Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives();
-int Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives();
+/*
+ * HMD shared-vertex drivers. Model_PrepareSharedPrimitiveCaches projects and
+ * lights a block's shared vertices and normals into the vertop2/nortop2
+ * caches; the Gt3/Gt4 drawers then build packets from those caches. Each
+ * consumes one primitive block and returns the next.
+ */
+u32 *Model_PrepareSharedPrimitiveCaches(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedGt3Primitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedTwoSidedGt3Primitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedTwoSidedGt4Primitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedSemiGt3Primitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedTwoSidedSemiGt3Primitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedTwoSidedSemiGt4Primitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg);
+u32 *Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg);
 
 #endif

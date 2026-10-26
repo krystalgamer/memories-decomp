@@ -6301,6 +6301,12 @@
       "source": "src/game/polygon_renderers_base.c"
     },
     {
+      "address": "0x80061A84",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x358",
+      "source": "src/game/polygon_renderers_base.c"
+    },
+    {
       "address": "0x80061DDC",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x27C",
@@ -6316,6 +6322,12 @@
       "address": "0x8006233C",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x2C4",
+      "source": "src/game/polygon_renderers_window_record.c"
+    },
+    {
+      "address": "0x80062600",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x378",
       "source": "src/game/polygon_renderers_window_record.c"
     },
     {
@@ -6337,6 +6349,12 @@
       "source": "src/game/polygon_renderers_two_sided.c"
     },
     {
+      "address": "0x80063100",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x344",
+      "source": "src/game/polygon_renderers_two_sided.c"
+    },
+    {
       "address": "0x80063444",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x268",
@@ -6352,6 +6370,12 @@
       "address": "0x8006397C",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x2B0",
+      "source": "src/game/polygon_renderers_two_sided_window_record.c"
+    },
+    {
+      "address": "0x80063C2C",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x364",
       "source": "src/game/polygon_renderers_two_sided_window_record.c"
     },
     {
@@ -6373,6 +6397,12 @@
       "source": "src/game/polygon_renderers_semi.c"
     },
     {
+      "address": "0x80064868",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x3B4",
+      "source": "src/game/polygon_renderers_semi.c"
+    },
+    {
       "address": "0x80064C1C",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x2D8",
@@ -6388,6 +6418,12 @@
       "address": "0x80065234",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x320",
+      "source": "src/game/polygon_renderers_semi_window_record.c"
+    },
+    {
+      "address": "0x80065554",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x3D4",
       "source": "src/game/polygon_renderers_semi_window_record.c"
     },
     {
@@ -6409,6 +6445,12 @@
       "source": "src/game/polygon_renderers_two_sided_semi.c"
     },
     {
+      "address": "0x800661C4",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x3A0",
+      "source": "src/game/polygon_renderers_two_sided_semi.c"
+    },
+    {
       "address": "0x80066564",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x2C4",
@@ -6425,6 +6467,114 @@
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x30C",
       "source": "src/game/polygon_renderers_two_sided_semi_window_record.c"
+    },
+    {
+      "address": "0x80066E60",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x3C0",
+      "source": "src/game/polygon_renderers_two_sided_semi_window_record.c"
+    },
+    {
+      "address": "0x80067220",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x134",
+      "source": "src/game/shared_primitive_cache_prepare.c"
+    },
+    {
+      "address": "0x80067354",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x248",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x8006759C",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2BC",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x80067858",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x264",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x80067ABC",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2D8",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x80067D94",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x23C",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x80067FD0",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x28C",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x8006825C",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x258",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x800684B4",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2A8",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x8006875C",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2A4",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x80068A00",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x318",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x80068D18",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2C0",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x80068FD8",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x334",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x8006930C",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x298",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x800695A4",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2E8",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x8006988C",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x2B4",
+      "source": "src/game/shared_polygon_renderers.c"
+    },
+    {
+      "address": "0x80069B40",
+      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "size": "0x304",
+      "source": "src/game/shared_polygon_renderers.c"
     },
     {
       "address": "0x80069E44",

@@ -152,9 +152,9 @@ extern s32 D_8009B118;
  * added when that table moved out of its blob. The argument there was that
  * taking a function's address does not depend on its signature, so a local
  * declaration was self-contained. That is true but beside the point: this
- * header already holds exactly this class, in func_80067220 (and, until it
- * matched, TextBox_DrawEntries), and the issue asks for one declaration site rather than
- * a defensible second one.
+ * header held exactly this class -- func_80067220 and TextBox_DrawEntries,
+ * until each matched -- and the issue asks for one declaration site rather
+ * than a defensible second one.
  *
  * void (void) is the form all nine consumers already used. As with the
  * entries above, it is safe precisely because there are no call sites for it
@@ -217,16 +217,6 @@ extern u8 D_8009B363[];
 extern u16 gDuel_wDisplayTransitionFlags;   /* nine declarers  */
 extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags */
 
-/* A function found by asking which unmatched functions are never called
- * by name rather than which are declared oddly.
- *
- * func_80067220 is not a callback at all -- model_primitive_handler.c returns its
- * address as an s32. It was spelled without a prototype by its consumer, which
- * is the honest form for a function nobody calls by name. It keeps a declared
- * return type here because its consumer casts the address, not the result.
- * TextBox_DrawEntries, which used to sit beside it, has matched and is declared by
- * game/text_box_draw_entries.h. */
-int func_80067220();
 
 /* Three more undefined globals, moved together for the same reason as the
  * batch above: this header is a serialisation point, so separate changes for
@@ -330,73 +320,7 @@ extern s16 gDisplayObject_wSpriteSheetListHead;
  * match on it. */
 extern u8 gFile_nMasterXaLba[];
 
-/* The Gt4 primitive handler entry points, in retail's own arm order in
- * memory. The Ft3/Gt3/Ft4 handlers are matched C declared in
- * direct_polygon_renderers.h.
- *
- * These are hand-written assembly rather than the unmatched assembly the rest
- * of this header covers, so they have no defining C translation unit either.
- * model_primitive_handler.c and model_handler_registry.c both only ever take
- * their addresses, never call them, so nothing in the tree checked one copy
- * against the other; the two files used to declare the set locally, then
- * shared it through a model_primitive_handler_entries.h that existed for no
- * other purpose. It folds in here.
- *
- * They were first placed here because model_handler_registry.c could not
- * include model_primitive_handler.h: the two spelled
- * Model_GetImagePrimitiveHandler differently. That header now carries both
- * spellings behind FUNC_800603DC_RETURNS_HANDLER, and the registry defines
- * the guard and includes it. The entry points stay here because, like everything else in
- * this header, they have no defining C translation unit.
- */
-void func_80062600(void);
-void func_80063100(void);
-void func_80063C2C(void);
-void func_80064868(void);
-void func_80065554(void);
-void func_800661C4(void);
-void func_80066E60(void);
 
-/* The sixteen object handler entry points Model_GetSharedPrimitiveHandler
- * dispatches to.
- *
- * Hand-written assembly like the primitive handlers above, and here too both
- * consumers -- model_primitive_handler.c and model_handler_registry.c -- only ever take
- * their addresses, as `return (s32)func_...`, so nothing in the tree checked
- * one declaration against the other. They had already drifted once:
- * model_primitive_handler.c spelled them `int X()` while model_handler_registry.c
- * spelled eight of them `void X(void)`.
- *
- * The retail image settled that, and the resolution is preserved here. Every
- * one of the sixteen reads its first argument through $a0 -- func_80067354
- * begins `lw $a3, 0x0($a0)` and saves $s0..$s3 into 0x28($a0)..0x34($a0) --
- * and every one leaves a value in $v0 immediately before `jr $ra`;
- * func_80067354 ends `lw $v0, 0x0($a0)` / `addiu $v0, $v0, 0x8`. So
- * `void X(void)` was wrong in both return type and arity, and the
- * unprototyped form below is the one the image does not contradict.
- *
- * What this does NOT claim: the parameter and return types are deliberately
- * left unspecified. The evidence shows that an argument is taken and a value
- * returned, not what either is. $a0 is dereferenced as a pointer and the
- * result derived from it, but nothing establishes the pointee's layout, so a
- * fuller prototype would assert more than is known.
- */
-int func_80067354();
-int func_8006759C();
-int func_80067858();
-int func_80067ABC();
-int func_80067D94();
-int func_80067FD0();
-int func_8006825C();
-int func_800684B4();
-int func_8006875C();
-int func_80068A00();
-int func_80068D18();
-int func_80068FD8();
-int func_8006930C();
-int func_800695A4();
-int func_8006988C();
-int func_80069B40();
 
 /* Also reclassified from matching_c by #3859: the mixed -G share. Each of
  * these matched only under a compiler profile whose GCC and MASPSX

@@ -259,14 +259,15 @@ registers in their argument block. A profile with `"handwritten_asm_macros":
 true` (currently `gcc_2_8_1_g0_handwritten_asm`) may be used only for those
 addresses in `config/slus_01411/matching_c.json`. Such a source may declare
 hard registers, and its inline assembly is limited to the register
-save/restore and GTE macros in `src/game/handwritten_asm.h`. After
+save/restore, GTE, lone-`lwr` and fixed branch-plus-delay-slot macros in
+`src/game/handwritten_asm.h`. After
 preprocessing, `tools/project/handwritten_asm_contract.py` checks each asm
 statement against an instruction, GTE command-word, constraint and clobber
 allowlist; empty templates and anything else are rejected. The profile cannot
 be combined with `--allow-psyq-inline-macros`. See
 `notes/wireframe-renderers.md` for the first matched family and
-`notes/direct-polygon-renderers.md` for the direct Ft3/Gt3/Ft4 drivers and
-the deferred Gt4/shared blockers.
+`notes/direct-polygon-renderers.md` and
+`notes/shared-primitive-renderers.md` for the polygon drivers.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:
