@@ -309,7 +309,7 @@ supplies zero/one comparison overrides to replay the already determined
 result, not the cards' calculated attack/defense totals. Their 0xFFFF
 reset sentinels, signed-argument preservation and conditional CF8 copies
 are not changed or promoted to guessed stat types.
-The unrelated Spanish `Variant408EntryState.field_DF8` remains unchanged.
+The unrelated Spanish `ModelVariant408EntryState.field_DF8` remains unchanged.
 
 ### Variadic slot-property update
 
@@ -746,4 +746,3 @@ Each binding sits under the region's existing `VERSION_JAPAN` or
 `model_init_slot.c` wrapper now defines `VERSION_EUROPE` so its rebase calls
 see the binding; neither that source nor its headers otherwise test the
 selector. Function bodies, symbol maps and profiles are unchanged.
-
