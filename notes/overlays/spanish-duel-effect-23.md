@@ -2,7 +2,7 @@
 
 The complete `func_80152048` interval, `0x80152048..0x80152EC4`, is
 3,708 bytes / 927 instructions. Spanish registration reuses the unchanged
-accepted French `src/overlays/duel_effects/effect_23.c` and header with
+accepted French `src/overlays/duel_effects/row_attack_effects.c` and header with
 `gcc_2_8_1_g0_split`, the existing GCC 2.8.1 / MASPSX 2.81 profile.
 No second implementation or private replacement SDK types are introduced.
 

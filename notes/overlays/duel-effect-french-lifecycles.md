@@ -6,7 +6,7 @@ copies, regional flags, compiler profiles, inline assembly or register pins.
 
 | Function | Source | Extent | Bytes |
 |---|---|---|---:|
-| `func_80154688` | `src/overlays/duel_effects/effect_0.c` | `80154688..80154B30` | 1192 |
+| `func_80154688` | `src/overlays/duel_effects/contour_burst_effects.c` | `80154688..80154B30` | 1192 |
 | `func_80154B30` | `src/overlays/duel_effects/effect_6.c` | `80154B30..801556F4` | 3012 |
 
 The independent baseline is accepted master `78fc1686f`: 59 bank C functions

@@ -4,7 +4,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/overlays/duel_effects/effect_23.c"
+SOURCE = ROOT / "src/overlays/duel_effects/row_attack_effects.c"
 
 
 class DuelEffect23Tests(unittest.TestCase):
@@ -18,7 +18,7 @@ class DuelEffect23Tests(unittest.TestCase):
         self.assertEqual(entries[0], entries[1])
         self.assertEqual(entries[1], [{
             "address": "0x80152048", "size": "0xE7C",
-            "source": "src/overlays/duel_effects/effect_23.c",
+            "source": "src/overlays/duel_effects/row_attack_effects.c",
             "profile": "gcc_2_8_1_g0_split",
         }])
 
