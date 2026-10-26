@@ -468,8 +468,6 @@ segments:
       - [0x610c0, c, game/ai_script_find_card]
       - [0x616dc, c, game/ai_script_match_type]
       - [0x618ac, c, game/ai_fusion]
-      - [0x6232c, c, game/ai_script_skip]
-      - [0x6239c, c, game/ai_script_actions]
       - [0x6249c, c, game/ai_script_find_best_attack]
       - [0x62630, c, game/ai_script_state_ops]
       - [0x62b14, asm, func_80072314]

@@ -1301,10 +1301,7 @@ segments:
     - game/ai_script_match_type
   - - 406116
     - c
-    - game/ai_fusion
-  - - 408804
-    - c
-    - game/european/ai_script_actions
+    - game/european/ai_fusion
   - - 409076
     - c
     - game/ai_script_find_best_attack

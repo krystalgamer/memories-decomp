@@ -6659,67 +6659,67 @@
       "address": "0x80072A64",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x128",
-      "source": "src/game/ai_fusion.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80072B8C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
-      "source": "src/game/ai_fusion.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80072C08",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB4",
-      "source": "src/game/ai_fusion.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80072CBC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xCC",
-      "source": "src/game/ai_fusion.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80072D88",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x288",
-      "source": "src/game/ai_fusion.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80073010",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x378",
-      "source": "src/game/ai_fusion.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x80073388",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x15C",
-      "source": "src/game/ai_fusion.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x800734E4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x8",
-      "source": "src/game/european/ai_script_actions.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x800734EC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x8",
-      "source": "src/game/european/ai_script_actions.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x800734F4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC4",
-      "source": "src/game/european/ai_script_actions.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x800735B8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/european/ai_script_actions.c"
+      "source": "src/game/european/ai_fusion.c"
     },
     {
       "address": "0x800735F4",
