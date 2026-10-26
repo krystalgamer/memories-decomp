@@ -116,8 +116,8 @@ void DuelScene_UpdateCardMove(void)
 #else
             func_8003B6AC(0, 0xB);
             box = TextBox_CreateFlagged(0, 0x21, 0x48, 0x6E, 0xB0, 0x30, 0x20);
-            box->field_5A = 8;
-            box->field_5B = 0x10;
+            box->glyph_advance_x = 8;
+            box->line_advance_y = 0x10;
 #endif
             do {
                 TextBox_UpdateChannels();

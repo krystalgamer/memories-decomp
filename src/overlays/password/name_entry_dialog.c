@@ -194,13 +194,13 @@ void NameEntry_UpdateDialog(void)
 #ifdef VERSION_EUROPE
         func_80039A60((struct DuelEffectChannel *)&gText_Channel3View);
 #elif defined(VERSION_JAPAN)
-        /* No field_5A/field_5B stores, and 0x60-byte channel records. */
+        /* No glyph_advance_x/line_advance_y stores, and 0x60-byte channel records. */
         func_80039A60((struct DuelEffectChannel *)&(
             (NAME_ENTRY_DIALOG_CHANNEL_TYPE *)D_800EB0F8)[3]);
 #else
         panel = D_800EB0F8;
-        panel[3].field_5A = 16;
-        panel[3].field_5B = 16;
+        panel[3].glyph_advance_x = 16;
+        panel[3].line_advance_y = 16;
         func_80039A60((struct DuelEffectChannel *)&panel[3]);
 #endif
         NameEntry_AdjustLength(1, 6);

@@ -145,8 +145,8 @@ void DebugMenu_Update(void) {
          * drops the `addiu` retail keeps for the call argument. */
         boxes = gText_aChannels;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-        boxes[1].field_5A = 0x10;
-        boxes[1].field_5B = 0x10;
+        boxes[1].glyph_advance_x = 0x10;
+        boxes[1].line_advance_y = 0x10;
 #endif
         TextBox_BuildBlocking(DEBUG_MENU_SECOND_BOX(boxes));
         return;

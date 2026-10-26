@@ -435,41 +435,41 @@ void Text_SetFontMode(DuelEffectChannel *object)
 #endif
     value = read_operand(object);
 #ifdef VERSION_JAPAN
-    object->field_5B = value << 3;
-    object->field_5A = value << 3;
+    object->line_advance_y = value << 3;
+    object->glyph_advance_x = value << 3;
 #elif defined(VERSION_EUROPE)
     /* The European release has four text sizes and keeps the size in the
        channel's two low flag bits. */
     switch (value) {
     case 0:
-        object->field_5A = 8;
-        object->field_5B = 16;
+        object->glyph_advance_x = 8;
+        object->line_advance_y = 16;
         break;
     case 1:
-        object->field_5A = 8;
-        object->field_5B = 8;
+        object->glyph_advance_x = 8;
+        object->line_advance_y = 8;
         object->flags_34 |= 1;
         break;
     case 2:
-        object->field_5A = 12;
-        object->field_5B = 16;
+        object->glyph_advance_x = 12;
+        object->line_advance_y = 16;
         object->flags_34 |= 2;
         break;
     case 3:
-        object->field_5A = 16;
-        object->field_5B = 16;
+        object->glyph_advance_x = 16;
+        object->line_advance_y = 16;
         object->flags_34 |= 3;
         break;
     }
 #else
     switch (value) {
     case 1:
-        object->field_5A = 8;
-        object->field_5B = 8;
+        object->glyph_advance_x = 8;
+        object->line_advance_y = 8;
         break;
     case 2:
-        object->field_5A = 8;
-        object->field_5B = 12;
+        object->glyph_advance_x = 8;
+        object->line_advance_y = 12;
         break;
     }
 #endif
@@ -489,7 +489,7 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object)
         u8 value = *current++;
 
         *stream = current;
-        object->field_5A = value;
+        object->glyph_advance_x = value;
     }
     {
         u8 *G32 *stream =
@@ -498,7 +498,7 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object)
         u8 value = *current++;
 
         *stream = current;
-        object->field_5B = value;
+        object->line_advance_y = value;
     }
 }
 

@@ -78,8 +78,8 @@ void TextBox_BuildStep(DuelEffectChannel *object)
 #ifndef VERSION_EUROPE
         /* The European build makes neither field store. */
         if ((object->flags_34 & 0x100) != 0) {
-            object->field_5B = 8;
-            object->field_5A = 8;
+            object->line_advance_y = 8;
+            object->glyph_advance_x = 8;
         }
 #endif
         id = object->field_36;
@@ -203,8 +203,8 @@ next_opcode:
     }
     gText_PumpedGlyphIndex = gText_CurrentStreamCode;
 #ifdef VERSION_EUROPE
-    /* The European font is proportional: the glyph call returns the
-       glyph's width, and the box counts pixels (the wrapper makes the
+    /* The European glyph call returns a signed adjustment to the nominal
+       horizontal advance. The box counts pixels (the wrapper makes the
        counter and its limit halfwords at 0x60 and 0x62) rather than
        glyphs. */
     {
@@ -212,14 +212,14 @@ next_opcode:
         s32 n;
         s32 limit;
 
-        w = object->field_5A +
+        w = object->glyph_advance_x +
             DuelEffect_AppendEntry(object, gText_aGlyphLookup[(s16)gText_CurrentStreamCode].packed & 0x8FF0FFFF);
         limit = (s16)TEXT_BOX_GLYPH_LIMIT(object);
         object->field_38 = object->field_38 + w;
         n = TEXT_BOX_GLYPH_COUNT(object) + w;
         TEXT_BOX_GLYPH_COUNT(object) = n;
         if (limit != 0) {
-            w = (s16)n + object->field_5A;
+            w = (s16)n + object->glyph_advance_x;
             if (limit < w) {
                 object->flags_34 = object->flags_34 | TEXT_BOX_FLAG_DONE;
             }
@@ -232,6 +232,6 @@ next_opcode:
         TEXT_BOX_GLYPH_COUNT(object) >= TEXT_BOX_GLYPH_LIMIT(object)) {
         object->flags_34 = object->flags_34 | TEXT_BOX_FLAG_DONE;
     }
-    object->field_38 = object->field_38 + object->field_5A;
+    object->field_38 = object->field_38 + object->glyph_advance_x;
 #endif
 }

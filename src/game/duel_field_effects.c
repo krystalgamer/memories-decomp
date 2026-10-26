@@ -429,8 +429,8 @@ void DuelEffect_ApplyRitual(void)
                 text = TextBox_CreateFlagged(0, 33, 72, 110, 176, 48, 64);
 #else
                 text = TextBox_CreateFlagged(0, 33, 72, 110, 176, 48, 32);
-                text->field_5A = 8;
-                text->field_5B = 16;
+                text->glyph_advance_x = 8;
+                text->line_advance_y = 16;
 #endif
                 do {
                     TextBox_UpdateChannels();

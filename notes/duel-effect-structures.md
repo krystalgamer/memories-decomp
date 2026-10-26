@@ -42,6 +42,50 @@ Verified channel fields used by matching C include:
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
 
+### Text-channel cursor advances
+
+The paired u8 fields at +0x5A and +0x5B are glyph_advance_x and
+line_advance_y, formerly field_5A and field_5B. Both the 0x64-byte shared
+channel and 0x60-byte Japanese channel retain the same offsets and widths.
+These are cursor increments, not DisplayObject timers or universal rendered
+glyph dimensions. The unrelated DisplayObject/DisplayObjectStreamState
+field_5A declarations and consumers remain unchanged.
+
+DuelEffect_InitEntry establishes the regional defaults: North America
+8/12, Japan 16/16, and Europe's existing four flag-selected size pairs.
+Text_SetFontMode retains every branch, flag update, unsupported-value path
+and Japan's original shifted-to-byte narrowing. Text_SetGlyphCellSize
+reads the two raw operands through its original separate stream scopes:
+publish the advanced stream pointer, then store X; reload/read/publish,
+then store Y. No shared temporary, clamp or new size validation.
+
+TextBox_BuildStep adds glyph_advance_x to the pen's horizontal halfword
+after the glyph append in North America and Japan. Its European path
+instead adds the ORIGINAL signed DuelEffect_AppendEntry result to this
+nominal advance. That result is a metric adjustment and can be negative,
+including the existing early-return result; it is NOT an absolute width.
+Both the pen and pixel counter receive the same original computed sum.
+All signed limit comparisons, extra advance in the limit check, halfword
+narrowing and the distinct regional glyph/pixel counter layouts remain.
+No glyph-result normalization or common counter representation is added.
+
+TextBox_WrapLineIfNeeded retains its signed-halfword X comparison, X reset
+and Y increment by line_advance_y. Its original bottom-edge test includes
+one further line advance; failure subtracts the prior Y advance and returns
+one without undoing the X reset. There is no new wrapping or clipping rule.
+
+Reachable debug/library/duel presentation and password/name-entry producers
+retain their original values, guards, channel-base locals, casts and compact
+Japanese addressing. The name-entry variable called sprite is a
+DuelEffectChannel pointer here, not a DisplayObject. Only these typed channel
+member spellings change across twelve existing C units; the proportional-font
+comment is corrected without changing its code.
+
+The existing library layout fixture changes only eight member identifiers
+in its original offset/width checks. Every assertion, numeric expectation,
+oracle, mutation, scenario, control and flag remains unchanged. No new
+behavioral harness or local cloud-fixture execution is introduced.
+
 `func_800383DC` returns the selected `TextStreamOwner::streams` slot as
 `u8 *G32 *`, matching the stored byte-stream pointer it publishes there,
 instead of exposing that pointer slot as an integer payload word.

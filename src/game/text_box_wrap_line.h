@@ -8,7 +8,7 @@
  * reached the end.
  *
  * When the counter field_38 reaches its limit field_3E the counter resets and
- * the position field_3A moves on by the step held in field_5B. If that would
+ * the position field_3A moves on by the step held in line_advance_y. If that would
  * carry the position past the bound field_42 the step is taken back off and 1
  * is returned, leaving the position at the last value that still fits.
  *
