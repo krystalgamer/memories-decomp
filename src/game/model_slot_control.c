@@ -558,7 +558,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
             } while (i < n);
         }
     }
-    v = (p->lit_color_cache_address = (s32)p->field_DE0 + sum);
+    v = (p->lit_color_cache_address = (s32)p->animation_snapshot_buffer + sum);
     p->lit_color_cache_end_address = v + p->lit_color_cache_entry_count * sizeof(u32);
     Model_SetSlotRootTransform(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
 
@@ -787,7 +787,7 @@ void Model_AdvanceSlotLoad(s32 index)
                 } while (i < count);
             }
         }
-        amount = (p->lit_color_cache_address = (s32)p->field_DE0 + sum);
+        amount = (p->lit_color_cache_address = (s32)p->animation_snapshot_buffer + sum);
         p->lit_color_cache_end_address = amount + p->lit_color_cache_entry_count * 4;
         Model_SetSlotRootTransform(p, 0, 0, 0, index == 1 ? 0x800 : 0);
         break;
@@ -1433,8 +1433,8 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
     s32 restore_bit;
 
     m = &gModel_aSlots[index];
-    dst = m->field_DE0;
-    base = m->field_DDC;
+    dst = m->animation_snapshot_buffer;
+    base = m->animation_parameter_base;
     parts = m->animation_sequences;
     if (m->is_active == 0) {
         return;

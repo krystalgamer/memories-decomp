@@ -274,7 +274,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
             }
         }
     }
-    if (base->field_DE0 == 0) {
-        base->field_DE0 = (u8 *)(hmd + size);
+    if (base->animation_snapshot_buffer == 0) {
+        base->animation_snapshot_buffer = (u8 *)(hmd + size);
     }
 }

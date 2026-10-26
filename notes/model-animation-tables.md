@@ -128,6 +128,23 @@ retain their names. Other playback state, part flags, transfer pointers,
 the tentative position helper, SDK declarations, source groups, profiles
 and historical symbol evidence are not promoted or rewritten by association.
 
+## Live parameters and row snapshots
+
+The later pointer component names +0xDDC `animation_parameter_base` and
++0xDE0 `animation_snapshot_buffer`, both retaining `u8 *G32`. Kind 3
+imports the former beside the command list; kind 2 imports the latter.
+Command halfword word offsets select live parameter words. Row entry
+saves three/five words to the contiguous buffer; restoration reverses
+the copy. Missing entries consume no snapshot words. The remaining
++0xDE4 import is not promoted by association.
+
+Non-null-HMD setup preserves the imported snapshot address or uses
+`hmd + size`; the earlier null-HMD return does not clear these fields.
+The original row-one work-span calculation and unconditional cache-base
+store, including slot 2, remain intact. No buffer capacity, common
+parameter schema, copy-overlap or readiness/lifetime guarantee follows.
+See [the complete pointer protocol](model-structures.md#live-animation-parameters-and-saved-word-buffer).
+
 ## Playback selectors, extended part state and sound cues
 
 These names follow the complete resident producer/consumer chains, not

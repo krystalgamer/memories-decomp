@@ -409,8 +409,8 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
     ch->animation_position = 0;
     ch->animation_sound_position = 0;
     ch->animation_commands = 0;
-    *(s32 *)&ch->field_DDC = 0;
-    *(s32 *)&ch->field_DE0 = 0;
+    *(s32 *)&ch->animation_parameter_base = 0;
+    *(s32 *)&ch->animation_snapshot_buffer = 0;
     *(s32 *)&ch->field_DE4 = 0;
     ch->lit_color_cache_address = 0;
     /* The reset walks keys and rows with running byte offsets rather than
@@ -496,11 +496,11 @@ void Model_ResetSlotAnimationTables(s32 arg0, u8 *arg1)
             } while ((u32)i < *(u16 *)k);
         }
         *(s32 *)(t + (u32)&((ModelSlot *)0)->animation_commands) = *(s32 *)p3;
-        *(s32 *)(t + (u32)&((ModelSlot *)0)->field_DDC) = *(s32 *)(p3 + 4);
+        *(s32 *)(t + (u32)&((ModelSlot *)0)->animation_parameter_base) = *(s32 *)(p3 + 4);
     }
     if (p2 != (u8 *)0) {
         p2 += 4;
-        *(s32 *)(t + (u32)&((ModelSlot *)0)->field_DE0) = *(s32 *)p2;
+        *(s32 *)(t + (u32)&((ModelSlot *)0)->animation_snapshot_buffer) = *(s32 *)p2;
         *(s32 *)(t + (u32)&((ModelSlot *)0)->field_DE4) = *(s32 *)(p2 + 4);
     }
 }

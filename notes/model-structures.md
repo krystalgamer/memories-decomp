@@ -103,6 +103,8 @@ Verified shared fields and partial arrays are:
 | `0xDC0` | `tint[8]` | fade tint: target colour/mode writes in `Model_SetSlotTintTarget` and selection in `Model_GetSlotTintDescriptor`; live 3-D battle values below (formerly `field_DC0`) |
 | `0xDC8` | `field_DC8[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `Model_SeekSlotAnimation` |
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
+| `0xDDC` | `animation_parameter_base`, `u8 *G32` | command-halfword word offsets address live words saved before a row and restored afterward |
+| `0xDE0` | `animation_snapshot_buffer`, `u8 *G32` | contiguous three/five-word snapshots; imported or hmd+size fallback, followed by cache work span |
 | `0xDE8` | `primary_module_data_address`, `s32` | independently selected primary data word passed to the primary module at base +4 |
 | `0xDEC` | `variant_module_data_address`, `s32` | independently selected variant data word passed to variant/presentation handlers |
 | `0xDF8` | `field_DF8` | first property in `Model_SetSlotProperties`; mirrored to `gModel_awSlotModelIds[index]` for all three slots when non-negative |
@@ -357,6 +359,58 @@ numeric offsets.
 See [high-memory-load-addresses.md](high-memory-load-addresses.md).
 All source expressions, casts, signatures, absolute relocations, per-region
 profiles and existing fixture layout expectations are unchanged.
+
+### Live animation parameters and saved-word buffer
+
+`ModelSlot.field_DDC` and `ModelSlot.field_DE0` are now
+`animation_parameter_base` and `animation_snapshot_buffer`.
+Both retain stored `u8 *G32` declarations at +0xDDC/+0xDE0.
+These are live parameter and saved-word roles, not permanently one-way
+source/destination pointers: saving and restoration reverse the copy.
+
+`Model_ResetSlotAnimationTables` clears both through the original
+`*(s32 *)&member` stores and preserves the byte-cursor imports. Enabled
+kind-3 owner payload supplies the parameter base beside the command
+list; enabled kind-2 payload supplies the snapshot buffer. The owner
+walk, sentinels, enabled tests, part-mask reads and last-selected owner
+behavior are unchanged. The adjacent kind-2 import at +0xDE4 stays
+`field_DE4`: no independent consumer establishes its semantic role.
+
+After non-null-HMD initialization, `Model_InitSlot` preserves an imported
+snapshot pointer or supplies `hmd + size` only when it is null. The
+null-HMD early return precedes table reset and this fallback, so it
+does not promise cleared parameter/snapshot pointers. This is an
+address selection, not a new allocation, proven extent or lifetime.
+
+`Model_ControlSlotAnimation` captures both pointers before the active
+gate. Each non-missing command-index entry uses the original first
+command halfword times four as an offset from the parameter base.
+Starting a row saves three words, or five for an extended-mask part,
+into the contiguous snapshot cursor; missing 0xFFFF entries do not
+advance that cursor. Restoring copies those saved words back to their
+parameter offsets and clears the active row. The byte pointers, word
+casts, copy direction, original bit arithmetic and per-loop word counts
+are retained. Selector -1 still clears only the pending reset and
+sequence indices; it does not restore or clear either buffer.
+
+Keep every earlier lifecycle write, zero-duration return, replacement
+flag, previous-row restoration, queue-latch update and same-row seek
+path. No command bounds, non-null guard, common record layout or
+memmove/overlap promise is inferred from `Model_CopyWords`.
+
+`Model_LoadSlot` and staged-load case 4 reserve the original row-one
+per-part span after the snapshot base: 12 or 20 bytes for each present
+entry, using the extended-part mask. Only the original index<2 path
+adds that span. Both still store the lit-color-cache base for every
+slot, then derive its end from the existing halfword count. Do not
+turn the row-one accounting into a validated snapshot capacity, guard
+the third-slot store, change signed address arithmetic or clear extra
+cache state during partial reset.
+
+The unrelated French `Variant393EntryState` fields at coincident
+offsets remain unchanged, including its source, header and fixture.
+No guessed owner-block type, SDK declaration, G32 marker, profile,
+source grouping, request order or existing test oracle is changed.
 
 ### Timed model-tint requests
 
