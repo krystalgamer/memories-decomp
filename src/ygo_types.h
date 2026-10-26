@@ -559,7 +559,7 @@ typedef struct DuelEffectChannel {
     struct DisplayObject *G32 aux_object;
     struct DisplayObject *G32 prompt_object;
     u16 flags_34;
-    u16 field_36;
+    u16 initial_string_id;
     u16 pen_x;
     u16 pen_y;
     s16 rect_x;
@@ -578,7 +578,7 @@ typedef struct DuelEffectChannel {
     u8 delay_reload_53;
     u8 color_index_54;
     u8 pad_55;
-    u8 field_56;
+    u8 explicit_newline_count;
     u8 index_57;
     /* Which leading pointer word is the live byte stream. Every reader scales
        it by four; it is signed because all three consumers read it as s8. */
@@ -637,8 +637,8 @@ typedef char DuelEffectChannel_state_51_offset_must_be_0x51[
 typedef char DuelEffectChannel_delay_reload_53_offset_must_be_0x53[
     YGO_TYPE_OFFSET(DuelEffectChannel, delay_reload_53) == 0x53 ? 1 : -1
 ];
-typedef char DuelEffectChannel_field_56_offset_must_be_0x56[
-    YGO_TYPE_OFFSET(DuelEffectChannel, field_56) == 0x56 ? 1 : -1
+typedef char DuelEffectChannel_explicit_newline_count_offset_must_be_0x56[
+    YGO_TYPE_OFFSET(DuelEffectChannel, explicit_newline_count) == 0x56 ? 1 : -1
 ];
 typedef char DuelEffectChannel_index_57_offset_must_be_0x57[
     YGO_TYPE_OFFSET(DuelEffectChannel, index_57) == 0x57 ? 1 : -1

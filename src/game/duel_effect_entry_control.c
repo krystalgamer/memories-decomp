@@ -180,7 +180,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
         return;
     }
 
-    object->field_56 = 0;
+    object->explicit_newline_count = 0;
     object->pen_x = 0;
     object->pen_y = 0;
     object->state_51 = 0;

@@ -106,7 +106,7 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
 #endif
         DuelEffect_ClearMatchingMarker(object->index_57);
         v = object->flags_34;
-        object->field_56 = 0;
+        object->explicit_newline_count = 0;
         gText_ChoiceLayoutCallback = Text_TryCompleteChoiceLayout;
         object->flags_34 = v | 0x1000;
     }
@@ -157,11 +157,11 @@ void Text_PushStreamOffset(DuelEffectChannel *arg0)
 
 void Text_NewLine(DuelEffectChannel *record)
 {
-    record->field_56++;
+    record->explicit_newline_count++;
     record->pen_x = 0x1000;
 #ifdef VERSION_EUROPE
     /* The European build moves to state 4 only from the fourth line on. */
-    if (TextBox_WrapLineIfNeeded(record) && record->field_56 >= 4) {
+    if (TextBox_WrapLineIfNeeded(record) && record->explicit_newline_count >= 4) {
 #else
     if (TextBox_WrapLineIfNeeded(record)) {
 #endif

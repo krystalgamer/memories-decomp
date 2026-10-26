@@ -6,7 +6,7 @@
 typedef struct {
     u8 pad_00[0x34];
     u16 flags_34;
-    u16 field_36;
+    u16 initial_string_id;
     u16 pen_x;
     u16 pen_y;
     s16 rect_x;

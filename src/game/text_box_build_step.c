@@ -82,7 +82,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
             object->glyph_advance_x = 8;
         }
 #endif
-        id = object->field_36;
+        id = object->initial_string_id;
         gText_ScriptDispatchGate = 0;
         gText_ChoiceLayoutCallback = 0;
         object->delay_52 = 1;
@@ -134,7 +134,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         }
 #endif
         object->text_00 = text;
-        object->field_56 = 0;
+        object->explicit_newline_count = 0;
         object->state_51 = 0;
         DisplayObject_ReleaseIfPresent(object->prompt_object);
         DisplayObject_ReleaseIfPresent(object->aux_object);
