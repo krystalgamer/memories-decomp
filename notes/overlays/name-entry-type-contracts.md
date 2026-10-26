@@ -4,7 +4,7 @@ The type-ownership change moved the name-entry layouts into `src/ygo_types.h`
 without changing the screen's C bodies, callback signatures, function order,
 compiler profiles or data. That change did not remove the keyboard's register
 bindings. Its separate binding-free implementation now lives in
-[`name_entry_keyboard_update.c`](../../src/overlays/password/name_entry_keyboard_update.c)
+[`name_entry_runtime.c`](../../src/overlays/password/name_entry_runtime.c)
 and retains these same layout contracts.
 
 ## The selection frame is one object

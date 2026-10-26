@@ -11,7 +11,24 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/overlays/password/name_entry_keyboard_update.c"
+SOURCE = ROOT / "src/overlays/password/name_entry_runtime.c"
+KEYBOARD_GUARD = "    defined(VERSION_EUROPE_PASSWORD_UPDATE_KEYBOARD)\n"
+
+
+def keyboard_text():
+    """The unit's leading selector/include block plus the keyboard updater's
+    own section, unguarded; the rest of the unit is the name-entry runtime."""
+    text = SOURCE.read_text()
+    head = []
+    for line in text.splitlines(keepends=True):
+        if line.startswith(("#include", "#define", "/*", " *")) or not line.strip():
+            head.append(line)
+        else:
+            break
+    while head and not head[-1].startswith(("#include", "#define")) and head[-1].strip():
+        head.pop()
+    section = text.split(KEYBOARD_GUARD, 1)[1]
+    return "".join(head) + "\n" + section[:section.rindex("#endif")]
 SCRATCH = ROOT / "tmp/name-entry-keyboard-witness"
 START = r"""
 .text
@@ -299,12 +316,11 @@ class NameEntryKeyboardUpdateTests(unittest.TestCase):
     def build_and_run(self, optimization, mutation=None):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run this test from the repository root")
-        code = SOURCE.read_text()
+        code = keyboard_text()
         self.assertNotRegex(code, r"\b(?:__asm__|__asm|asm|register|extern)\b")
         SCRATCH.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="run-", dir=SCRATCH) as temporary:
             directory = Path(temporary)
-            source = SOURCE
             if mutation is not None:
                 original, replacement = {
                     "stride": (
@@ -319,15 +335,15 @@ class NameEntryKeyboardUpdateTests(unittest.TestCase):
                 }[mutation]
                 self.assertEqual(code.count(original), 1, "mutation must be active")
                 code = code.replace(original, replacement)
-                code = re.sub(
-                    r'^#include "([^"]+)"',
-                    lambda m: '#include "' + str(
-                        (SOURCE.parent / m.group(1)).resolve()
-                    ) + '"',
-                    code, flags=re.MULTILINE,
-                )
-                source = directory / "mutated.c"
-                source.write_text(code)
+            code = re.sub(
+                r'^#include "([^"]+)"',
+                lambda m: '#include "' + str(
+                    (SOURCE.parent / m.group(1)).resolve()
+                ) + '"',
+                code, flags=re.MULTILINE,
+            )
+            source = directory / ("mutated.c" if mutation else "keyboard.c")
+            source.write_text(code)
             fixture = directory / "fixture.c"
             fixture.write_text(WITNESS)
             start = directory / "start.S"

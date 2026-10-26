@@ -260,8 +260,8 @@ The name-entry pipeline is fourteen functions in executable order from
 subsegment at module offset `0x138` and owns the glyph atlas rodata at module
 offset `0x4`. `NameEntry_UpdateKeyboard` was reclassified in #3859 because
 its earlier match depended on register bindings. Its binding-free replacement
-is now [`name_entry_keyboard_update.c`](name_entry_keyboard_update.c), the
-standalone C subsegment at `0x113C`; the last two are
+now closes [`name_entry_runtime.c`](name_entry_runtime.c), whose C subsegment
+also covers `0x113C` (formerly the standalone `name_entry_keyboard_update.c`); the last two are
 [`name_entry_dialog.c`](name_entry_dialog.c) at `0x1734`.
 
 The keyboard's complete `PasswordGlyphCoordinates` initializer keeps both
