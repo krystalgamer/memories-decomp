@@ -12,14 +12,21 @@ After preprocessing, every asm statement must consist solely of allowlisted
 instructions with "r"/"=r" operands and an optional "memory" clobber. Any other
 asm, including asm written directly in the unexpanded source, is rejected.
 
-Three narrow forms reproduce encodings GCC 2.8.1 cannot emit from C:
+Three narrow forms reproduce encodings GCC 2.8.1 cannot emit from C. Each is
+accepted only as a whole statement with an exact operand signature:
 
-* ``lwr %0, N(%1)`` tied to its own input ("0") merges an unaligned halfword
-  into a word that C already loaded;
-* a ``.set noreorder`` block holding exactly one compare branch to a C label
-  (an "i" operand spelled ``&&label``) and one delay-slot instruction, which
-  is either a GTE register write or a word load;
-* nothing else: no other branch, jump, label or register name is accepted.
+* ``lwr %0, N(%1)`` alone, with outputs ``"=r"(x)``, inputs ``"r"(p),
+  "0"(x)`` (the tied input names the same expression as the output) and no
+  clobbers: it merges an unaligned halfword into a word C already loaded;
+* ``.set noreorder; beq %0, %1, %2; mtc2 %0, $N; .set reorder`` with no
+  outputs, inputs ``"r", "r", "i"(&&label)`` and no clobbers;
+* ``.set noreorder; beqz %1, %2; lw %0, N(%3); .set reorder`` with output
+  ``"=r"``, inputs ``"r", "i"(&&label), "r"`` and no clobbers.
+
+The branch target is a C label GCC does not see as a control-flow edge, so
+the surrounding code is vouched for only by the exact image match. The "0"
+and "i" constraints are rejected anywhere else; no other branch, jump, label
+or register name is accepted.
 """
 
 from __future__ import annotations
@@ -53,20 +60,30 @@ ALLOWED_INSTRUCTIONS = tuple(
         r"cfc2 %0, \$31",
         r"nop",
         r"\.word 0x(?P<word>[0-9A-Fa-f]{8})",
-        rf"lwr %0, {_OFFSET}\(%1\)",
     )
 )
 NOREORDER = ".set noreorder"
 REORDER = ".set reorder"
-BRANCH_INSTRUCTIONS = (
-    re.compile(r"beq %0, %1, %2"),
-    re.compile(r"beqz %1, %2"),
+LWR_INSTRUCTION = re.compile(rf"lwr %0, {_OFFSET}\(%1\)")
+# (branch, delay slot, output constraints, input constraints, label index).
+BRANCH_FORMS = (
+    (
+        re.compile(r"beq %0, %1, %2"),
+        re.compile(rf"mtc2 %0, {_GTE_REGISTER}"),
+        (),
+        ("r", "r", "i"),
+        2,
+    ),
+    (
+        re.compile(r"beqz %1, %2"),
+        re.compile(rf"lw %0, {_OFFSET}\(%3\)"),
+        ("=r",),
+        ("r", "i", "r"),
+        1,
+    ),
 )
-DELAY_SLOT_INSTRUCTIONS = (
-    re.compile(rf"mtc2 %0, {_GTE_REGISTER}"),
-    re.compile(rf"lw %0, {_OFFSET}\(%3\)"),
-)
-ALLOWED_CONSTRAINTS = frozenset({"r", "=r", "0", "i"})
+ALLOWED_CONSTRAINTS = frozenset({"r", "=r"})
+_LABEL_OPERAND = re.compile(r"&&\s*[A-Za-z_]\w*")
 ALLOWED_CLOBBERS = frozenset({"memory"})
 _STRING = re.compile(r'"((?:\\.|[^"\\])*)"')
 _ASM_STATEMENT = re.compile(
@@ -133,7 +150,60 @@ def _instructions(template: str) -> list[str]:
     return normalized_instructions
 
 
-def _check_branch_block(instructions: list[str]) -> None:
+Operand = tuple[str, str]
+
+
+def _operands(text: str, code: str, start: int, end: int) -> list[Operand]:
+    """Return (constraint, normalized expression) pairs of one section.
+
+    A clobber has an empty expression.
+    """
+    operands: list[Operand] = []
+    for match in _STRING.finditer(text, start, end):
+        value = match.group(1)
+        after = code[match.end():end]
+        stripped = after.lstrip()
+        if stripped.startswith("("):
+            open_paren = match.end() + after.index("(")
+            close_paren = _matching_paren(code, open_paren)
+            expression = re.sub(r"\s+", "", text[open_paren + 1:close_paren])
+            operands.append((value, expression))
+        else:
+            operands.append((value, ""))
+    return operands
+
+
+def _require(
+    actual: list[Operand], expected: tuple[str, ...], what: str
+) -> None:
+    constraints = tuple(constraint for constraint, _ in actual)
+    if constraints != expected or any(not expr for _, expr in actual):
+        raise HandwrittenAsmError(
+            f"{what} must have operands {expected}, found {constraints}"
+        )
+
+
+def _check_special_form(
+    instructions: list[str],
+    outputs: list[Operand],
+    inputs: list[Operand],
+    clobbers: list[Operand],
+) -> bool:
+    """Validate an lwr or branch form; return False for ordinary templates."""
+    if any(LWR_INSTRUCTION.fullmatch(item) for item in instructions):
+        if len(instructions) != 1:
+            raise HandwrittenAsmError("lwr must be the only instruction of its asm")
+        _require(outputs, ("=r",), "lwr outputs")
+        _require(inputs, ("r", "0"), "lwr inputs")
+        if inputs[1][1] != outputs[0][1]:
+            raise HandwrittenAsmError(
+                "lwr's tied \"0\" input must name the same expression as its output"
+            )
+        if clobbers:
+            raise HandwrittenAsmError("lwr takes no clobbers")
+        return True
+    if NOREORDER not in instructions and REORDER not in instructions:
+        return False
     if (
         len(instructions) != 4
         or instructions[0] != NOREORDER
@@ -143,19 +213,29 @@ def _check_branch_block(instructions: list[str]) -> None:
             "a .set noreorder block must hold exactly one branch and its delay slot"
         )
     branch, slot = instructions[1], instructions[2]
-    if not any(pattern.fullmatch(branch) for pattern in BRANCH_INSTRUCTIONS):
-        raise HandwrittenAsmError(f"branch is not allowlisted: {branch}")
-    if not any(pattern.fullmatch(slot) for pattern in DELAY_SLOT_INSTRUCTIONS):
-        raise HandwrittenAsmError(f"delay-slot instruction is not allowlisted: {slot}")
+    for branch_pattern, slot_pattern, out_c, in_c, label in BRANCH_FORMS:
+        if branch_pattern.fullmatch(branch) is None:
+            continue
+        if slot_pattern.fullmatch(slot) is None:
+            raise HandwrittenAsmError(
+                f"delay-slot instruction does not belong to {branch}: {slot}"
+            )
+        _require(outputs, out_c, f"{branch} outputs")
+        _require(inputs, in_c, f"{branch} inputs")
+        if _LABEL_OPERAND.fullmatch(inputs[label][1]) is None:
+            raise HandwrittenAsmError(
+                "a branch target must be the address of a C label"
+            )
+        if clobbers:
+            raise HandwrittenAsmError("a branch block takes no clobbers")
+        return True
+    raise HandwrittenAsmError(f"branch is not allowlisted: {branch}")
 
 
 def _check_template(template: str) -> None:
     instructions = _instructions(template)
     if not instructions:
         raise HandwrittenAsmError("asm templates without an instruction are not allowed")
-    if NOREORDER in instructions or REORDER in instructions:
-        _check_branch_block(instructions)
-        return
     for normalized in instructions:
         for pattern in ALLOWED_INSTRUCTIONS:
             match = pattern.fullmatch(normalized)
@@ -169,20 +249,15 @@ def _check_template(template: str) -> None:
             raise HandwrittenAsmError(f"instruction is not allowlisted: {normalized}")
 
 
-def _check_operands(text: str, code: str, start: int, end: int) -> None:
-    for match in _STRING.finditer(text, start, end):
-        value = match.group(1)
-        after = code[match.end():end].lstrip()
-        if after.startswith("("):
-            if value not in ALLOWED_CONSTRAINTS:
-                raise HandwrittenAsmError(f"unsupported asm constraint: {value}")
-            if value == "i":
-                operand_end = _matching_paren(code, match.end() + code[match.end():end].index("("))
-                operand = code[match.end():operand_end + 1]
-                if re.fullmatch(r"\s*\(\s*&&\s*[A-Za-z_]\w*\s*\)", operand) is None:
-                    raise HandwrittenAsmError("an \"i\" operand must be the address of a C label")
-        elif value not in ALLOWED_CLOBBERS:
-            raise HandwrittenAsmError(f"unsupported asm clobber: {value}")
+def _check_ordinary_operands(
+    outputs: list[Operand], inputs: list[Operand], clobbers: list[Operand]
+) -> None:
+    for constraint, expression in outputs + inputs:
+        if constraint not in ALLOWED_CONSTRAINTS or not expression:
+            raise HandwrittenAsmError(f"unsupported asm constraint: {constraint}")
+    for clobber, expression in clobbers:
+        if clobber not in ALLOWED_CLOBBERS or expression:
+            raise HandwrittenAsmError(f"unsupported asm clobber: {clobber}")
 
 
 def handwritten_asm_spans(text: str, code: str) -> list[tuple[int, int]]:
@@ -202,8 +277,18 @@ def handwritten_asm_spans(text: str, code: str) -> list[tuple[int, int]]:
         if len(sections) > 4:
             raise HandwrittenAsmError("asm has too many operand sections")
         template_start, template_end = sections[0]
-        _check_template("".join(_strings(text, code, template_start, template_end)))
-        for start, end in sections[1:]:
-            _check_operands(text, code, start, end)
+        instructions = _instructions(
+            "".join(_strings(text, code, template_start, template_end))
+        )
+        parsed = [_operands(text, code, start, end) for start, end in sections[1:]]
+        parsed += [[] for _ in range(3 - len(parsed))]
+        outputs, inputs, clobbers = parsed
+        if any(expression for _, expression in clobbers):
+            raise HandwrittenAsmError("clobbers cannot carry operands")
+        if any(not expression for _, expression in outputs + inputs):
+            raise HandwrittenAsmError("an operand constraint needs an expression")
+        if not _check_special_form(instructions, outputs, inputs, clobbers):
+            _check_template(";".join(instructions))
+            _check_ordinary_operands(outputs, inputs, clobbers)
         spans.append((match.start(), close_paren + 1 + tail.end()))
     return spans

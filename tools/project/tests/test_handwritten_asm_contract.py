@@ -81,6 +81,48 @@ class HandwrittenAsmContractTests(unittest.TestCase):
                 )
                 self.assertTrue(uses_disallowed_handwritten_asm(source))
 
+    def test_special_form_operand_signatures_are_enforced(self) -> None:
+        beq = '".set\\tnoreorder\\n" "beq %0, %1, %2\\n" "mtc2 %0, $17\\n" ".set\\treorder"'
+        beqz = '".set\\tnoreorder\\n" "beqz %1, %2\\n" "lw %0, 16(%3)\\n" ".set\\treorder"'
+        for template, operands in (
+            # lwr: missing, mismatched or misplaced tie; extra clobber.
+            ('"lwr %0, 10(%1)"', ': "=r"(w) : "r"(p)'),
+            ('"lwr %0, 10(%1)"', ': "=r"(w) : "r"(p), "0"(z)'),
+            ('"lwr %0, 10(%1)"', ': "=r"(w) : "0"(w), "r"(p)'),
+            ('"lwr %0, 10(%1)"', ': "=r"(w) : "r"(p), "r"(w)'),
+            ('"lwr %0, 10(%1)"', ': "=r"(w) : "r"(p), "0"(w) : "memory"'),
+            ('"lwr %0, 10(%1);" "nop"', ': "=r"(w) : "r"(p), "0"(w)'),
+            # beq/mtc2: label in the wrong position or not a label; extra output.
+            (beq, ': : "r"(z), "i"(&&next), "r"(w)'),
+            (beq, ': : "r"(z), "r"(w), "r"(&&next)'),
+            (beq, ': : "r"(z), "r"(w), "i"(&next_word)'),
+            (beq, ': "=r"(w) : "r"(z), "r"(w), "i"(&&next)'),
+            (beq, ': : "r"(z), "r"(w)'),
+            (beq, ': : "r"(z), "r"(w), "i"(&&next) : "memory"'),
+            # beqz/lw: wrong label slot, missing output, wrong arity.
+            (beqz, ': "=r"(w) : "r"(z), "r"(p), "i"(&&next)'),
+            (beqz, ': : "r"(z), "i"(&&next), "r"(p)'),
+            (beqz, ': "=r"(w) : "r"(z), "i"(&&next)'),
+            # Swapped branch/delay-slot pairs.
+            ('".set\\tnoreorder\\n" "beq %0, %1, %2\\n" "lw %0, 16(%3)\\n"'
+             ' ".set\\treorder"', ': : "r"(z), "r"(w), "i"(&&next)'),
+            ('".set\\tnoreorder\\n" "beqz %1, %2\\n" "mtc2 %0, $17\\n"'
+             ' ".set\\treorder"', ': "=r"(w) : "r"(z), "i"(&&next), "r"(p)'),
+            # Tied and label constraints outside the special forms.
+            ('"nop"', ': "=r"(w) : "0"(w)'),
+            ('"nop"', ': : "i"(&&next)'),
+        ):
+            with self.subTest(template=template, operands=operands):
+                source = (
+                    "int next_word;\n"
+                    "void f(int *p, int w, int z) {\n"
+                    f"  __asm__ volatile({template} {operands});\n"
+                    "next:\n"
+                    "  return;\n"
+                    "}\n"
+                )
+                self.assertTrue(uses_disallowed_handwritten_asm(source))
+
     def test_unlisted_instruction_is_rejected(self) -> None:
         for template in (
             "jr $31",
