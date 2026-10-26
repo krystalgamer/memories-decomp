@@ -54,7 +54,7 @@ s32 func_8018019C(void)
     if (i >= 64) {
         i = 128 - i;
     }
-    *(u8 *)&D_8018066C->field_0C = i;
+    *(u8 *)&D_8018066C->rgb = i;
     for (i = 0; i < 4; i++) {
         if (D_80180654[i].active) {
             switch (D_80180654[i].phase) {
@@ -119,7 +119,7 @@ void func_80180420(void)
     D_80180650 = 0;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DisplayObject_SelectOrderingTable3(object);
-    *(u8 *)&object->field_0C = 0;
+    *(u8 *)&object->rgb = 0;
     object->field_4C = (s32)func_801804B0;
     D_8018066C = object;
     D_80180670 = 0;
@@ -137,7 +137,7 @@ void func_801804B0(DisplayObject *object, GsOT *ot)
     s32 i;
 
     setLineF2(packet);
-    packet->r0 = packet->g0 = packet->b0 = (u8)object->field_0C;
+    packet->r0 = packet->g0 = packet->b0 = (u8)object->rgb;
     packet->x0 = 0;
     packet->x1 = 320;
     i = D_80180670 % 24;

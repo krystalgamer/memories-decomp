@@ -99,7 +99,7 @@ void Duel_DrawFieldCards(void) {
                     n++;
                     goto next;
                 }
-                *p4 = a->field_0C;
+                *p4 = a->rgb;
                 Duel_RenderFieldCard3D(e, p3, p1, p4);
             }
         }
@@ -121,7 +121,7 @@ void Duel_DrawFieldCards(void) {
                     n++;
                     goto next2;
                 }
-                *p4 = a->field_0C;
+                *p4 = a->rgb;
                 Duel_RenderFieldCard3D(e, p3, p1, p4);
             }
         }

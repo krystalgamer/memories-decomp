@@ -102,7 +102,7 @@ void DisplayObject_ConfigureSpriteAtPositionWithResource(
 );
 /* Stores the object's depth order and returns its resulting ordering-table
  * depth. It takes the canonical record: it reads ot_index and writes
- * depth_offset and field_14, and two thirds of its call sites were already
+ * depth_offset and ot_depth, and two thirds of its call sites were already
  * holding a DisplayObject and casting it down. The sites that do keep a byte
  * cursor -- five candidates and three resident units that walk the same
  * object by offset either side of the call -- name the record at the call

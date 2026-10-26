@@ -33,7 +33,7 @@ void PalOptions_DrawScrollingStrips(DisplayObject *object, GsOT *ordering_table)
         packet->v2 = gPalOptions_aStripTextures[index][1] + 0x20;
         packet->u3 = gPalOptions_aStripTextures[index][0] + 0x30;
         packet->v3 = gPalOptions_aStripTextures[index][1] + 0x20;
-        GsSortPoly(packet, ordering_table, object->field_14);
+        GsSortPoly(packet, ordering_table, object->ot_depth);
         index++;
         if (index >= 5) {
             index = 0;
@@ -56,7 +56,7 @@ void PalOptions_DrawScrollingStrips(DisplayObject *object, GsOT *ordering_table)
         packet->v2 = gPalOptions_aStripTextures[index][1] + 0x20;
         packet->u3 = gPalOptions_aStripTextures[index][0] + 0x30;
         packet->v3 = gPalOptions_aStripTextures[index][1] + 0x20;
-        GsSortPoly(packet, ordering_table, object->field_14);
+        GsSortPoly(packet, ordering_table, object->ot_depth);
         index--;
         if (index < 0) {
             index = 4;

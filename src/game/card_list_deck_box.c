@@ -65,7 +65,7 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
     tbl = gCardList_SortIconTable;
     sp = (GsSPRITE *)0x1F800320;
     rec = &gCardList_aRowSets[obj->field_6A];
-    pri = *(s16 *)&obj->field_14;
+    pri = *(s16 *)&obj->ot_depth;
     sp->attribute = obj->attribute;
     sp->tpage = 0xB;
     GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_NEUTRAL_GREY;

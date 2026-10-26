@@ -2,7 +2,7 @@
 #include "display_object.h"
 #include "display_object_brightness.h"
 
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 
 void DebugMenu_DimPrimaryDisplayObject(void)
 {

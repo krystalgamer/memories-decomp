@@ -249,7 +249,7 @@ void NameEntry_Init(void)
 #else
     DisplayObject_ConfigureScreenSprite(obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
 #endif
-    obj->field_0C = COLOR_RGB24_DIM_GREY;
+    obj->rgb = COLOR_RGB24_DIM_GREY;
     obj->attribute = obj->attribute | 0x1000000;
     DisplayObject_SelectOrderingTable3(obj);
     gNameEntry_wPendingDialogId = 244;
@@ -533,7 +533,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
 #else
                       (u16)g->field_40.h.field_40, (u16)g->field_40.h.field_42);
 #endif
-        o->field_0C = 0x606060;
+        o->rgb = 0x606060;
         o->field_60 = 6;
         o->update = (DisplayObjectCallback)DisplayObject_FadeBrightnessAndRelease;
         o->attribute |= (GsALON | GsAONE);

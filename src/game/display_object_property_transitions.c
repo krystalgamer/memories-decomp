@@ -7,7 +7,7 @@
 #include "display_object_property_transitions.h"
 
 #define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 #define DISPLAY_OBJECT_SIGNED_HALFWORD(bytes, offset) \
     (*(s16 *)((bytes) + (offset)))
 
@@ -17,7 +17,7 @@ void DisplayObject_UpdateColorTransition(DisplayObject *object)
     s32 remaining = 3;
     s32 i = 0;
     /* Byte cursors even though the object is typed: the three colour bytes
-       of field_0C step against the halfwords at 0x28, 0x2A and 0x2C, which
+       of rgb step against the halfwords at 0x28, 0x2A and 0x2C, which
        are position.h and field_2C.h -- two different members, so no member
        array covers the walk. */
     u8 *current = DISPLAY_OBJECT_COLOR_BYTES(object);

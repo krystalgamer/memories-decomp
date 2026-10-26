@@ -33,7 +33,7 @@ void DisplayObject_RenderSpriteSheetList(void) {
                 DisplayObject_UpdateCommandStream((DisplayObject *)q);
                 DisplayObject_RenderSpriteSheet(
                     (DisplayObject *)q, t[p->ot_index],
-                    (s16)p->field_14
+                    (s16)p->ot_depth
                 );
             }
         } while (i >= 0);

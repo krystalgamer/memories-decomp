@@ -37,7 +37,7 @@ int main(void)
 {
     u32 value, i, half, signed_release, offset, colour, cases = 0, step;
     offset = (u8 *)&block.object.field_60 - (u8 *)&block;
-    colour = (u8 *)&block.object.field_0C + 2 - (u8 *)&block;
+    colour = (u8 *)&block.object.rgb + 2 - (u8 *)&block;
     for (value = 0; value < 65536; value++) {
         for (i = 0; i < sizeof(block); i++)
             ((u8 *)&block)[i] = i * 37 + value;
@@ -128,7 +128,7 @@ class LibraryCardOutlineTests(unittest.TestCase):
             draw,
         )
         colour = re.search(
-            r"(?m)^    \(\(u8 \*\)&o->field_0C\)\[2\] = \*\(u8 \*\)&o->field_60;",
+            r"(?m)^    \(\(u8 \*\)&o->rgb\)\[2\] = \*\(u8 \*\)&o->field_60;",
             draw,
         )
         self.assertIsNotNone(prefix)
@@ -149,7 +149,7 @@ class LibraryCardOutlineTests(unittest.TestCase):
                 elif mutation == "unsigned-release":
                     code = code.replace("if ((s16)n <= 0)", "if (n <= 0)")
                 elif mutation == "wrong-colour-byte":
-                    code = code.replace("&o->field_0C)[2]", "&o->field_0C)[0]")
+                    code = code.replace("&o->rgb)[2]", "&o->rgb)[0]")
                 else:
                     self.assertIsNone(mutation)
                 if mutation:

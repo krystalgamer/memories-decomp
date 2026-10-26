@@ -94,20 +94,20 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s
                 card = &gDuel_aCardRecords[object->field_6A];
                 o->pos.h.x = arg2;
                 o->pos.h.y = arg3;
-                fl = object->field_14 | 0x10000;
+                fl = object->ot_depth | 0x10000;
                 t = object->attribute;
                 k->attribute = t;
                 z->attribute = t;
                 object->field_69 = 0;
                 if (object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) {
-                    fl = object->field_14 | 0xF0000;
+                    fl = object->ot_depth | 0xF0000;
                     if (DisplayObject_ProjectRotationFacing(object,
                                       (s16)o->pos.h.x + 0x1A,
                                       (s16)o->pos.h.y + 0x1E,
                                       (struct ProjectionOut *)0x1F8003E0) < 0) {
                         return;
                     }
-                    g1 = object->field_0C;
+                    g1 = object->rgb;
                     setlen(y, 9);
                     *(s32 *)&y->r0 = g1;
                     y->code = 0x2C;
@@ -117,7 +117,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s
                     }
                 }
                 k->tpage = 0x1E;
-                g2 = object->field_0C;
+                g2 = object->rgb;
                 k->cxcy.word = DUEL_SPRITE_CLUT_CXCY;
                 k->rgb = g2;
                 n = object->field_67;
@@ -196,7 +196,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s
                         break;
                     }
                     z->tpage = 0xE;
-                    z->rgb = object->field_0C;
+                    z->rgb = object->rgb;
                     z->xy.h.x = o->pos.h.x + 6;
                     z->xy.h.y = o->pos.h.y + 6;
                     i = (s8)card->table_index;
@@ -247,7 +247,7 @@ void Duel_DrawDecimalDigits(
         GsSortFastSprite(
             digit,
             gGraphics_apOrderingTables[style->ot_index],
-            style->field_14
+            style->ot_depth
         );
         digit->x += 8;
     }

@@ -247,9 +247,9 @@ s32 MainMenu_UpdateFrontendMenu(void)
     fade_done:
         if (gMainMenu_nFadeDirection < 0) {
             ent2 = gMainMenu_pStartPrompt;
-            ((u8 *)&ent2->field_0C)[2] = 0x80;
-            ((u8 *)&ent2->field_0C)[1] = 0x80;
-            ((u8 *)&ent2->field_0C)[0] = 0x80;
+            ((u8 *)&ent2->rgb)[2] = 0x80;
+            ((u8 *)&ent2->rgb)[1] = 0x80;
+            ((u8 *)&ent2->rgb)[0] = 0x80;
             ent2->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
             gMainMenu_pStartPrompt->field_6C = 0x3C;
             gMainMenu_pStartPrompt->field_34.h.field_36 = 0;
@@ -264,12 +264,12 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if (entry->field_6C != 0) {
             entry->field_6C = entry->field_6C - 1;
         } else {
-            lvl = ((u8 *)&entry->field_0C)[2] + (u8)entry->field_60;
-            ((u8 *)&entry->field_0C)[2] = lvl;
-            ((u8 *)&entry->field_0C)[1] = lvl;
-            ((u8 *)&entry->field_0C)[0] = lvl;
+            lvl = ((u8 *)&entry->rgb)[2] + (u8)entry->field_60;
+            ((u8 *)&entry->rgb)[2] = lvl;
+            ((u8 *)&entry->rgb)[1] = lvl;
+            ((u8 *)&entry->rgb)[0] = lvl;
             entry = gMainMenu_pStartPrompt;
-            chr = ((u8 *)&entry->field_0C)[0];
+            chr = ((u8 *)&entry->rgb)[0];
             if ((u32)(chr - 0x41) >= 0x3F) {
                 if ((s8)chr < 0) {
                     entry->field_6C = 0x3C;
@@ -693,9 +693,9 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
         DisplayObject_SetDepthOffset(object, (s8)(-(u8)entry->field_60));
         object->update =
             (DisplayObjectCallback)MainMenu_UpdateFrontendEntryAfterimage;
-        ((u8 *)&object->field_0C)[0] = ((u8 *)&entry->field_0C)[0];
-        ((u8 *)&object->field_0C)[1] = ((u8 *)&entry->field_0C)[1];
-        ((u8 *)&object->field_0C)[2] = ((u8 *)&entry->field_0C)[2];
+        ((u8 *)&object->rgb)[0] = ((u8 *)&entry->rgb)[0];
+        ((u8 *)&object->rgb)[1] = ((u8 *)&entry->rgb)[1];
+        ((u8 *)&object->rgb)[2] = ((u8 *)&entry->rgb)[2];
     }
 }
 
@@ -710,22 +710,22 @@ void MainMenu_UpdateFrontendEntryAfterimage(DisplayObject *object)
     s32 g;
     s32 b;
 
-    if ((object->field_0C & 0xFFFFFF) != 0) {
-        r = ((u8 *)&object->field_0C)[0] - 8;
+    if ((object->rgb & 0xFFFFFF) != 0) {
+        r = ((u8 *)&object->rgb)[0] - 8;
         if (r < 0) {
             r = 0;
         }
-        ((u8 *)&object->field_0C)[0] = r;
-        g = ((u8 *)&object->field_0C)[1] - 8;
+        ((u8 *)&object->rgb)[0] = r;
+        g = ((u8 *)&object->rgb)[1] - 8;
         if (g < 0) {
             g = 0;
         }
-        ((u8 *)&object->field_0C)[1] = g;
-        b = ((u8 *)&object->field_0C)[2] - 8;
+        ((u8 *)&object->rgb)[1] = g;
+        b = ((u8 *)&object->rgb)[2] - 8;
         if (b < 0) {
             b = 0;
         }
-        ((u8 *)&object->field_0C)[2] = b;
+        ((u8 *)&object->rgb)[2] = b;
     } else {
         DisplayObject_ReleaseIfPresent(object);
     }

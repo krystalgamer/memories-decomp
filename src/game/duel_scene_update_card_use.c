@@ -150,14 +150,14 @@ void DuelScene_UpdateCardUse(void)
         *(u16 *)&q1->field_44.h.field_44 = value;
         *(u16 *)&q0->field_44.h.field_46 = value;
         *(u16 *)&q0->field_44.h.field_44 = value;
-        value = *(u8 *)&gDisplayObject_apWorkSlots[0]->field_0C;
+        value = *(u8 *)&gDisplayObject_apWorkSlots[0]->rgb;
         value -= 4;
         if (value < 0) {
             value = 0;
         }
         value = value | ((value << 16) | (value << 8));
-        gDisplayObject_apWorkSlots[0]->field_0C = value;
-        gDisplayObject_apWorkSlots[1]->field_0C = value;
+        gDisplayObject_apWorkSlots[0]->rgb = value;
+        gDisplayObject_apWorkSlots[1]->rgb = value;
         if (value != 0) {
             return;
         }

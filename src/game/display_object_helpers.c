@@ -289,20 +289,20 @@ s32 DisplayObject_SetDepthOffset(DisplayObject *obj, s8 value)
 
     obj->depth_offset = value;
     result = table[index] - value;
-    obj->field_14 = result;
+    obj->ot_depth = result;
     return result;
 }
 
 void DisplayObject_SelectOrderingTable1(DisplayObject *object)
 {
     object->ot_index = 1;
-    object->field_14 = gDisplayObject_awOrderingTableDepthBases[1] - object->depth_offset;
+    object->ot_depth = gDisplayObject_awOrderingTableDepthBases[1] - object->depth_offset;
 }
 
 void DisplayObject_SelectOrderingTable3(DisplayObject *object)
 {
     object->ot_index = 3;
-    object->field_14 = gDisplayObject_awOrderingTableDepthBases[3] - object->depth_offset;
+    object->ot_depth = gDisplayObject_awOrderingTableDepthBases[3] - object->depth_offset;
 }
 
 int DisplayObject_RunUpdateAndCheckRenderable(DisplayObject *object)
@@ -487,7 +487,7 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
 
     scale[0] = object->field_44.h.field_44;
     scale[1] = object->field_44.h.field_46;
-    depth = (s16)object->field_14;
+    depth = (s16)object->ot_depth;
     cx = (s16)object->field_30.h.field_30;
     cy = (s16)object->field_30.h.field_32;
     inner = object->field_48.h.field_48;

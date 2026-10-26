@@ -140,7 +140,7 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     up->vx = 0;
     up->vy = 0x1000;
     up->vz = 0;
-    *color = obj->field_0C;
+    *color = obj->rgb;
     rot[0].vx = obj->field_20.b.field_20 << 4;
     y = obj->field_20.b.field_21 << 4;
     rot[0].vy = y;
@@ -236,9 +236,9 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     prim->tpage = prim->tpage | ((obj->attribute >> 23) & 0x60);
     if ((obj->attribute & GsALON) != 0) {
         SetSemiTrans(prim, 1);
-        sprite->r0 = ((u8 *)&obj->field_0C)[0];
-        sprite->g0 = ((u8 *)&obj->field_0C)[1];
-        sprite->b0 = ((u8 *)&obj->field_0C)[2];
+        sprite->r0 = ((u8 *)&obj->rgb)[0];
+        sprite->g0 = ((u8 *)&obj->rgb)[1];
+        sprite->b0 = ((u8 *)&obj->rgb)[2];
     }
 
     depth[0] = (depth[4] + depth[5]
