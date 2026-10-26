@@ -263,3 +263,49 @@ All four member types, offsets and widths remain fixed. Existing fixtures
 receive identifier-only substitutions, including oracle and mutation-source
 members; their numeric expectations, scenarios, controls, assertions and
 compiler flags are retained. No new behavioral harness or runtime capture.
+
+## Table entry arguments and scan accumulators
+
+The reset/build/relink entries name their original slot argument
+slot_index. Reset's second argument is hmd, not an animation-command
+pointer: Model_InitSlot maps the complete input with GsMapUnit before
+passing it unchanged, and reset follows the owner chain at hmd + 0x10.
+The command list and transfer pointers are imported later from selected
+kind-2/kind-3 owner payloads. No complete HMD/owner schema or new pointer
+type follows from this distinction.
+
+The existing unit scan and tentative primitive decoder name their two
+signed accumulators max_lit_color_index and packet_bytes:
+
+| Existing identifier | Role |
+| --- | --- |
+| Model_InitSlot.acc / decoder best | Running normal-derived lit-color-cache index maximum |
+| Model_InitSlot.count / decoder total | Accumulated pre-cull packet budget in bytes |
+| Decoder mode | The unchanged Model_InitSlot slot_index, not a new render mode |
+
+Tag zero supplies the maximum pointer; tag one deliberately supplies
+null. Both supply the same packet-byte accumulator. The maximum starts
+at ZERO, not minus one; initialization still publishes maximum + i with
+the existing i equal to one, even when no ordinary record raises it.
+The packet accumulator starts at zero and retains its 0x20/0x28/0x34
+per-record additions and final halfword store. The independently traced
+cache and packet-space consumers are documented in
+[model packet and cache accounting](model-packet-cache-accounting.md).
+No emitted-polygon count, complete normal-array bound or buffer capacity
+is inferred.
+
+The decoder's slot_index name preserves the unsigned NA/JP below-two
+gate and PAL below-three gate, all regional page/CLUT arithmetic and the
+nullable-maximum behavior. tent_Model_RebaseTexturedPrimitives remains
+tentative: the PAL slot-two source-upload linkage and uncovered selectors
+are NOT resolved or promoted by naming these inputs and outputs.
+
+Only parameter/local identifiers in the five complete definitions,
+their two owning headers, three existing decoder-comment identifiers
+and five existing semantic-registry NOTES cells migrate. Every expression,
+type, statement order, signed test, cast, halfword conversion, volatile
+reload, sentinel, byte cursor, source group, compiler profile and caller
+stays unchanged. Other locals, fields and SDK declarations stay intact.
+All existing fixtures, independent stub names, oracles, scenarios,
+mutations, assertions and numeric controls are unchanged. No new
+behavioral harness or local cloud-fixture execution is introduced.

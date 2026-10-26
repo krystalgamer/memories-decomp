@@ -32,8 +32,8 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     u8 *cursor;
     GsOT *table;
     GsTYPEUNIT ev;
-    s32 acc;
-    s32 count;
+    s32 max_lit_color_index;
+    s32 packet_bytes;
     s32 i;
     u32 tag;
     s32 off;
@@ -57,8 +57,8 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     } else {
         table = gGraphics_apOrderingTables[3];
     }
-    count = 0;
-    acc = 0;
+    packet_bytes = 0;
+    max_lit_color_index = 0;
     base->stone_texture_state = 0;
     base->shadow_enabled = 0;
     if (flags >= 0) {
@@ -173,12 +173,12 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
                     switch (tag) {
                     case 0:
                         base->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(
-                            index, &ev, (GsARGUNIT *)scratch, &acc, &count);
+                            index, &ev, (GsARGUNIT *)scratch, &max_lit_color_index, &packet_bytes);
                         Model_BindPrimitiveHandler((ModelHandlerObject *)&ev);
                         break;
                     case 1:
                         base->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(
-                            index, &ev, (GsARGUNIT *)scratch, 0, &count);
+                            index, &ev, (GsARGUNIT *)scratch, 0, &packet_bytes);
                         Model_BindSharedPrimitiveHandler(
                             (ModelHandlerObject *)&ev);
                         break;
@@ -202,8 +202,8 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     }
     slot = GS_UNIT_VIEW(base->hmd_units) + 1;
     i = 1;
-    base->packet_budget_bytes = count;
-    base->lit_color_cache_entry_count = acc + i;
+    base->packet_budget_bytes = packet_bytes;
+    base->lit_color_cache_entry_count = max_lit_color_index + i;
     if (i < base->hmd_unit_count - 1) {
         off = 0;
     link:
