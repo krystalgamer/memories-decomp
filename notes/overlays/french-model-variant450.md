@@ -29,9 +29,14 @@ The historical Spanish experiments remain in their original ledgers.
 
 All seven function spans have independently checked, closed contiguous
 control-flow graphs: `4..DD8`, `DD8..1794`, `1794..1ECC`, `1ECC..27C0`,
-`27C0..2D88`, `2D88..310C`, and `310C..3940`. The primary ribbon, band, quad,
-line, and coil helpers are C. The two other functions in each image remain
-generated assembly.
+`27C0..2D88`, `2D88..310C`, and `310C..3940`. The entry and the primary
+ribbon, band, quad, line, and coil helpers are C. The entry is the accepted
+North American header-433 body with the PAL palette x = 640; see
+[French MODEL entries reusing North American C](french-model-usa-entry-reuse.md).
+The `1ECC..27C0` rings remain generated assembly: the North American
+`variant433_rings.c` builds a 2,264-byte body with an 872-byte frame, while
+the French body is 2,292 bytes with an 880-byte frame and different point
+addressing.
 Closed retained functions are not automatically claimed to be entry-reachable.
 
 The four-byte header and complete `0x3940..0x5000` suffix keep raw owners.

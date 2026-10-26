@@ -102,7 +102,9 @@ bytes. The raw data is unchanged.
 ## Entry
 
 The `4..DDC` entry (`variant433_entry.c`, 886 instructions) is written for the
-North American stream; the French header-450 entry is still assembly. On the
+North American stream. Built with `gcc_2_8_1_g0_split` and the PAL palette
+x = 640, it is also the French header-450 entry
+(`french_model_variant/variant450_entry.c`). On the
 setup command it fills six fans, six ribbons, three bands, sixteen rings, seven
 sheets and two streamers from the state at the work pointer, whose block arrays
 are contiguous (`fans[6]` at `0x0`, `ribbons[6]` at `0x270`, `bands[3]` at

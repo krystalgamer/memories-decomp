@@ -22,7 +22,7 @@ class FrenchModelUsaEntryReuseTests(unittest.TestCase):
             self.rows = list(csv.DictReader(handle))
 
     def test_ledger_matches_the_manifests(self):
-        self.assertEqual(len(self.rows), 118)
+        self.assertEqual(len(self.rows), 120)
         for row in self.rows:
             with self.subTest(module=row["module"]):
                 module = self.modules[row["module"]]

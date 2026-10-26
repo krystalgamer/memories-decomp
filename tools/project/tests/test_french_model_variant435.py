@@ -30,7 +30,7 @@ HELPERS = ((0x1084, 2640, "spiral", "func_8013C088"),
 
 # French families whose entry reuses the accepted North American body, with
 # the number of SDK bindings that body adds to the family binding file.
-USA_ENTRY_BINDINGS = {414: 12, 415: 12, 421: 11, 424: 12, 433: 12, 435: 11, 445: 11}
+USA_ENTRY_BINDINGS = {414: 12, 415: 12, 421: 11, 424: 12, 433: 12, 435: 11, 445: 11, 450: 0}
 
 # Registered frozen C consumers, not families with only assembly packet calls.
 LEGACY_PACKET_IMPORT_FAMILIES = {
