@@ -38,32 +38,32 @@ void SD_StepActiveCommand(void)
                 FileRequestSlot *b = gSD_pFileRequest;
                 s32 final_word;
 
-                b->field_10 = (s32)sd->active_command_tail[4];
-                b->field_0C = (s32)sd->active_command_tail[3];
-                b->field_04 = (s32)sd->active_command_tail[1];
-                b->field_18 = (s32)sd->active_command_tail[6];
+                b->ram_destination = (s32)sd->active_command_tail[4];
+                b->spu_destination = (s32)sd->active_command_tail[3];
+                b->sector_offset = (s32)sd->active_command_tail[1];
+                b->ram_transfer_size = (s32)sd->active_command_tail[6];
                 final_word = (s32)sd->active_command_tail[5];
-                b->field_1F = 0;
-                b->field_1C = 0;
-                b->field_14 = final_word;
-                gSD_pFileRequest->field_1E = 0;
+                b->cd_filter_channel = 0;
+                b->range_sector_count = 0;
+                b->spu_transfer_size = final_word;
+                gSD_pFileRequest->cd_filter_file = 0;
             }
-            gSD_pFileRequest->field_00 = (s32)g_SDValue->active_command_tail[0];
-            if (gSD_pFileRequest->field_18 == 0 && gSD_pFileRequest->field_14 == 0) {
+            gSD_pFileRequest->file_selector = (s32)g_SDValue->active_command_tail[0];
+            if (gSD_pFileRequest->ram_transfer_size == 0 && gSD_pFileRequest->spu_transfer_size == 0) {
                 g_SDValue->active_command_phase = 0;
                 goto clear_7c;
             }
             switch ((s32)g_SDValue->active_command_tail[0] & 0xF0) {
             case 0x10:
-                gSD_pFileRequest->field_00 = 4;
+                gSD_pFileRequest->file_selector = 4;
                 File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->se_file_name);
                 break;
             case 0x20:
-                gSD_pFileRequest->field_00 = 5;
+                gSD_pFileRequest->file_selector = 5;
                 File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->bgm_file_name);
                 break;
             case 0x40:
-                gSD_pFileRequest->field_00 = 6;
+                gSD_pFileRequest->file_selector = 6;
                 File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->master_xa_file_name);
                 break;
             }
@@ -131,18 +131,18 @@ void SD_StepActiveCommand(void)
                 + (u32)g_SDValue->active_command_arg2);
             second_word = e->a;
 
-            gSD_pFileRequest->field_10 = 0;
-            gSD_pFileRequest->field_18 = 0;
-            gSD_pFileRequest->field_0C = 0;
-            gSD_pFileRequest->field_14 = 0;
-            gSD_pFileRequest->field_1C = 0;
-            gSD_pFileRequest->field_1F = g_SDValue->cd_filter_channel;
+            gSD_pFileRequest->ram_destination = 0;
+            gSD_pFileRequest->ram_transfer_size = 0;
+            gSD_pFileRequest->spu_destination = 0;
+            gSD_pFileRequest->spu_transfer_size = 0;
+            gSD_pFileRequest->range_sector_count = 0;
+            gSD_pFileRequest->cd_filter_channel = g_SDValue->cd_filter_channel;
             second_word &= first_word;
-            gSD_pFileRequest->field_1E = g_SDValue->cd_filter_file;
+            gSD_pFileRequest->cd_filter_file = g_SDValue->cd_filter_file;
             base_offset = (s32)g_SDValue->active_command_arg0;
-            gSD_pFileRequest->field_00 = 6;
+            gSD_pFileRequest->file_selector = 6;
             second_word += base_offset;
-            gSD_pFileRequest->field_04 = second_word;
+            gSD_pFileRequest->sector_offset = second_word;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
         goto clear_7d_7c;
@@ -177,17 +177,17 @@ void SD_StepActiveCommand(void)
                 g_SDValue->cd_start_sector_offset + (s32)g_SDValue->active_command_arg0;
             g_SDValue->cd_end_sector_offset =
                 g_SDValue->cd_end_sector_offset + (s32)g_SDValue->active_command_arg0;
-            gSD_pFileRequest->field_10 = 0;
-            gSD_pFileRequest->field_18 = 0;
-            gSD_pFileRequest->field_0C = 0;
-            gSD_pFileRequest->field_14 = 0;
-            gSD_pFileRequest->field_1C = (u16)g_SDValue->cd_end_sector_offset
+            gSD_pFileRequest->ram_destination = 0;
+            gSD_pFileRequest->ram_transfer_size = 0;
+            gSD_pFileRequest->spu_destination = 0;
+            gSD_pFileRequest->spu_transfer_size = 0;
+            gSD_pFileRequest->range_sector_count = (u16)g_SDValue->cd_end_sector_offset
                                    - (u16)g_SDValue->cd_start_sector_offset + 0x10;
-            gSD_pFileRequest->field_1F = g_SDValue->cd_filter_channel;
-            gSD_pFileRequest->field_1E = g_SDValue->cd_filter_file;
+            gSD_pFileRequest->cd_filter_channel = g_SDValue->cd_filter_channel;
+            gSD_pFileRequest->cd_filter_file = g_SDValue->cd_filter_file;
             request_offset = g_SDValue->cd_start_sector_offset;
-            gSD_pFileRequest->field_00 = 6;
-            gSD_pFileRequest->field_04 = request_offset;
+            gSD_pFileRequest->file_selector = 6;
+            gSD_pFileRequest->sector_offset = request_offset;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
         goto clear_7d_7c;

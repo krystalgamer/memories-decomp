@@ -1084,47 +1084,60 @@ typedef char FileTransferDescriptorWords_size_must_match_descriptor[
 /* Sound's staged command and the loader's two request slots are the same
    record: SD_StepActiveCommand passes it to File_RequestSecondarySlot for a 0x20-byte copy. */
 typedef struct {
-    s32 field_00;
-    s32 field_04;
+    s32 file_selector;
+    s32 sector_offset;
     u8 pad_08[4];
-    s32 field_0C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s16 field_1C;
-    u8 field_1E;
-    u8 field_1F;
+    s32 spu_destination;
+    s32 ram_destination;
+    s32 spu_transfer_size;
+    s32 ram_transfer_size;
+    s16 range_sector_count;
+    u8 cd_filter_file;
+    u8 cd_filter_channel;
 } FileRequestSlot;
 
 typedef char FileRequestSlot_size_must_be_0x20[
     sizeof(FileRequestSlot) == 0x20 ? 1 : -1
 ];
-typedef char FileRequestSlot_field_00_offset_must_be_0x00[
-    YGO_TYPE_OFFSET(FileRequestSlot, field_00) == 0x00 ? 1 : -1
+typedef char FileRequestSlot_file_selector_offset_must_be_0x00[
+    YGO_TYPE_OFFSET(FileRequestSlot, file_selector) == 0x00 ? 1 : -1
 ];
-typedef char FileRequestSlot_field_04_offset_must_be_0x04[
-    YGO_TYPE_OFFSET(FileRequestSlot, field_04) == 0x04 ? 1 : -1
+typedef char FileRequestSlot_sector_offset_offset_must_be_0x04[
+    YGO_TYPE_OFFSET(FileRequestSlot, sector_offset) == 0x04 ? 1 : -1
 ];
-typedef char FileRequestSlot_field_0C_offset_must_be_0x0C[
-    YGO_TYPE_OFFSET(FileRequestSlot, field_0C) == 0x0C ? 1 : -1
+typedef char FileRequestSlot_spu_destination_offset_must_be_0x0C[
+    YGO_TYPE_OFFSET(FileRequestSlot, spu_destination) == 0x0C ? 1 : -1
 ];
-typedef char FileRequestSlot_field_10_offset_must_be_0x10[
-    YGO_TYPE_OFFSET(FileRequestSlot, field_10) == 0x10 ? 1 : -1
+typedef char FileRequestSlot_ram_destination_offset_must_be_0x10[
+    YGO_TYPE_OFFSET(FileRequestSlot, ram_destination) == 0x10 ? 1 : -1
 ];
-typedef char FileRequestSlot_field_14_offset_must_be_0x14[
-    YGO_TYPE_OFFSET(FileRequestSlot, field_14) == 0x14 ? 1 : -1
+typedef char FileRequestSlot_spu_transfer_size_offset_must_be_0x14[
+    YGO_TYPE_OFFSET(FileRequestSlot, spu_transfer_size) == 0x14 ? 1 : -1
 ];
-typedef char FileRequestSlot_field_18_offset_must_be_0x18[
-    YGO_TYPE_OFFSET(FileRequestSlot, field_18) == 0x18 ? 1 : -1
+typedef char FileRequestSlot_ram_transfer_size_offset_must_be_0x18[
+    YGO_TYPE_OFFSET(FileRequestSlot, ram_transfer_size) == 0x18 ? 1 : -1
 ];
-typedef char FileRequestSlot_field_1C_offset_must_be_0x1C[
-    YGO_TYPE_OFFSET(FileRequestSlot, field_1C) == 0x1C ? 1 : -1
+typedef char FileRequestSlot_range_sector_count_offset_must_be_0x1C[
+    YGO_TYPE_OFFSET(FileRequestSlot, range_sector_count) == 0x1C ? 1 : -1
 ];
-typedef char FileRequestSlot_field_1E_offset_must_be_0x1E[
-    YGO_TYPE_OFFSET(FileRequestSlot, field_1E) == 0x1E ? 1 : -1
+typedef char FileRequestSlot_cd_filter_file_offset_must_be_0x1E[
+    YGO_TYPE_OFFSET(FileRequestSlot, cd_filter_file) == 0x1E ? 1 : -1
 ];
-typedef char FileRequestSlot_field_1F_offset_must_be_0x1F[
-    YGO_TYPE_OFFSET(FileRequestSlot, field_1F) == 0x1F ? 1 : -1
+typedef char FileRequestSlot_cd_filter_channel_offset_must_be_0x1F[
+    YGO_TYPE_OFFSET(FileRequestSlot, cd_filter_channel) == 0x1F ? 1 : -1
+];
+
+typedef char FileRequestSlot_member_widths_must_match[
+    sizeof(((FileRequestSlot *)0)->file_selector) == 4 &&
+    sizeof(((FileRequestSlot *)0)->sector_offset) == 4 &&
+    sizeof(((FileRequestSlot *)0)->pad_08) == 4 &&
+    sizeof(((FileRequestSlot *)0)->spu_destination) == 4 &&
+    sizeof(((FileRequestSlot *)0)->ram_destination) == 4 &&
+    sizeof(((FileRequestSlot *)0)->spu_transfer_size) == 4 &&
+    sizeof(((FileRequestSlot *)0)->ram_transfer_size) == 4 &&
+    sizeof(((FileRequestSlot *)0)->range_sector_count) == 2 &&
+    sizeof(((FileRequestSlot *)0)->cd_filter_file) == 1 &&
+    sizeof(((FileRequestSlot *)0)->cd_filter_channel) == 1 ? 1 : -1
 ];
 
 /* One movie-stream entry. sector_count advances to the next stream and a

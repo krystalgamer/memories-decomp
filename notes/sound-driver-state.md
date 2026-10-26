@@ -10,6 +10,15 @@ offset `0x164B`. Unknown regions remain explicitly padded, and uncertain fields
 retain offset-based names. The header does not claim that this is the original
 Konami type or field naming.
 
+## Staged file requests
+
+The nine FileRequestSlot members now name the complete command-to-loader
+protocol: file selector and sector offset; separate SPU/RAM destinations
+and signed sizes; signed range-sector count; and CD filter file/channel.
+See [the full request contract](file-transfer-storage.md#staged-sound-request-members).
+The original field offsets below remain historical evidence; no command-tail
+word, size conversion, range narrowing, mask or completion behavior changes.
+
 ## Confirmed fields
 
 | Offset | Field | Evidence |
