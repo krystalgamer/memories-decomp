@@ -3884,15 +3884,15 @@
     },
     {
       "address": "0x80041E7C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_psyq_stopz",
       "size": "0x114",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_projection_checks.c"
     },
     {
       "address": "0x80041F90",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_psyq_stopz",
       "size": "0x1F8",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_projection_checks.c"
     },
     {
       "address": "0x80042188",

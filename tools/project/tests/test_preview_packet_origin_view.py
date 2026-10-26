@@ -132,7 +132,7 @@ class PreviewPacketOriginViewTests(unittest.TestCase):
     def test_actual_projection_stores_and_renderer_reset_with_negatives(self):
         if Path.cwd().resolve() != ROOT:
             raise RuntimeError("run these tests from the repository root")
-        projection = (ROOT / "src/game/display_object_helpers.c").read_text()
+        projection = (ROOT / "src/game/display_object_projection_checks.c").read_text()
         projection = projection[projection.index("s32 DisplayObject_ProjectRotationFacing("):]
         match = re.search(r"    out->x = x;\n    out->y = y;\n    out->divisions = obj->field_65;", projection)
         self.assertIsNotNone(match)

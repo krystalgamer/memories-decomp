@@ -293,7 +293,7 @@ helpers now use the canonical three-input declaration directly.
 
 | Address | Identity | Blocker |
 |---|---|---|
-| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | Matching `DisplayObject_ProjectPackedRotationFacing` and `DisplayObject_ProjectRotationFacing` in [`display_object_helpers.c`](../src/game/display_object_helpers.c) both use the canonical three-vector declaration. A residual pointer in `$a3` is not evidence of a fourth SDK input. |
+| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | Matching `DisplayObject_ProjectPackedRotationFacing` and `DisplayObject_ProjectRotationFacing` in [`display_object_projection_checks.c`](../src/game/display_object_projection_checks.c) both use the canonical three-vector declaration. A residual pointer in `$a3` is not evidence of a fourth SDK input. |
 | `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | Matching [`Duel_RenderFieldCard3D`](../src/game/duel_field_card_render.c) calls `NormalClip` through the canonical three-`long` declaration in `libgte.h`, passing the first three projected `POLY_GT4` vertex words. |
 
 The verified 52-byte routine at `0x80089CF0` reads vector data through
@@ -1194,7 +1194,7 @@ redefinition rather than a harmless compatibility choice. Selecting
 change register allocation and the emitted instruction schedule and therefore
 requires an exact-match check. Matching game C now uses `libgte.h` across
 camera, model, duel, display, image-transfer, and spatial-sound paths.
-Matching `src/game/display_object_helpers.c` includes
+Matching `src/game/display_object_projection_checks.c` includes
 `inline_c.h` for `gte_stopz`. The matching helpers use
 `gcc_2_8_1_g8_psyq_stopz`: its compiler and MASPSX
 flags are identical to `gcc_2_8_1_g8`, with no assembly filter. The explicit

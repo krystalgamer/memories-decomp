@@ -905,6 +905,9 @@ segments:
     - game/sound_output_transition
   - - 226340
     - c
+    - game/display_object_projection_checks
+  - - 208056
+    - c
     - game/sd_init_state
   - - 226840
     - c
