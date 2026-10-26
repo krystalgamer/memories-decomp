@@ -2756,7 +2756,7 @@
     },
     {
       "address": "0x80037C74",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
       "source": "src/game/text_box_wrap_line.c"
     },
@@ -2764,7 +2764,7 @@
       "address": "0x80037CE0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/text_try_complete_choice_layout.c"
+      "source": "src/game/text_box_wrap_line.c"
     },
     {
       "address": "0x80037D2C",

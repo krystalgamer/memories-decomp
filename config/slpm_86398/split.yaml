@@ -272,7 +272,6 @@ segments:
       - [0x27318, c, game/japanese/duel_effect_entry_control]
       - [0x27460, c, game/japanese/duel_effect_state_callbacks]
       - [0x27c2c, c, game/text_box_wrap_line]
-      - [0x27c98, c, game/text_try_complete_choice_layout]
       - [0x27ce4, c, game/text_extend_glyph_code]
       - [0x27d24, c, game/text_stream_commands]
       - [0x27d5c, c, game/japanese/duel_effect_command]

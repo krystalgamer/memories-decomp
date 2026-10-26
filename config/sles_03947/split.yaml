@@ -278,7 +278,6 @@ segments:
       - [0x0279B0, c, game/european/duel_effect_entry_control]
       - [0x027A40, c, game/european/duel_effect_state_callbacks]
       - [0x02820C, c, game/text_box_wrap_line]
-      - [0x028278, c, game/text_try_complete_choice_layout]
       - [0x0282C4, c, game/text_extend_glyph_code]
       - [0x028304, c, game/text_stream_commands]
       - [0x02833C, c, game/european/duel_effect_command]
