@@ -177,7 +177,6 @@ segments:
       - [0x188fc, c, game/japanese/duel_effect_dialog_state]
       - [0x18a00, c, game/func_800283EC]
       - [0x18a08, c, game/japanese/duel_effect_states]
-      - [0x18f8c, c, game/duel_effect_noop_handlers]
       - [0x18f9c, c, game/japanese/card_preview_handle_resource_transfer]
       - [0x190e8, c, game/card_preview_draw_detail_panel]
       - [0x196e8, c, game/card_preview_update_variant]

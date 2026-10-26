@@ -180,7 +180,6 @@ segments:
       - [0x18B70, c, game/european/duel_effect_dialog_state]
       - [0x18C74, c, game/func_800283EC]
       - [0x18C7C, c, game/european/duel_effect_states]
-      - [0x19224, c, game/european/duel_effect_noop_handlers]
       - [0x192A0, c, game/european/card_preview_handle_resource_transfer]
       - [0x1940C, c, game/european/card_preview_draw_detail_panel]
       - [0x19A80, c, game/card_preview_update_variant]

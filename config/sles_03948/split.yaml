@@ -402,9 +402,6 @@ segments:
   - - 101500
     - c
     - game/european/duel_effect_states
-  - - 102948
-    - c
-    - game/european/duel_effect_noop_handlers
   - - 103072
     - c
     - game/european/card_preview_handle_resource_transfer

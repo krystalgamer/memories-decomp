@@ -181,7 +181,6 @@ segments:
       - [0x018A2C, c, game/european/duel_effect_dialog_state]
       - [0x018B30, c, game/func_800283EC]
       - [0x018B38, c, game/european/duel_effect_states]
-      - [0x0190E0, c, game/european/duel_effect_noop_handlers]
       - [0x01915C, c, game/european/card_preview_handle_resource_transfer]
       - [0x0192C8, c, game/european/card_preview_draw_detail_panel]
       - [0x01993C, c, game/card_preview_update_variant]
