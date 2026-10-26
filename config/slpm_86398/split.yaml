@@ -365,7 +365,7 @@ segments:
       - [0x37750, c, game/sound_voice_selection]
       - [0x3819c, c, game/sd_allocate_sound_effect_voice]
       - [0x38544, c, game/sound_effect_request]
-      - [0x38914, c, game/sound_voice_data]
+      - [0x38b5c, c, game/sound_voice_data]
       - [0x38efc, c, game/sound_sequence_state]
       - [0x39024, c, game/sd_request_music_package_load]
       - [0x390ec, c, game/sound_init]
