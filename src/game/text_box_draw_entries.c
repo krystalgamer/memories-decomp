@@ -589,7 +589,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 }
             } else {
                 spr = sprites[2];
-                spr->cx = (GLYPH_ENTRY(p)->field_16 * 0x10) + 0x290;
+                spr->cx = (GLYPH_ENTRY(p)->palette_index * 0x10) + 0x290;
                 spr->cy = 0xFA;
                 spr->u = ((GLYPH_ENTRY(p)->field_10 & 0xF) * 8) - 0x80;
                 spr->v = (u32)(GLYPH_ENTRY(p)->field_10 & 0xF0) >> 1;
@@ -610,7 +610,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             }
             if ((u32)(c - 0x824F) < 0x4C) {
                 if ((u32)(c - 0x8259) < 7 || (u32)(c - 0x827A) < 7) {
-                    if (GLYPH_ENTRY(p)->field_18 == 1) {
+                    if (GLYPH_ENTRY(p)->layout_selector == 1) {
                         spr->u = 0;
                         spr->v = v78;
                     } else {
@@ -618,7 +618,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                         spr->v = 0x30;
                     }
                 } else {
-                if (GLYPH_ENTRY(p)->field_18 == 1) {
+                if (GLYPH_ENTRY(p)->layout_selector == 1) {
                     spr->u = (c & 0xF) * 0x10;
                     spr->v = (((s32)(c - 0x8240) >> 4) * 0x10) + 0x48;
                 } else {
@@ -637,7 +637,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 
                 for (i = 0;; i++) {
                     if (c == tbl[i]) {
-                        if (GLYPH_ENTRY(p)->field_18 == 1) {
+                        if (GLYPH_ENTRY(p)->layout_selector == 1) {
                             if (i < 0xF) {
                                 spr->u = i * 0x10;
                                 spr->v = 0x48;
@@ -713,7 +713,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                         break;
                     }
                     if (tbl[i] < 0) {
-                        if (GLYPH_ENTRY(p)->field_18 == 1) {
+                        if (GLYPH_ENTRY(p)->layout_selector == 1) {
                             spr->u = 0;
                             spr->v = v78;
                         } else {
@@ -726,8 +726,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 }
             }
             spr->cx = 0x280;
-            spr->cy = GLYPH_ENTRY(p)->field_16 + 0xE8;
-            if (GLYPH_ENTRY(p)->field_18 == 1) {
+            spr->cy = GLYPH_ENTRY(p)->palette_index + 0xE8;
+            if (GLYPH_ENTRY(p)->layout_selector == 1) {
                 hw = 0x10;
                 spr->w = hw;
             } else {
@@ -735,7 +735,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 hw = 0xC;
             }
             spr->h = hw;
-            if (GLYPH_ENTRY(p)->field_18 == 1) {
+            if (GLYPH_ENTRY(p)->layout_selector == 1) {
                 if (nudge != 0) {
                     spr->x = (u16)GLYPH_ENTRY(p)->x_0C + x + nudge;
                     spr->y = (u16)GLYPH_ENTRY(p)->y_0E + y;
@@ -743,7 +743,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                     spr->x = (u16)GLYPH_ENTRY(p)->x_0C + x;
                     spr->y = (u16)GLYPH_ENTRY(p)->y_0E + y;
                 }
-            } else if (GLYPH_ENTRY(p)->field_18 == 2) {
+            } else if (GLYPH_ENTRY(p)->layout_selector == 2) {
                 spr->x = (u16)GLYPH_ENTRY(p)->x_0C + x;
                 spr->y = (u16)GLYPH_ENTRY(p)->y_0E + y - 2;
             } else {
@@ -800,7 +800,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             gt4->r2 = gt4->g2 = gt4->b2 = GLYPH_ENTRY(p)->field_04.corner_shade[2];
             gt4->r3 = gt4->g3 = gt4->b3 = GLYPH_ENTRY(p)->field_04.corner_shade[3];
             gt4->x0 = gt4->x2 = spr->x;
-            if (GLYPH_ENTRY(p)->field_18 == 1 || (GLYPH_ENTRY(p)->flags_11 & 0x20)) {
+            if (GLYPH_ENTRY(p)->layout_selector == 1 || (GLYPH_ENTRY(p)->flags_11 & 0x20)) {
                 gt4->x1 = gt4->x3 = spr->x + (GLYPH_ENTRY(p)->field_14 + 0x10);
                 gt4->y0 = spr->y + ((u8)GLYPH_ENTRY(p)->field_14 >> 2);
                 gt4->y1 = spr->y;
@@ -838,7 +838,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
             if (GLYPH_ENTRY(p)->flags_11 & 0x20) {
                 gt4->clut = (spr->cy << 6) | (((u16)spr->cx >> 4) & 0x3F);
             } else {
-                gt4->clut = ((GLYPH_ENTRY(p)->field_16 + 0xE8) << 6) | 0x28;
+                gt4->clut = ((GLYPH_ENTRY(p)->palette_index + 0xE8) << 6) | 0x28;
             }
             GsSortPoly(gt4, ot, pri);
             gt4->tpage = spr->tpage | 0x40;

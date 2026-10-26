@@ -69,6 +69,18 @@ stores, coordinate wrapping, batching-marker clear, next-entry terminator
 and final tail publication remain in their original order. No universal
 glyph-mode enum or shared record stride is inferred.
 
+## Retained palette and layout publication
+
+The shared entry palette_index at +0x16 receives the original channel
+color_index_54 only in the existing extracted-symbol and NA ordinary-glyph
+paths. Direct icon entries do not gain a palette write, and their +0x17
+wide-icon variant remains separate. JP rasterization and EU physical+0x14
+array/color stores retain their existing representations and guards.
+The NA layout_selector at +0x18 is configured over the channel's whole
+entry range and retained by append, including partial/rejected writes;
+no new append or initializer default is introduced. See the complete
+producer/renderer distinctions in [text-glyph-renderer.md](text-glyph-renderer.md).
+
 ## Occupancy start coordinates and lookup
 
 `gDuelEffect_OccupancyStartColumn` and `gDuelEffect_OccupancyStartRow`

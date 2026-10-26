@@ -511,7 +511,7 @@ void DebugMenu_UpdateCampaignEntry(void)
                the diagnostic print. */
             func_8003B6AC(0, 2);
             printf(gDebugMenu_szCampaignValueFormat,
-                   gDuelEffect_aEntries[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
+                   gDuelEffect_aEntries[gDuelEffect_awEntryRangeBoundaries[0]].layout_selector);
 #endif
             TextBox_Create(0, gDebugMenu_wMessageId, 0x10, 0xB0, 0x120,
                            DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT);

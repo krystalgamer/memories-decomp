@@ -13,7 +13,7 @@
 /* Lays out the choice widget's six x/y pairs on the display object the
    channel holds at 0x30. The pairs sit at stride 8 from 0x28; three of them
    take the channel's rect_x as x and three take rect_x + rect_width, and
-   the y values come from the entry's field_18 modulo ten, which selects the
+   the y values come from the entry's layout_selector modulo ten, which selects the
    dialog's row spacing. The record is the canonical DisplayObject:
    Dialog_UpdateChoice stores one there, through the same 0x30. */
 #ifndef DUEL_EFFECT_LAYOUT_ROW_STEP
@@ -51,7 +51,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
 
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
     /* The Japanese and European builds have one layout for every entry: no
-       field_18 % 10 selection, and one y step from the choice row (8 in the
+       layout_selector % 10 selection, and one y step from the choice row (8 in the
        Japanese build, 10 in the European one, whose wrapper defines its own)
        rather than the US spacings below. */
     v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_y) + (gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK) +
@@ -71,7 +71,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
 #else
     k = gDuelEffect_aEntries[
         gDuelEffect_awEntryRangeBoundaries[p->channel_index]
-    ].field_18 % 10;
+    ].layout_selector % 10;
 
     if (k == 1) {
         t = gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK;

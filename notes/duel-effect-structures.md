@@ -409,7 +409,7 @@ Verified entry fields are:
 | `0x12` | `owner_channel_tag` | original channel index plus one; marker clear leaves the tag unchanged |
 | `0x13` | `handler_state` | complete-byte activity test; low-five-bit handler selector plus latch/phase flags |
 | `0x15` | `render_mode` | entry draw selector written by append/control/callback paths |
-| `0x18` | `field_18` | range write in `DuelEffect_SetEntryRangeLayout`; `DuelEffect_UpdateObjectLayout` reads it |
+| `0x18` | `layout_selector` | range write in `DuelEffect_SetEntryRangeLayout`; `DuelEffect_UpdateObjectLayout` reads it |
 
 Exact C for `DuelEffect_ProcessEntries` (`0x80039D64`) copies complete
 seven-word (`0x1C`) records and advances both pointers by `0x1C`,
@@ -489,8 +489,8 @@ has candidate-only array views whose relocation contracts are reviewed
 separately.
 
 `DuelEffect_UpdateObjectLayout` now provides an additional exact-C read of
-`DuelEffectEntry.field_18`. It selects the display-object coordinate layout
-from `field_18 % 10` after resolving the entry through the channel's
+`DuelEffectEntry.layout_selector`. It selects the display-object coordinate layout
+from `layout_selector % 10` after resolving the entry through the channel's
 `gDuelEffect_awEntryRangeBoundaries` range index.
 
 The complete `D_80090F68` display-effect step table now carries

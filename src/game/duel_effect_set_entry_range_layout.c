@@ -16,7 +16,7 @@ void DuelEffect_SetEntryRangeLayout(s32 arg0, s32 arg1)
         DuelEffectEntry *base = gDuelEffect_aEntries;
         DuelEffectEntry *p = &base[i];
         do {
-            p->field_18 = arg1;
+            p->layout_selector = arg1;
             p++;
             i++;
         } while (i < *hi);
