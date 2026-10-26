@@ -99,5 +99,5 @@ void Model_SeekSlotAnimation(s32 idx, s32 flag, s32 val)
     if (flag != 0) {
         rec->current_animation_row = flag;
     }
-    rec->field_DC8[3] = 0;
+    rec->cached_dimensions[3] = 0;
 }

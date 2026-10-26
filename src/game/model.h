@@ -210,7 +210,7 @@ typedef struct {
    different records: Model_UpdateBackgroundScroll and model_scene_controllers.c
    over the view snapshot pair gModel_wViewDistance/gModel_ViewSnapshot, which they had
    typed two different ways for the same two symbols, and model_slot_support.c over the halfword
-   quad at ModelSlot.field_DC8.
+   quad at ModelSlot.cached_dimensions.
 
    Unlike ModelSlotCF8BlockWords above, this one is shared rather than kept
    per site, and the element type is why. All three spellings were u8[8], so
@@ -257,14 +257,16 @@ typedef struct {
     /* Signed ambient channels; retain the slot-2 negative-one sentinel. */
     s32 ambient_rgb_scale[3];
     u8 pad_DAC[4];
-    ModelSlotS32Quad field_DB0;
+    /* Render-coordinate scale; preserve the fourth copy word. */
+    ModelSlotS32Quad render_scale;
     /* Fade tint: [0..2] target RGB (0x80 neutral; 0 invisible in the
      * observed mode-5 fades, see Model_DrawSlot's zero-RGB skip), [3] blend
      * mode (0 opaque; 5 additive, the 3-D battle fade-in/out), [4..6] the
      * current RGB that Model_DrawSlot ramps toward [0..2] while [7] % 6 is
      * non-zero, [7] fade flag. [4..7] are static readings only. */
     u8 tint[8];
-    u16 field_DC8[4];
+    /* Padded/smoothed origin spans; [3] is separate horizontal history. */
+    u16 cached_dimensions[4];
     s16 field_DD0[4];
     /* The command list and the three pointers beside it, all installed by
      * Model_ResetSlotAnimationTables from the two blocks in the command
@@ -549,14 +551,21 @@ typedef char ModelSlot_flat_lights_offset_must_be_0xD70[
 typedef char ModelSlot_ambient_rgb_scale_offset_must_be_0xDA0[
     MODEL_OFFSET(ModelSlot, ambient_rgb_scale) == 0xDA0 ? 1 : -1
 ];
-typedef char ModelSlot_field_DB0_offset_must_be_0xDB0[
-    MODEL_OFFSET(ModelSlot, field_DB0) == 0xDB0 ? 1 : -1
+typedef char ModelSlot_render_scale_offset_must_be_0xDB0[
+    MODEL_OFFSET(ModelSlot, render_scale) == 0xDB0 ? 1 : -1
 ];
 typedef char ModelSlot_field_DC0_offset_must_be_0xDC0[
     MODEL_OFFSET(ModelSlot, tint) == 0xDC0 ? 1 : -1
 ];
-typedef char ModelSlot_field_DC8_offset_must_be_0xDC8[
-    MODEL_OFFSET(ModelSlot, field_DC8) == 0xDC8 ? 1 : -1
+typedef char ModelSlot_cached_dimensions_offset_must_be_0xDC8[
+    MODEL_OFFSET(ModelSlot, cached_dimensions) == 0xDC8 ? 1 : -1
+];
+typedef char ModelSlot_scale_dimension_layout_must_match[
+    MODEL_OFFSET(ModelSlot, render_scale) == 0xDB0 &&
+    sizeof(((ModelSlot *)0)->render_scale) == 0x10 &&
+    MODEL_OFFSET(ModelSlot, cached_dimensions) == 0xDC8 &&
+    sizeof(((ModelSlot *)0)->cached_dimensions) == 8 &&
+    sizeof(((ModelSlot *)0)->cached_dimensions[0]) == 2 ? 1 : -1
 ];
 typedef char ModelSlot_field_DD0_offset_must_be_0xDD0[
     MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0 ? 1 : -1
@@ -832,7 +841,7 @@ extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
  *
  * 0x800F3938 = gModel_aSlots[0].field_CF8
  * 0x800F39B0 = gModel_aSlots[0].flat_lights
- * 0x800F39F0 = gModel_aSlots[0].field_DB0
+ * 0x800F39F0 = gModel_aSlots[0].render_scale
  * 0x800F3A10 = gModel_aSlots[0].field_DD0
  *
  * For example, the field_DD0 consumers use the equivalent byte-stride form

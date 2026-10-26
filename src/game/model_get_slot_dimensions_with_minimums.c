@@ -11,7 +11,7 @@ void Model_GetSlotDimensionsWithMinimums(s32 idx, ModelEffectAdjustment *out) {
     ModelSlot *rec = &gModel_aSlots[idx];
     ModelSlotCF8Prefix *cf8 = &rec->field_CF8.prefix;
 
-    *out = *(ModelEffectAdjustment *)rec->field_DC8;
+    *out = *(ModelEffectAdjustment *)rec->cached_dimensions;
 
     if (cf8->thresholds.min_x != 0) {
         s32 t = cf8->thresholds.min_x << 4;

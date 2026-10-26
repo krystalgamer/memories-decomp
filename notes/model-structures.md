@@ -99,9 +99,9 @@ Verified shared fields and partial arrays are:
 | `0xD1C` | `render_parent_coordinate` | selected parent/fallback for child scaling and world-position bounds; not the parent of every rendered unit |
 | `0xD70` | `flat_lights[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `Model_DrawSlot` and `Model_DrawBackground` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
 | `0xDA0` | `ambient_rgb_scale[3]` | three adjacent clamped `s32` writes in `Model_SetSlotAmbient` |
-| `0xDB0` | `field_DB0` | four-word copy/reset block in `Model_SetSlotScale` |
+| `0xDB0` | `render_scale` | four-word copy/reset block in `Model_SetSlotScale` |
 | `0xDC0` | `tint[8]` | fade tint: target colour/mode writes in `Model_SetSlotTintTarget` and selection in `Model_GetSlotTintDescriptor`; live 3-D battle values below (formerly `field_DC0`) |
-| `0xDC8` | `field_DC8[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `Model_SeekSlotAnimation` |
+| `0xDC8` | `cached_dimensions[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `Model_SeekSlotAnimation` |
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
 | `0xDDC` | `animation_parameter_base`, `u8 *G32` | command-halfword word offsets address live words saved before a row and restored afterward |
 | `0xDE0` | `animation_snapshot_buffer`, `u8 *G32` | contiguous three/five-word snapshots; imported or hmd+size fallback, followed by cache work span |
@@ -199,6 +199,23 @@ field.
 The reset, table builder and subsequent command-row linker are named and
 traced through their producer/consumer chain in
 `notes/model-animation-tables.md`.
+
+### Render scale and cached coordinate-origin dimensions
+
+`ModelSlot.field_DB0` is now `render_scale`, retaining the four signed
+words of `ModelSlotS32Quad` at +0xDB0. The original scale APIs and
+`gModel_Slot0Scale` alias retain their pointer/stride construction;
+nonnull setter copies all four words, null resets only the first three
+in the original order. No SDK VECTOR retyping or fourth-word clear.
+
+`ModelSlot.field_DC8` is now `cached_dimensions`, still `u16[4]` at
++0xDC8. First-three entries are padded/smoothed eligible coordinate-origin
+spans, while entry three separately retains raw horizontal history.
+Initialization clears all four; seek clears only entry three. Keep
+signed observations, u16 truncation, empty-pass sentinels, stale-state
+gates and the distinct minimum-versus-replacement getter policies.
+No exact mesh bound, positive/monotonic range or frame/readiness
+invariant is introduced. See [the full scale/cache protocol](model-slot-properties.md#cached-coordinate-origin-dimensions).
 
 ### Root and selected render-parent coordinates
 

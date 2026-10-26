@@ -335,11 +335,11 @@ void Model_DrawSlot(s32 index)
             if (found) {
                 ScaleMatrix(
                     &GS_COORD_UNIT_VIEW(e->coordinate_address)->matrix,
-                    VECTOR_VIEW(&slot->field_DB0));
+                    VECTOR_VIEW(&slot->render_scale));
             } else {
                 Model_UpdateCoordinateUnitMatrix(
                     GS_COORD_UNIT_VIEW(e->coordinate_address),
-                    VECTOR_VIEW(&slot->field_DB0));
+                    VECTOR_VIEW(&slot->render_scale));
             }
         }
         if (W(e->primitive_data, 0) != -1 || W(e->primitive_data, 8) != 0) {
@@ -480,68 +480,68 @@ void Model_DrawSlot(s32 index)
         w = maxx - minx;
         h = maxy - miny;
         d = maxz - minz;
-        if ((s16)slot->field_DC8[3] < w) {
-            slot->field_DC8[3] = w;
+        if ((s16)slot->cached_dimensions[3] < w) {
+            slot->cached_dimensions[3] = w;
         }
-        if ((s16)slot->field_DC8[3] < d) {
-            slot->field_DC8[3] = d;
+        if ((s16)slot->cached_dimensions[3] < d) {
+            slot->cached_dimensions[3] = d;
         }
         w += 0x32;
         h += 0x32;
         d += 0x32;
-        v = (s16)slot->field_DC8[0];
+        v = (s16)slot->cached_dimensions[0];
         if (v != 0) {
             if (w < v) {
                 t = v - w;
                 if (t >= 0x15) {
                     t = 0x14;
                 }
-                slot->field_DC8[0] = slot->field_DC8[0] - t;
+                slot->cached_dimensions[0] = slot->cached_dimensions[0] - t;
             } else {
                 t = w - v;
                 if (t >= 0x15) {
                     t = 0x14;
                 }
-                slot->field_DC8[0] = slot->field_DC8[0] + t;
+                slot->cached_dimensions[0] = slot->cached_dimensions[0] + t;
             }
         } else {
-            slot->field_DC8[0] = w;
+            slot->cached_dimensions[0] = w;
         }
-        v = (s16)slot->field_DC8[1];
+        v = (s16)slot->cached_dimensions[1];
         if (v != 0) {
             if (h < v) {
                 t = v - h;
                 if (t >= 0x15) {
                     t = 0x14;
                 }
-                slot->field_DC8[1] = slot->field_DC8[1] - t;
+                slot->cached_dimensions[1] = slot->cached_dimensions[1] - t;
             } else {
                 t = h - v;
                 if (t >= 0x15) {
                     t = 0x14;
                 }
-                slot->field_DC8[1] = slot->field_DC8[1] + t;
+                slot->cached_dimensions[1] = slot->cached_dimensions[1] + t;
             }
         } else {
-            slot->field_DC8[1] = h;
+            slot->cached_dimensions[1] = h;
         }
-        v = (s16)slot->field_DC8[2];
+        v = (s16)slot->cached_dimensions[2];
         if (v != 0) {
             if (d < v) {
                 t = v - d;
                 if (t >= 0x15) {
                     t = 0x14;
                 }
-                slot->field_DC8[2] = slot->field_DC8[2] - t;
+                slot->cached_dimensions[2] = slot->cached_dimensions[2] - t;
             } else {
                 t = d - v;
                 if (t >= 0x15) {
                     t = 0x14;
                 }
-                slot->field_DC8[2] = slot->field_DC8[2] + t;
+                slot->cached_dimensions[2] = slot->cached_dimensions[2] + t;
             }
         } else {
-            slot->field_DC8[2] = d;
+            slot->cached_dimensions[2] = d;
         }
         if (slot->shadow_enabled != 0) {
             SVECTOR v0;
