@@ -120,8 +120,8 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     entry->field_12 = channel->index_57 + 1;
     entry->field_13 = 1;
     entry->field_15 = 0;
-    entry->field_0C = channel->field_38;
-    entry->field_0E = channel->field_3A;
+    entry->field_0C = channel->pen_x;
+    entry->field_0E = channel->pen_y;
     entry->code_00 = tagged_value;
     flags = channel->flags_34;
     result = 0;
@@ -265,8 +265,8 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     if (p->flags_34 & 0x1C00) {
         q->field_13 = 0;
     }
-    q->x_0C = p->field_38;
-    q->y_0E = p->field_3A;
+    q->x_0C = p->pen_x;
+    q->y_0E = p->pen_y;
 #ifdef VERSION_JAPAN
     q = (DuelEffectEntry *)((u8 *)q + 0x18);
 #else

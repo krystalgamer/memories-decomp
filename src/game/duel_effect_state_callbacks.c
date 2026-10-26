@@ -44,8 +44,8 @@ DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
 
     DisplayObject_ConfigureSpriteAtPosition(
         cursor,
-        record->field_3C + record->field_3E - 0x10,
-        record->field_40 + record->field_42 - 0x10,
+        record->rect_x + record->rect_width - 0x10,
+        record->rect_y + record->rect_height - 0x10,
         3,
         0,
         0,

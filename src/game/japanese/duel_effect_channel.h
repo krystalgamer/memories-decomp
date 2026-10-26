@@ -7,12 +7,12 @@ typedef struct {
     u8 pad_00[0x34];
     u16 flags_34;
     u16 field_36;
-    u16 field_38;
-    u16 field_3A;
-    s16 field_3C;
-    s16 field_3E;
-    s16 field_40;
-    s16 field_42;
+    u16 pen_x;
+    u16 pen_y;
+    s16 rect_x;
+    s16 rect_width;
+    s16 rect_y;
+    s16 rect_height;
     u8 pad_44[0x0F];
     u8 delay_reload_53;
     u8 color_index_54;

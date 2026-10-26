@@ -127,8 +127,8 @@ void TextBox_SetPos(DuelEffectChannel *record, s32 x, s32 y)
     DisplayObject *object;
 
     object = record->field_28;
-    record->field_3C = x;
-    record->field_40 = y;
+    record->rect_x = x;
+    record->rect_y = y;
     if (object != 0) {
         object->field_30.h.field_30 = x;
         object->field_30.h.field_32 = y;
@@ -147,8 +147,8 @@ void TextBox_SetPos(DuelEffectChannel *record, s32 x, s32 y)
         if (object->field_1E == 4)
             DuelEffect_UpdateObjectLayout(record);
         else {
-            object->field_30.h.field_30 = record->field_3E + x - 16;
-            object->field_30.h.field_32 = record->field_42 + y - 16;
+            object->field_30.h.field_30 = record->rect_width + x - 16;
+            object->field_30.h.field_32 = record->rect_height + y - 16;
         }
     }
 }

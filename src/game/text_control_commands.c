@@ -158,7 +158,7 @@ void Text_PushStreamOffset(DuelEffectChannel *arg0)
 void Text_NewLine(DuelEffectChannel *record)
 {
     record->field_56++;
-    record->field_38 = 0x1000;
+    record->pen_x = 0x1000;
 #ifdef VERSION_EUROPE
     /* The European build moves to state 4 only from the fourth line on. */
     if (TextBox_WrapLineIfNeeded(record) && record->field_56 >= 4) {
@@ -363,14 +363,14 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     DisplayObject_SelectOrderingTable1(e);
     DisplayObject_SetDepthOffset(e, (s8)p->field_59);
 
-    e->field_30.h.field_30 = (u16)p->field_3C;
-    e->field_30.h.field_32 = (u16)p->field_40;
-    e->field_3C.h.field_3C = (u16)p->field_3E;
-    e->field_3C.h.field_3E = (u16)p->field_42;
-    v = p->field_3E / 2;
+    e->field_30.h.field_30 = (u16)p->rect_x;
+    e->field_30.h.field_32 = (u16)p->rect_y;
+    e->field_3C.h.field_3C = (u16)p->rect_width;
+    e->field_3C.h.field_3E = (u16)p->rect_height;
+    v = p->rect_width / 2;
     e->field_18 = v;
     e->field_48.h.field_48 = v;
-    v = p->field_42 / 2;
+    v = p->rect_height / 2;
     e->field_1A = v;
     e->field_48.h.field_4A = v;
 

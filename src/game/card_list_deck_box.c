@@ -219,7 +219,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 #endif
         }
         box = TextBox_Create(idx + 1, style, s->x, s->y, 0x120, 0xB0);
-        box->field_3A = y;
+        box->pen_y = y;
         if (q[0] == 0) {
 #ifdef VERSION_EUROPE
             box->color_index_54 = empty_color;

@@ -181,8 +181,8 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
     }
 
     object->field_56 = 0;
-    object->field_38 = 0;
-    object->field_3A = 0;
+    object->pen_x = 0;
+    object->pen_y = 0;
     object->state_51 = 0;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     object->field_62 = 0;

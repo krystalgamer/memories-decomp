@@ -215,7 +215,7 @@ next_opcode:
         w = object->glyph_advance_x +
             DuelEffect_AppendEntry(object, gText_aGlyphLookup[(s16)gText_CurrentStreamCode].packed & 0x8FF0FFFF);
         limit = (s16)TEXT_BOX_GLYPH_LIMIT(object);
-        object->field_38 = object->field_38 + w;
+        object->pen_x = object->pen_x + w;
         n = TEXT_BOX_GLYPH_COUNT(object) + w;
         TEXT_BOX_GLYPH_COUNT(object) = n;
         if (limit != 0) {
@@ -232,6 +232,6 @@ next_opcode:
         TEXT_BOX_GLYPH_COUNT(object) >= TEXT_BOX_GLYPH_LIMIT(object)) {
         object->flags_34 = object->flags_34 | TEXT_BOX_FLAG_DONE;
     }
-    object->field_38 = object->field_38 + object->glyph_advance_x;
+    object->pen_x = object->pen_x + object->glyph_advance_x;
 #endif
 }

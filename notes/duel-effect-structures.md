@@ -32,8 +32,10 @@ Verified channel fields used by matching C include:
 | `0x28`, `0x2C` | `field_28`, `field_2C` | cleared across four entries by `DuelEffect_ResetState` |
 | `0x30` | `field_30` | pointer-sized assignment in `DuelEffect_UpdateDialogState`; cleared by `DuelEffect_ResetState` |
 | `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `DuelEffect_ResetState` |
-| `0x36`-`0x3A` | `field_36`, `field_38`, `field_3A` | halfword initialization in `DuelEffect_InitEntry` |
-| `0x3C`-`0x42` | `field_3C`-`field_42` | four halfword writes in `TextBox_SetRect` |
+| `0x36` | `field_36` | halfword initialization in `DuelEffect_InitEntry` |
+| `0x38`, `0x3A` | `pen_x`, `pen_y` | unsigned halfword pen initialization, stream commands and entry-position publication |
+| `0x3C`, `0x40` | `rect_x`, `rect_y` | signed halfword origins set by `TextBox_SetRect` and `TextBox_SetPos` |
+| `0x3E`, `0x42` | `rect_width`, `rect_height` | signed halfword extents set by `TextBox_SetRect`; wrap and display geometry consumers |
 | `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `index_57` | initialization sequence in `DuelEffect_InitEntry` |
@@ -41,6 +43,58 @@ Verified channel fields used by matching C include:
 | `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, [`duel_effect_object_commands.c`](../src/game/duel_effect_object_commands.c), and [`duel_effect_command.c`](../src/game/duel_effect_command.c) |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
+
+### Text-channel pen and rectangle
+
+The six channel halfwords have high-confidence names from their complete
+local producer/consumer chain, independent of reference declarations:
+
+| Offset | Original member | Canonical member | Retained storage |
+|---:|---|---|---|
+| `0x38` | `field_38` | `pen_x` | `u16` |
+| `0x3A` | `field_3A` | `pen_y` | `u16` |
+| `0x3C` | `field_3C` | `rect_x` | `s16` |
+| `0x3E` | `field_3E` | `rect_width` | `s16` |
+| `0x40` | `field_40` | `rect_y` | `s16` |
+| `0x42` | `field_42` | `rect_height` | `s16` |
+
+Both shared 0x64-byte and Japanese 0x60-byte channels retain these offsets,
+types and declaration order. Unrelated DisplayObject unions and
+DuelEffectResourceRecord/MenuRecord members keep their original names.
+The existing offset/pen-width assertions retain every numeric expectation;
+only member names and three assertion labels change. No fixture changes.
+
+TextBox_SetRect (0x80035AB8) stores the original x/y/width/height arguments
+without changing halfword narrowing or the compact regional channel stride.
+TextBox_SetPos (0x80039934) changes the origins and separately updates its
+three attached objects in the original order. Its lower-corner expression
+is origin + extent - 16: width and height are not absolute right/bottom
+bounds. TextBox_RefreshDisplayObjects publishes these origins and extents to
+DisplayObject geometry and retains signed division by two.
+
+DuelEffect_InitEntry (0x80035AF0) and Text_CompletePageAdvance
+(0x8003741C) reset the two pen halfwords at their original points, with
+unchanged regional guards and active-entry tests. Text_SetPenX
+(0x80038388), the existing European Y setter, and the signed-Y/unsigned-X
+byte-delta commands retain every stream read, publication and narrowing.
+Text_NewLine (0x80038E1C) keeps the 0x1000 forced-wrap sentinel; no immediate
+wrap, clamp or validation is added to the direct setters. Card-list slot
+placement still writes pen_y and shifts rect_x through its unsigned alias.
+
+DuelEffect_AppendEntry (0x80036C14) copies pen_x/pen_y to the original
+entry-local positions. TextBox_BuildStep still advances X with the nominal
+glyph advance plus the original signed European metric adjustment where
+applicable. TextBox_WrapLineIfNeeded (0x80037C74) keeps explicit signed
+views of the u16 pen, the extra line-advance bottom margin, and failure's
+Y subtraction without undoing its X reset. No pixel/counter layout,
+glyph publication or wrapping behavior changes.
+
+Choice placement is unchanged. DuelEffect_UpdateObjectLayout (0x80036DBC)
+retains its unsigned-halfword rectangle views, all regional row-spacing
+branches and original display-object writes. The password/name-entry overlay adds
+rect_x/rect_y to the entry-local glyph position in every regional branch;
+Japanese VRAM publication and compact channel addressing remain exact.
+Only typed channel accesses change across sixteen existing C units.
 
 ### Text-channel cursor advances
 
@@ -197,7 +251,7 @@ occupancy table and clears that table entry. It then zeroes the next byte,
 `Text_SetPenX` (originally `func_80038388`, `0x80038388`) is secondary
 text-command slot 6; the retail pointer at `0x80090EC4` names that entry.
 It reads two little-endian stream bytes into the existing unsigned
-halfword `field_38`. Glyph append copies this value to each entry's local
+halfword `pen_x`. Glyph append copies this value to each entry's local
 `x_0C`, and the renderer adds the display-object X origin.
 
 This is the local glyph pen, not the text-box origin set by
@@ -205,8 +259,8 @@ This is the local glyph pen, not the text-box origin set by
 `Text_SetCursorOffset`. Wrapping remains in `TextBox_WrapLineIfNeeded`,
 which retains the signed halfword view, compares against box width,
 resets X and advances Y. The setter introduces no immediate wrap or clamp.
-Shared member names, operand width, stream advancement, glyph publication
-and rendering stay unchanged. Japan uses its actual `0x80037A84` primary;
+The pen's unsigned storage, operand width, stream advancement, glyph
+publication and rendering stay unchanged. Japan uses its actual `0x80037A84` primary;
 the separate European-only Y command keeps its existing name.
 
 ### Stream color-index command
