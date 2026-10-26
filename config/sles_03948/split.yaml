@@ -414,9 +414,6 @@ segments:
   - - 105180
     - c
     - game/european/duel_effect_resource_setup
-  - - 106176
-    - c
-    - game/duel_effect_resource_objects
   - - 106280
     - c
     - game/library_create_grid_section_sprites

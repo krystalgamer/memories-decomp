@@ -181,7 +181,6 @@ segments:
       - [0x190e8, c, game/card_preview_draw_detail_panel]
       - [0x196e8, c, game/card_preview_update_variant]
       - [0x19744, c, game/japanese/duel_effect_resource_setup]
-      - [0x19b08, c, game/duel_effect_resource_objects]
       - [0x19b70, c, game/library_create_grid_section_sprites]
       - [0x19c64, c, game/duel_projection_axes]
       - [0x19f14, c, game/library_draw_wireframe_globe]

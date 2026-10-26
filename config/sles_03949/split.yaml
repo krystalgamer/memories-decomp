@@ -184,7 +184,6 @@ segments:
       - [0x1940C, c, game/european/card_preview_draw_detail_panel]
       - [0x19A80, c, game/card_preview_update_variant]
       - [0x19ADC, c, game/european/duel_effect_resource_setup]
-      - [0x19EC0, c, game/duel_effect_resource_objects]
       - [0x19F28, c, game/library_create_grid_section_sprites]
       - [0x1A01C, c, game/duel_projection_axes]
       - [0x1A2CC, c, game/european/library_draw_wireframe_globe]
