@@ -3,9 +3,9 @@
 
 #include "../types.h"
 
-/* Stores `value` in the secondary sound state's byte 0x509 and mirrors
+/* Stores `vsync_mode` in the secondary sound state's byte 0x509 and mirrors
  * whether it is non-zero into timer_update_inhibit. */
-void SD_SetSequenceVSyncMode(s32 value);
+void SD_SetSequenceVSyncMode(s32 vsync_mode);
 
 /* Takes SE, BGM and XA LBAs from Sound_InitFrontend. Zero arguments clear
  * data_source_flags bits 0x01, 0x02 and 0x40; nonzero arguments do not set them.
