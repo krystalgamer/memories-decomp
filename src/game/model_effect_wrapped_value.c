@@ -3,29 +3,29 @@
 #include "model_effect_wrapped_value.h"
 #include "trig_constants.h"
 
-s32 Model_GetSlotCameraPresetYaw(s32 index)
+s32 Model_GetSlotCameraPresetYaw(s32 slot_index)
 {
-    s32 offset = index * MODEL_SLOT_SIZE;
-    ModelCameraOrbitPreset *coefficient;
-    s32 value;
-    ModelSlotCF8TailView *record;
-    s32 biased;
+    s32 slot_offset = slot_index * MODEL_SLOT_SIZE;
+    ModelCameraOrbitPreset *preset;
+    s32 yaw;
+    ModelSlotCF8TailView *slot_metadata;
+    s32 biased_yaw;
 
-    record = (ModelSlotCF8TailView *)(offset + (s32)&gModel_Slot0MetadataView);
+    slot_metadata = (ModelSlotCF8TailView *)(slot_offset + (s32)&gModel_Slot0MetadataView);
     /* Retail rebuilds the alias base for the selector-byte load. */
-    coefficient = ModelEffect_GetCoefficient(
-        record->prefix.bytes.guardian_star_options[
-            (((u8 *)&gModel_Slot0MetadataView) + offset)[MODEL_SLOT_CF8_DFE_OFFSET]
+    preset = ModelEffect_GetCoefficient(
+        slot_metadata->prefix.bytes.guardian_star_options[
+            (((u8 *)&gModel_Slot0MetadataView) + slot_offset)[MODEL_SLOT_CF8_DFE_OFFSET]
         ] & 0x1F
     );
 
-    value = coefficient->yaw;
-    if (index <= 0) {
-        biased = value + TRIG_ANGLE_FULL_TURN +
+    yaw = preset->yaw;
+    if (slot_index <= 0) {
+        biased_yaw = yaw + TRIG_ANGLE_FULL_TURN +
                  3 * TRIG_ANGLE_QUARTER_TURN;
-        return biased % TRIG_ANGLE_FULL_TURN;
+        return biased_yaw % TRIG_ANGLE_FULL_TURN;
     }
 
-    biased = value + TRIG_ANGLE_FULL_TURN + TRIG_ANGLE_QUARTER_TURN;
-    return biased % TRIG_ANGLE_FULL_TURN;
+    biased_yaw = yaw + TRIG_ANGLE_FULL_TURN + TRIG_ANGLE_QUARTER_TURN;
+    return biased_yaw % TRIG_ANGLE_FULL_TURN;
 }
