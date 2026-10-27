@@ -65,6 +65,65 @@ The order is explicit in both callers:
 The former relinker header's statement that it ran *between* reset and
 build was incorrect; both callers place it after build.
 
+## Reset, build and relink local views
+
+The three table-lifecycle definitions now distinguish their existing
+slot, payload, table-offset and command-cursor locals. The reset still
+reuses ONE index across the duration-row, mask-byte and part-flag walks.
+Its duration and entry-key offsets retain their DIFFERENT strides;
+the byte cursors are not replaced with indexed member accesses.
+Keep all ten rows, 58 parts, eight mask bytes and existing store order,
+including the casted pointer clears before the null owner-chain return.
+
+owner and kind2_payload/kind3_payload name only the existing mapped
+owner-chain selection: enabled records test +8, use kind byte +0xF
+and fetch the payload at +4. The last matching enabled owner still wins.
+Keep the null initial chain return and -1 chain terminator as distinct
+tests; no new malformed-chain or null-next handling. Both payloads
+remain independent, with their original byte advances and four final
+byte-cursor stores. field_DE4 remains opaque.
+
+part_flags_base/part_flags_cursor retain the original count halfword
+and +4 flag read, including the volatile load and repeated count reads.
+mask_byte_index, mask_bit_base and the old/new mask-byte views preserve
+the signed division, shifts, bit0x100 test and byte narrowing. No owner
+schema, payload extent, valid-part bound or stronger flag interpretation
+is inferred from these local names.
+
+The builder's part_sequence, first_command_index and command_cursor
+retain row-one seeding, start_sid publication and the later separate
+sequence-pointer reload for start. A null sequence still stops the
+entire part scan. command_word remains u32 with the original signed
+negative test; row bits stay16..22, zero ends the scan and the FFFF
+entry sentinel distinguishes an advance from a first-visit jump.
+Keep both halfword key reads, duration BYTE2 accumulation/truncation
+and the final rows1..9 maxima pass over the original sequence count.
+No new bounds, reset-before-build guarantee or opcode taxonomy.
+
+The relinker's part_byte_offset/entry_byte_offset preserve the shared
+running-byte-offset arithmetic and row stride. row_one_command is
+formed without a new sentinel guard. row_command and target_command
+are still constructed before the existing sentinel/row-zero checks;
+pre_row_command remains the word immediately before the row start.
+target_entry/target_command_index retain the exact halfword lookup.
+
+command_word/target_word and target_row name only current reads.
+Keep all row-bit masks, shifts, pointer-null tests, indefinite scans,
+goto labels and target-row-one halfword test. row_bits_clear_mask and
+row_one_bit are the unchanged constants used in the existing rewrite.
+The hit path retains BOTH linked halfword stores; the zero-row path
+retains its FIRST volatile command-base reload, pointer differences,
+-1/+1 arithmetic and signed-halfword conversions. No SDK-linker claim,
+cycle detection, null/sentinel repair or changed command interpretation.
+
+Only scoped bare locals in these THREE complete definitions and the
+matching identifiers in TWO existing explanatory comments change.
+Arguments, member tokens, types, expressions, scopes and statement
+order stay. The earlier tentative primitive decoder is wholly intact,
+including every European branch and its upload-linkage caveats.
+The entire four-definition source/profile group remains together.
+Headers, callers, SDK declarations, fixtures and controls stay exact.
+
 ## Limits and matching
 
 The functions' mechanical roles are high confidence. Individual command
