@@ -309,6 +309,12 @@ work-size printf, built the same way through
 `src/overlays/french_model_variant/variant678_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Thirty-four images under French headers 680 and 747 are the North American
+header-663 entry (`model_variant/variant663_entry.c`) without its `E_DATA`
+work-size printf, built through
+`src/overlays/french_model_variant/variant680_entry{,_slot1}.c` with the data
+labels 0x28 lower.
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are
