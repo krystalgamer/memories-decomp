@@ -310,6 +310,12 @@ reached it calls sheet then webs, bands while the phase is positive and rays
 from phase 2. The tint fades only below phase 5. The same
 `variant401_entry.c` with palette x = 640 is the French header-418 entry
 ([French notes](french-model-variant418.md)).
+Header 402's entry (`0x8013B004`, 1,143 instructions under `gcc_2_7_2_cdk_g0`,
+`variant402_entry.c`) is adapted from the header-407 entry: it darkens the
+model's ambient light, sends 32 quads toward the opponent and from phase 2
+pulses 10 quads around the target. Its swarm (`0x8013C1E0`) and quads
+(`0x8013C778`) helpers are the French header-419 helpers, built by
+`variant402_{swarm,quads}.c` including `french_model_variant/variant419_*.c`.
 Its bands at `0xFE4` (`variant401_bands`, 480 instructions;
 `variant401_bands_slot1` builds the header-551 image) draw that band, whose
 `Variant401EntryBand` now names the nine-by-three points at `+ 0x0`, their
