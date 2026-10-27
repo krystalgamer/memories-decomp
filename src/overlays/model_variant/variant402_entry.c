@@ -75,9 +75,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
+#ifdef VERSION_FRENCH
+        clut = GetClut(640, 244);
+        GetTPage(1, 1, 896, 0);
+        GetClut(640, 244);
+#else
         clut = GetClut(512, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(512, 244);
+#endif
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CC48 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;

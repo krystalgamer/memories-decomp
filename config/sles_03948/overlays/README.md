@@ -318,6 +318,15 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant649_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Six slot-zero images under French header 419 are the North American
+header-402 entry (`model_variant/variant402_entry.c`) built through
+`src/overlays/french_model_variant/variant419_entry.c`: the French copy
+selects the CLUT at x 640 instead of 512 and is compiled with
+`gcc_2_8_1_g0_split` rather than `gcc_2_7_2_cdk_g0`, which moves a few
+temporaries and fills the epilogue delay slot (four bytes shorter). The
+existing `variant419_{swarm,quads}.c` helpers complete each image, and the
+wrapper renames the data and helper labels to their French addresses.
+
 Sixteen images under French headers 676 and 743 are the North American
 header-659 entry (`model_variant/variant659_entry.c`) without its `E_DATA`
 work-size printf, built through
