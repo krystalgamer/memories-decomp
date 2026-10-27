@@ -27,254 +27,254 @@
    and the channel index the retail callee-saved registers. */
 void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
 {
-    ModelSlot *base;
-    GsUNIT *slot;
-    u8 *cursor;
-    GsOT *table;
-    GsTYPEUNIT ev;
+    ModelSlot *model_slot;
+    GsUNIT *hmd_unit;
+    u8 *hmd_cursor;
+    GsOT *ordering_table;
+    GsTYPEUNIT type_unit;
     s32 max_lit_color_index;
     s32 packet_bytes;
-    s32 i;
-    u32 tag;
-    s32 off;
-    s32 loaded_limit;
-    s32 limit;
-    s32 sentinel;
-    s32 next;
-    s32 *cmd;
-    GsCOORDUNIT *rec;
-    GsCOORDUNIT *scan;
-    GsCOORDUNIT *cur;
-    GsCOORDUNIT *q;
-    s32 handler;
+    s32 scan_index;
+    u32 type_tag;
+    s32 coordinate_byte_offset;
+    s32 captured_unit_count;
+    s32 unit_count_limit;
+    s32 chain_end_marker;
+    s32 child_coordinate_index;
+    s32 *group_words;
+    GsCOORDUNIT *parent_coordinate;
+    GsCOORDUNIT *root_scan_coordinate;
+    GsCOORDUNIT *render_parent_candidate;
+    GsCOORDUNIT *root_coordinate;
+    s32 noop_handler_word;
 
-    handler = (s32)GsU_00000000;
-    base = &gModel_aSlots[index];
-    slot = GS_UNIT_VIEW(base->hmd_units);
-    cursor = hmd;
+    noop_handler_word = (s32)GsU_00000000;
+    model_slot = &gModel_aSlots[index];
+    hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units);
+    hmd_cursor = hmd;
     if (index < 2) {
-        table = gGraphics_apOrderingTables[2];
+        ordering_table = gGraphics_apOrderingTables[2];
     } else {
-        table = gGraphics_apOrderingTables[3];
+        ordering_table = gGraphics_apOrderingTables[3];
     }
     packet_bytes = 0;
     max_lit_color_index = 0;
-    base->stone_texture_state = 0;
-    base->shadow_enabled = 0;
+    model_slot->stone_texture_state = 0;
+    model_slot->shadow_enabled = 0;
     if (flags >= 0) {
-        base->draw_mode_request = flags & 0x7F;
+        model_slot->draw_mode_request = flags & 0x7F;
         if (flags & 0x80) {
-            base->tint[7] = 5;
+            model_slot->tint[7] = 5;
         } else {
-            base->tint[7] = 0;
+            model_slot->tint[7] = 0;
         }
     }
-    base->tint[6] = 0;
-    base->tint[5] = 0;
-    base->tint[4] = 0;
-    base->cached_dimensions[0] = 0;
-    base->cached_dimensions[1] = 0;
-    base->cached_dimensions[2] = 0;
-    base->cached_dimensions[3] = 0;
-    base->cached_position[0] = 0;
-    base->cached_position[3] = -0x15E;
-    base->cached_position[1] = -0x15E;
+    model_slot->tint[6] = 0;
+    model_slot->tint[5] = 0;
+    model_slot->tint[4] = 0;
+    model_slot->cached_dimensions[0] = 0;
+    model_slot->cached_dimensions[1] = 0;
+    model_slot->cached_dimensions[2] = 0;
+    model_slot->cached_dimensions[3] = 0;
+    model_slot->cached_position[0] = 0;
+    model_slot->cached_position[3] = -0x15E;
+    model_slot->cached_position[1] = -0x15E;
     switch (index) {
     default:
-        base->cached_position[2] = 0;
+        model_slot->cached_position[2] = 0;
         break;
     case 0:
-        base->cached_position[2] = 0x1C2;
+        model_slot->cached_position[2] = 0x1C2;
         break;
     case 1:
-        base->cached_position[2] = -0x1C2;
+        model_slot->cached_position[2] = -0x1C2;
         break;
     }
-    base->animation_control_state = 6;
-    base->active_animation_command_row = 0;
-    base->part_command_reset_pending = 0;
-    base->entry_count = 0;
-    base->root_coordinate_index = 0;
-    base->root_coordinate = 0;
-    base->entries = 0;
-    base->render_parent_coordinate = 0;
-    base->render_parent_coordinate_index = 0;
-    base->animation_sequence_count = 0;
-    base->field_E1C = 0;
-    base->primary_module_data_address = 0;
-    base->variant_module_data_address = 0;
+    model_slot->animation_control_state = 6;
+    model_slot->active_animation_command_row = 0;
+    model_slot->part_command_reset_pending = 0;
+    model_slot->entry_count = 0;
+    model_slot->root_coordinate_index = 0;
+    model_slot->root_coordinate = 0;
+    model_slot->entries = 0;
+    model_slot->render_parent_coordinate = 0;
+    model_slot->render_parent_coordinate_index = 0;
+    model_slot->animation_sequence_count = 0;
+    model_slot->field_E1C = 0;
+    model_slot->primary_module_data_address = 0;
+    model_slot->variant_module_data_address = 0;
     if (index < 2) {
         if (index != 0) {
-            base->primary_module_data_address = gModel_Slot1PrimaryDataAddress;
+            model_slot->primary_module_data_address = gModel_Slot1PrimaryDataAddress;
         } else {
-            base->primary_module_data_address = gModel_Slot0PrimaryDataAddress;
+            model_slot->primary_module_data_address = gModel_Slot0PrimaryDataAddress;
         }
         if (index != 0) {
-            base->variant_module_data_address = gModel_Slot1VariantDataAddress;
+            model_slot->variant_module_data_address = gModel_Slot1VariantDataAddress;
         } else {
-            base->variant_module_data_address = gModel_Slot0VariantDataAddress;
+            model_slot->variant_module_data_address = gModel_Slot0VariantDataAddress;
         }
     }
-    base->lit_color_cache_address = 0;
-    base->packet_budget_bytes = 0;
-    base->lit_color_cache_entry_count = 0;
-    base->prepared_primitive_count = 0;
-    base->lit_color_cache_end_address = 0;
-    base->field_E15 = 0;
-    base->animation_sound_enabled = 0;
-    base->is_active = 0;
+    model_slot->lit_color_cache_address = 0;
+    model_slot->packet_budget_bytes = 0;
+    model_slot->lit_color_cache_entry_count = 0;
+    model_slot->prepared_primitive_count = 0;
+    model_slot->lit_color_cache_end_address = 0;
+    model_slot->field_E15 = 0;
+    model_slot->animation_sound_enabled = 0;
+    model_slot->is_active = 0;
     if (hmd == 0) {
-        base->skip_sound_setup = 0;
-        base->load_step = 0xFF;
+        model_slot->skip_sound_setup = 0;
+        model_slot->load_step = 0xFF;
         return;
     }
     GsMapUnit((u32 *)hmd);
-    cursor += 0xC;
+    hmd_cursor += 0xC;
     Model_ResetSlotAnimationTables(index, hmd);
-    base->hmd_unit_count = *cursor;
-    cursor += 4;
-    if (base->hmd_unit_count >= 0x3D) {
-        base->hmd_unit_count = 0x3C;
+    model_slot->hmd_unit_count = *hmd_cursor;
+    hmd_cursor += 4;
+    if (model_slot->hmd_unit_count >= 0x3D) {
+        model_slot->hmd_unit_count = 0x3C;
     }
-    if (base->hmd_unit_count != 0) {
-        i = 0;
+    if (model_slot->hmd_unit_count != 0) {
+        scan_index = 0;
         do {
-            slot->coord = 0;
-            cmd = *(s32 **)cursor;
-            cursor += 4;
-            slot->primtop = (unsigned PSXLONG *)cmd;
-            if (cmd != 0) {
-                GsScanUnit((u32 *)cmd, 0, 0, 0);
+            hmd_unit->coord = 0;
+            group_words = *(s32 **)hmd_cursor;
+            hmd_cursor += 4;
+            hmd_unit->primtop = (unsigned PSXLONG *)group_words;
+            if (group_words != 0) {
+                GsScanUnit((u32 *)group_words, 0, 0, 0);
             evloop:
-                if (GsScanUnit(0, &ev, table, (u32 *)0x1F800000) != 0) {
-                    u8 *scratch;
+                if (GsScanUnit(0, &type_unit, ordering_table, (u32 *)0x1F800000) != 0) {
+                    u8 *sdk_scratch;
 
-                    tag = (u32)ev.type >> 24;
-                    scratch = (u8 *)0x1F800000;
-                    if (ev.type == 0) {
+                    type_tag = (u32)type_unit.type >> 24;
+                    sdk_scratch = (u8 *)0x1F800000;
+                    if (type_unit.type == 0) {
                         goto evloop;
                     }
-                    if (tag < 2) {
+                    if (type_tag < 2) {
                         goto masktest;
                     }
-                    if (tag < 7) {
-                        if (tag < 5) {
+                    if (type_tag < 7) {
+                        if (type_tag < 5) {
                             goto dispatch;
                         }
                     } else {
                         goto dispatch;
                     }
                 masktest:
-                    if (ev.type & 0x800000) {
-                        base->entries = (u8 *)GsMapCoordUnit((u32 *)hmd, (u32 *)ev.ptr);
-                        ev.type &= 0xFF7FFFFF;
+                    if (type_unit.type & 0x800000) {
+                        model_slot->entries = (u8 *)GsMapCoordUnit((u32 *)hmd, (u32 *)type_unit.ptr);
+                        type_unit.type &= 0xFF7FFFFF;
                     }
                 dispatch:
-                    switch (tag) {
+                    switch (type_tag) {
                     case 0:
-                        base->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(
-                            index, &ev, (GsARGUNIT *)scratch, &max_lit_color_index, &packet_bytes);
-                        Model_BindPrimitiveHandler((ModelHandlerObject *)&ev);
+                        model_slot->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(
+                            index, &type_unit, (GsARGUNIT *)sdk_scratch, &max_lit_color_index, &packet_bytes);
+                        Model_BindPrimitiveHandler((ModelHandlerObject *)&type_unit);
                         break;
                     case 1:
-                        base->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(
-                            index, &ev, (GsARGUNIT *)scratch, 0, &packet_bytes);
+                        model_slot->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(
+                            index, &type_unit, (GsARGUNIT *)sdk_scratch, 0, &packet_bytes);
                         Model_BindSharedPrimitiveHandler(
-                            (ModelHandlerObject *)&ev);
+                            (ModelHandlerObject *)&type_unit);
                         break;
                     case 2:
                         Model_ProcessType2Unit(
-                            index, (ModelTypeUnit *)&ev, scratch);
+                            index, (ModelTypeUnit *)&type_unit, sdk_scratch);
                         break;
                     case 3:
-                        Model_LinkSlotAnimationUnit((s32 *)&ev, base);
+                        Model_LinkSlotAnimationUnit((s32 *)&type_unit, model_slot);
                         break;
                     default:
-                        *ev.ptr = handler;
+                        *type_unit.ptr = noop_handler_word;
                         break;
                     }
                     goto evloop;
                 }
             }
-            i++;
-            slot++;
-        } while (i < base->hmd_unit_count);
+            scan_index++;
+            hmd_unit++;
+        } while (scan_index < model_slot->hmd_unit_count);
     }
-    slot = GS_UNIT_VIEW(base->hmd_units) + 1;
-    i = 1;
-    base->packet_budget_bytes = packet_bytes;
-    base->lit_color_cache_entry_count = max_lit_color_index + i;
-    if (i < base->hmd_unit_count - 1) {
-        off = 0;
+    hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units) + 1;
+    scan_index = 1;
+    model_slot->packet_budget_bytes = packet_bytes;
+    model_slot->lit_color_cache_entry_count = max_lit_color_index + scan_index;
+    if (scan_index < model_slot->hmd_unit_count - 1) {
+        coordinate_byte_offset = 0;
     link:
-        base->entry_count++;
-        if (slot->primtop != 0) {
-            slot->coord = GS_COORD_UNIT_VIEW(base->entries + off);
+        model_slot->entry_count++;
+        if (hmd_unit->primtop != 0) {
+            hmd_unit->coord = GS_COORD_UNIT_VIEW(model_slot->entries + coordinate_byte_offset);
         }
-        off += MODEL_SLOT_DATA_ENTRY_SIZE;
-        i++;
-        slot++;
-        if (i < base->hmd_unit_count - 1) {
+        coordinate_byte_offset += MODEL_SLOT_DATA_ENTRY_SIZE;
+        scan_index++;
+        hmd_unit++;
+        if (scan_index < model_slot->hmd_unit_count - 1) {
             goto link;
         }
     }
-    scan = GS_COORD_UNIT_VIEW(base->entries);
-    if (scan != 0) {
-        i = 0;
-        while (scan->super != 0) {
-            scan++;
-            i++;
+    root_scan_coordinate = GS_COORD_UNIT_VIEW(model_slot->entries);
+    if (root_scan_coordinate != 0) {
+        scan_index = 0;
+        while (root_scan_coordinate->super != 0) {
+            root_scan_coordinate++;
+            scan_index++;
         }
-        base->root_coordinate_index = i;
-        q = GS_COORD_UNIT_VIEW(base->entries) + i;
-        base->root_coordinate = q;
-        base->render_parent_coordinate_index = Model_FindBranchingChildCoord(base, q);
-        if (!(base->render_parent_coordinate_index < base->entry_count)) {
-            base->render_parent_coordinate_index = base->root_coordinate_index;
+        model_slot->root_coordinate_index = scan_index;
+        root_coordinate = GS_COORD_UNIT_VIEW(model_slot->entries) + scan_index;
+        model_slot->root_coordinate = root_coordinate;
+        model_slot->render_parent_coordinate_index = Model_FindBranchingChildCoord(model_slot, root_coordinate);
+        if (!(model_slot->render_parent_coordinate_index < model_slot->entry_count)) {
+            model_slot->render_parent_coordinate_index = model_slot->root_coordinate_index;
         }
-        cur = GS_COORD_UNIT_VIEW(base->entries) + base->render_parent_coordinate_index;
-        base->render_parent_coordinate = cur;
+        render_parent_candidate = GS_COORD_UNIT_VIEW(model_slot->entries) + model_slot->render_parent_coordinate_index;
+        model_slot->render_parent_coordinate = render_parent_candidate;
     retry:
-        slot = GS_UNIT_VIEW(base->hmd_units);
-        loaded_limit = base->hmd_unit_count;
-        i = 0;
-        if (loaded_limit != 0) {
-            sentinel = -1;
-            limit = loaded_limit;
+        hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units);
+        captured_unit_count = model_slot->hmd_unit_count;
+        scan_index = 0;
+        if (captured_unit_count != 0) {
+            chain_end_marker = -1;
+            unit_count_limit = captured_unit_count;
         claimed:
-            if (slot->coord != 0 && slot->primtop != 0) {
-                if (*slot->primtop != sentinel || *(slot->primtop + 2) != 0) {
-                    if (slot->coord->super == cur) {
+            if (hmd_unit->coord != 0 && hmd_unit->primtop != 0) {
+                if (*hmd_unit->primtop != chain_end_marker || *(hmd_unit->primtop + 2) != 0) {
+                    if (hmd_unit->coord->super == render_parent_candidate) {
                         goto scanned;
                     }
                 }
             }
-            i++;
-            slot++;
-            if (i < limit) {
+            scan_index++;
+            hmd_unit++;
+            if (scan_index < unit_count_limit) {
                 goto claimed;
             }
         scanned:
-            if (i < base->hmd_unit_count) {
+            if (scan_index < model_slot->hmd_unit_count) {
                 goto found;
             }
         }
-        next = Model_FindBranchingChildCoord(base, cur);
-        if (!(next < base->entry_count)) {
+        child_coordinate_index = Model_FindBranchingChildCoord(model_slot, render_parent_candidate);
+        if (!(child_coordinate_index < model_slot->entry_count)) {
             goto found;
         }
-        cur = (GsCOORDUNIT *)base->entries + next;
+        render_parent_candidate = (GsCOORDUNIT *)model_slot->entries + child_coordinate_index;
         goto retry;
     found:
-        rec = cur->super;
-        if (rec != base->root_coordinate) {
-            base->render_parent_coordinate = rec;
-            if (rec != 0) {
-                base->render_parent_coordinate_index = rec - GS_COORD_UNIT_VIEW(base->entries);
+        parent_coordinate = render_parent_candidate->super;
+        if (parent_coordinate != model_slot->root_coordinate) {
+            model_slot->render_parent_coordinate = parent_coordinate;
+            if (parent_coordinate != 0) {
+                model_slot->render_parent_coordinate_index = parent_coordinate - GS_COORD_UNIT_VIEW(model_slot->entries);
             }
         }
     }
-    if (base->animation_snapshot_buffer == 0) {
-        base->animation_snapshot_buffer = (u8 *)(hmd + size);
+    if (model_slot->animation_snapshot_buffer == 0) {
+        model_slot->animation_snapshot_buffer = (u8 *)(hmd + size);
     }
 }
