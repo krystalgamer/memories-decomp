@@ -43,7 +43,7 @@ void func_8013CAEC(u8 *ctx)
     }
     ribbon = (Ribbons436Ribbon *)work;
     for (i = 0, phase = 0; i < 4; i++, ribbon++, phase = i * 1024) {
-        if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons436Timing **)(work + 0x15F4))->wave_end && !(i & 1)) {
+        if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons436Timing *G32 *)(work + 0x15F4))->wave_end && !(i & 1)) {
             wave = -MODEL_VARIANT_WORD(work, 0x1634);
         } else {
             wave = MODEL_VARIANT_WORD(work, 0x1634);
@@ -213,7 +213,7 @@ void func_8013CAEC(u8 *ctx)
             } else {
                 ribbon->start += MODEL_VARIANT_WORD(work, 0x15E8);
                 if (ribbon->start >= 8) {
-                    if ((*(Ribbons436Timing **)(work + 0x15F4))->loop_end <= MODEL_VARIANT_WORD(work, 0x15E0)) {
+                    if ((*(Ribbons436Timing *G32 *)(work + 0x15F4))->loop_end <= MODEL_VARIANT_WORD(work, 0x15E0)) {
                         ribbon->start = 8;
                         ribbon->end = 8;
                         ribbon->count++;
