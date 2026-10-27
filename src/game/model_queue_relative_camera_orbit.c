@@ -8,87 +8,87 @@
 #include "model_effect_state.h"
 
 void Model_QueueRelativeCameraOrbit(
-    s32 arg0,
-    s32 arg1,
-    s32 arg2,
-    s32 arg3,
-    SVECTOR *offset,
-    s32 arg5
+    s32 slot_selector,
+    s32 distance,
+    s32 yaw,
+    s32 pitch,
+    SVECTOR *target_offset,
+    s32 key_magnitude
 ) {
-    u16 a[4];
-    u16 b[4];
-    ModelViewMetrics *s;
+    u16 target_halfwords[4];
+    u16 orbit_halfwords[4];
+    ModelViewMetrics *view_metrics;
     s32 one;
-    s32 m;
-    s32 t;
-    s32 q;
-    s32 r;
+    s32 offset_sign;
+    s32 biased_yaw;
+    s32 biased_pitch;
+    s32 yaw_word;
     s32 x;
-    s32 first;
+    s32 queue_mode;
 
-    s = Model_GetViewMetricsBuffer();
-    memset(a, 0, sizeof(a));
-    a[3] = arg0 | 0x80;
+    view_metrics = Model_GetViewMetricsBuffer();
+    memset(target_halfwords, 0, sizeof(target_halfwords));
+    target_halfwords[3] = slot_selector | 0x80;
     one = 1;
 
     if (gModel_bCameraHoldState == one && gModel_bHandlerCallbackState == one) {
         return;
     }
 
-    if (arg0 == 2) {
-        Model_CopySlotPosition(2, (u16 *)a);
-        a[3] = one;
+    if (slot_selector == 2) {
+        Model_CopySlotPosition(2, (u16 *)target_halfwords);
+        target_halfwords[3] = one;
     }
 
-    if (offset != 0) {
-        m = -1;
-        if (arg0 <= 0) {
-            m = 1;
+    if (target_offset != 0) {
+        offset_sign = -1;
+        if (slot_selector <= 0) {
+            offset_sign = 1;
         }
-        a[0] = a[0] + offset->vx * m;
+        target_halfwords[0] = target_halfwords[0] + target_offset->vx * offset_sign;
         /* Retail zero-extends only the middle component. */
-        a[1] = a[1] + *(u16 *)&offset->vy;
-        a[2] = a[2] + offset->vz * m;
+        target_halfwords[1] = target_halfwords[1] + *(u16 *)&target_offset->vy;
+        target_halfwords[2] = target_halfwords[2] + target_offset->vz * offset_sign;
     }
 
-    b[0] = arg1;
-    x = (s16)s->yaw;
-    t = arg2 + MODEL_ANGLE_FULL_TURN;
-    if (arg0 <= 0) {
+    orbit_halfwords[0] = distance;
+    x = (s16)view_metrics->yaw;
+    biased_yaw = yaw + MODEL_ANGLE_FULL_TURN;
+    if (slot_selector <= 0) {
         x = x - 0xC00;
     } else {
         x = x - 0x400;
     }
-    b[1] = (t - x) - (t - x) / MODEL_ANGLE_FULL_TURN *
+    orbit_halfwords[1] = (biased_yaw - x) - (biased_yaw - x) / MODEL_ANGLE_FULL_TURN *
         MODEL_ANGLE_FULL_TURN;
-    r = b[1];
-    if (*(s16 *)&b[1] >= MODEL_ANGLE_WRAP_THRESHOLD) {
-        b[1] = r - MODEL_ANGLE_FULL_TURN;
+    yaw_word = orbit_halfwords[1];
+    if (*(s16 *)&orbit_halfwords[1] >= MODEL_ANGLE_WRAP_THRESHOLD) {
+        orbit_halfwords[1] = yaw_word - MODEL_ANGLE_FULL_TURN;
     }
-    if (*(s16 *)&b[1] < -MODEL_ANGLE_HALF_TURN) {
-        b[1] = b[1] + MODEL_ANGLE_FULL_TURN;
-    }
-
-    q = arg3 + MODEL_ANGLE_FULL_TURN;
-    b[2] = (q - q / MODEL_ANGLE_FULL_TURN * MODEL_ANGLE_FULL_TURN) -
-        s->pitch;
-    if (*(s16 *)&b[2] >= MODEL_ANGLE_WRAP_THRESHOLD) {
-        b[2] = b[2] - MODEL_ANGLE_FULL_TURN;
-    }
-    if (*(s16 *)&b[2] < -MODEL_ANGLE_HALF_TURN) {
-        b[2] = b[2] + MODEL_ANGLE_FULL_TURN;
+    if (*(s16 *)&orbit_halfwords[1] < -MODEL_ANGLE_HALF_TURN) {
+        orbit_halfwords[1] = orbit_halfwords[1] + MODEL_ANGLE_FULL_TURN;
     }
 
-    first = *(s8 *)&gModel_nEffectKeyBatchOrdinal;
-    x = first;
-    b[3] = 4;
+    biased_pitch = pitch + MODEL_ANGLE_FULL_TURN;
+    orbit_halfwords[2] = (biased_pitch - biased_pitch / MODEL_ANGLE_FULL_TURN * MODEL_ANGLE_FULL_TURN) -
+        view_metrics->pitch;
+    if (*(s16 *)&orbit_halfwords[2] >= MODEL_ANGLE_WRAP_THRESHOLD) {
+        orbit_halfwords[2] = orbit_halfwords[2] - MODEL_ANGLE_FULL_TURN;
+    }
+    if (*(s16 *)&orbit_halfwords[2] < -MODEL_ANGLE_HALF_TURN) {
+        orbit_halfwords[2] = orbit_halfwords[2] + MODEL_ANGLE_FULL_TURN;
+    }
+
+    queue_mode = *(s8 *)&gModel_nEffectKeyBatchOrdinal;
+    x = queue_mode;
+    orbit_halfwords[3] = 4;
     if (x < 0) {
-        first = 0;
+        queue_mode = 0;
     } else {
         gModel_nEffectKeyBatchOrdinal = gModel_nEffectKeyBatchOrdinal + 1;
-        first = x > 0;
+        queue_mode = x > 0;
     }
     Model_ApplyEffectKeyQueueCommand(
-        first, (ModelEffectEndpoint *)b, (ModelEffectEndpoint *)a, arg5
+        queue_mode, (ModelEffectEndpoint *)orbit_halfwords, (ModelEffectEndpoint *)target_halfwords, key_magnitude
     );
 }
