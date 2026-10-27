@@ -2,6 +2,19 @@
 
 #include "variant398_entry.h"
 
+/* French header 441 (North American header 424) keeps the same rings in
+ * Variant398Header441RingsState; its frame count is signed, growth is
+ * step * 80 and the scale keeps wrapping through phase 3. */
+#if defined(VARIANT398_RINGS_LAYOUT_441)
+#define VARIANT398_RINGS_WORK Variant398Header441RingsState
+#define VARIANT398_RINGS_GROWTH 80
+#define VARIANT398_RINGS_WRAP_PHASES 4
+#else
+#define VARIANT398_RINGS_WORK Variant398EntryState
+#define VARIANT398_RINGS_GROWTH 96
+#define VARIANT398_RINGS_WRAP_PHASES 3
+#endif
+
 /* Draws three screen rings of sixteen POLY_GT4 strips textured from the
  * frame-buffer half each strip lands on, facing the work direction. Past
  * half scale the inner row is pushed back and widened; each scale grows by
@@ -15,7 +28,7 @@ void func_8013C2B8(u8 *context)
     GsCOORDINATE2 coord;
     PSXLONG p;
     PSXLONG flag;
-    Variant398EntryState *work = (Variant398EntryState *)context;
+    VARIANT398_RINGS_WORK *work = (VARIANT398_RINGS_WORK *)context;
     Variant398EntryScreenRing *ring;
     POLY_GT4 *poly;
     GsOT *ot;
@@ -30,8 +43,8 @@ void func_8013C2B8(u8 *context)
     u32 tpage;
     u8 red, green, blue;
 
-    ot = func_80058F10();
     ring = work->screen_rings;
+    ot = func_80058F10();
     yaw = ratan2(work->direction.vz, work->direction.vx);
     heading = yaw + 0x800;
     pitch = ratan2(work->direction.vy, work->direction.vz) + 0x800;
@@ -156,9 +169,9 @@ void func_8013C2B8(u8 *context)
             }
         }
         if (ring->scale < 0x1000) {
-            ring->scale += work->step * 96;
+            ring->scale += work->step * VARIANT398_RINGS_GROWTH;
             if (ring->scale >= 0x1000) {
-                if (work->phase < 3) {
+                if (work->phase < VARIANT398_RINGS_WRAP_PHASES) {
                     ring->scale -= 0x1000;
                     ring->count++;
                 } else {
