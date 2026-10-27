@@ -288,3 +288,11 @@ thirty-two under headers 827 and 924 (`variant827_entry.c`; see the
 thirty-five under headers 828 and 925 (`variant828_entry.c`; see the
 [USA header-828 note](../../../notes/overlays/usa-model-variant828.md)). See the
 [USA French-entry images](../../../notes/overlays/usa-model-french-entries.md).
+
+The 1,189 USA return-two primary images (headers 37 and 40) build their
+eight-byte `jr ra; li v0,2` entry from the accepted
+`spanish_model_primary/return_two.c` and its slot-1 wrapper under
+`gcc_2_8_1_g0_split`, as `model_return_two_<model>_slot<0|1>` modules
+sharing one symbol file per slot. Each keeps its four-byte header and
+4,084-byte tail as unclassified data; see the
+[USA return-two promotion](../../../notes/overlays/spanish-model-return-two.md#usa-promotion).
