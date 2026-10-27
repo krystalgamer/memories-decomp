@@ -249,3 +249,41 @@ copier. The background owner witness still compiles the WHOLE source
 and checks its unchanged projection-header include and owners. French
 338/393 bindings and all controls/oracles/assertions/flags remain exact.
 No fixture was imported or executed locally and no new harness is added.
+
+## Signed metadata offsets in the position cache
+
+The metadata prefix now has a FOURTH union arm, position_offsets:
+signed bytes x/y/z at relative +4/+5/+6 (slot +0xCFC/+0xCFD/+0xCFE).
+Its explicit padding keeps this view twelve bytes. The original byte,
+comparison-value and threshold arms retain their exact order and bounds;
+bytes remains FIRST, including for any positional aggregate initialization.
+No storage, larger union, alignment, packed attribute or new SDK type is added.
+
+These are consumer-backed cached-position offsets, not a recovered asset
+producer schema or proof of a mesh center, world units or current bounds.
+After the original slot/parent/part-mask gates, the first origin walk
+averages eligible workm translations or uses its existing parent fallback.
+X/Z still call Model_MirrorOffset with the selected slot index and the
+signed metadata byte multiplied by 0x10. Y still adds its signed byte
+times 0x10 directly. Keep each s16 cache store and X/Y/Z evaluation order.
+
+The second walk still has DIFFERENT root/parent/content/count gates and
+its own Y average/fallback. cached_position[3] remains
+(y - 700) / 3 + signed_Y_offset * 0x10, preserving division, its SECOND
+Y-byte read and original narrowing. It is not padding, homogeneous W,
+an exact center or an always-fresh camera target.
+
+Only FOUR existing blk[4/5/6] reads in the COMPLETE draw definition acquire
+qualified position_offsets fields through the existing blk pointer.
+blk stays s8*, initialized at the same metadata address and kept live
+over the same scope. The new fields stay s8: negative byte values do not
+become unsigned thresholds. Multipliers, casts elsewhere, helper calls,
+mixed-role scratch bindings and every other source byte remain unchanged.
+
+The prefix's existing size guard and new member/arm layout guard preserve
+the twelve-byte view and three byte offsets/widths. The separate 28-byte
+metadata/word-copy views, full CF8 tail, alias relocation and SDK layouts
+are not retyped. Existing minimum/override queries keep their unsigned
+threshold views and distinct policies. All fixtures, oracles, mutations,
+scenarios, numeric expectations and flags remain byte-for-byte unchanged;
+none was imported/executed and no new behavioral harness is introduced.
