@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C4F8
     align: 4
     subsegments:
-      - [0x14F8, asm, overlays/french_model_variant_379_stage8_slot1/helper_14F8]
+      - [0x14F8, c, overlays/spanish_model_variant/variant479_spiral_slot1]
   - name: helper_1F68
     type: code
     start: 0x1F68
