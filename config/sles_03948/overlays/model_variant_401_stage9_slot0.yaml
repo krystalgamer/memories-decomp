@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/french_model_variant/variant432_entry]
-  - name: unmatched_DAC
+  - name: ribbons
     type: code
     start: 0xDAC
     vram: 0x8013BDAC
     align: 4
     subsegments:
-      - [0xDAC, asm, overlays/french_model_variant_401_stage9_slot0/unmatched_DAC]
+      - [0xDAC, c, overlays/french_model_variant/variant432_ribbons]
   - name: draw
     type: code
     start: 0x134C
