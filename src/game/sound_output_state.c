@@ -83,28 +83,28 @@ void SD_SetCdPan(s32 pan)
     SD_SetCdVolume(g_SDValue->cd_volume);
 }
 
-void SD_SetCdVolumeImmediate(s32 value)
+void SD_SetCdVolumeImmediate(s32 level)
 {
-    CdlATV data;
-    SDValue *first;
-    SDValue *second;
+    CdlATV attenuation;
+    SDValue *volume_state;
+    SDValue *step_state;
 
     g_SDValue->mix_multiplier = 7;
-    data.val0 = value;
-    data.val3 = 0;
+    attenuation.val0 = level;
+    attenuation.val3 = 0;
     if (g_SDValue->output_type == 0) {
-        data.val1 = 0;
-        data.val2 = value;
+        attenuation.val1 = 0;
+        attenuation.val2 = level;
     } else {
-        data.val1 = value;
-        data.val2 = 0;
+        attenuation.val1 = level;
+        attenuation.val2 = 0;
     }
-    CdMix(&data);
-    first = g_SDValue;
-    first->cd_fade_target = value;
-    second = g_SDValue;
-    first->cd_volume = value;
-    second->cd_fade_step = 0;
+    CdMix(&attenuation);
+    volume_state = g_SDValue;
+    volume_state->cd_fade_target = level;
+    step_state = g_SDValue;
+    volume_state->cd_volume = level;
+    step_state->cd_fade_step = 0;
 }
 
 s32 SD_GetCdVolume(void)
@@ -122,19 +122,19 @@ s32 SD_GetCdVolume(void)
    SD_UpdateRuntime dequeues it. wait_for_cd_fade becomes active_cd_fade_wait; while it is
    nonzero, SD_StepActiveCommand keeps the command active until the fade
    ends. No caller is present in the retail executable or its overlays. */
-s32 SD_EnqueueCdFade(s32 a0, s32 a1, s32 a2) {
-    SDCommand s;
-    s.command = 41;
-    s.arg1 = (s16) a0;
-    s.value = (s16) (u8) a1;
-    s.wait_for_cd_fade = (u8) a2;
-    return SD_EnqueueCommand(&s);
+s32 SD_EnqueueCdFade(s32 step, s32 target, s32 wait_for_fade) {
+    SDCommand command;
+    command.command = 41;
+    command.arg1 = (s16) step;
+    command.value = (s16) (u8) target;
+    command.wait_for_cd_fade = (u8) wait_for_fade;
+    return SD_EnqueueCommand(&command);
 }
 
-void SD_StartCdFade(s16 value, u8 flag, s32 unused)
+void SD_StartCdFade(s16 step, u8 target, s32 unused)
 {
-    g_SDValue->cd_fade_step = value;
-    g_SDValue->cd_fade_target = flag;
+    g_SDValue->cd_fade_step = step;
+    g_SDValue->cd_fade_target = target;
 }
 
 #ifndef VERSION_JAPAN

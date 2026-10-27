@@ -1087,6 +1087,55 @@ extraction, generic command payloads, raw request fields, pointer reloads,
 flag updates and SDK ordering remain unchanged. No enum, new initializer,
 struct view, replay or behavioral harness is introduced.
 
+### Fade arguments and runtime queue-local views
+
+The CD producers now name step, target and wait_for_fade.
+SD_EnqueueCdFade retains all three s32 inputs and its exact conversions:
+arg1 gets (s16)step, value gets (s16)(u8)target and the wait byte gets
+(u8)wait_for_fade. Only these fields and opcode 41 are initialized,
+in the original order; the queue result is returned without repair.
+No new public prototype, caller, zeroing or enum is introduced.
+SD_StartCdFade retains its s16/u8 arguments and unused third argument.
+
+The queue-head consumer still prepares CD commands 0x29 and 0x2A only
+when the existing CD step is zero. It reads the QUEUE record, applies
+the original u16/u8 conversions, and stages the wait byte afterwards.
+An active fade can therefore prevent a new ramp from being installed
+without preventing dequeue/activation. Both sequence command bodies
+0x44 and 0x45 remain separate, including their existing writes to the
+BGM target alongside the sequence step. No apparent mismatch is fixed.
+
+SD_UpdateFades names its u8 secondary_mix_changed, u16 scaled_mix and
+shared s16 output_level. Only sequence/BGM ramps set the secondary-mix
+flag; the CD ramp follows its own path. Preserve update-before-test,
+both independent direction tests, all narrow compound assignments,
+zero branches, multiplication/shift order and setter calls. scaled_mix
+is NOT widened to avoid intermediate truncation. No per-frame timing,
+saturation, new range or conversion policy is inferred.
+
+SD_SetCdVolumeImmediate names level and its local attenuation payload.
+Keep the raw s32 input, original implicit SDK-byte/state narrowings,
+mix multiplier store before CdMix and output-type byte selection.
+After CdMix, reload volume_state, store its target, reload step_state,
+then store current through volume_state and clear step through step_state.
+Both reads and the current store through the first pointer remain.
+
+SD_EnqueueCommand names capacity_state/capacity_count, write_state/
+write_index and count_state without merging ANY global/count reads.
+Its capacity test still precedes the first opcode store, whole-record
+copy and final reloaded count increment. The partial producer remains
+partial even though the entire record is copied; failure stays zero.
+
+SD_UpdateRuntime names command_cursor, key_off_mask, shifted_count and
+queue_byte_offset. flags_or_command deliberately retains its flags-word
+then opcode overload; state deliberately remains reused across reloads.
+tail_state/queue_state remain separate pointers, not cached aliases.
+Keep key polling, ended-sequence handling, fades, active-command early
+return, queue-head staging, tail copy, unknown field_15F4=8, decrement,
+first active step and later byte-plus-record compaction in exact order.
+The cursor advances before that loop and both copies remain. No drain
+loop, capacity fix, stable-filter claim or changed command-zero policy.
+
 ### Active-command payload snapshot
 
 `SD_UpdateRuntime` stages the queue head into a separate payload before
