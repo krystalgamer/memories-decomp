@@ -89,7 +89,7 @@ segments:
     vram: 0x8013DBC0
     align: 4
     subsegments:
-      - [0x2BC0, asm, overlays/french_model_variant_0_stage7_slot0/helper_2BC0]
+      - [0x2BC0, c, overlays/french_model_variant/variant426_streamers]
   - name: helper_3440
     type: code
     start: 0x3440
