@@ -86,33 +86,33 @@ void Model_UpdateScene(void)
 
 void Model_RunSlotHandlers(s32 index)
 {
-    ModelSlot *base = &gModel_aSlots[index];
-    ModelSlotHeadEntry *slot = base->hmd_units;
-    s32 (*callback)(s32) = Model_MapToWireframePrimitiveHandler;
-    u32 *node;
-    u32 *next;
-    s32 i;
+    ModelSlot *model_slot = &gModel_aSlots[index];
+    ModelSlotHeadEntry *head_unit = model_slot->hmd_units;
+    s32 (*remap_handler)(s32) = Model_MapToWireframePrimitiveHandler;
+    u32 *group_words;
+    u32 *next_group_words;
+    s32 unit_index;
 
-    if (base->is_active == 0) {
+    if (model_slot->is_active == 0) {
         return;
     }
-    for (i = 0; i < base->hmd_unit_count; i++, slot++) {
-        node = slot->primitive_data;
-        if (node != 0) {
+    for (unit_index = 0; unit_index < model_slot->hmd_unit_count; unit_index++, head_unit++) {
+        group_words = head_unit->primitive_data;
+        if (group_words != 0) {
             while (1) {
-                if (node[2] != 0) {
+                if (group_words[2] != 0) {
                     Model_RemapPrimitiveHandlers(
-                        callback,
-                        (ModelHandlerRunEntry *)&node[3],
-                        node[1],
-                        node[2]
+                        remap_handler,
+                        (ModelHandlerRunEntry *)&group_words[3],
+                        group_words[1],
+                        group_words[2]
                     );
                 }
-                next = (u32 *)node[0];
-                if (next == (u32 *)-1) {
+                next_group_words = (u32 *)group_words[0];
+                if (next_group_words == (u32 *)-1) {
                     break;
                 }
-                node = next;
+                group_words = next_group_words;
             }
         }
     }
