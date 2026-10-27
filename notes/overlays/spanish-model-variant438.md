@@ -22,7 +22,8 @@ Each image has eight contiguous game-owned functions:
 remain exact raw data. The closed helper at `+0x23E8` has no observed
 entry-reachable call; it remains inventoried as game code.
 The helper at `+0x1614` is exact C as well; see
-[warp rings](spanish-model-variant438-warp.md).
+[warp rings](spanish-model-variant438-warp.md). The loader entry at
+`+0x4` is exact C; see [entry](spanish-model-variant438-entry.md).
 
 ## Original context and initialized storage
 
