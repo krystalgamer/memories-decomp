@@ -613,3 +613,56 @@ Every member token, argument, type, comment, string, literal, expression,
 scope and statement stays exact. Public headers, SDK declarations,
 grouped ownership, profiles, manifests, fixtures, oracles, mutations,
 assertions and numeric controls remain unchanged; no new harness.
+
+## Per-sequence interpolation local views
+
+The two complete resident translation/rotation and translation/rotation/
+scale callbacks now distinguish only their existing local views. They
+consume the current/target/output parameter tail populated by the animation
+unit dispatcher; they are not new SDK implementations or original names.
+Both preserve tail-pointer formation before the zero-duration return1,
+then coordinate decoding and all writes after that guard.
+
+The first callback's rewrite_work deliberately remains ONE binding for
+the packed rewrite index THEN its masked word offset. rewrite_section
+retains the top-byte selection. The scaled callback keeps its distinct
+table-index-plus-five and shifted-word-offset arithmetic. No common
+lookup helper, new section bound or pointer-lifetime promise.
+
+remaining_duration and total_duration retain rframe/tframe captures,
+signed widths and original source*remaining plus target*(total-remaining)
+weighting. The scaled callback keeps SEPARATE translation_elapsed and
+rotation_scale_elapsed bindings. The latter is assigned INSIDE the first
+rotation expression at its original later point and reused for Y/Z and
+scale. Do not merge these equal-looking arithmetic paths or widen them.
+
+Keep the original target/source angle load order. The first callback's
+six angle temporaries remain u16; the scaled callback's remain s32 with
+explicit s16 interpretations. source_rx/ry/rz and target_rx/ry/rz name
+those existing views, not normalized angles. Wrap still occurs ONLY at
+duration16 and the original threshold, with zero target selecting the
+original positive-full-turn adjustment. All labels, empty statements,
+axis-specific comparisons, target narrowing and signed divisions stay.
+adjusted_target_angle and signed_angle_delta add no wider angle policy.
+
+The scaled rotation_halfwords is the existing s16 pointer to node rotation
+passed as SVECTOR, NOT the optional output record. Keep the original SDK
+casts, scale s32[3], rotation-then-scale call order and later flag clear.
+No pad initialization, structure replacement or matrix-layout inference.
+The first output_keyframe remains a separate null-test capture; its six
+stores STILL reload through interpolation_parameters->out. The scaled
+nine stores remain raw u16 pointer loads of translation/rotation/scale
+low halfwords, followed by the same common finished label and return0.
+No publication consolidation, cast rewrite or new output readiness.
+
+Only scoped bare locals in these TWO complete definitions change.
+Arguments, member tokens, comments, types, constants, expressions, scopes,
+labels and order remain. The inline scanner, three earlier binding/
+dispatch definitions, headers, SDK declarations and profiles stay exact.
+The existing angle-wrap witness changes ONLY corresponding identifiers
+in its selector/mutation literals and existing actual-helper fragments.
+Its reference oracle, all operators, thresholds, negative controls,
+1,179,648 cases, assertions, scenarios and compiler flags stay exact.
+The unrelated witness out parameter stays out. No fixture is imported
+or executed locally and no new generated-C/source-string harness is added.
+The whole five-function source/profile group and both macro adapters remain.
