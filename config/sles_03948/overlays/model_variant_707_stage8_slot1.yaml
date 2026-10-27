@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/french_model_variant_707_stage8_slot1/unmatched_4]
-  - name: unmatched_10B0
+  - name: layers
     type: code
     start: 0x10B0
     vram: 0x8017C0B0
     align: 4
     subsegments:
-      - [0x10B0, asm, overlays/french_model_variant_707_stage8_slot1/unmatched_10B0]
+      - [0x10B0, c, overlays/french_model_variant/variant373_layers_slot1]
   - name: grid
     type: code
     start: 0x176C
