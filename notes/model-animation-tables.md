@@ -128,6 +128,54 @@ retain their names. Other playback state, part flags, transfer pointers,
 the tentative position helper, SDK declarations, source groups, profiles
 and historical symbol evidence are not promoted or rewritten by association.
 
+## Snapshot-span and row-copy local views
+
+The immediate and staged loaders now distinguish the existing snapshot
+span, mask-byte/part indices and sequence-rearm cursors. Both retain
+the row-one FFFF test and 12/20-byte accounting ONLY for index<2;
+the cache-base store and cache-end derivation still occur for EVERY
+slot. These are signed address calculations, not a proven buffer size.
+The immediate loader's cache_or_speed deliberately remains ONE binding
+for cache-base then playback-speed work; the staged phase_value likewise
+retains both uses. No split temporaries or changed register scheduling.
+
+The immediate loader still initializes before the null-HMD return,
+builds then links, sets the root transform, rearms all sequence fields,
+publishes is_active=1 before drawing and leaves it set. Its playback
+switch and index<2 tint gate remain. The staged phase instead clears
+is_active after drawing, has its original later active publications,
+and preserves all eleven switch phases, callbacks and partial-state exits.
+
+The staged initial_load_step is only the early idle-gate snapshot.
+Keep the separate load_phase read, original per-phase slot aliases and
+per-loop part_index scopes, module-command reread/modulo and callback
+state bracket. phase_work remains reused for command and timing work.
+The non-Japanese VSync/printf path and Japanese omission stay distinct;
+final next_load_step still follows the LIVE slot state after callbacks,
+not the earlier snapshot or an unconditional phase increment.
+
+The row controller captures parameter_base, snapshot_cursor and
+part_sequences BEFORE the active gate. command_halfwords addresses the
+selected command; restore_command_index/save_command_index are COMMAND
+indices, not row selectors. Keep pointer formation before FFFF tests.
+The restore/save word counts and rounded-part locals remain SEPARATE
+bindings: the original shift expressions still use a count of three
+while selecting an extended-mask bit, then choose three/five words.
+
+Missing entries advance neither snapshot cursor. Restoration copies
+saved words TO parameters and clears the active row; saving reverses
+the copy and publishes ii before it. Preserve selector-1 behavior,
+all zero-duration/replacement gates, the pre-recursion previous_row,
+queue-latch update, recursive restore and same-row seek ordering.
+No new null/bounds guard, row validation, overlap or lifetime promise.
+
+Only scoped bare locals in these THREE complete definitions change.
+Arguments, member tokens, comments, types, expressions, scopes and
+statement order stay exact. The existing staged-load witness changes
+ONLY identifiers inside its eight mutation-source/replacement strings;
+all four mutation labels, operators, numbers, scenarios, oracles and
+assertions stay. No new harness or local cloud-witness execution.
+
 ## Live parameters and row snapshots
 
 The later pointer component names +0xDDC `animation_parameter_base` and
