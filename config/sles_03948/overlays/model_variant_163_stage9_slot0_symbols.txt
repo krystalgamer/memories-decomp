@@ -1,0 +1,5 @@
+// MODEL.MRG model 163 (record 163), sector 45188, header 419, loaded at 0x8013B000.
+func_8013B004 = 0x8013B004; // type:func size:0x11D8 defined:true
+func_8013C1DC = 0x8013C1DC; // type:func size:0x594 defined:true
+func_8013C770 = 0x8013C770; // type:func size:0x4DC defined:true
+D_8013CC4C = 0x8013CC4C; // type:u8 size:0x33B4 defined:true

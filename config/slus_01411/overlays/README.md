@@ -247,7 +247,7 @@ read from the USA image's own `jal` targets. Thirty more differ from their Frenc
 in a regional constant (a CLUT or the screen height) and build through North
 American wrappers that set it. Forty-nine more add a North American work-size
 `printf` to their French entry, under a macro the wrappers define. Six hundred
-twenty-seven more build from new North American C: twenty-five under headers 72
+thirty-nine more build from new North American C: twenty-five under headers 72
 and 202 (`src/overlays/model_variant/variant72_entry.c`; see the
 [USA header-72 note](../../../notes/overlays/usa-model-variant72.md)),
 sixteen under headers 78 and 208 (`variant78_entry.c`),
@@ -267,6 +267,10 @@ twenty under headers 172 and 302 (`variant172_entry.c`; see the
 [USA header-172 note](../../../notes/overlays/usa-model-variant172.md)),
 twenty-seven under headers 176 and 306 (`variant176_entry.c`; see the
 [USA header-176 note](../../../notes/overlays/usa-model-variant176.md)),
+twelve under headers 402 and 552 (`variant402_entry.c`, with the swarm and
+quad helpers built from the French header-419 helper C through
+`variant402_{swarm,quads}.c`; the header-552 model-163 image also keeps its
+unreached `func_8017F4D0` as generated assembly),
 fourteen under headers 627 and 694 (`variant627_entry.c`; see the
 [USA header-627 note](../../../notes/overlays/usa-model-variant627.md)),
 thirteen under headers 634 and 701 (`variant634_entry.c`; see the

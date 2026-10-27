@@ -27,7 +27,8 @@ six complete, contiguous, directly reachable functions at `+4`, `+CD4`,
 `+1344`, `+19A4`, `+1E9C`, and `+2410`; code ends at `+2E7C`.
 Only `+1E9C` was C at first; this added ten C instances / 13,960 bytes
 while retaining fifty ASM instances. `+CD4` is now C as well (see
-[the strips helper](french-model-variant388-strips.md)). The other
+[the strips helper](french-model-variant388-strips.md)), and so is the
+entry `+0004` (see [the entry](spanish-model-variant388-entry.md)). The other
 functions and the unchanged raw tail remain generated assembly/data.
 
 `spanish-model-variant388-instances.csv` pins every physical image hash,

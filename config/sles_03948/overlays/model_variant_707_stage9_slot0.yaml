@@ -61,7 +61,7 @@ segments:
     vram: 0x8013BD98
     align: 4
     subsegments:
-      - [0xD98, asm, overlays/french_model_variant_707_stage9_slot0/helper_D98]
+      - [0xD98, c, overlays/french_model_variant/variant436_bands]
   - name: helper_153C
     type: code
     start: 0x153C

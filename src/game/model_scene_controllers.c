@@ -1431,12 +1431,12 @@ loop:
  * register pins, inline assembly or symbol aliases.
  *
  * Two behavioural points read off the retail listing:
- *  - `moved = limit` is set after the main body as well as on the mode == 0
+ *  - `separation_extent = separation_limit` is set after the main body as well as on the apply_request == 0
  *    path (retail's `j next` carries `move s1,s5` in its slot), so the loop
- *    is `if (moved) { hits++; continue; } if (mode != 0) { body } moved =
- *    limit;`;
- *  - the push is scaled by the extents, `px = e0.values[i] * scale / 4096`
- *    and `pz = e2.values[i] * scale / 4096`; dx[i] and dz[i] decide only the
+ *    is `if (separation_extent) { extra_overlap_count++; continue; } if (apply_request != 0) { body } separation_extent =
+ *    separation_limit;`;
+ *  - the push is scaled by the extents, `push_x = e0.values[slot_index] * penetration_scale / 4096`
+ *    and `push_z = e2.values[slot_index] * penetration_scale / 4096`; dx[slot_index] and dz[slot_index] decide only the
  *    sign.
  *
  * Shape that the compiler needs, in the order it was found:
@@ -1444,19 +1444,19 @@ loop:
  *    destination and copied down (`e3 = e0`, `e0 = e1`, ...), with a
  *    do { } while (0) around the store before each copy: the loop notes are
  *    sched1 barriers that keep retail's global loads below the pair copies;
- *  - the dead read `nv = gModel_RView.vpx` above the last pin, and the three
- *    reference names ref/nv/ry, leave the `lui` of gModel_RView as the join
+ *  - the dead read `view_work = gModel_RView.vpx` above the last pin, and the three
+ *    reference names probe_x/view_work/probe_z, leave the `lui` of gModel_RView as the join
  *    block's first insn so reorg can hoist it into the beqz slot;
- *  - the `hits++` arm sits out of line after the loop bottom;
- *  - `sd = ... / len` sits in its own do { } while (0), `cpx`/`apz` are
- *    named before the length call, and `cross` after them;
- *  - the loop-top reads of dy.values[i] and e1.values[i] go through two
+ *  - the `extra_overlap_count++` arm sits out of line after the loop bottom;
+ *  - `side_distance = ... / normal_length` sits in its own do { } while (0), `pushed_eye_x`/`pushed_eye_z` are
+ *    named before the length call, and `line_constant` after them;
+ *  - the loop-top reads of dy.values[slot_index] and e1.values[slot_index] go through two
  *    pointers that start at the frame base and are stepped twice, and the
- *    limit comparison is stored back into eb; see the comments in the loop.
+ *    separation_limit comparison is stored back into height_gate_work; see the comments in the loop.
  *
  * See notes/research/func-80051350-decode.md for the structural map.
  */
-s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
+s32 Model_SeparateViewFromSlots(s32 apply_request, s32 min_extent, s32 recursion_depth)
 {
     ModelSeparationPair e3;
     ModelSeparationPair e0;
@@ -1467,92 +1467,92 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
     ModelSeparationPair dz;
     ModelSeparationPair dist;
     ModelSeparationPair t;
-    s32 moved;
-    s32 hits;
-    s32 i;
-    s32 ox;
-    s32 oz;
-    s32 ref;
-    s32 nv;
-    s32 ry;
-    s32 dz1;
-    s32 v;
-    s32 v5;
-    ModelSlot *rec;
+    s32 separation_extent;
+    s32 extra_overlap_count;
+    s32 slot_index;
+    s32 probe_offset_x;
+    s32 probe_offset_z;
+    s32 probe_x;
+    s32 view_work;
+    s32 probe_z;
+    s32 slot1_delta_y;
+    s32 extent_work;
+    s32 slot1_extent;
+    ModelSlot *slots;
 
-    ox = rcos(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096;
-    oz = rsin(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096;
+    probe_offset_x = rcos(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096;
+    probe_offset_z = rsin(*(s16 *)&gModel_wViewYaw + 0x800) * min_extent / 4096;
 
-    rec = gModel_aSlots;
-    v = (s16)rec[0].cached_dimensions[3] / 2;
-    if (v < min_extent) {
-        v = min_extent;
+    slots = gModel_aSlots;
+    extent_work = (s16)slots[0].cached_dimensions[3] / 2;
+    if (extent_work < min_extent) {
+        extent_work = min_extent;
     }
-    e0.values[0] = v;
-    v = (s16)rec[1].cached_dimensions[3] / 2;
-    if (v < min_extent) {
-        v = min_extent;
+    e0.values[0] = extent_work;
+    extent_work = (s16)slots[1].cached_dimensions[3] / 2;
+    if (extent_work < min_extent) {
+        extent_work = min_extent;
     }
     do {
-        e0.values[1] = v;
+        e0.values[1] = extent_work;
     } while (0);
     e3 = e0;
-    v = (s16)rec[0].cached_dimensions[0] / 2;
-    if (v < min_extent) {
-        v = min_extent;
+    extent_work = (s16)slots[0].cached_dimensions[0] / 2;
+    if (extent_work < min_extent) {
+        extent_work = min_extent;
     }
-    e1.values[0] = v;
-    v = (s16)rec[1].cached_dimensions[0] / 2;
-    if (v < min_extent) {
-        v = min_extent;
+    e1.values[0] = extent_work;
+    extent_work = (s16)slots[1].cached_dimensions[0] / 2;
+    if (extent_work < min_extent) {
+        extent_work = min_extent;
     }
     do {
-        e1.values[1] = v;
+        e1.values[1] = extent_work;
     } while (0);
     e0 = e1;
-    v = (s16)rec[0].cached_dimensions[1] / 2;
-    if (v < min_extent) {
-        v = min_extent;
+    extent_work = (s16)slots[0].cached_dimensions[1] / 2;
+    if (extent_work < min_extent) {
+        extent_work = min_extent;
     }
-    e2.values[0] = v;
-    v = (s16)rec[1].cached_dimensions[1] / 2;
-    if (v < min_extent) {
-        v = min_extent;
+    e2.values[0] = extent_work;
+    extent_work = (s16)slots[1].cached_dimensions[1] / 2;
+    if (extent_work < min_extent) {
+        extent_work = min_extent;
     }
     do {
-        e2.values[1] = v;
+        e2.values[1] = extent_work;
     } while (0);
     e1 = e2;
-    v = (s16)rec[0].cached_dimensions[2] / 2;
-    if (v < min_extent) {
-        v = min_extent;
+    extent_work = (s16)slots[0].cached_dimensions[2] / 2;
+    if (extent_work < min_extent) {
+        extent_work = min_extent;
     }
-    dx.values[0] = v;
-    v5 = (s16)rec[1].cached_dimensions[2] / 2;
-    if (v5 < min_extent) {
-        v5 = min_extent;
+    dx.values[0] = extent_work;
+    slot1_extent = (s16)slots[1].cached_dimensions[2] / 2;
+    if (slot1_extent < min_extent) {
+        slot1_extent = min_extent;
     }
-    nv = gModel_RView.vpx;
+    view_work = gModel_RView.vpx;
     do {
-        dx.values[1] = v5;
+        dx.values[1] = slot1_extent;
     } while (0);
     e2 = dx;
 
-    ref = gModel_RView.vpx;
-    ref = ref + ox;
-    dy.values[0] = ref - *(s16 *)&rec[0].cached_position[0];
-    dy.values[1] = ref - *(s16 *)&rec[1].cached_position[0];
+    probe_x = gModel_RView.vpx;
+    probe_x = probe_x + probe_offset_x;
+    dy.values[0] = probe_x - *(s16 *)&slots[0].cached_position[0];
+    dy.values[1] = probe_x - *(s16 *)&slots[1].cached_position[0];
     dx = dy;
-    nv = gModel_RView.vpy;
-    dz.values[0] = nv - *(s16 *)&rec[0].cached_position[1];
-    dz1 = nv - *(s16 *)&rec[1].cached_position[1];
+    view_work = gModel_RView.vpy;
+    dz.values[0] = view_work - *(s16 *)&slots[0].cached_position[1];
+    slot1_delta_y = view_work - *(s16 *)&slots[1].cached_position[1];
     do {
-        dz.values[1] = dz1;
+        dz.values[1] = slot1_delta_y;
     } while (0);
     dy = dz;
-    ry = gModel_RView.vpz + oz;
-    dist.values[0] = ry - *(s16 *)&rec[0].cached_position[2];
-    dist.values[1] = ry - *(s16 *)&rec[1].cached_position[2];
+    probe_z = gModel_RView.vpz + probe_offset_z;
+    dist.values[0] = probe_z - *(s16 *)&slots[0].cached_position[2];
+    dist.values[1] = probe_z - *(s16 *)&slots[1].cached_position[2];
     dz = dist;
 
     t.values[0] = SquareRoot0(
@@ -1561,8 +1561,8 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
         dx.values[1] * dx.values[1] + dz.values[1] * dz.values[1]);
     dist = t;
 
-    moved = 0;
-    hits = 0;
+    separation_extent = 0;
+    extra_overlap_count = 0;
     if (gModel_aSlots[0].is_active != 0) {
         if (gModel_aSlots[0].tint[3] >= 2) {
             if ((*(u32 *)gModel_aSlots[0].tint & 0xFFFFFF) == 0) {
@@ -1582,89 +1582,89 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
         dist.values[1] = -1;
     }
 
-    depth = depth + 1;
-    for (i = 0; i < 2; i++) {
-        s32 limit;
-        s32 eb;
-        s32 d;
-        s32 v;
-        s32 *pv;
-        s32 *pb;
+    recursion_depth = recursion_depth + 1;
+    for (slot_index = 0; slot_index < 2; slot_index++) {
+        s32 separation_limit;
+        s32 height_gate_work;
+        s32 radial_distance;
+        s32 vertical_work;
+        s32 *vertical_pointer;
+        s32 *height_pointer;
 
-        limit = e2.values[i];
-        if (limit < e0.values[i]) {
-            limit = e0.values[i];
+        separation_limit = e2.values[slot_index];
+        if (separation_limit < e0.values[slot_index]) {
+            separation_limit = e0.values[slot_index];
         }
-        if (limit < e3.values[i]) {
-            limit = e3.values[i];
+        if (separation_limit < e3.values[slot_index]) {
+            separation_limit = e3.values[slot_index];
         }
-        /* dy.values[i] and e1.values[i] through two pointers that start at
-         * the frame base (e3 is the first pair, at sp+16) and step by i and
+        /* dy.values[slot_index] and e1.values[slot_index] through two pointers that start at
+         * the frame base (e3 is the first pair, at sp+16) and step by slot_index and
          * then by one. The final step folds into the load offsets, but it
          * leaves each pointer with two sets, so neither address insn gets
          * sched1's launch priority and both are computed before the first
          * load; reload_cse then turns the second into retail's copy. */
-        pv = e3.values - 4;
-        pv += i;
-        pv++;
-        pb = e3.values - 4;
-        pb += i;
-        pb++;
-        v = pv[13];
-        eb = pb[7];
-        if (v < 0) {
-            v = -v;
+        vertical_pointer = e3.values - 4;
+        vertical_pointer += slot_index;
+        vertical_pointer++;
+        height_pointer = e3.values - 4;
+        height_pointer += slot_index;
+        height_pointer++;
+        vertical_work = vertical_pointer[13];
+        height_gate_work = height_pointer[7];
+        if (vertical_work < 0) {
+            vertical_work = -vertical_work;
         }
-        /* The comparison lands in eb itself: a block-local flag would be
-         * placed first by local-alloc and take v0, pushing v to v1. */
-        eb = eb < v;
-        if (eb) {
+        /* The comparison lands in height_gate_work itself: a block-local flag would be
+         * placed first by local-alloc and take v0, pushing vertical_work to v1. */
+        height_gate_work = height_gate_work < vertical_work;
+        if (height_gate_work) {
             continue;
         }
-        d = dist.values[i];
-        if (d < 0) {
+        radial_distance = dist.values[slot_index];
+        if (radial_distance < 0) {
             continue;
         }
-        if (d >= limit) {
+        if (radial_distance >= separation_limit) {
             continue;
         }
-        if (moved != 0) {
+        if (separation_extent != 0) {
             goto hit;
         }
-        if (mode != 0) {
-            s32 scale;
-            s32 px;
-            s32 pz;
+        if (apply_request != 0) {
+            s32 penetration_scale;
+            s32 push_x;
+            s32 push_z;
 
-            scale = ((limit - d) << 12) / limit;
-            px = e0.values[i] * scale / 4096;
-            if (dx.values[i] <= 0) {
-                px = -px;
+            penetration_scale = ((separation_limit - radial_distance) << 12) / separation_limit;
+            push_x = e0.values[slot_index] * penetration_scale / 4096;
+            if (dx.values[slot_index] <= 0) {
+                push_x = -push_x;
             }
-            pz = e2.values[i] * scale / 4096;
-            if (dz.values[i] <= 0) {
-                pz = -pz;
+            push_z = e2.values[slot_index] * penetration_scale / 4096;
+            if (dz.values[slot_index] <= 0) {
+                push_z = -push_z;
             }
             {
-                s32 ax = gModel_RView.vrx;
-                s32 az = gModel_RView.vpz;
-                s32 bx = gModel_RView.vrz;
-                s32 cx = gModel_RView.vpx;
-                s32 ux = bx - az;
-                s32 uz = cx - ax;
-                s32 cpx = cx + px;
-                s32 apz = az + pz;
-                s32 cross = ax * az - cx * bx;
-                s32 len = SquareRoot0(ux * ux + uz * uz);
-                s32 sd = 0;
+                s32 target_x = gModel_RView.vrx;
+                s32 eye_z = gModel_RView.vpz;
+                s32 target_z = gModel_RView.vrz;
+                s32 eye_x = gModel_RView.vpx;
+                s32 normal_x = target_z - eye_z;
+                s32 normal_z = eye_x - target_x;
+                s32 pushed_eye_x = eye_x + push_x;
+                s32 pushed_eye_z = eye_z + push_z;
+                s32 line_constant = target_x * eye_z - eye_x * target_z;
+                s32 normal_length = SquareRoot0(normal_x * normal_x + normal_z * normal_z);
+                s32 side_distance = 0;
 
-                if (len != 0) {
+                if (normal_length != 0) {
                     do {
-                        sd = (cpx * ux + apz * uz + cross) / len;
+                        side_distance = (pushed_eye_x * normal_x + pushed_eye_z * normal_z + line_constant) / normal_length;
                     } while (0);
                 }
                 if (gModel_bOrbitDirectionTimer == 0) {
-                    if (sd < 0) {
+                    if (side_distance < 0) {
                         gModel_bOrbitDirection = -1;
                     } else {
                         gModel_bOrbitDirection = 1;
@@ -1674,22 +1674,22 @@ s32 Model_SeparateViewFromSlots(s32 mode, s32 min_extent, s32 depth)
                     gModel_bOrbitDirectionTimer = gModel_bOrbitDirectionTimer - 1;
                 }
             }
-            gModel_RView.vpx = gModel_RView.vpx + px;
-            gModel_RView.vpz = gModel_RView.vpz + pz;
+            gModel_RView.vpx = gModel_RView.vpx + push_x;
+            gModel_RView.vpz = gModel_RView.vpz + push_z;
         }
-        moved = limit;
+        separation_extent = separation_limit;
         continue;
     hit:
-        hits = hits + 1;
+        extra_overlap_count = extra_overlap_count + 1;
     }
 
-    if (mode != 0 && moved != 0) {
+    if (apply_request != 0 && separation_extent != 0) {
         Model_UpdateViewMetrics(0);
     }
-    if (hits != 0 && mode != 0 && depth < 3) {
-        Model_SeparateViewFromSlots(mode, min_extent, depth);
+    if (extra_overlap_count != 0 && apply_request != 0 && recursion_depth < 3) {
+        Model_SeparateViewFromSlots(apply_request, min_extent, recursion_depth);
     }
-    return moved;
+    return separation_extent;
 }
 
 void Model_UpdateCamera(void)
@@ -1888,161 +1888,161 @@ void Model_UpdateCamera(void)
 }
 
 void Model_CorrectViewPitch(void) {
-    GsRVIEW2 *view;
-    s32 x;
-    s32 f;
-    s32 v;
-    s32 lo;
-    s32 c;
-    s32 d;
+    GsRVIEW2 *ref_view;
+    s32 target_y;
+    s32 height_weight;
+    s32 pitch_target;
+    s32 lower_pitch_limit;
+    s32 pitch_sample;
+    s32 pitch_work;
 
     if (*(s16 *)&gModel_wViewPitch >= 0x801) {
-        view = &gModel_RView;
-        x = view->vry;
-        f = 0;
-        if (x >= -0xC7 && view->vpy < x) {
-            if (x < -0x64) {
-                f = (-200 - x) * MODEL_FIXED_ONE / -100;
+        ref_view = &gModel_RView;
+        target_y = ref_view->vry;
+        height_weight = 0;
+        if (target_y >= -0xC7 && ref_view->vpy < target_y) {
+            if (target_y < -0x64) {
+                height_weight = (-200 - target_y) * MODEL_FIXED_ONE / -100;
             } else {
-                f = MODEL_FIXED_ONE;
+                height_weight = MODEL_FIXED_ONE;
             }
         }
 
-        v = (f * 3755 + (MODEL_FIXED_ONE - f) * 3968) /
+        pitch_target = (height_weight * 3755 + (MODEL_FIXED_ONE - height_weight) * 3968) /
             MODEL_FIXED_ONE;
-        lo = v - 0x10;
+        lower_pitch_limit = pitch_target - 0x10;
 
         do {
-            c = *(s16 *)&gModel_wViewPitch;
-            d = v + 0x10;
+            pitch_sample = *(s16 *)&gModel_wViewPitch;
+            pitch_work = pitch_target + 0x10;
         } while (0);
 
-        if (d < c) {
-            d = d - c;
-            if (d < -1) {
-                d = -1;
+        if (pitch_work < pitch_sample) {
+            pitch_work = pitch_work - pitch_sample;
+            if (pitch_work < -1) {
+                pitch_work = -1;
             }
-            Model_StepViewOrbit(1, 0, d, 0, 0);
-        } else if (c < 0xEAB) {
-            Model_StepViewOrbit(1, 0, 0xEAB - c, 0, 0);
-        } else if (c < lo) {
-            d = lo - c;
-            if (d >= 5) {
-                d = 4;
+            Model_StepViewOrbit(1, 0, pitch_work, 0, 0);
+        } else if (pitch_sample < 0xEAB) {
+            Model_StepViewOrbit(1, 0, 0xEAB - pitch_sample, 0, 0);
+        } else if (pitch_sample < lower_pitch_limit) {
+            pitch_work = lower_pitch_limit - pitch_sample;
+            if (pitch_work >= 5) {
+                pitch_work = 4;
             }
-            Model_StepViewOrbit(1, 0, d, 0, 0);
+            Model_StepViewOrbit(1, 0, pitch_work, 0, 0);
         }
     } else {
         Model_StepViewOrbit(1, 0, -4, 0, 0);
     }
 }
 
-void Model_CorrectViewDistance(s32 arg0) {
-    ModelCameraMove *e;
-    ModelCameraMove *g;
-    s32 n;
-    s32 lo;
-    s32 hi;
-    s32 z;
-    s32 d;
-    s32 t;
+void Model_CorrectViewDistance(s32 pull_in_request) {
+    ModelCameraMove *separation_move;
+    ModelCameraMove *relaxation_move;
+    s32 target_slot;
+    s32 lower_distance;
+    s32 upper_distance;
+    s32 zero_yaw;
+    s32 distance_work;
+    s32 distance_sample;
 
-    n = gModel_wCameraTargetSlot[0];
-    lo = 0x2BC;
-    hi = 0x3E8;
-    z = 0;
+    target_slot = gModel_wCameraTargetSlot[0];
+    lower_distance = 0x2BC;
+    upper_distance = 0x3E8;
+    zero_yaw = 0;
 
-    if (n >= 0) {
-        lo = Model_AdjustCameraDistanceForSlot(n, lo);
-        if (lo >= hi) {
-            hi = Model_AdjustCameraDistanceForSlot(n, hi);
+    if (target_slot >= 0) {
+        lower_distance = Model_AdjustCameraDistanceForSlot(target_slot, lower_distance);
+        if (lower_distance >= upper_distance) {
+            upper_distance = Model_AdjustCameraDistanceForSlot(target_slot, upper_distance);
         }
     }
 
     /* The Japanese build only clears the flag bit here; it neither steps
        orbit_step up nor, on the other branch, back down towards base_orbit_step. */
     if (Model_SeparateViewFromSlots(1, 0x96, 0) != 0) {
-        e = &gModel_CameraMove;
+        separation_move = &gModel_CameraMove;
 #ifdef VERSION_EUROPE
         /* The European build steps orbit_step by 2 up to 0x200, and back
            down by 2 without passing base_orbit_step. */
-        if (e->orbit_step < 0x200) {
-            e->orbit_step = e->orbit_step + 2;
+        if (separation_move->orbit_step < 0x200) {
+            separation_move->orbit_step = separation_move->orbit_step + 2;
         }
 #elif !defined(VERSION_JAPAN)
-        if (e->orbit_step < 0x10) {
-            e->orbit_step = e->orbit_step + 1;
+        if (separation_move->orbit_step < 0x10) {
+            separation_move->orbit_step = separation_move->orbit_step + 1;
         }
 #endif
-        e->flags = e->flags & 0xFE;
+        separation_move->flags = separation_move->flags & 0xFE;
     }
 #ifdef VERSION_EUROPE
     else {
-        u16 floor;
-        u16 v;
+        u16 baseline_step;
+        u16 step_candidate;
 
-        g = &gModel_CameraMove;
-        floor = g->base_orbit_step;
-        if (floor < g->orbit_step) {
-            v = g->orbit_step - 2;
-            g->orbit_step = v;
-            if (v < floor) {
-                g->orbit_step = floor;
+        relaxation_move = &gModel_CameraMove;
+        baseline_step = relaxation_move->base_orbit_step;
+        if (baseline_step < relaxation_move->orbit_step) {
+            step_candidate = relaxation_move->orbit_step - 2;
+            relaxation_move->orbit_step = step_candidate;
+            if (step_candidate < baseline_step) {
+                relaxation_move->orbit_step = baseline_step;
             }
         }
     }
 #elif !defined(VERSION_JAPAN)
     else {
-        g = &gModel_CameraMove;
-        if (g->base_orbit_step < g->orbit_step) {
-            g->orbit_step = g->orbit_step - 1;
+        relaxation_move = &gModel_CameraMove;
+        if (relaxation_move->base_orbit_step < relaxation_move->orbit_step) {
+            relaxation_move->orbit_step = relaxation_move->orbit_step - 1;
         }
     }
 #endif
 
     Model_CorrectViewPitch();
 
-    t = *(s16 *)&gModel_wViewDistance;
-    if (t < 0x12C) {
-        if (t < 0x96) {
-            d = 0x96 - t;
-            Model_StepViewOrbit(1, z, 0, d, 0);
+    distance_sample = *(s16 *)&gModel_wViewDistance;
+    if (distance_sample < 0x12C) {
+        if (distance_sample < 0x96) {
+            distance_work = 0x96 - distance_sample;
+            Model_StepViewOrbit(1, zero_yaw, 0, distance_work, 0);
         } else {
-            d = 0x12C - t;
-            if (d >= 0xB) {
-                d = 0xA;
+            distance_work = 0x12C - distance_sample;
+            if (distance_work >= 0xB) {
+                distance_work = 0xA;
             }
-            Model_StepViewOrbit(1, z, 0, d, 0);
+            Model_StepViewOrbit(1, zero_yaw, 0, distance_work, 0);
         }
-    } else if (t < lo) {
-        d = lo - t;
-        if (d >= 6) {
-            d = 5;
+    } else if (distance_sample < lower_distance) {
+        distance_work = lower_distance - distance_sample;
+        if (distance_work >= 6) {
+            distance_work = 5;
         }
-        Model_StepViewOrbit(1, 0, 0, d, 0);
+        Model_StepViewOrbit(1, 0, 0, distance_work, 0);
     }
 
-    if (arg0 != 0) {
-        d = *(s16 *)&gModel_wViewDistance;
-        if (hi < d) {
+    if (pull_in_request != 0) {
+        distance_work = *(s16 *)&gModel_wViewDistance;
+        if (upper_distance < distance_work) {
             goto last;
         }
-        if (lo < d) {
-            d = lo - d;
-            if (d < -0xA) {
-                d = -0xA;
+        if (lower_distance < distance_work) {
+            distance_work = lower_distance - distance_work;
+            if (distance_work < -0xA) {
+                distance_work = -0xA;
             }
-            Model_StepViewOrbit(1, 0, 0, d, 0);
+            Model_StepViewOrbit(1, 0, 0, distance_work, 0);
         }
     }
 
-    if (hi < *(s16 *)&gModel_wViewDistance) {
+    if (upper_distance < *(s16 *)&gModel_wViewDistance) {
 last:
-        d = hi - *(s16 *)&gModel_wViewDistance;
-        if (d < -0x14) {
-            d = -0x14;
+        distance_work = upper_distance - *(s16 *)&gModel_wViewDistance;
+        if (distance_work < -0x14) {
+            distance_work = -0x14;
         }
-        Model_StepViewOrbit(1, 0, 0, d, 0);
+        Model_StepViewOrbit(1, 0, 0, distance_work, 0);
     }
 
     Model_CorrectViewPitch();
@@ -2163,141 +2163,141 @@ tail:
 
 /* Starts a camera move from the live view to model-slot or explicit targets.
  * A zero duration writes the selected endpoints back immediately. */
-void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_transport, s32 timing_work)
 {
-    SVECTOR a;
-    SVECTOR b;
-    SVECTOR t;
-    s32 index;
-    s32 state;
-    s32 flags;
+    SVECTOR eye_start;
+    SVECTOR view_work;
+    SVECTOR target_copy;
+    s32 selected_slot;
+    s32 hold_state;
+    s32 active_flags;
 
-    memset(&b, 0, 8);
-    b.vx = gModel_RView.vpx;
-    b.vy = gModel_RView.vpy;
-    b.vz = gModel_RView.vpz;
-    a = b;
-    memset(&t, 0, 8);
-    t.vx = gModel_RView.vrx;
-    t.vy = gModel_RView.vry;
-    t.vz = gModel_RView.vrz;
-    b = t;
-    state = Model_GetCameraHoldState();
-    if (state == 1) {
-        if (Model_GetHandlerCallbackState() == state) {
+    memset(&view_work, 0, 8);
+    view_work.vx = gModel_RView.vpx;
+    view_work.vy = gModel_RView.vpy;
+    view_work.vz = gModel_RView.vpz;
+    eye_start = view_work;
+    memset(&target_copy, 0, 8);
+    target_copy.vx = gModel_RView.vrx;
+    target_copy.vy = gModel_RView.vry;
+    target_copy.vz = gModel_RView.vrz;
+    view_work = target_copy;
+    hold_state = Model_GetCameraHoldState();
+    if (hold_state == 1) {
+        if (Model_GetHandlerCallbackState() == hold_state) {
             return;
         }
     }
-    if (arg1 != 0 || arg0 <= 0) {
-        if (arg1 > 0) {
-            index = arg1 - 1;
-            arg1 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index);
-            if (arg3 >= 0) {
-                gModel_CameraMove.eye.pair_slot = index ^ 1;
+    if (eye_transport != 0 || mode_request <= 0) {
+        if (eye_transport > 0) {
+            selected_slot = eye_transport - 1;
+            eye_transport = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, selected_slot);
+            if (timing_work >= 0) {
+                gModel_CameraMove.eye.pair_slot = selected_slot ^ 1;
             } else {
                 gModel_CameraMove.eye.pair_slot = -1;
             }
-            gModel_CameraMove.eye.slot = index;
+            gModel_CameraMove.eye.slot = selected_slot;
         } else {
-            ModelCameraMove *p = &gModel_CameraMove;
+            ModelCameraMove *camera_move = &gModel_CameraMove;
 
-            p->eye.slot = -1;
-            p->eye.pair_slot = -1;
+            camera_move->eye.slot = -1;
+            camera_move->eye.pair_slot = -1;
         }
     }
-    if (arg2 != 0 || arg0 <= 0) {
-        if (arg2 > 0) {
-            index = arg2 - 1;
-            arg2 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index);
-            if (arg3 >= 0) {
-                gModel_CameraMove.target.pair_slot = index ^ 1;
+    if (target_transport != 0 || mode_request <= 0) {
+        if (target_transport > 0) {
+            selected_slot = target_transport - 1;
+            target_transport = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, selected_slot);
+            if (timing_work >= 0) {
+                gModel_CameraMove.target.pair_slot = selected_slot ^ 1;
             } else {
                 gModel_CameraMove.target.pair_slot = -1;
             }
-            gModel_CameraMove.target.slot = index;
+            gModel_CameraMove.target.slot = selected_slot;
         } else {
-            ModelCameraMove *p = &gModel_CameraMove;
+            ModelCameraMove *camera_move = &gModel_CameraMove;
 
-            p->target.slot = -1;
-            p->target.pair_slot = -1;
+            camera_move->target.slot = -1;
+            camera_move->target.pair_slot = -1;
         }
-        if (arg0 < 0) {
+        if (mode_request < 0) {
             goto have_flags;
         }
     }
-    gModel_CameraMove.mode = arg0;
+    gModel_CameraMove.mode = mode_request;
 have_flags:
     {
-        ModelCameraMove *p = &gModel_CameraMove;
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        p->follow_countdown = MODEL_DEFAULT_PROJECTION;
+        camera_move->follow_countdown = MODEL_DEFAULT_PROJECTION;
 #ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
-        p->base_orbit_step = 8;
+        camera_move->base_orbit_step = 8;
 #endif
-        p->orbit_step = 8;
-        p->flags = 0;
-        if (arg1 != 0) {
-            p->flags = 1;
+        camera_move->orbit_step = 8;
+        camera_move->flags = 0;
+        if (eye_transport != 0) {
+            camera_move->flags = 1;
         } else {
-            arg1 = (s32)&a;
+            eye_transport = (s32)&eye_start;
         }
     }
-    if (arg2 != 0) {
-        ModelCameraMove *p = &gModel_CameraMove;
+    if (target_transport != 0) {
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        p->flags = p->flags | 2;
+        camera_move->flags = camera_move->flags | 2;
     } else {
-        arg2 = (s32)&b;
+        target_transport = (s32)&view_work;
     }
     {
-        ModelCameraMove *p = &gModel_CameraMove;
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        p->eye.start_x = a.vx;
-        p->eye.start_y = a.vy;
-        p->eye.start_z = a.vz;
-        /* arg1/arg2 now hold a slot's cached_position position or &a/&b; both
+        camera_move->eye.start_x = eye_start.vx;
+        camera_move->eye.start_y = eye_start.vy;
+        camera_move->eye.start_z = eye_start.vz;
+        /* eye_transport/target_transport now hold a slot's cached_position position or &eye_start/&view_work; both
            are SVECTOR-shaped. */
-        p->eye.end_x = SVECTOR_VIEW(arg1)->vx;
-        p->eye.end_y = SVECTOR_VIEW(arg1)->vy;
-        p->eye.end_z = SVECTOR_VIEW(arg1)->vz;
-        p->target.start_x = b.vx;
-        p->target.start_y = b.vy;
-        p->target.start_z = b.vz;
-        p->target.end_x = SVECTOR_VIEW(arg2)->vx;
-        p->target.end_y = SVECTOR_VIEW(arg2)->vy;
-        p->target.end_z = SVECTOR_VIEW(arg2)->vz;
-        arg3 = (arg3 < 0 ? -arg3 : arg3) * 2;
-        if (arg3 > 0xFFFE) {
-            p->duration = 0xFFFF;
+        camera_move->eye.end_x = SVECTOR_VIEW(eye_transport)->vx;
+        camera_move->eye.end_y = SVECTOR_VIEW(eye_transport)->vy;
+        camera_move->eye.end_z = SVECTOR_VIEW(eye_transport)->vz;
+        camera_move->target.start_x = view_work.vx;
+        camera_move->target.start_y = view_work.vy;
+        camera_move->target.start_z = view_work.vz;
+        camera_move->target.end_x = SVECTOR_VIEW(target_transport)->vx;
+        camera_move->target.end_y = SVECTOR_VIEW(target_transport)->vy;
+        camera_move->target.end_z = SVECTOR_VIEW(target_transport)->vz;
+        timing_work = (timing_work < 0 ? -timing_work : timing_work) * 2;
+        if (timing_work > 0xFFFE) {
+            camera_move->duration = 0xFFFF;
         } else {
-            p->duration = arg3;
+            camera_move->duration = timing_work;
         }
     }
     {
-        ModelCameraMove *p = &gModel_CameraMove;
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        flags = p->flags;
-        p->elapsed = 0;
-        if (flags != 0) {
+        active_flags = camera_move->flags;
+        camera_move->elapsed = 0;
+        if (active_flags != 0) {
             gModel_bOrbitDirectionTimer = 0;
         }
-        if (arg3 != 0) {
+        if (timing_work != 0) {
             return;
         }
-        if (flags & 1) {
-            gModel_RView.vpx = p->eye.end_x;
-            gModel_RView.vpy = p->eye.end_y;
-            gModel_RView.vpz = p->eye.end_z;
+        if (active_flags & 1) {
+            gModel_RView.vpx = camera_move->eye.end_x;
+            gModel_RView.vpy = camera_move->eye.end_y;
+            gModel_RView.vpz = camera_move->eye.end_z;
         }
-        if (p->flags & 2) {
-            gModel_RView.vrx = p->target.end_x;
-            gModel_RView.vry = p->target.end_y;
-            gModel_RView.vrz = p->target.end_z;
+        if (camera_move->flags & 2) {
+            gModel_RView.vrx = camera_move->target.end_x;
+            gModel_RView.vry = camera_move->target.end_y;
+            gModel_RView.vrz = camera_move->target.end_z;
         }
-        if (p->flags & 3) {
+        if (camera_move->flags & 3) {
             Model_UpdateViewMetrics(0);
         }
-        p->flags = 0;
+        camera_move->flags = 0;
     }
 }
 

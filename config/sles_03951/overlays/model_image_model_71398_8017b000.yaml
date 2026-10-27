@@ -1,5 +1,3 @@
-# Generated function inventory: closed-CFG functions are generated assembly;
-# every other byte remains raw and unclassified.
 name: spanish_model_image_model_71398_8017b000
 sha1: 35c19e9900742b3ad9a40f6fa442915642876185
 
@@ -25,6 +23,8 @@ options:
   o_path: tmp/overlays/spanish_model_image_model_71398_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/spanish_model_image_model_71398_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/spanish_model_image_model_71398_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03951/overlays/model_image_model_71398_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,43 +44,43 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
       - [0x0, data, overlays/spanish_model_image_model_71398_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_image_model_71398_8017b000/unmatched_4]
-  - name: unmatched_a88
+      - [0x4, c, overlays/french_model_variant/variant400_entry_slot1]
+  - name: ribbons
     type: code
-    start: 0xa88
-    vram: 0x8017ba88
+    start: 0xA88
+    vram: 0x8017BA88
     align: 4
     subsegments:
-      - [0xa88, asm, overlays/spanish_model_image_model_71398_8017b000/unmatched_a88]
-  - name: unmatched_1838
+      - [0xA88, c, overlays/french_model_variant/variant400_ribbons_slot1]
+  - name: sheets
     type: code
     start: 0x1838
-    vram: 0x8017c838
+    vram: 0x8017C838
     align: 4
     subsegments:
-      - [0x1838, asm, overlays/spanish_model_image_model_71398_8017b000/unmatched_1838]
-  - name: unmatched_1db8
+      - [0x1838, c, overlays/french_model_variant/variant400_sheets_slot1]
+  - name: streamers
     type: code
-    start: 0x1db8
-    vram: 0x8017cdb8
+    start: 0x1DB8
+    vram: 0x8017CDB8
     align: 4
     subsegments:
-      - [0x1db8, asm, overlays/spanish_model_image_model_71398_8017b000/unmatched_1db8]
+      - [0x1DB8, c, overlays/french_model_variant/variant400_streamers_slot1]
   - name: unclassified_tail
     type: code
     start: 0x2748
-    vram: 0x8017d748
+    vram: 0x8017D748
     align: 4
     subsegments:
-      - [0x2748, bin, overlays/spanish_model_image_model_71398_8017b000/unclassified_tail]
+      - [0x2748, data, overlays/spanish_model_image_model_71398_8017b000/unclassified_tail]
   - [0x5000]

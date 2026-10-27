@@ -473,55 +473,55 @@ no_handler:
    pass switches on that same +0xE16 (0x3E is one of its three cases), reads
    +0xE0C, +0xE0D and +0xE0A back, and sets +0xE1F to 1. */
 
-void Model_ResetSlot(s32 arg0)
+void Model_ResetSlot(s32 slot_index)
 {
-    ModelSlot *p;
-    u8 *q;
-    s32 i;
-    s32 n;
+    ModelSlot *slot_state;
+    u8 *reset_cursor;
+    s32 reset_index;
+    s32 default_byte;
 
-    p = &gModel_aSlots[arg0];
-    Model_FillWords((s32 *)p, 0, 0x388);
+    slot_state = &gModel_aSlots[slot_index];
+    Model_FillWords((s32 *)slot_state, 0, 0x388);
 
-    p->ambient_rgb_scale[2] = MODEL_FIXED_HALF;
-    p->ambient_rgb_scale[1] = MODEL_FIXED_HALF;
-    p->ambient_rgb_scale[0] = MODEL_FIXED_HALF;
-    p->render_scale.field_08 = MODEL_FIXED_ONE;
-    p->render_scale.field_04 = MODEL_FIXED_ONE;
-    p->render_scale.field_00 = MODEL_FIXED_ONE;
-    p->tint[2] = 0x80;
-    p->tint[1] = 0x80;
-    p->tint[0] = 0x80;
-    p->texture_tint_control = 7;
-    p->playback_speed = 8;
-    p->load_step = 0xFF;
-    p->tint[3] = 0;
-    *(s16 *)&p->texture_tint_scale = COLOR_FIXED_ONE;
-    p->skip_sound_setup = 0;
-    p->guardian_star_selection = arg0;
-    p->defense_position = 0;
-    p->defense_compare_override = 0xFFFF;
-    p->attack_compare_override = 0xFFFF;
+    slot_state->ambient_rgb_scale[2] = MODEL_FIXED_HALF;
+    slot_state->ambient_rgb_scale[1] = MODEL_FIXED_HALF;
+    slot_state->ambient_rgb_scale[0] = MODEL_FIXED_HALF;
+    slot_state->render_scale.field_08 = MODEL_FIXED_ONE;
+    slot_state->render_scale.field_04 = MODEL_FIXED_ONE;
+    slot_state->render_scale.field_00 = MODEL_FIXED_ONE;
+    slot_state->tint[2] = 0x80;
+    slot_state->tint[1] = 0x80;
+    slot_state->tint[0] = 0x80;
+    slot_state->texture_tint_control = 7;
+    slot_state->playback_speed = 8;
+    slot_state->load_step = 0xFF;
+    slot_state->tint[3] = 0;
+    *(s16 *)&slot_state->texture_tint_scale = COLOR_FIXED_ONE;
+    slot_state->skip_sound_setup = 0;
+    slot_state->guardian_star_selection = slot_index;
+    slot_state->defense_position = 0;
+    slot_state->defense_compare_override = 0xFFFF;
+    slot_state->attack_compare_override = 0xFFFF;
 
-    n = 1;
-    i = 3;
-    q = (u8 *)p + i;
-    for (; i >= 0; q--, i--) {
-        q[0xBF4] = n;
+    default_byte = 1;
+    reset_index = 3;
+    reset_cursor = (u8 *)slot_state + reset_index;
+    for (; reset_index >= 0; reset_cursor--, reset_index--) {
+        reset_cursor[0xBF4] = default_byte;
     }
 
-    for (i = 0; i < 0x40; i++) {
-        *(s32 *)&p->sound_entries[i] &= 0x8000FFFF;
-        p->sound_entries[i].sound_id = 0;
-        p->sound_entries[i].animation_row = 0;
+    for (reset_index = 0; reset_index < 0x40; reset_index++) {
+        *(s32 *)&slot_state->sound_entries[reset_index] &= 0x8000FFFF;
+        slot_state->sound_entries[reset_index].sound_id = 0;
+        slot_state->sound_entries[reset_index].animation_row = 0;
     }
 
-    p->metadata.first_star_module_command = -1;
-    p->metadata.second_star_module_command = -1;
-    p->metadata.primary_module_command = -1;
-    p->playback_state = 0x3E;
-    p->is_active = 0;
-    Model_InitLightTriplet(arg0);
+    slot_state->metadata.first_star_module_command = -1;
+    slot_state->metadata.second_star_module_command = -1;
+    slot_state->metadata.primary_module_command = -1;
+    slot_state->playback_state = 0x3E;
+    slot_state->is_active = 0;
+    Model_InitLightTriplet(slot_index);
 }
 
 /* Duel-side layout pass for one player's model slot: sums the hand's card
@@ -529,7 +529,7 @@ void Model_ResetSlot(s32 arg0)
  * derives the two cursor limits at +0xDF0/+0xDF4, resets each card object's
  * sprite fields, and applies the mode-dependent horizontal offset through
  * Model_SetSlotPartSpeeds before Model_ApplyTextureTint draws it. */
-void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
+void Model_LoadSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags) {
     ModelSlot *span_slot;
     ModelSlot *rearm_slot;
     ModelSlotPart *G32 *part_sequence;
@@ -546,15 +546,15 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     u8 *tint_slot_bytes;
     s32 part_speed;
 
-    Model_InitSlot(arg0, arg1, arg2, arg3);
-    if (arg1 == (u8 *)0) {
+    Model_InitSlot(slot_index, hmd, hmd_size, render_flags);
+    if (hmd == (u8 *)0) {
         return;
     }
-    Model_BuildSlotAnimationTables(arg0);
-    Model_LinkSlotAnimationRows(arg0);
-    span_slot = &gModel_aSlots[arg0];
+    Model_BuildSlotAnimationTables(slot_index);
+    Model_LinkSlotAnimationRows(slot_index);
+    span_slot = &gModel_aSlots[slot_index];
     snapshot_bytes = 0;
-    if (arg0 < 2) {
+    if (slot_index < 2) {
         span_part_index = snapshot_bytes;
         if (snapshot_bytes < span_slot->animation_sequence_count) {
             missing_command_index = 0xFFFF;
@@ -574,9 +574,9 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
     cache_or_speed = (span_slot->lit_color_cache_address = (s32)span_slot->animation_snapshot_buffer + snapshot_bytes);
     span_slot->lit_color_cache_end_address = cache_or_speed + span_slot->lit_color_cache_entry_count * sizeof(u32);
-    Model_SetSlotRootTransform(span_slot, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
+    Model_SetSlotRootTransform(span_slot, 0, 0, 0, slot_index == 1 ? 0x800 : 0);
 
-    rearm_slot = &gModel_aSlots[arg0];
+    rearm_slot = &gModel_aSlots[slot_index];
     part_sequence = rearm_slot->animation_sequences;
     for (rearm_part_index = 0; rearm_part_index < rearm_slot->animation_sequence_count; rearm_part_index++) {
         (*part_sequence)->ii = 0xFFFF;
@@ -589,29 +589,29 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
 
     slot_bytes = (u8 *)gModel_aSlots;
-    draw_slot = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + slot_bytes);
+    draw_slot = (ModelSlot *)(slot_index * MODEL_SLOT_SIZE + slot_bytes);
     draw_slot->is_active = 1;
-    Model_DrawSlotUnitsOnly(arg0);
+    Model_DrawSlotUnitsOnly(slot_index);
     cache_or_speed = draw_slot->playback_speed * 2;
     part_speed = cache_or_speed;
     switch (draw_slot->playback_state) {
     case 0x23:
         part_speed = 0;
-        Model_SetSlotPartSpeeds(arg0, part_speed);
+        Model_SetSlotPartSpeeds(slot_index, part_speed);
         break;
     case 0x3E:
         part_speed = cache_or_speed;
-        Model_SetSlotPartSpeeds(arg0, part_speed);
+        Model_SetSlotPartSpeeds(slot_index, part_speed);
         break;
     case 0x3C:
         part_speed = -part_speed;
-        Model_SetSlotPartSpeeds(arg0, part_speed);
+        Model_SetSlotPartSpeeds(slot_index, part_speed);
         break;
     }
-    if (arg0 < 2) {
+    if (slot_index < 2) {
         tint_slot_bytes = (u8 *)gModel_aSlots;
-        tint_slot = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + tint_slot_bytes);
-        Model_ApplyTextureTint(arg0, tint_slot->texture_tint_control, tint_slot->texture_tint_scale);
+        tint_slot = (ModelSlot *)(slot_index * MODEL_SLOT_SIZE + tint_slot_bytes);
+        Model_ApplyTextureTint(slot_index, tint_slot->texture_tint_control, tint_slot->texture_tint_scale);
     }
 }
 
@@ -639,7 +639,7 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
  * Returns zero once a transfer has been requested and one when the model id
  * has no record to request. */
 s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense_override, s32 guardian_star_option,
-                           s32 defense_position_option, s32 arg6)
+                           s32 defense_position_option, s32 render_flags)
 {
     FileTransferDescriptor *transfer;
     s32 skip_sound_setup_mask;
@@ -657,7 +657,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense
         SD_KeyOffVoiceSlots();
     }
     File_WaitForTransfers();
-    Model_InitSlot(slot, 0, 0, arg6);
+    Model_InitSlot(slot, 0, 0, render_flags);
     gModel_aSlots[slot].skip_sound_setup = skip_sound_setup_mask;
     if (slot < 2) {
         if (model == MODEL_SPECIAL_BATTLE_ID) {
@@ -1712,113 +1712,113 @@ void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 entry_index, SVECTOR *
 }
 
 #ifdef VERSION_EUROPE
-void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
+void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_scale)
 {
     /* The European build keeps each side's two rows at x 0x280, y
-       (arg0 << 4) + 0xD0 and 0xD8, where the US build has x arg0 << 8 and
+       (side_index << 4) + 0xD0 and 0xD8, where the US build has x side_index << 8 and
        y 0xF0 and 0xF8. */
-    u16 buf[0x400];
-    u16 *q;
-    s32 y;
-    s32 i;
-    s32 base;
+    u16 pixel_buffer[0x400];
+    u16 *pixel_cursor;
+    s32 band_offset;
+    s32 pixel_index;
+    s32 destination_base_y;
 
-    if ((u32)arg0 < 2) {
-        base = (arg0 << 4) + 0xD0;
+    if ((u32)side_index < 2) {
+        destination_base_y = (side_index << 4) + 0xD0;
 
-        if (arg1 >= COLOR_TINT_KEEP_HUE &&
-            (arg1 & COLOR_TINT_INVERT) == 0 && arg2 >= COLOR_FIXED_ONE) {
+        if (tint_control >= COLOR_TINT_KEEP_HUE &&
+            (tint_control & COLOR_TINT_INVERT) == 0 && saturation_scale >= COLOR_FIXED_ONE) {
             goto big;
         }
 
-        y = 0;
+        band_offset = 0;
         gModel_sTextureTintRectX = 0x280;
-        gModel_sTextureTintRectY = base + 8;
+        gModel_sTextureTintRectY = destination_base_y + 8;
         gModel_sTextureTintRectW = 0x100;
         gModel_sTextureTintRectH = 4;
 
         do {
             {
-                s32 row = y + 8;
+                s32 source_row_offset = band_offset + 8;
 
-                gModel_sTextureTintRectY = base + row;
+                gModel_sTextureTintRectY = destination_base_y + source_row_offset;
             }
             while (IsIdleGPU(3) != 0) {
             }
-            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
-            }
-
-            q = buf;
-            for (i = 0; i < 0x400; i++, q++) {
-                *q = Color_TintBgr555Pixel(*q, (u8)arg1, (u16)arg2);
             }
 
-            gModel_sTextureTintRectY = base + y;
+            pixel_cursor = pixel_buffer;
+            for (pixel_index = 0; pixel_index < 0x400; pixel_index++, pixel_cursor++) {
+                *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, (u8)tint_control, (u16)saturation_scale);
+            }
+
+            gModel_sTextureTintRectY = destination_base_y + band_offset;
             while (IsIdleGPU(3) != 0) {
             }
-            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
-            y += 4;
-        } while (y < 8);
+            band_offset += 4;
+        } while (band_offset < 8);
     }
 
     return;
 
 big:
     gModel_sTextureTintRectX = 0x280;
-    gModel_sTextureTintRectY = base + 8;
+    gModel_sTextureTintRectY = destination_base_y + 8;
     gModel_sTextureTintRectW = 0x100;
     gModel_sTextureTintRectH = 8;
-    MoveImage(TEXTURE_TINT_RECT, 0x280, base);
+    MoveImage(TEXTURE_TINT_RECT, 0x280, destination_base_y);
 }
 #else
-void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
+void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_scale)
 {
-    u16 buf[0x400];
-    u16 *q;
-    s32 y;
-    s32 i;
+    u16 pixel_buffer[0x400];
+    u16 *pixel_cursor;
+    s32 band_offset;
+    s32 pixel_index;
 
-    if ((u32)arg0 < 2) {
-        y = 0;
+    if ((u32)side_index < 2) {
+        band_offset = 0;
 
-        if (arg1 >= COLOR_TINT_KEEP_HUE &&
-            (arg1 & COLOR_TINT_INVERT) == 0 && arg2 >= COLOR_FIXED_ONE) {
+        if (tint_control >= COLOR_TINT_KEEP_HUE &&
+            (tint_control & COLOR_TINT_INVERT) == 0 && saturation_scale >= COLOR_FIXED_ONE) {
             goto big;
         }
 
-        gModel_sTextureTintRectX = arg0 << 8;
+        gModel_sTextureTintRectX = side_index << 8;
         gModel_sTextureTintRectY = 0xF8;
         gModel_sTextureTintRectW = 0x100;
         gModel_sTextureTintRectH = 4;
 
         do {
-            gModel_sTextureTintRectY = y + 0xF8;
+            gModel_sTextureTintRectY = band_offset + 0xF8;
             while (IsIdleGPU(3) != 0) {
             }
-            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
 
-            q = buf;
-            for (i = 0; i < 0x400; i++, q++) {
-                *q = Color_TintBgr555Pixel(*q, (u8)arg1, (u16)arg2);
+            pixel_cursor = pixel_buffer;
+            for (pixel_index = 0; pixel_index < 0x400; pixel_index++, pixel_cursor++) {
+                *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, (u8)tint_control, (u16)saturation_scale);
             }
 
-            gModel_sTextureTintRectY = y + 0xF0;
+            gModel_sTextureTintRectY = band_offset + 0xF0;
             while (IsIdleGPU(3) != 0) {
             }
-            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
-            y += 4;
-        } while (y < 8);
+            band_offset += 4;
+        } while (band_offset < 8);
     }
 
     return;
@@ -1826,9 +1826,9 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
 big:
     gModel_sTextureTintRectY = 0xF8;
     gModel_sTextureTintRectW = 0x100;
-    gModel_sTextureTintRectX = arg0 << 8;
+    gModel_sTextureTintRectX = side_index << 8;
     gModel_sTextureTintRectH = 8;
-    MoveImage(TEXTURE_TINT_RECT, arg0 << 8, 0xF0);
+    MoveImage(TEXTURE_TINT_RECT, side_index << 8, 0xF0);
 }
 #endif
 

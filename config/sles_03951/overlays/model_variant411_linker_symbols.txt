@@ -1,3 +1,4 @@
+GsGetActiveBuff = 0x800852A8;
 GsGetLs = 0x80086258;
 GsSetLsMatrix = 0x80085558;
 GsSortPoly = 0x800842A8;
@@ -17,6 +18,7 @@ func_80058F10 = 0x8005C018;
 Model_SetSlotAmbient = 0x8005C6D0;
 ModelTexture_PackPageClutCopy = 0x8005CB58;
 Graphics_SubmitDrawModePacket = 0x8004D5B8;
+func_8005B260 = Graphics_SubmitDrawModePacket;
 func_spanish_80082CE8 = 0x80082CE8;
 func_spanish_80082D28 = 0x80082D28;
 func_spanish_80082DA8 = 0x80082DA8;

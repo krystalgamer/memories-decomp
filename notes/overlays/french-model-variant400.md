@@ -9,15 +9,15 @@ physical sectors, complete hashes, commands and descriptor selectors.
 | Image offset | Bytes per image | Owner |
 | --- | ---: | --- |
 | `0` | 4 | Raw header |
-| `4` | 2,692 | Entry assembly |
+| `4` | 2,692 | [Entry C](#entry-4) |
 | `A88` | 3,504 | Ribbon C |
 | `1838` | 1,408 | Sheet C |
-| `1DB8` | 2,448 | Column helper assembly |
+| `1DB8` | 2,448 | [Streamer C](#streamer-helper-1db8) |
 | `2748` | 10,424 | Unclassified raw suffix |
 
-Current source ownership accounts for eight C owners / 19,648 bytes, eight
-assembly owners / 20,560 bytes, and eight raw header/suffix owners / 41,712
-bytes, covering all 81,920 bytes.
+Current source ownership accounts for sixteen C owners / 40,208 bytes and
+eight raw header/suffix owners / 41,712 bytes, covering all 81,920 bytes. No
+function assembly fallback remains in these images.
 The C definitions have their real sized `.text` input sections; no absolute
 function alias, masked comparison or favorable alternative offset establishes
 ownership. Every remaining function and suffix byte is preserved.
@@ -118,8 +118,8 @@ also required the supported streaming hash API before any image build began.
 Neither tool failure is presented as a source/compiler mismatch.
 
 These results do not exclude executable material from the suffix, prove every
-possible entry into the bank, or complete this family in C. Entry and column
-helpers remain assembly fallbacks.
+possible entry into the bank, or complete this family in C. The entry and streamer helpers were later
+matched; see their sections below.
 
 ## Directly called ribbon helper
 
@@ -230,3 +230,37 @@ Exactness depended on several measured allocator and loop decisions:
 The result is 2,448 bytes with zero differing words in both slots. The clean
 French overlay gate keeps every configured image byte-identical. French
 overlay totals are 3,964 C instances and 5,097,516 C bytes.
+
+## Entry `4`
+
+`variant400_entry.c` (slot one: `variant400_entry_slot1.c`) is the exact
+2,692-byte loader entry with a 200-byte frame. A nonnegative command stores
+the active slot, selects the 32-byte descriptor at `D_8013D748 + FC`, reads
+its part byte at offset 4, and aims at `(0, -300, -/+450)` by slot. It uploads
+five textures, initializes the G3/G4 packets, two GT4 and two FT4 packets,
+five 880-byte nodes, seven sheets with white/blue colours, and two columns.
+The descriptor span `end - start` is stored at `2054`, and the result
+starts at 6 on that path.
+
+Node angles are `1024`, `1024 + (i + 1) * 2048 / 6` for odd nodes and
+`1024 - i * 2048 / 6` for even ones; positions are the part translation minus
+`trig * 384 >> 12`. The run path repeats that node loop while the frame has
+not passed the descriptor end, then calls all three helpers once the start
+frame is reached. The result is 0 below phase 5, 4 through phase 8, 1 when
+phase 9 advances to 10, and 2 at phase 11. Phase 10 grows the unsigned fade
+by the frame step until it clamps at 64 and moves to phase 11.
+
+Exactness needed the 32-byte descriptor view, the descriptor span store
+beside the frame step, and rebinding the node cursor before the run-path
+loop. The first candidate missed only on those points. Both slots compile to
+2,692 bytes with zero differing words, and all four complete images pass the
+strict per-image rebuild and verify.
+
+## Spanish reuse
+
+Spanish `MODEL.MRG` has the same archive hash. Its images
+`model_image_model_52344_8013b000`, `52354_8017b000`, `71388_8013b000` and
+`71398_8017b000` are byte-identical to French MODEL189/258 stages 7/8. They
+now compile the same four French C owners and slot wrappers, using the Spanish
+header-475 linker bindings and the same raw header and suffix split. A strict
+per-image rebuild and verify matches all four.

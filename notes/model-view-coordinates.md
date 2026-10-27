@@ -143,3 +143,79 @@ intermediate and complete fallback comparisons reverse only the two
 identities, without instruction, directive, register or filename filtering.
 Final clean resident matching, policy/ownership checks and fresh applicable
 PR gates remain required.
+
+
+## View separation and pitch/distance correction local views
+
+The complete Model_SeparateViewFromSlots, Model_CorrectViewPitch and
+Model_CorrectViewDistance definitions now distinguish existing locals and
+three definition arguments. Public prototypes, layouts and profiles stay.
+The pre-match structural decode remains historical; its guesses and probes
+are not a replacement declaration or new behavioral evidence.
+
+Separation's apply_request retains the full-width nonzero test, and
+recursion_depth is incremented at its original site before the two-slot
+loop. separation_extent is the first accepted limit and the return value,
+NOT the actual displacement or a Boolean: it is still set when apply_request
+is zero. extra_overlap_count counts later accepted overlaps after that
+first extent; the original retry conditions and depth-three cutoff remain.
+
+probe_offset_x/probe_offset_z and probe_x/probe_z distinguish the yaw-relative
+probe from the eye position that is later modified. The initial dead X read
+and later Y use remain ONE view_work binding. extent_work and slot1_extent
+retain signed-halfword division by two and the exact field order 3/0/1/2.
+All nine ModelSeparationPair objects, declaration order, aggregate copy-downs
+and do-while-zero scheduling barriers stay intact; they are not assigned
+false universal axis meanings or replaced by new arrays/structs.
+
+The loop's vertical_pointer and height_pointer STILL begin at e3.values-4,
+step separately by slot_index and then one, and read offsets 13 and 7.
+No typed-array substitution or cross-object pointer repair is introduced.
+vertical_work retains signed delta THEN absolute value; height_gate_work
+retains the half-extent read THEN comparison result in the SAME binding.
+separation_limit, radial_distance and all disabled-slot/tint guards retain
+their casts, comparisons and read sites. Root extent_work and loop-local
+vertical_work remain distinct despite their former shared v spelling.
+
+penetration_scale still divides by the limit; the signed extent products,
+not the radial deltas, form push_x/push_z, with the original <=0 sign tests.
+target_x/target_z and eye_x/eye_z retain their four independent live reads.
+normal_x/normal_z, pushed_eye_x/pushed_eye_z and line_constant keep their
+original order around SquareRoot0. side_distance remains the initialized,
+truncated sign discriminator, with its do-while-zero division and zero-length
+path. No wider arithmetic, exact real-valued distance or overflow guarantee
+is inferred. Timer-zero selects direction; the 1..FE range decrements and
+FF retains its original behavior. Only the eye X/Z stores are changed by
+the algorithm; no slot-record displacement is asserted.
+
+Pitch distinguishes target_y, height_weight, pitch_target, lower_pitch_limit,
+pitch_sample and mixed pitch_work. The latter is first an upper band then
+a step, not a pure delta. Keep the signed 0x801 split, target-Y interval,
+3755/3968 weighting, +/-0x10 band, separate 0xEAB floor and asymmetric -1/+4
+caps. The do-while-zero capture and unconditional low-pitch -4 arm remain.
+
+Distance distinguishes target_slot, lower_distance/upper_distance,
+separation_move and relaxation_move. The lower adjustment still precedes
+the conditional upper adjustment. Separation still runs before the first
+pitch call, then distance_sample captures the signed distance. zero_yaw
+stays a separate original binding. distance_work intentionally remains
+step THEN current-distance THEN further step scratch; repeated distance
+loads and the last label are not replaced with the earlier sample.
+pull_in_request retains a raw nonzero test for the optional lower-limit
+pull, not a Boolean enum or unconditional correction policy.
+
+Keep all 150/300/700/1000 boundaries and 10/5/-10/-20 step limits, both pitch
+calls, and the final independently reread upper-distance check. Separation
+still clears eye flag bit zero. NA's old-step threshold/increment/decrement
+and Europe's two-unit changes remain distinct. The European baseline_step
+and narrowed u16 step_candidate retain subtraction/store/compare order.
+Japan still accesses neither adaptive baseline nor step update.
+
+Only scoped bare locals/definition arguments and existing separation-comment
+identifier references change. All other C comments, types, declarations,
+lifetimes, qualified members, casts/operators/constants/labels/calls, other
+grouped functions, regional macros, public headers, compiler profiles and
+storage remain exact. The entire semantic ledger stays byte-identical:
+no function/global/member identity promotion or NOTES churn. No fixture/
+control/oracle/mutation edits, retired-fixture revival, local cloud tests
+or new behavioral harness accompany these views.
