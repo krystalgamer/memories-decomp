@@ -192,7 +192,11 @@ s32 func_8013B004(u8 *context, s32 command)
         if (work->flash != 0) {
             setPolyF4(&flash);
             setRGB0(&flash, work->flash, work->flash, work->flash);
+#ifdef VERSION_FRENCH
+            setXY4(&flash, 0, 0, 320, 0, 0, 256, 320, 256);
+#else
             setXY4(&flash, 0, 0, 320, 0, 0, 240, 320, 240);
+#endif
             Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 0, 1);
             if (work->flash >= 10) {
                 work->flash -= step * work->config->flash_rate;

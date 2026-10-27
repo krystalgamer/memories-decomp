@@ -336,6 +336,13 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant813_linker_symbols.txt` binds to the French
 addresses.
 
+Ten images under French headers 800 and 897 are the North American header-783
+entry (`model_variant/variant783_entry.c` and its `_slot1.c` wrapper) with its
+full-screen flash covering the 256 PAL lines instead of 240. `VERSION_FRENCH`
+selects the height through
+`src/overlays/french_model_variant/variant800_entry{,_slot1}.c`; the entry has
+no work-size printf, so the data labels do not move.
+
 Twelve images under French headers 419 and 569 build their entry from the North
 American header-402 entry (`model_variant/variant402_entry.c`) through
 `french_model_variant/variant419_entry{,_slot1}.c` under `gcc_2_8_1_g0_split`.
