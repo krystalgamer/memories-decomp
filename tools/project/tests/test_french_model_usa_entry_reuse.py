@@ -22,7 +22,7 @@ class FrenchModelUsaEntryReuseTests(unittest.TestCase):
             self.rows = list(csv.DictReader(handle))
 
     def test_ledger_matches_the_manifests(self):
-        self.assertEqual(len(self.rows), 126)
+        self.assertEqual(len(self.rows), 128)
         for row in self.rows:
             with self.subTest(module=row["module"]):
                 module = self.modules[row["module"]]
@@ -41,7 +41,7 @@ class FrenchModelUsaEntryReuseTests(unittest.TestCase):
                 self.assertEqual(row["dependency_fingerprint"],
                                  hashlib.sha256((ROOT / row["north_american_source"]).read_bytes()).hexdigest())
 
-    def test_wrappers_only_select_the_palette_and_rename_image_symbols(self):
+    def test_wrappers_only_select_the_palette_version_and_rename_image_symbols(self):
         for path in sorted({row["french_source"] for row in self.rows}):
             with self.subTest(path=path):
                 text = (ROOT / path).read_text().splitlines()
@@ -50,9 +50,13 @@ class FrenchModelUsaEntryReuseTests(unittest.TestCase):
                 self.assertEqual(text[0], '#include "../../types.h"')
                 self.assertEqual(text[1], f"#define MODEL_VARIANT{header}_CLUT_X 640")
                 self.assertEqual(text[-1], f'#include "../{body[len("src/overlays/"):]}"')
-                for line in text[2:-1]:
-                    self.assertRegex(line, r"^#define (func|D)_8013[0-9A-F]{4} (func|D)_801[37][0-9A-F]{4}$")
                 source = (ROOT / body).read_text()
+                defines = text[2:-1]
+                if defines and defines[0] == "#define VERSION_FRENCH":
+                    self.assertIn("#ifdef VERSION_FRENCH", source)
+                    defines = defines[1:]
+                for line in defines:
+                    self.assertRegex(line, r"^#define (func|D)_8013[0-9A-F]{4} (func|D)_801[37][0-9A-F]{4}$")
                 self.assertIn(f"#ifndef MODEL_VARIANT{header}_CLUT_X\n#define MODEL_VARIANT{header}_CLUT_X 512\n#endif\n",
                               source)
                 self.assertNotIn("GetClut(512", source)

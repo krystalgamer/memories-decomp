@@ -52,7 +52,8 @@ class SpanishModelVariant432Tests(unittest.TestCase):
             expected = [{
                 "address": f"0x{base + offset:X}", "profile": "gcc_2_8_1_g0_split",
                 "size": f"0x{size:X}",
-                "source": f"src/overlays/spanish_model_variant/{stem}" + ("_slot1" if slot else "") + ".c",
+                "source": f"src/overlays/{stem if '/' in stem else 'spanish_model_variant/' + stem}"
+                          + ("_slot1" if slot else "") + ".c",
             } for offset, size, stem in self.matching_helpers]
             helper_offsets = {offset for offset, _, _ in self.matching_helpers}
             manifest = json.loads(layout.with_name(layout.stem + "_matching_c.json").read_text())
