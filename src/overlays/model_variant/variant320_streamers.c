@@ -107,6 +107,22 @@ void func_8013C714(u8 *ctx)
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
+#if defined(VERSION_FRENCH)
+                streamer->otz[k] = RotTransPers4(&streamer->a[15], &streamer->a[k], &streamer->a[15], &streamer->a[k],
+                                                 &streamer->sa[15], &streamer->sa[k],
+                                                 &streamer->sa[15], &streamer->sa[k], &p, &streamer->flag[k]);
+                RotTransPers(&streamer->b[k], &streamer->sb[k], &p, &flag);
+                dx = (s16)streamer->sa[k] - (s16)streamer->sa[15];
+                dy = (streamer->sa[k] >> 16) - (streamer->sa[15] >> 16);
+                streamer->angle[k] = ratan2(dy, dx) + 0xC00;
+                if (MODEL_VARIANT_WORD(work, 0xD4C) > 0x200) {
+                    streamer->width[k] = 1;
+                } else {
+                    streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
+                }
+                streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
+                streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
+#else
                 streamer->otz[16] = RotTransPers4(&streamer->a[15], &streamer->a[16], &streamer->a[15], &streamer->a[16],
                                                   &streamer->sa[15], &streamer->sa[16],
                                                   &streamer->sa[15], &streamer->sa[16], &p, &streamer->flag[16]);
@@ -122,6 +138,7 @@ void func_8013C714(u8 *ctx)
                     w = r - dx;
                 }
                 streamer->width[16] = w;
+#endif
             } else {
                 streamer->otz[k] = RotTransPers4(&streamer->a[k], &streamer->a[k + 1], &streamer->a[k], &streamer->a[k + 1],
                                                  &streamer->sa[k], &streamer->sa[k + 1],
@@ -135,7 +152,12 @@ void func_8013C714(u8 *ctx)
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
                 }
+#if defined(VERSION_FRENCH)
+                streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
+                streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
+#endif
             }
+#if !defined(VERSION_FRENCH)
             if (poly) {
                 streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
                 streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
@@ -143,6 +165,7 @@ void func_8013C714(u8 *ctx)
                 streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
                 streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
             }
+#endif
         }
     }
     streamer = (Variant320Streamer *)(work + 0x4D4);
