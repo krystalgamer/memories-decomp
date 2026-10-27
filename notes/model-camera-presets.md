@@ -22,9 +22,10 @@ parallel distance expressions are not extracted or normalized.
 
 Both functions remain in the same grouped state source, at their original
 native sizes `0x1AC` and `0x13C` and named `gcc_2_8_1_g8_split` profiles.
-Only the obsolete Japanese provider and caller preset-wrapper aliases
-retire. The existing intro-controller control file changes one identifier,
-preserving all values, assertions, stubs and execution paths.
+That earlier component retired only obsolete Japanese provider/caller
+preset-wrapper aliases. Its then-existing intro-controller control changed
+one identifier, preserving all values, assertions, stubs and paths; this is
+historical evidence, not a request to restore retired gameplay fixtures.
 
 ## Coefficient, distance and yaw queries
 
@@ -124,9 +125,10 @@ Model_GetSlotCameraPresetYaw still rebuilds the CF8 alias for the selector
 load, masks by 0x1F and reads only yaw. Its signed remainder and differing
 nonpositive/positive slot bias remain, including unchecked indexing.
 
-All fixtures and numeric Lua labels, breakpoints, observations and
-controls remain byte-for-byte unchanged. No fixture/cloud execution,
-new harness, capture, report refresh, source regrouping or compiler flag.
+That record-name component preserved its then-existing fixtures and
+numeric Lua labels, breakpoints, observations and controls byte-for-byte.
+Those are historical observations; later source-only naming neither
+restores retired fixtures nor claims a new trace or cloud execution.
 
 ## Runtime observation
 
@@ -135,3 +137,64 @@ Two traced 3-D battles (#418, interpreter CPU, setup confirmed) called
 `0x8004F43C` for slot 1. Slot 0 always returned `0xA00` and slot 1
 `0xE00`, in both battles and on both the default arena and the mountain
 field.
+
+
+## Animated-battle camera and handler phase views
+
+The complete Model_UpdateAnimatedBattle definition now distinguishes its
+captured effect_handlers array, camera_endpoint transport and
+defender_handler_index. The four-word handler copy remains before the
+live card-stat classification and signed phase switch. The index is still
+one or two from the original slot1 model-id lookup and bit test, not a new
+card-class enum, range check or handler rebinding. Module arguments and
+slot/global reads remain at their original call sites.
+
+The special-background branch retains preset ten, fixed orbit inputs,
+the eight-byte endpoint copy, distance-to-X and pitch-to-Z transport,
+and its separate key_magnitude. Raw current_key_halfwords views in the
+two readiness phases retain null checks and fourth-halfword kind tests.
+The low-five-bit option is still remapped in ONE preset_index binding:
+0/1/2/3 become3/0/1/2 and larger values become3. Its key_magnitude retains
+the negative initial value and conditional signed halving; no duration,
+selector normalization or new shared camera helper is introduced.
+
+The two action-start windows distinguish target_yaw, yaw_step_limit and
+yaw_delta. Keep the signed delta arm, separate comparison in the other
+arm, every live yaw read and (frame_step+2)*8 order. Do not replace these
+with absolute-value math, shortest-angle logic or a cached view snapshot.
+The two later action classifiers deliberately KEEP their mixed-role a
+bindings: each holds a row classification THEN a scaled distance. Their
+separate move_magnitude copies retain minimum-ten clamps and call order.
+
+Each selected_slot_index is a phase-local boolean, not a winner/loser or
+universally validated row-six slot. Earlier phases STILL use slot0 row!=6;
+later phases STILL use row==6. Opposite-slot selection keeps XOR1, including
+the first pointer captured before its readiness guard. All callback polls,
+field_E15 stores, raw sign/tint gates, tie comparisons, stone-state gates,
+timer stores/narrowing and phase publications remain in original order.
+The final tint phases name current_yaw, biased_yaw, current_distance,
+opposite_slot_index and move_magnitude without changing when remainders
+are taken, unsigned window tests, distance scale/clamps or negative calls.
+The explicit slot_base and selected_slot bindings remain distinct.
+
+All regional branches, including the Japanese poll-only case versus the
+non-Japanese diagnostic path, and the final unconditional orbit-direction
+lock remain. No callback ownership, action content, outcome classification,
+time unit, guard, phase transition or gameplay behavior is newly asserted.
+
+The complete Model_GetSlotCameraPresetYaw query names its existing
+slot_index definition argument, slot_offset, slot_metadata, preset, yaw
+and biased_yaw. Preserve the integer slot stride, CF8 interior view,
+separately rebuilt alias for the selector load, unchecked selected byte,
+low-five-bit mask, signed halfword yaw and both signed remainder arms.
+Public prototype labels, types, pointer casts and canonical getter identity
+stay. The historical #418 observations above are not a new capture.
+
+These are only scoped bare locals and the query's definition argument.
+All existing C comments, members, types, declarations/order/lifetimes,
+casts, operators, constants, labels, calls, other grouped functions,
+private tables, regional macros, public headers, compiler profiles and
+storage remain unchanged. Two existing semantic NOTES cells are appended;
+all identities, first-five-column evidence, confidence and other rows stay.
+No fixture/control/oracle/mutation change, retired-fixture revival, local
+cloud execution or synthetic/generated-C/source-string behavioral harness.
