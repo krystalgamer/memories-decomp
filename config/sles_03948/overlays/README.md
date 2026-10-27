@@ -325,6 +325,14 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant813_linker_symbols.txt` binds to the French
 addresses.
 
+Twelve images under French headers 419 and 569 build their entry from the North
+American header-402 entry (`model_variant/variant402_entry.c`) through
+`french_model_variant/variant419_entry{,_slot1}.c` under `gcc_2_8_1_g0_split`.
+The wrappers set the PAL palette x (`640` instead of `512`) and the data and
+helper addresses, which sit four bytes lower than in the North American images.
+The swarm and quad helpers keep their accepted `variant419_{swarm,quads}` C, and
+`model_variant419_linker_symbols.txt` now also binds the entry's resident calls.
+
 Forty images under French headers 678 and 745 are the North American
 header-661 entry (`model_variant/variant661_entry.c`) without its `E_DATA`
 work-size printf, built the same way through

@@ -1,0 +1,5 @@
+// MODEL.MRG model 95 (record 95), sector 26420, header 402, loaded at 0x8013B000.
+func_8013B004 = 0x8013B004; // type:func size:0x11DC defined:true
+func_8013C1E0 = 0x8013C1E0; // type:func size:0x598 defined:true
+func_8013C778 = 0x8013C778; // type:func size:0x4D0 defined:true
+D_8013CC48 = 0x8013CC48; // type:u8 size:0x33B8 defined:true
