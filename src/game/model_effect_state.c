@@ -56,32 +56,32 @@
 void Model_PrepareEffectKey(Key *state)
 {
     /* The copier writes four halfwords; only the first three are coordinates. */
-    s16 pos[4];
-    s16 buf[10][3];
-    Coeff *e;
-    SVECTOR *g;
-    s32 i;
-    s32 j;
-    s32 a;
-    s32 k;
-    s32 sum;
-    u32 d;
+    s16 slot_position[4];
+    s16 spline_samples[10][3];
+    Coeff *endpoint_view;
+    SVECTOR *pose_channel;
+    s32 channel_index;
+    s32 sample_index;
+    s32 magnitude;
+    s32 duration_scale;
+    s32 sampled_distance;
+    u32 duration_bound;
     s32 dx;
     s32 dy;
     s32 dz;
-    s32 slot;
-    u16 v;
+    s32 slot_index;
+    u16 radius_halfword;
 
     {
-        s32 n;
-        s32 t;
-        n = state->magnitude;
-        a = __builtin_abs(n);
-        t = a;
-        if (a <= 0) {
-            t = 1;
+        s32 signed_magnitude;
+        s32 positive_magnitude;
+        signed_magnitude = state->magnitude;
+        magnitude = __builtin_abs(signed_magnitude);
+        positive_magnitude = magnitude;
+        if (magnitude <= 0) {
+            positive_magnitude = 1;
         }
-        k = t * 2;
+        duration_scale = positive_magnitude * 2;
     }
     Model_RefreshEffectKeySlotValues(state);
     state->progress = 0;
@@ -89,71 +89,71 @@ void Model_PrepareEffectKey(Key *state)
         return;
     }
     state->ready = 1;
-    if (a >= 0x4000) {
+    if (magnitude >= 0x4000) {
         state->duration = 0x4000;
     } else {
-        state->duration = k;
+        state->duration = duration_scale;
     }
     if (state->magnitude >= 0) {
         return;
     }
 
     /* Coeff preserves the aligned halfword loads of these packed endpoints. */
-    e = (Coeff *)state;
-    for (i = 0; i < 2; i++, e++) {
-        g = &gModel_aPoseSnapshot[i];
-        switch ((s16)e->w) {
+    endpoint_view = (Coeff *)state;
+    for (channel_index = 0; channel_index < 2; channel_index++, endpoint_view++) {
+        pose_channel = &gModel_aPoseSnapshot[channel_index];
+        switch ((s16)endpoint_view->w) {
         case 0x80:
         case 0x81:
         {
             s32 dx, dy, dz;
-            slot = (s16)(e->w & 0xFF7F);
-            if (Model_GetSlotReadiness(slot) != 1) {
+            slot_index = (s16)(endpoint_view->w & 0xFF7F);
+            if (Model_GetSlotReadiness(slot_index) != 1) {
                 continue;
             }
-            Model_CopySlotPosition(slot, (u16 *)pos);
-            pos[0] = pos[0] + (u16)e->x;
-            pos[1] = pos[1] + (u16)e->y;
-            pos[2] = pos[2] + (u16)e->z;
-            dx = pos[0] - g->vx;
-            dy = pos[1] - g->vy;
-            dz = pos[2] - g->vz;
-            d = k * SquareRoot0(dx * dx + dy * dy + dz * dz) / 1000;
-            if (state->duration < d) {
-                state->duration = d;
+            Model_CopySlotPosition(slot_index, (u16 *)slot_position);
+            slot_position[0] = slot_position[0] + (u16)endpoint_view->x;
+            slot_position[1] = slot_position[1] + (u16)endpoint_view->y;
+            slot_position[2] = slot_position[2] + (u16)endpoint_view->z;
+            dx = slot_position[0] - pose_channel->vx;
+            dy = slot_position[1] - pose_channel->vy;
+            dz = slot_position[2] - pose_channel->vz;
+            duration_bound = duration_scale * SquareRoot0(dx * dx + dy * dy + dz * dz) / 1000;
+            if (state->duration < duration_bound) {
+                state->duration = duration_bound;
             }
             continue;
         }
         case 1:
-            sum = 0;
-            for (j = 0; j < 10; j++) {
-                Model_EvaluateKeyframeSpline(state, i, j, 0x1E, buf[j]);
+            sampled_distance = 0;
+            for (sample_index = 0; sample_index < 10; sample_index++) {
+                Model_EvaluateKeyframeSpline(state, channel_index, sample_index, 0x1E, spline_samples[sample_index]);
             }
-            for (j = 1; j < 10; j++) {
-                dx = buf[j - 1][0] - buf[j][0];
-                dy = buf[j - 1][1] - buf[j][1];
-                dz = buf[j - 1][2] - buf[j][2];
-                sum += SquareRoot0(dx * dx + dy * dy + dz * dz);
+            for (sample_index = 1; sample_index < 10; sample_index++) {
+                dx = spline_samples[sample_index - 1][0] - spline_samples[sample_index][0];
+                dy = spline_samples[sample_index - 1][1] - spline_samples[sample_index][1];
+                dz = spline_samples[sample_index - 1][2] - spline_samples[sample_index][2];
+                sampled_distance += SquareRoot0(dx * dx + dy * dy + dz * dz);
             }
-            d = k * sum / 1000;
-            if (state->duration < d) {
-                state->duration = d;
+            duration_bound = duration_scale * sampled_distance / 1000;
+            if (state->duration < duration_bound) {
+                state->duration = duration_bound;
             }
             continue;
         case 4:
         {
             s32 radius_scaled;
-            s32 factor;
-            v = (u16)gModel_aPoseSnapshot[2].vx;
-            if (gModel_aPoseSnapshot[2].vx < e->x) {
-                v = (u16)e->x;
+            s32 endpoint_y_magnitude;
+            radius_halfword = (u16)gModel_aPoseSnapshot[2].vx;
+            if (gModel_aPoseSnapshot[2].vx < endpoint_view->x) {
+                radius_halfword = (u16)endpoint_view->x;
             }
-            radius_scaled = (s16)v * 6284 / 1000;
-            d = k * radius_scaled;
-            factor = __builtin_abs(e->y);
-            d = (u32)(d * factor) / 4096000;
-            if (state->duration < d) {
-                state->duration = d;
+            radius_scaled = (s16)radius_halfword * 6284 / 1000;
+            duration_bound = duration_scale * radius_scaled;
+            endpoint_y_magnitude = __builtin_abs(endpoint_view->y);
+            duration_bound = (u32)(duration_bound * endpoint_y_magnitude) / 4096000;
+            if (state->duration < duration_bound) {
+                state->duration = duration_bound;
             }
             continue;
         }
@@ -181,60 +181,60 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
         &gModel_aEffectKeys[(cur - gModel_aEffectKeys + 1) % gModel_bEffectKeyCount],
         &gModel_aEffectKeys[(cur - gModel_aEffectKeys + 2) % gModel_bEffectKeyCount]
     };
-    s16 *pts[4];
-    Coeff co[3];
-    s32 i;
-    s32 j;
+    s16 *control_points[4];
+    Coeff axis_coefficients[3];
+    s32 point_or_axis_index;
+    s32 tail_source_index;
 
-    memset(pts, 0, 16);
-    pts[0] = (s16 *)(
+    memset(control_points, 0, 16);
+    control_points[0] = (s16 *)(
         (u8 *)gModel_aPoseSnapshot + (u32)&((u8 (*)[8])0)[k]);
-    for (i = 1; i < 3; i++) {
-        s16 *e;
+    for (point_or_axis_index = 1; point_or_axis_index < 3; point_or_axis_index++) {
+        s16 *next_channel_halfwords;
 
-        e = (s16 *)(
-            KEY_BYTES(keys[i]) + (u32)&((u8 (*)[8])0)[k]);
-        if (e[3] != 1) {
+        next_channel_halfwords = (s16 *)(
+            KEY_BYTES(keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[k]);
+        if (next_channel_halfwords[3] != 1) {
             break;
         }
     }
-    j = i - 1;
-    if (i < 3) {
-        for (; i < 3; i++) {
-            keys[i] = keys[j];
+    tail_source_index = point_or_axis_index - 1;
+    if (point_or_axis_index < 3) {
+        for (; point_or_axis_index < 3; point_or_axis_index++) {
+            keys[point_or_axis_index] = keys[tail_source_index];
         }
     }
-    for (i = 0; i < 3; i++) {
-        pts[i + 1] = (s16 *)(
-            KEY_BYTES(keys[i]) + (u32)&((u8 (*)[8])0)[k]);
+    for (point_or_axis_index = 0; point_or_axis_index < 3; point_or_axis_index++) {
+        control_points[point_or_axis_index + 1] = (s16 *)(
+            KEY_BYTES(keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[k]);
     }
     if (den != 0) {
-        Key *kp;
-        s16 *p;
+        Key *previous_key;
+        s16 *previous_channel;
 
-        kp = &gModel_aEffectKeys[(cur - gModel_aEffectKeys + gModel_bEffectKeyCount - 1) % gModel_bEffectKeyCount];
-        p = (s16 *)(KEY_BYTES(kp) + (u32)&((u8 (*)[8])0)[k]);
-        if (p[3] == 1) {
-            pts[0] = p;
+        previous_key = &gModel_aEffectKeys[(cur - gModel_aEffectKeys + gModel_bEffectKeyCount - 1) % gModel_bEffectKeyCount];
+        previous_channel = (s16 *)(KEY_BYTES(previous_key) + (u32)&((u8 (*)[8])0)[k]);
+        if (previous_channel[3] == 1) {
+            control_points[0] = previous_channel;
         }
-        i = 0;
+        point_or_axis_index = 0;
     } else {
         den = keys[0]->duration;
-        for (i = 1; i < 3; i++) {
-            if (keys[i - 1] != keys[i]) {
-                den += keys[i]->duration;
+        for (point_or_axis_index = 1; point_or_axis_index < 3; point_or_axis_index++) {
+            if (keys[point_or_axis_index - 1] != keys[point_or_axis_index]) {
+                den += keys[point_or_axis_index]->duration;
             }
         }
-        i = 0;
+        point_or_axis_index = 0;
     }
-    for (i = 0; i < 3; i++) {
-        s32 v;
+    for (point_or_axis_index = 0; point_or_axis_index < 3; point_or_axis_index++) {
+        s32 polynomial_value;
 
-        Model_BuildCubicCoefficients(pts[0][i], pts[1][i], pts[2][i], pts[3][i], &co[i], 2);
-        v = co[i].x * scale / den;
-        v = (v + co[i].y) * scale / den;
-        v = (v + co[i].z) * scale / den;
-        out[i] = co[i].w + v;
+        Model_BuildCubicCoefficients(control_points[0][point_or_axis_index], control_points[1][point_or_axis_index], control_points[2][point_or_axis_index], control_points[3][point_or_axis_index], &axis_coefficients[point_or_axis_index], 2);
+        polynomial_value = axis_coefficients[point_or_axis_index].x * scale / den;
+        polynomial_value = (polynomial_value + axis_coefficients[point_or_axis_index].y) * scale / den;
+        polynomial_value = (polynomial_value + axis_coefficients[point_or_axis_index].z) * scale / den;
+        out[point_or_axis_index] = axis_coefficients[point_or_axis_index].w + polynomial_value;
     }
 }
 
@@ -246,32 +246,32 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
    translation unit. */
 void Model_CaptureKeyframePose(s32 capture_endpoints)
 {
-    GsRVIEW2 *left = Model_GetCameraViewBuffer();
-    ModelViewMetrics *right = Model_GetViewMetricsBuffer();
+    GsRVIEW2 *view = Model_GetCameraViewBuffer();
+    ModelViewMetrics *metrics = Model_GetViewMetricsBuffer();
 
-    gModel_aPoseSnapshot[0].vx = left->vpx;
-    gModel_aPoseSnapshot[0].vy = left->vpy;
-    gModel_aPoseSnapshot[0].vz = left->vpz;
-    gModel_aPoseSnapshot[1].vx = left->vrx;
-    gModel_aPoseSnapshot[1].vy = left->vry;
-    gModel_aPoseSnapshot[1].vz = left->vrz;
-    gModel_aPoseSnapshot[2].vx = right->distance;
-    gModel_aPoseSnapshot[2].vy = right->yaw;
-    gModel_aPoseSnapshot[2].vz = right->pitch;
+    gModel_aPoseSnapshot[0].vx = view->vpx;
+    gModel_aPoseSnapshot[0].vy = view->vpy;
+    gModel_aPoseSnapshot[0].vz = view->vpz;
+    gModel_aPoseSnapshot[1].vx = view->vrx;
+    gModel_aPoseSnapshot[1].vy = view->vry;
+    gModel_aPoseSnapshot[1].vz = view->vrz;
+    gModel_aPoseSnapshot[2].vx = metrics->distance;
+    gModel_aPoseSnapshot[2].vy = metrics->yaw;
+    gModel_aPoseSnapshot[2].vz = metrics->pitch;
     if (capture_endpoints != 0) {
         Key *key = gModel_pCurrentEffectKey;
         if (key != (Key *)0) {
-            s32 i = 0;
-            s32 offset = 16;
+            s32 endpoint_index = 0;
+            s32 resolved_byte_offset = 16;
             /* A byte cursor over key->requested: ModelEffectEndpoint is
                packed, so reading its members costs byte loads (+0x30). */
-            u8 *entry = KEY_BYTES(key);
-            for (; i < 2; offset += 8, i++, entry += 8) {
-                s32 kind = *(s16 *)(entry + 6);
-                if (kind < 4) {
-                    if (kind >= 2)
+            u8 *requested_cursor = KEY_BYTES(key);
+            for (; endpoint_index < 2; resolved_byte_offset += 8, endpoint_index++, requested_cursor += 8) {
+                s32 endpoint_kind = *(s16 *)(requested_cursor + 6);
+                if (endpoint_kind < 4) {
+                    if (endpoint_kind >= 2)
                         Model_CopySlotPosition(
-                            *(s16 *)entry, (u16 *)(KEY_BYTES(key) + offset)
+                            *(s16 *)requested_cursor, (u16 *)(KEY_BYTES(key) + resolved_byte_offset)
                         );
                 }
             }

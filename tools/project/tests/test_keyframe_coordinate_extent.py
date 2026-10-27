@@ -74,8 +74,8 @@ class KeyframeCoordinateExtentTests(unittest.TestCase):
             directory = Path(temporary)
             text = caller_source()
             if narrow_buffer:
-                self.assertEqual(text.count("s16 pos[4];"), 1)
-                text = text.replace("s16 pos[4];", "s16 pos[3];")
+                self.assertEqual(text.count("s16 slot_position[4];"), 1)
+                text = text.replace("s16 slot_position[4];", "s16 slot_position[3];")
             caller = directory / "caller.c"
             caller.write_text(text)
             witness = directory / "witness.c"
