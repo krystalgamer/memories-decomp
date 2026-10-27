@@ -1,6 +1,18 @@
 {
   "functions": [
     {
+      "address": "0x8017B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1364",
+      "source": "src/overlays/french_model_variant/variant464_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C368",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x584",
+      "source": "src/overlays/french_model_variant/variant464_rings_slot1.c"
+    },
+    {
       "address": "0x8017C8EC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5A8",
@@ -11,6 +23,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x48C",
       "source": "src/overlays/spanish_model_variant/variant464_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017D320",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x518",
+      "source": "src/overlays/french_model_variant/variant464_webs_slot1.c"
     },
     {
       "address": "0x8017D838",
