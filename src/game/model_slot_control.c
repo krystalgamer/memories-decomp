@@ -638,27 +638,27 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
  *
  * Returns zero once a transfer has been requested and one when the model id
  * has no record to request. */
-s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
-                           s32 p5, s32 arg6)
+s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense_override, s32 guardian_star_option,
+                           s32 defense_position_option, s32 arg6)
 {
     FileTransferDescriptor *transfer;
-    s32 flags;
-    s32 result;
+    s32 skip_sound_setup_mask;
+    s32 request_result;
 
-    result = 0;
-    flags = slot & 0x80;
+    request_result = 0;
+    skip_sound_setup_mask = slot & 0x80;
     slot &= 0x7F;
     if (model < 0) {
         model = gModel_aSlots[slot].model_id;
     } else {
         gModel_aSlots[slot].model_id = model;
     }
-    if (flags == 0) {
+    if (skip_sound_setup_mask == 0) {
         SD_KeyOffVoiceSlots();
     }
     File_WaitForTransfers();
     Model_InitSlot(slot, 0, 0, arg6);
-    gModel_aSlots[slot].skip_sound_setup = flags;
+    gModel_aSlots[slot].skip_sound_setup = skip_sound_setup_mask;
     if (slot < 2) {
         if (model == MODEL_SPECIAL_BATTLE_ID) {
             transfer = File_TryRequestAsyncTransfer(
@@ -677,7 +677,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
             || (model >= MODEL_MRG_SECOND_GAP_START
                 && model < MODEL_MRG_SECOND_GAP_END)
             || model == MODEL_MRG_SINGLE_GAP_ID) {
-            result++;
+            request_result++;
         } else {
             if (model >= MODEL_MRG_LAST_ID) {
                 model--;
@@ -693,17 +693,17 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
                 MODEL_MRG_SECTOR_COUNT, Model_LoadMonsterMergeStage,
                 0, 0
             );
-            if (p2 >= 0) {
-                gModel_aSlots[slot].attack_compare_override = p2;
+            if (attack_override >= 0) {
+                gModel_aSlots[slot].attack_compare_override = attack_override;
             }
-            if (p3 >= 0) {
-                gModel_aSlots[slot].defense_compare_override = p3;
+            if (defense_override >= 0) {
+                gModel_aSlots[slot].defense_compare_override = defense_override;
             }
-            if (p4 >= 0) {
-                gModel_aSlots[slot].guardian_star_selection = p4 != 0;
+            if (guardian_star_option >= 0) {
+                gModel_aSlots[slot].guardian_star_selection = guardian_star_option != 0;
             }
-            if (p5 >= 0) {
-                gModel_aSlots[slot].defense_position = p5 != 0;
+            if (defense_position_option >= 0) {
+                gModel_aSlots[slot].defense_position = defense_position_option != 0;
             }
             transfer->callback_data = (void *)slot;
             transfer->position = gModel_aSlots[slot].guardian_star_selection;
@@ -720,7 +720,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
                 goto found;
             }
         }
-        result++;
+        request_result++;
         goto done;
 found:
         transfer = File_TryRequestAsyncTransfer(
@@ -733,7 +733,7 @@ found:
         gModel_aSlots[slot].load_step = 0;
     }
 done:
-    return result;
+    return request_result;
 }
 
 static inline s16 load_phase(ModelSlot *slot)
@@ -941,268 +941,268 @@ void Model_AdvanceSlotLoad(s32 index)
 #define MODEL_TEXTURE_TAIL_ROW_Y 0xF0
 #endif
 
-void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
+void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
 {
-    RECT rect0;
-    RECT rect1;
-    s32 index;
-    s32 alternate;
-    ModelSlot *slot;
+    RECT texture_row_rect;
+    RECT palette_row_rect;
+    s32 slot_index;
+    s32 variant_selection;
+    ModelSlot *loaded_slot;
 
-    index = (s32)d->callback_data;
-    alternate = d->position;
-    slot = &gModel_aSlots[index];
+    slot_index = (s32)transfer->callback_data;
+    variant_selection = transfer->position;
+    loaded_slot = &gModel_aSlots[slot_index];
     switch (stage) {
     case 0: {
-        u8 *destination;
-        if (index == 0) {
-            destination = gRuntime_pSharedWorkBase;
+        u8 *payload_destination;
+        if (slot_index == 0) {
+            payload_destination = gRuntime_pSharedWorkBase;
         } else {
-            destination = gModel_pSlot1PayloadBase;
+            payload_destination = gModel_pSlot1PayloadBase;
         }
-        d->sector_destination = d->alternate_sector_destination = (u32)destination;
-        d->phase_size = 96 * FILE_SECTOR_SIZE;
+        transfer->sector_destination = transfer->alternate_sector_destination = (u32)payload_destination;
+        transfer->phase_size = 96 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->transfer_mode = 1;
+        transfer->transfer_mode = 1;
         break;
     }
     case 1:
-        d->field_30.h.counter = index << 8;
-        d->field_30.h.field_32 = 0x100;
-        d->w = 0x40;
-        d->h = 0x10;
+        transfer->field_30.h.counter = slot_index << 8;
+        transfer->field_30.h.field_32 = 0x100;
+        transfer->w = 0x40;
+        transfer->h = 0x10;
         gFile_dwTransferState_abs &= 0xFFDDFFFF;
-        d->phase_size = 48 * FILE_SECTOR_SIZE;
+        transfer->phase_size = 48 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs |= 0x10000;
-        d->transfer_mode = 2;
-        d->sector_destination = (u32)gFile_TransferBufferBase;
-        d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->transfer_mode = 2;
+        transfer->sector_destination = (u32)gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
     case 2:
-        d->sector_destination = d->alternate_sector_destination = (u32)gFile_abPackageStagingBuffer;
-        d->phase_size = 2 * FILE_SECTOR_SIZE;
+        transfer->sector_destination = transfer->alternate_sector_destination = (u32)gFile_abPackageStagingBuffer;
+        transfer->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->transfer_mode = 1;
+        transfer->transfer_mode = 1;
         break;
     case 3: {
-        u32 mask;
-        u8 *source;
-        RECT *rect;
-        do { rect = &rect0; } while (0);
-        rect0.x = MODEL_TEXTURE_STAGE3_RECT_X(index);
-        rect0.y = MODEL_TEXTURE_STAGE3_RECT_Y(index);
-        rect0.w = 0x100;
-        rect0.h = 8;
-        LoadImage2(rect, (u32 *)gFile_abPackageStagingBuffer);
-        source = gFile_abPackageStagingBuffer;
-        do { mask = 0xFFDCFFFF; } while (0);
-        source += 2 * FILE_SECTOR_SIZE;
-        d->sector_destination = d->alternate_sector_destination = (u32)source;
-        d->phase_size = FILE_SECTOR_SIZE;
-        gFile_dwTransferState_abs &= mask;
-        d->transfer_mode = 1;
+        u32 transfer_clear_mask;
+        u8 *next_sector_source;
+        RECT *texture_row_view;
+        do { texture_row_view = &texture_row_rect; } while (0);
+        texture_row_rect.x = MODEL_TEXTURE_STAGE3_RECT_X(slot_index);
+        texture_row_rect.y = MODEL_TEXTURE_STAGE3_RECT_Y(slot_index);
+        texture_row_rect.w = 0x100;
+        texture_row_rect.h = 8;
+        LoadImage2(texture_row_view, (u32 *)gFile_abPackageStagingBuffer);
+        next_sector_source = gFile_abPackageStagingBuffer;
+        do { transfer_clear_mask = 0xFFDCFFFF; } while (0);
+        next_sector_source += 2 * FILE_SECTOR_SIZE;
+        transfer->sector_destination = transfer->alternate_sector_destination = (u32)next_sector_source;
+        transfer->phase_size = FILE_SECTOR_SIZE;
+        gFile_dwTransferState_abs &= transfer_clear_mask;
+        transfer->transfer_mode = 1;
         break;
     }
     case 4:
-        if (alternate == 0) {
-            rect1.x = MODEL_TEXTURE_PALETTE_RECT_X;
-            rect1.y = index + 0xF2;
-            rect1.w = 0x100;
-            rect1.h = 1;
-            LoadImage2(&rect1, (u32 *)gModel_abTexturePaletteStaging);
-            d->field_30.h.counter = (index << 8) + 0xC0;
-            d->w = 0x40;
-            d->h = 0x10;
+        if (variant_selection == 0) {
+            palette_row_rect.x = MODEL_TEXTURE_PALETTE_RECT_X;
+            palette_row_rect.y = slot_index + 0xF2;
+            palette_row_rect.w = 0x100;
+            palette_row_rect.h = 1;
+            LoadImage2(&palette_row_rect, (u32 *)gModel_abTexturePaletteStaging);
+            transfer->field_30.h.counter = (slot_index << 8) + 0xC0;
+            transfer->w = 0x40;
+            transfer->h = 0x10;
             {
-                u32 cleared, loaded, enabled;
-                cleared = gFile_dwTransferState_abs & 0xFFDDFFFF;
-                gFile_dwTransferState_abs = cleared;
-                do { loaded = gFile_dwTransferState_abs; } while (0);
-                do { enabled = 0x10000; } while (0);
-                d->field_30.h.field_32 = 0x100;
-                gFile_dwTransferState_abs = loaded | enabled;
+                u32 cleared_transfer_state, reloaded_transfer_state, image_transfer_bit;
+                cleared_transfer_state = gFile_dwTransferState_abs & 0xFFDDFFFF;
+                gFile_dwTransferState_abs = cleared_transfer_state;
+                do { reloaded_transfer_state = gFile_dwTransferState_abs; } while (0);
+                do { image_transfer_bit = 0x10000; } while (0);
+                transfer->field_30.h.field_32 = 0x100;
+                gFile_dwTransferState_abs = reloaded_transfer_state | image_transfer_bit;
             }
-            d->transfer_mode = 2;
-            d->phase_size = 16 * FILE_SECTOR_SIZE;
-            d->sector_destination = (u32)gFile_TransferBufferBase;
-            d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+            transfer->transfer_mode = 2;
+            transfer->phase_size = 16 * FILE_SECTOR_SIZE;
+            transfer->sector_destination = (u32)gFile_TransferBufferBase;
+            transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         } else {
-            d->phase_size = 16 * FILE_SECTOR_SIZE;
+            transfer->phase_size = 16 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         }
         break;
     case 6:
-        if (alternate == 1) {
-            rect1.x = MODEL_TEXTURE_PALETTE_RECT_X;
-            rect1.y = index + 0xF2;
-            rect1.w = 0x100;
-            rect1.h = 1;
-            LoadImage2(&rect1, (u32 *)gFile_abPackageStagingBuffer);
-            d->field_30.h.counter = (index << 8) + 0xC0;
-            d->w = 0x40;
-            d->h = 0x10;
+        if (variant_selection == 1) {
+            palette_row_rect.x = MODEL_TEXTURE_PALETTE_RECT_X;
+            palette_row_rect.y = slot_index + 0xF2;
+            palette_row_rect.w = 0x100;
+            palette_row_rect.h = 1;
+            LoadImage2(&palette_row_rect, (u32 *)gFile_abPackageStagingBuffer);
+            transfer->field_30.h.counter = (slot_index << 8) + 0xC0;
+            transfer->w = 0x40;
+            transfer->h = 0x10;
             {
-                u32 cleared, loaded, enabled;
-                cleared = gFile_dwTransferState_abs & 0xFFDDFFFF;
-                gFile_dwTransferState_abs = cleared;
-                do { loaded = gFile_dwTransferState_abs; } while (0);
-                do { enabled = 0x10000; } while (0);
-                d->field_30.h.field_32 = 0x100;
-                gFile_dwTransferState_abs = loaded | enabled;
+                u32 cleared_transfer_state, reloaded_transfer_state, image_transfer_bit;
+                cleared_transfer_state = gFile_dwTransferState_abs & 0xFFDDFFFF;
+                gFile_dwTransferState_abs = cleared_transfer_state;
+                do { reloaded_transfer_state = gFile_dwTransferState_abs; } while (0);
+                do { image_transfer_bit = 0x10000; } while (0);
+                transfer->field_30.h.field_32 = 0x100;
+                gFile_dwTransferState_abs = reloaded_transfer_state | image_transfer_bit;
             }
-            d->transfer_mode = 2;
-            d->phase_size = 16 * FILE_SECTOR_SIZE;
-            d->sector_destination = (u32)gFile_TransferBufferBase;
-            d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+            transfer->transfer_mode = 2;
+            transfer->phase_size = 16 * FILE_SECTOR_SIZE;
+            transfer->sector_destination = (u32)gFile_TransferBufferBase;
+            transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         } else {
-            d->phase_size = 16 * FILE_SECTOR_SIZE;
+            transfer->phase_size = 16 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         }
         break;
     case 7:
-        if (alternate == 0 && index == 0) {
-            d->phase_size = 10 * FILE_SECTOR_SIZE;
+        if (variant_selection == 0 && slot_index == 0) {
+            transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFDCFFFF;
-            d->sector_destination = d->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
-            d->transfer_mode = 1;
+            transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
+            transfer->transfer_mode = 1;
         } else {
-            d->phase_size = 10 * FILE_SECTOR_SIZE;
+            transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         }
         break;
     case 8:
-        if (alternate == 0 && index == 1) {
-            d->phase_size = 10 * FILE_SECTOR_SIZE;
+        if (variant_selection == 0 && slot_index == 1) {
+            transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFDCFFFF;
-            d->sector_destination = d->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
-            d->transfer_mode = 1;
+            transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
+            transfer->transfer_mode = 1;
         } else {
-            d->phase_size = 10 * FILE_SECTOR_SIZE;
+            transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         }
         break;
     case 9:
-        if (alternate == 1 && index == 0) {
-            d->phase_size = 10 * FILE_SECTOR_SIZE;
+        if (variant_selection == 1 && slot_index == 0) {
+            transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFDCFFFF;
-            d->sector_destination = d->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
-            d->transfer_mode = 1;
+            transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
+            transfer->transfer_mode = 1;
         } else {
-            d->phase_size = 10 * FILE_SECTOR_SIZE;
+            transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         }
         break;
     case 10:
-        if (alternate == 1 && index == 1) {
-            d->phase_size = 10 * FILE_SECTOR_SIZE;
+        if (variant_selection == 1 && slot_index == 1) {
+            transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFDCFFFF;
-            d->sector_destination = d->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
-            d->transfer_mode = 1;
+            transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
+            transfer->transfer_mode = 1;
         } else {
-            d->phase_size = 10 * FILE_SECTOR_SIZE;
+            transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         }
         break;
     case 11:
-        if (index == 0) {
-            d->phase_size = 2 * FILE_SECTOR_SIZE;
+        if (slot_index == 0) {
+            transfer->phase_size = 2 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFDCFFFF;
-            d->sector_destination = d->alternate_sector_destination = (u32)gModel_pSlot0PrimaryModule;
-            d->transfer_mode = 1;
+            transfer->sector_destination = transfer->alternate_sector_destination = (u32)gModel_pSlot0PrimaryModule;
+            transfer->transfer_mode = 1;
         } else {
-            d->phase_size = 2 * FILE_SECTOR_SIZE;
+            transfer->phase_size = 2 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         }
         break;
     case 12:
-        if (index == 1) {
-            d->phase_size = 2 * FILE_SECTOR_SIZE;
+        if (slot_index == 1) {
+            transfer->phase_size = 2 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFDCFFFF;
-            d->sector_destination = d->alternate_sector_destination = (u32)gModel_pSlot1PrimaryModule;
-            d->transfer_mode = 1;
+            transfer->sector_destination = transfer->alternate_sector_destination = (u32)gModel_pSlot1PrimaryModule;
+            transfer->transfer_mode = 1;
         } else {
-            d->phase_size = 2 * FILE_SECTOR_SIZE;
+            transfer->phase_size = 2 * FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         }
         break;
     case 13:
-        if (slot->skip_sound_setup != 0) {
-            d->phase_size = FILE_SECTOR_SIZE;
+        if (loaded_slot->skip_sound_setup != 0) {
+            transfer->phase_size = FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFFCFFFF;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         } else {
-            d->sector_destination = d->alternate_sector_destination =
-                (u32)(D_801A8000 + index * FILE_SECTOR_SIZE);
-            d->phase_size = FILE_SECTOR_SIZE;
+            transfer->sector_destination = transfer->alternate_sector_destination =
+                (u32)(D_801A8000 + slot_index * FILE_SECTOR_SIZE);
+            transfer->phase_size = FILE_SECTOR_SIZE;
             gFile_dwTransferState_abs &= 0xFFDCFFFF;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         }
         break;
     case 14:
-        if (slot->skip_sound_setup != 0) {
-            u32 mask;
-            do { mask = 0xFFFCFFFF; } while (0);
-            d->phase_size = 50 * FILE_SECTOR_SIZE;
-            gFile_dwTransferState_abs &= mask;
+        if (loaded_slot->skip_sound_setup != 0) {
+            u32 transfer_clear_mask;
+            do { transfer_clear_mask = 0xFFFCFFFF; } while (0);
+            transfer->phase_size = 50 * FILE_SECTOR_SIZE;
+            gFile_dwTransferState_abs &= transfer_clear_mask;
             gFile_dwTransferState_abs |= FILE_TRANSFER_FLAG_SKIP_RAM_WRITE;
-            d->transfer_mode = 1;
+            transfer->transfer_mode = 1;
         } else {
-            d->transfer_mode = 3;
-            d->field_30.word = index * 0x19000 + 0xD810;
-            d->phase_size = 50 * FILE_SECTOR_SIZE;
-            d->sector_destination = (u32)gFile_TransferBufferBase;
-            d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+            transfer->transfer_mode = 3;
+            transfer->field_30.word = slot_index * 0x19000 + 0xD810;
+            transfer->phase_size = 50 * FILE_SECTOR_SIZE;
+            transfer->sector_destination = (u32)gFile_TransferBufferBase;
+            transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         }
         break;
     case 5:
     case 15:
-        d->sector_destination = d->alternate_sector_destination = (u32)gFile_abPackageStagingBuffer;
-        d->phase_size = FILE_SECTOR_SIZE;
+        transfer->sector_destination = transfer->alternate_sector_destination = (u32)gFile_abPackageStagingBuffer;
+        transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        d->transfer_mode = 1;
+        transfer->transfer_mode = 1;
         break;
     case 16: {
-        u8 *source;
-        source = gFile_abPackageStagingBuffer;
+        u8 *metadata_source;
+        metadata_source = gFile_abPackageStagingBuffer;
         Model_CopyWords(
-            (s32 *)slot->sound_entries,
-            (const s32 *)source,
+            (s32 *)loaded_slot->sound_entries,
+            (const s32 *)metadata_source,
             MODEL_SLOT_SOUND_ENTRY_COUNT
         );
-        *(ModelSlotMetadataBlockWords *)&slot->metadata =
-            ((ModelTransferMetadata *)source)->metadata;
-        if (slot->metadata.prefix.values.field_08 & 0x20200000) {
-            Model_SetSlotDrawMode(index, 4);
+        *(ModelSlotMetadataBlockWords *)&loaded_slot->metadata =
+            ((ModelTransferMetadata *)metadata_source)->metadata;
+        if (loaded_slot->metadata.prefix.values.field_08 & 0x20200000) {
+            Model_SetSlotDrawMode(slot_index, 4);
         }
-        if (slot->attack_compare_override < 0xFFFF) {
-            slot->metadata.prefix.values.attack_compare_value = slot->attack_compare_override;
+        if (loaded_slot->attack_compare_override < 0xFFFF) {
+            loaded_slot->metadata.prefix.values.attack_compare_value = loaded_slot->attack_compare_override;
         }
-        if (slot->defense_compare_override < 0xFFFF) {
-            slot->metadata.prefix.values.defense_compare_value = slot->defense_compare_override;
+        if (loaded_slot->defense_compare_override < 0xFFFF) {
+            loaded_slot->metadata.prefix.values.defense_compare_value = loaded_slot->defense_compare_override;
         }
-        if (slot->skip_sound_setup != 0) {
-            slot->metadata.first_star_module_command = -1;
-            slot->metadata.second_star_module_command = -1;
-            slot->metadata.primary_module_command = -1;
+        if (loaded_slot->skip_sound_setup != 0) {
+            loaded_slot->metadata.first_star_module_command = -1;
+            loaded_slot->metadata.second_star_module_command = -1;
+            loaded_slot->metadata.primary_module_command = -1;
         }
-        slot->load_step = 1;
+        loaded_slot->load_step = 1;
         break;
     }
     }
@@ -1221,69 +1221,69 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
    complete object owns the 0x8C-byte .rodata run at 0x1F3C. Definition order
    is address order and must stay that way. */
 
-void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *object, s32 mode) {
-    RECT rect0;
-    RECT rect1;
+void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage) {
+    RECT first_palette_rect;
+    RECT second_palette_rect;
 
-    switch (mode) {
+    switch (stage) {
     case 0:
-        object->phase_size = 18 * FILE_SECTOR_SIZE;
+        transfer->phase_size = 18 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->alternate_sector_destination = gModel_AuxiliaryPayloadAddress;
-        object->sector_destination = gModel_AuxiliaryPayloadAddress;
-        object->transfer_mode = 1;
+        transfer->alternate_sector_destination = gModel_AuxiliaryPayloadAddress;
+        transfer->sector_destination = gModel_AuxiliaryPayloadAddress;
+        transfer->transfer_mode = 1;
         break;
 
     case 1:
-        object->field_30.h.counter = 0x200;
-        object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
-        object->h = 0x10;
+        transfer->field_30.h.counter = 0x200;
+        transfer->field_30.h.field_32 = 0x100;
+        transfer->w = 0x40;
+        transfer->h = 0x10;
         gFile_dwTransferState_abs &= 0xFFDDFFFF;
         gFile_dwTransferState_abs |= 0x10000;
-        object->transfer_mode = 2;
-        object->phase_size = 64 * FILE_SECTOR_SIZE;
-        object->sector_destination = (u32)gFile_TransferBufferBase;
-        object->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->transfer_mode = 2;
+        transfer->phase_size = 64 * FILE_SECTOR_SIZE;
+        transfer->sector_destination = (u32)gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 2:
-        object->alternate_sector_destination = (s32)gModel_abAuxiliaryPaletteSector;
-        object->sector_destination = (s32)gModel_abAuxiliaryPaletteSector;
-        object->phase_size = FILE_SECTOR_SIZE;
+        transfer->alternate_sector_destination = (s32)gModel_abAuxiliaryPaletteSector;
+        transfer->sector_destination = (s32)gModel_abAuxiliaryPaletteSector;
+        transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->transfer_mode = 1;
+        transfer->transfer_mode = 1;
         break;
 
     case 3:
-        rect0.x = MODEL_TEXTURE_PALETTE_RECT_X;
-        rect0.y = 0xF1;
-        rect0.w = 0x100;
-        rect0.h = 1;
-        LoadImage2(&rect0, (u32 *)gModel_abAuxiliaryPaletteSector);
-        object->alternate_sector_destination = (s32)(gModel_abAuxiliaryPaletteSector - FILE_SECTOR_SIZE);
-        object->sector_destination = (s32)(gModel_abAuxiliaryPaletteSector - FILE_SECTOR_SIZE);
-        object->phase_size = FILE_SECTOR_SIZE;
+        first_palette_rect.x = MODEL_TEXTURE_PALETTE_RECT_X;
+        first_palette_rect.y = 0xF1;
+        first_palette_rect.w = 0x100;
+        first_palette_rect.h = 1;
+        LoadImage2(&first_palette_rect, (u32 *)gModel_abAuxiliaryPaletteSector);
+        transfer->alternate_sector_destination = (s32)(gModel_abAuxiliaryPaletteSector - FILE_SECTOR_SIZE);
+        transfer->sector_destination = (s32)(gModel_abAuxiliaryPaletteSector - FILE_SECTOR_SIZE);
+        transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->transfer_mode = 1;
+        transfer->transfer_mode = 1;
         break;
 
     case 4:
-        rect1.x = MODEL_TEXTURE_PALETTE_RECT_X;
-        rect1.y = 0xF4;
-        rect1.w = 0x100;
-        rect1.h = 2;
-        LoadImage2(&rect1, (u32 *)gFile_abPackageStagingBuffer);
-        object->field_30.h.counter = 0x380;
-        object->field_30.h.field_32 = 0;
-        object->w = 0x40;
-        object->h = 0x10;
+        second_palette_rect.x = MODEL_TEXTURE_PALETTE_RECT_X;
+        second_palette_rect.y = 0xF4;
+        second_palette_rect.w = 0x100;
+        second_palette_rect.h = 2;
+        LoadImage2(&second_palette_rect, (u32 *)gFile_abPackageStagingBuffer);
+        transfer->field_30.h.counter = 0x380;
+        transfer->field_30.h.field_32 = 0;
+        transfer->w = 0x40;
+        transfer->h = 0x10;
         gFile_dwTransferState_abs &= 0xFFDDFFFF;
         gFile_dwTransferState_abs |= 0x10000;
-        object->transfer_mode = 2;
-        object->phase_size = 32 * FILE_SECTOR_SIZE;
-        object->sector_destination = (u32)gFile_TransferBufferBase;
-        object->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->transfer_mode = 2;
+        transfer->phase_size = 32 * FILE_SECTOR_SIZE;
+        transfer->sector_destination = (u32)gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 5:
@@ -1292,129 +1292,129 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *object, s32 mode) {
     }
 }
 
-void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mode) {
-    RECT rect0;
-    RECT rect1;
-    ModelSlot *dst;
-    u8 *src;
+void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 stage) {
+    RECT texture_row_rect;
+    RECT palette_rows_rect;
+    ModelSlot *slot_zero;
+    u8 *metadata_source;
 
-    switch (mode) {
+    switch (stage) {
     case 0:
-        object->phase_size = 96 * FILE_SECTOR_SIZE;
+        transfer->phase_size = 96 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->alternate_sector_destination = (s32)gRuntime_pSharedWorkBase;
-        object->sector_destination = (s32)gRuntime_pSharedWorkBase;
-        object->transfer_mode = 1;
+        transfer->alternate_sector_destination = (s32)gRuntime_pSharedWorkBase;
+        transfer->sector_destination = (s32)gRuntime_pSharedWorkBase;
+        transfer->transfer_mode = 1;
         break;
 
     case 1:
-        object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
-        object->field_30.h.counter = 0;
-        object->h = 0x10;
+        transfer->field_30.h.field_32 = 0x100;
+        transfer->w = 0x40;
+        transfer->field_30.h.counter = 0;
+        transfer->h = 0x10;
         gFile_dwTransferState_abs &= 0xFFDDFFFF;
         gFile_dwTransferState_abs |= 0x10000;
-        object->transfer_mode = 2;
-        object->phase_size = 96 * FILE_SECTOR_SIZE;
-        object->sector_destination = (u32)gFile_TransferBufferBase;
-        object->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->transfer_mode = 2;
+        transfer->phase_size = 96 * FILE_SECTOR_SIZE;
+        transfer->sector_destination = (u32)gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 2:
-        object->alternate_sector_destination = (s32)gFile_abPackageStagingBuffer;
-        object->sector_destination = (s32)gFile_abPackageStagingBuffer;
-        object->phase_size = 2 * FILE_SECTOR_SIZE;
+        transfer->alternate_sector_destination = (s32)gFile_abPackageStagingBuffer;
+        transfer->sector_destination = (s32)gFile_abPackageStagingBuffer;
+        transfer->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->transfer_mode = 1;
+        transfer->transfer_mode = 1;
         break;
 
     case 3:
 #ifdef VERSION_EUROPE
         /* The European build stores the row's x first. */
-        rect0.x = MODEL_TEXTURE_STAGE3_RECT_X(0);
-        rect0.y = MODEL_TEXTURE_STAGE3_RECT_Y(0);
-        rect0.w = 0x100;
+        texture_row_rect.x = MODEL_TEXTURE_STAGE3_RECT_X(0);
+        texture_row_rect.y = MODEL_TEXTURE_STAGE3_RECT_Y(0);
+        texture_row_rect.w = 0x100;
 #else
-        rect0.y = MODEL_TEXTURE_STAGE3_RECT_Y(0);
-        rect0.w = 0x100;
-        rect0.x = MODEL_TEXTURE_STAGE3_RECT_X(0);
+        texture_row_rect.y = MODEL_TEXTURE_STAGE3_RECT_Y(0);
+        texture_row_rect.w = 0x100;
+        texture_row_rect.x = MODEL_TEXTURE_STAGE3_RECT_X(0);
 #endif
-        rect0.h = 8;
-        LoadImage2(&rect0, (u32 *)gFile_abPackageStagingBuffer);
-        object->phase_size = 10 * FILE_SECTOR_SIZE;
+        texture_row_rect.h = 8;
+        LoadImage2(&texture_row_rect, (u32 *)gFile_abPackageStagingBuffer);
+        transfer->phase_size = 10 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
-        object->sector_destination = gModel_Slot0VariantModuleAddress;
-        object->transfer_mode = 1;
+        transfer->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
+        transfer->sector_destination = gModel_Slot0VariantModuleAddress;
+        transfer->transfer_mode = 1;
         break;
 
     case 4:
-        object->phase_size = 10 * FILE_SECTOR_SIZE;
+        transfer->phase_size = 10 * FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
-        object->sector_destination = gModel_Slot1VariantModuleAddress;
-        object->transfer_mode = 1;
+        transfer->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
+        transfer->sector_destination = gModel_Slot1VariantModuleAddress;
+        transfer->transfer_mode = 1;
         break;
 
     case 6:
-        rect1.x = MODEL_TEXTURE_STAGE3_RECT_X(1);
-        rect1.y = MODEL_TEXTURE_TAIL_ROW_Y;
-        rect1.w = 0x100;
-        rect1.h = 2;
-        LoadImage2(&rect1, (u32 *)gFile_abPackageStagingBuffer);
-        object->field_30.h.counter = 0x180;
-        object->w = 0x40;
-        object->field_30.h.field_32 = 0x100;
-        object->h = 0x10;
+        palette_rows_rect.x = MODEL_TEXTURE_STAGE3_RECT_X(1);
+        palette_rows_rect.y = MODEL_TEXTURE_TAIL_ROW_Y;
+        palette_rows_rect.w = 0x100;
+        palette_rows_rect.h = 2;
+        LoadImage2(&palette_rows_rect, (u32 *)gFile_abPackageStagingBuffer);
+        transfer->field_30.h.counter = 0x180;
+        transfer->w = 0x40;
+        transfer->field_30.h.field_32 = 0x100;
+        transfer->h = 0x10;
         gFile_dwTransferState_abs &= 0xFFDDFFFF;
         gFile_dwTransferState_abs |= 0x10000;
-        object->transfer_mode = 2;
-        object->phase_size = 8 * FILE_SECTOR_SIZE;
-        object->sector_destination = (u32)gFile_TransferBufferBase;
-        object->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->transfer_mode = 2;
+        transfer->phase_size = 8 * FILE_SECTOR_SIZE;
+        transfer->sector_destination = (u32)gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 7:
-        object->alternate_sector_destination = (s32)D_801A8000;
-        object->sector_destination = (s32)D_801A8000;
-        object->phase_size = FILE_SECTOR_SIZE;
+        transfer->alternate_sector_destination = (s32)D_801A8000;
+        transfer->sector_destination = (s32)D_801A8000;
+        transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->transfer_mode = 1;
+        transfer->transfer_mode = 1;
         break;
 
     case 8:
-        object->transfer_mode = 3;
-        object->field_30.word = 0xD810;
-        object->phase_size = 50 * FILE_SECTOR_SIZE;
-        object->sector_destination = (u32)gFile_TransferBufferBase;
-        object->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->transfer_mode = 3;
+        transfer->field_30.word = 0xD810;
+        transfer->phase_size = 50 * FILE_SECTOR_SIZE;
+        transfer->sector_destination = (u32)gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 5:
     case 9:
-        object->alternate_sector_destination = (s32)gFile_abPackageStagingBuffer;
-        object->sector_destination = (s32)gFile_abPackageStagingBuffer;
-        object->phase_size = FILE_SECTOR_SIZE;
+        transfer->alternate_sector_destination = (s32)gFile_abPackageStagingBuffer;
+        transfer->sector_destination = (s32)gFile_abPackageStagingBuffer;
+        transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState_abs &= 0xFFDCFFFF;
-        object->transfer_mode = 1;
+        transfer->transfer_mode = 1;
         break;
 
     case 10:
-        dst = gModel_aSlots;
-        src = gFile_abPackageStagingBuffer;
+        slot_zero = gModel_aSlots;
+        metadata_source = gFile_abPackageStagingBuffer;
         Model_CopyWords(
-            (s32 *)dst->sound_entries,
-            (const s32 *)src,
+            (s32 *)slot_zero->sound_entries,
+            (const s32 *)metadata_source,
             MODEL_SLOT_SOUND_ENTRY_COUNT
         );
-        *(ModelSlotMetadataBlockWords *)&dst->metadata =
-            ((ModelTransferMetadata *)src)->metadata;
-        dst->metadata.first_star_module_command = -1;
-        dst->metadata.second_star_module_command = -1;
-        dst->metadata.primary_module_command = -1;
-        dst->metadata.prefix.values.attack_compare_value = 0;
-        dst->metadata.prefix.values.defense_compare_value = 0;
-        dst->load_step = 1;
+        *(ModelSlotMetadataBlockWords *)&slot_zero->metadata =
+            ((ModelTransferMetadata *)metadata_source)->metadata;
+        slot_zero->metadata.first_star_module_command = -1;
+        slot_zero->metadata.second_star_module_command = -1;
+        slot_zero->metadata.primary_module_command = -1;
+        slot_zero->metadata.prefix.values.attack_compare_value = 0;
+        slot_zero->metadata.prefix.values.defense_compare_value = 0;
+        slot_zero->load_step = 1;
         break;
     }
 }

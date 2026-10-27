@@ -78,3 +78,51 @@ confirmed), every `Model_GetSlotReadiness` call -- from `0x8005DD68`,
 `+E14` at `0xFF` and `+E1F` set and returned one. Phases zero and two
 were not observed; this run only covers slots that had already finished
 loading.
+
+
+## Request and transfer-stage local views
+
+The COMPLETE request and three callback definitions distinguish their
+existing local and function-definition parameter bindings. Public
+prototypes, callback signatures, types and parameter order stay byte-identical.
+No new field, helper, storage, supported input, transfer kind or readiness
+policy is introduced, and no retired gameplay witness is revived.
+
+The request's four signed properties name their existing conditional
+attack/defense comparison overrides and guardian-star/posture options.
+These are not new numerical-stat meanings. Negative retention, halfword
+narrowing, !=0 conversions and branch-specific omissions remain exact.
+skip_sound_setup_mask remains the original raw slot&0x80 result, NOT a
+Boolean. Preserve key-off gating, wait/reset order, flag publication,
+model-ID validation and compaction, special/auxiliary early branches,
+unchecked descriptor access and original request_result returns.
+
+The ordinary callback keeps slot_index and variant_selection captured
+BEFORE its switch. loaded_slot is the original slot pointer; it is not
+a new ready/live/validated-slot guarantee. payload_destination is separate
+from the stage-three next_sector_source and stage-sixteen metadata_source.
+Those source cursors remain DIFFERENT lexical bindings; no hoist or
+pointer unification. Preserve all sector advances, casts and address views.
+
+texture_row_rect and palette_row_rect retain their complete original
+lifetimes and stage-specific stores. texture_row_view still points to the
+first object through its do-while wrapper. Both transfer_clear_mask scopes
+and BOTH sets of cleared_transfer_state/reloaded_transfer_state/
+image_transfer_bit remain distinct captures, preserving each state write
+and reload site. These names do not impose volatile or compiler-load claims.
+Keep every switch arm, mask, mode, size, destination, skip flag and store
+order, especially the sound mode-three path versus image mode two.
+
+The auxiliary callback's two palette rectangles retain their separate
+stages, rows and heights. Its completion remains the independent
+gModel_bAuxiliaryLoadStep[0] store, not a new indexed-slot publication.
+The special callback's slot_zero and metadata_source retain the fixed
+slot-zero sound/metadata copy, command clears, comparison clears and
+load-step store. Ordinary override application is NOT added here.
+European texture-row store order and wrapper coordinates stay unchanged.
+
+All four WHOLE definitions invert byte-for-byte under scoped bare
+identifiers. All member tokens, types, declarations/order/lifetimes,
+constants, operators, labels, calls, macros and existing comments remain.
+The full grouped objects retain their other functions and complete
+jump-table/private-data layout under the original named profiles.
