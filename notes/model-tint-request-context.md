@@ -145,3 +145,71 @@ units and three existing registry NOTES cells change. The whole header,
 qualified descriptor/request members, types, arithmetic, statement order,
 accepted source grouping, named profiles, initialized data, callers and
 all existing fixtures/controls remain exact.
+
+
+## Submission and transient-redraw local views
+
+The complete ForParts wrapper, allocator and updater now name existing
+local views. No arguments, function identities, public declarations,
+request members or storage change. The two redraw loops' part_row locals
+remain TWO separate lexical bindings, not a shared cached selector.
+
+The wrapper's argument_cursor still advances BEFORE loading the previous
+four-byte argument. It stops at the first negative part_index, with the
+same unchecked mask_byte_index and shift. The clear_cursor still walks
+backwards through all eight local bytes. start.blend_mode and the wrapper's
+mode & 128 forwarding remain distinct from the allocator's selection & 1;
+no selection repair, bound or standard-varargs replacement is introduced.
+
+The allocator distinguishes request, raw_requests, request_offset and
+full_mask_byte. active_flags, slot_cleared_flags, slot_flags,
+selection_cleared_flags, selection_flags and row_cleared_flags name the
+original separately declared flag intermediates, not new writes or
+changed masks. flag_work still holds both the initial flags and the
+later row-packed word. The deliberately mixed mode and sel scratch remain:
+mode first carries slot flag bits THEN the mask-loop index; sel first
+carries selection flag bits THEN the raw request offset. Their assignments,
+declarations, register qualifier and do-while-zero block stay exact.
+
+The request's flags are still published twice BEFORE the animation snapshot,
+zero elapsed, doubled duration and full-word descriptors. Only then are
+eight mask bytes copied or filled from FF, starting at raw_requests plus
+request_offset plus ONE. This still overlaps the high flags byte. Keep the
+first-free search, signed end-pointer comparison, partial writes and silent
+full-queue result; no record atomicity or initialization policy is added.
+
+The updater distinguishes request_index/request_offset, requests/request,
+and mask_base_address. Its raw mask address is STILL table base plus one
+plus the independently advanced 0x18 offset, not a substituted member.
+Inactive slots still skip the whole tail; insufficient buffer space still
+jumps to the tail and advances elapsed. Duration division retains both
+integer quotients with their original promotions, truncation and zero case.
+Only the start blend byte enters draw_tint; the end blend byte stays unread.
+
+flag_work still shifts in place. request_animation_row captures bits 3..7
+BEFORE the shadow-disable call; draw_animation_row copies it AFTER that
+call. These are row selectors, NOT geometric part indices. saved_animation_row
+is the one existing saved selector across BOTH loops. The original
+allocation explanation changes only its eight backtick identifiers.
+No lifetime merge, split, cached selector or scheduling assumption is added.
+
+saved_tint, saved_animation_position and saved_shadow_state retain their
+separate capture times. request_animation_position is the request halfword;
+draw_position and restore_position remain separate signed temporaries
+initialized from their original halfword views. The two loops still reload
+current_animation_row per part, optionally replace sid only when the
+respective saved/request row is nonzero, and call the same seek helper.
+The transient draw still publishes mask address then masked-only flag,
+calls Model_DrawSlot, and clears address then flag. The restore loop,
+selector restoration, shadow restoration, whole-word tint restoration and
+elapsed/deactivation tail remain in their exact order.
+
+Only scoped bare locals and the existing allocation-comment identifiers
+change in the two grouped C units. All other comments, types, declarations,
+lifetimes, qualified members, casts, operators, constants, labels, calls,
+regional macros, public headers, compiler profiles and other grouped
+definitions remain. The all-parts wrapper and every caller stay unchanged.
+The entire semantic ledger stays byte-identical: no identity promotion or
+NOTES churn. No fixture/control/oracle/mutation edits, retired-fixture
+revival, local cloud execution or new behavioral harness accompany these
+local views.
