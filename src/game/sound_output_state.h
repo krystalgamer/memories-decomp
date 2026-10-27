@@ -21,10 +21,10 @@ s32 SD_MeasureCdAudioLevel(void);
    (CD) ids. */
 void SD_EnqueueCdStop(void);
 
-/* Requests the sound at `value` with kind 0x80. The second argument is
-   ignored, but it is a real parameter rather than a caller's mistake: see
-   notes below and the candidate measurement in the commit message. */
-s16 SD_EnqueueCdSePlay(u16 value, s32 unused);
+/* Forwards command_id and the literal 0x80 to SD_EnqueueCdPlay, whose
+   second argument is unused. This wrapper's second argument is also
+   unused; the wrapper still narrows the callee's result to s16. */
+s16 SD_EnqueueCdSePlay(u16 command_id, s32 unused);
 
 /* Command 0x24: request and start. Returns 0 when this wrapper's gates
    reject the code and 1 once they pass and submission was attempted;
@@ -32,12 +32,12 @@ s16 SD_EnqueueCdSePlay(u16 value, s32 unused);
    reset and flags update still run in that case. The second argument is
    unused. The command pump turns the command into a sector-range file
    transfer of the selected table entry. */
-s32 SD_EnqueueCdPlay(u16 code, s32 unused);
+s32 SD_EnqueueCdPlay(u16 command_id, s32 unused);
 
 /* Command 0x21: request without the start. Same table selection as
    SD_EnqueueCdPlay, no return value. The command pump turns it into a
    seek-only transfer (File_RequestSecondarySeek). */
-void SD_EnqueueCdSeek(s32 code);
+void SD_EnqueueCdSeek(s32 command_id);
 
 /* Clears the driver's busy flag. Installed as a callback, see
    SD_ArmBusyCallback. */
