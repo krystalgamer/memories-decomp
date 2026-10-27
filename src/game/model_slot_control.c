@@ -1712,113 +1712,113 @@ void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 entry_index, SVECTOR *
 }
 
 #ifdef VERSION_EUROPE
-void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
+void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_scale)
 {
     /* The European build keeps each side's two rows at x 0x280, y
-       (arg0 << 4) + 0xD0 and 0xD8, where the US build has x arg0 << 8 and
+       (side_index << 4) + 0xD0 and 0xD8, where the US build has x side_index << 8 and
        y 0xF0 and 0xF8. */
-    u16 buf[0x400];
-    u16 *q;
-    s32 y;
-    s32 i;
-    s32 base;
+    u16 pixel_buffer[0x400];
+    u16 *pixel_cursor;
+    s32 band_offset;
+    s32 pixel_index;
+    s32 destination_base_y;
 
-    if ((u32)arg0 < 2) {
-        base = (arg0 << 4) + 0xD0;
+    if ((u32)side_index < 2) {
+        destination_base_y = (side_index << 4) + 0xD0;
 
-        if (arg1 >= COLOR_TINT_KEEP_HUE &&
-            (arg1 & COLOR_TINT_INVERT) == 0 && arg2 >= COLOR_FIXED_ONE) {
+        if (tint_control >= COLOR_TINT_KEEP_HUE &&
+            (tint_control & COLOR_TINT_INVERT) == 0 && saturation_scale >= COLOR_FIXED_ONE) {
             goto big;
         }
 
-        y = 0;
+        band_offset = 0;
         gModel_sTextureTintRectX = 0x280;
-        gModel_sTextureTintRectY = base + 8;
+        gModel_sTextureTintRectY = destination_base_y + 8;
         gModel_sTextureTintRectW = 0x100;
         gModel_sTextureTintRectH = 4;
 
         do {
             {
-                s32 row = y + 8;
+                s32 source_row_offset = band_offset + 8;
 
-                gModel_sTextureTintRectY = base + row;
+                gModel_sTextureTintRectY = destination_base_y + source_row_offset;
             }
             while (IsIdleGPU(3) != 0) {
             }
-            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
-            }
-
-            q = buf;
-            for (i = 0; i < 0x400; i++, q++) {
-                *q = Color_TintBgr555Pixel(*q, (u8)arg1, (u16)arg2);
             }
 
-            gModel_sTextureTintRectY = base + y;
+            pixel_cursor = pixel_buffer;
+            for (pixel_index = 0; pixel_index < 0x400; pixel_index++, pixel_cursor++) {
+                *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, (u8)tint_control, (u16)saturation_scale);
+            }
+
+            gModel_sTextureTintRectY = destination_base_y + band_offset;
             while (IsIdleGPU(3) != 0) {
             }
-            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
-            y += 4;
-        } while (y < 8);
+            band_offset += 4;
+        } while (band_offset < 8);
     }
 
     return;
 
 big:
     gModel_sTextureTintRectX = 0x280;
-    gModel_sTextureTintRectY = base + 8;
+    gModel_sTextureTintRectY = destination_base_y + 8;
     gModel_sTextureTintRectW = 0x100;
     gModel_sTextureTintRectH = 8;
-    MoveImage(TEXTURE_TINT_RECT, 0x280, base);
+    MoveImage(TEXTURE_TINT_RECT, 0x280, destination_base_y);
 }
 #else
-void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
+void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_scale)
 {
-    u16 buf[0x400];
-    u16 *q;
-    s32 y;
-    s32 i;
+    u16 pixel_buffer[0x400];
+    u16 *pixel_cursor;
+    s32 band_offset;
+    s32 pixel_index;
 
-    if ((u32)arg0 < 2) {
-        y = 0;
+    if ((u32)side_index < 2) {
+        band_offset = 0;
 
-        if (arg1 >= COLOR_TINT_KEEP_HUE &&
-            (arg1 & COLOR_TINT_INVERT) == 0 && arg2 >= COLOR_FIXED_ONE) {
+        if (tint_control >= COLOR_TINT_KEEP_HUE &&
+            (tint_control & COLOR_TINT_INVERT) == 0 && saturation_scale >= COLOR_FIXED_ONE) {
             goto big;
         }
 
-        gModel_sTextureTintRectX = arg0 << 8;
+        gModel_sTextureTintRectX = side_index << 8;
         gModel_sTextureTintRectY = 0xF8;
         gModel_sTextureTintRectW = 0x100;
         gModel_sTextureTintRectH = 4;
 
         do {
-            gModel_sTextureTintRectY = y + 0xF8;
+            gModel_sTextureTintRectY = band_offset + 0xF8;
             while (IsIdleGPU(3) != 0) {
             }
-            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
 
-            q = buf;
-            for (i = 0; i < 0x400; i++, q++) {
-                *q = Color_TintBgr555Pixel(*q, (u8)arg1, (u16)arg2);
+            pixel_cursor = pixel_buffer;
+            for (pixel_index = 0; pixel_index < 0x400; pixel_index++, pixel_cursor++) {
+                *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, (u8)tint_control, (u16)saturation_scale);
             }
 
-            gModel_sTextureTintRectY = y + 0xF0;
+            gModel_sTextureTintRectY = band_offset + 0xF0;
             while (IsIdleGPU(3) != 0) {
             }
-            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
+            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
-            y += 4;
-        } while (y < 8);
+            band_offset += 4;
+        } while (band_offset < 8);
     }
 
     return;
@@ -1826,9 +1826,9 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
 big:
     gModel_sTextureTintRectY = 0xF8;
     gModel_sTextureTintRectW = 0x100;
-    gModel_sTextureTintRectX = arg0 << 8;
+    gModel_sTextureTintRectX = side_index << 8;
     gModel_sTextureTintRectH = 8;
-    MoveImage(TEXTURE_TINT_RECT, arg0 << 8, 0xF0);
+    MoveImage(TEXTURE_TINT_RECT, side_index << 8, 0xF0);
 }
 #endif
 
