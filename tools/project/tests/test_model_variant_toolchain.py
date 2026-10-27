@@ -592,6 +592,9 @@ class ModelVariantToolchainTests(unittest.TestCase):
             302: (names(set(), set(), stage10_slot1={7, 56, 157, 179, 228, 505, 552, 588, 593, 615}, stage8_slot1=set()), 0xCF8, 1),
             176: (names({13, 52, 127, 388, 462, 506, 581}, {177, 213, 467, 479, 544, 608}, stage10_slot1=set(), stage8_slot1=set()), 0x13A4, 1),
             306: (names(set(), set(), stage10_slot1={177, 208, 213, 467, 479, 544, 608}, stage8_slot1={13, 52, 127, 388, 462, 506, 581}), 0x13A4, 1),
+            # North American C for header 648 and its slot-one copy, header 715.
+            648: (names({134, 194, 232, 280, 282, 287, 299, 412, 482, 495, 520, 533, 642, 649}, {2, 4, 41, 67, 87, 205, 236, 251, 268, 295, 366, 375, 383, 480, 522, 532, 549, 605, 618, 626}, stage10_slot1=set(), stage8_slot1=set()), 0x1A08, 1),
+            715: (names(set(), set(), stage10_slot1={2, 4, 41, 67, 87, 205, 236, 251, 268, 295, 366, 375, 383, 480, 522, 532, 549, 605, 618, 626}, stage8_slot1={134, 194, 232, 280, 282, 287, 299, 412, 482, 495, 520, 533, 642, 649}), 0x1A08, 1),
         }
         archive = (ROOT / "game/DATA/MODEL.MRG").read_bytes()
         registered = set()
@@ -609,7 +612,7 @@ class ModelVariantToolchainTests(unittest.TestCase):
                 self.assertEqual(len(entries["functions"]), c_count, name)
             self.assertEqual(len(texts), 1, key)
         self.assertEqual(registered, set(modules))
-        self.assertEqual(len(registered), 1051)
+        self.assertEqual(len(registered), 1119)
 
 
 if __name__ == "__main__":

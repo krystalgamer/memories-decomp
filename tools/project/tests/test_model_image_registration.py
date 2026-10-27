@@ -96,7 +96,7 @@ class ModelImageRegistrationTests(unittest.TestCase):
                 self.assertEqual(json.loads(path.with_name(path.stem + "_matching_c.json").read_text()),
                                  {"schema": 1, "functions": []})
                 count += 1
-        self.assertGreater(count, 21000)
+        self.assertGreater(count, 20500)
 
     def test_uninventoried_overlay_progress_has_no_fake_percentage(self):
         validate_overlay_inventory([], [], start=0x8013B000, end=0x80140000, name="raw")
