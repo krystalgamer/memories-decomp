@@ -66,11 +66,80 @@ Japanese and European resident imports likewise keep their existing
 bindings. The NA private header is not substituted into those callers,
 and these names do not qualify an uninspected regional implementation.
 
-Existing scene-transition and debug-controller behavioral witnesses retain their complete bytes:
-the former protects the upper half while exercising the low credits bytes,
-and the latter protects the low bytes while editing height. Only the
-corresponding member identifier changes in the existing debug ownership
-probe; its widths, positive/negative cases, diagnostics and runner remain
-identical. No new harness, fixture, mutation or callback model is introduced.
+That earlier handshake component preserved its then-existing scene-transition
+and debug-controller witnesses: one protected the upper half while exercising
+the low credits bytes; the other protected those low bytes while editing
+height. Its ownership probe changed only the member identifier. These are
+historical observations, not a request to restore retired gameplay fixtures
+or a claim of new fixture/cloud execution.
 `ModelSlot.field_E15` remains unnamed because its consumers mix one-shot
 latches, a `0xFF` sentinel and credits counter behavior.
+
+
+## Resident Exodia and credits local views
+
+Three complete resident definitions now name existing local/input views:
+Model_UpdateExodiaPresentation (NA 0x8004FE2C),
+Model_UpdateCreditsMonsterSlot (0x80050584), and
+Model_UpdateCreditsPresentation (0x800507D0). No function identity changes.
+
+The Exodia controller retains camera_offset, primary_slot and both module
+entry captures BEFORE the frame-step override call. slot0_module_handler
+and slot1_module_handler name the addresses from which those callbacks are
+formed, not exclusive target slots. In particular, the second handler's
+poll STILL sets active slot zero and forwards the slot1 data address.
+Its completion path still stops slot0 playback, cuts to white and selects
+the original phase. Callback types, casts, argument values, live data
+reads and one-shot/sentinel gates remain distinct and in original order.
+
+The load_slots base and later tint_slot pointer remain separate lexical
+bindings. Keep both initialization-handler calls, the two field_E15 clears,
+all transfer/readiness gates and the signed tint test. Camera offsets retain
+their original eight-byte copy and per-phase component writes; no zeroing,
+fourth-halfword interpretation or cached-pose policy is added. stop_position
+captures the original duration-row threshold BEFORE Model_GetFrameStep,
+then still subtracts the later live playback_speed times frame_step.
+The position test and playback-stop call are unchanged.
+
+The credits loader distinguishes its slot_index definition argument,
+initial_base/initial_slot, later ready_base/ready_slot and
+peer_slot/peer_coordinate. Preserve the signed unchecked index, OR80 load
+argument, transfer tests, rand() rejection loop, all card/model gap tests,
+and the original model_id narrowing/domain. The shared t scratch STILL
+holds random input THEN biased yaw; m1 STILL supplies the same minus-one
+binding to four properties. Neither is split or assigned a false single
+purpose. yaw_work retains the initial quarter turn, quotient THEN signed
+remainder reconstruction, optional peer coordinate and original order.
+
+The ready slot's coordinate writes remain under the null test, but the
+following Model_UpdateCoordinateUnitMatrix call STILL occurs OUTSIDE that
+test. Model_RunSlotHandlers and the field_E15 clear follow at their original
+sites. No null repair, stronger coordinate ownership, input validation,
+random-uniformity or loop-termination guarantee is introduced.
+
+The credits controller distinguishes load_check_base, crossfade_base,
+active_lookup_base and fade_slot_base without merging their read sites.
+active_slot_words remains a raw s32 pointer, not a new ModelSlot local or
+changed cast/stride. slot_tick_count is the existing unsigned snapshot of
+field_E15 used by modulo/division and animation_row selection; it is NOT a
+universal frame duration or handler-state name. peer_slot_index retains the
+live byte index and XOR1. slot0_tint and slot1_tint retain separate aliases.
+
+All three random color samples, signed byte steps, low-two-bit gates,
+904*index THEN *4 forms, separate byte-offset form, timer wrap, fade/crossfade
+stores, module/sound polls and repeated exit/update-enable byte reads stay.
+The shared tick label still increments the LATER LIVE active slot; it is
+not replaced with the earlier captured pointer or made unconditional.
+The deliberately mixed result scratch, phase-value/next-phase bindings,
+labels and goto structure remain. Numeric resident module imports remain
+numeric, with their original per-package ABI; no NA credits name is imposed
+on the other packages or regional implementations.
+
+Only scoped bare locals and the loader's definition argument change.
+All C comments, members, types, declarations/order/lifetimes, casts,
+operators, constants, labels, calls, other grouped functions, private
+tables, regional macros, public headers, profiles and storage remain.
+The entire semantic ledger stays byte-identical: this component promotes
+no function/global/member identity and adds no NOTES churn. No fixture,
+control, oracle or mutation change, retired-fixture revival, local cloud
+execution or synthetic/generated-C/source-string behavioral harness.
