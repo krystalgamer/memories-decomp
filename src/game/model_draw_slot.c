@@ -155,27 +155,27 @@ void Model_DrawSlot(s32 index)
 {
     MATRIX hidden_matrix;
     PSXLONG sxy_z;
-    PSXLONG flag;
+    PSXLONG projection_flags;
     GsOT *ordering_table;
     ModelSlot *slot;
-    s8 *blk;
+    s8 *metadata_bytes;
     ModelSlotHeadEntry *head_unit;
-    s32 i;
+    s32 scan_index;
     s32 x;
     s32 y;
     s32 z;
     s32 a;
     s32 b;
-    s32 count;
+    s32 origin_count;
     s32 w;
     s32 h;
     s32 d;
-    s32 v;
-    s32 t;
+    s32 cached_dimension;
+    s32 dimension_step;
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
     s32 texture_y;
 #endif
-    u8 fl;
+    u8 texture_state;
 
     if (index < 2) {
         ordering_table = gGraphics_pOrderingTable2[0];
@@ -183,7 +183,7 @@ void Model_DrawSlot(s32 index)
         ordering_table = gGraphics_pOrderingTable2[1];
     }
     slot = &gModel_aSlots[index];
-    blk = (s8 *)&slot->metadata;
+    metadata_bytes = (s8 *)&slot->metadata;
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
     texture_y = (index << 4) + 0xD0;
 #endif
@@ -209,55 +209,55 @@ void Model_DrawSlot(s32 index)
     if (index < 2) {
         ordering_table->length = 0xE;
         if ((slot->tint[7] % 6) && slot->tint[3] == 0 && gModel_bCurrentDrawMode == 0) {
-            s32 step;
-            s32 colour;
-            s32 r;
-            s32 fl;
-            s32 mode;
-            s32 lim;
-            s32 limg;
-            s32 limb;
+            s32 fade_step;
+            s32 packed_template_color;
+            s32 fade_red;
+            s32 blend_mode;
+            s32 blend_mode_index;
+            s32 next_red;
+            s32 next_green;
+            s32 next_blue;
 
-            step = Model_GetFrameStep() * 2;
+            fade_step = Model_GetFrameStep() * 2;
             h = slot->tint[6];
             w = slot->tint[5];
-            r = slot->tint[4];
-            colour = (h << 16) | (w << 8) | r;
-            fl = slot->tint[7];
-            MODEL_STAMP_TEMPLATES(colour, r, w, h, fl, mode);
+            fade_red = slot->tint[4];
+            packed_template_color = (h << 16) | (w << 8) | fade_red;
+            blend_mode = slot->tint[7];
+            MODEL_STAMP_TEMPLATES(packed_template_color, fade_red, w, h, blend_mode, blend_mode_index);
             gModel_bCurrentDrawMode = 3;
-            lim = slot->tint[0];
-            if (slot->tint[4] + step < lim) {
-                lim = slot->tint[4] + step;
+            next_red = slot->tint[0];
+            if (slot->tint[4] + fade_step < next_red) {
+                next_red = slot->tint[4] + fade_step;
             }
-            slot->tint[4] = lim;
-            limg = slot->tint[1];
-            if (slot->tint[5] + step < limg) {
-                limg = slot->tint[5] + step;
+            slot->tint[4] = next_red;
+            next_green = slot->tint[1];
+            if (slot->tint[5] + fade_step < next_green) {
+                next_green = slot->tint[5] + fade_step;
             }
-            slot->tint[5] = limg;
-            limb = slot->tint[2];
-            if (slot->tint[6] + step < limb) {
-                limb = slot->tint[6] + step;
+            slot->tint[5] = next_green;
+            next_blue = slot->tint[2];
+            if (slot->tint[6] + fade_step < next_blue) {
+                next_blue = slot->tint[6] + fade_step;
             }
-            slot->tint[6] = limb;
+            slot->tint[6] = next_blue;
             if (slot->tint[4] >= slot->tint[0] && slot->tint[5] >= slot->tint[1]
-                && (u32)(limb & 0xFF) >= slot->tint[2]) {
+                && (u32)(next_blue & 0xFF) >= slot->tint[2]) {
                 slot->tint[7] = 0;
             }
         } else if (gModel_bCurrentDrawMode != 1) {
-            s32 colour;
-            s32 fl;
-            s32 mode;
+            s32 packed_template_color;
+            s32 blend_mode;
+            s32 blend_mode_index;
 
             h = slot->tint[2];
             w = slot->tint[1];
             y = slot->tint[0];
-            fl = slot->tint[3];
-            colour = h << 16;
-            colour |= w << 8;
-            colour |= y;
-            MODEL_STAMP_TEMPLATES(colour, y, w, h, fl, mode);
+            blend_mode = slot->tint[3];
+            packed_template_color = h << 16;
+            packed_template_color |= w << 8;
+            packed_template_color |= y;
+            MODEL_STAMP_TEMPLATES(packed_template_color, y, w, h, blend_mode, blend_mode_index);
             if (W(slot->tint, 0) != 0x808080) {
                 gModel_bCurrentDrawMode = 3;
             }
@@ -290,17 +290,17 @@ void Model_DrawSlot(s32 index)
     if (gModel_bCurrentDrawMode >= 3) {
         gModel_dwLitColorCacheBase = 0;
     }
-    for (i = 0; i < slot->hmd_unit_count; i++, head_unit++) {
+    for (scan_index = 0; scan_index < slot->hmd_unit_count; scan_index++, head_unit++) {
         MATRIX local_to_screen;
         MATRIX local_to_world;
         GsCOORDUNIT *coordinate_unit;
 
         a = 0;
-        if (gModel_bDrawMaskedPartsOnly != 0 && slot->entry_count < i) {
+        if (gModel_bDrawMaskedPartsOnly != 0 && slot->entry_count < scan_index) {
             continue;
         }
-        if (gModel_PartMaskAddress != 0 && i > 0 && !(slot->entry_count < i)) {
-            if (!((((u8 *)gModel_PartMaskAddress)[(i - 1) / 8] >> ((i - 1) % 8)) & 1)) {
+        if (gModel_PartMaskAddress != 0 && scan_index > 0 && !(slot->entry_count < scan_index)) {
+            if (!((((u8 *)gModel_PartMaskAddress)[(scan_index - 1) / 8] >> ((scan_index - 1) % 8)) & 1)) {
                 a = 1;
                 if (gModel_bDrawMaskedPartsOnly != 0) {
                     continue;
@@ -397,89 +397,89 @@ void Model_DrawSlot(s32 index)
         return;
     }
     if (index < 2 && slot->render_parent_coordinate != 0) {
-        s16 minx;
-        s16 miny;
-        s16 minz;
-        s16 maxx;
-        s16 maxy;
-        s16 maxz;
+        s16 min_origin_x;
+        s16 min_origin_y;
+        s16 min_origin_z;
+        s16 max_origin_x;
+        s16 max_origin_y;
+        s16 max_origin_z;
         GsCOORDUNIT *coordinate_unit;
-        u8 *list;
+        u8 *group_bytes;
 
-        minz = miny = minx = 0x7FFF;
-        maxz = maxy = maxx = -0x8000;
-        count = x = y = z = 0;
+        min_origin_z = min_origin_y = min_origin_x = 0x7FFF;
+        max_origin_z = max_origin_y = max_origin_x = -0x8000;
+        origin_count = x = y = z = 0;
         head_unit = slot->hmd_units;
-        for (i = 0; i < slot->hmd_unit_count; i++, head_unit++) {
+        for (scan_index = 0; scan_index < slot->hmd_unit_count; scan_index++, head_unit++) {
             coordinate_unit = GS_COORD_UNIT_VIEW(head_unit->coordinate_address);
             if (coordinate_unit != 0 && head_unit->primitive_data != 0
                 && (W(head_unit->primitive_data, 0) != -1 || W(head_unit->primitive_data, 8) != 0)) {
-                count++;
+                origin_count++;
                 x += coordinate_unit->workm.t[0];
                 y += coordinate_unit->workm.t[1];
                 z += coordinate_unit->workm.t[2];
             }
         }
-        if (count != 0) {
-            x /= count;
-            y /= count;
-            z /= count;
+        if (origin_count != 0) {
+            x /= origin_count;
+            y /= origin_count;
+            z /= origin_count;
         } else {
             x = slot->render_parent_coordinate->workm.t[0];
             y = slot->render_parent_coordinate->workm.t[1];
             z = slot->render_parent_coordinate->workm.t[2];
         }
-        x = Model_MirrorOffset(index, x, ((ModelSlotMetadataPrefix *)blk)->position_offsets.x * 0x10);
+        x = Model_MirrorOffset(index, x, ((ModelSlotMetadataPrefix *)metadata_bytes)->position_offsets.x * 0x10);
         slot->cached_position[0] = x;
-        y += ((ModelSlotMetadataPrefix *)blk)->position_offsets.y * 0x10;
+        y += ((ModelSlotMetadataPrefix *)metadata_bytes)->position_offsets.y * 0x10;
         slot->cached_position[1] = y;
-        z = Model_MirrorOffset(index, z, ((ModelSlotMetadataPrefix *)blk)->position_offsets.z * 0x10);
-        count = y = 0;
+        z = Model_MirrorOffset(index, z, ((ModelSlotMetadataPrefix *)metadata_bytes)->position_offsets.z * 0x10);
+        origin_count = y = 0;
         slot->cached_position[2] = z;
         head_unit = slot->hmd_units;
-        for (i = 0; i < slot->hmd_unit_count; i++, head_unit++) {
+        for (scan_index = 0; scan_index < slot->hmd_unit_count; scan_index++, head_unit++) {
             coordinate_unit = GS_COORD_UNIT_VIEW(head_unit->coordinate_address);
-            if (coordinate_unit != slot->render_parent_coordinate && coordinate_unit != slot->root_coordinate && coordinate_unit != 0 && (list = head_unit->primitive_data) != 0) {
-                s32 uy;
+            if (coordinate_unit != slot->render_parent_coordinate && coordinate_unit != slot->root_coordinate && coordinate_unit != 0 && (group_bytes = head_unit->primitive_data) != 0) {
+                s32 unit_origin_y;
 
                 if (coordinate_unit->super == slot->render_parent_coordinate) {
-                    count++;
+                    origin_count++;
                     y += coordinate_unit->workm.t[1];
                 }
-                if (W(list, 0) != -1 || W(list, 8) != 0) {
+                if (W(group_bytes, 0) != -1 || W(group_bytes, 8) != 0) {
                     a = coordinate_unit->workm.t[0];
                     b = coordinate_unit->workm.t[2];
-                    uy = coordinate_unit->workm.t[1];
-                    if (maxx < a) {
-                        maxx = a;
+                    unit_origin_y = coordinate_unit->workm.t[1];
+                    if (max_origin_x < a) {
+                        max_origin_x = a;
                     }
-                    if (a < minx) {
-                        minx = a;
+                    if (a < min_origin_x) {
+                        min_origin_x = a;
                     }
-                    if (maxy < uy) {
-                        maxy = uy;
+                    if (max_origin_y < unit_origin_y) {
+                        max_origin_y = unit_origin_y;
                     }
-                    if (uy < miny) {
-                        miny = uy;
+                    if (unit_origin_y < min_origin_y) {
+                        min_origin_y = unit_origin_y;
                     }
-                    if (maxz < b) {
-                        maxz = b;
+                    if (max_origin_z < b) {
+                        max_origin_z = b;
                     }
-                    if (b < minz) {
-                        minz = b;
+                    if (b < min_origin_z) {
+                        min_origin_z = b;
                     }
                 }
             }
         }
-        if (count != 0) {
-            y /= count;
+        if (origin_count != 0) {
+            y /= origin_count;
         } else {
             y = slot->render_parent_coordinate->workm.t[1];
         }
-        slot->cached_position[3] = (y - 700) / 3 + ((ModelSlotMetadataPrefix *)blk)->position_offsets.y * 0x10;
-        w = maxx - minx;
-        h = maxy - miny;
-        d = maxz - minz;
+        slot->cached_position[3] = (y - 700) / 3 + ((ModelSlotMetadataPrefix *)metadata_bytes)->position_offsets.y * 0x10;
+        w = max_origin_x - min_origin_x;
+        h = max_origin_y - min_origin_y;
+        d = max_origin_z - min_origin_z;
         if ((s16)slot->cached_dimensions[3] < w) {
             slot->cached_dimensions[3] = w;
         }
@@ -489,105 +489,105 @@ void Model_DrawSlot(s32 index)
         w += 0x32;
         h += 0x32;
         d += 0x32;
-        v = (s16)slot->cached_dimensions[0];
-        if (v != 0) {
-            if (w < v) {
-                t = v - w;
-                if (t >= 0x15) {
-                    t = 0x14;
+        cached_dimension = (s16)slot->cached_dimensions[0];
+        if (cached_dimension != 0) {
+            if (w < cached_dimension) {
+                dimension_step = cached_dimension - w;
+                if (dimension_step >= 0x15) {
+                    dimension_step = 0x14;
                 }
-                slot->cached_dimensions[0] = slot->cached_dimensions[0] - t;
+                slot->cached_dimensions[0] = slot->cached_dimensions[0] - dimension_step;
             } else {
-                t = w - v;
-                if (t >= 0x15) {
-                    t = 0x14;
+                dimension_step = w - cached_dimension;
+                if (dimension_step >= 0x15) {
+                    dimension_step = 0x14;
                 }
-                slot->cached_dimensions[0] = slot->cached_dimensions[0] + t;
+                slot->cached_dimensions[0] = slot->cached_dimensions[0] + dimension_step;
             }
         } else {
             slot->cached_dimensions[0] = w;
         }
-        v = (s16)slot->cached_dimensions[1];
-        if (v != 0) {
-            if (h < v) {
-                t = v - h;
-                if (t >= 0x15) {
-                    t = 0x14;
+        cached_dimension = (s16)slot->cached_dimensions[1];
+        if (cached_dimension != 0) {
+            if (h < cached_dimension) {
+                dimension_step = cached_dimension - h;
+                if (dimension_step >= 0x15) {
+                    dimension_step = 0x14;
                 }
-                slot->cached_dimensions[1] = slot->cached_dimensions[1] - t;
+                slot->cached_dimensions[1] = slot->cached_dimensions[1] - dimension_step;
             } else {
-                t = h - v;
-                if (t >= 0x15) {
-                    t = 0x14;
+                dimension_step = h - cached_dimension;
+                if (dimension_step >= 0x15) {
+                    dimension_step = 0x14;
                 }
-                slot->cached_dimensions[1] = slot->cached_dimensions[1] + t;
+                slot->cached_dimensions[1] = slot->cached_dimensions[1] + dimension_step;
             }
         } else {
             slot->cached_dimensions[1] = h;
         }
-        v = (s16)slot->cached_dimensions[2];
-        if (v != 0) {
-            if (d < v) {
-                t = v - d;
-                if (t >= 0x15) {
-                    t = 0x14;
+        cached_dimension = (s16)slot->cached_dimensions[2];
+        if (cached_dimension != 0) {
+            if (d < cached_dimension) {
+                dimension_step = cached_dimension - d;
+                if (dimension_step >= 0x15) {
+                    dimension_step = 0x14;
                 }
-                slot->cached_dimensions[2] = slot->cached_dimensions[2] - t;
+                slot->cached_dimensions[2] = slot->cached_dimensions[2] - dimension_step;
             } else {
-                t = d - v;
-                if (t >= 0x15) {
-                    t = 0x14;
+                dimension_step = d - cached_dimension;
+                if (dimension_step >= 0x15) {
+                    dimension_step = 0x14;
                 }
-                slot->cached_dimensions[2] = slot->cached_dimensions[2] + t;
+                slot->cached_dimensions[2] = slot->cached_dimensions[2] + dimension_step;
             }
         } else {
             slot->cached_dimensions[2] = d;
         }
         if (slot->shadow_enabled != 0) {
-            SVECTOR v0;
-            SVECTOR v1;
-            SVECTOR v2;
-            ModelEffectAdjustment adj;
-            POLY_G3 poly;
-            s32 cx;
-            s32 res;
+            SVECTOR shadow_center;
+            SVECTOR next_shadow_edge;
+            SVECTOR previous_shadow_edge;
+            ModelEffectAdjustment shadow_dimensions;
+            POLY_G3 shadow_triangle;
+            s32 clamped_shadow_extent;
+            s32 shadow_depth;
 
             if (gModel_bCurrentDrawMode == 1) {
                 goto finish_ot;
             }
-            setlen(&poly, 6);
-            setcode(&poly, 0x30);
-            poly.r0 = B(&gModel_wDrawTintRedGreen, 0);
-            poly.g0 = B(&gModel_wDrawTintRedGreen, 1);
-            poly.b0 = gModel_bDrawTintBlue;
-            poly.r1 = (s16)B(&gModel_wDrawTintRedGreen, 0) / 16;
-            poly.g1 = (s16)B(&gModel_wDrawTintRedGreen, 1) / 16;
-            poly.b1 = (s16)gModel_bDrawTintBlue / 16;
-            poly.r2 = (s16)B(&gModel_wDrawTintRedGreen, 0) / 16;
-            poly.g2 = (s16)B(&gModel_wDrawTintRedGreen, 1) / 16;
-            poly.b2 = (s16)gModel_bDrawTintBlue / 16;
+            setlen(&shadow_triangle, 6);
+            setcode(&shadow_triangle, 0x30);
+            shadow_triangle.r0 = B(&gModel_wDrawTintRedGreen, 0);
+            shadow_triangle.g0 = B(&gModel_wDrawTintRedGreen, 1);
+            shadow_triangle.b0 = gModel_bDrawTintBlue;
+            shadow_triangle.r1 = (s16)B(&gModel_wDrawTintRedGreen, 0) / 16;
+            shadow_triangle.g1 = (s16)B(&gModel_wDrawTintRedGreen, 1) / 16;
+            shadow_triangle.b1 = (s16)gModel_bDrawTintBlue / 16;
+            shadow_triangle.r2 = (s16)B(&gModel_wDrawTintRedGreen, 0) / 16;
+            shadow_triangle.g2 = (s16)B(&gModel_wDrawTintRedGreen, 1) / 16;
+            shadow_triangle.b2 = (s16)gModel_bDrawTintBlue / 16;
             GsSetLsMatrix((MATRIX *)Model_GetLightSourceMatrix());
-            Model_GetSlotDimensionsWithMinimums(index, &adj);
-            w = adj.x;
-            d = adj.z;
+            Model_GetSlotDimensionsWithMinimums(index, &shadow_dimensions);
+            w = shadow_dimensions.x;
+            d = shadow_dimensions.z;
             if (w >= 0x12C) {
-                cx = 0x320;
+                clamped_shadow_extent = 0x320;
                 if (w < 0x321) {
-                    cx = w;
+                    clamped_shadow_extent = w;
                 }
             } else {
-                cx = 0x12C;
+                clamped_shadow_extent = 0x12C;
             }
-            w = cx;
+            w = clamped_shadow_extent;
             if (d >= 0x12C) {
-                cx = 0x320;
+                clamped_shadow_extent = 0x320;
                 if (d < 0x321) {
-                    cx = d;
+                    clamped_shadow_extent = d;
                 }
             } else {
-                cx = 0x12C;
+                clamped_shadow_extent = 0x12C;
             }
-            d = cx;
+            d = clamped_shadow_extent;
             if (gModel_wScreenYOverride != 0x8000) {
                 y = (s16)gModel_wScreenYOverride;
             } else {
@@ -595,40 +595,40 @@ void Model_DrawSlot(s32 index)
             }
             a = w / 2;
             b = d / 2;
-            v0.vx = x;
-            v0.vy = y;
-            v0.vz = z;
-            v2.vx = x + a;
-            v2.vy = y;
-            v2.vz = z;
-            v1.vy = y;
-            for (i = 0; i < 8; i++) {
-                v0.vx = x;
-                v0.vz = z;
-                v1.vx = x + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[i].x * a / 4096;
-                v1.vz = z + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[i].z * b / 4096;
+            shadow_center.vx = x;
+            shadow_center.vy = y;
+            shadow_center.vz = z;
+            previous_shadow_edge.vx = x + a;
+            previous_shadow_edge.vy = y;
+            previous_shadow_edge.vz = z;
+            next_shadow_edge.vy = y;
+            for (scan_index = 0; scan_index < 8; scan_index++) {
+                shadow_center.vx = x;
+                shadow_center.vz = z;
+                next_shadow_edge.vx = x + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[scan_index].x * a / 4096;
+                next_shadow_edge.vz = z + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[scan_index].z * b / 4096;
                 if (gModel_pBackgroundRecord->flags & 1) {
-                    v0.vx = CLAMP_FIELD(v0.vx);
-                    v0.vz = CLAMP_FIELD(v0.vz);
-                    v1.vx = CLAMP_FIELD(v1.vx);
-                    v1.vz = CLAMP_FIELD(v1.vz);
-                    v2.vx = CLAMP_FIELD(v2.vx);
-                    v2.vz = CLAMP_FIELD(v2.vz);
-                    if (v1.vx == v2.vx && ABS(v0.vx) >= ABS(v1.vx)) {
+                    shadow_center.vx = CLAMP_FIELD(shadow_center.vx);
+                    shadow_center.vz = CLAMP_FIELD(shadow_center.vz);
+                    next_shadow_edge.vx = CLAMP_FIELD(next_shadow_edge.vx);
+                    next_shadow_edge.vz = CLAMP_FIELD(next_shadow_edge.vz);
+                    previous_shadow_edge.vx = CLAMP_FIELD(previous_shadow_edge.vx);
+                    previous_shadow_edge.vz = CLAMP_FIELD(previous_shadow_edge.vz);
+                    if (next_shadow_edge.vx == previous_shadow_edge.vx && ABS(shadow_center.vx) >= ABS(next_shadow_edge.vx)) {
                         goto skip;
                     }
-                    if (v1.vz == v2.vz && ABS(v0.vz) >= ABS(v1.vz)) {
+                    if (next_shadow_edge.vz == previous_shadow_edge.vz && ABS(shadow_center.vz) >= ABS(next_shadow_edge.vz)) {
                         goto skip;
                     }
                 }
-                res = RotAverage3(&v0, &v1, &v2, (PSXLONG *)&poly.x0, (PSXLONG *)&poly.x1, (PSXLONG *)&poly.x2,
-                    &sxy_z, &flag);
-                sxy_z = NormalClip(*(PSXLONG *)&poly.x0, *(PSXLONG *)&poly.x1, *(PSXLONG *)&poly.x2);
-                if (res >= 0 && flag >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&poly, ordering_table, 0xFFF, 2);
+                shadow_depth = RotAverage3(&shadow_center, &next_shadow_edge, &previous_shadow_edge, (PSXLONG *)&shadow_triangle.x0, (PSXLONG *)&shadow_triangle.x1, (PSXLONG *)&shadow_triangle.x2,
+                    &sxy_z, &projection_flags);
+                sxy_z = NormalClip(*(PSXLONG *)&shadow_triangle.x0, *(PSXLONG *)&shadow_triangle.x1, *(PSXLONG *)&shadow_triangle.x2);
+                if (shadow_depth >= 0 && projection_flags >= 0) {
+                    Graphics_SubmitDrawModePacket((u32 *)&shadow_triangle, ordering_table, 0xFFF, 2);
                 }
             skip:
-                v2 = v1;
+                previous_shadow_edge = next_shadow_edge;
             }
         }
     }
@@ -648,49 +648,49 @@ void Model_DrawSlot(s32 index)
             slot->queued_animation_row_latch = 0;
         }
     }
-    fl = slot->stone_texture_state;
-    if (fl != 0 && fl != 0xFF) {
-        RECT rect;
-        u16 pal[16];
-        RECT prect;
-        u16 pix[0x400];
+    texture_state = slot->stone_texture_state;
+    if (texture_state != 0 && texture_state != 0xFF) {
+        RECT texture_band_rect;
+        u16 palette_words[16];
+        RECT palette_strip_rect;
+        u16 texture_words[0x400];
 
-        if (fl == 0xFE) {
-            s32 k;
-            s32 row;
-            u16 *cp;
+        if (texture_state == 0xFE) {
+            s32 texture_word_index;
+            s32 texture_row;
+            u16 *pixel_cursor;
 
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
-            rect.x = 0x280;
-            rect.y = (index << 4) + 0xD0;
+            texture_band_rect.x = 0x280;
+            texture_band_rect.y = (index << 4) + 0xD0;
 #else
-            rect.x = index << 8;
-            rect.y = 0xF0;
+            texture_band_rect.x = index << 8;
+            texture_band_rect.y = 0xF0;
 #endif
-            rect.w = 0x100;
-            rect.h = 4;
+            texture_band_rect.w = 0x100;
+            texture_band_rect.h = 4;
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
-            for (i = 0, row = texture_y; i < 8; i += 4, row += 4) {
+            for (scan_index = 0, texture_row = texture_y; scan_index < 8; scan_index += 4, texture_row += 4) {
 #else
-            for (i = 0, row = 0xF0; i < 8; i += 4, row += 4) {
+            for (scan_index = 0, texture_row = 0xF0; scan_index < 8; scan_index += 4, texture_row += 4) {
 #endif
-                rect.y = row;
+                texture_band_rect.y = texture_row;
                 while (IsIdleGPU(3) != 0) {
                 }
-                while (StoreImage2(&rect, (u32 *)pix) != 0) {
+                while (StoreImage2(&texture_band_rect, (u32 *)texture_words) != 0) {
                 }
                 while (IsIdleGPU(3) != 0) {
                 }
-                cp = pix;
-                for (k = 0; k < 0x400; k++, cp++) {
-                    if (*cp != 0) {
-                        *cp |= 0x8000;
+                pixel_cursor = texture_words;
+                for (texture_word_index = 0; texture_word_index < 0x400; texture_word_index++, pixel_cursor++) {
+                    if (*pixel_cursor != 0) {
+                        *pixel_cursor |= 0x8000;
                     }
                 }
-                rect.y = row;
+                texture_band_rect.y = texture_row;
                 while (IsIdleGPU(3) != 0) {
                 }
-                while (LoadImage2(&rect, (u32 *)pix) != 0) {
+                while (LoadImage2(&texture_band_rect, (u32 *)texture_words) != 0) {
                 }
                 while (IsIdleGPU(3) != 0) {
                 }
@@ -698,62 +698,62 @@ void Model_DrawSlot(s32 index)
             Model_SetSlotPlaybackDirection(index, 0);
             slot->stone_texture_state = 0;
         } else {
-            u16 *cp;
+            u16 *pixel_cursor;
 
-            slot->stone_texture_state = fl - 1;
+            slot->stone_texture_state = texture_state - 1;
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
-            prect.x = 0x280 + slot->stone_texture_state * 2;
-            prect.y = (index << 4) + 0xD8;
+            palette_strip_rect.x = 0x280 + slot->stone_texture_state * 2;
+            palette_strip_rect.y = (index << 4) + 0xD8;
 #else
-            prect.x = (index << 8) + slot->stone_texture_state * 2;
-            prect.y = 0xF8;
+            palette_strip_rect.x = (index << 8) + slot->stone_texture_state * 2;
+            palette_strip_rect.y = 0xF8;
 #endif
-            prect.w = 2;
-            prect.h = 8;
+            palette_strip_rect.w = 2;
+            palette_strip_rect.h = 8;
             while (IsIdleGPU(3) != 0) {
             }
-            while (StoreImage2(&prect, (u32 *)pal) != 0) {
+            while (StoreImage2(&palette_strip_rect, (u32 *)palette_words) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
-            for (i = 0, cp = pal; i < 0x10; i++, cp++) {
-                *cp = Color_TintBgr555Pixel(*cp, 6, 0x1000) & 0x7FFF;
+            for (scan_index = 0, pixel_cursor = palette_words; scan_index < 0x10; scan_index++, pixel_cursor++) {
+                *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, 6, 0x1000) & 0x7FFF;
             }
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
-            prect.y = texture_y;
+            palette_strip_rect.y = texture_y;
 #else
-            prect.y = 0xF0;
+            palette_strip_rect.y = 0xF0;
 #endif
             while (IsIdleGPU(3) != 0) {
             }
-            while (LoadImage2(&prect, (u32 *)pal) != 0) {
+            while (LoadImage2(&palette_strip_rect, (u32 *)palette_words) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
             if (slot->stone_texture_state == 0) {
-                ModelSlot *s;
-                ModelSlotHeadEntry *se;
-                u8 *list;
-                u8 *next;
-                s32 (*fn)(s32);
+                ModelSlot *remap_slot;
+                ModelSlotHeadEntry *remap_unit;
+                u8 *group_bytes;
+                u8 *next_group_bytes;
+                s32 (*remap_handler)(s32);
 
-                s = &gModel_aSlots[index];
-                se = s->hmd_units;
-                fn = Model_MapToBasePrimitiveHandler;
-                if (s->is_active != 0) {
-                    for (i = 0; i < s->hmd_unit_count; i++, se++) {
-                        list = se->primitive_data;
-                        if (list != 0) {
+                remap_slot = &gModel_aSlots[index];
+                remap_unit = remap_slot->hmd_units;
+                remap_handler = Model_MapToBasePrimitiveHandler;
+                if (remap_slot->is_active != 0) {
+                    for (scan_index = 0; scan_index < remap_slot->hmd_unit_count; scan_index++, remap_unit++) {
+                        group_bytes = remap_unit->primitive_data;
+                        if (group_bytes != 0) {
                             for (;;) {
-                                if (W(list, 8) != 0) {
-                                    Model_RemapPrimitiveHandlers(fn, (ModelHandlerRunEntry *)(list + 0xC),
-                                                  W(list, 4), W(list, 8));
+                                if (W(group_bytes, 8) != 0) {
+                                    Model_RemapPrimitiveHandlers(remap_handler, (ModelHandlerRunEntry *)(group_bytes + 0xC),
+                                                  W(group_bytes, 4), W(group_bytes, 8));
                                 }
-                                next = (u8 *)W(list, 0);
-                                if (next == (u8 *)-1) {
+                                next_group_bytes = (u8 *)W(group_bytes, 0);
+                                if (next_group_bytes == (u8 *)-1) {
                                     break;
                                 }
-                                list = next;
+                                group_bytes = next_group_bytes;
                             }
                         }
                     }
