@@ -6,5 +6,5 @@
 #define TEXT_BOX_JAPANESE_QUIT_CHANNEL_VIEW
 #include "../text_box_lifecycle.h"
 
-#define D_800EB224 gJapanese_DuelQuitChannel
+#define gText_Channel3 gJapanese_DuelQuitChannel
 #include "../duel_scene_update.c"
