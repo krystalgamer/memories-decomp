@@ -34,6 +34,10 @@ make a direct `make check-progress` or `make check-global-usage` invocation
 non-failing. Read the actual error rather than assuming every failure is
 ordinary snapshot drift; split/inventory disagreements need investigation.
 
+Live progress totals are not unit-test baselines. Do not pin their function,
+overlay or byte counts in regression assertions: independent matching PRs
+legitimately advance those totals and must not require snapshot-test rewrites.
+
 Matching C is measured against the game-owned C-decompilation targets: accepted
 matching C plus unresolved assembly that has not been independently classified
 as handwritten. Evidence-backed handwritten game assembly is reported

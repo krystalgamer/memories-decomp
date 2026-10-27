@@ -94,7 +94,7 @@ jobs:
           make compiler-272-prebuilt
           make check-build-tools
 
-      - name: Exercise behavioral and tooling regressions
+      - name: Exercise build-tool and policy regressions
         run: |
           tools/environments/python/bin/python -m unittest discover \
             -s tools/project/tests -p 'test_*.py' -v

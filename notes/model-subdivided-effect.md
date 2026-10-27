@@ -86,7 +86,7 @@ reference-byte receipts, and mismatch records stay under `tmp/`.
 
 ## Behavioral witness
 
-`tools/project/tests/test_model_subdivided_effect.py` compiles the actual
+[retired `test_model_subdivided_effect.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_model_subdivided_effect.py) compiles the actual
 effect and actual accepted subdivision helpers separately as freestanding
 ILP32 programs at host `-O0` and `-O2`. Its caller oracle uses independent
 numeric record offsets and face topology, rather than the implementation's

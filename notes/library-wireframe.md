@@ -80,7 +80,7 @@ calls, scratchpad snapshots and projected vertices. All three source mutants
 are rejected at both levels. Its SDK/GTE boundaries use the same explicit
 contracts as the instruction witness, rather than executing the real SDK.
 
-`tools/project/tests/test_library_wireframe_match.py` recompiles the tracked
+[retired `test_library_wireframe_match.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_library_wireframe_match.py) recompiles the tracked
 source, checks the official-macro policy, and compares the complete text
 against the legal target. It requires a completed `make match`; no retail
 bytes or generated local witness artifacts are tracked.

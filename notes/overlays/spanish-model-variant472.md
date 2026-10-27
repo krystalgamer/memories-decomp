@@ -94,6 +94,6 @@ ends at `0x2F44`; neither extent proves an allocation capacity or whole-game
 lifetime isolation.
 
 The focused regressions are in
-`tools/project/tests/test_spanish_model_variant472.py`. Retail-dependent
+[retired `test_spanish_model_variant472.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_spanish_model_variant472.py). Retail-dependent
 checks require the legal Spanish inputs; input-owner checks additionally
 require freshly built Spanish resident and MODEL472 images.
