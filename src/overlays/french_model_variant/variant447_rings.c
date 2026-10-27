@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant447_rings.h"
 
-void func_8017E520(u8 *context)
+void func_8013E520(u8 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
