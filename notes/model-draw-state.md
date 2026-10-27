@@ -138,14 +138,76 @@ reset placement: Japanese retail leaves the advanced cursor in place for
 the zero-maximum writes, while the other images reset it first. No repair,
 normalization helper, widened arithmetic or changed zero-case is added.
 
-Only scoped bare locals and THREE matching words in existing comments change.
-In particular, function-scope a/b/w/h/d/x/y/z/count/v/t retain their mixed
-mask, position, span, shadow and tint roles; no binding is split or merged.
-The identically spelled k/cp in texture processing are DIFFERENT bindings
-and stay byte-for-byte unchanged. All arguments, members, types, constants,
+That matrix-local component changed only scoped bare locals and THREE
+matching words in existing comments. At that point, function-scope
+a/b/w/h/d/x/y/z/count/v/t retained their mixed mask, position, span, shadow
+and tint roles; no binding was split or merged. The separate k/cp texture
+bindings were unchanged then. The later phase-local views below extend
+those names without changing the earlier matrix work. All arguments,
+members, types, constants,
 expressions, block lifetimes, macros, inline mirror helper, COMMON globals,
 headers, SDK declarations, callers, profiles and native imports remain.
 The complete tint, shadow, animation continuation and stone-texture paths
 retain their original code, apart from the shared pointer-view names.
 All fixtures/controls/oracles/mutations/numerics/flags remain unchanged;
 none was imported or executed locally and no new harness is introduced.
+
+
+## Complete fade, origin-span, shadow and texture local views
+
+The COMPLETE Model_DrawSlot definition now also distinguishes the two
+block-local signed blend_mode bindings from the outer u8 texture_state.
+They were three DIFFERENT fl bindings: both tint stamp modes remain
+separate from the stone-texture countdown/state. packed_template_color and
+blend_mode_index likewise remain two separate locals in the two tint blocks.
+The fade names fade_step/fade_red/next_red/next_green/next_blue retain the
+old snapshot, stamp-before-advance order, source reads, strict comparisons
+and final masked blue-byte comparison. Macro definitions and global
+template/COMMON owners stay byte-identical.
+
+metadata_bytes remains s8*, with the original casts and FOUR signed offset
+reads. scan_index is still ONE shared binding for HMD units, shadow edges
+and texture/palette loops; do not split its lifetimes. origin_count still
+counts different eligible sets in the two origin passes: the second
+direct-child count precedes its content test. min_origin/max_origin axis
+names retain s16 storage and comparisons against full workm translations.
+cached_dimension and dimension_step keep the original narrowing, zero path,
+signed comparisons, 20-step cap and three separate update chains.
+The deliberate mixed-role a/b/w/h/d/x/y/z and sxy_z bindings stay untouched;
+no name implies tight mesh bounds, finite inputs or fresh positive spans.
+
+The shadow block distinguishes center/next/previous edge vectors, triangle,
+dimension query, clamped extent and projection depth/flags. Preserve vector/
+packet declaration order, RGB center/rim arithmetic, 300..800 extent clamps,
+unchecked slot2/background height reads and optional field clamps. The
+NormalClip call and its write to sxy_z remain even though its result is NOT
+the packet gate: the original depth>=0 and flags>=0 comparisons are still
+the only projection-result tests. The skip label STILL copies the complete
+next edge to the previous edge, including rejected/clamped fan segments.
+No new backface, screen, null, background-active or shadow-visibility policy.
+
+The texture block distinguishes texture_band_rect/texture_words from
+palette_strip_rect/palette_words. texture_row and texture_word_index walk
+the original two 256x4 bands; the two pixel_cursor bindings remain separate.
+FE still ORs bit8000 only into nonzero texture words, with all original GPU
+idle/transfer retry loops before/after each read/write. The other branch
+still decrements/stores the byte state BEFORE constructing its 2x8 strip,
+grays exactly 16 words and clears bit8000, then uploads at the original base
+row. Keep European versus NA/JP coordinates and row cursors unchanged.
+No new transfer completion, row-capacity or palette ownership guarantee.
+
+The final remap_slot/remap_unit/remap_handler/group_bytes/next_group_bytes
+names preserve the fresh slot read, active/count/null gates, ALL raw group
+words, callback arguments and exact-1 chain terminator; zero is not a new
+terminator. The earlier origin-pass group_bytes is a DIFFERENT lexical
+binding. Playback-direction stop, final FE publication, animation/units-only/
+part-mask early returns and every ordering-table length publication remain.
+
+Only scoped bare locals across this WHOLE definition change. The earlier
+matrix/sequence views, parameters, public headers, other functions, member
+tokens, types, declarations/order/lifetimes, casts, constants, operators,
+labels, calls, macros, comments, storage and named profiles remain.
+One existing semantic NOTES cell is appended; all identities/evidence/
+confidence and other rows stay. No fixture/control/oracle/mutation changes,
+synthetic/generated-C/source-string behavioral harness, retired fixture
+revival or local cloud execution.
