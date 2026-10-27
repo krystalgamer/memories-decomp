@@ -252,6 +252,53 @@ store, including slot 2, remain intact. No buffer capacity, common
 parameter schema, copy-overlap or readiness/lifetime guarantee follows.
 See [the complete pointer protocol](model-structures.md#live-animation-parameters-and-saved-word-buffer).
 
+## Playback position and part-speed local views
+
+The per-frame tick now distinguishes animation_row, row_end_position,
+position_step and forward/reverse position candidates. The row maximum
+is still shifted by four, and the step is still raw playback_speed
+times Model_GetFrameStep. These are existing scaled-position arithmetic
+views, not milliseconds, a new timing unit or a global speed bound.
+
+Keep the initial active/command gates and row/length/step snapshots
+before the row-six direction handoff and duelist-slot sound call.
+Later playback-state and position reads remain live. Forward handling
+still resets a position at/above the end before adding and clamping;
+reverse handling still substitutes the end for zero before subtracting
+and clamping at zero. Preserve every halfword store/narrowing.
+
+The pending-reset gate, mode-specific completion test, tint[7]==6
+queue override, queue/latch comparison, seek-before-latch write,
+optional active-row restore and effect-endpoint/tint/queue publications
+remain ordered exactly. No new tint-byte interpretation or transition
+atomicity is inferred. The final early-return test STILL uses
+state!=0x23, raw speed0x10 and a SEPARATE Model_GetFrameStep()==2 call,
+including the no-command path. scaled_position is captured only after
+that test; the part loop keeps its original count and current-row reads.
+
+Direction setup retains both slot aliases, sign-selected states
+60/35/62, the second speed/state capture, double_speed and its separate
+saved copy. part_speed is still zero/negative-double/positive-double
+through the original goto/comparison paths. Labels and duplicate
+assignments stay; no enum, Boolean direction or merged speed expression.
+
+The public seek's part_count remains mutable: it snapshots the count,
+stores frame_position<<4 into the position HALFWORD, reloads that narrowed
+position, then reloads count after EVERY per-part seek. Preserve each
+current-row read, conditional sid publication, final nonzero-row
+publication and cached_dimensions[3] clear, even with no parts.
+
+The part-speed writer still walks stored sequence pointers and writes
+the original signed argument, narrowed to s8, into each speed field.
+Keep initial !=0/do-while and the original live u8 count reads;
+no new null guard, bounds check or normalized direction is introduced.
+
+Only scoped bare locals in these FOUR complete definitions change.
+All arguments, member tokens, types, comments, literals, expressions,
+scopes, labels and source order stay. All original source groups and
+profiles remain; headers, callers, SDK declarations and existing
+fixtures/controls are unchanged. No new harness or local cloud tests.
+
 ## Playback selectors, extended part state and sound cues
 
 These names follow the complete resident producer/consumer chains, not
