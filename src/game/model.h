@@ -160,15 +160,15 @@ typedef union {
         u8 min_z;
         u8 pad_0A[2];
     } thresholds;
-} ModelSlotCF8Prefix;
+} ModelSlotMetadataPrefix;
 
 typedef struct {
-    ModelSlotCF8Prefix prefix;
+    ModelSlotMetadataPrefix prefix;
     u16 battle_camera_duration_overrides[2];
     s32 first_star_module_command;
     s32 second_star_module_command;
     s32 primary_module_command;
-} ModelSlotCF8Block;
+} ModelSlotMetadataBlock;
 
 /* View rooted at the gModel_Slot0MetadataView interior alias and extending through the two
  * slot property bytes at DFE/DFF. The first words are compared by
@@ -176,7 +176,7 @@ typedef struct {
  * through guardian_star_selection. Other CF8 members retain relative
  * names where the payload's semantics are not established. */
 typedef struct {
-    ModelSlotCF8Prefix prefix;
+    ModelSlotMetadataPrefix prefix;
     u16 battle_camera_duration_overrides[2];
     s32 first_star_module_command;
     s32 second_star_module_command;
@@ -186,24 +186,24 @@ typedef struct {
     u8 defense_position;
 } ModelSlotCF8TailView;
 
-/* A ModelSlotCF8Block's worth of words, for the one place that copies a whole
-   block: file_transfer_steps.c's phase 10 fills field_CF8 straight out of the
+/* A ModelSlotMetadataBlock's worth of words, for the one place that copies a whole
+   block: file_transfer_steps.c's phase 10 fills metadata straight out of the
    staged asset.
 
    This is a block-move spelling, not a second description of the block. The
    element type sets the alignment and the alignment sets the move width, so
-   `u32` here and the halfword members of ModelSlotCF8Block do not lower the
+   `u32` here and the halfword members of ModelSlotMetadataBlock do not lower the
    same way and the two are deliberately not interchangeable. The assert below
    is what ties them together. */
 typedef struct {
     u32 value[7];
-} ModelSlotCF8BlockWords;
+} ModelSlotMetadataBlockWords;
 
 /* The staged model metadata copied into a slot: 0x100 bytes of sound entries
-   followed by the word-aligned field_CF8 block. */
+   followed by the word-aligned metadata block. */
 typedef struct {
     ModelSlotSoundEntry sound_entries[MODEL_SLOT_SOUND_ENTRY_COUNT];
-    ModelSlotCF8BlockWords field_CF8;
+    ModelSlotMetadataBlockWords metadata;
 } ModelTransferMetadata;
 
 /* Eight bytes moved as a block. Three units spelled this by hand over three
@@ -212,7 +212,7 @@ typedef struct {
    typed two different ways for the same two symbols, and model_slot_support.c over the halfword
    quad at ModelSlot.cached_dimensions.
 
-   Unlike ModelSlotCF8BlockWords above, this one is shared rather than kept
+   Unlike ModelSlotMetadataBlockWords above, this one is shared rather than kept
    per site, and the element type is why. All three spellings were u8[8], so
    all three have alignment 1 and lower to the same move; two of them said
    __attribute__((packed)), which on a u8 array asks for the alignment it
@@ -242,7 +242,7 @@ typedef struct {
     u8 queued_animation_row_latch;
     u8 field_BF7;
     ModelSlotSoundEntry sound_entries[MODEL_SLOT_SOUND_ENTRY_COUNT];
-    ModelSlotCF8Block field_CF8;
+    ModelSlotMetadataBlock metadata;
     u8 *G32 entries;
     /* The slot's own placement unit: one 0x50-byte GsCOORDUNIT out of the
      * MODEL_SLOT_DATA_ENTRY_SIZE-stride run at `entries`. Left incomplete
@@ -458,23 +458,23 @@ typedef char ModelSlot_animation_commands_offset_must_be_0xDD8[
 typedef char ModelSlot_animation_control_state_offset_must_be_0xE0E[
     MODEL_OFFSET(ModelSlot, animation_control_state) == 0xE0E ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_size_must_be_0x1C[
-    sizeof(ModelSlotCF8Block) == 0x1C ? 1 : -1
+typedef char ModelSlotMetadataBlock_size_must_be_0x1C[
+    sizeof(ModelSlotMetadataBlock) == 0x1C ? 1 : -1
 ];
-typedef char ModelSlotCF8BlockWords_size_must_match_block[
-    sizeof(ModelSlotCF8BlockWords) == sizeof(ModelSlotCF8Block) ? 1 : -1
+typedef char ModelSlotMetadataBlockWords_size_must_match_block[
+    sizeof(ModelSlotMetadataBlockWords) == sizeof(ModelSlotMetadataBlock) ? 1 : -1
 ];
-typedef char ModelTransferMetadata_field_CF8_offset_must_be_0x100[
-    MODEL_OFFSET(ModelTransferMetadata, field_CF8) == 0x100 ? 1 : -1
+typedef char ModelTransferMetadata_metadata_offset_must_be_0x100[
+    MODEL_OFFSET(ModelTransferMetadata, metadata) == 0x100 ? 1 : -1
 ];
 typedef char ModelBytes8_size_must_be_8[
     sizeof(ModelBytes8) == 8 ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_guardian_star_options_offset_must_be_0xA[
-    MODEL_OFFSET(ModelSlotCF8Block, prefix.bytes.guardian_star_options) == 0xA ? 1 : -1
+typedef char ModelSlotMetadataBlock_guardian_star_options_offset_must_be_0xA[
+    MODEL_OFFSET(ModelSlotMetadataBlock, prefix.bytes.guardian_star_options) == 0xA ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_battle_camera_duration_overrides_offset_must_be_0xC[
-    MODEL_OFFSET(ModelSlotCF8Block, battle_camera_duration_overrides) == 0xC ? 1 : -1
+typedef char ModelSlotMetadataBlock_battle_camera_duration_overrides_offset_must_be_0xC[
+    MODEL_OFFSET(ModelSlotMetadataBlock, battle_camera_duration_overrides) == 0xC ? 1 : -1
 ];
 typedef char ModelSlotLightEntry_size_must_be_0x10[
     sizeof(ModelSlotLightEntry) == 0x10 ? 1 : -1
@@ -527,8 +527,8 @@ typedef char ModelSlotSoundEntry_layout_must_match[
 typedef char ModelSlot_sound_entries_offset_must_be_0xBF8[
     MODEL_OFFSET(ModelSlot, sound_entries) == 0xBF8 ? 1 : -1
 ];
-typedef char ModelSlot_field_CF8_offset_must_be_0xCF8[
-    MODEL_OFFSET(ModelSlot, field_CF8) == 0xCF8 ? 1 : -1
+typedef char ModelSlot_metadata_offset_must_be_0xCF8[
+    MODEL_OFFSET(ModelSlot, metadata) == 0xCF8 ? 1 : -1
 ];
 typedef char ModelSlot_entries_offset_must_be_0xD14[
     MODEL_OFFSET(ModelSlot, entries) == 0xD14 ? 1 : -1
@@ -695,20 +695,20 @@ typedef char ModelSlotCF8TailView_size_must_be_0x108[
 typedef char ModelSlotCF8TailView_guardian_star_options_offset_must_be_0xA[
     MODEL_OFFSET(ModelSlotCF8TailView, prefix.bytes.guardian_star_options) == 0xA ? 1 : -1
 ];
-typedef char ModelSlotCF8Prefix_size_must_be_0xC[
-    sizeof(ModelSlotCF8Prefix) == 0xC ? 1 : -1
+typedef char ModelSlotMetadataPrefix_size_must_be_0xC[
+    sizeof(ModelSlotMetadataPrefix) == 0xC ? 1 : -1
 ];
-typedef char ModelSlotCF8Prefix_field_08_offset_must_be_0x8[
-    MODEL_OFFSET(ModelSlotCF8Prefix, values.field_08) == 0x8 ? 1 : -1
+typedef char ModelSlotMetadataPrefix_field_08_offset_must_be_0x8[
+    MODEL_OFFSET(ModelSlotMetadataPrefix, values.field_08) == 0x8 ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_first_star_module_command_offset_must_be_0x10[
-    MODEL_OFFSET(ModelSlotCF8Block, first_star_module_command) == 0x10 ? 1 : -1
+typedef char ModelSlotMetadataBlock_first_star_module_command_offset_must_be_0x10[
+    MODEL_OFFSET(ModelSlotMetadataBlock, first_star_module_command) == 0x10 ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_second_star_module_command_offset_must_be_0x14[
-    MODEL_OFFSET(ModelSlotCF8Block, second_star_module_command) == 0x14 ? 1 : -1
+typedef char ModelSlotMetadataBlock_second_star_module_command_offset_must_be_0x14[
+    MODEL_OFFSET(ModelSlotMetadataBlock, second_star_module_command) == 0x14 ? 1 : -1
 ];
-typedef char ModelSlotCF8Block_primary_module_command_offset_must_be_0x18[
-    MODEL_OFFSET(ModelSlotCF8Block, primary_module_command) == 0x18 ? 1 : -1
+typedef char ModelSlotMetadataBlock_primary_module_command_offset_must_be_0x18[
+    MODEL_OFFSET(ModelSlotMetadataBlock, primary_module_command) == 0x18 ? 1 : -1
 ];
 typedef char ModelSlotCF8TailView_guardian_star_selection_offset_must_be_0x106[
     MODEL_OFFSET(ModelSlotCF8TailView, guardian_star_selection) ==
@@ -719,26 +719,26 @@ typedef char ModelSlotCF8TailView_defense_position_offset_must_be_0x107[
         MODEL_SLOT_CF8_DFF_OFFSET ? 1 : -1
 ];
 
-typedef char ModelSlotCF8_guardian_star_metadata_layout_must_match[
-    sizeof(((ModelSlotCF8Prefix *)0)->bytes.guardian_star_options) == 2 &&
-    MODEL_OFFSET(ModelSlotCF8Block, battle_camera_duration_overrides) == 0xC &&
-    sizeof(((ModelSlotCF8Block *)0)->battle_camera_duration_overrides) == 4 &&
+typedef char ModelSlotMetadata_guardian_star_metadata_layout_must_match[
+    sizeof(((ModelSlotMetadataPrefix *)0)->bytes.guardian_star_options) == 2 &&
+    MODEL_OFFSET(ModelSlotMetadataBlock, battle_camera_duration_overrides) == 0xC &&
+    sizeof(((ModelSlotMetadataBlock *)0)->battle_camera_duration_overrides) == 4 &&
     MODEL_OFFSET(ModelSlotCF8TailView, battle_camera_duration_overrides) == 0xC &&
     sizeof(((ModelSlotCF8TailView *)0)->battle_camera_duration_overrides) == 4 &&
     sizeof(((ModelSlotCF8TailView *)0)->guardian_star_selection) == 1 &&
     sizeof(((ModelSlotCF8TailView *)0)->defense_position) == 1 &&
-    MODEL_OFFSET(ModelSlot, field_CF8) +
+    MODEL_OFFSET(ModelSlot, metadata) +
         MODEL_OFFSET(ModelSlotCF8TailView, guardian_star_selection) ==
         MODEL_OFFSET(ModelSlot, guardian_star_selection) &&
-    MODEL_OFFSET(ModelSlot, field_CF8) +
+    MODEL_OFFSET(ModelSlot, metadata) +
         MODEL_OFFSET(ModelSlotCF8TailView, defense_position) ==
         MODEL_OFFSET(ModelSlot, defense_position) ? 1 : -1
 ];
 
-typedef char ModelSlotCF8_module_command_widths_must_match[
-    sizeof(((ModelSlotCF8Block *)0)->first_star_module_command) == 4 &&
-    sizeof(((ModelSlotCF8Block *)0)->second_star_module_command) == 4 &&
-    sizeof(((ModelSlotCF8Block *)0)->primary_module_command) == 4 &&
+typedef char ModelSlotMetadata_module_command_widths_must_match[
+    sizeof(((ModelSlotMetadataBlock *)0)->first_star_module_command) == 4 &&
+    sizeof(((ModelSlotMetadataBlock *)0)->second_star_module_command) == 4 &&
+    sizeof(((ModelSlotMetadataBlock *)0)->primary_module_command) == 4 &&
     MODEL_OFFSET(ModelSlotCF8TailView, first_star_module_command) == 0x10 &&
     MODEL_OFFSET(ModelSlotCF8TailView, second_star_module_command) == 0x14 &&
     MODEL_OFFSET(ModelSlotCF8TailView, primary_module_command) == 0x18 &&
@@ -893,7 +893,7 @@ extern ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
  * MODEL_SLOT_SIZE when selecting another slot, so none of these declarations
  * claims that same-named fields from adjacent slots are contiguous arrays.
  *
- * 0x800F3938 = gModel_aSlots[0].field_CF8
+ * 0x800F3938 = gModel_aSlots[0].metadata
  * 0x800F39B0 = gModel_aSlots[0].flat_lights
  * 0x800F39F0 = gModel_aSlots[0].render_scale
  * 0x800F3A10 = gModel_aSlots[0].cached_position

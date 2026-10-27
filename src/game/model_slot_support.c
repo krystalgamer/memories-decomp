@@ -46,7 +46,7 @@ void Model_CopySlotPosition(s32 idx, u16 *out) {
 void Model_GetSlotDimensionsWithOverrides(s32 index, s16 *output)
 {
     register ModelSlot *entry = &gModel_aSlots[index];
-    register u8 *source = entry->field_CF8.prefix.bytes.field_00;
+    register u8 *source = entry->metadata.prefix.bytes.field_00;
     s32 value;
 
     *(ModelBytes8 *)output = *(ModelBytes8 *)entry->cached_dimensions;
