@@ -13,6 +13,12 @@
       "source": "src/overlays/spanish_model_variant/variant405_pulses.c"
     },
     {
+      "address": "0x8013C2CC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4A8",
+      "source": "src/overlays/french_model_variant/variant562_shards.c"
+    },
+    {
       "address": "0x8013C774",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3F0",

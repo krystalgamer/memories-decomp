@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C2CC
     align: 4
     subsegments:
-      - [0x12CC, asm, overlays/spanish_model_variant_149_stage8_slot1/helper_12CC]
+      - [0x12CC, c, overlays/french_model_variant/variant562_shards_slot1]
   - name: helper_1774
     type: code
     start: 0x1774
