@@ -12,6 +12,9 @@ typedef struct {
     u8 unknown_2A[0xA];
     u32 grow_start;
     u32 grow_end;
+    u8 unknown_3C[4];
+    u32 fade_start;
+    u32 fade_end;
 } Timing459;
 
 typedef struct {
