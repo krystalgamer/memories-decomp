@@ -495,6 +495,56 @@ Existing level and complete-state offsets and sizes remain pinned. No
 extra union, scratch buffer, SDK declaration, local raw view, bound, clamp,
 callback contract, test case or harness is introduced.
 
+### CD mix and measurement local views
+
+SD_InitBufferState names buffer_state only. Keep pan reset and volume255
+BEFORE its global read, the first three decoded-CD pointer stores,
+cd_fade_step clear and final right-half pointer store in that order.
+The four typed pointers, SDK decoded-data record and 256-sample halves
+retain their original offsets and bounds.
+
+SD_SetCdVolume names s16 level/saved_level, mix_state, s32 scaled_input,
+scaled_mix and mix_factor, and the CdlATV attenuation packet.
+The arithmetic remains (level+1)*mix_scale, then mix_multiplier times
+the original signed >>8 result, then the explicit u16-to-u32 view and
+logical >>3. Keep each channel multiply/>>7 and byte assignment, val3
+zero and the output_type choice between val1 and val2. There is no
+new clamp, rounding, saturation or normalized volume scale.
+CdMix still precedes the fresh global cd_volume store from saved_level.
+The existing explanation changes only its three local identifiers;
+the public s16 prototype and its comment each change one identifier.
+
+SD_SetCdPan names the existing s16 signed_pan snapshot only.
+Both original u32 arithmetic/u16 range tests still use the full s32
+pan input, not a rewritten signed_pan comparison. Preserve low-halfword
+aliases, all channel-byte expressions, branch order and the final
+uncached cd_volume reapplication. No repaired negative-pan curve.
+
+SD_MeasureCdAudioLevel names decoded_half, sample_cursor/sample_index,
+loaded_state/measurement_state, sample_value/sample_square,
+measured_level/output_gate_flags and other_high_half. choice_state
+remains the original selection snapshot, with a separate later global
+read and measurement_state=loaded_state alias. The SDK request is
+STILL SPU_CDONLY. Select pointer0 only for SPU_DECODED_FIRSTHALF and
+pointer1 otherwise, including non-first errors; measure only left CD,
+not the unused right-channel buffers or either decoded voice array.
+
+Keep both accumulator clears, all 256 signed-halfword reads, signed
+sample product assigned to u32, logical >>8 and original sum update.
+After the loop, reload state and retain the single-iteration signed
+high-halfword read BEFORE status_flags, then the separate opaque
+word's high-halfword read, mask3 and both publications. Only the return
+is gated; no RMS, stereo average, division, error return or mute policy.
+other_high_half describes a view, NOT a role for field_1550: it remains
+unclassified and is still not accumulated. The volatile same-symbol
+pointer declaration, alias/reload boundaries, scope and return shape
+remain; no caller or observed meter behavior is inferred.
+
+All four complete definitions preserve every member token, type,
+constant, expression, SDK order and unrelated definition. No record,
+pointer annotation, assertion, profile, manifest, fixture, numeric
+control, trace, storage or new behavioral harness changes.
+
 ### Reverb work-area queries
 
 Matching `SD_ApplySequenceReverbParameter` handles two sound-sequence control

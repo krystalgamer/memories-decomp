@@ -13,16 +13,16 @@
 
 void SD_InitBufferState(void)
 {
-    SDValue *base;
+    SDValue *buffer_state;
 
     SD_ResetCdPan();
     SD_SetCdVolume(255);
-    base = g_SDValue;
-    base->decoded_cd_halves[0] = base->decoded_data.cd_left;
-    base->decoded_cd_halves[1] = &base->decoded_data.cd_left[SD_MIX_SAMPLE_COUNT];
-    base->decoded_cd_halves[2] = base->decoded_data.cd_right;
-    base->cd_fade_step = 0;
-    base->decoded_cd_halves[3] = &base->decoded_data.cd_right[SD_MIX_SAMPLE_COUNT];
+    buffer_state = g_SDValue;
+    buffer_state->decoded_cd_halves[0] = buffer_state->decoded_data.cd_left;
+    buffer_state->decoded_cd_halves[1] = &buffer_state->decoded_data.cd_left[SD_MIX_SAMPLE_COUNT];
+    buffer_state->decoded_cd_halves[2] = buffer_state->decoded_data.cd_right;
+    buffer_state->cd_fade_step = 0;
+    buffer_state->decoded_cd_halves[3] = &buffer_state->decoded_data.cd_right[SD_MIX_SAMPLE_COUNT];
 }
 
 void SD_ResetCdPan(void)
@@ -32,50 +32,50 @@ void SD_ResetCdPan(void)
 }
 
 /* Sibling of SD_SetCdVolumeImmediate: builds the same 4-byte CdMix volume
-   packet, but here val0/val1-or-val2 are scaled DSP-style from a0 instead
+   packet, but here val0/val1-or-val2 are scaled DSP-style from level instead
    of copied verbatim. g_SDValue's fields 0x514/0x515 are
-   per-channel volume scalars; f42 and f533 combine with (a0+1) to derive a
-   shared 0-8191 "shift" factor, which each channel's scalar is then
+   per-channel volume scalars; f42 and f533 combine with (level+1) to derive a
+   shared 0-8191 "mix_factor" factor, which each channel's scalar is then
    multiplied against and rescaled (>>7) into its packet byte. f48 picks
    which of val1/val2 carries the scaled value (the other gets 0), matching
    SD_SetCdVolumeImmediate's f48-based slot selection. Reloads
    g_SDValue through a fresh alias for the trailing f510 write, same
    pattern as project_d8009b45c_reload_pointer_trick. */
-void SD_SetCdVolume(s16 a0) {
-    SDValue *p = g_SDValue;
-    s32 prod1 = (a0 + 1) * p->mix_scale;
-    s32 prod2 = p->mix_multiplier * (prod1 >> 8);
-    s32 shift = ((u32)(u16)prod2) >> 3;
-    CdlATV local;
-    s16 s0 = a0;
+void SD_SetCdVolume(s16 level) {
+    SDValue *mix_state = g_SDValue;
+    s32 scaled_input = (level + 1) * mix_state->mix_scale;
+    s32 scaled_mix = mix_state->mix_multiplier * (scaled_input >> 8);
+    s32 mix_factor = ((u32)(u16)scaled_mix) >> 3;
+    CdlATV attenuation;
+    s16 saved_level = level;
 
-    local.val0 = (shift * p->channel_volume[0]) >> 7;
-    local.val3 = 0;
+    attenuation.val0 = (mix_factor * mix_state->channel_volume[0]) >> 7;
+    attenuation.val3 = 0;
 
-    if (p->output_type == 0) {
-        local.val1 = 0;
-        local.val2 = (shift * p->channel_volume[1]) >> 7;
+    if (mix_state->output_type == 0) {
+        attenuation.val1 = 0;
+        attenuation.val2 = (mix_factor * mix_state->channel_volume[1]) >> 7;
     } else {
-        local.val1 = (shift * p->channel_volume[1]) >> 7;
-        local.val2 = 0;
+        attenuation.val1 = (mix_factor * mix_state->channel_volume[1]) >> 7;
+        attenuation.val2 = 0;
     }
 
-    CdMix(&local);
+    CdMix(&attenuation);
 
-    g_SDValue->cd_volume = s0;
+    g_SDValue->cd_volume = saved_level;
 }
 
 void SD_SetCdPan(s32 pan)
 {
-    s16 saved = pan;
+    s16 signed_pan = pan;
 
     if ((u16)((u32)pan - 1) < SD_CHANNEL_VOLUME_MAX) {
-        g_SDValue->channel_volume[0] = -SD_CHANNEL_VOLUME_MAX - saved;
+        g_SDValue->channel_volume[0] = -SD_CHANNEL_VOLUME_MAX - signed_pan;
         g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
     } else if ((u16)((u32)pan + SD_CHANNEL_VOLUME_MAX) <
         SD_CHANNEL_VOLUME_MAX) {
         g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
-        g_SDValue->channel_volume[1] = -SD_CHANNEL_VOLUME_MAX - saved;
+        g_SDValue->channel_volume[1] = -SD_CHANNEL_VOLUME_MAX - signed_pan;
     } else {
         g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
         g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;
@@ -163,48 +163,48 @@ extern SDValue *G32 volatile g_SDValue_output_level asm("g_SDValue");
 
 s32 SD_MeasureCdAudioLevel(void)
 {
-    s32 select = SpuReadDecodedData(
+    s32 decoded_half = SpuReadDecodedData(
         &g_SDValue_output_level->decoded_data, SPU_CDONLY
     );
     SDValue *choice_state = g_SDValue_output_level;
-    s16 *values;
-    s32 i;
-    SDValue *loaded;
-    SDValue *state;
+    s16 *sample_cursor;
+    s32 sample_index;
+    SDValue *loaded_state;
+    SDValue *measurement_state;
 
-    choice_state->decoded_half = select;
-    if (select == SPU_DECODED_FIRSTHALF) {
-        values = choice_state->decoded_cd_halves[0];
+    choice_state->decoded_half = decoded_half;
+    if (decoded_half == SPU_DECODED_FIRSTHALF) {
+        sample_cursor = choice_state->decoded_cd_halves[0];
     } else {
-        values = choice_state->decoded_cd_halves[1];
+        sample_cursor = choice_state->decoded_cd_halves[1];
     }
-    loaded = g_SDValue_output_level;
-    i = 0;
-    state = loaded;
-    state->output_level.sum = 0;
-    state->field_1550.sum = 0;
+    loaded_state = g_SDValue_output_level;
+    sample_index = 0;
+    measurement_state = loaded_state;
+    measurement_state->output_level.sum = 0;
+    measurement_state->field_1550.sum = 0;
     do {
-        s32 value = *values;
-        u32 square = value * value;
-        state->output_level.sum += square >> 8;
-        i++;
-        values++;
-    } while (i < SD_MIX_SAMPLE_COUNT);
+        s32 sample_value = *sample_cursor;
+        u32 sample_square = sample_value * sample_value;
+        measurement_state->output_level.sum += sample_square >> 8;
+        sample_index++;
+        sample_cursor++;
+    } while (sample_index < SD_MIX_SAMPLE_COUNT);
     {
-        s32 result;
-        s32 flags;
-        s32 other;
-        state = g_SDValue_output_level;
+        s32 measured_level;
+        s32 output_gate_flags;
+        s32 other_high_half;
+        measurement_state = g_SDValue_output_level;
         do {
-            result = state->output_level.halves[1];
+            measured_level = measurement_state->output_level.halves[1];
         } while (0);
-        flags = state->status_flags;
-        other = state->field_1550.halves[1];
-        flags &= 3;
-        state->output_level.sum = result;
-        state->field_1550.sum = other;
-        if (!flags) {
-            return result;
+        output_gate_flags = measurement_state->status_flags;
+        other_high_half = measurement_state->field_1550.halves[1];
+        output_gate_flags &= 3;
+        measurement_state->output_level.sum = measured_level;
+        measurement_state->field_1550.sum = other_high_half;
+        if (!output_gate_flags) {
+            return measured_level;
         }
         return 0;
     }
