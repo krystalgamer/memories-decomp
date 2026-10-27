@@ -291,13 +291,13 @@ file with the French resident addresses (`variant117_entry` uses
 `model_variant134_linker_symbols.txt`, because `model_variant117` already names
 the French header-117 family).
 
-A further 176 single-entry images (French headers 181, 189, 193, 644, 651,
-664, 671 and the slot-one counterparts 311, 319, 323, 711, 718, 731 and 738)
-are the North American
-`model_variant/variant{164,172,176,627,634,647,654}_entry` bodies without the
-US-only work-size `printf`. Their `french_model_variant/` wrappers define
-`VERSION_FRENCH`, which drops that call (and, in `variant176`, its `.rodata`
-format string); `variant164` also takes the 256-line `GRAPHICS_DEFAULT_HEIGHT`
+A further 182 single-entry images (French headers 181, 188, 189, 193, 644,
+651, 664, 671 and the slot-one counterparts 311, 318, 319, 323, 711, 718, 731
+and 738) are the North American
+`model_variant/variant{164,171,172,176,627,634,647,654}_entry` bodies without
+the US-only work-size `printf`. Their `french_model_variant/` wrappers define
+`VERSION_FRENCH`, which drops that call (and, in `variant{171,176}`, its
+`.rodata` format string); `variant164` also takes the 256-line `GRAPHICS_DEFAULT_HEIGHT`
 for its full-screen flash. The removed call shortens the entry, so the wrappers
 rename the entry's data references to their earlier French addresses.
 
