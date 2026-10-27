@@ -495,8 +495,10 @@ is inferred.
 The decoder's slot_index name preserves the unsigned NA/JP below-two
 gate and PAL below-three gate, all regional page/CLUT arithmetic and the
 nullable-maximum behavior. tent_Model_RebaseTexturedPrimitives remains
-tentative: the PAL slot-two source-upload linkage and uncovered selectors
-are NOT resolved or promoted by naming these inputs and outputs.
+tentative overall: these earlier input/output names alone did not resolve
+the upload linkage. Later measured PAL palette evidence is documented in
+[primitive context views](model-primitive-context.md); unexercised low-X
+and uncovered selector/input cases are not promoted into observed behavior.
 
 Only parameter/local identifiers in the five complete definitions,
 their two owning headers, three existing decoder-comment identifiers
