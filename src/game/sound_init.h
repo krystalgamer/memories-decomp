@@ -19,7 +19,7 @@ extern void SD_RequestBgmPlayback_s16(s32 command_id, s16 step)
 #endif
 void SD_Init(void);
 void SD_OpenMusicVab(void);
-void SD_SetMusicTrackBuffer(u16 *track);
+void SD_SetMusicTrackBuffer(u16 *track_buffer);
 void SD_ResetMusicTrackBuffer(void);
 void SD_ResetSecondaryState(void);
 void SD_InitSecondaryWorkArea(s32 *work_area_cursor);

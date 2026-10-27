@@ -247,9 +247,10 @@ read from the USA image's own `jal` targets. Thirty more differ from their Frenc
 in a regional constant (a CLUT or the screen height) and build through North
 American wrappers that set it. Forty-nine more add a North American work-size
 `printf` to their French entry, under a macro the wrappers define. Six hundred
-eleven more build from new North American C: twenty-five under headers 72
+twenty-seven more build from new North American C: twenty-five under headers 72
 and 202 (`src/overlays/model_variant/variant72_entry.c`; see the
 [USA header-72 note](../../../notes/overlays/usa-model-variant72.md)),
+sixteen under headers 78 and 208 (`variant78_entry.c`),
 twenty-four under headers 110 and 240 (`variant110_entry.c`; see the
 [USA header-110 note](../../../notes/overlays/usa-model-variant110.md)),
 ten under headers 111 and 241 (`variant111_entry.c`; see the
@@ -289,3 +290,11 @@ thirty-two under headers 827 and 924 (`variant827_entry.c`; see the
 thirty-five under headers 828 and 925 (`variant828_entry.c`; see the
 [USA header-828 note](../../../notes/overlays/usa-model-variant828.md)). See the
 [USA French-entry images](../../../notes/overlays/usa-model-french-entries.md).
+
+The 1,189 USA return-two primary images (headers 37 and 40) build their
+eight-byte `jr ra; li v0,2` entry from the accepted
+`spanish_model_primary/return_two.c` and its slot-1 wrapper under
+`gcc_2_8_1_g0_split`, as `model_return_two_<model>_slot<0|1>` modules
+sharing one symbol file per slot. Each keeps its four-byte header and
+4,084-byte tail as unclassified data; see the
+[USA return-two promotion](../../../notes/overlays/spanish-model-return-two.md#usa-promotion).
