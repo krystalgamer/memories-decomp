@@ -244,113 +244,113 @@ s32 Model_FindHandlerKey(s32 handler_value) {
 void Model_ProcessType2Unit(
     s32 model_index, ModelTypeUnit *unit, u8 *scratch)
 {
-    u8 *p;
-    u8 *q;
-    u8 *b;
-    u16 *e;
-    ModelType2Scratch *r;
-    ModelType2Record *rec;
-    s32 n;
-    s32 i;
-    s32 j;
-    s32 k;
-    s32 f;
-    s32 sh;
-    s32 v;
-    s32 w;
-    s32 m;
+    u8 *image_record_cursor;
+    u8 *next_record_cursor;
+    u8 *clut_data;
+    u16 *palette_entry;
+    ModelType2Scratch *image_context;
+    ModelType2Record *clut_record;
+    s32 record_count;
+    s32 record_index;
+    s32 palette_row;
+    s32 palette_column;
+    s32 below_two_slot;
+    s32 slot_texture_x;
+    s32 coordinate_value;
+    s32 source_image_x;
+    s32 image_with_clut_kind;
 
-    m = 0x2000001;
-    i = 0;
-    r = (ModelType2Scratch *)scratch;
-    q = r->records;
-    n = ((ModelType2RecordHeader *)q)->record_count;
-    q += sizeof(ModelType2RecordHeader);
+    image_with_clut_kind = 0x2000001;
+    record_index = 0;
+    image_context = (ModelType2Scratch *)scratch;
+    next_record_cursor = image_context->records;
+    record_count = ((ModelType2RecordHeader *)next_record_cursor)->record_count;
+    next_record_cursor += sizeof(ModelType2RecordHeader);
 
-    if (n != 0) {
-        f = model_index < 2;
+    if (record_count != 0) {
+        below_two_slot = model_index < 2;
 #ifndef VERSION_EUROPE
-        sh = model_index << 8;
+        slot_texture_x = model_index << 8;
 #endif
-        p = q;
+        image_record_cursor = next_record_cursor;
 
         do {
-            q = p + sizeof(ModelType2Record);
-            if (unit->type == m) {
-                b = r->clut_data;
-                if (b != (u8 *)0) {
-                    j = 0;
-                    rec = MODEL_TYPE2_RECORD_VIEW(q);
-                    e = (u16 *)&((u32 *)b)[rec->index_offset];
-                    if (rec->row_count > 0) {
+            next_record_cursor = image_record_cursor + sizeof(ModelType2Record);
+            if (unit->type == image_with_clut_kind) {
+                clut_data = image_context->clut_data;
+                if (clut_data != (u8 *)0) {
+                    palette_row = 0;
+                    clut_record = MODEL_TYPE2_RECORD_VIEW(next_record_cursor);
+                    palette_entry = (u16 *)&((u32 *)clut_data)[clut_record->index_offset];
+                    if (clut_record->row_count > 0) {
                         do {
-                            if (f) {
-                                *e = 0;
+                            if (below_two_slot) {
+                                *palette_entry = 0;
                             }
-                            e++;
+                            palette_entry++;
                             for (
-                                k = 1;
-                                k < rec->column_count;
-                                k++
+                                palette_column = 1;
+                                palette_column < clut_record->column_count;
+                                palette_column++
                             ) {
-                                *e |= 0x8000;
-                                e++;
+                                *palette_entry |= 0x8000;
+                                palette_entry++;
                             }
-                            j++;
-                        } while (j < rec->row_count);
+                            palette_row++;
+                        } while (palette_row < clut_record->row_count);
                     }
-                    if (f) {
+                    if (below_two_slot) {
 #ifdef VERSION_EUROPE
-                        rec->vram_x = 0x280;
-                        v = rec->vram_y;
-                        if (v >= 8) {
-                            rec->vram_y = v % 8;
+                        clut_record->vram_x = 0x280;
+                        coordinate_value = clut_record->vram_y;
+                        if (coordinate_value >= 8) {
+                            clut_record->vram_y = coordinate_value % 8;
                         }
-                        rec->vram_y += 0xD0 + (model_index << 4);
+                        clut_record->vram_y += 0xD0 + (model_index << 4);
 #else
-                        v = rec->vram_x;
-                        if ((s16)rec->vram_x >= 0x280) {
-                            rec->vram_x = (v - 0x280) + sh;
+                        coordinate_value = clut_record->vram_x;
+                        if ((s16)clut_record->vram_x >= 0x280) {
+                            clut_record->vram_x = (coordinate_value - 0x280) + slot_texture_x;
                         } else {
-                            rec->vram_x = sh;
+                            clut_record->vram_x = slot_texture_x;
                         }
-                        v = rec->vram_y;
-                        if (v >= 8) {
-                            rec->vram_y = v % 8;
+                        coordinate_value = clut_record->vram_y;
+                        if (coordinate_value >= 8) {
+                            clut_record->vram_y = coordinate_value % 8;
                         }
-                        rec->vram_y = rec->vram_y + 0xF8;
+                        clut_record->vram_y = clut_record->vram_y + 0xF8;
 #endif
 #ifdef VERSION_EUROPE
                     } else {
-                        if (rec->vram_y < 0x100) {
-                            rec->vram_x = rec->vram_x + 0x280;
-                            rec->vram_y =
-                                (rec->vram_y & 0xF) + 0xD0;
+                        if (clut_record->vram_y < 0x100) {
+                            clut_record->vram_x = clut_record->vram_x + 0x280;
+                            clut_record->vram_y =
+                                (clut_record->vram_y & 0xF) + 0xD0;
                         }
-                        v = MODEL_TYPE2_RECORD_VIEW(p)->vram_y +
-                            MODEL_TYPE2_RECORD_VIEW(p)->row_count - 0x200;
-                        if (v > 0) {
-                            MODEL_TYPE2_RECORD_VIEW(p)->row_count =
-                                MODEL_TYPE2_RECORD_VIEW(p)->row_count - v;
+                        coordinate_value = MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_y +
+                            MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->row_count - 0x200;
+                        if (coordinate_value > 0) {
+                            MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->row_count =
+                                MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->row_count - coordinate_value;
                         }
 #endif
                     }
-                    q += sizeof(ModelType2Record);
+                    next_record_cursor += sizeof(ModelType2Record);
                 }
             }
-            if (f) {
-                w = MODEL_TYPE2_RECORD_VIEW(p)->vram_x;
+            if (below_two_slot) {
+                source_image_x = MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_x;
 #ifdef VERSION_EUROPE
-                MODEL_TYPE2_RECORD_VIEW(p)->vram_x =
-                    (w - 0x280) + (model_index << 8);
+                MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_x =
+                    (source_image_x - 0x280) + (model_index << 8);
 #else
-                MODEL_TYPE2_RECORD_VIEW(p)->vram_x = (w - 0x280) + sh;
+                MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_x = (source_image_x - 0x280) + slot_texture_x;
 #endif
             }
-            i++;
-            p = q;
+            record_index++;
+            image_record_cursor = next_record_cursor;
 
-        } while (i < n);
+        } while (record_index < record_count);
     }
 
     Model_GetImagePrimitiveHandler(unit->type)(scratch);
