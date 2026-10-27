@@ -42,7 +42,7 @@ void func_8013CB08(u8 *ctx)
     }
     ribbon = (Ribbons437Ribbon *)work;
     for (i = 0, phase = 0; i < 4; i++, ribbon++, phase = i * 1024) {
-        if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons437Timing **)(work + 0x15F4))->wave_end && !(i & 1)) {
+        if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons437Timing *G32 *)(work + 0x15F4))->wave_end && !(i & 1)) {
             wave = -MODEL_VARIANT_WORD(work, 0x1634);
         } else {
             wave = MODEL_VARIANT_WORD(work, 0x1634);
@@ -152,7 +152,7 @@ void func_8013CB08(u8 *ctx)
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)ribbon->otz[k], 1);
             }
         }
-        if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons437Timing **)(work + 0x15F4))->wave_end) {
+        if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons437Timing *G32 *)(work + 0x15F4))->wave_end) {
             if (!(i & 1)) {
                 if (ribbon->state == 0) {
                     ribbon->end += (u32)MODEL_VARIANT_WORD(work, 0x15E8) / 2;
@@ -190,7 +190,7 @@ void func_8013CB08(u8 *ctx)
                     }
                 }
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons437Timing **)(work + 0x15F4))->reset_end) {
+        } else if (MODEL_VARIANT_WORD(work, 0x15E0) < (*(Ribbons437Timing *G32 *)(work + 0x15F4))->reset_end) {
             ribbon->state = 0;
             ribbon->count = 0;
             ribbon->start = 0;
