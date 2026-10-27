@@ -91,6 +91,62 @@ promotion, truncation and overflow behavior. No new limit or assumption
 that it equals `hmd_unit_count` is introduced. Resetting a count does not
 newly clear old sequence pointers.
 
+## Animation-unit binding and dispatch local views
+
+The three complete link/handler-selection/update definitions now distinguish
+their existing local views. scanned_unit_words remains int[2], not a new
+GsTYPEUNIT declaration. primitive_handler preserves BOTH the fallback store
+for any tag other than0x03800000 and the supported update-handler store.
+Linking still precedes scanning. linked_sequence_count is added to the
+slot's byte count ONLY after the successful initial scan, including an
+empty enumeration loop. Preserve both scanner call forms, original casts,
+counter narrowing and European diagnostics; no new success or count bound.
+
+The selector's interpolation_type is only the existing low-halfword
+extraction AFTER the high-halfword0x03000000 check. Keep both supported
+values0x2019/0x2119, all goto labels and the fallback. No new opcode enum,
+broader supported-type claim or SDK implementation replacement.
+
+sequence_count is the primitive's existing second halfword, distinct from
+the slot's accumulated byte count. sequence_index traverses that count;
+cursor and track remain SEPARATE aliases. active_frames stays u32 with
+LOW-HALFWORD zero/FFFF tests, arithmetic and original store narrowing.
+FFFF still suppresses that decrement. Direction selection retains the
+speed-sign choice and7000/6000 rframe overrides with their separate clears.
+
+next_command_index includes the FFFF stop result as well as a scanned
+endpoint index; it does not imply an always-increasing index. Preserve
+both directional old_index scopes, endpoint load/store order, do-while
+wrappers and stopped/retry labels. target_duration is only the forward
+arm's existing byte-shifted duration; the reverse arm stays distinct.
+The static inline scanner is BYTE FOR BYTE unchanged: signed speed step,
+u16 indexing, control tests, conditional sid writes, jumps, end sentinel,
+assertion and exit all remain. No cycle detection or command validation.
+
+handler_words and parameter_words remain u32 pointer views with their
+original word arithmetic. Interpolation type still selects handler[type+1].
+interpolation_parameters retains the byte-addressed argument-tail base
+derived from header_size. Current/target/output descriptor indices stay
+distinct; the FFFF test guards ONLY the optional output pointer.
+No new typed-array stride, callback ABI or ownership/readiness inference.
+
+The handler still runs ONLY when ci differs from ti. handler_result==1
+retries independently of the later zero-target-duration retry. Preserve
+live descriptor reads, frame subtraction, signed overrun tests and their
+two marker stores. cursor still advances by EACH sequence record's size.
+unit_words names the primitive base used by the final leading-halfword
+word-count return; it is not a new end pointer, bound or byte count.
+
+Only scoped bare locals in these THREE complete definitions change.
+Arguments, member tokens, comments, types, constants, expressions, scopes,
+labels and order remain. The inline scanner, BOTH interpolators and every
+other grouped byte are untouched. Existing dispatch-fixture extraction
+boundaries and its exact track->traveling reset mutation remain valid;
+the angle-wrap fixture targets the unchanged interpolators. All fixtures,
+controls and oracles stay exact; none was imported or executed locally,
+and no synthetic/generated-C/source-string behavioral harness is added.
+The whole five-function source/profile group and both macro adapters remain.
+
 ## Loaded-module command words
 
 The three signed CF8 reset words now have their recovered module roles:
