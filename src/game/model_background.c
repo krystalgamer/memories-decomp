@@ -34,37 +34,37 @@ void Model_DrawBackground(void)
     GsSPRITE sprite;
     POLY_G4 polygons[3];
     PSXLONG projection[4];
-    ModelSlot *slot = &gModel_aSlots[2];
-    u8 vbase;
-    s32 height;
-    s32 ubase;
-    s16 y;
-    u16 pitch_bits;
+    ModelSlot *background_slot = &gModel_aSlots[2];
+    u8 texture_v_base;
+    s32 ring_height;
+    s32 texture_u_base;
+    s16 initial_sprite_y;
+    u16 background_offset_bits;
     s32 minimum_y;
-    s32 amount;
-    s32 phase;
+    s32 wrapped_u;
+    s32 ring_angle;
     s32 cosine;
     s32 sine;
-    s32 first_depth;
-    s32 second_depth;
+    s32 inner_band_depth;
+    s32 outer_band_depth;
 
-    vbase = gModel_pBackgroundRecord->texture_v_page.bytes.v;
-    ubase = (gModel_pBackgroundRecord->texture_u_page & 0x3F) <<
+    texture_v_base = gModel_pBackgroundRecord->texture_v_page.bytes.v;
+    texture_u_base = (gModel_pBackgroundRecord->texture_u_page & 0x3F) <<
         (2 - ((gModel_pBackgroundRecord->texture_height_flags >> 13) & 3));
-    height = slot->root_coordinate->matrix.t[1] + 300;
-    if (!slot->is_active)
+    ring_height = background_slot->root_coordinate->matrix.t[1] + 300;
+    if (!background_slot->is_active)
         return;
-    if (slot->ambient_rgb_scale[0] == -4096 &&
-        slot->ambient_rgb_scale[1] == -4096 && slot->ambient_rgb_scale[2] == -4096)
+    if (background_slot->ambient_rgb_scale[0] == -4096 &&
+        background_slot->ambient_rgb_scale[1] == -4096 && background_slot->ambient_rgb_scale[2] == -4096)
         return;
     Model_UpdateBackgroundScroll(0);
     sprite.attribute = 0;
     if (gModel_pBackgroundRecord->texture_height_flags & 0xE000)
         sprite.attribute = 0x01000000;
-    GsSetFlatLight(0, (GsF_LIGHT *)&slot->flat_lights[0]);
-    GsSetFlatLight(1, (GsF_LIGHT *)&slot->flat_lights[1]);
-    GsSetFlatLight(2, (GsF_LIGHT *)&slot->flat_lights[2]);
-    GsSetAmbient(slot->ambient_rgb_scale[0], slot->ambient_rgb_scale[1], slot->ambient_rgb_scale[2]);
+    GsSetFlatLight(0, (GsF_LIGHT *)&background_slot->flat_lights[0]);
+    GsSetFlatLight(1, (GsF_LIGHT *)&background_slot->flat_lights[1]);
+    GsSetFlatLight(2, (GsF_LIGHT *)&background_slot->flat_lights[2]);
+    GsSetAmbient(background_slot->ambient_rgb_scale[0], background_slot->ambient_rgb_scale[1], background_slot->ambient_rgb_scale[2]);
     GsSetLightMatrix(&gModel_CameraCoordinateUnit.matrix);
     NormalColorCol(&normals.values[0], &colors[0], CVECTOR_VIEW(&sprite.r));
     sprite.tpage = ((gModel_pBackgroundRecord->texture_height_flags >> 6) & 0x180) |
@@ -74,54 +74,54 @@ void Model_DrawBackground(void)
     sprite.cx = gModel_pBackgroundRecord->clut_x;
     sprite.cy = gModel_pBackgroundRecord->clut_y;
     sprite.w = 64;
-    pitch_bits = *(u16 *)&gModel_wBackgroundOffsetY;
-    y = pitch_bits - 48;
-    sprite.u = ubase;
-    sprite.v = vbase;
+    background_offset_bits = *(u16 *)&gModel_wBackgroundOffsetY;
+    initial_sprite_y = background_offset_bits - 48;
+    sprite.u = texture_u_base;
+    sprite.v = texture_v_base;
     sprite.h = 256;
-    sprite.y = y;
+    sprite.y = initial_sprite_y;
     minimum_y = -(gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
-    if ((s16)pitch_bits >= minimum_y && y >= minimum_y) {
-        if (y > 0)
+    if ((s16)background_offset_bits >= minimum_y && initial_sprite_y >= minimum_y) {
+        if (initial_sprite_y > 0)
             sprite.y = 0;
         if (sprite.y < 0) {
             sprite.v = __builtin_abs(sprite.y);
             sprite.y = 0;
         }
         {
-            s32 end = sprite.y + 256;
-            s32 edge = (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + (s16)pitch_bits;
-            s32 full_height;
-            s32 amount;
-            if (edge < BACKGROUND_RENDER_CLIP_LIMIT) {
-                if (edge >= end)
+            s32 screen_end_y = sprite.y + 256;
+            s32 screen_limit_y = (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + (s16)background_offset_bits;
+            s32 screen_input_height;
+            s32 screen_trim_amount;
+            if (screen_limit_y < BACKGROUND_RENDER_CLIP_LIMIT) {
+                if (screen_limit_y >= screen_end_y)
                     goto second_clip;
-            } else if (end < BACKGROUND_RENDER_CLIP_LIMIT) {
+            } else if (screen_end_y < BACKGROUND_RENDER_CLIP_LIMIT) {
                 goto second_clip;
             }
-            full_height = sprite.h;
-            amount = sprite.y + full_height -
+            screen_input_height = sprite.h;
+            screen_trim_amount = sprite.y + screen_input_height -
                 ((gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + gModel_wBackgroundOffsetY);
-            sprite.h = full_height - (amount < full_height ? amount : full_height);
+            sprite.h = screen_input_height - (screen_trim_amount < screen_input_height ? screen_trim_amount : screen_input_height);
         }
 second_clip:
         {
-            s32 end = sprite.v + sprite.h;
-            s32 edge = gModel_pBackgroundRecord->texture_height_flags & 0x1FFF;
-            s32 full_height;
-            s32 amount;
-            if ((u32)edge < BACKGROUND_RENDER_CLIP_LIMIT) {
-                if (edge < end)
+            s32 texture_end_v = sprite.v + sprite.h;
+            s32 texture_limit_v = gModel_pBackgroundRecord->texture_height_flags & 0x1FFF;
+            s32 texture_input_height;
+            s32 texture_trim_amount;
+            if ((u32)texture_limit_v < BACKGROUND_RENDER_CLIP_LIMIT) {
+                if (texture_limit_v < texture_end_v)
                     goto trim_texture;
                 goto tiles;
             }
-            if (end < BACKGROUND_RENDER_CLIP_LIMIT)
+            if (texture_end_v < BACKGROUND_RENDER_CLIP_LIMIT)
                 goto tiles;
 trim_texture:
-            full_height = sprite.h;
-            amount =
-                sprite.v + full_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
-            sprite.h = full_height - (amount < full_height ? amount : full_height);
+            texture_input_height = sprite.h;
+            texture_trim_amount =
+                sprite.v + texture_input_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
+            sprite.h = texture_input_height - (texture_trim_amount < texture_input_height ? texture_trim_amount : texture_input_height);
         }
 tiles:
         sprite.x = (s16)*(u16 *)&gModel_wBackgroundScrollX / 10 -
@@ -130,10 +130,10 @@ tiles:
             if (sprite.x + sprite.w > 0)
                 GsSortFastSprite(&sprite, gGraphics_apOrderingTables[3],
                     (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
-            amount = (sprite.u + sprite.w) %
+            wrapped_u = (sprite.u + sprite.w) %
                 (u16)(gModel_pBackgroundRecord->texture_width / 10u);
             sprite.x += sprite.w;
-            sprite.u = amount + ubase;
+            sprite.u = wrapped_u + texture_u_base;
         }
     }
     if (!(gModel_pBackgroundRecord->flags & 1))
@@ -168,24 +168,24 @@ tiles:
     vertices[0].vx = 1000;
     vertices[2].vx = 1600;
     vertices[4].vx = 2200;
-    vertices[0].vy = height;
+    vertices[0].vy = ring_height;
     vertices[0].vz = 0;
-    vertices[2].vy = height;
+    vertices[2].vy = ring_height;
     vertices[2].vz = 0;
-    vertices[4].vy = height;
+    vertices[4].vy = ring_height;
     vertices[4].vz = 0;
     vertices[6].vx = 2800;
-    vertices[6].vy = height;
+    vertices[6].vy = ring_height;
     vertices[6].vz = 0;
-    vertices[1].vy = height;
-    vertices[3].vy = height;
-    vertices[5].vy = height;
-    vertices[7].vy = height;
+    vertices[1].vy = ring_height;
+    vertices[3].vy = ring_height;
+    vertices[5].vy = ring_height;
+    vertices[7].vy = ring_height;
     GsSetLsMatrix(Model_GetLightSourceMatrix());
-    phase = 256;
+    ring_angle = 256;
     do {
-        cosine = rcos(phase);
-        sine = rsin(phase);
+        cosine = rcos(ring_angle);
+        sine = rsin(ring_angle);
         vertices[1].vx = 1000 * cosine / 4096;
         vertices[1].vz = 1000 * sine / 4096;
         vertices[3].vx = 1600 * cosine / 4096;
@@ -194,11 +194,11 @@ tiles:
         vertices[5].vz = 2200 * sine / 4096;
         vertices[7].vx = 2800 * cosine / 4096;
         vertices[7].vz = 2800 * sine / 4096;
-        first_depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
+        inner_band_depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
             (PSXLONG *)&polygons[0].x0, (PSXLONG *)&polygons[0].x1,
             (PSXLONG *)&polygons[0].x2, (PSXLONG *)&polygons[0].x3,
             &projection[0], &projection[1]);
-        second_depth = RotAverage4(&vertices[4], &vertices[5], &vertices[6], &vertices[7],
+        outer_band_depth = RotAverage4(&vertices[4], &vertices[5], &vertices[6], &vertices[7],
             (PSXLONG *)&polygons[2].x0, (PSXLONG *)&polygons[2].x1,
             (PSXLONG *)&polygons[2].x2, (PSXLONG *)&polygons[2].x3,
             &projection[2], &projection[3]);
@@ -210,24 +210,24 @@ tiles:
         polygons[1].y2 = (u16)polygons[2].y0;
         polygons[1].x3 = (u16)polygons[2].x1;
         polygons[1].y3 = (u16)polygons[2].y1;
-        if (first_depth >= 0) {
+        if (inner_band_depth >= 0) {
             GsSortPoly(&polygons[0], gGraphics_apOrderingTables[3],
                 (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
-        } else if (second_depth < 0) {
+        } else if (outer_band_depth < 0) {
             goto advance;
         }
         GsSortPoly(&polygons[1], gGraphics_apOrderingTables[3],
             (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
-        if (second_depth >= 0)
+        if (outer_band_depth >= 0)
             GsSortPoly(&polygons[2], gGraphics_apOrderingTables[3],
                 (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
 advance:
-        phase += 256;
+        ring_angle += 256;
         vertices[0] = vertices[1];
         vertices[2] = vertices[3];
         vertices[4] = vertices[5];
         vertices[6] = vertices[7];
-    } while (phase <= 4096);
+    } while (ring_angle <= 4096);
 }
 
 /* These historical COMMON definitions retain the post-mfhi delay slot.
@@ -253,68 +253,68 @@ s16 gModel_wViewPitchSnapshot;
  */
 void Model_UpdateBackgroundScroll(s32 force)
 {
-    s32 dy;
-    s32 dz;
-    s32 t;
-    s32 a;
-    s32 b;
-    s32 u;
-    s32 r;
-    s32 m;
+    s32 yaw_delta;
+    s32 pitch_delta;
+    s32 initial_turn_difference;
+    s32 initial_pitch;
+    s32 reloaded_pitch;
+    s32 reloaded_turn_difference;
+    s32 background_offset_y;
+    s32 texture_width;
 
-    dy = gModel_wViewYaw - gModel_wViewYawSnapshot;
-    dz = gModel_wViewPitch - gModel_wViewPitchSnapshot;
-    if (__builtin_abs(dy) >= 0x801) {
-        if (dy > 0) {
-            dy -= MODEL_ANGLE_FULL_TURN;
+    yaw_delta = gModel_wViewYaw - gModel_wViewYawSnapshot;
+    pitch_delta = gModel_wViewPitch - gModel_wViewPitchSnapshot;
+    if (__builtin_abs(yaw_delta) >= 0x801) {
+        if (yaw_delta > 0) {
+            yaw_delta -= MODEL_ANGLE_FULL_TURN;
         } else {
-            dy += MODEL_ANGLE_FULL_TURN;
+            yaw_delta += MODEL_ANGLE_FULL_TURN;
         }
     }
-    if (force != 0 || dy != 0) {
-        m = gModel_pBackgroundRecord->texture_width;
-        gModel_wBackgroundScrollX = (dy * 1280 / 384 + gModel_wBackgroundScrollX + m) % m;
+    if (force != 0 || yaw_delta != 0) {
+        texture_width = gModel_pBackgroundRecord->texture_width;
+        gModel_wBackgroundScrollX = (yaw_delta * 1280 / 384 + gModel_wBackgroundScrollX + texture_width) % texture_width;
     }
-    if (force != 0 || dz != 0) {
-        a = gModel_wViewPitch;
-        if (a < 0x801) {
+    if (force != 0 || pitch_delta != 0) {
+        initial_pitch = gModel_wViewPitch;
+        if (initial_pitch < 0x801) {
             goto low;
         }
-        t = a - MODEL_ANGLE_FULL_TURN;
-        if (t < 0) {
+        initial_turn_difference = initial_pitch - MODEL_ANGLE_FULL_TURN;
+        if (initial_turn_difference < 0) {
             goto neg_side;
         }
-        r = -0x139;
-        if (t < MODEL_ANGLE_QUARTER_TURN) {
+        background_offset_y = -0x139;
+        if (initial_turn_difference < MODEL_ANGLE_QUARTER_TURN) {
             goto compute;
         }
         goto store;
 neg_side:
-        r = -0x139;
-        if (MODEL_ANGLE_FULL_TURN - a >= MODEL_ANGLE_QUARTER_TURN) {
+        background_offset_y = -0x139;
+        if (MODEL_ANGLE_FULL_TURN - initial_pitch >= MODEL_ANGLE_QUARTER_TURN) {
             goto store;
         }
 compute:
-        b = gModel_wViewPitch;
-        u = b - MODEL_ANGLE_FULL_TURN;
-        if (u < 0) {
+        reloaded_pitch = gModel_wViewPitch;
+        reloaded_turn_difference = reloaded_pitch - MODEL_ANGLE_FULL_TURN;
+        if (reloaded_turn_difference < 0) {
             goto sub_form;
         }
-        r = -(u * 26) / 85;
+        background_offset_y = -(reloaded_turn_difference * 26) / 85;
         goto store;
 sub_form:
-        r = -((MODEL_ANGLE_FULL_TURN - b) * 26) / 85;
+        background_offset_y = -((MODEL_ANGLE_FULL_TURN - reloaded_pitch) * 26) / 85;
         goto store;
 low:
-        if (a >= MODEL_ANGLE_QUARTER_TURN) {
+        if (initial_pitch >= MODEL_ANGLE_QUARTER_TURN) {
             goto clamp_pos;
         }
-        r = (a * 26) / 85;
+        background_offset_y = (initial_pitch * 26) / 85;
         goto store;
 clamp_pos:
-        r = 0x139;
+        background_offset_y = 0x139;
 store:
-        gModel_wBackgroundOffsetY = r;
+        gModel_wBackgroundOffsetY = background_offset_y;
     }
     gModel_ViewSnapshot = gModel_wViewDistance;
 }
