@@ -333,8 +333,10 @@ addresses.
 Twelve images under French headers 419 and 569 build their entry from the North
 American header-402 entry (`model_variant/variant402_entry.c`) through
 `french_model_variant/variant419_entry{,_slot1}.c` under `gcc_2_8_1_g0_split`.
-The wrappers set the PAL palette x (`640` instead of `512`) and the data and
-helper addresses, which sit four bytes lower than in the North American images.
+The wrappers set the PAL palette x (`640` instead of `512`) and the French
+addresses: the data sit four bytes higher (`CD0C`->`CD10`, `CD44`->`CD48`), the
+swarm helper four bytes lower (`C1E0`->`C1DC`) and the quad helper eight bytes
+lower (`C778`->`C770`) than in the North American images.
 The swarm and quad helpers keep their accepted `variant419_{swarm,quads}` C, and
 `model_variant419_linker_symbols.txt` now also binds the entry's resident calls.
 

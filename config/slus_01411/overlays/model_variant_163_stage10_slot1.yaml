@@ -58,4 +58,18 @@ segments:
       - [0x11E0, c, overlays/model_variant/variant402_swarm_slot1]
       - [0x1778, c, overlays/model_variant/variant402_quads_slot1]
       - [0x1C48, data, overlays/model_variant_163_stage10_slot1/data]
+  - name: unmatched_44d0
+    type: code
+    start: 0x44D0
+    vram: 0x8017F4D0
+    align: 4
+    subsegments:
+      - [0x44D0, asm, overlays/model_variant_163_stage10_slot1/unmatched_44d0]
+  - name: tail
+    type: code
+    start: 0x47FC
+    vram: 0x8017F7FC
+    align: 4
+    subsegments:
+      - [0x47FC, data, overlays/model_variant_163_stage10_slot1/tail]
   - [0x5000]

@@ -269,7 +269,8 @@ twenty-seven under headers 176 and 306 (`variant176_entry.c`; see the
 [USA header-176 note](../../../notes/overlays/usa-model-variant176.md)),
 twelve under headers 402 and 552 (`variant402_entry.c`, with the swarm and
 quad helpers built from the French header-419 helper C through
-`variant402_{swarm,quads}.c`),
+`variant402_{swarm,quads}.c`; the header-552 model-163 image also keeps its
+unreached `func_8017F4D0` as generated assembly),
 fourteen under headers 627 and 694 (`variant627_entry.c`; see the
 [USA header-627 note](../../../notes/overlays/usa-model-variant627.md)),
 thirteen under headers 634 and 701 (`variant634_entry.c`; see the
