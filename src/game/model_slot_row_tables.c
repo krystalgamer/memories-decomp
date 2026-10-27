@@ -29,20 +29,20 @@ s32 tent_Model_RebaseTexturedPrimitives(
     s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx, s32 *max_lit_color_index, s32 *packet_bytes
 )
 {
-    ModelPrimitiveBlockHeader *hdr;
-    u8 *rec;
-    u8 *base;
+    ModelPrimitiveBlockHeader *primitive_header;
+    u8 *primitive_record;
+    u8 *primitive_base;
     u8 *p;
     u8 *q;
-    s32 count;
-    s32 n;
-    s32 off1;
+    s32 record_count;
+    s32 remaining_records;
+    s32 page_word_offset;
     s32 off2;
-    s32 stride;
-    s32 step;
-    s32 add1;
-    s32 add2;
-    s32 f;
+    s32 record_stride;
+    s32 packet_size;
+    s32 page_bias;
+    s32 clut_bias;
+    s32 color_depth;
 #ifdef VERSION_EUROPE
     s32 v;
     u8 *field;
@@ -56,18 +56,18 @@ s32 tent_Model_RebaseTexturedPrimitives(
 #ifndef VERSION_EUROPE
     s32 y;
 #endif
-    u32 k;
+    u32 primitive_kind;
 
 #ifdef VERSION_EUROPE
 #define MODEL_SECOND_OFFSET v
 #else
 #define MODEL_SECOND_OFFSET off2
 #endif
-    hdr = (ModelPrimitiveBlockHeader *)ctx->primp;
-    base = (u8 *)((GsARGUNIT_NORMAL *)ctx)->primtop;
-    count = hdr->record_count;
-    rec = base + hdr->word_offset * 4;
-    n = count;
+    primitive_header = (ModelPrimitiveBlockHeader *)ctx->primp;
+    primitive_base = (u8 *)((GsARGUNIT_NORMAL *)ctx)->primtop;
+    record_count = primitive_header->record_count;
+    primitive_record = primitive_base + primitive_header->word_offset * 4;
+    remaining_records = record_count;
 #ifdef VERSION_EUROPE
     if ((u32)slot_index >= 3) {
 #else
@@ -79,75 +79,75 @@ s32 tent_Model_RebaseTexturedPrimitives(
     off2 = (u16)unit->type;
     switch ((u32)off2) {
 #else
-    k = (u16)unit->type;
-    switch (k) {
+    primitive_kind = (u16)unit->type;
+    switch (primitive_kind) {
 #endif
     case 9:
-        off1 = 6;
+        page_word_offset = 6;
         MODEL_SECOND_OFFSET = 2;
-        stride = 0x14;
-        step = 0x20;
+        record_stride = 0x14;
+        packet_size = 0x20;
         break;
     case 0x209:
-        off1 = 0xA;
+        page_word_offset = 0xA;
         MODEL_SECOND_OFFSET = 6;
-        stride = 0x18;
-        step = 0x20;
+        record_stride = 0x18;
+        packet_size = 0x20;
         break;
     case 0xD:
-        off1 = 6;
+        page_word_offset = 6;
         MODEL_SECOND_OFFSET = 2;
-        stride = 0x18;
-        step = 0x28;
+        record_stride = 0x18;
+        packet_size = 0x28;
         break;
     case 0x20D:
-        off1 = 0xA;
+        page_word_offset = 0xA;
         MODEL_SECOND_OFFSET = 6;
-        stride = 0x1C;
-        step = 0x28;
+        record_stride = 0x1C;
+        packet_size = 0x28;
         break;
     case 0x11:
-        off1 = 6;
+        page_word_offset = 6;
         MODEL_SECOND_OFFSET = 2;
-        stride = 0x18;
-        step = 0x28;
+        record_stride = 0x18;
+        packet_size = 0x28;
         break;
     case 0x211:
-        off1 = 0xA;
+        page_word_offset = 0xA;
         MODEL_SECOND_OFFSET = 6;
-        stride = 0x1C;
-        step = 0x28;
+        record_stride = 0x1C;
+        packet_size = 0x28;
         break;
     case 0x15:
-        off1 = 6;
+        page_word_offset = 6;
         MODEL_SECOND_OFFSET = 2;
-        stride = 0x1C;
-        step = 0x34;
+        record_stride = 0x1C;
+        packet_size = 0x34;
         break;
     case 0x215:
-        off1 = 0xA;
+        page_word_offset = 0xA;
         MODEL_SECOND_OFFSET = 6;
-        stride = 0x20;
-        step = 0x34;
+        record_stride = 0x20;
+        packet_size = 0x34;
         break;
     default:
         return 0;
     }
 
-    if (--n != -1) {
-        add1 = (slot_index << 2) - 0xA;
-        add2 = (slot_index << 4) + 0x3BD8;
+    if (--remaining_records != -1) {
+        page_bias = (slot_index << 2) - 0xA;
+        clut_bias = (slot_index << 4) + 0x3BD8;
 #ifdef VERSION_EUROPE
-        p = rec + 0x1C;
-        q = rec + MODEL_SECOND_OFFSET;
+        p = primitive_record + 0x1C;
+        q = primitive_record + MODEL_SECOND_OFFSET;
 #endif
         do {
 #ifdef VERSION_EUROPE
-            field = rec + off1;
+            field = primitive_record + page_word_offset;
             off2 = MODEL_CHANNEL_HALFWORD(field);
             v = ((u32)off2 >> 7) & 3;
             if (slot_index < 2) {
-                off2 += add1;
+                off2 += page_bias;
                 MODEL_CHANNEL_HALFWORD(field) = off2;
                 if (v >= 3) {
                     MODEL_CHANNEL_HALFWORD(field) = off2 & 0xFF7F;
@@ -188,18 +188,18 @@ s32 tent_Model_RebaseTexturedPrimitives(
             }
 #else
             if (slot_index < 2) {
-                p = rec + off1;
+                p = primitive_record + page_word_offset;
                 v = MODEL_CHANNEL_HALFWORD(p);
-                adjusted = v + add1;
+                adjusted = v + page_bias;
                 MODEL_CHANNEL_HALFWORD(p) = adjusted;
-                f = (v >> 7) & 3;
-                if (f >= 3) {
+                color_depth = (v >> 7) & 3;
+                if (color_depth >= 3) {
                     MODEL_CHANNEL_HALFWORD(p) = adjusted & 0xFF7F;
                 }
-                if (f < 2) {
-                    q = rec + off2;
+                if (color_depth < 2) {
+                    q = primitive_record + off2;
                     v = MODEL_CHANNEL_HALFWORD(q);
-                    y = v + add2;
+                    y = v + clut_bias;
                     MODEL_CHANNEL_HALFWORD(q) = y;
                     x = v >> 6;
                     if (x >= 0x10) {
@@ -222,14 +222,14 @@ s32 tent_Model_RebaseTexturedPrimitives(
 #ifdef VERSION_EUROPE
 #define MODEL_MAX_VALUE(offset) (*(u16 *)(p + (offset) - 0x1C))
 #else
-#define MODEL_MAX_VALUE(offset) (*(u16 *)(rec + (offset)))
+#define MODEL_MAX_VALUE(offset) (*(u16 *)(primitive_record + (offset)))
 #endif
 #ifdef VERSION_EUROPE
                 off2 = (u16)unit->type;
                 switch ((u32)off2) {
 #else
-                k = (u16)unit->type;
-                switch (k) {
+                primitive_kind = (u16)unit->type;
+                switch (primitive_kind) {
 #endif
                 case 9:
                     MODEL_CURRENT_MAX = *max_lit_color_index;
@@ -351,15 +351,15 @@ s32 tent_Model_RebaseTexturedPrimitives(
 #undef MODEL_MAX_VALUE
             }
 #ifdef VERSION_EUROPE
-            p = p + stride;
-            q += stride;
+            p = p + record_stride;
+            q += record_stride;
 #endif
-            rec = rec + stride;
-            *packet_bytes = *packet_bytes + step;
-        } while (--n != -1);
+            primitive_record = primitive_record + record_stride;
+            *packet_bytes = *packet_bytes + packet_size;
+        } while (--remaining_records != -1);
     }
 #undef MODEL_SECOND_OFFSET
-    return count;
+    return record_count;
 }
 #endif
 
