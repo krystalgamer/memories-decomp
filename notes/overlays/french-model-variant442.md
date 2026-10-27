@@ -20,7 +20,7 @@ stages and models are not covered.
 
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
-| `0x4..0x1174` | 4464 | generated assembly | yes |
+| `0x4..0x1174` | 4464 | entry C | yes |
 | `0x1174..0x1560` | 1004 | sheet C | yes |
 | `0x1560..0x1F2C` | 2508 | spiral C | yes |
 | `0x1F2C..0x2924` | 2552 | rays C | yes |
@@ -35,7 +35,10 @@ Strict walks cover all ten functions with one terminal return per span and
 no unresolved indirect transfer. Entry reaches only the first five
 functions. The sheet, spiral, rays and webs C helpers are entry-reachable; the other five C helpers
 remain retained module-local code without a demonstrated entry execution
-path. Real storage owners preserve each
+path. The entry is the accepted North American header-425 body with the PAL
+palette x = 640 (`variant442_entry{,_slot1}.c`); see
+[French MODEL entries reusing North American C](french-model-usa-entry-reuse.md).
+Real storage owners preserve each
 four-byte header and 3,024-byte suffix at `0x4430..0x5000`; the suffix is
 explicitly unclassified, not established non-code.
 
