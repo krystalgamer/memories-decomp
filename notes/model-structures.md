@@ -93,7 +93,7 @@ Verified shared fields and partial arrays are:
 | `0xBF5` | `current_animation_row` | `Model_GetSlotAnimationIndex` returns it; `Model_GetSlotAnimationLength` uses it to select an animation row, while `Model_SeekSlotAnimation` stores an animation row after seeking each part to it |
 | `0xBF6` | `queued_animation_row_latch` | acknowledged queue value; can be invalidated or copied without a seek |
 | `0xBF8` | `sound_entries[64]` | `model_slot_control.c` clears 64 four-byte records; `Model_PlaySlotAnimationSounds` reads each record as `{animation_row, sound_id, flags}` |
-| `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `Model_StartBattleSlotAction` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
+| `0xCF8` | `metadata`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `Model_StartBattleSlotAction` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `Model_GetSlotDataEntry`, `Model_GetCurrentDataEntry`, and `Model_TransformPartVertex` |
 | `0xD18` | `root_coordinate` | `Model_BuildCameraRelativeCoordinateUnit` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
 | `0xD1C` | `render_parent_coordinate` | selected parent/fallback for child scaling and world-position bounds; not the parent of every rendered unit |
@@ -1006,3 +1006,53 @@ their qualified users change; other field_00/field_02 members and the
 unrelated Spanish variant408 field_DFC remain untouched. All types,
 offsets, existing assertions, signed reads, narrowing, comparisons,
 copy/write order, source groups, profiles and existing controls remain.
+
+## Loaded model metadata storage and copy views
+
+ModelSlot.metadata is the original 0x1C-byte field_CF8 block at +0xCF8.
+ModelTransferMetadata.metadata is the original seven-word field_CF8 payload
+at +0x100, following the unchanged 0x100-byte sound-entry region.
+The existing package-transfer callbacks copy that staged payload into the
+slot at phases 16 and 10; their different compare-value overrides,
+command resets, draw-mode test and load-step publication remain exact.
+This identifies loaded MODEL metadata, not a universal card-stat record
+or a promise that every field retains its asset value after loading.
+
+The shared physical views are ModelSlotMetadataPrefix (formerly
+ModelSlotCF8Prefix), ModelSlotMetadataBlock (ModelSlotCF8Block), and
+ModelSlotMetadataBlockWords (ModelSlotCF8BlockWords). The prefix stays a
+12-byte UNION of byte, comparison-value and threshold arms. The block
+still adds two u16 camera overrides and THREE s32 module commands.
+The SEPARATE word-copy type stays u32[7]; do not replace the mixed view
+with it or unify their alignment and assignment lowering.
+
+All three named command widths, guardian-star bytes, camera overrides,
+thresholds, sizes, offsets and assertion expressions remain. The two
+storage declarations and their matching assertion-label identifiers
+change names only. The renderer keeps its signed-byte view and original
+offset arithmetic; the dimension helpers keep their distinct floor/
+override policies. Slot-control, scene, reset and transfer accesses use
+the same storage, without an extra copy, allocation or new access path.
+
+ModelSlotCF8TailView deliberately keeps its address-rooted name and
+FULL 0x108-byte extent. It reaches BEYOND the loaded 28-byte block through
+the independent guardian-star selection/defense-position bytes.
+gModel_Slot0MetadataView retains that exact type, interior label,
+relocation and slot-stride construction. The rename does not claim
+ownership of the intervening bytes or replace it with member indexing.
+The prefix values.field_08 remains opaque: its word view overlaps two
+dimension thresholds AND the guardian-star option bytes. It is not
+reclassified as a universal flags word. Other raw members stay as they are.
+
+Older CF8 spellings elsewhere in the historical recovery notes identify
+the same physical evidence; this section records their canonical names.
+The ygo_types.h copy-alignment comment follows only the renamed word-view
+type. No unrelated shared layout, global, function, SDK declaration,
+compiler profile or accepted grouping changes.
+
+Existing model-control C fragments and Spanish479 curtain/sheet layout
+constants receive FOURTEEN identifier substitutions across NINE existing
+Python string constants, with complete-file inverses. Every operator,
+literal, oracle, scenario, mutation, numeric expectation, count, compiler
+flag and control remains. No fixture was imported/executed locally and
+no synthetic/generated-C/source-string behavioral harness is added.

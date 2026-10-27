@@ -183,7 +183,7 @@ void Model_DrawSlot(s32 index)
         ordering_table = gGraphics_pOrderingTable2[1];
     }
     slot = &gModel_aSlots[index];
-    blk = (s8 *)&slot->field_CF8;
+    blk = (s8 *)&slot->metadata;
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
     texture_y = (index << 4) + 0xD0;
 #endif

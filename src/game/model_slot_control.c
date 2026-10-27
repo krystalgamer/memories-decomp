@@ -280,7 +280,7 @@ void Model_UpdateSlotControl(s32 index)
         do { base = (s32)gModel_aSlots; } while (0);
         other = (ModelSlot *)(other_offset + base);
         own_offset = index * MODEL_SLOT_SIZE;
-        stat_base = base + (u32)&((ModelSlot *)0)->field_CF8;
+        stat_base = base + (u32)&((ModelSlot *)0)->metadata;
         own_record = own_offset + stat_base;
         other_record = other_offset + stat_base;
         if (other->defense_position != 0) {
@@ -516,9 +516,9 @@ void Model_ResetSlot(s32 arg0)
         p->sound_entries[i].animation_row = 0;
     }
 
-    p->field_CF8.first_star_module_command = -1;
-    p->field_CF8.second_star_module_command = -1;
-    p->field_CF8.primary_module_command = -1;
+    p->metadata.first_star_module_command = -1;
+    p->metadata.second_star_module_command = -1;
+    p->metadata.primary_module_command = -1;
     p->playback_state = 0x3E;
     p->is_active = 0;
     Model_InitLightTriplet(arg0);
@@ -1186,21 +1186,21 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *d, s32 stage)
             (const s32 *)source,
             MODEL_SLOT_SOUND_ENTRY_COUNT
         );
-        *(ModelSlotCF8BlockWords *)&slot->field_CF8 =
-            ((ModelTransferMetadata *)source)->field_CF8;
-        if (slot->field_CF8.prefix.values.field_08 & 0x20200000) {
+        *(ModelSlotMetadataBlockWords *)&slot->metadata =
+            ((ModelTransferMetadata *)source)->metadata;
+        if (slot->metadata.prefix.values.field_08 & 0x20200000) {
             Model_SetSlotDrawMode(index, 4);
         }
         if (slot->attack_compare_override < 0xFFFF) {
-            slot->field_CF8.prefix.values.attack_compare_value = slot->attack_compare_override;
+            slot->metadata.prefix.values.attack_compare_value = slot->attack_compare_override;
         }
         if (slot->defense_compare_override < 0xFFFF) {
-            slot->field_CF8.prefix.values.defense_compare_value = slot->defense_compare_override;
+            slot->metadata.prefix.values.defense_compare_value = slot->defense_compare_override;
         }
         if (slot->skip_sound_setup != 0) {
-            slot->field_CF8.first_star_module_command = -1;
-            slot->field_CF8.second_star_module_command = -1;
-            slot->field_CF8.primary_module_command = -1;
+            slot->metadata.first_star_module_command = -1;
+            slot->metadata.second_star_module_command = -1;
+            slot->metadata.primary_module_command = -1;
         }
         slot->load_step = 1;
         break;
@@ -1407,13 +1407,13 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
             (const s32 *)src,
             MODEL_SLOT_SOUND_ENTRY_COUNT
         );
-        *(ModelSlotCF8BlockWords *)&dst->field_CF8 =
-            ((ModelTransferMetadata *)src)->field_CF8;
-        dst->field_CF8.first_star_module_command = -1;
-        dst->field_CF8.second_star_module_command = -1;
-        dst->field_CF8.primary_module_command = -1;
-        dst->field_CF8.prefix.values.attack_compare_value = 0;
-        dst->field_CF8.prefix.values.defense_compare_value = 0;
+        *(ModelSlotMetadataBlockWords *)&dst->metadata =
+            ((ModelTransferMetadata *)src)->metadata;
+        dst->metadata.first_star_module_command = -1;
+        dst->metadata.second_star_module_command = -1;
+        dst->metadata.primary_module_command = -1;
+        dst->metadata.prefix.values.attack_compare_value = 0;
+        dst->metadata.prefix.values.defense_compare_value = 0;
         dst->load_step = 1;
         break;
     }
@@ -1541,7 +1541,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
    {x (if positive), y, z}. */
 void Model_GetSlotDimensionsWithMinimums(s32 idx, ModelEffectAdjustment *out) {
     ModelSlot *rec = &gModel_aSlots[idx];
-    ModelSlotCF8Prefix *cf8 = &rec->field_CF8.prefix;
+    ModelSlotMetadataPrefix *cf8 = &rec->metadata.prefix;
 
     *out = *(ModelEffectAdjustment *)rec->cached_dimensions;
 

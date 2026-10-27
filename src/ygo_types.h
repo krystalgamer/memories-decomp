@@ -241,7 +241,7 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
    lowers to the same two unaligned move pairs.
 
    The element type is what this type is for, and it is load-bearing for the
-   reason model.h:113-124 gives about ModelSlotCF8BlockWords -- the element
+   reason model.h:113-124 gives about ModelSlotMetadataBlockWords -- the element
    type sets the alignment and the alignment sets the move width. Here `u8`
    gives alignment 1, so the assignment lowers to the unaligned move pair
    rather than to word loads. The three targets say so directly -- an eight-byte

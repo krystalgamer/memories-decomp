@@ -114,7 +114,7 @@ static s32 module(s32 side, s32 secondary, u8 *context, s32 command)
     if (command != -1) return 0;
     executed = 1;
     if (mutate) {
-        u16 *stats = (u16 *)&other->field_CF8;
+        u16 *stats = (u16 *)&other->metadata;
         stats[0] ^= 0x20;
         other->defense_position ^= 1;
     }
@@ -193,8 +193,8 @@ void SD_SEPlay(s32 id, s32 volume, s32 pan)
 
 static s32 selection(ModelSlot *self, ModelSlot *other, s32 index)
 {
-    u16 *a = (u16 *)&self->field_CF8;
-    u16 *b = (u16 *)&other->field_CF8;
+    u16 *a = (u16 *)&self->metadata;
+    u16 *b = (u16 *)&other->metadata;
     if (other->defense_position) return a[0] > b[1] ? 6 : 8;
     if (a[0] > b[0]) return 6;
     if (a[0] < b[0]) return 5;
@@ -331,8 +331,8 @@ static void setup(void)
     other->current_animation_row = 4;
     other->defense_position = defense;
     other->model_id = serial & 1;
-    a = (u16 *)&self->field_CF8;
-    b = (u16 *)&other->field_CF8;
+    a = (u16 *)&self->metadata;
+    b = (u16 *)&other->metadata;
     a[0] = serial & 8 ? 0xFFFF : 100;
     b[0] = relation == 0 ? a[0] - 1 : relation == 1 ? a[0] : (u16)(a[0] + 1);
     b[1] = relation == 0 ? a[0] - 1 : a[0];
@@ -346,7 +346,7 @@ s32 main(void)
     u32 cases = 0;
     /* Observe the linker alias at runtime instead of folding distinct names. */
     volatile u32 linked_alias = (u32)&gModel_Slot0MetadataView;
-    volatile u32 parent_field = (u32)&gModel_aSlots[0].field_CF8;
+    volatile u32 parent_field = (u32)&gModel_aSlots[0].metadata;
     if (sizeof(void *) != 4 || linked_alias != parent_field) return 90;
     for (chosen_index = 0; chosen_index < 2; chosen_index++)
     for (initial_state = 0; initial_state < 9; initial_state++)
