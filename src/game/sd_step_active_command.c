@@ -34,18 +34,18 @@ void SD_StepActiveCommand(void)
                 return;
             }
             {
-                SDValue *sd = g_SDValue;
-                FileRequestSlot *b = gSD_pFileRequest;
-                s32 final_word;
+                SDValue *transfer_state = g_SDValue;
+                FileRequestSlot *request = gSD_pFileRequest;
+                s32 spu_size;
 
-                b->ram_destination = (s32)sd->active_command_tail[4];
-                b->spu_destination = (s32)sd->active_command_tail[3];
-                b->sector_offset = (s32)sd->active_command_tail[1];
-                b->ram_transfer_size = (s32)sd->active_command_tail[6];
-                final_word = (s32)sd->active_command_tail[5];
-                b->cd_filter_channel = 0;
-                b->range_sector_count = 0;
-                b->spu_transfer_size = final_word;
+                request->ram_destination = (s32)transfer_state->active_command_tail[4];
+                request->spu_destination = (s32)transfer_state->active_command_tail[3];
+                request->sector_offset = (s32)transfer_state->active_command_tail[1];
+                request->ram_transfer_size = (s32)transfer_state->active_command_tail[6];
+                spu_size = (s32)transfer_state->active_command_tail[5];
+                request->cd_filter_channel = 0;
+                request->range_sector_count = 0;
+                request->spu_transfer_size = spu_size;
                 gSD_pFileRequest->cd_filter_file = 0;
             }
             gSD_pFileRequest->file_selector = (s32)g_SDValue->active_command_tail[0];

@@ -3,6 +3,6 @@
 
 #include "../types.h"
 
-void SD_QueueValueLinkTransfer(s32 index);
+void SD_QueueValueLinkTransfer(s32 link_index);
 
 #endif

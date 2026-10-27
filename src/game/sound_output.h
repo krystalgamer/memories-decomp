@@ -18,13 +18,19 @@ void SD_VSync(void);
 /* Both fade the CD out and queue file-transfer command 32 with a sector
    offset and a source selector (0x10, 0x20 or 0x40). SD_StepActiveCommand
    copies the tail into the FileRequestSlot that SD_ConfigureTransferPhase
-   consumes: an SPU phase (destination, byte count) written through SpuWrite
+   consumes: an SPU phase (destination, encoded size) written through SpuWrite
    one staged sector at a time, then a RAM phase read directly to its
    destination. SD_EnqueueRamTransfer(ram, offset, ram_size, source) queues
    only the RAM phase; SD_EnqueueSpuRamTransfer(spu, ram, offset, spu_size,
-   ram_size, source) queues both. */
-void SD_EnqueueRamTransfer(s32 first, s32 second, s32 third, s32 fourth);
-void SD_EnqueueSpuRamTransfer(s32, s32, s32, s32, s32, s32);
+   ram_size, source) queues both. Size parameters remain positive byte
+   counts or negated sector counts; zero skips that phase. */
+void SD_EnqueueRamTransfer(
+    s32 ram_destination, s32 sector_offset, s32 ram_size, s32 source_selector
+);
+void SD_EnqueueSpuRamTransfer(
+    s32 spu_destination, s32 ram_destination, s32 sector_offset,
+    s32 spu_size, s32 ram_size, s32 source_selector
+);
 /* Prepares a BGM command without starting it: bit-15 ids queue a CD seek,
    other ids queue their music package load. */
 void SD_BGMPreload(s32 arg0);
