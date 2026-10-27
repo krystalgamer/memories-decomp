@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C66C
     align: 4
     subsegments:
-      - [0x166C, asm, overlays/french_model_variant_573_stage9_slot0/unmatched_166C]
+      - [0x166C, c, overlays/french_model_variant/variant465_arms]
   - name: helper_256C
     type: code
     start: 0x256C

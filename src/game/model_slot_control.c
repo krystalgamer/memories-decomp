@@ -1540,27 +1540,27 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
    by 16, with 0 meaning "no clamp". Finally sets out->max to the largest of
    {x (if positive), y, z}. */
 void Model_GetSlotDimensionsWithMinimums(s32 idx, ModelEffectAdjustment *out) {
-    ModelSlot *rec = &gModel_aSlots[idx];
-    ModelSlotMetadataPrefix *cf8 = &rec->metadata.prefix;
+    ModelSlot *dimension_slot = &gModel_aSlots[idx];
+    ModelSlotMetadataPrefix *metadata_prefix = &dimension_slot->metadata.prefix;
 
-    *out = *(ModelEffectAdjustment *)rec->cached_dimensions;
+    *out = *(ModelEffectAdjustment *)dimension_slot->cached_dimensions;
 
-    if (cf8->thresholds.min_x != 0) {
-        s32 t = cf8->thresholds.min_x << 4;
-        if (out->x < t) {
-            out->x = t;
+    if (metadata_prefix->thresholds.min_x != 0) {
+        s32 minimum_x = metadata_prefix->thresholds.min_x << 4;
+        if (out->x < minimum_x) {
+            out->x = minimum_x;
         }
     }
-    if (cf8->thresholds.min_y != 0) {
-        s32 t = cf8->thresholds.min_y << 4;
-        if (out->y < t) {
-            out->y = t;
+    if (metadata_prefix->thresholds.min_y != 0) {
+        s32 minimum_y = metadata_prefix->thresholds.min_y << 4;
+        if (out->y < minimum_y) {
+            out->y = minimum_y;
         }
     }
-    if (cf8->thresholds.min_z != 0) {
-        s32 t = cf8->thresholds.min_z << 4;
-        if (out->z < t) {
-            out->z = t;
+    if (metadata_prefix->thresholds.min_z != 0) {
+        s32 minimum_z = metadata_prefix->thresholds.min_z << 4;
+        if (out->z < minimum_z) {
+            out->z = minimum_z;
         }
     }
 
@@ -1663,7 +1663,7 @@ static __inline__ void build_work_matrix(SVECTOR *rotation, MATRIX *work)
     RotMatrix_gte(rotation, work);
 }
 
-void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 arg1, SVECTOR *arg2, GsCOORDUNIT *arg3)
+void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 entry_index, SVECTOR *local_position, GsCOORDUNIT *output_coordinate)
 {
     GsCOORDUNIT translation_parent;
     SVECTOR world_position;
@@ -1675,17 +1675,17 @@ void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 arg1, SVECTOR *arg2, G
     ModelSlot *slot;
 
     slot = &gModel_aSlots[index];
-    if (slot->entry_count < arg1) {
-        arg1 = slot->root_coordinate_index;
+    if (slot->entry_count < entry_index) {
+        entry_index = slot->root_coordinate_index;
     }
 
     GsGetLwUnit(
-        (GsCOORDUNIT *)(slot->entries + arg1 * MODEL_SLOT_DATA_ENTRY_SIZE),
+        (GsCOORDUNIT *)(slot->entries + entry_index * MODEL_SLOT_DATA_ENTRY_SIZE),
         &entry_world_matrix
     );
     GsSetLsMatrix(&entry_world_matrix);
 
-    RotTransSV(arg2, &world_position, (PSXLONG *)transform_flags);
+    RotTransSV(local_position, &world_position, (PSXLONG *)transform_flags);
 
     translation_parent.rot.vz = 0;
     translation_parent.rot.vy = 0;
@@ -1700,15 +1700,15 @@ void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 arg1, SVECTOR *arg2, G
     translation_parent.super = NULL;
     memset(&view_rotation, 0, sizeof(view_rotation));
 
-    setup_rotation(&view_rotation, &view_rotation_copy, MODEL_ANGLE_FULL_TURN, arg3);
+    setup_rotation(&view_rotation, &view_rotation_copy, MODEL_ANGLE_FULL_TURN, output_coordinate);
 
     build_work_matrix(&view_rotation_copy, &view_work_matrix);
-    MulMatrix(&arg3->matrix, &view_work_matrix);
+    MulMatrix(&output_coordinate->matrix, &view_work_matrix);
 
-    arg3->matrix.t[2] = 0;
-    arg3->matrix.t[1] = 0;
-    arg3->matrix.t[0] = 0;
-    arg3->super = &translation_parent;
+    output_coordinate->matrix.t[2] = 0;
+    output_coordinate->matrix.t[1] = 0;
+    output_coordinate->matrix.t[0] = 0;
+    output_coordinate->super = &translation_parent;
 }
 
 #ifdef VERSION_EUROPE
@@ -1835,7 +1835,7 @@ big:
 /* &gModel_RView.vrx. Keep the interior symbol so the object retains the retail
  * relocation target while the canonical GsRVIEW2 owns the surrounding view. */
 
-void Model_StepViewOrbit(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void Model_StepViewOrbit(s32 direction_scale, s32 yaw_delta, s32 pitch_delta, s32 distance_delta)
 {
     PSXLONG *pivot_position;
     PSXLONG *orbit_position;
@@ -1849,7 +1849,7 @@ void Model_StepViewOrbit(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
     /* pivot_position and orbit_position are the two long triples at the head of the reference view,
        vpx..vpz and vrx..vrz: orbit_position is moved around pivot_position. */
-    if (arg0 > 0) {
+    if (direction_scale > 0) {
         pivot_position = (PSXLONG *)gModel_ViewReferencePoint;
         orbit_position = pivot_position - 3;
     } else {
@@ -1857,23 +1857,23 @@ void Model_StepViewOrbit(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         orbit_position = pivot_position + 3;
     }
 
-    if (*(s16 *)&gModel_wViewDistance + arg3 >= 0xB) {
-        *(u16 *)&gModel_wViewDistance = *(u16 *)&gModel_wViewDistance + arg3;
+    if (*(s16 *)&gModel_wViewDistance + distance_delta >= 0xB) {
+        *(u16 *)&gModel_wViewDistance = *(u16 *)&gModel_wViewDistance + distance_delta;
     }
 
-    if ((arg1 & MODEL_ANGLE_MASK) != 0) {
-        angle_sum = *(s16 *)&gModel_wViewYaw + arg1 + MODEL_ANGLE_FULL_TURN;
+    if ((yaw_delta & MODEL_ANGLE_MASK) != 0) {
+        angle_sum = *(s16 *)&gModel_wViewYaw + yaw_delta + MODEL_ANGLE_FULL_TURN;
         gModel_wViewYaw = angle_sum - angle_sum / MODEL_ANGLE_FULL_TURN *
             MODEL_ANGLE_FULL_TURN;
     }
 
-    if ((arg2 & MODEL_ANGLE_MASK) != 0) {
-        angle_sum = *(s16 *)&gModel_wViewPitch + arg2 + MODEL_ANGLE_FULL_TURN;
+    if ((pitch_delta & MODEL_ANGLE_MASK) != 0) {
+        angle_sum = *(s16 *)&gModel_wViewPitch + pitch_delta + MODEL_ANGLE_FULL_TURN;
         gModel_wViewPitch = angle_sum - angle_sum / MODEL_ANGLE_FULL_TURN *
             MODEL_ANGLE_FULL_TURN;
     }
 
-    if (arg1 != 0 || arg2 != 0 || arg3 != 0) {
+    if (yaw_delta != 0 || pitch_delta != 0 || distance_delta != 0) {
         cosine = rcos(*(s16 *)&gModel_wViewPitch);
         sine = rsin(*(s16 *)&gModel_wViewPitch);
         distance = *(s16 *)&gModel_wViewDistance;
@@ -1883,8 +1883,8 @@ void Model_StepViewOrbit(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         sine = rsin(*(s16 *)&gModel_wViewYaw);
         z_offset = horizontal_or_x * sine / MODEL_FIXED_ONE;
         horizontal_or_x = horizontal_or_x * cosine / MODEL_FIXED_ONE;
-        orbit_position[0] = pivot_position[0] + horizontal_or_x * arg0;
-        orbit_position[1] = pivot_position[1] + vertical_offset * arg0;
-        orbit_position[2] = pivot_position[2] + z_offset * arg0;
+        orbit_position[0] = pivot_position[0] + horizontal_or_x * direction_scale;
+        orbit_position[1] = pivot_position[1] + vertical_offset * direction_scale;
+        orbit_position[2] = pivot_position[2] + z_offset * direction_scale;
     }
 }

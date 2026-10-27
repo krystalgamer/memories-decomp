@@ -13,6 +13,12 @@
       "source": "src/overlays/french_model_variant/variant465_fan_slot1.c"
     },
     {
+      "address": "0x8017C66C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xF00",
+      "source": "src/overlays/french_model_variant/variant465_arms_slot1.c"
+    },
+    {
       "address": "0x8017D56C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x548",

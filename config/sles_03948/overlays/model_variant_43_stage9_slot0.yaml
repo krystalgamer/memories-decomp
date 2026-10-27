@@ -61,7 +61,7 @@ segments:
     vram: 0x8013BCD4
     align: 4
     subsegments:
-      - [0xCD4, asm, overlays/french_model_variant_43_stage9_slot0/helper_CD4]
+      - [0xCD4, c, overlays/french_model_variant/variant388_strips]
   - name: helper_1344
     type: code
     start: 0x1344

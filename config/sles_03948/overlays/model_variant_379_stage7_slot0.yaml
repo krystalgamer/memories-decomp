@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CF68
     align: 4
     subsegments:
-      - [0x1F68, asm, overlays/french_model_variant_379_stage7_slot0/helper_1F68]
+      - [0x1F68, c, overlays/spanish_model_variant/variant479_ribs]
   - name: helper_2B90
     type: code
     start: 0x2B90
