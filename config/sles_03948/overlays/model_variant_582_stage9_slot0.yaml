@@ -75,7 +75,7 @@ segments:
     vram: 0x8013D1F4
     align: 4
     subsegments:
-      - [0x21F4, asm, overlays/french_model_variant_582_stage9_slot0/helper_21F4]
+      - [0x21F4, c, overlays/french_model_variant/variant469_ribbons]
   - name: helper_2B30
     type: code
     start: 0x2B30
