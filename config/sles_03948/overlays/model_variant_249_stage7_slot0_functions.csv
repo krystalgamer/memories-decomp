@@ -1,0 +1,4 @@
+address,size,name,status,module,notes
+0x8013B004,0x11D8,func_8013B004,matching_c,overlay/model_variant_249_stage7_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013C1DC,0x594,func_8013C1DC,matching_c,overlay/model_variant_249_stage7_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013C770,0x4DC,func_8013C770,matching_c,overlay/model_variant_249_stage7_slot0,Complete module byte identity and section-defined C ownership verified.
