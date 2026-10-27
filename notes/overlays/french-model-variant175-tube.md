@@ -36,3 +36,7 @@ and `rsin` were added to the shared French MODEL444 binding file at their
 French resident addresses. All French overlay images rebuild exactly. The
 [attempt ledger](french-model-variant175-tube-attempts.csv) records the
 probe, which matched on the first attempt.
+
+The [MODEL444 entry](french-model-variant444-entry.md) is also matching C in
+both images. It confirms the tube's strict unsigned start gate and completes
+all five inventoried functions per image.
