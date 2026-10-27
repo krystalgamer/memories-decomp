@@ -18,6 +18,8 @@ Keep tests for:
 Do not add per-function gameplay oracles, extracted/recompiled game-body
 harnesses, game-source spelling assertions, or per-overlay copies of layout,
 manifest and instruction expectations already checked by the matching jobs.
+Do not freeze live progress totals in tests: independently valid matching
+PRs advance those totals and must not require snapshot-assertion rewrites.
 Add reusable tooling coverage only when the failure is outside those hashes.
 The existing LP64 guest-pointer witness was moved from the French MODEL400
 suite without changing its test method or C fragment.
