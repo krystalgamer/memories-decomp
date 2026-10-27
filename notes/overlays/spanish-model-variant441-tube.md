@@ -20,6 +20,8 @@ preserves this tube source and adds a third C helper per image, leaving sixty
 physical ASM functions.
 The later [retained-ribbon recovery](spanish-model-variant441-ribbon.md) adds
 a fourth C helper per image, leaving fifty physical ASM functions.
+The loader entry at `+0x4` is exact C as well; see
+[entry](spanish-model-variant441-entry.md).
 
 ## Original context and packet ownership
 
