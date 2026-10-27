@@ -359,3 +359,59 @@ prototype/comment identifiers in their two whole headers, this owning
 note and five existing registry NOTES cells change. Qualified members,
 types, arithmetic, statement order, accepted source groups, named
 profiles, callers, initialized data and all existing controls stay exact.
+
+## Part-command walk local views
+
+The two contiguous part getter/seek definitions now name their command
+walks without changing either interpretation. Both function names and
+all argument names remain. The getter is STILL tentative and has no
+found caller; the primitive-rebase helper is also still tentative.
+Neither uncovered PAL upload linkage nor a new live getter path was
+recovered. These local names do not promote either identity.
+
+The getter's part_sequence reads the original GsSEQ view; command_base,
+current_command and row_command distinguish the command-table base,
+the part's current command and the row's advancing walk. Preserve its
+null/negative-command returns and row scan1..9. first_command_index
+still forms row_command BEFORE the 0xFFFF test; no new validation or
+changed short-circuit order. Its header end comparison STILL adds the
+header halfword to command_base, NOT to the row start. This is not the
+seek's row-relative count and is NOT repaired into an exact inverse.
+
+duration_units remains s32 and sums duration BYTE2 before the current
+command. remaining_frame snapshots rframe; only values other than
+0x6000/0x7000 add (tframe-remaining_frame)/16, with the original signed
+division and truncation. Preserve the row-high-byte OR, unmasked sum,
+no-match row zero and every zero path. No frame-unit normalization,
+new packed-result type, bounds or observed playback claim.
+
+The seek's part_pointer_offset and part_index_offset retain BOTH
+up-front, otherwise unused part multiplications for old-GCC CSE.
+first_command_index, command_base, part_sequence and command_cursor
+retain their original declaration/load order and pointer construction
+before the null/key checks. The two duration-table reads remain two
+source expressions. row_frame_duration is the original s32 duration
+times16; remaining_position retains the original unsigned-input modulo
+and assignment to s32, not a widened or signed replacement.
+
+row_header remains command_cursor-1. entry_number starts at zero;
+the guard/loop reread the header, then entry_count snapshots it only
+after the first walk. position_after_entry preserves both duplicated
+duration expressions and mode-specific <=0 versus <0 break tests.
+Keep exact-zero position handling, remnant subtraction, negative-next-
+command test, pointer advance and all early returns. The goto scan's
+stop_cursor advances BEFORE the count test, including the exit path;
+it is not rewritten as a while or merged with command_cursor.
+
+command_index remains ONE reused value for ti and the existing ci
+selection. entry_frame_duration/remaining_frame keep the original
+byte shift, subtraction, stores and final signed-halfword comparison.
+Only mode0x3C can reach the original 0x6000 marker store. No new enum,
+clamp, time conversion, row choice, callback or initialization.
+
+Only scoped bare local identifiers in these TWO complete definitions,
+this owning-note append and TWO existing semantic NOTES cells change.
+Every member token, argument, type, comment, string, literal, expression,
+scope and statement stays exact. Public headers, SDK declarations,
+grouped ownership, profiles, manifests, fixtures, oracles, mutations,
+assertions and numeric controls remain unchanged; no new harness.

@@ -8,47 +8,47 @@
  * 0x3C. */
 s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *slot, s32 part_index)
 {
-    s32 acc;
+    s32 duration_units;
     s32 animation_row;
-    ModelSlotPart *e;
-    s32 *tbl;
-    s32 *lim;
-    s32 *q;
-    s32 k;
-    s32 v;
+    ModelSlotPart *part_sequence;
+    s32 *command_base;
+    s32 *current_command;
+    s32 *row_command;
+    s32 first_command_index;
+    s32 remaining_frame;
 
-    acc = 0;
+    duration_units = 0;
     animation_row = 1;
-    e = slot->animation_sequences[part_index];
-    if (e == 0) {
+    part_sequence = slot->animation_sequences[part_index];
+    if (part_sequence == 0) {
         return 0;
     }
-    lim = slot->animation_commands + e->ti;
-    if (*lim < 0) {
+    current_command = slot->animation_commands + part_sequence->ti;
+    if (*current_command < 0) {
         return 0;
     }
-    tbl = slot->animation_commands;
+    command_base = slot->animation_commands;
     for (animation_row = 1; animation_row < 10; animation_row++) {
-        k = slot->animation_command_indices[animation_row][part_index];
-        q = tbl + k;
-        if (k != 0xFFFF && lim >= q - 1 &&
-            tbl + *(u16 *)(q - 1) >= lim) {
+        first_command_index = slot->animation_command_indices[animation_row][part_index];
+        row_command = command_base + first_command_index;
+        if (first_command_index != 0xFFFF && current_command >= row_command - 1 &&
+            command_base + *(u16 *)(row_command - 1) >= current_command) {
             break;
         }
     }
     if (animation_row < 10) {
-        while (q < lim) {
-            acc += ((u8 *)q)[2];
-            q++;
+        while (row_command < current_command) {
+            duration_units += ((u8 *)row_command)[2];
+            row_command++;
         }
-        v = e->rframe;
-        if (v != 0x6000 && v != 0x7000) {
-            acc += (e->tframe - v) / 16;
+        remaining_frame = part_sequence->rframe;
+        if (remaining_frame != 0x6000 && remaining_frame != 0x7000) {
+            duration_units += (part_sequence->tframe - remaining_frame) / 16;
         }
     } else {
         animation_row = 0;
     }
-    return (animation_row << 24) | acc;
+    return (animation_row << 24) | duration_units;
 }
 
 /* Seeks channel part_index of model slot slot to position scaled_position within sequence animation_row. The
@@ -62,37 +62,37 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *slot, s32 part_index)
  * stop index (ti), the entry before it (ci), the entry length (tframe) and
  * the time left in it (rframe); mode 0x3C clamps that last value to 0x6000. */
 void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_row, u32 scaled_position) {
-    s32 *tbl;
-    ModelSlotPart *e;
-    s32 *q;
-    s32 *cp;
-    s32 *v;
-    s32 k;
-    s32 step;
-    s32 rem;
-    s32 len;
-    s32 idx;
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 d;
-    s32 off4;
-    s32 off2;
+    s32 *command_base;
+    ModelSlotPart *part_sequence;
+    s32 *command_cursor;
+    s32 *row_header;
+    s32 *stop_cursor;
+    s32 first_command_index;
+    s32 row_frame_duration;
+    s32 remaining_position;
+    s32 entry_count;
+    s32 entry_number;
+    s32 command_index;
+    s32 entry_frame_duration;
+    s32 remaining_frame;
+    s32 position_after_entry;
+    s32 part_pointer_offset;
+    s32 part_index_offset;
 
     /* Both channel offsets are materialised up front and never read by
        name: cse reuses them for the animation_sequences and animation_command_indices indexing just
        below, and that is what moves slot out of $a0 into $t3 at entry.
        Dropping either one changes the entry sequence. */
-    off4 = part_index * 4;
-    off2 = part_index * 2;
-    k = slot->animation_command_indices[animation_row][part_index];
-    tbl = slot->animation_commands;
-    e = slot->animation_sequences[part_index];
-    q = tbl + k;
-    if (e == 0) {
+    part_pointer_offset = part_index * 4;
+    part_index_offset = part_index * 2;
+    first_command_index = slot->animation_command_indices[animation_row][part_index];
+    command_base = slot->animation_commands;
+    part_sequence = slot->animation_sequences[part_index];
+    command_cursor = command_base + first_command_index;
+    if (part_sequence == 0) {
         return;
     }
-    if (k == 0xFFFF) {
+    if (first_command_index == 0xFFFF) {
         return;
     }
     /* Read twice rather than through a local: cse folds the second read,
@@ -100,12 +100,12 @@ void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_
     if (slot->animation_duration_rows[animation_row].values[part_index] == 0) {
         return;
     }
-    step = slot->animation_duration_rows[animation_row].values[part_index] * 16;
-    rem = scaled_position % step;
-    cp = q - 1;
-    if (rem == 0) {
+    row_frame_duration = slot->animation_duration_rows[animation_row].values[part_index] * 16;
+    remaining_position = scaled_position % row_frame_duration;
+    row_header = command_cursor - 1;
+    if (remaining_position == 0) {
         if (scaled_position != 0 && slot->playback_state != 0x3C) {
-            rem = step;
+            remaining_position = row_frame_duration;
         }
     }
     /* The guard and the loop both read the length from memory. jump.c
@@ -113,62 +113,62 @@ void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_
        the guard, and the loop optimiser hoists the mode byte, the 0x3C
        and the in-loop length read (which cse2 then turns into the copy
        retail keeps in $a3). A named length local defeats all of that. */
-    idx = 0;
-    if (idx >= *(u16 *)cp) {
+    entry_number = 0;
+    if (entry_number >= *(u16 *)row_header) {
         return;
     }
-    for (; idx < *(u16 *)cp; idx++) {
+    for (; entry_number < *(u16 *)row_header; entry_number++) {
         if (slot->playback_state != 0x3C) {
-            d = rem - (((u8 *)q)[2] << 4);
-            if (d <= 0) {
+            position_after_entry = remaining_position - (((u8 *)command_cursor)[2] << 4);
+            if (position_after_entry <= 0) {
                 break;
             }
         } else {
-            d = rem - (((u8 *)q)[2] << 4);
-            if (d < 0) {
+            position_after_entry = remaining_position - (((u8 *)command_cursor)[2] << 4);
+            if (position_after_entry < 0) {
                 break;
             }
         }
-        rem = rem - (((u8 *)q)[2] << 4);
-        if (q[1] < 0) {
+        remaining_position = remaining_position - (((u8 *)command_cursor)[2] << 4);
+        if (command_cursor[1] < 0) {
             break;
         }
-        q++;
+        command_cursor++;
     }
 
-    len = *(u16 *)cp;
-    if (idx >= len) {
+    entry_count = *(u16 *)row_header;
+    if (entry_number >= entry_count) {
         return;
     }
     /* A goto loop: a while would be rotated and undo the advance on the
        exit path. The advance sits before the count test on purpose, since
        retail's back-branch delay slot runs it on the exit path too. */
-    v = q;
+    stop_cursor = command_cursor;
 scan:
-    if (v[1] >= 0) {
-        idx++;
-        v++;
-        if (idx < len) {
+    if (stop_cursor[1] >= 0) {
+        entry_number++;
+        stop_cursor++;
+        if (entry_number < entry_count) {
             goto scan;
         }
     }
-    x = q - slot->animation_commands;
-    e->ti = x;
-    if (x != 0) {
-        x = x - 1;
+    command_index = command_cursor - slot->animation_commands;
+    part_sequence->ti = command_index;
+    if (command_index != 0) {
+        command_index = command_index - 1;
     } else {
-        x = v - slot->animation_commands;
+        command_index = stop_cursor - slot->animation_commands;
     }
-    e->ci = x;
-    y = ((u8 *)q)[2] << 4;
-    z = y - rem;
-    e->tframe = y;
-    e->rframe = z;
+    part_sequence->ci = command_index;
+    entry_frame_duration = ((u8 *)command_cursor)[2] << 4;
+    remaining_frame = entry_frame_duration - remaining_position;
+    part_sequence->tframe = entry_frame_duration;
+    part_sequence->rframe = remaining_frame;
     if (slot->playback_state != 0x3C) {
         return;
     }
-    if ((s16)z < e->tframe) {
+    if ((s16)remaining_frame < part_sequence->tframe) {
         return;
     }
-    e->rframe = 0x6000;
+    part_sequence->rframe = 0x6000;
 }
