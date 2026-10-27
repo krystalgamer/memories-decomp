@@ -198,5 +198,13 @@ It is the North American header-415 entry
 `french_model_variant/variant432_entry{,_slot1}.c` with the PAL palette x (640),
 the in-image helper and data addresses, and `VERSION_FRENCH`. The French body
 advances the bar index at the end of the bar loop, not at the top. The French
-tuple adds the entry, and only the helper at `0xDAC` remains assembly. See
-[the reuse note](french-model-usa-entry-reuse.md).
+tuple adds the entry. See [the reuse note](french-model-usa-entry-reuse.md).
+
+## French ribbons
+
+The French helper at `0xDAC` (`0x5A0` bytes) in both images is now matching C.
+It is the unchanged North American `model_variant/variant415_ribbons.c`, built
+through `french_model_variant/variant432_ribbons{,_slot1}.c`, which only rename
+the helper to its in-image address (`func_8013BDAC`/`func_8017BDAC`). All five
+French functions in both images are now matching C; the existing family
+binding file already defines every callee.
