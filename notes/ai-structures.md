@@ -205,9 +205,10 @@ The remaining fusion count, limit, set-selector, best-stat, and used-entry
 offsets also have shared byte-offset constants and layout assertions.
 Clearing and scanning remain bounded by the stored hand count, not the size
 of `fusion_used`. Used-entry marks keep each loop's original index, including
-the field-start branch before its recursive hand scan. The signed halfword
-initialization views, unsigned score views, and separate `D_800F5C88` accesses
-in `AiScript_EvaluateFusion` remain unchanged.
+the field-start branch before its recursive hand scan. The earlier raw
+halfword/alias descriptions are historical: the current matching fusion
+definitions already use the existing `AiScriptState` members. The local-name
+pass changes neither their widths nor their load/store conversions.
 
 The raw set helpers now name their offset units explicitly.
 `AI_SCRIPT_CARD_SET_BYTE_OFFSET` is `0x3E`, while
@@ -338,3 +339,84 @@ three-word state views. They remain unchanged so this structural refactor does
 not consume or obscure their remaining pure-C refinement work. Their offsets
 agree with `AiScriptState`, and they can adopt the header when the inline
 assembly is removed.
+
+## Combo-search and combination-table input/local views
+
+Five complete definitions now name the existing local views: Ai_CompleteFusion,
+AiScript_FindBestCombo, AiScript_EvaluateFusion, Duel_CheckFusion and
+Duel_CheckEquip. No public prototype, shared state member, type, table symbol,
+script opcode or function identity changes. All other grouped definitions,
+including skip/empty regional handlers, remain byte-identical.
+
+The recursive candidate_card_id differs from hand_card_id and its active-card
+hand_slot_index. hand_index still addresses fusion_used, not the active-card
+slot; path_index copies the selected path. Keep the zero-count return,
+do-while walk, empty/used/set filters, fusion lookup THEN equip fallback,
+both repeated stat-query/tie blocks and their inclusive path copy followed
+by the zero terminator. The raw equip lookup returns its SECOND input
+unchanged; no newly combined stat record or equipment-bonus computation
+is inferred from that return.
+
+Both attack and defense compete against the SAME narrowed best-stat field.
+Equal scores replace it only at a shallower current depth. Repeated
+Duel_GetBaseCardStat calls are not cached, and their terrain/stat behavior
+is not replaced by a new interpretation of "base". Recursion retains the
+original mark, depth increment, call, unmark and decrement order, the live
+count/limit/state reads and the exact limit-minus-one test. No path bound,
+cycle guard, deduplication, alternate search order or stale-state reset.
+
+FindBestCombo distinguishes depth_limit_work, excluded_set, result_register,
+hand_search_count, candidate_slot/card_id, script_memory and state_byte_cursor.
+ONE search_index still clears marks, walks field seeds, then walks the
+configured hand window. depth_limit_work still holds the operand value
+BEFORE its +1. State stores retain their original narrowing/order; selected
+combo and best-depth storage are not newly cleared. Field seeds precede
+hand seeds and use the original snapshot stats, not newly substituted
+table lookups. The two starting-depth gates remain >=2 and >=3.
+
+state_byte_cursor STILL starts at the state base plus search_index, with
+AI_SCRIPT_FUSION_USED_BYTE_OFFSET applied at each access; it is NOT rewritten
+as &fusion_used[search_index]. Field-start marks retain that same loop
+index rather than a hand-slot ID. Eight existing C-comment identifier
+references follow these bindings; no new C commentary or loop split.
+
+EvaluateFusion distinguishes starting_card_id, depth_limit, excluded_set,
+result_register, attack_stat/defense_stat and hand search count/index.
+Operand reads retain their exact order and +1 placement. Its initialization
+still differs from FindBestCombo by explicitly clearing best depth; attack/
+defense are read first, followed by the original selected repeated query.
+Equal stats retain the defense arm. Recursion runs before the existing
+best-depth-to-0/1 result conversion. No inverted Boolean, rewritten result
+classification or normalized register/set selector is introduced.
+
+The configured "hand" search window may include remaining-deck entries,
+as documented above. Neither search is newly limited to five cards or to
+fusion_used's capacity. Existing signedness and regional hand-count views
+remain; the literal five-slot field walk is distinct from this window.
+FindBestCombo's 0/1/2/3 result classification and zero-terminated selected
+combo still distinguish start location and second-card presence.
+
+Duel_CheckFusion keeps neutral card_a/card_b names and its original swap
+before indexing the u16 offset table through the raw byte-base macro.
+pair_cursor/table_offset/remaining_pairs/packed_high_bits name the current
+packed walk: zero offset returns immediately, a zero count byte takes the
+original 0x1FF-minus-next-byte extended path, and BOTH candidates in each
+five-byte entry are tested before advancing/subtracting two. An odd count
+does not gain a new second-candidate guard. All shifts/masks, byte accesses,
+integer promotions, result assembly and unchecked indexing remain.
+
+Duel_CheckEquip uses structural key_card_id/candidate_card_id labels rather
+than inferring card-type ownership from a header's shorthand. It retains
+the zero-key terminator, u16 cursor, two-word prefix, matching-key do-while,
+nonmatching-key count skip, and second-input return. A matching zero count
+does not gain an early return or repair. The two lookups are not made
+commutative, unified, bounded or converted to typed record arrays.
+
+Scoped bare-identifier and existing-comment inverses restore each complete
+original C file byte-for-byte. All qualified members, headers, declarations/
+types/qualifiers/order/lifetimes, casts/operators/constants/labels/calls,
+other comments, profiles, storage, callers and the ENTIRE semantic ledger
+remain. Existing script/runtime research is historical evidence, not newly
+executed here. No fixture/control/oracle/mutation changes, retired-fixture
+revival, local cloud tests or synthetic/generated-C/source-string behavioral
+harness accompany these local views.
