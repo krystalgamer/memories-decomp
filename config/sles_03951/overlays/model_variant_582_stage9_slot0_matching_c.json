@@ -7,6 +7,12 @@
       "source": "src/overlays/french_model_variant/variant582_sheets.c"
     },
     {
+      "address": "0x8013D1F4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x93C",
+      "source": "src/overlays/french_model_variant/variant469_ribbons.c"
+    },
+    {
       "address": "0x8013E068",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x454",
