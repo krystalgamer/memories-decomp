@@ -462,46 +462,46 @@ void Model_QueueCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *offset, s32 a
 
 void Model_QueueEffectEndpointPair(s32 a, s32 b, s32 c)
 {
-    ModelEffectEndpoint *x =
+    ModelEffectEndpoint *first_endpoint =
         a < 0 ? 0 : &gModel_aEffectEndpoints[a];
-    ModelEffectEndpoint *y =
+    ModelEffectEndpoint *second_endpoint =
         b < 0 ? 0 : &gModel_aEffectEndpoints[b];
-    s32 flag;
+    s32 ordinal_or_mode;
 
     if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == 1) {
         return;
     }
-    flag = (s8)gModel_nEffectKeyBatchOrdinal;
-    if (flag < 0) {
-        flag = 0;
+    ordinal_or_mode = (s8)gModel_nEffectKeyBatchOrdinal;
+    if (ordinal_or_mode < 0) {
+        ordinal_or_mode = 0;
     } else {
         gModel_nEffectKeyBatchOrdinal++;
-        flag = flag > 0;
+        ordinal_or_mode = ordinal_or_mode > 0;
     }
-    Model_ApplyEffectKeyQueueCommand(flag, x, y, c);
+    Model_ApplyEffectKeyQueueCommand(ordinal_or_mode, first_endpoint, second_endpoint, c);
 }
 
 void Model_QueueCameraShake(s32 value, s32 arg)
 {
     /* The aligned array keeps retail's four halfword stores; a packed local
        would expand them into byte stores. */
-    s16 d[4] = {value, 0, 0, 5};
-    s32 flag;
-    s32 next;
+    s16 shake_halfwords[4] = {value, 0, 0, 5};
+    s32 ordinal_or_mode;
+    s32 unsigned_ordinal;
 
     if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == 1) {
         return;
     }
-    flag = (s8)gModel_nEffectKeyBatchOrdinal;
-    next = (u8)gModel_nEffectKeyBatchOrdinal;
-    if (flag < 0) {
-        flag = 0;
+    ordinal_or_mode = (s8)gModel_nEffectKeyBatchOrdinal;
+    unsigned_ordinal = (u8)gModel_nEffectKeyBatchOrdinal;
+    if (ordinal_or_mode < 0) {
+        ordinal_or_mode = 0;
     } else {
-        gModel_nEffectKeyBatchOrdinal = next + 1;
-        flag = flag > 0;
+        gModel_nEffectKeyBatchOrdinal = unsigned_ordinal + 1;
+        ordinal_or_mode = ordinal_or_mode > 0;
     }
     Model_ApplyEffectKeyQueueCommand(
-        flag, MODEL_EFFECT_ENDPOINT_VIEW(&d), MODEL_EFFECT_ENDPOINT_VIEW(&d), arg
+        ordinal_or_mode, MODEL_EFFECT_ENDPOINT_VIEW(&shake_halfwords), MODEL_EFFECT_ENDPOINT_VIEW(&shake_halfwords), arg
     );
 }
 
@@ -509,19 +509,19 @@ void Model_QueueEffectEndpointSequences(
     s32 count, ModelEffectEndpoint *p1, ModelEffectEndpoint *p2, s32 arg3
 )
 {
-    s8 raw172;
-    s32 flag;
+    s8 batch_ordinal;
+    s32 queue_mode;
 
     if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == gModel_bCameraHoldState) {
         return;
     }
 
-    raw172 = gModel_nEffectKeyBatchOrdinal;
-    if (raw172 < 0) {
-        flag = 0;
+    batch_ordinal = gModel_nEffectKeyBatchOrdinal;
+    if (batch_ordinal < 0) {
+        queue_mode = 0;
     } else {
         gModel_nEffectKeyBatchOrdinal = (u8)gModel_nEffectKeyBatchOrdinal + 1;
-        flag = raw172 > 0;
+        queue_mode = batch_ordinal > 0;
     }
 
     if (count == 0) {
@@ -530,7 +530,7 @@ void Model_QueueEffectEndpointSequences(
 
     do {
         Model_ApplyEffectKeyQueueCommand(
-            flag,
+            queue_mode,
             p1,
             p2,
             arg3
@@ -557,7 +557,7 @@ cont:
         if (count > 0) {
             count--;
         }
-        flag = 1;
+        queue_mode = 1;
     } while (count != 0);
 }
 
@@ -568,11 +568,11 @@ void Model_ApplyEffectKeyQueueCommand(
     s32 arg3
 )
 {
-    u8 *p;
-    u8 *q;
-    u8 *r;
-    s32 n;
-    s32 i;
+    u8 *prepare_key_bytes;
+    u8 *next_key_bytes;
+    u8 *append_key_bytes;
+    s32 queued_count;
+    s32 key_index;
     s32 one;
 
     one = 1;
@@ -609,7 +609,7 @@ m0:
 m1:
     if (gModel_bEffectKeyCount < 0xA) {
         Key *key = &gModel_aEffectKeys[gModel_bEffectKeyCount];
-        r = KEY_BYTES(key);
+        append_key_bytes = KEY_BYTES(key);
         if (arg1 != (ModelEffectEndpoint *)0) {
             key->requested[0] = *arg1;
         } else {
@@ -622,20 +622,20 @@ m1:
             key->requested[1].kind = 0;
             key->ready = 0;
         }
-        n = gModel_bEffectKeyCount;
+        queued_count = gModel_bEffectKeyCount;
         key->magnitude = arg3;
         key->duration = 0;
         key->progress = 0;
-        gModel_bEffectKeyCount = n + 1;
+        gModel_bEffectKeyCount = queued_count + 1;
     }
     return;
 
 m2:
-    q = KEY_BYTES(gModel_aEffectKeys);
-    for (i = 0; i < gModel_bEffectKeyCount; i++) {
-        p = q;
-        q += 0x28;
-        Model_PrepareEffectKey((Key *)p);
+    next_key_bytes = KEY_BYTES(gModel_aEffectKeys);
+    for (key_index = 0; key_index < gModel_bEffectKeyCount; key_index++) {
+        prepare_key_bytes = next_key_bytes;
+        next_key_bytes += 0x28;
+        Model_PrepareEffectKey((Key *)prepare_key_bytes);
     }
     gModel_bEffectKeyPreparationPending = 0;
     gModel_nEffectKeyBatchOrdinal = -1;
