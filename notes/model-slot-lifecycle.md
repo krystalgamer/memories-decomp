@@ -224,7 +224,11 @@ manifest, source group or runtime invariant is introduced.
 The tentative textured-primitive helper, palette conversion research,
 packet/cache fields and unrelated records are not changed.
 
-## Existing native consumers
+## Historical native consumers
+
+The witness descriptions below record the earlier field-naming components.
+The load/setup local-view component below neither restores nor executes
+retired gameplay fixtures.
 
 The background, model-control, model-debug, background-ownership and
 scene-transition witnesses use the production type. Their corresponding
@@ -244,3 +248,71 @@ fixed-VMA rows. The one proven existing interior byte view gets one
 evidence-backed global row and a canonical export in each image. All
 legacy native symbols, linker prefixes, source groups, profiles, SDK
 headers and stored-pointer conventions stay frozen.
+
+
+## Reset, HMD load and direct setup input views
+
+Six complete definitions now name the existing input/local views:
+Model_ResetSlot, Model_LoadSlot, Model_LoadMonsterMerge, Model_InitSlot,
+Model_SetSlotPartSpeeds and Model_SetSlotRootTransform. Public prototypes,
+argument order/types, stored pointers, members and all caller bytes remain.
+These are definition-only names, not an ABI or function-identity migration.
+
+Reset's slot_index, slot_state, reset_cursor, reset_index and default_byte
+retain the original whole-record word clear and explicit defaults. The SAME
+reset_index first walks backwards over four bytes at raw offset BF4, then
+walks all 64 sound records. default_byte stays the original signed local
+containing one. No typed-member replacement or interpretation of field_BF7
+is introduced; the four raw writes still include that unnamed byte.
+Keep the sound word mask, later sound_id/animation_row stores, three module
+command sentinels, inactive publication and final light-triplet call order.
+
+The direct loader forwards slot_index, hmd, hmd_size and render_flags to
+Model_InitSlot BEFORE testing hmd for null. A null input is not a no-op:
+the initializer has already performed its original partial reset. A nonnull
+HMD still triggers animation-table build THEN row linking, the existing
+duelist-only snapshot span walk, lit-cache interval stores and root setup.
+The initialized span/rearm/draw/tint aliases, raw slot strides and the
+deliberately mixed cache_or_speed scratch are unchanged.
+
+hmd_size is the original byte offset used only when the initializer's
+animation_snapshot_buffer is null: its fallback remains hmd+hmd_size.
+No allocation extent, validation, zeroing or buffer-ownership guarantee
+is inferred. The initializer's HMD mapping, capped unit scan, SDK type
+dispatch, coordinate linking, parent retry/search, counts, scratch and
+diagnostic behavior remain exact. The existing comment changes only the
+slot_index reference, not its structural/compiler explanation.
+
+render_flags remains a FULL signed request: only a nonnegative input writes
+the low-seven-bit draw_mode_request and tint byte seven from bit 80.
+Negative input retains those fields; unrelated initializer resets still
+occur. The merge request forwards this last input through its original
+NULL-HMD initialization after key-off/wait and before restoring the raw
+skip-sound byte. All model-ID/special/auxiliary branches, properties,
+transfer requests, unchecked descriptor access and result values stay.
+The name does not normalize flags or make initialization unconditional.
+
+The direct load still rearms each sequence's ii/ti/aframe/sid/rframe/speed,
+activates before its units-only draw, then samples live playback_speed.
+The separate 23/3E/3C state arms retain zero/positive/negative speed requests.
+Tint setup still occurs only for slot_index<2 after those calls and through
+its separately reconstructed slot pointer.
+
+Model_SetSlotPartSpeeds forwards speed_request to EACH sequence without
+clamping or signedness/width changes. Its zero-count test, do-while traversal,
+pointer stepping and later live count reads remain. Root setup distinguishes
+translation_x/translation_y/translation_z from yaw_request, preserving all
+original int parameters, repeated root-coordinate reads and rotation/store
+order. Coordinate writes remain under the null test, but the following
+Model_UpdateCoordinateUnitMatrix call STILL occurs OUTSIDE that guard.
+No null repair, cached pointer, matrix-order change or physical-unit claim
+is introduced.
+
+Only scoped bare definition arguments/locals and one existing initializer
+comment identifier change. All other C comments, types, declarations/order/
+lifetimes, qualified members, casts/operators/constants/labels/calls, other
+grouped definitions, inline helpers, regional macros, public headers,
+compiler profiles and storage remain exact. The entire semantic ledger
+stays byte-identical: no function/global/member identity promotion or
+NOTES churn. No fixture/control/oracle/mutation changes, retired-fixture
+revival, local cloud tests or new behavioral harness accompany these views.

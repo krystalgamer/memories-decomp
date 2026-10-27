@@ -53,35 +53,35 @@ extern char ModelSlotPart_seq_fields_must_agree[
 ];
 #undef MODEL_SEQ_AGREES
 
-void Model_SetSlotPartSpeeds(s32 arg0, s32 arg1)
+void Model_SetSlotPartSpeeds(s32 slot_index, s32 speed_request)
 {
-    ModelSlot *slot = &gModel_aSlots[arg0];
+    ModelSlot *slot_state = &gModel_aSlots[slot_index];
     ModelSlotPart *G32 *part_sequences;
     s32 part_index;
 
-    part_sequences = slot->animation_sequences;
+    part_sequences = slot_state->animation_sequences;
     part_index = 0;
-    if (slot->animation_sequence_count != 0) {
+    if (slot_state->animation_sequence_count != 0) {
         do {
-            (*part_sequences)->speed = arg1;
+            (*part_sequences)->speed = speed_request;
             part_sequences++;
             part_index++;
-        } while (part_index < slot->animation_sequence_count);
+        } while (part_index < slot_state->animation_sequence_count);
     }
 }
 
 /* Places the slot's own coordinate unit: translation into the local matrix's
  * t vector and a single yaw into its Euler angles, then rebuilds the matrix.
  * The unit pointer is reloaded per store, as retail does. */
-void Model_SetSlotRootTransform(ModelSlot *e, int a, int b, int c, int d)
+void Model_SetSlotRootTransform(ModelSlot *slot_state, int translation_x, int translation_y, int translation_z, int yaw_request)
 {
-    if (e->root_coordinate) {
-        e->root_coordinate->rot.vx = 0;
-        e->root_coordinate->rot.vy = d;
-        e->root_coordinate->rot.vz = 0;
-        e->root_coordinate->matrix.t[0] = a;
-        e->root_coordinate->matrix.t[1] = b;
-        e->root_coordinate->matrix.t[2] = c;
+    if (slot_state->root_coordinate) {
+        slot_state->root_coordinate->rot.vx = 0;
+        slot_state->root_coordinate->rot.vy = yaw_request;
+        slot_state->root_coordinate->rot.vz = 0;
+        slot_state->root_coordinate->matrix.t[0] = translation_x;
+        slot_state->root_coordinate->matrix.t[1] = translation_y;
+        slot_state->root_coordinate->matrix.t[2] = translation_z;
     }
-    Model_UpdateCoordinateUnitMatrix(e->root_coordinate, 0);
+    Model_UpdateCoordinateUnitMatrix(slot_state->root_coordinate, 0);
 }
