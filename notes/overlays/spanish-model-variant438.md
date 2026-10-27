@@ -21,6 +21,8 @@ Each image has eight contiguous game-owned functions:
 (all offsets hexadecimal). The four-byte header and 1,944-byte tail
 remain exact raw data. The closed helper at `+0x23E8` has no observed
 entry-reachable call; it remains inventoried as game code.
+The helper at `+0x1614` is exact C as well; see
+[warp rings](spanish-model-variant438-warp.md).
 
 ## Original context and initialized storage
 
