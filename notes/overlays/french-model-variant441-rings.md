@@ -37,9 +37,11 @@ stops at `phase < 3`). Without the macro, the work type stays
 The ring pointer is now assigned before the ordering-table fetch. Header 441
 needs this: the context register must stay in `s6` (the ring register),
 with the work copy in `s8` made after `GsGetActiveBuff`. The move does not
-change the header-398 output. All ten North American images, and the ten
-French header-415 and ten Spanish images that use `variant398_entry.h`,
-still rebuild exactly.
+change the header-398 output. The other consumers of the shared
+`variant398_rings.c` / `variant398_entry.h` are the ten North American
+header-398 images (`gcc_2_7_2_cdk_g0`) and the ten French header-415 images
+(`gcc_2_8_1_g0_split`). All of them still rebuild exactly. No Spanish
+source or manifest uses these files.
 
 ## Result
 
