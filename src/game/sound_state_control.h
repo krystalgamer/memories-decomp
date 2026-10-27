@@ -11,6 +11,6 @@ void SD_SetSequenceVSyncMode(s32 value);
  * data_source_flags bits 0x01, 0x02 and 0x40; nonzero arguments do not set them.
  * Resets bank_load_phase and raises 0x0A in status_flags. The XA-zero clear
  * is 0x40, not the loader/CD-wrapper gate at 0x80. */
-void SD_InitDataSourceFlags(s32 first, s32 second, s32 third);
+void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba);
 
 #endif

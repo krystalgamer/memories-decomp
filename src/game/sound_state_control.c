@@ -14,14 +14,14 @@ void SD_SetSequenceVSyncMode(s32 value)
         state->timer_update_inhibit = 0;
 }
 
-void SD_InitDataSourceFlags(s32 first, s32 second, s32 third)
+void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)
 {
     g_SDValue->bank_load_phase = 0;
-    if (first == 0)
+    if (se_lba == 0)
         g_SDValue->data_source_flags &= 0xFE;
-    if (second == 0)
+    if (bgm_lba == 0)
         g_SDValue->data_source_flags &= 0xFD;
-    if (third == 0)
+    if (master_xa_lba == 0)
         g_SDValue->data_source_flags &= 0xBF;
     g_SDValue->status_flags |= 0xA;
 }
