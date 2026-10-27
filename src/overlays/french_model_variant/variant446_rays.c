@@ -223,7 +223,7 @@ void func_8013DCAC(u8 *ctx)
             MODEL_VARIANT_WORD(work, 0x1BD4) = 0x1000;
         }
     }
-    timing = (u8 *)MODEL_VARIANT_WORD(work, 0x1BA4);
+    timing = *(u8 *G32 *)(work + 0x1BA4);
     if ((u32)MODEL_VARIANT_WORD(work, 0x1B94) >= (u32)MODEL_VARIANT_WORD(timing, 0x44) && MODEL_VARIANT_WORD(work, 0x1BD8) > 0) {
         MODEL_VARIANT_WORD(work, 0x1BD8) = 0x400 - ((u32)(MODEL_VARIANT_WORD(work, 0x1B94) - MODEL_VARIANT_WORD(timing, 0x44)) << 10) /
                                    (u32)(MODEL_VARIANT_WORD(timing, 0x48) - MODEL_VARIANT_WORD(timing, 0x44));
