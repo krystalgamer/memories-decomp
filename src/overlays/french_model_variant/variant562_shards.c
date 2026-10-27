@@ -5,7 +5,7 @@
 #define SHARD_COUNT(work) ((*(Variant562ShardInfo *G32 *)((work) + 0x3230))->count)
 
 /* Places each shard's two halves at origin + direction * scale / 1024 (scale
- * clamped at zero), turned by the ratan2 heading plus a quarter turn, and
+ * clamped at zero), turned by the ratan2 heading plus a half turn, and
  * projects them with RotTransPers3. A second pass sorts one white-to-grey
  * POLY_GT4 per shard whose second scale is below 0x800, then grows both
  * scales by step * 128 up to 0x800 while the shard state is 1, moving the
