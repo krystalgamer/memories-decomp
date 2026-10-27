@@ -29,6 +29,9 @@ Each image contains eight closed contiguous functions beginning at `+4`,
 and `+0x3FE0`; raw data begins at `+0x4548`. The functions at `+0x13E0`
 and `+0x1FB8` are not entry-reachable. All seven unselected functions per
 image remain generated ASM: 84 retained instances, including 24 orphans.
+The helper at `+0x13E0` has since become exact C; see
+[warp rings](spanish-model-variant459-warp.md). So has the helper at
+`+0x19AC`; see [curtains](spanish-model-variant459-curtains.md).
 
 ## State, geometry, and lifetime
 

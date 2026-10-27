@@ -69,7 +69,10 @@ The local record remains 12 bytes. `vram_x` deliberately remains `u16`
 despite the SDK rectangle's signed coordinate view, and `vram_y` remains
 `s16`. There is no substitution of `RECT`, signedness change, range
 guarantee, or new bound. The separate
-`ModelType2RecordHeader.field_00` is still unknown and is not renamed.
+`ModelType2RecordHeader.descriptor_word_count` keeps its original `u16`
+representation. The SDK scanner consumes it as the number of 32-bit
+descriptor words following the preceding type word; it is not the
+number of image rows, columns, records or pixel-data words.
 
 The processor keeps its original per-row data writes, including the
 first-entry distinction and bit `0x8000` writes to later entries. Its byte
@@ -81,19 +84,22 @@ unusual coordinates.
 
 ## Deliberate limits
 
-`tent_Model_RebaseTexturedPrimitives` stays tentative. Its existing semantic
-record already identifies texture-page/CLUT bit arithmetic, but the actual
-source-upload linkage and PAL slot-2 conversion are not resolved by
-repeating that arithmetic. The auxiliary palette-sector upload from the
-previous component uses x `0x200` in NA and `0x280` in PAL; it is not
-automatically the upload that explains every HMD page/CLUT rewrite.
+`tent_Model_RebaseTexturedPrimitives` stays tentative overall. Actual
+retail-package observations now tie the measured PAL slot-2 palette
+conversion to its auxiliary upload, and distinguish unchanged high-row
+palettes in the streamed image bank. The measured ordinary-model palettes
+likewise agree with the loader/tint path. See
+[primitive context and palette evidence](model-primitive-context.md).
+The unexercised low-X branch and uncovered input/selector cases are not
+promoted into observed behavior or a broader input-domain guarantee.
 
-The existing `column_count`, `row_count`, and `index_offset` fields, the
-image-record header, primitive-context types, ModelSlot accumulators, and
-all SDK declarations remain unchanged. The unrelated display-object
+The existing `column_count`, `row_count`, and `index_offset` fields,
+primitive-context types, ModelSlot accumulators and SDK declarations
+remain unchanged. Both descriptor-length views retain their distinct
+byte-pair versus scalar representations, sizes and offsets. The unrelated display-object
 command table is not included to enlarge the bundle.
 
 No synthetic/generated-C/source-string harness or new control is added.
-Existing tests remain unchanged, including the primitive-context positive
-and incompatible-pointer negative checks. Cloud/native witness suites and
+Retained tooling/ABI policies remain unchanged; retired primitive-context
+controls are not revived. Cloud/native witness suites and
 regional/overlay image acceptance remain PR validation, not local execution.

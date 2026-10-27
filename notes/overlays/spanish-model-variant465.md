@@ -26,7 +26,7 @@ not in a reclassified code tail.
 | --- | ---: | --- | --- |
 | `0x0004` | 4,680 | Generated assembly entry | Entry |
 | `0x124C` | 1,056 | Fan C | Yes |
-| `0x166C` | 3,840 | Generated assembly companion | Yes |
+| `0x166C` | 3,840 | Fan-arms C (`french_model_variant/variant465_arms.c`) | Yes |
 | `0x256C` | 1,352 | Orbit C | Yes |
 | `0x2AB4` | 1,376 | Web C | Not demonstrated |
 | `0x3014` | 776 | Spoke C | Not demonstrated |

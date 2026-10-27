@@ -1,8 +1,9 @@
 # Primitive handler modes and shared packet state
 
-Two registry-based callback mappers and the draw pass's two remaining anonymous
-primitive-state words form one interface. Canonical declarations are isolated
-in `primitive_handler_modes.h`; existing headers remain unchanged.
+The original symbol-naming component grouped two registry-based callback
+mappers and two anonymous draw-state words into one interface. Its canonical
+declarations are isolated in `primitive_handler_modes.h`. The later complete
+remapping-chain views are documented below.
 
 ## Registered callback mapping
 
@@ -83,8 +84,8 @@ independently guarded registry/helper objects. All source paths, definitions,
 profiles, extents, sibling bodies and dispatch guards remain. Only obsolete
 resident spelling macros are retired.
 
-All existing headers, overlay C/import maps, tests, historical evidence and
-trace bytes remain unchanged. The accepted handler trace records zero hits
+That symbol-naming component left existing headers, overlay C/import maps,
+tests, historical evidence and trace bytes unchanged. The accepted handler trace records zero hits
 for both mappers, so it supplies no positive runtime observation; the names
 rest on local source, data and handwritten-instruction evidence.
 No handwritten packet instruction is edited.
@@ -94,3 +95,60 @@ source/profile contexts including initialized data, and complete generated
 fallback assembly, allowing only declared identity substitutions. A final
 clean resident executable match remains mandatory; local probes do not replace
 the PR's regional/overlay full-image checks.
+
+
+## Complete registered-value remapping chain
+
+The six complete registry/map/run definitions now distinguish registered
+handler VALUES from packed type KEYS. ModelHandlerRegistryEntry.key is
+STILL the packed type word; ModelHandlerRunEntry.handler_value is the
+existing signed callback word formerly called key. metadata keeps its
+original s32 type and all raw bits; there is no pointer conversion, new
+record owner, descriptor layout or allocation.
+
+The binders establish the distinction: Model_BindPrimitiveHandler and
+Model_BindSharedPrimitiveHandler write the selected callback through the
+GsTYPEUNIT-compatible pointer and register (original type, selected value).
+GsScanUnit's original SDK instructions at 0x8008A064..0x8008A080 return the
+type word plus its address, then clear the descriptor's scan flag at +4.
+The low halfword at +4 still sets its next-descriptor advance at
+0x8008A118..0x8008A12C: four bytes for the leading word plus four times that
+halfword. This is the same payload-length role as the primitive/image
+prefixes; the walker must NOT advance by sizeof(ModelHandlerRunEntry).
+
+Model_RegisterHandlerKey preserves first matching key and first wholly
+empty entry, refuses to update an existing key and stays a no-op on a full
+table. Model_FindHandlerKey and BOTH mappers retain their complete original
+eighty-entry scans, first duplicate-value match and specific SDK sentinel.
+Zero is not substituted for that sentinel. Missing and unsupported mapped
+keys retain the original input value; mapper-specific unsigned family masks,
+case order and target families remain unchanged. The two maps are not inverses.
+
+Model_RemapPrimitiveHandlers names the type_key from reverse lookup,
+count_flags_word, signed shifted type_tag, descriptor_stride_words and
+replacement_handler. It computes the stride BEFORE masking the high half.
+Eligibility remains EXACTLY ((u32)tag<2 && low_kind!=0 && high_half!=0) OR
+(tag==1 && low_kind==0): the shared zero-kind case is not folded into the
+other high-half gate. Its callback receives the STORED HANDLER VALUE and
+only result -1 leaves it unchanged. It does not publish the looked-up key.
+The countdown remains count-1 through -1; no new negative-count policy,
+type-range check, handler registry update, callback validation or retry.
+The third argument remains unused, with the original caller setup intact.
+
+Model_RunSlotHandlers keeps its active-slot guard, original unit-count loop
+tests, nonnull group gate, full three-word header reads, nonzero-count remap
+and exact -1 next-group sentinel. A zero next pointer is not a terminator.
+Its u32 group_words/next_group_words retain their integer-word views and
+casts; no guessed typed group or new nonnull pairing is introduced. The
+palette-flash completion caller and its signed byte-cursor view remain
+byte-for-byte unchanged, including argument order and its remap timing.
+
+Only one existing prefix field, scoped definition identifiers, six existing
+registry-comment identifiers and this owning note change, plus six existing
+semantic NOTES cells. Public prototype argument labels and every signature
+stay. The original source groups, SDK declarations, switch/private data,
+commons, fields/widths, macros, selectors and all other function bytes stay.
+Retired gameplay controls are not revived; no synthetic/generated-C/source-
+string behavioral harness or local cloud fixture. Fresh complete native
+objects and the final clean retail match remain required; regional and
+overlay image validation belongs to ordinary exact-head PR checks.

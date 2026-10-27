@@ -1,6 +1,16 @@
 #include "../../types.h"
 #include "variant438_warp.h"
 
+#if defined(VARIANT438_WARP_LAYOUT_459)
+#define WARP_STATE Warp459State
+#define WARP_COLOR(ring, c) ((c) * (2048 - (ring)->size) / 2048)
+#define WARP_SORTS(ring) 1
+#else
+#define WARP_STATE Warp438State
+#define WARP_COLOR(ring, c) (c)
+#define WARP_SORTS(ring) ((ring)->size < 2048)
+#endif
+
 void func_8013C614(u8 *context)
 {
     SVECTOR rotation;
@@ -10,7 +20,7 @@ void func_8013C614(u8 *context)
     GsCOORDINATE2 coordinate;
     PSXLONG interpolation;
     PSXLONG flag;
-    Warp438State *state = (Warp438State *)context;
+    WARP_STATE *state = (WARP_STATE *)context;
     s32 depth = 0;
     Warp438Ring *ring = state->rings;
     POLY_GT4 *poly = &state->polygon;
@@ -50,12 +60,12 @@ void func_8013C614(u8 *context)
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
             for (j = 0; j < 16; j++) {
-                r0 = ring->inner_color.r;
-                g0 = ring->inner_color.g;
-                b0 = ring->inner_color.b;
-                r1 = ring->outer_color.r;
-                g1 = ring->outer_color.g;
-                b1 = ring->outer_color.b;
+                r0 = WARP_COLOR(ring, ring->inner_color.r);
+                g0 = WARP_COLOR(ring, ring->inner_color.g);
+                b0 = WARP_COLOR(ring, ring->inner_color.b);
+                r1 = WARP_COLOR(ring, ring->outer_color.r);
+                g1 = WARP_COLOR(ring, ring->outer_color.g);
+                b1 = WARP_COLOR(ring, ring->outer_color.b);
                 RotTransPers4(&ring->outer[j], &ring->outer[j + 1], &ring->source[j], &ring->source[j + 1],
                               (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2,
                               (PSXLONG *)&poly->x3, &interpolation, &flag);
@@ -101,7 +111,7 @@ void func_8013C614(u8 *context)
                 setRGB1(poly, r0, g0, b0);
                 setRGB2(poly, r1, g1, b1);
                 setRGB3(poly, r1, g1, b1);
-                if (ring->size < 2048 && depth >= 0 && flag >= 0) {
+                if (WARP_SORTS(ring) && depth >= 0 && flag >= 0) {
                     GsSortPoly(poly, ot, depth);
                 }
             }

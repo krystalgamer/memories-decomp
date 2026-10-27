@@ -246,14 +246,15 @@ build from that French source under `gcc_2_8_1_g0_split`, with resident bindings
 read from the USA image's own `jal` targets. Thirty more differ from their French entry only
 in a regional constant (a CLUT or the screen height) and build through North
 American wrappers that set it. Forty-nine more add a North American work-size
-`printf` to their French entry, under a macro the wrappers define. Five hundred
-eighty-seven more build from new North American C: twenty-five under headers 72
+`printf` to their French entry, under a macro the wrappers define. Six hundred
+three more build from new North American C: twenty-five under headers 72
 and 202 (`src/overlays/model_variant/variant72_entry.c`; see the
 [USA header-72 note](../../../notes/overlays/usa-model-variant72.md)),
 twenty-four under headers 110 and 240 (`variant110_entry.c`; see the
 [USA header-110 note](../../../notes/overlays/usa-model-variant110.md)),
 ten under headers 111 and 241 (`variant111_entry.c`; see the
 [USA header-111 note](../../../notes/overlays/usa-model-variant111.md)),
+sixteen under headers 117 and 247 (`variant117_entry.c`),
 twenty-five under headers 118 and 248 (`variant118_entry.c`; see the
 [USA header-118 note](../../../notes/overlays/usa-model-variant118.md)),
 twenty under headers 119 and 249 (`variant119_entry.c`; see the
