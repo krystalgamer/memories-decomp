@@ -274,11 +274,11 @@ placement, raw data, and the overworld assembly block at `0x1618..0x17D0`.
 That block is **not** claimed as matching C. Scratch probes, objects,
 extracted modules and retail archives remain untracked.
 
-Another 449 MODEL variant images are single-entry images whose text is the
+Another 459 MODEL variant images are single-entry images whose text is the
 North American entry for the US header 17 below their own (French headers 89,
-127, 128, 134, 135, 136, 769, 771, 773, 783, 787, 796, 844, 845 and their slot-one
-counterparts 219, 257, 258, 264, 265, 266, 866, 868, 870, 880, 884, 893, 941, 942). They
-build from the accepted `model_variant/variant{72,110,111,117,118,827,828}_entry`
+98, 127, 128, 134, 135, 136, 769, 771, 773, 783, 787, 796, 844, 845 and their slot-one
+counterparts 219, 228, 257, 258, 264, 265, 266, 866, 868, 870, 880, 884, 893, 941, 942). They
+build from the accepted `model_variant/variant{72,81,110,111,117,118,827,828}_entry`
 sources and their `_slot1` copies unchanged. The
 `variant{119,752,754,756,766,779}_entry` families compile through
 `src/overlays/french_model_variant/` wrappers that define `VERSION_FRENCH`
