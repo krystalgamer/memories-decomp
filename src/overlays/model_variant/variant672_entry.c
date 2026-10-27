@@ -8,9 +8,13 @@
  * fading sprite with a ribbon fan, while three-sprite bursts grow at the
  * streak origins. The setup also prints the work-area size. */
 
-/* The work-size format string; retail's padding byte after the terminator is 0x78. */
+/* The work-size format string. The padding byte after its terminator is 'x'
+ * in the slot-zero images and 0 in the slot-one copies. */
+#ifndef MODEL672_STRING_PAD
+#define MODEL672_STRING_PAD "x"
+#endif
 #ifndef VERSION_FRENCH
-static const char D_8013CB00[24] = "E_DATA size = %x byte\n\0x";
+static const char D_8013CB00[24] = "E_DATA size = %x byte\n\0" MODEL672_STRING_PAD;
 #endif
 
 s32 func_8013B004(u8 *context, s32 command)
