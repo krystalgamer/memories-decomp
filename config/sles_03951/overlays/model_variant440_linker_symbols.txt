@@ -36,3 +36,4 @@ func_french_8008A428 = 0x8008A428;
 rsin = 0x80086628;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
+rcos = 0x800866F8;
