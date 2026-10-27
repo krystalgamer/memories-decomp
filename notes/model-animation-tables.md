@@ -362,6 +362,50 @@ and its phase-zero seek. The byte ID still contributes to the unchanged
 CD/SFX code packing. Preserve terminators, both cue tests, entry stride,
 the metadata block copy, call order and every store narrowing.
 
+## Action-row camera and sound-cue local views
+
+The contiguous Model_StartBattleSlotAction/Model_PlaySlotAnimationSounds
+definitions now name only their existing local views. action_row is
+the initial guardian-star selector plus three; camera_duration captures
+its row maximum BEFORE the optional row-control call. Camera setup
+still runs even for a zero-length row. Keep signed duration*2/3,
+minimum60 and the later nonzero u16 override, which can replace that
+minimum with a smaller value. Repeated selector/option reads stay live.
+The first hold-state call still receives0/2 from bit80, followed by
+a SECOND call with1 when bit40 is set. No time-unit or action-content
+interpretation is added.
+
+The cue pass keeps active, exact tint-black and sound-enabled gates,
+then captures animation_row, row_end_position and position_step.
+Normal cue_position remains position modulo length, with zero-length
+fallback0. use_command_cursor names ONLY the original signed-command/
+control-state predicate. Its alternate path keeps a SECOND frame-step
+call, captures the old sound cursor, publishes the narrowed increment
+and selects guardian_star+3; cue windows STILL use the FIRST step.
+
+The non-Japanese trace keeps separate selector/command reads, quotient
+and remainder, the later volatile sound-cursor reload and sprintf/FntPrint
+order. Japan retains its print-free path and omits the trace buffer.
+Only the normal path returns for playback_state0x23. No cursor merging,
+new scheduling path or changed diagnostic/command encoding.
+
+spatial_bytes remains the eight-byte automatic buffer passed to the
+unchanged spatial-volume/pan call. Its outputs are STILL NOT supplied
+to SD_SEPlay: volume0xFF/pan0 remain. The call stays before cue scanning.
+cue, cue_index, sound_id, slot_sound_tag, cd_seek_flag and sound_command
+retain original pointer/count/code views. The high bit selects the
+CD-tagged packing and phase-zero seek, not a new complete flag schema.
+Code construction still precedes the row-zero return. Preserve the
+row match, independent CD-seek and low15-bit [position,position+step)
+tests, possible seek-then-play order, four-byte advance, one-pass block,
+goto and64-record bound. No new cue bounds, ID or terminator policy.
+
+Only scoped bare locals in these TWO complete definitions and ONE
+identifier in an existing scheduling comment change. All arguments,
+member tokens, types, constants, expressions, scopes and order remain.
+Headers, callers, SDK declarations, grouped ownership and all existing
+fixtures/controls stay exact. No new harness or local cloud tests.
+
 ## Control lifecycle, active command row and playback state
 
 Four further raw bytes are named from their complete resident chains:

@@ -1266,30 +1266,30 @@ poll_module:
 
 void Model_StartBattleSlotAction(s32 arg0)
 {
-    ModelSlot *p;
-    ModelSlotCF8Block *q;
-    s32 index;
-    s32 value;
+    ModelSlot *slot;
+    ModelSlotCF8Block *metadata;
+    s32 action_row;
+    s32 camera_duration;
 
-    p = &gModel_aSlots[arg0];
-    q = &gModel_aSlots[arg0].field_CF8;
-    index = p->guardian_star_selection + 3;
-    value = p->animation_duration_rows[index].max;
-    if (value != 0) {
-        Model_ControlSlotAnimation(arg0, index, 1);
+    slot = &gModel_aSlots[arg0];
+    metadata = &gModel_aSlots[arg0].field_CF8;
+    action_row = slot->guardian_star_selection + 3;
+    camera_duration = slot->animation_duration_rows[action_row].max;
+    if (camera_duration != 0) {
+        Model_ControlSlotAnimation(arg0, action_row, 1);
     }
-    value = value * 2 / 3;
-    if (value < 60) {
-        value = 60;
+    camera_duration = camera_duration * 2 / 3;
+    if (camera_duration < 60) {
+        camera_duration = 60;
     }
-    if (q->battle_camera_duration_overrides[p->guardian_star_selection] != 0) {
-        value = q->battle_camera_duration_overrides[p->guardian_star_selection];
+    if (metadata->battle_camera_duration_overrides[slot->guardian_star_selection] != 0) {
+        camera_duration = metadata->battle_camera_duration_overrides[slot->guardian_star_selection];
     }
-    Model_RequestCameraMoveToSlots(1, -1, arg0 ^ 1, value);
+    Model_RequestCameraMoveToSlots(1, -1, arg0 ^ 1, camera_duration);
     Model_SetCameraHoldState(
-        ((q->prefix.bytes.guardian_star_options[p->guardian_star_selection] & 0x80) == 0) << 1
+        ((metadata->prefix.bytes.guardian_star_options[slot->guardian_star_selection] & 0x80) == 0) << 1
     );
-    if ((q->prefix.bytes.guardian_star_options[p->guardian_star_selection] & 0x40) != 0) {
+    if ((metadata->prefix.bytes.guardian_star_options[slot->guardian_star_selection] & 0x40) != 0) {
         Model_SetCameraHoldState(1);
     }
 }
@@ -1298,114 +1298,114 @@ void Model_StartBattleSlotAction(s32 arg0)
 void Model_PlaySlotAnimationSounds(s32 index) {
 #ifndef VERSION_JAPAN
     /* The Japanese build has no debug print, and no buffer for it. */
-    u8 buf[0x50];
+    u8 trace_text[0x50];
 #endif
-    u8 out[8];
-    ModelSlot *m;
-    ModelSlotSoundEntry *e;
-    s32 anim;
-    s32 length;
-    s32 speed;
-    s32 speed2;
-    s32 id;
-    s32 phase;
-    s32 tag;
-    s32 show;
-    s32 i;
-    s32 value;
-    s32 cur;
-    s32 code;
-    u16 flag;
+    u8 spatial_bytes[8];
+    ModelSlot *slot;
+    ModelSlotSoundEntry *cue;
+    s32 animation_row;
+    s32 row_end_position;
+    s32 position_step;
+    s32 sound_position_step;
+    s32 sound_id;
+    s32 cue_position;
+    s32 slot_sound_tag;
+    s32 use_command_cursor;
+    s32 cue_index;
+    s32 selected_command;
+    s32 guardian_star;
+    s32 sound_command;
+    u16 cd_seek_flag;
 
-    m = &gModel_aSlots[index];
-    if (m->is_active == 0) {
+    slot = &gModel_aSlots[index];
+    if (slot->is_active == 0) {
         return;
     }
-    if (m->tint[3] >= 2) {
-        if ((*(u32 *)m->tint & 0xFFFFFF) == 0) {
+    if (slot->tint[3] >= 2) {
+        if ((*(u32 *)slot->tint & 0xFFFFFF) == 0) {
             return;
         }
     }
-    if (m->animation_sound_enabled == 0) {
+    if (slot->animation_sound_enabled == 0) {
         return;
     }
-    anim = m->current_animation_row;
-    length = m->animation_duration_rows[anim].max << 4;
-    speed = m->playback_speed * Model_GetFrameStep();
-    e = m->sound_entries;
-    tag = (index << 8) + 0x4000;
-    if (length != 0) {
-        phase = m->animation_position % length;
+    animation_row = slot->current_animation_row;
+    row_end_position = slot->animation_duration_rows[animation_row].max << 4;
+    position_step = slot->playback_speed * Model_GetFrameStep();
+    cue = slot->sound_entries;
+    slot_sound_tag = (index << 8) + 0x4000;
+    if (row_end_position != 0) {
+        cue_position = slot->animation_position % row_end_position;
     } else {
-        phase = 0;
+        cue_position = 0;
     }
-    cur = m->guardian_star_selection;
-    value = ((ModelControlCommandView *)m)->commands[cur];
-    show = 0;
-    if (value >= 0) {
-        if (m->animation_control_state != 8) {
-            if (m->animation_control_state != 2 || cur + 3 == anim) {
-                show = 1;
+    guardian_star = slot->guardian_star_selection;
+    selected_command = ((ModelControlCommandView *)slot)->commands[guardian_star];
+    use_command_cursor = 0;
+    if (selected_command >= 0) {
+        if (slot->animation_control_state != 8) {
+            if (slot->animation_control_state != 2 || guardian_star + 3 == animation_row) {
+                use_command_cursor = 1;
             }
         }
-        if (show) {
+        if (use_command_cursor) {
 #ifdef VERSION_JAPAN
-            speed2 = m->playback_speed * Model_GetFrameStep();
-            phase = m->animation_sound_position;
-            m->animation_sound_position = phase + speed2;
-            anim = m->guardian_star_selection + 3;
+            sound_position_step = slot->playback_speed * Model_GetFrameStep();
+            cue_position = slot->animation_sound_position;
+            slot->animation_sound_position = cue_position + sound_position_step;
+            animation_row = slot->guardian_star_selection + 3;
 #else
-            s32 cur2;
-            s32 value2;
+            s32 trace_star;
+            s32 trace_command;
 
-            speed2 = m->playback_speed * Model_GetFrameStep();
-            cur2 = m->guardian_star_selection;
-            phase = m->animation_sound_position;
-            m->animation_sound_position = phase + speed2;
-            value2 = ((ModelControlCommandView *)m)->commands[cur2];
-            anim = m->guardian_star_selection + 3;
+            sound_position_step = slot->playback_speed * Model_GetFrameStep();
+            trace_star = slot->guardian_star_selection;
+            cue_position = slot->animation_sound_position;
+            slot->animation_sound_position = cue_position + sound_position_step;
+            trace_command = ((ModelControlCommandView *)slot)->commands[trace_star];
+            animation_row = slot->guardian_star_selection + 3;
             /* Retail loads animation_sound_position again after the store above; read
                plainly, GCC reuses the value it just stored instead. */
-            sprintf(buf, gModel_szAnimationSoundTraceFormat, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->animation_sound_position >> 4);
-            FntPrint(buf);
+            sprintf(trace_text, gModel_szAnimationSoundTraceFormat, trace_command / 1000, trace_command % 1000, *(volatile u16 *)&slot->animation_sound_position >> 4);
+            FntPrint(trace_text);
 #endif
         }
     }
-    if (show == 0) {
-        if (m->playback_state == 0x23) {
+    if (use_command_cursor == 0) {
+        if (slot->playback_state == 0x23) {
             return;
         }
     }
     SD_CalcSpatialVolumePan(
-        m->cached_position[0], m->cached_position[2], &out[0], &out[1]
+        slot->cached_position[0], slot->cached_position[2], &spatial_bytes[0], &spatial_bytes[1]
     );
-    i = 0;
+    cue_index = 0;
 loop:
-    flag = e->flags & 0x8000;
-    id = e->sound_id;
-    /* A one-pass block around the loop body; it decides which of phase
+    cd_seek_flag = cue->flags & 0x8000;
+    sound_id = cue->sound_id;
+    /* A one-pass block around the loop body; it decides which of cue_position
      * and the counter get $s1 and $s3. */
     do {
-        if (flag) {
-            code = flag | id;
+        if (cd_seek_flag) {
+            sound_command = cd_seek_flag | sound_id;
         } else {
-            code = (u16)tag | id;
+            sound_command = (u16)slot_sound_tag | sound_id;
         }
-        if (e->animation_row == 0) {
+        if (cue->animation_row == 0) {
             return;
         }
-        if (e->animation_row == anim) {
-            if (flag != 0 && phase == 0) {
-                SD_EnqueueCdSeek(code);
+        if (cue->animation_row == animation_row) {
+            if (cd_seek_flag != 0 && cue_position == 0) {
+                SD_EnqueueCdSeek(sound_command);
             }
-            if ((e->flags & 0x7FFF) >= phase && (e->flags & 0x7FFF) < phase + speed) {
-                SD_SEPlay(code, 0xFF, 0);
+            if ((cue->flags & 0x7FFF) >= cue_position && (cue->flags & 0x7FFF) < cue_position + position_step) {
+                SD_SEPlay(sound_command, 0xFF, 0);
             }
         }
-        i++;
-        e++;
+        cue_index++;
+        cue++;
     } while (0);
-    if (i < 0x40) {
+    if (cue_index < 0x40) {
         goto loop;
     }
 }
