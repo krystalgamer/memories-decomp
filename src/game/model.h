@@ -160,6 +160,13 @@ typedef union {
         u8 min_z;
         u8 pad_0A[2];
     } thresholds;
+    struct {
+        u8 pad_00[4];
+        s8 x;
+        s8 y;
+        s8 z;
+        u8 pad_07[5];
+    } position_offsets;
 } ModelSlotMetadataPrefix;
 
 typedef struct {
@@ -700,6 +707,15 @@ typedef char ModelSlotMetadataPrefix_size_must_be_0xC[
 ];
 typedef char ModelSlotMetadataPrefix_field_08_offset_must_be_0x8[
     MODEL_OFFSET(ModelSlotMetadataPrefix, values.field_08) == 0x8 ? 1 : -1
+];
+typedef char ModelSlotMetadataPrefix_position_offsets_layout_must_match[
+    MODEL_OFFSET(ModelSlotMetadataPrefix, position_offsets.x) == 4 &&
+    MODEL_OFFSET(ModelSlotMetadataPrefix, position_offsets.y) == 5 &&
+    MODEL_OFFSET(ModelSlotMetadataPrefix, position_offsets.z) == 6 &&
+    sizeof(((ModelSlotMetadataPrefix *)0)->position_offsets) == 12 &&
+    sizeof(((ModelSlotMetadataPrefix *)0)->position_offsets.x) == 1 &&
+    sizeof(((ModelSlotMetadataPrefix *)0)->position_offsets.y) == 1 &&
+    sizeof(((ModelSlotMetadataPrefix *)0)->position_offsets.z) == 1 ? 1 : -1
 ];
 typedef char ModelSlotMetadataBlock_first_star_module_command_offset_must_be_0x10[
     MODEL_OFFSET(ModelSlotMetadataBlock, first_star_module_command) == 0x10 ? 1 : -1
