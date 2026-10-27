@@ -1710,6 +1710,53 @@ offsets; the existing tick-mode assertion follows its renamed field.
 No witness contains these old member names, and no new test or harness is
 added. Cloud and witness suites remain for ordinary PR validation.
 
+### Secondary work-area initialization and scheduling local views
+
+SD_InitSecondaryWorkArea names its original s32 pointer work_area_cursor
+and u32 counter cleared_word_count. The pointer is installed globally
+BEFORE its first store, then the original do/while clears exactly 530
+words (0x848 bytes) while advancing that SAME pointer. The global retains
+the initial address. SpuInit, SD_ResetSecondaryPlaybackThunk and
+SD_ResetSecondaryState still follow in that order. No memset, typed-state
+clear, new size expression, bounds check or callback initialization.
+
+SD_ResetSecondaryState names six existing pointer stages: levels_state,
+pan_state, transfer_state, transfer_aux_state, transfer_pan_state and
+sequence_state. The three leading flag stores still use separate global
+accesses. levels_state stores object count and disables sequence updates;
+pan_state is loaded BEFORE levels_state stores the three levels.
+Keep pan override, transfer control +0x19, inactive state token, transfer
+control +0x1A and VAB pan in their original order with their original
+pointer owners and intervening reloads. The two unnamed control bytes
+gain no inferred volume role.
+
+The final sequence_state pointer retains the sequence token/state,
+right-then-left spatial defaults, both playback cursor clears and signed
+tick-mode default 0x1000. This reset remains PARTIAL: it does not newly
+clear vsync_update_mode, timer_maintenance_counter or the callback.
+No pointer consolidation, alias assumption or whole-state reset.
+
+SD_EnableSecondarySequenceUpdates names its existing s32 tick_mode
+snapshot; signed 0<mode<4 still gates event setup, then the enabled byte
+is ALWAYS set. SD_SetSequenceTickMode names only its s32 argument and
+still performs one store, with no validation or timer reconfiguration.
+SD_SetSequenceVSyncMode names the s32 vsync_mode input and the fresh
+scheduling_state read. It stores into the u8 selector BEFORE reloading
+that stored byte to choose timer_update_inhibit. Nonzero words with a
+zero low byte therefore still select the zero branch; no input-word
+Boolean test, normalization, event open/close or counter restart.
+
+SD_SetSecondaryObjectCount aligns its u32 count argument with the existing
+public prototype and names the u8 count_byte after the original low-byte
+mask. The separate upper-bound and zero rejections still return 0xFF
+without storing. Accepted bytes alone reach the s16 object_count store
+and return. No full-word validation, range clamp or caller-result repair.
+
+All six complete definitions keep types, constants, expressions, reloads,
+SDK call order and untouched definitions. The two whole public headers
+change only three argument identifiers and one existing comment identifier.
+No sound.h/layout/profile/manifest/fixture/trace change or new harness.
+
 ### Transfer-window state and results
 
 The leading halfword of `transfer` uses `SD_TRANSFER_STATE_INACTIVE` (`-1`)

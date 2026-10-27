@@ -2,16 +2,16 @@
 #include "sound.h"
 #include "sound_state_control.h"
 
-void SD_SetSequenceVSyncMode(s32 value)
+void SD_SetSequenceVSyncMode(s32 vsync_mode)
 {
-    SDSecondaryState *state;
+    SDSecondaryState *scheduling_state;
 
-    gSD_pSecondaryState->vsync_update_mode = value;
-    state = gSD_pSecondaryState;
-    if (state->vsync_update_mode != 0)
-        state->timer_update_inhibit = 1;
+    gSD_pSecondaryState->vsync_update_mode = vsync_mode;
+    scheduling_state = gSD_pSecondaryState;
+    if (scheduling_state->vsync_update_mode != 0)
+        scheduling_state->timer_update_inhibit = 1;
     else
-        state->timer_update_inhibit = 0;
+        scheduling_state->timer_update_inhibit = 0;
 }
 
 void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)

@@ -88,51 +88,51 @@ void SD_ResetMusicTrackBuffer(void)
 
 void SD_ResetSecondaryState(void)
 {
-    SDSecondaryState *state;
-    SDSecondaryState *other;
-    SDSecondaryState *third;
-    SDSecondaryState *fourth;
-    SDSecondaryState *fifth;
-    SDSecondaryState *final;
+    SDSecondaryState *levels_state;
+    SDSecondaryState *pan_state;
+    SDSecondaryState *transfer_state;
+    SDSecondaryState *transfer_aux_state;
+    SDSecondaryState *transfer_pan_state;
+    SDSecondaryState *sequence_state;
 
     gSD_pSecondaryState->timer_update_inhibit = 0;
     gSD_pSecondaryState->update_in_progress = 0;
     gSD_pSecondaryState->shared_track_updates_enabled = 0;
-    state = gSD_pSecondaryState;
-    state->object_count = SD_SECONDARY_OBJECT_COUNT;
-    state->sequence_updates_enabled = 0;
-    other = gSD_pSecondaryState;
-    state->sequence_level = 127;
-    state->master_level_left = 127;
-    state->master_level_right = 127;
-    other->pan_center_override = 0;
-    third = gSD_pSecondaryState;
-    third->transfer.field_0019 = 127;
-    fourth = gSD_pSecondaryState;
-    third->transfer.state_token = SD_TRANSFER_STATE_INACTIVE;
-    fourth->transfer.field_001A = 127;
-    fifth = gSD_pSecondaryState;
-    fifth->transfer.vab_pan = 64;
-    final = gSD_pSecondaryState;
-    final->sequence_open_token = -1;
-    final->sequence_state = 0;
-    final->spatial_level_right = SD_SECONDARY_LEVEL_MAX;
-    final->spatial_level_left = SD_SECONDARY_LEVEL_MAX;
-    final->fast_forward_target_address = 0;
-    final->last_track_cursor_address = 0;
-    final->sequence_tick_mode = 0x1000;
+    levels_state = gSD_pSecondaryState;
+    levels_state->object_count = SD_SECONDARY_OBJECT_COUNT;
+    levels_state->sequence_updates_enabled = 0;
+    pan_state = gSD_pSecondaryState;
+    levels_state->sequence_level = 127;
+    levels_state->master_level_left = 127;
+    levels_state->master_level_right = 127;
+    pan_state->pan_center_override = 0;
+    transfer_state = gSD_pSecondaryState;
+    transfer_state->transfer.field_0019 = 127;
+    transfer_aux_state = gSD_pSecondaryState;
+    transfer_state->transfer.state_token = SD_TRANSFER_STATE_INACTIVE;
+    transfer_aux_state->transfer.field_001A = 127;
+    transfer_pan_state = gSD_pSecondaryState;
+    transfer_pan_state->transfer.vab_pan = 64;
+    sequence_state = gSD_pSecondaryState;
+    sequence_state->sequence_open_token = -1;
+    sequence_state->sequence_state = 0;
+    sequence_state->spatial_level_right = SD_SECONDARY_LEVEL_MAX;
+    sequence_state->spatial_level_left = SD_SECONDARY_LEVEL_MAX;
+    sequence_state->fast_forward_target_address = 0;
+    sequence_state->last_track_cursor_address = 0;
+    sequence_state->sequence_tick_mode = 0x1000;
 }
 
-void SD_InitSecondaryWorkArea(s32 *data)
+void SD_InitSecondaryWorkArea(s32 *work_area_cursor)
 {
-    u32 i = 0;
+    u32 cleared_word_count = 0;
 
-    gSD_pSecondaryState = (SDSecondaryState *)data;
+    gSD_pSecondaryState = (SDSecondaryState *)work_area_cursor;
     do {
-        *data = 0;
-        i++;
-        data++;
-    } while (i < 530);
+        *work_area_cursor = 0;
+        cleared_word_count++;
+        work_area_cursor++;
+    } while (cleared_word_count < 530);
     SpuInit();
     SD_ResetSecondaryPlaybackThunk();
     SD_ResetSecondaryState();
@@ -140,18 +140,18 @@ void SD_InitSecondaryWorkArea(s32 *data)
 
 void SD_EnableSecondarySequenceUpdates(void)
 {
-    s32 value = gSD_pSecondaryState->sequence_tick_mode;
+    s32 tick_mode = gSD_pSecondaryState->sequence_tick_mode;
 
-    if (value > 0) {
-        if (value < 4)
+    if (tick_mode > 0) {
+        if (tick_mode < 4)
             SD_OpenSequenceTimerEvent();
     }
     gSD_pSecondaryState->sequence_updates_enabled = 1;
 }
 
-void SD_SetSequenceTickMode(s32 value)
+void SD_SetSequenceTickMode(s32 tick_mode)
 {
-    gSD_pSecondaryState->sequence_tick_mode = value;
+    gSD_pSecondaryState->sequence_tick_mode = tick_mode;
 }
 
 void SD_UpdateSecondarySequenceIfEnabled(void)
@@ -173,17 +173,17 @@ void SD_DisableSecondaryPanning(void)
 /* Validates a byte value against the secondary-object capacity and stores it
    into the s16 field 0x510 of *gSD_pSecondaryState. Returns the stored value, or 0xFF
    if out of range or zero. */
-s32 SD_SetSecondaryObjectCount(u32 a0) {
-    u8 x = a0 & 0xFF;
+s32 SD_SetSecondaryObjectCount(u32 count) {
+    u8 count_byte = count & 0xFF;
 
-    if (x >= SD_SECONDARY_OBJECT_COUNT + 1) {
+    if (count_byte >= SD_SECONDARY_OBJECT_COUNT + 1) {
         return 0xFF;
     }
-    if (x == 0) {
+    if (count_byte == 0) {
         return 0xFF;
     }
-    gSD_pSecondaryState->object_count = x;
-    return x;
+    gSD_pSecondaryState->object_count = count_byte;
+    return count_byte;
 }
 
 void SD_ResetSecondaryRuntime(void)
