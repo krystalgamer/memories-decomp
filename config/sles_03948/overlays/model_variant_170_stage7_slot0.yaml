@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_variant_170_stage7_slot0/entry]
+      - [0x4, c, overlays/spanish_model_variant/variant385_entry]
   - name: helper_F5C
     type: code
     start: 0xF5C
