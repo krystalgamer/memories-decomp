@@ -571,7 +571,11 @@ s32 func_8013B004(u8 *context, s32 command)
     }
     t = work->elapsed - config->beam_start - config->beam_time;
     if (t >= 0 && t < config->flash_time) {
+#ifdef VERSION_FRENCH
+        setXY4(&flash, 0, 0, 320, 0, 0, 256, 320, 256);
+#else
         setXY4(&flash, 0, 0, 320, 0, 0, 240, 320, 240);
+#endif
         red = (config->flash_time - t) * 255 / config->flash_time;
         setRGB0(&flash, red, red, red);
         Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
