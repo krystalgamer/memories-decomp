@@ -260,7 +260,7 @@ typedef struct {
        Runtime reset restores the active scales from these bytes. */
     u8 cd_mix_default;
     u8 secondary_mix_default;
-    u8 field_164B;
+    u8 default_bgm_step;
 } SDValue;
 
 /* SD_DropQueuedCdPlayCommands drops a queued command by copying the next 0x30-byte record
@@ -592,6 +592,9 @@ typedef char SDValue_cd_mix_default_offset_must_be_0x1649[
 ];
 typedef char SDValue_secondary_mix_default_offset_must_be_0x164A[
     SD_STATE_OFFSET(SDValue, secondary_mix_default) == 0x164A ? 1 : -1
+];
+typedef char SDValue_default_bgm_step_offset_must_be_0x164B[
+    SD_STATE_OFFSET(SDValue, default_bgm_step) == 0x164B ? 1 : -1
 ];
 typedef char SDValue_active_payload_layout_must_match[
     SD_STATE_OFFSET(SDValue, active_command_value) == 0x4E &&
@@ -942,7 +945,7 @@ void SD_SetVoiceEnvelopeFromTone(s32 index, SDSecondaryObject *object);
 void SD_ResetVoiceEnvelope(s32 index);
 
 void Sound_InitFrontend(void);
-void SD_InitState(u8);
+void SD_InitState(u8 master_xa_lba_byte);
 s32 SD_EnqueueCommand(SDCommand *);
 /* Scans queued commands [1, count) for 0x20, 0x11, or 0x24. The command
  * pump masks the result to a byte; the definition returns a full s32. */

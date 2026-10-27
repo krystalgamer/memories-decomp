@@ -11,7 +11,7 @@
 
 void SD_RequestBgmPlaybackDefaultStep(s32 command_id)
 {
-    SD_RequestBgmPlayback((s16)command_id, g_SDValue->field_164B);
+    SD_RequestBgmPlayback((s16)command_id, g_SDValue->default_bgm_step);
 }
 
 void SD_RequestBgmPlayback(s32 command_id, s32 step)

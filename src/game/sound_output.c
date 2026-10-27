@@ -204,7 +204,7 @@ void SD_BGMPreload(s32 command_id)
 
 void SD_BGMPlayDefaultStep(u32 command_id)
 {
-    SD_BGMPlayWithStep(command_id & SD_COMMAND_VALUE_MASK, g_SDValue->field_164B);
+    SD_BGMPlayWithStep(command_id & SD_COMMAND_VALUE_MASK, g_SDValue->default_bgm_step);
 }
 
 void SD_BGMPlayWithStep(s32 command_id, s32 step)

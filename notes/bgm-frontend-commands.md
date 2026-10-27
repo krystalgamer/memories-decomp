@@ -106,7 +106,8 @@ current music state; preload is not a promise of silence or playback.
 
 The public default-step wrapper retains its low-sixteen-bit mask; the
 direct sequenced default wrapper retains its s16 command cast. Both
-read the same existing field_164B byte, without a new cache, store or
+read the same existing default_bgm_step byte at +0x164B, without a new
+cache, store or
 interpretation of its 0xFF initializer. The untouched frontend retains
 its bitwise class ORs and current-command publication differences.
 
@@ -126,4 +127,5 @@ is invented. The SOUND_INIT_S16_VIEW declaration retains its s32/s16
 parameter types, guard and exact assembler alias, while the normal
 request declaration stays s32/s32. All casts, widths, default reads,
 reloads, source gates, masks, constants, storage and queue behavior
-remain; the broad sound.h and the frontend source stay untouched.
+remain; the frontend source stays untouched. The shared byte's name now
+describes this default-argument role, not a duration or CD timing effect.
