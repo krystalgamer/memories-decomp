@@ -16,7 +16,7 @@ image is represented as a duplicate sector.
 
 | Image range | Bytes | Owner |
 |---|---:|---|
-| `+0x0004..+0x0D00` | 3,324 | Assembly entry |
+| `+0x0004..+0x0D00` | 3,324 | Exact C [entry](spanish-model-variant405-entry.md) |
 | `+0x0D00..+0x12CC` | 1,484 | Assembly helper |
 | `+0x12CC..+0x1774` | 1,192 | Assembly helper |
 | `+0x1774..+0x1B64` | 1,008 | Independently recovered C |
