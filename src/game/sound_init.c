@@ -42,32 +42,32 @@ void SD_Init(void)
 
 void SD_OpenMusicVab(void)
 {
-    SDValue *state = g_SDValue;
+    SDValue *open_state = g_SDValue;
 
-    if (state->music_vab_open_result != 0) {
-        SDMusicPackage *entry = (SDMusicPackage *)state->music_track;
-        s32 result =
-            SD_VabOpenHead(&entry->vab_header, 0, entry->spu_address);
+    if (open_state->music_vab_open_result != 0) {
+        SDMusicPackage *package = (SDMusicPackage *)open_state->music_track;
+        s32 vab_result =
+            SD_VabOpenHead(&package->vab_header, 0, package->spu_address);
 
-        g_SDValue->music_vab_open_result = result;
-        if ((result << 16) != 0) {
+        g_SDValue->music_vab_open_result = vab_result;
+        if ((vab_result << 16) != 0) {
             g_SDValue->opened_music_package_id = -1;
             g_SDValue->music_vab_open_result = -1;
             return;
         }
     }
     {
-        register SDValue *final = g_SDValue;
-        register u16 *entry = final->music_track;
-        final->opened_music_package_id = *entry;
+        register SDValue *publish_state = g_SDValue;
+        register u16 *package_id_ptr = publish_state->music_track;
+        publish_state->opened_music_package_id = *package_id_ptr;
     }
 }
 
-void SD_SetMusicTrackBuffer(u16 *track)
+void SD_SetMusicTrackBuffer(u16 *track_buffer)
 {
     SD_ResetMusicState();
-    if (track != 0)
-        g_SDValue->music_track = track;
+    if (track_buffer != 0)
+        g_SDValue->music_track = track_buffer;
     else
         g_SDValue->music_track = (u16 *)0x801EA800;
     *g_SDValue->music_track = 0xFFFF;
@@ -75,15 +75,15 @@ void SD_SetMusicTrackBuffer(u16 *track)
 
 void SD_ResetMusicTrackBuffer(void)
 {
-    u16 *entry;
+    u16 *default_track_buffer;
 
     SD_ResetMusicState();
-    entry = (u16 *)0x801EA800;
+    default_track_buffer = (u16 *)0x801EA800;
     /* Stored through the member's address as void **: a plain member store
        (or a u16 ** cast, which fold turns back into one) picks a different
        register for the pointer and changes seven words. Measured. */
-    *(void **)&g_SDValue->music_track = entry;
-    entry[0] = 0xFFFF;
+    *(void **)&g_SDValue->music_track = default_track_buffer;
+    default_track_buffer[0] = 0xFFFF;
 }
 
 void SD_ResetSecondaryState(void)
@@ -278,24 +278,24 @@ s32 SD_VabOpenHead(SDVabHeader *vab, s16 vab_id, s32 spu_addr)
     return 0;
 }
 
-s32 SD_VabTransBody(s32 value, s16 expected)
+s32 SD_VabTransBody(s32 source_address, s16 expected_token)
 {
-    register int saved;
-    SDSecondaryState *state = gSD_pSecondaryState;
-    short current = state->transfer.state_token;
+    register int saved_source_address;
+    SDSecondaryState *transfer_state = gSD_pSecondaryState;
+    short current_token = transfer_state->transfer.state_token;
 
-    if (current != expected)
+    if (current_token != expected_token)
         return SD_TRANSFER_ERROR;
-    saved = value;
+    saved_source_address = source_address;
     {
-        SDSecondaryTransfer *entry = &state->transfer;
-        SpuSetTransferStartAddr((u32)entry->spu_body_base);
-        if (SpuWrite((u8 *)saved, (u32)entry->body_size_bytes) !=
-            entry->body_size_bytes)
+        SDSecondaryTransfer *transfer = &transfer_state->transfer;
+        SpuSetTransferStartAddr((u32)transfer->spu_body_base);
+        if (SpuWrite((u8 *)saved_source_address, (u32)transfer->body_size_bytes) !=
+            transfer->body_size_bytes)
             return SD_TRANSFER_ERROR;
-        entry->full_body_source_address = saved;
+        transfer->full_body_source_address = saved_source_address;
     }
-    return current;
+    return current_token;
 }
 
 /* Validates the caller's state token against the pending transfer's
@@ -304,54 +304,54 @@ s32 SD_VabTransBody(s32 value, s16 expected)
    consumed-byte counter. Returns the state token once the window fills,
    SD_TRANSFER_INCOMPLETE while more remains, or SD_TRANSFER_ERROR on a
    state mismatch or short transfer. */
-s32 SD_VabTransBodyChunk(u8 *rec, s32 count, s32 state) {
-    SDSecondaryState *v1 = gSD_pSecondaryState;
-    SDSecondaryTransfer *s1;
-    s32 result;
+s32 SD_VabTransBodyChunk(u8 *source_bytes, s32 byte_count, s32 expected_token) {
+    SDSecondaryState *transfer_state = gSD_pSecondaryState;
+    SDSecondaryTransfer *transfer;
+    s32 written_bytes;
 
-    if (v1->transfer.state_token != (s16)state) {
+    if (transfer_state->transfer.state_token != (s16)expected_token) {
         return SD_TRANSFER_ERROR;
     }
 
-    s1 = &v1->transfer;
+    transfer = &transfer_state->transfer;
     SpuSetTransferStartAddr(
-        (u32)(s1->spu_body_base + v1->bytes_consumed)
+        (u32)(transfer->spu_body_base + transfer_state->bytes_consumed)
     );
 
     {
-        s32 remaining = s1->body_size_bytes - gSD_pSecondaryState->bytes_consumed;
-        if ((u32)remaining < (u32)count) {
-            count = remaining;
+        s32 remaining_bytes = transfer->body_size_bytes - gSD_pSecondaryState->bytes_consumed;
+        if ((u32)remaining_bytes < (u32)byte_count) {
+            byte_count = remaining_bytes;
         }
     }
 
-    result = SpuWrite(rec, (u32)count);
-    if (result != count) {
+    written_bytes = SpuWrite(source_bytes, (u32)byte_count);
+    if (written_bytes != byte_count) {
         return SD_TRANSFER_ERROR;
     }
 
     {
-        u32 total = gSD_pSecondaryState->bytes_consumed + count;
-        gSD_pSecondaryState->bytes_consumed = total;
-        if (total >= (u32)s1->body_size_bytes) {
-            return (s16)state;
+        u32 consumed_total = gSD_pSecondaryState->bytes_consumed + byte_count;
+        gSD_pSecondaryState->bytes_consumed = consumed_total;
+        if (consumed_total >= (u32)transfer->body_size_bytes) {
+            return (s16)expected_token;
         }
     }
 
     return SD_TRANSFER_INCOMPLETE;
 }
 
-s16 SD_VabTransCompleted(s16 wait)
+s16 SD_VabTransCompleted(s16 wait_mode)
 {
-    if (wait == 0)
+    if (wait_mode == 0)
         return SpuIsTransferCompleted(SPU_TRANSFER_PEEK);
     return SpuIsTransferCompleted(SPU_TRANSFER_WAIT);
 }
 
 void SD_ResetVabTransferState(void)
 {
-    s16 *value = &gSD_pSecondaryState->transfer.state_token;
+    s16 *state_token_ptr = &gSD_pSecondaryState->transfer.state_token;
 
-    if (*value != SD_TRANSFER_STATE_INACTIVE)
-        *value = SD_TRANSFER_STATE_INACTIVE;
+    if (*state_token_ptr != SD_TRANSFER_STATE_INACTIVE)
+        *state_token_ptr = SD_TRANSFER_STATE_INACTIVE;
 }

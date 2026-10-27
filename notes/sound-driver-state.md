@@ -1855,6 +1855,55 @@ SDK call order and untouched definitions. The two whole public headers
 change only three argument identifiers and one existing comment identifier.
 No sound.h/layout/profile/manifest/fixture/trace change or new harness.
 
+### Music-buffer and VAB transfer local views
+
+SD_OpenMusicVab names open_state, vab_result and the separate final
+publish_state. Its two scoped entry bindings now distinguish the
+SDMusicPackage pointer package from the u16 package_id_ptr view.
+Keep the nonzero stored-result gate, SDK arguments, immediate result
+publication and original (vab_result << 16) test. Failure still writes
+both -1 markers and returns; only the later freshly loaded pointer
+publishes the leading halfword. No full-word success test, new open
+attempt, inferred caller or merged pointer lifetime.
+
+SD_SetMusicTrackBuffer names its u16* track_buffer argument.
+SD_ResetMusicTrackBuffer names default_track_buffer. Both still reset
+music state first, preserve the fixed fallback and 0xFFFF sentinel,
+and keep all global accesses. The reset retains its measured void**
+member-address store, not a direct assignment or a u16** substitution.
+
+SD_VabTransBody names source_address, expected_token,
+saved_source_address, transfer_state, current_token and transfer.
+The source stays an s32 ADDRESS word; the token argument remains s16.
+The existing register int and short declarations are unchanged.
+Mismatch still returns before SDK calls; a full-body write must match
+the staged length before recording full_body_source_address. Return
+the original signed token, not a normalized zero or byte count.
+
+SD_VabTransBodyChunk names source_bytes, byte_count, expected_token,
+transfer_state, transfer, written_bytes, remaining_bytes and
+consumed_total. Preserve the s16 token cast, initial destination using
+the first state's consumed count, later global reload for remaining
+bytes and the UNSIGNED clamp comparison. The mutable count remains s32;
+no negative rejection, saturation or signed-min substitution.
+Short writes return before consumed-byte publication. Only success
+reloads the global consumed count, adds the possibly clamped count, stores the
+u32 total and compares it with the original transfer's body size.
+Completion returns the s16 token, otherwise SD_TRANSFER_INCOMPLETE.
+No cached consumed count, new retry, rollback or DMA-state assertion.
+
+SD_VabTransCompleted names s16 wait_mode only: zero selects PEEK,
+all nonzero values select WAIT with the same SDK return conversion.
+SD_ResetVabTransferState names its existing s16* state_token_ptr and
+retains the conditional inactive store. Its definition remains void
+with NO argument; separate ambient-argument caller declarations and
+their ignored values are untouched. No hardware wait or reset is added.
+
+All seven complete definitions preserve every member token, type,
+register qualifier, constant, expression, scope and SDK/global order.
+The two whole headers change three existing parameter names only;
+there is no new prototype, export, storage/layout or sound.h change.
+
 ### Transfer-window state and results
 
 The leading halfword of `transfer` uses `SD_TRANSFER_STATE_INACTIVE` (`-1`)

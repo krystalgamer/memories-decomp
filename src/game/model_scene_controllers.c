@@ -2052,111 +2052,111 @@ last:
  * interpolates its start colour towards its end colour, redraws the slot with
  * the saved animation selector, then restores the slot and advances the request.
  *
- * What the allocation rests on: the shifted flag word `v` is masked into its
- * own name, `part`, ahead of the Model_SetSlotShadowEnabled call, and `part`
- * is copied to `sid` after it. `part` therefore lives and dies inside the one
+ * What the allocation rests on: the shifted flag word `flag_work` is masked into its
+ * own name, `request_animation_row`, ahead of the Model_SetSlotShadowEnabled call, and `request_animation_row`
+ * is copied to `draw_animation_row` after it. `request_animation_row` therefore lives and dies inside the one
  * basic block while crossing the call, so local-alloc gives the flag word,
- * shift and mask $s2 and pushes animation_position_snapshot to $s3; `sid` then inherits $s2
+ * shift and mask $s2 and pushes animation_position_snapshot to $s3; `draw_animation_row` then inherits $s2
  * through its
- * copy preference. `v` itself never crosses the call, which is what holds the
+ * copy preference. `flag_work` itself never crosses the call, which is what holds the
  * srl and andi ahead of it where the scheduler would otherwise sink them to
- * the end of the block. The saved current_animation_row is one name, `keep`, across both
+ * the end of the block. The saved current_animation_row is one name, `saved_animation_row`, across both
  * loops. */
 void Model_UpdateTintRequests(void)
 {
-    ModelTintColor save;
-    ModelTintColor col;
-    s32 i;
-    s32 j;
-    s32 k;
-    u32 v;
-    s32 keep;
-    s32 rowbase;
-    u32 part;
-    u32 sid;
-    s32 old;
-    u8 side;
-    u16 sav06;
-    s32 off;
-    u16 lo;
-    u16 hi;
-    u16 a;
-    s32 aa;
-    s32 sv;
-    ModelSlot *slot;
-    ModelTintRequest *e;
-    ModelTintRequest *table;
+    ModelTintColor saved_tint;
+    ModelTintColor draw_tint;
+    s32 request_index;
+    s32 draw_part_index;
+    s32 restore_part_index;
+    u32 flag_work;
+    s32 saved_animation_row;
+    s32 mask_base_address;
+    u32 request_animation_row;
+    u32 draw_animation_row;
+    s32 saved_shadow_state;
+    u8 slot_index;
+    u16 saved_animation_position;
+    s32 request_offset;
+    u16 elapsed;
+    u16 duration;
+    u16 request_animation_position;
+    s32 draw_position;
+    s32 restore_position;
+    ModelSlot *slot_state;
+    ModelTintRequest *request;
+    ModelTintRequest *requests;
 
-    table = (ModelTintRequest *)gModel_aTintRequests;
-    for (i = 0, off = 0; i < MODEL_TINT_REQUEST_COUNT; off += 0x18, i++) {
-        e = &table[i];
-        rowbase = (s32)((u8 *)table + 1);
-        if ((*(u8 *)e & 1) == 0) {
+    requests = (ModelTintRequest *)gModel_aTintRequests;
+    for (request_index = 0, request_offset = 0; request_index < MODEL_TINT_REQUEST_COUNT; request_offset += 0x18, request_index++) {
+        request = &requests[request_index];
+        mask_base_address = (s32)((u8 *)requests + 1);
+        if ((*(u8 *)request & 1) == 0) {
             continue;
         }
-        if (gModel_aSlots[(e->flags >> 1) & 1].is_active == 0) {
+        if (gModel_aSlots[(request->flags >> 1) & 1].is_active == 0) {
             continue;
         }
-        if (Model_HasInsufficientBufferSpace((e->flags >> 1) & 1, e->start.blend_mode)) {
+        if (Model_HasInsufficientBufferSpace((request->flags >> 1) & 1, request->start.blend_mode)) {
             goto tail;
         }
-        v = e->flags;
-        a = e->animation_position_snapshot;
-        lo = e->elapsed;
-        hi = e->duration;
-        side = (v >> 1) & 1;
-        v = v >> 3;
-        slot = &gModel_aSlots[side];
-        sav06 = slot->animation_position;
-        part = v & 0x1F;
-        keep = slot->current_animation_row;
-        old = Model_SetSlotShadowEnabled(side, 0);
-        sid = part;
-        save = *MODEL_TINT_COLOR_VIEW(slot->tint);
-        col.blend_mode = e->start.blend_mode;
-        col.r = e->start.r * (hi - lo) / hi + e->end.r * lo / hi;
-        col.g = e->start.g * (hi - lo) / hi + e->end.g * lo / hi;
-        col.b = e->start.b * (hi - lo) / hi + e->end.b * lo / hi;
-        *MODEL_TINT_COLOR_VIEW(slot->tint) = col;
+        flag_work = request->flags;
+        request_animation_position = request->animation_position_snapshot;
+        elapsed = request->elapsed;
+        duration = request->duration;
+        slot_index = (flag_work >> 1) & 1;
+        flag_work = flag_work >> 3;
+        slot_state = &gModel_aSlots[slot_index];
+        saved_animation_position = slot_state->animation_position;
+        request_animation_row = flag_work & 0x1F;
+        saved_animation_row = slot_state->current_animation_row;
+        saved_shadow_state = Model_SetSlotShadowEnabled(slot_index, 0);
+        draw_animation_row = request_animation_row;
+        saved_tint = *MODEL_TINT_COLOR_VIEW(slot_state->tint);
+        draw_tint.blend_mode = request->start.blend_mode;
+        draw_tint.r = request->start.r * (duration - elapsed) / duration + request->end.r * elapsed / duration;
+        draw_tint.g = request->start.g * (duration - elapsed) / duration + request->end.g * elapsed / duration;
+        draw_tint.b = request->start.b * (duration - elapsed) / duration + request->end.b * elapsed / duration;
+        *MODEL_TINT_COLOR_VIEW(slot_state->tint) = draw_tint;
 
-        aa = a;
-        for (j = 0; j < slot->animation_sequence_count; j++) {
-            s32 t = slot->current_animation_row;
-            if (sid != 0) {
-                slot->animation_sequences[j]->sid = sid;
-                t = sid;
+        draw_position = request_animation_position;
+        for (draw_part_index = 0; draw_part_index < slot_state->animation_sequence_count; draw_part_index++) {
+            s32 part_row = slot_state->current_animation_row;
+            if (draw_animation_row != 0) {
+                slot_state->animation_sequences[draw_part_index]->sid = draw_animation_row;
+                part_row = draw_animation_row;
             }
-            Model_SeekSlotPartAnimation(slot, j, t, aa);
+            Model_SeekSlotPartAnimation(slot_state, draw_part_index, part_row, draw_position);
         }
-        if (sid != 0) {
-            slot->current_animation_row = sid;
+        if (draw_animation_row != 0) {
+            slot_state->current_animation_row = draw_animation_row;
         }
 
-        gModel_PartMaskAddress = off + rowbase;
-        gModel_bDrawMaskedPartsOnly = (e->flags >> 2) & 1;
-        Model_DrawSlot(side);
+        gModel_PartMaskAddress = request_offset + mask_base_address;
+        gModel_bDrawMaskedPartsOnly = (request->flags >> 2) & 1;
+        Model_DrawSlot(slot_index);
         gModel_PartMaskAddress = 0;
         gModel_bDrawMaskedPartsOnly = 0;
 
-        sv = sav06;
-        for (k = 0; k < slot->animation_sequence_count; k++) {
-            s32 t = slot->current_animation_row;
-            if (keep != 0) {
-                slot->animation_sequences[k]->sid = keep;
-                t = keep;
+        restore_position = saved_animation_position;
+        for (restore_part_index = 0; restore_part_index < slot_state->animation_sequence_count; restore_part_index++) {
+            s32 part_row = slot_state->current_animation_row;
+            if (saved_animation_row != 0) {
+                slot_state->animation_sequences[restore_part_index]->sid = saved_animation_row;
+                part_row = saved_animation_row;
             }
-            Model_SeekSlotPartAnimation(slot, k, t, sv);
+            Model_SeekSlotPartAnimation(slot_state, restore_part_index, part_row, restore_position);
         }
-        if (keep != 0) {
-            slot->current_animation_row = keep;
+        if (saved_animation_row != 0) {
+            slot_state->current_animation_row = saved_animation_row;
         }
 
-        Model_SetSlotShadowEnabled(side, old);
-        *MODEL_TINT_COLOR_VIEW(slot->tint) = save;
+        Model_SetSlotShadowEnabled(slot_index, saved_shadow_state);
+        *MODEL_TINT_COLOR_VIEW(slot_state->tint) = saved_tint;
 tail:
-        e->elapsed += Model_GetFrameStep();
-        if (e->elapsed >= e->duration) {
-            e->flags &= 0xFFFE;
+        request->elapsed += Model_GetFrameStep();
+        if (request->elapsed >= request->duration) {
+            request->flags &= 0xFFFE;
         }
     }
 }
