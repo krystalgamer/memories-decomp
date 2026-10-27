@@ -20,77 +20,77 @@ printf("unsupported IMAGE primitive 0x%08lx.\n", v);
 return (void*)GsU_00000000;}
 
 void *Model_GetPrimitiveHandler(u32 arg0) {
-    s32 temp_a0_2;
-    u32 temp_a0;
-    u32 temp_a0_3;
-    u32 temp_a0_4;
-    u32 temp_a0_5;
-    u32 temp_v1;
+    s32 fog_type;
+    u32 plain_type;
+    u32 two_sided_type;
+    u32 semi_type;
+    u32 two_sided_semi_type;
+    u32 family_word;
 
-    temp_v1 = arg0 & 0xFFFF0000;
-    if (temp_v1 == 0x100000) {
+    family_word = arg0 & 0xFFFF0000;
+    if (family_word == 0x100000) {
         goto block_38;
     }
-    if (temp_v1 > 0x100000U) {
+    if (family_word > 0x100000U) {
         goto block_5;
     }
-    if (temp_v1 == 0) {
+    if (family_word == 0) {
         goto block_8;
     }
-    if (temp_v1 == 0x20000) {
+    if (family_word == 0x20000) {
         goto block_33;
     }
     goto block_107;
 block_5:
-    if (temp_v1 == 0x200000) {
+    if (family_word == 0x200000) {
         goto block_61;
     }
-    if (temp_v1 == 0x300000) {
+    if (family_word == 0x300000) {
         goto block_84;
     }
     goto block_107;
 block_8:
-    temp_a0 = arg0 & 0xFFFF;
-    if (temp_a0 == 0x15) {
+    plain_type = arg0 & 0xFFFF;
+    if (plain_type == 0x15) {
         goto block_28;
     }
-    if (temp_a0 >= 0x16U) {
+    if (plain_type >= 0x16U) {
         goto block_17;
     }
-    if (temp_a0 == 9) {
+    if (plain_type == 9) {
         goto block_25;
     }
-    if (temp_a0 >= 0xAU) {
+    if (plain_type >= 0xAU) {
         goto block_14;
     }
-    if (temp_a0 == 0) {
+    if (plain_type == 0) {
         goto block_24;
     }
     goto block_107;
 block_14:
-    if (temp_a0 == 0xD) {
+    if (plain_type == 0xD) {
         goto block_26;
     }
-    if (temp_a0 == 0x11) {
+    if (plain_type == 0x11) {
         goto block_27;
     }
     goto block_107;
 block_17:
-    if (temp_a0 == 0x20D) {
+    if (plain_type == 0x20D) {
         goto block_30;
     }
-    if (temp_a0 >= 0x20EU) {
+    if (plain_type >= 0x20EU) {
         goto block_21;
     }
-    if (temp_a0 == 0x209) {
+    if (plain_type == 0x209) {
         goto block_29;
     }
     goto block_107;
 block_21:
-    if (temp_a0 == 0x211) {
+    if (plain_type == 0x211) {
         goto block_31;
     }
-    if (temp_a0 == 0x215) {
+    if (plain_type == 0x215) {
         goto block_32;
     }
     goto block_107;
@@ -113,11 +113,11 @@ block_31:
 block_32:
     return Model_DrawGt4WindowRecordPrimitives;
 block_33:
-    temp_a0_2 = arg0 & 0xFFFF;
-    if (temp_a0_2 == 0xD) {
+    fog_type = arg0 & 0xFFFF;
+    if (fog_type == 0xD) {
         goto block_36;
     }
-    if (temp_a0_2 == 0x15) {
+    if (fog_type == 0x15) {
         goto block_37;
     }
     goto block_107;
@@ -126,44 +126,44 @@ block_36:
 block_37:
     return Model_DrawFogTexturedQuads;
 block_38:
-    temp_a0_3 = arg0 & 0xFFFF;
-    if (temp_a0_3 == 0x15) {
+    two_sided_type = arg0 & 0xFFFF;
+    if (two_sided_type == 0x15) {
         goto block_56;
     }
-    if (temp_a0_3 >= 0x16U) {
+    if (two_sided_type >= 0x16U) {
         goto block_46;
     }
-    if (temp_a0_3 == 0xD) {
+    if (two_sided_type == 0xD) {
         goto block_54;
     }
-    if (temp_a0_3 >= 0xEU) {
+    if (two_sided_type >= 0xEU) {
         goto block_44;
     }
-    if (temp_a0_3 == 9) {
+    if (two_sided_type == 9) {
         goto block_53;
     }
     goto block_107;
 block_44:
-    if (temp_a0_3 == 0x11) {
+    if (two_sided_type == 0x11) {
         goto block_55;
     }
     goto block_107;
 block_46:
-    if (temp_a0_3 == 0x20D) {
+    if (two_sided_type == 0x20D) {
         goto block_58;
     }
-    if (temp_a0_3 >= 0x20EU) {
+    if (two_sided_type >= 0x20EU) {
         goto block_50;
     }
-    if (temp_a0_3 == 0x209) {
+    if (two_sided_type == 0x209) {
         goto block_57;
     }
     goto block_107;
 block_50:
-    if (temp_a0_3 == 0x211) {
+    if (two_sided_type == 0x211) {
         goto block_59;
     }
-    if (temp_a0_3 == 0x215) {
+    if (two_sided_type == 0x215) {
         goto block_60;
     }
     goto block_107;
@@ -184,44 +184,44 @@ block_59:
 block_60:
     return Model_DrawTwoSidedGt4WindowRecordPrimitives;
 block_61:
-    temp_a0_4 = arg0 & 0xFFFF;
-    if (temp_a0_4 == 0x15) {
+    semi_type = arg0 & 0xFFFF;
+    if (semi_type == 0x15) {
         goto block_79;
     }
-    if (temp_a0_4 >= 0x16U) {
+    if (semi_type >= 0x16U) {
         goto block_69;
     }
-    if (temp_a0_4 == 0xD) {
+    if (semi_type == 0xD) {
         goto block_77;
     }
-    if (temp_a0_4 >= 0xEU) {
+    if (semi_type >= 0xEU) {
         goto block_67;
     }
-    if (temp_a0_4 == 9) {
+    if (semi_type == 9) {
         goto block_76;
     }
     goto block_107;
 block_67:
-    if (temp_a0_4 == 0x11) {
+    if (semi_type == 0x11) {
         goto block_78;
     }
     goto block_107;
 block_69:
-    if (temp_a0_4 == 0x20D) {
+    if (semi_type == 0x20D) {
         goto block_81;
     }
-    if (temp_a0_4 >= 0x20EU) {
+    if (semi_type >= 0x20EU) {
         goto block_73;
     }
-    if (temp_a0_4 == 0x209) {
+    if (semi_type == 0x209) {
         goto block_80;
     }
     goto block_107;
 block_73:
-    if (temp_a0_4 == 0x211) {
+    if (semi_type == 0x211) {
         goto block_82;
     }
-    if (temp_a0_4 == 0x215) {
+    if (semi_type == 0x215) {
         goto block_83;
     }
     goto block_107;
@@ -242,44 +242,44 @@ block_82:
 block_83:
     return Model_DrawSemiGt4WindowRecordPrimitives;
 block_84:
-    temp_a0_5 = arg0 & 0xFFFF;
-    if (temp_a0_5 == 0x15) {
+    two_sided_semi_type = arg0 & 0xFFFF;
+    if (two_sided_semi_type == 0x15) {
         goto block_102;
     }
-    if (temp_a0_5 >= 0x16U) {
+    if (two_sided_semi_type >= 0x16U) {
         goto block_92;
     }
-    if (temp_a0_5 == 0xD) {
+    if (two_sided_semi_type == 0xD) {
         goto block_100;
     }
-    if (temp_a0_5 >= 0xEU) {
+    if (two_sided_semi_type >= 0xEU) {
         goto block_90;
     }
-    if (temp_a0_5 == 9) {
+    if (two_sided_semi_type == 9) {
         goto block_99;
     }
     goto block_107;
 block_90:
-    if (temp_a0_5 == 0x11) {
+    if (two_sided_semi_type == 0x11) {
         goto block_101;
     }
     goto block_107;
 block_92:
-    if (temp_a0_5 == 0x20D) {
+    if (two_sided_semi_type == 0x20D) {
         goto block_104;
     }
-    if (temp_a0_5 >= 0x20EU) {
+    if (two_sided_semi_type >= 0x20EU) {
         goto block_96;
     }
-    if (temp_a0_5 == 0x209) {
+    if (two_sided_semi_type == 0x209) {
         goto block_103;
     }
     goto block_107;
 block_96:
-    if (temp_a0_5 == 0x211) {
+    if (two_sided_semi_type == 0x211) {
         goto block_105;
     }
-    if (temp_a0_5 == 0x215) {
+    if (two_sided_semi_type == 0x215) {
         goto block_106;
     }
     goto block_107;
@@ -313,14 +313,14 @@ void Model_BindPrimitiveHandler(ModelHandlerObject *object)
 }
 
 s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
-    u32 t;
-    u32 u;
+    u32 family_word;
+    u32 primitive_type;
 
-    t = arg0 & 0xFFFF0000;
-    switch (t) {
+    family_word = arg0 & 0xFFFF0000;
+    switch (family_word) {
     case 0x1000000:
-        u = arg0 & 0xFFFF;
-        switch (u) {
+        primitive_type = arg0 & 0xFFFF;
+        switch (primitive_type) {
         case 0x0:
             return (s32)Model_PrepareSharedPrimitiveCaches;
         case 0xD:
@@ -334,8 +334,8 @@ s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
         }
         break;
     case 0x1100000:
-        u = arg0 & 0xFFFF;
-        switch (u) {
+        primitive_type = arg0 & 0xFFFF;
+        switch (primitive_type) {
         case 0xD:
             return (s32)Model_DrawSharedTwoSidedGt3Primitives;
         case 0x15:
@@ -347,8 +347,8 @@ s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
         }
         break;
     case 0x1200000:
-        u = arg0 & 0xFFFF;
-        switch (u) {
+        primitive_type = arg0 & 0xFFFF;
+        switch (primitive_type) {
         case 0xD:
             return (s32)Model_DrawSharedSemiGt3Primitives;
         case 0x15:
@@ -360,8 +360,8 @@ s32 Model_GetSharedPrimitiveHandler(s32 arg0) {
         }
         break;
     case 0x1300000:
-        u = arg0 & 0xFFFF;
-        switch (u) {
+        primitive_type = arg0 & 0xFFFF;
+        switch (primitive_type) {
         case 0xD:
             return (s32)Model_DrawSharedTwoSidedSemiGt3Primitives;
         case 0x15:

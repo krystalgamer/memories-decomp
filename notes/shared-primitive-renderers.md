@@ -123,3 +123,26 @@ only the seventeen identities. No instruction, register, directive or
 filename is filtered. Final clean resident matching and fresh applicable
 PR image checks remain required; no local cloud/full regional/overlay
 suite is used.
+
+## Shared selector local views
+
+The complete Model_GetSharedPrimitiveHandler definition now names only
+its existing family_word and primitive_type locals. family_word retains
+the FFFF0000 mask and all FOUR original category/option case values.
+primitive_type deliberately remains ONE u32 binding assigned separately
+in EACH outer case; no prefetch, merged switch or extracted helper.
+
+Only the base01000000 family accepts kind0 for cache preparation.
+All four families retain their D/15/20D/215 polygon choices, giving the
+same seventeen returns. Keep every break, diagnostic, cast and unsupported
+GsU_00000000 fallback. The signed argument and s32 callback-address return
+are not replaced with the ordinary selector's pointer interface.
+
+Model_InitSlot reaches the unchanged shared binder for scan tag1 after
+the existing rebase call. Pointer publication STILL precedes registration
+using the reloaded key/stored handler. No new registry or cache policy.
+The image selector and both binders, headers, SDK declarations, aliases,
+renderers, profiles, data, fixtures and controls stay exact.
+See [the paired ordinary pass](direct-polygon-renderers.md#ordinary-selector-local-views).
+This local pass establishes no broader opcode taxonomy, opaque-output
+guarantee, callback ABI, lifetime or reachability for every supported key.
