@@ -33,10 +33,10 @@ void SD_EnqueueSpuRamTransfer(
 );
 /* Prepares a BGM command without starting it: bit-15 ids queue a CD seek,
    other ids queue their music package load. */
-void SD_BGMPreload(s32 arg0);
-void SD_BGMPlayDefaultStep(u32 value);
-void SD_BGMPlayWithStep(s32 arg0, s32 arg1);
-void SD_BGMStop(u32 value);
+void SD_BGMPreload(s32 command_id);
+void SD_BGMPlayDefaultStep(u32 command_id);
+void SD_BGMPlayWithStep(s32 command_id, s32 step);
+void SD_BGMStop(u32 command_id);
 void SD_BGMStopWithStep(u16 id, s32 step);
 void SD_BGMFade(s32 step, s32 target);
 

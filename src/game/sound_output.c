@@ -178,59 +178,59 @@ void SD_EnqueueSpuRamTransfer(
     SD_EnqueueCommand(&command);
 }
 
-void SD_PreloadBgmAndReplaceValueLink(u32 value)
+void SD_PreloadBgmAndReplaceValueLink(u32 packed_request)
 {
-    SD_BGMPreload(value >> 16);
-    SD_ReplaceValueLink(value & SD_COMMAND_VALUE_MASK);
+    SD_BGMPreload(packed_request >> 16);
+    SD_ReplaceValueLink(packed_request & SD_COMMAND_VALUE_MASK);
 }
 
-void SD_BGMPreload(s32 arg0)
+void SD_BGMPreload(s32 command_id)
 {
-    u16 saved = arg0;
+    u16 saved_command = command_id;
 
     if ((g_SDValue->data_source_flags & 2) == 0)
         return;
 
-    if (arg0 & 0x8000) {
-        SD_EnqueueCdSeek(saved & SD_COMMAND_VALUE_MASK);
+    if (command_id & 0x8000) {
+        SD_EnqueueCdSeek(saved_command & SD_COMMAND_VALUE_MASK);
     } else {
-        u32 masked = (u32)(saved & SD_COMMAND_VALUE_MASK);
+        u32 masked_command = (u32)(saved_command & SD_COMMAND_VALUE_MASK);
 
-        if (masked >= SD_BGM_COMMAND_BASE)
-            arg0 -= SD_BGM_COMMAND_BASE;
-        SD_RequestMusicPackageLoad((s16)arg0, 1);
+        if (masked_command >= SD_BGM_COMMAND_BASE)
+            command_id -= SD_BGM_COMMAND_BASE;
+        SD_RequestMusicPackageLoad((s16)command_id, 1);
     }
 }
 
-void SD_BGMPlayDefaultStep(u32 value)
+void SD_BGMPlayDefaultStep(u32 command_id)
 {
-    SD_BGMPlayWithStep(value & SD_COMMAND_VALUE_MASK, g_SDValue->field_164B);
+    SD_BGMPlayWithStep(command_id & SD_COMMAND_VALUE_MASK, g_SDValue->field_164B);
 }
 
-void SD_BGMPlayWithStep(s32 arg0, s32 arg1)
+void SD_BGMPlayWithStep(s32 command_id, s32 step)
 {
-    u16 saved = arg0;
+    u16 saved_command = command_id;
 
     if ((g_SDValue->data_source_flags & 2) == 0)
         return;
 
-    if (arg0 & 0x8000) {
+    if (command_id & 0x8000) {
         SD_BGMStop(SD_BGM_COMMAND_BASE);
-        arg1 = (s16)arg1;
-        SD_EnqueueCdPlay(saved & SD_COMMAND_VALUE_MASK, arg1);
+        step = (s16)step;
+        SD_EnqueueCdPlay(saved_command & SD_COMMAND_VALUE_MASK, step);
     } else {
-        u32 masked = (u32)(saved & SD_COMMAND_VALUE_MASK);
+        u32 masked_command = (u32)(saved_command & SD_COMMAND_VALUE_MASK);
 
-        if (masked >= SD_BGM_COMMAND_BASE)
-            arg0 -= SD_BGM_COMMAND_BASE;
-        arg1 = (s16)arg1;
-        SD_RequestBgmPlayback((s16)arg0, arg1);
+        if (masked_command >= SD_BGM_COMMAND_BASE)
+            command_id -= SD_BGM_COMMAND_BASE;
+        step = (s16)step;
+        SD_RequestBgmPlayback((s16)command_id, step);
     }
 }
 
-void SD_BGMStop(u32 value)
+void SD_BGMStop(u32 command_id)
 {
-    SD_BGMStopWithStep(value & SD_COMMAND_VALUE_MASK, -32);
+    SD_BGMStopWithStep(command_id & SD_COMMAND_VALUE_MASK, -32);
 }
 
 void SD_BGMStopWithStep(u16 id, s32 step)
