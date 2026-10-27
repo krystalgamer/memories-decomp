@@ -1056,3 +1056,71 @@ Python string constants, with complete-file inverses. Every operator,
 literal, oracle, scenario, mutation, numeric expectation, count, compiler
 flag and control remains. No fixture was imported/executed locally and
 no synthetic/generated-C/source-string behavioral harness is added.
+
+
+## Complete initialization and coordinate-selection local views
+
+Model_InitSlot now distinguishes model_slot, its GsUNIT hmd_unit cursor,
+the byte hmd_cursor, ordering table, scanned type_unit, raw group_words and
+SDK scratch pointer. These are the existing SDK/raw views, not new types,
+record owners or allocations. All definition parameters and public headers
+remain byte-identical.
+
+The single scan_index retains its different phases: zero-based HMD walk,
+one-based coordinate linking, then parentless-coordinate scan. Its value
+ONE still participates in max_lit_color_index+scan_index before the next
+phase; it is not replaced by a new independent constant or extra local.
+The byte HMD-count load, cap at60, nonnull group gates and partial SDK coord/
+primtop initialization stay. Null HMD still returns after the original
+resets; negative flags still preserve draw_mode_request and tint[7].
+No new slot validation, readiness, initialized-array or allocation guarantee.
+
+The original tag-routing goto chain is load-bearing. Keep zero-type skip,
+tag extraction before the possible coordinate flag clear, tag0/1 primitive
+calls with distinct nonnull/null maximum arguments, tag2 image dispatch,
+tag3 animation linking and the default SDK no-op word publication. The
+coordinate-flag path retains its exact eligible tags and read/call order;
+it is NOT made a generic test for every type. No type mask, callback or
+scratch-prefix change.
+
+Coordinate linking still visits unit indices1..count-2, increments entry_count
+even for a null primitive block, and advances the byte coordinate offset by
+MODEL_SLOT_DATA_ENTRY_SIZE. The root scan remains unbounded by entry_count:
+root_scan_coordinate advances until super is null. The full integer scan
+forms root_coordinate, independently of the narrowed root index byte.
+No malformed-tree guard, root fallback, cycle check or bounds repair.
+
+The first child-helper result is stored/narrowed into the render-parent
+index byte BEFORE its existing comparison and root-index fallback. The
+render_parent_candidate pointer retains that original initial selection.
+The retry keeps captured_unit_count and its separate unit_count_limit copy,
+both original loop comparisons and later member-read sites; no forced-reload
+or concurrent-update guarantee is added. A claimed candidate requires the
+original coord/primtop pair and (first group word!=-1 OR third word!=0).
+The subsequent child helper uses its full integer result under the original
+comparison. Do not publish the mutable candidate into the slot on each retry.
+
+The final parent_coordinate is the candidate's super. It replaces the stored
+render parent ONLY when different from the root; a null replacement leaves
+the old index byte untouched, while a nonnull one stores the narrowed pointer
+difference. The snapshot-buffer fallback remains hmd+size only when null,
+after all preceding work. No new capacity, lifetime or pointer/index invariant.
+
+Model_FindBranchingChildCoord's complete local views distinguish the outer
+child_candidate/child_index from grandchild_candidate/grandchild_index.
+It scans direct children of the supplied parent and returns the first whose
+coordinate has a direct child in the same array; no recursive walk or claim
+of multiple children is added. entry_count_snapshot, the separate inner
+entry_count_limit and the original later member reads remain distinct.
+candidate_coordinate is STILL separately formed from coordinate_bytes plus
+coordinate_byte_offset, rather than replaced by the outer cursor. Preserve
+the zero-count exit, repeated zero test, inner/outer goto loops, typed stride
+and original index return when no candidate qualifies.
+
+Only scoped bare locals in these TWO complete definitions and two existing
+semantic NOTES cells change, plus this owning-note append. All members, types,
+declarations/order/lifetimes, casts, constants, operators, labels, calls,
+macros, comments, prototypes, other functions, profiles and storage remain.
+No tentative function promotion, new behavioral harness, synthetic/generated-
+C/source-string test or revived retired fixture; regional/overlay full-image
+validation remains ordinary exact-head PR work, not local cloud execution.
