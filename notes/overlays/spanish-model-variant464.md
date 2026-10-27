@@ -31,17 +31,17 @@ All six images have the following closed, fully visited function CFGs:
 
 | Offset range | Bytes | Selection |
 | --- | --- | --- |
-| `0x0004..0x1368` | 4,964 | Entry, generated assembly |
-| `0x1368..0x18EC` | 1,412 | Helper, generated assembly |
+| `0x0004..0x1368` | 4,964 | [Entry](french-model-variant464-entry.md), matching C |
+| `0x1368..0x18EC` | 1,412 | [Rings](french-model-variant464-rings.md), matching C |
 | `0x18EC..0x1E94` | 1,448 | [Advancing quads](spanish-model-variant464-advancing.md), matching C |
 | `0x1E94..0x2320` | 1,164 | Descriptor-driven sheets, matching C |
-| `0x2320..0x2838` | 1,304 | Non-entry-reachable helper, generated assembly |
-| `0x2838..0x2DAC` | 1,396 | Non-entry-reachable helper, generated assembly |
+| `0x2320..0x2838` | 1,304 | Non-entry-reachable [webs](french-model-variant464-webs.md), matching C |
+| `0x2838..0x2DAC` | 1,396 | Non-entry-reachable [curtains](spanish-model-variant464-curtains.md), matching C |
 
 The entry directly calls the first three helpers. The last two closed
 functions are **not entry-reachable**, but remain inventoried code owners.
-After the advancing-quad recovery, twenty-four function instances remain
-assembly; twelve are C (15,672 bytes across two unique routines).
+In each of the French and Spanish releases all thirty-six function instances
+are now C (six unique routines, 11,688 bytes per image).
 The four-byte headers and
 8,788-byte suffixes at `+0x2DAC` remain raw owners. Each suffix is
 **unclassified**, not assumed to be entirely data.
