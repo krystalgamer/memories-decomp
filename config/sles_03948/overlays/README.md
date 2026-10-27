@@ -363,6 +363,12 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant674_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Six images under French headers 159 and 289 are the North American
+header-142 entry (`model_variant/variant142_entry.c`) without its work-size
+printf or that call's `.rodata` format string, built through
+`src/overlays/french_model_variant/variant159_entry{,_slot1}.c`. The scale
+vector sits 0x14 lower and the image and command tables 0x24 lower.
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are
