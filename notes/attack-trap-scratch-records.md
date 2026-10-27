@@ -44,7 +44,7 @@ the battle caller already has a `DisplayObject *` and no longer casts it
 down to bytes. Thresholds, ordering, fallback-trap handling and selected
 outputs do not change.
 
-`tools/project/tests/test_attack_trap_layout.py` compiles the real layouts
+[retired `test_attack_trap_layout.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_attack_trap_layout.py) compiles the real layouts
 with GCC 2.8.1, checks both array endpoints and their biased word aliases,
 and accepts the object-pointer contract while rejecting the old byte
 contract. Full North American executable matching remains the acceptance

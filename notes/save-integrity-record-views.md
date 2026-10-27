@@ -40,7 +40,7 @@ full-state parameter type would obscure that distinction, so the three
 region views are applied only at their established offsets. No larger
 allocation, serialization change or new package stride is inferred.
 
-`tools/project/tests/test_save_integrity_layout.py` compiles the actual
+[retired `test_save_integrity_layout.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_save_integrity_layout.py) compiles the actual
 records with GCC 2.8.1 and checks all three sizes, first/last mask and
 checksum addresses, the `0x400` trade prefix, the `0x628` seal end and the
 unchanged `0x5E4` gameplay-state prefix. Full-executable matching verifies

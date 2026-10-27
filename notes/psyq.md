@@ -1595,7 +1595,7 @@ while `INPUT_PENDING_HIGH_BIT` is the unsigned top bit of the combined word.
 The decoder's byte order, pending-word accumulation, and low-half/high-half
 volatile publication order remain unchanged.
 
-`tools/project/tests/test_input_raw_pad_packets.py` compares the resident
+[retired `test_input_raw_pad_packets.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_input_raw_pad_packets.py) compares the resident
 decoder with an independent byte-layout oracle in native ILP32 builds at
 O0 and O2. Each build covers all 65,536 button words and every status/format
 byte pair, for 131,072 cases, including independent port validity, nonzero

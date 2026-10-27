@@ -85,7 +85,7 @@ slots' C instruction bytes identical to the frozen exact objects. A clean
 French resident/all-287-overlay rebuild and four independent complete-image
 relinks reverified the 24 image owners and 33 resident owners.
 
-`tools/project/tests/test_french_model_variant400.py` pins the four manifests,
+[retired `test_french_model_variant400.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_french_model_variant400.py) pins the four manifests,
 matching source/profile/size, assembly and raw extents, descriptor selectors,
 latest terminal fingerprints, guest-pointer loads, and sheet layout/behavior
 bounds. Native pointer and target-layout checks require their respective

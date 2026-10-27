@@ -311,7 +311,7 @@ both file-failure paths, and the shared create-loop initializer preserve
 the original instruction scheduling without register bindings or inline
 assembly. The controller contributes 1,180 text bytes and a 48-byte,
 twelve-entry request jump table. Its native ILP32 witness in
-`tools/project/tests/test_mem_card_io_controller.py` covers 973 cases at
+[retired `test_mem_card_io_controller.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_mem_card_io_controller.py) covers 973 cases at
 both optimization levels and rejects six behavioral mutations. The BIOS
 and file interfaces are stubbed: these checks exercise the controller,
 not memory-card hardware.

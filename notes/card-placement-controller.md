@@ -70,7 +70,7 @@ emulation. Their sources and generated retail-derived fixtures stay under
 local `tmp/`. Neither behavioral equivalence nor function-only byte equality
 replaces the clean complete-executable match gate.
 
-`tools/project/tests/test_card_placement_match.py` recompiles the tracked unit
+[retired `test_card_placement_match.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_card_placement_match.py) recompiles the tracked unit
 with the production profile and checks its complete linked text and both
 tables. It requires the legal target, local toolchain and a matched baseline;
 it stores no retail bytes in the repository.
