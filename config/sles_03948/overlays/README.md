@@ -274,18 +274,18 @@ placement, raw data, and the overworld assembly block at `0x1618..0x17D0`.
 That block is **not** claimed as matching C. Scratch probes, objects,
 extracted modules and retail archives remain untracked.
 
-Another 449 MODEL variant images are single-entry images whose text is the
-North American entry for the US header 17 below their own (French headers 89,
+Another 460 MODEL variant images are single-entry images whose text is the
+North American entry for the US header 17 below their own (French headers 71, 89,
 127, 128, 134, 135, 136, 769, 771, 773, 783, 787, 796, 844, 845 and their slot-one
-counterparts 219, 257, 258, 264, 265, 266, 866, 868, 870, 880, 884, 893, 941, 942). They
+counterparts 201, 219, 257, 258, 264, 265, 266, 866, 868, 870, 880, 884, 893, 941, 942). They
 build from the accepted `model_variant/variant{72,110,111,117,118,827,828}_entry`
 sources and their `_slot1` copies unchanged. The
-`variant{119,752,754,756,766,779}_entry` families compile through
+`variant{54,119,752,754,756,766,779}_entry` families compile through
 `src/overlays/french_model_variant/` wrappers that define `VERSION_FRENCH`
 (the US `variant770_entry` wrapper is `variant787_entry`, because
 `variant770_entry` already names the French header-770 source). That
 selects the French burst CLUT (`0x3D28` instead of `0x3D20`), and in
-`variant{119,754}` the 256-line `GRAPHICS_DEFAULT_HEIGHT` sizes the full-screen
+`variant{54,119,754}` the 256-line `GRAPHICS_DEFAULT_HEIGHT` sizes the full-screen
 flash quad. Each source family has one `model_variant<header>_linker_symbols.txt`
 file with the French resident addresses (`variant117_entry` uses
 `model_variant134_linker_symbols.txt`, because `model_variant117` already names
