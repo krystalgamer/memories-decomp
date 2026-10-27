@@ -9,7 +9,7 @@
  * What the match depends on:
  * - the frame is block-scoped objects. GCC 2.8.1 gives block-scope aggregates
  *   temporary stack slots and hands a closed block's slots to the next block,
- *   so `zero` owns 0x20 for the whole function, the unit loop's two matrices
+ *   so `hidden_matrix` owns 0x20 for the whole function, the unit loop's two matrices
  *   sit at 0x40 and 0x60, and the shadow fan's vertices and primitive and the
  *   flash's rectangles and pixel rows reuse that space in declaration order;
  * - gModel_dwLitColorCacheBase and gModel_bCurrentDrawMode are defined here as common symbols, because
@@ -153,13 +153,13 @@ static inline s32 Model_MirrorOffset(s32 index, s32 value, s32 offset)
 
 void Model_DrawSlot(s32 index)
 {
-    MATRIX zero;
+    MATRIX hidden_matrix;
     PSXLONG sxy_z;
     PSXLONG flag;
-    GsOT *ot;
+    GsOT *ordering_table;
     ModelSlot *slot;
     s8 *blk;
-    ModelSlotHeadEntry *e;
+    ModelSlotHeadEntry *head_unit;
     s32 i;
     s32 x;
     s32 y;
@@ -178,9 +178,9 @@ void Model_DrawSlot(s32 index)
     u8 fl;
 
     if (index < 2) {
-        ot = gGraphics_pOrderingTable2[0];
+        ordering_table = gGraphics_pOrderingTable2[0];
     } else {
-        ot = gGraphics_pOrderingTable2[1];
+        ordering_table = gGraphics_pOrderingTable2[1];
     }
     slot = &gModel_aSlots[index];
     blk = (s8 *)&slot->field_CF8;
@@ -207,7 +207,7 @@ void Model_DrawSlot(s32 index)
         slot->draw_mode_request = 0;
     }
     if (index < 2) {
-        ot->length = 0xE;
+        ordering_table->length = 0xE;
         if ((slot->tint[7] % 6) && slot->tint[3] == 0 && gModel_bCurrentDrawMode == 0) {
             s32 step;
             s32 colour;
@@ -286,14 +286,14 @@ void Model_DrawSlot(s32 index)
         gModel_dwDrawModeTemplate = 0xE1000220;
     }
 
-    e = slot->hmd_units;
+    head_unit = slot->hmd_units;
     if (gModel_bCurrentDrawMode >= 3) {
         gModel_dwLitColorCacheBase = 0;
     }
-    for (i = 0; i < slot->hmd_unit_count; i++, e++) {
-        MATRIX ls;
-        MATRIX lw;
-        GsCOORDUNIT *unit;
+    for (i = 0; i < slot->hmd_unit_count; i++, head_unit++) {
+        MATRIX local_to_screen;
+        MATRIX local_to_world;
+        GsCOORDUNIT *coordinate_unit;
 
         a = 0;
         if (gModel_bDrawMaskedPartsOnly != 0 && slot->entry_count < i) {
@@ -307,92 +307,92 @@ void Model_DrawSlot(s32 index)
                 }
             }
         }
-        if (e->primitive_data == 0) {
+        if (head_unit->primitive_data == 0) {
             continue;
         }
         if (slot->render_parent_coordinate != 0 &&
-            GS_COORD_UNIT_VIEW(e->coordinate_address)->super == slot->render_parent_coordinate) {
-            s32 k;
-            s32 found;
-            u8 n;
-            s32 idx;
+            GS_COORD_UNIT_VIEW(head_unit->coordinate_address)->super == slot->render_parent_coordinate) {
+            s32 sequence_index;
+            s32 scale_existing_matrix;
+            u8 sequence_count;
+            s32 coordinate_rewrite_index;
 
-            idx = (GS_COORD_UNIT_VIEW(e->coordinate_address) -
+            coordinate_rewrite_index = (GS_COORD_UNIT_VIEW(head_unit->coordinate_address) -
                    GS_COORD_UNIT_VIEW(slot->entries)) * 0x14 + 0x04000001;
-            k = 0;
-            found = 0;
-            n = slot->animation_sequence_count;
-            for (; k < n; k++) {
-                if (slot->animation_sequences[k]->rewrite_idx == idx) {
-                    if (slot->animation_sequences[k]->aframe == 0xFFFF
-                        && ((slot->extended_animation_part_mask[k / 8] >> (k % 8)) & 1)
-                        && slot->animation_duration_rows[slot->current_animation_row].values[k] != 0) {
-                        found = 1;
+            sequence_index = 0;
+            scale_existing_matrix = 0;
+            sequence_count = slot->animation_sequence_count;
+            for (; sequence_index < sequence_count; sequence_index++) {
+                if (slot->animation_sequences[sequence_index]->rewrite_idx == coordinate_rewrite_index) {
+                    if (slot->animation_sequences[sequence_index]->aframe == 0xFFFF
+                        && ((slot->extended_animation_part_mask[sequence_index / 8] >> (sequence_index % 8)) & 1)
+                        && slot->animation_duration_rows[slot->current_animation_row].values[sequence_index] != 0) {
+                        scale_existing_matrix = 1;
                     }
                     break;
                 }
             }
-            if (found) {
+            if (scale_existing_matrix) {
                 ScaleMatrix(
-                    &GS_COORD_UNIT_VIEW(e->coordinate_address)->matrix,
+                    &GS_COORD_UNIT_VIEW(head_unit->coordinate_address)->matrix,
                     VECTOR_VIEW(&slot->render_scale));
             } else {
                 Model_UpdateCoordinateUnitMatrix(
-                    GS_COORD_UNIT_VIEW(e->coordinate_address),
+                    GS_COORD_UNIT_VIEW(head_unit->coordinate_address),
                     VECTOR_VIEW(&slot->render_scale));
             }
         }
-        if (W(e->primitive_data, 0) != -1 || W(e->primitive_data, 8) != 0) {
+        if (W(head_unit->primitive_data, 0) != -1 || W(head_unit->primitive_data, 8) != 0) {
             if (a) {
-                memset(&zero, 0, 0x20);
-                GsSetLsMatrix(&zero);
-            } else if ((unit = GS_COORD_UNIT_VIEW(e->coordinate_address)) != 0) {
+                memset(&hidden_matrix, 0, 0x20);
+                GsSetLsMatrix(&hidden_matrix);
+            } else if ((coordinate_unit = GS_COORD_UNIT_VIEW(head_unit->coordinate_address)) != 0) {
                 if (gModel_bCurrentDrawMode != 0) {
-                    s32 k;
-                    s32 m;
-                    u16 max;
-                    s16 *cp;
+                    s32 matrix_index;
+                    s32 coefficient_magnitude;
+                    u16 maximum_magnitude;
+                    s16 *matrix_halfwords;
 
                     do {
-                        GsGetLwsUnit(unit, &lw, &ls);
+                        GsGetLwsUnit(coordinate_unit, &local_to_world, &local_to_screen);
                     } while (0);
-                    max = 0;
-                    cp = (s16 *)&lw;
-                    for (k = 0; k < 9; k++, cp++) {
-                        m = ABS(*cp);
-                        if (max < m) {
-                            max = m;
+                    maximum_magnitude = 0;
+                    matrix_halfwords = (s16 *)&local_to_world;
+                    for (matrix_index = 0; matrix_index < 9; matrix_index++, matrix_halfwords++) {
+                        coefficient_magnitude = ABS(*matrix_halfwords);
+                        if (maximum_magnitude < coefficient_magnitude) {
+                            maximum_magnitude = coefficient_magnitude;
                         }
                     }
-                    /* Japanese retail leaves cp advanced when max is zero. */
+                    /* Japanese retail leaves matrix_halfwords advanced when maximum_magnitude is zero. */
 #ifndef VERSION_JAPAN
-                    cp = (s16 *)&lw;
+                    matrix_halfwords = (s16 *)&local_to_world;
 #endif
-                    if (max != 0) {
+                    if (maximum_magnitude != 0) {
 #ifdef VERSION_JAPAN
-                        cp = (s16 *)&lw;
+                        matrix_halfwords = (s16 *)&local_to_world;
 #endif
-                        for (k = 0; k < 9; k++, cp++) {
-                            *cp = (*cp << 12) / max;
+                        for (matrix_index = 0; matrix_index < 9; matrix_index++, matrix_halfwords++) {
+                            *matrix_halfwords = (*matrix_halfwords << 12) / maximum_magnitude;
                         }
                     } else {
-                        cp[8] = 0x1000;
-                        cp[4] = 0x1000;
-                        cp[0] = 0x1000;
+                        matrix_halfwords[8] = 0x1000;
+                        matrix_halfwords[4] = 0x1000;
+                        matrix_halfwords[0] = 0x1000;
                     }
-                    GsSetLightMatrix(&lw);
+                    GsSetLightMatrix(&local_to_world);
                 } else {
-                    GsGetLsUnit(unit, &ls);
+                    GsGetLsUnit(coordinate_unit, &local_to_screen);
                 }
-                GsSetLsMatrix(&ls);
+                GsSetLsMatrix(&local_to_screen);
             }
-            GsSortUnit((GsUNIT *)e, ot, (u32 *)0x1F800000);
+            GsSortUnit((GsUNIT *)head_unit, ordering_table, (u32 *)0x1F800000);
         }
     }
 
     if (gModel_PartMaskAddress != 0) {
         if (index < 2) {
-            ot->length = 0xC;
+            ordering_table->length = 0xC;
         }
         return;
     }
@@ -403,21 +403,21 @@ void Model_DrawSlot(s32 index)
         s16 maxx;
         s16 maxy;
         s16 maxz;
-        GsCOORDUNIT *unit;
+        GsCOORDUNIT *coordinate_unit;
         u8 *list;
 
         minz = miny = minx = 0x7FFF;
         maxz = maxy = maxx = -0x8000;
         count = x = y = z = 0;
-        e = slot->hmd_units;
-        for (i = 0; i < slot->hmd_unit_count; i++, e++) {
-            unit = GS_COORD_UNIT_VIEW(e->coordinate_address);
-            if (unit != 0 && e->primitive_data != 0
-                && (W(e->primitive_data, 0) != -1 || W(e->primitive_data, 8) != 0)) {
+        head_unit = slot->hmd_units;
+        for (i = 0; i < slot->hmd_unit_count; i++, head_unit++) {
+            coordinate_unit = GS_COORD_UNIT_VIEW(head_unit->coordinate_address);
+            if (coordinate_unit != 0 && head_unit->primitive_data != 0
+                && (W(head_unit->primitive_data, 0) != -1 || W(head_unit->primitive_data, 8) != 0)) {
                 count++;
-                x += unit->workm.t[0];
-                y += unit->workm.t[1];
-                z += unit->workm.t[2];
+                x += coordinate_unit->workm.t[0];
+                y += coordinate_unit->workm.t[1];
+                z += coordinate_unit->workm.t[2];
             }
         }
         if (count != 0) {
@@ -436,20 +436,20 @@ void Model_DrawSlot(s32 index)
         z = Model_MirrorOffset(index, z, blk[6] * 0x10);
         count = y = 0;
         slot->cached_position[2] = z;
-        e = slot->hmd_units;
-        for (i = 0; i < slot->hmd_unit_count; i++, e++) {
-            unit = GS_COORD_UNIT_VIEW(e->coordinate_address);
-            if (unit != slot->render_parent_coordinate && unit != slot->root_coordinate && unit != 0 && (list = e->primitive_data) != 0) {
+        head_unit = slot->hmd_units;
+        for (i = 0; i < slot->hmd_unit_count; i++, head_unit++) {
+            coordinate_unit = GS_COORD_UNIT_VIEW(head_unit->coordinate_address);
+            if (coordinate_unit != slot->render_parent_coordinate && coordinate_unit != slot->root_coordinate && coordinate_unit != 0 && (list = head_unit->primitive_data) != 0) {
                 s32 uy;
 
-                if (unit->super == slot->render_parent_coordinate) {
+                if (coordinate_unit->super == slot->render_parent_coordinate) {
                     count++;
-                    y += unit->workm.t[1];
+                    y += coordinate_unit->workm.t[1];
                 }
                 if (W(list, 0) != -1 || W(list, 8) != 0) {
-                    a = unit->workm.t[0];
-                    b = unit->workm.t[2];
-                    uy = unit->workm.t[1];
+                    a = coordinate_unit->workm.t[0];
+                    b = coordinate_unit->workm.t[2];
+                    uy = coordinate_unit->workm.t[1];
                     if (maxx < a) {
                         maxx = a;
                     }
@@ -625,7 +625,7 @@ void Model_DrawSlot(s32 index)
                     &sxy_z, &flag);
                 sxy_z = NormalClip(*(PSXLONG *)&poly.x0, *(PSXLONG *)&poly.x1, *(PSXLONG *)&poly.x2);
                 if (res >= 0 && flag >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&poly, ot, 0xFFF, 2);
+                    Graphics_SubmitDrawModePacket((u32 *)&poly, ordering_table, 0xFFF, 2);
                 }
             skip:
                 v2 = v1;
@@ -635,7 +635,7 @@ void Model_DrawSlot(s32 index)
     if (gModel_bCurrentDrawMode == 1) {
     finish_ot:
         if (index < 2) {
-            ot->length = 0xC;
+            ordering_table->length = 0xC;
         }
         return;
     }
@@ -763,6 +763,6 @@ void Model_DrawSlot(s32 index)
         }
     }
     if (index < 2) {
-        ot->length = 0xC;
+        ordering_table->length = 0xC;
     }
 }
