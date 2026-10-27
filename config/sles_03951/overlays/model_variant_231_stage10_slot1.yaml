@@ -61,7 +61,7 @@ segments:
     vram: 0x8017C3E0
     align: 4
     subsegments:
-      - [0x13E0, asm, overlays/spanish_model_variant_231_stage10_slot1/helper_13E0]
+      - [0x13E0, c, overlays/spanish_model_variant/variant459_warp_slot1]
   - name: helper_19AC
     type: code
     start: 0x19AC
