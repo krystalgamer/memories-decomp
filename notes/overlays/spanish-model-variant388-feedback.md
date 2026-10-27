@@ -25,9 +25,10 @@ would miss MODEL43.
 Headers are 388 / 538 at load addresses `8013B000` / `8017B000`. Each image has
 six complete, contiguous, directly reachable functions at `+4`, `+CD4`,
 `+1344`, `+19A4`, `+1E9C`, and `+2410`; code ends at `+2E7C`.
-Only `+1E9C` is C. The five other functions and the unchanged raw tail remain
-generated assembly/data, not speculative C. This adds ten C instances /
-13,960 bytes while retaining fifty ASM instances.
+Only `+1E9C` was C at first; this added ten C instances / 13,960 bytes
+while retaining fifty ASM instances. `+CD4` is now C as well (see
+[the strips helper](french-model-variant388-strips.md)). The other
+functions and the unchanged raw tail remain generated assembly/data.
 
 `spanish-model-variant388-instances.csv` pins every physical image hash,
 loader record, command, and descriptor fingerprint. The original entry
