@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_417_stage9_slot0/entry]
+      - [0x4, c, overlays/spanish_model_variant/variant459_entry]
   - name: helper_13E0
     type: code
     start: 0x13E0
