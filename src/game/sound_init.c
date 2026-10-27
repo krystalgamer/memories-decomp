@@ -188,12 +188,12 @@ s32 SD_SetSecondaryObjectCount(u32 a0) {
 
 void SD_ResetSecondaryRuntime(void)
 {
-    s32 value;
+    s32 tick_mode;
 
     SD_ResetSecondaryPlaybackThunk();
-    value = gSD_pSecondaryState->sequence_tick_mode;
-    if (value > 0) {
-        if (value < 4)
+    tick_mode = gSD_pSecondaryState->sequence_tick_mode;
+    if (tick_mode > 0) {
+        if (tick_mode < 4)
             SD_CloseSequenceTimerEvent();
     }
     SD_ResetSecondaryState();

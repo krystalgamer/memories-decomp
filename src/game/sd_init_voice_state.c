@@ -6,24 +6,24 @@
 #include "sound_voice_constants.h"
 
 void SD_InitVoiceState(void) {
-    SDValue *p;
-    SDValue *q;
-    SDValue *r;
-    s32 i;
-    s32 j;
-    s32 k;
+    SDValue *voice_state;
+    SDValue *lookup_state;
+    SDValue *note_map_state;
+    s32 init_index;
+    s32 lookup_entry_index;
+    s32 lookup_byte_offset;
 
     g_SDValue->voice_active_mask = 0;
     g_SDValue->voice_allocation_cursor = 0;
 
-    for (i = 0; i < SD_VOICE_SLOT_COUNT; i++) {
-        g_SDValue->voice_priority[i] = 0;
-        g_SDValue->voice_flags[i] = 0;
-        g_SDValue->voice_ids[i] = 0;
-        g_SDValue->voice_volume_left[i] = 0;
-        g_SDValue->voice_volume_right[i] = 0;
-        g_SDValue->voice_step[i] = 0;
-        g_SDValue->voice_timer[i] = 0;
+    for (init_index = 0; init_index < SD_VOICE_SLOT_COUNT; init_index++) {
+        g_SDValue->voice_priority[init_index] = 0;
+        g_SDValue->voice_flags[init_index] = 0;
+        g_SDValue->voice_ids[init_index] = 0;
+        g_SDValue->voice_volume_left[init_index] = 0;
+        g_SDValue->voice_volume_right[init_index] = 0;
+        g_SDValue->voice_step[init_index] = 0;
+        g_SDValue->voice_timer[init_index] = 0;
     }
 
     SpuSetTransferMode(SPU_TRANSFER_BY_DMA);
@@ -31,53 +31,53 @@ void SD_InitVoiceState(void) {
     /* The constant half of the staged voice attribute: unity volumex, unity
        pitch, middle-C sample note, linear attack and sustain with exponential
        release, and an all-bits attribute mask. */
-    p = g_SDValue;
-    p->voice_attr.volumex.left = 0x3FFF;
-    p->voice_attr.volumex.right = 0x3FFF;
-    p->voice_attr.pitch = 0x1000;
-    p->voice_attr.sample_note = 0x3C00;
-    p->voice_attr.a_mode = 1;
-    p->voice_attr.s_mode = 1;
-    p->voice_attr.r_mode = 3;
-    p->value_links = (SDValueLink *)0x801E2800;
-    p->voice_attr.mask = 0xFFFF;
-    p->voice_attr.volmode.left = 0;
-    p->voice_attr.volmode.right = 0;
-    p->voice_attr.ar = 0;
-    p->voice_attr.dr = 0;
-    p->voice_attr.sr = 0;
-    p->voice_attr.rr = 0;
-    p->voice_attr.sl = 0;
-    p->note_index_by_id = (u16 *)0x801E4000;
-    p->next_link_spu_address = 0x1010;
-    p->next_note_index = 0;
-    p->value_link_request_index = 0xFFFF;
-    p->note_table =
+    voice_state = g_SDValue;
+    voice_state->voice_attr.volumex.left = 0x3FFF;
+    voice_state->voice_attr.volumex.right = 0x3FFF;
+    voice_state->voice_attr.pitch = 0x1000;
+    voice_state->voice_attr.sample_note = 0x3C00;
+    voice_state->voice_attr.a_mode = 1;
+    voice_state->voice_attr.s_mode = 1;
+    voice_state->voice_attr.r_mode = 3;
+    voice_state->value_links = (SDValueLink *)0x801E2800;
+    voice_state->voice_attr.mask = 0xFFFF;
+    voice_state->voice_attr.volmode.left = 0;
+    voice_state->voice_attr.volmode.right = 0;
+    voice_state->voice_attr.ar = 0;
+    voice_state->voice_attr.dr = 0;
+    voice_state->voice_attr.sr = 0;
+    voice_state->voice_attr.rr = 0;
+    voice_state->voice_attr.sl = 0;
+    voice_state->note_index_by_id = (u16 *)0x801E4000;
+    voice_state->next_link_spu_address = 0x1010;
+    voice_state->next_note_index = 0;
+    voice_state->value_link_request_index = 0xFFFF;
+    voice_state->note_table =
         (SDNote *)(
-            (((u32)&((u16 *)0)[p->note_id_count] + 0xF) & 0xFFF0) +
+            (((u32)&((u16 *)0)[voice_state->note_id_count] + 0xF) & 0xFFF0) +
             0x801E4000);
 
-    i = 0;
-    if (p->note_id_count != 0) {
-        r = p;
+    init_index = 0;
+    if (voice_state->note_id_count != 0) {
+        note_map_state = voice_state;
         do {
-            r->note_index_by_id[i] = SD_PENDING_ENTRY_NONE;
-            i++;
-        } while (i < r->note_id_count);
+            note_map_state->note_index_by_id[init_index] = SD_PENDING_ENTRY_NONE;
+            init_index++;
+        } while (init_index < note_map_state->note_id_count);
     }
 
-    i = 0;
-    q = g_SDValue;
-    for (; i < SD_VOICE_LOOKUP_BANK_COUNT; i++) {
-        j = 0;
-        k = i << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
-        for (; j < SD_VOICE_LOOKUP_BANK_ENTRY_COUNT; j++) {
-            /* The bank shift is already folded into k, and retail adds the
+    init_index = 0;
+    lookup_state = g_SDValue;
+    for (; init_index < SD_VOICE_LOOKUP_BANK_COUNT; init_index++) {
+        lookup_entry_index = 0;
+        lookup_byte_offset = init_index << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
+        for (; lookup_entry_index < SD_VOICE_LOOKUP_BANK_ENTRY_COUNT; lookup_entry_index++) {
+            /* The bank shift is already folded into lookup_byte_offset, and retail adds the
                record base to it in that order, so this keeps the byte form
-               rather than becoming q->indirect_sound_ids[i][j]. */
-            *(u16 *)((u8 *)q + k + SD_VOICE_LOOKUP_BYTE_OFFSET) =
+               rather than becoming lookup_state->indirect_sound_ids[init_index][lookup_entry_index]. */
+            *(u16 *)((u8 *)lookup_state + lookup_byte_offset + SD_VOICE_LOOKUP_BYTE_OFFSET) =
                 SD_PENDING_ENTRY_NONE;
-            k += 2;
+            lookup_byte_offset += 2;
         }
     }
 }

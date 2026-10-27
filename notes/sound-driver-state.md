@@ -1032,6 +1032,54 @@ existing left/right depth conversion. Unhandled selectors remain unchanged;
 the work-area queries retain the check-versus-diagnostic contract described
 above.
 
+### Startup and reset local ownership views
+
+SD_InitDataSourceFlags names se_lba, bgm_lba and master_xa_lba from the
+sole frontend caller's three file-LBA entries. Each remains s32 and is
+used ONLY as the original zero predicate, not stored or validated.
+Nonzero, including negative values, still does not SET an enable bit.
+Keep phase zero, the separate clears 0x01/0x02/0x40 and status OR 0x0A.
+The XA absence clear remains 0x40, NOT the loader's 0x80 gate.
+
+SD_ResetRuntime names its seven existing pointers by reset stage, not
+as independent allocations. mix_state restores both defaults before
+SD_SetCdVolume(0); sequence_state is reloaded afterwards. Preserve its
+live-slot test, original s16 poll comparison, conditional stop/status
+clear and close, including all separate global reads at SDK calls.
+vab_state snapshots vab_result, clears the sequence markers and releases
+every result other than -1. This is NOT the zero-only VAB condition in
+SD_ResetMusicState. music_state is reloaded after that optional release
+and clears the original package/result/sequence-step fields.
+
+The original all-24-voice key-off and literal four-slot priority/id loop
+remain. command_state clears opcode/count; the phase store still uses a
+fresh global access. payload_state clears wait, then status_state is
+reloaded BEFORE the four payload-prefix clears still using payload_state.
+Only status_state clears status. The tail and other untouched fields
+remain stale: no memset, whole-queue clear, default repair or alias merge.
+
+SD_InitVoiceState names voice_state, note_map_state and lookup_state.
+The first is loaded after transfer-mode setup; note_map_state remains
+an ALIAS assigned from voice_state, not another global reload.
+lookup_state remains the later fresh read. init_index deliberately
+remains ONE reused variable for voice-slot, note-map and lookup-bank
+loops. lookup_entry_index and lookup_byte_offset retain the separate
+entry and pre-folded byte-offset walks. Keep the aligned table formula,
+original constants, raw byte-address sum/base order, sentinel stores
+and offset increment; no typed two-dimensional indexing substitution.
+The existing byte-form explanation changes only its four identifiers.
+
+SD_ResetSecondaryRuntime names its existing s32 tick_mode snapshot.
+The playback-reset thunk still runs first; only signed values greater
+than zero and less than four close the timer event, then the state reset
+always runs. No new enum, changed signedness or reordered SDK calls.
+
+All four definitions retain types, global declaration arms, layouts,
+reload/alias distinctions and partial reset behavior. The one public
+prototype changes only the three LBA argument names. These local views
+do not establish meanings for write-only bytes, uncalled setters, or
+the remaining address-named functions and do not reduce that census.
+
 ### CD descriptor tables, sector offsets and XA filters
 
 The bank loader, CD request wrappers, active-command dispatcher and file

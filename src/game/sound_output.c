@@ -16,59 +16,59 @@
    the next read. */
 void SD_ResetRuntime(void)
 {
-    SDValue *p;
-    SDValue *q;
-    SDValue *r;
-    SDValue *s;
-    SDValue *t;
-    SDValue *u;
-    SDValue *w;
-    s32 i;
-    s32 value;
+    SDValue *mix_state;
+    SDValue *sequence_state;
+    SDValue *vab_state;
+    SDValue *music_state;
+    SDValue *command_state;
+    SDValue *payload_state;
+    SDValue *status_state;
+    s32 voice_slot;
+    s32 vab_result;
 
-    p = g_SDValue;
-    p->mix_scale = p->cd_mix_default;
-    p->secondary_mix_scale = p->secondary_mix_default;
+    mix_state = g_SDValue;
+    mix_state->mix_scale = mix_state->cd_mix_default;
+    mix_state->secondary_mix_scale = mix_state->secondary_mix_default;
     SD_SetCdVolume(0);
-    q = g_SDValue;
-    q->cd_fade_step = 0;
-    if (q->sequence_open_result != -1) {
+    sequence_state = g_SDValue;
+    sequence_state->cd_fade_step = 0;
+    if (sequence_state->sequence_open_result != -1) {
         if ((s16)SD_PollSequenceState() != 1) {
             SD_StopSequence(g_SDValue->sequence_open_result);
             g_SDValue->status_flags &= 0xFF7F;
         }
         SD_CloseSequence(g_SDValue->sequence_open_result);
     }
-    r = g_SDValue;
-    value = r->music_vab_open_result;
-    r->opened_sequence_command = -1;
-    r->sequence_open_result = -1;
-    if (value != -1) {
-        SD_ResetVabTransferState(value);
+    vab_state = g_SDValue;
+    vab_result = vab_state->music_vab_open_result;
+    vab_state->opened_sequence_command = -1;
+    vab_state->sequence_open_result = -1;
+    if (vab_result != -1) {
+        SD_ResetVabTransferState(vab_result);
     }
-    s = g_SDValue;
-    s->opened_music_package_id = -1;
-    s->music_vab_open_result = -1;
-    s->sequence_fade_step = 0;
+    music_state = g_SDValue;
+    music_state->opened_music_package_id = -1;
+    music_state->music_vab_open_result = -1;
+    music_state->sequence_fade_step = 0;
     SpuSetKey(SPU_OFF, 0xFFFFFF);
     g_SDValue->voice_active_mask = 0;
     g_SDValue->voice_allocation_cursor = 0;
-    for (i = 0; i < 4; i++) {
-        g_SDValue->voice_priority[i] = 0;
-        g_SDValue->voice_ids[i] = 0;
+    for (voice_slot = 0; voice_slot < 4; voice_slot++) {
+        g_SDValue->voice_priority[voice_slot] = 0;
+        g_SDValue->voice_ids[voice_slot] = 0;
     }
-    t = g_SDValue;
-    t->active_command = 0;
-    t->command_count = 0;
+    command_state = g_SDValue;
+    command_state->active_command = 0;
+    command_state->command_count = 0;
     g_SDValue->active_command_phase = 0;
-    u = g_SDValue;
-    u->active_cd_fade_wait = 0;
-    w = g_SDValue;
-    u->active_command_value = 0;
-    u->active_command_arg0 = 0;
-    u->active_command_arg1 = 0;
-    u->active_command_arg2 = 0;
-    w->status_flags = 0;
+    payload_state = g_SDValue;
+    payload_state->active_cd_fade_wait = 0;
+    status_state = g_SDValue;
+    payload_state->active_command_value = 0;
+    payload_state->active_command_arg0 = 0;
+    payload_state->active_command_arg1 = 0;
+    payload_state->active_command_arg2 = 0;
+    status_state->status_flags = 0;
 }
 
 #include "sound_init.h"
