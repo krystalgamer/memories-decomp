@@ -29,6 +29,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7F0",
       "source": "src/overlays/spanish_model_variant/variant446_rings.c"
+    },
+    {
+      "address": "0x8013DCAC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA28",
+      "source": "src/overlays/french_model_variant/variant446_rays.c"
     }
   ],
   "schema": 1

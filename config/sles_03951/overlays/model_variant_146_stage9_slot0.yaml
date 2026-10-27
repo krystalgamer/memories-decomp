@@ -96,7 +96,7 @@ segments:
     vram: 0x8013DCAC
     align: 4
     subsegments:
-      - [0x2CAC, asm, overlays/spanish_model_variant_146_stage9_slot0/helper_2CAC]
+      - [0x2CAC, c, overlays/french_model_variant/variant446_rays]
   - name: unclassified_tail
     type: code
     start: 0x36D4
