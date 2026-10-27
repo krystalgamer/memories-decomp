@@ -61,7 +61,7 @@ segments:
     vram: 0x8013BE60
     align: 4
     subsegments:
-      - [0xE60, asm, overlays/french_model_variant_364_stage9_slot0/helper_E60]
+      - [0xE60, c, overlays/french_model_variant/variant411_tube]
   - name: helper_157C
     type: code
     start: 0x157C

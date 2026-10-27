@@ -16,7 +16,7 @@
 #define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))
 #define GS_UNIT_VIEW(unit) ((GsUNIT *)(unit))
 
-/* Initializes one model channel rooted at gModel_aSlots[index]: resets its
+/* Initializes one model channel rooted at gModel_aSlots[slot_index]: resets its
    state, maps the HMD block, scans every unit's type records into the
    handlers, links the coordinate slots, and picks the first coordinate
    whose parent is not claimed by a live unit.
@@ -25,7 +25,7 @@
    register's references by loop nesting, and only these loop forms give
    the 0x1F800000 scratch base, the shared slot cursor, the command cursor
    and the channel index the retail callee-saved registers. */
-void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
+void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
 {
     ModelSlot *model_slot;
     GsUNIT *hmd_unit;
@@ -49,10 +49,10 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     s32 noop_handler_word;
 
     noop_handler_word = (s32)GsU_00000000;
-    model_slot = &gModel_aSlots[index];
+    model_slot = &gModel_aSlots[slot_index];
     hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units);
     hmd_cursor = hmd;
-    if (index < 2) {
+    if (slot_index < 2) {
         ordering_table = gGraphics_apOrderingTables[2];
     } else {
         ordering_table = gGraphics_apOrderingTables[3];
@@ -61,9 +61,9 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     max_lit_color_index = 0;
     model_slot->stone_texture_state = 0;
     model_slot->shadow_enabled = 0;
-    if (flags >= 0) {
-        model_slot->draw_mode_request = flags & 0x7F;
-        if (flags & 0x80) {
+    if (render_flags >= 0) {
+        model_slot->draw_mode_request = render_flags & 0x7F;
+        if (render_flags & 0x80) {
             model_slot->tint[7] = 5;
         } else {
             model_slot->tint[7] = 0;
@@ -79,7 +79,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     model_slot->cached_position[0] = 0;
     model_slot->cached_position[3] = -0x15E;
     model_slot->cached_position[1] = -0x15E;
-    switch (index) {
+    switch (slot_index) {
     default:
         model_slot->cached_position[2] = 0;
         break;
@@ -103,13 +103,13 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     model_slot->field_E1C = 0;
     model_slot->primary_module_data_address = 0;
     model_slot->variant_module_data_address = 0;
-    if (index < 2) {
-        if (index != 0) {
+    if (slot_index < 2) {
+        if (slot_index != 0) {
             model_slot->primary_module_data_address = gModel_Slot1PrimaryDataAddress;
         } else {
             model_slot->primary_module_data_address = gModel_Slot0PrimaryDataAddress;
         }
-        if (index != 0) {
+        if (slot_index != 0) {
             model_slot->variant_module_data_address = gModel_Slot1VariantDataAddress;
         } else {
             model_slot->variant_module_data_address = gModel_Slot0VariantDataAddress;
@@ -130,7 +130,7 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
     }
     GsMapUnit((u32 *)hmd);
     hmd_cursor += 0xC;
-    Model_ResetSlotAnimationTables(index, hmd);
+    Model_ResetSlotAnimationTables(slot_index, hmd);
     model_slot->hmd_unit_count = *hmd_cursor;
     hmd_cursor += 4;
     if (model_slot->hmd_unit_count >= 0x3D) {
@@ -173,18 +173,18 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
                     switch (type_tag) {
                     case 0:
                         model_slot->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(
-                            index, &type_unit, (GsARGUNIT *)sdk_scratch, &max_lit_color_index, &packet_bytes);
+                            slot_index, &type_unit, (GsARGUNIT *)sdk_scratch, &max_lit_color_index, &packet_bytes);
                         Model_BindPrimitiveHandler((ModelHandlerObject *)&type_unit);
                         break;
                     case 1:
                         model_slot->prepared_primitive_count += tent_Model_RebaseTexturedPrimitives(
-                            index, &type_unit, (GsARGUNIT *)sdk_scratch, 0, &packet_bytes);
+                            slot_index, &type_unit, (GsARGUNIT *)sdk_scratch, 0, &packet_bytes);
                         Model_BindSharedPrimitiveHandler(
                             (ModelHandlerObject *)&type_unit);
                         break;
                     case 2:
                         Model_ProcessType2Unit(
-                            index, (ModelTypeUnit *)&type_unit, sdk_scratch);
+                            slot_index, (ModelTypeUnit *)&type_unit, sdk_scratch);
                         break;
                     case 3:
                         Model_LinkSlotAnimationUnit((s32 *)&type_unit, model_slot);
@@ -275,6 +275,6 @@ void Model_InitSlot(s32 index, u8 *hmd, s32 size, s32 flags)
         }
     }
     if (model_slot->animation_snapshot_buffer == 0) {
-        model_slot->animation_snapshot_buffer = (u8 *)(hmd + size);
+        model_slot->animation_snapshot_buffer = (u8 *)(hmd + hmd_size);
     }
 }

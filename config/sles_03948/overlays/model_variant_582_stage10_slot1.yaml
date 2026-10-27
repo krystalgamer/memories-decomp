@@ -68,7 +68,7 @@ segments:
     vram: 0x8017CB98
     align: 4
     subsegments:
-      - [0x1B98, asm, overlays/french_model_variant_582_stage10_slot1/helper_1B98]
+      - [0x1B98, c, overlays/french_model_variant/variant582_sheets_slot1]
   - name: helper_21F4
     type: code
     start: 0x21F4

@@ -10,8 +10,8 @@ the body and the controller's advancement/interpolation/completion reads.
 The original expression remains exactly:
 
 ```c
-move->duration = (value < 0 ? -value : value) * 2;
-move->elapsed = 0;
+camera_move->duration = (magnitude_request < 0 ? -magnitude_request : magnitude_request) * 2;
+camera_move->elapsed = 0;
 ```
 
 The public `s32` request is not replaced with the destination's halfword

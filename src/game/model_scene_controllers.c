@@ -2163,141 +2163,141 @@ tail:
 
 /* Starts a camera move from the live view to model-slot or explicit targets.
  * A zero duration writes the selected endpoints back immediately. */
-void Model_StartCameraMove(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_transport, s32 timing_work)
 {
-    SVECTOR a;
-    SVECTOR b;
-    SVECTOR t;
-    s32 index;
-    s32 state;
-    s32 flags;
+    SVECTOR eye_start;
+    SVECTOR view_work;
+    SVECTOR target_copy;
+    s32 selected_slot;
+    s32 hold_state;
+    s32 active_flags;
 
-    memset(&b, 0, 8);
-    b.vx = gModel_RView.vpx;
-    b.vy = gModel_RView.vpy;
-    b.vz = gModel_RView.vpz;
-    a = b;
-    memset(&t, 0, 8);
-    t.vx = gModel_RView.vrx;
-    t.vy = gModel_RView.vry;
-    t.vz = gModel_RView.vrz;
-    b = t;
-    state = Model_GetCameraHoldState();
-    if (state == 1) {
-        if (Model_GetHandlerCallbackState() == state) {
+    memset(&view_work, 0, 8);
+    view_work.vx = gModel_RView.vpx;
+    view_work.vy = gModel_RView.vpy;
+    view_work.vz = gModel_RView.vpz;
+    eye_start = view_work;
+    memset(&target_copy, 0, 8);
+    target_copy.vx = gModel_RView.vrx;
+    target_copy.vy = gModel_RView.vry;
+    target_copy.vz = gModel_RView.vrz;
+    view_work = target_copy;
+    hold_state = Model_GetCameraHoldState();
+    if (hold_state == 1) {
+        if (Model_GetHandlerCallbackState() == hold_state) {
             return;
         }
     }
-    if (arg1 != 0 || arg0 <= 0) {
-        if (arg1 > 0) {
-            index = arg1 - 1;
-            arg1 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index);
-            if (arg3 >= 0) {
-                gModel_CameraMove.eye.pair_slot = index ^ 1;
+    if (eye_transport != 0 || mode_request <= 0) {
+        if (eye_transport > 0) {
+            selected_slot = eye_transport - 1;
+            eye_transport = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, selected_slot);
+            if (timing_work >= 0) {
+                gModel_CameraMove.eye.pair_slot = selected_slot ^ 1;
             } else {
                 gModel_CameraMove.eye.pair_slot = -1;
             }
-            gModel_CameraMove.eye.slot = index;
+            gModel_CameraMove.eye.slot = selected_slot;
         } else {
-            ModelCameraMove *p = &gModel_CameraMove;
+            ModelCameraMove *camera_move = &gModel_CameraMove;
 
-            p->eye.slot = -1;
-            p->eye.pair_slot = -1;
+            camera_move->eye.slot = -1;
+            camera_move->eye.pair_slot = -1;
         }
     }
-    if (arg2 != 0 || arg0 <= 0) {
-        if (arg2 > 0) {
-            index = arg2 - 1;
-            arg2 = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, index);
-            if (arg3 >= 0) {
-                gModel_CameraMove.target.pair_slot = index ^ 1;
+    if (target_transport != 0 || mode_request <= 0) {
+        if (target_transport > 0) {
+            selected_slot = target_transport - 1;
+            target_transport = (s32)MODEL_SLOT_BYTES(gModel_awSlot0Position, selected_slot);
+            if (timing_work >= 0) {
+                gModel_CameraMove.target.pair_slot = selected_slot ^ 1;
             } else {
                 gModel_CameraMove.target.pair_slot = -1;
             }
-            gModel_CameraMove.target.slot = index;
+            gModel_CameraMove.target.slot = selected_slot;
         } else {
-            ModelCameraMove *p = &gModel_CameraMove;
+            ModelCameraMove *camera_move = &gModel_CameraMove;
 
-            p->target.slot = -1;
-            p->target.pair_slot = -1;
+            camera_move->target.slot = -1;
+            camera_move->target.pair_slot = -1;
         }
-        if (arg0 < 0) {
+        if (mode_request < 0) {
             goto have_flags;
         }
     }
-    gModel_CameraMove.mode = arg0;
+    gModel_CameraMove.mode = mode_request;
 have_flags:
     {
-        ModelCameraMove *p = &gModel_CameraMove;
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        p->follow_countdown = MODEL_DEFAULT_PROJECTION;
+        camera_move->follow_countdown = MODEL_DEFAULT_PROJECTION;
 #ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
-        p->base_orbit_step = 8;
+        camera_move->base_orbit_step = 8;
 #endif
-        p->orbit_step = 8;
-        p->flags = 0;
-        if (arg1 != 0) {
-            p->flags = 1;
+        camera_move->orbit_step = 8;
+        camera_move->flags = 0;
+        if (eye_transport != 0) {
+            camera_move->flags = 1;
         } else {
-            arg1 = (s32)&a;
+            eye_transport = (s32)&eye_start;
         }
     }
-    if (arg2 != 0) {
-        ModelCameraMove *p = &gModel_CameraMove;
+    if (target_transport != 0) {
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        p->flags = p->flags | 2;
+        camera_move->flags = camera_move->flags | 2;
     } else {
-        arg2 = (s32)&b;
+        target_transport = (s32)&view_work;
     }
     {
-        ModelCameraMove *p = &gModel_CameraMove;
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        p->eye.start_x = a.vx;
-        p->eye.start_y = a.vy;
-        p->eye.start_z = a.vz;
-        /* arg1/arg2 now hold a slot's cached_position position or &a/&b; both
+        camera_move->eye.start_x = eye_start.vx;
+        camera_move->eye.start_y = eye_start.vy;
+        camera_move->eye.start_z = eye_start.vz;
+        /* eye_transport/target_transport now hold a slot's cached_position position or &eye_start/&view_work; both
            are SVECTOR-shaped. */
-        p->eye.end_x = SVECTOR_VIEW(arg1)->vx;
-        p->eye.end_y = SVECTOR_VIEW(arg1)->vy;
-        p->eye.end_z = SVECTOR_VIEW(arg1)->vz;
-        p->target.start_x = b.vx;
-        p->target.start_y = b.vy;
-        p->target.start_z = b.vz;
-        p->target.end_x = SVECTOR_VIEW(arg2)->vx;
-        p->target.end_y = SVECTOR_VIEW(arg2)->vy;
-        p->target.end_z = SVECTOR_VIEW(arg2)->vz;
-        arg3 = (arg3 < 0 ? -arg3 : arg3) * 2;
-        if (arg3 > 0xFFFE) {
-            p->duration = 0xFFFF;
+        camera_move->eye.end_x = SVECTOR_VIEW(eye_transport)->vx;
+        camera_move->eye.end_y = SVECTOR_VIEW(eye_transport)->vy;
+        camera_move->eye.end_z = SVECTOR_VIEW(eye_transport)->vz;
+        camera_move->target.start_x = view_work.vx;
+        camera_move->target.start_y = view_work.vy;
+        camera_move->target.start_z = view_work.vz;
+        camera_move->target.end_x = SVECTOR_VIEW(target_transport)->vx;
+        camera_move->target.end_y = SVECTOR_VIEW(target_transport)->vy;
+        camera_move->target.end_z = SVECTOR_VIEW(target_transport)->vz;
+        timing_work = (timing_work < 0 ? -timing_work : timing_work) * 2;
+        if (timing_work > 0xFFFE) {
+            camera_move->duration = 0xFFFF;
         } else {
-            p->duration = arg3;
+            camera_move->duration = timing_work;
         }
     }
     {
-        ModelCameraMove *p = &gModel_CameraMove;
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        flags = p->flags;
-        p->elapsed = 0;
-        if (flags != 0) {
+        active_flags = camera_move->flags;
+        camera_move->elapsed = 0;
+        if (active_flags != 0) {
             gModel_bOrbitDirectionTimer = 0;
         }
-        if (arg3 != 0) {
+        if (timing_work != 0) {
             return;
         }
-        if (flags & 1) {
-            gModel_RView.vpx = p->eye.end_x;
-            gModel_RView.vpy = p->eye.end_y;
-            gModel_RView.vpz = p->eye.end_z;
+        if (active_flags & 1) {
+            gModel_RView.vpx = camera_move->eye.end_x;
+            gModel_RView.vpy = camera_move->eye.end_y;
+            gModel_RView.vpz = camera_move->eye.end_z;
         }
-        if (p->flags & 2) {
-            gModel_RView.vrx = p->target.end_x;
-            gModel_RView.vry = p->target.end_y;
-            gModel_RView.vrz = p->target.end_z;
+        if (camera_move->flags & 2) {
+            gModel_RView.vrx = camera_move->target.end_x;
+            gModel_RView.vry = camera_move->target.end_y;
+            gModel_RView.vrz = camera_move->target.end_z;
         }
-        if (p->flags & 3) {
+        if (camera_move->flags & 3) {
             Model_UpdateViewMetrics(0);
         }
-        p->flags = 0;
+        camera_move->flags = 0;
     }
 }
 
