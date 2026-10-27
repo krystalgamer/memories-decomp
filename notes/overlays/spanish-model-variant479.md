@@ -16,7 +16,7 @@ The second source changes only the symbol.
 
 | Image range | Bytes | Owner |
 |---|---|---|
-| `+0x0004..+0x0FD0` | 4,044 | Assembly entry |
+| `+0x0004..+0x0FD0` | 4,044 | Exact C [entry](spanish-model-variant479-entry.md) |
 | `+0x0FD0..+0x14F8` | 1,320 | Assembly |
 | `+0x14F8..+0x1F68` | 2,672 | Exact C [spiral](spanish-model-variant479-spiral.md) |
 | `+0x1F68..+0x2B90` | 3,112 | Exact C [ribs](spanish-model-variant479-ribs.md) |
@@ -26,9 +26,10 @@ The second source changes only the symbol.
 
 All seven CFGs are closed and contiguous, with every word visited, one return
 and no indirect calls. Entry calls the five helpers other than `+0x309C`.
-Fourteen function instances are inventoried: ten C instances (20,560 instruction
-bytes) and four retained assembly instances, including the independently
-recovered offset sheets, streamers, spiral and ribs documented separately.
+Fourteen function instances are inventoried: twelve C instances (28,648
+instruction bytes) and two retained assembly instances, including the
+independently recovered entry, offset sheets, streamers, spiral and ribs
+documented separately.
 
 The four-byte headers and 4,832-byte suffixes at `+0x3D20` remain raw owners.
 Known descriptors in the suffix do not classify every remaining byte. Both

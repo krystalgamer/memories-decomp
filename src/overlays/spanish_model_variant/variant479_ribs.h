@@ -17,11 +17,16 @@ typedef struct {
     s32 width[9];
     u8 ca[9][4];
     u8 cb[9][4];
-    u8 unknown168[0x18];
+    s32 scale[3];
+    u8 unknown174[4];
+    s16 field_178, field_17A;
+    s32 field_17C;
     s32 size;
     s32 fade;
     s32 state;
-    u8 unknown18C[0x58];
+    u8 unknown18C[0x48];
+    s32 direction[3];
+    u8 unknown1E0[4];
     PSXLONG flag[9];
     s32 otz[9];
     s16 ox[9];
