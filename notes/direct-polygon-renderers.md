@@ -132,3 +132,35 @@ unchanged. Full comparisons preserve complete caller compiler/MASPSX output
 and complete generated fallback assembly with only declared identities
 reversed, not instruction/directive filtering. A clean full resident image
 match and the PR's fresh regional/overlay image checks remain mandatory.
+
+## Ordinary selector local views
+
+The complete Model_GetPrimitiveHandler definition now distinguishes its
+existing family_word and five low-halfword type views. family_word retains
+the original FFFF0000 mask, comparison widths and branch order; it includes
+category/render-option bits, not a new universal flag or SDK opcode enum.
+
+plain_type selects the existing base-family callbacks, including the zero
+fallback. It does NOT promise opaque output. fog_type retains s32 while
+the other four type views remain u32; only the original D/15 fog values
+are accepted. two_sided_type, semi_type and two_sided_semi_type follow the
+already named returned drivers. Preserve every separate assignment and
+comparison tree, low-halfword mask, goto label, constant and cast.
+
+The four ordinary families retain all FT3/GT3/FT4/GT4 and window-record
+choices. No new combination with the separate fog family, default/null
+handler policy or range validation. Unsupported values still reach the
+same European diagnostic and non-null GsU_00000000 fallback.
+
+Model_InitSlot reaches the unchanged binder for scan tag0 after its
+existing rebase call. That binder still stores the selected pointer,
+then rereads the key and stored handler for registration. No binder,
+callback declaration, registry, cache or renderer implementation changes.
+
+Only scoped bare locals in the TWO complete ordinary/shared selectors
+change; see also [the shared selector](shared-primitive-renderers.md#shared-selector-local-views).
+Arguments, member tokens, comments, types, constants, expressions, scopes,
+labels and order remain. The image selector and BOTH binders stay exact.
+The whole five-function source/profile group, European branches, headers,
+SDK declarations, aliases, data, fixtures and controls remain unchanged.
+No new harness, local cloud-witness execution or opaque-output guarantee.
