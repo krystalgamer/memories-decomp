@@ -9,7 +9,9 @@
 
 /* Header 415's entry: three ribbons, two sheets, two sets of three strands,
  * four rings, two lines and three sweeps, with the header-431 camera and
- * part tracking and the draw helpers of header 415. */
+ * part tracking and the draw helpers of header 415. The French header-432
+ * entry (VERSION_FRENCH) advances the bar index at the end of the bar loop
+ * instead of at its top. */
 
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
@@ -122,13 +124,18 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         SetSemiTrans(flat, 1);
         SetShadeTex(flat, 1);
         do {
+#ifndef VERSION_FRENCH
             j++;
+#endif
             SetPolyGT4(bar);
             bar->tpage = flat_page;
             setUV4(bar, 31, k, 31, k + 15, 0, k, 0, k + 15);
             bar->clut = stack.texture_cluts[0];
             SetSemiTrans(bar, 1);
             SetShadeTex(bar, 0);
+#ifdef VERSION_FRENCH
+            j++;
+#endif
             k = j * 16;
             bar++;
         } while (j < 16);
