@@ -89,3 +89,17 @@ instance to its layout, model, record and sector.
 Configured French progress gains **1,188 C instances / 9,504 instruction
 bytes**, one per configured layout rather than per duplicate physical
 instance. Every suffix remains unclassified and is not counted as C.
+
+## USA promotion
+
+The North American archive carries the same return-two primary entry under
+headers 37 (stage 11, slot 0 at `0x8013A000`) and 40 (stage 12, slot 1 at
+`0x8017A000`). The USA MODEL inventory lists 1,189 such two-sector images,
+selected by their entry-body hash `5294e5f49e88…`; each was previously an
+`unmatched_4` assembly segment. Every one is now registered as
+`model_return_two_<model>_slot<0|1>` with the representative structure: a
+four-byte raw header, the unchanged accepted slot-specific C entry under
+`gcc_2_8_1_g0_split`, and a 4,084-byte unclassified tail. The slot symbol
+files `model_return_two_slot{0,1}_symbols.txt` are shared by all images of a
+slot. All 1,189 images were rebuilt and matched byte for byte. Suffixes
+remain unclassified and are not counted as C.
