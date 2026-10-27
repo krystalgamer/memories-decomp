@@ -120,3 +120,78 @@ the corresponding SDK call consumes, not compare entire stack objects.
 The eight-byte vertex assignments deliberately retain their SDK stride.
 The direct texture shift before the height load, clipping minima, aggregate
 initializers, and late `vertices[6].vx` store remain in their exact source order.
+
+## Screen, texture and scroll local views
+
+The COMPLETE draw definition distinguishes background_slot (still slot 2),
+texture_u_base/texture_v_base, ring_height, initial_sprite_y and the
+background_offset_bits halfword view. The original signed casts and initial
+sprite-Y calculation remain separate from later sprite.y rewrites.
+The texture depth shift and coordinate-height read stay BEFORE the active
+guard; no reset/null/input-validation policy changes.
+
+The FIRST nested clip block names screen_end_y, screen_limit_y,
+screen_input_height and screen_trim_amount. The SECOND names texture_end_v,
+texture_limit_v, texture_input_height and texture_trim_amount. They remain
+DIFFERENT lexical bindings, with all original signed/unsigned comparisons,
+clip-limit alternatives, expressions, gotos and sprite.h snapshots. These
+input heights are NOT the record's separate stage_height field. A trim
+name does not add a nonnegative-input promise or normalize the arithmetic.
+The outer wrapped_u belongs ONLY to the tile-loop modulus; it is not either
+clip amount. Keep the unsigned width division, halfword modulus, base-U
+addition, sprite increments and ordering-table submission gates.
+
+ring_angle walks the same sixteen 256-step sectors. inner_band_depth and
+outer_band_depth distinguish the two existing RotAverage4 returns for the
+1000/1600 and 2200/2800 radius pairs. They do not become ordering-table
+bucket indices, a new visibility policy or newly recovered asset units.
+Keep all three polygon submissions, interpolated middle-band coordinates,
+projection scratch, late vertex store and full eight-byte vertex copies.
+The SDK objects, 20-byte colour initializer, function-local 16-byte static
+normal initializer and automatic aggregate copy retain their exact order.
+
+The COMPLETE scroll definition distinguishes yaw_delta from pitch_delta
+and texture_width. Preserve the abs>=0x801 yaw boundary and both full-turn
+adjustments, force gates, signed scaling and original scroll modulus.
+initial_pitch/reloaded_pitch and their separate turn differences retain
+the TWO original source-read sites and all eight distinct local bindings.
+Their names do not add volatile semantics, force a compiler reload or
+combine values. Keep the original negative quotient forms, quarter-turn
+branches, gotos, output-Y stores and unconditional eight-byte snapshot copy.
+No new angle normalization, saturation, clamp, cache or producer claim.
+
+Only scoped bare local identifiers change across these FOUR definitions.
+All member tokens, types, declarations/order/lifetimes, constants, operators,
+labels, SDK calls, macros, existing comments and other source bytes remain.
+The historical COMMON definitions and existing named COMMON profiles stay
+load-bearing; no storage or replacement owner is introduced. Existing
+tooling/non-hash controls remain; retired gameplay witnesses are not revived
+and no new behavioral harness is added.
+
+
+### Selected-record and forced-reset producers
+
+Model_SetSlotProperties names the existing variadic cursor arguments, then
+model_id, attack_override, defense_override, guardian_star_option and
+defense_position_option. The idx parameter and its unchecked domain remain.
+The first signed argument is ALWAYS consumed, even when negative; the four
+additional arguments are consumed ONLY for idx<2 and in their original order.
+Negative values keep the corresponding field/mirror unchanged, including
+the original halfword narrowing and !=0 flag conversions. These comparison
+overrides are not newly identified numerical attack/defense statistics.
+Japanese builds still omit exactly their original three mirror writes.
+For idx>=2, the selected record still uses gModel_awStageSlotModelId[0],
+NOT the local model_id or idx, with the original 0xB2 byte-table stride.
+For supported slot2, this alias addresses slot2.model_id at +0xDF8.
+Negative input therefore retains the stored index, while nonnegative
+input narrows to u16 BEFORE lookup. Do not substitute the signed local.
+The selection and unconditional scene-mode15 store stay in source order.
+
+Model_ResetSceneView names projection_distance, camera_coordinate and
+camera_hold_state. Preserve every zero/reset and the projection call before
+the reference-view stores, orbit/reference-view calls, coordinate rebuild,
+saved reference and full snapshot assignments, forced scroll call, guarded
+camera request and trailing effect-key-queue reset. The second callback-state
+query remains short-circuited unless camera_hold_state==1; no new query is
+hoisted, and the zero-duration camera request is not made unconditional.
+No prototype, parameter, variadic arity, SDK object or snapshot owner changes.

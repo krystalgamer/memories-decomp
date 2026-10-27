@@ -2303,13 +2303,13 @@ have_flags:
 
 void Model_ResetSceneView(void)
 {
-    int old = gModel_wProjectionDistance;
+    int projection_distance = gModel_wProjectionDistance;
     gModel_wBackgroundOffsetY = 0;
     gModel_wBackgroundScrollX = 0;
     gModel_wViewPitch = 0;
     gModel_wViewDistance = 0;
     gModel_wViewYaw = 0xC00;
-    GsSetProjection(old);
+    GsSetProjection(projection_distance);
     gModel_RView.vpx = 0;
     gModel_RView.vpy = -350;
     gModel_RView.vpz = -1200;
@@ -2321,23 +2321,23 @@ void Model_ResetSceneView(void)
     Model_StepViewOrbit(1, 0x80, -85, 1200, 0);
     GsSetRefView2(&gModel_RView);
     {
-        GsCOORDUNIT *o = &gModel_CameraCoordinateUnit;
-        o->rot.vz = 0;
-        o->rot.vy = 0;
-        o->rot.vx = 0;
-        o->matrix.t[2] = 0;
-        o->matrix.t[1] = 0;
-        o->matrix.t[0] = 0;
-        o->super = 0;
-        RotMatrix_gte(&o->rot, &o->matrix);
-        o->flg = 0;
+        GsCOORDUNIT *camera_coordinate = &gModel_CameraCoordinateUnit;
+        camera_coordinate->rot.vz = 0;
+        camera_coordinate->rot.vy = 0;
+        camera_coordinate->rot.vx = 0;
+        camera_coordinate->matrix.t[2] = 0;
+        camera_coordinate->matrix.t[1] = 0;
+        camera_coordinate->matrix.t[0] = 0;
+        camera_coordinate->super = 0;
+        RotMatrix_gte(&camera_coordinate->rot, &camera_coordinate->matrix);
+        camera_coordinate->flg = 0;
     }
     gModel_SavedRefView = gModel_RView;
     gModel_ViewSnapshot = D_8009B478_p;
     Model_UpdateBackgroundScroll(1);
     {
-        int state = Model_GetCameraHoldState();
-        if (state != 1 || Model_GetHandlerCallbackState() != state)
+        int camera_hold_state = Model_GetCameraHoldState();
+        if (camera_hold_state != 1 || Model_GetHandlerCallbackState() != camera_hold_state)
             Model_StartCameraMove(0, 0, 0, 0);
     }
     Model_ResetEffectKeyQueue();
@@ -2347,42 +2347,42 @@ void Model_ResetSceneView(void)
    gModel_awSlotModelIds/gModelDebug_abSlotAfFlags/gModelDebug_abSlotGfFlags mirrors. */
 void Model_SetSlotProperties(s32 idx, ...)
 {
-    va_list ap;
-    s32 p1;
-    s32 p2;
-    s32 p3;
-    s32 p4;
-    s32 p5;
+    va_list arguments;
+    s32 model_id;
+    s32 attack_override;
+    s32 defense_override;
+    s32 guardian_star_option;
+    s32 defense_position_option;
 
-    va_start(ap, idx);
-    p1 = va_arg(ap, s32);
-    if (p1 >= 0) {
-        gModel_aSlots[idx].model_id = p1;
+    va_start(arguments, idx);
+    model_id = va_arg(arguments, s32);
+    if (model_id >= 0) {
+        gModel_aSlots[idx].model_id = model_id;
 #ifndef VERSION_JAPAN
-        gModel_awSlotModelIds[idx] = p1;
+        gModel_awSlotModelIds[idx] = model_id;
 #endif
     }
     if (idx < 2) {
-        p2 = va_arg(ap, s32);
-        p3 = va_arg(ap, s32);
-        p4 = va_arg(ap, s32);
-        p5 = va_arg(ap, s32);
-        if (p2 >= 0) {
-            gModel_aSlots[idx].attack_compare_override = p2;
+        attack_override = va_arg(arguments, s32);
+        defense_override = va_arg(arguments, s32);
+        guardian_star_option = va_arg(arguments, s32);
+        defense_position_option = va_arg(arguments, s32);
+        if (attack_override >= 0) {
+            gModel_aSlots[idx].attack_compare_override = attack_override;
         }
-        if (p3 >= 0) {
-            gModel_aSlots[idx].defense_compare_override = p3;
+        if (defense_override >= 0) {
+            gModel_aSlots[idx].defense_compare_override = defense_override;
         }
-        if (p4 >= 0) {
-            gModel_aSlots[idx].guardian_star_selection = (p4 != 0);
+        if (guardian_star_option >= 0) {
+            gModel_aSlots[idx].guardian_star_selection = (guardian_star_option != 0);
 #ifndef VERSION_JAPAN
-            gModelDebug_abSlotAfFlags[idx] = (p4 != 0);
+            gModelDebug_abSlotAfFlags[idx] = (guardian_star_option != 0);
 #endif
         }
-        if (p5 >= 0) {
-            gModel_aSlots[idx].defense_position = (p5 != 0);
+        if (defense_position_option >= 0) {
+            gModel_aSlots[idx].defense_position = (defense_position_option != 0);
 #ifndef VERSION_JAPAN
-            gModelDebug_abSlotGfFlags[idx] = (p5 != 0);
+            gModelDebug_abSlotGfFlags[idx] = (defense_position_option != 0);
 #endif
         }
     } else {
