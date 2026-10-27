@@ -6,93 +6,93 @@
 #include "../unmatched.h"
 #include "model_camera_state.h"
 
-void Model_RequestCameraMove(s32 value)
+void Model_RequestCameraMove(s32 mode_request)
 {
-    s32 state = Model_GetCameraHoldState();
+    s32 hold_state = Model_GetCameraHoldState();
 
-    if (state != 1 || Model_GetHandlerCallbackState() != state) {
-        Model_StartCameraMove(value, 0, 0, 0);
+    if (hold_state != 1 || Model_GetHandlerCallbackState() != hold_state) {
+        Model_StartCameraMove(mode_request, 0, 0, 0);
     }
 }
 
-void Model_RequestCameraMoveToSlots(s32 first, s32 second, s32 third, s32 fourth)
+void Model_RequestCameraMoveToSlots(s32 mode_request, s32 eye_slot, s32 target_slot, s32 timing_request)
 {
-    s32 adjusted_second = second < 0 ? 0 : second + 1;
-    s32 adjusted_third = third < 0 ? 0 : third + 1;
-    s32 state = Model_GetCameraHoldState();
+    s32 eye_selector = eye_slot < 0 ? 0 : eye_slot + 1;
+    s32 target_selector = target_slot < 0 ? 0 : target_slot + 1;
+    s32 hold_state = Model_GetCameraHoldState();
 
-    if (state != 1 || Model_GetHandlerCallbackState() != state) {
-        Model_StartCameraMove(first, adjusted_second, adjusted_third, fourth);
+    if (hold_state != 1 || Model_GetHandlerCallbackState() != hold_state) {
+        Model_StartCameraMove(mode_request, eye_selector, target_selector, timing_request);
     }
 }
 
-void Model_SetCameraEyeSlots(s32 first, s32 second)
+void Model_SetCameraEyeSlots(s32 pair_slot, s32 slot_index)
 {
-    s32 state = Model_GetCameraHoldState();
+    s32 hold_state = Model_GetCameraHoldState();
 
-    if (state == 1 && Model_GetHandlerCallbackState() == state) {
+    if (hold_state == 1 && Model_GetHandlerCallbackState() == hold_state) {
         return;
     }
     {
-        ModelCameraMove *move = &gModel_CameraMove;
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        move->eye.pair_slot = first;
-        move->eye.slot = second;
+        camera_move->eye.pair_slot = pair_slot;
+        camera_move->eye.slot = slot_index;
     }
 }
 
-void Model_SetCameraTargetSlots(s32 first, s32 second)
+void Model_SetCameraTargetSlots(s32 pair_slot, s32 slot_index)
 {
-    s32 state = Model_GetCameraHoldState();
+    s32 hold_state = Model_GetCameraHoldState();
 
-    if (state == 1 && Model_GetHandlerCallbackState() == state) {
+    if (hold_state == 1 && Model_GetHandlerCallbackState() == hold_state) {
         return;
     }
     {
-        ModelCameraMove *move = &gModel_CameraMove;
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        move->target.pair_slot = first;
-        move->target.slot = second;
+        camera_move->target.pair_slot = pair_slot;
+        camera_move->target.slot = slot_index;
     }
 }
 
-void Model_SetCameraMoveDurationFromMagnitude(s32 value)
+void Model_SetCameraMoveDurationFromMagnitude(s32 magnitude_request)
 {
-    s32 state = Model_GetCameraHoldState();
+    s32 hold_state = Model_GetCameraHoldState();
 
-    if (state == 1 && Model_GetHandlerCallbackState() == state) {
+    if (hold_state == 1 && Model_GetHandlerCallbackState() == hold_state) {
         return;
     }
     {
-        ModelCameraMove *move = &gModel_CameraMove;
+        ModelCameraMove *camera_move = &gModel_CameraMove;
 
-        move->duration = (value < 0 ? -value : value) * 2;
-        move->elapsed = 0;
+        camera_move->duration = (magnitude_request < 0 ? -magnitude_request : magnitude_request) * 2;
+        camera_move->elapsed = 0;
     }
 }
 
-void Model_SetCameraFollowCountdown(s32 value)
+void Model_SetCameraFollowCountdown(s32 countdown_request)
 {
-    s32 state = Model_GetCameraHoldState();
+    s32 hold_state = Model_GetCameraHoldState();
 
-    if (state != 1 || Model_GetHandlerCallbackState() != state) {
-        gModel_wCameraFollowCountdown = value * 2;
+    if (hold_state != 1 || Model_GetHandlerCallbackState() != hold_state) {
+        gModel_wCameraFollowCountdown = countdown_request * 2;
     }
 }
 
-void Model_SetCameraOrbitStep(s32 value)
+void Model_SetCameraOrbitStep(s32 orbit_step_request)
 {
-    s32 state = Model_GetCameraHoldState();
-    ModelCameraMove *move;
+    s32 hold_state = Model_GetCameraHoldState();
+    ModelCameraMove *camera_move;
 
-    if (state == 1) {
-        if (Model_GetHandlerCallbackState() == state) {
+    if (hold_state == 1) {
+        if (Model_GetHandlerCallbackState() == hold_state) {
             return;
         }
     }
-    move = &gModel_CameraMove;
+    camera_move = &gModel_CameraMove;
 #ifndef VERSION_JAPAN
-    move->base_orbit_step = value;
+    camera_move->base_orbit_step = orbit_step_request;
 #endif
-    move->orbit_step = value;
+    camera_move->orbit_step = orbit_step_request;
 }
