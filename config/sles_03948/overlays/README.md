@@ -299,7 +299,7 @@ rename the entry's data references to their earlier French addresses.
 Sixty-eight images under French headers 665 and 732 are the North American
 header-648 entry (`model_variant/variant648_entry.c`) without its `E_DATA`
 work-size printf. They use the same recipe, through
-`src/overlays/french_model_variant/variant648_entry{,_slot1}.c`, with the data
+`src/overlays/french_model_variant/variant665_entry{,_slot1}.c`, with the data
 labels 0x28 lower.
 
 French overlays are included in the report generator's separate French
