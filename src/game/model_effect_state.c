@@ -164,22 +164,22 @@ void Model_PrepareEffectKey(Key *state)
 }
 
 /* Evaluates one channel of the keyframe ring that Model_ApplyEffectKeyQueueCommand fills and
-   Model_CaptureKeyframePose seeds. `cur` points at a 0x28-byte key inside gModel_aEffectKeys, so
-   `cur - gModel_aEffectKeys` is the ring index; the three keys the segment spans are
+   Model_CaptureKeyframePose seeds. `current_key` points at a 0x28-byte key inside gModel_aEffectKeys, so
+   `current_key - gModel_aEffectKeys` is the ring index; the three keys the segment spans are
    that index and the next two modulo the live key count in gModel_bEffectKeyCount. Keys
    whose 0x8-byte channel record has kind 1 at +6 terminate the segment, and
    the tail is padded with the last real key. The four control points handed to
    Model_BuildCubicCoefficients are the current pose at gModel_aPoseSnapshot followed by those three
-   keys, except that a non-zero `den` also replaces the first with the previous
-   key when that one is kind 1. With `den` zero the divisor is instead the sum
+   keys, except that a non-zero `time_denominator` also replaces the first with the previous
+   key when that one is kind 1. With `time_denominator` zero the divisor is instead the sum
    of the distinct keys' +0x22 durations. Each of the three components is then
-   Horner-evaluated at scale/den and added to the constant term. */
-void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
+   Horner-evaluated at time_numerator/time_denominator and added to the constant term. */
+void Model_EvaluateKeyframeSpline(Key *current_key, s32 channel_index, s32 time_numerator, s32 time_denominator, s16 *output_xyz)
 {
-    Key *keys[3] = {
-        &gModel_aEffectKeys[(cur - gModel_aEffectKeys) % gModel_bEffectKeyCount],
-        &gModel_aEffectKeys[(cur - gModel_aEffectKeys + 1) % gModel_bEffectKeyCount],
-        &gModel_aEffectKeys[(cur - gModel_aEffectKeys + 2) % gModel_bEffectKeyCount]
+    Key *segment_keys[3] = {
+        &gModel_aEffectKeys[(current_key - gModel_aEffectKeys) % gModel_bEffectKeyCount],
+        &gModel_aEffectKeys[(current_key - gModel_aEffectKeys + 1) % gModel_bEffectKeyCount],
+        &gModel_aEffectKeys[(current_key - gModel_aEffectKeys + 2) % gModel_bEffectKeyCount]
     };
     s16 *control_points[4];
     Coeff axis_coefficients[3];
@@ -188,12 +188,12 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 
     memset(control_points, 0, 16);
     control_points[0] = (s16 *)(
-        (u8 *)gModel_aPoseSnapshot + (u32)&((u8 (*)[8])0)[k]);
+        (u8 *)gModel_aPoseSnapshot + (u32)&((u8 (*)[8])0)[channel_index]);
     for (point_or_axis_index = 1; point_or_axis_index < 3; point_or_axis_index++) {
         s16 *next_channel_halfwords;
 
         next_channel_halfwords = (s16 *)(
-            KEY_BYTES(keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[k]);
+            KEY_BYTES(segment_keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[channel_index]);
         if (next_channel_halfwords[3] != 1) {
             break;
         }
@@ -201,28 +201,28 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
     tail_source_index = point_or_axis_index - 1;
     if (point_or_axis_index < 3) {
         for (; point_or_axis_index < 3; point_or_axis_index++) {
-            keys[point_or_axis_index] = keys[tail_source_index];
+            segment_keys[point_or_axis_index] = segment_keys[tail_source_index];
         }
     }
     for (point_or_axis_index = 0; point_or_axis_index < 3; point_or_axis_index++) {
         control_points[point_or_axis_index + 1] = (s16 *)(
-            KEY_BYTES(keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[k]);
+            KEY_BYTES(segment_keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[channel_index]);
     }
-    if (den != 0) {
+    if (time_denominator != 0) {
         Key *previous_key;
         s16 *previous_channel;
 
-        previous_key = &gModel_aEffectKeys[(cur - gModel_aEffectKeys + gModel_bEffectKeyCount - 1) % gModel_bEffectKeyCount];
-        previous_channel = (s16 *)(KEY_BYTES(previous_key) + (u32)&((u8 (*)[8])0)[k]);
+        previous_key = &gModel_aEffectKeys[(current_key - gModel_aEffectKeys + gModel_bEffectKeyCount - 1) % gModel_bEffectKeyCount];
+        previous_channel = (s16 *)(KEY_BYTES(previous_key) + (u32)&((u8 (*)[8])0)[channel_index]);
         if (previous_channel[3] == 1) {
             control_points[0] = previous_channel;
         }
         point_or_axis_index = 0;
     } else {
-        den = keys[0]->duration;
+        time_denominator = segment_keys[0]->duration;
         for (point_or_axis_index = 1; point_or_axis_index < 3; point_or_axis_index++) {
-            if (keys[point_or_axis_index - 1] != keys[point_or_axis_index]) {
-                den += keys[point_or_axis_index]->duration;
+            if (segment_keys[point_or_axis_index - 1] != segment_keys[point_or_axis_index]) {
+                time_denominator += segment_keys[point_or_axis_index]->duration;
             }
         }
         point_or_axis_index = 0;
@@ -231,10 +231,10 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
         s32 polynomial_value;
 
         Model_BuildCubicCoefficients(control_points[0][point_or_axis_index], control_points[1][point_or_axis_index], control_points[2][point_or_axis_index], control_points[3][point_or_axis_index], &axis_coefficients[point_or_axis_index], 2);
-        polynomial_value = axis_coefficients[point_or_axis_index].x * scale / den;
-        polynomial_value = (polynomial_value + axis_coefficients[point_or_axis_index].y) * scale / den;
-        polynomial_value = (polynomial_value + axis_coefficients[point_or_axis_index].z) * scale / den;
-        out[point_or_axis_index] = axis_coefficients[point_or_axis_index].w + polynomial_value;
+        polynomial_value = axis_coefficients[point_or_axis_index].x * time_numerator / time_denominator;
+        polynomial_value = (polynomial_value + axis_coefficients[point_or_axis_index].y) * time_numerator / time_denominator;
+        polynomial_value = (polynomial_value + axis_coefficients[point_or_axis_index].z) * time_numerator / time_denominator;
+        output_xyz[point_or_axis_index] = axis_coefficients[point_or_axis_index].w + polynomial_value;
     }
 }
 
