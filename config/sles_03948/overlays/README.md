@@ -287,8 +287,9 @@ selects the French burst CLUT (`0x3D28` instead of `0x3D20`), and in
 flash quad. Each source family has one `model_variant<header>_linker_symbols.txt`
 file with the French resident addresses.
 
-A further 123 single-entry images (French headers 181, 189, 193, 644, 651, 664,
-671 and the slot-one counterparts 311, 319 and 323) are the North American
+A further 176 single-entry images (French headers 181, 189, 193, 644, 651,
+664, 671 and the slot-one counterparts 311, 319, 323, 711, 718, 731 and 738)
+are the North American
 `model_variant/variant{164,172,176,627,634,647,654}_entry` bodies without the
 US-only work-size `printf`. Their `french_model_variant/` wrappers define
 `VERSION_FRENCH`, which drops that call (and, in `variant176`, its `.rodata`
