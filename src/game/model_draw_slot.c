@@ -429,11 +429,11 @@ void Model_DrawSlot(s32 index)
             y = slot->render_parent_coordinate->workm.t[1];
             z = slot->render_parent_coordinate->workm.t[2];
         }
-        x = Model_MirrorOffset(index, x, blk[4] * 0x10);
+        x = Model_MirrorOffset(index, x, ((ModelSlotMetadataPrefix *)blk)->position_offsets.x * 0x10);
         slot->cached_position[0] = x;
-        y += blk[5] * 0x10;
+        y += ((ModelSlotMetadataPrefix *)blk)->position_offsets.y * 0x10;
         slot->cached_position[1] = y;
-        z = Model_MirrorOffset(index, z, blk[6] * 0x10);
+        z = Model_MirrorOffset(index, z, ((ModelSlotMetadataPrefix *)blk)->position_offsets.z * 0x10);
         count = y = 0;
         slot->cached_position[2] = z;
         head_unit = slot->hmd_units;
@@ -476,7 +476,7 @@ void Model_DrawSlot(s32 index)
         } else {
             y = slot->render_parent_coordinate->workm.t[1];
         }
-        slot->cached_position[3] = (y - 700) / 3 + blk[5] * 0x10;
+        slot->cached_position[3] = (y - 700) / 3 + ((ModelSlotMetadataPrefix *)blk)->position_offsets.y * 0x10;
         w = maxx - minx;
         h = maxy - miny;
         d = maxz - minz;
