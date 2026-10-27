@@ -75,7 +75,7 @@ segments:
     vram: 0x8017CAEC
     align: 4
     subsegments:
-      - [0x1AEC, asm, overlays/french_model_variant_707_stage10_slot1/helper_1AEC]
+      - [0x1AEC, c, overlays/french_model_variant/variant436_ribbons_slot1]
   - name: helper_26C8
     type: code
     start: 0x26C8
