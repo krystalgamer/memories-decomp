@@ -7,7 +7,7 @@
    that SD_UpdateFades adds to cd_volume, and cd_fade_target the volume it stops
    at. The third argument is written by no path in the definition; every
    caller passes 1. */
-void SD_StartCdFade(s16 value, u8 flag, s32 unused);
+void SD_StartCdFade(s16 step, u8 target, s32 unused);
 
 /* Reads the decoded CD block, sums the squares of one half of it, and returns
    the level unless the two low bits of the 0x40 flag word are set. */

@@ -23,7 +23,7 @@ void SD_SetCdPan(s32 pan);
  * mix_multiplier to 7 before the call. Movie_Play passes 0xFF, the movie
  * fade-out in Movie_DecodeAndPresentFrame passes the falling gMovie_bCdVolume, and
  * Movie_StopStream passes 0. */
-void SD_SetCdVolumeImmediate(s32 value);
+void SD_SetCdVolumeImmediate(s32 level);
 s32 SD_GetCdVolume(void);
 
 #endif
