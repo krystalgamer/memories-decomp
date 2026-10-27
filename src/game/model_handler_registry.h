@@ -24,7 +24,7 @@ typedef char ModelType2Scratch_clut_data_offset_must_be_0x18[
 /* Four-byte prefix of the type-2 record stream; its size advances the stream
  * cursor in Model_ProcessType2Unit. */
 typedef struct {
-    u16 field_00;
+    u16 descriptor_word_count;
     u16 record_count;
 } ModelType2RecordHeader;
 
