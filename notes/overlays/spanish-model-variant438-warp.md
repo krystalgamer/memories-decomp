@@ -25,7 +25,9 @@ travel along the work block's direction vector (`+0x226C`) from its origin
 
 A ring grows by `step << 6` (`+0x22A4`) per frame. Before phase 3
 (`+0x22E8`) it wraps at 2048; after that it clamps there and stops drawing.
-The routine is a sibling of the MODEL388 screen-feedback rings.
+The routine is a sibling of the MODEL388 screen-feedback rings. The
+[MODEL459 warp rings](spanish-model-variant459-warp.md) compile the same body
+under `VARIANT438_WARP_LAYOUT_459`.
 
 ## What reproduces the target
 
