@@ -177,6 +177,15 @@ and grown by `step * 0x180` from phase 2. Its phase 0 places web `i` at
 of the timing record at `work + 0xF00`, plus `0x1000`, wrapped by `0x1000`;
 that assignment matches only as two statements, the progress less `0x1000`
 stored to the scale first.
+Header 442 (models 47, 238, 411 and 620 at `+ 180`, 231 and 417 at `+ 200`)
+and its slot-1 header 592 are the Spanish header-459 image built under gcc
+2.7.2: all eight functions (entry, warp, curtains, rays, spiral, bands, sheets
+and lines) build from `src/overlays/spanish_model_variant/variant459_*.c`
+through `variant442_*.c` wrappers that rename the image-local symbols. The
+entry wrapper sets `MODEL_VARIANT459_CLUT_X` to 512 (PAL loads the palette
+from 640). The curtains fade branch re-reads the timing record into a fresh
+`start` local; that one form matches both compilers, where the earlier shared
+`rec` load only matched gcc 2.8.1.
 Model 712's header-459 image (and its header-609 slot-1 image) has a
 243-instruction form at `0x2064` (`variant459_webs`): the header-418 grids
 with header 425's fade and growth, sorted whenever `otz > 0`.

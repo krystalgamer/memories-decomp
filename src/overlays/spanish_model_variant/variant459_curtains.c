@@ -46,6 +46,7 @@ void func_8013C9AC(u8 *ctx)
     ModelVariantSheet *sheet;
     s32 fade;
     Timing459 *rec;
+    s32 start;
     u8 r0;
     u8 g0;
     u8 b0;
@@ -123,15 +124,14 @@ void func_8013C9AC(u8 *ctx)
                 }
             }
         }
-        rec = CURTAIN459_TIMING(work);
-        if (curtain->scale < rec->limit && MODEL_VARIANT_WORD(work, 0x30DC) < 3) {
-            curtain->scale = rec->limit * (u32)MODEL_VARIANT_WORD(work, 0x3084) / rec->grow_end;
+        if (curtain->scale < CURTAIN459_TIMING(work)->limit && MODEL_VARIANT_WORD(work, 0x30DC) < 3) {
+            curtain->scale = CURTAIN459_TIMING(work)->limit * (u32)MODEL_VARIANT_WORD(work, 0x3084) / CURTAIN459_TIMING(work)->grow_end;
             if (curtain->scale >= CURTAIN459_TIMING(work)->limit) {
                 curtain->scale = CURTAIN459_TIMING(work)->limit;
                 curtain->count++;
             }
-        } else if ((u32)(otz = MODEL_VARIANT_WORD(work, 0x3084)) >= (u32)(fade = rec->fade_start)) {
-            curtain->scale = rec->limit - rec->limit * ((u32)otz - (u32)fade) / (rec->fade_end - (u32)fade);
+        } else if ((u32)MODEL_VARIANT_WORD(work, 0x3084) >= (u32)(start = (rec = CURTAIN459_TIMING(work))->fade_start)) {
+            curtain->scale = rec->limit - rec->limit * ((u32)MODEL_VARIANT_WORD(work, 0x3084) - (u32)start) / (rec->fade_end - (u32)start);
         }
     }
     MODEL_VARIANT_WORD(work, 0x30C8) += MODEL_VARIANT_WORD(work, 0x308C) * 80;
