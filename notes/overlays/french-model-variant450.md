@@ -29,14 +29,19 @@ The historical Spanish experiments remain in their original ledgers.
 
 All seven function spans have independently checked, closed contiguous
 control-flow graphs: `4..DD8`, `DD8..1794`, `1794..1ECC`, `1ECC..27C0`,
-`27C0..2D88`, `2D88..310C`, and `310C..3940`. The entry and the primary
-ribbon, band, quad, line, and coil helpers are C. The entry is the accepted
-North American header-433 body with the PAL palette x = 640; see
+`27C0..2D88`, `2D88..310C`, and `310C..3940`. All seven are C. The entry is
+the accepted North American header-433 body with the PAL palette x = 640; see
 [French MODEL entries reusing North American C](french-model-usa-entry-reuse.md).
-The `1ECC..27C0` rings remain generated assembly: the North American
-`variant433_rings.c` builds a 2,264-byte body with an 872-byte frame, while
-the French body is 2,292 bytes with an 880-byte frame and different point
-addressing.
+The `1ECC..27C0` rings (`variant450_rings{,_slot1}.c`) are symbol-only
+wrappers over the North American `variant433_rings.c` with `VERSION_FRENCH`
+defined. Unchanged, that source builds a 2,264-byte body with an 872-byte
+frame, while the French body is 2,292 bytes with an 880-byte frame. The
+French block indexes the screen, offset and depth arrays directly in the quad
+loop, uses the loop index in the `j == 8` projection arm, and reads plain
+`flags[i][j]`. The North American retail forms (folded `+ 1` displacements,
+`row = 0`, the advanced word pointer) are what produce the smaller frame. The
+four experiments are in the attempts ledger as `802-*`; both images match and
+the rings add two C instances / 4,584 bytes.
 Closed retained functions are not automatically claimed to be entry-reachable.
 
 The four-byte header and complete `0x3940..0x5000` suffix keep raw owners.

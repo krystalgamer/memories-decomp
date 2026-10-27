@@ -63,9 +63,16 @@ instruction bytes.
 
 ## Rings
 
-The `1E7C..2754` rings helper (`variant433_rings.c`) has no PAL counterpart
-yet: the French header-450 function at the same position is still assembly.
-It is written for the North American stream and grows sixteen nine-point
+The `1E7C..2754` rings helper (`variant433_rings.c`) also builds the French
+header-450 rings (`french_model_variant/variant450_rings.c`) with
+`VERSION_FRENCH` defined. That block drops the retail forms below that fold
+the `+ 1` neighbour displacements, so the French body is 2,292 bytes with an
+880-byte frame. The French explanation sits inside that block, so removing
+the `VERSION_FRENCH` arms gives exactly the accepted North American source.
+The historical attempt fingerprints check that projection, and
+`test_north_american_model_variant450` pins the complete regional file
+separately. The North American code is
+written for the North American stream and grows sixteen nine-point
 rings. Each is projected with RotTransPers4 and drawn as quads from the
 projected edges. What the retail code needs:
 
