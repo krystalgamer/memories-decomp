@@ -7,7 +7,9 @@ semantic source/header paths, profiles and declaration contracts are
 retained rather than renamed again. The four/five-argument
 `FUNC_80058434_CALL_WITH_UNUSED_ARG` selector belongs to the orbit step;
 the lock retains its separate `int` signature and ordered guard.
-The existing camera/keyframe controls remain byte-for-byte accepted.
+The earlier alias component preserved its then-existing camera/keyframe
+controls byte-for-byte; that is historical evidence, not a request to
+restore retired gameplay fixtures.
 
 This component changes neither operation. Its only change in the accepted
 orbit-step body is the reference-point alias identity below; signed
@@ -74,10 +76,74 @@ test, rebuilding from the newly published metrics. It is not replaced
 by zero. Pose capture with1 STILL follows, then camera request-1.
 No immediate SDK view installation or new angle normalization promise.
 
-Only scoped bare locals in these FOUR complete definitions change.
-Arguments, member tokens, comments, types, constants, expressions,
-scopes, labels and order remain. All other grouped definitions,
-headers, SDK declarations, callers, fixtures and controls stay exact.
-The existing extent and slot-refresh extractors select other bodies;
-the intro witness stubs the direct orbit setter. No new harness or
-local cloud-witness execution.
+That earlier FOUR-definition component changed only scoped bare locals.
+Arguments, members, comments, types, constants, expressions, scopes, labels
+and order were preserved. Its then-existing extent/slot-refresh extractors
+selected other bodies, and its intro witness stubbed the direct setter.
+Those are historical fixture observations; the later input-view component
+below neither restores nor executes retired gameplay witnesses.
+
+
+## Complete direct and queued orbit input views
+
+FIVE complete definitions now name their existing input labels:
+slot_selector, requested_distance/distance, preset_index, yaw/pitch,
+target_offset and the queued key_magnitude. These are definition labels
+ONLY; public prototype labels, all signatures and int/s32 views remain
+byte-identical. slot_selector is still SIGNED and unchecked: the distance
+helper's >=2 passthrough, wrappers' <2 adjustment, direct setter's >=0
+copy and <=0 side sign, and queue builder's EXACT2 special case differ.
+No shared selector/guard helper, range repair or negative-input policy.
+
+The three size-adjustment implementations retain their independent
+expressions, halfword clamp/subtract/reload and arithmetic order.
+The distance helper STILL extracts the unsigned sign bit before signed
+halving shift; the two wrappers STILL use /2. Keep the direct wrapper's
+separate size_product and full/half-then-product distance_work binding.
+Preset pointers remain selected before guards, distance remains captured
+before the dimension helper and yaw/pitch remain later member reads.
+The queued wrapper's dimensions is only its existing local adjustment
+record, not new storage or a new interpretation of mesh bounds.
+
+camera_view and view_metrics retain getter order BEFORE the direct guard.
+Its short[4] slot_position copy still publishes xyz only; negative selectors
+retain the old pivot before the optional offset. Side-dependent signs
+remain X/Z-only. Keep u16 metric stores, signed remainder forms and exact
+orbit-step/full-turn/trailing1, pose-capture1, request-1 call order. The
+queued path does NOT become an immediate view installation.
+
+The complete queue builder distinguishes raw u16 target_halfwords[4] from
+orbit_halfwords[4]. The former is zeroed before the guard and receives the
+original selector|0x80 halfword, or FOUR slot2 halfwords followed by kind1.
+The latter receives distance and the original angle deltas, then kind4.
+They remain aligned raw arrays, not packed endpoint locals. The final
+call STILL passes orbit FIRST and target SECOND through the old casts.
+key_magnitude is forwarded unchanged to the existing signed key-magnitude
+publication; it is not guaranteed to be positive, frames or a fixed duration.
+
+view_metrics is captured by the original getter before target initialization
+and the guard. offset_sign affects X/Z; the middle offset remains an explicit
+u16 read, unlike the direct setter. biased_yaw/biased_pitch retain
+full-turn addition and their original signed quotient/remainder forms.
+yaw_word keeps the zero-extended halfword snapshot before its correction.
+Yaw still explicitly narrows the live metric to s16; pitch still reads its
+u16 metric directly. Preserve all intermediate halfword stores, threshold
+tests, wrap adjustments and cast-based signed comparisons. No canonical
+angle, shortest-delta-for-all-inputs, wider arithmetic or bounds promise.
+
+The shared x scratch STILL holds adjusted yaw THEN the signed batch ordinal;
+it is deliberately not split or given one false single-phase meaning.
+queue_mode begins with the original signed-byte ordinal and keeps the
+separate x copy, negative-to-zero branch, later live global increment and
+>0 classification. The constant-one binding, gate expressions and all
+captured-versus-live reads remain. No batching, hold-state or callback
+normalization is introduced.
+
+Only scoped bare locals/definition arguments across these FIVE definitions
+change. All existing comments, public headers, other functions, members,
+types, declarations/order/lifetimes, casts, constants, expressions, labels,
+calls, macros, table/private data, profiles and storage remain. Five existing
+CSV NOTES cells are appended; all identities/evidence/confidence and other
+rows stay. No fixture/control/oracle/mutation changes, synthetic/generated-
+C/source-string behavioral harness, retired fixture revival or local cloud
+execution.
