@@ -255,3 +255,12 @@ beside the frame step, and rebinding the node cursor before the run-path
 loop. The first candidate missed only on those points. Both slots compile to
 2,692 bytes with zero differing words, and all four complete images pass the
 strict per-image rebuild and verify.
+
+## Spanish reuse
+
+Spanish `MODEL.MRG` has the same archive hash. Its images
+`model_image_model_52344_8013b000`, `52354_8017b000`, `71388_8013b000` and
+`71398_8017b000` are byte-identical to French MODEL189/258 stages 7/8. They
+now compile the same four French C owners and slot wrappers, using the Spanish
+header-475 linker bindings and the same raw header and suffix split. A strict
+per-image rebuild and verify matches all four.
