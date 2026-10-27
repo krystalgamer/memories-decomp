@@ -8,9 +8,13 @@
  * model points, a spinning dome of sprites wrapped in a cone of strips, and
  * rows of sparks that drift away. The setup also prints the work-area size. */
 
-/* The work-size format string; retail's padding byte after the terminator is 0xA7. */
+/* The work-size format string. The padding byte after its terminator is 0xA7
+ * in the slot-zero images and 0 in the slot-one copies. */
+#ifndef MODEL681_STRING_PAD
+#define MODEL681_STRING_PAD "\xA7"
+#endif
 #ifndef VERSION_FRENCH
-static const char D_8013EE20[24] = "E_DATA size = %x byte\n\0\xA7";
+static const char D_8013EE20[24] = "E_DATA size = %x byte\n\0" MODEL681_STRING_PAD;
 #endif
 
 #define TRACK_POINT(index, matrix)                                             \
