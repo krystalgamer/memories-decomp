@@ -313,6 +313,12 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant663_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Sixteen images under French headers 676 and 743 are the North American
+header-659 entry (`model_variant/variant659_entry.c`) without its `E_DATA`
+work-size printf, built through
+`src/overlays/french_model_variant/variant676_entry{,_slot1}.c` with the data
+labels 0x28 lower.
+
 Forty images under French headers 678 and 745 are the North American
 header-661 entry (`model_variant/variant661_entry.c`) without its `E_DATA`
 work-size printf, built the same way through
