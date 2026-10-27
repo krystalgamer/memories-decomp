@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C734
     align: 4
     subsegments:
-      - [0x1734, asm, overlays/spanish_model_variant_719_stage7_slot0/helper_1734]
+      - [0x1734, c, overlays/french_model_variant/variant472_mesh]
   - name: helper_1D30
     type: code
     start: 0x1D30
