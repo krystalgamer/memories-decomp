@@ -530,21 +530,21 @@ void Model_ResetSlot(s32 arg0)
  * sprite fields, and applies the mode-dependent horizontal offset through
  * Model_SetSlotPartSpeeds before Model_ApplyTextureTint draws it. */
 void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
-    ModelSlot *p;
-    ModelSlot *q;
-    ModelSlotPart *G32 *c;
-    ModelSlot *e;
-    ModelSlot *r;
-    s32 i;
-    s32 j;
-    s32 sum;
-    s32 k;
-    s32 v;
-    s32 m;
-    s32 n;
-    u8 *b;
-    u8 *b2;
-    s32 w;
+    ModelSlot *span_slot;
+    ModelSlot *rearm_slot;
+    ModelSlotPart *G32 *part_sequence;
+    ModelSlot *draw_slot;
+    ModelSlot *tint_slot;
+    s32 span_part_index;
+    s32 rearm_part_index;
+    s32 snapshot_bytes;
+    s32 mask_byte_index;
+    s32 cache_or_speed;
+    s32 missing_command_index;
+    s32 part_count;
+    u8 *slot_bytes;
+    u8 *tint_slot_bytes;
+    s32 part_speed;
 
     Model_InitSlot(arg0, arg1, arg2, arg3);
     if (arg1 == (u8 *)0) {
@@ -552,66 +552,66 @@ void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
     Model_BuildSlotAnimationTables(arg0);
     Model_LinkSlotAnimationRows(arg0);
-    p = &gModel_aSlots[arg0];
-    sum = 0;
+    span_slot = &gModel_aSlots[arg0];
+    snapshot_bytes = 0;
     if (arg0 < 2) {
-        i = sum;
-        if (sum < p->animation_sequence_count) {
-            m = 0xFFFF;
-            n = p->animation_sequence_count;
+        span_part_index = snapshot_bytes;
+        if (snapshot_bytes < span_slot->animation_sequence_count) {
+            missing_command_index = 0xFFFF;
+            part_count = span_slot->animation_sequence_count;
             do {
-                if (p->animation_command_indices[1][i] != m) {
-                    k = i / 8;
-                    if ((p->extended_animation_part_mask[k] >> (i - k * 8)) & 1) {
-                        sum += 0x14;
+                if (span_slot->animation_command_indices[1][span_part_index] != missing_command_index) {
+                    mask_byte_index = span_part_index / 8;
+                    if ((span_slot->extended_animation_part_mask[mask_byte_index] >> (span_part_index - mask_byte_index * 8)) & 1) {
+                        snapshot_bytes += 0x14;
                     } else {
-                        sum += 0xC;
+                        snapshot_bytes += 0xC;
                     }
                 }
-                i++;
-            } while (i < n);
+                span_part_index++;
+            } while (span_part_index < part_count);
         }
     }
-    v = (p->lit_color_cache_address = (s32)p->animation_snapshot_buffer + sum);
-    p->lit_color_cache_end_address = v + p->lit_color_cache_entry_count * sizeof(u32);
-    Model_SetSlotRootTransform(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
+    cache_or_speed = (span_slot->lit_color_cache_address = (s32)span_slot->animation_snapshot_buffer + snapshot_bytes);
+    span_slot->lit_color_cache_end_address = cache_or_speed + span_slot->lit_color_cache_entry_count * sizeof(u32);
+    Model_SetSlotRootTransform(span_slot, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
 
-    q = &gModel_aSlots[arg0];
-    c = q->animation_sequences;
-    for (j = 0; j < q->animation_sequence_count; j++) {
-        (*c)->ii = 0xFFFF;
-        (*c)->ti = (*c)->start;
-        (*c)->aframe = 0xFFFF;
-        (*c)->sid = (*c)->start_sid;
-        (*c)->rframe = 0;
-        (*c)->speed = 0x10;
-        c++;
+    rearm_slot = &gModel_aSlots[arg0];
+    part_sequence = rearm_slot->animation_sequences;
+    for (rearm_part_index = 0; rearm_part_index < rearm_slot->animation_sequence_count; rearm_part_index++) {
+        (*part_sequence)->ii = 0xFFFF;
+        (*part_sequence)->ti = (*part_sequence)->start;
+        (*part_sequence)->aframe = 0xFFFF;
+        (*part_sequence)->sid = (*part_sequence)->start_sid;
+        (*part_sequence)->rframe = 0;
+        (*part_sequence)->speed = 0x10;
+        part_sequence++;
     }
 
-    b = (u8 *)gModel_aSlots;
-    e = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b);
-    e->is_active = 1;
+    slot_bytes = (u8 *)gModel_aSlots;
+    draw_slot = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + slot_bytes);
+    draw_slot->is_active = 1;
     Model_DrawSlotUnitsOnly(arg0);
-    v = e->playback_speed * 2;
-    w = v;
-    switch (e->playback_state) {
+    cache_or_speed = draw_slot->playback_speed * 2;
+    part_speed = cache_or_speed;
+    switch (draw_slot->playback_state) {
     case 0x23:
-        w = 0;
-        Model_SetSlotPartSpeeds(arg0, w);
+        part_speed = 0;
+        Model_SetSlotPartSpeeds(arg0, part_speed);
         break;
     case 0x3E:
-        w = v;
-        Model_SetSlotPartSpeeds(arg0, w);
+        part_speed = cache_or_speed;
+        Model_SetSlotPartSpeeds(arg0, part_speed);
         break;
     case 0x3C:
-        w = -w;
-        Model_SetSlotPartSpeeds(arg0, w);
+        part_speed = -part_speed;
+        Model_SetSlotPartSpeeds(arg0, part_speed);
         break;
     }
     if (arg0 < 2) {
-        b2 = (u8 *)gModel_aSlots;
-        r = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b2);
-        Model_ApplyTextureTint(arg0, r->texture_tint_control, r->texture_tint_scale);
+        tint_slot_bytes = (u8 *)gModel_aSlots;
+        tint_slot = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + tint_slot_bytes);
+        Model_ApplyTextureTint(arg0, tint_slot->texture_tint_control, tint_slot->texture_tint_scale);
     }
 }
 
@@ -745,32 +745,32 @@ void Model_AdvanceSlotLoad(s32 index)
 {
     ModelSlot *slot = &gModel_aSlots[index];
 #ifndef VERSION_JAPAN
-    s32 started = VSync(1);
+    s32 start_vblank = VSync(1);
 #endif
-    s32 state = slot->load_step;
-    s32 work;
-    s32 amount;
-    s32 offset;
+    s32 initial_load_step = slot->load_step;
+    s32 phase_work;
+    s32 phase_value;
+    s32 part_speed;
 
-    if (state == 0 || state == 255) {
+    if (initial_load_step == 0 || initial_load_step == 255) {
         return;
     }
     switch (load_phase(slot)) {
     case 1: {
-        u8 *payload = (u8 *)gModel_AuxiliaryPayloadAddress;
-        s32 size = 0xC000;
+        u8 *hmd_payload = (u8 *)gModel_AuxiliaryPayloadAddress;
+        s32 hmd_size = 0xC000;
         switch (index) {
         case 0:
-            payload = gRuntime_pSharedWorkBase;
+            hmd_payload = gRuntime_pSharedWorkBase;
             break;
         case 1:
-            payload = gModel_pSlot1PayloadBase;
+            hmd_payload = gModel_pSlot1PayloadBase;
             break;
         }
-        if (*(s32 *)payload != 0) {
-            size = *(s32 *)payload;
+        if (*(s32 *)hmd_payload != 0) {
+            hmd_size = *(s32 *)hmd_payload;
         }
-        Model_InitSlot(index, payload, size, -1);
+        Model_InitSlot(index, hmd_payload, hmd_size, -1);
         break;
     }
     case 2:
@@ -780,44 +780,44 @@ void Model_AdvanceSlotLoad(s32 index)
         Model_LinkSlotAnimationRows(index);
         break;
     case 4: {
-        ModelSlot *p = &gModel_aSlots[index];
-        s32 sum = 0;
-        s32 i, count, byte, missing;
+        ModelSlot *phase_slot = &gModel_aSlots[index];
+        s32 snapshot_bytes = 0;
+        s32 part_index, part_count, mask_byte_index, missing_command_index;
         if (index < 2) {
-            i = sum;
-            if (sum < p->animation_sequence_count) {
-                missing = 0xFFFF;
-                count = p->animation_sequence_count;
+            part_index = snapshot_bytes;
+            if (snapshot_bytes < phase_slot->animation_sequence_count) {
+                missing_command_index = 0xFFFF;
+                part_count = phase_slot->animation_sequence_count;
                 do {
-                    if (p->animation_command_indices[1][i] != missing) {
-                        byte = i / 8;
-                        if ((p->extended_animation_part_mask[byte] >> (i - byte * 8)) & 1) {
-                            sum += 0x14;
+                    if (phase_slot->animation_command_indices[1][part_index] != missing_command_index) {
+                        mask_byte_index = part_index / 8;
+                        if ((phase_slot->extended_animation_part_mask[mask_byte_index] >> (part_index - mask_byte_index * 8)) & 1) {
+                            snapshot_bytes += 0x14;
                         } else {
-                            sum += 0xC;
+                            snapshot_bytes += 0xC;
                         }
                     }
-                    i++;
-                } while (i < count);
+                    part_index++;
+                } while (part_index < part_count);
             }
         }
-        amount = (p->lit_color_cache_address = (s32)p->animation_snapshot_buffer + sum);
-        p->lit_color_cache_end_address = amount + p->lit_color_cache_entry_count * 4;
-        Model_SetSlotRootTransform(p, 0, 0, 0, index == 1 ? 0x800 : 0);
+        phase_value = (phase_slot->lit_color_cache_address = (s32)phase_slot->animation_snapshot_buffer + snapshot_bytes);
+        phase_slot->lit_color_cache_end_address = phase_value + phase_slot->lit_color_cache_entry_count * 4;
+        Model_SetSlotRootTransform(phase_slot, 0, 0, 0, index == 1 ? 0x800 : 0);
         break;
     }
     case 5: {
-        ModelSlot *p = &gModel_aSlots[index];
-        ModelSlotPart *G32 *part = p->animation_sequences;
-        s32 i;
-        for (i = 0; i < p->animation_sequence_count; i++) {
-            (*part)->ii = 0xFFFF;
-            (*part)->ti = (*part)->start;
-            (*part)->aframe = 0xFFFF;
-            (*part)->sid = (*part)->start_sid;
-            (*part)->rframe = 0;
-            (*part)->speed = 0x10;
-            part++;
+        ModelSlot *phase_slot = &gModel_aSlots[index];
+        ModelSlotPart *G32 *part_sequence = phase_slot->animation_sequences;
+        s32 part_index;
+        for (part_index = 0; part_index < phase_slot->animation_sequence_count; part_index++) {
+            (*part_sequence)->ii = 0xFFFF;
+            (*part_sequence)->ti = (*part_sequence)->start;
+            (*part_sequence)->aframe = 0xFFFF;
+            (*part_sequence)->sid = (*part_sequence)->start_sid;
+            (*part_sequence)->rframe = 0;
+            (*part_sequence)->speed = 0x10;
+            part_sequence++;
         }
         break;
     }
@@ -827,21 +827,21 @@ void Model_AdvanceSlotLoad(s32 index)
         slot->is_active = 0;
         break;
     case 7: {
-        ModelSlot *p = &gModel_aSlots[index];
-        amount = p->playback_speed * 2;
-        offset = amount;
-        switch (p->playback_state) {
+        ModelSlot *phase_slot = &gModel_aSlots[index];
+        phase_value = phase_slot->playback_speed * 2;
+        part_speed = phase_value;
+        switch (phase_slot->playback_state) {
         case 0x23:
-            offset = 0;
-            Model_SetSlotPartSpeeds(index, offset);
+            part_speed = 0;
+            Model_SetSlotPartSpeeds(index, part_speed);
             break;
         case 0x3E:
-            offset = amount;
-            Model_SetSlotPartSpeeds(index, offset);
+            part_speed = phase_value;
+            Model_SetSlotPartSpeeds(index, part_speed);
             break;
         case 0x3C:
-            offset = -offset;
-            Model_SetSlotPartSpeeds(index, offset);
+            part_speed = -part_speed;
+            Model_SetSlotPartSpeeds(index, part_speed);
             break;
         }
         if (index >= 2) {
@@ -853,38 +853,38 @@ void Model_AdvanceSlotLoad(s32 index)
         Model_ApplyTextureTint(index, slot->texture_tint_control, slot->texture_tint_scale);
         break;
     case 9: {
-        ModelSlot *p = &gModel_aSlots[index];
-        u8 *context;
-        ModelControlHandler handler;
-        s32 selected;
-        s32 position;
-        s32 i;
-        work = ((ModelControlCommandView *)p)->commands[2];
-        context = (u8 *)p->primary_module_data_address;
+        ModelSlot *phase_slot = &gModel_aSlots[index];
+        u8 *handler_context;
+        ModelControlHandler module_handler;
+        s32 selected_row;
+        s32 frame_position;
+        s32 part_index;
+        phase_work = ((ModelControlCommandView *)phase_slot)->commands[2];
+        handler_context = (u8 *)phase_slot->primary_module_data_address;
         gModel_bActiveSlotIndex = index;
-        if (work >= 0) {
+        if (phase_work >= 0) {
             if (index != 0) {
-                handler = (ModelControlHandler)(gModel_pSlot1PrimaryModule + 4);
+                module_handler = (ModelControlHandler)(gModel_pSlot1PrimaryModule + 4);
             } else {
-                handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
+                module_handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
             }
             Model_SetHandlerCallbackState(1);
-            handler(context, ((ModelControlCommandView *)p)->commands[2] % 1000);
+            module_handler(handler_context, ((ModelControlCommandView *)phase_slot)->commands[2] % 1000);
             Model_SetHandlerCallbackState(0);
         }
-        selected = p->current_animation_row;
-        p->animation_control_state = 6;
-        position = p->animation_position;
-        for (i = 0; i < p->animation_sequence_count; i++) {
-            s32 current = p->current_animation_row;
-            if (selected != 0) {
-                p->animation_sequences[i]->sid = selected;
-                current = selected;
+        selected_row = phase_slot->current_animation_row;
+        phase_slot->animation_control_state = 6;
+        frame_position = phase_slot->animation_position;
+        for (part_index = 0; part_index < phase_slot->animation_sequence_count; part_index++) {
+            s32 current_row = phase_slot->current_animation_row;
+            if (selected_row != 0) {
+                phase_slot->animation_sequences[part_index]->sid = selected_row;
+                current_row = selected_row;
             }
-            Model_SeekSlotPartAnimation(p, i, current, position);
+            Model_SeekSlotPartAnimation(phase_slot, part_index, current_row, frame_position);
         }
-        if (selected != 0) {
-            p->current_animation_row = selected;
+        if (selected_row != 0) {
+            phase_slot->current_animation_row = selected_row;
         }
         break;
     }
@@ -903,17 +903,17 @@ void Model_AdvanceSlotLoad(s32 index)
         break;
     }
 #ifndef VERSION_JAPAN
-    work = VSync(1);
-    printf(gModel_szLoadModelTraceFormat, slot->load_step, work - started);
+    phase_work = VSync(1);
+    printf(gModel_szLoadModelTraceFormat, slot->load_step, phase_work - start_vblank);
 #endif
     {
-        s32 next;
+        s32 next_load_step;
         if (slot->is_active != 0) {
-            next = 255;
+            next_load_step = 255;
         } else {
-            next = slot->load_step + 1;
+            next_load_step = slot->load_step + 1;
         }
-        slot->load_step = next;
+        slot->load_step = next_load_step;
     }
 }
 
@@ -1432,102 +1432,102 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *object, s32 mod
  * which is the retail srav/sllv form, and a shared variable would give the
  * word count the slot's callee-saved register. */
 void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
-    ModelSlot *m;
-    ModelSlotPart *G32 *parts;
-    u8 *dst;
-    u8 *base;
-    u16 *src;
-    s32 i;
-    s32 prev;
-    s32 restore_words;
-    s32 copy_words;
-    s32 restore_row;
-    s32 copy_row;
-    s32 copy_bit;
-    s32 restore_bit;
+    ModelSlot *slot;
+    ModelSlotPart *G32 *part_sequences;
+    u8 *snapshot_cursor;
+    u8 *parameter_base;
+    u16 *command_halfwords;
+    s32 part_index;
+    s32 previous_row;
+    s32 restore_word_count;
+    s32 save_word_count;
+    s32 restore_command_index;
+    s32 save_command_index;
+    s32 save_rounded_part;
+    s32 restore_rounded_part;
 
-    m = &gModel_aSlots[index];
-    dst = m->animation_snapshot_buffer;
-    base = m->animation_parameter_base;
-    parts = m->animation_sequences;
-    if (m->is_active == 0) {
+    slot = &gModel_aSlots[index];
+    snapshot_cursor = slot->animation_snapshot_buffer;
+    parameter_base = slot->animation_parameter_base;
+    part_sequences = slot->animation_sequences;
+    if (slot->is_active == 0) {
         return;
     }
     switch (anim) {
     case -1:
-        m->part_command_reset_pending = 0;
-        for (i = 0; i < m->animation_sequence_count; parts++, i++) {
-            (*parts)->ii = 0xFFFF;
+        slot->part_command_reset_pending = 0;
+        for (part_index = 0; part_index < slot->animation_sequence_count; part_sequences++, part_index++) {
+            (*part_sequences)->ii = 0xFFFF;
         }
         break;
     case 0:
-        if (m->active_animation_command_row == 0) {
+        if (slot->active_animation_command_row == 0) {
             return;
         }
-        for (i = 0; i < m->animation_sequence_count; i++) {
-            restore_row = m->animation_command_indices[m->active_animation_command_row][i];
-            src = (u16 *)&m->animation_commands[restore_row];
-            if (restore_row != 0xFFFF) {
-                restore_bit = i;
-                if (i < 0) {
-                    restore_bit = i + 7;
+        for (part_index = 0; part_index < slot->animation_sequence_count; part_index++) {
+            restore_command_index = slot->animation_command_indices[slot->active_animation_command_row][part_index];
+            command_halfwords = (u16 *)&slot->animation_commands[restore_command_index];
+            if (restore_command_index != 0xFFFF) {
+                restore_rounded_part = part_index;
+                if (part_index < 0) {
+                    restore_rounded_part = part_index + 7;
                 }
-                restore_words = 3;
-                if ((m->extended_animation_part_mask[restore_bit >> restore_words] >>
-                     (i - ((restore_bit >> restore_words) << restore_words))) &
+                restore_word_count = 3;
+                if ((slot->extended_animation_part_mask[restore_rounded_part >> restore_word_count] >>
+                     (part_index - ((restore_rounded_part >> restore_word_count) << restore_word_count))) &
                     1) {
-                    restore_words = 5;
+                    restore_word_count = 5;
                 }
-                Model_CopyWords((s32 *)(base + src[0] * 4), (const s32 *)dst,
-                                restore_words);
-                dst += restore_words * 4;
+                Model_CopyWords((s32 *)(parameter_base + command_halfwords[0] * 4), (const s32 *)snapshot_cursor,
+                                restore_word_count);
+                snapshot_cursor += restore_word_count * 4;
             }
         }
-        m->active_animation_command_row = 0;
+        slot->active_animation_command_row = 0;
         break;
     default:
-        prev = m->active_animation_command_row;
-        if (anim != m->guardian_star_selection + 3) {
-            m->animation_control_state = 2;
+        previous_row = slot->active_animation_command_row;
+        if (anim != slot->guardian_star_selection + 3) {
+            slot->animation_control_state = 2;
         }
-        if (m->animation_duration_rows[anim].max == 0) {
+        if (slot->animation_duration_rows[anim].max == 0) {
             return;
         }
-        if (prev != 0) {
+        if (previous_row != 0) {
             if (flag == 0) {
                 return;
             }
-            m->queued_animation_row_latch = m->queued_animation_row;
+            slot->queued_animation_row_latch = slot->queued_animation_row;
             Model_ControlSlotAnimation(index, 0, 0);
         }
-        if (anim == m->guardian_star_selection + 3
-            || m->model_id == MODEL_SPECIAL_BATTLE_ID) {
-            m->animation_control_state = 7;
+        if (anim == slot->guardian_star_selection + 3
+            || slot->model_id == MODEL_SPECIAL_BATTLE_ID) {
+            slot->animation_control_state = 7;
         }
-        m->active_animation_command_row = anim;
-        if (prev == anim) {
+        slot->active_animation_command_row = anim;
+        if (previous_row == anim) {
             Model_SeekSlotAnimation(index, 0, 0);
             return;
         }
-        m->part_command_reset_pending = 1;
-        for (i = 0; i < m->animation_sequence_count; parts++, i++) {
-            copy_row = m->animation_command_indices[m->active_animation_command_row][i];
-            src = (u16 *)&m->animation_commands[copy_row];
-            if (copy_row != 0xFFFF) {
-                copy_bit = i;
-                if (i < 0) {
-                    copy_bit = i + 7;
+        slot->part_command_reset_pending = 1;
+        for (part_index = 0; part_index < slot->animation_sequence_count; part_sequences++, part_index++) {
+            save_command_index = slot->animation_command_indices[slot->active_animation_command_row][part_index];
+            command_halfwords = (u16 *)&slot->animation_commands[save_command_index];
+            if (save_command_index != 0xFFFF) {
+                save_rounded_part = part_index;
+                if (part_index < 0) {
+                    save_rounded_part = part_index + 7;
                 }
-                copy_words = 3;
-                if ((m->extended_animation_part_mask[copy_bit >> copy_words] >>
-                     (i - ((copy_bit >> copy_words) << copy_words))) &
+                save_word_count = 3;
+                if ((slot->extended_animation_part_mask[save_rounded_part >> save_word_count] >>
+                     (part_index - ((save_rounded_part >> save_word_count) << save_word_count))) &
                     1) {
-                    copy_words = 5;
+                    save_word_count = 5;
                 }
-                (*parts)->ii = ((u8 *)src - (u8 *)m->animation_commands) >> 2;
-                Model_CopyWords((s32 *)dst,
-                                (const s32 *)(base + src[0] * 4), copy_words);
-                dst += copy_words * 4;
+                (*part_sequences)->ii = ((u8 *)command_halfwords - (u8 *)slot->animation_commands) >> 2;
+                Model_CopyWords((s32 *)snapshot_cursor,
+                                (const s32 *)(parameter_base + command_halfwords[0] * 4), save_word_count);
+                snapshot_cursor += save_word_count * 4;
             }
         }
         break;

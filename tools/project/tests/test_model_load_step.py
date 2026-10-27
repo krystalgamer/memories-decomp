@@ -442,15 +442,15 @@ class ModelLoadStepTests(unittest.TestCase):
             text = keep_definitions(SOURCE.read_text(), {"Model_AdvanceSlotLoad"})
             if mutation:
                 changes = {
-                    "idle-state": ("state == 0 || state == 255", "state == 0"),
-                    "bitfield-base": ("p->extended_animation_part_mask[byte]", "*((u8 *)p + 0xBEC + i * 2 + byte)"),
+                    "idle-state": ("initial_load_step == 0 || initial_load_step == 255", "initial_load_step == 0"),
+                    "bitfield-base": ("phase_slot->extended_animation_part_mask[mask_byte_index]", "*((u8 *)phase_slot + 0xBEC + part_index * 2 + mask_byte_index)"),
                     "third-slot-limit": (
-                        "amount = (p->lit_color_cache_address = (s32)p->animation_snapshot_buffer + sum);",
-                        "amount = (s32)p->animation_snapshot_buffer + sum;\n        if (index < 2) p->lit_color_cache_address = amount;",
+                        "phase_value = (phase_slot->lit_color_cache_address = (s32)phase_slot->animation_snapshot_buffer + snapshot_bytes);",
+                        "phase_value = (s32)phase_slot->animation_snapshot_buffer + snapshot_bytes;\n        if (index < 2) phase_slot->lit_color_cache_address = phase_value;",
                     ),
                     "live-sequence-base": (
-                        "s32 current = p->current_animation_row;",
-                        "s32 current = *((u8 *)p + 0xBF5 + i * 4);",
+                        "s32 current_row = phase_slot->current_animation_row;",
+                        "s32 current_row = *((u8 *)phase_slot + 0xBF5 + part_index * 4);",
                     ),
                 }
                 before, after = changes[mutation]
