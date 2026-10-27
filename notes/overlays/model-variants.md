@@ -70,6 +70,13 @@ input", and each of the four header-397 helpers compiles one word short.
 `make overlays` and `make verify-overlays` pass under either profile, because
 neither of them compiles C.
 
+One European image also selects `gcc_2_7_2_cdk_g0`: the rings helper at
+`0x8017E520` in the French and Spanish `model_image_model_109782_8017b000`
+images (header 447). It is unreachable and calls an older resident layout.
+Under gcc 2.8.1 the same source is two words longer and 96 words differ,
+including the filled epilogue slot. Under 2.7.2 it matches exactly. See
+[French header-447 image rings](french-model-image447-rings.md).
+
 ## Header families
 
 The first word of a variant image is a header id. Every image with a given
