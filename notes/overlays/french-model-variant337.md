@@ -1,9 +1,10 @@
-# French MODEL variant 337/487 entry, ring and ribbon helpers
+# French MODEL variant 337/487 entry, ring, ribbon and streamer helpers
 
 Six independently verified French secondary images directly reuse the accepted
 `src/overlays/spanish_model_variant/variant337_rings.c` body and existing
 `variant337_rings_slot1.c` wrapper. Two French ribbon wrappers also reuse
-the accepted North American `variant320_ribbon.c` and its existing header.
+the accepted North American `variant320_ribbon.c` and its existing header,
+and two streamer wrappers reuse `variant320_streamers.c` the same way.
 Each uses
 the authoritative `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81.
 The ring helper at offset `0x1278` is 1,216 bytes and the ribbon at `0x9A4`
@@ -30,13 +31,13 @@ verification. Model 410's stages 9/10 are a different family and are excluded.
 | `0x4..0x9A4` | 2464 | matching entry C |
 | `0x9A4..0x1278` | 2260 | matching ribbon C |
 | `0x1278..0x1738` | 1216 | matching ring C |
-| `0x1738..0x1F5C` | 2084 | generated assembly |
+| `0x1738..0x1F5C` | 2084 | matching streamer C |
 
 All four functions are reachable in the entry's direct call graph. Each
 complete span has one terminal return and no unresolved indirect transfer.
-The family has eighteen C instances / 35,640 instruction bytes, retaining
-all twelve accepted ring/ribbon instances. Six streamer assembly instances /
-12,504 instruction bytes remain.
+The family has twenty-four C instances / 48,144 instruction bytes: the six
+streamers (12,504 bytes) join the eighteen accepted entry/ring/ribbon
+instances, and no function in these six images remains assembly.
 Each four-byte header and 12,452-byte suffix at `0x1F5C..0x5000` has a real
 generated storage owner. All 74,712 suffix bytes remain unclassified, not
 excluded code or C coverage.
@@ -207,3 +208,30 @@ owners; the promoted header reproduces all 100 layout constants. The 33
 focused French/Spanish family and regional-progress regressions pass with
 the repository metadata, attempt-ledger, basic-type and `G32` checks.
 Other-region sources/configuration and the fixed-cutoff README are unchanged.
+
+## Streamer evidence and regional difference
+
+The accepted header-320 streamers body, compiled unchanged with the
+authoritative GCC 2.8.1 / MASPSX 2.81 profile, produced 2,080 bytes with a
+336-byte frame instead of the French 2,084 bytes / 344-byte frame; 272
+index-aligned words differed in each slot (call targets masked). Two
+measured source differences, selected by `VERSION_FRENCH`, make every
+instruction exact:
+
+- as in the ribbon, the terminal `k == 16` arm indexes the endpoint by `k`
+  instead of literal `16` (the previous point stays `15`), and stores its
+  width directly in each branch like the general arm rather than through a
+  joined temporary;
+- each arm computes its own `ox`/`oy` offsets. The North American source's
+  shared tail, an `if (poly)` with identical arms after the join, is not
+  used. Duplicated tails let the compiler merge each arm's two width stores,
+  as in the retail code.
+
+The default North American branch is unchanged: its preprocessed source is
+token-identical, and all six North American consumers rebuild exactly under
+their `gcc_2_7_2_cdk_g0` profile. The calibration and both terminals are in
+the attempt ledger. The six French images (110/159 stages 9/10 and 410
+stages 7/8) link exactly through the rename-only `variant337_streamers.c` and
+`variant337_streamers_slot1.c` wrappers. Configured French totals become
+4,588 matching C instances and 8,794,944 C instruction bytes. These are
+inventory totals, not exhaustive runtime coverage.

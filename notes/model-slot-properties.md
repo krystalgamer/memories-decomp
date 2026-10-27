@@ -287,3 +287,53 @@ are not retyped. Existing minimum/override queries keep their unsigned
 threshold views and distinct policies. All fixtures, oracles, mutations,
 scenarios, numeric expectations and flags remain byte-for-byte unchanged;
 none was imported/executed and no new behavioral harness is introduced.
+
+
+## Dimension floors and coordinate/orbit argument views
+
+Three COMPLETE definitions in model_slot_control.c name their existing
+dimension-floor locals and coordinate/orbit definition parameters. Public
+headers/prototypes, including parameter labels, remain byte-identical.
+No new field, helper, layout, validation, supported domain or caller is
+introduced. The cached-metric producer and inline matrix helpers stay
+unchanged; no retired gameplay witness or new behavioral harness is added.
+
+Model_GetSlotDimensionsWithMinimums distinguishes dimension_slot from its
+metadata_prefix and the separate minimum_x/minimum_y/minimum_z block locals.
+These are THREE lexical bindings, not a shared or hoisted scratch value.
+Preserve the complete eight-byte copy, u16 storage versus signed output
+view, nonzero byte tests, shift by four, signed comparisons, narrowing and
+X/Y/Z order. The copied fourth word is still replaced by the original
+nonnegative maximum computation; no new cache-freshness or mesh-bound claim.
+The separate override helper and all frozen overlay bodies stay unchanged.
+
+Model_BuildViewRelativeCoordinateUnit names entry_index, local_position
+and output_coordinate. entry_index is still mutable: ONLY the original
+strict entry_count < entry_index test selects root_coordinate_index.
+No equality, negative-index or range guard is added. Preserve the integer
+80-byte entry stride, GsGetLwUnit/GsSetLsMatrix/RotTransSV sequence, existing
+SVECTOR/MATRIX objects, byte-backed flag scratch and every SDK boundary.
+Translation still uses the selected slot while rotation repeatedly reads
+slot ZERO through the existing volatile views. Do not conflate the slots,
+claim an anatomical entry, normalize orientation or cache the root reads.
+Keep declaration/stack order, inline helpers, Z/Y/X translation clears and
+the output super pointer to the AUTOMATIC translation_parent. Its legacy
+lifetime-sensitive behavior is preserved, not repaired or made owning.
+
+Model_StepViewOrbit names direction_scale and yaw/pitch/distance deltas.
+direction_scale remains BOTH the positive-versus-nonpositive pivot choice
+and the FULL signed position multiplier, not a Boolean or normalized sign.
+Preserve the interior reference-point alias, triple arithmetic and all
+reused trigonometric/angle/horizontal-or-X bindings. The distance pretest
+still uses a signed halfword, while the subsequent update reloads the
+unsigned halfword and narrows on store; there is no universal clamp.
+Masked angle-update gates remain separate from RAW nonzero recomputation
+gates. Preserve signed divisions/products, angle reduction and X/Y/Z stores.
+The guarded unused fifth CALL-SITE argument contract remains unchanged;
+the definition still reads exactly its original four parameters.
+
+All three whole definitions invert byte-for-byte under scoped bare
+identifiers. All member tokens, types, declarations/order/lifetimes,
+constants, operators, labels, calls, macros, existing comments and other
+source bytes remain. The full grouped objects keep their other functions,
+switch/private data, named profiles, storage and object order.

@@ -274,11 +274,11 @@ placement, raw data, and the overworld assembly block at `0x1618..0x17D0`.
 That block is **not** claimed as matching C. Scratch probes, objects,
 extracted modules and retail archives remain untracked.
 
-Another 439 MODEL variant images are single-entry images whose text is the
+Another 455 MODEL variant images are single-entry images whose text is the
 North American entry for the US header 17 below their own (French headers 89,
-127, 128, 135, 136, 147, 769, 771, 773, 783, 787, 796, 844, 845 and their slot-one
-counterparts 219, 257, 258, 265, 266, 277, 866, 868, 870, 880, 884, 893, 941, 942). They
-build from the accepted `model_variant/variant{72,110,111,118,130,827,828}_entry`
+127, 128, 134, 135, 136, 147, 769, 771, 773, 783, 787, 796, 844, 845 and their slot-one
+counterparts 219, 257, 258, 264, 265, 266, 277, 866, 868, 870, 880, 884, 893, 941, 942). They
+build from the accepted `model_variant/variant{72,110,111,117,118,130,827,828}_entry`
 sources and their `_slot1` copies unchanged. The
 `variant{119,752,754,756,766,779}_entry` families compile through
 `src/overlays/french_model_variant/` wrappers that define `VERSION_FRENCH`
@@ -287,7 +287,9 @@ sources and their `_slot1` copies unchanged. The
 selects the French burst CLUT (`0x3D28` instead of `0x3D20`), and in
 `variant{119,754}` the 256-line `GRAPHICS_DEFAULT_HEIGHT` sizes the full-screen
 flash quad. Each source family has one `model_variant<header>_linker_symbols.txt`
-file with the French resident addresses.
+file with the French resident addresses (`variant117_entry` uses
+`model_variant134_linker_symbols.txt`, because `model_variant117` already names
+the French header-117 family).
 
 A further 176 single-entry images (French headers 181, 189, 193, 644, 651,
 664, 671 and the slot-one counterparts 311, 319, 323, 711, 718, 731 and 738)
@@ -305,10 +307,22 @@ work-size printf. They use the same recipe, through
 `src/overlays/french_model_variant/variant665_entry{,_slot1}.c`, with the data
 labels 0x28 lower.
 
+Twenty-two images under French headers 663 and 730 are the North American
+header-646 entry (`model_variant/variant646_entry.c`) without its `E_DATA`
+work-size printf, built through
+`src/overlays/french_model_variant/variant663_entry{,_slot1}.c` with the data
+labels 0x28 lower.
+
 Forty images under French headers 678 and 745 are the North American
 header-661 entry (`model_variant/variant661_entry.c`) without its `E_DATA`
 work-size printf, built the same way through
 `src/overlays/french_model_variant/variant678_entry{,_slot1}.c` with the data
+labels 0x28 lower.
+
+Eighteen images under French headers 679 and 746 are the North American
+header-662 entry (`model_variant/variant662_entry.c`) without its `E_DATA`
+work-size printf, built through
+`src/overlays/french_model_variant/variant679_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
 Thirty-four images under French headers 680 and 747 are the North American
@@ -317,11 +331,25 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant680_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Fifteen images under French headers 686 and 753 are the North American
+header-669 entry (`model_variant/variant669_entry.c`) without its `E_DATA`
+work-size printf, built through
+`src/overlays/french_model_variant/variant686_entry{,_slot1}.c` with the data
+labels 0x28 lower.
+
 Twenty-six images under French headers 675 and 742 are the North American
 header-658 entry (`model_variant/variant658_entry.c`) without its `E_DATA`
 work-size printf, built through
 `src/overlays/french_model_variant/variant675_entry{,_slot1}.c` with the data
 labels 0x28 lower.
+
+Twenty-six images under French headers 794 and 891 are the North American
+header-777 entry (`model_variant/variant777_entry.c`) with its full-screen
+flash covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects the
+height, through
+`src/overlays/french_model_variant/variant794_entry{,_slot1}.c`; the North
+American images have no slot-one copy, so the slot-one wrapper renames the
+labels itself.
 
 Twenty images under French headers 674 and 741 are the North American
 header-657 entry (`model_variant/variant657_entry.c`) without its `E_DATA`

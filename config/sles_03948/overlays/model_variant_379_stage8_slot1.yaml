@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_variant_379_stage8_slot1/entry]
+      - [0x4, c, overlays/spanish_model_variant/variant479_entry_slot1]
   - name: helper_FD0
     type: code
     start: 0xFD0
@@ -68,14 +68,14 @@ segments:
     vram: 0x8017C4F8
     align: 4
     subsegments:
-      - [0x14F8, asm, overlays/french_model_variant_379_stage8_slot1/helper_14F8]
+      - [0x14F8, c, overlays/spanish_model_variant/variant479_spiral_slot1]
   - name: helper_1F68
     type: code
     start: 0x1F68
     vram: 0x8017CF68
     align: 4
     subsegments:
-      - [0x1F68, asm, overlays/french_model_variant_379_stage8_slot1/helper_1F68]
+      - [0x1F68, c, overlays/spanish_model_variant/variant479_ribs_slot1]
   - name: helper_2B90
     type: code
     start: 0x2B90

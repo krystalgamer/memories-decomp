@@ -61,7 +61,7 @@ segments:
     vram: 0x8013BFE0
     align: 4
     subsegments:
-      - [0xFE0, asm, overlays/french_model_variant_410_stage9_slot0/unmatched_FE0]
+      - [0xFE0, c, overlays/french_model_variant/variant418_bands]
   - name: helper_1760
     type: code
     start: 0x1760

@@ -28,4 +28,18 @@ typedef struct {
     s32 phase;
 } Warp438State;
 
+typedef struct {
+    Warp438Ring rings[5];
+    u8 unknown_0848[0x2580];
+    POLY_GT4 polygon;
+    u8 unknown_2DFC[0xE4];
+    s32 origin[3];
+    u8 unknown_2EEC[0x168];
+    s32 direction[3];
+    u8 unknown_3060[0x2C];
+    s32 step;
+    u8 unknown_3090[0x4C];
+    s32 phase;
+} Warp459State;
+
 #endif

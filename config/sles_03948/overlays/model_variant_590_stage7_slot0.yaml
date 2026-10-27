@@ -110,7 +110,7 @@ segments:
     vram: 0x8013F14C
     align: 4
     subsegments:
-      - [0x414C, asm, overlays/french_model_variant_590_stage7_slot0/helper_414C]
+      - [0x414C, c, overlays/french_model_variant/variant441_rings]
   - name: unclassified_tail
     type: code
     start: 0x4754

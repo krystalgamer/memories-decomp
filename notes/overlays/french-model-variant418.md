@@ -24,7 +24,7 @@ models are excluded.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `0x4..0xFE0` | 4060 | entry C | yes |
-| `0xFE0..0x1760` | 1920 | generated assembly | yes |
+| `0xFE0..0x1760` | 1920 | bands C ([note](french-model-variant418-bands.md)) | yes |
 | `0x1760..0x1C9C` | 1340 | sheets C | yes |
 | `0x1C9C..0x2204` | 1384 | webs C | yes |
 | `0x2204..0x272C` | 1320 | rays C | yes |
