@@ -316,3 +316,24 @@ compiler profiles and storage remain exact. The entire semantic ledger
 stays byte-identical: no function/global/member identity promotion or
 NOTES churn. No fixture/control/oracle/mutation changes, retired-fixture
 revival, local cloud tests or new behavioral harness accompany these views.
+
+## Retained compiler-visibility selector follow-up
+
+The zero-fixture description above records the original four-path component
+at 8e6a6cfab8874bed861485ac70e9dc7f2765477a. Its North American CI run
+found one retained tooling regression selector still spelling the direct
+load call as Model_InitSlot(arg0, arg1, arg2, arg3).
+
+That ONE existing selector now follows the definition arguments:
+Model_InitSlot(slot_index, hmd, hmd_size, render_flags). Every other byte of
+the compiler-visibility test remains, including its unique-anchor assertion,
+too-few-arguments mutation, expected compiler diagnostic, shared-prototype
+contract hash and signedness-change control. No test is added, removed,
+skipped or weakened, and no retired gameplay fixture is restored.
+
+All production sources, headers, profiles, manifests and other build inputs
+remain byte-identical to the original verified component. Its six native
+contexts and clean retail evidence remain historical, not a new reproduction.
+The retained regression is not executed locally; successful ordinary CI on
+the corrected head is still required. This is a genuine stale-selector fix,
+not a head edit solely to retrigger validation.
