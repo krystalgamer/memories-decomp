@@ -61,7 +61,7 @@ segments:
     vram: 0x8017C614
     align: 4
     subsegments:
-      - [0x1614, asm, overlays/french_model_variant_263_stage10_slot1/helper_1614]
+      - [0x1614, c, overlays/spanish_model_variant/variant438_warp_slot1]
   - name: helper_1B5C
     type: code
     start: 0x1B5C
