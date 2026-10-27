@@ -29,40 +29,40 @@
 /* Maps an id to its handler in the second dispatch family: looks the id up
  * in the handler registry at gModel_aHandlerKeyRegistry (GsU_00000000 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the
- * low halfword's kind. Returns arg0 unchanged when nothing matches. */
+ * low halfword's kind. Returns handler_value unchanged when nothing matches. */
 
-s32 Model_MapToWireframePrimitiveHandler(s32 arg0) {
-    ModelHandlerRegistryEntry *e;
-    s32 n;
-    s32 v;
-    u32 t;
+s32 Model_MapToWireframePrimitiveHandler(s32 handler_value) {
+    ModelHandlerRegistryEntry *registry_entry;
+    s32 registry_index;
+    s32 type_key;
+    u32 type_family;
 
-    e = gModel_aHandlerKeyRegistry;
-    n = 0;
+    registry_entry = gModel_aHandlerKeyRegistry;
+    registry_index = 0;
 
-    if (arg0 == (s32)GsU_00000000) {
-        v = -1;
+    if (handler_value == (s32)GsU_00000000) {
+        type_key = -1;
     } else {
         do {
-            if (e->handler_value == arg0) {
-                v = e->key;
+            if (registry_entry->handler_value == handler_value) {
+                type_key = registry_entry->key;
                 goto have;
             }
-            n++;
-            e++;
-        } while (n < MODEL_HANDLER_REGISTRY_COUNT);
-        v = -1;
+            registry_index++;
+            registry_entry++;
+        } while (registry_index < MODEL_HANDLER_REGISTRY_COUNT);
+        type_key = -1;
     }
 
 have:
-    t = v & 0xFFFF0000;
+    type_family = type_key & 0xFFFF0000;
 
-    switch (t) {
+    switch (type_family) {
     case 0:
     case 0x100000:
     case 0x200000:
     case 0x300000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 9:
             return (s32)Model_DrawFt3Wireframes;
         case 0x209:
@@ -85,7 +85,7 @@ have:
     case 0x1100000:
     case 0x1200000:
     case 0x1300000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 0xD:
             return (s32)Model_DrawSharedGt3Wireframes;
         case 0x20D:
@@ -97,41 +97,41 @@ have:
         }
         break;
     }
-    return arg0;
+    return handler_value;
 }
 
 /* Maps the registered callback to the handler family selected by the packed
  * registry id. The case order is retail's own arm order in memory. */
 
-s32 Model_MapToBasePrimitiveHandler(s32 arg0) {
-    ModelHandlerRegistryEntry *e;
-    s32 n;
-    s32 v;
-    u32 t;
+s32 Model_MapToBasePrimitiveHandler(s32 handler_value) {
+    ModelHandlerRegistryEntry *registry_entry;
+    s32 registry_index;
+    s32 type_key;
+    u32 type_family;
 
-    e = gModel_aHandlerKeyRegistry;
-    n = 0;
+    registry_entry = gModel_aHandlerKeyRegistry;
+    registry_index = 0;
 
-    if (arg0 == (s32)GsU_00000000) {
-        v = -1;
+    if (handler_value == (s32)GsU_00000000) {
+        type_key = -1;
     } else {
         do {
-            if (e->handler_value == arg0) {
-                v = e->key;
+            if (registry_entry->handler_value == handler_value) {
+                type_key = registry_entry->key;
                 goto have;
             }
-            n++;
-            e++;
-        } while (n < MODEL_HANDLER_REGISTRY_COUNT);
-        v = -1;
+            registry_index++;
+            registry_entry++;
+        } while (registry_index < MODEL_HANDLER_REGISTRY_COUNT);
+        type_key = -1;
     }
 
 have:
-    t = v & 0xFFFF0000;
+    type_family = type_key & 0xFFFF0000;
 
-    switch (t) {
+    switch (type_family) {
     case 0x200000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 0x9:
             return (s32)Model_DrawFt3Primitives;
         case 0x209:
@@ -151,7 +151,7 @@ have:
         }
         break;
     case 0x300000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 0x9:
             return (s32)Model_DrawTwoSidedFt3Primitives;
         case 0x209:
@@ -171,7 +171,7 @@ have:
         }
         break;
     case 0x1200000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 0xD:
             return (s32)Model_DrawSharedGt3Primitives;
         case 0x20D:
@@ -183,7 +183,7 @@ have:
         }
         break;
     case 0x1300000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 0xD:
             return (s32)Model_DrawSharedTwoSidedGt3Primitives;
         case 0x20D:
@@ -195,45 +195,45 @@ have:
         }
         break;
     }
-    return arg0;
+    return handler_value;
 }
 #endif
 
-/* Finds `key` in the table; if absent and there is a free slot, claims it
-   with (key, val). No-op once all 80 slots are taken and no match exists. */
+/* Finds `type_key` in the table; if absent and there is a free slot, claims it
+   with (type_key, handler_value). No-op once all 80 slots are taken and no match exists. */
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_REGISTER_HANDLER_KEY)
-void Model_RegisterHandlerKey(s32 key, s32 val) {
-    s32 i;
-    ModelHandlerRegistryEntry *e = gModel_aHandlerKeyRegistry;
-    for (i = 0; i < MODEL_HANDLER_REGISTRY_COUNT; i++, e++) {
-        if (e->key == key) {
+void Model_RegisterHandlerKey(s32 type_key, s32 handler_value) {
+    s32 registry_index;
+    ModelHandlerRegistryEntry *registry_entry = gModel_aHandlerKeyRegistry;
+    for (registry_index = 0; registry_index < MODEL_HANDLER_REGISTRY_COUNT; registry_index++, registry_entry++) {
+        if (registry_entry->key == type_key) {
             return;
         }
-        if (e->key != 0) {
+        if (registry_entry->key != 0) {
             continue;
         }
-        if (e->handler_value != 0) {
+        if (registry_entry->handler_value != 0) {
             continue;
         }
-        e->key = key;
-        e->handler_value = val;
+        registry_entry->key = type_key;
+        registry_entry->handler_value = handler_value;
         return;
     }
 }
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_FIND_HANDLER_KEY)
-/* Reverse lookup: finds the entry whose val matches, returns its key (or -1
-   if val is the sentinel, or if no entry matches after scanning all 80). */
-s32 Model_FindHandlerKey(s32 val) {
-    ModelHandlerRegistryEntry *e = gModel_aHandlerKeyRegistry;
-    s32 i;
-    if (val == (s32) GsU_00000000) {
+/* Reverse lookup: finds the entry whose handler_value matches, returns its key (or -1
+   if handler_value is the sentinel, or if no entry matches after scanning all 80). */
+s32 Model_FindHandlerKey(s32 handler_value) {
+    ModelHandlerRegistryEntry *registry_entry = gModel_aHandlerKeyRegistry;
+    s32 registry_index;
+    if (handler_value == (s32) GsU_00000000) {
         return -1;
     }
-    for (i = 0; i < MODEL_HANDLER_REGISTRY_COUNT; i++, e++) {
-        if (e->handler_value == val) {
-            return e->key;
+    for (registry_index = 0; registry_index < MODEL_HANDLER_REGISTRY_COUNT; registry_index++, registry_entry++) {
+        if (registry_entry->handler_value == handler_value) {
+            return registry_entry->key;
         }
     }
     return -1;

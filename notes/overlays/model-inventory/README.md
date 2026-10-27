@@ -133,6 +133,11 @@ Identical payloads are repeated across slots and releases, so these totals are
 work-distribution denominators, not counts of distinct algorithms.
 Each regional `*-match-overlays` target rebuilds every image byte-for-byte.
 
+Registration checks validate each currently unpromoted image's layout and
+inventory, without imposing a minimum number of unpromoted images. Accepted
+C promotions legitimately shrink that set; the complete physical-image
+coverage and promoted-source registration checks remain independent.
+
 ```sh
 tools/environments/python/bin/python tools/project/inventory_model_images.py \
   --region usa --region japan --region europe --region france \
