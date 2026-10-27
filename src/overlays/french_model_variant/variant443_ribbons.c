@@ -121,7 +121,7 @@ void func_8013CADC(u8 *ctx)
         }
     }
     if (MODEL_VARIANT_WORD(work, 0x3698) == 2 && MODEL_VARIANT_WORD(work, 0x3668) > 0) {
-        timing = *(Ribbons443Timing **)(work + 0x3634);
+        timing = *(Ribbons443Timing *G32 *)(work + 0x3634);
         MODEL_VARIANT_WORD(work, 0x3668) = 16 - ((u32)MODEL_VARIANT_WORD(work, 0x3624) - timing->spread_start) * 16
                                                     / (timing->spread_end - timing->spread_start);
         if (MODEL_VARIANT_WORD(work, 0x3668) <= 0) {
