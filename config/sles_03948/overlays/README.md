@@ -382,10 +382,11 @@ height, through
 American images have no slot-one copy, so the slot-one wrapper renames the
 labels itself.
 
-Eight images under French header 95 are the North American header-78 entry
-(`model_variant/variant78_entry.c`) unchanged: it has no work-size printf, and
-only the resident call targets differ, which `model_variant95_linker_symbols.txt`
-binds to the French addresses.
+Eight images under French header 95, and their eight slot-one counterparts
+under header 225, are the North American header-78 entry
+(`model_variant/variant78_entry.c` and its `variant78_entry_slot1.c` copy)
+unchanged: it has no work-size printf, and only the resident call targets
+differ, which `model_variant95_linker_symbols.txt` binds to the French addresses.
 
 Twenty images under French headers 674 and 741 are the North American
 header-657 entry (`model_variant/variant657_entry.c`) without its `E_DATA`
