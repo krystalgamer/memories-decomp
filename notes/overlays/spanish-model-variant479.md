@@ -18,7 +18,7 @@ The second source changes only the symbol.
 |---|---|---|
 | `+0x0004..+0x0FD0` | 4,044 | Assembly entry |
 | `+0x0FD0..+0x14F8` | 1,320 | Assembly |
-| `+0x14F8..+0x1F68` | 2,672 | Assembly |
+| `+0x14F8..+0x1F68` | 2,672 | Exact C [spiral](spanish-model-variant479-spiral.md) |
 | `+0x1F68..+0x2B90` | 3,112 | Assembly |
 | `+0x2B90..+0x309C` | 1,292 | Exact C [offset sheets](spanish-model-variant479-sheets.md) |
 | `+0x309C..+0x3860` | 1,988 | Assembly; no entry-call edge observed |
@@ -26,9 +26,9 @@ The second source changes only the symbol.
 
 All seven CFGs are closed and contiguous, with every word visited, one return
 and no indirect calls. Entry calls the five helpers other than `+0x309C`.
-Fourteen function instances are inventoried: four C instances (5,016 instruction
-bytes) and ten retained assembly instances, including the independently recovered
-offset sheets documented separately.
+Fourteen function instances are inventoried: six C instances (10,360 instruction
+bytes) and eight retained assembly instances, including the independently
+recovered offset sheets and spiral documented separately.
 
 The four-byte headers and 4,832-byte suffixes at `+0x3D20` remain raw owners.
 Known descriptors in the suffix do not classify every remaining byte. Both
