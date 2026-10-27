@@ -420,40 +420,40 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
  * sd_init_state.c calls it once. */
 void SD_InitSecondaryRuntime(void)
 {
-    SpuReverbAttr packet;
+    SpuReverbAttr reverb_attr;
     /* g_SDValue is reloaded three times, as retail does. The first load gets
        its own pointer so each lives only as long as its stores. */
-    SDValue *a;
-    SDValue *b;
-    SDValue *c;
+    SDValue *bgm_state;
+    SDValue *sequence_state;
+    SDValue *music_state;
 
     SpuReserveReverbWorkArea(SPU_ON);
     SpuSetReverb(SPU_ON);
-    packet.mask = SPU_REV_MODE | SPU_REV_DEPTHL | SPU_REV_DEPTHR;
-    packet.mode = SPU_REV_MODE_STUDIO_A;
-    packet.depth.left = 0x7FFF;
-    packet.depth.right = 0x7FFF;
-    SpuSetReverbModeParam(&packet);
-    b = g_SDValue;
-    b->sequence_fade_level = 0;
-    b->sequence_fade_step = 0;
-    b->sequence_fade_target = 0;
-    a = g_SDValue;
-    a->bgm_fade_level = 0xFF;
-    a->bgm_fade_target = 0xFF;
-    c = g_SDValue;
-    a->bgm_fade_step = 0;
-    c->opened_music_package_id = -1;
-    c->music_vab_open_result = -1;
-    c->opened_sequence_command = -1;
-    c->sequence_open_result = -1;
-    c->music_track = (u16 *)0x801EA800;
-    c->music_table = (SDMusicTableEntry *)0x801E2000;
-    c->music_track[0] = 0xFFFF;
-    c->music_track[1] = 0;
-    *(s32 *)&c->music_track[2] = 0;
-    *(s32 *)&c->music_track[4] = 0;
-    *(s32 *)&c->music_track[6] = 0x40000;
+    reverb_attr.mask = SPU_REV_MODE | SPU_REV_DEPTHL | SPU_REV_DEPTHR;
+    reverb_attr.mode = SPU_REV_MODE_STUDIO_A;
+    reverb_attr.depth.left = 0x7FFF;
+    reverb_attr.depth.right = 0x7FFF;
+    SpuSetReverbModeParam(&reverb_attr);
+    sequence_state = g_SDValue;
+    sequence_state->sequence_fade_level = 0;
+    sequence_state->sequence_fade_step = 0;
+    sequence_state->sequence_fade_target = 0;
+    bgm_state = g_SDValue;
+    bgm_state->bgm_fade_level = 0xFF;
+    bgm_state->bgm_fade_target = 0xFF;
+    music_state = g_SDValue;
+    bgm_state->bgm_fade_step = 0;
+    music_state->opened_music_package_id = -1;
+    music_state->music_vab_open_result = -1;
+    music_state->opened_sequence_command = -1;
+    music_state->sequence_open_result = -1;
+    music_state->music_track = (u16 *)0x801EA800;
+    music_state->music_table = (SDMusicTableEntry *)0x801E2000;
+    music_state->music_track[0] = 0xFFFF;
+    music_state->music_track[1] = 0;
+    *(s32 *)&music_state->music_track[2] = 0;
+    *(s32 *)&music_state->music_track[4] = 0;
+    *(s32 *)&music_state->music_track[6] = 0x40000;
     SD_SetSequenceTickMode(2);
     SD_SetSecondaryObjectCount(0x14);
     SD_EnableSecondarySequenceUpdates();

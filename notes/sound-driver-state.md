@@ -1032,6 +1032,54 @@ existing left/right depth conversion. Unhandled selectors remain unchanged;
 the work-area queries retain the check-versus-diagnostic contract described
 above.
 
+### Cold-start state, mixer defaults and BGM step
+
+| Original member | Canonical member | Storage | Evidence and confidence |
+|---|---|---|---|
+| SDValue.field_164B | default_bgm_step | u8 +0x164B | High: SD_InitState writes 0xFF; SD_BGMPlayDefaultStep and SD_RequestBgmPlaybackDefaultStep forward this byte as the existing step argument. |
+
+This names the argument role, not a duration, speed setting or special
+meaning for 0xFF. The public wrapper retains its low-sixteen-bit command
+mask and the direct sequenced wrapper its s16 cast. Both retain their
+uncached byte read; the latter still has no found live caller.
+SD_BGMPlayWithStep preserves both explicit s16 step assignments, its
+stop-before-CD-play order and the CD callee's IGNORED second argument.
+The sequence request retains its negative reset sentinel, partial queued
+record, original casts and separate BGM/sequence fade handoff. No new
+setter, default reload, replay-state publication or CD timing behavior.
+The shared header changes the member identifier, names the formerly
+unnamed u8 startup parameter and adds one offset assertion only.
+
+SD_InitState names its u8 master_xa_lba_byte from the sole main-init
+caller's gFile_nMasterXaLba[0]. The conversion to u8 still happens at
+the call boundary, BEFORE the zero test: this is not a full-LBA validity
+or availability check. Keep data_source_flags=3 followed by the same
+conditional OR0xF0. No bool conversion, signedness change or new gate.
+
+clear_cursor remains u32*, spanning the same literal 0x801E0000 through
+0x801EA7FF inclusive with the original word do/while. Keep both fixed
+state-pointer publications, the file callbacks, 0x11/0x10-byte filename
+copies and all literals. mix_state snapshots cd_default and
+secondary_default as s32; bgm_target_state reloads BEFORE the old
+mix_state scale stores. The work-area, SPU-common, buffer and runtime
+initializers and output-mode setter retain their original order.
+callback_state and status_state remain
+separate final reads, with the VSync selector clear, callback install
+and status clear at their original positions.
+
+SD_InitSecondaryRuntime names reverb_attr and three original reload
+stages sequence_state, bgm_state and music_state. The music_state load
+still precedes the final BGM-step clear through OLD bgm_state.
+Keep reserve/enable/reverb attributes, all level/token defaults, fixed
+music buffers, word/halfword header stores and their exact order.
+The original mode2, count0x14 and enable calls still finish startup.
+No pointer consolidation, memset, complete-header initialization or
+observed timer-frequency claim.
+
+All member types, padding, extents, pointer annotations, declaration arms
+and other definitions remain. No fixture, mutation, oracle, scenario,
+numeric control, compiler profile, manifest, storage or trace changes.
+
 ### Startup and reset local ownership views
 
 SD_InitDataSourceFlags names se_lba, bgm_lba and master_xa_lba from the
@@ -2400,7 +2448,7 @@ masked cancellation test or universal pure file index.
 Queue capacity/reloads, duplicate byte publication before the full copy,
 fade and wait gates, staging/decrement/first-step order, byte-view queue
 compaction and the existing trailing-record copy all remain unchanged.
-Unexplained field_15F4 and default-step field_164B are not renamed.
+Unexplained field_15F4 is not renamed. The default BGM step is named below.
 All fixtures, source selectors, assertions, oracles, mutations, scenarios
 and numeric controls retain their complete bytes; none runs locally.
 
