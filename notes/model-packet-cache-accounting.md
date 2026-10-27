@@ -93,11 +93,13 @@ Primary evidence is in `model_init_slot.c`, `model_slot_control.c`,
 FT3/GT3/FT4/GT4 renderer assembly. The local packet/normal accounting does
 not require importing guessed reference declarations or changing SDK types.
 
-`tent_Model_RebaseTexturedPrimitives` remains tentative. Bounded NA archive
-observations now link some primitive palette addresses to the loader and
-tint-copy path, but PAL slot-2 and uncovered format/selector cases remain
-separate research. This component does not promote that function or change
-its body, declarations, region profiles or controls.
+`tent_Model_RebaseTexturedPrimitives` remains tentative overall. Later
+retail-package observations now also link the measured PAL slot-2 palette
+conversion to its auxiliary upload and leave high-row palettes in their
+streamed image bank; see [primitive context evidence](model-primitive-context.md).
+The unexercised low-X branch and uncovered input/selector cases remain
+separate research. Descriptor/local names do not promote the function,
+change its ABI or introduce a packet-capacity guarantee.
 
 There are no new global symbols or semantic-map rows: these are runtime
 record members, not independent fixed-VMA objects. The existing third-slot

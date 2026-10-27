@@ -29,40 +29,40 @@
 /* Maps an id to its handler in the second dispatch family: looks the id up
  * in the handler registry at gModel_aHandlerKeyRegistry (GsU_00000000 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the
- * low halfword's kind. Returns arg0 unchanged when nothing matches. */
+ * low halfword's kind. Returns handler_value unchanged when nothing matches. */
 
-s32 Model_MapToWireframePrimitiveHandler(s32 arg0) {
-    ModelHandlerRegistryEntry *e;
-    s32 n;
-    s32 v;
-    u32 t;
+s32 Model_MapToWireframePrimitiveHandler(s32 handler_value) {
+    ModelHandlerRegistryEntry *registry_entry;
+    s32 registry_index;
+    s32 type_key;
+    u32 type_family;
 
-    e = gModel_aHandlerKeyRegistry;
-    n = 0;
+    registry_entry = gModel_aHandlerKeyRegistry;
+    registry_index = 0;
 
-    if (arg0 == (s32)GsU_00000000) {
-        v = -1;
+    if (handler_value == (s32)GsU_00000000) {
+        type_key = -1;
     } else {
         do {
-            if (e->handler_value == arg0) {
-                v = e->key;
+            if (registry_entry->handler_value == handler_value) {
+                type_key = registry_entry->key;
                 goto have;
             }
-            n++;
-            e++;
-        } while (n < MODEL_HANDLER_REGISTRY_COUNT);
-        v = -1;
+            registry_index++;
+            registry_entry++;
+        } while (registry_index < MODEL_HANDLER_REGISTRY_COUNT);
+        type_key = -1;
     }
 
 have:
-    t = v & 0xFFFF0000;
+    type_family = type_key & 0xFFFF0000;
 
-    switch (t) {
+    switch (type_family) {
     case 0:
     case 0x100000:
     case 0x200000:
     case 0x300000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 9:
             return (s32)Model_DrawFt3Wireframes;
         case 0x209:
@@ -85,7 +85,7 @@ have:
     case 0x1100000:
     case 0x1200000:
     case 0x1300000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 0xD:
             return (s32)Model_DrawSharedGt3Wireframes;
         case 0x20D:
@@ -97,41 +97,41 @@ have:
         }
         break;
     }
-    return arg0;
+    return handler_value;
 }
 
 /* Maps the registered callback to the handler family selected by the packed
  * registry id. The case order is retail's own arm order in memory. */
 
-s32 Model_MapToBasePrimitiveHandler(s32 arg0) {
-    ModelHandlerRegistryEntry *e;
-    s32 n;
-    s32 v;
-    u32 t;
+s32 Model_MapToBasePrimitiveHandler(s32 handler_value) {
+    ModelHandlerRegistryEntry *registry_entry;
+    s32 registry_index;
+    s32 type_key;
+    u32 type_family;
 
-    e = gModel_aHandlerKeyRegistry;
-    n = 0;
+    registry_entry = gModel_aHandlerKeyRegistry;
+    registry_index = 0;
 
-    if (arg0 == (s32)GsU_00000000) {
-        v = -1;
+    if (handler_value == (s32)GsU_00000000) {
+        type_key = -1;
     } else {
         do {
-            if (e->handler_value == arg0) {
-                v = e->key;
+            if (registry_entry->handler_value == handler_value) {
+                type_key = registry_entry->key;
                 goto have;
             }
-            n++;
-            e++;
-        } while (n < MODEL_HANDLER_REGISTRY_COUNT);
-        v = -1;
+            registry_index++;
+            registry_entry++;
+        } while (registry_index < MODEL_HANDLER_REGISTRY_COUNT);
+        type_key = -1;
     }
 
 have:
-    t = v & 0xFFFF0000;
+    type_family = type_key & 0xFFFF0000;
 
-    switch (t) {
+    switch (type_family) {
     case 0x200000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 0x9:
             return (s32)Model_DrawFt3Primitives;
         case 0x209:
@@ -151,7 +151,7 @@ have:
         }
         break;
     case 0x300000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 0x9:
             return (s32)Model_DrawTwoSidedFt3Primitives;
         case 0x209:
@@ -171,7 +171,7 @@ have:
         }
         break;
     case 0x1200000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 0xD:
             return (s32)Model_DrawSharedGt3Primitives;
         case 0x20D:
@@ -183,7 +183,7 @@ have:
         }
         break;
     case 0x1300000:
-        switch (v & 0xFFFF) {
+        switch (type_key & 0xFFFF) {
         case 0xD:
             return (s32)Model_DrawSharedTwoSidedGt3Primitives;
         case 0x20D:
@@ -195,45 +195,45 @@ have:
         }
         break;
     }
-    return arg0;
+    return handler_value;
 }
 #endif
 
-/* Finds `key` in the table; if absent and there is a free slot, claims it
-   with (key, val). No-op once all 80 slots are taken and no match exists. */
+/* Finds `type_key` in the table; if absent and there is a free slot, claims it
+   with (type_key, handler_value). No-op once all 80 slots are taken and no match exists. */
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_REGISTER_HANDLER_KEY)
-void Model_RegisterHandlerKey(s32 key, s32 val) {
-    s32 i;
-    ModelHandlerRegistryEntry *e = gModel_aHandlerKeyRegistry;
-    for (i = 0; i < MODEL_HANDLER_REGISTRY_COUNT; i++, e++) {
-        if (e->key == key) {
+void Model_RegisterHandlerKey(s32 type_key, s32 handler_value) {
+    s32 registry_index;
+    ModelHandlerRegistryEntry *registry_entry = gModel_aHandlerKeyRegistry;
+    for (registry_index = 0; registry_index < MODEL_HANDLER_REGISTRY_COUNT; registry_index++, registry_entry++) {
+        if (registry_entry->key == type_key) {
             return;
         }
-        if (e->key != 0) {
+        if (registry_entry->key != 0) {
             continue;
         }
-        if (e->handler_value != 0) {
+        if (registry_entry->handler_value != 0) {
             continue;
         }
-        e->key = key;
-        e->handler_value = val;
+        registry_entry->key = type_key;
+        registry_entry->handler_value = handler_value;
         return;
     }
 }
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_FIND_HANDLER_KEY)
-/* Reverse lookup: finds the entry whose val matches, returns its key (or -1
-   if val is the sentinel, or if no entry matches after scanning all 80). */
-s32 Model_FindHandlerKey(s32 val) {
-    ModelHandlerRegistryEntry *e = gModel_aHandlerKeyRegistry;
-    s32 i;
-    if (val == (s32) GsU_00000000) {
+/* Reverse lookup: finds the entry whose handler_value matches, returns its key (or -1
+   if handler_value is the sentinel, or if no entry matches after scanning all 80). */
+s32 Model_FindHandlerKey(s32 handler_value) {
+    ModelHandlerRegistryEntry *registry_entry = gModel_aHandlerKeyRegistry;
+    s32 registry_index;
+    if (handler_value == (s32) GsU_00000000) {
         return -1;
     }
-    for (i = 0; i < MODEL_HANDLER_REGISTRY_COUNT; i++, e++) {
-        if (e->handler_value == val) {
-            return e->key;
+    for (registry_index = 0; registry_index < MODEL_HANDLER_REGISTRY_COUNT; registry_index++, registry_entry++) {
+        if (registry_entry->handler_value == handler_value) {
+            return registry_entry->key;
         }
     }
     return -1;
@@ -244,113 +244,113 @@ s32 Model_FindHandlerKey(s32 val) {
 void Model_ProcessType2Unit(
     s32 model_index, ModelTypeUnit *unit, u8 *scratch)
 {
-    u8 *p;
-    u8 *q;
-    u8 *b;
-    u16 *e;
-    ModelType2Scratch *r;
-    ModelType2Record *rec;
-    s32 n;
-    s32 i;
-    s32 j;
-    s32 k;
-    s32 f;
-    s32 sh;
-    s32 v;
-    s32 w;
-    s32 m;
+    u8 *image_record_cursor;
+    u8 *next_record_cursor;
+    u8 *clut_data;
+    u16 *palette_entry;
+    ModelType2Scratch *image_context;
+    ModelType2Record *clut_record;
+    s32 record_count;
+    s32 record_index;
+    s32 palette_row;
+    s32 palette_column;
+    s32 below_two_slot;
+    s32 slot_texture_x;
+    s32 coordinate_value;
+    s32 source_image_x;
+    s32 image_with_clut_kind;
 
-    m = 0x2000001;
-    i = 0;
-    r = (ModelType2Scratch *)scratch;
-    q = r->records;
-    n = ((ModelType2RecordHeader *)q)->record_count;
-    q += sizeof(ModelType2RecordHeader);
+    image_with_clut_kind = 0x2000001;
+    record_index = 0;
+    image_context = (ModelType2Scratch *)scratch;
+    next_record_cursor = image_context->records;
+    record_count = ((ModelType2RecordHeader *)next_record_cursor)->record_count;
+    next_record_cursor += sizeof(ModelType2RecordHeader);
 
-    if (n != 0) {
-        f = model_index < 2;
+    if (record_count != 0) {
+        below_two_slot = model_index < 2;
 #ifndef VERSION_EUROPE
-        sh = model_index << 8;
+        slot_texture_x = model_index << 8;
 #endif
-        p = q;
+        image_record_cursor = next_record_cursor;
 
         do {
-            q = p + sizeof(ModelType2Record);
-            if (unit->type == m) {
-                b = r->clut_data;
-                if (b != (u8 *)0) {
-                    j = 0;
-                    rec = MODEL_TYPE2_RECORD_VIEW(q);
-                    e = (u16 *)&((u32 *)b)[rec->index_offset];
-                    if (rec->row_count > 0) {
+            next_record_cursor = image_record_cursor + sizeof(ModelType2Record);
+            if (unit->type == image_with_clut_kind) {
+                clut_data = image_context->clut_data;
+                if (clut_data != (u8 *)0) {
+                    palette_row = 0;
+                    clut_record = MODEL_TYPE2_RECORD_VIEW(next_record_cursor);
+                    palette_entry = (u16 *)&((u32 *)clut_data)[clut_record->index_offset];
+                    if (clut_record->row_count > 0) {
                         do {
-                            if (f) {
-                                *e = 0;
+                            if (below_two_slot) {
+                                *palette_entry = 0;
                             }
-                            e++;
+                            palette_entry++;
                             for (
-                                k = 1;
-                                k < rec->column_count;
-                                k++
+                                palette_column = 1;
+                                palette_column < clut_record->column_count;
+                                palette_column++
                             ) {
-                                *e |= 0x8000;
-                                e++;
+                                *palette_entry |= 0x8000;
+                                palette_entry++;
                             }
-                            j++;
-                        } while (j < rec->row_count);
+                            palette_row++;
+                        } while (palette_row < clut_record->row_count);
                     }
-                    if (f) {
+                    if (below_two_slot) {
 #ifdef VERSION_EUROPE
-                        rec->vram_x = 0x280;
-                        v = rec->vram_y;
-                        if (v >= 8) {
-                            rec->vram_y = v % 8;
+                        clut_record->vram_x = 0x280;
+                        coordinate_value = clut_record->vram_y;
+                        if (coordinate_value >= 8) {
+                            clut_record->vram_y = coordinate_value % 8;
                         }
-                        rec->vram_y += 0xD0 + (model_index << 4);
+                        clut_record->vram_y += 0xD0 + (model_index << 4);
 #else
-                        v = rec->vram_x;
-                        if ((s16)rec->vram_x >= 0x280) {
-                            rec->vram_x = (v - 0x280) + sh;
+                        coordinate_value = clut_record->vram_x;
+                        if ((s16)clut_record->vram_x >= 0x280) {
+                            clut_record->vram_x = (coordinate_value - 0x280) + slot_texture_x;
                         } else {
-                            rec->vram_x = sh;
+                            clut_record->vram_x = slot_texture_x;
                         }
-                        v = rec->vram_y;
-                        if (v >= 8) {
-                            rec->vram_y = v % 8;
+                        coordinate_value = clut_record->vram_y;
+                        if (coordinate_value >= 8) {
+                            clut_record->vram_y = coordinate_value % 8;
                         }
-                        rec->vram_y = rec->vram_y + 0xF8;
+                        clut_record->vram_y = clut_record->vram_y + 0xF8;
 #endif
 #ifdef VERSION_EUROPE
                     } else {
-                        if (rec->vram_y < 0x100) {
-                            rec->vram_x = rec->vram_x + 0x280;
-                            rec->vram_y =
-                                (rec->vram_y & 0xF) + 0xD0;
+                        if (clut_record->vram_y < 0x100) {
+                            clut_record->vram_x = clut_record->vram_x + 0x280;
+                            clut_record->vram_y =
+                                (clut_record->vram_y & 0xF) + 0xD0;
                         }
-                        v = MODEL_TYPE2_RECORD_VIEW(p)->vram_y +
-                            MODEL_TYPE2_RECORD_VIEW(p)->row_count - 0x200;
-                        if (v > 0) {
-                            MODEL_TYPE2_RECORD_VIEW(p)->row_count =
-                                MODEL_TYPE2_RECORD_VIEW(p)->row_count - v;
+                        coordinate_value = MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_y +
+                            MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->row_count - 0x200;
+                        if (coordinate_value > 0) {
+                            MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->row_count =
+                                MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->row_count - coordinate_value;
                         }
 #endif
                     }
-                    q += sizeof(ModelType2Record);
+                    next_record_cursor += sizeof(ModelType2Record);
                 }
             }
-            if (f) {
-                w = MODEL_TYPE2_RECORD_VIEW(p)->vram_x;
+            if (below_two_slot) {
+                source_image_x = MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_x;
 #ifdef VERSION_EUROPE
-                MODEL_TYPE2_RECORD_VIEW(p)->vram_x =
-                    (w - 0x280) + (model_index << 8);
+                MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_x =
+                    (source_image_x - 0x280) + (model_index << 8);
 #else
-                MODEL_TYPE2_RECORD_VIEW(p)->vram_x = (w - 0x280) + sh;
+                MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_x = (source_image_x - 0x280) + slot_texture_x;
 #endif
             }
-            i++;
-            p = q;
+            record_index++;
+            image_record_cursor = next_record_cursor;
 
-        } while (i < n);
+        } while (record_index < record_count);
     }
 
     Model_GetImagePrimitiveHandler(unit->type)(scratch);

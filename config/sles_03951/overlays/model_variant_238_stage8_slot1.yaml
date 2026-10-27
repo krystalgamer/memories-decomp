@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C9AC
     align: 4
     subsegments:
-      - [0x19AC, asm, overlays/spanish_model_variant_238_stage8_slot1/helper_19AC]
+      - [0x19AC, c, overlays/spanish_model_variant/variant459_curtains_slot1]
   - name: helper_1FB8
     type: code
     start: 0x1FB8

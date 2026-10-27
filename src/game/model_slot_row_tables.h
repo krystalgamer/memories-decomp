@@ -9,7 +9,7 @@
 
 /* Eight-byte prefix reached through the primitive context's primp pointer. */
 typedef struct {
-    u8 pad_00[2];
+    u8 descriptor_word_count_le[2];
     u16 record_count;
     s32 word_offset;
 } ModelPrimitiveBlockHeader;
