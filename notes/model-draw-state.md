@@ -104,3 +104,48 @@ one returns before the tint/shadow stages, three is the value that the
 non-neutral template stamp also publishes, and four survives the per-frame
 clear. These are observed values. They do not add an enum, and they do not
 show that no other value is ever requested.
+
+## Draw-unit matrix and animation-scan local views
+
+The COMPLETE Model_DrawSlot definition now distinguishes ordering_table,
+head_unit and coordinate_unit from the existing matrix work. The same
+head-unit cursor still walks HMD entries in sorting AND both later
+origin passes; coordinate_unit remains separate block-local pointers.
+The later loops keep every root/parent exclusion, primitive-list test,
+count-before-content test, fallback, signed extremum and narrowing.
+These names do not make those passes mesh bounds or change cache freshness.
+
+hidden_matrix is still cleared with the literal 0x20 before the masked
+unit path selects it. local_to_world and local_to_screen retain their
+declaration order and distinct GsGetLwsUnit output positions. The do/while(0)
+call boundary, GsGetLsUnit alternative, light-matrix publication and final
+local-to-screen selection remain. Mask tests, missing-primitive skips,
+GsSortUnit order and ordering-table length changes are untouched.
+
+The separate parent-child animation scan names sequence_index,
+sequence_count and coordinate_rewrite_index. The rewrite expression,
+u8 count snapshot, first-match break, aframe==0xFFFF test, extended-mask bit
+and selected duration-row condition remain exact. scale_existing_matrix
+names ONLY the branch that selects ScaleMatrix rather than the existing
+coordinate-matrix update; it is not a new animation-completion policy.
+Neither path changes the render_scale view or coordinate ownership.
+
+Inside the lighting block, matrix_index walks the same NINE halfwords,
+coefficient_magnitude retains the original ABS expression, and
+maximum_magnitude stays u16. matrix_halfwords remains s16*, with the same
+signed shifts/divisions and all cursor increments. Preserve the regional
+reset placement: Japanese retail leaves the advanced cursor in place for
+the zero-maximum writes, while the other images reset it first. No repair,
+normalization helper, widened arithmetic or changed zero-case is added.
+
+Only scoped bare locals and THREE matching words in existing comments change.
+In particular, function-scope a/b/w/h/d/x/y/z/count/v/t retain their mixed
+mask, position, span, shadow and tint roles; no binding is split or merged.
+The identically spelled k/cp in texture processing are DIFFERENT bindings
+and stay byte-for-byte unchanged. All arguments, members, types, constants,
+expressions, block lifetimes, macros, inline mirror helper, COMMON globals,
+headers, SDK declarations, callers, profiles and native imports remain.
+The complete tint, shadow, animation continuation and stone-texture paths
+retain their original code, apart from the shared pointer-view names.
+All fixtures/controls/oracles/mutations/numerics/flags remain unchanged;
+none was imported or executed locally and no new harness is introduced.
