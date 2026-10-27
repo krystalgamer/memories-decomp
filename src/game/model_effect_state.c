@@ -306,30 +306,30 @@ ModelCameraOrbitPreset *ModelEffect_GetCoefficient(s32 index)
 
 s32 Model_AdjustCameraDistanceForSlot(s32 level, s32 value)
 {
-    ModelEffectAdjustment local;
-    s16 delta;
+    ModelEffectAdjustment dimensions;
+    s16 size_delta;
 
     if (level >= 2) {
         return value;
     }
 
-    Model_GetSlotDimensionsWithOverrides(level, (s16 *)&local);
+    Model_GetSlotDimensionsWithOverrides(level, (s16 *)&dimensions);
 
-    if (local.max < 50) {
-        local.max = 50;
+    if (dimensions.max < 50) {
+        dimensions.max = 50;
     }
 
-    local.max -= 300;
-    delta = local.max;
+    dimensions.max -= 300;
+    size_delta = dimensions.max;
 
-    if (delta != 0) {
+    if (size_delta != 0) {
         s32 divisor = 750;
-        s32 half = value;
+        s32 distance_basis = value;
 
-        if (delta > 0) {
-            half = (s32)(value + ((u32)value >> 31)) >> 1;
+        if (size_delta > 0) {
+            distance_basis = (s32)(value + ((u32)value >> 31)) >> 1;
         }
-        value += (delta * half) / divisor;
+        value += (size_delta * distance_basis) / divisor;
     }
 
     return value;
@@ -337,15 +337,15 @@ s32 Model_AdjustCameraDistanceForSlot(s32 level, s32 value)
 
 void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
 {
-    ModelCameraOrbitPreset *r;
-    s32 v;
-    s32 d;
-    s32 t;
-    s32 k;
-    s32 u;
-    ModelEffectAdjustment sp18;
+    ModelCameraOrbitPreset *preset;
+    s32 distance;
+    s32 size_delta;
+    s32 distance_work;
+    s32 size_divisor;
+    s32 size_product;
+    ModelEffectAdjustment dimensions;
 
-    r = &gModel_aCameraOrbitPresets[arg1];
+    preset = &gModel_aCameraOrbitPresets[arg1];
 
     if (gModel_bCameraHoldState == 1) {
         if (gModel_bHandlerCallbackState == 1) {
@@ -353,57 +353,57 @@ void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
         }
     }
 
-    v = r->distance;
+    distance = preset->distance;
 
     if (arg0 < 2) {
-        Model_GetSlotDimensionsWithOverrides(arg0, (s16 *)&sp18);
-        if (sp18.max < 0x32) {
-            sp18.max = 0x32;
+        Model_GetSlotDimensionsWithOverrides(arg0, (s16 *)&dimensions);
+        if (dimensions.max < 0x32) {
+            dimensions.max = 0x32;
         }
-        sp18.max -= 0x12C;
-        d = sp18.max;
-        if (d != 0) {
-            k = 750;
-            t = v;
-            if (d > 0) {
-                t = v / 2;
+        dimensions.max -= 0x12C;
+        size_delta = dimensions.max;
+        if (size_delta != 0) {
+            size_divisor = 750;
+            distance_work = distance;
+            if (size_delta > 0) {
+                distance_work = distance / 2;
             }
-            u = d * t;
-            t = u;
-            v += t / k;
+            size_product = size_delta * distance_work;
+            distance_work = size_product;
+            distance += distance_work / size_divisor;
         }
     }
 
-    Model_SetCameraOrbit(arg0, v, r->yaw, r->pitch, arg2);
+    Model_SetCameraOrbit(arg0, distance, preset->yaw, preset->pitch, arg2);
 }
 
 void Model_SetCameraOrbit(int mode, int y, int a, int b, SVECTOR *offset)
 {
-    GsRVIEW2 *p = Model_GetCameraViewBuffer();
-    ModelViewMetrics *q = Model_GetViewMetricsBuffer();
+    GsRVIEW2 *view = Model_GetCameraViewBuffer();
+    ModelViewMetrics *metrics = Model_GetViewMetricsBuffer();
     if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == 1)
         return;
     if (mode >= 0) {
-        short v[4];
-        Model_CopySlotPosition(mode, (u16 *)v);
-        p->vrx = v[0];
-        p->vry = v[1];
-        p->vrz = v[2];
+        short slot_position[4];
+        Model_CopySlotPosition(mode, (u16 *)slot_position);
+        view->vrx = slot_position[0];
+        view->vry = slot_position[1];
+        view->vrz = slot_position[2];
     }
     if (offset) {
-        int sign = -1;
+        int offset_sign = -1;
         if (mode <= 0)
-            sign = 1;
-        p->vrx += offset->vx * sign;
-        p->vry += offset->vy;
-        p->vrz += offset->vz * sign;
+            offset_sign = 1;
+        view->vrx += offset->vx * offset_sign;
+        view->vry += offset->vy;
+        view->vrz += offset->vz * offset_sign;
     }
-    q->distance = y;
-    q->yaw = (a + MODEL_ANGLE_FULL_TURN +
+    metrics->distance = y;
+    metrics->yaw = (a + MODEL_ANGLE_FULL_TURN +
             (mode <= 0 ? 3 * MODEL_ANGLE_QUARTER_TURN :
                          MODEL_ANGLE_QUARTER_TURN)) %
         MODEL_ANGLE_FULL_TURN;
-    q->pitch = (b + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
+    metrics->pitch = (b + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
     Model_StepViewOrbit(1, MODEL_ANGLE_FULL_TURN, 0, 0, 1);
     Model_CaptureKeyframePose(1);
     Model_RequestCameraMove(-1);
@@ -431,33 +431,33 @@ void Model_SetEffectKeyBatchingEnabled(int value)
 /* Applies the same slot-dependent camera-distance adjustment, then queues
    relative orbit endpoints through Model_QueueRelativeCameraOrbit. */
 void Model_QueueCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
-    ModelCameraOrbitPreset *rec = &gModel_aCameraOrbitPresets[arg1];
-    s32 s0;
+    ModelCameraOrbitPreset *preset = &gModel_aCameraOrbitPresets[arg1];
+    s32 distance;
 
     if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == gModel_bCameraHoldState) {
         return;
     }
 
-    s0 = rec->distance;
+    distance = preset->distance;
 
     if (arg0 < 2) {
         ModelEffectAdjustment adjustment;
-        s32 v1;
+        s32 size_delta;
 
         Model_GetSlotDimensionsWithOverrides(arg0, (s16 *)&adjustment);
         if (adjustment.max < 0x32) {
             adjustment.max = 0x32;
         }
         adjustment.max -= 300;
-        v1 = adjustment.max;
-        if (v1 != 0) {
+        size_delta = adjustment.max;
+        if (size_delta != 0) {
             s32 divisor = 750;
-            s32 half = (v1 > 0) ? (s0 / 2) : s0;
-            s0 += (v1 * half) / divisor;
+            s32 distance_basis = (size_delta > 0) ? (distance / 2) : distance;
+            distance += (size_delta * distance_basis) / divisor;
         }
     }
 
-    Model_QueueRelativeCameraOrbit(arg0, s0, rec->yaw, rec->pitch, offset, arg3);
+    Model_QueueRelativeCameraOrbit(arg0, distance, preset->yaw, preset->pitch, offset, arg3);
 }
 
 void Model_QueueEffectEndpointPair(s32 a, s32 b, s32 c)
