@@ -2,6 +2,11 @@
 #include "../../game/model_get_frame_step.h"
 #include "variant459_entry.h"
 
+/* PAL images load the effect palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT459_CLUT_X
+#define MODEL_VARIANT459_CLUT_X 512
+#endif
+
 /* Header 459's entry: three webs, sixteen glows, a sheet, the two grids and
  * five curtains, with the header-337 camera and part tracking and the five
  * draw helpers of header 459. The setup is written for the retail register
@@ -189,9 +194,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(512, 244);
+        clut = GetClut(MODEL_VARIANT459_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(512, 244);
+        GetClut(MODEL_VARIANT459_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E338 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
