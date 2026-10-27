@@ -78,3 +78,52 @@ No initial data value is inferred from these bindings. No layout, extent,
 type, SDK or overlay contract is changed, and all existing test modules
 remain byte-identical. No harness, fixture, probe or case is added.
 Full regional images and cloud/witness execution remain PR-side validation.
+
+
+## Packed command argument views
+
+The public preload/play/stop bodies and sequenced-playback request now
+name command_id and step where their argument roles are established.
+These are command words, not normalized track indices or a new enum.
+SD_PreloadBgmAndReplaceValueLink instead names its u32 packed_request:
+the high halfword goes to preload and the low halfword to value-link
+replacement, in that order. No caller or input-domain claim is added.
+
+Preload and play-with-step retain the data_source_flags bit-0x02 gate.
+Their saved_command remains u16; masked_command remains the separate
+u32 used for the base comparison. Bit 0x8000 is still tested on the
+original word. The non-CD arm compares the saved low halfword with
+SD_BGM_COMMAND_BASE but conditionally subtracts from the ORIGINAL s32
+command_id, then narrows at the original call. Do not substitute the
+saved/masked copy, normalize early, clamp or rearrange those operations.
+
+The CD preload arm still seeks only. The CD play arm still stops the
+sequenced path before forwarding to SD_EnqueueCdPlay. Both play arms
+retain their explicit s16 step assignment and original call position,
+but the CD callee does not read that argument: no CD fade or timing
+meaning is inferred. Preloading a different sequence package can reset
+current music state; preload is not a promise of silence or playback.
+
+The public default-step wrapper retains its low-sixteen-bit mask; the
+direct sequenced default wrapper retains its s16 command cast. Both
+read the same existing field_164B byte, without a new cache, store or
+interpretation of its 0xFF initializer. The untouched frontend retains
+its bitwise class ORs and current-command publication differences.
+
+SD_RequestBgmPlayback calls its original s16 local signed_command.
+Its negative test still resets music state and returns before queueing.
+Otherwise the same package comparison/load precedes command 0x48,
+the original value and signed-step stores, ignored enqueue result, BGM
+step store and target 255. The local SDCommand remains partially
+initialized. Its value MEMBER is not renamed with the parameter.
+The unchanged command pump later transfers the queued step into the
+sequence fade ramp only on its existing successful-open branch.
+
+SD_BGMStop retains its low-word mask and literal -32 forwarding.
+The unchanged stop-with-step helper chooses CD stop or sequenced
+request -1; neither stop path consumes the forwarded step. No fade
+is invented. The SOUND_INIT_S16_VIEW declaration retains its s32/s16
+parameter types, guard and exact assembler alias, while the normal
+request declaration stays s32/s32. All casts, widths, default reads,
+reloads, source gates, masks, constants, storage and queue behavior
+remain; the broad sound.h and the frontend source stay untouched.
