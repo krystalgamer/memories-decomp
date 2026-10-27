@@ -171,18 +171,18 @@ void Model_BuildCameraRelativeCoordinateUnit(
     GsCOORDUNIT *parent,
     GsCOORDUNIT *unit
 ) {
-    SVECTOR packed;
-    SVECTOR raw;
-    MATRIX sp20;
+    SVECTOR packed_view_angles;
+    SVECTOR view_angles;
+    MATRIX view_rotation;
     ModelSlot *slot;
 
-    memset(&raw, 0, sizeof(raw));
-    raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - gModel_wViewYaw);
-    raw.vz = (s16)gModel_wViewPitch;
+    memset(&view_angles, 0, sizeof(view_angles));
+    view_angles.vy = (s16)(MODEL_ANGLE_FULL_TURN - gModel_wViewYaw);
+    view_angles.vz = (s16)gModel_wViewPitch;
 
     slot = &gModel_aSlots[arg0];
 
-    packed = raw;
+    packed_view_angles = view_angles;
 
     unit->flg = 0;
     unit->rot.vx =
@@ -193,8 +193,8 @@ void Model_BuildCameraRelativeCoordinateUnit(
         (s16)(MODEL_ANGLE_FULL_TURN - slot->root_coordinate->rot.vz);
 
     RotMatrixZXY(&unit->rot, &unit->matrix);
-    RotMatrix_gte(&packed, &sp20);
-    MulMatrix(&unit->matrix, &sp20);
+    RotMatrix_gte(&packed_view_angles, &view_rotation);
+    MulMatrix(&unit->matrix, &view_rotation);
 
     unit->matrix.t[2] = 0;
     unit->matrix.t[1] = 0;
@@ -211,30 +211,30 @@ void Model_BuildCameraRelativeCoordinateUnit(
    the 32-byte local is a MATRIX. */
 s32 Model_TransformPartVertex(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 {
-    MATRIX sp10;
-    PSXLONG sp30[2];
-    ModelSlot *p;
-    GsUNIT *e;
-    u32 *q;
-    SVECTOR *base;
+    MATRIX local_to_world;
+    PSXLONG transform_flags[2];
+    ModelSlot *slot;
+    GsUNIT *part_unit;
+    u32 *primitive_words;
+    SVECTOR *vertices;
 
-    p = &gModel_aSlots[arg0];
+    slot = &gModel_aSlots[arg0];
     /* The part's GsUNIT, reached as an integer sum: indexed as
-       &p->hmd_units[arg1 + 1], GCC folds the +8 into the load and drops
+       &slot->hmd_units[arg1 + 1], GCC folds the +8 into the load and drops
        the instruction retail spends on it. */
-    e = (GsUNIT *)((s32)p->hmd_units + (arg1 + 1) * (s32)sizeof(GsUNIT));
-    q = (u32 *)e->primtop[1];
-    base = (SVECTOR *)q[2];
+    part_unit = (GsUNIT *)((s32)slot->hmd_units + (arg1 + 1) * (s32)sizeof(GsUNIT));
+    primitive_words = (u32 *)part_unit->primtop[1];
+    vertices = (SVECTOR *)primitive_words[2];
 
     PushMatrix();
     GsGetLwUnit(
-        (GsCOORDUNIT *)p->entries + arg1,
-        &sp10
+        (GsCOORDUNIT *)slot->entries + arg1,
+        &local_to_world
     );
-    GsSetLsMatrix(&sp10);
-    RotTrans(&base[arg2], out, sp30);
+    GsSetLsMatrix(&local_to_world);
+    RotTrans(&vertices[arg2], out, transform_flags);
     PopMatrix();
-    return sp30[0];
+    return transform_flags[0];
 }
 
 ModelSlotS32Quad *Model_GetSlotScale(s32 index)

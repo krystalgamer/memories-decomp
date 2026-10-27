@@ -206,3 +206,46 @@ profile, including the already named `Model_SetSlotTintTarget` between the
 descriptor getter and ambient setter. The later member names `render_scale`
 and `cached_dimensions` preserve their representations; the native interior
 data alias and generic quad submembers remain unchanged.
+
+## Coordinate construction and vertex-transform local views
+
+The two complete camera-relative builder and part-vertex transformer
+definitions now name only their existing local views. view_angles and
+packed_view_angles remain TWO eight-byte SVECTORs: zero the first, set
+its yaw-derived Y and pitch-derived Z, then copy the WHOLE record.
+Keep pad bytes, full-turn subtraction/narrowing and repeated selected
+slot root-coordinate angle reads. No slot-zero orientation substitution.
+
+view_rotation remains MATRIX. RotMatrixZXY on the destination, RotMatrix_gte
+on the packed angles and MulMatrix retain their order and original operands.
+Keep destination flag clear, Z/Y/X translation clears and LAST parent
+publication. No common Euler convention, new camera transform, pad
+initialization policy or parent-lifetime repair is inferred.
+
+The vertex helper retains separate slot, part_unit, primitive_words and
+vertices views. part_unit STILL uses the signed INTEGER address sum with
+part+1 and sizeof(GsUNIT), not a direct array subscript. primitive_words
+retains the original primtop[1] load and vertices the subsequent word2
+pointer load, both BEFORE the SDK matrix-stack calls. No bounds, primitive
+schema, vertex count or null-pointer guarantee follows.
+
+local_to_world is the existing MATRIX populated from entries+part with
+the original GsCOORDUNIT stride, DISTINCT from the units[part+1] selection.
+Keep PushMatrix/GetLw/SetLs/RotTrans/PopMatrix order and vertex indexing.
+transform_flags remains PSXLONG[2], and the return is still its FIRST
+element. The MATRIX and flags are not packed, widened or replaced with
+new structs. No screen-projection, clipping or gameplay-space claim.
+
+Only scoped bare locals in these TWO complete definitions and ONE matching
+identifier in the existing integer-sum comment change. Arguments, member
+tokens, types, constants, expressions, scopes and order remain. All other
+source bytes, headers, SDK declarations, callers, native imports, profiles
+and data stay. The current manifest selects the WHOLE twenty-function
+gcc_2_8_1_g8_split support group; the earlier six-function/G0 wording above
+records pre-grouping evidence, not a new profile selection by this pass.
+
+The existing extent witness extracts ONLY the unchanged four-halfword
+copier. The background owner witness still compiles the WHOLE source
+and checks its unchanged projection-header include and owners. French
+338/393 bindings and all controls/oracles/assertions/flags remain exact.
+No fixture was imported or executed locally and no new harness is added.
