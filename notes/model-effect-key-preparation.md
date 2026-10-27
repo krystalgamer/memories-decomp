@@ -114,3 +114,14 @@ data, four-halfword coordinate buffers, callback state and ownership
 controls are retained. Historical attempt paths remain historical.
 No SDK/overlay implementation, storage, compiler flag, selector meaning
 or runtime validation policy changes.
+
+
+## Later spline/consumer argument and cursor labels
+
+The later complete spline/frame-consumer component extends the evaluator's
+definition labels and segment-key cursor without changing this preparation
+routine or the earlier control-point/coefficient/tail views. The public
+prototype still has its original argument labels and exact signature.
+See [the complete spline/consumer contract](model-effect-keyframe-update.md#complete-spline-and-frame-consumer-views).
+Earlier fixture statements above record historical campaign evidence; no
+retired gameplay witness is restored or executed by this later component.

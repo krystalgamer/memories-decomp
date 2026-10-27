@@ -164,22 +164,22 @@ void Model_PrepareEffectKey(Key *state)
 }
 
 /* Evaluates one channel of the keyframe ring that Model_ApplyEffectKeyQueueCommand fills and
-   Model_CaptureKeyframePose seeds. `cur` points at a 0x28-byte key inside gModel_aEffectKeys, so
-   `cur - gModel_aEffectKeys` is the ring index; the three keys the segment spans are
+   Model_CaptureKeyframePose seeds. `current_key` points at a 0x28-byte key inside gModel_aEffectKeys, so
+   `current_key - gModel_aEffectKeys` is the ring index; the three keys the segment spans are
    that index and the next two modulo the live key count in gModel_bEffectKeyCount. Keys
    whose 0x8-byte channel record has kind 1 at +6 terminate the segment, and
    the tail is padded with the last real key. The four control points handed to
    Model_BuildCubicCoefficients are the current pose at gModel_aPoseSnapshot followed by those three
-   keys, except that a non-zero `den` also replaces the first with the previous
-   key when that one is kind 1. With `den` zero the divisor is instead the sum
+   keys, except that a non-zero `time_denominator` also replaces the first with the previous
+   key when that one is kind 1. With `time_denominator` zero the divisor is instead the sum
    of the distinct keys' +0x22 durations. Each of the three components is then
-   Horner-evaluated at scale/den and added to the constant term. */
-void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
+   Horner-evaluated at time_numerator/time_denominator and added to the constant term. */
+void Model_EvaluateKeyframeSpline(Key *current_key, s32 channel_index, s32 time_numerator, s32 time_denominator, s16 *output_xyz)
 {
-    Key *keys[3] = {
-        &gModel_aEffectKeys[(cur - gModel_aEffectKeys) % gModel_bEffectKeyCount],
-        &gModel_aEffectKeys[(cur - gModel_aEffectKeys + 1) % gModel_bEffectKeyCount],
-        &gModel_aEffectKeys[(cur - gModel_aEffectKeys + 2) % gModel_bEffectKeyCount]
+    Key *segment_keys[3] = {
+        &gModel_aEffectKeys[(current_key - gModel_aEffectKeys) % gModel_bEffectKeyCount],
+        &gModel_aEffectKeys[(current_key - gModel_aEffectKeys + 1) % gModel_bEffectKeyCount],
+        &gModel_aEffectKeys[(current_key - gModel_aEffectKeys + 2) % gModel_bEffectKeyCount]
     };
     s16 *control_points[4];
     Coeff axis_coefficients[3];
@@ -188,12 +188,12 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 
     memset(control_points, 0, 16);
     control_points[0] = (s16 *)(
-        (u8 *)gModel_aPoseSnapshot + (u32)&((u8 (*)[8])0)[k]);
+        (u8 *)gModel_aPoseSnapshot + (u32)&((u8 (*)[8])0)[channel_index]);
     for (point_or_axis_index = 1; point_or_axis_index < 3; point_or_axis_index++) {
         s16 *next_channel_halfwords;
 
         next_channel_halfwords = (s16 *)(
-            KEY_BYTES(keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[k]);
+            KEY_BYTES(segment_keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[channel_index]);
         if (next_channel_halfwords[3] != 1) {
             break;
         }
@@ -201,28 +201,28 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
     tail_source_index = point_or_axis_index - 1;
     if (point_or_axis_index < 3) {
         for (; point_or_axis_index < 3; point_or_axis_index++) {
-            keys[point_or_axis_index] = keys[tail_source_index];
+            segment_keys[point_or_axis_index] = segment_keys[tail_source_index];
         }
     }
     for (point_or_axis_index = 0; point_or_axis_index < 3; point_or_axis_index++) {
         control_points[point_or_axis_index + 1] = (s16 *)(
-            KEY_BYTES(keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[k]);
+            KEY_BYTES(segment_keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[channel_index]);
     }
-    if (den != 0) {
+    if (time_denominator != 0) {
         Key *previous_key;
         s16 *previous_channel;
 
-        previous_key = &gModel_aEffectKeys[(cur - gModel_aEffectKeys + gModel_bEffectKeyCount - 1) % gModel_bEffectKeyCount];
-        previous_channel = (s16 *)(KEY_BYTES(previous_key) + (u32)&((u8 (*)[8])0)[k]);
+        previous_key = &gModel_aEffectKeys[(current_key - gModel_aEffectKeys + gModel_bEffectKeyCount - 1) % gModel_bEffectKeyCount];
+        previous_channel = (s16 *)(KEY_BYTES(previous_key) + (u32)&((u8 (*)[8])0)[channel_index]);
         if (previous_channel[3] == 1) {
             control_points[0] = previous_channel;
         }
         point_or_axis_index = 0;
     } else {
-        den = keys[0]->duration;
+        time_denominator = segment_keys[0]->duration;
         for (point_or_axis_index = 1; point_or_axis_index < 3; point_or_axis_index++) {
-            if (keys[point_or_axis_index - 1] != keys[point_or_axis_index]) {
-                den += keys[point_or_axis_index]->duration;
+            if (segment_keys[point_or_axis_index - 1] != segment_keys[point_or_axis_index]) {
+                time_denominator += segment_keys[point_or_axis_index]->duration;
             }
         }
         point_or_axis_index = 0;
@@ -231,10 +231,10 @@ void Model_EvaluateKeyframeSpline(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
         s32 polynomial_value;
 
         Model_BuildCubicCoefficients(control_points[0][point_or_axis_index], control_points[1][point_or_axis_index], control_points[2][point_or_axis_index], control_points[3][point_or_axis_index], &axis_coefficients[point_or_axis_index], 2);
-        polynomial_value = axis_coefficients[point_or_axis_index].x * scale / den;
-        polynomial_value = (polynomial_value + axis_coefficients[point_or_axis_index].y) * scale / den;
-        polynomial_value = (polynomial_value + axis_coefficients[point_or_axis_index].z) * scale / den;
-        out[point_or_axis_index] = axis_coefficients[point_or_axis_index].w + polynomial_value;
+        polynomial_value = axis_coefficients[point_or_axis_index].x * time_numerator / time_denominator;
+        polynomial_value = (polynomial_value + axis_coefficients[point_or_axis_index].y) * time_numerator / time_denominator;
+        polynomial_value = (polynomial_value + axis_coefficients[point_or_axis_index].z) * time_numerator / time_denominator;
+        output_xyz[point_or_axis_index] = axis_coefficients[point_or_axis_index].w + polynomial_value;
     }
 }
 
@@ -304,16 +304,16 @@ ModelCameraOrbitPreset *ModelEffect_GetCoefficient(s32 index)
     return &gModel_aCameraOrbitPresets[index];
 }
 
-s32 Model_AdjustCameraDistanceForSlot(s32 level, s32 value)
+s32 Model_AdjustCameraDistanceForSlot(s32 slot_selector, s32 requested_distance)
 {
     ModelEffectAdjustment dimensions;
     s16 size_delta;
 
-    if (level >= 2) {
-        return value;
+    if (slot_selector >= 2) {
+        return requested_distance;
     }
 
-    Model_GetSlotDimensionsWithOverrides(level, (s16 *)&dimensions);
+    Model_GetSlotDimensionsWithOverrides(slot_selector, (s16 *)&dimensions);
 
     if (dimensions.max < 50) {
         dimensions.max = 50;
@@ -324,18 +324,18 @@ s32 Model_AdjustCameraDistanceForSlot(s32 level, s32 value)
 
     if (size_delta != 0) {
         s32 divisor = 750;
-        s32 distance_basis = value;
+        s32 distance_basis = requested_distance;
 
         if (size_delta > 0) {
-            distance_basis = (s32)(value + ((u32)value >> 31)) >> 1;
+            distance_basis = (s32)(requested_distance + ((u32)requested_distance >> 31)) >> 1;
         }
-        value += (size_delta * distance_basis) / divisor;
+        requested_distance += (size_delta * distance_basis) / divisor;
     }
 
-    return value;
+    return requested_distance;
 }
 
-void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
+void Model_SetCameraOrbitFromPreset(s32 slot_selector, s32 preset_index, SVECTOR *target_offset)
 {
     ModelCameraOrbitPreset *preset;
     s32 distance;
@@ -345,7 +345,7 @@ void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
     s32 size_product;
     ModelEffectAdjustment dimensions;
 
-    preset = &gModel_aCameraOrbitPresets[arg1];
+    preset = &gModel_aCameraOrbitPresets[preset_index];
 
     if (gModel_bCameraHoldState == 1) {
         if (gModel_bHandlerCallbackState == 1) {
@@ -355,8 +355,8 @@ void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
 
     distance = preset->distance;
 
-    if (arg0 < 2) {
-        Model_GetSlotDimensionsWithOverrides(arg0, (s16 *)&dimensions);
+    if (slot_selector < 2) {
+        Model_GetSlotDimensionsWithOverrides(slot_selector, (s16 *)&dimensions);
         if (dimensions.max < 0x32) {
             dimensions.max = 0x32;
         }
@@ -374,36 +374,36 @@ void Model_SetCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *arg2)
         }
     }
 
-    Model_SetCameraOrbit(arg0, distance, preset->yaw, preset->pitch, arg2);
+    Model_SetCameraOrbit(slot_selector, distance, preset->yaw, preset->pitch, target_offset);
 }
 
-void Model_SetCameraOrbit(int mode, int y, int a, int b, SVECTOR *offset)
+void Model_SetCameraOrbit(int slot_selector, int distance, int yaw, int pitch, SVECTOR *target_offset)
 {
-    GsRVIEW2 *view = Model_GetCameraViewBuffer();
-    ModelViewMetrics *metrics = Model_GetViewMetricsBuffer();
+    GsRVIEW2 *camera_view = Model_GetCameraViewBuffer();
+    ModelViewMetrics *view_metrics = Model_GetViewMetricsBuffer();
     if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == 1)
         return;
-    if (mode >= 0) {
+    if (slot_selector >= 0) {
         short slot_position[4];
-        Model_CopySlotPosition(mode, (u16 *)slot_position);
-        view->vrx = slot_position[0];
-        view->vry = slot_position[1];
-        view->vrz = slot_position[2];
+        Model_CopySlotPosition(slot_selector, (u16 *)slot_position);
+        camera_view->vrx = slot_position[0];
+        camera_view->vry = slot_position[1];
+        camera_view->vrz = slot_position[2];
     }
-    if (offset) {
+    if (target_offset) {
         int offset_sign = -1;
-        if (mode <= 0)
+        if (slot_selector <= 0)
             offset_sign = 1;
-        view->vrx += offset->vx * offset_sign;
-        view->vry += offset->vy;
-        view->vrz += offset->vz * offset_sign;
+        camera_view->vrx += target_offset->vx * offset_sign;
+        camera_view->vry += target_offset->vy;
+        camera_view->vrz += target_offset->vz * offset_sign;
     }
-    metrics->distance = y;
-    metrics->yaw = (a + MODEL_ANGLE_FULL_TURN +
-            (mode <= 0 ? 3 * MODEL_ANGLE_QUARTER_TURN :
+    view_metrics->distance = distance;
+    view_metrics->yaw = (yaw + MODEL_ANGLE_FULL_TURN +
+            (slot_selector <= 0 ? 3 * MODEL_ANGLE_QUARTER_TURN :
                          MODEL_ANGLE_QUARTER_TURN)) %
         MODEL_ANGLE_FULL_TURN;
-    metrics->pitch = (b + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
+    view_metrics->pitch = (pitch + MODEL_ANGLE_FULL_TURN) % MODEL_ANGLE_FULL_TURN;
     Model_StepViewOrbit(1, MODEL_ANGLE_FULL_TURN, 0, 0, 1);
     Model_CaptureKeyframePose(1);
     Model_RequestCameraMove(-1);
@@ -430,8 +430,8 @@ void Model_SetEffectKeyBatchingEnabled(int value)
 
 /* Applies the same slot-dependent camera-distance adjustment, then queues
    relative orbit endpoints through Model_QueueRelativeCameraOrbit. */
-void Model_QueueCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
-    ModelCameraOrbitPreset *preset = &gModel_aCameraOrbitPresets[arg1];
+void Model_QueueCameraOrbitFromPreset(s32 slot_selector, s32 preset_index, SVECTOR *target_offset, s32 key_magnitude) {
+    ModelCameraOrbitPreset *preset = &gModel_aCameraOrbitPresets[preset_index];
     s32 distance;
 
     if (gModel_bCameraHoldState == 1 && gModel_bHandlerCallbackState == gModel_bCameraHoldState) {
@@ -440,16 +440,16 @@ void Model_QueueCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *offset, s32 a
 
     distance = preset->distance;
 
-    if (arg0 < 2) {
-        ModelEffectAdjustment adjustment;
+    if (slot_selector < 2) {
+        ModelEffectAdjustment dimensions;
         s32 size_delta;
 
-        Model_GetSlotDimensionsWithOverrides(arg0, (s16 *)&adjustment);
-        if (adjustment.max < 0x32) {
-            adjustment.max = 0x32;
+        Model_GetSlotDimensionsWithOverrides(slot_selector, (s16 *)&dimensions);
+        if (dimensions.max < 0x32) {
+            dimensions.max = 0x32;
         }
-        adjustment.max -= 300;
-        size_delta = adjustment.max;
+        dimensions.max -= 300;
+        size_delta = dimensions.max;
         if (size_delta != 0) {
             s32 divisor = 750;
             s32 distance_basis = (size_delta > 0) ? (distance / 2) : distance;
@@ -457,7 +457,7 @@ void Model_QueueCameraOrbitFromPreset(s32 arg0, s32 arg1, SVECTOR *offset, s32 a
         }
     }
 
-    Model_QueueRelativeCameraOrbit(arg0, distance, preset->yaw, preset->pitch, offset, arg3);
+    Model_QueueRelativeCameraOrbit(slot_selector, distance, preset->yaw, preset->pitch, target_offset, key_magnitude);
 }
 
 void Model_QueueEffectEndpointPair(s32 a, s32 b, s32 c)
