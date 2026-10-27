@@ -55,18 +55,18 @@ extern char ModelSlotPart_seq_fields_must_agree[
 
 void Model_SetSlotPartSpeeds(s32 arg0, s32 arg1)
 {
-    ModelSlot *rec = &gModel_aSlots[arg0];
-    ModelSlotPart *G32 *p;
-    s32 i;
+    ModelSlot *slot = &gModel_aSlots[arg0];
+    ModelSlotPart *G32 *part_sequences;
+    s32 part_index;
 
-    p = rec->animation_sequences;
-    i = 0;
-    if (rec->animation_sequence_count != 0) {
+    part_sequences = slot->animation_sequences;
+    part_index = 0;
+    if (slot->animation_sequence_count != 0) {
         do {
-            (*p)->speed = arg1;
-            p++;
-            i++;
-        } while (i < rec->animation_sequence_count);
+            (*part_sequences)->speed = arg1;
+            part_sequences++;
+            part_index++;
+        } while (part_index < slot->animation_sequence_count);
     }
 }
 

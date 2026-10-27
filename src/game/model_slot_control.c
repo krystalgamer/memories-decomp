@@ -81,93 +81,93 @@
    off tick, it updates every attached part through Model_SeekSlotPartAnimation at the
    new frame. */
 void Model_UpdateSlotAnimation(s32 index) {
-    ModelSlot *m;
-    s32 anim;
-    s32 length;
-    s32 speed;
-    s32 i;
-    s32 frame;
-    s32 lim;
+    ModelSlot *slot;
+    s32 animation_row;
+    s32 row_end_position;
+    s32 position_step;
+    s32 part_index;
+    s32 scaled_position;
+    s32 forward_handoff_position;
 
-    m = &gModel_aSlots[index];
-    if (m->is_active == 0) {
+    slot = &gModel_aSlots[index];
+    if (slot->is_active == 0) {
         return;
     }
-    if (m->animation_commands != 0) {
-        anim = m->current_animation_row;
-        length = m->animation_duration_rows[anim].max << 4;
-        speed = m->playback_speed * Model_GetFrameStep();
-        if (anim == 6) {
-            lim = length - speed;
-            if ((m->playback_state == 0x3E && m->animation_position >= lim) ||
-                (m->playback_state == 0x3C && m->animation_position < 2)) {
+    if (slot->animation_commands != 0) {
+        animation_row = slot->current_animation_row;
+        row_end_position = slot->animation_duration_rows[animation_row].max << 4;
+        position_step = slot->playback_speed * Model_GetFrameStep();
+        if (animation_row == 6) {
+            forward_handoff_position = row_end_position - position_step;
+            if ((slot->playback_state == 0x3E && slot->animation_position >= forward_handoff_position) ||
+                (slot->playback_state == 0x3C && slot->animation_position < 2)) {
                 Model_SetSlotPlaybackDirection(index, 0);
             }
         }
         if (index < 2) {
             Model_PlaySlotAnimationSounds(index);
         }
-        if (m->playback_state != 0x23) {
-            if (m->playback_state == 0x3E) {
-                s32 v;
+        if (slot->playback_state != 0x23) {
+            if (slot->playback_state == 0x3E) {
+                s32 forward_position;
 
-                if (m->animation_position >= length) {
-                    m->animation_position = 0;
+                if (slot->animation_position >= row_end_position) {
+                    slot->animation_position = 0;
                 }
-                v = m->animation_position + speed;
-                if (v >= length) {
-                    m->animation_position = length;
+                forward_position = slot->animation_position + position_step;
+                if (forward_position >= row_end_position) {
+                    slot->animation_position = row_end_position;
                 } else {
-                    m->animation_position = v;
+                    slot->animation_position = forward_position;
                 }
             } else {
-                s32 w;
+                s32 reverse_position;
 
-                if (m->animation_position == 0) {
-                    m->animation_position = length;
+                if (slot->animation_position == 0) {
+                    slot->animation_position = row_end_position;
                 }
-                w = m->animation_position - speed;
-                if (w <= 0) {
-                    m->animation_position = 0;
+                reverse_position = slot->animation_position - position_step;
+                if (reverse_position <= 0) {
+                    slot->animation_position = 0;
                 } else {
-                    m->animation_position = w;
+                    slot->animation_position = reverse_position;
                 }
             }
         }
-        if (m->part_command_reset_pending == 0) {
-            if (m->playback_state == 0x3E ? m->animation_position >= length : m->animation_position == 0) {
-                if (m->tint[7] == 6) {
-                    m->queued_animation_row = 2;
+        if (slot->part_command_reset_pending == 0) {
+            if (slot->playback_state == 0x3E ? slot->animation_position >= row_end_position : slot->animation_position == 0) {
+                if (slot->tint[7] == 6) {
+                    slot->queued_animation_row = 2;
                 }
-                if (m->queued_animation_row != m->queued_animation_row_latch) {
-                    Model_SeekSlotAnimation(index, m->queued_animation_row, 0);
-                    m->queued_animation_row_latch = m->queued_animation_row;
-                    if (m->active_animation_command_row != 0) {
+                if (slot->queued_animation_row != slot->queued_animation_row_latch) {
+                    Model_SeekSlotAnimation(index, slot->queued_animation_row, 0);
+                    slot->queued_animation_row_latch = slot->queued_animation_row;
+                    if (slot->active_animation_command_row != 0) {
                         Model_ControlSlotAnimation(index, 0, 0);
                     }
-                    if (m->tint[7] == 6) {
-                        Model_QueueEffectEndpointPair(-1, index + 2, m->animation_duration_rows[2].max);
-                        m->tint[7] = 0;
-                        m->queued_animation_row = 1;
+                    if (slot->tint[7] == 6) {
+                        Model_QueueEffectEndpointPair(-1, index + 2, slot->animation_duration_rows[2].max);
+                        slot->tint[7] = 0;
+                        slot->queued_animation_row = 1;
                     }
                 }
             }
         }
     }
-    if (m->playback_state != 0x23) {
-        if (m->playback_speed == 0x10) {
+    if (slot->playback_state != 0x23) {
+        if (slot->playback_speed == 0x10) {
             if (Model_GetFrameStep() == 2) {
                 return;
             }
         }
     }
-    frame = m->animation_position;
-    if (m->animation_sequence_count != 0) {
-        i = 0;
+    scaled_position = slot->animation_position;
+    if (slot->animation_sequence_count != 0) {
+        part_index = 0;
         do {
-            Model_SeekSlotPartAnimation(m, i, m->current_animation_row, frame);
-            i++;
-        } while (i < m->animation_sequence_count);
+            Model_SeekSlotPartAnimation(slot, part_index, slot->current_animation_row, scaled_position);
+            part_index++;
+        } while (part_index < slot->animation_sequence_count);
     }
 }
 
