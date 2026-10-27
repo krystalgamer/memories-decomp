@@ -5,6 +5,8 @@
 bodies through 8 three-line canonical renaming wrappers.
 An independently reconstructed regional fan body and its thin slot-1
 wrapper additionally cover the entry-called helper at `0x124C`.
+A GCC 2.8.1 rewrite of the North American header-448 fan body covers
+the entry-called companion at `0x166C`.
 The regional orbit body and its slot-1 wrapper cover `0x256C`, reusing
 the unchanged accepted `Variant448Orbit` header after independent layout
 verification.
@@ -37,7 +39,7 @@ post-quad boundary and strict full-span walking establish its ownership.
 |---|---:|---|---|
 | `0x4..0x124C` | 4680 | entry C (North American header-448 body) | yes |
 | `0x124C..0x166C` | 1056 | fan C | yes |
-| `0x166C..0x256C` | 3840 | generated assembly | yes |
+| `0x166C..0x256C` | 3840 | fan-arms C | yes |
 | `0x256C..0x2AB4` | 1352 | orbit C | yes |
 | `0x2AB4..0x3014` | 1376 | webs C | no |
 | `0x3014..0x331C` | 776 | spokes C | no |
@@ -48,7 +50,7 @@ post-quad boundary and strict full-span walking establish its ownership.
 Strict control-flow walks cover every word of each span with one terminal
 return and no unresolved indirect transfer. The four previously matched
 helpers remain **retained code, not direct-entry reachable**; the new fan
-and orbit are entry-called. No additional execution path is claimed.
+orbit and fan arms are entry-called. No additional execution path is claimed.
 Each four-byte header and 3,244-byte suffix at
 `0x4354..0x5000` has a real storage owner. Suffixes remain unclassified,
 not proven non-code.
@@ -244,6 +246,36 @@ The 20 Family465 C owners / 19,872 bytes remain exact alongside all six
 accepted Family431 C owners / 5,440 bytes and the previously checked
 Family421, 422, 435, 439, 445 and 476 owners. All 213 French, 112 Spanish
 and 21 progress/toolchain regressions and policy checks pass without skips.
+
+## Entry-called fan arms
+
+The companion at `0x166C..0x256C` (3,840 bytes) is the French build of
+the North American header-448 fan
+(`src/overlays/model_variant/variant448_fan.c`, 0xFC0 bytes under
+`gcc_2_7_2_cdk_g0`). It uses the same three 0x208-byte
+`Variant448FanUnit` records at `work + 0xBD8` and the unchanged
+`variant448_fan.h`. The NA body is written around GCC 2.7.2 allocation and
+compiles to 985 instructions here, against 960 in the target, so
+`src/overlays/french_model_variant/variant465_arms.c` holds a separate
+2.8.1 body with a three-line `variant465_arms_slot1.c` renaming wrapper.
+It uses the existing `gcc_2_8_1_g0_split` profile.
+
+The measured differences from the NA source:
+
+- the six colour channels are separate 16-byte stack tables indexed
+  `j + i * 2 + t * 6`, stored and read directly instead of through
+  per-channel pointers;
+- the `j == 1` projection indexes `[j]`/`[j - 1]` directly;
+- `tangle += 0x800` sits in the arm loop's increment after `t++`;
+- the start-of-function flag arm keeps its no-op copy of `work`, but
+  routes it through `ot` rather than `poly`. Through `poly` it adds two
+  references, which lift `poly` (108 references over 695 insns) above the
+  first arm loop's sign-extended `t` (19 over 83) in global-allocation
+  priority. That swaps `s7`/`s8` in 33 words while everything else matches.
+
+All eight French and Spanish images (models 108 and 573, stage 9 slot 0
+and stage 10 slot 1) carry byte-identical masked copies. Each rebuilt
+complete image matches its retail hash.
 
 ## Entry-called orbit
 
