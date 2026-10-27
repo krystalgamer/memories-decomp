@@ -26386,10 +26386,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_162764_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_639_stage9_slot0.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_162764_8013b000",
-      "output": "tmp/overlays/french_model_image_model_162764_8013b000/module.bin",
+      "name": "french_model_variant_639_stage9_slot0",
+      "output": "tmp/overlays/french_model_variant_639_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 162764,
       "sha256": "639ecd76884ee8e101b8701fe86a314af87117101485afe6db4cef438821cfbb"
@@ -26910,10 +26911,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_76652_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_277_stage9_slot0.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_76652_8013b000",
-      "output": "tmp/overlays/french_model_image_model_76652_8013b000/module.bin",
+      "name": "french_model_variant_277_stage9_slot0",
+      "output": "tmp/overlays/french_model_variant_277_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 76652,
       "sha256": "7128297f8c142662e3ed784a0c412161778e55c81fed645f1e4ea924cf4d3b01"
@@ -27547,10 +27549,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_155844_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_614_stage7_slot0.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_155844_8013b000",
-      "output": "tmp/overlays/french_model_image_model_155844_8013b000/module.bin",
+      "name": "french_model_variant_614_stage7_slot0",
+      "output": "tmp/overlays/french_model_variant_614_stage7_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 155844,
       "sha256": "81b735ea25de4a9dd8d389b1a72ad5f4c780b1cc91309c90c9ae1e73ee8990f0"
@@ -28675,10 +28678,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_15380_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_55_stage9_slot0.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_15380_8013b000",
-      "output": "tmp/overlays/french_model_image_model_15380_8013b000/module.bin",
+      "name": "french_model_variant_55_stage9_slot0",
+      "output": "tmp/overlays/french_model_variant_55_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 15380,
       "sha256": "9d574340e2971f49ee3efa5d7219a22b3bdeb5c54da28db7adf4b116c0dc17aa"
@@ -28861,10 +28865,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_62556_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_226_stage7_slot0.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_62556_8013b000",
-      "output": "tmp/overlays/french_model_image_model_62556_8013b000/module.bin",
+      "name": "french_model_variant_226_stage7_slot0",
+      "output": "tmp/overlays/french_model_variant_226_stage7_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 62556,
       "sha256": "a0deb5dbfbfc5e39f772456a998922549e3c889616b2f9c52c1eee59d72f40bf"
@@ -29922,10 +29927,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_141236_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_561_stage9_slot0.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_141236_8013b000",
-      "output": "tmp/overlays/french_model_image_model_141236_8013b000/module.bin",
+      "name": "french_model_variant_561_stage9_slot0",
+      "output": "tmp/overlays/french_model_variant_561_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 141236,
       "sha256": "be74cc5309bd14b4fade6f139b914ff6479a89cddef6bb3698500dff17937ae0"
@@ -33888,10 +33894,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_155854_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_614_stage8_slot1.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_155854_8017b000",
-      "output": "tmp/overlays/french_model_image_model_155854_8017b000/module.bin",
+      "name": "french_model_variant_614_stage8_slot1",
+      "output": "tmp/overlays/french_model_variant_614_stage8_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 155854,
       "sha256": "25cd688abc9b61ed37accd5f71e3a9331265484d6d9379830a65705571ee2c3e"
@@ -35010,10 +35017,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_15390_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_55_stage10_slot1.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_15390_8017b000",
-      "output": "tmp/overlays/french_model_image_model_15390_8017b000/module.bin",
+      "name": "french_model_variant_55_stage10_slot1",
+      "output": "tmp/overlays/french_model_variant_55_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 15390,
       "sha256": "448568abe3a3203c01908577b90465e9665bdbe1eff5c12b1bf2f0e9e4e0975d"
@@ -36133,10 +36141,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_141246_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_561_stage10_slot1.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_141246_8017b000",
-      "output": "tmp/overlays/french_model_image_model_141246_8017b000/module.bin",
+      "name": "french_model_variant_561_stage10_slot1",
+      "output": "tmp/overlays/french_model_variant_561_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 141246,
       "sha256": "5e707f81bf66e04296764ec799409aedfbc737f5ddac92fa9b29933dcf56fe28"
@@ -36389,10 +36398,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_62566_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_226_stage8_slot1.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_62566_8017b000",
-      "output": "tmp/overlays/french_model_image_model_62566_8017b000/module.bin",
+      "name": "french_model_variant_226_stage8_slot1",
+      "output": "tmp/overlays/french_model_variant_226_stage8_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 62566,
       "sha256": "63f01e943f00ec000feaaa55cfaa3f25db19691349ea3cb88b06d58f337214f2"
@@ -42424,10 +42434,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_162774_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_639_stage10_slot1.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_162774_8017b000",
-      "output": "tmp/overlays/french_model_image_model_162774_8017b000/module.bin",
+      "name": "french_model_variant_639_stage10_slot1",
+      "output": "tmp/overlays/french_model_variant_639_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 162774,
       "sha256": "fc5eb41f50e8e819b86179a5c5e98f4579371c7e80f96e6e2ac4d4210ceb5dfc"
@@ -42554,10 +42565,11 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_76662_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_277_stage10_slot1.yaml",
+      "linker_symbols": "config/sles_03948/overlays/model_variant652_linker_symbols.txt",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_76662_8017b000",
-      "output": "tmp/overlays/french_model_image_model_76662_8017b000/module.bin",
+      "name": "french_model_variant_277_stage10_slot1",
+      "output": "tmp/overlays/french_model_variant_277_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 76662,
       "sha256": "fead73fdd95b39f16518cdb83c54ca849c773af3b3ce10074ae9319d3f042c5d"
