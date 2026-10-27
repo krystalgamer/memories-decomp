@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0x13DC,func_8017B004,unmatched_asm,overlay/model_variant_620_stage8_slot1,Game-owned generated assembly retained; loader entry.
+0x8017B004,0x13DC,func_8017B004,matching_c,overlay/model_variant_620_stage8_slot1,Independent exact C loader entry; first recovery of this body in any release.
 0x8017C3E0,0x5CC,func_8017C3E0,matching_c,overlay/model_variant_620_stage8_slot1,Exact C warp rings shared with MODEL438 through the 459 layout; colours fade with ring size; not entry-reachable.
 0x8017C9AC,0x60C,func_8017C9AC,matching_c,overlay/model_variant_620_stage8_slot1,Exact C curtains for the 459 layout; curtain 3 and half-size curtains keep their colours; scales grow before phase 3 and fade between the timing record's fade bounds; entry-reachable.
 0x8017CFB8,0x64C,func_8017CFB8,unmatched_asm,overlay/model_variant_620_stage8_slot1,Game-owned generated assembly retained; closed contiguous stack-prologue function; not entry-reachable.
