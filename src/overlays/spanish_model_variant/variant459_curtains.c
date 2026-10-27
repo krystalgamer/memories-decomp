@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant459_sheets.h"
 
-#define CURTAIN459_TIMING(work) ((Timing459 *)MODEL_VARIANT_WORD(work, 0x309C))
+#define CURTAIN459_TIMING(work) (*(Timing459 *G32 *)((u8 *)(work) + 0x309C))
 
 /* Loads both rows' colours unfaded. */
 #define CURTAIN459_LOAD_COLOURS(work) \
