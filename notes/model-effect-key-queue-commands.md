@@ -33,6 +33,59 @@ after every preparer call. It does not snapshot the count, require every
 input key to become ready, or replace the preparer's distinct global guard.
 The shared two-flag gate and invalid-command no-op remain unchanged.
 
+## Endpoint transport and preparation local views
+
+The four contiguous pair/shake/sequence/dispatcher definitions now
+name only their existing local views. first_endpoint/second_endpoint
+retain signed negative-index-to-null selection BEFORE the state guard.
+No new upper bound or endpoint validation. ordinal_or_mode deliberately
+remains ONE binding for the signed byte ordinal THEN begin/append mode.
+The pair's postincrement is not replaced by the parallel helper forms.
+
+shake_halfwords stays ONE aligned s16[4] initializer, with the original
+input narrowing, zeros and kind5. The SAME array address is passed for
+both requested endpoints. Keep separate signed and unsigned ordinal
+reads, including unsigned_ordinal capture on the negative/disabled path,
+then the original captured-byte increment. No duplicated record, packed
+local, helper extraction, new noise policy or byte-wrap normalization.
+
+The sequence's batch_ordinal remains s8 and queue_mode remains s32.
+Batch-state computation/increment STILL precedes count==0 return.
+Each iteration sends the current records, advances pointers BEFORE
+testing NEXT kinds, and preserves the first-stream goto short-circuit.
+Keep explicit signed-halfword kind loads, negative-count continuation,
+positive-count-only decrement and the later forced append mode1.
+No first-record terminator test, early empty-call suppression or bound.
+
+The dispatcher keeps one=1, key and all goto labels unchanged.
+Begin still requests camera-1, seeds cursor/count, then may return for
+two null records and magnitude0/0x4000 BEFORE pose capture or pending
+publication. This is not the complete queue reset and does not gain
+an unconditional pending clear. Invalid commands remain no-ops.
+
+append_key_bytes names the existing OTHERWISE UNUSED byte binding;
+its declaration and assignment stay. Append retains packed eight-byte
+copies, null-kind-ONLY clears and BOTH readiness-store arms. queued_count
+is reloaded AFTER those copies. Preserve magnitude narrowing, zero
+duration/progress stores and final count publication, plus capacity10.
+No clearing of stale requested components or new initialization policy.
+
+prepare_key_bytes and next_key_bytes remain SEPARATE byte cursors.
+The next cursor advances by0x28 BEFORE each preparer callback; key_index
+still tests the LIVE count after every call, not a captured count.
+The preparer's separate global-key guard is not bypassed. Pending clears
+and ordinal-1 publication remain AFTER the whole walk. No early cursor
+publication, array bounds repair or guarantee that all keys become ready.
+
+Only scoped bare locals in these FOUR complete definitions change.
+Arguments, member tokens, comments, types, constants, expressions,
+scopes, labels and order remain. All other grouped definitions, headers,
+SDK declarations, callers, fixtures and controls stay exact. Existing
+queue controls cover headers/ABI, not these local names. No new harness
+or local cloud-witness execution. The source/regional section below
+records the EARLIER function-identity rename; this later local pass
+changes no function identity or caller.
+
 ## Source and regional boundaries
 
 Only the function identifier changes in production bodies and callers.
