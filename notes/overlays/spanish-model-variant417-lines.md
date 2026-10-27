@@ -19,7 +19,8 @@ Commands select 68-byte descriptors at `+0x449C + (command % 1000) * 68`.
 Each complete 20KiB image has eight closed, contiguous functions beginning at
 `+4`, `+0x1204`, `+0x1778`, `+0x1E60`, `+0x2480`, `+0x2ACC`,
 `+0x30E4`, and `+0x3750`. Code ends at `+0x43A0`; the remainder stays raw data.
-The entry calls only `+0x1204`, `+0x1778`, `+0x2ACC`, and `+0x3750`.
+The entry calls only `+0x1204`, `+0x1778`, `+0x2ACC`, and `+0x3750`; its
+own C is described in [spanish-model-variant417-entry.md](spanish-model-variant417-entry.md).
 The three other helpers are independently closed stack-prologue functions,
 not entry-reachable functions. All seven nonselected functions per image stay
 generated ASM. The selected source owns only its single 1,396-byte function.
