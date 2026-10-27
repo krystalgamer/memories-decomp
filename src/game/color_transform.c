@@ -2,239 +2,239 @@
 #define COLOR_CALLER_VIEWS
 #include "color.h"
 
-HsvT *Color_RgbToHsl(HsvT *out, u8 r, u8 g, u8 b, u8 lim) {
-    u8 c[3];
-    HsvT t;
-    u8 x;
-    s32 j1;
-    s32 j2;
-    s32 i;
-    s32 hi;
-    s32 lo;
-    s32 mx;
-    s32 mn;
-    s32 d2;
-    s32 sum;
-    s32 q;
-    s32 df;
-    s32 sh;
-    s32 n;
+HsvT *Color_RgbToHsl(HsvT *hsl_out, u8 red, u8 green, u8 blue, u8 channel_limit) {
+    u8 channels[3];
+    HsvT hsl_value;
+    u8 channel_value;
+    s32 next_channel_index;
+    s32 remaining_channel_index;
+    s32 channel_index;
+    s32 maximum_index;
+    s32 minimum_index;
+    s32 maximum_channel;
+    s32 minimum_channel;
+    s32 twice_channel_limit;
+    s32 channel_sum;
+    s32 lightness;
+    s32 channel_delta_work;
+    s32 scaled_channel_sum;
+    s32 hue_work;
 
-    s32 u;
-    hi = 0;
-    lo = 0;
-    i = 1;
-    c[0] = r;
-    c[1] = g;
-    c[2] = b;
+    s32 hue_result;
+    maximum_index = 0;
+    minimum_index = 0;
+    channel_index = 1;
+    channels[0] = red;
+    channels[1] = green;
+    channels[2] = blue;
 
     do {
-        x = c[i];
-        if (x > c[hi]) {
-            hi = i;
+        channel_value = channels[channel_index];
+        if (channel_value > channels[maximum_index]) {
+            maximum_index = channel_index;
         }
-        if (x < c[lo]) {
-            lo = i;
+        if (channel_value < channels[minimum_index]) {
+            minimum_index = channel_index;
         }
-        i++;
-    } while (i < 3);
+        channel_index++;
+    } while (channel_index < 3);
 
-    mx = c[hi];
-    mn = c[lo];
-    sum = mx + mn;
-    sh = sum << COLOR_FIXED_SHIFT;
-    d2 = (lim & 0xFF) * 2;
-    q = sh / d2;
+    maximum_channel = channels[maximum_index];
+    minimum_channel = channels[minimum_index];
+    channel_sum = maximum_channel + minimum_channel;
+    scaled_channel_sum = channel_sum << COLOR_FIXED_SHIFT;
+    twice_channel_limit = (channel_limit & 0xFF) * 2;
+    lightness = scaled_channel_sum / twice_channel_limit;
 
-    t.v = 0;
-    t.h = 0;
-    df = mn;
-    df = mx - df;
-    t.s = q;
+    hsl_value.v = 0;
+    hsl_value.h = 0;
+    channel_delta_work = minimum_channel;
+    channel_delta_work = maximum_channel - channel_delta_work;
+    hsl_value.s = lightness;
 
-    if (df != 0) {
-        if ((u32)(q & 0xFFFF) < COLOR_FIXED_HALF + 1) {
-            t.v = (df << COLOR_FIXED_SHIFT) / sum;
+    if (channel_delta_work != 0) {
+        if ((u32)(lightness & 0xFFFF) < COLOR_FIXED_HALF + 1) {
+            hsl_value.v = (channel_delta_work << COLOR_FIXED_SHIFT) / channel_sum;
         } else {
-            t.v = (df << COLOR_FIXED_SHIFT) / (d2 - sum);
+            hsl_value.v = (channel_delta_work << COLOR_FIXED_SHIFT) / (twice_channel_limit - channel_sum);
         }
-        j1 = (hi + 1) % 3;
-        j2 = (hi + 2) % 3;
-        n = (c[j1] - c[j2]) << COLOR_FIXED_SHIFT;
-        u = (hi << (COLOR_FIXED_SHIFT + 1)) + n / df;
-        n = u;
-        t.h = n;
-        if (n < 0) {
-            t.h = n + COLOR_HUE_FULL_TURN;
+        next_channel_index = (maximum_index + 1) % 3;
+        remaining_channel_index = (maximum_index + 2) % 3;
+        hue_work = (channels[next_channel_index] - channels[remaining_channel_index]) << COLOR_FIXED_SHIFT;
+        hue_result = (maximum_index << (COLOR_FIXED_SHIFT + 1)) + hue_work / channel_delta_work;
+        hue_work = hue_result;
+        hsl_value.h = hue_work;
+        if (hue_work < 0) {
+            hsl_value.h = hue_work + COLOR_HUE_FULL_TURN;
         }
     }
 
-    *out = t;
-    return out;
+    *hsl_out = hsl_value;
+    return hsl_out;
 }
 
-Color *Color_HslToRgb(Color *out, s32 h, u16 s, u16 v, u8 lim)
+Color *Color_HslToRgb(Color *rgb_out, s32 hue, u16 lightness, u16 saturation, u8 channel_limit)
 {
-    u32 ch[3];
-    Color t;
-    s32 m;
-    s32 i0;
-    s32 ja;
-    s32 jb;
-    s32 w;
-    s32 x;
+    u32 channels_fixed[3];
+    Color rgb_value;
+    s32 hue_sector;
+    s32 maximum_index;
+    s32 minimum_index;
+    s32 interpolated_index;
+    s32 edge_weight;
+    s32 edge_position;
 
-    m = (h / COLOR_FIXED_ONE + 1) % COLOR_HUE_SECTOR_COUNT;
-    i0 = m / 2;
-    if (m & 1) {
-        jb = (i0 + 1) % 3;
-        ja = (i0 + 2) % 3;
+    hue_sector = (hue / COLOR_FIXED_ONE + 1) % COLOR_HUE_SECTOR_COUNT;
+    maximum_index = hue_sector / 2;
+    if (hue_sector & 1) {
+        interpolated_index = (maximum_index + 1) % 3;
+        minimum_index = (maximum_index + 2) % 3;
     } else {
-        ja = (i0 + 1) % 3;
-        jb = (i0 + 2) % 3;
+        minimum_index = (maximum_index + 1) % 3;
+        interpolated_index = (maximum_index + 2) % 3;
     }
 
-    if (s < COLOR_FIXED_HALF + 1) {
-        ch[ja] = (s * (COLOR_FIXED_ONE - v) / COLOR_FIXED_ONE) * lim;
-        ch[i0] = (s << 1) * lim - ch[ja];
+    if (lightness < COLOR_FIXED_HALF + 1) {
+        channels_fixed[minimum_index] = (lightness * (COLOR_FIXED_ONE - saturation) / COLOR_FIXED_ONE) * channel_limit;
+        channels_fixed[maximum_index] = (lightness << 1) * channel_limit - channels_fixed[minimum_index];
     } else {
-        ch[i0] = (s * (COLOR_FIXED_ONE - v) / COLOR_FIXED_ONE + v) * lim;
-        ch[ja] = (s << 1) * lim - ch[i0];
+        channels_fixed[maximum_index] = (lightness * (COLOR_FIXED_ONE - saturation) / COLOR_FIXED_ONE + saturation) * channel_limit;
+        channels_fixed[minimum_index] = (lightness << 1) * channel_limit - channels_fixed[maximum_index];
     }
 
-    x = (h + COLOR_FIXED_ONE) % COLOR_HUE_FULL_TURN -
-        i0 * (2 * COLOR_FIXED_ONE);
-    w = x - COLOR_FIXED_ONE;
-    if (w < 0) {
-        w = COLOR_FIXED_ONE - x;
+    edge_position = (hue + COLOR_FIXED_ONE) % COLOR_HUE_FULL_TURN -
+        maximum_index * (2 * COLOR_FIXED_ONE);
+    edge_weight = edge_position - COLOR_FIXED_ONE;
+    if (edge_weight < 0) {
+        edge_weight = COLOR_FIXED_ONE - edge_position;
     }
-    ch[jb] = (ch[i0] - ch[ja]) * w / COLOR_FIXED_ONE + ch[ja];
+    channels_fixed[interpolated_index] = (channels_fixed[maximum_index] - channels_fixed[minimum_index]) * edge_weight / COLOR_FIXED_ONE + channels_fixed[minimum_index];
 
-    ch[0] = (ch[0] + COLOR_FIXED_HALF) / COLOR_FIXED_ONE;
-    ch[1] = (ch[1] + COLOR_FIXED_HALF) / COLOR_FIXED_ONE;
-    ch[2] = (ch[2] + COLOR_FIXED_HALF) / COLOR_FIXED_ONE;
-    t.r = ch[0] < 0x100 ? ch[0] : 0xFF;
-    t.g = ch[1] < 0x100 ? ch[1] : 0xFF;
-    t.b = ch[2] < 0x100 ? ch[2] : 0xFF;
-    *out = t;
-    return out;
+    channels_fixed[0] = (channels_fixed[0] + COLOR_FIXED_HALF) / COLOR_FIXED_ONE;
+    channels_fixed[1] = (channels_fixed[1] + COLOR_FIXED_HALF) / COLOR_FIXED_ONE;
+    channels_fixed[2] = (channels_fixed[2] + COLOR_FIXED_HALF) / COLOR_FIXED_ONE;
+    rgb_value.r = channels_fixed[0] < 0x100 ? channels_fixed[0] : 0xFF;
+    rgb_value.g = channels_fixed[1] < 0x100 ? channels_fixed[1] : 0xFF;
+    rgb_value.b = channels_fixed[2] < 0x100 ? channels_fixed[2] : 0xFF;
+    *rgb_out = rgb_value;
+    return rgb_out;
 }
-s32 Color_TintBgr555Pixel(u16 color, s32 flags, u16 scale)
+s32 Color_TintBgr555Pixel(u16 pixel, s32 tint_control, u16 saturation_scale)
 {
-    Color packed;
-    HsvT hsv;
-    Color out;
-    u8 lim;
-    s32 sector;
-    u8 hue;
-    s32 inverted;
-    s32 gray;
+    Color packing_rgb;
+    HsvT hsl_state;
+    Color output_rgb;
+    u8 channel_limit;
+    s32 hue_selector;
+    u8 forced_hue;
+    s32 invert_mask;
+    s32 grayscale_request;
 
-    if (color == 0) {
+    if (pixel == 0) {
         return 0;
     }
 
-    inverted = flags & COLOR_TINT_INVERT;
-    sector = flags & COLOR_TINT_HUE_MASK;
-    gray = ((u8)sector == COLOR_TINT_GRAYSCALE);
+    invert_mask = tint_control & COLOR_TINT_INVERT;
+    hue_selector = tint_control & COLOR_TINT_HUE_MASK;
+    grayscale_request = ((u8)hue_selector == COLOR_TINT_GRAYSCALE);
     Color_RgbToHsl(
-        &hsv,
-        color & COLOR_BGR555_CHANNEL_MASK,
-        (color >> COLOR_BGR555_GREEN_SHIFT) & COLOR_BGR555_CHANNEL_MASK,
-        (color >> COLOR_BGR555_BLUE_SHIFT) & COLOR_BGR555_CHANNEL_MASK,
+        &hsl_state,
+        pixel & COLOR_BGR555_CHANNEL_MASK,
+        (pixel >> COLOR_BGR555_GREEN_SHIFT) & COLOR_BGR555_CHANNEL_MASK,
+        (pixel >> COLOR_BGR555_BLUE_SHIFT) & COLOR_BGR555_CHANNEL_MASK,
         COLOR_BGR555_CHANNEL_MASK);
 
-    lim = COLOR_BGR555_CHANNEL_MASK;
-    if ((u8)sector < COLOR_TINT_KEEP_HUE) {
-        hue = sector;
-        if (inverted) {
-            hue = (hue + COLOR_HUE_SECTOR_COUNT / 2) % COLOR_HUE_SECTOR_COUNT;
+    channel_limit = COLOR_BGR555_CHANNEL_MASK;
+    if ((u8)hue_selector < COLOR_TINT_KEEP_HUE) {
+        forced_hue = hue_selector;
+        if (invert_mask) {
+            forced_hue = (forced_hue + COLOR_HUE_SECTOR_COUNT / 2) % COLOR_HUE_SECTOR_COUNT;
         }
-        hsv.h = hue << COLOR_FIXED_SHIFT;
+        hsl_state.h = forced_hue << COLOR_FIXED_SHIFT;
     }
 
-    if (gray) {
-        hsv.v = 0;
+    if (grayscale_request) {
+        hsl_state.v = 0;
     } else {
-        hsv.v = (hsv.v * scale) / COLOR_FIXED_ONE;
+        hsl_state.v = (hsl_state.v * saturation_scale) / COLOR_FIXED_ONE;
     }
 
-    Color_HslToRgb(&out, hsv.h, hsv.s, hsv.v, COLOR_BGR555_CHANNEL_MASK);
+    Color_HslToRgb(&output_rgb, hsl_state.h, hsl_state.s, hsl_state.v, COLOR_BGR555_CHANNEL_MASK);
 
-    if (inverted) {
-        out.r = lim - out.r;
-        out.g = lim - out.g;
-        out.b = lim - out.b;
+    if (invert_mask) {
+        output_rgb.r = channel_limit - output_rgb.r;
+        output_rgb.g = channel_limit - output_rgb.g;
+        output_rgb.b = channel_limit - output_rgb.b;
     }
 
-    out.r = out.r ? out.r : 1;
-    out.g = out.g ? out.g : 1;
-    out.b = out.b ? out.b : 1;
-    packed = out;
-    return (packed.r & COLOR_BGR555_CHANNEL_MASK) |
-           ((packed.g & COLOR_BGR555_CHANNEL_MASK) << COLOR_BGR555_GREEN_SHIFT) |
-           ((packed.b & COLOR_BGR555_CHANNEL_MASK) << COLOR_BGR555_BLUE_SHIFT) |
-           (color & COLOR_BGR555_STP_MASK);
+    output_rgb.r = output_rgb.r ? output_rgb.r : 1;
+    output_rgb.g = output_rgb.g ? output_rgb.g : 1;
+    output_rgb.b = output_rgb.b ? output_rgb.b : 1;
+    packing_rgb = output_rgb;
+    return (packing_rgb.r & COLOR_BGR555_CHANNEL_MASK) |
+           ((packing_rgb.g & COLOR_BGR555_CHANNEL_MASK) << COLOR_BGR555_GREEN_SHIFT) |
+           ((packing_rgb.b & COLOR_BGR555_CHANNEL_MASK) << COLOR_BGR555_BLUE_SHIFT) |
+           (pixel & COLOR_BGR555_STP_MASK);
 }
 
-s32 Color_HslToBgr555Pixel(s32 value, u32 a, u32 b)
+s32 Color_HslToBgr555Pixel(s32 hue, u32 lightness_word, u32 saturation_word)
 {
-    Color color;
+    Color output_rgb;
 
     Color_HslToRgb_wide(
-        &color, value, a & 0xFFFF, b & 0xFFFF, COLOR_BGR555_CHANNEL_MASK
+        &output_rgb, hue, lightness_word & 0xFFFF, saturation_word & 0xFFFF, COLOR_BGR555_CHANNEL_MASK
     );
-    return (color.r & COLOR_BGR555_CHANNEL_MASK) |
-           ((color.g & COLOR_BGR555_CHANNEL_MASK)
+    return (output_rgb.r & COLOR_BGR555_CHANNEL_MASK) |
+           ((output_rgb.g & COLOR_BGR555_CHANNEL_MASK)
             << COLOR_BGR555_GREEN_SHIFT) |
-           ((color.b & COLOR_BGR555_CHANNEL_MASK)
+           ((output_rgb.b & COLOR_BGR555_CHANNEL_MASK)
             << COLOR_BGR555_BLUE_SHIFT);
 }
 
 Color *Color_TintRgb(
-    Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim
+    Color *rgb_out, u8 red, u8 green, u8 blue, s32 tint_control, u16 saturation_scale, u8 channel_limit
 )
 {
-    HsvT hsv;
-    Color c;
-    s32 idx;
-    s32 inv;
-    s32 flat;
-    u8 k;
+    HsvT hsl_state;
+    Color output_rgb;
+    s32 hue_selector;
+    s32 invert_mask;
+    s32 grayscale_request;
+    u8 forced_hue;
 
-    inv = flags & COLOR_TINT_INVERT;
-    idx = flags & COLOR_TINT_HUE_MASK;
-    flat = ((u8)idx == COLOR_TINT_GRAYSCALE);
+    invert_mask = tint_control & COLOR_TINT_INVERT;
+    hue_selector = tint_control & COLOR_TINT_HUE_MASK;
+    grayscale_request = ((u8)hue_selector == COLOR_TINT_GRAYSCALE);
 
-    Color_RgbToHsl_void(&hsv, r, g, b, lim);
+    Color_RgbToHsl_void(&hsl_state, red, green, blue, channel_limit);
 
-    if ((u8)idx < COLOR_TINT_KEEP_HUE) {
-        k = idx;
-        if (inv) {
-            k = (k + COLOR_HUE_SECTOR_COUNT / 2) %
+    if ((u8)hue_selector < COLOR_TINT_KEEP_HUE) {
+        forced_hue = hue_selector;
+        if (invert_mask) {
+            forced_hue = (forced_hue + COLOR_HUE_SECTOR_COUNT / 2) %
                 COLOR_HUE_SECTOR_COUNT;
         }
-        hsv.h = k << COLOR_FIXED_SHIFT;
+        hsl_state.h = forced_hue << COLOR_FIXED_SHIFT;
     }
 
-    if (flat) {
-        hsv.v = 0;
+    if (grayscale_request) {
+        hsl_state.v = 0;
     } else {
-        hsv.v = hsv.v * scale / COLOR_FIXED_ONE;
+        hsl_state.v = hsl_state.v * saturation_scale / COLOR_FIXED_ONE;
     }
 
-    Color_HslToRgb_wide(&c, hsv.h, hsv.s, hsv.v, lim);
+    Color_HslToRgb_wide(&output_rgb, hsl_state.h, hsl_state.s, hsl_state.v, channel_limit);
 
-    if (inv) {
-        c.r = lim - c.r;
-        c.g = lim - c.g;
-        c.b = lim - c.b;
+    if (invert_mask) {
+        output_rgb.r = channel_limit - output_rgb.r;
+        output_rgb.g = channel_limit - output_rgb.g;
+        output_rgb.b = channel_limit - output_rgb.b;
     }
 
-    c.r = c.r ? c.r : 1;
-    c.g = c.g ? c.g : 1;
-    c.b = c.b ? c.b : 1;
+    output_rgb.r = output_rgb.r ? output_rgb.r : 1;
+    output_rgb.g = output_rgb.g ? output_rgb.g : 1;
+    output_rgb.b = output_rgb.b ? output_rgb.b : 1;
 
-    *out = c;
-    return out;
+    *rgb_out = output_rgb;
+    return rgb_out;
 }
