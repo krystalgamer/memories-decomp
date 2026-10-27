@@ -1,6 +1,6 @@
 # French MODEL entries reusing accepted North American C
 
-The entry functions of eleven French MODEL variant families are the accepted
+The entry functions of twelve French MODEL variant families are the accepted
 North American entry bodies. Under the project's GCC 2.8.1 split profile they
 produce byte-identical code, except that the PAL images load the effect palette
 from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
@@ -17,6 +17,7 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
 | 442 | 4 | `model_variant/variant425_entry.c` | `0x1170` |
 | 445 | 12 | `model_variant/variant428_entry.c` | `0x1030` |
 | 450 | 2 | `model_variant/variant433_entry.c` | `0x0DD4` |
+| 465 | 4 | `model_variant/variant448_entry.c` | `0x1248` |
 | 476 | 2 | `model_variant/variant459_entry.c` | `0x1358` |
 
 - Each North American source now names its palette x as
@@ -31,18 +32,18 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
   temporaries. The French images match only `gcc_2_8_1_g0_split`.
 - Each family binding file gains only the missing SDK bindings these bodies
   call (for example `GetTPage`, `GetClut` and `SetPolyGT4`). Every bound
-  address is a French resident function start. Families 442 and 450 already
-  bound those addresses as `func_french_<address>` placeholders, so their files rename
-  them to the canonical SDK names instead of adding entries. Family 476 had
-  bound the same addresses as plain `func_<address>` names and renames them
-  the same way. Family 432 renames its `rsin`, `rcos`, `ratan2`,
-  `RotTransPers` and `RotTransPers3` placeholders as well.
+  address is a French resident function start. Families 432, 442, 450 and
+  465 already bound those addresses as `func_french_<address>` placeholders,
+  so their files rename them to the canonical SDK names instead of adding
+  entries. Family 476 had bound the same addresses as plain `func_<address>`
+  names and renames them the same way. Family 432 also renames its `rsin`,
+  `rcos`, `ratan2`, `RotTransPers` and `RotTransPers3` placeholders.
 - Family 432 is the one body that differs in shape. Its French entry advances
   the bar index at the end of the bar loop instead of at the top. The North
   American source keeps the retail form, and the wrappers select the French
   form with `#define VERSION_FRENCH`.
 
-**128 French C instances** were added. All French and North American overlay
+**132 French C instances** were added. All French and North American overlay
 images rebuild exactly; no other release uses these sources. The
 [ledger](french-model-usa-entry-reuse.csv) lists every image, its North
 American body, the French wrapper and both fingerprints.

@@ -35,7 +35,7 @@ post-quad boundary and strict full-span walking establish its ownership.
 
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
-| `0x4..0x124C` | 4680 | generated assembly | yes |
+| `0x4..0x124C` | 4680 | entry C (North American header-448 body) | yes |
 | `0x124C..0x166C` | 1056 | fan C | yes |
 | `0x166C..0x256C` | 3840 | generated assembly | yes |
 | `0x256C..0x2AB4` | 1352 | orbit C | yes |
@@ -444,3 +444,13 @@ French overlays. The four French and four affected North American mapped
 proof ELFs again equal their production ELFs, with all prior French C objects
 preserved. All 78 targeted family, options, progress and toolchain regressions
 pass without skips, together with the same repository policy gates.
+
+## Entry from North American C
+
+The entry at `0x4` (`0x1248` bytes) in all four images is now matching C:
+the North American header-448 entry (`model_variant/variant448_entry.c`)
+built through `french_model_variant/variant465_entry{,_slot1}.c`. The wrappers
+select the PAL palette x (640) and rename the in-image helpers and the tail
+data label to their French addresses. The family's `func_french_<address>` SDK
+placeholders take their canonical names; no bindings are added. See
+[the reuse note](french-model-usa-entry-reuse.md).
