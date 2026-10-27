@@ -18,7 +18,7 @@ actual models, compact indices, commands, slices and complete hashes.
 | Offset range | Bytes | Owner | Direct-entry reachable |
 |---|---:|---|---|
 | `0x4..0x12B4` | 4784 | generated assembly | yes |
-| `0x12B4..0x18A4` | 1520 | generated assembly | yes |
+| `0x12B4..0x18A4` | 1520 | rings C (North American header-398 body) | yes |
 | `0x18A4..0x2024` | 1920 | bands C | yes |
 | `0x2024..0x2508` | 1252 | sheets C | yes |
 | `0x2508..0x2A34` | 1324 | webs C | no |
@@ -214,3 +214,16 @@ policy. All ten US398 band C owners remain exact. Shared US sources and
 profiles do not change during reconciliation; the already verified US
 artifacts remain the cross-region evidence, not a second US rebuild.
 The authored scope remains 38 paths.
+
+## Rings from North American C
+
+The rings helper at `0x12B4` (`0x5F0` bytes) in all ten images is now
+matching C. It is the accepted North American `model_variant/variant398_rings.c`,
+built through the symbol-only wrappers
+`french_model_variant/variant415_rings{,_slot1}.c`, which only rename the
+function to its French address. Under `gcc_2_8_1_g0_split` the body is
+byte-identical apart from relocations. The North American object is one word
+longer only because the `gcc_2_7_2_cdk_g0` profile keeps an extra epilogue
+delay-slot `nop`. The family binding file gains `GsGetActiveBuff`
+(`0x800852A8`, a French resident SDK start), which the helper calls. See
+[the attempts ledger](french-model-variant415-attempts.csv).

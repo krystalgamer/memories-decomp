@@ -1,5 +1,6 @@
 GetClut = 0x80082D28;
 GetTPage = 0x80082CE8;
+GsGetActiveBuff = 0x800852A8;
 GsGetLs = 0x80086258;
 GsGetLwUnit = 0x8008A428;
 GsSetLsMatrix = 0x80085558;

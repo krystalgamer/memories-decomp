@@ -6,6 +6,7 @@ func_8017D508 = 0x8017D508; // type:func size:0x52C
 func_8017DA34 = 0x8017DA34; // type:func size:0x584
 D_8017B000 = 0x8017B000; // type:u8 size:0x4 defined:true
 D_8017DFB8 = 0x8017DFB8; // type:u8 size:0x2048 defined:true
+GsGetActiveBuff = 0x800852A8; // type:func absolute:true
 GsGetLs = 0x80086258; // type:func absolute:true
 GsSetLsMatrix = 0x80085558; // type:func absolute:true
 GsSortGLine = 0x800840B8; // type:func absolute:true
