@@ -41,7 +41,8 @@ The six closed, contiguous functions occupy:
 | `+0x21B8..+0x26B4` | [Pulsing quads](spanish-model-variant385-pulse.md), matching C |
 | `+0x26B4..+0x2EB4` | [Rings](spanish-model-variant385-rings.md), matching C |
 
-Each entry directly calls all five helpers. CFG traversal covers every word
+Each entry directly calls all five helpers (the entry itself is described in
+[spanish-model-variant385-entry.md](spanish-model-variant385-entry.md)). CFG traversal covers every word
 of each function, with one return and no indirect calls. The four-byte header
 and `+0x2EB4..+0x5000` tail remain raw data, not executable padding. Integration
 of the line checkpoint added eight matching instances (10,464 instruction
