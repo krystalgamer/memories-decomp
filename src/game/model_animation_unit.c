@@ -262,42 +262,42 @@ next_track:
  * section pointers that follow header_size, the low 24 bits a word offset
  * into that section. */
 int Model_InterpolateTransRot(GsARGUNIT_ANIM *sp) {
-    ModelAnimParams *params;
-    GsSEQ *seq;
-    GsCOORDUNIT *dst;
-    ModelKeyframe *out;
-    s32 rest;
-    s32 total;
-    u32 offset;
-    u32 section;
-    s32 v;
+    ModelAnimParams *interpolation_parameters;
+    GsSEQ *sequence;
+    GsCOORDUNIT *coordinate_unit;
+    ModelKeyframe *output_keyframe;
+    s32 remaining_duration;
+    s32 total_duration;
+    u32 rewrite_work;
+    u32 rewrite_section;
+    s32 adjusted_target_angle;
     u16 source_rx;
     u16 source_ry;
     u16 source_rz;
     u16 target_rx;
     u16 target_ry;
     u16 target_rz;
-    params = (ModelAnimParams *)(&sp->header_size + sp->header_size);
-    seq = params->seq;
-    if (seq->tframe == 0) {
+    interpolation_parameters = (ModelAnimParams *)(&sp->header_size + sp->header_size);
+    sequence = interpolation_parameters->seq;
+    if (sequence->tframe == 0) {
         return 1;
     }
-    rest = seq->rframe;
-    total = seq->tframe;
-    offset = seq->rewrite_idx;
-    section = offset >> 24;
-    offset &= 0xFFFFFF;
-    dst = (GsCOORDUNIT *)((u32 *)(&sp->header_size)[section] + offset);
-    dst->matrix.t[0] = (params->source->x * rest + params->target->x * (total - rest)) / total;
-    dst->matrix.t[1] = (params->source->y * rest + params->target->y * (total - rest)) / total;
-    dst->matrix.t[2] = (params->source->z * rest + params->target->z * (total - rest)) / total;
-    target_rx = params->target->rx;
-    target_ry = params->target->ry;
-    target_rz = params->target->rz;
-    source_rx = params->source->rx;
-    source_ry = params->source->ry;
-    source_rz = params->source->rz;
-    if (total == 16) {
+    remaining_duration = sequence->rframe;
+    total_duration = sequence->tframe;
+    rewrite_work = sequence->rewrite_idx;
+    rewrite_section = rewrite_work >> 24;
+    rewrite_work &= 0xFFFFFF;
+    coordinate_unit = (GsCOORDUNIT *)((u32 *)(&sp->header_size)[rewrite_section] + rewrite_work);
+    coordinate_unit->matrix.t[0] = (interpolation_parameters->source->x * remaining_duration + interpolation_parameters->target->x * (total_duration - remaining_duration)) / total_duration;
+    coordinate_unit->matrix.t[1] = (interpolation_parameters->source->y * remaining_duration + interpolation_parameters->target->y * (total_duration - remaining_duration)) / total_duration;
+    coordinate_unit->matrix.t[2] = (interpolation_parameters->source->z * remaining_duration + interpolation_parameters->target->z * (total_duration - remaining_duration)) / total_duration;
+    target_rx = interpolation_parameters->target->rx;
+    target_ry = interpolation_parameters->target->ry;
+    target_rz = interpolation_parameters->target->rz;
+    source_rx = interpolation_parameters->source->rx;
+    source_ry = interpolation_parameters->source->ry;
+    source_rz = interpolation_parameters->source->rz;
+    if (total_duration == 16) {
         if ((s16)source_rx - (s16)target_rx < 0) {
             goto n0;
         }
@@ -310,13 +310,13 @@ int Model_InterpolateTransRot(GsARGUNIT_ANIM *sp) {
             goto d0;
         }
     w0:
-        v = (s16)target_rx;
-        if (v > 0) {
-            v = v - MODEL_ANGLE_FULL_TURN;
+        adjusted_target_angle = (s16)target_rx;
+        if (adjusted_target_angle > 0) {
+            adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
         } else {
-            v = v + MODEL_ANGLE_FULL_TURN;
+            adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
         }
-        target_rx = v;
+        target_rx = adjusted_target_angle;
     d0:
         ;
         if ((s16)source_ry - (s16)target_ry < 0) {
@@ -331,13 +331,13 @@ int Model_InterpolateTransRot(GsARGUNIT_ANIM *sp) {
             goto d1;
         }
     w1:
-        v = (s16)target_ry;
-        if (v > 0) {
-            v = v - MODEL_ANGLE_FULL_TURN;
+        adjusted_target_angle = (s16)target_ry;
+        if (adjusted_target_angle > 0) {
+            adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
         } else {
-            v = v + MODEL_ANGLE_FULL_TURN;
+            adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
         }
-        target_ry = v;
+        target_ry = adjusted_target_angle;
     d1:
         ;
         if ((s16)source_rz - (s16)target_rz < 0) {
@@ -352,29 +352,29 @@ int Model_InterpolateTransRot(GsARGUNIT_ANIM *sp) {
             goto d2;
         }
     w2:
-        v = (s16)target_rz;
-        if (v > 0) {
-            v = v - MODEL_ANGLE_FULL_TURN;
+        adjusted_target_angle = (s16)target_rz;
+        if (adjusted_target_angle > 0) {
+            adjusted_target_angle = adjusted_target_angle - MODEL_ANGLE_FULL_TURN;
         } else {
-            v = v + MODEL_ANGLE_FULL_TURN;
+            adjusted_target_angle = adjusted_target_angle + MODEL_ANGLE_FULL_TURN;
         }
-        target_rz = v;
+        target_rz = adjusted_target_angle;
     d2:
         ;
     }
-    dst->rot.vx = ((s16)source_rx * rest + (s16)target_rx * (total - rest)) / total;
-    dst->rot.vy = ((s16)source_ry * rest + (s16)target_ry * (total - rest)) / total;
-    dst->rot.vz = ((s16)source_rz * rest + (s16)target_rz * (total - rest)) / total;
-    RotMatrixYXZ_gte(&dst->rot, &dst->matrix);
-    dst->flg = 0;
-    out = params->out;
-    if (out != 0) {
-        params->out->x = dst->matrix.t[0];
-        params->out->y = dst->matrix.t[1];
-        params->out->z = dst->matrix.t[2];
-        params->out->rx = dst->rot.vx;
-        params->out->ry = dst->rot.vy;
-        params->out->rz = dst->rot.vz;
+    coordinate_unit->rot.vx = ((s16)source_rx * remaining_duration + (s16)target_rx * (total_duration - remaining_duration)) / total_duration;
+    coordinate_unit->rot.vy = ((s16)source_ry * remaining_duration + (s16)target_ry * (total_duration - remaining_duration)) / total_duration;
+    coordinate_unit->rot.vz = ((s16)source_rz * remaining_duration + (s16)target_rz * (total_duration - remaining_duration)) / total_duration;
+    RotMatrixYXZ_gte(&coordinate_unit->rot, &coordinate_unit->matrix);
+    coordinate_unit->flg = 0;
+    output_keyframe = interpolation_parameters->out;
+    if (output_keyframe != 0) {
+        interpolation_parameters->out->x = coordinate_unit->matrix.t[0];
+        interpolation_parameters->out->y = coordinate_unit->matrix.t[1];
+        interpolation_parameters->out->z = coordinate_unit->matrix.t[2];
+        interpolation_parameters->out->rx = coordinate_unit->rot.vx;
+        interpolation_parameters->out->ry = coordinate_unit->rot.vy;
+        interpolation_parameters->out->rz = coordinate_unit->rot.vz;
     }
     return 0;
 }
@@ -395,32 +395,32 @@ s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx)
 {
     GsSEQ *track;
     GsCOORDUNIT *node;
-    s16 *out;
-    ModelAnimationInterpolationSlots *slot;
-    s32 t;
-    s32 dur;
-    s32 rest;
-    s32 rest2;
-    s32 a;
-    s32 b;
-    s32 rx;
-    s32 ry;
-    s32 rz;
-    s32 w;
-    s32 c;
+    s16 *rotation_halfwords;
+    ModelAnimationInterpolationSlots *interpolation_slots;
+    s32 remaining_duration;
+    s32 total_duration;
+    s32 translation_elapsed;
+    s32 rotation_scale_elapsed;
+    s32 source_rx;
+    s32 source_ry;
+    s32 target_rx;
+    s32 target_ry;
+    s32 target_rz;
+    s32 adjusted_target_angle;
+    s32 source_rz;
     s32 scale[3];
 
-    slot = (ModelAnimationInterpolationSlots *)(
+    interpolation_slots = (ModelAnimationInterpolationSlots *)(
         &ctx->header_size + ctx->header_size
     );
-    track = slot->track;
+    track = interpolation_slots->track;
     if (track->tframe == 0) {
         return 1;
     }
 
-    t = track->rframe;
-    dur = track->tframe;
-    rest = dur - t;
+    remaining_duration = track->rframe;
+    total_duration = track->tframe;
+    translation_elapsed = total_duration - remaining_duration;
 
     {
         u32 rewrite = track->rewrite_idx;
@@ -431,102 +431,102 @@ s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx)
     }
 
     node->matrix.t[0] =
-        (slot->sample_1->x * t + slot->sample_2->x * rest) / dur;
+        (interpolation_slots->sample_1->x * remaining_duration + interpolation_slots->sample_2->x * translation_elapsed) / total_duration;
     node->matrix.t[1] =
-        (slot->sample_1->y * t + slot->sample_2->y * rest) / dur;
+        (interpolation_slots->sample_1->y * remaining_duration + interpolation_slots->sample_2->y * translation_elapsed) / total_duration;
     node->matrix.t[2] =
-        (slot->sample_1->z * t + slot->sample_2->z * rest) / dur;
+        (interpolation_slots->sample_1->z * remaining_duration + interpolation_slots->sample_2->z * translation_elapsed) / total_duration;
 
-    rx = slot->sample_2->rotation_x;
-    ry = slot->sample_2->rotation_y;
-    rz = slot->sample_2->rotation_z;
-    a = slot->sample_1->rotation_x;
-    b = slot->sample_1->rotation_y;
-    c = slot->sample_1->rotation_z;
+    target_rx = interpolation_slots->sample_2->rotation_x;
+    target_ry = interpolation_slots->sample_2->rotation_y;
+    target_rz = interpolation_slots->sample_2->rotation_z;
+    source_rx = interpolation_slots->sample_1->rotation_x;
+    source_ry = interpolation_slots->sample_1->rotation_y;
+    source_rz = interpolation_slots->sample_1->rotation_z;
 
-    if (dur == 0x10) {
-        s32 d;
-        d = (s16)a - (s16)rx;
-        if (d < 0) goto negative_x;
-        if (d >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_x;
+    if (total_duration == 0x10) {
+        s32 signed_angle_delta;
+        signed_angle_delta = (s16)source_rx - (s16)target_rx;
+        if (signed_angle_delta < 0) goto negative_x;
+        if (signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_x;
         goto done_x;
 negative_x:
-        if ((s16)rx - (s16)a < MODEL_ANGLE_WRAP_THRESHOLD) goto done_x;
+        if ((s16)target_rx - (s16)source_rx < MODEL_ANGLE_WRAP_THRESHOLD) goto done_x;
 wrap_x:
-        w = (s16)rx;
-        if (w > 0) {
-            w -= MODEL_ANGLE_FULL_TURN;
+        adjusted_target_angle = (s16)target_rx;
+        if (adjusted_target_angle > 0) {
+            adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
         } else {
-            w += MODEL_ANGLE_FULL_TURN;
+            adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
         }
-        rx = w;
+        target_rx = adjusted_target_angle;
 done_x:
         ;
 
-        d = (s16)b - (s16)ry;
-        if (d < 0) goto negative_y;
-        if (d >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_y;
+        signed_angle_delta = (s16)source_ry - (s16)target_ry;
+        if (signed_angle_delta < 0) goto negative_y;
+        if (signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_y;
         goto done_y;
 negative_y:
-        if ((s16)ry - (s16)b < MODEL_ANGLE_WRAP_THRESHOLD) goto done_y;
+        if ((s16)target_ry - (s16)source_ry < MODEL_ANGLE_WRAP_THRESHOLD) goto done_y;
 wrap_y:
-        w = (s16)ry;
-        if (w > 0) {
-            w -= MODEL_ANGLE_FULL_TURN;
+        adjusted_target_angle = (s16)target_ry;
+        if (adjusted_target_angle > 0) {
+            adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
         } else {
-            w += MODEL_ANGLE_FULL_TURN;
+            adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
         }
-        ry = w;
+        target_ry = adjusted_target_angle;
 done_y:
         ;
 
-        d = (s16)c - (s16)rz;
-        if (d < 0) goto negative_z;
-        if (d >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_z;
+        signed_angle_delta = (s16)source_rz - (s16)target_rz;
+        if (signed_angle_delta < 0) goto negative_z;
+        if (signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD) goto wrap_z;
         goto done_z;
 negative_z:
-        if ((s16)rz - (s16)c < MODEL_ANGLE_WRAP_THRESHOLD) goto done_z;
+        if ((s16)target_rz - (s16)source_rz < MODEL_ANGLE_WRAP_THRESHOLD) goto done_z;
 wrap_z:
-        w = (s16)rz;
-        if (w > 0) {
-            w -= MODEL_ANGLE_FULL_TURN;
+        adjusted_target_angle = (s16)target_rz;
+        if (adjusted_target_angle > 0) {
+            adjusted_target_angle -= MODEL_ANGLE_FULL_TURN;
         } else {
-            w += MODEL_ANGLE_FULL_TURN;
+            adjusted_target_angle += MODEL_ANGLE_FULL_TURN;
         }
-        rz = w;
+        target_rz = adjusted_target_angle;
 done_z:
         ;
     }
 
-    node->rot.vx = ((s16)a * t + (s16)rx * (rest2 = dur - t)) / dur;
-    node->rot.vy = ((s16)b * t + (s16)ry * rest2) / dur;
-    node->rot.vz = ((s16)c * t + (s16)rz * rest2) / dur;
+    node->rot.vx = ((s16)source_rx * remaining_duration + (s16)target_rx * (rotation_scale_elapsed = total_duration - remaining_duration)) / total_duration;
+    node->rot.vy = ((s16)source_ry * remaining_duration + (s16)target_ry * rotation_scale_elapsed) / total_duration;
+    node->rot.vz = ((s16)source_rz * remaining_duration + (s16)target_rz * rotation_scale_elapsed) / total_duration;
 
-    out = &node->rot.vx;
-    RotMatrixYXZ_gte((SVECTOR *)out, &node->matrix);
+    rotation_halfwords = &node->rot.vx;
+    RotMatrixYXZ_gte((SVECTOR *)rotation_halfwords, &node->matrix);
 
     scale[0] =
-        (slot->sample_1->scale_x * t +
-         slot->sample_2->scale_x * rest2) / dur;
+        (interpolation_slots->sample_1->scale_x * remaining_duration +
+         interpolation_slots->sample_2->scale_x * rotation_scale_elapsed) / total_duration;
     scale[1] =
-        (slot->sample_1->scale_y * t +
-         slot->sample_2->scale_y * rest2) / dur;
+        (interpolation_slots->sample_1->scale_y * remaining_duration +
+         interpolation_slots->sample_2->scale_y * rotation_scale_elapsed) / total_duration;
     scale[2] =
-        (slot->sample_1->scale_z * t +
-         slot->sample_2->scale_z * rest2) / dur;
+        (interpolation_slots->sample_1->scale_z * remaining_duration +
+         interpolation_slots->sample_2->scale_z * rotation_scale_elapsed) / total_duration;
     ScaleMatrix(&node->matrix, (VECTOR *)scale);
 
     node->flg = 0;
-    if (slot->output == 0) goto finished;
-    slot->output[0] = *(u16 *)&node->matrix.t[0];
-    slot->output[1] = *(u16 *)&node->matrix.t[1];
-    slot->output[2] = *(u16 *)&node->matrix.t[2];
-    slot->output[3] = *(u16 *)&node->rot.vx;
-    slot->output[4] = *(u16 *)&node->rot.vy;
-    slot->output[5] = *(u16 *)&node->rot.vz;
-    slot->output[6] = *(u16 *)&scale[0];
-    slot->output[7] = *(u16 *)&scale[1];
-    slot->output[8] = *(u16 *)&scale[2];
+    if (interpolation_slots->output == 0) goto finished;
+    interpolation_slots->output[0] = *(u16 *)&node->matrix.t[0];
+    interpolation_slots->output[1] = *(u16 *)&node->matrix.t[1];
+    interpolation_slots->output[2] = *(u16 *)&node->matrix.t[2];
+    interpolation_slots->output[3] = *(u16 *)&node->rot.vx;
+    interpolation_slots->output[4] = *(u16 *)&node->rot.vy;
+    interpolation_slots->output[5] = *(u16 *)&node->rot.vz;
+    interpolation_slots->output[6] = *(u16 *)&scale[0];
+    interpolation_slots->output[7] = *(u16 *)&scale[1];
+    interpolation_slots->output[8] = *(u16 *)&scale[2];
 finished:
     return 0;
 }

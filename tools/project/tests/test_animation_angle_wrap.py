@@ -19,7 +19,7 @@ class AnimationAngleWrapTests(unittest.TestCase):
         if Path.cwd().resolve() != REPOSITORY:
             raise RuntimeError("run these tests from the repository root")
         source = SOURCE.read_text()
-        start = source.index("    if (dur == 0x10) {")
+        start = source.index("    if (total_duration == 0x10) {")
         depth = 0
         end = None
         for position in range(source.index("{", start), len(source)):
@@ -33,13 +33,13 @@ class AnimationAngleWrapTests(unittest.TestCase):
         self.assertIsNotNone(end)
         block = source[start:end]
         if mutation == "zero-direction":
-            self.assertIn("if (w > 0)", block)
-            block = block.replace("if (w > 0)", "if (w >= 0)", 1)
+            self.assertIn("if (adjusted_target_angle > 0)", block)
+            block = block.replace("if (adjusted_target_angle > 0)", "if (adjusted_target_angle >= 0)", 1)
         elif mutation == "half-turn-boundary":
-            self.assertIn("d >= MODEL_ANGLE_WRAP_THRESHOLD", block)
+            self.assertIn("signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD", block)
             block = block.replace(
-                "d >= MODEL_ANGLE_WRAP_THRESHOLD",
-                "d >= MODEL_ANGLE_HALF_TURN", 1,
+                "signed_angle_delta >= MODEL_ANGLE_WRAP_THRESHOLD",
+                "signed_angle_delta >= MODEL_ANGLE_HALF_TURN", 1,
             )
         elif mutation is not None:
             raise ValueError(mutation)
@@ -65,15 +65,15 @@ static s32 reference(s32 current, s32 previous, s32 duration)
     return previous;
 }
 
-static void actual(s32 a, s32 b, s32 c, s32 rx, s32 ry, s32 rz, s32 dur, s32 *out)
+static void actual(s32 source_rx, s32 source_ry, s32 source_rz, s32 target_rx, s32 target_ry, s32 target_rz, s32 total_duration, s32 *out)
 {
-    s32 w;
+    s32 adjusted_target_angle;
 """
             + block
             + r"""
-    out[0] = rx;
-    out[1] = ry;
-    out[2] = rz;
+    out[0] = target_rx;
+    out[1] = target_ry;
+    out[2] = target_rz;
 }
 
 int main(void)
