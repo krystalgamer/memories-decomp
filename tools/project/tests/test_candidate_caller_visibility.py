@@ -383,7 +383,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         )
         path = REPOSITORY / source
         text = path.read_text(encoding="utf-8")
-        selector = "Model_InitSlot(arg0, arg1, arg2, arg3);"
+        selector = "Model_InitSlot(slot_index, hmd, hmd_size, render_flags);"
         self.assertEqual(text.count(selector), 1)
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
             probe = Path(directory) / "a/b/c" / path.name
