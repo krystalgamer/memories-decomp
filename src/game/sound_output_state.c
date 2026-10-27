@@ -236,56 +236,56 @@ void SD_EnqueueCdStop(void)
     }
 }
 
-s16 SD_EnqueueCdSePlay(u16 value, s32 unused)
+s16 SD_EnqueueCdSePlay(u16 command_id, s32 unused)
 {
-    return SD_EnqueueCdPlay(value, 0x80);
+    return SD_EnqueueCdPlay(command_id, 0x80);
 }
 
-s32 SD_EnqueueCdPlay(u16 arg0, s32 unused)
+s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
 {
-    SDValue *a = g_SDValue;
-    u16 code = arg0;
-    u8 **table;
-    s32 kind;
-    u8 *second;
-    SDCommand req;
+    SDValue *request_state = g_SDValue;
+    u16 entry_index = command_id;
+    u8 **descriptor_bank;
+    s32 bank_tag;
+    u8 *descriptor_entries;
+    SDCommand command;
 
-    if (a->data_source_flags & 0x80) {
-        if ((a->data_source_flags & 0x40) || code <= 0x9FFF) {
-            if (arg0 & 0x8000) {
-                *(s16 *)&a->cd_request_code = arg0;
-                switch (arg0 & 0xF000) {
+    if (request_state->data_source_flags & 0x80) {
+        if ((request_state->data_source_flags & 0x40) || entry_index <= 0x9FFF) {
+            if (command_id & 0x8000) {
+                *(s16 *)&request_state->cd_request_code = command_id;
+                switch (command_id & 0xF000) {
                 case 0x8000:
-                    code = arg0 + 0x8000;
-                    table = (u8 **)a->cd_descriptor_banks[1];
-                    second = (u8 *)&table[2];
-                    kind = 0x50;
+                    entry_index = command_id + 0x8000;
+                    descriptor_bank = (u8 **)request_state->cd_descriptor_banks[1];
+                    descriptor_entries = (u8 *)&descriptor_bank[2];
+                    bank_tag = 0x50;
                     break;
                 case 0x9000:
-                    code = arg0 + 0x7000;
-                    table = (u8 **)a->cd_descriptor_banks[0];
-                    second = (u8 *)&table[2];
-                    kind = 0x60;
+                    entry_index = command_id + 0x7000;
+                    descriptor_bank = (u8 **)request_state->cd_descriptor_banks[0];
+                    descriptor_entries = (u8 *)&descriptor_bank[2];
+                    bank_tag = 0x60;
                     break;
                 default:
-                    code = code + 0x6000;
-                    kind = 0x70;
-                    table = (u8 **)g_SDValue->cd_descriptor_banks[2];
-                    second = (u8 *)&table[2];
+                    entry_index = entry_index + 0x6000;
+                    bank_tag = 0x70;
+                    descriptor_bank = (u8 **)g_SDValue->cd_descriptor_banks[2];
+                    descriptor_entries = (u8 *)&descriptor_bank[2];
                     break;
                 }
                 {
-                    s32 first;
+                    s32 bank_sector_offset;
 
-                    first = table ? (second ? (s32)*table : (s32)*table) : (s32)*table;
+                    bank_sector_offset = descriptor_bank ? (descriptor_entries ? (s32)*descriptor_bank : (s32)*descriptor_bank) : (s32)*descriptor_bank;
 
                     SD_DropQueuedCdPlayCommands();
-                    req.command = 0x24;
-                    req.value = code;
-                    req.arg0 = first;
-                    req.arg2 = (s32)second;
-                    req.arg1 = kind;
-                    SD_EnqueueCommand(&req);
+                    command.command = 0x24;
+                    command.value = entry_index;
+                    command.arg0 = bank_sector_offset;
+                    command.arg2 = (s32)descriptor_entries;
+                    command.arg1 = bank_tag;
+                    SD_EnqueueCommand(&command);
                     SD_ResetCdPan();
                 }
                 g_SDValue->status_flags = (g_SDValue->status_flags | 1) & 0xFFFB;
@@ -296,71 +296,71 @@ s32 SD_EnqueueCdPlay(u16 arg0, s32 unused)
     return 0;
 }
 
-void SD_EnqueueCdSeek(s32 arg0)
+void SD_EnqueueCdSeek(s32 command_id)
 {
-    SDCommand req;
-    SDValue *a;
-    SDValue *b;
-    SDValue *c;
-    s32 value;
-    u16 code;
-    u8 **table;
-    s32 kind;
-    u8 *second;
+    SDCommand command;
+    SDValue *request_state;
+    SDValue *bank_state;
+    SDValue *status_state;
+    s32 class_or_code;
+    u16 entry_index;
+    u8 **descriptor_bank;
+    s32 bank_tag;
+    u8 *descriptor_entries;
 
-    a = g_SDValue;
-    code = arg0;
-    if ((a->data_source_flags & 0x80) == 0) {
+    request_state = g_SDValue;
+    entry_index = command_id;
+    if ((request_state->data_source_flags & 0x80) == 0) {
         return;
     }
-    if ((a->data_source_flags & 0x40) == 0) {
-        if ((u32)(code & 0xFFFF) > 0x9FFF) {
+    if ((request_state->data_source_flags & 0x40) == 0) {
+        if ((u32)(entry_index & 0xFFFF) > 0x9FFF) {
             return;
         }
     }
-    if ((arg0 & 0x8000) == 0) {
+    if ((command_id & 0x8000) == 0) {
         return;
     }
-    value = arg0 & 0xF000;
-    *(s16 *)&a->cd_request_code = arg0;
-    switch (value) {
+    class_or_code = command_id & 0xF000;
+    *(s16 *)&request_state->cd_request_code = command_id;
+    switch (class_or_code) {
     case 0x8000:
-        value = arg0 + value;
-        code = value;
-        table = (u8 **)a->cd_descriptor_banks[1];
-        second = (u8 *)&table[2];
-        kind = 0x50;
+        class_or_code = command_id + class_or_code;
+        entry_index = class_or_code;
+        descriptor_bank = (u8 **)request_state->cd_descriptor_banks[1];
+        descriptor_entries = (u8 *)&descriptor_bank[2];
+        bank_tag = 0x50;
         break;
     case 0x9000:
-        code = arg0 + 0x7000;
-        table = (u8 **)a->cd_descriptor_banks[0];
-        second = (u8 *)&table[2];
-        kind = 0x60;
+        entry_index = command_id + 0x7000;
+        descriptor_bank = (u8 **)request_state->cd_descriptor_banks[0];
+        descriptor_entries = (u8 *)&descriptor_bank[2];
+        bank_tag = 0x60;
         break;
     default:
-        code += 0x6000;
-        kind = 0x70;
-        b = g_SDValue;
-        table = (u8 **)b->cd_descriptor_banks[2];
-        second = (u8 *)&table[2];
+        entry_index += 0x6000;
+        bank_tag = 0x70;
+        bank_state = g_SDValue;
+        descriptor_bank = (u8 **)bank_state->cd_descriptor_banks[2];
+        descriptor_entries = (u8 *)&descriptor_bank[2];
         break;
     }
     {
-        s32 first;
+        s32 bank_sector_offset;
 
         /* The equivalent paths preserve retail's request-store order. */
-        first = table ? (second ? (s32)*table : (s32)*table) : (s32)*table;
+        bank_sector_offset = descriptor_bank ? (descriptor_entries ? (s32)*descriptor_bank : (s32)*descriptor_bank) : (s32)*descriptor_bank;
 
         SD_DropQueuedCdPlayCommands();
-        req.command = 0x21;
-        req.value = code;
-        req.arg0 = first;
-        req.arg2 = (s32)second;
-        req.arg1 = kind;
-        SD_EnqueueCommand(&req);
+        command.command = 0x21;
+        command.value = entry_index;
+        command.arg0 = bank_sector_offset;
+        command.arg2 = (s32)descriptor_entries;
+        command.arg1 = bank_tag;
+        SD_EnqueueCommand(&command);
     }
-    c = g_SDValue;
-    c->status_flags = (c->status_flags | 1) & 0xFFFB;
+    status_state = g_SDValue;
+    status_state->status_flags = (status_state->status_flags | 1) & 0xFFFB;
 }
 
 void SD_ClearBusyFlag(void)

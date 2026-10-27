@@ -122,14 +122,14 @@ void SD_StepActiveCommand(void)
             goto clear_7d_7c;
         }
         {
-            SoundCommandPair *e;
-            s32 base_offset;
+            SoundCommandPair *descriptor;
+            s32 bank_sector_offset;
 
             first_word = 0xFFFFFF;
-            e = (SoundCommandPair *)(
+            descriptor = (SoundCommandPair *)(
                 (u32)&((SoundCommandPair *)0)[g_SDValue->active_command_value]
                 + (u32)g_SDValue->active_command_arg2);
-            second_word = e->a;
+            second_word = descriptor->a;
 
             gSD_pFileRequest->ram_destination = 0;
             gSD_pFileRequest->ram_transfer_size = 0;
@@ -139,9 +139,9 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->cd_filter_channel = g_SDValue->cd_filter_channel;
             second_word &= first_word;
             gSD_pFileRequest->cd_filter_file = g_SDValue->cd_filter_file;
-            base_offset = (s32)g_SDValue->active_command_arg0;
+            bank_sector_offset = (s32)g_SDValue->active_command_arg0;
             gSD_pFileRequest->file_selector = 6;
-            second_word += base_offset;
+            second_word += bank_sector_offset;
             gSD_pFileRequest->sector_offset = second_word;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
@@ -153,19 +153,19 @@ void SD_StepActiveCommand(void)
         }
         {
             u32 value_mask = 0xFFFFFF;
-            SoundCommandPair *e;
-            s32 request_offset;
-            u32 low_a;
+            SoundCommandPair *descriptor;
+            s32 start_sector_offset;
+            u32 relative_start_sector;
 
             entry_state = g_SDValue;
-            e = (SoundCommandPair *)((u32)entry_state->active_command_value * 8
+            descriptor = (SoundCommandPair *)((u32)entry_state->active_command_value * 8
                                      + (u32)entry_state->active_command_arg2);
-            first_word = e->a;
-            second_word = e->b;
+            first_word = descriptor->a;
+            second_word = descriptor->b;
 
-            low_a = first_word & value_mask;
+            relative_start_sector = first_word & value_mask;
             value_mask &= second_word;
-            entry_state->cd_start_sector_offset = low_a;
+            entry_state->cd_start_sector_offset = relative_start_sector;
             entry_state->cd_filter_file = (first_word & 0x1F000000) >> 24;
             entry_state->cd_end_sector_offset = value_mask;
             g_SDValue->cd_filter_channel = (second_word & 0x1F000000) >> 24;
@@ -185,9 +185,9 @@ void SD_StepActiveCommand(void)
                                    - (u16)g_SDValue->cd_start_sector_offset + 0x10;
             gSD_pFileRequest->cd_filter_channel = g_SDValue->cd_filter_channel;
             gSD_pFileRequest->cd_filter_file = g_SDValue->cd_filter_file;
-            request_offset = g_SDValue->cd_start_sector_offset;
+            start_sector_offset = g_SDValue->cd_start_sector_offset;
             gSD_pFileRequest->file_selector = 6;
-            gSD_pFileRequest->sector_offset = request_offset;
+            gSD_pFileRequest->sector_offset = start_sector_offset;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
         goto clear_7d_7c;

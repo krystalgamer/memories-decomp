@@ -2309,3 +2309,52 @@ RAM transfer, skipped-phase cursor handling, signed size conversion and
 completion timing. The queue still copies whole 0x30-byte records and
 activates the existing 0x20-byte tail snapshot. No storage layout,
 manifest, compiler profile, transfer mode or command lifetime changes.
+
+
+### CD descriptor request argument views
+
+The three CD enqueue wrappers now name command_id. Play still accepts
+u16 and seek still accepts s32; entry_index remains each body's u16
+saved/rebased value, not a normalized or bounded twelve-bit index.
+Keep both source gates, their evaluation order, bit-15 rejection and
+the original signed-halfword cd_request_code store before queue work.
+Seek's class_or_code remains the s32 scratch that first holds the class
+mask and, only in the 0x8000 arm, the sum with the ORIGINAL full argument.
+All additions and narrowing remain at their original positions.
+
+descriptor_bank retains the u8** alias view and descriptor_entries its
+u8* header-plus-eight view. bank_sector_offset remains the signed raw
+word read through the first pointer slot, with the original conditional
+expression, casts and even its null-dereference behavior unchanged.
+Do not replace that expression with a guard or a typed header load.
+The bank order remains 1/0/2 for class 0x8000/0x9000/other. bank_tag only
+names the associated literal 0x50/0x60/0x70 stored in command.arg1;
+the two CD consumer arms do not read it. No file-selector, enum or
+bit-domain meaning is assigned to these tags.
+
+The local command still initializes only opcode, value, arg0, arg2 and
+arg1 in that order. value gets entry_index, arg0 the bank sector offset,
+arg2 the raw descriptor address and arg1 the bank tag. The member names,
+record size, whole-record copy and uninitialized bytes are unchanged.
+Queue-drop still precedes ignored enqueue failure. Only play resets pan
+and returns the original accepted-path result. Seek's request_state,
+bank_state and status_state remain THREE distinct global reloads; the
+play default-bank and final status reloads likewise remain separate.
+The SE wrapper's forwarded 0x80 is IGNORED, not a replacement bank tag;
+its own unused argument and signed-halfword return are preserved.
+
+Only the existing descriptor/bank-offset locals in active command 0x21
+and descriptor/start-offset/relative-start locals in 0x24 are named.
+The packed a/b fields and shared scratch words remain unchanged.
+Busy-slot rejection still clears these commands rather than retrying.
+Seek uses the new entry's low24 start with RETAINED filter bytes and
+zero range. Play retains both low24 offsets, filter extraction, mix
+extraction, write-only field_0532 and the original narrowed range
+(u16)end - (u16)start + 0x10. No repeat meaning, bounds/extent check or
+new filter submission is inferred. All other command arms stay exact.
+
+The unchanged queue-drop helper copies ONLY the next record, not the
+entire remaining queue, and may duplicate or lose neighboring commands.
+It does not guarantee room for the following enqueue. Its active-state
+clears and the partial-command/failed-enqueue side effects are retained.
+No new storage, ABI, type, caller, queue policy or behavioral harness.
