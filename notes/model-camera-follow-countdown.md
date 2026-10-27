@@ -21,8 +21,8 @@ No projection interpretation or physical time unit is asserted.
 
 ## Exact request and alias boundary
 
-The body remains a signed `value * 2` store, not conditional absolute value
-or saturation. Its inverted `state != 1 || second_getter() != state` guard,
+The body remains a signed `countdown_request * 2` store, not conditional absolute value
+or saturation. Its inverted `hold_state != 1 || second_getter() != hold_state` guard,
 short-circuit call order, narrowing and store placement are unchanged.
 It does not start motion or modify duration, elapsed, selectors or flags.
 

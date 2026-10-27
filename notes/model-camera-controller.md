@@ -105,7 +105,11 @@ spellings; every numeric-offset oracle, assertion and scenario remains.
 Other fixtures, raw providers, source/profile groups and aliases stay
 unchanged. No fixture/cloud execution, harness or new runtime result.
 
-## Matching and witnesses
+## Historical matching and witnesses
+
+The following witness descriptions record the earlier reconstruction.
+Retired gameplay fixtures are not restored or executed by the request/setup
+local-view component below.
 
 The full reconstruction replaces the historical incomplete controller spines.
 Separate two-element selector initializers recover the `0x38` stack frame.
@@ -173,3 +177,70 @@ and 24,384 for each PAL image. Complete compiler/MASPSX assembly, native
 symbols and disassembly/relocations are compared, not isolated replacement
 function bodies. Regional executable and witness validation remains on the
 PR; this local evidence does not claim regional image execution.
+
+
+## Guarded request and setup local views
+
+All seven complete model_effect_requests definitions and the complete
+Model_StartCameraMove definition now name existing inputs and locals.
+These are definition-only argument names: all public declarations, ambient
+argument views, integer-address ABI, members and storage remain unchanged.
+
+The two request wrappers retain hold_state and the short-circuited second
+getter. The slot wrapper normalizes eye_slot/target_slot independently
+BEFORE that first getter: negative becomes zero, otherwise one is added.
+mode_request and timing_request are forwarded untouched. The setup routine
+STILL captures its view vectors and performs its OWN later guard; no two
+guards or getter calls are merged. The zero-endpoint request is not renamed
+as an unconditional stop/reset, and no selector clamp or overflow promise
+is introduced.
+
+Setup's eye_transport/target_transport remain signed integer scratch.
+Positive values are encoded slot selectors, converted to cached-position
+addresses; negative nonzero values retain the original explicit-coordinate
+transport path without a claim that arbitrary negatives are valid pointers.
+Zero falls back to the captured eye_start or view_work address and does not
+set that endpoint's move flag. Positive mode with a zero endpoint retains
+its old tracking selectors; nonpositive mode still enters selector clearing.
+The negative-mode goto still bypasses the mode store at its original site.
+selected_slot is the one scratch reused for eye THEN target selection.
+
+view_work deliberately remains mixed: it first holds the live eye vector,
+is copied to eye_start, then receives target_copy. Keep both eight-byte
+zeroes/copies, component narrowing and all view reads BEFORE the guard.
+The six scoped camera_move pointers remain SIX separate bindings; their
+common name does not cache or combine accesses.
+
+timing_work retains the original signed input for both pair-slot decisions,
+then becomes doubled conditional magnitude. Setup's >FFFE comparison and
+FFFF sentinel remain distinct from the direct magnitude setter's unchecked
+halfword assignment. The later early return still tests the full-width
+timing_work, NOT the stored duration. Negative extreme/overflow behavior,
+zero case and narrowing gain no new guarantee or repair.
+
+active_flags captures the original final-block flag read. Only the eye
+immediate-write gate uses that capture; target and metric gates STILL read
+the later live record flags. Keep the orbit timer reset, elapsed store,
+endpoint stores, metric call and final flags clear in their original order.
+The projection-named follow default and full/compact orbit-step writes
+remain separate from duration, with no Japanese baseline word added.
+
+The two direct selector setters distinguish pair_slot and slot_index but
+retain unchecked signed inputs, narrowing and pair-THEN-end store order.
+magnitude_request, countdown_request and orbit_step_request retain their
+different conversions: conditional magnitude times two with elapsed reset,
+signed times two through the independent signed countdown alias, and direct
+baseline/current halfword stores (current only in Japan). Guard shapes,
+return sites, getter/read order and static reachability claims stay intact.
+No wall-clock unit, saturation, Boolean domain or immediate-start promise
+is inferred.
+
+Only scoped bare locals/definition arguments and four identifiers in the
+existing setup transport comment change. All other C comments, declarations,
+types, lifetimes, casts, operators, constants, labels, calls, other grouped
+functions, private tables, regional macros, public headers and named profiles
+stay exact. The two conversion notes follow their actual local spellings;
+the historical witness descriptions do not revive retired gameplay tests.
+The entire semantic ledger remains byte-identical: no identity promotion
+or NOTES churn. No fixture/control/oracle/mutation edits, local cloud tests
+or new behavioral harness accompany these views.
