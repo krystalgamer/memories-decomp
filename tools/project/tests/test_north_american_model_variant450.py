@@ -24,6 +24,37 @@ SPANS = (
     (0x2D20, 0x30A8),
     (0x30A8, 0x38DC),
 )
+# Shared sources that later gained French-only blocks. The historical
+# attempt fingerprints cover the North American projection (the
+# `#ifdef VERSION_FRENCH` arms removed); the complete regional source is
+# pinned separately.
+REGIONALIZED_SOURCES = {
+    "variant433_rings.c": "4059332fed86b8dd27b5c2d725a7c98aaac797a73ab30c86cb37b2037dea47a8",
+}
+
+
+def north_american_projection(text):
+    out, state = [], None
+    for line in text.splitlines(keepends=True):
+        directive = line.strip()
+        if state is None and directive == "#ifdef VERSION_FRENCH":
+            state = "french"
+            continue
+        if state is not None and directive.startswith("#if"):
+            raise AssertionError(f"nested conditional in a VERSION_FRENCH block: {line!r}")
+        if state == "french" and directive == "#else":
+            state = "north_american"
+            continue
+        if state is not None and directive == "#endif":
+            state = None
+            continue
+        if state != "french":
+            out.append(line)
+    if state is not None:
+        raise AssertionError("unterminated VERSION_FRENCH block")
+    return "".join(out)
+
+
 IMAGES = (
     (9, 0, 48224, "827003f63d7c9d5026895b66cdf2b3e4b6412ecf4a897efaa72827c7c392d1a9"),
     (10, 1, 48234, "f14a1530ad7caf52efa725e09b6db29e2be5412b30cbbe51156e2e7aea8701d0"),
@@ -136,7 +167,14 @@ class NorthAmericanModelVariant450Tests(unittest.TestCase):
             }[row["function_offset"]]
             suffix = "_slot1" if slot else ""
             source = ROOT / f"src/overlays/model_variant/{prefix}_{label}{suffix}.c"
-            self.assertEqual(row["fingerprint"], hashlib.sha256(source.read_bytes()).hexdigest())
+            text = source.read_bytes()
+            pinned = REGIONALIZED_SOURCES.get(source.name)
+            if pinned is None:
+                self.assertNotIn(b"VERSION_FRENCH", text)
+            else:
+                self.assertEqual(hashlib.sha256(text).hexdigest(), pinned)
+                text = north_american_projection(text.decode()).encode()
+            self.assertEqual(row["fingerprint"], hashlib.sha256(text).hexdigest())
             self.assertEqual(row["profile"], "gcc_2_7_2_cdk_g0")
         directory = ROOT / "src/overlays/model_variant"
 

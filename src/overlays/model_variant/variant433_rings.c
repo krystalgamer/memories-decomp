@@ -6,9 +6,7 @@
  * the projected edges. The second `ring->amount[j] = limit;` in the
  * then-arm is dead (reload's post-pass deletes the repeated store), but the
  * register copy reload makes for it stays and fills the j == 8 branch's
- * delay slot as in the retail code. The French header-450 rings
- * (VERSION_FRENCH) index the screen, offset and depth arrays directly, use
- * the loop index in the j == 8 arm, and have no folded `+ 1` displacements. */
+ * delay slot as in the retail code. */
 void func_8013CE7C(u8 *ctx)
 {
     PSXLONG p;
@@ -122,6 +120,9 @@ void func_8013CE7C(u8 *ctx)
     for (i = 0; i < 16; i++, ring++) {
         for (j = 0; j < 9; j++) {
 #ifdef VERSION_FRENCH
+            /* The French header-450 rings index the screen, offset and depth
+             * arrays directly, use the loop index in the j == 8 arm, and
+             * have no folded `+ 1` displacements. */
             if (j == 8) {
                 ring->depth[j] = RotTransPers4(&ring->p[7], &ring->p[8], &ring->p[7], &ring->p[8],
                                                &ring->s[7].packed, &ring->s[8].packed, &ring->s[7].packed, &ring->s[8].packed,
