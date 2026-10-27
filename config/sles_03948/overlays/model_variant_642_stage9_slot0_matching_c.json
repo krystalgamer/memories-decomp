@@ -7,6 +7,12 @@
       "source": "src/overlays/french_model_variant/variant415_entry.c"
     },
     {
+      "address": "0x8013C2B4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5F0",
+      "source": "src/overlays/french_model_variant/variant415_rings.c"
+    },
+    {
       "address": "0x8013C8A4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x780",
