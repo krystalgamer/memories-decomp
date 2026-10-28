@@ -395,6 +395,13 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant830_linker_symbols.txt` binds to the French
 addresses.
 
+Eight images under French headers 389 and 539 build their entry from the
+North American header-372 entry (`model_variant/variant372_entry.c`) through
+`src/overlays/french_model_variant/variant389_entry{,_slot1}.c`, with
+`VERSION_FRENCH` moving the CLUT column from 512 to 640, the sheets helper
+0x3C later and the data labels 0x3C later. The French entry compiles under
+`gcc_2_8_1_g0_split`; the North American one needs `gcc_2_7_2_cdk_g0`.
+
 Twelve images under French headers 419 and 569 build their entry from the North
 American header-402 entry (`model_variant/variant402_entry.c`) through
 `french_model_variant/variant419_entry{,_slot1}.c` under `gcc_2_8_1_g0_split`.

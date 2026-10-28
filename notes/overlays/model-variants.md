@@ -79,6 +79,14 @@ Under gcc 2.8.1 the same source is two words longer and 96 words differ,
 including the filled epilogue slot. Under 2.7.2 it matches exactly. See
 [French header-447 image rings](french-model-image447-rings.md).
 
+The header-372 entry (`model_variant/variant372_entry.c`, 921 instructions;
+`variant372_entry_slot1.c` builds the header-522 images) is a whole function
+built by the same gcc 2.7.2. It ends in `jr $ra; nop`, and its struct copies
+use `v1`, `a0` and `a1` as scratch registers, as 2.7.2 allocates them. The French header-389 and header-539 images build the
+same source with `gcc_2_8_1_g0_split`: the only source difference there is the
+CLUT column passed to both `GetClut` calls (640 instead of 512). The two
+helpers after it stay generated assembly in the North American images.
+
 ## Header families
 
 The first word of a variant image is a header id. Every image with a given
