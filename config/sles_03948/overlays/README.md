@@ -653,6 +653,13 @@ or that call's `.rodata` format string, and with a 256-line screen flash.
 The scale vector sits 0x14 lower than in the North American image and the
 image and command tables 0x24 lower.
 
+Six images under French headers 452 and 602 build their loader entry from
+French C, `src/overlays/french_model_variant/variant452_entry.c` (slot 1
+through `variant452_entry_slot1.c`), alongside the already-matched sheets,
+streamers and lines helpers. The entry has no work-size printf; its command
+rows and texture images are offsets into the image's tail data
+(`D_8013D3E4`).
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are
