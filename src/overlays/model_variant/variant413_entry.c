@@ -84,13 +84,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT413_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT413_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013C8C0 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013C8C0 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013C8C0 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013C8C0 + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013C8C0 + 0x38));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013C8C0 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013C8C0 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013C8C0 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013C8C0 + 0x38));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013C8C0 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -403,7 +403,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     return result;
 }
 
+#ifndef VERSION_FRENCH
 /* The swarm body is the header-430 French helper, compiled here with GCC 2.7.2. */
 #define func_8017C2EC func_8013C2F0
 #include "../french_model_variant/image132118_swarm.c"
 #undef func_8017C2EC
+#endif

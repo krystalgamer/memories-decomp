@@ -1,0 +1,17 @@
+{
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x12EC",
+      "source": "src/overlays/model_variant/variant413_entry.c"
+    },
+    {
+      "address": "0x8013C2F0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x5D0",
+      "source": "src/overlays/model_variant/variant413_entry.c"
+    }
+  ],
+  "schema": 1
+}

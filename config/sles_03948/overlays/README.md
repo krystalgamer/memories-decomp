@@ -347,6 +347,14 @@ shorter, its two helpers keep their French C
 addresses and the palette, binding
 `model_variant429_entry_linker_symbols.txt`.
 
+Two images under French headers 430 and 580 build their loader entry from the
+North American header-413 entry (`model_variant/variant413_entry.c`) through
+`src/overlays/french_model_variant/variant430_entry{,_slot1}.c`, compiled with
+`gcc_2_8_1_g0_split` where the North American images need
+`gcc_2_7_2_cdk_g0`. `VERSION_FRENCH` moves the CLUT column from 512 to 640,
+leaves out the swarm helper the French images already build from
+`image132118_swarm{,_slot0}.c`, and the data label sits 8 bytes lower.
+
 Six images under French headers 795 and 892 are the North American
 header-778 entry (`model_variant/variant778_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
