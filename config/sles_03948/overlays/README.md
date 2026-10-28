@@ -331,6 +331,12 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant126_linker_symbols.txt` binds to the French
 addresses.
 
+Four images under French headers 137 and 267 are the North American
+header-120 entry (`model_variant/variant120_entry.c`) with its full-screen
+flash covering the 256 PAL lines instead of 240, built through
+`src/overlays/french_model_variant/variant137_entry{,_slot1}.c`. The entry has
+no work-size printf, so the data labels do not move.
+
 Twelve images under French headers 649 and 716 are the North American
 header-632 entry (`model_variant/variant632_entry.c`) without its `E_DATA`
 work-size printf, built through
@@ -685,12 +691,6 @@ follows the North American header-433 entry's shape; its command rows
 (0x2C bytes) and texture images are offsets into the tail label
 `D_8013ED00`. The trails helper at image offset 0x101C and the lines helper
 at 0x1F58 remain generated assembly.
-
-Four images under French headers 137 and 267 are the North American
-header-120 entry (`model_variant/variant120_entry.c`) with its full-screen
-flash covering the 256 PAL lines instead of 240, built through
-`src/overlays/french_model_variant/variant137_entry{,_slot1}.c`. The entry has
-no work-size printf, so the data labels do not move.
 
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
