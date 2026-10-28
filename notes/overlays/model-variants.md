@@ -941,7 +941,8 @@ are not function starts in the North American executable. Examples:
 They are headers 435 (models 1, 360, 550 at `+ 200`), 172 (188, 597 and 149 at
 `+ 200`) and 372 (184 and 269 at `+ 180`). They are left as they are until it is
 known how those images are loaded. No symbols are declared inside resident
-functions to make them link.
+functions to make them link. The header-372 images now build their entry from
+`variant372_entry.c`, but these helpers stay generated assembly there.
 
 ## Header 412 entry
 
