@@ -87,6 +87,12 @@ same source with `gcc_2_8_1_g0_split`: the only source difference there is the
 CLUT column passed to both `GetClut` calls (640 instead of 512). The two
 helpers after it stay generated assembly in the North American images.
 
+The six North American header-460/610 images build their entry and both
+helpers from `model_variant/variant460_entry.c` under `gcc_2_7_2_cdk_g0`; the
+helpers are the Spanish header-477 panels and quads sources included with
+renamed addresses. Under gcc 2.8.1 those helpers swap `addu` operands and
+end one word longer, and the entry is one word longer.
+
 ## Header families
 
 The first word of a variant image is a header id. Every image with a given
