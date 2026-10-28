@@ -113,6 +113,48 @@ the option changes the evidence text, not signature matching. Selecting 4.7
 also fails unless the directory's complete `*.json` set is exactly
 `LIBDS.LIB.json`, so it cannot widen the exception to other 4.7 libraries.
 
+### Regional names from the library objects
+
+The regional inventories hold the same library code, but most of their
+`sdk_asm` rows were still `func_` placeholders. A name was applied there only
+when game C needed one.
+[`tools/project/psyq_library_objects.py`](../tools/project/psyq_library_objects.py)
+carries the North American names across. It does not use a signature
+catalogue: it reads the raw Psy-Q 4.6 `.LIB` archives, also an un-vendored
+input. Each member is an `LNK` object whose patch records list exactly the
+words the linker rewrites. Masking those words gives an exact pattern for the
+object's `.text`.
+
+    tools/environments/python/bin/python tools/project/psyq_library_objects.py \
+        --library-dir <psyq46>/LIB --check
+    tools/environments/python/bin/python tools/project/psyq_library_objects.py \
+        --library-dir <psyq46>/LIB --image slpm_86398 --report
+
+A regional placeholder is renamed only when all four conditions hold:
+
+- the object matches the regional image exactly once;
+- its label lands on a preserved `sdk_asm` start;
+- the same object and label offset match exactly once in the North American
+  image, on a named inventory function;
+- no other object proposes a different name, and the name is unused in that
+  inventory.
+
+The regional row takes the North American *inventory* name rather than the
+object's label, so every choice pinned in `psyq_signature_resolutions.json`
+carries over. `--check` is the control: on the North American image, 425
+proposals equal the inventory name. The one remaining address, `0x8007E7F0`,
+is `CdControlB`, where the LIBDS duplicates `DsControl`/`DsControlB` lose to
+the pinned resolution. The result has zero disagreements.
+
+Library code that the North American image does not link (`Mcx*`, `PAD_dr`,
+the LIBDS reset path and others) has no inventory name to carry. Those rows
+keep their placeholders until they are reviewed under the catalogue rules
+above.
+
+| Image | Renamed | Already named | No North American name | Not a function start |
+|---|---:|---:|---:|---:|
+| `slpm_86398` | 227 | 203 | 48 | 4 |
+
 ### Catalogue input contract
 
 Treat the third-party directory as untrusted input rather than partial
