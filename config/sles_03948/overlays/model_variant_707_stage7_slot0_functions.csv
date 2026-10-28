@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0x10AC,func_8013B004,unmatched_asm,overlay/model_variant_707_stage7_slot0,Closed measured game function;retain generated assembly.
+0x8013B004,0x10AC,func_8013B004,matching_c,overlay/model_variant_707_stage7_slot0,Exact entry;4268bytes/frame272;overlapping grid/flat packet union;direct layers/grid/points;complete image and original-sized C owner verified.
 0x8013C0B0,0x6BC,func_8013C0B0,matching_c,overlay/model_variant_707_stage7_slot0,Exact five-layer helper;51 SVECTORs per 0x1AC record;16 shared GT4 packets;frame312;direct entry caller;complete image and sized C owner verified.
 0x8013C76C,0x778,func_8013C76C,matching_c,overlay/model_variant_707_stage7_slot0,Exact nine-row grid/eight GT4 packets;frame288;unsigned timeline divisions;signed depth and flag gates;direct entry caller.
 0x8013CEE4,0x358,func_8013CEE4,matching_c,overlay/model_variant_707_stage7_slot0,Exact three-group point sprites;frame272;direct-entry reachable.

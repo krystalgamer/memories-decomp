@@ -1,4 +1,4 @@
-# French MODEL373 layers, grid, point groups, strip, ribbons, quads, and rays
+# French MODEL373 entries and helpers
 
 Model707 stages7/8 load two distinct 20KiB images from the French
 `MODEL.MRG`, with headers373/523 at sectors167712/167722 and load addresses
@@ -19,6 +19,8 @@ add2,820 C instruction bytes per slot while preserving all five accepted helpers
 The directly entry-called [five-layer helpers](french-model-variant373-layers.md)
 at`0x10B0`, `func_8013C0B0` and `func_8017C0B0`, add1,724 C instruction
 bytes per slot while preserving all six accepted helpers.
+The [entries](french-model-variant373-entry.md) at `0x4` add4,268 C
+instruction bytes per slot, completing all eight closed functions in each image.
 
 ## Ownership and retained scope
 
@@ -27,7 +29,7 @@ Each image retains these exact spans:
 | Offset | Bytes | Owner |
 | --- | ---: | --- |
 | `0x0` | 4 | Raw header |
-| `0x4` | 4268 | Entry assembly |
+| `0x4` | 4268 | Matching entry C |
 | `0x10B0` | 1724 | Matching five-layer C |
 | `0x176C` | 1912 | Matching grid C |
 | `0x1EE4` | 856 | Matching point-group C |
@@ -38,11 +40,11 @@ Each image retains these exact spans:
 | `0x3EF0` | 4368 | Unclassified raw suffix |
 
 Across both images, twenty actual inputs cover all40,960 bytes:
-fourteen C owners/23,680 bytes, two assembly owners/8,536 bytes, and
+sixteen C owners/32,216 bytes, no assembly owners, and
 four raw owners/8,744 bytes. The entry directly calls offsets`0x10B0`,
 `0x176C`, and`0x1EE4`. No direct caller of the strip, ribbon, quad, or ray helpers is
-observed among these sixteen closed function spans. Only the entry in each
-image remains assembly; the suffix is neither padding nor excluded game code.
+observed among these sixteen closed function spans. The suffix remains
+unclassified; it is neither padding nor excluded game code.
 
 ## Retained sixteen-ray helper
 

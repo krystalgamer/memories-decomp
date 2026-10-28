@@ -60,4 +60,6 @@ Both complete20KiB production images reproduce the independent hashes in the
 [instance ledger](french-model-variant373-instances.csv), with the original
 1724-byte `STT_FUNC` owners at`0x8013C0B0`/`0x8017C0B0` and no assembly
 fallback for these helpers. This adds3,448 C instruction bytes across both
-images. Each now has seven C functions and only its entry remains assembly.
+images. That checkpoint left seven C functions per image and the entry in
+assembly; the subsequent [entry recovery](french-model-variant373-entry.md)
+completes all eight closed functions without changing these helpers.
