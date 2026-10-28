@@ -39,7 +39,11 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         work->config = &D_8013CCE4[command];
         work->tpage = 0xAE;
+#ifdef VERSION_FRENCH
+        work->clut = 0x3D28;
+#else
         work->clut = 0x3D20;
+#endif
         for (i = 0; i < 2; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CC90[i]);
         }
