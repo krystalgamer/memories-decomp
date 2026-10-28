@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant437_entry.h"
 
+#ifndef MODEL_VARIANT437_CLUT_X
+#define MODEL_VARIANT437_CLUT_X 512
+#endif
+
 /* Header 437's loader entry. Setup resolves the command record and three
  * slot parts, uploads the textures and initialises the bloom groups and the
  * ribbons, cones, beam, tiles, discs and star this image never draws. Each
@@ -66,9 +70,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->delta.vy = work->target.vy - work->matrix.t[1];
         work->delta.vz = work->target.vz - work->matrix.t[2];
         tpage = GetTPage(1, 1, 0x380, 0);
-        clut = GetClut(512, 244);
+        clut = GetClut(MODEL_VARIANT437_CLUT_X, 244);
         GetTPage(1, 1, 0x380, 0);
-        GetClut(512, 244);
+        GetClut(MODEL_VARIANT437_CLUT_X, 244);
         packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C88C[7]);
         ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C88C[5]);
         ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C88C[1]);
@@ -428,5 +432,7 @@ s32 func_8013B004(u8 *context, s32 command)
     return result;
 }
 
+#ifndef VERSION_FRENCH
 #define func_8017C230 func_8013C230
 #include "../french_model_variant/image22822_blooms.c"
+#endif

@@ -851,6 +851,14 @@ follows the North American header-433 entry's shape; its command rows
 `D_8013ED00`. The trails helper at image offset 0x101C and the lines helper
 at 0x1F58 remain generated assembly.
 
+Two images under French headers 454 and 604 build their loader entry from the
+North American header-437 entry (`model_variant/variant437_entry.c`) through
+`src/overlays/french_model_variant/variant454_entry{,_slot1}.c`, compiled with
+`gcc_2_8_1_g0_split` where the North American images need
+`gcc_2_7_2_cdk_g0`. `VERSION_FRENCH` moves the CLUT column from 512 to 640,
+leaves out the blooms helper the French images already build from
+`image22822_blooms{,_slot0}.c`, and the data labels sit 4 bytes lower.
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are
