@@ -499,6 +499,13 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant780_linker_symbols.txt` binds to the French
 addresses.
 
+Two images under French headers 784 and 881 are the North American
+header-767 entry (`model_variant/variant767_entry.c`) with its burst CLUT word
+set to 0x3D28 instead of 0x3D20 and its full-screen flash covering the 256 PAL
+lines, both selected by `VERSION_FRENCH` through
+`src/overlays/french_model_variant/variant784_entry{,_slot1}.c`. The entry has
+no work-size printf, so the data labels do not move.
+
 Ten images under French headers 667 and 734 are the North American
 header-650 entry (`model_variant/variant650_entry.c`) without its `E_DATA`
 work-size printf. Its format string was the whole read-only section, so it
