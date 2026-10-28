@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_variant_536_stage9_slot0/entry]
+      - [0x4, c, overlays/spanish_model_variant/variant456_entry]
   - name: helper_101C
     type: code
     start: 0x101C
