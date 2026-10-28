@@ -61,7 +61,7 @@ segments:
     vram: 0x8017BF14
     align: 4
     subsegments:
-      - [0xF14, asm, overlays/spanish_model_variant_262_stage10_slot1/unmatched_F14]
+      - [0xF14, c, overlays/french_model_variant/variant631_bands_slot1]
   - name: sheets
     type: code
     start: 0x16E0
