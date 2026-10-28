@@ -61,7 +61,7 @@ segments:
     vram: 0x8017c2ec
     align: 4
     subsegments:
-      - [0x12ec, asm, overlays/spanish_model_image_model_132118_8017b000/unmatched_12ec]
+      - [0x12ec, c, overlays/french_model_variant/image132118_swarm]
   - name: unclassified_tail
     type: code
     start: 0x18b8
