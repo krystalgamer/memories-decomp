@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_MODEL_VARIANT165_ENTRY_H
-#define MEMORIES_DECOMP_MODEL_VARIANT165_ENTRY_H
+#ifndef MEMORIES_DECOMP_MODEL_VARIANT182_ENTRY_H
+#define MEMORIES_DECOMP_MODEL_VARIANT182_ENTRY_H
 
 #include "../../types.h"
 #include "../../game/model_graphics_state.h"
@@ -15,7 +15,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
-#include "../../psyq/stdio.h"
 
 /* One 0x24-byte command row: the sprite colour, an unused second colour,
  * the slot part the sprites start from, the sprite count and half size, the
@@ -41,13 +40,13 @@ typedef struct {
     s16 delay;               /* 0x1E */
     s16 pulse_delay;         /* 0x20 */
     s16 converge_start;      /* 0x22 */
-} Model165Config;
+} Model182Config;
 
 /* The 0x63C-byte work area: the command row, up to 64 sprite positions and
  * their scatter offsets, the convergence target, a 2x33-point burst ring,
  * five texture words, the hit flag, the elapsed time and a frame counter. */
 typedef struct {
-    Model165Config *G32 config;
+    Model182Config *G32 config;
     SVECTOR sprites[64];     /* 0x004 */
     SVECTOR offsets[64];     /* 0x204 */
     SVECTOR target;          /* 0x404 */
@@ -56,10 +55,10 @@ typedef struct {
     u8 hit;                  /* 0x630 */
     s32 elapsed;             /* 0x634 */
     s32 frame;               /* 0x638 */
-} Model165State;
+} Model182State;
 
-extern GsIMAGE D_8013CCFC[];
-extern Model165Config D_8013CD88[];
+extern GsIMAGE D_8013CCD8[];
+extern Model182Config D_8013CD64[];
 
 s32 func_8013B004(u8 *context, s32 command);
 
