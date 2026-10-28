@@ -1,0 +1,23 @@
+{
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x1484",
+      "source": "src/overlays/model_variant/variant460_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C488",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4D8",
+      "source": "src/overlays/model_variant/variant460_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C960",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x46C",
+      "source": "src/overlays/model_variant/variant460_entry_slot1.c"
+    }
+  ],
+  "schema": 1
+}
