@@ -755,6 +755,11 @@ Two images under French headers 114 and 244 are the North American header-97
 entry (`model_variant/variant97_entry.c`) with its full-screen flash covering
 the 256 PAL lines instead of 240, built through
 `src/overlays/french_model_variant/variant114_entry{,_slot1}.c`. The entry has
+
+Two images under French headers 112 and 242 are the North American header-95
+entry (`model_variant/variant95_entry.c`) with its full-screen flash covering
+the 256 PAL lines instead of 240, built through
+`src/overlays/french_model_variant/variant112_entry{,_slot1}.c`. The entry has
 no work-size printf, so the data labels do not move.
 
 Four images under French headers 120 and 250 are the North American
@@ -850,12 +855,6 @@ follows the North American header-433 entry's shape; its command rows
 (0x2C bytes) and texture images are offsets into the tail label
 `D_8013ED00`. The trails helper at image offset 0x101C and the lines helper
 at 0x1F58 remain generated assembly.
-
-Two images under French headers 112 and 242 are the North American header-95
-entry (`model_variant/variant95_entry.c`) with its full-screen flash covering
-the 256 PAL lines instead of 240, built through
-`src/overlays/french_model_variant/variant112_entry{,_slot1}.c`. The entry has
-no work-size printf, so the data labels do not move.
 
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
