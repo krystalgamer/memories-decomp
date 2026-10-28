@@ -13,6 +13,7 @@
 #include "../../game/graphics_packet_submission.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
+#include "../../psyq/rand.h"
 #include "../../psyq/string.h"
 #include "../../game/screen_projection.h"
 
