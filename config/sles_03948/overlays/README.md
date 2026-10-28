@@ -306,6 +306,12 @@ work-size printf. They use the same recipe, through
 `src/overlays/french_model_variant/variant665_entry{,_slot1}.c`, with the data
 labels 0x28 lower.
 
+Four images under French headers 858 and 955 are the North American
+header-841 entry (`model_variant/variant841_entry.c`) with the burst palette
+from the PAL CLUT row 0x3D28 instead of 0x3D20. The
+`src/overlays/french_model_variant/variant858_entry{,_slot1}.c` wrappers set
+`VERSION_FRENCH` and bind `model_variant858_linker_symbols.txt`.
+
 Twenty-two images under French headers 663 and 730 are the North American
 header-646 entry (`model_variant/variant646_entry.c`) without its `E_DATA`
 work-size printf, built through
