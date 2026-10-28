@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant405_entry.h"
 
+#ifndef MODEL_VARIANT405_CLUT_X
+#define MODEL_VARIANT405_CLUT_X 640
+#endif
+
 /* Header 405's loader entry: three rings, a trail angle per three trail
  * records, six 512-unit sheets, two sets of three 17-point curtains, four
  * spokes and two ribbons. The run path re-reads the opponent slot position
@@ -51,7 +55,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT405_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CFBC + 0x1C));
         flat_page = packed >> 16;
         stack.texture_cluts[0] = packed;
