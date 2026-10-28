@@ -8,9 +8,13 @@
  * model point and hands over to a growing dome of sprites wrapped in a
  * spinning cone of strips. The setup also prints the work-area size. */
 
-/* The work-size format string; retail's padding byte after the terminator is 0x8F. */
+/* The work-size format string; the padding byte after the terminator
+ * is 0x8F in slot zero and 0xAC in slot one. */
+#ifndef MODEL674_STRING_PAD
+#define MODEL674_STRING_PAD "\x8F"
+#endif
 #ifndef VERSION_FRENCH
-static const char D_8013CE58[24] = "E_DATA size = %x byte\n\0\x8F";
+static const char D_8013CE58[24] = "E_DATA size = %x byte\n\0" MODEL674_STRING_PAD;
 #endif
 
 s32 func_8013B004(u8 *context, s32 command)
