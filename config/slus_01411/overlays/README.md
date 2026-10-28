@@ -247,7 +247,7 @@ read from the USA image's own `jal` targets. Thirty more differ from their Frenc
 in a regional constant (a CLUT or the screen height) and build through North
 American wrappers that set it. Forty-nine more add a North American work-size
 `printf` to their French entry, under a macro the wrappers define. Seven hundred
-eighteen more build from new North American C: twenty-five under headers 72
+twenty-four more build from new North American C: twenty-five under headers 72
 and 202 (`src/overlays/model_variant/variant72_entry.c`; see the
 [USA header-72 note](../../../notes/overlays/usa-model-variant72.md)),
 sixteen under headers 78 and 208 (`variant78_entry.c`),
@@ -300,9 +300,10 @@ seventy-one under headers 779 and 876 (`variant779_entry.c`; see the
 eight under headers 789 and 886 (`variant789_entry.c`),
 eight under headers 793 and 890 (`variant793_entry.c`),
 thirty-two under headers 827 and 924 (`variant827_entry.c`; see the
-[USA header-827 note](../../../notes/overlays/usa-model-variant827.md)) and
+[USA header-827 note](../../../notes/overlays/usa-model-variant827.md)),
 thirty-five under headers 828 and 925 (`variant828_entry.c`; see the
-[USA header-828 note](../../../notes/overlays/usa-model-variant828.md)). See the
+[USA header-828 note](../../../notes/overlays/usa-model-variant828.md)) and
+six under headers 834 and 931 (`variant834_entry.c`). See the
 [USA French-entry images](../../../notes/overlays/usa-model-french-entries.md).
 
 The 1,189 USA return-two primary images (headers 37 and 40) build their
