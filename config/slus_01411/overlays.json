@@ -27121,10 +27121,11 @@
     {
       "archive": "game/DATA/MODEL.MRG",
       "archive_sha256": "6a738960cfae167d6612f190c07cf0147f3bcc8c2dd97814e154fecc283e1d4b",
-      "layout": "config/slus_01411/overlays/model_image_model_171044_8013b000.yaml",
+      "layout": "config/slus_01411/overlays/model_variant_719_stage9_slot0.yaml",
+      "linker_symbols": "config/slus_01411/overlays/variant807_linker_symbols.txt",
       "load_address": "0x8013B000",
-      "name": "model_image_model_171044_8013b000",
-      "output": "tmp/overlays/model_image_model_171044_8013b000/module.bin",
+      "name": "model_variant_719_stage9_slot0",
+      "output": "tmp/overlays/model_variant_719_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 171044,
       "sha256": "dd3ed3b68fe1fd46b94fda64dfad5899b75cba7323fe58f9d9da52dba4138dfe"
@@ -31042,10 +31043,11 @@
     {
       "archive": "game/DATA/MODEL.MRG",
       "archive_sha256": "6a738960cfae167d6612f190c07cf0147f3bcc8c2dd97814e154fecc283e1d4b",
-      "layout": "config/slus_01411/overlays/model_image_model_49338_8017b000.yaml",
+      "layout": "config/slus_01411/overlays/model_variant_178_stage10_slot1.yaml",
+      "linker_symbols": "config/slus_01411/overlays/variant807_linker_symbols.txt",
       "load_address": "0x8017B000",
-      "name": "model_image_model_49338_8017b000",
-      "output": "tmp/overlays/model_image_model_49338_8017b000/module.bin",
+      "name": "model_variant_178_stage10_slot1",
+      "output": "tmp/overlays/model_variant_178_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 49338,
       "sha256": "2a43473c33abc9ad5d47fa6936ca8ac3a8456245a59cf4d5f7e8e951ee06201a"
@@ -40974,10 +40976,11 @@
     {
       "archive": "game/DATA/MODEL.MRG",
       "archive_sha256": "6a738960cfae167d6612f190c07cf0147f3bcc8c2dd97814e154fecc283e1d4b",
-      "layout": "config/slus_01411/overlays/model_image_model_171054_8017b000.yaml",
+      "layout": "config/slus_01411/overlays/model_variant_719_stage10_slot1.yaml",
+      "linker_symbols": "config/slus_01411/overlays/variant807_linker_symbols.txt",
       "load_address": "0x8017B000",
-      "name": "model_image_model_171054_8017b000",
-      "output": "tmp/overlays/model_image_model_171054_8017b000/module.bin",
+      "name": "model_variant_719_stage10_slot1",
+      "output": "tmp/overlays/model_variant_719_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 171054,
       "sha256": "f47c9a9a121da5bfed2a4c977e00327a883a20b922271b282fb88d6a22cc663d"
