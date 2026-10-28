@@ -74,6 +74,7 @@ jobs:
           python3 tools/bootstrap/bootstrap.py
           python3 tools/bootstrap/binutils_system.py
           python3 tools/bootstrap/old_gcc_prebuilt.py
+          python3 tools/bootstrap/old_gcc_prebuilt.py --config tools/bootstrap/old_gcc_272_prebuilt.json
           make check-build-tools
 
       - name: Verify exact French overlay builds

@@ -4,7 +4,7 @@
 the French and Spanish `model_image_model_109772_8013b000` (slot 0) and
 `model_image_model_109782_8017b000` (slot 1) images (header 447) is the
 header-463 rings body. It grows, scales and draws 24 `POLY_FT4` rings.
-Nothing in the loader or the resident executable reaches it.
+No loader entry or resident reference to it has been found; its reachability is unresolved.
 
 - **Layout.** The work area matches the header-463 rings layout, except that
   the pad after the polygon at `0x4420` is 0x54 bytes instead of 0x4C. Every
