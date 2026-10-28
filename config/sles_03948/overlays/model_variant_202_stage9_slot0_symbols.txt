@@ -1,0 +1,4 @@
+// MODEL.MRG model 202 (record 202), sector 55952, header 182, loaded at 0x8013B000; the US header-165 source variant165_entry.c.
+func_8013B004 = 0x8013B004; // type:func size:0x1CC4 defined:true
+D_8013CCD8 = 0x8013CCD8; // type:u8 size:0x8C defined:true
+D_8013CD64 = 0x8013CD64; // type:u8 size:0x329C defined:true
