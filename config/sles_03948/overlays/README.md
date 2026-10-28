@@ -443,6 +443,8 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant646_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+French MODEL headers 852 (stage 7 slot 0) and 949 (stage 8 slot 1) build the header-835 entry (`func_8013B004`) from `src/overlays/model_variant/variant835_entry.c` through `src/overlays/french_model_variant/variant852_entry{,_slot1}.c`. `VERSION_FRENCH` selects the burst CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
+
 Eight images under French headers 689 and 756 are the North American
 header-672 entry (`model_variant/variant672_entry.c`) without its `E_DATA`
 work-size printf, built through

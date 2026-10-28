@@ -73,7 +73,11 @@ s32 func_8013B004(u8 *context, s32 command)
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C810[i]);
         }
         work->burst_tpage = 0xAE;
+#ifdef VERSION_FRENCH
+        work->burst_clut = 0x3D28;
+#else
         work->burst_clut = 0x3D20;
+#endif
         work->level = 0x800;
         work->phase = 0;
         work->elapsed = 0;
