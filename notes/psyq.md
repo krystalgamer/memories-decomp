@@ -986,11 +986,11 @@ entry.
 The same relocation reading names the data of the other libraries the image
 links. Each address below comes from HI16/LO16 pairs in objects whose text
 equals the retail bytes outside the patched words, and every pair for a symbol
-agrees. `CD_cbready` and `CD_cbsync` are the two callback pointers that the
-`CdReadyCallback`/`CdSyncCallback` entry above already pins as `D_800F8394`
-and `D_800F8398`. The library's own names confirm that reading. `StCdIntrFlag`
-(`0x800F5D44`) is the word that `gLibCd_nDeferredStreamInterrupt` already
-names, so it is not repeated here.
+agrees. `StCdIntrFlag` (`0x800F5D44`) is the word that
+`gLibCd_nDeferredStreamInterrupt` already names, so it is not repeated here.
+The three callback rows (`CD_cbsync`, `CD_cbready`, `GlobalCallback`) rest on
+section layout as well as relocations; the paragraph after the table gives
+their evidence.
 
 | Symbol | NA | Japan | `sles_03947` | Object | NA relocations read from |
 |---|---:|---:|---:|---|---|
@@ -1020,6 +1020,8 @@ names, so it is not repeated here.
 | `_spu_zerobuf` | `0x80092BF8` |  |  | `LIBSPU/ZEROBUF` | `SpuClearReverbWorkArea` |
 | `_spu_rev_startaddr` | `0x80093118` | `0x80092FC8` | `0x80094134` | `LIBSPU/S_RMP0` | `SpuClearReverbWorkArea`, `SpuSetReverbModeParam`, `SpuSetReverbModeType`, `_SpuInit` |
 | `_spu_rev_param` | `0x80093148` | `0x80092FF8` | `0x80094164` | `LIBSPU/S_RMP2` | `SpuSetReverbModeParam`, `SpuSetReverbModeType` |
+| `CD_cbsync` | `0x800934E0` | `0x80093390` | `0x800944FC` | `LIBCD/BIOS_1`, `.data`+0x8 | (layout; see below) |
+| `CD_cbready` | `0x800934E4` | `0x80093394` | `0x80094500` | `LIBCD/BIOS_1`, `.data`+0xC | `CdReadyCallback_8007A840` |
 | `CD_debug` | `0x800934E8` | `0x80093398` | `0x80094504` | `LIBCD/BIOS_1` | `DsSearchFile` |
 | `DS_active` | `0x80093500` | `0x800933B0` |  | `LIBCD/BIOS_1` | `StUnSetRing` |
 | `GPU_printf` | `0x80094664` | `0x80094514` |  | `LIBGPU/SYS` | `SetDumpFnt` |
@@ -1027,7 +1029,6 @@ names, so it is not repeated here.
 | `SQRT` | `0x800951A8` | `0x80095058` | `0x80096094` | `LIBGTE/SQRTBL` | `SquareRoot0` |
 | `rcossin_tbl` | `0x80095638` | `0x800954E8` | `0x80096524` | `LIBGTE/CSTBL` | `RotMatrix`, `RotMatrixX`, `RotMatrixY`, `RotMatrixYXZ` and others |
 | `_ctype_` | `0x80099EE8` |  |  | `LIBC2/CTYPE_0` | `_putchar`, `prnt` |
-| `GlobalCallback` |  | `0x800F5A80` |  | `LIBDS/DSCB`, 0xC bytes | (Japanese image only) |
 | `_spu_RQ` | `0x800F5D20` | `0x800F3410` | `0x800F6C88` | `LIBSPU/SPU`, 0x14 bytes | `SpuSetKey` |
 | `Stframe_no` | `0x800F5D38` | `0x800F3428` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StClearRing`, `StSetStream` |
 | `Stsector_offset` | `0x800F5D3C` | `0x800F342C` |  | `LIBCD/CDROM`, 0x2 bytes | `StCdInterrupt`, `StClearRing`, `StSetStream` |
@@ -1049,15 +1050,45 @@ names, so it is not repeated here.
 | `StFunc1` | `0x800F5D90` | `0x800F3480` | `0x800F6CF8` | `LIBCD/C_005`, 0x4 bytes | `data_ready_callback` |
 | `StFunc2` | `0x800F5D94` | `0x800F3484` |  | `LIBCD/C_005`, 0x4 bytes | `StCdInterrupt` |
 | `StMode` | `0x800F5DD8` | `0x800F34C8` | `0x800F6D40` | `LIBCD/BIOS_1`, 0x4 bytes | `DsRead2`, `StCdInterrupt`, `data_ready_callback` |
-| `CD_cbready` | `0x800F8394` | `0x800F5A84` | `0x800F92FC` | `LIBCD/BIOS_1` | `CdReadyCallback` |
-| `CD_cbsync` | `0x800F8398` |  |  | `LIBCD/BIOS_1` | `CdSyncCallback` |
+| `GlobalCallback` | `0x800F8390` | `0x800F5A80` | `0x800F92F8` | `LIBDS/DSCB`, 0xC bytes | `CQ_sync_system`, `DsInit`, `DsReset` (offsets; see below) |
 | `USTACK` | `0x800FE278` | `0x800FB968` | `0x800FF1E0` | `LIBHMD/MAPUNIT`, 0x80 bytes | `GsGetLsUnit`, `GsGetLwUnit`, `GsGetLwsUnit` |
 
 An empty cell means that inventory does not yet name a function whose object
-relocates the symbol. `GlobalCallback` resolves only in the Japanese image.
-The 4.6 `LIBDS.LIB/DSSYS_2.OBJ` that relocates it matches there, but not in
-the North American image, which carries the patched LIBDS covered above (its
-`DsCommand` is `0x274` bytes against the Japanese `0x244`).
+relocates the symbol.
+
+The three callback rows:
+
+- `BIOS_1.OBJ` defines `CD_cbsync`, `CD_cbready` and `CD_debug` at `.data`
+  offsets 0x8, 0xC and 0x10, and `DS_active` at 0x28. `CD_debug` resolves
+  from its own relocations in all three images, and `DS_active` in the two
+  that name it; where both exist they put that `.data` at the same base (North
+  America `0x800934D8`, Japan `0x80093388`), which gives the two callback
+  slots. `CdReadyCallback_8007A840` and its Japanese
+  (`0x800794E0`) and `sles_03947` (`0x8007ABD4`) copies have the text of
+  `LIBCD.LIB/S_015.OBJ` outside the relocated fields, and their HI16/LO16 pair
+  lands on the `+0xC` slot. `S_014.OBJ` (`CdSyncCallback`) has the same masked
+  text, which is why the layout, not the text, separates the two. The other
+  objects that relocate `CD_cbsync` (`S_016.OBJ`, `EVENT.OBJ`) do not match
+  the retail text, so no relocation names `+0x8` directly; each image does
+  reach that word from eight sites.
+- `GlobalCallback` is `DSCB.OBJ`'s 0xC-byte uninitialised external. In the
+  Japanese image `LIBDS.LIB/DSSYS_2.OBJ` matches and its relocations, including
+  the `+4` and `+8` addends at 0x12F4 and 0x1324, resolve to `0x800F5A80`. The
+  North American and European images carry the patched LIBDS covered above
+  (`DsCommand` is `0x274` bytes in both, against the Japanese `0x244`), so DSSYS_2 does not
+  match there; instead the North American `CQ_sync_system`, `DsInit` and
+  `DsReset`, and the same three sites in `sles_03947`, reach the base at the
+  same relative offsets as DSSYS_2's three base relocations (0x598, 0x700,
+  0x83C; 0x168 and 0x13C apart). In every image `+4` and `+8` are each reached
+  twice: once from the LIBDS system code and once from a 0x14-byte setter.
+  `DSCB_1.OBJ`, `DSCB_2.OBJ` and `DSCB_3.OBJ` (`DsSyncCallback`,
+  `DsReadyCallback`, `DsStartCallback`) share that masked text and differ only
+  in the addend (+0, +4, +8), so with the base fixed the two setters are
+  `DsReadyCallback` and `DsStartCallback`. The North American setters at `0x8007E860` and
+  `0x8007E880` are the ones the inventory names `CdReadyCallback` and
+  `CdSyncCallback`, so `D_800F8394` and `D_800F8398` are `GlobalCallback+4`
+  and `GlobalCallback+8`, not LIBCD's `CD_cbready`/`CD_cbsync`. This change
+  names the data only; the two function names are left as they are.
 
 ## Shared declaration policy
 
