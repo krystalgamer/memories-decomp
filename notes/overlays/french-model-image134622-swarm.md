@@ -22,3 +22,26 @@ growing `POLY_FT4` quads. The loader entry reaches it.
 Both images rebuild exactly. The
 [attempt ledger](french-model-image134622-swarm-attempts.csv) records the
 probes.
+
+## Opposite-slot image 134612
+
+The French `model_image_model_134612_8013b000` helper `func_8013C490`
+has the same `0x1490` offset and `0x6EC` size. Its original body differs
+from image 134622 at only two internal absolute jumps, at helper offsets
+`0xCC` and `0x538`, whose destinations move down by `0x40000`.
+
+`image134612_swarm.c` remaps only the function name and includes the
+accepted image-134622 source. The local declarations, expressions and
+`gcc_2_8_1_g0_split` profile are unchanged. The slot-0 compilation is
+exact; the [reuse ledger](french-model-image134612-swarm-attempts.csv)
+records the native probe and complete-image checks.
+
+Both French 20,480-byte images were rebuilt before and after the
+registration. Image 134612 retains SHA-256
+`eaad64467eca27fec6f107312fc2964d8cd9673c29e768899cfdaaef8ce81ccb`;
+image 134622 retains
+`a5e5b11a69a8b885a815f2935c0e17d94e310a1f4766a95086429537c0f585c3`.
+The original loader-entry assembly and raw tail of image 134612 remain
+unchanged, as do the existing French and Spanish image-134622 owners.
+The Spanish image-134612 registration is not changed: its original
+archive is not available locally for complete-image validation.
