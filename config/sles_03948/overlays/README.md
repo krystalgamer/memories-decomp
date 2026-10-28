@@ -504,6 +504,12 @@ height, through
 American images have no slot-one copy, so the slot-one wrapper renames the
 labels itself.
 
+Four images under French headers 833 and 930 are the North American
+header-816 entry (`model_variant/variant816_entry.c`) unchanged; only the
+resident `jal` targets differ. The French modules build `variant816_entry.c`
+and its `_slot1.c` wrapper directly through
+`model_variant833_linker_symbols.txt`.
+
 Ten images under French headers 800 and 897 are the North American
 header-783 entry (`model_variant/variant783_entry.c`) with its full-screen
 flash tile covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects
