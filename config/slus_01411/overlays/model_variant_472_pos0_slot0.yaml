@@ -1,0 +1,93 @@
+name: model_variant_472_pos0_slot0
+sha1: 5c96d0ab20491169be00d05a40b0cea4f85bef8e
+
+options:
+  basename: model_variant_472_pos0_slot0
+  base_path: ../../..
+  target_path: tmp/overlays/model_variant_472_pos0_slot0/module.bin
+  elf_path: tmp/overlays/model_variant_472_pos0_slot0/build/model_variant_472_pos0_slot0.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/model_variant_472_pos0_slot0/asm
+  src_path: src
+  build_path: tmp/overlays/model_variant_472_pos0_slot0/build
+  asset_path: tmp/overlays/model_variant_472_pos0_slot0/assets
+  cache_path: tmp/overlays/model_variant_472_pos0_slot0/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/model_variant_472_pos0_slot0/model_variant_472_pos0_slot0.ld
+  generated_asm_macros_directory: tmp/overlays/model_variant_472_pos0_slot0/include
+  lib_path: tmp/overlays/model_variant_472_pos0_slot0/lib
+  o_path: tmp/overlays/model_variant_472_pos0_slot0/build
+  undefined_funcs_auto_path: tmp/overlays/model_variant_472_pos0_slot0/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/model_variant_472_pos0_slot0/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slus_01411/overlays/model_variant_472_pos0_slot0_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8013B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/model_variant_472_pos0_slot0/module_header]
+  - name: entry
+    type: code
+    start: 0x4
+    vram: 0x8013B004
+    align: 4
+    subsegments:
+      - [0x4, c, overlays/model_variant/variant319_entry]
+  - name: helper_aa0
+    type: code
+    start: 0xAA0
+    vram: 0x8013BAA0
+    align: 4
+    subsegments:
+      - [0xAA0, c, overlays/model_variant/variant319_ribbon]
+  - name: helper_13a8
+    type: code
+    start: 0x13A8
+    vram: 0x8013C3A8
+    align: 4
+    subsegments:
+      - [0x13A8, c, overlays/model_variant/variant319_sheets]
+  - name: helper_184c
+    type: code
+    start: 0x184C
+    vram: 0x8013C84C
+    align: 4
+    subsegments:
+      - [0x184C, c, overlays/model_variant/variant319_strand]
+  - name: unmatched_1b5c
+    type: code
+    start: 0x1B5C
+    vram: 0x8013CB5C
+    align: 4
+    subsegments:
+      - [0x1B5C, asm, overlays/model_variant_472_pos0_slot0/unmatched_1b5c]
+  - name: data
+    type: code
+    start: 0x2358
+    vram: 0x8013D358
+    align: 4
+    subsegments:
+      - [0x2358, data, overlays/model_variant_472_pos0_slot0/data]
+  - [0x5000]
