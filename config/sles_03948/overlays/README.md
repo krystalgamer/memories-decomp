@@ -360,6 +360,12 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant813_linker_symbols.txt` binds to the French
 addresses.
 
+Six images under French headers 830 and 927 are the North American
+header-813 entry (`model_variant/variant813_entry.c` and its `_slot1.c`
+wrapper) unchanged: it has no work-size printf, and only the resident call
+targets differ, which `model_variant830_linker_symbols.txt` binds to the French
+addresses.
+
 Twelve images under French headers 419 and 569 build their entry from the North
 American header-402 entry (`model_variant/variant402_entry.c`) through
 `french_model_variant/variant419_entry{,_slot1}.c` under `gcc_2_8_1_g0_split`.
