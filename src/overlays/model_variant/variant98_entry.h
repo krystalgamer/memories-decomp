@@ -10,6 +10,7 @@
 #include "../../game/model_copy_slot_position.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/screen_projection.h"
+#include "../../game/graphics_packet_submission.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"

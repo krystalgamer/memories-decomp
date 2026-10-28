@@ -148,7 +148,7 @@ s32 func_8013B004(u8 *context, s32 command)
                               (PSXLONG *)&fan.x2, &interpolation, &flag);
             setUV3(&fan, 64, 134, 192, 128, 192, 143);
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)&fan, ot, (u16)otz, 1);
+                Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)otz, 1);
             }
             point += 2;
         }
@@ -269,7 +269,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 otz += RotTransPers(&corner[1], (PSXLONG *)&quad.x3, &interpolation, &flag);
                 otz /= 4;
                 if (otz >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)&quad, ot, (u16)otz, 1);
+                    Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)otz, 1);
                 }
                 point->vy -= 1200 / config->spark_life * Model_GetFrameStep();
             }
