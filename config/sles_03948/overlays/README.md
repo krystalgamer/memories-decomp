@@ -628,6 +628,13 @@ goes too, and the
 `src/overlays/french_model_variant/variant698_entry{,_slot1}.c` wrappers move
 the data labels 0x28 lower.
 
+Four images under French headers 670 and 737 are the North American
+header-653 entry (`model_variant/variant653_entry.c`) without its `E_DATA`
+work-size printf. Its format string was the whole read-only section, so it
+goes too, and the
+`src/overlays/french_model_variant/variant670_entry{,_slot1}.c` wrappers move
+the data labels 0x28 lower.
+
 Six images under French headers 159 and 289 are the North American
 header-142 entry (`model_variant/variant142_entry.c`) without its work-size
 printf or that call's `.rodata` format string, built through
