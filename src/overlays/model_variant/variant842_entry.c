@@ -112,7 +112,11 @@ s32 func_8013B004(u8 *context, s32 command)
         work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E674[3]);
         work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E674[4]);
         work->ring_tpage = 0xAE;
+#ifdef VERSION_FRENCH
+        work->ring_clut = 0x3D28;
+#else
         work->ring_clut = 0x3D20;
+#endif
         work->ambient = 0x800;
         work->head = 0;
         work->phase = 0;
