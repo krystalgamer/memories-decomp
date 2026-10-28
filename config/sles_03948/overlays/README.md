@@ -666,6 +666,14 @@ streamers and lines helpers. The entry has no work-size printf; its command
 rows and texture images are offsets into the image's tail data
 (`D_8013D3E4`).
 
+Six images under French headers 456 and 606 build their loader entry from
+`src/overlays/spanish_model_variant/variant456_entry{,_slot1}.c`, next to the
+already-matched ribbons, sheets, lines and streamers helpers. The entry
+follows the North American header-433 entry's shape; its command rows
+(0x2C bytes) and texture images are offsets into the tail label
+`D_8013ED00`. The trails helper at image offset 0x101C and the lines helper
+at 0x1F58 remain generated assembly.
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are
