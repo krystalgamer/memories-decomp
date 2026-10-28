@@ -68,7 +68,7 @@ segments:
     vram: 0x8013cbb0
     align: 4
     subsegments:
-      - [0x1bb0, asm, overlays/spanish_model_image_model_12048_8013b000/unmatched_1bb0]
+      - [0x1bb0, c, overlays/french_model_variant/image12048_sheets]
   - name: unmatched_222c
     type: code
     start: 0x222c
