@@ -54,7 +54,7 @@ segments:
     vram: 0x8017b004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_image_model_24774_8017b000/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/image24764_entry_slot1]
   - name: unclassified_tail
     type: code
     start: 0xc4c
