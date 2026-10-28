@@ -939,6 +939,48 @@ This pins `CdReadyCallback` and `CdSyncCallback`, respectively, rather than
 relying on the adjacent function order. Both setters return the previous
 pointer and use the common status-and-result callback shape.
 
+### LIBGS data symbols
+
+The Psy-Q 4.6 `LIBGS.LIB` objects define their state as uninitialised
+external symbols, mostly in `GS_001.OBJ`. The library functions that use
+them are already placed in the inventory, so each symbol is resolved from the
+library's own relocations. Each object's text must equal the retail bytes at
+every unrelocated word. Every `HI16`/`LO16` pair that names the symbol is then
+read back from the retail instructions. Every pair agrees, and the resolved
+size fits the gap to the next symbol. The same resolution reproduces the
+established anchors: `GsDISPENV` (`0x800FE0A8`), the `PSDIDX` word behind
+`gLibGs_sActiveBufferIndex` (`0x800FE0CC`), the `HWD0`/`VWD0` words behind
+`gGraphics_CurrentWidth`/`gGraphics_CurrentHeight`, and the `GsOUT_PACKET_P`
+word behind `gGraphics_pPacketWorkCursor` (`0x800FE240`).
+
+| Symbol | NA | Japan | Europe | Object, size | NA relocations read from |
+|---|---:|---:|---:|---|---|
+| `PSDOFSX` | `0x800FE030` | `0x800FB720` | `0x800FEF98` | `GS_001`, 4 | `GsDefDispBuff`, `GsSetDrawBuffOffset`, `GsSetDrawBuffClip`, `GsSwapDispBuff` |
+| `PSDOFSY` | `0x800FE034` | `0x800FB724` | `0x800FEF9C` | `GS_001`, 4 | the same four functions |
+| `PSDBASEX` | `0x800FE038` | `0x800FB728` | | `GS_001`, 4 | `GsDefDispBuff` |
+| `PSDBASEY` | `0x800FE03C` | `0x800FB72C` | | `GS_001`, 4 | `GsDefDispBuff` |
+| `POSITION` | `0x800FE040` | `0x800FB730` | `0x800FEFA8` | `GS_001`, 4 | `GsSetOrign`, `GsInit3D`, `GsSetDrawBuffOffset` |
+| `GsORGOFSX` | `0x800FE0BC` | `0x800FB7AC` | `0x800FF024` | `GS_001`, 2 | `GsSetDrawBuffOffset`, the seven `GsSort*` primitive objects, `2D_COM0` (`_mk_spr_packet`), `GS_121` (`gte_init`) |
+| `GsORGOFSY` | `0x800FE0BE` | `0x800FB7AE` | `0x800FF026` | `GS_001`, 2 | the same objects |
+| `CLIP2` | `0x800FE0C0` | | | `GS_001`, 8 | `GsSetDrawBuffClip` |
+| `PSDCNT` | `0x800FE0C8` | `0x800FB7B8` | `0x800FF030` | `GS_001`, 4 | `GsSwapDispBuff`, `GsGetLs` |
+| `PSDGPU` | `0x800FE0CE` | `0x800FB7BE` | | `GS_001`, 2 | `GsDefDispBuff`, `GsSetDrawBuffOffset` |
+| `GsLIGHTWSMATRIX` | `0x800FE0E8` | `0x800FB7D8` | `0x800FF050` | `GS_107`, 0x20 | `GS_001` (`GsInitGraph`), `GsSetLightMatrix` |
+| `GsWSMATRIX_ORG` | `0x800FE128` | `0x800FB818` | `0x800FF090` | `GS_123`, 0x20 | `GsSetRefView2` |
+| `GsIDMATRIX2` | `0x800FE188` | `0x800FB878` | `0x800FF0F0` | `GS_128`, 0x20 | `GS_001` (`GsInitGraph`), `GsSetRefView2` |
+
+The symbols use the SDK's own spelling. `src/psyq/libgs.h` declares eight of
+them; `PSDOFSX`, `PSDOFSY`, `PSDGPU`, `GsORGOFSX` and `GsORGOFSY` are library
+symbols that the header does not export. No game code uses any of them, so
+the change is confined to the symbol maps.
+
+An empty cell means that image's inventory does not yet name a function
+whose object relocates the symbol. The `sles_03947` inventory keeps
+`GsSetDrawBuffOffset`, `GsSetDrawBuffClip`, `GsDefDispBuff` and `GsGetLs`
+as `func_` placeholders. The `sles_03948` to `sles_03951` inventories name no
+`Gs*` function, so the same resolution finds nothing there and they get no
+entry.
+
 ## Shared declaration policy
 
 The repository owner has chosen to track the real Psy-Q 4.6 headers under
