@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant469_entry.h"
+#include "../../game/model_graphics_state.h"
 
 #ifndef MODEL_VARIANT469_CLUT_X
 #define MODEL_VARIANT469_CLUT_X 640
