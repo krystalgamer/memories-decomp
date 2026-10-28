@@ -16,28 +16,29 @@ fake dependencies, source-local external declarations, or compiler
 changes are used. The shared strip, ribbon, ring and band bodies also serve the existing four
 French and four Spanish MODEL402 images, whose bytes remain unchanged.
 
-## Ownership and remaining work
+## Ownership and entry completion
 
-The entry at `0x4..0xB98` remains generated assembly (2,964 bytes).
-All six inventoried functions have closed contiguous control-flow graphs. The entry
-calls the helper at `0xA10` and passes its incoming context in the delay
+The [entry at `0x4..0xB98`](french-model-variant412-entry.md) is now matching
+C (2,964 bytes) in both images, completing all six inventoried functions
+per image without changing either complete-image hash.
+All six functions have closed contiguous control-flow graphs. The entry
+calls the trail helper at `0xB98` and passes its incoming context in the delay
 slot. All 35 distinct external call targets are French resident
 function starts; the helper uses the shared SDK declaration for
 `GsGetLw` at `0x8008A428`.
 
 The four-byte header and `0x27A8..0x5000` suffix retain separate sized
-raw owners. No raw declaration overlaps the five C functions.
+raw owners. No raw declaration overlaps the six C functions.
 The entry directly selects a 32-byte descriptor at `0x28A4`;
 that bounded observation does not classify the remaining suffix as
 data, prove it contains no code, or exclude it from further research.
 
-Across both images there are twelve inventoried functions, ten C instances,
-and 14,368 C instruction bytes. The strip and bands add four inventoried
-functions and 5,096 C bytes after the retained ribbons,
-without adding or resizing an image.
-The two assembly owners cover 5,928 bytes; four raw owners cover 20,664.
+Across both images there are twelve inventoried functions, all twelve C
+instances, and 20,296 C instruction bytes. The entry promotion adds 5,928
+C bytes without adding or resizing an image. The four raw owners still
+cover 20,664 bytes.
 It is not exhaustive French archive coverage.
-The entry and uninventoried material remain work, not exclusions.
+Uninventoried material remains work, not an exclusion.
 
 ## Retained code discovery and quad renderer
 
@@ -56,7 +57,7 @@ balanced stack return. The quad renderer has nine resident imports and
 no local calls. No direct entry-call path or aligned image word pointing
 to its start was found. This is a bounded image-local observation, not
 proof of global unreachability or permission to exclude retained code.
-The entry and material beyond `0x27A8` remain work.
+Material beyond `0x27A8` remains work.
 
 Native instructions establish two `0x90`-byte records at context `0x12C0`,
 with four rows of four `SVECTOR` points and a signed scale at record
