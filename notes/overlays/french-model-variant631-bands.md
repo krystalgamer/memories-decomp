@@ -13,7 +13,8 @@ images draws one band of five columns. It uses the NA
   `work + 0xD88`): first from the sa/sb columns, then from the sc/sb columns.
   Negative depths clamp to zero first.
 - **Timing.** Phase 1 fades `work[0xF1C]` in to 0x400. Phase 2 fades
-  `work[0xF18]` out over the timing record at `work + 0xF00`.
+  `work[0xF18]` out over the timing record at `work + 0xF00`. That stored
+  pointer is read through a 4-byte `G32` view (`BAND631_CONFIG`).
 
 Matching details:
 
