@@ -25,3 +25,7 @@ func_8005B260 = 0x8005B260;
 memset = 0x8008E3D0;
 printf = 0x8008E870;
 ratan2 = 0x800899A0;
+Graphics_SubmitDrawModePacket = 0x8005B260;
+SetPolyG3 = 0x800828E0;
+SetPolyGT4 = 0x80082980;
+AverageZ3 = 0x80089C70;

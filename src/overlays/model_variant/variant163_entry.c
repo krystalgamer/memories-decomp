@@ -12,11 +12,6 @@
 
 static const VECTOR D_8013D3FC = {4096, 4096, 4096, 0};
 
-/* The atlas cell drawn by each tile. */
-typedef struct {
-    u8 cell[8];
-} Model163Order;
-
 static const Model163Order D_8013D40C = {{0, 1, 2, 3, 4, 5, 6, 7}};
 
 s32 func_8013B004(u8 *context, s32 command)

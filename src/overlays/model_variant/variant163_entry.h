@@ -53,6 +53,11 @@ typedef struct {
 } Model163State;
 
 extern GsIMAGE D_8013D414[];
+/* The atlas cell drawn by each tile. */
+typedef struct {
+    u8 cell[8];
+} Model163Order;
+
 extern Model163Config D_8013D44C[];
 
 s32 func_8013B004(u8 *context, s32 command);
