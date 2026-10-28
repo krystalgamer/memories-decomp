@@ -32,6 +32,11 @@ frame `+0x1D8C`, step `+0x1D98`, fade `+0x1DC8`, inner/outer colours
 `+0x1DF0/+0x1DF4`, spin `+0x1DF8`, phase `+0x1E0C`.
 These local views establish a minimum accessed extent, not allocation capacity.
 
+The later [entry recovery](french-model-variant423-entry.md) proves that
+initialization covers five records, including a fifth zero-sized record
+ending at `+0x1B2C`. This helper's independently measured draw loop still
+processes four; its view and original instruction bytes are unchanged.
+
 ## Source, experiments and acceptance
 
 `src/overlays/french_model_variant/variant423_funnel.{c,h}` uses independently
