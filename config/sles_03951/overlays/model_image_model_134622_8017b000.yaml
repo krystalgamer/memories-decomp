@@ -61,7 +61,7 @@ segments:
     vram: 0x8017c490
     align: 4
     subsegments:
-      - [0x1490, asm, overlays/spanish_model_image_model_134622_8017b000/unmatched_1490]
+      - [0x1490, c, overlays/french_model_variant/image134622_swarm]
   - name: unclassified_tail
     type: code
     start: 0x1b7c
