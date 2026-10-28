@@ -791,6 +791,13 @@ only the resident call targets differ, which
 `model_variant123_linker_symbols.txt` binds to the French addresses. They
 build through `src/overlays/french_model_variant/variant123_entry{,_slot1}.c`.
 
+Two images under French headers 115 and 245 are the North American header-98
+entry (`model_variant/variant98_entry.c` and its `_slot1.c` wrapper)
+unchanged: it has no work-size printf or screen-height constant, and only the
+resident call targets differ, which `model_variant115_linker_symbols.txt`
+binds to the French addresses. They build through
+`src/overlays/french_model_variant/variant115_entry{,_slot1}.c`.
+
 Twenty images under French headers 674 and 741 are the North American
 header-657 entry (`model_variant/variant657_entry.c`) without its `E_DATA`
 work-size printf, built through
@@ -850,13 +857,6 @@ follows the North American header-433 entry's shape; its command rows
 (0x2C bytes) and texture images are offsets into the tail label
 `D_8013ED00`. The trails helper at image offset 0x101C and the lines helper
 at 0x1F58 remain generated assembly.
-
-Two images under French headers 115 and 245 are the North American header-98
-entry (`model_variant/variant98_entry.c` and its `_slot1.c` wrapper)
-unchanged: it has no work-size printf or screen-height constant, and only the
-resident call targets differ, which `model_variant115_linker_symbols.txt`
-binds to the French addresses. They build through
-`src/overlays/french_model_variant/variant115_entry{,_slot1}.c`.
 
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
