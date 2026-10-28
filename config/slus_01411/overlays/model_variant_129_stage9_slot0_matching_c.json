@@ -1,0 +1,35 @@
+{
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x1560",
+      "source": "src/overlays/model_variant/variant452_entry.c"
+    },
+    {
+      "address": "0x8013C564",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x638",
+      "source": "src/overlays/model_variant/variant452_arcs.c"
+    },
+    {
+      "address": "0x8013CB9C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x654",
+      "source": "src/overlays/model_variant/variant452_sheets_1b9c.c"
+    },
+    {
+      "address": "0x8013DB0C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x534",
+      "source": "src/overlays/model_variant/variant452_sheets_2b0c.c"
+    },
+    {
+      "address": "0x8013E040",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x454",
+      "source": "src/overlays/model_variant/variant452_rings.c"
+    }
+  ],
+  "schema": 1
+}
