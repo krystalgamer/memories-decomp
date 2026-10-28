@@ -686,6 +686,13 @@ follows the North American header-433 entry's shape; its command rows
 `D_8013ED00`. The trails helper at image offset 0x101C and the lines helper
 at 0x1F58 remain generated assembly.
 
+Two images under French headers 161 and 291 are the North American
+header-144 entry (`model_variant/variant144_entry.c`) without its work-size
+printf or that call's format string (kept in the North American image's
+data because of its nonzero padding) and with a 256-line screen flash, built
+through `src/overlays/french_model_variant/variant161_entry{,_slot1}.c`. The
+scale vector sits 0x14 lower and the image and command tables 0x28 lower.
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are
