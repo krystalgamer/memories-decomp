@@ -44,6 +44,12 @@ This is a minimum accessed view, not an allocation-capacity claim. Fifteen
 field-offset assertions and the record-size assertion are target-compiled
 separately for the default and selected layouts.
 
+The later [entry recovery](french-model-variant425-entry.md) proves five
+initialized records at `0xFB0`, ending at `0x1528`, although this helper
+draws four. It also identifies the `0x64` interval as the accepted two-point
+streamer and the additional word at `0x17D4` as distinct timed target-travel
+progress. The helper's four-record view and instruction bytes are unchanged.
+
 ## Experiment and integration record
 
 The first candidate substituted radius and a uniform context offset shift,
