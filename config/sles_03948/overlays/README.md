@@ -390,6 +390,13 @@ ring palette taken from x = 640 instead of 512. `VERSION_FRENCH` selects the
 CLUT through `src/overlays/french_model_variant/variant851_entry{,_slot1}.c`;
 the entry has no work-size printf, so the data labels do not move.
 
+Two images under French headers 856 and 953 are the North American
+header-839 entry (`model_variant/variant839_entry.c`) with its unused CLUT word
+set to 0x3D28 instead of 0x3D20, as in the French header-772 entry;
+`VERSION_FRENCH` selects it through
+`src/overlays/french_model_variant/variant856_entry{,_slot1}.c`. The entry has
+no work-size printf, so the data labels do not move.
+
 Eight images under French headers 689 and 756 are the North American
 header-672 entry (`model_variant/variant672_entry.c`) without its `E_DATA`
 work-size printf, built through

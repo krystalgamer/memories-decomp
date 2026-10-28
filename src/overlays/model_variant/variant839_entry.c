@@ -38,7 +38,11 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         work->config = &D_8013C538[command];
         work->unused_tpage = 0xAE;
+#ifdef VERSION_FRENCH
+        work->unused_clut = 0x3D28;
+#else
         work->unused_clut = 0x3D20;
+#endif
         for (i = 0; i < 3; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C4E4[i]);
         }
