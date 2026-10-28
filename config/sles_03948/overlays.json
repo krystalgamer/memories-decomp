@@ -27568,13 +27568,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_115016_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_466_stage9_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_115016_8013b000",
-      "output": "tmp/overlays/french_model_image_model_115016_8013b000/module.bin",
+      "name": "french_model_variant_466_stage9_slot0",
+      "output": "tmp/overlays/french_model_variant_466_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 115016,
-      "sha256": "807a314072b47fc78a2567b73a6430856d11a592f0c369f5888a035fb303600c"
+      "sha256": "807a314072b47fc78a2567b73a6430856d11a592f0c369f5888a035fb303600c",
+      "linker_symbols": "config/sles_03948/overlays/model_variant860_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -31406,13 +31407,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_27800_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_100_stage9_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_27800_8013b000",
-      "output": "tmp/overlays/french_model_image_model_27800_8013b000/module.bin",
+      "name": "french_model_variant_100_stage9_slot0",
+      "output": "tmp/overlays/french_model_variant_100_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 27800,
-      "sha256": "e2ec4b7642cc951c9a130e1418ce81c50f3e2a0bb5dd1b9e23d24b4c834433e8"
+      "sha256": "e2ec4b7642cc951c9a130e1418ce81c50f3e2a0bb5dd1b9e23d24b4c834433e8",
+      "linker_symbols": "config/sles_03948/overlays/model_variant860_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -36444,13 +36446,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_27810_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_100_stage10_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_27810_8017b000",
-      "output": "tmp/overlays/french_model_image_model_27810_8017b000/module.bin",
+      "name": "french_model_variant_100_stage10_slot1",
+      "output": "tmp/overlays/french_model_variant_100_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 27810,
-      "sha256": "5fe4119873d70e9d3f94fd7520384dd266bb7d179bafc34c524d67488d7bf828"
+      "sha256": "5fe4119873d70e9d3f94fd7520384dd266bb7d179bafc34c524d67488d7bf828",
+      "linker_symbols": "config/sles_03948/overlays/model_variant860_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -42978,13 +42981,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_115026_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_466_stage10_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_115026_8017b000",
-      "output": "tmp/overlays/french_model_image_model_115026_8017b000/module.bin",
+      "name": "french_model_variant_466_stage10_slot1",
+      "output": "tmp/overlays/french_model_variant_466_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 115026,
-      "sha256": "fff7e452ec951d80c10a13a2051fae4ad2a03926ef5a08b3a54620763ac810f4"
+      "sha256": "fff7e452ec951d80c10a13a2051fae4ad2a03926ef5a08b3a54620763ac810f4",
+      "linker_symbols": "config/sles_03948/overlays/model_variant860_linker_symbols.txt"
     }
   ],
   "schema": 1,
