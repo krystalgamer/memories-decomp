@@ -645,6 +645,15 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant674_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Two images under French header 397 are the North American header-380 entry
+(`model_variant/variant380_entry.c`, which the US images build with the CDK
+GCC 2.7.2 profile) rebuilt with GCC 2.8.1, 4 bytes shorter. Its helpers start
+at 0xDE4, 0x1A9C (keeping the French `variant397_sheets.c` C) and 0x206C, the
+data starts at 0x2950 and the effect palette loads from PAL x = 640. The
+`src/overlays/french_model_variant/variant397_entry.c` wrapper selects those
+addresses and the palette, binding
+`model_variant397_entry_linker_symbols.txt`.
+
 Four images under French headers 846 and 943 are the North American
 header-829 entry (`model_variant/variant829_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant829_entry.c`
