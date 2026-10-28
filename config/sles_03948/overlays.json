@@ -23036,13 +23036,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_29180_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_105_stage9_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_29180_8013b000",
-      "output": "tmp/overlays/french_model_image_model_29180_8013b000/module.bin",
+      "name": "french_model_variant_105_stage9_slot0",
+      "output": "tmp/overlays/french_model_variant_105_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 29180,
-      "sha256": "0dea362c7e3578a980bb5a462b97d515e23b5e7f5b17ae5c05079a7510dc3f85"
+      "sha256": "0dea362c7e3578a980bb5a462b97d515e23b5e7f5b17ae5c05079a7510dc3f85",
+      "linker_symbols": "config/sles_03948/overlays/model_variant84_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -24718,13 +24719,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_15636_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_56_stage7_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_15636_8013b000",
-      "output": "tmp/overlays/french_model_image_model_15636_8013b000/module.bin",
+      "name": "french_model_variant_56_stage7_slot0",
+      "output": "tmp/overlays/french_model_variant_56_stage7_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 15636,
-      "sha256": "3a2147cc719e64e34e91229899cce7dfc3738b6a83c034befc3c6c77d8f392c3"
+      "sha256": "3a2147cc719e64e34e91229899cce7dfc3738b6a83c034befc3c6c77d8f392c3",
+      "linker_symbols": "config/sles_03948/overlays/model_variant84_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -27233,13 +27235,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_39668_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_143_stage9_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_39668_8013b000",
-      "output": "tmp/overlays/french_model_image_model_39668_8013b000/module.bin",
+      "name": "french_model_variant_143_stage9_slot0",
+      "output": "tmp/overlays/french_model_variant_143_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 39668,
-      "sha256": "76b3391656818fbfb30e01b36f8d3f52a6af94a5c5cfd1610b015fce20bb3584"
+      "sha256": "76b3391656818fbfb30e01b36f8d3f52a6af94a5c5cfd1610b015fce20bb3584",
+      "linker_symbols": "config/sles_03948/overlays/model_variant84_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -31778,13 +31781,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_129644_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_519_stage9_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_129644_8013b000",
-      "output": "tmp/overlays/french_model_image_model_129644_8013b000/module.bin",
+      "name": "french_model_variant_519_stage9_slot0",
+      "output": "tmp/overlays/french_model_variant_519_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 129644,
-      "sha256": "f03d69d49f2bb3cc32d4200def9a3460f024f77275c782d1fb5f2e498a7eeeda"
+      "sha256": "f03d69d49f2bb3cc32d4200def9a3460f024f77275c782d1fb5f2e498a7eeeda",
+      "linker_symbols": "config/sles_03948/overlays/model_variant84_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -33352,13 +33356,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_39678_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_143_stage10_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_39678_8017b000",
-      "output": "tmp/overlays/french_model_image_model_39678_8017b000/module.bin",
+      "name": "french_model_variant_143_stage10_slot1",
+      "output": "tmp/overlays/french_model_variant_143_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 39678,
-      "sha256": "13b35cf2d0abd26f1bdab034d7b4b1a535693b58b6866d77033a0dc5b96e8c6f"
+      "sha256": "13b35cf2d0abd26f1bdab034d7b4b1a535693b58b6866d77033a0dc5b96e8c6f",
+      "linker_symbols": "config/sles_03948/overlays/model_variant84_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -36747,13 +36752,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_29190_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_105_stage10_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_29190_8017b000",
-      "output": "tmp/overlays/french_model_image_model_29190_8017b000/module.bin",
+      "name": "french_model_variant_105_stage10_slot1",
+      "output": "tmp/overlays/french_model_variant_105_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 29190,
-      "sha256": "68c430afa4d85030948ad5c31ef5605a06255398c10b57df1fbe2ed36557cbd2"
+      "sha256": "68c430afa4d85030948ad5c31ef5605a06255398c10b57df1fbe2ed36557cbd2",
+      "linker_symbols": "config/sles_03948/overlays/model_variant84_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -38938,13 +38944,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_129654_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_519_stage10_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_129654_8017b000",
-      "output": "tmp/overlays/french_model_image_model_129654_8017b000/module.bin",
+      "name": "french_model_variant_519_stage10_slot1",
+      "output": "tmp/overlays/french_model_variant_519_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 129654,
-      "sha256": "a19cd7be4c8394c253741b8b30c2e1f249fdea2776345a8e51eec3a14a9b8a5a"
+      "sha256": "a19cd7be4c8394c253741b8b30c2e1f249fdea2776345a8e51eec3a14a9b8a5a",
+      "linker_symbols": "config/sles_03948/overlays/model_variant84_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -41672,13 +41679,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_15646_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_56_stage8_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_15646_8017b000",
-      "output": "tmp/overlays/french_model_image_model_15646_8017b000/module.bin",
+      "name": "french_model_variant_56_stage8_slot1",
+      "output": "tmp/overlays/french_model_variant_56_stage8_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 15646,
-      "sha256": "e6825ad494099523ce421a8527e558da0c63888f9c71745a92c5b5292de094b0"
+      "sha256": "e6825ad494099523ce421a8527e558da0c63888f9c71745a92c5b5292de094b0",
+      "linker_symbols": "config/sles_03948/overlays/model_variant84_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
