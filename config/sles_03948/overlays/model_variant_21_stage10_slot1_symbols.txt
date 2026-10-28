@@ -1,0 +1,4 @@
+// MODEL.MRG model 21 (record 21), sector 6006, header 232, loaded at 0x8017B000; the US header-85 source variant85_entry_slot1.c.
+func_8017B004 = 0x8017B004; // type:func size:0xF40 defined:true
+D_8017BF54 = 0x8017BF54; // type:u8 size:0x54 defined:true
+D_8017BFA8 = 0x8017BFA8; // type:u8 size:0x4058 defined:true
