@@ -246,69 +246,13 @@ build from that French source under `gcc_2_8_1_g0_split`, with resident bindings
 read from the USA image's own `jal` targets. Thirty more differ from their French entry only
 in a regional constant (a CLUT or the screen height) and build through North
 American wrappers that set it. Forty-nine more add a North American work-size
-`printf` to their French entry, under a macro the wrappers define. Seven hundred
-fifty-four more build from new North American C: twenty-five under headers 72
-and 202 (`src/overlays/model_variant/variant72_entry.c`; see the
-[USA header-72 note](../../../notes/overlays/usa-model-variant72.md)),
-sixteen under headers 78 and 208 (`variant78_entry.c`),
-eight under headers 109 and 239 (`variant109_entry.c`),
-twenty-four under headers 110 and 240 (`variant110_entry.c`; see the
-[USA header-110 note](../../../notes/overlays/usa-model-variant110.md)),
-ten under headers 111 and 241 (`variant111_entry.c`; see the
-[USA header-111 note](../../../notes/overlays/usa-model-variant111.md)),
-sixteen under headers 117 and 247 (`variant117_entry.c`),
-twenty-five under headers 118 and 248 (`variant118_entry.c`; see the
-[USA header-118 note](../../../notes/overlays/usa-model-variant118.md)),
-twenty under headers 119 and 249 (`variant119_entry.c`; see the
-[USA header-119 note](../../../notes/overlays/usa-model-variant119.md)),
-eight under headers 128 and 258 (`variant128_entry.c`),
-fourteen under headers 164 and 294 (`variant164_entry.c`; see the
-[USA header-164 note](../../../notes/overlays/usa-model-variant164.md)),
-twenty under headers 172 and 302 (`variant172_entry.c`; see the
-[USA header-172 note](../../../notes/overlays/usa-model-variant172.md)),
-twenty-seven under headers 176 and 306 (`variant176_entry.c`; see the
-[USA header-176 note](../../../notes/overlays/usa-model-variant176.md)),
-twelve under headers 402 and 552 (`variant402_entry.c`, with the swarm and
-quad helpers built from the French header-419 helper C through
-`variant402_{swarm,quads}.c`; the header-552 model-163 image also keeps its
-unreached `func_8017F4D0` as generated assembly),
-fourteen under headers 627 and 694 (`variant627_entry.c`; see the
-[USA header-627 note](../../../notes/overlays/usa-model-variant627.md)),
-thirteen under headers 634 and 701 (`variant634_entry.c`; see the
-[USA header-634 note](../../../notes/overlays/usa-model-variant634.md)),
-ten under headers 636 and 703 (`variant636_entry.c`),
-ten under headers 644 and 711 (`variant644_entry.c`),
-forty-one under headers 647 and 714 (`variant647_entry.c`; see the
-[USA header-647 note](../../../notes/overlays/usa-model-variant647.md)),
-thirty-three under headers 654 and 721 (`variant654_entry.c`; see the
-[USA header-654 note](../../../notes/overlays/usa-model-variant654.md)),
-eight under headers 672 and 739 (`variant672_entry.c`),
-ten under headers 673 and 740 (`variant673_entry.c`; see the
-[USA header-673 note](../../../notes/overlays/usa-model-variant673.md)),
-six under headers 674 and 741 (`variant674_entry.c`),
-nine under headers 681 and 748 (`variant681_entry.c`),
-thirty under headers 752 and 849 (`variant752_entry.c`; see the
-[USA header-752 note](../../../notes/overlays/usa-model-variant752.md)),
-forty-nine under headers 754 and 851 (`variant754_entry.c`; see the
-[USA header-754 note](../../../notes/overlays/usa-model-variant754.md)),
-forty-eight under headers 756 and 853 (`variant756_entry.c`; see the
-[USA header-756 note](../../../notes/overlays/usa-model-variant756.md)),
-six under headers 763 and 860 (`variant763_entry.c`),
-fifty-six under headers 766 and 863 (`variant766_entry.c`; see the
-[USA header-766 note](../../../notes/overlays/usa-model-variant766.md)),
-eight under headers 774 and 871 (`variant774_entry.c`),
-six under headers 778 and 875 (`variant778_entry.c`),
-seventy-one under headers 779 and 876 (`variant779_entry.c`; see the
-[USA header-779 note](../../../notes/overlays/usa-model-variant779.md)),
-eight under headers 789 and 886 (`variant789_entry.c`),
-eight under headers 793 and 890 (`variant793_entry.c`),
-six under headers 795 and 892 (`variant795_entry.c`),
-six under headers 813 and 910 (`variant813_entry.c`),
-thirty-two under headers 827 and 924 (`variant827_entry.c`; see the
-[USA header-827 note](../../../notes/overlays/usa-model-variant827.md)),
-thirty-five under headers 828 and 925 (`variant828_entry.c`; see the
-[USA header-828 note](../../../notes/overlays/usa-model-variant828.md)) and
-six under headers 834 and 931 (`variant834_entry.c`). See the
+`printf` to their French entry, under a macro the wrappers define. The rest
+build from new North American C in
+`src/overlays/model_variant/variant<header>_entry.c`, with slot-1 images
+going through the matching `_slot1.c` wrapper. Each module's
+`_matching_c.json` records its source, so this README keeps no per-family
+list or image total for them; header-specific evidence lives in
+`notes/overlays/usa-model-variant<header>.md` where a note exists. See the
 [USA French-entry images](../../../notes/overlays/usa-model-french-entries.md).
 
 The 1,189 USA return-two primary images (headers 37 and 40) build their
