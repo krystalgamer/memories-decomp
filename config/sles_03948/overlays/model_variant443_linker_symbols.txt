@@ -1,4 +1,10 @@
 GetTPage = 0x80082CE8;
+GetClut = 0x80082D28;
+SetPolyG3 = 0x80082E48;
+SetPolyG4 = 0x80082EC8;
+SetPolyFT4 = 0x80082EA8;
+Square0 = 0x80089BC8;
+SquareRoot0 = 0x80086DD8;
 GsGetActiveBuff = 0x800852A8;
 GsGetLs = 0x80086258;
 GsSetLsMatrix = 0x80085558;
