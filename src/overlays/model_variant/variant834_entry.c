@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant834_entry.h"
+#include "../../game/screen_projection.h"
 
 /* Header 834's entry: orbs well up from a model part and drift to the slot
  * while a beam rises in front of it; the beam then flies to the opposing side
