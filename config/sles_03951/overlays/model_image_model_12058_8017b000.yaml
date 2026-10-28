@@ -75,7 +75,7 @@ segments:
     vram: 0x8017d22c
     align: 4
     subsegments:
-      - [0x222c, asm, overlays/spanish_model_image_model_12058_8017b000/unmatched_222c]
+      - [0x222c, c, overlays/french_model_variant/image12048_chains_slot1]
   - name: unclassified_tail
     type: code
     start: 0x2c98
