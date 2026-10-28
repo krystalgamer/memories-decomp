@@ -735,6 +735,13 @@ follows the North American header-433 entry's shape; its command rows
 `D_8013ED00`. The trails helper at image offset 0x101C and the lines helper
 at 0x1F58 remain generated assembly.
 
+Four images under French headers 118 and 248 are the North American
+header-101 entry (`model_variant/variant101_entry.c` and its `_slot1.c`
+wrapper) unchanged: it has no work-size printf or screen-height constant, and
+only the resident call targets differ, which
+`model_variant118_linker_symbols.txt` binds to the French addresses. They
+build through `src/overlays/french_model_variant/variant118_entry{,_slot1}.c`.
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are
