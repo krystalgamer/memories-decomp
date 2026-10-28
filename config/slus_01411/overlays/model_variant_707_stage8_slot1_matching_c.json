@@ -1,0 +1,53 @@
+{
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x10A4",
+      "source": "src/overlays/model_variant/variant356_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C0A8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x6C8",
+      "source": "src/overlays/model_variant/variant356_layers_slot1.c"
+    },
+    {
+      "address": "0x8017C770",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x774",
+      "source": "src/overlays/model_variant/variant356_grid_slot1.c"
+    },
+    {
+      "address": "0x8017CEE4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x35C",
+      "source": "src/overlays/model_variant/variant356_points_slot1.c"
+    },
+    {
+      "address": "0x8017D240",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x544",
+      "source": "src/overlays/model_variant/variant356_strip_slot1.c"
+    },
+    {
+      "address": "0x8017D784",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x6CC",
+      "source": "src/overlays/model_variant/variant356_ribbons_slot1.c"
+    },
+    {
+      "address": "0x8017DE50",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x588",
+      "source": "src/overlays/model_variant/variant356_quads_slot1.c"
+    },
+    {
+      "address": "0x8017E3D8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xAD4",
+      "source": "src/overlays/model_variant/variant356_rays_slot1.c"
+    }
+  ],
+  "schema": 1
+}
