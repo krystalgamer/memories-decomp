@@ -394,6 +394,12 @@ work-size printf, built the same way through
 `src/overlays/french_model_variant/variant678_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Four images under French headers 824 and 921 are the North American
+header-807 entry (`model_variant/variant807_entry.c`) with its full-screen
+flash covering all 256 PAL lines. The
+`src/overlays/french_model_variant/variant824_entry{,_slot1}.c` wrappers set
+`VERSION_FRENCH` and bind `model_variant824_linker_symbols.txt`.
+
 Eighteen images under French headers 679 and 746 are the North American
 header-662 entry (`model_variant/variant662_entry.c`) without its `E_DATA`
 work-size printf, built through
