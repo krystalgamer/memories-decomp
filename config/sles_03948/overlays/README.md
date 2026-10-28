@@ -858,6 +858,13 @@ follows the North American header-433 entry's shape; its command rows
 `D_8013ED00`. The trails helper at image offset 0x101C and the lines helper
 at 0x1F58 remain generated assembly.
 
+Two images under French headers 122 and 252 are the North American
+header-105 entry (`model_variant/variant105_entry.c` and its `_slot1.c`
+wrapper) unchanged: it has no work-size printf or screen-height constant, and
+only the resident call targets differ, which
+`model_variant122_linker_symbols.txt` binds to the French addresses. They
+build through `src/overlays/french_model_variant/variant122_entry{,_slot1}.c`.
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are

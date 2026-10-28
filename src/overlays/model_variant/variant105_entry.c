@@ -161,7 +161,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&scale, 4096, 4096, 4096);
             GsSetLsMatrix(&base);
             RotTrans(&position, (VECTOR *)matrix.t, &flag);
-            RotMatrix(&rotation, &matrix);
+            RotMatrixZYX(&rotation, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
@@ -207,7 +207,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&scale, 4096, 4096, 4096);
                 GsSetLsMatrix(&base);
                 RotTrans(&position, (VECTOR *)matrix.t, &flag);
-                RotMatrix(&rotation, &matrix);
+                RotMatrixZYX(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
@@ -249,7 +249,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&scale, size, size, size);
             GsSetLsMatrix(&base);
             RotTrans(&position, (VECTOR *)matrix.t, &flag);
-            RotMatrix(&rotation, &matrix);
+            RotMatrixZYX(&rotation, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
