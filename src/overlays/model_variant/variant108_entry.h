@@ -11,6 +11,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
+#include "../../game/screen_projection.h"
 
 /* One 0x28-byte command row: the line, trail, fade and spark colours, the
  * eight joints the approach lines follow, the two joints whose segment
