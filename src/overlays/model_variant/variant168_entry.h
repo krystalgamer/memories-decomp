@@ -46,6 +46,9 @@ typedef struct {
     s32 elapsed;
 } Model168State;
 
+#ifdef MODEL168_EXTERNAL_SCALE
+extern const VECTOR D_8013C18C;
+#endif
 extern GsIMAGE D_8013C1AC[];
 extern Model168Config D_8013C2A8[];
 

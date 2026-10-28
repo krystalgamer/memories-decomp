@@ -9,7 +9,9 @@
  * command draws a frame; any other command sets the work area up and prints
  * its size. */
 
+#ifndef MODEL168_EXTERNAL_SCALE
 static const VECTOR D_8013C18C = {4096, 4096, 4096, 0};
+#endif
 
 s32 func_8013B004(u8 *context, s32 command)
 {
@@ -102,7 +104,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013C1AC[0]);
         work->elapsed = 0;
         work->completed = 0;
+#ifndef MODEL168_NO_SIZE_PRINT
         printf("%d (0x%x) Byte\n", sizeof(Model168State), sizeof(Model168State));
+#endif
         return 0;
     }
     config = work->config;
