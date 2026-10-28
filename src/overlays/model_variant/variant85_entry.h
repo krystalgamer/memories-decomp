@@ -52,6 +52,13 @@ typedef struct {
     s32 elapsed;
 } Model85State;
 
+/* The projection scratch that follows the three sprite vertices: it holds the
+ * fourth sprite corner, and later the funnel's 66 projected ring points. */
+typedef union {
+    SVECTOR corner;
+    DVECTOR screen[66];
+} Model85Scratch;
+
 extern GsIMAGE D_8013BF54[];
 extern Model85Config D_8013BFA8[];
 

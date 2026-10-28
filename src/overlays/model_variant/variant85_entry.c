@@ -16,10 +16,8 @@ s32 func_8013B004(u8 *context, s32 command)
     POLY_FT4 quad;
     SVECTOR rotation, position;
     VECTOR scale;
-    /* Only three vertices are declared: the fourth sprite corner is written
-     * into the start of screen, which retail's frame layout requires. */
     SVECTOR vertices[3];
-    DVECTOR screen[66];
+    Model85Scratch scratch;
     u16 depths[66], projection[66], flags[66];
     PSXLONG flag, interpolation;
     Model85State *work;
@@ -140,7 +138,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setVector(&vertices[0], -config->size / 4, -config->size / 4, 0);
         setVector(&vertices[1], config->size / 4, -config->size / 4, 0);
         setVector(&vertices[2], -config->size / 4, config->size / 4, 0);
-        setVector(&vertices[3], config->size / 4, config->size / 4, 0);
+        setVector(&scratch.corner, config->size / 4, config->size / 4, 0);
         setVector(&rotation, 0, 0, 0);
         GsSetLsMatrix(&base);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
@@ -155,7 +153,7 @@ s32 func_8013B004(u8 *context, s32 command)
         RotMatrix(&rotation, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
+        depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &scratch.corner,
             (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
             (PSXLONG *)&quad.x3, &interpolation, &flag) - 30;
         setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
@@ -171,7 +169,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setVector(&vertices[0], -config->size, -config->size, 0);
         setVector(&vertices[1], config->size, -config->size, 0);
         setVector(&vertices[2], -config->size, config->size, 0);
-        setVector(&vertices[3], config->size, config->size, 0);
+        setVector(&scratch.corner, config->size, config->size, 0);
         setVector(&rotation, 0, 0, 0);
         setVector(&position, 0, -350, side * 450);
         size = (time << 12) / config->duration + 2048;
@@ -185,7 +183,7 @@ s32 func_8013B004(u8 *context, s32 command)
         RotMatrix(&rotation, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
+        depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &scratch.corner,
             (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
             (PSXLONG *)&quad.x3, &interpolation, &flag);
         setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
@@ -202,9 +200,9 @@ s32 func_8013B004(u8 *context, s32 command)
         MulMatrix2(&base, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        RotTransPersN(work->rings, screen, depths, projection, flags, 66);
-        projected = screen;
-        far = &screen[33];
+        RotTransPersN(work->rings, scratch.screen, depths, projection, flags, 66);
+        projected = scratch.screen;
+        far = &scratch.screen[33];
         near_depth = depths;
         far_depth = &depths[33];
         flag_p = flags;
