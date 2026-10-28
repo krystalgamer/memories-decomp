@@ -536,6 +536,15 @@ work-size printf and format string. The
 `src/overlays/french_model_variant/variant672_entry{,_slot1}.c` wrappers move
 the data labels after the shorter text and read-only section 0x28 lower.
 
+Two images under French header 449 are the North American header-432 entry
+(`model_variant/variant432_entry.c`, which the US images build with the CDK
+GCC 2.7.2 profile) rebuilt with GCC 2.8.1 at the same size. Its four helpers
+keep their French C (`variant449_sheet.c`, `_ribbons.c`, `_streamers.c` and
+`_bands.c`), the data starts at 0x2BB4 and the effect palette loads from PAL
+x = 640. The `src/overlays/french_model_variant/variant449_entry.c` wrapper
+selects those addresses and the palette, binding
+`model_variant449_entry_linker_symbols.txt`.
+
 Fifteen images under French headers 686 and 753 are the North American
 header-669 entry (`model_variant/variant669_entry.c`) without its `E_DATA`
 work-size printf, built through
