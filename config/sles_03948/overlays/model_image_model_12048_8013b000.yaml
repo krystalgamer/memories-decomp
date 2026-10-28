@@ -61,7 +61,7 @@ segments:
     vram: 0x8013bf38
     align: 4
     subsegments:
-      - [0xf38, asm, overlays/french_model_image_model_12048_8013b000/unmatched_f38]
+      - [0xf38, c, overlays/french_model_variant/image12048_strands]
   - name: unmatched_1bb0
     type: code
     start: 0x1bb0
