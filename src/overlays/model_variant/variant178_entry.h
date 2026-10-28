@@ -3,6 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/model_graphics_state.h"
+#include "../../game/graphics_constants.h"
 #include "../../game/model_slot_properties.h"
 #include "../../game/model_slot_queries.h"
 #include "../../game/model_texture_upload.h"
@@ -50,8 +51,8 @@ typedef struct {
     SVECTOR grid[52];
     SVECTOR target;
     s16 picks[512];
-    s16 phase[240];
-    s16 speed[240];
+    s16 phase[GRAPHICS_DEFAULT_HEIGHT];
+    s16 speed[GRAPHICS_DEFAULT_HEIGHT];
     s16 offset;
     s16 scroll;
     u32 texture[3];

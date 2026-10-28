@@ -80,9 +80,13 @@ s32 func_8013B004(u8 *context, s32 command)
             work->scroll = 0;
             phase = work->phase;
             speed = work->speed;
-            for (i = 0; i < 240; i++) {
+            for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; i++) {
                 *phase = 0;
-                *speed = config->speed + config->sway * csin((i << 13) / 240) / 4096;
+#ifdef VERSION_FRENCH
+                *speed = config->speed + config->sway * csin(i << 5) / 4096;
+#else
+                *speed = config->speed + config->sway * csin((i << 13) / GRAPHICS_DEFAULT_HEIGHT) / 4096;
+#endif
                 phase++;
                 speed++;
             }
@@ -324,7 +328,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             setRGB0(&quad, red, green, blue);
             phase = work->phase;
-            for (i = 0; i < 240; i++) {
+            for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; i++) {
                 quad.u0 = 0;
                 quad.v0 = (work->scroll / 256 + i) % 64;
                 quad.u1 = 192;
@@ -355,7 +359,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             phase = work->phase;
             speed = &work->speed[work->offset];
-            for (i = 0; i < 240 - work->offset; i++) {
+            for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT - work->offset; i++) {
                 *phase += *speed;
                 *phase %= 16384;
                 phase++;
@@ -369,7 +373,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 speed++;
             }
             work->scroll = (work->scroll + (step << 8)) % 16384;
-            work->offset = (work->offset + step) % 240;
+            work->offset = (work->offset + step) % GRAPHICS_DEFAULT_HEIGHT;
         }
         PopMatrix();
         work->elapsed += step;
