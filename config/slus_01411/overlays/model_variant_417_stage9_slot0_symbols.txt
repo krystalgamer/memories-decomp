@@ -1,0 +1,10 @@
+// MODEL.MRG model 417 (record 417), sector 101492, header 442, loaded at 0x8013B000.
+func_8013B004 = 0x8013B004; // type:func size:0x13E0 defined:true
+func_8013C3E4 = 0x8013C3E4; // type:func size:0x5FC defined:true
+func_8013C9E0 = 0x8013C9E0; // type:func size:0x628 defined:true
+func_8013D008 = 0x8013D008; // type:func size:0x634 defined:true
+func_8013D63C = 0x8013D63C; // type:func size:0xC84 defined:true
+func_8013E2C0 = 0x8013E2C0; // type:func size:0x800 defined:true
+func_8013EAC0 = 0x8013EAC0; // type:func size:0x5C0 defined:true
+func_8013F080 = 0x8013F080; // type:func size:0x56C defined:true
+D_8013F5EC = 0x8013F5EC; // type:u8 size:0xA14 defined:true
