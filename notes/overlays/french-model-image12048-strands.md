@@ -6,8 +6,8 @@ strands. The same body sits at `func_8017BF38` in the
 `model_image_model_12058_8017b000` images, and
 `french_model_variant/image12048_strands_slot1.c` renames it for that slot.
 
-- **Relative.** It closely follows the 12048 chains helper at
-  `func_8013D22C`. It uses
+- **Relative.** It closely follows the
+  [12048 chains helper](french-model-image12048-chains.md). It uses
   seven-joint, 0x180-byte strands, and the timing record's count sets how
   many strands it draws.
 - **Shape.** The angle comes from `ratan2(target[2], target[0])`, and the
