@@ -324,6 +324,16 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant649_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Three images under French header 429 are the North American header-412
+entry (`model_variant/variant412_entry.c`, which the US images build with
+the CDK GCC 2.7.2 profile) rebuilt with GCC 2.8.1. The entry is 4 bytes
+shorter, its two helpers keep their French C
+(`variant429_swarm.c` and `variant429_quads.c`) and the data starts at
+0x1D90, and the effect palette loads from PAL x = 640. The
+`src/overlays/french_model_variant/variant429_entry.c` wrapper selects those
+addresses and the palette, binding
+`model_variant429_entry_linker_symbols.txt`.
+
 Six images under French headers 795 and 892 are the North American
 header-778 entry (`model_variant/variant778_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
