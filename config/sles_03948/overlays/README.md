@@ -396,6 +396,12 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant813_linker_symbols.txt` binds to the French
 addresses.
 
+Four images under French headers 774 and 871 are the North American
+header-757 entry (`model_variant/variant757_entry.c`) with the palette from
+the PAL CLUT row 0x3D28 instead of 0x3D20. The
+`src/overlays/french_model_variant/variant774_entry{,_slot1}.c` wrappers set
+`VERSION_FRENCH` and bind `model_variant774_linker_symbols.txt`.
+
 Six images under French headers 830 and 927 are the North American
 header-813 entry (`model_variant/variant813_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
