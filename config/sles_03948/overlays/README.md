@@ -433,6 +433,12 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant662_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Four images under French headers 822 and 919 are the North American
+header-805 entry (`model_variant/variant805_entry.c`) unchanged; only the
+resident `jal` targets differ. The French modules build `variant805_entry.c`
+and its `_slot1.c` wrapper directly through
+`model_variant822_linker_symbols.txt`.
+
 Six images under French headers 780 and 877 are the North American
 header-763 entry (`model_variant/variant763_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
