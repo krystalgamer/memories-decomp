@@ -899,6 +899,16 @@ North American header-437 entry (`model_variant/variant437_entry.c`) through
 leaves out the blooms helper the French images already build from
 `image22822_blooms{,_slot0}.c`, and the data labels sit 4 bytes lower.
 
+Two images under French headers 468 and 618 build their loader entry from the
+North American header-451 entry (`model_variant/variant451_entry.c`) through
+`src/overlays/french_model_variant/variant468_entry{,_slot1}.c`, compiled with
+`gcc_2_8_1_g0_split` where the North American images need
+`gcc_2_7_2_cdk_g0`. `VERSION_FRENCH` moves the CLUT column from 512 to 640,
+leaves out the swarm helper the French images already build from
+`image134612_swarm{,_slot1}.c`, and the data label sits 8 bytes lower. The two
+images bind resident calls through their own
+`model_variant468_linker_symbols.txt`.
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are
