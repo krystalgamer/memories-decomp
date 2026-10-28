@@ -336,6 +336,12 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant676_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Six images under French headers 851 and 948 are the North American header-834
+entry (`model_variant/variant834_entry.c` and its `_slot1.c` wrapper) with its
+ring palette taken from x = 640 instead of 512. `VERSION_FRENCH` selects the
+CLUT through `src/overlays/french_model_variant/variant851_entry{,_slot1}.c`;
+the entry has no work-size printf, so the data labels do not move.
+
 Eight images under French headers 689 and 756 are the North American
 header-672 entry (`model_variant/variant672_entry.c`) without its `E_DATA`
 work-size printf, built through
