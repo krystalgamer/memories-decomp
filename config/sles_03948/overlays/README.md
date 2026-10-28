@@ -430,6 +430,12 @@ set to 0x3D28 instead of 0x3D20, as in the French header-772 entry;
 `src/overlays/french_model_variant/variant856_entry{,_slot1}.c`. The entry has
 no work-size printf, so the data labels do not move.
 
+Nine images under French headers 646 and 713 are the North American
+header-629 entry (`model_variant/variant629_entry.c`) without its `E_DATA`
+work-size printf, built through
+`src/overlays/french_model_variant/variant646_entry{,_slot1}.c` with the data
+labels 0x28 lower.
+
 Eight images under French headers 689 and 756 are the North American
 header-672 entry (`model_variant/variant672_entry.c`) without its `E_DATA`
 work-size printf, built through
