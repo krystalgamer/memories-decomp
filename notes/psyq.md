@@ -157,6 +157,18 @@ above.
 | Image | Renamed | Already named | No North American name | Not a function start |
 |---|---:|---:|---:|---:|
 | `slpm_86398` | 227 | 203 | 48 | 4 |
+| `sles_03947` | 256 | 156 | 19 | 6 |
+| `sles_03948` | 410 | 2 | 19 | 6 |
+| `sles_03949` | 412 | 0 | 19 | 6 |
+| `sles_03950` | 412 | 0 | 19 | 6 |
+| `sles_03951` | 412 | 0 | 19 | 6 |
+
+The European renames touch only the five `functions.csv` inventories. The
+`func_` identities that European C reaches through `link_symbols.ld` lines
+(`func_80073B94 = 0x80073D98;` in `sles_03948`) and through
+`#define SetMem func_80073B94`-style wrappers keep their spelling. They are
+address assignments, so they still resolve to the same words. Turning them
+into the new names is separate cleanup.
 
 ### Catalogue input contract
 
