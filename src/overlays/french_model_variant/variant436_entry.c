@@ -2,6 +2,10 @@
 #include "../../game/model_get_frame_step.h"
 #include "variant436_entry.h"
 
+#ifndef MODEL_VARIANT436_CLUT_X
+#define MODEL_VARIANT436_CLUT_X 640
+#endif
+
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
     EntryState436 *work = (EntryState436 *)point;
@@ -49,9 +53,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->origin_b.t[1] - work->origin_a.t[1],
             work->origin_b.t[2] - work->origin_a.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT436_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT436_CLUT_X, 244);
         packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013DFBC + 0xC4));
         ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013DFBC + 0x8C));
         ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013DFBC + 0x1C));
