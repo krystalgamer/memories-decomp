@@ -981,6 +981,84 @@ as `func_` placeholders. The `sles_03948` to `sles_03951` inventories name no
 `Gs*` function, so the same resolution finds nothing there and they get no
 entry.
 
+### Other SDK data symbols
+
+The same relocation reading names the data of the other libraries the image
+links. Each address below comes from HI16/LO16 pairs in objects whose text
+equals the retail bytes outside the patched words, and every pair for a symbol
+agrees. `CD_cbready` and `CD_cbsync` are the two callback pointers that the
+`CdReadyCallback`/`CdSyncCallback` entry above already pins as `D_800F8394`
+and `D_800F8398`. The library's own names confirm that reading. `StCdIntrFlag`
+(`0x800F5D44`) is the word that `gLibCd_nDeferredStreamInterrupt` already
+names, so it is not repeated here.
+
+| Symbol | NA | Japan | `sles_03947` | Object | NA relocations read from |
+|---|---:|---:|---:|---|---|
+| `Vcount` | `0x80092AC8` | `0x80092978` | `0x80093AD4` | `LIBETC/INTR_VB` | `VSync` |
+| `_spu_EVdma` | `0x80092B10` | `0x800929C0` | `0x80093B2C` | `LIBSPU/S_INI` | `SpuClearReverbWorkArea`, `SpuIsTransferCompleted`, `SpuQuit` |
+| `_spu_keystat` | `0x80092B14` | `0x800929C4` | `0x80093B30` | `LIBSPU/S_INI` | `SpuGetKeyStatus`, `SpuRGetAllKeysStatus`, `SpuSetKey` |
+| `_spu_trans_mode` | `0x80092B18` | `0x800929C8` | `0x80093B34` | `LIBSPU/S_INI` | `SpuIsTransferCompleted`, `SpuSetTransferMode` |
+| `_spu_rev_flag` | `0x80092B1C` | `0x800929CC` |  | `LIBSPU/S_INI` | `SpuSetReverb` |
+| `_spu_rev_reserve_wa` | `0x80092B20` | `0x800929D0` | `0x80093B3C` | `LIBSPU/S_INI` | `SpuIsReverbWorkAreaReserved`, `SpuReserveReverbWorkArea`, `SpuSetReverb` |
+| `_spu_rev_offsetaddr` | `0x80092B24` | `0x800929D4` | `0x80093B40` | `LIBSPU/S_INI` | `SpuIsReverbWorkAreaReserved`, `SpuReserveReverbWorkArea`, `SpuSetReverb`, `SpuSetReverbModeParam` and others |
+| `_spu_rev_attr` | `0x80092B28` | `0x800929D8` | `0x80093B44` | `LIBSPU/S_INI` | `SpuSetReverbModeParam`, `SpuSetReverbModeType` |
+| `_spu_RQvoice` | `0x80092B3C` | `0x800929EC` | `0x80093B58` | `LIBSPU/S_INI` | `SpuSetKey` |
+| `_spu_RQmask` | `0x80092B40` | `0x800929F0` | `0x80093B5C` | `LIBSPU/S_INI` | `SpuSetKey`, `_SpuSetAnyVoice` |
+| `_spu_voice_centerNote` | `0x80092B44` | `0x800929F4` | `0x80093B60` | `LIBSPU/S_INI` | `SpuSetVoiceAttr` |
+| `_spu_env` | `0x80092B74` | `0x80092A24` | `0x80093B90` | `LIBSPU/S_INI` | `SpuSetKey`, `_SpuSetAnyVoice` |
+| `_spu_isCalled` | `0x80092B78` | `0x80092A28` | `0x80093B94` | `LIBSPU/S_INI` | `SpuQuit` |
+| `_spu_RXX` | `0x80092B88` | `0x80092A38` | `0x80093BA4` | `LIBSPU/SPU` | `SpuGetKeyStatus`, `SpuGetReverb`, `SpuGetVoiceEnvelope`, `SpuRGetAllKeysStatus` and others |
+| `_spu_tsa` | `0x80092BA0` | `0x80092A50` | `0x80093BBC` | `LIBSPU/SPU` | `SpuSetTransferStartAddr` |
+| `_spu_transMode` | `0x80092BA4` | `0x80092A54` | `0x80093BC0` | `LIBSPU/SPU` | `SpuClearReverbWorkArea`, `SpuSetTransferMode`, `_SpuInit` |
+| `_spu_mem_mode_plus` | `0x80092BB0` | `0x80092A60` | `0x80093BCC` | `LIBSPU/SPU` | `SpuClearReverbWorkArea`, `SpuSetTransferStartAddr`, `_SpuIsInAllocateArea` |
+| `_spu_inTransfer` | `0x80092BBC` | `0x80092A6C` | `0x80093BD8` | `LIBSPU/SPU` | `SpuIsTransferCompleted`, `SpuWrite` |
+| `_spu_transferCallback` | `0x80092BC0` | `0x80092A70` | `0x80093BDC` | `LIBSPU/SPU` | `SpuClearReverbWorkArea`, `SpuQuit`, `SpuWrite` |
+| `_spu_IRQCallback` | `0x80092BC4` | `0x80092A74` | `0x80093BE0` | `LIBSPU/SPU` | `SpuQuit` |
+| `_spu_AllocBlockNum` | `0x80092BE8` |  |  | `LIBSPU/S_M` | `_SpuInit` |
+| `_spu_AllocLastNum` | `0x80092BEC` |  |  | `LIBSPU/S_M` | `_SpuInit` |
+| `_spu_memList` | `0x80092BF0` |  |  | `LIBSPU/S_M` | `_SpuInit`, `_SpuIsInAllocateArea` |
+| `_spu_zerobuf` | `0x80092BF8` |  |  | `LIBSPU/ZEROBUF` | `SpuClearReverbWorkArea` |
+| `_spu_rev_startaddr` | `0x80093118` | `0x80092FC8` | `0x80094134` | `LIBSPU/S_RMP0` | `SpuClearReverbWorkArea`, `SpuSetReverbModeParam`, `SpuSetReverbModeType`, `_SpuInit` |
+| `_spu_rev_param` | `0x80093148` | `0x80092FF8` | `0x80094164` | `LIBSPU/S_RMP2` | `SpuSetReverbModeParam`, `SpuSetReverbModeType` |
+| `CD_debug` | `0x800934E8` | `0x80093398` | `0x80094504` | `LIBCD/BIOS_1` | `DsSearchFile` |
+| `DS_active` | `0x80093500` | `0x800933B0` |  | `LIBCD/BIOS_1` | `StUnSetRing` |
+| `GPU_printf` | `0x80094664` | `0x80094514` |  | `LIBGPU/SYS` | `SetDumpFnt` |
+| `rsin_tbl` | `0x80094938` | `0x800947E8` | `0x80095824` | `LIBGTE/SINCOS` | `rcos`, `rsin` |
+| `SQRT` | `0x800951A8` | `0x80095058` | `0x80096094` | `LIBGTE/SQRTBL` | `SquareRoot0` |
+| `rcossin_tbl` | `0x80095638` | `0x800954E8` | `0x80096524` | `LIBGTE/CSTBL` | `RotMatrix`, `RotMatrixX`, `RotMatrixY`, `RotMatrixYXZ` and others |
+| `_ctype_` | `0x80099EE8` |  |  | `LIBC2/CTYPE_0` | `_putchar`, `prnt` |
+| `GlobalCallback` |  | `0x800F5A80` |  | `LIBDS/DSCB`, 0xC bytes | (Japanese image only) |
+| `_spu_RQ` | `0x800F5D20` | `0x800F3410` | `0x800F6C88` | `LIBSPU/SPU`, 0x14 bytes | `SpuSetKey` |
+| `Stframe_no` | `0x800F5D38` | `0x800F3428` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StClearRing`, `StSetStream` |
+| `Stsector_offset` | `0x800F5D3C` | `0x800F342C` |  | `LIBCD/CDROM`, 0x2 bytes | `StCdInterrupt`, `StClearRing`, `StSetStream` |
+| `StRgb24` | `0x800F5D40` | `0x800F3430` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StSetStream` |
+| `StCHANNEL` | `0x800F5D48` | `0x800F3438` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StSetStream` |
+| `StStartFrame` | `0x800F5D4C` | `0x800F343C` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StSetMask` |
+| `CChannel` | `0x800F5D50` | `0x800F3440` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StSetStream` |
+| `StFinalSector` | `0x800F5D54` | `0x800F3444` | `0x800F6CE0` | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StClearRing`, `data_ready_callback` |
+| `StEmu_Idx` | `0x800F5D58` | `0x800F3448` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt` |
+| `StRingIdx1` | `0x800F5D5C` | `0x800F344C` | `0x800F6CB4` | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StClearRing`, `data_ready_callback` |
+| `StRingIdx2` | `0x800F5D60` | `0x800F3450` | `0x800F6CB8` | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StClearRing`, `data_ready_callback` |
+| `StRingIdx3` | `0x800F5D64` | `0x800F3454` | `0x800F6CBC` | `LIBCD/CDROM`, 0x4 bytes | `StClearRing`, `StFreeRing`, `StGetNext` |
+| `StEmu_Addr` | `0x800F5D68` | `0x800F3458` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StSetStream` |
+| `StEndFrame` | `0x800F5D6C` | `0x800F345C` | `0x800F6CB0` | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StGetNext`, `StSetMask` |
+| `StSTART_FLAG` | `0x800F5D70` | `0x800F3460` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StSetMask` |
+| `StRingBase` | `0x800F5D74` | `0x800F3464` |  | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt` |
+| `StRingAddr` | `0x800F5D78` | `0x800F3468` | `0x800F6CC4` | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StFreeRing`, `StGetNext`, `data_ready_callback` and others |
+| `StRingSize` | `0x800F5D7C` | `0x800F346C` | `0x800F6CD0` | `LIBCD/CDROM`, 0x4 bytes | `StCdInterrupt`, `StClearRing`, `StFreeRing`, `StGetNext` |
+| `StFunc1` | `0x800F5D90` | `0x800F3480` | `0x800F6CF8` | `LIBCD/C_005`, 0x4 bytes | `data_ready_callback` |
+| `StFunc2` | `0x800F5D94` | `0x800F3484` |  | `LIBCD/C_005`, 0x4 bytes | `StCdInterrupt` |
+| `StMode` | `0x800F5DD8` | `0x800F34C8` | `0x800F6D40` | `LIBCD/BIOS_1`, 0x4 bytes | `DsRead2`, `StCdInterrupt`, `data_ready_callback` |
+| `CD_cbready` | `0x800F8394` | `0x800F5A84` | `0x800F92FC` | `LIBCD/BIOS_1` | `CdReadyCallback` |
+| `CD_cbsync` | `0x800F8398` |  |  | `LIBCD/BIOS_1` | `CdSyncCallback` |
+| `USTACK` | `0x800FE278` | `0x800FB968` | `0x800FF1E0` | `LIBHMD/MAPUNIT`, 0x80 bytes | `GsGetLsUnit`, `GsGetLwUnit`, `GsGetLwsUnit` |
+
+An empty cell means that inventory does not yet name a function whose object
+relocates the symbol. `GlobalCallback` resolves only in the Japanese image.
+The 4.6 `LIBDS.LIB/DSSYS_2.OBJ` that relocates it matches there, but not in
+the North American image, which carries the patched LIBDS covered above (its
+`DsCommand` is `0x274` bytes against the Japanese `0x244`).
+
 ## Shared declaration policy
 
 The repository owner has chosen to track the real Psy-Q 4.6 headers under
