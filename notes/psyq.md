@@ -144,7 +144,10 @@ object's label, so every choice pinned in `psyq_signature_resolutions.json`
 carries over. `--check` is the control: on the North American image, 425
 proposals equal the inventory name. The one remaining address, `0x8007E7F0`,
 is `CdControlB`, where the LIBDS duplicates `DsControl`/`DsControlB` lose to
-the pinned resolution. The result has zero disagreements.
+the pinned resolution. The result has zero disagreements. A control that
+confirms no name at all (an empty or unrelated library directory) is
+inconclusive: `--check`, `--report` and `--apply` all stop with exit status 2
+and write nothing.
 
 Library code that the North American image does not link (`Mcx*`, `PAD_dr`,
 the LIBDS reset path and others) has no inventory name to carry. Those rows

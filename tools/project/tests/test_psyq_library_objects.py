@@ -3,14 +3,19 @@ from __future__ import annotations
 from pathlib import Path
 import struct
 import sys
+import contextlib
+import io
 import tempfile
 import unittest
+from unittest import mock
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPOSITORY / "tools/project"))
 
+import psyq_library_objects
 from psyq_library_objects import (
     PLACEHOLDER,
+    REFERENCE,
     LibraryError,
     match_labels,
     parse_library,
@@ -95,6 +100,54 @@ class PsyqLibraryObjectTests(unittest.TestCase):
             self.assertRegex(name, PLACEHOLDER)
         for name in ("CdControlB", "CdPosToInt_8007E710", "D_80090DD8_French"):
             self.assertNotRegex(name, PLACEHOLDER)
+
+
+    def run_main(self, argv: list[str], images: dict, inventories: dict) -> tuple[int, mock.Mock]:
+        """Run the CLI against synthetic images and inventories; apply() is recorded."""
+        applied = mock.Mock(return_value=0)
+        with contextlib.ExitStack() as stack:
+            module = psyq_library_objects
+            stack.enter_context(mock.patch.object(module, "require_workspace_root", return_value=self.directory))
+            stack.enter_context(mock.patch.object(module, "load_image", side_effect=lambda root, image: images[image]))
+            stack.enter_context(mock.patch.object(module, "load_inventory", side_effect=lambda root, image: inventories[image]))
+            stack.enter_context(mock.patch.object(module, "pinned_resolutions", return_value={}))
+            stack.enter_context(mock.patch.object(module, "apply", applied))
+            stack.enter_context(contextlib.redirect_stdout(io.StringIO()))
+            stack.enter_context(contextlib.redirect_stderr(io.StringIO()))
+            status = module.main(["--library-dir", str(self.directory)] + argv)
+        return status, applied
+
+    def test_zero_evidence_control_is_inconclusive(self) -> None:
+        words = [0x27BDFFE8, 0xAFBF0010, 0x03E00008, 0x27BD0018]
+        unrelated = (0x80010000, (0x00000000,) * 8)
+        images = {REFERENCE: unrelated, "slpm_86398": unrelated}
+        inventories = {
+            REFERENCE: [{"address": "0x80010000", "name": "Alpha", "status": "sdk_asm"}],
+            "slpm_86398": [{"address": "0x80010000", "name": "func_80010000", "status": "sdk_asm"}],
+        }
+        for members in ([], [("OBJ_001", lnk_object(words, [], [("Alpha", 0)]))]):
+            with self.subTest(members=len(members)):
+                self.write_library(members)
+                for argv in (["--check"], ["--report", "--image", "slpm_86398"],
+                             ["--apply", "--image", "slpm_86398"]):
+                    status, applied = self.run_main(argv, images, inventories)
+                    self.assertEqual(status, 2, argv)
+                    applied.assert_not_called()
+
+    def test_valid_control_with_no_target_proposals_succeeds(self) -> None:
+        words = [0x27BDFFE8, 0xAFBF0010, 0x03E00008, 0x27BD0018]
+        self.write_library([("OBJ_001", lnk_object(words, [], [("Alpha", 0)]))])
+        images = {REFERENCE: (0x80010000, tuple(words)), "slpm_86398": (0x80010000, (0,) * 4)}
+        inventories = {
+            REFERENCE: [{"address": "0x80010000", "name": "Alpha", "status": "sdk_asm"}],
+            "slpm_86398": [{"address": "0x80010000", "name": "func_80010000", "status": "sdk_asm"}],
+        }
+        status, applied = self.run_main(["--check"], images, inventories)
+        self.assertEqual(status, 0)
+        status, applied = self.run_main(["--apply", "--image", "slpm_86398"], images, inventories)
+        self.assertEqual(status, 0)
+        applied.assert_called_once()
+        self.assertEqual(applied.call_args.args[2], {})
 
 
 if __name__ == "__main__":

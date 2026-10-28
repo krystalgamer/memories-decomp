@@ -331,6 +331,20 @@ def control(root: Path, objects: list[LibraryObject]) -> dict:
     return {"agree": agree, "pinned": pinned_choice, "disagree": disagree, "names": names}
 
 
+def require_reference_evidence(reference: dict) -> None:
+    """Reject a control that confirmed no North American name.
+
+    Zero agreements means no library object matched a named ``sdk_asm``
+    function (an empty or unrelated library directory), so the control
+    verified nothing and must not pass as a clean result. Zero *proposals*
+    after a control with agreements is a different, legitimate outcome.
+    """
+    if reference["agree"] == 0:
+        raise LibraryError(
+            f"{REFERENCE} control is inconclusive: no library object matched a "
+            "named sdk_asm function; check --library-dir")
+
+
 def propose(root: Path, objects: list[LibraryObject], image: str) -> dict:
     reference = control(root, objects)
     load_address, words = load_image(root, image)
@@ -434,8 +448,10 @@ def main(argv: list[str] | None = None) -> int:
                   f"{len(reference['disagree'])} disagree")
             for address, name, labels in reference["pinned"] + reference["disagree"]:
                 print(f"  0x{address:08X} {name} <- {'|'.join(labels)}")
+            require_reference_evidence(reference)
             return 1 if reference["disagree"] else 0
         result = propose(root, objects, args.image)
+        require_reference_evidence(result["reference"])
         if result["reference"]["disagree"]:
             raise LibraryError("North American control disagrees; run --check")
         for address, (old, new, identities) in sorted(result["proposals"].items()):
