@@ -11,9 +11,12 @@
  * also prints the work-area size. */
 
 /* The work-size format string; the padding byte after the terminator
- * is 0x14. */
+ * is 0x14 in slot zero and 0x8F in slot one. */
+#ifndef MODEL665_STRING_PAD
+#define MODEL665_STRING_PAD "\x14"
+#endif
 #ifndef VERSION_FRENCH
-static const char D_8013E4EC[24] = "E_DATA size = %x byte\n\0\x14";
+static const char D_8013E4EC[24] = "E_DATA size = %x byte\n\0" MODEL665_STRING_PAD;
 #endif
 
 s32 func_8013B004(u8 *context, s32 command)
