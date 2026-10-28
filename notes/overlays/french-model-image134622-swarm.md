@@ -43,5 +43,8 @@ image 134622 retains
 `a5e5b11a69a8b885a815f2935c0e17d94e310a1f4766a95086429537c0f585c3`.
 The original loader-entry assembly and raw tail of image 134612 remain
 unchanged, as do the existing French and Spanish image-134622 owners.
-The Spanish image-134612 registration is not changed: its original
-archive is not available locally for complete-image validation.
+The Spanish `model_image_model_134612_8013b000` image (SLES-03951) is
+byte-identical and registers the same `image134612_swarm.c` wrapper
+with the same profile and region bindings. Its complete image rebuilt
+from `game/spain/DATA/MODEL.MRG` keeps SHA-256
+`eaad64467eca27fec6f107312fc2964d8cd9673c29e768899cfdaaef8ce81ccb`.
