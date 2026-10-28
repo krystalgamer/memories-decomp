@@ -49,3 +49,7 @@ and stage 10 slot 1 images and in their byte-identical Spanish twins.
 MODEL411 binding files. All eight images rebuild exactly. The
 [attempt ledger](french-model-variant411-tube-attempts.csv) records the
 probes.
+
+The [French loader entries](french-model-variant411-entry.md) now also
+match in all four French images, completing their five inventoried
+functions. Spanish entry registrations remain unchanged.
