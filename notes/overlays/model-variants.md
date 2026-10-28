@@ -934,3 +934,17 @@ They are headers 435 (models 1, 360, 550 at `+ 200`), 172 (188, 597 and 149 at
 `+ 200`) and 372 (184 and 269 at `+ 180`). They are left as they are until it is
 known how those images are loaded. No symbols are declared inside resident
 functions to make them link.
+
+## Header 412 entry
+
+`variant412_entry.c` (profile `gcc_2_7_2_cdk_g0`, `0x133C` bytes) builds the
+North American image `model_variant_517_pos0_slot0` (model 517, record 467,
+sector 129072). It is the header-407 entry with the 48 petals replaced by a
+ten-sprite trail at `work + 0` and six flares at `work + 0x2FC`, a `0x3C`-byte
+config whose word at `+0x38` raises the root part's matrix height, no
+`+0x38` image upload, a sweep of `6144` over the config window `+0x30..+0x34`
+that offsets the flare positions by `rsin(sweep) * 512 >> 12`, and two helpers
+(`0x1340` from frame `+0x1C`, `0x18B8` from phase 2) kept as generated
+assembly. The opposite-slot copy must be written as two calls: one call with a
+computed argument compiles to `sltiu`, while retail branches to set `$a0`.
+Declaring `packed` before the web radii places it at `sp + 0xB8`.
