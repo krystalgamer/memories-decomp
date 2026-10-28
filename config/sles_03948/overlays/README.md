@@ -739,6 +739,12 @@ data because of its nonzero padding), built through
 `src/overlays/french_model_variant/variant155_entry{,_slot1}.c`. The scale
 vector sits 0x14 lower and the image and command tables 0x28 lower.
 
+Two images under French headers 152 and 282 are the North American
+header-135 entry (`model_variant/variant135_entry.c`) without its work-size
+printf or that call's `.rodata` format string, built through
+`src/overlays/french_model_variant/variant152_entry{,_slot1}.c`. The scale
+vector sits 0x14 lower and the image and command tables 0x24 lower.
+
 Four images under French header 84, and their four slot-one counterparts
 under header 214, are the North American header-67 entry
 (`model_variant/variant67_entry.c`, wired to US headers 67 and 197) unchanged
@@ -850,12 +856,6 @@ follows the North American header-433 entry's shape; its command rows
 (0x2C bytes) and texture images are offsets into the tail label
 `D_8013ED00`. The trails helper at image offset 0x101C and the lines helper
 at 0x1F58 remain generated assembly.
-
-Two images under French headers 152 and 282 are the North American
-header-135 entry (`model_variant/variant135_entry.c`) without its work-size
-printf or that call's `.rodata` format string, built through
-`src/overlays/french_model_variant/variant152_entry{,_slot1}.c`. The scale
-vector sits 0x14 lower and the image and command tables 0x24 lower.
 
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
