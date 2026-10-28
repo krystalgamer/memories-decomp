@@ -41,12 +41,16 @@ typedef struct {
 } Model108Trail;
 
 /* The 0xDC-byte work area: the command row, the anchor joint position at
- * the previous frame, two trails and the quads they leave behind, each
- * trail's ring index, two textures and the elapsed time. */
+ * the previous frame, two trails (also seen as one flat run of 16 end
+ * points, which the setup fills in a single walk) and the quads they leave
+ * behind, each trail's ring index, two textures and the elapsed time. */
 typedef struct {
     Model108Config *G32 config;
     SVECTOR anchor;
-    Model108Trail trails[2];
+    union {
+        Model108Trail trails[2];
+        SVECTOR points[16];
+    } ends;
     SVECTOR quads[2][4];
     u8 index[2];
     u8 unknown_ce[2];

@@ -72,7 +72,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->anchor.vx = head.vx;
         work->anchor.vy = head.vy;
         work->anchor.vz = head.vz;
-        point = work->trails[0].inner;
+        point = work->ends.points;
         for (i = 0; i < 2; i++) {
             GsSetLsMatrix(&base);
             GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->trail_joints[i]), &matrix);
@@ -144,8 +144,8 @@ s32 func_8013B004(u8 *context, s32 command)
             GsSetLsMatrix(&base);
             depth = RotTransPers(&head, (PSXLONG *)&ribbon.x0, &parameter, &flag);
             depth += RotTransPers(&tail, (PSXLONG *)&ribbon.x1, &parameter, &flag);
-            point = work->trails[i].inner;
-            other = work->trails[i].outer;
+            point = work->ends.trails[i].inner;
+            other = work->ends.trails[i].outer;
             for (j = 0; j < 4; j++) {
                 vertices[0].vx = point[(work->index[i] + j) % 4].vx;
                 vertices[0].vy = point[(work->index[i] + j) % 4].vy;
@@ -186,8 +186,8 @@ s32 func_8013B004(u8 *context, s32 command)
             other[work->index[i]].vy = tail.vy;
             other[work->index[i]].vz = tail.vz;
         } else {
-            point = work->trails[i].inner;
-            other = work->trails[i].outer;
+            point = work->ends.trails[i].inner;
+            other = work->ends.trails[i].outer;
             for (j = 0; j < 4; j++, point++, other++) {
                 point->vx = head.vx;
                 point->vy = head.vy;
@@ -205,8 +205,8 @@ s32 func_8013B004(u8 *context, s32 command)
     for (i = 0; i < 2; i++) {
         time = work->elapsed - config->start[i];
         if (time >= 0 && time < config->duration) {
-            point = &work->trails[i].outer[work->index[i]];
-            other = &work->trails[i].outer[(work->index[i] + 3) % 4];
+            point = &work->ends.trails[i].outer[work->index[i]];
+            other = &work->ends.trails[i].outer[(work->index[i] + 3) % 4];
             setVector(&work->quads[i][0], other->vx, other->vy, other->vz);
             setVector(&work->quads[i][1], point->vx, point->vy, point->vz);
             setVector(&work->quads[i][2], other->vx,
@@ -273,7 +273,7 @@ s32 func_8013B004(u8 *context, s32 command)
         if (time >= 0 && time < config->duration + 16) {
             count = config->duration < 2 ? config->duration / 2 : 4;
             for (j = 0; j < count; j++) {
-                point = &work->trails[i].inner[(work->index[i] + j) % 4];
+                point = &work->ends.trails[i].inner[(work->index[i] + j) % 4];
                 position.vx = point->vx;
                 position.vy = point->vy;
                 position.vz = side * 450;
