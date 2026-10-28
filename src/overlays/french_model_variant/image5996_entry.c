@@ -13,10 +13,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR translation;
     VECTOR scale;
     SVECTOR v0, v1, v2;
-    union {
-        SVECTOR fourth;
-        DVECTOR screens[66];
-    } projected;
+    Image5996Projection projected;
     u16 depths[66];
     u16 interpolation[66];
     u16 flags[66];

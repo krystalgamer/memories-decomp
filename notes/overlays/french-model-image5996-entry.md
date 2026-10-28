@@ -73,7 +73,8 @@ start the latch permits return 1 once; the default return is zero.
 
 The recovered stack frame is 968 bytes. Native code uses stack+232 both for
 the fourth card corner and, later, for the 66 projected screen points.
-The local union expresses these observed, non-overlapping scratch uses.
+The component-header projection union expresses these observed,
+non-overlapping scratch uses; its instance remains function-local.
 The depth, interpolation and flag arrays remain genuine SDK batch outputs.
 
 Real walking cursors recover the native geometry/projection lifetimes.
@@ -85,7 +86,10 @@ without writing an intermediate value to the escaped SDK flag output.
 
 The attempt ledger records one bootstrap declaration failure, nine native
 compiler experiments with frozen source/header fingerprints and precise
-measured reasons, and both production proofs. The OR-reversal experiment
+measured reasons, and both production proofs. A subsequent header-only type
+placement refinement preserves both full-image matches: the metadata policy
+requires the projection union definition in the owning header, not the C body.
+The OR-reversal experiment
 changes the two load instructions but does not solve their native ordering;
 it is not claimed to be byte-identical to its predecessor.
 

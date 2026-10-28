@@ -47,6 +47,11 @@ typedef struct {
     s32 elapsed;
 } Image5996State;
 
+typedef union {
+    SVECTOR fourth;
+    DVECTOR screens[66];
+} Image5996Projection;
+
 extern VECTOR D_8013BF44;
 extern GsIMAGE D_8013BF54[3];
 extern Image5996Config D_8013BFA8[];
