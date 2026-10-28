@@ -500,6 +500,12 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant810_linker_symbols.txt` binds to the French
 addresses.
 
+Four images under French headers 838 and 935 are the North American
+header-821 entry (`model_variant/variant821_entry.c`) unchanged; only the
+resident `jal` targets differ. The French modules build `variant821_entry.c`
+and its `_slot1.c` wrapper directly through
+`model_variant838_linker_symbols.txt`.
+
 Thirty-four images under French headers 680 and 747 are the North American
 header-663 entry (`model_variant/variant663_entry.c`) without its `E_DATA`
 work-size printf, built through
