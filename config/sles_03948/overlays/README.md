@@ -336,6 +336,13 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant653_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Six images under French headers 165 and 295 are the North American
+header-148 entry (`model_variant/variant148_entry.c`) without its work-size
+printf and format string, with the flash covering all 256 PAL lines. The
+`src/overlays/french_model_variant/variant165_entry{,_slot1}.c` wrappers set
+the height and move the data labels after the shorter text and read-only
+section 0x24 lower.
+
 Six images under French headers 812 and 909 are the North American
 header-795 entry (`model_variant/variant795_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
