@@ -620,6 +620,12 @@ flash tile covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects
 the height, through
 `src/overlays/french_model_variant/variant800_entry{,_slot1}.c`.
 
+Four images under French headers 808 and 905 are the North American
+header-791 entry (`model_variant/variant791_entry.c`) unchanged; only the
+resident `jal` targets differ. The French modules build `variant791_entry.c`
+and its `_slot1.c` wrapper directly through
+`model_variant808_linker_symbols.txt`.
+
 Four images under French header 139, and their four slot-one counterparts
 under header 269, are the North American header-122 entry
 (`model_variant/variant122_entry.c`, wired to US headers 122 and 252) with its
