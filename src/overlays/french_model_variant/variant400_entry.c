@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant400_entry.h"
 
+#ifndef MODEL_VARIANT400_CLUT_X
+#define MODEL_VARIANT400_CLUT_X 640
+#endif
+
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
     Variant400EntryState *work = (Variant400EntryState *)point;
@@ -43,9 +47,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->direction.vy = work->target.vy - work->matrix.t[1];
         work->direction.vz = work->target.vz - work->matrix.t[2];
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT400_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT400_CLUT_X, 244);
         packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D748 + 0xC4));
         flat_texture = packed;
         flat_page = packed >> 16;
