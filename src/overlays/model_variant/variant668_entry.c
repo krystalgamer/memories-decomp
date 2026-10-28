@@ -240,7 +240,11 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->flash.color[2] = D_8013C0F8[work->command].color[5] * value / duration;
             }
             setPolyF4(&work->flash_poly);
+#ifdef VERSION_FRENCH
+            setXY4(&work->flash_poly, 0, 0, 320, 0, 0, 256, 320, 256);
+#else
             setXY4(&work->flash_poly, 0, 0, 320, 0, 0, 240, 320, 240);
+#endif
             setRGB0(&work->flash_poly, work->flash.color[0], work->flash.color[1], work->flash.color[2]);
             Graphics_SubmitDrawModePacket((u32 *)&work->flash_poly, func_80058F10(), 0, work->flash.mode);
             work->flash.elapsed += step;

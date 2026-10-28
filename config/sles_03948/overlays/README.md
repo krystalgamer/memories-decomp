@@ -509,6 +509,18 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant675_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Six images under French headers 685 and 752 are the North American
+header-668 entry (`model_variant/variant668_entry.c`) without its `E_DATA`
+work-size printf, with the full-screen flash covering the 256-line PAL
+screen. The format string was the whole read-only section, so it goes too,
+and the `src/overlays/french_model_variant/variant685_entry{,_slot1}.c`
+wrappers move the two data labels 0x28 lower. The uncalled function at
+0x3520 and the data after it stay in place; in the two model-447 images that
+helper keeps its accepted French C (`variant447_rings.c`, GCC 2.7.2 CDK)
+through `variant685_rings{,_slot1}.c`, which alias the five resident names
+it shares with the entry and bind them in
+`model_variant685_rings_linker_symbols.txt`.
+
 Twenty-six images under French headers 794 and 891 are the North American
 header-777 entry (`model_variant/variant777_entry.c`) with its full-screen
 flash covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects the
