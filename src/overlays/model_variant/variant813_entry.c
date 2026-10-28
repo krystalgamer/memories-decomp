@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant813_entry.h"
+#include "../../game/screen_projection.h"
 
 /* Header 813's entry: while the ambient light dims, orbs and comets leave two
  * model parts and fly to jittered points on the opposing slot. Each orb
