@@ -497,6 +497,13 @@ flash tile covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects
 the height, through
 `src/overlays/french_model_variant/variant800_entry{,_slot1}.c`.
 
+Four images under French header 139, and their four slot-one counterparts
+under header 269, are the North American header-122 entry
+(`model_variant/variant122_entry.c`, wired to US headers 122 and 252) with its
+full-screen flash tile covering the 256 PAL lines instead of 240.
+`VERSION_FRENCH` selects the height, through
+`src/overlays/french_model_variant/variant139_entry{,_slot1}.c`.
+
 Eight images under French header 95, and their eight slot-one counterparts
 under header 225, are the North American header-78 entry
 (`model_variant/variant78_entry.c` and its `variant78_entry_slot1.c` copy)
