@@ -1,0 +1,53 @@
+{
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x1204",
+      "source": "src/overlays/model_variant/variant400_entry.c"
+    },
+    {
+      "address": "0x8013C208",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x578",
+      "source": "src/overlays/model_variant/variant400_lines.c"
+    },
+    {
+      "address": "0x8013C780",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x6F0",
+      "source": "src/overlays/model_variant/variant400_tube.c"
+    },
+    {
+      "address": "0x8013CE70",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x61C",
+      "source": "src/overlays/model_variant/variant400_ribbon.c"
+    },
+    {
+      "address": "0x8013D48C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x634",
+      "source": "src/overlays/model_variant/variant400_rays.c"
+    },
+    {
+      "address": "0x8013DAC0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x62C",
+      "source": "src/overlays/model_variant/variant400_sheets.c"
+    },
+    {
+      "address": "0x8013E0EC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x674",
+      "source": "src/overlays/model_variant/variant400_feedback.c"
+    },
+    {
+      "address": "0x8013E760",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xCA4",
+      "source": "src/overlays/model_variant/variant400_spiral.c"
+    }
+  ],
+  "schema": 1
+}
