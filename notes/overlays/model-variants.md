@@ -100,6 +100,12 @@ at the North American address. The French header-430/580 images compile the
 same entry under `gcc_2_8_1_g0_split` (0x12E8 bytes against the North
 American 0x12EC) and keep their 2.8.1 helper.
 
+The two North American header-437/587 images build their entry and the
+blooms helper from `model_variant/variant437_entry.c` under
+`gcc_2_7_2_cdk_g0`; the helper is the French `image22822_blooms.c` included
+at the North American address. The French header-454/604 images compile the
+same entry under `gcc_2_8_1_g0_split` and keep their 2.8.1 helper.
+
 ## Header families
 
 The first word of a variant image is a header id. Every image with a given
