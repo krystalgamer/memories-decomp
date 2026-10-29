@@ -22179,10 +22179,11 @@
     {
       "archive": "game/DATA/MODEL.MRG",
       "archive_sha256": "6a738960cfae167d6612f190c07cf0147f3bcc8c2dd97814e154fecc283e1d4b",
-      "layout": "config/slus_01411/overlays/model_image_model_171320_8013b000.yaml",
+      "layout": "config/slus_01411/overlays/model_variant_721_stage9_slot0.yaml",
+      "linker_symbols": "config/slus_01411/overlays/variant838_linker_symbols.txt",
       "load_address": "0x8013B000",
-      "name": "model_image_model_171320_8013b000",
-      "output": "tmp/overlays/model_image_model_171320_8013b000/module.bin",
+      "name": "model_variant_721_stage9_slot0",
+      "output": "tmp/overlays/model_variant_721_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 171320,
       "sha256": "72c4410b60bec9b6b48e535d99f1b307ebfa0ed30f1fb64f49b1a3de94806e24"
