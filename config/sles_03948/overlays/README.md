@@ -930,11 +930,15 @@ or that call's `.rodata` format string, and with a 256-line screen flash.
 The scale vector sits 0x14 lower than in the North American image and the
 image and command tables 0x24 lower.
 
+French MODEL headers 183 (stage 9 slot 0) and 313 (stage 10 slot 1) build the US header-166 entry from `src/overlays/model_variant/variant166_entry.c` through `src/overlays/french_model_variant/variant183_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf` and its string (entry -0x14; tables `D_8013CCDC`/`D_8013CD68` become `D_8013CCB8`/`D_8013CD44`), and `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL flash height.
+
 Two images under French headers 190 and 320 are the North American
 header-173 entry (`model_variant/variant173_entry.c`) without its work-size
 printf or that call's `.rodata` format string, built through
 `src/overlays/french_model_variant/variant190_entry{,_slot1}.c`. The scale
 vector sits 0x14 lower and the image and command tables 0x24 lower.
+
+French MODEL headers 191 (stage 9 slot 0) and 321 (stage 10 slot 1) build the US header-174 entry from `src/overlays/model_variant/variant174_entry.c` through `src/overlays/french_model_variant/variant191_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf` and its string (entry -0x14; tables `D_8013C7CC`/`D_8013C83C` become `D_8013C7A8`/`D_8013C818`), and `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL flash height.
 
 Six images under French headers 452 and 602 build their loader entry from
 French C, `src/overlays/french_model_variant/variant452_entry.c` (slot 1
