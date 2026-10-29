@@ -118,6 +118,15 @@ helpers stay generated assembly. The French header-383/533 images compile the
 same entry under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the
 palette to VRAM x 640, beside their existing 2.8.1 helper C.
 
+The two North American header-411/561 images (model 507, stage 9 slot 0 and
+stage 10 slot 1) build their entry and both helpers from
+`model_variant/variant411us_entry.c` under `gcc_2_7_2_cdk_g0`. The entry is
+the header-412 entry with a 32-sprite swarm at `work + 0x2FC` in place of the
+six flares, 384-unit trail sprites, a `0x38`-byte config and no height offset
+on the root part. The helpers are the French header-428 swarm and quads
+sources included at the North American addresses (the swarm moves from
+`0x8013C308` to `0x8013C30C`); under 2.7.2 both match unchanged.
+
 ## Header families
 
 The first word of a variant image is a header id. Every image with a given
