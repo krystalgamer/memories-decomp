@@ -641,6 +641,8 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant810_linker_symbols.txt` binds to the French
 addresses.
 
+French MODEL headers 811 (stage 9 slot 0) and 908 (stage 10 slot 1) build the header-794 entry (`func_8013B004`) from `src/overlays/model_variant/variant794_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant811_entry{,_slot1}.c`; the French code and data are identical to the US images.
+
 Four images under French headers 838 and 935 are the North American
 header-821 entry (`model_variant/variant821_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant821_entry.c`
