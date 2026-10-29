@@ -1,8 +1,10 @@
 #include "../../types.h"
 #include "variant464_entry.h"
 
-/* PAL images load the effect palette from VRAM x = 640. */
-#ifndef MODEL_VARIANT464_CLUT_X
+/* The French images load the effect palette from VRAM x = 640. */
+#ifdef VERSION_FRENCH
+#define MODEL_VARIANT464_CLUT_X 640
+#else
 #define MODEL_VARIANT464_CLUT_X 512
 #endif
 

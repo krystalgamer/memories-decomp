@@ -19,6 +19,19 @@ renderer remains generated assembly.
 
 All four rebuild byte-identical to retail.
 
+## French headers 481 and 631
+
+The French images at the same sectors build the same entry under
+`gcc_2_8_1_g0_split` through
+[`variant481_entry.c`](../../src/overlays/french_model_variant/variant481_entry.c)
+and its `_slot1.c` wrapper. `VERSION_FRENCH` selects the palette column 640
+instead of 512; the code is otherwise the same apart from resident `jal`
+targets. The French funnel renderer is `0x8E0` bytes at `+0xE38` (still
+generated assembly), so the rings sit at `+0x1718` and the data at `D_8013CE14`.
+The four French modules take the US names (`french_model_variant_624_pos0_slot0`,
+`_248_pos0_slot0`, `_624_stage8_slot1`, `_248_stage8_slot1`) and all four
+rebuild byte-identical to retail.
+
 ## What the entry does
 
 The setup command takes its row of the 0x3C-byte command table at
