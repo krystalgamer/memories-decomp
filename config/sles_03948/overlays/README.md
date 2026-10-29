@@ -640,6 +640,15 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant675_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Two images under French headers 843 and 940 are the North American
+header-826 entry (`model_variant/variant826_entry.c`) with its full-screen
+tint grid covering the 256-line PAL screen, so the tile heights become
+shifts and the text is 0x20 bytes shorter. The
+`src/overlays/french_model_variant/variant843_entry{,_slot1}.c` wrappers set
+the height, move the three data labels 0x20 lower and bind
+`model_variant843_linker_symbols.txt` and
+`model_variant940_linker_symbols.txt`.
+
 Six images under French headers 685 and 752 are the North American
 header-668 entry (`model_variant/variant668_entry.c`) without its `E_DATA`
 work-size printf, with the full-screen flash covering the 256-line PAL
