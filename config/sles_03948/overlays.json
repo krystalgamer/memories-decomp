@@ -24228,7 +24228,8 @@
       "output": "tmp/overlays/french_model_image_model_155016_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 155016,
-      "sha256": "2d312b053d486602ac7df4e85dd1fbd9cf2061c9d27465aa044d150bf33421ab"
+      "sha256": "2d312b053d486602ac7df4e85dd1fbd9cf2061c9d27465aa044d150bf33421ab",
+      "linker_symbols": "config/sles_03948/overlays/model_image155016_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -30624,7 +30625,8 @@
       "output": "tmp/overlays/french_model_image_model_59520_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 59520,
-      "sha256": "cd802979b6c93793214422ebb08f8531820482b2b36352b8a7bac994aac350f0"
+      "sha256": "cd802979b6c93793214422ebb08f8531820482b2b36352b8a7bac994aac350f0",
+      "linker_symbols": "config/sles_03948/overlays/model_image155016_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -36452,7 +36454,8 @@
       "output": "tmp/overlays/french_model_image_model_59530_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 59530,
-      "sha256": "5e488a7928500b332c5f003912fe8dbafcb0398d875bf5da7687db16c2daf44e"
+      "sha256": "5e488a7928500b332c5f003912fe8dbafcb0398d875bf5da7687db16c2daf44e",
+      "linker_symbols": "config/sles_03948/overlays/model_image155016_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -43081,7 +43084,8 @@
       "output": "tmp/overlays/french_model_image_model_155026_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 155026,
-      "sha256": "ff3211c7bc9c6a89d1b8f7645f037437ee269df141d80d33890f51390a6ea26b"
+      "sha256": "ff3211c7bc9c6a89d1b8f7645f037437ee269df141d80d33890f51390a6ea26b",
+      "linker_symbols": "config/sles_03948/overlays/model_image155016_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
