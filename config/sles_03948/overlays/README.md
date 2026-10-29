@@ -509,6 +509,8 @@ only the resident call targets differ, which
 `model_variant814_linker_symbols.txt` binds to the French addresses. They
 build through `src/overlays/french_model_variant/variant814_entry{,_slot1}.c`.
 
+French MODEL headers 779 (stage 9 slot 0) and 876 (stage 10 slot 1) build the header-762 entry (`func_8013B004`) from `src/overlays/model_variant/variant762_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant762_entry_fr{,_slot1}.c`; the French code and data are identical to the US images. They link through their own `model_variant779_entry_linker_symbols.txt`, so the shared `model_variant779_linker_symbols.txt` is unchanged.
+
 Six images under French headers 830 and 927 are the North American
 header-813 entry (`model_variant/variant813_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
