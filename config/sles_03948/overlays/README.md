@@ -649,6 +649,13 @@ from the PAL CLUT row 0x3D28 instead of 0x3D20. The
 `src/overlays/french_model_variant/variant860_entry{,_slot1}.c` wrappers set
 `VERSION_FRENCH` and bind `model_variant860_linker_symbols.txt`.
 
+Two images under French headers 850 and 947 are the North American
+header-833 entry (`model_variant/variant833_entry.c`) with the palette from
+the PAL CLUT row 0x3D28 instead of 0x3D20. The
+`src/overlays/french_model_variant/variant850_entry{,_slot1}.c` wrappers set
+`VERSION_FRENCH` and bind `model_variant850_linker_symbols.txt` and
+`model_variant947_linker_symbols.txt`.
+
 Four images under French headers 187 and 317 are the North American
 header-170 entry (`model_variant/variant170_entry.c`) without its work-size
 printf, with its three full-screen flashes covering the 256-line
