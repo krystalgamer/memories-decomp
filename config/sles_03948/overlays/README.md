@@ -526,6 +526,14 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant662_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Two images under French headers 190 and 320 are the North American
+header-173 entry (`model_variant/variant173us_entry.c`) without its
+work-size printf. The
+`src/overlays/french_model_variant/variant190_entry{,_slot1}.c` wrappers move
+the two data labels after the shorter text and read-only section 0x24 lower
+and bind `model_variant190_linker_symbols.txt` and
+`model_variant320_linker_symbols.txt`.
+
 Four images under French headers 822 and 919 are the North American
 header-805 entry (`model_variant/variant805_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant805_entry.c`
