@@ -70,6 +70,8 @@ s32 func_8013B004(u8 *context, s32 command)
         work->completed = 0;
 #ifndef VERSION_FRENCH
         printf("%d (0x%x) Byte\n", sizeof(Model152State), sizeof(Model152State));
+#else
+        return 0;
 #endif
     } else {
         config = work->config;
@@ -287,10 +289,21 @@ s32 func_8013B004(u8 *context, s32 command)
         if (t >= config->duration) {
             return 2;
         }
+#ifdef VERSION_FRENCH
+        /* With the printf gone the French setup branch returns 0 itself, and
+         * the inverted completion test keeps the shared "return 0" block
+         * after it, where the French images place it. */
+        if (work->completed != 0) {
+            return 0;
+        }
+        work->completed++;
+        return 1;
+#else
         if (work->completed == 0) {
             work->completed++;
             return 1;
         }
+#endif
     }
     return 0;
 }
