@@ -868,6 +868,8 @@ goes too, and the
 `src/overlays/french_model_variant/variant698_entry{,_slot1}.c` wrappers move
 the data labels 0x28 lower.
 
+French MODEL headers 700 (stage 7 slot 0) and 767 (stage 8 slot 1) build the header-683 entry (`func_8013B004`) from `src/overlays/model_variant/variant683_entry.c` through `src/overlays/french_model_variant/variant700_entry{,_slot1}.c`. `VERSION_FRENCH` drops the `E_DATA` work-size `printf` and its string, so the entry ends 0x10 bytes earlier and the image and command tables move 0x28 lower (`D_8013D52C`/`D_8013D5D4` become `D_8013D504`/`D_8013D5AC`); `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL screen fill.
+
 Four images under French headers 670 and 737 are the North American
 header-653 entry (`model_variant/variant653_entry.c`) without its `E_DATA`
 work-size printf. Its format string was the whole read-only section, so it
