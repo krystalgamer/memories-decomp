@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CDF0
     align: 4
     subsegments:
-      - [0x1DF0, asm, overlays/spanish_model_variant_0_stage7_slot0/helper_1DF0]
+      - [0x1DF0, c, overlays/french_model_variant/variant426_ribbon]
   - name: helper_26D0
     type: code
     start: 0x26D0
