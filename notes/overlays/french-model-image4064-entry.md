@@ -47,7 +47,7 @@ fade, burst duration, cone duration, particle delay and cone delay.
 | `0x404` | Four burst-direction vectors |
 | `0x424` | Cone apex |
 | `0x42C` | Eight rim vectors |
-| `0x46C` | Eight triples of stored vector pointers |
+| `0x46C` | 24 stored vector pointers, grouped into eight triangles |
 | `0x4CC` | Nine packed texture words |
 | `0x4F0` | Completion byte and three unclassified bytes |
 | `0x4F4` | Signed elapsed time |
@@ -90,7 +90,7 @@ are introduced.
 
 ## Evidence
 
-Two frozen experiments are recorded in the adjacent attempt ledger. First,
+The original two frozen experiments are recorded in the adjacent attempt ledger. First,
 the accepted local body calibrated exactly after substituting the measured
 French identities, external retail scale vector and absent debug print.
 Second, the opt-in shared-source wrapper reproduced the same 4,476 bytes,
@@ -103,6 +103,18 @@ bytes and hashes with unchanged ownership. These proofs cover the shared
 source's default behavior rather than inferring safety from preprocessing
 alone. Retained repository policy checks are used locally; cloud validation
 remains on the pull request.
+
+Review of #8294 identified that the original shared `triangles[8][3]`
+declaration did not permit a flat traversal from its first three-element row.
+The member is now a genuine `triangles[24]` array, used directly by both
+initialization and rendering. All 24 pointer values and their order remain
+unchanged in `0x46C..0x4CB`; the renderer advances by three through the array
+and finishes at its permitted one-past pointer. Texture storage remains at
+`0x4CC`, and the complete state remains `0x4F8` bytes. Four additional
+attempt records cover fresh complete-image matches for both French and both
+USA consumers after this bounded-view correction, including the updated
+shared implementation/header fingerprints. The opt-in switches and original
+default scale/print behavior are unchanged.
 
 | Complete image | SHA-256 |
 |---|---|

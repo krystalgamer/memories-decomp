@@ -39,7 +39,7 @@ typedef struct {
     SVECTOR velocities[4];
     SVECTOR apex;
     SVECTOR rim[8];
-    SVECTOR *G32 triangles[8][3];
+    SVECTOR *G32 triangles[24];
     u32 texture[9];
     u8 completed;
     u8 unknown_4F1[3];
