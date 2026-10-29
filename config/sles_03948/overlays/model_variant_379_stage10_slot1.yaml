@@ -75,7 +75,7 @@ segments:
     vram: 0x8017CFC4
     align: 4
     subsegments:
-      - [0x1FC4, asm, overlays/french_model_variant_379_stage10_slot1/helper_1FC4]
+      - [0x1FC4, c, overlays/french_model_variant/variant427_ribbons_slot1]
   - name: helper_28A0
     type: code
     start: 0x28A0
