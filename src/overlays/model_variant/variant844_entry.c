@@ -94,7 +94,11 @@ s32 func_8013B004(u8 *context, s32 command)
         work->beam_color.rgb[2] = work->config->burst_b;
         work->tpage = 0xAE;
         /* Palette at x 512, y 244. */
+#ifdef VERSION_FRENCH
+        work->clut = 0x3D28;
+#else
         work->clut = 0x3D20;
+#endif
         for (i = 0; i < 3; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D5D8[i]);
         }

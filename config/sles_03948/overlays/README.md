@@ -591,6 +591,8 @@ PAL screen. The `src/overlays/french_model_variant/variant187_entry{,_slot1}.c`
 wrappers set the height and move the two data labels after the shorter text
 and read-only section 0x24 lower.
 
+French MODEL headers 861 (stage 9 slot 0) and 958 (stage 10 slot 1) build the header-844 entry (`func_8013B004`) from `src/overlays/model_variant/variant844_entry.c` through `src/overlays/french_model_variant/variant861_entry{,_slot1}.c`. `VERSION_FRENCH` selects the core CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
+
 Fifteen images under French headers 662 and 729 are the North American
 header-645 entry (`model_variant/variant645_entry.c`) without its `E_DATA`
 work-size printf, built through
