@@ -9,6 +9,14 @@
  * with two fans of rays, a burst of animated sparks and a growing spray of
  * animated Gouraud streaks while the ambient light dims and recovers. */
 
+/* The streak sprites' bottom texel row: the French image samples one row
+ * higher. */
+#ifdef VERSION_FRENCH
+#define MODEL825_STREAK_V_BOTTOM 0xD6
+#else
+#define MODEL825_STREAK_V_BOTTOM 0xD7
+#endif
+
 static const VECTOR D_8013ECFC = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
@@ -550,7 +558,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&gt4.x0,
                                       (PSXLONG *)&gt4.x1, (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
                     setUV4(&gt4, work->streak_frame[i][j] * 64, 0x80, work->streak_frame[i][j] * 64 + 0x3F, 0x80,
-                           work->streak_frame[i][j] * 64, 0xD7, work->streak_frame[i][j] * 64 + 0x3F, 0xD7);
+                           work->streak_frame[i][j] * 64, MODEL825_STREAK_V_BOTTOM, work->streak_frame[i][j] * 64 + 0x3F, MODEL825_STREAK_V_BOTTOM);
                     if (otz >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&gt4, ot, (u16)otz, 1);
                     }
