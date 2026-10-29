@@ -396,6 +396,8 @@ sheets and rings helpers keep their French C (`variant462_sheets.c` and
 `variant462_rings.c`), the helper calls and data label move with the longer
 helpers, and the effect palette loads from PAL x = 640.
 
+French MODEL headers 447 (stage 9 slot 0) and 597 (stage 10 slot 1) now also build their entry (`func_8013B004`, 0x10F4 bytes) from the US header-430 source `src/overlays/model_variant/variant430_entry.c` through `src/overlays/french_model_variant/variant447_entry{,_slot1}.c`. `VERSION_FRENCH` selects the palette at VRAM x 640, and the wrappers map the swarm call to 0x8013C0F8 and the GsIMAGE/command tables to their French addresses 8 bytes lower.
+
 Six images under French headers 795 and 892 are the North American
 header-778 entry (`model_variant/variant778_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
