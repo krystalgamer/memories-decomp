@@ -18,6 +18,13 @@
  * wave colours, the glow, wave length, flash and wave height sizes, the
  * wave depth offset, the two wave tilts, the ring height and the start,
  * second-pass, first-pass, hold and end times. */
+/* A ring point seen either as an SVECTOR or as its four s16 words; the
+ * ring setup writes vy and vz through the word view. */
+typedef union {
+    SVECTOR v;
+    s16 c[4];
+} Model759RingPoint;
+
 typedef struct {
     u8 r, g, b;
     u8 first[3];

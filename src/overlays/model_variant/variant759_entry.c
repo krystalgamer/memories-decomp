@@ -76,25 +76,26 @@ s32 func_8013B004(u8 *context, s32 command)
         Model_GetSlotDimensionsWithMinimums(-slot + 1, (ModelEffectAdjustment *)&pos);
         v = work->near_ring;
         w = work->far_ring;
-        /* vy and vz are written through the vx address; that indexed form is
-         * what keeps them on separate strength-reduced pointers. */
+        /* vy and vz are written through the word view of each point; that
+         * indexed form is what keeps them on separate strength-reduced
+         * pointers. */
         if (pos.vx > pos.vz) {
             for (i = 0; i < 9; v++, w++, i++) {
                 v->vx = pos.vx * (ccos(i * 256) % 4096) / 4096;
-                (&v->vx)[1] = 0;
-                (&v->vx)[2] = side * pos.vx * (csin(i * 256) % 4096) / 4096;
+                ((Model759RingPoint *)v)->c[1] = 0;
+                ((Model759RingPoint *)v)->c[2] = side * pos.vx * (csin(i * 256) % 4096) / 4096;
                 w->vx = pos.vx * (ccos(i * 256) % 4096 << 1) / 4096;
-                (&w->vx)[1] = -work->config->ring_height;
-                (&w->vx)[2] = side * (pos.vx << 1) * (csin(i * 256) % 4096) / 4096;
+                ((Model759RingPoint *)w)->c[1] = -work->config->ring_height;
+                ((Model759RingPoint *)w)->c[2] = side * (pos.vx << 1) * (csin(i * 256) % 4096) / 4096;
             }
         } else {
             for (i = 0; i < 9; v++, w++, i++) {
                 v->vx = pos.vz * (ccos(i * 256) % 4096) / 4096;
-                (&v->vx)[1] = 0;
-                (&v->vx)[2] = side * pos.vz * (csin(i * 256) % 4096) / 4096;
+                ((Model759RingPoint *)v)->c[1] = 0;
+                ((Model759RingPoint *)v)->c[2] = side * pos.vz * (csin(i * 256) % 4096) / 4096;
                 w->vx = pos.vz * (ccos(i * 256) % 4096 << 1) / 4096;
-                (&w->vx)[1] = -work->config->ring_height;
-                (&w->vx)[2] = side * (pos.vz << 1) * (csin(i * 256) % 4096) / 4096;
+                ((Model759RingPoint *)w)->c[1] = -work->config->ring_height;
+                ((Model759RingPoint *)w)->c[2] = side * (pos.vz << 1) * (csin(i * 256) % 4096) / 4096;
             }
         }
         work->ambient = 0x800;
