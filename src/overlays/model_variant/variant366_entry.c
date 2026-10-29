@@ -2,7 +2,9 @@
 #include "variant366_entry.h"
 
 /* The French header-383 images load the effect palette from VRAM x = 640. */
-#ifndef MODEL_VARIANT366_CLUT_X
+#ifdef VERSION_FRENCH
+#define MODEL_VARIANT366_CLUT_X 640
+#else
 #define MODEL_VARIANT366_CLUT_X 512
 #endif
 
