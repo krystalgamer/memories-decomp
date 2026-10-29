@@ -51,7 +51,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->glow_r[i] = work->config->r;
             work->glow_g[i] = work->config->g;
             work->glow_b[i] = work->config->b;
-            work->growth[i] = 0;
+            work->fans.s.growth[i] = 0;
             work->spark_count[i] = 0;
             for (j = 0; j < work->config->spark_count; j++) {
                 work->spark_frame[i][j] = 0;
@@ -61,7 +61,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->glow2_r[i] = work->config->r;
             work->glow2_g[i] = work->config->g;
             work->glow2_b[i] = work->config->b;
-            work->growth2[i] = 0;
+            work->fans.s.growth2[i] = 0;
             for (j = 0; j < work->config->spark2_count; j++) {
                 work->spark2_frame[i][j] = 0;
             }
@@ -453,8 +453,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB2(&gt4, work->glow_r[i], work->glow_g[i], work->glow_b[i]);
                 setRGB3(&gt4, work->glow_r[i], work->glow_g[i], work->glow_b[i]);
                 setVector(&rot, 0, 0, 0);
-                setVector(&scale, (work->growth[i] >> 4) + 0x1000, work->growth[i] + 0x1000,
-                          (work->growth[i] >> 4) + 0x1000);
+                setVector(&scale, (work->fans.s.growth[i] >> 4) + 0x1000, work->fans.s.growth[i] + 0x1000,
+                          (work->fans.s.growth[i] >> 4) + 0x1000);
                 GsSetLsMatrix(&light);
                 RotTrans(&work->pos[i][0], (VECTOR *)m.t, &flag);
                 RotMatrix(&rot, &m);
@@ -477,8 +477,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         Graphics_SubmitDrawModePacket((u32 *)&gt4, ot, (u16)otz, 3);
                     }
                 }
-                setVector(&scale, (work->growth[i] >> 3) + 0x1000, work->growth[i] >> 2,
-                          (work->growth[i] >> 3) + 0x1000);
+                setVector(&scale, (work->fans.s.growth[i] >> 3) + 0x1000, work->fans.s.growth[i] >> 2,
+                          (work->fans.s.growth[i] >> 3) + 0x1000);
                 m = saved;
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
@@ -497,8 +497,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         Graphics_SubmitDrawModePacket((u32 *)&gt4, ot, (u16)otz, 3);
                     }
                 }
-                setVector(&scale, (work->growth[i] >> 1) + 0x1000, work->growth[i] >> 3,
-                          (work->growth[i] >> 1) + 0x1000);
+                setVector(&scale, (work->fans.s.growth[i] >> 1) + 0x1000, work->fans.s.growth[i] >> 3,
+                          (work->fans.s.growth[i] >> 1) + 0x1000);
                 m = saved;
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
@@ -520,10 +520,10 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (++work->spark_count[i] > work->config->spark_count) {
                     work->spark_count[i] = work->config->spark_count;
                 }
-                if (work->growth[i] < 20000) {
-                    work->growth[i] += work->config->grow;
+                if (work->fans.s.growth[i] < 20000) {
+                    work->fans.s.growth[i] += work->config->grow;
                 } else {
-                    work->growth[i] += work->config->grow_late;
+                    work->fans.s.growth[i] += work->config->grow_late;
                     if (work->glow_r[i] >= 16) {
                         work->glow_r[i] -= work->config->glow_fade;
                     } else {
@@ -593,8 +593,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB2(&gt4, work->glow2_r[i], work->glow2_g[i], work->glow2_b[i]);
                 setRGB3(&gt4, work->glow2_r[i], work->glow2_g[i], work->glow2_b[i]);
                 setVector(&rot, 0, 0, 0);
-                setVector(&scale, (work->growth2[i] >> 3) + 0x1000, work->growth2[i] + 0x1000,
-                          (work->growth2[i] >> 3) + 0x1000);
+                setVector(&scale, (work->fans.s.growth2[i] >> 3) + 0x1000, work->fans.s.growth2[i] + 0x1000,
+                          (work->fans.s.growth2[i] >> 3) + 0x1000);
                 GsSetLsMatrix(&light);
                 RotTrans(&work->pos[i][1], (VECTOR *)m.t, &flag);
                 RotMatrix(&rot, &m);
@@ -617,9 +617,10 @@ s32 func_8013B004(u8 *context, s32 command)
                         Graphics_SubmitDrawModePacket((u32 *)&gt4, ot, (u16)otz, 3);
                     }
                 }
-                /* The second layer scales by the first group's growth. */
-                setVector(&scale, (work->growth[i] >> 1) + 0x1000, work->growth[i] >> 3,
-                          (work->growth[i] >> 1) + 0x1000);
+                /* The second layer scales by the first group's growth, indexed by this
+                 * group's counter: from i == 3 on that is the second group's growth. */
+                setVector(&scale, (work->fans.all[i] >> 1) + 0x1000, work->fans.all[i] >> 3,
+                          (work->fans.all[i] >> 1) + 0x1000);
                 m = saved;
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
@@ -641,10 +642,10 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (++work->spark2_count[i] > work->config->spark2_count) {
                     work->spark2_count[i] = work->config->spark2_count;
                 }
-                if (work->growth2[i] < 20000) {
-                    work->growth2[i] += work->config->grow;
+                if (work->fans.s.growth2[i] < 20000) {
+                    work->fans.s.growth2[i] += work->config->grow;
                 } else {
-                    work->growth2[i] += work->config->grow_late;
+                    work->fans.s.growth2[i] += work->config->grow_late;
                     if (work->glow2_r[i] >= 16) {
                         work->glow2_r[i] -= work->config->glow_fade;
                     } else {

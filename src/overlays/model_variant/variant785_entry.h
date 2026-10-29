@@ -82,8 +82,16 @@ typedef struct {
     SVECTOR puffs[8];
     SVECTOR puff_velocity[8];
     u32 elapsed;
-    u32 growth[3];
-    u32 growth2[8];
+    /* The fan growth of the first and second groups; the second group's
+     * second layer reads the first group's words by its own index, running
+     * on into the second group's (see the source), through the flat view. */
+    union {
+        struct {
+            u32 growth[3];
+            u32 growth2[8];
+        } s;
+        u32 all[11];
+    } fans;
     u16 trail_head[8][2];
     u16 spark_frame[3][32];
     u16 spark2_frame[8][32];
