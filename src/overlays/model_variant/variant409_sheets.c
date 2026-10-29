@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#define MODEL_VARIANT-_CLUT_X 512
 #define func_8013B004 func_8013B004
 #define func_8013BF24 func_8013BF28
 #define func_8013C3B0 func_8013C38C
