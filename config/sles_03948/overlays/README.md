@@ -681,6 +681,13 @@ the 256 PAL lines instead of 240, built through
 `src/overlays/french_model_variant/variant114_entry{,_slot1}.c`. The entry has
 no work-size printf, so the data labels do not move.
 
+Four images under French headers 125 and 255 are the North American
+header-108 entry (`model_variant/variant108_entry.c` and its `_slot1.c`
+wrapper) unchanged: it has no work-size printf or screen-height constant, and
+only the resident call targets differ, which
+`model_variant125_linker_symbols.txt` binds to the French addresses. They
+build through `src/overlays/french_model_variant/variant125_entry{,_slot1}.c`.
+
 Twenty images under French headers 674 and 741 are the North American
 header-657 entry (`model_variant/variant657_entry.c`) without its `E_DATA`
 work-size printf, built through
