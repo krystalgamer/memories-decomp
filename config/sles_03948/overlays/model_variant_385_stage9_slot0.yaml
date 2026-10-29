@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CFB0
     align: 4
     subsegments:
-      - [0x1FB0, asm, overlays/french_model_variant_385_stage9_slot0/helper_1FB0]
+      - [0x1FB0, c, overlays/french_model_variant/variant473_ribs]
   - name: helper_2BE8
     type: code
     start: 0x2BE8
