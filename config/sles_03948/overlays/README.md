@@ -677,6 +677,13 @@ flash covering the 256 PAL lines instead of 240, built through
 `src/overlays/french_model_variant/variant149_entry{,_slot1}.c`. The entry has
 no work-size printf, so the data labels do not move.
 
+Two images under French headers 155 and 285 are the North American
+header-138 entry (`model_variant/variant138_entry.c`) without its work-size
+printf or that call's format string (kept in the North American image's
+data because of its nonzero padding), built through
+`src/overlays/french_model_variant/variant155_entry{,_slot1}.c`. The scale
+vector sits 0x14 lower and the image and command tables 0x28 lower.
+
 Four images under French header 84, and their four slot-one counterparts
 under header 214, are the North American header-67 entry
 (`model_variant/variant67_entry.c`, wired to US headers 67 and 197) unchanged
