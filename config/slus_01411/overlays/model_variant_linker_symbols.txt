@@ -16,6 +16,7 @@ GetClut = 0x800827C0;
 SetSemiTrans = 0x80082840;
 SetShadeTex = 0x80082870;
 SetPolyG3 = 0x800828E0;
+SetPolyF4 = 0x80082920;
 SetPolyFT4 = 0x80082940;
 SetPolyG4 = 0x80082960;
 SetPolyGT4 = 0x80082980;
