@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_variant_431_stage10_slot1/entry]
+      - [0x4, c, overlays/french_model_variant/variant474_entry_slot1]
   - name: helper_E38
     type: code
     start: 0xE38
