@@ -59,9 +59,9 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(inner, work->config->ring_depth * ccos(i * 256 % 4096) / 4096,
                       -work->config->ring_depth * csin(0x80) / 4096,
                       work->config->ring_depth * csin(i * 256 % 4096) / 4096);
-            setVector(cone, work->config->ring_radius * (ccos(i * 256 % 4096 + 0x80) << 1) / 4096,
+            setVector(cone, work->config->ring_radius * ((s32)((u32)ccos(i * 256 % 4096 + 0x80) << 1)) / 4096,
                       -work->config->cone_height,
-                      work->config->ring_radius * (csin(i * 256 % 4096 + 0x80) << 1) / 4096);
+                      work->config->ring_radius * ((s32)((u32)csin(i * 256 % 4096 + 0x80) << 1)) / 4096);
             setVector(ring, work->config->base_radius * ccos(i * 256 % 4096) / 4096, 0,
                       work->config->base_radius * csin(i * 256 % 4096) / 4096);
         }
