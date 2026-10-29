@@ -752,6 +752,8 @@ French MODEL headers 839 (stage 9 slot 0) and 936 (stage 10 slot 1) build the he
 
 French MODEL headers 840 (stage 7 slot 0) and 937 (stage 8 slot 1) build the header-823 entry (`func_8013B004`) from `src/overlays/model_variant/variant823_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant840_entry{,_slot1}.c`; the French code and data are identical to the US images.
 
+French MODEL headers 841 (stage 9 slot 0) and 938 (stage 10 slot 1) build the header-824 entry (`func_8013B004`) from `src/overlays/model_variant/variant824_entry.c` through `src/overlays/french_model_variant/variant841_entry{,_slot1}.c`. `VERSION_FRENCH` selects the shock-ring CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
+
 Thirty-four images under French headers 680 and 747 are the North American
 header-663 entry (`model_variant/variant663_entry.c`) without its `E_DATA`
 work-size printf, built through

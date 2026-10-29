@@ -112,7 +112,11 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->fan_outer[i], ccos(i * 256) / 32, csin(i * 256) / 32, -direction * 32);
         }
         work->fan_tpage = 0xAE;
+#ifdef VERSION_FRENCH
+        work->fan_clut = 0x3D28;
+#else
         work->fan_clut = 0x3D20;
+#endif
         for (i = 0; i < 5; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013EAE4[i]);
         }
