@@ -600,6 +600,12 @@ goes too, and the
 `src/overlays/french_model_variant/variant691_entry{,_slot1}.c` wrappers move
 the data labels 0x28 lower.
 
+Four images under French headers 130 and 260 are the North American
+header-113 entry (`model_variant/variant113_entry.c` and its slot-1 wrapper)
+unchanged: the code differs only in its resident call targets, which
+`model_variant130_entry_linker_symbols.txt` and
+`model_variant260_linker_symbols.txt` bind to the French addresses.
+
 Four images under French headers 647 and 714 are the North American
 header-630 entry (`model_variant/variant630_entry.c`) without its `E_DATA`
 work-size printf. Its format string was the whole read-only section, so it
