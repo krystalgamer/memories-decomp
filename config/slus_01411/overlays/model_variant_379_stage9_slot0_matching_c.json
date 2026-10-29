@@ -1,0 +1,35 @@
+{
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xFB4",
+      "source": "src/overlays/model_variant/variant410_entry.c"
+    },
+    {
+      "address": "0x8013BFB8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x5E8",
+      "source": "src/overlays/model_variant/variant410_mesh.c"
+    },
+    {
+      "address": "0x8013C5A0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xA08",
+      "source": "src/overlays/model_variant/variant410_spiral.c"
+    },
+    {
+      "address": "0x8013D84C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x55C",
+      "source": "src/overlays/model_variant/variant410_panels.c"
+    },
+    {
+      "address": "0x8013E51C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x514",
+      "source": "src/overlays/model_variant/variant410_curtains.c"
+    }
+  ],
+  "schema": 1
+}
