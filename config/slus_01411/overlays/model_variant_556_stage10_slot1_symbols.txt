@@ -1,0 +1,4 @@
+// MODEL.MRG model 556 (record 556), sector 139866, header 231, loaded at 0x8017B000; the US source variant101_entry_slot1.c.
+func_8017B004 = 0x8017B004; // type:func size:0x12B4 defined:true
+D_8017C2C8 = 0x8017C2C8; // type:u8 size:0x54 defined:true
+D_8017C31C = 0x8017C31C; // type:u8 size:0x3CE4 defined:true
