@@ -139,7 +139,11 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spark_count[i] = 0;
         }
         work->fan_tpage = 0xAE;
+#ifdef VERSION_FRENCH
+        work->fan_clut = 0x3D28;
+#else
         work->fan_clut = 0x3D20;
+#endif
         for (i = 0; i < 11; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013F8A0[i]);
         }
