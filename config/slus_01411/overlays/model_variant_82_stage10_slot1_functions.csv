@@ -1,0 +1,4 @@
+address,size,name,status,module,notes
+0x8017B004,0x1530,func_8017B004,unmatched_asm,overlay/model_variant_82_stage10_slot1,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8017C534,0x4F8,func_8017C534,matching_c,overlay/model_variant_82_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017CA2C,0x4D0,func_8017CA2C,matching_c,overlay/model_variant_82_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
