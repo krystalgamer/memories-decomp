@@ -83,8 +83,13 @@ typedef struct {
     u16 head;
     s32 level;
     s32 texture[5];
-    u8 r, g, b;
-    u8 trail_on;
+    union {
+        struct {
+            u8 r, g, b;
+            u8 trail_on;
+        } c;
+        u32 word;
+    } color;
 } Model808State;
 
 extern GsIMAGE D_8013D228[5];

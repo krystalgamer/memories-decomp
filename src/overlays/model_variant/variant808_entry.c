@@ -94,11 +94,11 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 5; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D228[i]);
         }
-        work->trail_on = 0xFF;
+        work->color.c.trail_on = 0xFF;
         work->ring_scale = 0x1000;
-        work->r = 0;
-        work->g = 0;
-        work->b = 0;
+        work->color.c.r = 0;
+        work->color.c.g = 0;
+        work->color.c.b = 0;
         work->count = 0;
         work->drawn = 0;
         work->level = 0x800;
@@ -196,26 +196,26 @@ s32 func_8013B004(u8 *context, s32 command)
             work->count = work->config->sparkle_count;
         }
     } else if (work->phase < 2) {
-        if (work->r < work->config->r - 15) {
-            work->r += work->config->fade_in;
+        if (work->color.c.r < work->config->r - 15) {
+            work->color.c.r += work->config->fade_in;
         } else {
-            work->r = work->config->r;
+            work->color.c.r = work->config->r;
         }
-        if (work->g < work->config->g - 15) {
-            work->g += work->config->fade_in;
+        if (work->color.c.g < work->config->g - 15) {
+            work->color.c.g += work->config->fade_in;
         } else {
-            work->g = work->config->g;
+            work->color.c.g = work->config->g;
         }
-        if (work->b < work->config->b - 15) {
-            work->b += work->config->fade_in;
+        if (work->color.c.b < work->config->b - 15) {
+            work->color.c.b += work->config->fade_in;
         } else {
-            work->b = work->config->b;
+            work->color.c.b = work->config->b;
         }
     }
 
     if (work->phase == 1) {
         setPolyF4(&f4);
-        setRGB0(&f4, work->r, work->g, work->b);
+        setRGB0(&f4, work->color.c.r, work->color.c.g, work->color.c.b);
         setVector(&scale, work->config->comet_scale, work->config->comet_scale, work->config->comet_scale);
         if (work->elapsed >= work->config->launch) {
             rot.vz = (work->elapsed * 64) & 0xFFF;
@@ -244,7 +244,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     if (work->elapsed >= work->config->launch) {
         setPolyG4(&g4);
-        if (work->head > work->drawn && work->trail_on != 0) {
+        if (work->head > work->drawn && work->color.c.trail_on != 0) {
             setVector(&pos, 0, 0, 0);
             setVector(&rot, 0, 0, 0);
             setVector(&scale, 0x1000, 0x1000, 0x1000);
@@ -255,10 +255,10 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
             for (i = work->head - 1, q = 1; i >= (k = work->head - 1) - work->drawn; i--) {
-                setRGB0(&g4, work->r / q, work->g / q, work->b / q);
-                setRGB1(&g4, work->r / q, work->g / q, work->b / q);
-                setRGB2(&g4, work->r / (q + 1), work->g / (q + 1), work->b / (q + 1));
-                setRGB3(&g4, work->r / (q + 1), work->g / (q + 1), work->b / (q + 1));
+                setRGB0(&g4, work->color.c.r / q, work->color.c.g / q, work->color.c.b / q);
+                setRGB1(&g4, work->color.c.r / q, work->color.c.g / q, work->color.c.b / q);
+                setRGB2(&g4, work->color.c.r / (q + 1), work->color.c.g / (q + 1), work->color.c.b / (q + 1));
+                setRGB3(&g4, work->color.c.r / (q + 1), work->color.c.g / (q + 1), work->color.c.b / (q + 1));
                 setVector(&quad[0], work->trail[i].vx, work->trail[i].vy - work->config->trail_width / q,
                           work->trail[i].vz);
                 setVector(&quad[1], work->trail[i].vx, work->trail[i].vy + work->config->trail_width / q,
@@ -280,11 +280,11 @@ s32 func_8013B004(u8 *context, s32 command)
         }
     }
 
-    if (work->phase >= 2 && (*(u32 *)&work->r & 0xFFFFFF)) {
+    if (work->phase >= 2 && (work->color.word & 0xFFFFFF)) {
         setPolyFT4(&ft4);
         ft4.tpage = work->texture[0] >> 16;
         ft4.clut = work->texture[0];
-        setRGB0(&ft4, work->r, work->g, work->b);
+        setRGB0(&ft4, work->color.c.r, work->color.c.g, work->color.c.b);
         setVector(&pos, 0, -350, direction * 450);
         GsSetLsMatrix(&light);
         RotTrans(&pos, (VECTOR *)m.t, &flag);
@@ -316,7 +316,7 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < work->config->ember_count; i++) {
             if (work->embers[i].vy < 0) {
                 setPolyF4(&f4);
-                setRGB0(&f4, work->r, work->g, work->b);
+                setRGB0(&f4, work->color.c.r, work->color.c.g, work->color.c.b);
                 setVector(&scale, work->config->comet_scale >> 1, work->config->comet_scale >> 1,
                           work->config->comet_scale >> 1);
                 if (work->elapsed >= work->config->launch) {
@@ -338,7 +338,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->ember_velocities[i].vy += work->config->gravity;
             }
             setPolyFT4(&ft4);
-            setRGB0(&ft4, work->r, work->g, work->b);
+            setRGB0(&ft4, work->color.c.r, work->color.c.g, work->color.c.b);
             ft4.tpage = work->texture[1] >> 16;
             ft4.clut = work->texture[1];
             setVector(&scale, 0x1000, 0x1000, 0x1000);
@@ -368,8 +368,8 @@ s32 func_8013B004(u8 *context, s32 command)
         gt4.clut = work->texture[2];
         setRGB0(&gt4, 0, 0, 0);
         setRGB1(&gt4, 0, 0, 0);
-        setRGB2(&gt4, work->r, work->g, work->b);
-        setRGB3(&gt4, work->r, work->g, work->b);
+        setRGB2(&gt4, work->color.c.r, work->color.c.g, work->color.c.b);
+        setRGB3(&gt4, work->color.c.r, work->color.c.g, work->color.c.b);
         setVector(&pos, 0, -350, direction * 450);
         GsSetLsMatrix(&light);
         RotTrans(&pos, (VECTOR *)m.t, &flag);
@@ -397,25 +397,25 @@ s32 func_8013B004(u8 *context, s32 command)
         } else {
             work->ring_scale += 0x200;
         }
-        if (work->r >= 16) {
-            work->r -= work->config->fade_out;
+        if (work->color.c.r >= 16) {
+            work->color.c.r -= work->config->fade_out;
         } else {
-            work->r = 0;
+            work->color.c.r = 0;
         }
-        if (work->g >= 16) {
-            work->g -= work->config->fade_out;
+        if (work->color.c.g >= 16) {
+            work->color.c.g -= work->config->fade_out;
         } else {
-            work->g = 0;
+            work->color.c.g = 0;
         }
-        if (work->b >= 16) {
-            work->b -= work->config->fade_out;
+        if (work->color.c.b >= 16) {
+            work->color.c.b -= work->config->fade_out;
         } else {
-            work->b = 0;
+            work->color.c.b = 0;
         }
     }
     work->elapsed += step;
     PopMatrix();
-    if (work->phase == 4 && !(*(u32 *)&work->r & 0xFFFFFF)) {
+    if (work->phase == 4 && !(work->color.word & 0xFFFFFF)) {
         return 2;
     }
     if (work->phase == 2) {
