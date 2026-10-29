@@ -1,6 +1,8 @@
 #include "../../types.h"
 #include "variant788_entry.h"
 
+static const VECTOR D_8013D3D0 = {4096, 4096, 4096, 0};
+
 #define FADE_IN(value, target)                                     \
     if (value < work->config->target - 15) {                       \
         value += work->config->fade_in;                            \
@@ -374,7 +376,7 @@ s32 func_8013B004(u8 *context, s32 command)
         if (work->flash != 0) {
             setPolyF4(&flash);
             setRGB0(&flash, work->flash, work->flash, work->flash);
-            setXY4(&flash, 0, 0, 320, 0, 0, 240, 320, 240);
+            setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
             Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 0, 1);
             FADE_OUT(work->flash);
         }

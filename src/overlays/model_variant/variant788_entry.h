@@ -12,6 +12,7 @@
 #include "../../game/model_copy_slot_position.h"
 #include "../../game/screen_projection.h"
 #include "../../game/graphics_packet_submission.h"
+#include "../../game/graphics_constants.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/memory.h"
@@ -89,7 +90,6 @@ typedef struct {
     u8 box[3], unknown_1143;
 } Model788State;
 
-extern const VECTOR D_8013D3D0;
 extern GsIMAGE D_8013D3E0[];
 extern Model788Config D_8013D3FC[];
 
