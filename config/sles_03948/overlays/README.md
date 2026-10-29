@@ -786,6 +786,15 @@ height, through
 American images have no slot-one copy, so the slot-one wrapper renames the
 labels itself.
 
+Two images under French headers 854 and 951 are the North American
+header-837 entry (`model_variant/variant837_entry.c`) with the ring palette
+from the PAL CLUT row 0x3D28 instead of 0x3D20 and its full-screen flash
+covering the 256 PAL lines. The
+`src/overlays/french_model_variant/variant854_entry{,_slot1}.c` wrappers set
+`VERSION_FRENCH` and the height and bind
+`model_variant854_linker_symbols.txt` and
+`model_variant951_linker_symbols.txt`.
+
 Four images under French headers 833 and 930 are the North American
 header-816 entry (`model_variant/variant816_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant816_entry.c`
