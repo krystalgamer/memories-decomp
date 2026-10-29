@@ -804,6 +804,14 @@ through `variant685_rings{,_slot1}.c`, which alias the five resident names
 it shares with the entry and bind them in
 `model_variant685_rings_linker_symbols.txt`.
 
+Two images under French headers 179 and 309 are the North American
+header-162 entry (`model_variant/variant162us_entry.c`) without its
+work-size printf. The
+`src/overlays/french_model_variant/variant179_entry{,_slot1}.c` wrappers move
+the two data labels after the shorter text and read-only section 0x1C lower
+and bind `model_variant179_linker_symbols.txt` and
+`model_variant309_linker_symbols.txt`.
+
 Two images under French headers 160 and 290 are the North American
 header-143 entry (`model_variant/variant143us_entry.c`) without its
 work-size printf and padded format string. As in the header-152 family the
