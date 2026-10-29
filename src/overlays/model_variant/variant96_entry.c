@@ -40,7 +40,7 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 6; point++, i++) {
             setVector(point, 0, 0, 0);
         }
-        point = work->ring;
+        point = work->rings.points;
         setVector(point, 0, 0, 0);
         point++;
         for (i = 0; i < 16; point++, i++) {
@@ -196,13 +196,13 @@ s32 func_8013B004(u8 *context, s32 command)
         RotMatrix(&rotation, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        RotTransPersN(work->ring, screen, depths, projection, flags, 17);
+        RotTransPersN(work->rings.fan.ring, screen, depths, projection, flags, 17);
         value = ((config->fan_duration - time) << 12) / config->fan_duration;
         setVector(&scale, value, value, value);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         v = 17;
-        RotTransPersN(work->outer, &screen[17], &depths[17], &projection[17], &flags[17], v);
+        RotTransPersN(work->rings.fan.outer, &screen[17], &depths[17], &projection[17], &flags[17], v);
         for (i = 0; i < 16; i++) {
             t = i + 1;
             setXY3(&fan, screen[0].vx, screen[0].vy, screen[i + 17].vx, screen[i + 17].vy,
@@ -233,13 +233,13 @@ s32 func_8013B004(u8 *context, s32 command)
         RotMatrix(&rotation, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        RotTransPersN(work->ring, screen, depths, projection, flags, 17);
+        RotTransPersN(work->rings.fan.ring, screen, depths, projection, flags, 17);
         value = (config->fan_duration - time) * 3074 / config->fan_duration;
         setVector(&scale, value, value, value);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         v = 17;
-        RotTransPersN(work->outer, &screen[17], &depths[17], &projection[17], &flags[17], v);
+        RotTransPersN(work->rings.fan.outer, &screen[17], &depths[17], &projection[17], &flags[17], v);
         for (i = 0; i < 16; i++) {
             t = i + 1;
             setXY3(&fan, screen[0].vx, screen[0].vy, screen[i + 17].vx, screen[i + 17].vy,

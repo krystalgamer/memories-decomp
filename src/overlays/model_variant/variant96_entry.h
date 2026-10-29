@@ -31,13 +31,19 @@ typedef struct {
 } Model96Config;
 
 /* The 0x154-byte work area: the command row, six trail positions, the fan's
- * inner and jagged outer rings, the trail head, two textures and the
- * elapsed time. */
+ * inner and jagged outer rings (also seen as one flat run of 34 points,
+ * which the setup fills in a single walk), the trail head, two textures and
+ * the elapsed time. */
 typedef struct {
     Model96Config *G32 config;
     SVECTOR trail[6];
-    SVECTOR ring[17];
-    SVECTOR outer[17];
+    union {
+        struct {
+            SVECTOR ring[17];
+            SVECTOR outer[17];
+        } fan;
+        SVECTOR points[34];
+    } rings;
     u16 head, unknown_146;
     s32 texture[2];
     s32 elapsed;
