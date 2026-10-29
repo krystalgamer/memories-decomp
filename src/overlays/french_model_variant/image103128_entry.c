@@ -1,6 +1,12 @@
 #include "../../types.h"
 #include "image103128_entry.h"
 
+/* The North American header-840/937 images load the burst palette from CLUT
+ * row 0x3D20 instead of the PAL row 0x3D28. */
+#ifndef IMAGE103128_BURST_CLUT
+#define IMAGE103128_BURST_CLUT 0x3D28
+#endif
+
 s32 func_8013B004(u8 *context, s32 command)
 {
     Image103128State *state;
@@ -36,7 +42,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         state->config = &D_8013BF34[command];
         state->tpage = 174;
-        state->clut = 15656;
+        state->clut = IMAGE103128_BURST_CLUT;
         for (i = 0; i < 2; i++) {
             state->textures[i] = ModelTexture_PackPageClutCopy(
                 Model_GetActiveSlotIndex(), 1, &D_8013BEFC[i]);
