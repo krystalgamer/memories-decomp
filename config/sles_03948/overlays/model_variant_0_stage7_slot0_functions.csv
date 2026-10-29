@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0xF20,func_8013B004,unmatched_asm,overlay/model_variant_0_stage7_slot0,Game-owned generated assembly retained; loader entry.
+0x8013B004,0xF20,func_8013B004,matching_c,overlay/model_variant_0_stage7_slot0,"Exact C header-426 loader entry; the header-425 entry with four FT4 pairs, two funnels and four 17-point streamers."
 0x8013BF24,0x48C,func_8013BF24,matching_c,overlay/model_variant_0_stage7_slot0,Independent exact C; original context at entry+0xD14 proven; direct-entry reachable.
 0x8013C3B0,0xA40,func_8013C3B0,matching_c,overlay/model_variant_0_stage7_slot0,Exact C spiral; twelve phase-guarded arms with clamped depths and a phase-driven size; direct-entry reachable.
 0x8013CDF0,0x8E0,func_8013CDF0,unmatched_asm,overlay/model_variant_0_stage7_slot0,Game-owned generated assembly retained; direct-entry reachable.
