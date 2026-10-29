@@ -55,18 +55,11 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant840_entry]
-  - name: rodata
+  - name: unclassified_tail
     type: code
     start: 0xEEC
     vram: 0x8013BEEC
     align: 4
     subsegments:
-      - [0xEEC, .rodata, overlays/model_variant/variant840_entry]
-  - name: unclassified_tail
-    type: code
-    start: 0xEFC
-    vram: 0x8013BEFC
-    align: 4
-    subsegments:
-      - [0xEFC, data, overlays/model_variant_423_pos0_slot0/unclassified_tail]
+      - [0xEEC, bin, overlays/model_variant_423_pos0_slot0/unclassified_tail]
   - [0x5000]
