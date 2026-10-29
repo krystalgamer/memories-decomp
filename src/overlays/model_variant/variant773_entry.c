@@ -1,6 +1,8 @@
 #include "../../types.h"
 #include "variant773_entry.h"
 
+static const VECTOR D_8013D508 = {4096, 4096, 4096, 0};
+
 /* Header-773 MODEL entry: twelve streaking orbs with trails, ribbons and impact flashes. */
 s32 func_8013B004(u8 *context, s32 command)
 {

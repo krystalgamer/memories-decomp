@@ -73,7 +73,6 @@ typedef struct {
     u8 blue[12];
 } Model773State;
 
-extern VECTOR D_8013D508;
 extern GsIMAGE D_8013D518[];
 extern Model773Command D_8013D56C[];
 
