@@ -631,6 +631,13 @@ through `variant685_rings{,_slot1}.c`, which alias the five resident names
 it shares with the entry and bind them in
 `model_variant685_rings_linker_symbols.txt`.
 
+Two images under French headers 853 and 950 are the North American
+header-836 entry (`model_variant/variant836_entry.c`) with the burst palette
+from the PAL CLUT row 0x3D28 instead of 0x3D20. The
+`src/overlays/french_model_variant/variant853_entry{,_slot1}.c` wrappers set
+`VERSION_FRENCH` and bind `model_variant853_entry_linker_symbols.txt` and
+`model_variant950_linker_symbols.txt`.
+
 Twenty-six images under French headers 794 and 891 are the North American
 header-777 entry (`model_variant/variant777_entry.c`) with its full-screen
 flash covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects the
