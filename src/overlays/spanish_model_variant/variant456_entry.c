@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant456_entry.h"
 
+#ifndef MODEL_VARIANT456_CLUT_X
+#define MODEL_VARIANT456_CLUT_X 640
+#endif
+
 /* Header 456's entry: two fans, two trails, two ribbons, sixteen lines,
  * eight sheets and two streamers around the header-337 camera and part
  * tracking. The command row's start frames gate the sheet and line helpers.
@@ -54,9 +58,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vz - work->matrix.t[2]);
         n = 0;
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT456_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT456_CLUT_X, 244);
         packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ED00 + 0xC4));
         ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ED00 + 0x8C));
         ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ED00 + 0x1C));
