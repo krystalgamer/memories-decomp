@@ -29,6 +29,8 @@ s32 func_8013B004(u8 *context, s32 command)
     s32 sx, sy, sz;
     SVECTOR *v;
     SVECTOR *w;
+    s16 (*nc)[4];
+    s16 (*fc)[4];
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
@@ -74,28 +76,30 @@ s32 func_8013B004(u8 *context, s32 command)
             work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &D_8013CDE4[i]);
         }
         Model_GetSlotDimensionsWithMinimums(-slot + 1, (ModelEffectAdjustment *)&pos);
-        v = work->near_ring;
-        w = work->far_ring;
-        /* vy and vz are written through the word view of each point; that
-         * indexed form is what keeps them on separate strength-reduced
-         * pointers. */
+        v = work->near_ring.v;
+        w = work->far_ring.v;
+        nc = work->near_ring.c;
+        fc = work->far_ring.c;
+        /* vx is written through the vector view and vy/vz through the word
+         * view of the same ring storage; walking the two views in lockstep
+         * keeps them on the separate strength-reduced pointers. */
         if (pos.vx > pos.vz) {
-            for (i = 0; i < 9; v++, w++, i++) {
+            for (i = 0; i < 9; nc++, v++, fc++, w++, i++) {
                 v->vx = pos.vx * (ccos(i * 256) % 4096) / 4096;
-                ((Model759RingPoint *)v)->c[1] = 0;
-                ((Model759RingPoint *)v)->c[2] = side * pos.vx * (csin(i * 256) % 4096) / 4096;
+                (*nc)[1] = 0;
+                (*nc)[2] = side * pos.vx * (csin(i * 256) % 4096) / 4096;
                 w->vx = pos.vx * (ccos(i * 256) % 4096 << 1) / 4096;
-                ((Model759RingPoint *)w)->c[1] = -work->config->ring_height;
-                ((Model759RingPoint *)w)->c[2] = side * (pos.vx << 1) * (csin(i * 256) % 4096) / 4096;
+                (*fc)[1] = -work->config->ring_height;
+                (*fc)[2] = side * (pos.vx << 1) * (csin(i * 256) % 4096) / 4096;
             }
         } else {
-            for (i = 0; i < 9; v++, w++, i++) {
+            for (i = 0; i < 9; nc++, v++, fc++, w++, i++) {
                 v->vx = pos.vz * (ccos(i * 256) % 4096) / 4096;
-                ((Model759RingPoint *)v)->c[1] = 0;
-                ((Model759RingPoint *)v)->c[2] = side * pos.vz * (csin(i * 256) % 4096) / 4096;
+                (*nc)[1] = 0;
+                (*nc)[2] = side * pos.vz * (csin(i * 256) % 4096) / 4096;
                 w->vx = pos.vz * (ccos(i * 256) % 4096 << 1) / 4096;
-                ((Model759RingPoint *)w)->c[1] = -work->config->ring_height;
-                ((Model759RingPoint *)w)->c[2] = side * (pos.vz << 1) * (csin(i * 256) % 4096) / 4096;
+                (*fc)[1] = -work->config->ring_height;
+                (*fc)[2] = side * (pos.vz << 1) * (csin(i * 256) % 4096) / 4096;
             }
         }
         work->ambient = 0x800;
@@ -319,8 +323,8 @@ s32 func_8013B004(u8 *context, s32 command)
         ring.tpage = work->texture[0] >> 16;
         ring.clut = work->texture[0];
         setUV4(&ring, 0, 96, 0, 223, 127, 96, 127, 223);
-        v = work->near_ring;
-        w = work->far_ring;
+        v = work->near_ring.v;
+        w = work->far_ring.v;
         pos.vx = 0;
         pos.vy = 0;
         pos.vz = side * 450;
@@ -349,8 +353,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 Graphics_SubmitDrawModePacket((u32 *)&ring, ot, (u16)otz, 1);
             }
         }
-        v = work->near_ring;
-        w = work->far_ring;
+        v = work->near_ring.v;
+        w = work->far_ring.v;
         pos.vx = 0;
         pos.vy = 0;
         pos.vz = side * 450;
@@ -382,8 +386,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 Graphics_SubmitDrawModePacket((u32 *)&ring, ot, (u16)otz, 1);
             }
         }
-        v = work->near_ring;
-        w = work->far_ring;
+        v = work->near_ring.v;
+        w = work->far_ring.v;
         pos.vx = 0;
         pos.vy = 0;
         pos.vz = side * 450;
