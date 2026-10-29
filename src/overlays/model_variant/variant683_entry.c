@@ -195,8 +195,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 RotMatrixY(work->orbs[i].rotation.vy + (0xC06 - view.yaw), &unit.matrix);
                 s = i % 2 * 2 - 1;
                 d = (i % 4 / 2 + 1) * rsin((work->orbs[i].elapsed << 11) / work->orbs[i].duration);
-                n = s * (work->radius * (rsin((work->orbs[i].elapsed << 11) / work->orbs[i].duration) << 1) / 4096) * d / 4096;
-                d = s * (work->radius * (rcos((work->orbs[i].elapsed << 11) / work->orbs[i].duration) << 1) / 4096) * d / 4096;
+                n = s * (work->radius * ((s32)((u32)rsin((work->orbs[i].elapsed << 11) / work->orbs[i].duration) << 1)) / 4096) * d / 4096;
+                d = s * (work->radius * ((s32)((u32)rcos((work->orbs[i].elapsed << 11) / work->orbs[i].duration) << 1)) / 4096) * d / 4096;
                 unit.matrix.t[0] = n + work->orbs[i].position.vx
                     + (work->origin.vx - work->orbs[i].position.vx) * work->orbs[i].elapsed / work->orbs[i].duration;
                 unit.matrix.t[1] = work->orbs[i].position.vy
