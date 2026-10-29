@@ -84,9 +84,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->blink = 0;
         work->elapsed = 0;
         work->frames = 0;
-        work->flash.r = work->config->r;
-        work->flash.g = work->config->g;
-        work->flash.b = work->config->b;
+        work->flash.c.r = work->config->r;
+        work->flash.c.g = work->config->g;
+        work->flash.c.b = work->config->b;
         return 0;
     }
 
@@ -136,11 +136,11 @@ s32 func_8013B004(u8 *context, s32 command)
         work->count++;
     }
 
-    if (*(u32 *)&work->flash & 0xFFFFFF) {
+    if (work->flash.word & 0xFFFFFF) {
         setPolyFT4(&ft4);
         ft4.tpage = work->texture[1] >> 16;
         ft4.clut = work->texture[1];
-        setRGB0(&ft4, work->flash.r, work->flash.g, work->flash.b);
+        setRGB0(&ft4, work->flash.c.r, work->flash.c.g, work->flash.c.b);
         setVector(&quad[0], -work->config->flash_size, -work->config->flash_size, 0);
         setVector(&quad[1], work->config->flash_size, -work->config->flash_size, 0);
         setVector(&quad[2], -work->config->flash_size, work->config->flash_size, 0);
@@ -170,17 +170,17 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB0(&gt4, 0, 0, 0);
                     setRGB1(&gt4, 0, 0, 0);
                     setRGB2(&gt4, 0, 0, 0);
-                    setRGB3(&gt4, work->flash.r / 2, work->flash.g / 2, work->flash.b / 2);
+                    setRGB3(&gt4, work->flash.c.r / 2, work->flash.c.g / 2, work->flash.c.b / 2);
                 } else if (i == 10) {
                     setRGB0(&gt4, 0, 0, 0);
                     setRGB1(&gt4, 0, 0, 0);
-                    setRGB2(&gt4, work->flash.r / 2, work->flash.g / 2, work->flash.b / 2);
+                    setRGB2(&gt4, work->flash.c.r / 2, work->flash.c.g / 2, work->flash.c.b / 2);
                     setRGB3(&gt4, 0, 0, 0);
                 } else {
                     setRGB0(&gt4, 0, 0, 0);
                     setRGB1(&gt4, 0, 0, 0);
-                    setRGB2(&gt4, work->flash.r / 2, work->flash.g / 2, work->flash.b / 2);
-                    setRGB3(&gt4, work->flash.r / 2, work->flash.g / 2, work->flash.b / 2);
+                    setRGB2(&gt4, work->flash.c.r / 2, work->flash.c.g / 2, work->flash.c.b / 2);
+                    setRGB3(&gt4, work->flash.c.r / 2, work->flash.c.g / 2, work->flash.c.b / 2);
                 }
                 if (otz >= 0)
                     Graphics_SubmitDrawModePacket((u32 *)&gt4, ot, (u16)otz, 1);
@@ -188,20 +188,20 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         if (work->elapsed >= work->config->end) {
             work->blink = 0;
-            if (work->flash.r >= 32) {
-                work->flash.r -= work->config->fade;
+            if (work->flash.c.r >= 32) {
+                work->flash.c.r -= work->config->fade;
             } else {
-                work->flash.r = 0;
+                work->flash.c.r = 0;
             }
-            if (work->flash.g >= 32) {
-                work->flash.g -= work->config->fade;
+            if (work->flash.c.g >= 32) {
+                work->flash.c.g -= work->config->fade;
             } else {
-                work->flash.g = 0;
+                work->flash.c.g = 0;
             }
-            if (work->flash.b >= 32) {
-                work->flash.b -= work->config->fade;
+            if (work->flash.c.b >= 32) {
+                work->flash.c.b -= work->config->fade;
             } else {
-                work->flash.b = 0;
+                work->flash.c.b = 0;
             }
         } else if (work->blink == 0) {
             work->blink = 1;

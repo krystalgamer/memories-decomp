@@ -72,7 +72,10 @@ typedef struct {
     u8 r[36];
     u8 g[36];
     u8 b[36];
-    CVECTOR flash;
+    union {
+        CVECTOR c;
+        u32 word;
+    } flash;
 } Model823State;
 
 extern GsIMAGE D_8013CEAC[];
