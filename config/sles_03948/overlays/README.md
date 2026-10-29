@@ -733,6 +733,14 @@ through `variant685_rings{,_slot1}.c`, which alias the five resident names
 it shares with the entry and bind them in
 `model_variant685_rings_linker_symbols.txt`.
 
+Four images under French headers 195 and 325 are the North American
+header-178 entry (`model_variant/variant178_entry.c`) without its `E_DATA`
+work-size printf, with its per-line sway tables sized for the 256-line PAL
+screen instead of 240. The French build seeds each line's phase with
+`i << 5`, which `VERSION_FRENCH` selects, and the
+`src/overlays/french_model_variant/variant195_entry{,_slot1}.c` wrappers
+move the two data labels 0x58 lower.
+
 Twenty-six images under French headers 794 and 891 are the North American
 header-777 entry (`model_variant/variant777_entry.c`) with its full-screen
 flash covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects the
