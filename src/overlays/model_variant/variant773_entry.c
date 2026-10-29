@@ -23,7 +23,7 @@ s32 func_8013B004(u8 *context, s32 command)
     GsOT *ot;
     s32 i, j, k;
     s32 a, radius, depth;
-    SVECTOR *pos, *vel, *off, *dir, *point;
+    Model773Point *pos, *vel, *off, *dir, *point;
 
     memset(&rotation, 0, 8);
     memset(&offset, 0, 8);
@@ -39,12 +39,12 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 12; i++) {
             j = rand() % 4096 - rand() % 4096;
             k = rand() % 4096 - rand() % 4096;
-            pos->vx = work->command->spread_x * j / 4096;
-            ((Model773Point *)pos)->c[1] = work->command->spread_x * k / 4096;
-            ((Model773Point *)pos)->c[2] = 0;
-            vel->vx = work->command->spread_y * j / 4096;
-            ((Model773Point *)vel)->c[1] = work->command->spread_y * k / 4096 - 350;
-            ((Model773Point *)vel)->c[2] = side * 450;
+            pos->v.vx = work->command->spread_x * j / 4096;
+            pos->c[1] = work->command->spread_x * k / 4096;
+            pos->c[2] = 0;
+            vel->v.vx = work->command->spread_y * j / 4096;
+            vel->c[1] = work->command->spread_y * k / 4096 - 350;
+            vel->c[2] = side * 450;
             pos++;
             vel++;
         }
@@ -54,12 +54,12 @@ s32 func_8013B004(u8 *context, s32 command)
             a = rand() % 4096;
             depth = rand() % 4096;
             radius = work->command->trail_radius / work->command->trail_period;
-            pos->vx = 0;
-            ((Model773Point *)pos)->c[1] = 0;
-            ((Model773Point *)pos)->c[2] = 0;
-            vel->vx = radius * ccos(a) / 4096 * ccos(depth) / 4096;
-            ((Model773Point *)vel)->c[1] = radius * ccos(a) / 4096 * csin(depth) / 4096;
-            ((Model773Point *)vel)->c[2] = radius * csin(a) / 4096;
+            pos->v.vx = 0;
+            pos->c[1] = 0;
+            pos->c[2] = 0;
+            vel->v.vx = radius * ccos(a) / 4096 * ccos(depth) / 4096;
+            vel->c[1] = radius * ccos(a) / 4096 * csin(depth) / 4096;
+            vel->c[2] = radius * csin(a) / 4096;
             pos++;
             vel++;
         }
@@ -108,9 +108,9 @@ s32 func_8013B004(u8 *context, s32 command)
         offset.vy = matrix.t[1];
         offset.vz = matrix.t[2];
         for (i = 0; i < work->command->batch_count; i++) {
-            addVector(&work->pos[i], &offset);
-            applyVector(&work->vel[i], work->pos[i].vx, work->pos[i].vy, work->pos[i].vz, -=);
-            applyVector(&work->vel[i], work->command->travel_steps, work->command->travel_steps,
+            addVector(&work->pos[i].v, &offset);
+            applyVector(&work->vel[i].v, work->pos[i].v.vx, work->pos[i].v.vy, work->pos[i].v.vz, -=);
+            applyVector(&work->vel[i].v, work->command->travel_steps, work->command->travel_steps,
                         work->command->travel_steps, /=);
         }
         work->count += work->command->batch_count;
@@ -122,9 +122,9 @@ s32 func_8013B004(u8 *context, s32 command)
         offset.vy = matrix.t[1];
         offset.vz = matrix.t[2];
         for (i = work->count; i < work->command->batch_count + work->count; i++) {
-            addVector(&work->pos[i], &offset);
-            applyVector(&work->vel[i], work->pos[i].vx, work->pos[i].vy, work->pos[i].vz, -=);
-            applyVector(&work->vel[i], work->command->travel_steps, work->command->travel_steps,
+            addVector(&work->pos[i].v, &offset);
+            applyVector(&work->vel[i].v, work->pos[i].v.vx, work->pos[i].v.vy, work->pos[i].v.vz, -=);
+            applyVector(&work->vel[i].v, work->command->travel_steps, work->command->travel_steps,
                         work->command->travel_steps, /=);
         }
         work->count += work->command->batch_count;
@@ -136,9 +136,9 @@ s32 func_8013B004(u8 *context, s32 command)
         offset.vy = matrix.t[1];
         offset.vz = matrix.t[2];
         for (i = work->count; i < work->command->batch_count + work->count; i++) {
-            addVector(&work->pos[i], &offset);
-            applyVector(&work->vel[i], work->pos[i].vx, work->pos[i].vy, work->pos[i].vz, -=);
-            applyVector(&work->vel[i], work->command->travel_steps, work->command->travel_steps,
+            addVector(&work->pos[i].v, &offset);
+            applyVector(&work->vel[i].v, work->pos[i].v.vx, work->pos[i].v.vy, work->pos[i].v.vz, -=);
+            applyVector(&work->vel[i].v, work->command->travel_steps, work->command->travel_steps,
                         work->command->travel_steps, /=);
         }
         work->count += work->command->batch_count;
@@ -150,9 +150,9 @@ s32 func_8013B004(u8 *context, s32 command)
         offset.vy = matrix.t[1];
         offset.vz = matrix.t[2];
         for (i = work->count; i < work->command->batch_count + work->count; i++) {
-            addVector(&work->pos[i], &offset);
-            applyVector(&work->vel[i], work->pos[i].vx, work->pos[i].vy, work->pos[i].vz, -=);
-            applyVector(&work->vel[i], work->command->travel_steps, work->command->travel_steps,
+            addVector(&work->pos[i].v, &offset);
+            applyVector(&work->vel[i].v, work->pos[i].v.vx, work->pos[i].v.vy, work->pos[i].v.vz, -=);
+            applyVector(&work->vel[i].v, work->command->travel_steps, work->command->travel_steps,
                         work->command->travel_steps, /=);
         }
         work->count += work->command->batch_count;
@@ -174,12 +174,12 @@ s32 func_8013B004(u8 *context, s32 command)
             box.w = 1;
             box.h = 1;
             GsSetLsMatrix(&view);
-            RotTrans(pos, (VECTOR *)matrix.t, &flag);
+            RotTrans(&pos->v, (VECTOR *)matrix.t, &flag);
             RotMatrix(&rotation, &matrix);
             MulMatrix2(&view, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            RotTransPersN(off, screen, depths, interpolations, flags, 12);
+            RotTransPersN(&off->v, screen, depths, interpolations, flags, 12);
             for (j = 0; j < 12; j++) {
                 box.x = screen[j].vx;
                 box.y = screen[j].vy;
@@ -191,12 +191,12 @@ s32 func_8013B004(u8 *context, s32 command)
                     GsSortBoxFill(&box, ot, depths[j] / 4);
                 }
                 a = (work->timer + j) % work->command->trail_period;
-                off->vx = dir->vx;
-                ((Model773Point *)off)->c[1] = ((Model773Point *)dir)->c[1];
-                ((Model773Point *)off)->c[2] = ((Model773Point *)dir)->c[2];
-                off->vx *= a;
-                ((Model773Point *)off)->c[1] *= a;
-                ((Model773Point *)off)->c[2] *= a;
+                off->v.vx = dir->v.vx;
+                off->c[1] = dir->c[1];
+                off->c[2] = dir->c[2];
+                off->v.vx *= a;
+                off->c[1] *= a;
+                off->c[2] *= a;
                 off++;
                 dir++;
             }
@@ -274,7 +274,7 @@ s32 func_8013B004(u8 *context, s32 command)
             corners[3].vy = 0;
             corners[3].vz = 0;
             GsSetLsMatrix(&view);
-            RotTrans(pos, (VECTOR *)matrix.t, &flag);
+            RotTrans(&pos->v, (VECTOR *)matrix.t, &flag);
             RotMatrix(&rotation, &matrix);
             MulMatrix2(&view, &matrix);
             ScaleMatrix(&matrix, &scale);
@@ -305,7 +305,7 @@ s32 func_8013B004(u8 *context, s32 command)
             rotation.vy = 0;
             rotation.vz = 0x555;
             GsSetLsMatrix(&view);
-            RotTrans(pos, (VECTOR *)matrix.t, &flag);
+            RotTrans(&pos->v, (VECTOR *)matrix.t, &flag);
             RotMatrix(&rotation, &matrix);
             MulMatrix2(&view, &matrix);
             ScaleMatrix(&matrix, &scale);
@@ -328,7 +328,7 @@ s32 func_8013B004(u8 *context, s32 command)
             rotation.vy = 0;
             rotation.vz = 0xAAB;
             GsSetLsMatrix(&view);
-            RotTrans(pos, (VECTOR *)matrix.t, &flag);
+            RotTrans(&pos->v, (VECTOR *)matrix.t, &flag);
             RotMatrix(&rotation, &matrix);
             MulMatrix2(&view, &matrix);
             ScaleMatrix(&matrix, &scale);
@@ -339,17 +339,17 @@ s32 func_8013B004(u8 *context, s32 command)
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&orb, ot, (u16)depth, 0);
             }
-            if (side * work->pos[i].vz < 450 - work->command->sprite_height) {
-                (work->ribbon[i] + work->head[i])->vx = pos->vx;
-                (work->ribbon[i] + work->head[i])->vy = ((Model773Point *)pos)->c[1];
-                (work->ribbon[i] + work->head[i])->vz = ((Model773Point *)pos)->c[2];
+            if (side * work->pos[i].v.vz < 450 - work->command->sprite_height) {
+                (work->ribbon[i] + work->head[i])->vx = pos->v.vx;
+                (work->ribbon[i] + work->head[i])->vy = pos->c[1];
+                (work->ribbon[i] + work->head[i])->vz = pos->c[2];
                 work->head[i] = (work->head[i] + 1) % 32;
-                pos->vx += vel->vx;
-                ((Model773Point *)pos)->c[1] += vel->vy;
-                ((Model773Point *)pos)->c[2] += vel->vz;
-                if (side * work->pos[i].vz >= 450 - work->command->sprite_height) {
+                pos->v.vx += vel->v.vx;
+                pos->c[1] += vel->v.vy;
+                pos->c[2] += vel->v.vz;
+                if (side * work->pos[i].v.vz >= 450 - work->command->sprite_height) {
                     work->landed[i] = 1;
-                    work->pos[i].vz = side * (450 - work->command->sprite_height);
+                    work->pos[i].v.vz = side * (450 - work->command->sprite_height);
                 }
             }
             if (work->landed[i] > 0 && work->burst[i] < 4) {
@@ -364,7 +364,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 rotation.vy = 0;
                 rotation.vz = 0;
                 GsSetLsMatrix(&view);
-                RotTrans(pos, (VECTOR *)matrix.t, &flag);
+                RotTrans(&pos->v, (VECTOR *)matrix.t, &flag);
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
@@ -431,7 +431,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 rotation.vy = 0;
                 rotation.vz = 0;
                 GsSetLsMatrix(&view);
-                RotTrans(&point[i], (VECTOR *)matrix.t, &flag);
+                RotTrans(&point[i].v, (VECTOR *)matrix.t, &flag);
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);

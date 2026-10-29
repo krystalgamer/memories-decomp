@@ -16,7 +16,8 @@
 #include "../../psyq/memory.h"
 #include "../../psyq/rand.h"
 
-/* Word view of an SVECTOR, used where the original addresses vy/vz by component index. */
+/* One point of the position, velocity and grid arrays: the vector, or its
+ * components by index, which is how the original addresses vy/vz. */
 typedef union {
     SVECTOR v;
     s16 c[4];
@@ -47,15 +48,15 @@ typedef struct {
 
 typedef struct {
     Model773Command *G32 command;
-    SVECTOR pos[12];
-    SVECTOR vel[12];
+    Model773Point pos[12];
+    Model773Point vel[12];
     union {
-        SVECTOR grid[12][12];
-        SVECTOR flat[144];
+        Model773Point grid[12][12];
+        Model773Point flat[144];
     } offsets;
     union {
-        SVECTOR grid[12][12];
-        SVECTOR flat[144];
+        Model773Point grid[12][12];
+        Model773Point flat[144];
     } directions;
     SVECTOR ribbon[12][32];
     s16 flash[12];
