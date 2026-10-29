@@ -378,6 +378,14 @@ North American header-413 entry (`model_variant/variant413_entry.c`) through
 leaves out the swarm helper the French images already build from
 `image132118_swarm{,_slot0}.c`, and the data label sits 8 bytes lower.
 
+Four images under French headers 481 and 631 build their loader entry from
+the North American header-464 entry (`model_variant/variant464_entry.c`,
+which the US images build with the CDK GCC 2.7.2 profile) through
+`src/overlays/french_model_variant/variant481_entry{,_slot1}.c`, compiled with
+`gcc_2_8_1_g0_split`. `VERSION_FRENCH` moves the CLUT column from 512 to 640;
+the rings helper keeps its French C (`variant481_rings.c`) and the funnel
+helper at +0xE38 remains generated assembly.
+
 Two images under French headers 462 and 612 build their loader entry and
 ribbons helper from the North American header-445 C
 (`model_variant/variant445us_entry.c` and `variant445us_ribbons.c`, which the
