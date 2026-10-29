@@ -844,6 +844,13 @@ goes too, and the
 `src/overlays/french_model_variant/variant670_entry{,_slot1}.c` wrappers move
 the data labels 0x28 lower.
 
+Two images under French headers 778 and 875 are the North American
+header-761 entry (`model_variant/variant761_entry.c` and its `_slot1.c`
+wrapper) unchanged: it has no work-size printf or screen-height constant, and
+only the resident call targets differ, which
+`model_variant778_linker_symbols.txt` binds to the French addresses. They
+build through `src/overlays/french_model_variant/variant778_entry{,_slot1}.c`.
+
 Six images under French headers 159 and 289 are the North American
 header-142 entry (`model_variant/variant142_entry.c`) without its work-size
 printf or that call's `.rodata` format string, built through
