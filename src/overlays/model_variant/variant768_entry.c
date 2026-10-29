@@ -113,7 +113,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 v->vx = pos.vx * (ccos(i << 8) % 4096) / 4096;
                 v->vy = 0;
                 v->vz = -side * pos.vx * (csin(i << 8) % 4096) / 4096;
-                w->vx = pos.vx * ((ccos(i << 8) % 4096) << 1) / 4096;
+                w->vx = pos.vx * ((s32)((u32)(ccos(i << 8) % 4096) << 1)) / 4096;
                 w->vy = -work->config->ring_height * (csin(i << 8) % 4096) / 4096;
                 w->vz = side * -(pos.vx * 2) * (csin(i << 8) % 4096) / 4096;
             }
@@ -122,7 +122,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 v->vx = pos.vz * (ccos(i << 8) % 4096) / 4096;
                 v->vy = 0;
                 v->vz = -side * pos.vz * (csin(i << 8) % 4096) / 4096;
-                w->vx = pos.vz * ((ccos(i << 8) % 4096) << 1) / 4096;
+                w->vx = pos.vz * ((s32)((u32)(ccos(i << 8) % 4096) << 1)) / 4096;
                 w->vy = -work->config->ring_height * (csin(i << 8) % 4096) / 4096;
                 w->vz = side * -(pos.vz * 2) * (csin(i << 8) % 4096) / 4096;
             }
