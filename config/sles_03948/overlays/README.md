@@ -393,6 +393,13 @@ flash, built through
 `src/overlays/french_model_variant/variant166_entry{,_slot1}.c`. The scale
 vector sits 0x14 lower and the image and command tables 0x24 lower.
 
+Two images under French headers 172 and 302 are the North American
+header-155 entry (`model_variant/variant155_entry.c`) without its work-size
+printf or that call's `.rodata` format string, and with a 256-line screen
+flash, built through
+`src/overlays/french_model_variant/variant172_entry{,_slot1}.c`. The scale
+vector sits 0x14 lower and the image and command tables 0x24 lower.
+
 Six images under French headers 812 and 909 are the North American
 header-795 entry (`model_variant/variant795_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
