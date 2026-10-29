@@ -431,6 +431,8 @@ French MODEL headers 788 (stage 7 slot 0) and 885 (stage 8 slot 1) build the hea
 
 French MODEL headers 790 (stage 7 slot 0) and 887 (stage 8 slot 1) build the header-773 entry (`func_8013B004`) from `src/overlays/model_variant/variant773_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant790_entry{,_slot1}.c`; the French code and data are identical to the US images.
 
+French MODEL headers 785 (stage 7 slot 0) and 882 (stage 8 slot 1) build the header-768 entry (`func_8013B004`) from `src/overlays/model_variant/variant768_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant785_entry{,_slot1}.c`; the French code and data are identical to the US images.
+
 Sixteen images under French headers 676 and 743 are the North American
 header-659 entry (`model_variant/variant659_entry.c`) without its `E_DATA`
 work-size printf, built through
