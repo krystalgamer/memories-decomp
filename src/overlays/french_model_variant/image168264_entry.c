@@ -55,9 +55,9 @@ s32 func_8013B004(u8 *context, s32 command)
             other = rand() % 4096;
             elevation = rand() % 4096;
             setVector(position,
-                (value * rsin(other) / 4096) * rsin(elevation) / 4096,
-                (value * rcos(other) / 4096) * rsin(elevation) / 4096,
-                value * rcos(elevation) / 4096);
+                (value * ccos(other) / 4096) * ccos(elevation) / 4096,
+                (value * csin(other) / 4096) * ccos(elevation) / 4096,
+                value * csin(elevation) / 4096);
         }
         for (j = 0; j < 2; j++) {
             state->textures[j] = ModelTexture_PackPageClutCopy(

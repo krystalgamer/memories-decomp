@@ -22,6 +22,9 @@ random scale by three before applying age/duration. Camera and animation
 progression, tint requests and one-at-a-time completion notifications remain
 in native order.
 
+Particle initialization uses canonical `ccos`/`csin` at
+`800868A8`/`80086B38`; these are distinct from `rsin`/`rcos`.
+
 The first negative start skips both rendering passes. An index-based sentinel
 guard and first-pass do/while recover that control flow exactly. Halfword RGB
 temporaries and a cached blue grayscale quotient recover native division,
@@ -54,6 +57,8 @@ Fourteen experiments reached the first exact native body; the fifteenth
 only cleaned indentation and removed an unused declaration. Source/header
 fingerprints, named profiles, byte counts and precise mismatch reasons are
 retained for each attempt.
+The canonical SDK-name correction adds fresh production proofs for both
+images while preserving those native call targets and all instruction bytes.
 
 Both relocated native bodies match independently. Production ELF symbols
 retain one original-sized C owner per image, and complete image comparisons
