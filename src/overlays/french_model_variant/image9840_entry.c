@@ -1,6 +1,9 @@
 #include "../../types.h"
 #include "image9840_entry.h"
 #include "../../psyq/memory.h"
+#ifdef MODEL_IMAGE9840_WORK_SIZE_PRINTF
+#include "../../psyq/stdio.h"
+#endif
 
 #define FADE_PRIMARY(c) \
     if (D_8013CD70[work->command].c / ((u16)(work->primary[i].duration / 10) - 1) * step \
@@ -48,6 +51,9 @@ s32 func_8013B004(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Image9840State));
+#ifdef MODEL_IMAGE9840_WORK_SIZE_PRINTF
+        printf(MODEL_IMAGE9840_WORK_SIZE_FORMAT, sizeof(Image9840State));
+#endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->elapsed = 0;
