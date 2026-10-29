@@ -393,6 +393,12 @@ printf and format string, with the flash covering all 256 PAL lines. The
 the height and move the data labels after the shorter text and read-only
 section 0x24 lower.
 
+Four images under French headers 192 and 322 are the North American
+header-175 entry (`model_variant/variant175_entry.c` and its slot-1 wrapper)
+unchanged: the code differs only in its resident call targets, which
+`model_variant192_linker_symbols.txt` and `model_variant322_linker_symbols.txt`
+bind to the French addresses.
+
 Two images under French headers 166 and 296 are the North American
 header-149 entry (`model_variant/variant149_entry.c`) without its work-size
 printf or that call's `.rodata` format string, and with a 256-line screen
