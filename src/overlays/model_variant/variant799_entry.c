@@ -126,7 +126,11 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spark_count[i] = 0;
         }
         work->ring_tpage = 0xAE;
+#ifdef VERSION_FRENCH
+        work->ring_clut = 0x3D28;
+#else
         work->ring_clut = 0x3D20;
+#endif
         for (i = 0; i < 7; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013ED7C[i]);
         }
