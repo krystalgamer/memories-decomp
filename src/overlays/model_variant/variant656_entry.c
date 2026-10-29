@@ -264,9 +264,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 unit.matrix = D_800FE168;
                 ScaleMatrix(&unit.matrix, &work->sprites[i].scale);
                 RotMatrixZ(work->sprites[i].rotation.vz, &unit.matrix);
-                RotMatrixX(work->sprites[i].rotation.vx - (*(s16 *)&view.bytes[4] - 0x1000) * work->direction,
+                RotMatrixX(work->sprites[i].rotation.vx - (view.u.halves[2] - 0x1000) * work->direction,
                     &unit.matrix);
-                RotMatrixY(work->sprites[i].rotation.vy + (0xC06 - *(s16 *)&view.bytes[2]), &unit.matrix);
+                RotMatrixY(work->sprites[i].rotation.vy + (0xC06 - view.u.halves[1]), &unit.matrix);
                 unit.matrix.t[0] = work->sprites[i].position.vx
                     + work->sprites[i].growth.vx * work->sprites[i].elapsed / work->sprites[i].duration;
                 {
