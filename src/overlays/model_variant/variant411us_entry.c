@@ -410,9 +410,11 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     return result;
 }
 
+#ifndef VERSION_FRENCH
 /* The helpers are the French header-428 swarm and quads, built here with
  * gcc 2.7.2; the swarm sits four bytes later in this image. */
 #define func_8013C308 func_8013C30C
 #include "../french_model_variant/variant428_swarm.c"
 #undef func_8013C308
 #include "../french_model_variant/variant428_quads.c"
+#endif

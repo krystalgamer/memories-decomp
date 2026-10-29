@@ -126,6 +126,10 @@ six flares, 384-unit trail sprites, a `0x38`-byte config and no height offset
 on the root part. The helpers are the French header-428 swarm and quads
 sources included at the North American addresses (the swarm moves from
 `0x8013C308` to `0x8013C30C`); under 2.7.2 both match unchanged.
+The French header-428/578 images compile the same entry under
+`gcc_2_8_1_g0_split` (0x1304 bytes, CLUT column 640, data at `0x8013CD94`)
+through `french_model_variant/variant428_entry.c`, and build the two helpers
+as their own 2.8.1 segments from `variant428_swarm.c` and `variant428_quads.c`.
 
 ## Header families
 
