@@ -44,7 +44,7 @@ typedef struct {
     s16 end_zoom;
 } Model815Config;
 
-/* A colour that the entry tests a word or a halfword at a time. */
+/* An RGB colour. */
 typedef struct {
     u8 r, g, b;
 } Model815Rgb;
@@ -71,8 +71,18 @@ typedef struct {
     u16 count;
     s32 level;
     s32 texture[5];
-    Model815Rgb glow;
-    Model815Rgb color;
+    /* The glow and spark colours, also tested as the word at the glow (whose
+     * top byte is the spark red) and the spark green/blue halfword. */
+    union {
+        struct {
+            Model815Rgb glow;
+            Model815Rgb color;
+        } c;
+        struct {
+            u32 glow;
+            u16 color_gb;
+        } w;
+    } tint;
 } Model815State;
 
 extern GsIMAGE D_8013CFB0[5];

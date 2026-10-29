@@ -63,12 +63,12 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 5; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CFB0[i]);
         }
-        work->glow.r = 255;
-        work->glow.g = 255;
-        work->glow.b = 255;
-        work->color.r = work->config->r;
-        work->color.g = work->config->g;
-        work->color.b = work->config->b;
+        work->tint.c.glow.r = 255;
+        work->tint.c.glow.g = 255;
+        work->tint.c.glow.b = 255;
+        work->tint.c.color.r = work->config->r;
+        work->tint.c.color.g = work->config->g;
+        work->tint.c.color.b = work->config->b;
         work->scale = 0;
         work->level = 2048;
         work->phase = 0;
@@ -214,9 +214,9 @@ s32 func_8013B004(u8 *context, s32 command)
     }
     setPolyGT4(&glow);
     /* The glow colour is tested as a 24-bit word. */
-    if ((*(u32 *)&work->glow & 0xFFFFFF) && work->count >= 7) {
-        setRGB0(&glow, work->glow.r, work->glow.g, work->glow.b);
-        setRGB1(&glow, work->glow.r, work->glow.g, work->glow.b);
+    if ((work->tint.w.glow & 0xFFFFFF) && work->count >= 7) {
+        setRGB0(&glow, work->tint.c.glow.r, work->tint.c.glow.g, work->tint.c.glow.b);
+        setRGB1(&glow, work->tint.c.glow.r, work->tint.c.glow.g, work->tint.c.glow.b);
         setRGB2(&glow, 0, 0, 0);
         setRGB3(&glow, 0, 0, 0);
         glow.tpage = work->texture[2] >> 16;
@@ -248,19 +248,19 @@ s32 func_8013B004(u8 *context, s32 command)
         if (depth >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&glow, ot, (u16)depth, 1);
         }
-        if (work->glow.r >= 10) work->glow.r -= work->config->fade;
-        else work->glow.r = 0;
-        if (work->glow.g >= 10) work->glow.g -= work->config->fade;
-        else work->glow.g = 0;
-        if (work->glow.b >= 10) work->glow.b -= work->config->fade;
-        else work->glow.b = 0;
+        if (work->tint.c.glow.r >= 10) work->tint.c.glow.r -= work->config->fade;
+        else work->tint.c.glow.r = 0;
+        if (work->tint.c.glow.g >= 10) work->tint.c.glow.g -= work->config->fade;
+        else work->tint.c.glow.g = 0;
+        if (work->tint.c.glow.b >= 10) work->tint.c.glow.b -= work->config->fade;
+        else work->tint.c.glow.b = 0;
     }
     /* The green and blue channels are tested together as a halfword. */
-    if (work->color.r != 0 || *(u16 *)&work->color.g != 0) {
+    if (work->tint.c.color.r != 0 || work->tint.w.color_gb != 0) {
         setRGB0(&glow, 0, 0, 0);
         setRGB1(&glow, 0, 0, 0);
-        setRGB2(&glow, work->color.r >> 1, work->color.g >> 1, work->color.b >> 1);
-        setRGB3(&glow, work->color.r >> 1, work->color.g >> 1, work->color.b >> 1);
+        setRGB2(&glow, work->tint.c.color.r >> 1, work->tint.c.color.g >> 1, work->tint.c.color.b >> 1);
+        setRGB3(&glow, work->tint.c.color.r >> 1, work->tint.c.color.g >> 1, work->tint.c.color.b >> 1);
         glow.tpage = work->texture[0] >> 16;
         glow.clut = work->texture[0];
         setUV4(&glow, 0, 192, 31, 192, 0, 255, 31, 255);
@@ -290,7 +290,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setVector(&scale, 4096, 4096, 4096);
         quad.tpage = work->texture[3] >> 16;
         quad.clut = work->texture[3];
-        setRGB0(&quad, work->color.r, work->color.g, work->color.b);
+        setRGB0(&quad, work->tint.c.color.r, work->tint.c.color.g, work->tint.c.color.b);
         setUV4(&quad, 32, 192, 63, 192, 32, 223, 63, 223);
         for (i = 0; i < 64; i++) {
             if (work->sparks[i].vy <= 0) {
@@ -323,7 +323,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         quad.tpage = work->texture[4] >> 16;
         quad.clut = work->texture[4];
-        setRGB0(&quad, work->color.r, work->color.g, work->color.b);
+        setRGB0(&quad, work->tint.c.color.r, work->tint.c.color.g, work->tint.c.color.b);
         setUV4(&quad, 64, 192, 127, 192, 64, 255, 127, 255);
         setVector(&vertices[0], -64, -64, 0);
         setVector(&vertices[1], 64, -64, 0);
@@ -348,12 +348,12 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->ember_velocities[i].vy += 2;
             }
         }
-        if (work->color.r >= 10) work->color.r -= work->config->fade;
-        else work->color.r = 0;
-        if (work->color.g >= 10) work->color.g -= work->config->fade;
-        else work->color.g = 0;
-        if (work->color.b >= 10) work->color.b -= work->config->fade;
-        else work->color.b = 0;
+        if (work->tint.c.color.r >= 10) work->tint.c.color.r -= work->config->fade;
+        else work->tint.c.color.r = 0;
+        if (work->tint.c.color.g >= 10) work->tint.c.color.g -= work->config->fade;
+        else work->tint.c.color.g = 0;
+        if (work->tint.c.color.b >= 10) work->tint.c.color.b -= work->config->fade;
+        else work->tint.c.color.b = 0;
     }
     if (work->scale < 0x4000) {
         work->scale += 0x800;
