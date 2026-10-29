@@ -56,7 +56,11 @@ s32 func_8013B004(u8 *context, s32 command)
         work->position.vx = 0;
         work->position.vy = 0;
         work->position.vz = 0;
+#ifdef VERSION_FRENCH
+        work->core_clut = 0x3D28;
+#else
         work->core_clut = 0x3D20;
+#endif
         for (i = 0; i < 4; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D2D0[i]);
         }
