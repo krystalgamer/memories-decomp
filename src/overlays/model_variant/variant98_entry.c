@@ -73,8 +73,9 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = otz * csin(k) / 4096;
             point++;
         }
-        /* The original fills 144 entries, running past the 16 rings. */
-        point = work->rings;
+        /* The original fills 144 points from the ring offset onward, past
+         * the end of the state, through the workspace's scatter view. */
+        point = ((Model98Workspace *)work)->scatter.points;
         for (i = 0; i < 144; i++) {
             otz = rand() % (config->grid_size / 2 - config->ring_size);
             k = rand() % 4096;

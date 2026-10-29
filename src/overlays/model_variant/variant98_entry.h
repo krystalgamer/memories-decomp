@@ -66,6 +66,21 @@ typedef struct {
     u8 unknown_81D[3];
 } Model98State;
 
+/* The variant entry's context is the slot's variant-module data area
+ * (0x80136000 for slot 0, 0x80176000 for slot 1), which runs up to the
+ * primary module loaded at 0x8013A000/0x8017A000: 0x4000 bytes. The state
+ * occupies its start. The setup's scatter pass writes 144 points from the
+ * ring offset (0x774), past the end of the state (through 0xBF4); that
+ * native range is modelled here as its own view of the workspace. */
+typedef union {
+    Model98State state;
+    struct {
+        u8 unknown_000[0x774];
+        SVECTOR points[144];
+    } scatter;
+    u8 bytes[0x4000];
+} Model98Workspace;
+
 extern GsIMAGE D_8013C5E4[];
 extern Model98Config D_8013C68C[];
 
