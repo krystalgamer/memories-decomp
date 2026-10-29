@@ -1,0 +1,4 @@
+// MODEL.MRG model 522 (record 522), sector 130452, header 629, loaded at 0x8013B000; the US source variant629_entry.c.
+func_8013B004 = 0x8013B004; // type:func size:0x2C38 defined:true
+D_8013DC80 = 0x8013DC80; // type:u8 size:0x38 defined:true
+D_8013DCB8 = 0x8013DCB8; // type:u8 size:0x2348 defined:true

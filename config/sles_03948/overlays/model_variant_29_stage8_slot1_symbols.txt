@@ -1,0 +1,4 @@
+// MODEL.MRG model 29 (record 29), sector 8194, header 713, loaded at 0x8017B000; the US header-629 source variant629_entry_slot1.c.
+func_8017B004 = 0x8017B004; // type:func size:0x2C28 defined:true
+D_8017DC58 = 0x8017DC58; // type:u8 size:0x38 defined:true
+D_8017DC90 = 0x8017DC90; // type:u8 size:0x2370 defined:true
