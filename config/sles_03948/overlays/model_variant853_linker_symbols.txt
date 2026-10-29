@@ -19,3 +19,4 @@ ScaleMatrix = 0x800875F8;
 func_80058F10 = 0x8005C018;
 memset = 0x8008F548;
 rand = 0x8008F708;
+Model_QueueCameraOrbitFromPreset = 0x8004F5D8;
