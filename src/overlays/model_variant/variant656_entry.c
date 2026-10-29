@@ -29,7 +29,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model656State));
 #ifndef VERSION_FRENCH
-        printf("E_DATA size = %x byte\n", sizeof(Model656State));
+        printf(D_8013D3C8, sizeof(Model656State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

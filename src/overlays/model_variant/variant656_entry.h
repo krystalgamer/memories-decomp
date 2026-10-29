@@ -73,6 +73,8 @@ typedef struct {
     u8 bytes[8];
 } Model656ViewSnapshot;
 
+/* The work-size string; slot-1 images carry a nonzero pad byte after it. */
+extern char D_8013D3C8[];
 extern MATRIX D_800FE168;
 extern GsIMAGE D_8013D3E0[2];
 extern Model656Command D_8013D418[];

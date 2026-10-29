@@ -648,6 +648,8 @@ work-size printf and format string. The
 `src/overlays/french_model_variant/variant672_entry{,_slot1}.c` wrappers move
 the data labels after the shorter text and read-only section 0x28 lower.
 
+French MODEL headers 673 (stages 7/9 slot 0) and 740 (stages 8/10 slot 1) build the header-656 entry (`func_8013B004`) from `src/overlays/model_variant/variant656_entry.c` through `src/overlays/french_model_variant/variant673_entry{,_slot1}.c`. `VERSION_FRENCH` drops the `E_DATA` work-size `printf` and its string, so the entry ends 0x10 bytes earlier and the GsIMAGE and command tables move 0x28 lower (`D_8013D3E0`/`D_8013D418` become `D_8013D3B8`/`D_8013D3F0`).
+
 Two images under French header 449 are the North American header-432 entry
 (`model_variant/variant432_entry.c`, which the US images build with the CDK
 GCC 2.7.2 profile) rebuilt with GCC 2.8.1 at the same size. Its four helpers
