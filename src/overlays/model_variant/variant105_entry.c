@@ -44,15 +44,15 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = i << 9;
             point++;
         }
-        point = work->trails[0];
+        point = work->shots.flat;
         for (i = 0; i < 24; i++) {
             point->vx = 0;
             point->vy = 0;
             point->vz = 0;
             point++;
         }
-        work->index = 0;
-        point = work->targets;
+        work->texture.s.index = 0;
+        point = work->shots.s.targets;
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
         for (i = 0; i < 8; i++) {
             point->vx = rand() % (config->spread * 2) + vertices[0].vx - config->spread;
@@ -61,7 +61,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C424[i]);
+            work->texture.words[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C424[i]);
         }
         work->elapsed = -config->delay;
         return 0;
@@ -83,10 +83,10 @@ s32 func_8013B004(u8 *context, s32 command)
     setVector(&offset, 0, 0, side * config->offset);
     setVector(&origin, 0, 0, 0);
     SetSemiTrans(&quad, 1);
-    quad.tpage = work->texture[0] >> 16;
-    quad.clut = work->texture[0];
+    quad.tpage = work->texture.s.texture >> 16;
+    quad.clut = work->texture.s.texture;
     point = work->spins;
-    target = &work->trails[0][work->index];
+    target = &work->shots.flat[work->texture.s.index];
     for (i = 0; i < 8; i++) {
         t = work->elapsed - i * config->spacing;
         if (t >= 0 && work->elapsed < config->launch) {
@@ -147,11 +147,11 @@ s32 func_8013B004(u8 *context, s32 command)
     }
     t = work->elapsed - config->launch;
     if (t >= 0 && t < config->travel) {
-        quad.tpage = work->texture[0] >> 16;
-        quad.clut = work->texture[0];
+        quad.tpage = work->texture.s.texture >> 16;
+        quad.clut = work->texture.s.texture;
         setRGB0(&quad, config->red, config->green, config->blue);
-        point = &work->trails[0][work->index];
-        target = work->targets;
+        point = &work->shots.flat[work->texture.s.index];
+        target = work->shots.s.targets;
         for (i = 0; i < 8; i++) {
             position.vx = point->vx;
             position.vy = point->vy;
@@ -178,9 +178,9 @@ s32 func_8013B004(u8 *context, s32 command)
             target++;
         }
     }
-    quad.tpage = work->texture[0] >> 16;
-    quad.clut = work->texture[0];
-    point = work->trails[0];
+    quad.tpage = work->texture.s.texture >> 16;
+    quad.clut = work->texture.s.texture;
+    point = work->shots.flat;
     for (i = 0; i < 8; i++) {
         t = work->elapsed - i * config->spacing;
         if (t >= 0 && work->elapsed < config->launch + config->travel) {
@@ -197,9 +197,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 quad.r0 = red * (3 - j) / 6;
                 quad.g0 = green * (3 - j) / 6;
                 quad.b0 = blue * (3 - j) / 6;
-                position.vx = point[(work->index + j) % 3].vx;
-                position.vy = point[(work->index + j) % 3].vy;
-                position.vz = point[(work->index + j) % 3].vz;
+                position.vx = point[(work->texture.s.index + j) % 3].vx;
+                position.vy = point[(work->texture.s.index + j) % 3].vy;
+                position.vz = point[(work->texture.s.index + j) % 3].vz;
                 if (work->elapsed >= config->launch + j * 2) {
                     position.vy -= config->arc * csin(((work->elapsed - config->launch - j * 2) << 11) / config->travel) / 4096;
                 }
@@ -221,9 +221,9 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         point += 3;
     }
-    work->index = (work->index + 2) % 3;
+    work->texture.s.index = (work->texture.s.index + 2) % 3;
     if (work->elapsed >= config->launch) {
-        point = &work->trails[0][work->index];
+        point = &work->shots.flat[work->texture.s.index];
         for (i = 0; i < 8; i++) {
             point->vx = (&next[i])->vx;
             point->vy = (&next[i])->vy;
@@ -235,9 +235,9 @@ s32 func_8013B004(u8 *context, s32 command)
     setVector(&vertices[1], config->burst_size, -config->burst_size, 0);
     setVector(&vertices[2], -config->burst_size, config->burst_size, 0);
     setVector(&vertices[3], config->burst_size, config->burst_size, 0);
-    quad.tpage = work->texture[0] >> 16;
-    quad.clut = work->texture[0];
-    point = work->targets;
+    quad.tpage = work->texture.s.texture >> 16;
+    quad.clut = work->texture.s.texture;
+    point = work->shots.s.targets;
     for (i = 0; i < 8; i++) {
         t = work->elapsed - (config->launch + config->travel + i * config->burst_spacing);
         if (t >= 0 && t < config->burst) {

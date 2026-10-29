@@ -36,18 +36,39 @@ typedef struct {
     s16 launch;
 } Model105Config;
 
-/* The 0x150-byte work area: the command row, each shot's spin, its three
- * trail positions, its target, the texture (the setup loop also writes a
- * second one over the index), the current trail index and the elapsed time
- * (negative during the start delay). */
+/* The trail and target positions (0x44..0x144): each shot's three trail
+ * positions followed by the eight targets. The native walks step through the
+ * trails three at a time from the current trail index, so the last stride
+ * reaches into the targets; flat is the whole 32-entry region they walk. */
+typedef union {
+    struct {
+        SVECTOR trails[8][3];
+        SVECTOR targets[8];
+    } s;
+    SVECTOR flat[32];
+} Model105Shots;
+
+/* The texture words (0x144..0x14C): the setup loop writes two packed
+ * page/clut words, the second over the current trail index and its padding
+ * (the index is cleared first, so after setup it holds the low byte of the
+ * second word; the draw paths only use the first word). */
+typedef union {
+    u32 words[2];
+    struct {
+        u32 texture;
+        u8 index;
+        u8 unknown_149[3];
+    } s;
+} Model105Texture;
+
+/* The 0x150-byte work area: the command row, each shot's spin, its trail
+ * and target positions, the texture words with the current trail index and
+ * the elapsed time (negative during the start delay). */
 typedef struct {
     Model105Config *G32 config;
     SVECTOR spins[8];
-    SVECTOR trails[8][3];
-    SVECTOR targets[8];
-    u32 texture[1];
-    u8 index;
-    u8 unknown_149[3];
+    Model105Shots shots;
+    Model105Texture texture;
     s32 elapsed;
 } Model105State;
 
