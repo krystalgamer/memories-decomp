@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8013B004,0xE18,func_8013B004,matching_c,overlay/model_variant_385_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013BE1C,0x468,func_8013BE1C,matching_c,overlay/model_variant_385_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013C284,0x9EC,func_8013C284,matching_c,overlay/model_variant_385_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013CC70,0x880,func_8013CC70,unmatched_asm,overlay/model_variant_385_pos0_slot0,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8013D4F0,0x4F0,func_8013D4F0,matching_c,overlay/model_variant_385_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D9E0,0x774,func_8013D9E0,unmatched_asm,overlay/model_variant_385_pos0_slot0,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
+0x8013E154,0x5D4,func_8013E154,matching_c,overlay/model_variant_385_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
