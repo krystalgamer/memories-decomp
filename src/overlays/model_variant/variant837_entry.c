@@ -60,7 +60,11 @@ s32 func_8013B004(u8 *context, s32 command)
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013DF8C[i]);
         }
         work->ring_tpage = 0xAE;
+#ifdef VERSION_FRENCH
+        work->ring_clut = 0x3D28;
+#else
         work->ring_clut = 0x3D20;
+#endif
         setVector(&work->orb, 0, 0, 0);
         setVector(&work->orb_step, 0, 0, 0);
         for (i = 0; i < 32; i++) {

@@ -454,6 +454,8 @@ French MODEL headers 852 (stage 7 slot 0) and 949 (stage 8 slot 1) build the hea
 
 French MODEL headers 853 (stage 7 slot 0) and 950 (stage 8 slot 1) build the header-836 entry (`func_8013B004`) from `src/overlays/model_variant/variant836_entry.c` through `src/overlays/french_model_variant/variant853_entry{,_slot1}.c`. `VERSION_FRENCH` selects the burst CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
 
+French MODEL headers 854 (stage 7 slot 0) and 951 (stage 8 slot 1) build the header-837 entry (`func_8013B004`) from `src/overlays/model_variant/variant837_entry.c` through `src/overlays/french_model_variant/variant854_entry{,_slot1}.c`. `VERSION_FRENCH` selects the ring CLUT word 0x3D28 and `GRAPHICS_DEFAULT_HEIGHT` 256 the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
+
 Eight images under French headers 689 and 756 are the North American
 header-672 entry (`model_variant/variant672_entry.c`) without its `E_DATA`
 work-size printf, built through
