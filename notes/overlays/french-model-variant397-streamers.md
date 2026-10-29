@@ -4,7 +4,8 @@ The `0x8E4` helper `func_8013D06C`, at offset `0x206C` in MODEL21 stage 7 and
 MODEL258 stage 9 (both slot 0), now uses pure C with the existing
 `gcc_2_8_1_g0_split` profile (GCC 2.8.1 and MASPSX 2.81). It preserves all
 2,276 instruction bytes and its 352-byte frame. The header-397 entry and sheets
-helpers are unchanged, and the `0xDE4` helper remains assembly.
+helpers are unchanged; the `0xDE4` helper is covered by
+[the beams note](french-model-variant397-beams.md).
 
 ## Measured layout and behaviour
 
