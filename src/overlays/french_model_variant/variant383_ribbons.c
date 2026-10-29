@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "variant383_ribbons.h"
+#include "../../game/gpu_packets.h"
 
 void func_8013C204(u8 *context)
 {
