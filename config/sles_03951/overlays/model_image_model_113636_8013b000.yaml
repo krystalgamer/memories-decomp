@@ -61,7 +61,7 @@ segments:
     vram: 0x8013c984
     align: 4
     subsegments:
-      - [0x1984, asm, overlays/spanish_model_image_model_113636_8013b000/unmatched_1984]
+      - [0x1984, c, overlays/french_model_variant/variant463_ribbons]
   - name: unmatched_2318
     type: code
     start: 0x2318
@@ -75,7 +75,7 @@ segments:
     vram: 0x8013d860
     align: 4
     subsegments:
-      - [0x2860, asm, overlays/spanish_model_image_model_113636_8013b000/unmatched_2860]
+      - [0x2860, c, overlays/french_model_variant/variant463_trail_ribbons]
   - name: unmatched_32e8
     type: code
     start: 0x32e8
