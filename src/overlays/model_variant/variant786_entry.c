@@ -51,7 +51,7 @@ s32 func_8013B004(u8 *context, s32 command)
             for (j = 0; j < work->config->ring_count; j++) {
                 setVector(&work->ring[i][j], work->config->ring_spread * ((rand() - rand()) % 4096) / 4096,
                           work->config->ring_spread * ((rand() - rand()) % 4096) / 4096, 0);
-                work->ring_frame[i][j] = 0;
+                work->view.s.ring_frame[i][j] = 0;
             }
             for (j = 0; j < work->config->ray_count; j++) {
                 setVector(&work->rays[i][j], work->config->ray_spread * (rand() % 4096 - rand() % 4096) / 4096,
@@ -60,24 +60,24 @@ s32 func_8013B004(u8 *context, s32 command)
             for (j = 0; j < 16; j++) {
                 setVector(&work->trail[i][j], 0, 0, 0);
             }
-            work->ring_shown[i] = 0;
-            work->tail[i] = 0;
+            work->view.s.ring_shown[i] = 0;
+            work->view.s.tail[i] = 0;
             work->state[i] = 0;
-            work->glow[i] = 0xFF;
+            work->view.s.glow[i] = 0xFF;
             work->trail_head[i] = 0;
-            work->bolt_r[i] = work->config->bolt_r;
-            work->bolt_g[i] = work->config->bolt_g;
-            work->bolt_b[i] = work->config->bolt_b;
+            work->view.s.bolt_r[i] = work->config->bolt_r;
+            work->view.s.bolt_g[i] = work->config->bolt_g;
+            work->view.s.bolt_b[i] = work->config->bolt_b;
             work->size[i] = work->config->size + (rand() - rand()) % (work->config->size / 4);
             setVector(&work->angle[i], 0, 0, rand() % 4096);
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CDA8[i]);
+            work->view.s.texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CDA8[i]);
         }
-        work->ambient = 0x800;
+        work->view.s.ambient = 0x800;
         work->phase = 0;
         work->elapsed = 0;
-        work->active = 0;
+        work->view.s.active = 0;
         work->stage = 0;
         return 0;
     }
@@ -86,20 +86,20 @@ s32 func_8013B004(u8 *context, s32 command)
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     if (work->phase == 0) {
-        if (work->ambient > -0x200) {
-            work->ambient -= step * 64;
+        if (work->view.s.ambient > -0x200) {
+            work->view.s.ambient -= step * 64;
         } else {
-            work->ambient = -0x200;
+            work->view.s.ambient = -0x200;
         }
     } else if (work->phase == 1) {
-        if (work->ambient < 0x800) {
-            work->ambient += step * 64;
+        if (work->view.s.ambient < 0x800) {
+            work->view.s.ambient += step * 64;
         } else {
             work->phase = 2;
-            work->ambient = 0x800;
+            work->view.s.ambient = 0x800;
         }
     }
-    Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
+    Model_SetSlotAmbient(2, work->view.s.ambient, work->view.s.ambient, work->view.s.ambient);
     if (work->elapsed < work->config->start) {
         work->elapsed += step;
         return 0;
@@ -107,18 +107,18 @@ s32 func_8013B004(u8 *context, s32 command)
 
     PushMatrix();
     light = *(MATRIX *)Model_GetLightSourceMatrix();
-    for (i = 0; i < work->active; i++) {
+    for (i = 0; i < work->view.s.active; i++) {
         if (work->state[i] < 2) {
             setPolyFT4(&ft4);
             setRGB0(&ft4, 0x80, 0x80, 0x80);
-            ft4.clut = work->texture[2];
-            ft4.tpage = work->texture[2] >> 16;
+            ft4.clut = work->view.s.texture[2];
+            ft4.tpage = work->view.s.texture[2] >> 16;
             setVector(&quad[0], -work->size[i], -work->size[i], 0);
             setVector(&quad[1], work->size[i], -work->size[i], 0);
             setVector(&quad[2], -work->size[i], work->size[i], 0);
             setVector(&quad[3], work->size[i], work->size[i], 0);
             GsSetLsMatrix(&light);
-            if (i == work->active - 1 && work->state[i] == 0) {
+            if (i == work->view.s.active - 1 && work->state[i] == 0) {
                 GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);
                 setVector(&pos, m.t[0], m.t[1], m.t[2]);
                 addVector(&work->pos[i], &pos);
@@ -162,13 +162,13 @@ s32 func_8013B004(u8 *context, s32 command)
                 }
             }
         } else {
-            if (work->glow[i] != 0) {
+            if (work->view.s.glow[i] != 0) {
                 setPolyG3(&g3);
                 setVector(&quad[0], -work->config->ray_width, 0, 0);
                 setVector(&quad[1], work->config->ray_width, 0, 0);
                 setRGB0(&g3, 0, 0, 0);
-                setRGB1(&g3, work->glow[i], work->glow[i], work->glow[i]);
-                setRGB2(&g3, work->glow[i], work->glow[i], work->glow[i]);
+                setRGB1(&g3, work->view.s.glow[i], work->view.s.glow[i], work->view.s.glow[i]);
+                setRGB2(&g3, work->view.s.glow[i], work->view.s.glow[i], work->view.s.glow[i]);
                 GsSetLsMatrix(&light);
                 RotTrans(&work->pos[i], (VECTOR *)m.t, &flag);
                 RotMatrix(&rot, &m);
@@ -182,9 +182,9 @@ s32 func_8013B004(u8 *context, s32 command)
                     }
                 }
                 setPolyFT4(&glow);
-                setRGB0(&glow, work->glow[i], work->glow[i], work->glow[i]);
-                glow.clut = work->texture[1];
-                glow.tpage = work->texture[1] >> 16;
+                setRGB0(&glow, work->view.s.glow[i], work->view.s.glow[i], work->view.s.glow[i]);
+                glow.clut = work->view.s.texture[1];
+                glow.tpage = work->view.s.texture[1] >> 16;
                 setVector(&quad[0], -work->config->glow_size, -work->config->glow_size, 0);
                 setVector(&quad[1], work->config->glow_size, -work->config->glow_size, 0);
                 setVector(&quad[2], -work->config->glow_size, work->config->glow_size, 0);
@@ -193,25 +193,25 @@ s32 func_8013B004(u8 *context, s32 command)
                                   (PSXLONG *)&glow.x2, (PSXLONG *)&glow.x3, &p, &flag);
                 setUV4(&glow, 0x18, 0, 0x57, 0, 0x18, 0x3F, 0x57, 0x3F);
                 Graphics_SubmitDrawModePacket((u32 *)&glow, ot, (u16)otz, 1);
-                if (work->glow[i] >= 16) {
-                    work->glow[i] -= work->config->fade;
+                if (work->view.s.glow[i] >= 16) {
+                    work->view.s.glow[i] -= work->config->fade;
                 } else {
-                    work->glow[i] = 0;
+                    work->view.s.glow[i] = 0;
                 }
             }
             setPolyFT4(&ft4);
             setRGB0(&ft4, work->config->r, work->config->g, work->config->b);
-            ft4.clut = work->texture[2];
-            ft4.tpage = work->texture[0] >> 16;
+            ft4.clut = work->view.s.texture[2];
+            ft4.tpage = work->view.s.texture[0] >> 16;
             setVector(&quad[0], -work->config->ring_size, -work->config->ring_size, 0);
             setVector(&quad[1], work->config->ring_size, -work->config->ring_size, 0);
             setVector(&quad[2], -work->config->ring_size, work->config->ring_size, 0);
             setVector(&quad[3], work->config->ring_size, work->config->ring_size, 0);
-            if (++work->ring_shown[i] > work->config->ring_count) {
-                work->ring_shown[i] = work->config->ring_count;
+            if (++work->view.s.ring_shown[i] > work->config->ring_count) {
+                work->view.s.ring_shown[i] = work->config->ring_count;
             }
-            for (j = 0; j < work->ring_shown[i]; j++) {
-                if (work->ring_frame[i][j] < 16) {
+            for (j = 0; j < work->view.s.ring_shown[i]; j++) {
+                if (work->view.s.ring_frame[i][j] < 16) {
                     GsSetLsMatrix(&light);
                     copyVector(&pos, &work->pos[i]);
                     addVector(&pos, &work->ring[i][j]);
@@ -221,28 +221,29 @@ s32 func_8013B004(u8 *context, s32 command)
                     GsSetLsMatrix(&m);
                     otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0,
                                       (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
-                    /* The retail code tests the diagonal frame [i][i], not [i][j]. */
-                    if (work->ring_frame[i][i] < 8) {
-                        setUV4(&ft4, work->ring_frame[i][j] / 2 % 4 * 32, 0x40,
-                               work->ring_frame[i][j] / 2 % 4 * 32 + 0x1F, 0x40,
-                               work->ring_frame[i][j] / 2 % 4 * 32, 0x5F,
-                               work->ring_frame[i][j] / 2 % 4 * 32 + 0x1F, 0x5F);
+                    /* Retail ring_frame[i][i] (row i * 8 + column i * 2); with up to
+                     * 48 bolts it runs past ring_frame, so read it through bytes. */
+                    if (*(u16 *)&work->view.bytes[MODEL786_RING_FRAME_BYTE + (i << 1) + (i << 3)] < 8) {
+                        setUV4(&ft4, work->view.s.ring_frame[i][j] / 2 % 4 * 32, 0x40,
+                               work->view.s.ring_frame[i][j] / 2 % 4 * 32 + 0x1F, 0x40,
+                               work->view.s.ring_frame[i][j] / 2 % 4 * 32, 0x5F,
+                               work->view.s.ring_frame[i][j] / 2 % 4 * 32 + 0x1F, 0x5F);
                     } else {
-                        setUV4(&ft4, work->ring_frame[i][j] / 2 % 4 * 32, 0x60,
-                               work->ring_frame[i][j] / 2 % 4 * 32 + 0x1F, 0x60,
-                               work->ring_frame[i][j] / 2 % 4 * 32, 0x7F,
-                               work->ring_frame[i][j] / 2 % 4 * 32 + 0x1F, 0x7F);
+                        setUV4(&ft4, work->view.s.ring_frame[i][j] / 2 % 4 * 32, 0x60,
+                               work->view.s.ring_frame[i][j] / 2 % 4 * 32 + 0x1F, 0x60,
+                               work->view.s.ring_frame[i][j] / 2 % 4 * 32, 0x7F,
+                               work->view.s.ring_frame[i][j] / 2 % 4 * 32 + 0x1F, 0x7F);
                     }
                     Graphics_SubmitDrawModePacket((u32 *)&ft4, ot, (u16)otz, 1);
-                    work->ring_frame[i][j]++;
+                    work->view.s.ring_frame[i][j]++;
                     work->ring[i][j].vz += direction * work->config->ring_speed;
                 }
             }
         }
 
         setPolyG4(&g4);
-        if (work->trail_head[i] > work->tail[i]) {
-            if (work->bolt_r[i] || work->bolt_g[i] || work->bolt_b[i]) {
+        if (work->trail_head[i] > work->view.s.tail[i]) {
+            if (work->view.s.bolt_r[i] || work->view.s.bolt_g[i] || work->view.s.bolt_b[i]) {
                 setVector(&pos, 0, 0, 0);
                 setVector(&rot, 0, 0, 0);
                 setVector(&scale, 0x1000, 0x1000, 0x1000);
@@ -253,11 +254,13 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
                 k = 1;
-                for (j = work->trail_head[i] - 1; j >= work->trail_head[i] - work->tail[i]; j--) {
-                    setRGB0(&g4, work->bolt_r[i] / k, work->bolt_g[i] / k, work->bolt_b[i] / k);
-                    setRGB1(&g4, work->bolt_r[i] / k, work->bolt_g[i] / k, work->bolt_b[i] / k);
-                    setRGB2(&g4, work->bolt_r[i] / (k + 1), work->bolt_g[i] / (k + 1), work->bolt_b[i] / (k + 1));
-                    setRGB3(&g4, work->bolt_r[i] / (k + 1), work->bolt_g[i] / (k + 1), work->bolt_b[i] / (k + 1));
+                for (j = work->trail_head[i] - 1; j >= work->trail_head[i] - work->view.s.tail[i]; j--) {
+                    setRGB0(&g4, work->view.s.bolt_r[i] / k, work->view.s.bolt_g[i] / k, work->view.s.bolt_b[i] / k);
+                    setRGB1(&g4, work->view.s.bolt_r[i] / k, work->view.s.bolt_g[i] / k, work->view.s.bolt_b[i] / k);
+                    setRGB2(&g4, work->view.s.bolt_r[i] / (k + 1), work->view.s.bolt_g[i] / (k + 1),
+                            work->view.s.bolt_b[i] / (k + 1));
+                    setRGB3(&g4, work->view.s.bolt_r[i] / (k + 1), work->view.s.bolt_g[i] / (k + 1),
+                            work->view.s.bolt_b[i] / (k + 1));
                     setVector(&quad[0], work->trail[i][j].vx, work->trail[i][j].vy - work->size[i] / k,
                               work->trail[i][j].vz);
                     setVector(&quad[1], work->trail[i][j].vx, work->trail[i][j].vy + work->size[i] / k,
@@ -287,31 +290,31 @@ s32 func_8013B004(u8 *context, s32 command)
                     k++;
                 }
                 if (work->state[i] >= 2) {
-                    if (work->bolt_r[i] >= 16) {
-                        work->bolt_r[i] -= work->config->fade;
+                    if (work->view.s.bolt_r[i] >= 16) {
+                        work->view.s.bolt_r[i] -= work->config->fade;
                     } else {
-                        work->bolt_r[i] = 0;
+                        work->view.s.bolt_r[i] = 0;
                     }
-                    if (work->bolt_g[i] >= 16) {
-                        work->bolt_g[i] -= work->config->fade;
+                    if (work->view.s.bolt_g[i] >= 16) {
+                        work->view.s.bolt_g[i] -= work->config->fade;
                     } else {
-                        work->bolt_g[i] = 0;
+                        work->view.s.bolt_g[i] = 0;
                     }
-                    if (work->bolt_b[i] >= 16) {
-                        work->bolt_b[i] -= work->config->fade;
+                    if (work->view.s.bolt_b[i] >= 16) {
+                        work->view.s.bolt_b[i] -= work->config->fade;
                     } else {
-                        work->bolt_b[i] = 0;
+                        work->view.s.bolt_b[i] = 0;
                     }
                 } else {
-                    work->tail[i]++;
+                    work->view.s.tail[i]++;
                 }
             }
         }
     }
 
     if (work->stage == 0) {
-        if (++work->active > work->config->count) {
-            work->active = work->config->count;
+        if (++work->view.s.active > work->config->count) {
+            work->view.s.active = work->config->count;
         }
         work->stage = 1;
     } else if (work->stage == 1) {

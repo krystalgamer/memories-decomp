@@ -63,17 +63,31 @@ typedef struct {
     u16 phase;
     u16 state[48];
     u16 stage;
-    u16 active;
-    u16 ring_shown[48];
-    u16 tail[48];
-    u16 ring_frame[48][4];
-    s32 ambient;
-    s32 texture[3];
-    u8 glow[48];
-    u8 bolt_r[48];
-    u8 bolt_g[48];
-    u8 bolt_b[48];
+    /* Retail tests ring_frame[i][i] (not [i][j]): halfword i * 5, byte
+     * i * 10, from ring_frame. The only command row has 48 bolts, so i
+     * reaches 47 and the read reaches bytes 470-471 from ring_frame, past its
+     * 384 bytes into ambient, texture, glow and bolt_r. bytes is the
+     * in-bounds backing view of this word-aligned tail (active onwards, 788
+     * bytes) through which that diagonal is read. */
+    union {
+        struct {
+            u16 active;
+            u16 ring_shown[48];
+            u16 tail[48];
+            u16 ring_frame[48][4];
+            s32 ambient;
+            s32 texture[3];
+            u8 glow[48];
+            u8 bolt_r[48];
+            u8 bolt_g[48];
+            u8 bolt_b[48];
+        } s;
+        u8 bytes[788];
+    } view;
 } Model786State;
+
+/* Byte offset of ring_frame[0][0] within Model786State.view.bytes. */
+#define MODEL786_RING_FRAME_BYTE 194
 
 extern GsIMAGE D_8013CDA8[];
 extern Model786Config D_8013CDFC[];
