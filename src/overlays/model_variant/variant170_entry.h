@@ -36,8 +36,9 @@ typedef struct {
 
 /* The 0x10AC-byte work area: the command row, this slot's position raised
  * 1500 units, the other slot's position, the 33-point beam ring, the gathered
- * glow position, the two 17-point band rings, twenty rows of twenty trail
- * points, sixty spark positions, three texture words, the completion flag,
+ * glow position, the two 17-point band rings stored back to back (inner ring
+ * at 0, outer at 17), twenty rows of twenty trail points stored flat (row r
+ * starts at r * 20), sixty spark positions, three texture words, the completion flag,
  * the newest trail row, the elapsed time and a frame counter. */
 typedef struct {
     Model170Config *G32 config;
@@ -45,8 +46,8 @@ typedef struct {
     SVECTOR target;
     SVECTOR ring[33];
     SVECTOR gather;
-    SVECTOR bands[2][17];
-    SVECTOR trail[20][20];
+    SVECTOR bands[34];
+    SVECTOR trail[400];
     SVECTOR sparks[60];
     u32 texture[3];
     u8 completed;

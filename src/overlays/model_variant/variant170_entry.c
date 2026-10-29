@@ -22,8 +22,8 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    DVECTOR screen[2][33];
-    u16 depths[2][33], projection[2][33], flags[2][33];
+    DVECTOR screen[66];
+    u16 depths[66], projection[66], flags[66];
     PSXLONG flag, interpolation;
     Model170Config *config;
     GsOT *ot;
@@ -54,8 +54,8 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vy = 0;
             point->vz = config->radius * ccos(i << 7) / 4096;
         }
-        point = work->bands[0];
-        row = work->bands[1];
+        point = work->bands;
+        row = work->bands + 17;
         for (i = 0; i < 17; point++, row++, i++) {
             point->vx = config->inner_radius * csin(i << 8) / 4096;
             point->vy = config->inner_radius * ccos(i << 8) / 4096;
@@ -64,7 +64,7 @@ s32 func_8013B004(u8 *context, s32 command)
             row->vy = config->outer_radius * ccos(i << 8) / 4096;
             row->vz = 0;
         }
-        point = work->trail[0];
+        point = work->trail;
         for (i = 0; i < 400; point++, i++) {
             point->vx = 0;
             point->vy = 0;
@@ -164,7 +164,7 @@ s32 func_8013B004(u8 *context, s32 command)
             position.vy += (work->origin.vy - work->gather.vy) * value / config->trail_duration;
             position.vz += (work->origin.vz - work->gather.vz) * value / config->trail_duration;
         }
-        point = work->trail[work->head];
+        point = &work->trail[work->head * 20];
         for (i = 0; i < 20; point++, i++) {
             setVector(point, position.vx, position.vy, position.vz);
             point->vx += rand() % config->half_size - config->half_size / 2;
@@ -205,7 +205,7 @@ s32 func_8013B004(u8 *context, s32 command)
             box.r = config->spark_red * i / 20;
             box.g = config->spark_green * i / 20;
             box.b = config->spark_blue * i / 20;
-            point = work->trail[(work->head + i) % 20];
+            point = &work->trail[(work->head + i) % 20 * 20];
             for (j = 0; j < 20; point++, j++) {
                 depth = RotTransPers(point, (PSXLONG *)&box.x, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0 && rand() % 100 < 40) {
@@ -241,21 +241,22 @@ s32 func_8013B004(u8 *context, s32 command)
         green = config->green;
         blue = config->blue;
         setRGB0(&quad, red, green, blue);
-        RotTransPersN(work->ring, screen[0], depths[0], projection[0], flags[0], 33);
+        RotTransPersN(work->ring, screen, depths, projection, flags, 33);
         /* Eight growing rings joined into a tube reach out to the other
-         * slot; the two screen-space rows alternate between iterations. */
+         * slot. The projection buffers hold two 33-point rows back to back,
+         * and the current and previous rings alternate between them. */
         value = 1;
         for (i = 1; i < 9; i++) {
             /* depth doubles as the row offset of the current ring; a
              * variable set only here would be scheduled differently. */
             depth = value * 33;
             amount = (value ^ 1) * 33;
-            screen0 = screen[0] + depth;
-            screen1 = screen[0] + amount;
-            depth0 = depths[0] + depth;
-            depth1 = depths[0] + amount;
-            flags0 = flags[0] + depth;
-            flags1 = flags[0] + amount;
+            screen0 = screen + depth;
+            screen1 = screen + amount;
+            depth0 = depths + depth;
+            depth1 = depths + amount;
+            flags0 = flags + depth;
+            flags1 = flags + amount;
             if (time < config->travel_duration) {
                 amount = (work->animation % 2 * 256 + 4096) * i / 8 * time / config->travel_duration;
             } else {
@@ -272,7 +273,7 @@ s32 func_8013B004(u8 *context, s32 command)
             MulMatrix2(&base, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            RotTransPersN(work->ring, screen0, depth0, projection[0] + depth, flags0, 33);
+            RotTransPersN(work->ring, screen0, depth0, projection + depth, flags0, 33);
             setUV4(&quad, 0, 64 - i * 8, 31, 64 - i * 8, 0, 71 - i * 8, 31, 71 - i * 8);
             for (j = 0; j < 32; screen0++, screen1++, depth0++, depth1++, flags0++, flags1++, j++) {
                 setXY4(&quad, screen0[0].vx, screen0[0].vy, screen0[1].vx, screen0[1].vy,
@@ -324,13 +325,15 @@ s32 func_8013B004(u8 *context, s32 command)
             RotMatrix(&rotation, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            RotTransPersN(work->bands[0], screen[0], depths[0], projection[0], flags[0], 34);
-            screen0 = screen[0];
-            screen1 = screen[0] + 17;
-            depth0 = depths[0];
-            depth1 = depths[0] + 17;
-            flags0 = flags[0];
-            flags1 = flags[0] + 17;
+            /* Both 17-point band rings are projected in one 34-point call;
+             * the outer ring's results start at index 17. */
+            RotTransPersN(work->bands, screen, depths, projection, flags, 34);
+            screen0 = screen;
+            screen1 = screen + 17;
+            depth0 = depths;
+            depth1 = depths + 17;
+            flags0 = flags;
+            flags1 = flags + 17;
             for (j = 0; j < 16; screen0++, screen1++, depth0++, depth1++, flags0++, flags1++, j++) {
                 setXY4(&band, screen0[0].vx, screen0[0].vy, screen0[1].vx, screen0[1].vy,
                        screen1[0].vx, screen1[0].vy, screen1[1].vx, screen1[1].vy);
