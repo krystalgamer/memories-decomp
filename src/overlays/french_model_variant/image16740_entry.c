@@ -1,6 +1,11 @@
 #include "../../types.h"
 #include "image16740_entry.h"
 
+/* PAL height; the North American wrappers define 240. */
+#ifndef GRAPHICS_DEFAULT_HEIGHT
+#define GRAPHICS_DEFAULT_HEIGHT 256
+#endif
+
 s32 func_8013B004(u8 *context, s32 command)
 {
     MATRIX light;
@@ -127,7 +132,7 @@ s32 func_8013B004(u8 *context, s32 command)
     {
         j = state->time - config->flash_begin;
         if (j >= 0 && j < config->flash_duration) {
-            setXY4(&flash, 0, 0, 320, 0, 0, 256, 320, 256);
+            setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
             value = config->flash_duration - j;
             factor = value * 255;
             factor /= config->flash_duration;
