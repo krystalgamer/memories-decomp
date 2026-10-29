@@ -1,5 +1,4 @@
-# Generated function inventory: closed-CFG functions are generated assembly;
-# every other byte remains raw and unclassified.
+# Exact C entry reused from variant129_entry.c; the data tail stays raw.
 name: french_model_image_model_168264_8013b000
 sha1: 91d9dd09b8de8fbe93925a286e56dc3f1c1f32c0
 
@@ -25,6 +24,8 @@ options:
   o_path: tmp/overlays/french_model_image_model_168264_8013b000/build
   undefined_funcs_auto_path: tmp/overlays/french_model_image_model_168264_8013b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/french_model_image_model_168264_8013b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/model_image_model_168264_8013b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -54,12 +55,12 @@ segments:
     vram: 0x8013b004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_image_model_168264_8013b000/unmatched_4]
+      - [0x4, c, overlays/model_variant/variant129_entry]
   - name: unclassified_tail
     type: code
     start: 0xfa0
     vram: 0x8013bfa0
     align: 4
     subsegments:
-      - [0xfa0, bin, overlays/french_model_image_model_168264_8013b000/unclassified_tail]
+      - [0xfa0, data, overlays/french_model_image_model_168264_8013b000/unclassified_tail]
   - [0x5000]

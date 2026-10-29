@@ -24526,7 +24526,8 @@
       "output": "tmp/overlays/french_model_image_model_168264_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 168264,
-      "sha256": "34290c7ddbb7d86f0da9eca7047d9a40257d3bec02a4d7ad71230e4e6dd46e56"
+      "sha256": "34290c7ddbb7d86f0da9eca7047d9a40257d3bec02a4d7ad71230e4e6dd46e56",
+      "linker_symbols": "config/sles_03948/overlays/model_variant129_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
