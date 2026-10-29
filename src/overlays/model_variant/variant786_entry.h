@@ -66,9 +66,9 @@ typedef struct {
     /* Retail tests ring_frame[i][i] (not [i][j]): halfword i * 5, byte
      * i * 10, from ring_frame. The only command row has 48 bolts, so i
      * reaches 47 and the read reaches bytes 470-471 from ring_frame, past its
-     * 384 bytes into ambient, texture, glow and bolt_r. bytes is the
-     * in-bounds backing view of this word-aligned tail (active onwards, 788
-     * bytes) through which that diagonal is read. */
+     * 384 bytes into ambient, texture, glow and bolt_r. halves is the
+     * declared in-bounds halfword view of this word-aligned tail (active
+     * onwards, 788 bytes) through which that diagonal is read. */
     union {
         struct {
             u16 active;
@@ -82,12 +82,12 @@ typedef struct {
             u8 bolt_g[48];
             u8 bolt_b[48];
         } s;
-        u8 bytes[788];
+        u16 halves[394];
     } view;
 } Model786State;
 
-/* Byte offset of ring_frame[0][0] within Model786State.view.bytes. */
-#define MODEL786_RING_FRAME_BYTE 194
+/* Halfword index of ring_frame[0][0] (byte 194) within Model786State.view.halves. */
+#define MODEL786_RING_FRAME_HALF 97
 
 extern GsIMAGE D_8013CDA8[];
 extern Model786Config D_8013CDFC[];

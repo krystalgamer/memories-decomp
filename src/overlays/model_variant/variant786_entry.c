@@ -222,8 +222,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0,
                                       (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
                     /* Retail ring_frame[i][i] (row i * 8 + column i * 2); with up to
-                     * 48 bolts it runs past ring_frame, so read it through bytes. */
-                    if (*(u16 *)&work->view.bytes[MODEL786_RING_FRAME_BYTE + (i << 1) + (i << 3)] < 8) {
+                     * 48 bolts it runs past ring_frame, so read it through halves. */
+                    if (*(work->view.halves + MODEL786_RING_FRAME_HALF + i + (i << 2)) < 8) {
                         setUV4(&ft4, work->view.s.ring_frame[i][j] / 2 % 4 * 32, 0x40,
                                work->view.s.ring_frame[i][j] / 2 % 4 * 32 + 0x1F, 0x40,
                                work->view.s.ring_frame[i][j] / 2 % 4 * 32, 0x5F,
