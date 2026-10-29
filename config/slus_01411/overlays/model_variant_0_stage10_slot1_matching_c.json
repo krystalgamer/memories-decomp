@@ -19,10 +19,22 @@
       "source": "src/overlays/model_variant/variant408_spiral_slot1.c"
     },
     {
+      "address": "0x8017CD7C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x910",
+      "source": "src/overlays/model_variant/variant408_ribbon_slot1.c"
+    },
+    {
       "address": "0x8017D68C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4F0",
       "source": "src/overlays/model_variant/variant408_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017DB7C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x744",
+      "source": "src/overlays/model_variant/variant408_streamers_slot1.c"
     },
     {
       "address": "0x8017E2C0",

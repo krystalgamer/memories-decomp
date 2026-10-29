@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x134C, c, overlays/model_variant/variant408_spiral]
-  - name: unmatched_1d7c
+  - name: helper_1d7c
     type: code
     start: 0x1D7C
     vram: 0x8013CD7C
     align: 4
     subsegments:
-      - [0x1D7C, asm, overlays/model_variant_0_stage9_slot0/unmatched_1d7c]
+      - [0x1D7C, c, overlays/model_variant/variant408_ribbon]
   - name: helper_268c
     type: code
     start: 0x268C
@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x268C, c, overlays/model_variant/variant408_sheets]
-  - name: unmatched_2b7c
+  - name: helper_2b7c
     type: code
     start: 0x2B7C
     vram: 0x8013DB7C
     align: 4
     subsegments:
-      - [0x2B7C, asm, overlays/model_variant_0_stage9_slot0/unmatched_2b7c]
+      - [0x2B7C, c, overlays/model_variant/variant408_streamers]
   - name: helper_32c0
     type: code
     start: 0x32C0

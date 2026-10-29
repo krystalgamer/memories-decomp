@@ -27,15 +27,25 @@ typedef struct {
     PSXLONG interpolation, flag, target;
 } EntryProjection425;
 
+/* A seventeen-point ribbon: its spine and a copy moved along the view, both
+ * projected, and per point the screen angle, the projected width, the depth
+ * and the width's screen offset. */
 typedef struct {
-    u8 unknown_000[0x220];
+    SVECTOR a[17];
+    PSXLONG sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    PSXLONG sb[17];
+    s32 width[17];
     CVECTOR colors[2];
     VECTOR scale;
     s16 field_238, field_23A;
     s32 field_23C;
     u8 unknown_240[0x88];
     VECTOR position;
-    u8 unknown_2D8[0x88];
+    s32 otz[17];
+    s16 ox[17];
+    s16 oy[17];
 } EntryRibbon425;
 
 typedef struct {
