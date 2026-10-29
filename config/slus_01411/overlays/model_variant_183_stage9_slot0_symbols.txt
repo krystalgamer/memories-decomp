@@ -1,0 +1,4 @@
+// MODEL.MRG model 183 (record 183), sector 50708, header 808, loaded at 0x8013B000; the US source variant808_entry.c.
+func_8013B004 = 0x8013B004; // type:func size:0x21A8 defined:true
+D_8013D228 = 0x8013D228; // type:u8 size:0x8C defined:true
+D_8013D2B4 = 0x8013D2B4; // type:u8 size:0x2D4C defined:true
