@@ -39,13 +39,16 @@ typedef struct {
     SVECTOR velocities[4];
     SVECTOR apex;
     SVECTOR rim[8];
-    SVECTOR *G32 triangles[8][3];
+    SVECTOR *G32 triangles[24];
     u32 texture[9];
     u8 completed;
     u8 unknown_4F1[3];
     s32 elapsed;
 } Model168State;
 
+#ifdef MODEL168_EXTERNAL_SCALE
+extern const VECTOR D_8013C18C;
+#endif
 extern GsIMAGE D_8013C1AC[];
 extern Model168Config D_8013C2A8[];
 

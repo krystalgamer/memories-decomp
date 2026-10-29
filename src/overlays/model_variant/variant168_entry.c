@@ -9,7 +9,9 @@
  * command draws a frame; any other command sets the work area up and prints
  * its size. */
 
+#ifndef MODEL168_EXTERNAL_SCALE
 static const VECTOR D_8013C18C = {4096, 4096, 4096, 0};
+#endif
 
 s32 func_8013B004(u8 *context, s32 command)
 {
@@ -70,7 +72,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vy = config->cone_radius / 16 * csin((i << 10) + 512) / 4096;
             point->vz = 0;
         }
-        tri = work->triangles[0];
+        tri = work->triangles;
         point = &work->apex;
         tri[0] = point;
         tri[1] = &work->rim[0];
@@ -102,7 +104,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013C1AC[0]);
         work->elapsed = 0;
         work->completed = 0;
+#ifndef MODEL168_NO_SIZE_PRINT
         printf("%d (0x%x) Byte\n", sizeof(Model168State), sizeof(Model168State));
+#endif
         return 0;
     }
     config = work->config;
@@ -226,7 +230,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setRGB2(&cone, 0, 0, 0);
             setRGB0(&cone, red, green, blue);
         }
-        tri = work->triangles[0];
+        tri = work->triangles;
         for (i = 0; i < 8; i++) {
             depth = RotAverage3(tri[0], tri[1], tri[2],
                 (PSXLONG *)&cone.x0, (PSXLONG *)&cone.x1, (PSXLONG *)&cone.x2, &interpolation, &flag);
