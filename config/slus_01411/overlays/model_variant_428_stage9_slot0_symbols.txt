@@ -1,0 +1,4 @@
+// MODEL.MRG model 428 (record 428), sector 104528, header 809, loaded at 0x8013B000; the US source variant809_entry.c.
+func_8013B004 = 0x8013B004; // type:func size:0x10C4 defined:true
+D_8013C0D8 = 0x8013C0D8; // type:u8 size:0x38 defined:true
+D_8013C110 = 0x8013C110; // type:u8 size:0x3EF0 defined:true
