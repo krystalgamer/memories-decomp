@@ -1,0 +1,4 @@
+// MODEL.MRG model 429 (record 429), sector 104794, header 236, loaded at 0x8017B000; the US source variant106_entry_slot1.c.
+func_8017B004 = 0x8017B004; // type:func size:0x2170 defined:true
+D_8017D174 = 0x8017D174; // type:u8 size:0x54 defined:true
+D_8017D1C8 = 0x8017D1C8; // type:u8 size:0x2E38 defined:true
