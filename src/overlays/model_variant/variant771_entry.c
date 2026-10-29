@@ -73,18 +73,18 @@ s32 func_8013B004(u8 *context, s32 command)
                 v->vx = ccos(i << 8) % 4096 / 32;
                 v->vy = 0;
                 v->vz = direction * pos.vx * (csin(i << 8) % 4096) / 4096;
-                w->vx = pos.vx * (ccos(i << 8) % 4096 << 1) / 4096;
+                w->vx = pos.vx * ((s32)((u32)(ccos(i << 8) % 4096) << 1)) / 4096;
                 w->vy = -work->config->fan_height;
-                w->vz = direction * (csin(i << 8) % 4096 << 8) / 4096;
+                w->vz = direction * ((s32)((u32)(csin(i << 8) % 4096) << 8)) / 4096;
             }
         } else {
             for (i = 0; i < 9; v++, w++, i++) {
                 v->vx = ccos(i << 8) % 4096 / 32;
                 v->vy = 0;
-                v->vz = direction * (csin(i << 8) % 4096 << 7) / 4096;
+                v->vz = direction * ((s32)((u32)(csin(i << 8) % 4096) << 7)) / 4096;
                 w->vx = ccos(i << 8) % 4096 / 16;
                 w->vy = -work->config->fan_height;
-                w->vz = direction * (csin(i << 8) % 4096 << 8) / 4096;
+                w->vz = direction * ((s32)((u32)(csin(i << 8) % 4096) << 8)) / 4096;
             }
         }
         v = &work->quad[0];
@@ -108,9 +108,9 @@ s32 func_8013B004(u8 *context, s32 command)
             w->vy = -work->config->outer_radius * csin(0x80) / 4096;
             w->vz = work->config->outer_radius * csin(angle) / 4096;
             angle += 0x80;
-            u->vx = work->config->inner_radius * (ccos(angle) << 1) / 4096;
+            u->vx = work->config->inner_radius * ((s32)((u32)ccos(angle) << 1)) / 4096;
             u->vy = -work->config->cone_height;
-            u->vz = work->config->inner_radius * (csin(angle) << 1) / 4096;
+            u->vz = work->config->inner_radius * ((s32)((u32)csin(angle) << 1)) / 4096;
         }
         work->head = 0;
         work->ambient = 0x800;
