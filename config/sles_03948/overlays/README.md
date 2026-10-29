@@ -773,6 +773,8 @@ flash tile covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects
 the height, through
 `src/overlays/french_model_variant/variant800_entry{,_slot1}.c`.
 
+French MODEL headers 801 (stage 9 slot 0) and 898 (stage 10 slot 1) build the header-784 entry (`func_8013B004`) from `src/overlays/model_variant/variant784_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant801_entry{,_slot1}.c`; the French code and data are identical to the US images.
+
 French MODEL headers 803 (stage 9 slot 0) and 900 (stage 10 slot 1) build the header-786 entry (`func_8013B004`) from `src/overlays/model_variant/variant786_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant803_entry{,_slot1}.c`; the French code and data are identical to the US images.
 
 Four images under French headers 808 and 905 are the North American
