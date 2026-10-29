@@ -1,0 +1,4 @@
+// MODEL.MRG model 537 (record 537), sector 134622, header 601, loaded at 0x8017B000; the US source variant451_entry_slot1.c.
+func_8017B004 = 0x8017B004; // type:func size:0x1490 defined:true
+func_8017C494 = 0x8017C494; // type:func size:0x6F0 defined:true
+D_8017CB84 = 0x8017CB84; // type:u8 size:0x347C defined:true
