@@ -152,6 +152,8 @@ s32 func_8013B004(u8 *context, s32 command)
         work->completed = 0;
 #ifndef VERSION_FRENCH
         printf(D_8013DC8C, sizeof(Model143UsState), sizeof(Model143UsState));
+#else
+        return 0;
 #endif
     } else {
         config = work->config;
@@ -591,10 +593,21 @@ s32 func_8013B004(u8 *context, s32 command)
             Model_SetSlotAmbient(2, 2048, 2048, 2048);
             return 2;
         }
+#ifdef VERSION_FRENCH
+        /* With the printf gone the French setup branch returns 0 itself, and
+         * the inverted completion test keeps the shared "return 0" block
+         * after it, where the French images place it. */
+        if (work->completed != 0) {
+            return 0;
+        }
+        work->completed++;
+        return 1;
+#else
         if (work->completed == 0) {
             work->completed++;
             return 1;
         }
+#endif
     }
     return 0;
 }
