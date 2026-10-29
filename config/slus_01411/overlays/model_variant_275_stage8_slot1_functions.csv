@@ -1,4 +1,4 @@
 address,size,name,status,module,notes
 0x8017B004,0x133C,func_8017B004,matching_c,overlay/model_variant_275_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C340,0x578,func_8017C340,unmatched_asm,overlay/model_variant_275_stage8_slot1,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8017C8B8,0x4D0,func_8017C8B8,unmatched_asm,overlay/model_variant_275_stage8_slot1,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8017C340,0x578,func_8017C340,matching_c,overlay/model_variant_275_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C8B8,0x4D0,func_8017C8B8,matching_c,overlay/model_variant_275_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
