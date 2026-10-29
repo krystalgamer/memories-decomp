@@ -891,6 +891,8 @@ only the resident call targets differ, which
 `model_variant778_linker_symbols.txt` binds to the French addresses. They
 build through `src/overlays/french_model_variant/variant778_entry{,_slot1}.c`.
 
+French MODEL headers 768 (stage 7 slot 0) and 865 (stage 8 slot 1) build the header-751 entry (`func_8013B004`) from `src/overlays/model_variant/variant751_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant768_entry{,_slot1}.c`; the French code and data are identical to the US images.
+
 Six images under French headers 159 and 289 are the North American
 header-142 entry (`model_variant/variant142_entry.c`) without its work-size
 printf or that call's `.rodata` format string, built through
