@@ -1,6 +1,11 @@
 #include "../../types.h"
 #include "variant445us_entry.h"
 
+/* The French images load the palette from PAL column 640. */
+#ifndef MODEL_VARIANT445US_CLUT_X
+#define MODEL_VARIANT445US_CLUT_X 512
+#endif
+
 /* The North American header-445 entry: the French header-461 entry body under
  * GCC 2.7.2 with 0x2B0-byte thirteen-point ribbons (every later work field
  * 0x1E0 higher), the CLUT column at 512, all four images uploaded with the
@@ -56,9 +61,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         setVector(&work->direction, work->target.vx - work->matrix.t[0],
             work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(512, 244);
+        clut = GetClut(MODEL_VARIANT445US_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(512, 244);
+        GetClut(MODEL_VARIANT445US_CLUT_X, 244);
         packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D848 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
