@@ -84,13 +84,13 @@ s32 func_8013B004(u8 *context, s32 command)
         work->glow[0] = 0x80;
         work->glow[1] = 0x80;
         work->phase = 0;
-        work->charge_r = 0;
-        work->charge_g = 0;
-        work->charge_b = 0;
-        work->core_r = 0x20;
-        work->core_g = 0x10;
-        work->core_b = 0x20;
-        work->flash = 0xFF;
+        work->charge.c.r = 0;
+        work->charge.c.g = 0;
+        work->charge.c.b = 0;
+        work->core.c.r = 0x20;
+        work->core.c.g = 0x10;
+        work->core.c.b = 0x20;
+        work->charge.c.flash = 0xFF;
         work->elapsed = 0;
         work->tick = 0;
         work->shown = 0;
@@ -125,13 +125,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     PushMatrix();
     light = *(MATRIX *)Model_GetLightSourceMatrix();
-    if (*(u32 *)&work->charge_r & 0xFFFFFF) {
+    if (work->charge.word & 0xFFFFFF) {
         GsGetLwUnit(Model_GetSlotDataEntry(slot, work->config->part), &m);
         setVector(&pos, m.t[0], m.t[1], m.t[2]);
         setPolyFT4(&ft4);
         ft4.tpage = work->texture[0] >> 16;
         ft4.clut = work->texture[0];
-        setRGB0(&ft4, work->charge_r, work->charge_g, work->charge_b);
+        setRGB0(&ft4, work->charge.c.r, work->charge.c.g, work->charge.c.b);
         setVector(&quad[0], -work->config->charge_size, -work->config->charge_size, 0);
         setVector(&quad[1], work->config->charge_size, -work->config->charge_size, 0);
         setVector(&quad[2], -work->config->charge_size, work->config->charge_size, 0);
@@ -149,17 +149,17 @@ s32 func_8013B004(u8 *context, s32 command)
         }
     }
     if (work->elapsed < work->config->charge_end) {
-        work->charge_r += work->config->glow_fade;
-        work->charge_g += work->config->glow_fade;
-        work->charge_b += work->config->glow_fade;
-        if (work->charge_r > work->config->r - 15) {
-            work->charge_r = work->config->r;
+        work->charge.c.r += work->config->glow_fade;
+        work->charge.c.g += work->config->glow_fade;
+        work->charge.c.b += work->config->glow_fade;
+        if (work->charge.c.r > work->config->r - 15) {
+            work->charge.c.r = work->config->r;
         }
-        if (work->charge_g > work->config->g - 15) {
-            work->charge_g = work->config->g;
+        if (work->charge.c.g > work->config->g - 15) {
+            work->charge.c.g = work->config->g;
         }
-        if (work->charge_b > work->config->b - 15) {
-            work->charge_b = work->config->b;
+        if (work->charge.c.b > work->config->b - 15) {
+            work->charge.c.b = work->config->b;
         }
         work->elapsed += step;
         PopMatrix();
@@ -180,16 +180,16 @@ s32 func_8013B004(u8 *context, s32 command)
         work->head[1] = (work->head[1] + 1) % 16;
     }
     if (work->elapsed >= work->config->burst && work->phase == 0) {
-        work->charge_r = 0;
-        work->charge_g = 0;
-        work->charge_b = 0;
+        work->charge.c.r = 0;
+        work->charge.c.g = 0;
+        work->charge.c.b = 0;
         GsGetLwUnit(Model_GetSlotDataEntry(slot, work->config->part), &m);
         setVector(&work->center, m.t[0], m.t[1], m.t[2]);
         work->center.vy -= work->config->core_size / 2;
         work->phase = 1;
     }
     if (work->elapsed >= work->config->flash_start && work->phase == 1) {
-        work->flash = 0xFF;
+        work->charge.c.flash = 0xFF;
         work->phase = 2;
     }
 
@@ -299,18 +299,18 @@ s32 func_8013B004(u8 *context, s32 command)
     }
 
     if (work->phase != 0) {
-        if (work->flash) {
+        if (work->charge.c.flash) {
             setPolyF4(&f4);
-            setRGB0(&f4, work->flash, work->flash, work->flash);
+            setRGB0(&f4, work->charge.c.flash, work->charge.c.flash, work->charge.c.flash);
             setXY4(&f4, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
             Graphics_SubmitDrawModePacket((u32 *)&f4, ot, 0, 1);
-            if (work->flash >= 16) {
-                work->flash -= work->config->flash_fade;
+            if (work->charge.c.flash >= 16) {
+                work->charge.c.flash -= work->config->flash_fade;
             } else {
-                work->flash = 0;
+                work->charge.c.flash = 0;
             }
         }
-        if (*(u32 *)&work->core_r & 0xFFFFFF) {
+        if (work->core.word & 0xFFFFFF) {
             setPolyFT4(&sprite);
             sprite.tpage = work->texture[3] >> 16;
             sprite.clut = work->texture[3];
@@ -323,7 +323,7 @@ s32 func_8013B004(u8 *context, s32 command)
             RotTrans(&work->center, (VECTOR *)m.t, &flag);
             saved = m;
             for (i = 0; i < 4; i++) {
-                setRGB0(&sprite, work->core_r * (i + 1), work->core_g * (i + 1), work->core_b * (i + 1));
+                setRGB0(&sprite, work->core.c.r * (i + 1), work->core.c.g * (i + 1), work->core.c.b * (i + 1));
                 m = saved;
                 setVector(&rot, 0, 0, work->elapsed * work->config->spin[i]);
                 GsSetLsMatrix(&light);
@@ -339,20 +339,20 @@ s32 func_8013B004(u8 *context, s32 command)
                 }
             }
             if (work->phase >= 2) {
-                if (work->core_r >= 3) {
-                    work->core_r -= work->config->core_fade;
+                if (work->core.c.r >= 3) {
+                    work->core.c.r -= work->config->core_fade;
                 } else {
-                    work->core_r = 0;
+                    work->core.c.r = 0;
                 }
-                if (work->core_g >= 3) {
-                    work->core_g -= work->config->core_fade;
+                if (work->core.c.g >= 3) {
+                    work->core.c.g -= work->config->core_fade;
                 } else {
-                    work->core_g = 0;
+                    work->core.c.g = 0;
                 }
-                if (work->core_b >= 3) {
-                    work->core_b -= work->config->core_fade;
+                if (work->core.c.b >= 3) {
+                    work->core.c.b -= work->config->core_fade;
                 } else {
-                    work->core_b = 0;
+                    work->core.c.b = 0;
                 }
             }
         }
@@ -434,7 +434,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (work->phase == 4
         && (work->spark_r[work->shown - 1] == 0 || work->spark_g[work->shown - 1] == 0
             || work->spark_b[work->shown - 1] == 0)
-        && work->flash == 0) {
+        && work->charge.c.flash == 0) {
         return 2;
     }
     if (work->phase != 2) {

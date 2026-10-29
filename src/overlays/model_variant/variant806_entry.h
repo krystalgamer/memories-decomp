@@ -77,12 +77,22 @@ typedef struct {
     u8 trail_g[2];
     u8 trail_b[2];
     u8 glow[2];
-    u8 charge_r, charge_g, charge_b;
-    u8 flash;
+    union {
+        struct {
+            u8 r, g, b;
+            u8 flash;
+        } c;
+        u32 word;
+    } charge;
     u8 spark_r[60];
     u8 spark_g[60];
     u8 spark_b[60];
-    u8 core_r, core_g, core_b;
+    union {
+        struct {
+            u8 r, g, b;
+        } c;
+        u32 word;
+    } core;
 } Model806State;
 
 extern GsIMAGE D_8013CF68[4];
