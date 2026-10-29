@@ -1192,6 +1192,8 @@ leaves out the swarm helper the French images already build from
 images bind resident calls through their own
 `model_variant468_linker_symbols.txt`.
 
+French MODEL headers 471 (stage 9 slot 0) and 621 (stage 10 slot 1) now also build their entry (`func_8013B004`, 0x152C bytes) from the US header-454 source `src/overlays/model_variant/variant454_entry.c` through `src/overlays/french_model_variant/variant471_entry{,_slot1}.c`. `VERSION_FRENCH` selects the palette at VRAM x 640, and the wrappers map the helper calls to 0x8013C530/0x8013CA34 and the GsIMAGE/command base `D_8013CEFC` to `D_8013CF10`.
+
 French overlays are included in the report generator's separate French
 section and `french.overlays` JSON object. This overlay-only reporting does
 not make claims about French resident completion. Report snapshots are
