@@ -41,6 +41,7 @@ and is preserved. There is no added count clamp.
 Two closed 33-point rings use angles `i * 128`, including the repeated
 endpoint. The first uses parameter 16 for XY radius and
 `-side * parameter14` for Z; the second uses parameter 14 for XY and Z zero.
+Both use the canonical `ccos`/`csin` calls at `800868A8`/`80086B38`.
 Elapsed time starts at the negative configured delay. Negative-time updates
 only advance by the frame step and return zero.
 
@@ -48,7 +49,8 @@ Before playback release, both slots are held and ambient is set to -1024.
 Each triangle rotates by initial angle plus velocity times elapsed time.
 It is projected twice: configured size with configured third-vertex RGB,
 then half size with white third-vertex RGB. The other two vertex colors
-remain black. Submission preserves the native nonnegative depth/flag checks
+remain black. Both projections use `RotTransPers3` at `80087898`, not
+`RotAverage3`. Submission preserves the native nonnegative depth/flag checks
 and draw-mode argument 1.
 
 Before burst start, a textured card follows the configured part. Its extent

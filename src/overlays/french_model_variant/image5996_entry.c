@@ -54,14 +54,14 @@ s32 func_8013B004(u8 *context, s32 command)
         angle = state->rings;
         for (i = 0; i <= 32; angle++, i++) {
             setVector(angle,
-                      config->outer_radius * rsin(i * 128) / 4096,
-                      config->outer_radius * rcos(i * 128) / 4096,
+                      config->outer_radius * ccos(i * 128) / 4096,
+                      config->outer_radius * csin(i * 128) / 4096,
                       -side * config->inner_radius);
         }
         for (i = 0; i <= 32; angle++, i++) {
             setVector(angle,
-                      config->inner_radius * rsin(i * 128) / 4096,
-                      config->inner_radius * rcos(i * 128) / 4096, 0);
+                      config->inner_radius * ccos(i * 128) / 4096,
+                      config->inner_radius * csin(i * 128) / 4096, 0);
         }
         state->notified = 0;
         for (i = 0; i < 3; i++) {
@@ -113,7 +113,7 @@ s32 func_8013B004(u8 *context, s32 command)
             GsSetLsMatrix(&matrix);
             setVector(&v0, config->triangle_width, config->triangle_height, 0);
             setVector(&v1, -config->triangle_width, config->triangle_height, 0);
-            depth = RotAverage3(&v0, &v1, &v2, (PSXLONG *)&triangle.x0,
+            depth = RotTransPers3(&v0, &v1, &v2, (PSXLONG *)&triangle.x0,
                                (PSXLONG *)&triangle.x1, (PSXLONG *)&triangle.x2,
                                &p, &flag);
             setRGB2(&triangle, config->triangle_rgb[0],
@@ -125,7 +125,7 @@ s32 func_8013B004(u8 *context, s32 command)
                       config->triangle_height / 2, 0);
             setVector(&v1, -config->triangle_width / 2,
                       config->triangle_height / 2, 0);
-            depth = RotAverage3(&v0, &v1, &v2, (PSXLONG *)&triangle.x0,
+            depth = RotTransPers3(&v0, &v1, &v2, (PSXLONG *)&triangle.x0,
                                (PSXLONG *)&triangle.x1, (PSXLONG *)&triangle.x2,
                                &p, &flag);
             setRGB2(&triangle, 255, 255, 255);
