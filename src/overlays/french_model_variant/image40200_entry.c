@@ -35,9 +35,9 @@ s32 func_8013B004(u8 *context, s32 command)
             angle = rand() % 2048;
             secondary = rand() % config->spread;
             setVector(point,
-                secondary * rcos(value) / 4096 * rcos(angle) / 4096,
-                secondary * rsin(angle) / 4096,
-                secondary * rsin(value) / 4096 * rcos(angle) / 4096);
+                secondary * csin(value) / 4096 * csin(angle) / 4096,
+                secondary * ccos(angle) / 4096,
+                secondary * ccos(value) / 4096 * csin(angle) / 4096);
             addVector(point, &corners[0]);
         }
         for (i = 0; i < 2; i++) {
@@ -77,7 +77,7 @@ s32 func_8013B004(u8 *context, s32 command)
         } else if (age < config->travel_duration) {
             copyVector(&position, point);
             position.vy += (config->wobble_height * age / config->travel_duration) *
-                           rcos(point->pad) / 4096;
+                           csin(point->pad) / 4096;
             setVector(&scale, 4096, 4096, 4096);
             third = config->travel_duration / 3;
             if (age < third || (i + work->updates) % 2 == 0) {

@@ -48,7 +48,7 @@ are retained.
 
 The first render pass refreshes each not-yet-started particle from its
 configured active-slot part. During travel it projects a textured quad,
-applies the native cosine wobble, alternates the delayed RGB flash, and
+applies the native `csin` wobble, alternates the delayed RGB flash, and
 advances position and the `pad` angle toward their targets. Integer division
 precedes multiplication by the saved frame step. During the hold phase,
 the quad stays at its target, stretches vertically, and fades.
@@ -75,9 +75,13 @@ for the unused region. No padding access or synthetic operation was added.
 The initialization radius and later hold-age calculation share a scalar
 lifetime, restoring the native saved-register allocation and target-Z spill.
 
-The imported trigonometric entrypoints are bound to their actual native
-calls at `0x800868A8` and `0x80086B38`. Similar SDK names in other regional
-providers are not evidence of equivalent addresses or SDK versions.
+The imported trigonometric entrypoints are the canonical French `ccos` at
+`0x800868A8` and `csin` at `0x80086B38`, as identified by the accepted
+French resident inventory and unchanged same-region providers such as
+`model_variant248_linker_symbols.txt`. The canonical SDK header declares
+`ccos`, `csin`, `rcos` and `rsin` separately. The source and this component's
+provider now use those actual callee identities; the provisional private
+`rcos`/`rsin` aliases were removed without moving either native target.
 No SDK-wide semantic rename is claimed.
 
 Eight frozen source experiments, their source/header fingerprints, and
@@ -88,3 +92,9 @@ as a new compiler experiment. Final proof covers both relocated native
 bodies and both complete 20480-byte production images, including their
 original-sized C symbols. External reference types, flags, and sources
 were not used.
+
+The original eight experiments and two production records remain unchanged
+historical evidence, including their original fingerprints. The appended
+tick-303 SDK-identity correction records fingerprint the current production
+source/header and cover both exact native bodies and complete images after
+the source/provider correction.
