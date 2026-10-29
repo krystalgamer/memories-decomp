@@ -10,8 +10,12 @@
 
 static const VECTOR D_8013DC7C = {4096, 4096, 4096, 0};
 #ifndef VERSION_FRENCH
-/* The work-size format keeps the three stale bytes that pad it. */
-static const char D_8013DC8C[20] = "%d ( %x ) Byte.\n\0ry<";
+/* The work-size format keeps the three stale bytes that pad it; they differ
+ * between the two load slots. */
+#ifndef MODEL143US_STRING_PAD
+#define MODEL143US_STRING_PAD "\0ry<"
+#endif
+static const char D_8013DC8C[20] = "%d ( %x ) Byte.\n" MODEL143US_STRING_PAD;
 #endif
 
 s32 func_8013B004(u8 *context, s32 command)
