@@ -368,6 +368,16 @@ North American header-413 entry (`model_variant/variant413_entry.c`) through
 leaves out the swarm helper the French images already build from
 `image132118_swarm{,_slot0}.c`, and the data label sits 8 bytes lower.
 
+Two images under French headers 462 and 612 build their loader entry and
+ribbons helper from the North American header-445 C
+(`model_variant/variant445us_entry.c` and `variant445us_ribbons.c`, which the
+US images build with the CDK GCC 2.7.2 profile) through
+`src/overlays/french_model_variant/variant462_entry{,_slot1}.c` and
+`variant462_ribbons{,_slot1}.c`, compiled with `gcc_2_8_1_g0_split`. The
+sheets and rings helpers keep their French C (`variant462_sheets.c` and
+`variant462_rings.c`), the helper calls and data label move with the longer
+helpers, and the effect palette loads from PAL x = 640.
+
 Six images under French headers 795 and 892 are the North American
 header-778 entry (`model_variant/variant778_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
