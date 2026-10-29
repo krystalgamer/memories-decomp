@@ -97,12 +97,12 @@ s32 func_8013B004(u8 *context, s32 command)
                       work->config->fan_inner * csin(i * 256 % 4096) / 4096);
             setVector(&work->fan_outer[i], work->config->fan_outer * ccos(i * 256 % 4096) / 4096,
                       -work->config->fan_depth, work->config->fan_outer * csin(i * 256 % 4096) / 4096);
-            setVector(&work->fan2_inner[i], work->config->fan2_inner * (ccos(i * 256 % 4096) << 1) / 4096,
+            setVector(&work->fan2_inner[i], work->config->fan2_inner * ((s32)((u32)ccos(i * 256 % 4096) << 1)) / 4096,
                       -work->config->fan_depth / 2,
-                      work->config->fan2_inner * (csin(i * 256 % 4096) << 1) / 4096);
-            setVector(&work->fan2_outer[i], work->config->fan2_outer * (ccos(i * 256 % 4096) << 1) / 4096,
+                      work->config->fan2_inner * ((s32)((u32)csin(i * 256 % 4096) << 1)) / 4096);
+            setVector(&work->fan2_outer[i], work->config->fan2_outer * ((s32)((u32)ccos(i * 256 % 4096) << 1)) / 4096,
                       -work->config->fan_depth / 2,
-                      work->config->fan2_outer * (csin(i * 256 % 4096) << 1) / 4096);
+                      work->config->fan2_outer * ((s32)((u32)csin(i * 256 % 4096) << 1)) / 4096);
         }
         for (i = 0; i < 5; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013F090[i]);
