@@ -586,6 +586,13 @@ resident `jal` targets differ. The French modules build `variant805_entry.c`
 and its `_slot1.c` wrapper directly through
 `model_variant822_linker_symbols.txt`.
 
+The raw French image `model_image_model_5996_8013b000` and its Spanish twin
+are the North American header-85 entry (`model_variant/variant85_entry.c`)
+unchanged. Its 0x10-byte read-only scale comes from the C source at
+`0x8013BF44`, and the data tail starts at `0x8013BF54`. Each image's
+`_symbols.txt` defines the data labels, and its region's new
+`model_variant85_linker_symbols.txt` binds the resident calls.
+
 Six images under French headers 780 and 877 are the North American
 header-763 entry (`model_variant/variant763_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call

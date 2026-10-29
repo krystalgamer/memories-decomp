@@ -18406,7 +18406,8 @@
       "output": "tmp/overlays/spanish_model_image_model_5996_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 5996,
-      "sha256": "07aa4396c788975e4129577a4e8f3da0d8cdfa526c93d741c55817f34ddf3237"
+      "sha256": "07aa4396c788975e4129577a4e8f3da0d8cdfa526c93d741c55817f34ddf3237",
+      "linker_symbols": "config/sles_03951/overlays/model_variant85_linker_symbols.txt"
     },
     {
       "archive": "game/spain/DATA/MODEL.MRG",
