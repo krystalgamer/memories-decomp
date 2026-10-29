@@ -77,7 +77,7 @@ segments:
     vram: 0x8013D06C
     align: 4
     subsegments:
-      - [0x206C, asm, overlays/french_model_variant_21_stage7_slot0/unmatched_206c]
+      - [0x206C, c, overlays/french_model_variant/variant397_streamers]
   - name: unclassified_tail
     type: code
     start: 0x2950
