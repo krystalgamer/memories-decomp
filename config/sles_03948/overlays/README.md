@@ -747,6 +747,8 @@ resident `jal` targets differ. The French modules build `variant816_entry.c`
 and its `_slot1.c` wrapper directly through
 `model_variant833_linker_symbols.txt`.
 
+French MODEL headers 837 (stage 7 slot 0) and 934 (stage 8 slot 1) build the header-820 entry (`func_8013B004`) from `src/overlays/model_variant/variant820_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant837_entry{,_slot1}.c`; the French code and data are identical to the US images.
+
 Ten images under French headers 800 and 897 are the North American
 header-783 entry (`model_variant/variant783_entry.c`) with its full-screen
 flash tile covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects
