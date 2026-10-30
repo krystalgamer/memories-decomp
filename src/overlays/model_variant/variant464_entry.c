@@ -111,8 +111,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         SetSemiTrans(special, 1);
         SetShadeTex(special, 0);
         for (n = 0, angle = 0, blue = 64; n < 9; angle = n << 8) {
-            radius = (s32)(rsin(angle) << 8) >> 12;
-            height = (s32)(rcos(angle) << 8) >> 12;
+            radius = (s32)((u32)rsin(angle) << 8) >> 12;
+            height = (s32)((u32)rcos(angle) << 8) >> 12;
             for (j = 0, a = 0; j < 17; a = j << 8) {
                 setVector(&dome->points[n][j], rcos(a) * radius >> 12, -height,
                     rsin(a) * radius >> 12);
@@ -154,8 +154,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             } else {
                 angle = 1024 - i * 512;
             }
-            band->heading[0] = (s32)(rcos(angle) << 8) >> 12;
-            band->heading[1] = (s32)(rsin(angle) << 8) >> 12;
+            band->heading[0] = (s32)((u32)rcos(angle) << 8) >> 12;
+            band->heading[1] = (s32)((u32)rsin(angle) << 8) >> 12;
             band->heading[2] = 0;
         }
         for (k = 0; k < 2; k++, funnel++) {
