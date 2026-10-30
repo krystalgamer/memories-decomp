@@ -97,13 +97,13 @@ segments:
     align: 4
     subsegments:
       - [0x3068, c, overlays/model_variant/variant424_framebuffer_rings_slot1]
-  - name: unmatched_3640
+  - name: helper_3640
     type: code
     start: 0x3640
     vram: 0x8017E640
     align: 4
     subsegments:
-      - [0x3640, asm, overlays/model_variant_709_stage10_slot1/unmatched_3640]
+      - [0x3640, c, overlays/model_variant/variant424_spiral_slot1]
   - name: helper_4168
     type: code
     start: 0x4168

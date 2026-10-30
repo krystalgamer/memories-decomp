@@ -43,6 +43,12 @@
       "source": "src/overlays/model_variant/variant424_framebuffer_rings_slot1.c"
     },
     {
+      "address": "0x8017E640",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xB28",
+      "source": "src/overlays/model_variant/variant424_spiral_slot1.c"
+    },
+    {
       "address": "0x8017F168",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x60C",
