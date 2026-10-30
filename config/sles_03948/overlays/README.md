@@ -743,6 +743,13 @@ from the PAL CLUT row 0x3D28 instead of 0x3D20. The
 `src/overlays/french_model_variant/variant859_entry{,_slot1}.c` wrappers set
 `VERSION_FRENCH` and bind `model_variant859_linker_symbols.txt`.
 
+Two images under French headers 816 and 913 are the North American
+header-799 entry (`model_variant/variant799_entry.c`) with the ring palette
+from the PAL CLUT row 0x3D28 instead of 0x3D20. The
+`src/overlays/french_model_variant/variant816_entry{,_slot1}.c` wrappers set
+`VERSION_FRENCH` and bind `model_variant816_linker_symbols.txt` and
+`model_variant913_linker_symbols.txt`.
+
 Eight images under French headers 810 and 907 are the North American
 header-793 entry (`model_variant/variant793_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
