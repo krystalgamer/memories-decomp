@@ -517,6 +517,8 @@ the PAL CLUT row 0x3D28 instead of 0x3D20. The
 `src/overlays/french_model_variant/variant774_entry{,_slot1}.c` wrappers set
 `VERSION_FRENCH` and bind `model_variant774_linker_symbols.txt`.
 
+French MODEL headers 777 (stage 9 slot 0) and 874 (stage 10 slot 1) build the header-760 entry (`func_8013B004`) from `src/overlays/model_variant/variant760_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant777_entry{,_slot1}.c`; the French code and data are identical to the US images.
+
 Two images under French headers 814 and 911 are the North American
 header-797 entry (`model_variant/variant797_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf or screen-height constant, and
