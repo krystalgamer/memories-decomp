@@ -260,9 +260,9 @@ s32 func_8013B004(u8 *context, s32 command)
             position.vx = point->vx;
             position.vy = point->vy;
             position.vz = point->vz;
-            c = (t << 12) / config->tube_time;
+            c = (s32)((u32)t << 12) / config->tube_time;
             setVector(&scale, c, c, c);
-            c = (t << 10) / config->tube_time;
+            c = (s32)((u32)t << 10) / config->tube_time;
             setVector(&rotation, 0, 0, c);
             GsSetLsMatrix(&base);
             RotTrans(&position, (VECTOR *)matrix.t, &flag);
@@ -410,7 +410,7 @@ s32 func_8013B004(u8 *context, s32 command)
     side = work->elapsed - config->start - config->beam_time;
     value = config->bolt_time - side;
     u.middle.vx = (from.vx * value + to.vx * side) / config->bolt_time;
-    u.middle.vy = (from.vy * value + to.vy * side) / config->bolt_time - csin((side << 11) / config->bolt_time) * 150 / 4096;
+    u.middle.vy = (from.vy * value + to.vy * side) / config->bolt_time - csin((s32)((u32)side << 11) / config->bolt_time) * 150 / 4096;
     u.middle.vz = (from.vz * value + to.vz * side) / config->bolt_time;
     point = work->beams;
     for (i = 0; i < 48; i++) {
@@ -542,7 +542,7 @@ s32 func_8013B004(u8 *context, s32 command)
             red = config->flare_color[0] * t / config->bolt_time;
             green = config->flare_color[1] * t / config->bolt_time;
             blue = config->flare_color[2] * t / config->bolt_time;
-            value = (t << 11) / config->bolt_time + 0x800 + work->frame % 2 * 256;
+            value = (s32)((u32)t << 11) / config->bolt_time + 0x800 + work->frame % 2 * 256;
             value = value < 0x800 ? 0x800 : value > 0x1000 ? 0x1000 : value;
             position.vx = u.middle.vx;
             position.vy = u.middle.vy;
