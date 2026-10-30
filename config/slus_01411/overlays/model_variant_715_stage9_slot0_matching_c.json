@@ -13,6 +13,12 @@
       "source": "src/overlays/model_variant/variant432_sheet.c"
     },
     {
+      "address": "0x8013C244",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x934",
+      "source": "src/overlays/model_variant/variant432_ribbons.c"
+    },
+    {
       "address": "0x8013CB78",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x898",

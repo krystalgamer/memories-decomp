@@ -1,6 +1,20 @@
 #include "../../types.h"
 #include "variant449_ribbons.h"
 
+/* The North American header-432 copy, built with the CDK compiler, names the
+ * closing point's screen fields with the literal index, reads the following
+ * screen point as (sa + 1)[k] so the address folds into the current one, and
+ * starts each quad through a pointer to its first point. */
+#ifdef MODEL_VARIANT449_RIBBONS_FOLDED_NEXT
+#define RIBBONS449_CLOSING(array) (ribbon->array[16])
+#define RIBBONS449_NEXT(n) ((ribbon->sa + 1)[n])
+#define RIBBONS449_START(n) (*(ribbon->sa + (n)))
+#else
+#define RIBBONS449_CLOSING(array) (ribbon->array[k])
+#define RIBBONS449_NEXT(n) (ribbon->sa[(n) + 1])
+#define RIBBONS449_START(n) (ribbon->sa[n])
+#endif
+
 void func_8013C240(u8 *context)
 {
     SVECTOR rot;
@@ -81,10 +95,10 @@ void func_8013C240(u8 *context)
                                               &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed,
                                               &interpolation, &flags[i][k]);
                 RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &interpolation, &flag);
-                dx = ribbon->sa[k].point.vx - ribbon->sa[k - 1].point.vx;
-                dy = ribbon->sa[k].point.vy - ribbon->sa[k - 1].point.vy;
+                dx = RIBBONS449_CLOSING(sa).point.vx - ribbon->sa[k - 1].point.vx;
+                dy = RIBBONS449_CLOSING(sa).point.vy - ribbon->sa[k - 1].point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                ribbon->width[k] = RIBBONS449_CLOSING(sb).point.vx - RIBBONS449_CLOSING(sa).point.vx;
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             } else {
@@ -93,8 +107,14 @@ void func_8013C240(u8 *context)
                                               &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
                                               &interpolation, &flags[i][k]);
                 RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &interpolation, &flag);
-                dx = ribbon->sa[k + 1].point.vx - ribbon->sa[k].point.vx;
-                dy = ribbon->sa[k + 1].point.vy - ribbon->sa[k].point.vy;
+#ifdef MODEL_VARIANT449_RIBBONS_FOLDED_NEXT
+                /* Dead store, overwritten below: it only lengthens the CDK
+                 * compiler's projection loop, which keeps the flag-row
+                 * addresses inside the loop as in the header-432 copy. */
+                dx = ribbon->sa[k + 1].point.vx;
+#endif
+                dx = RIBBONS449_NEXT(k).point.vx - ribbon->sa[k].point.vx;
+                dy = RIBBONS449_NEXT(k).point.vy - ribbon->sa[k].point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
                 ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
@@ -117,14 +137,14 @@ void func_8013C240(u8 *context)
             if ((s16)(k % 2) == 1) {
                 poly++;
             }
-            poly->x0 = ribbon->sa[k].point.vx + ribbon->ox[k];
+            poly->x0 = RIBBONS449_START(k).point.vx + ribbon->ox[k];
             poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-            poly->x1 = ribbon->sa[k + 1].point.vx + ribbon->ox[k + 1];
-            poly->y1 = (ribbon->sa[k + 1].packed >> 16) + ribbon->oy[k + 1];
+            poly->x1 = RIBBONS449_NEXT(k).point.vx + ribbon->ox[k + 1];
+            poly->y1 = (RIBBONS449_NEXT(k).packed >> 16) + ribbon->oy[k + 1];
             poly->x2 = ribbon->sa[k].point.vx - ribbon->ox[k];
             poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-            poly->x3 = ribbon->sa[k + 1].point.vx - ribbon->ox[k + 1];
-            poly->y3 = (ribbon->sa[k + 1].packed >> 16) - ribbon->oy[k + 1];
+            poly->x3 = RIBBONS449_NEXT(k).point.vx - ribbon->ox[k + 1];
+            poly->y3 = (RIBBONS449_NEXT(k).packed >> 16) - ribbon->oy[k + 1];
             poly->r0 = ribbon->color[0];
             poly->g0 = ribbon->color[1];
             poly->b0 = ribbon->color[2];

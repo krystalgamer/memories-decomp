@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0xD24, c, overlays/model_variant/variant432_sheet]
-  - name: unmatched_1244
+  - name: ribbons
     type: code
     start: 0x1244
     vram: 0x8013C244
     align: 4
     subsegments:
-      - [0x1244, asm, overlays/model_variant_320_pos0_slot0/unmatched_1244]
+      - [0x1244, c, overlays/model_variant/variant432_ribbons]
   - name: streamers
     type: code
     start: 0x1B78
