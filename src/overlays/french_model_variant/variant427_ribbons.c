@@ -48,8 +48,8 @@ void func_8013CFC4(u8 *ctx)
             for (k = 0, v = work + i * 16; k < 17; k++) {
                 dy = MODEL_VARIANT_WORD(v, 0x36F4) * ribbon->amp / 1024;
                 dz = MODEL_VARIANT_WORD(v, 0x36F8) * ribbon->amp / 1024;
-                kk = k;
-                setVector(&ribbon->a[(n = k)], MODEL_VARIANT_WORD(v, 0x36F0) * ribbon->amp / 1024 * k / 16, dy * (kk = n) / 16, dz * n / 16);
+                n = kk = k;
+                setVector(&ribbon->a[n], MODEL_VARIANT_WORD(v, 0x36F0) * ribbon->amp / 1024 * k / 16, dy * (kk = n) / 16, dz * k / 16);
                 setVector(&ribbon->b[k],
                           ribbon->a[k].vx + (rcos(yaw) * len >> 12),
                           ribbon->a[k].vy,

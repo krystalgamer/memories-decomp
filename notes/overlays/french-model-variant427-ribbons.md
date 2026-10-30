@@ -14,9 +14,11 @@ slot-1 images.
   moves stage 2 to 3. The tail fades the width over the timing record's fade
   window, moving stage 4 to 5. The view lives in
   `french_model_variant/variant427_ribbons.h`.
-- **Register choice.** The point index is copied through `kk = k` and
-  `n = k`. The y term reads `(kk = n)` and the z term reads `n`, giving the
-  target's a1-then-copy-to-a0 order. The row address is set in the inner loop's
+- **Register choice.** The point index is copied through `n = kk = k;`
+  before `setVector`, which indexes with `n`; the y term reads `(kk = n)` and
+  the z term reads `k`, giving the target's a1-then-copy-to-a0 order. The
+  copies are separate full expressions because the macro repeats its pointer
+  argument. The row address is set in the inner loop's
   initialiser, `for (k = 0, v = work + i * 16; ...)`, which schedules
   `move s6,zero` before the row address as in the target.
 - **Bindings.** All four images reuse their region's existing linker
