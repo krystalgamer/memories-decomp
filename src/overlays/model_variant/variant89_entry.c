@@ -6,6 +6,12 @@
  * panels gather back to the part, and a two-sided shell sweeps the slot
  * while the screen fades from white. */
 
+/* The retail slot-0 image has a stray byte after the 15-entry order table;
+ * the other images have zero there. */
+#ifndef MODEL89_ORDER_PAD
+#define MODEL89_ORDER_PAD 0x4C
+#endif
+
 static const VECTOR D_8013D40C = {4096, 4096, 4096, 0};
 
 s32 func_8013B004(u8 *context, s32 command)
@@ -76,7 +82,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 point->vz = -direction * config->arc_radius / 3;
             }
             for (i = 0; i < 2; i++) {
-                work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013D42C[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D42C[i]);
             }
             work->elapsed = -config->delay;
             work->completed = 0;
@@ -460,3 +466,7 @@ s32 func_8013B004(u8 *context, s32 command)
         return 0;
     }
 }
+
+/* The byte after the order table's template: 0x4C in the retail slot-0
+ * image, zero elsewhere. */
+const u8 D_8013D42B = MODEL89_ORDER_PAD;
