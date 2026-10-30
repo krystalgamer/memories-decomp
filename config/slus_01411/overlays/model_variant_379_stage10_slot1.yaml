@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x284C, c, overlays/model_variant/variant410_panels_slot1]
-  - name: unmatched_2da8
+  - name: streamers
     type: code
     start: 0x2DA8
     vram: 0x8017DDA8
     align: 4
     subsegments:
-      - [0x2DA8, asm, overlays/model_variant_379_stage10_slot1/unmatched_2da8]
+      - [0x2DA8, c, overlays/model_variant/variant410_streamers_slot1]
   - name: helper_351c
     type: code
     start: 0x351C

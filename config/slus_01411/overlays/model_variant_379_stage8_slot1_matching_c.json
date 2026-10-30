@@ -25,6 +25,12 @@
       "source": "src/overlays/model_variant/variant462_sheets_slot1.c"
     },
     {
+      "address": "0x8017E068",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x774",
+      "source": "src/overlays/model_variant/variant462_streamers_slot1.c"
+    },
+    {
       "address": "0x8017E7DC",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4E0",
