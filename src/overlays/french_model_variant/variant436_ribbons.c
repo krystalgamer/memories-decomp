@@ -1,6 +1,17 @@
 #include "../../types.h"
 #include "variant436_ribbons.h"
 
+/* The North American header-419 build reads the projected points through
+ * pointer arithmetic, except for the closing segment's two differences;
+ * the default spelling is the French/Spanish one. */
+#ifdef MODEL_VARIANT419_RIBBONS_POINTER_SCREEN
+#define RIBBONS436_SA(k) (*(ribbon->sa + (k)))
+#define RIBBONS436_SB(k) (*(ribbon->sb + (k)))
+#else
+#define RIBBONS436_SA(k) (ribbon->sa[k])
+#define RIBBONS436_SB(k) (ribbon->sb[k])
+#endif
+
 void func_8013CAEC(u8 *ctx)
 {
     SVECTOR rot;
@@ -22,6 +33,7 @@ void func_8013CAEC(u8 *ctx)
     s16 len;
     Ribbons436Ribbon *ribbon;
     POLY_FT4 *poly;
+    Ribbons436Screen screen;
     s32 bend;
     s32 curve;
     s32 amp;
@@ -48,8 +60,7 @@ void func_8013CAEC(u8 *ctx)
         } else {
             wave = MODEL_VARIANT_WORD(work, 0x1634);
         }
-        odd = i & 1;
-        for (k = 0; k < 9; k++, wave += 1300) {
+        for (k = 0, odd = i & 1; k < 9; k++, wave += 1300) {
             if (MODEL_VARIANT_WORD(work, 0x163C) <= 0) {
                 if (k == 0 || k == 8) {
                     bend = 0;
@@ -108,9 +119,10 @@ void func_8013CAEC(u8 *ctx)
                                               &p, &flags[i][k]);
                 RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &p, &flag);
                 dx = ribbon->sa[k].point.vx - ribbon->sa[k - 1].point.vx;
-                dy = ribbon->sa[k].point.vy - ribbon->sa[k - 1].point.vy;
+                screen = ribbon->sa[k];
+                dy = screen.point.vy - ribbon->sa[k - 1].point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                ribbon->width[k] = RIBBONS436_SB(k).point.vx - RIBBONS436_SA(k).point.vx;
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             } else {
@@ -118,10 +130,10 @@ void func_8013CAEC(u8 *ctx)
                                               &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed, &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
                                               &p, &flags[i][k]);
                 RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &p, &flag);
-                dx = ribbon->sa[k + 1].point.vx - ribbon->sa[k].point.vx;
-                dy = ribbon->sa[k + 1].point.vy - ribbon->sa[k].point.vy;
+                dx = RIBBONS436_SA(k + 1).point.vx - RIBBONS436_SA(k).point.vx;
+                dy = RIBBONS436_SA(k + 1).point.vy - RIBBONS436_SA(k).point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                ribbon->width[k] = RIBBONS436_SB(k).point.vx - RIBBONS436_SA(k).point.vx;
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             }
@@ -138,14 +150,14 @@ void func_8013CAEC(u8 *ctx)
             if ((s16)(k % 2) == 1) {
                 poly++;
             }
-            poly->x0 = ribbon->sa[k].point.vx + ribbon->ox[k];
-            poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-            poly->x1 = ribbon->sa[k + 1].point.vx + ribbon->ox[k + 1];
-            poly->y1 = (ribbon->sa[k + 1].packed >> 16) + ribbon->oy[k + 1];
-            poly->x2 = ribbon->sa[k].point.vx - ribbon->ox[k];
-            poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-            poly->x3 = ribbon->sa[k + 1].point.vx - ribbon->ox[k + 1];
-            poly->y3 = (ribbon->sa[k + 1].packed >> 16) - ribbon->oy[k + 1];
+            poly->x0 = RIBBONS436_SA(k).point.vx + ribbon->ox[k];
+            poly->y0 = (RIBBONS436_SA(k).packed >> 16) + ribbon->oy[k];
+            poly->x1 = RIBBONS436_SA(k + 1).point.vx + ribbon->ox[k + 1];
+            poly->y1 = (RIBBONS436_SA(k + 1).packed >> 16) + ribbon->oy[k + 1];
+            poly->x2 = RIBBONS436_SA(k).point.vx - ribbon->ox[k];
+            poly->y2 = (RIBBONS436_SA(k).packed >> 16) - ribbon->oy[k];
+            poly->x3 = RIBBONS436_SA(k + 1).point.vx - ribbon->ox[k + 1];
+            poly->y3 = (RIBBONS436_SA(k + 1).packed >> 16) - ribbon->oy[k + 1];
             poly->r0 = ribbon->color[0];
             poly->g0 = ribbon->color[1];
             poly->b0 = ribbon->color[2];
