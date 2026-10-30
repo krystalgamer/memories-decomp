@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0xF28, c, overlays/model_variant/variant409_mesh_slot1]
-  - name: unmatched_138c
+  - name: spiral
     type: code
     start: 0x138C
     vram: 0x8017C38C
     align: 4
     subsegments:
-      - [0x138C, asm, overlays/model_variant_0_stage8_slot1/unmatched_138c]
+      - [0x138C, c, overlays/model_variant/variant409_spiral_slot1]
   - name: unmatched_1dac
     type: code
     start: 0x1DAC
@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x265C, c, overlays/model_variant/variant409_sheets_slot1]
-  - name: unmatched_2b50
+  - name: streamers
     type: code
     start: 0x2B50
     vram: 0x8017DB50
     align: 4
     subsegments:
-      - [0x2B50, asm, overlays/model_variant_0_stage8_slot1/unmatched_2b50]
+      - [0x2B50, c, overlays/model_variant/variant409_streamers_slot1]
   - name: helper_3370
     type: code
     start: 0x3370

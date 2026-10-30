@@ -13,10 +13,22 @@
       "source": "src/overlays/model_variant/variant409_mesh_slot1.c"
     },
     {
+      "address": "0x8017C38C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xA20",
+      "source": "src/overlays/model_variant/variant409_spiral_slot1.c"
+    },
+    {
       "address": "0x8017D65C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4F4",
       "source": "src/overlays/model_variant/variant409_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017DB50",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x820",
+      "source": "src/overlays/model_variant/variant409_streamers_slot1.c"
     },
     {
       "address": "0x8017E370",

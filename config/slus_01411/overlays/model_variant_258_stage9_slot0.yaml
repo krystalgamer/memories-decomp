@@ -57,20 +57,20 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant380_entry]
-  - name: unmatched_de8
+  - name: beams
     type: code
     start: 0xDE8
     vram: 0x8013BDE8
     align: 4
     subsegments:
-      - [0xDE8, asm, overlays/model_variant_258_stage9_slot0/unmatched_de8]
-  - name: unmatched_1ab8
+      - [0xDE8, c, overlays/model_variant/variant380_beams]
+  - name: sheets
     type: code
     start: 0x1AB8
     vram: 0x8013CAB8
     align: 4
     subsegments:
-      - [0x1AB8, asm, overlays/model_variant_258_stage9_slot0/unmatched_1ab8]
+      - [0x1AB8, c, overlays/model_variant/variant380_sheets]
   - name: helper_208c
     type: code
     start: 0x208C

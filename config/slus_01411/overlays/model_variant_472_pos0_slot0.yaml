@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x184C, c, overlays/model_variant/variant319_strand]
-  - name: unmatched_1b5c
+  - name: streamers
     type: code
     start: 0x1B5C
     vram: 0x8013CB5C
     align: 4
     subsegments:
-      - [0x1B5C, asm, overlays/model_variant_472_pos0_slot0/unmatched_1b5c]
+      - [0x1B5C, c, overlays/model_variant/variant319_streamers]
   - name: data
     type: code
     start: 0x2358

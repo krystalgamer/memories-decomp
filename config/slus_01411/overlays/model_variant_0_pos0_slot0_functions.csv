@@ -1,8 +1,8 @@
 address,size,name,status,module,notes
 0x8013B004,0xF24,func_8013B004,matching_c,overlay/model_variant_0_pos0_slot0,Loader entry; C body exact through variant409_entry.c; direct-entry reachable.
 0x8013BF28,0x464,func_8013BF28,matching_c,overlay/model_variant_0_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013C38C,0xA20,func_8013C38C,unmatched_asm,overlay/model_variant_0_pos0_slot0,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8013C38C,0xA20,func_8013C38C,matching_c,overlay/model_variant_0_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013CDAC,0x8B0,func_8013CDAC,unmatched_asm,overlay/model_variant_0_pos0_slot0,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
 0x8013D65C,0x4F4,func_8013D65C,matching_c,overlay/model_variant_0_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013DB50,0x820,func_8013DB50,unmatched_asm,overlay/model_variant_0_pos0_slot0,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8013DB50,0x820,func_8013DB50,matching_c,overlay/model_variant_0_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013E370,0x438,func_8013E370,matching_c,overlay/model_variant_0_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
