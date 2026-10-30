@@ -199,9 +199,14 @@ void func_8013C3B0(u8 *ctx)
                 poly->r0 = c0;
                 poly->g0 = c0;
                 poly->b0 = c1;
-                poly->r1 = c0;
-                poly->g1 = c0;
-                poly->b1 = c1;
+                /* gcc 2.7.2 gives the loop index and c1 the North American
+                 * registers only with this triple's loop notes; gcc 2.8.1
+                 * compiles it the same either way. */
+                do {
+                    poly->r1 = c0;
+                    poly->g1 = c0;
+                    poly->b1 = c1;
+                } while (0);
                 poly->r2 = c1;
                 poly->g2 = c1;
                 poly->b2 = c3;
