@@ -8,6 +8,7 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_effect_state.h"
 #include "../../game/model_get_frame_step.h"
+#include "../../game/screen_projection.h"
 #include "../../game/graphics_packet_submission.h"
 #include "../../game/graphics_constants.h"
 #include "../../psyq/sdk_internal.h"
