@@ -1251,6 +1251,8 @@ follows the North American header-433 entry's shape; its command rows
 helper at 0x1F58 from
 `src/overlays/spanish_model_variant/variant456_sprays{,_slot1}.c`.
 
+Two images under French headers 458 and 608 (model 202, stage 7 slot 0 and stage 8 slot 1) build their loader entry from `src/overlays/french_model_variant/variant458_entry.c` (slot 1 through `variant458_entry_slot1.c`), next to the already-matched sheets, strands and streamers helpers. The entry has no work-size printf; its command rows and texture images are offsets into the tail label `D_8013D30C`. A dead `double` conversion in the strand loop and a `do { } while (0)` around its body reproduce the retail loop scheduling and are commented in the source.
+
 Two images under French headers 454 and 604 build their loader entry from the
 North American header-437 entry (`model_variant/variant437_entry.c`) through
 `src/overlays/french_model_variant/variant454_entry{,_slot1}.c`, compiled with
