@@ -13,7 +13,12 @@
  * then overwritten before the flag store and kept live after the loop.
  * GCC 2.8.1 CSE then keeps col/next as copies of the first strip's column
  * pointers, while the flag and sort code goes back to the originals, as in
- * the target. */
+ * the target.
+ *
+ * MODEL_VARIANT388_STRIPS_SHARED_COLUMN spells the second strip's reads as
+ * col->sc[1] and col->sb[1] through the one column pointer instead of a
+ * separate next pointer; both address sc[k + 1] and sb[k + 1]. The North
+ * American header-371 images built with the CDK compiler use it. */
 void func_8013BCD4(u8 *ctx)
 {
     u8 *work;
@@ -105,6 +110,17 @@ void func_8013BCD4(u8 *ctx)
                 if (unit->otz[k] >= 0) {
                     GsSortPoly(poly, ot, unit->otz[k + 1]);
                 }
+#ifdef MODEL_VARIANT388_STRIPS_SHARED_COLUMN
+                col = (Strip388Unit *)((u8 *)unit + k * 4);
+                poly->x0 = col->sc[0];
+                poly->y0 = (col->sc[0] >> 16);
+                poly->x1 = col->sc[1];
+                poly->y1 = (col->sc[1] >> 16);
+                poly->x2 = col->sb[0];
+                poly->y2 = (col->sb[0] >> 16);
+                poly->x3 = col->sb[1];
+                poly->y3 = (col->sb[1] >> 16);
+#else
                 col = (Strip388Unit *)((u8 *)unit + k * 4);
                 next = (Strip388Unit *)((u8 *)unit + (k + 1) * 4);
                 poly->x0 = col->sc[0];
@@ -115,6 +131,7 @@ void func_8013BCD4(u8 *ctx)
                 poly->y2 = (col->sb[0] >> 16);
                 poly->x3 = next->sb[0];
                 poly->y3 = (next->sb[0] >> 16);
+#endif
                 poly->r0 = 0x80;
                 poly->g0 = 0;
                 poly->b0 = 0x80;
