@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant474_entry.h"
 
+#ifndef MODEL_VARIANT474_CLUT_X
+#define MODEL_VARIANT474_CLUT_X 640
+#endif
+
 /* Header 474's entry: two funnels, one ribbon, a 9x17 mesh, twelve spirals,
  * two sheets and two streamers, with the header-337 camera and part
  * tracking. As in header 433, the setup keeps the third texture's packed
@@ -73,9 +77,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT474_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT474_CLUT_X, 244);
         ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)D_8013E980);
         ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E980 - 0x38));
         packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E980 - 0xA8));
@@ -84,7 +88,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E980 - 0x8C));
         ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E980 - 0x70));
         tpage2 = GetTPage(1, 1, 896, 0);
-        clut2 = GetClut(640, 244);
+        clut2 = GetClut(MODEL_VARIANT474_CLUT_X, 244);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
