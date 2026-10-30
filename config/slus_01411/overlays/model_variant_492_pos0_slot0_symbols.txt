@@ -1,0 +1,2 @@
+// MODEL.MRG model 492 (record 442), sector 122172, header 125, loaded at 0x8013B000; the US source variant125_entry.c.
+func_8013B004 = 0x8013B004; // type:func size:0x1528 defined:true
