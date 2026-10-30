@@ -79,6 +79,8 @@ void func_8013CB9C(u8 *ctx)
         work->rotation_y += 1300;
     }
     work->rotation_y += 32;
+    /* A zero step: the PAL build drops it, the USA build keeps its load. */
+    work->rotation_z += 0;
     for (j = 0; j < 1; j++) {
         m.t[0] = work->origin.t[0] + work->delta.vx * work->factor / 1024;
         m.t[1] = work->origin.t[1] + work->delta.vy * work->factor / 1024;
