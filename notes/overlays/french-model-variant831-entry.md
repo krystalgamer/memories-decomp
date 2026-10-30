@@ -3,10 +3,10 @@
 `func_8013B004` (image offset `0x4`, 0x3804 bytes) is the loader entry of
 the raw image `model_image_model_168816_8013b000`. The French and Spanish
 copies are byte-identical; both now build
-`french_model_variant/variant831_entry.c`.
-
-The US image at the same sector has a different header (814) and is still
-assembly.
+`french_model_variant/variant831_entry.c`. Their slot-1 twins
+`model_image_model_168826_8017b000` (header 928) build the same C through
+`variant831_entry_slot1.c`, which remaps `func_8013B004` and the
+`D_8013E808`/`D_8013E818`/`D_8013E8A4` labels to `0x8017…`.
 
 - **Base.** It is the header-792 bolt entry (`model_variant/variant792_entry.c`)
   reworked for three bolts:
@@ -22,7 +22,9 @@ assembly.
     draws the glow, the sparks and a growing flare over the ray ring instead
     of the two ray fans. The phase sequence runs 0, 1, 2, 4, 5.
     The doubled negated z-step is computed as `(s32)((u32)-vz << 1)`, so
-    no negative signed value is left-shifted.
+    no negative signed value is left-shifted. The flare scale is read and
+    grown at `flare_scale[i - count]`, which for three bolts aliases
+    `flight[]`; the source keeps and comments that retail subscript.
 - **Data and bindings.**
   - The static scale vector is the C `.rodata` at `0x8013E808`.
   - Each image's `_symbols.txt` defines `D_8013E818` (texture images) and
@@ -33,3 +35,15 @@ assembly.
 Both images rebuild exactly. The
 [attempt ledger](french-model-variant831-entry-attempts.csv) records the
 probes.
+
+## North American images
+
+The US MODEL.MRG images at sectors 168816/168826 (headers 814/911, modules
+`model_variant_711_pos0_slot0` and `model_variant_711_stage8_slot1`) carry the
+same entry; besides the resident call targets, which
+`config/slus_01411/overlays/variant814us_linker_symbols.txt` supplies, the
+only difference is the flare CLUT row (`0x3D20` instead of the PAL `0x3D28`).
+The wrappers `src/overlays/model_variant/variant814us_entry.c` and
+`variant814us_entry_slot1.c` set `VARIANT831_FLARE_CLUT` and include this
+source; the French default is unchanged. Both US images reproduce their
+retail SHA-256.

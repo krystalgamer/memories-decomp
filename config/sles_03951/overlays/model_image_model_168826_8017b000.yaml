@@ -1,5 +1,4 @@
-# Generated function inventory: closed-CFG functions are generated assembly;
-# every other byte remains raw and unclassified.
+# Exact C header-928 entry (variant831_entry_slot1.c over the header-831 C); the data tail stays raw.
 name: spanish_model_image_model_168826_8017b000
 sha1: 69e63a3059bee9a4a12c59d3b0e6d96037fc98c7
 
@@ -25,6 +24,8 @@ options:
   o_path: tmp/overlays/spanish_model_image_model_168826_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/spanish_model_image_model_168826_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/spanish_model_image_model_168826_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03951/overlays/model_image_model_168826_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -54,12 +55,19 @@ segments:
     vram: 0x8017b004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_image_model_168826_8017b000/unmatched_4]
-  - name: unclassified_tail
+      - [0x4, c, overlays/french_model_variant/variant831_entry_slot1]
+  - name: rodata
     type: code
     start: 0x3808
-    vram: 0x8017e808
+    vram: 0x8017E808
     align: 4
     subsegments:
-      - [0x3808, bin, overlays/spanish_model_image_model_168826_8017b000/unclassified_tail]
+      - [0x3808, .rodata, overlays/french_model_variant/variant831_entry_slot1]
+  - name: unclassified_tail
+    type: code
+    start: 0x3818
+    vram: 0x8017E818
+    align: 4
+    subsegments:
+      - [0x3818, data, overlays/spanish_model_image_model_168826_8017b000/unclassified_tail]
   - [0x5000]
