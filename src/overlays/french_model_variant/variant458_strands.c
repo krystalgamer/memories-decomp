@@ -1,6 +1,20 @@
 #include "../../types.h"
 #include "variant458_strands.h"
 
+/* The North American header-441 build indexes the depth flags by the loop
+ * counter and reads the projected points of the open segments and the quads
+ * through pointer arithmetic, so CDK GCC folds sa[k + 1] into a fixed offset
+ * from sa[k]; the default spelling is the French one. */
+#ifdef MODEL_VARIANT441_STRANDS_POINTER_SCREEN
+#define STRANDS458_ROW i
+#define STRANDS458_SA(k, n) (*(strand->sa + (k) + (n)))
+#define STRANDS458_SB(k) (*(strand->sb + (k)))
+#else
+#define STRANDS458_ROW row
+#define STRANDS458_SA(k, n) (strand->sa[(k) + (n)])
+#define STRANDS458_SB(k) (strand->sb[k])
+#endif
+
 void func_8013C150(u8 *ctx)
 {
     SVECTOR rot;
@@ -70,7 +84,7 @@ void func_8013C150(u8 *ctx)
             if (k == 8) {
                 strand->depth[k] = RotTransPers4(&strand->a[k - 1], &strand->a[k], &strand->a[k - 1], &strand->a[k],
                                                  &strand->sa[k - 1].packed, &strand->sa[k].packed,
-                                                 &strand->sa[k - 1].packed, &strand->sa[k].packed, &p, &flags[row][k]);
+                                                 &strand->sa[k - 1].packed, &strand->sa[k].packed, &p, &flags[STRANDS458_ROW][k]);
                 RotTransPers(&strand->b[k], &strand->sb[k].packed, &p, &flag);
                 dx = strand->sa[k].point.vx - strand->sa[k - 1].point.vx;
                 dy = strand->sa[k].point.vy - strand->sa[k - 1].point.vy;
@@ -81,12 +95,12 @@ void func_8013C150(u8 *ctx)
             } else {
                 strand->depth[k] = RotTransPers4(&strand->a[k], &strand->a[k + 1], &strand->a[k], &strand->a[k + 1],
                                                  &strand->sa[k].packed, &strand->sa[k + 1].packed,
-                                                 &strand->sa[k].packed, &strand->sa[k + 1].packed, &p, &flags[row][k]);
+                                                 &strand->sa[k].packed, &strand->sa[k + 1].packed, &p, &flags[STRANDS458_ROW][k]);
                 RotTransPers(&strand->b[k], &strand->sb[k].packed, &p, &flag);
-                dx = strand->sa[k + 1].point.vx - strand->sa[k].point.vx;
-                dy = strand->sa[k + 1].point.vy - strand->sa[k].point.vy;
+                dx = STRANDS458_SA(k, 1).point.vx - STRANDS458_SA(k, 0).point.vx;
+                dy = STRANDS458_SA(k, 1).point.vy - STRANDS458_SA(k, 0).point.vy;
                 strand->angle[k] = ratan2(dy, dx) - 0x400;
-                strand->width[k] = strand->sb[k].point.vx - strand->sa[k].point.vx;
+                strand->width[k] = STRANDS458_SB(k).point.vx - STRANDS458_SA(k, 0).point.vx;
                 strand->ox[k] = rcos(strand->angle[k]) * strand->width[k] >> 12;
                 strand->oy[k] = rsin(strand->angle[k]) * strand->width[k] >> 12;
             }
@@ -105,14 +119,14 @@ void func_8013C150(u8 *ctx)
             if ((s16)(k % 2) == 1) {
                 poly++;
             }
-            poly->x0 = strand->sa[k].point.vx + strand->ox[k];
-            poly->y0 = (strand->sa[k].packed >> 16) + strand->oy[k];
-            poly->x1 = strand->sa[k + 1].point.vx + strand->ox[k + 1];
-            poly->y1 = (strand->sa[k + 1].packed >> 16) + strand->oy[k + 1];
-            poly->x2 = strand->sa[k].point.vx - strand->ox[k];
-            poly->y2 = (strand->sa[k].packed >> 16) - strand->oy[k];
-            poly->x3 = strand->sa[k + 1].point.vx - strand->ox[k + 1];
-            poly->y3 = (strand->sa[k + 1].packed >> 16) - strand->oy[k + 1];
+            poly->x0 = STRANDS458_SA(k, 0).point.vx + strand->ox[k];
+            poly->y0 = (STRANDS458_SA(k, 0).packed >> 16) + strand->oy[k];
+            poly->x1 = STRANDS458_SA(k, 1).point.vx + strand->ox[k + 1];
+            poly->y1 = (STRANDS458_SA(k, 1).packed >> 16) + strand->oy[k + 1];
+            poly->x2 = STRANDS458_SA(k, 0).point.vx - strand->ox[k];
+            poly->y2 = (STRANDS458_SA(k, 0).packed >> 16) - strand->oy[k];
+            poly->x3 = STRANDS458_SA(k, 1).point.vx - strand->ox[k + 1];
+            poly->y3 = (STRANDS458_SA(k, 1).packed >> 16) - strand->oy[k + 1];
             poly->r0 = strand->color.r;
             poly->g0 = strand->color.g;
             poly->b0 = strand->color.b;

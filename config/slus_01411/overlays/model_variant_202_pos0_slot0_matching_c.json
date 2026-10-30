@@ -13,6 +13,12 @@
       "source": "src/overlays/model_variant/variant441_sheets.c"
     },
     {
+      "address": "0x8013C158",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x874",
+      "source": "src/overlays/model_variant/variant441_strands.c"
+    },
+    {
       "address": "0x8013C9CC",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x8BC",
