@@ -40,8 +40,10 @@ typedef struct {
  * words, the elapsed time and the tint flag. */
 typedef struct {
     Model121Config *G32 config;
-    SVECTOR particles[128];
-    SVECTOR trail[3];
+    /* Particles 0-127, then the three trail positions 128-130; one array
+     * because the trail shift deliberately pulls the last particle into the
+     * trail. */
+    SVECTOR points[131];
     u8 camera_steps, unknown_41D[3];
     s32 texture[2];
     s32 elapsed;

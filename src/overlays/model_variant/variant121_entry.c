@@ -42,7 +42,7 @@ s32 func_8013B004(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         config = work->config = &D_8013C888[command % 100];
-        point = work->particles;
+        point = work->points;
         for (i = 0; i < 128; point++, i++) {
             point->vx = rand() % (config->spread * 2) - config->spread;
             point->vy = rand() % (config->spread * 2) - config->spread;
@@ -68,7 +68,7 @@ s32 func_8013B004(u8 *context, s32 command)
         PushMatrix();
         GsSetLsMatrix(&base);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
-        point = work->trail;
+        point = &work->points[128];
         for (i = 0; i < 3; point++, i++) {
             setVector(point, matrix.t[0], matrix.t[1], matrix.t[2]);
         }
@@ -125,7 +125,7 @@ s32 func_8013B004(u8 *context, s32 command)
         RotTransPers(&vertices[0], (PSXLONG *)&box.x, &interpolation, &flag);
         size = box.x;
         other = box.y;
-        point = work->particles;
+        point = work->points;
         for (i = 0; i < 64; point++, i++) {
             depth = RotTransPers(point, (PSXLONG *)&box.x, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
@@ -202,17 +202,17 @@ s32 func_8013B004(u8 *context, s32 command)
         setVector(&rotation, 0, 0, 0);
         /* The shift runs one step too far, copying the last particle into
          * the newest slot before the camera part overwrites it. */
-        point = &work->trail[2];
-        source = &work->trail[1];
+        point = &work->points[130];
+        source = &work->points[129];
         for (i = 0; i < 3; point--, source--, i++) {
             setVector(point, source->vx, source->vy, source->vz);
         }
         GsSetLsMatrix(&base);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
-        setVector(&work->trail[0], matrix.t[0], matrix.t[1], matrix.t[2]);
+        setVector(&work->points[128], matrix.t[0], matrix.t[1], matrix.t[2]);
         /* The y and z steps extrapolate from the older position. */
-        point = &work->trail[0];
-        source = &work->trail[1];
+        point = &work->points[128];
+        source = &work->points[129];
         for (j = 0; j < 2; point++, source++, j++) {
             for (i = 1; i < 4; i++) {
                 setVector(&position, point->vx + (source->vx - point->vx) * i / 3,
@@ -259,7 +259,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->camera_steps--;
             GsSetLsMatrix(&base);
             GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
-            point = work->trail;
+            point = &work->points[128];
             for (i = 0; i < 3; point++, i++) {
                 setVector(point, matrix.t[0], matrix.t[1], matrix.t[2]);
             }
@@ -273,7 +273,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->camera_steps--;
             GsSetLsMatrix(&base);
             GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
-            point = work->trail;
+            point = &work->points[128];
             for (i = 0; i < 3; point++, i++) {
                 setVector(point, matrix.t[0], matrix.t[1], matrix.t[2]);
             }
