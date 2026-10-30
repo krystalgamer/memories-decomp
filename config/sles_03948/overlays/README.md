@@ -350,6 +350,16 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant649_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Two images under French headers 428 and 578 build their loader entry from the
+North American header-411 entry (`model_variant/variant411us_entry.c`, which
+the US images build with the CDK GCC 2.7.2 profile) through
+`src/overlays/french_model_variant/variant428_entry{,_slot1}.c`, compiled with
+`gcc_2_8_1_g0_split`. The entry is 4 bytes shorter, its two helpers keep
+their French C (`variant428_swarm.c` and `variant428_quads.c`), the data
+starts at 0x1D94 and the effect palette loads from PAL x = 640. The wrappers
+bind `model_variant428_entry_linker_symbols.txt` and
+`model_variant578_linker_symbols.txt`.
+
 Three images under French header 429 are the North American header-412
 entry (`model_variant/variant412_entry.c`, which the US images build with
 the CDK GCC 2.7.2 profile) rebuilt with GCC 2.8.1. The entry is 4 bytes
