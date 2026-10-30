@@ -82,7 +82,7 @@ segments:
     vram: 0x8013E2E8
     align: 4
     subsegments:
-      - [0x32E8, asm, overlays/french_model_variant_461_stage9_slot0/unmatched_32e8]
+      - [0x32E8, c, overlays/french_model_variant/variant463_sheets]
   - name: rings
     type: code
     start: 0x37D4
