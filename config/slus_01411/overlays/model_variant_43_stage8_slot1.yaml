@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant386_entry_slot1]
-  - name: unmatched_f3c
+  - name: strands
     type: code
     start: 0xF3C
     vram: 0x8017BF3C
     align: 4
     subsegments:
-      - [0xF3C, asm, overlays/model_variant_43_stage8_slot1/unmatched_f3c]
+      - [0xF3C, c, overlays/model_variant/variant386_strands_slot1]
   - name: helper_1b84
     type: code
     start: 0x1B84

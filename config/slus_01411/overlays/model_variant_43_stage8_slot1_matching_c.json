@@ -7,6 +7,12 @@
       "source": "src/overlays/model_variant/variant386_entry_slot1.c"
     },
     {
+      "address": "0x8017BF3C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xC48",
+      "source": "src/overlays/model_variant/variant386_strands_slot1.c"
+    },
+    {
       "address": "0x8017CB84",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x680",
