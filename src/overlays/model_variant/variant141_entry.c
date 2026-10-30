@@ -21,10 +21,7 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR corner[4];
     SVECTOR from, to;
-    union {
-        SVECTOR middle;
-        DVECTOR screen[34];
-    } u;
+    Model141Scratch u;
     u16 depths[34], projection[34], flags[34];
     PSXLONG interpolation, flag;
     Model141State *work;
@@ -50,9 +47,9 @@ s32 func_8013B004(u8 *context, s32 command)
         delta = work->wave_step;
         work->scroll = 0;
         config = work->config = &D_8013ECE0[command % 100];
-        for (i = 0; i < 240; i++) {
+        for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; i++) {
             *wave = 0;
-            *delta = config->wave + config->wave * csin((i << 13) / 240) / 4096;
+            *delta = config->wave + config->wave * csin(i * 8192 / GRAPHICS_DEFAULT_HEIGHT) / 4096;
             wave++;
             delta++;
         }
@@ -194,7 +191,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         setRGB0(&quad, red, green, blue);
         wave = work->wave;
-        for (i = 0; i < 240; i += 2) {
+        for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; i += 2) {
             setUV4(&quad, 0, (work->scroll + i) % 64, 192, (work->scroll + i) % 64,
                 0, (work->scroll + i) % 64 + 1, 192, (work->scroll + i) % 64 + 1);
             setXY4(&quad, *wave - 64, i, *wave + 128, i, *wave - 64, i + 1, *wave + 128, i + 1);
@@ -205,7 +202,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         wave = work->wave;
         delta = &work->wave_step[work->wave_offset];
-        for (i = 0; i < 240 - work->wave_offset; i++) {
+        for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT - work->wave_offset; i++) {
             *wave += *delta++;
             *wave %= 64;
             wave++;
@@ -217,7 +214,7 @@ s32 func_8013B004(u8 *context, s32 command)
             wave++;
         }
         work->scroll = (work->scroll + step) % 64;
-        work->wave_offset = (work->wave_offset + step) % 240;
+        work->wave_offset = (work->wave_offset + step) % GRAPHICS_DEFAULT_HEIGHT;
     }
     quad.tpage = work->texture[3] >> 16;
     quad.clut = work->texture[3];

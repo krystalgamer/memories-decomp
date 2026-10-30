@@ -11,6 +11,7 @@
 #include "../../game/model_update_view_metrics.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/graphics_packet_submission.h"
+#include "../../game/graphics_constants.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
@@ -56,14 +57,21 @@ typedef struct {
     SVECTOR spiral[17];
     SVECTOR cylinder[34];
     SVECTOR *G32 flare_quads[16];
-    u8 wave[240];
-    u8 wave_step[240];
+    u8 wave[GRAPHICS_DEFAULT_HEIGHT];
+    u8 wave_step[GRAPHICS_DEFAULT_HEIGHT];
     u8 wave_offset, scroll, unknown_c4e[2];
     u32 texture[8];
     u8 completed, unknown_c71[3];
     s32 elapsed;
     s32 frame;
 } Model141State;
+
+/* Stack scratch shared by the ring's middle point and the tube's projected
+ * screen points. */
+typedef union {
+    SVECTOR middle;
+    DVECTOR screen[34];
+} Model141Scratch;
 
 extern GsIMAGE D_8013EC00[];
 extern Model141Config D_8013ECE0[];
