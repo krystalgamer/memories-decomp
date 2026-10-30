@@ -5,6 +5,18 @@
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x133C",
       "source": "src/overlays/model_variant/variant412_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C340",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x578",
+      "source": "src/overlays/model_variant/variant412_swarm_slot1.c"
+    },
+    {
+      "address": "0x8017C8B8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4D0",
+      "source": "src/overlays/model_variant/variant412_quads_slot1.c"
     }
   ],
   "schema": 1
