@@ -247,28 +247,28 @@ s32 func_8013B004(u8 *context, s32 command)
                               work->config->steps / (13 - work->flight[i]) * -work->step[i].vz);
                     setVector(&quad[3], work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (13 - work->flight[i]) * (-work->step[i].vz << 1));
+                              work->config->steps / (13 - work->flight[i]) * (s32)((u32)-work->step[i].vz << 1));
                 } else if (j % 4 == 1) {
                     setVector(&quad[2], -work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
                               work->config->steps / (11 - work->flight[i]) * -work->step[i].vz);
                     setVector(&quad[3], -work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (11 - work->flight[i]) * (-work->step[i].vz << 1));
+                              work->config->steps / (11 - work->flight[i]) * (s32)((u32)-work->step[i].vz << 1));
                 } else if (j % 4 == 2) {
                     setVector(&quad[2], work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               -work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
                               work->config->steps / (12 - work->flight[i]) * -work->step[i].vz);
                     setVector(&quad[3], work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               -work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (12 - work->flight[i]) * (-work->step[i].vz << 1));
+                              work->config->steps / (12 - work->flight[i]) * (s32)((u32)-work->step[i].vz << 1));
                 } else if (j % 4 == 3) {
                     setVector(&quad[2], -work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               -work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
                               work->config->steps / (12 - work->flight[i]) * -work->step[i].vz);
                     setVector(&quad[3], -work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               -work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (12 - work->flight[i]) * (-work->step[i].vz << 1));
+                              work->config->steps / (12 - work->flight[i]) * (s32)((u32)-work->step[i].vz << 1));
                 }
                 for (k = 0; k < 4; k++) {
                     copyVector(&rot, &work->angle[i]);

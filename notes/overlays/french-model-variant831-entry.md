@@ -21,6 +21,8 @@ assembly.
     third launch and a strip spin of four 512-unit steps. The arrived bolt
     draws the glow, the sparks and a growing flare over the ray ring instead
     of the two ray fans. The phase sequence runs 0, 1, 2, 4, 5.
+    The doubled negated z-step is computed as `(s32)((u32)-vz << 1)`, so
+    no negative signed value is left-shifted.
 - **Data and bindings.**
   - The static scale vector is the C `.rodata` at `0x8013E808`.
   - Each image's `_symbols.txt` defines `D_8013E818` (texture images) and
