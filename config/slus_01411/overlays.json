@@ -29060,13 +29060,14 @@
     {
       "archive": "game/DATA/MODEL.MRG",
       "archive_sha256": "6a738960cfae167d6612f190c07cf0147f3bcc8c2dd97814e154fecc283e1d4b",
-      "layout": "config/slus_01411/overlays/model_image_model_10116_8013b000.yaml",
+      "layout": "config/slus_01411/overlays/model_variant_36_pos0_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "model_image_model_10116_8013b000",
-      "output": "tmp/overlays/model_image_model_10116_8013b000/module.bin",
+      "name": "model_variant_36_pos0_slot0",
+      "output": "tmp/overlays/model_variant_36_pos0_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 10116,
-      "sha256": "fc9afe3c79c86578115f71e382df905bb4afcf6808351cb3f269af940721f5d2"
+      "sha256": "fc9afe3c79c86578115f71e382df905bb4afcf6808351cb3f269af940721f5d2",
+      "linker_symbols": "config/slus_01411/overlays/variant135_linker_symbols.txt"
     },
     {
       "archive": "game/DATA/MODEL.MRG",
@@ -32085,13 +32086,14 @@
     {
       "archive": "game/DATA/MODEL.MRG",
       "archive_sha256": "6a738960cfae167d6612f190c07cf0147f3bcc8c2dd97814e154fecc283e1d4b",
-      "layout": "config/slus_01411/overlays/model_image_model_10126_8017b000.yaml",
+      "layout": "config/slus_01411/overlays/model_variant_36_stage8_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "model_image_model_10126_8017b000",
-      "output": "tmp/overlays/model_image_model_10126_8017b000/module.bin",
+      "name": "model_variant_36_stage8_slot1",
+      "output": "tmp/overlays/model_variant_36_stage8_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 10126,
-      "sha256": "39f2cd67ebed499ac4558f3ad83e328483400dc954fcc952e2cd0b20319eb88f"
+      "sha256": "39f2cd67ebed499ac4558f3ad83e328483400dc954fcc952e2cd0b20319eb88f",
+      "linker_symbols": "config/slus_01411/overlays/variant135_linker_symbols.txt"
     },
     {
       "archive": "game/DATA/MODEL.MRG",
