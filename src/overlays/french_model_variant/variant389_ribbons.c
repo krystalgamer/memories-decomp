@@ -1,6 +1,17 @@
 #include "../../types.h"
 #include "variant389_ribbons.h"
 
+/* The North American header-372 build reads the projected points through
+ * pointer arithmetic so CDK GCC folds sa[k + 1] into a fixed offset from
+ * sa[k]; the default spelling is the French/Spanish one. */
+#ifdef MODEL_VARIANT372_RIBBONS_POINTER_SCREEN
+#define RIBBONS389_SA(k, n) (*(ribbon->sa + (k) + (n)))
+#define RIBBONS389_SB(k) (*(ribbon->sb + (k)))
+#else
+#define RIBBONS389_SA(k, n) (ribbon->sa[(k) + (n)])
+#define RIBBONS389_SB(k) (ribbon->sb[k])
+#endif
+
 void func_8013BE68(u8 *context)
 {
     SVECTOR rotation;
@@ -108,10 +119,10 @@ void func_8013BE68(u8 *context)
                                                (PSXLONG *)&ribbon->sa[k - 1], (PSXLONG *)&ribbon->sa[k],
                                                &interpolation, &ribbon->flag[k]);
                 RotTransPers(&ribbon->b[k], (PSXLONG *)&ribbon->sb[k], &interpolation, &flag);
-                dx = (s16)ribbon->sa[k].packed - (s16)ribbon->sa[k - 1].packed;
-                dy = (ribbon->sa[k].packed >> 16) - (ribbon->sa[k - 1].packed >> 16);
+                dx = (s16)RIBBONS389_SA(k, 0).packed - (s16)RIBBONS389_SA(k, -1).packed;
+                dy = (RIBBONS389_SA(k, 0).packed >> 16) - (RIBBONS389_SA(k, -1).packed >> 16);
                 ribbon->angle[k] = ratan2(dy, dx) - 1024;
-                ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                ribbon->width[k] = RIBBONS389_SB(k).point.vx - RIBBONS389_SA(k, 0).point.vx;
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             } else {
@@ -121,10 +132,10 @@ void func_8013BE68(u8 *context)
                                                (PSXLONG *)&ribbon->sa[k], (PSXLONG *)&ribbon->sa[k + 1],
                                                &interpolation, &ribbon->flag[k]);
                 RotTransPers(&ribbon->b[k], (PSXLONG *)&ribbon->sb[k], &interpolation, &flag);
-                dx = (s16)ribbon->sa[k + 1].packed - (s16)ribbon->sa[k].packed;
-                dy = (ribbon->sa[k + 1].packed >> 16) - (ribbon->sa[k].packed >> 16);
+                dx = (s16)RIBBONS389_SA(k, 1).packed - (s16)RIBBONS389_SA(k, 0).packed;
+                dy = (RIBBONS389_SA(k, 1).packed >> 16) - (RIBBONS389_SA(k, 0).packed >> 16);
                 ribbon->angle[k] = ratan2(dy, dx) - 1024;
-                ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                ribbon->width[k] = RIBBONS389_SB(k).point.vx - RIBBONS389_SA(k, 0).point.vx;
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             }
@@ -161,14 +172,14 @@ void func_8013BE68(u8 *context)
                 quad->u3 = 127;
                 quad->v3 = 192;
             }
-            quad->x0 = ribbon->sa[k].point.vx + ribbon->ox[k];
-            quad->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-            quad->x1 = ribbon->sa[k + 1].point.vx + ribbon->ox[k + 1];
-            quad->y1 = (ribbon->sa[k + 1].packed >> 16) + ribbon->oy[k + 1];
-            quad->x2 = ribbon->sa[k].point.vx;
-            quad->y2 = ribbon->sa[k].packed >> 16;
-            quad->x3 = ribbon->sa[k + 1].point.vx;
-            quad->y3 = ribbon->sa[k + 1].packed >> 16;
+            quad->x0 = RIBBONS389_SA(k, 0).point.vx + ribbon->ox[k];
+            quad->y0 = (RIBBONS389_SA(k, 0).packed >> 16) + ribbon->oy[k];
+            quad->x1 = RIBBONS389_SA(k, 1).point.vx + ribbon->ox[k + 1];
+            quad->y1 = (RIBBONS389_SA(k, 1).packed >> 16) + ribbon->oy[k + 1];
+            quad->x2 = RIBBONS389_SA(k, 0).point.vx;
+            quad->y2 = RIBBONS389_SA(k, 0).packed >> 16;
+            quad->x3 = RIBBONS389_SA(k, 1).point.vx;
+            quad->y3 = RIBBONS389_SA(k, 1).packed >> 16;
             quad->r0 = ribbon->color[k].r;
             quad->g0 = ribbon->color[k].g;
             quad->b0 = ribbon->color[k].b;
