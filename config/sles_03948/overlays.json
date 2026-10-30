@@ -23439,13 +23439,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_112236_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_456_stage7_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_112236_8013b000",
-      "output": "tmp/overlays/french_model_image_model_112236_8013b000/module.bin",
+      "name": "french_model_variant_456_stage7_slot0",
+      "output": "tmp/overlays/french_model_variant_456_stage7_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 112236,
-      "sha256": "19e2721e382fe942f362fe639170cc2f5a2f5dcd2645251028bfa9fa075b8623"
+      "sha256": "19e2721e382fe942f362fe639170cc2f5a2f5dcd2645251028bfa9fa075b8623",
+      "linker_symbols": "config/sles_03948/overlays/model_variant802_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -36271,13 +36272,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_112246_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_456_stage8_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_112246_8017b000",
-      "output": "tmp/overlays/french_model_image_model_112246_8017b000/module.bin",
+      "name": "french_model_variant_456_stage8_slot1",
+      "output": "tmp/overlays/french_model_variant_456_stage8_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 112246,
-      "sha256": "591b1e80c061345cf95f46d7ed965e0b47e4f030c7d8178b01c38b9cd7e68b6a"
+      "sha256": "591b1e80c061345cf95f46d7ed965e0b47e4f030c7d8178b01c38b9cd7e68b6a",
+      "linker_symbols": "config/sles_03948/overlays/model_variant802_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
