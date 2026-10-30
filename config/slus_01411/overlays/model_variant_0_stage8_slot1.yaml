@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x265C, c, overlays/model_variant/variant409_sheets_slot1]
-  - name: unmatched_2b50
+  - name: streamers
     type: code
     start: 0x2B50
     vram: 0x8017DB50
     align: 4
     subsegments:
-      - [0x2B50, asm, overlays/model_variant_0_stage8_slot1/unmatched_2b50]
+      - [0x2B50, c, overlays/model_variant/variant409_streamers_slot1]
   - name: helper_3370
     type: code
     start: 0x3370
