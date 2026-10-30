@@ -61,7 +61,7 @@ segments:
     vram: 0x8017C01C
     align: 4
     subsegments:
-      - [0x101C, asm, overlays/french_model_variant_163_stage8_slot1/helper_101C]
+      - [0x101C, c, overlays/french_model_variant/variant456_twin_ribbons_slot1]
   - name: helper_1834
     type: code
     start: 0x1834

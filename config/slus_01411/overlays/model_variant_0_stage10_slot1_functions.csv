@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8017B004,0xEE4,func_8017B004,matching_c,overlay/model_variant_0_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017BEE8,0x464,func_8017BEE8,matching_c,overlay/model_variant_0_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C34C,0xA30,func_8017C34C,matching_c,overlay/model_variant_0_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017CD7C,0x910,func_8017CD7C,matching_c,overlay/model_variant_0_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017D68C,0x4F0,func_8017D68C,matching_c,overlay/model_variant_0_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017DB7C,0x744,func_8017DB7C,matching_c,overlay/model_variant_0_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017E2C0,0x5BC,func_8017E2C0,matching_c,overlay/model_variant_0_stage10_slot1,Complete module byte identity and section-defined C ownership verified.

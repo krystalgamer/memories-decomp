@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "variant174_entry.h"
 #include "../../game/screen_projection.h"
+#include "../../game/graphics_constants.h"
 
 /* The entry is the French header-177 entry with sparks added: a spinning grid
  * glows at one of the slot's parts while ribbons leave it one after another,
@@ -88,7 +89,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->elapsed = 0;
         work->animation = 0;
         work->completed = 0;
+#ifndef VERSION_FRENCH
         printf("%d (0x%x) Byte\n", sizeof(Model174State), sizeof(Model174State));
+#endif
         return 0;
     }
     config = work->config;
@@ -209,7 +212,7 @@ s32 func_8013B004(u8 *context, s32 command)
     }
     time = work->elapsed - config->delay;
     if (time >= 0 && time < config->flash_duration) {
-        setXY4(&flash, 0, 0, 320, 0, 0, 240, 320, 240);
+        setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
         red = config->flash_red * (config->flash_duration - time) / config->flash_duration;
         green = config->flash_green * (config->flash_duration - time) / config->flash_duration;
         blue = config->flash_blue * (config->flash_duration - time) / config->flash_duration;

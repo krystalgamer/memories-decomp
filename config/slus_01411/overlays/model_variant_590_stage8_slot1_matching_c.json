@@ -1,0 +1,53 @@
+{
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x11BC",
+      "source": "src/overlays/model_variant/variant424_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C1C0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x584",
+      "source": "src/overlays/model_variant/variant424_lines_slot1.c"
+    },
+    {
+      "address": "0x8017C744",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x6A8",
+      "source": "src/overlays/model_variant/variant424_tube_slot1.c"
+    },
+    {
+      "address": "0x8017CDEC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x61C",
+      "source": "src/overlays/model_variant/variant424_ribbon_slot1.c"
+    },
+    {
+      "address": "0x8017D408",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x634",
+      "source": "src/overlays/model_variant/variant424_rays_slot1.c"
+    },
+    {
+      "address": "0x8017DA3C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x62C",
+      "source": "src/overlays/model_variant/variant424_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017E068",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x5D8",
+      "source": "src/overlays/model_variant/variant424_framebuffer_rings_slot1.c"
+    },
+    {
+      "address": "0x8017F168",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x60C",
+      "source": "src/overlays/model_variant/variant424_rings_slot1.c"
+    }
+  ],
+  "schema": 1
+}

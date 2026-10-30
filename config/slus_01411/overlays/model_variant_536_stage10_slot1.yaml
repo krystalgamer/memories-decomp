@@ -1,0 +1,107 @@
+name: model_variant_536_stage10_slot1
+sha1: bee84da53a83c417cb9c9238db8a21c39d1cc5d3
+
+options:
+  basename: model_variant_536_stage10_slot1
+  base_path: ../../..
+  target_path: tmp/overlays/model_variant_536_stage10_slot1/module.bin
+  elf_path: tmp/overlays/model_variant_536_stage10_slot1/build/model_variant_536_stage10_slot1.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/model_variant_536_stage10_slot1/asm
+  src_path: src
+  build_path: tmp/overlays/model_variant_536_stage10_slot1/build
+  asset_path: tmp/overlays/model_variant_536_stage10_slot1/assets
+  cache_path: tmp/overlays/model_variant_536_stage10_slot1/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/model_variant_536_stage10_slot1/model_variant_536_stage10_slot1.ld
+  generated_asm_macros_directory: tmp/overlays/model_variant_536_stage10_slot1/include
+  lib_path: tmp/overlays/model_variant_536_stage10_slot1/lib
+  o_path: tmp/overlays/model_variant_536_stage10_slot1/build
+  undefined_funcs_auto_path: tmp/overlays/model_variant_536_stage10_slot1/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/model_variant_536_stage10_slot1/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slus_01411/overlays/model_variant_536_stage10_slot1_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8017B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/model_variant_536_stage10_slot1/module_header]
+  - name: entry
+    type: code
+    start: 0x4
+    vram: 0x8017B004
+    align: 4
+    subsegments:
+      - [0x4, c, overlays/model_variant/variant439_entry_slot1]
+  - name: unmatched_1020
+    type: code
+    start: 0x1020
+    vram: 0x8017C020
+    align: 4
+    subsegments:
+      - [0x1020, asm, overlays/model_variant_536_stage10_slot1/unmatched_1020]
+  - name: helper_1828
+    type: code
+    start: 0x1828
+    vram: 0x8017C828
+    align: 4
+    subsegments:
+      - [0x1828, c, overlays/model_variant/variant439_ribbons_slot1]
+  - name: unmatched_1f34
+    type: code
+    start: 0x1F34
+    vram: 0x8017CF34
+    align: 4
+    subsegments:
+      - [0x1F34, asm, overlays/model_variant_536_stage10_slot1/unmatched_1f34]
+  - name: helper_2a60
+    type: code
+    start: 0x2A60
+    vram: 0x8017DA60
+    align: 4
+    subsegments:
+      - [0x2A60, c, overlays/model_variant/variant439_sheets_slot1]
+  - name: helper_30ec
+    type: code
+    start: 0x30EC
+    vram: 0x8017E0EC
+    align: 4
+    subsegments:
+      - [0x30EC, c, overlays/model_variant/variant439_lines_slot1]
+  - name: helper_3470
+    type: code
+    start: 0x3470
+    vram: 0x8017E470
+    align: 4
+    subsegments:
+      - [0x3470, c, overlays/model_variant/variant439_streamers_slot1]
+  - name: data
+    type: code
+    start: 0x3C9C
+    vram: 0x8017EC9C
+    align: 4
+    subsegments:
+      - [0x3C9C, data, overlays/model_variant_536_stage10_slot1/data]
+  - [0x5000]

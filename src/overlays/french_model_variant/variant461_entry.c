@@ -1,5 +1,10 @@
 #include "../../types.h"
 #include "variant461_entry.h"
+#include "../../game/model_graphics_state.h"
+
+#ifndef MODEL_VARIANT461_CLUT_X
+#define MODEL_VARIANT461_CLUT_X 640
+#endif
 
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
@@ -49,9 +54,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         setVector(&work->direction, work->target.vx - work->matrix.t[0],
             work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT461_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT461_CLUT_X, 244);
         packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D8D4 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;

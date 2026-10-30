@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CCB4
     align: 4
     subsegments:
-      - [0x1CB4, asm, overlays/spanish_model_variant_385_stage7_slot0/helper_1CB4]
+      - [0x1CB4, c, overlays/french_model_variant/variant423_ribbon]
   - name: helper_2564
     type: code
     start: 0x2564

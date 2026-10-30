@@ -5,6 +5,12 @@
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xE64",
       "source": "src/overlays/model_variant/variant372_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C828",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x5E8",
+      "source": "src/overlays/model_variant/variant372_sheets_slot1.c"
     }
   ],
   "schema": 1

@@ -19,6 +19,12 @@
       "source": "src/overlays/spanish_model_variant/variant423_spiral.c"
     },
     {
+      "address": "0x8013CCB4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x8B0",
+      "source": "src/overlays/french_model_variant/variant423_ribbon.c"
+    },
+    {
       "address": "0x8013D564",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4EC",

@@ -1,0 +1,23 @@
+{
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x1308",
+      "source": "src/overlays/model_variant/variant411us_entry.c"
+    },
+    {
+      "address": "0x8013C30C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x580",
+      "source": "src/overlays/model_variant/variant411us_entry.c"
+    },
+    {
+      "address": "0x8013C88C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4FC",
+      "source": "src/overlays/model_variant/variant411us_entry.c"
+    }
+  ],
+  "schema": 1
+}

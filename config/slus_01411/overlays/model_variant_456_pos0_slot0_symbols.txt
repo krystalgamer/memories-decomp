@@ -1,0 +1,4 @@
+// MODEL.MRG model 456 (record 456), sector 112236, header 785, loaded at 0x8013B000; the US source variant785_entry.c.
+func_8013B004 = 0x8013B004; // type:func size:0x3CA8 defined:true
+D_8013ECBC = 0x8013ECBC; // type:u8 size:0x8C defined:true
+D_8013ED48 = 0x8013ED48; // type:u8 size:0x12B8 defined:true

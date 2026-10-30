@@ -13,6 +13,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
+#include "../../psyq/libhmd.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"

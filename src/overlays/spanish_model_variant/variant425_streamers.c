@@ -14,7 +14,9 @@ void func_8013DBC8(u8 *ctx)
     GsCOORDINATE2 coord;
     PSXLONG p;
     PSXLONG flag;
+#ifndef MODEL_VARIANT425_STREAMERS_FIXED_TAIL
     PSXLONG *previous;
+#endif
     u8 *work;
     POLY_G4 *poly;
     GsOT *ot;
@@ -34,6 +36,10 @@ void func_8013DBC8(u8 *ctx)
     s32 bulge;
     s32 length;
     s32 wobble;
+#ifdef MODEL_VARIANT425_STREAMERS_FIXED_TAIL
+    s32 r;
+    s32 w;
+#endif
     s32 phase;
     s16 reach;
     s32 dx;
@@ -85,6 +91,9 @@ void func_8013DBC8(u8 *ctx)
         MODEL_VARIANT_WORD(work, 0x17E8) += 0x514;
     }
     MODEL_VARIANT_WORD(work, 0x17E8) += 0x20;
+#ifdef MODEL_VARIANT425_STREAMERS_FIXED_TAIL
+    MODEL_VARIANT_WORD(work, 0x17EC) = MODEL_VARIANT_WORD(work, 0x17EC);
+#endif
     m.t[0] = MODEL_VARIANT_HALF(work, 0x1754);
     m.t[1] = MODEL_VARIANT_HALF(work, 0x1756);
     m.t[2] = MODEL_VARIANT_HALF(work, 0x1758);
@@ -99,6 +108,49 @@ void func_8013DBC8(u8 *ctx)
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
     streamer = (Variant425Streamer *)(work + 0xF4C);
+#ifdef MODEL_VARIANT425_STREAMERS_FIXED_TAIL
+    for (i = 0; i < 1; i++, streamer++) {
+        for (k = 0; k < 2; k++) {
+            if (k == 1) {
+                streamer->otz[1] = RotTransPers4(&streamer->a[0], &streamer->a[1], &streamer->a[0], &streamer->a[1],
+                                                 &streamer->sa[0], &streamer->sa[1],
+                                                 &streamer->sa[0], &streamer->sa[1], &p, &flag);
+                RotTransPers(&streamer->b[1], &streamer->sb[1], &p, &flag);
+                dx = (s16)streamer->sa[1] - (s16)streamer->sa[0];
+                dy = (streamer->sa[1] >> 16) - (streamer->sa[0] >> 16);
+                streamer->angle[1] = ratan2(dy, dx) + 0xC00;
+                if (MODEL_VARIANT_WORD(work, 0x17E0) > 0x200) {
+                    w = 2;
+                } else {
+                    r = (s16)streamer->sb[1];
+                    dx = (s16)streamer->sa[1];
+                    w = r - dx;
+                }
+                streamer->width[1] = w;
+            } else {
+                streamer->otz[k] = RotTransPers4(&streamer->a[k], &streamer->a[k + 1], &streamer->a[k], &streamer->a[k + 1],
+                                                 &streamer->sa[k], &streamer->sa[k + 1],
+                                                 &streamer->sa[k], &streamer->sa[k + 1], &p, &flag);
+                RotTransPers(&streamer->b[k], &streamer->sb[k], &p, &flag);
+                dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
+                dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
+                streamer->angle[k] = ratan2(dy, dx) + 0xC00;
+                if (MODEL_VARIANT_WORD(work, 0x17E0) > 0x200) {
+                    streamer->width[k] = 2;
+                } else {
+                    streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
+                }
+            }
+            if (work) {
+                streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
+                streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
+            } else {
+                streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
+                streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
+            }
+        }
+    }
+#else
     for (i = 0, previous = &streamer->sa[0]; i < 1; i++,
          previous = (PSXLONG *)((u8 *)previous + sizeof(Variant425Streamer)), streamer++) {
         for (k = 0; k < 2; k++) {
@@ -135,6 +187,7 @@ void func_8013DBC8(u8 *ctx)
             }
         }
     }
+#endif
     streamer = (Variant425Streamer *)(work + 0xF4C);
     for (i = 0; i < 1; i++, streamer++) {
         for (k = 0; k < 1; k++) {

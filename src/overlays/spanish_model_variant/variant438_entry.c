@@ -1,6 +1,14 @@
 #include "../../types.h"
 #include "variant438_entry.h"
 
+#ifndef MODEL_VARIANT438_CLUT_X
+#define MODEL_VARIANT438_CLUT_X 640
+#endif
+
+/* One ring.  The North American wrappers define MODEL_VARIANT421_RING_SCALE: that build
+   also scales the later rings by n / (count - 1), a branch the single ring never takes. */
+#define MODEL_VARIANT438_RING_COUNT 1
+
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
     Variant438EntryState *work = (Variant438EntryState *)point;
@@ -55,9 +63,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT438_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT438_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F868 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
@@ -124,7 +132,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             curtain->scale = -((n << 11) / 5);
             curtain->growth = 0;
         }
-        for (n = 0; n < 1; n++, ring++) {
+        for (n = 0; n < MODEL_VARIANT438_RING_COUNT; n++, ring++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {
                 setVector(&ring->a[j], rcos(angle) * work->config->size >> 12,
                           rsin(angle) * work->config->size >> 12, 0);
@@ -134,6 +142,11 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             if (n == 0) {
                 ring->scale = 0;
             }
+#ifdef MODEL_VARIANT421_RING_SCALE
+            else {
+                ring->scale = -((n << 12) / (MODEL_VARIANT438_RING_COUNT - 1));
+            }
+#endif
             ring->growth = 0;
         }
         for (i = 0; i < 1; i++, band++) {

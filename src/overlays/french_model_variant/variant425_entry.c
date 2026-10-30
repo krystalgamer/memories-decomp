@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant425_entry.h"
 
+#ifndef MODEL_VARIANT425_CLUT_X
+#define MODEL_VARIANT425_CLUT_X 640
+#endif
+
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
     EntryState425 *work = (EntryState425 *)point;
@@ -43,9 +47,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         setVector(&work->direction, work->target.vx - work->matrix.t[0],
             work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT425_CLUT_X, 244);
         other_tpage = GetTPage(1, 1, 896, 0);
-        other_clut = GetClut(640, 244);
+        other_clut = GetClut(MODEL_VARIANT425_CLUT_X, 244);
         packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E908 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;

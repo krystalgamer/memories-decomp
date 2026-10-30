@@ -1,0 +1,4 @@
+// MODEL.MRG model 97 (record 97), sector 26962, header 898, loaded at 0x8017B000; the US source variant801_entry_slot1.c.
+func_8017B004 = 0x8017B004; // type:func size:0x1540 defined:true
+D_8017C554 = 0x8017C554; // type:u8 size:0x38 defined:true
+D_8017C58C = 0x8017C58C; // type:u8 size:0x3A74 defined:true
