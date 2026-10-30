@@ -25,6 +25,12 @@
       "source": "src/overlays/model_variant/variant456_sheets.c"
     },
     {
+      "address": "0x8013E074",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x774",
+      "source": "src/overlays/model_variant/variant456us_streamers.c"
+    },
+    {
       "address": "0x8013E7E8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x488",
