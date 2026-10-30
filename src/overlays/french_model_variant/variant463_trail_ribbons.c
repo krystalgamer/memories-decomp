@@ -99,10 +99,10 @@ void func_8013D860(u8 *ctx)
             } else {
                 phase = base - j * 512;
             }
-            amp = (ribbon->width[j] << 6) / 48;
-            sway = (ribbon->width[j] << 5) / 48;
-            ribbon->sa[j].packed += rcos(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * sway >> 12)) >> 12;
-            ribbon->sa[j].packed += (rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * sway >> 12)) >> 12) << 16;
+            amp = ribbon->width[j] * 64 / 48;
+            sway = ribbon->width[j] * 32 / 48;
+            ribbon->sa[j].packed = (u32)ribbon->sa[j].packed + (u32)(rcos(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * sway >> 12)) >> 12);
+            ribbon->sa[j].packed = (u32)ribbon->sa[j].packed + ((u32)(rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * sway >> 12)) >> 12) << 16);
         }
         if (ribbon->count < 0) {
             n = 0;
