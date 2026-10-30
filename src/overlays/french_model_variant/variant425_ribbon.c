@@ -45,8 +45,8 @@ void func_8013CDA4(u8 *context)
         for (j = 0, sway = -work->phase; j < 17; j++, sway += 768) {
             py = work->vec[1] * work->amp / 1024;
             pz = work->vec[2] * work->amp / 1024;
-            k = j;
-            setVector(&ribbon->a[(n = j)], work->vec[0] * work->amp / 1024 * j / 16, py * (k = n) / 16, pz * n / 16);
+            n = k = j;
+            setVector(&ribbon->a[n], work->vec[0] * work->amp / 1024 * j / 16, py * (k = n) / 16, pz * j / 16);
             setVector(&ribbon->b[j],
                       ribbon->a[j].vx + (rcos(angle) * (len + (rcos(sway) * width >> 12)) >> 12),
                       ribbon->a[j].vy,
