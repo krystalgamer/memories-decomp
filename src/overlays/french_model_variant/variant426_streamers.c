@@ -90,6 +90,8 @@ void func_8013DBC0(u8 *ctx)
         MODEL_VARIANT_WORD(work, 0x215C) += 0x514;
     }
     MODEL_VARIANT_WORD(work, 0x215C) += 0x20;
+    /* A zero step: the PAL build drops it, the USA build keeps its load. */
+    MODEL_VARIANT_WORD(work, 0x2160) += 0;
     m.t[0] = MODEL_VARIANT_HALF(work, 0x20C8);
     m.t[1] = MODEL_VARIANT_HALF(work, 0x20CA);
     m.t[2] = MODEL_VARIANT_HALF(work, 0x20CC);

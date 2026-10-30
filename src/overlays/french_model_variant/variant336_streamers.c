@@ -79,6 +79,8 @@ void func_8013CB6C(u8 *ctx)
         MODEL_VARIANT_WORD(work, 0x2018) += 0x514;
     }
     MODEL_VARIANT_WORD(work, 0x2018) += 0x20;
+    /* A zero step: the PAL build drops it, the USA build keeps its load. */
+    MODEL_VARIANT_WORD(work, 0x201C) += 0;
     m.t[0] = MODEL_VARIANT_WORD(work, 0x1F34);
     m.t[1] = MODEL_VARIANT_WORD(work, 0x1F38);
     m.t[2] = MODEL_VARIANT_WORD(work, 0x1F3C);
