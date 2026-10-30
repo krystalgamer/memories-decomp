@@ -17,9 +17,13 @@ slot-1 images.
 - **Register choice.** The outer one-pass loop starts with a dead
   `if (i < 0) dy = 0;`. Jump optimisation deletes it after reload, which
   leaves the target's dead reload of the counter. Fresh temporaries hold the
-  per-point amplitude terms. The point index is copied through `k = j`,
-  `n = j` and `(k = n)`, and the z term reads `n`; this is the only shape
-  found that gives the target's a1-then-copy-to-a0 order.
+  per-point amplitude terms. The point index is copied through
+  `n = k = j;` before `setVector`, which then indexes with `n`, reads
+  `(k = n)` in the y term and `j` in the z term. Every side effect is
+  sequenced: the macro repeats its pointer argument, so assigning `n` inside
+  the index would be unsequenced against the y/z reads. This spelling gives
+  the target's a1-then-copy-to-a0 order; a plain `n = j;` statement before an
+  `n`-reading z term drops the copy.
 - **Bindings.** All four images reuse their region's
   `model_variant426_linker_symbols.txt`.
 
