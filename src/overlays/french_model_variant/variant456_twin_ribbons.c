@@ -1,6 +1,21 @@
 #include "../../types.h"
 #include "variant456_twin_ribbons.h"
 
+/* The North American header-439 build (CDK compiler) names the closing
+ * segment's points directly and reaches the following point as the next
+ * element of the screen array, which folds its offset into each access. */
+#ifdef MODEL_VARIANT456_TWIN_RIBBONS_FOLDED_NEXT
+#define TWIN_RIBBONS456_LAST ribbon->sa[2]
+#define TWIN_RIBBONS456_BEFORE_LAST ribbon->sa[1]
+#define TWIN_RIBBONS456_NEXT (ribbon->sa + 1)[j]
+#define TWIN_RIBBONS456_POINT (*(ribbon->sa + j))
+#else
+#define TWIN_RIBBONS456_LAST ribbon->sa[j]
+#define TWIN_RIBBONS456_BEFORE_LAST ribbon->sa[j - 1]
+#define TWIN_RIBBONS456_NEXT ribbon->sa[j + 1]
+#define TWIN_RIBBONS456_POINT ribbon->sa[j]
+#endif
+
 void func_8013C01C(u8 *ctx)
 {
     SVECTOR rot;
@@ -94,15 +109,15 @@ void func_8013C01C(u8 *ctx)
                                                &ribbon->sa[1].packed, &ribbon->sa[2].packed, &ribbon->sa[1].packed,
                                                &ribbon->sa[2].packed, &p, &flag);
                 RotTransPers(&ribbon->b[2], &ribbon->sb[2].packed, &p, &flag);
-                dx = ribbon->sa[j].point.vx - ribbon->sa[j - 1].point.vx;
-                dy = ribbon->sa[j].point.vy - ribbon->sa[j - 1].point.vy;
+                dx = TWIN_RIBBONS456_LAST.point.vx - TWIN_RIBBONS456_BEFORE_LAST.point.vx;
+                dy = TWIN_RIBBONS456_LAST.point.vy - TWIN_RIBBONS456_BEFORE_LAST.point.vy;
             } else {
                 ribbon->otz[j] = RotTransPers4(&ribbon->a[j], &ribbon->a[j + 1], &ribbon->a[j], &ribbon->a[j + 1],
                                                &ribbon->sa[j].packed, &ribbon->sa[j + 1].packed, &ribbon->sa[j].packed,
                                                &ribbon->sa[j + 1].packed, &p, &flag);
                 RotTransPers(&ribbon->b[j], &ribbon->sb[j].packed, &p, &flag);
-                dx = ribbon->sa[j + 1].point.vx - ribbon->sa[j].point.vx;
-                dy = ribbon->sa[j + 1].point.vy - ribbon->sa[j].point.vy;
+                dx = TWIN_RIBBONS456_NEXT.point.vx - ribbon->sa[j].point.vx;
+                dy = TWIN_RIBBONS456_NEXT.point.vy - ribbon->sa[j].point.vy;
             }
             ribbon->angle[j] = ratan2(dy, dx) - 0x400;
             ribbon->width[j] = ribbon->sb[j].point.vx - ribbon->sa[j].point.vx;
@@ -124,14 +139,14 @@ void func_8013C01C(u8 *ctx)
     for (i = 0; i < 2; i++, ribbon++) {
         poly = (POLY_FT4 *)(work + 0x2204);
         for (j = 0; j < 2; j++) {
-            poly->x0 = ribbon->sa[j].point.vx + ribbon->ox[j];
-            poly->y0 = (ribbon->sa[j].packed >> 16) + ribbon->oy[j];
-            poly->x1 = ribbon->sa[j + 1].point.vx + ribbon->ox[j + 1];
-            poly->y1 = (ribbon->sa[j + 1].packed >> 16) + ribbon->oy[j + 1];
-            poly->x2 = ribbon->sa[j].point.vx - ribbon->ox[j];
-            poly->y2 = (ribbon->sa[j].packed >> 16) - ribbon->oy[j];
-            poly->x3 = ribbon->sa[j + 1].point.vx - ribbon->ox[j + 1];
-            poly->y3 = (ribbon->sa[j + 1].packed >> 16) - ribbon->oy[j + 1];
+            poly->x0 = TWIN_RIBBONS456_POINT.point.vx + ribbon->ox[j];
+            poly->y0 = (TWIN_RIBBONS456_POINT.packed >> 16) + ribbon->oy[j];
+            poly->x1 = TWIN_RIBBONS456_NEXT.point.vx + ribbon->ox[j + 1];
+            poly->y1 = (TWIN_RIBBONS456_NEXT.packed >> 16) + ribbon->oy[j + 1];
+            poly->x2 = TWIN_RIBBONS456_POINT.point.vx - ribbon->ox[j];
+            poly->y2 = (TWIN_RIBBONS456_POINT.packed >> 16) - ribbon->oy[j];
+            poly->x3 = TWIN_RIBBONS456_NEXT.point.vx - ribbon->ox[j + 1];
+            poly->y3 = (TWIN_RIBBONS456_NEXT.packed >> 16) - ribbon->oy[j + 1];
             poly->r0 = ribbon->color[0];
             poly->g0 = ribbon->color[1];
             poly->b0 = ribbon->color[2];

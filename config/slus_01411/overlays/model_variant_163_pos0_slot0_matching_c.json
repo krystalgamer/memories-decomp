@@ -7,10 +7,22 @@
       "source": "src/overlays/model_variant/variant439_entry.c"
     },
     {
+      "address": "0x8013C020",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x808",
+      "source": "src/overlays/model_variant/variant439_twin_ribbons.c"
+    },
+    {
       "address": "0x8013C828",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x70C",
       "source": "src/overlays/model_variant/variant439_ribbons.c"
+    },
+    {
+      "address": "0x8013CF34",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xB2C",
+      "source": "src/overlays/model_variant/variant439_sprays.c"
     },
     {
       "address": "0x8013DA60",
