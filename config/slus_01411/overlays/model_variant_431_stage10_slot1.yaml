@@ -90,13 +90,13 @@ segments:
     align: 4
     subsegments:
       - [0x2B6C, c, overlays/model_variant/variant457_sheets_slot1]
-  - name: unmatched_3068
+  - name: helper_3068
     type: code
     start: 0x3068
     vram: 0x8017E068
     align: 4
     subsegments:
-      - [0x3068, asm, overlays/model_variant_431_stage10_slot1/unmatched_3068]
+      - [0x3068, c, overlays/model_variant/variant457_streamers_slot1]
   - name: data
     type: code
     start: 0x3854

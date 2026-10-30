@@ -23,6 +23,12 @@
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4FC",
       "source": "src/overlays/model_variant/variant457_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017E068",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x7EC",
+      "source": "src/overlays/model_variant/variant457_streamers_slot1.c"
     }
   ],
   "schema": 1

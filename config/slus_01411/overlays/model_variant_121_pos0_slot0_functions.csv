@@ -5,4 +5,4 @@ address,size,name,status,module,notes
 0x8013CDB0,0x458,func_8013CDB0,matching_c,overlay/model_variant_121_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013D208,0x964,func_8013D208,matching_c,overlay/model_variant_121_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013DB6C,0x4FC,func_8013DB6C,matching_c,overlay/model_variant_121_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013E068,0x7EC,func_8013E068,unmatched_asm,overlay/model_variant_121_pos0_slot0,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
+0x8013E068,0x7EC,func_8013E068,matching_c,overlay/model_variant_121_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
