@@ -189,6 +189,11 @@ s32 func_8013B004(u8 *context, s32 command)
                 for (row = 0; row < 8; row++) {
                     setXY3(&cap, screen[108].vx, screen[108].vy, screen[99 + row].vx, screen[99 + row].vy,
                         screen[100 + row].vx, screen[100 + row].vy);
+                    /*
+                     * RotTransPersN above projects a literal 109 points (0..108), so nothing in
+                     * this call writes depths[109] or flags[109]; retail reads those stale stack
+                     * slots anyway, and the C mirrors that.
+                     */
                     depth = AverageZ3(depths[109], depths[99 + row], depths[100 + row]);
                     flag = (flags[109] | flags[99 + row] | flags[100 + row]) & 0x20;
                     if (depth >= 0 && flag == 0) {
