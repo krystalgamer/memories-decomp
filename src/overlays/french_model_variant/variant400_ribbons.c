@@ -1,6 +1,16 @@
 #include "../../types.h"
 #include "variant400_ribbons.h"
 
+/* The North American header-383 build reads the projected points through
+ * pointer arithmetic; the default spelling is the French/Spanish one. */
+#ifdef MODEL_VARIANT383_RIBBONS_POINTER_SCREEN
+#define RIBBONS400_SA(k) (*(ribbon->sa + (k)))
+#define RIBBONS400_SB(k) (*(ribbon->sb + (k)))
+#else
+#define RIBBONS400_SA(k) (ribbon->sa[k])
+#define RIBBONS400_SB(k) (ribbon->sb[k])
+#endif
+
 void func_8013BA88(u8 *ctx)
 {
     SVECTOR rot;
@@ -21,6 +31,7 @@ void func_8013BA88(u8 *ctx)
     s32 pitch;
     s16 len;
     Model400FirstRibbon *ribbon;
+    Model400Screen screen;
     POLY_FT4 *poly;
     s32 bend;
     s32 dx;
@@ -101,10 +112,11 @@ void func_8013BA88(u8 *ctx)
                                                   &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed, &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed,
                                                   &p, &flags[i][k]);
                     RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &p, &flag);
-                    dx = ribbon->sa[k].point.vx - ribbon->sa[k - 1].point.vx;
-                    dy = ribbon->sa[k].point.vy - ribbon->sa[k - 1].point.vy;
+                    dx = RIBBONS400_SA(k).point.vx - RIBBONS400_SA(k - 1).point.vx;
+                    screen = ribbon->sa[k];
+                    dy = screen.point.vy - ribbon->sa[k - 1].point.vy;
                     ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                    ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                    ribbon->width[k] = RIBBONS400_SB(k).point.vx - RIBBONS400_SA(k).point.vx;
                     ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                     ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 } else {
@@ -112,10 +124,10 @@ void func_8013BA88(u8 *ctx)
                                                   &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed, &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
                                                   &p, &flags[i][k]);
                     RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &p, &flag);
-                    dx = ribbon->sa[k + 1].point.vx - ribbon->sa[k].point.vx;
-                    dy = ribbon->sa[k + 1].point.vy - ribbon->sa[k].point.vy;
+                    dx = RIBBONS400_SA(k + 1).point.vx - RIBBONS400_SA(k).point.vx;
+                    dy = RIBBONS400_SA(k + 1).point.vy - RIBBONS400_SA(k).point.vy;
                     ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                    ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                    ribbon->width[k] = RIBBONS400_SB(k).point.vx - RIBBONS400_SA(k).point.vx;
                     ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                     ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 }
@@ -130,32 +142,32 @@ void func_8013BA88(u8 *ctx)
                     poly++;
                 }
                 if (k + 1 == MODEL_VARIANT_WORD(work, 0x2070)) {
-                    poly->x0 = ribbon->sa[k].point.vx + ribbon->ox[k];
-                    poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-                    poly->x1 = ribbon->sa[k + 1].point.vx;
-                    poly->y1 = ribbon->sa[k + 1].packed >> 16;
-                    poly->x2 = ribbon->sa[k].point.vx - ribbon->ox[k];
-                    poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-                    poly->x3 = ribbon->sa[k + 1].point.vx;
-                    poly->y3 = ribbon->sa[k + 1].packed >> 16;
+                    poly->x0 = RIBBONS400_SA(k).point.vx + ribbon->ox[k];
+                    poly->y0 = (RIBBONS400_SA(k).packed >> 16) + ribbon->oy[k];
+                    poly->x1 = RIBBONS400_SA(k + 1).point.vx;
+                    poly->y1 = RIBBONS400_SA(k + 1).packed >> 16;
+                    poly->x2 = RIBBONS400_SA(k).point.vx - ribbon->ox[k];
+                    poly->y2 = (RIBBONS400_SA(k).packed >> 16) - ribbon->oy[k];
+                    poly->x3 = RIBBONS400_SA(k + 1).point.vx;
+                    poly->y3 = RIBBONS400_SA(k + 1).packed >> 16;
                 } else if (k == MODEL_VARIANT_WORD(work, 0x206C)) {
-                    poly->x0 = ribbon->sa[k].point.vx;
-                    poly->y0 = ribbon->sa[k].packed >> 16;
-                    poly->x1 = ribbon->sa[k + 1].point.vx + ribbon->ox[k + 1];
-                    poly->y1 = (ribbon->sa[k + 1].packed >> 16) + ribbon->oy[k + 1];
-                    poly->x2 = ribbon->sa[k].point.vx;
-                    poly->y2 = ribbon->sa[k].packed >> 16;
-                    poly->x3 = ribbon->sa[k + 1].point.vx - ribbon->ox[k + 1];
-                    poly->y3 = (ribbon->sa[k + 1].packed >> 16) - ribbon->oy[k + 1];
+                    poly->x0 = RIBBONS400_SA(k).point.vx;
+                    poly->y0 = RIBBONS400_SA(k).packed >> 16;
+                    poly->x1 = RIBBONS400_SA(k + 1).point.vx + ribbon->ox[k + 1];
+                    poly->y1 = (RIBBONS400_SA(k + 1).packed >> 16) + ribbon->oy[k + 1];
+                    poly->x2 = RIBBONS400_SA(k).point.vx;
+                    poly->y2 = RIBBONS400_SA(k).packed >> 16;
+                    poly->x3 = RIBBONS400_SA(k + 1).point.vx - ribbon->ox[k + 1];
+                    poly->y3 = (RIBBONS400_SA(k + 1).packed >> 16) - ribbon->oy[k + 1];
                 } else {
-                    poly->x0 = ribbon->sa[k].point.vx + ribbon->ox[k];
-                    poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-                    poly->x1 = ribbon->sa[k + 1].point.vx + ribbon->ox[k + 1];
-                    poly->y1 = (ribbon->sa[k + 1].packed >> 16) + ribbon->oy[k + 1];
-                    poly->x2 = ribbon->sa[k].point.vx - ribbon->ox[k];
-                    poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-                    poly->x3 = ribbon->sa[k + 1].point.vx - ribbon->ox[k + 1];
-                    poly->y3 = (ribbon->sa[k + 1].packed >> 16) - ribbon->oy[k + 1];
+                    poly->x0 = RIBBONS400_SA(k).point.vx + ribbon->ox[k];
+                    poly->y0 = (RIBBONS400_SA(k).packed >> 16) + ribbon->oy[k];
+                    poly->x1 = RIBBONS400_SA(k + 1).point.vx + ribbon->ox[k + 1];
+                    poly->y1 = (RIBBONS400_SA(k + 1).packed >> 16) + ribbon->oy[k + 1];
+                    poly->x2 = RIBBONS400_SA(k).point.vx - ribbon->ox[k];
+                    poly->y2 = (RIBBONS400_SA(k).packed >> 16) - ribbon->oy[k];
+                    poly->x3 = RIBBONS400_SA(k + 1).point.vx - ribbon->ox[k + 1];
+                    poly->y3 = (RIBBONS400_SA(k + 1).packed >> 16) - ribbon->oy[k + 1];
                 }
                 poly->r0 = ribbon->color[0];
                 poly->g0 = ribbon->color[1];
