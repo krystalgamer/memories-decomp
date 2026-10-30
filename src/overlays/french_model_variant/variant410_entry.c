@@ -139,8 +139,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             } else {
                 angle = 1024 - i * 1024 / 10;
             }
-            ribbon->velocity.vx = (rcos(angle) << 8) >> 12;
-            ribbon->velocity.vy = (rsin(angle) << 8) >> 12;
+            ribbon->velocity.vx = rcos(angle) * 256 >> 12;
+            ribbon->velocity.vy = rsin(angle) * 256 >> 12;
             ribbon->velocity.vz = 0;
         }
         for (j = 0; j < 2; j++, ring++) {
