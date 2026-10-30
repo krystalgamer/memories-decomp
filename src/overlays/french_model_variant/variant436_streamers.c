@@ -1,6 +1,9 @@
 #include "../../types.h"
 #include "variant436_streamers.h"
 
+/* The North American header-419 copy, built with the CDK compiler, reloads
+ * the word after the advanced rotation into itself like header 458. */
+
 void func_8013D6C8(u8 *ctx)
 {
     SVECTOR rot;
@@ -80,6 +83,9 @@ void func_8013D6C8(u8 *ctx)
         work->rotation_y += 1300;
     }
     work->rotation_y += 32;
+#ifdef MODEL_VARIANT436_STREAMERS_RELOAD_Z
+    work->rotation_z = work->rotation_z;
+#endif
     for (j = 0; j < 1; j++) {
         drop = work->lift / 4 * (1024 - work->factor) / 1024;
         m.t[0] = work->origin.t[0] + work->delta.vx * work->factor / 1024;

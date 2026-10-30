@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x1AEC, asm, overlays/model_variant_707_stage10_slot1/unmatched_1aec]
-  - name: unmatched_2674
+  - name: helper_2674
     type: code
     start: 0x2674
     vram: 0x8017D674
     align: 4
     subsegments:
-      - [0x2674, asm, overlays/model_variant_707_stage10_slot1/unmatched_2674]
+      - [0x2674, c, overlays/model_variant/variant419_streamers_slot1]
   - name: data
     type: code
     start: 0x2F44
