@@ -8,7 +8,12 @@
  * segments as flat POLY_FT4 quads. The drawn length grows by two frame steps
  * up to 10, then the view offset shrinks by step * 64 and the ribbon restarts
  * or retires. The `turn` and first-loop `bend` values are template code left
- * unused; they keep the retail sign extensions of `i` and `k`. */
+ * unused; they keep the retail sign extensions of `i` and `k`.
+ *
+ * The North American header-452 copy, built with the CDK compiler, sets the
+ * constant ribbon length once before the ribbon loop rather than per ribbon
+ * (MODEL_VARIANT469_RIBBONS_EARLY_LEN); that keeps its sign extension inside
+ * the ribbon loop and the hoisted projection addresses in retail order. */
 void func_8013D1F4(u8 *ctx)
 {
     SVECTOR rot;
@@ -42,10 +47,15 @@ void func_8013D1F4(u8 *ctx)
     ribbon = (Variant469Ribbon *)(work + 0xA84);
     ot = func_80058F10();
     sum = 0;
+#ifdef MODEL_VARIANT469_RIBBONS_EARLY_LEN
+    len = 0x30;
+#endif
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x3974), MODEL_VARIANT_WORD(work, 0x396C)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x3970), MODEL_VARIANT_WORD(work, 0x396C));
     for (i = 0, phase = 0; i < 5; i++, ribbon++, phase = i * 6144 / 5) {
+#ifndef MODEL_VARIANT469_RIBBONS_EARLY_LEN
         len = 0x30;
+#endif
         if (i == 0) {
             turn = 0x400;
         } else if (i % 2 == 1) {

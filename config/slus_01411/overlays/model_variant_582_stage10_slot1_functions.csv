@@ -2,6 +2,6 @@ address,size,name,status,module,notes
 0x8017B004,0x1560,func_8017B004,matching_c,overlay/model_variant_582_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017C564,0x638,func_8017C564,matching_c,overlay/model_variant_582_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017CB9C,0x654,func_8017CB9C,matching_c,overlay/model_variant_582_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017D1F0,0x91C,func_8017D1F0,unmatched_asm,overlay/model_variant_582_stage10_slot1,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
+0x8017D1F0,0x91C,func_8017D1F0,matching_c,overlay/model_variant_582_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017DB0C,0x534,func_8017DB0C,matching_c,overlay/model_variant_582_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017E040,0x454,func_8017E040,matching_c,overlay/model_variant_582_stage10_slot1,Complete module byte identity and section-defined C ownership verified.

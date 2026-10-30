@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1B9C, c, overlays/model_variant/variant452_sheets_1b9c]
-  - name: unmatched_21f0
+  - name: helper_21f0
     type: code
     start: 0x21F0
     vram: 0x8013D1F0
     align: 4
     subsegments:
-      - [0x21F0, asm, overlays/model_variant_582_stage9_slot0/unmatched_21f0]
+      - [0x21F0, c, overlays/model_variant/variant452_ribbons]
   - name: helper_2b0c
     type: code
     start: 0x2B0C
