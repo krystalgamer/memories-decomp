@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, asm, overlays/model_variant_121_stage8_slot1/unmatched_4]
-  - name: unmatched_e38
+  - name: helper_e38
     type: code
     start: 0xE38
     vram: 0x8017BE38
     align: 4
     subsegments:
-      - [0xE38, asm, overlays/model_variant_121_stage8_slot1/unmatched_e38]
+      - [0xE38, c, overlays/model_variant/variant457_ribbons_slot1]
   - name: helper_1718
     type: code
     start: 0x1718
