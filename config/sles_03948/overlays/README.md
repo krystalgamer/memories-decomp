@@ -1167,8 +1167,10 @@ Six images under French headers 456 and 606 build their loader entry from
 already-matched ribbons, sheets, lines and streamers helpers. The entry
 follows the North American header-433 entry's shape; its command rows
 (0x2C bytes) and texture images are offsets into the tail label
-`D_8013ED00`. The trails helper at image offset 0x101C and the lines helper
-at 0x1F58 remain generated assembly.
+`D_8013ED00`. The helper at image offset 0x101C builds from
+`french_model_variant/variant456_twin_ribbons{,_slot1}.c` and the sprays
+helper at 0x1F58 from
+`src/overlays/spanish_model_variant/variant456_sprays{,_slot1}.c`.
 
 Two images under French headers 454 and 604 build their loader entry from the
 North American header-437 entry (`model_variant/variant437_entry.c`) through
