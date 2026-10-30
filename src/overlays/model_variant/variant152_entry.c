@@ -42,14 +42,14 @@ s32 func_8013B004(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         config = work->config = &D_8013C190[command % 100];
-        point = work->ring;
+        point = work->points;
         for (j = 0; j < 17; j++) {
             point->vx = config->ring_radius * ccos(j << 8) / 4096;
             point->vy = config->ring_radius * csin(j << 8) / 4096;
             point->vz = 0;
             point++;
         }
-        point = work->target[0];
+        point = &work->points[17];
         for (i = 0; i < 2; i++) {
             for (j = 0; j < 30; j++) {
                 point->vx = 0;
@@ -94,10 +94,10 @@ s32 func_8013B004(u8 *context, s32 command)
                 point++;
             }
         }
-        point = work->ribbon[0];
-        target = work->target[0];
+        point = work->ribbon;
+        target = &work->points[17];
         origin = work->origin;
-        color = config->color[0];
+        color = config->color;
         for (k = 0; k < 2; k++) {
             quad.r0 = color[0];
             quad.g0 = color[1];
@@ -157,7 +157,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     GsSetLsMatrix(&matrix);
                     otz = cur * 17;
                     b = (cur ^ 1) * 17;
-                    RotTransPersN(work->ring, &screen[otz], &depths[otz], &projection[otz], &flags[otz], 17);
+                    RotTransPersN(work->points, &screen[otz], &depths[otz], &projection[otz], &flags[otz], 17);
                     cur ^= 1;
                     if (v) {
                         edge = &screen[b];
@@ -223,8 +223,8 @@ s32 func_8013B004(u8 *context, s32 command)
         scale.vx = 4096;
         scale.vy = 4096;
         scale.vz = 4096;
-        point = work->ribbon[0];
-        color = config->color[2];
+        point = work->ribbon;
+        color = &config->color[8];
         for (k = 0; k < 2; k++) {
             for (j = 0; j < 30; j++) {
                 t = work->elapsed - config->delay - j * config->spacing;
@@ -233,7 +233,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     green = color[1] * t / config->duration;
                     blue = color[2] * t / config->duration;
                     setRGB0(&quad, red, green, blue);
-                    target = &work->ring[j % 3];
+                    target = &work->points[j % 3];
                     for (i = j % 3; i < 16; i += 3) {
                         v = config->duration;
                         position.vx = target->vx;

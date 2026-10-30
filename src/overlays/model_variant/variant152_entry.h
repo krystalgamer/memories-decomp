@@ -18,7 +18,8 @@
  * the ribbons start from, the ring radius, the swirl radius, the spark half
  * size, the ribbon lifetime, the ribbon spacing and the start delay. */
 typedef struct {
-    u8 color[4][4];
+    /* Four RGBX colours, walked as one flat run. */
+    u8 color[16];
     u8 entry[2];
     s16 ring_radius, swirl_radius, spark_size, duration;
     u8 spacing, unknown_1b;
@@ -30,9 +31,10 @@ typedef struct {
  * words, the completion flag, the elapsed time and the frame count. */
 typedef struct {
     Model152Config *G32 config;
-    SVECTOR ring[17];
-    SVECTOR target[2][30];
-    SVECTOR ribbon[2][30];
+    /* The 17-point ring followed by the two 30-point swirl targets; one
+     * array because the spark cursor steps past the ring into the targets. */
+    SVECTOR points[77];
+    SVECTOR ribbon[60];
     SVECTOR origin[2];
     u32 texture[2];
     u8 completed, unknown_465[3];
