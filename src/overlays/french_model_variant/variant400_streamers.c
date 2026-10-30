@@ -86,6 +86,8 @@ void func_8013CDB8(u8 *ctx)
         MODEL_VARIANT_WORD(work, 0x2080) += 1300;
     }
     MODEL_VARIANT_WORD(work, 0x2080) += 32;
+    /* A zero step: the PAL build drops it, the USA build keeps its load. */
+    MODEL_VARIANT_WORD(work, 0x2084) += 0;
     if (MODEL_VARIANT_WORD(work, 0x2090) < 6) {
         first = 0;
         count = 6;

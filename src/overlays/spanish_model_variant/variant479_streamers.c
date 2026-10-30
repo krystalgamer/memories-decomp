@@ -16,7 +16,6 @@ void func_8013E09C(u8 *ctx)
     GsCOORDINATE2 coord;
     PSXLONG p;
     PSXLONG flag;
-    PSXLONG *previous;
     u8 *work;
     POLY_G4 *poly;
     GsOT *ot;
@@ -87,6 +86,8 @@ void func_8013E09C(u8 *ctx)
         MODEL_VARIANT_WORD(work, 0x41C8) += 0x514;
     }
     MODEL_VARIANT_WORD(work, 0x41C8) += 0x20;
+    /* A zero step: the PAL build drops it, the USA build keeps its load. */
+    MODEL_VARIANT_WORD(work, 0x41CC) += 0;
     m.t[0] = MODEL_VARIANT_HALF(work, 0x4070);
     m.t[1] = MODEL_VARIANT_HALF(work, 0x4072);
     m.t[2] = MODEL_VARIANT_HALF(work, 0x4074);
@@ -101,16 +102,15 @@ void func_8013E09C(u8 *ctx)
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
     streamer = (Variant458Streamer *)(work + 0x3258);
-    for (i = 0, previous = &streamer->sa[15]; i < 2; i++,
-         previous = (PSXLONG *)((u8 *)previous + sizeof(Variant458Streamer)), streamer++) {
+    for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
                 streamer->otz[k] = RotTransPers4(&streamer->a[15], &streamer->a[16], &streamer->a[15], &streamer->a[16],
-                                                  previous, &streamer->sa[16],
-                                                  previous, &streamer->sa[16], &p, &flag);
+                                                  &streamer->sa[15], &streamer->sa[16],
+                                                  &streamer->sa[15], &streamer->sa[16], &p, &flag);
                 RotTransPers(&streamer->b[16], &streamer->sb[16], &p, &flag);
-                dx = (s16)streamer->sa[k] - (s16)*previous;
-                dy = (streamer->sa[k] >> 16) - (*previous >> 16);
+                dx = (s16)streamer->sa[k] - (s16)streamer->sa[15];
+                dy = (streamer->sa[k] >> 16) - (streamer->sa[15] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
                 if (MODEL_VARIANT_WORD(work, 0x41C0) > 0x200) {
                     streamer->width[k] = 2;
