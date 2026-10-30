@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x17F8, c, overlays/model_variant/variant383_sheets_slot1]
-  - name: unmatched_1d7c
+  - name: helper_1d7c
     type: code
     start: 0x1D7C
     vram: 0x8017CD7C
     align: 4
     subsegments:
-      - [0x1D7C, asm, overlays/model_variant_258_stage8_slot1/unmatched_1d7c]
+      - [0x1D7C, c, overlays/model_variant/variant383_streamers_slot1]
   - name: data
     type: code
     start: 0x26E8

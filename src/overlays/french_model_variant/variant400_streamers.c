@@ -1,6 +1,9 @@
 #include "../../types.h"
 #include "variant400_streamers.h"
 
+/* The North American header-383 copy, built with the CDK compiler, reloads
+ * the roll word after the advanced spin into itself like header 458. */
+
 void func_8013CDB8(u8 *ctx)
 {
     SVECTOR rot;
@@ -86,6 +89,9 @@ void func_8013CDB8(u8 *ctx)
         MODEL_VARIANT_WORD(work, 0x2080) += 1300;
     }
     MODEL_VARIANT_WORD(work, 0x2080) += 32;
+#ifdef MODEL_VARIANT400_STREAMERS_RELOAD_ROLL
+    MODEL_VARIANT_WORD(work, 0x2084) = MODEL_VARIANT_WORD(work, 0x2084);
+#endif
     if (MODEL_VARIANT_WORD(work, 0x2090) < 6) {
         first = 0;
         count = 6;
