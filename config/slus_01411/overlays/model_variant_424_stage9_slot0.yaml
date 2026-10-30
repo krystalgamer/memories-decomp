@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0x1984, asm, overlays/model_variant_424_stage9_slot0/unmatched_1984]
-  - name: unmatched_2314
+  - name: paired_sheets
     type: code
     start: 0x2314
     vram: 0x8013d314
     align: 4
     subsegments:
-      - [0x2314, asm, overlays/model_variant_424_stage9_slot0/unmatched_2314]
+      - [0x2314, c, overlays/model_variant/variant446_paired_sheets]
   - name: unmatched_2860
     type: code
     start: 0x2860
