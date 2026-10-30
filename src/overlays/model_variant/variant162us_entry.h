@@ -34,7 +34,8 @@ typedef struct {
 typedef struct {
     Model162UsConfig *G32 config;
     SVECTOR mesh[153];
-    SVECTOR trail[1][8];
+    /* One eight-point trail; kept flat so each row start stays in bounds. */
+    SVECTOR trail[8];
     SVECTOR centre;
     SVECTOR burst[33];
     SVECTOR sparks[96];

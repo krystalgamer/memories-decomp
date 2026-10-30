@@ -57,7 +57,7 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 1; i++) {
             work->phase[i] = i << 12;
         }
-        point = work->trail[0];
+        point = work->trail;
         for (i = 0; i < 1; i++) {
             for (j = 1; j < 9; j++) {
                 r = config->swirl_radius;
@@ -161,7 +161,7 @@ s32 func_8013B004(u8 *context, s32 command)
             /* r alternates between the two screen rows of the current strip. */
             r = 1;
             point = &work->mesh[17];
-            trail = work->trail[i];
+            trail = work->trail + i * 8;
             for (j = 1; j < 9; j++) {
                 setVector(&position, trail->vx, trail->vy, trail->vz);
                 GsSetLsMatrix(&base);
@@ -196,7 +196,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->phase[i] = (work->phase[i] + config->swirl * step) % 4096;
             /* Shift the trail back by one point, starting from its last one. */
-            point = work->trail[i + 1] - 1;
+            point = work->trail + (i + 1) * 8 - 1;
             for (j = 1; j < 8; j++) {
                 point->vx = point[-1].vx;
                 point->vy = point[-1].vy;
@@ -236,7 +236,7 @@ s32 func_8013B004(u8 *context, s32 command)
             blue = config->beam_color[2] * r / config->fade_out;
             setRGB0(&quad, red, green, blue);
         }
-        point = work->trail[0];
+        point = work->trail;
         for (i = 0; i < 1; i++) {
             for (j = 0; j < 8; j++) {
                 /* Reusing trail as the ring cursor reproduces the original
