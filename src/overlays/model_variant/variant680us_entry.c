@@ -163,7 +163,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->bursts[i].scale, 4096, 4096, 4096);
             setVector(&work->bursts[i].target, 0, 0, 0);
             setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
-            value = work->radius * (rsin(i * 500) * 5 << 2) / 4096;
+            value = work->radius * (s32)((u32)(rsin(i * 500) * 5) << 2) / 4096;
             sign = i % 2 * 2 - 1;
             setVector(&work->bursts[i].position, sign * value * rsin(i % 16 << 8) / 4096,
                 sign * value * rcos(i % 16 << 8) / 4096, value * rsin(i % 16 << 8) / 4096);
