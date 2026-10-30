@@ -19,6 +19,12 @@
       "source": "src/overlays/model_variant/variant419_sheets.c"
     },
     {
+      "address": "0x8013CAEC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xB88",
+      "source": "src/overlays/model_variant/variant419_ribbons.c"
+    },
+    {
       "address": "0x8013D674",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x8D0",

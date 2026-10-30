@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1538, c, overlays/model_variant/variant419_sheets]
-  - name: unmatched_1aec
+  - name: ribbons
     type: code
     start: 0x1AEC
     vram: 0x8013CAEC
     align: 4
     subsegments:
-      - [0x1AEC, asm, overlays/model_variant_707_stage9_slot0/unmatched_1aec]
+      - [0x1AEC, c, overlays/model_variant/variant419_ribbons]
   - name: helper_2674
     type: code
     start: 0x2674
