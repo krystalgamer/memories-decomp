@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/french_model_variant/variant481_entry]
-  - name: unmatched_e38
+  - name: helper_E38
     type: code
     start: 0xE38
     vram: 0x8013BE38
     align: 4
     subsegments:
-      - [0xE38, asm, overlays/french_model_variant_624_pos0_slot0/unmatched_e38]
+      - [0xE38, c, overlays/french_model_variant/variant481_band]
   - name: helper_1718
     type: code
     start: 0x1718
