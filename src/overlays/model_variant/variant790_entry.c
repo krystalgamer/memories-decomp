@@ -31,8 +31,8 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR pos;
     VECTOR scale;
     SVECTOR quad[4];
-    SVECTOR shape[11];
-    u8 faces[5][4];
+    Model790Shape shape;
+    Model790Faces faces;
     PSXLONG flag;
     PSXLONG p;
     s32 slot;
@@ -50,8 +50,8 @@ s32 func_8013B004(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = D_8013CEB0;
-    *(Model790Shape *)shape = D_8013CEC0;
-    *(Model790Faces *)faces = D_8013CF18;
+    shape = D_8013CEC0;
+    faces = D_8013CF18;
     work = (Model790State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
@@ -157,8 +157,8 @@ s32 func_8013B004(u8 *context, s32 command)
             RotMatrix(&rot, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
-            vtx = shape;
-            for (face = faces[0], k = 0; k < 5; face += 4, k++) {
+            vtx = shape.v;
+            for (face = faces.flat, k = 0; k < 5; face += 4, k++) {
                 Graphics_SubmitDrawModePacket(
                     (u32 *)&f4, ot,
                     (u16)RotTransPers4(&vtx[face[0]], &vtx[face[1]], &vtx[face[2]], &vtx[face[3]],

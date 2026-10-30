@@ -46,8 +46,10 @@ typedef struct {
     SVECTOR v[11];
 } Model790Shape;
 
-typedef struct {
+/* The five quads, also walked as one flat run of 20 corner indices. */
+typedef union {
     u8 q[5][4];
+    u8 flat[20];
 } Model790Faces;
 
 /* The work area: per star its position, velocity and landing point, its
