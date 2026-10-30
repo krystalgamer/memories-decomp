@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xE34",
+      "source": "src/overlays/model_variant/variant457_entry.c"
+    },
+    {
       "address": "0x8013BE38",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x8E0",

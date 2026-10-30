@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant410_entry.h"
 
+#ifndef MODEL_VARIANT410_CLUT_X
+#define MODEL_VARIANT410_CLUT_X 640
+#endif
+
 /* Header 410's entry: one quad record, nine ribbons and two rings, with the
  * header-337 texture setup and camera tracking. Only the first upload's
  * packed word is kept: its page is shifted out as `flat_page` and its CLUT
@@ -51,9 +55,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->direction.vy = work->target.vy - work->matrix.t[1];
         work->direction.vz = work->target.vz - work->matrix.t[2];
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT410_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT410_CLUT_X, 244);
         packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CD04 + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
