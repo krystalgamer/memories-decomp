@@ -851,6 +851,8 @@ goes too, and the
 `src/overlays/french_model_variant/variant691_entry{,_slot1}.c` wrappers move
 the data labels 0x28 lower.
 
+French MODEL headers 694 (stage 7 slot 0: models 420 and 543) and 761 (stage 8 slot 1) build the North American header-677 entry (`func_8013B004`) from `src/overlays/model_variant/variant677_entry.c` through `src/overlays/french_model_variant/variant694_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf` and its format string, which was the whole read-only section. The text is 0x10 shorter, so the image and command tables sit 0x28 lower, at `D_8013D73C` and `D_8013D870`.
+
 French MODEL headers 696 (stage 9 slot 0) and 763 (stage 10 slot 1) build the North American header-679 entry (`func_8013B004`) from `src/overlays/model_variant/variant679us_entry.c` through `src/overlays/french_model_variant/variant696_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf` and its format string. The text is 0x10 shorter, so the image table and command rows sit 0x28 lower, at `D_8013D110` and `D_8013D244`.
 
 French MODEL headers 695 (stage 7 slot 0) and 762 (stage 8 slot 1) build the North American header-678 entry (`func_8013B004`) from `src/overlays/model_variant/variant678us_entry.c` through `src/overlays/french_model_variant/variant695_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf` and its format string, which was the whole read-only section. The text is 0x10 shorter, so the image table and command rows sit 0x28 lower, at `D_8013D218` and `D_8013D34C`.
