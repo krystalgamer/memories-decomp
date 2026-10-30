@@ -63,7 +63,7 @@ segments:
     vram: 0x8013BDE4
     align: 4
     subsegments:
-      - [0xDE4, asm, overlays/french_model_variant_258_stage9_slot0/unmatched_de4]
+      - [0xDE4, c, overlays/french_model_variant/variant397_beams]
   - name: sheets
     type: code
     start: 0x1A9C
@@ -77,7 +77,7 @@ segments:
     vram: 0x8013D06C
     align: 4
     subsegments:
-      - [0x206C, asm, overlays/french_model_variant_258_stage9_slot0/unmatched_206c]
+      - [0x206C, c, overlays/french_model_variant/variant397_streamers]
   - name: unclassified_tail
     type: code
     start: 0x2950
