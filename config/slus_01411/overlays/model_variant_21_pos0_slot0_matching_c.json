@@ -7,6 +7,12 @@
       "source": "src/overlays/model_variant/variant380_entry.c"
     },
     {
+      "address": "0x8013BDE8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xCD0",
+      "source": "src/overlays/model_variant/variant380_beams.c"
+    },
+    {
       "address": "0x8013CAB8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x5D4",
