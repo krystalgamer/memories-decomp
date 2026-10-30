@@ -106,7 +106,7 @@ void func_8013C150(u8 *ctx)
             }
             wave = base - k * 1024 + work->phase_b;
             strand->sa[k].packed += rcos(strand->angle[k]) * (rsin(wave) * 8 >> 12) >> 12;
-            strand->sa[k].packed += (rsin(strand->angle[k]) * (rsin(wave) * 8 >> 12) >> 12) << 16;
+            strand->sa[k].packed = (u32)strand->sa[k].packed + ((u32)(rsin(strand->angle[k]) * (rsin(wave) * 8 >> 12) >> 12) << 16);
         }
     }
     strand = work->strands;
