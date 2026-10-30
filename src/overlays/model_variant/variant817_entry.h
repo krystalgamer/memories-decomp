@@ -75,12 +75,20 @@ typedef struct {
     u32 frames;
     u16 head;
     u16 phase;
-    u16 flashed[16];
-    u16 unknown_2EB0;
-    u16 spark_count;
-    u16 length[16];
-    u16 burst_frame[3];
-    u16 variant;
+    /* The per-bolt flash flags and strand lengths are indexed by the absolute
+     * bolt number, which reaches 19 (twenty spawns at frame step 1), running
+     * on into the following counters; those reads go through the flat view. */
+    union {
+        struct {
+            u16 flashed[16];
+            u16 unknown_2EB0;
+            u16 spark_count;
+            u16 length[16];
+            u16 burst_frame[3];
+            u16 variant;
+        } s;
+        u16 all[38];
+    } bolts;
     s32 ambient;
     s32 texture[4];
     u8 red[3][16];

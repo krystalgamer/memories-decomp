@@ -49,7 +49,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         work->config = &D_8013E21C[command];
         for (i = 0; i < 3; i++) {
-            work->burst_frame[i] = 0;
+            work->bolts.s.burst_frame[i] = 0;
             for (j = 0; j < 16; j++) {
                 setVector(&work->points[i][j], 0, 0, 0);
                 work->red[i][j] = work->config->r;
@@ -91,8 +91,8 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 16; i++) {
-            work->length[i] = 0;
-            work->flashed[i] = 0;
+            work->bolts.s.length[i] = 0;
+            work->bolts.s.flashed[i] = 0;
         }
         for (i = 0; i < 4; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E1AC[i]);
@@ -104,18 +104,18 @@ s32 func_8013B004(u8 *context, s32 command)
         work->ambient = 0x800;
         work->head = 0;
         work->phase = 0;
-        work->unknown_2EB0 = 0;
-        work->spark_count = 0;
+        work->bolts.s.unknown_2EB0 = 0;
+        work->bolts.s.spark_count = 0;
         work->elapsed = 0;
         work->frames = 0;
-        work->variant = rand() % 3;
+        work->bolts.s.variant = rand() % 3;
         return 0;
     }
 
     ot = func_80058F10();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
-    if (work->variant == 0) {
+    if (work->bolts.s.variant == 0) {
         if (work->elapsed < work->config->camera_start) {
             Model_QueueCameraOrbitFromPreset(slot, 14, &rot, -16);
         } else if (work->elapsed < work->config->camera_switch) {
@@ -123,7 +123,7 @@ s32 func_8013B004(u8 *context, s32 command)
         } else {
             Model_QueueCameraOrbitFromPreset(slot ^ 1, 2, &rot, -16);
         }
-    } else if (work->variant == 1) {
+    } else if (work->bolts.s.variant == 1) {
         if (work->elapsed < work->config->camera_start) {
             Model_QueueCameraOrbitFromPreset(slot, 13, &rot, -16);
         } else if (work->elapsed < work->config->camera_switch) {
@@ -229,7 +229,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
     }
 
-    for (i = 0; i < work->spark_count; i++) {
+    for (i = 0; i < work->bolts.s.spark_count; i++) {
         if (work->spark_r[i] || work->spark_g[i] || work->spark_b[i]) {
             ft4.tpage = work->texture[0] >> 16;
             ft4.clut = work->texture[0];
@@ -292,16 +292,16 @@ s32 func_8013B004(u8 *context, s32 command)
 
     if (work->elapsed < work->config->spark_end) {
         PopMatrix();
-        work->spark_count++;
-        if (work->spark_count > 88) {
-            work->spark_count = 88;
+        work->bolts.s.spark_count++;
+        if (work->bolts.s.spark_count > 88) {
+            work->bolts.s.spark_count = 88;
         }
         work->elapsed += step;
         return 0;
     }
 
     if (work->elapsed < work->config->spawn_end && work->frames % work->config->period == 0) {
-        work->burst_frame[work->head % 3] = 0;
+        work->bolts.s.burst_frame[work->head % 3] = 0;
         for (j = 0; j < work->config->count; j++) {
             setVector(&work->points[work->head % 3][j], 0, 0, 0);
             work->red[work->head % 3][j] = work->config->r;
@@ -349,7 +349,7 @@ s32 func_8013B004(u8 *context, s32 command)
     /* Only the three newest bolts are still drawn. */
     first = work->head > 3 ? work->head - 3 : 0;
     for (i = first; i < work->head; i++) {
-        for (j = 0; j < work->length[i]; j++) {
+        for (j = 0; j < (work->bolts.all + 18)[i]; j++) {
             if (work->red[i % 3][j] || work->green[i % 3][j] || work->blue[i % 3][j]) {
                 setPolyFT4(&ft4);
                 setRGB0(&ft4, work->red[i % 3][j], work->green[i % 3][j], work->blue[i % 3][j]);
@@ -359,7 +359,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&quad[1], work->config->bolt_size, -work->config->bolt_size, 0);
                 setVector(&quad[2], -work->config->bolt_size, work->config->bolt_size, 0);
                 setVector(&quad[3], work->config->bolt_size, work->config->bolt_size, 0);
-                if (j == work->length[i] - 1) {
+                if (j == (work->bolts.all + 18)[i] - 1) {
                     setVector(&scale, work->config->tip_scale, work->config->tip_scale, work->config->tip_scale);
                 } else {
                     setVector(&scale, 0x1000, 0x1000, 0x1000);
@@ -441,13 +441,13 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
 
-        if (work->length[i] == work->config->count) {
-            if (work->phase == 0 && work->flashed[i] == 0) {
+        if ((work->bolts.all + 18)[i] == work->config->count) {
+            if (work->phase == 0 && work->bolts.all[i] == 0) {
                 work->flash = 0xFF;
-                work->flashed[i] = 1;
+                work->bolts.all[i] = 1;
                 work->phase = 1;
             }
-            if (work->burst_frame[i % 3] < 24) {
+            if (work->bolts.s.burst_frame[i % 3] < 24) {
                 setPolyFT4(&ft4);
                 setRGB0(&ft4, 0x80, 0x80, 0x80);
                 ft4.tpage = work->texture[1] >> 16;
@@ -466,15 +466,15 @@ s32 func_8013B004(u8 *context, s32 command)
                     GsSetLsMatrix(&m);
                     otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0,
                                       (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
-                    setUV4(&ft4, work->burst_frame[i % 3] / 3 * 32, 0x40, work->burst_frame[i % 3] / 3 * 32 + 31,
-                           0x40, work->burst_frame[i % 3] / 3 * 32, 0x5F, work->burst_frame[i % 3] / 3 * 32 + 31,
+                    setUV4(&ft4, work->bolts.s.burst_frame[i % 3] / 3 * 32, 0x40, work->bolts.s.burst_frame[i % 3] / 3 * 32 + 31,
+                           0x40, work->bolts.s.burst_frame[i % 3] / 3 * 32, 0x5F, work->bolts.s.burst_frame[i % 3] / 3 * 32 + 31,
                            0x5F);
                     if (otz >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&ft4, ot, (u16)otz, 1);
                     }
                     addVector(&work->burst[i % 3][j], &work->burst_velocity[i % 3][j]);
                 }
-                work->burst_frame[i % 3]++;
+                work->bolts.s.burst_frame[i % 3]++;
             }
             if (work->red[i % 3][work->config->count - 1] || work->green[i % 3][work->config->count - 1] ||
                 work->blue[i % 3][work->config->count - 1]) {
@@ -507,9 +507,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 }
             }
         }
-        work->length[i]++;
-        if (work->length[i] > work->config->count) {
-            work->length[i] = work->config->count;
+        (work->bolts.all + 18)[i]++;
+        if ((work->bolts.all + 18)[i] > work->config->count) {
+            (work->bolts.all + 18)[i] = work->config->count;
         }
     }
 
