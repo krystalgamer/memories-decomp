@@ -1,0 +1,107 @@
+name: model_variant_0_pos0_slot0
+sha1: 5129864047ab9a9b5b521661b82b36c31c888049
+
+options:
+  basename: model_variant_0_pos0_slot0
+  base_path: ../../..
+  target_path: tmp/overlays/model_variant_0_pos0_slot0/module.bin
+  elf_path: tmp/overlays/model_variant_0_pos0_slot0/build/model_variant_0_pos0_slot0.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+  asm_path: tmp/overlays/model_variant_0_pos0_slot0/asm
+  src_path: src
+  build_path: tmp/overlays/model_variant_0_pos0_slot0/build
+  asset_path: tmp/overlays/model_variant_0_pos0_slot0/assets
+  cache_path: tmp/overlays/model_variant_0_pos0_slot0/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+  ld_script_path: tmp/overlays/model_variant_0_pos0_slot0/model_variant_0_pos0_slot0.ld
+  generated_asm_macros_directory: tmp/overlays/model_variant_0_pos0_slot0/include
+  lib_path: tmp/overlays/model_variant_0_pos0_slot0/lib
+  o_path: tmp/overlays/model_variant_0_pos0_slot0/build
+  undefined_funcs_auto_path: tmp/overlays/model_variant_0_pos0_slot0/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/model_variant_0_pos0_slot0/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slus_01411/overlays/model_variant_0_pos0_slot0_symbols.txt
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x8013B000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/model_variant_0_pos0_slot0/module_header]
+  - name: unmatched_4
+    type: code
+    start: 0x4
+    vram: 0x8013B004
+    align: 4
+    subsegments:
+      - [0x4, asm, overlays/model_variant_0_pos0_slot0/unmatched_4]
+  - name: helper_f28
+    type: code
+    start: 0xF28
+    vram: 0x8013BF28
+    align: 4
+    subsegments:
+      - [0xF28, c, overlays/model_variant/variant409_mesh]
+  - name: unmatched_138c
+    type: code
+    start: 0x138C
+    vram: 0x8013C38C
+    align: 4
+    subsegments:
+      - [0x138C, asm, overlays/model_variant_0_pos0_slot0/unmatched_138c]
+  - name: unmatched_1dac
+    type: code
+    start: 0x1DAC
+    vram: 0x8013CDAC
+    align: 4
+    subsegments:
+      - [0x1DAC, asm, overlays/model_variant_0_pos0_slot0/unmatched_1dac]
+  - name: helper_265c
+    type: code
+    start: 0x265C
+    vram: 0x8013D65C
+    align: 4
+    subsegments:
+      - [0x265C, c, overlays/model_variant/variant409_sheets]
+  - name: unmatched_2b50
+    type: code
+    start: 0x2B50
+    vram: 0x8013DB50
+    align: 4
+    subsegments:
+      - [0x2B50, asm, overlays/model_variant_0_pos0_slot0/unmatched_2b50]
+  - name: helper_3370
+    type: code
+    start: 0x3370
+    vram: 0x8013E370
+    align: 4
+    subsegments:
+      - [0x3370, c, overlays/model_variant/variant409_funnel]
+  - name: data
+    type: code
+    start: 0x37A8
+    vram: 0x8013E7A8
+    align: 4
+    subsegments:
+      - [0x37A8, data, overlays/model_variant_0_pos0_slot0/data]
+  - [0x5000]

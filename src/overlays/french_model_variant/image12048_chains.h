@@ -5,10 +5,17 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    SVECTOR pos[9];
-    PSXLONG sxy[9];
-    s32 angle[9];
-    SVECTOR edge[9];
+    /* pos, sxy, angle and edge are contiguous: 27 SVECTOR-sized slots, and
+       edge[j] sits 18 slots after pos[j]. span is that whole region. */
+    union {
+        struct {
+            SVECTOR pos[9];
+            PSXLONG sxy[9];
+            s32 angle[9];
+            SVECTOR edge[9];
+        } f;
+        SVECTOR span[27];
+    } u;
     PSXLONG edge_sxy[9];
     s32 width[9];
     u8 unknown_120[0x24];
