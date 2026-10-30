@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x138C, c, overlays/model_variant/variant409_spiral]
-  - name: unmatched_1dac
+  - name: ribbon
     type: code
     start: 0x1DAC
     vram: 0x8013CDAC
     align: 4
     subsegments:
-      - [0x1DAC, asm, overlays/model_variant_0_pos0_slot0/unmatched_1dac]
+      - [0x1DAC, c, overlays/model_variant/variant409_ribbon]
   - name: helper_265c
     type: code
     start: 0x265C
