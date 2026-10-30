@@ -1,4 +1,11 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017D08C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x8E4",
+      "source": "src/overlays/model_variant/variant380_streamers_slot1.c"
+    }
+  ],
   "schema": 1
 }
