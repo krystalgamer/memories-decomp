@@ -30178,13 +30178,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_7376_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_26_stage9_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_7376_8013b000",
-      "output": "tmp/overlays/french_model_image_model_7376_8013b000/module.bin",
+      "name": "french_model_variant_26_stage9_slot0",
+      "output": "tmp/overlays/french_model_variant_26_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 7376,
-      "sha256": "bfce5b112195cacdbe469655fa7974270b14fbe4c24130cd8523e8af5ff0c977"
+      "sha256": "bfce5b112195cacdbe469655fa7974270b14fbe4c24130cd8523e8af5ff0c977",
+      "linker_symbols": "config/sles_03948/overlays/model_variant171_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -40785,13 +40786,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_7386_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_26_stage10_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_7386_8017b000",
-      "output": "tmp/overlays/french_model_image_model_7386_8017b000/module.bin",
+      "name": "french_model_variant_26_stage10_slot1",
+      "output": "tmp/overlays/french_model_variant_26_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 7386,
-      "sha256": "cacf217e88125f9ac2d521d4abd26ec23a9e9268b62ff238ba1a5158e2ec84c0"
+      "sha256": "cacf217e88125f9ac2d521d4abd26ec23a9e9268b62ff238ba1a5158e2ec84c0",
+      "linker_symbols": "config/sles_03948/overlays/model_variant301_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",

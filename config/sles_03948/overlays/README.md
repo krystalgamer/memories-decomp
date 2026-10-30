@@ -801,6 +801,15 @@ goes too, and the
 `src/overlays/french_model_variant/variant691_entry{,_slot1}.c` wrappers move
 the data labels 0x28 lower.
 
+Two images under French headers 171 and 301 are the North American
+header-154 entry (`model_variant/variant154_entry.c`) without its work-size
+printf and with the PAL screen height. The
+`src/overlays/french_model_variant/variant171_entry{,_slot1}.c` wrappers set
+`VERSION_FRENCH` and `GRAPHICS_DEFAULT_HEIGHT` 256, move the two data labels
+after the shorter text and the scale vector 0x24 lower, and bind
+`model_variant171_linker_symbols.txt` and
+`model_variant301_linker_symbols.txt`.
+
 Two images under French headers 699 and 766 are the North American
 header-682 entry (`model_variant/variant682us_entry.c`) without its `E_DATA`
 work-size printf. The
