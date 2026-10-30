@@ -1,6 +1,17 @@
 #include "../../types.h"
 #include "variant463_ribbons.h"
 
+/* The North American header-446 build reads the projected points through
+ * pointer arithmetic and tests j before resetting a spent ribbon; the
+ * default spelling is the French/Spanish one. */
+#ifdef MODEL_VARIANT446_RIBBONS_POINTER_SCREEN
+#define RIBBONS463_SA(k) (*(ribbon->sa + (k)))
+#define RIBBONS463_SB(k) (*(ribbon->sb + (k)))
+#else
+#define RIBBONS463_SA(k) (ribbon->sa[k])
+#define RIBBONS463_SB(k) (ribbon->sb[k])
+#endif
+
 void func_8013C984(u8 *ctx)
 {
     SVECTOR rot;
@@ -35,6 +46,7 @@ void func_8013C984(u8 *ctx)
     total = 0;
     i = 0;
     base = 0;
+    length = 48;
     ribbon = ((Ribbon463Work *)work)->ribbons;
     turn = ratan2(MODEL_VARIANT_WORD(work, 0x4A40), MODEL_VARIANT_WORD(work, 0x4A38)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x4A3C), MODEL_VARIANT_WORD(work, 0x4A38));
@@ -42,7 +54,6 @@ void func_8013C984(u8 *ctx)
         if (i < 0) {
             dy = 0;
         }
-        length = 48;
         for (j = 0; j < 13; j++) {
             if (j < 0) {
                 if (j == -1) {
@@ -78,19 +89,19 @@ void func_8013C984(u8 *ctx)
                                                &ribbon->sa[11].packed, &ribbon->sa[12].packed, &p,
                                                &flags[i][j]);
                 RotTransPers(&ribbon->b[12], &ribbon->sb[12].packed, &p, &flag);
-                dx = ribbon->sa[12].point.vx - ribbon->sa[11].point.vx;
-                dy = ribbon->sa[12].point.vy - ribbon->sa[11].point.vy;
+                dx = RIBBONS463_SA(12).point.vx - RIBBONS463_SA(11).point.vx;
+                dy = RIBBONS463_SA(12).point.vy - RIBBONS463_SA(11).point.vy;
             } else {
                 ribbon->otz[j] = RotTransPers4(&ribbon->a[j], &ribbon->a[j + 1], &ribbon->a[j], &ribbon->a[j + 1],
                                                &ribbon->sa[j].packed, &ribbon->sa[j + 1].packed,
                                                &ribbon->sa[j].packed, &ribbon->sa[j + 1].packed, &p,
                                                &flags[i][j]);
                 RotTransPers(&ribbon->b[j], &ribbon->sb[j].packed, &p, &flag);
-                dx = ribbon->sa[j + 1].point.vx - ribbon->sa[j].point.vx;
-                dy = ribbon->sa[j + 1].point.vy - ribbon->sa[j].point.vy;
+                dx = RIBBONS463_SA(j + 1).point.vx - RIBBONS463_SA(j).point.vx;
+                dy = RIBBONS463_SA(j + 1).point.vy - RIBBONS463_SA(j).point.vy;
             }
             ribbon->angle[j] = ratan2(dy, dx) - 0x400;
-            ribbon->width[j] = ribbon->sb[j].point.vx - ribbon->sa[j].point.vx;
+            ribbon->width[j] = RIBBONS463_SB(j).point.vx - RIBBONS463_SA(j).point.vx;
             size = ribbon->scale * ribbon->width[j] / 1024;
             ribbon->ox[j] = rcos(ribbon->angle[j]) * size >> 12;
             ribbon->oy[j] = rsin(ribbon->angle[j]) * size >> 12;
@@ -101,8 +112,8 @@ void func_8013C984(u8 *ctx)
             }
             amp = ribbon->width[j] * 64 / 48;
             sway = ribbon->width[j] * 32 / 48;
-            ribbon->sa[j].packed = (u32)ribbon->sa[j].packed + (u32)(rcos(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * sway >> 12)) >> 12);
-            ribbon->sa[j].packed = (u32)ribbon->sa[j].packed + ((u32)(rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * sway >> 12)) >> 12) << 16);
+            RIBBONS463_SA(j).packed = (u32)RIBBONS463_SA(j).packed + (u32)(rcos(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * sway >> 12)) >> 12);
+            RIBBONS463_SA(j).packed = (u32)RIBBONS463_SA(j).packed + ((u32)(rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * sway >> 12)) >> 12) << 16);
         }
         if (ribbon->count < 0) {
             n = 0;
@@ -118,14 +129,14 @@ void func_8013C984(u8 *ctx)
                     poly--;
                 }
             }
-            poly->x0 = ribbon->sa[j].point.vx + ribbon->ox[j];
-            poly->y0 = (ribbon->sa[j].packed >> 16) + ribbon->oy[j];
-            poly->x1 = ribbon->sa[j + 1].point.vx + ribbon->ox[j + 1];
-            poly->y1 = (ribbon->sa[j + 1].packed >> 16) + ribbon->oy[j + 1];
-            poly->x2 = ribbon->sa[j].point.vx - ribbon->ox[j];
-            poly->y2 = (ribbon->sa[j].packed >> 16) - ribbon->oy[j];
-            poly->x3 = ribbon->sa[j + 1].point.vx - ribbon->ox[j + 1];
-            poly->y3 = (ribbon->sa[j + 1].packed >> 16) - ribbon->oy[j + 1];
+            poly->x0 = RIBBONS463_SA(j).point.vx + ribbon->ox[j];
+            poly->y0 = (RIBBONS463_SA(j).packed >> 16) + ribbon->oy[j];
+            poly->x1 = RIBBONS463_SA(j + 1).point.vx + ribbon->ox[j + 1];
+            poly->y1 = (RIBBONS463_SA(j + 1).packed >> 16) + ribbon->oy[j + 1];
+            poly->x2 = RIBBONS463_SA(j).point.vx - ribbon->ox[j];
+            poly->y2 = (RIBBONS463_SA(j).packed >> 16) - ribbon->oy[j];
+            poly->x3 = RIBBONS463_SA(j + 1).point.vx - ribbon->ox[j + 1];
+            poly->y3 = (RIBBONS463_SA(j + 1).packed >> 16) - ribbon->oy[j + 1];
             poly->r0 = ribbon->color[0];
             poly->g0 = ribbon->color[1];
             poly->b0 = ribbon->color[2];
@@ -153,6 +164,13 @@ void func_8013C984(u8 *ctx)
                     ribbon->scale = 0;
                     ribbon->count = 0;
                     ribbon->state = 2;
+#ifdef MODEL_VARIANT446_RIBBONS_POINTER_SCREEN
+                    /* Two identical arms: the North American registers need the test. */
+                } else if (j) {
+                    ribbon->scale = 1024;
+                    ribbon->count = -50;
+                    ribbon->state = 0;
+#endif
                 } else {
                     ribbon->scale = 1024;
                     ribbon->count = -50;
