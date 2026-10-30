@@ -115,9 +115,9 @@ void func_8013C01C(u8 *ctx)
                 phase = base - j * 0xC00 + MODEL_VARIANT_WORD(work, 0x235C);
             }
             width = ribbon->width[j];
-            amp = (width << 7) / 48;
-            ribbon->sa[j].packed += rcos(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * width >> 12)) >> 12;
-            ribbon->sa[j].packed += (rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * width >> 12)) >> 12) << 16;
+            amp = width * 128 / 48;
+            ribbon->sa[j].packed = (u32)ribbon->sa[j].packed + (u32)(rcos(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * width >> 12)) >> 12);
+            ribbon->sa[j].packed = (u32)ribbon->sa[j].packed + ((u32)(rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * width >> 12)) >> 12) << 16);
         }
     }
     ribbon = (TwinRibbon456 *)(work + 0xA0);
