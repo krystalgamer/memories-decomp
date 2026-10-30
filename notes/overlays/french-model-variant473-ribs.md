@@ -35,6 +35,10 @@ use:
   addresses and schedule.
 - The per-point build locals are declared inside the build loop, which gives
   the hoisted constant the first spill slot.
+- Each spine point is stored component by component: the first store's
+  address makes the index copy `k = n`, the later stores index with `k`, and
+  the z term reads `i`. Writing the copy inside a `setVector` argument would
+  be unsequenced, because the macro repeats its pointer argument.
 
 There are no register pins, inline assembly or volatile workarounds.
 

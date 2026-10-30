@@ -94,9 +94,10 @@ void func_8013CFB0(u8 *ctx)
                     len = (0x800 - rec->fade * 2) * i / 8 + rec->fade * 2;
                 }
                 n = i;
-                setVector(&rec->a[k = n], ox + dx * i / 8 - (rcos(angle0) * (rsin(len) * 256 >> 12) >> 12),
-                          oy + dy * i / 8 - (rsin(angle0) * (rsin(len) * 256 >> 12) >> 12),
-                          oz + dz * k / 8);
+                /* Per-component stores keep the index copy sequenced. */
+                (&rec->a[k = n])->vx = ox + dx * i / 8 - (rcos(angle0) * (rsin(len) * 256 >> 12) >> 12);
+                (&rec->a[k])->vy = oy + dy * i / 8 - (rsin(angle0) * (rsin(len) * 256 >> 12) >> 12);
+                (&rec->a[k])->vz = oz + dz * i / 8;
                 setVector(&rec->b[i], rec->a[i].vx + (rcos(turn) * spread >> 12), rec->a[i].vy,
                           rec->a[i].vz + (rsin(turn) * spread >> 12));
             }
