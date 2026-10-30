@@ -108,7 +108,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         for (i = 0; i < 16; i++) {
             setVector(&work->ring_inner[i], ccos(i << 8) / 128, csin(i << 8) / 128, 0);
-            setVector(&work->ring_outer[i], ccos(i << 8) * 96 / 4096, csin(i << 8) * 96 / 4096, direction << 5);
+            setVector(&work->ring_outer[i], ccos(i << 8) * 96 / 4096, csin(i << 8) * 96 / 4096, direction * 32);
         }
         setVector(&work->origin, 0, 0, 0);
         work->core_color.rgb.r = 0x80;
