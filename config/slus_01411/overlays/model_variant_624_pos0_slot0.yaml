@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant464_entry]
-  - name: unmatched_e3c
+  - name: helper_E3C
     type: code
     start: 0xE3C
     vram: 0x8013BE3C
     align: 4
     subsegments:
-      - [0xE3C, asm, overlays/model_variant_624_pos0_slot0/unmatched_e3c]
+      - [0xE3C, c, overlays/model_variant/variant464_band]
   - name: helper_1708
     type: code
     start: 0x1708
