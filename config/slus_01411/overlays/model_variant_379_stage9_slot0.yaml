@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x15A0, c, overlays/model_variant/variant410_spiral]
-  - name: unmatched_1fa8
+  - name: helper_1fa8
     type: code
     start: 0x1FA8
     vram: 0x8013CFA8
     align: 4
     subsegments:
-      - [0x1FA8, asm, overlays/model_variant_379_stage9_slot0/unmatched_1fa8]
+      - [0x1FA8, c, overlays/model_variant/variant410_ribbons]
   - name: helper_284c
     type: code
     start: 0x284C
