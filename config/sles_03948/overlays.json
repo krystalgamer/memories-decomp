@@ -31902,13 +31902,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_22536_8013b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_81_stage7_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "french_model_image_model_22536_8013b000",
-      "output": "tmp/overlays/french_model_image_model_22536_8013b000/module.bin",
+      "name": "french_model_variant_81_stage7_slot0",
+      "output": "tmp/overlays/french_model_variant_81_stage7_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 22536,
-      "sha256": "ee0a215d3d60072cc08c3f6407c53367623d1ada4fa981c8a858d86cab76a1b3"
+      "sha256": "ee0a215d3d60072cc08c3f6407c53367623d1ada4fa981c8a858d86cab76a1b3",
+      "linker_symbols": "config/sles_03948/overlays/model_variant850_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
@@ -41118,13 +41119,14 @@
     {
       "archive": "game/france/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03948/overlays/model_image_model_22546_8017b000.yaml",
+      "layout": "config/sles_03948/overlays/model_variant_81_stage8_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "french_model_image_model_22546_8017b000",
-      "output": "tmp/overlays/french_model_image_model_22546_8017b000/module.bin",
+      "name": "french_model_variant_81_stage8_slot1",
+      "output": "tmp/overlays/french_model_variant_81_stage8_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 22546,
-      "sha256": "d1c429f57a8b81f042e53cc546ea1a7e978c9e40900e82b7fe7ee3ab3e9fa5cd"
+      "sha256": "d1c429f57a8b81f042e53cc546ea1a7e978c9e40900e82b7fe7ee3ab3e9fa5cd",
+      "linker_symbols": "config/sles_03948/overlays/model_variant947_linker_symbols.txt"
     },
     {
       "archive": "game/france/DATA/MODEL.MRG",
