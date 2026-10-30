@@ -17,6 +17,18 @@
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x664",
       "source": "src/overlays/model_variant/variant420_sheet_slot1.c"
+    },
+    {
+      "address": "0x8017CB08",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xAA4",
+      "source": "src/overlays/model_variant/variant420_ribbons_slot1.c"
+    },
+    {
+      "address": "0x8017D5AC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x940",
+      "source": "src/overlays/model_variant/variant420_streamers_slot1.c"
     }
   ],
   "schema": 1
