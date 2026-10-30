@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant383_entry_slot1]
-  - name: unmatched_a8c
+  - name: ribbons
     type: code
     start: 0xA8C
     vram: 0x8017BA8C
     align: 4
     subsegments:
-      - [0xA8C, asm, overlays/model_variant_189_stage8_slot1/unmatched_a8c]
+      - [0xA8C, c, overlays/model_variant/variant383_ribbons_slot1]
   - name: helper_17f8
     type: code
     start: 0x17F8
