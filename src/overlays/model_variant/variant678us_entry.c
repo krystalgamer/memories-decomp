@@ -94,7 +94,7 @@ s32 func_8013B004(u8 *context, s32 command)
             if (command == 0) {
                 setVector(&axis, work->radius * 2, 0, -(work->radius * work->direction));
                 RotMatrixZ((i << 12) / 5, &m);
-                RotMatrixX(work->direction << 9, &m);
+                RotMatrixX((s32)((u32)work->direction << 9), &m);
             }
             ApplyMatrixLV(&m, &axis, &work->spray_axes[i]);
             PopMatrix();
