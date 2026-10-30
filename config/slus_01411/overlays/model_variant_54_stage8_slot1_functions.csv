@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
 0x8017B004,0xAAC,func_8017B004,unmatched_asm,overlay/model_variant_54_stage8_slot1,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
 0x8017BAB0,0x4B0,func_8017BAB0,matching_c,overlay/model_variant_54_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017BF60,0x938,func_8017BF60,unmatched_asm,overlay/model_variant_54_stage8_slot1,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8017BF60,0x938,func_8017BF60,matching_c,overlay/model_variant_54_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017C898,0x450,func_8017C898,matching_c,overlay/model_variant_54_stage8_slot1,Complete module byte identity and section-defined C ownership verified.

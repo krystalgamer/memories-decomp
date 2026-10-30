@@ -1,6 +1,20 @@
 #include "../../types.h"
 #include "variant410_ribbons.h"
 
+/* The North American header-393 copy, built with the CDK compiler, names the
+ * closing point's screen fields with the literal index, reads the following
+ * screen point as (sa + 1)[k] so the address folds into the current one, and
+ * starts each quad through a pointer to its first point. */
+#ifdef MODEL_VARIANT410_RIBBONS_FOLDED_NEXT
+#define RIBBONS410_CLOSING(array) (ribbon->array[16])
+#define RIBBONS410_NEXT(n) ((ribbon->sa + 1)[n])
+#define RIBBONS410_START(n) (*(ribbon->sa + (n)))
+#else
+#define RIBBONS410_CLOSING(array) (ribbon->array[k])
+#define RIBBONS410_NEXT(n) (ribbon->sa[(n) + 1])
+#define RIBBONS410_START(n) (ribbon->sa[n])
+#endif
+
 void func_8013BF58(u8 *context)
 {
     SVECTOR rotation;
@@ -88,10 +102,10 @@ void func_8013BF58(u8 *context)
                                                    (PSXLONG *)&ribbon->sa[k - 1], (PSXLONG *)&ribbon->sa[k],
                                                    &interpolation, &flags[i][k]);
                     RotTransPers(&ribbon->b[k], (PSXLONG *)&ribbon->sb[k], &interpolation, &flag);
-                    dx = ribbon->sa[k].point.vx - ribbon->sa[k - 1].point.vx;
-                    dy = ribbon->sa[k].point.vy - ribbon->sa[k - 1].point.vy;
+                    dx = RIBBONS410_CLOSING(sa).point.vx - ribbon->sa[k - 1].point.vx;
+                    dy = RIBBONS410_CLOSING(sa).point.vy - ribbon->sa[k - 1].point.vy;
                     ribbon->angle[k] = ratan2(dy, dx) - 3072;
-                    ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                    ribbon->width[k] = RIBBONS410_CLOSING(sb).point.vx - RIBBONS410_CLOSING(sa).point.vx;
                     ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                     ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 } else {
@@ -101,8 +115,14 @@ void func_8013BF58(u8 *context)
                                                    (PSXLONG *)&ribbon->sa[k], (PSXLONG *)&ribbon->sa[k + 1],
                                                    &interpolation, &flags[i][k]);
                     RotTransPers(&ribbon->b[k], (PSXLONG *)&ribbon->sb[k], &interpolation, &flag);
-                    dx = ribbon->sa[k + 1].point.vx - ribbon->sa[k].point.vx;
-                    dy = ribbon->sa[k + 1].point.vy - ribbon->sa[k].point.vy;
+#ifdef MODEL_VARIANT410_RIBBONS_FOLDED_NEXT
+                    /* Dead store, overwritten below: it only lengthens the CDK
+                     * compiler's projection loop, which keeps the flag-row
+                     * addresses inside the loop as in the header-393 copy. */
+                    dx = ribbon->sa[k + 1].point.vx;
+#endif
+                    dx = RIBBONS410_NEXT(k).point.vx - ribbon->sa[k].point.vx;
+                    dy = RIBBONS410_NEXT(k).point.vy - ribbon->sa[k].point.vy;
                     ribbon->angle[k] = ratan2(dy, dx) - 3072;
                     ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
                     ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
@@ -113,14 +133,14 @@ void func_8013BF58(u8 *context)
         ribbon = work->ribbons;
         for (i = 0; i < 9; i++, ribbon++) {
             for (k = 0; k < 16; k++) {
-                quad->x0 = ribbon->sa[k].point.vx + ribbon->ox[k];
+                quad->x0 = RIBBONS410_START(k).point.vx + ribbon->ox[k];
                 quad->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-                quad->x1 = ribbon->sa[k + 1].point.vx + ribbon->ox[k + 1];
-                quad->y1 = (ribbon->sa[k + 1].packed >> 16) + ribbon->oy[k + 1];
+                quad->x1 = RIBBONS410_NEXT(k).point.vx + ribbon->ox[k + 1];
+                quad->y1 = (RIBBONS410_NEXT(k).packed >> 16) + ribbon->oy[k + 1];
                 quad->x2 = ribbon->sa[k].point.vx - ribbon->ox[k];
                 quad->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-                quad->x3 = ribbon->sa[k + 1].point.vx - ribbon->ox[k + 1];
-                quad->y3 = (ribbon->sa[k + 1].packed >> 16) - ribbon->oy[k + 1];
+                quad->x3 = RIBBONS410_NEXT(k).point.vx - ribbon->ox[k + 1];
+                quad->y3 = (RIBBONS410_NEXT(k).packed >> 16) - ribbon->oy[k + 1];
                 if (k + 1 == 16) {
                     setRGB0(quad, ribbon->outer.r, ribbon->outer.g, ribbon->outer.b);
                     setRGB1(quad, 0, 0, 0);

@@ -62,13 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0xAB0, c, overlays/model_variant/variant393_quads]
-  - name: unmatched_f60
+  - name: helper_f60
     type: code
     start: 0xF60
     vram: 0x8013BF60
     align: 4
     subsegments:
-      - [0xF60, asm, overlays/model_variant_54_pos0_slot0/unmatched_f60]
+      - [0xF60, c, overlays/model_variant/variant393_ribbons]
   - name: helper_1898
     type: code
     start: 0x1898
