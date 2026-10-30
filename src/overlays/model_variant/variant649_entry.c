@@ -321,10 +321,11 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->strip.tpage = work->tpage[1];
                 work->strip.clut = work->clut[1];
                 setSemiTrans(&work->strip, 1);
+                /* The original adds 254 to the byte coordinate (u - 2 modulo 256). */
                 setUV4(&work->strip, work->canopy.u, work->canopy.v + 32,
-                    work->canopy.u - 2, work->canopy.v + 32,
+                    work->canopy.u + 254, work->canopy.v + 32,
                     work->canopy.u, work->canopy.v,
-                    work->canopy.u - 2, work->canopy.v);
+                    work->canopy.u + 254, work->canopy.v);
                 red = work->canopy.color[0] * (8 - i) / 8;
                 green = work->canopy.color[1] * (8 - i) / 8;
                 blue = work->canopy.color[2] * (8 - i) / 8;

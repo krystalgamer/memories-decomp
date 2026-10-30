@@ -306,6 +306,8 @@ work-size printf. They use the same recipe, through
 `src/overlays/french_model_variant/variant665_entry{,_slot1}.c`, with the data
 labels 0x28 lower.
 
+Two images under French headers 666 (stage 7 slot 0) and 733 (stage 8 slot 1) are the North American header-649 entry (`model_variant/variant649_entry.c`) without its work-size printf or that call's `.rodata` format string, built through `src/overlays/french_model_variant/variant666_entry{,_slot1}.c`. The image and command tables sit 0x28 lower (`D_8013DA84`, `D_8013DAD8`).
+
 Four images under French headers 858 and 955 are the North American
 header-841 entry (`model_variant/variant841_entry.c`) with the burst palette
 from the PAL CLUT row 0x3D28 instead of 0x3D20. The

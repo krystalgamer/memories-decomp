@@ -1,0 +1,4 @@
+// MODEL.MRG model 118 (record 118), sector 32758, header 716, loaded at 0x8017B000; the US source variant649_entry_slot1.c.
+func_8017B004 = 0x8017B004; // type:func size:0x2A90 defined:true
+D_8017DAAC = 0x8017DAAC; // type:u8 size:0x54 defined:true
+D_8017DB00 = 0x8017DB00; // type:u8 size:0x2500 defined:true
