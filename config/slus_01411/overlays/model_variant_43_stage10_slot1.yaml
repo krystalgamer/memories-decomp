@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant371_entry_slot1]
-  - name: unmatched_cd8
+  - name: helper_cd8
     type: code
     start: 0xCD8
     vram: 0x8017BCD8
     align: 4
     subsegments:
-      - [0xCD8, asm, overlays/model_variant_43_stage10_slot1/unmatched_cd8]
+      - [0xCD8, c, overlays/model_variant/variant371_strips_slot1]
   - name: helper_1344
     type: code
     start: 0x1344
