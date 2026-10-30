@@ -19,6 +19,12 @@
       "source": "src/overlays/model_variant/variant455_mesh.c"
     },
     {
+      "address": "0x8013CD3C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xB4C",
+      "source": "src/overlays/model_variant/variant455_spiral.c"
+    },
+    {
       "address": "0x8013D888",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x3AC",

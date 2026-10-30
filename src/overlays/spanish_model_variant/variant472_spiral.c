@@ -2,6 +2,14 @@
 
 #include "../model_variant/variant472_spiral.h"
 
+/* The North American header-455 build (CDK compiler) indexes the closing
+ * segment's previous point directly instead of walking a pointer to it. */
+#ifdef MODEL_VARIANT472_SPIRAL_DIRECT_PREVIOUS
+#define SPIRAL472_PREVIOUS (&arm->sa[2])
+#else
+#define SPIRAL472_PREVIOUS previous
+#endif
+
 /* Twelve-arm spiral of four-point spines: the arms are built on a spiral of
  * radius and spread chosen by phase, leaned along the direction, moved along
  * the view, and drawn as two POLY_GT4 halves with per-point inner and outer
@@ -17,7 +25,9 @@ void func_8013CD30(u8 *ctx)
     GsCOORDINATE2 coord;
     PSXLONG p;
     PSXLONG flag;
+#ifndef MODEL_VARIANT472_SPIRAL_DIRECT_PREVIOUS
     PSXLONG *previous;
+#endif
     u8 *work;
     GsOT *ot;
     s16 i;
@@ -98,15 +108,19 @@ void func_8013CD30(u8 *ctx)
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
     arm = (Variant472SpiralArm *)(work + 0x1EF4);
+#ifdef MODEL_VARIANT472_SPIRAL_DIRECT_PREVIOUS
+    for (i = 0; i < 12; i++, arm++) {
+#else
     for (i = 0, previous = &arm->sa[2]; i < 12; i++,
          previous = (PSXLONG *)((u8 *)previous + sizeof(Variant472SpiralArm)), arm++) {
+#endif
         for (k = 0; k < 4; k++) {
             if (k == 3) {
                 arm->otz[k] = RotTransPers4(&arm->a[2], &arm->a[3], &arm->a[2], &arm->a[3],
-                                            previous, &arm->sa[3], previous, &arm->sa[3], &p, &arm->flag[3]);
+                                            SPIRAL472_PREVIOUS, &arm->sa[3], SPIRAL472_PREVIOUS, &arm->sa[3], &p, &arm->flag[3]);
                 RotTransPers(&arm->b[3], &arm->sb[3], &p, &flag);
-                dx = (s16)arm->sa[k] - (s16)*previous;
-                dy = (arm->sa[k] >> 16) - (*previous >> 16);
+                dx = (s16)arm->sa[k] - (s16)*SPIRAL472_PREVIOUS;
+                dy = (arm->sa[k] >> 16) - (*SPIRAL472_PREVIOUS >> 16);
                 arm->angle[k] = ratan2(dy, dx) + 0xC00;
                 arm->width[k] = (s16)arm->sb[k] - (s16)arm->sa[k];
                 arm->ox[k] = rcos(arm->angle[k]) * arm->width[k] >> 12;
