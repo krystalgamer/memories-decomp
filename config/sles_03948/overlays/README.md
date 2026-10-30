@@ -460,6 +460,12 @@ flash, built through
 `src/overlays/french_model_variant/variant172_entry{,_slot1}.c`. The scale
 vector sits 0x14 lower and the image and command tables 0x24 lower.
 
+Two images under French headers 180 and 310 are the North American
+header-163 entry (`model_variant/variant163_entry.c`) with its full-screen
+flash covering the 256 PAL lines instead of 240, built through
+`src/overlays/french_model_variant/variant180_entry{,_slot1}.c`. The entry has
+no work-size printf, so the data labels do not move.
+
 Six images under French headers 812 and 909 are the North American
 header-795 entry (`model_variant/variant795_entry.c` and its `_slot1.c`
 wrapper) unchanged: it has no work-size printf, and only the resident call
