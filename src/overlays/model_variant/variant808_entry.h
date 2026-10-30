@@ -52,8 +52,10 @@ typedef struct {
     SVECTOR v[11];
 } Model808Shape;
 
-typedef struct {
+/* The five quads, also walked as one flat run of 20 corner indices. */
+typedef union {
     u8 q[5][4];
+    u8 flat[20];
 } Model808Faces;
 
 /* The work area: the comet position and velocity, the sparkles with their

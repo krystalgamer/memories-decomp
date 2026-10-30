@@ -34,8 +34,8 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR pos;
     VECTOR scale;
     SVECTOR quad[4];
-    SVECTOR shape[11];
-    u8 faces[5][4];
+    Model808Shape shape;
+    Model808Faces faces;
     MATRIX saved;
     PSXLONG flag;
     PSXLONG p;
@@ -55,8 +55,8 @@ s32 func_8013B004(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = D_8013D1AC;
-    *(Model808Shape *)shape = D_8013D1BC;
-    *(Model808Faces *)faces = D_8013D214;
+    shape = D_8013D1BC;
+    faces = D_8013D214;
     work = (Model808State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
@@ -225,8 +225,8 @@ s32 func_8013B004(u8 *context, s32 command)
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
-        vtx = shape;
-        for (face = faces[0], r = 0; r < 5; face += 4, r++) {
+        vtx = shape.v;
+        for (face = faces.flat, r = 0; r < 5; face += 4, r++) {
             otz = RotTransPers4(&vtx[face[0]], &vtx[face[1]], &vtx[face[2]],
                                 &vtx[face[3]], (PSXLONG *)&f4.x0, (PSXLONG *)&f4.x1,
                                 (PSXLONG *)&f4.x2, (PSXLONG *)&f4.x3, &p, &flag);
@@ -327,8 +327,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 RotMatrix(&rot, &m);
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
-                vtx = shape;
-                for (face = faces[0], r = 0; r < 5; face += 4, r++) {
+                vtx = shape.v;
+                for (face = faces.flat, r = 0; r < 5; face += 4, r++) {
                     otz = RotTransPers4(&vtx[face[0]], &vtx[face[1]],
                                         &vtx[face[2]], &vtx[face[3]], (PSXLONG *)&f4.x0,
                                         (PSXLONG *)&f4.x1, (PSXLONG *)&f4.x2, (PSXLONG *)&f4.x3, &p, &flag);
