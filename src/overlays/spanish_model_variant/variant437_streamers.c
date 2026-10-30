@@ -2,6 +2,15 @@
 
 #include "../model_variant/variant437_streamers.h"
 
+/* The North American header-420 streamers index the closing segment directly
+ * and reload the work word after the spin angle; the default spelling matches
+ * the French and Spanish header 437. */
+#ifdef MODEL_VARIANT437_STREAMERS_DIRECT_PREVIOUS
+#define STREAMERS437_PREVIOUS (&streamer->sa[11])
+#else
+#define STREAMERS437_PREVIOUS previous
+#endif
+
 /* Builds three thirteen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view at the travelling
  * origin, and draws each segment as a POLY_G4 as wide as the projected offset
@@ -17,7 +26,9 @@ void func_8013D5D4(u8 *ctx)
     PSXLONG status[3][13];
     PSXLONG p;
     PSXLONG flag;
+#ifndef MODEL_VARIANT437_STREAMERS_DIRECT_PREVIOUS
     PSXLONG *previous;
+#endif
     u8 *work;
     POLY_G4 *poly;
     GsOT *ot;
@@ -86,6 +97,9 @@ void func_8013D5D4(u8 *ctx)
         MODEL_VARIANT_WORD(work, 0x162C) += 0x514;
     }
     MODEL_VARIANT_WORD(work, 0x162C) += 0x20;
+#ifdef MODEL_VARIANT437_STREAMERS_DIRECT_PREVIOUS
+    MODEL_VARIANT_WORD(work, 0x1630) = MODEL_VARIANT_WORD(work, 0x1630);
+#endif
     for (n = 0; n < 1; n++) {
     m.t[0] = MODEL_VARIANT_WORD(work, 0x1528) + MODEL_VARIANT_WORD(work, 0x15A0) * MODEL_VARIANT_WORD(work, 0x1590) / 1024;
     m.t[1] = MODEL_VARIANT_WORD(work, 0x152C) + MODEL_VARIANT_WORD(work, 0x15A4) * MODEL_VARIANT_WORD(work, 0x1590) / 1024;
@@ -107,16 +121,20 @@ void func_8013D5D4(u8 *ctx)
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
     streamer = (Variant437Streamer *)(work + 0x93C);
+#ifdef MODEL_VARIANT437_STREAMERS_DIRECT_PREVIOUS
+    for (i = 0; i < 3; i++, streamer++) {
+#else
     for (i = 0, previous = &streamer->sa[11]; i < 3; i++,
          previous = (PSXLONG *)((u8 *)previous + sizeof(Variant437Streamer)), streamer++) {
+#endif
         for (k = 0; k < 13; k++) {
             if (k == 12) {
                 streamer->otz[k] = RotTransPers4(&streamer->a[11], &streamer->a[12], &streamer->a[11], &streamer->a[12],
-                                                  previous, &streamer->sa[12],
-                                                  previous, &streamer->sa[12], &p, &status[i][12]);
+                                                  STREAMERS437_PREVIOUS, &streamer->sa[12],
+                                                  STREAMERS437_PREVIOUS, &streamer->sa[12], &p, &status[i][12]);
                 RotTransPers(&streamer->b[12], &streamer->sb[12], &p, &flag);
-                dx = (s16)streamer->sa[k] - (s16)*previous;
-                dy = (streamer->sa[k] >> 16) - (*previous >> 16);
+                dx = (s16)streamer->sa[k] - (s16)*STREAMERS437_PREVIOUS;
+                dy = (streamer->sa[k] >> 16) - (*STREAMERS437_PREVIOUS >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
                 if (MODEL_VARIANT_WORD(work, 0x1624) > 0x200) {
                     streamer->width[k] = 3;

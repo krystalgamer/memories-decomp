@@ -1,6 +1,21 @@
 #include "../../types.h"
 #include "variant437_ribbons.h"
 
+/* The North American header-420 ribbons address the closing segment's
+ * projected points with fixed indices and the following point as an offset
+ * array; the default spelling matches the French and Spanish header 437. */
+#ifdef MODEL_VARIANT437_RIBBONS_FIXED_TAIL
+#define RIBBONS437_TAIL(k) 8
+#define RIBBONS437_BEFORE_TAIL(k) 7
+#define RIBBONS437_AT(points, k) (*((k) + (points)))
+#define RIBBONS437_NEXT(points, k) (((points) + 1)[k])
+#else
+#define RIBBONS437_TAIL(k) (k)
+#define RIBBONS437_BEFORE_TAIL(k) ((k) - 1)
+#define RIBBONS437_AT(points, k) ((points)[k])
+#define RIBBONS437_NEXT(points, k) ((points)[(k) + 1])
+#endif
+
 void func_8013CB08(u8 *ctx)
 {
     SVECTOR rot;
@@ -106,10 +121,10 @@ void func_8013CB08(u8 *ctx)
                                               &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed, &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed,
                                               &p, &flag);
                 RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &p, &flag);
-                dx = ribbon->sa[k].point.vx - ribbon->sa[k - 1].point.vx;
-                dy = ribbon->sa[k].point.vy - ribbon->sa[k - 1].point.vy;
+                dx = ribbon->sa[RIBBONS437_TAIL(k)].point.vx - ribbon->sa[RIBBONS437_BEFORE_TAIL(k)].point.vx;
+                dy = ribbon->sa[RIBBONS437_TAIL(k)].point.vy - ribbon->sa[RIBBONS437_BEFORE_TAIL(k)].point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                ribbon->width[k] = ribbon->sb[RIBBONS437_TAIL(k)].point.vx - ribbon->sa[RIBBONS437_TAIL(k)].point.vx;
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             } else {
@@ -117,8 +132,8 @@ void func_8013CB08(u8 *ctx)
                                               &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed, &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
                                               &p, &flag);
                 RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &p, &flag);
-                dx = ribbon->sa[k + 1].point.vx - ribbon->sa[k].point.vx;
-                dy = ribbon->sa[k + 1].point.vy - ribbon->sa[k].point.vy;
+                dx = RIBBONS437_NEXT(ribbon->sa, k).point.vx - ribbon->sa[k].point.vx;
+                dy = RIBBONS437_NEXT(ribbon->sa, k).point.vy - ribbon->sa[k].point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
                 ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
@@ -137,14 +152,14 @@ void func_8013CB08(u8 *ctx)
             if ((s16)(k % 2) == 1) {
                 poly++;
             }
-            poly->x0 = ribbon->sa[k].point.vx + ribbon->ox[k];
+            poly->x0 = RIBBONS437_AT(ribbon->sa, k).point.vx + ribbon->ox[k];
             poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-            poly->x1 = ribbon->sa[k + 1].point.vx + ribbon->ox[k + 1];
-            poly->y1 = (ribbon->sa[k + 1].packed >> 16) + ribbon->oy[k + 1];
+            poly->x1 = RIBBONS437_NEXT(ribbon->sa, k).point.vx + ribbon->ox[k + 1];
+            poly->y1 = (RIBBONS437_NEXT(ribbon->sa, k).packed >> 16) + ribbon->oy[k + 1];
             poly->x2 = ribbon->sa[k].point.vx - ribbon->ox[k];
             poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-            poly->x3 = ribbon->sa[k + 1].point.vx - ribbon->ox[k + 1];
-            poly->y3 = (ribbon->sa[k + 1].packed >> 16) - ribbon->oy[k + 1];
+            poly->x3 = RIBBONS437_NEXT(ribbon->sa, k).point.vx - ribbon->ox[k + 1];
+            poly->y3 = (RIBBONS437_NEXT(ribbon->sa, k).packed >> 16) - ribbon->oy[k + 1];
             poly->r0 = ribbon->color[0];
             poly->g0 = ribbon->color[1];
             poly->b0 = ribbon->color[2];

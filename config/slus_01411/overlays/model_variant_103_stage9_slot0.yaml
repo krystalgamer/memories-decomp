@@ -69,20 +69,20 @@ segments:
     align: 4
     subsegments:
       - [0x14A4, c, overlays/model_variant/variant420_sheet]
-  - name: unmatched_1b08
+  - name: helper_1b08
     type: code
     start: 0x1B08
     vram: 0x8013CB08
     align: 4
     subsegments:
-      - [0x1B08, asm, overlays/model_variant_103_stage9_slot0/unmatched_1b08]
-  - name: unmatched_25ac
+      - [0x1B08, c, overlays/model_variant/variant420_ribbons]
+  - name: helper_25ac
     type: code
     start: 0x25AC
     vram: 0x8013D5AC
     align: 4
     subsegments:
-      - [0x25AC, asm, overlays/model_variant_103_stage9_slot0/unmatched_25ac]
+      - [0x25AC, c, overlays/model_variant/variant420_streamers]
   - name: data
     type: code
     start: 0x2EEC
