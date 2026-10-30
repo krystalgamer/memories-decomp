@@ -20,6 +20,7 @@ void func_8013BDE4(u8 *ctx)
     PSXLONG flag;
     Variant397BeamsState *work;
     ModelVariantSheetSet *sheet;
+    Variant397Beam *beam;
     GsOT *ot;
     s16 i;
     s16 k;
@@ -32,7 +33,6 @@ void func_8013BDE4(u8 *ctx)
     s32 coil;
     s16 len;
     s32 count;
-    Variant397Beam *beam;
     POLY_FT4 *poly;
     s32 dx;
     s32 dy;
