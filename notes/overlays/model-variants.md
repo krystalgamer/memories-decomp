@@ -131,6 +131,12 @@ The French header-428/578 images compile the same entry under
 through `french_model_variant/variant428_entry.c`, and build the two helpers
 as their own 2.8.1 segments from `variant428_swarm.c` and `variant428_quads.c`.
 
+The two North American header-430/580 images build only their entry from
+`model_variant/variant430_entry.c` under `gcc_2_7_2_cdk_g0`; their swarm
+helper stays generated assembly. The French header-447/597 images compile the
+same entry under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the
+palette to VRAM x 640, beside their existing 2.8.1 `variant447_swarm.c`.
+
 ## Header families
 
 The first word of a variant image is a header id. Every image with a given
