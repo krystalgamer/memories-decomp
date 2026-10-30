@@ -1,6 +1,12 @@
 #include "../../types.h"
 #include "variant831_entry.h"
 
+/* The North American header-814/911 images load the flare palette from CLUT
+ * row 0x3D20 instead of the PAL row 0x3D28. */
+#ifndef VARIANT831_FLARE_CLUT
+#define VARIANT831_FLARE_CLUT 0x3D28
+#endif
+
 /* Header 831's entry, built on header 792's: three bolts, launched at three
  * set times, leave a model point and fly towards a jittered point on the
  * opposing slot, wrapped in a ring of sprites and spinning Gouraud strips and
@@ -109,7 +115,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spark_count[i] = 0;
         }
         work->flare_tpage = 174;
-        work->flare_clut = 15656;
+        work->flare_clut = VARIANT831_FLARE_CLUT;
         work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E818[0]);
         work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E818[1]);
         work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E818[2]);
@@ -492,6 +498,9 @@ s32 func_8013B004(u8 *context, s32 command)
                         work->spark_frame[i][j]++;
                     }
                 }
+                /* Matching quirk: the original indexes the flare scale at
+                 * "i - count", which lands in flight[] for three bolts; no
+                 * in-bounds spelling reproduces this subscript. */
                 setVector(&rot, 0, 0, 0);
                 setVector(&scale, work->flare_scale[i - work->config->count] + 4096,
                           work->flare_scale[i - work->config->count] + 4096,
