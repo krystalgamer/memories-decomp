@@ -3,4 +3,4 @@ address,size,name,status,module,notes
 0x8013BD9C,0x79C,func_8013BD9C,matching_c,overlay/model_variant_707_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013C538,0x5B4,func_8013C538,matching_c,overlay/model_variant_707_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013CAEC,0xB88,func_8013CAEC,unmatched_asm,overlay/model_variant_707_stage9_slot0,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8013D674,0x8D0,func_8013D674,unmatched_asm,overlay/model_variant_707_stage9_slot0,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8013D674,0x8D0,func_8013D674,matching_c,overlay/model_variant_707_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
