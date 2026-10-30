@@ -42,10 +42,17 @@ void func_8013D1F4(u8 *ctx)
     ribbon = (Variant469Ribbon *)(work + 0xA84);
     ot = func_80058F10();
     sum = 0;
+#ifdef MODEL_VARIANT452_RIBBONS
+    /* The USA build of this helper sets the drawn length once, before the
+       ribbon loop; the USA wrappers define MODEL_VARIANT452_RIBBONS. */
+    len = 0x30;
+#endif
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x3974), MODEL_VARIANT_WORD(work, 0x396C)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x3970), MODEL_VARIANT_WORD(work, 0x396C));
     for (i = 0, phase = 0; i < 5; i++, ribbon++, phase = i * 6144 / 5) {
+#ifndef MODEL_VARIANT452_RIBBONS
         len = 0x30;
+#endif
         if (i == 0) {
             turn = 0x400;
         } else if (i % 2 == 1) {
