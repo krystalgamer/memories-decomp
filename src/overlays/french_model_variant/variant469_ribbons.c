@@ -121,7 +121,7 @@ void func_8013D1F4(u8 *ctx)
             amp1 = ribbon->width[k] * 64 / 48;
             amp2 = ribbon->width[k];
             ribbon->sa[k] += rcos(ribbon->angle[k]) * ((rsin(bend) * amp1 >> 12) + (rsin(wave) * amp2 >> 12)) >> 12;
-            ribbon->sa[k] += (rsin(ribbon->angle[k]) * ((rsin(bend) * amp1 >> 12) + (rsin(wave) * amp2 >> 12)) >> 12) << 16;
+            ribbon->sa[k] = (u32)ribbon->sa[k] + ((u32)(rsin(ribbon->angle[k]) * ((rsin(bend) * amp1 >> 12) + (rsin(wave) * amp2 >> 12)) >> 12) << 16);
         }
         if (ribbon->count < 0) {
             n = 0;
