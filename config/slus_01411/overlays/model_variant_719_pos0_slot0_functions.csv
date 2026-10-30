@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0x110C,func_8013B004,unmatched_asm,overlay/model_variant_719_pos0_slot0,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8013B004,0x110C,func_8013B004,matching_c,overlay/model_variant_719_pos0_slot0,Loader entry; C body exact through variant455_entry.c; direct-entry reachable.
 0x8013C110,0x628,func_8013C110,matching_c,overlay/model_variant_719_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013C738,0x604,func_8013C738,matching_c,overlay/model_variant_719_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013CD3C,0xB4C,func_8013CD3C,unmatched_asm,overlay/model_variant_719_pos0_slot0,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
