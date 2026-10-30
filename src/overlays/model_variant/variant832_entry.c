@@ -325,28 +325,28 @@ s32 func_8013B004(u8 *context, s32 command)
                               work->config->steps / (13 - work->flight[i]) * -work->step[i].vz);
                     setVector(&quad[3], work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (13 - work->flight[i]) * (-work->step[i].vz << 1));
+                              work->config->steps / (13 - work->flight[i]) * (s32)((u32)-work->step[i].vz << 1));
                 } else if (j % 4 == 1) {
                     setVector(&quad[2], -work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
                               work->config->steps / (11 - work->flight[i]) * -work->step[i].vz);
                     setVector(&quad[3], -work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (11 - work->flight[i]) * (-work->step[i].vz << 1));
+                              work->config->steps / (11 - work->flight[i]) * (s32)((u32)-work->step[i].vz << 1));
                 } else if (j % 4 == 2) {
                     setVector(&quad[2], work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               -work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
                               work->config->steps / (12 - work->flight[i]) * -work->step[i].vz);
                     setVector(&quad[3], work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               -work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (12 - work->flight[i]) * (-work->step[i].vz << 1));
+                              work->config->steps / (12 - work->flight[i]) * (s32)((u32)-work->step[i].vz << 1));
                 } else if (j % 4 == 3) {
                     setVector(&quad[2], -work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               -work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
                               work->config->steps / (12 - work->flight[i]) * -work->step[i].vz);
                     setVector(&quad[3], -work->config->strip_radius * ccos(work->elapsed * 64 % 4096) / 4096,
                               -work->config->strip_radius * csin(work->elapsed * 64 % 4096) / 4096,
-                              work->config->steps / (12 - work->flight[i]) * (-work->step[i].vz << 1));
+                              work->config->steps / (12 - work->flight[i]) * (s32)((u32)-work->step[i].vz << 1));
                 }
                 for (k = 0; k < 4; k++) {
                     copyVector(&rot, &work->angle[i]);
@@ -412,6 +412,10 @@ s32 func_8013B004(u8 *context, s32 command)
                 GsSetLsMatrix(&m);
                 k = 1;
                 /* Writing the bound as "- (tail + 1)" keeps "trail_head - 1" computed first. */
+                /*
+                 * The last segment can reach j == 0, so retail reads trail[i][-1], which
+                 * aliases the previous bolt's trail[i - 1][15] (target[3] for bolt 0).
+                 */
                 for (j = work->trail_head[i] - 1; j >= work->trail_head[i] - (work->tail[i] + 1); j--) {
                     setRGB0(g4, work->bolt[i][0] / k, work->bolt[i][1] / k, work->bolt[i][2] / k);
                     setRGB1(g4, work->bolt[i][0] / k, work->bolt[i][1] / k, work->bolt[i][2] / k);
@@ -736,6 +740,10 @@ s32 func_8013B004(u8 *context, s32 command)
             }
 
             setVector(&rot, 0, 0, 0);
+            /*
+             * Retail indexes the fan growth with i - count, which is negative for every
+             * launched bolt (i < count), so these accesses alias flight[4 + i - count].
+             */
             setVector(&scale, work->growth[i - work->config->count] + 0x1000,
                       work->growth[i - work->config->count] + 0x1000,
                       (work->growth[i - work->config->count] >> 3) + 0x1000);
