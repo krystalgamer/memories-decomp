@@ -19,6 +19,12 @@
       "source": "src/overlays/model_variant/variant410_spiral_slot1.c"
     },
     {
+      "address": "0x8017CFA8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x8A4",
+      "source": "src/overlays/model_variant/variant410_ribbons_slot1.c"
+    },
+    {
       "address": "0x8017D84C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x55C",

@@ -1,6 +1,17 @@
 #include "../../types.h"
 #include "variant427_ribbons.h"
 
+/* The North American header-410 build reads the projected points through
+ * pointer arithmetic so CDK GCC folds sa[k + 1] into a fixed offset from
+ * sa[k]; the default spelling is the French/Spanish one. */
+#ifdef MODEL_VARIANT410_RIBBONS_POINTER_SCREEN
+#define RIBBONS427_SA(k, n) (*(ribbon->sa + (k) + (n)))
+#define RIBBONS427_SB(k) (*(ribbon->sb + (k)))
+#else
+#define RIBBONS427_SA(k, n) (ribbon->sa[(k) + (n)])
+#define RIBBONS427_SB(k) (ribbon->sb[k])
+#endif
+
 void func_8013CFC4(u8 *ctx)
 {
     SVECTOR rot;
@@ -75,10 +86,10 @@ void func_8013CFC4(u8 *ctx)
                                                   &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed, &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed,
                                                   &p, &ribbon->flags[k]);
                     RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &p, &flag);
-                    dx = ribbon->sa[k].point.vx - ribbon->sa[k - 1].point.vx;
-                    sy = (ribbon->sa[k].packed >> 16) - (ribbon->sa[k - 1].packed >> 16);
+                    dx = RIBBONS427_SA(k, 0).point.vx - RIBBONS427_SA(k, -1).point.vx;
+                    sy = (RIBBONS427_SA(k, 0).packed >> 16) - (RIBBONS427_SA(k, -1).packed >> 16);
                     ribbon->angle[k] = ratan2(sy, dx) - 0x400;
-                    ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                    ribbon->width[k] = RIBBONS427_SB(k).point.vx - RIBBONS427_SA(k, 0).point.vx;
                     ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                     ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 } else {
@@ -86,10 +97,10 @@ void func_8013CFC4(u8 *ctx)
                                                   &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed, &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
                                                   &p, &ribbon->flags[k]);
                     RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &p, &flag);
-                    dx = ribbon->sa[k + 1].point.vx - ribbon->sa[k].point.vx;
-                    sy = ribbon->sa[k + 1].point.vy - ribbon->sa[k].point.vy;
+                    dx = RIBBONS427_SA(k, 1).point.vx - RIBBONS427_SA(k, 0).point.vx;
+                    sy = RIBBONS427_SA(k, 1).point.vy - RIBBONS427_SA(k, 0).point.vy;
                     ribbon->angle[k] = ratan2(sy, dx) - 0x400;
-                    ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                    ribbon->width[k] = RIBBONS427_SB(k).point.vx - RIBBONS427_SA(k, 0).point.vx;
                     ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                     ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 }
@@ -104,25 +115,25 @@ void func_8013CFC4(u8 *ctx)
                 setRGB1(poly, 0, 192, 0);
                 setRGB2(poly, 192, 192, 192);
                 setRGB3(poly, 192, 192, 192);
-                poly->x0 = ribbon->sa[k].point.vx + ribbon->ox[k];
-                poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-                poly->x1 = ribbon->sa[k + 1].point.vx + ribbon->ox[k + 1];
-                poly->y1 = (ribbon->sa[k + 1].packed >> 16) + ribbon->oy[k + 1];
-                poly->x2 = ribbon->sa[k].point.vx;
-                poly->y2 = (ribbon->sa[k].packed >> 16);
-                poly->x3 = ribbon->sa[k + 1].point.vx;
-                poly->y3 = (ribbon->sa[k + 1].packed >> 16);
+                poly->x0 = RIBBONS427_SA(k, 0).point.vx + ribbon->ox[k];
+                poly->y0 = (RIBBONS427_SA(k, 0).packed >> 16) + ribbon->oy[k];
+                poly->x1 = RIBBONS427_SA(k, 1).point.vx + ribbon->ox[k + 1];
+                poly->y1 = (RIBBONS427_SA(k, 1).packed >> 16) + ribbon->oy[k + 1];
+                poly->x2 = RIBBONS427_SA(k, 0).point.vx;
+                poly->y2 = (RIBBONS427_SA(k, 0).packed >> 16);
+                poly->x3 = RIBBONS427_SA(k, 1).point.vx;
+                poly->y3 = (RIBBONS427_SA(k, 1).packed >> 16);
                 if (ribbon->otz[k] >= 0 && ribbon->flags[k] >= 0) {
                     GsSortPoly(poly, ot, (u16)ribbon->otz[k]);
                 }
-                poly->x0 = ribbon->sa[k].point.vx - ribbon->ox[k];
-                poly->y0 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-                poly->x1 = ribbon->sa[k + 1].point.vx - ribbon->ox[k + 1];
-                poly->y1 = (ribbon->sa[k + 1].packed >> 16) - ribbon->oy[k + 1];
-                poly->x2 = ribbon->sa[k].point.vx;
-                poly->y2 = (ribbon->sa[k].packed >> 16);
-                poly->x3 = ribbon->sa[k + 1].point.vx;
-                poly->y3 = (ribbon->sa[k + 1].packed >> 16);
+                poly->x0 = RIBBONS427_SA(k, 0).point.vx - ribbon->ox[k];
+                poly->y0 = (RIBBONS427_SA(k, 0).packed >> 16) - ribbon->oy[k];
+                poly->x1 = RIBBONS427_SA(k, 1).point.vx - ribbon->ox[k + 1];
+                poly->y1 = (RIBBONS427_SA(k, 1).packed >> 16) - ribbon->oy[k + 1];
+                poly->x2 = RIBBONS427_SA(k, 0).point.vx;
+                poly->y2 = (RIBBONS427_SA(k, 0).packed >> 16);
+                poly->x3 = RIBBONS427_SA(k, 1).point.vx;
+                poly->y3 = (RIBBONS427_SA(k, 1).packed >> 16);
                 if (ribbon->otz[k] >= 0 && ribbon->flags[k] >= 0) {
                     GsSortPoly(poly, ot, (u16)ribbon->otz[k]);
                 }
