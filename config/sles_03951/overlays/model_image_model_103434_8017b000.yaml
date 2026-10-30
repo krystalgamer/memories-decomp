@@ -68,7 +68,7 @@ segments:
     vram: 0x8017d318
     align: 4
     subsegments:
-      - [0x2318, asm, overlays/spanish_model_image_model_103434_8017b000/unmatched_2318]
+      - [0x2318, c, overlays/french_model_variant/variant463_paired_sheets_slot1]
   - name: unmatched_2860
     type: code
     start: 0x2860
