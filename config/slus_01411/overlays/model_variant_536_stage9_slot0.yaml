@@ -55,13 +55,13 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant439_entry]
-  - name: unmatched_1020
+  - name: helper_1020
     type: code
     start: 0x1020
     vram: 0x8013C020
     align: 4
     subsegments:
-      - [0x1020, asm, overlays/model_variant_536_stage9_slot0/unmatched_1020]
+      - [0x1020, c, overlays/model_variant/variant439_twin_ribbons]
   - name: helper_1828
     type: code
     start: 0x1828
@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1828, c, overlays/model_variant/variant439_ribbons]
-  - name: unmatched_1f34
+  - name: helper_1f34
     type: code
     start: 0x1F34
     vram: 0x8013CF34
     align: 4
     subsegments:
-      - [0x1F34, asm, overlays/model_variant_536_stage9_slot0/unmatched_1f34]
+      - [0x1F34, c, overlays/model_variant/variant439_sprays]
   - name: helper_2a60
     type: code
     start: 0x2A60
