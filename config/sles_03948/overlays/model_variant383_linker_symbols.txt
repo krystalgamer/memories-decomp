@@ -32,5 +32,7 @@ Graphics_SubmitDrawModePacket = 0x8004D5B8;
 ratan2 = 0x80089928;
 rcos = 0x800866F8;
 rsin = 0x80086628;
-
 func_8005B260 = Graphics_SubmitDrawModePacket;
+GetTPage = 0x80082CE8;
+GetClut = 0x80082D28;
+SetPolyF4 = 0x80082E88;

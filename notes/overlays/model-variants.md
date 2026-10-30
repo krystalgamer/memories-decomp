@@ -112,6 +112,12 @@ swarm helper from `model_variant/variant451_entry.c` under
 at the North American address. The French header-468/618 images compile the
 same entry under `gcc_2_8_1_g0_split` and keep their 2.8.1 helper.
 
+The two North American header-366/516 images build only their entry from
+`model_variant/variant366_entry.c` under `gcc_2_7_2_cdk_g0`; their five
+helpers stay generated assembly. The French header-383/533 images compile the
+same entry under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the
+palette to VRAM x 640, beside their existing 2.8.1 helper C.
+
 ## Header families
 
 The first word of a variant image is a header id. Every image with a given

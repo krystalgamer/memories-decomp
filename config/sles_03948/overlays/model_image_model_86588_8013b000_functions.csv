@@ -1,4 +1,5 @@
 address,size,name,status,module,notes
+0x8013B004,0xCB8,func_8013B004,matching_c,overlay/model_image_model_86588_8013b000,Loader entry; C body exact through variant383_entry.c (the US header-366 entry under VERSION_FRENCH); direct-entry reachable.
 0x8013BCBC,0x548,func_8013BCBC,matching_c,overlay/model_image_model_86588_8013b000,Model 363 stage9 header383 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
 0x8013C204,0x718,func_8013C204,matching_c,overlay/model_image_model_86588_8013b000,Model 363 stage9 header383 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
 0x8013C91C,0x5AC,func_8013C91C,matching_c,overlay/model_image_model_86588_8013b000,Model 363 stage9 header383 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
