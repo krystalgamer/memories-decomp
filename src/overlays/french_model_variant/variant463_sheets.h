@@ -25,8 +25,8 @@ typedef struct {
 
 typedef struct {
     u8 unknown_0000[0xD70];
-    Sheets463Primary primary[1];
-    u8 unknown_1020[0x10D8];
+    Sheets463Primary primary[5];
+    u8 unknown_1AE0[0x618];
     ModelVariantSheetSet sheets[10];
     u8 unknown_2710[0x1C24];
     POLY_GT4 polygons[2];
