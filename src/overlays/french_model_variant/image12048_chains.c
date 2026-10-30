@@ -35,23 +35,23 @@ void func_8013D22C(u8 *context)
             amp = rcos(wave) * 64 >> 12;
             amp += rcos(sway) * 32 >> 12;
             if (j == 0) {
-                chain->pos[0].vx = rcos(chain->yaw) * (rsin(chain->pitch) * 384 >> 12) >> 12;
-                chain->pos[0].vy = rcos(chain->pitch) * 384 >> 12;
-                chain->pos[0].vz = rsin(chain->yaw) * (rsin(chain->pitch) * 384 >> 12) >> 12;
-                chain->dir[0] = -chain->pos[0].vx;
-                chain->dir[1] = -chain->pos[0].vy;
-                chain->dir[2] = -chain->pos[0].vz;
+                chain->u.f.pos[0].vx = rcos(chain->yaw) * (rsin(chain->pitch) * 384 >> 12) >> 12;
+                chain->u.f.pos[0].vy = rcos(chain->pitch) * 384 >> 12;
+                chain->u.f.pos[0].vz = rsin(chain->yaw) * (rsin(chain->pitch) * 384 >> 12) >> 12;
+                chain->dir[0] = -chain->u.f.pos[0].vx;
+                chain->dir[1] = -chain->u.f.pos[0].vy;
+                chain->dir[2] = -chain->u.f.pos[0].vz;
             } else {
-                j[chain->pos].vx = chain->pos[0].vx + chain->dir[0] * j / 4 +
+                j[chain->u.f.pos].vx = chain->u.f.pos[0].vx + chain->dir[0] * j / 4 +
                                    (rcos(angle) * (rcos(chain->pitch) * amp >> 12) >> 12);
-                j[chain->pos].vy = chain->pos[0].vy + chain->dir[1] * j / 4 +
+                j[chain->u.f.pos].vy = chain->u.f.pos[0].vy + chain->dir[1] * j / 4 +
                                    (rsin(chain->pitch) * amp >> 12);
-                j[chain->pos].vz = chain->pos[0].vz + chain->dir[2] * j / 4 +
+                j[chain->u.f.pos].vz = chain->u.f.pos[0].vz + chain->dir[2] * j / 4 +
                                    (rsin(angle) * (rcos(chain->pitch) * amp >> 12) >> 12);
             }
             spread = 24;
-            j[chain->edge].vx = j[chain->pos].vx + (rcos(angle) * spread >> 12);
-            pos = &j[chain->pos];
+            j[chain->u.f.edge].vx = j[chain->u.f.pos].vx + (rcos(angle) * spread >> 12);
+            pos = &j[chain->u.span];
             edge = &pos[18];
             edge->vy = pos->vy;
             edge->vz = pos->vz + (rsin(angle) * spread >> 12);
@@ -82,29 +82,29 @@ void func_8013D22C(u8 *context)
     for (i = 0; i < 3; i++, chain++) {
         for (j = 0; j < 9; j++) {
             if (j == 8) {
-                chain->depth[j] = RotTransPers4(&chain->pos[j - 1], &chain->pos[j], &chain->pos[j - 1], &chain->pos[j],
-                                                &chain->sxy[j - 1], &chain->sxy[j],
-                                                &chain->sxy[j - 1], &chain->sxy[j],
+                chain->depth[j] = RotTransPers4(&chain->u.f.pos[j - 1], &chain->u.f.pos[j], &chain->u.f.pos[j - 1], &chain->u.f.pos[j],
+                                                &chain->u.f.sxy[j - 1], &chain->u.f.sxy[j],
+                                                &chain->u.f.sxy[j - 1], &chain->u.f.sxy[j],
                                                 &interpolation, &flags[i][j]);
-                RotTransPers(&chain->edge[j], &chain->edge_sxy[j], &interpolation, &flag);
-                dx = (s16)chain->sxy[j] - (s16)chain->sxy[j - 1];
-                dy = (s16)(chain->sxy[j] >> 16) - (s16)(chain->sxy[j - 1] >> 16);
-                chain->angle[j] = ratan2(dy, dx) + 0xC00;
-                chain->width[j] = (s16)chain->edge_sxy[j] - (s16)chain->sxy[j];
-                chain->dx[j] = rcos(chain->angle[j]) * chain->width[j] >> 12;
-                chain->dy[j] = rsin(chain->angle[j]) * chain->width[j] >> 12;
+                RotTransPers(&chain->u.f.edge[j], &chain->edge_sxy[j], &interpolation, &flag);
+                dx = (s16)chain->u.f.sxy[j] - (s16)chain->u.f.sxy[j - 1];
+                dy = (s16)(chain->u.f.sxy[j] >> 16) - (s16)(chain->u.f.sxy[j - 1] >> 16);
+                chain->u.f.angle[j] = ratan2(dy, dx) + 0xC00;
+                chain->width[j] = (s16)chain->edge_sxy[j] - (s16)chain->u.f.sxy[j];
+                chain->dx[j] = rcos(chain->u.f.angle[j]) * chain->width[j] >> 12;
+                chain->dy[j] = rsin(chain->u.f.angle[j]) * chain->width[j] >> 12;
             } else {
-                chain->depth[j] = RotTransPers4(&chain->pos[j], &chain->pos[j + 1], &chain->pos[j], &chain->pos[j + 1],
-                                                &chain->sxy[j], &chain->sxy[j + 1],
-                                                &chain->sxy[j], &chain->sxy[j + 1],
+                chain->depth[j] = RotTransPers4(&chain->u.f.pos[j], &chain->u.f.pos[j + 1], &chain->u.f.pos[j], &chain->u.f.pos[j + 1],
+                                                &chain->u.f.sxy[j], &chain->u.f.sxy[j + 1],
+                                                &chain->u.f.sxy[j], &chain->u.f.sxy[j + 1],
                                                 &interpolation, &flags[i][j]);
-                RotTransPers(&chain->edge[j], &chain->edge_sxy[j], &interpolation, &flag);
-                dx = (s16)chain->sxy[j + 1] - (s16)chain->sxy[j];
-                dy = (s16)(chain->sxy[j + 1] >> 16) - (s16)(chain->sxy[j] >> 16);
-                chain->angle[j] = ratan2(dy, dx) + 0xC00;
-                chain->width[j] = (s16)chain->edge_sxy[j] - (s16)chain->sxy[j];
-                chain->dx[j] = rcos(chain->angle[j]) * chain->width[j] >> 12;
-                chain->dy[j] = rsin(chain->angle[j]) * chain->width[j] >> 12;
+                RotTransPers(&chain->u.f.edge[j], &chain->edge_sxy[j], &interpolation, &flag);
+                dx = (s16)chain->u.f.sxy[j + 1] - (s16)chain->u.f.sxy[j];
+                dy = (s16)(chain->u.f.sxy[j + 1] >> 16) - (s16)(chain->u.f.sxy[j] >> 16);
+                chain->u.f.angle[j] = ratan2(dy, dx) + 0xC00;
+                chain->width[j] = (s16)chain->edge_sxy[j] - (s16)chain->u.f.sxy[j];
+                chain->dx[j] = rcos(chain->u.f.angle[j]) * chain->width[j] >> 12;
+                chain->dy[j] = rsin(chain->u.f.angle[j]) * chain->width[j] >> 12;
             }
         }
     }
@@ -120,32 +120,32 @@ void func_8013D22C(u8 *context)
                 poly++;
             }
             if (j == 0) {
-                poly->x0 = (s16)chain->sxy[j];
-                poly->y0 = (chain->sxy[j] >> 16);
-                poly->x1 = (s16)chain->sxy[j + 1] + chain->dx[j + 1];
-                poly->y1 = (chain->sxy[j + 1] >> 16) + chain->dy[j + 1];
-                poly->x2 = (s16)chain->sxy[j];
-                poly->y2 = (chain->sxy[j] >> 16);
-                poly->x3 = (s16)chain->sxy[j + 1] - chain->dx[j + 1];
-                poly->y3 = (chain->sxy[j + 1] >> 16) - chain->dy[j + 1];
+                poly->x0 = (s16)chain->u.f.sxy[j];
+                poly->y0 = (chain->u.f.sxy[j] >> 16);
+                poly->x1 = (s16)chain->u.f.sxy[j + 1] + chain->dx[j + 1];
+                poly->y1 = (chain->u.f.sxy[j + 1] >> 16) + chain->dy[j + 1];
+                poly->x2 = (s16)chain->u.f.sxy[j];
+                poly->y2 = (chain->u.f.sxy[j] >> 16);
+                poly->x3 = (s16)chain->u.f.sxy[j + 1] - chain->dx[j + 1];
+                poly->y3 = (chain->u.f.sxy[j + 1] >> 16) - chain->dy[j + 1];
             } else if (j + 1 == 8) {
-                poly->x0 = (s16)chain->sxy[j] + chain->dx[j];
-                poly->y0 = (chain->sxy[j] >> 16) + chain->dy[j];
-                poly->x1 = (s16)chain->sxy[j + 1];
-                poly->y1 = (chain->sxy[j + 1] >> 16);
-                poly->x2 = (s16)chain->sxy[j] - chain->dx[j];
-                poly->y2 = (chain->sxy[j] >> 16) - chain->dy[j];
-                poly->x3 = (s16)chain->sxy[j + 1];
-                poly->y3 = (chain->sxy[j + 1] >> 16);
+                poly->x0 = (s16)chain->u.f.sxy[j] + chain->dx[j];
+                poly->y0 = (chain->u.f.sxy[j] >> 16) + chain->dy[j];
+                poly->x1 = (s16)chain->u.f.sxy[j + 1];
+                poly->y1 = (chain->u.f.sxy[j + 1] >> 16);
+                poly->x2 = (s16)chain->u.f.sxy[j] - chain->dx[j];
+                poly->y2 = (chain->u.f.sxy[j] >> 16) - chain->dy[j];
+                poly->x3 = (s16)chain->u.f.sxy[j + 1];
+                poly->y3 = (chain->u.f.sxy[j + 1] >> 16);
             } else {
-                poly->x0 = (s16)chain->sxy[j] + chain->dx[j];
-                poly->y0 = (chain->sxy[j] >> 16) + chain->dy[j];
-                poly->x1 = (s16)chain->sxy[j + 1] + chain->dx[j + 1];
-                poly->y1 = (chain->sxy[j + 1] >> 16) + chain->dy[j + 1];
-                poly->x2 = (s16)chain->sxy[j] - chain->dx[j];
-                poly->y2 = (chain->sxy[j] >> 16) - chain->dy[j];
-                poly->x3 = (s16)chain->sxy[j + 1] - chain->dx[j + 1];
-                poly->y3 = (chain->sxy[j + 1] >> 16) - chain->dy[j + 1];
+                poly->x0 = (s16)chain->u.f.sxy[j] + chain->dx[j];
+                poly->y0 = (chain->u.f.sxy[j] >> 16) + chain->dy[j];
+                poly->x1 = (s16)chain->u.f.sxy[j + 1] + chain->dx[j + 1];
+                poly->y1 = (chain->u.f.sxy[j + 1] >> 16) + chain->dy[j + 1];
+                poly->x2 = (s16)chain->u.f.sxy[j] - chain->dx[j];
+                poly->y2 = (chain->u.f.sxy[j] >> 16) - chain->dy[j];
+                poly->x3 = (s16)chain->u.f.sxy[j + 1] - chain->dx[j + 1];
+                poly->y3 = (chain->u.f.sxy[j + 1] >> 16) - chain->dy[j + 1];
             }
             poly->r0 = chain->color[j].r;
             poly->g0 = chain->color[j].g;
