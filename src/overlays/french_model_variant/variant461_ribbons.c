@@ -2,6 +2,12 @@
 
 #include "variant469_ribbons.h"
 
+/* The North American header-444 build names the closing spine point as the
+ * next point, `k + 1`, rather than as `n`. */
+#ifndef MODEL_VARIANT461_RIBBONS_LAST
+#define MODEL_VARIANT461_RIBBONS_LAST n
+#endif
+
 /* The header-469 five-ribbon body on ribbons at the start of the work area,
  * with each RotTransPers4 flag kept in a local per-ribbon table that also gates
  * sorting. The last drawn segment ends on the bare projected spine point
@@ -110,7 +116,7 @@ void func_8013C508(u8 *ctx)
             amp1 = ribbon->width[k] * 64 / 48;
             amp2 = ribbon->width[k];
             ribbon->sa[k] += rcos(ribbon->angle[k]) * ((rsin(bend) * amp1 >> 12) + (rsin(wave) * amp2 >> 12)) >> 12;
-            ribbon->sa[k] += (rsin(ribbon->angle[k]) * ((rsin(bend) * amp1 >> 12) + (rsin(wave) * amp2 >> 12)) >> 12) << 16;
+            ribbon->sa[k] = (u32)ribbon->sa[k] + ((u32)(rsin(ribbon->angle[k]) * ((rsin(bend) * amp1 >> 12) + (rsin(wave) * amp2 >> 12)) >> 12) << 16);
         }
         if (ribbon->count < 0) {
             n = 0;
@@ -129,12 +135,12 @@ void func_8013C508(u8 *ctx)
             if (k + 1 == n) {
                 poly->x0 = ribbon->sa[k] + ribbon->ox[k];
                 poly->y0 = (ribbon->sa[k] >> 16) + ribbon->oy[k];
-                poly->x1 = ribbon->sa[n];
-                poly->y1 = ribbon->sa[n] >> 16;
+                poly->x1 = ribbon->sa[MODEL_VARIANT461_RIBBONS_LAST];
+                poly->y1 = ribbon->sa[MODEL_VARIANT461_RIBBONS_LAST] >> 16;
                 poly->x2 = ribbon->sa[k] - ribbon->ox[k];
                 poly->y2 = (ribbon->sa[k] >> 16) - ribbon->oy[k];
-                poly->x3 = ribbon->sa[n];
-                poly->y3 = ribbon->sa[n] >> 16;
+                poly->x3 = ribbon->sa[MODEL_VARIANT461_RIBBONS_LAST];
+                poly->y3 = ribbon->sa[MODEL_VARIANT461_RIBBONS_LAST] >> 16;
             } else {
                 poly->x0 = ribbon->sa[k] + ribbon->ox[k];
                 poly->y0 = (ribbon->sa[k] >> 16) + ribbon->oy[k];
