@@ -1,0 +1,4 @@
+// MODEL.MRG model 491 (record 491), sector 121926, header 904, loaded at 0x8017B000; the US header-790 source variant790_entry_slot1.c.
+func_8017B004 = 0x8017B004; // type:func size:0x1EAC defined:true
+D_8017CF2C = 0x8017CF2C; // type:u8 size:0x38 defined:true
+D_8017CF64 = 0x8017CF64; // type:u8 size:0x309C defined:true

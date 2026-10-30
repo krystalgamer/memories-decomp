@@ -54,7 +54,7 @@ segments:
     vram: 0x8013b004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/french_model_image_model_9840_8013b000/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/image9840_entry]
   - name: unclassified_tail
     type: code
     start: 0x1d54

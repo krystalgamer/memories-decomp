@@ -1,0 +1,4 @@
+// MODEL.MRG model 438 (record 438), sector 107268, header 817, loaded at 0x8013B000; the US source variant817_entry.c.
+func_8013B004 = 0x8013B004; // type:func size:0x3198 defined:true
+D_8013E1AC = 0x8013E1AC; // type:u8 size:0x70 defined:true
+D_8013E21C = 0x8013E21C; // type:u8 size:0x1DE4 defined:true

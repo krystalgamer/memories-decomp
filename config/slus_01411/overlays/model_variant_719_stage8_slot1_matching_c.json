@@ -1,0 +1,23 @@
+{
+  "functions": [
+    {
+      "address": "0x8017C110",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x628",
+      "source": "src/overlays/model_variant/variant455_blooms_slot1.c"
+    },
+    {
+      "address": "0x8017C738",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x604",
+      "source": "src/overlays/model_variant/variant455_mesh_slot1.c"
+    },
+    {
+      "address": "0x8017D888",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x3AC",
+      "source": "src/overlays/model_variant/variant455_sheets_slot1.c"
+    }
+  ],
+  "schema": 1
+}

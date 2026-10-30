@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "variant166_entry.h"
 #include "../../game/screen_projection.h"
+#include "../../game/graphics_constants.h"
 
 /* The header-165 entry with two changes: the particles rise straight towards
  * their targets, without the sideways offset, and each one is flipped to face
@@ -82,7 +83,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->elapsed = 0;
         work->frames = 0;
         work->completed = 0;
+#ifndef VERSION_FRENCH
         printf("%d (0x%x) Byte\n", sizeof(Model166State), sizeof(Model166State));
+#endif
         return 0;
     }
     config = work->config;
@@ -315,7 +318,7 @@ s32 func_8013B004(u8 *context, s32 command)
     }
     t = work->elapsed - config->start - config->gather;
     if (t >= 0 && t < config->burst) {
-        setXY4(&flash, 0, 0, 320, 0, 0, 240, 320, 240);
+        setXY4(&flash, 0, 0, 320, 0, 0, GRAPHICS_DEFAULT_HEIGHT, 320, GRAPHICS_DEFAULT_HEIGHT);
         s = (config->burst - t) * 255 / config->burst;
         setRGB0(&flash, s, s, s);
         Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);

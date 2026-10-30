@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant388_entry.h"
 
+#ifndef MODEL_VARIANT388_CLUT_X
+#define MODEL_VARIANT388_CLUT_X 640
+#endif
+
 #define SETC(c, R, G, B) ((c).r = (R), (c).g = (G), (c).b = (B))
 
 /* Header-388 loader entry. A non-negative command builds the tube, arms,
@@ -55,9 +59,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT388_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT388_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DE7C + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;

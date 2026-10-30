@@ -24,7 +24,9 @@ void func_8013DA50(u8 *ctx)
     GsCOORDINATE2 coord;
     PSXLONG p;
     PSXLONG flag;
+#ifndef MODEL_VARIANT423_STREAMERS_FIXED_TAIL
     PSXLONG *previous;
+#endif
     u8 *work;
     POLY_G4 *poly;
     GsOT *ot;
@@ -44,6 +46,10 @@ void func_8013DA50(u8 *ctx)
     s32 bulge;
     s32 length;
     s32 wobble;
+#ifdef MODEL_VARIANT423_STREAMERS_FIXED_TAIL
+    s32 r;
+    s32 w;
+#endif
     s32 phase;
     s16 reach;
     s32 dx;
@@ -95,6 +101,10 @@ void func_8013DA50(u8 *ctx)
         MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE8)) += 0x514;
     }
     MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE8)) += 0x20;
+#ifdef MODEL_VARIANT423_STREAMERS_FIXED_TAIL
+    /* Keeps the retail copy's unused load of this field. */
+    MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DEC)) = MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DEC));
+#endif
     m.t[0] = MODEL_VARIANT_HALF(work, STREAMERS_ORIGIN);
     m.t[1] = MODEL_VARIANT_HALF(work, STREAMERS_ORIGIN + 2);
     m.t[2] = MODEL_VARIANT_HALF(work, STREAMERS_ORIGIN + 4);
@@ -109,6 +119,49 @@ void func_8013DA50(u8 *ctx)
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
     streamer = (Variant458Streamer *)(work + STREAMERS_LIST);
+#ifdef MODEL_VARIANT423_STREAMERS_FIXED_TAIL
+    for (i = 0; i < 2; i++, streamer++) {
+        for (k = 0; k < 17; k++) {
+            if (k == 16) {
+                streamer->otz[16] = RotTransPers4(&streamer->a[15], &streamer->a[16], &streamer->a[15], &streamer->a[16],
+                                                  &streamer->sa[15], &streamer->sa[16],
+                                                  &streamer->sa[15], &streamer->sa[16], &p, &flag);
+                RotTransPers(&streamer->b[16], &streamer->sb[16], &p, &flag);
+                dx = (s16)streamer->sa[16] - (s16)streamer->sa[15];
+                dy = (streamer->sa[16] >> 16) - (streamer->sa[15] >> 16);
+                streamer->angle[16] = ratan2(dy, dx) + 0xC00;
+                if (MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE0)) > 0x200) {
+                    w = 2;
+                } else {
+                    r = (s16)streamer->sb[16];
+                    dx = (s16)streamer->sa[16];
+                    w = r - dx;
+                }
+                streamer->width[16] = w;
+            } else {
+                streamer->otz[k] = RotTransPers4(&streamer->a[k], &streamer->a[k + 1], &streamer->a[k], &streamer->a[k + 1],
+                                                 &streamer->sa[k], &streamer->sa[k + 1],
+                                                 &streamer->sa[k], &streamer->sa[k + 1], &p, &flag);
+                RotTransPers(&streamer->b[k], &streamer->sb[k], &p, &flag);
+                dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
+                dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
+                streamer->angle[k] = ratan2(dy, dx) + 0xC00;
+                if (MODEL_VARIANT_WORD(work, STREAMERS_FIELD(0x1DE0)) > 0x200) {
+                    streamer->width[k] = 2;
+                } else {
+                    streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
+                }
+            }
+            if (work) {
+                streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
+                streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
+            } else {
+                streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
+                streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
+            }
+        }
+    }
+#else
     for (i = 0, previous = &streamer->sa[15]; i < 2; i++,
          previous = (PSXLONG *)((u8 *)previous + sizeof(Variant458Streamer)), streamer++) {
         for (k = 0; k < 17; k++) {
@@ -145,6 +198,7 @@ void func_8013DA50(u8 *ctx)
             }
         }
     }
+#endif
     streamer = (Variant458Streamer *)(work + STREAMERS_LIST);
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {

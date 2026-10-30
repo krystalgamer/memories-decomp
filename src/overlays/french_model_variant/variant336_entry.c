@@ -1,6 +1,10 @@
 #include "../../types.h"
 #include "variant336_entry.h"
 
+#ifndef MODEL_VARIANT336_CLUT_X
+#define MODEL_VARIANT336_CLUT_X 640
+#endif
+
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
     Variant336EntryState *work = (Variant336EntryState *)point;
@@ -50,9 +54,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->direction.vy = work->target.vy - work->origin[1];
         work->direction.vz = work->target.vz - work->origin[2];
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT336_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(MODEL_VARIANT336_CLUT_X, 244);
         packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B8 + 0xC4));
         func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B8 + 0x8C));
         func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013D3B8 + 0x1C));

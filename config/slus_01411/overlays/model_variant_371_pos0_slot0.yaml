@@ -55,20 +55,20 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant412_entry]
-  - name: unmatched_1340
+  - name: swarm
     type: code
     start: 0x1340
     vram: 0x8013C340
     align: 4
     subsegments:
-      - [0x1340, asm, overlays/model_variant_371_pos0_slot0/unmatched_1340]
-  - name: unmatched_18b8
+      - [0x1340, c, overlays/model_variant/variant412_swarm]
+  - name: quads
     type: code
     start: 0x18B8
     vram: 0x8013C8B8
     align: 4
     subsegments:
-      - [0x18B8, asm, overlays/model_variant_371_pos0_slot0/unmatched_18b8]
+      - [0x18B8, c, overlays/model_variant/variant412_quads]
   - name: unclassified_tail
     type: code
     start: 0x1D88
