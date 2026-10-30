@@ -265,12 +265,12 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 17; i++) {
             setVector(&work->ring_points[i][0][0], work->radius * rsin(i << 8) / 4096,
                 work->radius * rcos(i << 8) / 4096, 0);
-            setVector(&work->ring_points[i][1][0], work->radius * (rsin(i << 8) << 1) / 4096,
-                work->radius * (rcos(i << 8) << 1) / 4096, 0);
+            setVector(&work->ring_points[i][1][0], work->radius * (s32)((u32)rsin(i << 8) << 1) / 4096,
+                work->radius * (s32)((u32)rcos(i << 8) << 1) / 4096, 0);
             setVector(&work->ring_points[i][0][1], work->radius * rsin(i << 8) / 4096, 0,
                 work->radius * rcos(i << 8) / 4096);
-            setVector(&work->ring_points[i][1][1], work->radius * (rsin(i << 8) << 1) / 4096, 0,
-                work->radius * (rcos(i << 8) << 1) / 4096);
+            setVector(&work->ring_points[i][1][1], work->radius * (s32)((u32)rsin(i << 8) << 1) / 4096, 0,
+                work->radius * (s32)((u32)rcos(i << 8) << 1) / 4096);
         }
         for (i = 0; i < 9; i++) {
             for (j = 0; j < 8; j++) {
