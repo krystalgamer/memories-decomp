@@ -38,8 +38,11 @@ table directly.
 The setup keeps the third texture's packed word in a short-lived `packed`
 that the next upload reassigns, and copies its CLUT into a halfword
 `flat_texture`; otherwise the shift crosses the next call and is scheduled
-late. The mesh angle is a never-assigned zero-valued `angle`, and the texture
-calls pass a literal zero so reload CSE does not hoist it into a saved register.
+late. The mesh constructor walks `n` from 0 to 8 with `angle = n << 8`, so
+the angle reaches 2048 and its cosine goes negative; the ring and heading
+scales are therefore spelled `rcos(angle) * 256 >> 12` rather than a signed
+left shift, which compiles to the same code. The texture calls pass a literal
+zero so reload CSE does not hoist it into a saved register.
 
 The funnel size store sits in its own `do { } while (0)` before the counter
 increment: the loop notes stop the scheduler from hoisting the increment above

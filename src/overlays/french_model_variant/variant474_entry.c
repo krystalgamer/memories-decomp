@@ -135,8 +135,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         SetSemiTrans(glow, 1);
         SetShadeTex(glow, 0);
         for (n = 0, angle = 0; n < 9; n++, angle = n << 8) {
-            s = (s32)(rsin(angle) << 8) >> 12;
-            c = (s32)(rcos(angle) << 8) >> 12;
+            s = rsin(angle) * 256 >> 12;
+            c = rcos(angle) * 256 >> 12;
             for (j = 0, angle2 = 0; j < 17; j++, angle2 = j << 8) {
                 setVector(&mesh->row[n][j], rcos(angle2) * s >> 12, -c, rsin(angle2) * s >> 12);
             }
@@ -178,8 +178,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             } else {
                 angle = 1024 - (i << 9);
             }
-            ribbon->heading[0] = (s32)(rcos(angle) << 8) >> 12;
-            ribbon->heading[1] = (s32)(rsin(angle) << 8) >> 12;
+            ribbon->heading[0] = rcos(angle) * 256 >> 12;
+            ribbon->heading[1] = rsin(angle) * 256 >> 12;
             ribbon->heading[2] = 0;
         }
         for (m = 0; m < 2; funnel++) {
