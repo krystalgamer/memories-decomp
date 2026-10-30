@@ -356,8 +356,8 @@ s32 func_8013B004(u8 *context, s32 command)
     v = work->shards;
     if (work->phase == 1) {
         for (i = 0; i < work->config->spark_count; i++) {
-            v[i].vx = work->config->radius * ((rand() % 4096 - rand() % 4096) << 1) / 4096;
-            v[i].vy = work->config->radius * ((rand() % 4096 - rand() % 4096) << 1) / 4096;
+            v[i].vx = work->config->radius * ((s32)((u32)(rand() % 4096 - rand() % 4096) << 1)) / 4096;
+            v[i].vy = work->config->radius * ((s32)((u32)(rand() % 4096 - rand() % 4096) << 1)) / 4096;
             v[i].vz = 0;
         }
         v = work->spins;
