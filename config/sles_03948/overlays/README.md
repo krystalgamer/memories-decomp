@@ -395,6 +395,15 @@ printf and format string, with the flash covering all 256 PAL lines. The
 the height and move the data labels after the shorter text and read-only
 section 0x24 lower.
 
+Two images under French headers 855 and 952 are the North American
+header-838 entry (`model_variant/variant838_entry.c`) with the glow palette
+from the PAL CLUT row 0x3D28 instead of 0x3D20 and its full-screen flash
+covering the 256 PAL lines. The
+`src/overlays/french_model_variant/variant855_entry{,_slot1}.c` wrappers set
+`VERSION_FRENCH` and the height and bind
+`model_variant855_linker_symbols.txt` and
+`model_variant952_linker_symbols.txt`.
+
 Four images under French headers 192 and 322 are the North American
 header-175 entry (`model_variant/variant175_entry.c` and its slot-1 wrapper)
 unchanged: the code differs only in its resident call targets, which
