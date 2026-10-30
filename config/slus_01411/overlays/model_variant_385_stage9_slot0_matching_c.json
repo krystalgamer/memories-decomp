@@ -19,6 +19,12 @@
       "source": "src/overlays/model_variant/variant456_spiral.c"
     },
     {
+      "address": "0x8013CF98",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xC14",
+      "source": "src/overlays/model_variant/variant456_ribs.c"
+    },
+    {
       "address": "0x8013DBAC",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4C8",
