@@ -137,6 +137,13 @@ helper stays generated assembly. The French header-447/597 images compile the
 same entry under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the
 palette to VRAM x 640, beside their existing 2.8.1 `variant447_swarm.c`.
 
+The two North American header-386/536 images build their entry from
+`model_variant/variant386_entry.c` under `gcc_2_7_2_cdk_g0`, beside the
+existing sheets and chains helper C; the helper at `0x8013BF3C` stays generated
+assembly. The French header-403/553 images compile the same entry under
+`gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the palette to VRAM
+x 640, beside their existing 2.8.1 helper C.
+
 ## Header families
 
 The first word of a variant image is a header id. Every image with a given
