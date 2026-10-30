@@ -7,6 +7,12 @@
       "source": "src/overlays/model_variant/variant393_quads.c"
     },
     {
+      "address": "0x8013BF60",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x938",
+      "source": "src/overlays/model_variant/variant393_ribbons.c"
+    },
+    {
       "address": "0x8013C898",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x450",
