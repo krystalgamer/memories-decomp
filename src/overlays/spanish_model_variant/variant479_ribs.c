@@ -29,13 +29,20 @@ void func_8013CF68(u8 *ctx)
     s16 i;
     s32 angle0;
     s32 turn;
+/* The North American header-462 build declares dy first, which gives the
+ * per-point coordinates the retail spill-slot order under CDK GCC. */
+#ifdef MODEL_VARIANT462_RIBS_DY_FIRST
+    s32 dy;
+#endif
     s32 dz;
     s32 oy;
     s32 oz;
     s16 spread;
     s32 ox;
     s32 dx;
+#ifndef MODEL_VARIANT462_RIBS_DY_FIRST
     s32 dy;
+#endif
     s32 len;
     u8 *pos;
     u8 *mpos;
