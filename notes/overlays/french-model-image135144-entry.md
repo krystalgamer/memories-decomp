@@ -76,3 +76,15 @@ Integration follows the existing regional overlay manifests, inventories,
 layout and provider conventions. The resident-only
 `integrate_verified_match.py` hardcodes the North American resident ledgers
 and is not applied to these overlays.
+
+## North American images
+
+The US MODEL.MRG images at the same sectors (headers 803/900, modules
+`model_variant_539_pos0_slot0` and `model_variant_539_stage8_slot1`) carry a
+byte-identical entry and tail; only the 93 resident call targets differ, which
+`config/slus_01411/overlays/variant803us_linker_symbols.txt` supplies. The
+wrappers `src/overlays/model_variant/variant803us_entry.c` and
+`variant803us_entry_slot1.c` include this French source unchanged, so no US
+selector is needed. As in the French layout, the scale vector at `0x218C`
+stays in the raw tail (`D_8013D18C`/`D_8017D18C`). Both US images reproduce
+their retail SHA-256.
