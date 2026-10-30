@@ -62,20 +62,20 @@ segments:
     align: 4
     subsegments:
       - [0xd24, asm, overlays/model_image_model_88510_8017b000/unmatched_d24]
-  - name: unmatched_1244
+  - name: ribbons
     type: code
     start: 0x1244
     vram: 0x8017c244
     align: 4
     subsegments:
-      - [0x1244, asm, overlays/model_image_model_88510_8017b000/unmatched_1244]
-  - name: unmatched_1b78
+      - [0x1244, c, overlays/model_variant/variant432_ribbons_slot1]
+  - name: streamers
     type: code
     start: 0x1b78
     vram: 0x8017cb78
     align: 4
     subsegments:
-      - [0x1b78, asm, overlays/model_image_model_88510_8017b000/unmatched_1b78]
+      - [0x1b78, c, overlays/model_variant/variant432_streamers_slot1]
   - name: unmatched_2410
     type: code
     start: 0x2410
