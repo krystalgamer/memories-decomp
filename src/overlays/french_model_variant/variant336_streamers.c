@@ -79,6 +79,11 @@ void func_8013CB6C(u8 *ctx)
         MODEL_VARIANT_WORD(work, 0x2018) += 0x514;
     }
     MODEL_VARIANT_WORD(work, 0x2018) += 0x20;
+#ifdef MODEL_VARIANT336_STREAMERS_RELOAD_ROLL
+    /* The North American header-319 build keeps the retail copy's unused
+     * load of the roll word after the turn advances. */
+    MODEL_VARIANT_WORD(work, 0x201C) = MODEL_VARIANT_WORD(work, 0x201C);
+#endif
     m.t[0] = MODEL_VARIANT_WORD(work, 0x1F34);
     m.t[1] = MODEL_VARIANT_WORD(work, 0x1F38);
     m.t[2] = MODEL_VARIANT_WORD(work, 0x1F3C);
