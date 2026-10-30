@@ -1,4 +1,4 @@
-# Raw image with three exact C helpers; the remaining bytes stay unclassified.
+# Raw image with five exact C helpers; the remaining bytes stay unclassified.
 name: french_model_image_model_113646_8017b000
 sha1: b046e8deb506a3bc3a03e8c50b9ffeb5297bdd8d
 
@@ -47,6 +47,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/french_model_image_model_113646_8017b000/unclassified_head]
+  - name: helper_1984
+    type: code
+    start: 0x1984
+    vram: 0x8017C984
+    align: 4
+    subsegments:
+      - [0x1984, c, overlays/french_model_variant/variant463_ribbons_slot1]
   - name: helper_2318
     type: code
     start: 0x2318
@@ -54,13 +61,13 @@ segments:
     align: 4
     subsegments:
       - [0x2318, c, overlays/french_model_variant/variant463_paired_sheets_slot1]
-  - name: unclassified_mid
+  - name: helper_2860
     type: code
     start: 0x2860
     vram: 0x8017D860
     align: 4
     subsegments:
-      - [0x2860, data, overlays/french_model_image_model_113646_8017b000/unclassified_mid]
+      - [0x2860, c, overlays/french_model_variant/variant463_trail_ribbons_slot1]
   - name: helper_32E8
     type: code
     start: 0x32E8

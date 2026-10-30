@@ -1,10 +1,22 @@
 {
   "functions": [
     {
+      "address": "0x8013C984",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x994",
+      "source": "src/overlays/french_model_variant/variant463_ribbons.c"
+    },
+    {
       "address": "0x8013D318",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x548",
       "source": "src/overlays/french_model_variant/variant463_paired_sheets.c"
+    },
+    {
+      "address": "0x8013D860",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA88",
+      "source": "src/overlays/french_model_variant/variant463_trail_ribbons.c"
     },
     {
       "address": "0x8013E2E8",
