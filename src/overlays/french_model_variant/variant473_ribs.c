@@ -37,6 +37,8 @@ void func_8013CFB0(u8 *ctx)
     u8 *pos;
     u8 *timing;
     Variant473Rib *rec;
+    s16 prev;
+    s16 cur;
     POLY_GT4 *poly;
     s32 ddx;
     s32 ddy;
@@ -129,7 +131,12 @@ void func_8013CFB0(u8 *ctx)
                                                 &p, &flags[j][i]);
                     RotTransPers(&rec->b[i], &rec->sb[i], &p, &flag);
                     ddx = (s16)rec->sa[i] - (s16)rec->sa[i - 1];
-                    ddy = (rec->sa[i] >> 16) - (rec->sa[i - 1] >> 16);
+                    /* Both halves pass through s16 locals: gcc 2.7.2 then keeps the flags
+                     * row address inside the loop, as the North American build does; gcc
+                     * 2.8.1 compiles the PAL function the same either way. */
+                    cur = rec->sa[i] >> 16;
+                    prev = rec->sa[i - 1] >> 16;
+                    ddy = cur - prev;
                     rec->angle[i] = ratan2(ddy, ddx) - 0x400;
                     rec->width[i] = (s16)rec->sb[i] - (s16)rec->sa[i];
                     rec->ox[i] = rcos(rec->angle[i]) * rec->width[i] >> 12;
