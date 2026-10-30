@@ -1,0 +1,361 @@
+#include "../../types.h"
+#include "variant409_entry.h"
+
+/* PAL images load the effect palette from VRAM x = 640. */
+#define MODEL_VARIANT409_CLUT_X 512
+
+/* Header 409's entry: a dome mesh, twelve spirals, a ribbon, two sheets,
+ * four streamers and two funnels around the active slot's part, aimed at
+ * the opposite slot. */
+s32 func_8013B004(u8 *context, s32 command)
+{
+    EntryState409 *work = (EntryState409 *)context;
+    MATRIX unused_matrix0, unused_matrix1;
+    SVECTOR position, target;
+    VECTOR squared;
+    EntryProjection409 projection;
+    EntryMesh409 *mesh = &work->mesh;
+    EntryFunnel409 *funnel = work->funnels;
+    EntryRibbon409 *ribbon = work->ribbons;
+    ModelVariantSheet *sheet = work->sheets;
+    EntryStreamer409 *streamer = work->streamers;
+    EntrySpiral409 *spiral = work->spirals;
+    POLY_GT4 *extra = &work->extra;
+    POLY_GT4 *funnel_packet = &work->funnel_packet;
+    POLY_G3 *triangle = &work->triangle;
+    POLY_G4 *quad = &work->quad;
+    POLY_GT4 *textured = work->textured;
+    POLY_FT4 *flat = work->flat;
+    POLY_FT4 *band = work->band;
+    POLY_GT4 *special = &work->special;
+    s32 result = 0;
+    u16 funnel_clut, extra_clut, flat_clut, other_tpage, other_clut, tpage, clut;
+    s32 packed, row, flat_page, extra_page, funnel_page, band_page, blue;
+    s32 i, j, k, sheet_point, angle, longitude, radius, height;
+    GsRVIEW2 *view;
+    u32 screen_x, frame;
+    s32 screen_y;
+
+    if (command >= 0) {
+        work->slot = Model_GetActiveSlotIndex();
+        work->config = (EntryConfig409 *)(D_8013E7A8 + 0xFC) + command;
+        work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
+        if (work->slot == 0) {
+            setVector(&work->target, 0, -300, -450);
+        } else {
+            setVector(&work->target, 0, -300, 450);
+        }
+        GsGetLwUnit(work->part, &work->matrix);
+        setVector(&work->direction, work->target.vx - work->matrix.t[0],
+            work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
+        tpage = GetTPage(1, 1, 896, 0);
+        clut = GetClut(MODEL_VARIANT409_CLUT_X, 244);
+        other_tpage = GetTPage(1, 1, 896, 0);
+        other_clut = GetClut(MODEL_VARIANT409_CLUT_X, 244);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7A8 + 0xC4));
+        flat_page = packed >> 16;
+        flat_clut = packed;
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7A8 + 0x8C));
+        extra_page = packed >> 16;
+        extra_clut = packed;
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7A8 + 0x1C));
+        funnel_page = packed >> 16;
+        funnel_clut = packed;
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013E7A8 + 0xE0));
+        SetPolyG3(triangle);
+        SetSemiTrans(triangle, 1);
+        SetPolyG4(quad);
+        SetSemiTrans(quad, 1);
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        setUV4(textured, 126, 0, 127, 0, 126, 63, 127, 63);
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        textured++;
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        setUV4(textured, 64, 0, 127, 0, 64, 63, 127, 63);
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        SetPolyFT4(flat);
+        flat->tpage = flat_page;
+        setUV4(flat, 0, 128, 0, 175, 48, 128, 48, 175);
+        flat->clut = flat_clut;
+        SetSemiTrans(flat, 1);
+        SetShadeTex(flat, 1);
+        flat++;
+        SetPolyFT4(flat);
+        flat->tpage = flat_page;
+        setUV4(flat, 0, 176, 0, 223, 48, 176, 48, 223);
+        flat->clut = flat_clut;
+        SetSemiTrans(flat, 1);
+        SetShadeTex(flat, 1);
+        band_page = packed >> 16;
+        SetPolyFT4(band);
+        band->tpage = band_page;
+        setUV4(band, 0, 224, 31, 224, 0, 255, 31, 255);
+        band->clut = packed;
+        SetSemiTrans(band, 1);
+        SetShadeTex(band, 1);
+        band++;
+        SetPolyFT4(band);
+        band->tpage = band_page;
+        setUV4(band, 32, 224, 63, 224, 32, 255, 63, 255);
+        band->clut = packed;
+        SetSemiTrans(band, 1);
+        SetShadeTex(band, 1);
+        SetPolyGT4(extra);
+        extra->tpage = extra_page;
+        setUV4(extra, 192, 64, 255, 64, 192, 127, 255, 127);
+        extra->clut = extra_clut;
+        SetSemiTrans(extra, 1);
+        SetShadeTex(extra, 0);
+        SetPolyGT4(special);
+        special->tpage = other_tpage;
+        setUV4(special, 0, 128, 0, 255, 31, 128, 31, 255);
+        special->clut = other_clut;
+        SetSemiTrans(special, 1);
+        SetShadeTex(special, 0);
+        SetPolyGT4(funnel_packet);
+        funnel_packet->tpage = funnel_page;
+        setUV4(funnel_packet, 128, 207, 255, 207, 128, 128, 255, 128);
+        funnel_packet->clut = funnel_clut;
+        SetSemiTrans(funnel_packet, 1);
+        SetShadeTex(funnel_packet, 0);
+        for (row = 0, angle = 0, blue = 64; row < 9; row++, angle = row * 256) {
+            radius = rsin(angle) * 512 >> 12;
+            height = rcos(angle) * 512 >> 12;
+            for (j = 0, longitude = 0; j < 17; j++, longitude = j * 256) {
+                setVector(&mesh->rows[row][j], rcos(longitude) * radius >> 12,
+                    -height, rsin(longitude) * radius >> 12);
+            }
+            mesh->colors[row][2] = blue;
+            blue += 8;
+            mesh->colors[row][0] = row * 8;
+            mesh->colors[row][1] = row * 8;
+        }
+        for (i = 0; i < 12; i++, spiral++) {
+            for (j = 0; j < 2; j++) {
+                if (j == 1) {
+                    spiral->outer[j].r = 0;
+                    spiral->outer[j].g = 0;
+                    spiral->outer[j].b = 0;
+                    spiral->inner[j].r = 0;
+                    spiral->inner[j].g = 0;
+                    spiral->inner[j].b = 0;
+                } else {
+                    spiral->outer[j].r = 255;
+                    spiral->outer[j].g = 0;
+                    spiral->outer[j].b = 255;
+                    spiral->inner[j].r = 128;
+                    spiral->inner[j].g = 128;
+                    spiral->inner[j].b = 128;
+                }
+            }
+        }
+        for (i = 0; i < 1; i++, ribbon++) {
+            setVector(&ribbon->scale, 4096, 4096, 4096);
+            ribbon->colors[0].r = 128;
+            ribbon->colors[0].g = 128;
+            ribbon->colors[0].b = 128;
+            ribbon->colors[1].r = 0;
+            ribbon->colors[1].g = 16;
+            ribbon->colors[1].b = 128;
+            ribbon->field_238 = 0;
+            ribbon->field_23C = 0;
+            ribbon->field_23A = 0;
+            if (i == 0) {
+                angle = 1024;
+            } else if (i / 2 * 2 == i - 1) {
+                angle = 1024 + (i + 1) * 512;
+            } else {
+                angle = 1024 - i * 512;
+            }
+            setVector(&ribbon->position, rcos(angle) * 256 >> 12,
+                rsin(angle) * 256 >> 12, 0);
+        }
+        for (k = 0; k < 2; k++, sheet++) {
+            for (sheet_point = 0; sheet_point < 4; sheet_point++) {
+                if (sheet_point == 0) {
+                    setVector(&sheet->v0[sheet_point], -256, -256, 0);
+                    setVector(&sheet->v1[sheet_point], 0, -256, 0);
+                    setVector(&sheet->v2[sheet_point], -256, 0, 0);
+                    setVector(&sheet->v3[sheet_point], 0, 0, 0);
+                } else if (sheet_point == 1) {
+                    setVector(&sheet->v0[sheet_point], 256, -256, 0);
+                    setVector(&sheet->v1[sheet_point], 256, 0, 0);
+                    setVector(&sheet->v2[sheet_point], 0, -256, 0);
+                    setVector(&sheet->v3[sheet_point], 0, 0, 0);
+                } else if (sheet_point == 2) {
+                    setVector(&sheet->v0[sheet_point], 256, 256, 0);
+                    setVector(&sheet->v1[sheet_point], 0, 256, 0);
+                    setVector(&sheet->v2[sheet_point], 256, 0, 0);
+                    setVector(&sheet->v3[sheet_point], 0, 0, 0);
+                } else if (sheet_point == 3) {
+                    setVector(&sheet->v0[sheet_point], -256, 256, 0);
+                    setVector(&sheet->v1[sheet_point], -256, 0, 0);
+                    setVector(&sheet->v2[sheet_point], 0, 256, 0);
+                    setVector(&sheet->v3[sheet_point], 0, 0, 0);
+                }
+            }
+            sheet->outer[0] = 255;
+            sheet->outer[1] = 255;
+            sheet->outer[2] = 255;
+            sheet->inner[0] = 0;
+            sheet->inner[1] = 64;
+            sheet->inner[2] = 255;
+            sheet->size = 0;
+            MODEL_VARIANT_WORD(sheet, 0x8C) = 0;
+            MODEL_VARIANT_WORD(sheet, 0x90) = 0;
+        }
+        for (k = 0; k < 2; k++, funnel++) {
+            for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {
+                setVector(&funnel->inner[j], (u32)rcos(angle) >> 4, 0,
+                    (u32)rsin(angle) >> 4);
+                setVector(&funnel->outer[j], (u32)(rcos(angle) * 5) >> 6, -64,
+                    (u32)(rsin(angle) * 5) >> 6);
+            }
+            if (k == 1) {
+                funnel->size = 0;
+            } else {
+                funnel->size = -(k * 4096);
+            }
+            funnel->field_114 = 0;
+        }
+        for (i = 0; i < 4; i++, streamer++) {
+            for (j = 0; j < 17; j++) {
+                streamer->color[j][0] = 128;
+                streamer->color[j][1] = 128;
+                streamer->color[j][2] = 128;
+            }
+            streamer->field_2A8 = 0;
+        }
+        work->inner.r = work->config->inner.r;
+        work->inner.g = work->config->inner.g;
+        work->inner.b = work->config->inner.b;
+        work->outer.r = work->config->outer.r;
+        work->outer.g = work->config->outer.g;
+        work->outer.b = work->config->outer.b;
+        work->field_216C = 0;
+        work->size = 0;
+        work->field_212C = 0;
+        work->field_2130 = 0;
+        work->field_2134 = 0;
+        work->intensity = 1024;
+        work->field_213C = 0;
+        work->field_2140 = 0;
+        work->field_214C = 0;
+        work->field_214E = 0;
+        work->field_2150 = 0;
+        work->field_2152 = 0;
+        work->width = 1024;
+        work->field_2124 = 1024;
+        work->field_211C = 0;
+        work->field_211E = 0;
+        work->field_2170 = 0;
+        work->field_2174 = 0;
+        work->field_2178 = 0;
+        work->field_217C = 0;
+        work->field_2154 = 1024;
+        work->travel = 0;
+        work->field_2158 = 0;
+        work->field_215C = 0;
+        work->field_2160 = 0;
+        work->progress = 0;
+        work->frame_count = 0;
+        work->elapsed = 0;
+        work->animation = 0;
+        work->step = 0;
+        work->phase = 0;
+        work->field_2184 = 0;
+        work->field_2188 = 0;
+        work->fade = 0;
+        work->ambient = 2048;
+        work->command = command;
+    } else {
+        view = Model_GetCameraViewBuffer();
+        setVector(&work->view_delta, view->vrx - view->vpx,
+            view->vry - view->vpy, view->vrz - view->vpz);
+        Square0(&work->view_delta, &squared);
+        work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        if (work->slot == 0) {
+            Model_CopySlotU16Values(1, (u16 *)&work->target);
+        } else {
+            Model_CopySlotU16Values(0, (u16 *)&work->target);
+        }
+        GsGetLwUnit(work->part, &work->matrix);
+        setVector(&work->direction, work->target.vx - work->matrix.t[0],
+            work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
+        GsSetLsMatrix(Model_GetLightSourceMatrix());
+        setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
+        RotTransPers(&position, (PSXLONG *)&projection.projected,
+            &projection.interpolation, &projection.flag);
+        screen_x = (u16)projection.projected.vx;
+        screen_y = projection.projected.vy;
+        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        RotTransPers(&target, &projection.target,
+            &projection.interpolation, &projection.flag);
+        work->screen_delta.vx = (u16)projection.target - screen_x;
+        work->screen_delta.vy = (projection.target >> 16) - screen_y;
+        if (work->config->draw_start <= work->elapsed) {
+            func_8013D65C(context);
+        }
+        if (work->phase >= 3) {
+            func_8013DB50(context);
+            func_8013BF28(context);
+        }
+        if (work->phase > 0) {
+            func_8013CDAC(context);
+        }
+        if (work->config->spiral_start <= work->elapsed) {
+            func_8013C38C(context);
+        }
+        work->frame_count++;
+        frame = Model_GetSlotAnimationFrame(work->slot);
+        if (frame != work->animation) {
+            work->elapsed += Model_GetFrameStep();
+            work->step = Model_GetFrameStep();
+            work->animation = frame;
+        }
+        if (work->config->travel_start <= work->elapsed) {
+            if (work->travel < 1024) {
+                work->travel = ((work->elapsed - work->config->travel_start) << 10) /
+                    (work->config->travel_end - work->config->travel_start);
+                if (work->travel >= 1024) {
+                    work->travel = 1024;
+                }
+            }
+        }
+    }
+    Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
+    if (work->phase < 7) {
+        if (work->ambient > 0) {
+            work->ambient -= 128;
+            if (work->ambient <= 0) {
+                work->ambient = 0;
+            }
+        }
+    } else {
+        work->ambient = work->fade << 5;
+    }
+    if ((u32)(work->phase - 3) < 2) {
+        result = 4;
+    } else if (work->phase == 6) {
+        result = 1;
+        work->phase = 7;
+    } else if (work->phase == 7) {
+        if (work->fade < 64) {
+            work->fade += work->step;
+            if (work->fade >= 64) {
+                work->fade = 64;
+                work->phase = 8;
+            }
+        }
+    } else if (work->phase == 8) {
+        result = 2;
+    }
+    return result;
+}
