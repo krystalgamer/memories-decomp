@@ -69,13 +69,13 @@ segments:
     align: 4
     subsegments:
       - [0x1ab8, asm, overlays/model_image_model_71418_8017b000/unmatched_1ab8]
-  - name: unmatched_208c
+  - name: helper_208c
     type: code
     start: 0x208c
     vram: 0x8017d08c
     align: 4
     subsegments:
-      - [0x208c, asm, overlays/model_image_model_71418_8017b000/unmatched_208c]
+      - [0x208c, c, overlays/model_variant/variant380_streamers_slot1]
   - name: unclassified_tail
     type: code
     start: 0x2970

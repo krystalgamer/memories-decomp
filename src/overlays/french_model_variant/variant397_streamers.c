@@ -67,7 +67,7 @@ void func_8013D06C(u8 *ctx)
         base = work->ry[i];
         spin = phase;
         for (; j < 2; j++, streamer++, base += 0x400) {
-            for (k = 0, wave = 0, twist = base * 2; k < 17;
+            for (k = 0, twist = base * 2, wave = 0; k < 17;
                  k++, twist = base * 2 + k * 1500 / 16, spin += 0x5DC, wave += 0x200) {
                 bulge = rcos(wave) * 16 >> 12;
                 wobble = bulge + (rcos(spin) * 8 >> 12);
