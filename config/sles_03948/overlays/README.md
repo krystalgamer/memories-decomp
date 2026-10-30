@@ -622,6 +622,13 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant662_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
+Four images under French headers 156 and 286 are the North American
+header-139 entry (`model_variant/variant139_entry.c`) without its work-size
+printf. The `src/overlays/french_model_variant/variant156_entry{,_slot1}.c`
+wrappers move the three data labels after the shorter text and read-only
+section 0x18 lower and bind `model_variant156_linker_symbols.txt` and
+`model_variant286_linker_symbols.txt`.
+
 Two images under French headers 863 and 960 are the North American
 header-846 entry (`model_variant/variant846_entry.c` and its slot-1 wrapper)
 unchanged: the code differs only in its resident call targets, which
