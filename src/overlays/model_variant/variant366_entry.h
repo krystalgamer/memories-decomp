@@ -32,13 +32,13 @@ typedef struct {
     u8 unknown_64[8];
 } Variant366Strip;
 
-/* The four-quadrant quad group drawn by func_8013CEC8. */
+/* The four-quadrant quad group drawn by func_8013C918. */
 typedef struct {
     SVECTOR v0[4], v1[4], v2[4], v3[4];
     CVECTOR outer, inner;
 } Variant366Quads;
 
-/* The three 17-point ribbon rings. */
+/* The three 17-point ribbon cones drawn by func_8013CEC8. */
 typedef struct {
     SVECTOR inner[17], middle[17], outer[17];
     s32 progress, field_19C;
