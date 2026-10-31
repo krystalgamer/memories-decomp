@@ -69,18 +69,11 @@ segments:
     align: 4
     subsegments:
       - [0x10DC, data, overlays/model_variant_207_pos0_slot0/data]
-  - name: unmatched_3520
+  - name: unclassified_tail
     type: code
     start: 0x3520
     vram: 0x8013E520
     align: 4
     subsegments:
-      - [0x3520, asm, overlays/model_variant_207_pos0_slot0/unmatched_3520]
-  - name: unclassified_tail
-    type: code
-    start: 0x394C
-    vram: 0x8013E94C
-    align: 4
-    subsegments:
-      - [0x394C, data, overlays/model_variant_207_pos0_slot0/unclassified_tail]
+      - [0x3520, data, overlays/model_variant_207_pos0_slot0/unclassified_tail]
   - [0x5000]
