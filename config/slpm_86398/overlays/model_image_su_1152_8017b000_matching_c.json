@@ -1,4 +1,29 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x9B0",
+      "source": "src/overlays/model_exodia/us_entry_second.c"
+    },
+    {
+      "address": "0x8017B9B4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x43C",
+      "source": "src/overlays/model_exodia/us_ring_second.c"
+    },
+    {
+      "address": "0x8017BDF0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x948",
+      "source": "src/overlays/model_exodia/us_petals.c"
+    },
+    {
+      "address": "0x8017C738",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x5D0",
+      "source": "src/overlays/model_exodia/us_beam.c"
+    }
+  ],
   "schema": 1
 }

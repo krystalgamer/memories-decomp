@@ -13501,7 +13501,8 @@
       "output": "tmp/overlays/japanese_model_image_model_109772_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 109772,
-      "sha256": "015237904082d876a6b64fd69b73ac20a1fbe58a294f181bb464865486d2f2a2"
+      "sha256": "015237904082d876a6b64fd69b73ac20a1fbe58a294f181bb464865486d2f2a2",
+      "linker_symbols": "config/slpm_86398/overlays/variant668_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -14780,7 +14781,8 @@
       "output": "tmp/overlays/japanese_model_image_model_105060_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 105060,
-      "sha256": "1932b2bf8a2dd27f3e8b182980b00f3a77a3feb07914c828bce3d3fbdd62b31d"
+      "sha256": "1932b2bf8a2dd27f3e8b182980b00f3a77a3feb07914c828bce3d3fbdd62b31d",
+      "linker_symbols": "config/slpm_86398/overlays/variant102_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -17361,7 +17363,8 @@
       "output": "tmp/overlays/japanese_model_image_model_153912_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 153912,
-      "sha256": "4eef8c7551bf8ddc2c733e17413b144ae167f727423509d11959135b5537461a"
+      "sha256": "4eef8c7551bf8ddc2c733e17413b144ae167f727423509d11959135b5537461a",
+      "linker_symbols": "config/slpm_86398/overlays/variant668_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -18764,7 +18767,8 @@
       "output": "tmp/overlays/japanese_model_image_model_52364_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 52364,
-      "sha256": "65683810d39f7da5f3591975e2216604bf2185670070c07e90dccf0275fe39e5"
+      "sha256": "65683810d39f7da5f3591975e2216604bf2185670070c07e90dccf0275fe39e5",
+      "linker_symbols": "config/slpm_86398/overlays/variant769_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -19375,7 +19379,8 @@
       "output": "tmp/overlays/japanese_model_image_model_83256_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 83256,
-      "sha256": "6ec62c622e7d28a03f088767eb4e82a384459acce6deaa3430493bde34f6c966"
+      "sha256": "6ec62c622e7d28a03f088767eb4e82a384459acce6deaa3430493bde34f6c966",
+      "linker_symbols": "config/slpm_86398/overlays/variant831_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -21039,7 +21044,8 @@
       "output": "tmp/overlays/japanese_model_image_model_57312_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 57312,
-      "sha256": "89c1f1b8c071ed27f7169cf488068e26cf101112b311a4ecd2edc7ed0bfaedf0"
+      "sha256": "89c1f1b8c071ed27f7169cf488068e26cf101112b311a4ecd2edc7ed0bfaedf0",
+      "linker_symbols": "config/slpm_86398/overlays/variant668_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -27719,7 +27725,8 @@
       "output": "tmp/overlays/japanese_model_image_model_109782_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 109782,
-      "sha256": "000e77f23a3aa265e3259fed6758ef819cf17f5edd57ac65a855ccba645a1e32"
+      "sha256": "000e77f23a3aa265e3259fed6758ef819cf17f5edd57ac65a855ccba645a1e32",
+      "linker_symbols": "config/slpm_86398/overlays/variant668_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -31744,7 +31751,8 @@
       "output": "tmp/overlays/japanese_model_image_model_52374_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 52374,
-      "sha256": "4ab2c801e3f999335e71340cb765d9fcaa45ed05553627b0bc82a1759790c7ae"
+      "sha256": "4ab2c801e3f999335e71340cb765d9fcaa45ed05553627b0bc82a1759790c7ae",
+      "linker_symbols": "config/slpm_86398/overlays/variant769_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -31827,7 +31835,8 @@
       "output": "tmp/overlays/japanese_model_image_model_83266_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 83266,
-      "sha256": "4bd6ea5c7d6ede9ff9e591c4b8f399885dd5da83533381e00df504efd70672c1"
+      "sha256": "4bd6ea5c7d6ede9ff9e591c4b8f399885dd5da83533381e00df504efd70672c1",
+      "linker_symbols": "config/slpm_86398/overlays/variant831_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -36852,7 +36861,8 @@
       "output": "tmp/overlays/japanese_model_image_model_105070_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 105070,
-      "sha256": "a5b360cade5e74705ef7023ea8573d9a1afecb257ba7761d2af06361d84a53dd"
+      "sha256": "a5b360cade5e74705ef7023ea8573d9a1afecb257ba7761d2af06361d84a53dd",
+      "linker_symbols": "config/slpm_86398/overlays/variant102_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -38997,7 +39007,8 @@
       "output": "tmp/overlays/japanese_model_image_model_57322_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 57322,
-      "sha256": "c8964f6c3d15995896c8c4e52f0fd481213dd201d0c3e27d8b4b425f0dc29cc3"
+      "sha256": "c8964f6c3d15995896c8c4e52f0fd481213dd201d0c3e27d8b4b425f0dc29cc3",
+      "linker_symbols": "config/slpm_86398/overlays/variant668_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -39296,7 +39307,8 @@
       "output": "tmp/overlays/japanese_model_image_model_153922_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 153922,
-      "sha256": "cd1cc40de6bb04448b5f365a09dd1462da38ad26af7f403d13b23571580f7f3a"
+      "sha256": "cd1cc40de6bb04448b5f365a09dd1462da38ad26af7f403d13b23571580f7f3a",
+      "linker_symbols": "config/slpm_86398/overlays/variant668_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -41989,7 +42001,8 @@
       "output": "tmp/overlays/japanese_model_image_su_1142_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 1142,
-      "sha256": "297b7db78c2ef84ae1c1fb2fb2231a83114b4d2c7bc8f7b5681221b0094f7f6c"
+      "sha256": "297b7db78c2ef84ae1c1fb2fb2231a83114b4d2c7bc8f7b5681221b0094f7f6c",
+      "linker_symbols": "config/slpm_86398/overlays/exodia_usa_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/SU.MRG",
@@ -42000,7 +42013,8 @@
       "output": "tmp/overlays/japanese_model_image_su_1152_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 1152,
-      "sha256": "b96448502c59a44571d4ba99fa0c12123cf4f5e9bf464beecaddd083fd37d6d3"
+      "sha256": "b96448502c59a44571d4ba99fa0c12123cf4f5e9bf464beecaddd083fd37d6d3",
+      "linker_symbols": "config/slpm_86398/overlays/exodia_usa_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/SU.MRG",
