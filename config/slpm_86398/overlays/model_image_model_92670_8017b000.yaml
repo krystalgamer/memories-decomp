@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_92670_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_92670_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_92670_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_92670_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,64 +46,64 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_92670_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_92670_8017b000/unmatched_4]
-  - name: unmatched_1050
+      - [0x4, c, overlays/model_variant/variant456_entry_slot1]
+  - name: helper_1050
     type: code
     start: 0x1050
-    vram: 0x8017c050
+    vram: 0x8017C050
     align: 4
     subsegments:
-      - [0x1050, asm, overlays/japanese_model_image_model_92670_8017b000/unmatched_1050]
-  - name: unmatched_15b4
+      - [0x1050, c, overlays/model_variant/variant456_grid_slot1]
+  - name: helper_15b4
     type: code
-    start: 0x15b4
-    vram: 0x8017c5b4
+    start: 0x15B4
+    vram: 0x8017C5B4
     align: 4
     subsegments:
-      - [0x15b4, asm, overlays/japanese_model_image_model_92670_8017b000/unmatched_15b4]
-  - name: unmatched_1f98
+      - [0x15B4, c, overlays/model_variant/variant456_spiral_slot1]
+  - name: ribs
     type: code
-    start: 0x1f98
-    vram: 0x8017cf98
+    start: 0x1F98
+    vram: 0x8017CF98
     align: 4
     subsegments:
-      - [0x1f98, asm, overlays/japanese_model_image_model_92670_8017b000/unmatched_1f98]
-  - name: unmatched_2bac
+      - [0x1F98, c, overlays/model_variant/variant456_ribs_slot1]
+  - name: helper_2bac
     type: code
-    start: 0x2bac
-    vram: 0x8017dbac
+    start: 0x2BAC
+    vram: 0x8017DBAC
     align: 4
     subsegments:
-      - [0x2bac, asm, overlays/japanese_model_image_model_92670_8017b000/unmatched_2bac]
-  - name: unmatched_3074
+      - [0x2BAC, c, overlays/model_variant/variant456_sheets_slot1]
+  - name: streamers
     type: code
     start: 0x3074
-    vram: 0x8017e074
+    vram: 0x8017E074
     align: 4
     subsegments:
-      - [0x3074, asm, overlays/japanese_model_image_model_92670_8017b000/unmatched_3074]
-  - name: unmatched_37e8
+      - [0x3074, c, overlays/model_variant/variant456_streamers_slot1]
+  - name: helper_37e8
     type: code
-    start: 0x37e8
-    vram: 0x8017e7e8
+    start: 0x37E8
+    vram: 0x8017E7E8
     align: 4
     subsegments:
-      - [0x37e8, asm, overlays/japanese_model_image_model_92670_8017b000/unmatched_37e8]
-  - name: unclassified_tail
+      - [0x37E8, c, overlays/model_variant/variant456_funnels_slot1]
+  - name: data
     type: code
-    start: 0x3c70
-    vram: 0x8017ec70
+    start: 0x3C70
+    vram: 0x8017EC70
     align: 4
     subsegments:
-      - [0x3c70, bin, overlays/japanese_model_image_model_92670_8017b000/unclassified_tail]
+      - [0x3C70, data, overlays/japanese_model_image_model_92670_8017b000/data]
   - [0x5000]

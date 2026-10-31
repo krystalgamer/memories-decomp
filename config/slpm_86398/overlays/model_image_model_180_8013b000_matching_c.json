@@ -1,4 +1,47 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xF24",
+      "source": "src/overlays/model_variant/variant409_entry.c"
+    },
+    {
+      "address": "0x8013BF28",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x464",
+      "source": "src/overlays/model_variant/variant409_mesh.c"
+    },
+    {
+      "address": "0x8013C38C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xA20",
+      "source": "src/overlays/model_variant/variant409_spiral.c"
+    },
+    {
+      "address": "0x8013CDAC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x8B0",
+      "source": "src/overlays/model_variant/variant409_ribbon.c"
+    },
+    {
+      "address": "0x8013D65C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4F4",
+      "source": "src/overlays/model_variant/variant409_sheets.c"
+    },
+    {
+      "address": "0x8013DB50",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x820",
+      "source": "src/overlays/model_variant/variant409_streamers.c"
+    },
+    {
+      "address": "0x8013E370",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x438",
+      "source": "src/overlays/model_variant/variant409_funnel.c"
+    }
+  ],
   "schema": 1
 }

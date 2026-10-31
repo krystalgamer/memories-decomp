@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0x9A4,func_8017B004,unmatched_asm,overlay/model_image_model_99550_8017b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
-0x8017B9A8,0x8A8,func_8017B9A8,unmatched_asm,overlay/model_image_model_99550_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8017C250,0x4C4,func_8017C250,unmatched_asm,overlay/model_image_model_99550_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8017C714,0x830,func_8017C714,unmatched_asm,overlay/model_image_model_99550_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8017B004,0x9A4,func_8017B004,matching_c,overlay/model_image_model_99550_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017B9A8,0x8A8,func_8017B9A8,matching_c,overlay/model_image_model_99550_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C250,0x4C4,func_8017C250,matching_c,overlay/model_image_model_99550_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C714,0x830,func_8017C714,matching_c,overlay/model_image_model_99550_8017b000,Complete module byte identity and section-defined C ownership verified.

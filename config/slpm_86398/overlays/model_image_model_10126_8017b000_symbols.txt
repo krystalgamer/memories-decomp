@@ -1,0 +1,4 @@
+// Japanese MODEL.MRG model 36 (record 36), sector 10126, header 265, loaded at 0x8017B000; the US source variant135_entry_slot1.c; built from the US source layout of model_variant_36_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x167C defined:true
+D_8017C6A0 = 0x8017C6A0; // type:u8 size:0x118 defined:true
+D_8017C7B8 = 0x8017C7B8; // type:u8 size:0x3848 defined:true

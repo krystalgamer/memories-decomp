@@ -1,9 +1,9 @@
 address,size,name,status,module,notes
-0x8017B004,0x1204,func_8017B004,unmatched_asm,overlay/model_image_model_134070_8017b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
-0x8017C208,0x578,func_8017C208,unmatched_asm,overlay/model_image_model_134070_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8017C780,0x6F0,func_8017C780,unmatched_asm,overlay/model_image_model_134070_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8017CE70,0x61C,func_8017CE70,unmatched_asm,overlay/model_image_model_134070_8017b000,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
-0x8017D48C,0x634,func_8017D48C,unmatched_asm,overlay/model_image_model_134070_8017b000,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
-0x8017DAC0,0x62C,func_8017DAC0,unmatched_asm,overlay/model_image_model_134070_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8017E0EC,0x674,func_8017E0EC,unmatched_asm,overlay/model_image_model_134070_8017b000,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
-0x8017E760,0xCA4,func_8017E760,unmatched_asm,overlay/model_image_model_134070_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8017B004,0x1204,func_8017B004,matching_c,overlay/model_image_model_134070_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C208,0x578,func_8017C208,matching_c,overlay/model_image_model_134070_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C780,0x6F0,func_8017C780,matching_c,overlay/model_image_model_134070_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017CE70,0x61C,func_8017CE70,matching_c,overlay/model_image_model_134070_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017D48C,0x634,func_8017D48C,matching_c,overlay/model_image_model_134070_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017DAC0,0x62C,func_8017DAC0,matching_c,overlay/model_image_model_134070_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017E0EC,0x674,func_8017E0EC,matching_c,overlay/model_image_model_134070_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017E760,0xCA4,func_8017E760,matching_c,overlay/model_image_model_134070_8017b000,Complete module byte identity and section-defined C ownership verified.

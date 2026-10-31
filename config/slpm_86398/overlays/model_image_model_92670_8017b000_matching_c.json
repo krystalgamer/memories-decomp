@@ -1,4 +1,47 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x104C",
+      "source": "src/overlays/model_variant/variant456_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C050",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x564",
+      "source": "src/overlays/model_variant/variant456_grid_slot1.c"
+    },
+    {
+      "address": "0x8017C5B4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x9E4",
+      "source": "src/overlays/model_variant/variant456_spiral_slot1.c"
+    },
+    {
+      "address": "0x8017CF98",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xC14",
+      "source": "src/overlays/model_variant/variant456_ribs_slot1.c"
+    },
+    {
+      "address": "0x8017DBAC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4C8",
+      "source": "src/overlays/model_variant/variant456_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017E074",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x774",
+      "source": "src/overlays/model_variant/variant456_streamers_slot1.c"
+    },
+    {
+      "address": "0x8017E7E8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x488",
+      "source": "src/overlays/model_variant/variant456_funnels_slot1.c"
+    }
+  ],
   "schema": 1
 }

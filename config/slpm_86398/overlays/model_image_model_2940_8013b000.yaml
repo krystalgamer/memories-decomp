@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_2940_8013b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_2940_8013b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_2940_8013b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_2940_8013b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,57 +46,21 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8013b000
+    vram: 0x8013B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_2940_8013b000/module_header]
-  - name: unmatched_4
+  - name: module
     type: code
     start: 0x4
-    vram: 0x8013b004
+    vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_2940_8013b000/unmatched_4]
-  - name: unmatched_b9c
-    type: code
-    start: 0xb9c
-    vram: 0x8013bb9c
-    align: 4
-    subsegments:
-      - [0xb9c, asm, overlays/japanese_model_image_model_2940_8013b000/unmatched_b9c]
-  - name: unmatched_12d0
-    type: code
-    start: 0x12d0
-    vram: 0x8013c2d0
-    align: 4
-    subsegments:
-      - [0x12d0, asm, overlays/japanese_model_image_model_2940_8013b000/unmatched_12d0]
-  - name: unmatched_1874
-    type: code
-    start: 0x1874
-    vram: 0x8013c874
-    align: 4
-    subsegments:
-      - [0x1874, asm, overlays/japanese_model_image_model_2940_8013b000/unmatched_1874]
-  - name: unmatched_1eb0
-    type: code
-    start: 0x1eb0
-    vram: 0x8013ceb0
-    align: 4
-    subsegments:
-      - [0x1eb0, asm, overlays/japanese_model_image_model_2940_8013b000/unmatched_1eb0]
-  - name: unmatched_2350
-    type: code
-    start: 0x2350
-    vram: 0x8013d350
-    align: 4
-    subsegments:
-      - [0x2350, asm, overlays/japanese_model_image_model_2940_8013b000/unmatched_2350]
-  - name: unclassified_tail
-    type: code
-    start: 0x2798
-    vram: 0x8013d798
-    align: 4
-    subsegments:
-      - [0x2798, bin, overlays/japanese_model_image_model_2940_8013b000/unclassified_tail]
+      - [0x4, c, overlays/model_variant/variant395_entry]
+      - [0xB9C, c, overlays/model_variant/variant395_trails]
+      - [0x12D0, c, overlays/model_variant/variant395_strip]
+      - [0x1874, c, overlays/model_variant/variant395_ribbons]
+      - [0x1EB0, c, overlays/model_variant/variant395_rings]
+      - [0x2350, c, overlays/model_variant/variant395_bands]
+      - [0x2798, data, overlays/japanese_model_image_model_2940_8013b000/data]
   - [0x5000]

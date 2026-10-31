@@ -44,71 +44,23 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8013b000
+    vram: 0x8013B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_101492_8013b000/module_header]
-  - name: unmatched_4
+  - name: module
     type: code
     start: 0x4
-    vram: 0x8013b004
+    vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_101492_8013b000/unmatched_4]
-  - name: unmatched_13e4
-    type: code
-    start: 0x13e4
-    vram: 0x8013c3e4
-    align: 4
-    subsegments:
-      - [0x13e4, asm, overlays/japanese_model_image_model_101492_8013b000/unmatched_13e4]
-  - name: unmatched_19e0
-    type: code
-    start: 0x19e0
-    vram: 0x8013c9e0
-    align: 4
-    subsegments:
-      - [0x19e0, asm, overlays/japanese_model_image_model_101492_8013b000/unmatched_19e0]
-  - name: unmatched_2008
-    type: code
-    start: 0x2008
-    vram: 0x8013d008
-    align: 4
-    subsegments:
-      - [0x2008, asm, overlays/japanese_model_image_model_101492_8013b000/unmatched_2008]
-  - name: unmatched_263c
-    type: code
-    start: 0x263c
-    vram: 0x8013d63c
-    align: 4
-    subsegments:
-      - [0x263c, asm, overlays/japanese_model_image_model_101492_8013b000/unmatched_263c]
-  - name: unmatched_32c0
-    type: code
-    start: 0x32c0
-    vram: 0x8013e2c0
-    align: 4
-    subsegments:
-      - [0x32c0, asm, overlays/japanese_model_image_model_101492_8013b000/unmatched_32c0]
-  - name: unmatched_3ac0
-    type: code
-    start: 0x3ac0
-    vram: 0x8013eac0
-    align: 4
-    subsegments:
-      - [0x3ac0, asm, overlays/japanese_model_image_model_101492_8013b000/unmatched_3ac0]
-  - name: unmatched_4080
-    type: code
-    start: 0x4080
-    vram: 0x8013f080
-    align: 4
-    subsegments:
-      - [0x4080, asm, overlays/japanese_model_image_model_101492_8013b000/unmatched_4080]
-  - name: unclassified_tail
-    type: code
-    start: 0x45ec
-    vram: 0x8013f5ec
-    align: 4
-    subsegments:
-      - [0x45ec, bin, overlays/japanese_model_image_model_101492_8013b000/unclassified_tail]
+      - [0x4, c, overlays/model_variant/variant442_entry]
+      - [0x13E4, c, overlays/model_variant/variant442_warp]
+      - [0x19E0, c, overlays/model_variant/variant442_curtains]
+      - [0x2008, c, overlays/model_variant/variant442_rays]
+      - [0x263C, c, overlays/model_variant/variant442_spiral]
+      - [0x32C0, c, overlays/model_variant/variant442_bands]
+      - [0x3AC0, c, overlays/model_variant/variant442_sheets]
+      - [0x4080, c, overlays/model_variant/variant442_lines]
+      - [0x45EC, data, overlays/japanese_model_image_model_101492_8013b000/data]
   - [0x5000]

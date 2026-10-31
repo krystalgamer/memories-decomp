@@ -1,4 +1,53 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xFE0",
+      "source": "src/overlays/model_variant/variant401_entry.c"
+    },
+    {
+      "address": "0x8013BFE4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x780",
+      "source": "src/overlays/model_variant/variant401_bands.c"
+    },
+    {
+      "address": "0x8013C764",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x540",
+      "source": "src/overlays/model_variant/variant401_sheet.c"
+    },
+    {
+      "address": "0x8013CCA4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x56C",
+      "source": "src/overlays/model_variant/variant401_webs.c"
+    },
+    {
+      "address": "0x8013D210",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x518",
+      "source": "src/overlays/model_variant/variant401_rays.c"
+    },
+    {
+      "address": "0x8013D728",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x314",
+      "source": "src/overlays/model_variant/variant401_spokes.c"
+    },
+    {
+      "address": "0x8013DA3C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x380",
+      "source": "src/overlays/model_variant/variant401_rings.c"
+    },
+    {
+      "address": "0x8013DDBC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x368",
+      "source": "src/overlays/model_variant/variant401_quad.c"
+    }
+  ],
   "schema": 1
 }

@@ -1,0 +1,4 @@
+// Japanese MODEL.MRG model 293 (record 293), sector 81078, header 238, loaded at 0x8017B000; the US source variant108_entry_slot1.c; built from the US source layout of model_variant_293_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x1518 defined:true
+D_8017C52C = 0x8017C52C; // type:u8 size:0x38 defined:true
+D_8017C564 = 0x8017C564; // type:u8 size:0x3A9C defined:true

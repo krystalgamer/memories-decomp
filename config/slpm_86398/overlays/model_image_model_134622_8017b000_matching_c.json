@@ -1,4 +1,17 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x1490",
+      "source": "src/overlays/model_variant/variant451_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C494",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x6F0",
+      "source": "src/overlays/model_variant/variant451_entry_slot1.c"
+    }
+  ],
   "schema": 1
 }

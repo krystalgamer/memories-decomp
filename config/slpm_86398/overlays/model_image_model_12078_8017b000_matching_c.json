@@ -1,4 +1,41 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xCD4",
+      "source": "src/overlays/model_variant/variant371_entry_slot1.c"
+    },
+    {
+      "address": "0x8017BCD8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x66C",
+      "source": "src/overlays/model_variant/variant371_strips_slot1.c"
+    },
+    {
+      "address": "0x8017C344",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x648",
+      "source": "src/overlays/model_variant/variant371_ribbons_slot1.c"
+    },
+    {
+      "address": "0x8017C98C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4FC",
+      "source": "src/overlays/model_variant/variant371_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017CE88",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x57C",
+      "source": "src/overlays/model_variant/variant371_feedback_slot1.c"
+    },
+    {
+      "address": "0x8017D404",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xA3C",
+      "source": "src/overlays/model_variant/variant371_petals_slot1.c"
+    }
+  ],
   "schema": 1
 }

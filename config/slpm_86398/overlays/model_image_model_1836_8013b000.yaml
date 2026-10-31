@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_1836_8013b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_1836_8013b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_1836_8013b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_1836_8013b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,50 +46,20 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8013b000
+    vram: 0x8013B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_1836_8013b000/module_header]
-  - name: unmatched_4
+  - name: module
     type: code
     start: 0x4
-    vram: 0x8013b004
+    vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_1836_8013b000/unmatched_4]
-  - name: unmatched_a60
-    type: code
-    start: 0xa60
-    vram: 0x8013ba60
-    align: 4
-    subsegments:
-      - [0xa60, asm, overlays/japanese_model_image_model_1836_8013b000/unmatched_a60]
-  - name: unmatched_104c
-    type: code
-    start: 0x104c
-    vram: 0x8013c04c
-    align: 4
-    subsegments:
-      - [0x104c, asm, overlays/japanese_model_image_model_1836_8013b000/unmatched_104c]
-  - name: unmatched_1688
-    type: code
-    start: 0x1688
-    vram: 0x8013c688
-    align: 4
-    subsegments:
-      - [0x1688, asm, overlays/japanese_model_image_model_1836_8013b000/unmatched_1688]
-  - name: unmatched_1b28
-    type: code
-    start: 0x1b28
-    vram: 0x8013cb28
-    align: 4
-    subsegments:
-      - [0x1b28, asm, overlays/japanese_model_image_model_1836_8013b000/unmatched_1b28]
-  - name: unclassified_tail
-    type: code
-    start: 0x2058
-    vram: 0x8013d058
-    align: 4
-    subsegments:
-      - [0x2058, bin, overlays/japanese_model_image_model_1836_8013b000/unclassified_tail]
+      - [0x4, c, overlays/model_variant/variant385_entry]
+      - [0xA60, c, overlays/model_variant/variant385_strip]
+      - [0x104C, c, overlays/model_variant/variant385_ribbons]
+      - [0x1688, c, overlays/model_variant/variant385_rings]
+      - [0x1B28, c, overlays/model_variant/variant385_bands]
+      - [0x2058, data, overlays/japanese_model_image_model_1836_8013b000/data]
   - [0x5000]

@@ -1,0 +1,5 @@
+// Japanese MODEL.MRG model 107 (record 107), sector 29722, header 750, loaded at 0x8017B000; the US source variant683_entry_slot1.c; built from the US source layout of model_variant_107_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x2510 defined:true
+D_8017D514 = 0x8017D514; // type:u8 size:0x18 defined:true
+D_8017D52C = 0x8017D52C; // type:u8 size:0xA8 defined:true
+D_8017D5D4 = 0x8017D5D4; // type:u8 size:0x2A2C defined:true

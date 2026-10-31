@@ -1,0 +1,4 @@
+// Japanese MODEL.MRG model 42 (record 42), sector 11772, header 759, loaded at 0x8013B000; the US source variant759_entry.c; built from the US source layout of model_variant_42_pos0_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x1DD0 defined:true
+D_8013CDE4 = 0x8013CDE4; // type:u8 size:0x54 defined:true
+D_8013CE38 = 0x8013CE38; // type:u8 size:0x31C8 defined:true

@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_190_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_190_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_190_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_190_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,64 +46,64 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_190_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_190_8017b000/unmatched_4]
-  - name: unmatched_f28
+      - [0x4, c, overlays/model_variant/variant409_entry_slot1]
+  - name: helper_f28
     type: code
-    start: 0xf28
-    vram: 0x8017bf28
+    start: 0xF28
+    vram: 0x8017BF28
     align: 4
     subsegments:
-      - [0xf28, asm, overlays/japanese_model_image_model_190_8017b000/unmatched_f28]
-  - name: unmatched_138c
+      - [0xF28, c, overlays/model_variant/variant409_mesh_slot1]
+  - name: spiral
     type: code
-    start: 0x138c
-    vram: 0x8017c38c
+    start: 0x138C
+    vram: 0x8017C38C
     align: 4
     subsegments:
-      - [0x138c, asm, overlays/japanese_model_image_model_190_8017b000/unmatched_138c]
-  - name: unmatched_1dac
+      - [0x138C, c, overlays/model_variant/variant409_spiral_slot1]
+  - name: ribbon
     type: code
-    start: 0x1dac
-    vram: 0x8017cdac
+    start: 0x1DAC
+    vram: 0x8017CDAC
     align: 4
     subsegments:
-      - [0x1dac, asm, overlays/japanese_model_image_model_190_8017b000/unmatched_1dac]
-  - name: unmatched_265c
+      - [0x1DAC, c, overlays/model_variant/variant409_ribbon_slot1]
+  - name: helper_265c
     type: code
-    start: 0x265c
-    vram: 0x8017d65c
+    start: 0x265C
+    vram: 0x8017D65C
     align: 4
     subsegments:
-      - [0x265c, asm, overlays/japanese_model_image_model_190_8017b000/unmatched_265c]
-  - name: unmatched_2b50
+      - [0x265C, c, overlays/model_variant/variant409_sheets_slot1]
+  - name: streamers
     type: code
-    start: 0x2b50
-    vram: 0x8017db50
+    start: 0x2B50
+    vram: 0x8017DB50
     align: 4
     subsegments:
-      - [0x2b50, asm, overlays/japanese_model_image_model_190_8017b000/unmatched_2b50]
-  - name: unmatched_3370
+      - [0x2B50, c, overlays/model_variant/variant409_streamers_slot1]
+  - name: helper_3370
     type: code
     start: 0x3370
-    vram: 0x8017e370
+    vram: 0x8017E370
     align: 4
     subsegments:
-      - [0x3370, asm, overlays/japanese_model_image_model_190_8017b000/unmatched_3370]
-  - name: unclassified_tail
+      - [0x3370, c, overlays/model_variant/variant409_funnel_slot1]
+  - name: data
     type: code
-    start: 0x37a8
-    vram: 0x8017e7a8
+    start: 0x37A8
+    vram: 0x8017E7A8
     align: 4
     subsegments:
-      - [0x37a8, bin, overlays/japanese_model_image_model_190_8017b000/unclassified_tail]
+      - [0x37A8, data, overlays/japanese_model_image_model_190_8017b000/data]
   - [0x5000]

@@ -1,0 +1,5 @@
+// Japanese MODEL.MRG model 174 (record 174), sector 48214, header 252, loaded at 0x8017B000; the US source variant122_entry_slot1.c; built from the US source layout of model_variant_174_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x183C defined:true
+D_8017C840 = 0x8017C840; // type:u8 size:0x10 defined:true
+D_8017C850 = 0x8017C850; // type:u8 size:0x38 defined:true
+D_8017C888 = 0x8017C888; // type:u8 size:0x3778 defined:true

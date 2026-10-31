@@ -1,4 +1,35 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x110C",
+      "source": "src/overlays/model_variant/variant455_entry.c"
+    },
+    {
+      "address": "0x8013C110",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x628",
+      "source": "src/overlays/model_variant/variant455_blooms.c"
+    },
+    {
+      "address": "0x8013C738",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x604",
+      "source": "src/overlays/model_variant/variant455_mesh.c"
+    },
+    {
+      "address": "0x8013CD3C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xB4C",
+      "source": "src/overlays/model_variant/variant455_spiral.c"
+    },
+    {
+      "address": "0x8013D888",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x3AC",
+      "source": "src/overlays/model_variant/variant455_sheets.c"
+    }
+  ],
   "schema": 1
 }

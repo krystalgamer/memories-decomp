@@ -1,0 +1,8 @@
+// Japanese MODEL.MRG model 269 (record 269), sector 74424, header 372, loaded at 0x8013B000; the US source variant372_entry.c; built from the US source layout of model_variant_269_stage7_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0xE64 defined:true
+func_8013BE68 = 0x8013BE68; // type:func size:0x9C0 defined:true
+func_8013C828 = 0x8013C828; // type:func size:0x5E8 defined:true
+D_8013CE10 = 0x8013CE10; // type:u8 size:0x18 defined:true
+D_8013CE28 = 0x8013CE28; // type:u8 size:0x1C defined:true
+D_8013CE44 = 0x8013CE44; // type:u8 size:0xFC defined:true
+D_8013CF40 = 0x8013CF40; // type:u8 size:0x30C0 defined:true

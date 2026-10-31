@@ -44,22 +44,29 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_39658_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_39658_8017b000/unmatched_4]
+      - [0x4, c, overlays/model_variant/variant151_entry_slot1]
+  - name: rodata
+    type: code
+    start: 0xF70
+    vram: 0x8017BF70
+    align: 4
+    subsegments:
+      - [0xF70, .rodata, overlays/model_variant/variant151_entry_slot1]
   - name: unclassified_tail
     type: code
-    start: 0xf70
-    vram: 0x8017bf70
+    start: 0xF90
+    vram: 0x8017BF90
     align: 4
     subsegments:
-      - [0xf70, bin, overlays/japanese_model_image_model_39658_8017b000/unclassified_tail]
+      - [0xF90, data, overlays/japanese_model_image_model_39658_8017b000/unclassified_tail]
   - [0x5000]

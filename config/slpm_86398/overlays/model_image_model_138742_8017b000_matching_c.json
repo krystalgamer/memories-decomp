@@ -1,4 +1,47 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xF38",
+      "source": "src/overlays/model_variant/variant324_entry_slot1.c"
+    },
+    {
+      "address": "0x8017BF3C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x428",
+      "source": "src/overlays/model_variant/variant324_webs_slot1.c"
+    },
+    {
+      "address": "0x8017C364",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x470",
+      "source": "src/overlays/model_variant/variant324_fan_slot1.c"
+    },
+    {
+      "address": "0x8017C7D4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xB24",
+      "source": "src/overlays/model_variant/variant324_bands_slot1.c"
+    },
+    {
+      "address": "0x8017D2F8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x3D0",
+      "source": "src/overlays/model_variant/variant324_draw_slot1.c"
+    },
+    {
+      "address": "0x8017D6C8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x318",
+      "source": "src/overlays/model_variant/variant324_spokes_slot1.c"
+    },
+    {
+      "address": "0x8017D9E0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x384",
+      "source": "src/overlays/model_variant/variant324_rings_slot1.c"
+    }
+  ],
   "schema": 1
 }

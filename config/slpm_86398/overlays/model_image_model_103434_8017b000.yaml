@@ -48,53 +48,53 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_103434_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_103434_8017b000/unmatched_4]
-  - name: unmatched_1984
+      - [0x4, c, overlays/model_variant/variant446_entry_slot1]
+  - name: ribbons
     type: code
     start: 0x1984
     vram: 0x8017c984
     align: 4
     subsegments:
-      - [0x1984, asm, overlays/japanese_model_image_model_103434_8017b000/unmatched_1984]
-  - name: unmatched_2314
+      - [0x1984, c, overlays/model_variant/variant446_ribbons_slot1]
+  - name: paired_sheets
     type: code
     start: 0x2314
     vram: 0x8017d314
     align: 4
     subsegments:
-      - [0x2314, asm, overlays/japanese_model_image_model_103434_8017b000/unmatched_2314]
-  - name: unmatched_2860
+      - [0x2314, c, overlays/model_variant/variant446_paired_sheets_slot1]
+  - name: trail_ribbons
     type: code
     start: 0x2860
     vram: 0x8017d860
     align: 4
     subsegments:
-      - [0x2860, asm, overlays/japanese_model_image_model_103434_8017b000/unmatched_2860]
-  - name: unmatched_32d8
+      - [0x2860, c, overlays/model_variant/variant446_trail_ribbons_slot1]
+  - name: sheets
     type: code
     start: 0x32d8
     vram: 0x8017e2d8
     align: 4
     subsegments:
-      - [0x32d8, asm, overlays/japanese_model_image_model_103434_8017b000/unmatched_32d8]
-  - name: unmatched_37c8
+      - [0x32d8, c, overlays/model_variant/variant446_sheets_slot1]
+  - name: rings
     type: code
     start: 0x37c8
     vram: 0x8017e7c8
     align: 4
     subsegments:
-      - [0x37c8, asm, overlays/japanese_model_image_model_103434_8017b000/unmatched_37c8]
+      - [0x37c8, c, overlays/model_variant/variant446_rings_slot1]
   - name: unclassified_tail
     type: code
     start: 0x3bf4
     vram: 0x8017ebf4
     align: 4
     subsegments:
-      - [0x3bf4, bin, overlays/japanese_model_image_model_103434_8017b000/unclassified_tail]
+      - [0x3BF4, data, overlays/japanese_model_image_model_103434_8017b000/unclassified_tail]
   - [0x5000]

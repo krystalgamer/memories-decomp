@@ -1,0 +1,4 @@
+// Japanese MODEL.MRG model 121 (record 121), sector 33596, header 163, loaded at 0x8013B000; the US source variant163_entry.c; built from the US source layout of model_variant_121_stage9_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x23F8 defined:true
+D_8013D414 = 0x8013D414; // type:u8 size:0x38 defined:true
+D_8013D44C = 0x8013D44C; // type:u8 size:0x2BB4 defined:true

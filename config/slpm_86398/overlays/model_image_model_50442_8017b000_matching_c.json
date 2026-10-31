@@ -1,4 +1,41 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x1368",
+      "source": "src/overlays/model_variant/variant447_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C36C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x588",
+      "source": "src/overlays/model_variant/variant447_rings_slot1.c"
+    },
+    {
+      "address": "0x8017C8F4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x5BC",
+      "source": "src/overlays/model_variant/variant447_advancing_slot1.c"
+    },
+    {
+      "address": "0x8017CEB0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x490",
+      "source": "src/overlays/model_variant/variant447_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017D340",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x51C",
+      "source": "src/overlays/model_variant/variant447_webs_slot1.c"
+    },
+    {
+      "address": "0x8017D85C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x58C",
+      "source": "src/overlays/model_variant/variant447_curtains_slot1.c"
+    }
+  ],
   "schema": 1
 }

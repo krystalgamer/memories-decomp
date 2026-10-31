@@ -1,4 +1,35 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xE60",
+      "source": "src/overlays/model_variant/variant394_entry.c"
+    },
+    {
+      "address": "0x8013BE64",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x720",
+      "source": "src/overlays/model_variant/variant394_tube.c"
+    },
+    {
+      "address": "0x8013C584",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x8A4",
+      "source": "src/overlays/model_variant/variant394_beams.c"
+    },
+    {
+      "address": "0x8013CE28",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x650",
+      "source": "src/overlays/model_variant/variant394_sheets.c"
+    },
+    {
+      "address": "0x8013D478",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x518",
+      "source": "src/overlays/model_variant/variant394_funnels.c"
+    }
+  ],
   "schema": 1
 }

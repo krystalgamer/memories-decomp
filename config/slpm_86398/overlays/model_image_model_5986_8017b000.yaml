@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_5986_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_5986_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_5986_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_5986_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,43 +46,43 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_5986_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_5986_8017b000/unmatched_4]
-  - name: unmatched_de8
+      - [0x4, c, overlays/model_variant/variant380_entry_slot1]
+  - name: beams
     type: code
-    start: 0xde8
-    vram: 0x8017bde8
+    start: 0xDE8
+    vram: 0x8017BDE8
     align: 4
     subsegments:
-      - [0xde8, asm, overlays/japanese_model_image_model_5986_8017b000/unmatched_de8]
-  - name: unmatched_1ab8
+      - [0xDE8, c, overlays/model_variant/variant380_beams_slot1]
+  - name: sheets
     type: code
-    start: 0x1ab8
-    vram: 0x8017cab8
+    start: 0x1AB8
+    vram: 0x8017CAB8
     align: 4
     subsegments:
-      - [0x1ab8, asm, overlays/japanese_model_image_model_5986_8017b000/unmatched_1ab8]
-  - name: unmatched_208c
+      - [0x1AB8, c, overlays/model_variant/variant380_sheets_slot1]
+  - name: helper_208c
     type: code
-    start: 0x208c
-    vram: 0x8017d08c
+    start: 0x208C
+    vram: 0x8017D08C
     align: 4
     subsegments:
-      - [0x208c, asm, overlays/japanese_model_image_model_5986_8017b000/unmatched_208c]
+      - [0x208C, c, overlays/model_variant/variant380_streamers_slot1]
   - name: unclassified_tail
     type: code
     start: 0x2970
-    vram: 0x8017d970
+    vram: 0x8017D970
     align: 4
     subsegments:
-      - [0x2970, bin, overlays/japanese_model_image_model_5986_8017b000/unclassified_tail]
+      - [0x2970, data, overlays/japanese_model_image_model_5986_8017b000/unclassified_tail]
   - [0x5000]

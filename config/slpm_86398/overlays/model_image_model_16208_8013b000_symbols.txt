@@ -1,0 +1,27 @@
+// Japanese MODEL.MRG model 58 (record 58), sector 16208, header 64, loaded at 0x8013B000; header 64 ring-and-ray entry shared with variant64_entry.c; built from the US source layout of model_variant_58_stage9_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x11B4 defined:true
+D_8013C1B8 = 0x8013C1B8; // type:u8 size:0x1C defined:true
+D_8013C1D4 = 0x8013C1D4; // type:u8 size:0x3E2C defined:true
+Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
+Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
+func_80058F10 = 0x80058F10; // type:func absolute:true
+Model_GetSlotDataEntry = 0x80058F20; // type:func absolute:true
+Model_GetLightSourceMatrix = 0x80059220; // type:func absolute:true
+ModelTexture_PackPageClutCopy = 0x80059A50; // type:func absolute:true
+Model_QueueCameraShake = 0x8005F7B0; // type:func absolute:true
+SetSemiTrans = 0x80082840; // type:func absolute:true
+SetPolyFT4 = 0x80082940; // type:func absolute:true
+GsSortPoly = 0x80084320; // type:func absolute:true
+GsSetLsMatrix = 0x800855D0; // type:func absolute:true
+ccos = 0x80086920; // type:func absolute:true
+csin = 0x80086BB0; // type:func absolute:true
+PushMatrix = 0x800871D0; // type:func absolute:true
+PopMatrix = 0x80087274; // type:func absolute:true
+MulMatrix2 = 0x80087480; // type:func absolute:true
+ScaleMatrix = 0x80087670; // type:func absolute:true
+RotTrans = 0x80087970; // type:func absolute:true
+RotAverage4 = 0x80087AB0; // type:func absolute:true
+RotTransPersN = 0x80087CC0; // type:func absolute:true
+RotMatrix = 0x80087D30; // type:func absolute:true
+AverageZ4 = 0x80089C90; // type:func absolute:true
+GsGetLwUnit = 0x8008A4A0; // type:func absolute:true

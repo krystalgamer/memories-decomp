@@ -1,4 +1,47 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xFB4",
+      "source": "src/overlays/model_variant/variant410_entry_slot1.c"
+    },
+    {
+      "address": "0x8017BFB8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x5E8",
+      "source": "src/overlays/model_variant/variant410_mesh_slot1.c"
+    },
+    {
+      "address": "0x8017C5A0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xA08",
+      "source": "src/overlays/model_variant/variant410_spiral_slot1.c"
+    },
+    {
+      "address": "0x8017CFA8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x8A4",
+      "source": "src/overlays/model_variant/variant410_ribbons_slot1.c"
+    },
+    {
+      "address": "0x8017D84C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x55C",
+      "source": "src/overlays/model_variant/variant410_panels_slot1.c"
+    },
+    {
+      "address": "0x8017DDA8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x774",
+      "source": "src/overlays/model_variant/variant410_streamers_slot1.c"
+    },
+    {
+      "address": "0x8017E51C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x514",
+      "source": "src/overlays/model_variant/variant410_curtains_slot1.c"
+    }
+  ],
   "schema": 1
 }

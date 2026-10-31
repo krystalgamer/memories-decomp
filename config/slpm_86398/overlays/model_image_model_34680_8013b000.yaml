@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_34680_8013b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_34680_8013b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_34680_8013b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_34680_8013b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,50 +46,22 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8013b000
+    vram: 0x8013B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_34680_8013b000/module_header]
-  - name: unmatched_4
+  - name: module
     type: code
     start: 0x4
-    vram: 0x8013b004
+    vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_34680_8013b000/unmatched_4]
-  - name: unmatched_d00
-    type: code
-    start: 0xd00
-    vram: 0x8013bd00
-    align: 4
-    subsegments:
-      - [0xd00, asm, overlays/japanese_model_image_model_34680_8013b000/unmatched_d00]
-  - name: unmatched_1808
-    type: code
-    start: 0x1808
-    vram: 0x8013c808
-    align: 4
-    subsegments:
-      - [0x1808, asm, overlays/japanese_model_image_model_34680_8013b000/unmatched_1808]
-  - name: unmatched_1d84
-    type: code
-    start: 0x1d84
-    vram: 0x8013cd84
-    align: 4
-    subsegments:
-      - [0x1d84, asm, overlays/japanese_model_image_model_34680_8013b000/unmatched_1d84]
-  - name: unmatched_20c8
-    type: code
-    start: 0x20c8
-    vram: 0x8013d0c8
-    align: 4
-    subsegments:
-      - [0x20c8, asm, overlays/japanese_model_image_model_34680_8013b000/unmatched_20c8]
-  - name: unclassified_tail
-    type: code
-    start: 0x2888
-    vram: 0x8013d888
-    align: 4
-    subsegments:
-      - [0x2888, bin, overlays/japanese_model_image_model_34680_8013b000/unclassified_tail]
+      - [0x4, c, overlays/model_variant/variant443_entry]
+      - [0xD00, c, overlays/model_variant/variant443_ribbons]
+      - [0x1808, c, overlays/model_variant/variant443_sheets]
+      - [0x1D84, c, overlays/model_variant/variant443_strand]
+      - [0x20C8, c, overlays/model_variant/variant443_streamers]
+      - [0x2888, data, overlays/japanese_model_image_model_34680_8013b000/data_02888]
+      - [0x3004, data, overlays/japanese_model_image_model_34680_8013b000/unclassified_tail]
+      - [0x4D0C, data, overlays/japanese_model_image_model_34680_8013b000/data]
   - [0x5000]

@@ -1,0 +1,3 @@
+Model_GetActiveSlotIndex = 0x8005BBFC;
+Model_GetSlotAnimationIndex = 0x8005BC98;
+Model_QueueRelativeCameraOrbit = 0x8004D3E4;
