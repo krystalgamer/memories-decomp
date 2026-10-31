@@ -1,6 +1,18 @@
 #include "../../types.h"
 #include "variant443_ribbons.h"
 
+/* Header 426 reads its projected points through pointer arithmetic and
+ * packed-word halves (see variant423_ribbon.c). */
+#ifdef MODEL_VARIANT443_RIBBONS_PACKED_SCREEN
+#define RIBBONS443_SCREEN(screen, n) (*((screen) + (n)))
+#define RIBBONS443_VX(screen, n) ((s16)RIBBONS443_SCREEN(screen, n).packed)
+#define RIBBONS443_VY(screen, n) ((s16)(RIBBONS443_SCREEN(screen, n).packed >> 16))
+#else
+#define RIBBONS443_SCREEN(screen, n) ((screen)[n])
+#define RIBBONS443_VX(screen, n) ((screen)[n].point.vx)
+#define RIBBONS443_VY(screen, n) ((screen)[n].point.vy)
+#endif
+
 void func_8013CADC(u8 *ctx)
 {
     SVECTOR rot;
@@ -73,24 +85,26 @@ void func_8013CADC(u8 *ctx)
         for (k = 0; k < 17; k++) {
             if (k == 16) {
                 ribbon->otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k], &ribbon->a[k - 1], &ribbon->a[k],
-                                              &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed, &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed,
+                                              &RIBBONS443_SCREEN(ribbon->sa, k - 1).packed, &RIBBONS443_SCREEN(ribbon->sa, k).packed,
+                                              &RIBBONS443_SCREEN(ribbon->sa, k - 1).packed, &RIBBONS443_SCREEN(ribbon->sa, k).packed,
                                               &p, &flags[i][k]);
-                RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &p, &flag);
-                dx = ribbon->sa[k].point.vx - ribbon->sa[k - 1].point.vx;
-                dy = ribbon->sa[k].point.vy - ribbon->sa[k - 1].point.vy;
+                RotTransPers(&ribbon->b[k], &RIBBONS443_SCREEN(ribbon->sb, k).packed, &p, &flag);
+                dx = RIBBONS443_VX(ribbon->sa, k) - RIBBONS443_VX(ribbon->sa, k - 1);
+                dy = RIBBONS443_VY(ribbon->sa, k) - RIBBONS443_VY(ribbon->sa, k - 1);
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                ribbon->width[k] = RIBBONS443_VX(ribbon->sb, k) - RIBBONS443_VX(ribbon->sa, k);
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             } else {
                 ribbon->otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1], &ribbon->a[k], &ribbon->a[k + 1],
-                                              &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed, &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
+                                              &RIBBONS443_SCREEN(ribbon->sa, k).packed, &RIBBONS443_SCREEN(ribbon->sa, k + 1).packed,
+                                              &RIBBONS443_SCREEN(ribbon->sa, k).packed, &RIBBONS443_SCREEN(ribbon->sa, k + 1).packed,
                                               &p, &flags[i][k]);
-                RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &p, &flag);
-                dx = ribbon->sa[k + 1].point.vx - ribbon->sa[k].point.vx;
-                dy = ribbon->sa[k + 1].point.vy - ribbon->sa[k].point.vy;
+                RotTransPers(&ribbon->b[k], &RIBBONS443_SCREEN(ribbon->sb, k).packed, &p, &flag);
+                dx = RIBBONS443_VX(ribbon->sa, k + 1) - RIBBONS443_VX(ribbon->sa, k);
+                dy = RIBBONS443_VY(ribbon->sa, k + 1) - RIBBONS443_VY(ribbon->sa, k);
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                ribbon->width[k] = RIBBONS443_VX(ribbon->sb, k) - RIBBONS443_VX(ribbon->sa, k);
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             }
@@ -104,14 +118,14 @@ void func_8013CADC(u8 *ctx)
             if ((s16)(k % 2) == 1) {
                 poly++;
             }
-            poly->x0 = ribbon->sa[k].point.vx + ribbon->ox[k];
-            poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-            poly->x1 = ribbon->sa[k + 1].point.vx + ribbon->ox[k + 1];
-            poly->y1 = (ribbon->sa[k + 1].packed >> 16) + ribbon->oy[k + 1];
-            poly->x2 = ribbon->sa[k].point.vx - ribbon->ox[k];
-            poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-            poly->x3 = ribbon->sa[k + 1].point.vx - ribbon->ox[k + 1];
-            poly->y3 = (ribbon->sa[k + 1].packed >> 16) - ribbon->oy[k + 1];
+            poly->x0 = RIBBONS443_SCREEN(ribbon->sa, k).point.vx + ribbon->ox[k];
+            poly->y0 = (RIBBONS443_SCREEN(ribbon->sa, k).packed >> 16) + ribbon->oy[k];
+            poly->x1 = RIBBONS443_SCREEN(ribbon->sa, k + 1).point.vx + ribbon->ox[k + 1];
+            poly->y1 = (RIBBONS443_SCREEN(ribbon->sa, k + 1).packed >> 16) + ribbon->oy[k + 1];
+            poly->x2 = RIBBONS443_SCREEN(ribbon->sa, k).point.vx - ribbon->ox[k];
+            poly->y2 = (RIBBONS443_SCREEN(ribbon->sa, k).packed >> 16) - ribbon->oy[k];
+            poly->x3 = RIBBONS443_SCREEN(ribbon->sa, k + 1).point.vx - ribbon->ox[k + 1];
+            poly->y3 = (RIBBONS443_SCREEN(ribbon->sa, k + 1).packed >> 16) - ribbon->oy[k + 1];
             poly->r0 = ribbon->color[0];
             poly->g0 = ribbon->color[1];
             poly->b0 = ribbon->color[2];
