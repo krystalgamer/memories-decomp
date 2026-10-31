@@ -1,0 +1,35 @@
+{
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xCFC",
+      "source": "src/overlays/spanish_model_variant/variant405_entry_slot1.c"
+    },
+    {
+      "address": "0x8017BD00",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5CC",
+      "source": "src/overlays/spanish_model_variant/variant405_pulses_slot1.c"
+    },
+    {
+      "address": "0x8017C2CC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4A8",
+      "source": "src/overlays/french_model_variant/variant562_shards_slot1.c"
+    },
+    {
+      "address": "0x8017C774",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3F0",
+      "source": "src/overlays/spanish_model_variant/variant405_bands_slot1.c"
+    },
+    {
+      "address": "0x8017CB64",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x458",
+      "source": "src/overlays/spanish_model_variant/variant405_outer_bands_slot1.c"
+    }
+  ],
+  "schema": 1
+}

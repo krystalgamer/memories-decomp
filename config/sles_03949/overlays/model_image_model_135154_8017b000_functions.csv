@@ -1,2 +1,2 @@
 address,size,name,status,module,notes
-0x8017B004,0x2188,func_8017B004,unmatched_asm,overlay/model_image_model_135154_8017b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8017B004,0x2188,func_8017B004,matching_c,overlay/model_image_model_135154_8017b000,Relocated model-point projectile entry sharing image135144 C; complete 20480-byte slot image exact with gcc_2_8_1_g0_split. Original raw suffix preserved. See notes/overlays/french-model-image135144-entry.md.

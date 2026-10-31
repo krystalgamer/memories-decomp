@@ -1,0 +1,4 @@
+// MODEL.MRG model 714 (record 614), sector 169674, header 750, loaded at 0x8017B000; the US header-733 source variant666_entry_slot1.c.
+func_8017B004 = 0x8017B004; // type:func size:0x1A38 defined:true
+D_8017CA3C = 0x8017CA3C; // type:u8 size:0x54 defined:true
+D_8017CA90 = 0x8017CA90; // type:u8 size:0x3570 defined:true

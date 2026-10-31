@@ -1,0 +1,5 @@
+// MODEL.MRG model 93 (record 93), sector 25858, header 569, loaded at 0x8017B000.
+func_8017B004 = 0x8017B004; // type:func size:0x11D8 defined:true
+func_8017C1DC = 0x8017C1DC; // type:func size:0x594 defined:true
+func_8017C770 = 0x8017C770; // type:func size:0x4DC defined:true
+D_8017CC4C = 0x8017CC4C; // type:u8 size:0x33B4 defined:true

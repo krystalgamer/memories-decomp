@@ -1,0 +1,4 @@
+// MODEL.MRG model 362 (record 362), sector 86312, header 172, loaded at 0x8013B000; the US header-155 source variant155_entry.c.
+func_8013B004 = 0x8013B004; // type:func size:0x1738 defined:true
+D_8013C74C = 0x8013C74C; // type:u8 size:0x8C defined:true
+D_8013C7D8 = 0x8013C7D8; // type:u8 size:0x3828 defined:true
