@@ -1,0 +1,4 @@
+// European MODEL.MRG model 701 (record 701), sector 166066, header 280, loaded at 0x8017B000; the US header-133 source variant133_entry_slot1.c; built from the French source layout of french_model_variant_701_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x1850 defined:true
+D_8017C864 = 0x8017C864; // type:u8 size:0x54 defined:true
+D_8017C8B8 = 0x8017C8B8; // type:u8 size:0x3748 defined:true

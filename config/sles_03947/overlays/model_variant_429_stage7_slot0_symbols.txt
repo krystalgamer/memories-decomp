@@ -1,0 +1,4 @@
+// European MODEL.MRG model 429 (record 429), sector 104784, header 123, loaded at 0x8013B000; the US header-106 source variant106_entry.c; built from the French source layout of french_model_variant_429_stage7_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x2170 defined:true
+D_8013D174 = 0x8013D174; // type:u8 size:0x54 defined:true
+D_8013D1C8 = 0x8013D1C8; // type:u8 size:0x2E38 defined:true

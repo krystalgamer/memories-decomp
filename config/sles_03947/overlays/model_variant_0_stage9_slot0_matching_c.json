@@ -1,0 +1,47 @@
+{
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xEE0",
+      "source": "src/overlays/french_model_variant/variant425_entry.c"
+    },
+    {
+      "address": "0x8013BEE4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x48C",
+      "source": "src/overlays/spanish_model_variant/variant425_mesh.c"
+    },
+    {
+      "address": "0x8013C370",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA34",
+      "source": "src/overlays/spanish_model_variant/variant425_spiral.c"
+    },
+    {
+      "address": "0x8013CDA4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x938",
+      "source": "src/overlays/french_model_variant/variant425_ribbon.c"
+    },
+    {
+      "address": "0x8013D6DC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4EC",
+      "source": "src/overlays/spanish_model_variant/variant425_sheets.c"
+    },
+    {
+      "address": "0x8013DBC8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x798",
+      "source": "src/overlays/spanish_model_variant/variant425_streamers.c"
+    },
+    {
+      "address": "0x8013E360",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5A8",
+      "source": "src/overlays/french_model_variant/variant425_funnel.c"
+    }
+  ],
+  "schema": 1
+}

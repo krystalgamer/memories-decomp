@@ -1,0 +1,4 @@
+// European MODEL.MRG model 530 (record 530), sector 132680, header 688, loaded at 0x8013B000; the US header-671 source variant671_entry.c; built from the French source layout of french_model_variant_530_stage9_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x1660 defined:true
+D_8013C664 = 0x8013C664; // type:u8 size:0x54 defined:true
+D_8013C6B8 = 0x8013C6B8; // type:u8 size:0x3948 defined:true

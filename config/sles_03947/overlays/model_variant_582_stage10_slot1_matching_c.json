@@ -1,0 +1,41 @@
+{
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x155C",
+      "source": "src/overlays/french_model_variant/variant469_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C560",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x638",
+      "source": "src/overlays/french_model_variant/variant582_arcs_slot1.c"
+    },
+    {
+      "address": "0x8017CB98",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x65C",
+      "source": "src/overlays/french_model_variant/variant582_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017D1F4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x93C",
+      "source": "src/overlays/french_model_variant/variant469_ribbons_slot1.c"
+    },
+    {
+      "address": "0x8017DB30",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x538",
+      "source": "src/overlays/spanish_model_variant/variant469_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017E068",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x454",
+      "source": "src/overlays/spanish_model_variant/variant469_rings_slot1.c"
+    }
+  ],
+  "schema": 1
+}

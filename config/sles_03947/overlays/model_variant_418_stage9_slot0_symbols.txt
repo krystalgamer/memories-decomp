@@ -1,0 +1,4 @@
+// European MODEL.MRG model 418 (record 418), sector 101768, header 861, loaded at 0x8013B000; the US header-844 source variant844_entry.c; built from the French source layout of french_model_variant_418_stage9_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x25C4 defined:true
+D_8013D5D8 = 0x8013D5D8; // type:u8 size:0x54 defined:true
+D_8013D62C = 0x8013D62C; // type:u8 size:0x29D4 defined:true
