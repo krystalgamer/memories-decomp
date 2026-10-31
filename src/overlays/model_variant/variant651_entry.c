@@ -9,7 +9,10 @@
  * a spinning cone of strips. The setup also prints the work-area size. */
 
 #ifndef VERSION_FRENCH
-static const char D_8013CA34[24] = "E_DATA size = %x byte\n\0\x8C";
+#ifndef MODEL651_STRING_PAD
+#define MODEL651_STRING_PAD "\x8C"
+#endif
+static const char D_8013CA34[24] = "E_DATA size = %x byte\n\0" MODEL651_STRING_PAD;
 #endif
 
 s32 func_8013B004(u8 *context, s32 command)

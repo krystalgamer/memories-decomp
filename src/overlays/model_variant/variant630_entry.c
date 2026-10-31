@@ -10,7 +10,10 @@
 
 /* The work-size format string; retail's padding byte after the terminator is 0xAF. */
 #ifndef VERSION_FRENCH
-static const char D_8013C7B0[24] = "E_DATA size = %x byte\n\0\xAF";
+#ifndef MODEL630_STRING_PAD
+#define MODEL630_STRING_PAD "\xAF"
+#endif
+static const char D_8013C7B0[24] = "E_DATA size = %x byte\n\0" MODEL630_STRING_PAD;
 #endif
 
 /* Fades channel C of ring i towards black over the second half of its
