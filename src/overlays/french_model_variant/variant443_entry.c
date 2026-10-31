@@ -1,6 +1,20 @@
 #include "../../types.h"
 #include "variant443_entry.h"
 
+/* The entry's data block.  D_8013F5A8 is where this module's unclassified tail
+ * starts, at a helper that the module does not split out yet, 0x554 bytes
+ * before the block.  The North American build points this at its own data
+ * symbol. */
+#ifndef MODEL_VARIANT443_DATA
+#define MODEL_VARIANT443_DATA (D_8013F5A8 + 0x554)
+#endif
+
+/* The effect palette sits at VRAM x = 640 in the PAL images and at 512 in
+ * the North American ones. */
+#ifndef MODEL_VARIANT443_CLUT_X
+#define MODEL_VARIANT443_CLUT_X 640
+#endif
+
 s32 func_8013B004(SVECTOR *point, s32 command)
 {
     EntryState443 *work = (EntryState443 *)point;
@@ -47,7 +61,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig443 *)(D_8013F5A8 + 0x650) + command;
+        work->config = (EntryConfig443 *)(MODEL_VARIANT443_DATA + 0xFC) + command;
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
         } else {
@@ -85,16 +99,16 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             }
         }
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT443_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013F5A8 + 0x618));
+        GetClut(MODEL_VARIANT443_CLUT_X, 244);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT443_DATA + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013F5A8 + 0x5E0));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013F5A8 + 0x570));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013F5A8 + 0x5A8));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013F5A8 + 0x634));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT443_DATA + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT443_DATA + 0x1C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT443_DATA + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT443_DATA + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -474,10 +488,19 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             setVector(&position, work->positions[i].vx, work->positions[i].vy, work->positions[i].vz);
             RotTransPers(&position, (PSXLONG *)&projection.projected,
                 &projection.interpolation, &projection.flag);
+#ifdef MODEL_VARIANT426_ENTRY_PAIRED_SCREEN
+            /* The North American gcc 2.7.2 build reads both coordinates
+             * before the two stores. */
+            projected_x = (u16)projection.projected.vx;
+            projected_y = projection.projected.vy;
+            screen_x[i] = projected_x;
+            screen_y[i] = projected_y;
+#else
             projected_x = (u16)projection.projected.vx;
             screen_x[i] = projected_x;
             projected_y = projection.projected.vy;
             screen_y[i] = projected_y;
+#endif
         }
         for (i = 0; i < 3; i++) {
             if (i + 1 == 3) {

@@ -48,13 +48,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/model_variant_62_stage9_slot0/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/model_variant_62_stage9_slot0/unmatched_4]
+      - [0x4, c, overlays/model_variant/variant426_entry]
   - name: unmatched_1ac4
     type: code
     start: 0x1AC4
@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x2F00, c, overlays/model_variant/variant426_sheets]
-  - name: unmatched_3640
+  - name: helper_3640
     type: code
     start: 0x3640
     vram: 0x8013E640
     align: 4
     subsegments:
-      - [0x3640, asm, overlays/model_variant_62_stage9_slot0/unmatched_3640]
+      - [0x3640, c, overlays/model_variant/variant426_streamers]
   - name: helper_3ee0
     type: code
     start: 0x3EE0

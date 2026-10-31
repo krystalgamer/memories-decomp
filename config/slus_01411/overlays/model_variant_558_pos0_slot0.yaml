@@ -48,13 +48,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/model_variant_558_pos0_slot0/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/model_variant_558_pos0_slot0/unmatched_4]
+      - [0x4, c, overlays/model_variant/variant318_entry]
   - name: unmatched_b9c
     type: code
     start: 0xB9C
@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x1B9C, c, overlays/model_variant/variant318_rings]
-  - name: unmatched_20b4
+  - name: helper_20b4
     type: code
     start: 0x20B4
     vram: 0x8013D0B4
     align: 4
     subsegments:
-      - [0x20B4, asm, overlays/model_variant_558_pos0_slot0/unmatched_20b4]
+      - [0x20B4, c, overlays/model_variant/variant318_streamers]
   - name: unmatched_28d0
     type: code
     start: 0x28D0
