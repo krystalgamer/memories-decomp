@@ -21,6 +21,9 @@ its resident load banks.
   Japanese linker symbols for their resident references.
 - [`french-options.md`](french-options.md) records the partial PAL options
   registration, its thirteen exact routines and the remaining boundary caveats.
+- [`european-model-french-layouts.md`](european-model-french-layouts.md)
+  records how the European MODEL and SU images reuse the French sources and
+  profiles, with European linker symbols for their resident references.
 - [`constant-audit.md`](constant-audit.md) records which overlay magic numbers
   adopted existing named constants, and which same-valued literals were
   deliberately left as numbers because the constant names a different concept.
