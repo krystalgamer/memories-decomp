@@ -1,0 +1,4 @@
+// Spanish MODEL.MRG model 364 (record 364), sector 86854, header 902, loaded at 0x8017B000; the US header-788 source variant788_entry_slot1.c; built from the French source layout of french_model_variant_364_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x23CC defined:true
+D_8017D3E0 = 0x8017D3E0; // type:u8 size:0x1C defined:true
+D_8017D3FC = 0x8017D3FC; // type:u8 size:0x2C04 defined:true

@@ -1,0 +1,4 @@
+// Spanish MODEL.MRG model 131 (record 131), sector 36336, header 805, loaded at 0x8013B000; the US header-788 source variant788_entry.c; built from the French source layout of french_model_variant_131_stage7_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x23CC defined:true
+D_8013D3E0 = 0x8013D3E0; // type:u8 size:0x1C defined:true
+D_8013D3FC = 0x8013D3FC; // type:u8 size:0x2C04 defined:true

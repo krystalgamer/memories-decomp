@@ -1,0 +1,5 @@
+// Spanish MODEL.MRG model 279 (record 279), sector 77214, header 897, loaded at 0x8017B000; the French wrapper variant800_entry_slot1.c over the US header-783 source; built from the French source layout of french_model_variant_279_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x24EC defined:true
+D_8017D4F0 = 0x8017D4F0; // type:u8 size:0x10 defined:true
+D_8017D500 = 0x8017D500; // type:u8 size:0x38 defined:true
+D_8017D538 = 0x8017D538; // type:u8 size:0x2AC8 defined:true

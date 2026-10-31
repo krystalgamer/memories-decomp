@@ -1,0 +1,4 @@
+// Spanish MODEL.MRG model 36 (record 36), sector 10126, header 282, loaded at 0x8017B000; the US header-135 source variant135_entry_slot1.c; built from the French source layout of french_model_variant_36_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x1668 defined:true
+D_8017C67C = 0x8017C67C; // type:u8 size:0x118 defined:true
+D_8017C794 = 0x8017C794; // type:u8 size:0x386C defined:true
