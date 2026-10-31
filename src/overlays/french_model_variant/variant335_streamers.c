@@ -1,6 +1,15 @@
 #include "../../types.h"
 #include "../model_variant/variant321_streamers.h"
 
+/* The North American header-318 build (gcc 2.7.2) loads the word after the
+ * advanced rotation with a zero step and indexes the closing segment's
+ * previous point directly instead of walking a pointer to it. */
+#ifdef MODEL_VARIANT335_STREAMERS_DIRECT_PREVIOUS
+#define STREAMERS335_PREVIOUS ((DVECTOR *)&streamer->sa[15])
+#else
+#define STREAMERS335_PREVIOUS previous
+#endif
+
 void func_8013D0D8(u8 *ctx)
 {
     SVECTOR rot;
@@ -80,6 +89,9 @@ void func_8013D0D8(u8 *ctx)
         MODEL_VARIANT_WORD(work, 0x2E80) += 0x514;
     }
     MODEL_VARIANT_WORD(work, 0x2E80) += 0x20;
+#ifdef MODEL_VARIANT335_STREAMERS_DIRECT_PREVIOUS
+    MODEL_VARIANT_WORD(work, 0x2E84) += 0;
+#endif
     m.t[0] = MODEL_VARIANT_HALF(work, 0x2E18);
     m.t[1] = MODEL_VARIANT_HALF(work, 0x2E1A);
     m.t[2] = MODEL_VARIANT_HALF(work, 0x2E1C);
@@ -94,16 +106,20 @@ void func_8013D0D8(u8 *ctx)
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
     streamer = (Variant321Streamer *)(work + 0x254C);
+#ifdef MODEL_VARIANT335_STREAMERS_DIRECT_PREVIOUS
+    for (i = 0; i < 2; i++, streamer++) {
+#else
     for (i = 0, previous = (DVECTOR *)&streamer->sa[15]; i < 2; i++,
          previous = (DVECTOR *)((u8 *)previous + sizeof(Variant321Streamer)), streamer++) {
+#endif
         for (k = 0; k < 17; k++) {
             if (k == 16) {
                 streamer->otz[k] = RotTransPers4(&streamer->a[15], &streamer->a[k], &streamer->a[15], &streamer->a[k],
-                                               (PSXLONG *)previous, &streamer->sa[k],
-                                               (PSXLONG *)previous, &streamer->sa[k], &p, &streamer->flag[k]);
+                                               (PSXLONG *)STREAMERS335_PREVIOUS, &streamer->sa[k],
+                                               (PSXLONG *)STREAMERS335_PREVIOUS, &streamer->sa[k], &p, &streamer->flag[k]);
                 RotTransPers(&streamer->b[k], &streamer->sb[k], &p, &flag);
-                dx = (s16)streamer->sa[k] - previous->vx;
-                dy = (streamer->sa[k] >> 16) - previous->vy;
+                dx = (s16)streamer->sa[k] - STREAMERS335_PREVIOUS->vx;
+                dy = (streamer->sa[k] >> 16) - STREAMERS335_PREVIOUS->vy;
                 streamer->angle[k] = ratan2(dy, dx) + 0xC00;
                 if (MODEL_VARIANT_WORD(work, 0x2E88) > 0x200) {
                     streamer->width[k] = 3;
