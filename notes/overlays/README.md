@@ -38,6 +38,9 @@ its resident load banks.
 - [`italian-model-french-layouts.md`](italian-model-french-layouts.md)
   records how the Italian MODEL images reuse the French sources, profiles and
   linker symbols.
+- [`german-model-french-layouts.md`](german-model-french-layouts.md)
+  records how the German MODEL images and WA_MRG duel-effect and options
+  modules reuse the French sources, profiles and linker symbols.
 - [`../mrg-files.md`](../mrg-files.md) documents the MRG container evidence and
   development-path strings.
 - [`../research/Unchiga_Symbols/modules.md`](../research/Unchiga_Symbols/modules.md)
