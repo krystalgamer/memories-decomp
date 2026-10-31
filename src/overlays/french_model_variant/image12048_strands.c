@@ -18,11 +18,11 @@ void func_8013BF38(u8 *context)
     SVECTOR *edge;
     GsOT *ot;
     s16 i, j;
+    s32 twist;
     s32 sway;
     s32 offset;
     s32 tilt;
     s32 angle;
-    s32 twist;
     s32 bend;
     s16 spread;
     s32 dx, dy;
