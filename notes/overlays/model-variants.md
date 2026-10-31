@@ -70,6 +70,10 @@ input", and each of the four header-397 helpers compiles one word short.
 `make overlays` and `make verify-overlays` pass under either profile, because
 neither of them compiles C.
 
+The Japanese MODEL images that reuse these US sources select the same profile
+as the US image at the same sector; see
+[Japanese MODEL images built from the US sources](japanese-model-us-layouts.md).
+
 Four European images also select `gcc_2_7_2_cdk_g0`, for the header-447
 rings helper at image offset `0x3520`. They are the French and Spanish
 `model_image_model_109772_8013b000` and `model_image_model_109782_8017b000`

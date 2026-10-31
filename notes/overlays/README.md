@@ -16,6 +16,9 @@ its resident load banks.
   explanation half of them should be retested rather than trusted.
 - [`module-crosswalk.md`](module-crosswalk.md) correlates verified archive
   slices and load ranges with the external per-screen symbol files.
+- [`japanese-model-us-layouts.md`](japanese-model-us-layouts.md) records how
+  the Japanese MODEL and SU images reuse the US sources and profiles, with
+  Japanese linker symbols for their resident references.
 - [`french-options.md`](french-options.md) records the partial PAL options
   registration, its thirteen exact routines and the remaining boundary caveats.
 - [`constant-audit.md`](constant-audit.md) records which overlay magic numbers
