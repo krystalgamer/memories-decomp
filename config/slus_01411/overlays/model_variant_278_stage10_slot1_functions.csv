@@ -1,0 +1,3 @@
+address,size,name,status,module,notes
+0x8017B004,0x10F8,func_8017B004,matching_c,overlay/model_variant_278_stage10_slot1,Loader entry; C body exact through variant430_entry_slot1.c; direct-entry reachable.
+0x8017C0FC,0x6BC,func_8017C0FC,matching_c,overlay/model_variant_278_stage10_slot1,Complete module byte identity and section-defined C ownership verified.

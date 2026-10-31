@@ -133,11 +133,13 @@ The French header-428/578 images compile the same entry under
 through `french_model_variant/variant428_entry.c`, and build the two helpers
 as their own 2.8.1 segments from `variant428_swarm.c` and `variant428_quads.c`.
 
-The two North American header-430/580 images build only their entry from
-`model_variant/variant430_entry.c` under `gcc_2_7_2_cdk_g0`; their swarm
-helper stays generated assembly. The French header-447/597 images compile the
+The two North American header-430/580 images build their entry from
+`model_variant/variant430_entry.c` and their swarm helper from
+`model_variant/variant430_swarm.c` (`_slot1.c` for slot 1) under
+`gcc_2_7_2_cdk_g0`; the helper is the French `variant447_swarm.c` included at
+the North American address. The French header-447/597 images compile the
 same entry under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the
-palette to VRAM x 640, beside their existing 2.8.1 `variant447_swarm.c`.
+palette to VRAM x 640, and build `variant447_swarm.c` under 2.8.1.
 
 The two North American header-386/536 images build their entry from
 `model_variant/variant386_entry.c` under `gcc_2_7_2_cdk_g0`, beside the
@@ -146,12 +148,14 @@ assembly. The French header-403/553 images compile the same entry under
 `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the palette to VRAM
 x 640, beside their existing 2.8.1 helper C.
 
-The two North American header-454/604 images build only their entry from
-`model_variant/variant454_entry.c` under `gcc_2_7_2_cdk_g0`; their two quad
-helpers stay generated assembly. The French header-471/621 images compile the
-same entry under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the
-palette to VRAM x 640, beside their existing 2.8.1 `variant471_quad_pairs.c`
-and `variant471_quads.c`.
+The two North American header-454/604 images build their entry from
+`model_variant/variant454_entry.c` and both quad helpers from
+`model_variant/variant454_quad_pairs.c` and `variant454_quads.c` (`_slot1.c`
+for slot 1) under `gcc_2_7_2_cdk_g0`; the helpers are the French
+`variant471_quad_pairs.c` and `variant471_quads.c` included at the North
+American addresses. The French header-471/621 images compile the same entry
+under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the palette to
+VRAM x 640, and build the two quad helpers under 2.8.1.
 
 The two North American header-455/605 images build their entry from
 `model_variant/variant455_entry.c` under `gcc_2_7_2_cdk_g0`, beside the

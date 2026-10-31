@@ -1,4 +1,0 @@
-address,size,name,status,module,notes
-0x8017B004,0x1530,func_8017B004,matching_c,overlay/model_image_model_22842_8017b000,Loader entry; C body exact through variant454_entry_slot1.c; direct-entry reachable.
-0x8017C534,0x4F8,func_8017C534,unmatched_asm,overlay/model_image_model_22842_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8017CA2C,0x4D0,func_8017CA2C,unmatched_asm,overlay/model_image_model_22842_8017b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
