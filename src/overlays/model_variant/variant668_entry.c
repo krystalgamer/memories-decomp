@@ -9,7 +9,10 @@
 
 /* The work-size format string; retail's padding byte after the terminator is 0x14. */
 #ifndef VERSION_FRENCH
-static const char D_8013C0C4[24] = "E_DATA size = %x byte\n\0\x14";
+#ifndef MODEL668_STRING_PAD
+#define MODEL668_STRING_PAD "\x14"
+#endif
+static const char D_8013C0C4[24] = "E_DATA size = %x byte\n\0" MODEL668_STRING_PAD;
 #endif
 
 s32 func_8013B004(u8 *context, s32 command)

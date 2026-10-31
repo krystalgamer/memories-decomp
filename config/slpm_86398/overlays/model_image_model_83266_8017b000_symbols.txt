@@ -1,0 +1,4 @@
+// Japanese MODEL.MRG model 351 (record 351), sector 83266, header 928, loaded at 0x8017B000; the US source variant831_entry_slot1.c; built from the US source layout of model_variant_351_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x22BC defined:true
+D_8017D2D0 = 0x8017D2D0; // type:u8 size:0x70 defined:true
+D_8017D340 = 0x8017D340; // type:u8 size:0x2CC0 defined:true
