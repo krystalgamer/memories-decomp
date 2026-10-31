@@ -1,0 +1,4 @@
+// French raw image model_image_model_168816_8013b000; the header-831 entry variant831_entry.c; built from the French source layout of french_model_image_model_168816_8013b000.
+func_8013B004 = 0x8013B004; // type:func size:0x3804 defined:true
+D_8013E818 = 0x8013E818; // type:u8 size:0x8C defined:true
+D_8013E8A4 = 0x8013E8A4; // type:u8 size:0x175C defined:true
