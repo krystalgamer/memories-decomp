@@ -1,6 +1,20 @@
 #include "../../types.h"
 #include "variant452_entry.h"
 
+/* The entry's data block.  D_8013D3E4 is where this module's unclassified tail
+ * starts, at a helper that the module does not split out yet, 0xA30 bytes
+ * before the block.  The North American build points this at its own data
+ * symbol. */
+#ifndef MODEL_VARIANT452_DATA
+#define MODEL_VARIANT452_DATA (D_8013D3E4 + 0xA30)
+#endif
+
+/* The effect palette sits at VRAM x = 640 in the PAL images and at 512 in
+ * the North American ones. */
+#ifndef MODEL_VARIANT452_CLUT_X
+#define MODEL_VARIANT452_CLUT_X 640
+#endif
+
 /* Header 452's entry: the header-439 skeleton with three webs, a band, a
  * sheet, rings, spoke rings and a fan, plus sixteen streamers and trails
  * for the three per-frame helpers. */
@@ -41,7 +55,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant452EntryConfig *)(D_8013D3E4 + 0xB2C) + command;
+        work->config = (Variant452EntryConfig *)(MODEL_VARIANT452_DATA + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -56,15 +70,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
-        clut = GetClut(640, 244);
+        clut = GetClut(MODEL_VARIANT452_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D3E4 + 0xAF4));
+        GetClut(MODEL_VARIANT452_CLUT_X, 244);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT452_DATA + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D3E4 + 0xABC));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D3E4 + 0xA4C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D3E4 + 0xA84));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT452_DATA + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT452_DATA + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(MODEL_VARIANT452_DATA + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
