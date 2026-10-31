@@ -157,6 +157,24 @@ American addresses. The French header-471/621 images compile the same entry
 under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the palette to
 VRAM x 640, and build the two quad helpers under 2.8.1.
 
+The six North American header-435/585 images (models 1, 360 and 550) build
+their entry from `model_variant/variant435_entry.c` (`_slot1.c` for slot 1)
+under `gcc_2_7_2_cdk_g0`, beside the C sheets and lines helpers; the helpers
+at `+ 0x1524` and `+ 0x23AC` stay generated assembly. The wrapper includes
+the French `variant452_entry.c` with `MODEL_VARIANT452_CLUT_X` set to 512 and
+`MODEL_VARIANT452_DATA` pointed at the North American data symbol. The French
+source defaults to x 640 and to `D_8013D3E4 + 0xA30`, since its data symbol
+starts at a helper that the French module still keeps in its unclassified
+tail, and its header-452/602 images keep building it under 2.8.1.
+
+The four North American header-318/468 images (models 44 and 558) build
+their entry from `model_variant/variant318_entry.c` the same way, from the
+French `variant335_entry.c` with `MODEL_VARIANT335_CLUT_X` 512 and
+`MODEL_VARIANT335_DATA`, whose French default is `D_8013D8EC + 0x6D0`. The
+sheets and rings helpers are C; the helpers at `+ 0xB9C`, `+ 0x20B4` and
+`+ 0x28D0` stay generated assembly. The French header-335/485 images keep
+building the entry under 2.8.1.
+
 The two North American header-455/605 images build their entry from
 `model_variant/variant455_entry.c` under `gcc_2_7_2_cdk_g0`, beside the
 existing blooms, mesh and sheets helper C; the helper at `0x8013CD3C` stays
