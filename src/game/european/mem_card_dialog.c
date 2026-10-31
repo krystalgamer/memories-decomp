@@ -2,15 +2,8 @@
 
 /* SLES-03947 build of src/game/mem_card_dialog.c. */
 #define VERSION_EUROPE
-/* MemCardWork_UpdateOperation keeps its out-parameter where the European symbols name
- * D_8009B3F0 (0x8009C324). The dialog functions name a different word
- * D_8009B3F0 (gEuropean_D_8009B3F0, 0x8009C320), so the out-parameter is
- * reached through its own name and assembler label. */
-#define D_8009B3C8 European_D_8009B3C8
-extern s32 European_D_8009B3C8 asm("D_8009B3F0");
 #define MEM_CARD_MESSAGE_COMPLETION_MASK 0x2010
 #define MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE 0xB7
-#define D_8009AF70 gEuropean_D_8009AF70
 #define func_8008CF10 func_8008E0A4
 #define func_8008D070 func_8008E204
 #define func_8008D680 func_8008E814

@@ -114,8 +114,9 @@ completion calls retain their order and object ownership.
 
 The Japanese native acquisition address is not the unrelated NA
 `func_80039BE0` fade callback. Likewise the French
-`D_8009B326_French` alias and Japanese `D_8009B436` alias at the
-NA-number address remain untouched. Bindings are selected by native
+`D_8009B326_French` alias and the Japanese
+`gMemCard_bTransferRetriesRemaining` binding at the NA-number address
+remain untouched. Bindings are selected by native
 address, not by coincident numeric names.
 
 All 940 complete compiler/MASPSX outputs match after reversing only these

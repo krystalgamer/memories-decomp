@@ -55,21 +55,12 @@ The shared transition byte `D_8009B3C1` is not renamed as work-only state.
 
 ## PAL request-result linkage is a distinct surface
 
-The European and Spanish dialog wrappers already give the work-result
-C identifier `European_D_8009B3C8` the explicit assembler label
-`D_8009B3F0`. This provider is at `0x8009C324` in the UK and
-`0x8009C744` in France, Germany, Italy and Spain.
-
-It is not `gEuropean_D_8009B3F0`, the modal-runtime word four bytes earlier.
-The canonical declaration therefore retains `asm("D_8009B3F0")` under
-the existing `VERSION_EUROPE` selection. Other consumers keep the plain
-`s32` view. The old wrappers, declarations and aliases remain unchanged.
-
-Actual PAL compiler outputs still import that original assembler label;
-the canonical C identifier is not substituted for it in object linkage.
-The native canonical linker alias also targets that same work provider.
-Compiler conservation tracks effective assembler identities separately
-from CPP-expanded C identifiers.
+The PAL request-result word is at `0x8009C324` in the UK and
+`0x8009C744` in France, Germany, Italy and Spain. It is not
+`gMemCardDialog_SyncCommand`, the modal-runtime word four bytes earlier.
+Each PAL symbol file binds `gMemCardWork_nRequestResult` at that address
+directly, so every region uses one plain `s32` declaration; the former
+`European_D_8009B3C8`/`asm("D_8009B3F0")` wrapper view is gone.
 
 ## Checksum remains an interior byte
 
@@ -83,28 +74,9 @@ five other footer-byte stores, checksum extent and signed sector
 conversion remain unchanged. The other footer bytes are not assigned
 guessed semantics, and no RAM-mirror equivalence is inferred.
 
-## Namespace and conservation scope
+## Namespace
 
-The new header follows the old `mem_card_work.h` owner in the two resident
-C sources. All six identities remain externally provided; native linker
-aliases use canonical names equal to their original providers.
-There are 42 active regional roles. Local maps establish 37 numeric
-bindings; five original Japanese/UK imports remain symbolic rather than
-being assigned guessed addresses. Fresh regional full-image PR checks
-remain mandatory.
-
-The existing controller witness changes only identifiers and gains one
-linker namespace alias after the existing fixed-address alias loop:
-canonical checksum equal to its existing legacy checksum provider.
-The old loop is unchanged. No
-physical address, fixture, case, assertion, mutation, startup or compiler
-option is changed. Reversing the identifiers and removing that one alias
-restores the entire file.
-
-The separate legacy frame/ownership probe and its wrong-checksum-alias
-negative control stay frozen, as do the old header, wrappers, modal
-runtime, profiles and source groups. No harness, fixture, probe or test
-case is added; cloud/regional/overlay/witness suites are not run locally.
-Conservation compares complete ordinary, native compiler/MASPSX and
-fallback assembly, with only scoped original assembler identities
-reversed and no instruction, directive, relocation or order filtering.
+The state header is the only declaration owner; the old `D_` declarations
+in `mem_card_work.h` are gone. Every region binds the six names at their
+native addresses (the checksum at `0x8021007F` everywhere) instead of
+aliasing old identities.

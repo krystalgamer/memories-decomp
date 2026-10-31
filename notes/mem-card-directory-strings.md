@@ -57,12 +57,9 @@ interior aliases and the MIDI marker retain their definitions, values,
 padding, qualifiers and placement. No compiler profile or source group
 changes, and no object is split, deduplicated or reallocated.
 
-The NA initialized objects therefore use **old identity = canonical
-C definition** compatibility aliases. Assigning the canonical name over
-the old provider would instead override initialized ownership. All other
-active regional providers use **canonical = original external provider**.
-Existing NA data and absolute symbol classes are preserved, not all
-assumed to be absolute.
+The canonical C definitions are the only NA identities; no old-name
+linker alias remains. Every other active provider binds the canonical
+name directly in its region's `symbols.txt` or `link_symbols.ld`.
 
 Consumers remain incomplete mutable arrays, not fixed-size or `const`
 declarations. The pattern header follows the existing directory owner;
@@ -70,32 +67,18 @@ the diagnostic header follows the existing work-controller owner.
 The driver does not gain unrelated diagnostic declarations. Old headers,
 selectors, SDK structures and regional wrappers remain unchanged.
 
-## Regional identities and conservation
+## Regional identities
 
-The Japanese dialog wrapper already selects literal providers
-`D_8009AEB4`, `D_8009AEB8`, `D_800102F4`, `D_80010314` and
-`D_80010320`. Their existing imported identities remain the alias targets.
-PAL wildcards retain their `gEuropean_` providers. NA-number suffixes are
-not used to guess other images' addresses.
+The Japanese, UK and continental symbol files bind each canonical name at
+its native address; the regional wrappers no longer remap old identifiers.
+NA-number suffixes are not used to guess other images' addresses.
 
-All 22 active native roles preserve their original provider identities.
-Local maps independently establish 17 numeric bindings; the other five
-Japanese providers are retained symbolically, not presented as a complete
-local numeric or retail-image proof. Fresh PR-side regional full-image
-checks remain mandatory.
-
-The existing controller witness changes only its four diagnostic
-identifiers in definitions and pointer comparisons. Its fixture strings,
-cases, assertions, mutations, setup and linkage remain unchanged. The
-legacy ownership controls stay frozen. No harness, fixture, probe or test
-case is added, and cloud/regional/overlay/witness suites are not executed
-locally.
-
-Conservation compares complete ordinary compiler outputs, all eight
-actual source/profile compiler and MASPSX output pairs, initialized data
-bytes, fallback assembly and whole source/control files. Only the scoped
-original identifiers are reversed in assembly; instructions, directives,
-relocations, order and filenames are not filtered.
+The Japanese-only `gMemCard_szOptionsFileName` (`0x8001032C`,
+`"BISLPMP86398-YUGIOH"`) is the file name `SaveData_RequestOptionsWrite`
+hands to `MemCardDialog_Request` for the Options screen's 32 KiB request.
+It is separate from the ordinary `gMemCard_szSaveFileName`
+(`"BISLPM-86398-YUGIOH"` at `0x80010300`); the payload format remains
+unknown.
 
 ## Driver path format and transfer retries
 
@@ -125,14 +108,7 @@ counter. Existing stale values are preserved. The independent
 `gMemCard_bRetries` stage budget, open/seek/transfer retry loops and
 zero-result interpretation are not merged or repaired.
 
-The new request-input header follows the late `unmatched.h` format owner
-and the existing `mem_card.h` scalar owner. Both old headers and all
-regional wrappers stay unchanged. These two identities add 14 active
-native bindings, all independently mapped numerically, using canonical
-aliases equal to the original external providers.
-
-The existing I/O-controller witness changes only its four retry-byte
-identifier occurrences. Its setup values, cases, assertions and mutations
-remain. No local witness execution or new harness is introduced. The full
+Both identities are declared only in the request-input header and are
+bound directly at their native addresses in every region. The full
 component also retains the separate
 [work-state and checksum contract](mem-card-work-state.md).
