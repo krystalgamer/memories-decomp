@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/spanish_model_image_model_92128_8013a000/build
   undefined_funcs_auto_path: tmp/overlays/spanish_model_image_model_92128_8013a000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/spanish_model_image_model_92128_8013a000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03951/overlays/model_image_model_92128_8013a000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,22 +46,22 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8013a000
+    vram: 0x8013A000
     align: 4
     subsegments:
       - [0x0, data, overlays/spanish_model_image_model_92128_8013a000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8013a004
+    vram: 0x8013A004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_image_model_92128_8013a000/unmatched_4]
+      - [0x4, c, overlays/spanish_model_primary/return_two]
   - name: unclassified_tail
     type: code
-    start: 0xc
-    vram: 0x8013a00c
+    start: 0xC
+    vram: 0x8013A00C
     align: 4
     subsegments:
-      - [0xc, bin, overlays/spanish_model_image_model_92128_8013a000/unclassified_tail]
+      - [0xC, data, overlays/spanish_model_image_model_92128_8013a000/unclassified_tail]
   - [0x1000]

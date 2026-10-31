@@ -54,12 +54,19 @@ segments:
     vram: 0x8013b004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_image_model_59520_8013b000/unmatched_4]
-  - name: unclassified_tail
+      - [0x4, c, overlays/model_variant/variant177_entry]
+  - name: rodata
     type: code
     start: 0x1500
     vram: 0x8013c500
     align: 4
     subsegments:
-      - [0x1500, bin, overlays/spanish_model_image_model_59520_8013b000/unclassified_tail]
+      - [0x1500, .rodata, overlays/model_variant/variant177_entry]
+  - name: unclassified_tail
+    type: code
+    start: 0x1510
+    vram: 0x8013c510
+    align: 4
+    subsegments:
+      - [0x1510, bin, overlays/spanish_model_image_model_59520_8013b000/unclassified_tail]
   - [0x5000]
