@@ -1,2 +1,2 @@
 address,size,name,status,module,notes
-0x8013B004,0x26D4,func_8013B004,unmatched_asm,overlay/model_image_model_168560_8013b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8013B004,0x26D4,func_8013B004,matching_c,overlay/model_image_model_168560_8013b000,Loader entry; USA build of the French MODEL60348 ring/echo/burst lifecycle with the E_DATA work-size printf; pure C with gcc_2_8_0_g0_split; complete original image matches SHA-256. Header and raw suffix remain unchanged.

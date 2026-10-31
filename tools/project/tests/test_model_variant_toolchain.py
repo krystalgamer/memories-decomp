@@ -28,6 +28,22 @@ class ModelVariantToolchainTests(unittest.TestCase):
         base.pop("compiler")
         self.assertEqual(cdk, base)
 
+    def test_gcc_2_8_0_release_is_pinned(self):
+        release = json.loads((ROOT / "tools/bootstrap/old_gcc_280_prebuilt.json").read_text())
+        self.assertEqual(release["release"], "0.17")
+        self.assertTrue(release["url"].endswith("/0.17/gcc-2.8.0-psx.tar.gz"))
+        self.assertEqual(release["lock"]["prefix"], "tools/toolchains/gcc-2.8.0-psx")
+        self.assertEqual(release["dumpversion"], "2.8.0")
+        self.assertEqual(set(release["files"]), {"gcc", "cc1", "cpp"})
+
+    def test_gcc_2_8_0_profile_differs_from_gcc_2_8_1_g0_split_only_in_compiler(self):
+        profiles = self.profiles()
+        old = dict(profiles["gcc_2_8_0_g0_split"])
+        base = dict(profiles["gcc_2_8_1_g0_split"])
+        self.assertEqual(old.pop("compiler"), "tools/toolchains/gcc-2.8.0-psx/bin/mips-sony-psx-gcc")
+        base.pop("compiler")
+        self.assertEqual(old, base)
+
     def test_variant_sources_read_guest_pointers_through_g32_views(self):
         # A stored descriptor pointer is a 4-byte guest field; a native u8 **
         # dereference would load 8 bytes on 64-bit hosts.

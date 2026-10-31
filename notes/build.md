@@ -47,7 +47,7 @@ To use the pinned prebuilt GCC 2.8.1 release instead of compiling that probe,
 run the component targets rather than `make tools`:
 
 ```sh
-make python-tools toolchain compiler-281-prebuilt compiler-272
+make python-tools toolchain compiler-281-prebuilt compiler-272 compiler-280-prebuilt
 make check-build-tools
 tools/environments/python/bin/python tools/bootstrap/old_gcc_272.py --check
 ```

@@ -40,6 +40,11 @@ class RetiredProfileTests(unittest.TestCase):
                     # gcc-2.7.2-cdk), not with the retired gcc-2.7.2-mips
                     # profiles below.
                     self.assertIn("gcc-2.7.2-cdk", profile["compiler"])
+                elif name.startswith("gcc_2_8_0_"):
+                    # The USA MODEL60348/168560 entry, an older debug build
+                    # that prints its work size, was built with GCC 2.8.0
+                    # (decompals/old-gcc gcc-2.8.0-psx).
+                    self.assertIn("gcc-2.8.0-psx", profile["compiler"])
                 else:
                     self.assertTrue(name.startswith("gcc_2_8_1_"))
                     self.assertIn("gcc-2.8.1-psx", profile["compiler"])

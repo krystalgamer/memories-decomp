@@ -65,8 +65,9 @@ def sources(root: Path) -> list[tuple[str, str]]:
 
 def compiler(root: Path, profile: dict[str, object]) -> Path:
     """The front end that profile builds with. The MODEL.MRG variant units
-    build with the GCC 2.7.2 CDK compiler and everything else with 2.8.1,
-    so each source is checked by its own profile's compiler."""
+    build with the GCC 2.7.2 CDK compiler, the USA MODEL60348 entry with
+    2.8.0 and everything else with 2.8.1, so each source is checked by its
+    own profile's compiler."""
     path = root / str(profile["compiler"])
     if not path.is_file():
         raise VisibilityError(f"{path.relative_to(root)} is absent; run make tools")

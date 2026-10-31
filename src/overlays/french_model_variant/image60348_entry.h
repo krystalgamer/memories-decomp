@@ -7,6 +7,7 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_update_view_metrics.h"
 #include "../../game/model_queue_tint_request.h"
+#include "../../game/model_state_setters.h"
 #include "../../game/camera_view.h"
 #include "../../game/graphics_packet_submission.h"
 #include "../../psyq/libhmd.h"

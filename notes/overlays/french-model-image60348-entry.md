@@ -85,3 +85,38 @@ pattern instead. No generated Splat files were edited.
 No inline assembly, source-local externs, fixed registers, volatile tricks,
 fabricated accesses or dependencies, unused frame padding, reference
 headers, generated-C behavioral tests or local cloud tests are used.
+
+## USA images
+
+The USA images at sectors 60348, 60358, 168560 and 168570 of
+`game/DATA/MODEL.MRG` carry the same entry, built from an older debug
+revision. It prints the work size after clearing it, and the 24-byte format
+string sits right after the code. As a result the entry is 0x26D4 bytes and the
+tail data starts 0x28 later than in the French images. The source guards that
+call with `MODEL_IMAGE60348_WORK_SIZE_PRINTF`, in the style of
+`image9840_entry.c`. `model_variant/image60348_entry_usa.c` and
+`_usa_slot1.c` define the string and the shifted tail names, then include
+the French file.
+
+These images need GCC 2.8.0 (`gcc_2_8_0_g0_split`, the decompals/old-gcc
+`gcc-2.8.0-psx` release):
+- **Under 2.8.1**, every opcode matches. The only difference is register
+  choice where the two unaligned `ModelTintColor` arguments are packed into
+  `$a2`/`$a3`.
+- **Under 2.8.0**, the build is byte-identical. The cause is the 2.8.0
+  `combine`, which leaves the two packing accumulators with an extra
+  recorded death. Local allocation skips them, so global allocation places
+  them in `$t0`/`$v1` and the `0xFFFFFF` mask in `$a3`.
+- **Nothing else matches.** No source spelling of the call reaches the USA
+  registers under 2.8.1. Neither does Sony's 2.8.1 `CC1PSX.EXE`, nor the
+  PsyQ 4.0, 4.1, 4.5 and 4.6 compilers.
+
+The resident bindings in `image60348_usa_linker_symbols.txt` are read from
+the USA entry's own `jal` targets.
+
+| Sector | Entry | Complete image SHA-256 |
+|---|---|---|
+| 60348 | `0x8013B004` | `c45f63fc6205ec1ce937edf04ea44aa3efef731bf556b69b7fe095be44abc269` |
+| 60358 | `0x8017B004` | `ef03316afd4c7284b450b22cd4d24b94b309a67e22a41cbd542af32dc60d3298` |
+| 168560 | `0x8013B004` | `92f46979a8d94c182840fb6eab22ee2d6514562ba82b5903b5f652e574cb663d` |
+| 168570 | `0x8017B004` | `1a8df8547e0e95a5176ad8856f445d95cde953af50e2de9440709f6269e04215` |
