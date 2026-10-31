@@ -2,6 +2,28 @@
 
 #include "model_variant.h"
 
+/* Header 426 keeps this body with its work fields moved in blocks: each
+ * block has its own shift, and the timing record words sit 0x1C bytes later.
+ * The defaults keep header 405's layout. */
+#ifndef MODEL_VARIANT405_WEBS_RECORD_SHIFT
+#define MODEL_VARIANT405_WEBS_RECORD_SHIFT 0
+#define MODEL_VARIANT405_WEBS_LINE_SHIFT 0
+#define MODEL_VARIANT405_WEBS_POSITION_SHIFT 0
+#define MODEL_VARIANT405_WEBS_ORIGIN_SHIFT 0
+#define MODEL_VARIANT405_WEBS_ANGLE_SHIFT 0
+#define MODEL_VARIANT405_WEBS_STATE_SHIFT 0
+#define MODEL_VARIANT405_WEBS_PHASE_SHIFT 0
+#define MODEL_VARIANT405_WEBS_TIMING_SHIFT 0
+#endif
+#define WEBS405_RECORD(offset) ((offset) + MODEL_VARIANT405_WEBS_RECORD_SHIFT)
+#define WEBS405_LINE(offset) ((offset) + MODEL_VARIANT405_WEBS_LINE_SHIFT)
+#define WEBS405_POSITION(offset) ((offset) + MODEL_VARIANT405_WEBS_POSITION_SHIFT)
+#define WEBS405_ORIGIN(offset) ((offset) + MODEL_VARIANT405_WEBS_ORIGIN_SHIFT)
+#define WEBS405_ANGLE(offset) ((offset) + MODEL_VARIANT405_WEBS_ANGLE_SHIFT)
+#define WEBS405_STATE(offset) ((offset) + MODEL_VARIANT405_WEBS_STATE_SHIFT)
+#define WEBS405_PHASE(offset) ((offset) + MODEL_VARIANT405_WEBS_PHASE_SHIFT)
+#define WEBS405_TIMING(offset) ((offset) + MODEL_VARIANT405_WEBS_TIMING_SHIFT)
+
 /* Header 405's form of the header-416 webs: the records start at
  * work + 0xDD4, and a line is sorted whenever its depth is positive. */
 void func_8013D8FC(u8 *ctx)
@@ -31,17 +53,17 @@ void func_8013D8FC(u8 *ctx)
     s32 otz;
 
     work = ctx;
-    web = (ModelVariantWebNarrow *)(work + 0xDD4);
+    web = (ModelVariantWebNarrow *)(work + WEBS405_RECORD(0xDD4));
     ot = func_80058F10();
     done = 1;
     i = 0;
-    line = (GsGLINE *)(work + 0x1D4C);
-    ratan2(MODEL_VARIANT_WORD(work, 0x1DA4), MODEL_VARIANT_WORD(work, 0x1D9C));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1DA0), MODEL_VARIANT_WORD(work, 0x1D9C));
-    ratan2(MODEL_VARIANT_WORD(work, 0x1D90), MODEL_VARIANT_WORD(work, 0x1D8C));
-    ratan2(MODEL_VARIANT_HALF(work, 0x1D9A), MODEL_VARIANT_HALF(work, 0x1D98));
+    line = (GsGLINE *)(work + WEBS405_LINE(0x1D4C));
+    ratan2(MODEL_VARIANT_WORD(work, WEBS405_STATE(0x1DA4)), MODEL_VARIANT_WORD(work, WEBS405_STATE(0x1D9C)));
+    ratan2(MODEL_VARIANT_WORD(work, WEBS405_STATE(0x1DA0)), MODEL_VARIANT_WORD(work, WEBS405_STATE(0x1D9C)));
+    ratan2(MODEL_VARIANT_WORD(work, WEBS405_ORIGIN(0x1D90)), MODEL_VARIANT_WORD(work, WEBS405_ORIGIN(0x1D8C)));
+    ratan2(MODEL_VARIANT_HALF(work, WEBS405_ANGLE(0x1D9A)), MODEL_VARIANT_HALF(work, WEBS405_ANGLE(0x1D98)));
     do {
-        if (MODEL_VARIANT_WORD(work, 0x1E1C) == 0) {
+        if (MODEL_VARIANT_WORD(work, WEBS405_PHASE(0x1E1C)) == 0) {
             if (web->scale < 0x1000) {
                 level = web->scale;
                 size = level;
@@ -59,7 +81,7 @@ void func_8013D8FC(u8 *ctx)
                 g = web->color.g;
                 b = web->color.b;
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x1E1C) == 1) {
+        } else if (MODEL_VARIANT_WORD(work, WEBS405_PHASE(0x1E1C)) == 1) {
             level = 0x1000;
             b = g = r = 0;
         } else {
@@ -84,14 +106,14 @@ void func_8013D8FC(u8 *ctx)
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        if (MODEL_VARIANT_WORD(work, 0x1E1C) < 2) {
-            m.t[0] = MODEL_VARIANT_WORD(work, 0x1D74);
-            m.t[1] = MODEL_VARIANT_WORD(work, 0x1D78);
-            m.t[2] = MODEL_VARIANT_WORD(work, 0x1D7C);
+        if (MODEL_VARIANT_WORD(work, WEBS405_PHASE(0x1E1C)) < 2) {
+            m.t[0] = MODEL_VARIANT_WORD(work, WEBS405_POSITION(0x1D74));
+            m.t[1] = MODEL_VARIANT_WORD(work, WEBS405_POSITION(0x1D78));
+            m.t[2] = MODEL_VARIANT_WORD(work, WEBS405_POSITION(0x1D7C));
         } else {
-            m.t[0] = MODEL_VARIANT_HALF(work, 0x1D80);
-            m.t[1] = MODEL_VARIANT_HALF(work, 0x1D82);
-            m.t[2] = MODEL_VARIANT_HALF(work, 0x1D84);
+            m.t[0] = MODEL_VARIANT_HALF(work, WEBS405_ORIGIN(0x1D80));
+            m.t[1] = MODEL_VARIANT_HALF(work, WEBS405_ORIGIN(0x1D82));
+            m.t[2] = MODEL_VARIANT_HALF(work, WEBS405_ORIGIN(0x1D84));
         }
         scale.vx = level;
         scale.vy = level;
@@ -109,7 +131,7 @@ void func_8013D8FC(u8 *ctx)
                 otz = RotTransPers4(&web->near[j][k], &web->far[j][k], &web->near[j][k], &web->far[j][k],
                                     (PSXLONG *)&line->x0, (PSXLONG *)&line->x1, (PSXLONG *)&line->x0,
                                     (PSXLONG *)&line->x1, &p, &flag);
-                if (MODEL_VARIANT_WORD(work, 0x1E1C) < 2) {
+                if (MODEL_VARIANT_WORD(work, WEBS405_PHASE(0x1E1C)) < 2) {
                     line->r0 = 0;
                     line->g0 = 0;
                     line->b0 = 0;
@@ -129,26 +151,26 @@ void func_8013D8FC(u8 *ctx)
                 }
             }
         }
-        if (MODEL_VARIANT_WORD(work, 0x1E1C) == 0) {
+        if (MODEL_VARIANT_WORD(work, WEBS405_PHASE(0x1E1C)) == 0) {
             if (web->scale > 0) {
-                timing = (u8 *)MODEL_VARIANT_WORD(work, 0x1DC8);
-                web->scale = (u32)((MODEL_VARIANT_WORD(work, 0x1DB8) - MODEL_VARIANT_WORD(timing, 0x1C)) * 3 << 12) /
-                                 (MODEL_VARIANT_WORD(timing, 0x20) - MODEL_VARIANT_WORD(timing, 0x1C)) -
+                timing = (u8 *)MODEL_VARIANT_WORD(work, WEBS405_STATE(0x1DC8));
+                web->scale = (u32)((MODEL_VARIANT_WORD(work, WEBS405_STATE(0x1DB8)) - MODEL_VARIANT_WORD(timing, WEBS405_TIMING(0x1C))) * 3 << 12) /
+                                 (MODEL_VARIANT_WORD(timing, WEBS405_TIMING(0x20)) - MODEL_VARIANT_WORD(timing, WEBS405_TIMING(0x1C))) -
                              0x1000;
                 web->scale = (i << 12) / 3 - web->scale;
                 if (web->scale <= 0) {
                     web->scale += 0x1000;
                 }
             }
-        } else if (MODEL_VARIANT_WORD(work, 0x1E1C) == 1) {
+        } else if (MODEL_VARIANT_WORD(work, WEBS405_PHASE(0x1E1C)) == 1) {
             web->scale = -((i << 13) / 3);
         } else if (web->scale < 0x2000) {
-            web->scale += MODEL_VARIANT_WORD(work, 0x1DC0) << 8;
+            web->scale += MODEL_VARIANT_WORD(work, WEBS405_STATE(0x1DC0)) << 8;
             if (web->scale >= 0x2000) {
-                if (MODEL_VARIANT_WORD(work, 0x1E1C) >= 4) {
+                if (MODEL_VARIANT_WORD(work, WEBS405_PHASE(0x1E1C)) >= 4) {
                     web->scale = 0x2000;
-                    if (i + 1 == 3 && done == 1 && MODEL_VARIANT_WORD(work, 0x1E1C) == 4) {
-                        MODEL_VARIANT_WORD(work, 0x1E1C) = 5;
+                    if (i + 1 == 3 && done == 1 && MODEL_VARIANT_WORD(work, WEBS405_PHASE(0x1E1C)) == 4) {
+                        MODEL_VARIANT_WORD(work, WEBS405_PHASE(0x1E1C)) = 5;
                     }
                 } else {
                     web->scale -= 0x2000;

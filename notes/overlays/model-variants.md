@@ -199,8 +199,13 @@ header-426/576 images keep their separately recovered entry.
 The two North American header-426/576 images (model 62) build their entry
 from `model_variant/variant426_entry.c` and their streamers helper from
 `model_variant/variant426_streamers.c` (`_slot1.c` for slot 1) under
-`gcc_2_7_2_cdk_g0`, beside the rings, mesh, sheets and bands helper C; the
-helpers at `+ 0x1AC4` and `+ 0x4594` stay generated assembly. The wrappers
+`gcc_2_7_2_cdk_g0`, beside the rings, mesh, sheets and bands helper C. The
+ribbons helper at `+ 0x1AC4` is the French `variant443_ribbons.c` with
+`MODEL_VARIANT443_RIBBONS_PACKED_SCREEN`, and the webs helper at `+ 0x4594`
+is the North American `variant405_webs.c` with the
+`MODEL_VARIANT405_WEBS_*_SHIFT` work-area offsets for this header, both under
+`gcc_2_7_2_cdk_g0` from `variant426_ribbons.c` and `variant426_webs.c`
+(`_slot1.c` for slot 1). The entry and streamers wrappers
 include the French header-443 `variant443_entry.c` and
 `variant443_streamers.c`. The entry wrapper sets `MODEL_VARIANT443_CLUT_X` to
 512, points `MODEL_VARIANT443_DATA` at the North American data symbol (the
