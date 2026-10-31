@@ -1,0 +1,37 @@
+rand = 0x8008F708;
+ScaleMatrix = 0x800875F8;
+GsSetLsMatrix = 0x80085558;
+RotTrans = 0x800878F8;
+RotMatrix = 0x80087CB8;
+MulMatrix2 = 0x80087408;
+RotAverage3 = 0x800879D8;
+RotAverage4 = 0x80087A38;
+GsSortPoly = 0x800842A8;
+Graphics_SubmitDrawModePacket = 0x8004D5B8;
+gModel_dwFogBaseColor = 0x8009C688;
+GsSortLine = 0x80083F38;
+ccos = 0x800868A8;
+csin = 0x80086B38;
+RotTransPers = 0x80087868;
+GsSortGLine = 0x800840B8;
+SetGeomOffset = 0x80087838;
+gDuelEffect_bRequestFinished = 0x8009C600;
+gDuelEffect_pActiveRequest = 0x8009C5FC;
+Model_GetFrameStep = 0x8005BF24;
+Model_SetFrameStepOverride = 0x8005CBF4;
+PushMatrix = 0x80087158;
+PopMatrix = 0x800871FC;
+memset = 0x8008F548;
+ratan2 = 0x80089928;
+DisplayObject_CopyWorkSlots = 0x8002CD24;
+SD_SEPlayFull = 0x80040204;
+Duel_CollectFieldRowCardObjects = 0x8002CB0C;
+Duel_CheckRitual = 0x8002C9BC;
+Duel_CollectMatchingFieldCardObjects = 0x8002CB88;
+D_80010000 = 0x80010000;
+Model_GetLightSourceMatrix = 0x8005C328;
+SD_SEPlayFull = 0x80040204;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;
+
+gRuntime_pSharedWorkBase = D_80010000;
