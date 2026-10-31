@@ -1,3 +1,2 @@
 address,size,name,status,module,notes
 0x8013B004,0x10C0,func_8013B004,matching_c,overlay/model_image_model_153912_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013E520,0x42C,func_8013E520,unmatched_asm,overlay/model_image_model_153912_8013b000,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."

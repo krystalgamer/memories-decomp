@@ -2,8 +2,7 @@
 func_8017B004 = 0x8017B004; // type:func size:0x10C0 defined:true
 D_8017C0DC = 0x8017C0DC; // type:u8 size:0x1C defined:true
 D_8017C0F8 = 0x8017C0F8; // type:u8 size:0x2428 defined:true
-func_8017E520 = 0x8017E520; // type:func size:0x42C defined:true
-D_8017E94C = 0x8017E94C; // type:u8 size:0x16B4 defined:true
+D_8017E520 = 0x8017E520; // type:u8 size:0x1AE0 defined:true
 func_800327D0 = 0x800327D0; // type:func absolute:true
 func_80053D1C = 0x80053D1C; // type:func absolute:true
 func_80053DEC = 0x80053DEC; // type:func absolute:true
