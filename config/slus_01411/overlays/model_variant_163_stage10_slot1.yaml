@@ -64,7 +64,7 @@ segments:
     vram: 0x8017F4D0
     align: 4
     subsegments:
-      - [0x44D0, asm, overlays/model_variant_163_stage10_slot1/unmatched_44d0]
+      - [0x44D0, c, overlays/model_variant/variant552_strand_slot1]
   - name: tail
     type: code
     start: 0x47FC

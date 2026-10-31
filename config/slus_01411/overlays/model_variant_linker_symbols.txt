@@ -43,3 +43,15 @@ GsGetLwUnit = 0x8008A4A0;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
 GsGetLw = 0x8008A4A0;
+
+/* Header 552's strand helper (image 163 slot 1) is a leftover copy linked
+ * against an earlier resident layout; these are the entry points it calls. */
+func_800258E4 = 0x800258E4;
+func_800474D8 = 0x800474D8;
+func_800475A8 = 0x800475A8;
+func_80048308 = 0x80048308;
+func_80048A98 = 0x80048A98;
+func_80048CF8 = 0x80048CF8;
+func_8004AF68 = 0x8004AF68;
+func_8004C3D4 = 0x8004C3D4;
+func_8004D5E8 = 0x8004D5E8;
