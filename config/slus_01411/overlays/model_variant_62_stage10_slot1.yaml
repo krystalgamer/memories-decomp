@@ -97,13 +97,13 @@ segments:
     align: 4
     subsegments:
       - [0x3EE0, c, overlays/model_variant/variant426_bands_slot1]
-  - name: unmatched_4594
+  - name: helper_4594
     type: code
     start: 0x4594
     vram: 0x8017F594
     align: 4
     subsegments:
-      - [0x4594, asm, overlays/model_variant_62_stage10_slot1/unmatched_4594]
+      - [0x4594, c, overlays/model_variant/variant426_lines_slot1]
   - name: data
     type: code
     start: 0x4AEC
