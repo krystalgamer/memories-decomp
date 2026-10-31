@@ -1,5 +1,8 @@
 #include "../../types.h"
 #include "image60348_entry.h"
+#ifdef MODEL_IMAGE60348_WORK_SIZE_PRINTF
+#include "../../psyq/stdio.h"
+#endif
 
 /* Rings drop fading echoes and release camera-facing sprite/shard/cone bursts. */
 
@@ -32,6 +35,9 @@ s32 func_8013B004(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Image60348State));
+#ifdef MODEL_IMAGE60348_WORK_SIZE_PRINTF
+        printf(MODEL_IMAGE60348_WORK_SIZE_FORMAT, sizeof(Image60348State));
+#endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
