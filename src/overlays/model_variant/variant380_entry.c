@@ -149,8 +149,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                     angle = 1024 - i * 1024 / (work->config->count + 1);
                 }
             } while (0);
-            beam->velocity.vx = (rcos(angle) << 8) >> 12;
-            beam->velocity.vy = (rsin(angle) << 8) >> 12;
+            beam->velocity.vx = (rcos(angle) * 256) >> 12;
+            beam->velocity.vy = (rsin(angle) * 256) >> 12;
             beam->velocity.vz = 0;
         }
         for (sheet_index = 0; sheet_index < work->config->count; sheet_index++, sheet++) {
@@ -241,7 +241,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                 work->matrices[i].t[1] = -2048;
                 work->matrices[i].t[2] = (rcos(angle) * 192) >> 12;
                 setVector(&work->targets[i], work->target.vx + ((rsin(angle) * 192) >> 12),
-                          work->target.vy + ((rsin(angle2) << 7) >> 12),
+                          work->target.vy + ((rsin(angle2) * 128) >> 12),
                           work->target.vz + ((rcos(angle) * 192) >> 12));
             }
             setVector(&work->directions[i], work->targets[i].vx - work->matrices[i].t[0],
