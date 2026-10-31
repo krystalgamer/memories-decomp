@@ -1,0 +1,4 @@
+func_8017B004 = 0x8017B004; // type:func size:0x122C
+func_8017C230 = 0x8017C230; // type:func size:0x658
+D_8017C888 = 0x8017C888; // type:u8 size:0xFC defined:true
+D_8017C984 = 0x8017C984; // type:u8 size:0x367C defined:true

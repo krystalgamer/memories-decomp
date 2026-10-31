@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/german_model_image_model_22832_8013b000/build
   undefined_funcs_auto_path: tmp/overlays/german_model_image_model_22832_8013b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/german_model_image_model_22832_8013b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03949/overlays/model_image_model_22832_8013b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,36 +46,36 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8013b000
+    vram: 0x8013B000
     align: 4
     subsegments:
       - [0x0, data, overlays/german_model_image_model_22832_8013b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8013b004
+    vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/german_model_image_model_22832_8013b000/unmatched_4]
-  - name: unmatched_1530
+      - [0x4, c, overlays/french_model_variant/variant471_entry]
+  - name: helper_1530
     type: code
     start: 0x1530
-    vram: 0x8013c530
+    vram: 0x8013C530
     align: 4
     subsegments:
-      - [0x1530, asm, overlays/german_model_image_model_22832_8013b000/unmatched_1530]
-  - name: unmatched_1a34
+      - [0x1530, c, overlays/french_model_variant/variant471_quad_pairs]
+  - name: helper_1A34
     type: code
-    start: 0x1a34
-    vram: 0x8013ca34
+    start: 0x1A34
+    vram: 0x8013CA34
     align: 4
     subsegments:
-      - [0x1a34, asm, overlays/german_model_image_model_22832_8013b000/unmatched_1a34]
+      - [0x1A34, c, overlays/french_model_variant/variant471_quads]
   - name: unclassified_tail
     type: code
-    start: 0x1f10
-    vram: 0x8013cf10
+    start: 0x1F10
+    vram: 0x8013CF10
     align: 4
     subsegments:
-      - [0x1f10, bin, overlays/german_model_image_model_22832_8013b000/unclassified_tail]
+      - [0x1F10, data, overlays/german_model_image_model_22832_8013b000/unclassified_tail]
   - [0x5000]

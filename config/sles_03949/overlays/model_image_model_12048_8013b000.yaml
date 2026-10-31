@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/german_model_image_model_12048_8013b000/build
   undefined_funcs_auto_path: tmp/overlays/german_model_image_model_12048_8013b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/german_model_image_model_12048_8013b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03949/overlays/model_image_model_12048_8013b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -48,39 +50,39 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/german_model_image_model_12048_8013b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8013b004
+    vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/german_model_image_model_12048_8013b000/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant403_entry]
   - name: unmatched_f38
     type: code
     start: 0xf38
     vram: 0x8013bf38
     align: 4
     subsegments:
-      - [0xf38, asm, overlays/german_model_image_model_12048_8013b000/unmatched_f38]
+      - [0xf38, c, overlays/french_model_variant/image12048_strands]
   - name: unmatched_1bb0
     type: code
     start: 0x1bb0
     vram: 0x8013cbb0
     align: 4
     subsegments:
-      - [0x1bb0, asm, overlays/german_model_image_model_12048_8013b000/unmatched_1bb0]
+      - [0x1bb0, c, overlays/french_model_variant/image12048_sheets]
   - name: unmatched_222c
     type: code
     start: 0x222c
     vram: 0x8013d22c
     align: 4
     subsegments:
-      - [0x222c, asm, overlays/german_model_image_model_12048_8013b000/unmatched_222c]
+      - [0x222c, c, overlays/french_model_variant/image12048_chains]
   - name: unclassified_tail
     type: code
     start: 0x2c98
     vram: 0x8013dc98
     align: 4
     subsegments:
-      - [0x2c98, bin, overlays/german_model_image_model_12048_8013b000/unclassified_tail]
+      - [0x2c98, data, overlays/german_model_image_model_12048_8013b000/unclassified_tail]
   - [0x5000]

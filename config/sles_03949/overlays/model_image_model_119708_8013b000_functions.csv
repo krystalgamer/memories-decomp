@@ -1,2 +1,2 @@
 address,size,name,status,module,notes
-0x8013B004,0x12C8,func_8013B004,unmatched_asm,overlay/model_image_model_119708_8013b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8013B004,0x12C8,func_8013B004,matching_c,overlay/model_image_model_119708_8013b000,"Rising and returning model-root motion, slot-scale phases and128 falling atlas particles with camera/ambient staging; both complete20480-byte images exact with gcc_2_8_1_g0_split. Original raw suffix retained. See notes/overlays/french-model-image119708-entry.md."

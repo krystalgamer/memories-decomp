@@ -1,0 +1,2 @@
+address,size,name,status,module,notes
+0x8013A004,0x8,func_8013A004,matching_c,overlay/model_return_two_slot0,Model0 stage11 header54; return-two primary entry; complete image and compiler/raw-data ownership verified; entire suffix unclassified.
