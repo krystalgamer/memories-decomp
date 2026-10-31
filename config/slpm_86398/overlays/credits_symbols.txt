@@ -1,0 +1,19 @@
+// Japanese SU credits package (SU.MRG sector 1223, loaded at 0x80180000), built
+// from the US credits source with VERSION_JAPAN; names follow the US package.
+func_801807B0 = 0x80180820; // type:func size:0xE0 defined:true
+func_80180A24 = 0x80180900; // type:func size:0x534 defined:true
+Credits_BuildLineGlyphs = 0x80180E34; // type:func size:0x804 defined:true
+Credits_DrawLine = 0x80181638; // type:func size:0x550 defined:true
+func_80181C4C = 0x80181B88; // type:func size:0xDC defined:true
+Credits_IsFinished = 0x80181C64; // type:func size:0x10 defined:true
+gCredits_aEntries = 0x80181C74;
+gCredits_ClutRect0 = 0x80180800; // size:0x8
+gCredits_bFinished = 0x80182164; // size:0x1
+gCredits_aLines = 0x80182168; // size:0x30
+IsIdleGPU = 0x80080F14; // type:func absolute:true
+LoadImage2 = 0x800809D8; // type:func absolute:true
+strlen = 0x8008E5F0; // type:func absolute:true
+Krom2RawAdd2 = 0x80081800; // type:func absolute:true
+GsSortPoly = 0x80082F10; // type:func absolute:true
+gCredits_abGlyphE056 = 0x800116E8; // absolute:true
+gCredits_abGlyph9B92 = 0x80011706; // absolute:true

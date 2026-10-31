@@ -10,6 +10,38 @@
 #include "../../game/ordering_tables.h"
 #include "credits.h"
 
+#ifdef VERSION_JAPAN
+/* The Japanese package draws its rows from glyph bitmaps in VRAM, so it
+ * uploads one palette instead of the three colour ramps. */
+void Credits_InitPresentation(void)
+{
+    RECT rect;
+    u16 clut[16];
+    s32 i;
+
+    rect = gCredits_ClutRect0;
+    clut[0] = 0;
+    clut[1] = 0xFFFF;
+    clut[2] = 0xC21F;
+    clut[3] = 0xC3F0;
+    clut[4] = 0xA108;
+    clut[5] = 0x9088;
+    clut[6] = 0x9104;
+    for (i = 7; i < 16; i++) {
+        clut[i] = 0;
+    }
+    while (IsIdleGPU(3) != 0) {
+    }
+    while (LoadImage2(&rect, (u32 *)clut) != 0) {
+    }
+    while (IsIdleGPU(3) != 0) {
+    }
+    for (i = 1; i >= 0; i--) {
+        gCredits_aLines[i].entries = 0;
+    }
+    gCredits_bFinished = 0;
+}
+#else
 void Credits_InitPresentation(void)
 {
     RECT rect0;
@@ -86,6 +118,7 @@ void Credits_InitPresentation(void)
     }
     gCredits_bFinished = 0;
 }
+#endif
 
 /* The brightness ramp of a fading line: 0 below 0, 0x80 above 0x80. */
 #define CLAMP(x) ((x) < 0 ? 0 : (x) > 0x80 ? 0x80 : (x))
@@ -413,6 +446,11 @@ top:  /* allocator steering: see the note at the end */
                         }
                         while (IsIdleGPU(3) != 0) {
                         }
+#ifdef VERSION_JAPAN
+                        /* Japan uploads each cell for Credits_DrawLine. */
+                        while (LoadImage2(&rect, (u32 *)buf) != 0) {
+                        }
+#endif
                         while (IsIdleGPU(3) != 0) {
                         }
                         rect.x += 4;
@@ -451,6 +489,97 @@ top:  /* allocator steering: see the note at the end */
     }
 }
 
+#ifdef VERSION_JAPAN
+/* Draws one credits line from the glyph bitmaps Credits_BuildLineGlyphs
+ * uploaded to VRAM: row `drawn` of the line sits in column drawn / 15, slot
+ * drawn % 15 of the line's area, and each two-byte character is one 16x16
+ * POLY_GT4 cell. Unlike the US package, both packets are submitted: `glyph`
+ * with blend mode 1 and `shade` with blend mode 2. */
+void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
+{
+    POLY_GT4 glyph;
+    POLY_GT4 shade;
+    CreditsLine *line;
+    CreditsEntry *entry;
+    s32 drawn;
+    s32 d;
+    s32 x;
+    s32 y;
+    s32 i;
+    s32 r0;
+    s32 r1;
+    s32 r2;
+    s32 r3;
+    u32 group;
+    s32 u;
+    s32 v;
+    s32 first;
+    s32 ox;
+
+    drawn = 0;
+    line = &gCredits_aLines[index];
+    entry = line->entries;
+    x = line->x;
+    y = line->y;
+    d = 0x80;
+    if (entry == 0) {
+        return;
+    }
+    setPolyGT4(&glyph);
+    setPolyGT4(&shade);
+    setSemiTrans(&glyph, 1);
+    setSemiTrans(&shade, 1);
+    glyph.clut = 0x3DA0;
+    shade.clut = 0x3C20;
+    first = entry->group;
+    do {
+        group = entry->flags >> 4;
+        if (drawn == 0 || line->page == group) {
+            if (entry->text != 0) {
+                r0 = c0;
+                r1 = c1;
+                r2 = c2;
+                r3 = c3;
+                if (line->field_13 != 0 && line->page != 0 && drawn == 0) {
+                    r0 = r1 = r2 = r3 = d;
+                }
+                setRGB0(&glyph, r0 * 192 / d, r0 * 192 / d, r0 * 192 / d);
+                setRGB1(&glyph, r1 * 64 / d, r1 * 64 / d, r1 * 64 / d);
+                setRGB2(&glyph, r2 * 64 / d, r2 * 64 / d, r2 * 64 / d);
+                setRGB3(&glyph, r3 * 192 / d, r3 * 192 / d, r3 * 192 / d);
+                setRGB0(&shade, r0 * 192 / d, r0 * 192 / d, r0 * 192 / d);
+                setRGB1(&shade, r1 * 192 / d, r1 * 192 / d, r1 * 192 / d);
+                setRGB2(&shade, r2 * 192 / d, r2 * 192 / d, r2 * 192 / d);
+                setRGB3(&shade, r3 * 192 / d, r3 * 192 / d, r3 * 192 / d);
+                for (i = 0; i < strlen(entry->text) / 2; i++) {
+                    ox = i * 4;
+                    u = (drawn / 15 * 96 + ox) % 64 * 4;
+                    v = drawn % 15 * 16 % 256;
+                    setXY4(&glyph, x, y, x + 15, y, x, y + 15, x + 15, y + 15);
+                    setUV4(&glyph, u, v, u + 15, v, u, v + 15, u + 15, v + 15);
+                    setXY4(&shade, x, y, x + 15, y, x, y + 15, x + 15, y + 15);
+                    setUV4(&shade, u, v, u + 15, v, u, v + 15, u + 15, v + 15);
+                    glyph.tpage = getTPage(0, 1,
+                                           index * 192 + 512 + drawn / 15 * 96 + ox,
+                                           drawn % 15 * 16 + 256);
+                    GsSortPoly(&glyph, gGraphics_apOrderingTables[2], 0);
+                    shade.tpage = getTPage(0, 2,
+                                           index * 192 + 512 + drawn / 15 * 96 + ox,
+                                           drawn % 15 * 16 + 256);
+                    GsSortPoly(&shade, gGraphics_apOrderingTables[2], 0);
+                    x += 16;
+                }
+                x = line->x;
+                drawn++;
+            }
+            y += 16;
+        } else if (entry->text != 0) {
+            drawn++;
+        }
+        entry++;
+    } while (entry->group == first);
+}
+#else
 /* Draws one credits line: walks its group and draws the first text-bearing
  * row plus any row whose paragraph matches the line's page. Each byte of the
  * row text is mapped into the 8x12 credits glyph atlas and submitted as one
@@ -556,6 +685,7 @@ void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
         entry++;
     } while (entry->group == first);
 }
+#endif
 
 void Credits_StartLineGroup(s32 group)
 {

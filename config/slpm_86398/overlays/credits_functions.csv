@@ -1,0 +1,7 @@
+address,size,name,status,module,notes
+0x80180820,0xE0,Credits_InitPresentation,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
+0x80180900,0x534,Credits_UpdateLines,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
+0x80180E34,0x804,Credits_BuildLineGlyphs,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
+0x80181638,0x550,Credits_DrawLine,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
+0x80181B88,0xDC,Credits_StartLineGroup,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.
+0x80181C64,0x10,Credits_IsFinished,matching_c,overlay/credits,Complete module byte identity and section-defined C ownership verified.

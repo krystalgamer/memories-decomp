@@ -1,0 +1,9 @@
+IsIdleGPU = 0x80080F14;
+LoadImage2 = 0x800809D8;
+strlen = 0x8008E5F0;
+Krom2RawAdd2 = 0x80081800;
+GsSortPoly = 0x80082F10;
+gCredits_abGlyphE056 = 0x800116E8;
+gCredits_abGlyph9B92 = 0x80011706;
+gGraphics_apOrderingTables = 0x800E9C70;
+D_8009B0D8 = 0x8009AFC8;

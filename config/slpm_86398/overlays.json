@@ -42023,10 +42023,11 @@
     {
       "archive": "game/japanese/DATA/SU.MRG",
       "archive_sha256": "9723c1b955542ac744774c2044eeb0a5d6880752dbad1896a2e03c67fd02ee8a",
-      "layout": "config/slpm_86398/overlays/model_image_su_1223_80180000.yaml",
+      "layout": "config/slpm_86398/overlays/credits.yaml",
+      "linker_symbols": "config/slpm_86398/overlays/credits_linker_symbols.txt",
       "load_address": "0x80180000",
-      "name": "japanese_model_image_su_1223_80180000",
-      "output": "tmp/overlays/japanese_model_image_su_1223_80180000/module.bin",
+      "name": "japanese_credits",
+      "output": "tmp/overlays/japanese_credits/module.bin",
       "sector_count": 16,
       "sector_offset": 1223,
       "sha256": "5bac96cc1034a83468e9f3c435e8d5acf98c0ba3b872bd9f2fa8b71d2c06c9b2"
