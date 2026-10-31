@@ -11,8 +11,8 @@
 /* Header 366's loader entry. Setup resolves the command record and three
  * slot parts, uploads the textures and initialises the strip, quad group,
  * ribbons, rings and rays. Each update aims the effect from every listed
- * part at the opponent, draws the rays, ribbons and strip, then the quads
- * once the phase reaches 4, and fades the ambient light. */
+ * part at the opponent, draws the rays, ribbons and quads, then the ribbon
+ * cones once the phase reaches 4, and fades the ambient light. */
 s32 func_8013B004(u8 *context, s32 command)
 {
     Variant366State *work = (Variant366State *)context;
