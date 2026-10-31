@@ -1,0 +1,74 @@
+name: japanese_credits
+sha1: aea77b5657e6453597dbdf479fa70478a749c448
+
+options:
+  basename: japanese_credits
+  base_path: ../../..
+  target_path: tmp/overlays/japanese_credits/module.bin
+  elf_path: tmp/overlays/japanese_credits/build/japanese_credits.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/japanese_credits/asm
+  src_path: src
+  build_path: tmp/overlays/japanese_credits/build
+  asset_path: tmp/overlays/japanese_credits/assets
+  cache_path: tmp/overlays/japanese_credits/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/japanese_credits/japanese_credits.ld
+  generated_asm_macros_directory: tmp/overlays/japanese_credits/include
+  lib_path: tmp/overlays/japanese_credits/lib
+  o_path: tmp/overlays/japanese_credits/build
+  undefined_funcs_auto_path: tmp/overlays/japanese_credits/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/japanese_credits/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/credits_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".rodata"
+    - ".text"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80180000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/japanese_credits/module_header]
+
+  - name: update_jump_table
+    type: code
+    start: 0x80C
+    vram: 0x8018080C
+    align: 4
+    subsegments:
+      - [0x80C, .rodata, overlays/japanese/credits/credits]
+
+  - name: module
+    type: code
+    start: 0x820
+    vram: 0x80180820
+    align: 4
+    subsegments:
+      - [0x820, c, overlays/japanese/credits/credits]
+      - [0x1C74, data, overlays/japanese_credits/data]
+
+  - [0x8000]

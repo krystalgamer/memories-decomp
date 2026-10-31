@@ -1,0 +1,41 @@
+{
+  "functions": [
+    {
+      "address": "0x80180820",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE0",
+      "source": "src/overlays/japanese/credits/credits.c"
+    },
+    {
+      "address": "0x80180900",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x534",
+      "source": "src/overlays/japanese/credits/credits.c"
+    },
+    {
+      "address": "0x80180E34",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x804",
+      "source": "src/overlays/japanese/credits/credits.c"
+    },
+    {
+      "address": "0x80181638",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x550",
+      "source": "src/overlays/japanese/credits/credits.c"
+    },
+    {
+      "address": "0x80181B88",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xDC",
+      "source": "src/overlays/japanese/credits/credits.c"
+    },
+    {
+      "address": "0x80181C64",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x10",
+      "source": "src/overlays/japanese/credits/credits.c"
+    }
+  ],
+  "schema": 1
+}
