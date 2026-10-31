@@ -492,6 +492,8 @@ French MODEL headers 170 (stage 7 slot 0) and 300 (stage 8 slot 1) build the Nor
 
 French MODEL headers 168 (stage 7 slot 0, models 105 and 143) and 298 (stage 8 slot 1) build the header-151 entry (`func_8013B004`) from `src/overlays/model_variant/variant151_entry.c` through `src/overlays/french_model_variant/variant168_entry{,_slot1}.c`. The wrappers select `VERSION_FRENCH`, which drops the work-size `printf`, and the PAL screen height. The shorter text moves the scale vector to 0xF5C, so the wrapper renames it through the source's `MODEL151_SCALE` selector and moves the image table and configuration rows down by 0x24 to `D_8013BF6C` and `D_8013BFA4`.
 
+French MODEL headers 786 (stage 9 slot 0) and 883 (stage 10 slot 1) build the header-769 entry (`func_8013B004`) from `src/overlays/model_variant/variant769_entry.c` through `src/overlays/french_model_variant/variant786_entry{,_slot1}.c`, which set `GRAPHICS_DEFAULT_HEIGHT` to 256 for the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
+
 Sixteen images under French headers 676 and 743 are the North American
 header-659 entry (`model_variant/variant659_entry.c`) without its `E_DATA`
 work-size printf, built through
