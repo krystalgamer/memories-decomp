@@ -19,5 +19,11 @@ identical, every entry keeps its French address; named entries agree with
 `config/sles_03950/symbols.txt`. Existing Italian linker files are only
 extended, never rewritten.
 
+The Italian `WA_MRG.MRG` duel-effect bank (sector 7193 and its six
+duplicates) and PAL options module (sector 10170 and its four duplicates)
+are likewise byte-identical to the French modules, so `italian_duel_effects`
+and `italian_options` are registered with the French layouts, sources and
+linker bindings.
+
 `make italian-match-overlays`, which the Italian overlay workflow runs,
 builds and verifies every configured Italian overlay.
