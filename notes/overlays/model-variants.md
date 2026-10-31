@@ -175,8 +175,10 @@ streamers helper at `+ 0x20B4` is the French `variant335_streamers.c` with
 `MODEL_VARIANT335_STREAMERS_DIRECT_PREVIOUS`, the header-456 lever: a zero
 step on the word after the advanced rotation, and the closing segment's
 previous point indexed directly instead of through a walking pointer. The
-sheets and rings helpers are C; the helpers at `+ 0xB9C` and `+ 0x28D0` stay
-generated assembly. The French header-335/485 images keep building the entry
+sheets and rings helpers are C. The ribbons helper at `+ 0xB9C` is the
+French `variant335_ribbons.c` with its `MODEL_VARIANT335_RIBBONS_*`
+selectors, from `variant318_ribbons.c` (`_slot1.c` for slot 1); the helper at
+`+ 0x28D0` stays generated assembly. The French header-335/485 images keep building the entry
 and the streamers under 2.8.1.
 
 The two North American header-455/605 images build their entry from
