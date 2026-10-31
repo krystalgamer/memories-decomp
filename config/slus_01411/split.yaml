@@ -206,13 +206,13 @@ segments:
       - [0x8B884, .sdata, game/ai_script_source_line_format]
       - [0x8B88C, pad]
 
-  - name: bss_image_before_viewport
-    type: bin
+  - name: bss_8009b090
+    type: code
     start: 0x8b890
     vram: 0x8009B090
     align: 2
     subsegments:
-      - [0x8b890, bin, bss_image_before_viewport]
+      - [0x8b890, .sbss, game/bss_8009b090]
 
   - name: bss_image_viewport
     type: code
@@ -222,13 +222,37 @@ segments:
     subsegments:
       - [0x8b946, .sbss, game/graphics_frame]
 
-  - name: bss_image_after_viewport
-    type: bin
+  - name: bss_8009b14a
+    type: code
     start: 0x8b94a
     vram: 0x8009B14A
     align: 2
     subsegments:
-      - [0x8b94a, bin, bss_image_after_viewport]
+      - [0x8b94a, .sbss, game/bss_8009b14a]
+
+  - name: bss_8009b14c
+    type: code
+    start: 0x8b94c
+    vram: 0x8009B14C
+    align: 2
+    subsegments:
+      - [0x8b94c, .sbss, game/bss_8009b14c]
+
+  - name: bss_8009b4a8
+    type: code
+    start: 0x8bca8
+    vram: 0x8009B4A8
+    align: 2
+    subsegments:
+      - [0x8bca8, .bss, game/bss_8009b4a8]
+
+  - name: bss_image_800f5d20
+    type: bin
+    start: 0xe6520
+    vram: 0x800F5D20
+    align: 2
+    subsegments:
+      - [0xe6520, bin, bss_image_800f5d20]
 
   - name: reserved_zero
     type: bin

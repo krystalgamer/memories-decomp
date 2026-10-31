@@ -196,6 +196,22 @@
     {
       "source": "src/game/display_flat_lights.c",
       "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/bss_8009b090.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/bss_8009b14a.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/bss_8009b14c.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/bss_8009b4a8.c",
+      "profile": "gcc_2_8_1_g0"
     }
   ]
 }

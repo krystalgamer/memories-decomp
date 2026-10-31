@@ -11,7 +11,7 @@ tail_data_start = 0x801AC000;
 loaded_image_end = 0x801E0000; // absolute:True
 
 // Semantic names
-g_SDValue = 0x8009B45C;
+g_SDValue = 0x8009B45C; // defined:True
 DuelCard_CanActThisTurn = 0x8001700C; // type:func
 Duel_GetCardViewerRequestId = 0x80017034; // type:func
 Duel_CalcCardStats = 0x800170C8; // type:func
@@ -38,18 +38,18 @@ Movie_StartFadeOut = 0x8005C5C4; // type:func
 Movie_WaitFrameDecoded = 0x8005C5D4; // type:func
 
 // Semantic names
-gDebug_nLastSoundID = 0x8009B2C4;
-gDebug_nSceneOrSoundID = 0x8009B2C8;
+gDebug_nLastSoundID = 0x8009B2C4; // defined:True
+gDebug_nSceneOrSoundID = 0x8009B2C8; // defined:True
 gCredits_awSecretNumbers = 0x80090B50;
 gGraphics_sViewportX = 0x8009B146; // defined:True
 gGraphics_sViewportY = 0x8009B148; // defined:True
 gGraphics_pActiveFrameBuffer = 0x8009B0B4; // defined:True
-gGraphics_aFrameBuffers = 0x8009B4A8;
-gDuel_wSelectedCardID = 0x8009B338;
-gDuel_bQuitDialogState = 0x8009B164;
-gDuel_bWinnerSide = 0x8009B165;
-gDuel_bOpponentID = 0x8009B361;
-gDuel_bEffectRequestStatus = 0x8009B260;
+gGraphics_aFrameBuffers = 0x8009B4A8; // defined:True
+gDuel_wSelectedCardID = 0x8009B338; // defined:True
+gDuel_bQuitDialogState = 0x8009B164; // defined:True
+gDuel_bWinnerSide = 0x8009B165; // defined:True
+gDuel_bOpponentID = 0x8009B361; // defined:True
+gDuel_bEffectRequestStatus = 0x8009B260; // defined:True
 DuelScene_Update = 0x80024200; // type:func
 DuelScene_UpdateWithSideInput = 0x80024388; // type:func
 DuelEffect_ResetRequestPool = 0x8002C598; // type:func
@@ -57,13 +57,13 @@ DuelEffect_FindFreeRequest = 0x8002C5CC; // type:func
 DuelEffect_AllocateRequest = 0x8002C604; // type:func
 DuelEffect_CreateRequest = 0x8002C68C; // type:func
 DuelEffect_UpdateRequests = 0x8002C6C8; // type:func
-gDuel_bTerrain = 0x8009B364; // rom:0x8BB64
-gFreeDuel_bReturnFlags = 0x8009B365;
-gDuel_wPlayerLifePointDisplay = 0x800EA002;
-gDuel_wPlayerLifePoint = 0x800EA004;
-gDuel_wOpponentLifePointDisplay = 0x800EA022;
-gDuel_wOpponentLifePoint = 0x800EA024;
-gDuel_wFusionResultCardID = 0x800EA118;
+gDuel_bTerrain = 0x8009B364; // rom:0x8BB64 defined:True
+gFreeDuel_bReturnFlags = 0x8009B365; // defined:True
+gDuel_wPlayerLifePointDisplay = 0x800EA002; // defined:True
+gDuel_wPlayerLifePoint = 0x800EA004; // defined:True
+gDuel_wOpponentLifePointDisplay = 0x800EA022; // defined:True
+gDuel_wOpponentLifePoint = 0x800EA024; // defined:True
+gDuel_wFusionResultCardID = 0x800EA118; // defined:True
 gRand_dwSeed = 0x800FE6F8;
 gDuel_awPlayerDeckShuffle = 0x80177F94;
 gDuel_awOpponentDeckShuffle = 0x80177FBC;
@@ -71,10 +71,10 @@ gDuel_awPlayerShuffledDeck = 0x80177FE8;
 gDuel_awOpponentShuffledDeck = 0x80178038;
 gDuel_awCombinedDeckCardIds = 0x8017808C;
 gDuel_awOpponentDeckPool = 0x801781D8;
-gMemCard_pPrimaryTransferCursor = 0x8009B3D0;
-gMemCard_pDialogObject = 0x8009B3D8;
-gMemCard_pSecondaryTransferCursor = 0x8009B3E0;
-gMemCard_wDialogFlags = 0x8009B3FA;
+gMemCard_pPrimaryTransferCursor = 0x8009B3D0; // defined:True
+gMemCard_pDialogObject = 0x8009B3D8; // defined:True
+gMemCard_pSecondaryTransferCursor = 0x8009B3E0; // defined:True
+gMemCard_wDialogFlags = 0x8009B3FA; // defined:True
 gDuel_awSaPowCardDrops = 0x8017878C;
 gDuel_awBcdCardDrops = 0x80178D40;
 gDuel_awSaTecCardDrops = 0x801792F4;
@@ -94,21 +94,21 @@ gCampaignSavedSceneIndex = 0x801D07DC;
 gLibrary_dwStarchips = 0x801D07E0;
 gDuel_aOpponentData = 0x800917F0;
 gAiScript_apfnCommand = 0x800916E0;
-gAiScript_State = 0x800F5BE8;
-gDuel_apSwordsEffectObjects = 0x8009B1F0;
-gDuel_sCardEffectIndex = 0x8009B1A8;
-gDuel_wEffectCardID = 0x8009B1D2;
-gDuelResult_wBgmId = 0x8009B1E0; // size:0x2
-gDuel_wCardEffectFlags = 0x8009B220;
+gAiScript_State = 0x800F5BE8; // defined:True
+gDuel_apSwordsEffectObjects = 0x8009B1F0; // defined:True
+gDuel_sCardEffectIndex = 0x8009B1A8; // defined:True
+gDuel_wEffectCardID = 0x8009B1D2; // defined:True
+gDuelResult_wBgmId = 0x8009B1E0; // size:0x2 defined:True
+gDuel_wCardEffectFlags = 0x8009B220; // defined:True
 gDuel_wSceneStateFlags = 0x8009B23A;
-gDuel_pCardViewerBackground = 0x8009B240;
-gDuel_wEffectDialogTextID = 0x8009B244;
+gDuel_pCardViewerBackground = 0x8009B240; // defined:True
+gDuel_wEffectDialogTextID = 0x8009B244; // defined:True
 gDuel_bEffectHandlerFlags = 0x8009B248;
-gDuel_bActiveEffectState = 0x8009B24A;
-gDuel_bCardViewerYOffset = 0x8009B24B;
-gDuel_pCardViewerCard = 0x8009B24C;
-gDuel_pCardViewerTextBox = 0x8009B250;
-gDuel_bEffectState = 0x8009B254;
+gDuel_bActiveEffectState = 0x8009B24A; // defined:True
+gDuel_bCardViewerYOffset = 0x8009B24B; // defined:True
+gDuel_pCardViewerCard = 0x8009B24C; // defined:True
+gDuel_pCardViewerTextBox = 0x8009B250; // defined:True
+gDuel_bEffectState = 0x8009B254; // defined:True
 
 // Semantic names
 Main_Init = 0x80012B50; // type:func
@@ -173,8 +173,8 @@ SD_SetVoiceVolume = 0x8004A27C; // type:func
 SD_UpdateSecondaryObjectVolumes = 0x8004A2F8; // type:func
 SD_CalcPitchBend = 0x8004A3BC; // type:func
 SD_VabOpenHead = 0x800496C4; // type:func
-gSD_dwCurrentBgmCommand = 0x8009B400;
-gSaveDataSequence = 0x8009B3B8;
+gSD_dwCurrentBgmCommand = 0x8009B400; // defined:True
+gSaveDataSequence = 0x8009B3B8; // defined:True
 tent_DecimalDigitSjisKeys = 0x80010330;
 gMemCard_szSaveFileName = 0x80010384;
 gSD_awNotePitchTable = 0x80010834;
@@ -274,14 +274,14 @@ File_RequestEgyptOverworldPackage = 0x8003C0C0; // type:func
 File_Exists = 0x8005C4F0; // type:func
 
 // Semantic names
-gMemCard_aDirEntries = 0x800F2888;
-gMemCard_aIOEventHandles = 0x800F2AE0;
-gMemCard_aHwIOEventHandles = 0x800F2AF0;
-gMemCard_szRequestPath = 0x800F2B00;
-gAiScript_aMemory = 0x800F5B98;
-gAi_wBestDifference = 0x800F5C80;
-gAi_bBestAttacker = 0x800F5C82;
-gAi_bBestTarget = 0x800F5C83;
+gMemCard_aDirEntries = 0x800F2888; // defined:True
+gMemCard_aIOEventHandles = 0x800F2AE0; // defined:True
+gMemCard_aHwIOEventHandles = 0x800F2AF0; // defined:True
+gMemCard_szRequestPath = 0x800F2B00; // defined:True
+gAiScript_aMemory = 0x800F5B98; // defined:True
+gAi_wBestDifference = 0x800F5C80; // defined:True
+gAi_bBestAttacker = 0x800F5C82; // defined:True
+gAi_bBestTarget = 0x800F5C83; // defined:True
 gDuel_aActiveCards = 0x801AB000;
 gDuel_adwCardStats = 0x801D4244;
 AiScript_ReadByte = 0x8007058C; // type:func
@@ -405,31 +405,31 @@ gModel_aEffectEndpoints = 0x80091550;
 gModel_aCameraOrbitPresets = 0x80091570;
 gDuelEffect_awEntryRangeBoundaries = 0x80090E58;
 gText_SecondaryCommandHandlers = 0x80090EAC;
-gGraphics_bActiveBuffer = 0x8009B0AC;
-gCardGrid_bCursorColumn = 0x8009B258;
-gCardGrid_bCursorRow = 0x8009B259;
-gFreeDuel_bCursorColumn = 0x8009B366;
-gFreeDuel_bCursorRow = 0x8009B367;
-gFreeDuel_bTargetColumn = 0x8009B36C;
-gFreeDuel_bTargetRow = 0x8009B36D;
-gOptions_bState = 0x8009B37C;
-gOptions_bOutputType = 0x8009B37D;
-gOptions_bSelection = 0x8009B384;
-gSD_bOutputType = 0x8009B408;
-gMemCard_pRequestBuf = 0x8009B430;
-gMemCard_wRequestSize = 0x8009B434;
-gMemCard_bChannel = 0x8009B437;
-gMemCard_nFreeBlocks = 0x8009B438;
-gMemCard_bRetries = 0x8009B43C;
-gMemCard_bLoadStep = 0x8009B43D;
-gMemCard_bRequest = 0x8009B43E;
-gMemCard_nDirEntries = 0x8009B440;
-gMemCard_pDirEntries = 0x8009B444;
-gMemCard_wRequestOffset = 0x8009B44C;
-gMemCard_bDirFlags = 0x8009B44E;
-gMemCard_bRequestStep = 0x8009B44F;
-gMemCard_nIOResult = 0x8009B450;
-gFile_anLba = 0x800E9EA8;
+gGraphics_bActiveBuffer = 0x8009B0AC; // defined:True
+gCardGrid_bCursorColumn = 0x8009B258; // defined:True
+gCardGrid_bCursorRow = 0x8009B259; // defined:True
+gFreeDuel_bCursorColumn = 0x8009B366; // defined:True
+gFreeDuel_bCursorRow = 0x8009B367; // defined:True
+gFreeDuel_bTargetColumn = 0x8009B36C; // defined:True
+gFreeDuel_bTargetRow = 0x8009B36D; // defined:True
+gOptions_bState = 0x8009B37C; // defined:True
+gOptions_bOutputType = 0x8009B37D; // defined:True
+gOptions_bSelection = 0x8009B384; // defined:True
+gSD_bOutputType = 0x8009B408; // defined:True
+gMemCard_pRequestBuf = 0x8009B430; // defined:True
+gMemCard_wRequestSize = 0x8009B434; // defined:True
+gMemCard_bChannel = 0x8009B437; // defined:True
+gMemCard_nFreeBlocks = 0x8009B438; // defined:True
+gMemCard_bRetries = 0x8009B43C; // defined:True
+gMemCard_bLoadStep = 0x8009B43D; // defined:True
+gMemCard_bRequest = 0x8009B43E; // defined:True
+gMemCard_nDirEntries = 0x8009B440; // defined:True
+gMemCard_pDirEntries = 0x8009B444; // defined:True
+gMemCard_wRequestOffset = 0x8009B44C; // defined:True
+gMemCard_bDirFlags = 0x8009B44E; // defined:True
+gMemCard_bRequestStep = 0x8009B44F; // defined:True
+gMemCard_nIOResult = 0x8009B450; // defined:True
+gFile_anLba = 0x800E9EA8; // defined:True
 gPassword_abDigits = 0x8016D410;
 gDuel_awRitualData = 0x801799D8;
 gDuel_anRankScore = 0x80179A04;
@@ -619,7 +619,7 @@ SaveData_RequestLoad = 0x8003F7D4; // type:func
 SaveData_PollLoad = 0x8003F810; // type:func
 SaveData_RequestWrite = 0x8003F87C; // type:func
 Main_InitFreeDuelMenu = 0x8003B9BC; // type:func
-gDuel_wViewerCardID = 0x8009B246;
+gDuel_wViewerCardID = 0x8009B246; // defined:True
 gLibrary_aCardArtRecord = 0x801DC000;
 
 // Semantic names
@@ -643,8 +643,8 @@ File_StopRangeTransfer = 0x80015010; // type:func
 File_StopActiveRangeTransfer = 0x80015038; // type:func
 File_StepTransferPhase = 0x8001513C; // type:func
 File_RequestSecondaryAsyncTransfer = 0x80015078; // type:func
-gFile_SecondaryTransferDescriptor = 0x800E9E18;
-gFile_PrimaryTransferDescriptor = 0x800E9E60;
+gFile_SecondaryTransferDescriptor = 0x800E9E18; // defined:True
+gFile_PrimaryTransferDescriptor = 0x800E9E60; // defined:True
 gDuel_awUniqueDeckCardIds = 0x80178130;
 
 // Semantic names
@@ -677,21 +677,21 @@ Text_SetCursorOffset = 0x80038BA8; // type:func
 Text_HandleChoiceCommand = 0x80038BF0; // type:func
 
 // Semantic names
-gDialog_bInputState = 0x8009B327;
-gDialog_bChoiceEnabled = 0x8009B336;
-gDialog_bChoiceCount = 0x8009B345;
+gDialog_bInputState = 0x8009B327; // defined:True
+gDialog_bChoiceEnabled = 0x8009B336; // defined:True
+gDialog_bChoiceCount = 0x8009B345; // defined:True
 gDialog_bChoice = 0x8009B34D;
-gInput_wPad1Repeat = 0x8009B394;
-gInput_wPad2Repeat = 0x8009B396;
-gInput_wPad1Pressed = 0x8009B398;
-gInput_wPad2Pressed = 0x8009B39A;
-gInput_wPad1RepeatBackup = 0x8009B39E;
-gInput_wPad1PressedBackup = 0x8009B3A0;
-gInput_wPad1Held = 0x8009B3A4;
-gInput_wPad2Held = 0x8009B3A6;
-gInput_dwPendingHeld = 0x8009B3A8;
-gInput_wPad1HeldBackup = 0x8009B3AC;
-gInput_abRawPadBuffers = 0x800EF668;
+gInput_wPad1Repeat = 0x8009B394; // defined:True
+gInput_wPad2Repeat = 0x8009B396; // defined:True
+gInput_wPad1Pressed = 0x8009B398; // defined:True
+gInput_wPad2Pressed = 0x8009B39A; // defined:True
+gInput_wPad1RepeatBackup = 0x8009B39E; // defined:True
+gInput_wPad1PressedBackup = 0x8009B3A0; // defined:True
+gInput_wPad1Held = 0x8009B3A4; // defined:True
+gInput_wPad2Held = 0x8009B3A6; // defined:True
+gInput_dwPendingHeld = 0x8009B3A8; // defined:True
+gInput_wPad1HeldBackup = 0x8009B3AC; // defined:True
+gInput_abRawPadBuffers = 0x800EF668; // defined:True
 
 // Semantic names
 Widget_UpdatePulseColour = 0x80037110; // type:func
@@ -1325,8 +1325,8 @@ SD_UpdateRuntime = 0x80045F3C; // type:func
 Graphics_SyncFrame = 0x80012DB4; // type:func
 Graphics_BeginFrame = 0x80012E5C; // type:func
 Graphics_SubmitTextureWindowPacket = 0x8005B36C; // type:func
-gGraphics_DispEnv = 0x800E9D28;
-gDuel_bAnimatedBattleRequested = 0x8009B229;
+gGraphics_DispEnv = 0x800E9D28; // defined:True
+gDuel_bAnimatedBattleRequested = 0x8009B229; // defined:True
 GsDISPENV = 0x800FE0A8;
 PSDOFSX = 0x800FE030;
 PSDOFSY = 0x800FE034;
@@ -1399,8 +1399,8 @@ StFunc2 = 0x800F5D94;
 StMode = 0x800F5DD8;
 GlobalCallback = 0x800F8390;
 USTACK = 0x800FE278;
-gDuel_pSide0SaveData = 0x8009B1D8;
-gDuel_pSide1SaveData = 0x8009B1DC;
+gDuel_pSide0SaveData = 0x8009B1D8; // defined:True
+gDuel_pSide1SaveData = 0x8009B1DC; // defined:True
 gFile_pDuelBankBase = 0x800101DC;
 File_WaitForTransfers = 0x800137E4; // type:func
 File_InitTransferState = 0x80013898; // type:func
@@ -1409,11 +1409,11 @@ Fade_StartIn = 0x800157DC; // type:func
 Fade_InitInColor = 0x8001581C; // type:func
 Fade_InitOutColor = 0x80015944; // type:func
 Fade_Wait = 0x80015998; // type:func
-gFade_State = 0x800E9EC8;
-gInput_dwPreviousHeld = 0x8009B390;
-gInput_dwDeferredRepeat = 0x8009B3B0;
-gInput_dwDeferredPressed = 0x8009B3B4;
-gInput_abRepeatTimers = 0x800EF6B0;
+gFade_State = 0x800E9EC8; // defined:True
+gInput_dwPreviousHeld = 0x8009B390; // defined:True
+gInput_dwDeferredRepeat = 0x8009B3B0; // defined:True
+gInput_dwDeferredPressed = 0x8009B3B4; // defined:True
+gInput_abRepeatTimers = 0x800EF6B0; // defined:True
 DuelEffect_MarkInitialized = 0x80024E24; // type:func
 gAiScript_szSourceLineFormat = 0x8009B084;
 
@@ -1534,7 +1534,7 @@ gDuelEffect_abGroupByEffectId = 0x80090AD4;
 gDuelEffect_apfnStateHandler = 0x80090B3C;
 gMain_apfnModeRunner = 0x80090B64;
 gSceneScript_RecordCallbacks = 0x80090CAC;
-gCampaignSceneIndex = 0x8009B27A;
+gCampaignSceneIndex = 0x8009B27A; // defined:True
 gFile_szDiscWaMrgPath = 0x80090704;
 gFile_szDiscSuMrgPath = 0x80090718;
 gFile_szDiscModelMrgPath = 0x80090728;
@@ -1543,8 +1543,8 @@ gFile_szDiscSdSeDatPath = 0x80090750;
 gFile_szDiscSdBgmDatPath = 0x80090764;
 gFile_szDiscMasterXaPath = 0x80090778;
 Duel_StepCardDataTransfer = 0x800245EC; // type:func
-gInput_bRepeatDelay = 0x8009B39C;
-gInput_bRepeatInterval = 0x8009B3A2;
+gInput_bRepeatDelay = 0x8009B39C; // defined:True
+gInput_bRepeatInterval = 0x8009B3A2; // defined:True
 gPassword_pDigitCursorWidget = 0x8016D420;
 gPassword_nDigitIndex = 0x8016D428;
 
@@ -1621,7 +1621,7 @@ ViewState_ApplyViewpointOffset = 0x800134E0; // type:func
 File_StepActiveTransfer = 0x8001455C; // type:func
 File_ServiceTransfers = 0x80014A5C; // type:func
 SD_ConfigureTransferPhase = 0x80014B30; // type:func
-gModel_ImageCopyRect = 0x8009B468;
+gModel_ImageCopyRect = 0x8009B468; // defined:True
 Main_ClearFrameServiceCallbacks = 0x800134B4; // type:func
 
 // Semantic names that generated assembly needs once #3859 moved their
@@ -1663,8 +1663,8 @@ SD_HandleSequenceControlChange = 0x8004B49C; // type:func
 SD_ApplySequenceReverbParameter = 0x8004ACE4; // type:func
 SD_SetSequenceChannelProgram = 0x8004B6E8; // type:func
 SD_SetSequenceChannelPitchBendMsb = 0x8004B70C; // type:func
-tent_DebugEffectObject0 = 0x8009B180;
-tent_DebugEffectObject1 = 0x8009B184;
+tent_DebugEffectObject0 = 0x8009B180; // defined:True
+tent_DebugEffectObject1 = 0x8009B184; // defined:True
 tent_DisplayObjectStreamCommandTable = 0x80090FEC;
 
 // Semantic names
@@ -1697,7 +1697,7 @@ gModel_pCurrentEffectKey = 0x8009B074;
 gModel_bEffectKeyCount = 0x8009B078;
 
 // Semantic names
-gModel_aEffectKeys = 0x800F5788;
+gModel_aEffectKeys = 0x800F5788; // defined:True
 
 // Semantic names
 Library_UpdateGridScroll = 0x8002A660; // type:func
@@ -1783,7 +1783,7 @@ CardPreview_DrawDetailPanel = 0x80028B08; // type:func
 
 // Semantic names
 CardPreview_HandleResourceTransfer = 0x800289BC; // type:func
-gCardPreview_Resources = 0x800EA0E8;
+gCardPreview_Resources = 0x800EA0E8; // defined:True
 
 // Semantic names
 CardPreview_RequestResourceTransfer = 0x80029164; // type:func
@@ -1795,7 +1795,7 @@ CardPreview_CreateResourceObjects = 0x800291E0; // type:func
 Duel_MarkCreatedCardKnown = 0x80019CC8; // type:func
 
 // Semantic names
-gDuel_RitualResultCardId = 0x8009B1A0;
+gDuel_RitualResultCardId = 0x8009B1A0; // defined:True
 
 // Semantic names
 Duel_DrawCardFrame = 0x80016784; // type:func
@@ -1831,30 +1831,30 @@ Duel_ProjectCardSlotScreenX = 0x8001B0CC; // type:func
 Duel_InitGroundProjectionReference = 0x800178BC; // type:func
 ViewState_ResetDefaults = 0x80017130; // type:func
 Duel_StartViewTween = 0x80022D94; // type:func
-gDuel_wViewTweenFramesRemaining = 0x8009B204;
-gDuel_wViewTweenDistanceTarget = 0x8009B1EE;
-gDuel_dwViewTweenDistanceAccumulator = 0x8009B1C4;
-gDuel_dwViewTweenDistanceStep = 0x8009B1FC;
-gDuel_wViewTweenOrbitAngleTarget = 0x8009B192;
-gDuel_dwViewTweenOrbitAngleAccumulator = 0x8009B15C;
-gDuel_dwViewTweenOrbitAngleStep = 0x8009B198;
-gDuel_wViewTweenHeadingTarget = 0x8009B190;
-gDuel_dwViewTweenHeadingAccumulator = 0x8009B158;
-gDuel_dwViewTweenHeadingStep = 0x8009B194;
-gDuel_wViewTweenReferenceZTarget = 0x8009B166;
-gDuel_dwViewTweenReferenceZAccumulator = 0x8009B224;
-gDuel_dwViewTweenReferenceZStep = 0x8009B168;
+gDuel_wViewTweenFramesRemaining = 0x8009B204; // defined:True
+gDuel_wViewTweenDistanceTarget = 0x8009B1EE; // defined:True
+gDuel_dwViewTweenDistanceAccumulator = 0x8009B1C4; // defined:True
+gDuel_dwViewTweenDistanceStep = 0x8009B1FC; // defined:True
+gDuel_wViewTweenOrbitAngleTarget = 0x8009B192; // defined:True
+gDuel_dwViewTweenOrbitAngleAccumulator = 0x8009B15C; // defined:True
+gDuel_dwViewTweenOrbitAngleStep = 0x8009B198; // defined:True
+gDuel_wViewTweenHeadingTarget = 0x8009B190; // defined:True
+gDuel_dwViewTweenHeadingAccumulator = 0x8009B158; // defined:True
+gDuel_dwViewTweenHeadingStep = 0x8009B194; // defined:True
+gDuel_wViewTweenReferenceZTarget = 0x8009B166; // defined:True
+gDuel_dwViewTweenReferenceZAccumulator = 0x8009B224; // defined:True
+gDuel_dwViewTweenReferenceZStep = 0x8009B168; // defined:True
 Duel_UpdateDisplayTransition = 0x800235C0; // type:func
-gDuel_wDisplayTransitionFlags = 0x8009B162;
-gDuel_pActiveSelectionRecord = 0x8009B1B4;
+gDuel_wDisplayTransitionFlags = 0x8009B162; // defined:True
+gDuel_pActiveSelectionRecord = 0x8009B1B4; // defined:True
 gDuel_awFieldGridRowViewTargetZ = 0x800907AC;
 gDuel_awSideViewHeadings = 0x8009AF20;
 Text_SetOutputLimit = 0x800383B0; // type:func
 Text_SetPenX = 0x80038388; // type:func
 Text_SetColorIndex = 0x80038498; // type:func
-gGraphics_bExtraFrameStep = 0x8009B0C1;
-gGraphics_dwSyncVBlankCounter = 0x8009B0C8;
-gSaveData_dwVBlankCounter = 0x8009B0C4;
+gGraphics_bExtraFrameStep = 0x8009B0C1; // defined:True
+gGraphics_dwSyncVBlankCounter = 0x8009B0C8; // defined:True
+gSaveData_dwVBlankCounter = 0x8009B0C4; // defined:True
 Text_SetFastPrintMode = 0x800384E4; // type:func
 
 // Semantic names
@@ -1873,7 +1873,7 @@ gAiSnapshot_aOwnCards = 0x801AB00C;
 
 // Semantic names
 DuelHand_RefreshSelectionColors = 0x8001B8B8; // type:func
-gDuelHand_aSlots = 0x800EA030;
+gDuelHand_aSlots = 0x800EA030; // defined:True
 
 // Semantic names
 DuelField_GetGuardianStarDisplayCode = 0x80023090; // type:func
@@ -1881,10 +1881,10 @@ DuelField_CreateCardInfoTextBox = 0x80023144; // type:func
 DuelField_RefreshCursorCardInfo = 0x8002348C; // type:func
 
 // Semantic names
-gDuelCursor_Direction = 0x8009B160;
-gDuelCursor_PickFlags = 0x8009B1D4;
-gDuelCursor_TargetColumn = 0x8009B1D6;
-gDuelCursor_TargetRow = 0x8009B1D7;
+gDuelCursor_Direction = 0x8009B160; // defined:True
+gDuelCursor_PickFlags = 0x8009B1D4; // defined:True
+gDuelCursor_TargetColumn = 0x8009B1D6; // defined:True
+gDuelCursor_TargetRow = 0x8009B1D7; // defined:True
 
 // Semantic names
 Text_ExpandSelectedCardInfo = 0x80037DA4; // type:func
@@ -1893,10 +1893,10 @@ Text_EmitGuardianStarGlyph = 0x80038070; // type:func
 Text_EmitNextSymbolGlyph = 0x80038094; // type:func
 Text_JumpBySelectorA = 0x800389D8; // type:func
 Text_JumpBySelectorB = 0x80038A44; // type:func
-gText_SelectedCardColorIndex = 0x8009B320;
-gText_GuardianGlyphCode = 0x8009B344;
-gText_BranchSelectorA = 0x8009B34E;
-gText_BranchSelectorB = 0x8009B355;
+gText_SelectedCardColorIndex = 0x8009B320; // defined:True
+gText_GuardianGlyphCode = 0x8009B344; // defined:True
+gText_BranchSelectorA = 0x8009B34E; // defined:True
+gText_BranchSelectorB = 0x8009B355; // defined:True
 
 // Semantic names
 Text_ResetPenXAndAdvanceY = 0x800380D4; // type:func
@@ -1912,15 +1912,15 @@ TextBox_RefreshDisplayObjects = 0x800391E4; // type:func
 
 TextBox_UpdateChannels = 0x80039794; // type:func
 
-gText_PumpedGlyphIndex = 0x8009B35A;
+gText_PumpedGlyphIndex = 0x8009B35A; // defined:True
 
-gText_PreviousGlyphKind = 0x8009B356;
+gText_PreviousGlyphKind = 0x8009B356; // defined:True
 
-gText_CurrentStreamCode = 0x8009B33A;
+gText_CurrentStreamCode = 0x8009B33A; // defined:True
 
-gText_CommandDisposition = 0x8009B350;
+gText_CommandDisposition = 0x8009B350; // defined:True
 
-gText_ChoiceLayoutCallback = 0x8009B340;
+gText_ChoiceLayoutCallback = 0x8009B340; // defined:True
 
 gText_apfnPrimaryCommands = 0x80090F18;
 
@@ -1928,9 +1928,9 @@ DuelEffect_AppendEntry = 0x80036C14; // type:func
 
 DuelEffect_FindFreeOccupancySlot = 0x80035D10; // type:func
 
-gDuelEffect_OccupancyStartColumn = 0x8009B324;
+gDuelEffect_OccupancyStartColumn = 0x8009B324; // defined:True
 
-gDuelEffect_OccupancyStartRow = 0x8009B325;
+gDuelEffect_OccupancyStartRow = 0x8009B325; // defined:True
 
 DuelEffect_SetEntryControlBytes = 0x800373C8; // type:func
 
@@ -1938,15 +1938,15 @@ Text_BeginPageClear = 0x800374A8; // type:func
 
 Text_WaitForPageAdvance = 0x800375A4; // type:func
 
-gText_PageAdvanceHoldCountdown = 0x8009B32C;
+gText_PageAdvanceHoldCountdown = 0x8009B32C; // defined:True
 
 Text_WaitForDelay = 0x800379F8; // type:func
 
 Text_WaitWithViewportShake = 0x80037A58; // type:func
 
-gText_WaitCounter = 0x8009B322;
+gText_WaitCounter = 0x8009B322; // defined:True
 
-gText_ShakeViewportOrigin = 0x8009B348;
+gText_ShakeViewportOrigin = 0x8009B348; // defined:True
 
 DuelEffect_WaitForFileTransfer = 0x8003798C; // type:func
 
@@ -1954,15 +1954,15 @@ Text_WaitForBgmFade = 0x800379C4; // type:func
 
 Text_WaitForCdSoundTransfer = 0x80037B40; // type:func
 
-gText_CdSoundWaitPhase = 0x8009B335;
+gText_CdSoundWaitPhase = 0x8009B335; // defined:True
 
-gText_CdSoundPollBudget = 0x8009B33C;
+gText_CdSoundPollBudget = 0x8009B33C; // defined:True
 
 Text_StageScriptImage = 0x8003767C; // type:func
 
 Text_StartViewportTween = 0x8003771C; // type:func
 
-gText_ScriptDispatchGate = 0x8009B357;
+gText_ScriptDispatchGate = 0x8009B357; // defined:True
 
 gScript_apfnCommandHandlers = 0x80090C50;
 
@@ -1978,7 +1978,7 @@ Text_RequestDisplayEffectCrossfade = 0x80037950; // type:func
 
 DisplayEffect_ReleaseRecord = 0x80039FD4; // type:func
 
-gText_DisplayEffectRecord = 0x8009B328;
+gText_DisplayEffectRecord = 0x8009B328; // defined:True
 
 DisplayEffect_MarkInitialized = 0x80039F1C; // type:func
 
@@ -2004,7 +2004,7 @@ DisplayEffect_SetObjectRowBlend = 0x8003A440; // type:func
 
 DisplayEffect_UpdateResourceAcquisition = 0x8003A560; // type:func
 
-gDisplayEffect_ResourceCacheWriteSlot = 0x8009B326;
+gDisplayEffect_ResourceCacheWriteSlot = 0x8009B326; // defined:True
 
 gDisplayEffect_CachedResourceIds = 0x8015C410;
 
@@ -2022,87 +2022,87 @@ MemCardWork_InitializeOperation = 0x8003D300; // type:func
 
 MemCardWork_UpdateOperation = 0x8003DC1C; // type:func
 
-gMemCardWork_OperationMode = 0x8009B3C7;
+gMemCardWork_OperationMode = 0x8009B3C7; // defined:True
 
-gMemCardWork_OperationState = 0x8009B3CF;
+gMemCardWork_OperationState = 0x8009B3CF; // defined:True
 
-gMemCardWork_Area = 0x800EF6D0;
+gMemCardWork_Area = 0x800EF6D0; // defined:True
 
 gMemCardDialog_apfnSteps = 0x80090F9C;
 
-gMemCardDialog_StepIndex = 0x8009B3DE;
+gMemCardDialog_StepIndex = 0x8009B3DE; // defined:True
 
-gMemCardDialog_Outcome = 0x8009B3EF;
+gMemCardDialog_Outcome = 0x8009B3EF; // defined:True
 
-gMemCardDialog_ChannelIndex = 0x8009B3EE;
+gMemCardDialog_ChannelIndex = 0x8009B3EE; // defined:True
 
-gMemCardDialog_MessageCode = 0x8009B3C6;
+gMemCardDialog_MessageCode = 0x8009B3C6; // defined:True
 
-gMemCardDialog_FileNameBuffer = 0x800EFE18;
+gMemCardDialog_FileNameBuffer = 0x800EFE18; // defined:True
 
-gMemCardDialog_Port = 0x8009B3F9;
+gMemCardDialog_Port = 0x8009B3F9; // defined:True
 
-gMemCardDialog_TransferSize = 0x8009B3C2;
+gMemCardDialog_TransferSize = 0x8009B3C2; // defined:True
 
-gMemCardDialog_TransferOffset = 0x8009B3C4;
+gMemCardDialog_TransferOffset = 0x8009B3C4; // defined:True
 
-gMemCardDialog_BlockCount = 0x8009B3DC;
+gMemCardDialog_BlockCount = 0x8009B3DC; // defined:True
 
-gMemCardDialog_OperationState = 0x8009B3EB;
+gMemCardDialog_OperationState = 0x8009B3EB; // defined:True
 
-gMemCardDialog_SyncStatus = 0x8009B3BC;
+gMemCardDialog_SyncStatus = 0x8009B3BC; // defined:True
 
-gMemCardDialog_SyncCommand = 0x8009B3F0;
+gMemCardDialog_SyncCommand = 0x8009B3F0; // defined:True
 
-gMemCardDialog_SyncResult = 0x8009B3F4;
+gMemCardDialog_SyncResult = 0x8009B3F4; // defined:True
 
-gSaveData_LoadPairState = 0x8009B3EA;
+gSaveData_LoadPairState = 0x8009B3EA; // defined:True
 
-gSaveData_PairSetupState = 0x8009B3ED;
+gSaveData_PairSetupState = 0x8009B3ED; // defined:True
 
-gSaveData_PairMessageCode = 0x8009B3C0;
+gSaveData_PairMessageCode = 0x8009B3C0; // defined:True
 
-gMemCardDialog_DirectoryBuffer = 0x800EFBC0;
+gMemCardDialog_DirectoryBuffer = 0x800EFBC0; // defined:True
 
-gMemCardDialog_RetryCounter = 0x8009B3EC;
+gMemCardDialog_RetryCounter = 0x8009B3EC; // defined:True
 
 gMemCardDialog_CardNumberArg = 0x801D5648;
 
-gSaveData_AllowIdentityBypass = 0x8009B3D4;
+gSaveData_AllowIdentityBypass = 0x8009B3D4; // defined:True
 
 DuelEffect_UpdateIdentitySave = 0x800289B4; // type:func
 
-gScript_SavePromptSceneOperand = 0x8009B2A6;
+gScript_SavePromptSceneOperand = 0x8009B2A6; // defined:True
 
-gScript_StreamCursor = 0x8009B290;
+gScript_StreamCursor = 0x8009B290; // defined:True
 
-gScript_EventState = 0x8009B2A4;
+gScript_EventState = 0x8009B2A4; // defined:True
 
-gScript_DialogCommandLatch = 0x8009B28C;
+gScript_DialogCommandLatch = 0x8009B28C; // defined:True
 
-gScript_ImageOperand = 0x8009B270;
+gScript_ImageOperand = 0x8009B270; // defined:True
 
-gScript_TransitionObject = 0x8009B280;
+gScript_TransitionObject = 0x8009B280; // defined:True
 
-gScript_WaitCounter = 0x8009B278;
+gScript_WaitCounter = 0x8009B278; // defined:True
 
-gScript_ViewportTargetX = 0x8009B2A8;
+gScript_ViewportTargetX = 0x8009B2A8; // defined:True
 
-gScript_ViewportTargetY = 0x8009B2AA;
+gScript_ViewportTargetY = 0x8009B2AA; // defined:True
 
-gScript_ViewportAccumulatorX = 0x8009B284;
+gScript_ViewportAccumulatorX = 0x8009B284; // defined:True
 
-gScript_ViewportAccumulatorY = 0x8009B288;
+gScript_ViewportAccumulatorY = 0x8009B288; // defined:True
 
-gScript_ViewportDeltaX = 0x8009B294;
+gScript_ViewportDeltaX = 0x8009B294; // defined:True
 
-gScript_ViewportDeltaY = 0x8009B298;
+gScript_ViewportDeltaY = 0x8009B298; // defined:True
 
-gScript_SharedOperand = 0x8009B29C;
+gScript_SharedOperand = 0x8009B29C; // defined:True
 
-gCampaign_PrimaryDisplayObject = 0x8009B2A0;
+gCampaign_PrimaryDisplayObject = 0x8009B2A0; // defined:True
 
-gSceneScript_Slots = 0x800EAE98;
+gSceneScript_Slots = 0x800EAE98; // defined:True
 
 SceneScript_UpdateColorPulse = 0x8002FED8; // type:func
 
@@ -2112,29 +2112,29 @@ gScriptImage_OverlayPlacements = 0x80090C00;
 
 DuelResult_LoadPackageStage = 0x8002F4C0; // type:func
 
-gFile_BeforePrimaryRequestCallback = 0x8009B10C;
+gFile_BeforePrimaryRequestCallback = 0x8009B10C; // defined:True
 
-gFile_RangeReadCallback = 0x8009B0F0;
+gFile_RangeReadCallback = 0x8009B0F0; // defined:True
 
-gFile_RangePauseCallback = 0x8009B120;
+gFile_RangePauseCallback = 0x8009B120; // defined:True
 
-gFile_SecondaryPayloadCompleteCallback = 0x8009B128;
+gFile_SecondaryPayloadCompleteCallback = 0x8009B128; // defined:True
 
 gFile_ReadyTransferDescriptor = 0x8009AF18;
 
-gFile_ReadySourceCursor = 0x8009B0F8;
+gFile_ReadySourceCursor = 0x8009B0F8; // defined:True
 
-gFile_ServiceCallGate = 0x8009B124;
+gFile_ServiceCallGate = 0x8009B124; // defined:True
 
-gFile_ServiceReentryLatch = 0x8009B0E8;
+gFile_ServiceReentryLatch = 0x8009B0E8; // defined:True
 
-gFile_ReadyEventCount = 0x8009B114;
+gFile_ReadyEventCount = 0x8009B114; // defined:True
 
-gFile_ReadyDataEventCount = 0x8009B138;
+gFile_ReadyDataEventCount = 0x8009B138; // defined:True
 
-gFile_CommandRetryCount = 0x8009B130;
+gFile_CommandRetryCount = 0x8009B130; // defined:True
 
-gFile_RangeWaitCountdown = 0x8009B0EC;
+gFile_RangeWaitCountdown = 0x8009B0EC; // defined:True
 
 DuelEffect_UpdateGlyphReveal = 0x80039AFC; // type:func
 
@@ -2148,9 +2148,9 @@ Text_PushFormattedDecimal = 0x80038148; // type:func
 
 Text_PushStagedString = 0x800383DC; // type:func
 
-gText_StagedStringId = 0x8009B32E;
+gText_StagedStringId = 0x8009B32E; // defined:True
 
-gText_DecimalDigitGlyphMap = 0x800EAFF8;
+gText_DecimalDigitGlyphMap = 0x800EAFF8; // defined:True
 
 Model_TransformPartVertex = 0x800593D0; // type:func
 
@@ -2163,13 +2163,13 @@ Model_GetSlotTintDescriptor = 0x80059520; // type:func
 Model_SetSlotAmbient = 0x800595C8; // type:func
 
 Model_QueueTintRequestForAllParts = 0x80059AF8; // type:func
-gMain_bVBlankSoundPending = 0x8009B0C3;
-gDebug_nEditedBgmId = 0x8009B2CA;
-gDebug_nEditedCdSoundId = 0x8009B2CC;
-gDebug_nLastBgmId = 0x8009B2DA;
-gDuel_awBattleDamage = 0x8009B1A4;
-gDuel_abBattleOutcome = 0x8009B1B0;
-gDuel_bPendingDrawCount = 0x8009B1EC;
+gMain_bVBlankSoundPending = 0x8009B0C3; // defined:True
+gDebug_nEditedBgmId = 0x8009B2CA; // defined:True
+gDebug_nEditedCdSoundId = 0x8009B2CC; // defined:True
+gDebug_nLastBgmId = 0x8009B2DA; // defined:True
+gDuel_awBattleDamage = 0x8009B1A4; // defined:True
+gDuel_abBattleOutcome = 0x8009B1B0; // defined:True
+gDuel_bPendingDrawCount = 0x8009B1EC; // defined:True
 
 Model_SetCameraOrbit = 0x8005F3B8; // type:func
 
@@ -2237,11 +2237,11 @@ gModelDebug_szLoadModel0Format = 0x8001152C;
 gModelDebug_szLoadModel1Format = 0x80011540;
 gModelDebug_szSlotFlagsFormat = 0x80011554;
 gModelDebug_szStageFormat = 0x80011564;
-gDebug_szEditorCaretLine = 0x800EAED8;
+gDebug_szEditorCaretLine = 0x800EAED8; // defined:True
 
 gModel_bHandlerCallbackState = 0x8009B07C;
 
-gModel_Slot0MetadataView = 0x800F3938;
+gModel_Slot0MetadataView = 0x800F3938; // defined:True
 
 Model_UpdateSlotControl = 0x800559D4; // type:func
 
@@ -2264,13 +2264,13 @@ gModel_SubdividedEffectInitialScale = 0x8001185C;
 gModel_DiscEffectInitialScale = 0x8001187C;
 
 gModel_BurstEffectInitialScale = 0x8001188C;
-gDuel_pLifePointsPanel = 0x8009B21C;
-gMain_aAnimatedBattleModels = 0x800EF658;
-gFade_abCurrentLevel = 0x800E9ECC;
-gDuel_dwFieldDimTarget = 0x8009B1BC;
-gDuel_wPendingEquipBonus = 0x8009B154;
+gDuel_pLifePointsPanel = 0x8009B21C; // defined:True
+gMain_aAnimatedBattleModels = 0x800EF658; // defined:True
+gFade_abCurrentLevel = 0x800E9ECC; // defined:True
+gDuel_dwFieldDimTarget = 0x8009B1BC; // defined:True
+gDuel_wPendingEquipBonus = 0x8009B154; // defined:True
 
-gModel_dwFogBaseColor = 0x8009B300;
+gModel_dwFogBaseColor = 0x8009B300; // defined:True
 
 Model_DrawFogTexturedTriangles = 0x80033DB0; // type:func
 
@@ -2307,21 +2307,21 @@ gDebugMenu_szMenuEditorFormat = 0x80090D28;
 gDebugMenu_szMovieEditorFormat = 0x80090D44;
 gDisplayObject_FlatLightDown = 0x80090FCC;
 gDisplayObject_FlatLightUp = 0x80090FDC;
-gMovie_dwStreamBaseLba = 0x800E9EB4;
+gMovie_dwStreamBaseLba = 0x800E9EB4; // defined:True
 
 CardList_LoadSharedGraphicsStage = 0x80032184; // type:func
 
 CardList_LoadSharedGraphics = 0x80032328; // type:func
 
 Library_PruneRecentCardDrops = 0x80032370; // type:func
-gDuel_pCardPreviewObject = 0x8009B1C0;
-gDuel_bDrawStepCountdown = 0x8009B1ED;
-gDuel_aCardSlotScreenPositions = 0x800EA070;
-gDuel_wAiHandStackPending = 0x8009B19E;
-gDuel_wMonsterRemovalCriterion = 0x8009B1AC;
-gDuel_wMonsterRemovalZone = 0x8009B1AE;
-gDuel_bAiSelectionCursor = 0x8009B1E2;
-gDuel_wAiSelectionStepDelay = 0x8009B1E4;
+gDuel_pCardPreviewObject = 0x8009B1C0; // defined:True
+gDuel_bDrawStepCountdown = 0x8009B1ED; // defined:True
+gDuel_aCardSlotScreenPositions = 0x800EA070; // defined:True
+gDuel_wAiHandStackPending = 0x8009B19E; // defined:True
+gDuel_wMonsterRemovalCriterion = 0x8009B1AC; // defined:True
+gDuel_wMonsterRemovalZone = 0x8009B1AE; // defined:True
+gDuel_bAiSelectionCursor = 0x8009B1E2; // defined:True
+gDuel_wAiSelectionStepDelay = 0x8009B1E4; // defined:True
 
 MainMenu_CreateTradeReadyIndicator = 0x800610E0; // type:func
 
@@ -2342,7 +2342,7 @@ gModel_SparkEffectInitialScale = 0x8001189C;
 Text_DisableCompletionWait = 0x800389C4; // type:func
 gSD_adwStatusDataByteCounts = 0x80011484;
 gModel_szAnimationSoundTraceFormat = 0x80011508;
-gSD_pFileRequest = 0x8009B460;
+gSD_pFileRequest = 0x8009B460; // defined:True
 gAiScript_abFieldScript = 0x801A9800;
 
 Text_NoOpSecondary12 = 0x80038888; // type:func
@@ -2354,8 +2354,8 @@ Text_OpenCampaignMap = 0x80038898; // type:func
 Duel_UpdateCardToSelectionView = 0x80022674; // type:func
 
 Duel_UpdateCardToFieldView = 0x800229F4; // type:func
-gDisplayObject_wSpriteListHead = 0x800EFE3A;
-gCardPreview_Resource1 = 0x800EA128;
+gDisplayObject_wSpriteListHead = 0x800EFE3A; // defined:True
+gCardPreview_Resource1 = 0x800EA128; // defined:True
 
 Model_MapToWireframePrimitiveHandler = 0x8005FC1C; // type:func
 
