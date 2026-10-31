@@ -79,6 +79,7 @@ jobs:
           python3 tools/bootstrap/binutils_system.py
           python3 tools/bootstrap/old_gcc_prebuilt.py
           python3 tools/bootstrap/old_gcc_prebuilt.py --config tools/bootstrap/old_gcc_272_prebuilt.json
+          python3 tools/bootstrap/old_gcc_prebuilt.py --config tools/bootstrap/old_gcc_280_prebuilt.json
           make check-build-tools
 
       - name: Verify Japanese inputs and clean exact build
