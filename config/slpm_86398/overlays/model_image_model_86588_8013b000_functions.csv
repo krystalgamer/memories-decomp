@@ -3,5 +3,5 @@ address,size,name,status,module,notes
 0x8013BCC0,0x544,func_8013BCC0,matching_c,overlay/model_image_model_86588_8013b000,Complete module byte identity and section-defined C ownership verified.
 0x8013C204,0x714,func_8013C204,matching_c,overlay/model_image_model_86588_8013b000,Complete module byte identity and section-defined C ownership verified.
 0x8013C918,0x5B0,func_8013C918,matching_c,overlay/model_image_model_86588_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013CEC8,0xA40,func_8013CEC8,unmatched_asm,overlay/model_image_model_86588_8013b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8013CEC8,0xA40,func_8013CEC8,matching_c,overlay/model_image_model_86588_8013b000,Ribbon cones drawn from phase 4; C body exact through variant366_cones.c.
 0x8013D908,0xB54,func_8013D908,matching_c,overlay/model_image_model_86588_8013b000,Complete module byte identity and section-defined C ownership verified.

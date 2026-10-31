@@ -1,6 +1,18 @@
 {
   "functions": [
     {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x1AC0",
+      "source": "src/overlays/model_variant/variant426_entry_slot1.c"
+    },
+    {
+      "address": "0x8017CAC4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x8A8",
+      "source": "src/overlays/model_variant/variant426_ribbons_slot1.c"
+    },
+    {
       "address": "0x8017D36C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x5E8",
@@ -19,10 +31,22 @@
       "source": "src/overlays/model_variant/variant426_sheets_slot1.c"
     },
     {
+      "address": "0x8017E640",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x8A0",
+      "source": "src/overlays/model_variant/variant426_streamers_slot1.c"
+    },
+    {
       "address": "0x8017EEE0",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x6B4",
       "source": "src/overlays/model_variant/variant426_bands_slot1.c"
+    },
+    {
+      "address": "0x8017F594",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x558",
+      "source": "src/overlays/model_variant/variant426_webs_slot1.c"
     }
   ],
   "schema": 1

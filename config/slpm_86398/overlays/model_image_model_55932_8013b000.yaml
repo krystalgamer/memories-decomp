@@ -64,13 +64,13 @@ segments:
     align: 4
     subsegments:
       - [0xC14, c, overlays/model_variant/variant441_sheets]
-  - name: unmatched_1158
+  - name: helper_1158
     type: code
     start: 0x1158
     vram: 0x8013C158
     align: 4
     subsegments:
-      - [0x1158, asm, overlays/japanese_model_image_model_55932_8013b000/unmatched_1158]
+      - [0x1158, c, overlays/model_variant/variant441_strands]
   - name: streamers
     type: code
     start: 0x19CC

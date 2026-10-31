@@ -50,13 +50,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_476_8013b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_476_8013b000/unmatched_4]
+      - [0x4, c, overlays/model_variant/variant435_entry]
   - name: helper_10e4
     type: code
     start: 0x10E4
@@ -64,13 +64,13 @@ segments:
     align: 4
     subsegments:
       - [0x10E4, c, overlays/model_variant/variant435_sheets]
-  - name: unmatched_1524
+  - name: helper_1524
     type: code
     start: 0x1524
     vram: 0x8013C524
     align: 4
     subsegments:
-      - [0x1524, asm, overlays/japanese_model_image_model_476_8013b000/unmatched_1524]
+      - [0x1524, c, overlays/model_variant/variant435_streamers]
   - name: helper_1fcc
     type: code
     start: 0x1FCC
@@ -78,13 +78,13 @@ segments:
     align: 4
     subsegments:
       - [0x1FCC, c, overlays/model_variant/variant435_lines]
-  - name: unmatched_23ac
+  - name: helper_23ac
     type: code
     start: 0x23AC
     vram: 0x8013D3AC
     align: 4
     subsegments:
-      - [0x23AC, asm, overlays/japanese_model_image_model_476_8013b000/unmatched_23ac]
+      - [0x23AC, c, overlays/model_variant/variant435_rays]
   - name: data
     type: code
     start: 0x2DB8
