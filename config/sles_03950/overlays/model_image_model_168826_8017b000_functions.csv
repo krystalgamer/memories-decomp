@@ -1,2 +1,2 @@
 address,size,name,status,module,notes
-0x8017B004,0x3804,func_8017B004,unmatched_asm,overlay/model_image_model_168826_8017b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8017B004,0x3804,func_8017B004,matching_c,overlay/model_image_model_168826_8017b000,Exact C header-928 entry (slot-1 build of the header-831 C); the header-792 bolt effect for three bolts with a growing ray-ring flare.
