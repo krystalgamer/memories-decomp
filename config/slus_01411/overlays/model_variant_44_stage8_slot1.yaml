@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x20B4, c, overlays/model_variant/variant318_streamers_slot1]
-  - name: unmatched_28d0
+  - name: helper_28d0
     type: code
     start: 0x28D0
     vram: 0x8017D8D0
     align: 4
     subsegments:
-      - [0x28D0, asm, overlays/model_variant_44_stage8_slot1/unmatched_28d0]
+      - [0x28D0, c, overlays/model_variant/variant318_short_streamers_slot1]
   - name: data
     type: code
     start: 0x2F74
