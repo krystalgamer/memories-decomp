@@ -1,4 +1,17 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017C33C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x578",
+      "source": "src/overlays/french_model_variant/variant429_swarm_slot1.c"
+    },
+    {
+      "address": "0x8017C8B4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4DC",
+      "source": "src/overlays/french_model_variant/variant429_quads_slot1.c"
+    }
+  ],
   "schema": 1
 }

@@ -41,32 +41,25 @@ options:
     - ".bss"
 
 segments:
-  - name: module_header
+  - name: unclassified_head
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
-      - [0x0, data, overlays/european_model_image_model_2674_8017b000/module_header]
-  - name: unmatched_4
+      - [0x0, data, overlays/european_model_image_model_2674_8017b000/unclassified_head]
+  - name: helper_13B0
     type: code
-    start: 0x4
-    vram: 0x8017b004
+    start: 0x13B0
+    vram: 0x8017C3B0
     align: 4
     subsegments:
-      - [0x4, asm, overlays/european_model_image_model_2674_8017b000/unmatched_4]
-  - name: unmatched_13b0
-    type: code
-    start: 0x13b0
-    vram: 0x8017c3b0
-    align: 4
-    subsegments:
-      - [0x13b0, asm, overlays/european_model_image_model_2674_8017b000/unmatched_13b0]
+      - [0x13B0, c, overlays/french_model_variant/variant455_swarm_slot1]
   - name: unclassified_tail
     type: code
     start: 0x1978
-    vram: 0x8017c978
+    vram: 0x8017C978
     align: 4
     subsegments:
-      - [0x1978, bin, overlays/european_model_image_model_2674_8017b000/unclassified_tail]
+      - [0x1978, data, overlays/european_model_image_model_2674_8017b000/unclassified_tail]
   - [0x5000]

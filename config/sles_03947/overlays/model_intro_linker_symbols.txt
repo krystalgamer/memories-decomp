@@ -1,0 +1,16 @@
+D_800EB0F8 = 0x800F0430;
+D_8009B0D8 = 0x8009C01C;
+TextBox_DestroyIndex = 0x80035F5C;
+TextBox_CreateFlagged = 0x80035FEC;
+TextBox_BuildBlocking = 0x800397F0;
+DuelEffect_SetEntryControlBytes = 0x80037154;
+DuelEffect_ProcessEntries = 0x80039ECC;
+DuelEffect_HasActiveEntry = 0x800370E0;
+DisplayObject_FindFreeGeneralSlot = 0x80040150;
+DisplayObject_AcquireSlot = 0x800401D0;
+DisplayObject_SelectOrderingTable3 = 0x80042A6C;
+Graphics_SubmitDrawModePacket = 0x8004D3B4;
+
+func_8005B260 = Graphics_SubmitDrawModePacket;
+
+func_80039A14 = TextBox_BuildBlocking;
