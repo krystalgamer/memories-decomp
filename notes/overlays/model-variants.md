@@ -188,6 +188,22 @@ existing mesh, sheets and funnel helper C; the helpers at `0x8013C38C`,
 `0x8013CDAC` and `0x8013DB50` stay generated assembly. The French
 header-426/576 images keep their separately recovered entry.
 
+The two North American header-426/576 images (model 62) build their entry
+from `model_variant/variant426_entry.c` and their streamers helper from
+`model_variant/variant426_streamers.c` (`_slot1.c` for slot 1) under
+`gcc_2_7_2_cdk_g0`, beside the rings, mesh, sheets and bands helper C; the
+helpers at `+ 0x1AC4` and `+ 0x4594` stay generated assembly. The wrappers
+include the French header-443 `variant443_entry.c` and
+`variant443_streamers.c`. The entry wrapper sets `MODEL_VARIANT443_CLUT_X` to
+512, points `MODEL_VARIANT443_DATA` at the North American data symbol (the
+French default is `D_8013F5A8 + 0x554`, past a helper still in the French
+unclassified tail) and defines `MODEL_VARIANT426_ENTRY_PAIRED_SCREEN`, which
+reads both projected coordinates of the three-point loop before storing
+them. Under 2.8.1 that order is two words shorter, so the French default
+keeps the interleaved reads. The streamers source gains
+`work->rotation_z += 0;`, which 2.7.2 keeps as a load and 2.8.1 drops. The
+French header-443/593 images keep building both under 2.8.1.
+
 ## Header families
 
 The first word of a variant image is a header id. Every image with a given
