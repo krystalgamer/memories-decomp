@@ -120,10 +120,14 @@ Matching, attempt-ledger updates, and integration remain sequential.
   is an evidence-backed one: the specific MODEL.MRG variant functions and
   images whose tracked manifests select the named `gcc_2_7_2_cdk_g0` profile
   (the decompals/old-gcc `gcc-2.7.2-cdk` release, added in #6641 and scoped in
-  `notes/overlays/model-variants.md`). It is not every MODEL variant: the
+  `notes/overlays/model-variants.md`), plus the North American SU.MRG
+  Exodia images `model_image_su_1142_8013b000` and
+  `model_image_su_1152_8017b000`, whose helpers end in the CDK
+  `addiu $sp; jr $ra; nop` epilogue (see `notes/overlays/exodia-helpers.md`).
+  It is not every MODEL variant: the
   Spanish variant images and the USA header-71/201 images keep their
   GCC 2.8.1 profiles, as do the resident and regional executables and all
-  ordinary overlays. A profile is still chosen by name in the
+  other ordinary overlays. A profile is still chosen by name in the
   `*_matching_c.json` manifests, never by ad hoc flags, and exact full-image
   matching stays mandatory.
 - Record every materially distinct source/compiler experiment and its precise
