@@ -1,4 +1,65 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x1174",
+      "source": "src/overlays/model_variant/variant425_entry.c"
+    },
+    {
+      "address": "0x8013C178",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x3F0",
+      "source": "src/overlays/model_variant/variant425_sheet.c"
+    },
+    {
+      "address": "0x8013C568",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x9AC",
+      "source": "src/overlays/model_variant/variant425_spiral.c"
+    },
+    {
+      "address": "0x8013CF14",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x9E4",
+      "source": "src/overlays/model_variant/variant425_rays.c"
+    },
+    {
+      "address": "0x8013D8F8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x3C8",
+      "source": "src/overlays/model_variant/variant425_webs.c"
+    },
+    {
+      "address": "0x8013DCC0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x634",
+      "source": "src/overlays/model_variant/variant425_ribbons.c"
+    },
+    {
+      "address": "0x8013E2F4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x70C",
+      "source": "src/overlays/model_variant/variant425_bands.c"
+    },
+    {
+      "address": "0x8013EA00",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x314",
+      "source": "src/overlays/model_variant/variant425_spokes.c"
+    },
+    {
+      "address": "0x8013ED14",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x380",
+      "source": "src/overlays/model_variant/variant425_rings.c"
+    },
+    {
+      "address": "0x8013F094",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x368",
+      "source": "src/overlays/model_variant/variant425_quad.c"
+    }
+  ],
   "schema": 1
 }

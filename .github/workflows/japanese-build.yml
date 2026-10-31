@@ -78,6 +78,7 @@ jobs:
           python3 tools/bootstrap/bootstrap.py
           python3 tools/bootstrap/binutils_system.py
           python3 tools/bootstrap/old_gcc_prebuilt.py
+          python3 tools/bootstrap/old_gcc_prebuilt.py --config tools/bootstrap/old_gcc_272_prebuilt.json
           make check-build-tools
 
       - name: Verify Japanese inputs and clean exact build
@@ -93,3 +94,10 @@ jobs:
           tools/environments/python/bin/python tools/project/overlay_extract.py extract --region japan --module japanese_duel_effects
           tools/environments/python/bin/python tools/project/overlay_build.py build --region japan --module japanese_duel_effects
           tools/environments/python/bin/python tools/project/overlay_build.py verify --region japan --module japanese_duel_effects
+
+      - name: Verify exact Japanese overlay builds
+        env:
+          MAKEFLAGS: -j4
+        run: |
+          make japanese-match-overlays
+          make japanese-verify-overlays

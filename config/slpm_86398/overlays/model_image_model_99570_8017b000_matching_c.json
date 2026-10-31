@@ -1,4 +1,53 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xFE0",
+      "source": "src/overlays/model_variant/variant401_entry_slot1.c"
+    },
+    {
+      "address": "0x8017BFE4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x780",
+      "source": "src/overlays/model_variant/variant401_bands_slot1.c"
+    },
+    {
+      "address": "0x8017C764",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x540",
+      "source": "src/overlays/model_variant/variant401_sheet_slot1.c"
+    },
+    {
+      "address": "0x8017CCA4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x56C",
+      "source": "src/overlays/model_variant/variant401_webs_slot1.c"
+    },
+    {
+      "address": "0x8017D210",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x518",
+      "source": "src/overlays/model_variant/variant401_rays_slot1.c"
+    },
+    {
+      "address": "0x8017D728",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x314",
+      "source": "src/overlays/model_variant/variant401_spokes_slot1.c"
+    },
+    {
+      "address": "0x8017DA3C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x380",
+      "source": "src/overlays/model_variant/variant401_rings_slot1.c"
+    },
+    {
+      "address": "0x8017DDBC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x368",
+      "source": "src/overlays/model_variant/variant401_quad_slot1.c"
+    }
+  ],
   "schema": 1
 }

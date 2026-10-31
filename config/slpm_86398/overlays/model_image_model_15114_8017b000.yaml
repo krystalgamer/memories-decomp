@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_15114_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_15114_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_15114_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_15114_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,36 +46,92 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_15114_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_15114_8017b000/unmatched_4]
-  - name: unmatched_940
+      - [0x4, c, overlays/model_variant/variant391_entry_slot1]
+  - name: update
     type: code
     start: 0x940
-    vram: 0x8017b940
+    vram: 0x8017B940
     align: 4
     subsegments:
-      - [0x940, asm, overlays/japanese_model_image_model_15114_8017b000/unmatched_940]
-  - name: unmatched_1034
+      - [0x940, c, overlays/model_variant/variant391_update_slot1]
+  - name: draw
     type: code
     start: 0x1034
-    vram: 0x8017c034
+    vram: 0x8017C034
     align: 4
     subsegments:
-      - [0x1034, asm, overlays/japanese_model_image_model_15114_8017b000/unmatched_1034]
+      - [0x1034, c, overlays/model_variant/variant391_draw_slot1]
+  - name: unknown_prefix
+    type: code
+    start: 0x146C
+    vram: 0x8017C46C
+    align: 4
+    subsegments:
+      - [0x146C, data, overlays/japanese_model_image_model_15114_8017b000/unknown_prefix]
+  - name: image0
+    type: code
+    start: 0x1488
+    vram: 0x8017C488
+    align: 4
+    subsegments:
+      - [0x1488, data, overlays/japanese_model_image_model_15114_8017b000/image0]
+  - name: unknown_records1_3
+    type: code
+    start: 0x14A4
+    vram: 0x8017C4A4
+    align: 4
+    subsegments:
+      - [0x14A4, data, overlays/japanese_model_image_model_15114_8017b000/unknown_records1_3]
+  - name: image4
+    type: code
+    start: 0x14F8
+    vram: 0x8017C4F8
+    align: 4
+    subsegments:
+      - [0x14F8, data, overlays/japanese_model_image_model_15114_8017b000/image4]
+  - name: unknown_record5
+    type: code
+    start: 0x1514
+    vram: 0x8017C514
+    align: 4
+    subsegments:
+      - [0x1514, data, overlays/japanese_model_image_model_15114_8017b000/unknown_record5]
+  - name: image6
+    type: code
+    start: 0x1530
+    vram: 0x8017C530
+    align: 4
+    subsegments:
+      - [0x1530, data, overlays/japanese_model_image_model_15114_8017b000/image6]
+  - name: image7
+    type: code
+    start: 0x154C
+    vram: 0x8017C54C
+    align: 4
+    subsegments:
+      - [0x154C, data, overlays/japanese_model_image_model_15114_8017b000/image7]
+  - name: config0
+    type: code
+    start: 0x1568
+    vram: 0x8017C568
+    align: 4
+    subsegments:
+      - [0x1568, data, overlays/japanese_model_image_model_15114_8017b000/config0]
   - name: unclassified_tail
     type: code
-    start: 0x146c
-    vram: 0x8017c46c
+    start: 0x158C
+    vram: 0x8017C58C
     align: 4
     subsegments:
-      - [0x146c, bin, overlays/japanese_model_image_model_15114_8017b000/unclassified_tail]
+      - [0x158C, data, overlays/japanese_model_image_model_15114_8017b000/unclassified_tail]
   - [0x5000]

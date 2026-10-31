@@ -1,4 +1,41 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x1230",
+      "source": "src/overlays/model_variant/variant422_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C234",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4D8",
+      "source": "src/overlays/model_variant/variant422_screen_rings_slot1.c"
+    },
+    {
+      "address": "0x8017C70C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x778",
+      "source": "src/overlays/model_variant/variant422_bands_slot1.c"
+    },
+    {
+      "address": "0x8017CE84",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4E8",
+      "source": "src/overlays/model_variant/variant422_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017D36C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x51C",
+      "source": "src/overlays/model_variant/variant422_webs_slot1.c"
+    },
+    {
+      "address": "0x8017D888",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x420",
+      "source": "src/overlays/model_variant/variant422_curtains_slot1.c"
+    }
+  ],
   "schema": 1
 }

@@ -1,4 +1,11 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1260",
+      "source": "src/overlays/model_variant/variant120_entry.c"
+    }
+  ],
   "schema": 1
 }

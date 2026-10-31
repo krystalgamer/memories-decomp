@@ -1,2 +1,2 @@
 address,size,name,status,module,notes
-0x8013B004,0x1834,func_8013B004,unmatched_asm,overlay/model_image_model_155864_8013b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8013B004,0x1834,func_8013B004,matching_c,overlay/model_image_model_155864_8013b000,Complete module byte identity and section-defined C ownership verified.

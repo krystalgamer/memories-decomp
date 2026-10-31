@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_88510_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_88510_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_88510_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_88510_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,50 +46,50 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_88510_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_88510_8017b000/unmatched_4]
-  - name: unmatched_d24
+      - [0x4, c, overlays/model_variant/variant432_entry_slot1]
+  - name: sheet
     type: code
-    start: 0xd24
-    vram: 0x8017bd24
+    start: 0xD24
+    vram: 0x8017BD24
     align: 4
     subsegments:
-      - [0xd24, asm, overlays/japanese_model_image_model_88510_8017b000/unmatched_d24]
-  - name: unmatched_1244
+      - [0xD24, c, overlays/model_variant/variant432_sheet_slot1]
+  - name: ribbons
     type: code
     start: 0x1244
-    vram: 0x8017c244
+    vram: 0x8017C244
     align: 4
     subsegments:
-      - [0x1244, asm, overlays/japanese_model_image_model_88510_8017b000/unmatched_1244]
-  - name: unmatched_1b78
+      - [0x1244, c, overlays/model_variant/variant432_ribbons_slot1]
+  - name: streamers
     type: code
-    start: 0x1b78
-    vram: 0x8017cb78
+    start: 0x1B78
+    vram: 0x8017CB78
     align: 4
     subsegments:
-      - [0x1b78, asm, overlays/japanese_model_image_model_88510_8017b000/unmatched_1b78]
-  - name: unmatched_2410
+      - [0x1B78, c, overlays/model_variant/variant432_streamers_slot1]
+  - name: bands
     type: code
     start: 0x2410
-    vram: 0x8017d410
+    vram: 0x8017D410
     align: 4
     subsegments:
-      - [0x2410, asm, overlays/japanese_model_image_model_88510_8017b000/unmatched_2410]
+      - [0x2410, c, overlays/model_variant/variant432_bands_slot1]
   - name: unclassified_tail
     type: code
-    start: 0x2b64
-    vram: 0x8017db64
+    start: 0x2B64
+    vram: 0x8017DB64
     align: 4
     subsegments:
-      - [0x2b64, bin, overlays/japanese_model_image_model_88510_8017b000/unclassified_tail]
+      - [0x2B64, data, overlays/japanese_model_image_model_88510_8017b000/unclassified_tail]
   - [0x5000]

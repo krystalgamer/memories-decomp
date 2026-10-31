@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_48500_8013b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_48500_8013b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_48500_8013b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_48500_8013b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,50 +46,50 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8013b000
+    vram: 0x8013B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_48500_8013b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8013b004
+    vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_48500_8013b000/unmatched_4]
-  - name: unmatched_db8
+      - [0x4, c, overlays/model_variant/variant427_entry]
+  - name: helper_db8
     type: code
-    start: 0xdb8
-    vram: 0x8013bdb8
+    start: 0xDB8
+    vram: 0x8013BDB8
     align: 4
     subsegments:
-      - [0xdb8, asm, overlays/japanese_model_image_model_48500_8013b000/unmatched_db8]
-  - name: unmatched_14f0
+      - [0xDB8, c, overlays/model_variant/variant427_tube]
+  - name: helper_14f0
     type: code
-    start: 0x14f0
-    vram: 0x8013c4f0
+    start: 0x14F0
+    vram: 0x8013C4F0
     align: 4
     subsegments:
-      - [0x14f0, asm, overlays/japanese_model_image_model_48500_8013b000/unmatched_14f0]
-  - name: unmatched_1d94
+      - [0x14F0, c, overlays/model_variant/variant427_beams]
+  - name: helper_1d94
     type: code
-    start: 0x1d94
-    vram: 0x8013cd94
+    start: 0x1D94
+    vram: 0x8013CD94
     align: 4
     subsegments:
-      - [0x1d94, asm, overlays/japanese_model_image_model_48500_8013b000/unmatched_1d94]
-  - name: unmatched_23e0
+      - [0x1D94, c, overlays/model_variant/variant427_sheets]
+  - name: helper_23e0
     type: code
-    start: 0x23e0
-    vram: 0x8013d3e0
+    start: 0x23E0
+    vram: 0x8013D3E0
     align: 4
     subsegments:
-      - [0x23e0, asm, overlays/japanese_model_image_model_48500_8013b000/unmatched_23e0]
-  - name: unclassified_tail
+      - [0x23E0, c, overlays/model_variant/variant427_funnels]
+  - name: data
     type: code
-    start: 0x28f8
-    vram: 0x8013d8f8
+    start: 0x28F8
+    vram: 0x8013D8F8
     align: 4
     subsegments:
-      - [0x28f8, bin, overlays/japanese_model_image_model_48500_8013b000/unclassified_tail]
+      - [0x28F8, data, overlays/japanese_model_image_model_48500_8013b000/data]
   - [0x5000]

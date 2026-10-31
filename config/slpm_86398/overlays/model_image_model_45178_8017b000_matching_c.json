@@ -1,4 +1,47 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x101C",
+      "source": "src/overlays/model_variant/variant439_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C020",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x808",
+      "source": "src/overlays/model_variant/variant439_twin_ribbons_slot1.c"
+    },
+    {
+      "address": "0x8017C828",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x70C",
+      "source": "src/overlays/model_variant/variant439_ribbons_slot1.c"
+    },
+    {
+      "address": "0x8017CF34",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xB2C",
+      "source": "src/overlays/model_variant/variant439_sprays_slot1.c"
+    },
+    {
+      "address": "0x8017DA60",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x68C",
+      "source": "src/overlays/model_variant/variant439_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017E0EC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x384",
+      "source": "src/overlays/model_variant/variant439_lines_slot1.c"
+    },
+    {
+      "address": "0x8017E470",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x82C",
+      "source": "src/overlays/model_variant/variant439_streamers_slot1.c"
+    }
+  ],
   "schema": 1
 }

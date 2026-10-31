@@ -1,4 +1,35 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xBA0",
+      "source": "src/overlays/model_variant/variant321_entry_slot1.c"
+    },
+    {
+      "address": "0x8017BBA4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xB04",
+      "source": "src/overlays/model_variant/variant321_ribbon_slot1.c"
+    },
+    {
+      "address": "0x8017C6A8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4BC",
+      "source": "src/overlays/model_variant/variant321_rings_slot1.c"
+    },
+    {
+      "address": "0x8017CB64",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x348",
+      "source": "src/overlays/model_variant/variant321_strand_slot1.c"
+    },
+    {
+      "address": "0x8017CEAC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x7E4",
+      "source": "src/overlays/model_variant/variant321_streamers_slot1.c"
+    }
+  ],
   "schema": 1
 }

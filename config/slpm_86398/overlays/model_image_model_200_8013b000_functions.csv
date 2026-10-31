@@ -1,8 +1,8 @@
 address,size,name,status,module,notes
-0x8013B004,0xEE4,func_8013B004,unmatched_asm,overlay/model_image_model_200_8013b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
-0x8013BEE8,0x464,func_8013BEE8,unmatched_asm,overlay/model_image_model_200_8013b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8013C34C,0xA30,func_8013C34C,unmatched_asm,overlay/model_image_model_200_8013b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8013CD7C,0x910,func_8013CD7C,unmatched_asm,overlay/model_image_model_200_8013b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8013D68C,0x4F0,func_8013D68C,unmatched_asm,overlay/model_image_model_200_8013b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8013DB7C,0x744,func_8013DB7C,unmatched_asm,overlay/model_image_model_200_8013b000,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
-0x8013E2C0,0x5BC,func_8013E2C0,unmatched_asm,overlay/model_image_model_200_8013b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8013B004,0xEE4,func_8013B004,matching_c,overlay/model_image_model_200_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013BEE8,0x464,func_8013BEE8,matching_c,overlay/model_image_model_200_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013C34C,0xA30,func_8013C34C,matching_c,overlay/model_image_model_200_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013CD7C,0x910,func_8013CD7C,matching_c,overlay/model_image_model_200_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013D68C,0x4F0,func_8013D68C,matching_c,overlay/model_image_model_200_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013DB7C,0x744,func_8013DB7C,matching_c,overlay/model_image_model_200_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013E2C0,0x5BC,func_8013E2C0,matching_c,overlay/model_image_model_200_8013b000,Complete module byte identity and section-defined C ownership verified.

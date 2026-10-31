@@ -1,0 +1,4 @@
+// Japanese MODEL.MRG model 517 (record 517), sector 129102, header 883, loaded at 0x8017B000; the US source variant786_entry_slot1.c; built from the US source layout of model_variant_517_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x1D94 defined:true
+D_8017CDA8 = 0x8017CDA8; // type:u8 size:0x54 defined:true
+D_8017CDFC = 0x8017CDFC; // type:u8 size:0x3204 defined:true

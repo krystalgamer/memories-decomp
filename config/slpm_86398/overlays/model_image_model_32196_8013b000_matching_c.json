@@ -1,4 +1,41 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xE90",
+      "source": "src/overlays/model_variant/variant458_entry.c"
+    },
+    {
+      "address": "0x8013BE94",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xAD4",
+      "source": "src/overlays/model_variant/variant458_ribbons.c"
+    },
+    {
+      "address": "0x8013C968",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x4B8",
+      "source": "src/overlays/model_variant/variant458_sheets.c"
+    },
+    {
+      "address": "0x8013CE20",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x3B0",
+      "source": "src/overlays/model_variant/variant458_quads.c"
+    },
+    {
+      "address": "0x8013D1D0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x344",
+      "source": "src/overlays/model_variant/variant458_strand.c"
+    },
+    {
+      "address": "0x8013D514",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x7C0",
+      "source": "src/overlays/model_variant/variant458_streamers.c"
+    }
+  ],
   "schema": 1
 }

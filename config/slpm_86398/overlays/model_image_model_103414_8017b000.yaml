@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_103414_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_103414_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_103414_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_103414_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,50 +46,20 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_103414_8017b000/module_header]
-  - name: unmatched_4
+  - name: module
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_103414_8017b000/unmatched_4]
-  - name: unmatched_ba4
-    type: code
-    start: 0xba4
-    vram: 0x8017bba4
-    align: 4
-    subsegments:
-      - [0xba4, asm, overlays/japanese_model_image_model_103414_8017b000/unmatched_ba4]
-  - name: unmatched_16a8
-    type: code
-    start: 0x16a8
-    vram: 0x8017c6a8
-    align: 4
-    subsegments:
-      - [0x16a8, asm, overlays/japanese_model_image_model_103414_8017b000/unmatched_16a8]
-  - name: unmatched_1b64
-    type: code
-    start: 0x1b64
-    vram: 0x8017cb64
-    align: 4
-    subsegments:
-      - [0x1b64, asm, overlays/japanese_model_image_model_103414_8017b000/unmatched_1b64]
-  - name: unmatched_1eac
-    type: code
-    start: 0x1eac
-    vram: 0x8017ceac
-    align: 4
-    subsegments:
-      - [0x1eac, asm, overlays/japanese_model_image_model_103414_8017b000/unmatched_1eac]
-  - name: unclassified_tail
-    type: code
-    start: 0x2690
-    vram: 0x8017d690
-    align: 4
-    subsegments:
-      - [0x2690, bin, overlays/japanese_model_image_model_103414_8017b000/unclassified_tail]
+      - [0x4, c, overlays/model_variant/variant321_entry_slot1]
+      - [0xBA4, c, overlays/model_variant/variant321_ribbon_slot1]
+      - [0x16A8, c, overlays/model_variant/variant321_rings_slot1]
+      - [0x1B64, c, overlays/model_variant/variant321_strand_slot1]
+      - [0x1EAC, c, overlays/model_variant/variant321_streamers_slot1]
+      - [0x2690, data, overlays/japanese_model_image_model_103414_8017b000/data]
   - [0x5000]

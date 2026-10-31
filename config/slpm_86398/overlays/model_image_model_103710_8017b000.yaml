@@ -44,36 +44,18 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_103710_8017b000/module_header]
-  - name: unmatched_4
+  - name: module
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_103710_8017b000/unmatched_4]
-  - name: unmatched_11e0
-    type: code
-    start: 0x11e0
-    vram: 0x8017c1e0
-    align: 4
-    subsegments:
-      - [0x11e0, asm, overlays/japanese_model_image_model_103710_8017b000/unmatched_11e0]
-  - name: unmatched_1778
-    type: code
-    start: 0x1778
-    vram: 0x8017c778
-    align: 4
-    subsegments:
-      - [0x1778, asm, overlays/japanese_model_image_model_103710_8017b000/unmatched_1778]
-  - name: unclassified_tail
-    type: code
-    start: 0x1c48
-    vram: 0x8017cc48
-    align: 4
-    subsegments:
-      - [0x1c48, bin, overlays/japanese_model_image_model_103710_8017b000/unclassified_tail]
+      - [0x4, c, overlays/model_variant/variant402_entry_slot1]
+      - [0x11E0, c, overlays/model_variant/variant402_swarm_slot1]
+      - [0x1778, c, overlays/model_variant/variant402_quads_slot1]
+      - [0x1C48, data, overlays/japanese_model_image_model_103710_8017b000/data]
   - [0x5000]

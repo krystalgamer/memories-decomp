@@ -1,0 +1,10 @@
+// Japanese MODEL.MRG model 47 (record 47), sector 13162, header 592, loaded at 0x8017B000; built from the US source layout of model_variant_47_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x13E0 defined:true
+func_8017C3E4 = 0x8017C3E4; // type:func size:0x5FC defined:true
+func_8017C9E0 = 0x8017C9E0; // type:func size:0x628 defined:true
+func_8017D008 = 0x8017D008; // type:func size:0x634 defined:true
+func_8017D63C = 0x8017D63C; // type:func size:0xC84 defined:true
+func_8017E2C0 = 0x8017E2C0; // type:func size:0x800 defined:true
+func_8017EAC0 = 0x8017EAC0; // type:func size:0x5C0 defined:true
+func_8017F080 = 0x8017F080; // type:func size:0x56C defined:true
+D_8017F5EC = 0x8017F5EC; // type:u8 size:0xA14 defined:true

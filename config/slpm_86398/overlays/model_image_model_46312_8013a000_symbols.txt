@@ -1,0 +1,2 @@
+func_8013A004 = 0x8013A004; // type:func size:0x114
+D_8013A118 = 0x8013A118; // size:0x30

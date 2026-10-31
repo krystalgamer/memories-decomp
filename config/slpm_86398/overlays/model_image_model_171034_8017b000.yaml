@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/japanese_model_image_model_171034_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/japanese_model_image_model_171034_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/japanese_model_image_model_171034_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/slpm_86398/overlays/model_image_model_171034_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,50 +46,50 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8017b000
+    vram: 0x8017B000
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_171034_8017b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8017b004
+    vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_171034_8017b000/unmatched_4]
-  - name: unmatched_1110
+      - [0x4, c, overlays/model_variant/variant455_entry_slot1]
+  - name: helper_1110
     type: code
     start: 0x1110
-    vram: 0x8017c110
+    vram: 0x8017C110
     align: 4
     subsegments:
-      - [0x1110, asm, overlays/japanese_model_image_model_171034_8017b000/unmatched_1110]
-  - name: unmatched_1738
+      - [0x1110, c, overlays/model_variant/variant455_blooms_slot1]
+  - name: helper_1738
     type: code
     start: 0x1738
-    vram: 0x8017c738
+    vram: 0x8017C738
     align: 4
     subsegments:
-      - [0x1738, asm, overlays/japanese_model_image_model_171034_8017b000/unmatched_1738]
-  - name: unmatched_1d3c
+      - [0x1738, c, overlays/model_variant/variant455_mesh_slot1]
+  - name: helper_1d3c
     type: code
-    start: 0x1d3c
-    vram: 0x8017cd3c
+    start: 0x1D3C
+    vram: 0x8017CD3C
     align: 4
     subsegments:
-      - [0x1d3c, asm, overlays/japanese_model_image_model_171034_8017b000/unmatched_1d3c]
-  - name: unmatched_2888
+      - [0x1D3C, c, overlays/model_variant/variant455_spiral_slot1]
+  - name: helper_2888
     type: code
     start: 0x2888
-    vram: 0x8017d888
+    vram: 0x8017D888
     align: 4
     subsegments:
-      - [0x2888, asm, overlays/japanese_model_image_model_171034_8017b000/unmatched_2888]
-  - name: unclassified_tail
+      - [0x2888, c, overlays/model_variant/variant455_sheets_slot1]
+  - name: data
     type: code
-    start: 0x2c34
-    vram: 0x8017dc34
+    start: 0x2C34
+    vram: 0x8017DC34
     align: 4
     subsegments:
-      - [0x2c34, bin, overlays/japanese_model_image_model_171034_8017b000/unclassified_tail]
+      - [0x2C34, data, overlays/japanese_model_image_model_171034_8017b000/data]
   - [0x5000]
