@@ -99,6 +99,20 @@ s32 func_8013A004(u8 *context, s32 command)
         point->vx += position.vx;
         point->vy += position.vy;
         point->vz += position.vz;
+#ifdef VERSION_JAPAN
+        corners[0].vx = -*width;
+        corners[0].vy = -*height * 3 / 4;
+        corners[0].vz = 0;
+        corners[1].vx = *width;
+        corners[1].vy = -*height * 3 / 4;
+        corners[1].vz = 0;
+        corners[2].vx = -*width;
+        corners[2].vy = *height / 4;
+        corners[2].vz = 0;
+        corners[3].vx = *width;
+        corners[3].vy = *height / 4;
+        corners[3].vz = 0;
+#else
         corners[0].vx = -*width;
         corners[0].vy = -*height - 150;
         corners[0].vz = 0;
@@ -111,6 +125,7 @@ s32 func_8013A004(u8 *context, s32 command)
         corners[3].vx = *width;
         corners[3].vy = *height - 150;
         corners[3].vz = 0;
+#endif
         position.vx = matrix.t[0];
         position.vy = matrix.t[1];
         position.vz = matrix.t[2];
