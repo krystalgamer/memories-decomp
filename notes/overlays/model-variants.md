@@ -74,10 +74,11 @@ The Japanese MODEL images that reuse these US sources select the same profile
 as the US image at the same sector; see
 [Japanese MODEL images built from the US sources](japanese-model-us-layouts.md).
 
-Four European images also select `gcc_2_7_2_cdk_g0`, for the header-447
-rings helper at image offset `0x3520`. They are the French and Spanish
-`model_image_model_109772_8013b000` and `model_image_model_109782_8017b000`
-images. No loader entry or resident reference to the helper has been found,
+Eight European images also select `gcc_2_7_2_cdk_g0`, for the header-447
+rings helper at image offset `0x3520`. They are the French, Spanish, German
+and Italian `model_image_model_109772_8013b000` and
+`model_image_model_109782_8017b000` images; the German and Italian images are
+byte-identical to the Spanish ones. No loader entry or resident reference to the helper has been found,
 and it calls an older resident layout.
 Under gcc 2.8.1 the same source is two words longer and 96 words differ,
 including the filled epilogue slot. Under 2.7.2 it matches exactly. See
