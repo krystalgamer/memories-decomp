@@ -1,7 +1,8 @@
 # French header-447 image rings helper
 
 `func_8013E520` / `func_8017E520` (image offset `0x3520`, 0x42C bytes) in
-the French and Spanish `model_image_model_109772_8013b000` (slot 0) and
+the French, Spanish, German and Italian
+`model_image_model_109772_8013b000` (slot 0) and
 `model_image_model_109782_8017b000` (slot 1) images (header 447) is the
 header-463 rings body. It grows, scales and draws 24 `POLY_FT4` rings.
 No loader entry or resident reference to it has been found; its reachability is unresolved.
@@ -18,8 +19,9 @@ No loader entry or resident reference to it has been found; its reachability is 
 - **Bindings.** Its calls go to an older resident layout that does not match
   any shipped executable: `rsin` at `0x80053D1C`, `GsSortPoly` at
   `0x80057B1C`, and so on. The names come from the identical call sequence of
-  the header-463 body. They live in `model_image447_rings_linker_symbols.txt` in both regions;
+  the header-463 body. They live in `model_image447_rings_linker_symbols.txt` in each region;
   the slot 0 and slot 1 copies call the same absolute addresses.
 
-All four French and Spanish images rebuild exactly. The
+All eight French, Spanish, German and Italian images rebuild exactly; the
+German and Italian images are byte-identical to the Spanish ones. The
 [attempt ledger](french-model-image447-rings-attempts.csv) records the probes.
