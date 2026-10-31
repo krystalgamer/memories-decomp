@@ -724,11 +724,11 @@ do not receive guessed prototypes merely to fill the header.
 
 Ownership is only half of a declaration contract; the caller also has to see
 it. GCC 2.8.1 compiles a call with no visible declaration as `int f()`, and
-the executable and candidate fingerprints stay byte-exact, so a caller that
+the executable stays byte-exact, so a caller that
 loses sight of a prototype -- typically because the prototype moved to a
 header it does not include -- passes every ownership check.
 `make check-declaration-visibility` (run in the matching-build job and by
-`make audit`) compiles every matching source and every candidate with
+`make audit`) compiles every matching source with
 `-Wimplicit-function-declaration` under each profile it is built with, and
 fails on any implicit call. A source listed under two profiles is compiled
 under both, because their `-D`/`-U` flags can hide a call from one of them. The fix is the include of the header that owns the
@@ -736,28 +736,6 @@ declaration. The current tree has no exceptions. If a future implicit call is
 proved load-bearing, it must be recorded with its measurement in the checker's
 exception manifest; a recorded site that no longer calls implicitly is an
 error, so that list cannot go stale.
-
-Build-integrated candidates are the one exception on the function side.
-`unmatched.h` exists because an assembly function has no defining C
-translation unit and so nowhere for a per-unit header to live. A candidate in
-`src/candidates/` does have one, which the build compiles and fingerprints, so
-the header of the unit it came from stays a legitimate home. That is how #3859
-left the functions it moved out of matching C for pinned registers or inline
-asm: each keeps its declaration in its former header. The check therefore
-accepts a referenced candidate that is declared by exactly one resident header
-outside `src/candidates/` and `src/overlays/`, and rejects one that is declared
-both there and in `unmatched.h`. Either place is one declaration site; both
-would be two. Local declarations of a candidate still need an exception like
-any other unmatched function.
-
-There is no separate note-only candidate store. Every preserved resident or
-overlay candidate has source under `src/candidates/`, retail assembly under
-`src/candidates_target/`, and profile, object, target, and declaration-contract
-fingerprints in `config/slus_01411/candidates.json`. The normal resident and
-overlay builds compile those candidates without mapping their objects into the
-image. `make check-metadata` rejects any `func_*.md` or generated candidate
-bundle reintroduced under `notes/candidates/` or
-`notes/overlays/candidates/`, so a candidate cannot bypass build validation.
 
 For data, the check cross-references `c_symbols.ld`, every top-level extern in
 matching C, and all resident headers. A symbol centralized in `unmatched.h`

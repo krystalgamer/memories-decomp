@@ -351,8 +351,7 @@ void SaveData_RequestWrite(void);
 /* The load side of the same pair, both reached from the main-menu overlay's
  * boot path. SaveData_RequestLoad starts the read into
  * gSaveData_aTransferBuffer; SaveData_PollLoad reports how it finished, and
- * MainMenu_UpdateFrontendMenu (now a build-integrated candidate,
- * src/candidates/main_menu/func_80180390.c) branches on that result.
+ * MainMenu_UpdateFrontendMenu (src/overlays/main_menu/frontend.c) branches on that result.
  *
  * Both were declared in that overlay and nowhere else. */
 void SaveData_RequestLoad(void);

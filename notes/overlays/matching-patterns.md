@@ -17,8 +17,7 @@ relocated image comparison remains necessary.
 
 All game-owned functions in the five configured overlays had matching C by
 #2180. #3859 returned four of them, whose matches depended on pinned registers
-or inline asm, to build-integrated candidates in
-[`src/candidates/`](../../src/candidates/):
+or inline asm, to build-integrated candidates:
 `MainMenu_UpdateFrontendMenu`, `MainMenu_UpdateTradeScreen`,
 `NameEntry_UpdateKeyboard` and `Password_UpdateShopScreen`.
 The frontend and keyboard updaters have since returned to matching C without

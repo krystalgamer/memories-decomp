@@ -14,13 +14,9 @@
  * WHAT GOES HERE
  *
  * A function or global whose status in config/slus_01411/functions.csv is
- * unmatched_asm, once its consumers are known to agree. Build-integrated
- * candidates keep function declarations in the header of the unit they came
- * from: src/candidates/ still gives each of them a defining C translation
- * unit, so that header is a home in the sense this one is not (see the #3859
- * sections at the end). The remaining local function declarations are
- * deliberate disagreements listed below rather than duplication waiting to
- * be moved. `make check-unmatched-contracts` prints the current counts and
+ * unmatched_asm, once its consumers are known to agree. The remaining local
+ * function declarations are deliberate disagreements listed below rather
+ * than duplication waiting to be moved. `make check-unmatched-contracts` prints the current counts and
  * rejects new unaccounted declaration sites.
  *
  * Hand-written assembly belongs here on the same terms. The status differs but
@@ -325,11 +321,10 @@ extern u8 gFile_nMasterXaLba[];
 /* Also reclassified from matching_c by #3859: the mixed -G share. Each of
  * these matched only under a compiler profile whose GCC and MASPSX
  * small-data thresholds disagree, or only with register pins #3867 left
- * load-bearing, so its source now lives in src/candidates/ and the function
- * is assembly again. Their declarations moved here from the unit headers
- * that held them, comments included, and headers that held nothing else are
- * gone. The contract check accepts this home or the former unit header, but
- * not both.
+ * load-bearing, so its source became a build-integrated candidate and the
+ * function was assembly again. Their declarations moved here from the unit
+ * headers that held them, comments included, and headers that held nothing
+ * else are gone.
  * SD_UpdateSecondaryObjectPitch takes sound.h's SDSecondaryObject, which cannot be
  * forward-declared here, so its declaration stays in sound.h for the one
  * caller, the SD_UpdateSecondaryObjectVoices candidate.

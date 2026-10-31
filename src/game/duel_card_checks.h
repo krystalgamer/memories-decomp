@@ -22,7 +22,7 @@
  * takes gDuel_aFusionTable's base as a u8 * and strides it itself.
  *
  * Neither is defined in C. Duel_LoadPackageStage
- * (src/candidates/func_800171A8.c) fills both from the disc, handing their
+ * (src/game/duel_load_package_stage.c) fills both from the disc, handing their
  * addresses to a transfer descriptor as
  * `d->sector_destination = d->alternate_sector_destination = (u32)gDuel_awEquipTable`, which is why that
  * source declared them too and now includes this header instead.

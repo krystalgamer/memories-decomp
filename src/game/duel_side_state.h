@@ -319,11 +319,11 @@ extern u8 D_8009B368;
  * Retail reaches it through %hi/%lo at every site and never through $gp.
  * src/game/duel_init_scene.c and src/game/main_run_duel_and_library.c reach
  * other symbols through $gp, so they define the .data arm below;
- * main_start_duel.c and src/candidates/func_80038530.c compile with nothing in
- * small data and take the plain byte. src/candidates/func_80018FEC.c also
+ * main_start_duel.c and src/game/text_start_campaign_duel.c compile with nothing in
+ * small data and take the plain byte. src/game/duel_draw_resolution.c also
  * defines the .data arm. It used to carry a private copy of this exact
  * declaration and not include this header at all; it now includes it and
- * selects the same arm, with its candidates.json fingerprint unchanged by
+ * selects the same arm, with its candidate object fingerprint unchanged by
  * the move. Which of the two reasons above puts it on this arm is not
  * re-derived here -- the spelling it already had is what is preserved. */
 #ifdef D_8009B369_IN_DATA
@@ -338,7 +338,7 @@ extern u8 D_8009B369;
  * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).
  * Retail reaches it through %hi/%lo at all five sites and never through $gp,
  * so duel_phase_entry.c and frontend_scene_states.c define
- * the .data arm below; main_start_duel.c and src/candidates/func_80038530.c
+ * the .data arm below; main_start_duel.c and src/game/text_start_campaign_duel.c
  * compile with nothing in small data and take the plain arm. */
 #ifdef GDUEL_WBGMID_IN_DATA
 extern u16 gDuel_wBgmId __attribute__((section(".data")));

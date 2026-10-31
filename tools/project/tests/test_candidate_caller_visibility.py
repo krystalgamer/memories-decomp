@@ -2,7 +2,7 @@
 
 GCC 2.8.1 accepts a call with no visible prototype and treats the callee as
 `int f()`. The build stays byte-exact, and the ownership checks
-(unmatched_contracts.py, the candidate contract fingerprints) only ask
+(unmatched_contracts.py) only ask
 whether a declaration exists somewhere in the tree, so a caller that loses
 its include goes unnoticed. That happened when #3878 moved these prototypes
 to unmatched.h: five callers kept including the old headers and silently fell
@@ -31,7 +31,6 @@ import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPOSITORY / "tools/project"))
-import candidate_builds
 
 CONFIG = REPOSITORY / "config/slus_01411"
 COMPILER = "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
@@ -105,10 +104,6 @@ PAIRS = [
     ("src/game/main_run_duel_and_library.c", "BuildDeck_InitScreen", '#include "../game/build_deck_init_screen.h"'),
 ]
 
-# func_80028B08 was the last candidate pinned to this contract; it has since
-# matched and lives in src/game/card_preview_draw_detail_panel.c, outside candidates.json.
-PACKET_SUBMIT_CANDIDATES: tuple[str, ...] = ()
-
 
 def profiles_by_source() -> dict[str, str]:
     result: dict[str, str] = {}
@@ -117,8 +112,6 @@ def profiles_by_source() -> dict[str, str]:
     for manifest in manifests:
         for entry in json.loads(manifest.read_text(encoding="utf-8"))["functions"]:
             result[entry["source"]] = entry["profile"]
-    for entry in json.loads((CONFIG / "candidates.json").read_text(encoding="utf-8"))["candidates"]:
-        result[entry["source"]] = entry["profile"]
     return result
 
 
@@ -326,82 +319,6 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         probe, self.profile(source), (REPOSITORY / source).parent
                     )
                 self.assertIn(callee, found)
-
-    def test_packet_submit_contract_tracks_declaration_changes(self) -> None:
-        entries = {
-            entry["source"]: entry
-            for entry in json.loads(
-                (CONFIG / "candidates.json").read_text(encoding="utf-8")
-            )["candidates"]
-        }
-        index = candidate_builds.canonical_declaration_index({"DisplayObject_SubmitPacket"})
-        declarations = index["DisplayObject_SubmitPacket"]
-        expected = candidate_builds.canonical_symbol_contract_hash(
-            "DisplayObject_SubmitPacket", declarations
-        )
-
-        for source in PACKET_SUBMIT_CANDIDATES:
-            with self.subTest(source=source):
-                self.assertEqual(
-                    entries[source]["canonical_contracts"]["DisplayObject_SubmitPacket"],
-                    expected,
-                )
-
-        changed = [
-            (path, statement.replace("s32 mode", "u32 mode", 1))
-            for path, statement in declarations
-        ]
-        changed_hash = candidate_builds.canonical_symbol_contract_hash(
-            "DisplayObject_SubmitPacket", changed
-        )
-        self.assertNotEqual(expected, changed_hash)
-
-    def test_model_dispatch_uses_shared_owner_view_after_promotion(self) -> None:
-        candidates = json.loads(
-            (CONFIG / "candidates.json").read_text(encoding="utf-8")
-        )["candidates"]
-        self.assertFalse(any(candidate["address"] == "0x80056828" for candidate in candidates))
-        entry = next(
-            candidate
-            for candidate in json.loads(
-                (CONFIG / "matching_c.json").read_text(encoding="utf-8")
-            )["functions"]
-            if candidate["address"] == "0x80056828"
-        )
-        source = "src/game/model_slot_control.c"
-        self.assertEqual(entry["source"], source)
-        self.assertEqual(entry["profile"], "gcc_2_8_1_g8_split")
-        declarations = candidate_builds.canonical_declaration_index(
-            {"Model_InitSlot"}
-        )["Model_InitSlot"]
-        self.assertEqual(
-            {statement for _, statement in declarations},
-            {"void Model_InitSlot(s32 slot, u8 *hmd, s32 size, s32 flags);"},
-        )
-        expected = candidate_builds.canonical_symbol_contract_hash(
-            "Model_InitSlot", declarations
-        )
-        path = REPOSITORY / source
-        text = path.read_text(encoding="utf-8")
-        selector = "Model_InitSlot(slot_index, hmd, hmd_size, render_flags);"
-        self.assertEqual(text.count(selector), 1)
-        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
-            probe = Path(directory) / "a/b/c" / path.name
-            probe.parent.mkdir(parents=True)
-            probe.write_text(
-                text.replace(selector, "Model_InitSlot();", 1), encoding="utf-8"
-            )
-            with self.assertRaisesRegex(AssertionError, "too few arguments to function"):
-                compiler_diagnostics(probe, self.profile(source), path.parent)
-
-        changed = [
-            (path, statement.replace("s32 flags", "u32 flags", 1))
-            for path, statement in declarations
-        ]
-        changed_hash = candidate_builds.canonical_symbol_contract_hash(
-            "Model_InitSlot", changed
-        )
-        self.assertNotEqual(expected, changed_hash)
 
     def test_candidate_sprite_records_cannot_be_swapped(self) -> None:
         source = "src/game/card_preview_draw_detail_panel.c"

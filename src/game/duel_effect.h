@@ -146,7 +146,7 @@ extern u8 gText_BranchSelectorB;
  * color_index_54 byte at +0x54, then 4 when
  * `*(p + (n << 2) + 0x56) & 1` (src/game/library_card_grid.c:246-249);
  * Text_ExpandSelectedCardInfo stores it into `object[0x54]` when the opcode byte has bit
- * 0x10 (src/candidates/func_80037DA4.c). notes/duel-card-record.md:173-176
+ * 0x10 (src/game/duel_effect_command.c). notes/duel-card-record.md:173-176
  * glosses the three results. No unit defines it; the address comes from the
  * generated tmp/splat/undefined_syms_auto.txt, and the nearest named symbol
  * above it is gText_WaitCounter, at +2 (nothing is named at +1 there, in symbols.txt

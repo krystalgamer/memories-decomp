@@ -23,8 +23,7 @@ s32 Duel_CheckQuitInput(void);
  * that resets the rest of the duel state.
  *
  * These three are the only accessors in the image, assembly included.
- * Duel_CheckQuitInput is matching C; the other two are candidates under
- * src/candidates/. */
+ * Duel_CheckQuitInput is matching C; the other two were candidates. */
 extern u8 gDuel_bQuitDialogState;
 
 /* The duel outcome flags the quit flow reports into, as the two small-data
