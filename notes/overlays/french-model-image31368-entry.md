@@ -87,3 +87,21 @@ rejected link was forced. Final acceptance used tracked manifests and normal
 `overlay_build.py build` and `verify`, with one original-sized C owner in
 each ELF. No retail/generated output, assembly tricks, pinned registers,
 fabricated accesses or external reference declarations are included.
+
+## USA images
+
+The USA images at sectors 31368 and 31378 of `game/DATA/MODEL.MRG` carry the
+same entry. Under the same profile the French C gives every USA opcode, the
+same three image-tail symbols and the same frame. Apart from relocations, the
+one word that differs is the height of the full-screen flash tile, 240
+against 256. The source spells it
+`GRAPHICS_DEFAULT_HEIGHT`, defaulting to the PAL 256 as
+`image16740_entry.c` does, and `model_variant/image31368_entry_usa.c` and
+`_usa_slot1.c` define 240 and include the French files. The resident
+bindings in `image31368_usa_linker_symbols.txt` are read from the USA
+entry's own `jal` targets.
+
+| Sector | Entry | Complete image SHA-256 |
+|---|---|---|
+| 31368 | `0x8013B004` | `1bdcd0f28c5ddf5a538e2ebb5b4416ab94e11eeb26d16c8c322353850d2d9a53` |
+| 31378 | `0x8017B004` | `64e4e46803a0ed3316b8734d070eb3985112ef395afcddc87e5643a1b0c06882` |

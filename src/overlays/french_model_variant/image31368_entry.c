@@ -1,6 +1,11 @@
 #include "../../types.h"
 #include "image31368_entry.h"
 
+/* PAL height; the North American wrappers define 240. */
+#ifndef GRAPHICS_DEFAULT_HEIGHT
+#define GRAPHICS_DEFAULT_HEIGHT 256
+#endif
+
 s32 func_8013B004(u8 *context, s32 command)
 {
     Image31368State *work;
@@ -196,9 +201,9 @@ s32 func_8013B004(u8 *context, s32 command)
             tile.x1 = 320;
             tile.y1 = 0;
             tile.x2 = 0;
-            tile.y2 = 256;
+            tile.y2 = GRAPHICS_DEFAULT_HEIGHT;
             tile.x3 = 320;
-            tile.y3 = 256;
+            tile.y3 = GRAPHICS_DEFAULT_HEIGHT;
             Graphics_SubmitDrawModePacket((u32 *)&tile, ot, 0, 1);
             if (work->flash >= 10) {
                 work->flash -= step * 3;

@@ -54,7 +54,7 @@ segments:
     vram: 0x8013b004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/model_image_model_31368_8013b000/unmatched_4]
+      - [0x4, c, overlays/model_variant/image31368_entry_usa]
   - name: unclassified_tail
     type: code
     start: 0x2388
