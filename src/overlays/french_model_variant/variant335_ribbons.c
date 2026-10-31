@@ -1,6 +1,17 @@
 #include "../../types.h"
 #include "variant335_ribbons.h"
 
+/* Header 318 projects its seventeenth point with fixed indices and reaches
+ * each segment's screen points through the current element's address; the
+ * defaults keep header 335's previous-point walk and direct indexing. */
+#ifdef MODEL_VARIANT335_RIBBONS_SCREEN_ROW
+#define MODEL_VARIANT335_RIBBON_SCREEN(ribbon, k) (&(ribbon)->sa[k])[0]
+#define MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k) (&(ribbon)->sa[k])[1]
+#else
+#define MODEL_VARIANT335_RIBBON_SCREEN(ribbon, k) (ribbon)->sa[k]
+#define MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k) (ribbon)->sa[(k) + 1]
+#endif
+
 void func_8013BB98(u8 *ctx)
 {
     SVECTOR rot;
@@ -84,6 +95,23 @@ void func_8013BB98(u8 *ctx)
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
     ribbon = (Model335Ribbon *)work;
+#ifdef MODEL_VARIANT335_RIBBONS_FIXED_TIP
+    for (i = 0, projection = &p; i < 3; i++, ribbon++) {
+        for (k = 0; k < 17; k++) {
+            if (k == 16) {
+                ribbon->otz[16] = RotTransPers4(&ribbon->a[15], &ribbon->a[16], &ribbon->a[15], &ribbon->a[16],
+                                               &ribbon->sa[15].packed, &ribbon->sa[16].packed,
+                                               &ribbon->sa[15].packed, &ribbon->sa[16].packed,
+                                               projection, &ribbon->flag[16]);
+                RotTransPers(&ribbon->b[16], &ribbon->sb[16].packed, projection, &flag);
+                dx = ribbon->sa[16].point.vx - ribbon->sa[15].point.vx;
+                dy = ribbon->sa[16].point.vy - ribbon->sa[15].point.vy;
+                ribbon->angle[16] = ratan2(dy, dx) - 1024;
+                ribbon->width[16] = ribbon->sb[16].point.vx - ribbon->sa[16].point.vx;
+                ribbon->ox[16] = rcos(ribbon->angle[16]) * ribbon->width[16] >> 12;
+                ribbon->oy[16] = rsin(ribbon->angle[16]) * ribbon->width[16] >> 12;
+            } else
+#else
     for (i = 0, projection = &p, previous = &ribbon->sa[15].point; i < 3; i++,
          previous = (DVECTOR *)((u8 *)previous + sizeof(Model335Ribbon)), ribbon++) {
         for (k = 0; k < 17; k++) {
@@ -102,14 +130,16 @@ void func_8013BB98(u8 *ctx)
                     offsets->ox[0] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                     offsets->oy[0] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 }
-            } else {
+            } else
+#endif
+            {
                 ribbon->otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1], &ribbon->a[k], &ribbon->a[k + 1],
                                               &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
                                               &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
                                               projection, &ribbon->flag[k]);
                 RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, projection, &flag);
-                dx = ribbon->sa[k + 1].point.vx - ribbon->sa[k].point.vx;
-                dy = ribbon->sa[k + 1].point.vy - ribbon->sa[k].point.vy;
+                dx = MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k).point.vx - ribbon->sa[k].point.vx;
+                dy = MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k).point.vy - ribbon->sa[k].point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 1024;
                 ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
                 ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
@@ -122,14 +152,14 @@ void func_8013BB98(u8 *ctx)
         k = 0;
         poly = (POLY_FT4 *)(work + 0x2D18);
         for (; k < MODEL_VARIANT_HALF(work, 0x2E8C); k++) {
-            poly->x0 = ribbon->sa[k].point.vx + ribbon->ox[k];
-            poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->oy[k];
-            poly->x1 = ribbon->sa[k + 1].point.vx + ribbon->ox[k + 1];
-            poly->y1 = (ribbon->sa[k + 1].packed >> 16) + ribbon->oy[k + 1];
-            poly->x2 = ribbon->sa[k].point.vx - ribbon->ox[k];
-            poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
-            poly->x3 = ribbon->sa[k + 1].point.vx - ribbon->ox[k + 1];
-            poly->y3 = (ribbon->sa[k + 1].packed >> 16) - ribbon->oy[k + 1];
+            poly->x0 = MODEL_VARIANT335_RIBBON_SCREEN(ribbon, k).point.vx + ribbon->ox[k];
+            poly->y0 = (MODEL_VARIANT335_RIBBON_SCREEN(ribbon, k).packed >> 16) + ribbon->oy[k];
+            poly->x1 = MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k).point.vx + ribbon->ox[k + 1];
+            poly->y1 = (MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k).packed >> 16) + ribbon->oy[k + 1];
+            poly->x2 = MODEL_VARIANT335_RIBBON_SCREEN(ribbon, k).point.vx - ribbon->ox[k];
+            poly->y2 = (MODEL_VARIANT335_RIBBON_SCREEN(ribbon, k).packed >> 16) - ribbon->oy[k];
+            poly->x3 = MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k).point.vx - ribbon->ox[k + 1];
+            poly->y3 = (MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k).packed >> 16) - ribbon->oy[k + 1];
             setRGB0(poly, ribbon->color[0], ribbon->color[1], ribbon->color[2]);
             if (ribbon->otz[k] >= 0 && ribbon->flag[k] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[k]);
