@@ -57,27 +57,27 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant366_entry_slot1]
-  - name: unmatched_cc0
+  - name: strip
     type: code
     start: 0xcc0
     vram: 0x8017bcc0
     align: 4
     subsegments:
-      - [0xcc0, asm, overlays/model_image_model_86598_8017b000/unmatched_cc0]
-  - name: unmatched_1204
+      - [0xcc0, c, overlays/model_variant/variant366_strip_slot1]
+  - name: ribbons
     type: code
     start: 0x1204
     vram: 0x8017c204
     align: 4
     subsegments:
-      - [0x1204, asm, overlays/model_image_model_86598_8017b000/unmatched_1204]
-  - name: unmatched_1918
+      - [0x1204, c, overlays/model_variant/variant366_ribbons_slot1]
+  - name: quads
     type: code
     start: 0x1918
     vram: 0x8017c918
     align: 4
     subsegments:
-      - [0x1918, asm, overlays/model_image_model_86598_8017b000/unmatched_1918]
+      - [0x1918, c, overlays/model_variant/variant366_quads_slot1]
   - name: unmatched_1ec8
     type: code
     start: 0x1ec8
@@ -85,13 +85,13 @@ segments:
     align: 4
     subsegments:
       - [0x1ec8, asm, overlays/model_image_model_86598_8017b000/unmatched_1ec8]
-  - name: unmatched_2908
+  - name: rays
     type: code
     start: 0x2908
     vram: 0x8017d908
     align: 4
     subsegments:
-      - [0x2908, asm, overlays/model_image_model_86598_8017b000/unmatched_2908]
+      - [0x2908, c, overlays/model_variant/variant366_rays_slot1]
   - name: unclassified_tail
     type: code
     start: 0x345c
