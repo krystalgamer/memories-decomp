@@ -1,0 +1,5 @@
+// European MODEL.MRG model 40 (record 40), sector 11240, header 779, loaded at 0x8013B000; the US header-762 source variant762_entry.c; built from the French source layout of french_model_variant_40_stage9_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x1F48 defined:true
+D_8013CF5C = 0x8013CF5C; // type:u8 size:0x70 defined:true
+D_8013CFCC = 0x8013CFCC; // type:u8 size:0x30 defined:true
+D_8013CFFC = 0x8013CFFC; // type:u8 size:0x3004 defined:true

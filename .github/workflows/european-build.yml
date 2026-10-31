@@ -79,6 +79,7 @@ jobs:
           python3 tools/bootstrap/bootstrap.py
           python3 tools/bootstrap/binutils_system.py
           python3 tools/bootstrap/old_gcc_prebuilt.py
+          python3 tools/bootstrap/old_gcc_prebuilt.py --config tools/bootstrap/old_gcc_272_prebuilt.json
           make check-build-tools
 
       - name: Verify European inputs and clean exact build
@@ -94,3 +95,10 @@ jobs:
           tools/environments/python/bin/python tools/project/overlay_extract.py extract --region europe --module european_duel_effects
           tools/environments/python/bin/python tools/project/overlay_build.py build --region europe --module european_duel_effects
           tools/environments/python/bin/python tools/project/overlay_build.py verify --region europe --module european_duel_effects
+
+      - name: Verify exact European overlay builds
+        env:
+          MAKEFLAGS: -j4
+        run: |
+          make european-match-overlays
+          make european-verify-overlays

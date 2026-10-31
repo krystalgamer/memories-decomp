@@ -1,0 +1,4 @@
+// European MODEL.MRG model 420 (record 420), sector 102320, header 673, loaded at 0x8013B000; the US header-656 source variant656_entry.c; built from the French source layout of french_model_variant_420_stage9_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x23B4 defined:true
+D_8013D3B8 = 0x8013D3B8; // type:u8 size:0x38 defined:true
+D_8013D3F0 = 0x8013D3F0; // type:u8 size:0x2C10 defined:true

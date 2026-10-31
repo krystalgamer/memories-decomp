@@ -1,0 +1,8 @@
+// European MODEL.MRG model 32 (record 32), sector 9042, header 539, loaded at 0x8017B000; the US header-372 source variant372_entry_slot1.c; built from the French source layout of french_model_variant_32_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0xE64 defined:true
+func_8017BE68 = 0x8017BE68; // type:func size:0x9FC defined:true
+func_8017C864 = 0x8017C864; // type:func size:0x5E8 defined:true
+D_8017CE4C = 0x8017CE4C; // type:u8 size:0x18 defined:true
+D_8017CE64 = 0x8017CE64; // type:u8 size:0x1C defined:true
+D_8017CE80 = 0x8017CE80; // type:u8 size:0xFC defined:true
+D_8017CF7C = 0x8017CF7C; // type:u8 size:0x3084 defined:true

@@ -1,0 +1,4 @@
+address,size,name,status,module,notes
+0x8017B004,0x938,func_8017B004,matching_c,overlay/model_variant_54_stage10_slot1,Model54 stage10 header558; exact entry; complete image and compiler/layout/callee ownership verified; suffix unclassified.
+0x8017B93C,0x6F0,func_8017B93C,matching_c,overlay/model_variant_54_stage10_slot1,Model54 stage10 header558; exact update; complete image and compiler/layout/callee ownership verified; suffix unclassified.
+0x8017C02C,0x428,func_8017C02C,matching_c,overlay/model_variant_54_stage10_slot1,Model54 stage10 header558; exact draw; complete image and compiler/layout/callee ownership verified; suffix unclassified.
