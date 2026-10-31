@@ -16,13 +16,13 @@
       "address": "0x8013CEEC",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x530",
-      "source": "src/overlays/model_variant/variant445us_sheets.c"
+      "source": "src/overlays/french_model_variant/variant462_sheets.c"
     },
     {
       "address": "0x8013D41C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x42C",
-      "source": "src/overlays/model_variant/variant445us_rings.c"
+      "source": "src/overlays/french_model_variant/variant462_rings.c"
     }
   ],
   "schema": 1

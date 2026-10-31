@@ -1,6 +1,6 @@
 // MODEL.MRG model 457 (record 407), sector 112522, header 612, loaded at 0x8017B000; the US header-595 source variant445us_entry.c at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0x14C0 defined:true
-func_8017C4C4 = 0x8017C4C4; // type:func size:0xA34 defined:true
-func_8017CEF8 = 0x8017CEF8; // type:func size:0x534 defined:true
-func_8017D42C = 0x8017D42C; // type:func size:0x434 defined:true
-D_8017D860 = 0x8017D860; // type:u8 size:0x27A0 defined:true
+ModelVariant445_HandleRequest = 0x8017B004; // type:func size:0x14C0 defined:true
+ModelVariant445_DrawRibbons = 0x8017C4C4; // type:func size:0xA34 defined:true
+FrenchModelVariant462_DrawSheets = 0x8017CEF8; // type:func size:0x534 defined:true
+FrenchModelVariant462_DrawRings = 0x8017D42C; // type:func size:0x434 defined:true
+gModelVariant445_D2848 = 0x8017D860; // type:u8 size:0x27A0 defined:true

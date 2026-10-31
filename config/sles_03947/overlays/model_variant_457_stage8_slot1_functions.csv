@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0x14C0,func_8017B004,matching_c,overlay/model_variant_457_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C4C4,0xA34,func_8017C4C4,matching_c,overlay/model_variant_457_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017CEF8,0x534,func_8017CEF8,matching_c,overlay/model_variant_457_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017D42C,0x434,func_8017D42C,matching_c,overlay/model_variant_457_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0x14C0,ModelVariant445_HandleRequest,matching_c,overlay/model_variant_457_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C4C4,0xA34,ModelVariant445_DrawRibbons,matching_c,overlay/model_variant_457_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017CEF8,0x534,FrenchModelVariant462_DrawSheets,matching_c,overlay/model_variant_457_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017D42C,0x434,FrenchModelVariant462_DrawRings,matching_c,overlay/model_variant_457_stage8_slot1,Complete module byte identity and section-defined C ownership verified.

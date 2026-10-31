@@ -58,7 +58,7 @@ segments:
     subsegments:
       - [0x4, c, overlays/model_variant/variant445us_entry]
       - [0x14C4, c, overlays/model_variant/variant445us_ribbons]
-      - [0x1EEC, c, overlays/model_variant/variant445us_sheets]
-      - [0x241C, c, overlays/model_variant/variant445us_rings]
+      - [0x1EEC, c, overlays/french_model_variant/variant462_sheets]
+      - [0x241C, c, overlays/french_model_variant/variant462_rings]
       - [0x2848, data, overlays/japanese_model_image_model_112512_8013b000/data]
   - [0x5000]

@@ -1,7 +1,9 @@
 # French header-462 image sheets helper
 
-`func_8013CEF8` / `func_8017CEF8` (image offset `0x1EF8`, 0x534 bytes)
-draws and updates the header-462 sheet set.
+`FrenchModelVariant462_DrawSheets` (`0x8013CEF8` / `0x8017CEF8`, image
+offset `0x1EF8`, 0x534 bytes) draws and updates the header-462 sheet set.
+The North American header-445 images build the same source at
+`0x8013CEEC` / `0x8017CEEC`.
 **No release had matching C for this body before.**
 
 The body appears in the two French raw images of model 457 that also hold

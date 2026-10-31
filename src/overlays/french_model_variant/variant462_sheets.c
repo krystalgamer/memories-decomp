@@ -1,7 +1,9 @@
 #include "../../types.h"
 #include "variant462_sheets.h"
 
-void func_8013CEF8(u8 *context)
+/* The North American header-445 images build this helper with the GCC 2.7.2
+ * CDK compiler, twelve bytes lower. */
+void FrenchModelVariant462_DrawSheets(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

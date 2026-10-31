@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0x14C0,func_8013B004,matching_c,overlay/model_variant_457_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013C4C4,0xA28,func_8013C4C4,matching_c,overlay/model_variant_457_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013CEEC,0x530,func_8013CEEC,matching_c,overlay/model_variant_457_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013D41C,0x42C,func_8013D41C,matching_c,overlay/model_variant_457_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0x14C0,ModelVariant445_HandleRequest,matching_c,overlay/model_variant_457_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013C4C4,0xA28,ModelVariant445_DrawRibbons,matching_c,overlay/model_variant_457_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013CEEC,0x530,FrenchModelVariant462_DrawSheets,matching_c,overlay/model_variant_457_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D41C,0x42C,FrenchModelVariant462_DrawRings,matching_c,overlay/model_variant_457_pos0_slot0,Complete module byte identity and section-defined C ownership verified.

@@ -1,7 +1,9 @@
 #include "../../types.h"
 #include "variant462_rings.h"
 
-void func_8013D42C(u8 *context)
+/* The North American header-445 images build this helper, uncalled there,
+ * with the GCC 2.7.2 CDK compiler, sixteen bytes lower. */
+void FrenchModelVariant462_DrawRings(u8 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */

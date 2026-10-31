@@ -13,7 +13,7 @@
  * fixed offsets. Only the sheets and ribbons helpers are called; the rings
  * helper stays uncalled, and the phases run one lower with no camera orbit.
  * There is no E_DATA work-size printf. */
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
 {
     EntryState445Us *work = (EntryState445Us *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -48,7 +48,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig445Us *)(D_8013D848 + 0xFC) + command;
+        work->config = (EntryConfig445Us *)(gModelVariant445_D2848 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -64,12 +64,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT445US_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT445US_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D848 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant445_D2848 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D848 + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D848 + 0x1C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D848 + 0x54));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant445_D2848 + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant445_D2848 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant445_D2848 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -378,9 +378,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->phase = 5;
         }
         if (work->config->draw_start <= work->elapsed && work->phase < 8) {
-            func_8013CEEC((u8 *)point);
+            FrenchModelVariant462_DrawSheets((u8 *)point);
             if (work->phase > 0) {
-                func_8013C4C4((u8 *)point);
+                ModelVariant445_DrawRibbons((u8 *)point);
             }
         }
         work->frame_count++;

@@ -55,7 +55,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/french_model_variant/variant462_entry]
-      - [0x14C4, c, overlays/french_model_variant/variant462_ribbons]
+      - [0x14C4, c, overlays/model_variant/variant445us_ribbons]
       - [0x1EF8, c, overlays/french_model_variant/variant462_sheets]
       - [0x242C, c, overlays/french_model_variant/variant462_rings]
       - [0x2860, data, overlays/french_model_variant_457_stage7_slot0/data]
