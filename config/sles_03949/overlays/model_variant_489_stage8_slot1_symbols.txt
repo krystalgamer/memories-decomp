@@ -1,0 +1,22 @@
+// German MODEL.MRG model 489 (record 439), sector 121354, header 711, loaded at 0x8017B000; the US header-694 source variant627_entry_slot1.c; built from the French source layout of french_model_variant_489_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x1358 defined:true
+D_8017C35C = 0x8017C35C; // type:u8 size:0x3CA4 defined:true
+Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
+Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
+func_80058F10 = 0x8005C018; // type:func absolute:true
+Model_GetCameraCoordinateUnit = 0x8005C31C; // type:func absolute:true
+Graphics_SubmitDrawModePacket = 0x8004D5B8; // type:func absolute:true
+GsSortGLine = 0x800840B8; // type:func absolute:true
+GsSetLsMatrix = 0x80085558; // type:func absolute:true
+rsin = 0x80086628; // type:func absolute:true
+rcos = 0x800866F8; // type:func absolute:true
+PushMatrix = 0x80087158; // type:func absolute:true
+PopMatrix = 0x800871FC; // type:func absolute:true
+ScaleMatrix = 0x800875F8; // type:func absolute:true
+RotTransPers = 0x80087868; // type:func absolute:true
+RotAverage4 = 0x80087A38; // type:func absolute:true
+RotMatrixY = 0x80088608; // type:func absolute:true
+RotMatrixZ = 0x800887A8; // type:func absolute:true
+GsGetLsUnit = 0x8008A6E8; // type:func absolute:true
+bzero = 0x8008F4D8; // type:func absolute:true
+printf = 0x8008FA78; // type:func absolute:true

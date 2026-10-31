@@ -1,0 +1,4 @@
+// German MODEL.MRG model 42 (record 42), sector 11802, header 874, loaded at 0x8017B000; the US header-760 source variant760_entry_slot1.c; built from the French source layout of french_model_variant_42_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x1F64 defined:true
+D_8017CF78 = 0x8017CF78; // type:u8 size:0x54 defined:true
+D_8017CFCC = 0x8017CFCC; // type:u8 size:0x3034 defined:true

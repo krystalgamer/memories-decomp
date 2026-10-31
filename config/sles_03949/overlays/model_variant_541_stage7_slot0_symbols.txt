@@ -1,0 +1,4 @@
+// German MODEL.MRG model 541 (record 491), sector 135696, header 695, loaded at 0x8013B000; the US header-678 source variant678us_entry.c, through french_model_variant/variant695_entry.c; built from the French source layout of french_model_variant_541_stage7_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x2214 defined:true
+D_8013D218 = 0x8013D218; // type:u8 size:0x134 defined:true
+D_8013D34C = 0x8013D34C; // type:u8 size:0x2CB4 defined:true
