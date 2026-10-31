@@ -1,6 +1,18 @@
 {
   "functions": [
     {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xB98",
+      "source": "src/overlays/model_variant/variant318_entry_slot1.c"
+    },
+    {
+      "address": "0x8017BB9C",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x96C",
+      "source": "src/overlays/model_variant/variant318_ribbons_slot1.c"
+    },
+    {
       "address": "0x8017C508",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x694",
@@ -11,6 +23,18 @@
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x518",
       "source": "src/overlays/model_variant/variant318_rings_slot1.c"
+    },
+    {
+      "address": "0x8017D0B4",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x81C",
+      "source": "src/overlays/model_variant/variant318_streamers_slot1.c"
+    },
+    {
+      "address": "0x8017D8D0",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x6A4",
+      "source": "src/overlays/model_variant/variant318_short_streamers_slot1.c"
     }
   ],
   "schema": 1

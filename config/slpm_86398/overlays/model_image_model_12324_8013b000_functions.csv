@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
-0x8013B004,0xB98,func_8013B004,unmatched_asm,overlay/model_image_model_12324_8013b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
-0x8013BB9C,0x96C,func_8013BB9C,unmatched_asm,overlay/model_image_model_12324_8013b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8013B004,0xB98,func_8013B004,matching_c,overlay/model_image_model_12324_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013BB9C,0x96C,func_8013BB9C,matching_c,overlay/model_image_model_12324_8013b000,Complete module byte identity and section-defined C ownership verified.
 0x8013C508,0x694,func_8013C508,matching_c,overlay/model_image_model_12324_8013b000,Complete module byte identity and section-defined C ownership verified.
 0x8013CB9C,0x518,func_8013CB9C,matching_c,overlay/model_image_model_12324_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013D0B4,0x81C,func_8013D0B4,unmatched_asm,overlay/model_image_model_12324_8013b000,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8013D8D0,0x6A4,func_8013D8D0,unmatched_asm,overlay/model_image_model_12324_8013b000,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
+0x8013D0B4,0x81C,func_8013D0B4,matching_c,overlay/model_image_model_12324_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013D8D0,0x6A4,func_8013D8D0,matching_c,overlay/model_image_model_12324_8013b000,Complete module byte identity and section-defined C ownership verified.
