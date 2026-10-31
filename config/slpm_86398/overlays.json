@@ -15421,7 +15421,8 @@
       "output": "tmp/overlays/japanese_model_image_model_31368_8013b000/module.bin",
       "sector_count": 10,
       "sector_offset": 31368,
-      "sha256": "2907b79d8be85d2c2d7c0ce75d1a2f54506c0486a7a3277a0a8188cd01c90750"
+      "sha256": "2907b79d8be85d2c2d7c0ce75d1a2f54506c0486a7a3277a0a8188cd01c90750",
+      "linker_symbols": "config/slpm_86398/overlays/variant772_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",
@@ -34829,7 +34830,8 @@
       "output": "tmp/overlays/japanese_model_image_model_31378_8017b000/module.bin",
       "sector_count": 10,
       "sector_offset": 31378,
-      "sha256": "8158ed8ab87445eb7344b34e2e1d4ba31812b4205f29c210b5d1bb0cb705cb19"
+      "sha256": "8158ed8ab87445eb7344b34e2e1d4ba31812b4205f29c210b5d1bb0cb705cb19",
+      "linker_symbols": "config/slpm_86398/overlays/variant772_linker_symbols.txt"
     },
     {
       "archive": "game/japanese/DATA/MODEL.MRG",

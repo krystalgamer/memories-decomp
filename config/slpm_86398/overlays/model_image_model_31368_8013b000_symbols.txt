@@ -1,0 +1,5 @@
+// Japanese MODEL.MRG model 113 (record 113), sector 31368, header 772, loaded at 0x8013B000; the US source variant772_entry.c; built from the US source layout of model_variant_113_pos0_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x2384 defined:true
+D_8013D388 = 0x8013D388; // type:u8 size:0x10 defined:true
+D_8013D398 = 0x8013D398; // type:u8 size:0x38 defined:true
+D_8013D3D0 = 0x8013D3D0; // type:u8 size:0x2C30 defined:true
