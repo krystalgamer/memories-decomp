@@ -128,7 +128,8 @@ Matching, attempt-ledger updates, and integration remain sequential.
   Spanish variant images and the USA header-71/201 images keep their
   GCC 2.8.1 profiles, as do the resident and regional executables and all
   other ordinary overlays. The USA MODEL60348/60358/168560/168570 entry, an
-  older debug build that prints its work size, selects `gcc_2_8_0_g0_split`
+  older debug build that prints its work size, and the Japanese images at the
+  same four sectors, which reuse that C, select `gcc_2_8_0_g0_split`
   (the decompals/old-gcc `gcc-2.8.0-psx` release); its only difference from
   2.8.1 there is register choice in a struct-argument packing (see
   `notes/overlays/french-model-image60348-entry.md`). A profile is still chosen by name in the
