@@ -76,13 +76,13 @@ segments:
     align: 4
     subsegments:
       - [0x1FCC, c, overlays/model_variant/variant435_lines]
-  - name: unmatched_23ac
+  - name: helper_23ac
     type: code
     start: 0x23AC
     vram: 0x8013D3AC
     align: 4
     subsegments:
-      - [0x23AC, asm, overlays/model_variant_1_stage9_slot0/unmatched_23ac]
+      - [0x23AC, c, overlays/model_variant/variant435_rays]
   - name: data
     type: code
     start: 0x2DB8

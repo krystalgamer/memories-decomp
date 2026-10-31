@@ -23,6 +23,12 @@
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x3E0",
       "source": "src/overlays/model_variant/variant435_lines.c"
+    },
+    {
+      "address": "0x8013D3AC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xA0C",
+      "source": "src/overlays/model_variant/variant435_rays.c"
     }
   ],
   "schema": 1
