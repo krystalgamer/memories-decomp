@@ -41,7 +41,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->delta.vy = work->target.vy - work->matrix.t[1];
         work->delta.vz = work->target.vz - work->matrix.t[2];
         tpage = GetTPage(1, 1, 416, 256);
-        clut = GetClut(640, 225);
+        clut = GetClut(EXODIA_ENTRY_CLUT_X, EXODIA_ENTRY_CLUT_Y);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -175,10 +175,29 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             Model_CopySlotU16Values(0, (u16 *)&work->target);
         }
         GsGetLwUnit(work->parts[0], &work->matrix);
+#ifdef MODEL_EXODIA_USA
+        {
+            /* Block-scoped temporaries load the target and translation
+             * words up front; the empty loop is a scheduling barrier that
+             * keeps those loads ahead of the stores, as in the US build. */
+            s32 origin_y = work->matrix.t[1];
+            s32 origin_z = work->matrix.t[2];
+            s32 target_x = work->target.vx;
+            s32 origin_x = work->matrix.t[0];
+
+            do {
+            } while (0);
+            work->matrix.t[1] = origin_y + 256;
+            work->delta.vx = target_x - origin_x;
+            work->delta.vy = work->target.vy - work->matrix.t[1];
+            work->delta.vz = work->target.vz - origin_z;
+        }
+#else
         work->matrix.t[1] += 256;
         work->delta.vx = work->target.vx - work->matrix.t[0];
         work->delta.vy = work->target.vy - work->matrix.t[1];
         work->delta.vz = work->target.vz - work->matrix.t[2];
+#endif
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
         RotTransPers(&position, (PSXLONG *)&projection.projected,

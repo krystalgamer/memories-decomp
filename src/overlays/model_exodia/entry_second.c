@@ -46,9 +46,9 @@ s32 func_8017B004(SVECTOR *point, s32 command)
         work->direction.vy = work->target.vy - work->matrix.t[1];
         work->direction.vz = work->target.vz - work->matrix.t[2];
         tpage = GetTPage(1, 1, 416, 256);
-        clut = GetClut(640, 225);
+        clut = GetClut(EXODIA_SECOND_CLUT_X, EXODIA_SECOND_CLUT_Y);
         GetTPage(1, 1, 896, 0);
-        GetClut(640, 244);
+        GetClut(EXODIA_SECOND_GLOW_CLUT_X, 244);
         SetPolyF4(flat);
         SetSemiTrans(flat, 1);
         SetPolyG3(triangle);
@@ -242,7 +242,8 @@ s32 func_8017B004(SVECTOR *point, s32 command)
             flat->r0 = work->fade;
             flat->g0 = work->fade;
             flat->b0 = work->fade;
-            setXY4(flat, 0, 0, 320, 0, 0, 256, 320, 256);
+            setXY4(flat, 0, 0, 320, 0, 0, EXODIA_SECOND_SCREEN_HEIGHT, 320,
+                   EXODIA_SECOND_SCREEN_HEIGHT);
             func_8005B260((u32 *)flat, ot, 0, 1);
             if (work->frame <= work->config->fade_end) {
                 work->fade = (work->frame - work->config->fade_start) * 255 /

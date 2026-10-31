@@ -12,6 +12,19 @@
 #include "../../game/gpu_packets.h"
 #include "../../psyq/libhmd.h"
 
+/* MODEL_EXODIA_USA selects the NTSC CLUT rows and screen height. */
+#ifdef MODEL_EXODIA_USA
+#define EXODIA_SECOND_CLUT_X 256
+#define EXODIA_SECOND_CLUT_Y 241
+#define EXODIA_SECOND_GLOW_CLUT_X 512
+#define EXODIA_SECOND_SCREEN_HEIGHT 240
+#else
+#define EXODIA_SECOND_CLUT_X 640
+#define EXODIA_SECOND_CLUT_Y 225
+#define EXODIA_SECOND_GLOW_CLUT_X 640
+#define EXODIA_SECOND_SCREEN_HEIGHT 256
+#endif
+
 typedef struct {
     u8 unknown_00[4];
     u8 parts[3];
