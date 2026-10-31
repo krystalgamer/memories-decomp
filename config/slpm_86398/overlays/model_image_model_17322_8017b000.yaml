@@ -63,7 +63,7 @@ segments:
     vram: 0x8017CAC4
     align: 4
     subsegments:
-      - [0x1AC4, c, overlays/model_variant/variant426_ribbons_slot1]
+      - [0x1AC4, c, overlays/model_variant/variant426_ribbons]
   - name: helper_236c
     type: code
     start: 0x236C
@@ -105,7 +105,7 @@ segments:
     vram: 0x8017F594
     align: 4
     subsegments:
-      - [0x4594, c, overlays/model_variant/variant426_webs_slot1]
+      - [0x4594, c, overlays/model_variant/variant426_webs]
   - name: data
     type: code
     start: 0x4AEC

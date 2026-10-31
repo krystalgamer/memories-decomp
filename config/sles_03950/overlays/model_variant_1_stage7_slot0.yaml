@@ -91,7 +91,7 @@ segments:
     vram: 0x8013D8F0
     align: 4
     subsegments:
-      - [0x28F0, c, overlays/french_model_variant/variant422_webs]
+      - [0x28F0, c, overlays/model_variant/variant405_webs]
   - name: helper_2E44
     type: code
     start: 0x2E44

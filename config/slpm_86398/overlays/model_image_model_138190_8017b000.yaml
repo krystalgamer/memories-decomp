@@ -61,7 +61,7 @@ segments:
       - [0x1620, c, overlays/model_variant/variant405_veils_slot1]
       - [0x1D04, c, overlays/model_variant/variant405_bands_slot1]
       - [0x2410, c, overlays/model_variant/variant405_sheets_slot1]
-      - [0x28FC, c, overlays/model_variant/variant405_webs_slot1]
+      - [0x28FC, c, overlays/model_variant/variant405_webs]
       - [0x2E54, c, overlays/model_variant/variant405_spokes_slot1]
       - [0x3168, c, overlays/model_variant/variant405_rings_slot1]
       - [0x34E8, c, overlays/model_variant/variant405_quad_slot1]

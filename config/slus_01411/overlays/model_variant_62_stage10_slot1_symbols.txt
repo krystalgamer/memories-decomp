@@ -1,12 +1,12 @@
 // MODEL.MRG model 62 (record 62), sector 17322, header 576, loaded at 0x8017B000.
 func_8017B004 = 0x8017B004; // type:func size:0x1AC0 defined:true
-func_8017CAC4 = 0x8017CAC4; // type:func size:0x8A8 defined:true
+FrenchModelVariant443_DrawRibbons = 0x8017CAC4; // type:func size:0x8A8 defined:true
 func_8017D36C = 0x8017D36C; // type:func size:0x5E8 defined:true
 func_8017D954 = 0x8017D954; // type:func size:0x5AC defined:true
 func_8017DF00 = 0x8017DF00; // type:func size:0x740 defined:true
 func_8017E640 = 0x8017E640; // type:func size:0x8A0 defined:true
 func_8017EEE0 = 0x8017EEE0; // type:func size:0x6B4 defined:true
-func_8017F594 = 0x8017F594; // type:func size:0x558 defined:true
+ModelVariant405_DrawWebs = 0x8017F594; // type:func size:0x558 defined:true
 D_8017FAEC = 0x8017FAEC; // type:u8 size:0x514 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true

@@ -140,7 +140,7 @@ typedef struct {
 } EntryState443;
 
 extern u8 D_8013F5A8[];
-void func_8013CADC(u8 *context);
+void FrenchModelVariant443_DrawRibbons(u8 *context);
 void func_8013D3AC(u8 *context);
 void func_8013D98C(u8 *context);
 void func_8013DF2C(u8 *context);

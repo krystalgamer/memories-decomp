@@ -63,7 +63,7 @@ segments:
     vram: 0x8017CADC
     align: 4
     subsegments:
-      - [0x1ADC, c, overlays/french_model_variant/variant443_ribbons_slot1]
+      - [0x1ADC, c, overlays/french_model_variant/variant443_ribbons]
   - name: helper_23AC
     type: code
     start: 0x23AC

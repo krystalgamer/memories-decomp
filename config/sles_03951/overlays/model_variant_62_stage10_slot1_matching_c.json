@@ -4,7 +4,7 @@
       "address": "0x8017CADC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x8D0",
-      "source": "src/overlays/french_model_variant/variant443_ribbons_slot1.c"
+      "source": "src/overlays/french_model_variant/variant443_ribbons.c"
     },
     {
       "address": "0x8017D3AC",

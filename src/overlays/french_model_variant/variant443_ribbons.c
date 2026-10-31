@@ -13,7 +13,7 @@
 #define RIBBONS443_VY(screen, n) ((screen)[n].point.vy)
 #endif
 
-void func_8013CADC(u8 *ctx)
+void FrenchModelVariant443_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
