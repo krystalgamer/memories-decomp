@@ -9,7 +9,10 @@
  * sparks burst where it lands. The setup also prints the work-area size. */
 
 #ifndef VERSION_FRENCH
-static const char D_8013DA94[24] = "E_DATA size = %x byte\n";
+#ifndef MODEL649US_STRING_PAD
+#define MODEL649US_STRING_PAD ""
+#endif
+static const char D_8013DA94[24] = "E_DATA size = %x byte\n\0" MODEL649US_STRING_PAD;
 #endif
 
 s32 func_8013B004(u8 *context, s32 command)

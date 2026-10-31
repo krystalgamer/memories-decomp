@@ -10,7 +10,10 @@
  * work-area size. */
 
 #ifndef VERSION_FRENCH
-static const char D_8013D4F4[24] = "E_DATA size = %x byte\n\0\x14";
+#ifndef MODEL653_STRING_PAD
+#define MODEL653_STRING_PAD "\x14"
+#endif
+static const char D_8013D4F4[24] = "E_DATA size = %x byte\n\0" MODEL653_STRING_PAD;
 #endif
 
 s32 func_8013B004(u8 *context, s32 command)

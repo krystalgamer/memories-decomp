@@ -7,6 +7,9 @@
 #define D_8013CD54 D_8013CD7C
 #define D_8013CD70 D_8013CD98
 
-static const char D_8013CD64[24] = "E_DATA size = %x byte\n\0\x92";
+#ifndef MODEL631US_STRING_PAD
+#define MODEL631US_STRING_PAD "\x92"
+#endif
+static const char D_8013CD64[24] = "E_DATA size = %x byte\n\0" MODEL631US_STRING_PAD;
 
 #include "../french_model_variant/image9840_entry.c"

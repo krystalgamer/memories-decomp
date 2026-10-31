@@ -7,6 +7,14 @@
  * model joint, then a scrolling textured sphere and a Gouraud-triangle disc
  * that grow at a joint and fade. The setup also prints the work-area size. */
 
+/* The work-size format string; North American retail pads it with zero bytes. */
+#ifndef VERSION_FRENCH
+#ifndef MODEL650_STRING_PAD
+#define MODEL650_STRING_PAD ""
+#endif
+static const char D_8013CB08[24] = "E_DATA size = %x byte\n\0" MODEL650_STRING_PAD;
+#endif
+
 s32 func_8013B004(u8 *context, s32 command)
 {
     Model650State *work;
@@ -27,7 +35,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model650State));
 #ifndef VERSION_FRENCH
-        printf("E_DATA size = %x byte\n", sizeof(Model650State));
+        printf(D_8013CB08, sizeof(Model650State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();

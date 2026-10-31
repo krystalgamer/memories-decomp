@@ -10,7 +10,10 @@
 
 /* The work-size format string; retail's padding byte after the terminator is 0x3C. */
 #ifndef VERSION_FRENCH
-static const char D_8013D200[24] = "E_DATA size = %x byte\n\0<";
+#ifndef MODEL644_STRING_PAD
+#define MODEL644_STRING_PAD "<"
+#endif
+static const char D_8013D200[24] = "E_DATA size = %x byte\n\0" MODEL644_STRING_PAD;
 #endif
 
 /* Moves every glow and star to the joint's world position. */
