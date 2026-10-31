@@ -54,7 +54,7 @@ segments:
     vram: 0x8017b004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_image_model_60358_8017b000/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/image60348_entry_slot1]
   - name: unclassified_tail
     type: code
     start: 0x26c8

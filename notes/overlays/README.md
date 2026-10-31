@@ -32,6 +32,9 @@ its resident load banks.
 - [`spanish-options.md`](spanish-options.md) records nine independently
   verified options helpers, five physical copies counted once, and Spanish
   storage ownership and runtime caveats.
+- [`spanish-model-french-layouts.md`](spanish-model-french-layouts.md)
+  records how the Spanish MODEL images reuse the French sources, profiles and
+  linker symbols.
 - [`../mrg-files.md`](../mrg-files.md) documents the MRG container evidence and
   development-path strings.
 - [`../research/Unchiga_Symbols/modules.md`](../research/Unchiga_Symbols/modules.md)
