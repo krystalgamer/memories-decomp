@@ -150,8 +150,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             } else {
                 angle = 1024 - (n << 10) / 6;
             }
-            ribbon->offset.vx = (rcos(angle) << 8) >> 12;
-            ribbon->offset.vy = (rsin(angle) << 8) >> 12;
+            ribbon->offset.vx = (rcos(angle) * 256) >> 12;
+            ribbon->offset.vy = (rsin(angle) * 256) >> 12;
             ribbon->offset.vz = 0;
         }
         work->trail_delay = 128;
@@ -176,8 +176,8 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             } else {
                 angle = 1024 - (n << 10) / 6;
             }
-            trail->offset.vx = (rcos(angle) << 8) >> 12;
-            trail->offset.vy = (rsin(angle) << 8) >> 12;
+            trail->offset.vx = (rcos(angle) * 256) >> 12;
+            trail->offset.vy = (rsin(angle) * 256) >> 12;
             trail->offset.vz = 0;
         }
         for (i = 0; i < 24; i++) {
@@ -421,15 +421,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                 setVector(&work->tips[k], work->position.vx, work->position.vy - 640,
                           work->position.vz);
             } else {
-                setVector(&work->tips[k], work->position.vx + ((rcos(angle) << 8) >> 12),
+                setVector(&work->tips[k], work->position.vx + ((rcos(angle) * 256) >> 12),
                           work->position.vy - 640,
-                          work->position.vz + ((rsin(angle) << 8) >> 12));
+                          work->position.vz + ((rsin(angle) * 256) >> 12));
             }
             GsGetLwUnit(work->parts[k], &work->part_matrices[k]);
             if (work->config->use_part_points == 0) {
-                setVector(&work->bases[k], work->position.vx + ((rcos(base_angle) << 8) >> 12),
+                setVector(&work->bases[k], work->position.vx + ((rcos(base_angle) * 256) >> 12),
                           work->position.vy,
-                          work->position.vz + ((rsin(base_angle) << 8) >> 12));
+                          work->position.vz + ((rsin(base_angle) * 256) >> 12));
             } else {
                 setVector(&work->bases[k], work->part_matrices[k].t[0],
                           work->part_matrices[k].t[1], work->part_matrices[k].t[2]);
@@ -443,11 +443,11 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             if (k == 0) {
                 setVector(&work->targets[k], work->target.vx, 0, work->target.vz);
             } else {
-                setVector(&work->targets[k], work->target.vx + ((rcos(angle) << 8) >> 12), 0,
-                          work->target.vz + ((rsin(angle) << 8) >> 12));
+                setVector(&work->targets[k], work->target.vx + ((rcos(angle) * 256) >> 12), 0,
+                          work->target.vz + ((rsin(angle) * 256) >> 12));
             }
-            setVector(&work->ground[k], work->target.vx + ((rcos(base_angle) << 8) >> 12), -1024,
-                      work->target.vz + ((rsin(base_angle) << 8) >> 12));
+            setVector(&work->ground[k], work->target.vx + ((rcos(base_angle) * 256) >> 12), -1024,
+                      work->target.vz + ((rsin(base_angle) * 256) >> 12));
             setVector(&work->target_spans[k], work->targets[k].vx - work->ground[k].vx,
                       work->targets[k].vy - work->ground[k].vy,
                       work->targets[k].vz - work->ground[k].vz);
