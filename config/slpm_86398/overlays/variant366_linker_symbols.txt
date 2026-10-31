@@ -34,3 +34,5 @@ ScaleMatrix = 0x80086260;
 SetRotMatrix = 0x800863A0;
 func_80058F10 = 0x8005BD40;
 func_8005B260 = 0x8004CFF8;
+GsGetActiveBuff = 0x80083F10;
+Graphics_SubmitMaskWritePacket = 0x8004D270;

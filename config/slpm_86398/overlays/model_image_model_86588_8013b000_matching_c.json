@@ -25,6 +25,12 @@
       "source": "src/overlays/model_variant/variant366_quads.c"
     },
     {
+      "address": "0x8013CEC8",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xA40",
+      "source": "src/overlays/model_variant/variant366_cones.c"
+    },
+    {
       "address": "0x8013D908",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xB54",

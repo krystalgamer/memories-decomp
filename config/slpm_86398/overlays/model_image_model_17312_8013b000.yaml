@@ -50,20 +50,20 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/japanese_model_image_model_17312_8013b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/japanese_model_image_model_17312_8013b000/unmatched_4]
-  - name: unmatched_1ac4
+      - [0x4, c, overlays/model_variant/variant426_entry]
+  - name: helper_1ac4
     type: code
     start: 0x1AC4
     vram: 0x8013CAC4
     align: 4
     subsegments:
-      - [0x1AC4, asm, overlays/japanese_model_image_model_17312_8013b000/unmatched_1ac4]
+      - [0x1AC4, c, overlays/model_variant/variant426_ribbons]
   - name: helper_236c
     type: code
     start: 0x236C
@@ -85,13 +85,13 @@ segments:
     align: 4
     subsegments:
       - [0x2F00, c, overlays/model_variant/variant426_sheets]
-  - name: unmatched_3640
+  - name: helper_3640
     type: code
     start: 0x3640
     vram: 0x8013E640
     align: 4
     subsegments:
-      - [0x3640, asm, overlays/japanese_model_image_model_17312_8013b000/unmatched_3640]
+      - [0x3640, c, overlays/model_variant/variant426_streamers]
   - name: helper_3ee0
     type: code
     start: 0x3EE0
@@ -99,13 +99,13 @@ segments:
     align: 4
     subsegments:
       - [0x3EE0, c, overlays/model_variant/variant426_bands]
-  - name: unmatched_4594
+  - name: helper_4594
     type: code
     start: 0x4594
     vram: 0x8013F594
     align: 4
     subsegments:
-      - [0x4594, asm, overlays/japanese_model_image_model_17312_8013b000/unmatched_4594]
+      - [0x4594, c, overlays/model_variant/variant426_webs]
   - name: data
     type: code
     start: 0x4AEC

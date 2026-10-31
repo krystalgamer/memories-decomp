@@ -78,13 +78,13 @@ segments:
     align: 4
     subsegments:
       - [0x1918, c, overlays/model_variant/variant366_quads_slot1]
-  - name: unmatched_1ec8
+  - name: cones
     type: code
     start: 0x1ec8
     vram: 0x8017cec8
     align: 4
     subsegments:
-      - [0x1ec8, asm, overlays/japanese_model_image_model_86598_8017b000/unmatched_1ec8]
+      - [0x1ec8, c, overlays/model_variant/variant366_cones_slot1]
   - name: rays
     type: code
     start: 0x2908
