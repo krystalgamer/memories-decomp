@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "release": "0.17",
+  "url": "https://github.com/decompals/old-gcc/releases/download/0.17/gcc-2.8.0-psx.tar.gz",
+  "archive": "tools/downloads/gcc-2.8.0-psx-0.17.tar.gz",
+  "sha256": "1a3c956fe8aea5ebdb251749d95de2c84f023530584d7bd663744b5ec24050b7",
+  "target": "mips-sony-psx",
+  "dumpversion": "2.8.0",
+  "lock": {
+    "prefix": "tools/toolchains/gcc-2.8.0-psx",
+    "target": "mips-sony-psx",
+    "version": "2.8.0",
+    "real_gcc": "libexec/gcc-2.8.0-psx"
+  },
+  "files": {
+    "gcc": "2dfa41a50f60ce63ff82b57cd07701213c3a5e96cd8324b32328d49cd9ccf174",
+    "cc1": "f752a0865ae4b9e7570c2f245e6562c7eb7c4349e553265c99d7f6dc8dfc97c6",
+    "cpp": "dd62b7c41723c43be16b63084e4a2b51fd4a157a465ebe02b3f5355ee8975dbd"
+  }
+}
