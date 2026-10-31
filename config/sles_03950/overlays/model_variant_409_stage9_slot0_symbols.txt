@@ -1,0 +1,8 @@
+// Italian MODEL.MRG model 409 (record 409), sector 99284, header 389, loaded at 0x8013B000; the US header-372 source variant372_entry.c; built from the French source layout of french_model_variant_409_stage9_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0xE64 defined:true
+func_8013BE68 = 0x8013BE68; // type:func size:0x9FC defined:true
+func_8013C864 = 0x8013C864; // type:func size:0x5E8 defined:true
+D_8013CE4C = 0x8013CE4C; // type:u8 size:0x18 defined:true
+D_8013CE64 = 0x8013CE64; // type:u8 size:0x1C defined:true
+D_8013CE80 = 0x8013CE80; // type:u8 size:0xFC defined:true
+D_8013CF7C = 0x8013CF7C; // type:u8 size:0x3084 defined:true

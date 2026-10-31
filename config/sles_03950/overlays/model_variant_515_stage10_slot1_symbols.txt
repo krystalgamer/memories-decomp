@@ -1,0 +1,4 @@
+// Italian MODEL.MRG model 515 (record 515), sector 128550, header 757, loaded at 0x8017B000; the US header-673 source variant673_entry_slot1.c; built from the French source layout of french_model_variant_515_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x1B1C defined:true
+D_8017CB20 = 0x8017CB20; // type:u8 size:0x54 defined:true
+D_8017CB74 = 0x8017CB74; // type:u8 size:0x348C defined:true

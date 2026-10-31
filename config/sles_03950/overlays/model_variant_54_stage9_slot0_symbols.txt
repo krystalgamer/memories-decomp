@@ -1,0 +1,12 @@
+func_8013B004 = 0x8013B004; // type:func size:0x938
+func_8013B93C = 0x8013B93C; // type:func size:0x6F0
+func_8013C02C = 0x8013C02C; // type:func size:0x428
+D_8013C454 = 0x8013C454; // type:u8 size:0x1C defined:true
+D_8013C470 = 0x8013C470; // type:u8 size:0x1C defined:true
+D_8013C48C = 0x8013C48C; // type:u8 size:0x54 defined:true
+D_8013C4E0 = 0x8013C4E0; // type:u8 size:0x1C defined:true
+D_8013C4FC = 0x8013C4FC; // type:u8 size:0x1C defined:true
+D_8013C518 = 0x8013C518; // type:u8 size:0x1C defined:true
+D_8013C534 = 0x8013C534; // type:u8 size:0x1C defined:true
+D_8013C550 = 0x8013C550; // type:u8 size:0x24 defined:true
+D_8013C574 = 0x8013C574; // type:u8 size:0x3A8C defined:true

@@ -1,0 +1,6 @@
+address,size,name,status,module,notes
+0x8013B004,0xB94,func_8013B004,matching_c,overlay/model_variant_44_stage7_slot0,Exact entry2964bytes/frame208; indirect resident controller; no direct entry-call path. Complete image and sized C owner verified.
+0x8013BB98,0x99C,func_8013BB98,matching_c,overlay/model_variant_44_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable.
+0x8013C534,0x690,func_8013C534,matching_c,overlay/model_variant_44_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable.
+0x8013CBC4,0x514,func_8013CBC4,matching_c,overlay/model_variant_44_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable.
+0x8013D0D8,0x814,func_8013D0D8,matching_c,overlay/model_variant_44_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable. Branch-local screen-offset calculations preserve native tail merging.

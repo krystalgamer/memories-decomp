@@ -1,0 +1,5 @@
+address,size,name,status,module,notes
+0x8017B004,0x1504,func_8017B004,matching_c,overlay/model_variant_705_stage10_slot1,"Exact5380-byte C loader entry; measured constructors and runtime path/ring capture; shared latitude/ring phase and column/ring-point bearing; entire image exact, all three prior helper owners and profiles preserved."
+0x8017C508,0xA4C,func_8017C508,matching_c,overlay/model_variant_705_stage10_slot1,Independent exact C five-ribbon eleven-point body on the header-469 ribbon layout with a local per-ribbon RotTransPers4 flag table and a bare last segment.
+0x8017CF54,0x544,func_8017CF54,matching_c,overlay/model_variant_705_stage10_slot1,Independent exact C; direct-entry reachable.
+0x8017D498,0x43C,func_8017D498,matching_c,overlay/model_variant_705_stage10_slot1,Independent exact C; first recovery of this body in any release; direct-entry reachable.

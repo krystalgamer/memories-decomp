@@ -1,0 +1,4 @@
+// Italian MODEL.MRG model 713 (record 713), sector 169398, header 929, loaded at 0x8017B000; the US header-815 source variant815_entry_slot1.c; built from the French source layout of french_model_variant_713_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x1F9C defined:true
+D_8017CFB0 = 0x8017CFB0; // type:u8 size:0x8C defined:true
+D_8017D03C = 0x8017D03C; // type:u8 size:0x2FC4 defined:true

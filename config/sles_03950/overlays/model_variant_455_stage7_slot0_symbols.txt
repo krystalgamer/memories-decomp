@@ -1,0 +1,4 @@
+// Italian MODEL.MRG model 455 (record 455), sector 111960, header 646, loaded at 0x8013B000; the US header-629 source variant629_entry.c; built from the French source layout of french_model_variant_455_stage7_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x2C28 defined:true
+D_8013DC58 = 0x8013DC58; // type:u8 size:0x38 defined:true
+D_8013DC90 = 0x8013DC90; // type:u8 size:0x2370 defined:true

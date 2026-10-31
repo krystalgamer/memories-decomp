@@ -1,0 +1,4 @@
+address,size,name,status,module,notes
+0x8017B004,0xE34,func_8017B004,matching_c,overlay/model_variant_248_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017BE38,0x8E0,func_8017BE38,matching_c,overlay/model_variant_248_stage8_slot1,"Exact C band renderer: grows, projects and draws the entry's 33-step band as 32 GT4 quads."
+0x8017C718,0x638,func_8017C718,matching_c,overlay/model_variant_248_stage8_slot1,Complete module byte identity and section-defined C ownership verified.

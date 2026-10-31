@@ -1,0 +1,8 @@
+address,size,name,status,module,notes
+0x8017B004,0xF20,func_8017B004,matching_c,overlay/model_variant_0_stage8_slot1,"Exact C header-426 loader entry; the header-425 entry with four FT4 pairs, two funnels and four 17-point streamers."
+0x8017BF24,0x48C,func_8017BF24,matching_c,overlay/model_variant_0_stage8_slot1,Independent exact C; original context at entry+0xD14 proven; direct-entry reachable.
+0x8017C3B0,0xA40,func_8017C3B0,matching_c,overlay/model_variant_0_stage8_slot1,Exact C spiral; twelve phase-guarded arms with clamped depths and a phase-driven size; direct-entry reachable.
+0x8017CDF0,0x8E0,func_8017CDF0,matching_c,overlay/model_variant_0_stage8_slot1,"Exact C single-ribbon body: 17 points scaled by the growth amount, projected with RotTransPers4 into two blue/grey POLY_GT4 strips, then the grow and fade timing updates."
+0x8017D6D0,0x4F0,func_8017D6D0,matching_c,overlay/model_variant_0_stage8_slot1,Independent exact C sheets; explicit shrink quotients reproduce the original cross-jumped tails; phase one/two range test; direct-entry reachable.
+0x8017DBC0,0x880,func_8017DBC0,matching_c,overlay/model_variant_0_stage8_slot1,Independent exact C four-streamer POLY_G4 helper on the header-458 streamer layout; gates sorting on a local RotTransPers4 flag table; direct-entry reachable.
+0x8017E440,0x434,func_8017E440,matching_c,overlay/model_variant_0_stage8_slot1,Exact C funnel; one 17-point inner/outer ring funnel drawn as POLY_GT4 strips; closed retained helper.
