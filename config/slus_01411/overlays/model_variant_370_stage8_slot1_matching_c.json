@@ -1,0 +1,35 @@
+{
+  "functions": [
+    {
+      "address": "0x8017B004",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xD20",
+      "source": "src/overlays/model_variant/variant432_entry_slot1.c"
+    },
+    {
+      "address": "0x8017BD24",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x520",
+      "source": "src/overlays/model_variant/variant432_sheet_slot1.c"
+    },
+    {
+      "address": "0x8017C244",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x934",
+      "source": "src/overlays/model_variant/variant432_ribbons_slot1.c"
+    },
+    {
+      "address": "0x8017CB78",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x898",
+      "source": "src/overlays/model_variant/variant432_streamers_slot1.c"
+    },
+    {
+      "address": "0x8017D410",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x754",
+      "source": "src/overlays/model_variant/variant432_bands_slot1.c"
+    }
+  ],
+  "schema": 1
+}
