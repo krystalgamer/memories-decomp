@@ -1,0 +1,5 @@
+// German MODEL.MRG model 252 (record 252), sector 69732, header 800, loaded at 0x8013B000; the French wrapper variant800_entry.c over the US header-783 source; built from the French source layout of french_model_variant_252_stage7_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x24EC defined:true
+D_8013D4F0 = 0x8013D4F0; // type:u8 size:0x10 defined:true
+D_8013D500 = 0x8013D500; // type:u8 size:0x38 defined:true
+D_8013D538 = 0x8013D538; // type:u8 size:0x2AC8 defined:true

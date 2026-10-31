@@ -1,0 +1,4 @@
+// German MODEL.MRG model 373 (record 373), sector 89348, header 158, loaded at 0x8013B000; the US header-141 source variant141_entry.c; built from the French source layout of french_model_variant_373_stage9_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x3BA4 defined:true
+D_8013EBB8 = 0x8013EBB8; // type:u8 size:0xE0 defined:true
+D_8013EC98 = 0x8013EC98; // type:u8 size:0x1368 defined:true
