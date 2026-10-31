@@ -7,6 +7,24 @@
       "source": "src/overlays/model_variant/variant446_entry.c"
     },
     {
+      "address": "0x8013C984",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x990",
+      "source": "src/overlays/model_variant/variant446_ribbons.c"
+    },
+    {
+      "address": "0x8013D314",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0x54C",
+      "source": "src/overlays/model_variant/variant446_paired_sheets.c"
+    },
+    {
+      "address": "0x8013D860",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xA78",
+      "source": "src/overlays/model_variant/variant446_trail_ribbons.c"
+    },
+    {
       "address": "0x8013E2D8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4F0",

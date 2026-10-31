@@ -55,27 +55,27 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant446_entry]
-  - name: unmatched_1984
+  - name: ribbons
     type: code
     start: 0x1984
     vram: 0x8013c984
     align: 4
     subsegments:
-      - [0x1984, asm, overlays/model_variant_461_stage9_slot0/unmatched_1984]
-  - name: unmatched_2314
+      - [0x1984, c, overlays/model_variant/variant446_ribbons]
+  - name: paired_sheets
     type: code
     start: 0x2314
     vram: 0x8013d314
     align: 4
     subsegments:
-      - [0x2314, asm, overlays/model_variant_461_stage9_slot0/unmatched_2314]
-  - name: unmatched_2860
+      - [0x2314, c, overlays/model_variant/variant446_paired_sheets]
+  - name: trail_ribbons
     type: code
     start: 0x2860
     vram: 0x8013d860
     align: 4
     subsegments:
-      - [0x2860, asm, overlays/model_variant_461_stage9_slot0/unmatched_2860]
+      - [0x2860, c, overlays/model_variant/variant446_trail_ribbons]
   - name: sheets
     type: code
     start: 0x32d8

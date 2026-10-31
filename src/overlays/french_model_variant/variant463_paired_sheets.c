@@ -23,9 +23,14 @@ void func_8013D318(u8 *context)
 
     ot = func_80058F10();
     timing = state->timing;
-    if (timing->paired == 0 && timing->mode == 1) {
-        count = 1;
-    } else if (timing->paired != 0 && timing->mode == 1) {
+    if (timing->paired == 0) {
+        if (timing->mode == 1) {
+            count = 1;
+        } else {
+            i = 0;
+            count = timing->first_count;
+        }
+    } else if (timing->mode == 1) {
         count = 1;
     } else {
         i = 0;

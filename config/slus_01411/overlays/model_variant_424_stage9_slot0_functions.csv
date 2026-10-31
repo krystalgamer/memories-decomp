@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
 0x8013B004,0x1980,func_8013B004,matching_c,overlay/model_variant_424_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013C984,0x990,func_8013C984,unmatched_asm,overlay/model_variant_424_stage9_slot0,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8013D314,0x54C,func_8013D314,unmatched_asm,overlay/model_variant_424_stage9_slot0,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
-0x8013D860,0xA78,func_8013D860,unmatched_asm,overlay/model_variant_424_stage9_slot0,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8013C984,0x990,func_8013C984,matching_c,overlay/model_variant_424_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D314,0x54C,func_8013D314,matching_c,overlay/model_variant_424_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D860,0xA78,func_8013D860,matching_c,overlay/model_variant_424_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013E2D8,0x4F0,func_8013E2D8,matching_c,overlay/model_variant_424_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013E7C8,0x42C,func_8013E7C8,matching_c,overlay/model_variant_424_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
