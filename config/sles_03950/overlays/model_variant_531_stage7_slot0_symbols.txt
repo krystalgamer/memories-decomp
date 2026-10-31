@@ -1,0 +1,4 @@
+// Italian MODEL.MRG model 531 (record 531), sector 132936, header 864, loaded at 0x8013B000; the US header-847 source variant847_entry.c; built from the French source layout of french_model_variant_531_stage7_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x1E80 defined:true
+D_8013CE94 = 0x8013CE94; // type:u8 size:0x70 defined:true
+D_8013CF04 = 0x8013CF04; // type:u8 size:0x30FC defined:true

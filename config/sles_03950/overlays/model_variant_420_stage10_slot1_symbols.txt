@@ -1,0 +1,4 @@
+// Italian MODEL.MRG model 420 (record 420), sector 102330, header 740, loaded at 0x8017B000; the US header-656 source variant656_entry_slot1.c; built from the French source layout of french_model_variant_420_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x23B4 defined:true
+D_8017D3B8 = 0x8017D3B8; // type:u8 size:0x38 defined:true
+D_8017D3F0 = 0x8017D3F0; // type:u8 size:0x2C10 defined:true

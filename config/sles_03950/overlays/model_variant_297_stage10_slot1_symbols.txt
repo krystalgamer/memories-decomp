@@ -1,0 +1,4 @@
+// Italian MODEL.MRG model 297 (record 297), sector 82182, header 939, loaded at 0x8017B000; the US header-825 source variant825_entry_slot1.c; built from the French source layout of french_model_variant_297_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x3CF8 defined:true
+D_8017ED0C = 0x8017ED0C; // type:u8 size:0x8C defined:true
+D_8017ED98 = 0x8017ED98; // type:u8 size:0x1268 defined:true

@@ -1,0 +1,47 @@
+{
+  "functions": [
+    {
+      "address": "0x8013B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1AD8",
+      "source": "src/overlays/french_model_variant/variant443_entry.c"
+    },
+    {
+      "address": "0x8013CADC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x8D0",
+      "source": "src/overlays/french_model_variant/variant443_ribbons.c"
+    },
+    {
+      "address": "0x8013D3AC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5E0",
+      "source": "src/overlays/spanish_model_variant/variant443_rings.c"
+    },
+    {
+      "address": "0x8013D98C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5A0",
+      "source": "src/overlays/spanish_model_variant/variant443_mesh.c"
+    },
+    {
+      "address": "0x8013DF2C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x73C",
+      "source": "src/overlays/spanish_model_variant/variant443_sheets.c"
+    },
+    {
+      "address": "0x8013E668",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x888",
+      "source": "src/overlays/french_model_variant/variant443_streamers.c"
+    },
+    {
+      "address": "0x8013EEF0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6B8",
+      "source": "src/overlays/french_model_variant/variant443_bands.c"
+    }
+  ],
+  "schema": 1
+}

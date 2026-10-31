@@ -1,0 +1,4 @@
+// Italian MODEL.MRG model 119 (record 119), sector 33054, header 312, loaded at 0x8017B000; French source variant182_entry_slot1.c; built from the French source layout of french_model_variant_119_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x1CC4 defined:true
+D_8017CCD8 = 0x8017CCD8; // type:u8 size:0x8C defined:true
+D_8017CD64 = 0x8017CD64; // type:u8 size:0x329C defined:true
