@@ -27,6 +27,9 @@ void func_8013C51C(u8 *ctx)
     s32 latitude;
     s16 width;
     s16 matrix_scale;
+#ifdef MODEL_VARIANT452_STREAMERS_DIRECT_CLOSING
+    PSXLONG *closing;
+#endif
     s32 dx, dy;
 
     streamer = (Variant452Streamer *)(ctx + 0x720);
@@ -100,6 +103,25 @@ void func_8013C51C(u8 *ctx)
     streamer = work->streamers;
     for (i = 0; i < 16; i++, streamer++) {
         for (j = 0; j < 5; j++) {
+#ifdef MODEL_VARIANT452_STREAMERS_DIRECT_CLOSING
+            /* The North American build indexes the closing segment's fields
+             * directly and reads its previous point through a pointer whose
+             * index is set in the reused matrix_scale. */
+            matrix_scale = 3;
+            if (j == 4) {
+                closing = &streamer->sa[matrix_scale];
+                streamer->depth[4] = RotTransPers4(
+                    &streamer->a[3], &streamer->a[4], &streamer->a[3], &streamer->a[4],
+                    &streamer->sa[3], &streamer->sa[4], &streamer->sa[3], &streamer->sa[4],
+                    &p, &flags[i][4]);
+                RotTransPers(&streamer->b[4], &streamer->sb[4], &p, &flag);
+                dx = (s16)streamer->sa[4] - (s16)*closing;
+                dy = (streamer->sa[4] >> 16) - (*closing >> 16);
+                streamer->angle[4] = ratan2(dy, dx) + 3072;
+                streamer->width[4] = (s16)streamer->sb[4] - (s16)streamer->sa[4];
+                streamer->ox[4] = rcos(streamer->angle[4]) * streamer->width[4] >> 12;
+                streamer->oy[4] = rsin(streamer->angle[4]) * streamer->width[4] >> 12;
+#else
             if (j == 4) {
                 previous = &streamer->a[3];
                 last = &streamer->a[4];
@@ -115,6 +137,7 @@ void func_8013C51C(u8 *ctx)
                 point->width[0] = (s16)point->sb[0] - (s16)point->sa[0];
                 streamer->ox[4] = rcos(point->angle[0]) * point->width[0] >> 12;
                 streamer->oy[4] = rsin(point->angle[0]) * point->width[0] >> 12;
+#endif
             } else {
                 streamer->depth[j] = RotTransPers4(
                     &streamer->a[j], &streamer->a[j + 1], &streamer->a[j], &streamer->a[j + 1],

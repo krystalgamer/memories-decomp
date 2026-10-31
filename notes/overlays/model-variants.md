@@ -159,13 +159,22 @@ VRAM x 640, and build the two quad helpers under 2.8.1.
 
 The six North American header-435/585 images (models 1, 360 and 550) build
 their entry from `model_variant/variant435_entry.c` (`_slot1.c` for slot 1)
-under `gcc_2_7_2_cdk_g0`, beside the C sheets and lines helpers; the helpers
-at `+ 0x1524` and `+ 0x23AC` stay generated assembly. The wrapper includes
+under `gcc_2_7_2_cdk_g0`, beside the C sheets and lines helpers; the helper
+at `+ 0x23AC` stays generated assembly. The wrapper includes
 the French `variant452_entry.c` with `MODEL_VARIANT452_CLUT_X` set to 512 and
 `MODEL_VARIANT452_DATA` pointed at the North American data symbol. The French
 source defaults to x 640 and to `D_8013D3E4 + 0xA30`, since its data symbol
 starts at a helper that the French module still keeps in its unclassified
 tail, and its header-452/602 images keep building it under 2.8.1.
+The streamers helper at `+ 0x1524` is the French `variant452_streamers.c`
+with `MODEL_VARIANT452_STREAMERS_DIRECT_CLOSING`. Under it the closing
+segment's fields are indexed directly instead of through a view 16 bytes
+into the streamer, and the closing segment reads its previous point through
+`closing = &streamer->sa[matrix_scale]`, with the dead `matrix_scale` set to
+3 at the top of the segment loop. With a fresh name in its place, gcc 2.7.2
+hoists `&streamer->sa[3]` out of the segment loop, where the North American
+image computes it in the closing segment. The French default is the 2.8.1
+form.
 
 The four North American header-318/468 images (models 44 and 558) build
 their entry from `model_variant/variant318_entry.c` the same way, from the

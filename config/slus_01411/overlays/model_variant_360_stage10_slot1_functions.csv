@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
 0x8017B004,0x10E0,func_8017B004,matching_c,overlay/model_variant_360_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017C0E4,0x440,func_8017C0E4,matching_c,overlay/model_variant_360_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C524,0xAA8,func_8017C524,unmatched_asm,overlay/model_variant_360_stage10_slot1,"Reached from the loader entry through local calls, tail jumps, fall-through or in-image address references; closed CFG; generated assembly retained."
+0x8017C524,0xAA8,func_8017C524,matching_c,overlay/model_variant_360_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017CFCC,0x3E0,func_8017CFCC,matching_c,overlay/model_variant_360_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
 0x8017D3AC,0xA0C,func_8017D3AC,unmatched_asm,overlay/model_variant_360_stage10_slot1,"Closed CFG found by stack prologue; not reached from the loader entry or a resident address reference, so reachability is unresolved; generated assembly retained."
