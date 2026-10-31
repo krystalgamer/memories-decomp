@@ -1,0 +1,5 @@
+// MODEL.MRG model 420 (record 420), sector 102310, header 744, loaded at 0x8017B000; the US source variant677_entry_slot1.c.
+func_8017B004 = 0x8017B004; // type:func size:0x2748 defined:true
+D_8017D74C = 0x8017D74C; // type:u8 size:0x18 defined:true
+D_8017D764 = 0x8017D764; // type:u8 size:0x134 defined:true
+D_8017D898 = 0x8017D898; // type:u8 size:0x2768 defined:true
