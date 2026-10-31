@@ -229,3 +229,31 @@ retain 27,416 unclassified tail bytes, excluded from C coverage.
 Other special handlers, MODEL variants, auxiliary/boot/overworld loads and
 unclassified storage remain separate campaign work. This registration does
 not establish exhaustive French runtime completion.
+
+## North American Exodia images
+
+The US SU.MRG Exodia images `model_image_su_1142_8013b000` (slot 0) and
+`model_image_su_1152_8017b000` (slot 1) build the shared French Exodia C under
+the named `gcc_2_7_2_cdk_g0` profile. Under it the French petals and beam
+sources match the US helpers unchanged. Under `gcc_2_8_1_g0_split` the same
+sources still fill the epilogue delay slot, but these US helpers end in
+`addiu $sp; jr $ra; nop`.
+
+The `src/overlays/model_exodia/us_*.c` wrappers define `MODEL_EXODIA_USA`,
+rename the helper and table symbols to the US addresses (helpers at `0x8013B864`,
+`0x8017B9B4` and `0x8017C738`; tables at `0x8013C784` and `0x8017CD08`), and
+include the shared source. With the macro undefined, every source compiles
+exactly as before. With it defined:
+
+- `ring.c` and `ring_second.c` store the four projected corners back into the
+  quad after `RotTransPers4`, as the US build does.
+- `entry_second.c` uses CLUT rows `(256, 241)` and `(512, 244)` instead of
+  `(640, 225)` and `(640, 244)`, and a 240-line fade quad instead of 256.
+
+Five of the seven functions match. The slot-0 entry (`0x8013B004`) and the spokes
+helper (`0x8013BC58`) remain generated assembly:
+
+- The entry differs only in how the block after the second `GsGetLwUnit` is
+  scheduled.
+- The spokes helper differs in which values the j loop hoists out of the loop.
+  Retail keeps the dx/dy row addresses in their own registers.

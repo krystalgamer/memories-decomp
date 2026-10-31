@@ -53,6 +53,11 @@ void func_8013B860(u8 *context)
                           (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
                           (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
                           (PSXLONG *)&interpolation, (PSXLONG *)&flag);
+#ifdef MODEL_EXODIA_USA
+            /* The US build stores the projected corners back in place. */
+            setXY4(quad, quad->x0, quad->y0, quad->x1, quad->y1,
+                   quad->x2, quad->y2, quad->x3, quad->y3);
+#endif
             flag = 0;
             GsSortPoly(quad, ot, 0);
         }
