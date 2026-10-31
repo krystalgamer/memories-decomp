@@ -8,6 +8,10 @@
 #define D_8013D6C8 D_8013D6F0
 #define D_8013D71C D_8013D744
 
-static const char D_8013D6D8[24] = "E_DATA size = %x byte\n";
+/* The byte after the terminator is zero here; Japan's images keep a stray byte. */
+#ifndef MODEL60348_STRING_PAD
+#define MODEL60348_STRING_PAD ""
+#endif
+static const char D_8013D6D8[24] = "E_DATA size = %x byte\n\0" MODEL60348_STRING_PAD;
 
 #include "../french_model_variant/image60348_entry.c"

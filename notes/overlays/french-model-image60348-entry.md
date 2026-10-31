@@ -120,3 +120,23 @@ the USA entry's own `jal` targets.
 | 60358 | `0x8017B004` | `ef03316afd4c7284b450b22cd4d24b94b309a67e22a41cbd542af32dc60d3298` |
 | 168560 | `0x8013B004` | `92f46979a8d94c182840fb6eab22ee2d6514562ba82b5903b5f652e574cb663d` |
 | 168570 | `0x8017B004` | `1a8df8547e0e95a5176ad8856f445d95cde953af50e2de9440709f6269e04215` |
+
+## Japanese images
+
+The Japanese `game/japanese/DATA/MODEL.MRG` images at the same four sectors
+hold the USA entry unchanged apart from resident addresses. They build from
+the USA wrappers under the same `gcc_2_8_0_g0_split` profile. The one other
+difference is the byte after the format string's terminator: zero in the
+USA, `0x26` at 60348/168560 and `0x92` at 60358/168570 in Japan. The USA
+wrapper takes it from a `MODEL60348_STRING_PAD` selector that defaults to
+nothing, and `japanese/model_variant/image60348_entry_usa.c` and
+`_usa_slot1.c` set it before including the USA wrappers. The Japanese
+`image60348_usa_linker_symbols.txt` binds the resident names at the
+addresses the Japanese entry calls.
+
+| Sector | Entry | Complete image SHA-256 |
+|---|---|---|
+| 60348 | `0x8013B004` | `d6b0e357ad8d9c7edd0eb1787e97b8eb7d9bef82482105d6f977e551e106ecfb` |
+| 60358 | `0x8017B004` | `1f52556de8bfb942903cb7d24f785cff89f58a90e5de4f3967d08e26e6421c20` |
+| 168560 | `0x8013B004` | `fbb79856806866248b02ea2a50d76def6e4936e22f6d1d683dc4e4384595afcf` |
+| 168570 | `0x8017B004` | `c079de9f29302cb8909af96236ecac957bb016f869ec09c884abffc1170e3368` |
