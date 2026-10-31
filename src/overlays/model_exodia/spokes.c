@@ -79,6 +79,18 @@ void func_8013BC0C(u8 *context)
     for (; i < 16; i++) {
         for (j = 0; j < 2; j++) {
             if (j == 1) {
+#ifdef MODEL_EXODIA_USA
+                /* The US build indexes the spoke tip pair relative to j. */
+                depth[i][j] = RotTransPers4(&points[i][j - 1], &points[i][j],
+                    &points[i][j - 1], &points[i][j],
+                    (PSXLONG *)&projected[i][j - 1], (PSXLONG *)&projected[i][j],
+                    (PSXLONG *)&projected[i][j - 1], (PSXLONG *)&projected[i][j],
+                    (PSXLONG *)&interpolation, (PSXLONG *)&flags[i][j]);
+                RotTransPers(&displaced[i][j], (PSXLONG *)&displaced_projected[i][j],
+                             (PSXLONG *)&interpolation, (PSXLONG *)&flag);
+                x_delta = (s16)projected[i][j] - (s16)projected[i][j - 1];
+                y_delta = (projected[i][j] >> 16) - (projected[i][j - 1] >> 16);
+#else
                 depth[i][j] = RotTransPers4(&points[i][0], &points[i][1],
                     &points[i][0], &points[i][1],
                     (PSXLONG *)&projected[i][0], (PSXLONG *)&projected[i][1],
@@ -88,6 +100,7 @@ void func_8013BC0C(u8 *context)
                              (PSXLONG *)&interpolation, (PSXLONG *)&flag);
                 x_delta = (s16)projected[i][j] - (s16)projected[i][0];
                 y_delta = (projected[i][j] >> 16) - (projected[i][0] >> 16);
+#endif
                 angles[i][j] = ratan2(y_delta, x_delta) + 3072;
                 widths[i][j] = (s16)displaced_projected[i][j] - (s16)projected[i][j];
                 dx[i][j] = rcos(angles[i][j]) * widths[i][j] >> 12;
@@ -100,6 +113,14 @@ void func_8013BC0C(u8 *context)
                     (PSXLONG *)&interpolation, (PSXLONG *)&flags[i][j]);
                 RotTransPers(&displaced[i][j], (PSXLONG *)&displaced_projected[i][j],
                              (PSXLONG *)&interpolation, (PSXLONG *)&flag);
+#ifdef MODEL_EXODIA_USA
+                /* Empty-loop barrier: it splits CSE here, which leaves the
+                 * j loop with more insns, so loop.c hoists &interpolation from
+                 * the i loop instead and keeps the dx/dy row addresses in
+                 * their own registers, as in the US build. */
+                do {
+                } while (0);
+#endif
                 x_delta = (s16)projected[i][j + 1] - (s16)projected[i][j];
                 y_delta = (projected[i][j + 1] >> 16) - (projected[i][j] >> 16);
                 angles[i][j] = ratan2(y_delta, x_delta) + 3072;
@@ -111,6 +132,11 @@ void func_8013BC0C(u8 *context)
     }
     for (i = 0; i < 16; i++) {
         for (j = 0; j < 1; j++) {
+#ifdef MODEL_EXODIA_USA
+            /* Assigning the constant blue first makes it the first invariant
+             * hoisted out of this loop, ahead of the frame base. */
+            b0 = 0;
+#endif
             quad->x0 = projected[i][j] + dx[i][j];
             quad->y0 = (projected[i][j] >> 16) + dy[i][j];
             quad->x1 = projected[i][j + 1] + dx[i][j + 1];
@@ -121,7 +147,9 @@ void func_8013BC0C(u8 *context)
             quad->y3 = projected[i][j + 1] >> 16;
             r0 = 128 - j * 64;
             g0 = 96 - j * 64;
+#ifndef MODEL_EXODIA_USA
             b0 = 0;
+#endif
             r1 = 160 - j * 64;
             g1 = 160 - j * 64;
             b1 = 128 - j * 64;

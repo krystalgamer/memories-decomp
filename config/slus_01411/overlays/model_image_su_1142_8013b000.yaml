@@ -50,13 +50,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/model_image_su_1142_8013b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
     vram: 0x8013b004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/model_image_su_1142_8013b000/unmatched_4]
+      - [0x4, c, overlays/model_exodia/us_entry]
   - name: ring
     type: code
     start: 0x864
@@ -64,13 +64,13 @@ segments:
     align: 4
     subsegments:
       - [0x864, c, overlays/model_exodia/us_ring]
-  - name: unmatched_c58
+  - name: spokes
     type: code
     start: 0xc58
     vram: 0x8013bc58
     align: 4
     subsegments:
-      - [0xc58, asm, overlays/model_image_su_1142_8013b000/unmatched_c58]
+      - [0xc58, c, overlays/model_exodia/us_spokes]
   - name: unclassified_tail
     type: code
     start: 0x1784

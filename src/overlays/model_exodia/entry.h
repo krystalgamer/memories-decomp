@@ -10,6 +10,15 @@
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
 
+/* MODEL_EXODIA_USA selects the NTSC CLUT row. */
+#ifdef MODEL_EXODIA_USA
+#define EXODIA_ENTRY_CLUT_X 256
+#define EXODIA_ENTRY_CLUT_Y 241
+#else
+#define EXODIA_ENTRY_CLUT_X 640
+#define EXODIA_ENTRY_CLUT_Y 225
+#endif
+
 typedef struct {
     CVECTOR outer, inner;
     u8 unknown_08[8];

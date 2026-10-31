@@ -249,11 +249,18 @@ exactly as before. With it defined:
   quad after `RotTransPers4`, as the US build does.
 - `entry_second.c` uses CLUT rows `(256, 241)` and `(512, 244)` instead of
   `(640, 225)` and `(640, 244)`, and a 240-line fade quad instead of 256.
+- `entry.c` uses CLUT row `(256, 241)` instead of `(640, 225)`. After the
+  second `GsGetLwUnit` it loads `t[1]`, `t[2]`, `target.vx` and `t[0]` into
+  block-scoped temporaries, then an empty `do {} while (0);` barrier, then the
+  stores. The barrier keeps the four loads ahead of the stores, as in retail.
+- `spokes.c` has three changes:
+  - The `j == 1` branch indexes the tip pair as `[j - 1]` and `[j]`.
+  - An empty `do {} while (0);` barrier follows the `j == 0` `RotTransPers`
+    call. It splits CSE there, so the j loop keeps more insns. As a result
+    `loop.c` no longer hoists the shared `&interpolation` out of the j loop (the
+    i loop hoists it instead). That leaves enough threshold for the frame base
+    and the dx/dy row addresses, which retail keeps in their own registers.
+  - The quad loop assigns `b0 = 0` first, so that invariant is hoisted ahead
+    of the frame base.
 
-Five of the seven functions match. The slot-0 entry (`0x8013B004`) and the spokes
-helper (`0x8013BC58`) remain generated assembly:
-
-- The entry differs only in how the block after the second `GsGetLwUnit` is
-  scheduled.
-- The spokes helper differs in which values the j loop hoists out of the loop.
-  Retail keeps the dx/dy row addresses in their own registers.
+All seven functions match, and both images verify byte for byte.
