@@ -159,8 +159,12 @@ VRAM x 640, and build the two quad helpers under 2.8.1.
 
 The six North American header-435/585 images (models 1, 360 and 550) build
 their entry from `model_variant/variant435_entry.c` (`_slot1.c` for slot 1)
-under `gcc_2_7_2_cdk_g0`, beside the C sheets and lines helpers; the helpers
-at `+ 0x1524` and `+ 0x23AC` stay generated assembly. The wrapper includes
+under `gcc_2_7_2_cdk_g0`, beside the C sheets and lines helpers. The
+streamers helper at `+ 0x1524` is the French `variant452_streamers.c` with
+`MODEL_VARIANT452_STREAMERS_DIRECT_TIP`, and the rays helper at `+ 0x23AC` is
+the North American `variant425_rays.c` with its `MODEL_VARIANT425_RAYS_*`
+selectors, from `variant435_streamers.c` and `variant435_rays.c` (`_slot1.c`
+for slot 1) under the same profile. The entry wrapper includes
 the French `variant452_entry.c` with `MODEL_VARIANT452_CLUT_X` set to 512 and
 `MODEL_VARIANT452_DATA` pointed at the North American data symbol. The French
 source defaults to x 640 and to `D_8013D3E4 + 0xA30`, since its data symbol

@@ -101,6 +101,24 @@ void func_8013C51C(u8 *ctx)
     for (i = 0; i < 16; i++, streamer++) {
         for (j = 0; j < 5; j++) {
             if (j == 4) {
+#ifdef MODEL_VARIANT452_STREAMERS_DIRECT_TIP
+                /* Header 435 indexes the tip directly instead of through an
+                 * alias four words into the streamer, and its masked halves
+                 * keep the flag row's address inside the loop. */
+                previous = &streamer->a[3];
+                last = &streamer->a[4];
+                streamer->depth[4] = RotTransPers4(
+                    previous, last, previous, last,
+                    &streamer->sa[3], &streamer->sa[4], &streamer->sa[3], &streamer->sa[4],
+                    &p, &flags[i][4]);
+                RotTransPers(&streamer->b[4], &streamer->sb[4], &p, &flag);
+                dx = (s16)(streamer->sa[4] & 0xFFFF) - (s16)(streamer->sa[3] & 0xFFFF);
+                dy = (s16)(streamer->sa[4] >> 16) - (s16)(streamer->sa[3] >> 16);
+                streamer->angle[4] = ratan2(dy, dx) + 3072;
+                streamer->width[4] = (s16)(streamer->sb[4] & 0xFFFF) - (s16)(streamer->sa[4] & 0xFFFF);
+                streamer->ox[4] = rcos(streamer->angle[4]) * streamer->width[4] >> 12;
+                streamer->oy[4] = rsin(streamer->angle[4]) * streamer->width[4] >> 12;
+#else
                 previous = &streamer->a[3];
                 last = &streamer->a[4];
                 point = (Variant452Streamer *)((s32 *)streamer + 4);
@@ -115,6 +133,7 @@ void func_8013C51C(u8 *ctx)
                 point->width[0] = (s16)point->sb[0] - (s16)point->sa[0];
                 streamer->ox[4] = rcos(point->angle[0]) * point->width[0] >> 12;
                 streamer->oy[4] = rsin(point->angle[0]) * point->width[0] >> 12;
+#endif
             } else {
                 streamer->depth[j] = RotTransPers4(
                     &streamer->a[j], &streamer->a[j + 1], &streamer->a[j], &streamer->a[j + 1],
