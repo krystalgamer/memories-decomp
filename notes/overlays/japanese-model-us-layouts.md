@@ -27,15 +27,29 @@ unnamed resident symbol, `D_800FE168`, sits between `GsWSMATRIX_ORG` and
 images). Address-named calls (`func_80058F10`, `func_8005B260`) map through the
 call targets that differ between the US and Japanese copies of each image.
 
+## Header-141 primary images
+
+The header-141 primary images `model_image_model_39136_8013a000` and
+`model_image_model_39138_8017a000` keep their raw names, but their code is not
+the same as the US copy. Japan changes the particle quad's corner heights from
+`-height - 150` and `height - 150` to `-height * 3 / 4` and `height / 4`. The
+function grows from `0x990` to `0xA04` bytes, and the scale, image and
+descriptor data move up by `0x74` bytes. Everything else is unchanged apart
+from resident relocations.
+
+The wrappers in `src/overlays/japanese/model_primary/` define `VERSION_JAPAN`,
+rename the moved data symbols, and include the shared
+`src/overlays/spanish_model_primary/primary64.c`. That source selects the
+Japanese corners only under `VERSION_JAPAN`. Its default build still produces
+the US, French and Spanish header-141 images.
+`model_primary64_linker_symbols.txt` gives the Japanese resident addresses.
+
 ## Not yet built from C
 
 - Images whose US source emits a rodata padding byte that differs in the
   Japanese copy (one word, for example the byte after the header-635
   `E_DATA size` string is `0x0C` instead of `0x24`). They need a Japanese
   selector for that byte and stay generated assembly.
-- The header-141 primary images (`model_image_model_39136_8013a000` and
-  `model_image_model_39138_8017a000`), whose Japanese code differs in 139
-  words.
 - The six images that use `variant668_linker_symbols.txt`, whose aliases to
   US resident addresses inside other functions have not been mapped.
 - US images that are still generated assembly.

@@ -1,2 +1,2 @@
 address,size,name,status,module,notes
-0x8013A004,0xA04,func_8013A004,unmatched_asm,overlay/model_image_model_39136_8013a000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8013A004,0xA04,func_8013A004,matching_c,overlay/model_image_model_39136_8013a000,Header family 64 primary-141; shared primary64 C with the Japanese three-quarter quad anchor; real scale/image/descriptor storage preserved.
