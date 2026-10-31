@@ -1,0 +1,4 @@
+// Spanish MODEL.MRG model 216 (record 216), sector 59806, header 912, loaded at 0x8017B000; the US header-798 source variant798_entry_slot1.c; built from the French source layout of french_model_variant_216_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x4980 defined:true
+D_8017F994 = 0x8017F994; // type:u8 size:0x134 defined:true
+D_8017FAC8 = 0x8017FAC8; // type:u8 size:0x538 defined:true

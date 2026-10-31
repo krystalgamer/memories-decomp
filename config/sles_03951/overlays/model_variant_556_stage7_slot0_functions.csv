@@ -1,0 +1,2 @@
+address,size,name,status,module,notes
+0x8013B004,0x1158,func_8013B004,matching_c,overlay/model_variant_556_stage7_slot0,Complete image and sized C owner exact; direct-entry reachable; opaque suffix unclassified.

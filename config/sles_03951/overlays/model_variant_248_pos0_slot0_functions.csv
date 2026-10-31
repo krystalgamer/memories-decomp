@@ -1,0 +1,4 @@
+address,size,name,status,module,notes
+0x8013B004,0xE34,func_8013B004,matching_c,overlay/model_variant_248_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013BE38,0x8E0,func_8013BE38,matching_c,overlay/model_variant_248_pos0_slot0,"Exact C band renderer: grows, projects and draws the entry's 33-step band as 32 GT4 quads."
+0x8013C718,0x638,func_8013C718,matching_c,overlay/model_variant_248_pos0_slot0,Complete module byte identity and section-defined C ownership verified.

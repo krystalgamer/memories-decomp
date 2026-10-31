@@ -1,0 +1,4 @@
+// Spanish MODEL.MRG model 541 (record 491), sector 135706, header 762, loaded at 0x8017B000; the US header-745 source variant678us_entry_slot1.c, through french_model_variant/variant695_entry_slot1.c; built from the French source layout of french_model_variant_541_stage8_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x2214 defined:true
+D_8017D218 = 0x8017D218; // type:u8 size:0x134 defined:true
+D_8017D34C = 0x8017D34C; // type:u8 size:0x2CB4 defined:true

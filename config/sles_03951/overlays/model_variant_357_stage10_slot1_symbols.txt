@@ -1,0 +1,4 @@
+// Spanish MODEL.MRG model 357 (record 357), sector 84942, header 933, loaded at 0x8017B000; the US header-819 source variant819_entry_slot1.c; built from the French source layout of french_model_variant_357_stage10_slot1.
+func_8017B004 = 0x8017B004; // type:func size:0x3CB4 defined:true
+D_8017ECC8 = 0x8017ECC8; // type:u8 size:0xC4 defined:true
+D_8017ED8C = 0x8017ED8C; // type:u8 size:0x1274 defined:true

@@ -1,0 +1,4 @@
+// Spanish MODEL.MRG model 600 (record 550), sector 151980, header 186, loaded at 0x8013B000; the US header-169 source variant169_entry.c, through french_model_variant/variant186_entry.c; built from the French source layout of french_model_variant_600_stage7_slot0.
+func_8013B004 = 0x8013B004; // type:func size:0x20AC defined:true
+D_8013D0C0 = 0x8013D0C0; // type:u8 size:0x54 defined:true
+D_8013D114 = 0x8013D114; // type:u8 size:0x2EEC defined:true
