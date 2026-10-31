@@ -1,2 +1,2 @@
 address,size,name,status,module,notes
-0x8013B004,0xF9C,func_8013B004,unmatched_asm,overlay/model_image_model_168264_8013b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8013B004,0xF9C,func_8013B004,matching_c,overlay/model_image_model_168264_8013b000,Two 64-ray fans and randomized 64-point particle-shell entry; both complete 20480-byte slot images exact with gcc_2_8_1_g0_split. Original raw suffix preserved. See notes/overlays/french-model-image168264-entry.md.

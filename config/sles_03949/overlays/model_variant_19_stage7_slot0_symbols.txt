@@ -1,0 +1,4 @@
+// MODEL.MRG model 19 (record 19), sector 5424, header 137, loaded at 0x8013B000; the US header-120 source variant120_entry.c.
+func_8013B004 = 0x8013B004; // type:func size:0x1260 defined:true
+D_8013C274 = 0x8013C274; // type:u8 size:0x1C defined:true
+D_8013C290 = 0x8013C290; // type:u8 size:0x3D70 defined:true

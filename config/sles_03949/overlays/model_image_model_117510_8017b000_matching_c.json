@@ -1,4 +1,11 @@
 {
-  "functions": [],
+  "functions": [
+    {
+      "address": "0x8017C3B0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5C8",
+      "source": "src/overlays/french_model_variant/variant455_swarm_slot1.c"
+    }
+  ],
   "schema": 1
 }

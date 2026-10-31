@@ -1,5 +1,4 @@
-# Generated function inventory: closed-CFG functions are generated assembly;
-# every other byte remains raw and unclassified.
+# Raw image with one exact C helper; the remaining bytes stay unclassified.
 name: german_model_image_model_76928_8013b000
 sha1: 4cb665168b9340e8129ae2112ce1a9fec8ccd432
 
@@ -25,6 +24,8 @@ options:
   o_path: tmp/overlays/german_model_image_model_76928_8013b000/build
   undefined_funcs_auto_path: tmp/overlays/german_model_image_model_76928_8013b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/german_model_image_model_76928_8013b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03949/overlays/model_image_model_76928_8013b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -44,29 +45,29 @@ segments:
   - name: module_header
     type: code
     start: 0x0
-    vram: 0x8013b000
+    vram: 0x8013B000
     align: 4
     subsegments:
       - [0x0, data, overlays/german_model_image_model_76928_8013b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8013b004
+    vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/german_model_image_model_76928_8013b000/unmatched_4]
-  - name: unmatched_10f8
+      - [0x4, c, overlays/french_model_variant/variant447_entry]
+  - name: helper_10F8
     type: code
-    start: 0x10f8
-    vram: 0x8013c0f8
+    start: 0x10F8
+    vram: 0x8013C0F8
     align: 4
     subsegments:
-      - [0x10f8, asm, overlays/german_model_image_model_76928_8013b000/unmatched_10f8]
+      - [0x10F8, c, overlays/french_model_variant/variant447_swarm]
   - name: unclassified_tail
     type: code
-    start: 0x17b0
-    vram: 0x8013c7b0
+    start: 0x17B0
+    vram: 0x8013C7B0
     align: 4
     subsegments:
-      - [0x17b0, bin, overlays/german_model_image_model_76928_8013b000/unclassified_tail]
+      - [0x17B0, data, overlays/german_model_image_model_76928_8013b000/unclassified_tail]
   - [0x5000]

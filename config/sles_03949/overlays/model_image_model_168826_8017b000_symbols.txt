@@ -1,0 +1,4 @@
+// French raw image model_image_model_168826_8017b000; the header-928 entry variant831_entry_slot1.c over the header-831 C.
+func_8017B004 = 0x8017B004; // type:func size:0x3804 defined:true
+D_8017E818 = 0x8017E818; // type:u8 size:0x8C defined:true
+D_8017E8A4 = 0x8017E8A4; // type:u8 size:0x175C defined:true

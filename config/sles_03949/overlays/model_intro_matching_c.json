@@ -1,0 +1,35 @@
+{
+  "functions": [
+    {
+      "address": "0x80180004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x198",
+      "source": "src/overlays/spanish_model_intro/runtime.c"
+    },
+    {
+      "address": "0x8018019C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x284",
+      "source": "src/overlays/spanish_model_intro/runtime.c"
+    },
+    {
+      "address": "0x80180420",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x80",
+      "source": "src/overlays/spanish_model_intro/runtime.c"
+    },
+    {
+      "address": "0x801804A0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x10",
+      "source": "src/overlays/spanish_model_intro/runtime.c"
+    },
+    {
+      "address": "0x801804B0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x120",
+      "source": "src/overlays/spanish_model_intro/runtime.c"
+    }
+  ],
+  "schema": 1
+}
