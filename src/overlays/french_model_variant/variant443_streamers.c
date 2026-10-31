@@ -80,6 +80,8 @@ void func_8013E668(u8 *ctx)
         work->rotation_y += 1300;
     }
     work->rotation_y += 32;
+    /* A zero step: the PAL build drops it, the USA build keeps its load. */
+    work->rotation_z += 0;
     sheet = work->sheets;
     for (j = 0; j < 3; j++, sheet++) {
         m.t[0] = work->positions[j].vx;
