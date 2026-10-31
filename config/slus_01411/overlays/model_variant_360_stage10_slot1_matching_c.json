@@ -13,10 +13,22 @@
       "source": "src/overlays/model_variant/variant435_sheets_slot1.c"
     },
     {
+      "address": "0x8017C524",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xAA8",
+      "source": "src/overlays/model_variant/variant435_streamers_slot1.c"
+    },
+    {
       "address": "0x8017CFCC",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x3E0",
       "source": "src/overlays/model_variant/variant435_lines_slot1.c"
+    },
+    {
+      "address": "0x8017D3AC",
+      "profile": "gcc_2_7_2_cdk_g0",
+      "size": "0xA0C",
+      "source": "src/overlays/model_variant/variant435_rays_slot1.c"
     }
   ],
   "schema": 1
