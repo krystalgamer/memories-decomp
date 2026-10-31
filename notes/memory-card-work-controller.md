@@ -17,11 +17,12 @@ The existing `bss_image_after_viewport` backing covers `gMemCardWork_Area` at
 `0x800EF6D0`. A bounded two-slot view ends at `0x800EFBBC`, four bytes
 before the independently used directory buffer at `0x800EFBC0`. This is a
 capacity view of existing storage, not a claim that the runtime selects both
-slots. The only observed explicit resident GP store covering `D_8009B3DD`
+slots. The only observed explicit resident GP store covering `gMemCardWork_bSlotIndex`
 is the byte store of zero at `0x8003D31C`, in `MemCardWork_InitializeOperation`. In particular,
 the selector's `u8` type does not justify 256 slots; arbitrary selectors
 remain outside the measured contract. The root's block byte and text index
-retain their existing interior identities at `D_800EF6E0`/`D_800EF6EA`.
+retain their existing interior identities, `gMemCardWork_bRootBlocks` and
+`D_800EF6EA`.
 
 The initialized `gDialog_apfnTransitionSteps` view at `0x80090F88` has five
 words, ending before `D_80090F9C`: `Dialog_UpdateMessageTransition`,
@@ -58,13 +59,13 @@ The unchanged implementation was separately reprobed: all 40 bytes match.
 ## Partial operation initialization and separate state bytes
 
 `MemCardWork_InitializeOperation` (`0x8003D300`) keeps exactly six stores
-in their original order: `D_800EF6E0[0] = 1`,
-`gMemCardWork_OperationState = 0`, `D_8009B3C1 = 0`,
-`D_8009B3CC = 0x8000`, `D_8009B3DD = 0`, then
+in their original order: `gMemCardWork_bRootBlocks[0] = 1`,
+`gMemCardWork_OperationState = 0`, `gDialog_bCallbackState = 0`,
+`gMemCardWork_wFlags = 0x8000`, `gMemCardWork_bSlotIndex = 0`, then
 `gMemCardWork_OperationMode = value`. It does not allocate or clear the
 whole `gMemCardWork_Area`, submit a request, initialize SDK events or
 establish a new active caller. The independently spelled root-block byte
-at `D_800EF6E0` stays an unsized array, not a new typed-member assignment.
+`gMemCardWork_bRootBlocks` stays an unsized array, not a new typed-member assignment.
 
 The operation state remains `u8`: its low nibble selects the existing
 legacy controller case and bit `0x80` is that case's first-entry latch.
@@ -125,7 +126,8 @@ The constants preserve those literal request arguments. No equivalence with
 other RAM aliases or assumptions about extra physical RAM are introduced.
 
 `MEM_CARD_WORK_FRAME_BYTES` is a bounded 128-byte view at the literal
-`0x80210000` address. Bytes `D_8021007A` through `D_8021007F` are existing
+`0x80210000` address. Bytes `D_8021007A` through `D_8021007E` and
+`gMemCardWork_bFrameChecksum` (`+0x7F`) are existing
 absolute linker identities inside that same range. They are **not** six
 independent allocations. The controller modifies `+0x7A..+0x7E`, reads
 `+0..+0x7E`, and writes the XOR to `+0x7F`. Native witnesses place one
@@ -155,9 +157,9 @@ Only native bindings at those addresses receive the new names. The UK
 unrelated French NA-number aliases and all other metadata remain.
 Japanese controller/area macros retire in favor of canonical native
 bindings, but its other ABI, channel and SDK aliases remain. The European
-controller out-parameter keeps its separate `European_D_8009B3C8`
-assembler-label view, distinct from the modal runtime's similarly named
-word.
+controller out-parameter is bound directly as
+`gMemCardWork_nRequestResult`, distinct from the modal runtime's
+`gMemCardDialog_SyncCommand` word.
 
 Every complete compiler/MASPSX output is compared after reversing only
 these five names, without filtering instructions, directives, relocations

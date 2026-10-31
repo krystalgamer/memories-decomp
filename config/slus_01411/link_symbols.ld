@@ -190,22 +190,8 @@ D_8009AF74 = gDisplayObject_awOrderingTableDepthBases;
 gFade_bKeepOverlayDepth = D_8009B140;
 gFade_bWhiteLatch = D_8009B145;
 
-D_8009AF6C = gMemCard_szDirectoryEntryFormat;
-D_8009AF70 = gMemCardDialog_szAllFilesPattern;
-D_8009AF7C = gMemCard_szAllFilesPattern;
-gMemCard_szFreeBlockCountFormat = D_80010378;
-gMemCard_szMakeFileTrace = D_80010398;
-gMemCard_szFailFileTrace = D_800103A4;
 
-gMemCardWork_wFlags = D_8009B3CC;
-gMemCardWork_bSlotIndex = D_8009B3DD;
-gMemCardWork_bOperationResult = D_8009B3D5;
-gMemCardWork_nRequestResult = D_8009B3C8;
-gMemCardWork_nCompletedRequest = D_8009B3E4;
-gMemCardWork_bFrameChecksum = D_8021007F;
 
-gMemCard_szDevicePathFormat = D_80010538;
-gMemCard_bTransferRetriesRemaining = D_8009B436;
 
 gMain_bReturnMode = D_8009B269;
 gMain_bActiveModeState = D_8009B26C;

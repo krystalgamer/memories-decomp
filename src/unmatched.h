@@ -389,7 +389,6 @@ struct DuelRitualResult;
  * the existing caller types. The guarded arms are measured code-generation
  * differences: scalar small-data access, array/address access, explicit
  * .data placement, and pointer arithmetic are not interchangeable here. */
-extern u8 D_80010538[];
 extern u8 gSD_szSeGroupCountFormat[];
 extern u8 gSD_szSmfMixerOutFormat[];
 extern u8 gSD_szCdMixerOutFormat[];
@@ -459,7 +458,6 @@ extern u8 D_800E9ECF[];
 extern s8 gDuel_bSide1CardViewMode[];
 
 extern u8 D_800EAE8E[];
-extern u8 D_800EF6E0[];
 extern s16 D_800F2B22;
 extern u8 gMovie_FileInfo[];
 extern u8 D_8018C7D8[];

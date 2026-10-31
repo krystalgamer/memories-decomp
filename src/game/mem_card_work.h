@@ -66,14 +66,13 @@ typedef char MemCardWorkRoot_offsets_must_match[
 ];
 
 extern MemCardWorkArea gMemCardWork_Area;
-extern u16 D_8009B3CC;
+/* root.blocks (gMemCardWork_Area + 0x10) under its own identity. Unsized:
+ * the array view keeps MemCardWork_InitializeOperation's -G8 store out of
+ * small data. Only byte zero is established. */
+extern u8 gMemCardWork_bRootBlocks[];
 /* Low nibble selects the legacy operation case; bit 0x80 is its entry latch.
  * Distinct from the shared dialog latch and the modal dialog step byte. */
 extern u8 gMemCardWork_OperationState;
-extern u8 D_8009B3DD;
-extern u8 D_8009B3D5;
-extern s32 D_8009B3C8;
-extern s32 D_8009B3E4;
 
 /* Measured two-argument caller view. The five stored callbacks currently
  * consume the root through their own MenuRecord view and ignore argument 2.
@@ -83,8 +82,9 @@ extern void (*G32 gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(
     MemCardWorkRoot *root, MemCardWorkSlot *slot
 );
 
-/* CPU-addressed directory frame: all six scalar identities below are
- * interior bytes of this same 128-byte range, never separate storage.
+/* CPU-addressed directory frame: the five scalar identities below and
+ * gMemCardWork_bFrameChecksum (mem_card_work_state.h, +0x7F) are interior
+ * bytes of this same 128-byte range, never separate storage.
  * Existing absolute linker symbols supply those identities. No RAM-mirror
  * equivalence with other addresses is assumed by this view. */
 extern u8 D_80210000[MEM_CARD_WORK_FRAME_SIZE];
@@ -93,12 +93,6 @@ extern u8 D_8021007B __attribute__((section(".data")));
 extern u8 D_8021007C __attribute__((section(".data")));
 extern u8 D_8021007D __attribute__((section(".data")));
 extern u8 D_8021007E __attribute__((section(".data")));
-extern u8 D_8021007F __attribute__((section(".data")));
-
-extern char D_8009AF6C[];
-extern char D_80010378[];
-extern char D_80010398[];
-extern char D_800103A4[];
 
 /* Poll requests, service shared display transitions and advance the legacy
  * work state. The separate MemCardDialog_Update uses the LIBMCRD runtime. */

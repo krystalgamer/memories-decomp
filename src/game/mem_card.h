@@ -63,8 +63,9 @@ extern u8 gMemCard_bChannel;
 
 extern u8 gMemCard_szSaveFileName[];
 
-/* Japanese options-screen filename stored separately in the image. */
-extern u8 D_8001032C[];
+/* Japanese "BISLPMP86398-YUGIOH": the file name SaveData_RequestOptionsWrite
+ * hands to MemCardDialog_Request, separate from the ordinary save name. */
+extern u8 gMemCard_szOptionsFileName[];
 
 /* The modal request's shared filename buffer.
  *
@@ -171,7 +172,6 @@ extern u16 gMemCard_wRequestOffset;
 extern u16 gMemCard_wRequestSize;
 extern char gMemCard_szRequestPath[];
 extern s32 gMemCard_pRequestBuf;
-extern u8 D_8009B436;
 
 /* The retry budget of the current stage. Stored by MemCard_BeginRequest
  * (mem_card_driver.c, `gMemCard_bRetries = 10;`;

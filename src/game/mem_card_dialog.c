@@ -1669,7 +1669,7 @@ void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)
    Japanese image keeps at 0x8001032C ("BISLPMP86398-YUGIOH"). */
 void SaveData_RequestOptionsWrite(void)
 {
-    MemCardDialog_Request((u8 *)0x80140000, 0x8000, D_8001032C, 3);
+    MemCardDialog_Request((u8 *)0x80140000, 0x8000, gMemCard_szOptionsFileName, 3);
 }
 #endif
 

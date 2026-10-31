@@ -425,8 +425,8 @@ five `(s8)` casts the poll needed over the `u8` arm are redundant under `s8`,
 and removing them preserved that candidate object's bytes at that stage.
 `gMemCard_pRequestBuf` stays an `s32` address, matching the request wrappers'
 integer buffer ABI. Event-handle elements stay `long`, and both asynchronous
-users select the existing volatile result arm. The poll's `D_8009B436`
-countdown keeps its address-based name and plain `u8` view; no request fields
+users select the existing volatile result arm. The poll's
+`gMemCard_bTransferRetriesRemaining` countdown keeps its plain `u8` view; no request fields
 are combined into a speculative struct or given new storage.
 
 The directory type has stronger evidence than adjacency: `firstfile` and
@@ -446,9 +446,10 @@ header, and the poll now uses the producer's actual `MemCard_FindFiles`
 prototype, including its optional `s32 *out_count` (the poll passes null).
 The high-level dialog's `gMemCardDialog_DirectoryBuffer` remains an incomplete byte array with
 explicit casts at its directory API boundaries; its storage/addressing is
-not normalized. The low-level wildcard `D_8009AF7C` gains a shared declaration
-consumed by its `.sdata` owner, but keeps its four-byte definition and remains
-distinct from the high-level wildcard `D_8009AF70`.
+not normalized. The low-level wildcard `gMemCard_szAllFilesPattern` gains a shared
+declaration consumed by its `.sdata` owner, but keeps its four-byte definition
+and remains distinct from the high-level wildcard
+`gMemCardDialog_szAllFilesPattern`.
 
 The matching controller consumes all seventeen formerly bypassed dependencies
 directly from headers. Before promotion, that migration emptied the candidate's
@@ -922,12 +923,10 @@ controller's separate out-parameter at `0x8009C324` lies between them.
 Continental Europe has the same relationship at
 `0x8009C740/0x8009C744/0x8009C748`.
 
-The two regional wrappers' complete legacy out-parameter prefixes,
-historical explanatory comments and
-`asm("D_8009B3F0")` strings remain byte-identical. That ASM label still
-binds the legacy word, not `gMemCardDialog_SyncCommand`. Their former
-`gEuropean_D_8009B3F0` modal alias becomes the canonical command binding;
-the distinct direct `D_8009B3F0` linker name stays untouched. The same
+The legacy word is bound directly as `gMemCardWork_nRequestResult` in
+each PAL symbol file, not as `gMemCardDialog_SyncCommand`; the former
+`European_D_8009B3C8`/`asm("D_8009B3F0")` wrapper view is gone. The former
+`gEuropean_D_8009B3F0` modal alias is the canonical command binding. The same
 address-based discipline retains the unrelated direct UK status alias
 at `0x8009C32C`, while the modal sync status is `0x8009C314`.
 No adjacent-word struct, storage merge or broad textual label rewrite is
@@ -1196,8 +1195,8 @@ retry/validation paths, separate error targets and outcome one/three
 stores. The unsized card-number argument, absolute choice view and
 volatile flag stores retain their old addressing and order. The PAL
 controller's out-parameter and modal sync word still have different
-addresses despite their historical `D_8009B3F0` spellings; neither is
-merged, retyped or rebound.
+addresses (`gMemCardWork_nRequestResult` and
+`gMemCardDialog_SyncCommand`); neither is merged or retyped.
 
 Only the five private name macros are removed from the three existing
 PAL wrappers. Every shared function body, private layout, initialized
@@ -1246,7 +1245,8 @@ state three to restore the active state. This is not an unconditional
 per-frame request, a success-only test or an exit from Options.
 
 The request itself passes the fixed pointer `0x80140000`, size `0x8000`,
-existing file-name pointer `D_8001032C` and step three. It does not copy the
+file name `gMemCard_szOptionsFileName` (`"BISLPMP86398-YUGIOH"` at
+`0x8001032C`) and step three. It does not copy the
 ordinary `0x680`-byte save state or build its replicated payload. Options
 identifies the observed caller, not a recovered format for those 32 KiB:
 no settings-only payload, regional equivalent or PAL reachability is claimed.
