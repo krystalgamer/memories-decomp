@@ -449,9 +449,10 @@ vector sits 0x14 lower and the image and command tables 0x24 lower.
 
 Two images under French headers 176 and 306 are the North American
 header-159 entry (`model_variant/variant159_entry.c`) without its work-size
-printf or that call's `.rodata` format string, built through
-`src/overlays/french_model_variant/variant176_entry{,_slot1}.c`. The scale
-vector sits 0x14 lower and the image and command tables 0x24 lower.
+printf or that call's `.rodata` format string. Both slots build through
+`src/overlays/french_model_variant/variant176_entry.c`. The scale vector sits
+0x14 lower and the image and command tables 0x24 lower; each image's symbols
+file binds the shared data names to its own addresses.
 
 Two images under French headers 172 and 302 are the North American
 header-155 entry (`model_variant/variant155_entry.c`) without its work-size
