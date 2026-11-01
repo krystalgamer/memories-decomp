@@ -71,7 +71,7 @@ typedef struct {
     s16 slot, command;
 } Variant422EntryState;
 
-extern u8 D_8013E834[];
-void func_8013C128(u8 *context);
-void func_8013C620(u8 *context);
+extern u8 gFrenchModelVariant422_D3834[];
+void ModelVariant405_DrawHalo(u8 *context);
+void ModelVariant405_DrawVeils(u8 *context);
 #endif

@@ -8,6 +8,11 @@ per slot with `gcc_2_8_1_g0_split`. Both slots compile it directly
 (see [Names](#names)). This is a new decompilation; no region had accepted
 C for it. The `model_variant/variant405_entry.c` source is an unrelated
 North American body with the same header number.
+per slot with `gcc_2_8_1_g0_split`. The slot-1 wrapper only renames the
+descriptor base `D_8013CFBC` and the entry and helper symbols to their
+`0x8017....` addresses. This is a new decompilation; no region had accepted
+C for it. The North American header-405 entry is an unrelated body with the
+same header number (`french_model_variant/variant422_entry.c`).
 
 ## Behaviour
 

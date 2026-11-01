@@ -4,31 +4,31 @@
       "address": "0x8017B004",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x1128",
-      "source": "src/overlays/model_variant/variant405_entry_slot1.c"
+      "source": "src/overlays/french_model_variant/variant422_entry.c"
     },
     {
       "address": "0x8017C12C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4F4",
-      "source": "src/overlays/model_variant/variant405_halo_slot1.c"
+      "source": "src/overlays/model_variant/variant405_halo.c"
     },
     {
       "address": "0x8017C620",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x6E4",
-      "source": "src/overlays/model_variant/variant405_veils_slot1.c"
+      "source": "src/overlays/model_variant/variant405_veils.c"
     },
     {
       "address": "0x8017CD04",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x70C",
-      "source": "src/overlays/model_variant/variant405_bands_slot1.c"
+      "source": "src/overlays/model_variant/variant405_bands.c"
     },
     {
       "address": "0x8017D410",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4EC",
-      "source": "src/overlays/model_variant/variant405_sheets_slot1.c"
+      "source": "src/overlays/model_variant/variant405_sheets.c"
     },
     {
       "address": "0x8017D8FC",
@@ -40,19 +40,19 @@
       "address": "0x8017DE54",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x314",
-      "source": "src/overlays/model_variant/variant405_spokes_slot1.c"
+      "source": "src/overlays/model_variant/variant405_spokes.c"
     },
     {
       "address": "0x8017E168",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x380",
-      "source": "src/overlays/model_variant/variant405_rings_slot1.c"
+      "source": "src/overlays/model_variant/variant405_rings.c"
     },
     {
       "address": "0x8017E4E8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x368",
-      "source": "src/overlays/model_variant/variant405_quad_slot1.c"
+      "source": "src/overlays/model_variant/variant405_quad.c"
     }
   ],
   "schema": 1
