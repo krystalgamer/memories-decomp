@@ -36,6 +36,15 @@ BLOB_SECTION_TYPES = {"data", "rodata", "sdata", "sbss", "bss"}
 TEXT_CLAIMED_SECTION_TYPES = {".data", ".rodata", ".bss"}
 SMALL_SECTION_TYPES = {".sdata", ".sbss"}
 OWNED_SECTION_TYPES = TEXT_CLAIMED_SECTION_TYPES | SMALL_SECTION_TYPES
+# File offset where the zero image turns from small (.sbss) to large (.bss)
+# objects; the global pointer reaches only the former.
+LARGE_BSS_START = 0x8BCA8
+# Template segments folded into the text segment after generation.
+MERGED_DATA_SEGMENTS = (
+    "initialized_data",
+    "bss_image_before_viewport",
+    "bss_image_after_viewport",
+)
 
 
 def parse_integer(value: Any, description: str) -> int:
@@ -515,6 +524,34 @@ def generate(root: Path) -> tuple[Path, Path, Path]:
     data_sources = collect_data_sources(
         root, segments, load_data_profiles(root, load_profiles(root)), text_sources
     )
+
+    # The initialized data and the zero-filled image follow the text in one
+    # code segment, so every object's .data, .sdata, .sbss and .bss are
+    # linked in the same object order as its text.
+    merged_names = MERGED_DATA_SEGMENTS
+    for name in merged_names:
+        segment = one_segment(name)
+        for entry in segment.get("subsegments") or []:
+            if isinstance(entry, list) and len(entry) >= 3 and entry[1] == "bin":
+                text_segment["subsegments"].append(
+                    {
+                        "start": entry[0],
+                        "type": "bin",
+                        "name": entry[2],
+                        "linker_section_order": (
+                            ".sbss"
+                            if parse_integer(entry[0], "bss start") < LARGE_BSS_START
+                            else ".bss"
+                        ),
+                    }
+                )
+            else:
+                text_segment["subsegments"].append(entry)
+    segments[:] = [
+        segment
+        for segment in segments
+        if not (isinstance(segment, dict) and segment.get("name") in merged_names)
+    ]
 
     generated_directory = resolve_within(root, "tmp/generated")
     split_path = generated_directory / "slus_01411.split.yaml"

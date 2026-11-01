@@ -224,3 +224,6 @@ The only remaining ordinary initialized-data blob begins at `0x80091958`;
 the ownership census in `build.md` attributes its 274 referenced labels
 exclusively to Psy-Q SDK functions, so it is vendor data rather than unfinished
 game data.
+
+The per-unit model that replaces explicit section placement is described in
+[data-layout-ownership.md](data-layout-ownership.md).

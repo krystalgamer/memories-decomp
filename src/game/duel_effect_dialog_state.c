@@ -1,4 +1,9 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B244-0x8009B246, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u16 gDuel_wEffectDialogTextID;
+
 #include "duel_effect_state_latch.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"

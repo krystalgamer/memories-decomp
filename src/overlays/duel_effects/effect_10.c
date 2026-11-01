@@ -9,6 +9,7 @@
 #include "texture_state_semantic_views.h"
 #include "fallback_semantic_views.h"
 #include "live_handler_data_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
 {

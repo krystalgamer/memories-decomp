@@ -3,6 +3,14 @@
 #define D_8009B320_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B258-0x8009B260, defined in
+ * address order ahead of the headers that declare it (#2602). */
+s8 gCardGrid_bCursorColumn;
+s8 gCardGrid_bCursorRow;
+static u16 D_8009B25A;
+static u32 D_8009B25C;
+
 #include "text_box_blocking_build.h"
 #include "graphics_frame.h"
 #include "library_runtime.h"

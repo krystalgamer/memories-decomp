@@ -100,12 +100,6 @@ extern s16 gModel_sTextureTintRectY;
 extern s16 gModel_sTextureTintRectW;
 extern s16 gModel_sTextureTintRectH;
 
-/* One consumer, func_8005C374.c, which writes its three parameters to these
- * contiguous bytes. Their individual roles remain unknown, and no movie
- * subsystem header owns the storage. */
-extern u8 D_8009B4A0;
-extern u8 D_8009B4A1;
-extern u8 D_8009B4A2;
 
 /* One consumer, AiScript_Print. Both addresses are passed to printf as format
  * strings; the second also receives the script checkpoint byte. Their
@@ -113,30 +107,6 @@ extern u8 D_8009B4A2;
 extern const char gAiScript_szCheckpoint[];
 extern const char gAiScript_szCheckpointFormat[];
 
-/* A single word at 0x8009B118, four bytes: c_symbols.ld names gFile_FilterParams
- * immediately after it, so no element can hide inside. Fifteen files declared
- * it identically as `extern s32 D_8009B118;`, which is why it can move here
- * unchanged - there is no per-consumer spelling to preserve.
- *
- * It holds an address despite the s32 spelling:
- * campaign_map_load_package_stage.c passes it to LoadImage2 as (u32 *) and
- * also adds 0x800 to it. The s32 is left as-is rather than retyped, which is
- * a separate question from centralizing it.
- *
- * Six consumers do NOT take the plain arm, and both reasons are load bearing.
- * Five carry section(".data"), which is the -G8 lever that keeps the address
- * being rebuilt per access instead of resolved gp-relative, and
- * duel_load_package_stage.c additionally spells it u8 * because it does
- * pointer arithmetic on it. Those two arms are selected by
- * D_8009B118_IN_DATA and D_8009B118_IS_POINTER_IN_DATA, the same shape
- * input.h and sound.h use, rather than by re-declaring the symbol locally. */
-#ifdef D_8009B118_IS_POINTER_IN_DATA
-extern u8 *G32 D_8009B118 __attribute__((section(".data")));
-#elif defined(D_8009B118_IN_DATA)
-extern s32 D_8009B118 __attribute__((section(".data")));
-#else
-extern s32 D_8009B118;
-#endif
 
 /* Address-only declarations found by re-measuring the note above rather
  * than by a scan. Every one is installed as data -- into the duel scene
@@ -294,10 +264,6 @@ extern u8 D_8009B34C;
 extern u8 D_80010074[];
 extern u8 D_80010090[];
 extern u8 D_800100A8[];
-extern s32 D_8009B0FC;
-extern u8 D_8009B108;
-extern u8 D_8009B110;
-extern s32 D_8009B12C;
 extern u8 gDuel_bSelectedTrapSlot;
 extern u8 gMain_bModeRunnerStep;
 extern s32 gGameOver_pTitleObject;
@@ -315,7 +281,6 @@ extern s16 gDisplayObject_wSpriteSheetListHead;
  * interpreted here. The raw byte-array view is kept because both consumers
  * match on it. */
 extern u8 gFile_nMasterXaLba[];
-
 
 
 /* Also reclassified from matching_c by #3859: the mixed -G share. Each of
@@ -390,10 +355,6 @@ extern u8 gSD_szCdMixerOutFormat[];
 extern char gAiScript_szNestOverflowError[];
 extern char gAiScript_szSourceFile[];
 extern char gAiScript_szReturnUnderflowError[];
-extern s32 D_8009B0A4;
-extern s32 D_8009B0B0;
-extern s32 D_8009B0BC;
-extern s32 D_8009B0D4;
 /* Duel_UpdateCardUseConfirmation's step flags: bit 7 once it has created the
  * two flip markers, bit 6 while a left/right flip of gDuel_pActionCard runs.
  * DuelScene_UpdateFieldActions clears the byte before the step starts. */
@@ -410,10 +371,6 @@ extern DisplayObject *G32 gDuel_pFlipRightMarker;
  * and Duel_UpdateCardUseConfirmation flips it face up or down. */
 extern DisplayObject *G32 gDuel_pActionCard;
 extern DisplayObject *G32 gDuel_pActionReadyMarker;
-#endif
-extern u8 gDuelEffect_bRequestFinished;
-#ifdef D_8009B264_VISIBLE
-extern DuelEffectRequest *G32 gDuelEffect_pActiveRequest;
 #endif
 
 #include "game/main_mode_state.h"

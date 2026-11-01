@@ -8,6 +8,7 @@
 #include "contour_burst_semantic_views.h"
 #include "fallback_semantic_views.h"
 #include "effect_0.h"
+#include "../../game/duel_effect_object_pool.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_18_RING_HEIGHT 106

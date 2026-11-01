@@ -12,6 +12,7 @@
 #include "texture_semantic_views.h"
 #include "damage_semantic_views.h"
 #include "effect_9.h"
+#include "../../game/duel_effect_object_pool.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_5_RISING_HEIGHT 106

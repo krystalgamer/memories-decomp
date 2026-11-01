@@ -11,6 +11,7 @@
 #include "texture_state_semantic_views.h"
 #include "row_strike_semantic_views.h"
 #include "fallback_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
 {

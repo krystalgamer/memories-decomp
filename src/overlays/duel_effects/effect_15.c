@@ -7,6 +7,7 @@
 #include "exodia_semantic_views.h"
 #include "selected_cards_semantic_views.h"
 #include "fallback_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
 {

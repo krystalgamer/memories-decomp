@@ -111,4 +111,11 @@ typedef struct {
 extern u8 *G32 gMovie_pWorkArea;
 extern CdlLOC gMovie_StreamLoc;
 
+/* One consumer, func_8005C374.c, which writes its three parameters to these
+ * contiguous bytes. Their individual roles remain unknown, and no movie
+ * subsystem header owns the storage. */
+extern u8 D_8009B4A0;
+extern u8 D_8009B4A1;
+extern u8 D_8009B4A2;
+
 #endif

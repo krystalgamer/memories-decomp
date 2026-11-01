@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -267,6 +268,8 @@ def compile_c(
             f"maspsx failed with exit code {error.returncode}: {source}"
         ) from error
 
+    export_common_symbols(raw_assembly, transformed_assembly)
+
     return assemble_c_output(
         root,
         assembler,
@@ -274,6 +277,34 @@ def compile_c(
         output,
         data_limit,
     )
+
+
+def export_common_symbols(raw_assembly: Path, transformed_assembly: Path) -> None:
+    """Keep tentative definitions external after MASPSX allocates them.
+
+    GCC writes a file-scope tentative definition as `.comm` and a static one as
+    `.lcomm`. MASPSX turns both into labels in .sbss or .bss, in GCC's order,
+    but exports only the .bss ones, so a small tentative definition could not
+    be the storage another unit's extern names. Exporting every `.comm` name
+    restores the C linkage; `.lcomm` names stay local.
+    """
+    common = re.findall(
+        r"^\s*\.comm\s+([A-Za-z_$.][\w$.]*)\s*,",
+        raw_assembly.read_text(encoding="utf-8", errors="replace"),
+        flags=re.M,
+    )
+    if not common:
+        return
+    text = transformed_assembly.read_text(encoding="utf-8", errors="replace")
+    exported = set(
+        re.findall(r"^\s*\.globl\s+([A-Za-z_$.][\w$.]*)", text, flags=re.M)
+    )
+    missing = [name for name in dict.fromkeys(common) if name not in exported]
+    if missing:
+        transformed_assembly.write_text(
+            "".join(f"\t.globl {name}\n" for name in missing) + text,
+            encoding="utf-8",
+        )
 
 
 def load_text_segments(root: Path) -> list[dict[str, object]]:

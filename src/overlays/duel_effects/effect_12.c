@@ -6,6 +6,7 @@
 #include "layered_semantic_views.h"
 #include "render_state_semantic_views.h"
 #include "field_burst_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 void DuelEffect_RunStopDefenseBurst(void *buffer, s32 phase)
 {

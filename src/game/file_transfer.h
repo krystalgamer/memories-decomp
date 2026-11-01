@@ -270,10 +270,11 @@ extern u8 gFile_FilterParamsByte asm("gFile_FilterParams");
 extern volatile u16 gFile_wStepState;
 
 /* The CD position buffer handed to DsPacket and CdIntToPos_8007E600.
- * Both declarers write `char gFile_TargetLoc[1]`, and the one-element spelling is
- * kept exactly: it is an addressing device that makes the name decay to a
- * pointer at each call, not a claim that one byte is all that is there. */
-extern char gFile_TargetLoc[1];
+ * file_transfer_runtime.c defines it. It is four bytes, a CdlLOC (minute,
+ * second, sector, mode): the definition must be four bytes for the compiler to
+ * word-align it at 0x8009B104, and a char array still decays to the pointer
+ * each call passes. */
+extern char gFile_TargetLoc[4];
 
 /* The callback the request functions run before starting a primary transfer.
  * File_SetPositionTable installs File_WaitForTransfers and
@@ -386,5 +387,38 @@ extern volatile u16 gFile_ServiceCallGate;
  * file already used on the line above for the primary descriptor. That copy
  * is File_ActivateTransfer, now in file_transfer_runtime.c. */
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
+
+
+/* Loader state defined by file_transfer_runtime.c whose roles are not yet
+ * named. */
+extern s32 D_8009B0FC;
+extern u8 D_8009B108;
+extern u8 D_8009B110;
+extern s32 D_8009B12C;
+
+/* A single word at 0x8009B118, four bytes: c_symbols.ld names gFile_FilterParams
+ * immediately after it, so no element can hide inside. Fifteen files declared
+ * it identically as `extern s32 D_8009B118;`, which is why it moved to unmatched.h and now here, beside its definer
+ * unchanged - there is no per-consumer spelling to preserve.
+ *
+ * It holds an address despite the s32 spelling:
+ * campaign_map_load_package_stage.c passes it to LoadImage2 as (u32 *) and
+ * also adds 0x800 to it. The s32 is left as-is rather than retyped, which is
+ * a separate question from centralizing it.
+ *
+ * Six consumers do NOT take the plain arm, and both reasons are load bearing.
+ * Five carry section(".data"), which is the -G8 lever that keeps the address
+ * being rebuilt per access instead of resolved gp-relative, and
+ * duel_load_package_stage.c additionally spells it u8 * because it does
+ * pointer arithmetic on it. Those two arms are selected by
+ * D_8009B118_IN_DATA and D_8009B118_IS_POINTER_IN_DATA, the same shape
+ * input.h and sound.h use, rather than by re-declaring the symbol locally. */
+#ifdef D_8009B118_IS_POINTER_IN_DATA
+extern u8 *G32 D_8009B118 __attribute__((section(".data")));
+#elif defined(D_8009B118_IN_DATA)
+extern s32 D_8009B118 __attribute__((section(".data")));
+#else
+extern s32 D_8009B118;
+#endif
 
 #endif

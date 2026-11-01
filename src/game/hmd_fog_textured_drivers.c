@@ -1,4 +1,9 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B300-0x8009B304, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u32 gModel_dwFogBaseColor;
+
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"

@@ -475,4 +475,9 @@ extern u8 gGraphics_abOrderingTableLengths[4];
 void Graphics_SyncFrame(void);
 void Graphics_BeginFrame(void);
 
+extern s32 D_8009B0A4;
+extern s32 D_8009B0B0;
+extern s32 D_8009B0BC;
+extern s32 D_8009B0D4;
+
 #endif

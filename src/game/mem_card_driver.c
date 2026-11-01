@@ -1,5 +1,25 @@
 #define GMEMCARD_NIORESULT_IS_VOLATILE
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B430-0x8009B458, defined in
+ * address order ahead of the headers that declare it (#2602). */
+s32 gMemCard_pRequestBuf;
+u16 gMemCard_wRequestSize;
+u8 gMemCard_bTransferRetriesRemaining;
+u8 gMemCard_bChannel;
+s32 gMemCard_nFreeBlocks;
+u8 gMemCard_bRetries;
+u8 gMemCard_bLoadStep;
+s8 gMemCard_bRequest;
+s32 gMemCard_nDirEntries;
+struct DIRENTRY *G32 gMemCard_pDirEntries;
+static u32 D_8009B448;
+u16 gMemCard_wRequestOffset;
+u8 gMemCard_bDirFlags;
+u8 gMemCard_bRequestStep;
+volatile s32 gMemCard_nIOResult;
+static u32 D_8009B454;
+
 #include "../psyq/libapi.h"
 #include "../psyq/stdio.h"
 #include "../psyq/strings.h"

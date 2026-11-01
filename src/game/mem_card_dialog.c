@@ -12,6 +12,43 @@
 #include "../types.h"
 #include "text_box_blocking_build.h"
 #include "mem_card_dialog.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B3BC-0x8009B400, defined in
+ * address order ahead of the headers that declare it (#2602). */
+s32 gMemCardDialog_SyncStatus;
+u8 gSaveData_PairMessageCode;
+u8 D_8009B3C1;
+u16 gMemCardDialog_TransferSize;
+u16 gMemCardDialog_TransferOffset;
+u8 gMemCardDialog_MessageCode;
+u8 gMemCardWork_OperationMode;
+s32 gMemCardWork_nRequestResult;
+u16 gMemCardWork_wFlags;
+static u8 D_8009B3CE;
+u8 gMemCardWork_OperationState;
+u8 *G32 gMemCard_pPrimaryTransferCursor;
+u8 gSaveData_AllowIdentityBypass;
+u8 gMemCardWork_bOperationResult;
+DisplayObject *G32 gMemCard_pDialogObject;
+u8 gMemCardDialog_BlockCount;
+u8 gMemCardWork_bSlotIndex;
+u8 gMemCardDialog_StepIndex;
+u8 *G32 gMemCard_pSecondaryTransferCursor;
+s32 gMemCardWork_nCompletedRequest;
+static u16 D_8009B3E8;
+u8 gSaveData_LoadPairState;
+u8 gMemCardDialog_OperationState;
+u8 gMemCardDialog_RetryCounter;
+u8 gSaveData_PairSetupState;
+u8 gMemCardDialog_ChannelIndex;
+u8 gMemCardDialog_Outcome;
+s32 gMemCardDialog_SyncCommand;
+s32 gMemCardDialog_SyncResult;
+static u8 D_8009B3F8;
+u8 gMemCardDialog_Port;
+u16 gMemCard_wDialogFlags;
+static u32 D_8009B3FC;
+
 #include "display_object.h"
 #include "display_object_interpolation.h"
 #include "display_object_lifecycle.h"

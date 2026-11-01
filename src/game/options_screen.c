@@ -8,6 +8,16 @@
 #include "text_box_blocking_build.h"
 #include "../ygo_types.h"
 #include "display_object.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B37C-0x8009B390, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 gOptions_bState;
+s8 gOptions_bOutputType;
+DisplayObject *G32 gOptions_pOutputCursor;
+s8 gOptions_bSelection;
+DisplayObject *G32 gOptions_pSelectionCursor;
+static u32 D_8009B38C;
+
 #include "display_object_core.h"
 #include "display_object_config.h"
 #include "display_object_helpers.h"
