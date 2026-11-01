@@ -10,9 +10,9 @@
  * drawn frame, which returns 1; the trail end returns 4 and the end
  * returns 2. */
 
-static const VECTOR D_8013CFA0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant771_D1FA0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant771_HandleRequest(u8 *context, s32 command)
 {
     Model771State *work;
     MATRIX light;
@@ -44,12 +44,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CFA0;
+    scale = gModelVariant771_D1FA0;
     work = (Model771State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D004[command];
+        work->config = &gModelVariant771_D2004[command];
         v = work->trail0;
         w = work->trail1;
         u = work->trail2;
@@ -63,7 +63,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         setVector(&work->offset, 0, 0, 0);
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &D_8013CFB0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant771_D1FB0[i]);
         }
         Model_GetSlotDimensionsWithMinimums(-slot + 1, (ModelEffectAdjustment *)&pos);
         v = work->fan_a;

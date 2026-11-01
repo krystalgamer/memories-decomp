@@ -82,9 +82,9 @@ typedef struct {
     Model771Tint tint;
 } Model771State;
 
-extern GsIMAGE D_8013CFB0[3];
-extern Model771Config D_8013D004[];
+extern GsIMAGE gModelVariant771_D1FB0[3];
+extern Model771Config gModelVariant771_D2004[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant771_HandleRequest(u8 *context, s32 command);
 
 #endif
