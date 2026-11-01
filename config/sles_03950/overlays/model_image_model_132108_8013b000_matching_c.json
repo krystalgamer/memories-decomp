@@ -10,7 +10,7 @@
       "address": "0x8013C2EC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5CC",
-      "source": "src/overlays/french_model_variant/image132118_swarm_slot0.c"
+      "source": "src/overlays/french_model_variant/image132118_swarm.c"
     }
   ],
   "schema": 1

@@ -17,8 +17,12 @@ targets differ.
   `group` in `s4` and the state copy in `s5`. The unscaled colour branch
   reads blue through a `group->color` pointer copy; decomp-permuter found
   that shape, which also stops GCC hoisting the group-indexed offsets.
-- **Slot 0.** `image132118_swarm_slot0.c` renames the function and includes
-  the slot-1 source.
+- **Slot 0.** Both slots compile `image132118_swarm.c` itself. The source
+  defines `FrenchModelVariant430_DrawSwarm`, and each image binds that name
+  at its own address: `0x8013C2EC`/`0x8017C2EC` in the PAL images, and
+  `0x8013C2F0`/`0x8017C2F0` in the North American and Japanese images, where
+  the header-413 entry includes the same body (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
 - **Bindings.** Calls use the current resident layout, so both regions reuse
   their `model_variant472_linker_symbols.txt`.
 
