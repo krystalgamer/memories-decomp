@@ -212,26 +212,18 @@ segments:
     vram: 0x8009B090
     align: 2
     subsegments:
-      - [0x8b890, bin, bss_image_before_viewport]
+      - [0x8b890, .sbss, game/graphics_frame]
       - [0x8b8e0, .sbss, game/file_set_position_table]
       - [0x8b8e8, .sbss, game/file_transfer_runtime]
-      - [0x8b940, bin, bss_image_8009b140]
-
-  - name: bss_image_viewport
-    type: code
-    start: 0x8b946
-    vram: 0x8009B146
-    align: 2
-    subsegments:
-      - [0x8b946, .sbss, game/graphics_frame]
+      - [0x8b940, .sbss, game/fade_runtime]
 
   - name: bss_image_after_viewport
     type: bin
-    start: 0x8b94a
-    vram: 0x8009B14A
+    start: 0x8b950
+    vram: 0x8009B150
     align: 2
     subsegments:
-      - [0x8b94a, bin, bss_image_after_viewport]
+      - [0x8b950, bin, bss_image_after_viewport]
       - [0x8ba44, .sbss, game/duel_effect_dialog_state]
       - [0x8ba46, bin, bss_image_8009b246]
       - [0x8ba58, .sbss, game/library_card_grid]

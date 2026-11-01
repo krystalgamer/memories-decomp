@@ -21,7 +21,19 @@ them.
 
 MASPSX exports only the large ones, so `build_baseline.py` adds a `.globl` for
 every `.comm` name after MASPSX (`export_common_symbols`); `.lcomm` (static)
-names stay local.
+names stay local. A unit that owns small data is compiled without MASPSX's
+`--use-comm-section` (the `_comm` profiles), which would leave its commons for
+the linker to allocate in hash order.
+
+Names that are interior bytes of an owned object are linker aliases of it
+(`gGraphics_bOrderingTable1Length = gGraphics_abOrderingTableLengths + 1;` in
+`link_symbols.ld`), and `bss_start` is the start of the first owned block,
+`text_SBSS_START`.
+
+The regional executables lay these blocks out in their own orders and still
+place them through their link files; an assignment there wins over the shared
+definition, so a shared unit's block is inert in a region whose names are all
+assigned. The Japanese wrappers alias the names Japan spells differently.
 
 ## One code segment
 
@@ -37,8 +49,10 @@ type, for example `[0x8b8e8, .sbss, game/file_transfer_runtime]`.
 
 | Unit | Section | Range |
 |---|---|---|
-| `src/game/file_transfer_runtime.c` | `.sbss` | `0x8009B0E8`-`0x8009B140` |
+| `src/game/graphics_frame.c` | `.sbss` | `0x8009B090`-`0x8009B0E0` |
 | `src/game/file_set_position_table.c` | `.sbss` | `0x8009B0E0`-`0x8009B0E8` |
+| `src/game/file_transfer_runtime.c` | `.sbss` | `0x8009B0E8`-`0x8009B140` |
+| `src/game/fade_runtime.c` | `.sbss` | `0x8009B140`-`0x8009B150` |
 | `src/game/duel_effect_dialog_state.c` | `.sbss` | `0x8009B244`-`0x8009B246` |
 | `src/game/library_card_grid.c` | `.sbss` | `0x8009B258`-`0x8009B260` |
 | `src/game/duel_effect_object_pool.c` | `.sbss` | `0x8009B260`-`0x8009B268` |

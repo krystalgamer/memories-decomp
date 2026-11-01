@@ -1,5 +1,38 @@
 #define D_8009B318_IN_DATA
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B090-0x8009B0E0, defined in
+ * address order ahead of the headers that declare it (#2602). The startup,
+ * frame and service units sit beside this one in text and declare these
+ * through their headers. gGraphics_bOrderingTable1Length..3Length are bytes of
+ * gGraphics_abOrderingTableLengths named by link_symbols.ld. */
+static u32 D_8009B090;
+static u32 D_8009B094;
+u16 gGraphics_wFlags;
+volatile s32 gMain_dwFrameCounter;
+u8 gGraphics_abOrderingTableLengths[4];
+s32 D_8009B0A4;
+u8 gGraphics_bSkipDisplaySwap;
+static u8 D_8009B0A9;
+static u16 D_8009B0AA;
+u8 gGraphics_bActiveBuffer;
+u8 gGraphics_bDither;
+s32 D_8009B0B0;
+struct GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
+void (*G32 gMain_pfnExtraFrameService)(void);
+s32 D_8009B0BC;
+volatile u8 gGraphics_bSyncVBlankTarget;
+u8 gGraphics_bExtraFrameStep;
+static u8 D_8009B0C2;
+u8 gMain_bVBlankSoundPending;
+volatile s32 gSaveData_dwVBlankCounter;
+volatile s32 gGraphics_dwSyncVBlankCounter;
+volatile s32 gGraphics_dwSyncedFrameCount;
+u8 gGraphics_bClearBackground;
+u8 D_8009B0D1;
+s32 D_8009B0D4;
+s32 D_8009B0D8;
+static u32 D_8009B0DC;
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -23,23 +56,6 @@
 #include "movie_playback_control.h"
 #include "../external_funcs.h"
 #include "graphics_frame_controls.h"
-
-/* Defined rather than declared: the assembler only resolves a small global
-   gp-relative when the translation unit defines it, and that is what supplies
-   the load-delay nop before the store below. The linker binding overrides this
-   common symbol, so no storage is allocated here. */
-u8 gGraphics_bExtraFrameStep;
-
-/* gp-relative in the target, so this unit defines them */
-u8 gGraphics_bSkipDisplaySwap;
-u8 gGraphics_bDither;
-u8 gGraphics_bClearBackground;
-u16 gGraphics_wFlags;
-u8 gGraphics_abOrderingTableLengths[4];
-u8 gGraphics_bActiveBuffer;
-GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
-s16 gGraphics_sViewportX __attribute__((section(".sbss"))) = 0;
-s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 
 /* Waits for the current GPU/VBlank boundary and publishes the bounded number
    of frame advances consumed by the next game update. */

@@ -2,6 +2,9 @@
 loaded_image_end = 0x801E0000;
 D_80181000 = 0x80181000;
 
+/* The startup code clears bss from the first small zero-initialized object. */
+bss_start = text_SBSS_START;
+
 /* Address-based call target retained by unmatched DuelScene_UpdateBattle. */
 
 /* Unmatched func_8002ACA4 still names the primary orbit by address. */
@@ -104,6 +107,10 @@ D_8009AFFC = gModel_ExodiaOrbitOffset;
 D_8009AFA4 = gGraphics_FrameStepControl;
 gGraphics_nBaseFrameStep = D_8009B0D8;
 D_8009B0A8 = gGraphics_bSkipDisplaySwap;
+gGraphics_bOrderingTable1Length = gGraphics_abOrderingTableLengths + 1;
+gGraphics_bOrderingTable2Length = gGraphics_abOrderingTableLengths + 2;
+gGraphics_bOrderingTable3Length = gGraphics_abOrderingTableLengths + 3;
+D_8009B0CC_arr = gGraphics_dwSyncedFrameCount;
 gGraphics_pOrderingTable1 = D_800E9D94;
 gGraphics_pOrderingTable2 = D_800E9D98;
 D_800E9D9C = gGraphics_pOrderingTable3;

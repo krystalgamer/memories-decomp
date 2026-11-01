@@ -463,16 +463,9 @@ segments:
       - {start: 0x8CAD6, type: bin, name: spanish_raw_8009c2d6, linker_section_order: .sdata}
       - [0x8CB94, .sdata, game/european/model_debug_controller]
       - {start: 0x8CB98, type: bin, name: spanish_raw_8009c398, linker_section_order: .sdata}
-  - name: viewport_state
-    type: code
-    start: 0x8CCC0
-    vram: 0x8009C4C0
-    align: 2
-    subsegments:
-      - [0x8CCC0, .sbss, game/graphics_frame]
   - name: image_after_viewport
     type: bin
-    start: 0x8CCC4
-    vram: 0x8009C4C4
+    start: 0x8CCC0
+    vram: 0x8009C4C0
     align: 2
   - [0x1D0800]

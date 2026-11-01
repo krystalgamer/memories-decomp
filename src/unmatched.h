@@ -355,10 +355,6 @@ extern u8 gSD_szCdMixerOutFormat[];
 extern char gAiScript_szNestOverflowError[];
 extern char gAiScript_szSourceFile[];
 extern char gAiScript_szReturnUnderflowError[];
-extern s32 D_8009B0A4;
-extern s32 D_8009B0B0;
-extern s32 D_8009B0BC;
-extern s32 D_8009B0D4;
 /* Duel_UpdateCardUseConfirmation's step flags: bit 7 once it has created the
  * two flip markers, bit 6 while a left/right flip of gDuel_pActionCard runs.
  * DuelScene_UpdateFieldActions clears the byte before the step starts. */

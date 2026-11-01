@@ -1,5 +1,21 @@
 #define D_8009B0D8_IN_DATA
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B140-0x8009B150, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_8009B140;
+u8 gFade_bOrderingTableMode;
+u8 gGraphics_bClearBlue;
+u8 gGraphics_bClearGreen;
+u8 gGraphics_bClearRed;
+u8 D_8009B145;
+s16 gGraphics_sViewportX;
+s16 gGraphics_sViewportY;
+u8 gFade_bTargetBlue;
+u8 gFade_bTargetGreen;
+u8 gFade_bTargetRed;
+static u8 D_8009B14D;
+static u16 D_8009B14E;
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -16,17 +32,10 @@
 
 /* Boot reset, band stepping, the per-frame fade step and the complete fade
    overlay, setup, blocking, and wrapper runtime. All thirty-three contiguous
-   functions operate on gFade_State and compile at gcc_2_8_1_g8_split_comm:
-   Fade_Update's tint bytes below are tentative definitions that must stay
-   common, and the other functions are byte-identical with or without the
-   comm section. display_projection.c after the unit is owned by the pending
+   functions operate on gFade_State and compile at gcc_2_8_1_g8_split; the
+   unit defines the small zero-initialized block above, which Fade_Update's
+   tint copy reaches gp-relative. display_projection.c after the unit is owned by the pending
    #3859 reclassification. */
-
-/* Tentative definitions keep these bytes common and gp-relative, supplying
-   the three load-delay nops in the tint copy. c_symbols.ld overrides them. */
-u8 gGraphics_bClearBlue;
-u8 gGraphics_bClearGreen;
-u8 gGraphics_bClearRed;
 
 void Fade_Init(void)
 {

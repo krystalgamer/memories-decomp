@@ -43,7 +43,6 @@ LARGE_BSS_START = 0x8BCA8
 MERGED_DATA_SEGMENTS = (
     "initialized_data",
     "bss_image_before_viewport",
-    "bss_image_viewport",
     "bss_image_after_viewport",
 )
 
