@@ -6,9 +6,9 @@
  * flash flickers and a ring of expanding strips swells towards the other
  * slot; then the glow and the waves play again and the light comes back. */
 
-static const VECTOR D_8013CDD4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant759_D1DD4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
 {
     MATRIX light;
     MATRIX m;
@@ -34,12 +34,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CDD4;
+    scale = gModelVariant759_D1DD4;
     work = (Model759State *)context;
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CE38[command];
+        work->config = &gModelVariant759_D1E38[command];
         v = &work->glow[0];
         setVector(v, -work->config->glow_size, -work->config->glow_size, 0);
         v = &work->glow[1];
@@ -73,7 +73,7 @@ s32 func_8013B004(u8 *context, s32 command)
         v = &work->flash[3];
         setVector(v, work->config->flash_size, work->config->flash_size, 0);
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &D_8013CDE4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant759_D1DE4[i]);
         }
         Model_GetSlotDimensionsWithMinimums(-slot + 1, (ModelEffectAdjustment *)&pos);
         v = work->near_ring.v;
