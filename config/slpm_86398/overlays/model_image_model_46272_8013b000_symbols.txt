@@ -1,4 +1,4 @@
 // Japanese MODEL.MRG model 167 (record 167), sector 46272, header 751, loaded at 0x8013B000; the US source variant751_entry.c; built from the US source layout of model_variant_167_pos0_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x1A3C defined:true
-D_8013CA50 = 0x8013CA50; // type:u8 size:0x54 defined:true
-D_8013CAA4 = 0x8013CAA4; // type:u8 size:0x355C defined:true
+ModelVariant751_HandleRequest = 0x8013B004; // type:func size:0x1A3C defined:true
+gModelVariant751_D1A50 = 0x8013CA50; // type:u8 size:0x54 defined:true
+gModelVariant751_D1AA4 = 0x8013CAA4; // type:u8 size:0x355C defined:true

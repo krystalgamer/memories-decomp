@@ -8,9 +8,9 @@
  * and a fountain of falling sparks while the colour fades out and the ambient
  * light dims and recovers. */
 
-static const VECTOR D_8013CA40 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant751_D1A40 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant751_HandleRequest(u8 *context, s32 command)
 {
     Model751State *work;
     MATRIX light;
@@ -36,12 +36,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CA40;
+    scale = gModelVariant751_D1A40;
     work = (Model751State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CAA4[command];
+        work->config = &gModelVariant751_D1AA4[command];
         setVector(&work->pos, 0, 0, 0);
         setVector(&work->velocity, 0, 0, 0);
         work->state = 0;
@@ -73,7 +73,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->bob = 0;
         for (j = 0; j < 3; j++) {
-            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CA50[j]);
+            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant751_D1A50[j]);
         }
         work->ambient = 0x800;
         work->phase = 0;
