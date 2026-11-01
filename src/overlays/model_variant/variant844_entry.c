@@ -6,9 +6,9 @@
  * four-petal bursts open around the opposing slot before a spinning beam
  * of light rises from it; once the bursts are done the light comes back. */
 
-static const VECTOR D_8013D5C8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant844_D25C8 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
 {
     Model844State *work;
     MATRIX base;
@@ -37,14 +37,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D5C8;
+    scale = gModelVariant844_D25C8;
     work = (Model844State *)context;
     ft = &petal;
     gt = &ray;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D62C[command];
+        work->config = &gModelVariant844_D262C[command];
         edge = work->trail_a;
         edge_b = work->trail_b;
         edge_c = work->trail_c;
@@ -100,7 +100,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D5D8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant844_D25D8[i]);
         }
         work->spark_count[0] = 0;
         work->spark_count[1] = 0;
