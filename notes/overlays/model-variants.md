@@ -1035,6 +1035,9 @@ only.
 | `FrenchModelVariant458_DrawStrands` | `french_model_variant/variant458_strands.c` | USA model 202, Japanese images 55932/55942: `0x8013C158`/`0x8017C158`. European, French, German, Italian and Spanish model 202: `0x8013C150`/`0x8017C150` |
 | `FrenchModelVariant458_DrawStreamers` | `french_model_variant/variant458_streamers.c` | USA model 202, Japanese images 55932/55942: `0x8013C9CC`/`0x8017C9CC`. European, French, German, Italian and Spanish model 202: `0x8013C9EC`/`0x8017C9EC` |
 | `gFrenchModelVariant458_D230C` | data subsegment (`variant458_entry.h`) | USA model 202, Japanese images 55932/55942: `0x8013D288`/`0x8017D288`. European, French, German, Italian and Spanish model 202: `0x8013D30C`/`0x8017D30C` |
+| `ModelVariant152_HandleRequest` | `model_variant/variant152_entry.c` | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: `0x8013B004`/`0x8017B004` |
+| `gModelVariant152_D1158` | data subsegment (`variant152_entry.h`) | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: USA and Japanese `0x8013C158`/`0x8017C158`; European, French, German, Italian and Spanish `0x8013C134`/`0x8017C134` |
+| `gModelVariant152_D1190` | data subsegment (`variant152_entry.h`) | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: USA and Japanese `0x8013C190`/`0x8017C190`; European, French, German, Italian and Spanish `0x8013C16C`/`0x8017C16C` |
 
 ### Header 407: petals
 

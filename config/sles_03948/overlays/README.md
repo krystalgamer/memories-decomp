@@ -696,10 +696,11 @@ labels 0x28 lower.
 Two images under French headers 169 and 299 are the North American
 header-152 entry (`model_variant/variant152_entry.c`) without its work-size
 printf. Without the call the French setup branch returns on its own, which
-`VERSION_FRENCH` reproduces with an inverted completion test, and the
-`src/overlays/french_model_variant/variant169_entry{,_slot1}.c` wrappers move
-the two data labels after the shorter text and read-only section 0x24 lower
-and bind `model_variant169_linker_symbols.txt` and
+`VERSION_FRENCH` reproduces with an inverted completion test. Both slots
+build through `src/overlays/french_model_variant/variant169_entry.c`; the two
+data labels after the shorter text and read-only section sit 0x24 lower, and
+each image's symbols file binds the shared data names to its own addresses.
+The images bind `model_variant169_linker_symbols.txt` and
 `model_variant299_linker_symbols.txt`.
 
 Four images under French headers 156 and 286 are the North American
