@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
-0x8017B004,0xB98,func_8017B004,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017BB9C,0x96C,func_8017BB9C,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C508,0x694,func_8017C508,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017CB9C,0x518,func_8017CB9C,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017D0B4,0x81C,func_8017D0B4,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017D8D0,0x6A4,func_8017D8D0,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0xB98,FrenchModelVariant335_HandleRequest,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017BB9C,0x96C,FrenchModelVariant335_DrawRibbons,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C508,0x694,FrenchModelVariant335_DrawSheets,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017CB9C,0x518,FrenchModelVariant335_DrawRings,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017D0B4,0x81C,FrenchModelVariant335_DrawStreamers,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017D8D0,0x6A4,ModelVariant318_DrawShortStreamers,matching_c,overlay/model_image_model_12334_8017b000,Complete module byte identity and section-defined C ownership verified.

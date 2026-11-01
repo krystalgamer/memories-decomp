@@ -12,7 +12,7 @@
 #define MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k) (ribbon)->sa[(k) + 1]
 #endif
 
-void func_8013BB98(u8 *ctx)
+void FrenchModelVariant335_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

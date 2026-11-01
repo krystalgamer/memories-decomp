@@ -8,7 +8,7 @@
  * POLY_FT4 quads. The end count then grows to sixteen, after which the start
  * count follows it and both reset once it passes sixteen. Nothing in the image
  * calls this helper. */
-void func_8013D8D0(u8 *ctx)
+void ModelVariant318_DrawShortStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

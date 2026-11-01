@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant335_rings.h"
 
-void func_8013CBC4(u8 *work)
+void FrenchModelVariant335_DrawRings(u8 *work)
 {
     SVECTOR rotation;
     VECTOR scale;

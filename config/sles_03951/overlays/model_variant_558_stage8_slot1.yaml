@@ -56,35 +56,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant335_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant335_entry]
   - name: helper_B98
     type: code
     start: 0xB98
     vram: 0x8017BB98
     align: 4
     subsegments:
-      - [0xB98, c, overlays/french_model_variant/variant335_ribbons_slot1]
+      - [0xB98, c, overlays/french_model_variant/variant335_ribbons]
   - name: helper_1534
     type: code
     start: 0x1534
     vram: 0x8017C534
     align: 4
     subsegments:
-      - [0x1534, c, overlays/french_model_variant/variant335_sheets_slot1]
+      - [0x1534, c, overlays/french_model_variant/variant335_sheets]
   - name: helper_1BC4
     type: code
     start: 0x1BC4
     vram: 0x8017CBC4
     align: 4
     subsegments:
-      - [0x1BC4, c, overlays/french_model_variant/variant335_rings_slot1]
+      - [0x1BC4, c, overlays/french_model_variant/variant335_rings]
   - name: helper_20D8
     type: code
     start: 0x20D8
     vram: 0x8017D0D8
     align: 4
     subsegments:
-      - [0x20D8, c, overlays/french_model_variant/variant335_streamers_slot1]
+      - [0x20D8, c, overlays/french_model_variant/variant335_streamers]
   - name: unclassified_tail
     type: code
     start: 0x28EC
