@@ -1,4 +1,4 @@
-// German MODEL.MRG model 456 (record 456), sector 112246, header 899, loaded at 0x8017B000; the US header-785 source variant785_entry_slot1.c; built from the French source layout of french_model_variant_456_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x3CA8 defined:true
-D_8017ECBC = 0x8017ECBC; // type:u8 size:0x8C defined:true
-D_8017ED48 = 0x8017ED48; // type:u8 size:0x12B8 defined:true
+// German MODEL.MRG model 456 (record 456), sector 112246, header 899, loaded at 0x8017B000; the US header-785 source variant785_entry.c; built from the French source layout of french_model_variant_456_stage8_slot1.
+ModelVariant785_HandleRequest = 0x8017B004; // type:func size:0x3CA8 defined:true
+gModelVariant785_D3CBC = 0x8017ECBC; // type:u8 size:0x8C defined:true
+gModelVariant785_D3D48 = 0x8017ED48; // type:u8 size:0x12B8 defined:true
