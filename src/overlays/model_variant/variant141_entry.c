@@ -10,9 +10,9 @@
  * negative command draws a frame; any other command sets the work area up
  * and prints its size. */
 
-static const VECTOR D_8013EBE0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant141_D3BE0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant141_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad, glow;
@@ -38,7 +38,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013EBE0;
+    scale = gModelVariant141_D3BE0;
     work = (Model141State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
@@ -46,7 +46,7 @@ s32 func_8013B004(u8 *context, s32 command)
         wave = work->wave;
         delta = work->wave_step;
         work->scroll = 0;
-        config = work->config = &D_8013ECE0[command % 100];
+        config = work->config = &gModelVariant141_D3CE0[command % 100];
         for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; i++) {
             *wave = 0;
             *delta = config->wave + config->wave * csin(i * 8192 / GRAPHICS_DEFAULT_HEIGHT) / 4096;
@@ -134,7 +134,7 @@ s32 func_8013B004(u8 *context, s32 command)
             target++;
         }
         for (i = 0; i < 8; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013EC00[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant141_D3C00[i]);
         }
         work->elapsed = 0;
         work->frame = 0;

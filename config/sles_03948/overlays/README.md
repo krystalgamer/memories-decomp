@@ -710,7 +710,7 @@ wrappers move the three data labels after the shorter text and read-only
 section 0x18 lower and bind `model_variant156_linker_symbols.txt` and
 `model_variant286_linker_symbols.txt`.
 
-Two images under French headers 158 (stage 9 slot 0) and 288 (stage 10 slot 1) are the North American header-141 entry (`model_variant/variant141_entry.c`) without its work-size printf or that call's `.rodata` format string and sized for 256 PAL lines, built through `src/overlays/french_model_variant/variant158_entry{,_slot1}.c`. `GRAPHICS_DEFAULT_HEIGHT` sets the per-line wave arrays, their loops and the wave period, so the work offsets after those arrays and the text differ from the US build; the image and command tables sit 0x48 lower (`D_8013EBB8`, `D_8013EC98`).
+Two images under French headers 158 (stage 9 slot 0) and 288 (stage 10 slot 1) are the North American header-141 entry (`model_variant/variant141_entry.c`) without its work-size printf or that call's `.rodata` format string and sized for 256 PAL lines, built through `src/overlays/french_model_variant/variant158_entry.c` in both slots. `GRAPHICS_DEFAULT_HEIGHT` sets the per-line wave arrays, their loops and the wave period, so the work offsets after those arrays and the text differ from the US build; the image and command tables sit 0x48 lower, at `0x8013EBB8` and `0x8013EC98` in slot 0; each image's symbols file binds `gModelVariant141_D3C00` and `gModelVariant141_D3CE0` at its own addresses.
 
 Two images under French headers 863 and 960 are the North American
 header-846 entry (`ModelVariant846_HandleRequest` in
