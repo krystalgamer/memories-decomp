@@ -1102,9 +1102,10 @@ file binds the shared data names to its own addresses.
 Two images under French headers 154 and 284 are the North American
 header-137 entry (`model_variant/variant137_entry.c`) without its work-size
 printf or that call's `.rodata` format string and with its flashes sized for
-256 PAL lines, built through
-`src/overlays/french_model_variant/variant154_entry{,_slot1}.c`. The scale
-vector sits 0xC lower and the image and command tables 0x1C lower.
+256 PAL lines. Both slots build through
+`src/overlays/french_model_variant/variant154_entry.c`. The scale vector sits
+0xC lower and the image and command tables 0x1C lower; each image's symbols
+file binds the shared data names to its own addresses.
 
 Four images under French header 84, and their four slot-one counterparts
 under header 214, are the North American header-67 entry
