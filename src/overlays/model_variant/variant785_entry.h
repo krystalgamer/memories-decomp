@@ -116,9 +116,9 @@ typedef struct {
     u8 glow2_b[8];
 } Model785State;
 
-extern GsIMAGE D_8013ECBC[];
-extern Model785Config D_8013ED48[];
+extern GsIMAGE gModelVariant785_D3CBC[];
+extern Model785Config gModelVariant785_D3D48[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant785_HandleRequest(u8 *context, s32 command);
 
 #endif

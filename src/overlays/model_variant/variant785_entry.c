@@ -8,9 +8,9 @@
  * bloom into a three-layer growing fan with animated sparks; second-group
  * ones into a two-layer fan. The ambient light dims and recovers. */
 
-static const VECTOR D_8013ECAC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant785_D3CAC = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant785_HandleRequest(u8 *context, s32 command)
 {
     Model785State *work;
     MATRIX light;
@@ -41,12 +41,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013ECAC;
+    scale = gModelVariant785_D3CAC;
     work = (Model785State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013ED48[command];
+        work->config = &gModelVariant785_D3D48[command];
         for (i = 0; i < work->config->count[0]; i++) {
             work->glow_r[i] = work->config->r;
             work->glow_g[i] = work->config->g;
@@ -120,7 +120,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->puff_frame[i] = 0;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013ECBC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant785_D3CBC[i]);
         }
         work->ambient = 0x800;
         work->phase = 0;
