@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
-0x8013B004,0xDA8,func_8013B004,matching_c,overlay/model_variant_401_stage9_slot0,"Exact entry; North American header-415 entry C with the PAL palette x, the VERSION_FRENCH bar-index placement and image-local symbol renames; complete French image and layout/callee ownership verified."
-0x8013BDAC,0x5A0,func_8013BDAC,matching_c,overlay/model_variant_401_stage9_slot0,Matches North American variant415_ribbons.c through a symbol-only French wrapper; direct-entry reachable from the shared entry.
-0x8013C34C,0x350,func_8013C34C,matching_c,overlay/model_variant_401_stage9_slot0,Exact helper; complete image and compiler/layout/callee ownership verified.
-0x8013C69C,0x428,func_8013C69C,matching_c,overlay/model_variant_401_stage9_slot0,Exact layer helper; unchanged accepted source; complete French image and layout/callee ownership verified.
-0x8013CAC4,0x41C,func_8013CAC4,matching_c,overlay/model_variant_401_stage9_slot0,Exact band helper; unchanged accepted source; complete French image and layout/callee ownership verified.
+0x8013B004,0xDA8,ModelVariant415_HandleRequest,matching_c,overlay/model_variant_401_stage9_slot0,"Exact entry; North American header-415 entry C with the PAL palette x, the VERSION_FRENCH bar-index placement and per-image symbol bindings; complete French image and layout/callee ownership verified."
+0x8013BDAC,0x5A0,ModelVariant415_DrawRibbons,matching_c,overlay/model_variant_401_stage9_slot0,Matches North American variant415_ribbons.c compiled directly; direct-entry reachable from the shared entry.
+0x8013C34C,0x350,SpanishModelVariant432_DrawSheets,matching_c,overlay/model_variant_401_stage9_slot0,Exact helper; complete image and compiler/layout/callee ownership verified.
+0x8013C69C,0x428,SpanishModelVariant432_DrawBandLayers,matching_c,overlay/model_variant_401_stage9_slot0,Exact layer helper; unchanged accepted source; complete French image and layout/callee ownership verified.
+0x8013CAC4,0x41C,SpanishModelVariant432_DrawBands,matching_c,overlay/model_variant_401_stage9_slot0,Exact band helper; unchanged accepted source; complete French image and layout/callee ownership verified.

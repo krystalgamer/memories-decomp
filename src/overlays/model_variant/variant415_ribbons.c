@@ -5,7 +5,7 @@
  * ribbons from each of the five anchors, grows the sweep amounts on the last
  * anchor, restarts them once field_30DC is set, and draws one Gouraud quad
  * per ribbon. */
-void func_8013BDB0(Variant415EntryRibbon *ribbon)
+void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon)
 {
     SVECTOR rot;
     VECTOR scale;

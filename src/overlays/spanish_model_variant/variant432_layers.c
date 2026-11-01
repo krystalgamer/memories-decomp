@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant432_layers.h"
 
-void func_8013C69C(u8 *context)
+void SpanishModelVariant432_DrawBandLayers(u8 *context)
 {
     ModelVariant432LayersState *work = (ModelVariant432LayersState *)context;
     ModelVariant432Source *source = (ModelVariant432Source *)context;

@@ -13,7 +13,7 @@
  * entry (VERSION_FRENCH) advances the bar index at the end of the bar loop
  * instead of at its top. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant415EntryState *work;
     Variant415EntryStack stack;
@@ -64,7 +64,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant415EntryConfig *)(D_8013CF7C + 0x38) + command;
+        work->config = (Variant415EntryConfig *)(gModelVariant415_D1F7C + 0x38) + command;
         for (i = 0; i < 5; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
         }
@@ -84,13 +84,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT415_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT415_CLUT_X, 244);
-        texture_word = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CF7C + 0x1C));
+        texture_word = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant415_D1F7C + 0x1C));
         bar = work->bars;
         stack.texture_cluts[0] = texture_word;
         flat_page = texture_word >> 16;
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CF7C + 0x8C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CF7C + 0x1C));
-        i = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CF7C + 0xE0));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant415_D1F7C + 0x8C));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant415_D1F7C + 0x1C));
+        i = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant415_D1F7C + 0xE0));
         j = 0;
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
@@ -298,15 +298,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->field_2F7E = dy;
         if (work->phase >= 2) {
             if (work->phase < 4) {
-                func_8013C34C((u8 *)point, work->phase);
+                SpanishModelVariant432_DrawSheets((u8 *)point, work->phase);
             }
-            func_8013CB18((u8 *)point);
+            SpanishModelVariant432_DrawBands((u8 *)point);
         }
         if (work->config->timings[work->start_index] <= work->frame) {
-            func_8013BDB0((Variant415EntryRibbon *)point);
+            ModelVariant415_DrawRibbons((Variant415EntryRibbon *)point);
         }
         if (work->config->timings[0] <= work->frame) {
-            func_8013C6A0((u8 *)point);
+            SpanishModelVariant432_DrawBandLayers((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

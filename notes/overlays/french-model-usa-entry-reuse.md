@@ -42,6 +42,12 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
   the bar index at the end of the bar loop instead of at the top. The North
   American source keeps the retail form, and the wrappers select the French
   form with `#define VERSION_FRENCH`.
+- Family 432 later dropped its renames: both slots compile
+  `french_model_variant/variant432_entry.c`, and each image binds the shared
+  names (see [Per-image symbol
+  bindings](model-variants.md#per-image-symbol-bindings)). Its slot-1 ledger
+  row names that file; its fingerprint is that of the removed
+  `variant432_entry_slot1.c` wrapper.
 
 **132 French C instances** were added. All French and North American overlay
 images rebuild exactly; no other release uses these sources. The

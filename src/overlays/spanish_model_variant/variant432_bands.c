@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant432_bands.h"
 
-void func_8013CAC4(u8 *context)
+void SpanishModelVariant432_DrawBands(u8 *context)
 {
     ModelVariant432BandsState *work = (ModelVariant432BandsState *)context;
     SVECTOR rotation;

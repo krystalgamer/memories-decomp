@@ -194,17 +194,25 @@ three-helper tuple; each region checks its own manifests and legal inputs.
 
 The French entry at `0x4` (`0xDA8` bytes) in both images is now matching C.
 It is the North American header-415 entry
-(`model_variant/variant415_entry.c`), built through
-`french_model_variant/variant432_entry{,_slot1}.c` with the PAL palette x (640),
-the in-image helper and data addresses, and `VERSION_FRENCH`. The French body
+(`model_variant/variant415_entry.c`), built in both slots through
+`french_model_variant/variant432_entry.c` with the PAL palette x (640) and
+`VERSION_FRENCH`. The French body
 advances the bar index at the end of the bar loop, not at the top. The French
 tuple adds the entry. See [the reuse note](french-model-usa-entry-reuse.md).
 
 ## French ribbons
 
 The French helper at `0xDAC` (`0x5A0` bytes) in both images is now matching C.
-It is the unchanged North American `model_variant/variant415_ribbons.c`, built
-through `french_model_variant/variant432_ribbons{,_slot1}.c`, which only rename
-the helper to its in-image address (`func_8013BDAC`/`func_8017BDAC`). All five
-French functions in both images are now matching C; the existing family
-binding file already defines every callee.
+It is the unchanged North American `model_variant/variant415_ribbons.c`, which
+both slots compile directly. All five French functions in both images are now
+matching C; the existing family binding file already defines every callee.
+
+## Names
+
+The shared sources define `ModelVariant415_HandleRequest`,
+`ModelVariant415_DrawRibbons`, `SpanishModelVariant432_DrawSheets` (`0x134C`),
+`SpanishModelVariant432_DrawBandLayers` (`0x169C`),
+`SpanishModelVariant432_DrawBands` (`0x1AC4`) and the data block
+`gModelVariant415_D1F7C`. Each image binds them at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)); the
+helper sources are compiled directly, without slot-1 wrappers.
