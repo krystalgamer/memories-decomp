@@ -15,7 +15,7 @@
  * halfword of the 64-byte stack pad, and some locals (`ang`, `frame`) hold
  * values that only live a few instructions. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant459EntryState *work = (Variant459EntryState *)point;
     u16 unknown_stack[32];
@@ -178,7 +178,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     ray = &work->ray;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant459EntryConfig *)(D_8013E338 + 0xFC) + command;
+        work->config = (Variant459EntryConfig *)(gModelVariant459_D3338 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -197,16 +197,16 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT459_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT459_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E338 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E338 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0x8C));
         veil_page = packed >> 16;
         veil_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E338 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0x1C));
         ray_page = packed >> 16;
         ray_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E338 + 0xE0));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant459_D3338 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -449,26 +449,26 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->offset.vy = work->target.vy - work->position.vy;
         work->offset.vz = work->target.vz - work->position.vz;
         if (work->config->start <= work->frame && work->frame < work->config->fade_start) {
-            func_8013C360((u8 *)point);
+            ModelVariant459_DrawSheet((u8 *)point);
         }
         if (work->config->second <= work->frame && work->frame < work->config->fade_start) {
-            func_8013C714((u8 *)point);
+            FrenchModelVariant476_DrawSpiral((u8 *)point);
         }
         if (work->config->fade_start <= work->frame && work->frame <= work->config->fade_end + 4) {
             if (work->frame <= work->config->fade_end - 10) {
                 work->facing = ratan2(work->direction.vy, work->direction.vz) + 2048;
             }
-            func_8013DD90((u8 *)point);
+            FrenchModelVariant476_DrawScreenGrid((u8 *)point);
         }
         if (work->config->fade_end <= work->frame) {
             if (work->phase < 2) {
                 work->phase = 2;
             }
-            func_8013D430((u8 *)point);
+            ModelVariant459_DrawCurtains((u8 *)point);
             if (work->phase < 6) {
-                func_8013D800((u8 *)point);
+                ModelVariant459_DrawGlobe((u8 *)point);
                 if (work->phase >= 5) {
-                    packed2 = func_80059A50(work->slot, 2, (GsIMAGE *)(D_8013E338 + 0));
+                    packed2 = func_80059A50(work->slot, 2, (GsIMAGE *)(gModelVariant459_D3338 + 0));
                     unknown_stack[31] = packed2;
                     frame = packed2 >> 16;
                     SetPolyGT4(veil);

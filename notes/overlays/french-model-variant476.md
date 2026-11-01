@@ -1,7 +1,7 @@
 # French MODEL headers 476 and 626
 
 Two alternate-1 images for model 712 reuse the accepted header-459 webs
-body through two three-line canonical symbol wrappers. Shared C, headers
+body, which both slots now compile directly (see [Names](#names)). Shared C, headers
 and the named `gcc_2_8_1_g0_split` profile are unchanged. The authoritative
 pipeline is GCC 2.8.1 and MASPSX 2.81.
 
@@ -175,8 +175,8 @@ basic-type and G32/PSXLONG policy checks.
 The unchanged accepted US459 `variant459_sheet.c` and
 `variant459_curtains.c` bodies match both French slots using the existing
 French profile. The sheet is 944 bytes with a 256-byte frame; curtains
-are 972 bytes with a 304-byte frame. Four three-line wrappers only rename
-the symbols. The shared bodies, `model_variant.h`, private
+are 972 bytes with a 304-byte frame. Four three-line wrappers renamed the
+symbols; they have since been removed (see [Names](#names)). The shared bodies, `model_variant.h`, private
 `variant459_curtains.h` and original US registrations remain unchanged.
 No regional conditional, new declaration or compiler option is introduced.
 
@@ -278,7 +278,8 @@ The locally recovered globe at `0x2848..0x2DD4` matches both model 712
 stage 9/10 images: 1,420 instruction bytes and a 280-byte frame each.
 The private `Variant476Globe` view uses the existing local SDK declarations;
 no accepted Spanish or US globe body was available to reuse. Slot 1 only
-renames the function through a three-line wrapper. Shared sources, SDK
+renamed the function through a three-line wrapper; it has since been
+removed (see [Names](#names)). Shared sources, SDK
 headers and the `gcc_2_8_1_g0_split` profile remain unchanged.
 
 Entry forms the globe at `context + 0xFF8` and the following record at
@@ -360,7 +361,8 @@ model 712 stage 9/10 images on its first calibration: 1,440 bytes with a
 304-byte frame each. The existing `gcc_2_8_1_g0_split` profile and local
 SDK declarations remain unchanged. No accepted Spanish or US counterpart
 was available; the private view and source were recovered from French
-entry and helper instructions. Slot 1 only renames the function.
+entry and helper instructions. Slot 1 only renamed the function; its
+wrapper has since been removed (see [Names](#names)).
 
 Entry independently establishes `context + 0x14E4..0x1A18`. Two nine-by-nine
 `SVECTOR` grids occupy relative `0..0x288` and `0x288..0x510`; nine
@@ -462,3 +464,14 @@ layout constants were freshly recompiled, and all 35 resident bindings
 and three caller owners agree with the clean resident. All 238 French,
 139 Spanish and 21 progress/toolchain regressions and policy checks
 pass without skips.
+
+## Names
+
+Both slots compile the shared sources without wrappers. They define
+`ModelVariant459_HandleRequest`, `ModelVariant459_DrawSheet` (`0x135C`),
+`FrenchModelVariant476_DrawSpiral` (`0x170C`), `ModelVariant459_DrawWebs`
+(`0x20BC`), `ModelVariant459_DrawCurtains` (`0x247C`),
+`ModelVariant459_DrawGlobe` (`0x2848`, from `variant476_globe.c`),
+`FrenchModelVariant476_DrawScreenGrid` (`0x2DD4`) and the data block
+`gModelVariant459_D3338`. Each image binds them at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

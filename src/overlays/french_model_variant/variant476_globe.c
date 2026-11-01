@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant476_globe.h"
 
-void func_8013D848(u8 *ctx)
+void ModelVariant459_DrawGlobe(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

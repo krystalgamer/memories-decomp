@@ -4,7 +4,7 @@
 
 /* Header 459's form of the header-418 webs: faded past scale 0x800, grown by
  * step * 128 to 0x1000, and sorted whenever the depth is positive. */
-void func_8013D064(u8 *ctx)
+void ModelVariant459_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
