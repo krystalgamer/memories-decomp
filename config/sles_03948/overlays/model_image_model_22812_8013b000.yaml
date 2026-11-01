@@ -63,7 +63,7 @@ segments:
     vram: 0x8013c230
     align: 4
     subsegments:
-      - [0x1230, c, overlays/french_model_variant/image22822_blooms_slot0]
+      - [0x1230, c, overlays/french_model_variant/image22822_blooms]
   - name: unclassified_tail
     type: code
     start: 0x1888

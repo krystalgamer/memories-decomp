@@ -11,7 +11,7 @@
  * update keeps the eight bloom origins around the model, aims them at the
  * opponent, draws the blooms through the helper below and fades the
  * ambient light. */
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
 {
     Variant437State *work = (Variant437State *)context;
     Variant437Group *group = work->groups;
@@ -52,7 +52,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = config = &D_8013C988[command];
+        work->config = config = &gModelVariant437_D1988[command];
         work->parts[0] = Model_GetSlotDataEntry(work->slot, config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -73,14 +73,14 @@ s32 func_8013B004(u8 *context, s32 command)
         clut = GetClut(MODEL_VARIANT437_CLUT_X, 244);
         GetTPage(1, 1, 0x380, 0);
         GetClut(MODEL_VARIANT437_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C88C[7]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C88C[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C88C[1]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_D188C[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_D188C[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_D188C[1]);
         /* Read before the last upload reuses packed; the scheduler sinks the
          * two reads below that call. */
         flat_tpage = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C88C[3]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant437_D188C[3]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -387,7 +387,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->projected.vx = ((DVECTOR *)&aim_screen)->vx - origin_x;
         work->projected.vy = (*(PSXLONG *)&aim_screen >> 16) - origin_y;
         if (work->config->bloom_start <= work->time) {
-            func_8013C230(context);
+            FrenchModelVariant454_DrawBlooms(context);
         }
         work->frame++;
         frame = Model_GetSlotAnimationFrame(work->slot);
@@ -433,6 +433,5 @@ s32 func_8013B004(u8 *context, s32 command)
 }
 
 #ifndef VERSION_FRENCH
-#define func_8017C230 func_8013C230
 #include "../french_model_variant/image22822_blooms.c"
 #endif

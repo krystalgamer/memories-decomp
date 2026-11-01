@@ -56,7 +56,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant454_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant454_entry]
   - name: unmatched_1230
     type: code
     start: 0x1230

@@ -1,0 +1,2 @@
+// Spanish MODEL.MRG model 82 raw image model_image_model_22812_8013b000, loaded at 0x8013B000; the French header-454 blooms helper image22822_blooms.c.
+FrenchModelVariant454_DrawBlooms = 0x8013C230; // type:func size:0x658 defined:true
