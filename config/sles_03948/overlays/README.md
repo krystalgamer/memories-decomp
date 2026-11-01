@@ -328,9 +328,10 @@ the data labels 0x28 lower.
 Two images under French headers 688 and 755 are the North American
 header-671 entry (`model_variant/variant671_entry.c`) without its `E_DATA`
 work-size printf, whose format string stays in North American data because of
-its nonzero pad byte. They build through
-`src/overlays/french_model_variant/variant688_entry{,_slot1}.c`, with the image
-and command tables 0x28 lower.
+its nonzero pad byte. Both slots build through
+`src/overlays/french_model_variant/variant688_entry.c`. The image and command
+tables sit 0x28 lower; each image's symbols file binds their shared names at
+its own addresses.
 
 Eight images under French headers 126 and 256 are the North American
 header-109 entry (`model_variant/variant109_entry.c` and its `_slot1.c`
