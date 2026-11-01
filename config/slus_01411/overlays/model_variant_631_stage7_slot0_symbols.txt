@@ -1,5 +1,5 @@
 // MODEL.MRG model 631 (record 631), sector 160536, header 460, loaded at 0x8013B000; the US source variant460_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0x1484 defined:true
-func_8013C488 = 0x8013C488; // type:func size:0x4D8 defined:true
-func_8013C960 = 0x8013C960; // type:func size:0x46C defined:true
-D_8013CDCC = 0x8013CDCC; // type:u8 size:0x3234 defined:true
+ModelVariant460_HandleRequest = 0x8013B004; // type:func size:0x1484 defined:true
+SpanishModelVariant477_DrawPanels = 0x8013C488; // type:func size:0x4D8 defined:true
+SpanishModelVariant477_DrawQuadGroups = 0x8013C960; // type:func size:0x46C defined:true
+gModelVariant460_D1DCC = 0x8013CDCC; // type:u8 size:0x3234 defined:true
