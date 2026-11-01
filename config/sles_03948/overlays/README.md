@@ -965,9 +965,10 @@ the `src/overlays/french_model_variant/variant849_entry.c` wrapper, which sets
 Two images under French headers 843 and 940 are the North American
 header-826 entry (`model_variant/variant826_entry.c`) with its full-screen
 tint grid covering the 256-line PAL screen, so the tile heights become
-shifts and the text is 0x20 bytes shorter. The
-`src/overlays/french_model_variant/variant843_entry{,_slot1}.c` wrappers set
-the height, move the three data labels 0x20 lower and bind
+shifts and the text is 0x20 bytes shorter. Both slots build through the
+`src/overlays/french_model_variant/variant843_entry.c` wrapper, which sets
+the height. Each image's symbols file binds the two shared data names at its
+own addresses, 0x20 lower, and the images bind
 `model_variant843_linker_symbols.txt` and
 `model_variant940_linker_symbols.txt`.
 
