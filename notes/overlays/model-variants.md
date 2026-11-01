@@ -1013,6 +1013,9 @@ only.
 | `ModelVariant133_HandleRequest` | `model_variant/variant133_entry.c` | Model 701 slot 0 and slot 1 in every region, Japanese images 166056/166066: `0x8013B004`/`0x8017B004` |
 | `gModelVariant133_D1864` | data subsegment (`variant133_entry.h`) | Model 701 slot 0 and slot 1 in every region, Japanese images 166056/166066: `0x8013C864`/`0x8017C864` |
 | `gModelVariant133_D18B8` | data subsegment (`variant133_entry.h`) | Model 701 slot 0 and slot 1 in every region, Japanese images 166056/166066: `0x8013C8B8`/`0x8017C8B8` |
+| `ModelVariant135_HandleRequest` | `model_variant/variant135_entry.c` | Model 36 slot 0 and slot 1 in every region, Japanese images 10116/10126: `0x8013B004`/`0x8017B004` |
+| `gModelVariant135_D16A0` | data subsegment (`variant135_entry.h`) | Model 36 slot 0 and slot 1 in every region, Japanese images 10116/10126: USA and Japanese `0x8013C6A0`/`0x8017C6A0`; European, French, German, Italian and Spanish `0x8013C67C`/`0x8017C67C` |
+| `gModelVariant135_D17B8` | data subsegment (`variant135_entry.h`) | Model 36 slot 0 and slot 1 in every region, Japanese images 10116/10126: USA and Japanese `0x8013C7B8`/`0x8017C7B8`; European, French, German, Italian and Spanish `0x8013C794`/`0x8017C794` |
 
 ### Header 407: petals
 

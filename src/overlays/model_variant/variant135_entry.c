@@ -5,11 +5,12 @@
 /* The entry throws 48 textured sparks from one slot part towards the other
  * slot, bursts beam crosses over the targets and then sweeps a ribbon of grid
  * quads between two pairs of slot parts. A negative command draws a frame;
- * any other command sets the work area up and prints its size. */
+ * any other command sets the work area up and prints its size. The French
+ * header-152 and 282 images build this source without the printf. */
 
-static const VECTOR D_8013C680 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant135_D1680 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant135_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -33,12 +34,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C680;
+    scale = gModelVariant135_D1680;
     work = (Model135State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C7B8[command % 100];
+        config = work->config = &gModelVariant135_D17B8[command % 100];
         point = work->sparks;
         for (i = 0; i < 48; i++) {
             point->vx = 0;
@@ -103,10 +104,10 @@ s32 func_8013B004(u8 *context, s32 command)
         work->quads[3][1] = &work->grid[7];
         work->quads[3][2] = &work->grid[3];
         work->quads[3][3] = &work->grid[4];
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C6A0[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013C6A0[1]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant135_D16A0[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant135_D16A0[1]);
         for (i = 2; i < 10; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C6A0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant135_D16A0[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
