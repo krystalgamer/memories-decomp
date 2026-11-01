@@ -4,7 +4,7 @@
 
 /* Draws sixteen four-quad sheets. The first eight follow the timed growth
  * and shrink phases; the remaining eight follow the moving object records. */
-void func_8013C968(u8 *ctx)
+void ModelVariant458_DrawSheets(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
