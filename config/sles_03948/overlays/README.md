@@ -55,10 +55,10 @@ Two header-418/568 and four header-433/583 images similarly reuse
 `model_variant/variant401_{spokes,rings,quad}.c` and
 `model_variant/variant416_{spokes,rings,quad}.c` through twelve French
 wrappers. All three C helpers per image are retained, not entry-reachable.
-Two header-431/581, four header-440/590 and four header-465/615 images reuse
-`model_variant/variant414_{spokes,rings}.c`,
-`model_variant/variant423_{spokes,rings,quad}.c` and
-`model_variant/variant448_{spokes,rings,quad}.c` through sixteen French
+Four header-440/590 images compile `model_variant/variant423_{spokes,rings,quad}.c`
+directly, and two header-431/581 and four header-465/615 images reuse
+`model_variant/variant414_{spokes,rings}.c` and
+`model_variant/variant448_{spokes,rings,quad}.c` through ten French
 renaming wrappers. All helpers are retained, not entry-reachable. Current
 G32/PSXLONG declarations and GCC 2.8.1/MASPSX 2.81 profiles are preserved.
 Two special Exodia/SU images contain four independently recovered helpers

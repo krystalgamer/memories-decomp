@@ -1,6 +1,7 @@
 # French MODEL631 bands helper
 
-`func_8013BF14` / `func_8017BF14` (image offset `0xF14`, 0x7CC bytes) in the
+`ModelVariant423_DrawBand` (image offset `0xF14`, 0x7CC bytes, at
+`0x8013BF14` / `0x8017BF14`) in the
 model_variant_262 and model_variant_631 stage 9 slot 0 and stage 10 slot 1
 images draws one band of five columns. It uses the NA
 `Variant423Band` layout from `model_variant/variant423_bands.h`.

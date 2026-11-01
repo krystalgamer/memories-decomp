@@ -68,35 +68,35 @@ segments:
     vram: 0x8013C6E0
     align: 4
     subsegments:
-      - [0x16E0, c, overlays/spanish_model_variant/variant440_sheets]
+      - [0x16E0, c, overlays/model_variant/variant423_sheets]
   - name: helper_1BD4
     type: code
     start: 0x1BD4
     vram: 0x8013CBD4
     align: 4
     subsegments:
-      - [0x1BD4, c, overlays/spanish_model_variant/variant440_webs]
+      - [0x1BD4, c, overlays/model_variant/variant423_webs]
   - name: helper_2130
     type: code
     start: 0x2130
     vram: 0x8013D130
     align: 4
     subsegments:
-      - [0x2130, c, overlays/french_model_variant/variant440_spokes]
+      - [0x2130, c, overlays/model_variant/variant423_spokes]
   - name: helper_2440
     type: code
     start: 0x2440
     vram: 0x8013D440
     align: 4
     subsegments:
-      - [0x2440, c, overlays/french_model_variant/variant440_rings]
+      - [0x2440, c, overlays/model_variant/variant423_rings]
   - name: helper_27BC
     type: code
     start: 0x27BC
     vram: 0x8013D7BC
     align: 4
     subsegments:
-      - [0x27BC, c, overlays/french_model_variant/variant440_quad]
+      - [0x27BC, c, overlays/model_variant/variant423_quad]
   - name: unclassified_tail
     type: code
     start: 0x2B20
