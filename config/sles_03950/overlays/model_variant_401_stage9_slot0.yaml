@@ -63,7 +63,7 @@ segments:
     vram: 0x8013BDAC
     align: 4
     subsegments:
-      - [0xDAC, c, overlays/french_model_variant/variant432_ribbons]
+      - [0xDAC, c, overlays/model_variant/variant415_ribbons]
   - name: draw
     type: code
     start: 0x134C

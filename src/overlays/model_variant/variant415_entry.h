@@ -79,11 +79,11 @@ typedef struct {
     s16 slot, command;
 } Variant415EntryState;
 
-extern u8 D_8013CF7C[];
-void func_8013BDB0(Variant415EntryRibbon *ribbon);
-void func_8013C34C(u8 *context, s32 phase);
-void func_8013C6A0(u8 *context);
-void func_8013CB18(u8 *context);
+extern u8 gModelVariant415_D1F7C[];
+void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon);
+void SpanishModelVariant432_DrawSheets(u8 *context, s32 phase);
+void SpanishModelVariant432_DrawBandLayers(u8 *context);
+void SpanishModelVariant432_DrawBands(u8 *context);
 typedef struct {
     u8 unknown_00[60];
     u16 texture_cluts[2];

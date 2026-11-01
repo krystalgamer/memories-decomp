@@ -54,35 +54,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant432_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant432_entry]
   - name: ribbons
     type: code
     start: 0xDAC
     vram: 0x8017BDAC
     align: 4
     subsegments:
-      - [0xDAC, c, overlays/french_model_variant/variant432_ribbons_slot1]
+      - [0xDAC, c, overlays/model_variant/variant415_ribbons]
   - name: draw
     type: code
     start: 0x134C
     vram: 0x8017C34C
     align: 4
     subsegments:
-      - [0x134C, c, overlays/spanish_model_variant/variant432_draw_slot1]
+      - [0x134C, c, overlays/spanish_model_variant/variant432_draw]
   - name: layers
     type: code
     start: 0x169C
     vram: 0x8017C69C
     align: 4
     subsegments:
-      - [0x169C, c, overlays/spanish_model_variant/variant432_layers_slot1]
+      - [0x169C, c, overlays/spanish_model_variant/variant432_layers]
   - name: bands
     type: code
     start: 0x1AC4
     vram: 0x8017CAC4
     align: 4
     subsegments:
-      - [0x1AC4, c, overlays/spanish_model_variant/variant432_bands_slot1]
+      - [0x1AC4, c, overlays/spanish_model_variant/variant432_bands]
   - name: unclassified_tail
     type: code
     start: 0x1EE0

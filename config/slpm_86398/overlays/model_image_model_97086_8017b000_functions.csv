@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
-0x8017B004,0xDAC,func_8017B004,matching_c,overlay/model_image_model_97086_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017BDB0,0x59C,func_8017BDB0,matching_c,overlay/model_image_model_97086_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C34C,0x354,func_8017C34C,matching_c,overlay/model_image_model_97086_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C6A0,0x478,func_8017C6A0,matching_c,overlay/model_image_model_97086_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017CB18,0x464,func_8017CB18,matching_c,overlay/model_image_model_97086_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0xDAC,ModelVariant415_HandleRequest,matching_c,overlay/model_image_model_97086_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017BDB0,0x59C,ModelVariant415_DrawRibbons,matching_c,overlay/model_image_model_97086_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C34C,0x354,SpanishModelVariant432_DrawSheets,matching_c,overlay/model_image_model_97086_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C6A0,0x478,SpanishModelVariant432_DrawBandLayers,matching_c,overlay/model_image_model_97086_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017CB18,0x464,SpanishModelVariant432_DrawBands,matching_c,overlay/model_image_model_97086_8017b000,Complete module byte identity and section-defined C ownership verified.
