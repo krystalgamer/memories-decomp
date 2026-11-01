@@ -2045,19 +2045,19 @@
       "address": "0x8002FC24",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/script_op_jump_if_deck_incomplete.c"
+      "source": "src/game/script_command_runner.c"
     },
     {
       "address": "0x8002FC78",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/script_op_return_to_menu.c"
+      "source": "src/game/script_command_runner.c"
     },
     {
       "address": "0x8002FCA4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x124",
-      "source": "src/game/european/script_run_tick.c"
+      "source": "src/game/european/script_command_runner.c"
     },
     {
       "address": "0x8002FDC8",

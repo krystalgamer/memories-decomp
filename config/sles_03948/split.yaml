@@ -524,13 +524,7 @@ segments:
     - game/script_control_commands
   - - 132132
     - c
-    - game/script_op_jump_if_deck_incomplete
-  - - 132216
-    - c
-    - game/script_op_return_to_menu
-  - - 132260
-    - c
-    - game/european/script_run_tick
+    - game/european/script_command_runner
   - - 132552
     - c
     - game/european/campaign_load_scene_package_stage

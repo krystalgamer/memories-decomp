@@ -171,6 +171,7 @@ gMemCardWork_bFrameChecksum = 0x8021007F;
 gMain_bReturnMode = D_8009B269;
 gMain_bActiveModeState = gJapanese_bActiveMainMode;
 gMain_bRequestedMenuID = gJapanese_bRequestedMenu;
+D_8009B268 = gJapanese_bMenuRequest;
 
 gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D6000;
