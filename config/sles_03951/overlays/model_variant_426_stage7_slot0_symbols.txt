@@ -1,7 +1,7 @@
 // Spanish MODEL.MRG model 426 (record 376), sector 103956, header 816, loaded at 0x8013B000; the French wrapper variant816_entry.c around the US header-799 source; built from the French source layout of french_model_variant_426_stage7_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x3D68 defined:true
-D_8013ED7C = 0x8013ED7C; // type:u8 size:0xC4 defined:true
-D_8013EE40 = 0x8013EE40; // type:u8 size:0x11C0 defined:true
+ModelVariant799_HandleRequest = 0x8013B004; // type:func size:0x3D68 defined:true
+gModelVariant799_D3D7C = 0x8013ED7C; // type:u8 size:0xC4 defined:true
+gModelVariant799_D3E40 = 0x8013EE40; // type:u8 size:0x11C0 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true
