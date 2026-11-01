@@ -89,13 +89,7 @@ explains why these are not persistent ATK/DEF globals.
   in `src/game/card_list_deck_box.c`, `MemCardDialog_UpdateSave` in
   `src/game/mem_card_dialog.c` and `Library_RefreshSelectedCardText` in
   `src/game/library_card_grid.c`, plus `Password_UpdateShopScreen` in
-  `src/overlays/password/shop.c`. The filter is
-  `git grep -lw D_801D5608 -- 'src/candidates/**'`. The distinction that holds
-  is the contract one. The probe over all configured
-  entries of `config/slus_01411/candidates.json`, including the overlay
-  candidates that carry a `module`, finds `D_801D5608` in no entry's
-  canonical contracts, so no entry declares it privately; that file does not
-  move when this header changes. The indirect text number
+  `src/overlays/password/shop.c`. The indirect text number
   reader (`func_80038148` via `TextStream_ReadU32LE`) retains its integer address
   boundary; the producer views do not establish a universal pointee type for
   that general script operand.

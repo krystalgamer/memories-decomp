@@ -1042,19 +1042,6 @@ it, and it is worth recording as evidence even when you do not adopt it. A
 lever that leaves its own axis untouched is inert, and that is worth recording
 too, because it removes a hypothesis permanently.
 
-## Keep a near-miss candidate in the build
-
-Temporary candidate sources disappear when a session ends and can drift from
-the state their inventory rows describe. Once a candidate is worth preserving,
-put its exact source under `src/candidates/<module>/`, its retail target under
-`src/candidates_target/<module>/`, and its profile and fingerprints in
-`config/slus_01411/candidates.json`.
-
-`make match-overlays` compiles every integrated overlay candidate even though
-the candidate object is not mapped into the module. The stored object and
-canonical-contract fingerprints therefore fail as soon as a symbol,
-declaration, profile, or source detail drifts.
-
 ## Decode a divide's magic constant instead of guessing the divisor
 
 An unsigned divide by a constant compiles to a multiply-high and a shift, and

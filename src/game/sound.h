@@ -991,8 +991,7 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
    sound_secondary_playback.c calls the reset right before
    SD_ResetSecondaryPlayback, which rebuilds the voice tables. SD_UpdateSecondaryObjectPitch
    refreshes one secondary
-   object's pitch; it has been a candidate since #3859
-   (src/candidates/func_8004A43C.c), and its one caller is SD_UpdateSecondaryObjectVoices. It
+   object's pitch (src/game/sound_voice_setup.c), and its one caller is SD_UpdateSecondaryObjectVoices. It
    stays here rather than in unmatched.h because it takes an
    SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);

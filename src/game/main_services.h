@@ -46,7 +46,7 @@ extern void (*G32 gMain_apFrameServiceCallbacks[4])(void);
  * 0x800E9DC0. Main_Init arms it with setjmp once the boot sequence is up,
  * and two functions jump back into it: Main_RunGameOver passes 1 from the
  * game-over path and DebugMenu_Exit passes 2, so the value distinguishes
- * which unwound (the first two are now in src/candidates/). All three spell
+ * which unwound. All three spell
  * it jmp_buf and include psyq/setjmp.h, which this header now includes so
  * the declaration stands on its own. */
 extern jmp_buf gMain_RecoveryJmpBuf;
@@ -75,7 +75,7 @@ extern s32 runtime_gp;
  * the same -G8:
  *     lui        $at, %hi(gGraphics_bOrderingTable3Length)
  *     sb         $v0, %lo(gGraphics_bOrderingTable3Length)($at)
- * -- src/candidates_target/func_8002CEE8.S:35 and :120, and the same two
+ * -- at 0x8002CF3C and 0x8002D074 in Main_RunDuel, and the same two
  * words 0A80013C / A3B022A0 at 0x8002D2F8 and 0x8002D350 inside
  * Main_RunCampaignMap.
  *

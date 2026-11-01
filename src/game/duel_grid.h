@@ -48,7 +48,7 @@ extern u8 D_800907D8_flat[] DUEL_FIELD_GRID_ALIAS_LABEL;
 #define gDuel_abFieldGridCardRecordIndices D_800907D8_flat
 #elif defined(DUEL_FIELD_GRID_2D)
 /* duel_card_effects.c and DuelEffect_ApplySwords
- * (src/candidates/func_80025F3C.c)
+ * (src/game/duel_field_effects.c)
  * index it [side][slot]. That is not a spelling preference: rewriting either
  * of them to the flat index the other sixteen files use builds to the right
  * size and differs from byte 0x80025CA2.

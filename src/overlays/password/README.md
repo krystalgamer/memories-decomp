@@ -418,7 +418,7 @@ contains the caret callback it installs.
 
 The two callers of `NameEntry_PollCompletion` are
 [`name_entry_main.c`](name_entry_main.c) in this overlay and the resident
-`Main_RunNameEntry` (`src/candidates/func_8002D62C.c`); both take it through
+`Main_RunNameEntry` (`src/game/main_mode_runners.c`); both take it through
 [`name_entry_keyboard.h`](name_entry_keyboard.h) or their own extern, and
 neither reaches past it.
 

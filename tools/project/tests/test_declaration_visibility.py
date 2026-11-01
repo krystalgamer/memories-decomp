@@ -204,34 +204,6 @@ class DeclarationVisibilityTests(unittest.TestCase):
                 ],
             )
 
-    def test_candidates_are_checked_too(self) -> None:
-        self.write("src/game/clean.c", "int clean(void) { return 0; }\n")
-        self.matching("src/game/clean.c")
-        self.write(
-            "src/candidates/func_80010000.c",
-            "int func_80010000(void) { return callee(2); }\n",
-        )
-        self.write(
-            "config/slus_01411/candidates.json",
-            json.dumps(
-                {
-                    "schema": 2,
-                    "candidates": [
-                        {
-                            "address": "0x80010000",
-                            "profile": "p",
-                            "source": "src/candidates/func_80010000.c",
-                        }
-                    ],
-                }
-            ),
-        )
-
-        errors, checked = visibility.validate(self.root, jobs=1)
-
-        self.assertEqual(checked, 2)
-        self.assertEqual(len(errors), 1)
-        self.assertIn("src/candidates/func_80010000.c: calls callee", errors[0])
 
 
 if __name__ == "__main__":

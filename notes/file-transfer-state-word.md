@@ -113,8 +113,8 @@ declaration builds a 0x1D071C-byte one. Retail is 0x1D0800.
 ### Why two names survive
 
 The retail image reaches 0x8009B0F4 through two different addressing forms.
-Among the functions still held as assembly -- the 171 listings under
-`src/candidates_target/`, four of them under overlay subdirectories --
+Among the functions then still held as assembly -- 171 retail listings, four
+of them overlay functions --
 `func_80013C28` uses `%gp_rel(D_8009B0F4)($gp)` on seven lines and
 `File_HandleRangePauseEvent` on two, while ten other listings, one of them an overlay, use
 `lui %hi` / `%lo` on eighty-six.

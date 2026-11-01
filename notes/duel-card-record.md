@@ -304,7 +304,7 @@ The candidate's `+0x36C0` load now names `record.card_id`, retaining its
 index-first address arithmetic. Its object fingerprint remains
 `5b8db9b3dbaf377624bf31a2890b934f9fff263f86a4f6db4db586c8d30d6615`.
 Only the removed private `D_8015C424` dependency and its aggregate contract
-hash change in `candidates.json`, following the
+hash change in the candidate registry, following the
 [build-integrated candidate contract](build.md#unmatched-declarations-and-data-ownership).
 All 19 candidate
 fingerprints and the complete resident executable remain unchanged.

@@ -50,7 +50,7 @@ void SD_ApplySequenceReverbParameter(SDSecondaryRecord *entry, int unused)
  * and the spatialised volume, keys the voice on and routes its reverb.
  *
  * Matches under uniform gcc_2_8_1_g0 with no register pins, no inline
- * assembly and no symbol aliases. Promoted from src/candidates, where the
+ * assembly and no symbol aliases. Promoted from a build-integrated candidate, where the
  * best state was 24 raw words under the mixed cc_g8_as_g0 profile with an
  * `asm("gSD_pSecondaryState")` alias forcing one root reload. What closed it:
  *

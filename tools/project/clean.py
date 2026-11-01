@@ -20,7 +20,6 @@ CLEAN_TARGETS = {
     "overlays": "tmp/overlays",
     "splat": "tmp/splat",
     "project-build": "tmp/project-build",
-    "candidate-build": "tmp/candidate-build",
     "incremental": "tmp/incremental",
     "reports": "tmp/reports",
 }

@@ -3,17 +3,16 @@
 
 GCC 2.8.1 accepts a call to a function with no visible declaration, treating
 it as `int f()`. The build then stays byte-exact, so neither the executable
-hash nor the candidate fingerprints notice when a caller loses sight of a
+hash nor the declaration checks notice when a caller loses sight of a
 prototype, for example because the prototype moved to another header the
 caller does not include. The declaration contracts the other checks enforce
-(unmatched_contracts.py, candidate canonical contracts) are only real where
-the caller actually sees them.
+(unmatched_contracts.py) are only real where the caller actually sees them.
 
-This compiles every matching C source (resident and overlay manifests) and
-every build-integrated candidate to discarded assembly with
--Wimplicit-function-declaration under its own profile's flags, and fails on
-each implicit declaration unless that exact source/function pair is recorded,
-with a measured reason, in config/slus_01411/implicit_declaration_exceptions.json.
+This compiles every matching C source (resident and overlay manifests) to
+discarded assembly with -Wimplicit-function-declaration under its own
+profile's flags, and fails on each implicit declaration unless that exact
+source/function pair is recorded, with a measured reason, in
+config/slus_01411/implicit_declaration_exceptions.json.
 A recorded pair that no longer occurs is also an error, so the list cannot go
 stale.
 
@@ -55,10 +54,6 @@ def sources(root: Path) -> list[tuple[str, str]]:
     manifests += sorted((root / CONFIG / "overlays").glob("*_matching_c.json"))
     for manifest in manifests:
         for entry in json.loads(manifest.read_text(encoding="utf-8"))["functions"]:
-            result.add((entry["source"], entry["profile"]))
-    candidates = root / CONFIG / "candidates.json"
-    if candidates.is_file():
-        for entry in json.loads(candidates.read_text(encoding="utf-8"))["candidates"]:
             result.add((entry["source"], entry["profile"]))
     return sorted(result)
 

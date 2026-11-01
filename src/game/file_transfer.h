@@ -221,7 +221,7 @@ extern u32 D_8009B134_abs __attribute__((section(".data")));
 
 /* 0x801DC000, gLibrary_aCardArtRecord in config/slus_01411/symbols.txt:372.
  * File_SetPositionTable hands its address to File_InitTransferState
- * (src/candidates/func_800136E4.c:24), which stores it into D_8009B118
+ * (src/game/file_set_position_table.c), which stores it into D_8009B118
  * (File_InitTransferState, file_transfer_runtime.c). The two memory-card dialogs also reach it, always by
  * address: MemCardDialog_UpdateSave and MemCardDialog_UpdateTradeSave
  * (mem_card_dialog.c) pass it to MemCardReadFile as the destination of a

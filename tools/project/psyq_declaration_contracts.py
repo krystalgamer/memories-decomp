@@ -7,7 +7,7 @@ from pathlib import Path
 import re
 import sys
 
-import candidate_builds
+import c_statements
 from unmatched_contracts import declaration_name
 
 
@@ -16,7 +16,6 @@ FUNCTIONS = Path("config/slus_01411/functions.csv")
 PSYQ_ROOT = Path("src/psyq")
 CONSUMER_ROOTS = (
     Path("src/game"),
-    Path("src/candidates"),
     Path("src/overlays"),
 )
 LOCAL_INCLUDE = re.compile(r'^\s*#\s*include\s+"(?P<path>[^"]+)"', re.MULTILINE)
@@ -229,7 +228,7 @@ def evaluate_integer_expression(
 
 def active_source(text: str) -> str:
     text = re.sub(r"\\\r?\n", "", text)
-    text = candidate_builds.strip_c_comments(text)
+    text = c_statements.strip_c_comments(text)
     object_macros: dict[str, str] = {}
     function_macros: dict[str, tuple[list[str], str]] = {}
     active = True
@@ -356,7 +355,7 @@ def declaration_statements(text: str) -> list[str]:
             continue
         if char != ";":
             continue
-        statement = candidate_builds.normalized_statement(text[start : index + 1])
+        statement = c_statements.normalized_statement(text[start : index + 1])
         if statement:
             statements.append(statement)
         start = index + 1
@@ -448,7 +447,7 @@ def declarations(text: str, sdk: set[str]) -> list[tuple[str, str]]:
         if not looks_like_typed_declaration:
             continue
         region = declarator_region(statement)
-        alias = candidate_builds.ASM_ALIAS.search(statement)
+        alias = c_statements.ASM_ALIAS.search(statement)
         identities = {alias.group("name")} if alias is not None else set()
         primary = declaration_name(statement)
         if primary in sdk and re.search(rf"\b{re.escape(primary)}\b", region):

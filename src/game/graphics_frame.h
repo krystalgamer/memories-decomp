@@ -20,7 +20,7 @@
  * those groups. That census is the resident one; the main_menu overlay adds a
  * nineteenth access, a halfword read at offset zero --
  * `lhu $a0, %lo(D_8009B0D8)($v0)` at
- * src/candidates_target/main_menu/func_80180390.S:217.
+ * 0x80180680 in MainMenu_UpdateFrontendMenu.
  * gcc 2.8.1 picks the narrow load itself -- `(u8)` and `(u16)` on an
  * int global emit lbu and lhu against the same symbol -- so a narrow read is
  * written as a cast at the site, not as a declaration.

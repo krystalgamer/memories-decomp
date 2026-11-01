@@ -4759,7 +4759,7 @@ register declarations; there is no statement-level inline assembly.
 
 Recorded the post-terminal resolution with `record_external_attempt.py`, then
 used `integrate_verified_match.py --evidence-source post-terminal
---allow-register-pins` to integrate `src/game/func_80060E70.c`. #3859 later moved it to `src/candidates/`, and #5 brought it back as pure C.
+--allow-register-pins` to integrate `src/game/func_80060E70.c`. #3859 later moved it to a build-integrated candidate, and #5 brought it back as pure C.
 The only integration adjustment is the relative include of `src/types.h`.
 `func_80039A14` and `TextBox_Create` were checked against the current inventory
 and need no callee renames. The promoted candidate entry was removed as required
@@ -6729,7 +6729,7 @@ only after that lifecycle and the complete instruction shape were understood.
 ## Levers kept from three candidates migrated into the build
 
 `func_80048658`, `func_800482B0` and `func_8005E808` moved from
-`notes/candidates/` into `src/candidates/` (#2493). Their per-function state
+`notes/candidates/` into build-integrated candidates (#2493). Their per-function state
 now lives in the source comment and the inventory row; these are the parts
 that transfer to other functions.
 
@@ -7141,7 +7141,7 @@ about a return type nobody uses, so only reading the definition finds these.
 is checked. No diagnostic exists for this one at all.
 
 **A narrower return that is load-bearing.** `SD_PollSequenceState` is defined `s32` in
-`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `sound_secondary_levels.c` and `src/candidates/func_80045F3C.c`), where the
+`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `sound_secondary_levels.c` and `sound_runtime.c`), where the
 result is compared:
 
     if (... SD_PollSequenceState() != 1)

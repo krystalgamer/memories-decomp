@@ -113,7 +113,7 @@ extern u32 gInput_dwPendingHeld;
  * data at a single -G8 threshold, and the split flag decides only whose
  * %hi/%lo pair the reference becomes, so nothing separated the two
  * spellings: moving that unit to the aggregate arm leaves the retail SHA-256
- * unchanged and check-candidate-builds green.
+ * unchanged.
  *
  * An independent matching decompilation of this binary carries the same
  * address behind eight declarations, chosen per function, which is where this

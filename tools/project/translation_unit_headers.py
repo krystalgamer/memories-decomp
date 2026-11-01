@@ -10,7 +10,7 @@ from pathlib import Path
 import re
 import sys
 
-import candidate_builds
+import c_statements
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -218,7 +218,7 @@ def declaration_names(statement: str) -> list[tuple[str, str | None]]:
         )
         if name is None:
             continue
-        alias = candidate_builds.ASM_ALIAS.search(declarator)
+        alias = c_statements.ASM_ALIAS.search(declarator)
         result.append((name, alias.group("name") if alias is not None else None))
     return result
 
@@ -252,7 +252,7 @@ def is_old_style_definition_prefix(statement: str, name: str) -> bool:
 
 
 def mask_non_code(source: str) -> str:
-    text = candidate_builds.strip_c_comments(source)
+    text = c_statements.strip_c_comments(source)
     output = list(text)
     quote: str | None = None
     escaped = False
@@ -313,7 +313,7 @@ def definition_names(source: str) -> set[str]:
     for index, char in enumerate(text):
         if char == "{":
             if depth == 0:
-                prefix = candidate_builds.normalized_statement(text[start:index])
+                prefix = c_statements.normalized_statement(text[start:index])
                 if "=" not in prefix and not prefix.startswith("typedef "):
                     declarations = declaration_names(prefix + ";")
                     if declarations:
@@ -330,7 +330,7 @@ def definition_names(source: str) -> set[str]:
 
 def declaration_statements(source: str) -> list[str]:
     text = re.sub(r"\\\r?\n", "", source)
-    text = candidate_builds.strip_c_comments(text)
+    text = c_statements.strip_c_comments(text)
     lines = text.splitlines(keepends=True)
     active: bool | None = True
     conditions: list[tuple[bool | None, bool | None]] = []
@@ -387,7 +387,7 @@ def declaration_statements(source: str) -> list[str]:
             lines[index] = "".join(
                 "\n" if char == "\n" else " " for char in line
             )
-    return candidate_builds.top_level_statements("".join(lines))
+    return c_statements.top_level_statements("".join(lines))
 
 
 def has_static_specifier(statement: str, name: str) -> bool:
