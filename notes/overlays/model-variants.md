@@ -1050,6 +1050,9 @@ only.
 | `ModelVariant787_HandleRequest` | `model_variant/variant787_entry.c` | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013B004`/`0x8017B004` |
 | `gModelVariant787_D12EC` | data subsegment (`variant787_entry.h`) | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013C2EC`/`0x8017C2EC` |
 | `gModelVariant787_D1324` | data subsegment (`variant787_entry.h`) | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013C324`/`0x8017C324` |
+| `ModelVariant801_HandleRequest` | `model_variant/variant801_entry.c` | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013B004`/`0x8017B004` |
+| `gModelVariant801_D1554` | data subsegment (`variant801_entry.h`) | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013C554`/`0x8017C554` |
+| `gModelVariant801_D158C` | data subsegment (`variant801_entry.h`) | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013C58C`/`0x8017C58C` |
 
 ### Header 407: petals
 
