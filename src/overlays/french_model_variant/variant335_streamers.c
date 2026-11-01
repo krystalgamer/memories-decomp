@@ -10,7 +10,7 @@
 #define STREAMERS335_PREVIOUS previous
 #endif
 
-void func_8013D0D8(u8 *ctx)
+void FrenchModelVariant335_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

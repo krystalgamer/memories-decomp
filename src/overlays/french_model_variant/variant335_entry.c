@@ -1,13 +1,14 @@
 #include "../../types.h"
 #include "variant335_entry.h"
 
-/* The entry's data block.  D_8013D8EC is where this module's unclassified tail
+/* The entry's data block.  gFrenchModelVariant335_D28EC is where this module's unclassified tail
  * starts, at a helper that the module does not split out yet, 0x6D0 bytes
- * before the block.  The North American build points this at its own data
- * symbol. */
-#ifndef MODEL_VARIANT335_DATA
-#define MODEL_VARIANT335_DATA (D_8013D8EC + 0x6D0)
+ * before the block.  In the North American build the tail starts at the
+ * block itself. */
+#ifndef MODEL_VARIANT335_DATA_OFFSET
+#define MODEL_VARIANT335_DATA_OFFSET 0x6D0
 #endif
+#define MODEL_VARIANT335_DATA (gFrenchModelVariant335_D28EC + MODEL_VARIANT335_DATA_OFFSET)
 
 /* The effect palette sits at VRAM x = 640 in the PAL images and at 512 in
  * the North American ones. */
@@ -15,7 +16,7 @@
 #define MODEL_VARIANT335_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
 {
     Model335EntryState *work = (Model335EntryState *)point;
     MATRIX unused_matrix0;
@@ -254,12 +255,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         }
         if (work->config->start <= work->frame) {
             if (work->phase < 7) {
-                func_8013BB98((u8 *)point);
-                func_8013C534((u8 *)point);
+                FrenchModelVariant335_DrawRibbons((u8 *)point);
+                FrenchModelVariant335_DrawSheets((u8 *)point);
             }
             if (work->phase >= 5) {
-                func_8013D0D8((u8 *)point);
-                func_8013CBC4((u8 *)point);
+                FrenchModelVariant335_DrawStreamers((u8 *)point);
+                FrenchModelVariant335_DrawRings((u8 *)point);
             }
         }
         work->frame_count++;

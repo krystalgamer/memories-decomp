@@ -11,8 +11,14 @@ The entry at `0x4..0xB98`, ribbon helper at `0xB98..0x1534`, sheet helper at
 `0x1534..0x1BC4`, ring helper at `0x1BC4..0x20D8` and streamer helper at
 `0x20D8..0x28EC` are matching C: 2,964, 2,460, 1,680, 1,300 and
 2,068 instruction bytes per image, respectively, using `gcc_2_8_1_g0_split`
-(GCC 2.8.1/MASPSX 2.81). Slot 1 only renames the functions and the entry's
-existing raw-suffix label. No compiler change, forced register, assembly,
+(GCC 2.8.1/MASPSX 2.81). Both slots build the same sources. The sources
+define `FrenchModelVariant335_HandleRequest`,
+`FrenchModelVariant335_DrawRibbons`, `FrenchModelVariant335_DrawSheets`,
+`FrenchModelVariant335_DrawRings`, `FrenchModelVariant335_DrawStreamers` and
+the entry's raw-suffix label `gFrenchModelVariant335_D28EC`, and each image
+binds them at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
+No compiler change, forced register, assembly,
 artificial dependency, or source-local
 external declaration is used. No shared source for another region changes.
 
@@ -243,4 +249,4 @@ Complete production images, sized linked C ownership, every retained
 assembly/raw span, and the French resident executable are the acceptance
 gates. Tests also cover loader sectors and commands, independent image
 hashes, all five CFGs, caller arguments, local record layout, external
-callee starts, and the slot wrappers.
+callee starts, and both slots.
