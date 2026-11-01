@@ -1,10 +1,10 @@
 // Japanese SU credits package (SU.MRG sector 1223, loaded at 0x80180000), built
 // from the US credits source with VERSION_JAPAN; names follow the US package.
-func_801807B0 = 0x80180820; // type:func size:0xE0 defined:true
-func_80180A24 = 0x80180900; // type:func size:0x534 defined:true
+Credits_InitPresentation = 0x80180820; // type:func size:0xE0 defined:true
+Credits_UpdateLines = 0x80180900; // type:func size:0x534 defined:true
 Credits_BuildLineGlyphs = 0x80180E34; // type:func size:0x804 defined:true
 Credits_DrawLine = 0x80181638; // type:func size:0x550 defined:true
-func_80181C4C = 0x80181B88; // type:func size:0xDC defined:true
+Credits_StartLineGroup = 0x80181B88; // type:func size:0xDC defined:true
 Credits_IsFinished = 0x80181C64; // type:func size:0x10 defined:true
 gCredits_aEntries = 0x80181C74;
 gCredits_ClutRect0 = 0x80180800; // size:0x8
