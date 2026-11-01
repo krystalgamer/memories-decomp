@@ -134,9 +134,9 @@ typedef struct {
     Model798Colour flash[4];
 } Model798State;
 
-extern GsIMAGE D_8013F994[];
-extern Model798Config D_8013FAC8[];
+extern GsIMAGE gModelVariant798_D4994[];
+extern Model798Config gModelVariant798_D4AC8[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant798_HandleRequest(u8 *context, s32 command);
 
 #endif

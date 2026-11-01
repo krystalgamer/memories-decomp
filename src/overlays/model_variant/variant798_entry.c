@@ -9,11 +9,11 @@
  * sparks, 64 spinning semi-transparent blades and a pulsing shock fan while
  * the ambient light dims and recovers. */
 
-static const VECTOR D_8013F984 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant798_D4984 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant798_HandleRequest(u8 *context, s32 command)
 {
     Model798State *work;
     MATRIX light;
@@ -44,7 +44,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013F984;
+    scale = gModelVariant798_D4984;
     work = (Model798State *)context;
     ft4 = &ft4_poly;
     g3 = &g3_poly;
@@ -52,7 +52,7 @@ s32 func_8013B004(u8 *context, s32 command)
     gt4 = &gt4_poly;
     direction = (slot = Model_GetActiveSlotIndex()) * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013FAC8[command];
+        work->config = &gModelVariant798_D4AC8[command];
         for (i = 0; i < work->config->count; i++) {
             work->u.n.pulse[i] = 0;
             setVector(&work->pos[i], 0, 0, 0);
@@ -145,7 +145,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->fan_clut = 0x3D20;
 #endif
         for (i = 0; i < 11; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013F994[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant798_D4994[i]);
         }
         work->ambient = 0x800;
         work->head = 0;

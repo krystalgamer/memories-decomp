@@ -580,7 +580,7 @@ work-size printf or screen-height constant, and only the resident call targets
 differ, which `model_variant814_linker_symbols.txt` binds to the French
 addresses. Both slots build directly from that source.
 
-French MODEL headers 815 (stage 7 slot 0) and 912 (stage 8 slot 1) build the header-798 entry (`func_8013B004`) from `src/overlays/model_variant/variant798_entry.c` through `src/overlays/french_model_variant/variant815_entry{,_slot1}.c`, which define `VERSION_FRENCH` for the fan CLUT (0x3D28 instead of 0x3D20); there is no work-size `printf`, so code and data keep the US layout.
+French MODEL headers 815 (stage 7 slot 0) and 912 (stage 8 slot 1) build the header-798 entry (`ModelVariant798_HandleRequest`) from `src/overlays/model_variant/variant798_entry.c` through `src/overlays/french_model_variant/variant815_entry.c` in both slots, which defines `VERSION_FRENCH` for the fan CLUT (0x3D28 instead of 0x3D20); there is no work-size `printf`, so code and data keep the US layout.
 
 French MODEL headers 779 (stage 9 slot 0) and 876 (stage 10 slot 1) build the header-762 entry (`ModelVariant762_HandleRequest`) directly from `src/overlays/model_variant/variant762_entry.c` in both slots; the French code and data are identical to the US images. They link through their own `model_variant779_entry_linker_symbols.txt`, so the shared `model_variant779_linker_symbols.txt` is unchanged.
 
