@@ -6,9 +6,9 @@
  * then pairs of rays that grow upwards around the other slot. A negative
  * command draws a frame; any other command sets the work area up. */
 
-static const VECTOR D_8013BC4C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant180_D0C4C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant180_HandleRequest(u8 *context, s32 command)
 {
     Model180State *work;
     MATRIX base, matrix;
@@ -28,11 +28,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BC4C;
+    scale = gModelVariant180_D0C4C;
     work = (Model180State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013BC94[command];
+        config = work->config = &gModelVariant180_D0C94[command];
         Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&work->origin);
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->opponent);
         point = work->ring;
@@ -61,7 +61,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013BC5C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant180_D0C5C[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
