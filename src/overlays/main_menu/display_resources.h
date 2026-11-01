@@ -4,6 +4,6 @@
 #include "../../types.h"
 
 /* The separate final SU load phase, not bytes of the executable image. */
-extern u8 gMainMenu_DisplayResources[] __asm__("D_801AF800");
+extern u8 gMainMenu_DisplayResources[];
 
 #endif

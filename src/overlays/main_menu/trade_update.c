@@ -144,9 +144,7 @@ void MainMenu_InitTradeScreen(void)
 #define MAIN_MENU_TRADE_SCROLL_MAX 6
 #endif
 extern CardCountEntry gTrade_aSide1WorkingCards[];
-extern u16 gTrade_awListScrollWords[2][2] asm("gTrade_aListScroll");
 
-#define gTrade_aListScroll gTrade_awListScrollWords
 #define MAIN_MENU_TRADE_BLOCK_INDEX(byte_offset) \
     ((byte_offset) / sizeof(MainMenuTradeBlock16))
 
@@ -347,10 +345,10 @@ s32 MainMenu_UpdateTradeScreen(void)
         return decision;
     }
 
-    if (gTrade_aListScroll[0][0] != gTrade_aListScroll[0][1]) {
+    if (gTrade_aListScroll[0].current != gTrade_aListScroll[0].target) {
         goto scroll0;
     }
-    card0 = &gTrade_aWorkingCards[0][gTrade_aListScroll[0][0] + gTrade_abCursorRow[0]];
+    card0 = &gTrade_aWorkingCards[0][gTrade_aListScroll[0].current + gTrade_abCursorRow[0]];
     if (gTrade_abReady[0] != 0) {
         if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
@@ -430,14 +428,14 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
     if ((gInput_wPad1Held[0] & 0xC) != 0) {
         if ((gInput_wPad1Held[0] & 4) != 0) {
-            low = gTrade_aListScroll[0][1] - MAIN_MENU_TRADE_PAGE_STEP;
+            low = gTrade_aListScroll[0].target - MAIN_MENU_TRADE_PAGE_STEP;
             if (low < 0) { low = 0; }
-            gTrade_aListScroll[0][1] = low;
+            gTrade_aListScroll[0].target = low;
         } else {
-            value = gTrade_aListScroll[0][1] + MAIN_MENU_TRADE_PAGE_STEP;
-            gTrade_aListScroll[0][1] = value < maximum ? value : maximum;
+            value = gTrade_aListScroll[0].target + MAIN_MENU_TRADE_PAGE_STEP;
+            gTrade_aListScroll[0].target = value < maximum ? value : maximum;
         }
-        if (gTrade_aListScroll[0][0] == gTrade_aListScroll[0][1]) {
+        if (gTrade_aListScroll[0].current == gTrade_aListScroll[0].target) {
             goto player1;
         }
         SD_SEPlay(6, 255, 0);
@@ -445,17 +443,17 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
     if ((gInput_wPad1Repeat[0] & 3) != 0) {
         if ((gInput_wPad1Repeat[0] & 1) != 0) {
-            low = gTrade_aListScroll[0][1] - 50;
+            low = gTrade_aListScroll[0].target - 50;
             if (low < 0) { low = 0; }
-            gTrade_aListScroll[0][1] = low;
+            gTrade_aListScroll[0].target = low;
         } else {
-            value = gTrade_aListScroll[0][1] + 50;
-            gTrade_aListScroll[0][1] = value < maximum ? value : maximum;
+            value = gTrade_aListScroll[0].target + 50;
+            gTrade_aListScroll[0].target = value < maximum ? value : maximum;
         }
-        if (gTrade_aListScroll[0][0] != gTrade_aListScroll[0][1]) {
+        if (gTrade_aListScroll[0].current != gTrade_aListScroll[0].target) {
             SD_SEPlay(6, 255, 0);
         }
-        gTrade_aListScroll[0][0] = gTrade_aListScroll[0][1];
+        gTrade_aListScroll[0].current = gTrade_aListScroll[0].target;
         dirty0++;
         goto check_scroll0;
     }
@@ -465,35 +463,35 @@ s32 MainMenu_UpdateTradeScreen(void)
                 SD_SEPlay(6, 255, 0);
                 gTrade_abCursorRow[0]--;
                 cursor0++;
-            } else if (gTrade_aListScroll[0][1] != 0) {
+            } else if (gTrade_aListScroll[0].target != 0) {
                 SD_SEPlay(6, 255, 0);
-                gTrade_aListScroll[0][0] = --gTrade_aListScroll[0][1];
+                gTrade_aListScroll[0].current = --gTrade_aListScroll[0].target;
                 dirty0++;
             }
         } else if (gTrade_abCursorRow[0] < MAIN_MENU_TRADE_SCROLL_MAX) {
             SD_SEPlay(6, 255, 0);
             gTrade_abCursorRow[0]++;
             cursor0++;
-        } else if (gTrade_aListScroll[0][1] < maximum) {
+        } else if (gTrade_aListScroll[0].target < maximum) {
             SD_SEPlay(6, 255, 0);
-            gTrade_aListScroll[0][0] = ++gTrade_aListScroll[0][1];
+            gTrade_aListScroll[0].current = ++gTrade_aListScroll[0].target;
             dirty0++;
         }
     }
     goto check_scroll0;
 check_scroll0:
-    if (gTrade_aListScroll[0][0] != gTrade_aListScroll[0][1]) {
+    if (gTrade_aListScroll[0].current != gTrade_aListScroll[0].target) {
     scroll0:
-        gTrade_aListScroll[0][0] = gTrade_aListScroll[0][0] < gTrade_aListScroll[0][1] ?
-            gTrade_aListScroll[0][0] + 1 : gTrade_aListScroll[0][0] - 1;
+        gTrade_aListScroll[0].current = gTrade_aListScroll[0].current < gTrade_aListScroll[0].target ?
+            gTrade_aListScroll[0].current + 1 : gTrade_aListScroll[0].current - 1;
         dirty0++;
     }
 
 player1:
-    if (gTrade_aListScroll[1][0] != gTrade_aListScroll[1][1]) {
+    if (gTrade_aListScroll[1].current != gTrade_aListScroll[1].target) {
         goto scroll1;
     }
-    card1 = &gTrade_aSide1WorkingCards[gTrade_aListScroll[1][0] + gTrade_abCursorRow[1]];
+    card1 = &gTrade_aSide1WorkingCards[gTrade_aListScroll[1].current + gTrade_abCursorRow[1]];
     if (gTrade_abReady[1] != 0) {
         if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
@@ -573,17 +571,17 @@ player1:
     }
     if ((gInput_wPad1Held[1] & 0xC) != 0) {
         if ((gInput_wPad1Held[1] & 4) != 0) {
-            low = gTrade_aListScroll[1][1] - MAIN_MENU_TRADE_PAGE_STEP;
+            low = gTrade_aListScroll[1].target - MAIN_MENU_TRADE_PAGE_STEP;
             if (low < 0) { low = 0; }
-            gTrade_aListScroll[1][1] = low;
+            gTrade_aListScroll[1].target = low;
         } else {
             bounded = maximum;
-            if (gTrade_aListScroll[1][1] + MAIN_MENU_TRADE_PAGE_STEP < bounded) {
-                bounded = gTrade_aListScroll[1][1] + MAIN_MENU_TRADE_PAGE_STEP;
+            if (gTrade_aListScroll[1].target + MAIN_MENU_TRADE_PAGE_STEP < bounded) {
+                bounded = gTrade_aListScroll[1].target + MAIN_MENU_TRADE_PAGE_STEP;
             }
-            gTrade_aListScroll[1][1] = bounded;
+            gTrade_aListScroll[1].target = bounded;
         }
-        if (gTrade_aListScroll[1][0] == gTrade_aListScroll[1][1]) {
+        if (gTrade_aListScroll[1].current == gTrade_aListScroll[1].target) {
             goto update;
         }
         SD_SEPlay(6, 255, 0);
@@ -591,20 +589,20 @@ player1:
     }
     if ((gInput_wPad1Repeat[1] & 3) != 0) {
         if ((gInput_wPad1Repeat[1] & 1) != 0) {
-            low = gTrade_aListScroll[1][1] - 50;
+            low = gTrade_aListScroll[1].target - 50;
             if (low < 0) { low = 0; }
-            gTrade_aListScroll[1][1] = low;
+            gTrade_aListScroll[1].target = low;
         } else {
             bounded = maximum;
-            if (gTrade_aListScroll[1][1] + 50 < bounded) {
-                bounded = gTrade_aListScroll[1][1] + 50;
+            if (gTrade_aListScroll[1].target + 50 < bounded) {
+                bounded = gTrade_aListScroll[1].target + 50;
             }
-            gTrade_aListScroll[1][1] = bounded;
+            gTrade_aListScroll[1].target = bounded;
         }
-        if (gTrade_aListScroll[1][0] != gTrade_aListScroll[1][1]) {
+        if (gTrade_aListScroll[1].current != gTrade_aListScroll[1].target) {
             SD_SEPlay(6, 255, 0);
         }
-        gTrade_aListScroll[1][0] = gTrade_aListScroll[1][1];
+        gTrade_aListScroll[1].current = gTrade_aListScroll[1].target;
         dirty1.dirty++;
         goto check_scroll1;
     }
@@ -614,27 +612,27 @@ player1:
                 SD_SEPlay(6, 255, 0);
                 gTrade_abCursorRow[1]--;
                 cursor1++;
-            } else if (gTrade_aListScroll[1][1] != 0) {
+            } else if (gTrade_aListScroll[1].target != 0) {
                 SD_SEPlay(6, 255, 0);
-                gTrade_aListScroll[1][0] = --gTrade_aListScroll[1][1];
+                gTrade_aListScroll[1].current = --gTrade_aListScroll[1].target;
                 dirty1.dirty++;
             }
         } else if (gTrade_abCursorRow[1] < MAIN_MENU_TRADE_SCROLL_MAX) {
             SD_SEPlay(6, 255, 0);
             gTrade_abCursorRow[1]++;
             cursor1++;
-        } else if (gTrade_aListScroll[1][1] < maximum) {
+        } else if (gTrade_aListScroll[1].target < maximum) {
             SD_SEPlay(6, 255, 0);
-            gTrade_aListScroll[1][0] = ++gTrade_aListScroll[1][1];
+            gTrade_aListScroll[1].current = ++gTrade_aListScroll[1].target;
             dirty1.dirty++;
         }
     }
     goto check_scroll1;
 check_scroll1:
-    if (gTrade_aListScroll[1][0] != gTrade_aListScroll[1][1]) {
+    if (gTrade_aListScroll[1].current != gTrade_aListScroll[1].target) {
     scroll1:
-        gTrade_aListScroll[1][0] = gTrade_aListScroll[1][0] < gTrade_aListScroll[1][1] ?
-            gTrade_aListScroll[1][0] + 1 : gTrade_aListScroll[1][0] - 1;
+        gTrade_aListScroll[1].current = gTrade_aListScroll[1].current < gTrade_aListScroll[1].target ?
+            gTrade_aListScroll[1].current + 1 : gTrade_aListScroll[1].current - 1;
         dirty1.dirty++;
     }
 

@@ -289,7 +289,7 @@ byte is a resource variant encoding four plus the two players' stats bits.
 The row rebuild passes the selected side's raw bit, including 2 for side 1,
 to the resident text/stat renderer boundary. Separately,
 `gTrade_aInventoryRowSets` retains the original `MainMenuState[]` view of
-shared `D_801A8000` staging RAM; refresh writes each row object's sort-icon
+shared staging RAM at `0x801A8000`; refresh writes each row object's sort-icon
 selection through that view. Sort choice and stats flags are distinct.
 See [Trade row/display state](../../../notes/overlays/trade-row-display-state.md)
 for the complete handoff, original type boundaries and storage evidence.
@@ -312,7 +312,7 @@ existing missing-ID/no-slot-validation behavior remain unchanged.
 `MainMenu_RebuildTradeInventoryRows` (`0x801844D8`) refreshes seven visible
 rows, not just the selected card. The starting address is
 `inventoryBase + side * 2888 + currentTop * 4`, where `2888 = 722 * 4`.
-`gTrade_aListScroll[side][0]` is the current scrolling top; `[1]` is its target.
+`gTrade_aListScroll[side].current` is the current scrolling top; `.target` is its target.
 The cursor row is a separate offset.
 
 The wrapper derives flags from the display selector minus 4 and passes
@@ -429,7 +429,7 @@ The two twelve-byte state records hold target/display halfwords at offsets
 Setup initializes the choice to `(*toggle == 0)`, and finish writes
 `(choice != 1)`: choice 0 writes 1, choice 1 writes 0. The visible option
 caption remains unproved. The separate scalar
-`gMainMenu_bValueSetupToggleChoice` retains native `D_801845BE`, overlapping
+`gMainMenu_bValueSetupToggleChoice` (formerly `D_801845BE`), overlapping
 the array's third byte without merging their C identities. See
 [choice lifecycle](../../../notes/overlays/main-menu-value-choices.md)
 for the input, draw, tween, commit and real data-owner evidence. The
@@ -711,8 +711,8 @@ because the starter does pointer arithmetic on them and the finisher only
 passes and clears them. All three are byte-identical, which is the argument.
 
 `gMainMenu_abValueSetupChoices[2]` and `gMainMenu_bValueSetupToggleChoice`
-remain two views of one byte, retaining separate `D_801845BC` and
-`D_801845BE` asm labels. The unsized array/scalar declarations, real aggregate
+remain two views of one byte, each bound at its own address by the
+main-menu symbol files. The unsized array/scalar declarations, real aggregate
 owner and original alias-sensitive access pattern are unchanged.
 
 The renderer and the widget tween it drives, previously the subject of this

@@ -75,7 +75,9 @@ This is a Trade-only typed view of phase-dependent shared RAM, not a
 project-wide rename. The resident `gCardList_aRowSets` view, script
 bytecode, model payload/DMA, raw-word and other overlay interpretations
 retain their own declarations and aliases. NA/Europe staging remains
-`0x801A8000`; Japan maps the native label to `0x801B8000`. It is external
+`0x801A8000`; Japan binds the name at `0x801B8000`. Each main-menu linker
+symbol file binds `gTrade_aInventoryRowSets` directly, in place of the
+former `D_801A8000` label. It is external
 staging, not a new C-owned array in the main-menu image. Original maps,
 loader addresses, resident text-provider aliases and overlay import
 counts are untouched.

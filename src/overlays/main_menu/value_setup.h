@@ -10,21 +10,19 @@
 #define MAIN_MENU_VALUE_SETUP_CHOICE_VALUE 2
 
 /* Choices [0/1] belong to the two players; [2] is their shared toggle choice.
-   The separate scalar view aliases [2], without merging the C identities. */
-extern u8 gMainMenu_abValueSetupChoices[] __asm__("D_801845BC");
-extern u8 gMainMenu_bValueSetupToggleChoice __asm__("D_801845BE");
+   The separate scalar names [2] at its own address. */
+extern u8 gMainMenu_abValueSetupChoices[];
+extern u8 gMainMenu_bValueSetupToggleChoice;
 
 /* gMainMenu_pValueSetupToggle points at the caller's toggle; gMainMenu_aValueSetupEntries holds
    the two values and their output pointers. The remaining symbols own the
-   screen's display objects. Native choice declarations remain compatible. */
-extern u8 D_801845BC[];
+   screen's display objects. */
 extern u8 *G32 gMainMenu_pValueSetupToggle;
 extern ValueSetupEntry gMainMenu_aValueSetupEntries[2];
 extern DisplayObject *G32 D_801845A0;
 extern DisplayObject *G32 D_801845A4;
 extern DisplayObject *G32 gMainMenu_apValueSetupCursors[];
 extern DisplayObject *G32 gMainMenu_pValueSetupMainCursor;
-extern u8 D_801845BE;
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle);
 s32 MainMenu_UpdateValueSetup(void);

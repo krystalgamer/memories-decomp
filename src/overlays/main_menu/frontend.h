@@ -20,7 +20,7 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  *                          the slots that are not live.
  *   D_80184558             The three standing objects: background, title and
  *   D_8018455C             prompt. Made by MainMenu_InitFrontendMenu and
- *   D_80184560             released by MainMenu_DestroyFrontendMenu.
+ *   gMainMenu_pStartPrompt released by MainMenu_DestroyFrontendMenu.
  *   gMainMenu_bTransitionMode
  *                          The transition mode, taken straight from
  *                          MainMenu_StartFrontendEntryTransition's argument.
@@ -66,9 +66,8 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  */
 extern struct DisplayObject *G32 D_80184558;
 extern struct DisplayObject *G32 D_8018455C;
-extern struct DisplayObject *G32 D_80184560;
 /* The blinking singleton gates Start input before the menu wheel. */
-extern struct DisplayObject *G32 gMainMenu_pStartPrompt __asm__("D_80184560");
+extern struct DisplayObject *G32 gMainMenu_pStartPrompt;
 extern s8 gMainMenu_nFadeDirection;
 extern u8 gMain_bMenuID;
 extern u8 *G32 gMain_apMenuEntries[];

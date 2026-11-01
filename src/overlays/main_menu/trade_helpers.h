@@ -40,14 +40,9 @@ typedef struct {
     u16 target;
 } MainMenuPair;
 
-#ifdef MAIN_MENU_TRADE_SCROLL_AS_WORDS
-extern u16 gTrade_awListScrollWords[2][2] asm("gTrade_aListScroll");
-#define gTrade_aListScroll gTrade_awListScrollWords
-#else
 extern MainMenuPair gTrade_aListScroll[];
-#endif
 
-/* One entry of D_801A8000, the per-side inventory row state. Only the leading
+/* One entry of gTrade_aInventoryRowSets, the per-side inventory row state. Only the leading
    display-object pointer is named; the rest is carried so the stride is
    right. */
 typedef struct {
@@ -69,8 +64,7 @@ typedef union {
 /* The Trade updater and inventory updater's two-record view of the shared
    overlay staging base. */
 #ifdef MAIN_MENU_TRADE_STATE_BUFFER
-extern MainMenuState D_801A8000[];
-extern MainMenuState gTrade_aInventoryRowSets[] __asm__("D_801A8000");
+extern MainMenuState gTrade_aInventoryRowSets[];
 #endif
 
 /* The main-menu view of a display-object pool record. Named for this overlay
