@@ -22,7 +22,7 @@ typedef struct {
     u16 texture_cluts[2];
 } Variant380EntryStack;
 
-/* One 0x44-byte command row at D_8013D970 + 0x38. */
+/* One 0x44-byte command row at gModelVariant380_D2970 + 0x38. */
 typedef struct {
     u8 unknown_00[8];
     s32 parts[5];
@@ -75,10 +75,10 @@ typedef struct {
     s16 slot, command;
 } Variant380EntryState;
 
-extern u8 D_8013D970[];
-void func_8013BDE8(SVECTOR *point);
-void func_8013CAB8(SVECTOR *point);
-void func_8013D08C(SVECTOR *point);
-s32 func_8013B004(SVECTOR *point, s32 command);
+extern u8 gModelVariant380_D2970[];
+void FrenchModelVariant397_DrawBeams(SVECTOR *point);
+void FrenchModelVariant397_DrawSheets(SVECTOR *point);
+void FrenchModelVariant397_DrawStreamers(SVECTOR *point);
+s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command);
 
 #endif

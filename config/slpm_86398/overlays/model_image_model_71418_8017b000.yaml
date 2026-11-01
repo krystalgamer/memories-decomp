@@ -56,28 +56,28 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant380_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant380_entry]
   - name: beams
     type: code
     start: 0xDE8
     vram: 0x8017BDE8
     align: 4
     subsegments:
-      - [0xDE8, c, overlays/model_variant/variant380_beams_slot1]
+      - [0xDE8, c, overlays/french_model_variant/variant397_beams]
   - name: sheets
     type: code
     start: 0x1AB8
     vram: 0x8017CAB8
     align: 4
     subsegments:
-      - [0x1AB8, c, overlays/model_variant/variant380_sheets_slot1]
+      - [0x1AB8, c, overlays/french_model_variant/variant397_sheets]
   - name: helper_208c
     type: code
     start: 0x208C
     vram: 0x8017D08C
     align: 4
     subsegments:
-      - [0x208C, c, overlays/model_variant/variant380_streamers_slot1]
+      - [0x208C, c, overlays/french_model_variant/variant397_streamers]
   - name: unclassified_tail
     type: code
     start: 0x2970

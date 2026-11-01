@@ -5,8 +5,4 @@
  * loads from PAL x = 640. */
 #define VERSION_FRENCH
 #define MODEL_VARIANT380_CLUT_X 640
-#define func_8013BDE8 func_8013BDE4
-#define func_8013CAB8 func_8013CA9C
-#define func_8013D08C func_8013D06C
-#define D_8013D970 D_8013D950
 #include "../model_variant/variant380_entry.c"

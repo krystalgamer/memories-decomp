@@ -1,9 +1,9 @@
 // German MODEL.MRG model 258 (record 258), sector 71408, header 397, loaded at 0x8013B000; the US header-380 source variant380_entry.c; built from the French source layout of french_model_variant_258_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0xDE0 defined:true
-func_8013BDE4 = 0x8013BDE4; // type:func size:0xCB8 defined:true
-func_8013CA9C = 0x8013CA9C; // type:func size:0x5D0 defined:true
-func_8013D06C = 0x8013D06C; // type:func size:0x8E4 defined:true
-D_8013D950 = 0x8013D950; // type:u8 size:0x26B0 defined:true
+ModelVariant380_HandleRequest = 0x8013B004; // type:func size:0xDE0 defined:true
+FrenchModelVariant397_DrawBeams = 0x8013BDE4; // type:func size:0xCB8 defined:true
+FrenchModelVariant397_DrawSheets = 0x8013CA9C; // type:func size:0x5D0 defined:true
+FrenchModelVariant397_DrawStreamers = 0x8013D06C; // type:func size:0x8E4 defined:true
+gModelVariant380_D2970 = 0x8013D950; // type:u8 size:0x26B0 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x8005BF9C; // type:func absolute:true

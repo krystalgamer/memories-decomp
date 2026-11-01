@@ -27,3 +27,11 @@ view lives in `variant397_sheets.h`, and
 `model_variant397_linker_symbols.txt` covers the resident calls. The
 [attempt ledger](french-model-image397-sheets-attempts.csv) records six
 measured probes.
+
+## Per-image names
+
+The source defines `FrenchModelVariant397_DrawSheets`. The PAL images of
+models 21 and 258 build it at `0x8013CA9C`/`0x8017CA9C`; the North American
+and Japanese images build the same source at `0x8013CAB8`/`0x8017CAB8`. Each
+image binds the name at its own address (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).

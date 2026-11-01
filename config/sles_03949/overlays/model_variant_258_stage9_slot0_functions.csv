@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0xDE0,func_8013B004,matching_c,overlay/model_variant_258_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013BDE4,0xCB8,func_8013BDE4,matching_c,overlay/model_variant_258_stage9_slot0,Exact C header-397 beams helper (french_model_variant/variant397_beams.c); see notes/overlays/french-model-variant397-beams.md.
-0x8013CA9C,0x5D0,func_8013CA9C,matching_c,overlay/model_variant_258_stage9_slot0,Helper: the accepted French variant397_sheets C.
-0x8013D06C,0x8E4,func_8013D06C,matching_c,overlay/model_variant_258_stage9_slot0,Exact C header-397 streamers helper (french_model_variant/variant397_streamers.c); see notes/overlays/french-model-variant397-streamers.md.
+0x8013B004,0xDE0,ModelVariant380_HandleRequest,matching_c,overlay/model_variant_258_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013BDE4,0xCB8,FrenchModelVariant397_DrawBeams,matching_c,overlay/model_variant_258_stage9_slot0,Exact C header-397 beams helper (french_model_variant/variant397_beams.c); see notes/overlays/french-model-variant397-beams.md.
+0x8013CA9C,0x5D0,FrenchModelVariant397_DrawSheets,matching_c,overlay/model_variant_258_stage9_slot0,Helper: the accepted French variant397_sheets C.
+0x8013D06C,0x8E4,FrenchModelVariant397_DrawStreamers,matching_c,overlay/model_variant_258_stage9_slot0,Exact C header-397 streamers helper (french_model_variant/variant397_streamers.c); see notes/overlays/french-model-variant397-streamers.md.

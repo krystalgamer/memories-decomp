@@ -9,7 +9,7 @@
  * done. As in header 376, the length offset is an s16 and each branch of the
  * last-point test computes its own width offset. */
 
-void func_8013BDE4(u8 *ctx)
+void FrenchModelVariant397_DrawBeams(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
