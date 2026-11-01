@@ -833,7 +833,7 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant806_linker_symbols.txt` binds to the French
 addresses.
 
-French MODEL headers 807 (stage 9 slot 0) and 904 (stage 10 slot 1) build the header-790 entry (`func_8013B004`) from `src/overlays/model_variant/variant790_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant807_entry{,_slot1}.c`; the French code and data are identical to the US images.
+French MODEL headers 807 (stage 9 slot 0) and 904 (stage 10 slot 1) build the header-790 entry (`ModelVariant790_HandleRequest`) directly from `src/overlays/model_variant/variant790_entry.c` in both slots; the French code and data are identical to the US images.
 
 Four images under French headers 798 and 895 are the North American
 header-781 entry (`model_variant/variant781_entry.c`) unchanged; only the

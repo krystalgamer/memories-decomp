@@ -7,19 +7,19 @@
  * red, green and blue ribbon behind it. On arrival it bounces back, glows
  * and throws animated sparks while the ambient light dims and recovers. */
 
-static const VECTOR D_8013CEB0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant790_D1EB0 = {4096, 4096, 4096, 0};
 
-static const Model790Shape D_8013CEC0 = {{
+static const Model790Shape gModelVariant790_D1EC0 = {{
     {-190, 100, 0, 0}, {-150, -150, 0, 0}, {100, -190, 0, 0}, {210, 30, 0, 0},
     {30, 210, 0, 0}, {0, 0, 0, 0}, {-420, -70, 0, 0}, {-60, -420, 0, 0},
     {380, -190, 0, 0}, {300, 300, 0, 0}, {-200, 380, 0, 0},
 }};
 
-static const Model790Faces D_8013CF18 = {{
+static const Model790Faces gModelVariant790_D1F18 = {{
     {8, 2, 3, 5}, {9, 3, 4, 5}, {2, 7, 5, 1}, {5, 1, 0, 6}, {4, 5, 10, 0},
 }};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant790_HandleRequest(u8 *context, s32 command)
 {
     Model790State *work;
     MATRIX light;
@@ -49,14 +49,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CEB0;
-    shape = D_8013CEC0;
-    faces = D_8013CF18;
+    scale = gModelVariant790_D1EB0;
+    shape = gModelVariant790_D1EC0;
+    faces = gModelVariant790_D1F18;
     work = (Model790State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CF64[command];
+        work->config = &gModelVariant790_D1F64[command];
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rot);
         for (i = 0; i < work->config->count; i++) {
             setVector(&work->pos[i], 0, 0, 0);
@@ -85,7 +85,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CF2C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant790_D1F2C[i]);
         }
         work->level = 0x800;
         work->count = 0;
