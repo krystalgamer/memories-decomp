@@ -8,7 +8,7 @@
  * sphere, fading as they travel. A negative command draws a frame; any other
  * command sets the work area up. */
 
-static const VECTOR D_8013C374 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant113_D1374 = {4096, 4096, 4096, 0};
 
 #define DRAW_QUAD(a, b, c, d) \
     depth = RotAverage4(&vertices[a], &vertices[b], &vertices[c], &vertices[d], \
@@ -18,7 +18,7 @@ static const VECTOR D_8013C374 = {4096, 4096, 4096, 0};
         GsSortPoly(&quad, ot, (u16)depth); \
     }
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant113_HandleRequest(u8 *context, s32 command)
 {
     Model113State *work;
     MATRIX base, matrix;
@@ -39,12 +39,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C374;
+    scale = gModelVariant113_D1374;
     work = (Model113State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        work->config = &D_8013C3BC[command];
+        work->config = &gModelVariant113_D13BC[command];
         config = work->config;
         point = work->rings;
         for (i = -4; i < 0; point++, i++) {
@@ -62,7 +62,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->center);
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C384[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant113_D1384[i]);
         }
         work->elapsed = 0;
         work->updates = 0;

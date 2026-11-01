@@ -914,10 +914,12 @@ unchanged: the code differs only in its resident call targets, which
 `model_variant944_linker_symbols.txt` bind to the French addresses.
 
 Four images under French headers 130 and 260 are the North American
-header-113 entry (`model_variant/variant113_entry.c` and its slot-1 wrapper)
-unchanged: the code differs only in its resident call targets, which
+header-113 entry (`model_variant/variant113_entry.c`, built directly in both
+slots) unchanged: the code differs only in its resident call targets, which
 `model_variant130_entry_linker_symbols.txt` and
-`model_variant260_linker_symbols.txt` bind to the French addresses.
+`model_variant260_linker_symbols.txt` bind to the French addresses. Each
+image's symbols file binds `ModelVariant113_HandleRequest`,
+`gModelVariant113_D1384` and `gModelVariant113_D13BC` at its own addresses.
 
 Four images under French headers 647 and 714 are the North American
 header-630 entry (`model_variant/variant630_entry.c`) without its `E_DATA`
