@@ -54,14 +54,14 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant811_entry]
+      - [0x4, c, overlays/model_variant/variant794_entry]
   - name: rodata
     type: code
     start: 0x3854
     vram: 0x8013E854
     align: 4
     subsegments:
-      - [0x3854, .rodata, overlays/french_model_variant/variant811_entry]
+      - [0x3854, .rodata, overlays/model_variant/variant794_entry]
   - name: unclassified_tail
     type: code
     start: 0x3864
