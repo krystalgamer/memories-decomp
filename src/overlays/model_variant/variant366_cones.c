@@ -7,7 +7,7 @@
  * with a POLY_F4 mask-write packet behind each one. Before phase 7 each cone
  * breathes with its progress; afterwards it opens by field_1558[k] towards
  * the opponent. Progress then advances and wraps with a count. */
-void func_8013CEC8(u8 *context)
+void ModelVariant366_DrawCones(u8 *context)
 {
     SVECTOR rotation;
     /* Retail leaves 16-byte gaps after rotation and coordinate. */

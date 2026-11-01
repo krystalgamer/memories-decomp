@@ -41,5 +41,5 @@ typedef struct {
     s32 phase;
 } Family383StripView;
 
-void func_8013BCBC(u8 *context);
+void FrenchModelVariant383_DrawStrip(u8 *context);
 #endif

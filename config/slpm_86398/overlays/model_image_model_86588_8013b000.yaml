@@ -63,7 +63,7 @@ segments:
     vram: 0x8013bcc0
     align: 4
     subsegments:
-      - [0xcc0, c, overlays/model_variant/variant366_strip]
+      - [0xcc0, c, overlays/french_model_variant/variant383_strip]
   - name: ribbons
     type: code
     start: 0x1204
@@ -77,7 +77,7 @@ segments:
     vram: 0x8013c918
     align: 4
     subsegments:
-      - [0x1918, c, overlays/model_variant/variant366_quads]
+      - [0x1918, c, overlays/french_model_variant/variant383_quads]
   - name: cones
     type: code
     start: 0x1ec8
@@ -91,7 +91,7 @@ segments:
     vram: 0x8013d908
     align: 4
     subsegments:
-      - [0x2908, c, overlays/model_variant/variant366_rays]
+      - [0x2908, c, overlays/french_model_variant/variant383_rays]
   - name: unclassified_tail
     type: code
     start: 0x345c

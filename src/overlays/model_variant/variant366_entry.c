@@ -13,7 +13,7 @@
  * ribbons, rings and rays. Each update aims the effect from every listed
  * part at the opponent, draws the rays, ribbons and quads, then the ribbon
  * cones once the phase reaches 4, and fades the ambient light. */
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
 {
     Variant366State *work = (Variant366State *)context;
     Variant366Strip *strip = work->strips;
@@ -46,7 +46,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
         work->frame_count = 0;
-        work->config = &D_8013E558[command];
+        work->config = &gModelVariant366_D3558[command];
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -62,13 +62,13 @@ s32 func_8013B004(u8 *context, s32 command)
         clut = GetClut(MODEL_VARIANT366_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT366_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E45C[7]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant366_D345C[7]);
         flat_page = packed >> 16;
         flat_clut = packed;
         /* The later results are dead, but storing them keeps `packed` from
          * standing in for flat_clut, so flat_page is computed here. */
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E45C[5]);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E45C[1]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant366_D345C[5]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant366_D345C[1]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -264,16 +264,16 @@ s32 func_8013B004(u8 *context, s32 command)
                           work->target.vy - work->matrix.t[1],
                           work->target.vz - work->matrix.t[2]);
                 if (work->phase > 0) {
-                    func_8013D908(context);
+                    FrenchModelVariant383_DrawRays(context);
                 }
                 if (work->phase == 3) {
-                    func_8013C204(context);
+                    FrenchModelVariant383_DrawRibbons(context);
                 }
-                func_8013C918(context);
+                FrenchModelVariant383_DrawQuads(context);
             } while (++work->index < work->config->count);
         }
         if (work->phase >= 4) {
-            func_8013CEC8(context);
+            ModelVariant366_DrawCones(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

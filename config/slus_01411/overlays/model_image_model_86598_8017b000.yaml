@@ -56,42 +56,42 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant366_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant366_entry]
   - name: strip
     type: code
     start: 0xcc0
     vram: 0x8017bcc0
     align: 4
     subsegments:
-      - [0xcc0, c, overlays/model_variant/variant366_strip_slot1]
+      - [0xcc0, c, overlays/french_model_variant/variant383_strip]
   - name: ribbons
     type: code
     start: 0x1204
     vram: 0x8017c204
     align: 4
     subsegments:
-      - [0x1204, c, overlays/model_variant/variant366_ribbons_slot1]
+      - [0x1204, c, overlays/model_variant/variant366_ribbons]
   - name: quads
     type: code
     start: 0x1918
     vram: 0x8017c918
     align: 4
     subsegments:
-      - [0x1918, c, overlays/model_variant/variant366_quads_slot1]
+      - [0x1918, c, overlays/french_model_variant/variant383_quads]
   - name: cones
     type: code
     start: 0x1ec8
     vram: 0x8017cec8
     align: 4
     subsegments:
-      - [0x1ec8, c, overlays/model_variant/variant366_cones_slot1]
+      - [0x1ec8, c, overlays/model_variant/variant366_cones]
   - name: rays
     type: code
     start: 0x2908
     vram: 0x8017d908
     align: 4
     subsegments:
-      - [0x2908, c, overlays/model_variant/variant366_rays_slot1]
+      - [0x2908, c, overlays/french_model_variant/variant383_rays]
   - name: unclassified_tail
     type: code
     start: 0x345c

@@ -1265,7 +1265,7 @@ vector sits 0x14 lower and the image and command tables 0x24 lower.
 
 French MODEL headers 191 (stage 9 slot 0) and 321 (stage 10 slot 1) build the US header-174 entry from `src/overlays/model_variant/variant174_entry.c` through `src/overlays/french_model_variant/variant191_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf` and its string (entry -0x14; tables `D_8013C7CC`/`D_8013C83C` become `D_8013C7A8`/`D_8013C818`), and `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL flash height.
 
-French MODEL headers 383 (stage 9 slot 0) and 533 (stage 10 slot 1) now also build their entry (`func_8013B004`, 0xCB8 bytes) from the US header-366 source `src/overlays/model_variant/variant366_entry.c` through `src/overlays/french_model_variant/variant383_entry{,_slot1}.c`. `VERSION_FRENCH` selects the palette at VRAM x 640, and the wrappers map the helper calls and the GsIMAGE/command tables to the French addresses (helpers 0x8013BCBC/0x8013C91C/0x8013D8FC, tables 0xC higher).
+French MODEL headers 383 (stage 9 slot 0) and 533 (stage 10 slot 1) now also build their entry (`ModelVariant366_HandleRequest`, 0xCB8 bytes) from the US header-366 source `src/overlays/model_variant/variant366_entry.c` through `src/overlays/french_model_variant/variant383_entry.c` in both slots. `VERSION_FRENCH` selects the palette at VRAM x 640, and each image binds the helper and GsIMAGE/command table names at its own addresses (helpers 0x8013BCBC/0x8013C91C/0x8013D8FC, tables 0xC higher).
 
 Six images under French headers 452 and 602 build their loader entry from
 French C, `src/overlays/french_model_variant/variant452_entry.c` (slot 1

@@ -4,6 +4,10 @@
 draws and animates the header-383 quad group.
 **No release had matching C for this body before.**
 
+Both slots compile `variant383_quads.c` itself; it defines `FrenchModelVariant383_DrawQuads`, which
+each image binds at its own address, `0x8013C918`/`0x8017C918` in the North American and Japanese header-366 images (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
+
 The body appears in the two French raw images of model 363, directly after
 the header-383 ribbons helper.
 
