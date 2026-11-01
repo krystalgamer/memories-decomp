@@ -1004,6 +1004,9 @@ only.
 | `ModelVariant106_HandleRequest` | `model_variant/variant106_entry.c` | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013B004`/`0x8017B004` |
 | `gModelVariant106_D2174` | data subsegment (`variant106_entry.h`) | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013D174`/`0x8017D174` |
 | `gModelVariant106_D21C8` | data subsegment (`variant106_entry.h`) | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013D1C8`/`0x8017D1C8` |
+| `ModelVariant132_HandleRequest` | `model_variant/variant132_entry.c` | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013B004`/`0x8017B004` |
+| `gModelVariant132_D1388` | data subsegment (`variant132_entry.h`) | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013C388`/`0x8017C388` |
+| `gModelVariant132_D13C0` | data subsegment (`variant132_entry.h`) | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013C3C0`/`0x8017C3C0` |
 
 ### Header 407: petals
 
