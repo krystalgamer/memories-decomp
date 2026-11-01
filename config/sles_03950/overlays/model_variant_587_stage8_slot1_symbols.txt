@@ -1,7 +1,7 @@
-// Italian MODEL.MRG model 587 (record 537), sector 148402, header 959, loaded at 0x8017B000; the US header-942 source variant845_entry_slot1.c; built from the French source layout of french_model_variant_587_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x3AB8 defined:true
-D_8017EACC = 0x8017EACC; // type:u8 size:0x8C defined:true
-D_8017EB58 = 0x8017EB58; // type:u8 size:0x14A8 defined:true
+// Italian MODEL.MRG model 587 (record 537), sector 148402, header 959, loaded at 0x8017B000; the US header-942 source variant845_entry.c; built from the French source layout of french_model_variant_587_stage8_slot1.
+ModelVariant845_HandleRequest = 0x8017B004; // type:func size:0x3AB8 defined:true
+gModelVariant845_D3ACC = 0x8017EACC; // type:u8 size:0x8C defined:true
+gModelVariant845_D3B58 = 0x8017EB58; // type:u8 size:0x14A8 defined:true
 Model_GetSlotDimensionsWithMinimums = 0x8005AFA4; // type:func absolute:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true

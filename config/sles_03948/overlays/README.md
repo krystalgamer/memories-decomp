@@ -308,9 +308,11 @@ labels 0x28 lower.
 
 Four images under French headers 858 and 955 are the North American
 header-841 entry (`model_variant/variant841_entry.c`) with the burst palette
-from the PAL CLUT row 0x3D28 instead of 0x3D20. The
-`src/overlays/french_model_variant/variant858_entry{,_slot1}.c` wrappers set
-`VERSION_FRENCH` and bind `model_variant858_linker_symbols.txt`.
+from the PAL CLUT row 0x3D28 instead of 0x3D20. Both slots build through the
+`src/overlays/french_model_variant/variant858_entry.c` wrapper, which sets
+`VERSION_FRENCH`, and bind `model_variant858_linker_symbols.txt`; each image's
+symbols file binds `ModelVariant841_HandleRequest`, `gModelVariant841_D16E0`
+and `gModelVariant841_D1718` at its own addresses.
 
 Twenty-two images under French headers 663 and 730 are the North American
 header-646 entry (`model_variant/variant646_entry.c`) without its `E_DATA`
@@ -506,8 +508,9 @@ labels 0x28 lower.
 Four images under French headers 862 and 959 are the North American
 header-845 entry (`model_variant/variant845_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant845_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant862_linker_symbols.txt`.
+directly in both slots through `model_variant862_linker_symbols.txt`; each
+image's symbols file binds `ModelVariant845_HandleRequest`,
+`gModelVariant845_D3ACC` and `gModelVariant845_D3B58` at its own addresses.
 
 French MODEL headers 864 (stage 7 slot 0) and 961 (stage 8 slot 1) build the header-847 entry (`func_8013B004`) from `src/overlays/model_variant/variant847_entry.c` through `src/overlays/french_model_variant/variant864_entry{,_slot1}.c`. `VERSION_FRENCH` selects the burst CLUT word 0x3D28 and `GRAPHICS_DEFAULT_HEIGHT` 256 the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
 
@@ -530,7 +533,7 @@ work-size printf, built through
 `src/overlays/french_model_variant/variant646_entry{,_slot1}.c` with the data
 labels 0x28 lower.
 
-French MODEL headers 852 (stage 7 slot 0) and 949 (stage 8 slot 1) build the header-835 entry (`func_8013B004`) from `src/overlays/model_variant/variant835_entry.c` through `src/overlays/french_model_variant/variant852_entry{,_slot1}.c`. `VERSION_FRENCH` selects the burst CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
+French MODEL headers 852 (stage 7 slot 0) and 949 (stage 8 slot 1) build the header-835 entry (`ModelVariant835_HandleRequest`) from `src/overlays/model_variant/variant835_entry.c` through `src/overlays/french_model_variant/variant852_entry.c` in both slots. `VERSION_FRENCH` selects the burst CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
 
 French MODEL headers 853 (stage 7 slot 0) and 950 (stage 8 slot 1) build the header-836 entry (`func_8013B004`) from `src/overlays/model_variant/variant836_entry.c` through `src/overlays/french_model_variant/variant853_entry{,_slot1}.c`. `VERSION_FRENCH` selects the burst CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
 
@@ -668,9 +671,11 @@ the data labels 0x28 lower.
 
 Four images under French headers 860 and 957 are the North American
 header-843 entry (`model_variant/variant843_entry.c`) with the burst palette
-from the PAL CLUT row 0x3D28 instead of 0x3D20. The
-`src/overlays/french_model_variant/variant860_entry{,_slot1}.c` wrappers set
-`VERSION_FRENCH` and bind `model_variant860_linker_symbols.txt`.
+from the PAL CLUT row 0x3D28 instead of 0x3D20. Both slots build through the
+`src/overlays/french_model_variant/variant860_entry.c` wrapper, which sets
+`VERSION_FRENCH`, and bind `model_variant860_linker_symbols.txt`; each image's
+symbols file binds `ModelVariant843_HandleRequest`, `gModelVariant843_D1C90`
+and `gModelVariant843_D1CE4` at its own addresses.
 
 Two images under French headers 850 and 947 are the North American
 header-833 entry (`model_variant/variant833_entry.c`) with the palette from
@@ -749,9 +754,11 @@ the data labels 0x28 lower.
 
 Four images under French headers 859 and 956 are the North American
 header-842 entry (`model_variant/variant842_entry.c`) with the ring palette
-from the PAL CLUT row 0x3D28 instead of 0x3D20. The
-`src/overlays/french_model_variant/variant859_entry{,_slot1}.c` wrappers set
-`VERSION_FRENCH` and bind `model_variant859_linker_symbols.txt`.
+from the PAL CLUT row 0x3D28 instead of 0x3D20. Both slots build through the
+`src/overlays/french_model_variant/variant859_entry.c` wrapper, which sets
+`VERSION_FRENCH`, and bind `model_variant859_linker_symbols.txt`; each image's
+symbols file binds `ModelVariant842_HandleRequest`, `gModelVariant842_D3674`
+and `gModelVariant842_D3700` at its own addresses.
 
 Two images under French headers 816 and 913 are the North American
 header-799 entry (`model_variant/variant799_entry.c`) with the ring palette
@@ -771,8 +778,9 @@ French MODEL headers 811 (stage 9 slot 0) and 908 (stage 10 slot 1) build the he
 Four images under French headers 838 and 935 are the North American
 header-821 entry (`model_variant/variant821_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant821_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant838_linker_symbols.txt`.
+directly in both slots through `model_variant838_linker_symbols.txt`; each
+image's symbols file binds `ModelVariant821_HandleRequest`,
+`gModelVariant821_D3930` and `gModelVariant821_D39BC` at its own addresses.
 
 French MODEL headers 839 (stage 9 slot 0) and 936 (stage 10 slot 1) build the header-822 entry (`func_8013B004`) from `src/overlays/model_variant/variant822_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant839_entry{,_slot1}.c`; the French code and data are identical to the US images.
 
@@ -1039,8 +1047,9 @@ covering the 256 PAL lines. The
 Four images under French headers 833 and 930 are the North American
 header-816 entry (`model_variant/variant816_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant816_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant833_linker_symbols.txt`.
+directly in both slots through `model_variant833_linker_symbols.txt`; each
+image's symbols file binds `ModelVariant816_HandleRequest`,
+`gModelVariant816_D2B7C` and `gModelVariant816_D2C08` at its own addresses.
 
 French MODEL headers 836 (stage 9 slot 0) and 933 (stage 10 slot 1) build the header-819 entry (`func_8013B004`) from `src/overlays/model_variant/variant819_entry.c` through `src/overlays/french_model_variant/variant836_entry{,_slot1}.c`, which define `VERSION_FRENCH` for the ring CLUT (0x3D28 instead of 0x3D20); there is no work-size `printf`, so code and data keep the US layout.
 
@@ -1203,8 +1212,9 @@ addresses and the palette, binding
 Four images under French headers 846 and 943 are the North American
 header-829 entry (`model_variant/variant829_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant829_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant846_linker_symbols.txt`.
+directly in both slots through `model_variant846_linker_symbols.txt`; each
+image's symbols file binds `ModelVariant829_HandleRequest`,
+`gModelVariant829_D1150` and `gModelVariant829_D116C` at its own addresses.
 
 French MODEL headers 848 (stage 7 slot 0) and 945 (stage 8 slot 1) build the header-831 entry (`func_8013B004`) from `src/overlays/model_variant/variant831_entry.c` through `src/overlays/french_model_variant/variant848_entry{,_slot1}.c`, which define `VERSION_FRENCH` for the core CLUT (0x3D28 instead of 0x3D20) and set `GRAPHICS_DEFAULT_HEIGHT` to 256 for the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
 
