@@ -1,7 +1,7 @@
 // MODEL.MRG model 721 (record 620), sector 171320, header 838, loaded at 0x8013B000; the US source variant838_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0x321C defined:true
-D_8013E230 = 0x8013E230; // type:u8 size:0x54 defined:true
-D_8013E284 = 0x8013E284; // type:u8 size:0x1D7C defined:true
+ModelVariant838_HandleRequest = 0x8013B004; // type:func size:0x321C defined:true
+gModelVariant838_D3230 = 0x8013E230; // type:u8 size:0x54 defined:true
+gModelVariant838_D3284 = 0x8013E284; // type:u8 size:0x1D7C defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 func_80058F10 = 0x80058F10; // type:func absolute:true

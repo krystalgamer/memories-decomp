@@ -428,9 +428,9 @@ section 0x24 lower.
 Two images under French headers 855 and 952 are the North American
 header-838 entry (`model_variant/variant838_entry.c`) with the glow palette
 from the PAL CLUT row 0x3D28 instead of 0x3D20 and its full-screen flash
-covering the 256 PAL lines. The
-`src/overlays/french_model_variant/variant855_entry{,_slot1}.c` wrappers set
-`VERSION_FRENCH` and the height and bind
+covering the 256 PAL lines. Both slots build through the
+`src/overlays/french_model_variant/variant855_entry.c` wrapper, which sets
+`VERSION_FRENCH` and the height; they bind
 `model_variant855_linker_symbols.txt` and
 `model_variant952_linker_symbols.txt`.
 
