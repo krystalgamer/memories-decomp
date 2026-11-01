@@ -989,10 +989,11 @@ it shares with the entry and bind them in
 
 Two images under French headers 179 and 309 are the North American
 header-162 entry (`model_variant/variant162us_entry.c`) without its
-work-size printf. The
-`src/overlays/french_model_variant/variant179_entry{,_slot1}.c` wrappers move
-the two data labels after the shorter text and read-only section 0x1C lower
-and bind `model_variant179_linker_symbols.txt` and
+work-size printf. Both slots build through the
+`src/overlays/french_model_variant/variant179_entry.c` wrapper. The two data
+labels after the shorter text and read-only section sit 0x1C lower; each
+image's symbols file binds their shared names at its own addresses, and the
+images bind `model_variant179_linker_symbols.txt` and
 `model_variant309_linker_symbols.txt`.
 
 Two images under French headers 160 and 290 are the North American

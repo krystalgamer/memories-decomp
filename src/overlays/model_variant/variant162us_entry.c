@@ -8,9 +8,9 @@
  * negative command draws a frame; any other command sets the work area up and
  * prints its size. */
 
-static const VECTOR D_8013CAF8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant162Us_D1AF8 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant162Us_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -34,13 +34,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CAF8;
+    scale = gModelVariant162Us_D1AF8;
     work = (Model162UsState *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->mesh;
-        config = work->config = &D_8013CBC0[command % 100];
+        config = work->config = &gModelVariant162Us_D1BC0[command % 100];
         for (i = 0; i < 9; i++) {
             for (j = 0; j < 17; j++) {
                 r = config->inner_radius + (config->outer_radius - config->inner_radius) * csin(i << 7) / 4096;
@@ -104,7 +104,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CB18[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant162Us_D1B18[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
