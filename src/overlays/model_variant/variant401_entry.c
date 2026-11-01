@@ -10,7 +10,7 @@
 /* Header 401's entry: header 416's entry with one 0x27C-byte band of nine
  * columns, two sheets, a fifth texture and no burst threshold. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant401_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant401EntryState *work = (Variant401EntryState *)point;
     MATRIX unused_matrix0;
@@ -61,7 +61,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant401EntryConfig *)(D_8013E124 + 0xFC) + command;
+        work->config = (Variant401EntryConfig *)(gModelVariant401_D3124 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -79,13 +79,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT401_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT401_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E124 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant401_D3124 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E124 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E124 + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E124 + 0x38));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E124 + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant401_D3124 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant401_D3124 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant401_D3124 + 0x38));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant401_D3124 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -309,14 +309,14 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         if (work->config->start <= work->frame) {
-            func_8013C764((u8 *)point);
-            func_8013CCA4((u8 *)point);
+            FrenchModelVariant418_DrawSheets((u8 *)point);
+            ModelVariant416_DrawWebs((u8 *)point);
         }
         if (work->phase > 0) {
-            func_8013BFE4((u8 *)point);
+            ModelVariant401_DrawBand((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013D210((u8 *)point);
+            FrenchModelVariant433_DrawRays((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
