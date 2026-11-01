@@ -12,7 +12,7 @@
  * The ribbon progress rows start from a separate `base` that drops by 512
  * per ribbon, and the ring loop reuses the quad loop's inner counter. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant410EntryState *work = (Variant410EntryState *)point;
     MATRIX unused_matrix0;
@@ -43,7 +43,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant410EntryConfig *)(D_8013CD04 + 0xFC) + command;
+        work->config = (Variant410EntryConfig *)(gFrenchModelVariant410_D1D04 + 0xFC) + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -58,13 +58,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT410_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT410_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CD04 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant410_D1D04 + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CD04 + 0x8C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CD04 + 0x1C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CD04 + 0x38));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CD04 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant410_D1D04 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant410_D1D04 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant410_D1D04 + 0x38));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant410_D1D04 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(gradient);
@@ -95,7 +95,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         flat->clut = flat_texture;
         SetSemiTrans(flat, 1);
         SetShadeTex(flat, 1);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CD04 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant410_D1D04 + 0x54));
         SetPolyFT4(quad);
         quad->tpage = packed >> 16;
         setUV4(quad, 64, 64, 127, 64, 64, 127, 127, 127);
@@ -223,10 +223,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->phase >= 2) {
-            func_8013BF58((u8 *)point);
+            FrenchModelVariant410_DrawRibbons((u8 *)point);
         }
         if (work->phase > 0) {
-            func_8013BAAC((u8 *)point);
+            FrenchModelVariant410_DrawQuads((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

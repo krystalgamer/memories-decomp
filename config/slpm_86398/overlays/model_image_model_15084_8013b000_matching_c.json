@@ -10,7 +10,7 @@
       "address": "0x8013BAB0",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4B0",
-      "source": "src/overlays/model_variant/variant393_quads.c"
+      "source": "src/overlays/french_model_variant/variant410_quads.c"
     },
     {
       "address": "0x8013BF60",
@@ -22,7 +22,7 @@
       "address": "0x8013C898",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x450",
-      "source": "src/overlays/model_variant/variant393_rings.c"
+      "source": "src/overlays/french_model_variant/variant410_rings.c"
     }
   ],
   "schema": 1

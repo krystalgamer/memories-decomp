@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant410_rings.h"
 
-void func_8013C8B8(u8 *context)
+void FrenchModelVariant410_DrawRings(u8 *context)
 {
     Family410RingView *work = (Family410RingView *)context;
     SVECTOR rotation;

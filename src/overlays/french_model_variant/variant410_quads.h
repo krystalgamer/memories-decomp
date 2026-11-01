@@ -31,5 +31,5 @@ typedef struct {
     s32 phase;
 } Family410QuadView;
 
-void func_8013BAAC(u8 *context);
+void FrenchModelVariant410_DrawQuads(u8 *context);
 #endif

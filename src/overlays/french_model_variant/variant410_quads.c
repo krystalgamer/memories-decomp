@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant410_quads.h"
 
-void func_8013BAAC(u8 *context)
+void FrenchModelVariant410_DrawQuads(u8 *context)
 {
     Family410QuadView *work = (Family410QuadView *)context;
     SVECTOR rotation;
