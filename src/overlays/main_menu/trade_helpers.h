@@ -86,25 +86,24 @@ typedef struct {
     u8 frame;
 } MainMenuWidget;
 
-/* The two Trade display handles, D_801845DC and D_801845E0 -- the pair
+/* The two Trade display handles, D_801845DC and gTrade_pStatsModeDisplay -- the pair
  * README.md:177-178 lists as what MainMenu_ReleaseTradeDisplayHandles
  * releases and clears. MainMenu_InitTradeScreen stores a DisplayObject_AcquireSlot
  * result into each (trade_update.c:37, :45), ORs 0x28 into +8
  * (:40, :48) and passes it to DisplayObject_SetDepthOffset (:41, :49);
  * MainMenu_ReleaseTradeDisplayHandles passes each to DisplayObject_ReleaseIfPresent and
  * stores 0 (trade_offers.c:141-144); MainMenu_UpdateTradeScreen
- * (trade_update.c) reads D_801845E0->frame and passes D_801845E0 to
+ * (trade_update.c) reads gTrade_pStatsModeDisplay->frame and passes it to
  * DisplayObject_SetResourceVariant; MainMenu_RebuildTradeInventoryRows reads ->frame
  * (trade_screen_helpers.c:101). The units used to declare them `u8 *` and
- * `void *`, and D_801845E0 also `MainMenuWidget *` in the two units that
+ * `void *`, and gTrade_pStatsModeDisplay also `MainMenuWidget *` in the two units that
  * read `frame`. `frame` is a member of that view, and so is the +8 halfword
  * those two stores OR into, named `flags` as DisplayObjectConfig
  * (display_object_config.h) names it, so the widget view is the one kept
  * here; only the DisplayObject_SetDepthOffset sites cast to bytes. */
 extern MainMenuWidget *G32 D_801845DC;
-extern MainMenuWidget *G32 D_801845E0;
 /* Resource variant minus four carries the two players' stats-mode bits. */
-extern MainMenuWidget *G32 gTrade_pStatsModeDisplay __asm__("D_801845E0");
+extern MainMenuWidget *G32 gTrade_pStatsModeDisplay;
 
 /* Resident callers must load the main-menu image before using these entries. */
 void MainMenu_InitTradeScreen(void);
@@ -164,12 +163,5 @@ extern u8 gTrade_abSortMode[2];
  * private declaration.
  * Two rows end at gTrade_aListScroll, +0x1690. */
 extern CardCountEntry gTrade_aWorkingCards[][CARD_COUNT];
-
-/* Preserve frozen Trade C spellings; these are views of existing storage. */
-#define D_80185CC8 gTrade_abReady
-#define D_80185CC9 gTrade_bSide1Ready
-#define D_80185CCF gTrade_bDecisionMenuActive
-#define D_80185CD0 gTrade_bCommitRequested
-#define D_80185CD1 gTrade_bWritePending
 
 #endif

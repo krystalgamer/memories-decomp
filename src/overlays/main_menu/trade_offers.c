@@ -54,7 +54,7 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
     obj[0] = (DisplayObject *)gTrade_aCardSlots[0].object;
     obj[1] = (DisplayObject *)gTrade_aCardSlots[1].object;
 
-    if (D_80185CC8 != 0) {
+    if (gTrade_abReady != 0) {
         MainMenu_DrawTradeColumnOverlay(0);
         ((u8 *)&obj[0]->rgb)[0] = ((u8 *)&obj[0]->rgb)[1] =
             ((u8 *)&obj[0]->rgb)[2] = 0x40;
@@ -69,7 +69,7 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
         }
     }
 
-    if (D_80185CC9 != 0) {
+    if (gTrade_bSide1Ready != 0) {
         MainMenu_DrawTradeColumnOverlay(1);
         ((u8 *)&obj[1]->rgb)[0] = ((u8 *)&obj[1]->rgb)[1] =
             ((u8 *)&obj[1]->rgb)[2] = 0x40;

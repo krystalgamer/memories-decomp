@@ -8,7 +8,7 @@ the shared staging buffer.
 ## Stats-mode display
 
 `gTrade_pStatsModeDisplay` is the original `MainMenuWidget *G32` view of
-native `D_801845E0`. Init allocates a kind-2 display object, configures its
+the pointer at NA `0x801845E0`. Init allocates a kind-2 display object, configures its
 sprite with resource variant 4, sets the existing texture/screen flags and
 depth, and stores the handle. Its `MainMenuWidget.frame` byte at `+0x69`
 is the resource-variant byte, not evidence of an animation timeline:
@@ -41,9 +41,9 @@ full-width subtraction and setter semantics are unchanged.
 The real initialized `gMainMenu_TradeState` in `module_state.c` owns this
 four-byte pointer at `+4`, NA `0x801845E0`; its full `0x16F8`-byte
 definition and initializer remain intact. Native Japanese addressing
-retains the shared map; European `D_801845E0` is `0x8018480C`.
-The canonical declaration uses an explicit extern/native asm label and
-preserves the original private `MainMenuWidget` type, `G32`, casts and
+binds the name at the same address; every European image binds it at
+`0x8018480C`. The canonical declaration is a plain extern bound by each
+image's main-menu symbol file (no asm label) and preserves the original private `MainMenuWidget` type, `G32`, casts and
 native compatibility declaration. No new storage, override or
 DisplayObject retyping is introduced.
 

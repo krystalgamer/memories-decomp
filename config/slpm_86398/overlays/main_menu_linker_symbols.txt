@@ -52,6 +52,12 @@ gTrade_aListScroll = 0x80185C8C;
 gTrade_awOffers = 0x80185C9C;
 gTrade_abCursorRow = 0x80185CCA;
 gTrade_bFocusPane = 0x80185CCE;
+gTrade_pStatsModeDisplay = 0x801845E0;
+gTrade_abReady = 0x80185CC8;
+gTrade_bSide1Ready = 0x80185CC9;
+gTrade_bDecisionMenuActive = 0x80185CCF;
+gTrade_bCommitRequested = 0x80185CD0;
+gTrade_bWritePending = 0x80185CD1;
 gMainMenu_bTransitionMode = 0x80184596;
 gMainMenu_bShadeLevel = 0x80184597;
 gMainMenu_nFadeDirection = 0x80184598;
@@ -61,19 +67,6 @@ gMainMenu_bLoadPending = 0x8018459B;
 gMainMenu_bTradeLoadPending = 0x8018459C;
 gMainMenu_bDuelLoadPending = 0x8018459D;
 
-func_800610E0 = MainMenu_CreateTradeReadyIndicator;
-
-func_800611D0 = MainMenu_CreateTradeDecisionMenu;
-
-gTrade_abReady = D_80185CC8;
-
-gTrade_bSide1Ready = D_80185CC9;
-
-gTrade_bDecisionMenuActive = D_80185CCF;
-
-gTrade_bCommitRequested = D_80185CD0;
-
-gTrade_bWritePending = D_80185CD1;
 gMainMenu_apValueSetupCursors = 0x801845B0;
 gMainMenu_pValueSetupMainCursor = 0x801845B8;
 gMainMenu_aValueSetupEntries = 0x801845C0;

@@ -183,9 +183,8 @@ itself establish atomic persistence across two memory cards.
 
 After the updater finishes, the resident caller performs its fades and calls
 `MainMenu_ReleaseTradeDisplayHandles` (`0x80183FE4`). That helper releases
-and clears only `D_801845DC` and `gTrade_pStatsModeDisplay` (native
-`D_801845E0`), then clears the Trade drawing
-callback. It does not itself clear inventory cursors, offers, counts or
+and clears only `D_801845DC` and `gTrade_pStatsModeDisplay` (`0x801845E0`),
+then clears the Trade drawing callback. It does not itself clear inventory cursors, offers, counts or
 navigation, save data, fade or unload the module. Its release helper handles
 null handles.
 
@@ -222,14 +221,15 @@ instructions without register bindings.
 
 ### The two readiness flags are one array and two names at once
 
-`D_80185CC8` is a two-byte, per-side readiness flag.
+`gTrade_abReady` (`0x80185CC8`) is a two-byte, per-side readiness flag.
 `MainMenu_UpdateTradeScreen` proves the shape: it clears both entries in a
-loop, forms `D_80185CC8 + i` as a pointer, and compares `D_80185CC8[0]`
-against `D_80185CC8[1]` when deciding whether both players have confirmed.
+loop, forms `gTrade_abReady + i` as a pointer, and compares
+`gTrade_abReady[0]` against `gTrade_abReady[1]` when deciding whether both
+players have confirmed.
 
-The second byte also has its own name, `D_80185CC9`, and both spellings are
-live *in the same function*. The trade updater reads side 1 as
-`D_80185CC8[1]` and writes it as `D_80185CC9 = 1`. `trade_offers.c` goes
+The second byte also has its own name, `gTrade_bSide1Ready` (`0x80185CC9`),
+and both spellings are live *in the same function*. The trade updater reads
+side 1 as `gTrade_abReady[1]` and writes it as `gTrade_bSide1Ready = 1`. `trade_offers.c` goes
 further and declares the pair as two independent scalars, never indexing at
 all.
 
@@ -284,7 +284,7 @@ normalize that cross-side loop: refreshing one side can deduct the other
 side's outstanding offers again. This is a static observation, not a
 runtime reproduction or a proposed behavior change.
 
-The stats-mode display retains native `D_801845E0`: its existing `frame`
+The stats-mode display `gTrade_pStatsModeDisplay` (`0x801845E0`): its `frame`
 byte is a resource variant encoding four plus the two players' stats bits.
 The row rebuild passes the selected side's raw bit, including 2 for side 1,
 to the resident text/stat renderer boundary. Separately,

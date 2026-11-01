@@ -22,8 +22,7 @@
 #include "../../game/input.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/card_list_create_deck_box_stat_rows.h"
-#include "../../game/func_800610E0.h"
-#include "../../game/func_800611D0.h"
+#include "../../game/trade_confirmation_widgets.h"
 #include "../../unmatched.h"
 
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
@@ -105,7 +104,7 @@ void MainMenu_InitTradeScreen(void)
         gTrade_aListScroll[i].target = 0;
         gTrade_aListScroll[i].current = 0;
         gTrade_awOffers[i][0] = 0;
-        D_80185CC8[i] = 0;
+        gTrade_abReady[i] = 0;
         gTrade_abCursorRow[i] = 0;
         gTrade_abSortMode[i] = 0;
         MainMenu_RefreshTradeInventory(i, 1);
@@ -113,9 +112,9 @@ void MainMenu_InitTradeScreen(void)
     }
 
     gTrade_bFocusPane = 0;
-    D_80185CCF = 0;
-    D_80185CD0 = 0;
-    D_80185CD1 = 0;
+    gTrade_bDecisionMenuActive = 0;
+    gTrade_bCommitRequested = 0;
+    gTrade_bWritePending = 0;
     gMain_apFrameServiceCallbacks[1] = MainMenu_DrawTradeOffersAndHighlights;
     gGraphics_bSyncVBlankTarget = 1;
 }
@@ -201,7 +200,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     flags = value;
     maximum = MAIN_MENU_TRADE_MAXIMUM;
 
-    if (D_80185CD1 != 0) {
+    if (gTrade_bWritePending != 0) {
         result = MemCardDialog_Poll();
         if (result == 0) {
             goto out;
@@ -232,7 +231,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 source++;
             } while (destination != end);
             i = 0;
-            dirty1.clearBase = D_80185CC8;
+            dirty1.clearBase = gTrade_abReady;
             do {
                 gTrade_awOffers[i][0] = 0;
                 MainMenu_RefreshTradeInventory(i, 1);
@@ -241,19 +240,20 @@ s32 MainMenu_UpdateTradeScreen(void)
                 i++;
             } while (i < 2);
             Input_ResetPads();
-            D_80185CCF = 0;
-            D_80185CD0 = 0;
-            D_80185CD1 = 0;
+            gTrade_bDecisionMenuActive = 0;
+            gTrade_bCommitRequested = 0;
+            gTrade_bWritePending = 0;
         } else {
-            func_800611D0(*(volatile u8 *)&gTrade_bFocusPane);
+            MainMenu_CreateTradeDecisionMenu(
+                *(volatile u8 *)&gTrade_bFocusPane);
             Input_ResetPads();
-            D_80185CD0 = 0;
-            D_80185CD1 = 0;
+            gTrade_bCommitRequested = 0;
+            gTrade_bWritePending = 0;
         }
         goto out;
     }
 
-    if (D_80185CD0 != 0) {
+    if (gTrade_bCommitRequested != 0) {
         base = (MainMenuTradeBlock16 *)gSaveData_aPairWorkspace;
         backup_source2 = base +
             MAIN_MENU_TRADE_BLOCK_INDEX(TWO_PLAYER_SAVE_SLOT_STRIDE);
@@ -290,11 +290,11 @@ s32 MainMenu_UpdateTradeScreen(void)
             }
         }
         SaveData_RequestTradeWrite();
-        D_80185CD1 = 1;
+        gTrade_bWritePending = 1;
         goto out;
     }
 
-    if (D_80185CCF != 0) {
+    if (gTrade_bDecisionMenuActive != 0) {
         decision = 0;
         if ((gInput_wPad1Repeat[0] & 0x5000) != 0 ||
             (gInput_wPad1Repeat[1] & 0x5000) != 0) {
@@ -305,7 +305,8 @@ s32 MainMenu_UpdateTradeScreen(void)
             } else {
                 gTrade_bFocusPane = (gTrade_bFocusPane + 4) % 3;
             }
-            func_800611D0(*(volatile u8 *)&gTrade_bFocusPane);
+            MainMenu_CreateTradeDecisionMenu(
+                *(volatile u8 *)&gTrade_bFocusPane);
             goto modal_return;
         }
         if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0 ||
@@ -313,9 +314,9 @@ s32 MainMenu_UpdateTradeScreen(void)
             other = ((gInput_wPad1Pressed[0] >> MAIN_MENU_TRADE_CANCEL_SHIFT) ^ 1) & 1;
             SD_SEPlay(8, 255, 0);
             TextBox_Destroy((DuelEffectChannel *)D_800EB224);
-            D_80185CC8[other] = 0;
-            func_800610E0(other ^ 1);
-            D_80185CCF = 0;
+            gTrade_abReady[other] = 0;
+            MainMenu_CreateTradeReadyIndicator(other ^ 1);
+            gTrade_bDecisionMenuActive = 0;
             goto modal_return;
         }
         if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CONFIRM_MASK) != 0 ||
@@ -324,18 +325,18 @@ s32 MainMenu_UpdateTradeScreen(void)
             switch (gTrade_bFocusPane) {
             case 0:
                 TextBox_Destroy((DuelEffectChannel *)D_800EB224);
-                D_80185CD0 = 1;
+                gTrade_bCommitRequested = 1;
                 break;
             case 1:
                 TextBox_Destroy((DuelEffectChannel *)D_800EB224);
                 i = 1;
-                clearFlags = D_80185CC8 + i;
+                clearFlags = gTrade_abReady + i;
                 do {
                     *clearFlags = 0;
                     i--;
                     clearFlags--;
                 } while (i >= 0);
-                D_80185CCF = 0;
+                gTrade_bDecisionMenuActive = 0;
                 break;
             case 2:
                 decision = 1;
@@ -350,22 +351,22 @@ s32 MainMenu_UpdateTradeScreen(void)
         goto scroll0;
     }
     card0 = &gTrade_aWorkingCards[0][gTrade_aListScroll[0][0] + gTrade_abCursorRow[0]];
-    if (D_80185CC8[0] != 0) {
+    if (gTrade_abReady[0] != 0) {
         if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
             TextBox_Destroy((DuelEffectChannel *)D_800EB224);
-            D_80185CC8[0] = 0;
+            gTrade_abReady[0] = 0;
         }
         goto check_scroll0;
     }
     if ((gInput_wPad1Pressed[0] & 0x80) != 0) {
-        if (D_80185CC8[1] != 0 &&
+        if (gTrade_abReady[1] != 0 &&
             gTrade_awOffers[0][0] + gTrade_awOffers[1][0] == 0) {
             { SD_SEPlay(9, 255, 0); goto check_scroll0; }
         }
         SD_SEPlay(48, 255, 0);
-        func_800610E0(0);
-        D_80185CC8[0] = 1;
+        MainMenu_CreateTradeReadyIndicator(0);
+        gTrade_abReady[0] = 1;
         goto check_scroll0;
     }
     if ((gInput_wPad1Pressed[0] & 0x10) != 0) {
@@ -406,7 +407,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             dirty0 = 1;
             goto check_scroll0;
         }
-        if (gTrade_awOffers[1][0] != 0 || D_80185CC8[1] != 0) {
+        if (gTrade_awOffers[1][0] != 0 || gTrade_abReady[1] != 0) {
             { SD_SEPlay(9, 255, 0); goto check_scroll0; }
         }
         goto leave;
@@ -493,22 +494,22 @@ player1:
         goto scroll1;
     }
     card1 = &gTrade_aSide1WorkingCards[gTrade_aListScroll[1][0] + gTrade_abCursorRow[1]];
-    if (D_80185CC8[1] != 0) {
+    if (gTrade_abReady[1] != 0) {
         if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
             TextBox_Destroy((DuelEffectChannel *)D_800EB224);
-            D_80185CC8[1] = 0;
+            gTrade_abReady[1] = 0;
         }
         goto check_scroll1;
     }
     if ((gInput_wPad1Pressed[1] & 0x80) != 0) {
-        if (D_80185CC8[0] != 0 &&
+        if (gTrade_abReady[0] != 0 &&
             gTrade_awOffers[0][0] + gTrade_awOffers[1][0] == 0) {
             { SD_SEPlay(9, 255, 0); goto check_scroll1; }
         }
         SD_SEPlay(48, 255, 0);
-        func_800610E0(1);
-        D_80185CC9 = 1;
+        MainMenu_CreateTradeReadyIndicator(1);
+        gTrade_bSide1Ready = 1;
         goto check_scroll1;
     }
     if ((gInput_wPad1Pressed[1] & 0x10) != 0) {
@@ -547,7 +548,7 @@ player1:
             dirty1.dirty++;
             goto check_scroll1;
         }
-        if (gTrade_awOffers[0][0] != 0 || D_80185CC8[0] != 0) {
+        if (gTrade_awOffers[0][0] != 0 || gTrade_abReady[0] != 0) {
             { SD_SEPlay(9, 255, 0); goto check_scroll1; }
         }
     leave:
@@ -654,12 +655,12 @@ update:
     if (dirty1.dirty != 0) {
         MainMenu_RebuildTradeInventoryRows(1);
     }
-    if (D_80185CC8[0] != 0 && D_80185CC8[1] != 0) {
+    if (gTrade_abReady[0] != 0 && gTrade_abReady[1] != 0) {
         gTrade_bFocusPane = 0;
         TextBox_Destroy((DuelEffectChannel *)D_800EB224);
         TextBox_Destroy((DuelEffectChannel *)D_800EB224);
-        func_800611D0(*(volatile u8 *)&gTrade_bFocusPane);
-        D_80185CCF = 1;
+        MainMenu_CreateTradeDecisionMenu(*(volatile u8 *)&gTrade_bFocusPane);
+        gTrade_bDecisionMenuActive = 1;
     }
 out:
     return 0;
