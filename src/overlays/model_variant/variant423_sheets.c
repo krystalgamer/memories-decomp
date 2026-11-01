@@ -5,7 +5,7 @@
 /* Draws two sheets of four POLY_GT4 quads, the second placed along the
  * variant's path, and grows or shrinks each sheet's size through the
  * variant's phases. */
-void func_8013C6E4(u8 *ctx)
+void ModelVariant423_DrawSheets(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

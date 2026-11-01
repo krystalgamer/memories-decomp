@@ -1,8 +1,8 @@
 address,size,name,status,module,notes
-0x8013B004,0xF14,func_8013B004,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013BF18,0x7CC,func_8013BF18,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013C6E4,0x4F8,func_8013C6E4,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013CBDC,0x560,func_8013CBDC,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013D13C,0x314,func_8013D13C,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013D450,0x380,func_8013D450,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013D7D0,0x368,func_8013D7D0,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0xF14,ModelVariant423_HandleRequest,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013BF18,0x7CC,ModelVariant423_DrawBand,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013C6E4,0x4F8,ModelVariant423_DrawSheets,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013CBDC,0x560,ModelVariant423_DrawWebs,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013D13C,0x314,ModelVariant423_DrawSpokes,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013D450,0x380,ModelVariant423_DrawRings,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013D7D0,0x368,ModelVariant423_DrawQuad,matching_c,overlay/model_image_model_72512_8013b000,Complete module byte identity and section-defined C ownership verified.
