@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0xA84,func_8013B004,matching_c,overlay/model_image_model_52344_8013b000,Independent exact C loader entry; first recovery of this body in any release.
-0x8013BA88,0xDB0,func_8013BA88,matching_c,overlay/model_image_model_52344_8013b000,Exact five-ribbon FT4 helper;frame656;measured coordinate/packed screen views;draw-loop packet reset.
-0x8013C838,0x580,func_8013C838,matching_c,overlay/model_image_model_52344_8013b000,Exact seven-origin sheets; canonical ModelVariantSheet; frame272; complete image and actual C owner verified.
-0x8013CDB8,0x990,func_8013CDB8,matching_c,overlay/model_image_model_52344_8013b000,Complete image and sized C owner exact; direct-entry reachable. Two 17-point streamers projected through six or seven measured transforms.
+0x8013B004,0xA84,FrenchModelVariant400_HandleRequest,matching_c,overlay/model_image_model_52344_8013b000,Independent exact C loader entry; first recovery of this body in any release.
+0x8013BA88,0xDB0,FrenchModelVariant400_DrawRibbons,matching_c,overlay/model_image_model_52344_8013b000,Exact five-ribbon FT4 helper;frame656;measured coordinate/packed screen views;draw-loop packet reset.
+0x8013C838,0x580,FrenchModelVariant400_DrawSheets,matching_c,overlay/model_image_model_52344_8013b000,Exact seven-origin sheets; canonical ModelVariantSheet; frame272; complete image and actual C owner verified.
+0x8013CDB8,0x990,FrenchModelVariant400_DrawStreamers,matching_c,overlay/model_image_model_52344_8013b000,Complete image and sized C owner exact; direct-entry reachable. Two 17-point streamers projected through six or seven measured transforms.
