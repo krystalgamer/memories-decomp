@@ -924,9 +924,10 @@ unchanged: the code differs only in its resident call targets, which
 Four images under French headers 647 and 714 are the North American
 header-630 entry (`model_variant/variant630_entry.c`) without its `E_DATA`
 work-size printf. Its format string was the whole read-only section, so it
-goes too, and the
-`src/overlays/french_model_variant/variant647_entry{,_slot1}.c` wrappers move
-the data labels 0x28 lower.
+goes too. Both slots build through
+`src/overlays/french_model_variant/variant647_entry.c`; the data labels sit
+0x28 lower, and each image's symbols file binds `gModelVariant630_D17C8` and
+`gModelVariant630_D1800` at its own addresses.
 
 Eight images under French headers 791 and 888 are the North American
 header-774 entry (`model_variant/variant774_entry.c` and its `_slot1.c`

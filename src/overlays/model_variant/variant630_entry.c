@@ -13,22 +13,22 @@
 #ifndef MODEL630_STRING_PAD
 #define MODEL630_STRING_PAD "\xAF"
 #endif
-static const char D_8013C7B0[24] = "E_DATA size = %x byte\n\0" MODEL630_STRING_PAD;
+static const char gModelVariant630_D17B0[24] = "E_DATA size = %x byte\n\0" MODEL630_STRING_PAD;
 #endif
 
 /* Fades channel C of ring i towards black over the second half of its
  * life. The step is spelled out twice rather than kept in a temporary,
  * which keeps retail's register choice. */
 #define MODEL630_FADE(c)                                                                         \
-    if (D_8013C800[work->command].color[c] / (work->rings[i].duration / 2 - 1) * step            \
+    if (gModelVariant630_D1800[work->command].color[c] / (work->rings[i].duration / 2 - 1) * step            \
         < work->rings[i].color[c]) {                                                             \
-        work->rings[i].color[c] -= D_8013C800[work->command].color[c]                            \
+        work->rings[i].color[c] -= gModelVariant630_D1800[work->command].color[c]                            \
             / (work->rings[i].duration / 2 - 1) * step;                                          \
     } else {                                                                                     \
         work->rings[i].color[c] = 0;                                                             \
     }
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
 {
     Model630State *work;
     MATRIX ls, m;
@@ -47,15 +47,15 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model630State));
 #ifndef VERSION_FRENCH
-        printf(D_8013C7B0, sizeof(Model630State));
+        printf(gModelVariant630_D17B0, sizeof(Model630State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C7C8[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant630_D17C8[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 0, &D_8013C7C8[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 0, &gModelVariant630_D17C8[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -64,17 +64,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->rows = 3;
             break;
         }
-        work->radius = D_8013C800[command].radius;
-        work->height = D_8013C800[command].height;
+        work->radius = gModelVariant630_D1800[command].radius;
+        work->height = gModelVariant630_D1800[command].height;
         for (i = 0; i < work->count; i++) {
             work->orbs[i].duration = 16;
             work->orbs[i].active = 0;
             work->orbs[i].elapsed = 0;
             work->orbs[i].mode = 1;
             work->orbs[i].coord = Model_GetCameraCoordinateUnit();
-            work->orbs[i].color[0] = D_8013C800[command].color[0];
-            work->orbs[i].color[1] = D_8013C800[command].color[1];
-            work->orbs[i].color[2] = D_8013C800[command].color[2];
+            work->orbs[i].color[0] = gModelVariant630_D1800[command].color[0];
+            work->orbs[i].color[1] = gModelVariant630_D1800[command].color[1];
+            work->orbs[i].color[2] = gModelVariant630_D1800[command].color[2];
             work->orbs[i].u = 0;
             work->orbs[i].v = 32;
             setVector(&work->orbs[i].scale, 4096, 4096, 4096);
@@ -119,7 +119,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->sparks[i][k] = work->sparks[i][0];
             }
         }
-        work->delay = D_8013C800[command].delay;
+        work->delay = gModelVariant630_D1800[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
