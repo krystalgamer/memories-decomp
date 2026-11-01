@@ -308,9 +308,11 @@ labels 0x28 lower.
 
 Four images under French headers 858 and 955 are the North American
 header-841 entry (`model_variant/variant841_entry.c`) with the burst palette
-from the PAL CLUT row 0x3D28 instead of 0x3D20. The
-`src/overlays/french_model_variant/variant858_entry{,_slot1}.c` wrappers set
-`VERSION_FRENCH` and bind `model_variant858_linker_symbols.txt`.
+from the PAL CLUT row 0x3D28 instead of 0x3D20. Both slots build through the
+`src/overlays/french_model_variant/variant858_entry.c` wrapper, which sets
+`VERSION_FRENCH`, and bind `model_variant858_linker_symbols.txt`; each image's
+symbols file binds `ModelVariant841_HandleRequest`, `gModelVariant841_D16E0`
+and `gModelVariant841_D1718` at its own addresses.
 
 Twenty-two images under French headers 663 and 730 are the North American
 header-646 entry (`model_variant/variant646_entry.c`) without its `E_DATA`
