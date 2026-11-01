@@ -1,4 +1,15 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B410-0x8009B428, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u16 gDisplayObject_wUnlinkCount;
+u16 gDisplayObject_wAcquireCount;
+static u32 D_8009B414;
+static u32 D_8009B418;
+static u32 D_8009B41C;
+static u32 D_8009B420;
+s32 gDisplayObject_fRenderRetry;
+
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"

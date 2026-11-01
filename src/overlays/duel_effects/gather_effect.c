@@ -21,6 +21,7 @@
 #include "layered_semantic_views.h"
 #include "fallback_semantic_views.h"
 #include "live_handler_data_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 #ifdef VERSION_EUROPE
 #define GATHER_CURVE_HEIGHT 106

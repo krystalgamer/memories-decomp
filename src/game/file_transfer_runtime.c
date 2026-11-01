@@ -44,7 +44,7 @@ s32 D_8009B12C;
 s32 gFile_CommandRetryCount;
 u32 D_8009B134;
 s32 gFile_ReadyDataEventCount;
-s32 D_8009B13C;
+static s32 D_8009B13C;
 
 #include "file_transfer.h"
 #include "file_transfer_state.h"

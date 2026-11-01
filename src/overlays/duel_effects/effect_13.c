@@ -10,6 +10,7 @@
 #include "texture_state_semantic_views.h"
 #include "stat_penalty_semantic_views.h"
 #include "fallback_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
 {

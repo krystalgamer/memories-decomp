@@ -2,6 +2,17 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "../types.h"
 #include "movie_open_stream.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B498-0x8009B4A8, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 *G32 gMovie_pWorkArea;
+CdlLOC gMovie_StreamLoc;
+u8 D_8009B4A0;
+u8 D_8009B4A1;
+u8 D_8009B4A2;
+static u8 D_8009B4A3;
+static u32 D_8009B4A4;
+
 #include "movie_seek_and_start_read.h"
 #include "movie_on_stream_end.h"
 #include "graphics_frame.h"

@@ -100,12 +100,6 @@ extern s16 gModel_sTextureTintRectY;
 extern s16 gModel_sTextureTintRectW;
 extern s16 gModel_sTextureTintRectH;
 
-/* One consumer, func_8005C374.c, which writes its three parameters to these
- * contiguous bytes. Their individual roles remain unknown, and no movie
- * subsystem header owns the storage. */
-extern u8 D_8009B4A0;
-extern u8 D_8009B4A1;
-extern u8 D_8009B4A2;
 
 /* One consumer, AiScript_Print. Both addresses are passed to printf as format
  * strings; the second also receives the script checkpoint byte. Their
@@ -289,7 +283,6 @@ extern s16 gDisplayObject_wSpriteSheetListHead;
 extern u8 gFile_nMasterXaLba[];
 
 
-
 /* Also reclassified from matching_c by #3859: the mixed -G share. Each of
  * these matched only under a compiler profile whose GCC and MASPSX
  * small-data thresholds disagree, or only with register pins #3867 left
@@ -382,10 +375,6 @@ extern DisplayObject *G32 gDuel_pFlipRightMarker;
  * and Duel_UpdateCardUseConfirmation flips it face up or down. */
 extern DisplayObject *G32 gDuel_pActionCard;
 extern DisplayObject *G32 gDuel_pActionReadyMarker;
-#endif
-extern u8 gDuelEffect_bRequestFinished;
-#ifdef D_8009B264_VISIBLE
-extern DuelEffectRequest *G32 gDuelEffect_pActiveRequest;
 #endif
 
 #include "game/main_mode_state.h"

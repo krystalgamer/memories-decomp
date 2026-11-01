@@ -1,5 +1,13 @@
 #define D_8009B098_IN_DATA
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B428-0x8009B430, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 gMain_bFrontendPhase;
+static u8 D_8009B429;
+static u16 D_8009B42A;
+static u32 D_8009B42C;
+
 #include "graphics_frame.h"
 #include "display_object_transition.h"
 #include "main_frame.h"

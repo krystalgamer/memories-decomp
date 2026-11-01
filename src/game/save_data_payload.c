@@ -1,6 +1,11 @@
 #define D_8009B0C4_IN_DATA
 #define GSD_BOUTPUTTYPE_IN_DATA
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B3B8-0x8009B3BC, defined in
+ * address order ahead of the headers that declare it (#2602). */
+s32 gSaveDataSequence;
+
 #include "save_data.h"
 #include "player_name_glyphs.h"
 #include "graphics_frame.h"

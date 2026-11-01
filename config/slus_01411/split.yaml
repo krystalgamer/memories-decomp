@@ -213,6 +213,7 @@ segments:
     align: 2
     subsegments:
       - [0x8b890, bin, bss_image_before_viewport]
+      - [0x8b8e0, .sbss, game/file_set_position_table]
       - [0x8b8e8, .sbss, game/file_transfer_runtime]
       - [0x8b940, bin, bss_image_8009b140]
 
@@ -231,6 +232,26 @@ segments:
     align: 2
     subsegments:
       - [0x8b94a, bin, bss_image_after_viewport]
+      - [0x8ba44, .sbss, game/duel_effect_dialog_state]
+      - [0x8ba46, bin, bss_image_8009b246]
+      - [0x8ba58, .sbss, game/library_card_grid]
+      - [0x8ba60, .sbss, game/duel_effect_object_pool]
+      - [0x8ba68, bin, bss_image_8009b268]
+      - [0x8ba7c, .sbss, game/script_command_busy]
+      - [0x8ba80, bin, bss_image_8009b280]
+      - [0x8bb00, .sbss, game/hmd_fog_textured_drivers]
+      - [0x8bb04, .sbss, game/sorted_entry_relink]
+      - [0x8bb18, bin, bss_image_8009b318]
+      - [0x8bb7c, .sbss, game/options_screen]
+      - [0x8bb90, bin, bss_image_8009b390]
+      - [0x8bbb8, .sbss, game/save_data_payload]
+      - [0x8bbbc, .sbss, game/mem_card_dialog]
+      - [0x8bc00, bin, bss_image_8009b400]
+      - [0x8bc10, .sbss, game/display_object_core]
+      - [0x8bc28, .sbss, game/main_run_boot_sequence]
+      - [0x8bc30, .sbss, game/mem_card_driver]
+      - [0x8bc58, bin, bss_image_8009b458]
+      - [0x8bc98, .sbss, game/movie_frame_pipeline]
       - [0x8bca8, bin, bss_image_large]
 
   - name: reserved_zero

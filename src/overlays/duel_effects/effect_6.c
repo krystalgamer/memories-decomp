@@ -9,6 +9,7 @@
 #include "layered_semantic_views.h"
 #include "damage_semantic_views.h"
 #include "fallback_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 #ifdef VERSION_EUROPE
 #define EFFECT_6_START_HEIGHT 106

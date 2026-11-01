@@ -8,6 +8,7 @@
 #include "layered_semantic_views.h"
 #include "fallback_semantic_views.h"
 #include "fusion_attack_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 void DuelEffect_RunFusion(void *buffer, s32 phase)
 {

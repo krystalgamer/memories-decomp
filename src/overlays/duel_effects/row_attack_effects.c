@@ -14,6 +14,7 @@
 #include "effect_23.h"
 #include "exodia_semantic_views.h"
 #include "selected_cards_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 void DuelEffect_RunRowStrike(void *buffer, s32 phase)
 {

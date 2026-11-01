@@ -18,6 +18,7 @@
 #include "texture_state_semantic_views.h"
 #include "fallback_semantic_views.h"
 #include "live_handler_data_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 #ifdef VERSION_EUROPE
 #define TILE_ROW_STEP 30

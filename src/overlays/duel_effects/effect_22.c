@@ -12,6 +12,7 @@
 #include "ritual_semantic_views.h"
 #include "exodia_semantic_views.h"
 #include "fallback_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 void DuelEffect_RunRitual(void *buffer, s32 phase)
 {

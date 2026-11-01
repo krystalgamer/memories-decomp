@@ -5,6 +5,7 @@
 #include "geometry_semantic_views.h"
 #include "display_semantic_views.h"
 #include "swords_field_semantic_views.h"
+#include "../../game/duel_effect_object_pool.h"
 
 void DuelEffect_RunSwordsField(void *buffer, s32 phase)
 {

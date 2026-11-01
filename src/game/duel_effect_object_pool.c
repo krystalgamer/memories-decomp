@@ -4,6 +4,13 @@
 #include "../types.h"
 #include "view_state.h"
 #include "duel_effect_request.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B260-0x8009B268, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 gDuel_bEffectRequestStatus;
+u8 gDuelEffect_bRequestFinished;
+DuelEffectRequest *G32 gDuelEffect_pActiveRequest;
+
 #include "duel_effect_object_pool.h"
 #include "../psyq/libgte.h"
 #include "ordering_tables.h"

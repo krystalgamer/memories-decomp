@@ -1,4 +1,12 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B0E0-0x8009B0E8, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_8009B0E0;
+static u8 D_8009B0E1;
+static u16 D_8009B0E2;
+static u32 D_8009B0E4;
+
 #include "../psyq/stdio.h"
 #include "color_constants.h"
 #include "file_names.h"
