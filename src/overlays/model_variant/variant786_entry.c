@@ -7,14 +7,14 @@
  * ring of rising animated sprites while the ambient light dims and
  * recovers. */
 
-static const VECTOR D_8013CD98 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant786_D1D98 = {4096, 4096, 4096, 0};
 
 /* The flight step is reduced in place through its address; the bolt
  * position is read by value, which keeps it out of the address register. */
 #define DIV_VECTOR(v, d) ((v)->vx /= (d), (v)->vy /= (d), (v)->vz /= (d))
 #define SUB_VECTOR(v0, v1) ((v0)->vx -= (v1).vx, (v0)->vy -= (v1).vy, (v0)->vz -= (v1).vz)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant786_HandleRequest(u8 *context, s32 command)
 {
     Model786State *work;
     MATRIX light;
@@ -37,11 +37,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CD98;
+    scale = gModelVariant786_D1D98;
     work = (Model786State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CDFC[command];
+        work->config = &gModelVariant786_D1DFC[command];
         for (i = 0; i < work->config->count; i++) {
             j = (rand() - rand()) % 4096;
             k = (rand() - rand()) % 4096;
@@ -72,7 +72,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->angle[i], 0, 0, rand() % 4096);
         }
         for (i = 0; i < 3; i++) {
-            work->view.s.texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CDA8[i]);
+            work->view.s.texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant786_D1DA8[i]);
         }
         work->view.s.ambient = 0x800;
         work->phase = 0;
