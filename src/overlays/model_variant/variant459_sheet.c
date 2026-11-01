@@ -4,7 +4,7 @@
 
 /* Draws a four-quad sheet at the variant origin. It grows to 0x1000 on
  * the first timing interval, expands to 0x2000, then shrinks to zero. */
-void func_8013C360(u8 *ctx)
+void ModelVariant459_DrawSheet(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

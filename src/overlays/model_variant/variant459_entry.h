@@ -66,11 +66,11 @@ typedef struct {
     s16 slot, command;
 } Variant459EntryState;
 
-void func_8013C360(u8 *context);
-void func_8013C714(u8 *context);
-void func_8013D430(u8 *context);
-void func_8013D800(u8 *context);
-extern u8 D_8013E338[];
-void func_8013DD90(u8 *context);
+void ModelVariant459_DrawSheet(u8 *context);
+void FrenchModelVariant476_DrawSpiral(u8 *context);
+void ModelVariant459_DrawCurtains(u8 *context);
+void ModelVariant459_DrawGlobe(u8 *context);
+extern u8 gModelVariant459_D3338[];
+void FrenchModelVariant476_DrawScreenGrid(u8 *context);
 
 #endif

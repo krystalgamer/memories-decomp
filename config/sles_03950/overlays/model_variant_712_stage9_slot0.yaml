@@ -63,7 +63,7 @@ segments:
     vram: 0x8013C35C
     align: 4
     subsegments:
-      - [0x135C, c, overlays/french_model_variant/variant476_sheet]
+      - [0x135C, c, overlays/model_variant/variant459_sheet]
   - name: helper_170C
     type: code
     start: 0x170C
@@ -77,14 +77,14 @@ segments:
     vram: 0x8013D0BC
     align: 4
     subsegments:
-      - [0x20BC, c, overlays/french_model_variant/variant476_webs]
+      - [0x20BC, c, overlays/model_variant/variant459_webs]
   - name: helper_247C
     type: code
     start: 0x247C
     vram: 0x8013D47C
     align: 4
     subsegments:
-      - [0x247C, c, overlays/french_model_variant/variant476_curtains]
+      - [0x247C, c, overlays/model_variant/variant459_curtains]
   - name: helper_2848
     type: code
     start: 0x2848
