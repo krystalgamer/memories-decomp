@@ -4,8 +4,11 @@
 Spanish `model_image_model_22822_8017b000` images draws eight groups of
 twelve growing `POLY_FT4` blooms. The loader entry reaches it. The same
 bytes sit at `func_8013C230` in the `model_image_model_22812_8013b000`
-images, and `french_model_variant/image22822_blooms_slot0.c` renames the
-body for that slot.
+images. Both slots compile `image22822_blooms.c` itself. The source defines
+`FrenchModelVariant454_DrawBlooms`, and each image binds that name at its own
+address. The North American and Japanese header-437 entry includes the same
+body at `0x8013C230`/`0x8017C230` (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
 
 - **Relative.** It is a variant of the
   [header-472 blooms](french-model-variant472-blooms.md) body. The group is

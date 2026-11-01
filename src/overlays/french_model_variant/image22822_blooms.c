@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image22822_blooms.h"
 
-void func_8017C230(u8 *context)
+void FrenchModelVariant454_DrawBlooms(u8 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
