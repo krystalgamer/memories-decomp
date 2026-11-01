@@ -1,5 +1,4 @@
 #define gDuel_bEffectRequestStatus_IN_DATA
-#define DUEL_FIELD_GRID_ALIASES
 #include "../types.h"
 #include "file_transfer.h"
 #include "duel_trap_resolution.h"
@@ -498,7 +497,8 @@ void DuelEffect_ApplyDarkPiercingLight(void)
         gDuel_wCardEffectFlags = flags | 0x40;
         SD_SEPlayFull(0x1D);
         for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
-            record = &gDuel_aCardRecords[D_800907D8_2d[gDuel_bActiveSide][i]];
+            record = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[
+                i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
             /* The retail code tests the two halfwords at +0x14 as one
                word; 0x90000000 selects bits 0x9000 of flags at +0x16. */
             if ((*(u32 *)&record->terrain_modifier & 0x90000000) ==
@@ -545,7 +545,7 @@ void DuelEffect_ApplyStatPenalty(void) {
 
     base_slot = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                 DUEL_FIELD_ROW_SIZE;
-    record = &gDuel_aCardRecords[D_800907D8_flat[(s16)gDuel_wStepCounter + base_slot]];
+    record = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[(s16)gDuel_wStepCounter + base_slot]];
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
         card = DISPLAY_OBJECT_VIEW(record->object);
         object = DuelEffect_AllocateRequest(0xD);

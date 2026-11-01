@@ -63,7 +63,7 @@
  * When a consumer cannot take the shared declaration because its spelling is
  * load-bearing -- a section attribute deciding gp-relative versus absolute
  * addressing under -G8, a volatile qualifier deciding whether a redundant
- * access survives, or an asm() alias keeping GCC from holding an address
+ * access survives, or a separate linker identifier keeping GCC from holding an address
  * across a call -- note the exception beside the declaration so it is not
  * quietly "fixed" later. */
 

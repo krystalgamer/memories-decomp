@@ -210,11 +210,10 @@ with bit 15 set does not satisfy that comparison. The subtraction and
 state-ten path remain conditional, followed by gate-seven and command-seven
 publication in the original order.
 
-The C alias identifiers `D_8009B2A8_scalar` and `D_8009B2AA_scalar` and
-the `SCRIPT_STATE_JAPANESE_D_8009B2A8_SCALAR` selector remain. Their ASM
-labels now select the named native targets; both Japanese selector arms
-therefore spell the same canonical name without removing either original
-declaration arm. `Base2_8009B2A8/AA` remain separate linker identifiers,
+The text callback arm declares the targets and `gScript_wCommandWord` as
+absolute (`.data`) `u16` scalars; `Text_StartViewportTween` reaches them
+through `*(s16 *)&` casts, so no second C name views the same object.
+`Base2_8009B2A8/AA` remain separate linker identifiers,
 including the UK's symbolic RHS bindings. Nine obsolete Japanese primary
 macros retire; no other wrapper aliases change.
 

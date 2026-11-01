@@ -405,14 +405,12 @@ reach the live record. Scene initialization and turn switch retain a
 pointer to the selected 20-byte perspective. All selection arithmetic,
 byte reads, side strides and stored-pointer behavior stay unchanged.
 
-The declaration keeps its existing three arms: unsized flat readers,
-explicit 2-D readers and two asm-bound views. The private
-`D_800907D8_2d`/`D_800907D8_flat` C identifiers and the
-`DUEL_FIELD_GRID_ALIASES`/`DUEL_FIELD_GRID_2D` switches stay in place;
-their asm target follows the semantic name.
-Japanese wrappers preserve their first-declaration binding to the
-localized target, now `gJapanese_DuelFieldGridCardRecordIndices` at
-`0x80090688`. Its unrelated result table at numeric `0x800907D8`, and the
+The declaration has two arms: unsized flat readers and the explicit 2-D
+readers selected by `DUEL_FIELD_GRID_2D`. `DuelEffect_ApplyDarkPiercingLight`
+reads the flat array as `[i + side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]`,
+which gives the retail `sym(index)` addressing that its former `[side][i]`
+view produced. The Japanese symbol file binds
+`gDuel_abFieldGridCardRecordIndices` directly at `0x80090688`. Its unrelated result table at numeric `0x800907D8`, and the
 French SDK label `D_800907D8_French`, are not this grid and remain untouched.
 
 ## Field-placement selection entry

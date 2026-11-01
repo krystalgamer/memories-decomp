@@ -7,9 +7,4 @@
  * unchanged. */
 #define gFile_wTransferStepFlags_abs gFile_wTransferStepFlags
 
-/* The same object under a second US name, which a #define cannot carry:
- * both names would become one identifier with two declarations. An asm
- * label binds it to the same Japanese symbol instead; an array is left
- * unsized so the US header completes the type. */
-
 #include "../duel_card_effects.c"

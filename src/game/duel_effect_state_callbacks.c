@@ -12,7 +12,7 @@
 #include "file_constants.h"
 #include "file_transfer.h"
 #include "file_transfer_state.h"
-#define GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
+#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "input.h"
 #include "display_effect_lifecycle.h"
@@ -69,8 +69,8 @@ void Text_StageScriptImage(DuelEffectChannel *state)
 {
     s32 result;
 
-    gScript_ViewportTargetY[0] = 0;
-    gScript_ViewportTargetX[0] = 0;
+    gScript_ViewportTargetY = 0;
+    gScript_ViewportTargetX = 0;
     result = TextStream_ReadU16LE(state);
     gScript_ImageOperand[0] = result;
 
@@ -86,7 +86,7 @@ void Text_StageScriptImage(DuelEffectChannel *state)
     }
 
     gText_ScriptDispatchGate = 5;
-    gScript_wCommandWord[0] = 5;
+    gScript_wCommandWord = 5;
     state->playback_state = 10;
 }
 
@@ -96,19 +96,19 @@ void Text_StartViewportTween(DuelEffectChannel *object)
     s32 raw_value;
 
     object->playback_state = 0;
-    D_8009B2A8_scalar = TextStream_ReadU16LE(object);
-    D_8009B2AA_scalar = TextStream_ReadU16LE(object);
+    *(s16 *)&gScript_ViewportTargetX = TextStream_ReadU16LE(object);
+    *(s16 *)&gScript_ViewportTargetY = TextStream_ReadU16LE(object);
     gScript_SharedOperand = TextStream_ReadU16LE(object);
 
-    signed_value = D_8009B2AA_scalar;
-    raw_value = (u16)D_8009B2AA_scalar;
+    signed_value = *(s16 *)&gScript_ViewportTargetY;
+    raw_value = (u16)*(s16 *)&gScript_ViewportTargetY;
     if (signed_value >= 0x1000) {
-        D_8009B2AA_scalar = raw_value - 0x1000;
+        *(s16 *)&gScript_ViewportTargetY = raw_value - 0x1000;
         object->playback_state = 10;
     }
 
     gText_ScriptDispatchGate = 7;
-    D_8009B27C_scalar = 7;
+    *(s16 *)&gScript_wCommandWord = 7;
 }
 
 void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
@@ -258,17 +258,17 @@ void Text_WaitWithViewportShake(DuelEffectChannel *object)
     if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->playback_state = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         gText_WaitCounter = TextStream_ReadU16LE(object);
-        gText_ShakeViewportOrigin[0] = gGraphics_uViewportX[0];
-        gText_ShakeViewportOrigin[1] = gGraphics_uViewportY[0];
+        gText_ShakeViewportOrigin[0] = *(u16 *)&gGraphics_sViewportX;
+        gText_ShakeViewportOrigin[1] = *(u16 *)&gGraphics_sViewportY;
     }
     if (gGraphics_dwSyncedFrameCount & 1) {
-        gGraphics_uViewportX[0] = gText_ShakeViewportOrigin[0] + ((rand() & 7) - 4);
-        gGraphics_uViewportY[0] = gText_ShakeViewportOrigin[1] + ((rand() & 3) - 2);
+        *(u16 *)&gGraphics_sViewportX = gText_ShakeViewportOrigin[0] + ((rand() & 7) - 4);
+        *(u16 *)&gGraphics_sViewportY = gText_ShakeViewportOrigin[1] + ((rand() & 3) - 2);
     }
     gText_WaitCounter--;
     if (gText_WaitCounter == 0) {
-        gGraphics_uViewportX[0] = gText_ShakeViewportOrigin[0];
-        gGraphics_uViewportY[0] = gText_ShakeViewportOrigin[1];
+        *(u16 *)&gGraphics_sViewportX = gText_ShakeViewportOrigin[0];
+        *(u16 *)&gGraphics_sViewportY = gText_ShakeViewportOrigin[1];
         object->playback_state = 0;
     }
 }

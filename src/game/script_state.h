@@ -12,15 +12,13 @@
  * documented in script_command_busy.h, and handlers set and clear 0x4000,
  * 0x2000, 0x1000, 0x800, 0x400, 0x200 and 0x80 around it.
  *
- * The text callbacks select the historical array and signed scalar views;
- * TextBox_BuildStep selects the absolute unsigned scalar. These arms keep
- * the measured addressing without private declarations in the consumers.
+ * The text callbacks and TextBox_BuildStep select the absolute (.data)
+ * scalar; Text_StartViewportTween's signed store is a cast at the use. These
+ * arms keep the measured addressing without private declarations in the
+ * consumers.
  */
-#if defined(SCRIPT_STATE_TEXT_CALLBACK_VIEWS)
-extern u16 gScript_wCommandWord[];
-extern s16 D_8009B27C_scalar asm("gScript_wCommandWord")
-    __attribute__((section(".data")));
-#elif defined(SCRIPT_STATE_COMMAND_IN_DATA)
+#if defined(SCRIPT_STATE_TEXT_CALLBACK_VIEWS) || \
+    defined(SCRIPT_STATE_COMMAND_IN_DATA)
 extern u16 gScript_wCommandWord __attribute__((section(".data")));
 #else
 extern u16 gScript_wCommandWord;
@@ -71,8 +69,8 @@ extern u8 D_801A8000[];
  * and unsigned for the final copy (retail lhu). Retail reaches them
  * gp-relative in all four of those units.
  *
- * The text callback arm preserves both the unsigned arrays and the signed
- * absolute scalar aliases. Base2_8009B2A8/AA are distinct linker identifiers
+ * The text callback arm takes them absolute (.data); its signed accesses are
+ * casts at the use. Base2_8009B2A8/AA are distinct linker identifiers
  * at the same addresses: they stop GCC retaining addresses across calls. */
 /* Shared retained halfword: viewport commands use it as their divisor/countdown;
  * Script_OpDuelResult also stages its two-byte operand here. It is not
@@ -85,19 +83,10 @@ extern u8 D_801A8000[];
  * The text callback arm keeps its signed, absolute spelling. */
 #ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 extern s16 gScript_SharedOperand __attribute__((section(".data")));
-extern u16 gScript_ViewportTargetX[];
-extern u16 gScript_ViewportTargetY[];
+extern u16 gScript_ViewportTargetX __attribute__((section(".data")));
+extern u16 gScript_ViewportTargetY __attribute__((section(".data")));
 extern u16 Base2_8009B2A8[];
 extern u16 Base2_8009B2AA[];
-#ifdef SCRIPT_STATE_JAPANESE_D_8009B2A8_SCALAR
-extern s16 D_8009B2A8_scalar asm("gScript_ViewportTargetX")
-    __attribute__((section(".data")));
-#else
-extern s16 D_8009B2A8_scalar asm("gScript_ViewportTargetX")
-    __attribute__((section(".data")));
-#endif
-extern s16 D_8009B2AA_scalar asm("gScript_ViewportTargetY")
-    __attribute__((section(".data")));
 #else
 extern u16 gScript_SharedOperand;
 extern u16 gScript_ViewportTargetX;

@@ -59,6 +59,6 @@ The runtime `s32` and payload `u32` views retain their original bit
 behavior without making a new signedness claim. The captured initialization
 local, payload-builder local, volatile GP versus plain absolute views,
 private `D_8009B0C4_IN_DATA` selector and all save/seal/callback ordering
-remain unchanged. Three Japanese wrappers preserve the explicit
-`gJapanese_SaveDataVBlankCounter` binding at `0x8009AFB4`. No field offset,
+remain unchanged. The Japanese symbol file binds
+`gSaveData_dwVBlankCounter` directly at `0x8009AFB4`. No field offset,
 CRC/mask operation, serialization format or table bound changes.

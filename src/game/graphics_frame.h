@@ -170,17 +170,9 @@ extern u8 gMain_bVBlankSoundPending;
  * justified by a control build recorded in the PR that added this
  * block. */
 #ifdef D_8009B0C8_IN_DATA
-extern s32 gGraphics_dwSyncVBlankCounter
-#ifdef VERSION_JAPAN
-    asm("gJapanese_GraphicsSyncVBlankCounter")
-#endif
-    __attribute__((section(".data")));
+extern s32 gGraphics_dwSyncVBlankCounter __attribute__((section(".data")));
 #else
-extern volatile s32 gGraphics_dwSyncVBlankCounter
-#ifdef VERSION_JAPAN
-    asm("gJapanese_GraphicsSyncVBlankCounter")
-#endif
-    ;
+extern volatile s32 gGraphics_dwSyncVBlankCounter;
 #endif
 
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
@@ -239,17 +231,9 @@ extern volatile s32 gMain_dwFrameCounter;
  * while reaching another symbol through $gp, so save_data_payload.c, which
  * holds both, defines the .data arm. */
 #ifdef D_8009B0C4_IN_DATA
-extern s32 gSaveData_dwVBlankCounter
-#ifdef VERSION_JAPAN
-    asm("gJapanese_SaveDataVBlankCounter")
-#endif
-    __attribute__((section(".data")));
+extern s32 gSaveData_dwVBlankCounter __attribute__((section(".data")));
 #else
-extern volatile s32 gSaveData_dwVBlankCounter
-#ifdef VERSION_JAPAN
-    asm("gJapanese_SaveDataVBlankCounter")
-#endif
-    ;
+extern volatile s32 gSaveData_dwVBlankCounter;
 #endif
 
 /* A flags halfword. Graphics_SyncFrame skips DrawSync(0) when bit 0x8000
@@ -366,21 +350,13 @@ extern u8 gGraphics_bClearRed;
    sprite position and DisplayObject_RenderSpriteList subtracts it from a primitive's, and both
    results have to be able to go negative.
 
-   Files that reach these through `__attribute__((section(".data")))`, or as an
-   unsized or [4] array, select the guarded view below because those spellings
-   change how the address is materialised, not just how the value reads.
-   The unsigned [4] view has its own C names, so a unit may select it
-   together with the signed .data view (script_image_commands.c does). */
-#ifdef GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
-extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
-extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
-#endif
+   Files that reach these through `__attribute__((section(".data")))` select
+   the guarded view below because that spelling changes how the address is
+   materialised, not just how the value reads. */
 #if defined(GRAPHICS_VIEWPORT_IN_DATA)
 extern s16 gGraphics_sViewportX __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY __attribute__((section(".data")));
-#elif !defined(GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA)
+#else
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
 #endif
@@ -457,11 +433,7 @@ extern DISPENV gGraphics_DispEnv;
  * measured views at the owner instead of leaving private declarations in the
  * startup source. */
 extern u8 gGraphics_bDither;
-extern u8 gGraphics_bClearBackground
-#ifdef VERSION_JAPAN
-    asm("gJapanese_D_8009B0D0")
-#endif
-    ;
+extern u8 gGraphics_bClearBackground;
 extern u8 D_8009B0A8;
 
 #ifdef GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
