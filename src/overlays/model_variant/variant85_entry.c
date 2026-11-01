@@ -7,9 +7,9 @@
  * it. The return value reports the hit (1) once, the end of the burst (2) or
  * neither (0). */
 
-static const VECTOR D_8013BF44 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant85_D0F44 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant85_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_G3 tri;
@@ -34,11 +34,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BF44;
+    scale = gModelVariant85_D0F44;
     work = (Model85State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013BFA8[command];
+        config = work->config = &gModelVariant85_D0FA8[command];
         angle = work->angles;
         speed = work->speeds;
         for (i = 0; i < config->count; angle++, speed++, i++) {
@@ -63,7 +63,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->hit = 0;
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013BF54[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant85_D0F54[i]);
         }
         work->elapsed = -config->delay;
         work->frame = 0;
