@@ -13,6 +13,7 @@ from typing import Any
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
+DEFAULT_MAP = "notes/semantic-symbol-map.csv"
 MAP_FIELDS = (
     "kind",
     "address",
@@ -93,14 +94,30 @@ def regional_image(kind: str) -> str | None:
     return image
 
 
-def load_map(path: Path) -> list[Mapping]:
-    with path.open("r", encoding="utf-8", newline="") as handle:
-        reader = csv.DictReader(handle)
-        if tuple(reader.fieldnames or ()) != MAP_FIELDS:
-            raise SemanticNameError(
-                f"{path}: expected fields {','.join(MAP_FIELDS)}"
-            )
-        rows = list(reader)
+def map_directory(path: Path) -> Path:
+    """Return the per-family directory beside a map, e.g. ``<stem>.d``."""
+    return path.with_name(f"{path.stem}.d")
+
+
+def map_paths(path: Path, *, include_directory: bool = False) -> list[Path]:
+    paths = [path]
+    if include_directory:
+        directory = map_directory(path)
+        if directory.is_dir():
+            paths.extend(sorted(directory.glob("*.csv")))
+    return paths
+
+
+def load_map(path: Path, *, include_directory: bool = False) -> list[Mapping]:
+    rows: list[dict[str, str]] = []
+    for part in map_paths(path, include_directory=include_directory):
+        with part.open("r", encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle)
+            if tuple(reader.fieldnames or ()) != MAP_FIELDS:
+                raise SemanticNameError(
+                    f"{part}: expected fields {','.join(MAP_FIELDS)}"
+                )
+            rows.extend(reader)
     result: list[Mapping] = []
     seen_addresses: set[tuple[str, int]] = set()
     seen_names: set[tuple[str, str]] = set()
@@ -581,8 +598,11 @@ def parse_args() -> argparse.Namespace:
     mode.add_argument("--check", action="store_true")
     parser.add_argument(
         "--map",
-        default="notes/semantic-symbol-map.csv",
-        help="semantic map path relative to the repository root",
+        default=DEFAULT_MAP,
+        help=(
+            "semantic map path relative to the repository root; the default "
+            "map also reads notes/semantic-symbol-map.d/*.csv when present"
+        ),
     )
     return parser.parse_args()
 
@@ -592,7 +612,10 @@ def main() -> int:
     try:
         root = require_workspace_root()
         map_path = resolve_within(root, args.map, must_exist=True)
-        mappings = load_map(map_path)
+        mappings = load_map(
+            map_path,
+            include_directory=map_path == resolve_within(root, DEFAULT_MAP),
+        )
         return apply(root, mappings, check=args.check)
     except (
         SemanticNameError,

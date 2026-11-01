@@ -177,8 +177,12 @@ Matching, attempt-ledger updates, and integration remain sequential.
   globals generally use `g<Subsystem>_<Role>`. Preserve accepted sound-driver
   forms such as `SD_...` and `g_SDValue`.
 - Record semantic renames with the original address, evidence, confidence, and
-  caveats in `notes/semantic-symbol-map.csv`. Only confirmed or high-confidence
-  names replace address-based symbols.
+  caveats in `notes/semantic-symbol-map.csv`. Per-family MODEL rows
+  (`overlay/*` rows named `g?(French|Spanish)?ModelVariant<N>_...`) go in
+  `notes/semantic-symbol-map.d/<prefix>-<N>.csv` instead; readers treat the main CSV plus every `*.csv` in that directory as one map. Do not
+  add to or edit `notes/overlays/model-variants.md` for a family change: each
+  image's `*_symbols.txt` and `*_functions.csv` record its bindings. Only
+  confirmed or high-confidence names replace address-based symbols.
 - Do not track retail files, generated `tmp/` output, downloaded tools,
   installed environments, vendor checkouts, or local toolchains. Durable
   Markdown belongs under `notes/`, except for per-directory `README.md` files
