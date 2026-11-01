@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "beam.h"
 
-void func_8017C760(u8 *context)
+void ModelExodia_DrawBeam(u8 *context)
 {
     ExodiaBeamState *work;
     SVECTOR rotation;

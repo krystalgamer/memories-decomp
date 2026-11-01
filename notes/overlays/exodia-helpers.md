@@ -17,12 +17,12 @@ zero, while their contexts are at `0x80136000` and `0x80176000`.
 | Image | Function | Bytes | Ownership |
 |---|---|---:|---|
 | slot 0 | `func_8013B004` | 2140 | C entry/configuration handler |
-| slot 0 | `func_8013B860` | 940 | C ring helper |
-| slot 0 | `func_8013BC0C` | 2976 | C spoke renderer |
+| slot 0 | `ModelExodia_DrawRing` (`0x8013B860`) | 940 | C ring helper |
+| slot 0 | `ModelExodia_DrawSpokes` (`0x8013BC0C`) | 2976 | C spoke renderer |
 | slot 1 | `func_8017B004` | 2476 | C entry/configuration handler |
-| slot 1 | `func_8017B9B0` | 1088 | C ring helper |
+| slot 1 | `ModelExodia_DrawRings` (`0x8017B9B0`) | 1088 | C ring helper |
 | slot 1 | `func_8017BDF0` | 2416 | C petals renderer |
-| slot 1 | `func_8017C760` | 1500 | C beam helper |
+| slot 1 | `ModelExodia_DrawBeam` (`0x8017C760`) | 1500 | C beam helper |
 
 Both complete 20,480-byte images match independently extracted French SU
 targets after production linking. Their SHA-256 values are:
@@ -239,11 +239,25 @@ sources match the US helpers unchanged. Under `gcc_2_8_1_g0_split` the same
 sources still fill the epilogue delay slot, but these US helpers end in
 `addiu $sp; jr $ra; nop`.
 
-The `src/overlays/model_exodia/us_*.c` wrappers define `MODEL_EXODIA_USA`,
-rename the helper and table symbols to the US addresses (helpers at `0x8013B864`,
-`0x8017B9B4` and `0x8017C738`; tables at `0x8013C784` and `0x8017CD08`), and
-include the shared source. With the macro undefined, every source compiles
-exactly as before. With it defined:
+The `src/overlays/model_exodia/us_*.c` wrappers define `MODEL_EXODIA_USA` and
+include the shared source. The helpers and tables keep one name in every
+region; each image's `*_symbols.txt` and `*_functions.csv` bind it at that
+image's address:
+
+| Name | French/PAL | US/Japanese |
+|---|---|---|
+| `ModelExodia_DrawRing` | `0x8013B860` | `0x8013B864` |
+| `ModelExodia_DrawSpokes` | `0x8013BC0C` | `0x8013BC58` |
+| `gModelExodia_D17AC` | `0x8013C7AC` | `0x8013C784` |
+| `ModelExodia_DrawRings` | `0x8017B9B0` | `0x8017B9B4` |
+| `ModelExodia_DrawBeam` | `0x8017C760` | `0x8017C738` |
+| `gModelExodia_D1D3C` | `0x8017CD3C` | `0x8017CD08` |
+
+The entries index the two `gModelExodia_D` tables by configuration command;
+the symbols also start the unclassified tails, so their names keep the French
+image offset.
+
+With the macro undefined, every source compiles exactly as before. With it defined:
 
 - `ring.c` and `ring_second.c` store the four projected corners back into the
   quad after `RotTransPers4`, as the US build does.

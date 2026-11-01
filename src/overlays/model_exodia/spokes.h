@@ -18,5 +18,5 @@ typedef struct {
     s32 scale, field_48C, width, angle;
 } ExodiaSpokeState;
 
-void func_8013BC0C(u8 *context);
+void ModelExodia_DrawSpokes(u8 *context);
 #endif

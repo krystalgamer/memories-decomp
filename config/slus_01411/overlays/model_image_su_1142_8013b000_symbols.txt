@@ -1,2 +1,4 @@
 func_8013B004 = 0x8013B004; // type:func size:0x860 defined:true
-D_8013C784 = 0x8013C784; // type:u8 defined:true
+ModelExodia_DrawRing = 0x8013B864; // type:func size:0x3F4 defined:true
+ModelExodia_DrawSpokes = 0x8013BC58; // type:func size:0xB2C defined:true
+gModelExodia_D17AC = 0x8013C784; // type:u8 defined:true
