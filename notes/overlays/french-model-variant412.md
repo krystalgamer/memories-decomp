@@ -11,7 +11,7 @@ trails (1,836 bytes/frame 1,808), strip (1,456/frame 256), ribbons
 (1,620/frame 296), rings (1,180/frame 272), and bands (1,092/frame 304)
 in each slot, using
 `gcc_2_8_1_g0_split` (GCC 2.8.1/MASPSX 2.81).
-Their slot-1 wrappers only rename the functions. No assembly, forced registers, artificial stores,
+Both slots compile the same sources (see [Names](#names)). No assembly, forced registers, artificial stores,
 fake dependencies, source-local external declarations, or compiler
 changes are used. The shared strip, ribbon, ring and band bodies also serve the existing four
 French and four Spanish MODEL402 images, whose bytes remain unchanged.
@@ -69,9 +69,9 @@ claims are used.
 
 The canonical source includes the unchanged MODEL402 body rather than
 duplicating it. It loads shared declarations first, then binds the work-view
-type to `Variant412RingView` and renames the function. This header-first
+type to `Variant412RingView`. This header-first
 order keeps the original record declarations intact while selecting the
-independently measured context layout. Both slot wrappers remain byte-exact.
+independently measured context layout. Both slots remain byte-exact.
 
 The `POLY_GT4` packet is at `0x1978`, transform at `0x1AB0`, and velocity
 at `0x1AD8`. Frame parity at `0x1B04` adds a scale/8 pulse. The second
@@ -110,7 +110,7 @@ without ignoring any bytes.
 The implementation reuses `variant402_ribbons.c`. Twenty enum constants
 in its existing header select the independently measured MODEL412 layout
 when `MODEL_VARIANT412_RIBBONS` is defined; otherwise they preserve the
-original MODEL402 offsets. Thin include/rename wrappers select each slot.
+original MODEL402 offsets. Thin include wrappers select the layout; both slots compile them.
 There is no runtime selection, extra storage, or duplicated function body.
 An initial integration policy check rejected placing the enum in the C
 file; moving it to the header preserves the measured compilation.
@@ -277,3 +277,16 @@ actual sized linked C ownership and retained assembly/raw owners.
 Regression coverage checks the loader, commands, image hashes, CFGs,
 caller and descriptor anchors, initialization strides and bounds,
 target-compiled views, external callee starts, and slot wrapper.
+
+## Names
+
+Both slots compile the shared sources without renaming wrappers;
+`variant412_{strip,ribbons,rings,bands}.c` only select the MODEL412 views of
+the MODEL402 bodies, so they define the MODEL402 names. The images define
+`FrenchModelVariant412_HandleRequest`, `FrenchModelVariant412_DrawTrails`
+(`0xB98`), `FrenchModelVariant402_DrawStrip`, `FrenchModelVariant402_DrawRibbons`,
+`FrenchModelVariant402_DrawRings`, `FrenchModelVariant402_DrawBands` and the
+data block `gFrenchModelVariant412_D27A8`. The US header-395 images (model 10)
+build the same sources with the palette column 512 instead of 640. Each image
+binds the names at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

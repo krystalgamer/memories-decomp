@@ -4,31 +4,31 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA58",
-      "source": "src/overlays/french_model_variant/variant402_entry_slot1.c"
+      "source": "src/overlays/french_model_variant/variant402_entry.c"
     },
     {
       "address": "0x8017BA5C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5EC",
-      "source": "src/overlays/french_model_variant/variant402_strip_slot1.c"
+      "source": "src/overlays/french_model_variant/variant402_strip.c"
     },
     {
       "address": "0x8017C048",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x654",
-      "source": "src/overlays/french_model_variant/variant402_ribbons_slot1.c"
+      "source": "src/overlays/french_model_variant/variant402_ribbons.c"
     },
     {
       "address": "0x8017C69C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x49C",
-      "source": "src/overlays/french_model_variant/variant402_rings_slot1.c"
+      "source": "src/overlays/french_model_variant/variant402_rings.c"
     },
     {
       "address": "0x8017CB38",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x528",
-      "source": "src/overlays/french_model_variant/variant402_bands_slot1.c"
+      "source": "src/overlays/french_model_variant/variant402_bands.c"
     }
   ],
   "schema": 1

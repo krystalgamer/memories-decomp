@@ -2,7 +2,7 @@
 
 #include "variant402_ribbons.h"
 
-void func_8013C048(u8 *ctx)
+void FrenchModelVariant402_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
