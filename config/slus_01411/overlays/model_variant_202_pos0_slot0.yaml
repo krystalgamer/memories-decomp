@@ -61,7 +61,7 @@ segments:
     vram: 0x8013BC14
     align: 4
     subsegments:
-      - [0xC14, c, overlays/model_variant/variant441_sheets]
+      - [0xC14, c, overlays/french_model_variant/variant458_sheets]
   - name: helper_1158
     type: code
     start: 0x1158
@@ -75,7 +75,7 @@ segments:
     vram: 0x8013C9CC
     align: 4
     subsegments:
-      - [0x19CC, c, overlays/model_variant/variant441_streamers]
+      - [0x19CC, c, overlays/french_model_variant/variant458_streamers]
   - name: data
     type: code
     start: 0x2288

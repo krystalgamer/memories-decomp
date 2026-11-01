@@ -5,6 +5,14 @@ command is 624000, selecting descriptor zero and entry argument zero. The two
 20,480-byte images load at `0x8013B000` / `0x8017B000`; their independent hashes
 are recorded in [the instance inventory](french-model-variant458-instances.csv).
 
+The shared sources define `FrenchModelVariant458_HandleRequest`,
+`FrenchModelVariant458_DrawSheets`, `FrenchModelVariant458_DrawStrands` and
+`FrenchModelVariant458_DrawStreamers`, and the data label
+`gFrenchModelVariant458_D230C`. Each image binds them at its own addresses;
+the North American header-441 and Japanese 55932/55942 images build the same
+sources with the GCC 2.7.2 CDK compiler (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
+
 | Image offset | Bytes | Ownership |
 |---|---:|---|
 | `0..4` | 4 | Raw module header |
@@ -145,7 +153,7 @@ both 11,508-byte suffixes remain unclassified.
 
 The `0x89C` helper between the sheets and streamers is first-ever game code:
 no release had matching C for its body. Both stage images (`8013C150` and
-`8017C150`) now compile from `variant458_strands.c` and its slot1 wrapper.
+`8017C150`) now compile from `variant458_strands.c`.
 
 Six `0x200`-byte strand records start at work offset `0`. Each holds nine
 points (`a`, projected `sa`, `angle`, offset points `b`, projected `sb`,

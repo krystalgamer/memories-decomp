@@ -5,7 +5,7 @@
 #define MODEL_VARIANT458_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
 {
     EntryState458 *work = (EntryState458 *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -33,7 +33,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     if (command >= 0) {
         result = 6;
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig458 *)(D_8013D30C + 0xFC) + command;
+        work->config = (EntryConfig458 *)(gFrenchModelVariant458_D230C + 0xFC) + command;
         for (i = 0; i < 7; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
             GsGetLwUnit(work->parts[i], &work->origins[i]);
@@ -47,12 +47,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT458_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT458_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D30C + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant458_D230C + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D30C + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D30C + 0x1C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D30C + 0xE0));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant458_D230C + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant458_D230C + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant458_D230C + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -252,11 +252,11 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->draw_start <= work->elapsed) {
-            func_8013C150((u8 *)point);
-            func_8013C9EC((u8 *)point);
+            FrenchModelVariant458_DrawStrands((u8 *)point);
+            FrenchModelVariant458_DrawStreamers((u8 *)point);
         }
         if (work->elapsed > work->config->sheet_start) {
-            func_8013BC10((u8 *)point);
+            FrenchModelVariant458_DrawSheets((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

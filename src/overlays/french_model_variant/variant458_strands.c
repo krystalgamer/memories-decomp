@@ -15,7 +15,7 @@
 #define STRANDS458_SB(k) (strand->sb[k])
 #endif
 
-void func_8013C150(u8 *ctx)
+void FrenchModelVariant458_DrawStrands(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
