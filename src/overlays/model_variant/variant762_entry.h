@@ -102,10 +102,10 @@ typedef struct {
     Model762Colors colors;
 } Model762State;
 
-extern GsIMAGE D_8013CF5C[4];
-extern Model762Config D_8013CFCC[];
-extern SVECTOR D_8013CFFC;
+extern GsIMAGE gModelVariant762_D1F5C[4];
+extern Model762Config gModelVariant762_D1FCC[];
+extern SVECTOR gModelVariant762_D1FFC;
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant762_HandleRequest(u8 *context, s32 command);
 
 #endif
