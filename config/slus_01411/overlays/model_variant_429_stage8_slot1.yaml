@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant106_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant106_entry]
   - name: unclassified_tail
     type: code
     start: 0x2174
