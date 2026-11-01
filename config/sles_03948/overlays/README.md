@@ -602,7 +602,7 @@ North American header-372 entry (`model_variant/variant372_entry.c`) through
 0x3C later and the data labels 0x3C later. The French entry compiles under
 `gcc_2_8_1_g0_split`; the North American one needs `gcc_2_7_2_cdk_g0`.
 
-French MODEL headers 403 (stage 9 slot 0) and 553 (stage 10 slot 1) now also build their entry (`func_8013B004`, 0xF34 bytes) from the US header-386 source `src/overlays/model_variant/variant386_entry.c` through `src/overlays/french_model_variant/variant403_entry{,_slot1}.c`. `VERSION_FRENCH` selects the palette at VRAM x 640, and the wrappers map the helper calls and the GsIMAGE/command tables to the French addresses (helpers 0x8013BF38/0x8013CBB0/0x8013D22C, tables 0x44 higher). The images link through their own `model_variant403_linker_symbols.txt`, a copy of the shared `model_variant472` map plus the entry's bindings.
+French MODEL headers 403 (stage 9 slot 0) and 553 (stage 10 slot 1) now also build their entry (`ModelVariant386_HandleRequest`, 0xF34 bytes) from the US header-386 source `src/overlays/model_variant/variant386_entry.c` through `src/overlays/french_model_variant/variant403_entry.c` in both slots. `VERSION_FRENCH` selects the palette at VRAM x 640; the entry, the helper calls and the GsIMAGE/command tables use stable names that each image's symbols file binds at the French addresses (helpers 0x8013BF38/0x8013CBB0/0x8013D22C, tables 0x44 higher). The images link through their own `model_variant403_linker_symbols.txt`, a copy of the shared `model_variant472` map plus the entry's bindings.
 
 Twelve images under French headers 419 and 569 build their entry from the North
 American header-402 entry (`model_variant/variant402_entry.c`) through

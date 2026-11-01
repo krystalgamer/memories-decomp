@@ -120,12 +120,12 @@ typedef struct {
     u16 command;
 } Model386State;
 
-extern GsIMAGE D_8013DC54[];
-extern Model386Config D_8013DC8C[];
+extern GsIMAGE gModelVariant386_D2C54[];
+extern Model386Config gModelVariant386_D2C8C[];
 
-void func_8013BF3C(u8 *context);
-void func_8013CB84(u8 *context);
-void func_8013D204(u8 *context);
-s32 func_8013B004(u8 *context, s32 command);
+void FrenchModelVariant403_DrawStrands(u8 *context);
+void FrenchModelVariant403_DrawSheets(u8 *context);
+void FrenchModelVariant403_DrawChains(u8 *context);
+s32 ModelVariant386_HandleRequest(u8 *context, s32 command);
 
 #endif

@@ -63,21 +63,21 @@ segments:
     vram: 0x8013BF3C
     align: 4
     subsegments:
-      - [0xF3C, c, overlays/model_variant/variant386_strands]
+      - [0xF3C, c, overlays/french_model_variant/image12048_strands]
   - name: helper_1b84
     type: code
     start: 0x1B84
     vram: 0x8013CB84
     align: 4
     subsegments:
-      - [0x1B84, c, overlays/model_variant/variant386_sheets]
+      - [0x1B84, c, overlays/french_model_variant/image12048_sheets]
   - name: helper_2204
     type: code
     start: 0x2204
     vram: 0x8013D204
     align: 4
     subsegments:
-      - [0x2204, c, overlays/model_variant/variant386_chains]
+      - [0x2204, c, overlays/french_model_variant/image12048_chains]
   - name: data
     type: code
     start: 0x2C54

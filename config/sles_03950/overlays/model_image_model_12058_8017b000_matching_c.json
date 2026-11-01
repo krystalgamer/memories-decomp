@@ -4,25 +4,25 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF34",
-      "source": "src/overlays/french_model_variant/variant403_entry_slot1.c"
+      "source": "src/overlays/french_model_variant/variant403_entry.c"
     },
     {
       "address": "0x8017BF38",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC78",
-      "source": "src/overlays/french_model_variant/image12048_strands_slot1.c"
+      "source": "src/overlays/french_model_variant/image12048_strands.c"
     },
     {
       "address": "0x8017CBB0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x67C",
-      "source": "src/overlays/french_model_variant/image12048_sheets_slot1.c"
+      "source": "src/overlays/french_model_variant/image12048_sheets.c"
     },
     {
       "address": "0x8017D22C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA6C",
-      "source": "src/overlays/french_model_variant/image12048_chains_slot1.c"
+      "source": "src/overlays/french_model_variant/image12048_chains.c"
     }
   ],
   "schema": 1

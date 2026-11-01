@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image12048_chains.h"
 
-void func_8013D22C(u8 *context)
+void FrenchModelVariant403_DrawChains(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

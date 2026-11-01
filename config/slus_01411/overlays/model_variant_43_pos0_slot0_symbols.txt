@@ -1,10 +1,10 @@
 // MODEL.MRG model 43 (record 43), sector 12048, header 386, loaded at 0x8013B000.
-func_8013B004 = 0x8013B004; // type:func size:0xF38 defined:true
-func_8013BF3C = 0x8013BF3C; // type:func size:0xC48 defined:true
-func_8013CB84 = 0x8013CB84; // type:func size:0x680 defined:true
-func_8013D204 = 0x8013D204; // type:func size:0xA50 defined:true
-D_8013DC54 = 0x8013DC54; // type:u8 size:0x38 defined:true
-D_8013DC8C = 0x8013DC8C; // type:u8 size:0x2374 defined:true
+ModelVariant386_HandleRequest = 0x8013B004; // type:func size:0xF38 defined:true
+FrenchModelVariant403_DrawStrands = 0x8013BF3C; // type:func size:0xC48 defined:true
+FrenchModelVariant403_DrawSheets = 0x8013CB84; // type:func size:0x680 defined:true
+FrenchModelVariant403_DrawChains = 0x8013D204; // type:func size:0xA50 defined:true
+gModelVariant386_D2C54 = 0x8013DC54; // type:u8 size:0x38 defined:true
+gModelVariant386_D2C8C = 0x8013DC8C; // type:u8 size:0x2374 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

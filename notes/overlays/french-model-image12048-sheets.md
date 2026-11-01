@@ -3,9 +3,11 @@
 `func_8013CBB0` (image offset `0x1BB0`, 0x67C bytes) in the French and
 Spanish `model_image_model_12048_8013b000` images draws a set of growing
 `POLY_GT4` sheets. The same bytes sit at `func_8017CBB0` in the
-`model_image_model_12058_8017b000` images, and
-`french_model_variant/image12048_sheets_slot1.c` renames the body for that
-slot.
+`model_image_model_12058_8017b000` images. Both slots compile
+`image12048_sheets.c` itself; it defines `FrenchModelVariant403_DrawSheets`,
+which each image binds at its own address, `0x8013CB84`/`0x8017CB84` in the
+North American and Japanese header-386 images (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
 
 - **Relative.** It follows the
   [header-389 sheets](french-model-image389-sheets.md) loop. It draws

@@ -16,7 +16,7 @@
  * 8-byte frame slot after 0x38 unused bytes, the orbit angle is written
  * `angle - -(spin + 2048)` so GCC does not reassociate the constant, and
  * the sheet loop keeps its own counter `n`. */
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant386_HandleRequest(u8 *context, s32 command)
 {
     Model386State *work = (Model386State *)context;
     u8 unused[0x38];
@@ -58,7 +58,7 @@ s32 func_8013B004(u8 *context, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = D_8013DC8C + command;
+        work->config = gModelVariant386_D2C8C + command;
         for (i = 0; i < work->config->count; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
             work->extra = Model_GetSlotDataEntry(work->slot, work->config->extra);
@@ -90,7 +90,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL386_CLUT_X, 244);
-        first = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DC54[1]);
+        first = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant386_D2C54[1]);
         flat_clut[2] = first;
         flat_page = first >> 16;
         SetPolyG3(triangle);
@@ -304,11 +304,11 @@ s32 func_8013B004(u8 *context, s32 command)
             work->phase = 4;
         }
         if (work->phase > 0) {
-            func_8013BF3C(context);
+            FrenchModelVariant403_DrawStrands(context);
         }
-        func_8013CB84(context);
+        FrenchModelVariant403_DrawSheets(context);
         if (work->phase >= 5) {
-            func_8013D204(context);
+            FrenchModelVariant403_DrawChains(context);
         }
         work->frame++;
         frame = Model_GetSlotAnimationFrame(work->slot);
