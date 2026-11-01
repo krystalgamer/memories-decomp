@@ -9,7 +9,7 @@
  * slots once the animation passes its midpoint. A negative command draws a
  * frame; any other command sets the work area up. */
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant129_HandleRequest(u8 *context, s32 command)
 {
     Model129State *work;
     MATRIX base, matrix;
@@ -35,12 +35,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BFA0;
+    scale = gModelVariant129_D0FA0;
     work = (Model129State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013BFE8[command % 100];
+        config = work->config = &gModelVariant129_D0FE8[command % 100];
         point = work->positions;
         for (i = 0; i < 16; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -58,7 +58,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = size * csin(elevation) / 4096;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013BFB0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant129_D0FB0[i]);
         }
         work->camera_steps = 2;
         work->elapsed = 0;

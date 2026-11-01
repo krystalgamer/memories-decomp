@@ -1,8 +1,8 @@
 // Japanese MODEL.MRG model 709 (record 609), sector 168274, header 259, loaded at 0x8017B000; the US source variant129_entry.c; built from the US source layout of model_variant_709_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0xF9C defined:true
-D_8017BFA0 = 0x8017BFA0; // type:u8 size:0x10 defined:true
-D_8017BFB0 = 0x8017BFB0; // type:u8 size:0x38 defined:true
-D_8017BFE8 = 0x8017BFE8; // type:u8 size:0x4018 defined:true
+ModelVariant129_HandleRequest = 0x8017B004; // type:func size:0xF9C defined:true
+gModelVariant129_D0FA0 = 0x8017BFA0; // type:u8 size:0x10 defined:true
+gModelVariant129_D0FB0 = 0x8017BFB0; // type:u8 size:0x38 defined:true
+gModelVariant129_D0FE8 = 0x8017BFE8; // type:u8 size:0x4018 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationIndex = 0x80058E68; // type:func absolute:true
