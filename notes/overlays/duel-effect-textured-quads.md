@@ -79,10 +79,11 @@ complete regional C coverage. Unmatched code and data remain raw fallback.
 `texture_semantic_views.h` names the complete texture-word/quad component
 without modifying the original native headers, generated storage, linker
 symbols, compiler profiles or grouped source extents. Its declarations use
-the existing SDK `GsIMAGE` and `SVECTOR` types and bind to the original native
-function symbols; they introduce neither wrappers nor machine exports.
+the existing SDK `GsIMAGE` and `SVECTOR` types; the symbol files bind the
+names in place of the former function labels, with neither wrappers nor
+machine exports.
 
-| C view | Native binding | Evidence and limits |
+| C name | Former label | Evidence and limits |
 |---|---|---|
 | `DuelEffect_PackTexturePageClut` | `func_8014F564` | Writes a page word from the original image/mode expressions, followed by a CLUT word. Dispatch fills the 21-pair table; the tile effect fills its local pair. No image upload or allocation is performed. |
 | `DuelEffect_PackFixedPageClut` | `func_8014F5D0` | Effect 11 supplies variant images. The page word retains variable image-depth bits and fixed low bits `0x3E`; the whole word is not constant. The CLUT word still comes from image coordinates. |
@@ -113,13 +114,12 @@ complete-pair, SDK/ABI and curve-fingerprint controls remain unchanged.
 ## Scoped texture-state C views
 
 `texture_state_semantic_views.h` names the three complete texture-state
-owners through typed extern bindings to unchanged native symbols. It reuses
-the canonical SDK image type, `DuelEffectImageInputs` and
-`DuelEffectTextureTable`; it defines no storage, replacement layout or
-absolute linker alias. Original native declarations remain in their
-existing headers.
+owners through plain typed externs; the symbol files bind each name in
+place of its former label. It reuses the canonical SDK image type,
+`DuelEffectImageInputs` and `DuelEffectTextureTable`; it defines no storage,
+replacement layout or absolute linker alias.
 
-| C view | Native symbol | Bytes | NA address | JP address | UK / FR / ES address |
+| C name | Former label | Bytes | NA address | JP address | UK / FR / ES address |
 |---|---|---:|---|---|---|
 | `gDuelEffect_TextureImages` | `D_8015A1E4` | 588 | `0x8015A270` | `0x80168270` | `0x8015A1E4` |
 | `gDuelEffect_TextureModesAndVariants` | `D_8015A430` | 180 | `0x8015A4BC` | `0x801684BC` | `0x8015A430` |

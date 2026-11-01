@@ -44,9 +44,4 @@ typedef struct {
     CVECTOR secondary[5];
 } DuelEffect16Work;
 
-extern VECTOR D_80146198;
-extern DuelEffect16Config D_8015AEF4;
-
-void func_80151558(void *buffer, s32 phase);
-
 #endif

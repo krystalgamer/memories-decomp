@@ -2,8 +2,8 @@
 
 ## Canonical lifecycle and shared card-object scratch
 
-`DuelEffect_RunExodiaBurst` binds the complete native `func_8014D3E8`
-owner: NA `8014E050`, JP `8015B440`, PAL `8014D3E8`, 3,956 instruction
+`DuelEffect_RunExodiaBurst` names the complete owner formerly labelled
+`func_8014D3E8`: NA `8014E050`, JP `8015B440`, PAL `8014D3E8`, 3,956 instruction
 bytes. The actual resident `DuelScene_UpdateExodiaResult` creates request
 `0x18` after the five staged objects and preceding centre sparkle. This
 names the overlay presentation, not the resident win-condition or result

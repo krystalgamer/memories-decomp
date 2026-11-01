@@ -5,6 +5,4 @@
 #include "../../game/gpu_packets.h"
 #include "drawing_helpers.h"
 
-void func_801531C4(MATRIX *matrix);
-
 #endif

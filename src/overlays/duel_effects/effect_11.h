@@ -72,9 +72,4 @@ typedef struct {
     CVECTOR glow;
 } DuelEffect11Work;
 
-extern VECTOR D_80146004;
-extern DuelEffect11Config D_8015A4E4;
-
-void func_80146760(void *buffer, s32 phase);
-
 #endif

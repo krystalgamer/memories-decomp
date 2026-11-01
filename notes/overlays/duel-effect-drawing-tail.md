@@ -2,14 +2,14 @@
 
 ## Scoped tile, contour and ring-strip views
 
-`drawing_semantic_views.h` gives five complete helpers typed C names while
-binding them to their original native labels. The complete three-function
+`drawing_semantic_views.h` gives five complete helpers typed C names; the
+symbol files bind them in place of their former labels. The complete three-function
 `drawing_tail.c` object and the separate one-function `gradient_strip.c` and
 `contour_quads.c` objects keep their original definition order, extents,
 SDK declarations and `gcc_2_8_1_g0_split` profile. In particular, the contour
 function's different NA placement is not flattened into a new grouped object.
 
-| C view | Native label | NA address | JP address | UK / FR / ES address |
+| C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `DuelEffect_DrawQuadContour` | `func_801558F4` | `0x8015616C` | `0x80163984` | `0x801558F4` |
 | `DuelEffect_DrawFixedTileQuad` | `func_80155F94` | `0x801481DC` | `0x80164024` | `0x80155F94` |

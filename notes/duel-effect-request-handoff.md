@@ -16,16 +16,13 @@ semantics.
 The NA resident linker binds `DuelEffect_DispatchRequest` to `0x801462B0`;
 the Japanese resident binds that same caller identity to `0x801542B0`; PAL
 binds it to `0x80146258`. The resident caller uses that name directly, with
-no assembler label. The bank maps bind its native source label `func_80146258`
-to those same regional addresses. Its full extent is `0x508` / 1,288
+no assembler label. The bank maps bind the same name (formerly the native
+source label `func_80146258`) to those same regional addresses. Its full extent is `0x508` / 1,288
 bytes. It remains the real C provider in `dispatch.c`, not an absolute
 function alias or wrapper.
 
-Both existing declaration headers retain their native compatibility
-prototypes and add the canonical C name with the original `__asm__` label.
-Both declarations use explicit `extern`, following existing semantic-view
-bindings and keeping each real native owner visible to the unchanged
-tracked-symbol policy.
+Both existing declaration headers declare only the canonical C name, with
+explicit `extern`.
 The resident view in `external_funcs.h` deliberately remains
 `(s16, s16, s32, DuelEffectRequest *)`; the bank view in `dispatch.h` remains
 `(s32, s32, void *, DuelEffectRequest *)`. They are separate translation-unit

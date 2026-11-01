@@ -13,9 +13,9 @@ active flag to clear before advancing. The overlay renders the burst and
 signals progress/completion; it does not own card eligibility or position rules.
 
 The complete handler and dispatcher use an extern-only semantic header.
-`gDuelEffect_StopDefenseBurstConfig` binds the one 16-byte native
-`D_8015AEE4` owner (NA `8015AFB0`, JP `80168F70`).
-`gDuelEffect_StopDefenseBurstInitialScale` binds separate native
+`gDuelEffect_StopDefenseBurstConfig` replaces the former label `D_8015AEE4`
+of the one 16-byte owner (NA `8015AFB0`, JP `80168F70`).
+`gDuelEffect_StopDefenseBurstInitialScale` replaces the separate former label
 `D_80146188` (NA `801461D0`, JP `801541E0`), retaining its 16-byte SDK
 VECTOR and padding. These remain two real generated objects, not new
 definitions, absolute data aliases or an invented variant table.

@@ -3,12 +3,12 @@
 ## Scoped packet/projection C views
 
 The complete four-function packet object and two-function projection object
-now expose six typed C views through `packet_semantic_views.h`. Original
-native headers, declarations, function labels, profiles and grouping remain
-unchanged. The new header follows each affected source's complete original
+now expose six typed C names through `packet_semantic_views.h`; the symbol
+files bind them in place of the former function labels. Profiles and
+grouping remain unchanged. The new header follows each affected source's complete original
 SDK/header block.
 
-| C view | Native label | NA address | JP address | UK / FR / ES address |
+| C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `DuelEffect_SubmitOffsetQuad` | `func_80152EC4` | `0x80153A9C` | `0x80160F58` | `0x80152EC4` |
 | `DuelEffect_SubmitOffsetFt4` | `func_80152F9C` | `0x80153B74` | `0x80161030` | `0x80152F9C` |
@@ -68,9 +68,8 @@ inferred.
 
 ### Conservation
 
-All actual bank callers use the six assembler-bound C views while twelve
-typed canonical/native declarations preserve the original ABI. Existing
-native owners, tests, fixtures, source selectors, negative controls and
+All actual bank callers use the six C names, whose typed declarations
+preserve the original ABI. Existing owners, tests, fixtures, source selectors, negative controls and
 historical curve/paired-ABI guards remain unchanged. Module data stays
 native; this pass does not invent data namespaces or new global meanings.
 

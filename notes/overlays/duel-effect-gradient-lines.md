@@ -6,10 +6,10 @@
 `primitive_draw.c` object and the complete `gradient_lines.c` object. The
 original drawing header, native declarations, SDK types, source definition
 order, grouped extents and `gcc_2_8_1_g0_split` profile remain unchanged.
-Assembler-bound declarations preserve the three original native labels;
-they do not add wrappers, native exports, data definitions or linker aliases.
+The symbol files bind the three names in place of their former labels;
+nothing adds wrappers, native exports, data definitions or linker aliases.
 
-| C view | Native label | NA address | JP address | UK / FR / ES address |
+| C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `DuelEffect_DrawSharedBaseTriangles` | `func_80156E58` | `0x801490A0` | `0x80164EE8` | `0x80156E58` |
 | `DuelEffect_DrawProjectedFlatQuad` | `func_80156FA4` | `0x801491EC` | `0x80165034` | `0x80156FA4` |
@@ -20,9 +20,9 @@ generalized clipping API. Effects 8, 11, 16, 17 and 22 use the triangles;
 effect 10 uses the flat quad; effects 13 and 17 use the gradient path and its
 returned state. All actual bank callers use the typed views. Three scoped
 registry rows use the actual NA inventory addresses, not native suffixes.
-The three existing paired triangle ABI guards retain the original native
-declaration check and verify the complete typed canonical definition plus
-its exact assembler binding to `func_80156E58`. Their unrelated helper and
+The three existing paired triangle ABI guards verify the complete typed
+canonical definition, which the symbol files bind where `func_80156E58`
+stood. Their unrelated helper and
 regional SDK ownership/address/size assertions remain unchanged.
 The five configured bank inventories change only their fifteen name cells;
 addresses, sizes, profiles, manifests and non-name fields remain intact.

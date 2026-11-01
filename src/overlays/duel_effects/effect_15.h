@@ -31,10 +31,4 @@ typedef struct {
     CVECTOR color;
 } DuelEffect15Work;
 
-extern VECTOR D_80146168;
-extern DuelEffect15Config D_8015AC08[8];
-extern u32 D_8015B7A0[21];
-
-void func_8014FF40(void *buffer, s32 phase);
-
 #endif

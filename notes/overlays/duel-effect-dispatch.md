@@ -3,8 +3,8 @@
 ## Canonical resident/bank handoff
 
 The complete provider and resident updater now call the existing entry
-`DuelEffect_DispatchRequest`, preserving both original native labels and
-the separate measured caller/provider ABI views. Canonical request members
+`DuelEffect_DispatchRequest`, which every resident and bank symbol file
+binds by name, and keep the separate measured caller/provider ABI views. Canonical request members
 `phase` and `progress` retain signed-halfword/unsigned-byte storage at
 `0x1A/0x1D`; progress is a handler-defined count, not final completion.
 See the [full handoff contract](../duel-effect-request-handoff.md).
@@ -16,13 +16,13 @@ the handler call-site count is 26 because case twenty has two alternatives.
 ## Scoped active render-state C views
 
 `render_state_semantic_views.h` exposes three independently stored context
-values through typed bindings to their unchanged native symbols. Their
-original declarations remain in `drawing_helpers.h`; all storage, symbol
-maps, relocations, inventories and generated-data owners remain unchanged.
+values. Every regional `duel_effects_symbols.txt` binds each name at its
+own address in place of the former label; all storage, relocations,
+inventories and generated-data owners remain unchanged.
 The pointer keeps `G32`, the vector keeps its SDK layout and padding, and
 the priority stays `u16`.
 
-| C view | Native symbol | NA address | JP address | UK / FR / ES address |
+| C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `gDuelEffect_pOrderingTable` | `D_8015B7F4` | `0x8015B88C` | `0x8016988C` | `0x8015B7F4` |
 | `gDuelEffect_DrawOffset` | `D_8015B7F8` | `0x8015B7D0` | `0x801697D0` | `0x8015B7F8` |
@@ -63,11 +63,11 @@ and every field in all five bank inventories remain unchanged.
 The six already accepted live-traced names in `handler_semantic_views.h`
 now also name their complete real C definitions, rather than only dispatcher
 calls. Each provider includes that unchanged header after its private
-declarations, so the existing `__asm__` binding preserves the original
-native function label. No new semantic inference, extra name, wrapper,
+declarations; the symbol files bind each name where the former native
+function label stood. No new semantic inference, extra name, wrapper,
 inventory change, registry row or data allocation is introduced.
 
-| Definition | Source | Native label | NA address | Size |
+| Definition | Source | Former label | NA address | Size |
 |---|---|---|---|---|
 | `DuelEffect_RunFusion` | `effect_1.c` | `func_80157794` | `80156438` | `67C` |
 | `DuelEffect_RunAttackSlash` | `effect_2.c` | `func_80153200` | `80153DD8` | `8DC` |
@@ -271,12 +271,11 @@ is implied.
 ### Semantic handler views
 
 Six handlers have a single caller-backed purpose and get C views in
-`handler_semantic_views.h`. The views are `__asm__` aliases of the unchanged
-native labels, following #7842. The regional inventories carry the view name
-at the native address. Each name rests on the human observation above plus
+`handler_semantic_views.h`. The regional inventories and symbol files carry
+the name at each native address in place of the former label. Each name rests on the human observation above plus
 the complete static requester list:
 
-| Effect | View | Native label | Every static requester |
+| Effect | Name | Former label | Every static requester |
 |---:|---|---|---|
 | 1 | `DuelEffect_RunFusion` | `func_80157794` | `DuelScene_UpdateCardPlacement`'s fusion branch |
 | 2 | `DuelEffect_RunAttackSlash(work, phase, damage)` | `func_80153200` | `DuelScene_UpdateBattle`, battle and direct-attack sites |

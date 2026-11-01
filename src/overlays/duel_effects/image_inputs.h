@@ -20,6 +20,4 @@ typedef char DuelEffectImageInputs_images_offset_must_be_0x28[
     (u32)&((DuelEffectImageInputs *)0)->variant.images == 0x28 ? 1 : -1
 ];
 
-extern DuelEffectImageInputs D_8015A430;
-
 #endif

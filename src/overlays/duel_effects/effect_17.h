@@ -58,10 +58,4 @@ typedef struct {
     CVECTOR path_colors[48];
 } DuelEffect17Work;
 
-extern VECTOR D_80146034;
-extern DuelEffect17Config D_8015A60C[2];
-extern u32 D_8015B7A0[21];
-
-void func_80148BA4(void *buffer, s32 phase);
-
 #endif

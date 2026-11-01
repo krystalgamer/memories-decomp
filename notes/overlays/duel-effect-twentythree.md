@@ -2,8 +2,8 @@
 
 ## Canonical back-row sweep
 
-`DuelEffect_RunBackRowSweep` binds the complete native `func_80152048`
-owner: NA `80152C20`, JP `801600DC`, PAL `80152048`, 3,708 instruction
+`DuelEffect_RunBackRowSweep` names the complete owner formerly labelled
+`func_80152048`: NA `80152C20`, JP `801600DC`, PAL `80152048`, 3,708 instruction
 bytes. Resident `DuelEffect_ApplyHarpiesFeatherDuster` creates request
 `0x17` and supplies the opposing side's ground depth. The overlay calls
 the actual back-row collector, classifies five columns and sweeps across

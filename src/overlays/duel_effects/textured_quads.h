@@ -35,10 +35,4 @@ typedef struct {
     SVECTOR vertices[4];
 } DuelEffectTexturedQuad;
 
-extern DuelEffectTextureTable D_8015B748;
-
-void func_80151218(POLY_FT4 *polygon, SVECTOR *vertices, s16 depth, u16 flags);
-void func_80156C40(u8 *color, u16 size, SVECTOR *offset);
-void func_80156D50(u16 size, u16 index, SVECTOR *offset);
-
 #endif

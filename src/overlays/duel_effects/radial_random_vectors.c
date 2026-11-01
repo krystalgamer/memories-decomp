@@ -3,7 +3,7 @@
 #include "../../psyq/rand.h"
 #include "geometry_semantic_views.h"
 
-void func_8014EE0C(u16 width, u16 depth, s16 height, SVECTOR *vertices, u16 count)
+void DuelEffect_InitXZRingVertices(u16 width, u16 depth, s16 height, SVECTOR *vertices, u16 count)
 {
     s32 i;
     s32 angle;

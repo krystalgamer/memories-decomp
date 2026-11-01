@@ -3,11 +3,11 @@
 ## Scoped display C views
 
 The complete three-function object exposes the following C names through
-`display_semantic_views.h`, with typed bindings to the original native
-labels. The original `display_quads.h`, SDK records, grouping, definition
+`display_semantic_views.h`; the symbol files bind them in place of the
+former labels. The original `display_quads.h`, SDK records, grouping, definition
 order and compiler profile remain unchanged.
 
-| C view | Native label | NA address | JP address | UK / FR / ES address |
+| C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `DuelEffect_DrawQuadrantTileQuads` | `func_801573A8` | `0x801495F0` | `0x80165438` | `0x801573A8` |
 | `DuelEffect_DrawTranslatedTileRect` | `func_80157494` | `0x801496DC` | `0x80165524` | `0x80157494` |

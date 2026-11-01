@@ -5,12 +5,12 @@
 The complete two-function `layered_drawing.c` object now exposes
 `DuelEffect_DrawLayeredTileQuad` and
 `DuelEffect_DrawLayeredGradientTrapezoid` through
-`layered_semantic_views.h`. Both typed declarations bind directly to their
-original native labels. The original `layered_drawing.h`, SDK types,
+`layered_semantic_views.h`. The symbol files bind both names in place of
+their former labels. The original `layered_drawing.h`, SDK types,
 72-byte textured record, 88-byte gradient record and its four-byte unknown
 alignment gap remain unchanged. No record is flattened or newly shared.
 
-| C view | Native label | NA address | JP address | UK / FR / ES address |
+| C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `DuelEffect_DrawLayeredTileQuad` | `func_80155BC0` | `0x80147E08` | `0x80163C50` | `0x80155BC0` |
 | `DuelEffect_DrawLayeredGradientTrapezoid` | `func_80155D90` | `0x80147FD8` | `0x80163E20` | `0x80155D90` |

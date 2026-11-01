@@ -58,9 +58,4 @@ typedef struct {
     CVECTOR column_color;
 } DuelEffect6Work;
 
-extern VECTOR D_801461F8;
-extern DuelEffect6Config D_8015B30C[6];
-
-void func_80154B30(void *buffer, s32 phase);
-
 #endif

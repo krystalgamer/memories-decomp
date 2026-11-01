@@ -2,8 +2,8 @@
 
 ## Canonical card-flash burst
 
-`DuelEffect_RunCardFlashBurst` binds the complete native `func_80159AAC`
-owner: PAL `80159AAC`, North American `8015874C`, Japanese `80167B38`,
+`DuelEffect_RunCardFlashBurst` names the complete owner formerly labelled
+`func_80159AAC`: PAL `80159AAC`, North American `8015874C`, Japanese `80167B38`,
 1,848 instruction bytes. The actual `DuelScene_UpdateCardPlacement` producer
 computes request id `((u32)((u16)gDuel_wEquipCardId - 301) < 2) * 4`.
 Thus card ids 301/302 select effect 4 instead of effect 0; id 302 supplies
@@ -14,10 +14,10 @@ card flash and subsequent burst, not guessed card names or new artwork
 observations. Gameplay application remains resident.
 
 The complete handler and dispatcher use an extern-only semantic header.
-`gDuelEffect_CardFlashBurstConfigs[2]` binds native `D_8015B704`
+`gDuelEffect_CardFlashBurstConfigs[2]` replaces the former label `D_8015B704`
 (NA `8015B770`, JP `80169790`), preserving both 28-byte private records
 and their real 56-byte generated owner. The separate SDK VECTOR
-`gDuelEffect_CardFlashBurstInitialScale` binds native `D_80146248`
+`gDuelEffect_CardFlashBurstInitialScale` replaces the former label `D_80146248`
 (NA `80146290`, JP `801542A0`), retaining all 16 bytes and padding.
 No private type, provider, layout, profile, native map or allocation changes.
 
