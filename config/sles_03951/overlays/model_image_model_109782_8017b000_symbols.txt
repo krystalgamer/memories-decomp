@@ -1,0 +1,2 @@
+// Spanish MODEL.MRG model 447 raw image model_image_model_109782_8017b000, loaded at 0x8017B000; the French header-447 rings helper variant447_rings.c.
+FrenchModelVariant447_DrawRings = 0x8017E520; // type:func size:0x42C defined:true

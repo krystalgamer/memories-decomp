@@ -77,7 +77,7 @@ segments:
     vram: 0x8017E520
     align: 4
     subsegments:
-      - [0x3520, c, overlays/french_model_variant/variant685_rings_slot1]
+      - [0x3520, c, overlays/french_model_variant/variant685_rings]
   - name: unclassified_tail
     type: code
     start: 0x394C
