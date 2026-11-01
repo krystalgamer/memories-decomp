@@ -465,8 +465,8 @@ file binds the shared data names to its own addresses.
 Two images under French headers 180 and 310 are the North American
 header-163 entry (`model_variant/variant163_entry.c`) with its full-screen
 flash covering the 256 PAL lines instead of 240, built through
-`src/overlays/french_model_variant/variant180_entry{,_slot1}.c`. The entry has
-no work-size printf, so the data labels do not move.
+`src/overlays/french_model_variant/variant180_entry.c` in both slots. The entry
+has no work-size printf, so the data labels do not move.
 
 Six images under French headers 812 and 909 are the North American
 header-795 entry (`model_variant/variant795_entry.c` and its `_slot1.c`
