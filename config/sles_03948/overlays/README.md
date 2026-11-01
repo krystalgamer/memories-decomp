@@ -51,10 +51,9 @@ Four header-422/572 and four header-442/592 images reuse
 `model_variant/variant425_{bands,spokes,rings,quad}.c`, respectively, through
 sixteen French renaming wrappers under GCC 2.8.1. All four helpers in each
 family are retained module-local code, not demonstrated entry execution paths.
-Two header-418/568 and four header-433/583 images similarly reuse
+Two header-418/568 and four header-433/583 images compile
 `model_variant/variant401_{spokes,rings,quad}.c` and
-`model_variant/variant416_{spokes,rings,quad}.c` through twelve French
-wrappers. All three C helpers per image are retained, not entry-reachable.
+`model_variant/variant416_{spokes,rings,quad}.c` directly. All three C helpers per image are retained, not entry-reachable.
 Two header-431/581, four header-440/590 and four header-465/615 images reuse
 `model_variant/variant414_{spokes,rings}.c`,
 `model_variant/variant423_{spokes,rings,quad}.c` and

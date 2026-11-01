@@ -2,7 +2,7 @@
 
 #include "model_variant.h"
 
-void func_8013CCA4(u8 *ctx)
+void ModelVariant416_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

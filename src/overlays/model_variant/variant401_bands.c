@@ -15,7 +15,7 @@
 #define VARIANT401_BANDS_NEXT_Y(row, ofs) *(s16 *)((q2 + (ofs)) + 2)
 #endif
 
-void func_8013BFE4(u8 *ctx)
+void ModelVariant401_DrawBand(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

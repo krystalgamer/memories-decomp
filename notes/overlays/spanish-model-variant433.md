@@ -1,9 +1,10 @@
 # Spanish MODEL headers 433 and 583
 
 Four distinct Spanish images for models180/440 reuse the unchanged accepted
-`variant416_{webs,spokes,rings,quad}.c` bodies through the existing French433
-wrappers, plus the accepted local standalone `variant433_{strips,sheet,rays}.c`
-and their slot-one wrappers. Twenty-eight compiler-owned C instances cover
+`variant416_{webs,spokes,rings,quad}.c` bodies, plus the accepted local
+standalone `variant433_{strips,sheet,rays}.c`, all compiled directly in both
+slots under the shared header-416 names (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)). Twenty-eight compiler-owned C instances cover
 33,184 instruction bytes
 using the named `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81.
 Shared C, local declarations, SDK types and compiler profiles are unchanged.

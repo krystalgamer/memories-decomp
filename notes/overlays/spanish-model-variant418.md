@@ -1,13 +1,13 @@
 # Spanish MODEL headers 418 and 568
 
 Two independently verified MODEL410 images reuse the unchanged accepted
-`variant401_{spokes,rings,quad}.c` implementations through the existing
-French `variant418_*` wrappers. The independently verified
-`variant418_rays*` wrappers reuse the accepted local `variant433_rays.c`
-with its measured MODEL418 tail offset and flag grid.
+`variant401_{spokes,rings,quad}.c` implementations, which both slots now
+compile directly. The independently verified `variant418_rays.c` selector
+reuses the accepted local `variant433_rays.c` with its measured MODEL418 tail
+offset and flag grid.
 The accepted standalone `variant418_sheet*` sources independently match both
 Spanish sheet helpers, preserving the `G32` guest timing-pointer storage.
-The unchanged `variant418_webs*` wrappers independently match both Spanish
+The `variant418_webs.c` selector independently matches both Spanish
 web spans through the accepted local `variant416_webs.c` implementation.
 Twelve compiler-owned C instances cover 13,176
 instruction bytes under the named `gcc_2_8_1_g0_split` profile, using GCC
@@ -216,3 +216,9 @@ Eleven static calls resolve to eight independently verified resident
 helpers. The web minimum context extent is `+0x1B1C`, below the entry
 minimum. A fresh combined proof checks 219 retained/web instruction
 anchors per image, all accepted ray owners, and both complete images.
+
+## Names
+
+The images bind the shared header-401 names at their own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
+The Spanish entry and band remain generated assembly.

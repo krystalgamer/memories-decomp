@@ -1,16 +1,17 @@
 # French MODEL418 bands
 
-`func_8013BFE0` / `func_8017BFE0` (image offset `0xFE0..0x1760`, 1,920
-bytes) is the helper after the entry in both French MODEL418 images (model
+`ModelVariant401_DrawBand` (`0x8013BFE0` / `0x8017BFE0`, image offset
+`0xFE0..0x1760`, 1,920 bytes) is the helper after the entry in both French MODEL418 images (model
 410 at stages 9/10). The entry calls it directly. It is the same routine as
 the accepted North American header-401 `variant401_bands.c`
-(`func_8013BFE4`): nine points grown along three rows, drawn as eight
+(`0x8013BFE4`): nine points grown along three rows, drawn as eight
 two-strip `POLY_GT4` bands. French header 418 is North American header
 401 + 17, so the differences are a release difference behind
 `VERSION_FRENCH`.
 
-The French wrappers `variant418_bands.c` and `variant418_bands_slot1.c`
-define `VERSION_FRENCH`, rename the function and include the shared source.
+The French `variant418_bands.c`, which both slots compile, defines
+`VERSION_FRENCH` and includes the shared source; each image binds
+`ModelVariant401_DrawBand` at its own address.
 
 ## Source differences
 

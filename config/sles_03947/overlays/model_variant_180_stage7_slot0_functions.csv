@@ -1,9 +1,9 @@
 address,size,name,status,module,notes
-0x8013B004,0x104C,func_8013B004,matching_c,overlay/model_variant_180_stage7_slot0,Exact C entry; accepted North American header-416 entry body with the PAL palette x = 640; direct-entry reachable.
-0x8013C050,0x7C0,func_8013C050,matching_c,overlay/model_variant_180_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
-0x8013C810,0x454,func_8013C810,matching_c,overlay/model_variant_180_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
-0x8013CC64,0x568,func_8013CC64,matching_c,overlay/model_variant_180_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
-0x8013D1CC,0x4FC,func_8013D1CC,matching_c,overlay/model_variant_180_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
-0x8013D6C8,0x310,func_8013D6C8,matching_c,overlay/model_variant_180_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
-0x8013D9D8,0x37C,func_8013D9D8,matching_c,overlay/model_variant_180_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
-0x8013DD54,0x364,func_8013DD54,matching_c,overlay/model_variant_180_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
+0x8013B004,0x104C,ModelVariant416_HandleRequest,matching_c,overlay/model_variant_180_stage7_slot0,Exact C entry; accepted North American header-416 entry body with the PAL palette x = 640; direct-entry reachable.
+0x8013C050,0x7C0,ModelVariant416_DrawBands,matching_c,overlay/model_variant_180_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
+0x8013C810,0x454,ModelVariant416_DrawSheets,matching_c,overlay/model_variant_180_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
+0x8013CC64,0x568,ModelVariant416_DrawWebs,matching_c,overlay/model_variant_180_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
+0x8013D1CC,0x4FC,FrenchModelVariant433_DrawRays,matching_c,overlay/model_variant_180_stage7_slot0,Complete image and real C owner exact; direct-entry reachable.
+0x8013D6C8,0x310,ModelVariant416_DrawSpokes,matching_c,overlay/model_variant_180_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
+0x8013D9D8,0x37C,ModelVariant416_DrawRings,matching_c,overlay/model_variant_180_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
+0x8013DD54,0x364,ModelVariant416_DrawQuad,matching_c,overlay/model_variant_180_stage7_slot0,Retained module-local helper; complete image and C owner exact; no direct entry-call path.

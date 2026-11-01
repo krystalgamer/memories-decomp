@@ -6,7 +6,7 @@
  * RotTransPers3, and grows each wing's level by step * 64 until both are
  * full; the phase word at work + 0x1A84 moves to 2 when the first wing is
  * full and to 3 when the last one is done. */
-void func_8013C054(u8 *ctx)
+void ModelVariant416_DrawBands(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

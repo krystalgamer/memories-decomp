@@ -12,7 +12,7 @@
  * work + 0xA80, and in phase 0 each web is placed a third of a turn behind
  * the previous one along the progress of the timing record at work + 0x1A60.
  * VERSION_FRENCH selects French418's shifted tail; French433 uses the default. */
-void func_8013CC68(u8 *ctx)
+void ModelVariant416_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

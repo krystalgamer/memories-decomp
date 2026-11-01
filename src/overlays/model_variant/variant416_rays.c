@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant416_rays.h"
 
-void func_8013D1D4(u8 *ctx)
+void FrenchModelVariant433_DrawRays(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

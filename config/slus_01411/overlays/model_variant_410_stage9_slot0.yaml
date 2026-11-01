@@ -56,7 +56,7 @@ segments:
     subsegments:
       - [0x4, c, overlays/model_variant/variant401_entry]
       - [0xFE4, c, overlays/model_variant/variant401_bands]
-      - [0x1764, c, overlays/model_variant/variant401_sheet]
+      - [0x1764, c, overlays/french_model_variant/variant418_sheet]
       - [0x1CA4, c, overlays/model_variant/variant401_webs]
       - [0x2210, c, overlays/model_variant/variant401_rays]
       - [0x2728, c, overlays/model_variant/variant401_spokes]

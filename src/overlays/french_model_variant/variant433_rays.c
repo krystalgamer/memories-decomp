@@ -9,7 +9,7 @@
 #define MODEL_VARIANT_RAY_FLAG flag
 #endif
 
-void func_8013D1CC(u8 *ctx)
+void FrenchModelVariant433_DrawRays(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
