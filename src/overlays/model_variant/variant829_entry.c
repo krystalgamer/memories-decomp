@@ -9,9 +9,9 @@
  * back afterwards. The line depth gets its own local so the halved sum stays
  * in the argument register. */
 
-static const VECTOR D_8013C140 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant829_D1140 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant829_HandleRequest(u8 *context, s32 command)
 {
     Model829State *work;
     MATRIX base, matrix;
@@ -30,11 +30,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C140;
+    scale = gModelVariant829_D1140;
     work = (Model829State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
-        work->config = &D_8013C16C[command];
+        work->config = &gModelVariant829_D116C[command];
         for (i = 0; i < 256; i++) {
             setVector(&work->streaks[i].tail, 0, 0, 0);
             setVector(&work->streaks[i].head, 0, 0, 0);
@@ -51,7 +51,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spark_frames[i] = 0;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C150[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant829_D1150[i]);
         }
         work->level = 2048;
         work->phase = 0;

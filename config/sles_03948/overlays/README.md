@@ -1203,8 +1203,9 @@ addresses and the palette, binding
 Four images under French headers 846 and 943 are the North American
 header-829 entry (`model_variant/variant829_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant829_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant846_linker_symbols.txt`.
+directly in both slots through `model_variant846_linker_symbols.txt`; each
+image's symbols file binds `ModelVariant829_HandleRequest`,
+`gModelVariant829_D1150` and `gModelVariant829_D116C` at its own addresses.
 
 French MODEL headers 848 (stage 7 slot 0) and 945 (stage 8 slot 1) build the header-831 entry (`func_8013B004`) from `src/overlays/model_variant/variant831_entry.c` through `src/overlays/french_model_variant/variant848_entry{,_slot1}.c`, which define `VERSION_FRENCH` for the core CLUT (0x3D28 instead of 0x3D20) and set `GRAPHICS_DEFAULT_HEIGHT` to 256 for the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
 
