@@ -1142,8 +1142,8 @@ no work-size printf, so the data labels do not move.
 Four images under French headers 120 and 250 are the North American
 header-103 entry (`model_variant/variant103_entry.c`) with its full-screen
 flash covering the 256 PAL lines instead of 240, built through
-`src/overlays/french_model_variant/variant120_entry{,_slot1}.c`. The entry has
-no work-size printf, so the data labels do not move.
+`src/overlays/french_model_variant/variant120_entry.c` in both slots. The entry
+has no work-size printf, so the data labels do not move.
 
 Four images under French headers 125 and 255 are the North American
 header-108 entry (`model_variant/variant108_entry.c` and its `_slot1.c`
