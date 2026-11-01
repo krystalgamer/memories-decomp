@@ -114,9 +114,9 @@ typedef struct {
     CVECTOR glow[4];
 } Model819State;
 
-extern GsIMAGE D_8013ECC8[];
-extern Model819Config D_8013ED8C[];
+extern GsIMAGE gModelVariant819_D3CC8[];
+extern Model819Config gModelVariant819_D3D8C[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant819_HandleRequest(u8 *context, s32 command);
 
 #endif

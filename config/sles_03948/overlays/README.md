@@ -1042,7 +1042,7 @@ resident `jal` targets differ. The French modules build `variant816_entry.c`
 and its `_slot1.c` wrapper directly through
 `model_variant833_linker_symbols.txt`.
 
-French MODEL headers 836 (stage 9 slot 0) and 933 (stage 10 slot 1) build the header-819 entry (`func_8013B004`) from `src/overlays/model_variant/variant819_entry.c` through `src/overlays/french_model_variant/variant836_entry{,_slot1}.c`, which define `VERSION_FRENCH` for the ring CLUT (0x3D28 instead of 0x3D20); there is no work-size `printf`, so code and data keep the US layout.
+French MODEL headers 836 (stage 9 slot 0) and 933 (stage 10 slot 1) build the header-819 entry (`ModelVariant819_HandleRequest`) from `src/overlays/model_variant/variant819_entry.c` through `src/overlays/french_model_variant/variant836_entry.c` in both slots, which defines `VERSION_FRENCH` for the ring CLUT (0x3D28 instead of 0x3D20); there is no work-size `printf`, so code and data keep the US layout.
 
 French MODEL headers 837 (stage 7 slot 0) and 934 (stage 8 slot 1) build the header-820 entry (`func_8013B004`) from `src/overlays/model_variant/variant820_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant837_entry{,_slot1}.c`; the French code and data are identical to the US images.
 
