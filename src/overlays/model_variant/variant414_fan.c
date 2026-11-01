@@ -3,7 +3,7 @@
 
 /* Draws five four-quad fans. The selected timing deadline starts their
  * growth, and each fan shrinks after its own done flag is set. */
-void func_8013C348(u8 *ctx)
+void FrenchModelVariant431_DrawFans(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
