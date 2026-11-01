@@ -56,9 +56,9 @@ typedef struct {
     s32 texture[1];
 } Model802State;
 
-extern GsIMAGE D_8013C2DC[];
-extern Model802Config D_8013C2F8[];
+extern GsIMAGE gModelVariant802_D12DC[];
+extern Model802Config gModelVariant802_D12F8[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant802_HandleRequest(u8 *context, s32 command);
 
 #endif
