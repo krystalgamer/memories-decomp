@@ -9,9 +9,9 @@
  * burst shaking the camera and optionally flashing the screen. The ambient
  * level dips until the second burst and comes back afterwards. */
 
-static const VECTOR D_8013C7A4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant767_D17A4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant767_HandleRequest(u8 *context, s32 command)
 {
     Model767State *work;
     MATRIX base, matrix;
@@ -34,13 +34,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C7A4;
+    scale = gModelVariant767_D17A4;
     work = (Model767State *)context;
     flash_packet = &screen;
     packet = &burst;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C808[command];
+        work->config = &gModelVariant767_D1808[command];
         for (i = 0; i < 16; i++) {
             setVector(&work->inner[i], work->config->inner_radius * ccos(i << 8) / 4096,
                 work->config->inner_radius * csin(i << 8) / 4096, 0);
@@ -87,7 +87,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C7B4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant767_D17B4[i]);
         }
         return 0;
     }
