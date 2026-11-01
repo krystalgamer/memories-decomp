@@ -6,10 +6,10 @@
  * beam climbs upward and fades. The parts are tinted during a window, the
  * ambient level dips until the burst and the camera shakes until then. */
 
-static const VECTOR D_8013C1DC = {4096, 4096, 4096, 0};
-static const ModelTintColor D_8013C1EC = {0x60, 0x60, 0x60, 0};
+static const VECTOR gModelVariant761_D11DC = {4096, 4096, 4096, 0};
+static const ModelTintColor gModelVariant761_D11EC = {0x60, 0x60, 0x60, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
 {
     Model761State *work;
     MATRIX base, matrix;
@@ -30,14 +30,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C1DC;
-    tint_start = D_8013C1EC;
+    scale = gModelVariant761_D11DC;
+    tint_start = gModelVariant761_D11EC;
     memset(&tint_end, 0, 4);
     work = (Model761State *)context;
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C244[command];
+        work->config = &gModelVariant761_D1244[command];
         v = &work->beam[0];
         setVector(v, 0, -work->config->beam_height, side * work->config->beam_width);
         v = &work->beam[1];
@@ -48,7 +48,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setVector(v, 0, work->config->beam_height, -side * work->config->beam_width);
         setVector(&work->offset, 0, 0, 0);
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &D_8013C1F0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant761_D11F0[i]);
         }
         Model_GetSlotDimensionsWithMinimums(-slot + 1, (ModelEffectAdjustment *)&position);
         v = work->inner;

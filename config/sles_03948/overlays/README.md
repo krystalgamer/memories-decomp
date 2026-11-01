@@ -1225,11 +1225,10 @@ goes too, and the
 the data labels 0x28 lower.
 
 Two images under French headers 778 and 875 are the North American
-header-761 entry (`model_variant/variant761_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf or screen-height constant, and
-only the resident call targets differ, which
-`model_variant778_linker_symbols.txt` binds to the French addresses. They
-build through `src/overlays/french_model_variant/variant778_entry{,_slot1}.c`.
+header-761 entry (`model_variant/variant761_entry.c`) unchanged: it has no
+work-size printf or screen-height constant, and only the resident call targets
+differ, which `model_variant778_linker_symbols.txt` binds to the French
+addresses. Both slots build directly from that source.
 
 French MODEL headers 768 (stage 7 slot 0) and 865 (stage 8 slot 1) build the header-751 entry (`ModelVariant751_HandleRequest`) directly from `src/overlays/model_variant/variant751_entry.c` in both slots; the French code and data are identical to the US images.
 
