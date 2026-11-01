@@ -5,11 +5,12 @@
  * one after another around a slot part, arc over towards scattered points
  * near the other slot trailing two fainter copies, then burst open there.
  * The return value is 0 until the bursts start, 1 while they run and 2
- * once they have all ended. */
+ * once they have all ended. The French header-122 and 252 images build this
+ * source unchanged. */
 
-static const VECTOR D_8013C414 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant105_D1414 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -32,11 +33,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C414;
+    scale = gModelVariant105_D1414;
     work = (Model105State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013C440[command];
+        config = work->config = &gModelVariant105_D1440[command];
         point = work->spins;
         for (i = 0; i < 8; i++) {
             point->vx = 0;
@@ -61,7 +62,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture.words[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C424[i]);
+            work->texture.words[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant105_D1424[i]);
         }
         work->elapsed = -config->delay;
         return 0;

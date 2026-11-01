@@ -1,4 +1,4 @@
-// Italian MODEL.MRG model 33 (record 33), sector 9318, header 252, loaded at 0x8017B000; the US header-105 source variant105_entry_slot1.c; built from the French source layout of french_model_variant_33_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1410 defined:true
-D_8017C424 = 0x8017C424; // type:u8 size:0x1C defined:true
-D_8017C440 = 0x8017C440; // type:u8 size:0x3BC0 defined:true
+// Italian MODEL.MRG model 33 (record 33), sector 9318, header 252, loaded at 0x8017B000; the US header-105 source variant105_entry.c; built from the French source layout of french_model_variant_33_stage10_slot1.
+ModelVariant105_HandleRequest = 0x8017B004; // type:func size:0x1410 defined:true
+gModelVariant105_D1424 = 0x8017C424; // type:u8 size:0x1C defined:true
+gModelVariant105_D1440 = 0x8017C440; // type:u8 size:0x3BC0 defined:true
