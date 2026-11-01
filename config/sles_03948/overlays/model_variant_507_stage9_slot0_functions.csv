@@ -1,4 +1,4 @@
 address,size,name,status,module,notes
-0x8013B004,0x1304,func_8013B004,matching_c,overlay/model_variant_507_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013C308,0x584,func_8013C308,matching_c,overlay/model_variant_507_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013C88C,0x508,func_8013C88C,matching_c,overlay/model_variant_507_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0x1304,ModelVariant411_HandleRequest,matching_c,overlay/model_variant_507_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013C308,0x584,FrenchModelVariant428_DrawSwarm,matching_c,overlay/model_variant_507_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013C88C,0x508,FrenchModelVariant428_DrawQuads,matching_c,overlay/model_variant_507_stage9_slot0,Complete module byte identity and section-defined C ownership verified.

@@ -19,3 +19,12 @@ The local view lives in `variant428_swarm.h`, and the resident calls are
 covered by `model_variant428_linker_symbols.txt`. The
 [attempt ledger](french-model-image428-swarm-attempts.csv) records the probe,
 which matched on the first build.
+
+## Per-image names
+
+The source defines `FrenchModelVariant428_DrawSwarm`. The PAL model-507
+images of both slots build it directly; the North American and Japanese
+images include it from `model_variant/variant411us_entry.c` at
+`0x8013C30C`/`0x8017C30C`, four bytes later. Each image binds the name at
+its own address (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).

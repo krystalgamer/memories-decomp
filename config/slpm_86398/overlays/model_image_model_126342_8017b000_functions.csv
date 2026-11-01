@@ -1,4 +1,4 @@
 address,size,name,status,module,notes
-0x8017B004,0x1308,func_8017B004,matching_c,overlay/model_image_model_126342_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C30C,0x580,func_8017C30C,matching_c,overlay/model_image_model_126342_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C88C,0x4FC,func_8017C88C,matching_c,overlay/model_image_model_126342_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0x1308,ModelVariant411_HandleRequest,matching_c,overlay/model_image_model_126342_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C30C,0x580,FrenchModelVariant428_DrawSwarm,matching_c,overlay/model_image_model_126342_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C88C,0x4FC,FrenchModelVariant428_DrawQuads,matching_c,overlay/model_image_model_126342_8017b000,Complete module byte identity and section-defined C ownership verified.
