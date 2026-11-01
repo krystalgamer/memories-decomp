@@ -1,9 +1,9 @@
 // Japanese MODEL.MRG model 189 (record 189), sector 52344, header 383, loaded at 0x8013B000; built from the US source layout of model_variant_189_pos0_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0xA88 defined:true
-func_8013BA8C = 0x8013BA8C; // type:func size:0xD6C defined:true
-func_8013C7F8 = 0x8013C7F8; // type:func size:0x584 defined:true
-func_8013CD7C = 0x8013CD7C; // type:func size:0x96C defined:true
-D_8013D6E8 = 0x8013D6E8; // type:u8 size:0x2918 defined:true
+FrenchModelVariant400_HandleRequest = 0x8013B004; // type:func size:0xA88 defined:true
+FrenchModelVariant400_DrawRibbons = 0x8013BA8C; // type:func size:0xD6C defined:true
+FrenchModelVariant400_DrawSheets = 0x8013C7F8; // type:func size:0x584 defined:true
+FrenchModelVariant400_DrawStreamers = 0x8013CD7C; // type:func size:0x96C defined:true
+gFrenchModelVariant400_D2748 = 0x8013D6E8; // type:u8 size:0x2918 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

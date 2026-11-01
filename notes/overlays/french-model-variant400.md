@@ -6,6 +6,15 @@ five-ribbon and seven-origin sheet helpers. Models 189 and 258 use stages 7/8 an
 [instance inventory](french-model-variant400-instances.csv) records their
 physical sectors, complete hashes, commands and descriptor selectors.
 
+The shared sources define `FrenchModelVariant400_HandleRequest`,
+`FrenchModelVariant400_DrawRibbons`, `FrenchModelVariant400_DrawSheets` and
+`FrenchModelVariant400_DrawStreamers`, and the data label
+`gFrenchModelVariant400_D2748`. Each image binds them at its own addresses;
+the North American header-383 images (models 189 and 258) and the Japanese
+images 52344/52354 and 71388/71398 build the same sources with the GCC 2.7.2
+CDK compiler (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
+
 | Image offset | Bytes per image | Owner |
 | --- | ---: | --- |
 | `0` | 4 | Raw header |
@@ -198,7 +207,7 @@ French #6460 and exhaustive runtime coverage remain open.
 
 The `0x990` helper after the sheets is first-ever game code: no release had
 matching C for its body. All four images (MODEL189 and MODEL258, stages 7/8)
-now compile it from `variant400_streamers.c` and its slot1 wrapper.
+now compile it from `variant400_streamers.c`.
 
 Two `0x334`-byte streamer records start at work offset `1558`. Each mirrors
 the MODEL458 streamer layout with 17 points: `a`, projected `sa`, `angle`,
@@ -233,9 +242,9 @@ overlay totals are 3,964 C instances and 5,097,516 C bytes.
 
 ## Entry `4`
 
-`variant400_entry.c` (slot one: `variant400_entry_slot1.c`) is the exact
+`variant400_entry.c` (both slots) is the exact
 2,692-byte loader entry with a 200-byte frame. A nonnegative command stores
-the active slot, selects the 32-byte descriptor at `D_8013D748 + FC`, reads
+the active slot, selects the 32-byte descriptor at `gFrenchModelVariant400_D2748 + FC`, reads
 its part byte at offset 4, and aims at `(0, -300, -/+450)` by slot. It uploads
 five textures, initializes the G3/G4 packets, two GT4 and two FT4 packets,
 five 880-byte nodes, seven sheets with white/blue colours, and two columns.
