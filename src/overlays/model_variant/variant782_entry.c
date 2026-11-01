@@ -6,9 +6,9 @@
  * sprites fly out; the dome shrinks, a ring wave spreads and fades, the
  * slot's height scale recovers and animated sparks rise and fall. */
 
-static const VECTOR D_8013D25C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant782_D225C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
 {
     Model782State *work;
     MATRIX light;
@@ -36,12 +36,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013D25C;
+    scale = gModelVariant782_D225C;
     work = (Model782State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D2C0[command];
+        work->config = &gModelVariant782_D22C0[command];
         Model_CopySlotPosition(slot ^ 1, (u16 *)&pos);
         setVector(&work->origin, 0, -0xAF0, pos.vz);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rot);
@@ -86,7 +86,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spark_frame[i] = rand() % 3;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D26C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant782_D226C[i]);
         }
         work->flare_level = 0x80;
         work->dome_level = 0xC0;

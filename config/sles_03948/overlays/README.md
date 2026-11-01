@@ -841,7 +841,7 @@ resident `jal` targets differ. The French modules build `variant781_entry.c`
 and its `_slot1.c` wrapper directly through
 `model_variant798_linker_symbols.txt`.
 
-French MODEL headers 799 (stage 9 slot 0) and 896 (stage 10 slot 1) build the header-782 entry (`func_8013B004`) from `src/overlays/model_variant/variant782_entry.c` through `src/overlays/french_model_variant/variant799_entry{,_slot1}.c`; the entry has no work-size `printf` or region-specific constant, so code and data keep the US layout.
+French MODEL headers 799 (stage 9 slot 0) and 896 (stage 10 slot 1) build the header-782 entry (`ModelVariant782_HandleRequest`) directly from `src/overlays/model_variant/variant782_entry.c` in both slots; the entry has no work-size `printf` or region-specific constant, so code and data keep the US layout.
 
 Twelve images under French headers 652 and 719 are the North American
 header-635 entry (`model_variant/variant635_entry.c`) without its `E_DATA`
