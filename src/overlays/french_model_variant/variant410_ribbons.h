@@ -46,5 +46,5 @@ typedef struct {
     s32 phase;
 } Family410RibbonView;
 
-void func_8013BF58(u8 *context);
+void FrenchModelVariant410_DrawRibbons(u8 *context);
 #endif

@@ -6,6 +6,14 @@ records their sectors, load addresses through slot identity, and complete
 image hashes. They occupy ten sectors each at MODEL.MRG sectors 15084/15094,
 loaded at `0x8013B000`/`0x8017B000`.
 
+The shared sources define `FrenchModelVariant410_HandleRequest`,
+`FrenchModelVariant410_DrawQuads`, `FrenchModelVariant410_DrawRibbons` and
+`FrenchModelVariant410_DrawRings`. Each image binds them at its own addresses;
+the North American header-393 and Japanese 15084/15094 images build the same
+sources with the GCC 2.7.2 CDK compiler, the quads and ribbons helpers 4 and 8
+bytes higher and the rings helper 0x20 lower (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
+
 ## Ownership and limits
 
 | Offset range | Bytes per image | Owner |

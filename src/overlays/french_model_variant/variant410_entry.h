@@ -88,8 +88,8 @@ typedef struct {
     DVECTOR target;
 } Variant410EntryProjection;
 
-extern u8 D_8013CD04[];
-void func_8013BAAC(u8 *context);
-void func_8013BF58(u8 *context);
-s32 func_8013B004(SVECTOR *point, s32 command);
+extern u8 gFrenchModelVariant410_D1D04[];
+void FrenchModelVariant410_DrawQuads(u8 *context);
+void FrenchModelVariant410_DrawRibbons(u8 *context);
+s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command);
 #endif

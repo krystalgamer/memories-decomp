@@ -1,11 +1,13 @@
 # French MODEL410 entry
 
-The loader entries `func_8013B004` / `func_8017B004`, at offset `0x4` in
-MODEL54 stages 7/8, now use pure C with the existing `gcc_2_8_1_g0_split`
-profile (GCC 2.8.1 and MASPSX 2.81). Each entry preserves all 2,728
-instruction bytes and its 192-byte frame. The slot-1 wrapper only renames the
-entry, its two called helpers and the data block. The three accepted helper
-bodies (quads, ribbons and rings) and their registrations are unchanged.
+The loader entry `FrenchModelVariant410_HandleRequest` (`0x8013B004` /
+`0x8017B004`, offset `0x4` in MODEL54 stages 7/8) uses pure C with the existing
+`gcc_2_8_1_g0_split` profile (GCC 2.8.1 and MASPSX 2.81). Each entry preserves
+all 2,728 instruction bytes and its 192-byte frame. Both slots build the same
+source; each image's symbols file binds the entry, its two called helpers
+(`FrenchModelVariant410_DrawQuads`, `FrenchModelVariant410_DrawRibbons`) and
+the data block `gFrenchModelVariant410_D1D04` at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
 
 The same entry also appears in the raw `model_image_model_15084` /
 `model_image_model_15094` images of the other European releases. Those images
@@ -27,7 +29,7 @@ the screen delta at `0x21A8`, the view delta at `0x21AC`, the view angles at
 is at `0x21F0`, the tint at `0x21FC`, the slot at `0x2200` and the command at
 `0x2202`.
 
-Configuration rows are `0x10` bytes at `D_8013CD04 + 0xFC`: the part byte at
+Configuration rows are `0x10` bytes at `gFrenchModelVariant410_D1D04 + 0xFC`: the part byte at
 `+4` and the end frame at `+0xC`. The five texture images precede the table,
 as in header 337.
 

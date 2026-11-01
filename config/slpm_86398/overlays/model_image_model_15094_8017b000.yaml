@@ -56,28 +56,28 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant393_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant393_entry]
   - name: helper_ab0
     type: code
     start: 0xAB0
     vram: 0x8017BAB0
     align: 4
     subsegments:
-      - [0xAB0, c, overlays/model_variant/variant393_quads_slot1]
+      - [0xAB0, c, overlays/french_model_variant/variant410_quads]
   - name: helper_f60
     type: code
     start: 0xF60
     vram: 0x8017BF60
     align: 4
     subsegments:
-      - [0xF60, c, overlays/model_variant/variant393_ribbons_slot1]
+      - [0xF60, c, overlays/model_variant/variant393_ribbons]
   - name: helper_1898
     type: code
     start: 0x1898
     vram: 0x8017C898
     align: 4
     subsegments:
-      - [0x1898, c, overlays/model_variant/variant393_rings_slot1]
+      - [0x1898, c, overlays/french_model_variant/variant410_rings]
   - name: data
     type: code
     start: 0x1CE8

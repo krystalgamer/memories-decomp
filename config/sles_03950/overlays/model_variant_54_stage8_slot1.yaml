@@ -56,28 +56,28 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant410_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant410_entry]
   - name: quads
     type: code
     start: 0xAAC
     vram: 0x8017BAAC
     align: 4
     subsegments:
-      - [0xAAC, c, overlays/french_model_variant/variant410_quads_slot1]
+      - [0xAAC, c, overlays/french_model_variant/variant410_quads]
   - name: ribbons
     type: code
     start: 0xF58
     vram: 0x8017BF58
     align: 4
     subsegments:
-      - [0xF58, c, overlays/french_model_variant/variant410_ribbons_slot1]
+      - [0xF58, c, overlays/french_model_variant/variant410_ribbons]
   - name: rings
     type: code
     start: 0x18B8
     vram: 0x8017C8B8
     align: 4
     subsegments:
-      - [0x18B8, c, overlays/french_model_variant/variant410_rings_slot1]
+      - [0x18B8, c, overlays/french_model_variant/variant410_rings]
   - name: unclassified_tail
     type: code
     start: 0x1D04
