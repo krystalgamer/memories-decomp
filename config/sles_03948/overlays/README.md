@@ -575,11 +575,10 @@ the PAL CLUT row 0x3D28 instead of 0x3D20. The
 French MODEL headers 777 (stage 9 slot 0) and 874 (stage 10 slot 1) build the header-760 entry (`func_8013B004`) from `src/overlays/model_variant/variant760_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant777_entry{,_slot1}.c`; the French code and data are identical to the US images.
 
 Two images under French headers 814 and 911 are the North American
-header-797 entry (`model_variant/variant797_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf or screen-height constant, and
-only the resident call targets differ, which
-`model_variant814_linker_symbols.txt` binds to the French addresses. They
-build through `src/overlays/french_model_variant/variant814_entry{,_slot1}.c`.
+header-797 entry (`model_variant/variant797_entry.c`) unchanged: it has no
+work-size printf or screen-height constant, and only the resident call targets
+differ, which `model_variant814_linker_symbols.txt` binds to the French
+addresses. Both slots build directly from that source.
 
 French MODEL headers 815 (stage 7 slot 0) and 912 (stage 8 slot 1) build the header-798 entry (`func_8013B004`) from `src/overlays/model_variant/variant798_entry.c` through `src/overlays/french_model_variant/variant815_entry{,_slot1}.c`, which define `VERSION_FRENCH` for the fan CLUT (0x3D28 instead of 0x3D20); there is no work-size `printf`, so code and data keep the US layout.
 
