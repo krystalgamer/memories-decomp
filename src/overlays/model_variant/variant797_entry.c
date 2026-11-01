@@ -6,9 +6,9 @@
  * rays each while the light dims; then animated strikes land on the opposing
  * slot and periodic bursts there flash and fade with sixteen double rays. */
 
-static const VECTOR D_8013C6C0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant797_D16C0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
 {
     Model797State *work;
     MATRIX base;
@@ -36,14 +36,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C6C0;
+    scale = gModelVariant797_D16C0;
     work = (Model797State *)context;
     slot = Model_GetActiveSlotIndex();
     fl = &flare;
     rp = &ray;
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C708[command];
+        work->config = &gModelVariant797_D1708[command];
         for (i = 0; i < 64; i++) {
             setVector(&work->strikes[i], 0, 0, 0);
             setVector(&work->bursts[i], 0, 0, 0);
@@ -64,7 +64,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->spins[1][i], rand() % 4096, rand() % 4096, rand() % 4096);
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C6D0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant797_D16D0[i]);
         }
         work->flare[0] = 0;
         work->flare[1] = 0;
