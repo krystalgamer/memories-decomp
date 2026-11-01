@@ -3,11 +3,13 @@
 Loader entry `+0x0004..+0x0D00` is matching C. It is 3,324 bytes in the
 eight Spanish MODEL405-family images (MODEL149 and MODEL419 stages 7/8;
 MODEL57 and MODEL562 stages 9/10) and the eight French images that carry the
-identical body at the same offsets. `variant405_entry.c` is compiled once
-per slot with `gcc_2_8_1_g0_split`. Both slots compile it directly
-(see [Names](#names)). This is a new decompilation; no region had accepted
-C for it. The `model_variant/variant405_entry.c` source is an unrelated
-North American body with the same header number.
+identical body at the same offsets. Both slots compile the shared
+`spanish_model_variant/variant405_entry.c` directly with
+`gcc_2_8_1_g0_split`; there is no slot wrapper. Each image binds the entry,
+helper and descriptor-base names at its own addresses in its
+`*_symbols.txt` (see [Names](#names)). This is a new decompilation; no region
+had accepted C for it. The North American header-405 entry is an unrelated
+body with the same header number (`french_model_variant/variant422_entry.c`).
 
 ## Behaviour
 

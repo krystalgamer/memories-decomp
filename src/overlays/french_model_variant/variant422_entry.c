@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant422_entry.h"
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant422EntryState *work = (Variant422EntryState *)point;
     Variant422EntryStack stack;
@@ -51,7 +51,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant422EntryConfig *)(D_8013E834 + 0x38) + command;
+        work->config = (Variant422EntryConfig *)(gFrenchModelVariant422_D3834 + 0x38) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -65,16 +65,16 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vx - work->matrix.t[0],
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)D_8013E834);
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)gFrenchModelVariant422_D3834);
         page = packed >> 16;
         stack.texture_cluts[1] = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E834 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant422_D3834 + 0x1C));
         flat_page = packed >> 16;
         stack.texture_cluts[0] = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)D_8013E834);
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)gFrenchModelVariant422_D3834);
         halo_page = packed >> 16;
         halo_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E834 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant422_D3834 + 0x1C));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -317,10 +317,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         if (work->config->start <= work->frame) {
-            func_8013C620((u8 *)point);
+            ModelVariant405_DrawVeils((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013C128((u8 *)point);
+            ModelVariant405_DrawHalo((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
