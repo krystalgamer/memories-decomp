@@ -895,9 +895,11 @@ and bind `model_variant699_linker_symbols.txt` and
 
 Two images under French headers 683 and 750 are the North American
 header-666 entry (`model_variant/variant666_entry.c`) without its `E_DATA`
-work-size printf. The format string lived in the data tail, so the
-`src/overlays/french_model_variant/variant683_entry{,_slot1}.c` wrappers move
-the two remaining data labels 0x28 lower and bind
+work-size printf. The format string lived in the data tail, so the two
+remaining data labels sit 0x28 lower; each image's symbols file binds their
+shared names at its own addresses. Both slots build through the
+`src/overlays/french_model_variant/variant683_entry.c` wrapper, and the images
+bind
 `model_variant683_linker_symbols.txt` and
 `model_variant750_linker_symbols.txt`.
 
