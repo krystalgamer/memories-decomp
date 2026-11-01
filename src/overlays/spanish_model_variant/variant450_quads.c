@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant450_quads.h"
 
-void func_8013D7C0(u8 *ctx)
+void SpanishModelVariant450_DrawQuadGroups(u8 *ctx)
 {
     SVECTOR rotation;
     VECTOR scale;

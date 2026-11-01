@@ -45,49 +45,49 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant450_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant450_entry]
   - name: ribbons
     type: code
     start: 0xDD8
     vram: 0x8017BDD8
     align: 4
     subsegments:
-      - [0xDD8, c, overlays/french_model_variant/variant450_ribbons_slot1]
+      - [0xDD8, c, overlays/french_model_variant/variant450_ribbons]
   - name: bands
     type: code
     start: 0x1794
     vram: 0x8017C794
     align: 4
     subsegments:
-      - [0x1794, c, overlays/french_model_variant/variant450_bands_slot1]
+      - [0x1794, c, overlays/french_model_variant/variant450_bands]
   - name: rings
     type: code
     start: 0x1ECC
     vram: 0x8017CECC
     align: 4
     subsegments:
-      - [0x1ECC, c, overlays/french_model_variant/variant450_rings_slot1]
+      - [0x1ECC, c, overlays/french_model_variant/variant450_rings]
   - name: quads
     type: code
     start: 0x27C0
     vram: 0x8017D7C0
     align: 4
     subsegments:
-      - [0x27C0, c, overlays/spanish_model_variant/variant450_quads_slot1]
+      - [0x27C0, c, overlays/spanish_model_variant/variant450_quads]
   - name: lines
     type: code
     start: 0x2D88
     vram: 0x8017DD88
     align: 4
     subsegments:
-      - [0x2D88, c, overlays/spanish_model_variant/variant450_lines_slot1]
+      - [0x2D88, c, overlays/spanish_model_variant/variant450_lines]
   - name: coils
     type: code
     start: 0x310C
     vram: 0x8017E10C
     align: 4
     subsegments:
-      - [0x310C, c, overlays/french_model_variant/variant450_coils_slot1]
+      - [0x310C, c, overlays/french_model_variant/variant450_coils]
   - name: unclassified_tail
     type: code
     start: 0x3940

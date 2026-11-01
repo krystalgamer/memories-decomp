@@ -28,13 +28,13 @@
       "address": "0x8013D754",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x5CC",
-      "source": "src/overlays/model_variant/variant450_ntsc_quads.c"
+      "source": "src/overlays/spanish_model_variant/variant450_quads.c"
     },
     {
       "address": "0x8013DD20",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x388",
-      "source": "src/overlays/model_variant/variant450_ntsc_lines.c"
+      "source": "src/overlays/spanish_model_variant/variant450_lines.c"
     },
     {
       "address": "0x8013E0A8",

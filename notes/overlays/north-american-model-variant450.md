@@ -8,7 +8,7 @@ images at sectors 48224 and 48234. Their seven closed function extents are
 
 The accepted Spanish quad and line bodies compile to the North American
 instruction streams when selected with the existing `gcc_2_7_2_cdk_g0`
-profile. Region-specific wrappers only rename the functions:
+profile; the manifests select them directly:
 
 | Offset | Bytes | Matching instances | Selected body |
 | --- | ---: | ---: | --- |
@@ -139,3 +139,13 @@ retail code needs:
 The linked 0xDD8 extents match, and both complete images reproduce their
 retail SHA-256 values. This adds two matching C instances / 7,088 instruction
 bytes; every function of both images is now C. The raw data is unchanged.
+
+## Per-image names
+
+The family's shared sources define `ModelVariant433_HandleRequest`,
+`ModelVariant433_DrawRibbons`, `ModelVariant433_DrawBands`,
+`ModelVariant433_DrawRings`, `ModelVariant433_DrawCoils`,
+`SpanishModelVariant450_DrawQuadGroups`, `SpanishModelVariant450_DrawLines`
+and the data block `gModelVariant433_D39A0`. Both slots build the same
+sources, and each image binds the names at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

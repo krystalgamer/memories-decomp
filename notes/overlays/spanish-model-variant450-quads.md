@@ -79,7 +79,7 @@ translation pointer and an extra spill. An independent full-width primary
 array index removes that bookkeeping and reproduces all 1,480 bytes.
 No padding, register pinning, inline assembly or compiler override is used.
 
-Both slot wrappers compile independently. Complete private links and final
+Both slots compile independently. Complete private links and final
 production links verify all eighteen disjoint C/assembly/raw owners.
 The new nine imports resolve to actual sized definitions in the exact
 Spanish resident, not merely absolute aliases.

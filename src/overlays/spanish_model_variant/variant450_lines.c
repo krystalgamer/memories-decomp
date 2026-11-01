@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant450_lines.h"
 
-void func_8013DD88(u8 *ctx)
+void SpanishModelVariant450_DrawLines(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

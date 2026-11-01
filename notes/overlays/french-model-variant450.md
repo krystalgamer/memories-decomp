@@ -9,7 +9,7 @@ French loader slices and hashes; no Spanish input substitutes for a French
 target check.
 
 The quad and line matching entries select the existing accepted Spanish sources
-directly, including their existing slot-1 wrappers. No tracked source/header
+directly; both slots build the same sources. No tracked source/header
 duplication, regional macro, new compiler profile, or other region's metadata
 change is needed. All four French helpers were independently compiled with
 `gcc_2_8_1_g0_split` (GCC 2.8.1/MASPSX 2.81):
@@ -19,7 +19,7 @@ change is needed. All four French helpers were independently compiled with
 | `0x27C0..0x2D88` | 1,480 | 264 | `spanish_model_variant/variant450_quads.c` |
 | `0x2D88..0x310C` | 900 | 288 | `spanish_model_variant/variant450_lines.c` |
 
-The slot-1 files only rename each function. This adds four matching C
+This adds four matching C
 instances and 4,760 instruction bytes, not a newly invented algorithm.
 [The attempt ledger](french-model-variant450-attempts.csv) records the
 independent French compilations and terminal production ownership checks.
@@ -32,8 +32,8 @@ control-flow graphs: `4..DD8`, `DD8..1794`, `1794..1ECC`, `1ECC..27C0`,
 `27C0..2D88`, `2D88..310C`, and `310C..3940`. All seven are C. The entry is
 the accepted North American header-433 body with the PAL palette x = 640; see
 [French MODEL entries reusing North American C](french-model-usa-entry-reuse.md).
-The `1ECC..27C0` rings (`variant450_rings{,_slot1}.c`) are symbol-only
-wrappers over the North American `variant433_rings.c` with `VERSION_FRENCH`
+The `1ECC..27C0` rings (`variant450_rings.c`) are a
+wrapper over the North American `variant433_rings.c` with `VERSION_FRENCH`
 defined. Unchanged, that source builds a 2,264-byte body with an 872-byte
 frame, while the French body is 2,292 bytes with an 880-byte frame. The
 French block indexes the screen, offset and depth arrays directly in the quad
@@ -90,7 +90,7 @@ supports 38 independently verified loader/controller/callee owners.
 
 `func_8013C794` / `func_8017C794` at `0x1794..0x1ECC` are each exactly
 1,848 bytes with a naturally generated 408-byte frame under the same named
-profile. The new French source and symbol-only slot wrapper leave every
+profile. The new French source leaves every
 accepted Spanish source, header, and regional manifest unchanged. This adds
 two C instances and 3,696 instruction bytes; at that checkpoint the two French
 images had six C owners totaling 8,456 bytes. No direct local caller to this retained
@@ -160,7 +160,7 @@ coverage or complete French decompilation.
 instructions, exactly 2,492 bytes with a 536-byte frame under
 `gcc_2_8_1_g0_split`. The entry call at `0xC70` is independently verified in
 both complete images. The existing French band and shared Spanish quad/line
-sources remain unchanged. The new slot-1 wrapper only renames the function.
+sources remain unchanged.
 
 Twenty-one entry anchors establish six 536-byte records at `+0x270..+0xF00`,
 nine phases initialized as `(-j * 512) / 8 - i * 512`, RGB 128/128/192,
@@ -291,3 +291,13 @@ configured French inventory to 1,711 / 1,975 C instances and 2,367,884 C
 instruction bytes across 323 images. No report snapshot is bundled.
 Unclassified suffixes and remaining assembly still prevent an exhaustive
 French completion claim.
+
+## Per-image names
+
+The family's shared sources define `ModelVariant433_HandleRequest`,
+`ModelVariant433_DrawRibbons`, `ModelVariant433_DrawBands`,
+`ModelVariant433_DrawRings`, `ModelVariant433_DrawCoils`,
+`SpanishModelVariant450_DrawQuadGroups`, `SpanishModelVariant450_DrawLines`
+and the data block `gModelVariant433_D39A0`. Both slots build the same
+sources, and each image binds the names at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

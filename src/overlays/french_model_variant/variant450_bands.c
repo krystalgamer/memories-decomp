@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant450_bands.h"
 
-void func_8013C794(u8 *context)
+void ModelVariant433_DrawBands(u8 *context)
 {
     Model450BandView *work = (Model450BandView *)context;
     SVECTOR rotation;

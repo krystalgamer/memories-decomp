@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant450_coils.h"
 
-void func_8013E10C(u8 *context)
+void ModelVariant433_DrawCoils(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

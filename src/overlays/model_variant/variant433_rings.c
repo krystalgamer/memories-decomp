@@ -7,7 +7,7 @@
  * then-arm is dead (reload's post-pass deletes the repeated store), but the
  * register copy reload makes for it stays and fills the j == 8 branch's
  * delay slot as in the retail code. */
-void func_8013CE7C(u8 *ctx)
+void ModelVariant433_DrawRings(u8 *ctx)
 {
     PSXLONG p;
     SVECTOR rot;

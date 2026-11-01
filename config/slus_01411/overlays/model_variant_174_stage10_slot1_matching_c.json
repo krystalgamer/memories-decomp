@@ -4,43 +4,43 @@
       "address": "0x8017B004",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xDD8",
-      "source": "src/overlays/model_variant/variant433_entry_slot1.c"
+      "source": "src/overlays/model_variant/variant433_entry.c"
     },
     {
       "address": "0x8017BDDC",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x994",
-      "source": "src/overlays/model_variant/variant433_ribbons_slot1.c"
+      "source": "src/overlays/model_variant/variant433_ribbons.c"
     },
     {
       "address": "0x8017C770",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x70C",
-      "source": "src/overlays/model_variant/variant433_bands_slot1.c"
+      "source": "src/overlays/model_variant/variant433_bands.c"
     },
     {
       "address": "0x8017CE7C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x8D8",
-      "source": "src/overlays/model_variant/variant433_rings_slot1.c"
+      "source": "src/overlays/model_variant/variant433_rings.c"
     },
     {
       "address": "0x8017D754",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x5CC",
-      "source": "src/overlays/model_variant/variant450_ntsc_quads_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant450_quads.c"
     },
     {
       "address": "0x8017DD20",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x388",
-      "source": "src/overlays/model_variant/variant450_ntsc_lines_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant450_lines.c"
     },
     {
       "address": "0x8017E0A8",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x834",
-      "source": "src/overlays/model_variant/variant433_coils_slot1.c"
+      "source": "src/overlays/model_variant/variant433_coils.c"
     }
   ],
   "schema": 1
