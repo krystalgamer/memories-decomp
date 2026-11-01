@@ -11,7 +11,7 @@
  * scales by step * 128 up to 0x800 while the shard state is 1, moving the
  * phase from 1 to 2 once the first scale reaches 0x400. The empty loops keep
  * the retail scheduling of the heading and the clamp. */
-void func_8013C2CC(u8 *ctx)
+void FrenchModelVariant562_DrawShards(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

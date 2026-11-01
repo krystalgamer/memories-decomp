@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
-0x8017B004,0xCFC,func_8017B004,matching_c,overlay/model_variant_149_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017BD00,0x5D0,func_8017BD00,matching_c,overlay/model_variant_149_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C2D0,0x4B4,func_8017C2D0,matching_c,overlay/model_variant_149_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C784,0x428,func_8017C784,matching_c,overlay/model_variant_149_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017CBAC,0x49C,func_8017CBAC,matching_c,overlay/model_variant_149_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0xCFC,SpanishModelVariant405_HandleRequest,matching_c,overlay/model_variant_149_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017BD00,0x5D0,SpanishModelVariant405_DrawPulses,matching_c,overlay/model_variant_149_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C2D0,0x4B4,FrenchModelVariant562_DrawShards,matching_c,overlay/model_variant_149_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C784,0x428,SpanishModelVariant405_DrawBands,matching_c,overlay/model_variant_149_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017CBAC,0x49C,SpanishModelVariant405_DrawOuterBands,matching_c,overlay/model_variant_149_stage8_slot1,Complete module byte identity and section-defined C ownership verified.
