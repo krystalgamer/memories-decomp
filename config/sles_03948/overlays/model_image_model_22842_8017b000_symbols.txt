@@ -1,2 +1,4 @@
-func_8017B004 = 0x8017B004; // type:func size:0x152C defined:true
-D_8017CF10 = 0x8017CF10; // type:u8 defined:true
+ModelVariant454_HandleRequest = 0x8017B004; // type:func size:0x152C defined:true
+FrenchModelVariant471_DrawQuadGroup = 0x8017C530; // type:func size:0x504 defined:true
+FrenchModelVariant471_DrawQuads = 0x8017CA34; // type:func size:0x4DC defined:true
+gModelVariant454_D1EFC = 0x8017CF10; // type:u8 defined:true

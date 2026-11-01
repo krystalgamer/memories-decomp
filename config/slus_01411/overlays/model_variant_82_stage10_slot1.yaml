@@ -54,21 +54,21 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant454_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant454_entry]
   - name: helper_1534
     type: code
     start: 0x1534
     vram: 0x8017C534
     align: 4
     subsegments:
-      - [0x1534, c, overlays/model_variant/variant454_quad_pairs_slot1]
+      - [0x1534, c, overlays/french_model_variant/variant471_quad_pairs]
   - name: helper_1a2c
     type: code
     start: 0x1A2C
     vram: 0x8017CA2C
     align: 4
     subsegments:
-      - [0x1A2C, c, overlays/model_variant/variant454_quads_slot1]
+      - [0x1A2C, c, overlays/french_model_variant/variant471_quads]
   - name: data
     type: code
     start: 0x1EFC

@@ -19,3 +19,12 @@ The local view lives in `variant471_quad_pairs.h`; the resident calls are
 covered by `model_variant471_linker_symbols.txt`. The
 [attempt ledger](french-model-image471-quad-pairs-attempts.csv) records the
 probe, which matched on the first build.
+
+## Per-image names
+
+The source defines `FrenchModelVariant471_DrawQuadGroup`; the name follows the
+single sixteen-quad group this header draws. The PAL model-82 images of both
+slots build it at `0x8013C530`/`0x8017C530`; the North American and Japanese
+images build the same source at `0x8013C534`/`0x8017C534`. Each image binds the
+name at its own address (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).

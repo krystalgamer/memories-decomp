@@ -16,3 +16,11 @@ The local view lives in `variant471_quads.h`, and `model_variant471_linker_symbo
 covers the resident calls. The
 [attempt ledger](french-model-image471-quads-attempts.csv) records the
 measured probes.
+
+## Per-image names
+
+The source defines `FrenchModelVariant471_DrawQuads`. The PAL model-82 images
+of both slots build it at `0x8013CA34`/`0x8017CA34`; the North American and
+Japanese images build the same source at `0x8013CA2C`/`0x8017CA2C`. Each image
+binds the name at its own address (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).

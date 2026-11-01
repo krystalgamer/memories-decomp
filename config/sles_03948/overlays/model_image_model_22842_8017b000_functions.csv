@@ -1,4 +1,4 @@
 address,size,name,status,module,notes
-0x8017B004,0x152C,func_8017B004,matching_c,overlay/model_image_model_22842_8017b000,Loader entry; C body exact through variant471_entry_slot1.c; direct-entry reachable.
-0x8017C530,0x504,func_8017C530,matching_c,overlay/model_image_model_22842_8017b000,Model 82 stage10 header621 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
-0x8017CA34,0x4DC,func_8017CA34,matching_c,overlay/model_image_model_22842_8017b000,Model 82 stage10 header621 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
+0x8017B004,0x152C,ModelVariant454_HandleRequest,matching_c,overlay/model_image_model_22842_8017b000,Loader entry; C body exact through variant471_entry.c; direct-entry reachable.
+0x8017C530,0x504,FrenchModelVariant471_DrawQuadGroup,matching_c,overlay/model_image_model_22842_8017b000,Model 82 stage10 header621 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
+0x8017CA34,0x4DC,FrenchModelVariant471_DrawQuads,matching_c,overlay/model_image_model_22842_8017b000,Model 82 stage10 header621 image helper; independent exact C; first recovery of this body in any release; surrounding image bytes remain unclassified.
