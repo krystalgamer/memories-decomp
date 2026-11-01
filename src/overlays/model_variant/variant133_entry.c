@@ -7,11 +7,12 @@
  * twice, the second copy flipped), then the screen flashes, eight shells of
  * one-pixel boxes grow from the outer ring points and four sparks per point
  * fly out from them. The return value is 1 once when the shells start, 2 once
- * the sparks end and 0 otherwise. */
+ * the sparks end and 0 otherwise. The French header-150 and 280 images build
+ * this source with a 256-line flash. */
 
-static const VECTOR D_8013C854 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant133_D1854 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant133_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -40,12 +41,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C854;
+    scale = gModelVariant133_D1854;
     work = (Model133State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C8B8[command % 100];
+        config = work->config = &gModelVariant133_D18B8[command % 100];
         point = work->inner;
         for (i = -4; i < 5; i++) {
             point->vx = config->radius * csin(config->arc * i / 8) / 4096;
@@ -79,7 +80,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C864[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant133_D1864[i]);
         }
         work->elapsed = 0;
         work->hit = 0;
