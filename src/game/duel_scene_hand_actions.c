@@ -78,6 +78,7 @@
 #include "sound.h"
 #include "ai_board_snapshot.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "duel_card_defense_rotation.h"

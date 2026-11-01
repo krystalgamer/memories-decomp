@@ -10,6 +10,13 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800EF6D0-0x800EFE38, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_800EF6D0[0x4F0];
+u8 gMemCardDialog_DirectoryBuffer[600];
+u8 gMemCardDialog_FileNameBuffer[32];
+
 #include "text_box_blocking_build.h"
 #include "mem_card_dialog.h"
 

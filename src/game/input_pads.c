@@ -5,6 +5,12 @@
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define D_8009B0D8_IN_DATA
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800EF668-0x800EF6D0, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_800EF668[0x48];
+u8 gInput_abRepeatTimers[(2  * 16 ) ];
+
 #include "../psyq/libapi.h"
 #ifdef VERSION_JAPAN
 #include "../psyq/libetc.h"

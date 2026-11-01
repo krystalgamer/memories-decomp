@@ -15,4 +15,6 @@
  * the (DisplayObject *, GsOT *) draw callback slot. */
 void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot);
 
+#include "build_deck_draw_card_list_page_data.h"
+
 #endif

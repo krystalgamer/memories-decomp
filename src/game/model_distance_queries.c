@@ -1,4 +1,9 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800F3A10-0x800F5750, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_800F3A10[0x1D40];
+
 #include "../psyq/libgte.h"
 #include "../psyq/memory.h"
 

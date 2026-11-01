@@ -279,32 +279,76 @@ def compile_c(
     )
 
 
+def align_large_commons(raw: str, text: str) -> str:
+    """Align .bss tentative definitions by size, as MASPSX does for .sbss.
+
+    The assembler the game was built with aligned every common it allocated
+    by its size (eight bytes and up to 8, four to 4, two to 2); MASPSX applies
+    that rule in .sbss but writes .bss labels unaligned. Every large object in
+    the retail image starts on the boundary the rule gives.
+    """
+    sizes = {
+        name: int(size, 0)
+        for name, size in re.findall(
+            r"^\s*\.l?comm\s+([A-Za-z_$.][\w$.]*)\s*,\s*(\w+)", raw, flags=re.M
+        )
+    }
+    if not sizes:
+        return text
+    lines = text.splitlines(keepends=True)
+    out: list[str] = []
+    section = ""
+    for line in lines:
+        directive = re.match(r"^\s*\.(section\s+(\S+)|text|data|rdata)\b", line)
+        if directive:
+            section = directive.group(2) or "." + directive.group(1)
+        label = re.match(r"^([A-Za-z_$.][\w$.]*):\s*$", line)
+        if section == ".bss" and label and label.group(1) in sizes:
+            size = sizes[label.group(1)]
+            power = 3 if size >= 8 else 2 if size >= 4 else 1 if size >= 2 else 0
+            if power and not (out and out[-1].strip().startswith(".align")):
+                position = len(out)
+                while position and out[position - 1].lstrip().startswith(".globl"):
+                    position -= 1
+                out.insert(position, f"\t.align {power}\n")
+        out.append(line)
+    return "".join(out)
+
+
 def export_common_symbols(raw_assembly: Path, transformed_assembly: Path) -> None:
-    """Keep tentative definitions external after MASPSX allocates them.
+    """Give tentative definitions their C linkage after MASPSX allocates them.
 
     GCC writes a file-scope tentative definition as `.comm` and a static one as
     `.lcomm`. MASPSX turns both into labels in .sbss or .bss, in GCC's order,
-    but exports only the .bss ones, so a small tentative definition could not
-    be the storage another unit's extern names. Exporting every `.comm` name
-    restores the C linkage; `.lcomm` names stay local.
+    but exports exactly the .bss ones: a small tentative definition could not
+    be the storage another unit's extern names, and a large static would be
+    visible to every other unit. Every `.comm` name is exported and every
+    `.lcomm` name is kept local.
     """
-    common = re.findall(
-        r"^\s*\.comm\s+([A-Za-z_$.][\w$.]*)\s*,",
-        raw_assembly.read_text(encoding="utf-8", errors="replace"),
-        flags=re.M,
+    raw = raw_assembly.read_text(encoding="utf-8", errors="replace")
+    common = re.findall(r"^\s*\.comm\s+([A-Za-z_$.][\w$.]*)\s*,", raw, flags=re.M)
+    local = set(
+        re.findall(r"^\s*\.lcomm\s+([A-Za-z_$.][\w$.]*)\s*,", raw, flags=re.M)
     )
-    if not common:
+    if not common and not local:
         return
     text = transformed_assembly.read_text(encoding="utf-8", errors="replace")
+    if local:
+        text = re.sub(
+            r"^\s*\.globl\s+([A-Za-z_$.][\w$.]*)[ \t]*\n",
+            lambda match: "" if match.group(1) in local else match.group(0),
+            text,
+            flags=re.M,
+        )
     exported = set(
         re.findall(r"^\s*\.globl\s+([A-Za-z_$.][\w$.]*)", text, flags=re.M)
     )
     missing = [name for name in dict.fromkeys(common) if name not in exported]
-    if missing:
-        transformed_assembly.write_text(
-            "".join(f"\t.globl {name}\n" for name in missing) + text,
-            encoding="utf-8",
-        )
+    text = align_large_commons(raw, text)
+    transformed_assembly.write_text(
+        "".join(f"\t.globl {name}\n" for name in missing) + text,
+        encoding="utf-8",
+    )
 
 
 def load_text_segments(root: Path) -> list[dict[str, object]]:
@@ -436,6 +480,51 @@ def build_text_objects(root: Path, assembler: Path) -> list[Path]:
                 )
             )
     return objects
+
+
+def finalize_linker_script(root: Path) -> None:
+    """Place each C object's .bss once, on an 8-byte boundary.
+
+    Splat lists .data, .rodata and .bss for every object a segment names, so an
+    object whose .rodata sits in an earlier segment also has its .bss listed
+    there. The linker takes the first statement that matches, which would pull
+    a unit's zero-initialized block away from the place split.yaml gives it in
+    the merged data layout. The explicit placement is always the later one.
+
+    The text output section forces SUBALIGN(2) on its inputs, which code and
+    small data need, but the game's linker started every object's .bss on the
+    object's alignment; each compiled unit's .bss placement is aligned to 8.
+    The step is idempotent.
+    """
+    script = resolve_within(root, "tmp/splat/slus_01411.ld", must_exist=True)
+    lines = script.read_text(encoding="utf-8").splitlines(keepends=True)
+    placement = re.compile(r"^\s*(\S+\.o)\(\.bss\);\s*$")
+    last: dict[str, int] = {}
+    for index, line in enumerate(lines):
+        match = placement.match(line)
+        if match:
+            last[match.group(1)] = index
+    kept = [
+        line
+        for index, line in enumerate(lines)
+        if not (
+            (match := placement.match(line)) and last[match.group(1)] != index
+        )
+    ]
+    aligned: list[str] = []
+    in_bss = False
+    for line in kept:
+        if re.match(r"^\s*\w+_BSS_START = \.;", line):
+            in_bss = True
+        elif re.match(r"^\s*\w+_BSS_END = \.;", line):
+            in_bss = False
+        if in_bss and placement.match(line) and "/src/" in line:
+            indent = line[: len(line) - len(line.lstrip())]
+            if not (aligned and aligned[-1].strip() == ". = ALIGN(., 8);"):
+                aligned.append(f"{indent}. = ALIGN(., 8);\n")
+        aligned.append(line)
+    if aligned != lines:
+        script.write_text("".join(aligned), encoding="utf-8")
 
 
 def require_linker_placement(root: Path, source_path: str) -> None:
@@ -638,6 +727,9 @@ def build(root: Path) -> Path:
 
 
 def main() -> int:
+    if sys.argv[1:] == ["--finalize-linker-script"]:
+        finalize_linker_script(require_workspace_root())
+        return 0
     try:
         root = require_workspace_root()
         output = build(root)

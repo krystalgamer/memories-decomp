@@ -1,4 +1,22 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B280-0x8009B2B0, defined in
+ * address order ahead of the headers that declare it (#2602). */
+struct DisplayObject *G32 gScript_TransitionObject;
+s32 gScript_ViewportAccumulatorX;
+s32 gScript_ViewportAccumulatorY;
+u16 gScript_DialogCommandLatch;
+u8 *G32 gScript_StreamCursor;
+s32 gScript_ViewportDeltaX;
+s32 gScript_ViewportDeltaY;
+u16 gScript_SharedOperand;
+struct DisplayObject *G32 gCampaign_PrimaryDisplayObject;
+u16 gScript_EventState;
+u16 gScript_SavePromptSceneOperand;
+u16 gScript_ViewportTargetX;
+u16 gScript_ViewportTargetY;
+static u32 D_8009B2AC;
+
 #include "scene_script.h"
 #include "script_command_busy.h"
 #include "fade.h"

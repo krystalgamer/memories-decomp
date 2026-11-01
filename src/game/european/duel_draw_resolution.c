@@ -12,3 +12,4 @@
 #define DUEL_CARD_READBACK_HEIGHT 0xD4
 
 #include "../duel_draw_resolution.c"
+#include "../duel_field_card_render_data.h"

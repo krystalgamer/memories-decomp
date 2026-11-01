@@ -10,6 +10,7 @@
 #include "duel_get_card_viewer_request_id.h"
 #include "input.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 
 /* Regional value: the cursor's field_0C (0x74 -> 0x84). The European build
  * (src/game/european/) defines its own. */

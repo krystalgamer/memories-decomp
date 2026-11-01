@@ -9,6 +9,7 @@
 #include "duel_selection_layout.h"
 #include "duel_card.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 
 #define DUEL_SELECTION_RECORDS(address) ((DuelSelectionRecord *)(address))
 

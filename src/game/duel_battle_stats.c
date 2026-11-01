@@ -16,6 +16,7 @@
 #include "view_state.h"
 #include "duel_view_tween.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "duel_trap_resolution.h"
 #include "view_state_current.h"
 

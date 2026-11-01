@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -190,6 +191,59 @@ def compile_matching_sources(
             ),
             asm_directory=configuration.asm_directory,
         )
+        weaken_zero_initialized(
+            root,
+            resolve_within(
+                root,
+                f"{configuration.splat_directory}/build/"
+                f"{source.parent.as_posix()}/{source.stem}.o",
+                must_exist=True,
+            ),
+        )
+
+
+def weaken_zero_initialized(root: Path, object_path: Path) -> None:
+    """Make an object's zero-initialized definitions weak in a regional build.
+
+    Several regional wrappers include the same shared source, and every copy
+    defines that source's North American zero-initialized blocks. The region
+    places those names through its link file and discards the storage, so the
+    copies only need to stop colliding.
+    """
+    listing = subprocess.run(
+        [str(tool(root, "nm")), "-g", "--defined-only", str(object_path)],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout
+    names = [
+        fields[2]
+        for fields in (line.split() for line in listing.splitlines())
+        if len(fields) == 3 and fields[1] in ("B", "S")
+    ]
+    if names:
+        run(
+            root,
+            [
+                str(tool(root, "objcopy")),
+                *[f"--weaken-symbol={name}" for name in names],
+                str(object_path),
+            ],
+        )
+
+
+def regional_linker_script(generated: Path, output: Path) -> Path:
+    """Drop compiled units' .bss from a regional script.
+
+    The shared sources define the North American layout's zero-initialized
+    blocks. A regional executable still places every one of those names
+    through its own link file, so the blocks are discarded there just as the
+    unlisted .sbss already is, instead of being appended to the image.
+    """
+    text = generated.read_text(encoding="utf-8")
+    kept = re.sub(r"^[ \t]*\S+/src/\S+\.o\(\.bss\);[ \t]*\n", "", text, flags=re.M)
+    output.write_text(kept, encoding="utf-8")
+    return output
 
 
 def build(root: Path, configuration: RegionalBuildConfiguration) -> Path:
@@ -208,10 +262,13 @@ def build(root: Path, configuration: RegionalBuildConfiguration) -> Path:
     output_map = output_directory / f"{configuration.output_name}.map"
     output_exe = output_directory / configuration.output_name
     linker_scripts = [
-        resolve_within(
-            root,
-            f"{configuration.splat_directory}/{configuration.linker_script}",
-            must_exist=True,
+        regional_linker_script(
+            resolve_within(
+                root,
+                f"{configuration.splat_directory}/{configuration.linker_script}",
+                must_exist=True,
+            ),
+            output_directory / f"{configuration.output_name}.ld",
         ),
         resolve_within(
             root,

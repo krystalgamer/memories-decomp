@@ -1,5 +1,11 @@
 #include "../types.h"
 #include "duel_effect.h"
+
+/* Zero-initialized storage this unit owns at 0x800EB288-0x800EF668, defined in
+ * address order ahead of the headers that declare it (#2602). */
+DuelEffectEntry tent_DuelEffectEntries[620];
+u16 gMain_aAnimatedBattleModels[8];
+
 #include "duel_effect_entry_state.h"
 #include "duel_effect_process_entries.h"
 

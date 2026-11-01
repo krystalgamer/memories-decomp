@@ -11,3 +11,4 @@
 #define D_800E9D70 gJapanese_D_800E9D70
 
 #include "../duel_draw_resolution.c"
+#include "../duel_field_card_render_data.h"

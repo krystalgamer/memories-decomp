@@ -31,6 +31,7 @@
 #include "duel_grid.h"
 #include "sound.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "duel_card_display_objects.h"
 #include "duel_deck_card_data.h"
 #include "duel_swords_effect.h"

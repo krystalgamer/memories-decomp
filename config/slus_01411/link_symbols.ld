@@ -98,9 +98,15 @@ gGraphics_bOrderingTable1Length = gGraphics_abOrderingTableLengths + 1;
 gGraphics_bOrderingTable2Length = gGraphics_abOrderingTableLengths + 2;
 gGraphics_bOrderingTable3Length = gGraphics_abOrderingTableLengths + 3;
 D_8009B0CC_arr = gGraphics_dwSyncedFrameCount;
-gGraphics_pOrderingTable1 = D_800E9D94;
-gGraphics_pOrderingTable2 = D_800E9D98;
+gGraphics_pOrderingTable1 = gGraphics_apOrderingTables + 4;
+gGraphics_pOrderingTable2 = gGraphics_apOrderingTables + 8;
+gGraphics_pOrderingTable3 = gGraphics_apOrderingTables + 12;
+D_800E9D90 = gGraphics_apOrderingTables;
+D_800E9D94 = gGraphics_pOrderingTable1;
+D_800E9D98 = gGraphics_pOrderingTable2;
 D_800E9D9C = gGraphics_pOrderingTable3;
+D_800E9DB8 = gMain_apFrameServiceCallbacks + 8;
+D_800E9DBC = gMain_apFrameServiceCallbacks + 12;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
@@ -191,7 +197,7 @@ gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D5800;
 gText_PrimaryStringAddressAnchor = D_801B0000;
 
-gGraphics_aImageTransferRects = D_800E9D70;
+D_800E9D70 = gGraphics_aImageTransferRects;
 
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;
@@ -241,3 +247,139 @@ gDuel_wActionSubstate = D_8009B20C;
 gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
+
+/* Other names for game/duel_field_card_render's small data (#2602). */
+D_8009B164 = gDuel_bQuitDialogState;
+gDuel_wSavedTargetStatModifier = gDuel_awSavedStatModifiers + 2;
+gDuel_wSavedTargetRecordFlags = gDuel_awSavedRecordFlags + 2;
+D_8009B1A0 = gDuel_RitualResultCardId;
+gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
+D_8009B23A = gDuel_wSceneStateFlags;
+D_8009B240 = gDuel_pCardViewerBackground;
+
+/* Other names for game/script_op_load_image_scene's small data (#2602). */
+Base2_8009B2A8 = gScript_ViewportTargetX;
+Base2_8009B2AA = gScript_ViewportTargetY;
+
+/* Other names for game/build_deck_draw_card_list_page's small data (#2602). */
+D_8009B2FC = gBuildDeck_pState;
+
+/* Other names for game/duel_effect_dialog_state's small data (#2602). */
+D_8009B248 = gDuel_bEffectHandlerFlags;
+D_8009B24C = gDuel_pCardViewerCard;
+D_8009B250 = gDuel_pCardViewerTextBox;
+
+/* Other names for game/debug_menu_editor_entries's small data (#2602). */
+tent_DebugInterfaceFieldB5 = tent_DebugInterfaceFieldB4 + 1;
+tent_DebugInterfaceFieldB6 = tent_DebugInterfaceFieldB4 + 2;
+tent_DebugInterfaceFieldC1 = tent_DebugInterfaceFieldC0 + 1;
+tent_DebugInterfaceFieldC2 = tent_DebugInterfaceFieldC0 + 2;
+
+/* Other names for game/sound_frontend's small data (#2602). */
+D_8009B408 = gSD_bOutputType;
+
+/* Other names for game/fade_runtime's small data (#2602). */
+D_800E9EC8 = gFade_State;
+D_800E9EC8_arr = gFade_State;
+gFade_abCurrentLevel = gFade_State + 4;
+D_800E9ECE = gFade_State + 6;
+D_800E9ECF = gFade_State + 7;
+
+/* Other names for game/file_transfer_runtime's zero-initialized data (#2602). */
+D_800E9E90 = gFile_PrimaryTransferDescriptor + 48;
+D_800E9EA7 = gFile_PrimaryTransferDescriptor + 71;
+D_800E9EA8 = gFile_anLba;
+gMovie_dwStreamBaseLba = gFile_anLba + 12;
+gFile_nMasterXaLba = gFile_anLba + 24;
+
+/* Other names for game/duel_field_card_render's small data (#2602). */
+gDisplayObject_apWorkSlots = D_800E9EF0;
+D_800E9F04 = D_800E9EF0 + 20;
+gDuel_abSelectionSides = D_800E9EF0 + 32;
+gDuel_abSelectionRecord1 = D_800E9EF0 + 60;
+gDuel_abSelectionRecord2 = D_800E9EF0 + 88;
+gDuel_abSelectionRecord3 = D_800E9EF0 + 116;
+gDuel_aSideStates = D_800E9EF0 + 256;
+gDuel_bSide1CardViewMode = D_800E9EF0 + 319;
+gDuelHand_aSlots = D_800E9EF0 + 320;
+gDuel_aCardSlotScreenPositions = D_800E9EF0 + 384;
+D_800EA0E8 = D_800E9EF0 + 504;
+gCardPreview_Resources = D_800E9EF0 + 504;
+gCardPreview_Resource1 = D_800E9EF0 + 568;
+
+/* Other names for game/main_run_campaign's small data (#2602). */
+gAi_Selection = D_800EAE88;
+D_800EAE89 = D_800EAE88 + 1;
+D_800EAE8E = D_800EAE88 + 6;
+D_800EAE8F = D_800EAE88 + 7;
+tent_AiSelectionRandom = D_800EAE88 + 8;
+D_800EAE91 = D_800EAE88 + 9;
+D_800EAE92 = D_800EAE88 + 10;
+gSceneScript_Slots = D_800EAE88 + 16;
+
+/* Other names for game/text_box_runtime's small data (#2602). */
+D_800EB12C = D_800EB0F8 + 52;
+D_800EB15C = D_800EB0F8 + 100;
+gDisplayObject_apBrightnessPool = D_800EB0F8 + 140;
+D_800EB1C0 = D_800EB0F8 + 200;
+D_800EB224 = D_800EB0F8 + 300;
+
+/* Other names for game/input_pads's small data (#2602). */
+gInput_abRawPadBuffers = D_800EF668;
+D_800EF6B0 = gInput_abRepeatTimers;
+
+/* Other names for game/mem_card_dialog's small data (#2602). */
+gMemCardWork_Area = D_800EF6D0;
+D_800EF6EA = D_800EF6D0 + 26;
+
+/* Other names for game/display_object_core's small data (#2602). */
+gDisplayObject_awListHeads = D_800EFE38;
+gDisplayObject_wSpriteListHead = D_800EFE38 + 2;
+gDisplayObject_wSpriteSheetListHead = D_800EFE38 + 4;
+D_800EFE3E = D_800EFE38 + 6;
+D_800EFE40 = D_800EFE38 + 8;
+D_800EFE42 = D_800EFE38 + 10;
+D_800EFE44 = D_800EFE38 + 12;
+gDisplayObject_aPool = D_800EFE38 + 16;
+gDisplayObject_aGeneralSlots = D_800EFE38 + 1808;
+D_800F2848 = D_800EFE38 + 10768;
+D_800F284A = D_800EFE38 + 10770;
+gDisplayObject_awListKeys = D_800EFE38 + 10816;
+
+/* Other names for game/mem_card_driver's small data (#2602). */
+gMemCard_aDirEntries = D_800F2888;
+
+/* Other names for game/model_slot_control's small data (#2602). */
+gModel_Slot0MetadataView = D_800F3938;
+
+/* Other names for game/model_slot_support's small data (#2602). */
+gModel_aSlot0FlatLights = D_800F39B0;
+gModel_Slot0Scale = D_800F39B0 + 64;
+
+/* Other names for game/model_distance_queries's small data (#2602). */
+gModel_awSlot0Position = D_800F3A10;
+D_800F3A5F = D_800F3A10 + 79;
+gModel_awStageSlotModelId = D_800F3A10 + 7272;
+D_800F5694 = D_800F3A10 + 7300;
+D_800F569F = D_800F3A10 + 7311;
+gModel_CameraCoordinateUnit = D_800F3A10 + 7312;
+gModel_RView = D_800F3A10 + 7392;
+gModel_ViewReferencePoint = D_800F3A10 + 7404;
+gModel_SavedRefView = D_800F3A10 + 7424;
+
+/* Other names for game/model_keyframe_update's small data (#2602). */
+gModel_aPoseSnapshot = D_800F5768;
+gModel_aEffectKeys = D_800F5768 + 32;
+
+/* Other names for game/ai_script_vm's small data (#2602). */
+D_800F5B98 = gAiScript_aMemory;
+gAiScript_State = D_800F5BE8;
+D_800F5C7F = D_800F5BE8 + 151;
+gAi_wBestDifference = D_800F5BE8 + 152;
+gAi_bBestAttacker = D_800F5BE8 + 154;
+gAi_bBestTarget = D_800F5BE8 + 155;
+
+/* Other names for game/model_scene_controllers's small data (#2602). */
+D_800F2B22 = D_800F2B20 + 2;
+gModel_wCameraTargetSlot = D_800F2B20 + 42;
+gModel_aSlots = D_800F2C40;

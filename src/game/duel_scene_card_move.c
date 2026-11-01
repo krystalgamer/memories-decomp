@@ -57,6 +57,7 @@
 #include "input.h"
 #include "sound.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 
 #ifndef DUEL_CARD_STAGING_CONFIRM_MASK
 #define DUEL_CARD_STAGING_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK

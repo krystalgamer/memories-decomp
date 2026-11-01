@@ -1,8 +1,18 @@
 #include "../types.h"
 
-/* Zero-initialized storage this unit owns at 0x8009B244-0x8009B246, defined in
+/* Zero-initialized storage this unit owns at 0x8009B244-0x8009B258, defined in
  * address order ahead of the headers that declare it (#2602). */
 u16 gDuel_wEffectDialogTextID;
+u16 gDuel_wViewerCardID;
+u8 gDuel_bEffectHandlerFlags;
+static u8 D_8009B249;
+u8 gDuel_bActiveEffectState;
+u8 gDuel_bCardViewerYOffset;
+struct DisplayObject *G32 gDuel_pCardViewerCard;
+struct DuelEffectChannel *G32 gDuel_pCardViewerTextBox;
+u8 gDuel_bEffectState;
+static u8 D_8009B255;
+static u16 D_8009B256;
 
 #include "duel_effect_state_latch.h"
 #include "duel_effect.h"

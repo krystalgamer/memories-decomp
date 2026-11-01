@@ -22,6 +22,7 @@
 #include "duel_card_checks.h"
 #include "duel_field_effects.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
 #include "display_object_helpers.h"

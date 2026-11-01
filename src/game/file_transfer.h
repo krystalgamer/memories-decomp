@@ -421,4 +421,13 @@ extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_8009B118;
 #endif
 
+/* gFile_anLba[6], the LBA File_SetPositionTable records for gFile_apszName[6]
+ * (MASTER.XA). File transfer control adds it to a descriptor offset to start
+ * secondary (XA) range transfers. Main_Init passes its first byte to
+ * SD_InitState after Main_InitHardware has filled the position table, so
+ * that argument is the LBA's low byte; what SD_InitState makes of it is not
+ * interpreted here. The raw byte-array view is kept because both consumers
+ * match on it. */
+extern u8 gFile_nMasterXaLba[];
+
 #endif

@@ -1,6 +1,11 @@
 #define TEXTURE_TINT_RECT ((RECT *)&gModel_sTextureTintRectX)
 #define TEXTURE_TINT_WORDS(buffer) ((u32 *)(buffer))
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800F3938-0x800F39B0, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_800F3938[0x78];
+
 #include "model_get_slot_dimensions_with_minimums.h"
 #include "model.h"
 #include "../unmatched.h"

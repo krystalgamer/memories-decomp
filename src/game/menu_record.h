@@ -14,7 +14,7 @@
  * the halfword Script_OpShowMenu seeds with 0xD8 and
  * DuelEffect_MarkObjectIfActive later ORs bit 1 into.
  */
-typedef struct {
+typedef struct MenuRecord {
     /* Four DisplayPositionGroup children arrays, packed. Each row is
        the three DisplayPositionChild pointers that type begins with,
        and display_effect_update_callbacks.c hands rows 0 to 3 to

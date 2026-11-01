@@ -327,6 +327,7 @@ def regenerate(root: Path) -> None:
     build_baseline.run(root, [sys.executable, "tools/project/generate_build_config.py"])
     splat = resolve_within(root, "tools/environments/python/bin/splat", must_exist=True)
     build_baseline.run(root, [str(splat), "split", GENERATED_CONFIG])
+    build_baseline.finalize_linker_script(root)
 
 
 def prepare(root: Path) -> bool:

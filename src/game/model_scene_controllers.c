@@ -30,6 +30,13 @@
 #include "sound_output_state.h"
 #include "../psyq/stdio.h"
 #include "model.h"
+
+/* Zero-initialized storage this unit owns at 0x800F2B20-0x800F3938, defined in
+ * address order ahead of the headers that declare it (#2602). */
+ModelCameraMove D_800F2B20;
+ModelTintRequest gModel_aTintRequests[10];
+u8 D_800F2C40[0xCF8];
+
 #include "model_slot_control.h"
 #include "model_get_frame_step.h"
 #include "sound.h"
@@ -90,6 +97,7 @@
 #include "fade_state_bytes.h"
 #include "model_camera_state.h"
 #include "graphics_frame_controls.h"
+#include "model_distance_queries_data.h"
 
 void Model_StepBackgroundVramAnimation(void) {
     s32 k;

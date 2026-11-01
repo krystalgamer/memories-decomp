@@ -33,6 +33,7 @@
 #include "duel_view_tween.h"
 #include "view_state.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "view_state_current.h"
 #include "sound.h"
 #include "duel_cursor_grid_direction.h"

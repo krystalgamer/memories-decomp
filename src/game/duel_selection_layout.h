@@ -15,7 +15,7 @@
  * fields; this is not a claim that initialization clears the whole record.
  *
  * Cursor input/status APIs use this actual record and its real stride. */
-typedef struct {
+typedef struct DuelSelectionRecord {
     /* Position base for linked display objects; the field-display path
      * stores its sliding information panel here. */
     struct DisplayObject *G32 field_00;

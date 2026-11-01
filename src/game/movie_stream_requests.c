@@ -1,10 +1,16 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800F5750-0x800F5768, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 gMovie_FileInfo[24];
+
 #include "file_cd_helpers.h"
 #include "file_constants.h"
 #include "movie_open_stream.h"
 #include "movie_stream_requests.h"
 #include "movie_stream_ranges.h"
 #include "../unmatched.h"
+#include "movie_stream_requests_data.h"
 
 void Movie_OpenIndexedStream(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
 {

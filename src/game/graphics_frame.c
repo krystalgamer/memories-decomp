@@ -50,6 +50,23 @@ static u32 D_8009B0DC;
 #include "fade.h"
 #include "fade_constants.h"
 #include "graphics_frame_buffer.h"
+#include "../psyq/setjmp.h"
+
+/* Zero-initialized storage this unit owns at 0x8009B4A8-0x800E9DF0, defined in
+ * address order (#2602). graphics_frame.h declares the first three in this
+ * order; the rest are first declared here, ahead of ordering_tables.h. The
+ * ordering-table slot names and the per-slot callback names are elements,
+ * named by link_symbols.ld. */
+GraphicsFrameBuffer gGraphics_aFrameBuffers[2];
+u8 gGraphics_abPacketBuffers[2 * GRAPHICS_PACKET_BUFFER_SIZE];
+DISPENV gGraphics_DispEnv;
+static u8 D_800E9D40[0x30];
+RECT gGraphics_aImageTransferRects[2];
+static u32 D_800E9D80[4];
+GsOT *G32 gGraphics_apOrderingTables[4];
+static u32 D_800E9DA0[4];
+void (*G32 gMain_apFrameServiceCallbacks[4])(void);
+jmp_buf gMain_RecoveryJmpBuf;
 #include "ordering_tables.h"
 #define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
 #include "model_graphics_state.h"

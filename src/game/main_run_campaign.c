@@ -2,6 +2,11 @@
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800EAE88-0x800EAED8, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_800EAE88[0x50];
+
 #include "scene_script.h"
 #include "duel_effect.h"
 #include "fade.h"

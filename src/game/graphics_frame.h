@@ -277,8 +277,6 @@ extern u16 gGraphics_wFlags __attribute__((section(".data")));
 extern u16 gGraphics_wFlags;
 #endif
 
-extern DISPENV gGraphics_DispEnv;
-
 /* Graphics_BeginFrame publishes the active buffer index in this byte.
  * GPU readback and Script_OpShowImage reach it absolutely rather than
  * through the small-data base. */
@@ -436,6 +434,8 @@ extern GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
  * Unsized for the same reason as its neighbour: the stride is measured, the
  * number of halves is not. */
 extern u8 gGraphics_abPacketBuffers[];
+
+extern DISPENV gGraphics_DispEnv;
 
 /* Three flags Main_Init sets in its init block: gGraphics_bDither and gGraphics_bClearBackground to
  * 1, D_8009B0A8 to 0. graphics_frame.c DEFINES all three plain, for the same

@@ -37,6 +37,7 @@
 #include "duel_draw_card_output_position.h"
 #include "display_object_set_resource_variant_from_sign.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "duel_session_controls.h"
 #include "duel_init_scene.h"
 #include "duel_init_model_scene.h"

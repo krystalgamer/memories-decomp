@@ -1,6 +1,13 @@
 #define GMEMCARD_NIORESULT_IS_VOLATILE
 #include "../types.h"
 
+/* Zero-initialized storage this unit owns at 0x800F2888-0x800F2B20, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_800F2888[0x258];
+PSXLONG gMemCard_aIOEventHandles[4];
+PSXLONG gMemCard_aHwIOEventHandles[4];
+char gMemCard_szRequestPath[32];
+
 /* Zero-initialized storage this unit owns at 0x8009B430-0x8009B458, defined in
  * address order ahead of the headers that declare it (#2602). */
 s32 gMemCard_pRequestBuf;

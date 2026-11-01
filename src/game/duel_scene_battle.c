@@ -87,6 +87,7 @@
 #include "model_scene_states.h"
 #include "display_object_motion.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "fade_state_bytes.h"
 #include "duel_session_controls.h"
 #include "display_callback_transitions.h"

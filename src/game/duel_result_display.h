@@ -8,7 +8,7 @@
 #define DUEL_RESULT_DISPLAY_OFFSET(member) \
     ((u32)&(((DuelResultDisplayState *)0)->member))
 
-typedef struct {
+typedef struct DuelResultDisplayState {
     DisplayObject *G32 root;
     DisplayObject *G32 children[DUEL_RESULT_DISPLAY_CHILD_COUNT];
     /* Duel_CalcRankScore seeds both of these with
