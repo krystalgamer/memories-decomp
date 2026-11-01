@@ -6,11 +6,12 @@
 /* The entry gathers 64 sparks onto one slot part, swells a ring there, lifts
  * an orb that spins and flies to the other slot, rains 16 drops after it and
  * flashes the screen. A negative command draws a frame; any other command
- * sets the work area up and prints its size. */
+ * sets the work area up and prints its size. The French header-154 and 284
+ * images build this source without the printf and with a 256-line flash. */
 
-static const VECTOR D_8013CC14 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant137_D1C14 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -35,12 +36,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CC14;
+    scale = gModelVariant137_D1C14;
     work = (Model137State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013CC88[command % 100];
+        config = work->config = &gModelVariant137_D1C88[command % 100];
         point = work->sparks;
         for (i = 0; i < 64; i++) {
             s = rand() % 4096;
@@ -104,7 +105,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CC34[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant137_D1C34[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
