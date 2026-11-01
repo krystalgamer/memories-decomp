@@ -1015,8 +1015,9 @@ American images have no slot-one copy, so the slot-one wrapper renames the
 labels itself.
 
 Two images under French headers 119 and 249 are the North American
-header-102 entry (`model_variant/variant102_entry.c` and its slot-1 wrapper)
-unchanged: the code differs only in its resident call targets, which
+header-102 entry (`ModelVariant102_HandleRequest` in
+`model_variant/variant102_entry.c`, built directly in both slots) unchanged:
+the code differs only in its resident call targets, which
 `model_variant119_entry_linker_symbols.txt` and
 `model_variant249_entry_linker_symbols.txt` bind to the French addresses.
 
