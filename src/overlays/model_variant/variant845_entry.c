@@ -9,11 +9,11 @@
  * sparks and a growing sixteen-segment shock ring while the ambient light
  * dims and recovers. Header 795's entry is the single-bolt sibling. */
 
-static const VECTOR D_8013EABC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant845_D3ABC = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant845_HandleRequest(u8 *context, s32 command)
 {
     Model845State *work;
     MATRIX light;
@@ -42,12 +42,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013EABC;
+    scale = gModelVariant845_D3ABC;
     work = (Model845State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013EB58[command];
+        work->config = &gModelVariant845_D3B58[command];
         /* The bolts start on alternating sides of the model point. */
         sign = 1;
         for (i = 0; i < work->config->count; i++) {
@@ -114,11 +114,11 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->spark_count[i] = 0;
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013EACC[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 0, &D_8013EACC[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013EACC[2]);
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 3, &D_8013EACC[3]);
-        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013EACC[4]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant845_D3ACC[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 0, &gModelVariant845_D3ACC[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant845_D3ACC[2]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 3, &gModelVariant845_D3ACC[3]);
+        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant845_D3ACC[4]);
         work->ambient = 0x800;
         work->head = 0;
         work->phase = 0;

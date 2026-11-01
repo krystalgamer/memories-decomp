@@ -506,8 +506,9 @@ labels 0x28 lower.
 Four images under French headers 862 and 959 are the North American
 header-845 entry (`model_variant/variant845_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant845_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant862_linker_symbols.txt`.
+directly in both slots through `model_variant862_linker_symbols.txt`; each
+image's symbols file binds `ModelVariant845_HandleRequest`,
+`gModelVariant845_D3ACC` and `gModelVariant845_D3B58` at its own addresses.
 
 French MODEL headers 864 (stage 7 slot 0) and 961 (stage 8 slot 1) build the header-847 entry (`func_8013B004`) from `src/overlays/model_variant/variant847_entry.c` through `src/overlays/french_model_variant/variant864_entry{,_slot1}.c`. `VERSION_FRENCH` selects the burst CLUT word 0x3D28 and `GRAPHICS_DEFAULT_HEIGHT` 256 the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
 
