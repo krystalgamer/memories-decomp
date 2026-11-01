@@ -6,7 +6,7 @@
  * at descriptor +0x1C and +0x20. Each panel moves along its direction with its
  * size, fades over its second half and grows by step * 48 until it is done;
  * the phase moves to 2 at half size and to 5 once both panels are done. */
-void func_8013C484(u8 *context)
+void SpanishModelVariant477_DrawPanels(u8 *context)
 {
     SVECTOR rotation;
     VECTOR unused;

@@ -4,19 +4,19 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1480",
-      "source": "src/overlays/french_model_variant/variant477_entry_slot1.c"
+      "source": "src/overlays/french_model_variant/variant477_entry.c"
     },
     {
       "address": "0x8017C484",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4D4",
-      "source": "src/overlays/spanish_model_variant/variant477_panels_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant477_panels.c"
     },
     {
       "address": "0x8017C958",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x468",
-      "source": "src/overlays/spanish_model_variant/variant477_quads_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant477_quads.c"
     }
   ],
   "schema": 1

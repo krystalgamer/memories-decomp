@@ -6,7 +6,7 @@
  * ten-quad groups and a set of rings, domes and sheets this image never
  * draws. Each update tracks the target, draws the panels and quad groups
  * through the two helpers below and fades the ambient light. */
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
 {
     Variant460State *work = (Variant460State *)context;
     SVECTOR position, target;
@@ -43,7 +43,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant460Config *)(D_8013CDCC + 0xFC) + command;
+        work->config = (Variant460Config *)(gModelVariant460_D1DCC + 0xFC) + command;
         for (i = 0; i < 2; i++) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
         }
@@ -60,15 +60,15 @@ s32 func_8013B004(u8 *context, s32 command)
         clut = GetClut(512, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(512, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CDCC + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant460_D1DCC + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CDCC + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CDCC + 0x1C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CDCC + 0x38));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant460_D1DCC + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant460_D1DCC + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant460_D1DCC + 0x38));
         panel_page = packed >> 16;
         panel_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CDCC + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant460_D1DCC + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -360,10 +360,10 @@ s32 func_8013B004(u8 *context, s32 command)
         work->projected.vx = projected - origin_x;
         work->projected.vy = (projected >> 16) - origin_y;
         if (work->config->panel_start <= work->frame) {
-            func_8013C488(context);
+            SpanishModelVariant477_DrawPanels(context);
         }
         if (work->phase >= 2) {
-            func_8013C960(context);
+            SpanishModelVariant477_DrawQuadGroups(context);
         }
         work->frame_count++;
         animation_frame = Model_GetSlotAnimationFrame(work->slot);
@@ -407,7 +407,5 @@ s32 func_8013B004(u8 *context, s32 command)
 
 /* The helpers are the Spanish header-477 panels and quads, rebuilt at the
  * North American addresses. */
-#define func_8013C484 func_8013C488
 #include "../spanish_model_variant/variant477_panels.c"
-#define func_8013C958 func_8013C960
 #include "../spanish_model_variant/variant477_quads.c"

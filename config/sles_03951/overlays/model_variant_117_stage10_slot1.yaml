@@ -61,14 +61,14 @@ segments:
     vram: 0x8017C484
     align: 4
     subsegments:
-      - [0x1484, c, overlays/spanish_model_variant/variant477_panels_slot1]
+      - [0x1484, c, overlays/spanish_model_variant/variant477_panels]
   - name: helper_1958
     type: code
     start: 0x1958
     vram: 0x8017C958
     align: 4
     subsegments:
-      - [0x1958, c, overlays/spanish_model_variant/variant477_quads_slot1]
+      - [0x1958, c, overlays/spanish_model_variant/variant477_quads]
   - name: unclassified_tail
     type: code
     start: 0x1DC0
