@@ -30,12 +30,11 @@ void SD_PlaySequence(s32 start);
  * two retail register setups: one leaves the state pointer in $a0 and the
  * other leaves $a0 untouched. SD_PlaySequence uses the canonical no-argument
  * declaration; its preceding state writes already reproduce the first setup.
- * The older void-returning views remain for callers that still select them. */
+ * The void-returning view remains for callers that still select it. */
 #ifdef SD_START_SEQUENCE_TRACKS_PLAYBACK_CALLS
 void SD_StartSequenceTracks(SDSecondaryState *state);
 #else
 s32 SD_StartSequenceTracks(void);
 #endif
-extern void SD_StartSequenceTracks_no_arg(void) asm("SD_StartSequenceTracks");
 
 #endif

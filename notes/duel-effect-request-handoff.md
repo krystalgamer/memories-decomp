@@ -7,15 +7,16 @@ semantics.
 
 | Contract | Former spelling | Canonical spelling | Preserved view |
 |---|---|---|---|
-| Bank entry | `func_80146258` / resident `func_801462B0` | `DuelEffect_DispatchRequest` | Same real function and native labels |
+| Bank entry | `func_80146258` / resident `func_801462B0` | `DuelEffect_DispatchRequest` | Same real function; the resident binds the canonical name |
 | Dispatch command | `DuelEffectRequest.field_1A` | `phase` | Signed 16-bit member at `0x1A` |
 | Handler progress | `DuelEffectRequest.field_1D` | `progress` | Unsigned byte at `0x1D` |
 
 ## The actual cross-image entry
 
-The NA resident linker binds `func_801462B0` to `0x801462B0`; the Japanese
-resident binds that same caller identity to `0x801542B0`; PAL binds it to
-`0x80146258`. The bank maps bind its native source label `func_80146258`
+The NA resident linker binds `DuelEffect_DispatchRequest` to `0x801462B0`;
+the Japanese resident binds that same caller identity to `0x801542B0`; PAL
+binds it to `0x80146258`. The resident caller uses that name directly, with
+no assembler label. The bank maps bind its native source label `func_80146258`
 to those same regional addresses. Its full extent is `0x508` / 1,288
 bytes. It remains the real C provider in `dispatch.c`, not an absolute
 function alias or wrapper.

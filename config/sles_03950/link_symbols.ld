@@ -685,7 +685,7 @@ gGraphics_CurrentWidth = 0x800FF45C;
 gGraphics_CurrentHeight = 0x800FF460;
 gGraphics_LightSourceMatrix = 0x800FF4D0;
 gGraphics_pPacketWorkCursor = 0x800FF5C4;
-func_801462B0 = 0x80146258;
+DuelEffect_DispatchRequest = 0x80146258;
 gDisplayEffect_CachedResourceIds = 0x8015C410;
 gDuel_abCardStagingBuffer = 0x8015C424;
 FreeDuel_Init = 0x80168254;
@@ -1178,7 +1178,6 @@ gLibrary_sSampledReferenceY = D_80181012;
 gText_aGlyphLookup = tent_GlyphLookupTable;
 
 /* Canonical view of the retained native countdown entry point. */
-SD_UpdateSecondaryObjectReuseCountdowns = tent_SD_AgeSecondaryObjects;
 
 /* Auxiliary-model upload sector; retain its native provider. */
 gModel_abAuxiliaryPaletteSector = D_801DD800;
@@ -1196,3 +1195,4 @@ gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
 gText_bLanguageIndex = D_8009C02B;
+g_SDValue_output_level = g_SDValue;

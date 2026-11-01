@@ -104,8 +104,8 @@ images at WA sectors `7193 + terrain * 240` are byte-identical:
 | Trailing data and padding | `0x141E4..0x16000` |
 
 The resident `DuelEffect_UpdateRequests` calls `DuelEffect_DispatchRequest`
-through the retained native `func_801462B0` binding, independently bound to
-French `0x80146258`. Its canonical provider/member names preserve the
+through the resident `DuelEffect_DispatchRequest` binding, independently
+bound to French `0x80146258`. Its canonical provider/member names preserve the
 [measured phase/progress handoff](../duel-effect-request-handoff.md).
 This dispatcher selects many local
 effect routines. Its texture-word helper is called at `0x8014F564`; its

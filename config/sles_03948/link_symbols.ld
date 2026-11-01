@@ -772,7 +772,7 @@ func_80090D3C = 0x80090F40;
 func_80090DB8 = 0x80090FBC;
 func_80090E80 = 0x80091084;
 func_800915F4 = 0x800917F8;
-func_801462B0 = 0x80146258;
+DuelEffect_DispatchRequest = 0x80146258;
 func_801680F4 = 0x801680F4;
 func_80168160 = 0x80168160;
 func_8016866C = 0x8016866C;
@@ -1178,7 +1178,6 @@ gLibrary_sSampledReferenceY = D_80181012;
 gText_aGlyphLookup = tent_GlyphLookupTable;
 
 /* Canonical view of the retained native countdown entry point. */
-SD_UpdateSecondaryObjectReuseCountdowns = tent_SD_AgeSecondaryObjects;
 
 /* Auxiliary-model upload sector; retain its native provider. */
 gModel_abAuxiliaryPaletteSector = D_801DD800;
@@ -1196,3 +1195,4 @@ gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
 gText_bLanguageIndex = D_8009C02B;
+g_SDValue_output_level = g_SDValue;

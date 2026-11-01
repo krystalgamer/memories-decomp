@@ -8,7 +8,6 @@
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
 
-#define SOUND_INIT_S16_VIEW
 #include "sound_init.h"
 
 /* Each block re-reads g_SDValue rather than caching it once: the driver block
@@ -238,7 +237,7 @@ void SD_BGMStopWithStep(u16 id, s32 step)
     if ((id & 0x8000) != 0)
         SD_EnqueueCdStop();
     else
-        SD_RequestBgmPlayback_s16(-1, step);
+        SD_RequestBgmPlayback(-1, (s16)step);
 }
 
 void SD_BGMFade(s32 step, s32 target)

@@ -159,7 +159,7 @@ void SD_StartCdFade(s16 step, u8 target, s32 unused)
  * the unsigned eight-bit shift of each square, both accumulator
  * initializations and final publications, and the low-two-bit output gate.
  */
-extern SDValue *G32 volatile g_SDValue_output_level asm("g_SDValue");
+extern SDValue *G32 volatile g_SDValue_output_level;
 
 s32 SD_MeasureCdAudioLevel(void)
 {

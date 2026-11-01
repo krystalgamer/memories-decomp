@@ -7,9 +7,7 @@
 /* Address-qualified second copies and caller-side views of external code. */
 extern void SD_ConfigureTransferPhase_callback(void)
     asm("SD_ConfigureTransferPhase");
-extern void func_801462B0(s16, s16, s32, DuelEffectRequest *);
-extern void DuelEffect_DispatchRequest(s16, s16, s32, DuelEffectRequest *)
-    __asm__("func_801462B0");
+void DuelEffect_DispatchRequest(s16, s16, s32, DuelEffectRequest *);
 void func_801680F4(void);
 s32 func_80168160(s32);
 

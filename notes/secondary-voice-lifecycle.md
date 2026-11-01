@@ -79,16 +79,11 @@ of wall-clock time.
 | France, Germany, Italy, Spain | `0x8004CCDC` |
 
 Each inventory and primary symbol names the same matching C entry.
-The canonical declaration uses the existing assembler-name view pattern
-(`sound_sequence_timing.h` provides another example) to retain the native
-`tent_SD_AgeSecondaryObjects` entry. The `__asm__` spelling also parses in
-strict-C99 consumers of the shared header. That preserves its original function
-class, address, and `0x7C` ELF size without adding code or size directives.
-Each image exports the canonical name as a linker alias to that provider;
-the alias naturally has the same class/address without an ELF size.
-The legacy C declaration also remains explicitly `extern`, so the existing
-source-contract checker recognizes the retained native provider as a tracked
-alias target through its header-declaration inventory. The source
+`sound.h` declares and `sound_sequence_tracks.c` defines it under the
+canonical name, with no assembler label, so every image's object defines
+`SD_UpdateSecondaryObjectReuseCountdowns` itself, with its original function
+class, address, and `0x7C` ELF size. The former `tent_SD_AgeSecondaryObjects`
+link name and the per-image linker alias onto it are gone. The source
 path, compiler profile, source-group boundaries, declaration selectors,
 pointer annotations, field offsets, raw offset expressions, comparison
 order, and SPU calls remain unchanged. Overlay consumers of the shared

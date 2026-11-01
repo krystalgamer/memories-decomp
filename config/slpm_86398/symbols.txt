@@ -1194,7 +1194,7 @@ gDuel_awRitualData = 0x801899D8;
 DuelEffect_UpdateRequests = 0x8002C494;
 gDuelEffect_bRequestFinished = 0x8009B151;
 gDuelEffect_pActiveRequest = 0x8009B154;
-func_801462B0 = 0x801542B0;
+DuelEffect_DispatchRequest = 0x801542B0;
 Duel_RequestCombinedDeckData = 0x80024560;
 gDuel_awCombinedDeckCardIds = 0x8018808C;
 gDuel_awUniqueDeckCardIds = 0x80188130;
@@ -1416,7 +1416,7 @@ gText_SecondaryCommandHandlers = 0x80090D5C;
 loaded_image_end = 0x801E0000;
 SpuSetTransferMode = 0x80075EB0;
 
-gJapanese_D_80011484 = 0x80011400;
+gSD_adwStatusDataByteCounts = 0x80011400;
 SD_IgnoreSequenceEvent = 0x8004B56C;
 SD_HandleSequenceMetaEvent = 0x8004B574;
 SD_SkipSequenceSysEx = 0x8004B798;

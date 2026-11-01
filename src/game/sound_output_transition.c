@@ -4,10 +4,6 @@
 #include "sound.h"
 #include "sound_output_transition.h"
 
-#ifndef VERSION_JAPAN
-extern SDValue *G32 volatile g_SDValue_output_transition asm("g_SDValue");
-#endif
-
 void SD_FadeInStreamAudio(void)
 {
     SDValue *first = g_SDValue;
@@ -24,35 +20,27 @@ void SD_FadeInStreamAudio(void)
     }
 }
 
-#ifndef VERSION_JAPAN
-/* Preserve this function's volatile pointer view inside the grouped unit. */
-#define g_SDValue g_SDValue_output_transition
-#endif
-
+/* This function reads the sound root through a volatile pointer view. */
 void SD_FadeOutStreamAudio(void)
 {
-    SDValue *state = g_SDValue;
+    SDValue *state = *(SDValue *volatile *)&g_SDValue;
     SDValue *flags;
 
     if (state->status_flags & 0x80) {
         state->sequence_fade_step = 8;
         state->bgm_fade_target = 255;
-        state = g_SDValue;
+        state = *(SDValue *volatile *)&g_SDValue;
         state->cd_fade_target = 0;
-        flags = g_SDValue;
+        flags = *(SDValue *volatile *)&g_SDValue;
         state->cd_fade_step = -64;
         flags->status_flags &= 0xFFFB;
         return;
     }
     state->cd_fade_target = 0;
-    flags = g_SDValue;
+    flags = *(SDValue *volatile *)&g_SDValue;
     state->cd_fade_step = -64;
     flags->status_flags &= 0xFFFB;
 }
-
-#ifndef VERSION_JAPAN
-#undef g_SDValue
-#endif
 
 void SD_InitSpuCommonVolume(void)
 {
