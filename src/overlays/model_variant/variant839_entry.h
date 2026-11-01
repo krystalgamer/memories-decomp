@@ -58,9 +58,9 @@ typedef struct {
     u16 unused_tpage, unused_clut;
 } Model839State;
 
-extern GsIMAGE D_8013C4E4[3];
-extern Model839Config D_8013C538[];
+extern GsIMAGE gModelVariant839_D14E4[3];
+extern Model839Config gModelVariant839_D1538[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant839_HandleRequest(u8 *context, s32 command);
 
 #endif
