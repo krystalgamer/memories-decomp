@@ -13,10 +13,10 @@
 #ifndef MODEL653_STRING_PAD
 #define MODEL653_STRING_PAD "\x14"
 #endif
-static const char D_8013D4F4[24] = "E_DATA size = %x byte\n\0" MODEL653_STRING_PAD;
+static const char gModelVariant653_D24F4[24] = "E_DATA size = %x byte\n\0" MODEL653_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
 {
     Model653State *work;
     MATRIX ls;
@@ -35,7 +35,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model653State));
 #ifndef VERSION_FRENCH
-        printf(D_8013D4F4, sizeof(Model653State));
+        printf(gModelVariant653_D24F4, sizeof(Model653State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
@@ -43,7 +43,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->elapsed = 0;
         work->other_slot = work->slot == 0;
         Model_CopySlotPosition(work->other_slot, (u16 *)&work->target);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D50C);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant653_D250C);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
         if (command == 0) {
@@ -51,17 +51,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->shell_count = 32;
             work->cone_count = 8;
         }
-        work->radius = D_8013D528[command].radius;
-        work->height = D_8013D528[command].height;
+        work->radius = gModelVariant653_D2528[command].radius;
+        work->height = gModelVariant653_D2528[command].height;
         for (i = 0; i < work->emitter_count; i++) {
             work->emitters[i].duration = 500;
             work->emitters[i].active = 0;
             work->emitters[i].elapsed = 0;
             work->emitters[i].mode = 1;
             work->emitters[i].coord = Model_GetCameraCoordinateUnit();
-            work->emitters[i].red = D_8013D528[command].red;
-            work->emitters[i].green = D_8013D528[command].green;
-            work->emitters[i].blue = D_8013D528[command].blue;
+            work->emitters[i].red = gModelVariant653_D2528[command].red;
+            work->emitters[i].green = gModelVariant653_D2528[command].green;
+            work->emitters[i].blue = gModelVariant653_D2528[command].blue;
             work->emitters[i].u = 0;
             work->emitters[i].v = 0;
             setVector(&work->emitters[i].scale, 0x1000, 0x1000, 0x1000);
@@ -79,9 +79,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->shells[j + i].elapsed = 0;
                 work->shells[j + i].mode = 1;
                 work->shells[j + i].coord = Model_GetCameraCoordinateUnit();
-                work->shells[j + i].red = D_8013D528[command].red;
-                work->shells[j + i].green = D_8013D528[command].green;
-                work->shells[j + i].blue = D_8013D528[command].blue;
+                work->shells[j + i].red = gModelVariant653_D2528[command].red;
+                work->shells[j + i].green = gModelVariant653_D2528[command].green;
+                work->shells[j + i].blue = gModelVariant653_D2528[command].blue;
                 work->shells[j + i].u = 0;
                 work->shells[j + i].v = 0;
                 setVector(&(&work->shells[i])[j].scale, 0x1000, 0x1000, 0x1000);
@@ -97,9 +97,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->cones[j + i].elapsed = 0;
                 work->cones[j + i].mode = 1;
                 work->cones[j + i].coord = Model_GetCameraCoordinateUnit();
-                work->cones[j + i].red = D_8013D528[command].red;
-                work->cones[j + i].green = D_8013D528[command].green;
-                work->cones[j + i].blue = D_8013D528[command].blue;
+                work->cones[j + i].red = gModelVariant653_D2528[command].red;
+                work->cones[j + i].green = gModelVariant653_D2528[command].green;
+                work->cones[j + i].blue = gModelVariant653_D2528[command].blue;
                 setVector(&(&work->cones[i])[j].scale, 0, 0, 0);
                 setVector(&(&work->cones[i])[j].growth, 0, 0, 0);
                 setVector(&(&work->cones[i])[j].rotation, 0,
@@ -120,9 +120,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->spheres[j + i].elapsed = 0;
                 work->spheres[j + i].mode = 1;
                 work->spheres[j + i].coord = Model_GetCameraCoordinateUnit();
-                work->spheres[j + i].red = D_8013D528[command].line_red;
-                work->spheres[j + i].green = D_8013D528[command].line_green;
-                work->spheres[j + i].blue = D_8013D528[command].line_blue;
+                work->spheres[j + i].red = gModelVariant653_D2528[command].line_red;
+                work->spheres[j + i].green = gModelVariant653_D2528[command].line_green;
+                work->spheres[j + i].blue = gModelVariant653_D2528[command].line_blue;
                 setVector(&(&work->spheres[i])[j].scale, 0, 0, 0);
                 setVector(&(&work->spheres[i])[j].growth, 0, 0, 0);
                 setVector(&(&work->spheres[i])[j].rotation, (i << 12) / work->cone_count,
@@ -130,7 +130,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&(&work->spheres[i])[j].position, 0, 0, 0);
             }
         }
-        work->delay = D_8013D528[command].delay;
+        work->delay = gModelVariant653_D2528[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -245,16 +245,16 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->emitters[i].elapsed < (u16)(work->emitters[i].duration / 5)) {
                     n = work->emitters[i].elapsed * 5;
                     d = work->emitters[i].duration;
-                    work->emitters[i].red = D_8013D528[work->command].red * n / d;
-                    work->emitters[i].green = D_8013D528[work->command].green * n / d;
-                    work->emitters[i].blue = D_8013D528[work->command].blue * n / d;
+                    work->emitters[i].red = gModelVariant653_D2528[work->command].red * n / d;
+                    work->emitters[i].green = gModelVariant653_D2528[work->command].green * n / d;
+                    work->emitters[i].blue = gModelVariant653_D2528[work->command].blue * n / d;
                 }
                 if (work->emitters[i].duration * 9 / 10 < work->emitters[i].elapsed) {
                     n = (work->emitters[i].duration - work->emitters[i].elapsed) * 10;
                     d = work->emitters[i].duration;
-                    work->emitters[i].red = D_8013D528[work->command].red * n / d;
-                    work->emitters[i].green = D_8013D528[work->command].green * n / d;
-                    work->emitters[i].blue = D_8013D528[work->command].blue * n / d;
+                    work->emitters[i].red = gModelVariant653_D2528[work->command].red * n / d;
+                    work->emitters[i].green = gModelVariant653_D2528[work->command].green * n / d;
+                    work->emitters[i].blue = gModelVariant653_D2528[work->command].blue * n / d;
                 }
                 for (k = 0; k < 6; k++) {
                     for (j = 0; j < 16; j++) {
@@ -314,9 +314,9 @@ s32 func_8013B004(u8 *context, s32 command)
                     if (work->shells[l + i].duration / 2 < work->shells[l + i].elapsed) {
                         n = (work->shells[l + i].duration - work->shells[l + i].elapsed) * 2;
                         d = work->shells[l + i].duration;
-                        work->shells[l + i].red = D_8013D528[work->command].red * n / d;
-                        work->shells[l + i].green = D_8013D528[work->command].green * n / d;
-                        work->shells[l + i].blue = D_8013D528[work->command].blue * n / d;
+                        work->shells[l + i].red = gModelVariant653_D2528[work->command].red * n / d;
+                        work->shells[l + i].green = gModelVariant653_D2528[work->command].green * n / d;
+                        work->shells[l + i].blue = gModelVariant653_D2528[work->command].blue * n / d;
                     }
                     for (k = 0; k < 6; k++) {
                         for (j = 0; j < 16; j++) {
@@ -442,9 +442,9 @@ s32 func_8013B004(u8 *context, s32 command)
                     if (work->spheres[l + i].duration / 2 < work->spheres[l + i].elapsed) {
                         n = (work->spheres[l + i].duration - work->spheres[l + i].elapsed) * 2;
                         d = work->spheres[l + i].duration;
-                        work->spheres[l + i].red = D_8013D528[work->command].line_red * n / d;
-                        work->spheres[l + i].green = D_8013D528[work->command].line_green * n / d;
-                        work->spheres[l + i].blue = D_8013D528[work->command].line_blue * n / d;
+                        work->spheres[l + i].red = gModelVariant653_D2528[work->command].line_red * n / d;
+                        work->spheres[l + i].green = gModelVariant653_D2528[work->command].line_green * n / d;
+                        work->spheres[l + i].blue = gModelVariant653_D2528[work->command].line_blue * n / d;
                     }
                     for (j = 1; j < 8; j++) {
                         for (k = 0; k < 8; k++) {

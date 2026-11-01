@@ -1224,9 +1224,10 @@ French MODEL headers 700 (stage 7 slot 0) and 767 (stage 8 slot 1) build the hea
 Four images under French headers 670 and 737 are the North American
 header-653 entry (`model_variant/variant653_entry.c`) without its `E_DATA`
 work-size printf. Its format string was the whole read-only section, so it
-goes too, and the
-`src/overlays/french_model_variant/variant670_entry{,_slot1}.c` wrappers move
-the data labels 0x28 lower.
+goes too. Both slots build through
+`src/overlays/french_model_variant/variant670_entry.c`; the data labels sit
+0x28 lower, and each image's symbols file binds `gModelVariant653_D250C` and
+`gModelVariant653_D2528` at its own addresses.
 
 Two images under French headers 778 and 875 are the North American
 header-761 entry (`model_variant/variant761_entry.c` and its `_slot1.c`
