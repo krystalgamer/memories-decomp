@@ -213,6 +213,8 @@ segments:
     align: 2
     subsegments:
       - [0x8b890, bin, bss_image_before_viewport]
+      - [0x8b8e8, .sbss, game/file_transfer_runtime]
+      - [0x8b940, bin, bss_image_8009b140]
 
   - name: bss_image_viewport
     type: code
@@ -229,6 +231,7 @@ segments:
     align: 2
     subsegments:
       - [0x8b94a, bin, bss_image_after_viewport]
+      - [0x8bca8, bin, bss_image_large]
 
   - name: reserved_zero
     type: bin

@@ -18,6 +18,34 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
+
+/* The loader's zero-initialized state, defined here in address order before
+ * file_transfer.h declares it, so the compiler emits it in this order and the
+ * unit's small zero-initialized data reproduces the retail layout (#2602). */
+volatile s32 gFile_ServiceReentryLatch;
+u16 gFile_RangeWaitCountdown;
+void (*G32 gFile_RangeReadCallback)(void);
+volatile u32 D_8009B0F4;
+u32 *G32 gFile_ReadySourceCursor;
+s32 D_8009B0FC;
+volatile u16 gFile_wStepState;
+char gFile_TargetLoc[4];
+u8 D_8009B108;
+void (*G32 gFile_BeforePrimaryRequestCallback)(void);
+u8 D_8009B110;
+volatile u16 gFile_wTransferStepFlags;
+u8 gFile_ReadyEventCount;
+s32 D_8009B118;
+char gFile_FilterParams[1];
+void (*G32 gFile_RangePauseCallback)(void);
+volatile u16 gFile_ServiceCallGate;
+void (*G32 gFile_SecondaryPayloadCompleteCallback)(void);
+s32 D_8009B12C;
+s32 gFile_CommandRetryCount;
+u32 D_8009B134;
+s32 gFile_ReadyDataEventCount;
+s32 D_8009B13C;
+
 #include "file_transfer.h"
 #include "file_transfer_state.h"
 #include "file_constants.h"
