@@ -1,3 +1,4 @@
+#define FREE_DUEL_SCREEN_FLAGS_WORD
 #include "../../types.h"
 #include "../../game/display_object.h"
 #include "module_state.h"
@@ -12,6 +13,4 @@ DisplayObject *gFreeDuel_apSparklePool[FREE_DUEL_SPARKLE_POOL_CAPACITY]
     __attribute__((section(".data"))) = {0};
 DisplayObject *gFreeDuel_pCursorWidget
     __attribute__((section(".data"))) = 0;
-u32 gFreeDuel_dwScreenFlagsStorage
-    asm("gFreeDuel_bScreenFlags")
-    __attribute__((section(".data"))) = 0;
+u32 gFreeDuel_bScreenFlags __attribute__((section(".data"))) = 0;

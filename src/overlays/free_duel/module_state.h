@@ -18,8 +18,14 @@ extern DisplayObject *gFreeDuel_apSparklePool[
 ];
 extern DisplayObject *gFreeDuel_pCursorWidget;
 
-/* The linker symbol names the live low byte; module_state.c owns its complete
- * four-byte initialized storage so the following raw tail keeps its offset. */
+/* The consumers read the live low byte. module_state.c selects the word arm
+ * to define the complete four-byte initialized storage, so the following raw
+ * tail keeps its offset (a separate byte definition would be padded by GCC
+ * rather than followed by the three retail padding bytes). */
+#ifdef FREE_DUEL_SCREEN_FLAGS_WORD
+extern u32 gFreeDuel_bScreenFlags;
+#else
 extern u8 gFreeDuel_bScreenFlags;
+#endif
 
 #endif

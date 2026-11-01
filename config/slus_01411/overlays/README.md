@@ -146,10 +146,11 @@ section-defined owner with an exact `0x190`-byte `.data` section.
 Free Duel additionally maps its complete named state prefix at
 `0x80169030-0x801690A8` through `module_state.c`. The `0x78`-byte object
 section owns the 40-byte availability grid, thumb pointer, one unknown word,
-16-pointer sparkle pool, cursor pointer, and the four-byte storage whose low
-byte is `gFreeDuel_bScreenFlags`. The explicit storage view is required
-because GCC aligns separate byte definitions while retail places the three
-padding bytes directly after the live flag.
+16-pointer sparkle pool, cursor pointer, and `gFreeDuel_bScreenFlags`, defined
+as its four-byte word (the `FREE_DUEL_SCREEN_FLAGS_WORD` arm) while consumers
+read the live low byte. The word definition is required because GCC aligns
+separate byte definitions while retail places the three padding bytes
+directly after the live flag.
 
 Both overworld variants also compile the live location table from
 `overworld/location_table.c`: sixteen typed 66-byte records at
