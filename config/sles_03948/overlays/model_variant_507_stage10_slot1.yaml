@@ -23,6 +23,8 @@ options:
   o_path: tmp/overlays/french_model_variant_507_stage10_slot1/build
   undefined_funcs_auto_path: tmp/overlays/french_model_variant_507_stage10_slot1/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/french_model_variant_507_stage10_slot1/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/model_variant_507_stage10_slot1_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -52,21 +54,21 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant428_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant428_entry]
   - name: helper_1308
     type: code
     start: 0x1308
     vram: 0x8017C308
     align: 4
     subsegments:
-      - [0x1308, c, overlays/french_model_variant/variant428_swarm_slot1]
+      - [0x1308, c, overlays/french_model_variant/variant428_swarm]
   - name: helper_188C
     type: code
     start: 0x188C
     vram: 0x8017C88C
     align: 4
     subsegments:
-      - [0x188C, c, overlays/french_model_variant/variant428_quads_slot1]
+      - [0x188C, c, overlays/french_model_variant/variant428_quads]
   - name: unclassified_tail
     type: code
     start: 0x1D94
