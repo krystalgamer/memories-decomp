@@ -949,10 +949,12 @@ labels 0x28 lower.
 
 Two images under French headers 677 and 744 are the North American
 header-660 entry (`model_variant/variant660us_entry.c`) without its `E_DATA`
-work-size printf. The
-`src/overlays/french_model_variant/variant677_entry{,_slot1}.c` wrappers move
-the two data labels after the shorter text and read-only section 0x28 lower
-and bind `model_variant677_linker_symbols.txt` and
+work-size printf. Both slots build through the
+`src/overlays/french_model_variant/variant677_entry.c` wrapper. The two data
+labels after the shorter text and read-only section sit 0x28 lower; each
+image's symbols file binds `gModelVariant660Us_D3674` and
+`gModelVariant660Us_D36C8` at its own addresses, and the images bind
+`model_variant677_linker_symbols.txt` and
 `model_variant744_linker_symbols.txt`.
 
 Two images under French headers 849 and 946 are the North American
