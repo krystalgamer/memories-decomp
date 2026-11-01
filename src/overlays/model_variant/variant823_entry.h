@@ -78,9 +78,9 @@ typedef struct {
     } flash;
 } Model823State;
 
-extern GsIMAGE D_8013CEAC[];
-extern Model823Config D_8013CF00[];
+extern GsIMAGE gModelVariant823_D1EAC[];
+extern Model823Config gModelVariant823_D1F00[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant823_HandleRequest(u8 *context, s32 command);
 
 #endif

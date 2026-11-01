@@ -8,9 +8,9 @@
  * that passes the far line stops, fades its head and bursts into sparks
  * while the ambient light dims and recovers. */
 
-static const VECTOR D_8013CE9C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant823_D1E9C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant823_HandleRequest(u8 *context, s32 command)
 {
     Model823State *work;
     MATRIX light;
@@ -37,13 +37,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CE9C;
+    scale = gModelVariant823_D1E9C;
     memset(&zero, 0, 8);
     work = (Model823State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CF00[command];
+        work->config = &gModelVariant823_D1F00[command];
         for (i = 0; i < 36; i++) {
             setVector(&work->pos[i], 0, 0, 0);
             setVector(&work->hit[i], 0, 0, 0);
@@ -76,7 +76,7 @@ s32 func_8013B004(u8 *context, s32 command)
                       work->config->ring_radius * csin((i * 128 - 0x300) % 4096) / 4096, 0);
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CEAC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant823_D1EAC[i]);
         }
         work->count = 0;
         work->ambient = 0x800;
