@@ -40,5 +40,5 @@ typedef struct {
     s32 state;
 } Model450CoilView;
 
-void func_8013E10C(u8 *context);
+void ModelVariant433_DrawCoils(u8 *context);
 #endif

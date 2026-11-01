@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant450_ribbons.h"
 
-void func_8013BDD8(u8 *context)
+void ModelVariant433_DrawRibbons(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

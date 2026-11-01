@@ -8,7 +8,7 @@
  * rebuilds band * 36 at each of the two projection sites, so both arms assign
  * off (the j == 8 arm with a dead 0, the other with the real band * 9) and
  * only the j == 8 arm names its indices with the constant 8. */
-void func_8013C770(u8 *context)
+void ModelVariant433_DrawBands(u8 *context)
 {
     Variant433BandView *work = (Variant433BandView *)context;
     SVECTOR rotation;

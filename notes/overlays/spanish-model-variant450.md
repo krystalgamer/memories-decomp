@@ -47,7 +47,7 @@ game code. Raw header/suffix owners are disjoint from the code owners.
 The initial private whole-image proof preserved the non-helper bytes in raw
 prefix/suffix objects. Production now selects two generated assembly
 functions per image, with five sized compiler functions, header and suffix.
-The symbol-only slot-one wrappers are compiled separately; neither slot is
+Both slots compile the same sources separately; neither slot is
 accepted solely because relocation-masked instructions resemble the other.
 
 The current-master takeover of #7032 preserves the reviewed coil selections
@@ -109,7 +109,7 @@ six-group counter and eight-spoke counter retain the observed narrowing.
 Do not collapse these source forms without rechecking the complete images.
 
 The coil integration keeps the accepted body, local layout header, named
-profile and symbol-only slot wrapper unchanged. Both selected compiler
+profile and slot handling unchanged. Both selected compiler
 objects and linked definitions have the exact 2,100-byte executable extent.
 All external call relocations agree with retail and real Spanish resident
 function starts. Headers and complete suffixes retain non-executable raw

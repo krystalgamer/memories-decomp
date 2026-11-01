@@ -48,5 +48,5 @@ typedef struct {
     s32 state;
 } Model450RibbonView;
 
-void func_8013BDD8(u8 *context);
+void ModelVariant433_DrawRibbons(u8 *context);
 #endif

@@ -7,7 +7,7 @@
  * `(&x[j])[1]` so their `+ 4` is folded into the load, and the `+= 0` on
  * rotation[2] is dead: reload's post-pass deletes the store but keeps the
  * load the retail code has in front of the matrix setup. */
-void func_8013E0A8(u8 *context)
+void ModelVariant433_DrawCoils(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

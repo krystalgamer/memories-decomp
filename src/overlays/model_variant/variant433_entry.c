@@ -13,7 +13,7 @@
  * that only live a few instructions (the extra packets' tpage in `angle`, the
  * odd bands' heading in `dx`); the retail register allocation depends on it. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
 {
     u32 screen_x;
     MATRIX unused_matrix0, unused_matrix1;
@@ -61,7 +61,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant433EntryConfig *)(D_8013E9A0 + 0x38) + command;
+        work->config = (Variant433EntryConfig *)(gModelVariant433_D39A0 + 0x38) + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -77,12 +77,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT433_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT433_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)D_8013E9A0);
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E9A0 - 0x38));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E9A0 - 0xA8));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)gModelVariant433_D39A0);
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant433_D39A0 - 0x38));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant433_D39A0 - 0xA8));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E9A0 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant433_D39A0 + 0x1C));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -331,13 +331,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_y = dy;
         if (work->config->trigger <= work->frame) {
-            func_8013DD20((u8 *)point);
-            func_8013D754((u8 *)point);
+            SpanishModelVariant450_DrawLines((u8 *)point);
+            SpanishModelVariant450_DrawQuadGroups((u8 *)point);
             if (work->phase < 2) {
-                func_8013CE7C((u8 *)point);
+                ModelVariant433_DrawRings((u8 *)point);
             }
             if (work->phase > 0) {
-                func_8013BDDC((u8 *)point);
+                ModelVariant433_DrawRibbons((u8 *)point);
             }
         }
         work->frame_count++;

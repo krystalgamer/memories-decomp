@@ -56,49 +56,49 @@ segments:
   vram: 2149036036
   align: 4
   subsegments:
-  - [4, c, overlays/model_variant/variant433_entry_slot1]
+  - [4, c, overlays/model_variant/variant433_entry]
 - name: ribbons
   type: code
   start: 3548
   vram: 2149039580
   align: 4
   subsegments:
-  - [3548, c, overlays/model_variant/variant433_ribbons_slot1]
+  - [3548, c, overlays/model_variant/variant433_ribbons]
 - name: bands
   type: code
   start: 6000
   vram: 2149042032
   align: 4
   subsegments:
-  - [6000, c, overlays/model_variant/variant433_bands_slot1]
+  - [6000, c, overlays/model_variant/variant433_bands]
 - name: rings
   type: code
   start: 7804
   vram: 2149043836
   align: 4
   subsegments:
-  - [7804, c, overlays/model_variant/variant433_rings_slot1]
+  - [7804, c, overlays/model_variant/variant433_rings]
 - name: quads
   type: code
   start: 10068
   vram: 2149046100
   align: 4
   subsegments:
-  - [10068, c, overlays/model_variant/variant450_ntsc_quads_slot1]
+  - [10068, c, overlays/spanish_model_variant/variant450_quads]
 - name: lines
   type: code
   start: 11552
   vram: 2149047584
   align: 4
   subsegments:
-  - [11552, c, overlays/model_variant/variant450_ntsc_lines_slot1]
+  - [11552, c, overlays/spanish_model_variant/variant450_lines]
 - name: coils
   type: code
   start: 12456
   vram: 2149048488
   align: 4
   subsegments:
-  - [12456, c, overlays/model_variant/variant433_coils_slot1]
+  - [12456, c, overlays/model_variant/variant433_coils]
 - name: unclassified_tail
   type: code
   start: 14556

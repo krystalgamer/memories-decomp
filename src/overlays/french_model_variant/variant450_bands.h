@@ -43,5 +43,5 @@ typedef struct {
     s16 radius;
 } Model450BandView;
 
-void func_8013C794(u8 *context);
+void ModelVariant433_DrawBands(u8 *context);
 #endif

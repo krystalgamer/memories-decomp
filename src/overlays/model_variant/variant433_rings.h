@@ -27,5 +27,5 @@ typedef struct {
     u8 pad204[0x4];
 } Variant433Ring;
 
-void func_8013CE7C(u8 *context);
+void ModelVariant433_DrawRings(u8 *context);
 #endif

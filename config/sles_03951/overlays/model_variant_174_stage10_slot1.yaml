@@ -52,14 +52,14 @@ segments:
   vram: 2149039576
   align: 4
   subsegments:
-  - [3544, c, overlays/french_model_variant/variant450_ribbons_slot1]
+  - [3544, c, overlays/french_model_variant/variant450_ribbons]
 - name: bands
   type: code
   start: 6036
   vram: 2149042068
   align: 4
   subsegments:
-  - [6036, c, overlays/french_model_variant/variant450_bands_slot1]
+  - [6036, c, overlays/french_model_variant/variant450_bands]
 - name: unmatched_1ecc
   type: code
   start: 7884
@@ -73,21 +73,21 @@ segments:
   vram: 2149046208
   align: 4
   subsegments:
-  - [10176, c, overlays/spanish_model_variant/variant450_quads_slot1]
+  - [10176, c, overlays/spanish_model_variant/variant450_quads]
 - name: lines
   type: code
   start: 11656
   vram: 2149047688
   align: 4
   subsegments:
-  - [11656, c, overlays/spanish_model_variant/variant450_lines_slot1]
+  - [11656, c, overlays/spanish_model_variant/variant450_lines]
 - name: coils
   type: code
   start: 12556
   vram: 2149048588
   align: 4
   subsegments:
-  - [12556, c, overlays/french_model_variant/variant450_coils_slot1]
+  - [12556, c, overlays/french_model_variant/variant450_coils]
 - name: unclassified_tail
   type: code
   start: 14656
