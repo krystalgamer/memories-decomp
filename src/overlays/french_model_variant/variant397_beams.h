@@ -57,5 +57,5 @@ typedef struct {
     s32 wave, bend, phase;
 } Variant397BeamsState;
 
-void func_8013BDE4(u8 *ctx);
+void FrenchModelVariant397_DrawBeams(u8 *ctx);
 #endif

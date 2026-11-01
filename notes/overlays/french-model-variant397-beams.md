@@ -46,3 +46,11 @@ volatile workarounds.
 
 Both French images rebuild byte-identically with the strict build-then-verify
 path. The attempts ledger records the intermediate probes and image hashes.
+
+## Per-image names
+
+The source defines `FrenchModelVariant397_DrawBeams`. The PAL slot-0 images of
+models 21 and 258 build it at `0x8013BDE4`; the North American and Japanese images
+build the same source at `0x8013BDE8`/`0x8017BDE8`. Each image binds the
+name at its own address (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).

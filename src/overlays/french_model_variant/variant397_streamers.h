@@ -49,5 +49,5 @@ typedef struct {
     s32 phase;
 } Variant397StreamerState;
 
-void func_8013D06C(u8 *ctx);
+void FrenchModelVariant397_DrawStreamers(u8 *ctx);
 #endif

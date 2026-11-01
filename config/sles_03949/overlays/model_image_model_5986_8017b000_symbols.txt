@@ -1,0 +1,2 @@
+// German MODEL.MRG model 21 raw image model_image_model_5986_8017b000, loaded at 0x8017B000; the French header-397 sheets helper variant397_sheets.c.
+FrenchModelVariant397_DrawSheets = 0x8017CA9C; // type:func size:0x5D0 defined:true

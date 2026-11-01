@@ -20,7 +20,7 @@
  * counter, the screen delta Y is computed before X, and the span store sits
  * before the fade reset. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant380EntryState *work = (Variant380EntryState *)point;
     Variant380EntryStack stack;
@@ -48,7 +48,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant380EntryConfig *)(D_8013D970 + 0x38) + command;
+        work->config = (Variant380EntryConfig *)(gModelVariant380_D2970 + 0x38) + command;
         for (i = 0, angle = 0; i < work->config->count;) {
             height = -2048;
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
@@ -64,10 +64,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             i++;
             angle = (i << 12) / work->config->count;
         }
-        stack.texture_cluts[1] = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)D_8013D970);
+        stack.texture_cluts[1] = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)gModelVariant380_D2970);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(MODEL_VARIANT380_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D970 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant380_D2970 + 0x1C));
         stack.texture_cluts[0] = packed;
         flat_page = packed >> 16;
         SetPolyG3(triangle);
@@ -265,11 +265,11 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         }
         if (work->config->start <= work->frame) {
             if (work->phase > 0) {
-                func_8013BDE8(point);
+                FrenchModelVariant397_DrawBeams(point);
             }
-            func_8013CAB8(point);
+            FrenchModelVariant397_DrawSheets(point);
             if (work->phase >= 4) {
-                func_8013D08C(point);
+                FrenchModelVariant397_DrawStreamers(point);
             }
         }
         work->frame_count++;

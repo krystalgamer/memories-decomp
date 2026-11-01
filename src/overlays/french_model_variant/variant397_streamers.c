@@ -9,7 +9,7 @@
  * register allocation. After phase 6 a record's length shrinks with the
  * frame step, and the last record finishing moves the phase on to 7. */
 
-void func_8013D06C(u8 *ctx)
+void FrenchModelVariant397_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
