@@ -8,17 +8,17 @@
  * four sparks scatter around the opposing slot. A negative command draws a
  * frame; any other command sets the work area up and prints its size. */
 
-static const VECTOR D_8013DC7C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant143Us_D2C7C = {4096, 4096, 4096, 0};
 #ifndef VERSION_FRENCH
 /* The work-size format keeps the three stale bytes that pad it; they differ
  * between the two load slots. */
 #ifndef MODEL143US_STRING_PAD
 #define MODEL143US_STRING_PAD "\0ry<"
 #endif
-static const char D_8013DC8C[20] = "%d ( %x ) Byte.\n" MODEL143US_STRING_PAD;
+static const char gModelVariant143Us_D2C8C[20] = "%d ( %x ) Byte.\n" MODEL143US_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant143Us_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -51,12 +51,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013DC7C;
+    scale = gModelVariant143Us_D2C7C;
     work = (Model143UsState *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013DD10[command];
+        config = work->config = &gModelVariant143Us_D2D10[command];
         a = 0;
         point = work->grid;
         colour = work->colours;
@@ -146,12 +146,12 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013DCA0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant143Us_D2CA0[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
 #ifndef VERSION_FRENCH
-        printf(D_8013DC8C, sizeof(Model143UsState), sizeof(Model143UsState));
+        printf(gModelVariant143Us_D2C8C, sizeof(Model143UsState), sizeof(Model143UsState));
 #else
         return 0;
 #endif
