@@ -887,10 +887,12 @@ file binds the shared data names to its own addresses. The images bind
 
 Two images under French headers 699 and 766 are the North American
 header-682 entry (`model_variant/variant682us_entry.c`) without its `E_DATA`
-work-size printf. The
-`src/overlays/french_model_variant/variant699_entry{,_slot1}.c` wrappers move
-the two data labels after the shorter text and read-only section 0x28 lower
-and bind `model_variant699_linker_symbols.txt` and
+work-size printf. Both slots build through the
+`src/overlays/french_model_variant/variant699_entry.c` wrapper. The two data
+labels after the shorter text and read-only section sit 0x28 lower; each
+image's symbols file binds `gModelVariant682Us_D20B0` and
+`gModelVariant682Us_D2104` at its own addresses, and the images bind
+`model_variant699_linker_symbols.txt` and
 `model_variant766_entry_linker_symbols.txt`.
 
 Two images under French headers 683 and 750 are the North American

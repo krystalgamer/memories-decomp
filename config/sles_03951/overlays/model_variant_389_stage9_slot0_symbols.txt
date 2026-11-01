@@ -1,7 +1,7 @@
 // Spanish MODEL.MRG model 389 (record 339), sector 93764, header 699, loaded at 0x8013B000; the US header-682 source variant682us_entry.c; built from the French source layout of french_model_variant_389_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x2084 defined:true
-D_8013D088 = 0x8013D088; // type:u8 size:0x54 defined:true
-D_8013D0DC = 0x8013D0DC; // type:u8 size:0x2F24 defined:true
+ModelVariant682Us_HandleRequest = 0x8013B004; // type:func size:0x2084 defined:true
+gModelVariant682Us_D20B0 = 0x8013D088; // type:u8 size:0x54 defined:true
+gModelVariant682Us_D2104 = 0x8013D0DC; // type:u8 size:0x2F24 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true
