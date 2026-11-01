@@ -1,10 +1,10 @@
 #include "../../types.h"
 #include "variant773_entry.h"
 
-static const VECTOR D_8013D508 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant773_D2508 = {4096, 4096, 4096, 0};
 
 /* Header-773 MODEL entry: twelve streaking orbs with trails, ribbons and impact flashes. */
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
 {
     Model773State *work;
     MATRIX view, matrix;
@@ -27,11 +27,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&offset, 0, 8);
-    scale = D_8013D508;
+    scale = gModelVariant773_D2508;
     work = (Model773State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->command = &D_8013D56C[command];
+        work->command = &gModelVariant773_D256C[command];
         pos = work->pos;
         vel = work->vel;
         /* vy and vz go through the word view so they keep their own
@@ -69,7 +69,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D518[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant773_D2518[i]);
         }
         work->state = 0;
         work->done = 0;

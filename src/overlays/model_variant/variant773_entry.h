@@ -74,7 +74,7 @@ typedef struct {
     u8 blue[12];
 } Model773State;
 
-extern GsIMAGE D_8013D518[];
-extern Model773Command D_8013D56C[];
+extern GsIMAGE gModelVariant773_D2518[];
+extern Model773Command gModelVariant773_D256C[];
 
 #endif
