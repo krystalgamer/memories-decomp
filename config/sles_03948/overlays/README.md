@@ -902,8 +902,9 @@ the two remaining data labels 0x28 lower and bind
 `model_variant750_linker_symbols.txt`.
 
 Two images under French headers 124 and 254 are the North American
-header-107 entry (`model_variant/variant107us_entry.c` and its slot-1
-wrapper) unchanged: the code differs only in its resident call targets, which
+header-107 entry (`ModelVariant107Us_HandleRequest` in
+`model_variant/variant107us_entry.c`, built directly in both slots)
+unchanged: the code differs only in its resident call targets, which
 `model_variant124_linker_symbols.txt` and
 `model_variant254_linker_symbols.txt` bind to the French addresses.
 

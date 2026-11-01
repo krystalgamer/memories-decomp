@@ -7,9 +7,9 @@
  * beam of quads then grows from the part towards the camera axis, and two
  * spinning squares pulse at the end. */
 
-static const VECTOR D_8013D2D4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant107Us_D22D4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant107Us_HandleRequest(u8 *context, s32 command)
 {
     Model107UsState *work;
     Model107UsConfig *config;
@@ -35,12 +35,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D2D4;
+    scale = gModelVariant107Us_D22D4;
     work = (Model107UsState *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013D338[command];
+        config = work->config = &gModelVariant107Us_D2338[command];
         point = work->directions;
         for (i = 0; i < 8; point++, i++) {
             size = rand() % 4096;
@@ -128,7 +128,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point[8].vz = point[8].vz / 2;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D2E4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant107Us_D22E4[i]);
         }
         work->elapsed = -config->start_delay;
         return 0;
