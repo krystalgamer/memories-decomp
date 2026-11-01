@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 253 (record 253), sector 70038, header 279, loaded at 0x8017B000; the US source variant149_entry_slot1.c; built from the US source layout of model_variant_253_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x14B0 defined:true
-D_8017C4D4 = 0x8017C4D4; // type:u8 size:0x118 defined:true
-D_8017C5EC = 0x8017C5EC; // type:u8 size:0x3A14 defined:true
+// Japanese MODEL.MRG model 253 (record 253), sector 70038, header 279, loaded at 0x8017B000; the US source variant149_entry.c; built from the US source layout of model_variant_253_stage10_slot1.
+ModelVariant149_HandleRequest = 0x8017B004; // type:func size:0x14B0 defined:true
+gModelVariant149_D14D4 = 0x8017C4D4; // type:u8 size:0x118 defined:true
+gModelVariant149_D15EC = 0x8017C5EC; // type:u8 size:0x3A14 defined:true
