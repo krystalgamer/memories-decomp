@@ -1,18 +1,18 @@
 # French header-481 band renderer
 
-`func_8013BE38` / `func_8017BE38` (image offset `0xE38`, 0x8E0 bytes) is
+`FrenchModelVariant481_DrawBand` (image offset `0xE38`, 0x8E0 bytes) is
 the third function of the French header-481/631 images (models 248 and 624,
 slot 0 and slot 1). It grows, projects and draws the entry's 33-step band.
 It builds from
 [`variant481_band.c`](../../src/overlays/french_model_variant/variant481_band.c)
-and its `_slot1.c` wrapper under `gcc_2_8_1_g0_split`. All four French images
+in both slots under `gcc_2_8_1_g0_split`. All four French images
 rebuild byte-identical to retail.
 
 The US header-464/614 images at the same sectors carry the same function at
-`+0xE3C` (0x8CC bytes). The same source builds it under `gcc_2_7_2_cdk_g0`
-through [`variant464_band.c`](../../src/overlays/model_variant/variant464_band.c)
-and its `_slot1.c` wrapper, and all four US images rebuild byte-identical
-too. Earlier notes called this function the funnel renderer; it draws the
+`+0xE3C` (0x8CC bytes). The same source builds it under `gcc_2_7_2_cdk_g0`,
+and all four US images rebuild byte-identical too. Each image binds the name
+at its own address (`0x8013BE38`/`0x8017BE38` in the PAL images,
+`0x8013BE3C`/`0x8017BE3C` in the North American and Japanese images). Earlier notes called this function the funnel renderer; it draws the
 band.
 
 ## Behaviour

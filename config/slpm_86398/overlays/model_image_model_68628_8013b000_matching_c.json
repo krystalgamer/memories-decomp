@@ -10,13 +10,13 @@
       "address": "0x8013BE3C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x8CC",
-      "source": "src/overlays/model_variant/variant464_band.c"
+      "source": "src/overlays/french_model_variant/variant481_band.c"
     },
     {
       "address": "0x8013C708",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x640",
-      "source": "src/overlays/model_variant/variant464_rings.c"
+      "source": "src/overlays/french_model_variant/variant481_rings.c"
     }
   ],
   "schema": 1

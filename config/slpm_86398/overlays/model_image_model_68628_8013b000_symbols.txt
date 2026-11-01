@@ -1,9 +1,9 @@
 // Japanese MODEL.MRG model 248 (record 248), sector 68628, header 464, loaded at 0x8013B000; the US source variant464_entry.c; built from the US source layout of model_variant_248_pos0_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0xE38 defined:true
-func_8013BE3C = 0x8013BE3C; // type:func size:0x8CC defined:true
-func_8013C708 = 0x8013C708; // type:func size:0x640 defined:true
+ModelVariant464_HandleRequest = 0x8013B004; // type:func size:0xE38 defined:true
+FrenchModelVariant481_DrawBand = 0x8013BE3C; // type:func size:0x8CC defined:true
+FrenchModelVariant481_DrawRings = 0x8013C708; // type:func size:0x640 defined:true
 D_8013CD48 = 0x8013CD48; // type:u8 size:0xC4 defined:true
-D_8013CE0C = 0x8013CE0C; // type:u8 size:0x31F4 defined:true
+gModelVariant464_D1E0C = 0x8013CE0C; // type:u8 size:0x31F4 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

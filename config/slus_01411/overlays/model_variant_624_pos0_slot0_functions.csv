@@ -1,4 +1,4 @@
 address,size,name,status,module,notes
-0x8013B004,0xE38,func_8013B004,matching_c,overlay/model_variant_624_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013BE3C,0x8CC,func_8013BE3C,matching_c,overlay/model_variant_624_pos0_slot0,"Exact C band renderer: grows, projects and draws the entry's 33-step band as 32 GT4 quads."
-0x8013C708,0x640,func_8013C708,matching_c,overlay/model_variant_624_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0xE38,ModelVariant464_HandleRequest,matching_c,overlay/model_variant_624_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013BE3C,0x8CC,FrenchModelVariant481_DrawBand,matching_c,overlay/model_variant_624_pos0_slot0,"Exact C band renderer: grows, projects and draws the entry's 33-step band as 32 GT4 quads."
+0x8013C708,0x640,FrenchModelVariant481_DrawRings,matching_c,overlay/model_variant_624_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
