@@ -6,11 +6,7 @@
  * per-frame service through SD_ConfigureTransferPhase and
  * File_RequestSecondarySlot; and last the descriptor request, cancellation and
  * phase-stepping helpers (0x80014E1C-0x800151B0).
- *
- * FILE_TRANSFER_BYTE_VIEWS only adds the byte views D_801D4200_raw and
- * gFile_FilterParamsByte from file_transfer.h, so it is selected for the whole unit.
  */
-#define FILE_TRANSFER_BYTE_VIEWS
 
 #include "../types.h"
 #include "../psyq/libcd.h"
@@ -480,8 +476,8 @@ void File_ActivateTransfer(void)
 {
     *(FileTransferDescriptorWords *)&gFile_PrimaryTransferDescriptor =
         *(FileTransferDescriptorWords *)&gFile_SecondaryTransferDescriptor;
-    *(FileRequestSlot *)D_801D4200_raw =
-        *(FileRequestSlot *)(D_801D4200_raw + 32);
+    *(FileRequestSlot *)(u8 *)&gFile_ActiveRequestSlot =
+        *(FileRequestSlot *)((u8 *)&gFile_ActiveRequestSlot + 32);
     if (gFile_PrimaryTransferDescriptor.transfer_mode == 4)
         gFile_wTransferStepFlags |= 1;
     gFile_dwTransferState =
@@ -553,7 +549,7 @@ set_state3:
             gFile_wStepState = 3;
         case 3:
             gFile_wTransferStepFlags = gFile_wTransferStepFlags | 0x1000;
-            filter_channel = &gFile_FilterParamsByte + 1;
+            filter_channel = (u8 *)gFile_FilterParams + 1;
             /* In sector-range mode the word at 0x38 carries the
                CdlSetfilter channel (low byte) and file (next byte). */
             *filter_channel = ((u8 *)&transfer->callback_data)[0];
@@ -801,7 +797,7 @@ s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
          * declaration orders and four statement orders are all 6. */
         sector_offset = size;
         request_size = -sector_offset;
-        request_slots = D_801D4200_raw;
+        request_slots = (u8 *)&gFile_ActiveRequestSlot;
         *(FileRequestSlot *)(request_slots + 0x20) = *request;
         /* The post-copy reload goes through the member's address as u32:
            a plain request->sector_offset (or an s32 cast, which fold turns back into
@@ -811,7 +807,7 @@ s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
         gFile_dwTransferState =
             gFile_dwTransferState & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
         flags = file_selector | 0x1400000;
-        phase_callback = SD_ConfigureTransferPhase_callback;
+        phase_callback = (FileTransferCallback)SD_ConfigureTransferPhase;
 
         if ((gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) != 0) {
             if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE) != 0) {

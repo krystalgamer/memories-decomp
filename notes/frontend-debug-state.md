@@ -169,7 +169,7 @@ separate language-switch/loading lifecycle.
 
 The later `File_RequestOptionsPackage` computes its start sector from the
 then-current language byte and supplies `Options_LoadPackageStage`. The
-stage provider is native `func_8003C56C`, not either of the two earlier
+stage provider is the former native `func_8003C56C`, not either of the two earlier
 lookalike package callbacks. See the PAL addendum in
 `options-screen.md` for the exact phase and binding scope.
 

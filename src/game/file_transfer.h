@@ -13,15 +13,9 @@
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
 
 /* File_ActivateTransfer promotes request slot 1 into slot 0, and
-   SD_ConfigureTransferPhase consumes slot 0. Preserve the scalar and same-symbol byte
-   views used by the callback and whole-record copies, respectively. */
-extern FileRequestSlot gFile_ActiveRequestSlot asm("D_801D4200");
-/* The asm-labelled byte views below are opted into by their only consumer,
-   file_transfer_runtime.c, whose transfer-control half reads them, so other
-   units carry no asm label. */
-#ifdef FILE_TRANSFER_BYTE_VIEWS
-extern u8 D_801D4200_raw[] asm("D_801D4200");
-#endif
+   SD_ConfigureTransferPhase consumes slot 0. The whole-record copies take its
+   address as bytes at the use. */
+extern FileRequestSlot gFile_ActiveRequestSlot;
 /* Range-state wait count, not a frame count; keep the signed completion view. */
 extern u16 gFile_RangeWaitCountdown;
 
@@ -93,12 +87,7 @@ void File_RequestPasswordPackage(void);
 void File_RequestEgyptOverworldPackage(void);
 void File_RequestOptionsPackage(void);
 void File_RequestGameOverPackage(void);
-#ifdef VERSION_EUROPE_FILE_REQUEST_OPTIONS_PACKAGE
-extern void Options_LoadPackageStage(
-    FileTransferDescriptor *descriptor, s32 mode) asm("func_8003C56C");
-#else
 void Options_LoadPackageStage(FileTransferDescriptor *descriptor, s32 mode);
-#endif
 void GameOver_LoadPackageStage(
     FileTransferDescriptor *descriptor,
     s32 mode
@@ -257,12 +246,9 @@ extern u32 *G32 gFile_ReadySourceCursor;
 extern u8 gFile_ReadyEventCount;
 extern s32 gFile_ReadyDataEventCount;
 
-/* The filter command uses both pointer decay and a small-data byte alias.
-   The historical [1] bound is an addressing form, not the buffer extent. */
+/* The filter command uses pointer decay; the historical [1] bound is an
+   addressing form, not the buffer extent. */
 extern char gFile_FilterParams[1];
-#ifdef FILE_TRANSFER_BYTE_VIEWS
-extern u8 gFile_FilterParamsByte asm("gFile_FilterParams");
-#endif
 
 /* The CD callback's state word, switched on and advanced by
  * func_80013C28.c and file_transfer_runtime.c. It remains a volatile u16 and

@@ -83,7 +83,7 @@ descriptor without changing its type or copy operation: the word element type
 is what sets the move width, so it is deliberately not interchangeable with
 `FileTransferDescriptor`, which has halfword members.
 
-The separate `0x20`-byte record at `D_801D4200` is not a descriptor. It is a
+The separate `0x20`-byte record at `gFile_ActiveRequestSlot` (`0x801D4200`) is not a descriptor. It is a
 two-slot request table, `FileRequestSlot`: `File_RequestSecondarySlot` stages a request
 into slot 1 and `File_ActivateTransfer` promotes slot 1 into slot 0, both with
 whole-record copies at that stride, and `SD_ConfigureTransferPhase` then programs the
@@ -132,7 +132,7 @@ The remaining request/sector state declarations are owned by two headers:
 
 | Owner | Symbols and retained views |
 |---|---|
-| `file_transfer.h` | `D_801D4200` scalar request and same-symbol unsized byte alias for the two slot copies |
+| `file_transfer.h` | `gFile_ActiveRequestSlot` scalar request; the two slot copies take its address as bytes |
 | `file_transfer.h` | `D_8009AF18` typed descriptor pointer, one declaration; `File_TransferReadyCallback` reads it through the `FileTransferDescriptor` members, except for the image phase's `sector_destination`/`alternate_sector_destination` buffer select, which stays an address sum |
 | `file_transfer.h` | `D_8009B0F8` sector word cursor; `D_8009B114` byte and `D_8009B138` signed-word counters, reset by `File_HandleReadEvent` and incremented by `File_TransferReadyCallback` |
 | `file_transfer.h` | `gFile_FilterParams[1]` and its same-symbol scalar byte alias; retain both addressing forms for command `0x0D`, not a one-byte extent claim |

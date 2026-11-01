@@ -2158,3 +2158,5 @@ MemCardDialog_UpdateLoad = 0x8003E3E4; // type:func size:0x344
 MemCardDialog_Update = 0x8003F568; // type:func size:0x2C8
 Script_OpSavePrompt = 0x8002EF3C; // type:func size:0x56C
 gText_DecimalDigitGlyphString = 0x801BF870;
+Options_LoadPackageStage = 0x8003C56C; // type:func size:0x1A0
+gFile_ActiveRequestSlot = 0x801D4200;

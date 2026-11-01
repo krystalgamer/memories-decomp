@@ -123,12 +123,11 @@ The NA evidence and UI claims above are unchanged. This separate
 source-backed PAL contract comes from the existing regional wrapper and
 complete common stage/request bodies, not a local PAL runtime session.
 
-`Options_LoadPackageStage` retains native `func_8003C56C`: 416 bytes at
-UK `0x8003C56C`, or `0x8003C76C` in France, Germany, Italy and Spain.
-Its `void(FileTransferDescriptor *, s32)` binding now lives in the
-existing transfer owner header under the already-existing
-`VERSION_EUROPE_FILE_REQUEST_OPTIONS_PACKAGE` selector. Only the private
-name macro in the actual Options wrapper is removed. The two earlier
+`Options_LoadPackageStage` (formerly native `func_8003C56C`) is 416 bytes
+at UK `0x8003C56C`, or `0x8003C76C` in France, Germany, Italy and Spain;
+each PAL symbols.txt binds the canonical name there. Its
+`void(FileTransferDescriptor *, s32)` declaration in the transfer owner
+header is the same in every region, with no assembler label. The two earlier
 wrappers keep their native `func_8003C224` and `func_8003C3C4` mappings;
 neither is claimed as another Options provider or given a screen name.
 NA/Japan declarations and native ownership remain unchanged.

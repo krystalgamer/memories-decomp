@@ -2279,3 +2279,4 @@ Model_StartBattleSlotAction = 0x800547E0; // type:func size:0x148
 Model_UpdateCreditsMonsterSlot = 0x80053E40; // type:func size:0x24C
 Model_CorrectViewPitch = 0x80055D7C; // type:func size:0x16C
 Model_CorrectViewDistance = 0x80055EE8; // type:func size:0x1DC
+gFile_ActiveRequestSlot = 0x801D4200;

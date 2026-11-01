@@ -3192,8 +3192,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D3200,gSaveData_aTransferBuffer,gSaveData_aTransferBuffer,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/mem_card_dialog.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)gDuel_awPlayerDeck,SAVE_DATA_STATE_SI..."
 0x801D4000,gSaveData_aHeaderTemplate,gSaveData_aHeaderTemplate,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_payload.c,address,8,"data->header, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE"
 0x801D4000,gSaveData_aHeaderTemplate,gSaveData_aHeaderTemplate,0x8003DC1C,MemCardWork_UpdateOperation,matching_c,game,C,src/game/mem_card_dialog.c,address,8,"gSaveData_aHeaderTemplate,"
-0x801D4200,D_801D4200,D_801D4200_raw,0x800143DC,File_ActivateTransfer,matching_c,game,C,src/game/file_transfer_runtime.c,read_write,8,*(FileRequestSlot *)(D_801D4200_raw + 32); | *(FileRequestSlot *)D_801D4200_raw =
-0x801D4200,D_801D4200,D_801D4200_raw,0x80014C40,File_RequestSecondarySlot,matching_c,game,C,src/game/file_transfer_runtime.c,address,8,r = D_801D4200_raw;
+0x801D4200,gFile_ActiveRequestSlot,gFile_ActiveRequestSlot,0x800143DC,File_ActivateTransfer,matching_c,game,C,src/game/file_transfer_runtime.c,read_write,8,*(FileRequestSlot *)(D_801D4200_raw + 32); | *(FileRequestSlot *)D_801D4200_raw =
+0x801D4200,gFile_ActiveRequestSlot,gFile_ActiveRequestSlot,0x80014C40,File_RequestSecondarySlot,matching_c,game,C,src/game/file_transfer_runtime.c,address,8,r = D_801D4200_raw;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80017F04,Duel_CreateCardDisplayObject,matching_c,game,C,src/game/duel_init_scene.c,address,32,tbl = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80018608,DuelScene_UpdateStartup,matching_c,game,C,src/game/duel_phase_entry.c,read,32,stat = gDuel_adwCardStats[rec->id - 1]; | stat2 = gDuel_adwCardStats[rec->id - 1];
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x8001B938,Duel_BeginFieldPlacementSelection,matching_c,game,C,src/game/duel_scene_card_move.c,read,32,i = (gDuel_adwCardStats[((DuelDeckCardRecord *)g->record.data)->id - 1] >>
