@@ -1,5 +1,5 @@
-// Japanese MODEL.MRG model 40 (record 40), sector 11250, header 859, loaded at 0x8017B000; the US source variant762_entry_slot1.c; built from the US source layout of model_variant_40_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1F48 defined:true
-D_8017CF5C = 0x8017CF5C; // type:u8 size:0x70 defined:true
-D_8017CFCC = 0x8017CFCC; // type:u8 size:0x30 defined:true
-D_8017CFFC = 0x8017CFFC; // type:u8 size:0x3004 defined:true
+// Japanese MODEL.MRG model 40 (record 40), sector 11250, header 859, loaded at 0x8017B000; the US source variant762_entry.c; built from the US source layout of model_variant_40_stage10_slot1.
+ModelVariant762_HandleRequest = 0x8017B004; // type:func size:0x1F48 defined:true
+gModelVariant762_D1F5C = 0x8017CF5C; // type:u8 size:0x70 defined:true
+gModelVariant762_D1FCC = 0x8017CFCC; // type:u8 size:0x30 defined:true
+gModelVariant762_D1FFC = 0x8017CFFC; // type:u8 size:0x3004 defined:true

@@ -8,9 +8,9 @@
  * wings rise until they pass the side's limit. The first wing frame returns
  * 1 and the end returns 2 once every colour has faded. */
 
-static const VECTOR D_8013CF4C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant762_D1F4C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
 {
     Model762State *work;
     MATRIX light;
@@ -40,11 +40,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CF4C;
+    scale = gModelVariant762_D1F4C;
     work = (Model762State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CFCC[command];
+        work->config = &gModelVariant762_D1FCC[command];
         v = work->sparks;
         for (i = 0; i < 32; v++, i++) {
             a = rand() % 4096;
@@ -62,7 +62,7 @@ s32 func_8013B004(u8 *context, s32 command)
             v->vz = 0;
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CF5C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant762_D1F5C[i]);
         }
         setVector(&work->drift, 0, 0, 0);
         v = work->shard.s.shards;
@@ -145,11 +145,11 @@ s32 func_8013B004(u8 *context, s32 command)
     light = *(MATRIX *)Model_GetLightSourceMatrix();
     if (work->elapsed <= work->config->release) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);
-        D_8013CFFC.vx = pos.vx = m.t[0];
+        gModelVariant762_D1FFC.vx = pos.vx = m.t[0];
         pos.vy = m.t[1];
         pos.vz = m.t[2];
-        D_8013CFFC.vy = pos.vy;
-        D_8013CFFC.vz = pos.vz;
+        gModelVariant762_D1FFC.vy = pos.vy;
+        gModelVariant762_D1FFC.vz = pos.vz;
     }
 
     if (work->elapsed < work->config->spark_end) {
@@ -158,7 +158,7 @@ s32 func_8013B004(u8 *context, s32 command)
         ft4.clut = work->texture[3];
         setRGB0(&ft4, work->config->r, work->config->g, work->config->b);
         GsSetLsMatrix(&light);
-        RotTrans(&D_8013CFFC, (VECTOR *)m.t, &flag);
+        RotTrans(&gModelVariant762_D1FFC, (VECTOR *)m.t, &flag);
         RotMatrix(&rot, &m);
         MulMatrix2(&light, &m);
         ScaleMatrix(&m, &scale);
@@ -211,7 +211,7 @@ s32 func_8013B004(u8 *context, s32 command)
     setVector(&quad[2], -work->flash, work->flash, 0);
     setVector(&quad[3], work->flash, work->flash, 0);
     GsSetLsMatrix(&light);
-    RotTrans(&D_8013CFFC, (VECTOR *)m.t, &flag);
+    RotTrans(&gModelVariant762_D1FFC, (VECTOR *)m.t, &flag);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
@@ -225,7 +225,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     if (work->state > 0) {
         SetPolyG3(&g3);
-        setVector(&pos, D_8013CFFC.vx, D_8013CFFC.vy, D_8013CFFC.vz);
+        setVector(&pos, gModelVariant762_D1FFC.vx, gModelVariant762_D1FFC.vy, gModelVariant762_D1FFC.vz);
         pos.vx += work->drift.vx;
         pos.vy += work->drift.vy;
         pos.vz += work->drift.vz;
@@ -336,7 +336,7 @@ s32 func_8013B004(u8 *context, s32 command)
         box.r = 0x80;
         box.g = 0x80;
         box.b = 0x80;
-        setVector(&pos, D_8013CFFC.vx, D_8013CFFC.vy, D_8013CFFC.vz);
+        setVector(&pos, gModelVariant762_D1FFC.vx, gModelVariant762_D1FFC.vy, gModelVariant762_D1FFC.vz);
         setVector(&scale, 0x1000, 0x1000, 0x1000);
         GsSetLsMatrix(&light);
         RotTrans(&pos, (VECTOR *)m.t, &flag);
@@ -383,7 +383,7 @@ s32 func_8013B004(u8 *context, s32 command)
         ring.tpage = work->texture[1] >> 16;
         ring.clut = work->texture[1];
         setUV4(&ring, 0x60, 0x40, 0x60, 0xBF, 0xDF, 0x40, 0xDF, 0xBF);
-        setVector(&pos, D_8013CFFC.vx, D_8013CFFC.vy, D_8013CFFC.vz);
+        setVector(&pos, gModelVariant762_D1FFC.vx, gModelVariant762_D1FFC.vy, gModelVariant762_D1FFC.vz);
         scale.vx = work->pulse + 0x1000;
         scale.vy = work->pulse + 0x1000;
         scale.vz = 0x1000;
@@ -430,7 +430,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setRGB0(&wing, work->colors.c.color2[0], work->colors.c.color2[1], work->colors.c.color2[2]);
         wing.tpage = work->texture[2] >> 16;
         wing.clut = work->texture[2];
-        setVector(&pos, D_8013CFFC.vx, D_8013CFFC.vy, D_8013CFFC.vz);
+        setVector(&pos, gModelVariant762_D1FFC.vx, gModelVariant762_D1FFC.vy, gModelVariant762_D1FFC.vz);
         pos.vx += work->drift.vx;
         pos.vy += work->drift.vy;
         pos.vz += work->drift.vz;
