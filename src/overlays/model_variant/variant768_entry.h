@@ -92,9 +92,9 @@ typedef struct {
     u8 color2[3];
 } Model768State;
 
-extern GsIMAGE D_8013D474[4];
-extern Model768Config D_8013D4E4[];
+extern GsIMAGE gModelVariant768_D2474[4];
+extern Model768Config gModelVariant768_D24E4[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant768_HandleRequest(u8 *context, s32 command);
 
 #endif

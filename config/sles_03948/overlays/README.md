@@ -485,7 +485,7 @@ French MODEL headers 788 (stage 7 slot 0) and 885 (stage 8 slot 1) build the hea
 
 French MODEL headers 790 (stage 7 slot 0) and 887 (stage 8 slot 1) build the header-773 entry (`func_8013B004`) from `src/overlays/model_variant/variant773_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant790_entry{,_slot1}.c`; the French code and data are identical to the US images.
 
-French MODEL headers 785 (stage 7 slot 0) and 882 (stage 8 slot 1) build the header-768 entry (`func_8013B004`) from `src/overlays/model_variant/variant768_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant785_entry{,_slot1}.c`; the French code and data are identical to the US images.
+French MODEL headers 785 (stage 7 slot 0) and 882 (stage 8 slot 1) build the header-768 entry (`ModelVariant768_HandleRequest`) directly from `src/overlays/model_variant/variant768_entry.c` in both slots; the French code and data are identical to the US images.
 
 French MODEL headers 186 (stage 7 slot 0, models 197 and 600) and 316 (stage 8 slot 1) build the North American header-169 entry (`func_8013B004`) from `src/overlays/model_variant/variant169_entry.c` through `src/overlays/french_model_variant/variant186_entry{,_slot1}.c`. The wrappers select `VERSION_FRENCH`, which drops the work-size `printf`, and the PAL screen height. The shorter text moves the scale vector down by 0x14, to `D_8013D0B0`, and the image table and the configuration rows down by 0x24, to `D_8013D0C0` and `D_8013D114`.
 

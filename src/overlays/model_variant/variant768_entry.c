@@ -6,9 +6,9 @@
  * pulsing ring, two shrinking columns of textured quads drift sideways and,
  * once they pass the slot, dots fall and a textured ring grows. */
 
-static const VECTOR D_8013D464 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant768_D2464 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant768_HandleRequest(u8 *context, s32 command)
 {
     Model768State *work;
     MATRIX light;
@@ -46,12 +46,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013D464;
+    scale = gModelVariant768_D2464;
     work = (Model768State *)context;
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D4E4[command];
+        work->config = &gModelVariant768_D24E4[command];
         v = &work->trails.flat[0];
         w = &work->trails.flat[32];
         x = &work->trails.flat[64];
@@ -128,7 +128,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D474[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant768_D2474[i]);
         }
         work->ring_scale = 0x1000;
         work->ambient = 0x800;
