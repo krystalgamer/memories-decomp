@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant471_quad_pairs.h"
 
-void func_8013C530(u8 *context)
+void FrenchModelVariant471_DrawQuadGroup(u8 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */

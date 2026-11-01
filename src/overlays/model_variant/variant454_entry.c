@@ -12,10 +12,10 @@
 
 /* Header 454's entry: the header-412 entry with a 16-sprite group and a
  * 10-sprite cluster in place of the trail and flares. The group is released
- * around the opposite slot and drawn by func_8013C534; func_8013CA2C runs
- * once the phase reaches 2. */
+ * around the opposite slot and drawn by FrenchModelVariant471_DrawQuadGroup;
+ * FrenchModelVariant471_DrawQuads runs once the phase reaches 2. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant454EntryState *work = (Variant454EntryState *)point;
     SVECTOR position, target;
@@ -70,7 +70,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant454EntryConfig *)(D_8013CEFC + 0xFC) + command;
+        work->config = (Variant454EntryConfig *)(gModelVariant454_D1EFC + 0xFC) + command;
         for (n = 0; n < 1; n++) {
             work->parts[n] = Model_GetSlotDataEntry(work->slot, work->config->parts[n]);
         }
@@ -88,15 +88,15 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT454_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT454_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CEFC + 0xC4));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CEFC + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CEFC + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant454_D1EFC + 0xC4));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant454_D1EFC + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant454_D1EFC + 0x1C));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CEFC + 0x38));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant454_D1EFC + 0x38));
         glow_page = packed >> 16;
         glow_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CEFC + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant454_D1EFC + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -409,10 +409,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->frame) {
-            func_8013C534((u8 *)point);
+            FrenchModelVariant471_DrawQuadGroup((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013CA2C((u8 *)point);
+            FrenchModelVariant471_DrawQuads((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

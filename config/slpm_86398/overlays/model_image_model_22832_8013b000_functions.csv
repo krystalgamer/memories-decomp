@@ -1,4 +1,4 @@
 address,size,name,status,module,notes
-0x8013B004,0x1530,func_8013B004,matching_c,overlay/model_image_model_22832_8013b000,Loader entry; C body exact through variant454_entry.c; direct-entry reachable.
-0x8013C534,0x4F8,func_8013C534,matching_c,overlay/model_image_model_22832_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013CA2C,0x4D0,func_8013CA2C,matching_c,overlay/model_image_model_22832_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0x1530,ModelVariant454_HandleRequest,matching_c,overlay/model_image_model_22832_8013b000,Loader entry; C body exact through variant454_entry.c; direct-entry reachable.
+0x8013C534,0x4F8,FrenchModelVariant471_DrawQuadGroup,matching_c,overlay/model_image_model_22832_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013CA2C,0x4D0,FrenchModelVariant471_DrawQuads,matching_c,overlay/model_image_model_22832_8013b000,Complete module byte identity and section-defined C ownership verified.

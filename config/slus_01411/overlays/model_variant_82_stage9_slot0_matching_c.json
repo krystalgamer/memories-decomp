@@ -10,13 +10,13 @@
       "address": "0x8013C534",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4F8",
-      "source": "src/overlays/model_variant/variant454_quad_pairs.c"
+      "source": "src/overlays/french_model_variant/variant471_quad_pairs.c"
     },
     {
       "address": "0x8013CA2C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4D0",
-      "source": "src/overlays/model_variant/variant454_quads.c"
+      "source": "src/overlays/french_model_variant/variant471_quads.c"
     }
   ],
   "schema": 1

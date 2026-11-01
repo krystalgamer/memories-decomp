@@ -61,14 +61,14 @@ segments:
     vram: 0x8013C534
     align: 4
     subsegments:
-      - [0x1534, c, overlays/model_variant/variant454_quad_pairs]
+      - [0x1534, c, overlays/french_model_variant/variant471_quad_pairs]
   - name: helper_1a2c
     type: code
     start: 0x1A2C
     vram: 0x8013CA2C
     align: 4
     subsegments:
-      - [0x1A2C, c, overlays/model_variant/variant454_quads]
+      - [0x1A2C, c, overlays/french_model_variant/variant471_quads]
   - name: data
     type: code
     start: 0x1EFC

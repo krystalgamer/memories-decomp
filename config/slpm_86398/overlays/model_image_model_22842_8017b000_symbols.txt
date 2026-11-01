@@ -1,8 +1,8 @@
 // Japanese MODEL.MRG model 82 (record 82), sector 22842, header 604, loaded at 0x8017B000; built from the US source layout of model_variant_82_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1530 defined:true
-func_8017C534 = 0x8017C534; // type:func size:0x4F8 defined:true
-func_8017CA2C = 0x8017CA2C; // type:func size:0x4D0 defined:true
-D_8017CEFC = 0x8017CEFC; // type:u8 size:0x3104 defined:true
+ModelVariant454_HandleRequest = 0x8017B004; // type:func size:0x1530 defined:true
+FrenchModelVariant471_DrawQuadGroup = 0x8017C534; // type:func size:0x4F8 defined:true
+FrenchModelVariant471_DrawQuads = 0x8017CA2C; // type:func size:0x4D0 defined:true
+gModelVariant454_D1EFC = 0x8017CEFC; // type:u8 size:0x3104 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true
