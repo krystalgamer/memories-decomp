@@ -70,9 +70,9 @@ typedef struct {
     u8 b[16];
 } Model826State;
 
-extern GsIMAGE D_8013D218[2];
-extern Model826Config D_8013D250[];
+extern GsIMAGE gModelVariant826_D2218[2];
+extern Model826Config gModelVariant826_D2250[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant826_HandleRequest(u8 *context, s32 command);
 
 #endif
