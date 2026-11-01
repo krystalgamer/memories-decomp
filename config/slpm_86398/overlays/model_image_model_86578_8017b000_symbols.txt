@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 363 (record 363), sector 86578, header 223, loaded at 0x8017B000; the US source variant93_entry_slot1.c; built from the US source layout of model_variant_363_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x3408 defined:true
-D_8017E438 = 0x8017E438; // type:u8 size:0x1C defined:true
-D_8017E454 = 0x8017E454; // type:u8 size:0x1BAC defined:true
+// Japanese MODEL.MRG model 363 (record 363), sector 86578, header 223, loaded at 0x8017B000; the US source variant93_entry.c; built from the US source layout of model_variant_363_stage8_slot1.
+ModelVariant93_HandleRequest = 0x8017B004; // type:func size:0x3408 defined:true
+gModelVariant93_D3438 = 0x8017E438; // type:u8 size:0x1C defined:true
+gModelVariant93_D3454 = 0x8017E454; // type:u8 size:0x1BAC defined:true

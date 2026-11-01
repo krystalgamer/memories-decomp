@@ -1125,7 +1125,7 @@ differ, which `model_variant95_linker_symbols.txt` binds to the French addresses
 
 Two images under French headers 106 (stage 9 slot 0) and 236 (stage 10 slot 1) build the header-89 entry (`func_8013B004`) from `src/overlays/model_variant/variant89_entry.c` through `src/overlays/french_model_variant/variant106_entry{,_slot1}.c`, which set `GRAPHICS_DEFAULT_HEIGHT` to 256 for the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
 
-French MODEL headers 110 (stage 7 slot 0) and 240 (stage 8 slot 1) build the header-93 entry (`func_8013B004`) from `src/overlays/model_variant/variant93_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant110_entry{,_slot1}.c`; the French code and data are identical to the US images. They link through their own `model_variant110_entry_linker_symbols.txt`, so the shared `model_variant110_linker_symbols.txt` is unchanged.
+French MODEL headers 110 (stage 7 slot 0) and 240 (stage 8 slot 1) build the header-93 entry (`ModelVariant93_HandleRequest`) directly from `src/overlays/model_variant/variant93_entry.c` in both slots; the French code and data are identical to the US images. They link through their own `model_variant110_entry_linker_symbols.txt`, so the shared `model_variant110_linker_symbols.txt` is unchanged.
 
 Two images under French headers 114 and 244 are the North American header-97
 entry (`model_variant/variant97_entry.c`) with its full-screen flash covering
