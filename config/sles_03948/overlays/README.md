@@ -479,8 +479,8 @@ addresses.
 Four images under French headers 781 and 878 are the North American
 header-764 entry (`model_variant/variant764_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant764_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant781_linker_symbols.txt`.
+directly in both slots through `model_variant781_linker_symbols.txt`, and each
+image's symbols file binds the entry and data names at its own addresses.
 
 French MODEL headers 788 (stage 7 slot 0) and 885 (stage 8 slot 1) build the header-771 entry (`func_8013B004`) from `src/overlays/model_variant/variant771_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant788_entry{,_slot1}.c`; the French code and data are identical to the US images.
 
