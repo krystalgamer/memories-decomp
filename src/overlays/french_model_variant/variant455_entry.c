@@ -4,6 +4,4 @@
  * the data at 0x1978; the palette loads from PAL x = 640. */
 #define VERSION_FRENCH
 #define MODEL_VARIANT438_CLUT_X 640
-#define func_8013C3B4 func_8013C3B0
-#define D_8013C988 D_8013C978
 #include "../model_variant/variant438_entry.c"

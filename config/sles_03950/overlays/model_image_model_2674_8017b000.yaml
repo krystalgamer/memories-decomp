@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/italian_model_image_model_2674_8017b000/build
   undefined_funcs_auto_path: tmp/overlays/italian_model_image_model_2674_8017b000/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/italian_model_image_model_2674_8017b000/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03950/overlays/model_image_model_2674_8017b000_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -54,7 +56,7 @@ segments:
     vram: 0x8017C3B0
     align: 4
     subsegments:
-      - [0x13B0, c, overlays/french_model_variant/variant455_swarm_slot1]
+      - [0x13B0, c, overlays/french_model_variant/variant455_swarm]
   - name: unclassified_tail
     type: code
     start: 0x1978

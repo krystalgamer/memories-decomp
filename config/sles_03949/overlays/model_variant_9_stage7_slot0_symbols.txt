@@ -1,7 +1,7 @@
 // German MODEL.MRG model 9 (record 9), sector 2664, header 455, loaded at 0x8013B000; the US header-438 source variant438_entry.c; built from the French source layout of french_model_variant_9_stage7_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x13AC defined:true
-func_8013C3B0 = 0x8013C3B0; // type:func size:0x5C8 defined:true
-D_8013C978 = 0x8013C978; // type:u8 size:0x3688 defined:true
+ModelVariant438_HandleRequest = 0x8013B004; // type:func size:0x13AC defined:true
+FrenchModelVariant455_DrawSwarm = 0x8013C3B0; // type:func size:0x5C8 defined:true
+gModelVariant438_D1988 = 0x8013C978; // type:u8 size:0x3688 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x8005BF9C; // type:func absolute:true

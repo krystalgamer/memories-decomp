@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant455_swarm.h"
 
-void func_8013C3B0(u8 *context)
+void FrenchModelVariant455_DrawSwarm(u8 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
