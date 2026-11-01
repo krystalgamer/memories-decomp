@@ -1,4 +1,4 @@
 // Japanese MODEL.MRG model 118 (record 118), sector 32768, header 787, loaded at 0x8013B000; the US source variant787_entry.c; built from the US source layout of model_variant_118_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x12D8 defined:true
-D_8013C2EC = 0x8013C2EC; // type:u8 size:0x38 defined:true
-D_8013C324 = 0x8013C324; // type:u8 size:0x3CDC defined:true
+ModelVariant787_HandleRequest = 0x8013B004; // type:func size:0x12D8 defined:true
+gModelVariant787_D12EC = 0x8013C2EC; // type:u8 size:0x38 defined:true
+gModelVariant787_D1324 = 0x8013C324; // type:u8 size:0x3CDC defined:true
