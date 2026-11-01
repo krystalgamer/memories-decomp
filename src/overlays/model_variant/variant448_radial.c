@@ -3,7 +3,7 @@
 
 /* Draws sixteen triangles and sixteen outer quads with three color bands,
  * then advances the timed growth and step-based shrink. */
-void func_8013C254(u8 *ctx)
+void ModelVariant448_DrawRadialDisc(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

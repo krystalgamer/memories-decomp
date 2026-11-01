@@ -83,5 +83,4 @@ extern u8 D_8013CF5C[];
 void func_8013B9A4(u8 *context);
 void func_8013C278(u8 *context);
 void func_8013C738(u8 *context);
-s32 func_8013B004(SVECTOR *point, s32 command);
 #endif
