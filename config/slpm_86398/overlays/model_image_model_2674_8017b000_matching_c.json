@@ -4,13 +4,13 @@
       "address": "0x8017B004",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x13B0",
-      "source": "src/overlays/model_variant/variant438_entry_slot1.c"
+      "source": "src/overlays/model_variant/variant438_entry.c"
     },
     {
       "address": "0x8017C3B4",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x5D4",
-      "source": "src/overlays/model_variant/variant438_swarm_slot1.c"
+      "source": "src/overlays/french_model_variant/variant455_swarm.c"
     }
   ],
   "schema": 1

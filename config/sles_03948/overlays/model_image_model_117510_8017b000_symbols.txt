@@ -1,0 +1,2 @@
+// French MODEL.MRG model 475 raw image model_image_model_117510_8017b000, loaded at 0x8017B000; the French header-455 swarm helper variant455_swarm.c.
+FrenchModelVariant455_DrawSwarm = 0x8017C3B0; // type:func size:0x5C8 defined:true

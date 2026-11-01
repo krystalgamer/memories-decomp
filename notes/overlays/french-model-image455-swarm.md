@@ -25,3 +25,12 @@ The local view lives in `variant455_swarm.h`. The resident calls are covered
 by `model_variant455_linker_symbols.txt`. All French overlay images rebuild
 exactly. The [attempt ledger](french-model-image455-swarm-attempts.csv)
 records the 13 measured probes.
+
+## Per-image names
+
+The source defines `FrenchModelVariant455_DrawSwarm`. The PAL model-475 and
+model-9 images of both slots build it at `0x8013C3B0`/`0x8017C3B0`; the North
+American and Japanese images build the same source from the header-438 entry
+layout at `0x8013C3B4`/`0x8017C3B4`, four bytes later. Each image binds the
+name at its own address (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
