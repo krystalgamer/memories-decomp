@@ -483,7 +483,7 @@ and its `_slot1.c` wrapper directly through
 
 French MODEL headers 788 (stage 7 slot 0) and 885 (stage 8 slot 1) build the header-771 entry (`ModelVariant771_HandleRequest`) directly from `src/overlays/model_variant/variant771_entry.c` in both slots; the French code and data are identical to the US images.
 
-French MODEL headers 790 (stage 7 slot 0) and 887 (stage 8 slot 1) build the header-773 entry (`func_8013B004`) from `src/overlays/model_variant/variant773_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant790_entry{,_slot1}.c`; the French code and data are identical to the US images.
+French MODEL headers 790 (stage 7 slot 0) and 887 (stage 8 slot 1) build the header-773 entry (`ModelVariant773_HandleRequest`) directly from `src/overlays/model_variant/variant773_entry.c` in both slots; the French code and data are identical to the US images.
 
 French MODEL headers 785 (stage 7 slot 0) and 882 (stage 8 slot 1) build the header-768 entry (`ModelVariant768_HandleRequest`) directly from `src/overlays/model_variant/variant768_entry.c` in both slots; the French code and data are identical to the US images.
 
