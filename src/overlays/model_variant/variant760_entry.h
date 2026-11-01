@@ -82,9 +82,9 @@ typedef struct {
     u8 alpha[16];
 } Model760State;
 
-extern GsIMAGE D_8013CF78[3];
-extern Model760Config D_8013CFCC[];
+extern GsIMAGE gModelVariant760_D1F78[3];
+extern Model760Config gModelVariant760_D1FCC[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant760_HandleRequest(u8 *context, s32 command);
 
 #endif
