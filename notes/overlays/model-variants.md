@@ -1022,6 +1022,9 @@ only.
 | `ModelVariant149_HandleRequest` | `model_variant/variant149_entry.c` | Model 253 slot 0 and slot 1 in every region, Japanese images 70028/70038: `0x8013B004`/`0x8017B004` |
 | `gModelVariant149_D14D4` | data subsegment (`variant149_entry.h`) | Model 253 slot 0 and slot 1 in every region, Japanese images 70028/70038: USA and Japanese `0x8013C4D4`/`0x8017C4D4`; European, French, German, Italian and Spanish `0x8013C4B0`/`0x8017C4B0` |
 | `gModelVariant149_D15EC` | data subsegment (`variant149_entry.h`) | Model 253 slot 0 and slot 1 in every region, Japanese images 70028/70038: USA and Japanese `0x8013C5EC`/`0x8017C5EC`; European, French, German, Italian and Spanish `0x8013C5C8`/`0x8017C5C8` |
+| `ModelVariant154_HandleRequest` | `model_variant/variant154_entry.c` | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: `0x8013B004`/`0x8017B004` |
+| `gModelVariant154_D23B4` | data subsegment (`variant154_entry.h`) | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: USA and Japanese `0x8013D3B4`/`0x8017D3B4`; European, French, German, Italian and Spanish `0x8013D390`/`0x8017D390` |
+| `gModelVariant154_D2408` | data subsegment (`variant154_entry.h`) | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: USA and Japanese `0x8013D408`/`0x8017D408`; European, French, German, Italian and Spanish `0x8013D3E4`/`0x8017D3E4` |
 
 ### Header 407: petals
 
