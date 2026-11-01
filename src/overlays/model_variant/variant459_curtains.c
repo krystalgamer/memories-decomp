@@ -4,7 +4,7 @@
 /* Draws five rotating curtains of sixteen textured strips. Each grows and
  * fades from 0x1400 to 0x1800, wraps with a new rotation until its deadline,
  * then stops at full scale with zero color. */
-void func_8013D430(u8 *ctx)
+void ModelVariant459_DrawCurtains(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

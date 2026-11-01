@@ -58,10 +58,10 @@ segments:
     subsegments:
       - [0x4, c, overlays/model_variant/variant459_entry]
       - [0x1360, c, overlays/model_variant/variant459_sheet]
-      - [0x1714, c, overlays/model_variant/variant459_spiral]
+      - [0x1714, c, overlays/french_model_variant/variant476_spiral]
       - [0x2064, c, overlays/model_variant/variant459_webs]
       - [0x2430, c, overlays/model_variant/variant459_curtains]
       - [0x2800, c, overlays/model_variant/variant459_grid]
-      - [0x2D90, c, overlays/model_variant/variant459_screen_grid]
+      - [0x2D90, c, overlays/french_model_variant/variant476_screen_grid]
       - [0x3338, data, overlays/japanese_model_image_model_169112_8013b000/data]
   - [0x5000]
