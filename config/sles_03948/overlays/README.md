@@ -1160,11 +1160,10 @@ binds to the French addresses. They build through
 `src/overlays/french_model_variant/variant113_entry{,_slot1}.c`.
 
 Two images under French headers 123 and 253 are the North American
-header-106 entry (`model_variant/variant106_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf or screen-height constant, and
-only the resident call targets differ, which
-`model_variant123_linker_symbols.txt` binds to the French addresses. They
-build through `src/overlays/french_model_variant/variant123_entry{,_slot1}.c`.
+header-106 entry (`model_variant/variant106_entry.c`) unchanged: it has no
+work-size printf or screen-height constant, and only the resident call targets
+differ, which `model_variant123_linker_symbols.txt` binds to the French
+addresses. Both slots build that source directly.
 
 Two images under French headers 115 and 245 are the North American header-98
 entry (`model_variant/variant98_entry.c` and its `_slot1.c` wrapper)
