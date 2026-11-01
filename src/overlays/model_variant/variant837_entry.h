@@ -83,9 +83,9 @@ typedef struct {
     u8 flash;
 } Model837State;
 
-extern GsIMAGE D_8013DF8C[];
-extern Model837Config D_8013DFE0[];
+extern GsIMAGE gModelVariant837_D2F8C[];
+extern Model837Config gModelVariant837_D2FE0[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant837_HandleRequest(u8 *context, s32 command);
 
 #endif

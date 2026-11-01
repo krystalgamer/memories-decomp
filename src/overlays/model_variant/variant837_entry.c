@@ -7,11 +7,11 @@
  * flash, a quartered glow, scattered sparks, beams and expanding bursts
  * while the ambient light dims and recovers. */
 
-static const VECTOR D_8013DF7C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant837_D2F7C = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD() ((rand() - rand()) % 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
 {
     Model837State *work;
     MATRIX light;
@@ -43,7 +43,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013DF7C;
+    scale = gModelVariant837_D2F7C;
     work = (Model837State *)context;
     g3 = &g3_packet;
     ft4 = &ft4_packet;
@@ -52,9 +52,9 @@ s32 func_8013B004(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013DFE0[command];
+        work->config = &gModelVariant837_D2FE0[command];
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013DF8C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant837_D2F8C[i]);
         }
         work->ring_tpage = 0xAE;
 #ifdef VERSION_FRENCH

@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant854_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant854_entry]
   - name: rodata
     type: code
     start: 0x2F7C
     vram: 0x8017DF7C
     align: 4
     subsegments:
-      - [0x2F7C, .rodata, overlays/french_model_variant/variant854_entry_slot1]
+      - [0x2F7C, .rodata, overlays/french_model_variant/variant854_entry]
   - name: unclassified_tail
     type: code
     start: 0x2F8C

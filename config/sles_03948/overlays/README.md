@@ -1031,9 +1031,9 @@ the height and bind `model_variant138_linker_symbols.txt` and
 Two images under French headers 854 and 951 are the North American
 header-837 entry (`model_variant/variant837_entry.c`) with the ring palette
 from the PAL CLUT row 0x3D28 instead of 0x3D20 and its full-screen flash
-covering the 256 PAL lines. The
-`src/overlays/french_model_variant/variant854_entry{,_slot1}.c` wrappers set
-`VERSION_FRENCH` and the height and bind
+covering the 256 PAL lines. Both slots build through the
+`src/overlays/french_model_variant/variant854_entry.c` wrapper, which sets
+`VERSION_FRENCH` and the height; they bind
 `model_variant854_linker_symbols.txt` and
 `model_variant951_linker_symbols.txt`.
 
