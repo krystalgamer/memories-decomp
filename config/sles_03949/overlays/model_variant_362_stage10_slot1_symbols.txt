@@ -1,4 +1,4 @@
-// German MODEL.MRG model 362 (record 362), sector 86322, header 302, loaded at 0x8017B000; the US header-155 source variant155_entry_slot1.c; built from the French source layout of french_model_variant_362_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1738 defined:true
-D_8017C74C = 0x8017C74C; // type:u8 size:0x8C defined:true
-D_8017C7D8 = 0x8017C7D8; // type:u8 size:0x3828 defined:true
+// German MODEL.MRG model 362 (record 362), sector 86322, header 302, loaded at 0x8017B000; the US header-155 source variant155_entry.c; built from the French source layout of french_model_variant_362_stage10_slot1.
+ModelVariant155_HandleRequest = 0x8017B004; // type:func size:0x1738 defined:true
+gModelVariant155_D1770 = 0x8017C74C; // type:u8 size:0x8C defined:true
+gModelVariant155_D17FC = 0x8017C7D8; // type:u8 size:0x3828 defined:true

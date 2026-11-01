@@ -458,9 +458,10 @@ file binds the shared data names to its own addresses.
 Two images under French headers 172 and 302 are the North American
 header-155 entry (`model_variant/variant155_entry.c`) without its work-size
 printf or that call's `.rodata` format string, and with a 256-line screen
-flash, built through
-`src/overlays/french_model_variant/variant172_entry{,_slot1}.c`. The scale
-vector sits 0x14 lower and the image and command tables 0x24 lower.
+flash. Both slots build through
+`src/overlays/french_model_variant/variant172_entry.c`. The scale vector sits
+0x14 lower and the image and command tables 0x24 lower; each image's symbols
+file binds the shared data names to its own addresses.
 
 Two images under French headers 180 and 310 are the North American
 header-163 entry (`model_variant/variant163_entry.c`) with its full-screen
