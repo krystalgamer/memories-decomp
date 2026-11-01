@@ -1,3 +1,4 @@
-func_8017B004 = 0x8017B004; // type:func size:0x10F4 defined:true
-D_8017C7B0 = 0x8017C7B0; // type:u8 defined:true
-D_8017C8AC = 0x8017C8AC; // type:u8 defined:true
+ModelVariant430_HandleRequest = 0x8017B004; // type:func size:0x10F4 defined:true
+FrenchModelVariant447_DrawSwarm = 0x8017C0F8; // type:func size:0x6B8 defined:true
+gModelVariant430_D17B8 = 0x8017C7B0; // type:u8 defined:true
+gModelVariant430_D18B4 = 0x8017C8AC; // type:u8 defined:true

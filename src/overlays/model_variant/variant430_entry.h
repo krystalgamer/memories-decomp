@@ -14,7 +14,7 @@ typedef struct {
 } Variant430EntryConfig;
 
 /* Thirty-two swarm quads at the start of the work area, drawn by
- * func_8013C0FC. */
+ * FrenchModelVariant447_DrawSwarm. */
 typedef struct {
     SVECTOR a[32], b[32], c[32], d[32], origin[32];
     u8 color[4];
@@ -84,7 +84,7 @@ typedef struct {
 } Variant430EntryState;
 
 /* Nine texture images followed by the command table. */
-extern GsIMAGE D_8013C7B8[];
-extern Variant430EntryConfig D_8013C8B4[];
-void func_8013C0FC(u8 *context);
+extern GsIMAGE gModelVariant430_D17B8[];
+extern Variant430EntryConfig gModelVariant430_D18B4[];
+void FrenchModelVariant447_DrawSwarm(u8 *context);
 #endif

@@ -54,14 +54,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant430_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant430_entry]
   - name: helper_10fc
     type: code
     start: 0x10FC
     vram: 0x8017C0FC
     align: 4
     subsegments:
-      - [0x10FC, c, overlays/model_variant/variant430_swarm_slot1]
+      - [0x10FC, c, overlays/french_model_variant/variant447_swarm]
   - name: data
     type: code
     start: 0x17B8

@@ -12,12 +12,12 @@
 
 /* Header 430's entry: the header-438 entry with a fixed group of 32 swarm
  * quads aimed from the root part at the opposite slot.  The swarm helper
- * func_8013C0FC runs from the start frame while the phase is still 0, and
- * again for every frame from the end frame on.  The French header-447 image
+ * FrenchModelVariant447_DrawSwarm runs from the start frame while the phase
+ * is still 0, and again for every frame from the end frame on.  The French header-447 image
  * builds this source under gcc 2.8.1 with VERSION_FRENCH and a CLUT x of
  * 640; the North American one is gcc 2.7.2. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant430_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant430EntryState *work = (Variant430EntryState *)point;
     /* Unused; they keep the target's stack frame layout. */
@@ -73,7 +73,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = &D_8013C8B4[command];
+        work->config = &gModelVariant430_D18B4[command];
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -91,13 +91,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT430_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT430_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C7B8[7]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C7B8[5]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C7B8[1]);
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C7B8[2]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant430_D17B8[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant430_D17B8[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant430_D17B8[1]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant430_D17B8[2]);
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013C7B8[3]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant430_D17B8[3]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -338,9 +338,9 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->frame && work->phase == 0) {
-            func_8013C0FC((u8 *)point);
+            FrenchModelVariant447_DrawSwarm((u8 *)point);
         } else if (work->config->end <= work->frame) {
-            func_8013C0FC((u8 *)point);
+            FrenchModelVariant447_DrawSwarm((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

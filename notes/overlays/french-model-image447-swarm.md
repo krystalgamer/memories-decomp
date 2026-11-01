@@ -25,3 +25,11 @@ As in the header-455 swarm, the orbit argument must be written
 `model_variant447_linker_symbols.txt` covers the resident calls. The
 [attempt ledger](french-model-image447-swarm-attempts.csv) records five
 measured probes.
+
+## Per-image names
+
+The source defines `FrenchModelVariant447_DrawSwarm`. The PAL model-278
+images of both slots build it at `0x8013C0F8`/`0x8017C0F8`; the North
+American and Japanese images build the same source at `0x8013C0FC`/`0x8017C0FC`,
+four bytes later. Each image binds the name at its own address (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
