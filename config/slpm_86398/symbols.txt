@@ -2228,6 +2228,9 @@ Model_QueueEffectEndpointPair = 0x8004F164; // type:func
 Model_QueueCameraShake = 0x8004F200; // type:func
 CardList_CreateDeckBoxStatRows = 0x8004FB3C;
 
+gRuntime_pSharedWorkBase = 0x80010000;
+gModel_pSlot1PayloadBase = 0x80010004;
+gModel_AuxiliaryPayloadAddress = 0x80010008;
 gModel_pSlot0PrimaryModule = 0x8001000C;
 
 gModel_pSlot1PrimaryModule = 0x80010010;
@@ -2243,6 +2246,8 @@ gModel_Slot1PrimaryDataAddress = 0x80010020;
 gModel_Slot0VariantDataAddress = 0x80010024;
 
 gModel_Slot1VariantDataAddress = 0x80010028;
+gModel_CreditsModuleAddress = 0x80010030;
+gModel_pCreditsMusicTrackBuffer = 0x80010034;
 
 Model_SetHandlerCallbackState = 0x8004EBE8; // type:func
 gFile_szPositionFormat = 0x80010038;

@@ -54,7 +54,7 @@ by this handler.
 
 The producer is `DuelEffect_AllocateRequest` in
 `src/game/duel_effect_object_pool.c`: it returns the real pool record with
-`buffer = D_80010000 + 0x3800`. `DuelEffect_UpdateRequests` forwards this
+`buffer = gRuntime_pSharedWorkBase + 0x3800`. `DuelEffect_UpdateRequests` forwards this
 word as `(s32)rec->buffer` to the effect dispatcher. The conversion does
 not change that ABI or infer how the downstream effect interprets it.
 

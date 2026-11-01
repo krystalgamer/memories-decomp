@@ -37,8 +37,8 @@
 
 u8 gMain_bActiveModeState;
 
-#define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
-#include "../game/high_memory_addresses.h"
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+#include "../game/shared_work_base.h"
 #include "../game/main_mode_state.h"
 
 void Main_RunDuel(void)
@@ -63,7 +63,7 @@ void Main_RunDuel(void)
             gMain_bModeRunnerStep = value | 0x80;
             gBuildDeck_bConfirmMode[0] = 0x80;
             BuildDeck_InitScreen(
-                (BuildDeckTransitionState *)D_80010000[0].payload_bases[0],
+                (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
                 (u8 *)gDuel_awPlayerDeck, 0, 0x80);
             Fade_WaitIn();
         } else if (BuildDeck_Update() == 0) {

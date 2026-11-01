@@ -228,7 +228,7 @@ which is archive range `0xF44000-0xF6F800`. Resident callback
 | `0xF44000-0xF54000` | `0x10000` / 32 sectors | Schedules the main image payload through the GPU/VRAM transfer path. |
 | `0xF54000-0xF54800` | `0x800` / 1 sector | Stages palette data; the following callback phase uploads the complete block as a `256 x 4` rectangle to VRAM `(0, 240)`. |
 | `0xF54800-0xF55000` | `0x800` / 1 sector | Schedules a transfer to `0x801AF000`; its later role remains unnamed. |
-| `0xF55000-0xF6D000` | `0x18000` / 48 sectors | Transfers to the arena pointer at `D_80010000[0]`, which is `0x80100000`. `FreeDuel_Init` consumes the first `0x17C00` bytes as 40 portrait records of `0x980` bytes each; the final `0x400` bytes are zero padding. |
+| `0xF55000-0xF6D000` | `0x18000` / 48 sectors | Transfers to the arena pointer at `gRuntime_pSharedWorkBase`, which is `0x80100000`. `FreeDuel_Init` consumes the first `0x17C00` bytes as 40 portrait records of `0x980` bytes each; the final `0x400` bytes are zero padding. |
 | `0xF6D000-0xF6F800` | `0x2800` / 5 sectors | Transfers through `gFile_pScreenBankBase` to `0x80168000`, producing the tracked Free Duel executable overlay. |
 
 Each portrait record contains a `48 x 48` 8-bit image (`0x900` bytes)

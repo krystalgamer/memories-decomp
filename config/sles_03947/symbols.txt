@@ -901,6 +901,9 @@ gDuel_pTerrainIcon = 0x8009C0C8;
 gDuel_pSide0SaveData = 0x8009C0D8;
 gFile_pScreenBankBase = 0x800101D8;
 gFile_pDuelBankBase = 0x800101DC;
+gFile_pBootTextStage5Destination = 0x800101E0;
+gFile_pBootTextStage6Destination = 0x800101E4;
+gFile_pBootTextStage7Destination = 0x800101E8;
 gEuropean_D_8009B1DC = 0x8009C0DC;
 gDuel_wViewTweenFramesRemaining = 0x8009C0AC;
 gDuel_apSwordsEffectObjects = 0x8009C0B0;
@@ -2073,6 +2076,9 @@ gDuel_wSavedTargetStatModifier = 0x8009C136;
 gDuel_awSavedRecordFlags = 0x8009C174;
 gDuel_wSavedTargetRecordFlags = 0x8009C176;
 
+gRuntime_pSharedWorkBase = 0x80010000;
+gModel_pSlot1PayloadBase = 0x80010004;
+gModel_AuxiliaryPayloadAddress = 0x80010008;
 gModel_pSlot0PrimaryModule = 0x8001000C;
 
 gModel_pSlot1PrimaryModule = 0x80010010;
@@ -2088,6 +2094,8 @@ gModel_Slot1PrimaryDataAddress = 0x80010020;
 gModel_Slot0VariantDataAddress = 0x80010024;
 
 gModel_Slot1VariantDataAddress = 0x80010028;
+gModel_CreditsModuleAddress = 0x80010030;
+gModel_pCreditsMusicTrackBuffer = 0x80010034;
 gDuel_abSelectionRecord1 = 0x800EAF8C;
 gDuel_abSelectionRecord3 = 0x800EAFC4;
 gModelDebug_szLoadStageFormat = 0x80011444;

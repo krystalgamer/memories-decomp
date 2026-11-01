@@ -20,7 +20,7 @@
  * DuelEffect_FindFreeRequest and fills every field below, so each one is a store in the
  * function rather than a guess. It zeroes +0x00, +0x02, +0x04 and
  * +0x12, writes 8 at +0x10, the effect id at +0x18, zero at +0x1A, the shared
- * buffer D_80010000 + 0x3800 at +0x14, two words copied out of gGraphics_apOrderingTables at
+ * buffer gRuntime_pSharedWorkBase + 0x3800 at +0x14, two words copied out of gGraphics_apOrderingTables at
  * +0x08 and +0x0C, 0x80 at +0x1C and zero at +0x1D.
  *
  * The three halfwords at +0x00, +0x02 and +0x04 are the request's payload and

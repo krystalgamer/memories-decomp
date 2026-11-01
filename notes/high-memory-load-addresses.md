@@ -44,8 +44,9 @@ SU destination.
 The PAL boot text tail is a separate, later cohort outside the fourteen
 NA words above. `gFile_pBootTextStage5Destination`,
 `gFile_pBootTextStage6Destination` and `gFile_pBootTextStage7Destination`
-retain the original stored `u8 *G32` views of `D_800101E0/4/8`, under the
-European build guard only. Boot stages 5/6/7 read those individual words
+are the original stored `u8 *G32` words at `0x800101E0/4/8`, declared
+under the European build guard only and bound directly by the European
+link scripts. Boot stages 5/6/7 read those individual words
 for their 30/32/7-sector transfers. The names identify the measured
 transfer roles, not independently verified pointer contents, allocation
 sizes or a uniform text-bank format. See the
@@ -173,11 +174,10 @@ separate data word through the slot's `+0xDE8` or `+0xDEC` value. No new
 function-pointer type, data-record type, storage, const qualifier or array
 bound follows from these names. The signed address words are not retyped.
 
-The reused primary word's scalar consumers now use `gRuntime_pSharedWorkBase`;
-see [shared-transfer-workspaces.md](shared-transfer-workspaces.md). Its
-incomplete legacy `D_80010000` prefix view, declaration selectors and
-base-relative relocations are unchanged. Naming the independent scalar
-words does not replace accesses through that prefix.
+The reused primary word is `gRuntime_pSharedWorkBase`; see
+[shared-transfer-workspaces.md](shared-transfer-workspaces.md). Every
+consumer, including the three former prefix-view readers described under
+Shared C contracts, loads it by that name.
 
 ## Model payload and credits words
 
@@ -210,15 +210,14 @@ borrowed lifetime remain.
 
 These are four independent scalar labels, not a new homogeneous array.
 The auxiliary and credits destination words retain distinct relocations
-even where their stored values are equal. Existing accesses through the
-`D_80010000` prefix still use that base and its original offsets, rather
-than being rewritten to the new direct names.
+even where their stored values are equal.
 
 The isolated `model_load_words.h` declarations preserve the exact
-pointer/integer types, `G32` placement and `.data` attributes. The old
-`high_memory_addresses.h` and measured `model_scene_imports.h` stay frozen;
-imported code names remain address-based because other SU packages reuse
-the runtime range.
+pointer/integer types, `G32` placement and `.data` attributes.
+`high_memory_addresses.h` no longer carries the unused `D_80010004`,
+`D_80010008`, `D_80010030`, `D_80010034` or European `D_800101E0/4/8`
+declarations. The imported credits functions in `model_scene_imports.h`
+keep address names because other SU packages reuse the runtime range.
 
 Three existing behavioral controls receive only namespace/include
 migrations, with complete inverse-file equality and unchanged cases,
@@ -227,10 +226,11 @@ The legacy type/HI-LO ownership controls intentionally retain their old
 names and header. No new harness, fixture, probe or testcase is added;
 cloud/regional/overlay/witness suites are not executed locally.
 
-Canonical aliases retain each original provider in all seven images.
-Twenty bindings have local numeric evidence; the eight English/Japanese
-automatic-provider cases remain symbolic without guessed tracked
-assignments. Full regional-image PR checks remain required.
+Every image binds these names directly at their addresses, with no `D_`
+provider or alias left. The North American, English and Japanese
+`symbols.txt` files name the Splat labels; the French, German, Italian and
+Spanish `link_symbols.ld` files assign them. The overlay linker and Splat
+symbol files bind `gRuntime_pSharedWorkBase` the same way.
 
 The shared four-byte `D_8009B004` record is outside this naming component:
 debug uses its height halfword while credits uses its first two bytes, so
@@ -242,11 +242,11 @@ The original consolidation put nine named address constants in
 [`high_memory_addresses.h`](../src/game/high_memory_addresses.h), replacing 23
 private declarations across 14 matching resident translation units, the
 shared overworld translation unit, and two integrated resident candidates.
-The four direct-word names above extend that work without changing the
-legacy declaration owner or inventing storage. The remaining shared
-primary word and its indexed prefix view retain the contracts below.
+The four direct-word names above extend that work without inventing
+storage. The shared primary word retains the contracts below.
 
-The scalar `D_80010000` contract is `u8 *`: the word contains a payload
+The `gRuntime_pSharedWorkBase` contract
+([`shared_work_base.h`](../src/game/shared_work_base.h)) is `u8 *`: the word contains a payload
 address, not the first bytes of a payload. Its consumers reuse that address
 for portrait records, effect scratch, model data and a movie VLC buffer, so
 no more specific pointed-to record type is valid across those lifetimes.
@@ -257,25 +257,15 @@ integer ABI boundaries.
 | Header arm | Consumers | Addressing retained |
 |---|---|---|
 | Default pointer | `Campaign_LoadScenePackageStage`, `DuelEffect_AllocateRequest`, `Main_InitFreeDuelMenu`, overworld `set_location.c` | Plain scalar |
-| `HIGH_MEMORY_ADDRESSES_BASE_IN_DATA` | `Campaign_LoadScenePackage`, `Duel_LoadPackageStage`, `file_transfer_steps.c`, `func_8003A560`, `FreeDuel_LoadPackageStage`, `CampaignMap_LoadPackageStage`, `Movie_OpenStream`, `Model_AdvanceSlotLoad` | Forced `.data` declaration, not a storage definition |
-| `HIGH_MEMORY_ADDRESSES_MODEL_PREFIX` | `Duel_InitModelScene`, `main_run_duel_and_library.c`, `main_run_selection_menus.c` | `D_80010000`-relative array addressing |
+| `HIGH_MEMORY_ADDRESSES_BASE_IN_DATA` | `Campaign_LoadScenePackage`, `Duel_LoadPackageStage`, `file_transfer_steps.c`, `func_8003A560`, `FreeDuel_LoadPackageStage`, `CampaignMap_LoadPackageStage`, `Movie_OpenStream`, `Model_AdvanceSlotLoad`, `Duel_InitModelScene`, `main_run_duel_and_library.c`, `main_run_selection_menus.c` | Forced `.data` declaration, not a storage definition |
 
-The indexed arm takes `HighMemoryModelAddressPrefix` from
-[`ygo_types.h`](../src/ygo_types.h). This is only the first five address
-words: `payload_bases[3]` at `+0x00` and `primary_modules[2]` at `+0x0C`,
-with asserted size `0x14` and module offset `0x0C`. Both cohorts contain
-byte pointers, but their roles remain distinct. The module entry is still
-reached by adding four bytes; its function signature is not inferred here.
-Three resident loads and five candidate loads now use these cohort fields.
-
-Only element zero of the incomplete prefix array is used. It is an
-addressing view, not evidence of repeated prefix records or the extent of
-the fourteen-word allocation. `Duel_InitModelScene` formerly used a complete
-three-word signed array; both that 12-byte declaration and the new
-incomplete view avoid small-data classification under its named profile.
-The other indexed consumers already used incomplete arrays. Measurement
-confirms that the pointer conversion and prefix fields preserve their
-instructions and relocations.
+`Duel_InitModelScene`, `Main_RunBuildDeckMenu` and `Main_RunDuel` used to read the word through an incomplete
+`HighMemoryModelAddressPrefix D_80010000[]` view (three payload bases and
+two primary modules), and only ever touched element zero's first payload
+base. The forced `.data` scalar produces the same absolute `%hi`/`%lo`
+load of the same word, so these readers now use
+`gRuntime_pSharedWorkBase` and the prefix view and its type are gone. All
+seven executables still match.
 
 The independently named `gModel_AuxiliaryPayloadAddress`, `gModel_Slot0VariantModuleAddress`,
 `gModel_Slot1VariantModuleAddress` and `gMainMenu_dwSuModuleBase` transfer destinations
@@ -285,11 +275,11 @@ retain signed-word `.data` declarations. The initializer's
 arguments are signed-word `.data` declarations too: the
 matching `Model_InitSlot` is built under `gcc_2_8_1_g8_split`, and a
 small-data view would turn its four absolute loads gp-relative. Reaching
-one of these through a field of `D_80010000` would change its relocation
-identity, even when the eventual runtime address is the same.
+one of these through a field of a `gRuntime_pSharedWorkBase`-relative
+view would change its relocation identity, even when the eventual runtime address is the same.
 
 The earlier `Model_AdvanceSlotLoad` candidate retained base-relative relocations
-under the indexed view; that consolidation was not a matching promotion.
+under the former indexed view; that consolidation was not a matching promotion.
 The complete pin-free reconstruction of `Model_AdvanceSlotLoad` in `model_slot_control.c` now selects
 the absolute scalar arm and uses the retail assembly's individually labeled
 payload and primary-module loads. Its obsolete candidate and target

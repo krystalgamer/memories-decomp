@@ -5,7 +5,7 @@
 
 /* Runs the two model setup steps Model_ResetSceneView and
  * Model_ResetSceneState, then calls Model_LoadSlot with selector 2,
- * D_80010000[0].payload_bases[0], 0x63000, and 4. The callee uses the pointer
+ * gRuntime_pSharedWorkBase, 0x63000, and 4. The callee uses the pointer
  * only as a non-null gate; this call does not load or read the payload
  * (notes/duel-package-unused-data.md).
  *

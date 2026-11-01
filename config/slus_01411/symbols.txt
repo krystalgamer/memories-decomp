@@ -2221,6 +2221,9 @@ Model_QueueEffectEndpointPair = 0x8005F714; // type:func
 
 Model_QueueCameraShake = 0x8005F7B0; // type:func
 
+gRuntime_pSharedWorkBase = 0x80010000;
+gModel_pSlot1PayloadBase = 0x80010004;
+gModel_AuxiliaryPayloadAddress = 0x80010008;
 gModel_pSlot0PrimaryModule = 0x8001000C;
 
 gModel_pSlot1PrimaryModule = 0x80010010;
@@ -2236,6 +2239,8 @@ gModel_Slot1PrimaryDataAddress = 0x80010020;
 gModel_Slot0VariantDataAddress = 0x80010024;
 
 gModel_Slot1VariantDataAddress = 0x80010028;
+gModel_CreditsModuleAddress = 0x80010030;
+gModel_pCreditsMusicTrackBuffer = 0x80010034;
 
 Model_LoadMonsterMergeStage = 0x80056D7C; // type:func
 

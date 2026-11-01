@@ -1,7 +1,7 @@
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #define D_8009B2F8_AS_ARRAY
-#define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "../types.h"
 #include "secondary_scene_commands.h"
 #include "../overlays/free_duel/free_duel.h"
@@ -17,6 +17,7 @@
 #include "sound.h"
 #include "../unmatched.h"
 #include "high_memory_addresses.h"
+#include "shared_work_base.h"
 #include "main_mode_state.h"
 #include "build_deck_init_screen.h"
 
@@ -33,7 +34,7 @@ void Main_RunBuildDeckMenu(void)
     if ((flags & 0x40) == 0) {
         gMain_bActiveModeState = flags | 0x40;
         BuildDeck_InitScreen(
-            (BuildDeckTransitionState *)D_80010000[0].payload_bases[0],
+            (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
             (unsigned char *)gDuel_awPlayerDeck,
             0,
             gBuildDeck_bConfirmMode[0]

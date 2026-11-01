@@ -28,10 +28,9 @@ SD_SEPlayFull = 0x80040204;
 Duel_CollectFieldRowCardObjects = 0x8002CB0C;
 Duel_CheckRitual = 0x8002C9BC;
 Duel_CollectMatchingFieldCardObjects = 0x8002CB88;
-D_80010000 = 0x80010000;
+gRuntime_pSharedWorkBase = 0x80010000;
 Model_GetLightSourceMatrix = 0x8005C328;
 SD_SEPlayFull = 0x80040204;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
 
-gRuntime_pSharedWorkBase = D_80010000;

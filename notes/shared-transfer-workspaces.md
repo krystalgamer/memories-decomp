@@ -2,8 +2,8 @@
 
 ## Stored shared-work pointer
 
-`gRuntime_pSharedWorkBase` names the four-byte pointer word originally
-`D_80010000`, not the payload at the address stored in that word. The supplied
+`gRuntime_pSharedWorkBase` names the four-byte pointer word at
+`0x80010000` (formerly `D_80010000`), not the payload at the address stored in that word. The supplied
 North American image initializes it to `0x80100000`. Its scalar consumers
 reuse that address for model and package payloads, campaign portraits,
 display-effect records, duel-effect work and the movie VLC work area.
@@ -16,13 +16,13 @@ It adds no storage, allocation size, record layout, lifetime, synchronization
 or mutability guarantee. The adjacent words and the distinctions documented
 in [high-memory-load-addresses.md](high-memory-load-addresses.md) remain.
 
-The indexed consumers in `main_run_duel_and_library.c`, `duel_init_model_scene.c` and
-`main_run_selection_menus.c` (`Main_RunBuildDeckMenu`) deliberately retain the legacy
-`HighMemoryModelAddressPrefix D_80010000[]` view. Their base-relative and
-indexed relocations still reach three payload words and two primary-module
-words through that prefix. A scalar name for the first word does not justify
-renaming the prefix, treating the whole block as one arena array, or replacing
-its accesses with independently labeled absolute loads.
+`Main_RunDuel`, `Duel_InitModelScene` and `Main_RunBuildDeckMenu` formerly
+read the word through an incomplete `HighMemoryModelAddressPrefix
+D_80010000[]` view, but only ever its first payload word. They now use the
+forced `.data` scalar view, which emits the same absolute load of the same
+word, and the prefix view is gone. Every image binds the name directly at
+`0x80010000`; no `D_80010000` provider or alias remains. The block is still
+not one arena array: the neighbouring words keep their own names.
 
 ## VRAM transfer rectangle scratch
 

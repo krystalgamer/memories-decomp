@@ -16,7 +16,7 @@ is not published to `D_8009B17C`.
 ## Retained representation and sequencing
 
 The allocator still returns its byte API, backed by a real request pool
-entry whose `buffer` starts at `D_80010000 + 0x3800`. The coordinator
+entry whose `buffer` starts at `gRuntime_pSharedWorkBase + 0x3800`. The coordinator
 already forwards this member as an integer word. Here, explicit
 `s32`/`void *` value conversions preserve the existing signed additions
 and pointer representation without introducing pointer arithmetic.

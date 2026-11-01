@@ -65,8 +65,8 @@ void Model_ResetSlot(s32 arg0);
  * Model_SetSlotPartSpeeds before Model_ApplyTextureTint draws it.
  *
  * arg1 is a pointer used only as a non-null gate. Both callers now take it
- * from high_memory_addresses.h: the scalar D_80010000 or the indexed
- * prefix's payload_bases[0], rather than a private integer declaration. */
+ * from shared_work_base.h: the scalar gRuntime_pSharedWorkBase, rather
+ * than a private integer declaration. */
 void Model_LoadSlot(s32 arg0, u8 *arg1, s32 arg2, s32 arg3);
 
 /* Starts an animation on one of the gModel_aSlots slots. `index` picks the slot,

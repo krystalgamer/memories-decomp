@@ -61,7 +61,7 @@ same-call build, polling timeout, error result or buffer lifetime.
 bytes. It neither clears the shared write-slot byte nor erases cached
 page storage. Its descending loop and original return artifact remain.
 
-Each RAM slot in the `D_80010000` arena is still `0x18C10` bytes: image
+Each RAM slot in the `gRuntime_pSharedWorkBase` arena is still `0x18C10` bytes: image
 `0x18000`, CLUT `0x400`, metadata `0x800`, then two `RECT`s. Acquisition
 uses image rectangle `(832 - side * 192, 256, 192, 256)` and CLUT
 rectangle `(clut_x, side * 2 + 240, 256, 2)`. A nonzero side selects
@@ -73,7 +73,7 @@ gDisplayEffect_CachedResourceIds[]` at `0x8015C410`. Completing that array
 to five bytes would make it small-data eligible in the grouped G8 unit
 and change its split-addressing relocations. The write-slot declaration
 remains `s8` and gp-relative. Japan instead accesses owner bytes through
-`((s8 *)D_80010000)[0x7FFF0 + i]`, both here and in reset. That expression
+`((s8 *)gRuntime_pSharedWorkBase)[0x7FFF0 + i]`, both here and in reset. That expression
 is preserved; no standalone Japanese owner-array symbol is invented.
 
 The first-sector constants remain NA 15182, Japan 15177 and Europe
