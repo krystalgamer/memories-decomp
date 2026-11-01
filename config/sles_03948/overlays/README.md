@@ -1069,9 +1069,8 @@ French MODEL headers 802 (stage 7 slot 0) and 899 (stage 8 slot 1) build the hea
 
 Four images under French headers 808 and 905 are the North American
 header-791 entry (`model_variant/variant791_entry.c`) unchanged; only the
-resident `jal` targets differ. The French modules build `variant791_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant808_linker_symbols.txt`.
+resident `jal` targets differ. Both slots build `variant791_entry.c`
+directly through `model_variant808_linker_symbols.txt`.
 
 Four images under French header 139, and their four slot-one counterparts
 under header 269, are the North American header-122 entry
