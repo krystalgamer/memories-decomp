@@ -724,11 +724,11 @@ side_result:
         goto show_page;
     }
     if (gDuel_wSceneStateFlags & 0x4000) {
-        if (!(((FadeTransitionState *)D_800E9EC8_arr)->flags & 0x80)) {
+        if (!(gFade_State.flags & 0x80)) {
             if (!(gDuel_wSceneStateFlags & 0x2000)) {
                 gDuel_wSceneStateFlags |= 0x2000;
                 Fade_StartOut();
-                ((FadeTransitionState *)D_800E9EC8_arr)->level = 255;
+                gFade_State.level = 255;
                 Fade_FillBandLevels(255);
             } else {
                 /* Only the null test goes through `save`; the updates below

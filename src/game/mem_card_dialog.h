@@ -9,20 +9,14 @@
  * gMemCardDialog_OperationState, and then pump the corresponding state machine. Step 1 skips the
  * load confirmation prompt. NA step 3 is empty; the Japanese and European
  * builds use MemCardDialog_StepAlternateSave instead. */
-#ifdef VERSION_EUROPE
-extern void MemCardDialog_UpdateLoad(void) asm("func_8003E3E4");
-#else
 extern void MemCardDialog_UpdateLoad(void);
-#endif
 void MemCardDialog_StepLoad(void);
 void MemCardDialog_StepLoadUnprompted(void);
 void MemCardDialog_UpdateSave(void);
 void MemCardDialog_StepSave(void);
 void MemCardDialog_StepNone(void);
-#ifdef VERSION_JAPAN
-extern void MemCardDialog_StepAlternateSave(void) asm("func_8003E56C");
-#elif defined(VERSION_EUROPE)
-extern void MemCardDialog_StepAlternateSave(void) asm("func_8003EF9C");
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+void MemCardDialog_StepAlternateSave(void);
 #endif
 
 /* The memory card dialog's modal runtime.
@@ -35,11 +29,7 @@ extern void MemCardDialog_StepAlternateSave(void) asm("func_8003EF9C");
  * is the frame pump that dispatches that table; the request API at the end of
  * the same translation unit calls it before reading the outcome. */
 void MemCardDialog_UpdateTradeSave(void);
-#ifdef VERSION_EUROPE
-extern void MemCardDialog_Update(void) asm("func_8003F568");
-#else
 extern void MemCardDialog_Update(void);
-#endif
 
 #ifdef VERSION_JAPAN
 /* The Japanese dialog brackets the card session with these SDK helpers. */

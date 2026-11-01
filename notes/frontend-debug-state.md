@@ -141,10 +141,11 @@ full executable reproduce the retail SHA-256
 
 ## PAL language entry and later asset selection
 
-`DebugMenu_UpdateLanguageEntry` is native `func_80030808`, 232 bytes at
-UK `0x80030808` and the other four PAL releases' `0x800309F4`. The existing
-editor owner header publishes an explicit `extern void(void)` native-asm
-binding only under `VERSION_EUROPE`. NA/Japan still have no such function.
+`DebugMenu_UpdateLanguageEntry` (formerly native `func_80030808`) is 232
+bytes at UK `0x80030808` and the other four PAL releases' `0x800309F4`; each
+PAL symbols.txt binds the canonical name there. The existing editor owner
+header declares it, with no assembler label, only under `VERSION_EUROPE`.
+NA/Japan still have no such function.
 The common source changes only the definition's identifier; the native
 owner, its address, signature and every instruction remain unchanged.
 
@@ -168,7 +169,7 @@ separate language-switch/loading lifecycle.
 
 The later `File_RequestOptionsPackage` computes its start sector from the
 then-current language byte and supplies `Options_LoadPackageStage`. The
-stage provider is native `func_8003C56C`, not either of the two earlier
+stage provider is the former native `func_8003C56C`, not either of the two earlier
 lookalike package callbacks. See the PAL addendum in
 `options-screen.md` for the exact phase and binding scope.
 

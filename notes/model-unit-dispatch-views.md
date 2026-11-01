@@ -32,11 +32,9 @@ contract without claiming that every possible key must be a polygon kind.
 The signed numeric handler word is not converted to a function pointer,
 and no callback ABI, map implementation, validation, or storage is added.
 
-`model.h` retains the original explicit extern and adds the canonical
-fixed-count view with `__asm__("tent_ModelHandlerRegistry")`. This preserves
-the actual native import, strict-C99 parsing, and existing tracked-alias
-policy mechanism. The seven resident linker inputs export the canonical
-name as an alias to the retained native provider:
+`model.h` declares only the canonical fixed-count view, with no assembler
+label. The seven resident linker inputs export the canonical name as an
+alias to the retained native provider:
 
 | Image | Existing provider address |
 | --- | --- |

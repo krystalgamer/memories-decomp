@@ -1,5 +1,4 @@
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
-#define DUEL_CARD_STAGING_DECK_VIEW
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "ai.h"
@@ -497,7 +496,7 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
                 s32 *p;
                 s32 id;
 
-                id = D_8015C424_cards.cards[n].id;
+                id = ((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->cards[n].id;
                 out->card_id = id;
                 tbl = gDuel_adwCardStats;
                 p = (s32 *) (((id - 1) << 2) + (u32) tbl);

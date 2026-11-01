@@ -123,9 +123,9 @@ sequence fade ramp only on its existing successful-open branch.
 SD_BGMStop retains its low-word mask and literal -32 forwarding.
 The unchanged stop-with-step helper chooses CD stop or sequenced
 request -1; neither stop path consumes the forwarded step. No fade
-is invented. The SOUND_INIT_S16_VIEW declaration retains its s32/s16
-parameter types, guard and exact assembler alias, while the normal
-request declaration stays s32/s32. All casts, widths, default reads,
+is invented. The stop helper narrows its step with an `(s16)` cast at the
+call, which gives the same caller-side sign extension the former s16
+parameter view did; the request declaration stays s32/s32. All casts, widths, default reads,
 reloads, source gates, masks, constants, storage and queue behavior
 remain; the frontend source stays untouched. The shared byte's name now
 describes this default-argument role, not a duration or CD timing effect.

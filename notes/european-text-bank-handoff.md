@@ -32,8 +32,9 @@ The same numeric addresses in NA/Japan are not assigned these PAL roles.
 
 ## Alternate anchor is separate from the offset table
 
-`gText_AlternateStringAddressAnchor` retains native `D_801C0004` and its
-mutable, incomplete `u16[]` declaration. PAL local IDs from `0x500` use
+`gText_AlternateStringAddressAnchor` keeps its mutable, incomplete `u16[]`
+declaration; each PAL symbol file binds the name at `0x801C0004` (formerly
+the native `D_801C0004` label), with no assembler label in C. PAL local IDs from `0x500` use
 this provider's masked address while still reading halfword offsets from
 the existing `gText_PrimaryStringOffsets` provider at `D_801B0004`.
 It is not renamed to the primary offset table merely because the address
@@ -49,8 +50,9 @@ new bound or assumed four-byte bank-header format is introduced.
 
 ## Digit string is not the Shift-JIS key block
 
-`gText_DecimalDigitGlyphString` retains native `D_801BF870` as a mutable,
-incomplete `u8[]`. The PAL decimal-map initializer reads its bytes directly:
+`gText_DecimalDigitGlyphString` is a mutable, incomplete `u8[]` that each
+PAL symbol file binds at `0x801BF870` (formerly the native `D_801BF870`
+label). The PAL decimal-map initializer reads its bytes directly:
 an initial or subsequent leading `0xFF` stops initialization; codes below
 `0xF0` use one byte; otherwise the low nibble becomes the high byte and
 the next source byte completes the glyph code.

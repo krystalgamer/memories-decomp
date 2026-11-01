@@ -1163,10 +1163,10 @@ bindings in the owning headers rather than private wrapper name macros:
 | `MemCardDialog_UpdateLoad` | `0x8003E3E4` / `0x344` | `0x8003E5E4` / `0x344` |
 | `MemCardDialog_Update` | `0x8003F568` / `0x2C8` | `0x8003F768` / `0x2C8` |
 
-`VERSION_EUROPE` selects explicit `extern void(void)` bindings to native
-`func_8002EF3C`, `func_8003E3E4` and `func_8003F568`. They remain the actual
-compiled owners, not absolute aliases or replacement definitions. The NA
-and Japanese declarations keep their existing signatures and labels.
+Each PAL symbol file binds these three names at the addresses of the former
+native labels `func_8002EF3C`, `func_8003E3E4` and `func_8003F568`; the
+compiled owners define the canonical names directly, with no assembler
+label. Every region shares the same declarations.
 Five inventories change only these three name fields; existing addresses,
 sizes, statuses, modules and old notes remain intact.
 
@@ -1237,8 +1237,9 @@ changes: its C definition, shared declaration and native linker symbol
 already agree on `SaveData_RequestLoad`.
 
 `SaveData_RequestOptionsWrite` takes no arguments. Its existing
-`data_transfer_request.h` owner gives the Japanese-only declaration the
-native `func_8003EFA8` assembly label. The real `Options_Update` caller
+`data_transfer_request.h` owner declares it for Japan only, with no
+assembler label; the Japanese symbols.txt binds the name at `0x8003EFA8`,
+the former native `func_8003EFA8`. The real `Options_Update` caller
 sets its entered bit before calling once in state two, polls
 `MemCardDialog_Poll`, stays there on zero, and otherwise falls through
 state three to restore the active state. This is not an unconditional

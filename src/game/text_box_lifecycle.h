@@ -15,11 +15,6 @@ extern u8 gText_Channel3[];
 /* The frozen main-menu trade overlay still names the same record by address. */
 extern u8 D_800EB224[];
 
-#ifdef TEXT_BOX_JAPANESE_QUIT_CHANNEL_VIEW
-/* Japanese channel 3 begins at the US channel-array symbol's address. */
-extern u8 gJapanese_DuelQuitChannel[] asm("D_800EB0F8");
-#endif
-
 void TextBox_Destroy(struct DuelEffectChannel *record);
 void TextBox_DestroyIndex(s32 index);
 void *TextBox_Create(

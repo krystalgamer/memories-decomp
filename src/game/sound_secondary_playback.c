@@ -67,7 +67,7 @@ void SD_PlaySequenceFastForward(s32 target)
         SDSecondaryState *second;
         state->sequence_read_limit = 0x10000;
         state->sequence_read_base = state->sequence_source;
-        SD_StartSequenceTracks_no_arg();
+        SD_StartSequenceTracks();
         first = gSD_pSecondaryState;
         first->shared_track_updates_enabled = 1;
         second = gSD_pSecondaryState;

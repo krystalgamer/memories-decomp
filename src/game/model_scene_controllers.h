@@ -23,8 +23,7 @@
  * Model_UpdateScene in model_scene_states.c is the only caller and held the only
  * declaration. */
 void Model_StepBackgroundVramAnimation(void);
-extern u8 D_800F569F[];
-extern u8 gModel_bAuxiliaryActive[] __asm__("D_800F569F");
+extern u8 gModel_bAuxiliaryActive[];
 extern RECT gModel_ImageCopyRect;
 /* Separate field aliases preserve the original gp-relative store schedule;
  * using the RECT base for every member makes GCC retain the y-field address
@@ -39,11 +38,7 @@ extern u8 gModel_szAnimationSoundTraceFormat[];
  * guardian_star_selection + 3 when it has frames, moves the camera towards the other slot
  * for two thirds of that length (at least 60, or the record's override), and
  * sets gModel_bCameraHoldState from the record's flag bits. */
-#ifdef VERSION_JAPAN
-extern void Model_StartBattleSlotAction(s32 index) asm("func_800547E0");
-#else
 void Model_StartBattleSlotAction(s32 index);
-#endif
 void Model_PlaySlotAnimationSounds(s32 index);
 
 /* Last selected model IDs (including slot 2's stage) and the two model flags

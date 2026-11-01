@@ -11,8 +11,8 @@ extern u8 *G32 gFile_pBootTextStage5Destination;
 extern u8 *G32 gFile_pBootTextStage6Destination;
 extern u8 *G32 gFile_pBootTextStage7Destination;
 
-extern u16 gText_AlternateStringAddressAnchor[] __asm__("D_801C0004");
-extern u8 gText_DecimalDigitGlyphString[] __asm__("D_801BF870");
+extern u16 gText_AlternateStringAddressAnchor[];
+extern u8 gText_DecimalDigitGlyphString[];
 #endif
 
 #endif

@@ -14,10 +14,6 @@
 extern void (*gDuel_apfnSceneStateHandler[])(void);
 
 /* Card-move presentation, position choice, and deferred stat adjustment. */
-#ifdef VERSION_JAPAN
-extern void DuelScene_UpdateCardMove(void) asm("func_8001AFEC");
-#else
 void DuelScene_UpdateCardMove(void);
-#endif
 
 #endif

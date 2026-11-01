@@ -208,7 +208,6 @@ gText_aGlyphSearchEntries = tent_GlyphLookupTableEntries;
 gText_DecimalDigitSjisKeys = tent_DecimalDigitSjisKeys;
 
 /* Canonical view of the retained native countdown entry point. */
-SD_UpdateSecondaryObjectReuseCountdowns = tent_SD_AgeSecondaryObjects;
 
 /* Auxiliary-model upload sector; retain its native provider. */
 gModel_abAuxiliaryPaletteSector = D_801DD800;
@@ -225,3 +224,6 @@ gDuel_wActionSubstate = D_8009B20C;
 gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
+g_SDValue_output_level = g_SDValue;
+gText_Channel3 = 0x800EB0F8;
+gDuel_bTerrainCodegenAlias = gDuel_bTerrain;

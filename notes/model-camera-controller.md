@@ -141,16 +141,16 @@ same three canonical C functions below. Their former private function
 macros hid the names from the Japanese function inventory and duplicated
 the hold-state binding between its real definition and callers.
 
-| Canonical function | Japanese native provider | Bytes |
+| Canonical function | Japanese address (former native label) | Bytes |
 | --- | --- | --- |
-| `Model_CorrectViewPitch` | `func_80055D7C` | `0x16C` |
-| `Model_CorrectViewDistance` | `func_80055EE8` | `0x1DC` |
-| `Model_SetCameraHoldState` | `func_8004EBD0` | `0xC` |
+| `Model_CorrectViewPitch` | `0x80055D7C` (`func_80055D7C`) | `0x16C` |
+| `Model_CorrectViewDistance` | `0x80055EE8` (`func_80055EE8`) | `0x1DC` |
+| `Model_SetCameraHoldState` | `0x8004EBD0` (`func_8004EBD0`) | `0xC` |
 
 `model_view_adjustments.h` now owns the two correction declarations and
-`model_transfer_flags.h` owns the hold-state setter declaration with explicit
-`VERSION_JAPAN` native assembly labels. Other regions keep their existing
-declarations. Native providers, profiles, grouped object order and all common
+`model_transfer_flags.h` owns the hold-state setter declaration, the same in
+every region and with no assembler label; the Japanese symbols.txt binds the
+three canonical names at those addresses. Native providers, profiles, grouped object order and all common
 C bodies remain unchanged. The three inventory names cover 852 bytes;
 they do not add newly decompiled functions.
 

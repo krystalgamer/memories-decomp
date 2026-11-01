@@ -8,10 +8,4 @@
 #define D_8009B140 gJapanese_D_8009B140
 #define D_800E9D94 gJapanese_D_800E9D94
 
-/* The same object under a second US name, which a #define cannot carry:
- * both names would become one identifier with two declarations. An asm
- * label binds it to the same Japanese symbol instead; an array is left
- * unsized so the US header completes the type. */
-extern u8 D_800E9EC8_arr[] asm("gFade_State");
-
 #include "../fade_runtime.c"

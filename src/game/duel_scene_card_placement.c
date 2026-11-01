@@ -15,7 +15,6 @@
 #include "duel_card_record_lifecycle.h"
 #include "duel_card_checks.h"
 #include "duel_deck_card.h"
-#define DUEL_CARD_STAGING_DECK_VIEW
 #include "duel_card_staging.h"
 #include "duel_action_lock.h"
 #include "duel_effect_request.h"
@@ -50,7 +49,7 @@
 #define PLACEMENT_VY(object) ((object)->field_38.h.field_38)
 #define PLACEMENT_ALPHA(object) ((object)->field_20.b.rotation_y)
 #define PLACEMENT_ROTATION(object) ((object)->field_20.b.rotation_z)
-#define PLACEMENT_REPLAY_CARD(object) (D_8015C424_cards.field_cards[(object)->field_6A])
+#define PLACEMENT_REPLAY_CARD(object) (((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->field_cards[(object)->field_6A])
 #define DISPLAY_OBJECT_VELOCITY_VIEW(object) \
     ((DisplayObjectVelocity *)(object))
 

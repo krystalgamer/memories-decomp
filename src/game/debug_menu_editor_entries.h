@@ -13,7 +13,7 @@
 void DebugMenu_UpdateSoundEntry(void);
 
 #ifdef VERSION_EUROPE
-extern void DebugMenu_UpdateLanguageEntry(void) asm("func_80030808");
+extern void DebugMenu_UpdateLanguageEntry(void);
 #endif
 
 /* Entry 2 of gDebugMenu_apfnPrimaryPageSteps (frontend_step_tables.c), the

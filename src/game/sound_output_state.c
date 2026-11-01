@@ -159,7 +159,11 @@ void SD_StartCdFade(s16 step, u8 target, s32 unused)
  * the unsigned eight-bit shift of each square, both accumulator
  * initializations and final publications, and the low-two-bit output gate.
  */
-extern SDValue *G32 volatile g_SDValue_output_level asm("g_SDValue");
+/* A second name for g_SDValue, bound to it in each image's link_symbols.ld.
+ * A volatile cast of &g_SDValue cannot replace it: the cast makes the
+ * compiler build the address in a register before the volatile load, which
+ * adds an instruction at every read that uses it. */
+extern SDValue *G32 volatile g_SDValue_output_level;
 
 s32 SD_MeasureCdAudioLevel(void)
 {

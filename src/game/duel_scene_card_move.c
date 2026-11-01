@@ -1,4 +1,3 @@
-#define DUEL_CARD_STAGING_DECK_VIEW
 #define D_8009B360_AS_SIDE_ARRAY
 #define D_800EAE8F_IS_ARRAY
 #define GDIALOG_CHOICE_IN_DATA
@@ -126,7 +125,7 @@ void DuelScene_UpdateCardMove(void)
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0x80;
             gDuel_wSelectedCardID =
-                D_8015C424_cards.field_cards[object->field_6A].card_id;
+                ((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->field_cards[object->field_6A].card_id;
 #ifdef VERSION_JAPAN
             box = TextBox_CreateFlagged(0, 0x21, 0x50, 0x6E, 0xA0, 0x30, 0x20);
 #elif defined(VERSION_EUROPE)

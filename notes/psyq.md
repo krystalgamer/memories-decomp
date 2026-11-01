@@ -76,7 +76,6 @@ coverage. Declarations moved from outside the Psy-Q tree use these owners:
 |---|---|---|
 | [`crt.h`](../src/psyq/crt.h) | `__main`, `__do_global_dtors` | Resident GCC/Psy-Q startup callbacks, identified from the unique `NOHEAP.OBJ` signature. |
 | [`libcd_abi_variants.h`](../src/psyq/libcd_abi_variants.h) | `CdIntToPos_8007E600`, `CdPosToInt_8007E710` | Address-qualified interfaces for the second resident copies of byte-identical LIBCD routines. |
-| [`libgte_abi_variants.h`](../src/psyq/libgte_abi_variants.h) | `NormalClip_800879A0`, `RotAverageNclip3_nom_80089CF0` | Address-qualified aliases preserve locally observed arities while `libgte.h` retains the canonical declarations. |
 | [`libspu_internal.h`](../src/psyq/libspu_internal.h) | `func_80074E60` | Unidentified 32-byte LIBSPU entry immediately preceding the confirmed `_SpuInit`; the address-based name avoids inventing semantics. |
 | [`sdk_internal.h`](../src/psyq/sdk_internal.h) | `func_80058F10`, `func_800862C0` | Unidentified SDK entries used by the embedded graphics getter and graphics frame setup. Their address-based names and existing ABIs are retained without assigning a library or return meaning. |
 
@@ -345,8 +344,9 @@ that linked callee distinguishes it from the `GsDrawOtIO` proposal. Matching
 `Graphics_BeginFrame` now calls it through the canonical `libgs.h` interface.
 
 Two further identifications originally used address-qualified aliases in
-`libgte_abi_variants.h` to preserve candidate caller views. Both projection
-helpers now use the canonical three-input declaration directly.
+a `libgte_abi_variants.h` header to preserve candidate caller views. Both
+projection helpers now use the canonical three-input declaration directly,
+and the unused header is gone.
 
 | Address | Identity | Blocker |
 |---|---|---|

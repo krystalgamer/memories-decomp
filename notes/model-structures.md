@@ -74,7 +74,7 @@ instructions in multiple functions:
 The extent is also locally bounded. Linker aliases `gModel_aSlot0FlatLights`,
 `gModel_Slot0Scale`, and `gModel_awSlot0Position` are respectively `+0xD70`, `+0xDB0`, and
 `+0xDD0` from the base, matching fields inside slot zero.
-`gModel_bAuxiliaryActive` retains native label `D_800F569F` at
+`gModel_bAuxiliaryActive` (linker-aliased to native label `D_800F569F`) sits at
 `gModel_aSlots + 2 * 0xE20 + 0xE1F`: slot 2's `is_active`, also the last
 byte of the three-slot run. All seven actual providers agree with this
 relation; `gModel_CameraCoordinateUnit` follows immediately. The interior
@@ -942,10 +942,10 @@ and `make check-global-usage` also passed.
 
 ## Regional native labels for scene and slot functions
 
-The Japanese and European builds reach five shared model functions through
-native labels declared in their owning headers, not through wrapper macros:
+The Japanese and European symbol files bind five shared model functions under
+their canonical names at the addresses of their former native labels:
 
-| Function | Region | Native label | Owner header |
+| Function | Region | Former native label | Owner header |
 |---|---|---|---|
 | `Model_UpdateCreditsMonsterSlot` | Japan | `func_80053E40` | `model_scene_states.h` |
 | `Model_StartBattleSlotAction` | Japan | `func_800547E0` | `model_scene_controllers.h` |
@@ -953,11 +953,9 @@ native labels declared in their owning headers, not through wrapper macros:
 | `ModelTexture_LoadTim` | PAL | `func_8005CFD0` | `model_texture_upload.h` |
 | `ModelTexture_PackPageClut` | PAL | `func_8005EE50` | `model_texture_upload.h` |
 
-Each binding sits under the region's existing `VERSION_JAPAN` or
-`VERSION_EUROPE` selector; other regions keep the plain declaration. The PAL
-`model_init_slot.c` wrapper now defines `VERSION_EUROPE` so its rebase calls
-see the binding; neither that source nor its headers otherwise test the
-selector. Function bodies, symbol maps and profiles are unchanged.
+The owner headers declare them the same way in every region, with no
+assembler label or wrapper macro. Function bodies and profiles are
+unchanged.
 
 ## Presentation comparison values and overrides
 

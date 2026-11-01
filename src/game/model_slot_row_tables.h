@@ -28,17 +28,10 @@ typedef char ModelPrimitiveContexts_share_primtop_offset_0x14[
     (u32)&((GsARGUNIT_SHARED *)0)->primtop == 0x14 ? 1 : -1
 ];
 
-#ifdef VERSION_EUROPE
-extern s32 tent_Model_RebaseTexturedPrimitives(
-    s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx,
-    s32 *max_lit_color_index, s32 *packet_bytes
-) asm("func_80051610");
-#else
 s32 tent_Model_RebaseTexturedPrimitives(
     s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx,
     s32 *max_lit_color_index, s32 *packet_bytes
 );
-#endif
 
 /* Clears animation keys/durations and imports the mapped owner-block payloads. */
 void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd);

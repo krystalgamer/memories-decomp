@@ -21,6 +21,7 @@ gText_dwChannel0State = D_800EB12C;
 
 gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
+DuelEffect_DispatchRequest = 0x801462B0;
 
 gDuel_aFieldCardRecords = D_801A7B64;
 
@@ -230,7 +231,6 @@ gText_aGlyphSearchEntries = tent_GlyphLookupTableEntries;
 gText_DecimalDigitSjisKeys = tent_DecimalDigitSjisKeys;
 
 /* Canonical view of the retained native countdown entry point. */
-SD_UpdateSecondaryObjectReuseCountdowns = tent_SD_AgeSecondaryObjects;
 
 /* Auxiliary-model upload sector; retain its native provider. */
 gModel_abAuxiliaryPaletteSector = D_801DD800;
@@ -383,3 +383,4 @@ gAi_bBestTarget = D_800F5BE8 + 155;
 D_800F2B22 = D_800F2B20 + 2;
 gModel_wCameraTargetSlot = D_800F2B20 + 42;
 gModel_aSlots = D_800F2C40;
+g_SDValue_output_level = g_SDValue;

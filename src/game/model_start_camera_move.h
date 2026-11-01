@@ -4,8 +4,6 @@
 #include "../types.h"
 #include "model.h"
 
-extern ModelBytes8 D_8009B478_p asm("gModel_wViewDistance");
-
 /* Camera move request. It fills the D_800F2B20 transition record from the live
  * camera at gModel_RView and a model slot's +0xDD0 vector, and writes the result
  * back immediately when the duration is zero.

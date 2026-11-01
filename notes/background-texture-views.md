@@ -34,8 +34,8 @@ renderer reads it through the aggregate. `Model_StepBackgroundVramAnimation`
 retains the separate native-label read and its nonzero gate before choosing
 the existing selector-1/selector-4 VRAM-copy paths.
 
-The canonical C declaration binds to the old native identity, and the old
-incomplete-array declaration remains available in the same owning header.
+The canonical C declaration has no assembler label and the old
+incomplete-array declaration is gone from the owning header.
 Its former central declaration is retired rather than duplicated.
 Each image exports the
 canonical alias through its existing linker-symbol mechanism. This neither

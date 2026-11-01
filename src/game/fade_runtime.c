@@ -236,7 +236,7 @@ void Fade_DrawOverlay(void) {
     s32 depth;
     u8 flags;
 
-    rec = (FadeTransitionState *)D_800E9EC8_arr;
+    rec = &gFade_State;
     Fade_Update(rec);
     flags = rec->flags;
     if ((flags & FADE_FLAG_ACTIVE) ||

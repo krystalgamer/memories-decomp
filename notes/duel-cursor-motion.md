@@ -86,9 +86,9 @@ The removed `DuelSelectionSideView` only described the prefix through +8;
 no code allocated, advanced or copied records using its prefix size. The
 canonical hand-at-+8 and 0x1C record-size assertions remain in force.
 
-The global remains a four-byte stored `G32` gp-relative pointer. Japanese
-wrappers retain their explicit localized binding at `0x8009B0A4`, now named
-`gJapanese_DuelActiveSelectionRecord`; no new nullability or initial-value
+The global remains a four-byte stored `G32` gp-relative pointer. The
+Japanese symbols.txt binds the canonical name at `0x8009B0A4` (formerly
+`gJapanese_DuelActiveSelectionRecord`); no new nullability or initial-value
 claim is introduced. The table aliases,
 operand order and side-index calculations remain distinct to preserve their
 relocations. The retired `DuelCardPickCursor`, `DuelCursorStatus` and
@@ -327,9 +327,9 @@ computes the same two headings as a quarter turn plus side times a half
 turn; that expression is not replaced with a table read.
 
 Unsigned storage/loads, both values, side indexing, section, named
-profiles and source owners remain unchanged. The four Japanese wrappers
-retain an explicit `gJapanese_DuelSideViewHeadings` binding at
-`0x8009AE60`; all seven regional addresses are fixed. This names the duel
+profiles and source owners remain unchanged. The Japanese symbols.txt
+binds the canonical name at `0x8009AE60` (formerly
+`gJapanese_DuelSideViewHeadings`); all seven regional addresses are fixed. This names the duel
 table only, not the shared ViewState member or the alternate orbit's
 angular roles, and introduces no wrapping or side validation.
 

@@ -44,7 +44,7 @@ extern u8 gDebugMenu_szMenuEditorFormat[0x1C];
 extern u8 gDebugMenu_szMovieEditorFormat[0x24];
 #ifdef VERSION_EUROPE
 /* The "LANGUAGE = %X" editor format of the European-only language entry
- * (func_80030808), beside the other gDebugMenu_sz*EditorFormat strings. */
+ * (DebugMenu_UpdateLanguageEntry), beside the other gDebugMenu_sz*EditorFormat strings. */
 extern u8 gDebugMenu_szLanguageEditorFormat[0x1C];
 #endif
 extern u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT];

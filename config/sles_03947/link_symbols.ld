@@ -12,8 +12,6 @@ func_8006986C = Color_TintRgb;
 func_80069C40 = Model_MapToBasePrimitiveHandler;
 func_80069F6C = Model_RegisterHandlerKey;
 GsGetTimInfo = func_80085E84;
-ModelTexture_LoadTim = func_8005CFD0;
-ModelTexture_PackPageClut = func_8005EE50;
 GsLinkAnim = func_80089B5C;
 GsScanAnim = func_80089AB4;
 GsU_02000000 = 0x80089BC4;
@@ -67,7 +65,7 @@ func_8006988C = 0x80068B8C;
 func_80069B40 = 0x80068E40;
 gDuel_bTerrainCodegenAlias = 0x8009C2D9;
 gFile_wTransferStepFlags_abs = 0x8009C05C;
-gEuropean_D_8009B19E = D_8009B20C;
+gDuel_wAiHandStackPending = D_8009B20C;
 gEuropean_D_8009B208 = 0x8009C10A;
 gEuropean_D_8009B20C = 0x8009C10E;
 func_80025034 = DuelEffect_ApplyLifePointRecovery;
@@ -257,7 +255,6 @@ PROVIDE(gLibrary_sSampledReferenceY = D_80181012);
 gText_aGlyphLookup = tent_GlyphLookupTable;
 
 /* Canonical view of the retained native countdown entry point. */
-SD_UpdateSecondaryObjectReuseCountdowns = tent_SD_AgeSecondaryObjects;
 
 /* Auxiliary-model upload sector; retain its native provider. */
 gModel_abAuxiliaryPaletteSector = D_801DD800;
@@ -274,3 +271,4 @@ gDuel_wActionSubstate = gEuropean_D_8009B20C;
 gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
+g_SDValue_output_level = g_SDValue;

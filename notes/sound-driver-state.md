@@ -437,7 +437,9 @@ size.
 ## SPU decoded data, reverb, and shutdown
 
 `SD_MeasureCdAudioLevel` (grouped in `src/game/sound_output_state.c`) imports the real
-`libspu.h` interface and calls:
+`libspu.h` interface and calls it through `g_SDValue_output_level`, a volatile
+view of the sound root that each image's `link_symbols.ld` binds to
+`g_SDValue`:
 
 ```c
 SpuReadDecodedData(

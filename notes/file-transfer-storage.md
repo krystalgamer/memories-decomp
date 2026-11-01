@@ -84,11 +84,11 @@ all unrelated tests, fixtures, tooling and traces remain.
 ## Active and pending request views
 
 `gFile_ActiveRequestSlot` names the existing scalar C view of the first
-request record. Its explicit `asm("D_801D4200")` label preserves the exact
-preexisting linker identity. `D_801D4200_raw[]` and its same ASM label
-remain unchanged, including the `FILE_TRANSFER_BYTE_VIEWS` selector.
-
-No new native address binding is introduced. The NA copy instructions and
+request record. Every image's symbol or linker file binds the name at
+`0x801D4200` (formerly `D_801D4200`), with no assembler label. The two
+whole-record copies take its address as `(u8 *)&gFile_ActiveRequestSlot`
+in place of the former `D_801D4200_raw[]` byte view and its
+`FILE_TRANSFER_BYTE_VIEWS` selector. The NA copy instructions and
 tracked continental bindings identify the same 0x20-byte active/pending
 pair; preserving the original linker identity also preserves the existing
 Japanese/UK bindings without guessing unavailable retail evidence.
