@@ -408,9 +408,8 @@ French MODEL headers 797 (stage 9 slot 0) and 894 (stage 10 slot 1) build the he
 
 Four images under French headers 809 and 906 are the North American
 header-792 entry (`model_variant/variant792_entry.c`) unchanged; only the
-resident `jal` targets differ. The French modules build `variant792_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant809_linker_symbols.txt`.
+resident `jal` targets differ. Both slots build `variant792_entry.c`
+directly through `model_variant809_linker_symbols.txt`.
 
 Ten images under French headers 653 and 720 are the North American
 header-636 entry (`model_variant/variant636_entry.c`) without its `E_DATA`
