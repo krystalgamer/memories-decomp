@@ -1,8 +1,8 @@
 # French MODEL headers 418 and 568
 
 Two distinct images for model410 reuse the unchanged accepted
-`src/overlays/model_variant/variant401_{spokes,rings,quad}.c` bodies through
-six three-line wrappers. The existing `gcc_2_8_1_g0_split` profile uses
+`src/overlays/model_variant/variant401_{spokes,rings,quad}.c` bodies, which
+both slots now compile directly (see [Names](#names)). The existing `gcc_2_8_1_g0_split` profile uses
 GCC 2.8.1 and MASPSX 2.81. Those three shared bodies, headers, G32 annotations and US
 profiles are unchanged. US source family401 is provenance, not French
 identity; it is unrelated to the older French model401/header432 renderer.
@@ -66,7 +66,8 @@ terminal canonical-wrapper matches. Local source/header fingerprints
 were checked before target compilation. Rebasing located candidates only;
 actual canonical links reproduce both unmasked complete images. The
 slot-zero rings symbol already equals the US source symbol; its self-renaming
-macro preserves the uniform, independently verified wrapper form.
+macro preserved the uniform, independently verified wrapper form. The
+wrappers have since been removed (see [Names](#names)).
 
 Production validation of the combined
 [418/433 batch](french-model-variant433.md) preserves all 152 accepted
@@ -311,8 +312,9 @@ It is the accepted header-416 entry with one 0x27C-byte band of nine columns
 threshold; the update calls sheet and webs once the config start is reached,
 bands while the phase is positive and rays from phase 2, and the tint fades
 only below phase 5. Two wrappers, `variant418_entry.c` and
-`variant418_entry_slot1.c`, select the PAL palette x = 640 and rename the data
-table and the bands, sheet, webs and rays callees. Under `gcc_2_8_1_g0_split`
+`variant418_entry_slot1.c`, selected the PAL palette x = 640 and renamed the
+data table and the bands, sheet, webs and rays callees. Both slots now compile
+`variant418_entry.c`, which only selects the palette (see [Names](#names)). Under `gcc_2_8_1_g0_split`
 both slots are exact in both complete images at the first attempt; two
 terminal rows are appended to the attempt ledger. The family binding file
 gains the 12 entry SDK bindings (`GetClut`, `GetTPage`, `GsGetLwUnit`,
@@ -323,5 +325,18 @@ keeps its 36.
 
 With the default palette x = 512 the same body is the North American
 header-401 entry (`0xFE0` bytes) under `gcc_2_7_2_cdk_g0`, registered in both
-North American images through `variant401_entry.c` and
-`variant401_entry_slot1.c` ([North American notes](model-variants.md)).
+North American images through `variant401_entry.c`, which both slots compile
+([North American notes](model-variants.md)).
+
+## Names
+
+Both slots compile the shared sources without renaming wrappers; the
+remaining `variant418_{entry,bands,webs,rays}.c` files only select the
+palette, `VERSION_FRENCH` or `MODEL_VARIANT418_RAYS`. They define
+`ModelVariant401_HandleRequest`, `ModelVariant401_DrawBand` (`0xFE0`),
+`FrenchModelVariant418_DrawSheets` (`0x1760`), `ModelVariant416_DrawWebs`
+(`0x1C9C`), `FrenchModelVariant433_DrawRays` (`0x2204`),
+`ModelVariant401_DrawSpokes` (`0x272C`), `ModelVariant401_DrawRings`
+(`0x2A3C`), `ModelVariant401_DrawQuad` (`0x2DB8`) and the data block
+`gModelVariant401_D3124`. Each image binds them at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

@@ -2,7 +2,7 @@
 
 #include "../model_variant/model_variant.h"
 
-void func_8013C810(u8 *ctx)
+void ModelVariant416_DrawSheets(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

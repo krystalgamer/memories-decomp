@@ -1,8 +1,8 @@
 # French MODEL headers 433 and 583
 
 Four distinct images for models180/440 retain the unchanged accepted
-`src/overlays/model_variant/variant416_{webs,spokes,rings,quad}.c` bodies through
-eight three-line French wrappers. The authoritative `gcc_2_8_1_g0_split`
+`src/overlays/model_variant/variant416_{webs,spokes,rings,quad}.c` bodies, which
+both slots now compile directly (see [Names](#names)). The authoritative `gcc_2_8_1_g0_split`
 profile uses GCC 2.8.1 and MASPSX 2.81. Shared bodies, headers, G32
 annotations and US compiler profiles remain unchanged.
 The entry-called sheet renderer uses a standalone French body with the
@@ -480,3 +480,16 @@ SDK-alias paths are already supplied by the accepted strip batch.
 Combined configured totals are 1,158/1,581 C instances / 1,299,620 bytes.
 No pending branch is stacked, and the entry and unclassified suffixes
 remain outside the C-completion claim.
+
+## Names
+
+Both slots compile the shared sources without renaming wrappers;
+`variant433_entry.c` only selects the palette. They define
+`ModelVariant416_HandleRequest`, `ModelVariant416_DrawBands` (`0x1050`, from
+`variant433_strips.c`), `ModelVariant416_DrawSheets` (`0x1810`, from
+`variant433_sheet.c`), `ModelVariant416_DrawWebs` (`0x1C64`),
+`FrenchModelVariant433_DrawRays` (`0x21CC`), `ModelVariant416_DrawSpokes`
+(`0x26C8`), `ModelVariant416_DrawRings` (`0x29D8`), `ModelVariant416_DrawQuad`
+(`0x2D54`) and the data block `gModelVariant416_D30D0`. Each image binds them
+at its own addresses (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).

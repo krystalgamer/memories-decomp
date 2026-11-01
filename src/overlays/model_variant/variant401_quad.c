@@ -4,7 +4,7 @@
 
 /* Draws the growing POLY_G4 quad of the variant's single quad record and
  * advances its size and rotation through three phases. */
-void func_8013DDBC(u8 *ctx)
+void ModelVariant401_DrawQuad(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

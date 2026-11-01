@@ -89,21 +89,21 @@ segments:
     vram: 0x8013D72C
     align: 4
     subsegments:
-      - [0x272C, c, overlays/french_model_variant/variant418_spokes]
+      - [0x272C, c, overlays/model_variant/variant401_spokes]
   - name: helper_2A3C
     type: code
     start: 0x2A3C
     vram: 0x8013DA3C
     align: 4
     subsegments:
-      - [0x2A3C, c, overlays/french_model_variant/variant418_rings]
+      - [0x2A3C, c, overlays/model_variant/variant401_rings]
   - name: helper_2DB8
     type: code
     start: 0x2DB8
     vram: 0x8013DDB8
     align: 4
     subsegments:
-      - [0x2DB8, c, overlays/french_model_variant/variant418_quad]
+      - [0x2DB8, c, overlays/model_variant/variant401_quad]
   - name: unclassified_tail
     type: code
     start: 0x311C

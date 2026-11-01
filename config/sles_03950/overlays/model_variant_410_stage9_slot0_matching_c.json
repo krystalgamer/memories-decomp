@@ -34,19 +34,19 @@
       "address": "0x8013D72C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x310",
-      "source": "src/overlays/french_model_variant/variant418_spokes.c"
+      "source": "src/overlays/model_variant/variant401_spokes.c"
     },
     {
       "address": "0x8013DA3C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x37C",
-      "source": "src/overlays/french_model_variant/variant418_rings.c"
+      "source": "src/overlays/model_variant/variant401_rings.c"
     },
     {
       "address": "0x8013DDB8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x364",
-      "source": "src/overlays/french_model_variant/variant418_quad.c"
+      "source": "src/overlays/model_variant/variant401_quad.c"
     }
   ],
   "schema": 1

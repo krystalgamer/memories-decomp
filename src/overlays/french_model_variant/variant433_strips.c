@@ -2,7 +2,7 @@
 
 #include "variant433_strips.h"
 
-void func_8013C050(u8 *ctx)
+void ModelVariant416_DrawBands(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
