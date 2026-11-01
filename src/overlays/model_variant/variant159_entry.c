@@ -5,11 +5,12 @@
 /* Header 159's entry: a rainbow curtain of five rows rises out of the
  * floor, waves and slides towards the other slot, then eight glowing
  * three-sided prisms grow along its edge. A negative command draws a frame;
- * any other command builds the curtain and prints the work-area size. */
+ * any other command builds the curtain and prints the work-area size. The
+ * French header-176 and 306 images build this source without the printf. */
 
-static const VECTOR D_8013CD74 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant159_D1D74 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant159_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -40,12 +41,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CD74;
+    scale = gModelVariant159_D1D74;
     work = (Model159State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013CDB0[command % 100];
+        config = work->config = &gModelVariant159_D1DB0[command % 100];
         point = work->edge;
         for (i = 0; i < 17; i++) {
             point->vx = -direction * (config->width * (i << 1) / 16 - config->width);
@@ -71,7 +72,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->depth = -direction * 225;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CD94[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant159_D1D94[i]);
         }
         work->elapsed = 0;
         work->frames = 0;
