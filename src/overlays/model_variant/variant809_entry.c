@@ -5,11 +5,11 @@
  * ambient light dims, and every period a burst of coloured spokes appears
  * there and fades out until the light recovers. */
 
-static const VECTOR D_8013C0C8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant809_D10C8 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant809_HandleRequest(u8 *context, s32 command)
 {
     Model809State *work;
     MATRIX base, matrix;
@@ -28,11 +28,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C0C8;
+    scale = gModelVariant809_D10C8;
     work = (Model809State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
-        work->config = &D_8013C110[command];
+        work->config = &gModelVariant809_D1110[command];
         for (i = 0; i < 64; i++) {
             setVector(&work->sparks[i], 0, 0, 0);
             setVector(&work->bursts[i], 0, 0, 0);
@@ -46,7 +46,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C0D8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant809_D10D8[i]);
         }
         work->level = 2048;
         work->spark_count = 0;
