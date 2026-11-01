@@ -544,9 +544,10 @@ labels 0x28 lower.
 Four images under French headers 645 and 712 are the North American
 header-628 entry (`model_variant/variant628_entry.c`) without its `E_DATA`
 work-size printf. Its format string was the whole read-only section, so it
-goes too, and the
-`src/overlays/french_model_variant/variant645_entry{,_slot1}.c` wrappers move
-the data labels 0x28 lower.
+goes too. Both slots build through
+`src/overlays/french_model_variant/variant645_entry.c`; the data labels sit
+0x28 lower, and each image's symbols file binds `gModelVariant628_D2598` and
+`gModelVariant628_D25EC` at its own addresses.
 
 Ten images under French headers 690 and 757 are the North American
 header-673 entry (`model_variant/variant673_entry.c`) without its `E_DATA`

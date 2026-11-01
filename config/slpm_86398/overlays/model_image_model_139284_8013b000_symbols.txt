@@ -1,7 +1,7 @@
 // Japanese MODEL.MRG model 554 (record 504), sector 139284, header 628, loaded at 0x8013B000; the US source variant628_entry.c; built from the US source layout of model_variant_554_pos0_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x257C defined:true
-D_8013D598 = 0x8013D598; // type:u8 size:0x54 defined:true
-D_8013D5EC = 0x8013D5EC; // type:u8 size:0x2A14 defined:true
+ModelVariant628_HandleRequest = 0x8013B004; // type:func size:0x257C defined:true
+gModelVariant628_D2598 = 0x8013D598; // type:u8 size:0x54 defined:true
+gModelVariant628_D25EC = 0x8013D5EC; // type:u8 size:0x2A14 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 func_80058F10 = 0x80058F10; // type:func absolute:true
