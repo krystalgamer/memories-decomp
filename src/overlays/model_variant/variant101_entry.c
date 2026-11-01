@@ -6,9 +6,9 @@
  * model. The return value reports the end (2), 4 while the bursts run, 1 on
  * the first frame after them or 0 before the first burst starts. */
 
-static const VECTOR D_8013C2B8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant101_D12B8 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant101_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -30,11 +30,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C2B8;
+    scale = gModelVariant101_D12B8;
     work = (Model101State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013C31C[command];
+        config = work->config = &gModelVariant101_D131C[command];
         point = work->points;
         for (i = 0; i < 128; i++) {
             point->vx = 0;
@@ -56,7 +56,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C2C8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant101_D12C8[i]);
         }
         work->completed = 0;
         work->elapsed = 0;
