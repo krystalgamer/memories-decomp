@@ -22372,14 +22372,14 @@
     {
       "archive": "game/germany/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03949/overlays/model_image_model_109772_8013b000.yaml",
+      "layout": "config/sles_03949/overlays/model_variant_447_stage9_slot0.yaml",
       "load_address": "0x8013B000",
-      "name": "german_model_image_model_109772_8013b000",
-      "output": "tmp/overlays/german_model_image_model_109772_8013b000/module.bin",
+      "name": "german_model_variant_447_stage9_slot0",
+      "output": "tmp/overlays/german_model_variant_447_stage9_slot0/module.bin",
       "sector_count": 10,
       "sector_offset": 109772,
       "sha256": "8769a96f14bac63818b64db53aea84f581490f6566d97f9741ba27ddcf5d0ed7",
-      "linker_symbols": "config/sles_03949/overlays/model_image447_rings_linker_symbols.txt"
+      "linker_symbols": "config/sles_03949/overlays/model_variant685_rings_linker_symbols.txt"
     },
     {
       "archive": "game/germany/DATA/MODEL.MRG",
@@ -24838,15 +24838,15 @@
       "linker_symbols": "config/sles_03949/overlays/model_variant667_linker_symbols.txt"
     },
     {
+      "name": "german_model_variant_174_stage9_slot0",
       "archive": "game/germany/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03949/overlays/model_image_model_48224_8013b000.yaml",
-      "load_address": "0x8013B000",
-      "name": "german_model_image_model_48224_8013b000",
-      "output": "tmp/overlays/german_model_image_model_48224_8013b000/module.bin",
-      "sector_count": 10,
       "sector_offset": 48224,
+      "sector_count": 10,
+      "load_address": "0x8013B000",
       "sha256": "b2c0697e759ecfe1e5d746ca7ad4bc29bcd3719c05893056acb877274dc6eac8",
+      "output": "tmp/overlays/german_model_variant_174_stage9_slot0/module.bin",
+      "layout": "config/sles_03949/overlays/model_variant_174_stage9_slot0.yaml",
       "linker_symbols": "config/sles_03949/overlays/model_variant450_linker_symbols.txt"
     },
     {
@@ -35623,15 +35623,15 @@
       "linker_symbols": "config/sles_03949/overlays/model_variant664_linker_symbols.txt"
     },
     {
+      "name": "german_model_variant_174_stage10_slot1",
       "archive": "game/germany/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03949/overlays/model_image_model_48234_8017b000.yaml",
-      "load_address": "0x8017B000",
-      "name": "german_model_image_model_48234_8017b000",
-      "output": "tmp/overlays/german_model_image_model_48234_8017b000/module.bin",
-      "sector_count": 10,
       "sector_offset": 48234,
+      "sector_count": 10,
+      "load_address": "0x8017B000",
       "sha256": "770befcc07901cfa9da9573421c5713062488ea83f6df218a25fe302d5c091b7",
+      "output": "tmp/overlays/german_model_variant_174_stage10_slot1/module.bin",
+      "layout": "config/sles_03949/overlays/model_variant_174_stage10_slot1.yaml",
       "linker_symbols": "config/sles_03949/overlays/model_variant450_linker_symbols.txt"
     },
     {
@@ -39888,14 +39888,14 @@
     {
       "archive": "game/germany/DATA/MODEL.MRG",
       "archive_sha256": "0c3f90cf4a3b4776d1188054a6cd5d89c5bc364215dac15c4730ef74edbc8da3",
-      "layout": "config/sles_03949/overlays/model_image_model_109782_8017b000.yaml",
+      "layout": "config/sles_03949/overlays/model_variant_447_stage10_slot1.yaml",
       "load_address": "0x8017B000",
-      "name": "german_model_image_model_109782_8017b000",
-      "output": "tmp/overlays/german_model_image_model_109782_8017b000/module.bin",
+      "name": "german_model_variant_447_stage10_slot1",
+      "output": "tmp/overlays/german_model_variant_447_stage10_slot1/module.bin",
       "sector_count": 10,
       "sector_offset": 109782,
       "sha256": "c3db7926d652db44872e2862318f558470ce510928b137a04cc11d4cba5c47c2",
-      "linker_symbols": "config/sles_03949/overlays/model_image447_rings_linker_symbols.txt"
+      "linker_symbols": "config/sles_03949/overlays/model_variant685_rings_linker_symbols.txt"
     },
     {
       "archive": "game/germany/DATA/MODEL.MRG",
