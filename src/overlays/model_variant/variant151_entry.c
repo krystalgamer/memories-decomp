@@ -11,15 +11,9 @@
  * divisor and texture frame. A negative command draws a frame; any other
  * command sets the work area up and prints its size. */
 
-/* The French images place this vector lower and reuse its US address
- * for the image table, so they rename it. */
-#ifndef MODEL151_SCALE
-#define MODEL151_SCALE D_8013BF70
-#endif
+static const VECTOR gModelVariant151_D0F70 = {4096, 4096, 4096, 0};
 
-static const VECTOR MODEL151_SCALE = {4096, 4096, 4096, 0};
-
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant151_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -44,12 +38,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = MODEL151_SCALE;
+    scale = gModelVariant151_D0F70;
     work = (Model151State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013BFC8[command % 100];
+        config = work->config = &gModelVariant151_D0FC8[command % 100];
         point = work->points;
         for (i = 0; i < 17; i++) {
             point->vx = config->radius * ccos(i << 8) / 4096;
@@ -68,7 +62,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013BF90[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant151_D0F90[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

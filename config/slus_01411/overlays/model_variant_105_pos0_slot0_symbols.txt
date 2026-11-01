@@ -1,4 +1,4 @@
 // MODEL.MRG model 105 (record 105), sector 29160, header 151, loaded at 0x8013B000; the US source variant151_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0xF6C defined:true
-D_8013BF90 = 0x8013BF90; // type:u8 size:0x38 defined:true
-D_8013BFC8 = 0x8013BFC8; // type:u8 size:0x4038 defined:true
+ModelVariant151_HandleRequest = 0x8013B004; // type:func size:0xF6C defined:true
+gModelVariant151_D0F90 = 0x8013BF90; // type:u8 size:0x38 defined:true
+gModelVariant151_D0FC8 = 0x8013BFC8; // type:u8 size:0x4038 defined:true
