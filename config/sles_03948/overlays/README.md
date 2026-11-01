@@ -857,7 +857,7 @@ goes too, and the
 `src/overlays/french_model_variant/variant691_entry{,_slot1}.c` wrappers move
 the data labels 0x28 lower.
 
-French MODEL headers 697 (stage 7 slot 0) and 764 (stage 8 slot 1) build the North American header-680 entry (`func_8013B004`) from `src/overlays/model_variant/variant680us_entry.c` through `src/overlays/french_model_variant/variant697_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf` and its format string. The text is 0x10 shorter, so the image table and command rows sit 0x28 lower, at `D_8013DA9C` and `D_8013DBD0`.
+French MODEL headers 697 (stage 7 slot 0) and 764 (stage 8 slot 1) build the North American header-680 entry (`ModelVariant680Us_HandleRequest`) from `src/overlays/model_variant/variant680us_entry.c` through `src/overlays/french_model_variant/variant697_entry.c` in both slots. `VERSION_FRENCH` drops the work-size `printf` and its format string. The text is 0x10 shorter, so the image table and command rows sit 0x28 lower, at `0x8013DA9C` and `0x8013DBD0` in slot 0; each image's symbols file binds `gModelVariant680Us_D2AC4` and `gModelVariant680Us_D2BF8` at its own addresses.
 
 French MODEL headers 696 (stage 9 slot 0) and 763 (stage 10 slot 1) build the North American header-679 entry (`ModelVariant679Us_HandleRequest`) from `src/overlays/model_variant/variant679us_entry.c` through `src/overlays/french_model_variant/variant696_entry.c` in both slots. `VERSION_FRENCH` drops the work-size `printf` and its format string. The text is 0x10 shorter, so the image table and command rows sit 0x28 lower, at `0x8013D110` and `0x8013D244` in slot 0; each image's symbols file binds `gModelVariant679Us_D2138` and `gModelVariant679Us_D226C` at its own addresses.
 
