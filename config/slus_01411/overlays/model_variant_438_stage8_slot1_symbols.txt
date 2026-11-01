@@ -1,4 +1,4 @@
-// MODEL.MRG model 438 (record 438), sector 107278, header 914, loaded at 0x8017B000; the US source variant817_entry_slot1.c.
-func_8017B004 = 0x8017B004; // type:func size:0x3198 defined:true
-D_8017E1AC = 0x8017E1AC; // type:u8 size:0x70 defined:true
-D_8017E21C = 0x8017E21C; // type:u8 size:0x1DE4 defined:true
+// MODEL.MRG model 438 (record 438), sector 107278, header 914, loaded at 0x8017B000; the US source variant817_entry.c.
+ModelVariant817_HandleRequest = 0x8017B004; // type:func size:0x3198 defined:true
+gModelVariant817_D31AC = 0x8017E1AC; // type:u8 size:0x70 defined:true
+gModelVariant817_D321C = 0x8017E21C; // type:u8 size:0x1DE4 defined:true
