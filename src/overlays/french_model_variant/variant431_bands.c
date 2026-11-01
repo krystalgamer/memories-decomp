@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant431_entry.h"
 
-void func_8013C7C8(u8 *ctx)
+void FrenchModelVariant431_DrawBands(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

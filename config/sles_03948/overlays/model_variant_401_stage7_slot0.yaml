@@ -89,14 +89,14 @@ segments:
     vram: 0x8013D8C4
     align: 4
     subsegments:
-      - [0x28C4, c, overlays/french_model_variant/variant431_spokes]
+      - [0x28C4, c, overlays/model_variant/variant414_spokes]
   - name: helper_2BCC
     type: code
     start: 0x2BCC
     vram: 0x8013DBCC
     align: 4
     subsegments:
-      - [0x2BCC, c, overlays/french_model_variant/variant431_rings]
+      - [0x2BCC, c, overlays/model_variant/variant414_rings]
   - name: unclassified_tail
     type: code
     start: 0x2F48
