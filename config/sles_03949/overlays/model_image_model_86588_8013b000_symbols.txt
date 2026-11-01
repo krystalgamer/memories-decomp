@@ -1,4 +1,8 @@
-func_8013B004 = 0x8013B004; // type:func size:0xCB8 defined:true
-D_8013E468 = 0x8013E468; // type:u8 defined:true
-D_8013E564 = 0x8013E564; // type:u8 defined:true
-func_8013CEC8 = 0x8013CEC8; // type:func defined:true
+ModelVariant366_HandleRequest = 0x8013B004; // type:func size:0xCB8 defined:true
+FrenchModelVariant383_DrawStrip = 0x8013BCBC; // type:func size:0x548 defined:true
+FrenchModelVariant383_DrawRibbons = 0x8013C204; // type:func size:0x718 defined:true
+FrenchModelVariant383_DrawQuads = 0x8013C91C; // type:func size:0x5AC defined:true
+FrenchModelVariant383_DrawRays = 0x8013D8FC; // type:func size:0xB6C defined:true
+gModelVariant366_D345C = 0x8013E468; // type:u8 defined:true
+gModelVariant366_D3558 = 0x8013E564; // type:u8 defined:true
+ModelVariant366_DrawCones = 0x8013CEC8; // type:func defined:true

@@ -4,6 +4,10 @@
 projects and draws the header-383 strip.
 **No release had matching C for this body before.**
 
+Both slots compile `variant383_strip.c` itself; it defines `FrenchModelVariant383_DrawStrip`, which
+each image binds at its own address, `0x8013BCC0`/`0x8017BCC0` in the North American and Japanese header-366 images (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
+
 The body appears in two French raw images of model 363: slot 0 (header
 `0x17F`, stage 9) and slot 1 (header `0x215`, stage 10). Each layout gains a
 C segment at `0xCBC`, carved out of the unclassified image.

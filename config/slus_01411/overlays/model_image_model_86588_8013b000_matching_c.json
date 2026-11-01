@@ -10,7 +10,7 @@
       "address": "0x8013BCC0",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x544",
-      "source": "src/overlays/model_variant/variant366_strip.c"
+      "source": "src/overlays/french_model_variant/variant383_strip.c"
     },
     {
       "address": "0x8013C204",
@@ -22,7 +22,7 @@
       "address": "0x8013C918",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x5B0",
-      "source": "src/overlays/model_variant/variant366_quads.c"
+      "source": "src/overlays/french_model_variant/variant383_quads.c"
     },
     {
       "address": "0x8013CEC8",
@@ -34,7 +34,7 @@
       "address": "0x8013D908",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xB54",
-      "source": "src/overlays/model_variant/variant366_rays.c"
+      "source": "src/overlays/french_model_variant/variant383_rays.c"
     }
   ],
   "schema": 1

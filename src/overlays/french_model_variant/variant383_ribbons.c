@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant383_ribbons.h"
 
-void func_8013C204(u8 *context)
+void FrenchModelVariant383_DrawRibbons(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

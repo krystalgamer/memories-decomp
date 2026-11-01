@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant383_rays.h"
 
-void func_8013D8FC(u8 *context)
+void FrenchModelVariant383_DrawRays(u8 *context)
 {
     Family383RayView *work = (Family383RayView *)context;
     SVECTOR rotation;

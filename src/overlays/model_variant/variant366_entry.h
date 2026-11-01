@@ -13,7 +13,7 @@
 #include "../../game/screen_projection.h"
 #include "../../psyq/libhmd.h"
 
-/* One 0x18-byte command record of the table at D_8013E558. */
+/* One 0x18-byte command record of the table at gModelVariant366_D3558. */
 typedef struct {
     u8 unknown_00[4];
     u8 parts[3], unknown_07[5];
@@ -22,7 +22,7 @@ typedef struct {
     u32 end;
 } Variant366Config;
 
-/* The strip drawn by func_8013BCC0. */
+/* The strip drawn by FrenchModelVariant383_DrawStrip. */
 typedef struct {
     u8 unknown_00[0x48];
     CVECTOR color;
@@ -32,13 +32,13 @@ typedef struct {
     u8 unknown_64[8];
 } Variant366Strip;
 
-/* The four-quadrant quad group drawn by func_8013C918. */
+/* The four-quadrant quad group drawn by FrenchModelVariant383_DrawQuads. */
 typedef struct {
     SVECTOR v0[4], v1[4], v2[4], v3[4];
     CVECTOR outer, inner;
 } Variant366Quads;
 
-/* The three 17-point ribbon cones drawn by func_8013CEC8. */
+/* The three 17-point ribbon cones drawn by ModelVariant366_DrawCones. */
 typedef struct {
     SVECTOR inner[17], middle[17], outer[17];
     s32 progress, field_19C;
@@ -51,7 +51,7 @@ typedef struct {
     s32 size, state;
 } Variant366Ring;
 
-/* The sixteen rays drawn by func_8013D908. */
+/* The sixteen rays drawn by FrenchModelVariant383_DrawRays. */
 typedef struct {
     u8 unknown_00[0x50];
     CVECTOR inner[2], outer[2];
@@ -100,12 +100,12 @@ typedef struct {
     DVECTOR target;
 } Variant366Projection;
 
-extern GsIMAGE D_8013E45C[];
-extern Variant366Config D_8013E558[];
+extern GsIMAGE gModelVariant366_D345C[];
+extern Variant366Config gModelVariant366_D3558[];
 
-s32 func_8013B004(u8 *context, s32 command);
-void func_8013C204(u8 *context);
-void func_8013C918(u8 *context);
-void func_8013CEC8(u8 *context);
-void func_8013D908(u8 *context);
+s32 ModelVariant366_HandleRequest(u8 *context, s32 command);
+void FrenchModelVariant383_DrawRibbons(u8 *context);
+void FrenchModelVariant383_DrawQuads(u8 *context);
+void ModelVariant366_DrawCones(u8 *context);
+void FrenchModelVariant383_DrawRays(u8 *context);
 #endif

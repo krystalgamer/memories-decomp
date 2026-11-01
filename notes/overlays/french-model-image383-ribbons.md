@@ -4,6 +4,10 @@
 builds, projects and draws eight ribbons.
 **No release had matching C for this body before.**
 
+Both slots compile `variant383_ribbons.c` itself; it defines `FrenchModelVariant383_DrawRibbons`, which
+each image binds at its own address, the same addresses in the North American and Japanese header-366 images (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
+
 The body appears in the two French raw images of model 363 that also hold
 the header-383 strip and quads helpers, between them.
 

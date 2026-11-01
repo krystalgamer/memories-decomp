@@ -1,7 +1,7 @@
 address,size,name,status,module,notes
-0x8017B004,0xCBC,func_8017B004,matching_c,overlay/model_image_model_86598_8017b000,Loader entry; C body exact through variant366_entry_slot1.c; direct-entry reachable.
-0x8017BCC0,0x544,func_8017BCC0,matching_c,overlay/model_image_model_86598_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C204,0x714,func_8017C204,matching_c,overlay/model_image_model_86598_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C918,0x5B0,func_8017C918,matching_c,overlay/model_image_model_86598_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017CEC8,0xA40,func_8017CEC8,matching_c,overlay/model_image_model_86598_8017b000,Ribbon cones drawn from phase 4; C body exact through variant366_cones.c.
-0x8017D908,0xB54,func_8017D908,matching_c,overlay/model_image_model_86598_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0xCBC,ModelVariant366_HandleRequest,matching_c,overlay/model_image_model_86598_8017b000,Loader entry; C body exact through variant366_entry.c; direct-entry reachable.
+0x8017BCC0,0x544,FrenchModelVariant383_DrawStrip,matching_c,overlay/model_image_model_86598_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C204,0x714,FrenchModelVariant383_DrawRibbons,matching_c,overlay/model_image_model_86598_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C918,0x5B0,FrenchModelVariant383_DrawQuads,matching_c,overlay/model_image_model_86598_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017CEC8,0xA40,ModelVariant366_DrawCones,matching_c,overlay/model_image_model_86598_8017b000,Ribbon cones drawn from phase 4; C body exact through variant366_cones.c.
+0x8017D908,0xB54,FrenchModelVariant383_DrawRays,matching_c,overlay/model_image_model_86598_8017b000,Complete module byte identity and section-defined C ownership verified.

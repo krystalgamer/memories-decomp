@@ -52,5 +52,5 @@ typedef struct {
     s32 phase;
 } Family383RayView;
 
-void func_8013D8FC(u8 *context);
+void FrenchModelVariant383_DrawRays(u8 *context);
 #endif
