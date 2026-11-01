@@ -570,9 +570,11 @@ addresses.
 
 Four images under French headers 774 and 871 are the North American
 header-757 entry (`model_variant/variant757_entry.c`) with the palette from
-the PAL CLUT row 0x3D28 instead of 0x3D20. The
-`src/overlays/french_model_variant/variant774_entry{,_slot1}.c` wrappers set
-`VERSION_FRENCH` and bind `model_variant774_linker_symbols.txt`.
+the PAL CLUT row 0x3D28 instead of 0x3D20. Both slots build through
+`src/overlays/french_model_variant/variant774_entry.c`, which sets
+`VERSION_FRENCH`; the images bind `model_variant774_linker_symbols.txt`, and
+each image's symbols file binds the entry and data names at its own
+addresses.
 
 French MODEL headers 777 (stage 9 slot 0) and 874 (stage 10 slot 1) build the header-760 entry (`ModelVariant760_HandleRequest`) directly from `src/overlays/model_variant/variant760_entry.c` in both slots; the French code and data are identical to the US images.
 
