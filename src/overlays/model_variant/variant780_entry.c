@@ -7,12 +7,12 @@
  * flare under it and sparks drift upwards; the slot is released near the
  * end while the ambient light dims and recovers. */
 
-static const VECTOR D_8013CDE0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant780_D1DE0 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 #define SIGNED_BY(s, v) ((s) < 0 ? -(v) : (v))
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant780_HandleRequest(u8 *context, s32 command)
 {
     Model780State *work;
     MATRIX light;
@@ -43,14 +43,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CDE0;
+    scale = gModelVariant780_D1DE0;
     work = (Model780State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
         ring = work->ring;
         outer = work->outer;
         inner = work->inner;
-        work->config = &D_8013CE44[command];
+        work->config = &gModelVariant780_D1E44[command];
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
         Model_SetSlotPlaybackDirection(slot ^ 1, 0);
         Model_CopySlotPosition(slot ^ 1, (u16 *)&work->centre);
@@ -97,7 +97,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CDF0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant780_D1DF0[i]);
         }
         work->beam = 1;
         work->rise = 0;

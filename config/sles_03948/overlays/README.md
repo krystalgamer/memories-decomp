@@ -404,7 +404,7 @@ wrapper) unchanged: it has no work-size printf, and only the resident call
 targets differ, which `model_variant795_linker_symbols.txt` binds to the French
 addresses.
 
-French MODEL headers 797 (stage 9 slot 0) and 894 (stage 10 slot 1) build the header-780 entry (`func_8013B004`) from `src/overlays/model_variant/variant780_entry.c` through `src/overlays/french_model_variant/variant797_entry{,_slot1}.c`. `VERSION_FRENCH` selects the disc CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
+French MODEL headers 797 (stage 9 slot 0) and 894 (stage 10 slot 1) build the header-780 entry (`ModelVariant780_HandleRequest`) from `src/overlays/model_variant/variant780_entry.c` through `src/overlays/french_model_variant/variant797_entry.c` in both slots. `VERSION_FRENCH` selects the disc CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
 
 Four images under French headers 809 and 906 are the North American
 header-792 entry (`model_variant/variant792_entry.c`) unchanged; only the

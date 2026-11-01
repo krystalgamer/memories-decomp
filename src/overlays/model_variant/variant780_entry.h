@@ -79,9 +79,9 @@ typedef struct {
     u8 beam;
 } Model780State;
 
-extern GsIMAGE D_8013CDF0[];
-extern Model780Config D_8013CE44[];
+extern GsIMAGE gModelVariant780_D1DF0[];
+extern Model780Config gModelVariant780_D1E44[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant780_HandleRequest(u8 *context, s32 command);
 
 #endif
