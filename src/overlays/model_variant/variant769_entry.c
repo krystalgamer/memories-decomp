@@ -2,14 +2,14 @@
 #include "variant769_entry.h"
 #include "../../game/graphics_constants.h"
 
-static const VECTOR D_8013D304 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant769_D2304 = {4096, 4096, 4096, 0};
 
 /*
  * Header-769 MODEL entry: draws particles gathering into a textured orb on
  * one model slot, launches the orb across the field with flapping wings,
  * bursts it, and grows a ring with a falling spray at a second model slot.
  */
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
 {
     Model769State *work;
     MATRIX view, matrix;
@@ -36,13 +36,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D304;
+    scale = gModelVariant769_D2304;
     memset(&origin, 0, 8);
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     work = (Model769State *)context;
     if (command >= 0) {
         point = work->particles;
-        work->command = &D_8013D34C[command];
+        work->command = &gModelVariant769_D234C[command];
         work->position.vx = 0;
         velocity = work->particle_velocities;
         work->position.vy = -work->command->height;
@@ -103,7 +103,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->ring_green = work->command->ring_green;
         work->ring_blue = work->command->ring_blue;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D314[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant769_D2314[i]);
         }
         work->ambient = 0x800;
         work->elapsed = 0;
