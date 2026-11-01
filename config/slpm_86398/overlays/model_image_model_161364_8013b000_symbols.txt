@@ -1,4 +1,4 @@
 // Japanese MODEL.MRG model 634 (record 634), sector 161364, header 835, loaded at 0x8013B000; the US source variant835_entry.c; built from the US source layout of model_variant_634_pos0_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x17FC defined:true
-D_8013C810 = 0x8013C810; // type:u8 size:0x38 defined:true
-D_8013C848 = 0x8013C848; // type:u8 size:0x37B8 defined:true
+ModelVariant835_HandleRequest = 0x8013B004; // type:func size:0x17FC defined:true
+gModelVariant835_D1810 = 0x8013C810; // type:u8 size:0x38 defined:true
+gModelVariant835_D1848 = 0x8013C848; // type:u8 size:0x37B8 defined:true
