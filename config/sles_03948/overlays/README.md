@@ -956,9 +956,9 @@ and bind `model_variant677_linker_symbols.txt` and
 
 Two images under French headers 849 and 946 are the North American
 header-832 entry (`model_variant/variant832_entry.c`) with the palette from
-the PAL CLUT row 0x3D28 instead of 0x3D20. The
-`src/overlays/french_model_variant/variant849_entry{,_slot1}.c` wrappers set
-`VERSION_FRENCH` and bind `model_variant849_entry_linker_symbols.txt` and
+the PAL CLUT row 0x3D28 instead of 0x3D20. Both slots build through
+the `src/overlays/french_model_variant/variant849_entry.c` wrapper, which sets
+`VERSION_FRENCH`; they bind `model_variant849_entry_linker_symbols.txt` and
 `model_variant946_linker_symbols.txt`.
 
 Two images under French headers 843 and 940 are the North American
