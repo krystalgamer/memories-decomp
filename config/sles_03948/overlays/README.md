@@ -620,9 +620,9 @@ labels 0x28 lower.
 
 Four images under French headers 824 and 921 are the North American
 header-807 entry (`model_variant/variant807_entry.c`) with its full-screen
-flash covering all 256 PAL lines. The
-`src/overlays/french_model_variant/variant824_entry{,_slot1}.c` wrappers set
-`VERSION_FRENCH` and bind `model_variant824_linker_symbols.txt`.
+flash covering all 256 PAL lines. Both slots build through
+`src/overlays/french_model_variant/variant824_entry.c`, which sets
+`VERSION_FRENCH`, and bind `model_variant824_linker_symbols.txt`.
 
 French MODEL headers 825 (stage 9 slot 0) and 922 (stage 10 slot 1) build the header-808 entry (`ModelVariant808_HandleRequest`) directly from `src/overlays/model_variant/variant808_entry.c` in both slots; the French code and data are identical to the US images.
 

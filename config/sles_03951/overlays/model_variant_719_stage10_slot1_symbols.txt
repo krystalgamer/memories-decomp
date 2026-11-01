@@ -1,7 +1,7 @@
-// Spanish MODEL.MRG model 719 (record 619), sector 171054, header 921, loaded at 0x8017B000; the US header-904 source variant807_entry_slot1.c; built from the French source layout of french_model_variant_719_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x2B94 defined:true
-D_8017DBA8 = 0x8017DBA8; // type:u8 size:0x38 defined:true
-D_8017DBE0 = 0x8017DBE0; // type:u8 size:0x2420 defined:true
+// Spanish MODEL.MRG model 719 (record 619), sector 171054, header 921, loaded at 0x8017B000; the US header-904 source variant807_entry.c; built from the French source layout of french_model_variant_719_stage10_slot1.
+ModelVariant807_HandleRequest = 0x8017B004; // type:func size:0x2B94 defined:true
+gModelVariant807_D2BA8 = 0x8017DBA8; // type:u8 size:0x38 defined:true
+gModelVariant807_D2BE0 = 0x8017DBE0; // type:u8 size:0x2420 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

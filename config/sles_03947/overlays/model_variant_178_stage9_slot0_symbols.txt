@@ -1,7 +1,7 @@
 // European MODEL.MRG model 178 (record 178), sector 49328, header 824, loaded at 0x8013B000; the US header-807 source variant807_entry.c; built from the French source layout of french_model_variant_178_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x2B94 defined:true
-D_8013DBA8 = 0x8013DBA8; // type:u8 size:0x38 defined:true
-D_8013DBE0 = 0x8013DBE0; // type:u8 size:0x2420 defined:true
+ModelVariant807_HandleRequest = 0x8013B004; // type:func size:0x2B94 defined:true
+gModelVariant807_D2BA8 = 0x8013DBA8; // type:u8 size:0x38 defined:true
+gModelVariant807_D2BE0 = 0x8013DBE0; // type:u8 size:0x2420 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true
