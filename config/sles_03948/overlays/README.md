@@ -1024,9 +1024,9 @@ the code differs only in its resident call targets, which
 
 Four images under French headers 138 and 268 are the North American
 header-121 entry (`model_variant/variant121_entry.c`) with its full-screen
-flash covering the 256 PAL lines instead of 240. The
-`src/overlays/french_model_variant/variant138_entry{,_slot1}.c` wrappers set
-the height and bind `model_variant138_linker_symbols.txt` and
+flash covering the 256 PAL lines instead of 240. Both slots build through
+`src/overlays/french_model_variant/variant138_entry.c`, which sets the height,
+and bind `model_variant138_linker_symbols.txt` and
 `model_variant268_linker_symbols.txt`.
 
 Two images under French headers 854 and 951 are the North American
