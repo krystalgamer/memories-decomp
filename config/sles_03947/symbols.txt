@@ -240,6 +240,12 @@ DisplayObjectFade_ReleaseChannel = 0x800398B0;
 DuelEffect_UpdateGlyphReveal = 0x800398C4;
 DuelEffect_UpdateGlyphConceal = 0x800399A8;
 DuelEffect_UpdateDelayedGlyphRotation = 0x80039A6C;
+DuelEffect_UpdateGlyphSpiralFade = 0x80039B3C; // type:func size:0x1E8
+DuelEffect_StartGlyphSpiralReveal = 0x80039D24; // type:func size:0x60
+DuelEffect_StartGlyphSpiralConceal = 0x80039D84; // type:func size:0x74
+DuelEffect_UpdateGlyphLinearFade = 0x80039DF8; // type:func size:0x90
+DuelEffect_UpdateGlyphFadeIn = 0x80039E88; // type:func size:0x20
+DuelEffect_UpdateGlyphFadeOut = 0x80039EA8; // type:func size:0x24
 DuelEffect_ProcessEntries = 0x80039ECC;
 DisplayEffect_ResetMenuRecords = 0x8003A02C;
 DisplayEffect_MarkInitialized = 0x8003A0AC;
@@ -627,6 +633,7 @@ Text_EmitNextSymbolGlyph = 0x80037E04;
 Text_PushFormattedDecimal = 0x80037EB8;
 Text_SetFontMode = 0x80038018;
 Text_SetPenX = 0x80038140;
+Text_SetPenY = 0x80038168; // type:func size:0x28
 Text_SetOutputLimit = 0x80038190;
 Text_PushStagedString = 0x800381C0;
 Text_SetColorIndex = 0x8003826C; // type:func
@@ -1706,6 +1713,7 @@ DebugMenu_RestorePrimaryDisplayObject = 0x80030114; // type:func size:0x1C
 Widget_UpdatePulseColour = 0x80036E94; // type:func size:0x98
 Dialog_UpdateChoice = 0x80036F2C;
 DuelEffect_SetEntryControlBytes = 0x80037154;
+DuelEffect_HasActiveEntry = 0x800370E0; // type:func size:0x74
 Text_CompletePageAdvance = 0x800371B0;
 Text_BeginPageClear = 0x80037240;
 MemCard_SetIOResultCompleteCB = 0x80044FB4; // type:func size:0x10
@@ -2030,6 +2038,7 @@ Text_StageScriptImage = 0x80037414; // type:func
 Text_StartViewportTween = 0x800374B4; // type:func
 
 Text_ContinueDisplayEffect = 0x80037560; // type:func
+TextBox_WaitForScriptCompletion = 0x80037544; // type:func size:0x1C
 
 Text_WaitForDisplayEffectAndRelease = 0x80037614; // type:func
 

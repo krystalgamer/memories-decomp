@@ -655,12 +655,13 @@ The completed pass retained the full executable SHA-256
 `MAKEFLAGS=-j2 make match`. `make basic-types`, `make global-usage`, and
 `make check-global-usage` also passed after the final source changes.
 
-## PAL native label for the active-entry test
+## PAL binding for the active-entry test
 
-The PAL builds reach `DuelEffect_HasActiveEntry` through the native label
-`func_800370E0`, declared under `VERSION_EUROPE` in
-`duel_effect_entry_control.h`, instead of macros in the entry-control and
-save-prompt wrappers. Other regions keep the plain declaration.
+Every region declares `DuelEffect_HasActiveEntry` with the same plain
+prototype in `duel_effect_entry_control.h`. Each PAL symbol file binds the
+name at its own address (`0x800370E0` in the UK image, `0x800372E0` in the
+other PAL images), so the former `func_800370E0` asm-label alias and the
+`VERSION_EUROPE` declaration split are gone.
 
 ## Channel indices and entry ownership tags
 

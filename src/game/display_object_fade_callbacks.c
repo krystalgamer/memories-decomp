@@ -5,7 +5,6 @@
 #include "duel_effect.h"
 #include "graphics_frame.h"
 #include "display_object_fade.h"
-#include "func_80039B3C.h"
 #include "display_object_fade_callbacks.h"
 #include "duel_effect_entry_occupancy.h"
 #include "graphics_frame_controls.h"

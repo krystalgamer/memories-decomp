@@ -23,11 +23,7 @@ typedef struct {
  * either way and the executable is unchanged. The declaration below is the
  * definition's own. The shared Spanish intro also passes raw control bytes
  * 5, 6, 8 and 9 with render mode zero; those are not a page-only enum. */
-#ifdef VERSION_EUROPE
-extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *channel) asm("func_800370E0");
-#else
 s32 DuelEffect_HasActiveEntry(DuelEffectChannel *channel);
-#endif
 void Text_CompletePageAdvance(DuelEffectChannel *object);
 
 /* Starting from the record's entry range, walks up to its regional count;

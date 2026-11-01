@@ -51,7 +51,7 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object);
 void Text_SetPenX(DuelEffectChannel *object);
 #ifdef VERSION_EUROPE
 /* PAL-only two-byte pen-Y operand; no opcode index is assigned here. */
-extern void Text_SetPenY(DuelEffectChannel *object) asm("func_80038168");
+void Text_SetPenY(DuelEffectChannel *object);
 #endif
 /* Secondary command 7: reset progress and set a glyph (NA/Japan) or pixel
  * (Europe) completion limit. Zero disables this limit check. */

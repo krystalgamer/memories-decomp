@@ -1,9 +1,9 @@
 # PAL glyph spiral and linear fades
 
-Six connected European callbacks retain their native entrypoints while
-using evidence-backed source names:
+Six connected European callbacks use evidence-backed names, bound
+directly at their own address in every PAL symbol file:
 
-| Native label | Canonical source name | UK / other PAL address | Bytes |
+| Former label | Name | UK / other PAL address | Bytes |
 |---|---|---|---|
 | `func_80039B3C` | `DuelEffect_UpdateGlyphSpiralFade` | `80039B3C` / `80039D3C` |488 |
 | `func_80039D24` | `DuelEffect_StartGlyphSpiralReveal` | `80039D24` / `80039F24` |96 |
@@ -13,8 +13,8 @@ using evidence-backed source names:
 | `func_80039EA8` | `DuelEffect_UpdateGlyphFadeOut` | `80039EA8` / `8003A0A8` |36 |
 
 The complete six-function family spans 912 instruction bytes in each PAL
-release. Existing wrappers, grouped E88/EA8 definition order, named
-profiles, native labels and compatibility declarations remain intact.
+release. Existing wrappers, grouped E88/EA8 definition order and named
+profiles remain intact; the wrapper file names still carry the UK addresses.
 
 ## Renderer evidence: draw mode and raw intensity
 
@@ -78,9 +78,11 @@ PAL table contents or a different dispatch allocation.
 
 ## Native conservation and evidence scope
 
-A separate `VERSION_EUROPE`-guarded header binds all six canonical externs
-to original native labels and retains compatibility signatures. The old
-spiral header only gains explicit `extern` on its existing declaration.
+A separate `VERSION_EUROPE`-guarded header,
+`european_glyph_fade_callbacks.h`, declares the six names with their
+original signatures. It used to map them onto the `func_` labels with
+`__asm__` aliases and kept a separate `func_80039B3C.h`; both are gone, and
+the symbol files bind the names directly.
 The complete common C changes only ten definition/call identifiers and
 one guarded include. Existing NA callback declarations, secondary-command
 table, renderer, record layout, latch/release helpers and all controls
