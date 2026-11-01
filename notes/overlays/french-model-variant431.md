@@ -2,7 +2,7 @@
 
 2 distinct secondary images reuse the accepted
 `src/overlays/model_variant/variant414_*.c` spokes, rings
-bodies through 4 three-line canonical renaming wrappers.
+bodies, which both slots now compile directly (see [Names](#names)).
 The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1/MASPSX 2.81.
 Shared bodies, headers, G32/PSXLONG annotations and profiles are unchanged
 from accepted master `eed176532`. The accepted PSXLONG migration
@@ -158,7 +158,8 @@ The standalone French body reuses the accepted US423 projection/color
 structure and existing `ModelVariantSheet` and SDK declarations. Its
 translation, visibility and terminal-sheet updates are independently
 recovered from these French images, rather than assumed regional equality.
-Only the second-slot wrapper renames the function.
+Only the second-slot wrapper renamed the function; it has since been
+removed (see [Names](#names)).
 
 Thirty-nine target-compiled constants and 250 retail instruction anchors
 check the layouts and control flow. Entry initializes six 152-byte sheets
@@ -356,8 +357,9 @@ new merge head; previous-head checks are not substituted.
 Both 3,864-byte entries now match with 240-byte frames under the unchanged
 `gcc_2_8_1_g0_split` profile. The standalone French body reuses the canonical
 web, sheet, ring, spoke and `Variant414Fan` declarations, plus the accepted
-entry projection view and SDK headers. Its slot-one wrapper relocates all
-four local helper calls and the suffix resource base. The five previously
+entry projection view and SDK headers. Its slot-one wrapper relocated all
+four local helper calls and the suffix resource base; it has since been
+removed (see [Names](#names)). The five previously
 accepted helpers per image, including the sheets' no-CSE profile, remain
 unchanged.
 
@@ -512,3 +514,15 @@ binding or aggregate is promoted. All 74 combined French/Spanish431,
 French/Spanish435 and progress regressions pass. This correction changes
 only tests and documentation; all verified production input bytes remain
 unchanged.
+
+## Names
+
+Both slots compile the same sources without wrappers. They define
+`FrenchModelVariant431_HandleRequest`, `FrenchModelVariant431_DrawWebs`
+(`0xF1C`), `FrenchModelVariant431_DrawFans` (`0x1338`),
+`FrenchModelVariant431_DrawBands` (`0x17C8`),
+`FrenchModelVariant431_DrawSheets` (`0x2444`), `ModelVariant414_DrawSpokes`
+(`0x28C4`), `ModelVariant414_DrawRings` (`0x2BCC`) and the data block
+`gFrenchModelVariant431_D2F48`. Each image binds them at its own addresses
+(see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).

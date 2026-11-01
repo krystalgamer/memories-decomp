@@ -4,7 +4,7 @@
 
 /* Draws three 4x6 webs, swapping the lit endpoint with the phase. Scale
  * fades past 0x1800 and wraps at 0x2000 until phase 5 marks each web done. */
-void func_8013BF20(u8 *ctx)
+void FrenchModelVariant431_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
