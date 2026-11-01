@@ -81,9 +81,9 @@ typedef struct {
     Model830Color tint;
 } Model830State;
 
-extern GsIMAGE D_8013DC08[];
-extern Model830Config D_8013DC78[];
+extern GsIMAGE gModelVariant830_D2C08[];
+extern Model830Config gModelVariant830_D2C78[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant830_HandleRequest(u8 *context, s32 command);
 
 #endif

@@ -908,8 +908,9 @@ wrapper) unchanged: the code differs only in its resident call targets, which
 `model_variant254_linker_symbols.txt` bind to the French addresses.
 
 Two images under French headers 847 and 944 are the North American
-header-830 entry (`model_variant/variant830_entry.c` and its slot-1 wrapper)
-unchanged: the code differs only in its resident call targets, which
+header-830 entry (`ModelVariant830_HandleRequest` in
+`model_variant/variant830_entry.c`, built directly in both slots) unchanged:
+the code differs only in its resident call targets, which
 `model_variant847_linker_symbols.txt` and
 `model_variant944_linker_symbols.txt` bind to the French addresses.
 
