@@ -875,10 +875,11 @@ French MODEL headers 692 (stage 7/9 slot 0: models 446, 523 and 529) and 759 (st
 
 Two images under French headers 171 and 301 are the North American
 header-154 entry (`model_variant/variant154_entry.c`) without its work-size
-printf and with the PAL screen height. The
-`src/overlays/french_model_variant/variant171_entry{,_slot1}.c` wrappers set
-`VERSION_FRENCH` and `GRAPHICS_DEFAULT_HEIGHT` 256, move the two data labels
-after the shorter text and the scale vector 0x24 lower, and bind
+printf and with the PAL screen height. Both slots build through
+`src/overlays/french_model_variant/variant171_entry.c`, which sets
+`VERSION_FRENCH` and `GRAPHICS_DEFAULT_HEIGHT` 256. The two data labels after
+the shorter text and the scale vector sit 0x24 lower, and each image's symbols
+file binds the shared data names to its own addresses. The images bind
 `model_variant171_linker_symbols.txt` and
 `model_variant301_linker_symbols.txt`.
 

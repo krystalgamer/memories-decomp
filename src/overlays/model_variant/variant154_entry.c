@@ -7,11 +7,12 @@
  * on that point, joins them with a beam of ring segments, bursts rings and
  * grids out of the point and ends with a screen flash. A negative command
  * draws a frame; any other command sets the work area up and prints its
- * size. */
+ * size. The French header-171 and 301 images build this source without the
+ * printf and with the PAL screen height. */
 
-static const VECTOR D_8013D394 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant154_D2394 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -38,13 +39,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D394;
+    scale = gModelVariant154_D2394;
     work = (Model154State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->grid;
-        config = work->config = &D_8013D408[command % 100];
+        config = work->config = &gModelVariant154_D2408[command % 100];
         for (i = 0; i < 5; i++) {
             for (j = 0; j < 5; j++) {
                 value = config->size * 48 / 80;
@@ -94,7 +95,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->head = 0;
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D3B4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant154_D23B4[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

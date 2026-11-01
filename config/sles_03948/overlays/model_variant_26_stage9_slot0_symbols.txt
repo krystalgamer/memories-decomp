@@ -1,7 +1,7 @@
 // MODEL.MRG model 26 (record 26), sector 7376, header 171, loaded at 0x8013B000; the French wrapper variant171_entry.c around the US header-154 source.
-func_8013B004 = 0x8013B004; // type:func size:0x237C defined:true
-D_8013D390 = 0x8013D390; // type:u8 size:0x54 defined:true
-D_8013D3E4 = 0x8013D3E4; // type:u8 size:0x2C1C defined:true
+ModelVariant154_HandleRequest = 0x8013B004; // type:func size:0x237C defined:true
+gModelVariant154_D23B4 = 0x8013D390; // type:u8 size:0x54 defined:true
+gModelVariant154_D2408 = 0x8013D3E4; // type:u8 size:0x2C1C defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true
