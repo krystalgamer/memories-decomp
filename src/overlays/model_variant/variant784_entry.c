@@ -8,9 +8,9 @@
  * flash flickers there. Landed shots spray sparks and bloom into a growing
  * layered fan. The ambient light dims and recovers. */
 
-static const VECTOR D_8013F080 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant784_D4080 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
 {
     MATRIX light;
     MATRIX m;
@@ -41,12 +41,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013F080;
+    scale = gModelVariant784_D4080;
     work = (Model784State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013F11C[command];
+        work->config = &gModelVariant784_D411C[command];
         for (i = 0; i < 5; i++) {
             work->tail[i] = 0;
             work->spark_count[i] = 0;
@@ -105,7 +105,7 @@ s32 func_8013B004(u8 *context, s32 command)
                       work->config->fan2_outer * ((s32)((u32)csin(i * 256 % 4096) << 1)) / 4096);
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013F090[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant784_D4090[i]);
         }
         work->elapsed = 0;
         work->fired = 0;
