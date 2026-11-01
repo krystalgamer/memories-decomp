@@ -25,3 +25,14 @@ No loader entry or resident reference to it has been found; its reachability is 
 All eight French, Spanish, German and Italian images rebuild exactly; the
 German and Italian images are byte-identical to the Spanish ones. The
 [attempt ledger](french-model-image447-rings-attempts.csv) records the probes.
+
+## Per-image names
+
+The source defines `FrenchModelVariant447_DrawRings`. All fourteen model-447
+images build it at `0x8013E520`/`0x8017E520`: the German, Italian and Spanish
+images 109772/109782 compile `variant447_rings.c` directly, and the North
+American, Japanese, European and French images compile it through
+`variant685_rings.c`, which aliases five resident names to the older layout
+beside the header-668/685 entry. Each image binds the name at its own address
+(see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
