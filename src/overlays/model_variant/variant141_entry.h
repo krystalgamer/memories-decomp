@@ -73,9 +73,9 @@ typedef union {
     DVECTOR screen[34];
 } Model141Scratch;
 
-extern GsIMAGE D_8013EC00[];
-extern Model141Config D_8013ECE0[];
+extern GsIMAGE gModelVariant141_D3C00[];
+extern Model141Config gModelVariant141_D3CE0[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant141_HandleRequest(u8 *context, s32 command);
 
 #endif
