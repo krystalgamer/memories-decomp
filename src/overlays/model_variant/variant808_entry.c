@@ -8,19 +8,19 @@
  * fall around it and a ring spreads out while the colour fades and the
  * light comes back. */
 
-static const VECTOR D_8013D1AC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant808_D21AC = {4096, 4096, 4096, 0};
 
-static const Model808Shape D_8013D1BC = {{
+static const Model808Shape gModelVariant808_D21BC = {{
     {-190, 100, 0, 0}, {-150, -150, 0, 0}, {100, -190, 0, 0}, {210, 30, 0, 0},
     {30, 210, 0, 0}, {0, 0, 0, 0}, {-420, -70, 0, 0}, {-60, -420, 0, 0},
     {380, -190, 0, 0}, {300, 300, 0, 0}, {-200, 380, 0, 0},
 }};
 
-static const Model808Faces D_8013D214 = {{
+static const Model808Faces gModelVariant808_D2214 = {{
     {8, 2, 3, 5}, {9, 3, 4, 5}, {2, 7, 5, 1}, {5, 1, 0, 6}, {4, 5, 10, 0},
 }};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
 {
     Model808State *work;
     MATRIX light;
@@ -54,14 +54,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013D1AC;
-    shape = D_8013D1BC;
-    faces = D_8013D214;
+    scale = gModelVariant808_D21AC;
+    shape = gModelVariant808_D21BC;
+    faces = gModelVariant808_D2214;
     work = (Model808State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D2B4[command];
+        work->config = &gModelVariant808_D22B4[command];
         setVector(&work->center, 0, 0, 0);
         setVector(&work->velocity, 0, 0, 0);
         work->head = 0;
@@ -92,7 +92,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->trail[i], 0, 0, 0);
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D228[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant808_D2228[i]);
         }
         work->color.c.trail_on = 0xFF;
         work->ring_scale = 0x1000;

@@ -626,7 +626,7 @@ flash covering all 256 PAL lines. The
 `src/overlays/french_model_variant/variant824_entry{,_slot1}.c` wrappers set
 `VERSION_FRENCH` and bind `model_variant824_linker_symbols.txt`.
 
-French MODEL headers 825 (stage 9 slot 0) and 922 (stage 10 slot 1) build the header-808 entry (`func_8013B004`) from `src/overlays/model_variant/variant808_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant825_entry{,_slot1}.c`; the French code and data are identical to the US images.
+French MODEL headers 825 (stage 9 slot 0) and 922 (stage 10 slot 1) build the header-808 entry (`ModelVariant808_HandleRequest`) directly from `src/overlays/model_variant/variant808_entry.c` in both slots; the French code and data are identical to the US images.
 
 French MODEL headers 827 (stage 7 slot 0) and 924 (stage 8 slot 1) build the header-810 entry (`func_8013B004`) from `src/overlays/model_variant/variant810_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant827_entry{,_slot1}.c`; the French code and data are identical to the US images. They link through their own `model_variant827_entry_linker_symbols.txt`, so the shared `model_variant827_linker_symbols.txt` is unchanged.
 

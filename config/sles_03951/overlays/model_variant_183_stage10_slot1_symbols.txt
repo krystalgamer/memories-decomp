@@ -1,4 +1,4 @@
-// Spanish MODEL.MRG model 183 (record 183), sector 50718, header 922, loaded at 0x8017B000; the US header-808 source variant808_entry_slot1.c; built from the French source layout of french_model_variant_183_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x21A8 defined:true
-D_8017D228 = 0x8017D228; // type:u8 size:0x8C defined:true
-D_8017D2B4 = 0x8017D2B4; // type:u8 size:0x2D4C defined:true
+// Spanish MODEL.MRG model 183 (record 183), sector 50718, header 922, loaded at 0x8017B000; the US header-808 source variant808_entry.c; built from the French source layout of french_model_variant_183_stage10_slot1.
+ModelVariant808_HandleRequest = 0x8017B004; // type:func size:0x21A8 defined:true
+gModelVariant808_D2228 = 0x8017D228; // type:u8 size:0x8C defined:true
+gModelVariant808_D22B4 = 0x8017D2B4; // type:u8 size:0x2D4C defined:true
