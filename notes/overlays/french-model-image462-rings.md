@@ -1,7 +1,9 @@
 # French header-462 image rings helper
 
-`func_8013D42C` / `func_8017D42C` (image offset `0x242C`, 0x434 bytes)
-grows and orbits 24 ring quads.
+`FrenchModelVariant462_DrawRings` (`0x8013D42C` / `0x8017D42C`, image
+offset `0x242C`, 0x434 bytes) grows and orbits 24 ring quads. The North
+American header-445 images build the same source, uncalled, at
+`0x8013D41C` / `0x8017D41C`.
 **No release had matching C for this body before.**
 
 The body appears in two French raw images of model 457: slot 0 (header

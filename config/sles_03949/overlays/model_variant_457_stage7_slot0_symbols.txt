@@ -1,6 +1,6 @@
 // German MODEL.MRG model 457 (record 407), sector 112512, header 462, loaded at 0x8013B000; the US header-445 source variant445us_entry.c; built from the French source layout of french_model_variant_457_stage7_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x14C0 defined:true
-func_8013C4C4 = 0x8013C4C4; // type:func size:0xA34 defined:true
-func_8013CEF8 = 0x8013CEF8; // type:func size:0x534 defined:true
-func_8013D42C = 0x8013D42C; // type:func size:0x434 defined:true
-D_8013D860 = 0x8013D860; // type:u8 size:0x27A0 defined:true
+ModelVariant445_HandleRequest = 0x8013B004; // type:func size:0x14C0 defined:true
+ModelVariant445_DrawRibbons = 0x8013C4C4; // type:func size:0xA34 defined:true
+FrenchModelVariant462_DrawSheets = 0x8013CEF8; // type:func size:0x534 defined:true
+FrenchModelVariant462_DrawRings = 0x8013D42C; // type:func size:0x434 defined:true
+gModelVariant445_D2848 = 0x8013D860; // type:u8 size:0x27A0 defined:true

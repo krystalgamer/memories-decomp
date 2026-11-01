@@ -11,8 +11,9 @@
  * template code left dead; they still shape the retail code (the kept sign
  * extensions of `i` and `k`). The two packets in `flat` alternate, so `poly`
  * only moves between flat[0] and flat[1]; `count` never exceeds 12, so
- * `k + 1` stays within the thirteen points. */
-void func_8013C4C4(u8 *ctx)
+ * `k + 1` stays within the thirteen points. The French header-462 images
+ * build it with GCC 2.8.1, 12 bytes longer. */
+void ModelVariant445_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

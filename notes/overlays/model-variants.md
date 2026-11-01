@@ -979,10 +979,25 @@ Layout selectors such as `MODEL_VARIANT405_WEBS_*_SHIFT` and
 left with nothing but the include is deleted and its manifests name the shared
 C.
 
+An image entry (`0x8013B004`) is `<Subsystem>_HandleRequest`:
+`Model_UpdateSlotControl` calls it at base + 4 with the selected request
+modulo 1000 and then with -1, and the entry sets its work area up for a
+non-negative request and runs one frame otherwise. Image-local data with no
+established role is `g<Subsystem>_D<offset>`, the offset taken from the
+canonical image's load base (`gModelVariant445_D2848` is `0x8013D848` in the
+North American image and `0x8013D860` in the European ones). Only the function
+names have `semantic-symbol-map.csv` rows; its overlay rows accept functions
+only.
+
 | Name | Shared C | Bound at |
 |---|---|---|
 | `ModelVariant405_DrawWebs` | `model_variant/variant405_webs.c` | USA models 1 and 550, Japanese images 456/466 and 138180/138190: `0x8013D8FC`/`0x8017D8FC`. USA model 62, Japanese images 17312/17322: `0x8013F594`/`0x8017F594`. European, French, German, Italian and Spanish models 1 and 550: `0x8013D8F0`/`0x8017D8F0` |
 | `FrenchModelVariant443_DrawRibbons` | `french_model_variant/variant443_ribbons.c` | USA model 62, Japanese images 17312/17322: `0x8013CAC4`/`0x8017CAC4`. European, French, German, Italian and Spanish model 62: `0x8013CADC`/`0x8017CADC` |
+| `ModelVariant445_HandleRequest` | `model_variant/variant445us_entry.c` | Model 457 slot 0 and slot 1 in every region, Japanese images 112512/112522: `0x8013B004`/`0x8017B004` |
+| `ModelVariant445_DrawRibbons` | `model_variant/variant445us_ribbons.c` | Model 457 slot 0 and slot 1 in every region, Japanese images 112512/112522: `0x8013C4C4`/`0x8017C4C4` |
+| `FrenchModelVariant462_DrawSheets` | `french_model_variant/variant462_sheets.c` | USA model 457, Japanese images 112512/112522: `0x8013CEEC`/`0x8017CEEC`. European, French, German, Italian and Spanish model 457: `0x8013CEF8`/`0x8017CEF8` |
+| `FrenchModelVariant462_DrawRings` | `french_model_variant/variant462_rings.c` | USA model 457, Japanese images 112512/112522: `0x8013D41C`/`0x8017D41C`. European, French, German, Italian and Spanish model 457: `0x8013D42C`/`0x8017D42C` |
+| `gModelVariant445_D2848` | data subsegment (`variant445us_entry.h`) | USA model 457, Japanese images 112512/112522: `0x8013D848`/`0x8017D848`. European, French, German, Italian and Spanish model 457: `0x8013D860`/`0x8017D860` |
 
 ### Header 407: petals
 

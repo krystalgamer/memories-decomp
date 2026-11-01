@@ -10,7 +10,7 @@
       "address": "0x8013C4C4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA34",
-      "source": "src/overlays/french_model_variant/variant462_ribbons.c"
+      "source": "src/overlays/model_variant/variant445us_ribbons.c"
     },
     {
       "address": "0x8013CEF8",
