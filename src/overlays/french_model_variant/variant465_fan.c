@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant465_fan.h"
 
-void func_8013C24C(u8 *ctx)
+void ModelVariant448_DrawRadialDisc(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

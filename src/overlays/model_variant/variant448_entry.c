@@ -13,7 +13,7 @@
  * allocation shows: i for the three-record loops, m for the call-free inner
  * counter, q and r for the web and ring counters. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant448EntryState *work = (Variant448EntryState *)point;
     u8 unknown_stack[64];
@@ -75,7 +75,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     extra = &work->extra;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant448EntryConfig *)(D_8013F3E4 + 0xFC) + command;
+        work->config = (Variant448EntryConfig *)(gModelVariant448_D43E4 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -93,13 +93,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT448_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT448_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F3E4 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant448_D43E4 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F3E4 + 0x8C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F3E4 + 0x1C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F3E4 + 0x54));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F3E4 + 0));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant448_D43E4 + 0x8C));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant448_D43E4 + 0x1C));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant448_D43E4 + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant448_D43E4 + 0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -358,13 +358,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->frame) {
-            func_8013C254((u8 *)point);
+            ModelVariant448_DrawRadialDisc((u8 *)point);
         }
         if (work->phase >= 5) {
-            func_8013D638((u8 *)point);
+            ModelVariant448_DrawOrbitSheets((u8 *)point);
         }
         if (work->phase > 0) {
-            func_8013C678((u8 *)point);
+            ModelVariant448_DrawFans((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

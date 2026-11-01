@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "../model_variant/variant448_orbit.h"
 
-void func_8013D56C(u8 *ctx)
+void ModelVariant448_DrawOrbitSheets(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
