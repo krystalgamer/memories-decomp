@@ -70,9 +70,9 @@ typedef struct {
     s16 command;
 } ModelVariant408EntryState;
 
-extern GsIMAGE D_8013C470[];
-extern ModelVariant408EntryConfig D_8013C550[];
-void func_8013B93C(u8 *context);
-void func_8013C02C(u8 *context);
+extern GsIMAGE gSpanishModelVariant408_D1470[];
+extern ModelVariant408EntryConfig gSpanishModelVariant408_D1550[];
+void SpanishModelVariant408_DrawMesh(u8 *context);
+void SpanishModelVariant408_DrawRingLines(u8 *context);
 
 #endif

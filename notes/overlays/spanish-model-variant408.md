@@ -18,7 +18,8 @@ cover 5,200 instruction bytes per slot:
 | `0x93C..0x102C` | 1776 | `variant408_update.c` |
 | `0x102C..0x1454` | 1064 | `variant408_draw.c` |
 
-The slot-one wrappers rename the actual function and data symbols. Each
+Both slots compile the same sources; each image's `*_symbols.txt` binds the
+function and data names at its own addresses. Each
 function has its own selected compiler object, using the authoritative
 `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81). The source was
 independently recovered from the local retail instructions, not imported

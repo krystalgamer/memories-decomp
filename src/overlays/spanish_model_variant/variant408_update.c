@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant408_update.h"
 
-void func_8013B93C(u8 *context)
+void SpanishModelVariant408_DrawMesh(u8 *context)
 {
     ModelVariant408UpdateState *work = (ModelVariant408UpdateState *)context;
     SVECTOR rotation;
