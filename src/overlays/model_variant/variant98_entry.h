@@ -81,9 +81,9 @@ typedef union {
     u8 bytes[0x4000];
 } Model98Workspace;
 
-extern GsIMAGE D_8013C5E4[];
-extern Model98Config D_8013C68C[];
+extern GsIMAGE gModelVariant98_D15E4[];
+extern Model98Config gModelVariant98_D168C[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant98_HandleRequest(u8 *context, s32 command);
 
 #endif
