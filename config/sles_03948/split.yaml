@@ -449,13 +449,7 @@ segments:
     - game/duel_card_stat_rules
   - - 120444
     - c
-    - game/campaign_test_story_flag
-  - - 120504
-    - c
-    - game/library_update_card_used_flag
-  - - 120604
-    - c
-    - game/campaign_ensure_story_flag
+    - game/campaign_story_flags
   - - 120672
     - c
     - game/european/main_reset_frontend_runtime

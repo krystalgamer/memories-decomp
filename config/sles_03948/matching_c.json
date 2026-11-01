@@ -1715,19 +1715,19 @@
       "address": "0x8002CE7C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/campaign_test_story_flag.c"
+      "source": "src/game/campaign_story_flags.c"
     },
     {
       "address": "0x8002CEB8",
-      "profile": "gcc_2_8_1_o1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x64",
-      "source": "src/game/library_update_card_used_flag.c"
+      "source": "src/game/campaign_story_flags.c"
     },
     {
       "address": "0x8002CF1C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x44",
-      "source": "src/game/campaign_ensure_story_flag.c"
+      "source": "src/game/campaign_story_flags.c"
     },
     {
       "address": "0x8002CF60",
