@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 539 (record 539), sector 135174, header 901, loaded at 0x8017B000; the US source variant804_entry_slot1.c; built from the US source layout of model_variant_539_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x2330 defined:true
-D_8017D344 = 0x8017D344; // type:u8 size:0x54 defined:true
-D_8017D398 = 0x8017D398; // type:u8 size:0x2C68 defined:true
+// Japanese MODEL.MRG model 539 (record 539), sector 135174, header 901, loaded at 0x8017B000; the US source variant804_entry.c; built from the US source layout of model_variant_539_stage10_slot1.
+ModelVariant804_HandleRequest = 0x8017B004; // type:func size:0x2330 defined:true
+gModelVariant804_D2344 = 0x8017D344; // type:u8 size:0x54 defined:true
+gModelVariant804_D2398 = 0x8017D398; // type:u8 size:0x2C68 defined:true

@@ -1,4 +1,4 @@
 // Spanish MODEL.MRG model 539 (record 539), sector 135164, header 821, loaded at 0x8013B000; the US header-804 source variant804_entry.c; built from the French source layout of french_model_variant_539_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x2330 defined:true
-D_8013D344 = 0x8013D344; // type:u8 size:0x54 defined:true
-D_8013D398 = 0x8013D398; // type:u8 size:0x2C68 defined:true
+ModelVariant804_HandleRequest = 0x8013B004; // type:func size:0x2330 defined:true
+gModelVariant804_D2344 = 0x8013D344; // type:u8 size:0x54 defined:true
+gModelVariant804_D2398 = 0x8013D398; // type:u8 size:0x2C68 defined:true
