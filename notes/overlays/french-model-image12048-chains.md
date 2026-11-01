@@ -3,9 +3,11 @@
 `func_8013D22C` (image offset `0x222C`, 0xA6C bytes) in the French and
 Spanish `model_image_model_12048_8013b000` images draws three swinging
 chains as textured strips. The same bytes sit at `func_8017D22C` in the
-`model_image_model_12058_8017b000` images, and
-`french_model_variant/image12048_chains_slot1.c` renames the body for that
-slot.
+`model_image_model_12058_8017b000` images. Both slots compile
+`image12048_chains.c` itself; it defines `FrenchModelVariant403_DrawChains`,
+which each image binds at its own address, `0x8013D204`/`0x8017D204` in the
+North American and Japanese header-386 images (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
 
 - **Shape.** Each 0x1DC-byte chain has nine joints. Loop 1 places joint 0
   from the chain's yaw and pitch, then spreads the other joints along the

@@ -3,8 +3,11 @@
 `func_8013BF38` (image offset `0xF38`, 0xC78 bytes) in the French and
 Spanish `model_image_model_12048_8013b000` images draws a set of swaying
 strands. The same body sits at `func_8017BF38` in the
-`model_image_model_12058_8017b000` images, and
-`french_model_variant/image12048_strands_slot1.c` renames it for that slot.
+`model_image_model_12058_8017b000` images. Both slots compile
+`image12048_strands.c` itself; it defines `FrenchModelVariant403_DrawStrands`,
+which each image binds at its own address, `0x8013BF3C`/`0x8017BF3C` in the
+North American and Japanese header-386 images (see [Per-image symbol
+bindings](model-variants.md#per-image-symbol-bindings)).
 
 - **Relative.** It closely follows the
   [12048 chains helper](french-model-image12048-chains.md). It uses

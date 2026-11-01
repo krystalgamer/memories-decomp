@@ -10,19 +10,19 @@
       "address": "0x8013BF3C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xC48",
-      "source": "src/overlays/model_variant/variant386_strands.c"
+      "source": "src/overlays/french_model_variant/image12048_strands.c"
     },
     {
       "address": "0x8013CB84",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x680",
-      "source": "src/overlays/model_variant/variant386_sheets.c"
+      "source": "src/overlays/french_model_variant/image12048_sheets.c"
     },
     {
       "address": "0x8013D204",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xA50",
-      "source": "src/overlays/model_variant/variant386_chains.c"
+      "source": "src/overlays/french_model_variant/image12048_chains.c"
     }
   ],
   "schema": 1

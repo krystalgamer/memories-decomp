@@ -1,0 +1,4 @@
+// Spanish MODEL.MRG model 43 raw image model_image_model_12048_8013b000, loaded at 0x8013B000; the French header-403 strands, sheets and chains helpers image12048_strands.c, image12048_sheets.c and image12048_chains.c.
+FrenchModelVariant403_DrawStrands = 0x8013BF38; // type:func size:0xC78 defined:true
+FrenchModelVariant403_DrawSheets = 0x8013CBB0; // type:func size:0x67C defined:true
+FrenchModelVariant403_DrawChains = 0x8013D22C; // type:func size:0xA6C defined:true

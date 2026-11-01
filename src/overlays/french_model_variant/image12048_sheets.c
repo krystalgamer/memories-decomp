@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image12048_sheets.h"
 
-void func_8013CBB0(u8 *context)
+void FrenchModelVariant403_DrawSheets(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

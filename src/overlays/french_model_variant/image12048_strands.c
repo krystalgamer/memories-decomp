@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image12048_strands.h"
 
-void func_8013BF38(u8 *context)
+void FrenchModelVariant403_DrawStrands(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

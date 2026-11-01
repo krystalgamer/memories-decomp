@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8013B004,0xF38,func_8013B004,matching_c,overlay/model_variant_43_pos0_slot0,Loader entry; C body exact through variant386_entry.c; direct-entry reachable.
-0x8013BF3C,0xC48,func_8013BF3C,matching_c,overlay/model_variant_43_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013CB84,0x680,func_8013CB84,matching_c,overlay/model_variant_43_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013D204,0xA50,func_8013D204,matching_c,overlay/model_variant_43_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0xF38,ModelVariant386_HandleRequest,matching_c,overlay/model_variant_43_pos0_slot0,Loader entry; C body exact through variant386_entry.c; direct-entry reachable.
+0x8013BF3C,0xC48,FrenchModelVariant403_DrawStrands,matching_c,overlay/model_variant_43_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013CB84,0x680,FrenchModelVariant403_DrawSheets,matching_c,overlay/model_variant_43_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013D204,0xA50,FrenchModelVariant403_DrawChains,matching_c,overlay/model_variant_43_pos0_slot0,Complete module byte identity and section-defined C ownership verified.
