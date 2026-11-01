@@ -438,3 +438,18 @@ input and final ELF definitions, resident dependency objects and raw suffix
 owners. Accepted Spanish totals remain 1,321/1,588 C instances / 1,744,684
 bytes; shared and other regional build inputs are unchanged from the fixed
 accepted parent. Fresh exact-head CI remains required before acceptance.
+
+## Per-image names
+
+The French entry source defines `FrenchModelVariant341_HandleRequest` and
+`gFrenchModelVariant341_D2D58`; the header-324 helper sources define
+`ModelVariant324_DrawWebs`, `ModelVariant324_DrawFan`,
+`ModelVariant324_DrawBand`, `ModelVariant324_DrawMovingRing`,
+`ModelVariant324_DrawSpokeRings` and `ModelVariant324_DrawExpandingRings`.
+All 28 images of models 7 and 552 build these sources directly in both slots.
+The PAL images bind the helpers at their French addresses (`0x8013BF38`,
+`0x8013C354`, `0x8013C7C0`, `0x8013D2F8`, `0x8013D6C4`, `0x8013D9D8`) and the
+data at `0x8013DD58`; the North American and Japanese images bind them at
+`0x8013BF3C`, `0x8013C364`, `0x8013C7D4`, `0x8013D2F8`, `0x8013D6C8`,
+`0x8013D9E0` and `0x8013DD64`, and slot 1 adds `0x40000` (see [Per-image
+symbol bindings](model-variants.md#per-image-symbol-bindings)).

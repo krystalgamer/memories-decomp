@@ -3,7 +3,7 @@
 
 /* Draws one header-432 ring at a base position moved by velocity * time /
  * 1024, and grows or shrinks its scale through the phases. */
-void func_8013D2F8(u8 *context)
+void ModelVariant324_DrawMovingRing(u8 *context)
 {
     ModelVariant324State *work = (ModelVariant324State *)context;
     SVECTOR rotation;

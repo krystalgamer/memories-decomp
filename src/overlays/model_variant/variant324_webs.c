@@ -4,7 +4,7 @@
 
 /* Header 324 uses the same three 4x6 webs as header 414, at its own
  * work offsets. Its projection depth and flag must both be strictly positive. */
-void func_8013BF3C(u8 *ctx)
+void ModelVariant324_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
