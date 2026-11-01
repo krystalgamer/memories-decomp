@@ -121,7 +121,7 @@ regressions also match. Probe and comparison logs remain local under `tmp/`.
 | `ScriptImage_TransferCallback` | `0x8002DFE8` | 308 |
 | `ScriptImage_RequestTransfer` | `0x8002E11C` | 392 |
 | `ScriptImage_ReleaseObjects` | `0x8002E2A4` | 84 |
-| `func_8002E10C` | `0x8002E2F8` | 200 |
+| `ScriptImage_CreateObject` | `0x8002E2F8` | 200 |
 
 Before the existing BCD index and transfer-table selection, the request remaps
 two ids using `D_8009C02B` at `0x8009C44B`:

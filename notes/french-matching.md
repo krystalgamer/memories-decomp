@@ -284,10 +284,9 @@ initialized small-data bytes at `0x8CB94`. Existing compiler-owned data,
 padding, and raw gaps remain intact.
 
 The European fade wrapper previously contained a source-local assembler-name
-alias declaration. Its declaration now lives in the existing `fade.h`, under
-`FADE_STATE_ARRAY_ALIAS`, selected only by that wrapper. This preserves the
-same array type and assembler symbol without an inline-assembly statement or
-source-local extern declaration. No function body or compiler profile changes.
+alias declaration for `gFade_State`. That view is gone: the shared fade
+source takes `&gFade_State` directly, with no assembler label, and no
+compiler profile changes.
 European, French, and Spanish consumers use the same existing named profile;
 other users retain the unchanged default header declaration.
 

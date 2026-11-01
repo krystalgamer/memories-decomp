@@ -52,10 +52,10 @@ names rather than the older native spellings:
 | Italian SLES-03950 | `0x8005BC14`, `0x2B4` bytes | `0x8005DA94`, `0xC4` bytes |
 | Spanish SLES-03951 | `0x8005BC14`, `0x2B4` bytes | `0x8005DA94`, `0xC4` bytes |
 
-Actual compiled PAL definitions remain native `func_8005CFD0` and
-`func_8005EE50`, selected by the existing wrappers. UK keeps its symbolic
-linker aliases; the other four releases keep their existing numeric
-canonical bindings. Neither is newly introduced or changed, and an alias
+The compiled PAL definitions now carry the canonical names directly (formerly
+native `func_8005CFD0` and `func_8005EE50`); every PAL symbol file binds the
+names at their addresses, and the UK linker aliases onto the native labels
+are gone. Neither is newly introduced or changed, and an alias
 is not substituted for the real compiled owner. The inventory change is
 only two name fields per release, not new code, a new ABI or a linker
 override.

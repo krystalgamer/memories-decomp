@@ -5,7 +5,6 @@
  * stages the five-piece presentation, and DuelCard_CaptureRoundedTexture reads a
  * drawn card back into the staging buffer. One object in every build.
  */
-#define DUEL_CARD_STAGING_DECK_VIEW
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
 #define gDuel_bEffectRequestStatus_IN_DATA
 #define D_8009B369_IN_DATA
@@ -115,7 +114,7 @@ s32 Duel_HasAllExodiaPieces(void) {
         for (i = 0; i < HAND_SIZE; i++) {
             s16 index = hand[i];
             if (index >= 0) {
-                s16 id = D_8015C424_cards.cards[index].id;
+                s16 id = ((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->cards[index].id;
                 if (id == card_id) {
                     hand[i] = -1;
                     goto found;

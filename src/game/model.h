@@ -939,9 +939,7 @@ extern ModelCameraMove D_800F2B20;
 extern ModelTintRequest gModel_aTintRequests[MODEL_TINT_REQUEST_COUNT];
 #endif
 
-extern ModelHandlerRegistryEntry
-    tent_ModelHandlerRegistry[MODEL_HANDLER_REGISTRY_COUNT];
-extern ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[MODEL_HANDLER_REGISTRY_COUNT] __asm__("tent_ModelHandlerRegistry");
+extern ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[MODEL_HANDLER_REGISTRY_COUNT];
 
 s32 Model_LoadMonsterMerge(
     s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6

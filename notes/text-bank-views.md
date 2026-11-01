@@ -94,8 +94,8 @@ regional PR gates remain mandatory.
 
 The previously excluded PAL views now have their own scoped
 [boot/anchor/digit-string contract](european-text-bank-handoff.md).
-`gText_AlternateStringAddressAnchor` keeps the distinct `D_801C0004`
-provider, and `gText_DecimalDigitGlyphString` keeps the encoded byte-string
+`gText_AlternateStringAddressAnchor` keeps the distinct `0x801C0004`
+provider (formerly `D_801C0004`), and `gText_DecimalDigitGlyphString` keeps the encoded byte-string
 provider rather than adopting the NA/Japanese Shift-JIS key-block type.
 The three boot destination words remain stored pointers under their
 individual labels. None replaces the primary/global offset views above

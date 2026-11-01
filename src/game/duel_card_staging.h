@@ -102,29 +102,19 @@ typedef char DuelCardStagingDeckView_size_must_preserve_deck_extent[
 ];
 #undef DUEL_CARD_STAGING_OFFSET
 
-/* One byte view and one typed view, each under a single name and neither
- * guarded. The byte view is what the raw-buffer consumers take -- image
- * blocks, GPU readback, ID staging lists and trap scratch, none of which are
- * fields of a record.
- *
- * The typed view is an asm alias of the same address rather than a second
- * spelling of the base name. What the addressing needs is a struct-member
- * offset on a symbol declared as the struct: the symbol's own address is
+/* The byte view is what the raw-buffer consumers take -- image blocks, GPU
+ * readback, ID staging lists and trap scratch, none of which are fields of a
+ * record. The typed consumers cast it to DuelCardStagingDeckView at the use.
+ * The addressing needs a struct-member
+ * offset from the buffer base: the base address is
  * materialised `lui %hi` / `addiu %lo`, the 0x48000 part of the member
  * offset is built separately as `lui 0x4` / `ori 0x8000` and added to it,
  * and the remaining 0x39FC stays as the load's displacement. Both typed
  * consumers show that shape -- `lh 0x39FC` at 0x8002805C in Ai_ExportSideSnapshot
  * (gcc_2_8_1_g0_split) and at 0x80018D6C in duel_draw_resolution's
- * func_80018CF8 (gcc_2_8_1_g8_split) -- and the symbol's C name is no part
- * of it, so one alias serves both. Neither profile changed and the retail
- * SHA-256 is unchanged. The alias introduces no second linker symbol:
- * objdump -t on the exporter's object lists one undefined gDuel_abCardStagingBuffer. */
+ * func_80018CF8 (gcc_2_8_1_g8_split) -- and a cast of the byte array to the
+ * struct pointer reproduces it exactly. */
 extern u8 gDuel_abCardStagingBuffer[];
-/* Only the typed consumers opt into the alias, so units that never read the
- * deck view carry no asm label. */
-#ifdef DUEL_CARD_STAGING_DECK_VIEW
-extern DuelCardStagingDeckView D_8015C424_cards asm("gDuel_abCardStagingBuffer");
-#endif
 
 extern u16 gDuel_awCombinedDeckCardIds[];
 extern u16 gDuel_awUniqueDeckCardIds[];

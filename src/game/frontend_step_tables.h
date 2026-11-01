@@ -9,14 +9,7 @@
  * Both are deliberately left unsized. The mask permits thirty-two entries and
  * neither table has that many, so a bound here would assert something the
  * call site does not support. */
-#ifdef VERSION_EUROPE
-extern void (*gDebugMenu_apfnAlternatePageSteps[])(void)
-    asm("gEuropean_DebugMenuAlternatePageSteps");
-extern void (*gDebugMenu_apfnPrimaryPageSteps[])(void)
-    asm("gEuropean_DebugMenuPrimaryPageSteps");
-#else
 extern void (*gDebugMenu_apfnAlternatePageSteps[])(void);
 extern void (*gDebugMenu_apfnPrimaryPageSteps[])(void);
-#endif
 
 #endif

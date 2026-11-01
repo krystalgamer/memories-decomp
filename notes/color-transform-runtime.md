@@ -213,11 +213,12 @@ forced_hue names without unifying their storage or call signatures.
 The packed path retains input-zero early return, exact channel extraction,
 its separate local channel_limit, direct real conversion calls, zero-channel
 clamps, packing_rgb copy and input STP-bit preservation. The unpacked path
-retains Color_RgbToHsl_void and Color_HslToRgb_wide caller views, its input
+retains its void/widened caller views, now spelled as casts of the real
+functions to local call types in `color_transform.c`, its input
 limit and output-pointer copy/return. Inversion and grayscale/control order
 stay. The direct packer keeps full-width lightness_word/saturation_word
 parameters, BOTH explicit low-halfword masks and the widened caller view.
-Do not silently replace any alias call with the definition's real prototype.
+Do not silently replace any view call with the definition's real prototype.
 
 Regional VRAM definitions distinguish side_index, tint_control,
 saturation_scale, pixel_buffer/pixel_cursor/pixel_index and band_offset;

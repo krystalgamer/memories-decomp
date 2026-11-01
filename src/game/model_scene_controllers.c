@@ -2341,7 +2341,7 @@ void Model_ResetSceneView(void)
         camera_coordinate->flg = 0;
     }
     gModel_SavedRefView = gModel_RView;
-    gModel_ViewSnapshot = D_8009B478_p;
+    gModel_ViewSnapshot = *(ModelBytes8 *)&gModel_wViewDistance;
     Model_UpdateBackgroundScroll(1);
     {
         int camera_hold_state = Model_GetCameraHoldState();

@@ -1,5 +1,4 @@
 #include "../types.h"
-#define COLOR_CALLER_VIEWS
 #include "color.h"
 
 HsvT *Color_RgbToHsl(HsvT *hsl_out, u8 red, u8 green, u8 blue, u8 channel_limit) {
@@ -181,7 +180,7 @@ s32 Color_HslToBgr555Pixel(s32 hue, u32 lightness_word, u32 saturation_word)
 {
     Color output_rgb;
 
-    Color_HslToRgb_wide(
+    ((void (*)(Color *, s32, u32, u32, s32))Color_HslToRgb)(
         &output_rgb, hue, lightness_word & 0xFFFF, saturation_word & 0xFFFF, COLOR_BGR555_CHANNEL_MASK
     );
     return (output_rgb.r & COLOR_BGR555_CHANNEL_MASK) |
@@ -206,7 +205,7 @@ Color *Color_TintRgb(
     hue_selector = tint_control & COLOR_TINT_HUE_MASK;
     grayscale_request = ((u8)hue_selector == COLOR_TINT_GRAYSCALE);
 
-    Color_RgbToHsl_void(&hsl_state, red, green, blue, channel_limit);
+    ((void (*)(HsvT *, u8, u8, u8, u8))Color_RgbToHsl)(&hsl_state, red, green, blue, channel_limit);
 
     if ((u8)hue_selector < COLOR_TINT_KEEP_HUE) {
         forced_hue = hue_selector;
@@ -223,7 +222,7 @@ Color *Color_TintRgb(
         hsl_state.v = hsl_state.v * saturation_scale / COLOR_FIXED_ONE;
     }
 
-    Color_HslToRgb_wide(&output_rgb, hsl_state.h, hsl_state.s, hsl_state.v, channel_limit);
+    ((void (*)(Color *, s32, u32, u32, s32))Color_HslToRgb)(&output_rgb, hsl_state.h, hsl_state.s, hsl_state.v, channel_limit);
 
     if (invert_mask) {
         output_rgb.r = channel_limit - output_rgb.r;

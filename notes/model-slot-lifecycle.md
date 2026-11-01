@@ -60,9 +60,9 @@ assignments, and the NA native ELF independently agree. Aggregate readers
 therefore close the phase-5 producer's role: the loader advances that step,
 and the readiness query distinguishes it from the active gate.
 
-`file_transfer_steps.h` retains the old extern and adds
-`gModel_bAuxiliaryLoadStep[]` with `__asm__("D_800F5694")`; regional linker
-inputs export the canonical alias to the old provider. The incomplete array
+`file_transfer_steps.h` declares only `gModel_bAuxiliaryLoadStep[]`, with no
+assembler label; regional linker inputs export the canonical alias to the
+old provider. The incomplete array
 and `[0]` store remain. No allocation, extent, Boolean conversion, NA
 address pin in another region, or new overlay import is introduced.
 In particular, the store is not folded to an indexed aggregate access:

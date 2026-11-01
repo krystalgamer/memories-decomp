@@ -175,11 +175,7 @@ extern u8 gDuel_abSelectionRecord3[];
  *
  * The global itself is still one four-byte pointer, accessed gp-relative;
  * gDuel_bSelectedTrapSlot follows at +4. No new initial-value or nullability claim is made. */
-#ifdef VERSION_JAPAN
-extern DuelSelectionRecord *G32 gDuel_pActiveSelectionRecord asm("gJapanese_DuelActiveSelectionRecord");
-#else
 extern DuelSelectionRecord *G32 gDuel_pActiveSelectionRecord;
-#endif
 
 /* Resets that table. For both sides it walks the four records, zeroing the
  * first three words and the byte at 0x18, then writing 1 to 0x13, the record

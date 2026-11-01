@@ -4,7 +4,6 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define D_8009B360_AS_SIDE_ARRAY
-#define DUEL_CARD_STAGING_DECK_VIEW
 #define DISPLAY_OBJECT_WORK_RITUAL_VIEW
 #define DISPLAY_OBJECT_MOTION_BYTE_CALLBACK
 #include "ai.h"
@@ -421,7 +420,7 @@ void DuelEffect_ApplyRitual(void)
         } else if (!(gDuel_wTrapPresentationMode & 0x40)) {
             if (!DisplayObject_FindAllocatedByTag(1)) {
                 gDuel_wSelectedCardID =
-                    D_8015C424_cards.field_cards[object->field_6A].card_id;
+                    ((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)->field_cards[object->field_6A].card_id;
 #ifdef VERSION_JAPAN
                 text = TextBox_CreateFlagged(0, 33, 80, 110, 160, 48, 32);
 #elif defined(VERSION_EUROPE)

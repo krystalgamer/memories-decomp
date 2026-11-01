@@ -1,7 +1,7 @@
 # Fade Transition State
 
 This phase is limited to the `0x28`-byte transition/fade record
-`gFade_State` and its same-address linker alias `D_800E9EC8_arr`. It does not
+`gFade_State`. It does not
 group neighboring globals or offset symbols into the shared declaration.
 `src/ygo_types.h` records verified offsets and widths, while
 `src/game/fade.h` owns the fade API and globals.
@@ -347,11 +347,8 @@ runtime questions; no trace result or behavior change is implied here.
 extern FadeTransitionState gFade_State;
 ```
 
-It also preserves the only same-address raw linker alias:
-
-```c
-extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
-```
+The former same-address raw view `D_800E9EC8_arr` is gone; its users take
+`&gFade_State` directly.
 
 Matching pure-C users migrated to this shared header include:
 
@@ -389,9 +386,8 @@ There are no matching inline-assembly users of the base global in this phase.
 Some migrated C deliberately retains raw expressions without retaining local
 competing declarations:
 
-- `Fade_DrawOverlay` keeps `D_800E9EC8_arr` as the pointer passed to
-  `Fade_Update`, while the tail uses typed `gFade_State` fields. The two
-  same-address symbol views preserve the target's fresh address
+- `Fade_DrawOverlay` passes `&gFade_State` to `Fade_Update`, while the tail
+  uses typed `gFade_State` fields; that reproduces the target's fresh address
   materialization in the exact draw-screen-fade implementation.
 - `Fade_Update` keeps its existing `FadeTransitionState *` parameter and the offset-symbol array
   `gFade_abCurrentLevel[]`; the latter preserves absolute `%hi/%lo` addressing for the

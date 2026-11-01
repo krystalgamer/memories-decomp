@@ -130,8 +130,9 @@ retains the address-based
 as a lexical contract. Its linked target and the rest of the runtime use
 `gDuel_wSceneStateFlags`.
 
-## Japanese native label for the card-move step
+## Japanese binding for the card-move step
 
-The Japanese build reaches `DuelScene_UpdateCardMove` through the native label
-`func_8001AFEC`, declared under `VERSION_JAPAN` in `duel_scene_callbacks.h`,
-instead of a wrapper macro. Other regions keep the plain declaration.
+The Japanese build defines and calls `DuelScene_UpdateCardMove` under that
+name; `config/slpm_86398/symbols.txt` binds it at `0x8001AFEC`, the address
+of the former native label `func_8001AFEC`. Every region uses the same plain
+declaration in `duel_scene_callbacks.h`, with no assembler label.

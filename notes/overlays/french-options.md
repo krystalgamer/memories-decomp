@@ -228,7 +228,7 @@ The boot package's three text-bank destinations are independently measured
 from the French executable: `0x801B0000` for 30 sectors, `0x801C0000` for 32,
 and `0x801D5800` for seven. None overlaps the color-slot address.
 The resident calls are `DisplayObject_UpdateResourceVariant` at `0x80040748`
-(40 bytes) and `func_80043BC8` at `0x80043DC8` (116 bytes). Their accepted
+(40 bytes) and `Main_RequestLanguageBootPackage` (formerly `func_80043BC8`) at `0x80043DC8` (116 bytes). Their accepted
 shared declarations, selected compiled C objects, final section-defined
 functions and complete retail bodies are verified. The loader's declaration
 is exposed through its existing `main_run_boot_sequence.h` owner.
@@ -263,7 +263,7 @@ at `0x80042BD8` (68 bytes), `DisplayObject_SetDepthOffset` at `0x80042C1C`
 (44 bytes), and `SD_BGMPlay` at `0x8004022C` (44 bytes). Their selected
 input objects and full final retail bodies are independently verified.
 
-The existing font setup `func_80043B7C` is accepted C at French `0x80043D7C`
+The existing font setup `Main_InitDebugFont` (formerly `func_80043B7C`) is accepted C at French `0x80043D7C`
 (76 bytes), declared through `main_run_boot_sequence.h`. Adding its
 prototype preserves all twenty previously configured resident/overlay
 source-profile consumers as complete ELF objects, including relocations.

@@ -3,16 +3,16 @@
 Two European resident helpers connect `Main_RunBootSequence` to the
 existing PAL language-options commit path:
 
-| Canonical name | Native ABI label | UK address / size | Other PAL address / size |
+| Canonical name | Former native label | UK address / size | Other PAL address / size |
 |---|---|---|---|
 | `Main_InitDebugFont` | `func_80043B7C` | `0x80043B7C` / `0x4C` | `0x80043D7C` / `0x4C` |
 | `Main_RequestLanguageBootPackage` | `func_80043BC8` | `0x80043BC8` / `0x74` | `0x80043DC8` / `0x74` |
 
 These are source names for existing functions, not new implementations,
-resident storage or linker-defined replacements. Their original native
-labels and plain compatibility prototypes remain; explicit extern/asm
-declarations in the existing owning `main_run_boot_sequence.h` bind the
-semantic definitions and calls to those same labels. The regional
+resident storage or linker-defined replacements. `main_run_boot_sequence.h`
+declares them under these names with no assembler label; every PAL symbol
+file, and the PAL options overlay's linker symbols, bind the names at the
+former native labels' addresses. The regional
 inventories change only the two name fields in each of five releases.
 
 ## Request, optional wait and font setup

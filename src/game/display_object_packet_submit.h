@@ -42,14 +42,4 @@ void DisplayObject_SubmitPacket(
 void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mode, u8 *extra);
 #endif
 
-/* Same-symbol caller view for the Gouraud-quad renderers, which pass the
- * display object's raw attribute word as the first argument. It sits behind
- * DISPLAY_OBJECT_PACKET_SUBMIT_ATTRIBUTE_VIEW so that a unit holding both
- * kinds of caller can see it beside the sprite view above. */
-#ifdef DISPLAY_OBJECT_PACKET_SUBMIT_ATTRIBUTE_VIEW
-extern void DisplayObject_SubmitAttributePacket(
-    s32 attribute, u8 *packet, GsOT *ot, s32 mode, u8 *extra
-) asm("DisplayObject_SubmitPacket");
-#endif
-
 #endif

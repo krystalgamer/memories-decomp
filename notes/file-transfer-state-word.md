@@ -136,8 +136,8 @@ names both. The split follows the unit's
 compiler profile: every unit on the absolute view is a `-G8` profile, and no
 unit assembled at `-G0` needs it.
 
-This is the same shape as `fade.h`, which already publishes
-`gFade_State` and `D_800E9EC8_arr` for one address.
+`fade.h` once published `gFade_State` and `D_800E9EC8_arr` for one address
+in the same way; that view has since been folded into `&gFade_State`.
 
 ### Checked negatives
 

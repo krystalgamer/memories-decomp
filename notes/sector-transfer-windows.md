@@ -79,11 +79,8 @@ subtract-one-sector expression is not folded into
 `gFile_abPackageStagingBuffer`, even where the resulting numeric address
 coincides.
 
-The existing declaration owner, `file_transfer_steps.h`, retains its legacy
-`extern u8 D_801DD800[]` and adds the canonical declaration using
-`__asm__("D_801DD800")`. This keeps the actual native import unchanged and
-works with the existing strict-C99 native consumers. The old extern also
-keeps the provider visible to the existing tracked-alias policy mechanism.
+The existing declaration owner, `file_transfer_steps.h`, declares only the
+canonical name, with no assembler label.
 
 All seven resident linker inputs export the canonical name as an alias to
 that same native provider. The accepted NA provider is an absolute symbol

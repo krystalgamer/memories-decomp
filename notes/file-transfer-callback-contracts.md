@@ -61,11 +61,11 @@ Japan `0x1F90/0x22`, Europe `0x2503/0x25`. Boot package requests, mode
 branches, waits, logo creation, executable handoff and frontend reset stay
 in their original order.
 
-Japan keeps the numeric native image identity `func_80042B64` as the
-compiled label. `main_boot_load_stages.h` binds `Main_LoadBootImageStage` to
-it under `VERSION_JAPAN`, so both the implementation and the boot-sequence
-caller reach it without wrapper macros, and the Japanese inventory entry
-carries the canonical name. Fixed bindings and the compiled definition are
+Japan compiles and calls `Main_LoadBootImageStage` under that name;
+`config/slpm_86398/symbols.txt` binds it at `0x80042B64`, the address of the
+former native label `func_80042B64`. `main_boot_load_stages.h` declares it
+the same way in every region, with no assembler label or wrapper macro, and
+the Japanese inventory entry carries the canonical name. Fixed bindings and the compiled definition are
 unchanged. The European numeric-to-canonical caller
 macro becomes obsolete and is removed; its other native aliases remain.
 The unused NA fixed-address compatibility label remains untouched.

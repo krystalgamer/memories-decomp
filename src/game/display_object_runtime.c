@@ -15,7 +15,6 @@
 #include "display_object_stream_state.h"
 #include "display_object_render_frame.h"
 #include "sprite_primitive.h"
-#define DISPLAY_OBJECT_PACKET_SUBMIT_ATTRIBUTE_VIEW
 #include "display_object_packet_submit.h"
 #include "display_object_runtime.h"
 #include "ordering_tables.h"
@@ -312,7 +311,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     v = v | 0x4000000;
                 }
 
-                DisplayObject_SubmitAttributePacket(v, POLY_G4_BYTES(g), tb[e->ot_index],
+                DisplayObject_SubmitPacket((SpritePrim *)v, POLY_G4_BYTES(g), tb[e->ot_index],
                                            e->ot_depth | bit, h);
 
                 if (*(u8 *)&e->field_5A != 0) {
@@ -328,7 +327,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     setlen(g, eight);
                     setcode(g, hi);
                     *(s32 *)&g->r1 = x2;
-                    DisplayObject_SubmitAttributePacket(v, POLY_G4_BYTES(g), tb[e->ot_index],
+                    DisplayObject_SubmitPacket((SpritePrim *)v, POLY_G4_BYTES(g), tb[e->ot_index],
                                                e->ot_depth | bit, h);
                 }
             }
@@ -430,7 +429,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     v = v | 0x4000000;
                 }
 
-                DisplayObject_SubmitAttributePacket(v, POLY_GT4_BYTES(g), tb[e->ot_index],
+                DisplayObject_SubmitPacket((SpritePrim *)v, POLY_GT4_BYTES(g), tb[e->ot_index],
                                            e->ot_depth | bit, h);
 
                 if (DISPLAY_OBJECT_BYTES(e)[0x72] != 0) {
@@ -445,7 +444,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     setlen(g, twelve);
                     setcode(g, hi);
                     *(u16 *)&g->u1 = x2;
-                    DisplayObject_SubmitAttributePacket(v, POLY_GT4_BYTES(g), tb[e->ot_index],
+                    DisplayObject_SubmitPacket((SpritePrim *)v, POLY_GT4_BYTES(g), tb[e->ot_index],
                                                e->ot_depth | bit, h);
                 }
             }
