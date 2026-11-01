@@ -1044,7 +1044,7 @@ and its `_slot1.c` wrapper directly through
 
 French MODEL headers 836 (stage 9 slot 0) and 933 (stage 10 slot 1) build the header-819 entry (`ModelVariant819_HandleRequest`) from `src/overlays/model_variant/variant819_entry.c` through `src/overlays/french_model_variant/variant836_entry.c` in both slots, which defines `VERSION_FRENCH` for the ring CLUT (0x3D28 instead of 0x3D20); there is no work-size `printf`, so code and data keep the US layout.
 
-French MODEL headers 837 (stage 7 slot 0) and 934 (stage 8 slot 1) build the header-820 entry (`func_8013B004`) from `src/overlays/model_variant/variant820_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant837_entry{,_slot1}.c`; the French code and data are identical to the US images.
+French MODEL headers 837 (stage 7 slot 0) and 934 (stage 8 slot 1) build the header-820 entry (`ModelVariant820_HandleRequest`) directly from `src/overlays/model_variant/variant820_entry.c` in both slots; the French code and data are identical to the US images.
 
 French MODEL headers 834 (stage 7 slot 0) and 931 (stage 8 slot 1) build the header-817 entry (`ModelVariant817_HandleRequest`) from `src/overlays/model_variant/variant817_entry.c` through `src/overlays/french_model_variant/variant834_entry.c` in both slots, which sets `GRAPHICS_DEFAULT_HEIGHT` to 256 for the PAL flash; there is no work-size `printf`, so code and data keep the US layout. They link through their own `model_variant834_entry_linker_symbols.txt`, so the shared `model_variant834_linker_symbols.txt` is unchanged.
 
