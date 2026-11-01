@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
 
-void func_8013C838(u8 *context)
+void FrenchModelVariant400_DrawSheets(u8 *context)
 {
     SVECTOR rot;
     VECTOR scale;
