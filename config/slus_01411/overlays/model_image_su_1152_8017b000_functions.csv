@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
 0x8017B004,0x9B0,func_8017B004,matching_c,overlay/model_image_su_1152_8017b000,Loader entry; C body exact through us_entry_second.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.
-0x8017B9B4,0x43C,func_8017B9B4,matching_c,overlay/model_image_su_1152_8017b000,C body exact through us_ring_second.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.
+0x8017B9B4,0x43C,ModelExodia_DrawRings,matching_c,overlay/model_image_su_1152_8017b000,C body exact through us_ring_second.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.
 0x8017BDF0,0x948,func_8017BDF0,matching_c,overlay/model_image_su_1152_8017b000,C body exact through us_petals.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.
-0x8017C738,0x5D0,func_8017C738,matching_c,overlay/model_image_su_1152_8017b000,C body exact through us_beam.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.
+0x8017C738,0x5D0,ModelExodia_DrawBeam,matching_c,overlay/model_image_su_1152_8017b000,C body exact through us_beam.c (shared French Exodia C under MODEL_EXODIA_USA); complete module byte identity verified.
