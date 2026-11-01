@@ -9,9 +9,9 @@
  * where sixty sparks burst one after another. A negative command draws a
  * frame; any other command sets the work area up and prints its size. */
 
-static const VECTOR D_8013CFC4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant170_D1FC4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant170_HandleRequest(u8 *context, s32 command)
 {
     Model170State *work;
     MATRIX base, matrix;
@@ -38,12 +38,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CFC4;
+    scale = gModelVariant170_D1FC4;
     work = (Model170State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013D038[command % 100];
+        config = work->config = &gModelVariant170_D2038[command % 100];
         Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&work->origin);
         work->origin.vy = -1500;
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
@@ -83,7 +83,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz += vertices[0].vz;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CFE4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant170_D1FE4[i]);
         }
         work->elapsed = 0;
         work->animation = 0;

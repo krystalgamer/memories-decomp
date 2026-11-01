@@ -682,9 +682,11 @@ the PAL CLUT row 0x3D28 instead of 0x3D20. The
 Four images under French headers 187 and 317 are the North American
 header-170 entry (`model_variant/variant170_entry.c`) without its work-size
 printf, with its three full-screen flashes covering the 256-line
-PAL screen. The `src/overlays/french_model_variant/variant187_entry{,_slot1}.c`
-wrappers set the height and move the two data labels after the shorter text
-and read-only section 0x24 lower.
+PAL screen. Both slots build through
+`src/overlays/french_model_variant/variant187_entry.c`, which sets the height;
+the two data labels after the shorter text and read-only section sit 0x24
+lower, and each image's symbols file binds `gModelVariant170_D1FE4` and
+`gModelVariant170_D2038` at its own addresses.
 
 French MODEL headers 861 (stage 9 slot 0) and 958 (stage 10 slot 1) build the header-844 entry (`func_8013B004`) from `src/overlays/model_variant/variant844_entry.c` through `src/overlays/french_model_variant/variant861_entry{,_slot1}.c`. `VERSION_FRENCH` selects the core CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
 
