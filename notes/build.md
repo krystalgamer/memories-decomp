@@ -1201,9 +1201,9 @@ reason to treat them as two jobs rather than one. And `free_duel` has only
 five labels across six kilobytes, so the vast majority of it is unnamed.
 
 `main_menu` previously held a hazard that is now accounted for:
-`D_80185CC8` and `D_80185CC9` are adjacent bytes inside
-`gMainMenu_TradeState`, while linker aliases preserve the array view and the
-scalar neighbour used by different consumers.
+`gTrade_abReady` and `gTrade_bSide1Ready` are adjacent bytes inside
+`gMainMenu_TradeState`, while interior linker bindings preserve the array view
+and the scalar neighbour used by different consumers.
 
 `free_duel` is the smallest by label count, and its named prefix is now
 C-owned. Consumer widths, rather than generated label extents, establish:
@@ -1336,7 +1336,7 @@ consecutive typed objects own frontend state, value-setup state, both
 flags. Historical names remain linker aliases at their original offsets,
 including `D_801845BC[2]`/`D_801845BE`,
 `gTrade_aWorkingCards[1]`/`gTrade_aSide1WorkingCards`, and
-`D_80185CC8[1]`/`D_80185CC9`. The two nonzero loaded-image padding bytes at
+`gTrade_abReady[1]`/`gTrade_bSide1Ready`. The two nonzero loaded-image padding bytes at
 `0x8018459E-0x8018459F` are explicit rather than being silently zero-filled.
 
 The ranges in the table still require consumer-backed boundaries before they

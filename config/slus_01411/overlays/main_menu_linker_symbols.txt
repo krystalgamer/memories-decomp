@@ -54,22 +54,22 @@ gMainMenu_aValueSetupEntries = gMainMenu_ValueSetupState + 0x20;
 D_801845CC = gMainMenu_ValueSetupState + 0x2C;
 gMainMenu_pValueSetupToggle = gMainMenu_ValueSetupState + 0x38;
 D_801845DC = gMainMenu_TradeState + 0x0;
-D_801845E0 = gMainMenu_TradeState + 0x4;
+gTrade_pStatsModeDisplay = gMainMenu_TradeState + 0x4;
 gTrade_aCardSlots = gMainMenu_TradeState + 0x10;
 D_801845F4 = gMainMenu_TradeState + 0x18;
 gTrade_aWorkingCards = gMainMenu_TradeState + 0x20;
 gTrade_aSide1WorkingCards = gMainMenu_TradeState + 0xB68;
 gTrade_aListScroll = gMainMenu_TradeState + 0x16B0;
 gTrade_awOffers = gMainMenu_TradeState + 0x16C0;
-D_80185CC8 = gMainMenu_TradeState + 0x16EC;
-D_80185CC9 = gMainMenu_TradeState + 0x16ED;
+gTrade_abReady = gMainMenu_TradeState + 0x16EC;
+gTrade_bSide1Ready = gMainMenu_TradeState + 0x16ED;
 gTrade_abCursorRow = gMainMenu_TradeState + 0x16EE;
 gTrade_bSide1CursorRow = gMainMenu_TradeState + 0x16EF;
 gTrade_abSortMode = gMainMenu_TradeState + 0x16F0;
 gTrade_bFocusPane = gMainMenu_TradeState + 0x16F2;
-D_80185CCF = gMainMenu_TradeState + 0x16F3;
-D_80185CD0 = gMainMenu_TradeState + 0x16F4;
-D_80185CD1 = gMainMenu_TradeState + 0x16F5;
+gTrade_bDecisionMenuActive = gMainMenu_TradeState + 0x16F3;
+gTrade_bCommitRequested = gMainMenu_TradeState + 0x16F4;
+gTrade_bWritePending = gMainMenu_TradeState + 0x16F5;
 gGraphics_bSyncVBlankTarget = 0x8009B0C0;
 gMain_apFrameServiceCallbacks = 0x800E9DB0;
 CardList_CreateDeckBoxStatRows = 0x80061008;
@@ -82,19 +82,5 @@ func_8005B260 = Graphics_SubmitDrawModePacket;
 MainMenu_CreateTradeReadyIndicator = 0x800610E0;
 
 MainMenu_CreateTradeDecisionMenu = 0x800611D0;
-
-func_800610E0 = MainMenu_CreateTradeReadyIndicator;
-
-func_800611D0 = MainMenu_CreateTradeDecisionMenu;
-
-gTrade_abReady = D_80185CC8;
-
-gTrade_bSide1Ready = D_80185CC9;
-
-gTrade_bDecisionMenuActive = D_80185CCF;
-
-gTrade_bCommitRequested = D_80185CD0;
-
-gTrade_bWritePending = D_80185CD1;
 
 gSaveData_aPairWorkspace = D_801D1200;

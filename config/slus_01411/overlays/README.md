@@ -132,7 +132,7 @@ objects for the frontend, value-setup, and Trade screens, including both
 722-card inventory rows. Their sizes and the consumer-supported nested
 strides are compile-time checked. `main_menu_linker_symbols.txt` preserves
 the historical interior names, including the overlapping array/scalar views
-at `D_801845BC`/`D_801845BE` and `D_80185CC8`/`D_80185CC9`. The remaining
+at `D_801845BC`/`D_801845BE` and `gTrade_abReady`/`gTrade_bSide1Ready`. The remaining
 raw asset tail begins at module offset `0x5CD4`.
 
 Password also owns `0x8016D400-0x8016D590` as one zero-initialized

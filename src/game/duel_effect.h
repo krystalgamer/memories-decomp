@@ -108,8 +108,8 @@ extern u8 gText_GuardianGlyphCode;
  * for an occupied record, 2 or 3 (3 when the record is face-down) for a
  * record in its side's second row (index within the side at or past
  * DUEL_FIELD_ROW_SIZE) and 0 again for a flagged first-row one;
- * func_800610E0 stores its mode argument into it before building a text
- * box; Text_JumpBySelectorA adds twice its value to the word the object's +0x58
+ * MainMenu_CreateTradeReadyIndicator stores its mode argument into it
+ * before building a text box; Text_JumpBySelectorA adds twice its value to the word the object's +0x58
  * index selects; duel_result_runtime.c stores the result-screen mode.
  * notes/duel-card-record.md calls it a text-selector override. Values
  * 0..3, every access sb or lbu.
@@ -118,7 +118,8 @@ extern u8 gText_GuardianGlyphCode;
  * lui/lbu read in the same function, and gp-relative in Text_JumpBySelectorA, so
  * duel_field_display_objects.c defines the .data arm below;
  * duel_effect_object_commands.c takes the plain byte, and so does
- * func_800610E0.c, whose -G0 unit stores through $at either way. */
+ * main_menu_create_trade_ready_indicator.c, whose -G0 unit stores through
+ * $at either way. */
 #ifdef D_8009B34E_IN_DATA
 extern u8 gText_BranchSelectorA __attribute__((section(".data")));
 #else

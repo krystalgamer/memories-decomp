@@ -90,8 +90,9 @@ extern u16 gText_StagedStringId;
 #endif
 
 /* The text colour slots, indexed by the low nibble of a colour command:
- * Text_SetColorIndex reads `gText_abColorSlots[v & 0xF]`. func_800611D0.c sets
- * the first three to 4 and clears one chosen by its argument, and
+ * Text_SetColorIndex reads `gText_abColorSlots[v & 0xF]`.
+ * MainMenu_CreateTradeDecisionMenu sets the first three to 4 and clears one
+ * chosen by its argument, and
  * Options_InitTextDisplay in options_screen.c walks the table from its base.
  *
  * The incomplete-array spelling every consumer already used is kept. Nothing

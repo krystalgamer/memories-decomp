@@ -52,18 +52,4 @@ D_801D4D8E = 0x801D4D8E;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
 
-func_800610E0 = MainMenu_CreateTradeReadyIndicator;
-
-func_800611D0 = MainMenu_CreateTradeDecisionMenu;
-
-gTrade_abReady = D_80185CC8;
-
-gTrade_bSide1Ready = D_80185CC9;
-
-gTrade_bDecisionMenuActive = D_80185CCF;
-
-gTrade_bCommitRequested = D_80185CD0;
-
-gTrade_bWritePending = D_80185CD1;
-
 gSaveData_aPairWorkspace = D_801D1200;
