@@ -1,4 +1,4 @@
-// MODEL.MRG model 118 (record 118), sector 32778, header 884, loaded at 0x8017B000; the US source variant787_entry_slot1.c.
-func_8017B004 = 0x8017B004; // type:func size:0x12D8 defined:true
-D_8017C2EC = 0x8017C2EC; // type:u8 size:0x38 defined:true
-D_8017C324 = 0x8017C324; // type:u8 size:0x3CDC defined:true
+// MODEL.MRG model 118 (record 118), sector 32778, header 884, loaded at 0x8017B000; the US source variant787_entry.c.
+ModelVariant787_HandleRequest = 0x8017B004; // type:func size:0x12D8 defined:true
+gModelVariant787_D12EC = 0x8017C2EC; // type:u8 size:0x38 defined:true
+gModelVariant787_D1324 = 0x8017C324; // type:u8 size:0x3CDC defined:true

@@ -7,9 +7,9 @@
  * a fading screen flash, then a glow and a fan of spokes appear there and
  * fade out until the light recovers. */
 
-static const VECTOR D_8013C2DC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant787_D12DC = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant787_HandleRequest(u8 *context, s32 command)
 {
     Model787State *work;
     MATRIX base, matrix;
@@ -28,17 +28,17 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C2DC;
+    scale = gModelVariant787_D12DC;
     work = (Model787State *)context;
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C324[command];
+        work->config = &gModelVariant787_D1324[command];
         setVector(&work->tips[0], 0, 0, side * work->config->tip_depth);
         setVector(&work->tips[1], 0, 0, side * (3 * work->config->tip_depth) / 4);
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C2EC[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C2EC[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 0, &D_8013C2EC[1]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant787_D12EC[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant787_D12EC[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 0, &gModelVariant787_D12EC[1]);
         work->level = 2048;
         work->phase = 0;
         work->elapsed = 0;
