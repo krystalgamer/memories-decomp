@@ -108,7 +108,7 @@ readers, SPU-status sweep, control-change updates, and mute/restore consumers.
 The helper's name describes its complete counter-only body and both actual
 callers, replacing the older tentative per-frame description.
 
-Primary evidence is in `sound.h`, `tent_sd_age_secondary_objects.c`,
+Primary evidence is in `sound.h`, `sound_sequence_tracks.c`,
 `sound_sequence_channel_events.c`, `sound_secondary_object_selection.c`,
 `sd_update_secondary_object_voices.c`, `sound_voice_setup.c`,
 `sound_secondary_commands.c`, `sound_sequence_runtime.c`,
