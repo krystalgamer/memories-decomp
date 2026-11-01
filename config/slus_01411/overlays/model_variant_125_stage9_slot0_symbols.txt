@@ -1,4 +1,4 @@
 // MODEL.MRG model 125 (record 125), sector 34700, header 97, loaded at 0x8013B000; the US source variant97_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0x12E0 defined:true
-D_8013C2F4 = 0x8013C2F4; // type:u8 size:0x70 defined:true
-D_8013C364 = 0x8013C364; // type:u8 size:0x3C9C defined:true
+ModelVariant97_HandleRequest = 0x8013B004; // type:func size:0x12E0 defined:true
+gModelVariant97_D12F4 = 0x8013C2F4; // type:u8 size:0x70 defined:true
+gModelVariant97_D1364 = 0x8013C364; // type:u8 size:0x3C9C defined:true

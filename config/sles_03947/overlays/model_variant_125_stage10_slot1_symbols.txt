@@ -1,4 +1,4 @@
-// European MODEL.MRG model 125 (record 125), sector 34710, header 244, loaded at 0x8017B000; the US header-97 source variant97_entry_slot1.c; built from the French source layout of french_model_variant_125_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x12E0 defined:true
-D_8017C2F4 = 0x8017C2F4; // type:u8 size:0x70 defined:true
-D_8017C364 = 0x8017C364; // type:u8 size:0x3C9C defined:true
+// European MODEL.MRG model 125 (record 125), sector 34710, header 244, loaded at 0x8017B000; the US header-97 source variant97_entry.c; built from the French source layout of french_model_variant_125_stage10_slot1.
+ModelVariant97_HandleRequest = 0x8017B004; // type:func size:0x12E0 defined:true
+gModelVariant97_D12F4 = 0x8017C2F4; // type:u8 size:0x70 defined:true
+gModelVariant97_D1364 = 0x8017C364; // type:u8 size:0x3C9C defined:true
