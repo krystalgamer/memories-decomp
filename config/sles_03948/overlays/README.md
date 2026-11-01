@@ -341,8 +341,8 @@ addresses.
 Four images under French headers 137 and 267 are the North American
 header-120 entry (`model_variant/variant120_entry.c`) with its full-screen
 flash covering the 256 PAL lines instead of 240, built through
-`src/overlays/french_model_variant/variant137_entry{,_slot1}.c`. The entry has
-no work-size printf, so the data labels do not move.
+`src/overlays/french_model_variant/variant137_entry.c` in both slots. The entry
+has no work-size printf, so the data labels do not move.
 
 Twelve images under French headers 649 and 716 are the North American
 header-632 entry (`model_variant/variant632_entry.c`) without its `E_DATA`

@@ -46,9 +46,9 @@ typedef struct {
     s32 tint;
 } Model120State;
 
-extern GsIMAGE D_8013C274[];
-extern Model120Config D_8013C290[];
+extern GsIMAGE gModelVariant120_D1274[];
+extern Model120Config gModelVariant120_D1290[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant120_HandleRequest(u8 *context, s32 command);
 
 #endif
