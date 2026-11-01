@@ -11,7 +11,7 @@
  * a no-op, some stores sit in `do { } while (0)` blocks whose loop notes keep
  * them in place, and the colour addresses use one name per channel. */
 
-void func_8013C678(u8 *ctx)
+void ModelVariant448_DrawFans(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

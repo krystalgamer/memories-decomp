@@ -1,7 +1,7 @@
 func_8017B004 = 0x8017B004; // type:func size:0x1248
-func_8017C24C = 0x8017C24C; // type:func size:0x420
-func_8017C66C = 0x8017C66C; // type:func size:0xF00
-func_8017D56C = 0x8017D56C; // type:func size:0x548
+ModelVariant448_DrawRadialDisc = 0x8017C24C; // type:func size:0x420
+ModelVariant448_DrawFans = 0x8017C66C; // type:func size:0xF00
+ModelVariant448_DrawOrbitSheets = 0x8017D56C; // type:func size:0x548
 func_8017DAB4 = 0x8017DAB4; // type:func size:0x560
 func_8017E014 = 0x8017E014; // type:func size:0x308
 func_8017E31C = 0x8017E31C; // type:func size:0x37C

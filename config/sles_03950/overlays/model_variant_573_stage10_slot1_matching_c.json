@@ -4,25 +4,25 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1248",
-      "source": "src/overlays/french_model_variant/variant465_entry_slot1.c"
+      "source": "src/overlays/french_model_variant/variant465_entry.c"
     },
     {
       "address": "0x8017C24C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x420",
-      "source": "src/overlays/french_model_variant/variant465_fan_slot1.c"
+      "source": "src/overlays/french_model_variant/variant465_fan.c"
     },
     {
       "address": "0x8017C66C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF00",
-      "source": "src/overlays/french_model_variant/variant465_arms_slot1.c"
+      "source": "src/overlays/french_model_variant/variant465_arms.c"
     },
     {
       "address": "0x8017D56C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x548",
-      "source": "src/overlays/french_model_variant/variant465_orbit_slot1.c"
+      "source": "src/overlays/french_model_variant/variant465_orbit.c"
     },
     {
       "address": "0x8017DAB4",
