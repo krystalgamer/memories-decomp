@@ -22,19 +22,6 @@ gDebugEffect_szOperandsFormat = D_80010074;
 gDebugEffect_szSecondOperandMarker = D_80010090;
 gDebugEffect_szFirstOperandMarker = D_800100A8;
 
-func_80069E44 = Model_DrawFt3Wireframes;
-func_80069F94 = Model_DrawGt3Wireframes;
-func_8006A0E8 = Model_DrawFt4Wireframes;
-func_8006A268 = Model_DrawGt4Wireframes;
-func_8006A3F0 = Model_DrawFt3WindowRecordWireframes;
-func_8006A540 = Model_DrawGt3WindowRecordWireframes;
-func_8006A694 = Model_DrawFt4WindowRecordWireframes;
-func_8006A814 = Model_DrawGt4WindowRecordWireframes;
-func_8006A99C = Model_DrawSharedGt3Wireframes;
-func_8006AAFC = Model_DrawSharedGt4Wireframes;
-func_8006AC88 = Model_DrawSharedGt3WindowRecordWireframes;
-func_8006ADE8 = Model_DrawSharedGt4WindowRecordWireframes;
-
 func_800612C0 = Model_DrawFt3Primitives;
 func_8006151C = Model_DrawGt3Primitives;
 func_800617E0 = Model_DrawFt4Primitives;
