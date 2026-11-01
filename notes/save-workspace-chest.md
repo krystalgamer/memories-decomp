@@ -10,8 +10,9 @@ storage, a new layout or a new caller.
 The unchanged `save_data.h` places the observed `SaveDataWorkspace.state`
 prefix at `+0x200`, with card quantities at state `+0x50`.
 `Campaign_TestStoryFlag` reads its campaign flags through the recovered
-structure. The existing campaign-bit writer in
-`library_update_card_used_flag.c` addresses the same bank as bytes.
+structure. The existing campaign-bit writer
+`Library_UpdateCardUsedFlag`, in `campaign_story_flags.c`, addresses the same
+bank as bytes.
 `Library_CheckCardOwned` reads the quantity array through that structure.
 `Script_OpSavePrompt` uses the halfword base view for the saved campaign
 scene index.

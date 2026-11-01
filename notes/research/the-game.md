@@ -90,17 +90,17 @@ themselves (§7.10, §7.11).
 **Encoded flag requests.** The matching flag helpers use that same shared
 bank, not separate story and Library storage. The low eleven request bits
 select the flag; byte `id >> 3` uses mask `0x80 >> (id & 7)`.
-[`Campaign_TestStoryFlag`](../../src/game/campaign_test_story_flag.c) does
+[`Campaign_TestStoryFlag`](../../src/game/campaign_story_flags.c) does
 not write: an ordinary query returns zero or the selected mask, not always
 `1`. Adding modifier `0x8000` instead tests for a clear bit and returns
 normalized `0` or `1`.
-[`Library_UpdateCardUsedFlag`](../../src/game/library_update_card_used_flag.c)
+[`Library_UpdateCardUsedFlag`](../../src/game/campaign_story_flags.c)
 sets the bit by default and clears it with that modifier.
 
 The script and text handlers use `0x4000` to select a write rather than a
 test, stripping that command bit while preserving `0x8000`. Thus encoded
 writes `0x4000 | id` and `0xC000 | id` set and clear respectively.
-Matching [`Campaign_EnsureStoryFlag`](../../src/game/campaign_ensure_story_flag.c) applies a change
+Matching [`Campaign_EnsureStoryFlag`](../../src/game/campaign_story_flags.c) applies a change
 only when the requested predicate was false and returns the **prior** test
 result. Its zero return after applying a change is not an error code.
 These are encoding and operation contracts, not new meanings assigned to

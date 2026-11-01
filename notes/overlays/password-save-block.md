@@ -150,9 +150,9 @@ use the same bank and request encoding.
 ## Request modifiers and return values
 
 The matching
-[`Campaign_TestStoryFlag`](../../src/game/campaign_test_story_flag.c) and the
+[`Campaign_TestStoryFlag`](../../src/game/campaign_story_flags.c) and the
 candidate
-[`Library_UpdateCardUsedFlag`](../../src/game/library_update_card_used_flag.c)
+[`Library_UpdateCardUsedFlag`](../../src/game/campaign_story_flags.c)
 access that same bank. Let `m` be the selected MSB-first mask:
 
 | Request | Test result | Update action |
@@ -175,7 +175,7 @@ Write commands pass `command & 0xBFFF`, retaining the clear modifier:
 the requested predicate and may use a following jump target. The command
 selector does not make a direct call to the tester mutate the bank.
 
-Matching [`Campaign_EnsureStoryFlag`](../../src/game/campaign_ensure_story_flag.c) saves the test
+Matching [`Campaign_EnsureStoryFlag`](../../src/game/campaign_story_flags.c) saves the test
 result, invokes the updater only when that result is zero, and returns the
 saved result. Nonzero therefore means the requested state was already
 satisfied; zero is returned after applying a needed change, not as an update
