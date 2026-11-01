@@ -8,9 +8,9 @@
  * out at the end. The return value reports the hit (1) once, the end (2),
  * 4 while sparks are still spawning, or nothing (0). */
 
-static const VECTOR D_8013C378 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant132_D1378 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant132_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -35,12 +35,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C378;
+    scale = gModelVariant132_D1378;
     work = (Model132State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C3C0[command % 100];
+        config = work->config = &gModelVariant132_D13C0[command % 100];
         point = work->ring;
         for (i = 0; i < 17; point++, i++) {
             point->vx = config->radius * ccos(i * 256) / 4096;
@@ -60,8 +60,8 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = 0;
             point->pad = 0;
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C388[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013C388[1]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant132_D1388[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant132_D1388[1]);
         work->elapsed = 0;
         work->started = 0;
         return 0;
