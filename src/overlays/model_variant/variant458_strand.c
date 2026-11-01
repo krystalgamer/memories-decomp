@@ -32,7 +32,7 @@
 /* Builds six strands of thirteen points fanned around the variant origin and draws
  * the visible span [0x2FF6, 0x2FF8) of each as GsLINE segments, then advances
  * the span. */
-void func_8013D1D0(u8 *ctx)
+void ModelVariant458_DrawStrand(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

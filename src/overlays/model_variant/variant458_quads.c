@@ -3,7 +3,7 @@
 
 /* Draws the visible quads, fading past scale 0x600, then advances the
  * timed quad count. The packet is reused for each submitted quad. */
-void func_8013CE20(u8 *ctx)
+void ModelVariant458_DrawQuads(u8 *ctx)
 {
     SVECTOR rot;
     /* Retail reserves 16 bytes between rotation and scale. */

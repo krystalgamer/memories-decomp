@@ -6,7 +6,7 @@
  * projects each spine and a copy of it moved along the view, and draws each
  * segment as a POLY_G4 as wide as the projected offset. Once the fourth phase
  * starts, the streamers shrink by step * 16 until they vanish. */
-void func_8013D520(u8 *ctx)
+void ModelVariant458_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
