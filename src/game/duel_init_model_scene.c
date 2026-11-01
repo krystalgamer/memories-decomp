@@ -3,8 +3,8 @@
 #include "model_slot_control.h"
 #include "model_scene_controllers.h"
 
-#define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
-#include "high_memory_addresses.h"
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+#include "shared_work_base.h"
 
 #ifndef DUEL_MODEL_SCENE_BUFFER_SIZE
 #define DUEL_MODEL_SCENE_BUFFER_SIZE 0x63000
@@ -16,7 +16,7 @@ void Duel_InitModelScene(void)
     Model_ResetSceneState();
     Model_LoadSlot(
         2,
-        D_80010000[0].payload_bases[0],
+        gRuntime_pSharedWorkBase,
         DUEL_MODEL_SCENE_BUFFER_SIZE,
         4
     );

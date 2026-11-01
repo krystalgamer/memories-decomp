@@ -33,7 +33,7 @@ void func_8005C374(s32 first, s32 second, s32 third);
  * mdec_sync.c's Movie_WaitFrameDecoded waits on and clears.
  * gMovie_dwStartFrame, gMovie_dwEndFrame and gMovie_dwEndSector are the three words that follow.
  *
- * gMovie_pWorkArea is the VLC buffer -- Movie_OpenStream points it at D_80010000 and
+ * gMovie_pWorkArea is the VLC buffer -- Movie_OpenStream points it at gRuntime_pSharedWorkBase and
  * DecDCTvlcBuild is handed it -- and gMovie_StreamLoc is the stream position, copied
  * from a CdlLOC and passed on by address. This header now includes
  * psyq/libcd.h for that type rather than relying on its consumers having done

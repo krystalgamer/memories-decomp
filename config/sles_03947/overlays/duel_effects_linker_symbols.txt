@@ -23,7 +23,7 @@ PopMatrix = 0x80086FF8;
 gDuelEffect_bRequestFinished = 0x8009C1E0;
 gDuelEffect_pActiveRequest = 0x8009C1DC;
 Model_GetLightSourceMatrix = 0x8005D6E4;
-D_80010000 = 0x80010000;
+gRuntime_pSharedWorkBase = 0x80010000;
 Duel_CollectFieldRowCardObjects = 0x8002C9C8;
 Duel_CollectMatchingFieldCardObjects = 0x8002CA44;
 SD_SEPlayFull = 0x80040004;
@@ -33,4 +33,3 @@ DisplayObject_CopyWorkSlots = 0x8002CBE0;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
 
-gRuntime_pSharedWorkBase = D_80010000;

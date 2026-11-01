@@ -1,5 +1,5 @@
 rand = 0x8008F708; // type:func absolute:true
-D_80010000 = 0x80010000; // absolute:true
+gRuntime_pSharedWorkBase = 0x80010000; // absolute:true
 Model_GetLightSourceMatrix = 0x8005C328; // type:func absolute:true
 D_80146158 = 0x80146158; // size:0x10
 D_8015AB68 = 0x8015AB68; // size:0xA0

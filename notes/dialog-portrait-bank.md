@@ -9,7 +9,7 @@ phase to the shared arena at `0x80100000`, and matching
 `Campaign_LoadScenePackage` uploads the usable records to VRAM before the
 event script starts.
 
-The arena pointer itself remains `D_80010000`. It is reused by unrelated
+The arena pointer itself is `gRuntime_pSharedWorkBase`. It is reused by unrelated
 loaders and runtimes, so naming that pointer object
 `gText_aDialogPortraits` would describe only one transient content state.
 
@@ -117,5 +117,5 @@ The two resident functions have package-wide roles:
 
 The portrait constants belong in `campaign_scene_package.h`, where the loader
 and renderer share them. No global portrait-bank symbol is applied to
-`D_80010000`; the semantic object is the transient data at its pointed-to
+`gRuntime_pSharedWorkBase`; the semantic object is the transient data at its pointed-to
 arena, not the reused pointer constant itself.

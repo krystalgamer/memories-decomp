@@ -56,7 +56,7 @@ func_80066574 = 0x800665F4;
 func_80021EA4 = 0x80021748;
 func_800158C8 = 0x80014F48;
 func_80065BFC = 0x80065C7C;
-D_80010000 = 0x80010000;
+gRuntime_pSharedWorkBase = 0x80010000;
 D_80169E54 = 0x80169E54;
 func_80168040 = 0x80168040;
 func_801680E4 = 0x801680E4;
@@ -67,7 +67,6 @@ func_80169230 = 0x80169230;
 
 func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
 
-gRuntime_pSharedWorkBase = D_80010000;
 
 gFade_bFlags = D_800E9ECE;
 gFade_bStep = D_800E9ECF;

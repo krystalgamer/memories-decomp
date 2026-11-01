@@ -19,7 +19,7 @@ No emulator trace is involved.
 ## Terrain-package phase 11
 
 `Duel_LoadPackageStage` phase 11 copies five sectors from package-relative
-`+0x63000` to the arena pointer at `D_80010000`, whose first value is
+`+0x63000` to the arena pointer at `gRuntime_pSharedWorkBase`, whose first value is
 `0x80100000`:
 
 ```text
@@ -39,7 +39,7 @@ The only duel initialization call that appears to hand this arena to another
 routine is:
 
 ```c
-Model_LoadSlot(2, D_80010000[0].payload_bases[0], 0x63000, 4);
+Model_LoadSlot(2, gRuntime_pSharedWorkBase, 0x63000, 4);
 ```
 
 That call does not consume the phase. Matching `Model_LoadSlot` checks whether

@@ -9,19 +9,19 @@ one uniform regional bank layout.
 ## Boot destination words are not table data
 
 The European `Main_LoadBootPackageStage` has eight cases. After the image
-staging/upload cases, case 5 reads native `D_800101E0` separately into
-both descriptor destinations for a 30-sector phase, case 6 does the same
-with `D_800101E4` for 32 sectors, and case 7 uses `D_800101E8` for seven.
-Their canonical views are respectively
-`gFile_pBootTextStage5Destination`, `...Stage6Destination` and
-`...Stage7Destination`.
+staging/upload cases, case 5 reads `gFile_pBootTextStage5Destination` (`0x800101E0`)
+separately into both descriptor destinations for a 30-sector phase, case 6
+does the same with `gFile_pBootTextStage6Destination` (`0x800101E4`) for
+32 sectors, and case 7 uses `gFile_pBootTextStage7Destination`
+(`0x800101E8`) for seven. The European link scripts bind these names
+directly; the former `D_800101E0/4/8` labels are gone.
 
 Each remains a stored `u8 *G32`, not a byte array at the word's address,
 an integer address, const object or inferred homogeneous pointer table.
 The existing repeated loads, `(s32)` casts, destination-store order,
 phase sizes, transfer-state masks, done values and all earlier image
-steps are unchanged. The original plain declarations and native labels
-remain available in `high_memory_addresses.h`.
+steps are unchanged. The declarations live in
+`european_text_bank_views.h`.
 
 These names identify the proven per-stage destination role. No local
 PAL retail executable is available to independently inspect the words'

@@ -167,10 +167,6 @@ gModel_abTexturePaletteStaging = D_801DE000;
 gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
 
-gModel_pSlot1PayloadBase = D_80010004;
-gModel_AuxiliaryPayloadAddress = D_80010008;
-gModel_CreditsModuleAddress = D_80010030;
-gModel_pCreditsMusicTrackBuffer = D_80010034;
 
 gDebug_abEditorCaretColumns = tent_DebugInterfaceFieldB4;
 gDebug_bEditorCaretColumn1 = tent_DebugInterfaceFieldB5;
@@ -202,7 +198,6 @@ gText_GlobalStringOffsets = D_801D5800;
 gText_PrimaryStringAddressAnchor = D_801B0000;
 
 gGraphics_aImageTransferRects = D_800E9D70;
-gRuntime_pSharedWorkBase = D_80010000;
 
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;

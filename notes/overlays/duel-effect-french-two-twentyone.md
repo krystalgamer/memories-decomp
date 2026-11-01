@@ -49,7 +49,7 @@ generated input object and final ELF. The zero-number configuration at
 `0x8015B044` is record six of `D_8015AF18`, not an independent alias or an
 out-of-bounds sixth-record approximation.
 
-`D_80010000` is the canonical resident payload pointer at `0x80010000`,
+`gRuntime_pSharedWorkBase` is the canonical resident payload pointer at `0x80010000`,
 independently checked in the French resident linker map.
 `Model_GetLightSourceMatrix` is the existing 12-byte resident C function at
 `0x8005C328`, checked against the authoritative French inventory. Existing
@@ -65,7 +65,7 @@ updates, optional 64-strip rendering, crossed lines and all three completion
 colors are preserved.
 
 Effect 21 ignores the work argument and uses two `0x80`-byte slots at
-`D_80010000 + 0x2800` and `+0x2880`; it allocates no new global or payload.
+`gRuntime_pSharedWorkBase + 0x2800` and `+0x2880`; it allocates no new global or payload.
 Each slot has ten vectors at `0`, selectors at `0x50`, count at `0x64`,
 unaligned color at `0x66`, enabled at `0x6A`, and offsets at `0x6C`.
 The original writes only selector eight after eight random swaps. Its
