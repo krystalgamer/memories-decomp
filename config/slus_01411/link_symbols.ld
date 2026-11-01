@@ -12,8 +12,6 @@ bss_start = text_SBSS_START;
 /* Interior byte of the model/graphics state's four-byte A4-A7 owner. */
 D_8009AFA6 = D_8009AFA4 + 2;
 
-gText_GlyphUploadScratch = D_801DA000;
-
 gText_aChannels = D_800EB0F8;
 gText_Channel1 = D_800EB15C;
 gText_Channel3 = D_800EB224;
@@ -126,7 +124,6 @@ func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
 
 func_8002C570 = Library_CheckCardInChest;
-gSaveData_Workspace = D_801D0000;
 
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
@@ -162,8 +159,6 @@ gFile_dwCancelRequestState = D_8009B134;
 gFile_dwCancelRequestState_abs = D_8009B134;
 
 gFile_TransferBufferBase = D_8009B118;
-gFile_abPackageStagingBuffer = D_801DD000;
-gModel_abTexturePaletteStaging = D_801DE000;
 
 gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
@@ -200,9 +195,6 @@ gText_PrimaryStringAddressAnchor = D_801B0000;
 
 D_800E9D70 = gGraphics_aImageTransferRects;
 
-gSaveData_aFirstPlayerNameSjis = D_801D160C;
-gSaveData_aPairWorkspace = D_801D1200;
-gSaveData_aSecondPlayerState = D_801D2200;
 gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
@@ -231,9 +223,6 @@ gText_aGlyphSearchEntries = tent_GlyphLookupTableEntries;
 gText_DecimalDigitSjisKeys = tent_DecimalDigitSjisKeys;
 
 /* Canonical view of the retained native countdown entry point. */
-
-/* Auxiliary-model upload sector; retain its native provider. */
-gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Canonical view of the retained handler-key registry. */
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;

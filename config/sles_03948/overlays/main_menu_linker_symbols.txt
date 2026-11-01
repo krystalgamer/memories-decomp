@@ -46,10 +46,8 @@ D_801AF800 = 0x801AF800;
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x80042BD8;
 DisplayObject_SelectOrderingTable1 = 0x80042C48;
 
-D_801D1200 = 0x801D1200;
+gSaveData_aPairWorkspace = 0x801D1200;
 D_801D4244 = 0x801D4244;
 D_801D4D8E = 0x801D4D8E;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
-
-gSaveData_aPairWorkspace = D_801D1200;

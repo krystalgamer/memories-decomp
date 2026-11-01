@@ -218,17 +218,17 @@ extern u32 D_8009B134_abs __attribute__((section(".data")));
  * Every retail access is an address-take
  * (func_800136E4.s:5-6, func_8003E854.s:289-290 and :319-320,
  * func_8003EED0.s:127-128, :155 and :158), so the listings say nothing
- * about the object's width; D_801DD000, declared next, is named 0x1000 bytes
- * higher and D_801DA000 0x2000 lower. The three units used to declare it
- * privately, all as `u8 []`. */
+ * about the object's width; gFile_abPackageStagingBuffer, declared next,
+ * is 0x1000 bytes higher and gText_GlyphUploadScratch 0x2000 lower. The
+ * three units used to declare it privately, all as `u8 []`. */
 extern u8 gLibrary_aCardArtRecord[];
 
 /* Shared staging/upload buffer used by the resident transfer-phase callbacks.
  * Every C consumer treats it as an unsized byte buffer, either publishing its
  * address through a FileTransferDescriptor or passing it to LoadImage2. */
-extern u8 D_801DD000[];
+extern u8 gFile_abPackageStagingBuffer[];
 /* The palette staged immediately after the model's first image payload. */
-extern u8 D_801DE000[];
+extern u8 gModel_abTexturePaletteStaging[];
 
 /* The primary transfer descriptor. Four sources in this family reach it as a
  * FileTransferDescriptor, agreeing on the spelling, and none defines it. */

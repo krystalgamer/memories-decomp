@@ -9,7 +9,7 @@
  * reader and it takes the whole thing at once, as
  *
  *     rect = *(RECT *)gMainMenu_PackageStageRect;
- *     LoadImage2(&rect, (u32 *)D_801DD000);
+ *     LoadImage2(&rect, (u32 *)gFile_abPackageStagingBuffer);
  *
  * so the eight bytes are a libgpu RECT. Read that way the values are
  * coherent: x 0, y 240, w 256, h 8, a 256-by-8 strip of VRAM sitting just

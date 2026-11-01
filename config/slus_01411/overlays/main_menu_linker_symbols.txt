@@ -83,4 +83,4 @@ MainMenu_CreateTradeReadyIndicator = 0x800610E0;
 
 MainMenu_CreateTradeDecisionMenu = 0x800611D0;
 
-gSaveData_aPairWorkspace = D_801D1200;
+gSaveData_aPairWorkspace = 0x801D1200;

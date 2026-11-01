@@ -737,11 +737,11 @@ D_801D5608 = 0x801BF88C;
 D_801D56A8 = 0x801BF92C;
 gText_abColorSlots = 0x801BF98C;
 gText_AlternateStringAddressAnchor = 0x801C0004;
-D_801D0000 = 0x801D0000;
+gSaveData_Workspace = 0x801D0000;
 gDuel_awPlayerDeck = 0x801D0200;
 gLibrary_abCardChest = 0x801D0250;
 gDuel_awRecentCardDrops = 0x801D07BC;
-D_801D1200 = 0x801D1200;
+gSaveData_aPairWorkspace = 0x801D1200;
 gDuel_adwCardStats = 0x801D4244;
 gCard_asNameSortKey = 0x801D4D8E;
 gDuel_abCardLevelAttr = 0x801D5332;
@@ -915,9 +915,9 @@ D_8009BFD8 = 0x8009C3E0;
 gModel_AuxiliaryPayloadAddress = 0x80010008;
 gModel_pSlot1PayloadBase = 0x80010004;
 gModel_szLoadModelTraceFormat = 0x800114C0;
-D_801DD000 = 0x801DD000;
-D_801DE000 = 0x801DE000;
-D_801DD800 = 0x801DD800;
+gFile_abPackageStagingBuffer = 0x801DD000;
+gModel_abTexturePaletteStaging = 0x801DE000;
+gModel_abAuxiliaryPaletteSector = 0x801DD800;
 D_800F5694 = 0x800F6BCC;
 GsLinkAnim = 0x80089D60;
 GsScanAnim = 0x80089CB8;
@@ -963,10 +963,10 @@ gMemCardDialog_apfnSteps = 0x800923C8;
 func_8008E884 = 0x8008EA88;
 func_8008B650 = 0x8008B854;
 gSaveData_aTransferBuffer = 0x801D3200;
-D_801D2200 = 0x801D2200;
+gSaveData_aSecondPlayerState = 0x801D2200;
 gSaveData_PairMessageCode = 0x8009C77B;
 D_801B122B = 0x801BF800;
-D_801D160C = 0x801D160C;
+gSaveData_aFirstPlayerNameSjis = 0x801D160C;
 D_801B1238 = 0x801BF814;
 tent_TradeSaveBuffer = 0x801D1880;
 D_8009B16E = 0x8009C538;
@@ -1077,7 +1077,6 @@ func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
 
 func_8002C570 = Library_CheckCardInChest;
-gSaveData_Workspace = D_801D0000;
 
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
@@ -1113,8 +1112,6 @@ gFile_dwCancelRequestState = D_8009B134;
 gFile_dwCancelRequestState_abs = D_8009B134;
 
 gFile_TransferBufferBase = D_8009B118;
-gFile_abPackageStagingBuffer = D_801DD000;
-gModel_abTexturePaletteStaging = D_801DE000;
 
 gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
@@ -1150,9 +1147,6 @@ gText_GlobalStringOffsets = D_801D5804;
 
 gGraphics_aImageTransferRects = D_800E9D70;
 
-gSaveData_aFirstPlayerNameSjis = D_801D160C;
-gSaveData_aPairWorkspace = D_801D1200;
-gSaveData_aSecondPlayerState = D_801D2200;
 gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
@@ -1178,9 +1172,6 @@ gLibrary_sSampledReferenceY = D_80181012;
 gText_aGlyphLookup = tent_GlyphLookupTable;
 
 /* Canonical view of the retained native countdown entry point. */
-
-/* Auxiliary-model upload sector; retain its native provider. */
-gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Canonical view of the retained handler-key registry. */
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;

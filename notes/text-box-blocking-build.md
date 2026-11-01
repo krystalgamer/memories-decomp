@@ -43,12 +43,11 @@ actual independent import map exposes the required native canonical binding
 plus its legacy function alias. No numeric header or frozen C body is rewritten,
 and no historical fingerprint is refreshed.
 
-Scratch is a view of the original provider, not a new allocation. NA's existing
-link-symbol script and Japan's existing optional regional link-symbol mechanism
-bind the canonical name to `D_801DA000`. The Japanese builder enables that
-already supported hook solely for this alias; no compiler flags, source
-profiles, section positions or guessed regional addresses are introduced.
-Europe receives no unused scratch binding.
+Scratch is a view of existing storage, not a new allocation. NA and Japan bind
+the canonical name directly at `0x801DA000` in their `symbols.txt`; the former
+`D_801DA000` provider and its link-symbol aliases are gone. No compiler flags,
+source profiles or section positions are introduced. Europe receives no unused
+scratch binding.
 
 Complete compiler/MASPSX comparisons cover actual translation units and retain
 all instructions, directives and relocations. Frozen outputs compare with zero

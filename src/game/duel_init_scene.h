@@ -32,8 +32,9 @@ extern DisplayObject *G32 gDuel_pLifePointsPanel;
 #endif
 
 /* Save-data windows selected while the duel scene starts. The no-opponent
- * path points them at the two 0x1000-byte halves of D_801D1200; the normal
- * path uses the buffers returned by the duel package transfer.
+ * path points them at the two 0x1000-byte halves of
+ * gSaveData_aPairWorkspace; the normal path uses the buffers returned by
+ * the duel package transfer.
  * func_800218F0 indexes the two adjacent pointer words at B1D8/B1DC;
  * the bounded eight-byte pair remains GP-relative at -G8. That arm is
  * declared SaveDataState *, since every reach through it is a save-record

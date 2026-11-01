@@ -15,6 +15,7 @@ DisplayObject_ResetVelocity = 0x800429D8;
 DisplayObject_StepPositionXY = 0x80042A78;
 BuildDeck_EnterNarrowConfirmMode = 0x80033C90;
 Main_StartDuel = 0x80024DC8;
+gSaveData_Workspace = 0x801D0000;
 gDuel_awPlayerDeck = 0x801D0200;
 TextBox_Create = 0x80035BE4;
 TextBox_CreateFlagged = 0x80035C38;

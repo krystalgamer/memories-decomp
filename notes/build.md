@@ -673,7 +673,7 @@ They are worth reading before touching a declaration, because they cover cases
 the table alone does not predict:
 
 - **Array versus scalar decides who allocates the register.** For
-  `MainMenu_LoadPackageStage` the note records that `gMainMenu_PackageStageRect`, `D_801DD000` and
+  `MainMenu_LoadPackageStage` the note records that `gMainMenu_PackageStageRect`, `gFile_abPackageStagingBuffer` and
   `D_801AF800` "are arrays so `-msplit-addresses` gives them registers, while
   the scalars carry `section(.data)`" and rebuild their address per access.
 - **Defining rather than declaring is itself a lever.** `func_8002BFCC`'s note
