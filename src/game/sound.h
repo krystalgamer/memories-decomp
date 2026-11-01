@@ -1022,7 +1022,7 @@ s32 SD_ProcessSequenceTracks(void);
 void SD_DropQueuedCdPlayCommands(void);
 s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1);
 
-/* The third export of sd_sequence_tracks.c, joining its two siblings above.
+/* The third track-walk export of sound_sequence_tracks.c, joining its two siblings above.
    It walks the track records from gSD_pSecondaryState for track_count entries and
    returns 1 as soon as it finds one whose ended flag is not 1, or 3 when
    every track has ended. sound_secondary_levels.c is the only caller and

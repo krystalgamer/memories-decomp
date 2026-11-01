@@ -989,13 +989,7 @@ segments:
     - game/sd_read_sequence_event
   - - 250352
     - c
-    - game/sound_sequence_timing
-  - - 251100
-    - c
-    - game/tent_sd_age_secondary_objects
-  - - 251224
-    - c
-    - game/sd_sequence_tracks
+    - game/sound_sequence_tracks
   - - 251804
     - asm
     - text_4cf9c
