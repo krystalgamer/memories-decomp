@@ -1,9 +1,9 @@
 // Japanese MODEL.MRG model 202 (record 202), sector 55942, header 591, loaded at 0x8017B000; built from the US source layout of model_variant_202_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0xC10 defined:true
-func_8017BC14 = 0x8017BC14; // type:func size:0x544 defined:true
-func_8017C158 = 0x8017C158; // type:func size:0x874 defined:true
-func_8017C9CC = 0x8017C9CC; // type:func size:0x8BC defined:true
-D_8017D288 = 0x8017D288; // type:u8 size:0x2D78 defined:true
+FrenchModelVariant458_HandleRequest = 0x8017B004; // type:func size:0xC10 defined:true
+FrenchModelVariant458_DrawSheets = 0x8017BC14; // type:func size:0x544 defined:true
+FrenchModelVariant458_DrawStrands = 0x8017C158; // type:func size:0x874 defined:true
+FrenchModelVariant458_DrawStreamers = 0x8017C9CC; // type:func size:0x8BC defined:true
+gFrenchModelVariant458_D230C = 0x8017D288; // type:u8 size:0x2D78 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

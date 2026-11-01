@@ -1030,6 +1030,11 @@ only.
 | `FrenchModelVariant410_DrawRibbons` | `french_model_variant/variant410_ribbons.c` | USA model 54, Japanese images 15084/15094: `0x8013BF60`/`0x8017BF60`. European, French, German, Italian and Spanish model 54: `0x8013BF58`/`0x8017BF58` |
 | `FrenchModelVariant410_DrawRings` | `french_model_variant/variant410_rings.c` | USA model 54, Japanese images 15084/15094: `0x8013C898`/`0x8017C898`. European, French, German, Italian and Spanish model 54: `0x8013C8B8`/`0x8017C8B8` |
 | `gFrenchModelVariant410_D1D04` | data subsegment (`variant410_entry.h`) | USA model 54, Japanese images 15084/15094: `0x8013CCE8`/`0x8017CCE8`. European, French, German, Italian and Spanish model 54: `0x8013CD04`/`0x8017CD04` |
+| `FrenchModelVariant458_HandleRequest` | `french_model_variant/variant458_entry.c` | Model 202 slot 0 and slot 1 in every region, Japanese images 55932/55942: `0x8013B004`/`0x8017B004` |
+| `FrenchModelVariant458_DrawSheets` | `french_model_variant/variant458_sheets.c` | USA model 202, Japanese images 55932/55942: `0x8013BC14`/`0x8017BC14`. European, French, German, Italian and Spanish model 202: `0x8013BC10`/`0x8017BC10` |
+| `FrenchModelVariant458_DrawStrands` | `french_model_variant/variant458_strands.c` | USA model 202, Japanese images 55932/55942: `0x8013C158`/`0x8017C158`. European, French, German, Italian and Spanish model 202: `0x8013C150`/`0x8017C150` |
+| `FrenchModelVariant458_DrawStreamers` | `french_model_variant/variant458_streamers.c` | USA model 202, Japanese images 55932/55942: `0x8013C9CC`/`0x8017C9CC`. European, French, German, Italian and Spanish model 202: `0x8013C9EC`/`0x8017C9EC` |
+| `gFrenchModelVariant458_D230C` | data subsegment (`variant458_entry.h`) | USA model 202, Japanese images 55932/55942: `0x8013D288`/`0x8017D288`. European, French, German, Italian and Spanish model 202: `0x8013D30C`/`0x8017D30C` |
 
 ### Header 407: petals
 
