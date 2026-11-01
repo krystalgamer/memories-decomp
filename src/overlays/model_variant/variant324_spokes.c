@@ -5,7 +5,7 @@
 /* Draws four rings of eight GsGLINE spokes, each scaled by its angle against
  * the sheet size at work + 0x684 and faded out over the second half turn,
  * and advances each ring's angle and cycle count. */
-void func_8013D6C8(u8 *ctx)
+void ModelVariant324_DrawSpokeRings(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

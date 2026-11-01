@@ -54,49 +54,49 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant341_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant341_entry]
   - name: helper_F38
     type: code
     start: 0xF38
     vram: 0x8017BF38
     align: 4
     subsegments:
-      - [0xF38, c, overlays/french_model_variant/variant341_webs_slot1]
+      - [0xF38, c, overlays/model_variant/variant324_webs]
   - name: helper_1354
     type: code
     start: 0x1354
     vram: 0x8017C354
     align: 4
     subsegments:
-      - [0x1354, c, overlays/french_model_variant/variant341_fan_slot1]
+      - [0x1354, c, overlays/model_variant/variant324_fan]
   - name: helper_17C0
     type: code
     start: 0x17C0
     vram: 0x8017C7C0
     align: 4
     subsegments:
-      - [0x17C0, c, overlays/french_model_variant/variant341_bands_slot1]
+      - [0x17C0, c, overlays/model_variant/variant324_bands]
   - name: draw
     type: code
     start: 0x22F8
     vram: 0x8017D2F8
     align: 4
     subsegments:
-      - [0x22F8, c, overlays/french_model_variant/variant341_draw_slot1]
+      - [0x22F8, c, overlays/model_variant/variant324_draw]
   - name: spokes
     type: code
     start: 0x26C4
     vram: 0x8017D6C4
     align: 4
     subsegments:
-      - [0x26C4, c, overlays/french_model_variant/variant341_spokes_slot1]
+      - [0x26C4, c, overlays/model_variant/variant324_spokes]
   - name: rings
     type: code
     start: 0x29D8
     vram: 0x8017D9D8
     align: 4
     subsegments:
-      - [0x29D8, c, overlays/french_model_variant/variant341_rings_slot1]
+      - [0x29D8, c, overlays/model_variant/variant324_rings]
   - name: unclassified_tail
     type: code
     start: 0x2D58

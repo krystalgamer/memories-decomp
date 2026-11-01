@@ -3,7 +3,7 @@
 
 /* Draws four Gouraud quads around the shared center point. Its scale
  * changes only for the selected sequence entry; rotation advances each call. */
-void func_8013C364(u8 *ctx)
+void ModelVariant324_DrawFan(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

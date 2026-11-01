@@ -4,43 +4,43 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF34",
-      "source": "src/overlays/french_model_variant/variant341_entry_slot1.c"
+      "source": "src/overlays/french_model_variant/variant341_entry.c"
     },
     {
       "address": "0x8017BF38",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x41C",
-      "source": "src/overlays/french_model_variant/variant341_webs_slot1.c"
+      "source": "src/overlays/model_variant/variant324_webs.c"
     },
     {
       "address": "0x8017C354",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x46C",
-      "source": "src/overlays/french_model_variant/variant341_fan_slot1.c"
+      "source": "src/overlays/model_variant/variant324_fan.c"
     },
     {
       "address": "0x8017C7C0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB38",
-      "source": "src/overlays/french_model_variant/variant341_bands_slot1.c"
+      "source": "src/overlays/model_variant/variant324_bands.c"
     },
     {
       "address": "0x8017D2F8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3CC",
-      "source": "src/overlays/french_model_variant/variant341_draw_slot1.c"
+      "source": "src/overlays/model_variant/variant324_draw.c"
     },
     {
       "address": "0x8017D6C4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x314",
-      "source": "src/overlays/french_model_variant/variant341_spokes_slot1.c"
+      "source": "src/overlays/model_variant/variant324_spokes.c"
     },
     {
       "address": "0x8017D9D8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x380",
-      "source": "src/overlays/french_model_variant/variant341_rings_slot1.c"
+      "source": "src/overlays/model_variant/variant324_rings.c"
     }
   ],
   "schema": 1

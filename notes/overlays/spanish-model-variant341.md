@@ -1,9 +1,9 @@
 # Spanish MODEL headers 341 and 491
 
 Four independently checked Spanish secondary images for models 7 and 552,
-stages 7/8, reuse the accepted French wrappers for the shared header-324
-webs, fan, bands, draw, spokes and rings bodies, plus the accepted French entry
-and its slot-one wrapper. Shared C bodies and declarations are unchanged.
+stages 7/8, build the shared header-324 webs, fan, bands, draw, spokes and
+rings bodies and the accepted French header-341 entry directly, as the French
+images do. Shared C bodies and declarations are unchanged.
 Compilation uses the named
 `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and MASPSX 2.81, regardless of
 historical compiler comments in the source.
