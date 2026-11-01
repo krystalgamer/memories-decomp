@@ -778,8 +778,9 @@ French MODEL headers 811 (stage 9 slot 0) and 908 (stage 10 slot 1) build the he
 Four images under French headers 838 and 935 are the North American
 header-821 entry (`model_variant/variant821_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant821_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant838_linker_symbols.txt`.
+directly in both slots through `model_variant838_linker_symbols.txt`; each
+image's symbols file binds `ModelVariant821_HandleRequest`,
+`gModelVariant821_D3930` and `gModelVariant821_D39BC` at its own addresses.
 
 French MODEL headers 839 (stage 9 slot 0) and 936 (stage 10 slot 1) build the header-822 entry (`func_8013B004`) from `src/overlays/model_variant/variant822_entry.c` through plain wrappers in `src/overlays/french_model_variant/variant839_entry{,_slot1}.c`; the French code and data are identical to the US images.
 
