@@ -1,4 +1,4 @@
 // Japanese MODEL.MRG model 297 (record 297), sector 82172, header 825, loaded at 0x8013B000; the US source variant825_entry.c; built from the US source layout of model_variant_297_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x3CF8 defined:true
-D_8013ED0C = 0x8013ED0C; // type:u8 size:0x8C defined:true
-D_8013ED98 = 0x8013ED98; // type:u8 size:0x1268 defined:true
+ModelVariant825_HandleRequest = 0x8013B004; // type:func size:0x3CF8 defined:true
+gModelVariant825_D3D0C = 0x8013ED0C; // type:u8 size:0x8C defined:true
+gModelVariant825_D3D98 = 0x8013ED98; // type:u8 size:0x1268 defined:true
