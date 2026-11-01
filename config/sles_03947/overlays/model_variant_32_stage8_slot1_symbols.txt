@@ -1,4 +1,4 @@
-// European MODEL.MRG model 32 (record 32), sector 9022, header 881, loaded at 0x8017B000; the US header-767 source variant767_entry_slot1.c; built from the French source layout of french_model_variant_32_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x17A0 defined:true
-D_8017C7B4 = 0x8017C7B4; // type:u8 size:0x54 defined:true
-D_8017C808 = 0x8017C808; // type:u8 size:0x37F8 defined:true
+// European MODEL.MRG model 32 (record 32), sector 9022, header 881, loaded at 0x8017B000; the US header-767 source variant767_entry.c; built from the French source layout of french_model_variant_32_stage8_slot1.
+ModelVariant767_HandleRequest = 0x8017B004; // type:func size:0x17A0 defined:true
+gModelVariant767_D17B4 = 0x8017C7B4; // type:u8 size:0x54 defined:true
+gModelVariant767_D1808 = 0x8017C808; // type:u8 size:0x37F8 defined:true

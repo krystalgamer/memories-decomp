@@ -76,9 +76,9 @@ typedef struct {
     Model767Color color[2], flash;
 } Model767State;
 
-extern GsIMAGE D_8013C7B4[];
-extern Model767Config D_8013C808[];
+extern GsIMAGE gModelVariant767_D17B4[];
+extern Model767Config gModelVariant767_D1808[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant767_HandleRequest(u8 *context, s32 command);
 
 #endif
