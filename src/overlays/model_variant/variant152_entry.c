@@ -3,12 +3,13 @@
 
 /* The entry trails two textured ribbons out of the two slot data entries
  * towards spiral targets on the other side, then scatters spinning sparks
- * along each ribbon. A negative command draws a frame; any other command sets
- * the work area up and prints its size. */
+ * along each ribbon. A negative command draws a frame; any other command
+ * sets the work area up and prints its size. The French header-169 and 299
+ * images build this source without the printf. */
 
-static const VECTOR D_8013C138 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant152_D1138 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant152_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -36,12 +37,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C138;
+    scale = gModelVariant152_D1138;
     work = (Model152State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C190[command % 100];
+        config = work->config = &gModelVariant152_D1190[command % 100];
         point = work->points;
         for (j = 0; j < 17; j++) {
             point->vx = config->ring_radius * ccos(j << 8) / 4096;
@@ -63,7 +64,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (j = 0; j < 2; j++) {
-            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C158[j]);
+            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant152_D1158[j]);
         }
         work->elapsed = 0;
         work->frames = 0;
