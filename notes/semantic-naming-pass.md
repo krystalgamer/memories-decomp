@@ -15,7 +15,9 @@ The initial evidence-backed naming pass applied:
 These counts are the preserved result of that dated pass, not current totals.
 Later semantic work continues to extend the machine-readable
 `notes/semantic-symbol-map.csv`, which is the authority for the current
-accepted set. Each row records the address, accepted name, confidence,
+accepted set together with the per-family `*.csv` files in
+[`notes/semantic-symbol-map.d/`](semantic-symbol-map.d/) (same
+header; readers take the union, files in name order). Each row records the address, accepted name, confidence,
 evidence, and caveat. `tools/project/apply_semantic_names.py` applies and
 checks the registry across:
 

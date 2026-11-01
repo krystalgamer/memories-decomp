@@ -34,7 +34,7 @@ Run `tools/ida/export_project_symbols.py` and choose an output
 |---|---|
 | selected `functions.csv` | Project inventory schema with IDA function names substituted while preserving sizes, status, ownership, and notes |
 | `symbols.txt` | User-defined, non-placeholder IDA names in Splat-compatible assignment syntax |
-| `semantic-symbol-map.csv` | Only function-name changes and candidate globals, marked `confidence=review` |
+| `semantic-symbol-map.csv` | Only function-name changes and candidate globals, marked `confidence=review`; accepted globals are compared against the main map plus `notes/semantic-symbol-map.d/*.csv`, and the output stays one file |
 
 Export never overwrites the tracked repository files automatically. Review
 function boundaries, game/SDK ownership, evidence, duplicate names, overlay

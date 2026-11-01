@@ -49,6 +49,9 @@ SEMANTIC_FIELDS = (
     "notes",
 )
 
+SEMANTIC_MAP = "notes/semantic-symbol-map.csv"
+SEMANTIC_MAP_DIRECTORY = "notes/semantic-symbol-map.d"
+
 
 class ExportError(Exception):
     pass
@@ -69,7 +72,7 @@ def find_project_root() -> Path | None:
     if path.name != "functions.csv":
         raise ExportError("selected file is not functions.csv")
     root = path.parents[2]
-    if not (root / "notes/semantic-symbol-map.csv").is_file():
+    if not (root / SEMANTIC_MAP).is_file():
         raise ExportError("could not locate the memories-decomp root")
     return root
 
@@ -99,13 +102,25 @@ def load_function_rows(root: Path) -> list[dict[str, str]]:
         return list(reader)
 
 
+def semantic_map_paths(root: Path) -> list[Path]:
+    """Return the main semantic map followed by its per-family files."""
+    paths = [root / SEMANTIC_MAP]
+    directory = root / SEMANTIC_MAP_DIRECTORY
+    if directory.is_dir():
+        paths.extend(sorted(directory.glob("*.csv")))
+    return paths
+
+
 def load_semantic_names(root: Path) -> dict[tuple[str, int], str]:
-    path = root / "notes/semantic-symbol-map.csv"
-    with path.open("r", encoding="utf-8", newline="") as handle:
-        return {
-            (row["kind"], int(row["address"], 0)): row["name"]
-            for row in csv.DictReader(handle)
-        }
+    names: dict[tuple[str, int], str] = {}
+    for path in semantic_map_paths(root):
+        with path.open("r", encoding="utf-8", newline="") as handle:
+            reader = csv.DictReader(handle)
+            if tuple(reader.fieldnames or ()) != SEMANTIC_FIELDS:
+                raise ExportError(f"{path}: unexpected semantic map fields")
+            for row in reader:
+                names[(row["kind"], int(row["address"], 0))] = row["name"]
+    return names
 
 
 def load_project_symbol_addresses(root: Path) -> set[int]:
@@ -242,6 +257,8 @@ def main() -> None:
         semantic_changes.sort(
             key=lambda row: (int(row["address"], 0), row["kind"])
         )
+        # Review rows are diffed against the merged map (main file plus
+        # notes/semantic-symbol-map.d/*.csv) but always written as one file.
         semantic_path = output / "semantic-symbol-map.csv"
         write_csv(semantic_path, SEMANTIC_FIELDS, semantic_changes)
 
