@@ -1,2 +1,2 @@
 address,size,name,status,module,notes
-0x8017B004,0x3AD0,func_8017B004,matching_c,overlay/model_image_model_10698_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0x3AD0,ModelVariant824_HandleRequest,matching_c,overlay/model_image_model_10698_8017b000,Complete module byte identity and section-defined C ownership verified.
