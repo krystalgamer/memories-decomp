@@ -55,10 +55,10 @@ and the canonical signed word `D_8009B0D8` binds to `0x8009C43C`; its explicit
 `u16` view preserves the observed halfword load. Display brightness uses only
 the low byte of the existing `DisplayObject.field_0C` word.
 
-`DuelEffect_HasActiveEntry` binds to `0x800372E0`, named `func_800370E0` by the
-Spanish resident inventory. This is the same alias used by accepted European
-wrappers, not a new guessed signature. All other resident bindings are recorded
-in `config/sles_03951/overlays/model_intro_linker_symbols.txt`.
+`DuelEffect_HasActiveEntry` binds to `0x800372E0`, the address the Spanish
+resident symbol file gives the same name; it is not a new guessed signature.
+All other resident bindings are recorded in
+`config/sles_03951/overlays/model_intro_linker_symbols.txt`.
 
 ## Preserved behavior and matching experiments
 
@@ -120,8 +120,8 @@ type changes or compiler-profile changes are needed.
 
 All twelve imports were checked against French resident ownership, not merely
 copied from the Spanish aliases. The ten callable bindings correspond to
-matching French resident functions; `DuelEffect_HasActiveEntry` uses the
-established `func_800370E0` alias at `0x800372E0`. The two data bindings agree
+matching French resident functions; `DuelEffect_HasActiveEntry` is bound by
+name at `0x800372E0`, as in the French resident symbol file. The two data bindings agree
 with French `link_symbols.ld`: channel array `D_800EB0F8` at `0x800F0850`
 and frame-step word `D_8009B0D8` at `0x8009C43C`. Complete-image equality
 also checks their actual encoded uses.

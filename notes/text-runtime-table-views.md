@@ -83,8 +83,9 @@ The PAL-only pen helper consumes one little-endian halfword through
 `TextStream_ReadU16LE` and stores it into channel `+0x3A`, the existing
 unsigned pen-Y halfword. Its adjacent X setter and the reset-X/advance-Y
 handler independently establish that role. Only the definition identifier
-changes. `duel_effect_command.h` provides the explicit native `func_80038168`
-assembly label under the existing `VERSION_EUROPE` selector.
+changes. `duel_effect_command.h` declares it under the existing
+`VERSION_EUROPE` selector, and each PAL symbol file binds `Text_SetPenY` at
+its own address (`0x80038168` UK, `0x80038368` elsewhere).
 
 All operand values, stream advancement and the halfword store remain.
 No signed coordinate, clamp, combined X/Y setter or new font/layout policy
@@ -92,10 +93,11 @@ is introduced. This name does not assign a secondary-command opcode or
 claim the helper occupies NA's slot seven; native image adjacency is not
 a table-position proof. See [text-layout-commands.md](text-layout-commands.md).
 
-The script-completion callback already has its canonical C name. Its
-`duel_effect_state_callbacks.h` owner now supplies the PAL native
-`func_80037544` assembly label, replacing only the private producer-wrapper
-mapping. NA/Japanese declarations remain unchanged. It tests the existing
+The script-completion callback already has its canonical C name, and
+`duel_effect_state_callbacks.h` declares it identically for every region.
+Each PAL symbol file binds `TextBox_WaitForScriptCompletion` at its own
+address (`0x80037544` UK, `0x80037744` elsewhere) instead of the former
+`func_80037544` asm-label alias. It tests the existing
 shared byte `gText_ScriptDispatchGate` and clears state `+0x51` only when
 that byte is zero; otherwise the state remains untouched.
 
