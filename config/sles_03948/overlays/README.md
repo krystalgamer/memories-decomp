@@ -1096,9 +1096,10 @@ no work-size printf, so the data labels do not move.
 Two images under French headers 155 and 285 are the North American
 header-138 entry (`model_variant/variant138_entry.c`) without its work-size
 printf or that call's format string (kept in the North American image's
-data because of its nonzero padding), built through
-`src/overlays/french_model_variant/variant155_entry{,_slot1}.c`. The scale
-vector sits 0x14 lower and the image and command tables 0x28 lower.
+data because of its nonzero padding). Both slots build through
+`src/overlays/french_model_variant/variant155_entry.c`. The scale
+vector sits 0x14 lower and the image and command tables 0x28 lower; each
+image's symbols file binds the two table names at its own addresses.
 
 Two images under French headers 152 and 282 are the North American
 header-135 entry (`model_variant/variant135_entry.c`) without its work-size
