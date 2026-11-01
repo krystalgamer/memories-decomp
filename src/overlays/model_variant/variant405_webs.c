@@ -26,7 +26,7 @@
 
 /* Header 405's form of the header-416 webs: the records start at
  * work + 0xDD4, and a line is sorted whenever its depth is positive. */
-void func_8013D8FC(u8 *ctx)
+void ModelVariant405_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

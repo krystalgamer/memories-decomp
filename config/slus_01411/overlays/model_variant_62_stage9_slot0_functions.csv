@@ -1,9 +1,9 @@
 address,size,name,status,module,notes
 0x8013B004,0x1AC0,func_8013B004,matching_c,overlay/model_variant_62_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013CAC4,0x8A8,func_8013CAC4,matching_c,overlay/model_variant_62_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013CAC4,0x8A8,FrenchModelVariant443_DrawRibbons,matching_c,overlay/model_variant_62_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013D36C,0x5E8,func_8013D36C,matching_c,overlay/model_variant_62_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013D954,0x5AC,func_8013D954,matching_c,overlay/model_variant_62_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013DF00,0x740,func_8013DF00,matching_c,overlay/model_variant_62_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013E640,0x8A0,func_8013E640,matching_c,overlay/model_variant_62_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
 0x8013EEE0,0x6B4,func_8013EEE0,matching_c,overlay/model_variant_62_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
-0x8013F594,0x558,func_8013F594,matching_c,overlay/model_variant_62_stage9_slot0,Complete module byte identity and section-defined C ownership verified.
+0x8013F594,0x558,ModelVariant405_DrawWebs,matching_c,overlay/model_variant_62_stage9_slot0,Complete module byte identity and section-defined C ownership verified.

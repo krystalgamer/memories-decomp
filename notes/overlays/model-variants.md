@@ -213,8 +213,10 @@ ribbons helper at `+ 0x1AC4` is the French `variant443_ribbons.c` with
 `MODEL_VARIANT443_RIBBONS_PACKED_SCREEN`, and the webs helper at `+ 0x4594`
 is the North American `variant405_webs.c` with the
 `MODEL_VARIANT405_WEBS_*_SHIFT` work-area offsets for this header, both under
-`gcc_2_7_2_cdk_g0` from `variant426_ribbons.c` and `variant426_webs.c`
-(`_slot1.c` for slot 1). The entry and streamers wrappers
+`gcc_2_7_2_cdk_g0` from `variant426_ribbons.c` and `variant426_webs.c` in
+both slots. The two helpers are `FrenchModelVariant443_DrawRibbons` and
+`ModelVariant405_DrawWebs` in every image (see
+[Per-image symbol bindings](#per-image-symbol-bindings)). The entry and streamers wrappers
 include the French header-443 `variant443_entry.c` and
 `variant443_streamers.c`. The entry wrapper sets `MODEL_VARIANT443_CLUT_X` to
 512, points `MODEL_VARIANT443_DATA` at the North American data symbol (the
@@ -919,7 +921,9 @@ The `+ 190` (stage 8) and `+ 210` (stage 10) images load at `0x8017B000`.
 Each one's header is its slot-0 header plus 150, its text has the same function
 boundaries, and every `lui` of a module address in it is `0x8018`. The
 `*_slot1.c` files include the slot-0 C and rename the one function it defines to
-`0x8017`. Sixty-two images are registered this way:
+`0x8017`. Families converted to
+[per-image symbol bindings](#per-image-symbol-bindings) need no slot-1 file:
+the slot-1 manifest names the slot-0 C directly. Sixty-two images are registered this way:
 
 | Header | Slot-0 header | Sector offset | Models |
 |---:|---:|---|---|
@@ -950,6 +954,35 @@ them as assembly (`func_8017E004`); they are an unclassified tail and the module
 matches with them kept as raw data (`D_8017E004`). Model 168's longer image is
 left out, as its slot-0 image is, because it calls `0x80054A44` inside
 `Model_DrawSlot`.
+
+### Per-image symbol bindings
+
+Shared C defines one name per function or object, the same in every region,
+slot and image. It does not `#define` that name to an image address. Each
+image's `*_symbols.txt` binds the name at its own address, and its
+`*_functions.csv` uses the same name. Splat writes that name into the
+generated assembly that calls it, the C object defines it, and the linker
+joins them. The Spanish model_variant_62 stage-9 image, whose entry is still
+generated assembly, links its `jal` to the C ribbons helper this way.
+
+The name is an evidence-backed `<Subsystem>_<Verb><Object>` name, recorded in
+[`semantic-symbol-map.csv`](../semantic-symbol-map.csv). The subsystem is the
+directory and header number of the shared source: `ModelVariant405_` for
+`model_variant/variant405_*.c`, `FrenchModelVariant443_` for
+`french_model_variant/variant443_*.c` (French header numbers differ from the
+North American ones). An address-based name such as `func_8013D8FC` is not
+used for a binding: the one address cannot be correct in all images, and the
+same address names other functions in other families.
+
+Layout selectors such as `MODEL_VARIANT405_WEBS_*_SHIFT` and
+`MODEL_VARIANT443_RIBBONS_PACKED_SCREEN` stay in their wrappers. A wrapper
+left with nothing but the include is deleted and its manifests name the shared
+C.
+
+| Name | Shared C | Bound at |
+|---|---|---|
+| `ModelVariant405_DrawWebs` | `model_variant/variant405_webs.c` | USA models 1 and 550, Japanese images 456/466 and 138180/138190: `0x8013D8FC`/`0x8017D8FC`. USA model 62, Japanese images 17312/17322: `0x8013F594`/`0x8017F594`. European, French, German, Italian and Spanish models 1 and 550: `0x8013D8F0`/`0x8017D8F0` |
+| `FrenchModelVariant443_DrawRibbons` | `french_model_variant/variant443_ribbons.c` | USA model 62, Japanese images 17312/17322: `0x8013CAC4`/`0x8017CAC4`. European, French, German, Italian and Spanish model 62: `0x8013CADC`/`0x8017CADC` |
 
 ### Header 407: petals
 

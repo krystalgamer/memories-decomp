@@ -1,5 +1,5 @@
 func_8013B004 = 0x8013B004; // type:func size:0x1AD8 defined:true
-func_8013CADC = 0x8013CADC; // type:func size:0x8D0
+FrenchModelVariant443_DrawRibbons = 0x8013CADC; // type:func size:0x8D0
 func_8013D3AC = 0x8013D3AC; // type:func size:0x5E0
 func_8013D98C = 0x8013D98C; // type:func size:0x5A0
 func_8013DF2C = 0x8013DF2C; // type:func size:0x73C

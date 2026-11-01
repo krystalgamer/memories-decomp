@@ -1,6 +1,7 @@
 # French MODEL443 ribbons helper
 
-`func_8013CADC` / `func_8017CADC` (image offset `0x1ADC`, 0x8D0 bytes) in the
+`FrenchModelVariant443_DrawRibbons` (`0x8013CADC` / `0x8017CADC`, image
+offset `0x1ADC`, 0x8D0 bytes) in the
 model_variant_62 stage 9 slot 0 and stage 10 slot 1 images draws three
 seventeen-point ribbons. It reuses the 0x370-byte `Model400FirstRibbon`
 layout from `french_model_variant/variant400_ribbons.h` and keeps the

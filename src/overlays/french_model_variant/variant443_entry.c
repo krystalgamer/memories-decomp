@@ -518,7 +518,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                 func_8013EEF0((u8 *)point);
             }
             if (work->phase >= 2) {
-                func_8013CADC((u8 *)point);
+                FrenchModelVariant443_DrawRibbons((u8 *)point);
             }
         }
         if (work->phase >= 4) {

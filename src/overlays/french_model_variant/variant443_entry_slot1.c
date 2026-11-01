@@ -1,7 +1,6 @@
 #include "../../types.h"
 
 #define func_8013B004 func_8017B004
-#define func_8013CADC func_8017CADC
 #define func_8013D3AC func_8017D3AC
 #define func_8013D98C func_8017D98C
 #define func_8013DF2C func_8017DF2C

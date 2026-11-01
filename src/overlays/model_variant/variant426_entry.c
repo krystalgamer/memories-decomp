@@ -3,7 +3,6 @@
 
 #define MODEL_VARIANT443_CLUT_X 512
 #define MODEL_VARIANT426_ENTRY_PAIRED_SCREEN
-#define func_8013CADC func_8013CAC4
 #define func_8013D3AC func_8013D36C
 #define func_8013D98C func_8013D954
 #define func_8013DF2C func_8013DF00
