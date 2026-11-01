@@ -10,6 +10,11 @@ static u32 D_8009B0E4;
 #include "../psyq/stdio.h"
 #include "color_constants.h"
 #include "file_names.h"
+
+/* Zero-initialized storage this unit owns at 0x800E9DF0-0x800E9E18, defined in
+ * address order ahead of the headers that declare it (#2602). */
+SpritePrim D_800E9DF0;
+
 #define D_8009B10C_IN_DATA
 #include "file_transfer.h"
 

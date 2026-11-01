@@ -40,6 +40,7 @@ u8 gMain_bActiveModeState;
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "../game/shared_work_base.h"
 #include "../game/main_mode_state.h"
+#include "build_deck_draw_card_list_page_data.h"
 
 void Main_RunDuel(void)
 {

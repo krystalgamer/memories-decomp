@@ -1,4 +1,9 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800EAFF8-0x800EB010, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u16 gText_DecimalDigitGlyphMap[12];
+
 #include "card_constants.h"
 #include "duel_effect_entries.h"
 #include "duel_card.h"

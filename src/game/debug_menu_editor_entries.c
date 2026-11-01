@@ -11,6 +11,47 @@
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800EAED8-0x800EAF08, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 gDebug_szEditorCaretLine[48];
+
+/* Zero-initialized storage this unit owns at 0x8009B2B0-0x8009B2F8, defined in
+ * address order ahead of the headers that declare it (#2602). */
+static u16 D_8009B2B0;
+u8 D_8009B2B2;
+s8 tent_DebugInterfaceFieldB4[3];
+static u8 D_8009B2B7;
+u8 tent_DebugInterfaceFieldB8;
+static u8 D_8009B2B9;
+static u16 D_8009B2BA;
+u8 gDebugMenu_bCampaignEditField;
+static u8 D_8009B2BD;
+static u16 D_8009B2BE;
+u8 tent_DebugInterfaceFieldC0[3];
+u16 gDebug_nLastSoundID[2];
+u16 gDebug_nSceneOrSoundID;
+u16 gDebug_nEditedBgmId;
+u16 gDebug_nEditedCdSoundId;
+static u16 D_8009B2CE;
+static u32 D_8009B2D0;
+static u32 D_8009B2D4;
+static u16 D_8009B2D8;
+u16 gDebug_nLastBgmId;
+s8 gDebug_bEditorRow;
+u16 D_8009B2DE;
+u8 tent_DebugInterfaceFieldE0;
+struct DisplayObject *G32 gDebugMenu_pCursorQuad;
+u8 gDebugMenu_bLastMapId;
+s8 gDebug_bEditorDigit;
+u8 tent_DebugInterfaceFlags;
+u8 gDebugMenu_bStep;
+u8 *G32 tent_DebugInterfaceData;
+u8 gDebugMenu_bPage;
+s8 gDebugMenu_bCursor;
+static u16 D_8009B2F2;
+static u32 D_8009B2F4;
+
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

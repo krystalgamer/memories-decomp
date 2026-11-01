@@ -111,4 +111,15 @@ void Fade_StartOutKeepOverlayAndHideSecondaryTables(void);
 void Fade_EnableOrderingTables(void);
 void Fade_DisableOrderingTables(void);
 
+#ifdef D_800E9ECE_AS_SCALAR
+extern u8 D_800E9ECE;
+#else
+extern u8 D_800E9ECE[];
+#endif
+#ifdef D_800E9ECF_AS_SCALAR
+extern u8 D_800E9ECF;
+#else
+extern u8 D_800E9ECF[];
+#endif
+
 #endif

@@ -5,6 +5,10 @@
 #include "view_state.h"
 #include "duel_effect_request.h"
 
+/* Zero-initialized storage this unit owns at 0x800EAD88-0x800EAE88, defined in
+ * address order ahead of the headers that declare it (#2602). */
+DuelEffectRequest gDuelEffect_aRequests[8];
+
 /* Zero-initialized storage this unit owns at 0x8009B260-0x8009B268, defined in
  * address order ahead of the headers that declare it (#2602). */
 u8 gDuel_bEffectRequestStatus;

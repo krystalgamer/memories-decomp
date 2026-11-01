@@ -174,70 +174,6 @@ extern u8 D_8009B363[];
  * (Duel_RenderFieldCard3D) has matched and is declared by
  * game/duel_field_card_render.h. */
 
-/* Active duel display-transition request/status flags. Every consumer uses
- * this same scalar view; it is not the separate view-tween frame counter.
- *
- * gDuel_wDisplayTransitionFlags is pinned by its neighbour: c_symbols.ld names D_8009B164
- * two bytes later, so it has no room for an element to carry its own name.
- * gDuel_wSceneStateFlags has moved to its owner, duel_scene_state.h. */
-extern u16 gDuel_wDisplayTransitionFlags;   /* nine declarers  */
-extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags */
-
-
-/* Three more undefined globals, moved together for the same reason as the
- * batch above: this header is a serialisation point, so separate changes for
- * separate symbols conflict with each other without making any of them
- * easier to review.
- *
- * All three are one-byte state bytes that every consumer spells `extern u8`
- * and reads or writes whole. None is ever indexed, so there is no array
- * hiding behind the scalar and no per-consumer addressing form to preserve.
- *
- * gMemCardDialog_Port is the strongest of the three structurally: c_symbols.ld names
- * gMemCard_wDialogFlags one byte later, so the object is exactly one byte and
- * nothing can carry a second name inside it. It is the memory card slot the
- * MemCard* calls are issued against.
- *
- * gMemCardDialog_OperationState and gDuel_bSceneSubStep have larger gaps to the next name -- two bytes
- * and eight -- but those are upper bounds rather than sizes, like the gap
- * after gDuel_wSceneStateFlags. Nothing is named inside either gap, and no
- * consumer of either reads past the byte, so the u8 all five consumers agree
- * on is what is declared and the bytes above stay unclaimed.
- *
- * Both of the latter two are packed state bytes rather than plain counters,
- * which is why the byte width matters to every reader: gMemCardDialog_OperationState is switched
- * on through `& 0xF` with MEM_CARD_DIALOG_FLAG_* bits set above it, and
- * gDuel_bSceneSubStep carries a step in its low nibble with 0x20, 0x40 and 0x80 used
- * as independent flags. The modal port and internal-state declarations live in
- * game/mem_card.h; the width/addressing evidence above remains historical. */
-extern u8 gDuel_bSceneSubStep;   /* five declarers */
-
-/* Five more undefined scalars, batched for the reason the two batches above
- * give: this header serialises, so one change per symbol buys nothing and
- * conflicts with every other one in flight.
- *
- * None of the five is ever indexed anywhere in the tree, so each is a plain
- * scalar rather than an array wearing a scalar's spelling, and every consumer
- * already writes the same declaration. Neither the width nor the addressing
- * form is being changed here; the spellings below are copied from the
- * consumers that had them.
- *
- * Three are pinned exactly, with the next name sitting at precisely the end
- * of the declared width, so no element can hide inside them: gMemCardDialog_TransferSize and
- * gMemCardDialog_TransferOffset are two bytes each with a name two bytes on, and gDuel_wStepCounter is
- * two bytes with gDuel_wEffectCardID immediately after it.
- *
- * gMemCardDialog_SyncResult has a larger gap than its width and is treated as an upper
- * bound rather than a size. Nothing is named
- * inside that gap and no consumer reads past the declared width, so the
- * agreed type is what is declared and the bytes above stay unclaimed.
- *
- * The first four are memory card state, shared by the create, load, save and
- * dialog paths together with mem_card_dialog.c. gDuel_wStepCounter is
- * unrelated to them and belongs to the duel side; it is here because it
- * passed the same checks, not because it is part of that group. The modal
- * transfer halfwords and sync result live in game/mem_card.h with the same types. */
-extern u16 gDuel_wStepCounter;   /* four declarers */
 
 /* The text engine's control byte, shared with the dialog and duel-effect
  * screens. Text_HandleChoiceCommand sets it from a command nibble
@@ -264,23 +200,8 @@ extern u8 D_8009B34C;
 extern u8 D_80010074[];
 extern u8 D_80010090[];
 extern u8 D_800100A8[];
-extern u8 gDuel_bSelectedTrapSlot;
 extern u8 gMain_bModeRunnerStep;
 extern s32 gGameOver_pTitleObject;
-/* An interior label, not separate storage: gModel_aSlots[2].model_id, the
- * stage slot's model id (0x800F2C40 + 2 * 0xE20 + 0xDF8). Model_SetSlotProperties
- * reads it through this label to pick gModel_pBackgroundRecord. */
-extern u16 gModel_awStageSlotModelId[];
-extern s16 gDisplayObject_wSpriteSheetListHead;
-
-/* gFile_anLba[6], the LBA File_SetPositionTable records for gFile_apszName[6]
- * (MASTER.XA). File transfer control adds it to a descriptor offset to start
- * secondary (XA) range transfers. Main_Init passes its first byte to
- * SD_InitState after Main_InitHardware has filled the position table, so
- * that argument is the LBA's low byte; what SD_InitState makes of it is not
- * interpreted here. The raw byte-array view is kept because both consumers
- * match on it. */
-extern u8 gFile_nMasterXaLba[];
 
 
 /* Also reclassified from matching_c by #3859: the mixed -G share. Each of
@@ -355,31 +276,9 @@ extern u8 gSD_szCdMixerOutFormat[];
 extern char gAiScript_szNestOverflowError[];
 extern char gAiScript_szSourceFile[];
 extern char gAiScript_szReturnUnderflowError[];
-/* Duel_UpdateCardUseConfirmation's step flags: bit 7 once it has created the
- * two flip markers, bit 6 while a left/right flip of gDuel_pActionCard runs.
- * DuelScene_UpdateFieldActions clears the byte before the step starts. */
-extern u8 gDuel_bConfirmFlags;
-#ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
-/* The two sprites placed beside the card being flipped, 8 pixels left of it
- * and 0x3C right of it, 0x1E down. The confirmation step and the hand step
- * create them; both release them once the choice is made. */
-extern DisplayObject *G32 gDuel_pFlipLeftMarker;
-extern DisplayObject *G32 gDuel_pFlipRightMarker;
-#endif
-#ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
-/* The field-action card: DuelScene_UpdateFieldActions moves it to (0x86, 0x5A)
- * and Duel_UpdateCardUseConfirmation flips it face up or down. */
-extern DisplayObject *G32 gDuel_pActionCard;
-extern DisplayObject *G32 gDuel_pActionReadyMarker;
-#endif
 
 #include "game/main_mode_state.h"
 
-#ifdef D_8009B2F8_AS_ARRAY
-extern u8 gBuildDeck_bConfirmMode[];
-#else
-extern u8 gBuildDeck_bConfirmMode;
-#endif
 #ifdef D_8009B370_AS_BYTE_ARRAY
 extern u8 D_8009B370[];
 #else
@@ -397,21 +296,7 @@ extern u16 D_8009B374;
 #ifdef D_8009B_MODEL_VISIBLE
 extern ModelBytes8 gModel_ViewSnapshot;
 #endif
-#ifdef D_800E9ECE_AS_SCALAR
-extern u8 D_800E9ECE;
-#else
-extern u8 D_800E9ECE[];
-#endif
-#ifdef D_800E9ECF_AS_SCALAR
-extern u8 D_800E9ECF;
-#else
-extern u8 D_800E9ECF[];
-#endif
-extern s8 gDuel_bSide1CardViewMode[];
 
-extern u8 D_800EAE8E[];
-extern s16 D_800F2B22;
-extern u8 gMovie_FileInfo[];
 extern u8 D_8018C7D8[];
 extern u8 D_801B122B[];
 extern u8 D_801B1238[];

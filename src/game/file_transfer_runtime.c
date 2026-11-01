@@ -18,6 +18,15 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
+#include "../ygo_types.h"
+
+/* Zero-initialized storage this unit owns at 0x800E9E18-0x800E9EC8, defined in
+ * address order ahead of the headers that declare it (#2602). */
+FileTransferDescriptor gFile_SecondaryTransferDescriptor;
+FileTransferDescriptor gFile_PrimaryTransferDescriptor;
+/* One eight-word LBA table: the file LBAs, the movie stream base at word 3
+ * and the master XA LBA at word 6 are link_symbols.ld names inside it. */
+s32 gFile_anLba[8];
 
 /* The loader's zero-initialized state, defined here in address order before
  * file_transfer.h declares it, so the compiler emits it in this order and the

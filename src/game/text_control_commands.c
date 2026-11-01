@@ -32,6 +32,11 @@
 #include "campaign_flags.h"
 #include "text_box_wrap_line.h"
 #include "display_effect_lifecycle.h"
+
+/* Zero-initialized storage this unit owns at 0x800EB010-0x800EB0F8, defined in
+ * address order ahead of the headers that declare it (#2602). */
+MenuRecord D_800EB010[3];
+
 #include "menu_record.h"
 #include "display_menu_records.h"
 #include "campaign_scene_package.h"

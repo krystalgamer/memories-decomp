@@ -1,4 +1,9 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800F39B0-0x800F3A10, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_800F39B0[0x60];
+
 #include "model.h"
 #include "model_copy_slot_position.h"
 #include "model_init_light_triplet.h"

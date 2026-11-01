@@ -130,7 +130,7 @@ typedef char SaveDataTertiaryIntegrity_mask_offset_must_be_0x208[
 #undef SAVE_DATA_INTEGRITY_OFFSET
 
 /* Observed prefix, not the full 0x680-byte persistent state allocation. */
-typedef struct {
+typedef struct SaveDataState {
     u16 player_deck[DECK_SIZE];
     u8 card_quantities[CARD_COUNT];
     u8 pad_322[

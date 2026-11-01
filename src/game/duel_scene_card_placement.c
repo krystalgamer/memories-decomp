@@ -31,6 +31,7 @@
 #include "file_transfer_state.h"
 #include "sound.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "duel_scene_card_placement.h"
 #include "duel_presentation_controls.h"
 #include "display_callback_transitions.h"

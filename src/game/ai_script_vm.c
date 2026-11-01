@@ -1,4 +1,10 @@
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800F5B98-0x800F5C88, defined in
+ * address order ahead of the headers that declare it (#2602). */
+s32 gAiScript_aMemory[20];
+u8 D_800F5BE8[0xA0];
+
 #include "ai_script_commands.h"
 #include "../psyq/libetc.h"
 #include "../psyq/memory.h"

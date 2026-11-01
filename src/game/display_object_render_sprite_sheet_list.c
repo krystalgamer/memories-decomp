@@ -8,6 +8,7 @@
 #include "display_object_render_sprite_sheet_list.h"
 
 #include "ordering_tables.h"
+#include "display_object_core_data.h"
 
 void DisplayObject_RenderSpriteSheetList(void) {
     s32 i = gDisplayObject_wSpriteSheetListHead;

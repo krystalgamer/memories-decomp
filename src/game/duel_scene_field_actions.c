@@ -73,6 +73,7 @@
 #include "sound.h"
 #include "ai_board_snapshot.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #define gDuel_wActionSubstate D_8009B20C[0]
 /* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
  * Circle, so a regional build names its own. */

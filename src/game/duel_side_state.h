@@ -44,7 +44,7 @@ typedef struct {
     u8 field_0C;
 } DuelRankStatistics;
 
-typedef struct {
+typedef struct DuelSideState {
     DuelRankStatistics rank;
     u8 field_0D;
     s16 field_0E;

@@ -10,6 +10,7 @@
 #include "duel_card_checks.h"
 #include "duel_grid.h"
 #include "../unmatched.h"
+#include "main_run_campaign_data.h"
 
 void AiScript_FindEquipTarget(void)
 {

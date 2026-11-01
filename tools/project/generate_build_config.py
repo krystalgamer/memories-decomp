@@ -382,7 +382,9 @@ def collect_data_sources(
             elif kind in OWNED_SECTION_TYPES:
                 source = f"src/{subsegment}.c"
                 if source in text_c_sources:
-                    if kind in TEXT_CLAIMED_SECTION_TYPES:
+                    if kind in TEXT_CLAIMED_SECTION_TYPES and not (
+                        kind == ".bss" and name in MERGED_DATA_SEGMENTS
+                    ):
                         raise GenerationError(
                             f"{source}: a text translation unit cannot own"
                             f" {kind} in segment {name}, because its text"

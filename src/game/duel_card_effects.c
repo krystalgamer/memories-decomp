@@ -23,6 +23,7 @@
 #include "view_state.h"
 #include "duel_view_tween.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "duel_card_effects.h"
 #include "display_object_helpers.h"
 #define gDuel_sEffectWorkCounter D_8009B20C[1]

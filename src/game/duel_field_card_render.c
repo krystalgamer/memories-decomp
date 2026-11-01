@@ -10,6 +10,100 @@
 #define ORDERING_TABLE_SLOT2_ARRAY
 
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800E9EF0-0x800EA1E8, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_800E9EF0[0x2F8];
+
+/* Zero-initialized storage this unit owns at 0x8009B150-0x8009B244, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u16 gDuel_wPlacementCardId;
+u8 gDuel_bConfirmFlags;
+s16 gDuel_wPendingEquipBonus;
+s32 gDuel_dwViewTweenHeadingAccumulator;
+s32 gDuel_dwViewTweenOrbitAngleAccumulator;
+s8 gDuelCursor_Direction;
+u16 gDuel_wDisplayTransitionFlags;
+u8 gDuel_bQuitDialogState;
+u8 gDuel_bWinnerSide;
+s16 gDuel_wViewTweenReferenceZTarget;
+s32 gDuel_dwViewTweenReferenceZStep;
+u8 gDuel_wOutcomeFlags[4];
+u16 gDuel_awSavedStatModifiers[2];
+u8 gDuel_bSceneSubStep;
+u16 gDuel_awSavedRecordFlags[2];
+struct DuelEffectRequest *G32 gDuelEffect_pTrackedRequest;
+u8 *G32 tent_DebugEffectObject0;
+u8 *G32 tent_DebugEffectObject1;
+struct DisplayObject *G32 gDuel_pFlipLeftMarker;
+struct DisplayObject *G32 gDuel_pFlipRightMarker;
+s16 gDuel_wViewTweenHeadingTarget;
+s16 gDuel_wViewTweenOrbitAngleTarget;
+s32 gDuel_dwViewTweenHeadingStep;
+s32 gDuel_dwViewTweenOrbitAngleStep;
+u8 gDuel_bCardMoveSlot;
+s16 gDuel_wAiHandStackPending;
+s16 gDuel_RitualResultCardId;
+s16 gDuel_awBattleDamage[2];
+s16 gDuel_sCardEffectIndex;
+static u16 D_8009B1AA;
+s16 gDuel_wMonsterRemovalCriterion;
+s16 gDuel_wMonsterRemovalZone;
+s8 gDuel_abBattleOutcome[2];
+struct DuelSelectionRecord *G32 gDuel_pActiveSelectionRecord;
+u8 gDuel_bSelectedTrapSlot;
+s8 D_8009B1B9;
+s32 gDuel_dwFieldDimTarget;
+struct DisplayObject *G32 gDuel_pCardPreviewObject;
+s32 gDuel_dwViewTweenDistanceAccumulator;
+struct DuelSideState *G32 gDuel_pActiveSideState;
+struct DisplayObject *G32 gDuel_pActionCard;
+u16 gDuel_wStepCounter;
+s16 gDuel_wEffectCardID;
+u8 gDuelCursor_PickFlags;
+u8 gDuel_bActiveSide;
+s8 gDuelCursor_TargetColumn;
+s8 gDuelCursor_TargetRow;
+struct SaveDataState *G32 gDuel_pSide0SaveData[2];
+u16 gDuelResult_wBgmId;
+u8 gDuel_bAiSelectionCursor;
+u16 gDuel_wAiSelectionStepDelay;
+struct DuelResultDisplayState *G32 gDuel_pResultDisplayState;
+u8 gDuel_bPendingDrawCount;
+u8 gDuel_bDrawStepCountdown;
+s16 gDuel_wViewTweenDistanceTarget;
+struct DuelEffectRequest *G32 gDuel_apSwordsEffectObjects[2 ];
+struct DisplayObject *G32 gDuel_pActionReadyMarker;
+s32 gDuel_dwViewTweenDistanceStep;
+s16 D_8009B200;
+s16 D_8009B202;
+u16 gDuel_wViewTweenFramesRemaining;
+s16 gDuel_wEquipCardId;
+s8 D_8009B208;
+s8 D_8009B209;
+u16 D_8009B20A;
+s16 D_8009B20C[2];
+u16 gDuel_wTrapPresentationMode;
+u8 *G32 gDuel_pTerrainIcon;
+s8 D_8009B218;
+static u8 D_8009B219;
+u8 D_8009B21A;
+u8 *G32 gDuel_pLifePointsPanel;
+u16 gDuel_wCardEffectFlags;
+s32 gDuel_dwViewTweenReferenceZAccumulator;
+static u8 D_8009B228;
+u8 gDuel_bAnimatedBattleRequested;
+s16 gDuel_wSelectedTrapCardId;
+u8 *G32 gDuel_pActiveFieldGrid;
+u16 gDuel_wTwoPlayerCardViewMode;
+static u16 D_8009B232;
+u16 gDuel_wTwoPlayerSide0LifePoints;
+u16 gDuel_wTwoPlayerSide1LifePoints;
+s8 gDuel_bOutroWinnerSide;
+u16 gDuel_wSceneStateFlags;
+static u32 D_8009B23C;
+struct DisplayObject *G32 gDuel_pCardViewerBackground;
+
 #include "../ygo_types.h"
 #include "duel_side_state.h"
 #include "display_object.h"
@@ -22,6 +116,7 @@
 #include "duel_draw_card_frame.h"
 #include "ordering_tables.h"
 #include "duel_field_card_render.h"
+#include "duel_field_card_render_data.h"
 #include "graphics_ordering_table_views.h"
 
 /* Volatile scratchpad stores and the second record reload preserve retail

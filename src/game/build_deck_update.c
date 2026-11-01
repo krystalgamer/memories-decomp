@@ -22,6 +22,7 @@
 #include "card_list_setup.h"
 #include "dialog_choice.h"
 #include "../unmatched.h"
+#include "build_deck_draw_card_list_page_data.h"
 
 /* Regional values: the confirmation boxes' y and flags (wide 0x78, 0x1028 ->
  * 0x84, 0x1050; narrow 0x60, 0x20 -> 0x6C, 0x40), the fade level (0xA0 ->

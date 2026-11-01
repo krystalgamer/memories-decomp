@@ -16,6 +16,11 @@
  * Finite valid key programs require nonzero interpolation/noise divisors.
  */
 #include "../types.h"
+
+/* Zero-initialized storage this unit owns at 0x800F5768-0x800F5918, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_800F5768[0x1B0];
+
 #include "camera_view.h"
 #include "model_keyframe_spline.h"
 #include "model_transfer_flags.h"

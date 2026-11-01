@@ -1,5 +1,9 @@
 #include "../types.h"
 
+/* Zero-initialized storage this unit owns at 0x800EFE38-0x800F2888, defined in
+ * address order ahead of the headers that declare it (#2602). */
+u8 D_800EFE38[0x2A50];
+
 /* Zero-initialized storage this unit owns at 0x8009B410-0x8009B428, defined in
  * address order ahead of the headers that declare it (#2602). */
 u16 gDisplayObject_wUnlinkCount;

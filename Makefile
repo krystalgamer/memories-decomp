@@ -273,6 +273,7 @@ split: map check-build-tools
 	@$(PYTHON) tools/project/clean.py generated splat
 	@$(PYTHON) tools/project/generate_build_config.py
 	@$(SPLAT) split tmp/generated/slus_01411.split.yaml
+	@$(PYTHON) tools/project/build_baseline.py --finalize-linker-script
 
 japanese-split: japanese-map check-build-tools
 	@$(PYTHON) tools/project/clean.py splat

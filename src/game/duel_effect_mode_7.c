@@ -5,6 +5,7 @@
 #include "main_mode_state.h"
 #include "build_deck_transition_state.h"
 #include "../unmatched.h"
+#include "build_deck_draw_card_list_page_data.h"
 
 void BuildDeck_EnterNarrowConfirmMode(void)
 {

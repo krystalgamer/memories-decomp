@@ -9,6 +9,7 @@
 #include "display_object.h"
 #include "display_projection.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "duel_action_ready_marker.h"
 #include "duel_grid.h"
 #include "duel_cursor_status.h"

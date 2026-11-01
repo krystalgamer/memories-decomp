@@ -25,6 +25,11 @@ static u16 D_8009B14E;
 #include "ordering_tables.h"
 
 #include "fade.h"
+
+/* Zero-initialized storage this unit owns at 0x800E9EC8-0x800E9EF0, defined in
+ * address order ahead of the headers that declare it (#2602). */
+FadeTransitionState gFade_State;
+
 #include "fade_overlay_controls.h"
 #include "../unmatched.h"
 #include "graphics_frame_controls.h"

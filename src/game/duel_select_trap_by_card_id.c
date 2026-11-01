@@ -4,6 +4,7 @@
 #include "duel_card.h"
 #include "display_object.h"
 #include "duel_select_trap_by_card_id.h"
+#include "duel_field_card_render_data.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what makes the

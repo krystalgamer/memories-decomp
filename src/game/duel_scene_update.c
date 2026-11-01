@@ -14,6 +14,7 @@
 #include "duel_effect_request.h"
 #include "duel_field_display_objects.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "duel_field_effects.h"
 #include "dialog_choice.h"
 #include "ai_opponent_data.h"

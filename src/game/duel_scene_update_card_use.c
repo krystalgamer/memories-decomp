@@ -19,6 +19,7 @@
 #include "card_preview_objects.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
+#include "duel_field_card_render_data.h"
 #include "duel_scene_card_use.h"
 #include "display_object_work_slots.h"
 
