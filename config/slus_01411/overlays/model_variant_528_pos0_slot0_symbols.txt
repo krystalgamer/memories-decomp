@@ -1,4 +1,4 @@
 // MODEL.MRG model 528 (record 528), sector 132108, header 413, loaded at 0x8013B000; the US source variant413_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0x12EC defined:true
-func_8013C2F0 = 0x8013C2F0; // type:func size:0x5D0 defined:true
-D_8013C8C0 = 0x8013C8C0; // type:u8 size:0x3740 defined:true
+ModelVariant413_HandleRequest = 0x8013B004; // type:func size:0x12EC defined:true
+FrenchModelVariant430_DrawSwarm = 0x8013C2F0; // type:func size:0x5D0 defined:true
+gModelVariant413_D18C0 = 0x8013C8C0; // type:u8 size:0x3740 defined:true

@@ -1,0 +1,2 @@
+// Spanish MODEL.MRG model 528 raw image model_image_model_132108_8013b000, loaded at 0x8013B000; the French header-430 swarm helper image132118_swarm.c.
+FrenchModelVariant430_DrawSwarm = 0x8013C2EC; // type:func size:0x5CC defined:true
