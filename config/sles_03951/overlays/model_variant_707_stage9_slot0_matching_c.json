@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8013B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xD94",
+      "source": "src/overlays/french_model_variant/variant436_entry.c"
+    },
+    {
       "address": "0x8013BD98",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7A4",
@@ -17,6 +23,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBDC",
       "source": "src/overlays/french_model_variant/variant436_ribbons.c"
+    },
+    {
+      "address": "0x8013D6C8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x8F4",
+      "source": "src/overlays/french_model_variant/variant436_streamers.c"
     }
   ],
   "schema": 1

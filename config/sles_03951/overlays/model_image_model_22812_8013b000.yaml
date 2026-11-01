@@ -50,13 +50,13 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/spanish_model_image_model_22812_8013b000/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
-    vram: 0x8013b004
+    vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_image_model_22812_8013b000/unmatched_4]
+      - [0x4, c, overlays/french_model_variant/variant454_entry]
   - name: unmatched_1230
     type: code
     start: 0x1230
@@ -70,5 +70,5 @@ segments:
     vram: 0x8013c888
     align: 4
     subsegments:
-      - [0x1888, bin, overlays/spanish_model_image_model_22812_8013b000/unclassified_tail]
+      - [0x1888, data, overlays/spanish_model_image_model_22812_8013b000/unclassified_tail]
   - [0x5000]

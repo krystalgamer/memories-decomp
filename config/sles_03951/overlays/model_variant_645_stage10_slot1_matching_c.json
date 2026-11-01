@@ -1,10 +1,22 @@
 {
   "functions": [
     {
+      "address": "0x8017B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x12B0",
+      "source": "src/overlays/french_model_variant/variant415_entry_slot1.c"
+    },
+    {
+      "address": "0x8017C2B4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5F0",
+      "source": "src/overlays/french_model_variant/variant415_rings_slot1.c"
+    },
+    {
       "address": "0x8017C8A4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x780",
-      "source": "src/overlays/spanish_model_variant/variant415_bands_slot1.c"
+      "source": "src/overlays/french_model_variant/variant415_bands_slot1.c"
     },
     {
       "address": "0x8017D024",

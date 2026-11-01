@@ -48,28 +48,28 @@ segments:
     align: 4
     subsegments:
       - [0x0, data, overlays/spanish_model_variant_630_stage7_slot0/module_header]
-  - name: unmatched_4
+  - name: entry
     type: code
     start: 0x4
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_630_stage7_slot0/unmatched_4]
-  - name: sheet
+      - [0x4, c, overlays/french_model_variant/variant442_entry]
+  - name: helper_1174
     type: code
     start: 0x1174
     vram: 0x8013C174
     align: 4
     subsegments:
       - [0x1174, c, overlays/french_model_variant/variant442_sheet]
-  - name: spiral
+  - name: helper_1560
     type: code
     start: 0x1560
     vram: 0x8013C560
     align: 4
     subsegments:
       - [0x1560, c, overlays/french_model_variant/variant442_spiral]
-  - name: rays
+  - name: helper_1F2C
     type: code
     start: 0x1F2C
     vram: 0x8013CF2C
@@ -83,13 +83,13 @@ segments:
     align: 4
     subsegments:
       - [0x2924, c, overlays/french_model_variant/variant442_webs]
-  - name: unmatched_2CE8
+  - name: helper_2CE8
     type: code
     start: 0x2CE8
     vram: 0x8013DCE8
     align: 4
     subsegments:
-      - [0x2CE8, c, overlays/spanish_model_variant/variant442_ribbons]
+      - [0x2CE8, c, overlays/french_model_variant/variant442_ribbons]
   - name: helper_3334
     type: code
     start: 0x3334

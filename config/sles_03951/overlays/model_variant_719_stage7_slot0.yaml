@@ -54,14 +54,14 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_719_stage7_slot0/entry]
+      - [0x4, c, overlays/french_model_variant/variant472_entry]
   - name: helper_1110
     type: code
     start: 0x1110
     vram: 0x8013C110
     align: 4
     subsegments:
-      - [0x1110, asm, overlays/spanish_model_variant_719_stage7_slot0/helper_1110]
+      - [0x1110, c, overlays/french_model_variant/variant472_blooms]
   - name: helper_1734
     type: code
     start: 0x1734

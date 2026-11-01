@@ -1,3 +1,3 @@
 address,size,name,status,module,notes
-0x8013B004,0x122C,func_8013B004,unmatched_asm,overlay/model_image_model_22812_8013b000,Loader entry; game-owned closed CFG with resolved switch tables and tail jumps; generated assembly retained. Other raw bytes remain unclassified.
+0x8013B004,0x122C,ModelVariant437_HandleRequest,matching_c,overlay/model_image_model_22812_8013b000,Loader entry; C body exact through variant454_entry.c; direct-entry reachable.
 0x8013C230,0x658,FrenchModelVariant454_DrawBlooms,matching_c,overlay/model_image_model_22812_8013b000,Independent exact C 8x12 FT4 bloom grow-and-fade body; slot-0 copy of the image 22822 blooms helper.

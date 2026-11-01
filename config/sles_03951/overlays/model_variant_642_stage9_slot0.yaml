@@ -54,21 +54,21 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_642_stage9_slot0/unmatched_4]
-  - name: unmatched_12B4
+      - [0x4, c, overlays/french_model_variant/variant415_entry]
+  - name: rings
     type: code
     start: 0x12B4
     vram: 0x8013C2B4
     align: 4
     subsegments:
-      - [0x12B4, asm, overlays/spanish_model_variant_642_stage9_slot0/unmatched_12B4]
+      - [0x12B4, c, overlays/french_model_variant/variant415_rings]
   - name: helper_18A4
     type: code
     start: 0x18A4
     vram: 0x8013C8A4
     align: 4
     subsegments:
-      - [0x18A4, c, overlays/spanish_model_variant/variant415_bands]
+      - [0x18A4, c, overlays/french_model_variant/variant415_bands]
   - name: helper_2024
     type: code
     start: 0x2024

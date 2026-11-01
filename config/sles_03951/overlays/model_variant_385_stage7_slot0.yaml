@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_385_stage7_slot0/entry]
+      - [0x4, c, overlays/french_model_variant/variant423_entry]
   - name: helper_E18
     type: code
     start: 0xE18
@@ -89,14 +89,14 @@ segments:
     vram: 0x8013DA50
     align: 4
     subsegments:
-      - [0x2A50, asm, overlays/spanish_model_variant_385_stage7_slot0/helper_2A50]
+      - [0x2A50, c, overlays/french_model_variant/variant423_streamers]
   - name: helper_3214
     type: code
     start: 0x3214
     vram: 0x8013E214
     align: 4
     subsegments:
-      - [0x3214, asm, overlays/spanish_model_variant_385_stage7_slot0/helper_3214]
+      - [0x3214, c, overlays/french_model_variant/variant423_funnel]
   - name: unclassified_tail
     type: code
     start: 0x37D4

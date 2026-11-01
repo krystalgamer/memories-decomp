@@ -19,5 +19,19 @@ identical, every entry keeps its French address; named entries agree with
 `config/sles_03951/symbols.txt`. Existing Spanish linker files are only
 extended, never rewritten.
 
+The 247 Spanish MODEL variant modules that still had `unmatched_asm`
+rows take their French module's layout in the same way and keep their
+Spanish names. Three of them (`spanish_model_variant_269_stage9_slot0`,
+`_stage10_slot1` and `spanish_model_variant_238_stage8_slot1`) take the
+French module with the same bytes at another sector
+(`french_model_variant_43_*` and `french_model_variant_47_stage8_slot1`).
+The Spanish copies of the header-414, header-415 and header-442 helpers
+(`spanish_model_variant/variant414_bands`, `variant415_bands` and
+`variant442_ribbons`) were wired only by those modules' raw layouts and are
+removed; the French layouts compile the French helpers. The two header-447
+images at sectors 109772 and 109782 keep their raw layouts, because they are
+the only Spanish split that compiles `french_model_variant/variant447_rings.c`,
+which `variant685_rings.c` includes.
+
 `make spanish-match-overlays`, which the Spanish overlay workflow runs,
 builds and verifies every configured Spanish overlay.
