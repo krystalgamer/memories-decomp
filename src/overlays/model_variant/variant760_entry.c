@@ -6,9 +6,9 @@
  * spinning lines bursts outward, then sparks rise and scatter before every
  * spark fades out. The spark phase returns 1 and the end returns 2. */
 
-static const VECTOR D_8013CF68 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant760_D1F68 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
 {
     Model760State *work;
     MATRIX light;
@@ -36,13 +36,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CF68;
+    scale = gModelVariant760_D1F68;
     memset(&center, 0, 8);
     work = (Model760State *)context;
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CFCC[command];
+        work->config = &gModelVariant760_D1FCC[command];
         v = work->ring;
         for (i = 0; i < 16; v++, i++) {
             v->vx = work->config->radius * ccos((i << 8) % 4096) / 4096;
@@ -102,7 +102,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->spark_done = 0;
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &D_8013CF78[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(slot, 1, &gModelVariant760_D1F78[i]);
         }
         return 0;
     }
