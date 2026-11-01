@@ -1,4 +1,4 @@
 // German MODEL.MRG model 456 (record 456), sector 112256, header 801, loaded at 0x8013B000; the US header-784 source variant784_entry.c; built from the French source layout of french_model_variant_456_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x407C defined:true
-D_8013F090 = 0x8013F090; // type:u8 size:0x8C defined:true
-D_8013F11C = 0x8013F11C; // type:u8 size:0xEE4 defined:true
+ModelVariant784_HandleRequest = 0x8013B004; // type:func size:0x407C defined:true
+gModelVariant784_D4090 = 0x8013F090; // type:u8 size:0x8C defined:true
+gModelVariant784_D411C = 0x8013F11C; // type:u8 size:0xEE4 defined:true

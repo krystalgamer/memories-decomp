@@ -4,7 +4,7 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x407C",
-      "source": "src/overlays/french_model_variant/variant801_entry_slot1.c"
+      "source": "src/overlays/model_variant/variant784_entry.c"
     }
   ],
   "schema": 1
