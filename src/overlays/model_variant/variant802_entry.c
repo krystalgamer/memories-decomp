@@ -4,7 +4,7 @@
 /* Header 802's entry: the opposing slot glides over and back while a cloud
  * of particles rises around it, the slot scale swelling and shrinking. */
 
-static const VECTOR D_8013C2CC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant802_D12CC = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
@@ -42,7 +42,7 @@ static const VECTOR D_8013C2CC = {4096, 4096, 4096, 0};
         }                                                                                         \
     }
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant802_HandleRequest(u8 *context, s32 command)
 {
     Model802State *work;
     MATRIX base, matrix;
@@ -60,12 +60,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C2CC;
+    scale = gModelVariant802_D12CC;
     work = (Model802State *)context;
     slot = Model_GetActiveSlotIndex();
     side = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C2F8[command];
+        work->config = &gModelVariant802_D12F8[command];
         Model_CopySlotPosition(slot, (u16 *)&position);
         Model_CopySlotPosition(slot ^ 1, (u16 *)&rotation);
         work->offset.vx = 0;
@@ -83,7 +83,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->ages[i] = 0;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C2DC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant802_D12DC[i]);
         }
         work->scale = 4096;
         work->level = 2048;
