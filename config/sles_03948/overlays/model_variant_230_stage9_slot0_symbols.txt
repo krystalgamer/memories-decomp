@@ -1,4 +1,4 @@
 // MODEL.MRG model 230 (record 230), sector 63680, header 183, loaded at 0x8013B000; the US header-166 source variant166_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0x1CA4 defined:true
-D_8013CCB8 = 0x8013CCB8; // type:u8 size:0x8C defined:true
-D_8013CD44 = 0x8013CD44; // type:u8 size:0x32BC defined:true
+ModelVariant166_HandleRequest = 0x8013B004; // type:func size:0x1CA4 defined:true
+gModelVariant166_D1CDC = 0x8013CCB8; // type:u8 size:0x8C defined:true
+gModelVariant166_D1D68 = 0x8013CD44; // type:u8 size:0x32BC defined:true
