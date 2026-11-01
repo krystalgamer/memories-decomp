@@ -1046,8 +1046,9 @@ covering the 256 PAL lines. The
 Four images under French headers 833 and 930 are the North American
 header-816 entry (`model_variant/variant816_entry.c`) unchanged; only the
 resident `jal` targets differ. The French modules build `variant816_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant833_linker_symbols.txt`.
+directly in both slots through `model_variant833_linker_symbols.txt`; each
+image's symbols file binds `ModelVariant816_HandleRequest`,
+`gModelVariant816_D2B7C` and `gModelVariant816_D2C08` at its own addresses.
 
 French MODEL headers 836 (stage 9 slot 0) and 933 (stage 10 slot 1) build the header-819 entry (`func_8013B004`) from `src/overlays/model_variant/variant819_entry.c` through `src/overlays/french_model_variant/variant836_entry{,_slot1}.c`, which define `VERSION_FRENCH` for the ring CLUT (0x3D28 instead of 0x3D20); there is no work-size `printf`, so code and data keep the US layout.
 

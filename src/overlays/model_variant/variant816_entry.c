@@ -9,9 +9,9 @@
  * debris pieces; once the last orb and comet have landed the light comes
  * back. */
 
-static const VECTOR D_8013DB6C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant816_D2B6C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant816_HandleRequest(u8 *context, s32 command)
 {
     Model816State *work;
     MATRIX base;
@@ -30,12 +30,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013DB6C;
+    scale = gModelVariant816_D2B6C;
     work = (Model816State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013DC08[command];
+        work->config = &gModelVariant816_D2C08[command];
         for (i = 0; i < 1; i++) {
             for (j = 0; j < 64; j++) {
                 setVector(&work->orbs[i][j], work->config->spread * ((rand() - rand()) % 4096) / 4096,
@@ -85,7 +85,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013DB7C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant816_D2B7C[i]);
         }
         work->orb_count = 0;
         work->comet_count = 0;

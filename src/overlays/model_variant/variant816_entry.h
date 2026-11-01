@@ -97,9 +97,9 @@ typedef struct {
     u8 debris_level[1][32];
 } Model816State;
 
-extern GsIMAGE D_8013DB7C[5];
-extern Model816Config D_8013DC08[];
+extern GsIMAGE gModelVariant816_D2B7C[5];
+extern Model816Config gModelVariant816_D2C08[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant816_HandleRequest(u8 *context, s32 command);
 
 #endif
