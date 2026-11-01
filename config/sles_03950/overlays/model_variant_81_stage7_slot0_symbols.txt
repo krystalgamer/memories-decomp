@@ -1,8 +1,8 @@
 // Italian MODEL.MRG model 81 (record 81), sector 22536, header 850, loaded at 0x8013B000; the US header-833 source variant833_entry.c; built from the French source layout of french_model_variant_81_stage7_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x4BB0 defined:true
-D_8013FBC4 = 0x8013FBC4; // type:u8 size:0x118 defined:true
-D_8013FCDC = 0x8013FCDC; // type:u8 size:0x38 defined:true
-D_8013FD14 = 0x8013FD14; // type:u8 size:0x2EC defined:true
+ModelVariant833_HandleRequest = 0x8013B004; // type:func size:0x4BB0 defined:true
+gModelVariant833_D4BC4 = 0x8013FBC4; // type:u8 size:0x118 defined:true
+gModelVariant833_D4CDC = 0x8013FCDC; // type:u8 size:0x38 defined:true
+gModelVariant833_D4D14 = 0x8013FD14; // type:u8 size:0x2EC defined:true
 Model_GetSlotDimensionsWithMinimums = 0x8005AFA4; // type:func absolute:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
