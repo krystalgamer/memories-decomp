@@ -8,9 +8,9 @@
  * slot light ramps down and back up. A negative command draws a frame; any
  * other command sets the work area up and prints its size. */
 
-static const VECTOR D_8013CAEC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant178_D1AEC = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant178_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -35,7 +35,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CAEC;
+    scale = gModelVariant178_D1AEC;
     /* The four side faces of a box: vertices 0-3 are its raised corners and
      * 4-7 the same corners on the floor. */
     {
@@ -50,7 +50,7 @@ s32 func_8013B004(u8 *context, s32 command)
         direction = Model_GetActiveSlotIndex() * 2 - 1;
         step = Model_GetFrameStep();
         if (command >= 0) {
-            work->config = &D_8013CB60[command % 100];
+            work->config = &gModelVariant178_D1B60[command % 100];
             config = work->config;
             point = work->grid;
             for (i = 0; i < 13; i++) {
@@ -93,7 +93,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->offset = 0;
             Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
             for (i = 0; i < 3; i++) {
-                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CB0C[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant178_D1B0C[i]);
             }
             work->elapsed = 0;
             work->frames = 0;

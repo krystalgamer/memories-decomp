@@ -1,7 +1,7 @@
-// Spanish MODEL.MRG model 365 (record 315), sector 87130, header 325, loaded at 0x8017B000; the US header-308 source variant178_entry_slot1.c; built from the French source layout of french_model_variant_365_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1AA0 defined:true
-D_8017CAB4 = 0x8017CAB4; // type:u8 size:0x54 defined:true
-D_8017CB08 = 0x8017CB08; // type:u8 size:0x34F8 defined:true
+// Spanish MODEL.MRG model 365 (record 315), sector 87130, header 325, loaded at 0x8017B000; the US header-308 source variant178_entry.c; built from the French source layout of french_model_variant_365_stage8_slot1.
+ModelVariant178_HandleRequest = 0x8017B004; // type:func size:0x1AA0 defined:true
+gModelVariant178_D1B0C = 0x8017CAB4; // type:u8 size:0x54 defined:true
+gModelVariant178_D1B60 = 0x8017CB08; // type:u8 size:0x34F8 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

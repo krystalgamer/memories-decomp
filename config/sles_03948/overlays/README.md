@@ -1002,9 +1002,10 @@ Four images under French headers 195 and 325 are the North American
 header-178 entry (`model_variant/variant178_entry.c`) without its `E_DATA`
 work-size printf, with its per-line sway tables sized for the 256-line PAL
 screen instead of 240. The French build seeds each line's phase with
-`i << 5`, which `VERSION_FRENCH` selects, and the
-`src/overlays/french_model_variant/variant195_entry{,_slot1}.c` wrappers
-move the two data labels 0x58 lower.
+`i << 5`, which `VERSION_FRENCH` selects. Both slots build through
+`src/overlays/french_model_variant/variant195_entry.c`; the two data labels
+sit 0x58 lower, and each image's symbols file binds
+`gModelVariant178_D1B0C` and `gModelVariant178_D1B60` at its own addresses.
 
 Twenty-six images under French headers 794 and 891 are the North American
 header-777 entry (`model_variant/variant777_entry.c`) with its full-screen
