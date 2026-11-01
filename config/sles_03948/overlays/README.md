@@ -1247,8 +1247,10 @@ Two images under French headers 161 and 291 are the North American
 header-144 entry (`model_variant/variant144_entry.c`) without its work-size
 printf or that call's format string (kept in the North American image's
 data because of its nonzero padding) and with a 256-line screen flash, built
-through `src/overlays/french_model_variant/variant161_entry{,_slot1}.c`. The
-scale vector sits 0x14 lower and the image and command tables 0x28 lower.
+through `src/overlays/french_model_variant/variant161_entry.c` in both slots.
+The scale vector sits 0x14 lower and the image and command tables 0x28 lower;
+each image's symbols file binds `gModelVariant144_D1908` and
+`gModelVariant144_D1A20` at its own addresses.
 
 Six images under French headers 182 and 312 build their entry from French C,
 `src/overlays/french_model_variant/variant182_entry{,_slot1}.c`. It is the
