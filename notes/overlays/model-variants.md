@@ -998,6 +998,9 @@ only.
 | `FrenchModelVariant462_DrawSheets` | `french_model_variant/variant462_sheets.c` | USA model 457, Japanese images 112512/112522: `0x8013CEEC`/`0x8017CEEC`. European, French, German, Italian and Spanish model 457: `0x8013CEF8`/`0x8017CEF8` |
 | `FrenchModelVariant462_DrawRings` | `french_model_variant/variant462_rings.c` | USA model 457, Japanese images 112512/112522: `0x8013D41C`/`0x8017D41C`. European, French, German, Italian and Spanish model 457: `0x8013D42C`/`0x8017D42C` |
 | `gModelVariant445_D2848` | data subsegment (`variant445us_entry.h`) | USA model 457, Japanese images 112512/112522: `0x8013D848`/`0x8017D848`. European, French, German, Italian and Spanish model 457: `0x8013D860`/`0x8017D860` |
+| `ModelVariant105_HandleRequest` | `model_variant/variant105_entry.c` | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013B004`/`0x8017B004` |
+| `gModelVariant105_D1424` | data subsegment (`variant105_entry.h`) | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013C424`/`0x8017C424` |
+| `gModelVariant105_D1440` | data subsegment (`variant105_entry.h`) | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013C440`/`0x8017C440` |
 
 ### Header 407: petals
 
