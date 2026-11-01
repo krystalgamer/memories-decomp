@@ -7,9 +7,9 @@
  * it, and when it arrives it throws a fading burst of lines. A negative
  * command draws a frame; any other command sets the work area up. */
 
-static const VECTOR D_8013CADC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant175_D1ADC = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant175_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_GT4 quad;
@@ -33,12 +33,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CADC;
+    scale = gModelVariant175_D1ADC;
     work = (Model175State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013CAEC[command];
+        config = work->config = &gModelVariant175_D1AEC[command];
         point = work->ring;
         for (i = 0; i < 17; point++, i++) {
             point->vx = config->radius * ccos(i << 8) / 4096;

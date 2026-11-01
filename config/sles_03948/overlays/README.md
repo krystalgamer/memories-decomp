@@ -435,10 +435,12 @@ covering the 256 PAL lines. The
 `model_variant952_linker_symbols.txt`.
 
 Four images under French headers 192 and 322 are the North American
-header-175 entry (`model_variant/variant175_entry.c` and its slot-1 wrapper)
-unchanged: the code differs only in its resident call targets, which
+header-175 entry (`model_variant/variant175_entry.c`, built directly in both
+slots) unchanged: the code differs only in its resident call targets, which
 `model_variant192_linker_symbols.txt` and `model_variant322_linker_symbols.txt`
-bind to the French addresses.
+bind to the French addresses. Each image's symbols file binds
+`ModelVariant175_HandleRequest` and `gModelVariant175_D1AEC` at its own
+addresses.
 
 Two images under French headers 166 and 296 are the North American
 header-149 entry (`model_variant/variant149_entry.c`) without its work-size
