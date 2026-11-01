@@ -5,7 +5,7 @@ and Attack Slash lifecycles. They do not infer new effect identities or
 attribute exclusive artwork to either handler. The evidence for the handler
 names remains in [the dispatcher note](duel-effect-dispatch.md).
 
-| C view | Native label | NA address | JP address | PAL address | Bytes |
+| C name | Former label | NA address | JP address | PAL address | Bytes |
 |---|---|---|---|---|---:|
 | `gDuelEffect_FusionConfigs` | `D_8015B420` | `8015B48C` | `801694AC` | `8015B420` | 48 |
 | `gDuelEffect_FusionInitialScale` | `D_80146208` | `80146250` | `80154260` | `80146208` | 16 |
@@ -68,8 +68,8 @@ The separate entry-copy scale keeps its complete SDK `VECTOR` and padding.
 ## Conservation boundary
 
 `fusion_attack_semantic_views.h` includes the two unchanged private
-declaration headers and binds these four typed views with `__asm__` to
-their unchanged native labels. Each complete provider changes only those
+declaration headers and declares these four typed names; the symbol files
+bind them in place of their former labels. Each complete provider changes only those
 data identifiers and one include after its original private declarations.
 Removing that include and reversing the substitutions reconstructs both
 accepted sources byte-for-byte. No function definition, argument, statement

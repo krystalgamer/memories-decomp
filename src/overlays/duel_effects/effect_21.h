@@ -23,9 +23,4 @@ typedef struct {
     u16 offsets[10];
 } DuelEffect21Work;
 
-extern VECTOR D_80146158;
-extern SVECTOR D_8015AB68[10][2];
-
-void func_8014E3EC(void *buffer, s32 phase);
-
 #endif

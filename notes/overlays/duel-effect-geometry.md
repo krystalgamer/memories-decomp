@@ -3,13 +3,11 @@
 ## Scoped transform/vector C views
 
 Eight shared helpers now have semantic C views in
-`geometry_semantic_views.h`. Their original assembler identities and exact
-types remain, with explicit native compatibility declarations. The original
-`utility_helpers.h`, curve source and historical fingerprint guard stay
-byte-for-byte unchanged. Existing SDK includes keep their order; the new
+`geometry_semantic_views.h`. Their exact types remain, and every regional
+`duel_effects_symbols.txt` binds each name in place of the former label. Existing SDK includes keep their order; the new
 view header follows each caller's complete leading include block.
 
-| C view | Native label | NA address | JP address | UK / FR / ES address |
+| C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `DuelEffect_SetTransformMatrix` | `func_801513F4` | `0x80151FCC` | `0x8015F488` | `0x801513F4` |
 | `DuelEffect_SetScaledLocalScreenMatrix` | `func_801514BC` | `0x80152094` | `0x8015F550` | `0x801514BC` |
@@ -94,11 +92,10 @@ bank steps, not a local cloud-test run.
 
 ## Ring, rectangle and record C views
 
-The same semantic header also owns these eight related views. Its original
-sixteen declarations remain unchanged; native utility headers, SDK types,
-linker files and all pre-existing tests remain frozen.
+The same semantic header also owns these eight related names. SDK types and
+all pre-existing tests remain unchanged.
 
-| C view | Native label | NA address | JP address | UK / FR / ES address |
+| C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `DuelEffect_InitCircle32Vertices` | `func_8014EA7C` | `0x8014F654` | `0x8015CB10` | `0x8014EA7C` |
 | `DuelEffect_InitHalfStepXYRingVertices` | `func_8014EB1C` | `0x8014F6F4` | `0x8015CBB0` | `0x8014EB1C` |
@@ -125,11 +122,9 @@ count-dependent division or vertex store. Do not unify the bodies, narrow
 the arguments, move the promotion or turn them into early returns.
 
 `DuelEffect_InitXZRingVertices` instead uses unadjusted angular steps and
-negates its signed-halfword height for Y. Its actual definition retains
-the native `func_8014EE0C` spelling and original typed signature, preserving
-the existing paired source/header ABI guard. Actual callers use the new
-assembler-bound semantic view; no comment spoof, wrapper, test rewrite or
-duplicate implementation stands in for that native definition.
+negates its signed-halfword height for Y. Its actual definition carries the
+canonical name (formerly `func_8014EE0C`) with its original typed signature;
+no wrapper or duplicate implementation stands in for it.
 
 The unscaled random helper writes signed `rand() - rand()` remainders
 modulo 4096 to XYZ, with six target RNG calls per vector. Count zero

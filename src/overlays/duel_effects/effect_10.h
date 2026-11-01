@@ -47,10 +47,4 @@ typedef struct {
     CVECTOR plane_color;
 } DuelEffect10Work;
 
-extern VECTOR D_80146138;
-extern GsIMAGE D_8015A8C8[21];
-extern DuelEffect10Config D_8015AB14[6];
-
-void func_8014C8FC(void *buffer, s32 phase);
-
 #endif

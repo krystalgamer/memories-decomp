@@ -16,7 +16,7 @@ gMain_apFrameServiceCallbacks = 0x8009C898;
 gGraphics_bSyncVBlankTarget = 0x8009C424;
 Graphics_SubmitDrawModePacket = 0x8004D5B8;
 D_800EB224 = 0x800F097C;
-D_801A8000 = 0x801A8000;
+gTrade_aInventoryRowSets = 0x801A8000;
 D_8009B0D8 = 0x8009C43C;
 gSaveData_LoadPairState = 0x8009C77A;
 gSaveData_PairSetupState = 0x8009C738;
@@ -42,7 +42,7 @@ SaveData_UpdateDuelLoad = 0x80040038;
 SaveData_UpdateTradeLoad = 0x8003FFFC;
 SD_BGMPlayDefaultStep = 0x800477A4;
 rsin = 0x80086628;
-D_801AF800 = 0x801AF800;
+gMainMenu_DisplayResources = 0x801AF800;
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x80042BD8;
 DisplayObject_SelectOrderingTable1 = 0x80042C48;
 

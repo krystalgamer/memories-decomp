@@ -3,10 +3,10 @@
 ## Scoped numeric C views
 
 Four related functions now use typed C views in `number_semantic_views.h`.
-Original native declarations, widths, assembler identities, source groups,
-profiles and all pre-existing tests remain unchanged.
+The symbol files bind each name in place of its former label; widths,
+source groups, profiles and all pre-existing tests remain unchanged.
 
-| C view | Native label | NA address | JP address | UK / FR / ES address |
+| C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `DuelEffect_PowS16` | `func_8014F524` | `0x801500FC` | `0x8015D5B8` | `0x8014F524` |
 | `DuelEffect_CountDecimalDigitsS16` | `func_80156AD4` | `0x80148D1C` | `0x80164B64` | `0x80156AD4` |
@@ -62,9 +62,7 @@ no-absolute-alias guards described below remain unchanged.
 
 ### Conservation boundary
 
-All bank callers use the canonical typed views; eight added canonical/native
-declarations and four name substitutions account for complete CPP
-conservation. Every changed C file is recoverable by reversing those names
+All bank callers use the canonical typed declarations. Every changed C file is recoverable by reversing those names
 and removing its one trailing semantic include, after the original
 complete SDK/header block. The full power/texture, two-function number and
 renderer objects are compiled and compared, never split or partially

@@ -5,7 +5,7 @@ from sectors `[1223, 1239)`, initializes it, starts group zero and later
 advances its lines. The module's matching implementations support these
 scoped C names:
 
-| Native entry | NA credits C view | Existing ABI |
+| Former label | Credits C name | Existing ABI |
 |---|---|---|
 | `func_801807B0` | `Credits_InitPresentation` | `void(void)` |
 | `func_80180A24` | `Credits_UpdateLines` | `s32(void)` |
@@ -53,11 +53,11 @@ record nor its `ModelDebugState` type is semantically renamed.
 
 ## Scope, native identity and conservation
 
-The NA module's canonical prototypes use `__asm__` to retain the original
-native entry names, function types and sizes. Explicit legacy prototypes
-remain available. The module inventory records the scoped semantic names;
-its Splat symbol file, matching manifest, compiler profiles, source order
-and all native providers remain unchanged. No linker aliases are added.
+The module's canonical prototypes are plain declarations. The NA and
+Japanese credits symbol files bind each name at its own address in place
+of the former label, keeping function types and sizes. The matching
+manifest, compiler profiles and source order remain unchanged. No linker
+aliases are added.
 
 The resident deliberately keeps the address-based declarations and calls
 in `model_scene_imports.h`. Other packages reuse this address range;

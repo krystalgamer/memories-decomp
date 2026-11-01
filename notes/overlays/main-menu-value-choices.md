@@ -7,26 +7,25 @@ The real resident caller is `Main_RunTwoPlayerDuelSetup` in
 
 ## Choices and overlapping native views
 
-`gMainMenu_abValueSetupChoices` retains native `D_801845BC` as an unsized
+`gMainMenu_abValueSetupChoices` (formerly `D_801845BC`) remains an unsized
 `u8[]`. Bytes 0 and 1 are the respective players' cursor choices; byte 2
 is their one shared toggle choice. They are not a current value and its
 starting value. The actual values, displayed values and output pointers
 remain in the two existing `ValueSetupEntry` records.
 
-`gMainMenu_bValueSetupToggleChoice` retains native `D_801845BE` as a
-separate `u8` scalar. The linker aliases put the array at
+`gMainMenu_bValueSetupToggleChoice` (formerly `D_801845BE`) remains a
+separate `u8` scalar. The linker symbols put the array at
 `gMainMenu_ValueSetupState+0x1C` and the scalar at `+0x1E`. Consequently
 array byte 2 and the scalar view overlap, but the compiler still sees the
-same two distinct C identities and native labels as before. Neither access
-is rewritten into an aggregate-member expression or the other symbol.
-The original native declarations remain available.
+same two distinct C identities as before. Neither access is rewritten into
+an aggregate-member expression or the other symbol.
 
 The real initialized owner in `module_state.c` remains the complete
 `0x3C`-byte `MainMenuValueSetupState` at NA `0x801845A0`. Its three-byte
 `selections` member, pad, three widget pointers, both value records, toggle
 pointer and initializer are unchanged. No storage, array bound, pointer
 type, Boolean type, const qualifier, wrapper or linker definition is added.
-Japanese native bindings retain the same addresses; the European aliases
+Japanese bindings retain the same addresses; the European bindings
 resolve to `0x801847E8` and `0x801847EA`. Regional maps remain authoritative.
 
 Three header constants name only the already-proven choice codes:

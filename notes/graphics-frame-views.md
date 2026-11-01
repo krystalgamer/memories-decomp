@@ -111,19 +111,17 @@ applicable PR checks remain required. Regional retail inputs are not
 available locally; no local cloud/full regional/overlay or witness suite
 is run.
 
-## Japanese labels for the frame and save timing globals
+## Japanese bindings for the frame and save timing globals
 
-The Japanese build keeps three of these globals under its own linker names.
-`graphics_frame.h` binds them under `VERSION_JAPAN`, on every declaration arm
-that exists for them, replacing wrapper macros in six Japanese builds:
+Three of these globals sit at other addresses in the Japanese executable.
+`config/slpm_86398/symbols.txt` binds the C names there directly, so every
+declaration arm in `graphics_frame.h` uses the one name in all regions:
 
-| Global | Japanese label | Arms |
+| Global | Japanese address | Arms |
 |---|---|---|
-| `gGraphics_dwSyncVBlankCounter` | `gJapanese_GraphicsSyncVBlankCounter` | `.data` and volatile |
-| `gSaveData_dwVBlankCounter` | `gJapanese_SaveDataVBlankCounter` | `.data` and volatile |
-| `gGraphics_bClearBackground` | `gJapanese_D_8009B0D0` | plain |
+| `gGraphics_dwSyncVBlankCounter` | `0x8009AFB8` | `.data` and volatile |
+| `gSaveData_dwVBlankCounter` | `0x8009AFB4` | `.data` and volatile |
+| `gGraphics_bClearBackground` | `0x8009AFC0` | plain |
 
-The Japanese `graphics_frame.c` and `main_init.c` wrappers gained
-`VERSION_JAPAN`; neither source otherwise tests it. Types, sections,
-volatility, symbol maps and every access are unchanged.
+Types, sections, volatility and every access are unchanged.
 

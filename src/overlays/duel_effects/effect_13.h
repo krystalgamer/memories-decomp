@@ -43,11 +43,4 @@ typedef struct {
     CVECTOR number_color;
 } DuelEffect13Work;
 
-extern VECTOR D_80146178;
-extern GsIMAGE D_8015AC48[21];
-extern DuelEffect13Config D_8015AE94[4];
-
-void func_8014FABC(u16 radius, u16 spread, u16 height, u16 count, SVECTOR *vertices);
-void func_801503F8(void *buffer, s32 phase, s16 number);
-
 #endif

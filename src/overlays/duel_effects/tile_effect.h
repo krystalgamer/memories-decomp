@@ -6,9 +6,9 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 
-/* One of the two 8-byte descriptors at D_8015A648 that effect id 3 selects
+/* One of the two 8-byte descriptors at gDuelEffect_DestroyFlamesConfigs that effect id 3 selects
  * by its phase. The North American path uses five by seven 28-pixel tiles
- * from D_8015A62C and lights a sparkle on each. PAL keeps the horizontal
+ * from gDuelEffect_DestroyFlamesTextureImage and lights a sparkle on each. PAL keeps the horizontal
  * geometry but has independently verified vertical-grid/UV constants. */
 typedef struct {
     u16 size;               /* 0x00 */
@@ -36,14 +36,11 @@ typedef struct {
     u8 colors_b[5][7][4];               /* 0x258 */
 } TileEffectState;
 
-/* The texture-word table D_8015B748 seen as the page/clut pairs the
+/* The texture-word table gDuelEffect_TexturePageClutPairs seen as the page/clut pairs the
  * dispatcher packs, one per image descriptor. */
 typedef struct {
     u16 page;               /* 0x00 */
     u16 clut;               /* 0x02 */
 } TileEffectTextureWords;
-
-extern GsIMAGE D_8015A62C;
-extern TileEffectDescriptor D_8015A648[2];
 
 #endif

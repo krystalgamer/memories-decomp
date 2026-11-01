@@ -3,15 +3,13 @@
 ## Scoped semantic C views
 
 The colour predicates, transitions and fullscreen helpers now use these
-canonical C names. A separate `color_semantic_views.h` supplies the
-assembler-name declarations and explicit native contracts, as in the
-accepted credits C views. Both
-original helper headers and their native prototypes remain byte-for-byte
-unchanged: the shared utility header participates in the historical curve
-fingerprint. No record/hash guard is regenerated or weakened, and no new
-native exports, function storage or linker aliases are introduced.
+canonical C names. `color_semantic_views.h` declares them plainly, and
+every regional `duel_effects_symbols.txt` binds each name at its own
+address in place of the former label. No record/hash guard is regenerated
+or weakened, and no new native exports, function storage or linker aliases
+are introduced.
 
-| Canonical C view | Native label | NA address | JP address | UK / FR / ES address |
+| Canonical C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `DuelEffect_IsColorBlack` | `func_8014D378` | `0x80147B70` | `0x8015B3D0` | `0x8014D378` |
 | `DuelEffect_HasNonzeroColor` | `func_8014D3AC` | `0x80147BA4` | `0x8015B404` | `0x8014D3AC` |
@@ -22,7 +20,7 @@ native exports, function storage or linker aliases are introduced.
 | `DuelEffect_DrawFullscreenGradient` | `func_80155798` | `0x8014D478` | `0x80163828` | `0x80155798` |
 | `DuelEffect_DrawFullscreenColor` | `func_80155864` | `0x8014D544` | `0x801638F4` | `0x80155864` |
 
-The address column, not the numeric suffix of a historical native label,
+The address column, not the numeric suffix of a former label,
 identifies a function in each image. The eight registry rows therefore use
 `overlay/duel_effects/function` and the actual NA inventory addresses, never
 unqualified resident `function` records. All forty name cells in the five

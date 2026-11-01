@@ -3,12 +3,12 @@
 ## Shared initializer C views
 
 The complete seven-function `utility_helpers.c` object now exposes semantic
-C views through the existing colour and geometry semantic headers. Native
-assembler identities, all argument types and complete source-object
-definition order remain unchanged. The frozen native utility header is
-not edited.
+C names through the existing colour and geometry semantic headers. Every
+regional `duel_effects_symbols.txt` binds each name at its own address in
+place of the former label; all argument types and complete source-object
+definition order remain unchanged.
 
-| C view | Native label | NA address | JP address | UK / FR / ES address |
+| C name | Former label | NA address | JP address | UK / FR / ES address |
 |---|---|---|---|---|
 | `DuelEffect_SetGrayColor` | `func_8014F010` | `0x8014FBE8` | `0x8015D0A4` | `0x8014F010` |
 | `DuelEffect_SetRgbColor` | `func_8014F020` | `0x8014FBF8` | `0x8015D0B4` | `0x8014F020` |

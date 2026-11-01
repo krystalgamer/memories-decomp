@@ -5,7 +5,7 @@ frontend and value-setup consumers, without identifying unknown artwork.
 It starts from accepted request-handoff master
 `055429fd98e74e9852b2a65205e52f7d142b7373`.
 
-| Native identity | Canonical C view | Unchanged storage |
+| Former label | Canonical C name | Unchanged storage |
 |---|---|---|
 | `D_80184560` | `gMainMenu_pStartPrompt` | Four-byte stored `DisplayObject *G32` at `gMainMenu_FrontendState + 8` |
 | `D_801AF800` | `gMainMenu_DisplayResources` | Existing unsized `u8[]` view of the separate `0x800`-byte SU phase |
@@ -53,12 +53,12 @@ variant; value setup supplies it to its separate sprite. These are the
 complete direct main-menu C consumers. No resource-record format, image
 identity or claim about other SU executable phases follows from that role.
 
-The new local `display_resources.h` retains the original unsized byte
-array type and exact native `__asm__` binding. It deliberately adds no
+The local `display_resources.h` retains the original unsized byte array
+type; every main-menu linker symbol file binds the name directly at its
+address in place of the former `D_801AF800` label. It deliberately adds no
 array bound, `const`, storage definition, copied bytes or resident alias.
-The existing central native declaration remains intact. `frontend.h`
-retains all three native compatibility pointer declarations and adds the
-canonical prompt view with the same pointee, `G32` and native label.
+`frontend.h` declares the canonical prompt pointer with the same pointee
+and `G32`; the main-menu symbol files bind it where `D_80184560` stood.
 
 ## Complete-source conservation boundary
 

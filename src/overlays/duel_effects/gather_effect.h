@@ -4,8 +4,8 @@
 #include "../../types.h"
 #include "../../psyq/libgte.h"
 
-/* The single descriptor at D_8015A5F8 that effect id 14 reads. Every field
- * is named for the call argument or store func_801481A8 reads it into; the
+/* The single descriptor at gDuelEffect_GuardianStarBonusConfig that effect id 14 reads. Every field
+ * is named for the call argument or store DuelEffect_RunGuardianStarBonus reads it into; the
  * effect's name follows its particle velocities, which point at the
  * origin. */
 typedef struct {
@@ -56,8 +56,5 @@ typedef struct {
     VECTOR scale;           /* 0x58 */
     SVECTOR quad[4];        /* 0x68 */
 } GatherEffectFrame;
-
-extern GatherEffectDescriptor D_8015A5F8;
-extern VECTOR D_80146024;
 
 #endif

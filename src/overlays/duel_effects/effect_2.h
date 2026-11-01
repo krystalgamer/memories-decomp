@@ -50,11 +50,4 @@ typedef struct {
     CVECTOR number_color;
 } DuelEffect2Work;
 
-extern VECTOR D_801461B8;
-extern DuelEffect2Config D_8015AF18[7];
-void func_801566D4(s32 value, u8 *color, SVECTOR *offset, u16 mode,
-                   u16 size, u16 bias);
-
-void func_80153200(void *buffer, s32 phase, s16 number);
-
 #endif

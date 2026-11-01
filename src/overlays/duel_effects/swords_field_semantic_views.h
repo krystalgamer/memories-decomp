@@ -3,10 +3,8 @@
 
 #include "effect_21.h"
 
-extern void DuelEffect_RunSwordsField(void *work, s32 phase) __asm__("func_8014E3EC");
-extern SVECTOR gDuelEffect_SwordsFieldTilePositions[10][2] __asm__("D_8015AB68");
-extern VECTOR gDuelEffect_SwordsFieldInitialScale __asm__("D_80146158");
-
-extern void func_8014E3EC(void *work, s32 phase);
+extern void DuelEffect_RunSwordsField(void *work, s32 phase);
+extern SVECTOR gDuelEffect_SwordsFieldTilePositions[10][2];
+extern VECTOR gDuelEffect_SwordsFieldInitialScale;
 
 #endif

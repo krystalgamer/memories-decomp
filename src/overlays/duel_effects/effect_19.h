@@ -29,8 +29,4 @@ typedef struct {
     CVECTOR color;
 } DuelEffect19Work;
 
-extern VECTOR D_801461C8;
-
-void func_80153ADC(void *buffer, s32 phase);
-
 #endif

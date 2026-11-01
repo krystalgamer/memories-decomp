@@ -2,8 +2,8 @@
 
 ## Canonical persistent Swords field
 
-`DuelEffect_RunSwordsField` binds the complete native `func_8014E3EC`
-owner: NA `8014EFC4`, JP `8015C480`, PAL `8014E3EC`, 1,680 instruction
+`DuelEffect_RunSwordsField` names the complete owner formerly labelled
+`func_8014E3EC`: NA `8014EFC4`, JP `8015C480`, PAL `8014E3EC`, 1,680 instruction
 bytes. Resident `DuelEffect_ApplySwords` allocates request `0x15`, records it
 in `gDuel_apSwordsEffectObjects[opposing_side]`, marks it nonblocking and
 supplies that side as phase. It waits on progress before installing the

@@ -1,7 +1,6 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#define SCRIPT_STATE_JAPANESE_D_8009B2A8_SCALAR
 #define DUEL_EFFECT_CHOICE_CONFIRM_MASK \
     (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
 #define D_8009B0F4_abs gJapanese_FileTransferFlags

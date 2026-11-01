@@ -7,7 +7,7 @@ remain the already accepted observations in
 [the dispatcher note](duel-effect-dispatch.md), not new runtime evidence,
 phase-to-card mappings or exclusive artwork identities.
 
-| C view suffix after `gDuelEffect_` | Native label | NA address | JP address | PAL address | Bytes |
+| C name suffix after `gDuelEffect_` | Former label | NA address | JP address | PAL address | Bytes |
 |---|---|---|---|---|---:|
 | `DestroyFlamesConfigs` | `D_8015A648` | `8015A714` | `801686D4` | `8015A648` | 16 |
 | `DestroyFlamesTextureImage` | `D_8015A62C` | `8015A6F8` | `801686B8` | `8015A62C` | 28 |

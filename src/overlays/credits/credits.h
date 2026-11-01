@@ -43,14 +43,10 @@ extern u8 gCredits_abGlyph9B92[];
 s32 Credits_BuildLineGlyphs(s32 index, s32 group);
 void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3);
 
-extern void Credits_InitPresentation(void) __asm__("func_801807B0");
-extern s32 Credits_UpdateLines(void) __asm__("func_80180A24");
-extern void Credits_StartLineGroup(s32 group) __asm__("func_80181C4C");
+extern void Credits_InitPresentation(void);
+extern s32 Credits_UpdateLines(void);
+extern void Credits_StartLineGroup(s32 group);
 
-/* Fixed native entry points remain available to package-qualified callers. */
-extern void func_801807B0(void);
-extern s32 func_80180A24(void);
-extern void func_80181C4C(s32 group);
 u8 Credits_IsFinished(void);
 
 #endif

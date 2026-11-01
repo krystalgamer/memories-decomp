@@ -3,10 +3,10 @@
 
 #include "../../types.h"
 
-extern void DuelEffect_DrawErrorCross(s32 mode) __asm__("func_8014E35C");
-extern char gDuelEffect_ErrorMessage[] __asm__("gNorthAmerican_D_80146014");
-extern char gDuelEffect_InvalidVariantMessage[] __asm__("gNorthAmerican_D_8014602C");
-
-extern void func_8014E35C(s32 mode);
+extern void DuelEffect_DrawErrorCross(s32 mode);
+/* Error texts DuelEffect_DrawErrorCross prints in the NTSC banks; the PAL
+ * banks have none. */
+extern char gDuelEffect_ErrorMessage[];
+extern char gDuelEffect_InvalidVariantMessage[];
 
 #endif

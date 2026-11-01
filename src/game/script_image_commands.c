@@ -14,7 +14,6 @@
 #include "file_transfer.h"
 #include "file_transfer_state.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
-#define GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
 #include "graphics_frame.h"
 #include "image_transfer_rects.h"
 #include "script_state.h"
@@ -157,10 +156,10 @@ void Script_UpdateViewportTween(void) {
     s32 d;
 
     if (ScriptCommand_MarkStarted() == 0) {
-        sx = *(s16 *)&gGraphics_uViewportX[0];
+        sx = gGraphics_sViewportX;
         n = *(s16 *)&gScript_SharedOperand;
         gScript_ViewportDeltaX = ((*(s16 *)&gScript_ViewportTargetX - sx) << 16) / n;
-        sy = *(s16 *)&gGraphics_uViewportY[0];
+        sy = gGraphics_sViewportY;
         gScript_ViewportDeltaY = ((*(s16 *)&gScript_ViewportTargetY - sy) << 16) / n;
         gScript_ViewportAccumulatorX = (sx << 16) | 0x8000;
         gScript_ViewportAccumulatorY = (sy << 16) | 0x8000;
@@ -172,16 +171,16 @@ void Script_UpdateViewportTween(void) {
     d = gScript_ViewportDeltaY;
     a = a + b;
     gScript_ViewportAccumulatorX = a;
-    gGraphics_uViewportX[0] = a >> 16;
+    gGraphics_sViewportX = a >> 16;
     c = c + d;
     gScript_ViewportAccumulatorY = c;
-    gGraphics_uViewportY[0] = c >> 16;
+    gGraphics_sViewportY = c >> 16;
 
     v = gScript_SharedOperand - 1;
     gScript_SharedOperand = v;
     if ((s16)v <= 0) {
         gScript_wCommandWord = 0;
-        gGraphics_uViewportX[0] = gScript_ViewportTargetX;
-        gGraphics_uViewportY[0] = gScript_ViewportTargetY;
+        gGraphics_sViewportX = gScript_ViewportTargetX;
+        gGraphics_sViewportY = gScript_ViewportTargetY;
     }
 }
