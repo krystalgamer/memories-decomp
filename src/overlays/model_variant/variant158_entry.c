@@ -8,9 +8,9 @@
  * draws a frame; any other command sets the work area up and prints its
  * size. */
 
-static const VECTOR D_8013C11C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant158_D111C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant158_HandleRequest(u8 *context, s32 command)
 {
     Model158State *work;
     MATRIX base, matrix;
@@ -31,13 +31,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C11C;
+    scale = gModelVariant158_D111C;
     work = (Model158State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->targets;
-        work->config = &D_8013C174[command % 100];
+        work->config = &gModelVariant158_D1174[command % 100];
         config = work->config;
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
         vertices[0].vy = -350;
@@ -53,7 +53,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         for (i = 0; i < 2; i++) {
             j = Model_GetActiveSlotIndex();
-            work->texture[i] = ModelTexture_PackPageClutCopy(j, 1, &D_8013C13C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(j, 1, &gModelVariant158_D113C[i]);
         }
         work->elapsed = 0;
         work->updates = 0;
