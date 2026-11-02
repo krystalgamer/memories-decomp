@@ -57,7 +57,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/model_variant/variant422_entry]
-      - [0x1234, c, overlays/model_variant/variant422_screen_rings]
+      - [0x1234, c, overlays/spanish_model_variant/variant439_screen_rings]
       - [0x170C, c, overlays/model_variant/variant422_bands]
       - [0x1E84, c, overlays/model_variant/variant422_sheets]
       - [0x236C, c, overlays/model_variant/variant422_webs]
