@@ -1,4 +1,4 @@
 // MODEL.MRG model 121 (record 121), sector 33596, header 163, loaded at 0x8013B000; the US source variant163_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0x23F8 defined:true
-D_8013D414 = 0x8013D414; // type:u8 size:0x38 defined:true
-D_8013D44C = 0x8013D44C; // type:u8 size:0x2BB4 defined:true
+ModelVariant163_HandleRequest = 0x8013B004; // type:func size:0x23F8 defined:true
+gModelVariant163_D2414 = 0x8013D414; // type:u8 size:0x38 defined:true
+gModelVariant163_D244C = 0x8013D44C; // type:u8 size:0x2BB4 defined:true

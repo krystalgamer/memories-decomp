@@ -10,11 +10,11 @@
  * the first volley adds animated sparks and the second a growing
  * sixteen-segment shock fan, while the ambient light dims and recovers. */
 
-static const VECTOR D_8013EEA0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant791_D3EA0 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant791_HandleRequest(u8 *context, s32 command)
 {
     Model791State *work;
     MATRIX light;
@@ -42,12 +42,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013EEA0;
+    scale = gModelVariant791_D3EA0;
     work = (Model791State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013EF3C[command];
+        work->config = &gModelVariant791_D3F3C[command];
         setVector(&work->origin, 0, 0, 0);
         setVector(&work->second_origin, 0, 0, 0);
         for (i = 0; i < work->config->count + work->config->second_count; i++) {
@@ -115,11 +115,11 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->fan[i][1], work->config->fan_outer * ccos(i * 256) / 4096, -work->config->fan_depth,
                       work->config->fan_outer * csin(i * 256) / 4096);
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013EEB0[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013EEB0[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013EEB0[2]);
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013EEB0[3]);
-        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013EEB0[4]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_D3EB0[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_D3EB0[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_D3EB0[2]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_D3EB0[3]);
+        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant791_D3EB0[4]);
         work->ambient = 0x800;
         work->phase = 0;
         work->elapsed = 0;

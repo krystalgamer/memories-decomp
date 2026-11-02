@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/japanese/model_variant/variant89_entry_slot1]
+      - [0x4, c, overlays/japanese/model_variant/variant89_entry]
   - name: rodata
     type: code
     start: 0x240C
     vram: 0x8017D40C
     align: 4
     subsegments:
-      - [0x240C, .rodata, overlays/japanese/model_variant/variant89_entry_slot1]
+      - [0x240C, .rodata, overlays/japanese/model_variant/variant89_entry]
   - name: unclassified_tail
     type: code
     start: 0x242C

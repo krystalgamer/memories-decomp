@@ -5,7 +5,7 @@
 #define MODEL_VARIANT475_CLUT_X 640
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
 {
     /* Retail projection inputs follow 64 bytes of unrecovered locals. */
     u8 unknown_stack[64];
@@ -52,7 +52,7 @@ s32 func_8013B004(u8 *context, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant475EntryConfig *)(D_8013DD38 + 0xFC) + command;
+        work->config = (Variant475EntryConfig *)(gFrenchModelVariant475_D2D38 + 0xFC) + command;
         for (k = 0; k < 8; k++) {
             work->parts[k] = Model_GetSlotDataEntry(work->slot, work->config->parts[k]);
         }
@@ -76,14 +76,14 @@ s32 func_8013B004(u8 *context, s32 command)
         clut = GetClut(MODEL_VARIANT475_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT475_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DD38 + 0xC4));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DD38 + 0x8C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DD38 + 0x1C));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DD38 + 0x38));
-        func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DD38 + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant475_D2D38 + 0xC4));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant475_D2D38 + 0x8C));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant475_D2D38 + 0x1C));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant475_D2D38 + 0x38));
+        func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant475_D2D38 + 0x54));
         first_page = packed >> 16;
         first_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013DD38 + 0xA8));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant475_D2D38 + 0xA8));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -276,13 +276,13 @@ s32 func_8013B004(u8 *context, s32 command)
             work->orbit += rsin(work->orbit_progress) * 192 >> 12;
         }
         if (work->config->ribbon_start <= work->frame) {
-            func_8013BE98(context);
+            ModelVariant458_DrawRibbons(context);
         }
         if (work->config->start <= work->frame && work->phase < 6) {
-            func_8013CE34(context);
+            ModelVariant458_DrawQuads(context);
         }
         if (work->phase >= 1 && work->phase <= 5) {
-            func_8013C978(context);
+            ModelVariant458_DrawSheets(context);
         }
         work->frame_count++;
         animation_frame = Model_GetSlotAnimationFrame(work->slot);

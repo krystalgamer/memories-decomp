@@ -54,42 +54,42 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant475_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant475_entry]
   - name: ribbons
     type: code
     start: 0xE98
     vram: 0x8017BE98
     align: 4
     subsegments:
-      - [0xE98, c, overlays/spanish_model_variant/variant475_ribbons_slot1]
+      - [0xE98, c, overlays/spanish_model_variant/variant475_ribbons]
   - name: sheets
     type: code
     start: 0x1978
     vram: 0x8017C978
     align: 4
     subsegments:
-      - [0x1978, c, overlays/spanish_model_variant/variant475_sheets_slot1]
+      - [0x1978, c, overlays/model_variant/variant458_sheets]
   - name: quads
     type: code
     start: 0x1E34
     vram: 0x8017CE34
     align: 4
     subsegments:
-      - [0x1E34, c, overlays/spanish_model_variant/variant475_quads_slot1]
+      - [0x1E34, c, overlays/model_variant/variant458_quads]
   - name: strand
     type: code
     start: 0x21E0
     vram: 0x8017D1E0
     align: 4
     subsegments:
-      - [0x21E0, c, overlays/spanish_model_variant/variant475_strand_slot1]
+      - [0x21E0, c, overlays/model_variant/variant458_strand]
   - name: streamers
     type: code
     start: 0x2520
     vram: 0x8017D520
     align: 4
     subsegments:
-      - [0x2520, c, overlays/french_model_variant/variant475_streamers_slot1]
+      - [0x2520, c, overlays/french_model_variant/variant475_streamers]
   - name: unclassified_tail
     type: code
     start: 0x2D38

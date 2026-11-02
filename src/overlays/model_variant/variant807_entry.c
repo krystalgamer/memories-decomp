@@ -8,11 +8,11 @@
  * fragments; a flash ends it and a fading core glow remains while the light
  * comes back. */
 
-static const VECTOR D_8013DB98 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant807_D2B98 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant807_HandleRequest(u8 *context, s32 command)
 {
     Model807State *work;
     MATRIX light;
@@ -44,13 +44,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013DB98;
+    scale = gModelVariant807_D2B98;
     memset(&origin, 0, 8);
     work = (Model807State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013DBE0[command];
+        work->config = &gModelVariant807_D2BE0[command];
         for (i = 0; i < work->config->count; i++) {
             j = (rand() - rand()) % 4096;
             b = (rand() - rand()) % 4096;
@@ -75,7 +75,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->ring[i][1], 0, 0, 0);
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013DBA8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant807_D2BA8[i]);
         }
         setVector(&work->center, 0, 0, 0);
         work->glow_r = work->config->r;

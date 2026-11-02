@@ -12,9 +12,9 @@
 #define MODEL89_ORDER_PAD 0x4C
 #endif
 
-static const VECTOR D_8013D40C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant89_D240C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant89_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -30,7 +30,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D40C;
+    scale = gModelVariant89_D240C;
     {
         u8 order[15] = {0, 1, 2, 3, 11, 4, 5, 6, 7, 8, 11, 9, 10, 11, 11};
         PSXLONG flag, interpolation;
@@ -52,7 +52,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work = (Model89State *)context;
         direction = Model_GetActiveSlotIndex() * 2 - 1;
         if (command >= 0) {
-            config = work->config = &D_8013D464[command];
+            config = work->config = &gModelVariant89_D2464[command];
             point = work->ring;
             setVector(point, 0, 0, 0);
             point++;
@@ -82,7 +82,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 point->vz = -direction * config->arc_radius / 3;
             }
             for (i = 0; i < 2; i++) {
-                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D42C[i]);
+                work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant89_D242C[i]);
             }
             work->elapsed = -config->delay;
             work->completed = 0;
@@ -469,4 +469,4 @@ s32 func_8013B004(u8 *context, s32 command)
 
 /* The byte after the order table's template: 0x4C in the retail slot-0
  * image, zero elsewhere. */
-const u8 D_8013D42B = MODEL89_ORDER_PAD;
+const u8 gModelVariant89_D242B = MODEL89_ORDER_PAD;

@@ -84,10 +84,10 @@ typedef struct {
     PSXLONG target;
 } Variant475EntryProjection;
 
-extern u8 D_8013DD38[];
-void func_8013BE98(u8 *context);
-void func_8013C978(u8 *context);
-void func_8013CE34(u8 *context);
+extern u8 gFrenchModelVariant475_D2D38[];
+void ModelVariant458_DrawRibbons(u8 *context);
+void ModelVariant458_DrawSheets(u8 *context);
+void ModelVariant458_DrawQuads(u8 *context);
 
 typedef char Variant475EntryConfigSize[(sizeof(Variant475EntryConfig) == 56) ? 1 : -1];
 typedef char Variant475EntryQuadsSize[(sizeof(Variant475EntryQuads) == 0x1E4) ? 1 : -1];

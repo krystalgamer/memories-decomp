@@ -1,4 +1,4 @@
-// MODEL.MRG model 36 (record 36), sector 10146, header 291, loaded at 0x8017B000; the US header-144 source variant144_entry_slot1.c.
-func_8017B004 = 0x8017B004; // type:func size:0x18CC defined:true
-D_8017C8E0 = 0x8017C8E0; // type:u8 size:0x118 defined:true
-D_8017C9F8 = 0x8017C9F8; // type:u8 size:0x3608 defined:true
+// MODEL.MRG model 36 (record 36), sector 10146, header 291, loaded at 0x8017B000; the US header-144 source variant144_entry.c.
+ModelVariant144_HandleRequest = 0x8017B004; // type:func size:0x18CC defined:true
+gModelVariant144_D1908 = 0x8017C8E0; // type:u8 size:0x118 defined:true
+gModelVariant144_D1A20 = 0x8017C9F8; // type:u8 size:0x3608 defined:true

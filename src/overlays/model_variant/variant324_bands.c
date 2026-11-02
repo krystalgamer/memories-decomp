@@ -7,7 +7,7 @@
  * from phase 3. When the timing record's last entry is reached the band
  * stretches (phase 1), widens (phase 2) and then fades out (phase 3) by
  * frame steps. */
-void func_8013C7D4(u8 *ctx)
+void ModelVariant324_DrawBand(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
