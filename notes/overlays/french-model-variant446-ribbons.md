@@ -1,6 +1,7 @@
 # French MODEL446 ribbons helper
 
-`func_8013C95C` / `func_8017C95C` (MODEL446 family, image offset `0x195C`,
+`FrenchModelVariant446_DrawRibbons` (formerly `func_8013C95C` /
+`func_8017C95C`; MODEL446 family, image offset `0x195C`,
 0x68C bytes) builds and draws the eight-ribbon fan. **No release had matching
 C for this body before.** It is reachable directly from the entry.
 

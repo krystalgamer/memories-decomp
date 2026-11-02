@@ -2,7 +2,7 @@
 #include "variant446_pulse.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013CFE8(u8 *context)
+void SpanishModelVariant446_DrawPulse(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

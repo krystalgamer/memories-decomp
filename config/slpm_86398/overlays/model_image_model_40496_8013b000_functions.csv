@@ -1,8 +1,8 @@
 address,size,name,status,module,notes
-0x8013B004,0xE00,func_8013B004,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013BE04,0x504,func_8013BE04,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013C308,0x660,func_8013C308,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013C968,0x674,func_8013C968,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013CFDC,0x4D8,func_8013CFDC,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013D4B4,0x7E8,func_8013D4B4,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013DC9C,0x9F8,func_8013DC9C,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0xE00,FrenchModelVariant446_HandleRequest,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013BE04,0x504,SpanishModelVariant446_DrawLines,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013C308,0x660,SpanishModelVariant446_DrawStrip,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013C968,0x674,FrenchModelVariant446_DrawRibbons,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013CFDC,0x4D8,SpanishModelVariant446_DrawPulse,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013D4B4,0x7E8,SpanishModelVariant446_DrawRings,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013DC9C,0x9F8,FrenchModelVariant446_DrawRays,matching_c,overlay/model_image_model_40496_8013b000,Complete module byte identity and section-defined C ownership verified.
