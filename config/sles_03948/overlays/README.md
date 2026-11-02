@@ -1180,11 +1180,12 @@ image's symbols file binds `ModelVariant101_HandleRequest`,
 `gModelVariant101_D12C8` and `gModelVariant101_D131C` at its own addresses.
 
 Two images under French headers 113 and 243 are the North American header-96
-entry (`model_variant/variant96_entry.c` and its `_slot1.c` wrapper)
+entry (`ModelVariant96_HandleRequest`, `model_variant/variant96_entry.c`)
 unchanged: it has no work-size printf or screen-height constant, and only the
 resident call targets differ, which `model_variant113_linker_symbols.txt`
-binds to the French addresses. They build through
-`src/overlays/french_model_variant/variant113_entry{,_slot1}.c`.
+binds to the French addresses. They build `variant96_entry.c` directly in both
+slots; each image's symbols file binds the entry and `gModelVariant96_D19DC`
+and `gModelVariant96_D1A14` at its own addresses.
 
 Two images under French headers 123 and 253 are the North American
 header-106 entry (`model_variant/variant106_entry.c`) unchanged: it has no

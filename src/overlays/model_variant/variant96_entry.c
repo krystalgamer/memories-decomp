@@ -6,9 +6,9 @@
  * triangles opens and closes there and a burst sprite plays eight frames
  * of the second texture while it shrinks. */
 
-static const VECTOR D_8013C9CC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant96_D19CC = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant96_HandleRequest(u8 *context, s32 command)
 {
     Model96State *work;
     s32 direction;
@@ -30,12 +30,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C9CC;
+    scale = gModelVariant96_D19CC;
     work = (Model96State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013CA14[command];
+        config = work->config = &gModelVariant96_D1A14[command];
         point = work->trail;
         for (i = 0; i < 6; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -56,7 +56,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->head = 0;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C9DC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant96_D19DC[i]);
         }
         work->elapsed = -config->delay;
         return 0;
