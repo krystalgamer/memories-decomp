@@ -56,49 +56,49 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant408_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant408_entry]
   - name: helper_ee8
     type: code
     start: 0xEE8
     vram: 0x8017BEE8
     align: 4
     subsegments:
-      - [0xEE8, c, overlays/model_variant/variant408_mesh_slot1]
+      - [0xEE8, c, overlays/model_variant/variant408_mesh]
   - name: helper_134c
     type: code
     start: 0x134C
     vram: 0x8017C34C
     align: 4
     subsegments:
-      - [0x134C, c, overlays/model_variant/variant408_spiral_slot1]
+      - [0x134C, c, overlays/model_variant/variant408_spiral]
   - name: helper_1d7c
     type: code
     start: 0x1D7C
     vram: 0x8017CD7C
     align: 4
     subsegments:
-      - [0x1D7C, c, overlays/model_variant/variant408_ribbon_slot1]
+      - [0x1D7C, c, overlays/model_variant/variant408_ribbon]
   - name: helper_268c
     type: code
     start: 0x268C
     vram: 0x8017D68C
     align: 4
     subsegments:
-      - [0x268C, c, overlays/model_variant/variant408_sheets_slot1]
+      - [0x268C, c, overlays/model_variant/variant408_sheets]
   - name: helper_2b7c
     type: code
     start: 0x2B7C
     vram: 0x8017DB7C
     align: 4
     subsegments:
-      - [0x2B7C, c, overlays/model_variant/variant408_streamers_slot1]
+      - [0x2B7C, c, overlays/model_variant/variant408_streamers]
   - name: helper_32c0
     type: code
     start: 0x32C0
     vram: 0x8017E2C0
     align: 4
     subsegments:
-      - [0x32C0, c, overlays/model_variant/variant408_funnel_slot1]
+      - [0x32C0, c, overlays/model_variant/variant408_funnel]
   - name: data
     type: code
     start: 0x387C

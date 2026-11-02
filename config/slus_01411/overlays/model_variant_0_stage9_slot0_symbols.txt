@@ -1,12 +1,12 @@
 // MODEL.MRG model 0 (record 0), sector 200, header 408, loaded at 0x8013B000.
-func_8013B004 = 0x8013B004; // type:func size:0xEE4 defined:true
-func_8013BEE8 = 0x8013BEE8; // type:func size:0x464 defined:true
-func_8013C34C = 0x8013C34C; // type:func size:0xA30 defined:true
-func_8013CD7C = 0x8013CD7C; // type:func size:0x910 defined:true
-func_8013D68C = 0x8013D68C; // type:func size:0x4F0 defined:true
-func_8013DB7C = 0x8013DB7C; // type:func size:0x744 defined:true
-func_8013E2C0 = 0x8013E2C0; // type:func size:0x5BC defined:true
-D_8013E87C = 0x8013E87C; // type:u8 size:0x1784 defined:true
+FrenchModelVariant425_HandleRequest = 0x8013B004; // type:func size:0xEE4 defined:true
+SpanishModelVariant425_DrawMesh = 0x8013BEE8; // type:func size:0x464 defined:true
+SpanishModelVariant425_DrawSpiral = 0x8013C34C; // type:func size:0xA30 defined:true
+FrenchModelVariant425_DrawRibbon = 0x8013CD7C; // type:func size:0x910 defined:true
+SpanishModelVariant425_DrawSheets = 0x8013D68C; // type:func size:0x4F0 defined:true
+SpanishModelVariant425_DrawStreamers = 0x8013DB7C; // type:func size:0x744 defined:true
+FrenchModelVariant423_DrawFunnel = 0x8013E2C0; // type:func size:0x5BC defined:true
+gFrenchModelVariant425_D3908 = 0x8013E87C; // type:u8 size:0x1784 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

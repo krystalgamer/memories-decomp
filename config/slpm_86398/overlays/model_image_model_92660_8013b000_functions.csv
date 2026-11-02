@@ -1,8 +1,8 @@
 address,size,name,status,module,notes
-0x8013B004,0x104C,func_8013B004,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013C050,0x564,func_8013C050,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013C5B4,0x9E4,func_8013C5B4,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013CF98,0xC14,func_8013CF98,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013DBAC,0x4C8,func_8013DBAC,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013E074,0x774,func_8013E074,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
-0x8013E7E8,0x488,func_8013E7E8,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013B004,0x104C,FrenchModelVariant473_HandleRequest,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013C050,0x564,FrenchModelVariant385_DrawGrid,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013C5B4,0x9E4,SpanishModelVariant473_DrawSpiral,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013CF98,0xC14,FrenchModelVariant473_DrawRibs,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013DBAC,0x4C8,SpanishModelVariant473_DrawSheets,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013E074,0x774,FrenchModelVariant423_DrawStreamers,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.
+0x8013E7E8,0x488,SpanishModelVariant473_DrawFunnels,matching_c,overlay/model_image_model_92660_8013b000,Complete module byte identity and section-defined C ownership verified.

@@ -7,7 +7,7 @@
 #define MODEL_VARIANT_FUNNEL_RADIUS_SCALE 384
 #endif
 
-void func_8013E214(u8 *context)
+void FrenchModelVariant423_DrawFunnel(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

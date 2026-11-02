@@ -33,6 +33,6 @@ typedef struct {
     s16 oy[9];
 } Variant473Rib;
 
-void func_8013CFB0(u8 *ctx);
+void FrenchModelVariant473_DrawRibs(u8 *ctx);
 
 #endif

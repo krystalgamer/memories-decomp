@@ -1,6 +1,7 @@
 # French MODEL385 grid helper
 
-`func_8013C04C` / `func_8017C04C` (image offset `0x104C`, 0x560 bytes)
+`FrenchModelVariant385_DrawGrid` (formerly `func_8013C04C` / `func_8017C04C`;
+image offset `0x104C`, 0x560 bytes)
 scales, fades and draws five 9×17 point sheets as gouraud quads.
 **No release had matching C for this body before.**
 

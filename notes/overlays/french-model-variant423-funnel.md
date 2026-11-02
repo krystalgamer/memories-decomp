@@ -1,7 +1,8 @@
 # French MODEL423 four-funnel renderer
 
 MODEL385 stages 7/8 contain the independently recovered 1,472-byte helper
-at image `+0x3214`, `func_8013E214` / `func_8017E214`. The existing
+at image `+0x3214`, `FrenchModelVariant423_DrawFunnel` (formerly
+`func_8013E214` / `func_8017E214`). The existing
 `gcc_2_8_1_g0_split` profile uses GCC 2.8.1 and MASPSX 2.81. Both complete
 20,480-byte images match their original hashes with real sized C owners.
 The entry, other helpers, raw suffixes, archive slices and resident bindings

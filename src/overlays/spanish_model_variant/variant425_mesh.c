@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant425_mesh.h"
 
-void func_8013BEE4(u8 *context)
+void SpanishModelVariant425_DrawMesh(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
