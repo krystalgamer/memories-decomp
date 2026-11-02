@@ -14,8 +14,11 @@ reuse that body and its owning header with the authoritative
 ## Measured differences and default preservation
 
 French data identities are the scale vector at `0x8013C180`, nine `GsIMAGE`
-records at `0x8013C190`, and command rows at `0x8013C28C`. The slot-one wrapper
-relocates only local function/data identities to `0x8017...`. The native French
+records at `0x8013C190`, and command rows at `0x8013C28C`. One source serves
+both slots; each image's symbols file binds `ModelVariant168_HandleRequest`,
+`gModelVariant168_D118C`, `gModelVariant168_D11AC` and `gModelVariant168_D12A8`
+at its own addresses (the scale vector is a C-local static in the North
+American build). The native French
 initialization does not print the work-area size.
 
 `MODEL168_EXTERNAL_SCALE` selects the canonical owning-header declaration
