@@ -646,8 +646,8 @@ Six images under French headers 668 and 735 are the North American
 header-651 entry (`model_variant/variant651_entry.c`) without its `E_DATA`
 work-size printf. Its format string was the whole read-only section, so it
 goes too, and the
-`src/overlays/french_model_variant/variant668_entry{,_slot1}.c` wrappers move
-the data labels 0x28 lower.
+`src/overlays/french_model_variant/variant668_entry.c` wrapper, built in both slots, moves
+the data labels 0x28 lower. Each image's symbols file binds `ModelVariant651_HandleRequest` and `gModelVariant651_D1A4C`, `gModelVariant651_D1A68` at its own addresses.
 
 Two images under French header 463 are the North American header-446 entry
 (`model_variant/variant446_entry.c`, which the US images build with the CDK
