@@ -191,8 +191,8 @@ sound or lower-priority input handling. Next comes repeat/new-press vertical
 input, with Up winning over Down and decimal digits wrapping 0-9. Newly
 pressed Circle then cancels, and newly pressed Cross finally attempts lookup.
 Square alone and Start are not confirmation here. These use three distinct
-volatile streams: held `D_8009B3A4`, repeat `D_8009B394`, and newly pressed
-`D_8009B398`.
+volatile streams: held `gInput_wPad1Held`, repeat `gInput_wPad1Repeat`, and newly pressed
+`gInput_wPad1Pressed`.
 
 State 1 first requests the selected card into cached slot 0. It waits for
 `((D_8009B0F4 & 0x2000030) | D_8009B134) == 0` before recreating the
@@ -530,12 +530,12 @@ signed 8.8 fixed point, and the timer decrements. A still-active timer returns
 early; expiration snaps the rectangle, clears global tween bit `0x4000` and
 continues processing input in that same invocation.
 
-Held directions at `D_8009B3A4[0]` take priority. Horizontal movement wraps
+Held directions at `gInput_wPad1Held[0]` take priority. Horizontal movement wraps
 over 15 columns; ordinary vertical movement wraps over nine rows. The
 right-hand control block instead uses the row-transition table. Newly pressed
-Start at `D_8009B398[0] & 0x800` moves selection through the same navigation
+Start at `gInput_wPad1Pressed[0] & 0x800` moves selection through the same navigation
 path to the finish control; it does not immediately accept the name.
-Confirmation uses `D_8009B394[0] & 0xC0`, the repeat/new-press stream.
+Confirmation uses `gInput_wPad1Repeat[0] & 0xC0`, the repeat/new-press stream.
 Circle in that stream moves the caret left without erasing a backing word.
 
 The signed `9 x 15` table at `0x8016AB38` is navigation metadata, not a

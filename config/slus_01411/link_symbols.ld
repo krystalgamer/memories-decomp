@@ -340,9 +340,6 @@ gModel_aSlots = D_800F2C40;
 g_SDValue_output_level = g_SDValue;
 
 /* Other names for game/input_pads's small data (#2602). */
-D_8009B394 = gInput_wPad1Repeat;
-D_8009B398 = gInput_wPad1Pressed;
-D_8009B3A4 = gInput_wPad1Held;
 
 /* Other names for game/model_scene_controllers's small data (#2602). */
 gModel_ImageCopyRectY = gModel_ImageCopyRect + 2;
