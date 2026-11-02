@@ -35,7 +35,9 @@ NOTE = ROOT / "notes/grouped-translation-units.md"
 MATCHING = ROOT / "config/slus_01411/matching_c.json"
 SEMANTIC_MAP = ROOT / "notes/semantic-symbol-map.csv"
 SEMANTIC_MAP_DIR = ROOT / "notes/semantic-symbol-map.d"
-FAMILY = re.compile(r"^g?(?P<region>French|Spanish)?ModelVariant(?P<number>\d+)_")
+FAMILY = re.compile(
+    r"^g?(?P<region>French|Spanish)?ModelVariant(?P<number>\d+)(?P<us>Us)?_"
+)
 
 # Git writes each marker as exactly seven characters at the start of a line:
 # "<<<<<<< label", "||||||| label" (diff3), "=======" alone, ">>>>>>> label".
@@ -60,7 +62,8 @@ def family_stem(name: str) -> str | None:
         return None
     region = match.group("region")
     prefix = f"{region.lower()}-" if region else ""
-    return f"{prefix}model-variant-{match.group('number')}"
+    suffix = "us" if match.group("us") else ""
+    return f"{prefix}model-variant-{match.group('number')}{suffix}"
 
 
 def family_files() -> list[Path]:
