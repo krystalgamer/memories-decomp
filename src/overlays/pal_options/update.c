@@ -4,7 +4,7 @@
 #include "../../game/sound.h"
 #include "helpers.h"
 
-s32 PalOptions_Update(void)
+s32 Options_Update(void)
 {
     switch (gPalOptions_bState & 0xF) {
     case 1:

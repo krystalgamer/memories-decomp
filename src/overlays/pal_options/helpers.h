@@ -28,12 +28,12 @@ void PalOptions_SetTextColorSlots(s32 selection);
 void PalOptions_PositionCursor(s32 selection);
 s32 PalOptions_EaseStripY(s32 position);
 void func_801686A4(s32 language);
-void PalOptions_Init(s32 mode);
+void Options_Init(s32 mode);
 void PalOptions_HandleInput(void);
 void PalOptions_UpdateWaveTables(void);
 void PalOptions_RequestLanguage(s32 language);
 void PalOptions_StoreLanguageImage(void);
-s32 PalOptions_Update(void);
+s32 Options_Update(void);
 s32 PalOptions_StepStripScroll(void);
 s32 PalOptions_GetLanguage(void);
 

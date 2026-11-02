@@ -90,7 +90,7 @@ segments:
     align: 4
     subsegments:
       - [0x6A4, c, overlays/pal_options/language_hook]
-  - name: PalOptions_Init
+  - name: Options_Init
     type: code
     start: 0x6AC
     vram: 0x801686AC
@@ -125,7 +125,7 @@ segments:
     align: 4
     subsegments:
       - [0xD68, c, overlays/pal_options/language_image]
-  - name: PalOptions_Update
+  - name: Options_Update
     type: code
     start: 0xE1C
     vram: 0x80168E1C
