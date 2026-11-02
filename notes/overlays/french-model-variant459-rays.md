@@ -1,6 +1,6 @@
 # French MODEL459 ray helper
 
-`func_8013CFB8` / `func_8017CFB8` (image offset `0x1FB8`, 0x64C bytes) is the
+`SpanishModelVariant459_DrawRays` (`0x8013CFB8` / `0x8017CFB8`, image offset `0x1FB8`, 0x64C bytes) is the
 MODEL459 member of the "rays" helper family. **No release had matching C for
 this body before.** In every image it is a closed stack-prologue function, and
 no direct call from the entry was observed.

@@ -7,7 +7,7 @@
  * record's size and the shrinking half-word at work + 0x30CC; the bands grow
  * along their own directions through phase 1 and shrink from the record's
  * fade window until phase 3. */
-void func_8013E224(u8 *ctx)
+void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

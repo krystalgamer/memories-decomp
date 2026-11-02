@@ -54,56 +54,56 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant438_entry_slot1]
+      - [0x4, c, overlays/spanish_model_variant/variant438_entry]
   - name: helper_1614
     type: code
     start: 0x1614
     vram: 0x8017C614
     align: 4
     subsegments:
-      - [0x1614, c, overlays/spanish_model_variant/variant438_warp_slot1]
+      - [0x1614, c, overlays/spanish_model_variant/variant438_warp]
   - name: helper_1B5C
     type: code
     start: 0x1B5C
     vram: 0x8017CB5C
     align: 4
     subsegments:
-      - [0x1B5C, c, overlays/spanish_model_variant/variant438_rings_slot1]
+      - [0x1B5C, c, overlays/spanish_model_variant/variant438_rings]
   - name: helper_23E8
     type: code
     start: 0x23E8
     vram: 0x8017D3E8
     align: 4
     subsegments:
-      - [0x23E8, c, overlays/spanish_model_variant/variant438_rays_slot1]
+      - [0x23E8, c, overlays/spanish_model_variant/variant438_rays]
   - name: helper_2A34
     type: code
     start: 0x2A34
     vram: 0x8017DA34
     align: 4
     subsegments:
-      - [0x2A34, c, overlays/spanish_model_variant/variant438_spiral_slot1]
+      - [0x2A34, c, overlays/spanish_model_variant/variant438_spiral]
   - name: helper_3638
     type: code
     start: 0x3638
     vram: 0x8017E638
     align: 4
     subsegments:
-      - [0x3638, c, overlays/spanish_model_variant/variant438_bands_slot1]
+      - [0x3638, c, overlays/spanish_model_variant/variant438_bands]
   - name: helper_3DE8
     type: code
     start: 0x3DE8
     vram: 0x8017EDE8
     align: 4
     subsegments:
-      - [0x3DE8, c, overlays/spanish_model_variant/variant438_sheets_slot1]
+      - [0x3DE8, c, overlays/spanish_model_variant/variant438_sheets]
   - name: helper_4300
     type: code
     start: 0x4300
     vram: 0x8017F300
     align: 4
     subsegments:
-      - [0x4300, c, overlays/spanish_model_variant/variant438_lines_slot1]
+      - [0x4300, c, overlays/spanish_model_variant/variant438_lines]
   - name: unclassified_tail
     type: code
     start: 0x4868

@@ -1,6 +1,6 @@
 # French MODEL438 ray helper
 
-`func_8013D3E8` / `func_8017D3E8` (image offset `0x23E8`, 0x64C bytes) is the
+`SpanishModelVariant438_DrawRays` (`0x8013D3E8` / `0x8017D3E8`, image offset `0x23E8`, 0x64C bytes) is the
 MODEL438 member of the "rays" helper family. **No release had matching C for
 this body before.** It is a closed retained helper, and no call from the entry
 was observed.

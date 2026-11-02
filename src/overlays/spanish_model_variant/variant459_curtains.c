@@ -21,7 +21,7 @@
  * fade with size. Before phase 3 each scale grows with the clock at
  * work + 0x3084 toward the timing record's limit, which counts a cycle;
  * otherwise it shrinks back between the record's fade start and fade end. */
-void func_8013C9AC(u8 *ctx)
+void SpanishModelVariant459_DrawCurtains(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
