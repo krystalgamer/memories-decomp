@@ -6,9 +6,9 @@
  * of quads grows towards the camera axis, two squares pulse, and a fading
  * double-sided strip of flashes follows the beam. */
 
-static const VECTOR D_8013E520 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant109_D3520 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant109_HandleRequest(u8 *context, s32 command)
 {
     Model109State *work;
     s32 direction;
@@ -39,12 +39,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013E520;
+    scale = gModelVariant109_D3520;
     work = (Model109State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013E5BC[command];
+        config = work->config = &gModelVariant109_D35BC[command];
         point = work->directions;
         for (i = 0; i < 8; point++, i++) {
             size = rand() % 4096;
@@ -112,7 +112,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E530[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant109_D3530[i]);
         }
         work->elapsed = -config->lead;
         return 0;
