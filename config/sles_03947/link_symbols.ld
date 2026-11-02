@@ -132,7 +132,6 @@ D_8009BF84 = gModel_ExodiaOrbitOffset;
 
 gGraphics_FrameStepControl = D_8009AFA4;
 gGraphics_nBaseFrameStep = D_8009B0D8;
-gGraphics_bSkipDisplaySwap = D_8009B0A8;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;

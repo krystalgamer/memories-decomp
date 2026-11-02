@@ -129,7 +129,7 @@ gGraphics_bOrderingTable1Length = 0x8009C431;
 gGraphics_bOrderingTable2Length = 0x8009C432;
 gGraphics_bOrderingTable3Length = 0x8009C433;
 D_8009B0A4 = 0x8009C44C;
-D_8009B0A8 = 0x8009C44A;
+gGraphics_bSkipDisplaySwap = 0x8009C44A;
 gGraphics_bDither = 0x8009C456;
 D_8009B0B0 = 0x8009C410;
 gMain_pfnExtraFrameService = 0x8009C450;
@@ -196,7 +196,6 @@ gDuel_wViewTweenHeadingTarget = 0x8009C562;
 gDuel_wViewTweenOrbitAngleTarget = 0x8009C566;
 gDuel_dwViewTweenHeadingStep = 0x8009C56C;
 gDuel_dwViewTweenOrbitAngleStep = 0x8009C570;
-D_8009B1A0 = 0x8009C59E;
 gDuel_RitualResultCardId = 0x8009C59E;
 gDuel_wMonsterRemovalCriterion = 0x8009C5A8;
 gDuel_wMonsterRemovalZone = 0x8009C5AA;
@@ -1047,7 +1046,6 @@ gModel_ExodiaOrbitOffset = D_8009BF84;
 
 gGraphics_FrameStepControl = D_8009AFA4;
 gGraphics_nBaseFrameStep = D_8009B0D8;
-gGraphics_bSkipDisplaySwap = D_8009B0A8;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
