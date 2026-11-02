@@ -9,9 +9,9 @@
  * debris, and a full-screen flash fades out when the row asks for one. The
  * ambient level dips until the burst and comes back afterwards. */
 
-static const VECTOR D_8013C95C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant754_D195C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant754_HandleRequest(u8 *context, s32 command)
 {
     Model754State *work;
     MATRIX base, matrix, saved;
@@ -32,14 +32,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C95C;
+    scale = gModelVariant754_D195C;
     work = (Model754State *)context;
     flash_packet = &screen;
     packet = &burst;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C9C0[command];
+        work->config = &gModelVariant754_D19C0[command];
         for (i = 0; i < 64; i++) {
             setVector(&work->smoke[i], work->config->smoke_speed * ((rand() - rand()) % 256) / 256,
                 work->config->smoke_speed * ((rand() - rand()) % 256) / 256,
@@ -84,7 +84,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C96C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant754_D196C[i]);
         }
         return 0;
     }
