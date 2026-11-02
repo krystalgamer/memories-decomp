@@ -210,8 +210,8 @@ gModel_abAuxiliaryPaletteSector = D_801DD800;
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
 
 /* Auxiliary slot's retained load-step byte view. */
-gModel_bAuxiliaryLoadStep = D_800F5694;
-gModel_bAuxiliaryActive = D_800F569F;
+gModel_bAuxiliaryLoadStep = D_800F3A10 + 7300;
+gModel_bAuxiliaryActive = D_800F3A10 + 7311;
 gText_DecimalDivisorView = D_80090E0C;
 gTextBox_apfnStateCallbacks = D_80090E64;
 gDuel_wActionSubstate = D_8009B20C;
@@ -243,8 +243,6 @@ tent_DebugInterfaceFieldC2 = tent_DebugInterfaceFieldC0 + 2;
 gFade_abCurrentLevel = gFade_State + 4;
 
 /* Other names for game/file_transfer_runtime's zero-initialized data (#2602). */
-D_800E9E90 = gFile_PrimaryTransferDescriptor + 48;
-D_800E9EA7 = gFile_PrimaryTransferDescriptor + 71;
 gMovie_dwStreamBaseLba = gFile_anLba + 12;
 gFile_nMasterXaLba = gFile_anLba + 24;
 
@@ -259,7 +257,6 @@ gDuel_aSideStates = D_800E9EF0 + 256;
 gDuel_bSide1CardViewMode = D_800E9EF0 + 319;
 gDuelHand_aSlots = D_800E9EF0 + 320;
 gDuel_aCardSlotScreenPositions = D_800E9EF0 + 384;
-D_800EA0E8 = D_800E9EF0 + 504;
 gCardPreview_Resources = D_800E9EF0 + 504;
 gCardPreview_Resource1 = D_800E9EF0 + 568;
 
@@ -267,10 +264,7 @@ gCardPreview_Resource1 = D_800E9EF0 + 568;
 gAi_Selection = D_800EAE88;
 D_800EAE89 = D_800EAE88 + 1;
 D_800EAE8E = D_800EAE88 + 6;
-D_800EAE8F = D_800EAE88 + 7;
 tent_AiSelectionRandom = D_800EAE88 + 8;
-D_800EAE91 = D_800EAE88 + 9;
-D_800EAE92 = D_800EAE88 + 10;
 gSceneScript_Slots = D_800EAE88 + 16;
 
 /* Other names for game/text_box_runtime's small data (#2602). */
@@ -291,14 +285,9 @@ D_800EF6EA = D_800EF6D0 + 26;
 gDisplayObject_awListHeads = D_800EFE38;
 gDisplayObject_wSpriteListHead = D_800EFE38 + 2;
 gDisplayObject_wSpriteSheetListHead = D_800EFE38 + 4;
-D_800EFE3E = D_800EFE38 + 6;
-D_800EFE40 = D_800EFE38 + 8;
-D_800EFE42 = D_800EFE38 + 10;
-D_800EFE44 = D_800EFE38 + 12;
 gDisplayObject_aPool = D_800EFE38 + 16;
 gDisplayObject_aGeneralSlots = D_800EFE38 + 1808;
 D_800F2848 = D_800EFE38 + 10768;
-D_800F284A = D_800EFE38 + 10770;
 gDisplayObject_awListKeys = D_800EFE38 + 10816;
 
 /* Other names for game/mem_card_driver's small data (#2602). */
@@ -313,10 +302,7 @@ gModel_Slot0Scale = D_800F39B0 + 64;
 
 /* Other names for game/model_distance_queries's small data (#2602). */
 gModel_awSlot0Position = D_800F3A10;
-D_800F3A5F = D_800F3A10 + 79;
 gModel_awStageSlotModelId = D_800F3A10 + 7272;
-D_800F5694 = D_800F3A10 + 7300;
-D_800F569F = D_800F3A10 + 7311;
 gModel_CameraCoordinateUnit = D_800F3A10 + 7312;
 gModel_RView = D_800F3A10 + 7392;
 gModel_ViewReferencePoint = D_800F3A10 + 7404;
@@ -328,7 +314,6 @@ gModel_aEffectKeys = D_800F5768 + 32;
 
 /* Other names for game/ai_script_vm's small data (#2602). */
 gAiScript_State = D_800F5BE8;
-D_800F5C7F = D_800F5BE8 + 151;
 gAi_wBestDifference = D_800F5BE8 + 152;
 gAi_bBestAttacker = D_800F5BE8 + 154;
 gAi_bBestTarget = D_800F5BE8 + 155;
