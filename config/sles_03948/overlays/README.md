@@ -749,10 +749,12 @@ addresses.
 French MODEL headers 823 (stage 7 slot 0) and 920 (stage 8 slot 1) build the header-806 entry (`ModelVariant806_HandleRequest`) from `src/overlays/model_variant/variant806_entry.c` through `src/overlays/french_model_variant/variant823_entry.c` in both slots, which sets `GRAPHICS_DEFAULT_HEIGHT` to 256 for the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
 
 Six images under French headers 780 and 877 are the North American
-header-763 entry (`model_variant/variant763_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf, and only the resident call
-targets differ, which `model_variant780_linker_symbols.txt` binds to the French
-addresses.
+header-763 entry (`ModelVariant763_HandleRequest`,
+`model_variant/variant763_entry.c`, built directly in both slots) unchanged: it
+has no work-size printf, and only the resident call targets differ, which
+`model_variant780_linker_symbols.txt` binds to the French addresses. Each
+image's symbols file binds `gModelVariant763_D1BA8` and `gModelVariant763_D1BE0`
+at its own addresses.
 
 Two images under French headers 784 and 881 are the North American
 header-767 entry (`model_variant/variant767_entry.c`) with its burst CLUT word
