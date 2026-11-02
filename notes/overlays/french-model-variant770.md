@@ -5,7 +5,10 @@ The instance ledger identifies 18 distinct 20,480-byte images with headers
 models 187 and 596 select stages 9/10. Each slot has one closed 5,860-byte
 entry and a 16-byte source-owned unit-scale vector. Its 1,465 instructions
 contain 73 ordered direct calls to 26 resident destinations, without local
-or indirect calls. The slot wrapper renames the entry, literal and raw views.
+or indirect calls. Both slots build `variant770_entry.c` (the literal is the
+static `gFrenchModelVariant770_D16E8`); each image's symbols file binds
+`FrenchModelVariant770_HandleRequest`, `gFrenchModelVariant770_D16F8` and
+`gFrenchModelVariant770_D1714` at its own addresses.
 
 All 18 complete images were independently linked from the actual C objects
 and three disjoint raw owners. Their 36 C contributions and 54 raw owners
