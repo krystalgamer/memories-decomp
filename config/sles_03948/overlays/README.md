@@ -950,11 +950,12 @@ goes too. Both slots build through
 0x28 lower, and each image's symbols file binds `gModelVariant630_D17C8` and
 `gModelVariant630_D1800` at its own addresses.
 
-Eight images under French headers 791 and 888 are the North American
-header-774 entry (`model_variant/variant774_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf, and only the resident call
-targets differ, which `model_variant791_linker_symbols.txt` binds to the French
-addresses.
+Eight images under French headers 791 and 888 are the North American header-774
+entry (`ModelVariant774_HandleRequest`, `model_variant/variant774_entry.c`,
+built directly in both slots) unchanged: it has no work-size printf, and only
+the resident call targets differ, which `model_variant791_linker_symbols.txt`
+binds to the French addresses. Each image's symbols file binds
+`gModelVariant774_D3384` and `gModelVariant774_D33D8` at its own addresses.
 
 Eighteen images under French headers 164 and 294 are the North American
 header-147 entry (`model_variant/variant147_entry.c`) without its work-size
