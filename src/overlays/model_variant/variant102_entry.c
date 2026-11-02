@@ -8,9 +8,9 @@
  * sparks. A negative command draws a frame; any other command builds the
  * mesh, the petal targets and the spark offsets and loads the textures. */
 
-static const VECTOR D_8013D4BC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant102_D24BC = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant102_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_GT4 shell;
@@ -32,7 +32,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D4BC;
+    scale = gModelVariant102_D24BC;
     work = (Model102State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     /* The spark radius and the dome ring count share this block-scoped
@@ -43,7 +43,7 @@ s32 func_8013B004(u8 *context, s32 command)
         s32 value;
 
         if (command >= 0) {
-            config = work->config = &D_8013D558[command];
+            config = work->config = &gModelVariant102_D2558[command];
             p = work->mesh;
             for (row = 0; row < 12; row++) {
                 for (i = 0; i < 8; i++) {
@@ -125,7 +125,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 p++;
             }
             for (row = 0; row < 5; row++) {
-                work->texture[row] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D4CC[row]);
+                work->texture[row] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant102_D24CC[row]);
             }
             work->elapsed = 0;
             work->completed = 0;

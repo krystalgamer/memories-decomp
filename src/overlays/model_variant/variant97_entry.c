@@ -8,9 +8,9 @@
  * fan grows there last. The return value reports the hit (1) once, the end
  * of the fan (2) or neither (0). */
 
-static const VECTOR D_8013C2E4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant97_D12E4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -32,11 +32,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C2E4;
+    scale = gModelVariant97_D12E4;
     work = (Model97State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013C364[command];
+        config = work->config = &gModelVariant97_D1364[command];
         point = work->shards;
         for (i = 0; i < 8; point++, i++) {
             point->vx = config->shard_radius * ccos(i << 9) / 4096;
@@ -66,7 +66,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = 0;
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C2F4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant97_D12F4[i]);
         }
         work->elapsed = -config->delay;
         work->hit = 0;

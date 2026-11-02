@@ -10,9 +10,9 @@
  * returns 0 until the beam starts, 4 while it lasts, 1 on the first frame
  * after that and 2 later. */
 
-static const VECTOR D_8013C3E4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant95_D13E4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant95_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -37,11 +37,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C3E4;
+    scale = gModelVariant95_D13E4;
     work = (Model95State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013C42C[command];
+        config = work->config = &gModelVariant95_D142C[command];
         point = work->points;
         work->points[0].vx = 0;
         point->vy = 0;
@@ -66,7 +66,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C3F4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant95_D13F4[i]);
         }
         work->elapsed = -config->start;
         work->completed = 0;

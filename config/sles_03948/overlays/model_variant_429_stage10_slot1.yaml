@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/french_model_variant_429_stage10_slot1/build
   undefined_funcs_auto_path: tmp/overlays/french_model_variant_429_stage10_slot1/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/french_model_variant_429_stage10_slot1/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03948/overlays/model_variant_429_stage10_slot1_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
@@ -54,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant107us_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant107us_entry]
   - name: rodata
     type: code
     start: 0x22d4
     vram: 0x8017D2D4
     align: 4
     subsegments:
-      - [0x22d4, .rodata, overlays/model_variant/variant107us_entry_slot1]
+      - [0x22d4, .rodata, overlays/model_variant/variant107us_entry]
   - name: unclassified_tail
     type: code
     start: 0x22e4

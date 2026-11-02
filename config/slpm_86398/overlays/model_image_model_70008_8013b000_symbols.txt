@@ -1,4 +1,4 @@
 // Japanese MODEL.MRG model 253 (record 253), sector 70008, header 95, loaded at 0x8013B000; the US source variant95_entry.c; built from the US source layout of model_variant_253_pos0_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x13E0 defined:true
-D_8013C3F4 = 0x8013C3F4; // type:u8 size:0x38 defined:true
-D_8013C42C = 0x8013C42C; // type:u8 size:0x3BD4 defined:true
+ModelVariant95_HandleRequest = 0x8013B004; // type:func size:0x13E0 defined:true
+gModelVariant95_D13F4 = 0x8013C3F4; // type:u8 size:0x38 defined:true
+gModelVariant95_D142C = 0x8013C42C; // type:u8 size:0x3BD4 defined:true

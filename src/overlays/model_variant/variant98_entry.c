@@ -7,9 +7,9 @@
  * command draws a frame and returns 0 before the sparks start, 4 while they
  * are emitted, 1 on the first frame after that (0 later) and 2 at the end. */
 
-static const VECTOR D_8013C5D4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant98_D15D4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT3 fan;
@@ -34,11 +34,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C5D4;
+    scale = gModelVariant98_D15D4;
     work = (Model98State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013C68C[command];
+        config = work->config = &gModelVariant98_D168C[command];
         point = &work->center;
         work->center.vx = 0;
         point->vy = 0;
@@ -87,7 +87,7 @@ s32 func_8013B004(u8 *context, s32 command)
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
         work->target.vy = -10;
         for (i = 0; i < 6; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C5E4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant98_D15E4[i]);
         }
         work->elapsed = -config->delay;
         work->toggle = 0;

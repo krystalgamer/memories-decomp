@@ -60,9 +60,9 @@ typedef struct {
     u8 camera_step;
 } Model93State;
 
-extern GsIMAGE D_8013E438[];
-extern Model93Config D_8013E454[];
+extern GsIMAGE gModelVariant93_D3438[];
+extern Model93Config gModelVariant93_D3454[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant93_HandleRequest(u8 *context, s32 command);
 
 #endif

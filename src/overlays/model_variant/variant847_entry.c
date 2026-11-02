@@ -8,9 +8,9 @@
  * widening ring, a double star, embers, sparks and debris; the shake and an
  * optional full-screen flash mark each burst before the ambient comes back. */
 
-static const VECTOR D_8013CE84 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant847_D1E84 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant847_HandleRequest(u8 *context, s32 command)
 {
     Model847State *work;
     MATRIX base, matrix;
@@ -33,14 +33,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CE84;
+    scale = gModelVariant847_D1E84;
     work = (Model847State *)context;
     flash_packet = &screen;
     packet = &burst;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CF04[command];
+        work->config = &gModelVariant847_D1F04[command];
         for (i = 0; i < 16; i++) {
             setVector(&work->inner[i], work->config->inner_radius * ccos(i << 8) / 4096,
                 work->config->inner_radius * csin(i << 8) / 4096, 0);
@@ -95,7 +95,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CE94[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant847_D1E94[i]);
         }
         return 0;
     }
