@@ -211,8 +211,8 @@ void Duel_InitGroundProjectionReference(void)
     /* Taking y through an s32 keeps the sign extension in the load, which is
        what makes it lh rather than the lhu the x read gets. */
     y = p.y;
-    D_8009B200 = p.x - 0xA0;
-    D_8009B202 = y - 0x6C;
+    gDuel_sGroundReferenceScreenX = p.x - 0xA0;
+    gDuel_sGroundReferenceScreenY = y - 0x6C;
     SetGeomOffset(0, 0);
     ViewState_ResetDefaults();
 }

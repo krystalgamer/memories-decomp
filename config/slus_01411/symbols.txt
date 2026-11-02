@@ -2542,3 +2542,11 @@ CardGrid_GetColumnX = 0x8002C400; // type:func size:0x84
 
 CardGrid_GetRowY = 0x8002C484; // type:func size:0x58
 gGraphics_apOrderingTables = 0x800E9D90; // size:0x10
+
+// Semantic names
+Library_NoOpScreenState3 = 0x8002BAAC; // type:func
+DebugMenu_NoOpBustUpFrame = 0x8003134C; // type:func
+AiScript_SetUnreadFlag = 0x80073464; // type:func
+AiScript_ClearUnreadFlag = 0x80073474; // type:func
+gDuel_sGroundReferenceScreenX = 0x8009B200;
+gDuel_sGroundReferenceScreenY = 0x8009B202;

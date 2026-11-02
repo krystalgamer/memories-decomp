@@ -60,7 +60,7 @@ at `0x801D9000`, but has no runtime import for the const interior or
 SJIS key block; no provider is invented for their retained declarations.
 
 PAL digit initialization still decodes its separate terminated byte
-string `D_801BF870`. Its existing extra helper `func_8003B758` increments
+string `D_801BF870`. Its existing extra helper `Text_FindGlyphLookupIndex` increments
 from the lookup base before comparing low keys, retaining its own
 zero-key termination rather than the non-PAL full-word guard.
 The string, function identity/prototype and all guards remain unchanged.

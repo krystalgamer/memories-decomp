@@ -146,14 +146,14 @@ void AiScript_ClearHandFaceDownRequest(void)
     gAi_bHandFaceDownRequested = 0;
 }
 
-void func_80073464(void)
+void AiScript_SetUnreadFlag(void)
 {
-    gAiScript_State.field_97 = 1;
+    gAiScript_State.unread_flag = 1;
 }
 
-void func_80073474(void)
+void AiScript_ClearUnreadFlag(void)
 {
-    gAiScript_State.field_97 = 0;
+    gAiScript_State.unread_flag = 0;
 }
 
 void AiScript_MoveCard(void)

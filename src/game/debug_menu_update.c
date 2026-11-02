@@ -3,8 +3,8 @@
    page table. Otherwise it prints the menu and handles the pad: the
    directions move the cursor, Select flips the page and rebuilds the second
    text box, and confirm selects the step under the cursor. DebugMenu_UpdateBustUpEntry is entry 6 of the primary page table;
-   the empty func_8003134C before it (absent from the European image) is the
-   per-frame call it makes. */
+   the empty DebugMenu_NoOpBustUpFrame before it (absent from the European
+   image) is the per-frame call it makes. */
 
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
@@ -13,7 +13,7 @@
 #include "text_box_blocking_build.h"
 #include "display_effect_update_menu_record.h"
 #include "rand_get_interval.h"
-#include "func_8003134C.h"
+#include "debug_menu_no_op_bust_up_frame.h"
 #include "menu_record.h"
 #include "display_menu_records.h"
 #include "display_object.h"
@@ -230,7 +230,7 @@ char gDebugMenu_szLineBreak[4] = "\n";
 char gDebugMenu_szStringLineFormat[4] = "%s\n";
 
 #ifndef VERSION_EUROPE
-void func_8003134C(void)
+void DebugMenu_NoOpBustUpFrame(void)
 {
 }
 #endif
@@ -240,7 +240,7 @@ void DebugMenu_UpdateBustUpEntry(void)
 #ifdef VERSION_EUROPE
     /* The European entry (the same slot of the debug menu's handler table)
        only clears the step flags; the European image has no
-       func_8003134C. */
+       DebugMenu_NoOpBustUpFrame. */
     gDebugMenu_bStep = 0;
 #else
     u8 flags = gDebugMenu_bStep;
@@ -251,7 +251,7 @@ void DebugMenu_UpdateBustUpEntry(void)
         Campaign_LoadScenePackage(0);
     }
 
-    func_8003134C();
+    DebugMenu_NoOpBustUpFrame();
 
     if (D_8009B2DE == 0) {
         DisplayObject *first = gDisplayObject_apBrightnessPool[0];

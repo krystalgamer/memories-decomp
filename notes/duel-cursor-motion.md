@@ -338,7 +338,7 @@ angular roles, and introduces no wrapping or side validation.
 `Duel_InitGroundProjectionReference` (`0x800178BC`) is called from
 `Duel_InitScene` at resident JAL `0x80017B38`. It resets the shared view
 defaults, selects the fixed reference view values and side-0 angle, then
-projects `(1000, 0, 1000)`. The stored halfwords `D_8009B200/D_8009B202`
+projects `(1000, 0, 1000)`. The stored halfwords `gDuel_sGroundReferenceScreenX/gDuel_sGroundReferenceScreenY`
 are the projected X/Y values minus the 160/108 screen center.
 
 The name describes that observed initialization only. No tracked C reader

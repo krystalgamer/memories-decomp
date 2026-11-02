@@ -660,7 +660,7 @@ void Library_EnterGridState(LibraryState *state)
     state->motion.state = 1;
 }
 
-void func_8002BAAC(u8 *value)
+void Library_NoOpScreenState3(u8 *value)
 {
 }
 
@@ -747,7 +747,7 @@ void Library_UpdateScreen(void)
         Model_UpdateViewMetrics(0);
         break;
     case 3:
-        func_8002BAAC((u8 *)state);
+        Library_NoOpScreenState3((u8 *)state);
         break;
     }
 }

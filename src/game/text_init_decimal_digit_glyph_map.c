@@ -20,7 +20,7 @@
 /* European only: the 1-based index of key in the glyph lookup table (the
    entries from four bytes into gText_aGlyphLookup, code in the low
    halfword), or 0 when the zero terminator comes first. */
-s32 func_8003B758(s32 key)
+s32 Text_FindGlyphLookupIndex(s32 key)
 {
     s32 n = 0;
     TextGlyphLookupEntry *e = gText_aGlyphLookup;
