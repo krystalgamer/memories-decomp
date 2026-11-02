@@ -315,8 +315,8 @@ from the PAL CLUT row 0x3D28 instead of 0x3D20. The
 Twenty-two images under French headers 663 and 730 are the North American
 header-646 entry (`model_variant/variant646_entry.c`) without its `E_DATA`
 work-size printf, built through
-`src/overlays/french_model_variant/variant663_entry{,_slot1}.c` with the data
-labels 0x28 lower.
+`src/overlays/french_model_variant/variant663_entry.c` with the data
+labels 0x28 lower. Each image's symbols file binds `ModelVariant646_HandleRequest` and `gModelVariant646_D3640`, `gModelVariant646_D3678` at its own addresses.
 
 Six images under French headers 687 and 754 are the North American
 header-670 entry (`model_variant/variant670_entry.c`) without its `E_DATA`
