@@ -31,7 +31,7 @@ s32 func_8017B004(SVECTOR *point, s32 command)
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
         work->frame_count = 0;
-        work->config = &D_8017CD3C[command];
+        work->config = &gModelExodia_D1D3C[command];
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -196,7 +196,7 @@ s32 func_8017B004(SVECTOR *point, s32 command)
         work->direction.vy = work->target.vy - work->origin.vy;
         work->direction.vz = work->target.vz - work->origin.vz;
         if (work->config->start <= work->frame) {
-            func_8017B9B0((u8 *)point);
+            ModelExodia_DrawRings((u8 *)point);
         }
         if (work->config->petals_start <= work->frame) {
             func_8017BDF0((u8 *)point);
@@ -205,7 +205,7 @@ s32 func_8017B004(SVECTOR *point, s32 command)
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            func_8017C760((u8 *)point);
+            ModelExodia_DrawBeam((u8 *)point);
         } else if (work->config->pulse1 <= work->frame && work->frame < work->config->pulse2) {
             if (work->phase == 3) {
                 work->distance = 0;
@@ -215,7 +215,7 @@ s32 func_8017B004(SVECTOR *point, s32 command)
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            func_8017C760((u8 *)point);
+            ModelExodia_DrawBeam((u8 *)point);
         } else if (work->config->pulse3 <= work->frame && work->frame < work->config->pulse4) {
             if (work->phase == 3) {
                 work->distance = 0;
@@ -225,7 +225,7 @@ s32 func_8017B004(SVECTOR *point, s32 command)
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            func_8017C760((u8 *)point);
+            ModelExodia_DrawBeam((u8 *)point);
         } else if (work->config->pulse5 <= work->frame && work->frame < work->config->pulse6) {
             if (work->phase == 3) {
                 work->distance = 0;
@@ -235,7 +235,7 @@ s32 func_8017B004(SVECTOR *point, s32 command)
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            func_8017C760((u8 *)point);
+            ModelExodia_DrawBeam((u8 *)point);
         }
         if (work->config->fade_start <= work->frame) {
             ot = func_80058F10();

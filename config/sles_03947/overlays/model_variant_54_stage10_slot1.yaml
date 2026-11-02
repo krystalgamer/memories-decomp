@@ -56,21 +56,21 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant408_entry_slot1]
+      - [0x4, c, overlays/spanish_model_variant/variant408_entry]
   - name: update
     type: code
     start: 0x93C
     vram: 0x8017B93C
     align: 4
     subsegments:
-      - [0x93C, c, overlays/spanish_model_variant/variant408_update_slot1]
+      - [0x93C, c, overlays/spanish_model_variant/variant408_update]
   - name: draw
     type: code
     start: 0x102C
     vram: 0x8017C02C
     align: 4
     subsegments:
-      - [0x102C, c, overlays/spanish_model_variant/variant408_draw_slot1]
+      - [0x102C, c, overlays/spanish_model_variant/variant408_draw]
   - name: unknown_prefix
     type: code
     start: 0x1454

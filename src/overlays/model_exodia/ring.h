@@ -37,5 +37,5 @@ typedef struct {
     s32 grown;
 } ExodiaRingState;
 
-void func_8013B860(u8 *context);
+void ModelExodia_DrawRing(u8 *context);
 #endif

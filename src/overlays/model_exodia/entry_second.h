@@ -89,7 +89,7 @@ typedef struct {
     DVECTOR target;
 } ExodiaSecondEntryProjection;
 
-extern ExodiaSecondEntryConfig D_8017CD3C[];
+extern ExodiaSecondEntryConfig gModelExodia_D1D3C[];
 void func_80059B90(s16 value, s16 *out);
 s32 func_8017B004(SVECTOR *point, s32 command);
 #endif

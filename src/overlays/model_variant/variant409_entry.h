@@ -104,11 +104,11 @@ typedef struct {
 } EntryState409;
 
 /* Nine GsIMAGE records (0x1C bytes each) followed by the command table. */
-extern u8 D_8013E7A8[];
-void func_8013BF28(u8 *context);
-void func_8013C38C(u8 *context);
-void func_8013CDAC(u8 *context);
-void func_8013D65C(u8 *context);
-void func_8013DB50(u8 *context);
+extern u8 gModelVariant409_D37A8[];
+void SpanishModelVariant426_DrawMesh(u8 *context);
+void SpanishModelVariant426_DrawSpiral(u8 *context);
+void FrenchModelVariant426_DrawRibbon(u8 *context);
+void SpanishModelVariant426_DrawSheets(u8 *context);
+void FrenchModelVariant426_DrawStreamers(u8 *context);
 
 #endif

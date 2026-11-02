@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "ring_second.h"
 
-void func_8017B9B0(u8 *context)
+void ModelExodia_DrawRings(u8 *context)
 {
     ExodiaSecondRingState *work;
     SVECTOR rotation;

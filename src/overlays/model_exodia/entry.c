@@ -27,7 +27,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = &D_8013C7AC[command];
+        work->config = &gModelExodia_D17AC[command];
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -219,10 +219,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->remaining.vy = work->target.vy - work->position.vy;
         work->remaining.vz = work->target.vz - work->position.vz;
         if (work->config->start <= work->frame && work->frame < work->config->end) {
-            func_8013B860((u8 *)point);
+            ModelExodia_DrawRing((u8 *)point);
         }
         if (work->config->ramp_end <= work->frame && work->frame < work->config->end) {
-            func_8013BC0C((u8 *)point);
+            ModelExodia_DrawSpokes((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

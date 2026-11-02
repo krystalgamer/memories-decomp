@@ -1,7 +1,7 @@
 # French MODEL464 rings helper
 
-`func_8013C368` / `func_8017C368` (MODEL464 family, image offset `0x1368`,
-0x584 bytes) rebuilds the first row of three rings, draws each ring as
+`FrenchModelVariant464_DrawRings` (`0x8013C368` / `0x8017C368`, MODEL464
+family, image offset `0x1368`, 0x584 bytes) rebuilds the first row of three rings, draws each ring as
 sixteen framebuffer-textured `POLY_GT4` strips and advances them. **No
 release had matching C for this body before.**
 

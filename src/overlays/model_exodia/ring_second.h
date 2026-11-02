@@ -27,5 +27,5 @@ typedef struct {
     s32 phase;
 } ExodiaSecondRingState;
 
-void func_8017B9B0(u8 *context);
+void ModelExodia_DrawRings(u8 *context);
 #endif

@@ -6,7 +6,7 @@
  * of a fixed radius and an outer ring 160 plus the flicker wider, set back by 256
  * plus the flicker, drawn as sixteen POLY_GT4 quads scaled by the size word.
  * From phase 5 the colours fade with +0x2138; the rings spin by step * 80. */
-void func_8013E440(u8 *context)
+void SpanishModelVariant426_DrawFunnel(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

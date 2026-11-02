@@ -7,7 +7,7 @@
 #define MODEL_VARIANT408_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 SpanishModelVariant408_HandleRequest(SVECTOR *point, s32 command)
 {
     ModelVariant408EntryState *work = (ModelVariant408EntryState *)point;
     MATRIX unused_matrix0;
@@ -48,7 +48,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
         work->frame = 0;
-        work->config = &D_8013C550[command];
+        work->config = &gSpanishModelVariant408_D1550[command];
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             work->target.vx = 0;
@@ -67,12 +67,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT408_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT408_CLUT_X, 244);
-        packed_texture = func_80059A50(work->slot, 1, &D_8013C470[6]);
+        packed_texture = func_80059A50(work->slot, 1, &gSpanishModelVariant408_D1470[6]);
         texture = packed_texture;
         texture_page = packed_texture >> 16;
-        packed_texture = func_80059A50(work->slot, 1, &D_8013C470[4]);
-        packed_texture = func_80059A50(work->slot, 1, &D_8013C470[0]);
-        packed_texture = func_80059A50(work->slot, 1, &D_8013C470[7]);
+        packed_texture = func_80059A50(work->slot, 1, &gSpanishModelVariant408_D1470[4]);
+        packed_texture = func_80059A50(work->slot, 1, &gSpanishModelVariant408_D1470[0]);
+        packed_texture = func_80059A50(work->slot, 1, &gSpanishModelVariant408_D1470[7]);
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -236,10 +236,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->screen_delta.vx = projection.target_projected - screen_x;
         work->screen_delta.vy = (projection.target_projected >> 16) - screen_y;
         if (work->state > 0) {
-            func_8013C02C((u8 *)point);
+            SpanishModelVariant408_DrawRingLines((u8 *)point);
         }
         if (work->elapsed > work->config->start) {
-            func_8013B93C((u8 *)point);
+            SpanishModelVariant408_DrawMesh((u8 *)point);
         }
         work->frame++;
         angle = Model_GetSlotAnimationFrame(work->slot);

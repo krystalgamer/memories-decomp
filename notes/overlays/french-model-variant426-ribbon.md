@@ -1,10 +1,10 @@
 # French MODEL variant 426 ribbon helper
 
-`func_8013CDF0` in the French and Spanish `model_variant_0_stage7_slot0`
-images and `func_8017CDF0` in the `model_variant_0_stage8_slot1` images
-(offset `0x1DF0`, 0x8E0 bytes) draw a single ribbon.
-`french_model_variant/variant426_ribbon_slot1.c` renames the body for the
-slot-1 images.
+`FrenchModelVariant426_DrawRibbon`, at `0x8013CDF0` in the French and Spanish
+`model_variant_0_stage7_slot0` images and `0x8017CDF0` in the
+`model_variant_0_stage8_slot1` images (offset `0x1DF0`, 0x8E0 bytes), draws a
+single ribbon. Both slots compile the same source; each image's symbol file
+binds the name at its own address.
 
 - **Shape.** The ribbon's 17 points are placed along a direction vector that
   is scaled by the growth amount, and a copy is moved along the view by the

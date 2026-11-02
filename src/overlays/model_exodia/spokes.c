@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "spokes.h"
 
-void func_8013BC0C(u8 *context)
+void ModelExodia_DrawSpokes(u8 *context)
 {
     ExodiaSpokeState *work;
     SVECTOR rotation;

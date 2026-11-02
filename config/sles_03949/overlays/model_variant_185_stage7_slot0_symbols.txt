@@ -1,5 +1,5 @@
 func_8013B004 = 0x8013B004; // type:func size:0x122C
-func_8013C230 = 0x8013C230; // type:func size:0x4D4
+SpanishModelVariant439_DrawScreenRings = 0x8013C230; // type:func size:0x4D4
 func_8013C704 = 0x8013C704; // type:func size:0x778
 func_8013CE7C = 0x8013CE7C; // type:func size:0x4E4
 func_8013D360 = 0x8013D360; // type:func size:0x518
