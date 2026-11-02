@@ -295,9 +295,10 @@ extern u8 D_801D9174[];
 extern u8 D_801D9174_b[];
 extern u8 gSD_SeBankVolInfoTag __attribute__((section(".data")));
 extern u8 gSD_SmfBankVolInfoTag __attribute__((section(".data")));
-#ifdef GCAMPAIGN_SCENE_INDEX_AS_ARRAY
-extern u8 gCampaignSceneIndex[];
-#elif defined(GCAMPAIGN_SCENE_INDEX_AS_SCALAR)
+/* Retail reaches this byte gp-relative only in script_op_save_prompt.c
+ * (dropping its switch grows .text by 8 bytes); every other unit uses
+ * absolute addressing. */
+#if defined(GCAMPAIGN_SCENE_INDEX_AS_SCALAR)
 extern u8 gCampaignSceneIndex;
 #else
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));

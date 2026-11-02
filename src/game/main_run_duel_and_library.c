@@ -2,11 +2,7 @@
 #define D_8009B362_IN_DATA
 #define D_8009B369_IN_DATA
 #define D_8009B368_IN_DATA
-#define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
-#define D_8009B2F8_AS_ABSOLUTE_ARRAY
-#define D_8009B370_AS_ABSOLUTE_ARRAY
-#define GCAMPAIGN_SCENE_INDEX_AS_ABSOLUTE_ARRAY
 #define D_8009B16C_IN_DATA
 #include "../types.h"
 #include "../game/ai_opponent_data.h"
@@ -30,7 +26,6 @@
 #include "../game/duel_scene_update.h"
 #include "../game/duel_side_state.h"
 #define D_8009B2F8_AS_ARRAY
-#define GCAMPAIGN_SCENE_INDEX_AS_ARRAY
 #define D_8009B370_AS_BYTE_ARRAY
 #include "../unmatched.h"
 #include "duel_session_controls.h"
@@ -99,7 +94,7 @@ void Main_RunDuel(void)
         next = gDuel_bPostDuelMainMode;
         gMain_bActiveModeState = next;
         if (gMain_bActiveModeState == state)
-            gCampaignSceneIndex[0] = table[gDuel_bPlayerLost * 2];
+            gCampaignSceneIndex = table[gDuel_bPlayerLost * 2];
         break;
     }
     }

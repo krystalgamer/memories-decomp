@@ -6,8 +6,6 @@
  * to 5. */
 #define GSD_DWCURRENTBGMCOMMAND_IS_ARRAY
 #define D_8009B404_IN_DATA
-#define MAIN_MODE_STATE_NEXT_AS_SCALAR
-#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 
 #include "../types.h"
 #include "secondary_scene_commands.h"
