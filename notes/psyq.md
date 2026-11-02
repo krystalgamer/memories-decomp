@@ -959,7 +959,7 @@ resident SDK assembly entries rather than game-owned C.
 Matching `func_800580D4` takes the SDK `SVECTOR *` input directly and its
 output as the `GsCOORDUNIT *` it is. Its sole caller retains a packed byte
 scratch block and supplies an explicit vector view at the helper boundary;
-the separate flag scratch still uses the SDK's `PSXLONG *` call view.
+the separate flag scratch still uses the SDK's `long *` call view.
 
 Duplicate library copies require address-qualified symbols rather than aliases.
 For example, CD conversion helpers appear more than once in the executable,

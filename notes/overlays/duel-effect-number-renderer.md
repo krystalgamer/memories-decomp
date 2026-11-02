@@ -47,7 +47,7 @@ does not assign a new plus/minus bitmap meaning or fix zero rendering.
 ### Renderer preservation
 
 All twenty vertices, eight digit halfwords, both complete FT4 packets,
-declaration/lifetime order, packed `PSXLONG *` outputs and the otherwise
+declaration/lifetime order, packed `long *` outputs and the otherwise
 unread packet copy remain exactly as before. The zero-bias mode-0/1
 assignments and shared submit call are retained; other modes keep their
 vertex increment and `continue`. Nonzero bias keeps `depth + 1 - bias`,

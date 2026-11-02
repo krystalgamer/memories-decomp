@@ -4,7 +4,7 @@ Two resident globals have high-confidence semantic names:
 
 | Address | Name | Existing type |
 |---|---|---|
-| `0x8009B074` | `gModel_pCurrentEffectKey` | `Key *G32` |
+| `0x8009B074` | `gModel_pCurrentEffectKey` | `Key *` |
 | `0x8009B078` | `gModel_bEffectKeyCount` | `u8` |
 
 The ten-record storage at `0x800F5788` is `gModel_aEffectKeys`, retaining

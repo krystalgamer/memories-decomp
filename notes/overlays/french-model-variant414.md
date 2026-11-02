@@ -64,7 +64,7 @@ color at `0x180`, and scale at `0x194`. The webs helper reads the first
 sheet's size through `context + 0x5FC + 0x88 = 0x684`; that timing read is
 not a field in a fourth web. Thirty-one web-related entry/helper anchors
 and 27 freshly target-compiled constants independently verify this view,
-including SDK structures and the 32-bit `PSXLONG`.
+including SDK structures and the 32-bit `long`.
 
 All 24 legal archive selections retain their measured positive commands.
 The selected descriptors are 72-byte records at

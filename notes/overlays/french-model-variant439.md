@@ -122,7 +122,7 @@ Band radius is signed halfword `+0x1964 / 256`, or that halfword times
 `+0x1968`; the `POLY_GT4` packet is at `+0x17A0`. Nine projections feed
 eight adjacent pairs, each producing two quads. Negative depth is clamped
 before sorting its low 16 bits. The nine projection flags are stack
-`PSXLONG[1][9]` at `+0xC8`, not band storage; projection `p` is at `+0xF0`.
+`long[1][9]` at `+0xC8`, not band storage; projection `p` is at `+0xF0`.
 Phase one grows the path fraction to `0x400`, then enters phase two.
 The later timed radius shrink enters phase three.
 

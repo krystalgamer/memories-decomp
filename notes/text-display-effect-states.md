@@ -21,7 +21,7 @@ thirteen effect-step entries.
 `Text_HandleDisplayEffectCommand` selects an existing
 `D_800EB010` arena record and stores it at the same three source sites
 into `gText_DisplayEffectRecord`. Keep its current
-`MenuRecord *G32` declaration, plain GP addressing and shared lifetime.
+`MenuRecord *` declaration, plain GP addressing and shared lifetime.
 The independent script-menu selector `D_8009B274` is not merged with it.
 
 The command's ordinary start path schedules setup step 2 and text state 6.

@@ -56,7 +56,7 @@ The MODEL388 binding lists gain `GetClut`, `GsGetLwUnit`, `SetPolyFT4`,
 - The part loop is a `for` loop that zeroes the stored index. It must come
   directly before the loop test, so the duplicated test still knows the
   index is 0 and keeps the descriptor pointer in one register.
-- The projected screen words are scalar `PSXLONG`s read as
+- The projected screen words are scalar `long`s read as
   `(u16)sxy` and `(s16)(sxy >> 16)`. As scalar frame loads they do not
   alias the work area, so the index store is scheduled ahead of them.
 

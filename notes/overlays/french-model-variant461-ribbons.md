@@ -8,7 +8,7 @@ work offsets. It reuses `Variant469Ribbon` from
 
 - **Ribbon base.** The five 0x250-byte ribbons start at `work + 0`.
 - **Projection flags.** `RotTransPers4` writes into a local
-  `PSXLONG flag[5][11]` table, one row per ribbon. `RotTransPers` keeps a
+  `long flag[5][11]` table, one row per ribbon. `RotTransPers` keeps a
   scalar flag.
 - **Sort gate.** A segment is sorted only when `otz[k] >= 0` and
   `flag[i][k] >= 0`.

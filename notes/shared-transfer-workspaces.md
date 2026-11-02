@@ -10,7 +10,7 @@ display-effect records, duel-effect work and the movie VLC work area.
 `Runtime` groups those observed uses; it does not assign exclusive ownership
 to the file loader, model runtime or frontend.
 
-The canonical declaration retains `u8 *G32`, the existing plain-pointer or
+The canonical declaration retains `u8 *`, the existing plain-pointer or
 `HIGH_MEMORY_ADDRESSES_BASE_IN_DATA` `.data` view, and every original cast.
 It adds no storage, allocation size, record layout, lifetime, synchronization
 or mutability guarantee. The adjacent words and the distinctions documented

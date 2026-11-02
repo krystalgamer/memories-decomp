@@ -117,7 +117,7 @@ The fixed 20-byte line packet occupies `+0x1A78..+0x1A8C`; projection
 words are at packet offsets4/8 and colors at12..17. Eight segments use
 adjacent point pairs, each supplied twice to `RotTransPers4`.
 The 928-byte frame separates coordinate `[128,208)`, the 576-byte
-`PSXLONG flag[16][9]` grid `[208,784)`, three nine-byte color arrays
+`long flag[16][9]` grid `[208,784)`, three nine-byte color arrays
 starting784/800/816, projection output `[832,836)`, original context
 `[836,840)` and ordering-table pointer `[840,844)`. Saved registers begin888.
 The grid address is `sp + 208 + 36*i + 4*j`; sixteen rays and eight

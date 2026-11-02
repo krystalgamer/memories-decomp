@@ -250,7 +250,7 @@ oracle, mutation, scenario, control and flag remains unchanged. No new
 behavioral harness or local cloud-fixture execution is introduced.
 
 `func_800383DC` returns the selected `TextStreamOwner::streams` slot as
-`u8 *G32 *`, matching the stored byte-stream pointer it publishes there,
+`u8 **`, matching the stored byte-stream pointer it publishes there,
 instead of exposing that pointer slot as an integer payload word.
 Regional bank/address construction remains `u32`; conversion to `u8 *`
 occurs only at the final store.
@@ -341,7 +341,7 @@ that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
 
 `Text_SetFastPrintMode` (originally `func_800384E4`, `0x800384E4`)
 selects the same prefix through `TextStreamOwner::streams`
-and a `u8 *G32 *` local rather than raw `u8 **` owner indexing. Its original
+and a `u8 **` local rather than raw `u8 **` owner indexing. Its original
 register-qualified locals and their order remain; the operand capture is
 still a full unsigned word, written with the equivalent `u32` alias.
 The command clears flag bit `0x1000`, reads one operand byte, advances its

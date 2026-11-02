@@ -79,7 +79,7 @@ stream-stack increment/store/return order remain. The staged string
 callback still returns pointer-slot storage through its measured ABI.
 
 The PAL decimal glyph byte string and the PAL boot destination words stay
-outside this scope. A stored `u8 *G32` load-address word is not a bank's
+outside this scope. A stored `u8 *` load-address word is not a bank's
 `u16[]` data view, and a transfer window is not an allocation extent.
 No European-only pointer-word meaning is assigned to a coincident NA
 address.

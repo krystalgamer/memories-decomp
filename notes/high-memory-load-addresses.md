@@ -44,7 +44,7 @@ SU destination.
 The PAL boot text tail is a separate, later cohort outside the fourteen
 NA words above. `gFile_pBootTextStage5Destination`,
 `gFile_pBootTextStage6Destination` and `gFile_pBootTextStage7Destination`
-are the original stored `u8 *G32` words at `0x800101E0/4/8`, declared
+are the original stored `u8 *` words at `0x800101E0/4/8`, declared
 under the European build guard only and bound directly by the European
 link scripts. Boot stages 5/6/7 read those individual words
 for their 30/32/7-sector transfers. The names identify the measured
@@ -160,8 +160,8 @@ and module-call consumers. Their existing scalar labels remain distinct:
 
 | Word | Identity | Existing declaration view |
 |---|---|---|
-| `0x8001000C` | `gModel_pSlot0PrimaryModule` | `u8 *G32`, `.data` |
-| `0x80010010` | `gModel_pSlot1PrimaryModule` | `u8 *G32`, `.data` |
+| `0x8001000C` | `gModel_pSlot0PrimaryModule` | `u8 *`, `.data` |
+| `0x80010010` | `gModel_pSlot1PrimaryModule` | `u8 *`, `.data` |
 | `0x80010014` | `gModel_Slot0VariantModuleAddress` | `s32`, `.data` |
 | `0x80010018` | `gModel_Slot1VariantModuleAddress` | `s32`, `.data` |
 | `0x8001001C` | `gModel_Slot0PrimaryDataAddress` | `s32`, `.data` |
@@ -185,10 +185,10 @@ Four further direct-word identities have producer/consumer support:
 
 | Word | Identity | Existing declaration view |
 |---|---|---|
-| `0x80010004` | `gModel_pSlot1PayloadBase` | `u8 *G32`, `.data` |
+| `0x80010004` | `gModel_pSlot1PayloadBase` | `u8 *`, `.data` |
 | `0x80010008` | `gModel_AuxiliaryPayloadAddress` | `s32`, `.data` |
 | `0x80010030` | `gModel_CreditsModuleAddress` | `s32`, `.data` |
-| `0x80010034` | `gModel_pCreditsMusicTrackBuffer` | `void *G32`, `.data` |
+| `0x80010034` | `gModel_pCreditsMusicTrackBuffer` | `void *`, `.data` |
 
 `Model_LoadMonsterMerge` selects its monster callback for slots below 2.
 That callback sends slot 1's first payload to the first word above.

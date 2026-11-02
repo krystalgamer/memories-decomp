@@ -14,7 +14,7 @@ setup and file-position scan.
 
 Both `File_RequestAsyncTransfer` and `File_TryRequestAsyncTransfer` test
 the slot. When nonzero they retain the original
-`CALL32(void (*)(void), hook)()` before descriptor initialization. When
+`hook()` before descriptor initialization. When
 zero they retain the original blocked-mask/secondary-request path instead.
 The ordinary request raises its primary-request lock before this decision;
 the try path does not gain that store.
@@ -24,7 +24,7 @@ introduced. The registered function is not inlined or assumed immutable.
 All existing repeated loads, descriptor setup, common tails and state-word
 publication remain in their original order.
 
-The declaration stays `void (*G32)(void)`, nonvolatile, with both its
+The declaration stays `void (*)(void)`, nonvolatile, with both its
 ordinary and `.data` arms. The selector
 `D_8009B10C_IN_DATA` deliberately keeps its existing name and position.
 File-position initialization retains its measured absolute store; reset
@@ -50,7 +50,7 @@ complete prior semantic ledger gains one evidence/caveat row.
 ## Range read and pause hooks
 
 `gFile_RangeReadCallback` and `gFile_RangePauseCallback` remain
-nonvolatile `void (*G32)(void)` slots. Their default/`.data` arms and the
+nonvolatile `void (*)(void)` slots. Their default/`.data` arms and the
 existing `D_8009B0F0_IN_DATA` / `D_8009B120_IN_DATA` selectors remain.
 Sound initialization still clears its own work RAM before registering
 `SD_FadeInStreamAudio` then `SD_FadeOutStreamAudio` through the absolute
@@ -94,7 +94,7 @@ tests, witnesses, controls, fixtures, tools and traces remain unchanged.
 
 `gFile_SecondaryPayloadCompleteCallback` names the existing word read at
 `SD_ConfigureTransferPhase`'s tail. Its nonvolatile
-`void (*G32)(void)` declaration moves unchanged from `unmatched.h` into
+`void (*)(void)` declaration moves unchanged from `unmatched.h` into
 `file_transfer.h`, the reader's existing owner dependency. The local load,
 null test and ordinary local callback call remain unchanged.
 

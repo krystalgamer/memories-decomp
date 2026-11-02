@@ -48,7 +48,7 @@ mode policy, input guard or normalization follows from the name.
 The format pointer is passed through the original `(char *)` cast to
 `FntPrint`, together with the three editor values. It is not the edited
 value-storage pointer or the local row-pointer union. Its stored
-`u8 *G32` view, mutability and printer boundary remain.
+`u8 *` view, mutability and printer boundary remain.
 
 ## Three-row evidence
 

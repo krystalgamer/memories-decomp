@@ -43,13 +43,13 @@ new alias local.
 
 The stored-pointer follow-up uses `LibraryState.card_view` and
 `LibraryState.loading_icon` for their ten direct reads/writes. Their
-canonical `DisplayObject *G32` declarations were already established.
+canonical `DisplayObject *` declarations were already established.
 Publication no longer converts an object through a signed integer, while
 local byte/configuration views and every release/clear ordering boundary
 were retained at that checkpoint; it did not guess a larger row array.
 
 The later pointer-window recovery exposes the measured nine stored
-`DisplayObject *G32` values through `LibraryDisplayObjects`: eight
+`DisplayObject *` values through `LibraryDisplayObjects`: eight
 `by_role.slots` plus the separate `by_role.render`, overlapping a real
 `all[9]` array. The two flag loops now use that bounded array and canonical
 object flags, with identical bytes/order and no index 8 into `slots[8]`.

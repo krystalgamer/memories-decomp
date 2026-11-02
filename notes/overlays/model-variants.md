@@ -674,7 +674,7 @@ Five things in the source decide the allocation and schedule:
 `work + 0x2E7C`. Each ribbon is turned by `0x400`, then `0x400 +- i * 1800 /
 count` by parity, offset by `rsin(k * 128) * 384`, and placed at the per-ribbon
 step `work[0x2DBC + 16 i] * k / 16`. It is projected with its flags in a stack
-`PSXLONG flags[8][17]`, and its projected spine is bent by two travelling waves
+`long flags[8][17]`, and its projected spine is bent by two travelling waves
 scaled by `width * 64 / 48` and `width * 32 / 48`. The first `count` segments
 are drawn as flat `POLY_FT4` quads. The count grows by two frame steps to 16,
 then the view offset shrinks by `step << 6` and the ribbon restarts at a
@@ -723,7 +723,7 @@ the direction at `work + 0x26C8` (mirrored by the flag at `work + 0x275C`).
 Each spine and a copy moved along the view are projected like the header-443
 streamers, and each segment is drawn as two `POLY_GT4` halves as wide as the
 projected offset, the outer one fading to black. The projection flags sit in a
-stack `PSXLONG status[16][2]`, and the third point's flag is written to
+stack `long status[16][2]`, and the third point's flag is written to
 `status[i][2]`, one past the row: `[17][2]`, `[16][3]` and `&status[i + 1][0]`
 all change the retail code. The size at `work + 0x273C` grows by
 `step * 256` up to `0x1000`, which moves phase 2 on to phase 3.
@@ -731,7 +731,7 @@ all change the retail code. The size at `work + 0x273C` grows by
 `variant416_bands.c` (header 416, 496 instructions) is a two-by-two form of
 the header-422 bands. There are two 0xA8-byte `Variant416Band` records at
 `work + 0xF60`, each with two three-point fans projected with `RotTransPers3`
-(flags in a stack `PSXLONG flag[2][2]`), placed along `work[0x1A20..0x1A28]` by
+(flags in a stack `long flag[2][2]`), placed along `work[0x1A20..0x1A28]` by
 their clamped level. They are drawn as two `POLY_GT4` quads per band. Levels
 grow by `step << 6`. The first one to fill moves the phase to 2. When both of a
 band's levels are full they reset, staggered by `j << 8`, until the timing

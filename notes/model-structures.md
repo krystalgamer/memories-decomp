@@ -103,8 +103,8 @@ Verified shared fields and partial arrays are:
 | `0xDC0` | `tint[8]` | fade tint: target colour/mode writes in `Model_SetSlotTintTarget` and selection in `Model_GetSlotTintDescriptor`; live 3-D battle values below (formerly `field_DC0`) |
 | `0xDC8` | `cached_dimensions[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `Model_SeekSlotAnimation` |
 | `0xDD0` | `cached_position[4]` | four adjacent `u16` reads in `Model_CopySlotPosition` |
-| `0xDDC` | `animation_parameter_base`, `u8 *G32` | command-halfword word offsets address live words saved before a row and restored afterward |
-| `0xDE0` | `animation_snapshot_buffer`, `u8 *G32` | contiguous three/five-word snapshots; imported or hmd+size fallback, followed by cache work span |
+| `0xDDC` | `animation_parameter_base`, `u8 *` | command-halfword word offsets address live words saved before a row and restored afterward |
+| `0xDE0` | `animation_snapshot_buffer`, `u8 *` | contiguous three/five-word snapshots; imported or hmd+size fallback, followed by cache work span |
 | `0xDE8` | `primary_module_data_address`, `s32` | independently selected primary data word passed to the primary module at base +4 |
 | `0xDEC` | `variant_module_data_address`, `s32` | independently selected variant data word passed to variant/presentation handlers |
 | `0xDF8` | `model_id` | first property in `Model_SetSlotProperties`; mirrored to `gModel_awSlotModelIds[index]` for all three slots when non-negative |
@@ -287,8 +287,8 @@ The paired pointer/index roles are now explicit:
 
 | Original | Canonical | Unchanged representation |
 |---|---|---|
-| `field_D18` | `root_coordinate` | stored `struct _GsCOORDUNIT *G32`, +0xD18 |
-| `field_D1C` | `render_parent_coordinate` | stored `struct _GsCOORDUNIT *G32`, +0xD1C |
+| `field_D18` | `root_coordinate` | stored `struct _GsCOORDUNIT *`, +0xD18 |
+| `field_D1C` | `render_parent_coordinate` | stored `struct _GsCOORDUNIT *`, +0xD1C |
 | `field_E18` | `root_coordinate_index` | `u8`, +0xE18 |
 | `field_E19` | `render_parent_coordinate_index` | `u8`, +0xE19 |
 
@@ -584,7 +584,7 @@ profiles and existing fixture layout expectations are unchanged.
 
 `ModelSlot.field_DDC` and `ModelSlot.field_DE0` are now
 `animation_parameter_base` and `animation_snapshot_buffer`.
-Both retain stored `u8 *G32` declarations at +0xDDC/+0xDE0.
+Both retain stored `u8 *` declarations at +0xDDC/+0xDE0.
 These are live parameter and saved-word roles, not permanently one-way
 source/destination pointers: saving and restoration reverse the copy.
 
@@ -723,7 +723,7 @@ share the slot's leading `GsUNIT`-compatible records:
 | --- | --- | --- |
 | `ModelSlot.field_000` | `hmd_units` | `ModelSlotHeadEntry[60]`, `+0` |
 | `ModelSlotHeadEntry.field_00` | `coordinate_address` | raw `u32`, `+0` |
-| `ModelSlotHeadEntry.field_04` | `primitive_data` | `void *G32`, `+4` |
+| `ModelSlotHeadEntry.field_04` | `primitive_data` | `void *`, `+4` |
 
 The authoritative local `GsUNIT` declaration places `coord` at `+0` and
 `primtop` at `+4`. `Model_InitSlot` casts this exact array to `GsUNIT *`,
@@ -744,7 +744,7 @@ member indexing changes the measured instruction sequence.
 drawn-polygon count or promise that all scanned blocks are polygon data.
 The initializer also dispatches coordinate and animation unit records.
 `coordinate_address` stays an integer word, not a newly typed pointer;
-all existing SDK casts and the separately typed `void *G32` storage stay.
+all existing SDK casts and the separately typed `void *` storage stay.
 No pointee ownership, universal nonnull pairing or fully initialized
 array invariant is inferred. Partial initialization, null-input early
 return, stale records outside the processed range and every original

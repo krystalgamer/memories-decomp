@@ -11,7 +11,7 @@ local SDK-backed behavior, not a new property representation.
 `Model_TransformPartVertex` is the former `func_800593D0`. It selects a
 slot, part and vertex, then calls `PushMatrix`, `GsGetLwUnit`,
 `GsSetLsMatrix`, `RotTrans` and `PopMatrix`. The SDK declarations establish
-the `SVECTOR` input, `VECTOR` output, `MATRIX` scratch and `PSXLONG` flags.
+the `SVECTOR` input, `VECTOR` output, `MATRIX` scratch and `long` flags.
 The function returns the first flag word. The name does not claim screen
 projection or an observed gameplay coordinate system.
 

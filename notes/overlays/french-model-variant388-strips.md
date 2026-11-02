@@ -8,7 +8,7 @@ scratch over a local 0xF8-byte unit, `Strip388Unit` in
 `variant388_strips.h`.
 
 Measured shape:
-- screen coordinates are `PSXLONG` words (x in the low half, y in `>> 16`).
+- screen coordinates are `long` words (x in the low half, y in `>> 16`).
   The width is `s16`;
 - the `POLY` cursor is assigned right after `func_80058F10()`, before
   `ratan2`;

@@ -62,7 +62,7 @@ Regressions cover 41 layouts, repeated header inclusion, all physical loads
 and descriptors, original-context reaching definitions, packet placement,
 every selected relocation, all input/final function and data owners, and 34
 resident bindings with loader/context ownership. The private state is only the
-observed prefix through `+0x1640`; its stored pointer uses `*G32`.
+observed prefix through `+0x1640`; its stored pointer uses `*`.
 
 Terminal dependency fingerprints hash the body, private header, shared
 model-variant header, and `gpu_packets.h`, in that order.

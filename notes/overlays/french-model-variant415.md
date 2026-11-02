@@ -101,7 +101,7 @@ anchors, twelve helper callees, 36 resident bindings and three caller
 owners. One 456-byte band occupies context `0x4E0..0x6A8`, with three
 nine-point `SVECTOR` rows at `0/0x48/0x90`, packed screen arrays at
 `0xD8/0xFC/0x120`, colors at `0x144/0x168` and depths at `0x1A4`.
-Flags are stack `PSXLONG[1][9]` at `+0xC8`, not band storage.
+Flags are stack `long[1][9]` at `+0xC8`, not band storage.
 The packet at context `0x1854` is reused for two quads per each of eight
 adjacent pairs; negative depths clamp to zero before low-sixteen-bit
 sorting.

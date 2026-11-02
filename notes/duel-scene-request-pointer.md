@@ -4,7 +4,7 @@ Every observed non-null write to `D_8009B17C` traces to
 `DuelEffect_AllocateRequest`, which gets a `DuelEffectRequest` from the
 eight-entry `0x20`-byte pool and returns its byte view. The other write
 clears the handle. No overlay implementation references this global.
-Its stored pointee therefore uses `DuelEffectRequest *G32`; the pointer's
+Its stored pointee therefore uses `DuelEffectRequest *`; the pointer's
 four-byte width, eligibility/placement and observed lifetime are unchanged.
 
 Some field-effect handlers retain `DuelFieldEffectObject` or

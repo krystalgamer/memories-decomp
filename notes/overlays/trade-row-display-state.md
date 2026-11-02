@@ -7,7 +7,7 @@ the shared staging buffer.
 
 ## Stats-mode display
 
-`gTrade_pStatsModeDisplay` is the original `MainMenuWidget *G32` view of
+`gTrade_pStatsModeDisplay` is the original `MainMenuWidget *` view of
 the pointer at NA `0x801845E0`. Init allocates a kind-2 display object, configures its
 sprite with resource variant 4, sets the existing texture/screen flags and
 depth, and stores the handle. Its `MainMenuWidget.frame` byte at `+0x69`
@@ -52,7 +52,7 @@ DisplayObject retyping is introduced.
 `gTrade_aInventoryRowSets` retains native `D_801A8000` and the original
 unsized `MainMenuState[]` declaration, available only under
 `MAIN_MENU_TRADE_STATE_BUFFER`. That private record still has a leading
-`u8 *G32 object` and the original five padding words, or six in Europe:
+`u8 *object` and the original five padding words, or six in Europe:
 strides remain 24/28 bytes. Neither the pads nor the pointer are retyped
 as the resident's independently recovered `CardListRowSet`.
 

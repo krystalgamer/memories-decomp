@@ -67,7 +67,7 @@ The entry also initializes three 416-byte `ModelVariantWebNarrow` records at
 sheet size at `context + 0xFD8 + 0x88 = 0x1060`, not a fourth web field.
 Thirty-four web-related entry/helper anchors and 27 freshly target-compiled
 layout constants independently establish this accessed view and the
-canonical SDK layouts, including the 32-bit `PSXLONG`.
+canonical SDK layouts, including the 32-bit `long`.
 
 All twelve legal archive selections retain their actual positive commands.
 Selected descriptors are 60-byte records at
@@ -130,7 +130,7 @@ Independent evidence checks 35 target-compiled constants and 132 instruction
 anchors across every image. The entry initializes one 456-byte
 `ModelVariantBand` at context `0xE10..0xFD8`. Its three nine-point `SVECTOR`
 rows begin at `0/0x48/0x90`; packed outputs at `0xD8/0xFC/0x120`,
-colors at `0x144/0x168` and depths at `0x1A4`. The nine `PSXLONG` flags
+colors at `0x144/0x168` and depths at `0x1A4`. The nine `long` flags
 are stack storage at frame `+0xC8`, not a field or inferred extension of
 the band. The `POLY_GT4` packet is at context `+0x1778`; eight adjacent
 point pairs each produce two quad submissions. Negative depths are
@@ -206,7 +206,7 @@ turn negation. Translation uses words `0x189C/0x18A0/0x18A4`, direction
 `0x18F0/0x18F4/0x18F8` and distance `0x1954`. Uniform scale is the first
 152-byte sheet's size at `0xFD8 + 0x88 = 0x1060`, not ribbon storage.
 
-The projection status grid is `PSXLONG status[8][2]`: 64 stack bytes at
+The projection status grid is `long status[8][2]`: 64 stack bytes at
 frame `0xD0..0x110`. Projection `p` is at `0x110`, and the separate
 offset-point projection flag is at `0x114`. The latter is not substituted
 for the retained status grid. The 28-byte `POLY_G3` packet at context

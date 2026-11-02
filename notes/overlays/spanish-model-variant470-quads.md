@@ -63,7 +63,7 @@ Regressions cover 31 layouts, repeated header inclusion, all physical loads
 and descriptors, the single stack-home context store, every selected
 relocation, all input/final function and data owners, and 34 resident
 bindings with loader/context ownership. The private state is only the observed
-prefix through `+0x2624`; its stored pointer uses `*G32`.
+prefix through `+0x2624`; its stored pointer uses `*`.
 
 Terminal dependency fingerprints hash the body, private header, shared
 model-variant header, and `gpu_packets.h`, in that order.

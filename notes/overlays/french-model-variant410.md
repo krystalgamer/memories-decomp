@@ -205,7 +205,7 @@ the constructor's scale/shift fields in `0x228..0x250`, so that gap stays
 opaque. The `0x21F4` context view is not an allocation-capacity claim.
 
 Screen coordinates have two equivalent local views: canonical `DVECTOR`
-signed halves for projection deltas and a canonical `PSXLONG` packed word
+signed halves for projection deltas and a canonical `long` packed word
 for signed high-halfword extraction while drawing. A four-byte union
 expresses those accesses without inventing storage or a new SDK type.
 It is not a claim about the original source declarations. Both projection

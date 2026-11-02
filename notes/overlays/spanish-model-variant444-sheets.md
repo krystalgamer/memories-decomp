@@ -60,7 +60,7 @@ and descriptors, original-context reaching definitions, sheet initialization,
 packet lifetime, the unusual growth guard and clamp, every selected relocation,
 all input/final function and data owners, and 35 resident bindings with
 loader/context ownership. The private state is only the observed prefix through
-`+0x1680`; its stored pointer uses `*G32`.
+`+0x1680`; its stored pointer uses `*`.
 
 Terminal dependency fingerprints hash the body, private header, shared
 model-variant header, and `gpu_packets.h`, in that order.

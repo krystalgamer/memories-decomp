@@ -96,7 +96,7 @@ retaining its incomplete C array and every initializer/cast in the
 byte cursor and dispatches the raw byte without a new mask or bound.
 
 `gDuelEffect_EntryHandlers` remains the separate incomplete
-`void (*G32)(DuelEffectEntry *, DuelEffectChannel *)` view. It has no new
+`void (*)(DuelEffectEntry *, DuelEffectChannel *)` view. It has no new
 C definition or storage. The entry pass retains its original nonzero
 control test, masked index, extra context argument and original `CALL32`.
 Neither callback ABI is normalized to match the other.

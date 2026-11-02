@@ -42,7 +42,7 @@ The two conditional operations retain their exact domains:
 Scaling and installation of the result still follow those operations for
 every mode. Do not turn the comparisons into unrestricted bit tests, add an
 enum/range guard, reorder the SDK calls or remove the unused flag write and
-its `PSXLONG *` cast. Actual effect callers supply position, rotation and
+its `long *` cast. Actual effect callers supply position, rotation and
 scale, and use the optional unscaled snapshot for later layered drawing.
 
 `DuelEffect_SetScaledLocalScreenMatrix` copies to a local matrix before

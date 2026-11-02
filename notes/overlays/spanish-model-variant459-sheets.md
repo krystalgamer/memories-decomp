@@ -61,7 +61,7 @@ invocation. The central sheet stays at size zero in phase zero, grows to
 until it clears size and advances the shared phase to four.
 
 The private state is only the observed prefix through `+0x30E0`, not a
-claim about the complete caller allocation. Stored pointers use `*G32`.
+claim about the complete caller allocation. Stored pointers use `*`.
 
 ## Exact reconstruction
 

@@ -362,7 +362,7 @@ this match establishes no new execution path.
 Entry captures `a0 -> s2 -> s8`, saves the context at stack `+0x80`,
 and initializes one 88-byte record at context zero. The helper uses three
 rows of two `SVECTOR` values at `0/0x10/0x20`, three rows of two packed
-`PSXLONG` projection results at `0x30/0x38/0x40`, and two signed depth
+`long` projection results at `0x30/0x38/0x40`, and two signed depth
 words at `0x50`. The `0x48..0x50` bytes remain opaque. The entry and both
 helper loops independently establish the 88-byte stride and single-record
 bound; projection iterates over two endpoints.

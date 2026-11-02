@@ -13,7 +13,7 @@ these ways:
   `POLY_G4` 0x56C bytes higher.
 
 `RotTransPers4` writes each point's flag into a local
-`PSXLONG depth[4][17]` (at `sp + 0xD0`). `RotTransPers` keeps the scalar
+`long depth[4][17]` (at `sp + 0xD0`). `RotTransPers` keeps the scalar
 `flag`. A segment is sorted only when `otz[k] >= 0`, `depth[i][k] >= 0` and
 the word at `work + 0x2128` is at least `0x1000`.
 

@@ -87,6 +87,13 @@ Validate the convention with:
 make basic-types
 ```
 
+Pointers and the Psy-Q 32-bit `long` are written as plain C. Sources once
+carried `G32`, `CALL32(type, f)` and `PSXLONG` from a `port_ptr.h` header for a
+native 64-bit port, checked by `make check-g32`. Those macros expanded to
+exactly the plain spelling for every build here and were removed;
+historical notes and attempt records that mention them describe the
+earlier spelling, not a current rule.
+
 ## Function conversion
 
 For each candidate:

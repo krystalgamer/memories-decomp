@@ -44,7 +44,7 @@ allocation result and all original request payload stores.
 ## Preview cards and HUD resources
 
 `gDebugEffect_pPreviewCard0` and `gDebugEffect_pPreviewCard1` retain the original
-`u8 *G32` handle types. Only pages 2/3 assign card-display objects to these
+`u8 *` handle types. Only pages 2/3 assign card-display objects to these
 handles, and the original clear/release order is preserved. Page 1 uses the
 separate card-preview resource manager and a local object, not these handles.
 

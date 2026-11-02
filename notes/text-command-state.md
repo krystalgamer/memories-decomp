@@ -60,7 +60,7 @@ into `gText_ChoiceLayoutCallback`. New-box initialization clears it.
 the original `CALL32` dispatch. The callback clears the cell when the
 line count reaches the choice count.
 
-The stored signature remains `void (*G32)(volatile DuelEffectChannel *)`.
+The stored signature remains `void (*)(volatile DuelEffectChannel *)`.
 This qualifies the callback's channel accesses, not the pointer cell
 itself. In particular, the callback's volatile flags read and ordinary
 halfword store remain distinct. There is no new callback array, ownership
@@ -75,7 +75,7 @@ bindings instead use `+0x74`, entry 29: UK `0x80091F18 - 0x80091EA4`, and
 the other European images `0x8009232C - 0x800922B8`.
 
 All sixteen F0-FF entries and every enclosing initialized table position
-stay unchanged. The existing unsized `void (*G32[])(u8 *)` declaration,
+stay unchanged. The existing unsized `void (*[])(u8 *)` declaration,
 the dispatcher's raw local pointer/call view and explicit alternate-view
 casts remain. No separate array is emitted, no shared region-wide table
 offset is invented, and no callback signature or bound is strengthened.

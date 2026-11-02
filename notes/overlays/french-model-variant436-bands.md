@@ -9,7 +9,7 @@ per segment are unchanged.
 
 The only change is the sort test. Each half is submitted only when
 `band->otz[j] >= 0` and `depth[i][j] >= 0`, where `depth` is a local
-`PSXLONG [1][3]` declared after `coord` (at `sp + 0xC8`). Nothing writes the
+`long [1][3]` declared after `coord` (at `sp + 0xC8`). Nothing writes the
 table: `RotTransPers3` still uses the single `p`/`flag` pair. So retail tests
 uninitialised stack, which the matching C reproduces. The table also accounts
 for the frame being 16 bytes larger than in MODEL437.

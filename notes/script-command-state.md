@@ -69,7 +69,7 @@ connecting package initialization, command fetching, operands and dialog
 replay. The larger runtime bundle also covers retained image/wait and
 viewport views; this checkpoint does not publish a separate symbol PR.
 
-The cursor remains `u8 *G32`, not an instruction-only pointer, const
+The cursor remains `u8 *`, not an instruction-only pointer, const
 package address or new stream object. Readers keep their separate local
 base, cursor advance before byte loads and LE16 expression. Every handler
 keeps its original two/four/six-byte advances and branch assignments.
@@ -139,7 +139,7 @@ existing complete word. No high-bit clearing, bounds check, value enum or
 new transfer interpretation is added. Default scalar and unsized-array
 text views keep their exact unsigned halfword declarations/addressing.
 
-`gScript_TransitionObject` remains `struct DisplayObject *G32`.
+`gScript_TransitionObject` remains `struct DisplayObject *`.
 ShowImage's first invocation still copies the selected frame-buffer
 rectangle with `MoveImage` and returns before acquiring the later temporary sprite.
 Its subsequent transfer/fade gates, phase stores, image-slot release,

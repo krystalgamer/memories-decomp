@@ -146,7 +146,7 @@ durations and the current playback position:
 |---|---|---|
 | `field_2C8` | `animation_command_indices` | `u16[10][58]`, `+0x2C8` |
 | `field_750` | `animation_duration_rows` | `ModelSlotRow[10]`, `+0x750` |
-| `field_DD8` | `animation_commands` | writable `s32 *G32`, `+0xDD8` |
+| `field_DD8` | `animation_commands` | writable `s32 *`, `+0xDD8` |
 | `field_E06` | `animation_position` | `u16`, `+0xE06`, 12.4 frame position |
 
 Command indices address four-byte words, not byte offsets or frames.
@@ -238,7 +238,7 @@ assertions stay. No new harness or local cloud-witness execution.
 ## Live parameters and row snapshots
 
 The later pointer component names +0xDDC `animation_parameter_base` and
-+0xDE0 `animation_snapshot_buffer`, both retaining `u8 *G32`. Kind 3
++0xDE0 `animation_snapshot_buffer`, both retaining `u8 *`. Kind 3
 imports the former beside the command list; kind 2 imports the latter.
 Command halfword word offsets select live parameter words. Row entry
 saves three/five words to the contiguous buffer; restoration reverses

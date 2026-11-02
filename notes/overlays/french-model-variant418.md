@@ -163,12 +163,9 @@ Direct context extent `0x1B2C` is an accessed minimum, not allocation
 capacity or a lifetime-isolation claim.
 
 The descriptor field at context `+0x1AF4` is a stored four-byte guest
-pointer. Its load uses `*(u32 *G32 *)(work + 0x1AF4)`, while the
-register-local `u32 *timing` remains native-width. An unannotated pointer
-cast would incorrectly read eight bytes on a 64-bit native build. The
-source regression checks both types because the general G32 checker
-deliberately excludes explicit casts. G32 expands away for the console
-pipeline; authoritative preprocessing confirms identical console tokens.
+pointer. Its load uses `*(u32 **)(work + 0x1AF4)`, while the
+register-local `u32 *timing` is a plain pointer. Authoritative
+preprocessing confirms identical console tokens.
 Guest-pointer follow-up acceptance passed: both 1,340-byte functions and
 264-byte frames remain exact, and fresh production gates reproduce all
 252 French images and the clean resident. All 216 French, 116 Spanish and
@@ -253,7 +250,7 @@ progress clamping, angle narrowing and repeated endpoint projection are
 otherwise unchanged.
 
 Unlike French433's scalar projection flag, this helper has a
-`PSXLONG flag[16][9]` grid before its RGB arrays. Target compilation
+`long flag[16][9]` grid before its RGB arrays. Target compilation
 proves its 576-byte size and 36-byte row stride. Retail addressing at
 `0x25E4..0x25F8` and `0x2690..0x2698` independently selects `flag[i][j]`
 from stack `+0xD0`. The projection loop visits eight segments per record;

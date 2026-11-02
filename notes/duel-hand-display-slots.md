@@ -14,8 +14,8 @@ or normalize the incoming position-register convention.
 
 | Member | Slot offset | Storage |
 | --- | --- | --- |
-| `object` | `0x00` | `DisplayObject *G32` |
-| `order_marker` | `0x04` | `DisplayObject *G32`, the selected slot's marker sprite |
+| `object` | `0x00` | `DisplayObject *` |
+| `order_marker` | `0x04` | `DisplayObject *`, the selected slot's marker sprite |
 | `selection_order` | `0x09` | `u8`, zero when unmarked, otherwise its one-based selection order |
 
 The hand-slot stride remains `0x0C`; five slots occupy `0x3C` bytes. This is
@@ -33,7 +33,7 @@ including 0x7F and 0xFF. Count updates and the `selection_order` byte still wrap
 before; no new count or allocator-safety guarantee is introduced.
 
 The Exodia byte cursor retains its measured traversal and accesses the stored
-pointer through `DisplayObject *G32 *`. The field-panel linker now uses these
+pointer through `DisplayObject **`. The field-panel linker now uses these
 same hand slots because the complete producer/callback chain proves that
 ownership, not merely because the former `DisplayLinkEntry` happened to have
 the same size. See [the field-info contract](duel-field-info.md).
