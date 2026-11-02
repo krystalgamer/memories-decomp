@@ -506,8 +506,8 @@ French MODEL headers 786 (stage 9 slot 0) and 883 (stage 10 slot 1) build the he
 Sixteen images under French headers 676 and 743 are the North American
 header-659 entry (`model_variant/variant659_entry.c`) without its `E_DATA`
 work-size printf, built through
-`src/overlays/french_model_variant/variant676_entry{,_slot1}.c` with the data
-labels 0x28 lower.
+`src/overlays/french_model_variant/variant676_entry.c` with the data
+labels 0x28 lower. Each image's symbols file binds `ModelVariant659_HandleRequest` and `gModelVariant659_D2320`, `gModelVariant659_D23E4` at its own addresses.
 
 Four images under French headers 862 and 959 are the North American
 header-845 entry (`model_variant/variant845_entry.c`) unchanged; only the
