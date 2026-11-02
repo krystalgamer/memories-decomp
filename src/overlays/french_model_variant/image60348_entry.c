@@ -16,7 +16,7 @@
         work->flags[2] = 1;                                                     \
     }
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
 {
     Image60348State *work;
     MATRIX ls, m;
@@ -48,13 +48,13 @@ s32 func_8013B004(u8 *context, s32 command)
         work->tint_end.r = 0;
         work->tint_end.g = 0;
         work->tint_end.b = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D6C8[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_D26C8[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D6C8[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_D26C8[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D6C8[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant681_D26C8[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -68,17 +68,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->echo_count = 16;
             break;
         }
-        work->radius = D_8013D71C[command].radius;
-        work->height = D_8013D71C[command].height;
+        work->radius = gFrenchModelVariant681_D271C[command].radius;
+        work->height = gFrenchModelVariant681_D271C[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].active = 0;
             work->rings[i].elapsed = 0;
             work->rings[i].duration = 32;
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].color[0] = D_8013D71C[command].color[0];
-            work->rings[i].color[1] = D_8013D71C[command].color[1];
-            work->rings[i].color[2] = D_8013D71C[command].color[2];
+            work->rings[i].color[0] = gFrenchModelVariant681_D271C[command].color[0];
+            work->rings[i].color[1] = gFrenchModelVariant681_D271C[command].color[1];
+            work->rings[i].color[2] = gFrenchModelVariant681_D271C[command].color[2];
             work->rings[i].u = 0;
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 4096, 4096, 4096);
@@ -95,9 +95,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->echoes[i][j].duration = 16;
                 work->echoes[i][j].mode = 1;
                 work->echoes[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->echoes[i][j].color[0] = D_8013D71C[command].color[0];
-                work->echoes[i][j].color[1] = D_8013D71C[command].color[1];
-                work->echoes[i][j].color[2] = D_8013D71C[command].color[2];
+                work->echoes[i][j].color[0] = gFrenchModelVariant681_D271C[command].color[0];
+                work->echoes[i][j].color[1] = gFrenchModelVariant681_D271C[command].color[1];
+                work->echoes[i][j].color[2] = gFrenchModelVariant681_D271C[command].color[2];
                 work->echoes[i][j].u = 0;
                 work->echoes[i][j].v = 0;
                 setVector(&work->echoes[i][j].scale, 4096, 4096, 4096);
@@ -112,9 +112,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bursts[i].duration = 32;
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].color[0] = D_8013D71C[command].color[3];
-            work->bursts[i].color[1] = D_8013D71C[command].color[4];
-            work->bursts[i].color[2] = D_8013D71C[command].color[5];
+            work->bursts[i].color[0] = gFrenchModelVariant681_D271C[command].color[3];
+            work->bursts[i].color[1] = gFrenchModelVariant681_D271C[command].color[4];
+            work->bursts[i].color[2] = gFrenchModelVariant681_D271C[command].color[5];
             work->bursts[i].u = 0;
             work->bursts[i].v = 0;
             setVector(&work->bursts[i].scale, 4096, 4096, 4096);
@@ -122,7 +122,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->bursts[i].rotation, 0, work->slot * 2048, 0);
             setVector(&work->bursts[i].position, 0, 0, 0);
         }
-        work->delay = D_8013D71C[command].delay;
+        work->delay = gFrenchModelVariant681_D271C[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -236,9 +236,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->rings[i].duration / 2 < work->rings[i].elapsed) {
                     value = (work->rings[i].duration - work->rings[i].elapsed) * 2;
                     amount = work->rings[i].duration;
-                    work->rings[i].color[0] = D_8013D71C[work->command].color[0] * value / amount;
-                    work->rings[i].color[1] = D_8013D71C[work->command].color[1] * value / amount;
-                    work->rings[i].color[2] = D_8013D71C[work->command].color[2] * value / amount;
+                    work->rings[i].color[0] = gFrenchModelVariant681_D271C[work->command].color[0] * value / amount;
+                    work->rings[i].color[1] = gFrenchModelVariant681_D271C[work->command].color[1] * value / amount;
+                    work->rings[i].color[2] = gFrenchModelVariant681_D271C[work->command].color[2] * value / amount;
                 }
                 for (j = 0; j < 32; j++) {
                     setPolyFT4(&work->sprite);
@@ -271,7 +271,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->rings[i].echo >= work->echo_count) {
                     work->rings[i].echo = 0;
                 }
-                if (work->rings[i].elapsed > D_8013D71C[work->command].release && work->rings[i].released == 0) {
+                if (work->rings[i].elapsed > gFrenchModelVariant681_D271C[work->command].release && work->rings[i].released == 0) {
                     work->rings[i].released = 1;
                     work->bursts[i].active = 1;
                     setVector(&work->bursts[i].position, unit.matrix.t[0], unit.matrix.t[1], unit.matrix.t[2]);
@@ -383,9 +383,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->bursts[i].duration / 2 < work->bursts[i].elapsed) {
                     value = (work->bursts[i].duration - work->bursts[i].elapsed) * 2;
                     amount = work->bursts[i].duration;
-                    work->bursts[i].color[0] = D_8013D71C[work->command].color[3] * value / amount;
-                    work->bursts[i].color[1] = D_8013D71C[work->command].color[4] * value / amount;
-                    work->bursts[i].color[2] = D_8013D71C[work->command].color[5] * value / amount;
+                    work->bursts[i].color[0] = gFrenchModelVariant681_D271C[work->command].color[3] * value / amount;
+                    work->bursts[i].color[1] = gFrenchModelVariant681_D271C[work->command].color[4] * value / amount;
+                    work->bursts[i].color[2] = gFrenchModelVariant681_D271C[work->command].color[5] * value / amount;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
