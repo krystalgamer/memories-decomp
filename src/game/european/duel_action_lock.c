@@ -8,9 +8,4 @@
 #define DUEL_TERRAIN_EFFECT_SECTOR(terrain) \
     ((((terrain) * 15) * 16) + 0x1C58)
 
-/* This build names the loader words only; the US build reaches them through
- * second .data views named *_abs. */
-#define D_8009B0F4_abs D_8009B0F4
-#define D_8009B134_abs D_8009B134
-
 #include "../duel_action_lock.c"

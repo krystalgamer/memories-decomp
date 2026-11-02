@@ -125,10 +125,9 @@ input branches, state transitions, and viewer payload writes establish the
 names independently of a C reconstruction.
 
 Matching `DuelScene_UpdateExodiaResult` in `src/game/duel_draw_resolution.c`
-retains the address-based
-`D_8009B23A` declaration
-as a lexical contract. Its linked target and the rest of the runtime use
-`gDuel_wSceneStateFlags`.
+uses `gDuel_wSceneStateFlags` directly, as does the rest of the runtime; the
+address-based `D_8009B23A` declaration remains only as a candidate
+contract.
 
 ## Japanese binding for the card-move step
 

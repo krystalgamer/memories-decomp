@@ -241,7 +241,7 @@ void DuelScene_UpdateExodiaResult(void)
     DuelSideState *other;
     DisplayObject *d;
 
-    flags = D_8009B23A;
+    flags = gDuel_wSceneStateFlags;
     if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         i = 0;
         cards = gDuel_abCardStagingBuffer;
@@ -249,7 +249,7 @@ void DuelScene_UpdateExodiaResult(void)
         r = (s32)DisplayObject_UpdateCosineSlide;
         fnv = r;
         objs = gDisplayObject_apWorkSlots;
-        D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
+        gDuel_wSceneStateFlags = flags | DUEL_SCENE_FLAG_INITIALIZED;
         obj = DISPLAY_OBJECT_VIEW(gDuel_pTerrainIcon);
         side = gDuel_bActiveSide;
         gDuel_pActiveSelectionRecord =
@@ -297,7 +297,7 @@ next_obj:
         gDuel_wStepCounter = 0;
         gDuel_bPresentationCursor = 0;
         gDuelEffect_pTrackedRequest = 0;
-        D_8009B23A = D_8009B23A | 0x4000;
+        gDuel_wSceneStateFlags = gDuel_wSceneStateFlags | 0x4000;
         Fade_StartOutKeepOverlay();
         gFade_bStep[0] = 2;
         SD_BGMFadeOutWithStep(2);
@@ -308,7 +308,7 @@ next_obj:
             if ((gDuel_bEffectRequestStatus & 1) != 0) {
                 return;
             }
-            D_8009B23A = flags & 0xBFFF;
+            gDuel_wSceneStateFlags = flags & 0xBFFF;
             gDuel_bPresentationCursor = 0;
             gDuel_wStepCounter = 0;
             return;
@@ -319,7 +319,7 @@ next_obj:
             }
             SD_SEPlayFull(0x1D);
             if (DisplayObject_FindAllocatedByTag(1) == 0) {
-                D_8009B23A = D_8009B23A | 0x2000;
+                gDuel_wSceneStateFlags = gDuel_wSceneStateFlags | 0x2000;
                 return;
             }
         }
@@ -341,7 +341,7 @@ next_obj:
             return;
         }
         if ((s8)gDuel_bPresentationCursor >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
-            D_8009B23A = (flags & 0xDFFF) | 0x1000;
+            gDuel_wSceneStateFlags = (flags & 0xDFFF) | 0x1000;
             fx = DuelEffect_AllocateRequest(0x13);
             fx->field_00 = 0xA0;
             fx->field_02 = 0x78;
@@ -369,7 +369,7 @@ next_obj:
         if (gDuelEffect_pTrackedRequest->progress == 0) {
             return;
         }
-        D_8009B23A = flags & 0xEFFF;
+        gDuel_wSceneStateFlags = flags & 0xEFFF;
         SD_SEPlayFull(0x1D);
         DuelEffect_CreateRequest(0x18);
         SD_CdSoundPlay(0x8021);

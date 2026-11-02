@@ -4,16 +4,6 @@
 #define VERSION_EUROPE
 #define MEM_CARD_MESSAGE_COMPLETION_MASK 0x2010
 #define MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE 0xB7
-#define func_8008CF10 func_8008E0A4
-#define func_8008D070 func_8008E204
-#define func_8008D680 func_8008E814
-#define func_8008D6F0 func_8008B650
-#define func_8008DCB4 func_8008EE48
-#define MemCardCreateFile func_8008CB88
-#define MemCardFormat func_8008CC84
-#define MemCardStart func_8008B5E0
-#define MemCardStop func_8008E884
-#define MemCardSync func_8008CA6C
 
 /* Values used by the SaveData_* save-transfer functions. */
 #define SAVE_DATA_LOAD_BOX_FLAGS 0x1010

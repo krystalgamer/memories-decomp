@@ -359,7 +359,7 @@ segments:
     - game/util_compare_s16
   - - 86000
     - c
-    - game/european/duel_card_record_lifecycle
+    - game/duel_card_record_lifecycle
   - - 87684
     - c
     - game/main_start_duel
@@ -488,7 +488,7 @@ segments:
     - game/campaign_create_primary_display_object
   - - 126732
     - c
-    - game/european/script_op_load_image_scene
+    - game/script_op_load_image_scene
   - - 127048
     - c
     - game/european/script_op_show_dialog
@@ -503,7 +503,7 @@ segments:
     - game/script_op_show_menu
   - - 128776
     - c
-    - game/european/script_stream_commands
+    - game/script_stream_commands
   - - 129264
     - c
     - game/european/script_op_save_prompt
@@ -551,7 +551,7 @@ segments:
     - game/french/debug_menu_editor_entries
   - - 136952
     - c
-    - game/european/frontend_scene_states
+    - game/frontend_scene_states
   - - 137864
     - c
     - game/european/debug_menu_leave_entries
@@ -626,7 +626,7 @@ segments:
     - game/rand_get_interval
   - - 157260
     - c
-    - game/european/movie_playback_control
+    - game/movie_playback_control
   - - 157540
     - c
     - game/european/duel_effect_reset_state

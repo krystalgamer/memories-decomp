@@ -9,7 +9,7 @@
 #include "../../game/sound.h"
 #include "helpers.h"
 
-void PalOptions_Init(s32 mode)
+void Options_Init(s32 mode)
 {
     RECT *rect;
     u8 *buffer;

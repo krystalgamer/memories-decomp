@@ -66,8 +66,8 @@ func_80069B40 = 0x80068E40;
 gDuel_bTerrainCodegenAlias = 0x8009C2D9;
 gFile_wTransferStepFlags_abs = 0x8009C05C;
 gDuel_wAiHandStackPending = D_8009B20C;
-gEuropean_D_8009B208 = 0x8009C10A;
-gEuropean_D_8009B20C = 0x8009C10E;
+D_8009B208 = 0x8009C10A;
+gDuel_wActionSubstate = 0x8009C10E;
 func_80025034 = DuelEffect_ApplyLifePointRecovery;
 func_800251C8 = DuelEffect_ApplyDirectDamage;
 func_800252F8 = DuelEffect_ApplyMonsterRemoval;
@@ -141,7 +141,6 @@ gGraphics_pOrderingTable3 = D_800E9D9C;
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 
-func_80050B6C = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = 0x801A8000;
 gCardList_SortIconTable = D_80090DD8;
 
@@ -160,7 +159,6 @@ gSaveData_Workspace = D_801D0000;
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
 
-gDuel_bBattleRemovalSlot0 = D_8009B208;
 gDuel_bBattleRemovalSlot1 = D_8009C0B9;
 
 gDuel_bPostDuelMainMode = D_8009B368;
@@ -267,7 +265,6 @@ gModel_bAuxiliaryLoadStep = D_800F5694;
 gModel_bAuxiliaryActive = D_800F569F;
 gText_DecimalDivisorView = D_80090E0C;
 gTextBox_apfnStateCallbacks = D_80090E64;
-gDuel_wActionSubstate = gEuropean_D_8009B20C;
 gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;

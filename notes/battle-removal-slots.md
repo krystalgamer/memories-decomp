@@ -69,11 +69,11 @@ from NA bytes. The unrelated French literal
 
 Only battle and resume/phase source views change. Hand actions continue to
 use their legacy view: NA's byte at base `+2` is an AI target, not another
-removal entry. PAL is more distinct still: the hand-action
-`gEuropean_D_8009B208` base is `0x8009C10A` in English Europe and
-`0x8009C52A` in other PAL images, versus the removal bases
-`0x8009C0B8/0x8009C4D8`. They must not be globally renamed, collapsed or
-rebound just because a common source once used the same numeric spelling.
+removal entry. PAL is more distinct still: the PAL symbol files bind the
+hand-action `D_8009B208` base at `0x8009C10A` in English Europe and
+`0x8009C52A` in other PAL images, and bind `gDuel_bBattleRemovalSlot0`
+directly at the removal bases `0x8009C0B8/0x8009C4D8`. The two must not be
+collapsed just because a common source once used the same numeric spelling.
 
 Signed sentinels, scan order, request creation, removal, sound and cleanup
 behavior remain. All old headers, hand-action sources, overlays/imports,

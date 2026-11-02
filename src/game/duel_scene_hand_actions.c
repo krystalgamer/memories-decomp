@@ -82,8 +82,7 @@
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "duel_card_defense_rotation.h"
-#define gDuel_wActionSubstate SUBSTATE
-#define SUBSTATE (*(u16 *)D_8009B20C)
+#define SUBSTATE gDuel_wActionSubstate
 #define SIDE_CURSOR(base) \
     ((DuelSelectionRecord *)((base) + gDuel_bActiveSide * DUEL_SELECTION_SIDE_SIZE))
 #define HAND_CARD_INDEX(side) \

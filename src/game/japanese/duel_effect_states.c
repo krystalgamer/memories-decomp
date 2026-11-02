@@ -8,7 +8,6 @@
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_8009B140 gJapanese_D_8009B140
 #define D_8009B240 gJapanese_D_8009B240
-#define D_8009B248 gDuel_bEffectHandlerFlags
 #define D_8009B24C gJapanese_D_8009B24C
 #define D_8009B250 gJapanese_D_8009B250
 #define D_8009AF74 gJapanese_D_8009AF74
