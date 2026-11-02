@@ -407,8 +407,6 @@ D_800E9DF0 = 0x800EB170;
 gMovie_dwStreamBaseLba = 0x800EB1A4;
 gFile_nMasterXaLba = 0x800EB1B0;
 gFade_abCurrentLevel = 0x800EB24C;
-D_800E9ECE = 0x800EB24E;
-D_800E9ECF = 0x800EB24F;
 gDisplayObject_apWorkSlots = 0x800EB370;
 D_800E9F04 = 0x800EB384;
 gDuel_abSelectionSides = 0x800EB390;
@@ -1159,8 +1157,6 @@ gText_aCurrentPlayerNameGlyphs = D_801B125A;
 gText_aFirstPlayerNameGlyphs = D_801B122B;
 gText_aSecondPlayerNameGlyphs = D_801B1238;
 
-gFade_bFlags = D_800E9ECE;
-gFade_bStep = D_800E9ECF;
 
 gLibCd_nDeferredStreamInterrupt = D_800F6CD4;
 gLibGs_sActiveBufferIndex = gEuropean_D_800FE0CC;

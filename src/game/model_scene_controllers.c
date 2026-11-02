@@ -111,7 +111,6 @@ u8 D_800F2C40[0xCF8];
 #include "model_draw_slot.h"
 #include "../psyq/stdarg.h"
 #include "../unmatched.h"
-#include "fade_state_bytes.h"
 #include "model_camera_state.h"
 #include "graphics_frame_controls.h"
 #include "model_distance_queries_data.h"
@@ -744,7 +743,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     case 42:
         Model_SetSlotDrawMode(2, 3);
-        if (!(gFade_bFlags[0] & 0x80)) {
+        if (!(gFade_State.flags & 0x80)) {
             SD_ResetPendingEntries();
             gModel_bPresentationPhase = -2;
         }

@@ -402,13 +402,10 @@ competing declarations:
   retain explicit `s32` stores through the typed base because target assembly
   proves one whole-word write at offset zero before byte field accesses.
 
-`gFade_abCurrentLevel`, `gFade_bFlags` (legacy `D_800E9ECE`) and
-`gFade_bStep` (legacy `D_800E9ECF`) are offset symbols at `+0x04`,
-`+0x06` and `+0x07`, not same-address aliases. Remaining assembly users
-of the original symbols are unchanged. The current grouped
-`Fade_DrawOverlay` uses typed flag fields; external scene, model, script,
-library and overworld consumers retain their independent scalar/array
-byte-label views rather than folding them into the typed base. See
+`gFade_abCurrentLevel` is an offset symbol at `+0x04`, not a same-address
+alias. The flag and step bytes at `+0x06` and `+0x07` have no names of their
+own: the scene, model, script, library and overworld consumers read
+`gFade_State.flags` and `gFade_State.step` like the grouped fade runtime. See
 [fade-state-byte-views.md](fade-state-byte-views.md).
 
 ## Validation

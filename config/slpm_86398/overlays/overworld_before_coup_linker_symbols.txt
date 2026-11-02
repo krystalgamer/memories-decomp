@@ -35,8 +35,6 @@ DisplayObject_RenderSpotlightMask = 0x800422E8;
 DisplayObject_SavePosition = 0x80042858;
 DisplayObject_InterpolatePositionCosine = 0x8004286C;
 gInput_wPad1Pressed = 0x8009B288;
-D_800E9ECF = 0x800E9DAF;
-D_800E9ECE = 0x800E9DAE;
 SD_BGMFadeOutWithStep = 0x8003F638;
 D_8009B26C = 0x8009B15C;
 gCampaignSceneIndex = 0x8009B16A;
@@ -59,6 +57,4 @@ func_80065BFC = 0x80064CA4;
 func_80039A60 = TextBox_BuildBlockingWithGlyphScratch;
 
 gRuntime_pSharedWorkBase = 0x80010000;
-
-gFade_bFlags = D_800E9ECE;
-gFade_bStep = D_800E9ECF;
+gFade_State = 0x800E9DA8;

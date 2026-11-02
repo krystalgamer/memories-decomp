@@ -189,8 +189,6 @@ gText_aCurrentPlayerNameGlyphs = D_801B125A;
 gText_aFirstPlayerNameGlyphs = 0x801C1B41;
 gText_aSecondPlayerNameGlyphs = 0x801C1B4E;
 
-gFade_bFlags = D_800E9ECE;
-gFade_bStep = D_800E9ECF;
 
 gLibCd_nDeferredStreamInterrupt = D_800F5D44;
 gLibGs_sActiveBufferIndex = D_800FE0CC;

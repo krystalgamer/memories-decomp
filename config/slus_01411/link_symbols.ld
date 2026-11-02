@@ -212,8 +212,6 @@ gText_aCurrentPlayerNameGlyphs = D_801B125A;
 gText_aFirstPlayerNameGlyphs = D_801B122B;
 gText_aSecondPlayerNameGlyphs = D_801B1238;
 
-gFade_bFlags = D_800E9ECE;
-gFade_bStep = D_800E9ECF;
 
 PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F5D44);
 gLibGs_sActiveBufferIndex = D_800FE0CC;
@@ -280,8 +278,6 @@ D_8009B408 = gSD_bOutputType;
 D_800E9EC8 = gFade_State;
 D_800E9EC8_arr = gFade_State;
 gFade_abCurrentLevel = gFade_State + 4;
-D_800E9ECE = gFade_State + 6;
-D_800E9ECF = gFade_State + 7;
 
 /* Other names for game/file_transfer_runtime's zero-initialized data (#2602). */
 D_800E9E90 = gFile_PrimaryTransferDescriptor + 48;
