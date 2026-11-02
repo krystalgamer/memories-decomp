@@ -36,8 +36,8 @@ typedef struct {
     u8 flare_r, flare_g, flare_b, flash, white, fan_r, fan_g, fan_b;
 } Image32768State;
 
-extern VECTOR D_8013C2DC;
-extern GsIMAGE D_8013C2EC[2];
-extern Image32768Config D_8013C324[];
+extern VECTOR gFrenchModelVariant804_D12DC;
+extern GsIMAGE gFrenchModelVariant804_D12EC[2];
+extern Image32768Config gFrenchModelVariant804_D1324[];
 
 #endif

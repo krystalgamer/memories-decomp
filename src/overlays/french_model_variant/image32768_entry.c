@@ -19,7 +19,7 @@
     if (depth >= 0 && flag >= 0) \
         Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 1)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant804_HandleRequest(u8 *context, s32 command)
 {
     Image32768State *work;
     MATRIX light, matrix;
@@ -36,21 +36,21 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C2DC;
+    scale = gFrenchModelVariant804_D12DC;
     work = (Image32768State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C324[command];
+        work->config = &gFrenchModelVariant804_D1324[command];
         setVector(&work->tips[0], 0, 0, direction * work->config->tip_distance);
         setVector(&work->tips[1], 0, 0,
             ((direction << 1) + direction) * work->config->tip_distance / 4);
         work->textures[0] = ModelTexture_PackPageClutCopy(
-            Model_GetActiveSlotIndex(), 1, &D_8013C2EC[0]);
+            Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant804_D12EC[0]);
         work->textures[1] = ModelTexture_PackPageClutCopy(
-            Model_GetActiveSlotIndex(), 1, &D_8013C2EC[1]);
+            Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant804_D12EC[1]);
         work->textures[2] = ModelTexture_PackPageClutCopy(
-            Model_GetActiveSlotIndex(), 0, &D_8013C2EC[1]);
+            Model_GetActiveSlotIndex(), 0, &gFrenchModelVariant804_D12EC[1]);
         work->ambient = 2048;
         work->ambient_phase = 0;
         work->elapsed = 0;
