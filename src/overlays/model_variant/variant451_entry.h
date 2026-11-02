@@ -17,7 +17,7 @@ typedef struct {
 } Variant451EntryConfig;
 
 /* One group of 16 sprites at the start of the work area, drawn by
- * func_8013C494 (image134622_swarm.c). */
+ * FrenchModelVariant468_DrawSwarm (image134622_swarm.c). */
 typedef struct {
     SVECTOR v0[16], v1[16], v2[16], v3[16], origin[16];
     CVECTOR color;
@@ -69,6 +69,6 @@ typedef struct {
     s16 slot, command;
 } Variant451EntryState;
 
-extern u8 D_8013CB84[];
-void func_8013C494(u8 *context);
+extern u8 gModelVariant451_D1B84[];
+void FrenchModelVariant468_DrawSwarm(u8 *context);
 #endif

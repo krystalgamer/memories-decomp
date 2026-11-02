@@ -13,7 +13,7 @@
  * toward the opposite slot or around a point above it, and drawn by the
  * header-134612 swarm helper. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant451_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant451EntryState *work = (Variant451EntryState *)point;
     MATRIX unused_matrix0;
@@ -66,7 +66,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant451EntryConfig *)(D_8013CB84 + 0xFC) + command;
+        work->config = (Variant451EntryConfig *)(gModelVariant451_D1B84 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -84,13 +84,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT451_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT451_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CB84 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant451_D1B84 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CB84 + 0x8C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CB84 + 0x1C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CB84 + 0xE0));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013CB84 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant451_D1B84 + 0x8C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant451_D1B84 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant451_D1B84 + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gModelVariant451_D1B84 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -385,7 +385,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->frame) {
-            func_8013C494((u8 *)point);
+            FrenchModelVariant468_DrawSwarm((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
@@ -427,7 +427,5 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
 #ifndef VERSION_FRENCH
 /* The swarm body is the header-134612 French helper, compiled here with GCC 2.7.2. */
-#define func_8013C490 func_8013C494
-#include "../french_model_variant/image134612_swarm.c"
-#undef func_8013C490
+#include "../french_model_variant/image134622_swarm.c"
 #endif

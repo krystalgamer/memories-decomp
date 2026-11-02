@@ -1365,11 +1365,14 @@ leaves out the blooms helper the French images already build from
 
 Two images under French headers 468 and 618 build their loader entry from the
 North American header-451 entry (`model_variant/variant451_entry.c`) through
-`src/overlays/french_model_variant/variant468_entry{,_slot1}.c`, compiled with
+`src/overlays/french_model_variant/variant468_entry.c` in both slots, compiled with
 `gcc_2_8_1_g0_split` where the North American images need
 `gcc_2_7_2_cdk_g0`. `VERSION_FRENCH` moves the CLUT column from 512 to 640,
 leaves out the swarm helper the French images already build from
-`image134612_swarm{,_slot1}.c`, and the data label sits 8 bytes lower. The two
+`image134622_swarm.c`, and the data label sits 8 bytes lower. Each image's
+symbols file binds `ModelVariant451_HandleRequest`,
+`FrenchModelVariant468_DrawSwarm` and `gModelVariant451_D1B84` at its own
+addresses. The two
 images bind resident calls through their own
 `model_variant468_linker_symbols.txt`.
 
