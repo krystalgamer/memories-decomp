@@ -175,7 +175,7 @@ extern u8 *gDuel_pActiveFieldGrid;
 /* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&gDuel_wTwoPlayerCardViewMode`, to
  * MainMenu_StartValueSetup's `toggle` parameter (value_setup.h declares
  * `u8 *toggle`), beside the two halfwords below; Duel_InitSideStates, when both
- * D_8009B360 and gDuel_bOpponentID
+ * gDuel_bSide0ControllerSelector[0] and gDuel_bOpponentID
  * are negative, copies `*(u8 *)&gDuel_wTwoPlayerCardViewMode` into card_view_mode of both
  * gDuel_aSideStates records; Main_Init stores 1 into it. Every retail access is a
  * byte or an address (lbu Duel_InitSideStates.s:65, sb func_80012B50.s:39, the
@@ -220,33 +220,8 @@ extern u16 gDuel_wTwoPlayerSide1LifePoints __attribute__((section(".data")));
 extern u16 gDuel_wTwoPlayerSide1LifePoints;
 #endif
 
-/* The signed byte just below gDuel_bOpponentID. Main_StartDuel stores its
- * first argument here and its second into gDuel_bOpponentID;
- * Text_StartCampaignDuel resets it to -1 before it sets
- * gDuel_bOpponentID; duel_state_init.c and Duel_MarkCreatedCardKnown test it
- * negative, the latter together with gDuel_bActiveSide == 0 and a non-negative
- * gDuel_bOpponentID. Every retail access is lb or sb and none is
- * gp-relative, so the -G0 units (main_start_duel.c,
- * text_start_campaign_duel.c) take the plain scalar and the -G8 units
- * (duel_state_init.c, duel_mark_created_card_known.c) take _IN_DATA, out of small data at
- * the compiler with the byte's true width; the two _IN_DATA arms are each
- * justified by a control build recorded in the PR that added this block. The
- * `s8 [9]` one of them used to declare reached the same form and in doing so
- * spanned 0x8009B360..0x8009B368, eight named addresses; as
- * duel_terrain_boost.h says of the `[8]` on gDuel_bTerrain, such a size
- * is a threshold, not a length.
- *
- * DuelScene_UpdateCardMove indexes the two adjacent identities by the 0/1 side
- * selector: D_8009B360 and gDuel_bOpponentID at the following byte.
- * Its array view describes those two bytes without changing the scalar
- * view used by the existing setup code. */
-#ifdef D_8009B360_AS_SIDE_ARRAY
-extern s8 D_8009B360[];
-#elif defined(D_8009B360_IN_DATA)
-extern s8 D_8009B360 __attribute__((section(".data")));
-#else
-extern s8 D_8009B360;
-#endif
+/* The signed byte just below gDuel_bOpponentID, 0x8009B360, is declared once,
+ * as gDuel_bSide0ControllerSelector in ai_controller_handoff.h. */
 
 /* Which side won, and therefore which of the two records above the result
  * code applies to. duel_draw_resolution.c sets it as `gDuel_bActiveSide ^ 1`, the
@@ -276,7 +251,7 @@ extern s8 gDuel_bOutroWinnerSide;
  * src/game/main_run_duel_and_library.c define the .data arm below;
  * free_duel/screen_runtime.c (-G0) takes the plain byte. The `u8 [9]`
  * main_run_duel_and_library.c used to declare reached the same form; as the
- * note on D_8009B360 says, such a size is a threshold, not a length. */
+ * note on gDuel_bSide0ControllerSelector in ai_controller_handoff.h says, such a size is a threshold, not a length. */
 #ifdef D_8009B362_IN_DATA
 extern u8 gDuel_bPlayerLost __attribute__((section(".data")));
 #else
@@ -299,7 +274,7 @@ extern u8 gDuel_bPlayerLost;
  * $gp -- define the .data arm below; text_start_campaign_duel.c and the
  * overlay's screen_runtime.c take the plain byte. The `u8 [9]` and `u8 []`
  * two of them used to declare
- * were accessed only at [0]; as the notes on D_8009B360 and gDuel_bPlayerLost
+ * were accessed only at [0]; as the notes on gDuel_bSide0ControllerSelector and gDuel_bPlayerLost
  * say, such a size is a threshold, not a length. */
 #ifdef D_8009B368_IN_DATA
 extern u8 D_8009B368[];

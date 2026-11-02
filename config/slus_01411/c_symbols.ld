@@ -81,7 +81,6 @@ gText_BranchSelectorA = 0x8009B34E;
 gText_CommandDisposition = 0x8009B350;
 gText_BranchSelectorB = 0x8009B355;
 gText_ScriptDispatchGate = 0x8009B357;
-D_8009B360 = 0x8009B360;
 gDuel_bPlayerLost = 0x8009B362;
 D_8009B363 = 0x8009B363;
 D_8009B368 = 0x8009B368;

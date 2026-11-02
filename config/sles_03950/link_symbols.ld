@@ -525,7 +525,7 @@ D_8009B330 = 0x8009C6E4;
 gDuel_wBgmId = 0x8009C6EA;
 D_8009B370 = 0x8009C6EC;
 D_8009B372 = 0x8009C6EE;
-D_8009B360 = 0x8009C6F2;
+gDuel_bSide0ControllerSelector = 0x8009C6F2;
 gDuel_bOpponentID = 0x8009C6F3;
 gDuel_bPlayerLost = 0x8009C6F4;
 D_8009B374 = 0x8009C6F6;
@@ -1081,7 +1081,6 @@ gDuel_wCampaignSceneOnWin = D_8009B370;
 gDuel_wCampaignSceneOnLoss = D_8009B372;
 gDuel_wAnimatedBattleBgmCommand = D_8009B374;
 
-gDuel_bSide0ControllerSelector = D_8009B360;
 gAi_bGuardianStarChoice = D_800EAE8F;
 gAi_bHandFaceDownRequested = tent_AiSelectionRandom;
 gAi_bFieldSourceCode = D_800EAE91;

@@ -27,7 +27,7 @@
 void Text_StartCampaignDuel(DuelEffectChannel *o)
 {
     s32 x;
-    gDuel_bSide0ControllerSelector = -1;
+    gDuel_bSide0ControllerSelector[0] = -1;
     {
         u8 **p;
         u8 *q;

@@ -34,7 +34,6 @@
 #define GDUEL_BEFFECTSTATE_IN_DATA
 #define GDUEL_BCARDVIEWERYOFFSET_IN_DATA
 #define GDUEL_WVIEWERCARDID_IN_DATA
-#define D_8009B360_AS_SIDE_ARRAY
 #define FUNC_80024088_WIDE_DIRECTION
 #include "../types.h"
 #include "../psyq/stdio.h"

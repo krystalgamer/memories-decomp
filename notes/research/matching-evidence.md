@@ -41,8 +41,8 @@ differences were resolved by concrete data views and evaluation order:
 The field-record view begins at staging offset 0x4B6B4 and spans exactly
 `DUEL_CARD_RECORD_COUNT * sizeof(DuelCardRecord)` bytes to the existing deck
 view at 0x4B9FC. Static assertions preserve both offsets. The side-ID array
-view spans the adjacent signed bytes D_8009B360 and gDuel_bOpponentID; the
-existing scalar view remains unchanged for other consumers.
+declaration spans the adjacent signed bytes gDuel_bSide0ControllerSelector[0]
+and gDuel_bOpponentID; every consumer takes that one declaration.
 
 The initial 0x4000 guard selects state 4 before returning. States 1 and 2
 deliberately fall through, state 3 owns the position-choice dialog, and the
