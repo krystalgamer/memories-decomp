@@ -857,7 +857,7 @@ gMemCardDialog_szAllFilesPattern = 0x8009C2F4;
 gMemCard_szAllFilesPattern = 0x8009C300;
 gModel_bSceneMode = 0x8009C324;
 gMovie_bRgb24 = 0x8009C3E8;
-gEuropean_D_8009B061 = 0x8009C3E9;
+gMovie_bCopyDisplayOnStop = 0x8009C3E9;
 gMovie_bCdVolume = 0x8009C3ED;
 gMovie_bInputSlot = 0x8009C3EE;
 gMovie_bOutputSlot = 0x8009C3EF;
@@ -883,7 +883,7 @@ gMovie_StreamLoc = 0x8009C81C;
 gEuropean_D_8009B4A0 = 0x8009C820;
 gEuropean_D_8009B4A1 = 0x8009C821;
 gEuropean_D_8009B4A2 = 0x8009C822;
-gEuropean_D_800FE0CC = 0x800FF454;
+gLibGs_sActiveBufferIndex = 0x800FF454;
 gGraphics_CurrentWidth = 0x800FF45C;
 gGraphics_CurrentHeight = 0x800FF460;
 gDebugMenu_apfnAlternatePageSteps = 0x800921B0;
@@ -1136,8 +1136,6 @@ gText_aSecondPlayerNameGlyphs = D_801B1238;
 
 
 gLibCd_nDeferredStreamInterrupt = D_800F6CD4;
-gLibGs_sActiveBufferIndex = gEuropean_D_800FE0CC;
-gMovie_bCopyDisplayOnStop = gEuropean_D_8009B061;
 
 gDuelEffect_aEntries = tent_DuelEffectEntries;
 gDuelEffect_nCompactionRequested = D_8009B330;

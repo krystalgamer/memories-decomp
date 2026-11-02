@@ -175,8 +175,6 @@ gText_aSecondPlayerNameGlyphs = 0x801C1B4E;
 
 
 gLibCd_nDeferredStreamInterrupt = D_800F5D44;
-gLibGs_sActiveBufferIndex = D_800FE0CC;
-gMovie_bCopyDisplayOnStop = D_8009B061;
 
 gDuelEffect_aEntries = tent_DuelEffectEntries;
 gDuelEffect_aOccupancyValues = tent_DuelEffectOccupancy;

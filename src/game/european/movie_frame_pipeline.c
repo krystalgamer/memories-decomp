@@ -2,8 +2,6 @@
 
 #define VERSION_EUROPE
 #define ClearImage func_8007FBE4
-#define D_8009B061 gEuropean_D_8009B061
-#define D_800FE0CC gEuropean_D_800FE0CC
 #define DecDCToutCallback func_80090E80
 #define DecDCTvlcBuild func_800915F4
 #define GsDefDispBuff func_80085424

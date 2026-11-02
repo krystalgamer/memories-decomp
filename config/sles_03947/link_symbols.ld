@@ -65,8 +65,6 @@ func_8006988C = 0x80068B8C;
 func_80069B40 = 0x80068E40;
 gFile_wTransferStepFlags_abs = 0x8009C05C;
 gDuel_wAiHandStackPending = D_8009B20C;
-gEuropean_D_8009B208 = 0x8009C10A;
-gEuropean_D_8009B20C = 0x8009C10E;
 func_80025034 = DuelEffect_ApplyLifePointRecovery;
 func_800251C8 = DuelEffect_ApplyDirectDamage;
 func_800252F8 = DuelEffect_ApplyMonsterRemoval;
@@ -221,8 +219,6 @@ gText_aSecondPlayerNameGlyphs = D_801B1238;
 
 
 PROVIDE(gLibCd_nDeferredStreamInterrupt = D_800F6CD4);
-gLibGs_sActiveBufferIndex = gEuropean_D_800FE0CC;
-gMovie_bCopyDisplayOnStop = gEuropean_D_8009B061;
 
 gDuelEffect_aEntries = tent_DuelEffectEntries;
 gDuelEffect_nCompactionRequested = D_8009B330;

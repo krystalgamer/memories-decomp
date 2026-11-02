@@ -309,7 +309,7 @@ gModel_bBlendRateActive = 0x8009C375;
 D_8009BF6E = 0x8009C376;
 D_8009BF70 = 0x8009C378;
 gMovie_bRgb24 = 0x8009C3E8;
-gEuropean_D_8009B061 = 0x8009C3E9;
+gMovie_bCopyDisplayOnStop = 0x8009C3E9;
 gMovie_bFrameDecoded = 0x8009C3EA;
 gMovie_bStreamEnded = 0x8009C3EB;
 gMovie_bFadingOut = 0x8009C3EC;
@@ -675,7 +675,7 @@ gAi_bBestTarget = 0x800F700B;
 D_800F6CD4 = 0x800F70F4;
 D_800FE048 = 0x800FF3D0;
 gEuropean_GsDISPENV = 0x800FF430;
-gEuropean_D_800FE0CC = 0x800FF454;
+gLibGs_sActiveBufferIndex = 0x800FF454;
 gGraphics_CurrentWidth = 0x800FF45C;
 gGraphics_CurrentHeight = 0x800FF460;
 gGraphics_LightSourceMatrix = 0x800FF4D0;
@@ -1136,8 +1136,6 @@ gText_aSecondPlayerNameGlyphs = D_801B1238;
 
 
 gLibCd_nDeferredStreamInterrupt = D_800F6CD4;
-gLibGs_sActiveBufferIndex = gEuropean_D_800FE0CC;
-gMovie_bCopyDisplayOnStop = gEuropean_D_8009B061;
 
 gDuelEffect_aEntries = tent_DuelEffectEntries;
 gDuelEffect_nCompactionRequested = D_8009B330;
