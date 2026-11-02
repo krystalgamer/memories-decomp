@@ -7,7 +7,7 @@ are recorded in [the instance ledger](spanish-model-variant87-instances.csv).
 
 The Spanish manifests reuse the accepted
 [`variant87_entry.c`](../../src/overlays/french_model_variant/variant87_entry.c)
-and its existing slot-one wrapper without modifying or copying the body.
+in both slots without modifying or copying the body.
 The source directory is its historical home, not a claim that regional
 portability is automatic. Both slots were independently compiled under the
 named GCC 2.8.1 / MASPSX 2.81 `gcc_2_8_1_g0_split` profile and compared with

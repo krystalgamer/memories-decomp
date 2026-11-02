@@ -63,3 +63,7 @@ images while preserving those native call targets and all instruction bytes.
 Both relocated native bodies match independently. Production ELF symbols
 retain one original-sized C owner per image, and complete image comparisons
 verify that no header, raw suffix or unrelated module was rewritten.
+
+## Per-image bindings
+
+One source, `french_model_variant/image168264_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant146_HandleRequest` and the raw-tail data names (`gFrenchModelVariant146_D0FA0`, `_D0FB0`, `_D0FE8`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.

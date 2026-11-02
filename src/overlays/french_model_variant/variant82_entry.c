@@ -2,9 +2,9 @@
 #include "variant82_entry.h"
 #include "../../psyq/libhmd.h"
 
-static const VECTOR D_8013BDE4 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant82_D0DE4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant82_HandleRequest(u8 *context, s32 command)
 {
     Model82State *work;
     Model82Config *config;
@@ -21,17 +21,17 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR *point, *velocity;
 
     memset(&rotation, 0, 8);
-    scale = D_8013BDE4;
+    scale = gFrenchModelVariant82_D0DE4;
     work = (Model82State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013BE10[command];
+        config = work->config = &gFrenchModelVariant82_D0E10[command];
         point = work->positions;
         for (i = 0; i < config->count; point++, i++) {
             setVector(point, 0, 0, 0);
             work->remaining[i] = 8;
         }
-        work->texture = func_80059A50(Model_GetActiveSlotIndex(), 1, D_8013BDF4);
+        work->texture = func_80059A50(Model_GetActiveSlotIndex(), 1, gFrenchModelVariant82_D0DF4);
         work->elapsed = -config->delay;
         work->completed = 0;
         return 0;

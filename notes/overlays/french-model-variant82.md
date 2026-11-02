@@ -88,3 +88,7 @@ temporaries change allocation; fully inline arithmetic reassociates the 350
 offset and introduces an extra delay-slot NOP. A local backward `goto` to the
 shared zero-return block expresses the recovered terminal control flow.
 The resulting entries retain the native 280-byte frame and literal placement.
+
+## Per-image bindings
+
+One source, `french_model_variant/variant82_entry.c`, serves both slots and the North American header-65/195 images. Each image's symbols file binds `FrenchModelVariant82_HandleRequest`, `gFrenchModelVariant82_D0DF4` and `gFrenchModelVariant82_D0E10` at its own addresses; the scale vector at `0xDE4` is a C-local static.

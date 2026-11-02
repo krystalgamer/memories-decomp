@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image26952_entry.h"
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant818_HandleRequest(u8 *context, s32 command)
 {
     MATRIX light, matrix;
     POLY_FT4 quad, burst;
@@ -18,12 +18,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, sizeof(rotation));
     memset(&position, 0, sizeof(position));
-    scale = D_8013C544;
+    scale = gFrenchModelVariant818_D1544;
     state = (Image26952State *)context;
     active = Model_GetActiveSlotIndex();
     sign = active * 2 - 1;
     if (command >= 0) {
-        state->config = &D_8013C58C[command];
+        state->config = &gFrenchModelVariant818_D158C[command];
         Model_GetSlotDimensionsWithMinimums(active ^ 1, &position.dimensions);
         Model_CopySlotPosition(active ^ 1, (u16 *)&rotation);
         for (i = 0; i < state->config->count; i++) {
@@ -58,9 +58,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         state->textures[0] = ModelTexture_PackPageClutCopy(
-            Model_GetActiveSlotIndex(), 1, &D_8013C554[0]);
+            Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant818_D1554[0]);
         state->textures[1] = ModelTexture_PackPageClutCopy(
-            Model_GetActiveSlotIndex(), 1, &D_8013C554[1]);
+            Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant818_D1554[1]);
         state->ambient = 2048;
         state->stage = 0;
         state->elapsed = 0;

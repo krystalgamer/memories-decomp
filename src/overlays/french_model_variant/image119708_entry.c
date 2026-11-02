@@ -35,7 +35,7 @@
         } \
     }
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant819_HandleRequest(u8 *context, s32 command)
 {
     Image119708State *work;
     MATRIX light, matrix;
@@ -50,12 +50,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C2CC;
+    scale = gFrenchModelVariant819_D12CC;
     work = (Image119708State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C2F8[command];
+        work->config = &gFrenchModelVariant819_D12F8[command];
         Model_CopySlotPosition(slot, (u16 *)&position);
         Model_CopySlotPosition(slot ^ 1, (u16 *)&rotation);
         setVector(&work->offset, 0, 0, 0);
@@ -73,7 +73,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->ages[i] = 0;
         }
         for (i = 0; i < 1; i++)
-            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C2DC[i]);
+            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant819_D12DC[i]);
         work->scale = 4096;
         work->ambient = 2048;
         work->phase = 0;

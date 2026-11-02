@@ -98,3 +98,7 @@ historical evidence, including their original fingerprints. The appended
 tick-303 SDK-identity correction records fingerprint the current production
 source/header and cover both exact native bodies and complete images after
 the source/provider correction.
+
+## Per-image bindings
+
+One source, `french_model_variant/image40200_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant175_HandleRequest` and the raw-tail data names (`gFrenchModelVariant175_D1108`, `_D1118`, `_D1150`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.

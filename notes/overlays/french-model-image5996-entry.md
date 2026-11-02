@@ -106,3 +106,7 @@ Each original-sized C function owns `.unmatched_4`. The four-byte loader
 header and every byte from `0xF44` onward remain unchanged raw data.
 No reference declarations, inline assembly, fixed registers, volatile tricks,
 fabricated accesses or arithmetic dependencies are used.
+
+## Per-image bindings
+
+One source, `french_model_variant/image5996_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant102_HandleRequest` and the raw-tail data names (`gFrenchModelVariant102_D0F44`, `_D0F54`, `_D0FA8`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.

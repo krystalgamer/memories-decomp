@@ -2,9 +2,9 @@
 #include "variant97_entry.h"
 #include "../../psyq/libhmd.h"
 
-static const VECTOR D_8013C158 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant97_D1158 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant97_HandleRequest(u8 *context, s32 command)
 {
     Model97State *work;
     Model97Config *config;
@@ -21,11 +21,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C158;
+    scale = gFrenchModelVariant97_D1158;
     work = (Model97State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
-        config = work->config = &D_8013C1BC[command];
+        config = work->config = &gFrenchModelVariant97_D11BC[command];
         point = work->ring;
         for (i = 0; i < config->ring_count; point++, i++) {
             point->vx = config->radius * ccos((i << 12) / config->ring_count) / 4096;
@@ -46,9 +46,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->target.vy = 0;
         work->initialized = 0;
         for (i = 0; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013C168[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant97_D1168[i]);
         }
-        work->texture[2] = func_80059A50(Model_GetActiveSlotIndex(), 2, &D_8013C168[2]);
+        work->texture[2] = func_80059A50(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant97_D1168[2]);
         work->elapsed = -config->delay;
         work->completed = 0;
         return 0;

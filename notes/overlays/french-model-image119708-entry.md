@@ -81,3 +81,7 @@ verified, followed by complete production builds:
 
 The original headers and unclassified suffixes are unchanged. Existing retail
 identities and unrelated module bindings are unchanged.
+
+## Per-image bindings
+
+One source, `french_model_variant/image119708_entry.c`, serves both slots. Each image's symbols file binds `FrenchModelVariant819_HandleRequest` and the raw-tail data names (`gFrenchModelVariant819_D12CC`, `_D12DC`, `_D12F8`) at its own addresses, replacing the per-region linker assignments. There are no North American images, so the semantic map has no rows for these names.

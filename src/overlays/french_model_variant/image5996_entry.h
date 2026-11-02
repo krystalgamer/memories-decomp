@@ -52,8 +52,8 @@ typedef union {
     DVECTOR screens[66];
 } Image5996Projection;
 
-extern VECTOR D_8013BF44;
-extern GsIMAGE D_8013BF54[3];
-extern Image5996Config D_8013BFA8[];
+extern VECTOR gFrenchModelVariant102_D0F44;
+extern GsIMAGE gFrenchModelVariant102_D0F54[3];
+extern Image5996Config gFrenchModelVariant102_D0FA8[];
 
 #endif

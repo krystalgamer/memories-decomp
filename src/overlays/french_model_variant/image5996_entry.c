@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image5996_entry.h"
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant102_HandleRequest(u8 *context, s32 command)
 {
     Image5996State *state;
     Image5996Config *config;
@@ -37,11 +37,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&translation, 0, 8);
-    scale = D_8013BF44;
+    scale = gFrenchModelVariant102_D0F44;
     state = (Image5996State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = state->config = &D_8013BFA8[command];
+        config = state->config = &gFrenchModelVariant102_D0FA8[command];
         angle = state->rotations;
         velocity = state->velocities;
         for (i = 0; i < config->triangle_count; angle++, velocity++, i++) {
@@ -66,7 +66,7 @@ s32 func_8013B004(u8 *context, s32 command)
         state->notified = 0;
         for (i = 0; i < 3; i++) {
             state->textures[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &D_8013BF54[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant102_D0F54[i]);
         }
         state->elapsed = -config->delay;
         state->tick = 0;

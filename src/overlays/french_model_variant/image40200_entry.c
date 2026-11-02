@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image40200_entry.h"
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant175_HandleRequest(u8 *context, s32 command)
 {
     Image40200State *work;
     MATRIX light, matrix;
@@ -21,13 +21,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C108;
+    scale = gFrenchModelVariant175_D1108;
     work = (Image40200State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->targets;
-        config = work->config = &D_8013C150[command % 100];
+        config = work->config = &gFrenchModelVariant175_D1150[command % 100];
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corners[0]);
         corners[0].vy = -350;
         for (i = 0; i < config->count; i++, point++) {
@@ -42,7 +42,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         for (i = 0; i < 2; i++) {
             work->textures[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &D_8013C118[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant175_D1118[i]);
         }
         work->elapsed = 0;
         work->updates = 0;
