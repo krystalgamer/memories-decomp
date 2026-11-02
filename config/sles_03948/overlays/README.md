@@ -1106,7 +1106,7 @@ under header 269, are the North American header-122 entry
 (`model_variant/variant122_entry.c`, wired to US headers 122 and 252) with its
 full-screen flash tile covering the 256 PAL lines instead of 240.
 `VERSION_FRENCH` selects the height, through
-`src/overlays/french_model_variant/variant139_entry{,_slot1}.c`.
+`src/overlays/french_model_variant/variant139_entry.c`. Each image's symbols file binds `ModelVariant122_HandleRequest` and `gModelVariant122_D1840`, `gModelVariant122_D1850`, `gModelVariant122_D1888` at its own addresses.
 
 Two images under French headers 149 and 279 are the North American
 header-132 entry (`model_variant/variant132_entry.c`) with its full-screen
