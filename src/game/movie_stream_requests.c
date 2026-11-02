@@ -12,6 +12,24 @@ u8 gMovie_FileInfo[24];
 #include "../unmatched.h"
 #include "movie_stream_requests_data.h"
 
+/* Initialized data this unit owns at 0x8009151C: only the first movie carries a range; the
+   rest are reached through the running sum, which is zero for all of them. */
+MovieStreamRange gMovie_aStreamRanges[MOVIE_STREAM_COUNT] = {
+    { 0x0C08, 0x012F },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+    { 0x0000, 0x0000 },
+};
+
 void Movie_OpenIndexedStream(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
 {
     CdlLOC position;

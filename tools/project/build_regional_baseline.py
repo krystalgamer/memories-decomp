@@ -148,7 +148,7 @@ def wrap_binary(
 
 def compile_matching_sources(
     root: Path, configuration: RegionalBuildConfiguration
-) -> None:
+) -> list[str]:
     config_path = resolve_within(
         root, configuration.matching_config, must_exist=True
     )
@@ -161,6 +161,7 @@ def compile_matching_sources(
     assembler = tool(root, "as")
     # Grouped functions share one object, so one profile must build it.
     compiled: dict[str, object] = {}
+    objects: list[str] = []
     for index, function in enumerate(config["functions"]):
         if not isinstance(function, dict):
             raise BuildError(f"matching function {index} must be an object")
@@ -191,24 +192,24 @@ def compile_matching_sources(
             ),
             asm_directory=configuration.asm_directory,
         )
-        weaken_zero_initialized(
-            root,
-            resolve_within(
-                root,
-                f"{configuration.splat_directory}/build/"
-                f"{source.parent.as_posix()}/{source.stem}.o",
-                must_exist=True,
-            ),
+        object_name = (
+            f"{configuration.splat_directory}/build/"
+            f"{source.parent.as_posix()}/{source.stem}.o"
         )
+        weaken_data_definitions(
+            root, resolve_within(root, object_name, must_exist=True)
+        )
+        objects.append(object_name)
+    return objects
 
 
-def weaken_zero_initialized(root: Path, object_path: Path) -> None:
-    """Make an object's zero-initialized definitions weak in a regional build.
+def weaken_data_definitions(root: Path, object_path: Path) -> None:
+    """Make an object's data definitions weak in a regional build.
 
     Several regional wrappers include the same shared source, and every copy
-    defines that source's North American zero-initialized blocks. The region
-    places those names through its link file and discards the storage, so the
-    copies only need to stop colliding.
+    defines that source's North American data blocks. The region places those
+    names through its link file or its own data image and discards the copies,
+    so they only need to stop colliding with the region's definitions.
     """
     listing = subprocess.run(
         [str(tool(root, "nm")), "-g", "--defined-only", str(object_path)],
@@ -219,7 +220,7 @@ def weaken_zero_initialized(root: Path, object_path: Path) -> None:
     names = [
         fields[2]
         for fields in (line.split() for line in listing.splitlines())
-        if len(fields) == 3 and fields[1] in ("B", "S")
+        if len(fields) == 3 and fields[1] in ("B", "S", "D", "G")
     ]
     if names:
         run(
@@ -232,16 +233,23 @@ def weaken_zero_initialized(root: Path, object_path: Path) -> None:
         )
 
 
-def regional_linker_script(generated: Path, output: Path) -> Path:
-    """Drop compiled units' .bss from a regional script.
+def regional_linker_script(
+    generated: Path, output: Path, text_objects: list[str]
+) -> Path:
+    """Drop compiled text units' .data and .bss from a regional script.
 
-    The shared sources define the North American layout's zero-initialized
-    blocks. A regional executable still places every one of those names
-    through its own link file, so the blocks are discarded there just as the
-    unlisted .sbss already is, instead of being appended to the image.
+    The shared sources define the North American layout's data blocks. A
+    regional executable still places every one of those names through its own
+    link file, so the blocks are discarded there just as the unlisted .sbss
+    already is, instead of being appended to the image. Regional data-only
+    units keep their .data.
     """
     text = generated.read_text(encoding="utf-8")
     kept = re.sub(r"^[ \t]*\S+/src/\S+\.o\(\.bss\);[ \t]*\n", "", text, flags=re.M)
+    for name in text_objects:
+        kept = re.sub(
+            r"^[ \t]*" + re.escape(name) + r"\(\.data\);[ \t]*\n", "", kept, flags=re.M
+        )
     output.write_text(kept, encoding="utf-8")
     return output
 
@@ -254,7 +262,7 @@ def build(root: Path, configuration: RegionalBuildConfiguration) -> Path:
         assemble(root, source, configuration)
     for source in sorted((splat / "assets").rglob("*.bin")):
         wrap_binary(root, source, configuration)
-    compile_matching_sources(root, configuration)
+    text_objects = compile_matching_sources(root, configuration)
 
     output_directory = resolve_within(root, configuration.output_directory)
     output_directory.mkdir(parents=True, exist_ok=True)
@@ -269,6 +277,7 @@ def build(root: Path, configuration: RegionalBuildConfiguration) -> Path:
                 must_exist=True,
             ),
             output_directory / f"{configuration.output_name}.ld",
+            text_objects,
         ),
         resolve_within(
             root,

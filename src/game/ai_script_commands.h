@@ -5,7 +5,7 @@
 
 /* The AI script opcode handlers, in the order gAiScript_apfnCommand holds
    them. Opcode 0 has no handler; every other opcode indexes this table.
-   src/game/ai_script_commands.c owns the table at 0x800916E0. */
+   src/game/ai_script_vm.c owns the table at 0x800916E0. */
 void AiScript_Jump(void);
 void AiScript_JumpGreaterEqual(void);
 void AiScript_JumpGreater(void);

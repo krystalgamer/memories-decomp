@@ -99,6 +99,8 @@ class DataSourceTests(unittest.TestCase):
         self.assertIn("unmapped units", str(error.exception))
 
     def test_a_text_unit_cannot_also_own_data(self) -> None:
+        """Outside the merged data layout the text segment claims .data."""
+        self.segments[0]["name"] = "separate_data"
         text_sources = [{"kind": "c", "source": "src/game/file_names.c"}]
         with self.assertRaises(GenerationError) as error:
             self.collect(text_sources)

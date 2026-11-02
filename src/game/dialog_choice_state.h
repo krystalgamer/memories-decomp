@@ -25,7 +25,7 @@ struct DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record);
 
 /* Choice-input polling and entry repainting. The constructor only builds the
  * cursor; the independent page-wait callback handles page input.
- * text_box_state_callbacks.c installs this in two adjacent state slots. */
+ * text_box_build_step.c installs this in two adjacent state slots. */
 void Dialog_UpdateChoice(DuelEffectChannel *object);
 
 #endif

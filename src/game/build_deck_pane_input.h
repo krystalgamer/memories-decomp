@@ -9,7 +9,7 @@
 s32 BuildDeck_GetActiveCardID(CardList *list);
 
 /* The two input steps of the Build Deck step table gBuildDeck_apfnStepHandlers
- * (duel_transition_step_table.c). Both receive the shared transition state;
+ * (build_deck_update.c). Both receive the shared transition state;
  * their bodies retain a byte-pointer alias for offset-heavy workspace access.
  *
  * BuildDeck_UpdateChestPaneInput is step 2, the chest pane. Its confirm moves the highlighted

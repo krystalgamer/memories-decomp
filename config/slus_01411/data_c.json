@@ -6,22 +6,6 @@
       "profile": "gcc_2_8_1_g0"
     },
     {
-      "source": "src/game/file_names.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/ai_script_commands.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/ai_opponent_data.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/model_geometry_tables.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
       "source": "src/game/ai_script_source_line_format.c",
       "profile": "gcc_2_8_1_g8_split"
     },
@@ -34,55 +18,7 @@
       "profile": "gcc_2_8_1_g0"
     },
     {
-      "source": "src/game/duel_terrain_boost.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/duel_monster_removal_rules.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/scene_image_overlay_tables.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/duel_effect_tables.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/credits_secret_numbers.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/frontend_debug_tables.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/duel_transition_step_table.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/main_modes.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/model_record_tables.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/script_command_table.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/scene_script_record_callbacks.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
       "source": "src/game/duel_effect_entry_ranges.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/text_box_state_callbacks.c",
       "profile": "gcc_2_8_1_g0"
     },
     {
@@ -91,18 +27,6 @@
     },
     {
       "source": "src/game/data_80091510.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/movie_stream_ranges.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/model_effect_endpoints.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/model_effect_coefficient_table.c",
       "profile": "gcc_2_8_1_g0"
     },
     {
@@ -166,35 +90,7 @@
       "profile": "gcc_2_8_1_g8"
     },
     {
-      "source": "src/game/duel_scene_callbacks.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/frontend_step_tables.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/card_type_icon_table.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
       "source": "src/game/duel_effect_command_table.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/display_effect_step_table.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/mem_card_dialog_steps.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/display_object_list_renderer_table.c",
-      "profile": "gcc_2_8_1_g0"
-    },
-    {
-      "source": "src/game/display_flat_lights.c",
       "profile": "gcc_2_8_1_g0"
     }
   ]

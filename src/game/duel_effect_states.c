@@ -345,7 +345,7 @@ press:
  * latches gDuel_bEffectState into gDuel_bActiveEffectState on first entry and
  * then runs gDuelEffect_apfnStateHandler[gDuel_bActiveEffectState] until the
  * handler raises DUEL_EFFECT_STATE_FLAG_COMPLETE. DuelEffect_UpdateCardViewerState
- * above is one of those handlers (duel_effect_tables.c). None of the addressing
+ * above is one of those handlers (duel_field_effects.c). None of the addressing
  * selectors defined at the top of this unit names a symbol it uses. */
 s32 DuelEffect_UpdateState(void) {
     u8 v = gDuel_bEffectState;

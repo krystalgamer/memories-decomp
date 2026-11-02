@@ -4,7 +4,7 @@
 #include "../ygo_types.h"
 
 /* The seven ISO9660 paths the loader opens, and the null-terminated table
-   File_SetPositionTable walks. Defined by src/game/file_names.c, which owns
+   File_SetPositionTable walks. Defined by src/game/file_set_position_table.c, which owns
    the initialized data at 0x80090704. */
 extern u8 gFile_szDiscWaMrgPath[20];
 extern u8 gFile_szDiscSuMrgPath[16];

@@ -383,7 +383,7 @@ def collect_data_sources(
                 source = f"src/{subsegment}.c"
                 if source in text_c_sources:
                     if kind in TEXT_CLAIMED_SECTION_TYPES and not (
-                        kind == ".bss" and name in MERGED_DATA_SEGMENTS
+                        kind in (".bss", ".data") and name in MERGED_DATA_SEGMENTS
                     ):
                         raise GenerationError(
                             f"{source}: a text translation unit cannot own"

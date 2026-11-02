@@ -69,6 +69,37 @@
 #include "../psyq/rand.h"
 #include "../psyq/setjmp.h"
 
+/* Initialized data this unit owns at 0x80090B50. */
+u16 gCredits_awSecretNumbers[CREDITS_SECRET_NUMBER_COUNT][2] = {
+    {0x21fa, 0x15ff},
+    {0x0eb8, 0x24da},
+    {0x1c93, 0x0e98},
+    {0x2448, 0x1917},
+    {0x14d1, 0x1d6e},
+};
+
+/* Initialized data this unit owns at 0x80090B64: the mode dispatch table Main_Loop indexes
+   with the low five bits of the frontend state byte. */
+MainModeRunner gMain_apfnModeRunner[MAIN_MODE_COUNT] = {
+    Main_RunDebugMenu,
+    Main_RunAnimatedBattle,
+    Main_RunCampaign,
+    Main_RunDuel,
+    Main_RunLibraryMenu,
+    Main_RunCampaignMap,
+    Main_RunFreeDuelMenu,
+    Main_RunBuildDeckMenu,
+    Main_RunMenu,
+    Main_RunNameEntry,
+    Main_RunPasswordMenu,
+    Main_RunOptionsMenu,
+    Main_RunGameOver,
+    Main_RunUnusedDeveloperMode,
+    Main_RunTrade,
+    Main_RunCredits,
+    Main_RunTwoPlayerDuelSetup,
+};
+
 void Main_ApplyMenuSelection(MainMenuSelection selection)
 {
     D_8009B268 = 1;

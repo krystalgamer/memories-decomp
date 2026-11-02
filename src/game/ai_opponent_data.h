@@ -12,7 +12,7 @@
    AiScript_LoadOpponentData multiplies values[1] by
    100 for opcode field 0 and returns values[field + 1] for the rest, so the
    script reaches every entry by index and the record stays an array.
-   src/game/ai_opponent_data.c owns the table at 0x800917F0. */
+   src/game/ai_get_hand_search_count.c owns the table at 0x800917F0. */
 typedef struct {
     s8 values[AI_OPPONENT_DATA_FIELD_COUNT];
 } AiOpponentData;
