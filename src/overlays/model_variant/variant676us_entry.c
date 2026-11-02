@@ -15,10 +15,10 @@
 #define MODEL676US_STRING_PAD "\x8C"
 #endif
 #ifndef VERSION_FRENCH
-static const char D_8013E478[24] = "E_DATA size = %x byte\n\0" MODEL676US_STRING_PAD;
+static const char gModelVariant676Us_D3478[24] = "E_DATA size = %x byte\n\0" MODEL676US_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command)
 {
     Model676UsState *work;
     MATRIX ls;
@@ -47,26 +47,26 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model676UsState));
 #ifndef VERSION_FRENCH
-        printf(D_8013E478, sizeof(Model676UsState));
+        printf(gModelVariant676Us_D3478, sizeof(Model676UsState));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E490[3]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant676Us_D3490[3]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E490[0]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E490[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant676Us_D3490[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant676Us_D3490[5]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E490[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant676Us_D3490[2]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E490[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant676Us_D3490[1]);
         work->tpage[3] = tex >> 16;
         work->clut[3] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E490[4]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant676Us_D3490[4]);
         work->tpage[4] = tex >> 16;
         work->clut[4] = tex;
         switch (command) {
@@ -83,8 +83,8 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spoke_count = 0;
             break;
         }
-        work->radius = D_8013E538[command].radius;
-        work->height = D_8013E538[command].height;
+        work->radius = gModelVariant676Us_D3538[command].radius;
+        work->height = gModelVariant676Us_D3538[command].height;
         for (i = 0; i < work->flash_count; i++) {
             work->flashes[i].active = 0;
             work->flashes[i].elapsed = 0;
@@ -95,9 +95,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->flashes[i].mode = 1;
             work->flashes[i].coord = Model_GetCameraCoordinateUnit();
-            work->flashes[i].color[0] = D_8013E538[command].color[0];
-            work->flashes[i].color[1] = D_8013E538[command].color[1];
-            tmp2 = D_8013E538[command].color[2];
+            work->flashes[i].color[0] = gModelVariant676Us_D3538[command].color[0];
+            work->flashes[i].color[1] = gModelVariant676Us_D3538[command].color[1];
+            tmp2 = gModelVariant676Us_D3538[command].color[2];
             work->flashes[i].color[2] = tmp2;
             work->flashes[i].u = 0x40;
             work->flashes[i].v = 0x20;
@@ -113,9 +113,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->shards[i].elapsed = 0;
             work->shards[i].mode = 1;
             work->shards[i].coord = Model_GetCameraCoordinateUnit();
-            work->shards[i].color[0] = D_8013E538[command].color[0];
-            work->shards[i].color[1] = D_8013E538[command].color[1];
-            work->shards[i].color[2] = D_8013E538[command].color[2];
+            work->shards[i].color[0] = gModelVariant676Us_D3538[command].color[0];
+            work->shards[i].color[1] = gModelVariant676Us_D3538[command].color[1];
+            work->shards[i].color[2] = gModelVariant676Us_D3538[command].color[2];
             work->shards[i].u = 0;
             work->shards[i].v = 0;
             setVector(&work->shards[i].scale, 0x1000, 0x1000, 0x1000);
@@ -138,9 +138,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bursts[i].elapsed = 0;
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].color[0] = D_8013E538[command].color[3];
-            work->bursts[i].color[1] = D_8013E538[command].color[4];
-            work->bursts[i].color[2] = D_8013E538[command].color[5];
+            work->bursts[i].color[0] = gModelVariant676Us_D3538[command].color[3];
+            work->bursts[i].color[1] = gModelVariant676Us_D3538[command].color[4];
+            work->bursts[i].color[2] = gModelVariant676Us_D3538[command].color[5];
             work->bursts[i].u = 0x40;
             work->bursts[i].v = 0x20;
             setVector(&work->bursts[i].scale, 0x1000, 0x1000, 0x1000);
@@ -155,9 +155,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->rings[i].elapsed = 0;
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].color[0] = D_8013E538[command].color[6];
-            work->rings[i].color[1] = D_8013E538[command].color[7];
-            tmp = D_8013E538[command].color[8];
+            work->rings[i].color[0] = gModelVariant676Us_D3538[command].color[6];
+            work->rings[i].color[1] = gModelVariant676Us_D3538[command].color[7];
+            tmp = gModelVariant676Us_D3538[command].color[8];
             work->rings[i].color[2] = tmp;
             work->rings[i].u = 0;
             work->rings[i].v = 0x20;
@@ -172,9 +172,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->waves[i].elapsed = 0;
             work->waves[i].mode = 1;
             work->waves[i].coord = Model_GetCameraCoordinateUnit();
-            work->waves[i].color[0] = D_8013E538[command].color[6];
-            work->waves[i].color[1] = D_8013E538[command].color[7];
-            work->waves[i].color[2] = D_8013E538[command].color[8];
+            work->waves[i].color[0] = gModelVariant676Us_D3538[command].color[6];
+            work->waves[i].color[1] = gModelVariant676Us_D3538[command].color[7];
+            work->waves[i].color[2] = gModelVariant676Us_D3538[command].color[8];
             work->waves[i].u = 0;
             work->waves[i].v = 0x80;
             setVector(&work->waves[i].scale, 0x1000, 0x1000, 0x1000);
@@ -182,7 +182,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->waves[i].rotation, 0, work->slot * 2048, 0);
             setVector(&work->waves[i].position, 0, 0, 0);
         }
-        work->delay = D_8013E538[command].delay;
+        work->delay = gModelVariant676Us_D3538[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -425,9 +425,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->shards[i].duration / 2 < work->shards[i].elapsed) {
                     n = (work->shards[i].duration - work->shards[i].elapsed) * 2;
                     d = work->shards[i].duration;
-                    work->shards[i].color[0] = D_8013E538[work->command].color[0] * n / d;
-                    work->shards[i].color[1] = D_8013E538[work->command].color[1] * n / d;
-                    work->shards[i].color[2] = D_8013E538[work->command].color[2] * n / d;
+                    work->shards[i].color[0] = gModelVariant676Us_D3538[work->command].color[0] * n / d;
+                    work->shards[i].color[1] = gModelVariant676Us_D3538[work->command].color[1] * n / d;
+                    work->shards[i].color[2] = gModelVariant676Us_D3538[work->command].color[2] * n / d;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[2];
@@ -605,9 +605,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->rings[i].duration / 2 < work->rings[i].elapsed) {
                     n = (work->rings[i].duration - work->rings[i].elapsed) * 2;
                     d = work->rings[i].duration;
-                    work->rings[i].color[0] = D_8013E538[work->command].color[6] * n / d;
-                    work->rings[i].color[1] = D_8013E538[work->command].color[7] * n / d;
-                    work->rings[i].color[2] = D_8013E538[work->command].color[8] * n / d;
+                    work->rings[i].color[0] = gModelVariant676Us_D3538[work->command].color[6] * n / d;
+                    work->rings[i].color[1] = gModelVariant676Us_D3538[work->command].color[7] * n / d;
+                    work->rings[i].color[2] = gModelVariant676Us_D3538[work->command].color[8] * n / d;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[3];
@@ -718,9 +718,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->waves[i].duration / 2 < work->waves[i].elapsed) {
                     n = (work->waves[i].duration - work->waves[i].elapsed) * 2;
                     d = work->waves[i].duration;
-                    work->waves[i].color[0] = D_8013E538[work->command].color[6] * n / d;
-                    work->waves[i].color[1] = D_8013E538[work->command].color[7] * n / d;
-                    work->waves[i].color[2] = D_8013E538[work->command].color[8] * n / d;
+                    work->waves[i].color[0] = gModelVariant676Us_D3538[work->command].color[6] * n / d;
+                    work->waves[i].color[1] = gModelVariant676Us_D3538[work->command].color[7] * n / d;
+                    work->waves[i].color[2] = gModelVariant676Us_D3538[work->command].color[8] * n / d;
                 }
                 for (k = 0; k < 16; k++) {
                     setPolyGT4(&work->strip);
