@@ -61,7 +61,7 @@ before the change, so the French images are unaffected.
 | 256 | `0xFF0` | `variant143_entry_slot1.c` | `234_stage10_slot1`, `481_stage8_slot1`, `496_stage8_slot1`, `546_stage10_slot1` |
 | 765 | `0x14AC` | `variant782_entry.c` | `217_pos0_slot0`, `453_pos0_slot0`, `563_pos0_slot0`, `58_pos0_slot0`, `612_pos0_slot0`, `78_stage9_slot0` |
 | 812 | `0xF84` | `variant829_entry.c` | `485_pos0_slot0` |
-| 862 | `0x14AC` | `variant782_entry_slot1.c` | `217_stage8_slot1`, `453_stage8_slot1`, `563_stage8_slot1`, `58_stage8_slot1`, `612_stage8_slot1`, `78_stage10_slot1` |
+| 862 | `0x14AC` | `variant782_entry.c` | `217_stage8_slot1`, `453_stage8_slot1`, `563_stage8_slot1`, `58_stage8_slot1`, `612_stage8_slot1`, `78_stage10_slot1` |
 | 909 | `0xF84` | `variant829_entry.c` | `485_stage8_slot1` |
 
 Four more images whose entry has the same French body hold further framed
