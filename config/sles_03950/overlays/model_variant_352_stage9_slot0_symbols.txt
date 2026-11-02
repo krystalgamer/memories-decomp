@@ -1,7 +1,7 @@
-func_8013B004 = 0x8013B004; // type:func size:0x12D4
-func_8013C2D8 = 0x8013C2D8; // type:func size:0x5DC
+ModelVariant407_HandleRequest = 0x8013B004; // type:func size:0x12D4
+ModelVariant407_DrawPetals = 0x8013C2D8; // type:func size:0x5DC
 D_8013B000 = 0x8013B000; // type:u8 size:0x4 defined:true
-D_8013C8B4 = 0x8013C8B4; // type:u8 size:0x374C defined:true
+gModelVariant407_D18C8 = 0x8013C8B4; // type:u8 size:0x374C defined:true
 GsGetLs = 0x80086258; // type:func absolute:true
 GsSetLsMatrix = 0x80085558; // type:func absolute:true
 GsSortPoly = 0x800842A8; // type:func absolute:true
