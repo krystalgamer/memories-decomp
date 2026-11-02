@@ -1,7 +1,7 @@
-// German MODEL.MRG model 591 (record 541), sector 149506, header 311, loaded at 0x8017B000; the US header-294 source variant164_entry_slot1.c; built from the French source layout of french_model_variant_591_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1E48 defined:true
-D_8017CE5C = 0x8017CE5C; // type:u8 size:0x54 defined:true
-D_8017CEB0 = 0x8017CEB0; // type:u8 size:0x3150 defined:true
+// German MODEL.MRG model 591 (record 541), sector 149506, header 311, loaded at 0x8017B000; the US header-294 source variant164_entry.c; built from the French source layout of french_model_variant_591_stage8_slot1.
+ModelVariant164_HandleRequest = 0x8017B004; // type:func size:0x1E48 defined:true
+gModelVariant164_D1E80 = 0x8017CE5C; // type:u8 size:0x54 defined:true
+gModelVariant164_D1ED4 = 0x8017CEB0; // type:u8 size:0x3150 defined:true
 Graphics_SubmitDrawModePacket = 0x8004D5B8; // type:func absolute:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
