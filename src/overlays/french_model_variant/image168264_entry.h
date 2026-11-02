@@ -49,8 +49,8 @@ typedef struct {
     s32 tint_enabled;
 } Image168264State;
 
-extern VECTOR D_8013BFA0;
-extern GsIMAGE D_8013BFB0[2];
-extern Image168264Config D_8013BFE8[];
+extern VECTOR gFrenchModelVariant146_D0FA0;
+extern GsIMAGE gFrenchModelVariant146_D0FB0[2];
+extern Image168264Config gFrenchModelVariant146_D0FE8[];
 
 #endif
