@@ -1075,7 +1075,7 @@ Ten images under French headers 800 and 897 are the North American
 header-783 entry (`model_variant/variant783_entry.c`) with its full-screen
 flash tile covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects
 the height, through
-`src/overlays/french_model_variant/variant800_entry{,_slot1}.c`.
+`src/overlays/french_model_variant/variant800_entry.c`. Each image's symbols file binds `ModelVariant783_HandleRequest` and `gModelVariant783_D24F0`, `gModelVariant783_D2500`, `gModelVariant783_D2538` at its own addresses.
 
 French MODEL headers 801 (stage 9 slot 0) and 898 (stage 10 slot 1) build the header-784 entry (`ModelVariant784_HandleRequest`) directly from `src/overlays/model_variant/variant784_entry.c` in both slots; the French code and data are identical to the US images.
 
