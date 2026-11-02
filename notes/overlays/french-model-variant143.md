@@ -89,5 +89,7 @@ canonical integration. The authoritative GCC2.8.1/MASPSX2.81
 
 Canonical sources are
 `src/overlays/french_model_variant/variant143_entry.c`,
-`variant143_entry.h` and `variant143_entry_slot1.c`.
+`variant143_entry.h`, built in both slots; each image's symbols file binds
+`FrenchModelVariant143_HandleRequest`, `gFrenchModelVariant143_D1004` and
+`gFrenchModelVariant143_D1020` at its own addresses.
 Regressions are in [retired `test_french_model_variant143.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_french_model_variant143.py).
