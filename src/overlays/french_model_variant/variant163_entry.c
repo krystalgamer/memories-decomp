@@ -14,9 +14,9 @@
 #include "../../psyq/stdio.h"
 #endif
 
-static const VECTOR D_8013BEA8 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant163_D0EA8 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant163_HandleRequest(u8 *context, s32 command)
 {
     Model163State *work;
     MATRIX base, matrix;
@@ -37,12 +37,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BEA8;
+    scale = gFrenchModelVariant163_D0EA8;
     work = (Model163State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013BEF0[command % 100];
+        config = work->config = &gFrenchModelVariant163_D0EF0[command % 100];
         point = work->points;
         for (i = 0; i < 96; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -83,7 +83,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = -direction * config->thickness;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BEB8[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant163_D0EB8[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
