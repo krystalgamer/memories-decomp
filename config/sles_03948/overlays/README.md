@@ -955,8 +955,8 @@ Eighteen images under French headers 164 and 294 are the North American
 header-147 entry (`model_variant/variant147_entry.c`) without its work-size
 printf and with its full-screen flash covering the 256 PAL lines instead of
 240, built through
-`src/overlays/french_model_variant/variant164_entry{,_slot1}.c` with the data
-labels 0x1C lower.
+`src/overlays/french_model_variant/variant164_entry.c` with the data
+labels 0x1C lower. Each image's symbols file binds `ModelVariant147_HandleRequest` and `gModelVariant147_D3550`, `gModelVariant147_D35DC` at its own addresses.
 
 Twenty-six images under French headers 675 and 742 are the North American
 header-658 entry (`model_variant/variant658_entry.c`) without its `E_DATA`
