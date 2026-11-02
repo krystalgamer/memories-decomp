@@ -49,8 +49,8 @@ typedef union {
     ModelEffectAdjustment dimensions;
 } Image26952Position;
 
-extern VECTOR D_8013C544;
-extern GsIMAGE D_8013C554[2];
-extern Image26952Config D_8013C58C[];
+extern VECTOR gFrenchModelVariant818_D1544;
+extern GsIMAGE gFrenchModelVariant818_D1554[2];
+extern Image26952Config gFrenchModelVariant818_D158C[];
 
 #endif
