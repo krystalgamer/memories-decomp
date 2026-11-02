@@ -18,8 +18,6 @@
  * that difference is only a spelling. */
 void Model_SetFogDrawFlags(u32 value);
 
-/* Keep the frozen overworld initializer's spelling. */
-#define func_80035668 Model_SetFogDrawFlags
 void SortedEntry_BeginCollection(SortedEntry *list);
 
 #endif

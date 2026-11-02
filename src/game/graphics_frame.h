@@ -414,7 +414,7 @@ extern u8 gGraphics_abPacketBuffers[];
 extern DISPENV gGraphics_DispEnv;
 
 /* Three flags Main_Init sets in its init block: gGraphics_bDither and gGraphics_bClearBackground to
- * 1, D_8009B0A8 to 0. graphics_frame.c DEFINES all three plain, for the same
+ * 1, gGraphics_bSkipDisplaySwap to 0. graphics_frame.c DEFINES all three plain, for the same
  * reason it defines gGraphics_bExtraFrameStep: the assembler resolves a small
  * global
  * gp-relative only when the unit defines it.
@@ -434,7 +434,7 @@ extern DISPENV gGraphics_DispEnv;
  * startup source. */
 extern u8 gGraphics_bDither;
 extern u8 gGraphics_bClearBackground;
-extern u8 D_8009B0A8;
+extern u8 gGraphics_bSkipDisplaySwap;
 
 #ifdef GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
 extern volatile u8 gGraphics_abOrderingTableLengths;

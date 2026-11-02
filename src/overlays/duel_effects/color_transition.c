@@ -46,5 +46,5 @@ s32 DuelEffect_StepColorToTarget(u8 *color, u8 red, u8 green, u8 blue, u16 step)
 
 void DuelEffect_SetFogBaseColor(u16 high, u16 middle, u16 low)
 {
-    D_8009B300 = ((u8)high << 16) | ((u8)middle << 8) | (u8)low;
+    gModel_dwFogBaseColor = ((u8)high << 16) | ((u8)middle << 8) | (u8)low;
 }
