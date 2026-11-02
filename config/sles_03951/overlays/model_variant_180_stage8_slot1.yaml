@@ -54,15 +54,15 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_180_stage8_slot1/unmatched_4]
-  - name: strips
+      - [0x4, c, overlays/french_model_variant/variant433_entry_slot1]
+  - name: helper_1050
     type: code
     start: 0x1050
     vram: 0x8017C050
     align: 4
     subsegments:
       - [0x1050, c, overlays/french_model_variant/variant433_strips_slot1]
-  - name: sheet
+  - name: helper_1810
     type: code
     start: 0x1810
     vram: 0x8017C810
@@ -76,7 +76,7 @@ segments:
     align: 4
     subsegments:
       - [0x1C64, c, overlays/french_model_variant/variant433_webs_slot1]
-  - name: rays
+  - name: helper_21CC
     type: code
     start: 0x21CC
     vram: 0x8017D1CC

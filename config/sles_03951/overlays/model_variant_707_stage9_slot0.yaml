@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_707_stage9_slot0/entry]
+      - [0x4, c, overlays/french_model_variant/variant436_entry]
   - name: helper_D98
     type: code
     start: 0xD98
@@ -82,7 +82,7 @@ segments:
     vram: 0x8013D6C8
     align: 4
     subsegments:
-      - [0x26C8, asm, overlays/spanish_model_variant_707_stage9_slot0/helper_26C8]
+      - [0x26C8, c, overlays/french_model_variant/variant436_streamers]
   - name: unclassified_tail
     type: code
     start: 0x2FBC

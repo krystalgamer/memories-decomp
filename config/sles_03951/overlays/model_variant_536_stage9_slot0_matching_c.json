@@ -1,6 +1,12 @@
 {
   "functions": [
     {
+      "address": "0x8013B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1018",
+      "source": "src/overlays/spanish_model_variant/variant456_entry.c"
+    },
+    {
       "address": "0x8013C01C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x818",
@@ -11,6 +17,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x724",
       "source": "src/overlays/spanish_model_variant/variant456_ribbons.c"
+    },
+    {
+      "address": "0x8013CF58",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xB74",
+      "source": "src/overlays/spanish_model_variant/variant456_sprays.c"
     },
     {
       "address": "0x8013DACC",

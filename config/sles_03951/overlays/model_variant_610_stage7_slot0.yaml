@@ -75,7 +75,7 @@ segments:
     vram: 0x8013D3E8
     align: 4
     subsegments:
-      - [0x23E8, asm, overlays/spanish_model_variant_610_stage7_slot0/helper_23E8]
+      - [0x23E8, c, overlays/spanish_model_variant/variant438_rays]
   - name: helper_2A34
     type: code
     start: 0x2A34
@@ -103,7 +103,7 @@ segments:
     vram: 0x8013F300
     align: 4
     subsegments:
-      - [0x4300, asm, overlays/spanish_model_variant_610_stage7_slot0/helper_4300]
+      - [0x4300, c, overlays/spanish_model_variant/variant438_lines]
   - name: unclassified_tail
     type: code
     start: 0x4868

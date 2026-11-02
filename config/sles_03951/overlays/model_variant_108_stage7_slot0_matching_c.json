@@ -1,10 +1,16 @@
 {
   "functions": [
     {
+      "address": "0x8013B004",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1224",
+      "source": "src/overlays/french_model_variant/variant414_entry.c"
+    },
+    {
       "address": "0x8013C228",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x768",
-      "source": "src/overlays/spanish_model_variant/variant414_bands.c"
+      "source": "src/overlays/french_model_variant/variant414_bands.c"
     },
     {
       "address": "0x8013C990",

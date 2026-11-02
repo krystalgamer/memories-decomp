@@ -68,14 +68,14 @@ segments:
     vram: 0x8017C778
     align: 4
     subsegments:
-      - [0x1778, asm, overlays/spanish_model_variant_134_stage10_slot1/helper_1778]
+      - [0x1778, c, overlays/spanish_model_variant/variant417_tube_slot1]
   - name: helper_1E60
     type: code
     start: 0x1E60
     vram: 0x8017CE60
     align: 4
     subsegments:
-      - [0x1E60, asm, overlays/spanish_model_variant_134_stage10_slot1/helper_1E60]
+      - [0x1E60, c, overlays/spanish_model_variant/variant417_ribbon_slot1]
   - name: helper_2480
     type: code
     start: 0x2480
@@ -89,14 +89,14 @@ segments:
     vram: 0x8017DACC
     align: 4
     subsegments:
-      - [0x2ACC, asm, overlays/spanish_model_variant_134_stage10_slot1/helper_2ACC]
+      - [0x2ACC, c, overlays/spanish_model_variant/variant417_sheets_slot1]
   - name: helper_30E4
     type: code
     start: 0x30E4
     vram: 0x8017E0E4
     align: 4
     subsegments:
-      - [0x30E4, asm, overlays/spanish_model_variant_134_stage10_slot1/helper_30E4]
+      - [0x30E4, c, overlays/french_model_variant/variant417_feedback_slot1]
   - name: helper_3750
     type: code
     start: 0x3750

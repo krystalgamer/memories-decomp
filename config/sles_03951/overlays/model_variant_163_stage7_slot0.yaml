@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_163_stage7_slot0/entry]
+      - [0x4, c, overlays/spanish_model_variant/variant456_entry]
   - name: helper_101C
     type: code
     start: 0x101C
@@ -75,7 +75,7 @@ segments:
     vram: 0x8013CF58
     align: 4
     subsegments:
-      - [0x1F58, asm, overlays/spanish_model_variant_163_stage7_slot0/helper_1F58]
+      - [0x1F58, c, overlays/spanish_model_variant/variant456_sprays]
   - name: helper_2ACC
     type: code
     start: 0x2ACC

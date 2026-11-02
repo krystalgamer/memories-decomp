@@ -19,6 +19,12 @@
       "source": "src/overlays/spanish_model_variant/variant459_curtains_slot1.c"
     },
     {
+      "address": "0x8017CFB8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x64C",
+      "source": "src/overlays/spanish_model_variant/variant459_rays_slot1.c"
+    },
+    {
       "address": "0x8017D604",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC20",
@@ -35,6 +41,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5BC",
       "source": "src/overlays/spanish_model_variant/variant459_sheets_slot1.c"
+    },
+    {
+      "address": "0x8017EFE0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x568",
+      "source": "src/overlays/spanish_model_variant/variant459_lines_slot1.c"
     }
   ],
   "schema": 1

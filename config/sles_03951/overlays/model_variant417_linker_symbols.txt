@@ -52,3 +52,7 @@ rsin = 0x80086628;
 GsSortPoly = 0x800842A8;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
+ReadRotMatrix = 0x800872A8;
+RotTransPers3 = 0x80087898;
+SetRotMatrix = 0x80087738;
+GsGetActiveBuff = 0x800852A8;

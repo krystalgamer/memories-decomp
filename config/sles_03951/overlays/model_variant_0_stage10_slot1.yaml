@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, asm, overlays/spanish_model_variant_0_stage10_slot1/entry]
+      - [0x4, c, overlays/french_model_variant/variant425_entry_slot1]
   - name: helper_EE4
     type: code
     start: 0xEE4
@@ -96,7 +96,7 @@ segments:
     vram: 0x8017E360
     align: 4
     subsegments:
-      - [0x3360, asm, overlays/spanish_model_variant_0_stage10_slot1/helper_3360]
+      - [0x3360, c, overlays/french_model_variant/variant425_funnel_slot1]
   - name: unclassified_tail
     type: code
     start: 0x3908

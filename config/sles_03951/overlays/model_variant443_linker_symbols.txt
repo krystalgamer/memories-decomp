@@ -45,3 +45,10 @@ ReadRotMatrix = 0x800872A8;
 SetRotMatrix = 0x80087738;
 
 func_8005B260 = Graphics_SubmitDrawModePacket;
+GetClut = 0x80082D28;
+SetPolyG3 = 0x80082E48;
+SetPolyG4 = 0x80082EC8;
+SetPolyFT4 = 0x80082EA8;
+Square0 = 0x80089BC8;
+SquareRoot0 = 0x80086DD8;
+RotTransPers3 = 0x80087898;
