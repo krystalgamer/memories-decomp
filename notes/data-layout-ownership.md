@@ -186,3 +186,18 @@ Psy-Q data.
 Regional builds discard compiled text units' `.data` as they do `.bss`, and
 make those definitions weak, since each region supplies the same names from
 its own data image or link file.
+
+Small initialized data (`.sdata`) works the same way. An owner compiled at
+`-G8` places an initialized object of eight bytes or less in `.sdata` without
+any attribute, so folded tables drop their `section(".sdata")` forcing, and a
+table is defined after the owner's existing top-level definitions, keeping
+their order. Units stay data-only where the owner does not fit yet:
+- `options_layout_position_data.c`, `data_8009af6c.c` and
+  `model_graphics_state.c`: their readers reach them through absolute or
+  forced views;
+- `model_handler_diagnostics.c`: the European builds place
+  `model_debug_controller.c`'s own `.sdata`;
+- `data_8009af10.c`: it also carries the startup's `_ramsize` and
+  `_stacksize`;
+- `ai_script_source_line_format.c`: its only reader is a `-G0` unit, which
+  cannot hold small data.

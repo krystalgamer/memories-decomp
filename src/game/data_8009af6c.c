@@ -26,7 +26,7 @@
  * Every object carries an explicit .sdata attribute, as the neighbouring
  * carves do. Nothing here is entirely zero, so none of it is at risk of
  * migrating to .sbss, but the attribute is kept for consistency with
- * model_primitive_templates.c and save_data_mask_state.c and so that the
+ * model_background.c and save_data_payload.c and so that the
  * placement is stated rather than inferred from the -G8 threshold.
  *
  * Array sizes are written out rather than left to the initializer. Each one

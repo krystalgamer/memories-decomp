@@ -30,27 +30,7 @@
       "profile": "gcc_2_8_1_g0"
     },
     {
-      "source": "src/game/duel_side_view_angles.c",
-      "profile": "gcc_2_8_1_g8"
-    },
-    {
-      "source": "src/game/duel_magic_effect_format.c",
-      "profile": "gcc_2_8_1_g8"
-    },
-    {
-      "source": "src/game/frontend_debug_constants.c",
-      "profile": "gcc_2_8_1_g8"
-    },
-    {
-      "source": "src/game/debug_font_format_data.c",
-      "profile": "gcc_2_8_1_g8"
-    },
-    {
       "source": "src/game/options_layout_position_data.c",
-      "profile": "gcc_2_8_1_g8"
-    },
-    {
-      "source": "src/game/save_data_mask_state.c",
       "profile": "gcc_2_8_1_g8"
     },
     {
@@ -62,27 +42,7 @@
       "profile": "gcc_2_8_1_g8"
     },
     {
-      "source": "src/game/model_primitive_templates.c",
-      "profile": "gcc_2_8_1_g8"
-    },
-    {
-      "source": "src/game/model_handler_state.c",
-      "profile": "gcc_2_8_1_g8"
-    },
-    {
       "source": "src/game/model_handler_diagnostics.c",
-      "profile": "gcc_2_8_1_g8"
-    },
-    {
-      "source": "src/game/main_menu_load_rect.c",
-      "profile": "gcc_2_8_1_g8"
-    },
-    {
-      "source": "src/game/movie_frame_pipeline_state.c",
-      "profile": "gcc_2_8_1_g8"
-    },
-    {
-      "source": "src/game/model_transfer_flags_state.c",
       "profile": "gcc_2_8_1_g8"
     },
     {

@@ -66,7 +66,7 @@ single color value. No pointer declaration or new cache capacity is introduced.
 ## Storage, native providers and preservation
 
 North America's initialized owner remains the same fourteen separately named
-`u32` words in `model_primitive_templates.c`, in identical order with explicit
+`u32` words in `model_background.c`, in identical order with explicit
 `.sdata` attributes. The final two values remain zero. The draw pass still
 defines the cache word as an uninitialized common: its old-assembler
 load/store-padding effect is preserved, and it still merges with the

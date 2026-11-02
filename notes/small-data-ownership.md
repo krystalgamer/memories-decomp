@@ -139,7 +139,7 @@ attributes produced the same assembly.
 The exact spelling is eight ordered `u16` scalars. GCC emits `.align 1` for
 each scalar, so the three public boundary names land at the retail offsets
 and the unnamed continuation values remain local to
-`frontend_debug_constants.c`. The resulting `.sdata` section is exactly 16
+`debug_menu_update.c`. The resulting `.sdata` section is exactly 16
 bytes with two-byte alignment, and the complete executable matches.
 
 `gDebugMenu_wMessageId` and `gDebugMenu_wCampaignScene` remain relocation targets in `DebugMenu_UpdateCampaignEntry`,
@@ -185,7 +185,7 @@ those commons allocate no storage.
 ## `0x8009AFE4` is one C-owned model-handler state block
 
 The 116 bytes from `D_8009AFE4` through the end of `gModel_szTermTrace` are emitted by
-`model_handler_state.c`. The prefix contains five byte/halfword state labels,
+`model_scene_controllers.c`. The prefix contains five byte/halfword state labels,
 including a private halfword continuation that preserves the unnamed bytes at
 `0x8009AFEA`. Two word pairs and two mutable words follow. The rest of the
 block is eleven fixed-size diagnostic strings and formatting fragments used by

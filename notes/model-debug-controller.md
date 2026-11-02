@@ -52,7 +52,7 @@ The original small-data run is now three contiguous sections:
 
 | Address | Bytes | Owner |
 |---|---:|---|
-| `0x8009AFE4` | `0x20` | `model_handler_state.c` |
+| `0x8009AFE4` | `0x20` | `model_scene_controllers.c` |
 | `0x8009B004` | `4` | `model_debug_controller.c` |
 | `0x8009B008` | `0x50` | `model_handler_diagnostics.c` |
 

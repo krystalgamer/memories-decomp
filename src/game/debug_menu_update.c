@@ -42,6 +42,7 @@
 #include "debug_menu_two_player_entry.h"
 #include "frontend_scene_states.h"
 #include "debug_menu_editor_entries.h"
+#include "frontend_debug_constants.h"
 
 /* Initialized data this unit owns at 0x80090D7C: the two step tables DebugMenu_Update
  * dispatches through.
@@ -215,6 +216,19 @@ void DebugMenu_Update(void) {
         gDebugMenu_bStep = gDebugMenu_bCursor + 1;
     }
 }
+
+/* GCC 2.8.1 aligns arrays to four bytes, so keep this retail block scalar. */
+u16 gDebugMenu_wMessageId = 0x0500;
+u16 gDebugMenu_wCampaignScene = 1;
+static u16 sFrontendDebugValue48 = 0;
+static u16 sFrontendDebugValue4A = 1;
+u16 gDebugMenu_awNibbleMasks = 0x000F;
+static u16 sFrontendDebugValue4E = 0x00F0;
+static u16 sFrontendDebugValue50 = 0x0F00;
+static u16 sFrontendDebugValue52 = 0xF000;
+
+char gDebugMenu_szLineBreak[4] = "\n";
+char gDebugMenu_szStringLineFormat[4] = "%s\n";
 
 #ifndef VERSION_EUROPE
 void func_8003134C(void)

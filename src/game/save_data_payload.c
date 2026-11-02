@@ -45,6 +45,9 @@ s32 gSaveDataSequence;
    differences was a boundary: every member compiles to an identical object
    at gcc_2_8_1_g8, so the unit builds there. */
 
+u32 gSaveData_dwMaskStateLow = 0x55555555;
+u32 gSaveData_dwMaskStateHigh = 0x55555555;
+
 /* Advances the two-word save-data mask state and returns the next word. */
 u32 SaveData_NextMaskWord(void)
 {
