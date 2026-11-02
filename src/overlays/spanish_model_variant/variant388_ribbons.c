@@ -7,7 +7,7 @@
  * first point of each as a POLY_G3 as wide as the projected offset when
  * both its depth and its projection flag are non-negative. The fan turns
  * by step * 32 on the last frame of the timing record. */
-void func_8013C344(u8 *ctx)
+void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

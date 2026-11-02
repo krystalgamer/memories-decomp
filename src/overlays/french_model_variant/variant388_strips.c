@@ -19,7 +19,7 @@
  * col->sc[1] and col->sb[1] through the one column pointer instead of a
  * separate next pointer; both address sc[k + 1] and sb[k + 1]. The North
  * American header-371 images built with the CDK compiler use it. */
-void func_8013BCD4(u8 *ctx)
+void FrenchModelVariant388_DrawStrips(u8 *ctx)
 {
     u8 *work;
     SVECTOR rot;
