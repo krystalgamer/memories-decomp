@@ -8,7 +8,7 @@ void func_8013C478(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
+    long interpolation;
     Strip385State *state = (Strip385State *)context;
     Strip385 *strip;
     POLY_GT4 *polygon;

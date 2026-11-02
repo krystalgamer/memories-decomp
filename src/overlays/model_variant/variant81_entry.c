@@ -23,8 +23,8 @@ s32 func_8013B004(u8 *context, s32 command)
     u16 depths[66];
     u16 projections[66];
     u16 flags[66];
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     Model81Config *config;
     GsOT *ot;
     s32 direction;
@@ -102,8 +102,8 @@ s32 func_8013B004(u8 *context, s32 command)
         + config->swirl_radius * csin(work->angles[j]) / 4096 * i / config->segments;
     ends[1].vz = matrix.t[2] + (direction * 900 - matrix.t[2]) * i / config->segments;
     GsSetLsMatrix(&light);
-    RotTransPers(&ends[0], (PSXLONG *)&gt4.x0, &p, &flag);
-    RotTransPers(&ends[1], (PSXLONG *)&gt4.x2, &p, &flag);
+    RotTransPers(&ends[0], (long *)&gt4.x0, &p, &flag);
+    RotTransPers(&ends[1], (long *)&gt4.x2, &p, &flag);
     for (; i > 0; i--) {
         j = (config->segments - i + work->elapsed / 2) % config->count;
         ends[0].vx = -matrix.t[0] * i / config->segments
@@ -119,8 +119,8 @@ s32 func_8013B004(u8 *context, s32 command)
             + config->swirl_radius * csin(work->angles[j]) / 4096 * i / config->segments;
         ends[1].vz = matrix.t[2] + (direction * 900 - matrix.t[2]) * i / config->segments;
         GsSetLsMatrix(&light);
-        otz = RotTransPers(&ends[0], (PSXLONG *)&gt4.x1, &p, &flag);
-        otz += RotTransPers(&ends[1], (PSXLONG *)&gt4.x3, &p, &flag);
+        otz = RotTransPers(&ends[0], (long *)&gt4.x1, &p, &flag);
+        otz += RotTransPers(&ends[1], (long *)&gt4.x3, &p, &flag);
         otz /= 2;
         if (work->frames[j] == 0 || work->frames[j] == 6) {
             setUV4(&gt4, work->frames[j] * 32, 0, work->frames[j] * 32 + 63, 0,

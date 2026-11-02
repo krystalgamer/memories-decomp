@@ -50,7 +50,7 @@ tool changes.
 `Text_PushStagedString` reads `gText_StagedStringId`, not a stream operand,
 and resolves the bank pointer before incrementing the stream byte. The byte
 increment, store and signed `s8` slot index remain in their original order.
-The function returns `u8 *G32 *`, the address of stored pointer storage;
+The function returns `u8 **`, the address of stored pointer storage;
 the generic command-table cast still discards that result.
 
 The staged ID retains all three original header arms and selectors:

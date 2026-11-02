@@ -44,7 +44,7 @@ typedef union {
  * the ambient level, the ring texture, the textures, the ring glow, halo,
  * streak, core, mote, orbit, impact and burst colours and the flash level. */
 typedef struct {
-    Model837Config *G32 config;
+    Model837Config *config;
     SVECTOR ring[32];
     SVECTOR streaks[32][4];
     SVECTOR rotations[32];

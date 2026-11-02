@@ -28,7 +28,7 @@ typedef union {
 } Model121Palette;
 
 typedef struct {
-    Model121Config *G32 config;
+    Model121Config *config;
     SVECTOR positions[64];
     SVECTOR destinations[64];
     SVECTOR ring[26];

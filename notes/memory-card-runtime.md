@@ -30,8 +30,8 @@ When state bit `0x1000` marks a pending high-level command, the update calls:
 ```c
 MemCardSync(
     1,
-    (PSXLONG *)&gMemCardDialog_SyncCommand,
-    (PSXLONG *)&gMemCardDialog_SyncResult
+    (long *)&gMemCardDialog_SyncCommand,
+    (long *)&gMemCardDialog_SyncResult
 );
 ```
 
@@ -902,7 +902,7 @@ callback initializes it later under that shared guard. The legacy
 
 The authoritative `src/psyq/libmcrd.h` prototype names the two output
 arguments `cmds` and `rslt`. The modal pump keeps mode one, the two
-separate existing `PSXLONG *` casts, the full return store and the later
+separate existing `long *` casts, the full return store and the later
 comparison of its local against one. Only that original completion value
 clears `IO_PENDING` and reaches dispatch; other raw returns do not gain
 a translated error, fallback, result reset or new retry policy.

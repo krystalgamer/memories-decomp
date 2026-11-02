@@ -29,7 +29,7 @@ typedef struct {
 /* The work area: 128 dots and their velocities, the two 33-vertex rings the
  * strips are cut from, 32 sprite velocities, and the two texture words. */
 typedef struct {
-    Model176Config *G32 config;
+    Model176Config *config;
     SVECTOR dots[128];
     SVECTOR dot_velocities[128];
     SVECTOR ring[66];

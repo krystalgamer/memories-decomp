@@ -22,7 +22,7 @@ s32 ModelVariant129_HandleRequest(u8 *context, s32 command)
     DVECTOR screen[64];
     u16 depths[64], projection[64], flags[64];
     ModelTintColor tint_start, tint_end;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 direction;
     GsOT *ot;
     Model129Config *config;
@@ -31,7 +31,7 @@ s32 ModelVariant129_HandleRequest(u8 *context, s32 command)
     u16 red, green, blue;
     SVECTOR *point;
     DVECTOR *projected;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -116,7 +116,7 @@ s32 ModelVariant129_HandleRequest(u8 *context, s32 command)
                 setRGB2(&fan, red, green, blue);
                 setVector(&position, point->vx, point->vy, point->vz);
                 GsSetLsMatrix(&base);
-                RotTransPers(point, (PSXLONG *)&fan.x2, &interpolation, &flag);
+                RotTransPers(point, (long *)&fan.x2, &interpolation, &flag);
                 for (i = 0; i < 64; i++) {
                     size = i * 64;
                     setVector(&rotation, 0, 0, size);
@@ -127,8 +127,8 @@ s32 ModelVariant129_HandleRequest(u8 *context, s32 command)
                     RotMatrix(&rotation, &matrix);
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
-                    depth = RotAverage3(&vertices[0], &vertices[1], &vertices[2], (PSXLONG *)&fan.x0,
-                        (PSXLONG *)&fan.x1, (PSXLONG *)&quad.x0, &interpolation, &flag);
+                    depth = RotAverage3(&vertices[0], &vertices[1], &vertices[2], (long *)&fan.x0,
+                        (long *)&fan.x1, (long *)&quad.x0, &interpolation, &flag);
                     if (depth >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 1);
                         fan.x1 = quad.x0;
@@ -150,8 +150,8 @@ s32 ModelVariant129_HandleRequest(u8 *context, s32 command)
                     RotMatrix(&rotation, &matrix);
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
-                    depth = RotAverage3(&vertices[0], &vertices[1], &vertices[2], (PSXLONG *)&fan.x0,
-                        (PSXLONG *)&fan.x1, (PSXLONG *)&quad.x0, &interpolation, &flag);
+                    depth = RotAverage3(&vertices[0], &vertices[1], &vertices[2], (long *)&fan.x0,
+                        (long *)&fan.x1, (long *)&quad.x0, &interpolation, &flag);
                     if (depth >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 1);
                         fan.x1 = quad.x0;

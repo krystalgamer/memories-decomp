@@ -33,7 +33,7 @@ typedef struct {
 } DuelEffect6Config;
 
 typedef struct {
-    DuelEffect6Config *G32 config;
+    DuelEffect6Config *config;
     SVECTOR trails[16][4];
     SVECTOR velocities[16];
     SVECTOR rings[3][32];

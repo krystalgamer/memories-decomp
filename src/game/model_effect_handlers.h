@@ -13,7 +13,7 @@
    Negative arg1 draws the disc as 32 Gouraud triangles and advances level
    (-2) or scale (any other value). */
 typedef struct {
-    ModelDiscEffectConfig *G32 table;
+    ModelDiscEffectConfig *table;
     SVECTOR points[67];
     u8 r;
     u8 g;
@@ -53,9 +53,9 @@ typedef struct {
     u16 mode;
     u16 unk_02;
     RECT prect;
-    u32 *G32 paddr;
+    u32 *paddr;
     RECT crect;
-    u32 *G32 caddr;
+    u32 *caddr;
 } ModelBurstImage;
 
 /* The texture page and colour table words built from a ModelBurstImage. */
@@ -65,7 +65,7 @@ typedef struct {
 } ModelBurstTexture;
 
 typedef struct {
-    ModelBurstPalette *G32 table;
+    ModelBurstPalette *table;
     s32 frame;
     SVECTOR rings[3];
     SVECTOR ring_speed[3];

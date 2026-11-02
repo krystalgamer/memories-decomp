@@ -22,7 +22,7 @@ void func_8013BFE4(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flags[1][9];
+    long flags[1][9];
     GsOT *ot;
     Variant401EntryBand *rec;
     s16 j3, j4;
@@ -31,7 +31,7 @@ void func_8013BFE4(u8 *ctx)
     s16 j, q5, q6;
     u16 i;
     s32 yaw;
-    PSXLONG p;
+    long p;
     u16 i2;
     s32 a;
     s32 radius;
@@ -105,9 +105,9 @@ void func_8013BFE4(u8 *ctx)
             SetRotMatrix(&ls);
             *(s32 *)(((u8 *)(off4 + (s32)rec)) + 0x258) = RotTransPers3((SVECTOR *)p0, (SVECTOR *)((u8 *)rec + (off8 + 0x48)),
                                                    (SVECTOR *)((u8 *)rec + (off8 + 0x90)),
-                                                   (PSXLONG *)((u8 *)rec + (off4 + 0xD8)),
-                                                   (PSXLONG *)((u8 *)rec + (off4 + 0xFC)),
-                                                   (PSXLONG *)((u8 *)rec + (off4 + 0x120)),
+                                                   (long *)((u8 *)rec + (off4 + 0xD8)),
+                                                   (long *)((u8 *)rec + (off4 + 0xFC)),
+                                                   (long *)((u8 *)rec + (off4 + 0x120)),
                                                    &p, &flags[j3][j]);
             if (MODEL_VARIANT_WORD(work, 0x1B18) < 3 && *(s32 *)(((u8 *)(off4 + (s32)rec)) + 0x1D4) < 0x400) {
                 if (j == 0) {

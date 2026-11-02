@@ -21,8 +21,8 @@
             ScaleMatrix(&matrix, &scale); \
             GsSetLsMatrix(&matrix); \
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3], \
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, \
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag); \
+                (long *)&quad.x0, (long *)&quad.x1, \
+                (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag); \
             setUV4(&quad, \
                 (u16)(work->ages[i] / 3) * 32, 0, \
                 (u16)(work->ages[i] / 3) * 32 + 31, 0, \
@@ -43,7 +43,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR corners[4];
-    PSXLONG flag, interpolation, depth;
+    long flag, interpolation, depth;
     GsOT *ot;
     GsCOORDUNIT *coordinate;
     s32 i, value, slot, direction, step;

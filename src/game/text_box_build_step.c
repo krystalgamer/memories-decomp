@@ -92,11 +92,11 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     u16 flags;
     s32 id;
     u8 *text;
-    u8 *G32 *slot;
+    u8 **slot;
     u8 *script;
     DuelEffectEntry *entry;
     s32 op;
-    void (*G32 *handlers)(u8 *);
+    void (**handlers)(u8 *);
 
     flags = object->flags_34;
     if ((flags & TEXT_BOX_FLAG_BUILD_ACTIVE) == 0) {
@@ -219,7 +219,7 @@ next_opcode:
     *slot = script + 1;
     if (op >= 0xF0) {
         gText_CommandDisposition = 0;
-        CALL32(void (*)(u8 *), handlers[(s16)gText_CurrentStreamCode - 0xF0])((u8 *)object);
+        handlers[(s16)gText_CurrentStreamCode - 0xF0]((u8 *)object);
         if (gText_CommandDisposition >= 0) {
             if (gText_CommandDisposition == 1) {
                 return;

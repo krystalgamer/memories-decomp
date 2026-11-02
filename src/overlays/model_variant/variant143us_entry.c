@@ -32,7 +32,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR corner[4];
     SVECTOR origin;
     Model143UsColour saved;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model143UsState *work;
     s32 direction;
     GsOT *ot;
@@ -47,7 +47,7 @@ s32 func_8013B004(u8 *context, s32 command)
      * turn); keeping three variables reproduces the original registers. */
     s32 j, a, c, b;
     u8 red, green, blue;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -404,8 +404,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 MulMatrix2(&base, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                depth = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3], (PSXLONG *)&quad.x0,
-                    (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                depth = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3], (long *)&quad.x0,
+                    (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }
@@ -444,8 +444,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                depth = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3], (PSXLONG *)&quad.x0,
-                    (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                depth = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3], (long *)&quad.x0,
+                    (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                 a = time * 8 / config->flight_time;
                 setUV4(&quad, a << 5, 128, (a << 5) + 31, 128, a << 5, 159, (a << 5) + 31, 159);
                 if (depth >= 0 && flag >= 0) {
@@ -565,8 +565,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     RotMatrix(&rotation, &matrix);
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
-                    depth = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3], (PSXLONG *)&quad.x0,
-                        (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    depth = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3], (long *)&quad.x0,
+                        (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                     a = time * 8 / config->burst_time;
                     setUV4(&quad, a << 5, 128, (a << 5) + 31, 128, a << 5, 159, (a << 5) + 31, 159);
                     if (depth >= 0 && flag >= 0) {

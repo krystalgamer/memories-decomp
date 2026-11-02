@@ -13,8 +13,8 @@ void func_8013DF2C(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Sheets443State *state = (Sheets443State *)context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *quad;
@@ -65,8 +65,8 @@ void func_8013DF2C(u8 *context)
         SetRotMatrix(&light);
         for (k = 0; k < 4; k++) {
             depth = RotTransPers4(&sheet->v0[k], &sheet->v1[k], &sheet->v2[k], &sheet->v3[k],
-                                 (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                 (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                 (long *)&quad->x0, (long *)&quad->x1,
+                                 (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag);
             if (i < 3) {
                 quad->r0 = sheet->inner[0];

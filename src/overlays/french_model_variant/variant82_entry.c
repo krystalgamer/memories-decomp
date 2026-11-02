@@ -14,7 +14,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR rotation;
     VECTOR scale;
     SVECTOR vertices[3];
-    PSXLONG interpolation, flag, depth;
+    long interpolation, flag, depth;
     s32 direction;
     GsOT *ot;
     s32 i;
@@ -98,7 +98,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vy += velocity->vy * Model_GetFrameStep();
             point->vz += velocity->vz * Model_GetFrameStep();
         }
-        depth = RotTransPers(point, (PSXLONG *)&box.x, &interpolation, &flag);
+        depth = RotTransPers(point, (long *)&box.x, &interpolation, &flag);
         if (direction * point->vz < 450) {
             box.r = config->red;
             box.g = config->green;
@@ -119,8 +119,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotTransPers4(&vertices[1], &vertices[1], &vertices[2], &vertices[2],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             quad.x1 = quad.x3;
             quad.x2 = quad.x0;
             setUVWH(&quad, (8 - work->remaining[i]) % 4 * 32,

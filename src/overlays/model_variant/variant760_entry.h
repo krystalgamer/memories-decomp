@@ -51,7 +51,7 @@ typedef struct {
  * the ambient level, the line scale, the fade flags and phase counters, the
  * spark frames and the spark alphas. */
 typedef struct {
-    Model760Config *G32 config;
+    Model760Config *config;
     SVECTOR ring[16];
     SVECTOR shards[32];
     SVECTOR spins[32];

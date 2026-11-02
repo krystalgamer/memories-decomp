@@ -19,7 +19,7 @@ s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG parameter, flag;
+    long parameter, flag;
     Model108State *work;
     s32 side;
     GsOT *ot;
@@ -117,8 +117,8 @@ s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
             vertices[1].vy += vertices[2].vy;
             vertices[1].vz += vertices[2].vz;
             GsSetLsMatrix(&base);
-            depth = RotTransPers(&vertices[0], (PSXLONG *)&line.x0, &parameter, &flag);
-            depth += RotTransPers(&vertices[1], (PSXLONG *)&line.x1, &parameter, &flag);
+            depth = RotTransPers(&vertices[0], (long *)&line.x0, &parameter, &flag);
+            depth += RotTransPers(&vertices[1], (long *)&line.x1, &parameter, &flag);
             depth /= 2;
             if (depth >= 0 && flag >= 0) {
                 GsSortGLine(&line, ot, depth);
@@ -142,8 +142,8 @@ s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
         tail.vz = matrix.t[2];
         if (time >= 0 && time < config->duration) {
             GsSetLsMatrix(&base);
-            depth = RotTransPers(&head, (PSXLONG *)&ribbon.x0, &parameter, &flag);
-            depth += RotTransPers(&tail, (PSXLONG *)&ribbon.x1, &parameter, &flag);
+            depth = RotTransPers(&head, (long *)&ribbon.x0, &parameter, &flag);
+            depth += RotTransPers(&tail, (long *)&ribbon.x1, &parameter, &flag);
             point = work->ends.trails[i].inner;
             other = work->ends.trails[i].outer;
             for (j = 0; j < 4; j++) {
@@ -156,8 +156,8 @@ s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
                 vertices[0].vx = vertices[1].vx + (vertices[0].vx - vertices[1].vx) * (4 - j) / 4;
                 vertices[0].vy = vertices[1].vy + (vertices[0].vy - vertices[1].vy) * (4 - j) / 4;
                 vertices[0].vz = vertices[1].vz + (vertices[0].vz - vertices[1].vz) * (4 - j) / 4;
-                depth += RotTransPers(&vertices[0], (PSXLONG *)&ribbon.x2, &parameter, &flag);
-                depth += RotTransPers(&other[(work->index[i] + j) % 4], (PSXLONG *)&ribbon.x3, &parameter, &flag);
+                depth += RotTransPers(&vertices[0], (long *)&ribbon.x2, &parameter, &flag);
+                depth += RotTransPers(&other[(work->index[i] + j) % 4], (long *)&ribbon.x3, &parameter, &flag);
                 depth /= 4;
                 red = config->trail_red * (4 - j) / 4;
                 green = config->trail_green * (4 - j) / 4;
@@ -250,8 +250,8 @@ s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
             vertices[3].vz += point[3].vz;
             GsSetLsMatrix(&base);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &parameter, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &parameter, &flag);
             red = config->fade_red * (config->fade - time) / config->fade;
             green = config->fade_green * (config->fade - time) / config->fade;
             blue = config->fade_blue * (config->fade - time) / config->fade;
@@ -285,8 +285,8 @@ s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &parameter, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &parameter, &flag);
                 frame = j + time / 2;
                 if ((u32)frame < 8 && flag >= 0 && depth >= 0) {
                     setUV4(&quad, frame * 32, 128, frame * 32 + 31, 128,

@@ -60,7 +60,7 @@ typedef struct {
  * line count, the beam sizes, the ambient level, the texture word and the
  * fading colours. */
 typedef struct {
-    Model788Config *G32 config;
+    Model788Config *config;
     SVECTOR inner[64];
     SVECTOR outer[64];
     SVECTOR inner_velocity[64];

@@ -36,7 +36,7 @@ typedef struct {
  * arrival flags, the next spark, the ambient level, the burst texture page
  * and palette, the textures, and the fading orb and comet colours. */
 typedef struct {
-    Model843Config *G32 config;
+    Model843Config *config;
     SVECTOR orbs[2][96];
     SVECTOR orb_velocities[2][96];
     SVECTOR orb_targets[2][96];

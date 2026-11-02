@@ -97,7 +97,7 @@ Equal mismatch counts were not treated as evidence of identical artifacts.
 | Unsigned packed texture handles | 3,748 | 960 | 0 |
 
 The explicit cursor traverses four real pointers per quad. Its canonical
-`SVECTOR *G32 *` declaration marks the guest-pointer storage it traverses;
+`SVECTOR **` declaration marks the guest-pointer storage it traverses;
 this portability annotation does not change native instructions.
 Staging all three
 primary RGB byte loads before any packet color store preserves native

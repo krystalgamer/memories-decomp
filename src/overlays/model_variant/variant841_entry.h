@@ -44,7 +44,7 @@ typedef struct {
  * and orb and burst colours; the timers, phase, orb count, ambient level,
  * the burst texture and the two loaded textures. */
 typedef struct {
-    Model841Config *G32 config;
+    Model841Config *config;
     SVECTOR pos[40][2];
     SVECTOR vel[40][2];
     SVECTOR trail[40][10][2];

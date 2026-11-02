@@ -83,7 +83,7 @@ s32 FrenchModelVariant101_HandleRequest(u8 *context, s32 command)
     setUV4(&quad, 0, 0, 31, 0, 0, 63, 31, 63);
     setVector(&position, 0, -350, direction * 450);
     GsSetLsMatrix(&base);
-    RotTrans(&position, (VECTOR *)matrix.t, (PSXLONG *)&active);
+    RotTrans(&position, (VECTOR *)matrix.t, (long *)&active);
     RotMatrix(&rotation, &matrix);
     MulMatrix2(&base, &matrix);
     ScaleMatrix(&matrix, &scale);
@@ -128,7 +128,7 @@ s32 FrenchModelVariant101_HandleRequest(u8 *context, s32 command)
         i = (work->elapsed << 12) / config->duration;
         scale.vz = scale.vy = scale.vx = i;
         GsSetLsMatrix(&base);
-        RotTrans(&position, (VECTOR *)matrix.t, (PSXLONG *)&flag);
+        RotTrans(&position, (VECTOR *)matrix.t, (long *)&flag);
         RotMatrix(&rotation, &matrix);
         MulMatrix2(&base, &matrix);
         ScaleMatrix(&matrix, &scale);

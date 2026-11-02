@@ -32,7 +32,7 @@ typedef struct {
     u32 field_240C;
     s32 step;
     u32 field_2414;
-    Family373LayerConfig *G32 config;
+    Family373LayerConfig *config;
     u8 unknown_241C[0x14];
     s32 scale;
     u8 unknown_2434[0x50];

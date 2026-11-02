@@ -37,8 +37,8 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
     Model808Shape shape;
     Model808Faces faces;
     MATRIX saved;
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 slot;
     s32 direction;
     s32 step;
@@ -176,8 +176,8 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
             setVector(&quad[1], work->config->sparkle_size, -work->config->sparkle_size, 0);
             setVector(&quad[2], -work->config->sparkle_size, work->config->sparkle_size, 0);
             setVector(&quad[3], work->config->sparkle_size, work->config->sparkle_size, 0);
-            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&sparkle.x0,
-                              (PSXLONG *)&sparkle.x1, (PSXLONG *)&sparkle.x2, (PSXLONG *)&sparkle.x3, &p, &flag);
+            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&sparkle.x0,
+                              (long *)&sparkle.x1, (long *)&sparkle.x2, (long *)&sparkle.x3, &p, &flag);
             if (work->frames[i] < 24) {
                 setUV4(&sparkle, work->frames[i] / 6 % 4 * 32 + 128, 0x90, work->frames[i] / 6 % 4 * 32 + 159, 0x90,
                        work->frames[i] / 6 % 4 * 32 + 128, 0xAF, work->frames[i] / 6 % 4 * 32 + 159, 0xAF);
@@ -228,8 +228,8 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
         vtx = shape.v;
         for (face = faces.flat, r = 0; r < 5; face += 4, r++) {
             otz = RotTransPers4(&vtx[face[0]], &vtx[face[1]], &vtx[face[2]],
-                                &vtx[face[3]], (PSXLONG *)&f4.x0, (PSXLONG *)&f4.x1,
-                                (PSXLONG *)&f4.x2, (PSXLONG *)&f4.x3, &p, &flag);
+                                &vtx[face[3]], (long *)&f4.x0, (long *)&f4.x1,
+                                (long *)&f4.x2, (long *)&f4.x3, &p, &flag);
             Graphics_SubmitDrawModePacket((u32 *)&f4, ot, (u16)otz, 1);
         }
         if (work->elapsed >= work->config->launch) {
@@ -267,8 +267,8 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
                           work->trail[i - 1].vy - work->config->trail_width / (q + 1), work->trail[i - 1].vz);
                 setVector(&quad[3], work->trail[i - 1].vx,
                           work->trail[i - 1].vy + work->config->trail_width / (q + 1), work->trail[i - 1].vz);
-                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1,
-                                  (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p, &flag);
+                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&g4.x0, (long *)&g4.x1,
+                                  (long *)&g4.x2, (long *)&g4.x3, &p, &flag);
                 if (otz >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)otz, 1);
                 }
@@ -296,8 +296,8 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
         setVector(&quad[1], work->config->glow_size, -work->config->glow_size, 0);
         setVector(&quad[2], -work->config->glow_size, work->config->glow_size, 0);
         setVector(&quad[3], work->config->glow_size, work->config->glow_size, 0);
-        otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1,
-                          (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+        otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0, (long *)&ft4.x1,
+                          (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
         setUV4(&ft4, 0, 0, 0x3F, 0, 0, 0x3F, 0x3F, 0x3F);
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&ft4, ot, (u16)otz, 1);
@@ -307,8 +307,8 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&light);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
-        otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1,
-                          (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+        otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0, (long *)&ft4.x1,
+                          (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&ft4, ot, (u16)otz, 1);
         }
@@ -330,8 +330,8 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
                 vtx = shape.v;
                 for (face = faces.flat, r = 0; r < 5; face += 4, r++) {
                     otz = RotTransPers4(&vtx[face[0]], &vtx[face[1]],
-                                        &vtx[face[2]], &vtx[face[3]], (PSXLONG *)&f4.x0,
-                                        (PSXLONG *)&f4.x1, (PSXLONG *)&f4.x2, (PSXLONG *)&f4.x3, &p, &flag);
+                                        &vtx[face[2]], &vtx[face[3]], (long *)&f4.x0,
+                                        (long *)&f4.x1, (long *)&f4.x2, (long *)&f4.x3, &p, &flag);
                     Graphics_SubmitDrawModePacket((u32 *)&f4, ot, (u16)otz, 1);
                 }
                 addVector(&work->embers[i], &work->ember_velocities[i]);
@@ -351,8 +351,8 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
             setVector(&quad[1], work->config->ember_size, -work->config->ember_size, 0);
             setVector(&quad[2], -work->config->ember_size, work->config->ember_size, 0);
             setVector(&quad[3], work->config->ember_size, work->config->ember_size, 0);
-            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1,
-                              (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0, (long *)&ft4.x1,
+                              (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
             r = rand() % 3;
             setUV4(&ft4, r * 32 + 128, 0, r * 32 + 159, 0, r * 32 + 128, 0x1F, r * 32 + 159, 0x1F);
             if (otz >= 0) {
@@ -380,12 +380,12 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 otz = RotAverage4(&work->ring[15][0], &work->ring[0][0], &work->ring[15][1], &work->ring[0][1],
-                                  (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1, (PSXLONG *)&gt4.x2,
-                                  (PSXLONG *)&gt4.x3, &p, &flag);
+                                  (long *)&gt4.x0, (long *)&gt4.x1, (long *)&gt4.x2,
+                                  (long *)&gt4.x3, &p, &flag);
             } else {
                 otz = RotAverage4(&work->ring[i][0], &work->ring[i + 1][0], &work->ring[i][1],
-                                  &work->ring[i + 1][1], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                  (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                  &work->ring[i + 1][1], (long *)&gt4.x0, (long *)&gt4.x1,
+                                  (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
             }
             setUV4(&gt4, 0, 0x40, 0x7F, 0x40, 0, 0x8F, 0x7F, 0x8F);
             if (otz >= 0) {

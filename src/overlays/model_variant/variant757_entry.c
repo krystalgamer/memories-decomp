@@ -20,8 +20,8 @@ s32 ModelVariant757_HandleRequest(u8 *context, s32 command)
     SVECTOR pos;
     VECTOR scale;
     SVECTOR quad[4];
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 slot, direction, step;
     GsOT *ot;
     s32 i, j;
@@ -133,8 +133,8 @@ s32 ModelVariant757_HandleRequest(u8 *context, s32 command)
             RotMatrix(&rot, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
-            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
-                              (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &p, &flag);
+            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&packet->x0, (long *)&packet->x1,
+                              (long *)&packet->x2, (long *)&packet->x3, &p, &flag);
             setSemiTrans(packet, 1);
             if (flag >= 0 && otz >= 0) {
                 GsSortPoly(packet, ot, (u16)otz);
@@ -181,8 +181,8 @@ s32 ModelVariant757_HandleRequest(u8 *context, s32 command)
             RotMatrix(&rot, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
-            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
-                              (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &p, &flag);
+            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&packet->x0, (long *)&packet->x1,
+                              (long *)&packet->x2, (long *)&packet->x3, &p, &flag);
             setSemiTrans(packet, 1);
             if (flag >= 0 && otz >= 0) {
                 GsSortPoly(packet, ot, (u16)otz);
@@ -233,8 +233,8 @@ s32 ModelVariant757_HandleRequest(u8 *context, s32 command)
                     RotMatrix(&rot, &m);
                     ScaleMatrix(&m, &scale);
                     GsSetLsMatrix(&m);
-                    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&packet->x0,
-                                      (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &p, &flag);
+                    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&packet->x0,
+                                      (long *)&packet->x1, (long *)&packet->x2, (long *)&packet->x3, &p, &flag);
                     setSemiTrans(packet, 1);
                     if (flag >= 0 && otz >= 0) {
                         GsSortPoly(packet, ot, (u16)otz);

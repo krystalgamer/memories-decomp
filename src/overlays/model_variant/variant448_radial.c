@@ -10,8 +10,8 @@ void func_8013C254(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     GsOT *ot;
     s32 i;
     u8 *work;
@@ -45,8 +45,8 @@ void func_8013C254(u8 *ctx)
     for (i = 0; i < 1; i++, rec++) {
         for (j = 0; j < 16; j++) {
             otz = RotTransPers3(&rec->point[0], &rec->point[j + 2], &rec->point[j + 1],
-                                (PSXLONG *)&tri->x0, (PSXLONG *)&tri->x1,
-                                (PSXLONG *)&tri->x2, &p, &flag);
+                                (long *)&tri->x0, (long *)&tri->x1,
+                                (long *)&tri->x2, &p, &flag);
             tri->r0 = rec->center.r;
             tri->g0 = rec->center.g;
             tri->b0 = rec->center.b;
@@ -61,8 +61,8 @@ void func_8013C254(u8 *ctx)
             }
             otz = RotTransPers4(&rec->point[j + 1], &rec->point[j + 2],
                                 &rec->point[j + 18], &rec->point[j + 19],
-                                (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3, &p, &flag);
+                                (long *)&quad->x0, (long *)&quad->x1,
+                                (long *)&quad->x2, (long *)&quad->x3, &p, &flag);
             quad->r0 = rec->middle.r;
             quad->g0 = rec->middle.g;
             quad->b0 = rec->middle.b;

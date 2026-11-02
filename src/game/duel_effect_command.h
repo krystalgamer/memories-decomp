@@ -65,7 +65,7 @@ void Text_SetOutputLimit(DuelEffectChannel *object);
  * the pointer words at the front of the record. It returns the selected slot,
  * although the generic command table discards that result. The slot holds
  * a stored byte-stream pointer, not an integer payload word. */
-u8 *G32 *Text_PushStagedString(DuelEffectChannel *channel);
+u8 **Text_PushStagedString(DuelEffectChannel *channel);
 
 /* gText_SecondaryCommandHandlers entry: sets the effective colour index at +0x54 from a one-byte
  * operand. With bit 7 set the low nibble indexes gText_abColorSlots instead of

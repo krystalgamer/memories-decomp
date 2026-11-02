@@ -23,7 +23,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR from, to;
     Model141Scratch u;
     u16 depths[34], projection[34], flags[34];
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     Model141State *work;
     Model141Config *config;
     GsOT *ot;
@@ -34,7 +34,7 @@ s32 func_8013B004(u8 *context, s32 command)
     s32 direction;
     u8 *wave, *delta;
     SVECTOR *point, *target;
-    SVECTOR *G32 *q;
+    SVECTOR **q;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -236,7 +236,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = matrix.t[2];
             if (value) {
                 GsSetLsMatrix(&base);
-                RotTransPers(point, (PSXLONG *)&quad.x0, &interpolation, &flag);
+                RotTransPers(point, (long *)&quad.x0, &interpolation, &flag);
                 /* Clearing j before other lengthens its live range, which ranks
                  * it below point for a saved register as in retail. */
                 j = 0;
@@ -334,7 +334,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&quad, ot, depth);
@@ -375,7 +375,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 value = t * 8 / config->burst_time;
                 setUV4(&quad, value % 4 * 32 + 96, value / 4 * 32, value % 4 * 32 + 127, value / 4 * 32,
@@ -428,7 +428,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             if (t < config->beam_time / 2) {
                 setRGB0(&quad, config->beam_color[0], config->beam_color[1], config->beam_color[2]);
@@ -455,7 +455,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             if (flag >= 0) {
                 GsSortPoly(&quad, ot, depth);
@@ -498,8 +498,8 @@ s32 func_8013B004(u8 *context, s32 command)
         MulMatrix2(&base, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        depth = RotTransPers(&corner[0], (PSXLONG *)&quad.x2, &interpolation, &flag);
-        depth += RotTransPers(&corner[1], (PSXLONG *)&quad.x3, &interpolation, &flag);
+        depth = RotTransPers(&corner[0], (long *)&quad.x2, &interpolation, &flag);
+        depth += RotTransPers(&corner[1], (long *)&quad.x3, &interpolation, &flag);
         position.vx = u.middle.vx;
         position.vy = u.middle.vy;
         position.vz = u.middle.vz;
@@ -509,8 +509,8 @@ s32 func_8013B004(u8 *context, s32 command)
         MulMatrix2(&base, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        depth += RotTransPers(&corner[0], (PSXLONG *)&quad.x0, &interpolation, &flag);
-        depth += RotTransPers(&corner[1], (PSXLONG *)&quad.x1, &interpolation, &flag);
+        depth += RotTransPers(&corner[0], (long *)&quad.x0, &interpolation, &flag);
+        depth += RotTransPers(&corner[1], (long *)&quad.x1, &interpolation, &flag);
         depth /= 4;
         if (flag >= 0) {
             GsSortPoly(&quad, ot, depth);
@@ -525,8 +525,8 @@ s32 func_8013B004(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth *= 2;
-        depth += RotTransPers(&corner[0], (PSXLONG *)&quad.x2, &interpolation, &flag);
-        depth += RotTransPers(&corner[1], (PSXLONG *)&quad.x3, &interpolation, &flag);
+        depth += RotTransPers(&corner[0], (long *)&quad.x2, &interpolation, &flag);
+        depth += RotTransPers(&corner[1], (long *)&quad.x3, &interpolation, &flag);
         depth /= 4;
         if (flag >= 0) {
             GsSortPoly(&quad, ot, depth);
@@ -566,8 +566,8 @@ s32 func_8013B004(u8 *context, s32 command)
         GsSetLsMatrix(&matrix);
         q = work->flare_quads;
         for (i = 0; i < 4; i++) {
-            depth = RotAverage4(q[0], q[1], q[2], q[3], (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+            depth = RotAverage4(q[0], q[1], q[2], q[3], (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             if (flag >= 0) {
                 GsSortPoly(&quad, ot, depth);
             }
@@ -639,20 +639,20 @@ s32 func_8013B004(u8 *context, s32 command)
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
                     if (c == -1) {
-                        depth = RotTransPers(&corner[2], (PSXLONG *)&quad.x0, &interpolation, &flag);
-                        depth += RotTransPers(&corner[2], (PSXLONG *)&quad.x1, &interpolation, &flag);
+                        depth = RotTransPers(&corner[2], (long *)&quad.x0, &interpolation, &flag);
+                        depth += RotTransPers(&corner[2], (long *)&quad.x1, &interpolation, &flag);
                         c = 1;
                     } else {
                         if (c == 0) {
                             depth *= 2;
-                            depth += RotTransPers(&corner[0], (PSXLONG *)&quad.x0, &interpolation, &flag);
-                            depth += RotTransPers(&corner[1], (PSXLONG *)&quad.x1, &interpolation, &flag);
+                            depth += RotTransPers(&corner[0], (long *)&quad.x0, &interpolation, &flag);
+                            depth += RotTransPers(&corner[1], (long *)&quad.x1, &interpolation, &flag);
                             depth /= 4;
                             c = 1;
                         } else {
                             depth *= 2;
-                            depth += RotTransPers(&corner[0], (PSXLONG *)&quad.x2, &interpolation, &flag);
-                            depth += RotTransPers(&corner[1], (PSXLONG *)&quad.x3, &interpolation, &flag);
+                            depth += RotTransPers(&corner[0], (long *)&quad.x2, &interpolation, &flag);
+                            depth += RotTransPers(&corner[1], (long *)&quad.x3, &interpolation, &flag);
                             depth /= 4;
                             c = 0;
                         }
@@ -669,8 +669,8 @@ s32 func_8013B004(u8 *context, s32 command)
             GsSetLsMatrix(&matrix);
             q = work->flare_quads;
             for (i = 0; i < 4; i++) {
-                depth = RotAverage4(q[0], q[1], q[2], q[3], (PSXLONG *)&glow.x0, (PSXLONG *)&glow.x1, (PSXLONG *)&glow.x2,
-                    (PSXLONG *)&glow.x3, &interpolation, &flag);
+                depth = RotAverage4(q[0], q[1], q[2], q[3], (long *)&glow.x0, (long *)&glow.x1, (long *)&glow.x2,
+                    (long *)&glow.x3, &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&glow, ot, depth);
                 }

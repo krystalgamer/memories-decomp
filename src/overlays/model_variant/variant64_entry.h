@@ -37,7 +37,7 @@ typedef struct {
  * ray offsets, the ring centre, the texture, the camera-shake stage and the
  * timer. */
 typedef struct {
-    Model64Config *G32 config;
+    Model64Config *config;
     SVECTOR outer[66];
     SVECTOR inner[66];
     SVECTOR rays[8];

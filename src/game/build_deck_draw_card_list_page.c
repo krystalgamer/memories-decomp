@@ -3,7 +3,7 @@
 /* Zero-initialized storage this unit owns at 0x8009B2F8-0x8009B300, defined in
  * address order ahead of the headers that declare it (#2602). */
 u8 gBuildDeck_bConfirmMode;
-struct BuildDeckTransitionState *G32 gBuildDeck_pState;
+struct BuildDeckTransitionState *gBuildDeck_pState;
 
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

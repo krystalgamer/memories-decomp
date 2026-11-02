@@ -23,10 +23,10 @@ void func_8013CD30(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
 #ifndef MODEL_VARIANT472_SPIRAL_DIRECT_PREVIOUS
-    PSXLONG *previous;
+    long *previous;
 #endif
     u8 *work;
     GsOT *ot;
@@ -112,7 +112,7 @@ void func_8013CD30(u8 *ctx)
     for (i = 0; i < 12; i++, arm++) {
 #else
     for (i = 0, previous = &arm->sa[2]; i < 12; i++,
-         previous = (PSXLONG *)((u8 *)previous + sizeof(Variant472SpiralArm)), arm++) {
+         previous = (long *)((u8 *)previous + sizeof(Variant472SpiralArm)), arm++) {
 #endif
         for (k = 0; k < 4; k++) {
             if (k == 3) {

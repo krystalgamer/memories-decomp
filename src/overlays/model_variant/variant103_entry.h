@@ -32,7 +32,7 @@ typedef struct {
 /* The 0xE4-byte work area: the command row, the fan's centre and rim, the
  * last followed position, the strip arc, the texture and the elapsed time. */
 typedef struct {
-    Model103Config *G32 config;
+    Model103Config *config;
     SVECTOR fan[18];
     SVECTOR position;
     SVECTOR ring[8];

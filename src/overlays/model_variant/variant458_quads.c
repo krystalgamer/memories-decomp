@@ -12,8 +12,8 @@ void func_8013CE20(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     ModelVariantSheet *sheet;
     GsOT *ot;
     s16 i;
@@ -72,8 +72,8 @@ void func_8013CE20(u8 *ctx)
             ScaleMatrix(&ls, &scale);
             SetRotMatrix(&ls);
             otz = RotTransPers4(&quads->a[j], &quads->b[j], &quads->c[j], &quads->d[j],
-                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2,
-                (PSXLONG *)&poly->x3, &p, &flag);
+                (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
+                (long *)&poly->x3, &p, &flag);
             poly->r0 = r;
             poly->g0 = g;
             poly->b0 = b;

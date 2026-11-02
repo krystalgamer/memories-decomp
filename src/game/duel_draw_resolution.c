@@ -230,13 +230,13 @@ void DuelScene_UpdateExodiaResult(void)
     u32 sum;
     u8 *cards;
     u8 *poses;
-    DisplayObject *G32 *objs;
+    DisplayObject **objs;
     s32 fnv;
     DuelCardReplayRecordBlock *g;
     s32 py;
     s32 t;
     s32 k;
-    DisplayObject *G32 *slot;
+    DisplayObject **slot;
     s8 side;
     DuelSideState *other;
     DisplayObject *d;
@@ -269,7 +269,7 @@ void DuelScene_UpdateExodiaResult(void)
         obj->position.h.field_2A = obj->field_30.h.field_32;
         rec = (u8 *)gDuelHand_aSlots;
 next_obj:
-        obj = *(DisplayObject *G32 *)rec;
+        obj = *(DisplayObject **)rec;
         /* Keep the typed record offset left of the staging base. */
         g = (DuelCardReplayRecordBlock *)(
             (u32)&((DuelCardRecord *)0)[obj->field_6A] +
@@ -284,7 +284,7 @@ next_obj:
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.h.field_2A = py - 0x1E;
         objs[pose[0]] = obj;
-        *(DisplayObject *G32 *)rec = 0;
+        *(DisplayObject **)rec = 0;
         i++;
         rec += sizeof(DuelHandSlot);
         if (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {

@@ -15,8 +15,8 @@ void func_8013BBA4(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     s16 i;
@@ -202,11 +202,11 @@ void func_8013BBA4(u8 *ctx)
             }
         }
         if (MODEL_VARIANT_WORD(work, 0x1F68) == 3 && MODEL_VARIANT_HALF(work, 0x1F4E) > 0) {
-            start = *(u32 *)(*(u8 *G32 *)(work + 0x1F3C) + 0x2C);
+            start = *(u32 *)(*(u8 **)(work + 0x1F3C) + 0x2C);
             now = MODEL_VARIANT_WORD(work, 0x1F2C);
             if ((u32)now >= (u32)start) {
                 MODEL_VARIANT_HALF(work, 0x1F4E) =
-                    0x400 - ((u32)(now - start) << 10) / (u32)(*(u32 *)(*(u8 *G32 *)(work + 0x1F3C) + 0x30) - start);
+                    0x400 - ((u32)(now - start) << 10) / (u32)(*(u32 *)(*(u8 **)(work + 0x1F3C) + 0x30) - start);
             }
             if (MODEL_VARIANT_HALF(work, 0x1F4E) <= 0) {
                 MODEL_VARIANT_HALF(work, 0x1F4E) = 0;

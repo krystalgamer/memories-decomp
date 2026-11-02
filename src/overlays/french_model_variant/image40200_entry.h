@@ -32,7 +32,7 @@ typedef struct {
 } Image40200Config;
 
 typedef struct {
-    Image40200Config *G32 config;
+    Image40200Config *config;
     SVECTOR positions[64];
     SVECTOR targets[64];
     SVECTOR echoes[64];

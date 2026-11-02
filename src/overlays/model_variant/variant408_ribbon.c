@@ -16,9 +16,9 @@ void func_8013CD7C(u8 *context)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flags[1][17];
-    PSXLONG p;
-    PSXLONG flag;
+    long flags[1][17];
+    long p;
+    long flag;
     EntryState425 *work;
     EntryRibbon425 *ribbon;
     POLY_GT4 *poly;

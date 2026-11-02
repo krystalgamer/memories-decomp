@@ -8,8 +8,8 @@ void func_8013C7C8(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG status[5][5];
-    PSXLONG p;
+    long status[5][5];
+    long p;
     Variant431EntryState *work;
     Variant431EntryBand *band;
     POLY_GT4 *poly;

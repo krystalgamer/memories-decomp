@@ -26,14 +26,14 @@ s32 FrenchModelVariant163_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     DVECTOR projected[66];
     u16 depths[66], interpolation[66], flags[66];
-    PSXLONG flag, parameter;
+    long flag, parameter;
     s32 direction;
     GsOT *ot;
     Model163Config *config;
     SVECTOR *point;
-    SVECTOR *G32 *vertices;
+    SVECTOR **vertices;
     s32 i, j, time, value, step;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -153,8 +153,8 @@ s32 FrenchModelVariant163_HandleRequest(u8 *context, s32 command)
             vertices = work->quads;
             for (j = 0; j < 4; vertices += 4, j++) {
                 depth = RotAverage4(vertices[0], vertices[1], vertices[2], vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &parameter, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &parameter, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }
@@ -170,8 +170,8 @@ s32 FrenchModelVariant163_HandleRequest(u8 *context, s32 command)
                 vertices = work->quads;
                 for (j = 0; j < 4; vertices += 4, j++) {
                     depth = RotAverage4(vertices[0], vertices[1], vertices[2], vertices[3],
-                        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                        (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &parameter, &flag);
+                        (long *)&quad.x0, (long *)&quad.x1,
+                        (long *)&quad.x2, (long *)&quad.x3, &parameter, &flag);
                     if (depth >= 0 && flag >= 0) {
                         GsSortPoly(&quad, ot, (u16)depth);
                     }

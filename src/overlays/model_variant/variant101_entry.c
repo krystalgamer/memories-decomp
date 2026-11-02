@@ -16,7 +16,7 @@ s32 ModelVariant101_HandleRequest(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, parameter;
+    long flag, parameter;
     Model101State *work;
     s32 side;
     GsOT *ot;
@@ -124,8 +124,8 @@ s32 ModelVariant101_HandleRequest(u8 *context, s32 command)
             RotMatrix(&rotation, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            depth = RotTransPers(&vertices[0], (PSXLONG *)&quad.x0, &parameter, &flag);
-            depth += RotTransPers(&vertices[1], (PSXLONG *)&quad.x2, &parameter, &flag);
+            depth = RotTransPers(&vertices[0], (long *)&quad.x0, &parameter, &flag);
+            depth += RotTransPers(&vertices[1], (long *)&quad.x2, &parameter, &flag);
             depth /= 2;
             quad.clut = work->texture[0];
             for (j = 0; j < config->ring_count; j++) {
@@ -137,8 +137,8 @@ s32 ModelVariant101_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                depth += RotTransPers(&vertices[0], (PSXLONG *)&quad.x1, &parameter, &flag);
-                depth += RotTransPers(&vertices[1], (PSXLONG *)&quad.x3, &parameter, &flag);
+                depth += RotTransPers(&vertices[0], (long *)&quad.x1, &parameter, &flag);
+                depth += RotTransPers(&vertices[1], (long *)&quad.x3, &parameter, &flag);
                 setUV4(&quad, j * 128 / config->ring_count + 32, 0,
                     j * 128 / config->ring_count + 31 + 128 / config->ring_count, 0,
                     j * 128 / config->ring_count + 32, 31,
@@ -178,8 +178,8 @@ s32 ModelVariant101_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &parameter, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &parameter, &flag);
             frame = time * 3 / config->flash * 64;
             setUV4(&quad, frame, 48, frame + 63, 48,
                 frame, 111, frame + 63, 111);
@@ -214,7 +214,7 @@ s32 ModelVariant101_HandleRequest(u8 *context, s32 command)
             box.g = config->spark_green * (config->burst - time) / config->burst;
             box.b = config->spark_blue * (config->burst - time) / config->burst;
             for (j = 0, other = work->sparks; j < 64; j++, other++) {
-                depth = RotTransPers(other, (PSXLONG *)&box.x, &parameter, &flag);
+                depth = RotTransPers(other, (long *)&box.x, &parameter, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortBoxFill(&box, ot, depth);
                 }

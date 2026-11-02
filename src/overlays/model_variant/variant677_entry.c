@@ -26,8 +26,8 @@
     setSemiTrans(&work->sprite, 1);                                            \
     setUV4(&work->sprite, u0, v0, u1, v1, u2, v2, u3, v3);                     \
     setRGB0(&work->sprite, (element).color[0], (element).color[1], (element).color[2]); \
-    depth = RotAverage4(a, b, c, d, (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1, \
-        (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3, &interpolation, &flag); \
+    depth = RotAverage4(a, b, c, d, (long *)&work->sprite.x0, (long *)&work->sprite.x1, \
+        (long *)&work->sprite.x2, (long *)&work->sprite.x3, &interpolation, &flag); \
     if (flag >= 0) {                                                           \
         GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);                \
     }
@@ -42,8 +42,8 @@
     setRGB1(&work->strip, 0, 0, 0);                                            \
     setRGB2(&work->strip, (element).color[0], (element).color[1], (element).color[2]); \
     setRGB3(&work->strip, (element).color[0], (element).color[1], (element).color[2]); \
-    depth = RotAverage4(a, b, c, d, (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1, \
-        (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3, &interpolation, &flag); \
+    depth = RotAverage4(a, b, c, d, (long *)&work->strip.x0, (long *)&work->strip.x1, \
+        (long *)&work->strip.x2, (long *)&work->strip.x3, &interpolation, &flag); \
     if (flag >= 0) {                                                           \
         GsSortPoly(&work->strip, func_80058F10(), (u16)depth);                 \
     }
@@ -79,12 +79,12 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
     GsCOORDUNIT unit;
     Model677ViewSnapshot view;
     VECTOR vec;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, k, value, amount;
     u32 tex;
     s32 columns;
-    PSXLONG depth;
+    long depth;
 
     work = (Model677State *)context;
     result = 0;

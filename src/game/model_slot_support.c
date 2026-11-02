@@ -217,7 +217,7 @@ void Model_BuildCameraRelativeCoordinateUnit(
 s32 Model_TransformPartVertex(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 {
     MATRIX local_to_world;
-    PSXLONG transform_flags[2];
+    long transform_flags[2];
     ModelSlot *slot;
     GsUNIT *part_unit;
     u32 *primitive_words;

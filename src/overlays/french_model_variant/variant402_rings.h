@@ -35,7 +35,7 @@ typedef struct {
     s32 animation_frame;
     s32 step;
     s32 fade;
-    Family402Config *G32 config;
+    Family402Config *config;
     u8 unknown_880[0x10];
     s32 selected_part;
     u8 unknown_894[0x10];

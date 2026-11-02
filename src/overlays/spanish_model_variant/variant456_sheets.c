@@ -22,8 +22,8 @@ void func_8013DACC(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Sheets456State *state = (Sheets456State *)context;
     Sheet456 *sheet = state->sheets;
     POLY_GT4 *quad;
@@ -114,8 +114,8 @@ void func_8013DACC(u8 *context)
         for (j = 0; j < 4; j++) {
             depth = RotTransPers4(&sheet->v0[j], &sheet->v1[j],
                                  &sheet->v2[j], &sheet->v3[j],
-                                 (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                 (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                 (long *)&quad->x0, (long *)&quad->x1,
+                                 (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag);
             depth = depth * 8 / 10;
             if (depth >= 0 && flag >= 0) {

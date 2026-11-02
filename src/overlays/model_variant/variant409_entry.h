@@ -24,7 +24,7 @@ typedef struct {
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag, target;
+    long interpolation, flag, target;
 } EntryProjection409;
 
 /* A nine-row, seventeen-column dome mesh with one colour per row. */
@@ -87,9 +87,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;
-    EntryConfig409 *G32 config;
+    EntryConfig409 *config;
     u32 field_2114;
-    GsCOORDUNIT *G32 part;
+    GsCOORDUNIT *part;
     s16 field_211C, field_211E;
     s32 width, field_2124, size, field_212C, field_2130, field_2134;
     s32 intensity, field_213C, field_2140, progress, travel;

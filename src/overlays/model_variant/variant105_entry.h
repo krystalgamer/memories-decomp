@@ -65,7 +65,7 @@ typedef union {
  * and target positions, the texture words with the current trail index and
  * the elapsed time (negative during the start delay). */
 typedef struct {
-    Model105Config *G32 config;
+    Model105Config *config;
     SVECTOR spins[8];
     Model105Shots shots;
     Model105Texture texture;

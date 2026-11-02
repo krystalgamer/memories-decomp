@@ -23,8 +23,8 @@ void func_8013C2DC(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     u8 *base;
     GsOT *ot;
@@ -74,8 +74,8 @@ void func_8013C2DC(u8 *ctx)
                 g = work[0x781];
                 b = work[0x782];
             }
-            radius = *(u16 *)(*(u8 *G32 *)(base + 0x29D4) + 0x1E) -
-                     (rcos(PETAL_SCALE(work, i)) * *(u16 *)(*(u8 *G32 *)(base + 0x29D4) + 0x1E) >> 12);
+            radius = *(u16 *)(*(u8 **)(base + 0x29D4) + 0x1E) -
+                     (rcos(PETAL_SCALE(work, i)) * *(u16 *)(*(u8 **)(base + 0x29D4) + 0x1E) >> 12);
             lift = (rsin(PETAL_SCALE(work, i)) * 0x1000 >> 12) + 0x180;
             rot.vx = 0;
             rot.vy = 0;
@@ -100,8 +100,8 @@ void func_8013C2DC(u8 *ctx)
             SetRotMatrix(lp);
             otz = RotTransPers4((SVECTOR *)(work + i * 8), (SVECTOR *)(work + (i * 8 + 0x180)),
                                 (SVECTOR *)(work + (i * 8 + 0x300)), (SVECTOR *)(work + (i * 8 + 0x480)),
-                                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                                (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                                (long *)&poly->x0, (long *)&poly->x1,
+                                (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
             poly->r0 = r;
             poly->g0 = g;
             poly->b0 = b;
@@ -110,13 +110,13 @@ void func_8013C2DC(u8 *ctx)
             }
         }
         if (PETAL_SCALE(work, i) < 0x400) {
-            conf = *(u8 *G32 *)(base + 0x29D4);
+            conf = *(u8 **)(base + 0x29D4);
             PETAL_SCALE(work, i) += (u32)(*(u16 *)(conf + 0x20) * MODEL_VARIANT_WORD(base, 0x29CC)) >> 1;
             if (PETAL_SCALE(work, 0) >= 0x200 && MODEL_VARIANT_WORD(base, 0x29FC) == 0) {
                 MODEL_VARIANT_WORD(base, 0x29FC) = 2;
             }
             if (PETAL_SCALE(work, i) >= 0x400) {
-                if (*(u32 *)(*(u8 *G32 *)(base + 0x29D4) + 0x28) > (u32)MODEL_VARIANT_WORD(base, 0x29C4)) {
+                if (*(u32 *)(*(u8 **)(base + 0x29D4) + 0x28) > (u32)MODEL_VARIANT_WORD(base, 0x29C4)) {
                     PETAL_SCALE(work, i) -= 0x400;
 #if defined(VERSION_FRENCH)
                     *(s32 *)(work - -(i * 4) + 0x9D4) = 0;
@@ -128,7 +128,7 @@ void func_8013C2DC(u8 *ctx)
                     PETAL_DONE(work, i) = 1;
                 }
             } else if (PETAL_SCALE(work, i) <= 0 &&
-                       *(u32 *)(*(u8 *G32 *)(base + 0x29D4) + 0x28) <= (u32)MODEL_VARIANT_WORD(base, 0x29C4)) {
+                       *(u32 *)(*(u8 **)(base + 0x29D4) + 0x28) <= (u32)MODEL_VARIANT_WORD(base, 0x29C4)) {
                 PETAL_SCALE(work, i) = 0x400;
                 PETAL_DONE(work, i) = 1;
             }

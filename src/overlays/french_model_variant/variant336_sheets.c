@@ -8,8 +8,8 @@ void func_8013C3D4(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG projection;
-    PSXLONG flag;
+    long projection;
+    long flag;
     u8 *node;
     ModelVariantSheet *sheet;
     GsOT *ot;
@@ -55,8 +55,8 @@ void func_8013C3D4(u8 *context)
         for (k = 0; k < 4; k++) {
             depth = RotTransPers4(
                 &sheet->v0[k], &sheet->v1[k], &sheet->v2[k], &sheet->v3[k],
-                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3,
+                (long *)&poly->x0, (long *)&poly->x1,
+                (long *)&poly->x2, (long *)&poly->x3,
                 &projection, &flag);
             poly->r0 = sheet->inner[0];
             poly->g0 = sheet->inner[1];

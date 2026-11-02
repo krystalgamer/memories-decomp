@@ -9,8 +9,8 @@
 /* Three-point coordinate spans; the other components come from the caller.
  * Negative projection flags cause one retry before unconditional submission. */
 void Library_DrawGlobeXSpan(LINE_G3 *packet, GsOT *ot, SVECTOR *points,
-                  PSXLONG *control, s32 origin, s32 span);
+                  long *control, s32 origin, s32 span);
 void Library_DrawGlobeZSpan(LINE_G3 *packet, GsOT *ot, SVECTOR *points,
-                  PSXLONG *control, s32 origin, s32 span);
+                  long *control, s32 origin, s32 span);
 
 #endif

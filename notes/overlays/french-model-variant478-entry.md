@@ -62,7 +62,7 @@ Packet holes, unused arrays and unobserved fields remain untouched.
 
 The nine trail colors retain their separate signed seed and byte stores.
 Their actual progress accumulator is stored and then decremented by 256 in
-the loop body. The target projection keeps the SDK-native packed `PSXLONG`
+the loop body. The target projection keeps the SDK-native packed `long`
 representation, including signed projected Y. Native unsigned trigonometric
 shifts, slot-dependent matrix-Z adjustment and all timing/phase transitions
 are preserved.

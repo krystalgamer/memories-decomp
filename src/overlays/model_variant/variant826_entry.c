@@ -21,8 +21,8 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     MATRIX saved;
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 slot, direction, step;
     GsOT *ot;
     s32 i, j;
@@ -229,8 +229,8 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&vertices[1], 0, -work->config->glow_size, 0);
             setVector(&vertices[2], -work->config->glow_size, 0, 0);
             setVector(&vertices[3], 0, 0, 0);
-            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&quad.x0,
-                              (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag);
+            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&quad.x0,
+                              (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)otz, 1);
             }
@@ -238,8 +238,8 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&vertices[1], 0, -work->config->glow_size, 0);
             setVector(&vertices[2], work->config->glow_size, 0, 0);
             setVector(&vertices[3], 0, 0, 0);
-            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&quad.x0,
-                              (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag);
+            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&quad.x0,
+                              (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)otz, 1);
             }
@@ -247,8 +247,8 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&vertices[1], 0, work->config->glow_size, 0);
             setVector(&vertices[2], -work->config->glow_size, 0, 0);
             setVector(&vertices[3], 0, 0, 0);
-            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&quad.x0,
-                              (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag);
+            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&quad.x0,
+                              (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)otz, 1);
             }
@@ -256,8 +256,8 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&vertices[1], 0, work->config->glow_size, 0);
             setVector(&vertices[2], work->config->glow_size, 0, 0);
             setVector(&vertices[3], 0, 0, 0);
-            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&quad.x0,
-                              (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag);
+            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&quad.x0,
+                              (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)otz, 1);
             }
@@ -289,8 +289,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB1(&quad, 0, 0, 0);
                 setRGB2(&quad, 0, 0, 0);
                 setRGB3(&quad, work->r[i] / (j + 1), work->g[i] / (j + 1), work->b[i] / (j + 1));
-                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&quad.x0,
-                                  (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag);
+                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&quad.x0,
+                                  (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
                 setUV4(&quad, work->tick % 96, 0, work->tick % 96 + 48, 0, work->tick % 96, 96,
                        work->tick % 96 + 48, 96);
                 if (otz >= 0) {
@@ -304,8 +304,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB1(&quad, 0, 0, 0);
                 setRGB2(&quad, work->r[i] / (j + 1), work->g[i] / (j + 1), work->b[i] / (j + 1));
                 setRGB3(&quad, 0, 0, 0);
-                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&quad.x0,
-                                  (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag);
+                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&quad.x0,
+                                  (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
                 setUV4(&quad, work->tick % 96 + 48, 0, work->tick % 96 + 96, 0, work->tick % 96 + 48, 96,
                        work->tick % 96 + 96, 96);
                 if (otz >= 0) {
@@ -319,8 +319,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB1(&quad, 0, 0, 0);
                 setRGB2(&quad, 0, 0, 0);
                 setRGB3(&quad, work->r[i] / (j + 1), work->g[i] / (j + 1), work->b[i] / (j + 1));
-                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&quad.x0,
-                                  (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag);
+                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&quad.x0,
+                                  (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
                 setUV4(&quad, 96 - work->tick % 96, 0, 144 - work->tick % 96, 0, 96 - work->tick % 96, 96,
                        144 - work->tick % 96, 96);
                 if (otz >= 0) {
@@ -334,8 +334,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB1(&quad, 0, 0, 0);
                 setRGB2(&quad, work->r[i] / (j + 1), work->g[i] / (j + 1), work->b[i] / (j + 1));
                 setRGB3(&quad, 0, 0, 0);
-                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&quad.x0,
-                                  (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag);
+                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&quad.x0,
+                                  (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
                 setUV4(&quad, 144 - work->tick % 96, 0, 192 - work->tick % 96, 0, 144 - work->tick % 96, 96,
                        192 - work->tick % 96, 96);
                 if (otz >= 0) {

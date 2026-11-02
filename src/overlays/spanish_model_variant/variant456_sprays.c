@@ -19,17 +19,17 @@ void func_8013CF58(u8 *ctx)
     MATRIX ls;
     GsCOORDINATE2 coord;
     SVECTOR points[16][17];
-    PSXLONG screen[16][17];
+    long screen[16][17];
     s32 angle[16][17];
     SVECTOR offset_points[16][17];
-    PSXLONG offset_screen[16][17];
+    long offset_screen[16][17];
     s32 width[16][17];
-    PSXLONG flags[16][17];
+    long flags[16][17];
     s32 depth[16][17];
     s16 ox[16][17];
     s16 oy[16][17];
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     Spray456 *spray;
     POLY_FT4 *poly;
@@ -71,7 +71,7 @@ void func_8013CF58(u8 *ctx)
                 if (spray->growth[j] >= 1024) {
                     spray->growth[j] = 1024;
                     if (j == 16) {
-                        if ((*(Sprays456Timing *G32 *)(work + 0x2330))->restart <= MODEL_VARIANT_WORD(work, 0x2320)) {
+                        if ((*(Sprays456Timing **)(work + 0x2330))->restart <= MODEL_VARIANT_WORD(work, 0x2320)) {
                             spray->growth[16] = 1024;
                         } else {
                             for (j = 0; j < 17; j++) {

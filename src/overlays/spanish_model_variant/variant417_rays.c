@@ -9,8 +9,8 @@ void func_8013D480(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Rays417State *state = (Rays417State *)context;
     Rays417 *ray = state->rays;
     Rays417Pulse *pulse = &state->pulse;

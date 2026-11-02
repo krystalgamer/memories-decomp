@@ -18,7 +18,7 @@ typedef struct {
 } Model82Config;
 
 typedef struct {
-    Model82Config *G32 config;
+    Model82Config *config;
     SVECTOR positions[201];
     u8 unknown_64c[0x9b8];
     SVECTOR velocities[201];

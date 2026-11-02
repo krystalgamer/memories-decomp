@@ -16,15 +16,15 @@ void func_8013C66C(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG status[3][2][3];
+    long status[3][2][3];
     u8 c0[16];
     u8 c1[16];
     u8 c2[16];
     u8 c3[16];
     u8 c4[16];
     u8 c5[16];
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     POLY_GT4 *poly;

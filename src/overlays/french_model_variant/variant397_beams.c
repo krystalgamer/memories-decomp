@@ -16,8 +16,8 @@ void FrenchModelVariant397_DrawBeams(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     Variant397BeamsState *work;
     ModelVariantSheetSet *sheet;
     Variant397Beam *beam;

@@ -8,9 +8,9 @@
 
 typedef struct {
     SVECTOR points[3][2];
-    PSXLONG projected[3][2];
+    long projected[3][2];
     u8 unknown_48[0x1C];
-    PSXLONG depth[2];
+    long depth[2];
 } Family373Strip;
 
 typedef struct {
@@ -32,7 +32,7 @@ typedef struct {
     u8 unknown_23EC[0x24];
     s32 step;
     u8 unknown_2414[4];
-    Family373StripConfig *G32 config;
+    Family373StripConfig *config;
     u8 unknown_241C[0x10];
     s32 index_242C;
     u8 unknown_2430[0x44];

@@ -37,7 +37,7 @@ typedef struct {
  * 48 beam targets, the four grid quads, ten textures, the completion flag and
  * the elapsed time. */
 typedef struct {
-    Model135Config *G32 config;
+    Model135Config *config;
     SVECTOR sparks[48];
     SVECTOR targets[48];
     SVECTOR cross[4];
@@ -45,7 +45,7 @@ typedef struct {
     SVECTOR anchors[6];
     SVECTOR grid[9];
     SVECTOR beams[48];
-    SVECTOR *G32 quads[4][4];
+    SVECTOR *quads[4][4];
     u32 texture[10];
     u8 completed, unknown_705[3];
     s32 elapsed;

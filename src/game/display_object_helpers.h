@@ -10,7 +10,7 @@
 
 typedef struct {
     u8 pad_00[0x54];
-    u8 *G32 base;
+    u8 *base;
 } DisplayObjectStream;
 
 /* The motion view of a display object: a position triple at 0x30 with its

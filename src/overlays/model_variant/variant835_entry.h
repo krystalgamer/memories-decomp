@@ -38,7 +38,7 @@ typedef struct {
  * phase, orb count, ambient level, the burst texture and the two loaded
  * textures. */
 typedef struct {
-    Model835Config *G32 config;
+    Model835Config *config;
     SVECTOR pos[8];
     SVECTOR vel[8];
     SVECTOR trail[8][16];

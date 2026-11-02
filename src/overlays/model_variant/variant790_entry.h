@@ -58,7 +58,7 @@ typedef union {
  * heads and drawn lengths, the ambient level, the two textures and the
  * per-star star, burst and trail intensities. */
 typedef struct {
-    Model790Config *G32 config;
+    Model790Config *config;
     SVECTOR pos[14];
     SVECTOR velocity[14];
     SVECTOR target[14];

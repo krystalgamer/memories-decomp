@@ -6,10 +6,10 @@
 
 typedef struct {
     SVECTOR points[2];
-    PSXLONG screen[2];
+    long screen[2];
     s32 angles[2];
     SVECTOR offset_points[2];
-    PSXLONG offset_screen[2];
+    long offset_screen[2];
     s32 projected_width[2];
     u8 unknown_40[0x1C];
     s32 depth[2];
@@ -45,7 +45,7 @@ typedef struct {
     u8 unknown_3084[8];
     s32 step;
     u8 unknown_3090[0xC];
-    Rays459Timing *G32 timing;
+    Rays459Timing *timing;
     u8 unknown_30A0[0x1C];
     s16 index;
     u8 unknown_30BE[0x12];

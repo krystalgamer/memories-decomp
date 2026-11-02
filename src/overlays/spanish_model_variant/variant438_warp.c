@@ -18,8 +18,8 @@ void func_8013C614(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     WARP_STATE *state = (WARP_STATE *)context;
     s32 depth = 0;
     Warp438Ring *ring = state->rings;
@@ -67,8 +67,8 @@ void func_8013C614(u8 *context)
                 g1 = WARP_COLOR(ring, ring->outer_color.g);
                 b1 = WARP_COLOR(ring, ring->outer_color.b);
                 RotTransPers4(&ring->outer[j], &ring->outer[j + 1], &ring->source[j], &ring->source[j + 1],
-                              (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2,
-                              (PSXLONG *)&poly->x3, &interpolation, &flag);
+                              (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
+                              (long *)&poly->x3, &interpolation, &flag);
                 if (poly->x0 < 160) {
                     if (buffer == 0) {
                         tpage = GetTPage(2, 1, 320, 0);
@@ -103,8 +103,8 @@ void func_8013C614(u8 *context)
                     poly->tpage = tpage;
                 }
                 depth = RotTransPers4(&ring->outer[j], &ring->outer[j + 1], &ring->inner[j], &ring->inner[j + 1],
-                                      (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2,
-                                      (PSXLONG *)&poly->x3, &interpolation, &flag);
+                                      (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
+                                      (long *)&poly->x3, &interpolation, &flag);
                 SetSemiTrans(poly, 1);
                 SetShadeTex(poly, 0);
                 setRGB0(poly, r0, g0, b0);

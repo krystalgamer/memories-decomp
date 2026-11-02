@@ -40,9 +40,9 @@ typedef struct {
     VECTOR view_delta;
     s32 angles[2];
     u32 frame_count, frame, animation_frame, step, fade;
-    Variant341EntryConfig *G32 config;
+    Variant341EntryConfig *config;
     u32 field_F30;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s16 substep, field_F42, field_F44, field_F46;
     s32 field_F48, field_F4C, phase;
     u8 unknown_F54[8];

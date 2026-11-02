@@ -56,7 +56,7 @@ extern char ModelSlotPart_seq_fields_must_agree[
 void Model_SetSlotPartSpeeds(s32 slot_index, s32 speed_request)
 {
     ModelSlot *slot_state = &gModel_aSlots[slot_index];
-    ModelSlotPart *G32 *part_sequences;
+    ModelSlotPart **part_sequences;
     s32 part_index;
 
     part_sequences = slot_state->animation_sequences;

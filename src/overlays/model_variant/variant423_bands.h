@@ -9,9 +9,9 @@ typedef struct {
     SVECTOR a[5];
     SVECTOR b[5];
     SVECTOR c[5];
-    PSXLONG sa[5];
-    PSXLONG sb[5];
-    PSXLONG sc[5];
+    long sa[5];
+    long sb[5];
+    long sc[5];
     u8 ca[5][4];
     u8 cb[5][4];
     u8 padDC[0x18];

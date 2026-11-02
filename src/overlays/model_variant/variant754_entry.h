@@ -58,7 +58,7 @@ typedef union {
  * debris and embers and their velocities, the smoke frames, the timers, the
  * ring scale, the ambient level, the textures, and the ring and flash colours. */
 typedef struct {
-    Model754Config *G32 config;
+    Model754Config *config;
     SVECTOR smoke[64];
     SVECTOR inner[16];
     SVECTOR outer[16];

@@ -55,7 +55,7 @@ arbitrary corrupt records, null pointers, or oversized table lengths are safe.
 ## Typed selected-record ownership
 
 `gModel_pBackgroundRecord`, formerly `D_8009AF88`, is a stored
-`ModelBackgroundRecord *G32`, not a byte-buffer cursor. Its initialized
+`ModelBackgroundRecord *`, not a byte-buffer cursor. Its initialized
 `.sdata` owner remains `model_graphics_state.c`; the historical COMMON
 definition in `func_8004E7B0.c` remains COMMON under its existing named
 compiler profile. The latter still resolves to the strong owner rather than

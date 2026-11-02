@@ -22,7 +22,7 @@
  * The complete record belongs to model_background.h; only byte-backed
  * table selection crosses into the record view. */
 struct ModelBackgroundRecord;
-extern struct ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
+extern struct ModelBackgroundRecord *gModel_pBackgroundRecord;
 
 /* Model view and scene state. gModel_wBackgroundScrollX/gModel_wBackgroundOffsetY are the background
  * horizontal scroll and vertical offset that Model_UpdateBackgroundScroll

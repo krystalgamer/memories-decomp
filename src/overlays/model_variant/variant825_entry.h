@@ -67,7 +67,7 @@ typedef struct {
  * spark and streak counts, the trail heads, bolt count and arrival flags,
  * phase, ambient level, the textures and the per-bolt colours. */
 typedef struct {
-    Model825Config *G32 config;
+    Model825Config *config;
     SVECTOR pos[10];
     SVECTOR step[10];
     SVECTOR angle[10];

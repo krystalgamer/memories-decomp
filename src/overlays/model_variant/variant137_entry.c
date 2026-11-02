@@ -22,7 +22,7 @@ s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[66];
     u16 depths[66], projection[66], flags[66];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model137State *work;
     Model137Config *config;
     s32 direction;
@@ -32,7 +32,7 @@ s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
     s32 fade, level;
     u8 red, green, blue;
     SVECTOR *point;
-    SVECTOR *G32 *corner;
+    SVECTOR **corner;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -165,7 +165,7 @@ s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
@@ -285,7 +285,7 @@ s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
             corner = work->quads[0];
             for (i = 0; i < 4; i++) {
                 depth = RotAverage4(corner[0], corner[1], corner[2], corner[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
@@ -326,7 +326,7 @@ s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
@@ -342,7 +342,7 @@ s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
@@ -371,7 +371,7 @@ s32 ModelVariant137_HandleRequest(u8 *context, s32 command)
         vertices[0].vx = matrix.t[0];
         vertices[0].vy = matrix.t[1];
         vertices[0].vz = matrix.t[2];
-        RotTransPers(&vertices[0], (PSXLONG *)&quad.x0, &interpolation, &flag);
+        RotTransPers(&vertices[0], (long *)&quad.x0, &interpolation, &flag);
         setXY4(&shade, 0, 0, quad.x0, 0, 0, quad.y0, quad.x0, quad.y0);
         Graphics_SubmitDrawModePacket((u32 *)&shade, ot, 1, 1);
         setXY4(&shade, 319, 0, quad.x0, 0, 319, quad.y0, quad.x0, quad.y0);

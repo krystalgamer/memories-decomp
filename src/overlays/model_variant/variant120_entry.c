@@ -22,7 +22,7 @@ s32 ModelVariant120_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     ModelTintColor tint_start, tint_end;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model120State *work;
     Model120Config *config;
     GsOT *ot;
@@ -31,7 +31,7 @@ s32 ModelVariant120_HandleRequest(u8 *context, s32 command)
     u16 red, green, blue, fade;
     s32 step;
     u8 r, g, b;
-    PSXLONG depth;
+    long depth;
     SVECTOR *point, *speed;
 
     memset(&rotation, 0, 8);
@@ -137,8 +137,8 @@ s32 ModelVariant120_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-            (PSXLONG *)&quad.x3, &interpolation, &flag);
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+            (long *)&quad.x3, &interpolation, &flag);
         if (depth >= 0 && flag >= 0) {
             GsSortPoly(&quad, ot, (u16)depth);
         }
@@ -194,8 +194,8 @@ s32 ModelVariant120_HandleRequest(u8 *context, s32 command)
                 setRGB2(&strip, red * (7 - j) / 8, green * (7 - j) / 8, blue * (7 - j) / 8);
                 setRGB3(&strip, r, g, b);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&strip.x0, (PSXLONG *)&strip.x1, (PSXLONG *)&strip.x2,
-                    (PSXLONG *)&strip.x3, &interpolation, &flag);
+                    (long *)&strip.x0, (long *)&strip.x1, (long *)&strip.x2,
+                    (long *)&strip.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&strip, ot, (u16)depth, 1);
                 }
@@ -207,8 +207,8 @@ s32 ModelVariant120_HandleRequest(u8 *context, s32 command)
                     setRGB2(&strip, time, time, time);
                     setRGB3(&strip, time, time, time);
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&strip.x0, (PSXLONG *)&strip.x1, (PSXLONG *)&strip.x2,
-                        (PSXLONG *)&strip.x3, &interpolation, &flag);
+                        (long *)&strip.x0, (long *)&strip.x1, (long *)&strip.x2,
+                        (long *)&strip.x3, &interpolation, &flag);
                     if (depth >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&strip, ot, (u16)depth, 1);
                     }

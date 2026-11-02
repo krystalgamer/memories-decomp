@@ -29,7 +29,7 @@ typedef struct {
     u8 unknown_1B98[4];
     u32 step;
     u8 unknown_1BA0[4];
-    Sheets474Timing *G32 timing;
+    Sheets474Timing *timing;
     u8 unknown_1BA8[0x38];
     s32 displacement;
     u8 unknown_1BE4[0x38];

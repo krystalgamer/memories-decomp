@@ -134,7 +134,7 @@ void Model_QueueRelativeCameraOrbit(
  * bearing rather than decorative: without them these objects would be placed
  * in .sbss and leave .sdata entirely. */
 
-Key *G32 gModel_pCurrentEffectKey = 0;
+Key *gModel_pCurrentEffectKey = 0;
 u8 gModel_bEffectKeyCount = 0;
 u8 gModel_bEffectKeyPreparationPending = 0;
 s8 gModel_nEffectKeyBatchOrdinal = -1;

@@ -9,8 +9,8 @@ void func_8013D98C(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Mesh443State *state = (Mesh443State *)context;
     POLY_G4 *quad = &state->quad;
     Mesh443 *mesh = state->mesh;
@@ -64,8 +64,8 @@ void func_8013D98C(u8 *context)
             for (k = 0; k < 8; k++) {
                 depth = RotTransPers4(&mesh->points[j][k], &mesh->points[j][k + 1],
                                      &mesh->points[j + 1][k], &mesh->points[j + 1][k + 1],
-                                     (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                     (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                     (long *)&quad->x0, (long *)&quad->x1,
+                                     (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 quad->r0 = mesh->colors[k].r;
                 quad->g0 = mesh->colors[k].g;

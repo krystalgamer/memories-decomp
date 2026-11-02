@@ -10,8 +10,8 @@ void func_8013C110(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Bloom472State *state = (Bloom472State *)context;
     Bloom472Group *group = state->groups;
     POLY_FT4 *polygon = &state->polygon;
@@ -79,8 +79,8 @@ void func_8013C110(u8 *context)
                 ScaleMatrix(&light, &scale);
                 SetRotMatrix(&light);
                 depth = RotTransPers4(&group->a[j], &group->b[j], &group->c[j], &group->d[j],
-                                     (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
-                                     (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                     (long *)&polygon->x0, (long *)&polygon->x1,
+                                     (long *)&polygon->x2, (long *)&polygon->x3,
                                      &interpolation, &flag);
                 polygon->r0 = red;
                 polygon->g0 = green;

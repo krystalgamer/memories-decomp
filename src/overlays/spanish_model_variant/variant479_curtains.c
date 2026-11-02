@@ -8,8 +8,8 @@ void func_8013E860(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Curtains479State *state = (Curtains479State *)context;
     Curtains479Primary *primary = state->primary;
     ModelVariantCurtain *curtain = state->curtains;
@@ -77,8 +77,8 @@ void func_8013E860(u8 *context)
             for (j = 0; j < 16; j++) {
                 depth = RotTransPers4(&curtain->a[j], &curtain->a[j + 1],
                                      &curtain->b[j], &curtain->b[j + 1],
-                                     (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
-                                     (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                     (long *)&polygon->x0, (long *)&polygon->x1,
+                                     (long *)&polygon->x2, (long *)&polygon->x3,
                                      &interpolation, &flag);
                 polygon->r0 = inner_r;
                 polygon->g0 = inner_g;

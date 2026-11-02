@@ -16,7 +16,7 @@
     (*(u8 (*)[MEM_CARD_WORK_FRAME_SIZE])MEM_CARD_WORK_FRAME_ADDRESS)
 
 typedef struct {
-    u8 *G32 cursor;
+    u8 *cursor;
     u8 pad_04[8];
     u8 free_blocks;
     u8 entry_index;
@@ -78,7 +78,7 @@ extern u8 gMemCardWork_OperationState;
  * consume the root through their own MenuRecord view and ignore argument 2.
  * This is the +0x20 interior of gDisplayEffect_apfnSteps, not new storage.
  * The low-nibble selector is not evidence of a sixteen-entry table. */
-extern void (*G32 gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(
+extern void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(
     MemCardWorkRoot *root, MemCardWorkSlot *slot
 );
 

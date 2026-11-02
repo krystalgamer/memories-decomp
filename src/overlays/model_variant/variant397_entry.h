@@ -17,13 +17,13 @@ typedef struct {
 
 typedef struct {
     SVECTOR a[5], b[5], c[5];
-    PSXLONG sa[5], sb[5], sc[5];
+    long sa[5], sb[5], sc[5];
     CVECTOR ca[5], cb[5];
     VECTOR scale;
     s16 field_EC, field_EE;
     s32 field_F0;
     s32 otz[5];
-    PSXLONG flag[5];
+    long flag[5];
 } Variant397EntryBand;
 
 typedef struct {
@@ -53,9 +53,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant397EntryConfig *G32 config;
+    Variant397EntryConfig *config;
     u32 field_F58;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s16 field_F68, field_F6A, field_F6C, field_F6E;
     s32 field_F70, field_F74, phase;
     u8 unknown_F7C[8];

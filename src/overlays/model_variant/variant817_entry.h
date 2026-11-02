@@ -63,7 +63,7 @@ typedef struct {
  * ambient level, four textures, the per-point bolt colours, the glow tint,
  * the screen flash and the spark colours. */
 typedef struct {
-    Model817Config *G32 config;
+    Model817Config *config;
     SVECTOR points[3][16];
     SVECTOR strands[3][16][16];
     SVECTOR burst[3][8];

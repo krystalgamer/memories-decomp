@@ -39,7 +39,7 @@ typedef struct {
     /* Set once a streak has landed; the ring count of a dome. */
     u16 stage;
     u16 unknown_12;
-    GsCOORDUNIT *G32 coord;
+    GsCOORDUNIT *coord;
     SVECTOR rotation;
     VECTOR scale;
     VECTOR position;

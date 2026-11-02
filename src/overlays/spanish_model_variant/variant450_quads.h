@@ -38,7 +38,7 @@ typedef struct {
     u8 unknown_42B0[4];
     s32 step;
     u8 unknown_42B8[4];
-    Variant450QuadConfig *G32 config;
+    Variant450QuadConfig *config;
     u8 unknown_42C0[0x38];
     s32 phase;
 } Variant450QuadView;

@@ -15,11 +15,11 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
     Model829Position position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 step;
     GsOT *ot;
     s32 i, j, value;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position.point, 0, 8);
@@ -142,8 +142,8 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0) {
                 func_8005B260((u32 *)&quad, ot, (u16)depth, 1);
             }
@@ -197,8 +197,8 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                        (PSXLONG *)&quad.x3, &interpolation, &flag);
+                        (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                        (long *)&quad.x3, &interpolation, &flag);
                     value = rand() % 9;
                     setUV4(&quad, value * 32, 64, value * 32 + 31, 64,
                         value * 32, 127, value * 32 + 31, 127);

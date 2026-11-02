@@ -24,7 +24,7 @@ s32 ModelVariant151_HandleRequest(u8 *context, s32 command)
     SVECTOR origin;
     DVECTOR screen[34];
     u16 depths[34], projection[34], flags[34];
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     Model151State *work;
     Model151Config *config;
     s32 direction;
@@ -33,7 +33,7 @@ s32 ModelVariant151_HandleRequest(u8 *context, s32 command)
     s32 i, which, k;
     SVECTOR *point, *target;
     s32 j, current, value, t;
-    PSXLONG depth;
+    long depth;
     u8 red, green, blue;
 
     memset(&rotation, 0, 8);
@@ -101,7 +101,7 @@ s32 ModelVariant151_HandleRequest(u8 *context, s32 command)
             point->vz = origin.vz;
             if (value) {
                 GsSetLsMatrix(&base);
-                RotTransPers(point, (PSXLONG *)&quad.x0, &interpolation, &flag);
+                RotTransPers(point, (long *)&quad.x0, &interpolation, &flag);
                 k = (which ^ 1) * 17;
                 quad.x1 = quad.x0;
                 quad.y1 = quad.y0;
@@ -196,8 +196,8 @@ s32 ModelVariant151_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                 value = t * 8 / config->duration;
                 setUV4(&quad, value * 32, 128, value * 32 + 31, 128, value * 32, 159, value * 32 + 31, 159);
                 if (depth >= 0 && flag >= 0) {

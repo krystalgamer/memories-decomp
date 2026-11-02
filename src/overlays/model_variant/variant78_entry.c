@@ -20,7 +20,7 @@ s32 func_8013B004(u8 *context, s32 command)
     u16 depths[169], projection[169], flags[169];
     SVECTOR saved, origin;
     VECTOR unused; /* Never used; it keeps retail's frame size. */
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model78State *work;
     Model78Config *config;
     s32 direction;
@@ -32,7 +32,7 @@ s32 func_8013B004(u8 *context, s32 command)
      * variable gives retail's registers and strength reduction. */
     s32 i, j, time, value, fade, far;
     u8 red, green, blue;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -371,8 +371,8 @@ s32 func_8013B004(u8 *context, s32 command)
         RotMatrix(&rotation, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        depth = RotAverage4(&points[0], &points[1], &points[2], &points[3], (PSXLONG *)&quad.x0,
-            (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+        depth = RotAverage4(&points[0], &points[1], &points[2], &points[3], (long *)&quad.x0,
+            (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
         setUV4(&quad, (work->frames[i] & 7) << 5, 0, ((work->frames[i] & 7) << 5) + 31, 0,
             (work->frames[i] & 7) << 5, 31, ((work->frames[i] & 7) << 5) + 31, 31);
         if (depth >= 0 && flag >= 0) {
@@ -438,8 +438,8 @@ s32 func_8013B004(u8 *context, s32 command)
             RotMatrix(&rotation, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            depth = RotAverage4(&points[0], &points[1], &points[2], &points[3], (PSXLONG *)&quad.x0,
-                (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+            depth = RotAverage4(&points[0], &points[1], &points[2], &points[3], (long *)&quad.x0,
+                (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             value = time * 8 / (config->period * 450 / (config->speed * 4));
             setUV4(&quad, (7 - value) << 5, 0, ((7 - value) << 5) + 31, 0, (7 - value) << 5, 31,
                 ((7 - value) << 5) + 31, 31);

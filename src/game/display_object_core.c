@@ -297,7 +297,7 @@ void DisplayObject_RenderSpriteList(void) {
     POLY_FT4 *g;
     ClipState *h;
     DisplayObject *e;
-    GsOT *G32 *tb;
+    GsOT **tb;
     DisplayObjectCallback fn;
     s32 i;
     GsOT *ot;

@@ -102,7 +102,7 @@ depth and projection flags at `0x2C8/0x30C`, and signed-halfword offset
 columns at `0x350/0x372`. Bytes `0x224..0x2C8` remain opaque in the ribbon
 helper view; the entry view separately identifies the initial colour,
 scale and control fields through `0x240`. The native
-screen union exposes the same four bytes as a `DVECTOR` or `PSXLONG`.
+screen union exposes the same four bytes as a `DVECTOR` or `long`.
 The shared terminal halfword-column view addresses the measured fields
 within the same record; it does not introduce another record or storage.
 Two alternating 40-byte `POLY_FT4` packets fill `0x2D18..0x2D68`.

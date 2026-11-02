@@ -34,12 +34,12 @@ typedef struct {
  * points, the texture words, the completion flag, the orbit phase of each
  * card, the elapsed time and the frame counter. */
 typedef struct {
-    Model155Config *G32 config;
+    Model155Config *config;
     SVECTOR path[256];
     SVECTOR sparks[80];
     SVECTOR grid[9];
     SVECTOR dust[96];
-    SVECTOR *G32 quads[4][4];
+    SVECTOR *quads[4][4];
     u32 texture[5];
     u8 completed, unknown_E21;
     s16 phase[5];

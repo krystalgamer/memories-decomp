@@ -45,7 +45,7 @@ typedef struct {
     u8 unknown_1F14[4];
     s32 step;
     u8 unknown_1F1C[8];
-    Variant458Timing *G32 timing;
+    Variant458Timing *timing;
     u8 unknown_1F28[0x54];
     s32 phase;
 } Variant458View;

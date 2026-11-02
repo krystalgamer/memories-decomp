@@ -31,10 +31,10 @@ typedef struct {
  * seven texture words, the burst-announced flag, the elapsed time, the
  * repeat count and the frame count. */
 typedef struct {
-    Model157UsConfig *G32 config;
+    Model157UsConfig *config;
     SVECTOR path[256];
     SVECTOR grid[9];
-    SVECTOR *G32 quads[4][4];
+    SVECTOR *quads[4][4];
     SVECTOR spin[256];
     u32 texture[7];
     u8 announced, unknown_10a9;

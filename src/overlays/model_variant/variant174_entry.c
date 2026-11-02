@@ -23,18 +23,18 @@ s32 ModelVariant174_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[2][17];
     u16 depths[2][17], projection[2][17], flags[2][17];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model174Config *config;
     GsOT *ot;
     s32 step;
     s32 i;
     SVECTOR *point, *origin;
-    SVECTOR *G32 *face;
+    SVECTOR **face;
     u8 red, green, blue;
     DVECTOR *screen0, *screen1;
     u16 *depth0, *depth1, *flags0, *flags1;
     s32 j, time, value;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -134,8 +134,8 @@ s32 ModelVariant174_HandleRequest(u8 *context, s32 command)
         face = work->faces;
         for (i = 0; i < 4; i++, face += 4) {
             depth = RotAverage4(face[0], face[1], face[2], face[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }
@@ -248,8 +248,8 @@ s32 ModelVariant174_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }

@@ -46,7 +46,7 @@ stores, mode-as-boolean normalization or priority widening is introduced.
 ### Projection and base matrix
 
 Both projection helpers keep `RotAverage4` and its packed coordinate
-`PSXLONG *` output casts. Coordinates can be written even when the later
+`long *` output casts. Coordinates can be written even when the later
 signed flag test suppresses submission; a rejected flag does not make the
 whole function a no-op.
 

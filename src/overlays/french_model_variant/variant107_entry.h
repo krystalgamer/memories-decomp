@@ -16,7 +16,7 @@ typedef struct {
 } Model107Config;
 
 typedef struct {
-    Model107Config *G32 config;
+    Model107Config *config;
     SVECTOR ring[51];
     SVECTOR positions[25];
     u8 unknown_264[0x140];

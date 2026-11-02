@@ -55,7 +55,7 @@ typedef struct {
  * flag, the trail frame, the burst count, the flash frame, the dot depths and
  * the fading colours. */
 typedef struct {
-    Model768Config *G32 config;
+    Model768Config *config;
     union {
         struct {
             SVECTOR part0[32];

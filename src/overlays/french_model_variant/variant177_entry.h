@@ -23,13 +23,13 @@ typedef struct {
 } Model177Config;
 
 typedef struct {
-    Model177Config *G32 config;
+    Model177Config *config;
     SVECTOR ribbon[34];
     SVECTOR positions[64];
     SVECTOR origin;
     u8 unknown_31C[0x1F8];
     SVECTOR vertices[9];
-    SVECTOR *G32 faces[16];
+    SVECTOR *faces[16];
     u32 texture[2];
     u8 completed;
     u8 unknown_5a5[3];

@@ -16,7 +16,7 @@ does the same with `gFile_pBootTextStage6Destination` (`0x800101E4`) for
 (`0x800101E8`) for seven. The European link scripts bind these names
 directly; the former `D_800101E0/4/8` labels are gone.
 
-Each remains a stored `u8 *G32`, not a byte array at the word's address,
+Each remains a stored `u8 *`, not a byte array at the word's address,
 an integer address, const object or inferred homogeneous pointer table.
 The existing repeated loads, `(s32)` casts, destination-store order,
 phase sizes, transfer-state masks, done values and all earlier image

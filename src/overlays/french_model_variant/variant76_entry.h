@@ -26,13 +26,13 @@ typedef struct {
 } Model76Config;
 
 typedef struct {
-    SVECTOR *G32 a;
-    SVECTOR *G32 b;
-    SVECTOR *G32 c;
+    SVECTOR *a;
+    SVECTOR *b;
+    SVECTOR *c;
 } Model76Face;
 
 typedef struct {
-    Model76Config *G32 config;
+    Model76Config *config;
     SVECTOR positions[256];
     SVECTOR velocities[256];
     SVECTOR rotations[256];

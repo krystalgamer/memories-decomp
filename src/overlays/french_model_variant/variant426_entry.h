@@ -37,9 +37,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;
-    EntryConfig426 *G32 config;
+    EntryConfig426 *config;
     u32 field_17A0;
-    GsCOORDUNIT *G32 part;
+    GsCOORDUNIT *part;
     s16 field_17A8, field_17AA;
     s32 width, field_17B0, size, field_17B8, field_17BC, field_17C0;
     s32 intensity, field_17C8, field_17CC, progress, travel;

@@ -37,7 +37,7 @@ typedef struct {
 /* The work area: the ring vertex pairs, three trails of spiral points, the
  * spark offsets, the trail head, the textures, the stage and the timer. */
 typedef struct {
-    Model54Config *G32 config;
+    Model54Config *config;
     SVECTOR ring[17][2];
     SVECTOR spiral[3][20];
     SVECTOR sparks[64];

@@ -21,7 +21,7 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[6]; /* card corners, the other slot's floor point, the next orbit point */
-    PSXLONG flag, interpolation, depth;
+    long flag, interpolation, depth;
     Model155State *work;
     Model155Config *config;
     s32 direction;
@@ -29,7 +29,7 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
     s32 step;
     s32 i, j, k, t, r;
     SVECTOR *point, *offset, *ahead;
-    SVECTOR *G32 (*quads)[4];
+    SVECTOR *(*quads)[4];
     s32 period;
     s32 lag;
     u8 red, green, blue;
@@ -159,7 +159,7 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
                         point = &work->sparks[i * 16];
                         for (k = 0; k < 16; k++) {
                             if (rand() % 100 < 70) {
-                                depth = RotTransPers(point, (PSXLONG *)&box.x, &interpolation, &flag);
+                                depth = RotTransPers(point, (long *)&box.x, &interpolation, &flag);
                                 if (depth >= 0 && flag >= 0) {
                                     GsSortBoxFill(&box, ot, (u16)depth);
                                 }
@@ -213,8 +213,8 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
                 vertices[5].vy += ahead->vy;
                 vertices[5].vz += ahead->vz;
                 GsSetLsMatrix(&base);
-                r = RotAverageNclip3(&vertices[4], &vertices[5], &position, (PSXLONG *)&flash.x0, (PSXLONG *)&flash.x1,
-                    (PSXLONG *)&flash.x2, &interpolation, &depth, &flag);
+                r = RotAverageNclip3(&vertices[4], &vertices[5], &position, (long *)&flash.x0, (long *)&flash.x1,
+                    (long *)&flash.x2, &interpolation, &depth, &flag);
                 setVector(&scale, 4096, 4096, 4096);
                 GsSetLsMatrix(&base);
                 RotTrans(&position, (VECTOR *)matrix.t, &flag);
@@ -223,11 +223,11 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
                 GsSetLsMatrix(&matrix);
                 if (r < 0) {
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                        (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                         &interpolation, &flag);
                 } else {
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x3, (PSXLONG *)&quad.x2,
+                        (long *)&quad.x1, (long *)&quad.x0, (long *)&quad.x3, (long *)&quad.x2,
                         &interpolation, &flag);
                 }
                 r = t % 3;
@@ -283,7 +283,7 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
         quads = work->quads;
         for (i = 0; i < 4; i++) {
             depth = RotAverage4((*quads)[0], (*quads)[1], (*quads)[2], (*quads)[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
@@ -324,8 +324,8 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                depth = RotAverage3(&vertices[0], &vertices[1], &vertices[2], (PSXLONG *)&quad.x3,
-                    (PSXLONG *)&flash.x0, (PSXLONG *)&quad.x2, &interpolation, &flag);
+                depth = RotAverage3(&vertices[0], &vertices[1], &vertices[2], (long *)&quad.x3,
+                    (long *)&flash.x0, (long *)&quad.x2, &interpolation, &flag);
                 if (flag >= 0) {
                     position.vy += config->dust_step;
                     if (position.vy > 0) {
@@ -336,8 +336,8 @@ s32 ModelVariant155_HandleRequest(u8 *context, s32 command)
                     RotMatrix(&rotation, &matrix);
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
-                    depth = (depth + RotAverage3(&vertices[0], &vertices[1], &vertices[2], (PSXLONG *)&quad.x1,
-                        (PSXLONG *)&flash.x1, (PSXLONG *)&quad.x0, &interpolation, &flag)) / 2;
+                    depth = (depth + RotAverage3(&vertices[0], &vertices[1], &vertices[2], (long *)&quad.x1,
+                        (long *)&flash.x1, (long *)&quad.x0, &interpolation, &flag)) / 2;
                     if (depth >= 0 && flag >= 0) {
                         GsSortPoly(&quad, ot, (u16)depth);
                     }

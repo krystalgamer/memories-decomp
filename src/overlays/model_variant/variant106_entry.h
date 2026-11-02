@@ -36,7 +36,7 @@ typedef struct {
  * offsets, the 17-point fan, the 16 column colours, three textures, the
  * completion flag, the sprite frames and the elapsed time. */
 typedef struct {
-    Model106Config *G32 config;
+    Model106Config *config;
     SVECTOR dome[128];
     SVECTOR ring[8];
     SVECTOR fan[17];

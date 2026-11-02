@@ -104,7 +104,7 @@ s32 func_8013B004(u8 *context, s32 command)
             scale.vz = scale.vy = scale.vx = size;
         }
         GsSetLsMatrix(&base);
-        RotTrans(&position, (VECTOR *)matrix.t, (PSXLONG *)&flag);
+        RotTrans(&position, (VECTOR *)matrix.t, (long *)&flag);
         RotMatrix(&rotation, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);

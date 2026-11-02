@@ -10,7 +10,7 @@ s32 func_8013B004(u8 *context, s32 command)
     Image26952Position position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Image26952State *state;
     s32 active, sign, step;
     GsOT *ot;
@@ -100,7 +100,7 @@ s32 func_8013B004(u8 *context, s32 command)
     light = *(MATRIX *)Model_GetLightSourceMatrix();
     for (i = 0; i < state->visible; i++) {
         MATRIX *render_matrix = &matrix;
-        PSXLONG *render_flag = &flag;
+        long *render_flag = &flag;
         POLY_FT4 *head_packet = &quad;
 
         if (state->color[i]) {
@@ -119,8 +119,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(render_matrix, &scale);
             GsSetLsMatrix(render_matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, render_flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &interpolation, render_flag);
             setUV4(&quad, 0, 32, 63, 32, 0, 63, 63, 63);
             if (state->hit[i] == 0) {
                 setSemiTrans(&quad, 0);
@@ -150,8 +150,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     ScaleMatrix(render_matrix, &scale);
                     GsSetLsMatrix(render_matrix);
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&burst.x0, (PSXLONG *)&burst.x1,
-                        (PSXLONG *)&burst.x2, (PSXLONG *)&burst.x3, &interpolation, render_flag);
+                        (long *)&burst.x0, (long *)&burst.x1,
+                        (long *)&burst.x2, (long *)&burst.x3, &interpolation, render_flag);
                     setUV4(&burst,
                         state->spark_frames[i][j] * 32, 0,
                         state->spark_frames[i][j] * 32 + 31, 0,
@@ -207,8 +207,8 @@ s32 func_8013B004(u8 *context, s32 command)
                             state->history[i][j - 1].vy + (u16)(state->config->height / 3) / (n + 1),
                             state->history[i][j - 1].vz);
                         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                            (PSXLONG *)&trail.x0, (PSXLONG *)&trail.x1,
-                            (PSXLONG *)&trail.x2, (PSXLONG *)&trail.x3, &interpolation, &flag);
+                            (long *)&trail.x0, (long *)&trail.x1,
+                            (long *)&trail.x2, (long *)&trail.x3, &interpolation, &flag);
                         if (depth >= 0) {
                             Graphics_SubmitDrawModePacket((u32 *)&trail, ot, (u16)depth, 1);
                         }

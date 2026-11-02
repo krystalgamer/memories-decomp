@@ -8,8 +8,8 @@ void FrenchModelVariant397_DrawSheets(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Sheets397State *state = (Sheets397State *)context;
     ModelVariantSheetSet *sheet = state->sheets;
     POLY_GT4 *quad;
@@ -57,8 +57,8 @@ void FrenchModelVariant397_DrawSheets(u8 *context)
         SetRotMatrix(&light);
         for (j = 0; j < 4; j++) {
             depth = RotTransPers4(&sheet->v0[j], &sheet->v1[j], &sheet->v2[j], &sheet->v3[j],
-                                 (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                 (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                 (long *)&quad->x0, (long *)&quad->x1,
+                                 (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag) * 8 / 10;
             quad->r0 = sheet->inner[0];
             quad->g0 = sheet->inner[1];

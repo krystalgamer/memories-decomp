@@ -6,7 +6,7 @@ address/view roles, not new storage or independent allocations.
 
 | Former identity | Canonical name | Preserved view |
 | --- | --- | --- |
-| `D_8009B118` | `gFile_TransferBufferBase` | stored address: `s32` / `.data` / `u8 *G32` `.data` |
+| `D_8009B118` | `gFile_TransferBufferBase` | stored address: `s32` / `.data` / `u8 *` `.data` |
 | `D_801DD000` | `gFile_abPackageStagingBuffer` | incomplete `u8[]` |
 | `D_801DE000` | `gModel_abTexturePaletteStaging` | incomplete `u8[]`, interior palette view where established |
 
@@ -25,7 +25,7 @@ a two-sector allocation claim: boot callbacks also access
 `0x2840` and further image offsets.
 
 The new declaration header retains the original guard precedence:
-`D_8009B118_IS_POINTER_IN_DATA` selects `u8 *G32` with `.data`;
+`D_8009B118_IS_POINTER_IN_DATA` selects `u8 *` with `.data`;
 otherwise `D_8009B118_IN_DATA` selects signed `s32` with `.data`;
 otherwise the declaration remains plain signed `s32`. No scalar-to-pointer
 conversion, new cast, sign change or common declaration normalization is

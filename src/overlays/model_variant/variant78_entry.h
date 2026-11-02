@@ -38,7 +38,7 @@ typedef struct {
  * sprites, the orbiting sprites' frames, the spin angle, three texture words,
  * the completion flag and the elapsed time. */
 typedef struct {
-    Model78Config *G32 config;
+    Model78Config *config;
     SVECTOR grid[169];
     Model78Colour colours[169];
     SVECTOR lower[17];

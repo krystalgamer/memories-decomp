@@ -465,7 +465,7 @@ without newly initializing or reading those voice arrays.
 
 The old four `0x200`-byte buffers were halves of two CD channels, not four
 complete SDK channels. `SD_InitBufferState` keeps their exact addresses in
-the four stored `s16 *G32 decoded_cd_halves` pointers:
+the four stored `s16 *decoded_cd_halves` pointers:
 
 | Pointer | SDK samples | Relative state address |
 |---|---|---|
@@ -1398,11 +1398,11 @@ its `0x1C` layout or the secondary-state transfer offset `0x4A4`:
 | Transfer offset | Existing type | Name | Established use |
 |---|---|---|---|
 | `0x00` | `s16` | `state_token` | Zero on accepted open, `-1` on reset; compared with caller tokens by both body writers. |
-| `0x04` | `u8 *G32` | `vab_header` | Retained header byte pointer used by note-on to locate programs, tones and the VAG size table. |
+| `0x04` | `u8 *` | `vab_header` | Retained header byte pointer used by note-on to locate programs, tones and the VAG size table. |
 | `0x08` | `s32` | `header_size_bytes` | `(program_count << 9) + 0xA20`, used to derive the body size from the VAB file size. |
 | `0x0C` | `s32` | `full_body_source_address` | Source integer address retained only after a successful whole-body write; no matched C reader is established. |
 | `0x10` | `s32` | `body_size_bytes` | Header-derived body byte count used by whole-body and chunked writes. |
-| `0x14` | `u8 *G32` | `spu_body_base` | SPU byte-address base used for transfers and note-on sample addresses, not a dereferenced RAM buffer. |
+| `0x14` | `u8 *` | `spu_body_base` | SPU byte-address base used for transfers and note-on sample addresses, not a dereferenced RAM buffer. |
 
 `SD_VabOpenHead` clears `bytes_consumed` before its possible rejection.
 Only a requested token of `-1` checks the existing token and can reject
@@ -1759,8 +1759,8 @@ count, callback, SDK operation and state-pointer reload remains exact.
 
 The five timer-dispatch names describe separate controls, not one playback
 boolean or a newly inferred hardware frequency. The stored callback remains
-`void (*G32 timer_maintenance_callback)(void)`; the SDK event handler still
-returns `PSXLONG`, and no callback ABI or event registration changes.
+`void (*timer_maintenance_callback)(void)`; the SDK event handler still
+returns `long`, and no callback ABI or event registration changes.
 
 `SD_SequenceTimerCallback` first checks `sequence_updates_enabled`, the
 existing mutation guard, and `vsync_update_mode`, in that order. Those

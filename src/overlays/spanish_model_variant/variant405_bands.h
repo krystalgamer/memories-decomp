@@ -28,7 +28,7 @@ typedef struct {
     u8 unknown_31DC[0x48];
     s32 step;
     u8 unknown_3228[8];
-    Bands405Descriptor *G32 descriptor;
+    Bands405Descriptor *descriptor;
 } Bands405State;
 
 #endif

@@ -24,15 +24,15 @@ s32 func_8013B004(u8 *context, s32 command)
     DVECTOR screen[128];
     u16 depths[128], interpolation[128], flags[128];
     SVECTOR vertices[4];
-    PSXLONG flag, unused;
+    long flag, unused;
     GsOT *ot;
     s32 step;
     Model144Config *config;
     SVECTOR *point, *angle;
-    SVECTOR *G32 *corner;
+    SVECTOR **corner;
     s32 red, green, blue, flash_red, flash_green, flash_blue, trail_red, trail_green, trail_blue;
     s32 i, j, time, b, top, right, bottom, elevation;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -240,8 +240,8 @@ s32 func_8013B004(u8 *context, s32 command)
             corner = work->quads[0];
             for (j = 0; j < 4; corner += 4, j++) {
                 depth = RotAverage4(corner[0], corner[1], corner[2], corner[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                    (PSXLONG *)&quad.x3, &unused, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                    (long *)&quad.x3, &unused, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }
@@ -249,8 +249,8 @@ s32 func_8013B004(u8 *context, s32 command)
         } else {
             setUV4(&quad, 0, 32, 31, 32, 0, 63, 31, 63);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &unused, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &unused, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }

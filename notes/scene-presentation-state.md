@@ -7,7 +7,7 @@ allocate a new presentation manager.
 
 ## Primary display-object slot
 
-`gCampaign_PrimaryDisplayObject` remains the existing `DisplayObject *G32`
+`gCampaign_PrimaryDisplayObject` remains the existing `DisplayObject *`
 declared by `campaign_scene_package.h`. The ordinary and `.data` declaration
 arms remain distinct: the debug campaign entry uses the latter for its
 absolute load/store.

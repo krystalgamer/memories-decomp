@@ -17,8 +17,8 @@ s32 func_8013B004(u8 *context, s32 command)
     u16 depths[66];
     u16 interpolation[66];
     u16 flags[66];
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     GsOT *ot;
     s32 side;
     s32 i;
@@ -113,8 +113,8 @@ s32 func_8013B004(u8 *context, s32 command)
             GsSetLsMatrix(&matrix);
             setVector(&v0, config->triangle_width, config->triangle_height, 0);
             setVector(&v1, -config->triangle_width, config->triangle_height, 0);
-            depth = RotTransPers3(&v0, &v1, &v2, (PSXLONG *)&triangle.x0,
-                               (PSXLONG *)&triangle.x1, (PSXLONG *)&triangle.x2,
+            depth = RotTransPers3(&v0, &v1, &v2, (long *)&triangle.x0,
+                               (long *)&triangle.x1, (long *)&triangle.x2,
                                &p, &flag);
             setRGB2(&triangle, config->triangle_rgb[0],
                     config->triangle_rgb[1], config->triangle_rgb[2]);
@@ -125,8 +125,8 @@ s32 func_8013B004(u8 *context, s32 command)
                       config->triangle_height / 2, 0);
             setVector(&v1, -config->triangle_width / 2,
                       config->triangle_height / 2, 0);
-            depth = RotTransPers3(&v0, &v1, &v2, (PSXLONG *)&triangle.x0,
-                               (PSXLONG *)&triangle.x1, (PSXLONG *)&triangle.x2,
+            depth = RotTransPers3(&v0, &v1, &v2, (long *)&triangle.x0,
+                               (long *)&triangle.x1, (long *)&triangle.x2,
                                &p, &flag);
             setRGB2(&triangle, 255, 255, 255);
             if (depth >= 0 && flag >= 0) {
@@ -161,8 +161,8 @@ s32 func_8013B004(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&v0, &v1, &v2, &projected.fourth,
-                           (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                           (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag) - 30;
+                           (long *)&quad.x0, (long *)&quad.x1,
+                           (long *)&quad.x2, (long *)&quad.x3, &p, &flag) - 30;
         setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
         if (depth >= 0 && flag >= 0) {
             GsSortPoly(&quad, ot, (u16)depth);
@@ -197,8 +197,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&v0, &v1, &v2, &projected.fourth,
-                               (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                               (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag);
+                               (long *)&quad.x0, (long *)&quad.x1,
+                               (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
             setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);

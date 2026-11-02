@@ -44,7 +44,7 @@ typedef struct {
  * orbs and eight sparks (each with its remaining life in pad), two textures,
  * whether the hit has been reported and the elapsed time. */
 typedef struct {
-    Model132Config *G32 config;
+    Model132Config *config;
     SVECTOR ring[17];
     SVECTOR orbs[10];
     SVECTOR sparks[8];

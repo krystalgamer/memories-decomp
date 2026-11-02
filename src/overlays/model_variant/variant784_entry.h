@@ -63,7 +63,7 @@ typedef struct {
  * phase, trail heads and lengths, spark counts and the projectile and fan
  * colours. */
 typedef struct {
-    Model784Config *G32 config;
+    Model784Config *config;
     SVECTOR pos[5];
     SVECTOR trail[5][16];
     SVECTOR step[5];

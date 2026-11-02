@@ -44,7 +44,7 @@ typedef struct {
  * ribbon gradient, the packed texture page and palette, the elapsed time and
  * whether the end has been reported. */
 typedef struct {
-    Model81Config *G32 config;
+    Model81Config *config;
     SVECTOR bottom[33];
     SVECTOR top[33];
     s32 offsets[128];

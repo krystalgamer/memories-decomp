@@ -33,7 +33,7 @@ typedef struct {
     s32 animation_frame;
     s32 step;
     s32 fade;
-    Family410Config *G32 config;
+    Family410Config *config;
     u8 unknown_21DC[0x14];
     s32 phase;
 } Family410RingView;

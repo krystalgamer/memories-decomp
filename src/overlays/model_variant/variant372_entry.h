@@ -99,9 +99,9 @@ typedef struct {
     s32 last_frame;
     s32 step;
     s32 fade;
-    Model372Config *G32 config;
+    Model372Config *config;
     u8 unknown_2CA0[4];
-    GsCOORDUNIT *G32 parts[8];
+    GsCOORDUNIT *parts[8];
     SVECTOR spin;
     s32 angle_a;
     s32 angle_b;

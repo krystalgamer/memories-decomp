@@ -37,7 +37,7 @@ typedef struct {
  * 3x3 grid and the four quads cut from it, a 14-row history of the seven
  * trail points, ten texture words and the trail ring-buffer state. */
 typedef struct {
-    Model144Config *G32 config;
+    Model144Config *config;
     SVECTOR ring[66];
     SVECTOR nodes[5];
     SVECTOR angles[5];
@@ -45,7 +45,7 @@ typedef struct {
     SVECTOR sparks[128];
     SVECTOR grid[9];
     SVECTOR trail[14][7];
-    SVECTOR *G32 quads[4][4];
+    SVECTOR *quads[4][4];
     s32 texture[10];
     s32 head;
     s32 remaining;

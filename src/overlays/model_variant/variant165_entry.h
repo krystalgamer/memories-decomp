@@ -34,7 +34,7 @@ typedef struct {
  * target points, the gather centre, a 66-point double ring, five texture
  * words, the completion flag, the elapsed time and a frame count. */
 typedef struct {
-    Model165Config *G32 config;
+    Model165Config *config;
     SVECTOR positions[64];
     SVECTOR targets[64];
     SVECTOR centre;

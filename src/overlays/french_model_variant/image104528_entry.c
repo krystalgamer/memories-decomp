@@ -12,11 +12,11 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR corners[4];
     MATRIX saved;
-    PSXLONG flag, p;
+    long flag, p;
     s32 slot, other, step;
     GsOT *ot;
     s32 i, j;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation.vector, 0, 8);
     memset(&position, 0, 8);
@@ -119,8 +119,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &p, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &p, &flag);
             if (work->frames[i] < 8) {
                 setUV4(&quad, work->frames[i] % 4 * 64, 0,
                     work->frames[i] % 4 * 64 + 63, 0,
@@ -158,8 +158,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &p, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &p, &flag);
             setUV4(&quad, 0, 128, 63, 128, 0, 191, 63, 191);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 1);
@@ -177,8 +177,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage3(&work->offsets[i][j], &corners[0], &corners[1],
-                    (PSXLONG *)&triangle.x0, (PSXLONG *)&triangle.x1,
-                    (PSXLONG *)&triangle.x2, &p, &flag);
+                    (long *)&triangle.x0, (long *)&triangle.x1,
+                    (long *)&triangle.x2, &p, &flag);
                 if (depth >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 1);
                 }
@@ -188,8 +188,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage3(&work->offsets[i][j], &corners[0], &corners[1],
-                    (PSXLONG *)&triangle.x0, (PSXLONG *)&triangle.x1,
-                    (PSXLONG *)&triangle.x2, &p, &flag);
+                    (long *)&triangle.x0, (long *)&triangle.x1,
+                    (long *)&triangle.x2, &p, &flag);
                 if (depth >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 3);
                 }

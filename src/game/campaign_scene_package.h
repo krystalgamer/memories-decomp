@@ -56,9 +56,9 @@ void Campaign_LoadScenePackageStage(
  * flag. Releases do not imply a null store or a live pointer afterward.
  * The debug entry selects the DATA view for its absolute load/store. */
 #ifdef CAMPAIGN_PRIMARY_OBJECT_IN_DATA
-extern DisplayObject *G32 gCampaign_PrimaryDisplayObject __attribute__((section(".data")));
+extern DisplayObject *gCampaign_PrimaryDisplayObject __attribute__((section(".data")));
 #else
-extern DisplayObject *G32 gCampaign_PrimaryDisplayObject;
+extern DisplayObject *gCampaign_PrimaryDisplayObject;
 #endif
 
 #endif

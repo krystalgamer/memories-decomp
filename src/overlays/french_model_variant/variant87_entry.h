@@ -27,7 +27,7 @@ typedef struct {
 } Family87Config;
 
 typedef struct {
-    Family87Config *G32 config;
+    Family87Config *config;
     SVECTOR points[26];
     /* Measured offset span, not an allocation-capacity declaration. */
     u8 destination_storage[0x100];

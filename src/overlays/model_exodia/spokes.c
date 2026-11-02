@@ -83,21 +83,21 @@ void func_8013BC0C(u8 *context)
                 /* The US build indexes the spoke tip pair relative to j. */
                 depth[i][j] = RotTransPers4(&points[i][j - 1], &points[i][j],
                     &points[i][j - 1], &points[i][j],
-                    (PSXLONG *)&projected[i][j - 1], (PSXLONG *)&projected[i][j],
-                    (PSXLONG *)&projected[i][j - 1], (PSXLONG *)&projected[i][j],
-                    (PSXLONG *)&interpolation, (PSXLONG *)&flags[i][j]);
-                RotTransPers(&displaced[i][j], (PSXLONG *)&displaced_projected[i][j],
-                             (PSXLONG *)&interpolation, (PSXLONG *)&flag);
+                    (long *)&projected[i][j - 1], (long *)&projected[i][j],
+                    (long *)&projected[i][j - 1], (long *)&projected[i][j],
+                    (long *)&interpolation, (long *)&flags[i][j]);
+                RotTransPers(&displaced[i][j], (long *)&displaced_projected[i][j],
+                             (long *)&interpolation, (long *)&flag);
                 x_delta = (s16)projected[i][j] - (s16)projected[i][j - 1];
                 y_delta = (projected[i][j] >> 16) - (projected[i][j - 1] >> 16);
 #else
                 depth[i][j] = RotTransPers4(&points[i][0], &points[i][1],
                     &points[i][0], &points[i][1],
-                    (PSXLONG *)&projected[i][0], (PSXLONG *)&projected[i][1],
-                    (PSXLONG *)&projected[i][0], (PSXLONG *)&projected[i][1],
-                    (PSXLONG *)&interpolation, (PSXLONG *)&flags[i][j]);
-                RotTransPers(&displaced[i][j], (PSXLONG *)&displaced_projected[i][j],
-                             (PSXLONG *)&interpolation, (PSXLONG *)&flag);
+                    (long *)&projected[i][0], (long *)&projected[i][1],
+                    (long *)&projected[i][0], (long *)&projected[i][1],
+                    (long *)&interpolation, (long *)&flags[i][j]);
+                RotTransPers(&displaced[i][j], (long *)&displaced_projected[i][j],
+                             (long *)&interpolation, (long *)&flag);
                 x_delta = (s16)projected[i][j] - (s16)projected[i][0];
                 y_delta = (projected[i][j] >> 16) - (projected[i][0] >> 16);
 #endif
@@ -108,11 +108,11 @@ void func_8013BC0C(u8 *context)
             } else {
                 depth[i][j] = RotTransPers4(&points[i][j], &points[i][j + 1],
                     &points[i][j], &points[i][j + 1],
-                    (PSXLONG *)&projected[i][j], (PSXLONG *)&projected[i][j + 1],
-                    (PSXLONG *)&projected[i][j], (PSXLONG *)&projected[i][j + 1],
-                    (PSXLONG *)&interpolation, (PSXLONG *)&flags[i][j]);
-                RotTransPers(&displaced[i][j], (PSXLONG *)&displaced_projected[i][j],
-                             (PSXLONG *)&interpolation, (PSXLONG *)&flag);
+                    (long *)&projected[i][j], (long *)&projected[i][j + 1],
+                    (long *)&projected[i][j], (long *)&projected[i][j + 1],
+                    (long *)&interpolation, (long *)&flags[i][j]);
+                RotTransPers(&displaced[i][j], (long *)&displaced_projected[i][j],
+                             (long *)&interpolation, (long *)&flag);
 #ifdef MODEL_EXODIA_USA
                 /* Empty-loop barrier: it splits CSE here, which leaves the
                  * j loop with more insns, so loop.c hoists &interpolation from

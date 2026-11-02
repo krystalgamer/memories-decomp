@@ -31,7 +31,7 @@ typedef struct {
     s32 unknown_0C;
     u16 elapsed, duration;
     u8 unknown_14, unknown_15[3];
-    GsCOORDUNIT *G32 coord;
+    GsCOORDUNIT *coord;
     SVECTOR rotation;
     VECTOR scale;
     VECTOR position;

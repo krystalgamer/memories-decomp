@@ -49,7 +49,7 @@ typedef struct {
  * the ambient phase, the stage, the burst count, the ambient level, the
  * textures, the projectile colour and the burst colours. */
 typedef struct {
-    Model820Config *G32 config;
+    Model820Config *config;
     SVECTOR position;
     SVECTOR velocity;
     SVECTOR centers[32];

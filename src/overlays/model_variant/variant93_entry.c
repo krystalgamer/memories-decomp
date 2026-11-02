@@ -20,7 +20,7 @@ s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[5];
     DVECTOR screen[137];
     u16 depths[137], projection[137], flags[137];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model93State *work;
     s32 side;
     GsOT *ot;
@@ -29,7 +29,7 @@ s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
     Model93Config *config;
     SVECTOR *point;
     s32 i, j, shade, value, other, dx, dy, dz;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -319,9 +319,9 @@ s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
         vertices[2].vy += dy / 2 + dx / 10;
         vertices[1].vx += dx / 2 + dy / 10;
         vertices[2].vx += dx / 2 - dy / 10;
-        RotTransPers(&vertices[4], (PSXLONG *)&bolt.x0, &interpolation, &flag);
+        RotTransPers(&vertices[4], (long *)&bolt.x0, &interpolation, &flag);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
             &interpolation, &flag);
         shade = (config->bolt_duration - time) * 255 / config->bolt_duration;
         setRGB0(&bolt, shade, shade, shade);
@@ -416,7 +416,7 @@ s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
             &interpolation, &flag);
         if (depth >= 0 && flag >= 0) {
             GsSortPoly(&quad, ot, (u16)depth);
@@ -548,7 +548,7 @@ s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotTransPers4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);

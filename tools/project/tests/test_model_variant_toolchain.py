@@ -44,14 +44,6 @@ class ModelVariantToolchainTests(unittest.TestCase):
         base.pop("compiler")
         self.assertEqual(old, base)
 
-    def test_variant_sources_read_guest_pointers_through_g32_views(self):
-        # A stored descriptor pointer is a 4-byte guest field; a native u8 **
-        # dereference would load 8 bytes on 64-bit hosts.
-        for path in sorted((ROOT / "src/overlays/model_variant").glob("*.c")):
-            self.assertNotIn("*(u8 **)", path.read_text(), path.name)
-
-
-
     def test_image_data_symbols_fit_their_images(self):
         # A byte-identical build does not check symbol extents, so a raw-data
         # symbol that runs past the image end would go unnoticed.

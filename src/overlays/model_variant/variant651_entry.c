@@ -21,13 +21,13 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
     MATRIX ls;
     GsCOORDUNIT unit;
     SVECTOR v[2];
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, k, n, d, t;
     s32 x, y;
     u8 u0, u1;
     u32 tex;
-    PSXLONG depth;
+    long depth;
 
     work = (Model651State *)context;
     result = 0;
@@ -227,8 +227,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                     setRGB2(&work->quad, work->rings[i].red, work->rings[i].green, work->rings[i].blue);
                     setRGB3(&work->quad, work->rings[i].red, work->rings[i].green, work->rings[i].blue);
                     depth = RotAverage4(&work->ring[k][0], &work->ring[k + 1][0], &work->ring[k][1],
-                        &work->ring[k + 1][1], (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                        (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3, &interpolation, &flag);
+                        &work->ring[k + 1][1], (long *)&work->quad.x0, (long *)&work->quad.x1,
+                        (long *)&work->quad.x2, (long *)&work->quad.x3, &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
                     }
@@ -280,9 +280,9 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                             setRGB2(&work->quad, work->domes[i].red, work->domes[i].green, work->domes[i].blue);
                             setRGB3(&work->quad, work->domes[i].red, work->domes[i].green, work->domes[i].blue);
                             depth = RotAverage4(&work->dome[k][0][t], &work->dome[k + 1][0][t],
-                                &work->dome[k][1][t], &work->dome[k + 1][1][t], (PSXLONG *)&work->quad.x0,
-                                (PSXLONG *)&work->quad.x1, (PSXLONG *)&work->quad.x2,
-                                (PSXLONG *)&work->quad.x3, &interpolation, &flag);
+                                &work->dome[k][1][t], &work->dome[k + 1][1][t], (long *)&work->quad.x0,
+                                (long *)&work->quad.x1, (long *)&work->quad.x2,
+                                (long *)&work->quad.x3, &interpolation, &flag);
                             if (flag >= 0) {
                                 GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
                             }
@@ -345,8 +345,8 @@ s32 ModelVariant651_HandleRequest(u8 *context, s32 command)
                     setRGB2(&work->quad, work->cones[i].red, work->cones[i].green, work->cones[i].blue);
                     setRGB3(&work->quad, work->cones[i].red, work->cones[i].green, work->cones[i].blue);
                     depth = RotAverage4(&work->outer[k][0], &work->outer[k + 1][0], &work->outer[k][1],
-                        &work->outer[k + 1][1], (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                        (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3, &interpolation, &flag);
+                        &work->outer[k + 1][1], (long *)&work->quad.x0, (long *)&work->quad.x1,
+                        (long *)&work->quad.x2, (long *)&work->quad.x3, &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
                     }

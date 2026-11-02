@@ -28,7 +28,7 @@ void DuelEffect_PlayBgmCommand(DuelEffectChannel *object)
 
 void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object)
 {
-    u8 *G32 *slot =
+    u8 **slot =
         &((TextStreamOwner *)object)->streams[object->stream_index];
     u8 *stream = *slot;
     s32 command = *stream;
@@ -71,7 +71,7 @@ void DuelEffect_PlaySoundCommand(DuelEffectChannel *object) {
 
 void DuelEffect_FadeOutBgmCommand(DuelEffectCommand *command)
 {
-    u8 *G32 *slot;
+    u8 **slot;
     u8 *cursor;
     u32 raw;
     u32 saved_raw;
@@ -110,7 +110,7 @@ void Text_NoOpSecondary13(void)
 
 void Text_OpenCampaignMap(DuelEffectChannel *object)
 {
-    u8 *G32 *stream = &((TextStreamOwner *)object)->streams[object->stream_index];
+    u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_index];
     u8 value = *(*stream)++;
     gMain_bActiveModeState[0] = 5;
     gCampaignMap_bEntryLocation[0] = value;

@@ -116,7 +116,7 @@ The entry has one 932-byte record, two 152-byte rings at `0x3A4`, and two
 888-byte streamers at `0x4D4`. Matrix / target / three sampled positions
 are at `0xD1C` / `0xD3C` / `0xD44`; the part counter is at `0xDC8` and
 phase at `0xDF8`. Eighty target-compiled entry layout constants cover
-these views, including canonical signed `PSXLONG` projection outputs.
+these views, including canonical signed `long` projection outputs.
 The 64 bytes preceding stack projection inputs remain unrecovered
 locals, not invented matrices.
 

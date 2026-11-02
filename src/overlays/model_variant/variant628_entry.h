@@ -31,7 +31,7 @@ typedef struct {
     u16 elapsed, duration;
     /* The wobble phase of the domes. */
     u16 stage, unknown_12;
-    GsCOORDUNIT *G32 coord;
+    GsCOORDUNIT *coord;
     SVECTOR rotation;
     VECTOR scale;
     VECTOR position;

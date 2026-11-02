@@ -23,7 +23,7 @@ s32 ModelVariant149_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[51];
     u16 depths[51], projection[51], flags[51];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model149State *work;
     Model149Config *config;
     s32 direction;
@@ -132,7 +132,7 @@ s32 ModelVariant149_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             r = work->frames[i];
             setUV4(&quad, r % 2 * 64, r / 2 * 64, r % 2 * 64 + 63, r / 2 * 64,
@@ -173,7 +173,7 @@ s32 ModelVariant149_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             r = (t << 3) / config->burst;
             setUV4(&quad, r % 4 * 64, r / 4 * 64 + 128, r % 4 * 64 + 63, r / 4 * 64 + 128,

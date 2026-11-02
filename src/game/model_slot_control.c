@@ -537,7 +537,7 @@ void Model_ResetSlot(s32 slot_index)
 void Model_LoadSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags) {
     ModelSlot *span_slot;
     ModelSlot *rearm_slot;
-    ModelSlotPart *G32 *part_sequence;
+    ModelSlotPart **part_sequence;
     ModelSlot *draw_slot;
     ModelSlot *tint_slot;
     s32 span_part_index;
@@ -813,7 +813,7 @@ void Model_AdvanceSlotLoad(s32 index)
     }
     case 5: {
         ModelSlot *phase_slot = &gModel_aSlots[index];
-        ModelSlotPart *G32 *part_sequence = phase_slot->animation_sequences;
+        ModelSlotPart **part_sequence = phase_slot->animation_sequences;
         s32 part_index;
         for (part_index = 0; part_index < phase_slot->animation_sequence_count; part_index++) {
             (*part_sequence)->ii = 0xFFFF;
@@ -1438,7 +1438,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
  * word count the slot's callee-saved register. */
 void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
     ModelSlot *slot;
-    ModelSlotPart *G32 *part_sequences;
+    ModelSlotPart **part_sequences;
     u8 *snapshot_cursor;
     u8 *parameter_base;
     u16 *command_halfwords;
@@ -1691,7 +1691,7 @@ void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 entry_index, SVECTOR *
     );
     GsSetLsMatrix(&entry_world_matrix);
 
-    RotTransSV(local_position, &world_position, (PSXLONG *)transform_flags);
+    RotTransSV(local_position, &world_position, (long *)transform_flags);
 
     translation_parent.rot.vz = 0;
     translation_parent.rot.vy = 0;
@@ -1843,8 +1843,8 @@ big:
 
 void Model_StepViewOrbit(s32 direction_scale, s32 yaw_delta, s32 pitch_delta, s32 distance_delta)
 {
-    PSXLONG *pivot_position;
-    PSXLONG *orbit_position;
+    long *pivot_position;
+    long *orbit_position;
     s32 cosine;
     s32 sine;
     s32 distance;
@@ -1856,7 +1856,7 @@ void Model_StepViewOrbit(s32 direction_scale, s32 yaw_delta, s32 pitch_delta, s3
     /* pivot_position and orbit_position are the two long triples at the head of the reference view,
        vpx..vpz and vrx..vrz: orbit_position is moved around pivot_position. */
     if (direction_scale > 0) {
-        pivot_position = (PSXLONG *)gModel_ViewReferencePoint;
+        pivot_position = (long *)gModel_ViewReferencePoint;
         orbit_position = pivot_position - 3;
     } else {
         pivot_position = &gModel_RView.vpx;

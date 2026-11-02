@@ -385,7 +385,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     path.write_text(
                         prefix + '#include "duel_cursor_grid_direction.h"\n'
                         + '#include "duel_cursor_held_grid_direction.h"\n'
-                        + "DisplayObject *G32 *object_view(DuelSelectionRecord *cursor) "
+                        + "DisplayObject **object_view(DuelSelectionRecord *cursor) "
                         + "{ return &cursor->cursor_object; }\n"
                         + "s8 *column_view(DuelSelectionRecord *cursor) "
                         + "{ return &cursor->col; }\n"
@@ -426,12 +426,12 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 with self.subTest(record=record):
                     path.write_text(
                         '#include "duel_selection_layout.h"\n'
-                        + "struct DisplayObject *G32 *display_parent_slot("
+                        + "struct DisplayObject **display_parent_slot("
                         + "DuelSelectionRecord *record) "
                         + "{ return &record->field_00; }\n"
-                        + f"{record} *G32 *active_record(void) "
+                        + f"{record} **active_record(void) "
                         + "{ return &gDuel_pActiveSelectionRecord; }\n"
-                        + "DuelHandSlot *G32 *hand_slot(DuelSelectionRecord *record) "
+                        + "DuelHandSlot **hand_slot(DuelSelectionRecord *record) "
                         + "{ return &record->hand; }\n",
                         encoding="utf-8",
                     )
@@ -461,7 +461,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     with self.subTest(member=member, pointee=pointee):
                         path.write_text(
                             '#include "duel_hand.h"\n'
-                            + f"{pointee} *G32 *slot_view(DuelHandSlot *slot) "
+                            + f"{pointee} **slot_view(DuelHandSlot *slot) "
                             + f"{{ return &slot->{member}; }}\n",
                             encoding="utf-8",
                         )

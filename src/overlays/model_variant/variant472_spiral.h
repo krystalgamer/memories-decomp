@@ -10,15 +10,15 @@
 typedef struct {
     u8 unknown00[0x20];
     SVECTOR a[4];
-    PSXLONG sa[4];
+    long sa[4];
     s32 angle[4];
     SVECTOR b[4];
-    PSXLONG sb[4];
+    long sb[4];
     s32 width[4];
     u8 cb[4][4];
     u8 ca[4][4];
     u8 unknownC0[4];
-    PSXLONG flag[4];
+    long flag[4];
     s32 otz[4];
     s16 ox[4];
     s16 oy[4];

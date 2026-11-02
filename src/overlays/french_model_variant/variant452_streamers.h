@@ -7,10 +7,10 @@
 typedef struct {
     u8 unknown00[0x28];
     SVECTOR a[5];
-    PSXLONG sa[5];
+    long sa[5];
     s32 angle[5];
     SVECTOR b[5];
-    PSXLONG sb[5];
+    long sb[5];
     s32 width[5];
     CVECTOR inner[5];
     CVECTOR outer[5];

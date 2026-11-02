@@ -40,11 +40,8 @@ nonzero-state test and exact five-bit index mask. Its public declaration
 remains unsized; there is no new eighteen-entry guard or assumption that
 all masked indexes are valid.
 
-This is an initialized native function-pointer table. The pointer policy
-in `check_g32.py` deliberately retains native pointers for a name initialized
-elsewhere in the sources, including its plain extern declarations.
-The new interface therefore uses a simple header alias, not an additional
-uninitialized pointer object or an incompatible guest-width declaration.
+This is an initialized function-pointer table, so the new interface uses
+a simple header alias, not an additional uninitialized pointer object.
 All existing pointer types, declarations, initializers and call expressions
 remain intact after preprocessing.
 

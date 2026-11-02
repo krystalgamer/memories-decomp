@@ -68,7 +68,7 @@ typedef struct {
  * The init writes its spark table over the timers (see the source), and
  * the sparks are never drawn. */
 typedef struct {
-    Model799Config *G32 config;
+    Model799Config *config;
     SVECTOR pos[6];
     SVECTOR step[6];
     SVECTOR angle[6];

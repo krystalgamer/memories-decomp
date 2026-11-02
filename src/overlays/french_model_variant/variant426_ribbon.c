@@ -18,9 +18,9 @@ void func_8013CDF0(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG flags[1][17];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long flags[1][17];
+    long interpolation;
+    long flag;
     GsOT *ot;
     s16 i, j;
     Ribbon426Work *work = (Ribbon426Work *)context;

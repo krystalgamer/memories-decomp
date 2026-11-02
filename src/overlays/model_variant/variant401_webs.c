@@ -9,8 +9,8 @@ void func_8013CCA4(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *timing;
     ModelVariantWebNarrow *web;
     GsOT *ot;
@@ -105,8 +105,8 @@ void func_8013CCA4(u8 *ctx)
             for (k = 0; k < 6; k++) {
                 line->attribute = 0x50000000;
                 otz = RotTransPers4(&web->near[j][k], &web->far[j][k], &web->near[j][k], &web->far[j][k],
-                                    (PSXLONG *)&line->x0, (PSXLONG *)&line->x1, (PSXLONG *)&line->x0,
-                                    (PSXLONG *)&line->x1, &p, &flag);
+                                    (long *)&line->x0, (long *)&line->x1, (long *)&line->x0,
+                                    (long *)&line->x1, &p, &flag);
                 if (MODEL_VARIANT_WORD(work, 0x1B18) < 2) {
                     line->r0 = 0;
                     line->g0 = 0;
@@ -129,7 +129,7 @@ void func_8013CCA4(u8 *ctx)
         }
         if (MODEL_VARIANT_WORD(work, 0x1B18) == 0) {
             if (web->scale > 0) {
-                timing = *(u8 *G32 *)(work + 0x1AF4);
+                timing = *(u8 **)(work + 0x1AF4);
                 web->scale = (u32)((MODEL_VARIANT_WORD(work, 0x1AE4) - MODEL_VARIANT_WORD(timing, 0x1C)) * 3 << 12) /
                                  (MODEL_VARIANT_WORD(timing, 0x20) - MODEL_VARIANT_WORD(timing, 0x1C)) -
                              0x1000;

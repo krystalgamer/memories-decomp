@@ -49,7 +49,7 @@ typedef struct {
  * the burst scales, the beam texture page and palette, the textures, the
  * fading trail and burst colours, and the fading beam colour. */
 typedef struct {
-    Model844Config *G32 config;
+    Model844Config *config;
     SVECTOR trail_a[64];
     SVECTOR trail_b[64];
     SVECTOR trail_c[64];

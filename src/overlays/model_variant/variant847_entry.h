@@ -53,7 +53,7 @@ typedef union {
  * ring scales, the ambient level, the textures, and the ring, flash and
  * trail colours. */
 typedef struct {
-    Model847Config *G32 config;
+    Model847Config *config;
     SVECTOR unknown_4[64][2];
     SVECTOR inner[16];
     SVECTOR outer[16];

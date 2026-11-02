@@ -122,7 +122,7 @@ reaches all five update calls, at `1024/102C/1044/104C/1068`, targeting
 sheets/webs/ribbons/bands/companion respectively. All five argument moves occur
 in delay slots. Entry has 77 call sites and 25 distinct resident callees.
 
-Ribbon root `s8` and packet `s7` remain stable. The saved `PSXLONG[8][2]`
+Ribbon root `s8` and packet `s7` remain stable. The saved `long[8][2]`
 projection-status grid occupies stack 208..272, separate from `p` at 272 and
 the offset-point flag at 276. Two four-point projections and one offset-point
 projection preserve that distinction. Ribbon offsets at record 100/102/104/106

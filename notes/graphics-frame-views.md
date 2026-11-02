@@ -64,7 +64,7 @@ Frame begin publishes four active `GraphicsFrameBuffer` descriptors and
 clears them through `GsClearOt`.
 
 The slot-one selector retains the intentional oversized four-pointer
-array versus scalar `GsOT *G32` view. Slot two retains its incomplete array
+array versus scalar `GsOT *` view. Slot two retains its incomplete array
 versus scalar view; slot three remains a scalar pointer declaration.
 These declarations control old-GCC addressing and must not be resized.
 Model rendering still reaches slot three through slot-two-view element

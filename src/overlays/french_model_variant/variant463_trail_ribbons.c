@@ -18,9 +18,9 @@ void func_8013D860(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flags[5][13];
-    PSXLONG p;
-    PSXLONG flag;
+    long flags[5][13];
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     s16 i;

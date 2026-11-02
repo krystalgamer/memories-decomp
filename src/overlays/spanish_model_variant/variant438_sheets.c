@@ -8,8 +8,8 @@ void func_8013EDE8(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Sheet438State *state = (Sheet438State *)context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *polygon;
@@ -68,8 +68,8 @@ void func_8013EDE8(u8 *context)
         polygon->b3 = sheet->outer[2];
         for (j = 0; j < 4; j++) {
             depth = RotTransPers4(&sheet->v0[j], &sheet->v1[j], &sheet->v2[j], &sheet->v3[j],
-                                 (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
-                                 (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                 (long *)&polygon->x0, (long *)&polygon->x1,
+                                 (long *)&polygon->x2, (long *)&polygon->x3,
                                  &interpolation, &flag);
             depth = depth * 8 / 10;
             if (depth >= 0 && flag >= 0) {

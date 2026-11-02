@@ -8,8 +8,8 @@ void func_8013C560(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Arcs582State *state = (Arcs582State *)context;
     Arcs582Group *group = state->groups;
     GsGLINE *line = &state->line;
@@ -101,8 +101,8 @@ void func_8013C560(u8 *context)
                     line->attribute = 0x50000000;
                     depth = RotTransPers3(&group->near_points[k][m], &group->far_points[k][m],
                                          &group->near_points[k][m],
-                                         (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
-                                         (PSXLONG *)&line->x0, &interpolation, &flag);
+                                         (long *)&line->x0, (long *)&line->x1,
+                                         (long *)&line->x0, &interpolation, &flag);
                     setRGB0(line, 160, 0, 160);
                     setRGB1(line, 8, 0, 8);
                     if (depth >= 0 && flag >= 0) {

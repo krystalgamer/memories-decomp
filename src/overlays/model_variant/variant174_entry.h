@@ -36,14 +36,14 @@ typedef struct {
  * pointers, four texture words, the completion flag, the elapsed time and a
  * frame counter. */
 typedef struct {
-    Model174Config *G32 config;
+    Model174Config *config;
     SVECTOR ribbon[34];
     SVECTOR positions[64];
     SVECTOR origin;
     u8 unknown_31C[0x1F8];
     SVECTOR vertices[9];
     SVECTOR spark_points[128];
-    SVECTOR *G32 faces[16];
+    SVECTOR *faces[16];
     u32 texture[4];
     u8 completed;
     u8 unknown_9AD[3];

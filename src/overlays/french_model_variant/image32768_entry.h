@@ -25,7 +25,7 @@ typedef struct {
 } Image32768Config;
 
 typedef struct {
-    Image32768Config *G32 config;
+    Image32768Config *config;
     SVECTOR tips[2];
     u16 phase, unknown_16;
     u32 elapsed;

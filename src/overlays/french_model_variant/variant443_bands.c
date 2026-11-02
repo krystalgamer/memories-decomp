@@ -9,8 +9,8 @@ void func_8013EEF0(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag[3][2];
+    long interpolation;
+    long flag[3][2];
     Bands443State *state;
     GsOT *ot;
     POLY_GT4 *quad;

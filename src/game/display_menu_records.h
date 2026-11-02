@@ -5,6 +5,6 @@
 #include "menu_record.h"
 
 extern MenuRecord gDisplayEffect_aMenuRecords[];
-extern MenuRecord *G32 gScript_pMenuRecord;
+extern MenuRecord *gScript_pMenuRecord;
 
 #endif

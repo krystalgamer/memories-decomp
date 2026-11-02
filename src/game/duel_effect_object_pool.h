@@ -10,7 +10,7 @@ void DuelEffect_ResetRequestPool(void);
 
 extern u8 gDuelEffect_bRequestFinished;
 #ifdef D_8009B264_VISIBLE
-extern DuelEffectRequest *G32 gDuelEffect_pActiveRequest;
+extern DuelEffectRequest *gDuelEffect_pActiveRequest;
 #endif
 
 #endif

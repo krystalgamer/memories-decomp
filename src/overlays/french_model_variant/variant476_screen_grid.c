@@ -8,8 +8,8 @@ void func_8013DDD4(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     Variant476ScreenGrid *grid;
     GsOT *ot;
     POLY_GT4 *poly;
@@ -63,8 +63,8 @@ void func_8013DDD4(u8 *ctx)
         for (j = 0; j < 8; j++) {
             RotTransPers4(&grid->b[i][j], &grid->b[i][j + 1],
                           &grid->b[i + 1][j], &grid->b[i + 1][j + 1],
-                          (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                          (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                          (long *)&poly->x0, (long *)&poly->x1,
+                          (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
             if (poly->x0 < 160) {
                 /* Both buffer branches fold to identical page arguments. */
                 if (active == 0) {
@@ -89,8 +89,8 @@ void func_8013DDD4(u8 *ctx)
             }
             otz = RotTransPers4(&grid->a[i][j], &grid->a[i][j + 1],
                                &grid->a[i + 1][j], &grid->a[i + 1][j + 1],
-                               (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                               (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                               (long *)&poly->x0, (long *)&poly->x1,
+                               (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
             SetSemiTrans(poly, 0);
             SetShadeTex(poly, 0);
             if (otz >= 0 && flag >= 0) {

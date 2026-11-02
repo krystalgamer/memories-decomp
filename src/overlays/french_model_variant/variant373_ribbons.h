@@ -8,13 +8,13 @@
 
 typedef struct {
     SVECTOR points[2];
-    PSXLONG projected[2];
+    long projected[2];
     s32 angle[2];
     SVECTOR edges[2];
-    PSXLONG edge_projected[2];
+    long edge_projected[2];
     s32 width[2];
     u8 unknown_40[0x1C];
-    PSXLONG depth[2];
+    long depth[2];
     s16 x_offset[2];
     s16 y_offset[2];
 } Family373Ribbon;
@@ -49,7 +49,7 @@ typedef struct {
     u8 unknown_2408[8];
     s32 step;
     u8 unknown_2414[4];
-    Family373RibbonConfig *G32 config;
+    Family373RibbonConfig *config;
     u8 unknown_241C[0x10];
     s32 index_242C;
     u8 unknown_2430[0x14];

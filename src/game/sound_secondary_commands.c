@@ -125,7 +125,7 @@ void SD_SetSequenceChannelPitchBendMsb(unsigned char index, int unused, int valu
     entries->pitch_bend_msb = value & SD_SEQUENCE_PITCH_BEND_MSB_MASK;
 }
 
-PSXLONG SD_SequenceTimerCallback(void)
+long SD_SequenceTimerCallback(void)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
     s32 i;

@@ -20,13 +20,13 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     ModelTintColor tint_start;
     ModelTintColor tint_end;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 slot, side, step;
     GsOT *ot;
     s32 i;
     SVECTOR *v, *w;
     s32 sx, sy, sz;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -142,7 +142,7 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&matrix);
         for (i = 0; i < 8; i++) {
             depth = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1],
-                (PSXLONG *)&ring.x0, (PSXLONG *)&ring.x1, (PSXLONG *)&ring.x2, (PSXLONG *)&ring.x3,
+                (long *)&ring.x0, (long *)&ring.x1, (long *)&ring.x2, (long *)&ring.x3,
                 &interpolation, &flag);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&ring, ot, (u16)depth, 1);
@@ -166,7 +166,7 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&matrix);
         for (i = 0; i < 8; i++) {
             depth = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1],
-                (PSXLONG *)&ring.x0, (PSXLONG *)&ring.x1, (PSXLONG *)&ring.x2, (PSXLONG *)&ring.x3,
+                (long *)&ring.x0, (long *)&ring.x1, (long *)&ring.x2, (long *)&ring.x3,
                 &interpolation, &flag);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&ring, ot, (u16)depth, 1);
@@ -190,7 +190,7 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&matrix);
         for (i = 0; i < 8; i++) {
             depth = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1],
-                (PSXLONG *)&ring.x0, (PSXLONG *)&ring.x1, (PSXLONG *)&ring.x2, (PSXLONG *)&ring.x3,
+                (long *)&ring.x0, (long *)&ring.x1, (long *)&ring.x2, (long *)&ring.x3,
                 &interpolation, &flag);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&ring, ot, (u16)depth, 1);
@@ -218,7 +218,7 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&v[0], &v[1], &v[2], &v[3],
-            (PSXLONG *)&cone.x0, (PSXLONG *)&cone.x1, (PSXLONG *)&cone.x2, (PSXLONG *)&cone.x3,
+            (long *)&cone.x0, (long *)&cone.x1, (long *)&cone.x2, (long *)&cone.x3,
             &interpolation, &flag);
         if (depth >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&cone, ot, (u16)depth, 1);
@@ -231,7 +231,7 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&v[0], &v[1], &v[2], &v[3],
-            (PSXLONG *)&cone.x0, (PSXLONG *)&cone.x1, (PSXLONG *)&cone.x2, (PSXLONG *)&cone.x3,
+            (long *)&cone.x0, (long *)&cone.x1, (long *)&cone.x2, (long *)&cone.x3,
             &interpolation, &flag);
         if (depth >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&cone, ot, (u16)depth, 1);
@@ -254,7 +254,7 @@ s32 ModelVariant761_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&work->beam[2], v, &work->beam[3], &work->beam[1],
-            (PSXLONG *)&beam.x0, (PSXLONG *)&beam.x1, (PSXLONG *)&beam.x2, (PSXLONG *)&beam.x3,
+            (long *)&beam.x0, (long *)&beam.x1, (long *)&beam.x2, (long *)&beam.x3,
             &interpolation, &flag);
         setUV4(&beam, 0, 0, 127, 0, 0, 127, 127, 127);
         if (depth >= 0 && flag >= 0) {

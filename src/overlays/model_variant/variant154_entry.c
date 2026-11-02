@@ -23,7 +23,7 @@ s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[66];
     u16 depths[66], projection[66], flags[66];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model154State *work;
     Model154Config *config;
     s32 direction;
@@ -32,8 +32,8 @@ s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
     s32 i, j, k, t, value, depth, zoom, other;
     u8 red, green, blue;
     SVECTOR *point, *previous;
-    SVECTOR *G32 *p;
-    SVECTOR *G32 (*q)[4];
+    SVECTOR **p;
+    SVECTOR *(*q)[4];
     DVECTOR *sa, *sb;
     u16 *da, *db, *fa, *fb;
 
@@ -177,7 +177,7 @@ s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
                 for (i = 0; i < 4; i++) {
                     for (j = 0; j < 4; j++) {
                         depth = RotAverage4((*q)[0], (*q)[1], (*q)[2], (*q)[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                             &interpolation, &flag);
                         setUV4(&quad, j * value, i * zoom, j * value + (value - 1), i * zoom,
                             j * value, i * zoom + (zoom - 1), j * value + (value - 1), i * zoom + (zoom - 1));
@@ -223,7 +223,7 @@ s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
             &interpolation, &flag);
         if (depth >= 0 && flag >= 0) {
             GsSortPoly(&quad, ot, (u16)depth);
@@ -235,8 +235,8 @@ s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
         GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         setVector(&vertices[0], matrix.t[0], matrix.t[1], matrix.t[2]);
         setVector(&vertices[1], 0, -350, direction * 450);
-        RotTransPers(&vertices[0], (PSXLONG *)&quad.x0, &interpolation, &flag);
-        RotTransPers(&vertices[1], (PSXLONG *)&quad.x1, &interpolation, &flag);
+        RotTransPers(&vertices[0], (long *)&quad.x0, &interpolation, &flag);
+        RotTransPers(&vertices[1], (long *)&quad.x1, &interpolation, &flag);
         k = ((quad.x1 - quad.x0) * (quad.x1 - quad.x0) + (quad.y1 - quad.y0) * (quad.y1 - quad.y0)) / 4096;
         /* The shifted test is always false; it keeps the squared distance stored. */
         if ((u32)t >> 31 >> 1) {
@@ -340,7 +340,7 @@ s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
             &interpolation, &flag);
         if (depth >= 0 && flag >= 0) {
             GsSortPoly(&quad, ot, (u16)depth);
@@ -431,7 +431,7 @@ s32 ModelVariant154_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < 4; i++) {
                 for (j = 0; j < 4; j++) {
                     depth = RotAverage4((*q)[0], (*q)[1], (*q)[2], (*q)[3],
-                        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                        (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                         &interpolation, &flag);
                     setUV4(&quad, j * value, i * zoom, j * value + (value - 1), i * zoom,
                         j * value, i * zoom + (zoom - 1), j * value + (value - 1), i * zoom + (zoom - 1));

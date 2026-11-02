@@ -19,7 +19,7 @@ typedef struct {
 } Model157Config;
 
 typedef struct {
-    Model157Config *G32 config;
+    Model157Config *config;
     SVECTOR origin, ring[33], starts[32], trails[192];
     u32 texture[1];
     u8 completed, toggle, unknown_81a[2];

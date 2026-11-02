@@ -16,8 +16,8 @@ The latter sees the choice object at displacement zero and the channel
 flags at displacement four. Folding it into the full record costs a
 register and four instructions under the retained profile.
 
-`ChoiceView.obj` now uses the existing `struct DisplayObject *G32`
-type instead of `void *G32`: `Dialog_OpenChoice` returns that pointer,
+`ChoiceView.obj` now uses the existing `struct DisplayObject *`
+type instead of `void *`: `Dialog_OpenChoice` returns that pointer,
 and `DisplayObject_ReleaseIfPresent` consumes it. Its zero offset, the
 flags' four-byte offset and eight-byte view size have target compile-time
 contracts. No object or record storage is added, and the channel's shared

@@ -23,11 +23,11 @@ s32 func_8013B004(u8 *context, s32 command)
     MATRIX ls;
     GsCOORDUNIT unit;
     Model654ViewSnapshot view;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, k, n;
     u32 tex;
-    PSXLONG depth;
+    long depth;
     s32 d;
 
     work = (Model654State *)context;
@@ -291,8 +291,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         work->bursts[i][j].u + 31, work->bursts[i][j].v + 31);
                     setRGB0(&work->flat, work->bursts[i][j].red, work->bursts[i][j].green, work->bursts[i][j].blue);
                     depth = RotAverage4(&work->square[0], &work->square[1], &work->square[2], &work->square[3],
-                        (PSXLONG *)&work->flat.x0, (PSXLONG *)&work->flat.x1,
-                        (PSXLONG *)&work->flat.x2, (PSXLONG *)&work->flat.x3, &interpolation, &flag);
+                        (long *)&work->flat.x0, (long *)&work->flat.x1,
+                        (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
                     }
@@ -354,8 +354,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         work->rings[i][j].u + 31, work->rings[i][j].v + 31);
                     setRGB0(&work->flat, work->rings[i][j].red, work->rings[i][j].green, work->rings[i][j].blue);
                     depth = RotAverage4(&work->square[0], &work->square[1], &work->square[2], &work->square[3],
-                        (PSXLONG *)&work->flat.x0, (PSXLONG *)&work->flat.x1,
-                        (PSXLONG *)&work->flat.x2, (PSXLONG *)&work->flat.x3, &interpolation, &flag);
+                        (long *)&work->flat.x0, (long *)&work->flat.x1,
+                        (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
                     }
@@ -406,8 +406,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         work->line.g1 = work->spheres[i].green;
                         work->line.b1 = work->spheres[i].blue;
                         /* Both ends are the same point, as in retail: a dotted sphere. */
-                        RotTransPers(&work->grid[k][j], (PSXLONG *)&work->line.x0, &interpolation, &flag);
-                        depth = RotTransPers(&work->grid[k][j], (PSXLONG *)&work->line.x1, &interpolation, &flag);
+                        RotTransPers(&work->grid[k][j], (long *)&work->line.x0, &interpolation, &flag);
+                        depth = RotTransPers(&work->grid[k][j], (long *)&work->line.x1, &interpolation, &flag);
                         if (flag >= 0) {
                             GsSortGLine(&work->line, func_80058F10(), (u16)depth);
                         }

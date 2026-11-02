@@ -26,7 +26,7 @@ typedef struct {
 /* The 0x3AC-byte work area: the command row, the three 17-point rings, the
  * ring positions of both waves, the completion flag and the elapsed time. */
 typedef struct {
-    Model175Config *G32 config;
+    Model175Config *config;
     SVECTOR ring[51];
     SVECTOR positions[65];
     u8 completed, unknown_3a5[3];

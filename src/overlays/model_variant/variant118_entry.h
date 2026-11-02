@@ -37,7 +37,7 @@ typedef struct {
  * part, the 64 dots of the shell and their fan scales, the camera step
  * counter, the two texture words, the elapsed time and the tint flag. */
 typedef struct {
-    Model118Config *G32 config;
+    Model118Config *config;
     SVECTOR trail[3];
     SVECTOR dots[64];
     s32 scales[64];

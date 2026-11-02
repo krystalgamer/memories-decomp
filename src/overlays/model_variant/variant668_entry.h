@@ -31,7 +31,7 @@ typedef struct {
     u16 elapsed, duration;
     /* Frames drawn; odd frames shrink the shell slightly. */
     u16 frame, unknown_12;
-    GsCOORDUNIT *G32 coord;
+    GsCOORDUNIT *coord;
     SVECTOR rotation;
     VECTOR scale;
     VECTOR position;

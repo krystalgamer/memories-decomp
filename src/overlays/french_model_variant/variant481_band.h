@@ -10,16 +10,16 @@
  * staggered at -128 * step and grows to 0x800. */
 typedef struct {
     SVECTOR spine[33];
-    PSXLONG screen[33];
+    long screen[33];
     s32 heading[33];
     SVECTOR edge[33];
-    PSXLONG edge_screen[33];
+    long edge_screen[33];
     s32 length[33];
     s32 amount[33];
     s32 offset[33];
     CVECTOR color[33];
     u8 unknown_5AC[0x1B4];
-    PSXLONG flag[33];
+    long flag[33];
     s32 otz[33];
     s16 dx[33];
     s16 dy[33];

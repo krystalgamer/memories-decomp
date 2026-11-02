@@ -37,7 +37,7 @@ typedef struct {
     u32 color;
     union {
         u32 word;
-        void (*G32 callback)(DisplayObjectConfig *, u32);
+        void (*callback)(DisplayObjectConfig *, u32);
     } field_10;
     u8 pad_14[0x0D];
     u8 rotation_y;
@@ -49,7 +49,7 @@ typedef struct {
     u8 pad_36[0x0C];
     u16 icon_variant;
     u8 pad_44[0x08];
-    void *G32 field_4C;
+    void *field_4C;
     u8 pad_50[0x0C];
     u8 icon_state;
     u8 field_5D;

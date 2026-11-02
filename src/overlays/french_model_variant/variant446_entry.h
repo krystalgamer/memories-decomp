@@ -31,7 +31,7 @@ typedef struct {
 
 typedef struct {
     SVECTOR points[3][5];
-    PSXLONG projected[3][5];
+    long projected[3][5];
     s16 field_B4, field_B6;
     s32 field_B8, depth[5];
 } EntryStrip446;
@@ -67,9 +67,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, elapsed, animation, step;
     s32 fade;
-    EntryConfig446 *G32 config;
+    EntryConfig446 *config;
     u32 unknown_1BA8;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s32 part_index;
     CVECTOR inner, outer;
     s16 spin, field_1BC6, field_1BC8, field_1BCA;

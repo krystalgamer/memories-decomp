@@ -8,9 +8,9 @@ void func_8013CB9C(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flags[3][13];
-    PSXLONG p;
-    PSXLONG flag;
+    long flags[3][13];
+    long p;
+    long flag;
     Variant449StreamerView *work;
     POLY_FT4 *poly;
     GsOT *ot;

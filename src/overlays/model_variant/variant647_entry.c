@@ -14,14 +14,14 @@ s32 func_8013B004(u8 *context, s32 command)
     MATRIX ls;
     GsCOORDUNIT unit;
     Model647ViewSnapshot view;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, k, fade;
     s32 angle, turn;
     s32 size;
     u32 tex;
     u16 duration;
-    PSXLONG depth;
+    long depth;
 
     work = (Model647State *)context;
     result = 0;
@@ -235,8 +235,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         setRGB3(&work->quad, work->bursts[i].red, work->bursts[i].green, work->bursts[i].blue);
                         depth = RotAverage4(&work->inner[j][k], &work->inner[j + 1][k],
                             &work->outer[j][k], &work->outer[j + 1][k],
-                            (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                            (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3,
+                            (long *)&work->quad.x0, (long *)&work->quad.x1,
+                            (long *)&work->quad.x2, (long *)&work->quad.x3,
                             &interpolation, &flag);
                         if (flag >= 0) {
                             GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
@@ -256,8 +256,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         setRGB1(&work->triangle, work->bursts[i].red, work->bursts[i].green, work->bursts[i].blue);
                         depth = RotAverage3(&work->top[j][k], &work->top[j + 1][k],
                             &work->bottom[j][k],
-                            (PSXLONG *)&work->triangle.x0, (PSXLONG *)&work->triangle.x1,
-                            (PSXLONG *)&work->triangle.x2, &interpolation, &flag);
+                            (long *)&work->triangle.x0, (long *)&work->triangle.x1,
+                            (long *)&work->triangle.x2, &interpolation, &flag);
                         if (flag >= 0) {
                             GsSortPoly(&work->triangle, func_80058F10(), (u16)depth);
                         }

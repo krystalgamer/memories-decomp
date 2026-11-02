@@ -52,9 +52,9 @@ typedef struct {
     s32 elapsed;
     s32 animation_frame;
     s32 step;
-    ModelVariant408EntryConfig *G32 config;
+    ModelVariant408EntryConfig *config;
     u8 unknown_DE0[4];
-    void *G32 part;
+    void *part;
     s32 extension;
     s32 angle;
     s32 repeat_limit;

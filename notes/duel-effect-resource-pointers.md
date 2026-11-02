@@ -8,7 +8,7 @@ in `secondary_object`, then links the primary from the secondary. The release he
 passes both values to the unchanged generic release API before clearing
 them; the separate clear helper writes only null pointers.
 
-Both members therefore use `struct DisplayObject *G32`, with only a forward
+Both members therefore use `struct DisplayObject *`, with only a forward
 declaration in the record header. The `0x40` record, pointer offsets 0/4,
 rectangle start at 8, source coordinates, scalar tail and every existing
 offset remain unchanged. No pool allocation, null-safety or exclusive
@@ -31,8 +31,8 @@ types and target-layout/type controls; the later member-name recovery follows.
 
 | Original member | Offset | Name | Stored type | Confidence |
 | --- | --- | --- | --- | --- |
-| `object_00` | `0` | `primary_object` | `struct DisplayObject *G32` | confirmed |
-| `object_04` | `4` | `secondary_object` | `struct DisplayObject *G32` | confirmed |
+| `object_00` | `0` | `primary_object` | `struct DisplayObject *` | confirmed |
+| `object_04` | `4` | `secondary_object` | `struct DisplayObject *` | confirmed |
 
 The constructor publishes the first allocation as the secondary before
 acquiring the second allocation; it returns and publishes the second as

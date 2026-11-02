@@ -31,7 +31,7 @@ typedef struct {
  * 18-point flash ring, the 4x6 panel grid, its centre, the 18-point shell
  * arc, two texture words, the completion flag and the elapsed time. */
 typedef struct {
-    Model89Config *G32 config;
+    Model89Config *config;
     SVECTOR positions[15];
     SVECTOR ring[18];
     SVECTOR grid[24];

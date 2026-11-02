@@ -47,7 +47,7 @@ typedef struct {
  * and speeds, the band speed offset and scroll, three texture words, the
  * completion flag, the elapsed time and the frame count. */
 typedef struct {
-    Model178Config *G32 config;
+    Model178Config *config;
     SVECTOR grid[52];
     SVECTOR target;
     s16 picks[512];

@@ -276,7 +276,7 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
             Model_CopySlotU16Values(0, (u16 *)&work->target);
         }
         setVector(&target, work->target.vx, work->target.vy, work->target.vz);
-        RotTransPers(&target, (PSXLONG *)&projection.projected,
+        RotTransPers(&target, (long *)&projection.projected,
                      &projection.interpolation, &projection.flag);
         screen_x = projection.projected.vx;
         screen_y = projection.projected.vy;
@@ -287,7 +287,7 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
                       work->target.vy - work->matrices[i].t[1],
                       work->target.vz - work->matrices[i].t[2]);
             setVector(&position, work->matrices[i].t[0], work->matrices[i].t[1], work->matrices[i].t[2]);
-            RotTransPers(&position, (PSXLONG *)&projection.target,
+            RotTransPers(&position, (long *)&projection.target,
                          &projection.interpolation, &projection.flag);
             dx = screen_x - projection.target.vx;
             dy = screen_y - projection.target.vy;

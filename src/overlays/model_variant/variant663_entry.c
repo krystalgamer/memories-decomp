@@ -56,7 +56,7 @@ s32 func_8013B004(u8 *context, s32 command)
     Model663ViewSnapshot view;
     SVECTOR p0, p1;
     SVECTOR pts[4][2];
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     /* VALUE is shared by the 0x800 scale, the fades and both strip weights;
      * N is the fade divisor and the variable 8 the strip colours divide by. */
@@ -69,7 +69,7 @@ s32 func_8013B004(u8 *context, s32 command)
     u16 red1, green1, blue1;
     s32 r, g, b;
     u32 tex;
-    PSXLONG depth;
+    long depth;
 
     work = (Model663State *)context;
     result = 0;
@@ -425,8 +425,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB3(&work->strip, red1, green1, blue1);
                     depth = RotAverage4(&work->spokes[k][0], &work->spokes[k + 1][0],
                         &work->spokes[k][1], &work->spokes[k + 1][1],
-                        (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1,
-                        (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3,
+                        (long *)&work->strip.x0, (long *)&work->strip.x1,
+                        (long *)&work->strip.x2, (long *)&work->strip.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
@@ -480,8 +480,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB0(&work->sprite, r, g, b);
                     depth = RotAverage4(&work->rays[k][0], &work->rays[k + 1][0],
                         &work->rays[k][1], &work->rays[k + 1][1],
-                        (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1,
-                        (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3,
+                        (long *)&work->sprite.x0, (long *)&work->sprite.x1,
+                        (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
@@ -494,8 +494,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB1(&work->tri, 0, 0, 0);
                     setRGB2(&work->tri, 0, 0, 0);
                     depth = RotAverage3(&p0, &work->rays[k][0], &work->rays[k + 1][0],
-                        (PSXLONG *)&work->tri.x0, (PSXLONG *)&work->tri.x1,
-                        (PSXLONG *)&work->tri.x2, &interpolation, &flag);
+                        (long *)&work->tri.x0, (long *)&work->tri.x1,
+                        (long *)&work->tri.x2, &interpolation, &flag);
                     if (flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&work->tri, func_80058F10(), (u16)depth,
                             work->bursts[i].mode);
@@ -538,8 +538,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     }
                     PopMatrix();
                     depth = RotAverage4(&pts[0][1], &pts[1][1], &pts[2][1], &pts[3][1],
-                        (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1,
-                        (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3,
+                        (long *)&work->strip.x0, (long *)&work->strip.x1,
+                        (long *)&work->strip.x2, (long *)&work->strip.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->strip, func_80058F10(), (u16)depth);

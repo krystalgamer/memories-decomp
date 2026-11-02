@@ -60,7 +60,7 @@ typedef struct {
  * flare timer after the flight counters, a shared 16-segment ray ring and
  * the flare texture page and CLUT after the five textures. */
 typedef struct {
-    Model831Config *G32 config;
+    Model831Config *config;
     SVECTOR pos[3];
     SVECTOR step[3];
     SVECTOR angle[3];

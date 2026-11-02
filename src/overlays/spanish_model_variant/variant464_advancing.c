@@ -8,8 +8,8 @@ void func_8013C8EC(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG flags[5][2];
-    PSXLONG interpolation;
+    long flags[5][2];
+    long interpolation;
     GsOT *ot;
     Advancing464State *state = (Advancing464State *)context;
     Advancing464 *group;

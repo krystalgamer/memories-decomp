@@ -38,7 +38,7 @@ typedef struct {
     u8 unknown_398C[4];
     s32 step;
     u8 unknown_3994[4];
-    Arcs582Timing *G32 timing;
+    Arcs582Timing *timing;
     u8 unknown_399C[0x3C];
     s32 phase;
 } Arcs582State;

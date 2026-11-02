@@ -36,7 +36,7 @@ typedef struct {
  * inner and outer points and centre, nine textures, the completion flag and
  * the elapsed time. */
 typedef struct {
-    Model142Config *G32 config;
+    Model142Config *config;
     SVECTOR points[64];
     SVECTOR targets[64];
     SVECTOR offsets[4];

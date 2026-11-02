@@ -53,7 +53,7 @@ typedef union {
  * the shard count, the glow scale, the ambient level, the textures, the tint
  * and glow, and each shard's colour channels. */
 typedef struct {
-    Model826Config *G32 config;
+    Model826Config *config;
     SVECTOR positions[16];
     u32 elapsed;
     u32 tick;

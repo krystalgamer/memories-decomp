@@ -8,8 +8,8 @@ void func_8013C338(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     GsOT *ot;
     u8 *work;
     Variant414Fan *rec;
@@ -50,8 +50,8 @@ void func_8013C338(u8 *ctx)
         for (j = 0; j < 4; j += 2) {
             otz = RotTransPers4(&rec->point[j + 1], &rec->point[0],
                                 &rec->point[j + 2], &rec->point[j + 3],
-                                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                                (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                                (long *)&poly->x0, (long *)&poly->x1,
+                                (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
             poly->r0 = rec->outer[0];
             poly->g0 = rec->outer[1];
             poly->b0 = rec->outer[2];
@@ -69,8 +69,8 @@ void func_8013C338(u8 *ctx)
             }
             otz = RotTransPers4(&rec->point[j + 6], &rec->point[0],
                                 &rec->point[j + 7], &rec->point[j + 8],
-                                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                                (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                                (long *)&poly->x0, (long *)&poly->x1,
+                                (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
             poly->r0 = rec->outer[0];
             poly->g0 = rec->outer[1];
             poly->b0 = rec->outer[2];
@@ -88,7 +88,7 @@ void func_8013C338(u8 *ctx)
             }
         }
         if ((u32)MODEL_VARIANT_WORD(work, 0x18A0) >=
-            (u32)(MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x18B0) -
+            (u32)(MODEL_VARIANT_WORD(*(u8 **)(work + 0x18B0) -
                                     -(MODEL_VARIANT_WORD(work, 0x18D8) * 4), 0x2C) - 8)) {
             if (rec->size < 0x1000 && rec->done == 0) {
                 rec->size += MODEL_VARIANT_WORD(work, 0x18A8) << 10;

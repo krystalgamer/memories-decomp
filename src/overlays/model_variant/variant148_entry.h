@@ -30,7 +30,7 @@ typedef struct {
  * positions and 24 targets, 32 spark offsets, the texture word, the
  * completion and flash flags and the elapsed time. */
 typedef struct {
-    Model148Config *G32 config;
+    Model148Config *config;
     SVECTOR points[30];
     SVECTOR positions[24];
     SVECTOR targets[24];

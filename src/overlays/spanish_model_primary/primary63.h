@@ -24,7 +24,7 @@ typedef struct {
 } ModelPrimary63Config;
 
 typedef struct {
-    ModelPrimary63Config *G32 config;
+    ModelPrimary63Config *config;
     SVECTOR points[3][16];
     SVECTOR velocities[3][16];
     s32 frame;

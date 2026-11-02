@@ -27,11 +27,11 @@ typedef struct {
  * a four-bit cube mask per particle, five texture words, the completion flag,
  * the elapsed time and a frame count. */
 typedef struct {
-    Model173Config *G32 config;
+    Model173Config *config;
     SVECTOR positions[128];
     SVECTOR corners[8];
     SVECTOR ring[34];
-    SVECTOR *G32 faces[24];
+    SVECTOR *faces[24];
     u16 masks[128];
     u32 texture[5];
     u8 completed, unknown_6C9[3];

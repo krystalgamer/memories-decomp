@@ -80,7 +80,7 @@ typedef union {
  * size, the phase, the wing state, the elapsed time, the dot depths and the
  * colours. */
 typedef struct {
-    Model762Config *G32 config;
+    Model762Config *config;
     SVECTOR sparks[32];
     SVECTOR drift;
     SVECTOR fan[32];

@@ -43,7 +43,7 @@ typedef struct {
  * fragments, and a sixth texture that the entry packs but never reads), and
  * a texture page and palette that the entry sets but never reads. */
 typedef struct {
-    Model757Config *G32 config;
+    Model757Config *config;
     SVECTOR positions[52];
     SVECTOR velocities[52];
     SVECTOR targets[52];

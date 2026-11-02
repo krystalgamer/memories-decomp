@@ -47,7 +47,7 @@ prior semantic ledger gains exactly one evidence/caveat row.
 
 ## Ready source cursor
 
-`gFile_ReadySourceCursor` remains the existing stored `u32 *G32`. No
+`gFile_ReadySourceCursor` remains the existing stored `u32 *`. No
 matching C initializer has been established, and naming adds no seed, reset,
 ownership bound or source-buffer allocation.
 

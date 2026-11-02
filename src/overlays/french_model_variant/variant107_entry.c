@@ -18,7 +18,7 @@ s32 func_8013B004(u8 *context, s32 command)
     DISPENV display;
     DVECTOR projected[51];
     u16 depths[51], interpolation[51], flags[51];
-    PSXLONG flag, depth;
+    long flag, depth;
     s32 direction;
     GsOT *ot;
     SVECTOR *point;

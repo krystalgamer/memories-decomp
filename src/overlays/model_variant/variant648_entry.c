@@ -17,7 +17,7 @@ s32 func_8013B004(u8 *context, s32 command)
     Model648ViewSnapshot view;
     SVECTOR offset, base;
     VECTOR scale;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     /* One temporary carries the side, fade, sprite step, divisor and scale;
      * keeping it shared gives the original register use. */
@@ -26,7 +26,7 @@ s32 func_8013B004(u8 *context, s32 command)
     u32 tex;
     u8 u;
     u16 duration;
-    PSXLONG depth;
+    long depth;
 
     work = (Model648State *)context;
     result = 0;
@@ -382,8 +382,8 @@ s32 func_8013B004(u8 *context, s32 command)
                             blue = work->bursts[i][j].color[2] * value / 4;
                             setRGB0(&work->sprite, red, green, blue);
                             depth = RotAverage4(&work->corners[0], &work->corners[1], &work->corners[2], &work->corners[3],
-                                (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1,
-                                (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3,
+                                (long *)&work->sprite.x0, (long *)&work->sprite.x1,
+                                (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                                 &interpolation, &flag);
                             if (flag >= 0) {
                                 GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
@@ -417,8 +417,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         setRGB3(&work->strip, work->bursts[i][j].color[3], work->bursts[i][j].color[4], work->bursts[i][j].color[5]);
                         depth = RotAverage4(&work->spokes[k][0], &work->spokes[k + 1][0],
                             &work->spokes[k][1], &work->spokes[k + 1][1],
-                            (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1,
-                            (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3,
+                            (long *)&work->strip.x0, (long *)&work->strip.x1,
+                            (long *)&work->strip.x2, (long *)&work->strip.x3,
                             &interpolation, &flag);
                         if (flag >= 0) {
                             GsSortPoly(&work->strip, func_80058F10(), (u16)depth);

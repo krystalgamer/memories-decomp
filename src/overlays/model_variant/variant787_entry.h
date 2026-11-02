@@ -43,7 +43,7 @@ typedef struct {
  * colours, the glow colour, the flash and spoke brightness and the spoke
  * colour. */
 typedef struct {
-    Model787Config *G32 config;
+    Model787Config *config;
     SVECTOR tips[2];
     u16 stage;
     u32 elapsed;

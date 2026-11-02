@@ -17,12 +17,12 @@ extern u8 gMainMenu_bValueSetupToggleChoice;
 /* gMainMenu_pValueSetupToggle points at the caller's toggle; gMainMenu_aValueSetupEntries holds
    the two values and their output pointers. The remaining symbols own the
    screen's display objects. */
-extern u8 *G32 gMainMenu_pValueSetupToggle;
+extern u8 *gMainMenu_pValueSetupToggle;
 extern ValueSetupEntry gMainMenu_aValueSetupEntries[2];
-extern DisplayObject *G32 D_801845A0;
-extern DisplayObject *G32 D_801845A4;
-extern DisplayObject *G32 gMainMenu_apValueSetupCursors[];
-extern DisplayObject *G32 gMainMenu_pValueSetupMainCursor;
+extern DisplayObject *D_801845A0;
+extern DisplayObject *D_801845A4;
+extern DisplayObject *gMainMenu_apValueSetupCursors[];
+extern DisplayObject *gMainMenu_pValueSetupMainCursor;
 
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle);
 s32 MainMenu_UpdateValueSetup(void);

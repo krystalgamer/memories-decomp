@@ -43,7 +43,7 @@ typedef struct DuelEffectRequest {
     s32 ordering_table_1;   /* 0x0C */
     s16 base_priority;   /* 0x10 */
     s16 field_12;   /* 0x12 */
-    void *G32 buffer;   /* 0x14 */
+    void *buffer;   /* 0x14 */
     s16 id;         /* 0x18 */
     s16 phase;      /* 0x1A */
     u8 flags;       /* 0x1C */
@@ -91,7 +91,7 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * effect-specific payload and larger partial views remain explicit.
  * Retail reaches the four-byte handle gp-relative at every site: the
  * measured 17 lw and 14 sw keep their width and placement. */
-extern DuelEffectRequest *G32 gDuelEffect_pTrackedRequest;
+extern DuelEffectRequest *gDuelEffect_pTrackedRequest;
 
 /* Request flags are a complete lifecycle contract. DuelEffect_AllocateRequest
  * raises ACTIVE when it allocates an entry and DuelEffect_FindFreeRequest uses

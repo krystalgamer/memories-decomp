@@ -11,8 +11,8 @@ void func_8013CDA0(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Rings478State *state = (Rings478State *)context;
     Ring478 *ring = state->rings;
     POLY_FT4 *polygon = &state->polygon;
@@ -67,8 +67,8 @@ void func_8013CDA0(u8 *context)
                 SetRotMatrix(&light);
                 depth = RotTransPers4(
                     &ring->v0[j], &ring->v1[j], &ring->v2[j], &ring->v3[j],
-                    (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
-                    (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                    (long *)&polygon->x0, (long *)&polygon->x1,
+                    (long *)&polygon->x2, (long *)&polygon->x3,
                     &interpolation, &flag);
                 polygon->r0 = red;
                 polygon->g0 = green;

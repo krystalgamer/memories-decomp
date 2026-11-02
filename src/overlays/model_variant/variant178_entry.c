@@ -21,7 +21,7 @@ s32 ModelVariant178_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[8];
     SVECTOR center;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model178State *work;
     Model178Config *config;
     GsOT *ot;
@@ -171,8 +171,8 @@ s32 ModelVariant178_HandleRequest(u8 *context, s32 command)
                 vertices[0].vx /= 2;
                 vertices[0].vy /= 2;
                 vertices[0].vz /= 2;
-                otz = RotTransPers3(&point[0], &point[1], &vertices[0], (PSXLONG *)&line.x0, (PSXLONG *)&line.x1,
-                    (PSXLONG *)&quad.x0, &interpolation, &flag);
+                otz = RotTransPers3(&point[0], &point[1], &vertices[0], (long *)&line.x0, (long *)&line.x1,
+                    (long *)&quad.x0, &interpolation, &flag);
                 if (otz >= 0 && flag >= 0) {
                     GsSortLine(&line, ot, otz);
                 }
@@ -221,7 +221,7 @@ s32 ModelVariant178_HandleRequest(u8 *context, s32 command)
                     vertices[1].vy = value;
                     vertices[0].vy = value;
                     otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                        (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                         &interpolation, &flag);
                     if (otz >= 0 && flag >= 0) {
                         GsSortPoly(&quad, ot, otz);
@@ -286,8 +286,8 @@ s32 ModelVariant178_HandleRequest(u8 *context, s32 command)
                     }
                     face = faces;
                     for (k = 0; k < 4; k++) {
-                        otz = RotAverage4(face[0], face[1], face[2], face[3], (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                            (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                        otz = RotAverage4(face[0], face[1], face[2], face[3], (long *)&quad.x0, (long *)&quad.x1,
+                            (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                         if (otz >= 0 && flag >= 0) {
                             GsSortPoly(&quad, ot, otz);
                         }

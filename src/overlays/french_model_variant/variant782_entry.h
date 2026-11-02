@@ -24,7 +24,7 @@ typedef struct {
 } Model782Config;
 
 typedef struct {
-    Model782Config *G32 config;
+    Model782Config *config;
     SVECTOR origin;
     SVECTOR debris_positions[16];
     u8 unknown_08C[0x180];

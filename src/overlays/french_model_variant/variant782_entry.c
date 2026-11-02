@@ -14,13 +14,13 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     u16 projection[64], flags[64];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 step;
     GsOT *ot;
     SVECTOR *point, *other;
     DVECTOR *screen;
     s32 i, j, k, z;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -160,8 +160,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             setUV4(&quad, work->animation * 32, 96, work->animation * 32 + 31, 96,
                 work->animation * 32, 127, work->animation * 32 + 31, 127);
             if (depth >= 0) {
@@ -188,8 +188,8 @@ s32 func_8013B004(u8 *context, s32 command)
     setVector(&vertices[2], -work->config->half_width, 0, 0);
     setVector(&vertices[3], work->config->half_width, 0, 0);
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-        (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+        (long *)&quad.x0, (long *)&quad.x1,
+        (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
     setUV4(&quad, 64, 0, 87, 0, 64, 95, 87, 95);
     if (depth >= 0) {
         func_8005B260((u32 *)&quad, ot, (u16)depth, 3);
@@ -210,8 +210,8 @@ s32 func_8013B004(u8 *context, s32 command)
     ScaleMatrix(&matrix, &scale);
     GsSetLsMatrix(&matrix);
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-        (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+        (long *)&quad.x0, (long *)&quad.x1,
+        (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
     setUV4(&quad, 0, 0, 63, 0, 0, 63, 63, 63);
     if (depth >= 0) {
         func_8005B260((u32 *)&quad, ot, (u16)depth, 3);
@@ -232,8 +232,8 @@ s32 func_8013B004(u8 *context, s32 command)
     ScaleMatrix(&matrix, &scale);
     GsSetLsMatrix(&matrix);
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-        (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+        (long *)&quad.x0, (long *)&quad.x1,
+        (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
     setUV4(&quad, 64, 0, 87, 0, 64, 95, 87, 95);
     if (depth >= 0) {
         func_8005B260((u32 *)&quad, ot, (u16)depth, 3);
@@ -254,8 +254,8 @@ s32 func_8013B004(u8 *context, s32 command)
     ScaleMatrix(&matrix, &scale);
     GsSetLsMatrix(&matrix);
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-        (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+        (long *)&quad.x0, (long *)&quad.x1,
+        (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
     setUV4(&quad, 0, 0, 63, 0, 0, 63, 63, 63);
     if (depth >= 0) {
         func_8005B260((u32 *)&quad, ot, (u16)depth, 3);

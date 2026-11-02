@@ -291,7 +291,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
-        RotTransPers(&position, (PSXLONG *)&projection.projected,
+        RotTransPers(&position, (long *)&projection.projected,
             &projection.interpolation, &projection.flag);
         screen_x = (u16)projection.projected.vx;
         screen_y = projection.projected.vy;

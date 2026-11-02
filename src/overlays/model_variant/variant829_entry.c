@@ -21,11 +21,11 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     MATRIX sprite;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 slot, step;
     GsOT *ot;
     s32 i;
-    PSXLONG depth;
+    long depth;
     s32 otz;
 
     memset(&rotation, 0, 8);
@@ -147,8 +147,8 @@ s32 func_8013B004(u8 *context, s32 command)
             line.r1 = 0;
             line.g1 = 0;
             line.b1 = 0;
-            otz = (RotTransPers(&work->streaks[i].head, (PSXLONG *)&line.x0, &interpolation, &flag)
-                + RotTransPers(&work->streaks[i].tail, (PSXLONG *)&line.x1, &interpolation, &flag)) / 2;
+            otz = (RotTransPers(&work->streaks[i].head, (long *)&line.x0, &interpolation, &flag)
+                + RotTransPers(&work->streaks[i].tail, (long *)&line.x1, &interpolation, &flag)) / 2;
             if (otz >= 0) {
                 GsSortGLine(&line, ot, (u16)otz);
             }
@@ -179,7 +179,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 addVector(&vertices[2], &work->streaks[i].head);
                 addVector(&vertices[3], &work->streaks[i].head);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&burst.x0, (PSXLONG *)&burst.x1, (PSXLONG *)&burst.x2, (PSXLONG *)&burst.x3,
+                    (long *)&burst.x0, (long *)&burst.x1, (long *)&burst.x2, (long *)&burst.x3,
                     &interpolation, &flag);
                 setUV4(&burst, work->frames[i] / 2 % 4 * 32, work->frames[i] / 8 * 32,
                     work->frames[i] / 2 % 4 * 32 + 31, work->frames[i] / 8 * 32,
@@ -210,7 +210,7 @@ s32 func_8013B004(u8 *context, s32 command)
             addVector(&vertices[2], &work->sparks[i]);
             addVector(&vertices[3], &work->sparks[i]);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&burst.x0, (PSXLONG *)&burst.x1, (PSXLONG *)&burst.x2, (PSXLONG *)&burst.x3,
+                (long *)&burst.x0, (long *)&burst.x1, (long *)&burst.x2, (long *)&burst.x3,
                 &interpolation, &flag);
             setUV4(&burst, work->spark_frames[i] / 2 % 4 * 32, work->spark_frames[i] / 8 * 32,
                 work->spark_frames[i] / 2 % 4 * 32 + 31, work->spark_frames[i] / 8 * 32,

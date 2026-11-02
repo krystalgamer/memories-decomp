@@ -22,9 +22,9 @@ void func_8013C240(u8 *context)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flags[4][17];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long flags[4][17];
+    long interpolation;
+    long flag;
     Variant449RibbonView *work;
     GsOT *ot;
     s16 i;

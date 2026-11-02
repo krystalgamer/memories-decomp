@@ -20,9 +20,9 @@ void ModelVariant445_DrawRibbons(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flag[5][13];
-    PSXLONG p;
-    PSXLONG flag2;
+    long flag[5][13];
+    long p;
+    long flag2;
     EntryState445Us *work;
     GsOT *ot;
     s16 i;

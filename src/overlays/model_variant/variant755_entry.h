@@ -39,7 +39,7 @@ typedef struct {
  * flags, the ambient level, the textures, and a texture page and palette
  * that the entry sets but never reads. */
 typedef struct {
-    Model755Config *G32 config;
+    Model755Config *config;
     SVECTOR positions[128];
     SVECTOR velocities[128];
     SVECTOR targets[128];

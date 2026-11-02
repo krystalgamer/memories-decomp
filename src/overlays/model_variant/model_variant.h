@@ -70,9 +70,9 @@ typedef struct {
     SVECTOR a[9];
     SVECTOR b[9];
     SVECTOR c[9];
-    PSXLONG sa[9];
-    PSXLONG sb[9];
-    PSXLONG sc[9];
+    long sa[9];
+    long sb[9];
+    long sc[9];
     u8 ca[9][4];
     u8 cb[9][4];
     u8 pad18C[0x18];
@@ -84,9 +84,9 @@ typedef struct {
     SVECTOR a[9];
     SVECTOR b[9];
     SVECTOR c[9];
-    PSXLONG sa[9];
-    PSXLONG sb[9];
-    PSXLONG sc[9];
+    long sa[9];
+    long sb[9];
+    long sc[9];
     u8 ca[9][4];
     u8 cb[9][4];
     u8 pad18C[0x18];
@@ -100,14 +100,14 @@ typedef struct {
     SVECTOR a[5];
     SVECTOR b[5];
     SVECTOR c[5];
-    PSXLONG sa[5];
-    PSXLONG sb[5];
-    PSXLONG sc[5];
+    long sa[5];
+    long sb[5];
+    long sc[5];
     u8 ca[5][4];
     u8 cb[5][4];
     u8 padDC[0x18];
     s32 otz[5];
-    PSXLONG flag[5];
+    long flag[5];
 } ModelVariantBandShort;
 
 /* One 0x74-byte ribbon of header 418: a two-point spine, a copy of it moved
@@ -115,10 +115,10 @@ typedef struct {
  * width and the width's screen offset. */
 typedef struct {
     SVECTOR a[2];
-    PSXLONG sa[2];
+    long sa[2];
     s32 angle[2];
     SVECTOR b[2];
-    PSXLONG sb[2];
+    long sb[2];
     s32 width[2];
     u8 unknown_40[0x24];
     s32 otz[2];
@@ -130,10 +130,10 @@ typedef struct {
  * between the widths and the depths. */
 typedef struct {
     SVECTOR a[2];
-    PSXLONG sa[2];
+    long sa[2];
     s32 angle[2];
     SVECTOR b[2];
-    PSXLONG sb[2];
+    long sb[2];
     s32 width[2];
     u8 unknown_40[0x1C];
     s32 otz[2];

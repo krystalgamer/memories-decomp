@@ -28,7 +28,7 @@ typedef struct {
  * points, the texture, the completion flag, the elapsed time and a frame
  * count. */
 typedef struct {
-    Model172Config *G32 config;
+    Model172Config *config;
     SVECTOR positions[512];
     SVECTOR targets[512];
     u32 texture[1];

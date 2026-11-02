@@ -46,7 +46,7 @@ typedef struct {
     u8 unknown_25E0[4];
     s32 step;
     u8 unknown_25E8[4];
-    QuadPairTiming470 *G32 timing;
+    QuadPairTiming470 *timing;
     u8 unknown_25F0[0x30];
     s32 phase;
 } QuadPairState470;

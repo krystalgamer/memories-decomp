@@ -34,7 +34,7 @@ typedef struct {
  * words, the completion flag, the elapsed time, a frame count and the mode
  * (command / 100). */
 typedef struct {
-    Model164Config *G32 config;
+    Model164Config *config;
     SVECTOR positions[64];
     SVECTOR targets[64];
     SVECTOR centre;

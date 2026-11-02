@@ -20,13 +20,13 @@ s32 ModelVariant96_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[34];
     u16 depths[34], projection[34], flags[34];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model96Config *config;
     GsOT *ot;
     SVECTOR *point;
     s32 i, t, time, step, value, u, v;
     u8 red, green, blue;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -100,8 +100,8 @@ s32 ModelVariant96_HandleRequest(u8 *context, s32 command)
         setVector(&vertices[2], 0, config->flare_size, -config->flare_size);
         setVector(&vertices[3], 0, config->flare_size, config->flare_size);
         depth = RotTransPers4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-            (PSXLONG *)&quad.x3, &interpolation, &flag);
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+            (long *)&quad.x3, &interpolation, &flag);
         red = config->flare_red * time / config->flare_duration;
         green = config->flare_green * time / config->flare_duration;
         blue = config->flare_blue * time / config->flare_duration;
@@ -154,8 +154,8 @@ s32 ModelVariant96_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotTransPers4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             red = config->flare_red - (config->flare_red - config->tail_red) * i / 6;
             green = config->flare_green - (config->flare_green - config->tail_green) * i / 6;
             blue = config->flare_blue - (config->flare_blue - config->tail_blue) * i / 6;
@@ -285,8 +285,8 @@ s32 ModelVariant96_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-            (PSXLONG *)&quad.x3, &interpolation, &flag);
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+            (long *)&quad.x3, &interpolation, &flag);
         if (depth >= 0 && flag >= 0) {
             GsSortPoly(&quad, ot, (u16)depth);
         }

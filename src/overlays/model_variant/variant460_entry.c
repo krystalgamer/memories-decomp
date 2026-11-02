@@ -11,7 +11,7 @@ s32 func_8013B004(u8 *context, s32 command)
     Variant460State *work = (Variant460State *)context;
     SVECTOR position, target;
     VECTOR squared;
-    PSXLONG origin, interpolation, flag, projected;
+    long origin, interpolation, flag, projected;
     Panel477 *panel;
     Variant460Pair *pair = &work->pair;
     ModelVariantSheet *sheet = work->sheets;

@@ -6,7 +6,7 @@ display effects and their common record lifecycle:
 | Former identity | Canonical name | Preserved view |
 | --- | --- | --- |
 | `D_800EB010` | `gDisplayEffect_aMenuRecords` | incomplete `MenuRecord[]` |
-| `D_8009B274` | `gScript_pMenuRecord` | stored `MenuRecord *G32` |
+| `D_8009B274` | `gScript_pMenuRecord` | stored `MenuRecord *` |
 
 They do not introduce new record storage or replace the separate
 `gText_DisplayEffectRecord` pointer.

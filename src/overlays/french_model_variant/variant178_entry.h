@@ -20,7 +20,7 @@ typedef struct {
 } Model178Config;
 
 typedef struct {
-    Model178Config *G32 config;
+    Model178Config *config;
     SVECTOR positions[64];
     SVECTOR endpoints[64];
     SVECTOR velocities[4];

@@ -9,10 +9,10 @@
  * offset, the depth and the width's screen offset. */
 typedef struct {
     SVECTOR a[17];
-    PSXLONG sa[17];
+    long sa[17];
     s32 angle[17];
     SVECTOR b[17];
-    PSXLONG sb[17];
+    long sb[17];
     s32 width[17];
     u8 color[4];
     u8 unknown224[0x1C];

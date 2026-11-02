@@ -40,11 +40,11 @@ s32 func_8013B004(u8 *context, s32 command)
     Image9840ViewSnapshot view;
     SVECTOR zero, midpoint0, midpoint1;
     VECTOR position;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, k;
     u32 texture;
-    PSXLONG depth;
+    long depth;
 
     work = (Image9840State *)context;
     result = 0;
@@ -248,8 +248,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB2(&work->triangle, work->primary[i].red,
                     work->primary[i].green, work->primary[i].blue);
                 depth = RotAverage3(&work->square[k], &work->inner[k], &zero,
-                    (PSXLONG *)&work->triangle.x0, (PSXLONG *)&work->triangle.x1,
-                    (PSXLONG *)&work->triangle.x2, &interpolation, &flag);
+                    (long *)&work->triangle.x0, (long *)&work->triangle.x1,
+                    (long *)&work->triangle.x2, &interpolation, &flag);
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&work->triangle,
                         func_80058F10(), (u16)depth, work->primary[i].mode);
@@ -260,8 +260,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB2(&work->triangle, work->primary[i].red,
                     work->primary[i].green, work->primary[i].blue);
                 depth = RotAverage3(&work->square[k], &work->inner[k + 1], &zero,
-                    (PSXLONG *)&work->triangle.x0, (PSXLONG *)&work->triangle.x1,
-                    (PSXLONG *)&work->triangle.x2, &interpolation, &flag);
+                    (long *)&work->triangle.x0, (long *)&work->triangle.x1,
+                    (long *)&work->triangle.x2, &interpolation, &flag);
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&work->triangle,
                         func_80058F10(), (u16)depth, work->primary[i].mode);
@@ -342,9 +342,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB3(&work->quad, work->secondary[i].red,
                     work->secondary[i].green, work->secondary[i].blue);
                 depth = RotAverage4(&work->first_ring[k], &work->first_ring[k + 1],
-                    &midpoint0, &midpoint1, (PSXLONG *)&work->quad.x0,
-                    (PSXLONG *)&work->quad.x1, (PSXLONG *)&work->quad.x2,
-                    (PSXLONG *)&work->quad.x3, &interpolation, &flag);
+                    &midpoint0, &midpoint1, (long *)&work->quad.x0,
+                    (long *)&work->quad.x1, (long *)&work->quad.x2,
+                    (long *)&work->quad.x3, &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
                 }
@@ -364,8 +364,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->secondary[i].green, work->secondary[i].blue);
                 depth = RotAverage4(&midpoint0, &midpoint1,
                     &work->second_ring[k], &work->second_ring[k + 1],
-                    (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                    (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3,
+                    (long *)&work->quad.x0, (long *)&work->quad.x1,
+                    (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
@@ -418,8 +418,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB2(&work->triangle, work->bursts[i].red,
                     work->bursts[i].green, work->bursts[i].blue);
                 depth = RotAverage3(&work->burst_ring[k], &work->burst_ring[k + 1], &zero,
-                    (PSXLONG *)&work->triangle.x0, (PSXLONG *)&work->triangle.x1,
-                    (PSXLONG *)&work->triangle.x2, &interpolation, &flag);
+                    (long *)&work->triangle.x0, (long *)&work->triangle.x1,
+                    (long *)&work->triangle.x2, &interpolation, &flag);
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&work->triangle,
                         func_80058F10(), (u16)depth, work->bursts[i].mode);

@@ -23,11 +23,11 @@ s32 func_8013B004(u8 *context, s32 command)
     MATRIX ls;
     GsCOORDUNIT unit;
     Model634ViewSnapshot view;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, angle;
     u32 tex;
-    PSXLONG depth;
+    long depth;
 
     work = (Model634State *)context;
     result = 0;
@@ -226,8 +226,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         work->rings[i].blue * rsin((j + 1) << 7) / 4096);
                     depth = RotAverage4(&work->ring[j][0], &work->ring[j + 1][0],
                         &work->ring[j][1], &work->ring[j + 1][1],
-                        (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                        (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3,
+                        (long *)&work->quad.x0, (long *)&work->quad.x1,
+                        (long *)&work->quad.x2, (long *)&work->quad.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
@@ -273,8 +273,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setUV4(&work->flat, work->sparks[i].u, work->sparks[i].v, work->sparks[i].u + 31, work->sparks[i].v,
                     work->sparks[i].u, work->sparks[i].v + 31, work->sparks[i].u + 31, work->sparks[i].v + 31);
                 depth = RotAverage4(&work->square[0], &work->square[1], &work->square[2], &work->square[3],
-                    (PSXLONG *)&work->flat.x0, (PSXLONG *)&work->flat.x1,
-                    (PSXLONG *)&work->flat.x2, (PSXLONG *)&work->flat.x3,
+                    (long *)&work->flat.x0, (long *)&work->flat.x1,
+                    (long *)&work->flat.x2, (long *)&work->flat.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->flat, func_80058F10(), (u16)depth);

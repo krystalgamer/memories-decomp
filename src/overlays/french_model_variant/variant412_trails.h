@@ -19,11 +19,11 @@ typedef struct {
 } Variant412Timing;
 
 typedef struct {
-    Variant412Timing *G32 timing;
+    Variant412Timing *timing;
 } Variant412TimingLink;
 
 typedef struct {
-    GsCOORDINATE2 *G32 part[6];
+    GsCOORDINATE2 *part[6];
 } Variant412Links;
 
 #endif

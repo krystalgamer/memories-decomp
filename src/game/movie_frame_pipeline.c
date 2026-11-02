@@ -5,7 +5,7 @@
 
 /* Zero-initialized storage this unit owns at 0x8009B498-0x8009B4A8, defined in
  * address order ahead of the headers that declare it (#2602). */
-u8 *G32 gMovie_pWorkArea;
+u8 *gMovie_pWorkArea;
 CdlLOC gMovie_StreamLoc;
 u8 D_8009B4A0;
 u8 D_8009B4A1;

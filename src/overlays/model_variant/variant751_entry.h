@@ -56,7 +56,7 @@ typedef union {
  * timer, the ray spin and lift, the phase and state, the ring scale, the
  * ambient level, the textures and the shared colour. */
 typedef struct {
-    Model751Config *G32 config;
+    Model751Config *config;
     SVECTOR pos;
     SVECTOR velocity;
     SVECTOR offsets[16];

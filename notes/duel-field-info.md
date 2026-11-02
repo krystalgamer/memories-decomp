@@ -54,13 +54,13 @@ This reuse is established by ownership, not equal-sized layouts:
 
 The old `DisplayLinkEntry` is therefore replaced by the actual `DuelHandSlot`,
 not by a speculative merge of unrelated twelve-byte objects. The primary
-object and `order_marker` retain their `DisplayObject *G32` storage and
+object and `order_marker` retain their `DisplayObject *` storage and
 `0x0C` slot stride.
 
 `DuelSelection_LinkDisplayObjects` keeps its null-cache condition and the
 exact order: attach the current cursor, clear its stored handle, then attach
 the primary and marker objects of each of five slots. The marker cursor is
-now the proper `DisplayObject *G32 *` derived from `&entry->order_marker`;
+now the proper `DisplayObject **` derived from `&entry->order_marker`;
 no whole-record cast at an interior pointer is needed. `entry++, slot++`
 remains in the matched order.
 

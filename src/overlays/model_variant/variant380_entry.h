@@ -63,9 +63,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, span, fade;
-    Variant380EntryConfig *G32 config;
+    Variant380EntryConfig *config;
     u32 field_1B58;
-    GsCOORDUNIT *G32 parts[5];
+    GsCOORDUNIT *parts[5];
     s16 field_1B70[5], field_1B7A[5], field_1B84[5], field_1B8E[5];
     s16 field_1B98, field_1B9A, width;
     s32 field_1BA0[5], field_1BB4[5], field_1BC8[5], field_1BDC[5];

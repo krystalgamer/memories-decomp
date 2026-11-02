@@ -37,13 +37,13 @@ typedef struct {
  * ring, a 3x3 grid, the orb position, 16 drops, the four grid quads, the orb
  * spin angle, three textures, the completion flag and the elapsed time. */
 typedef struct {
-    Model137Config *G32 config;
+    Model137Config *config;
     SVECTOR sparks[64];
     SVECTOR ring[66];
     SVECTOR grid[9];
     SVECTOR orb;
     SVECTOR drops[16];
-    SVECTOR *G32 quads[4][4];
+    SVECTOR *quads[4][4];
     s32 angle;
     u32 texture[3];
     u8 completed, unknown_535[3];

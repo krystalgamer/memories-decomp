@@ -23,14 +23,14 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     ModelTintColor tint_start, tint_end;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model121State *work;
     Model121Config *config;
     GsOT *ot;
     s32 side;
     s32 i, j, time, other, size;
     s32 step;
-    PSXLONG depth;
+    long depth;
     SVECTOR *point, *source;
     u8 r, g, b;
 
@@ -122,19 +122,19 @@ s32 func_8013B004(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         setVector(&vertices[0], 0, 0, 0);
-        RotTransPers(&vertices[0], (PSXLONG *)&box.x, &interpolation, &flag);
+        RotTransPers(&vertices[0], (long *)&box.x, &interpolation, &flag);
         size = box.x;
         other = box.y;
         point = work->points;
         for (i = 0; i < 64; point++, i++) {
-            depth = RotTransPers(point, (PSXLONG *)&box.x, &interpolation, &flag);
+            depth = RotTransPers(point, (long *)&box.x, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortBoxFill(&box, ot, (u16)depth);
             }
         }
         /* Each line also re-sorts the box at the last particle's position. */
         for (i = 0; i < 64; point++, i++) {
-            depth = RotTransPers(point, (PSXLONG *)&line.x0, &interpolation, &flag);
+            depth = RotTransPers(point, (long *)&line.x0, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortBoxFill(&box, ot, (u16)depth);
             }
@@ -161,8 +161,8 @@ s32 func_8013B004(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-            (PSXLONG *)&quad.x3, &interpolation, &flag);
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+            (long *)&quad.x3, &interpolation, &flag);
         setUV4(&quad, time * 8 / config->duration % 4 * 32, time * 8 / config->duration / 4 * 32 + 64,
             time * 8 / config->duration % 4 * 32 + 31, time * 8 / config->duration / 4 * 32 + 64,
             time * 8 / config->duration % 4 * 32, time * 8 / config->duration / 4 * 32 + 95,
@@ -178,8 +178,8 @@ s32 func_8013B004(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-            (PSXLONG *)&quad.x3, &interpolation, &flag);
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+            (long *)&quad.x3, &interpolation, &flag);
         setUV4(&quad, time * 8 / config->duration % 4 * 32, time * 8 / config->duration / 4 * 32 + 64,
             time * 8 / config->duration % 4 * 32 + 31, time * 8 / config->duration / 4 * 32 + 64,
             time * 8 / config->duration % 4 * 32, time * 8 / config->duration / 4 * 32 + 95,
@@ -224,8 +224,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                    (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                    (long *)&quad.x3, &interpolation, &flag);
                 size = j * 3 + i;
                 setUV4(&quad, size / 2 * 64, 0, size / 2 * 64 + 63, 0, size / 2 * 64, 63, size / 2 * 64 + 63, 63);
                 if (depth >= 0 && flag >= 0) {

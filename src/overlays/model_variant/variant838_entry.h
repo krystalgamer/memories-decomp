@@ -46,7 +46,7 @@ typedef union {
  * lengths, the particle counts, the ambient level, the ring texture, the
  * textures and the colours. */
 typedef struct {
-    Model838Config *G32 config;
+    Model838Config *config;
     SVECTOR rim[32];
     SVECTOR trails[32][4];
     SVECTOR trail_rotations[32];

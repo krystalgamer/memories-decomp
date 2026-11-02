@@ -21,7 +21,7 @@ s32 ModelVariant139_HandleRequest(u8 *context, s32 command)
     SVECTOR corner[4];
     DVECTOR screen[34];
     u16 depths[34], projection[34], flags[34];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model139State *work;
     Model139Config *config;
     s32 direction;
@@ -246,7 +246,7 @@ s32 ModelVariant139_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 otz = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 setUV4(&quad, j / 2 * 64, 128, j / 2 * 64 + 63, 128, j / 2 * 64, 191, j / 2 * 64 + 63, 191);
                 if (flag >= 0) {
@@ -283,7 +283,7 @@ s32 ModelVariant139_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             otz = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             r = t * 8 / config->spark_time;
             setUV4(&quad, r % 4 * 32, r / 4 * 32 + 192, r % 4 * 32 + 31, r / 4 * 32 + 192,

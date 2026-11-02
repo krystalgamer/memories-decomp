@@ -21,7 +21,7 @@ arithmetic, pivot selection, call order and casts remain exact.
 at `gModel_RView + 0x0C`, where the SDK `GsRVIEW2` stores `vrx`, `vry` and
 `vrz`. Its declaration moves from `unmatched.h` to `camera_view.h` without
 changing the incomplete `s32 []` type or introducing a standalone vector.
-The orbit step retains its explicit `PSXLONG *` cast and three-word
+The orbit step retains its explicit `long *` cast and three-word
 access rather than replacing the alias with typed field indexing.
 
 All seven native images retain the same interior offset:

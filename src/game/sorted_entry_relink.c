@@ -3,10 +3,10 @@
 
 /* Zero-initialized storage this unit owns at 0x8009B304-0x8009B318, defined in
  * address order ahead of the headers that declare it (#2602). */
-SortedEntry *G32 gSortedEntry_pBase;
+SortedEntry *gSortedEntry_pBase;
 u32 gSortedEntry_nSortedCount;
 u32 gModel_dwFogDrawFlags;
-SortedEntry *G32 gSortedEntry_pCursor;
+SortedEntry *gSortedEntry_pCursor;
 u32 gSortedEntry_nCount;
 
 #include "../psyq/qsort.h"

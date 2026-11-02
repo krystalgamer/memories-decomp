@@ -18,8 +18,8 @@ struct DisplayObject;
  * publishes the running count, and cancellation renumbers later selections.
  */
 typedef struct {
-    struct DisplayObject *G32 object;
-    struct DisplayObject *G32 order_marker;
+    struct DisplayObject *object;
+    struct DisplayObject *order_marker;
     u8 pad_08;
     u8 selection_order;
     u8 pad_0A[2];

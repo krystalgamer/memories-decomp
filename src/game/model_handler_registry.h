@@ -7,14 +7,14 @@
  * only need registry declarations do not inherit libhmd's include chain. */
 typedef struct {
     u32 type;
-    u32 *G32 ptr;
+    u32 *ptr;
 } ModelTypeUnit;
 
 /* Image-context prefix; +0x18 is the SDK CLUT-data pointer. */
 typedef struct {
-    u8 *G32 records;
+    u8 *records;
     u8 pad_04[0x14];
-    u8 *G32 clut_data;
+    u8 *clut_data;
 } ModelType2Scratch;
 
 typedef char ModelType2Scratch_clut_data_offset_must_be_0x18[

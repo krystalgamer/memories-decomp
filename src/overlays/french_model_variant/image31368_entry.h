@@ -45,7 +45,7 @@ typedef struct {
 } Image31368Command;
 
 typedef struct {
-    Image31368Command *G32 command;
+    Image31368Command *command;
     SVECTOR position;
     SVECTOR velocity;
     SVECTOR particles[128];

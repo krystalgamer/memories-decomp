@@ -64,7 +64,7 @@ typedef struct {
  * flags, phase, per-bolt shock-ring growth, ambient level, the shock-ring
  * texture page and CLUT, the textures and the per-bolt colours. */
 typedef struct {
-    Model824Config *G32 config;
+    Model824Config *config;
     SVECTOR pos[28];
     SVECTOR step[28];
     SVECTOR angle[28];

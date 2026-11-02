@@ -12,8 +12,8 @@ void func_8013C0B0(u8 *context)
     u8 unknown_stack[24];
     CVECTOR dark;
     CVECTOR light;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     GsOT *ot;
     s32 i;
     Family373LayerView *work;
@@ -92,8 +92,8 @@ void func_8013C0B0(u8 *context)
                     (SVECTOR *)((u8 *)layer + (byte_offset + 8)),
                     (SVECTOR *)((u8 *)layer + (byte_offset + 0x88)),
                     (SVECTOR *)((u8 *)layer + (byte_offset + 0x90)),
-                    (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                    (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                    (long *)&quad->x0, (long *)&quad->x1,
+                    (long *)&quad->x2, (long *)&quad->x3,
                     &interpolation, &flag);
                 setRGB0(quad, light.r, light.g, light.b);
                 setRGB1(quad, light.r, light.g, light.b);

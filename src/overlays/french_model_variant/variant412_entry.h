@@ -35,10 +35,10 @@ typedef struct {
     u32 frame_count, current_animation_frame, elapsed, animation_frame;
     s32 step, captured_count, field_1B1C;
     u32 fade;
-    Variant412EntryConfig *G32 config;
+    Variant412EntryConfig *config;
     u32 field_1B28;
-    GsCOORDINATE2 *G32 root_part;
-    GsCOORDINATE2 *G32 parts[6];
+    GsCOORDINATE2 *root_part;
+    GsCOORDINATE2 *parts[6];
     s32 part_index;
     CVECTOR inner, outer;
     s16 field_1B54, field_1B56, field_1B58, field_1B5A;

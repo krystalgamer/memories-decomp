@@ -4,8 +4,8 @@
 /* Zero-initialized storage this unit owns at 0x800F2888-0x800F2B20, defined in
  * address order ahead of the headers that declare it (#2602). */
 u8 D_800F2888[0x258];
-PSXLONG gMemCard_aIOEventHandles[4];
-PSXLONG gMemCard_aHwIOEventHandles[4];
+long gMemCard_aIOEventHandles[4];
+long gMemCard_aHwIOEventHandles[4];
 char gMemCard_szRequestPath[32];
 
 /* Zero-initialized storage this unit owns at 0x8009B430-0x8009B458, defined in
@@ -19,7 +19,7 @@ u8 gMemCard_bRetries;
 u8 gMemCard_bLoadStep;
 s8 gMemCard_bRequest;
 s32 gMemCard_nDirEntries;
-struct DIRENTRY *G32 gMemCard_pDirEntries;
+struct DIRENTRY *gMemCard_pDirEntries;
 static u32 D_8009B448;
 u16 gMemCard_wRequestOffset;
 u8 gMemCard_bDirFlags;
@@ -40,7 +40,7 @@ static u32 D_8009B454;
 #include "../unmatched.h"
 #include "mem_card_request_inputs.h"
 
-void MemCard_ClearIOEvents(PSXLONG *handles)
+void MemCard_ClearIOEvents(long *handles)
 {
     TestEvent(handles[0]);
     TestEvent(handles[1]);
@@ -49,7 +49,7 @@ void MemCard_ClearIOEvents(PSXLONG *handles)
     gMemCard_nIOResult = -1;
 }
 
-s32 MemCard_WaitIOEvent(PSXLONG *handles, s32 once)
+s32 MemCard_WaitIOEvent(long *handles, s32 once)
 {
     do {
         if (TestEvent(handles[0]) == 1)
@@ -64,7 +64,7 @@ s32 MemCard_WaitIOEvent(PSXLONG *handles, s32 once)
     return -1;
 }
 
-void MemCard_Init(PSXLONG val)
+void MemCard_Init(long val)
 {
     InitCARD(val);
     StartCARD();
@@ -74,7 +74,7 @@ void MemCard_Init(PSXLONG val)
 
 void MemCard_CloseIOEvents(void)
 {
-    PSXLONG *item = gMemCard_aIOEventHandles;
+    long *item = gMemCard_aIOEventHandles;
     int count;
 
     EnterCriticalSection();
@@ -88,13 +88,13 @@ void MemCard_CloseIOEvents(void)
 
 void MemCard_InitIOEvents(void)
 {
-    register PSXLONG *items;
-    register PSXLONG (*cb0)(void);
-    register PSXLONG (*cb1)(void);
-    register PSXLONG (*cb2)(void);
+    register long *items;
+    register long (*cb0)(void);
+    register long (*cb1)(void);
+    register long (*cb2)(void);
     int count;
     {
-        register PSXLONG *base = gMemCard_aIOEventHandles;
+        register long *base = gMemCard_aIOEventHandles;
         gMemCard_bRequest = -1;
         gMemCard_bDirFlags = 0;
         gMemCard_pDirEntries = 0;
@@ -108,7 +108,7 @@ void MemCard_InitIOEvents(void)
     cb2 = MemCard_SetIOResultErrorCB;
     items[2] = OpenEvent(SwCARD, EvSpERROR, EvMdINTR, cb2);
     {
-        register PSXLONG (*cb3)(void) = MemCard_SetIOResultNewCardCB;
+        register long (*cb3)(void) = MemCard_SetIOResultNewCardCB;
         items[3] = OpenEvent(SwCARD, EvSpNEW, EvMdINTR, cb3);
         items[4] = OpenEvent(HwCARD, EvSpIOE, EvMdINTR, cb0);
         items[5] = OpenEvent(HwCARD, EvSpTIMOUT, EvMdINTR, cb1);

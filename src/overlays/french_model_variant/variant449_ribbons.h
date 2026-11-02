@@ -6,7 +6,7 @@
 
 typedef union {
     DVECTOR point;
-    PSXLONG packed;
+    long packed;
 } Variant449Screen;
 
 typedef struct {
@@ -46,7 +46,7 @@ typedef struct {
     u8 unknown_1BE4[4];
     s32 step;
     u8 unknown_1BEC[8];
-    Variant449Timing *G32 timing;
+    Variant449Timing *timing;
     u8 unknown_1BF8[0x24];
     s32 spin;
     u8 unknown_1C20[0x14];

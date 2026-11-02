@@ -29,22 +29,22 @@ s32 gFile_anLba[8];
  * unit's small zero-initialized data reproduces the retail layout (#2602). */
 volatile s32 gFile_ServiceReentryLatch;
 u16 gFile_RangeWaitCountdown;
-void (*G32 gFile_RangeReadCallback)(void);
+void (*gFile_RangeReadCallback)(void);
 volatile u32 D_8009B0F4;
-u32 *G32 gFile_ReadySourceCursor;
+u32 *gFile_ReadySourceCursor;
 s32 D_8009B0FC;
 volatile u16 gFile_wStepState;
 char gFile_TargetLoc[4];
 u8 D_8009B108;
-void (*G32 gFile_BeforePrimaryRequestCallback)(void);
+void (*gFile_BeforePrimaryRequestCallback)(void);
 u8 D_8009B110;
 volatile u16 gFile_wTransferStepFlags;
 u8 gFile_ReadyEventCount;
 s32 D_8009B118;
 char gFile_FilterParams[1];
-void (*G32 gFile_RangePauseCallback)(void);
+void (*gFile_RangePauseCallback)(void);
 volatile u16 gFile_ServiceCallGate;
-void (*G32 gFile_SecondaryPayloadCompleteCallback)(void);
+void (*gFile_SecondaryPayloadCompleteCallback)(void);
 s32 D_8009B12C;
 s32 gFile_CommandRetryCount;
 u32 D_8009B134;
@@ -272,7 +272,7 @@ void File_TransferReadyCallback(s32 arg)
         if (q->phase_remaining <= 0) {
             q->phase_size = 0;
             if (q->phase_callback != 0) {
-                CALL32(FileTransferCallback, q->phase_callback)(q, q->phase_index++);
+                q->phase_callback(q, q->phase_index++);
             }
             q->phase_remaining = q->phase_size;
         }
@@ -357,7 +357,7 @@ void File_TransferReadyCallback(s32 arg)
     step:
         q->phase_size = 0;
         if (q->phase_callback != 0) {
-            CALL32(FileTransferCallback, q->phase_callback)(q, q->phase_index++);
+            q->phase_callback(q, q->phase_index++);
         }
         q->phase_remaining = q->phase_size;
     counter:
@@ -636,7 +636,7 @@ call_back:
     if (!(gFile_dwTransferState & 0x800000)) {
         gFile_dwTransferState = gFile_dwTransferState | 0x800000;
         if (transfer->phase_callback != 0) {
-            CALL32(FileTransferCallback, transfer->phase_callback)(transfer, transfer->phase_index++);
+            transfer->phase_callback(transfer, transfer->phase_index++);
         }
         transfer->phase_remaining = transfer->phase_size;
         return;
@@ -846,7 +846,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
             goto out;
         }
     } else {
-        CALL32(void (*)(void), gFile_BeforePrimaryRequestCallback)();
+        gFile_BeforePrimaryRequestCallback();
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
@@ -875,7 +875,7 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
             return (FileTransferDescriptor *)0;
         }
     } else {
-        CALL32(void (*)(void), gFile_BeforePrimaryRequestCallback)();
+        gFile_BeforePrimaryRequestCallback();
     }
     File_InitTransferDescriptor(
         &gFile_PrimaryTransferDescriptor,
@@ -947,7 +947,7 @@ void File_StepTransferPhase(FileTransferDescriptor *object)
         if (object->phase_callback != 0) {
             s32 count = object->phase_index++;
 
-            CALL32(FileTransferCallback, object->phase_callback)(object, count);
+            object->phase_callback(object, count);
         }
         object->phase_remaining = object->phase_size;
     }

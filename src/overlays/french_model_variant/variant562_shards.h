@@ -8,7 +8,7 @@
  * two projected depths. */
 typedef struct {
     SVECTOR v[3][2];
-    PSXLONG sxy[3][2];
+    long sxy[3][2];
     u8 unknown48[0x1A];
     s16 state;
     s32 scale[2];

@@ -18,8 +18,8 @@ void func_8013C620(u8 *ctx)
     u8 unknown_stack[24];
     CVECTOR dark;
     CVECTOR light;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     s32 i;
@@ -72,8 +72,8 @@ void func_8013C620(u8 *ctx)
             GsSetLsMatrix(&ls);
             for (j = 0; j < 16; j++) {
                 RotTransPers4(&veil->a[j], &veil->a[j + 1], &veil->c[j], &veil->c[j + 1],
-                              (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2,
-                              (PSXLONG *)&poly->x3, &p, &flag);
+                              (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
+                              (long *)&poly->x3, &p, &flag);
                 if (poly->x0 < 0xA0) {
                     if (buff == 0) {
                         tpage = GetTPage(2, 1, 0x140, 0);
@@ -108,8 +108,8 @@ void func_8013C620(u8 *ctx)
                     poly->tpage = tpage;
                 }
                 otz = RotTransPers4(&veil->a[j], &veil->a[j + 1], &veil->b[j], &veil->b[j + 1],
-                                    (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2,
-                                    (PSXLONG *)&poly->x3, &p, &flag);
+                                    (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
+                                    (long *)&poly->x3, &p, &flag);
                 SetSemiTrans(poly, 1);
                 SetShadeTex(poly, 0);
                 poly->r0 = light.r;
@@ -132,14 +132,14 @@ void func_8013C620(u8 *ctx)
         if (veil->scale < 0x800) {
             veil->scale += MODEL_VARIANT_WORD(work, 0x1DC0) * 40;
             if (veil->scale >= 0x800) {
-                if (*(u32 *)(*(u8 *G32 *)(work + 0x1DC8) + 0x24) <= (u32)MODEL_VARIANT_WORD(work, 0x1DB8)) {
+                if (*(u32 *)(*(u8 **)(work + 0x1DC8) + 0x24) <= (u32)MODEL_VARIANT_WORD(work, 0x1DB8)) {
                     veil->scale = 0x800;
                     veil->count = 1;
                 } else {
                     veil->scale -= 0x800;
                 }
                 if (MODEL_VARIANT_WORD(work, 0x1E1C) == 0 &&
-                    *(u32 *)(*(u8 *G32 *)(work + 0x1DC8) + 0x20) <= (u32)MODEL_VARIANT_WORD(work, 0x1DB8)) {
+                    *(u32 *)(*(u8 **)(work + 0x1DC8) + 0x20) <= (u32)MODEL_VARIANT_WORD(work, 0x1DB8)) {
                     MODEL_VARIANT_WORD(work, 0x1E1C) = 2;
                 }
             }

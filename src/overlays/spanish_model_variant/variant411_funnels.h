@@ -37,7 +37,7 @@ typedef struct {
     u8 unknown_1640[4];
     s32 step;
     u8 unknown_1648[4];
-    Timing411Funnel *G32 timing;
+    Timing411Funnel *timing;
     u8 unknown_1650[0x10];
     u8 inner_color[4];
     u8 outer_color[4];

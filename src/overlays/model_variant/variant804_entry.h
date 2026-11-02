@@ -55,7 +55,7 @@ typedef struct {
  * level, the textures, the per-bolt brightness and the per-bolt bolt,
  * glow and spark colours. */
 typedef struct {
-    Model804Config *G32 config;
+    Model804Config *config;
     SVECTOR pos[8];
     SVECTOR step[8];
     SVECTOR angle[8];

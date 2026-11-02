@@ -8,8 +8,8 @@ void FrenchModelVariant481_DrawBand(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Band481State *state = (Band481State *)context;
     Band481 *band;
     GsOT *ot;

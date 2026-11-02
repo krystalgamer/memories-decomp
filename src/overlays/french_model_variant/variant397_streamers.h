@@ -8,15 +8,15 @@
  * flag, depth and screen offset. */
 typedef struct {
     SVECTOR a[17];
-    PSXLONG sa[17];
+    long sa[17];
     s32 angle[17];
     SVECTOR b[17];
-    PSXLONG sb[17];
+    long sb[17];
     s32 width[17];
     u8 unknown220[0x44];
     u8 color[17][4];
     u8 unknown2A8[0x04];
-    PSXLONG flag[17];
+    long flag[17];
     s32 otz[17];
     s16 ox[17];
     s16 oy[17];
@@ -39,7 +39,7 @@ typedef struct {
     u8 unknown_1B40[8];
     s32 step;
     u8 unknown_1B4C[8];
-    Variant397StreamerTiming *G32 timing;
+    Variant397StreamerTiming *timing;
     u8 unknown_1B58[0x1BA0 - 0x1B58];
     s32 length[5];
     s32 rx[5];

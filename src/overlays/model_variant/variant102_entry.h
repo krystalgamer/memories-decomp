@@ -33,7 +33,7 @@ typedef struct {
  * 48 spark offsets, five texture words, the completion flag and the elapsed
  * time. */
 typedef struct {
-    Model102Config *G32 config;
+    Model102Config *config;
     SVECTOR mesh[109];
     SVECTOR petals[96];
     SVECTOR targets[96];

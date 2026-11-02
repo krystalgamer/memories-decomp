@@ -42,7 +42,7 @@ typedef union {
  * ambient level, the ring texture, the textures, the beam colours, the orb
  * colours and the burst colour. */
 typedef struct {
-    Model834Config *G32 config;
+    Model834Config *config;
     SVECTOR position;
     SVECTOR rise;
     SVECTOR flight;

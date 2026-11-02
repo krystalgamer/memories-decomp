@@ -9,8 +9,8 @@ void func_8013D784(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Family373RibbonView *work;
     Family373RibbonColors *colors;
     GsOT *ot;

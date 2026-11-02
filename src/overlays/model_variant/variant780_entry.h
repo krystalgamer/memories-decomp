@@ -54,7 +54,7 @@ typedef struct {
  * the disc page and CLUT, the three textures, the disc brightness, the
  * per-spark brightness and the glow brightness. */
 typedef struct {
-    Model780Config *G32 config;
+    Model780Config *config;
     SVECTOR ring[16];
     SVECTOR outer[16];
     SVECTOR inner[16];

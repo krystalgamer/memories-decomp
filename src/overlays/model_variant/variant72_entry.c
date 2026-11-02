@@ -21,7 +21,7 @@ s32 func_8013B004(u8 *context, s32 command)
     u16 depths[192], projection[192], flags[192];
     DVECTOR screen[192];
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model72State *work;
     s32 direction;
     GsOT *ot;
@@ -32,7 +32,7 @@ s32 func_8013B004(u8 *context, s32 command)
     s32 i, j, half, t, elevation, swing, right, grey, below_right, pick, fan_blue;
     s32 value, size, u, v, sprite_blue, spark_blue;
     Model72Colour *colour;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -259,8 +259,8 @@ s32 func_8013B004(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-            (PSXLONG *)&quad.x3, &interpolation, &flag);
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+            (long *)&quad.x3, &interpolation, &flag);
         if (depth >= 0 && flag >= 0) {
             GsSortPoly(&quad, ot, (u16)depth);
         }
@@ -292,8 +292,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }

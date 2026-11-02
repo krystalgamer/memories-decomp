@@ -19,7 +19,7 @@ s32 ModelVariant152_HandleRequest(u8 *context, s32 command)
     SVECTOR corner[4];
     DVECTOR screen[34];
     u16 depths[34], projection[34], flags[34];
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     Model152State *work;
     Model152Config *config;
     GsOT *ot;
@@ -112,7 +112,7 @@ s32 ModelVariant152_HandleRequest(u8 *context, s32 command)
                     point->vz = origin->vz;
                     if (v) {
                         GsSetLsMatrix(&base);
-                        otz = RotTransPers(point, (PSXLONG *)&quad.x0, &interpolation, &flag);
+                        otz = RotTransPers(point, (long *)&quad.x0, &interpolation, &flag);
                         b = (cur ^ 1) * 17;
                         quad.x1 = quad.x0;
                         quad.y1 = quad.y0;
@@ -254,8 +254,8 @@ s32 ModelVariant152_HandleRequest(u8 *context, s32 command)
                         RotMatrix(&rotation, &matrix);
                         ScaleMatrix(&matrix, &scale);
                         GsSetLsMatrix(&matrix);
-                        z = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3], (PSXLONG *)&quad.x0,
-                                        (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                        z = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3], (long *)&quad.x0,
+                                        (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                                         &interpolation, &flag);
                         v = (t << 3) / config->duration;
                         quad.v0 = 128;

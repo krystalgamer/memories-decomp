@@ -29,7 +29,7 @@ void Library_DrawWireframeGlobe(void)
     SVECTOR *vec1;
     SVECTOR *vec2;
     SVECTOR *vec3;
-    PSXLONG *ctl;
+    long *ctl;
     SVECTOR *par;
     s32 angle;
     GsOT *ot;
@@ -43,7 +43,7 @@ void Library_DrawWireframeGlobe(void)
     SetGeomOffset(0xD0, GLOBE_GEOM_OFFSET_Y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     vec = (SVECTOR *)0x1F800038;
-    ctl = (PSXLONG *)0x1F800060;
+    ctl = (long *)0x1F800060;
     par = (SVECTOR *)0x1F800200;
     ot = gGraphics_apOrderingTables[3];
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);

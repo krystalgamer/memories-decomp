@@ -27,9 +27,9 @@ void func_8013CF14(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG status[16][MODEL_VARIANT425_RAYS_STATUS_COLUMNS];
-    PSXLONG p;
-    PSXLONG flag;
+    long status[16][MODEL_VARIANT425_RAYS_STATUS_COLUMNS];
+    long p;
+    long flag;
     u8 *work;
     u8 *timing;
     GsOT *ot;

@@ -160,9 +160,9 @@ void File_CancelTransfers(void);
  * for those two; the other three do not need it.
  */
 #ifdef D_800101D8_IN_DATA
-extern u8 *G32 gFile_pScreenBankBase __attribute__((section(".data")));
+extern u8 *gFile_pScreenBankBase __attribute__((section(".data")));
 #else
-extern u8 *G32 gFile_pScreenBankBase;
+extern u8 *gFile_pScreenBankBase;
 #endif
 
 /* The per-file starting sector table the transfer setup indexes by file
@@ -239,7 +239,7 @@ extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
    the FileTransferDescriptor members; only its image-phase buffer select is
    still an address sum (see File_TransferReadyCallback). */
 extern FileTransferDescriptor *gFile_ReadyTransferDescriptor;
-extern u32 *G32 gFile_ReadySourceCursor;
+extern u32 *gFile_ReadySourceCursor;
 
 /* File_HandleReadEvent resets these counters before the ready-system callback,
    File_TransferReadyCallback, increments them. Neither view is volatile or forced .data. */
@@ -271,9 +271,9 @@ extern char gFile_TargetLoc[4];
  * asm("gFile_BeforePrimaryRequestCallback") alias of this type; the pointer is what every use
  * assigns and calls. */
 #ifdef D_8009B10C_IN_DATA
-extern void (*G32 gFile_BeforePrimaryRequestCallback)(void) __attribute__((section(".data")));
+extern void (*gFile_BeforePrimaryRequestCallback)(void) __attribute__((section(".data")));
 #else
-extern void (*G32 gFile_BeforePrimaryRequestCallback)(void);
+extern void (*gFile_BeforePrimaryRequestCallback)(void);
 #endif
 extern u8 D_8009B0E0;
 /* A GsSPRITE-shaped record that File_SetPositionTable fills field by field:
@@ -297,19 +297,19 @@ void File_SetPositionTable(void);
  * File_StepActiveTransfer, but sw %lo through $at in SD_InitState, whose unit
  * defines the .data arms below for that. Initial value not read. */
 #ifdef D_8009B0F0_IN_DATA
-extern void (*G32 gFile_RangeReadCallback)(void) __attribute__((section(".data")));
+extern void (*gFile_RangeReadCallback)(void) __attribute__((section(".data")));
 #else
-extern void (*G32 gFile_RangeReadCallback)(void);
+extern void (*gFile_RangeReadCallback)(void);
 #endif
 #ifdef D_8009B120_IN_DATA
-extern void (*G32 gFile_RangePauseCallback)(void) __attribute__((section(".data")));
+extern void (*gFile_RangePauseCallback)(void) __attribute__((section(".data")));
 #else
-extern void (*G32 gFile_RangePauseCallback)(void);
+extern void (*gFile_RangePauseCallback)(void);
 #endif
 
 /* SD_ConfigureTransferPhase invokes this after its normal secondary payload
  * legs. SD_ArmBusyCallback registers through separate literal-address views. */
-extern void (*G32 gFile_SecondaryPayloadCompleteCallback)(void);
+extern void (*gFile_SecondaryPayloadCompleteCallback)(void);
 
 /* Disk-error command reissues; reset only by loader initialization. */
 extern s32 gFile_CommandRetryCount;
@@ -400,7 +400,7 @@ extern s32 D_8009B12C;
  * D_8009B118_IN_DATA and D_8009B118_IS_POINTER_IN_DATA, the same shape
  * input.h and sound.h use, rather than by re-declaring the symbol locally. */
 #ifdef D_8009B118_IS_POINTER_IN_DATA
-extern u8 *G32 D_8009B118 __attribute__((section(".data")));
+extern u8 *D_8009B118 __attribute__((section(".data")));
 #elif defined(D_8009B118_IN_DATA)
 extern s32 D_8009B118 __attribute__((section(".data")));
 #else

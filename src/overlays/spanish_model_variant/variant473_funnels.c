@@ -18,8 +18,8 @@ void func_8013E86C(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Funnel473State *state = (Funnel473State *)context;
     ModelVariantSheet *sheet;
     Funnel473 *funnel;
@@ -101,8 +101,8 @@ void func_8013E86C(u8 *context)
             for (k = 0; k < 16; k++) {
                 depth = RotTransPers4(&funnel->inner[k], &funnel->inner[k + 1],
                                      &funnel->outer[k], &funnel->outer[k + 1],
-                                     (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                     (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                     (long *)&quad->x0, (long *)&quad->x1,
+                                     (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(quad, ot, (u16)depth);

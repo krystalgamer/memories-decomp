@@ -24,9 +24,9 @@ void func_8013CFB0(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
-    PSXLONG flags[5][9];
+    long p;
+    long flag;
+    long flags[5][9];
     u8 *work;
     GsOT *ot;
     s16 j;

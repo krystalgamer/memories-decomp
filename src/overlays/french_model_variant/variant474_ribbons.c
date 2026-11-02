@@ -19,8 +19,8 @@ void func_8013BE38(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     s16 i;
@@ -151,13 +151,13 @@ void func_8013BE38(u8 *ctx)
         }
     }
     if (MODEL_VARIANT_WORD(work, 0x1BBC) < 0x1000) {
-        timing = *(Ribbon474Timing *G32 *)(work + 0x1BA4);
+        timing = *(Ribbon474Timing **)(work + 0x1BA4);
         MODEL_VARIANT_WORD(work, 0x1BBC) = ((MODEL_VARIANT_WORD(work, 0x1B94) - timing->grow_start) << 12) / (timing->grow_end - timing->grow_start);
         if (MODEL_VARIANT_WORD(work, 0x1BBC) >= 0x1000) {
             MODEL_VARIANT_WORD(work, 0x1BBC) = 0x1000;
         }
     }
-    if (MODEL_VARIANT_WORD(work, 0x1B94) < (*(Ribbon474Timing *G32 *)(work + 0x1BA4))->spin_end) {
+    if (MODEL_VARIANT_WORD(work, 0x1B94) < (*(Ribbon474Timing **)(work + 0x1BA4))->spin_end) {
         MODEL_VARIANT_WORD(work, 0x1BB8) += MODEL_VARIANT_WORD(work, 0x1B9C) * 128;
     } else if (MODEL_VARIANT_WORD(work, 0x1C1C) == 0) {
         prev = MODEL_VARIANT_WORD(work, 0x1BB8) / 4096;

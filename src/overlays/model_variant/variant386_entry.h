@@ -30,10 +30,10 @@ typedef struct {
 
 typedef struct {
     SVECTOR pos[7];
-    PSXLONG sxy[7];
+    long sxy[7];
     s32 angle[7];
     SVECTOR edge[7];
-    PSXLONG edge_sxy[7];
+    long edge_sxy[7];
     s32 width[7];
     CVECTOR color;
     CVECTOR tint;
@@ -100,10 +100,10 @@ typedef struct {
     u32 fade_span;
     u32 shrink_span;
     u32 fade;
-    Model386Config *G32 config;
+    Model386Config *config;
     u8 unknown_136C[4];
-    GsCOORDUNIT *G32 parts[5];
-    GsCOORDUNIT *G32 extra;
+    GsCOORDUNIT *parts[5];
+    GsCOORDUNIT *extra;
     s16 length[5];
     s16 reach[5];
     s16 mode[5];

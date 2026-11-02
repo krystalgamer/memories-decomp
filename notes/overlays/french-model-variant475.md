@@ -154,7 +154,7 @@ Initialization preserves all repeated packet constructors and per-point
 position calculations. A separate quad angle and shared orbital/ribbon angle
 recover ordinary scalar lifetimes. The 64 bytes preceding the projection
 inputs remain unrecovered local storage; their original types are not claimed.
-`RotTransPers` writes canonical signed packed `PSXLONG` words; x uses the low
+`RotTransPers` writes canonical signed packed `long` words; x uses the low
 unsigned half and y uses an arithmetic high-half extraction. Opposite-slot
 selection retains the original branches. The two independent
 `Model_GetFrameStep()` calls, unsigned timing comparisons, helper calls with

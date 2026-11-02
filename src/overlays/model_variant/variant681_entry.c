@@ -76,15 +76,15 @@ static const char D_8013EE20[24] = "E_DATA size = %x byte\n\0" MODEL681_STRING_P
     setSemiTrans(&work->sprite, 1);                                            \
     setUV4(&work->sprite, u0, v0, u1, v1, u2, v2, u3, v3);                     \
     setRGB0(&work->sprite, (element).color[0], (element).color[1], (element).color[2]); \
-    depth = RotAverage4(a, b, c, d, (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1, \
-        (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3, &interpolation, &flag); \
+    depth = RotAverage4(a, b, c, d, (long *)&work->sprite.x0, (long *)&work->sprite.x1, \
+        (long *)&work->sprite.x2, (long *)&work->sprite.x3, &interpolation, &flag); \
     if (flag >= 0) {                                                           \
         GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);                \
     }
 
 #define SORT_STRIP(a, b, c, d)                                                 \
-    depth = RotAverage4(a, b, c, d, (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1, \
-        (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3, &interpolation, &flag); \
+    depth = RotAverage4(a, b, c, d, (long *)&work->strip.x0, (long *)&work->strip.x1, \
+        (long *)&work->strip.x2, (long *)&work->strip.x3, &interpolation, &flag); \
     if (flag >= 0) {                                                           \
         GsSortPoly(&work->strip, func_80058F10(), (u16)depth);                 \
     }
@@ -109,12 +109,12 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR vec;
     /* Only two bytes are used; the size keeps the original frame layout. */
     u8 uv[8];
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     /* j sits between result and step to keep the spill-slot order. */
     s32 result, j, step, inactive;
     s32 i, k, value, amount, scale;
     u32 tex;
-    PSXLONG depth;
+    long depth;
 
     work = (Model681State *)context;
     result = 0;
@@ -607,8 +607,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         setRGB0(&work->sprite, work->domes[i].color[0], work->domes[i].color[1],
                             work->domes[i].color[2]);
                         depth = RotAverage4(&work->dome[k][j], &work->dome[k + 1][j], &work->dome[k][j + 1],
-                            &work->dome[k + 1][j + 1], (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1,
-                            (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3, &interpolation, &flag);
+                            &work->dome[k + 1][j + 1], (long *)&work->sprite.x0, (long *)&work->sprite.x1,
+                            (long *)&work->sprite.x2, (long *)&work->sprite.x3, &interpolation, &flag);
                         if (flag >= 0) {
                             GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
                         }

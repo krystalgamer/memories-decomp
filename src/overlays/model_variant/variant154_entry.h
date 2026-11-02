@@ -36,12 +36,12 @@ typedef struct {
  * the completion flag, the trail head, the elapsed time and a frame
  * count. */
 typedef struct {
-    Model154Config *G32 config;
+    Model154Config *config;
     SVECTOR trail[8];
     SVECTOR grid[25];
     SVECTOR ring[17];
     SVECTOR rings[66];
-    SVECTOR *G32 quads[16][4];
+    SVECTOR *quads[16][4];
     s16 heading, unknown_4A6;
     u32 texture[3];
     u8 completed, head, unknown_4B6[2];

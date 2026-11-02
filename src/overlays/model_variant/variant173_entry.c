@@ -22,7 +22,7 @@ s32 ModelVariant173_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     DVECTOR screen[34];
     u16 depths[34], interpolation[34], flags[34];
-    PSXLONG flag, p, otz;
+    long flag, p, otz;
     Model173State *work;
     s32 direction;
     GsOT *ot;
@@ -32,7 +32,7 @@ s32 ModelVariant173_HandleRequest(u8 *context, s32 command)
     s32 nclip;
     Model173Config *config;
     SVECTOR *point, *other;
-    SVECTOR *G32 *face;
+    SVECTOR **face;
     DVECTOR *sa, *sb;
     u16 *da, *db, *fa, *fb;
 
@@ -168,8 +168,8 @@ s32 ModelVariant173_HandleRequest(u8 *context, s32 command)
                     setRGB0(&quad, red, green, blue);
                     for (k = 0; k < 4; k++) {
                         nclip = RotAverageNclip4(face[0], face[1], face[2], face[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                            (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &otz, &flag);
+                            (long *)&quad.x0, (long *)&quad.x1,
+                            (long *)&quad.x2, (long *)&quad.x3, &p, &otz, &flag);
                         if (otz >= 0 && flag >= 0 && nclip > 0) {
                             GsSortPoly(&quad, ot, (u16)otz);
                         }
@@ -180,8 +180,8 @@ s32 ModelVariant173_HandleRequest(u8 *context, s32 command)
                     setUV4(&quad, 96, 0, 127, 0, 96, 31, 127, 31);
                     for (k = 4; k < 6; k++) {
                         nclip = RotAverageNclip4(face[0], face[1], face[2], face[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                            (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &otz, &flag);
+                            (long *)&quad.x0, (long *)&quad.x1,
+                            (long *)&quad.x2, (long *)&quad.x3, &p, &otz, &flag);
                         if (otz >= 0 && flag >= 0 && nclip > 0) {
                             GsSortPoly(&quad, ot, (u16)otz);
                         }
@@ -198,8 +198,8 @@ s32 ModelVariant173_HandleRequest(u8 *context, s32 command)
                     setRGB0(&quad, red, green, blue);
                     for (k = 0; k < 6; k++) {
                         nclip = RotAverageNclip4(face[0], face[1], face[2], face[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                            (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &otz, &flag);
+                            (long *)&quad.x0, (long *)&quad.x1,
+                            (long *)&quad.x2, (long *)&quad.x3, &p, &otz, &flag);
                         if (otz >= 0 && flag >= 0 && nclip > 0) {
                             GsSortPoly(&quad, ot, (u16)otz);
                         }

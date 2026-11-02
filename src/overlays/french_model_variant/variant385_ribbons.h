@@ -32,12 +32,12 @@ enum {
  * projection flags kept between the widths and the depths. */
 typedef struct {
     SVECTOR a[2];
-    PSXLONG sa[2];
+    long sa[2];
     s32 angle[2];
     SVECTOR b[2];
-    PSXLONG sb[2];
+    long sb[2];
     s32 width[2];
-    PSXLONG flag[2];
+    long flag[2];
     s32 otz[2];
     u16 ox[2];
     u16 oy[2];

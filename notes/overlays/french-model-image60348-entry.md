@@ -51,7 +51,7 @@ frame step. Expanding rings draw 32 textured segments, drop fading echoes
 and release camera-facing bursts, then draw sixteen rim segments.
 Bursts draw a sprite, two Gouraud shards, and four rotating flashes with
 two sixteen-segment cone bands apiece. All projection outputs use the
-existing Psy-Q `PSXLONG` declarations.
+existing Psy-Q `long` declarations.
 
 Positive start delay only decrements the delay: the shared return keeps
 the initial result **zero**, not one. Active bursts return four.

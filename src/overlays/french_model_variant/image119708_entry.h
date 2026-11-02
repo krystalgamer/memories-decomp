@@ -27,7 +27,7 @@ typedef struct {
 } Image119708Config;
 
 typedef struct {
-    Image119708Config *G32 config;
+    Image119708Config *config;
     VECTOR offset, velocity;
     SVECTOR particles[128];
     u32 scale, elapsed;

@@ -37,7 +37,7 @@ typedef struct {
     u32 frame;
     u32 time;
     u8 unknown_4A58[0xC];
-    Sheets463Timing *G32 timing;
+    Sheets463Timing *timing;
     u8 unknown_4A68[0x48];
     s32 phase;
 } Sheets463State;

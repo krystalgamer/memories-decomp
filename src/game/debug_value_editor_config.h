@@ -19,6 +19,6 @@ extern u8 gDebug_bEditorDigitCount1;
 extern u8 gDebug_bEditorDigitCount2;
 extern u8 gDebug_bEditorRowCount;
 extern u8 gDebug_bEditorFlags;
-extern u8 *G32 gDebug_pszEditorFormat;
+extern u8 *gDebug_pszEditorFormat;
 
 #endif

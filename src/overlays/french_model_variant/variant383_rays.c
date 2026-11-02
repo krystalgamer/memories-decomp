@@ -9,9 +9,9 @@ void FrenchModelVariant383_DrawRays(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag[16][2];
-    PSXLONG edge_flag;
+    long interpolation;
+    long flag[16][2];
+    long edge_flag;
     GsOT *ot;
     Family383Ray *ray;
     POLY_GT4 *quad;

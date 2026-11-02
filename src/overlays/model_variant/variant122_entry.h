@@ -41,7 +41,7 @@ typedef struct {
 } Model122Command;
 
 typedef struct {
-    Model122Command *G32 command;
+    Model122Command *command;
     SVECTOR particles[64];
     SVECTOR spray[32];
     SVECTOR dust[16];

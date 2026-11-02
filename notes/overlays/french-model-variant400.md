@@ -78,7 +78,7 @@ claim or stable-frame-step assumption is introduced. Original address-based
 function names remain unchanged.
 
 The stored descriptor pointer at context `205C` is loaded through
-`*(u8 *G32 *)(work + 0x205C)` before all four timing-word reads. This preserves
+`*(u8 **)(work + 0x205C)` before all four timing-word reads. This preserves
 four-byte storage and zero-extension on supported native 64-bit builds instead
 of reconstructing the pointer from a signed `s32`. The correction leaves both
 slots' C instruction bytes identical to the frozen exact objects. A clean
@@ -130,7 +130,7 @@ begin at context zero. Their seventeen-element `SVECTOR` arrays start at
 `2E8`, and signed-halfword X/Y offsets at `32C/34E`. The intervening bytes
 stay opaque; this accessed view is not an allocation-capacity claim.
 
-Each screen has equivalent canonical `DVECTOR` and `PSXLONG` views.
+Each screen has equivalent canonical `DVECTOR` and `long` views.
 Projection deltas and widths use signed coordinates; drawing uses signed
 X halves and arithmetic high-halfword extraction for Y. This expresses
 measured accesses, not an assertion about original declarations. Both

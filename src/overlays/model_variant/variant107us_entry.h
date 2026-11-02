@@ -32,7 +32,7 @@ typedef struct {
  * eight half-length tips), the per-sprite timers, three texture words and
  * the elapsed time. */
 typedef struct {
-    Model107UsConfig *G32 config;
+    Model107UsConfig *config;
     SVECTOR directions[8];
     SVECTOR ring[9];
     SVECTOR squares[8];

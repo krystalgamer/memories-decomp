@@ -16,8 +16,8 @@ void FrenchModelVariant397_DrawStreamers(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     Variant397StreamerState *work;
     POLY_G4 *poly;
     GsOT *ot;

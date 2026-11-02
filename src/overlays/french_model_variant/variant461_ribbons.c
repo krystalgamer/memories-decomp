@@ -20,9 +20,9 @@ void func_8013C508(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag[5][11];
-    PSXLONG flag2;
+    long p;
+    long flag[5][11];
+    long flag2;
     u8 *work;
     GsOT *ot;
     s16 i;

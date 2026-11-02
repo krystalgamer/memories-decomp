@@ -20,7 +20,7 @@ s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
     SVECTOR corner[4];
     DVECTOR screen[81];
     u16 depths[81], projection[81], flags[81];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model98State *work;
     GsOT *ot;
     Model98Config *config;
@@ -145,8 +145,8 @@ s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
         }
         point = work->blades;
         for (i = 0; i < 6; i++) {
-            otz = RotAverage3(&work->center, point, point + 1, (PSXLONG *)&fan.x0, (PSXLONG *)&fan.x1,
-                              (PSXLONG *)&fan.x2, &interpolation, &flag);
+            otz = RotAverage3(&work->center, point, point + 1, (long *)&fan.x0, (long *)&fan.x1,
+                              (long *)&fan.x2, &interpolation, &flag);
             setUV3(&fan, 64, 134, 192, 128, 192, 143);
             if (otz >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)otz, 1);
@@ -255,8 +255,8 @@ s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                otz = RotTransPers(&corner[0], (PSXLONG *)&quad.x0, &interpolation, &flag);
-                otz += RotTransPers(&corner[1], (PSXLONG *)&quad.x2, &interpolation, &flag);
+                otz = RotTransPers(&corner[0], (long *)&quad.x0, &interpolation, &flag);
+                otz += RotTransPers(&corner[1], (long *)&quad.x2, &interpolation, &flag);
                 position.vy += config->rise;
                 if (position.vy > 0) {
                     position.vy = 0;
@@ -266,8 +266,8 @@ s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                otz += RotTransPers(&corner[0], (PSXLONG *)&quad.x1, &interpolation, &flag);
-                otz += RotTransPers(&corner[1], (PSXLONG *)&quad.x3, &interpolation, &flag);
+                otz += RotTransPers(&corner[0], (long *)&quad.x1, &interpolation, &flag);
+                otz += RotTransPers(&corner[1], (long *)&quad.x3, &interpolation, &flag);
                 otz /= 4;
                 if (otz >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)otz, 1);
@@ -308,8 +308,8 @@ s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                otz = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3], (PSXLONG *)&quad.x0,
-                                  (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                otz = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3], (long *)&quad.x0,
+                                  (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                                   &interpolation, &flag);
                 if (point->vy < -config->ring_size) {
                     quad.r0 = config->ring_color[0];

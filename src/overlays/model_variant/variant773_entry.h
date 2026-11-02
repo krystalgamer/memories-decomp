@@ -47,7 +47,7 @@ typedef struct {
 } Model773Command;
 
 typedef struct {
-    Model773Command *G32 command;
+    Model773Command *command;
     Model773Point pos[12];
     Model773Point vel[12];
     union {

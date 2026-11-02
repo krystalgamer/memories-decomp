@@ -23,7 +23,7 @@ s32 ModelVariant133_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[32];
     u16 depths[32], projection[32], flags[32];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model133State *work;
     s32 side;
     GsOT *ot;
@@ -33,7 +33,7 @@ s32 ModelVariant133_HandleRequest(u8 *context, s32 command)
      * allocation requires. */
     s32 i, j;
     s32 time, pitch;
-    PSXLONG depth;
+    long depth;
     SVECTOR *point, *anchor;
     DVECTOR *projected;
     u16 *depth_cursor, *flag_cursor;
@@ -262,8 +262,8 @@ s32 ModelVariant133_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }

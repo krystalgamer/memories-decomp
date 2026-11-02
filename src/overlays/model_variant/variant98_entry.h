@@ -51,7 +51,7 @@ typedef struct {
  * six texture words, the blink toggle, the elapsed time and the
  * completion flag. */
 typedef struct {
-    Model98Config *G32 config;
+    Model98Config *config;
     SVECTOR center;
     SVECTOR blades[12];
     SVECTOR grid[81];

@@ -13,7 +13,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation, depth;
+    long flag, interpolation, depth;
     GsOT *ot;
     s32 direction, i, time, value;
     SVECTOR *point, *end, *target;
@@ -116,12 +116,12 @@ s32 func_8013B004(u8 *context, s32 command)
                 ((s16 *)Model_GetViewMetricsBuffer())[1] + 1024) % 4096;
             if (value >= 0 && value < 2048) {
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x0,
-                    (PSXLONG *)&quad.x3, (PSXLONG *)&quad.x2, &interpolation, &flag);
+                    (long *)&quad.x1, (long *)&quad.x0,
+                    (long *)&quad.x3, (long *)&quad.x2, &interpolation, &flag);
             } else {
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             }
             if (config->tile_size != 64) {
                 setUVWH(&quad,
@@ -159,8 +159,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             quad.clut = work->textures[3];
             setUVWH(&quad, time / 2 * 64 + 64, 64, 63, 63);
             if (depth >= 0 && flag >= 0) {

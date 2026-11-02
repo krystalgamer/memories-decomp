@@ -12,7 +12,7 @@ typedef struct {
  * a scale and the sweep amount of each end. */
 typedef struct {
     SVECTOR point[3][2];
-    PSXLONG screen[3][2];
+    long screen[3][2];
     CVECTOR color;
     VECTOR scale;
     s16 field_5C, field_5E;
@@ -68,9 +68,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant415EntryConfig *G32 config;
+    Variant415EntryConfig *config;
     u32 field_30B4;
-    GsCOORDUNIT *G32 parts[5];
+    GsCOORDUNIT *parts[5];
     s32 field_30CC, field_30D0, field_30D4, start_index, field_30DC, field_30E0;
     u8 unknown_30E4[4];
     s32 phase;

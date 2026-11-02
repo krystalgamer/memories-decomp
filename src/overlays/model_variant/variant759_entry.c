@@ -19,8 +19,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
     SVECTOR rot;
     SVECTOR pos;
     VECTOR scale;
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     Model759State *work;
     s32 slot, side, step;
     GsOT *ot;
@@ -182,8 +182,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
-    otz = RotAverage4(&work->glow[0], &work->glow[1], &work->glow[2], &work->glow[3], (PSXLONG *)&glow.x0,
-                      (PSXLONG *)&glow.x1, (PSXLONG *)&glow.x2, (PSXLONG *)&glow.x3, &p, &flag);
+    otz = RotAverage4(&work->glow[0], &work->glow[1], &work->glow[2], &work->glow[3], (long *)&glow.x0,
+                      (long *)&glow.x1, (long *)&glow.x2, (long *)&glow.x3, &p, &flag);
     if (work->glow_frame[0] < 8) {
         setUV4(&glow, work->glow_frame[0] % 8 * 32, 0, work->glow_frame[0] % 8 * 32 + 31, 0,
                work->glow_frame[0] % 8 * 32, 31, work->glow_frame[0] % 8 * 32 + 31, 31);
@@ -218,8 +218,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
         MulMatrix2(&light, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
-        otz = RotAverage4(&work->wave[0], &work->wave[1], &work->wave[2], &work->wave[3], (PSXLONG *)&wave.x0,
-                          (PSXLONG *)&wave.x1, (PSXLONG *)&wave.x2, (PSXLONG *)&wave.x3, &p, &flag);
+        otz = RotAverage4(&work->wave[0], &work->wave[1], &work->wave[2], &work->wave[3], (long *)&wave.x0,
+                          (long *)&wave.x1, (long *)&wave.x2, (long *)&wave.x3, &p, &flag);
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&wave, ot, (u16)otz, 1);
         }
@@ -260,8 +260,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
         MulMatrix2(&light, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
-        otz = RotAverage4(&work->wave2[0], &work->wave2[1], &work->wave2[2], &work->wave2[3], (PSXLONG *)&wave.x0,
-                          (PSXLONG *)&wave.x1, (PSXLONG *)&wave.x2, (PSXLONG *)&wave.x3, &p, &flag);
+        otz = RotAverage4(&work->wave2[0], &work->wave2[1], &work->wave2[2], &work->wave2[3], (long *)&wave.x0,
+                          (long *)&wave.x1, (long *)&wave.x2, (long *)&wave.x3, &p, &flag);
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&wave, ot, (u16)otz, 1);
         }
@@ -296,8 +296,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
-        otz = RotAverage4(&work->flash[0], &work->flash[1], &work->flash[2], &work->flash[3], (PSXLONG *)&flash.x0,
-                          (PSXLONG *)&flash.x1, (PSXLONG *)&flash.x2, (PSXLONG *)&flash.x3, &p, &flag);
+        otz = RotAverage4(&work->flash[0], &work->flash[1], &work->flash[2], &work->flash[3], (long *)&flash.x0,
+                          (long *)&flash.x1, (long *)&flash.x2, (long *)&flash.x3, &p, &flag);
         setUV4(&flash, work->flash_frame[0] % 3 * 64, 32, work->flash_frame[0] % 3 * 64 + 63, 32,
                work->flash_frame[0] % 3 * 64, 95, work->flash_frame[0] % 3 * 64 + 63, 95);
         if (otz >= 0) {
@@ -347,8 +347,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
         for (i = 0; i < 8; i++) {
-            otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1], (PSXLONG *)&ring.x0, (PSXLONG *)&ring.x1,
-                              (PSXLONG *)&ring.x2, (PSXLONG *)&ring.x3, &p, &flag);
+            otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1], (long *)&ring.x0, (long *)&ring.x1,
+                              (long *)&ring.x2, (long *)&ring.x3, &p, &flag);
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&ring, ot, (u16)otz, 1);
             }
@@ -380,8 +380,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
         for (i = 0; i < 8; i++) {
-            otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1], (PSXLONG *)&ring.x0, (PSXLONG *)&ring.x1,
-                              (PSXLONG *)&ring.x2, (PSXLONG *)&ring.x3, &p, &flag);
+            otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1], (long *)&ring.x0, (long *)&ring.x1,
+                              (long *)&ring.x2, (long *)&ring.x3, &p, &flag);
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&ring, ot, (u16)otz, 1);
             }
@@ -413,8 +413,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
         for (i = 0; i < 8; i++) {
-            otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1], (PSXLONG *)&ring.x0, (PSXLONG *)&ring.x1,
-                              (PSXLONG *)&ring.x2, (PSXLONG *)&ring.x3, &p, &flag);
+            otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1], (long *)&ring.x0, (long *)&ring.x1,
+                              (long *)&ring.x2, (long *)&ring.x3, &p, &flag);
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&ring, ot, (u16)otz, 1);
             }
@@ -440,8 +440,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
-    otz = RotAverage4(&work->glow[0], &work->glow[1], &work->glow[2], &work->glow[3], (PSXLONG *)&glow.x0,
-                      (PSXLONG *)&glow.x1, (PSXLONG *)&glow.x2, (PSXLONG *)&glow.x3, &p, &flag);
+    otz = RotAverage4(&work->glow[0], &work->glow[1], &work->glow[2], &work->glow[3], (long *)&glow.x0,
+                      (long *)&glow.x1, (long *)&glow.x2, (long *)&glow.x3, &p, &flag);
     if (work->glow_frame[1] < 8) {
         setUV4(&glow, work->glow_frame[1] % 8 * 32, 0, work->glow_frame[1] % 8 * 32 + 31, 0,
                work->glow_frame[1] % 8 * 32, 31, work->glow_frame[1] % 8 * 32 + 31, 31);
@@ -476,8 +476,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
         MulMatrix2(&light, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
-        otz = RotAverage4(&work->wave[0], &work->wave[1], &work->wave[2], &work->wave[3], (PSXLONG *)&wave.x0,
-                          (PSXLONG *)&wave.x1, (PSXLONG *)&wave.x2, (PSXLONG *)&wave.x3, &p, &flag);
+        otz = RotAverage4(&work->wave[0], &work->wave[1], &work->wave[2], &work->wave[3], (long *)&wave.x0,
+                          (long *)&wave.x1, (long *)&wave.x2, (long *)&wave.x3, &p, &flag);
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&wave, ot, (u16)otz, 1);
         }
@@ -518,8 +518,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
         MulMatrix2(&light, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
-        otz = RotAverage4(&work->wave2[0], &work->wave2[1], &work->wave2[2], &work->wave2[3], (PSXLONG *)&wave.x0,
-                          (PSXLONG *)&wave.x1, (PSXLONG *)&wave.x2, (PSXLONG *)&wave.x3, &p, &flag);
+        otz = RotAverage4(&work->wave2[0], &work->wave2[1], &work->wave2[2], &work->wave2[3], (long *)&wave.x0,
+                          (long *)&wave.x1, (long *)&wave.x2, (long *)&wave.x3, &p, &flag);
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&wave, ot, (u16)otz, 1);
         }
@@ -554,8 +554,8 @@ s32 ModelVariant759_HandleRequest(u8 *context, s32 command)
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
-        otz = RotAverage4(&work->flash[0], &work->flash[1], &work->flash[2], &work->flash[3], (PSXLONG *)&flash.x0,
-                          (PSXLONG *)&flash.x1, (PSXLONG *)&flash.x2, (PSXLONG *)&flash.x3, &p, &flag);
+        otz = RotAverage4(&work->flash[0], &work->flash[1], &work->flash[2], &work->flash[3], (long *)&flash.x0,
+                          (long *)&flash.x1, (long *)&flash.x2, (long *)&flash.x3, &p, &flag);
         setUV4(&flash, work->flash_frame[1] % 3 * 64, 32, work->flash_frame[1] % 3 * 64 + 63, 32,
                work->flash_frame[1] % 3 * 64, 95, work->flash_frame[1] % 3 * 64 + 63, 95);
         if (otz >= 0) {

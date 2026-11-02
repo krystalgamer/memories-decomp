@@ -14,8 +14,8 @@ void ModelVariant433_DrawCoils(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Model450CoilView *work;
     Variant450QuadGroup *driver;
     POLY_FT4 *quad;

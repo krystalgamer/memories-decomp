@@ -22,8 +22,8 @@ s32 ModelVariant781_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR quad[4];
     MATRIX saved;
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 slot, direction, step;
     GsOT *ot;
     s32 i, j, k, l;
@@ -166,8 +166,8 @@ s32 ModelVariant781_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rot, &m);
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
-                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0,
-                                  (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0,
+                                  (long *)&ft4.x1, (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
                 setUV4(&ft4, 0, 0, 0x3F, 0, 0, 0x3F, 0x3F, 0x3F);
                 setSemiTrans(&ft4, 0);
                 if (otz >= 0) {
@@ -192,8 +192,8 @@ s32 ModelVariant781_HandleRequest(u8 *context, s32 command)
                     RotMatrix(&rot, &m);
                     ScaleMatrix(&m, &scale);
                     GsSetLsMatrix(&m);
-                    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0,
-                                      (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+                    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0,
+                                      (long *)&ft4.x1, (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
                     setUV4(&ft4, 0x20, 0, 0x5F, 0, 0x20, 0x3F, 0x5F, 0x3F);
                     setSemiTrans(&ft4, 1);
                     if (otz >= 0) {
@@ -222,8 +222,8 @@ s32 ModelVariant781_HandleRequest(u8 *context, s32 command)
                         MulMatrix2(&light, &m);
                         ScaleMatrix(&m, &scale);
                         GsSetLsMatrix(&m);
-                        otz = RotAverage3(&quad[0], &quad[1], &quad[2], (PSXLONG *)&g3.x0,
-                                          (PSXLONG *)&g3.x1, (PSXLONG *)&g3.x2, &p, &flag);
+                        otz = RotAverage3(&quad[0], &quad[1], &quad[2], (long *)&g3.x0,
+                                          (long *)&g3.x1, (long *)&g3.x2, &p, &flag);
                         setSemiTrans(&g3, 1);
                         if (otz >= 0) {
                             Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 3);
@@ -252,12 +252,12 @@ s32 ModelVariant781_HandleRequest(u8 *context, s32 command)
                     for (k = 0; k < 16; k++) {
                         if (k == 15) {
                             otz = RotAverage4(&work->ring[15][1], &work->ring[0][1], &work->ring[15][0],
-                                              &work->ring[0][0], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                              (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                              &work->ring[0][0], (long *)&gt4.x0, (long *)&gt4.x1,
+                                              (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                         } else {
                             otz = RotAverage4(&work->ring[k][1], &work->ring[k + 1][1], &work->ring[k][0],
-                                              &work->ring[k + 1][0], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                              (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                              &work->ring[k + 1][0], (long *)&gt4.x0, (long *)&gt4.x1,
+                                              (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                         }
                         setUV4(&gt4, 0xC0, 0, 0xDF, 0, 0xC0, 0x7F, 0xDF, 0x7F);
                         setSemiTrans(&gt4, 1);
@@ -281,8 +281,8 @@ s32 ModelVariant781_HandleRequest(u8 *context, s32 command)
                         m = saved;
                         ScaleMatrix(&m, &scale);
                         GsSetLsMatrix(&m);
-                        otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0,
-                                          (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+                        otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0,
+                                          (long *)&ft4.x1, (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
                         setUV4(&ft4, 0x20, 0, 0x5F, 0, 0x20, 0x3F, 0x5F, 0x3F);
                         setSemiTrans(&ft4, 1);
                         if (otz >= 0) {
@@ -307,8 +307,8 @@ s32 ModelVariant781_HandleRequest(u8 *context, s32 command)
                             RotMatrix(&rot, &m);
                             ScaleMatrix(&m, &scale);
                             GsSetLsMatrix(&m);
-                            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0,
-                                              (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3,
+                            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0,
+                                              (long *)&ft4.x1, (long *)&ft4.x2, (long *)&ft4.x3,
                                               &p, &flag);
                             setUV4(&ft4, 0, 0, 0x3F, 0, 0, 0x3F, 0x3F, 0x3F);
                             setSemiTrans(&ft4, 1);

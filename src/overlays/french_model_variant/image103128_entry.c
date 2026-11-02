@@ -19,8 +19,8 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR corners[4];
     MATRIX saved;
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 slot, side, step;
     GsOT *ot;
     s32 i, j, k;
@@ -139,8 +139,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&corners[2], &corners[0], &corners[3], &corners[1],
-                    (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
-                    (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &p, &flag);
+                    (long *)&packet->x0, (long *)&packet->x1,
+                    (long *)&packet->x2, (long *)&packet->x3, &p, &flag);
                 if (state->alpha[i][j] == 128) {
                     setSemiTrans(packet, 0);
                 } else {
@@ -198,8 +198,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setVector(&corners[3], 0, 0, 0);
                     setUV4(packet, 64, 0, 127, 0, 64, 63, 127, 63);
                     depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                        (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
-                        (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &p, &flag);
+                        (long *)&packet->x0, (long *)&packet->x1,
+                        (long *)&packet->x2, (long *)&packet->x3, &p, &flag);
                     if (depth >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)packet, ot, depth & 0xFFFF, 1);
                     }
@@ -207,8 +207,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB0(packet, state->colors[i][j].r >> 2,
                             state->colors[i][j].g >> 2, state->colors[i][j].b >> 2);
                     depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                        (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
-                        (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &p, &flag);
+                        (long *)&packet->x0, (long *)&packet->x1,
+                        (long *)&packet->x2, (long *)&packet->x3, &p, &flag);
                     if (depth >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)packet, ot, depth & 0xFFFF, 1);
                     }

@@ -17,9 +17,9 @@ void func_8013BD00(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flags[8][17];
-    PSXLONG p;
-    PSXLONG flag;
+    long flags[8][17];
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     s16 i;
@@ -47,14 +47,14 @@ void func_8013BD00(u8 *ctx)
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x2E58), MODEL_VARIANT_WORD(work, 0x2E50)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x2E54), MODEL_VARIANT_WORD(work, 0x2E50));
     ribbon = (Variant443Ribbon *)work;
-    for (i = 0, phase = 0; i < *(s32 *)(*(u8 *G32 *)(work + 0x2E7C) + 0x20); i++, ribbon++, phase = i * 0x300) {
+    for (i = 0, phase = 0; i < *(s32 *)(*(u8 **)(work + 0x2E7C) + 0x20); i++, ribbon++, phase = i * 0x300) {
         len = 0x30;
         if (i == 0) {
             turn = 0x400;
         } else if (i % 2 == 1) {
-            turn = i * 1800 / *(s32 *)(*(u8 *G32 *)(work + 0x2E7C) + 0x20) + 0x400;
+            turn = i * 1800 / *(s32 *)(*(u8 **)(work + 0x2E7C) + 0x20) + 0x400;
         } else {
-            turn = 0x400 - i * 1800 / *(s32 *)(*(u8 *G32 *)(work + 0x2E7C) + 0x20);
+            turn = 0x400 - i * 1800 / *(s32 *)(*(u8 **)(work + 0x2E7C) + 0x20);
         }
         for (k = 0; k < 17; k++) {
             if (k == 0 || k == 16) {
@@ -171,13 +171,13 @@ void func_8013BD00(u8 *ctx)
                     ribbon->state = 2;
                 } else {
                     ribbon->len = 0x400;
-                    ribbon->count = -(*(s32 *)(*(u8 *G32 *)(work + 0x2E7C) + 0x20) * 8);
+                    ribbon->count = -(*(s32 *)(*(u8 **)(work + 0x2E7C) + 0x20) * 8);
                     ribbon->state = 0;
                 }
             }
         }
         sum += ribbon->state;
-        if (sum == *(s32 *)(*(u8 *G32 *)(work + 0x2E7C) + 0x20) * 2 && MODEL_VARIANT_WORD(work, 0x2EC4) == 4) {
+        if (sum == *(s32 *)(*(u8 **)(work + 0x2E7C) + 0x20) * 2 && MODEL_VARIANT_WORD(work, 0x2EC4) == 4) {
             MODEL_VARIANT_WORD(work, 0x2EC4) = 5;
         }
     }

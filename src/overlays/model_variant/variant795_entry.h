@@ -69,7 +69,7 @@ typedef struct {
  * trail heads; the bolt count, the arrival flags, the phase, the ambient
  * level, the textures and the per-bolt bolt, glow and ray colours. */
 typedef struct {
-    Model795Config *G32 config;
+    Model795Config *config;
     SVECTOR pos[8];
     SVECTOR step[8];
     SVECTOR angle[8];

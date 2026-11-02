@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant459_sheets.h"
 
-#define CURTAIN459_TIMING(work) (*(Timing459 *G32 *)((u8 *)(work) + 0x309C))
+#define CURTAIN459_TIMING(work) (*(Timing459 **)((u8 *)(work) + 0x309C))
 
 /* Loads both rows' colours unfaded. */
 #define CURTAIN459_LOAD_COLOURS(work) \
@@ -28,8 +28,8 @@ void func_8013C9AC(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     ModelVariantCurtain *curtain;
     GsOT *ot;
@@ -105,8 +105,8 @@ void func_8013C9AC(u8 *ctx)
             }
             for (j = 0; j < 16; j++) {
                 otz = RotTransPers4(&curtain->a[j], &curtain->a[j + 1], &curtain->b[j], &curtain->b[j + 1],
-                                    (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2,
-                                    (PSXLONG *)&poly->x3, &p, &flag);
+                                    (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
+                                    (long *)&poly->x3, &p, &flag);
                 poly->r0 = r0;
                 poly->g0 = g0;
                 poly->b0 = b0;

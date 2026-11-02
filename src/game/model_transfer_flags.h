@@ -52,7 +52,7 @@
  * former s32 spellings were casts around a pointer. Every retail access
  * is gp-relative, so no unit needs an arm.
  */
-extern Key *G32 gModel_pCurrentEffectKey;
+extern Key *gModel_pCurrentEffectKey;
 extern u8 gModel_bEffectKeyCount;
 extern u8 gModel_bEffectKeyPreparationPending;
 extern s8 gModel_nEffectKeyBatchOrdinal;

@@ -49,9 +49,9 @@ void Text_SetCursorOffset(DuelEffectChannel *object);
  * TextBox_BuildStep clears it when a new box starts, and Text_NewLine is the
  * only caller. Nothing else writes it, so the parameter type is not a guess:
  * it is Text_TryCompleteChoiceLayout's own, volatile qualifier included. */
-extern void (*G32 gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
+extern void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
 /* Interior alias into the enclosing initialized secondary-command table:
  * +0x6C in NA/Japan, +0x74 in Europe. Keep the existing raw callback ABI. */
-extern void (*G32 gText_apfnPrimaryCommands[])(u8 *);
+extern void (*gText_apfnPrimaryCommands[])(u8 *);
 
 #endif

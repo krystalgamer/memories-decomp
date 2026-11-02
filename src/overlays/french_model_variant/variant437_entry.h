@@ -17,7 +17,7 @@
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     DVECTOR target;
 } Variant437EntryProjection;
 
@@ -71,9 +71,9 @@ typedef struct {
     u32 frame_count, elapsed, animation_frame;
     s32 step;
     u32 span, fade;
-    Variant437EntryConfig *G32 config;
+    Variant437EntryConfig *config;
     u32 field_15F8;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s16 field_1608, field_160A;
     s32 field_160C, field_1610, field_1614, field_1618, spin;
     s16 field_1620, field_1622;

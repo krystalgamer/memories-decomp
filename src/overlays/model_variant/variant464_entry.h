@@ -23,7 +23,7 @@ typedef struct {
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag, target;
+    long interpolation, flag, target;
 } Variant464EntryProjection;
 
 /* Two 17-point circles, the outer one raised by 64. */
@@ -89,9 +89,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;
-    Variant464EntryConfig *G32 config;
+    Variant464EntryConfig *config;
     u32 field_2048;
-    GsCOORDUNIT *G32 part;
+    GsCOORDUNIT *part;
     s16 field_2050, field_2052;
     s32 width, field_2058, field_205C, field_2060, field_2064;
     s32 field_2068, field_206C, field_2070, field_2074, field_2078;

@@ -5,7 +5,7 @@
 
 typedef union {
     DVECTOR point;
-    PSXLONG packed;
+    long packed;
 } Model335Screen;
 
 typedef struct {
@@ -18,7 +18,7 @@ typedef struct {
     u8 color[4];
     u8 unknown224[0xA4];
     s32 otz[17];
-    PSXLONG flag[17];
+    long flag[17];
     s16 ox[17];
     s16 oy[17];
 } Model335Ribbon;

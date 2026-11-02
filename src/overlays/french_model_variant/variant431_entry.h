@@ -13,7 +13,7 @@ typedef struct {
 
 typedef struct {
     SVECTOR a[5], b[5], c[5];
-    PSXLONG sa[5], sb[5], sc[5];
+    long sa[5], sb[5], sc[5];
     CVECTOR ca[5], cb[5];
     VECTOR scale;
     s16 field_EC, field_EE;
@@ -45,9 +45,9 @@ typedef struct {
     u32 frame_count, frame, animation_frame;
     s32 step;
     u32 fade;
-    Variant431EntryConfig *G32 config;
+    Variant431EntryConfig *config;
     u32 field_18B4;
-    GsCOORDUNIT *G32 parts[5];
+    GsCOORDUNIT *parts[5];
     s16 field_18CC, field_18CE, field_18D0, field_18D2;
     s32 field_18D4, start_index, field_18DC, phase;
     u8 unknown_18E4[8];

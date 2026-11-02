@@ -8,8 +8,8 @@ void SpanishModelVariant450_DrawQuadGroups(u8 *ctx)
     MATRIX matrix;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Variant450QuadView *work;
     Variant450QuadGroup *group;
     Variant450Primary *primary;
@@ -66,9 +66,9 @@ void SpanishModelVariant450_DrawQuadGroups(u8 *ctx)
         SetRotMatrix(&ls);
         for (j = 0, point = group->points; j < 4; j++, point++) {
             depth = RotTransPers4(point, &group->points[j+4], &group->points[j+8],
-                                 &group->points[j+12], (PSXLONG *)&quad->x0,
-                                 (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2,
-                                 (PSXLONG *)&quad->x3, &interpolation, &flag);
+                                 &group->points[j+12], (long *)&quad->x0,
+                                 (long *)&quad->x1, (long *)&quad->x2,
+                                 (long *)&quad->x3, &interpolation, &flag);
             if (group->fading == 0) {
                 setRGB0(quad, group->color[0], group->color[1], group->color[2]);
                 setRGB1(quad, group->color[0], group->color[1], group->color[2]);

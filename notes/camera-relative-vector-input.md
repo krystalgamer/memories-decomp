@@ -1,7 +1,7 @@
 # Camera-relative coordinate-builder vector input
 
 The third argument of `func_800580D4` is `SVECTOR *`. The body passes it to
-the canonical `RotTransSV(SVECTOR *, SVECTOR *, PSXLONG *)` SDK function,
+the canonical `RotTransSV(SVECTOR *, SVECTOR *, long *)` SDK function,
 and the sole observed caller independently constructs the same record at
 the start of its stack scratch block.
 
@@ -31,7 +31,7 @@ actual byte-storage boundary in this caller.
 The callee removes one redundant SDK cast. Its slot selection, fallback
 index, matrix calls, volatile slot-member reads, local unit lifetime,
 output stores and parent pointer are unchanged. The separate flag scratch
-and `PSXLONG *` boundary remain intact. No aliasing barrier is simplified.
+and `long *` boundary remain intact. No aliasing barrier is simplified.
 
 Both functions in `model_slot_control.c` keep their contiguous
 definitions and `gcc_2_8_1_g8_split` profile: the view-metric updater's

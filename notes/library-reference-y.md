@@ -45,7 +45,7 @@ Its independent `+2` label is the sampled Y target.
 
 The existing step remains `abs(sampled - captured) / 24 + 1`, spelled
 through the original signed locals and branches. The first movement
-test may write `view.vry`; the exact volatile `PSXLONG` reload and the
+test may write `view.vry`; the exact volatile `long` reload and the
 second ordered test still follow. The second test can act in the same
 call, so this is not rewritten as a generic clamp or promised to
 converge monotonically.

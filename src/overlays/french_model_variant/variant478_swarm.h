@@ -37,7 +37,7 @@ typedef struct {
     u8 unknown_29F0[4];
     s32 step;
     u8 unknown_29F8[4];
-    QuadSwarm478Timing *G32 timing;
+    QuadSwarm478Timing *timing;
     u8 unknown_2A00[0x24];
     s32 phase;
 } QuadSwarm478State;

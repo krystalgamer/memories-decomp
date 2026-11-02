@@ -49,7 +49,7 @@ typedef struct {
  * arrival flags, the counts, the ambient level, the textures and the fading
  * burst colours. */
 typedef struct {
-    Model813Config *G32 config;
+    Model813Config *config;
     SVECTOR orbs[2][64];
     SVECTOR orb_velocities[2][64];
     SVECTOR comets[2][32];

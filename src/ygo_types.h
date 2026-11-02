@@ -273,7 +273,7 @@ typedef char OptionsLayoutPositionData_size_must_be_8[
 
 typedef struct {
     s32 key;
-    void *G32 *G32 handler;
+    void **handler;
 } ModelHandlerObject;
 
 #define YGO_TYPE_OFFSET(type, member) ((u32)&(((type *)0)->member))
@@ -362,14 +362,14 @@ typedef char DuelEffectEntry_layout_selector_offset_must_be_0x18[
 /* Narrow text-command view: twenty-two stream pointers place the signed
  * selector at the measured 0x58 offset. */
 typedef struct {
-    u8 *G32 streams[TEXT_STREAM_SLOT_COUNT];
+    u8 *streams[TEXT_STREAM_SLOT_COUNT];
     s8 stream_index;
 } TextStreamOwner;
 
 /* Display-effect command view. Its depth selector follows twenty stream
  * pointers and the command state bytes at the same measured 0x58 offset. */
 typedef struct {
-    u8 *G32 streams[20];
+    u8 *streams[20];
     u8 unk50;
     u8 state;
     u8 pad52[6];
@@ -388,7 +388,7 @@ typedef struct {
 
 /* Script image slot prefix: the owned object and callback control. */
 typedef struct {
-    void *G32 pointer;
+    void *pointer;
     s16 callback_control;
     u8 pad_06[10];
     /* Set to 1 by ScriptImage_CreateObject and ScriptImage_RebuildObjects
@@ -423,10 +423,10 @@ struct DisplayObject;
 /* Eight row slots and a distinct render object share the flag-walk window. */
 typedef union {
     struct {
-        struct DisplayObject *G32 slots[8];
-        struct DisplayObject *G32 render;
+        struct DisplayObject *slots[8];
+        struct DisplayObject *render;
     } by_role;
-    struct DisplayObject *G32 all[9];
+    struct DisplayObject *all[9];
 } LibraryDisplayObjects;
 
 typedef char LibraryDisplayObjects_size_must_be_0x24[
@@ -496,7 +496,7 @@ typedef char LibraryMotionState_size_must_be_0x48[
    TextBox_BuildStep seeds both with &tent_DuelEffectEntries[entry_range_start],
    DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
 typedef struct DuelEffectChannel {
-    u8 *G32 root_stream;
+    u8 *root_stream;
     /* The fade callbacks in gText_SecondaryCommandHandlers reach this block. They are reached as
        bytes at 0x04-0x0A, as local XY halfwords at 0x0C/0x0E, and as single bytes
        at 0x13-0x15; 0x04 is additionally written as one word (0 and
@@ -531,19 +531,19 @@ typedef struct DuelEffectChannel {
     u8 field_14;
     u8 render_mode;
     u8 pad_16[10];
-    DuelEffectEntry *G32 entry_write_cursor;
-    DuelEffectEntry *G32 entry_begin;
+    DuelEffectEntry *entry_write_cursor;
+    DuelEffectEntry *entry_begin;
     /* Every consumer proves this is a DisplayObject pointer:
        TextBox_RefreshDisplayObjects and Script_OpSavePrompt cast it, card-list text
        reaches ->flags through it, and Dialog_UpdateChoice used to read it
        through a pointer cast. */
-    struct DisplayObject *G32 render_object;
+    struct DisplayObject *render_object;
     /* The second owned display object has the same evidence: producers store
        the object they just built and consumers release it through
        DisplayObject_ReleaseIfPresent. Integer-looking field_2C writes elsewhere belong to the
        unrelated DuelEffectResourceRecord. */
-    struct DisplayObject *G32 aux_object;
-    struct DisplayObject *G32 prompt_object;
+    struct DisplayObject *aux_object;
+    struct DisplayObject *prompt_object;
     u16 flags_34;
     u16 initial_string_id;
     u16 pen_x;
@@ -662,7 +662,7 @@ typedef struct {
     s16 scale_x;
     s16 scale_y;
     u32 field_48;
-    DuelEffectEntry *G32 sourceGlyph;
+    DuelEffectEntry *sourceGlyph;
     u8 pad_50[0xA];
     s16 savedSourceX;
     u8 pad_5C[0x4];
@@ -795,33 +795,33 @@ typedef struct {
     s8 keyboardColumn;
     u8 keyboardRow;
     u8 resetState;
-    SelectionFrame *G32 selectionFrame;
+    SelectionFrame *selectionFrame;
     u8 glyphSequence;
     u8 unknown409[7];
     u8 digits[8];
-    u8 *G32 nameBuffer;
+    u8 *nameBuffer;
     u8 dialogState;
     u8 unknown41D[3];
-    PasswordCursorView *G32 digitCursor;
+    PasswordCursorView *digitCursor;
     u16 displayedStarchips;
     u8 savedKeyboardRow;
     u8 unknown427;
     s32 digitIndex;
     s8 caretIndex;
     u8 unknown42D[3];
-    u8 *G32 cardCache;
+    u8 *cardCache;
     s16 cursorTargetX;
     s16 cursorTargetY;
     u32 cardPrice;
-    u8 *G32 lengthObject;
-    u8 *G32 digitDecorations[4];
+    u8 *lengthObject;
+    u8 *digitDecorations[4];
     u8 unknown450[0x80];
     u8 resetMode;
     u8 unknown4D1;
     u16 dialogId;
     u16 keyboardFlags;
     u16 unknown4D6;
-    PasswordCardPreviewView *G32 cardPreview;
+    PasswordCardPreviewView *cardPreview;
     u16 cardId;
     u8 unknown4DE[0xB2];
 } PasswordModuleState;
@@ -975,11 +975,11 @@ struct FileTransferDescriptor {
        a volatile member keeps that store out of the slot (+0x1C bytes). */
     s32 total_bytes;
     s32 file_bytes;
-    u8 *G32 loader_argument;
+    u8 *loader_argument;
     /* Total byte count for the current callback-programmed transfer phase.
        File_StepTransferPhase copies it back into phase_remaining after each callback. */
     u32 phase_size;
-    FileTransferCallback G32 phase_callback;
+    FileTransferCallback phase_callback;
     s32 absolute_lba;
     s32 phase_remaining;
     u32 status_flags;
@@ -1005,7 +1005,7 @@ struct FileTransferDescriptor {
         u32 word;
     } field_30;
     s32 direct_destination;
-    void *G32 callback_data;
+    void *callback_data;
     u32 position;
     u32 phase_index;
     u16 buffer_index;
@@ -1219,9 +1219,9 @@ typedef struct {
     /* DisplayObjectStream_ReadNextCommand points this at the current opcode's
        operand target: base plus the little-endian halfword that follows the
        opcode. */
-    u8 *G32 frame_data;
-    u8 *G32 current;
-    u8 *G32 base;
+    u8 *frame_data;
+    u8 *current;
+    u8 *base;
     s16 command_offset;
     s16 frame_delay;
 } DisplayObjectStreamState;
@@ -1318,7 +1318,7 @@ typedef u8 Triplet[4];
 typedef struct {
     u16 value;
     u16 shown;
-    u16 *G32 out;
+    u16 *out;
     u8 pad_08[4];
 } ValueSetupEntry;
 

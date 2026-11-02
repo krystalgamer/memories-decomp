@@ -19,11 +19,11 @@ typedef struct {
 } Model143Config;
 
 typedef struct {
-    SVECTOR *G32 a, *G32 b, *G32 c;
+    SVECTOR *a, *b, *c;
 } Model143Face;
 
 typedef struct {
-    Model143Config *G32 config;
+    Model143Config *config;
     SVECTOR positions[55];
     u8 unknown_1bc[0x48];
     SVECTOR vertices[5], targets[55];

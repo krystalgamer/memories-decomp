@@ -19,12 +19,12 @@ s32 FrenchModelVariant178_HandleRequest(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model178Config *config;
     GsOT *ot;
     SVECTOR *point, *endpoint;
     s32 direction, step, i, j, time, value;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -109,8 +109,8 @@ s32 FrenchModelVariant178_HandleRequest(u8 *context, s32 command)
             setUV4(&quad, value * 32, 0, value * 32 + 31, 0,
                    value * 32, 63, value * 32 + 31, 63);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             GsSortPoly(&quad, ot, (u16)depth);
             if (time < config->travel) {
                 point->vx += (endpoint->vx - point->vx) / (config->travel - time) * step;
@@ -154,8 +154,8 @@ s32 FrenchModelVariant178_HandleRequest(u8 *context, s32 command)
                 setUV4(&quad, value * 32, 64, value * 32 + 31, 64,
                        value * 32, 95, value * 32 + 31, 95);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                 GsSortPoly(&quad, ot, (u16)depth);
             }
         }

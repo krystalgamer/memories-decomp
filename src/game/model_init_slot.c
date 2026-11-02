@@ -142,7 +142,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
             hmd_unit->coord = 0;
             group_words = *(s32 **)hmd_cursor;
             hmd_cursor += 4;
-            hmd_unit->primtop = (unsigned PSXLONG *)group_words;
+            hmd_unit->primtop = (unsigned long *)group_words;
             if (group_words != 0) {
                 GsScanUnit((u32 *)group_words, 0, 0, 0);
             evloop:

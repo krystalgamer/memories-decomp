@@ -15,8 +15,8 @@ void func_8013D800(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     Variant459Grid *grid;
     GsOT *ot;
     u8 *work;
@@ -78,8 +78,8 @@ void func_8013D800(u8 *ctx)
         poly->b3 = grid->color[i + 1][2];
         for (j = 0; j < 16; j++) {
             otz = RotTransPers4(&grid->point[i][j], &grid->point[i][j + 1], &grid->point[i + 1][j],
-                                &grid->point[i + 1][j + 1], (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                                (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                                &grid->point[i + 1][j + 1], (long *)&poly->x0, (long *)&poly->x1,
+                                (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
             if (otz >= 0 && flag >= 0) {
                 GsSortPoly(poly, ot, otz);
             }
@@ -102,7 +102,7 @@ void func_8013D800(u8 *ctx)
     } else if (MODEL_VARIANT_WORD(work, 0x284C) == 3) {
         MODEL_VARIANT_WORD(work, 0x27FC) = (rcos(MODEL_VARIANT_WORD(work, 0x2808)) * 0x800 >> 12) + 0x1800;
         MODEL_VARIANT_WORD(work, 0x2808) += MODEL_VARIANT_WORD(work, 0x27B8) << 6;
-        if (*(u32 *)(*(u8 *G32 *)(work + 0x27C0) + 0x34) < (u32)MODEL_VARIANT_WORD(work, 0x27B0)) {
+        if (*(u32 *)(*(u8 **)(work + 0x27C0) + 0x34) < (u32)MODEL_VARIANT_WORD(work, 0x27B0)) {
             MODEL_VARIANT_WORD(work, 0x284C) = 4;
         }
     } else if (MODEL_VARIANT_WORD(work, 0x284C) == 4) {

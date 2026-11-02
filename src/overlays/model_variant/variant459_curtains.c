@@ -15,8 +15,8 @@ void func_8013D430(u8 *ctx)
     u8 unknown_stack[24];
     CVECTOR dark;
     CVECTOR light;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     GsOT *ot;
     s32 i;
     u8 *work;
@@ -83,8 +83,8 @@ void func_8013D430(u8 *ctx)
             poly->b3 = dark.b;
             for (j = 0; j < 16; j++) {
                 otz = RotTransPers4(&curtain->a[j], &curtain->a[j + 1], &curtain->b[j], &curtain->b[j + 1],
-                                    (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2,
-                                    (PSXLONG *)&poly->x3, &p, &flag);
+                                    (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
+                                    (long *)&poly->x3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
                     GsSortPoly(poly, ot, otz);
                 }

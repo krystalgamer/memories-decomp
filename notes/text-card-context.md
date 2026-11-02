@@ -58,7 +58,7 @@ masked address operations and cursor publication order remain unchanged.
 The signed stream index first lives in the byte-pointer local, becomes its
 four-byte slot offset, and is coalesced back through a scoped pointer. Those
 lifetimes are not rewritten. The three variants' stored pointer load/store
-casts now spell `u8 *G32 *`, without changing the accesses or substituting a
+casts now spell `u8 **`, without changing the accesses or substituting a
 new channel layout.
 
 The symbol helper preserves the measured low-byte flag self-assignment,

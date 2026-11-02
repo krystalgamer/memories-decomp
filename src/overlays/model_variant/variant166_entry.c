@@ -32,7 +32,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[66];
     u16 depths[66], projection[66], flags[66];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model166State *work;
     Model166Config *config;
     s32 direction;
@@ -126,8 +126,8 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             setRGB0(&quad, red, green, blue);
             GsSetLsMatrix(&base);
-            RotTransPers(point, (PSXLONG *)&quad.x0, &interpolation, &flag);
-            RotTransPers(&work->centre, (PSXLONG *)&quad.x1, &interpolation, &flag);
+            RotTransPers(point, (long *)&quad.x0, &interpolation, &flag);
+            RotTransPers(&work->centre, (long *)&quad.x1, &interpolation, &flag);
             if (quad.x0 > quad.x1) {
                 setVector(&rotation, 0, 0, 0);
             } else {
@@ -143,7 +143,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             SPARK_TEXTURE(i % 3);
             if (depth >= 0 && flag >= 0) {
@@ -177,8 +177,8 @@ s32 func_8013B004(u8 *context, s32 command)
             point->pad = 0;
         } else if (t >= 0 && work->elapsed < config->start) {
             GsSetLsMatrix(&base);
-            RotTransPers(point, (PSXLONG *)&quad.x0, &interpolation, &flag);
-            RotTransPers(&work->centre, (PSXLONG *)&quad.x1, &interpolation, &flag);
+            RotTransPers(point, (long *)&quad.x0, &interpolation, &flag);
+            RotTransPers(&work->centre, (long *)&quad.x1, &interpolation, &flag);
             if (quad.x0 > quad.x1) {
                 setVector(&rotation, 0, 0, 0);
             } else {
@@ -207,7 +207,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             SPARK_TEXTURE(i % 3);
             if (depth >= 0 && flag >= 0) {
@@ -228,8 +228,8 @@ s32 func_8013B004(u8 *context, s32 command)
         setVector(&vertices[3], config->size, config->size, 0);
         for (i = 0; i < config->count; i++) {
             GsSetLsMatrix(&base);
-            RotTransPers(point, (PSXLONG *)&quad.x0, &interpolation, &flag);
-            RotTransPers(&work->centre, (PSXLONG *)&quad.x1, &interpolation, &flag);
+            RotTransPers(point, (long *)&quad.x0, &interpolation, &flag);
+            RotTransPers(&work->centre, (long *)&quad.x1, &interpolation, &flag);
             if (quad.x0 > quad.x1) {
                 setVector(&rotation, 0, 0, 0);
             } else {
@@ -248,7 +248,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             SPARK_TEXTURE(i % 3);
             if (depth >= 0 && flag >= 0) {
@@ -283,7 +283,7 @@ s32 func_8013B004(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
             &interpolation, &flag);
         setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
         if (depth >= 0 && flag >= 0) {

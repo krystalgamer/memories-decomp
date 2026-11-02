@@ -22,7 +22,7 @@ typedef struct {
 } Model198Config;
 
 typedef struct {
-    Model198Config *G32 config;
+    Model198Config *config;
     SVECTOR rays[32];
     SVECTOR opponent;
     SVECTOR ring[66];

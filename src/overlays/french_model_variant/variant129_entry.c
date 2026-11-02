@@ -6,8 +6,8 @@ const VECTOR D_8013BFE8 = {4096, 4096, 4096, 0};
 
 #define DRAW_QUAD(a, b, c, d) \
     depth = RotAverage4(&vertices[a], &vertices[b], &vertices[c], &vertices[d], \
-        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, \
-        (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag); \
+        (long *)&quad.x0, (long *)&quad.x1, \
+        (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag); \
     if (depth >= 0 && flag >= 0) { \
         GsSortPoly(&quad, ot, (u16)depth); \
     }
@@ -22,14 +22,14 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[9];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model129Config *config;
     GsOT *ot;
     SVECTOR *point, *velocity;
     s32 scene_time;
     s32 step, i, time, burst_time, value;
     s16 red, green, blue;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);

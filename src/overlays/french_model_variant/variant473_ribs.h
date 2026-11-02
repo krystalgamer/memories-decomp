@@ -11,10 +11,10 @@
 
 typedef struct {
     SVECTOR a[9];
-    PSXLONG sa[9];
+    long sa[9];
     s32 angle[9];
     SVECTOR b[9];
-    PSXLONG sb[9];
+    long sb[9];
     s32 width[9];
     u8 ca[9][4];
     u8 cb[9][4];

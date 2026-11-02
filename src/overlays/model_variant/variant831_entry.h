@@ -49,7 +49,7 @@ typedef struct {
  * textures, the glow level, the flash level, the spark colours, the core
  * colour and the halo colour. */
 typedef struct {
-    Model831Config *G32 config;
+    Model831Config *config;
     SVECTOR sparks[64];
     SVECTOR velocities[64];
     SVECTOR unused[64];

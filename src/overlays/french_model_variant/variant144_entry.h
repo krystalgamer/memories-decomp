@@ -26,7 +26,7 @@ typedef struct {
 } Model144Config;
 
 typedef struct {
-    Model144Config *G32 config;
+    Model144Config *config;
     u8 unknown_004[24];
     SVECTOR points[64];
     s32 texture[1], elapsed;

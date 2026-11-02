@@ -56,8 +56,8 @@ typedef struct CardList {
        position it derives from `first`. BuildDeck_Update (build_deck_update.c)
        pulses both lists' cursor boxes' colour bytes at +0xC/+0xD/+0xE, which
        is what fixes them as display records rather than rows of this list. */
-    struct DisplayObject *G32 cursor_box;
-    struct DisplayObject *G32 scroll_box;
+    struct DisplayObject *cursor_box;
+    struct DisplayObject *scroll_box;
     s16 first;
     /* Where `first` is heading. BuildDeck_UpdateCardListInput never jumps the scroll: it
        writes the destination here and then steps `first` one row per call

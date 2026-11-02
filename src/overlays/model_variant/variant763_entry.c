@@ -24,8 +24,8 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     u16 p_list[32];
     u16 flag_list[32];
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 direction;
     s32 step;
     GsOT *ot;
@@ -154,11 +154,11 @@ s32 func_8013B004(u8 *context, s32 command)
     GsSetLsMatrix(&m);
     for (i = 0; i < 16; i++) {
         if (i == 15) {
-            otz = RotAverage3(v, &v[16], &v[1], (PSXLONG *)&g3.x0, (PSXLONG *)&g3.x1,
-                              (PSXLONG *)&g3.x2, &p, &flag);
+            otz = RotAverage3(v, &v[16], &v[1], (long *)&g3.x0, (long *)&g3.x1,
+                              (long *)&g3.x2, &p, &flag);
         } else {
-            otz = RotAverage3(v, &v[i + 1], &v[i + 2], (PSXLONG *)&g3.x0,
-                              (PSXLONG *)&g3.x1, (PSXLONG *)&g3.x2, &p, &flag);
+            otz = RotAverage3(v, &v[i + 1], &v[i + 2], (long *)&g3.x0,
+                              (long *)&g3.x1, (long *)&g3.x2, &p, &flag);
         }
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 1);
@@ -175,11 +175,11 @@ s32 func_8013B004(u8 *context, s32 command)
     GsSetLsMatrix(&m);
     for (i = 0; i < 16; i++) {
         if (i == 15) {
-            otz = RotAverage3(v, &v[16], &v[1], (PSXLONG *)&g3.x0, (PSXLONG *)&g3.x1,
-                              (PSXLONG *)&g3.x2, &p, &flag);
+            otz = RotAverage3(v, &v[16], &v[1], (long *)&g3.x0, (long *)&g3.x1,
+                              (long *)&g3.x2, &p, &flag);
         } else {
-            otz = RotAverage3(v, &v[i + 1], &v[i + 2], (PSXLONG *)&g3.x0,
-                              (PSXLONG *)&g3.x1, (PSXLONG *)&g3.x2, &p, &flag);
+            otz = RotAverage3(v, &v[i + 1], &v[i + 2], (long *)&g3.x0,
+                              (long *)&g3.x1, (long *)&g3.x2, &p, &flag);
         }
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 1);
@@ -197,8 +197,8 @@ s32 func_8013B004(u8 *context, s32 command)
     GsSetLsMatrix(&m);
     w = work->shards;
     for (i = 0; i < work->config->shard_count; i++) {
-        otz = RotAverage3(&w[i], v, &v[1], (PSXLONG *)&g3.x0, (PSXLONG *)&g3.x1,
-                          (PSXLONG *)&g3.x2, &p, &flag);
+        otz = RotAverage3(&w[i], v, &v[1], (long *)&g3.x0, (long *)&g3.x1,
+                          (long *)&g3.x2, &p, &flag);
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 3);
         }
@@ -215,8 +215,8 @@ s32 func_8013B004(u8 *context, s32 command)
     GsSetLsMatrix(&m);
     w = work->shards;
     for (i = 0; i < work->config->shard_count; i++) {
-        otz = RotAverage3(&w[i], v, &v[1], (PSXLONG *)&g3.x0, (PSXLONG *)&g3.x1,
-                          (PSXLONG *)&g3.x2, &p, &flag);
+        otz = RotAverage3(&w[i], v, &v[1], (long *)&g3.x0, (long *)&g3.x1,
+                          (long *)&g3.x2, &p, &flag);
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 1);
         }
@@ -233,8 +233,8 @@ s32 func_8013B004(u8 *context, s32 command)
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
-        otz = RotAverage4(&work->quad[0], &work->quad[1], &work->quad[2], &work->quad[3], (PSXLONG *)&ft4.x0,
-                          (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+        otz = RotAverage4(&work->quad[0], &work->quad[1], &work->quad[2], &work->quad[3], (long *)&ft4.x0,
+                          (long *)&ft4.x1, (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
         setUV4(&ft4, work->flash * 32, 0x40, work->flash * 32 + 31, 0x40, work->flash * 32, 0x5F,
                work->flash * 32 + 31, 0x5F);
         if (otz >= 0) {
@@ -309,8 +309,8 @@ s32 func_8013B004(u8 *context, s32 command)
     MulMatrix2(&light, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
-    otz = RotAverage3(v, &v[1], &v[2], (PSXLONG *)&tri.x0,
-                      (PSXLONG *)&tri.x1, (PSXLONG *)&tri.x2, &p, &flag);
+    otz = RotAverage3(v, &v[1], &v[2], (long *)&tri.x0,
+                      (long *)&tri.x1, (long *)&tri.x2, &p, &flag);
     if (otz >= 0) {
         Graphics_SubmitDrawModePacket((u32 *)&tri, ot, (u16)otz, 1);
     }
@@ -328,8 +328,8 @@ s32 func_8013B004(u8 *context, s32 command)
         MulMatrix2(&light, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
-        otz = RotAverage3(v, &v[1], &v[2], (PSXLONG *)&tri.x0,
-                          (PSXLONG *)&tri.x1, (PSXLONG *)&tri.x2, &p, &flag);
+        otz = RotAverage3(v, &v[1], &v[2], (long *)&tri.x0,
+                          (long *)&tri.x1, (long *)&tri.x2, &p, &flag);
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&tri, ot, (u16)otz, 1);
         }
@@ -358,11 +358,11 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 otz = RotAverage4(&v[15], v, &w[15], w,
-                                  (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p,
+                                  (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p,
                                   &flag);
             } else {
                 otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1],
-                                  (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p,
+                                  (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p,
                                   &flag);
             }
             if (otz >= 0) {
@@ -381,11 +381,11 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 otz = RotAverage4(&v[15], v, &w[15], w,
-                                  (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p,
+                                  (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p,
                                   &flag);
             } else {
                 otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1],
-                                  (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p,
+                                  (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p,
                                   &flag);
             }
             if (otz >= 0) {
@@ -408,11 +408,11 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 otz = RotAverage4(&v[15], v, &w[15], w,
-                                  (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p,
+                                  (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p,
                                   &flag);
             } else {
                 otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1],
-                                  (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p,
+                                  (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p,
                                   &flag);
             }
             if (otz >= 0) {
@@ -431,11 +431,11 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 otz = RotAverage4(&v[15], v, &w[15], w,
-                                  (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p,
+                                  (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p,
                                   &flag);
             } else {
                 otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1],
-                                  (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p,
+                                  (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p,
                                   &flag);
             }
             if (otz >= 0) {

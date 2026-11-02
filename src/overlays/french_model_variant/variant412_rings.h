@@ -27,7 +27,7 @@ typedef struct {
     s32 animation_frame;
     s32 step;
     u8 unknown_1B18[12];
-    Variant412RingConfig *G32 config;
+    Variant412RingConfig *config;
     u8 unknown_1B28[0x20];
     s32 selected_part;
     u8 unknown_1B4C[0x10];

@@ -10,7 +10,7 @@ pass retain their grouped source and compiler profiles.
 | Original view | Canonical view | Preserved representation |
 | --- | --- | --- |
 | `tent_ModelHandlerRegistry` | `gModel_aHandlerKeyRegistry` | mutable `ModelHandlerRegistryEntry[80]` |
-| `ModelType2Scratch.indices` | `clut_data` | `u8 *G32`, `+0x18` |
+| `ModelType2Scratch.indices` | `clut_data` | `u8 *`, `+0x18` |
 | `ModelType2Record.field_00` | `vram_x` | `u16`, `+0x00` |
 | `ModelType2Record.field_02` | `vram_y` | `s16`, `+0x02` |
 
@@ -51,7 +51,7 @@ view, not a new allocation or exclusive-ownership claim.
 
 The authoritative `GsARGUNIT_IMAGE` declaration places `imagetop` at `+0x14`
 and `cluttop` at `+0x18`. The local `ModelType2Scratch` prefix keeps the
-existing pointer-bearing layout, padding, and `u8 *G32` view at `+0x18`;
+existing pointer-bearing layout, padding, and `u8 *` view at `+0x18`;
 it is not replaced by a full SDK argument structure.
 
 The existing NA `GsU_02000001` SDK routine at `0x80089ED0` provides a direct

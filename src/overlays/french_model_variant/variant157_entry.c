@@ -28,7 +28,7 @@ s32 FrenchModelVariant157_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR projected[34];
     u16 depths[34], interpolation_values[34], flags[34];
-    PSXLONG interpolation, flag, depth;
+    long interpolation, flag, depth;
     GsOT *ot;
     s32 step, i, j, time, phase_time, angle, terminal_duration;
     SVECTOR *point, *history;
@@ -113,7 +113,7 @@ s32 FrenchModelVariant157_HandleRequest(u8 *context, s32 command)
         work->toggle ^= 1;
         setVector(&rotation, 0, 0, 0);
         GsSetLsMatrix(&base);
-        depths[0] = RotTransPers(&work->origin, (PSXLONG *)&projected[0], &interpolation, &flag) * 4;
+        depths[0] = RotTransPers(&work->origin, (long *)&projected[0], &interpolation, &flag) * 4;
         copyVector(&position, &work->origin);
         GsSetLsMatrix(&base);
         RotTrans(&position, (VECTOR *)matrix.t, &flag);
@@ -171,8 +171,8 @@ s32 FrenchModelVariant157_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, depth);
             }
@@ -222,8 +222,8 @@ s32 FrenchModelVariant157_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, depth);
                 }

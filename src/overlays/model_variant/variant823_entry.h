@@ -50,7 +50,7 @@ typedef struct {
  * phase, impact flags, flash blink, frames, ambient level, textures, head
  * alpha, beam colours and the flash colour. */
 typedef struct {
-    Model823Config *G32 config;
+    Model823Config *config;
     SVECTOR pos[36];
     SVECTOR origin[36];
     SVECTOR swing[36];

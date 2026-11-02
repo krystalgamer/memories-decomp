@@ -30,9 +30,9 @@ s32 func_8013B004(u8 *context, s32 command)
     Model372Path25 beamer;
     SVECTOR origin, target;
     VECTOR squared;
-    PSXLONG screen0;
-    PSXLONG depth, flag;
-    PSXLONG screen1;
+    long screen0;
+    long depth, flag;
+    long screen1;
     Model372Ribbon *ribbon;
     Model372Sheet *sheet;
     POLY_GT4 *textured;

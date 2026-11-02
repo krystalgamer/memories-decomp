@@ -21,11 +21,11 @@ typedef struct {
 } DECDCTENV;
 
 typedef struct {
-    short *G32 src;			/* 16-bit strait PCM */
-    short *G32 dest;		/* PlayStation original waveform data */
-    short *G32 work;		/* scratch pad or NULL */
-    PSXLONG   size;		/* size (unit: byte) of source data */
-    PSXLONG   loop_start;		/* loop start point (unit: byte) of source data */
+    short *src;			/* 16-bit strait PCM */
+    short *dest;		/* PlayStation original waveform data */
+    short *work;		/* scratch pad or NULL */
+    long   size;		/* size (unit: byte) of source data */
+    long   loop_start;		/* loop start point (unit: byte) of source data */
     char   loop;		/* whether loop or not */
     char   byte_swap;		/* source data is 16-bit big endian (1) / little endian (0) */
     char   proceed;		/* proceeding ? whole (0) / start (1) / cont. (2) / end (4) */
@@ -68,8 +68,8 @@ extern int DecDCToutSync( int mode) ;
 extern int DecDCTinCallback(void (*func)());
 extern int DecDCToutCallback(void (*func)());
 
-extern PSXLONG EncSPU (ENCSPUENV *env);
-extern PSXLONG EncSPU2(ENCSPUENV *env);
+extern long EncSPU (ENCSPUENV *env);
+extern long EncSPU2(ENCSPUENV *env);
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 }
 #endif

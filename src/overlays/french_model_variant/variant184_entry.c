@@ -20,13 +20,13 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[34];
     u16 depths[34], projection[34], flags[34];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model184Config *config;
     GsOT *ot;
     SVECTOR *point, *target;
     s32 step, particle_index, i, j, k, radius, time;
     s32 red, green, blue;
-    PSXLONG depth;
+    long depth;
     DVECTOR *screen0, *screen1;
     u16 *depth0, *depth1, *flags0;
 
@@ -113,8 +113,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             setUV4(&quad, i % 3 * 32, (i % 9) / 3 * 32,
                 i % 3 * 32 + 31, (i % 9) / 3 * 32,
                 i % 3 * 32, (i % 9) / 3 * 32 + 31,
@@ -152,8 +152,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);

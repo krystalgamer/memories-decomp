@@ -22,8 +22,8 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     MATRIX saved;
-    PSXLONG flag;
-    PSXLONG interpolation;
+    long flag;
+    long interpolation;
     s32 slot;
     s32 step;
     GsOT *ot;
@@ -32,7 +32,7 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
     POLY_FT4 *fl;
     POLY_G3 *rp;
     s32 i, j;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -133,8 +133,8 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&fl->x0, (PSXLONG *)&fl->x1, (PSXLONG *)&fl->x2,
-                (PSXLONG *)&fl->x3, &interpolation, &flag);
+                (long *)&fl->x0, (long *)&fl->x1, (long *)&fl->x2,
+                (long *)&fl->x3, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(fl, ot, (u16)depth);
             }
@@ -147,7 +147,7 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage3(&vertices[0], &vertices[1], &vertices[2],
-                    (PSXLONG *)&rp->x0, (PSXLONG *)&rp->x1, (PSXLONG *)&rp->x2, &interpolation, &flag);
+                    (long *)&rp->x0, (long *)&rp->x1, (long *)&rp->x2, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)rp, ot, (u16)depth, 1);
                 }
@@ -219,8 +219,8 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&sprite.x0, (PSXLONG *)&sprite.x1, (PSXLONG *)&sprite.x2,
-                (PSXLONG *)&sprite.x3, &interpolation, &flag);
+                (long *)&sprite.x0, (long *)&sprite.x1, (long *)&sprite.x2,
+                (long *)&sprite.x3, &interpolation, &flag);
             if (work->strike_frames[i] < 8) {
                 setUV4(&sprite, work->strike_frames[i] % 4 * 64, 0, work->strike_frames[i] % 4 * 64 + 63, 0,
                     work->strike_frames[i] % 4 * 64, 63, work->strike_frames[i] % 4 * 64 + 63, 63);
@@ -254,8 +254,8 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&sprite.x0, (PSXLONG *)&sprite.x1, (PSXLONG *)&sprite.x2,
-                (PSXLONG *)&sprite.x3, &interpolation, &flag);
+                (long *)&sprite.x0, (long *)&sprite.x1, (long *)&sprite.x2,
+                (long *)&sprite.x3, &interpolation, &flag);
             setUV4(&sprite, 0, 0x80, 0x3F, 0x80, 0, 0xBF, 0x3F, 0xBF);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&sprite, ot, (u16)depth, 1);
@@ -273,7 +273,7 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage3(&work->rays[i][j], &vertices[0], &vertices[1],
-                    (PSXLONG *)&beam.x0, (PSXLONG *)&beam.x1, (PSXLONG *)&beam.x2, &interpolation, &flag);
+                    (long *)&beam.x0, (long *)&beam.x1, (long *)&beam.x2, &interpolation, &flag);
                 if (depth >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&beam, ot, (u16)depth, 1);
                 }
@@ -283,7 +283,7 @@ s32 ModelVariant797_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage3(&work->rays[i][j], &vertices[0], &vertices[1],
-                    (PSXLONG *)&beam.x0, (PSXLONG *)&beam.x1, (PSXLONG *)&beam.x2, &interpolation, &flag);
+                    (long *)&beam.x0, (long *)&beam.x1, (long *)&beam.x2, &interpolation, &flag);
                 if (depth >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&beam, ot, (u16)depth, 3);
                 }

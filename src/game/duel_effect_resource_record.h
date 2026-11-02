@@ -18,8 +18,8 @@ typedef struct DuelEffectResourceRecord {
      * publishes the allocated-second primary at +0 and the secondary at +4,
      * and links the primary from the secondary. Clear/release helpers keep
      * the same nullable pointer values and order. */
-    struct DisplayObject *G32 primary_object;
-    struct DisplayObject *G32 secondary_object;
+    struct DisplayObject *primary_object;
+    struct DisplayObject *secondary_object;
     RECT rects[4];
     u16 src_x;
     u16 src_y;

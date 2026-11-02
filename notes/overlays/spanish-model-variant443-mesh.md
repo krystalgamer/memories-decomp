@@ -69,7 +69,7 @@ overlay base plus four. The overlay entry preserves it for this helper.
 All nine row bases and their nine points remain below 2^32 and inside the
 observed `0x288`-byte grid. The complete private state view through `+0x369C`
 also ends before the next overlay allocation. The stored timing pointer uses
-`*G32`; transient local pointers remain plain.
+`*`; transient local pointers remain plain.
 
 ## Reproduction evidence
 

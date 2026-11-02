@@ -19,7 +19,7 @@ typedef struct {
 } ModelPrimaryCopyConfig;
 
 typedef struct {
-    ModelPrimaryCopyConfig *G32 config;
+    ModelPrimaryCopyConfig *config;
     u32 tick;
     RECT rectangle;
 } ModelPrimaryCopyState;
@@ -33,7 +33,7 @@ typedef struct {
 } ModelPrimaryEffectConfig;
 
 typedef struct {
-    ModelPrimaryEffectConfig *G32 config;
+    ModelPrimaryEffectConfig *config;
     s32 animation;
 } ModelPrimaryEffectState;
 

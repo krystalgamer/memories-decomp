@@ -48,7 +48,7 @@ typedef struct {
  * fading colours, the textures, the dot depths, the ambient level, the ring
  * pulse, the elapsed time, the flash frame and the phase. */
 typedef struct {
-    Model763Config *G32 config;
+    Model763Config *config;
     SVECTOR center;
     SVECTOR rim[31];
     SVECTOR shards[32];

@@ -33,7 +33,7 @@ typedef union {
 } Model829Position;
 
 typedef struct {
-    Model829Config *G32 config;
+    Model829Config *config;
     SVECTOR positions[4], velocities[4], cloud_offsets[4][32];
     u32 elapsed, updates, phase_frames;
     Model829Status status;

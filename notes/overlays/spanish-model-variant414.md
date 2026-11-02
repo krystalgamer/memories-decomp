@@ -47,7 +47,7 @@ image are not claimed to have a direct entry-call path.
 
 One hundred six independently target-compiled constants verify the six local
 record types and canonical SDK structures, including both quad packet
-types, coordinate matrices, line packets and 32-bit `PSXLONG`.
+types, coordinate matrices, line packets and 32-bit `long`.
 Seventy Spanish instruction anchors per image check context capture,
 record formation, initialization strides, loop bounds, timing reads and
 the entry's webs call.

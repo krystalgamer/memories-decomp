@@ -21,7 +21,7 @@ typedef struct {
 } DuelEffect15Config;
 
 typedef struct {
-    DuelEffect15Config *G32 config;
+    DuelEffect15Config *config;
     u16 count;
     u16 scale;
     u16 state;

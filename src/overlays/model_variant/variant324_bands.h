@@ -10,14 +10,14 @@ typedef struct {
     SVECTOR a[9];
     SVECTOR b[9];
     SVECTOR c[9];
-    PSXLONG sa[9];
-    PSXLONG sb[9];
-    PSXLONG sc[9];
+    long sa[9];
+    long sb[9];
+    long sc[9];
     u8 ca[9][4];
     u8 cb[9][4];
     u8 pad18C[0x18];
     s32 otz[9];
-    PSXLONG flag[9];
+    long flag[9];
 } Variant324Band;
 
 #endif

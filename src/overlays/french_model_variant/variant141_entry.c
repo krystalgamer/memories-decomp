@@ -14,13 +14,13 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[9];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model141Config *config;
     GsOT *ot;
     s32 i, j, time, value;
     SVECTOR *point, *velocity;
     s32 red, green, blue;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -102,26 +102,26 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[3], &vertices[4],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, depth);
             }
             depth = RotAverage4(&vertices[2], &vertices[1], &vertices[5], &vertices[4],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, depth);
             }
             depth = RotAverage4(&vertices[6], &vertices[7], &vertices[3], &vertices[4],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, depth);
             }
             depth = RotAverage4(&vertices[8], &vertices[7], &vertices[5], &vertices[4],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, depth);
             }
@@ -154,8 +154,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             value = time * 3 / config->sprite_duration;
             setUV4(&quad, 64 + value * 32, 0, 95 + value * 32, 0,
                 64 + value * 32, 31, 95 + value * 32, 31);
@@ -180,7 +180,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 vertices[4].vx *= time;
                 vertices[4].vy *= time;
                 vertices[4].vz *= time;
-                depth = RotTransPers(&vertices[4], (PSXLONG *)&box.x, &interpolation, &flag);
+                depth = RotTransPers(&vertices[4], (long *)&box.x, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortBoxFill(&box, ot, depth);
                 }

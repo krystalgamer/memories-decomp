@@ -39,7 +39,7 @@ typedef union {
 /* The work area: the command row and, per stream, the two trail edges, the
  * column rotations, the sparks, the colours, scales and trail length. */
 typedef struct {
-    Model770Config *G32 config;
+    Model770Config *config;
     SVECTOR trail_first[64][2];
     SVECTOR trail_second[64][2];
     SVECTOR rotations[64][2];

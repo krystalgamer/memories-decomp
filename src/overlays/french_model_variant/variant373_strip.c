@@ -8,8 +8,8 @@ void func_8013D23C(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Family373StripView *work;
     Family373Strip *strip;
     POLY_GT4 *quad;

@@ -30,7 +30,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
     s32 x;
     gDuel_bSide0ControllerSelector = -1;
     {
-        u8 *G32 *p;
+        u8 **p;
         u8 *q;
         u32 v;
         p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
@@ -40,7 +40,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         gDuel_bOpponentID = v;
     }
     {
-        u8 *G32 *p;
+        u8 **p;
         u8 *q;
         u32 v;
         p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
@@ -50,7 +50,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         gDuel_wCampaignSceneOnWin = v;
     }
     {
-        u8 *G32 *p;
+        u8 **p;
         u8 *q;
         u32 v;
         p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
@@ -60,7 +60,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         gDuel_wCampaignSceneOnLoss = v;
     }
     {
-        u8 *G32 *p;
+        u8 **p;
         u8 *q;
         u32 v;
         p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];

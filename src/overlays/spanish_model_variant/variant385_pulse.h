@@ -36,7 +36,7 @@ typedef struct {
     u8 unknown_FF4[4];
     s32 step;
     u8 unknown_FFC[4];
-    Pulse385Timing *G32 timing;
+    Pulse385Timing *timing;
     u8 unknown_1004[0x10];
     s32 index;
     u8 unknown_1018[0x12];

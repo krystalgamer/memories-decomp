@@ -43,7 +43,7 @@ typedef struct {
  * two rings, four textures, the glow flicker, whether the hit has been
  * reported and the elapsed time. */
 typedef struct {
-    Model97Config *G32 config;
+    Model97Config *config;
     SVECTOR shards[8];
     SVECTOR glow_centre;
     SVECTOR glow_ring[17];

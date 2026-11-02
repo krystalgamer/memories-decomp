@@ -8,8 +8,8 @@ void SpanishModelVariant450_DrawLines(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Variant450View *work;
     GsOT *ot;
     Variant450Group *group;
@@ -77,8 +77,8 @@ void SpanishModelVariant450_DrawLines(u8 *ctx)
         for (j = 0; j < 8; j++) {
             line->attribute = 0x50000000;
             depth = RotTransPers3(&group->points[0], &group->points[j + 1],
-                                 &group->points[0], (PSXLONG *)&line->x0,
-                                 (PSXLONG *)&line->x1, (PSXLONG *)&line->x0,
+                                 &group->points[0], (long *)&line->x0,
+                                 (long *)&line->x1, (long *)&line->x0,
                                  &interpolation, &flag);
             line->r0 = r;
             line->g0 = g;

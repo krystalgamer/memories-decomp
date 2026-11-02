@@ -42,9 +42,9 @@ void DuelEffect_DrawProjectedNumber(s32 value, u8 *color, SVECTOR *offset, u16 m
         packet->clut = gDuelEffect_TexturePageClutPairs.pairs[9][1];
         depth = RotAverage4(&vertices[vertex], &vertices[vertex + 2],
             &vertices[vertex + 1], &vertices[vertex + 3],
-            (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
-            (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,
-            (PSXLONG *)&p, (PSXLONG *)&flag);
+            (long *)&packet->x0, (long *)&packet->x1,
+            (long *)&packet->x2, (long *)&packet->x3,
+            (long *)&p, (long *)&flag);
         if (i == 0) {
             if (value > 0) {
                 tile = 10;

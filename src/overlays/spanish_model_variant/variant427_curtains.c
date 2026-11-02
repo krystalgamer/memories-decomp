@@ -8,8 +8,8 @@ void func_8013E5BC(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Curtain427State *state = (Curtain427State *)context;
     Curtain427Primary *primary = state->primary;
     ModelVariantCurtain *curtain = state->curtains;
@@ -88,8 +88,8 @@ void func_8013E5BC(u8 *context)
             for (j = 0; j < 16; j++) {
                 depth = RotTransPers4(&curtain->a[j], &curtain->a[j + 1],
                                      &curtain->b[j], &curtain->b[j + 1],
-                                     (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
-                                     (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                     (long *)&polygon->x0, (long *)&polygon->x1,
+                                     (long *)&polygon->x2, (long *)&polygon->x3,
                                      &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(polygon, ot, depth);

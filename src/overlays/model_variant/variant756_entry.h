@@ -46,7 +46,7 @@ typedef union {
  * the sparks, debris, smoke and embers, their frames, the colours, and the
  * timers. */
 typedef struct {
-    Model756Config *G32 config;
+    Model756Config *config;
     SVECTOR trail_first[32];
     SVECTOR trail_second[32];
     SVECTOR rotations[32];

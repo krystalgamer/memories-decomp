@@ -55,9 +55,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant439EntryConfig *G32 config;
+    Variant439EntryConfig *config;
     u32 field_1950;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s16 field_1960, field_1962, field_1964, field_1966;
     s32 field_1968, field_196C;
     CVECTOR outer, inner;

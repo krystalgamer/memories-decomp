@@ -54,7 +54,7 @@ typedef struct {
  * states, the phase, the timer, the glow scales, the ambient level, the
  * three textures and the per-flare flare, glow and ray colours. */
 typedef struct {
-    Model789Config *G32 config;
+    Model789Config *config;
     SVECTOR pos[6];
     SVECTOR start[6];
     SVECTOR velocity[6];

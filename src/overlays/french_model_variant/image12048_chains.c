@@ -8,9 +8,9 @@ void FrenchModelVariant403_DrawChains(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG flags[3][9];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long flags[3][9];
+    long interpolation;
+    long flag;
     Chains12048State *state = (Chains12048State *)context;
     Chains12048Chain *chain = state->chains;
     POLY_FT4 *poly;

@@ -12,10 +12,10 @@ void func_8013DBC8(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
 #ifndef MODEL_VARIANT425_STREAMERS_FIXED_TAIL
-    PSXLONG *previous;
+    long *previous;
 #endif
     u8 *work;
     POLY_G4 *poly;
@@ -152,7 +152,7 @@ void func_8013DBC8(u8 *ctx)
     }
 #else
     for (i = 0, previous = &streamer->sa[0]; i < 1; i++,
-         previous = (PSXLONG *)((u8 *)previous + sizeof(Variant425Streamer)), streamer++) {
+         previous = (long *)((u8 *)previous + sizeof(Variant425Streamer)), streamer++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
                 streamer->otz[k] = RotTransPers4(&streamer->a[0], &streamer->a[1], &streamer->a[0], &streamer->a[1],

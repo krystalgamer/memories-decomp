@@ -11,8 +11,8 @@ void func_8013D1D4(u8 *ctx)
     u8 red[16];
     u8 green[16];
     u8 blue[16];
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     s16 i, j;
@@ -90,7 +90,7 @@ void func_8013D1D4(u8 *ctx)
         for (j = 0; j < 8; j++) {
             line->attribute = 0x50000000;
             otz = RotTransPers4(&ray->point[j], &ray->point[j + 1], &ray->point[j], &ray->point[j + 1],
-                (PSXLONG *)&line->x0, (PSXLONG *)&line->x1, (PSXLONG *)&line->x0, (PSXLONG *)&line->x1, &p, &flag);
+                (long *)&line->x0, (long *)&line->x1, (long *)&line->x0, (long *)&line->x1, &p, &flag);
             line->r0 = red[j];
             line->g0 = green[j];
             line->b0 = blue[j];

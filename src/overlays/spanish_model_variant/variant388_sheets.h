@@ -30,7 +30,7 @@ typedef struct {
     u8 unknown_1860[4];
     s32 step;
     u8 unknown_1868[4];
-    Sheet388Timing *G32 timing;
+    Sheet388Timing *timing;
     u8 unknown_1870[0x10];
     s32 index;
     u8 unknown_1884[0xC];

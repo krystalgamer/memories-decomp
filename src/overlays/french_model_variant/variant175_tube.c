@@ -8,8 +8,8 @@ void func_8013BDB4(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Tube175State *state = (Tube175State *)context;
     Tube175 *tube;
     POLY_G4 *quad = &state->quad;
@@ -68,8 +68,8 @@ void func_8013BDB4(u8 *context)
             for (k = 0; k < 8; k++) {
                 depth = RotTransPers4(&tube->points[j][k], &tube->points[j][k+1],
                                      &tube->points[j+1][k], &tube->points[j+1][k+1],
-                                     (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                     (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                     (long *)&quad->x0, (long *)&quad->x1,
+                                     (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 if (state->phase >= 6) {
                     r0 = tube->colors[k].r * state->width / 1024;

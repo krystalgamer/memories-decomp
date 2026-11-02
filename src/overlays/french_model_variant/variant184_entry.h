@@ -18,7 +18,7 @@ typedef struct {
 } Model184Config;
 
 typedef struct {
-    Model184Config *G32 config;
+    Model184Config *config;
     SVECTOR positions[80];
     u8 unknown_284[0x80];
     SVECTOR targets[80];

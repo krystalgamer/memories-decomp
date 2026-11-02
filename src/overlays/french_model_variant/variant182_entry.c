@@ -23,8 +23,8 @@ s32 func_8013B004(u8 *context, s32 command)
     u16 depths[66];
     u16 projection[66];
     u16 flags[66];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Model182State *work;
     Model182Config *config;
     s32 side;
@@ -120,8 +120,8 @@ s32 func_8013B004(u8 *context, s32 command)
             quad.g0 = green;
             quad.b0 = blue;
             GsSetLsMatrix(&base);
-            RotTransPers(p, (PSXLONG *)&quad.x0, &interpolation, &flag);
-            RotTransPers(&work->target, (PSXLONG *)&quad.x1, &interpolation, &flag);
+            RotTransPers(p, (long *)&quad.x0, &interpolation, &flag);
+            RotTransPers(&work->target, (long *)&quad.x1, &interpolation, &flag);
             if (quad.x0 < quad.x1) {
                 rotation.vx = 0;
                 rotation.vy = 0;
@@ -151,8 +151,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             quad.tpage = work->texture[i % 3] >> 16;
             quad.clut = work->texture[i % 3];
             SetSemiTrans(&quad, 1);
@@ -191,8 +191,8 @@ s32 func_8013B004(u8 *context, s32 command)
             p->pad = 0;
         } else if (time >= 0 && work->elapsed < config->converge_start) {
             GsSetLsMatrix(&base);
-            RotTransPers(p, (PSXLONG *)&quad.x0, &interpolation, &flag);
-            RotTransPers(&work->target, (PSXLONG *)&quad.x1, &interpolation, &flag);
+            RotTransPers(p, (long *)&quad.x0, &interpolation, &flag);
+            RotTransPers(&work->target, (long *)&quad.x1, &interpolation, &flag);
             if (quad.x0 < quad.x1) {
                 rotation.vx = 0;
                 rotation.vy = 0;
@@ -228,8 +228,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             quad.tpage = work->texture[i % 3] >> 16;
             quad.clut = work->texture[i % 3];
             SetSemiTrans(&quad, 1);
@@ -255,8 +255,8 @@ s32 func_8013B004(u8 *context, s32 command)
         p = work->sprites;
         for (i = 0; i < config->count; i++) {
             GsSetLsMatrix(&base);
-            RotTransPers(p, (PSXLONG *)&quad.x0, &interpolation, &flag);
-            RotTransPers(&work->target, (PSXLONG *)&quad.x1, &interpolation, &flag);
+            RotTransPers(p, (long *)&quad.x0, &interpolation, &flag);
+            RotTransPers(&work->target, (long *)&quad.x1, &interpolation, &flag);
             if (quad.x0 < quad.x1) {
                 rotation.vx = 0;
                 rotation.vy = 0;
@@ -284,8 +284,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             quad.tpage = work->texture[i % 3] >> 16;
             quad.clut = work->texture[i % 3];
             SetSemiTrans(&quad, 1);
@@ -333,8 +333,8 @@ s32 func_8013B004(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-            (PSXLONG *)&quad.x3, &interpolation, &flag);
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+            (long *)&quad.x3, &interpolation, &flag);
         setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
         if (depth >= 0 && flag >= 0) {
             GsSortPoly(&quad, ot, (u16)depth);

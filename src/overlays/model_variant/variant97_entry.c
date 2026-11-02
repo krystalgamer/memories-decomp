@@ -20,13 +20,13 @@ s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model97State *work;
     Model97Config *config;
     s32 side;
     GsOT *ot;
     s32 i, time, size;
-    PSXLONG depth;
+    long depth;
     u8 red, green, blue;
     SVECTOR *point;
 
@@ -114,8 +114,8 @@ s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&matrix);
         point = work->glow_ring;
         for (i = 0; i < 16; point++, i++) {
-            depth = RotAverage3(&work->glow_centre, &point[0], &point[1], (PSXLONG *)&glow.x0,
-                (PSXLONG *)&glow.x1, (PSXLONG *)&glow.x2, &interpolation, &flag);
+            depth = RotAverage3(&work->glow_centre, &point[0], &point[1], (long *)&glow.x0,
+                (long *)&glow.x1, (long *)&glow.x2, &interpolation, &flag);
             red = 128 / (work->frame + 1);
             setRGB0(&glow, red, red, red);
             if (depth >= 0 && flag >= 0) {
@@ -131,8 +131,8 @@ s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&matrix);
         point = work->glow_ring;
         for (i = 0; i < 16; point++, i++) {
-            depth = RotAverage3(&work->glow_centre, &point[0], &point[1], (PSXLONG *)&glow.x0,
-                (PSXLONG *)&glow.x1, (PSXLONG *)&glow.x2, &interpolation, &flag);
+            depth = RotAverage3(&work->glow_centre, &point[0], &point[1], (long *)&glow.x0,
+                (long *)&glow.x1, (long *)&glow.x2, &interpolation, &flag);
             red = config->glow_red / (work->frame + 1);
             green = config->glow_green / (work->frame + 1);
             blue = config->glow_blue / (work->frame + 1);
@@ -168,8 +168,8 @@ s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             quad.tpage = work->texture[i % 3 + 1] >> 16;
             quad.clut = work->texture[i % 3 + 1];
             setUV4(&quad, i % 3 * 64, 0, i % 3 * 64 + 63, 0, i % 3 * 64, 63, i % 3 * 64 + 63, 63);
@@ -214,8 +214,8 @@ s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             quad.tpage = work->texture[i % 3 + 1] >> 16;
             quad.clut = work->texture[i % 3 + 1];
             setUV4(&quad, i % 3 * 64, 0, i % 3 * 64 + 63, 0, i % 3 * 64, 63, i % 3 * 64 + 63, 63);
@@ -250,16 +250,16 @@ s32 ModelVariant97_HandleRequest(u8 *context, s32 command)
         setRGB2(&fan, red, green, blue);
         point = work->fan_ring;
         for (i = 0; i < 8; point += 2, i++) {
-            depth = RotAverage3(&work->fan_centre, &point[0], &point[1], (PSXLONG *)&fan.x0,
-                (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, &interpolation, &flag);
+            depth = RotAverage3(&work->fan_centre, &point[0], &point[1], (long *)&fan.x0,
+                (long *)&fan.x1, (long *)&fan.x2, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&fan, ot, (u16)depth);
             }
         }
         point = work->fan_outer;
         for (i = 0; i < 16; point++, i++) {
-            depth = RotAverage3(&work->fan_centre, &point[0], &point[1], (PSXLONG *)&fan.x0,
-                (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, &interpolation, &flag);
+            depth = RotAverage3(&work->fan_centre, &point[0], &point[1], (long *)&fan.x0,
+                (long *)&fan.x1, (long *)&fan.x2, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&fan, ot, (u16)depth);
             }

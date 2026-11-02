@@ -14,7 +14,7 @@ void func_8013C7D4(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
+    long p;
     u8 *work;
     GsOT *ot;
     s32 angle;
@@ -146,7 +146,7 @@ void func_8013C7D4(u8 *ctx)
             }
         }
     }
-    if (MODEL_VARIANT_HALF(work, 0xF40) + 1 == *(u16 *)(*(u8 *G32 *)(work + 0xF2C) + 0xC)) {
+    if (MODEL_VARIANT_HALF(work, 0xF40) + 1 == *(u16 *)(*(u8 **)(work + 0xF2C) + 0xC)) {
         if (MODEL_VARIANT_WORD(work, 0xF50) == 1) {
             if (MODEL_VARIANT_WORD(work, 0xF48) < 0x401) {
                 MODEL_VARIANT_WORD(work, 0xF48) += MODEL_VARIANT_WORD(work, 0xF24) * 64;

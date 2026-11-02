@@ -20,8 +20,8 @@ void func_8013C12C(u8 *ctx)
     u8 r2[5];
     u8 g2[5];
     u8 b2[5];
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     Variant405Halo *halo;
     GsOT *ot;
@@ -86,7 +86,7 @@ void func_8013C12C(u8 *ctx)
             halo->fall[i] += MODEL_VARIANT_WORD(work, 0x1DC0) << 5;
             if (halo->fall[i] >= 0x400) {
                 gap = halo->rise[i] - halo->fall[i];
-                if (*(u32 *)(*(u8 *G32 *)(work + 0x1DC8) + 0x28) <= (u32)MODEL_VARIANT_WORD(work, 0x1DB8)) {
+                if (*(u32 *)(*(u8 **)(work + 0x1DC8) + 0x28) <= (u32)MODEL_VARIANT_WORD(work, 0x1DB8)) {
                     halo->rise[i] = 0x400;
                     halo->fall[i] = 0x400;
                 } else {
@@ -135,7 +135,7 @@ void func_8013C12C(u8 *ctx)
             poly->u3 = j * 16 + 16;
             poly->v3 = 0x60;
             otz = RotTransPers4(&halo->top[i][j], &halo->top[i][j + 1], &halo->bottom[i][j], &halo->bottom[i][j + 1],
-                                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3,
+                                (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2, (long *)&poly->x3,
                                 &p, &flag);
             if (otz >= 0 && flag >= 0) {
                 GsSortPoly(poly, ot, otz);

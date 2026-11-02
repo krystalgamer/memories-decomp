@@ -116,7 +116,7 @@ the entry, its three local callees and the raw suffix symbol.
 Four independently recovered 960-byte records precede the sheet array.
 The record remains in a dedicated ribbon header, as required by the
 repository's C-type-definition gate: its known geometry arrays use
-canonical `SVECTOR`/`PSXLONG` types, while the gap at `224..2C8` is explicitly
+canonical `SVECTOR`/`long` types, while the gap at `224..2C8` is explicitly
 unknown. Two word-sized vectors at `2C8` and `2D8`, followed by state/count/
 extent at `2E8/2EC/2F0`, agree with the separate sheet helper's accesses.
 Projection flags precede depths at `2F4` and `338`, respectively.

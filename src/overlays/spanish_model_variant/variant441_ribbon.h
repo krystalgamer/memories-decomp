@@ -6,7 +6,7 @@
 
 typedef struct {
     SVECTOR points[3][2];
-    PSXLONG projected[3][2];
+    long projected[3][2];
     u8 unknown_48[0x1C];
     s32 depth[2];
 } Ribbon441;
@@ -35,7 +35,7 @@ typedef struct {
     u8 unknown_26B8[0x1C];
     s32 time;
     u8 unknown_26D8[0xC];
-    Ribbon441Timing *G32 timing;
+    Ribbon441Timing *timing;
     u8 unknown_26E8[0x10];
     s32 index;
     u8 unknown_26FC[0x18];

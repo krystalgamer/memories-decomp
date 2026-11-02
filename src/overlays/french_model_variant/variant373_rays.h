@@ -9,10 +9,10 @@
 typedef struct {
     u8 unknown_00[0x10];
     SVECTOR points[2];
-    PSXLONG projected[2];
+    long projected[2];
     s32 angle[2];
     SVECTOR edges[2];
-    PSXLONG edge_projected[2];
+    long edge_projected[2];
     s32 width[2];
     CVECTOR inner[2];
     CVECTOR outer[2];

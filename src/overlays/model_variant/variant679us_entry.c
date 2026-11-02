@@ -22,14 +22,14 @@ s32 func_8013B004(u8 *context, s32 command)
     GsCOORDUNIT unit;
     Model679UsViewSnapshot view;
     u8 red[2], green[2], blue[2], row[2];
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     VECTOR offset;
     s32 result, step, inactive;
     s32 i, j, k;
     s32 value, sign, angle;
     u32 tex;
     s32 count;
-    PSXLONG depth;
+    long depth;
 
     work = (Model679UsState *)context;
     result = 0;
@@ -274,8 +274,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB3(&work->band, red[1], green[1], blue[1]);
                     depth = RotAverage4(&work->grid[k][j], &work->grid[k + 1][j],
                         &work->grid[k][j + 1], &work->grid[k + 1][j + 1],
-                        (PSXLONG *)&work->band.x0, (PSXLONG *)&work->band.x1,
-                        (PSXLONG *)&work->band.x2, (PSXLONG *)&work->band.x3,
+                        (long *)&work->band.x0, (long *)&work->band.x1,
+                        (long *)&work->band.x2, (long *)&work->band.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->band, func_80058F10(), (u16)depth);
@@ -293,8 +293,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB2(&work->band, 0, 0, 0);
                 setRGB3(&work->band, 0, 0, 0);
                 depth = RotAverage4(&work->inner[j], &work->inner[j + 1], &work->outer[j], &work->outer[j + 1],
-                    (PSXLONG *)&work->band.x0, (PSXLONG *)&work->band.x1,
-                    (PSXLONG *)&work->band.x2, (PSXLONG *)&work->band.x3,
+                    (long *)&work->band.x0, (long *)&work->band.x1,
+                    (long *)&work->band.x2, (long *)&work->band.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->band, func_80058F10(), (u16)depth);
@@ -345,8 +345,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->sparks[i].u + 31, work->sparks[i].v + 31);
                 setRGB0(&work->quad, work->sparks[i].color[0], work->sparks[i].color[1], work->sparks[i].color[2]);
                 depth = RotAverage4(&work->square[0], &work->square[1], &work->square[2], &work->square[3],
-                    (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                    (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3,
+                    (long *)&work->quad.x0, (long *)&work->quad.x1,
+                    (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
@@ -395,8 +395,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->frame_u[work->bursts[i].u] + 63, work->frame_v[work->bursts[i].u] + 63);
             setRGB0(&work->quad, work->bursts[i].color[0], work->bursts[i].color[1], work->bursts[i].color[2]);
             depth = RotAverage4(&work->burst[0], &work->burst[1], &work->burst[2], &work->burst[3],
-                (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3,
+                (long *)&work->quad.x0, (long *)&work->quad.x1,
+                (long *)&work->quad.x2, (long *)&work->quad.x3,
                 &interpolation, &flag);
             if (flag >= 0) {
                 GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
@@ -428,8 +428,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->bursts[i].v + 31, 95);
                 setRGB0(&work->quad, work->bursts[i].color[0], work->bursts[i].color[1], work->bursts[i].color[2]);
                 depth = RotAverage4(&work->trail[0], &work->trail[1], &work->trail[2], &work->trail[3],
-                    (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                    (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3,
+                    (long *)&work->quad.x0, (long *)&work->quad.x1,
+                    (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->quad, func_80058F10(), (u16)depth);

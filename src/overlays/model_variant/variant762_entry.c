@@ -26,8 +26,8 @@ s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
     SVECTOR quad[4];
     u16 p_list[32];
     u16 flag_list[32];
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 direction;
     s32 step;
     GsOT *ot;
@@ -167,7 +167,7 @@ s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 32; v++, i++) {
             if (work->elapsed >= i * work->config->spark_stagger
                 && work->elapsed < i * work->config->spark_stagger + work->config->spark_life) {
-                otz = RotTransPers(v, (PSXLONG *)&ft4.x0, &p, &flag);
+                otz = RotTransPers(v, (long *)&ft4.x0, &p, &flag);
                 /* Reusing "a" for the sprite size gives retail's saved register. */
                 a = 16 - (work->elapsed - i * work->config->spark_stagger) * 16 / work->config->spark_life;
                 setUV4(&ft4, 0, 0x40, 31, 0x40, 0, 0x5F, 31, 0x5F);
@@ -215,8 +215,8 @@ s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
-    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1,
-                      (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0, (long *)&ft4.x1,
+                      (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
     setUV4(&ft4, 0x20, 0, 0x5F, 0, 0x20, 0x3F, 0x5F, 0x3F);
     SetSemiTrans(&ft4, 1);
     if (otz >= 0) {
@@ -245,11 +245,11 @@ s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&m);
         for (i = 0; i < 16; i++) {
             if (i == 15) {
-                otz = RotAverage3(v, &v[16], &v[1], (PSXLONG *)&g3.x0, (PSXLONG *)&g3.x1,
-                                  (PSXLONG *)&g3.x2, &p, &flag);
+                otz = RotAverage3(v, &v[16], &v[1], (long *)&g3.x0, (long *)&g3.x1,
+                                  (long *)&g3.x2, &p, &flag);
             } else {
-                otz = RotAverage3(v, &v[i + 1], &v[i + 2], (PSXLONG *)&g3.x0,
-                                  (PSXLONG *)&g3.x1, (PSXLONG *)&g3.x2, &p, &flag);
+                otz = RotAverage3(v, &v[i + 1], &v[i + 2], (long *)&g3.x0,
+                                  (long *)&g3.x1, (long *)&g3.x2, &p, &flag);
             }
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 1);
@@ -267,11 +267,11 @@ s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&m);
         for (i = 0; i < 16; i++) {
             if (i == 15) {
-                otz = RotAverage3(v, &v[16], &v[1], (PSXLONG *)&g3.x0, (PSXLONG *)&g3.x1,
-                                  (PSXLONG *)&g3.x2, &p, &flag);
+                otz = RotAverage3(v, &v[16], &v[1], (long *)&g3.x0, (long *)&g3.x1,
+                                  (long *)&g3.x2, &p, &flag);
             } else {
-                otz = RotAverage3(v, &v[i + 1], &v[i + 2], (PSXLONG *)&g3.x0,
-                                  (PSXLONG *)&g3.x1, (PSXLONG *)&g3.x2, &p, &flag);
+                otz = RotAverage3(v, &v[i + 1], &v[i + 2], (long *)&g3.x0,
+                                  (long *)&g3.x1, (long *)&g3.x2, &p, &flag);
             }
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 1);
@@ -289,8 +289,8 @@ s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&m);
         w = work->shard.s.shards;
         for (i = 0; i < work->config->shard_count; i++) {
-            otz = RotAverage3(&w[i], v, &v[1], (PSXLONG *)&g3.x0, (PSXLONG *)&g3.x1,
-                              (PSXLONG *)&g3.x2, &p, &flag);
+            otz = RotAverage3(&w[i], v, &v[1], (long *)&g3.x0, (long *)&g3.x1,
+                              (long *)&g3.x2, &p, &flag);
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 3);
             }
@@ -307,8 +307,8 @@ s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&m);
         w = work->shard.s.shards;
         for (i = 0; i < work->config->shard_count; i++) {
-            otz = RotAverage3(&w[i], v, &v[1], (PSXLONG *)&g3.x0, (PSXLONG *)&g3.x1,
-                              (PSXLONG *)&g3.x2, &p, &flag);
+            otz = RotAverage3(&w[i], v, &v[1], (long *)&g3.x0, (long *)&g3.x1,
+                              (long *)&g3.x2, &p, &flag);
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 1);
             }
@@ -400,11 +400,11 @@ s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&m);
         for (i = 0; i < 16; i++) {
             if (i == 15) {
-                otz = RotAverage4(&v[15], v, &w[15], w, (PSXLONG *)&ring.x0, (PSXLONG *)&ring.x1,
-                                  (PSXLONG *)&ring.x2, (PSXLONG *)&ring.x3, &p, &flag);
+                otz = RotAverage4(&v[15], v, &w[15], w, (long *)&ring.x0, (long *)&ring.x1,
+                                  (long *)&ring.x2, (long *)&ring.x3, &p, &flag);
             } else {
-                otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1], (PSXLONG *)&ring.x0,
-                                  (PSXLONG *)&ring.x1, (PSXLONG *)&ring.x2, (PSXLONG *)&ring.x3, &p, &flag);
+                otz = RotAverage4(&v[i], &v[i + 1], &w[i], &w[i + 1], (long *)&ring.x0,
+                                  (long *)&ring.x1, (long *)&ring.x2, (long *)&ring.x3, &p, &flag);
             }
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&ring, ot, (u16)otz, 3);
@@ -499,8 +499,8 @@ s32 ModelVariant762_HandleRequest(u8 *context, s32 command)
             MulMatrix2(&light, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
-            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&wing.x0,
-                              (PSXLONG *)&wing.x1, (PSXLONG *)&wing.x2, (PSXLONG *)&wing.x3, &p, &flag);
+            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&wing.x0,
+                              (long *)&wing.x1, (long *)&wing.x2, (long *)&wing.x3, &p, &flag);
             setUV4(&wing, 0, 0x3F, 0, 0, 0x3F, 0x3F, 0x3F, 0);
             SetSemiTrans(&wing, 1);
             if (otz >= 0) {

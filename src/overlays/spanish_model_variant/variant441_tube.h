@@ -43,7 +43,7 @@ typedef struct {
     u8 unknown_26D8[4];
     s32 step;
     u8 unknown_26E0[4];
-    Tube441Timing *G32 timing;
+    Tube441Timing *timing;
     u8 unknown_26E8[0x1C];
     s32 width;
     s32 progress;

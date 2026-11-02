@@ -25,8 +25,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR v[4];
     MATRIX saved;
-    PSXLONG flag;
-    PSXLONG interpolation;
+    long flag;
+    long interpolation;
     s32 slot;
     s32 direction;
     s32 step;
@@ -193,8 +193,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                 setVector(&v[2], -sign * 64, 0, 0);
                 setVector(&v[3], 0, 0, 0);
                 setUV4(ft4, 64, 0, 127, 0, 64, 63, 127, 63);
-                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
-                                    (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3, &interpolation, &flag) - 64;
+                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&ft4->x0, (long *)&ft4->x1,
+                                    (long *)&ft4->x2, (long *)&ft4->x3, &interpolation, &flag) - 64;
                 if (depth >= 0) {
                     if (flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)ft4, ot, (u16)depth, 1);
@@ -202,8 +202,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                 }
                 setUV4(ft4, 64, 64, 127, 64, 64, 127, 127, 127);
                 setRGB0(ft4, work->core.rgb.r >> 1, work->core.rgb.g >> 1, work->core.rgb.b >> 1);
-                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
-                                    (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3, &interpolation, &flag) - 64;
+                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&ft4->x0, (long *)&ft4->x1,
+                                    (long *)&ft4->x2, (long *)&ft4->x3, &interpolation, &flag) - 64;
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)ft4, ot, (u16)depth, 1);
                 }
@@ -270,8 +270,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                 addVector(&v[1], &work->streaks[i][j]);
                 addVector(&v[2], &work->streaks[i][j + 1]);
                 addVector(&v[3], &work->streaks[i][j + 1]);
-                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&gt4->x0, (PSXLONG *)&gt4->x1,
-                                    (PSXLONG *)&gt4->x2, (PSXLONG *)&gt4->x3, &interpolation, &flag) - 64;
+                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&gt4->x0, (long *)&gt4->x1,
+                                    (long *)&gt4->x2, (long *)&gt4->x3, &interpolation, &flag) - 64;
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)gt4, ot, (u16)depth, 1);
                 }
@@ -315,8 +315,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
             }
             setVector(&v[0], 0, 0, 0);
             for (i = 0; i < 32; i++) {
-                depth = RotAverage3(&v[0], &work->ring[i], &work->ring[(i + 1) % 32], (PSXLONG *)&g3->x0,
-                                    (PSXLONG *)&g3->x1, (PSXLONG *)&g3->x2, &interpolation, &flag) - 64;
+                depth = RotAverage3(&v[0], &work->ring[i], &work->ring[(i + 1) % 32], (long *)&g3->x0,
+                                    (long *)&g3->x1, (long *)&g3->x2, &interpolation, &flag) - 64;
                 if (flag >= 0 && depth >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)g3, ot, (u16)depth, 2);
                 }
@@ -338,8 +338,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                 setVector(&v[1], 0, i - 2 >= 0 ? -96 : 96, 0);
                 setVector(&v[2], -sign * 96, 0, 0);
                 setVector(&v[3], 0, 0, 0);
-                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
-                                    (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3, &interpolation, &flag) - 64;
+                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&ft4->x0, (long *)&ft4->x1,
+                                    (long *)&ft4->x2, (long *)&ft4->x3, &interpolation, &flag) - 64;
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)ft4, ot, (u16)depth, 1);
                 }
@@ -363,8 +363,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                 setVector(&v[1], 0, i - 2 >= 0 ? -96 : 96, 0);
                 setVector(&v[2], -sign * 96, 0, 0);
                 setVector(&v[3], 0, 0, 0);
-                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
-                                    (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3, &interpolation, &flag) - 64;
+                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&ft4->x0, (long *)&ft4->x1,
+                                    (long *)&ft4->x2, (long *)&ft4->x3, &interpolation, &flag) - 64;
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)ft4, ot, (u16)depth, 1);
                 }
@@ -392,8 +392,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                 for (j = 0; j < 4; j++) {
                     addVector(&v[j], &work->motes[i]);
                 }
-                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
-                                    (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3, &interpolation, &flag) - 64;
+                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&ft4->x0, (long *)&ft4->x1,
+                                    (long *)&ft4->x2, (long *)&ft4->x3, &interpolation, &flag) - 64;
                 if (depth >= 0) {
                     if (flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)ft4, ot, (u16)depth, 1);
@@ -426,8 +426,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                     for (k = 0; k < 4; k++) {
                         addVector(&v[k], &work->orbits[i]);
                     }
-                    depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
-                                        (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3, &interpolation, &flag) - 64;
+                    depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&ft4->x0, (long *)&ft4->x1,
+                                        (long *)&ft4->x2, (long *)&ft4->x3, &interpolation, &flag) - 64;
                     if (depth >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)ft4, ot, (u16)depth, 1);
                     }
@@ -496,8 +496,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                 setVector(&v[2], -sign * 192, 0, 0);
                 setVector(&v[3], 0, 0, 0);
                 setUV4(ft4, 64, 0, 127, 0, 64, 63, 127, 63);
-                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
-                                    (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3, &interpolation, &flag) - 64;
+                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&ft4->x0, (long *)&ft4->x1,
+                                    (long *)&ft4->x2, (long *)&ft4->x3, &interpolation, &flag) - 64;
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)ft4, ot, (u16)depth, 1);
                 }
@@ -513,8 +513,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                 for (j = 0; j < 4; j++) {
                     addVector(&v[j], &work->sparks[i]);
                 }
-                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
-                                    (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3, &interpolation, &flag) - 64;
+                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&ft4->x0, (long *)&ft4->x1,
+                                    (long *)&ft4->x2, (long *)&ft4->x3, &interpolation, &flag) - 64;
                 if (depth >= 0) {
                     if (flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)ft4, ot, (u16)depth, 1);
@@ -534,8 +534,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                 setVector(&v[1], work->beams[i].vx + 6, work->beams[i].vy, work->beams[i].vz);
                 setVector(&v[2], -8, 0, 0);
                 setVector(&v[3], 8, 0, 0);
-                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&gt4->x0, (PSXLONG *)&gt4->x1,
-                                    (PSXLONG *)&gt4->x2, (PSXLONG *)&gt4->x3, &interpolation, &flag) - 64;
+                depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&gt4->x0, (long *)&gt4->x1,
+                                    (long *)&gt4->x2, (long *)&gt4->x3, &interpolation, &flag) - 64;
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)gt4, ot, (u16)depth, 1);
                 }
@@ -568,8 +568,8 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
                     setVector(&v[2], -sign * 64, 0, 0);
                     setVector(&v[3], 0, 0, 0);
                     setUV4(ft4, 64, 0, 127, 0, 64, 63, 127, 63);
-                    depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (PSXLONG *)&ft4->x0, (PSXLONG *)&ft4->x1,
-                                        (PSXLONG *)&ft4->x2, (PSXLONG *)&ft4->x3, &interpolation, &flag) - 64;
+                    depth = RotAverage4(&v[0], &v[1], &v[2], &v[3], (long *)&ft4->x0, (long *)&ft4->x1,
+                                        (long *)&ft4->x2, (long *)&ft4->x3, &interpolation, &flag) - 64;
                     if (depth >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)ft4, ot, (u16)depth, 1);
                     }

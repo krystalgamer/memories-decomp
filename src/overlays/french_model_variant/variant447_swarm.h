@@ -37,7 +37,7 @@ typedef struct {
     u8 unknown_1FC8[4];
     s32 step;
     u8 unknown_1FD0[4];
-    Swarm447Timing *G32 timing;
+    Swarm447Timing *timing;
     u8 unknown_1FD8[0x20];
     s32 phase;
 } Swarm447State;

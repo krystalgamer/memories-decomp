@@ -8,9 +8,9 @@ void FrenchModelVariant403_DrawStrands(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG flags[5][7];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long flags[5][7];
+    long interpolation;
+    long flag;
     Strands12048State *state = (Strands12048State *)context;
     Strands12048Strand *strand;
     POLY_FT4 *poly;

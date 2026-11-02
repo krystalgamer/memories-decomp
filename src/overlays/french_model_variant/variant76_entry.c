@@ -9,9 +9,9 @@ s32 func_8013B004(u8 *context, s32 command)
     MATRIX matrix;
     VECTOR scale;
     SVECTOR origin;
-    PSXLONG flag;
-    PSXLONG projection;
-    PSXLONG depth;
+    long flag;
+    long projection;
+    long depth;
     s32 side;
     SVECTOR *velocity;
     SVECTOR *rotation;
@@ -127,8 +127,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 face = (Model76Face *)((u8 *)work +
                     (j * sizeof(Model76Face) + (u32)&((Model76State *)0)->faces));
                 clip = RotAverageNclip3(face->a, face->b, face->c,
-                    (PSXLONG *)&triangle.x0, (PSXLONG *)&triangle.x1,
-                    (PSXLONG *)&triangle.x2, &projection, &depth, &flag);
+                    (long *)&triangle.x0, (long *)&triangle.x1,
+                    (long *)&triangle.x2, &projection, &depth, &flag);
                 setRGB0(&triangle, red * (4 - j) / 4, green * (4 - j) / 4, blue * (4 - j) / 4);
                 if (clip > 0 && depth >= 0 && flag >= 0) {
                     if (work->life[i] > config->fade) {

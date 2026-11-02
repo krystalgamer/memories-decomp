@@ -65,7 +65,7 @@ typedef union {
  * the drawn trail length, the trail head, the ambient level, the textures,
  * the comet colour and the trail enable. */
 typedef struct {
-    Model808Config *G32 config;
+    Model808Config *config;
     SVECTOR center;
     SVECTOR velocity;
     SVECTOR sparkles[32];

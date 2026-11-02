@@ -18,12 +18,12 @@
 typedef struct DuelSelectionRecord {
     /* Position base for linked display objects; the field-display path
      * stores its sliding information panel here. */
-    struct DisplayObject *G32 field_00;
+    struct DisplayObject *field_00;
     /* The cursor sprite DuelScene_UpdateHandActions creates for the side and
      * flags through its halfword at +8; DuelScene_UpdateExodiaResult releases
      * it. */
-    struct DisplayObject *G32 cursor_object;
-    DuelHandSlot *G32 hand;
+    struct DisplayObject *cursor_object;
+    DuelHandSlot *hand;
     /* Cursor step counter or panel position, according to record context. */
     s16 field_0C;
     /* The hand slot the side's cursor is on: DuelHand_RefreshSelectionColors indexes
@@ -175,7 +175,7 @@ extern u8 gDuel_abSelectionRecord3[];
  *
  * The global itself is still one four-byte pointer, accessed gp-relative;
  * gDuel_bSelectedTrapSlot follows at +4. No new initial-value or nullability claim is made. */
-extern DuelSelectionRecord *G32 gDuel_pActiveSelectionRecord;
+extern DuelSelectionRecord *gDuel_pActiveSelectionRecord;
 
 /* Resets that table. For both sides it walks the four records, zeroing the
  * first three words and the byte at 0x18, then writing 1 to 0x13, the record

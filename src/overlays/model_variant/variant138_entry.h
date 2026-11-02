@@ -40,7 +40,7 @@ typedef struct {
  * spin angle, three texture words, the completion flag and the elapsed
  * time. */
 typedef struct {
-    Model138Config *G32 config;
+    Model138Config *config;
     SVECTOR grid[169];
     Model138Colour colours[169];
     Model138Colour ring[153];

@@ -31,7 +31,7 @@ typedef struct {
  * the other slot's position, the 34 ring points, this slot's position, the two
  * textures, the elapsed time and the completion flag. */
 typedef struct {
-    Model123Config *G32 config;
+    Model123Config *config;
     SVECTOR points[96];
     SVECTOR other;
     SVECTOR ring[34];

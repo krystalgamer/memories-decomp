@@ -8,8 +8,8 @@ void func_8013EFE0(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Lines459State *state = (Lines459State *)context;
     Lines459 *group = state->groups;
     GsGLINE *line = &state->line;
@@ -97,8 +97,8 @@ void func_8013EFE0(u8 *context)
                 line->attribute = 0x50000000;
                 depth = RotTransPers4(&group->points[0][j][k], &group->points[1][j][k],
                                      &group->points[0][j][k], &group->points[1][j][k],
-                                     (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
-                                     (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
+                                     (long *)&line->x0, (long *)&line->x1,
+                                     (long *)&line->x0, (long *)&line->x1,
                                      &interpolation, &flag);
                 if (state->phase < 2) {
                     line->r0 = 0;

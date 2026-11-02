@@ -12,9 +12,9 @@ void func_8013C1D4(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG status[8][2];
-    PSXLONG p;
-    PSXLONG flag;
+    long status[8][2];
+    long p;
+    long flag;
     u8 *work;
     u8 *timing;
     GsOT *ot;

@@ -12,9 +12,9 @@ void func_8013CEE4(u8 *context)
     u8 unknown_stack[16];
     CVECTOR dark;
     CVECTOR light;
-    PSXLONG screen;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long screen;
+    long interpolation;
+    long flag;
     GsOT *ot;
     s32 i;
     Family373PointView *work;

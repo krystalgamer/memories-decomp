@@ -17,8 +17,8 @@ void func_8013BE94(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     s16 i;
@@ -46,14 +46,14 @@ void func_8013BE94(u8 *ctx)
     sum = 0;
     yaw = ratan2(MODEL_VARIANT_WORD(work, 0x2FA8), MODEL_VARIANT_WORD(work, 0x2FA0)) + 0xC00;
     ratan2(MODEL_VARIANT_WORD(work, 0x2FA4), MODEL_VARIANT_WORD(work, 0x2FA0));
-    for (i = 0, phase = 0; i < *(s32 *)(*(u8 *G32 *)(work + 0x2FCC) + 0x14); i++, ribbon++, phase = i * 0x300) {
+    for (i = 0, phase = 0; i < *(s32 *)(*(u8 **)(work + 0x2FCC) + 0x14); i++, ribbon++, phase = i * 0x300) {
         len = 0x30;
         if (i == 0) {
             turn = 0x400;
         } else if (i % 2 == 1) {
-            turn = i * 1800 / *(s32 *)(*(u8 *G32 *)(work + 0x2FCC) + 0x14) + 0x400;
+            turn = i * 1800 / *(s32 *)(*(u8 **)(work + 0x2FCC) + 0x14) + 0x400;
         } else {
-            turn = 0x400 - i * 1800 / *(s32 *)(*(u8 *G32 *)(work + 0x2FCC) + 0x14);
+            turn = 0x400 - i * 1800 / *(s32 *)(*(u8 **)(work + 0x2FCC) + 0x14);
         }
         for (k = 0; k < 13; k++) {
             if (k == 0 || k == 12) {
@@ -170,13 +170,13 @@ void func_8013BE94(u8 *ctx)
                     ribbon->state = 2;
                 } else {
                     ribbon->len = 0x400;
-                    ribbon->count = -(*(s32 *)(*(u8 *G32 *)(work + 0x2FCC) + 0x14) * 8);
+                    ribbon->count = -(*(s32 *)(*(u8 **)(work + 0x2FCC) + 0x14) * 8);
                     ribbon->state = 0;
                 }
             }
         }
         sum += ribbon->state;
-        if (sum == *(s32 *)(*(u8 *G32 *)(work + 0x2FCC) + 0x14) * 2 && MODEL_VARIANT_WORD(work, 0x3020) == 5) {
+        if (sum == *(s32 *)(*(u8 **)(work + 0x2FCC) + 0x14) * 2 && MODEL_VARIANT_WORD(work, 0x3020) == 5) {
             MODEL_VARIANT_WORD(work, 0x3020) = 6;
         }
     }

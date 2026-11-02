@@ -30,7 +30,7 @@ typedef struct {
 } Image135144Config;
 
 typedef struct {
-    Image135144Config *G32 config;
+    Image135144Config *config;
     SVECTOR pos[8];
     SVECTOR step[8];
     SVECTOR angle[8];

@@ -21,7 +21,7 @@ s32 func_8013B004(u8 *context, s32 command)
     /* Never used; retail's frame has room for it. */
     SVECTOR spare[3];
     ModelTintColor tint_start, tint_end;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 direction;
     GsOT *ot;
     Model119Config *config;
@@ -29,7 +29,7 @@ s32 func_8013B004(u8 *context, s32 command)
     s32 side;
     u8 red, green, blue;
     SVECTOR *point;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -112,8 +112,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 MulMatrix2(&base, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                depth = RotAverage4(&point[0], &point[1], &point[2], &point[3], (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                depth = RotAverage4(&point[0], &point[1], &point[2], &point[3], (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }

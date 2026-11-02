@@ -21,7 +21,7 @@ s32 ModelVariant175_HandleRequest(u8 *context, s32 command)
     SVECTOR target;
     DVECTOR projected[51];
     u16 depths[51], interpolation[51], flags[51];
-    PSXLONG flag, depth;
+    long flag, depth;
     Model175State *work;
     Model175Config *config;
     s32 direction;

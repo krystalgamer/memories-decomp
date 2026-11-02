@@ -19,12 +19,12 @@ s32 ModelVariant180_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[66];
     u16 depths[66], projection[66], flags[66];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model180Config *config;
     GsOT *ot;
     SVECTOR *point;
     s32 direction, i, j, angle, factor, time, offset, scale_value;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -153,8 +153,8 @@ s32 ModelVariant180_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);

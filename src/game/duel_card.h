@@ -12,8 +12,8 @@
  * and 3D card renderers read table_index as s8; explicit casts preserve
  * those signed reads without changing the shared unsigned storage type. */
 typedef struct {
-    void *G32 object;
-    void *G32 data;
+    void *object;
+    void *data;
     s16 screen_x;
     s16 screen_y;
     s16 card_id;

@@ -41,7 +41,7 @@ typedef struct {
  * phase, the arrival flags, the drawn and moving counts, the trail lengths
  * and heads, the ambient level, the two textures and the sprite levels. */
 typedef struct {
-    Model801Config *G32 config;
+    Model801Config *config;
     SVECTOR pos[8];
     SVECTOR step[8];
     SVECTOR angle[8];

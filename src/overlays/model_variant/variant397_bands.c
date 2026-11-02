@@ -12,7 +12,7 @@ void func_8013C22C(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
+    long p;
     u8 *work;
     GsOT *ot;
     s32 angle;

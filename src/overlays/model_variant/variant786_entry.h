@@ -50,7 +50,7 @@ typedef struct {
  * the ambient level, the three textures and the per-bolt glow and bolt
  * colours. */
 typedef struct {
-    Model786Config *G32 config;
+    Model786Config *config;
     SVECTOR pos[48];
     SVECTOR step[48];
     SVECTOR ring[48][4];

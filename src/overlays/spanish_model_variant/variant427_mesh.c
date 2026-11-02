@@ -9,8 +9,8 @@ void func_8013BFB4(u8 *context)
     MATRIX light;
     GsCOORDINATE2 coordinate;
     u8 red[9], green[9], blue[9];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Mesh427State *state = (Mesh427State *)context;
     Mesh427Companion *companion = state->companions;
     Mesh427 *mesh = state->meshes;
@@ -72,8 +72,8 @@ void func_8013BFB4(u8 *context)
             for (column = 0; column < 16; column++) {
                 depth = RotTransPers4(&mesh->rows[row][column], &mesh->rows[row][column + 1],
                                      &mesh->rows[row + 1][column], &mesh->rows[row + 1][column + 1],
-                                     (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
-                                     (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                     (long *)&polygon->x0, (long *)&polygon->x1,
+                                     (long *)&polygon->x2, (long *)&polygon->x3,
                                      &interpolation, &flag);
                 if (companion->progress >= 1024 && depth >= 0 && flag >= 0) {
                     func_8005B260((u32 *)polygon, ot, (u16)depth, 1);

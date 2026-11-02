@@ -37,7 +37,7 @@ typedef struct {
  * every particle in both bursts, the star scales, the textures, and the
  * colours of both trails and of the stars of both bursts. */
 typedef struct {
-    Model779Config *G32 config;
+    Model779Config *config;
     SVECTOR trail[4][64];
     SVECTOR sparks[16];
     SVECTOR flares[16];

@@ -8,8 +8,8 @@ void func_8013C734(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Mesh719State *state = (Mesh719State *)context;
     Mesh719 *mesh = state->meshes;
     POLY_GT4 *quad = &state->quad;
@@ -53,8 +53,8 @@ void func_8013C734(u8 *context)
                 for (col = 0; col < 16; col++) {
                     RotTransPers4(&mesh->back[row][col], &mesh->back[row][col + 1],
                                   &mesh->back[row + 1][col], &mesh->back[row + 1][col + 1],
-                                  (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x0,
-                                  (PSXLONG *)&quad->x3, (PSXLONG *)&quad->x2,
+                                  (long *)&quad->x1, (long *)&quad->x0,
+                                  (long *)&quad->x3, (long *)&quad->x2,
                                   &interpolation, &flag);
                     if (quad->x0 < 160) {
                         if (active == 0) {
@@ -79,8 +79,8 @@ void func_8013C734(u8 *context)
                     }
                     depth = RotTransPers4(&mesh->front[row][col], &mesh->front[row][col + 1],
                                           &mesh->front[row + 1][col], &mesh->front[row + 1][col + 1],
-                                          (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                          (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                          (long *)&quad->x0, (long *)&quad->x1,
+                                          (long *)&quad->x2, (long *)&quad->x3,
                                           &interpolation, &flag);
                     SetSemiTrans(quad, 0);
                     SetShadeTex(quad, 0);

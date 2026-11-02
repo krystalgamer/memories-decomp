@@ -9,7 +9,7 @@ query establish five related `ModelSlot` views and an interior byte alias:
 | `field_E1F` | `is_active` | `u8`, `+0xE1F` |
 | `field_E1A` | `hmd_unit_count` | `u8`, `+0xE1A` |
 | `field_E1B` | `animation_sequence_count` | `u8`, `+0xE1B` |
-| `field_1E0` | `animation_sequences` | existing `ModelSlotPart *G32[MODEL_SLOT_PART_COUNT]`, `+0x1E0` |
+| `field_1E0` | `animation_sequences` | existing `ModelSlotPart *[MODEL_SLOT_PART_COUNT]`, `+0x1E0` |
 | `D_800F5694` | `gModel_bAuxiliaryLoadStep` | existing incomplete `u8[]` view of slot 2's step |
 
 The record stays `0xE20` bytes. The active field stays a raw byte, not a

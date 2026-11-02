@@ -39,7 +39,7 @@ typedef struct {
  * positions of the camera part, the camera step counter, the two texture
  * words, the elapsed time and the tint flag. */
 typedef struct {
-    Model121Config *G32 config;
+    Model121Config *config;
     /* Particles 0-127, then the three trail positions 128-130; one array
      * because the trail shift deliberately pulls the last particle into the
      * trail. */

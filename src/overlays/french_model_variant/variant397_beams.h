@@ -18,14 +18,14 @@ typedef struct {
  * screen offset, and the beam colour. */
 typedef struct {
     SVECTOR a[13];
-    PSXLONG sa[13];
+    long sa[13];
     s32 angle[13];
     SVECTOR b[13];
-    PSXLONG sb[13];
+    long sb[13];
     s32 width[13];
     u8 color[4];
     u8 unknown_1A4[0x238 - 0x1A4];
-    PSXLONG flag[13];
+    long flag[13];
     s32 otz[13];
     s16 ox[13];
     s16 oy[13];
@@ -48,9 +48,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, span, fade;
-    Variant397BeamsConfig *G32 config;
+    Variant397BeamsConfig *config;
     u32 field_1B58;
-    void *G32 parts[5];
+    void *parts[5];
     s16 length[5], field_1B7A[5], mode[5], done[5];
     s16 field_1B98, field_1B9A, width;
     s32 field_1BA0[5], field_1BB4[5], field_1BC8[5], field_1BDC[5];

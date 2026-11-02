@@ -14,9 +14,9 @@ void func_8013BD98(u8 *context)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG depth[1][3];
-    PSXLONG p;
-    PSXLONG flag;
+    long depth[1][3];
+    long p;
+    long flag;
     Variant449BandView *work;
     GsOT *ot;
     s16 i;

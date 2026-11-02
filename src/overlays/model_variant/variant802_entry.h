@@ -42,7 +42,7 @@ typedef struct {
  * phase, the live particle count, the particle rise speeds and ages, the
  * ambient level and the particle texture. */
 typedef struct {
-    Model802Config *G32 config;
+    Model802Config *config;
     VECTOR offset;
     VECTOR velocity;
     SVECTOR particles[128];

@@ -8,8 +8,8 @@ void func_8013CB64(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Outer405State *state = (Outer405State *)context;
     Bands405Band *band = state->bands;
     Outer405Primary *primary = state->primary;
@@ -64,8 +64,8 @@ void func_8013CB64(u8 *context)
             for (; j < 16; j++, polygon++) {
                 depth = RotTransPers4(&band->inner[j], &band->inner[j + 1],
                                      &band->outer[j], &band->outer[j + 1],
-                                     (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
-                                     (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                     (long *)&polygon->x0, (long *)&polygon->x1,
+                                     (long *)&polygon->x2, (long *)&polygon->x3,
                                      &interpolation, &flag);
                 polygon->r0 = inner_r;
                 polygon->g0 = inner_g;

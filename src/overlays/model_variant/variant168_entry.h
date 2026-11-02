@@ -33,13 +33,13 @@ typedef struct {
  * triangles as three point pointers each, nine texture words, the completion
  * flag and the elapsed time. */
 typedef struct {
-    Model168Config *G32 config;
+    Model168Config *config;
     SVECTOR positions[64];
     SVECTOR endpoints[64];
     SVECTOR velocities[4];
     SVECTOR apex;
     SVECTOR rim[8];
-    SVECTOR *G32 triangles[24];
+    SVECTOR *triangles[24];
     u32 texture[9];
     u8 completed;
     u8 unknown_4F1[3];

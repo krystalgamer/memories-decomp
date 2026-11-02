@@ -38,7 +38,7 @@ typedef struct {
     u8 unknown_2EF0[4];
     s32 step;
     u8 unknown_2EF8[4];
-    Bloom472Timing *G32 timing;
+    Bloom472Timing *timing;
     u8 unknown_2F00[0x40];
     s32 phase;
 } Bloom472State;

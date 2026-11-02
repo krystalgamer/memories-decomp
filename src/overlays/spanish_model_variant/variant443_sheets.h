@@ -32,7 +32,7 @@ typedef struct {
     u32 frame;
     u32 time;
     u8 unknown_3628[0xC];
-    Timing443 *G32 timing;
+    Timing443 *timing;
     u8 unknown_3638[0x1C];
     s32 progress;
     u8 unknown_3658[0x24];

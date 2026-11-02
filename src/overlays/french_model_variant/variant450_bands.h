@@ -8,7 +8,7 @@
 
 typedef union {
     DVECTOR point;
-    PSXLONG packed;
+    long packed;
 } Model450Screen;
 
 typedef struct {

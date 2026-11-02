@@ -20,11 +20,11 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     MATRIX saved, turned;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 slot, direction, step;
     GsOT *ot;
     s32 i;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -148,7 +148,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&rays.x0, (PSXLONG *)&rays.x1, (PSXLONG *)&rays.x2, (PSXLONG *)&rays.x3,
+                (long *)&rays.x0, (long *)&rays.x1, (long *)&rays.x2, (long *)&rays.x3,
                 &interpolation, &flag);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&rays, ot, (u16)depth, 1);
@@ -160,7 +160,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&rays.x0, (PSXLONG *)&rays.x1, (PSXLONG *)&rays.x2, (PSXLONG *)&rays.x3,
+                (long *)&rays.x0, (long *)&rays.x1, (long *)&rays.x2, (long *)&rays.x3,
                 &interpolation, &flag);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&rays, ot, (u16)depth, 1);
@@ -196,7 +196,7 @@ s32 func_8013B004(u8 *context, s32 command)
             addVector(&vertices[2], &work->sparks[i]);
             addVector(&vertices[3], &work->sparks[i]);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&burst.x0, (PSXLONG *)&burst.x1, (PSXLONG *)&burst.x2, (PSXLONG *)&burst.x3,
+                (long *)&burst.x0, (long *)&burst.x1, (long *)&burst.x2, (long *)&burst.x3,
                 &interpolation, &flag);
             setUV4(&burst, work->frames[i] % 4 * 32 + 32, work->frames[i] / 4 * 32 + 64,
                 work->frames[i] % 4 * 32 + 63, work->frames[i] / 4 * 32 + 64,
@@ -221,7 +221,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setVector(&vertices[2], -work->config->glow_size, work->config->glow_size, 0);
         setVector(&vertices[3], work->config->glow_size, work->config->glow_size, 0);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&burst.x0, (PSXLONG *)&burst.x1, (PSXLONG *)&burst.x2, (PSXLONG *)&burst.x3,
+            (long *)&burst.x0, (long *)&burst.x1, (long *)&burst.x2, (long *)&burst.x3,
             &interpolation, &flag);
         setUV4(&burst, 16, 0, 79, 0, 16, 63, 79, 63);
         if (depth >= 0) {
@@ -233,7 +233,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setVector(&vertices[2], -work->config->glow_size * 2, work->config->glow_size * 2, 0);
         setVector(&vertices[3], work->config->glow_size * 2, work->config->glow_size * 2, 0);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&burst.x0, (PSXLONG *)&burst.x1, (PSXLONG *)&burst.x2, (PSXLONG *)&burst.x3,
+            (long *)&burst.x0, (long *)&burst.x1, (long *)&burst.x2, (long *)&burst.x3,
             &interpolation, &flag);
         setUV4(&burst, 16, 0, 79, 0, 16, 63, 79, 63);
         if (depth >= 0) {
@@ -249,7 +249,7 @@ s32 func_8013B004(u8 *context, s32 command)
             addVector(&vertices[2], &work->embers[i]);
             addVector(&vertices[3], &work->embers[i]);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&burst.x0, (PSXLONG *)&burst.x1, (PSXLONG *)&burst.x2, (PSXLONG *)&burst.x3,
+                (long *)&burst.x0, (long *)&burst.x1, (long *)&burst.x2, (long *)&burst.x3,
                 &interpolation, &flag);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&burst, ot, (u16)depth, 1);
@@ -271,7 +271,7 @@ s32 func_8013B004(u8 *context, s32 command)
             addVector(&vertices[2], &work->debris[i]);
             addVector(&vertices[3], &work->debris[i]);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&burst.x0, (PSXLONG *)&burst.x1, (PSXLONG *)&burst.x2, (PSXLONG *)&burst.x3,
+                (long *)&burst.x0, (long *)&burst.x1, (long *)&burst.x2, (long *)&burst.x3,
                 &interpolation, &flag);
             setUV4(&burst, work->debris_frame / 3 % 4 * 32 + 32, (u16)(work->debris_frame / 12) * 32 + 64,
                 work->debris_frame / 3 % 4 * 32 + 63, (u16)(work->debris_frame / 12) * 32 + 64,

@@ -30,7 +30,7 @@ typedef struct {
  * swirl targets, two 30-point ribbons, the two ribbon origins, two texture
  * words, the completion flag, the elapsed time and the frame count. */
 typedef struct {
-    Model152Config *G32 config;
+    Model152Config *config;
     /* The 17-point ring followed by the two 30-point swirl targets; one
      * array because the spark cursor steps past the ring into the targets. */
     SVECTOR points[77];

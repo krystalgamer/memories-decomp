@@ -72,9 +72,9 @@ extern u32 gModel_dwFogBaseColor;
 #endif
 
 #ifdef SORTED_ENTRY_STATE_IN_DATA
-extern SortedEntry *G32 gSortedEntry_pBase __attribute__((section(".data")));
+extern SortedEntry *gSortedEntry_pBase __attribute__((section(".data")));
 #else
-extern SortedEntry *G32 gSortedEntry_pBase;
+extern SortedEntry *gSortedEntry_pBase;
 #endif
 /* The entry count, saved by SortedEntry_SortAndRelink across the sort and
  * compared against gSortedEntry_nCount by the walk in Duel_DrawFieldCards. */
@@ -96,11 +96,11 @@ extern u32 gSortedEntry_nSortedCount;
 extern s32 gModel_dwFogDrawFlags __attribute__((section(".data")));
 #elif defined(SORTED_ENTRY_STATE_IN_DATA)
 extern u32 gModel_dwFogDrawFlags __attribute__((section(".data")));
-extern SortedEntry *G32 gSortedEntry_pCursor __attribute__((section(".data")));
+extern SortedEntry *gSortedEntry_pCursor __attribute__((section(".data")));
 extern u32 gSortedEntry_nCount __attribute__((section(".data")));
 #else
 extern u32 gModel_dwFogDrawFlags;
-extern SortedEntry *G32 gSortedEntry_pCursor;
+extern SortedEntry *gSortedEntry_pCursor;
 extern u32 gSortedEntry_nCount;
 #endif
 

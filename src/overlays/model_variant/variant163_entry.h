@@ -41,7 +41,7 @@ typedef struct {
  * two texture words, the completion flag and the elapsed time (negative
  * during the start delay). */
 typedef struct {
-    Model163Config *G32 config;
+    Model163Config *config;
     SVECTOR positions[8];
     SVECTOR disc[34];
     SVECTOR grid[15];

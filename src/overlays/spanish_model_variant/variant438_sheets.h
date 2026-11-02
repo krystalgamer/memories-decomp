@@ -25,7 +25,7 @@ typedef struct {
     u8 unknown_22A0[4];
     s32 step;
     u8 unknown_22A8[0xC];
-    Sheet438Timing *G32 timing;
+    Sheet438Timing *timing;
     u8 unknown_22B8[0x20];
     s16 fixed_size;
     u8 unknown_22DA[2];

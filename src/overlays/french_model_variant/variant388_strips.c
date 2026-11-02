@@ -27,7 +27,7 @@ void func_8013BCD4(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
+    long p;
     GsOT *ot;
     Strip388Unit *unit;
     POLY_GT4 *poly;

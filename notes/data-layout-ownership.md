@@ -142,7 +142,7 @@ original duel unit spans many repository sources, so its zero-initialized block
 belongs to the first of them in text order that references it,
 `duel_field_card_render.c`. Its consumers declare the block through
 `duel_field_card_render_data.h`. Struct pointers are spelled with their tags
-(`struct DuelSideState *G32`) so the definitions can precede the headers that
+(`struct DuelSideState *`) so the definitions can precede the headers that
 complete the types, and names for elements inside an owned array are
 `link_symbols.ld` aliases (`gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;`).
 
