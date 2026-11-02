@@ -1,6 +1,5 @@
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
-#define DUEL_TERRAIN_SCALAR_IN_DATA
 #include "../types.h"
 #include "main_start_duel.h"
 #include "duel_side_state.h"

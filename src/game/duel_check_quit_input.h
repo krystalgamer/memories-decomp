@@ -36,24 +36,16 @@ extern u8 gDuel_bQuitDialogState;
  * raises 0x1000 there for its own reason.
  *
  * Main_RunDuel takes the .data arm because its G8 build reaches the word
- * absolutely. The other two users take the plain scalar. debug_effect_screen.c
- * takes the guarded byte-array view because it touches byte 2 rather than
- * this halfword at offset 0.
- *
- * The byte-2 use is worth knowing about before anyone widens this: the address
- * carries more than the flags word these two functions see. */
-#ifdef D_8009B16C_AS_BYTE_ARRAY
-extern u8 gDuel_wOutcomeFlags[4];
-#elif defined(D_8009B16C_IN_DATA)
+ * absolutely. The other two users take the plain scalar. */
+#ifdef D_8009B16C_IN_DATA
 extern u16 gDuel_wOutcomeFlags __attribute__((section(".data")));
 #else
 extern u16 gDuel_wOutcomeFlags;
 #endif
 
-#ifdef VERSION_EUROPE
-/* The byte debug_effect_screen.c reads as gDuel_wOutcomeFlags[2] in the US build is
-   not next to gDuel_wOutcomeFlags in the European image: it sits at 0x8009C118. */
+/* debug_effect_screen.c's page byte. It follows gDuel_wOutcomeFlags in the
+   US and Japanese images, but the European ones place it elsewhere, so it is
+   its own variable rather than a byte of the flags word. */
 extern u8 D_8009B16E;
-#endif
 
 #endif

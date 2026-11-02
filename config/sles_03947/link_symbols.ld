@@ -63,7 +63,6 @@ func_8006930C = 0x8006860C;
 func_800695A4 = 0x800688A4;
 func_8006988C = 0x80068B8C;
 func_80069B40 = 0x80068E40;
-gDuel_bTerrainCodegenAlias = 0x8009C2D9;
 gFile_wTransferStepFlags_abs = 0x8009C05C;
 gDuel_wAiHandStackPending = D_8009B20C;
 gEuropean_D_8009B208 = 0x8009C10A;

@@ -1452,6 +1452,7 @@ Duel_CollectFieldCardsByType = 0x80026B2C;
 Duel_SelectEquipPair = 0x80026BDC;
 Duel_SelectTrapPlay = 0x80026E74;
 gDuel_wOutcomeFlags = 0x8009B05C;
+D_8009B16E = 0x8009B05E;
 D_800EAE91 = 0x800EAD71;
 
 DuelEffect_ApplyHarpiesFeatherDuster = 0x80026850;
@@ -1637,9 +1638,7 @@ D_800F284A = 0x800EFF22;
 DuelScene_UpdateBattle = 0x8001F3A4;
 D_80010190 = 0x80010190;
 gDuel_awSavedStatModifiers = 0x8009B060;
-gDuel_wSavedTargetStatModifier = 0x8009B062;
 gDuel_awSavedRecordFlags = 0x8009B068;
-gDuel_wSavedTargetRecordFlags = 0x8009B06A;
 gDuel_awBattleDamage = 0x8009B094;
 D_8009B1A6 = 0x8009B096;
 gDuel_abBattleOutcome = 0x8009B0A0;

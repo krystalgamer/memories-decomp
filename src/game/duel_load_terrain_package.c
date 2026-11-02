@@ -1,4 +1,3 @@
-#define DUEL_TERRAIN_AS_ARRAY
 #include "../types.h"
 #include "duel_terrain_boost.h"
 #include "duel_package.h"
@@ -23,7 +22,7 @@
 
 void Duel_LoadTerrainPackage(void)
 {
-    int value = gDuel_bTerrain[0];
+    int value = gDuel_bTerrain;
     int index = DUEL_TERRAIN_LOAD_OFFSET(value) + DUEL_TERRAIN_LOAD_FIRST_SECTOR;
     File_RequestAsyncTransfer(
         0, 0, index, DUEL_TERRAIN_LOAD_SECTOR_COUNT,

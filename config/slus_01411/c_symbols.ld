@@ -89,7 +89,6 @@ gText_ScriptDispatchGate = 0x8009B357;
 D_8009B360 = 0x8009B360;
 gDuel_bPlayerLost = 0x8009B362;
 D_8009B363 = 0x8009B363;
-gDuel_bTerrainCodegenAlias = 0x8009B364;
 D_8009B368 = 0x8009B368;
 D_8009B369 = 0x8009B369;
 gDuel_wBgmId = 0x8009B36A;

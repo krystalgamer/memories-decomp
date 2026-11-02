@@ -10,7 +10,6 @@
 #include "duel_session_controls.h"
 
 #include "ai_opponent_data.h"
-#define DUEL_TERRAIN_SCALAR_IN_DATA
 #include "duel_terrain_boost.h"
 #include "main_mode_state.h"
 

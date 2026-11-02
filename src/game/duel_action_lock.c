@@ -20,7 +20,6 @@ void DuelEffect_ClearCardEffect(void)
 /* The unit compiles at -G8 like its neighbours, and retail reaches the
  * terrain byte absolutely, so it takes duel_terrain_boost.h's .data scalar
  * rather than the small-data declaration. */
-#define DUEL_TERRAIN_SCALAR_IN_DATA
 #include "duel_effect_allocate_request.h"
 #include "duel_init_scene.h"
 #include "duel_terrain_boost.h"

@@ -302,7 +302,6 @@ extern u8 gCampaignSceneIndex;
 #else
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));
 #endif
-extern u8 gDuel_bTerrainCodegenAlias[];
 extern u8 gFile_szSuMrgPath[];
 
 #endif

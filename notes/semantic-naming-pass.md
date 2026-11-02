@@ -42,21 +42,14 @@ confidence non-game function mappings remain rejected.
 These are semantic project names, not claims that the original Forbidden
 Memories symbols have been recovered.
 
-## Code-generation aliases are not additional semantic objects
+## One address, one name
 
-`gDuel_bTerrain` is the canonical name for the byte at `0x8009B364`.
-`Duel_GetTerrainBoost` also needs a separate compiler identity for that
-address to preserve its two address materializations. The descriptive
-`gDuel_bTerrainCodegenAlias` is therefore defined in `c_symbols.ld`, not as
-a second primary entry at the same address in `symbols.txt` or the semantic
-registry. Both identifiers resolve to the same byte; they do not describe
-different terrain values.
-
-Keeping the alias explicitly named also prevents the ordinary
-`D_<address>` replacement pass from silently merging the two compiler
-identities. Other terrain users keep the canonical name and their existing
-declaration shapes, including the eight-byte view used to preserve the
-assembler's small-data choice in `func_80024E58`.
+`gDuel_bTerrain` is the only name for the byte at `0x8009B364`.
+`Duel_GetTerrainBoost` once used a second linker name for the same byte to
+reproduce its two address materializations; the shared `.data` declaration in
+`duel_terrain_boost.h` gives the same assembler macro form, so no
+code-generation alias is needed. Do not add one name per compiler identity
+for a single object.
 
 ## Module-scoped function records
 

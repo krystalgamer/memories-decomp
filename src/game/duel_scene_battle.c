@@ -10,7 +10,7 @@
  *   because the same variable crosses the sound call in state 9.
  * - The two saved stat words and the two saved flag words are side pairs
  *   (u16 [2]): as struct elements their loads cannot pass the record stores,
- *   which is why retail reloads gDuel_wSavedTargetRecordFlags after each flags store.
+ *   which is why retail reloads gDuel_awSavedRecordFlags[1] after each flags store.
  * - State 4 falls through to its flag tests when there is no defender (the
  *   candidate returned there), and the do-while gives both exits one label so
  *   cse cannot thread the first test past the reload.
@@ -42,8 +42,6 @@
 #define D_8009B374_IN_DATA
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
-#define D_8009B170_AS_SIDE_ARRAY
-#define D_8009B178_AS_SIDE_ARRAY
 #include "../types.h"
 #include "../psyq/rand.h"
 #include "duel_scene_state.h"
