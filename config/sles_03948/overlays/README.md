@@ -1296,15 +1296,16 @@ streamers and lines helpers. The entry has no work-size printf; its command
 rows and texture images are offsets into the image's tail data
 (`D_8013D3E4`).
 
-Six images under French headers 456 and 606 build their loader entry from
-`src/overlays/spanish_model_variant/variant456_entry{,_slot1}.c`, next to the
-already-matched ribbons, sheets, lines and streamers helpers. The entry
+Six images under French headers 456 and 606 build their loader entry
+(`SpanishModelVariant456_HandleRequest`) from
+`src/overlays/spanish_model_variant/variant456_entry.c` in both slots, next to
+the already-matched ribbons, sheets, lines and streamers helpers. The entry
 follows the North American header-433 entry's shape; its command rows
 (0x2C bytes) and texture images are offsets into the tail label
-`D_8013ED00`. The helper at image offset 0x101C builds from
-`french_model_variant/variant456_twin_ribbons{,_slot1}.c` and the sprays
-helper at 0x1F58 from
-`src/overlays/spanish_model_variant/variant456_sprays{,_slot1}.c`.
+`gSpanishModelVariant456_D3D00`, which each image's symbols file binds at its
+own address. The helper at image offset 0x101C builds from
+`french_model_variant/variant456_twin_ribbons.c` and the sprays helper at
+0x1F58 from `src/overlays/spanish_model_variant/variant456_sprays.c`.
 
 Two images under French headers 458 and 608 (model 202, stage 7 slot 0 and stage 8 slot 1) build their loader entry from `src/overlays/french_model_variant/variant458_entry.c` in both slots, next to the already-matched sheets, strands and streamers helpers. The entry has no work-size printf; its command rows and texture images are offsets into the tail label `gFrenchModelVariant458_D230C`, which each image's symbols file binds at its own address. A dead `double` conversion in the strand loop and a `do { } while (0)` around its body reproduce the retail loop scheduling and are commented in the source.
 

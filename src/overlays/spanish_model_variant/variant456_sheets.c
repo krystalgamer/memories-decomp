@@ -15,7 +15,7 @@
  * The first sheet grows to 0x800 over the timing record's growth window and
  * shrinks over its fade window. The others spread to 0x2000 from the spread
  * start and then fade their colours out, advancing the phase to 3 and 5. */
-void func_8013DACC(u8 *context)
+void SpanishModelVariant456_DrawSheets(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

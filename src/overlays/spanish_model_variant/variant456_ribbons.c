@@ -7,7 +7,7 @@
  * point is pushed sideways along its screen normal by a sway built from the
  * phase at +0x235C and the spine wave. Each segment is drawn as a POLY_FT4 as
  * wide as the scaled projected offset. */
-void func_8013C834(u8 *ctx)
+void SpanishModelVariant456_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
