@@ -1,7 +1,7 @@
 // Spanish MODEL.MRG model 181 (record 181), sector 50136, header 787, loaded at 0x8013B000; the US header-770 source variant770_entry.c; built from the French source layout of french_model_variant_181_stage7_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x1A74 defined:true
-D_8013CA88 = 0x8013CA88; // type:u8 size:0x38 defined:true
-D_8013CAC0 = 0x8013CAC0; // type:u8 size:0x3540 defined:true
+ModelVariant770_HandleRequest = 0x8013B004; // type:func size:0x1A74 defined:true
+gModelVariant770_D1A88 = 0x8013CA88; // type:u8 size:0x38 defined:true
+gModelVariant770_D1AC0 = 0x8013CAC0; // type:u8 size:0x3540 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true
