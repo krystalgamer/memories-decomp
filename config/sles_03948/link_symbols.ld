@@ -202,7 +202,7 @@ gDuel_wMonsterRemovalCriterion = 0x8009C5A8;
 gDuel_wMonsterRemovalZone = 0x8009C5AA;
 gDuel_pActiveSelectionRecord = 0x8009C5B0;
 gDuel_bSelectedTrapSlot = 0x8009C5B4;
-D_8009B1B9 = 0x8009C4E1;
+gDuel_bPresentationCursor = 0x8009C4E1;
 gDuel_pCardPreviewObject = 0x8009C5BC;
 gDuel_dwViewTweenDistanceAccumulator = 0x8009C5C8;
 gDuel_pActiveSideState = 0x8009C500;
@@ -1095,7 +1095,6 @@ AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
-gDuel_bPresentationCursor = D_8009B1B9;
 gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
 gDuel_bFieldActionAutoCommit = D_8009C0CC;
 

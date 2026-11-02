@@ -11,8 +11,6 @@
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #define ANIMATED_BATTLE_MODEL_PROPERTIES_AS_HALFWORDS
-#define D_8009B214_AS_BYTE_POINTER
-#define D_8009B21C_AS_BYTE_POINTER
 #define D_8009B269_AS_SCALAR_DATA
 #define D_8009B26C_AS_SCALAR_DATA
 #define GRAPHICS_ACTIVE_BUFFER_IN_DATA
@@ -249,7 +247,7 @@ void DuelScene_UpdateExodiaResult(void)
         fnv = r;
         objs = gDisplayObject_apWorkSlots;
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
-        obj = DISPLAY_OBJECT_VIEW(gDuel_pTerrainIcon);
+        obj = gDuel_pTerrainIcon;
         side = gDuel_bActiveSide;
         gDuel_pActiveSelectionRecord =
             (DuelSelectionRecord *)&gDuel_abSelectionSides[
@@ -260,7 +258,7 @@ void DuelScene_UpdateExodiaResult(void)
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.h.field_2A = obj->field_30.h.field_32;
-        obj = DISPLAY_OBJECT_VIEW(gDuel_pLifePointsPanel);
+        obj = gDuel_pLifePointsPanel;
         obj->position.h.field_28 = 0x180;
         obj->field_2C.h.field_2C = 0x10;
         obj->field_6C = 1;
@@ -326,7 +324,7 @@ next_obj:
         gDuelEffect_pTrackedRequest = fx;
         fx->field_00 = (s16)((rand() & 0xFF) + 0x20);
         r = Rand_GetInterval(0xB0);
-        n = gDuel_bPresentationCursor;
+        n = (u8)gDuel_bPresentationCursor;
         t14 = (s32)fx->buffer;
         fx->field_02 = (s16)(r + 0x20);
         fx->buffer = (void *)(t14 + ((n & 3) << 13));
@@ -339,7 +337,7 @@ next_obj:
         if ((s16)t > 0) {
             return;
         }
-        if ((s8)gDuel_bPresentationCursor >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
+        if (gDuel_bPresentationCursor >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             D_8009B23A = (flags & 0xDFFF) | 0x1000;
             fx = DuelEffect_AllocateRequest(0x13);
             fx->field_00 = 0xA0;
@@ -350,7 +348,7 @@ next_obj:
         }
         gDuel_wStepCounter = 4;
         fx = DuelEffect_AllocateRequest(0);
-        k = (s8)gDuel_bPresentationCursor;
+        k = gDuel_bPresentationCursor;
         slot = &gDisplayObject_apWorkSlots[k];
         d = *slot;
         fx->field_00 = (s16)(d->field_30.h.field_30 + 0x1A);

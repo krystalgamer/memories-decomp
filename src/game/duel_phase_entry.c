@@ -1,6 +1,5 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
 #define GDUEL_WBGMID_IN_DATA
-#define D_8009B1B9_AS_SIGNED
 #include "../types.h"
 #include "duel_init_scene.h"
 #include "display_object.h"

@@ -270,10 +270,10 @@ not advance the view.
 `gDuel_wViewTweenFramesRemaining` (originally `D_8009B204`, North
 American `0x8009B204`) is that scalar counter. Init clears it, setup
 narrows the unchanged full-word input into the halfword, and the stepper
-uses the existing unsigned decrement and zero test. The signed/default
-and unsigned/initializer declaration arms, private
-`D_8009B204_UNSIGNED` selector, GP addressing and zero/wrap behavior are
-retained. The unrelated French SDK label at the same numeric address is
+uses the existing unsigned decrement and zero test. It is one `s16`
+object with a single declaration in `duel_view_tween.h`; the former
+unsigned initializer view and its `D_8009B204_UNSIGNED` selector were
+removed without changing the GP addressing or zero/wrap behavior. The unrelated French SDK label at the same numeric address is
 untouched.
 
 The distance channel keeps three separate scalar cells:

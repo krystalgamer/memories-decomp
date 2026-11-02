@@ -237,12 +237,12 @@ void DuelScene_UpdateCardPlacement(void)
             if (!(gDuel_bSceneSubStep & 0x80)) {
                 gDuel_bSceneSubStep |= 0x80;
                 gDuel_bPresentationCursor++;
-                if ((s8)gDuel_bPresentationCursor >= 6) {
+                if (gDuel_bPresentationCursor >= 6) {
                     gDuel_bSceneSubStep = 8;
                     return;
                 }
                 {
-                    DisplayObject *selected = gDisplayObject_apWorkSlots[(s8)gDuel_bPresentationCursor];
+                    DisplayObject *selected = gDisplayObject_apWorkSlots[gDuel_bPresentationCursor];
                     if (!selected) {
                         gDuel_bSceneSubStep = 8;
                         return;
