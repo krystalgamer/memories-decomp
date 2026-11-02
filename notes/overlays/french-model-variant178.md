@@ -3,7 +3,9 @@
 Model 141 stages 9/10 load two distinct 20,480-byte runtime images with
 headers 178/308 and command 109000. Each entry is 3,384 instruction bytes
 at image offset `0x4`, followed by a 16-byte source-owned unit-scale vector.
-The slot wrapper renames only the entry and three image-local symbols.
+One source serves both slots; each image's symbols file binds
+`FrenchModelVariant178_HandleRequest` and the three data names
+(`gFrenchModelVariant178_D0D3C`, `_D0D4C`, `_D0D84`) at its own addresses.
 
 The entries were recovered independently from both complete retail images.
 All 846 reachable instructions form one closed entry, with 41 direct calls
