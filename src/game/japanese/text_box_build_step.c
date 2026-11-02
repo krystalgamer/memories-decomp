@@ -9,5 +9,4 @@
 #define TEXT_BOX_RANGE_START(o) (((JapaneseDuelEffectChannel *)(o))->entry_range_start)
 #define TEXT_BOX_ENTRY_TYPE JapaneseDuelEffectEntry
 #define TEXT_BOX_ADVANCE_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
-#define D_80090E64 D_80090D14
 #include "../text_box_build_step.c"

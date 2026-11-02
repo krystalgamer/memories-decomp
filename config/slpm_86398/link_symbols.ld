@@ -76,14 +76,14 @@ func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 gModel_CameraMove = D_800F2B20;
 gModel_wCameraFollowCountdown = D_800F2B22;
 gModel_wCameraTargetSlot = 0x800F03E8;
-D_800F03E8 = gModel_wCameraTargetSlot;
+D_800F2B4A = 0x800F03E8;
 gModel_AnimatedBattleCameraEndpoint = D_8009AFEC;
 gModel_ExodiaOrbitOffset = 0x8009AF5C;
-D_8009AF5C = gModel_ExodiaOrbitOffset;
+D_8009AFFC = 0x8009AF5C;
 
-gGraphics_FrameStepControl = gJapanese_D_8009AFA4;
-gGraphics_nBaseFrameStep = gJapanese_FrameStep;
-gGraphics_bSkipDisplaySwap = gJapanese_D_8009B0A8;
+gGraphics_FrameStepControl = 0x8009AF0B;
+gGraphics_nBaseFrameStep = 0x8009AFC8;
+gGraphics_bSkipDisplaySwap = 0x8009AF98;
 gGraphics_pOrderingTable1 = 0x800E9C74;
 gGraphics_pOrderingTable2 = D_800E9D98;
 gGraphics_pOrderingTable3 = D_800E9D9C;
@@ -113,13 +113,13 @@ func_8002C484 = CardGrid_GetRowY;
 gDuel_bBattleRemovalSlot0 = D_8009B208;
 gDuel_bBattleRemovalSlot1 = D_8009B209;
 
-gDuel_bPostDuelMainMode = gJapanese_D_8009B368;
-gDuel_bResumeFromAnimatedBattle = gJapanese_DuelFlag;
-gDuel_wCampaignSceneOnWin = gJapanese_DuelValue0;
-gDuel_wCampaignSceneOnLoss = gJapanese_DuelValue1;
-gDuel_wAnimatedBattleBgmCommand = gJapanese_DuelBgmId2;
+gDuel_bPostDuelMainMode = 0x8009B258;
+gDuel_bResumeFromAnimatedBattle = 0x8009B259;
+gDuel_wCampaignSceneOnWin = 0x8009B260;
+gDuel_wCampaignSceneOnLoss = 0x8009B262;
+gDuel_wAnimatedBattleBgmCommand = 0x8009B264;
 
-gDuel_bSide0ControllerSelector = gJapanese_DuelPlayerState;
+gDuel_bSide0ControllerSelector = 0x8009B250;
 gAi_bGuardianStarChoice = D_800EAE8F;
 gAi_bHandFaceDownRequested = tent_AiSelectionRandom;
 gAi_bFieldSourceCode = D_800EAE91;
@@ -129,16 +129,16 @@ AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 gDuel_bPresentationCursor = D_8009B1B9;
-gDuel_bPlacementNeedsCardMoveSetup = gJapanese_D_8009B218;
+gDuel_bPlacementNeedsCardMoveSetup = 0x8009B108;
 gDuel_bFieldActionAutoCommit = D_8009B21A;
 
 gDisplayEffect_aMenuRecords = D_800EB010;
-gScript_pMenuRecord = gJapanese_D_8009B274;
+gScript_pMenuRecord = 0x8009B164;
 
-gFile_dwTransferState = gJapanese_FileTransferFlags;
-gFile_dwTransferState_abs = gJapanese_FileTransferFlags;
-gFile_dwCancelRequestState = gJapanese_FileSecondaryRequest;
-gFile_dwCancelRequestState_abs = gJapanese_FileSecondaryRequest;
+gFile_dwTransferState = 0x8009AFE4;
+gFile_dwTransferState_abs = 0x8009AFE4;
+gFile_dwCancelRequestState = 0x8009B024;
+gFile_dwCancelRequestState_abs = 0x8009B024;
 
 gFile_TransferBufferBase = D_8009B118;
 gFile_abPackageStagingBuffer = D_801DD000;
@@ -162,20 +162,20 @@ gDebug_pszEditorFormat = tent_DebugInterfaceData;
 gText_StagedValues = D_801D5608;
 gDuel_DroppedCardTextValue = D_801D56A8;
 
-gDisplayObject_awOrderingTableDepthBases = gJapanese_D_8009AF74;
-gFade_bKeepOverlayDepth = gJapanese_D_8009B140;
+gDisplayObject_awOrderingTableDepthBases = 0x8009AEBC;
+gFade_bKeepOverlayDepth = 0x8009B030;
 gFade_bWhiteLatch = D_8009B145;
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
 gMain_bReturnMode = D_8009B269;
-gMain_bActiveModeState = gJapanese_bActiveMainMode;
-gMain_bRequestedMenuID = gJapanese_bRequestedMenu;
+gMain_bActiveModeState = 0x8009B15C;
+gMain_bRequestedMenuID = 0x8009B15D;
 
 gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D6000;
 
-gGraphics_aImageTransferRects = gJapanese_D_800E9D70;
+gGraphics_aImageTransferRects = 0x800E9C50;
 
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;
@@ -186,8 +186,8 @@ gDialog_bChoiceControl = D_8009B34C;
 gDialog_bCallbackState = D_8009B3C1;
 
 gText_aCurrentPlayerNameGlyphs = D_801B125A;
-gText_aFirstPlayerNameGlyphs = D_801C1B41;
-gText_aSecondPlayerNameGlyphs = D_801C1B4E;
+gText_aFirstPlayerNameGlyphs = 0x801C1B41;
+gText_aSecondPlayerNameGlyphs = 0x801C1B4E;
 
 gFade_bFlags = D_800E9ECE;
 gFade_bStep = D_800E9ECF;
@@ -219,7 +219,7 @@ gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;
 gModel_bAuxiliaryLoadStep = D_800F5694;
 gModel_bAuxiliaryActive = D_800F569F;
 gText_DecimalDivisorView = D_80090E0C;
-gTextBox_apfnStateCallbacks = D_80090D14;
+gTextBox_apfnStateCallbacks = 0x80090D14;
 gDuel_wActionSubstate = D_8009B20C;
 gDuel_sEffectWorkCounter = D_8009B20C + 2;
 gMain_nServiceResyncCountdown = runtime_gp;
@@ -227,3 +227,18 @@ gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
 gText_Channel3 = 0x800EB0F8;
 gDuel_bTerrainCodegenAlias = gDuel_bTerrain;
+
+/* Second .data views the shared C reads for absolute addressing (US c_symbols.ld). */
+D_8009B0F4_abs = 0x8009AFE4;
+D_8009B134_abs = 0x8009B024;
+gFile_wTransferStepFlags_abs = 0x8009B002;
+
+/* Former Japanese names still used by the duel_draw_resolution.c and
+ * duel_effect_states.c wrappers. */
+gJapanese_D_8009AF74 = 0x8009AEBC;
+gJapanese_D_8009B140 = 0x8009B030;
+gJapanese_D_800E9D70 = 0x800E9C50;
+gJapanese_DuelFlag = 0x8009B259;
+gJapanese_FileSecondaryRequest = 0x8009B024;
+gJapanese_FileTransferFlags = 0x8009AFE4;
+gJapanese_bActiveMainMode = 0x8009B15C;

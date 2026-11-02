@@ -107,8 +107,8 @@ contracts.
 | Release record | `0x80039FD4` | `0x80039654` | `0x8003A164` | `0x8003A364` |
 | Selected record pointer | `0x8009B328` | `0x8009B218` | `0x8009C28C` | `0x8009C6AC` |
 
-Japan's existing native `D_8009B218` selector is distinct from the unrelated
-`gJapanese_D_8009B218` at `0x8009B108`. Native-address selection preserves
+Japan's selected record pointer at `0x8009B218` is distinct from the
+unrelated `D_8009B218`, which Japan binds at `0x8009B108`. Native-address selection preserves
 that alias and every other unrelated binding. Remove only the eleven
 obsolete callback/selector wrapper macros.
 

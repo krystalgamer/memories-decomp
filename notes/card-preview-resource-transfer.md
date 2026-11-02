@@ -25,8 +25,8 @@ No more specific meaning for the `s32 mode` argument is introduced.
 
 Every entry retains `gcc_2_8_1_g0_no_split`, separate from the neighbouring
 renderer's split profile and variant updater's G0 profile. The three actual
-owners use `card_preview_handle_resource_transfer.c`. The Japanese data
-alias `D_8009B0F4 -> gJapanese_FileTransferFlags` is preserved. The European
+owners use `card_preview_handle_resource_transfer.c`. Japan binds
+`D_8009B0F4` at its own address in `symbols.txt`. The European
 function alias becomes obsolete with the canonical name, but all original
 language-dependent offsets, phase size `0x4000` and fourth-image offset
 `0x3560` remain unchanged; the main defaults stay `0x3800` / `0x2AE0`.

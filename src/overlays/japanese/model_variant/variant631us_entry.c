@@ -5,8 +5,6 @@
    work-size printf, which shifts the image header and command rows 0x28 later. */
 #define MODEL_IMAGE9840_WORK_SIZE_PRINTF
 #define MODEL_IMAGE9840_WORK_SIZE_FORMAT D_8013CD64
-#define D_8013CD54 D_8013CD7C
-#define D_8013CD70 D_8013CD98
 
 #ifndef MODEL631US_STRING_PAD
 #endif

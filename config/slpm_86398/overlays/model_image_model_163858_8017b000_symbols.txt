@@ -1,7 +1,7 @@
 // Japanese MODEL.MRG model 643 (record 593), sector 163858, header 719, loaded at 0x8017B000; the US source variant652_entry_slot1.c; built from the US source layout of model_variant_643_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x277C defined:true
-D_8017D798 = 0x8017D798; // type:u8 size:0x54 defined:true
-D_8017D7EC = 0x8017D7EC; // type:u8 size:0x2814 defined:true
+func_8013B004 = 0x8017B004; // type:func size:0x277C defined:true
+D_8013D798 = 0x8017D798; // type:u8 size:0x54 defined:true
+D_8013D7EC = 0x8017D7EC; // type:u8 size:0x2814 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 func_80058F10 = 0x80058F10; // type:func absolute:true
