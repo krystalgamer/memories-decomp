@@ -90,7 +90,6 @@ func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 
 func_80060E70 = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = D_801A8000;
-gCardList_SortIconTable = D_80090DD8;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
 gViewState_Current = D_800F2848;
@@ -256,3 +255,59 @@ gFade_abCurrentLevel = gFade_State + 4;
 gFile_nMasterXaLba = gFile_anLba + 24;
 gMovie_dwStreamBaseLba = gFile_anLba + 12;
 gSceneScript_Slots = D_800EAE88 + 16;
+
+/* Names inside text_box_runtime's own storage (#2602). */
+D_800EB12C = gJapanese_D_800EB0F8 + 52;
+D_800EB15C = gJapanese_D_800EB0F8 + 96;
+gDisplayObject_apBrightnessPool = gJapanese_D_800EB0F8 + 136;
+gText_Channel3 = gJapanese_D_800EB0F8 + 288;
+
+
+/* Names inside duel_effect_process_entries's own storage (#2602). */
+tent_DuelEffectEntries = D_800EB158_slpm_86398;
+gMain_aAnimatedBattleModels = D_800EB158_slpm_86398 + 7200;
+
+/* Names inside input_pads's own storage (#2602). */
+gInput_abRepeatTimers = D_800ECD88_slpm_86398;
+D_800F2848 = D_800EFE38 + 10768;
+D_800F5694 = D_800F3A10 + 7300;
+D_800F3288 = gAiScript_aMemory + 24;
+gAiScript_State = D_800F5BE8;
+gAi_wBestDifference = D_800F5BE8 + 152;
+gDisplayObject_aGeneralSlots = D_800EFE38 + 1808;
+gDisplayObject_aPool = D_800EFE38 + 16;
+gDisplayObject_awListHeads = D_800EFE38;
+gDisplayObject_awListKeys = D_800EFE38 + 10816;
+gDisplayObject_wSpriteSheetListHead = D_800EFE38 + 4;
+gMemCardWork_Area = D_800EF6D0;
+gMemCardWork_bRootBlocks = gMemCardWork_Area + 16;
+gMemCard_aDirEntries = D_800F2888;
+gModel_CameraCoordinateUnit = D_800F3A10 + 7312;
+gModel_RView = D_800F3A10 + 7392;
+gModel_SavedRefView = D_800F3A10 + 7424;
+gModel_Slot0MetadataView = D_800F3938;
+gModel_Slot0Scale = D_800F39B0 + 64;
+gModel_ViewReferencePoint = D_800F3A10 + 7404;
+gModel_aEffectKeys = D_800F5768 + 32;
+gModel_aPoseSnapshot = D_800F5768;
+gModel_aSlot0FlatLights = D_800F39B0;
+gModel_aSlots = D_800F2C40;
+gModel_awSlot0Position = D_800F3A10;
+gModel_awStageSlotModelId = D_800F3A10 + 7272;
+
+/* Names inside model_scene_controllers's own storage (#2602). */
+gModel_ImageCopyRect = D_8009B368_slpm_86398;
+gModel_ImageCopyRectY = D_8009B36A_slpm_86398;
+gModel_ImageCopyRectW = D_8009B36C_slpm_86398;
+gModel_ImageCopyRectH = D_8009B36E_slpm_86398;
+gModel_sTextureTintRectX = D_8009B370_slpm_86398;
+gModel_sTextureTintRectY = D_8009B372_slpm_86398;
+gModel_sTextureTintRectW = D_8009B374_slpm_86398;
+gModel_sTextureTintRectH = D_8009B376_slpm_86398;
+gModel_wViewDistance = D_8009B378_slpm_86398;
+gModel_wViewYaw = D_8009B37A_slpm_86398;
+gModel_wViewPitch = D_8009B37C_slpm_86398;
+gModel_ViewSnapshot = D_8009B380_slpm_86398;
+gModel_wViewYawSnapshot = D_8009B382_slpm_86398;
+gModel_wViewPitchSnapshot = D_8009B384_slpm_86398;
+D_80090DD8 = gCardList_SortIconTable;

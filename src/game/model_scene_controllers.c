@@ -29,6 +29,7 @@
 #include "../psyq/stdio.h"
 #include "model.h"
 
+#ifndef MODEL_SCENE_CONTROLLERS_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B468-0x8009B498, defined in
  * address order ahead of the headers that declare it (#2602). */
 RECT gModel_ImageCopyRect;
@@ -45,6 +46,20 @@ u8 gModelDebug_abSlotAfFlags[2];
 u8 gModelDebug_abSlotGfFlags[2];
 static u16 D_8009B492;
 static u32 D_8009B494;
+#else
+extern RECT gModel_ImageCopyRect;
+extern s16 gModel_sTextureTintRectX;
+extern s16 gModel_sTextureTintRectY;
+extern s16 gModel_sTextureTintRectW;
+extern s16 gModel_sTextureTintRectH;
+extern u16 gModel_wViewDistance;
+extern u16 gModel_wViewYaw;
+extern u16 gModel_wViewPitch;
+extern ModelBytes8 gModel_ViewSnapshot;
+extern s16 gModel_awSlotModelIds[3];
+extern u8 gModelDebug_abSlotAfFlags[2];
+extern u8 gModelDebug_abSlotGfFlags[2];
+#endif
 
 /* Zero-initialized storage this unit owns at 0x800F2B20-0x800F3938, defined in
  * address order ahead of the headers that declare it (#2602). */
