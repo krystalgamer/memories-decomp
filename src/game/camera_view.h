@@ -32,11 +32,7 @@
    pad member. */
 extern SVECTOR gModel_aPoseSnapshot[CAMERA_POSE_VECTOR_COUNT];
 
-#ifdef D_800F56F0_AS_HALFWORDS
-extern u16 gModel_RView[];
-#else
 extern GsRVIEW2 gModel_RView;
-#endif
 
 /* Incomplete interior view of gModel_RView.vrx/vry/vrz; no separate storage. */
 extern s32 gModel_ViewReferencePoint[];

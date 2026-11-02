@@ -8,19 +8,12 @@ u8 D_800F3A10[0x1D40];
 #include "../psyq/memory.h"
 
 #include "model.h"
-#define D_800F56F0_AS_HALFWORDS
 #include "camera_view.h"
 #include "model_distance_queries.h"
 
 #define MODEL_SLOT_HALFWORDS(slots, index) \
     ((u16 *)((u8 *)(slots) + (index) * MODEL_SLOT_SIZE))
 
-/* These six reads deliberately take camera_view.h's raw halfword arm rather
-   than its GsRVIEW2 view. Written as
-   `*(u16 *)&gModel_RView.vpx` the two functions come out four bytes short
-   of retail, and through a `const u16 *` cursor they come out long --
-   the raw array is the only one of the three that reproduces the target.
-   The other nine users of the symbol do use the typed view. */
 s32 Model_GetSlotDistanceFromCameraEye(s32 index)
 {
     SVECTOR output;
@@ -28,9 +21,9 @@ s32 Model_GetSlotDistanceFromCameraEye(s32 index)
     u16 *entry = MODEL_SLOT_HALFWORDS(gModel_awSlot0Position, index);
 
     memset(&difference, 0, sizeof(difference));
-    difference.vx = gModel_RView[0] - entry[0];
-    difference.vy = gModel_RView[2] - entry[1];
-    difference.vz = gModel_RView[4] - entry[2];
+    difference.vx = gModel_RView.vpx - entry[0];
+    difference.vy = gModel_RView.vpy - entry[1];
+    difference.vz = gModel_RView.vpz - entry[2];
     output = difference;
     return SquareRoot0(
         output.vx * output.vx + output.vy * output.vy + output.vz * output.vz
@@ -44,9 +37,9 @@ s32 Model_GetSlotDistanceFromCameraTarget(s32 index)
     u16 *entry = MODEL_SLOT_HALFWORDS(gModel_awSlot0Position, index);
 
     memset(&difference, 0, sizeof(difference));
-    difference.vx = gModel_RView[6] - entry[0];
-    difference.vy = gModel_RView[8] - entry[1];
-    difference.vz = gModel_RView[10] - entry[2];
+    difference.vx = gModel_RView.vrx - entry[0];
+    difference.vy = gModel_RView.vry - entry[1];
+    difference.vz = gModel_RView.vrz - entry[2];
     output = difference;
     return SquareRoot0(
         output.vx * output.vx + output.vy * output.vy + output.vz * output.vz

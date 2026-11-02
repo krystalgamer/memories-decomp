@@ -92,9 +92,7 @@ extern u32 gSortedEntry_nSortedCount;
  * in the decompiled tree, so what raises the flag Duel_DrawFieldCards tests is
  * not known here.  Model_SetFogDrawFlags writes the word wholesale, and all three of
  * its call sites pass 0. */
-#ifdef D_8009B30C_AS_SIGNED_DATA
-extern s32 gModel_dwFogDrawFlags __attribute__((section(".data")));
-#elif defined(SORTED_ENTRY_STATE_IN_DATA)
+#if defined(SORTED_ENTRY_STATE_IN_DATA)
 extern u32 gModel_dwFogDrawFlags __attribute__((section(".data")));
 extern SortedEntry *gSortedEntry_pCursor __attribute__((section(".data")));
 extern u32 gSortedEntry_nCount __attribute__((section(".data")));

@@ -21,7 +21,7 @@
 #include "duel_screen_tables.h"
 #include "duel_scene_state.h"
 #include "duel_check_quit_input.h"
-#define D_8009B30C_AS_SIGNED_DATA
+#define SORTED_ENTRY_STATE_IN_DATA
 #include "sorted_entry.h"
 #include "debug_effect_screen.h"
 #include "debug_effect_preview.h"
