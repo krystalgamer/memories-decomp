@@ -17,6 +17,7 @@ import os
 import re
 import shutil
 import subprocess
+import tempfile
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -158,9 +159,11 @@ class ObjectStore:
         return self.directory / "objects" / key[:2] / f"{key}.o"
 
     def _compile(self, segment: dict[str, str], key: str) -> None:
-        work = self.directory / "work" / key
-        if work.exists():
-            shutil.rmtree(work)
+        # Concurrent builds may compile the same unit; give each its own work
+        # directory so one never reads or replaces another's partial output.
+        parent = self.directory / "work"
+        parent.mkdir(parents=True, exist_ok=True)
+        work = Path(tempfile.mkdtemp(prefix=f"{key}.", dir=parent))
         relative = work.relative_to(self.root)
         output = compile_c(
             self.root,
@@ -173,7 +176,7 @@ class ObjectStore:
         destination = self.path(key)
         destination.parent.mkdir(parents=True, exist_ok=True)
         os.replace(output, destination)
-        shutil.rmtree(work)
+        shutil.rmtree(work, ignore_errors=True)
 
     def keys(self, segments: Iterable[dict[str, str]], jobs: int) -> list[dict[str, str]]:
         """Key every distinct unit in parallel; return the distinct units."""
@@ -204,7 +207,9 @@ class ObjectStore:
                 f"object store lacks {segment['source']} ({segment['profile']})"
             )
         destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(cached, destination)
+        staging = destination.with_name(f".{destination.name}.{os.getpid()}")
+        shutil.copyfile(cached, staging)
+        os.replace(staging, destination)
         return destination
 
     def prune(self, keep: Iterable[str]) -> int:
