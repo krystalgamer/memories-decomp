@@ -1,0 +1,4 @@
+// Spanish MODEL.MRG model 35 (record 35), sector 9850, loaded at 0x8017B000; the French header-648 entry image9840_entry.c, with its data in the raw tail.
+FrenchModelVariant648_HandleRequest = 0x8017B004; // type:func size:0x1D50 defined:true
+gFrenchModelVariant648_D1D54 = 0x8017CD54; // type:u8 size:0x1C
+gFrenchModelVariant648_D1D70 = 0x8017CD70; // type:u8 size:0x3290

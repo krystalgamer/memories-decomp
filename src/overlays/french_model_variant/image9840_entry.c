@@ -6,33 +6,33 @@
 #endif
 
 #define FADE_PRIMARY(c) \
-    if (D_8013CD70[work->command].c / ((u16)(work->primary[i].duration / 10) - 1) * step \
+    if (gFrenchModelVariant648_D1D70[work->command].c / ((u16)(work->primary[i].duration / 10) - 1) * step \
         < work->primary[i].c) { \
-        work->primary[i].c -= D_8013CD70[work->command].c \
+        work->primary[i].c -= gFrenchModelVariant648_D1D70[work->command].c \
             / ((u16)(work->primary[i].duration / 10) - 1) * step; \
     } else { \
         work->primary[i].c = 0; \
     }
 
 #define FADE_SECONDARY(c) \
-    if (D_8013CD70[work->command].secondary_##c / (work->secondary[i].duration / 2 - 1) * step \
+    if (gFrenchModelVariant648_D1D70[work->command].secondary_##c / (work->secondary[i].duration / 2 - 1) * step \
         < work->secondary[i].c) { \
-        work->secondary[i].c -= D_8013CD70[work->command].secondary_##c \
+        work->secondary[i].c -= gFrenchModelVariant648_D1D70[work->command].secondary_##c \
             / (work->secondary[i].duration / 2 - 1) * step; \
     } else { \
         work->secondary[i].c = 0; \
     }
 
 #define FADE_BURST(c) \
-    if (D_8013CD70[work->command].c / (work->bursts[i].duration / 2 - 1) * step \
+    if (gFrenchModelVariant648_D1D70[work->command].c / (work->bursts[i].duration / 2 - 1) * step \
         < work->bursts[i].c) { \
-        work->bursts[i].c -= D_8013CD70[work->command].c \
+        work->bursts[i].c -= gFrenchModelVariant648_D1D70[work->command].c \
             / (work->bursts[i].duration / 2 - 1) * step; \
     } else { \
         work->bursts[i].c = 0; \
     }
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
 {
     Image9840State *work;
     MATRIX ls, world;
@@ -57,7 +57,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->elapsed = 0;
-        texture = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CD54);
+        texture = ModelTexture_PackPageClutCopy(work->slot, 1, &gFrenchModelVariant648_D1D54);
         work->tpage = texture >> 16;
         work->clut = texture;
         switch (command) {
@@ -67,19 +67,19 @@ s32 func_8013B004(u8 *context, s32 command)
             work->burst_count = 16;
             break;
         }
-        work->radius = D_8013CD70[command].radius;
-        work->length = D_8013CD70[command].length;
-        work->start_radius = D_8013CD70[command].start_radius;
-        work->end_radius = D_8013CD70[command].end_radius;
+        work->radius = gFrenchModelVariant648_D1D70[command].radius;
+        work->length = gFrenchModelVariant648_D1D70[command].length;
+        work->start_radius = gFrenchModelVariant648_D1D70[command].start_radius;
+        work->end_radius = gFrenchModelVariant648_D1D70[command].end_radius;
         for (i = 0; i < work->primary_count; i++) {
             work->primary[i].duration = 70;
             work->primary[i].active = 0;
             work->primary[i].elapsed = 0;
             work->primary[i].mode = 1;
             work->primary[i].coord = Model_GetCameraCoordinateUnit();
-            work->primary[i].red = D_8013CD70[command].red;
-            work->primary[i].green = D_8013CD70[command].green;
-            work->primary[i].blue = D_8013CD70[command].blue;
+            work->primary[i].red = gFrenchModelVariant648_D1D70[command].red;
+            work->primary[i].green = gFrenchModelVariant648_D1D70[command].green;
+            work->primary[i].blue = gFrenchModelVariant648_D1D70[command].blue;
             setVector(&work->primary[i].scale, 0, 0, 0);
             setVector(&work->primary[i].growth, 0, 0, 0);
             switch (command) {
@@ -95,9 +95,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->secondary[i].elapsed = 0;
             work->secondary[i].mode = 1;
             work->secondary[i].coord = Model_GetCameraCoordinateUnit();
-            work->secondary[i].red = D_8013CD70[command].secondary_red;
-            work->secondary[i].green = D_8013CD70[command].secondary_green;
-            work->secondary[i].blue = D_8013CD70[command].secondary_blue;
+            work->secondary[i].red = gFrenchModelVariant648_D1D70[command].secondary_red;
+            work->secondary[i].green = gFrenchModelVariant648_D1D70[command].secondary_green;
+            work->secondary[i].blue = gFrenchModelVariant648_D1D70[command].secondary_blue;
             work->secondary[i].u = 0;
             work->secondary[i].v = 0;
             setVector(&work->secondary[i].scale,
@@ -117,9 +117,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bursts[i].elapsed = 0;
             work->bursts[i].mode = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].red = D_8013CD70[command].red;
-            work->bursts[i].green = D_8013CD70[command].green;
-            work->bursts[i].blue = D_8013CD70[command].blue;
+            work->bursts[i].red = gFrenchModelVariant648_D1D70[command].red;
+            work->bursts[i].green = gFrenchModelVariant648_D1D70[command].green;
+            work->bursts[i].blue = gFrenchModelVariant648_D1D70[command].blue;
             work->bursts[i].u = 0;
             work->bursts[i].v = 0;
             setVector(&work->bursts[i].scale, 0, 0, 0);
@@ -142,7 +142,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bursts[i].position.vy -= 350;
             work->bursts[i].position.vz += (work->slot * 2 - 1) * 450;
         }
-        work->delay = D_8013CD70[command].delay;
+        work->delay = gFrenchModelVariant648_D1D70[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
