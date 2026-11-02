@@ -2,7 +2,7 @@
 #include "variant456_lines.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013E15C(u8 *context)
+void SpanishModelVariant456_DrawLineGroups(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

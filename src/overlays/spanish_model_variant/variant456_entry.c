@@ -11,7 +11,7 @@
  * Both sheet arms clear +0x8C/+0x90 so cross-jumping leaves the loop
  * increments in their own block, as in retail. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
 {
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
@@ -44,7 +44,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant456EntryConfig *)(D_8013ED00 + 0xFC) + command;
+        work->config = (Variant456EntryConfig *)(gSpanishModelVariant456_D3D00 + 0xFC) + command;
         work->part = Model_GetSlotDataEntry(work->slot, work->config->part);
         if (work->slot == 0) {
             setVector(&work->target, 0, -300, -450);
@@ -61,14 +61,14 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT456_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT456_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ED00 + 0xC4));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ED00 + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ED00 + 0x1C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ED00 + 0x38));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ED00 + 0x54));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0xC4));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0x1C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0x38));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0x54));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013ED00 + 0xE0));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gSpanishModelVariant456_D3D00 + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -332,10 +332,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
             work->phase = 2;
         }
         if (work->config->sheets_start <= work->frame) {
-            func_8013DACC((u8 *)point);
+            SpanishModelVariant456_DrawSheets((u8 *)point);
         }
         if (work->config->lines_start <= work->frame) {
-            func_8013CF58((u8 *)point);
+            SpanishModelVariant456_DrawSprays((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
