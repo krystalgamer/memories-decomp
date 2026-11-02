@@ -827,8 +827,8 @@ selects those addresses and the palette, binding
 Fifteen images under French headers 686 and 753 are the North American
 header-669 entry (`model_variant/variant669_entry.c`) without its `E_DATA`
 work-size printf, built through
-`src/overlays/french_model_variant/variant686_entry{,_slot1}.c` with the data
-labels 0x28 lower.
+`src/overlays/french_model_variant/variant686_entry.c` with the data
+labels 0x28 lower. Each image's symbols file binds `ModelVariant669_HandleRequest` and `gModelVariant669_D405C`, `gModelVariant669_D40B0` at its own addresses.
 
 Six images under French headers 669 and 736 are the North American
 header-652 entry (`model_variant/variant652_entry.c`) without its `E_DATA`
