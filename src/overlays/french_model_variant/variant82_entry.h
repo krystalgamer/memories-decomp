@@ -28,8 +28,8 @@ typedef struct {
     u8 completed, unknown_220d[3];
 } Model82State;
 
-extern GsIMAGE D_8013BDF4[];
-extern Model82Config D_8013BE10[];
-s32 func_8013B004(u8 *context, s32 command);
+extern GsIMAGE gFrenchModelVariant82_D0DF4[];
+extern Model82Config gFrenchModelVariant82_D0E10[];
+s32 FrenchModelVariant82_HandleRequest(u8 *context, s32 command);
 
 #endif

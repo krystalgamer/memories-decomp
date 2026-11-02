@@ -41,6 +41,7 @@ before the change, so the French images are unaffected.
 | 189 | `0xB94` | `variant76_entry_slot1.c` | `447_stage8_slot1`, `489_stage10_slot1`, `562_stage8_slot1`, `57_stage8_slot1` |
 | 190 | `0xC14` | `variant77_entry.c` | `386_stage8_slot1`, `53_stage10_slot1`, `547_stage10_slot1`, `84_stage10_slot1` |
 | 195 | `0xDE0` | `variant82_entry_slot1.c` | `66_stage8_slot1` |
+| 195 | `0xDE0` | `variant82_entry.c` | `66_stage8_slot1` |
 | 200 | `0xA18` | `variant87_entry_slot1.c` | `140_stage10_slot1`, `584_stage10_slot1` |
 | 210 | `0x1154` | `variant97_entry_slot1.c` | `100_stage8_slot1`, `150_stage10_slot1` |
 | 214 | `0xAE0` | `variant101_entry.c` | `130_stage8_slot1` |
