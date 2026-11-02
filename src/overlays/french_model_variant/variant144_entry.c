@@ -9,9 +9,9 @@
 #endif
 #include "../../game/graphics_constants.h"
 
-static const VECTOR D_8013BEB0 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant144_D0EB0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command)
 {
     Model144State *work;
     MATRIX base, matrix;
@@ -34,12 +34,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BEB0;
+    scale = gFrenchModelVariant144_D0EB0;
     work = (Model144State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013BEDC[command % 100];
+        config = work->config = &gFrenchModelVariant144_D0EDC[command % 100];
         point = work->points;
         for (i = 0; i < 64; point++, i++) {
             value = config->radius + (rand() % config->radius) / 2;
@@ -50,7 +50,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = value * csin(angle1) / 4096;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BEC0[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant144_D0EC0[i]);
         }
         work->elapsed = 0;
         if (command >= 100) {

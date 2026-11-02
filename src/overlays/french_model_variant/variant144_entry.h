@@ -33,8 +33,8 @@ typedef struct {
     u8 started, frame_step_override;
 } Model144State;
 
-extern GsIMAGE D_8013BEC0[];
-extern Model144Config D_8013BEDC[];
-s32 func_8013B004(u8 *context, s32 command);
+extern GsIMAGE gFrenchModelVariant144_D0EC0[];
+extern Model144Config gFrenchModelVariant144_D0EDC[];
+s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command);
 
 #endif
