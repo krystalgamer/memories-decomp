@@ -868,8 +868,8 @@ Six images under French headers 691 and 758 are the North American
 header-674 entry (`model_variant/variant674_entry.c`) without its `E_DATA`
 work-size printf. Its format string was the whole read-only section, so it
 goes too, and the
-`src/overlays/french_model_variant/variant691_entry{,_slot1}.c` wrappers move
-the data labels 0x28 lower.
+`src/overlays/french_model_variant/variant691_entry.c` wrapper, built in both slots, moves
+the data labels 0x28 lower. Each image's symbols file binds `ModelVariant674_HandleRequest` and `gModelVariant674_D1E70`, `gModelVariant674_D1EFC` at its own addresses.
 
 French MODEL headers 697 (stage 7 slot 0) and 764 (stage 8 slot 1) build the North American header-680 entry (`func_8013B004`) from `src/overlays/model_variant/variant680us_entry.c` through `src/overlays/french_model_variant/variant697_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf` and its format string. The text is 0x10 shorter, so the image table and command rows sit 0x28 lower, at `D_8013DA9C` and `D_8013DBD0`.
 
