@@ -178,9 +178,6 @@ gFade_bWhiteLatch = D_8009B145;
 
 
 
-gMain_bReturnMode = D_8009B269;
-gMain_bActiveModeState = D_8009B26C;
-gMain_bRequestedMenuID = D_8009B26D;
 
 gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D5800;

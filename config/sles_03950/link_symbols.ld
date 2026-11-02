@@ -444,11 +444,11 @@ gCardGrid_bCursorRow = 0x8009C5F1;
 gDuel_bEffectRequestStatus = 0x8009C5F8;
 gDuelEffect_pActiveRequest = 0x8009C5FC;
 gDuelEffect_bRequestFinished = 0x8009C600;
-D_8009B26C = 0x8009C60A;
+gMain_bActiveModeState = 0x8009C60A;
 gMain_bModeRunnerStep = 0x8009C60B;
 D_8009B268 = 0x8009C60C;
-D_8009B269 = 0x8009C60D;
-D_8009B26D = 0x8009C60E;
+gMain_bReturnMode = 0x8009C60D;
+gMain_bRequestedMenuID = 0x8009C60E;
 gScript_wCommandWord = 0x8009C610;
 gScript_SharedOperand = 0x8009C612;
 gCampaign_PrimaryDisplayObject = 0x8009C614;
@@ -1126,9 +1126,6 @@ gFade_bWhiteLatch = D_8009B145;
 
 
 
-gMain_bReturnMode = D_8009B269;
-gMain_bActiveModeState = D_8009B26C;
-gMain_bRequestedMenuID = D_8009B26D;
 
 gText_PrimaryStringOffsets = D_801B0004;
 gText_GlobalStringOffsets = D_801D5804;

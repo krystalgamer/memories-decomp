@@ -159,9 +159,6 @@ gFade_bWhiteLatch = D_8009B145;
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
-gMain_bReturnMode = D_8009B269;
-gMain_bActiveModeState = 0x8009B15C;
-gMain_bRequestedMenuID = 0x8009B15D;
 
 gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D6000;
@@ -229,7 +226,6 @@ gJapanese_D_800E9D70 = 0x800E9C50;
 gJapanese_DuelFlag = 0x8009B259;
 gJapanese_FileSecondaryRequest = 0x8009B024;
 gJapanese_FileTransferFlags = 0x8009AFE4;
-gJapanese_bActiveMainMode = 0x8009B15C;
 
 /* Names inside the small zero-initialized blocks this build's units own
  * (#2602): the blocks' start and the Japanese spellings of interior names. */

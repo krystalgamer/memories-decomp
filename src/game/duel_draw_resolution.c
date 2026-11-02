@@ -10,8 +10,6 @@
 #define D_8009B369_IN_DATA
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
-#define D_8009B269_AS_SCALAR_DATA
-#define D_8009B26C_AS_SCALAR_DATA
 #define GRAPHICS_ACTIVE_BUFFER_IN_DATA
 #include "../types.h"
 #include "duel_card_staging.h"

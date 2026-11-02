@@ -442,7 +442,7 @@ void Password_UpdateShopScreen(void)
             SD_SEPlayFull(8);
             SD_BGMFadeOut();
             Fade_WaitOut();
-            D_8009B26C = D_8009B269;
+            gMain_bActiveModeState = gMain_bReturnMode;
             return;
         }
         if ((gInput_wPad1Pressed & PASSWORD_SHOP_CONFIRM_BUTTON) != 0) {

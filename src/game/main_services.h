@@ -93,8 +93,9 @@ extern u8 gGraphics_bOrderingTable3Length[];
 #endif
 
 /* The pending frontend-menu request. Main_RunMenu hands the pair to the
-   main_menu overlay as MainMenu_InitFrontendMenu(D_8009B268, D_8009B26D),
-   whose parameters are (unused, menu): D_8009B26D is the menu id --
+   main_menu overlay as MainMenu_InitFrontendMenu(D_8009B268, gMain_bRequestedMenuID),
+   whose parameters are (unused, menu): gMain_bRequestedMenuID
+   (main_menu_request.h) is the menu id --
    Main_ApplyMenuSelection stores its selection argument, Script_OpSavePrompt and
    Script_OpReturnToMenu
    store 5, DebugMenu_UpdateTitleEntry round-trips it through gDebug_nSceneOrSoundID,
@@ -107,12 +108,6 @@ extern u8 gGraphics_bOrderingTable3Length[];
 extern u8 D_8009B268 __attribute__((section(".data")));
 #else
 extern u8 D_8009B268;
-#endif
-
-#ifdef D_8009B26D_IN_DATA
-extern u8 D_8009B26D[];
-#else
-extern u8 D_8009B26D;
 #endif
 
 #include "main_menu_request.h"

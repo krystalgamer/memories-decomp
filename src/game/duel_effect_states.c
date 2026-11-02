@@ -42,7 +42,7 @@
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"
 #include "duel_effect_card_viewer_state.h"
-#define D_8009B26C_AS_SCALAR_DATA
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../unmatched.h"
 #include "main_mode_state.h"
 #ifdef VERSION_EUROPE

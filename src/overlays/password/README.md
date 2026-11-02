@@ -82,7 +82,7 @@ files does not make those two uses one type.
 calls `Password_InitShopScreen` (`0x8016A080`) once, then calls
 `Password_UpdateShopScreen` (`0x8016A37C`) each tick. Neither entry returns
 a completion code. Cancellation writes the saved previous mode to
-`D_8009B26C`; the updater does not itself request a disk save or explicitly
+`gMain_bActiveModeState`; the updater does not itself request a disk save or explicitly
 tear down every object.
 
 The initializer calls all three text helpers, while the updater calls the

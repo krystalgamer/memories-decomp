@@ -242,9 +242,9 @@ gDuel_pCardViewerTextBox = 0x8009C5E8;
 gDuelEffect_bRequestFinished = 0x8009C600;
 gDuelEffect_pActiveRequest = 0x8009C5FC;
 D_8009B268 = 0x8009C60C;
-D_8009B269 = 0x8009C60D;
-D_8009B26C = 0x8009C60A;
-D_8009B26D = 0x8009C60E;
+gMain_bReturnMode = 0x8009C60D;
+gMain_bActiveModeState = 0x8009C60A;
+gMain_bRequestedMenuID = 0x8009C60E;
 gMain_bModeRunnerStep = 0x8009C60B;
 D_8009B274 = 0x8009C634;
 gScript_WaitCounter = 0x8009C640;
@@ -1126,9 +1126,6 @@ gFade_bWhiteLatch = D_8009B145;
 
 
 
-gMain_bReturnMode = D_8009B269;
-gMain_bActiveModeState = D_8009B26C;
-gMain_bRequestedMenuID = D_8009B26D;
 
 gText_PrimaryStringOffsets = D_801B0004;
 gText_GlobalStringOffsets = D_801D5804;

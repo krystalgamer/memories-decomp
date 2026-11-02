@@ -4,8 +4,8 @@
 #include "../types.h"
 
 /* Three gScript_apfnCommandHandlers handlers that drive the scene's own state rather than any
- * object. Script_OpGameOver and Script_OpCredits set the mode pair D_8009B269 and
- * D_8009B26C to 12 and 15 -- and both write the same value twice, once to each,
+ * object. Script_OpGameOver and Script_OpCredits set the mode pair gMain_bReturnMode and
+ * gMain_bActiveModeState to 12 and 15 -- and both write the same value twice, once to each,
  * which is why they are two functions and not one with an argument.
  *
  * Script_OpWait is the wait: it takes a 16-bit count from the stream on the
