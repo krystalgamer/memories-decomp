@@ -116,10 +116,7 @@ gDuel_wCampaignSceneOnWin = 0x8009B260;
 gDuel_wCampaignSceneOnLoss = 0x8009B262;
 gDuel_wAnimatedBattleBgmCommand = 0x8009B264;
 
-gAi_bGuardianStarChoice = D_800EAE8F;
 gAi_bHandFaceDownRequested = tent_AiSelectionRandom;
-gAi_bFieldSourceCode = D_800EAE91;
-gAi_bFieldTargetCode = D_800EAE92;
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;

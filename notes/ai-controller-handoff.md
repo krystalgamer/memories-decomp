@@ -7,10 +7,10 @@ structure or replace the existing twelve-byte `AiSelection` union.
 | Former identity | Canonical name | Preserved view |
 | --- | --- | --- |
 | `D_8009B360` | `gDuel_bSide0ControllerSelector` | one `.data` `s8 [DUEL_SIDE_COUNT]` declaration |
-| `D_800EAE8F` | `gAi_bGuardianStarChoice` | unsigned scalar / incomplete array, selection +7 |
+| `D_800EAE8F` | `gAi_Selection.fields.zero` (`bytes[7]`) | selection +7, no separate name |
 | `tent_AiSelectionRandom` | `gAi_bHandFaceDownRequested` | unsigned scalar, selection +8 |
-| `D_800EAE91` | `gAi_bFieldSourceCode` | unsigned scalar / incomplete array, selection +9 |
-| `D_800EAE92` | `gAi_bFieldTargetCode` | unsigned scalar / incomplete array, selection +10 |
+| `D_800EAE91` | `gAi_Selection.bytes[9]` | selection +9, no separate name |
+| `D_800EAE92` | `gAi_Selection.bytes[10]` | selection +10, no separate name |
 
 ## Signed controller selection
 

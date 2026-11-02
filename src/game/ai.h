@@ -82,8 +82,12 @@ typedef struct {
     s8 field_02;    /* 0x02 */
     char pad_03[3]; /* 0x03 */
     s8 value;       /* 0x06 */
+    /* AiScript_LoadGuardianStarChoice stores the low byte of an AI register
+     * here; DuelScene_UpdateCardMove reads bit 0 as bytes[7]. */
     s8 zero;        /* 0x07 */
     s8 random;      /* 0x08 */
+    /* The field-action source and target codes. DuelScene_UpdateFieldActions
+     * reads them as bytes[9] and bytes[10]; AiScript_PlayFieldCard writes all three. */
     s8 field_09;    /* 0x09 */
     s8 field_0A;    /* 0x0A */
     s8 field_0B;    /* 0x0B */
@@ -123,33 +127,6 @@ extern u8 tent_AiSelectionRandom;
  * DuelScene_UpdateHandActions is the only reader and reads the byte view too:
  * retail's `lui %hi` / `lbu %lo` pair links to the same bytes either way, and
  * the table form is the one that reproduces the instruction order. */
-
-/* The preceding selection byte is written by AiScript_LoadGuardianStarChoice from an AI
- * register. The presentation sequence reads bit 0 after updating the card
- * flags; the byte-array view preserves that access ordering. */
-#ifdef D_800EAE8F_IS_ARRAY
-extern u8 D_800EAE8F[];
-#else
-extern u8 D_800EAE8F;
-#endif
-
-/* The byte at AiSelection.fields.field_09, one below the category byte. The
-   field-action candidate is its only reader and reaches it absolutely, with
-   lui %hi / lbu %lo(D_800EAE91) into the same register the D_800EAE92 read in
-   that same function uses -- so it takes the same incomplete-array view. */
-#ifdef D_800EAE91_AS_ARRAY
-extern u8 D_800EAE91[];
-#else
-extern u8 D_800EAE91;
-#endif
-
-/* The field-card category byte at AiSelection.fields.field_0A. The field-action
-   candidate requires an incomplete array to keep its absolute access. */
-#ifdef D_800EAE92_AS_ARRAY
-extern u8 D_800EAE92[];
-#else
-extern u8 D_800EAE92;
-#endif
 
 /* AiScript_LoadBestAttacker reads the byte recorded by
    AiScript_FindBestAttack before copying it into the VM register file. */
