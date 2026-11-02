@@ -8,7 +8,7 @@
  * quads as wide as the projected offset, with straight first and last ends.
  * The drawn length grows by 1.5 steps a frame up to 16; in phase 3 the view
  * offset shrinks with the timing record's clock. */
-void func_8013BBA4(u8 *ctx)
+void ModelVariant321_DrawRibbon(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
