@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant336_ribbon.h"
 
-void func_8013BA9C(u8 *ctx)
+void FrenchModelVariant336_DrawRibbon(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
