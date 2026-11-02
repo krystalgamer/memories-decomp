@@ -16,10 +16,10 @@
 #define MODEL675_STRING_PAD "\x8F"
 #endif
 #ifndef VERSION_FRENCH
-static const char D_8013DAE0[24] = "E_DATA size = %x byte\n\0" MODEL675_STRING_PAD;
+static const char gModelVariant675Us_D2AE0[24] = "E_DATA size = %x byte\n\0" MODEL675_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant675Us_HandleRequest(u8 *context, s32 command)
 {
     Model675UsState *work;
     MATRIX ls;
@@ -42,22 +42,22 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model675UsState));
 #ifndef VERSION_FRENCH
-        printf(D_8013DAE0, sizeof(Model675UsState));
+        printf(gModelVariant675Us_D2AE0, sizeof(Model675UsState));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
         Model_CopySlotPosition(work->slot == 0, (u16 *)&work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DAF8[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant675Us_D2AF8[2]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DAF8[1]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DAF8[4]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant675Us_D2AF8[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant675Us_D2AF8[4]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DAF8[0]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DAF8[3]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant675Us_D2AF8[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant675Us_D2AF8[3]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -69,8 +69,8 @@ s32 func_8013B004(u8 *context, s32 command)
             work->trail_count = 8;
             break;
         }
-        work->radius = D_8013DB84[command].radius;
-        work->height = D_8013DB84[command].height;
+        work->radius = gModelVariant675Us_D2B84[command].radius;
+        work->height = gModelVariant675Us_D2B84[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].active = 0;
             work->rings[i].elapsed = 0;
@@ -87,9 +87,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].red = D_8013DB84[command].red;
-            work->rings[i].green = D_8013DB84[command].green;
-            work->rings[i].blue = D_8013DB84[command].blue;
+            work->rings[i].red = gModelVariant675Us_D2B84[command].red;
+            work->rings[i].green = gModelVariant675Us_D2B84[command].green;
+            work->rings[i].blue = gModelVariant675Us_D2B84[command].blue;
             work->rings[i].u = 0;
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 0x1000, 0x1000, 0x1000);
@@ -104,9 +104,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bolts[i].duration = 0x20;
             work->bolts[i].mode = 1;
             work->bolts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bolts[i].red = D_8013DB84[command].bolt_red;
-            work->bolts[i].green = D_8013DB84[command].bolt_green;
-            work->bolts[i].blue = D_8013DB84[command].bolt_blue;
+            work->bolts[i].red = gModelVariant675Us_D2B84[command].bolt_red;
+            work->bolts[i].green = gModelVariant675Us_D2B84[command].bolt_green;
+            work->bolts[i].blue = gModelVariant675Us_D2B84[command].bolt_blue;
             setVector(&work->bolts[i].scale, 0x1000, 0x1000, 0x1000);
             d = i % 2 * 2 - 1;
             n = work->height / 3;
@@ -124,9 +124,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->trails[i][k].duration = 0x10;
                 work->trails[i][k].mode = 1;
                 work->trails[i][k].coord = Model_GetCameraCoordinateUnit();
-                work->trails[i][k].red = D_8013DB84[command].bolt_red;
-                work->trails[i][k].green = D_8013DB84[command].bolt_green;
-                work->trails[i][k].blue = D_8013DB84[command].bolt_blue;
+                work->trails[i][k].red = gModelVariant675Us_D2B84[command].bolt_red;
+                work->trails[i][k].green = gModelVariant675Us_D2B84[command].bolt_green;
+                work->trails[i][k].blue = gModelVariant675Us_D2B84[command].bolt_blue;
                 setVector(&work->trails[i][k].scale, 0x1000, 0x1000, 0x1000);
                 setVector(&work->trails[i][k].growth, 0, 0, 0);
                 setVector(&work->trails[i][k].rotation, 0, work->slot * 2048, 0);
@@ -139,9 +139,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->sparks[i].duration = 0x100;
             work->sparks[i].mode = 1;
             work->sparks[i].coord = Model_GetCameraCoordinateUnit();
-            work->sparks[i].red = D_8013DB84[command].bolt_red;
-            work->sparks[i].green = D_8013DB84[command].bolt_green;
-            work->sparks[i].blue = D_8013DB84[command].bolt_blue;
+            work->sparks[i].red = gModelVariant675Us_D2B84[command].bolt_red;
+            work->sparks[i].green = gModelVariant675Us_D2B84[command].bolt_green;
+            work->sparks[i].blue = gModelVariant675Us_D2B84[command].bolt_blue;
             work->sparks[i].u = 0;
             work->sparks[i].v = 0x80;
             setVector(&work->sparks[i].scale, 0x1000, 0x1000, 0x1000);
@@ -149,7 +149,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->sparks[i].rotation, 0, work->slot * 2048, 0);
             setVector(&work->sparks[i].position, 0, 0, 0);
         }
-        work->delay = D_8013DB84[command].delay;
+        work->delay = gModelVariant675Us_D2B84[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -253,9 +253,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->rings[i].duration * 9 / 10 < work->rings[i].elapsed) {
                     n = (work->rings[i].duration - work->rings[i].elapsed) * 10;
                     d = work->rings[i].duration;
-                    work->rings[i].red = D_8013DB84[work->command].red * n / d;
-                    work->rings[i].green = D_8013DB84[work->command].green * n / d;
-                    work->rings[i].blue = D_8013DB84[work->command].blue * n / d;
+                    work->rings[i].red = gModelVariant675Us_D2B84[work->command].red * n / d;
+                    work->rings[i].green = gModelVariant675Us_D2B84[work->command].green * n / d;
+                    work->rings[i].blue = gModelVariant675Us_D2B84[work->command].blue * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->tpage[0];
@@ -532,9 +532,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->sparks[i].duration * 9 / 10 < work->sparks[i].elapsed) {
                     n = (work->sparks[i].duration - work->sparks[i].elapsed) * 10;
                     d = work->sparks[i].duration;
-                    work->sparks[i].red = D_8013DB84[work->command].bolt_red * n / d;
-                    work->sparks[i].green = D_8013DB84[work->command].bolt_green * n / d;
-                    work->sparks[i].blue = D_8013DB84[work->command].bolt_blue * n / d;
+                    work->sparks[i].red = gModelVariant675Us_D2B84[work->command].bolt_red * n / d;
+                    work->sparks[i].green = gModelVariant675Us_D2B84[work->command].bolt_green * n / d;
+                    work->sparks[i].blue = gModelVariant675Us_D2B84[work->command].bolt_blue * n / d;
                 }
                 work->sparks[i].v = (work->sparks[i].elapsed + i * 100) % 32 * 2 - 128;
                 for (k = 0; k < 8; k++) {

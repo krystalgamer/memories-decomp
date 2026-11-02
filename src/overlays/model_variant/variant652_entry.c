@@ -14,10 +14,10 @@
 #ifndef MODEL652_STRING_PAD
 #define MODEL652_STRING_PAD "\x9A"
 #endif
-static const char D_8013D780[24] = "E_DATA size = %x byte\n\0" MODEL652_STRING_PAD;
+static const char gModelVariant652_D2780[24] = "E_DATA size = %x byte\n\0" MODEL652_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant652_HandleRequest(u8 *context, s32 command)
 {
     Model652State *work;
     MATRIX ls, m;
@@ -40,7 +40,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model652State));
 #ifndef VERSION_FRENCH
-        printf(D_8013D780, sizeof(Model652State));
+        printf(gModelVariant652_D2780, sizeof(Model652State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
@@ -49,13 +49,13 @@ s32 func_8013B004(u8 *context, s32 command)
         work->cursor = 0;
         work->other_slot = work->slot == 0;
         Model_CopySlotPosition(work->other_slot, (u16 *)&work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D798[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant652_D2798[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D798[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant652_D2798[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D798[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant652_D2798[2]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -66,17 +66,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spark_count = 3;
             break;
         }
-        work->radius = D_8013D7EC[command].radius;
-        work->height = D_8013D7EC[command].height;
+        work->radius = gModelVariant652_D27EC[command].radius;
+        work->height = gModelVariant652_D27EC[command].height;
         for (i = 0; i < work->ring_count; i++) {
             work->rings[i].duration = 128;
             work->rings[i].active = 0;
             work->rings[i].elapsed = 0;
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].color[0] = D_8013D7EC[command].color[0];
-            work->rings[i].color[1] = D_8013D7EC[command].color[1];
-            work->rings[i].color[2] = D_8013D7EC[command].color[2];
+            work->rings[i].color[0] = gModelVariant652_D27EC[command].color[0];
+            work->rings[i].color[1] = gModelVariant652_D27EC[command].color[1];
+            work->rings[i].color[2] = gModelVariant652_D27EC[command].color[2];
             work->rings[i].u = 0;
             work->rings[i].v = 32;
             setVector(&work->rings[i].scale, 4096, 4096, 4096);
@@ -90,9 +90,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->domes[i].elapsed = 0;
             work->domes[i].mode = 1;
             work->domes[i].coord = Model_GetCameraCoordinateUnit();
-            work->domes[i].color[0] = D_8013D7EC[command].color[3];
-            work->domes[i].color[1] = D_8013D7EC[command].color[4];
-            work->domes[i].color[2] = D_8013D7EC[command].color[5];
+            work->domes[i].color[0] = gModelVariant652_D27EC[command].color[3];
+            work->domes[i].color[1] = gModelVariant652_D27EC[command].color[4];
+            work->domes[i].color[2] = gModelVariant652_D27EC[command].color[5];
             work->domes[i].u = 0;
             work->domes[i].v = 160;
             setVector(&work->domes[i].scale, 4096, 4096, 4096);
@@ -116,9 +116,9 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->sparks[i][k][j].elapsed = 0;
                     work->sparks[i][k][j].mode = 1;
                     work->sparks[i][k][j].coord = Model_GetCameraCoordinateUnit();
-                    work->sparks[i][k][j].color[0] = D_8013D7EC[command].color[0];
-                    work->sparks[i][k][j].color[1] = D_8013D7EC[command].color[1];
-                    work->sparks[i][k][j].color[2] = D_8013D7EC[command].color[2];
+                    work->sparks[i][k][j].color[0] = gModelVariant652_D27EC[command].color[0];
+                    work->sparks[i][k][j].color[1] = gModelVariant652_D27EC[command].color[1];
+                    work->sparks[i][k][j].color[2] = gModelVariant652_D27EC[command].color[2];
                     work->sparks[i][k][j].u = 0;
                     work->sparks[i][k][j].v = 0;
                     setVector(&work->sparks[i][k][j].scale,
@@ -141,10 +141,10 @@ s32 func_8013B004(u8 *context, s32 command)
         work->flash.active = 0;
         work->flash.elapsed = 0;
         work->flash.mode = 1;
-        work->flash.color[0] = D_8013D7EC[command].color[0];
-        work->flash.color[1] = D_8013D7EC[command].color[1];
-        work->flash.color[2] = D_8013D7EC[command].color[2];
-        work->delay = D_8013D7EC[command].delay;
+        work->flash.color[0] = gModelVariant652_D27EC[command].color[0];
+        work->flash.color[1] = gModelVariant652_D27EC[command].color[1];
+        work->flash.color[2] = gModelVariant652_D27EC[command].color[2];
+        work->delay = gModelVariant652_D27EC[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -162,13 +162,13 @@ s32 func_8013B004(u8 *context, s32 command)
                 for (j = 0; j < 3; j++) {
                     switch (j) {
                     case 0:
-                        value = D_8013D7EC[command].color[3] + ((k + i) % 2 * 2 - 1) * D_8013D7EC[command].color[3] * ((k + i) % 3 + 1);
+                        value = gModelVariant652_D27EC[command].color[3] + ((k + i) % 2 * 2 - 1) * gModelVariant652_D27EC[command].color[3] * ((k + i) % 3 + 1);
                         break;
                     case 1:
-                        value = D_8013D7EC[command].color[4] + ((k + i) % 2 * 2 - 1) * D_8013D7EC[command].color[4] * ((k + i) % 3 + 1);
+                        value = gModelVariant652_D27EC[command].color[4] + ((k + i) % 2 * 2 - 1) * gModelVariant652_D27EC[command].color[4] * ((k + i) % 3 + 1);
                         break;
                     case 2:
-                        value = D_8013D7EC[command].color[5] + ((k + i) % 2 * 2 - 1) * D_8013D7EC[command].color[5] * ((k + i) % 3 + 1);
+                        value = gModelVariant652_D27EC[command].color[5] + ((k + i) % 2 * 2 - 1) * gModelVariant652_D27EC[command].color[5] * ((k + i) % 3 + 1);
                         break;
                     default:
                         value = 0;
@@ -203,9 +203,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if ((work->cursor & 3) == 0) {
                 work->rings[work->cursor / 4].active = 1;
                 work->rings[work->cursor / 4].elapsed = 0;
-                work->rings[work->cursor / 4].color[0] = D_8013D7EC[work->command].color[0];
-                work->rings[work->cursor / 4].color[1] = D_8013D7EC[work->command].color[1];
-                work->rings[work->cursor / 4].color[2] = D_8013D7EC[work->command].color[2];
+                work->rings[work->cursor / 4].color[0] = gModelVariant652_D27EC[work->command].color[0];
+                work->rings[work->cursor / 4].color[1] = gModelVariant652_D27EC[work->command].color[1];
+                work->rings[work->cursor / 4].color[2] = gModelVariant652_D27EC[work->command].color[2];
             }
             work->cursor++;
             if (work->cursor >= work->ring_count * 4) {
@@ -227,9 +227,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if ((work->cursor & 3) == 0) {
                 work->rings[work->cursor / 4].active = 1;
                 work->rings[work->cursor / 4].elapsed = 0;
-                work->rings[work->cursor / 4].color[0] = D_8013D7EC[work->command].color[0];
-                work->rings[work->cursor / 4].color[1] = D_8013D7EC[work->command].color[1];
-                work->rings[work->cursor / 4].color[2] = D_8013D7EC[work->command].color[2];
+                work->rings[work->cursor / 4].color[0] = gModelVariant652_D27EC[work->command].color[0];
+                work->rings[work->cursor / 4].color[1] = gModelVariant652_D27EC[work->command].color[1];
+                work->rings[work->cursor / 4].color[2] = gModelVariant652_D27EC[work->command].color[2];
             }
             work->cursor++;
             if (work->cursor >= work->ring_count * 4) {
@@ -287,9 +287,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if (work->rings[i].elapsed < work->rings[i].duration) {
                 value = work->rings[i].elapsed;
                 duration = work->rings[i].duration;
-                work->rings[i].color[0] = D_8013D7EC[work->command].color[0] * value / duration;
-                work->rings[i].color[1] = D_8013D7EC[work->command].color[1] * value / duration;
-                work->rings[i].color[2] = D_8013D7EC[work->command].color[2] * value / duration;
+                work->rings[i].color[0] = gModelVariant652_D27EC[work->command].color[0] * value / duration;
+                work->rings[i].color[1] = gModelVariant652_D27EC[work->command].color[1] * value / duration;
+                work->rings[i].color[2] = gModelVariant652_D27EC[work->command].color[2] * value / duration;
             }
             setVector(&origin, 0, 0, 0);
             m = D_800FE168;
@@ -422,9 +422,9 @@ s32 func_8013B004(u8 *context, s32 command)
                     duration = work->sparks[i][k][j].duration;
                     if (duration * 2 / 3 < work->sparks[i][k][j].elapsed) {
                         value = (duration - work->sparks[i][k][j].elapsed) * 3;
-                        work->sparks[i][k][j].color[0] = D_8013D7EC[work->command].color[0] * value / duration;
-                        work->sparks[i][k][j].color[1] = D_8013D7EC[work->command].color[1] * value / duration;
-                        work->sparks[i][k][j].color[2] = D_8013D7EC[work->command].color[2] * value / duration;
+                        work->sparks[i][k][j].color[0] = gModelVariant652_D27EC[work->command].color[0] * value / duration;
+                        work->sparks[i][k][j].color[1] = gModelVariant652_D27EC[work->command].color[1] * value / duration;
+                        work->sparks[i][k][j].color[2] = gModelVariant652_D27EC[work->command].color[2] * value / duration;
                     }
                     m = D_800FE168;
                     RotMatrixZ((i + k + j) * 50 * ((i + k + j) % 2 * 2 - 1), &m);
@@ -489,9 +489,9 @@ s32 func_8013B004(u8 *context, s32 command)
         if (work->flash.elapsed < work->flash.duration) {
             value = work->flash.duration - work->flash.elapsed;
             duration = work->flash.duration;
-            work->flash.color[0] = D_8013D7EC[work->command].color[0] * value / duration;
-            work->flash.color[1] = D_8013D7EC[work->command].color[1] * value / duration;
-            work->flash.color[2] = D_8013D7EC[work->command].color[2] * value / duration;
+            work->flash.color[0] = gModelVariant652_D27EC[work->command].color[0] * value / duration;
+            work->flash.color[1] = gModelVariant652_D27EC[work->command].color[1] * value / duration;
+            work->flash.color[2] = gModelVariant652_D27EC[work->command].color[2] * value / duration;
         }
         setPolyF4(&work->flash_poly);
         setRGB0(&work->flash_poly, work->flash.color[0], work->flash.color[1], work->flash.color[2]);

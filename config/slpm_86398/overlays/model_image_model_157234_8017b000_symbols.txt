@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 619 (record 569), sector 157234, header 717, loaded at 0x8017B000; the US source variant650_entry_slot1.c; built from the US source layout of model_variant_619_stage8_slot1.
+// Japanese MODEL.MRG model 619 (record 569), sector 157234, header 717, loaded at 0x8017B000; the US source variant650_entry.c; built from the US source layout of model_variant_619_stage8_slot1.
 func_8013B004 = 0x8017B004; // type:func size:0x1B04 defined:true
 D_8013CB20 = 0x8017CB20; // type:u8 size:0x38 defined:true
 D_8013CB58 = 0x8017CB58; // type:u8 size:0x30 defined:true

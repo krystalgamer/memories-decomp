@@ -8,9 +8,9 @@
  * slot's fan parts and the third slot's ambient light dims and recovers.
  * The return value reports the hit (1), the end (2) or a still-moving entry. */
 
-static const VECTOR D_8013C390 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant142_D1390 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant142_HandleRequest(u8 *context, s32 command)
 {
     Model142State *work;
     MATRIX base, matrix;
@@ -32,12 +32,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C390;
+    scale = gModelVariant142_D1390;
     work = (Model142State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C4AC[command % 100];
+        config = work->config = &gModelVariant142_D14AC[command % 100];
         point = work->points;
         for (i = 0; i < 64; i++) {
             point->vx = 0;
@@ -84,9 +84,9 @@ s32 func_8013B004(u8 *context, s32 command)
         point->vx = 0;
         point->vy = 0;
         point->vz = 0;
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013C3B0[0]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant142_D13B0[0]);
         for (i = 1; i < 9; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C3B0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant142_D13B0[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

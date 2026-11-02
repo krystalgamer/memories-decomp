@@ -63,9 +63,9 @@ typedef struct {
 } Model651State;
 
 extern MATRIX D_800FE168;
-extern GsIMAGE D_8013CA4C;
-extern Model651Command D_8013CA68[];
+extern GsIMAGE gModelVariant651_D1A4C;
+extern Model651Command gModelVariant651_D1A68[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant651_HandleRequest(u8 *context, s32 command);
 
 #endif

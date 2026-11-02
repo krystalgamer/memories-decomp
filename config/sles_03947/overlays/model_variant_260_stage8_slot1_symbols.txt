@@ -1,7 +1,7 @@
-// European MODEL.MRG model 260 (record 260), sector 71950, header 754, loaded at 0x8017B000; the US header-737 source variant670_entry_slot1.c; built from the French source layout of french_model_variant_260_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1D54 defined:true
-D_8017CD58 = 0x8017CD58; // type:u8 size:0x54 defined:true
-D_8017CDAC = 0x8017CDAC; // type:u8 size:0x3254 defined:true
+// European MODEL.MRG model 260 (record 260), sector 71950, header 754, loaded at 0x8017B000; the US header-737 source variant670_entry.c; built from the French source layout of french_model_variant_260_stage8_slot1.
+ModelVariant670_HandleRequest = 0x8017B004; // type:func size:0x1D54 defined:true
+gModelVariant670_D1D80 = 0x8017CD58; // type:u8 size:0x54 defined:true
+gModelVariant670_D1DD4 = 0x8017CDAC; // type:u8 size:0x3254 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

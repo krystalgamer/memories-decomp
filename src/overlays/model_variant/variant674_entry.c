@@ -14,10 +14,10 @@
 #define MODEL674_STRING_PAD "\x8F"
 #endif
 #ifndef VERSION_FRENCH
-static const char D_8013CE58[24] = "E_DATA size = %x byte\n\0" MODEL674_STRING_PAD;
+static const char gModelVariant674_D1E58[24] = "E_DATA size = %x byte\n\0" MODEL674_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant674_HandleRequest(u8 *context, s32 command)
 {
     Model674State *work;
     MATRIX ls;
@@ -37,21 +37,21 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model674State));
 #ifndef VERSION_FRENCH
-        printf(D_8013CE58, sizeof(Model674State));
+        printf(gModelVariant674_D1E58, sizeof(Model674State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE70[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant674_D1E70[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE70[0]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE70[2]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant674_D1E70[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant674_D1E70[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE70[3]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CE70[4]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant674_D1E70[3]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant674_D1E70[4]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -61,8 +61,8 @@ s32 func_8013B004(u8 *context, s32 command)
             work->count = 1;
             break;
         }
-        work->radius = D_8013CEFC[command].radius;
-        work->height = D_8013CEFC[command].height;
+        work->radius = gModelVariant674_D1EFC[command].radius;
+        work->height = gModelVariant674_D1EFC[command].height;
         for (i = 0; i < work->count; i++) {
             work->rings[i].active = 0;
             work->rings[i].elapsed = 0;
@@ -73,9 +73,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->rings[i].mode = 1;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].red = D_8013CEFC[command].red;
-            work->rings[i].green = D_8013CEFC[command].green;
-            work->rings[i].blue = D_8013CEFC[command].blue;
+            work->rings[i].red = gModelVariant674_D1EFC[command].red;
+            work->rings[i].green = gModelVariant674_D1EFC[command].green;
+            work->rings[i].blue = gModelVariant674_D1EFC[command].blue;
             work->rings[i].u = 0;
             work->rings[i].v = 0;
             setVector(&work->rings[i].scale, 0x1000, 0x1000, 0x1000);
@@ -97,9 +97,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->domes[i].mode = 1;
             work->domes[i].coord = Model_GetCameraCoordinateUnit();
-            work->domes[i].red = D_8013CEFC[command].dome_red;
-            work->domes[i].green = D_8013CEFC[command].dome_green;
-            work->domes[i].blue = D_8013CEFC[command].dome_blue;
+            work->domes[i].red = gModelVariant674_D1EFC[command].dome_red;
+            work->domes[i].green = gModelVariant674_D1EFC[command].dome_green;
+            work->domes[i].blue = gModelVariant674_D1EFC[command].dome_blue;
             work->domes[i].u = 0;
             work->domes[i].v = 0x80;
             setVector(&work->domes[i].scale, 0x1000, 0x1000, 0x1000);
@@ -107,7 +107,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->domes[i].rotation, 0, work->slot * 2048, 0);
             setVector(&work->domes[i].position, 0, 0, 0);
         }
-        work->delay = D_8013CEFC[command].delay;
+        work->delay = gModelVariant674_D1EFC[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -311,13 +311,13 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     n = (work->domes[i].duration - work->domes[i].elapsed) * 2;
                     d = work->domes[i].duration;
-                    work->domes[i].red = D_8013CEFC[work->command].dome_red * n / d;
-                    work->domes[i].green = D_8013CEFC[work->command].dome_green * n / d;
-                    work->domes[i].blue = D_8013CEFC[work->command].dome_blue * n / d;
+                    work->domes[i].red = gModelVariant674_D1EFC[work->command].dome_red * n / d;
+                    work->domes[i].green = gModelVariant674_D1EFC[work->command].dome_green * n / d;
+                    work->domes[i].blue = gModelVariant674_D1EFC[work->command].dome_blue * n / d;
                 } else {
-                    work->domes[i].red = D_8013CEFC[work->command].dome_red;
-                    work->domes[i].green = D_8013CEFC[work->command].dome_green;
-                    work->domes[i].blue = D_8013CEFC[work->command].dome_blue;
+                    work->domes[i].red = gModelVariant674_D1EFC[work->command].dome_red;
+                    work->domes[i].green = gModelVariant674_D1EFC[work->command].dome_green;
+                    work->domes[i].blue = gModelVariant674_D1EFC[work->command].dome_blue;
                 }
                 work->domes[i].v = work->domes[i].elapsed % 16 * 63 / 16 + 128;
                 for (k = 0; k < 8; k++) {
@@ -343,13 +343,13 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     n = (work->domes[i].duration - work->domes[i].elapsed) * 2;
                     d = work->domes[i].duration;
-                    work->domes[i].red = D_8013CEFC[work->command].red * n / d;
-                    work->domes[i].green = D_8013CEFC[work->command].green * n / d;
-                    work->domes[i].blue = D_8013CEFC[work->command].blue * n / d;
+                    work->domes[i].red = gModelVariant674_D1EFC[work->command].red * n / d;
+                    work->domes[i].green = gModelVariant674_D1EFC[work->command].green * n / d;
+                    work->domes[i].blue = gModelVariant674_D1EFC[work->command].blue * n / d;
                 } else {
-                    work->domes[i].red = D_8013CEFC[work->command].red;
-                    work->domes[i].green = D_8013CEFC[work->command].green;
-                    work->domes[i].blue = D_8013CEFC[work->command].blue;
+                    work->domes[i].red = gModelVariant674_D1EFC[work->command].red;
+                    work->domes[i].green = gModelVariant674_D1EFC[work->command].green;
+                    work->domes[i].blue = gModelVariant674_D1EFC[work->command].blue;
                 }
                 for (k = 0; k < 8; k++) {
                     work->domes[i].v = (work->domes[i].elapsed + k * 10) % 32 * 63 / 32 + 128;

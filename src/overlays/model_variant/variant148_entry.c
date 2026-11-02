@@ -8,9 +8,9 @@
  * an optional screen flash. A negative command draws a frame; any other
  * command sets the work area up and prints its size. */
 
-static const VECTOR D_8013C708 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant148_D1708 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant148_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -36,14 +36,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C708;
+    scale = gModelVariant148_D1708;
     work = (Model148State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->points;
         point->vx = 0;
-        config = work->config = &D_8013C744[command % 100];
+        config = work->config = &gModelVariant148_D1744[command % 100];
         point->vy = 0;
         point->vz = -config->size / 2;
         point = &work->points[1];
@@ -80,7 +80,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C728[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant148_D1728[i]);
         }
         work->elapsed = 0;
         if (command >= 100) {
