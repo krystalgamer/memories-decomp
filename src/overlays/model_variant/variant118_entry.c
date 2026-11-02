@@ -9,7 +9,7 @@
  * passes the middle of the window, the entry moves the camera and restarts
  * both slot animations. */
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant118_HandleRequest(u8 *context, s32 command)
 {
     Model118State *work;
     MATRIX base, matrix;
@@ -37,12 +37,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C044;
+    scale = gModelVariant118_D1044;
     work = (Model118State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C08C[command % 100];
+        config = work->config = &gModelVariant118_D108C[command % 100];
         point = work->trail;
         for (i = 0; i < 3; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -60,7 +60,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = size * csin(elevation) / 4096;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C054[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant118_D1054[i]);
         }
         work->camera_steps = 2;
         work->elapsed = 0;
