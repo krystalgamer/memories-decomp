@@ -1,7 +1,7 @@
 // German MODEL.MRG model 291 (record 291), sector 80526, header 264, loaded at 0x8017B000; the US source variant117_entry.c; built from the French source layout of french_model_variant_291_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1BEC defined:true
-D_8017CC00 = 0x8017CC00; // type:u8 size:0x8C defined:true
-D_8017CC8C = 0x8017CC8C; // type:u8 size:0x3374 defined:true
+ModelVariant117_HandleRequest = 0x8017B004; // type:func size:0x1BEC defined:true
+gModelVariant117_D1C00 = 0x8017CC00; // type:u8 size:0x8C defined:true
+gModelVariant117_D1C8C = 0x8017CC8C; // type:u8 size:0x3374 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true
