@@ -7187,8 +7187,8 @@ Three ways it misses a declaration that is really there:
     while explaining why they differ, and a scan reads all five.
 
   - A declaration inside `#ifdef` is invisible as a declaration and invisible
-    as a guard. `mem_card.h` wraps a pair in
-    `#ifndef GMEMCARD_NIORESULT_IS_VOLATILE`, so "declared twice" and
+    as a guard. `mem_card.h` once wrapped a pair in
+    `#ifndef GMEMCARD_NIORESULT_IS_VOLATILE` (since removed), so "declared twice" and
     "declared twice deliberately" look identical, and inserting into that
     region silently hides the new declaration from the consumers that do not
     define the macro.

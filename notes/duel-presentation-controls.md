@@ -6,7 +6,7 @@ views, not a new packed structure.
 
 | Former identity | Canonical name | Preserved view |
 | --- | --- | --- |
-| `D_8009B1B9` | `gDuel_bPresentationCursor` | `u8`, or `s8` under the existing guard |
+| `D_8009B1B9` | `gDuel_bPresentationCursor` | `s8` |
 | `D_8009B218` | `gDuel_bPlacementNeedsCardMoveSetup` | `s8` |
 | `D_8009B21A` | `gDuel_bFieldActionAutoCommit` | `u8` |
 
@@ -28,10 +28,11 @@ It is therefore a reusable presentation cursor/counter, not a permanently
 bounded slot index. Byte wrapping, signed comparisons, the -1 sentinel,
 texture cycling, offsets and all existing casts remain.
 
-The isolated header mirrors `D_8009B1B9_AS_SIGNED`; battle and resume keep
-their signed view, while placement and Exodia retain the unsigned
-declaration and their explicit signed reads. No declaration is normalized
-to one sign for all consumers.
+The byte is one `s8` object, defined once in `duel_field_card_render.c`
+and declared once in `duel_presentation_controls.h`. Exodia's texture
+cycle reads it as `(u8)` before masking with `& 3`; that unsigned read is
+the only place the retail code zero-extends it. The former `u8` default
+view and its `D_8009B1B9_AS_SIGNED` selector were removed.
 
 ## Placement's final card-move setup decision
 

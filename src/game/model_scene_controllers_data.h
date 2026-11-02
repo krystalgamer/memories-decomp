@@ -15,8 +15,5 @@ extern s16 gModel_sTextureTintRectX;
 extern s16 gModel_sTextureTintRectY;
 extern s16 gModel_sTextureTintRectW;
 extern s16 gModel_sTextureTintRectH;
-#ifdef D_8009B_MODEL_VISIBLE
-extern ModelBytes8 gModel_ViewSnapshot;
-#endif
 
 #endif

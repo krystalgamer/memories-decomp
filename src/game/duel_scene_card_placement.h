@@ -8,13 +8,6 @@
  * gDuel_wPlacementCardId as u16; placement tests its signed value and uses bit 15 to
  * distinguish fusion from equipment. The low twelve bits are the card id. */
 extern u16 gDuel_wPlacementCardId;
-/* Shared work-slot selector. Exodia uses its unsigned view; placement takes
- * the measured signed byte explicitly at its bound and array-index reads. */
-#ifdef D_8009B1B9_AS_SIGNED
-extern s8 D_8009B1B9;
-#else
-extern u8 D_8009B1B9;
-#endif
 extern s16 gDuel_wEquipCardId;
 extern s8 D_8009B218;
 

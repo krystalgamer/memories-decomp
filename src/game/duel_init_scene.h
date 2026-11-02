@@ -20,16 +20,8 @@ void Duel_InitScene(void);
    whose variant is gDuel_bTerrain and which DuelEffect_ApplyTerrain re-selects,
    and the panel at (280, 32) that Duel_DrawLifePointsAndDeckCounts positions
    its numbers against. The result outro slides both away. */
-#ifdef D_8009B214_AS_BYTE_POINTER
-extern u8 *gDuel_pTerrainIcon;
-#else
 extern DisplayObject *gDuel_pTerrainIcon;
-#endif
-#ifdef D_8009B21C_AS_BYTE_POINTER
-extern u8 *gDuel_pLifePointsPanel;
-#else
 extern DisplayObject *gDuel_pLifePointsPanel;
-#endif
 
 /* Save-data windows selected while the duel scene starts. The no-opponent
  * path points them at the two 0x1000-byte halves of D_801D1200; the normal

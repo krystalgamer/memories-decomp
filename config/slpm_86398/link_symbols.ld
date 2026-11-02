@@ -128,7 +128,6 @@ AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
-gDuel_bPresentationCursor = D_8009B1B9;
 gDuel_bPlacementNeedsCardMoveSetup = 0x8009B108;
 gDuel_bFieldActionAutoCommit = D_8009B21A;
 

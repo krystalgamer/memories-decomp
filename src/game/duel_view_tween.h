@@ -18,11 +18,7 @@ void Duel_StartViewTween(
 /* Remaining frames in the view tween. The producer treats the count as
  * signed; Duel_InitScene only clears the same 16-bit slot and uses an unsigned
  * view. Both compile to the same gp-relative halfword access. */
-#ifdef D_8009B204_UNSIGNED
-extern u16 gDuel_wViewTweenFramesRemaining;
-#else
 extern s16 gDuel_wViewTweenFramesRemaining;
-#endif
 
 /* State that Duel_UpdateDisplayTransition (duel_field_display_objects.c) uses to advance
  * the tween.

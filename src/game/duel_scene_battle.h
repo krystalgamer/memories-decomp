@@ -9,7 +9,7 @@
  * and duel_scene_field_actions.h record the same arrangement for scene-states
  * 4 and 5.
  *
- * Both are a two-entry pair indexed by D_8009B1B9
+ * Both are a two-entry pair indexed by gDuel_bPresentationCursor
  * (duel_scene_card_placement.h), which that source takes through its signed
  * view. Every access to both is gp-relative in the retail listing: four
  * relocations each, none through %hi/%lo. The same listing reaches

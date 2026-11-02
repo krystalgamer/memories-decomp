@@ -1,4 +1,3 @@
-#define GMEMCARD_NIORESULT_IS_VOLATILE
 #include "../types.h"
 
 /* Zero-initialized storage this unit owns at 0x800F2888-0x800F2B20, defined in

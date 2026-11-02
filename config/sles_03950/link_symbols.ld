@@ -378,7 +378,7 @@ gDuel_wViewTweenFramesRemaining = 0x8009C4CC;
 gDuel_apSwordsEffectObjects = 0x8009C4D0;
 D_8009B208 = 0x8009C4D8;
 gDuel_dwViewTweenDistanceStep = 0x8009C4DC;
-D_8009B1B9 = 0x8009C4E1;
+gDuel_bPresentationCursor = 0x8009C4E1;
 D_8009B20C = 0x8009C4E2;
 gDuel_pTerrainIcon = 0x8009C4E8;
 gDuel_pSide0SaveData = 0x8009C4F8;
@@ -1095,7 +1095,6 @@ AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
-gDuel_bPresentationCursor = D_8009B1B9;
 gDuel_bPlacementNeedsCardMoveSetup = D_8009B218;
 gDuel_bFieldActionAutoCommit = D_8009C0CC;
 

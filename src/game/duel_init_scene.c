@@ -1,7 +1,6 @@
 
 
 #define D_8009B369_IN_DATA
-#define D_8009B204_UNSIGNED
 #include "../types.h"
 #include "duel_scene_state.h"
 #include "duel_shuffle_both_decks.h"

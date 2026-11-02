@@ -43,12 +43,7 @@ s32 MemCard_ProcessRequest(s32 mode, s32 *request, s32 *result);
    measured the difference. */
 extern long gMemCard_aIOEventHandles[];
 
-#ifdef GMEMCARD_NIORESULT_IS_VOLATILE
-
 extern volatile s32 gMemCard_nIOResult;
-#else
-extern s32 gMemCard_nIOResult;
-#endif
 
 /* The memory-card channel a request was issued on. MemCard_BeginRequest
  * stores its first parameter here before it resets gMemCard_nIOResult;

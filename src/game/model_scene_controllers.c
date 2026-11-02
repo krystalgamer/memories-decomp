@@ -9,15 +9,13 @@
  * comes before the first include. MODEL_HANDLER_* and
  * MODEL_GRAPHICS_STATE_SCENE_BYTES select retail's split absolute addresses
  * and scene-byte views for the intro controllers;
- * FUNC_80058434_CALL_WITH_UNUSED_ARG and D_8009B_MODEL_VISIBLE are the scene
- * setup functions' views.
+ * FUNC_80058434_CALL_WITH_UNUSED_ARG is the scene setup functions' view.
  */
 #define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #define MODEL_HANDLER_VIEW_OFFSET_ABSOLUTE
 #define MODEL_HANDLER_OFFSET_ABSOLUTE
 #define MODEL_GRAPHICS_STATE_SCENE_BYTES
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
-#define D_8009B_MODEL_VISIBLE
 
 #include "../types.h"
 #include "../psyq/libetc.h"

@@ -62,7 +62,6 @@
 #include "duel_effect_allocate_request.h"
 #include "duel_effect_resource_record.h"
 #include "duel_effect_resource_setup.h"
-#define D_8009B1B9_AS_SIGNED
 #include "card_preview_objects.h"
 #include "display_object_helpers.h"
 #include "display_object_core.h"
@@ -541,7 +540,7 @@ void DuelScene_UpdateBattle(void)
         gDuel_bSceneSubStep = 6;
     case 6:
         gDuel_bPresentationCursor = gDuel_bPresentationCursor - 1;
-        if ((s8)gDuel_bPresentationCursor >= 0) {
+        if (gDuel_bPresentationCursor >= 0) {
             gDuel_bSceneSubStep = 8;
         case 8:
             flags = gDuel_bSceneSubStep;
