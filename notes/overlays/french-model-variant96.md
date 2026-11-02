@@ -2,8 +2,10 @@
 
 Models 192 and 196's stages 9/10 have exact 3,144-byte entry functions using
 the named `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81.
-One implementation and a symbol-only slot wrapper supply all four entries
-and their 16-byte scale constants. No shared SDK declarations, compiler
+One implementation supplies all four entries and their 16-byte scale
+constants in both slots; each image's symbols file binds
+`FrenchModelVariant96_HandleRequest` and the three data names
+(`gFrenchModelVariant96_D0C4C`, `_D0C5C`, `_D0C78`) at its own addresses. No shared SDK declarations, compiler
 profiles or other regional implementations change.
 
 ## Loader and ownership

@@ -8,9 +8,9 @@
 #endif
 #include "../../game/graphics_constants.h"
 
-const VECTOR D_8013BC4C = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant96_D0C4C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
 {
     Model96State *work;
     MATRIX base;
@@ -30,11 +30,11 @@ s32 func_8013B004(u8 *context, s32 command)
     s32 direction, i, j, angle, time, brightness;
     PSXLONG depth;
 
-    scale = D_8013BC4C;
+    scale = gFrenchModelVariant96_D0C4C;
     work = (Model96State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013BC78[command];
+        config = work->config = &gFrenchModelVariant96_D0C78[command];
         position = work->outer;
         inner = work->inner;
         for (i = 0; i <= config->segments; position++, inner++, i++) {
@@ -53,7 +53,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->prepared = 0;
         work->elapsed = -config->delay;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BC5C[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant96_D0C5C[i]);
         }
         work->completed = 0;
         return 0;
