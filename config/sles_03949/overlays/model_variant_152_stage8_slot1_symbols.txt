@@ -1,4 +1,4 @@
-// German MODEL.MRG model 152 (record 152), sector 42142, header 920, loaded at 0x8017B000; the US header-806 source variant806_entry_slot1.c; built from the French source layout of french_model_variant_152_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1F54 defined:true
-D_8017CF68 = 0x8017CF68; // type:u8 size:0x70 defined:true
-D_8017CFD8 = 0x8017CFD8; // type:u8 size:0x3028 defined:true
+// German MODEL.MRG model 152 (record 152), sector 42142, header 920, loaded at 0x8017B000; the US header-806 source variant806_entry.c; built from the French source layout of french_model_variant_152_stage8_slot1.
+ModelVariant806_HandleRequest = 0x8017B004; // type:func size:0x1F54 defined:true
+gModelVariant806_D1F68 = 0x8017CF68; // type:u8 size:0x70 defined:true
+gModelVariant806_D1FD8 = 0x8017CFD8; // type:u8 size:0x3028 defined:true

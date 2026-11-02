@@ -8,9 +8,9 @@
  * eight falling shards that fade and three falling debris sprites. The
  * ambient level dips during the flight and comes back afterwards. */
 
-static const VECTOR D_8013CBF0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant822_D1BF0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant822_HandleRequest(u8 *context, s32 command)
 {
     Model822State *work;
     MATRIX base, matrix;
@@ -28,12 +28,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CBF0;
+    scale = gModelVariant822_D1BF0;
     work = (Model822State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CC54[command];
+        work->config = &gModelVariant822_D1C54[command];
         for (i = 0; i < 5; i++) {
             setVector(&work->position[i], 0, 0, 0);
             setVector(&work->velocity[i], 0, 0, 0);
@@ -59,9 +59,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->width = work->config->width;
         work->height = work->config->height;
         setVector(&work->origin, 0, 0, 0);
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013CC00[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CC00[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CC00[2]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant822_D1C00[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant822_D1C00[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant822_D1C00[2]);
         work->red = 0;
         work->green = 0;
         work->blue = 0;

@@ -7,9 +7,9 @@
  * and falling sparks and embers spill out while the ambient light dims and
  * recovers. */
 
-static const VECTOR D_8013CFA0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant815_D1FA0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant815_HandleRequest(u8 *context, s32 command)
 {
     Model815State *work;
     MATRIX base, matrix;
@@ -28,12 +28,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CFA0;
+    scale = gModelVariant815_D1FA0;
     work = (Model815State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D03C[command];
+        work->config = &gModelVariant815_D203C[command];
         for (i = 0; i < 48; i++) {
             setVector(&work->shards[i], work->config->spread * ((rand() - rand()) % 4096) / 4096,
                 -(work->config->spread >> 1) * (rand() % 4096) / 4096,
@@ -61,7 +61,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 -(rand() % 4096 * 48) / 4096, direction * (rand() % 4096 * 48 / 4096 + 12));
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CFB0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant815_D1FB0[i]);
         }
         work->tint.c.glow.r = 255;
         work->tint.c.glow.g = 255;

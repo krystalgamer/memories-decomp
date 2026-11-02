@@ -94,9 +94,9 @@ typedef struct {
     } color;
 } Model808State;
 
-extern GsIMAGE D_8013D228[5];
-extern Model808Config D_8013D2B4[];
+extern GsIMAGE gModelVariant808_D2228[5];
+extern Model808Config gModelVariant808_D22B4[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant808_HandleRequest(u8 *context, s32 command);
 
 #endif

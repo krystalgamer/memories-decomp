@@ -9,11 +9,11 @@
  * flash and grows a sixteen-segment shock ring while the ambient light
  * dims and recovers. */
 
-static const VECTOR D_8013ECB8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant819_D3CB8 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant819_HandleRequest(u8 *context, s32 command)
 {
     Model819State *work;
     MATRIX light;
@@ -43,7 +43,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013ECB8;
+    scale = gModelVariant819_D3CB8;
     work = (Model819State *)context;
     poly = &ft4;
     shock = &gt4;
@@ -51,7 +51,7 @@ s32 func_8013B004(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013ED8C[command];
+        work->config = &gModelVariant819_D3D8C[command];
         for (i = 0; i < work->config->count; i++) {
             work->state.s.timers.split.growth[i] = 0;
             work->state.s.swell[i] = 0;
@@ -127,7 +127,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->ring_clut = 0x3D20;
 #endif
         for (i = 0; i < 7; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013ECC8[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant819_D3CC8[i]);
         }
         work->ambient = 0x800;
         work->head = 0;

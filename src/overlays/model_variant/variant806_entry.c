@@ -8,11 +8,11 @@
  * opposing slot, each throwing off tumbling embers, while the ambient light
  * dims and recovers. */
 
-static const VECTOR D_8013CF58 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant806_D1F58 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant806_HandleRequest(u8 *context, s32 command)
 {
     Model806State *work;
     MATRIX light;
@@ -38,12 +38,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CF58;
+    scale = gModelVariant806_D1F58;
     work = (Model806State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CFD8[command];
+        work->config = &gModelVariant806_D1FD8[command];
         setVector(&work->center, 0, 0, 0);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
         Model_CopySlotPosition(slot ^ 1, (u16 *)&rot);
@@ -78,7 +78,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->length[0] = 0;
         work->length[1] = 0;
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CF68[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant806_D1F68[i]);
         }
         work->ambient = 0x800;
         work->glow[0] = 0x80;

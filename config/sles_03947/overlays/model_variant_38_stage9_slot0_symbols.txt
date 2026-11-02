@@ -1,4 +1,4 @@
 // European MODEL.MRG model 38 (record 38), sector 10688, header 841, loaded at 0x8013B000; the US header-824 source variant824_entry.c; built from the French source layout of french_model_variant_38_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x3AD0 defined:true
-D_8013EAE4 = 0x8013EAE4; // type:u8 size:0x8C defined:true
-D_8013EB70 = 0x8013EB70; // type:u8 size:0x1490 defined:true
+ModelVariant824_HandleRequest = 0x8013B004; // type:func size:0x3AD0 defined:true
+gModelVariant824_D3AE4 = 0x8013EAE4; // type:u8 size:0x8C defined:true
+gModelVariant824_D3B70 = 0x8013EB70; // type:u8 size:0x1490 defined:true

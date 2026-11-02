@@ -1,4 +1,4 @@
 // Italian MODEL.MRG model 357 (record 357), sector 84932, header 836, loaded at 0x8013B000; the US header-819 source variant819_entry.c; built from the French source layout of french_model_variant_357_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x3CB4 defined:true
-D_8013ECC8 = 0x8013ECC8; // type:u8 size:0xC4 defined:true
-D_8013ED8C = 0x8013ED8C; // type:u8 size:0x1274 defined:true
+ModelVariant819_HandleRequest = 0x8013B004; // type:func size:0x3CB4 defined:true
+gModelVariant819_D3CC8 = 0x8013ECC8; // type:u8 size:0xC4 defined:true
+gModelVariant819_D3D8C = 0x8013ED8C; // type:u8 size:0x1274 defined:true
