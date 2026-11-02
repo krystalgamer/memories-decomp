@@ -41,7 +41,7 @@ void PalOptions_Init(s32 mode)
     index = 0x60;
     while (buffer[index] == buffer[index + 0x2000]) {
         if (++index >= 0x5A0) {
-            gPalOptions_bLanguage = D_8009B118[0];
+            gPalOptions_bLanguage = D_8009B118[0][0];
             break;
         }
     }

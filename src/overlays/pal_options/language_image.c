@@ -17,7 +17,7 @@ void PalOptions_StoreLanguageImage(void)
     rect->h = 0x10;
     StoreImage(rect, (u32 *)D_8009B118[0]);
     DrawSync(0);
-    D_8009B118[0] = gText_bLanguageIndex;
+    D_8009B118[0][0] = gText_bLanguageIndex;
     rect[1].x = 0x290;
     {
         RECT *destination = &rect[1];
