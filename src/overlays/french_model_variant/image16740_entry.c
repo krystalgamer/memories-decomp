@@ -6,7 +6,7 @@
 #define GRAPHICS_DEFAULT_HEIGHT 256
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant196_HandleRequest(u8 *context, s32 command)
 {
     MATRIX light;
     MATRIX matrix;
@@ -37,11 +37,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, sizeof(rotation));
     memset(&translation, 0, sizeof(translation));
-    scale = D_8013BC44;
+    scale = gFrenchModelVariant196_D0C44;
     state = (Image16740State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = state->config = &D_8013BC8C[command];
+        config = state->config = &gFrenchModelVariant196_D0C8C[command];
         Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&state->translation);
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&state->origin);
         point = state->ring;
@@ -70,7 +70,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         for (i = 0; i < 2; i++) {
             state->textures[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &D_8013BC54[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant196_D0C54[i]);
         }
         state->time = 0;
         state->completed = 0;

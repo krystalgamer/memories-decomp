@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/image16740_entry_usa_slot1]
+      - [0x4, c, overlays/model_variant/image16740_entry_usa]
   - name: unclassified_tail
     type: code
     start: 0xC44
