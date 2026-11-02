@@ -1,0 +1,6 @@
+// Spanish MODEL.MRG model 461 (record 411), sector 113646, header 613, loaded at 0x8017B000; raw image with the French header-463 ribbons, paired-sheets, trail-ribbons, sheets and rings helpers.
+FrenchModelVariant463_DrawRibbons = 0x8017C984; // type:func size:0x994 defined:true
+FrenchModelVariant463_DrawPairedSheets = 0x8017D318; // type:func size:0x548 defined:true
+FrenchModelVariant463_DrawTrailRibbons = 0x8017D860; // type:func size:0xA88 defined:true
+FrenchModelVariant463_DrawSheets = 0x8017E2E8; // type:func size:0x4EC defined:true
+FrenchModelVariant463_DrawRings = 0x8017E7D4; // type:func size:0x434 defined:true

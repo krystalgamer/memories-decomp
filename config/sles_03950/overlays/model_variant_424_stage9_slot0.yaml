@@ -25,6 +25,8 @@ options:
   o_path: tmp/overlays/italian_model_variant_424_stage9_slot0/build
   undefined_funcs_auto_path: tmp/overlays/italian_model_variant_424_stage9_slot0/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/overlays/italian_model_variant_424_stage9_slot0/undefined_syms_auto.txt
+  symbol_addrs_path:
+    - config/sles_03950/overlays/model_variant_424_stage9_slot0_symbols.txt
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true

@@ -1,6 +1,6 @@
 # French header-463 image rings helper
 
-`func_8013E7D4` / `func_8017E7D4` (image offset `0x37D4`, 0x434 bytes)
+`FrenchModelVariant463_DrawRings` (`0x8013E7D4` / `0x8017E7D4`, image offset `0x37D4`, 0x434 bytes)
 grows and orbits 24 ring quads.
 **No release had matching C for this body before.**
 

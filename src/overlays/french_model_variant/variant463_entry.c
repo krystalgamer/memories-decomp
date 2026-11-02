@@ -5,7 +5,4 @@
  * at 0x3C08 and the palette loads from PAL x = 640. */
 #define VERSION_FRENCH
 #define MODEL_VARIANT446_CLUT_X 640
-#define func_8013D314 func_8013D318
-#define func_8013E2D8 func_8013E2E8
-#define D_8013EBF4 D_8013EC08
 #include "../model_variant/variant446_entry.c"

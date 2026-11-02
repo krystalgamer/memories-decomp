@@ -3,12 +3,13 @@
 Two helpers in the header-463 images draw five ribbons, one per primary
 record:
 
-- `func_8013C984` / `func_8017C984` (image offset `0x1984`, 0x994 bytes),
-  `variant463_ribbons.c`;
-- `func_8013D860` / `func_8017D860` (image offset `0x2860`, 0xA88 bytes),
-  `variant463_trail_ribbons.c`.
+- `FrenchModelVariant463_DrawRibbons` (`0x8013C984` / `0x8017C984`, image
+  offset `0x1984`, 0x994 bytes), `variant463_ribbons.c`;
+- `FrenchModelVariant463_DrawTrailRibbons` (`0x8013D860` / `0x8017D860`,
+  image offset `0x2860`, 0xA88 bytes), `variant463_trail_ribbons.c`.
 
-Each has a `_slot1.c` wrapper. They are built into the same eight images as
+One source serves both slots; each image's symbols file binds the name at its
+own address. They are built into the same eight images as
 the [header-463 sheets helper](french-model-variant463-sheets.md). In the
 French raw slot-1 images, new C segments at `0x1984` and `0x2860` replace
 the remaining raw bytes before the paired sheets helper and the sheets

@@ -649,13 +649,16 @@ goes too, and the
 the data labels 0x28 lower.
 
 Two images under French header 463 are the North American header-446 entry
-(`model_variant/variant446_entry.c`, which the US images build with the CDK
+(`ModelVariant446_HandleRequest`, `model_variant/variant446_entry.c`, which the US images build with the CDK
 GCC 2.7.2 profile) rebuilt with GCC 2.8.1 at the same size. Its helpers move
 to 0x2318 and 0x32E8, the uncalled rings helper keeps its French C
 (`variant463_rings.c`) at 0x37D4, the data starts at 0x3C08 and the effect
 palette loads from PAL x = 640. The
-`src/overlays/french_model_variant/variant463_entry.c` wrapper selects those
-addresses and the palette, binding
+`src/overlays/french_model_variant/variant463_entry.c` wrapper selects
+`VERSION_FRENCH` and the palette. Each image's symbols file binds the moved
+helpers (`FrenchModelVariant463_DrawPairedSheets`,
+`FrenchModelVariant463_DrawSheets`) and the data (`gModelVariant446_D3BF4`)
+at its own addresses, and the image links
 `model_variant463_entry_linker_symbols.txt`.
 
 Eight images under French headers 660 and 727 are the North American
