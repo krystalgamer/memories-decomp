@@ -554,10 +554,11 @@ goes too. Both slots build through
 `gModelVariant628_D25EC` at its own addresses.
 
 Ten images under French headers 690 and 757 are the North American
-header-673 entry (`model_variant/variant673_entry.c`) without its `E_DATA`
-work-size printf, built through
-`src/overlays/french_model_variant/variant690_entry{,_slot1}.c` with the data
-labels 0x28 lower.
+header-673 entry (`ModelVariant673_HandleRequest`,
+`model_variant/variant673_entry.c`) without its `E_DATA` work-size printf.
+Both slots build `src/overlays/french_model_variant/variant690_entry.c`, and
+each image's symbols file binds `gModelVariant673_D1B48` and
+`gModelVariant673_D1B9C` 0x28 lower than the North American addresses.
 
 Four images under French headers 682 and 749 are the North American
 header-665 entry (`ModelVariant665_HandleRequest`,
