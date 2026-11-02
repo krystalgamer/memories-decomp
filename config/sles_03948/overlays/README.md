@@ -1261,8 +1261,8 @@ French MODEL headers 776 (stage 7 slot 0) and 873 (stage 8 slot 1) build the hea
 Six images under French headers 159 and 289 are the North American
 header-142 entry (`model_variant/variant142_entry.c`) without its work-size
 printf or that call's `.rodata` format string, built through
-`src/overlays/french_model_variant/variant159_entry{,_slot1}.c`. The scale
-vector sits 0x14 lower and the image and command tables 0x24 lower.
+`src/overlays/french_model_variant/variant159_entry.c`. The scale
+vector sits 0x14 lower and the image and command tables 0x24 lower. Each image's symbols file binds `ModelVariant142_HandleRequest` and `gModelVariant142_D13B0`, `gModelVariant142_D14AC` at its own addresses.
 
 Two images under French headers 161 and 291 are the North American
 header-144 entry (`model_variant/variant144_entry.c`) without its work-size
