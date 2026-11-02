@@ -14,7 +14,7 @@ void Main_StartDuel(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     gDuel_wBgmId = 0x7270;
     gDuel_wAnimatedBattleBgmCommand = 0x7280;
-    gDuel_bSide0ControllerSelector = arg0;
+    gDuel_bSide0ControllerSelector[0] = arg0;
     gDuel_bOpponentID = arg1;
     gDuel_wCampaignSceneOnWin = arg2;
     gDuel_wCampaignSceneOnLoss = arg3;

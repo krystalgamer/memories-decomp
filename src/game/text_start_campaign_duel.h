@@ -12,7 +12,7 @@
  * controlled Forest Mage transition observed opponent 23, terrain 1 and
  * gDuel_wBgmId 0x7210 unchanged through the first sixty duel frames.
  *
- * It also resets D_8009B360 to -1 before any of that, which is what makes the
+ * It also resets gDuel_bSide0ControllerSelector[0] to -1 before any of that, which is what makes the
  * duel's own state read as unset. Each byte read uses independent local
  * slot/cursor/value lifetimes; no register bindings are needed. */
 void Text_StartCampaignDuel(DuelEffectChannel *object);

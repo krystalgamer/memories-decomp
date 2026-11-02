@@ -539,11 +539,11 @@ described above:
 | `0` | `0x800E9FF0` | `0x800EA00F` |
 | `1` | `0x800EA010` | `0x800EA02F` |
 
-Only the branch with both `D_8009B360[0] < 0` and
+Only the branch with both `gDuel_bSide0ControllerSelector[0] < 0` and
 `gDuel_bOpponentID < 0` copies the low byte of `gDuel_wTwoPlayerCardViewMode` into both
 positions. For a nonnegative opponent ID, the initializer instead sets
 the side-1 byte to `0xFF` (signed `-1`) while side 0 stays zero.
-The remaining negative-opponent/nonnegative-`D_8009B360` case leaves both
+The remaining negative-opponent/nonnegative-`gDuel_bSide0ControllerSelector[0]` case leaves both
 cleared. Do not collapse these branches into a universal two-player copy.
 
 The initializer points `D_8009B1C8` at the active side record; the matching

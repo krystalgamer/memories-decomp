@@ -293,7 +293,7 @@ gText_BranchSelectorB = 0x8009C6D8;
 gText_PreviousGlyphKind = 0x8009C6D9;
 gText_ScriptDispatchGate = 0x8009C6D2;
 gText_PumpedGlyphIndex = 0x8009C6D6;
-D_8009B360 = 0x8009C6F2;
+gDuel_bSide0ControllerSelector = 0x8009C6F2;
 gDuel_bPlayerLost = 0x8009C6F4;
 D_8009B363 = 0x8009C6F8;
 D_8009B368 = 0x8009C6FA;
@@ -1081,7 +1081,6 @@ gDuel_wCampaignSceneOnWin = D_8009B370;
 gDuel_wCampaignSceneOnLoss = D_8009B372;
 gDuel_wAnimatedBattleBgmCommand = D_8009B374;
 
-gDuel_bSide0ControllerSelector = D_8009B360;
 gAi_bGuardianStarChoice = D_800EAE8F;
 gAi_bHandFaceDownRequested = tent_AiSelectionRandom;
 gAi_bFieldSourceCode = D_800EAE91;

@@ -6,7 +6,7 @@ structure or replace the existing twelve-byte `AiSelection` union.
 
 | Former identity | Canonical name | Preserved view |
 | --- | --- | --- |
-| `D_8009B360` | `gDuel_bSide0ControllerSelector` | signed scalar / `.data` / two-side array |
+| `D_8009B360` | `gDuel_bSide0ControllerSelector` | one `.data` `s8 [DUEL_SIDE_COUNT]` declaration |
 | `D_800EAE8F` | `gAi_bGuardianStarChoice` | unsigned scalar / incomplete array, selection +7 |
 | `tent_AiSelectionRandom` | `gAi_bHandFaceDownRequested` | unsigned scalar, selection +8 |
 | `D_800EAE91` | `gAi_bFieldSourceCode` | unsigned scalar / incomplete array, selection +9 |
@@ -21,16 +21,17 @@ nonnegative; negative values take human paths. Side initialization,
 created-card knowledge, ritual handling and result handling independently
 use the same distinction.
 
-The array view includes the separately named `gDuel_bOpponentID` at element
+The array includes the separately named `gDuel_bOpponentID` at element
 1. That byte also carries an opponent ID, but this does not establish that
 the magnitude of the first selector is a duelist or deck-template ID.
 `Duel_ShuffleDeck` with a null deck samples the single opponent deck pool,
 not a table indexed by this first byte. Neither selector becomes a Boolean
 or a newly range-checked enumeration.
 
-The isolated header mirrors all three original declaration arms under
-their existing guards. The opponent's scalar, sized-array and
-incomplete-array views remain independent. There is no new allocation or
+The header declares the selector once, as a `.data` `s8 [DUEL_SIDE_COUNT]`;
+every unit, -G0 and -G8 alike, compiles to retail's absolute accesses from
+that declaration. The opponent's scalar, sized-array and incomplete-array
+views remain independent. There is no new allocation or
 layout assertion.
 
 ## Guardian choice versus face-down request
@@ -104,7 +105,7 @@ and instruction ordering are load-bearing.
 | SLES_039.47 | `8009C2D2` | `800EBDF7` | `800EBDF8` | `800EBDF9` | `800EBDFA` |
 | Other PAL | `8009C6F2` | `800EC217` | `800EC218` | `800EC219` | `800EC21A` |
 
-The Japanese `symbols.txt` binds the controller provider `D_8009B360` at
+The Japanese `symbols.txt` binds `gDuel_bSide0ControllerSelector` at
 `8009B250`, and Japan builds `Main_StartDuel` from the shared source. The
 movie code's `D_8009B4A0`-`D_8009B4A2` triplet sits at `8009B360`-`8009B362`
 there and is unrelated. No RGB or tint meaning is inferred.

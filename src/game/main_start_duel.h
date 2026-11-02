@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Arms a duel: stores arg0 into D_8009B360, arg1 into gDuel_bOpponentID and
+/* Arms a duel: stores arg0 into gDuel_bSide0ControllerSelector[0], arg1 into gDuel_bOpponentID and
  * arg2/arg3 into the halfwords D_8009B370/D_8009B372, resets the terrain and
  * sets D_8009B26C to 3.
  *
