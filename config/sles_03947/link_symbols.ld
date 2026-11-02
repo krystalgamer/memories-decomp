@@ -329,20 +329,10 @@ gSortedEntry_nCount = D_8009C274_sles_03947;
 gSortedEntry_pBase = D_8009C278_sles_03947;
 gSortedEntry_nSortedCount = D_8009C27C_sles_03947;
 
-/* Names inside input_pads's own storage (#2602). */
-
 /* Names inside mem_card_dialog's own storage (#2602). */
 gSaveDataSequence = D_8009C31C_sles_03947;
 D_8009B3BC = D_8009C32C_sles_03947;
 D_8009B3DE = D_8009C34A_sles_03947;
-
-/* Names inside sound_frontend's own storage (#2602). */
-
-/* Names inside display_object_core's own storage (#2602). */
-
-/* Names inside mem_card_driver's own storage (#2602). */
-
-/* Names inside sound_output_transition's own storage (#2602). */
 
 /* Names inside model_scene_controllers's own storage (#2602). */
 gModel_ImageCopyRectY = gModel_ImageCopyRect + 2;
