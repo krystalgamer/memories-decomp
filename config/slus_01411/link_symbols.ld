@@ -120,7 +120,6 @@ gDuel_wCampaignSceneOnWin = D_8009B370;
 gDuel_wCampaignSceneOnLoss = D_8009B372;
 gDuel_wAnimatedBattleBgmCommand = D_8009B374;
 
-gAi_bHandFaceDownRequested = tent_AiSelectionRandom;
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
@@ -257,7 +256,7 @@ gCardPreview_Resource1 = D_800E9EF0 + 568;
 
 /* Other names for game/main_run_campaign's small data (#2602). */
 gAi_Selection = D_800EAE88;
-tent_AiSelectionRandom = D_800EAE88 + 8;
+gAi_bHandFaceDownRequested = D_800EAE88 + 8;
 gSceneScript_Slots = D_800EAE88 + 16;
 
 /* Other names for game/text_box_runtime's small data (#2602). */

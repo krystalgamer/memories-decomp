@@ -107,7 +107,6 @@ gDuel_wCampaignSceneOnWin = 0x8009B260;
 gDuel_wCampaignSceneOnLoss = 0x8009B262;
 gDuel_wAnimatedBattleBgmCommand = 0x8009B264;
 
-gAi_bHandFaceDownRequested = tent_AiSelectionRandom;
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
@@ -215,7 +214,7 @@ gFile_wTransferStepFlags_abs = 0x8009B002;
  * (#2602): the blocks' start and the Japanese spellings of interior names. */
 D_8009AF80 = main_SBSS_START;
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
-tent_AiSelectionRandom = D_800EAE88 + 8;
+gAi_bHandFaceDownRequested = D_800EAE88 + 8;
 gAi_Selection = D_800EAE88;
 gCardPreview_Resource1 = D_800E9EF0 + 568;
 gCardPreview_Resources = D_800E9EF0 + 504;

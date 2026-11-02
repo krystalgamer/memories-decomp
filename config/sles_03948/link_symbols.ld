@@ -969,7 +969,7 @@ srand = 0x8008F738;
 strcmp = 0x8008F7F8;
 strcpy = 0x8008F868;
 tail_data_start = 0x801AC000;
-tent_AiSelectionRandom = 0x800EC218;
+gAi_bHandFaceDownRequested = 0x800EC218;
 tent_DebugEffectObject0 = 0x8009C588;
 tent_DebugEffectObject1 = 0x8009C58C;
 tent_DebugInterfaceData = 0x8009C674;
@@ -1063,7 +1063,6 @@ gDuel_wCampaignSceneOnWin = D_8009B370;
 gDuel_wCampaignSceneOnLoss = D_8009B372;
 gDuel_wAnimatedBattleBgmCommand = D_8009B374;
 
-gAi_bHandFaceDownRequested = tent_AiSelectionRandom;
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;

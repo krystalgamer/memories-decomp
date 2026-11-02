@@ -622,7 +622,7 @@ gLibrary_State = 0x800EB570;
 gDuelEffect_aRequests = 0x800EC110;
 gAi_Selection = 0x800EC210;
 D_800EAE8F = 0x800EC217;
-tent_AiSelectionRandom = 0x800EC218;
+gAi_bHandFaceDownRequested = 0x800EC218;
 D_800EAE92 = 0x800EC21A;
 gSceneScript_Slots = 0x800EC220;
 gText_DecimalDigitGlyphMap = 0x800EC290;
@@ -1063,7 +1063,6 @@ gDuel_wCampaignSceneOnWin = D_8009B370;
 gDuel_wCampaignSceneOnLoss = D_8009B372;
 gDuel_wAnimatedBattleBgmCommand = D_8009B374;
 
-gAi_bHandFaceDownRequested = tent_AiSelectionRandom;
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;

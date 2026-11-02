@@ -100,22 +100,16 @@ typedef union {
 
 extern AiSelection gAi_Selection;
 
-/* Byte 0x08 of that same selection -- AiSelection.fields.random -- also carries
- * its own address-based symbol. AiScript_SetSelectionRandom and
- * AiScript_ClearSelectionRandom set and clear it, and
- * AiScript_LoadSelectionRandom copies it into gAiScript_aMemory. Those three
- * reach it as a standalone u8 rather than through the struct, and they must
- * keep doing so: the recorded attempts for AiScript_LoadSelectionRandom fail to
- * link with
- * "relocation truncated to fit: R_MIPS_GPREL16 against `tent_AiSelectionRandom'", so the
- * symbol's own small-data addressing is what those functions match on. This
- * declaration is therefore a deliberate alias of AiSelection.fields.random, not a
- * duplicate to be folded into the struct.
+/* Byte 0x08 of that same selection -- AiSelection.fields.random -- is also
+ * gAi_bHandFaceDownRequested (ai_controller_handoff.h). Its opcode setters
+ * and loader reach it as that standalone u8 rather than through the struct:
+ * the recorded attempts for AiScript_LoadSelectionRandom fail to link with
+ * an R_MIPS_GPREL16 truncation through the struct, so the symbol's own
+ * small-data addressing is what those functions match on.
  *
  * DuelScene_UpdateHandActions reads the same byte with %hi/%lo, and does so as
  * gAi_Selection.bytes[8]: the symbol-plus-offset form is what orders its %hi ahead of
  * the neighbouring constants. */
-extern u8 tent_AiSelectionRandom;
 
 /* Byte 0x01 of the same selection -- AiSelection.fields.field1 -- has no
  * symbol of its own. Seven sites across three sources write the byte:

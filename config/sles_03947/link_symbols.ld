@@ -152,7 +152,6 @@ gDuel_wCampaignSceneOnWin = D_8009B370;
 gDuel_wCampaignSceneOnLoss = D_8009B372;
 gDuel_wAnimatedBattleBgmCommand = D_8009B374;
 
-gAi_bHandFaceDownRequested = tent_AiSelectionRandom;
 AiScript_SetSelectionRandom = AiScript_SetHandFaceDownRequest;
 AiScript_ClearSelectionRandom = AiScript_ClearHandFaceDownRequest;
 AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
@@ -423,7 +422,7 @@ gMemCard_aIOEventHandles = D_800F37F0_sles_03947;
 gMemCard_aHwIOEventHandles = D_800F37F0_sles_03947 + 16;
 gMemCard_szRequestPath = D_800F37F0_sles_03947 + 32;
 gMemCard_aDirEntries = D_800F37F0_sles_03947 + 64;
-tent_AiSelectionRandom = D_800EAE88 + 8;
+gAi_bHandFaceDownRequested = D_800EAE88 + 8;
 D_8009C0CC = D_8009C0CC_sles_03947;
 D_800F5694 = D_800F3A10 + 7300;
 D_8009C0A8 = D_8009C0A8_sles_03947;

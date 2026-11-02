@@ -300,7 +300,8 @@ bounds are preserved. The twelve-byte view does not clamp malformed script
 indices or change the five-entry material scan into a twelve-entry scan.
 
 Interior address aliases are deliberate exceptions, not separate state.
-`tent_AiSelectionRandom` remains a standalone scalar for the three opcode
+`gAi_bHandFaceDownRequested` (formerly `tent_AiSelectionRandom`) remains a
+standalone scalar for the three opcode
 accesses whose small-data relocation depends on that symbol.
 Bytes 7, 9 and 10 (`D_800EAE8F`, `D_800EAE91`, `D_800EAE92`) have no
 separate C names: the guardian-star load and the field opcode write them as
