@@ -5,19 +5,10 @@
 
 extern u16 gDebugMenu_wMessageId;
 extern u16 gDebugMenu_wCampaignScene;
-/* gDebugMenu_awNibbleMasks is a u16 to every consumer that reads it as a number, and
- * DebugMenu_UpdateValueEditor in src/game/debug_menu_editor_entries.c copies eight
- * bytes out of it with a Bytes8 assignment. The aggregate arm is a codegen
- * input rather than a second opinion about the object: at the compiler's -G8 the scalar is small data
- * and the read comes out gp-relative, where an unsized array is not small
- * data and gets cc1psx's own %hi/%lo pair, which is what that unit's target
- * has. The element type is not the lever -- `u8 []` and `u16 []` give the
- * same object under the same Bytes8 access, so the arm keeps the type the
- * scalar states. */
-#ifdef D_8009AF4C_IS_AGGREGATE
+/* The four nibble masks the value editor applies per digit.
+ * DebugMenu_UpdateValueEditor (debug_menu_editor_entries.c) copies all
+ * eight bytes with a Bytes8 assignment; the unsized declaration is what
+ * gives that read cc1psx's %hi/%lo pair rather than a gp-relative one. */
 extern u16 gDebugMenu_awNibbleMasks[];
-#else
-extern u16 gDebugMenu_awNibbleMasks;
-#endif
 
 #endif

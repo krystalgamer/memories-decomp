@@ -216,15 +216,13 @@ void DebugMenu_Update(void) {
     }
 }
 
-/* GCC 2.8.1 aligns arrays to four bytes, so keep this retail block scalar. */
+/* GCC 2.8.1 aligns arrays to four bytes, so the halfwords before the masks
+ * stay scalar; the masks start on a word boundary in every region. */
 u16 gDebugMenu_wMessageId = 0x0500;
 u16 gDebugMenu_wCampaignScene = 1;
 static u16 sFrontendDebugValue48 = 0;
 static u16 sFrontendDebugValue4A = 1;
-u16 gDebugMenu_awNibbleMasks = 0x000F;
-static u16 sFrontendDebugValue4E = 0x00F0;
-static u16 sFrontendDebugValue50 = 0x0F00;
-static u16 sFrontendDebugValue52 = 0xF000;
+u16 gDebugMenu_awNibbleMasks[4] = { 0x000F, 0x00F0, 0x0F00, 0xF000 };
 
 char gDebugMenu_szLineBreak[4] = "\n";
 char gDebugMenu_szStringLineFormat[4] = "%s\n";
