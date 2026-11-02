@@ -66,9 +66,9 @@ typedef struct {
 } Model663ViewSnapshot;
 
 extern MATRIX D_800FE168;
-extern GsIMAGE D_8013E354[2];
-extern Model663Command D_8013E38C[];
+extern GsIMAGE gModelVariant663_D3354[2];
+extern Model663Command gModelVariant663_D338C[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant663_HandleRequest(u8 *context, s32 command);
 
 #endif
