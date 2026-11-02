@@ -3,9 +3,9 @@
 #include "../../game/model_state_setters.h"
 #include "../../game/screen_projection.h"
 
-static const VECTOR D_8013BF88 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant829_D0F88 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
 {
     Model829State *work;
     s32 slot, direction;
@@ -23,12 +23,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position.point, 0, 8);
-    scale = D_8013BF88;
+    scale = gFrenchModelVariant829_D0F88;
     work = (Model829State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C008[command];
+        work->config = &gFrenchModelVariant829_D1008[command];
         func_80057E20(slot ^ 1, &position.adjustment);
         for (i = 0; i < 4; i++) {
             s32 sample;
@@ -56,7 +56,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BF98[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant829_D0F98[i]);
         }
         work->brightness = 2048;
         work->status.fields.phase = 0;

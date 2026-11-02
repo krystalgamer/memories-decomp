@@ -74,6 +74,8 @@ registers, artificial stores or fake dependencies. Both literals and all
 41 ordered calls to20 resident destinations also match.
 
 Canonical sources are
-`src/overlays/french_model_variant/variant829_entry.c`,
-`variant829_entry.h` and `variant829_entry_slot1.c`.
+`src/overlays/french_model_variant/variant829_entry.c` and
+`variant829_entry.h`, built in both slots; each image's symbols file binds
+`FrenchModelVariant829_HandleRequest` and `gFrenchModelVariant829_D0F98`/`_D1008`
+at its own addresses.
 Regressions are in [retired `test_french_model_variant829.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_french_model_variant829.py).
