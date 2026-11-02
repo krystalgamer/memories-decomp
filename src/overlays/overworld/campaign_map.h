@@ -51,7 +51,5 @@ extern u8 D_80169619;
  * spells the same f8/f48/f50 for the mechanical copy it describes. */
 void CampaignMap_SetLocation(s32 index);
 void CampaignMap_UpdateLocation(void);
-/* Resident entry alias used before this overlay is linked into its slot. */
-void func_8016866C(s32 index);
 
 #endif

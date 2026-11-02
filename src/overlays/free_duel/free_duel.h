@@ -47,7 +47,5 @@ void FreeDuel_UpdateCursorTween(void);
 void FreeDuel_UpdateScreen(void);
 
 void FreeDuel_Entry(void);
-/* Resident entry alias used before this overlay is linked into its slot. */
-void func_80168FB4(void);
 
 #endif

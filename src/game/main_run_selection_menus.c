@@ -57,6 +57,6 @@ void Main_RunFreeDuelMenu(void) {
         Main_InitFreeDuelMenu();
         Fade_WaitIn();
     }
-    func_80168FB4();
+    FreeDuel_Entry();
     if ((gMain_bActiveModeState & 0x40) == 0) SD_BGMFadeOut();
 }

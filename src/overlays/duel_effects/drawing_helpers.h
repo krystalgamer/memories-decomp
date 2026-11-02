@@ -4,6 +4,6 @@
 #include "../../types.h"
 #include "utility_helpers.h"
 
-extern RECT D_8015B3C0[12];
+extern RECT gDuelEffect_aNumberGlyphRects[12];
 
 #endif
