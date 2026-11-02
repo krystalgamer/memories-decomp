@@ -3,7 +3,9 @@
 Model 37 stages 7/8 load two distinct 20,480-byte images with headers
 162/292 and command 93000, passing initial argument 0. Both entries are
 3,496 instruction bytes at offset `0x4`, followed by a 16-byte source-owned
-unit-scale vector. The slot wrapper renames the entry and three local symbols.
+unit-scale vector. One source serves both slots; each image's symbols file
+binds `FrenchModelVariant162_HandleRequest` and the three local data names
+(`gFrenchModelVariant162_D0DAC`, `_D0DBC`, `_D0DD8`) at its own addresses.
 
 All 874 native instructions form one closed entry, with 53 direct calls to
 27 resident destinations and no local or indirect calls. Both complete images
