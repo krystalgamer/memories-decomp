@@ -4,7 +4,7 @@
 
 /* Header 425's form of the header-418 ribbons: 0x6C-byte records, drawn only
  * when the depth is positive. */
-void func_8013DCC0(u8 *ctx)
+void ModelVariant425_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

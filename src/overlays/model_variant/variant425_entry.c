@@ -12,7 +12,7 @@
  * direction by the sweep value at + 0x2734 while the sheet, spiral and webs
  * run. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
 {
     s32 ring_base;
     Variant425EntryState *work;
@@ -67,7 +67,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant425EntryConfig *)(D_8013F3FC + 0xFC) + command;
+        work->config = (Variant425EntryConfig *)(gModelVariant425_D43FC + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -85,12 +85,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT425_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT425_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F3FC + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant425_D43FC + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F3FC + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F3FC + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013F3FC + 0xE0));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant425_D43FC + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant425_D43FC + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant425_D43FC + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -361,11 +361,11 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->orbit.vy,
                   work->target.vz - work->orbit.vz);
         if (work->config->start <= work->frame) {
-            func_8013C178((u8 *)point);
-            func_8013C568((u8 *)point);
-            func_8013D8F8((u8 *)point);
+            ModelVariant425_DrawSheet((u8 *)point);
+            ModelVariant425_DrawSpiral((u8 *)point);
+            ModelVariant425_DrawWebs((u8 *)point);
             if (work->phase >= 2) {
-                func_8013CF14((u8 *)point);
+                ModelVariant425_DrawRays((u8 *)point);
             }
         }
         work->frame_count++;

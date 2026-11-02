@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant452_sheets.h"
 
-void func_8013C0E0(u8 *ctx)
+void FrenchModelVariant452_DrawSheets(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

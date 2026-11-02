@@ -61,7 +61,7 @@ segments:
     vram: 0x8013C174
     align: 4
     subsegments:
-      - [0x1174, c, overlays/french_model_variant/variant442_sheet]
+      - [0x1174, c, overlays/model_variant/variant425_sheet]
   - name: helper_1560
     type: code
     start: 0x1560
@@ -75,14 +75,14 @@ segments:
     vram: 0x8013CF2C
     align: 4
     subsegments:
-      - [0x1F2C, c, overlays/french_model_variant/variant442_rays]
+      - [0x1F2C, c, overlays/model_variant/variant425_rays]
   - name: unmatched_2924
     type: code
     start: 0x2924
     vram: 0x8013D924
     align: 4
     subsegments:
-      - [0x2924, c, overlays/french_model_variant/variant442_webs]
+      - [0x2924, c, overlays/model_variant/variant425_webs]
   - name: helper_2CE8
     type: code
     start: 0x2CE8
@@ -96,28 +96,28 @@ segments:
     vram: 0x8013E334
     align: 4
     subsegments:
-      - [0x3334, c, overlays/french_model_variant/variant442_bands]
+      - [0x3334, c, overlays/model_variant/variant425_bands]
   - name: helper_3A40
     type: code
     start: 0x3A40
     vram: 0x8013EA40
     align: 4
     subsegments:
-      - [0x3A40, c, overlays/french_model_variant/variant442_spokes]
+      - [0x3A40, c, overlays/model_variant/variant425_spokes]
   - name: helper_3D50
     type: code
     start: 0x3D50
     vram: 0x8013ED50
     align: 4
     subsegments:
-      - [0x3D50, c, overlays/french_model_variant/variant442_rings]
+      - [0x3D50, c, overlays/model_variant/variant425_rings]
   - name: helper_40CC
     type: code
     start: 0x40CC
     vram: 0x8013F0CC
     align: 4
     subsegments:
-      - [0x40CC, c, overlays/french_model_variant/variant442_quad]
+      - [0x40CC, c, overlays/model_variant/variant425_quad]
   - name: unclassified_tail
     type: code
     start: 0x4430

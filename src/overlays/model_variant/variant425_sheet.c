@@ -4,7 +4,7 @@
 
 /* Draws the four-quad sheet and updates its timed scale. After growth,
  * phase 1 also advances the value at +0x2734 to 0x600 before phase 2. */
-void func_8013C178(u8 *ctx)
+void ModelVariant425_DrawSheet(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
