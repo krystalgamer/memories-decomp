@@ -306,11 +306,11 @@ gDuel_pActionReadyMarker = D_8009C108_sles_03947;
 gEuropean_D_8009B208 = D_8009C10A_sles_03947;
 gEuropean_D_8009B20C = D_8009C10E_sles_03947;
 gDuel_bActiveEffectState = D_8009C1B0_sles_03947;
-D_8009B240 = D_8009C1B4_sles_03947;
+gDuel_pCardViewerBackground = D_8009C1B4_sles_03947;
 
 /* Names inside duel_effect_dialog_state's own storage (#2602). */
-D_8009B24C = D_8009C1C0_sles_03947;
-D_8009B250 = D_8009C1C8_sles_03947;
+gDuel_pCardViewerCard = D_8009C1C0_sles_03947;
+gDuel_pCardViewerTextBox = D_8009C1C8_sles_03947;
 
 /* Names inside duel_effect_object_pool's own storage (#2602). */
 gDuel_bEffectRequestStatus = D_8009C1D8_sles_03947;
