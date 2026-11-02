@@ -1,6 +1,7 @@
 # French header-429 image quads helper
 
-`func_8013C8B4` / `func_8017C8B4` (image offset `0x18B4`, 0x4DC bytes)
+`FrenchModelVariant429_DrawQuads` at `0x8013C8B4` / `0x8017C8B4` (image offset
+`0x18B4`, 0x4DC bytes)
 grows, fades and draws ten orbiting quads.
 **No release had matching C for this body before.**
 
@@ -28,3 +29,12 @@ their French addresses, and each split image names it in the overlay
 manifest. All French overlay images rebuild exactly. The
 [attempt ledger](french-model-image429-quads-attempts.csv) records the
 probe, which matched on the first build.
+
+## Names
+
+Both slots compile `variant429_quads.c` directly. Every image binds
+`FrenchModelVariant429_DrawQuads` at its own address in its `*_symbols.txt`: `0x18B4` past the load
+base in the PAL images and 4 bytes higher in the US header-412 and Japanese
+images, which build the same source. The PAL slot-1 raw images gained a
+symbols file for this binding (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
