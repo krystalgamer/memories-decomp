@@ -1,8 +1,8 @@
 func_8013B004 = 0x8013B004; // type:func size:0xDBC
-D_8013BDC0 = 0x8013BDC0; // type:u32 size:0x10 defined:true
+D_8013BDAC = 0x8013BDC0; // type:u32 size:0x10 defined:true
 D_8013B000 = 0x8013B000; // type:u8 size:0x4 defined:true
-D_8013BDE4 = 0x8013BDE4; // type:u8 size:0x1C defined:true
-D_8013BE00 = 0x8013BE00; // type:u8 size:0x4200 defined:true
+D_8013BDBC = 0x8013BDE4; // type:u8 size:0x1C defined:true
+D_8013BDD8 = 0x8013BE00; // type:u8 size:0x4200 defined:true
 GsGetLwUnit = 0x8008A4A0; // type:func absolute:true
 GsSetLsMatrix = 0x800855D0; // type:func absolute:true
 GsSortLine = 0x80083FB0; // type:func absolute:true

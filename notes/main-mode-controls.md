@@ -94,8 +94,8 @@ PAL ordering differs from NA, so the three bytes do not become a packed
 record or imply a region-independent stride.
 
 The Japanese viewer keeps an unused legacy scalar `.data` declaration
-whose consumer is compiled out. No literal Japanese `D_8009B26C` provider
-is invented: the active role uses `gJapanese_bActiveMainMode`.
+whose consumer is compiled out. The Japanese `symbols.txt` binds the
+shared `D_8009B26C` name at the Japanese address, `0x8009B15C`.
 NA and Japanese debug-leave code likewise retain unused return-byte
 declarations under their existing regional conditions.
 

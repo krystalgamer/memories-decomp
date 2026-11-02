@@ -49,7 +49,7 @@ The Japanese display-effect slot-ID macro receives the same pointer-identity
 migration as its scalar caller.
 
 The rectangle's original resident providers are North American
-`D_800E9D70`, Japanese `gJapanese_D_800E9D70` at `0x800E9C50`, UK
+`D_800E9D70`, Japanese `D_800E9D70` at `0x800E9C50`, UK
 `D_800E9D70` at `0x8009C418`, and other PAL `D_800E9D70` at `0x8009C838`.
 Japanese Free Duel instead keeps its original `D_800E9D70` overlay import
 at `0x800E9C50`. Canonical aliases are image-local and preserve that

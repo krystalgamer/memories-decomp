@@ -56,9 +56,7 @@ stop/step-flag path rather than being forced through the non-range case.
 
 This establishes a cancellation handshake, not the secondary-pending
 request itself: that pending bit belongs to the transfer-state word.
-The legacy header's description and Japanese
-`gJapanese_FileSecondaryRequest` provider name are retained for
-compatibility, not used to override the actual producer/consumer evidence.
+The legacy header's description is retained for compatibility, not used to override the actual producer/consumer evidence.
 The new name does not promise immediate cancellation, normalize arbitrary
 values or change the retry/queue policy.
 
@@ -72,19 +70,19 @@ read-modify-write order and the cancellation value held live across its
 test/update sequence.
 
 Seven root scripts add canonical aliases for both views of each physical
-word, always pointing to the original provider. Japan retains
-`gJapanese_FileTransferFlags` and `gJapanese_FileSecondaryRequest`.
+word, always pointing to the original provider. Japan binds
+`D_8009B0F4`, `D_8009B134` and their `_abs` views at its own addresses.
 No guessed allocation, initializer or new storage is added. Existing
 French literal aliases and all old symbols remain.
 
 Regional wrappers sometimes collapse plain and absolute CPP identities.
 Those wrappers are not rewritten or treated as independent storage; actual
 source/profile artifact comparison uses the original per-context names.
-The independent Japanese card-data transfer body migrates its actual
-`gJapanese_FileTransferFlags` identifier and CPP right-hand side.
+Japan builds the card-data transfer body from the shared source.
 
-Japanese `duel_effect_dialog_state.c` is deliberately excluded: its literal
-`D_8009B134` aliases the dialog text ID, not logical cancellation state.
+In the Japanese image `0x8009B134` holds the dialog text ID
+`gDuel_wEffectDialogTextID`, not logical cancellation state; that image
+binds `D_8009B134` at `0x8009B024`.
 The unrelated sound-parser historical comment also remains unchanged.
 
 ## Scope and controls

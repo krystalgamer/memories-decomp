@@ -165,7 +165,7 @@ moved into those SDK calls.
 The UK step index is the actual wrapper-selected native byte at
 `0x8009C350`, not the unrelated `D_8009B3DE` alias at `0x8009C34A`.
 Likewise the Japanese channel byte is not the unrelated
-`gJapanese_D_8009B2DE` at `0x8009B1CE`. Existing French NA-number aliases
+`D_8009B2DE`, which Japan binds at `0x8009B1CE`. Existing French NA-number aliases
 stay untouched. Exact native bindings replace only the eight obsolete
 regional macros; all other SDK, out-parameter, geometry and channel
 aliases remain.

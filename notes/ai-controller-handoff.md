@@ -104,10 +104,10 @@ and instruction ordering are load-bearing.
 | SLES_039.47 | `8009C2D2` | `800EBDF7` | `800EBDF8` | `800EBDF9` | `800EBDFA` |
 | Other PAL | `8009C6F2` | `800EC217` | `800EC218` | `800EC219` | `800EC21A` |
 
-The Japanese controller provider is `gJapanese_DuelPlayerState`, including
-the independent `Main_StartDuel` implementation. Japanese movie code's
-literal `D_8009B360/361/362` triplet is a different set of aliases; both
-movie sources remain untouched. No RGB or tint meaning is inferred.
+The Japanese `symbols.txt` binds the controller provider `D_8009B360` at
+`8009B250`, and Japan builds `Main_StartDuel` from the shared source. The
+movie code's `D_8009B4A0`-`D_8009B4A2` triplet sits at `8009B360`-`8009B362`
+there and is unrelated. No RGB or tint meaning is inferred.
 French literal aliases also remain separate from logical PAL bindings.
 The NA source/target providers are generated automatic symbols, not new
 tracked storage; generated files are not manually edited.

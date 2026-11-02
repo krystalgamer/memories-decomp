@@ -68,7 +68,7 @@ change the existing record layout or member representations.
 | Other PAL | `800EC2A8` | `8009C634` |
 
 All fourteen bindings retain the original logical providers. The Japanese
-pointer uses its actual `gJapanese_D_8009B274` provider; the table retains
+pointer binds `D_8009B274` at its own address; the table retains
 its independent provider. French literal aliases remain distinct from the
 logical PAL addresses. Old names continue to bind, and no storage,
 initialization, section or allocation extent is added.

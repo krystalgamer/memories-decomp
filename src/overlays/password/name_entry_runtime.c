@@ -174,7 +174,7 @@ void NameEntry_Init(void)
 #endif
     TextBox_Create(3, 254, 112, 204, 96, 16);
 #ifdef VERSION_JAPAN
-    func_80039A14((struct DuelEffectChannel *)D_800EB0F8);
+    func_80039A14((struct DuelEffectChannel *)&((JapaneseDuelEffectChannel *)D_800EB0F8)[3]);
 #else
     boxes = D_800EB0F8;
     boxes[3].glyph_advance_x = 16;

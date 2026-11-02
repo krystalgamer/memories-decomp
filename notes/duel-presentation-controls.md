@@ -75,7 +75,7 @@ and timing remain.
 | Other PAL | `8009C4E1` | `8009C522` | `8009C4EC` |
 
 Canonical aliases point to original providers, including Japan's
-`gJapanese_D_8009B218` and PAL's logical `D_8009C0CC`. The English field
+`D_8009B218` (`0x8009B108`) and PAL's logical `D_8009C0CC`. The English field
 provider is not tracked as a numeric assignment and its regional retail
 input is unavailable locally. Its existing symbolic provider is retained;
 no guessed tracked numeric binding replaces the automatic one. Native
