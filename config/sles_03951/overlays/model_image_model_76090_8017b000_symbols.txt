@@ -1,0 +1,3 @@
+// Spanish MODEL.MRG model 275 raw image model_image_model_76090_8017b000, loaded at 0x8017B000; the French header-429 swarm and quads helpers variant429_swarm.c and variant429_quads.c.
+FrenchModelVariant429_DrawSwarm = 0x8017C33C; // type:func size:0x578 defined:true
+FrenchModelVariant429_DrawQuads = 0x8017C8B4; // type:func size:0x4DC defined:true

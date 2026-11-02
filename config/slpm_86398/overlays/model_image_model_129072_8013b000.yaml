@@ -63,14 +63,14 @@ segments:
     vram: 0x8013C340
     align: 4
     subsegments:
-      - [0x1340, c, overlays/model_variant/variant412_swarm]
+      - [0x1340, c, overlays/french_model_variant/variant429_swarm]
   - name: quads
     type: code
     start: 0x18B8
     vram: 0x8013C8B8
     align: 4
     subsegments:
-      - [0x18B8, c, overlays/model_variant/variant412_quads]
+      - [0x18B8, c, overlays/french_model_variant/variant429_quads]
   - name: unclassified_tail
     type: code
     start: 0x1D88

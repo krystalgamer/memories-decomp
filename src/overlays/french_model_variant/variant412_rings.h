@@ -37,5 +37,4 @@ typedef struct {
     s32 phase;
 } Variant412RingView;
 
-void func_8013CEC8(u8 *context);
 #endif

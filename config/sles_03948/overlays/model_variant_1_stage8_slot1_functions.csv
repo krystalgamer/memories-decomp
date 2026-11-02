@@ -1,10 +1,10 @@
 address,size,name,status,module,notes
-0x8017B004,0x1124,func_8017B004,matching_c,overlay/model_variant_1_stage8_slot1,Exact entry C and complete image ownership; 256-byte frame; direct-entry reachable; eight prior C helpers and unclassified suffix retained.
-0x8017C128,0x4F8,func_8017C128,matching_c,overlay/model_variant_1_stage8_slot1,Complete image and real C owner exact; direct-entry reachable.
-0x8017C620,0x6DC,func_8017C620,matching_c,overlay/model_variant_1_stage8_slot1,Complete image and real C owner exact; direct-entry reachable.
-0x8017CCFC,0x70C,func_8017CCFC,matching_c,overlay/model_variant_1_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
-0x8017D408,0x4E8,func_8017D408,matching_c,overlay/model_variant_1_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
+0x8017B004,0x1124,FrenchModelVariant422_HandleRequest,matching_c,overlay/model_variant_1_stage8_slot1,Exact entry C and complete image ownership; 256-byte frame; direct-entry reachable; eight prior C helpers and unclassified suffix retained.
+0x8017C128,0x4F8,ModelVariant405_DrawHalo,matching_c,overlay/model_variant_1_stage8_slot1,Complete image and real C owner exact; direct-entry reachable.
+0x8017C620,0x6DC,ModelVariant405_DrawVeils,matching_c,overlay/model_variant_1_stage8_slot1,Complete image and real C owner exact; direct-entry reachable.
+0x8017CCFC,0x70C,ModelVariant405_DrawBands,matching_c,overlay/model_variant_1_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
+0x8017D408,0x4E8,ModelVariant405_DrawSheets,matching_c,overlay/model_variant_1_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
 0x8017D8F0,0x554,ModelVariant405_DrawWebs,matching_c,overlay/model_variant_1_stage8_slot1,Complete image and real C owner exact; no direct entry-call path.
-0x8017DE44,0x310,func_8017DE44,matching_c,overlay/model_variant_1_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
-0x8017E154,0x37C,func_8017E154,matching_c,overlay/model_variant_1_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
-0x8017E4D0,0x364,func_8017E4D0,matching_c,overlay/model_variant_1_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
+0x8017DE44,0x310,ModelVariant405_DrawSpokes,matching_c,overlay/model_variant_1_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
+0x8017E154,0x37C,ModelVariant405_DrawRings,matching_c,overlay/model_variant_1_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.
+0x8017E4D0,0x364,ModelVariant405_DrawQuad,matching_c,overlay/model_variant_1_stage8_slot1,Retained module-local helper; complete image and C owner exact; no direct entry-call path.

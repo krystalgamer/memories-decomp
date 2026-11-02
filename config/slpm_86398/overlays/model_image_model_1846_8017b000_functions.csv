@@ -1,6 +1,6 @@
 address,size,name,status,module,notes
-0x8017B004,0xA5C,func_8017B004,matching_c,overlay/model_image_model_1846_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017BA60,0x5EC,func_8017BA60,matching_c,overlay/model_image_model_1846_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C04C,0x63C,func_8017C04C,matching_c,overlay/model_image_model_1846_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017C688,0x4A0,func_8017C688,matching_c,overlay/model_image_model_1846_8017b000,Complete module byte identity and section-defined C ownership verified.
-0x8017CB28,0x530,func_8017CB28,matching_c,overlay/model_image_model_1846_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0xA5C,FrenchModelVariant402_HandleRequest,matching_c,overlay/model_image_model_1846_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017BA60,0x5EC,FrenchModelVariant402_DrawStrip,matching_c,overlay/model_image_model_1846_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C04C,0x63C,FrenchModelVariant402_DrawRibbons,matching_c,overlay/model_image_model_1846_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017C688,0x4A0,FrenchModelVariant402_DrawRings,matching_c,overlay/model_image_model_1846_8017b000,Complete module byte identity and section-defined C ownership verified.
+0x8017CB28,0x530,FrenchModelVariant402_DrawBands,matching_c,overlay/model_image_model_1846_8017b000,Complete module byte identity and section-defined C ownership verified.

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant402_strip.h"
 
-void func_8013BA5C(u8 *context)
+void FrenchModelVariant402_DrawStrip(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

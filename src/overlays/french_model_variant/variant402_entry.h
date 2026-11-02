@@ -69,6 +69,5 @@ typedef struct {
     DVECTOR target;
 } Variant402EntryProjection;
 
-extern u8 D_8013D060[];
-s32 func_8013B004(SVECTOR *point, s32 command);
+extern u8 gFrenchModelVariant402_D2060[];
 #endif

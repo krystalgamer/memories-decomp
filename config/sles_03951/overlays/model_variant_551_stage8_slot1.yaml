@@ -54,35 +54,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant402_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant402_entry]
   - name: helper_A5C
     type: code
     start: 0xA5C
     vram: 0x8017BA5C
     align: 4
     subsegments:
-      - [0xA5C, c, overlays/french_model_variant/variant402_strip_slot1]
+      - [0xA5C, c, overlays/french_model_variant/variant402_strip]
   - name: helper_1048
     type: code
     start: 0x1048
     vram: 0x8017C048
     align: 4
     subsegments:
-      - [0x1048, c, overlays/french_model_variant/variant402_ribbons_slot1]
+      - [0x1048, c, overlays/french_model_variant/variant402_ribbons]
   - name: rings
     type: code
     start: 0x169C
     vram: 0x8017C69C
     align: 4
     subsegments:
-      - [0x169C, c, overlays/french_model_variant/variant402_rings_slot1]
+      - [0x169C, c, overlays/french_model_variant/variant402_rings]
   - name: unmatched_1B38
     type: code
     start: 0x1B38
     vram: 0x8017CB38
     align: 4
     subsegments:
-      - [0x1B38, c, overlays/french_model_variant/variant402_bands_slot1]
+      - [0x1B38, c, overlays/french_model_variant/variant402_bands]
   - name: unclassified_tail
     type: code
     start: 0x2060

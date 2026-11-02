@@ -7,7 +7,7 @@
  * height, which grows by step << 5 up to 0x400 and wraps with a count until
  * the timing record's deadline. The strips fade from grey as the heights pass
  * 0x300. */
-void func_8013C12C(u8 *ctx)
+void ModelVariant405_DrawHalo(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

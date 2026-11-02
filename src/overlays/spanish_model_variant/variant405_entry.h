@@ -4,7 +4,7 @@
 #include "../french_model_variant/variant337_entry.h"
 #include "../../game/model_get_frame_step.h"
 
-/* One 0x20-byte command record of the table at D_8013CFBC + 0x38. */
+/* One 0x20-byte command record of the table at gSpanishModelVariant405_D1FBC + 0x38. */
 typedef struct {
     u8 unknown_00[4];
     u8 parts[1], unknown_05[7];
@@ -98,10 +98,10 @@ typedef struct {
     u16 texture_cluts[2];
 } Variant405EntryStack;
 
-extern u8 D_8013CFBC[];
-void func_8013BD00(u8 *context);
-void func_8013C2CC(u8 *context);
-void func_8013CB64(u8 *context);
+extern u8 gSpanishModelVariant405_D1FBC[];
+void SpanishModelVariant405_DrawPulses(u8 *context);
+void FrenchModelVariant562_DrawShards(u8 *context);
+void SpanishModelVariant405_DrawOuterBands(u8 *context);
 typedef char Variant405EntryConfigSize[(sizeof(Variant405EntryConfig) == 0x20) ? 1 : -1];
 typedef char Variant405EntryStateSize[(sizeof(Variant405EntryState) == 0x326C) ? 1 : -1];
 #endif

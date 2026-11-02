@@ -4,11 +4,15 @@ Loader entry `+0x0004..+0x0D00` is matching C. It is 3,324 bytes in the
 eight Spanish MODEL405-family images (MODEL149 and MODEL419 stages 7/8;
 MODEL57 and MODEL562 stages 9/10) and the eight French images that carry the
 identical body at the same offsets. `variant405_entry.c` is compiled once
+per slot with `gcc_2_8_1_g0_split`. Both slots compile it directly
+(see [Names](#names)). This is a new decompilation; no region had accepted
+C for it. The `model_variant/variant405_entry.c` source is an unrelated
+North American body with the same header number.
 per slot with `gcc_2_8_1_g0_split`. The slot-1 wrapper only renames the
 descriptor base `D_8013CFBC` and the entry and helper symbols to their
 `0x8017....` addresses. This is a new decompilation; no region had accepted
-C for it. The `model_variant/variant405_entry.c` source is an unrelated
-North American body with the same header number.
+C for it. The North American header-405 entry is an unrelated body with the
+same header number (`french_model_variant/variant422_entry.c`).
 
 ## Behaviour
 
@@ -42,6 +46,19 @@ Phases 2..6 drive the fade and the return codes.
 The MODEL405 binding lists gain `GetClut`, `GetTPage`, `GsGetLwUnit`,
 `RotTransPers`, `SetPolyFT4`, `SetPolyG3`, `SetPolyG4`, `SetPolyGT4`,
 `SetSemiTrans`, `SetShadeTex`, `Square0`, `SquareRoot0` and `ratan2`.
+
+## Names
+
+Both slots compile the shared sources without renaming wrappers. The images
+define `SpanishModelVariant405_HandleRequest`, `SpanishModelVariant405_DrawPulses`
+(`0xD00`), `FrenchModelVariant562_DrawShards` (`0x12CC`),
+`SpanishModelVariant405_DrawBands` (`0x1774`),
+`SpanishModelVariant405_DrawOuterBands` (`0x1B64`) and the descriptor base
+`gSpanishModelVariant405_D1FBC`. The US header-388 images build the same
+sources with the palette column 512 instead of 640; there and in the
+Japanese images of the same models the shards,
+bands, outer bands and data sit 4, 0x10, 0x48 and 0x8C bytes higher. Each image binds the names at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).
 
 ## What reproduces the target
 

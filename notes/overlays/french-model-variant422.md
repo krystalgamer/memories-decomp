@@ -3,8 +3,8 @@
 Four distinct secondary images have independently recovered entries and reuse
 the unchanged accepted
 `src/overlays/model_variant/variant405_{halo,veils,bands,sheets,webs,spokes,rings,quad}.c` bodies.
-Sixteen three-line wrappers select their functions for independently measured
-French addresses. The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1
+Both slots compile them directly and each image binds their names at its
+own addresses (see [Names](#names)). The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1
 and MASPSX 2.81. Shared bodies, headers, G32 annotations and US profiles
 are unchanged; US header 405 establishes provenance, not French identity.
 
@@ -464,3 +464,17 @@ skips. Defining objects and linked ELFs additionally preserve all 48
 accepted French338 C owners / 78,656 bytes. The final fixed-cutoff totals
 are 1,206/1,581 matching C instances / 1,394,180 bytes. Only the nineteen
 halo-specific paths differ from that accepted cutoff.
+
+## Names
+
+Both slots compile `variant422_entry.c` and the shared US header-405 helper
+bodies without renaming wrappers. They define
+`FrenchModelVariant422_HandleRequest`, `ModelVariant405_DrawHalo` (`0x1128`),
+`ModelVariant405_DrawVeils` (`0x1620`), `ModelVariant405_DrawBands`
+(`0x1CFC`), `ModelVariant405_DrawSheets` (`0x2408`), `ModelVariant405_DrawWebs`
+(`0x28F0`), `ModelVariant405_DrawSpokes` (`0x2E44`), `ModelVariant405_DrawRings`
+(`0x3154`), `ModelVariant405_DrawQuad` (`0x34D0`) and the data block
+`gFrenchModelVariant422_D3834`. The US header-405 images (models 1 and 550)
+compile the same French entry without a selector; their helpers and data
+sit up to 0x1C bytes higher. Each image binds the names at its own addresses (see
+[Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

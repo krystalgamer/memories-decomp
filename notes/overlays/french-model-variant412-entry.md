@@ -23,7 +23,7 @@ ribbon region at `+0x13E0`.
 Packets occupy `+0x1904` through `+0x1A64`. The matrix is at `+0x1AB0`,
 the copied target at `+0x1AD0`, the direction at `+0x1AD8`, and the
 projected screen delta at `+0x1AE8`. The configuration pointer at
-`+0x1B24` selects a 32-byte record from `D_8013D7A8 + 0xFC`. That record
+`+0x1B24` selects a 32-byte record from `gFrenchModelVariant412_D27A8 + 0xFC`. That record
 supplies one root-part byte, six further part bytes, a part-count
 halfword and three unsigned timing words.
 
@@ -72,7 +72,9 @@ including all five previously accepted helpers, and compared byte-for-byte:
 
 The binding file adds six canonical SDK aliases at already identified
 French resident addresses. No resident source or compiler profile changes.
-The slot-1 wrapper remaps only the entry, its trail callee and its data.
+Both slots compile the same source; each image binds the entry, its trail
+callee and its data at its own addresses (see
+[Names](french-model-variant412.md#names)).
 
 The [attempt ledger](french-model-variant412-entry-attempts.csv) records
 all four measured native candidates and the two promoted complete-image

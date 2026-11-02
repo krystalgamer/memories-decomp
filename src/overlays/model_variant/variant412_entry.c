@@ -12,7 +12,7 @@
  * flares in place of the petals, a configured height offset on the root
  * part and two per-frame helpers. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant412_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant412EntryState *work = (Variant412EntryState *)point;
     MATRIX unused_matrix0;
@@ -65,7 +65,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     result = 0;
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant412EntryConfig *)(D_8013CD88 + 0xFC) + command;
+        work->config = (Variant412EntryConfig *)(gModelVariant412_D1D88 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -84,12 +84,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT412_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT412_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CD88 + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant412_D1D88 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CD88 + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CD88 + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013CD88 + 0x54));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant412_D1D88 + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant412_D1D88 + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant412_D1D88 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -369,10 +369,10 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->frame) {
-            func_8013C340((u8 *)point);
+            FrenchModelVariant429_DrawSwarm((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013C8B8((u8 *)point);
+            FrenchModelVariant429_DrawQuads((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
