@@ -1,8 +1,11 @@
 # French MODEL headers 77 and 207
 
 Models 53, 84, 386 and 547 provide eight loader-paired images with exact
-3,092-byte entry functions. One implementation and a symbol-only slot wrapper
-use `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81. Existing SDK headers,
+3,092-byte entry functions. One implementation, built in both slots, uses
+`gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81; each image's symbols file
+binds `FrenchModelVariant77_HandleRequest` and the three data names
+(`gFrenchModelVariant77_D0C18`, `_D0C28`, `_D0C44`) at its own addresses.
+Existing SDK headers,
 compiler profiles and other regional implementations are unchanged.
 
 ## Loader and physical ownership

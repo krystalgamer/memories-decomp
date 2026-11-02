@@ -6,9 +6,9 @@
 #define CLAMP(value, lower, upper) \
     ((value) < (lower) ? (lower) : ((value) > (upper) ? (upper) : (value)))
 
-const VECTOR D_8013BC18 = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant77_D0C18 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant77_HandleRequest(u8 *context, s32 command)
 {
     Model77State *work;
     SVECTOR rotation;
@@ -32,11 +32,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BC18;
+    scale = gFrenchModelVariant77_D0C18;
     work = (Model77State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013BC44[command];
+        config = work->config = &gFrenchModelVariant77_D0C44[command];
         work->elapsed = 0;
         velocity = work->velocities;
         for (i = 0; i < 32; velocity++, i++) {
@@ -46,7 +46,7 @@ s32 func_8013B004(u8 *context, s32 command)
             velocity->vz = direction * config->speed;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BC28[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant77_D0C28[i]);
         }
         work->completed = 0;
         return 0;
