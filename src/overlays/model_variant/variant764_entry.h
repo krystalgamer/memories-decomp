@@ -57,9 +57,9 @@ typedef struct {
     u8 grey;
 } Model764State;
 
-extern GsIMAGE D_8013C2FC[1];
-extern Model764Config D_8013C318[];
+extern GsIMAGE gModelVariant764_D12FC[1];
+extern Model764Config gModelVariant764_D1318[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant764_HandleRequest(u8 *context, s32 command);
 
 #endif

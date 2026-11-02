@@ -13,7 +13,7 @@
 #ifndef MODEL667_STRING_PAD
 #define MODEL667_STRING_PAD "\x02"
 #endif
-static const char D_8013DDFC[24] = "E_DATA size = %x byte\n\0" MODEL667_STRING_PAD;
+static const char gModelVariant667_D2DFC[24] = "E_DATA size = %x byte\n\0" MODEL667_STRING_PAD;
 #endif
 
 #define TRACK_POINT(index, point)                                              \
@@ -23,7 +23,7 @@ static const char D_8013DDFC[24] = "E_DATA size = %x byte\n\0" MODEL667_STRING_P
     (point).vy = ls.t[1];                                                      \
     (point).vz = ls.t[2]
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
 {
     Model667State *work;
     MATRIX ls;
@@ -57,7 +57,7 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model667State));
 #ifndef VERSION_FRENCH
-        printf(D_8013DDFC, sizeof(Model667State));
+        printf(gModelVariant667_D2DFC, sizeof(Model667State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
@@ -78,13 +78,13 @@ s32 func_8013B004(u8 *context, s32 command)
         do {
         } while (0);
         Model_CopySlotPosition(k, (u16 *)work->origin);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DE14[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant667_D2E14[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DE14[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant667_D2E14[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013DE14[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant667_D2E14[1]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -103,8 +103,8 @@ s32 func_8013B004(u8 *context, s32 command)
             work->dome_count = 32;
             break;
         }
-        work->radius = D_8013DE68[command].radius;
-        work->height = D_8013DE68[command].height;
+        work->radius = gModelVariant667_D2E68[command].radius;
+        work->height = gModelVariant667_D2E68[command].height;
         for (i = 0; i < work->rows; i++) {
             work->ribbons[i].active = 0;
             work->ribbons[i].elapsed = 0;
@@ -113,9 +113,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->ribbons[i].mode = 1;
             work->ribbons[i].coord = Model_GetCameraCoordinateUnit();
-            work->ribbons[i].color[0] = D_8013DE68[command].color[0];
-            work->ribbons[i].color[1] = D_8013DE68[command].color[1];
-            work->ribbons[i].color[2] = D_8013DE68[command].color[2];
+            work->ribbons[i].color[0] = gModelVariant667_D2E68[command].color[0];
+            work->ribbons[i].color[1] = gModelVariant667_D2E68[command].color[1];
+            work->ribbons[i].color[2] = gModelVariant667_D2E68[command].color[2];
             work->ribbons[i].u = 0;
             work->ribbons[i].v = 0;
             work->ribbons[i].done = 0;
@@ -131,9 +131,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->sprites[i].elapsed = 0;
             work->sprites[i].mode = 1;
             work->sprites[i].coord = Model_GetCameraCoordinateUnit();
-            work->sprites[i].color[0] = D_8013DE68[command].color[3];
-            work->sprites[i].color[1] = D_8013DE68[command].color[4];
-            work->sprites[i].color[2] = D_8013DE68[command].color[5];
+            work->sprites[i].color[0] = gModelVariant667_D2E68[command].color[3];
+            work->sprites[i].color[1] = gModelVariant667_D2E68[command].color[4];
+            work->sprites[i].color[2] = gModelVariant667_D2E68[command].color[5];
             work->sprites[i].u = i % 9;
             setVector(&work->sprites[i].scale, 4096, 4096, 4096);
             setVector(&work->sprites[i].unknown_40, 0, 0, 0);
@@ -151,9 +151,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->fans[i].elapsed = 0;
             work->fans[i].mode = 1;
             work->fans[i].coord = Model_GetCameraCoordinateUnit();
-            work->fans[i].color[0] = D_8013DE68[command].color[0];
-            work->fans[i].color[1] = D_8013DE68[command].color[1];
-            work->fans[i].color[2] = D_8013DE68[command].color[2];
+            work->fans[i].color[0] = gModelVariant667_D2E68[command].color[0];
+            work->fans[i].color[1] = gModelVariant667_D2E68[command].color[1];
+            work->fans[i].color[2] = gModelVariant667_D2E68[command].color[2];
             setVector(&work->fans[i].scale, 4096, 4096, 4096);
             setVector(&work->fans[i].unknown_40, 0, 0, 0);
             setVector(&work->fans[i].rotation, 0, work->slot * 2048, 0);
@@ -166,9 +166,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->domes[i].elapsed = 0;
             work->domes[i].mode = 1;
             work->domes[i].coord = Model_GetCameraCoordinateUnit();
-            work->domes[i].color[0] = D_8013DE68[command].color[3];
-            work->domes[i].color[1] = D_8013DE68[command].color[4];
-            work->domes[i].color[2] = D_8013DE68[command].color[5];
+            work->domes[i].color[0] = gModelVariant667_D2E68[command].color[3];
+            work->domes[i].color[1] = gModelVariant667_D2E68[command].color[4];
+            work->domes[i].color[2] = gModelVariant667_D2E68[command].color[5];
             work->domes[i].u = i % 9;
             setVector(&work->domes[i].scale, 4096, 4096, 4096);
             setVector(&work->domes[i].unknown_40, 0, -1400, 0);
@@ -182,7 +182,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->origin[1] + 700,
                 work->origin[2] + value * rcos(arc / work->dome_count) / 4096);
         }
-        work->delay = D_8013DE68[command].delay;
+        work->delay = gModelVariant667_D2E68[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -348,9 +348,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->ribbons[i].duration * 4 / 5 < work->ribbons[i].elapsed) {
                     value = (work->ribbons[i].duration - work->ribbons[i].elapsed) * 5;
                     scale = work->ribbons[i].duration;
-                    work->ribbons[i].color[0] = D_8013DE68[work->command].color[0] * value / scale;
-                    work->ribbons[i].color[1] = D_8013DE68[work->command].color[1] * value / scale;
-                    work->ribbons[i].color[2] = D_8013DE68[work->command].color[2] * value / scale;
+                    work->ribbons[i].color[0] = gModelVariant667_D2E68[work->command].color[0] * value / scale;
+                    work->ribbons[i].color[1] = gModelVariant667_D2E68[work->command].color[1] * value / scale;
+                    work->ribbons[i].color[2] = gModelVariant667_D2E68[work->command].color[2] * value / scale;
                 }
                 for (j = 0; j < work->ribbons[i].count * 2 - 1; j++) {
                     scale = j + 1;
@@ -467,9 +467,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->sprites[i].elapsed < work->sprites[i].duration / 4) {
                     scale = work->sprites[i].duration;
                     value = work->sprites[i].elapsed * 4;
-                    work->sprites[i].color[0] = D_8013DE68[work->command].color[3] * value / scale;
-                    work->sprites[i].color[1] = D_8013DE68[work->command].color[4] * value / scale;
-                    work->sprites[i].color[2] = D_8013DE68[work->command].color[5] * value / scale;
+                    work->sprites[i].color[0] = gModelVariant667_D2E68[work->command].color[3] * value / scale;
+                    work->sprites[i].color[1] = gModelVariant667_D2E68[work->command].color[4] * value / scale;
+                    work->sprites[i].color[2] = gModelVariant667_D2E68[work->command].color[5] * value / scale;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -562,15 +562,15 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->domes[i].elapsed < work->domes[i].duration / 4) {
                     value = work->domes[i].elapsed * 4;
                     scale = work->domes[i].duration;
-                    work->domes[i].color[0] = D_8013DE68[work->command].color[3] * value / scale;
-                    work->domes[i].color[1] = D_8013DE68[work->command].color[4] * value / scale;
-                    work->domes[i].color[2] = D_8013DE68[work->command].color[5] * value / scale;
+                    work->domes[i].color[0] = gModelVariant667_D2E68[work->command].color[3] * value / scale;
+                    work->domes[i].color[1] = gModelVariant667_D2E68[work->command].color[4] * value / scale;
+                    work->domes[i].color[2] = gModelVariant667_D2E68[work->command].color[5] * value / scale;
                 } else if (work->domes[i].elapsed > work->domes[i].duration * 3 / 4) {
                     value = (work->domes[i].duration - work->domes[i].elapsed) * 4;
                     scale = work->domes[i].duration;
-                    work->domes[i].color[0] = D_8013DE68[work->command].color[3] * value / scale;
-                    work->domes[i].color[1] = D_8013DE68[work->command].color[4] * value / scale;
-                    work->domes[i].color[2] = D_8013DE68[work->command].color[5] * value / scale;
+                    work->domes[i].color[0] = gModelVariant667_D2E68[work->command].color[3] * value / scale;
+                    work->domes[i].color[1] = gModelVariant667_D2E68[work->command].color[4] * value / scale;
+                    work->domes[i].color[2] = gModelVariant667_D2E68[work->command].color[5] * value / scale;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];

@@ -1,4 +1,4 @@
-// Italian MODEL.MRG model 543 (record 543), sector 136258, header 761, loaded at 0x8017B000; the US header-677 source variant677_entry_slot1.c; built from the French source layout of french_model_variant_543_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x2738 defined:true
-D_8017D73C = 0x8017D73C; // type:u8 size:0x134 defined:true
-D_8017D870 = 0x8017D870; // type:u8 size:0x2790 defined:true
+// Italian MODEL.MRG model 543 (record 543), sector 136258, header 761, loaded at 0x8017B000; the US header-677 source variant677_entry.c; built from the French source layout of french_model_variant_543_stage8_slot1.
+ModelVariant677_HandleRequest = 0x8017B004; // type:func size:0x2738 defined:true
+gModelVariant677_D2764 = 0x8017D73C; // type:u8 size:0x134 defined:true
+gModelVariant677_D2898 = 0x8017D870; // type:u8 size:0x2790 defined:true

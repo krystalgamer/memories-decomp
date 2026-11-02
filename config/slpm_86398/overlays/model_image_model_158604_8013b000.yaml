@@ -63,14 +63,14 @@ segments:
     vram: 0x8013BE3C
     align: 4
     subsegments:
-      - [0xE3C, c, overlays/model_variant/variant464_band]
+      - [0xE3C, c, overlays/french_model_variant/variant481_band]
   - name: helper_1708
     type: code
     start: 0x1708
     vram: 0x8013C708
     align: 4
     subsegments:
-      - [0x1708, c, overlays/model_variant/variant464_rings]
+      - [0x1708, c, overlays/french_model_variant/variant481_rings]
   - name: unclassified_tail
     type: code
     start: 0x1D48

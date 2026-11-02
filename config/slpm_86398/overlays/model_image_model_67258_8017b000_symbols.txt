@@ -1,7 +1,7 @@
-// Japanese MODEL.MRG model 243 (record 243), sector 67258, header 878, loaded at 0x8017B000; the US source variant781_entry_slot1.c; built from the US source layout of model_variant_243_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1DC0 defined:true
-D_8017CDD4 = 0x8017CDD4; // type:u8 size:0x54 defined:true
-D_8017CE28 = 0x8017CE28; // type:u8 size:0x31D8 defined:true
+// Japanese MODEL.MRG model 243 (record 243), sector 67258, header 878, loaded at 0x8017B000; the US source variant781_entry.c; built from the US source layout of model_variant_243_stage8_slot1.
+ModelVariant781_HandleRequest = 0x8017B004; // type:func size:0x1DC0 defined:true
+gModelVariant781_D1DD4 = 0x8017CDD4; // type:u8 size:0x54 defined:true
+gModelVariant781_D1E28 = 0x8017CE28; // type:u8 size:0x31D8 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 func_80058F10 = 0x80058F10; // type:func absolute:true

@@ -48,6 +48,6 @@ typedef struct {
     s16 slot;
 } Band481State;
 
-void func_8013BE38(u8 *context);
+void FrenchModelVariant481_DrawBand(u8 *context);
 
 #endif

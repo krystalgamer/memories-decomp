@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant481_rings.h"
 
-void func_8013C718(u8 *context)
+void FrenchModelVariant481_DrawRings(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

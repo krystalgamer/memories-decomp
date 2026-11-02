@@ -7,14 +7,13 @@ North American C in
 [`variant464_entry.c`](../../src/overlays/model_variant/variant464_entry.c),
 built under the `gcc_2_7_2_cdk_g0` profile. The ring renderer is the French
 header-481 C, [`variant481_rings.c`](../../src/overlays/french_model_variant/variant481_rings.c),
-renamed to its US address by
-[`variant464_rings.c`](../../src/overlays/model_variant/variant464_rings.c).
-The band renderer is the French header-481 C,
-[`variant481_band.c`](../../src/overlays/french_model_variant/variant481_band.c),
-built at its US address by
-[`variant464_band.c`](../../src/overlays/model_variant/variant464_band.c)
-(see [the band note](french-model-variant481-band.md)). The `_slot1.c`
-wrappers cover the images loaded at `0x8017B000`.
+and the band renderer is the French header-481 C,
+[`variant481_band.c`](../../src/overlays/french_model_variant/variant481_band.c)
+(see [the band note](french-model-variant481-band.md)); the US images build
+both sources directly. The same sources build both slots: the shared C
+defines `ModelVariant464_HandleRequest`, `FrenchModelVariant481_DrawBand`,
+`FrenchModelVariant481_DrawRings` and `gModelVariant464_D1E0C`, and each
+image's symbols file binds those names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -28,10 +27,11 @@ All four rebuild byte-identical to retail.
 The French images at the same sectors build the same entry under
 `gcc_2_8_1_g0_split` through
 [`variant481_entry.c`](../../src/overlays/french_model_variant/variant481_entry.c)
-and its `_slot1.c` wrapper. `VERSION_FRENCH` selects the palette column 640
+in both slots. `VERSION_FRENCH` selects the palette column 640
 instead of 512; the code is otherwise the same apart from resident `jal`
 targets. The French band renderer is `0x8E0` bytes at `+0xE38` and builds from
-`variant481_band.c`, so the rings sit at `+0x1718` and the data at `D_8013CE14`.
+`variant481_band.c`, so the rings sit at `+0x1718` and the data label `gModelVariant464_D1E0C`
+at `0x8013CE14`.
 The four French modules take the US names (`french_model_variant_624_pos0_slot0`,
 `_248_pos0_slot0`, `_624_stage8_slot1`, `_248_stage8_slot1`) and all four
 rebuild byte-identical to retail.
@@ -39,7 +39,7 @@ rebuild byte-identical to retail.
 ## What the entry does
 
 The setup command takes its row of the 0x3C-byte command table at
-`D_8013CE0C + 0x1C`, aims at a point 450 units in front of or behind the
+`gModelVariant464_D1E0C + 0x1C`, aims at a point 450 units in front of or behind the
 slot, uploads five textures and builds the primitives: two funnels of two
 17-point circles, a band of 33 steps, a nine-ring dome, twelve spirals, two
 sheets and two streamers.

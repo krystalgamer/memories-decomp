@@ -1,6 +1,6 @@
 # French header-481 image rings helper
 
-`func_8013C718` / `func_8017C718` (image offset `0x1718`, 0x638 bytes)
+`FrenchModelVariant481_DrawRings` (image offset `0x1718`, 0x638 bytes)
 builds, fades and draws the two header-481 rings.
 **No release had matching C for this body before.**
 
@@ -41,3 +41,10 @@ Three source details are required by the target bytes:
 
 The [attempt ledger](french-model-image481-rings-attempts.csv) records 27
 measured probes.
+
+## Per-image names
+
+The source defines `FrenchModelVariant481_DrawRings`. The PAL images of
+models 248 and 624 build it at `0x8013C718`/`0x8017C718`; the North American
+and Japanese images build the same source at `0x8013C708`/`0x8017C708`. Each
+image binds the name at its own address.

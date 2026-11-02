@@ -1,7 +1,7 @@
-// MODEL.MRG model 554 (record 504), sector 139314, header 697, loaded at 0x8017B000; the US source variant630_entry_slot1.c.
-func_8017B004 = 0x8017B004; // type:func size:0x17AC defined:true
-D_8017C7C8 = 0x8017C7C8; // type:u8 size:0x38 defined:true
-D_8017C800 = 0x8017C800; // type:u8 size:0x3800 defined:true
+// MODEL.MRG model 554 (record 504), sector 139314, header 697, loaded at 0x8017B000; the US source variant630_entry.c.
+ModelVariant630_HandleRequest = 0x8017B004; // type:func size:0x17AC defined:true
+gModelVariant630_D17C8 = 0x8017C7C8; // type:u8 size:0x38 defined:true
+gModelVariant630_D1800 = 0x8017C800; // type:u8 size:0x3800 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 func_80058F10 = 0x80058F10; // type:func absolute:true

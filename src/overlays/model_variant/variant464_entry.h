@@ -106,8 +106,8 @@ typedef struct {
     s16 slot, command;
 } Variant464EntryState;
 
-extern u8 D_8013CE0C[];
-void func_8013BE3C(u8 *context);
-void func_8013C708(u8 *context);
-s32 func_8013B004(SVECTOR *point, s32 command);
+extern u8 gModelVariant464_D1E0C[];
+void FrenchModelVariant481_DrawBand(u8 *context);
+void FrenchModelVariant481_DrawRings(u8 *context);
+s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command);
 #endif

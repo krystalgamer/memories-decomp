@@ -8,9 +8,9 @@
  * bursts into sixteen tinted fragments that drift apart; once the last shard
  * has burst after spawning ends, the light comes back. */
 
-static const VECTOR D_8013C4E8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant757_D14E8 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant757_HandleRequest(u8 *context, s32 command)
 {
     Model757State *work;
     MATRIX light;
@@ -30,25 +30,25 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013C4E8;
+    scale = gModelVariant757_D14E8;
     work = (Model757State *)context;
     packet = &ft4;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C584[command];
+        work->config = &gModelVariant757_D1584[command];
         work->unused_tpage = 0xAE;
 #ifdef VERSION_FRENCH
         work->unused_clut = 0x3D28;
 #else
         work->unused_clut = 0x3D20;
 #endif
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C4F8[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C4F8[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C4F8[2]);
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C4F8[3]);
-        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013C4F8[3]);
-        work->texture[5] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C4F8[4]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant757_D14F8[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant757_D14F8[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant757_D14F8[2]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant757_D14F8[3]);
+        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant757_D14F8[3]);
+        work->texture[5] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant757_D14F8[4]);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
         for (i = 0; i < 52; i++) {
             setVector(&work->positions[i], 0, 0, 0);

@@ -7,9 +7,9 @@
  * ambient light dims. Each orb that lands opens into a growing textured
  * halo ring, a stack of fading glows and a spray of falling debris. */
 
-static const VECTOR D_8013CDC4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant781_D1DC4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant781_HandleRequest(u8 *context, s32 command)
 {
     Model781State *work;
     MATRIX light;
@@ -32,12 +32,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CDC4;
+    scale = gModelVariant781_D1DC4;
     work = (Model781State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CE28[command];
+        work->config = &gModelVariant781_D1E28[command];
         for (i = 0; i < 2; i++) {
             for (j = 0; j < 2; j++) {
                 setVector(&work->pos[i][j], 0, 0, 0);
@@ -76,7 +76,7 @@ s32 func_8013B004(u8 *context, s32 command)
                       work->config->ring_inner * csin(j) / 4096, 0);
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CDD4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant781_D1DD4[i]);
         }
         work->ambient = 0x800;
         work->phase = 0;

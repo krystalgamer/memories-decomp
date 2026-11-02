@@ -1,7 +1,7 @@
-// Japanese MODEL.MRG model 109 (record 109), sector 30294, header 734, loaded at 0x8017B000; the US source variant667_entry_slot1.c; built from the US source layout of model_variant_109_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x2DF8 defined:true
-D_8017DE14 = 0x8017DE14; // type:u8 size:0x54 defined:true
-D_8017DE68 = 0x8017DE68; // type:u8 size:0x2198 defined:true
+// Japanese MODEL.MRG model 109 (record 109), sector 30294, header 734, loaded at 0x8017B000; the US source variant667_entry.c; built from the US source layout of model_variant_109_stage10_slot1.
+ModelVariant667_HandleRequest = 0x8017B004; // type:func size:0x2DF8 defined:true
+gModelVariant667_D2E14 = 0x8017DE14; // type:u8 size:0x54 defined:true
+gModelVariant667_D2E68 = 0x8017DE68; // type:u8 size:0x2198 defined:true
 Model_CopySlotPosition = 0x80058FB0; // type:func absolute:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true

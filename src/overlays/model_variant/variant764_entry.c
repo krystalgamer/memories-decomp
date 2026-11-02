@@ -7,9 +7,9 @@
  * spreads out and fades. The first drawn frame returns 1 and the end
  * returns 2. */
 
-static const VECTOR D_8013C2EC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant764_D12EC = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant764_HandleRequest(u8 *context, s32 command)
 {
     Model764State *work;
     MATRIX light;
@@ -37,11 +37,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013C2EC;
+    scale = gModelVariant764_D12EC;
     work = (Model764State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C318[command];
+        work->config = &gModelVariant764_D1318[command];
         v = work->inner;
         w = work->outer;
         u = work->cone;
@@ -91,7 +91,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->color[2] = work->config->b;
         work->grey = 0x80;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C2FC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant764_D12FC[i]);
         }
         return 0;
     }
