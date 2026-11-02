@@ -12,7 +12,7 @@
 #define RIBBONS436_SB(k) (ribbon->sb[k])
 #endif
 
-void func_8013CAEC(u8 *ctx)
+void FrenchModelVariant436_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

@@ -7,7 +7,7 @@
  * sorted only when its depth is not negative and the matching word of a local
  * [1][3] table is not negative. Nothing writes that table, so the retail test
  * reads uninitialised stack. */
-void func_8013BD98(u8 *context)
+void FrenchModelVariant436_DrawBands(u8 *context)
 {
     SVECTOR rot;
     VECTOR scale;

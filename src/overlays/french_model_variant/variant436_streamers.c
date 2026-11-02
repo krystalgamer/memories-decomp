@@ -4,7 +4,7 @@
 /* The North American header-419 copy, built with the CDK compiler, reloads
  * the word after the advanced rotation into itself like header 458. */
 
-void func_8013D6C8(u8 *ctx)
+void FrenchModelVariant436_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

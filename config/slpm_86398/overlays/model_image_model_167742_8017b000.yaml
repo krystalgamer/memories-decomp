@@ -56,35 +56,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant419_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant419_entry]
   - name: helper_d9c
     type: code
     start: 0xD9C
     vram: 0x8017BD9C
     align: 4
     subsegments:
-      - [0xD9C, c, overlays/model_variant/variant419_bands_slot1]
+      - [0xD9C, c, overlays/model_variant/variant419_bands]
   - name: helper_1538
     type: code
     start: 0x1538
     vram: 0x8017C538
     align: 4
     subsegments:
-      - [0x1538, c, overlays/model_variant/variant419_sheets_slot1]
+      - [0x1538, c, overlays/model_variant/variant419_sheets]
   - name: ribbons
     type: code
     start: 0x1AEC
     vram: 0x8017CAEC
     align: 4
     subsegments:
-      - [0x1AEC, c, overlays/model_variant/variant419_ribbons_slot1]
+      - [0x1AEC, c, overlays/model_variant/variant419_ribbons]
   - name: helper_2674
     type: code
     start: 0x2674
     vram: 0x8017D674
     align: 4
     subsegments:
-      - [0x2674, c, overlays/model_variant/variant419_streamers_slot1]
+      - [0x2674, c, overlays/model_variant/variant419_streamers]
   - name: data
     type: code
     start: 0x2F44
