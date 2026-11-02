@@ -64,3 +64,7 @@ The family regression also guards loader slices, native instruction anchors,
 all37 target-compiled layout values, descriptors, wrapper substitutions,
 raw extents and the full attempt history. Complete-image identity does not
 classify the preserved suffix.
+
+## Per-image bindings
+
+One source, `french_model_variant/variant97_entry.c`, serves both slots and the North American header-80/210 images. Each image's symbols file binds `FrenchModelVariant97_HandleRequest`, `gFrenchModelVariant97_D1168` and `gFrenchModelVariant97_D11BC` at its own addresses; the scale vector at `0x1158` is a C-local static.

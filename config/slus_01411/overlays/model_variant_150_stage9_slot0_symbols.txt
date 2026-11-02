@@ -1,9 +1,9 @@
 // MODEL.MRG model 150 (record 150), sector 41600, header 80, loaded at 0x8013B000.
-func_8013B004 = 0x8013B004; // type:func size:0x1154
+FrenchModelVariant97_HandleRequest = 0x8013B004; // type:func size:0x1154
 D_8013C158 = 0x8013C158; // type:u32 size:0x10 defined:true
 D_8013B000 = 0x8013B000; // type:u8 size:0x4 defined:true
-D_8013C168 = 0x8013C168; // type:u8 size:0x54 defined:true
-D_8013C1BC = 0x8013C1BC; // type:u8 size:0x3E44 defined:true
+gFrenchModelVariant97_D1168 = 0x8013C168; // type:u8 size:0x54 defined:true
+gFrenchModelVariant97_D11BC = 0x8013C1BC; // type:u8 size:0x3E44 defined:true
 GsGetLwUnit = 0x8008A4A0; // type:func absolute:true
 GsSetLsMatrix = 0x800855D0; // type:func absolute:true
 GsSortPoly = 0x80084320; // type:func absolute:true
