@@ -13,9 +13,9 @@
 #include "../../psyq/stdio.h"
 #endif
 
-static const VECTOR D_8013C058 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant157_D1058 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant157_HandleRequest(u8 *context, s32 command)
 {
     Model157State *work;
     Model157Config *config;
@@ -36,12 +36,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C058;
+    scale = gFrenchModelVariant157_D1058;
     work = (Model157State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C084[command % 100];
+        config = work->config = &gFrenchModelVariant157_D1084[command % 100];
         point = &work->origin;
         setVector(point, 0, 0, 0);
         point = work->ring;
@@ -64,7 +64,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013C068[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant157_D1068[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

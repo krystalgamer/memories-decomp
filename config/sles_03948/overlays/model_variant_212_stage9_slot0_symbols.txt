@@ -1,7 +1,7 @@
 // MODEL.MRG model 212 (record 212), sector 58712, header 174, loaded at 0x8013B000; the US header-157 source variant157_entry.c, through french_model_variant/variant174_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0x1444 defined:true
-D_8013C458 = 0x8013C458; // type:u8 size:0xC4 defined:true
-D_8013C51C = 0x8013C51C; // type:u8 size:0x3AE4 defined:true
+ModelVariant157_HandleRequest = 0x8013B004; // type:func size:0x1444 defined:true
+gModelVariant157_D147C = 0x8013C458; // type:u8 size:0xC4 defined:true
+gModelVariant157_D1540 = 0x8013C51C; // type:u8 size:0x3AE4 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

@@ -1,4 +1,4 @@
-// German MODEL.MRG model 630 (record 630), sector 160290, header 321, loaded at 0x8017B000; the US header-174 source variant174_entry_slot1.c; built from the French source layout of french_model_variant_630_stage10_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0x1794 defined:true
-D_8017C7A8 = 0x8017C7A8; // type:u8 size:0x70 defined:true
-D_8017C818 = 0x8017C818; // type:u8 size:0x37E8 defined:true
+// German MODEL.MRG model 630 (record 630), sector 160290, header 321, loaded at 0x8017B000; the US header-174 source variant174_entry.c; built from the French source layout of french_model_variant_630_stage10_slot1.
+ModelVariant174_HandleRequest = 0x8017B004; // type:func size:0x1794 defined:true
+gModelVariant174_D17CC = 0x8017C7A8; // type:u8 size:0x70 defined:true
+gModelVariant174_D183C = 0x8017C818; // type:u8 size:0x37E8 defined:true
