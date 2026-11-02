@@ -1,5 +1,3 @@
-#define MAIN_MODE_STATE_NEXT_AS_SCALAR
-#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
 #include "secondary_scene_commands.h"
 #include "script_state.h"

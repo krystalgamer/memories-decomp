@@ -1,7 +1,6 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
 #define MAIN_MODE_STATE_NEXT_AS_ARRAY
-#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
 #include "../unmatched.h"
 #include "input.h"

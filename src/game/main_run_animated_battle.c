@@ -1,5 +1,4 @@
 #define D_8009B0C0_IN_DATA
-#define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "graphics_frame.h"

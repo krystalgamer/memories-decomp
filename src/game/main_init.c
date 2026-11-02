@@ -10,7 +10,6 @@
 #define D_8009B230_IN_DATA
 #define GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
 #define MAIN_MODE_STATE_NEXT_IN_DATA
-#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
 #include "../unmatched.h"
 #include "duel_side_state.h"

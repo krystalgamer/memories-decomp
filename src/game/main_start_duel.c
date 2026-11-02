@@ -1,4 +1,3 @@
-#define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "main_start_duel.h"

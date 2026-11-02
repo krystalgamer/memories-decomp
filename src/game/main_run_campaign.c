@@ -1,5 +1,4 @@
 #define GDUEL_BEFFECTSTATE_IN_DATA
-#define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 

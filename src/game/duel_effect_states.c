@@ -13,7 +13,6 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define D_8009B0C0_IN_DATA_VOLATILE
 #define GDUEL_WSELECTEDCARDID_IN_DATA
-#define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "text_box_blocking_build.h"
 #include "duel_effect_state_latch.h"

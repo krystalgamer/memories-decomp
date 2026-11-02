@@ -791,7 +791,7 @@ Current consumers select both measured views explicitly. Legacy
 `D_8009B269_*` and `D_8009B26C_*` selectors still work through either header,
 including the historical `.data` precedence. The dedicated header's
 `MAIN_MODE_STATE_ACTIVE_AS_SCALAR` is required for the active scalar view;
-`MAIN_MODE_STATE_ACTIVE_AS_ARRAY` explicitly selects its default.
+the array view is the default.
 
 Eight tentative definitions remain in seven current mode-runner units:
 animated battle, build-deck, game-over, name-entry, options, trade, and

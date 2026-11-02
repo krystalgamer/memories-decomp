@@ -8,7 +8,6 @@
 
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
-#define DEBUG_FONT_FORMATS_AS_U8_ARRAYS
 
 #include "../types.h"
 #include "text_box_blocking_build.h"

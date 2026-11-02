@@ -1,5 +1,4 @@
 #define MAIN_MODE_STATE_NEXT_AS_ARRAY
-#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
 #include "script_command_busy.h"
 #include "script_state.h"
