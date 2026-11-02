@@ -12,10 +12,10 @@
 #ifndef MODEL670_STRING_PAD
 #define MODEL670_STRING_PAD "\xA6"
 #endif
-static const char D_8013CD68[24] = "E_DATA size = %x byte\n\0" MODEL670_STRING_PAD;
+static const char gModelVariant670_D1D68[24] = "E_DATA size = %x byte\n\0" MODEL670_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant670_HandleRequest(u8 *context, s32 command)
 {
     Model670State *work;
     MATRIX m;
@@ -34,20 +34,20 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model670State));
 #ifndef VERSION_FRENCH
-        printf(D_8013CD68, sizeof(Model670State));
+        printf(gModelVariant670_D1D68, sizeof(Model670State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
         Model_CopySlotPosition(work->slot == 0, (u16 *)work->position);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CD80[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant670_D1D80[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CD80[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant670_D1D80[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CD80[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant670_D1D80[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -59,17 +59,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->count = 16;
             break;
         }
-        work->radius = D_8013CDD4[command].radius;
-        work->height = D_8013CDD4[command].height;
+        work->radius = gModelVariant670_D1DD4[command].radius;
+        work->height = gModelVariant670_D1DD4[command].height;
         for (i = 0; i < work->count; i++) {
             work->shells[i].duration = 0x30;
             work->shells[i].active = 0;
             work->shells[i].elapsed = 0;
             work->shells[i].mode = 1;
             work->shells[i].coord = Model_GetCameraCoordinateUnit();
-            work->shells[i].red = D_8013CDD4[command].red;
-            work->shells[i].green = D_8013CDD4[command].green;
-            work->shells[i].blue = D_8013CDD4[command].blue;
+            work->shells[i].red = gModelVariant670_D1DD4[command].red;
+            work->shells[i].green = gModelVariant670_D1DD4[command].green;
+            work->shells[i].blue = gModelVariant670_D1DD4[command].blue;
             work->shells[i].u = 0;
             work->shells[i].v = 0;
             setVector(&work->shells[i].scale, 0x1000, 0x1000, 0x1000);
@@ -84,9 +84,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->rings[i].elapsed = 0;
             work->rings[i].mode = 2;
             work->rings[i].coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].red = D_8013CDD4[command].ring_red;
-            work->rings[i].green = D_8013CDD4[command].ring_green;
-            work->rings[i].blue = D_8013CDD4[command].ring_blue;
+            work->rings[i].red = gModelVariant670_D1DD4[command].ring_red;
+            work->rings[i].green = gModelVariant670_D1DD4[command].ring_green;
+            work->rings[i].blue = gModelVariant670_D1DD4[command].ring_blue;
             work->rings[i].u = 0;
             work->rings[i].v = 0x80;
             setVector(&work->rings[i].scale, 0x1000, 0x1000, 0x1000);
@@ -101,7 +101,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->position[1] + n * -h * rcos((i << 12) / work->count) / 4096,
                 work->position[2] + n * h * rcos((i << 12) / work->count) / 4096);
         }
-        work->delay = D_8013CDD4[command].delay;
+        work->delay = gModelVariant670_D1DD4[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -216,9 +216,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->shells[i].duration / 3 < work->shells[i].elapsed) {
                     n = (work->shells[i].duration - work->shells[i].elapsed) * 3;
                     h = work->shells[i].duration * 2;
-                    work->shells[i].red = D_8013CDD4[work->command].red * n / h;
-                    work->shells[i].green = D_8013CDD4[work->command].green * n / h;
-                    work->shells[i].blue = D_8013CDD4[work->command].blue * n / h;
+                    work->shells[i].red = gModelVariant670_D1DD4[work->command].red * n / h;
+                    work->shells[i].green = gModelVariant670_D1DD4[work->command].green * n / h;
+                    work->shells[i].blue = gModelVariant670_D1DD4[work->command].blue * n / h;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[0];
@@ -314,9 +314,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->rings[i].duration / 3 < work->rings[i].elapsed) {
                     n = (work->rings[i].duration - work->rings[i].elapsed) * 3;
                     h = work->rings[i].duration * 2;
-                    work->rings[i].red = D_8013CDD4[work->command].ring_red * n / h;
-                    work->rings[i].green = D_8013CDD4[work->command].ring_green * n / h;
-                    work->rings[i].blue = D_8013CDD4[work->command].ring_blue * n / h;
+                    work->rings[i].red = gModelVariant670_D1DD4[work->command].ring_red * n / h;
+                    work->rings[i].green = gModelVariant670_D1DD4[work->command].ring_green * n / h;
+                    work->rings[i].blue = gModelVariant670_D1DD4[work->command].ring_blue * n / h;
                 }
                 for (j = 0; j < 16; j++) {
                     setPolyGT4(&work->strip);

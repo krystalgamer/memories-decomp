@@ -1,7 +1,7 @@
 // MODEL.MRG model 276 (record 276), sector 76356, header 687, loaded at 0x8013B000; the US header-670 source variant670_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0x1D54 defined:true
-D_8013CD58 = 0x8013CD58; // type:u8 size:0x54 defined:true
-D_8013CDAC = 0x8013CDAC; // type:u8 size:0x3254 defined:true
+ModelVariant670_HandleRequest = 0x8013B004; // type:func size:0x1D54 defined:true
+gModelVariant670_D1D80 = 0x8013CD58; // type:u8 size:0x54 defined:true
+gModelVariant670_D1DD4 = 0x8013CDAC; // type:u8 size:0x3254 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true
