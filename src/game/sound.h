@@ -852,7 +852,6 @@ typedef char SDSecondaryState_reverb_control_layout_must_match[
 
 #undef SD_STATE_OFFSET
 
-#ifndef SDVALUE_CUSTOM_EXTERN
 /* Three alternative spellings of this declaration are codegen inputs:
  * sd_drop_queued_cd_play_commands.c takes the aggregate arm; sd_request_music_package_load.c takes the volatile
  * arm; sound_output_transition.c and sound_output_state.c keep the same
@@ -887,9 +886,8 @@ typedef char SDSecondaryState_reverb_control_layout_must_match[
  *   measured byte-identical with it; whether either would also build without
  *   it was not measured.
  *
- * Everything else takes the plain declaration -- except
- * sd_arm_busy_callback.c, which defines SDVALUE_CUSTOM_EXTERN to suppress
- * this block and reaches the pointer as an absolute address instead. Its
+ * Everything else takes the plain declaration. sd_arm_busy_callback.c also
+ * sees it, but reaches the pointer through a literal address macro instead. Its
  * object shows what that buys: `lui v1, 0x800a` / `lw v1, -19364(v1)` for
  * 0x8009B45C with NO relocation, where the SD_ClearBusyFlag two
  * instructions later carries R_MIPS_HI16 and R_MIPS_LO16. The reason given
@@ -903,7 +901,6 @@ extern SDValue *g_SDValue[];
 extern SDValue *volatile g_SDValue;
 #else
 extern SDValue *g_SDValue;
-#endif
 #endif
 
 /* Voice setup units keep the pointer outside small data for their absolute

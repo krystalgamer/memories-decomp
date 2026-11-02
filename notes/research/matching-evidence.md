@@ -1635,7 +1635,7 @@ extern u8 * volatile D_8009B458;
 ```
 
 reproduces all three reads, and is the same modelling `func_80049138` already
-uses for `g_SDValue` under `SDVALUE_CUSTOM_EXTERN`. The two globals are the same
+used for `g_SDValue` under the since-removed `SDVALUE_CUSTOM_EXTERN`. The two globals are the same
 kind of thing and should be declared the same way.
 
 Re-scored with the volatile declaration, `func_8004A6F8`, `func_8004A27C` and
