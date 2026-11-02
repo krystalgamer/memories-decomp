@@ -8,7 +8,7 @@ session structure: PAL order and gaps differ from NA.
 | --- | --- | --- |
 | `D_8009B368` | `gDuel_bPostDuelMainMode` | `u8`, plain / `.data` |
 | `D_8009B369` | `gDuel_bResumeFromAnimatedBattle` | `u8`, plain / `.data` |
-| `D_8009B370` | `gDuel_wCampaignSceneOnWin` | `u16` or incomplete `u8[]` |
+| `D_8009B370` | `gDuel_wCampaignSceneOnWin` | `u16`, or incomplete `u16[]` for the indexed read |
 | `D_8009B372` | `gDuel_wCampaignSceneOnLoss` | independent `u16` |
 | `D_8009B374` | `gDuel_wAnimatedBattleBgmCommand` | `u16`, plain / `.data` |
 
@@ -53,11 +53,11 @@ halfword stores. Debug setup supplies `0x8000` while returning to Debug,
 where those operands are ignored. The sixteen-bit storage and high bits
 are preserved, not narrowed or normalized into validated scene IDs.
 
-The first operand keeps the old incomplete byte-array view when
-`D_8009B370_AS_BYTE_ARRAY` is selected, otherwise its scalar `u16` view.
-Other old `_AS_ARRAY`/`_AS_ABSOLUTE_ARRAY` tokens are not substituted for
-that actual declaration guard. Both halfwords retain independent
-relocation providers; no two-word array or new structure replaces them.
+`Main_RunDuel` reads the pair as `u16` elements indexed by
+`gDuel_bPlayerLost`. It needs an absolute address, which cc1psx builds only
+for an unknown-bound array, so `GDUEL_CAMPAIGN_SCENE_ON_WIN_AS_PAIR` selects
+an incomplete `u16[]` there; the scalar writers keep the gp-relative `u16`.
+Both halfwords retain independent relocation providers.
 
 ## Ordinary animated-battle BGM selection
 

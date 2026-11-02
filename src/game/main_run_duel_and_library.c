@@ -26,7 +26,7 @@
 #include "../game/duel_scene_update.h"
 #include "../game/duel_side_state.h"
 #define D_8009B2F8_AS_ARRAY
-#define D_8009B370_AS_BYTE_ARRAY
+#define GDUEL_CAMPAIGN_SCENE_ON_WIN_AS_PAIR
 #include "../unmatched.h"
 #include "duel_session_controls.h"
 
@@ -81,7 +81,7 @@ void Main_RunDuel(void)
         break;
     case 2:
     {
-        u8 *table = gDuel_wCampaignSceneOnWin;
+        u16 *table = gDuel_wCampaignSceneOnWin;
         u8 next;
 
         Fade_WaitOut();
@@ -94,7 +94,7 @@ void Main_RunDuel(void)
         next = gDuel_bPostDuelMainMode;
         gMain_bActiveModeState = next;
         if (gMain_bActiveModeState == state)
-            gCampaignSceneIndex = table[gDuel_bPlayerLost * 2];
+            gCampaignSceneIndex = table[gDuel_bPlayerLost];
         break;
     }
     }
