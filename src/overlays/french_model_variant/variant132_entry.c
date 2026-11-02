@@ -2,9 +2,9 @@
 #include "variant132_entry.h"
 #include "../../game/screen_projection.h"
 
-static const VECTOR D_8013BEB8 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant132_D0EB8 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant132_HandleRequest(u8 *context, s32 command)
 {
     Model132State *work;
     MATRIX base, matrix, radial;
@@ -26,12 +26,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BEB8;
+    scale = gFrenchModelVariant132_D0EB8;
     work = (Model132State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013BEE4[command];
+        config = work->config = &gFrenchModelVariant132_D0EE4[command];
         point = work->path;
         for (i = 0; i < 42; point++, i++) {
             point->vx = config->radius;
@@ -56,7 +56,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point[17].vy += config->ring_height;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BEC8[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant132_D0EC8[i]);
         }
         Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, work->position);
         work->position[1] = 0;
