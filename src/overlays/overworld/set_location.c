@@ -1,7 +1,5 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
-#define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
-#define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
 #include "../../game/model_draw_slot.h"
