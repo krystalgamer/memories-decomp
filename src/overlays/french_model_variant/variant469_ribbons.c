@@ -14,7 +14,7 @@
  * constant ribbon length once before the ribbon loop rather than per ribbon
  * (MODEL_VARIANT469_RIBBONS_EARLY_LEN); that keeps its sign extension inside
  * the ribbon loop and the hoisted projection addresses in retail order. */
-void func_8013D1F4(u8 *ctx)
+void FrenchModelVariant469_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

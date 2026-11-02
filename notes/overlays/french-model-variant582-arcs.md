@@ -1,6 +1,6 @@
 # French MODEL582 arcs helper
 
-`func_8013C560` / `func_8017C560` (image offset `0x1560`, 0x638 bytes)
+`FrenchModelVariant582_DrawArcs` (`0x8013C560` / `0x8017C560`, image offset `0x1560`, 0x638 bytes)
 animates and draws four groups of paired five-point arcs as gouraud lines.
 **No release had matching C for this body before.**
 
