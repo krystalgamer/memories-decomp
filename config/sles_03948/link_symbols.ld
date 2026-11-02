@@ -844,7 +844,6 @@ gDuel_bEffectState = 0x8009C5DC;
 gDuel_bOpponentID = 0x8009C6F3;
 gDuel_bQuitDialogState = 0x8009C580;
 gDuel_bTerrain = 0x8009C6F9;
-gDuel_bTerrainCodegenAlias = 0x8009C6F9;
 gDuel_bWinnerSide = 0x8009C584;
 gDuel_sCardEffectIndex = 0x8009C5A4;
 gDuel_wBgmId = 0x8009C6EA;

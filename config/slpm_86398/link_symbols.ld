@@ -226,7 +226,6 @@ gMain_nServiceResyncCountdown = runtime_gp;
 gLibGs_DrawEnvView = D_800FE048;
 g_SDValue_output_level = g_SDValue;
 gText_Channel3 = 0x800EB0F8;
-gDuel_bTerrainCodegenAlias = gDuel_bTerrain;
 
 /* Second .data views the shared C reads for absolute addressing (US c_symbols.ld). */
 D_8009B0F4_abs = 0x8009AFE4;

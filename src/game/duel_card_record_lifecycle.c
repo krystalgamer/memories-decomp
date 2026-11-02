@@ -14,7 +14,6 @@
    gDuel_bTerrain assume for Duel_GetTerrainBoost, so the unit builds there. */
 
 #define DUEL_SCREEN_TABLES_TYPED_POSITIONS
-#define DUEL_TERRAIN_AS_ARRAY
 
 #include "../types.h"
 #include "duel_deck_card_data.h"
@@ -161,17 +160,13 @@ void DuelCard_RemoveFromField(DuelCardRecord *object)
     object->flags = 0;
 }
 
-/* Same byte, distinct compiler identity: keep both address materializations. */
-
 s32 Duel_GetTerrainBoost(s32 cardType)
 {
-    u8 *terrain = gDuel_bTerrainCodegenAlias;
-
-    if (gDuel_bTerrain[0] == 0 || cardType >= CARD_TYPE_MAGIC) {
+    if (gDuel_bTerrain == 0 || cardType >= CARD_TYPE_MAGIC) {
         return 0;
     }
 
-    return gDuel_aTerrainBoost[cardType][terrain[0] - 1] * CARD_STAT_SCALE;
+    return gDuel_aTerrainBoost[cardType][gDuel_bTerrain - 1] * CARD_STAT_SCALE;
 }
 
 /* Two RECTs per live slot: the thumbnail at 2 * slot and the CLUT at

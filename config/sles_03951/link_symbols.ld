@@ -531,7 +531,6 @@ gDuel_bPlayerLost = 0x8009C6F4;
 D_8009B374 = 0x8009C6F6;
 D_8009B363 = 0x8009C6F8;
 gDuel_bTerrain = 0x8009C6F9;
-gDuel_bTerrainCodegenAlias = 0x8009C6F9;
 D_8009B368 = 0x8009C6FA;
 gFreeDuel_bReturnFlags = 0x8009C6FB;
 D_8009B369 = 0x8009C6FC;

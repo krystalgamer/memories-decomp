@@ -2,7 +2,6 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-#define DUEL_TERRAIN_SCALAR_IN_DATA
 #include "duel_terrain_boost.h"
 #include "ai_opponent_data.h"
 
