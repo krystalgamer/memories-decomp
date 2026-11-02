@@ -32,7 +32,6 @@ u8 D_800F3938[0x78];
 #define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #define D_8009B118_IS_POINTER_IN_DATA
-#define DUEL_PACKAGE_STAGE_RAW_ARENAS
 
 #include "model_slot_part_animation.h"
 #include "model_scene_controllers.h"

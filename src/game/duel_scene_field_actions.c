@@ -33,7 +33,6 @@
 #define GDUEL_BCARDVIEWERYOFFSET_IN_DATA
 #define GDUEL_BEFFECTSTATE_IN_DATA
 #define GDUEL_WVIEWERCARDID_IN_DATA
-#define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #include "../types.h"
 #include "duel_scene_field_actions.h"
 #include "duel_presentation_controls.h"

@@ -1,4 +1,3 @@
-#define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

@@ -4,7 +4,7 @@
 
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */
-#define g_SDValue (*(SDValue **)0x8009C3C0)
+#define SD_ARM_BUSY_SDVALUE_ADDRESS 0x8009C3C0
 #define gFile_SecondaryPayloadCompleteCallback (*(void (**)(void))0x8009C050)
 
 #include "../sd_arm_busy_callback.c"
