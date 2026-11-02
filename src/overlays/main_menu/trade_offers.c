@@ -1,5 +1,4 @@
 #include "../../types.h"
-#define MAIN_MENU_TRADE_READY_AS_SCALAR
 #include "trade_helpers.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
@@ -54,7 +53,7 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
     obj[0] = (DisplayObject *)gTrade_aCardSlots[0].object;
     obj[1] = (DisplayObject *)gTrade_aCardSlots[1].object;
 
-    if (gTrade_abReady != 0) {
+    if (gTrade_abReady[0] != 0) {
         MainMenu_DrawTradeColumnOverlay(0);
         ((u8 *)&obj[0]->rgb)[0] = ((u8 *)&obj[0]->rgb)[1] =
             ((u8 *)&obj[0]->rgb)[2] = 0x40;
