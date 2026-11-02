@@ -16,7 +16,7 @@
  * colours where the depth and the arm's projection flag are not negative. The
  * sweep advances by 16; the size grows over the timing record and fades out
  * after phase 0. */
-void func_8013CD30(u8 *ctx)
+void SpanishModelVariant472_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

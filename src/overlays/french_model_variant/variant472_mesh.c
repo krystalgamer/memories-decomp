@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant472_mesh.h"
 
-void func_8013C734(u8 *context)
+void FrenchModelVariant472_DrawMesh(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

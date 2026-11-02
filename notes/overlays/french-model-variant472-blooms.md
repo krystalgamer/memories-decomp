@@ -1,6 +1,7 @@
 # French MODEL472 blooms helper
 
-`func_8013C110` / `func_8017C110` (MODEL472 family, image offset `0x1110`,
+`FrenchModelVariant472_DrawBlooms` (formerly `func_8013C110` / `func_8017C110`;
+MODEL472 family, image offset `0x1110`,
 0x624 bytes) draws and advances eight groups of twelve blooming quads.
 **No release had matching C for this body before.**
 
