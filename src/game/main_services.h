@@ -29,17 +29,16 @@
  * (src/game/library_runtime.c), which clears it when the card view opens and
  * restores Library_DrawCardGrid when it closes.
  * Slot 2 is stored only by Library_UpdateCardView, which installs Library_DrawWireframeGlobe for
- * the model view and clears it on the way out; splat's name for that address
- * is D_800E9DB8, and no other listing or C unit names it.
+ * the model view and clears it on the way out; no other listing or C unit
+ * names it.
  * Slot 1 is stored by the main_menu overlay, by index:
  * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_update.c,
  * `gMain_apFrameServiceCallbacks[1] = MainMenu_DrawTradeOffersAndHighlights;`) and
  * MainMenu_ReleaseTradeDisplayHandles
  * (src/overlays/main_menu/trade_offers.c:145, `gMain_apFrameServiceCallbacks[1] = 0;`). Before
  * that the overlay reached it as D_800E9DB4, with a private declaration in
- * each unit. The per-slot names D_800E9DB8 and D_800E9DBC (0x800E9DB0 + 8
- * and + 12) carry no displacement off gMain_apFrameServiceCallbacks, so their writers do not
- * appear as `%lo(gMain_apFrameServiceCallbacks)` references. */
+ * each unit. Every slot is reached as an element of
+ * gMain_apFrameServiceCallbacks; no slot has a symbol of its own. */
 extern void (*gMain_apFrameServiceCallbacks[4])(void);
 
 /* The recovery point the registry's comment above already places at
