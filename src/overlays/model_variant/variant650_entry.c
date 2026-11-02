@@ -12,10 +12,10 @@
 #ifndef MODEL650_STRING_PAD
 #define MODEL650_STRING_PAD ""
 #endif
-static const char D_8013CB08[24] = "E_DATA size = %x byte\n\0" MODEL650_STRING_PAD;
+static const char gModelVariant650_D1B08[24] = "E_DATA size = %x byte\n\0" MODEL650_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant650_HandleRequest(u8 *context, s32 command)
 {
     Model650State *work;
     MATRIX ls, m;
@@ -35,16 +35,16 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model650State));
 #ifndef VERSION_FRENCH
-        printf(D_8013CB08, sizeof(Model650State));
+        printf(gModelVariant650_D1B08, sizeof(Model650State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CB20[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant650_D1B20[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CB20[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant650_D1B20[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -65,17 +65,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->fan_count = 4;
             break;
         }
-        work->radius = D_8013CB58[command].radius;
-        work->height = D_8013CB58[command].height;
+        work->radius = gModelVariant650_D1B58[command].radius;
+        work->height = gModelVariant650_D1B58[command].height;
         for (i = 0; i < work->sprite_count; i++) {
             work->sprites[i].active = 0;
             work->sprites[i].elapsed = 0;
             work->sprites[i].duration = 64;
             work->sprites[i].mode = 1;
             work->sprites[i].coord = Model_GetCameraCoordinateUnit();
-            work->sprites[i].color[0] = D_8013CB58[command].color[0];
-            work->sprites[i].color[1] = D_8013CB58[command].color[1];
-            work->sprites[i].color[2] = D_8013CB58[command].color[2];
+            work->sprites[i].color[0] = gModelVariant650_D1B58[command].color[0];
+            work->sprites[i].color[1] = gModelVariant650_D1B58[command].color[1];
+            work->sprites[i].color[2] = gModelVariant650_D1B58[command].color[2];
             work->sprites[i].u = 0;
             work->sprites[i].v = 64;
             work->arc_x[i][0] = (i % 3 + 1) * ((i % 2) * 2 - 1);
@@ -93,9 +93,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->shells[i].elapsed = 0;
             work->shells[i].mode = 1;
             work->shells[i].coord = Model_GetCameraCoordinateUnit();
-            work->shells[i].color[0] = D_8013CB58[command].color[3];
-            work->shells[i].color[1] = D_8013CB58[command].color[4];
-            work->shells[i].color[2] = D_8013CB58[command].color[5];
+            work->shells[i].color[0] = gModelVariant650_D1B58[command].color[3];
+            work->shells[i].color[1] = gModelVariant650_D1B58[command].color[4];
+            work->shells[i].color[2] = gModelVariant650_D1B58[command].color[5];
             work->shells[i].u = 0;
             work->shells[i].v = 0;
             setVector(&work->shells[i].scale, 4096, 4096, 4096);
@@ -111,9 +111,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->fans[i].elapsed = 0;
             work->fans[i].mode = 1;
             work->fans[i].coord = Model_GetCameraCoordinateUnit();
-            work->fans[i].color[0] = D_8013CB58[command].color[3];
-            work->fans[i].color[1] = D_8013CB58[command].color[4];
-            work->fans[i].color[2] = D_8013CB58[command].color[5];
+            work->fans[i].color[0] = gModelVariant650_D1B58[command].color[3];
+            work->fans[i].color[1] = gModelVariant650_D1B58[command].color[4];
+            work->fans[i].color[2] = gModelVariant650_D1B58[command].color[5];
             work->fans[i].u = 0;
             work->fans[i].v = 0;
             setVector(&work->fans[i].scale, 0, 0, 0);
@@ -123,7 +123,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->fans[i].position.vy -= 350;
             work->fans[i].position.vz += work->direction * 450;
         }
-        work->delay = D_8013CB58[command].delay;
+        work->delay = gModelVariant650_D1B58[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -284,9 +284,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->shells[i].duration / 2 < work->shells[i].elapsed) {
                     value = (work->shells[i].duration - work->shells[i].elapsed) * 2;
                     duration = work->shells[i].duration;
-                    work->shells[i].color[0] = D_8013CB58[work->command].color[3] * value / duration;
-                    work->shells[i].color[1] = D_8013CB58[work->command].color[4] * value / duration;
-                    work->shells[i].color[2] = D_8013CB58[work->command].color[5] * value / duration;
+                    work->shells[i].color[0] = gModelVariant650_D1B58[work->command].color[3] * value / duration;
+                    work->shells[i].color[1] = gModelVariant650_D1B58[work->command].color[4] * value / duration;
+                    work->shells[i].color[2] = gModelVariant650_D1B58[work->command].color[5] * value / duration;
                 }
                 for (j = 0; j < 8; j++) {
                     for (k = 0; k < 16; k++) {
@@ -341,9 +341,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->fans[i].duration / 2 < work->fans[i].elapsed) {
                     value = (work->fans[i].duration - work->fans[i].elapsed) * 2;
                     duration = work->fans[i].duration;
-                    work->fans[i].color[0] = D_8013CB58[work->command].color[3] * value / duration;
-                    work->fans[i].color[1] = D_8013CB58[work->command].color[4] * value / duration;
-                    work->fans[i].color[2] = D_8013CB58[work->command].color[5] * value / duration;
+                    work->fans[i].color[0] = gModelVariant650_D1B58[work->command].color[3] * value / duration;
+                    work->fans[i].color[1] = gModelVariant650_D1B58[work->command].color[4] * value / duration;
+                    work->fans[i].color[2] = gModelVariant650_D1B58[work->command].color[5] * value / duration;
                 }
                 setVector(&origin, 0, 0, 0);
                 for (j = 0; j < 16; j++) {

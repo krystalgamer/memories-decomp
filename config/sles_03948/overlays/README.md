@@ -758,8 +758,8 @@ Ten images under French headers 667 and 734 are the North American
 header-650 entry (`model_variant/variant650_entry.c`) without its `E_DATA`
 work-size printf. Its format string was the whole read-only section, so it
 goes too, and the
-`src/overlays/french_model_variant/variant667_entry{,_slot1}.c` wrappers move
-the data labels 0x28 lower.
+`src/overlays/french_model_variant/variant667_entry.c` wrapper, built in both slots, moves
+the data labels 0x28 lower. Each image's symbols file binds `ModelVariant650_HandleRequest` and `gModelVariant650_D1B20`, `gModelVariant650_D1B58` at its own addresses.
 
 Four images under French headers 859 and 956 are the North American
 header-842 entry (`model_variant/variant842_entry.c`) with the ring palette
