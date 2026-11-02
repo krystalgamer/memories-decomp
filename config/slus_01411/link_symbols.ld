@@ -239,7 +239,6 @@ D_8009B164 = gDuel_bQuitDialogState;
 D_8009B1A0 = gDuel_RitualResultCardId;
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
 D_8009B23A = gDuel_wSceneStateFlags;
-D_8009B240 = gDuel_pCardViewerBackground;
 
 /* Other names for game/script_op_load_image_scene's small data (#2602). */
 Base2_8009B2A8 = gScript_ViewportTargetX;
@@ -249,9 +248,6 @@ Base2_8009B2AA = gScript_ViewportTargetY;
 D_8009B2FC = gBuildDeck_pState;
 
 /* Other names for game/duel_effect_dialog_state's small data (#2602). */
-D_8009B248 = gDuel_bEffectHandlerFlags;
-D_8009B24C = gDuel_pCardViewerCard;
-D_8009B250 = gDuel_pCardViewerTextBox;
 
 /* Other names for game/debug_menu_editor_entries's small data (#2602). */
 tent_DebugInterfaceFieldB5 = tent_DebugInterfaceFieldB4 + 1;

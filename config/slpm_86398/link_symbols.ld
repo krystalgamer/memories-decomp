@@ -235,9 +235,6 @@ gJapanese_bActiveMainMode = 0x8009B15C;
  * (#2602): the blocks' start and the Japanese spellings of interior names. */
 D_8009AF80 = main_SBSS_START;
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
-gJapanese_D_8009B240 = gDuel_pCardViewerBackground;
-gJapanese_D_8009B24C = gDuel_pCardViewerCard;
-gJapanese_D_8009B250 = gDuel_pCardViewerTextBox;
 tent_AiSelectionRandom = D_800EAE88 + 8;
 D_800E9F04 = D_800E9EF0 + 20;
 gAi_Selection = D_800EAE88;
