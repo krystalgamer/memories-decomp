@@ -50,8 +50,8 @@ DisplayObject retyping is introduced.
 ## Independent Trade row-set view
 
 `gTrade_aInventoryRowSets` retains native `D_801A8000` and the original
-unsized `MainMenuState[]` declaration, available only under
-`MAIN_MENU_TRADE_STATE_BUFFER`. That private record still has a leading
+unsized `MainMenuState[]` declaration, now declared unconditionally in
+`trade_helpers.h`. That private record still has a leading
 `u8 *object` and the original five padding words, or six in Europe:
 strides remain 24/28 bytes. Neither the pads nor the pointer are retyped
 as the resident's independently recovered `CardListRowSet`.
