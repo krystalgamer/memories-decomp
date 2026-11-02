@@ -238,7 +238,7 @@ typedef struct DisplayObject {
 
        The sprite emitters read the same word as a scale instead:
        DisplayObject_RenderSpriteList and DisplayObject_RenderSpriteStrips assign it to sprite_primitive.h's u32
-       `scale`, and display_object_transition.c animates the two halves from a
+       `scale`, and main_boot_screen.c animates the two halves from a
        0x1000 base, with that file and display_object_core.c resetting the
        pair to 0x10001000 -- 1.0 in each half of 12-bit fixed point.
 
@@ -367,7 +367,7 @@ typedef struct DisplayObject {
        is shared across object kinds. */
     u8 field_68;                   /* 0x68 */
     /* Named on this same record by DisplayObjectConfig in
-       display_object_config.h. display_object_transition.c reads it and hands
+       display_object_config.h. main_boot_screen.c reads it and hands
        it to DisplayObject_ConfigureSpriteAtPositionWithResource. */
     u8 field_69;                   /* 0x69 */
     /* duel_action_ready_marker.c copies a byte into this offset when it builds the

@@ -466,11 +466,11 @@
       "address": "0x80015D18",
       "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA0",
-      "source": "src/game/display_object_project_ground_position.c"
+      "source": "src/game/display_projection.c"
     },
     {
       "address": "0x80015DB8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x44",
       "source": "src/game/display_projection.c"
     },
@@ -4054,25 +4054,25 @@
       "address": "0x80043328",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1CC",
-      "source": "src/game/main_boot_load_stages.c"
+      "source": "src/game/main_boot_screen.c"
     },
     {
       "address": "0x800434F4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x168",
-      "source": "src/game/main_boot_load_stages.c"
+      "source": "src/game/main_boot_screen.c"
     },
     {
       "address": "0x8004365C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x25C",
-      "source": "src/game/display_object_transition.c"
+      "source": "src/game/main_boot_screen.c"
     },
     {
       "address": "0x800438B8",
       "profile": "gcc_2_8_1_g0",
       "size": "0xA8",
-      "source": "src/game/display_object_transition.c"
+      "source": "src/game/main_boot_screen.c"
     },
     {
       "address": "0x80043960",

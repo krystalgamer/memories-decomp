@@ -467,11 +467,11 @@
       "address": "0x80015C04",
       "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA0",
-      "source": "src/game/display_object_project_ground_position.c"
+      "source": "src/game/display_projection.c"
     },
     {
       "address": "0x80015CA4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x44",
       "source": "src/game/display_projection.c"
     },
@@ -4055,25 +4055,25 @@
       "address": "0x80042A08",
       "profile": "gcc_2_8_1_g0",
       "size": "0x15C",
-      "source": "src/game/japanese/main_boot_load_stages.c"
+      "source": "src/game/japanese/main_boot_screen.c"
     },
     {
       "address": "0x80042B64",
       "profile": "gcc_2_8_1_g0",
       "size": "0x168",
-      "source": "src/game/japanese/main_boot_load_stages.c"
+      "source": "src/game/japanese/main_boot_screen.c"
     },
     {
       "address": "0x80042CCC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x25C",
-      "source": "src/game/japanese/display_object_transition.c"
+      "source": "src/game/japanese/main_boot_screen.c"
     },
     {
       "address": "0x80042F28",
       "profile": "gcc_2_8_1_g0",
       "size": "0xA8",
-      "source": "src/game/japanese/display_object_transition.c"
+      "source": "src/game/japanese/main_boot_screen.c"
     },
     {
       "address": "0x80042FD0",

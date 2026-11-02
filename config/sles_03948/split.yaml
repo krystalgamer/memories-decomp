@@ -129,7 +129,7 @@ segments:
     - game/european/display_object_helpers
   - - 3236
     - .rodata
-    - game/european/main_boot_load_stages
+    - game/european/main_boot_screen
   - - 3268
     - rodata
     - initial_data_cc4
@@ -223,9 +223,6 @@ segments:
     - c
     - game/european/fade_runtime
   - - 25652
-    - c
-    - game/display_object_project_ground_position
-  - - 25812
     - c
     - game/display_projection
   - - 25880
@@ -851,10 +848,7 @@ segments:
     - game/european/display_object_helpers
   - - 212568
     - c
-    - game/european/main_boot_load_stages
-  - - 213624
-    - c
-    - game/european/display_object_transition
+    - game/european/main_boot_screen
   - - 214396
     - c
     - game/french/main_run_boot_sequence
