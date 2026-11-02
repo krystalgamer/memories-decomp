@@ -669,8 +669,8 @@ addresses and the palette, binding
 Eight images under French headers 660 and 727 are the North American
 header-643 entry (`model_variant/variant643_entry.c`) without its `E_DATA`
 work-size printf, built through
-`src/overlays/french_model_variant/variant660_entry{,_slot1}.c` with the data
-labels 0x28 lower.
+`src/overlays/french_model_variant/variant660_entry.c` with the data
+labels 0x28 lower. Each image's symbols file binds `ModelVariant643_HandleRequest` and `gModelVariant643_D22B0`, `gModelVariant643_D22E8` at its own addresses.
 
 Ten images under French headers 661 and 728 are the North American
 header-644 entry (`model_variant/variant644_entry.c`) without its `E_DATA`

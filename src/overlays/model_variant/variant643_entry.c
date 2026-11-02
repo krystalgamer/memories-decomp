@@ -12,7 +12,7 @@
     (e).color[1] = (e).color[1] * (value) / (divisor);       \
     (e).color[2] = (e).color[2] * (value) / (divisor)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
 {
     Model643State *work;
     MATRIX ls;
@@ -33,16 +33,16 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model643State));
 #ifndef VERSION_FRENCH
-        printf(D_8013D298, sizeof(Model643State));
+        printf(gModelVariant643_D2298, sizeof(Model643State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D2B0[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant643_D22B0[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D2B0[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant643_D22B0[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -56,17 +56,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->columns = 16;
             break;
         }
-        work->radius = D_8013D2E8[command].radius;
-        work->height = D_8013D2E8[command].height;
+        work->radius = gModelVariant643_D22E8[command].radius;
+        work->height = gModelVariant643_D22E8[command].height;
         for (i = 0; i < work->cone_count; i++) {
             work->cones[i].duration = 48;
             work->cones[i].active = 0;
             work->cones[i].elapsed = 0;
             work->cones[i].mode = 1;
             work->cones[i].coord = Model_GetCameraCoordinateUnit();
-            work->cones[i].color[0] = D_8013D2E8[command].color[0];
-            work->cones[i].color[1] = D_8013D2E8[command].color[1];
-            work->cones[i].color[2] = D_8013D2E8[command].color[2];
+            work->cones[i].color[0] = gModelVariant643_D22E8[command].color[0];
+            work->cones[i].color[1] = gModelVariant643_D22E8[command].color[1];
+            work->cones[i].color[2] = gModelVariant643_D22E8[command].color[2];
             work->cones[i].u = 0;
             work->cones[i].v = 0;
             setVector(&work->cones[i].scale, 0, 0, 0);
@@ -84,9 +84,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bands[i].elapsed = 0;
             work->bands[i].mode = 1;
             work->bands[i].coord = Model_GetCameraCoordinateUnit();
-            work->bands[i].color[0] = D_8013D2E8[command].color[0];
-            work->bands[i].color[1] = D_8013D2E8[command].color[1];
-            work->bands[i].color[2] = D_8013D2E8[command].color[2];
+            work->bands[i].color[0] = gModelVariant643_D22E8[command].color[0];
+            work->bands[i].color[1] = gModelVariant643_D22E8[command].color[1];
+            work->bands[i].color[2] = gModelVariant643_D22E8[command].color[2];
             setVector(&work->bands[i].scale, 0, 0, 0);
             setVector(&work->bands[i].target, 0, 0, 0);
             if (command == 2) {
@@ -103,9 +103,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->grid[k][j].duration = 32;
                 work->grid[k][j].mode = 1;
                 work->grid[k][j].coord = Model_GetCameraCoordinateUnit();
-                work->grid[k][j].color[0] = D_8013D2E8[command].color[3];
-                work->grid[k][j].color[1] = D_8013D2E8[command].color[4];
-                work->grid[k][j].color[2] = D_8013D2E8[command].color[5];
+                work->grid[k][j].color[0] = gModelVariant643_D22E8[command].color[3];
+                work->grid[k][j].color[1] = gModelVariant643_D22E8[command].color[4];
+                work->grid[k][j].color[2] = gModelVariant643_D22E8[command].color[5];
                 work->grid[k][j].u = 0;
                 work->grid[k][j].v = 128;
                 work->grid[k][j].cursor = 1;
@@ -120,7 +120,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->grid[k][j].position.vz = work->direction * 450;
             }
         }
-        work->delay = D_8013D2E8[command].delay;
+        work->delay = gModelVariant643_D22E8[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -246,9 +246,9 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&work->cones[i].scale, value, value, value);
             value = i + 1;
             sign = work->cone_count;
-            work->cones[i].color[0] = D_8013D2E8[work->command].color[0] * value / sign;
-            work->cones[i].color[1] = D_8013D2E8[work->command].color[1] * value / sign;
-            work->cones[i].color[2] = D_8013D2E8[work->command].color[2] * value / sign;
+            work->cones[i].color[0] = gModelVariant643_D22E8[work->command].color[0] * value / sign;
+            work->cones[i].color[1] = gModelVariant643_D22E8[work->command].color[1] * value / sign;
+            work->cones[i].color[2] = gModelVariant643_D22E8[work->command].color[2] * value / sign;
             if (work->cones[i].elapsed > (u32)work->cones[i].duration / 2) {
                 value = (work->cones[i].duration - work->cones[i].elapsed) * 2;
                 sign = work->cones[i].duration;
@@ -304,9 +304,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if (work->bands[i].elapsed > (u32)work->bands[i].duration / 2) {
                 value = (work->bands[i].duration - work->bands[i].elapsed) * 2;
                 sign = work->bands[i].duration;
-                work->bands[i].color[0] = D_8013D2E8[work->command].color[0] * value / sign;
-                work->bands[i].color[1] = D_8013D2E8[work->command].color[1] * value / sign;
-                work->bands[i].color[2] = D_8013D2E8[work->command].color[2] * value / sign;
+                work->bands[i].color[0] = gModelVariant643_D22E8[work->command].color[0] * value / sign;
+                work->bands[i].color[1] = gModelVariant643_D22E8[work->command].color[1] * value / sign;
+                work->bands[i].color[2] = gModelVariant643_D22E8[work->command].color[2] * value / sign;
             }
             for (j = 0; j < 16; j++) {
                 setVector(&inner, (work->ring[j][0].vx + work->ring[j][1].vx) / 2,
@@ -375,9 +375,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->grid[i][j].elapsed > (u32)work->grid[i][j].duration / 2) {
                     value = (work->grid[i][j].duration - work->grid[i][j].elapsed) * 2;
                     sign = work->grid[i][j].duration;
-                    work->grid[i][j].color[0] = D_8013D2E8[work->command].color[3] * value / sign;
-                    work->grid[i][j].color[1] = D_8013D2E8[work->command].color[4] * value / sign;
-                    work->grid[i][j].color[2] = D_8013D2E8[work->command].color[5] * value / sign;
+                    work->grid[i][j].color[0] = gModelVariant643_D22E8[work->command].color[3] * value / sign;
+                    work->grid[i][j].color[1] = gModelVariant643_D22E8[work->command].color[4] * value / sign;
+                    work->grid[i][j].color[2] = gModelVariant643_D22E8[work->command].color[5] * value / sign;
                 }
                 setPolyFT4(&work->quad);
                 work->quad.tpage = work->tpage[1];
@@ -409,9 +409,9 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->grid[work->grid[0][j].cursor][j].duration = 32;
                     work->grid[work->grid[0][j].cursor][j].mode = value;
                     work->grid[work->grid[0][j].cursor][j].coord = Model_GetCameraCoordinateUnit();
-                    work->grid[work->grid[0][j].cursor][j].color[0] = D_8013D2E8[work->command].color[3];
-                    work->grid[work->grid[0][j].cursor][j].color[1] = D_8013D2E8[work->command].color[4];
-                    work->grid[work->grid[0][j].cursor][j].color[2] = D_8013D2E8[work->command].color[5];
+                    work->grid[work->grid[0][j].cursor][j].color[0] = gModelVariant643_D22E8[work->command].color[3];
+                    work->grid[work->grid[0][j].cursor][j].color[1] = gModelVariant643_D22E8[work->command].color[4];
+                    work->grid[work->grid[0][j].cursor][j].color[2] = gModelVariant643_D22E8[work->command].color[5];
                     work->grid[work->grid[0][j].cursor][j].u = 0;
                     work->grid[work->grid[0][j].cursor][j].v = 128;
                     setVector(&work->grid[work->grid[0][j].cursor][j].scale, 4096, 4096, 4096);
