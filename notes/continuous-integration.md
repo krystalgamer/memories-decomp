@@ -80,7 +80,9 @@ Each archive must be directly inside that region's `DATA/` directory, and its
 overlay checksum must agree with the regional `files.sha256` entry. For example,
 the Spanish job requires the privately supplied `ci_files/esp/MODEL.MRG` member.
 Missing required inputs fail rather than skipping modules.
-The French and German overlay-only jobs select all three MRG files.
+The French and German jobs select the executable and all three MRG files:
+each builds its resident executable and then its overlays, as the Italian
+and Spanish jobs do.
 The North American matching job selects only `SLUS_014.11`; its overlay job
 selects all four files. Other entries in the North American disc manifest
 (such as STR/XA and BIN/CUE) are not selected merely
@@ -101,8 +103,8 @@ Actions cache.
 
 ### One preparation job, shared encrypted cache
 
-Automatic builds now have one `prepare-inputs` job, followed by the ten
-existing regional build jobs. On a cold cache, that job downloads the ZIP
+Automatic builds now have one `prepare-inputs` job, followed by the eight
+regional build jobs. On a cold cache, that job downloads the ZIP
 from the private server once (with the existing transfer retries), verifies
 all seven regions without installing their inputs, and encrypts the ZIP
 before saving the cache. On a warm cache, **no build job downloads from the
@@ -173,6 +175,39 @@ Use `--archives-only` to stage SU, WA, MODEL and additional configured overlay
 archives, or `--executable-only` to stage just the resident executable without
 reading the overlay manifest. These options are mutually exclusive.
 Existing complete-image build and overlay-verification gates remain unchanged.
+
+## Overlay build caches
+
+Overlay jobs dominate the build time: each region rebuilds about 3,600 MODEL
+and runtime modules. Two caches, both built only from tracked sources and
+hashes, keep that work down. Neither holds retail bytes, so neither needs the
+encryption the retail bundle uses.
+
+- **Compiled C objects.** `tools/project/overlay_objects.py` keys each overlay
+  C unit by its preprocessed source (so header edits count), its compiler
+  profile and the compile pipeline. `overlay_build.py build` compiles each
+  distinct unit once into `tmp/overlay-object-cache/` and copies the object
+  into every module that links it; a region's roughly 6,000 compiles collapse
+  to about 1,365. After a passing build, the job prunes the store to its region
+  and saves it under `<os>-overlay-objects-v1-<region>-<digest>`. The next
+  run restores the newest entry for its region and compiles only changed units.
+- **Modules verified by master.** `overlay_build.py` fingerprints every input
+  of a module build: its manifest entry, layout, referenced configuration
+  files, compiled object keys, build scripts, bootstrap pins and binutils.
+  After a full build on a `master` push, the job runs `overlay_build.py record`,
+  which re-verifies every built module before writing the fingerprints, and
+  saves the record under `<os>-overlay-verified-v1-<region>-<sha>`. Pull
+  requests restore the newest record and pass
+  `OVERLAY_FLAGS="--skip-verified <record>"` to the regional
+  `*-match-overlays` targets, so only modules whose fingerprint is new are
+  built and compared. Without a record, every module is checked.
+
+A pull request therefore trusts master's verification of modules whose inputs
+it does not change. Pushes to `master` and manual dispatches always build and
+verify every module, so master stays the full exact-match gate. The steps
+live in `.github/actions/overlay-cache-restore` and
+`.github/actions/overlay-cache-save`. Overlay jobs set `TQDM_DISABLE=1` so
+Splat does not print progress bars for each module.
 
 ## Verification gates
 
