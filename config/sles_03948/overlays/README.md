@@ -779,11 +779,12 @@ the `src/overlays/french_model_variant/variant816_entry.c` wrapper, which sets
 `VERSION_FRENCH`; they bind `model_variant816_linker_symbols.txt` and
 `model_variant913_linker_symbols.txt`.
 
-Eight images under French headers 810 and 907 are the North American
-header-793 entry (`model_variant/variant793_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf, and only the resident call
-targets differ, which `model_variant810_linker_symbols.txt` binds to the French
-addresses.
+Eight images under French headers 810 and 907 are the North American header-793
+entry (`ModelVariant793_HandleRequest`, `model_variant/variant793_entry.c`,
+built directly in both slots) unchanged: it has no work-size printf, and only
+the resident call targets differ, which `model_variant810_linker_symbols.txt`
+binds to the French addresses. Each image's symbols file binds
+`gModelVariant793_D3948` and `gModelVariant793_D39B8` at its own addresses.
 
 French MODEL headers 811 (stage 9 slot 0) and 908 (stage 10 slot 1) build the header-794 entry (`ModelVariant794_HandleRequest`) directly from `src/overlays/model_variant/variant794_entry.c` in both slots; the French code and data are identical to the US images.
 
