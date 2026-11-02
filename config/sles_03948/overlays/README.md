@@ -596,11 +596,12 @@ French MODEL headers 779 (stage 9 slot 0) and 876 (stage 10 slot 1) build the he
 
 French MODEL headers 821 (stage 9 slot 0) and 918 (stage 10 slot 1) build the header-804 entry (`ModelVariant804_HandleRequest`) directly from `src/overlays/model_variant/variant804_entry.c` in both slots; the French code and data are identical to the US images.
 
-Six images under French headers 830 and 927 are the North American
-header-813 entry (`model_variant/variant813_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf, and only the resident call
-targets differ, which `model_variant830_linker_symbols.txt` binds to the French
-addresses.
+Six images under French headers 830 and 927 are the North American header-813
+entry (`ModelVariant813_HandleRequest`, `model_variant/variant813_entry.c`,
+built directly in both slots) unchanged: it has no work-size printf, and only
+the resident call targets differ, which `model_variant830_linker_symbols.txt`
+binds to the French addresses. Each image's symbols file binds
+`gModelVariant813_D1E80` and `gModelVariant813_D1F0C` at its own addresses.
 
 French MODEL headers 832 (stage 9 slot 0) and 929 (stage 10 slot 1) build the header-815 entry (`ModelVariant815_HandleRequest`) directly from `src/overlays/model_variant/variant815_entry.c` in both slots; the French code and data are identical to the US images.
 
