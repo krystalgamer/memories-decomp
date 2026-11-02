@@ -466,11 +466,11 @@
       "address": "0x80015C34",
       "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA0",
-      "source": "src/game/display_object_project_ground_position.c"
+      "source": "src/game/display_projection.c"
     },
     {
       "address": "0x80015CD4",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0x44",
       "source": "src/game/display_projection.c"
     },
@@ -4078,25 +4078,25 @@
       "address": "0x80043658",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x27C",
-      "source": "src/game/european/main_boot_load_stages.c"
+      "source": "src/game/european/main_boot_screen.c"
     },
     {
       "address": "0x800438D4",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x1A4",
-      "source": "src/game/european/main_boot_load_stages.c"
+      "source": "src/game/european/main_boot_screen.c"
     },
     {
       "address": "0x80043A78",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0x25C",
-      "source": "src/game/european/display_object_transition.c"
+      "source": "src/game/european/main_boot_screen.c"
     },
     {
       "address": "0x80043CD4",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "size": "0xA8",
-      "source": "src/game/european/display_object_transition.c"
+      "source": "src/game/european/main_boot_screen.c"
     },
     {
       "address": "0x80043D7C",

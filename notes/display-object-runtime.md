@@ -465,7 +465,7 @@ owns its length, and `DisplayObject_RenderSpriteList`'s `g[3] = 9` writes the le
 *different*, separately built quad at `0x1F800344`, not of the sprite. No byte
 is shared, so no constant here has to hedge.
 
-The `(tag | 0x08000000) & 0x8FFFFFFF` mask in `display_object_transition.c`
+The `(tag | 0x08000000) & 0x8FFFFFFF` mask in `main_boot_screen.c`
 was read as possibly clamping a length field. It sets `GsROTOFF` and clears
 the rate together with `GsALON`: turn rotation off and semi-transparency off.
 
