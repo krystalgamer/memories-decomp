@@ -303,8 +303,8 @@ rename the entry's data references to their earlier French addresses.
 Sixty-eight images under French headers 665 and 732 are the North American
 header-648 entry (`model_variant/variant648_entry.c`) without its `E_DATA`
 work-size printf. They use the same recipe, through
-`src/overlays/french_model_variant/variant665_entry{,_slot1}.c`, with the data
-labels 0x28 lower.
+`src/overlays/french_model_variant/variant665_entry.c`, with the data
+labels 0x28 lower. Each image's symbols file binds `ModelVariant648_HandleRequest` and `gModelVariant648_D1B84`, `gModelVariant648_D1BBC` at its own addresses.
 
 Four images under French headers 858 and 955 are the North American
 header-841 entry (`model_variant/variant841_entry.c`) with the burst palette
