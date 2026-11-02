@@ -1,10 +1,10 @@
 // Japanese MODEL.MRG model 103 (record 103), sector 28628, header 420, loaded at 0x8013B000; built from the US source layout of model_variant_103_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0xD4C defined:true
-func_8013BD50 = 0x8013BD50; // type:func size:0x754 defined:true
-func_8013C4A4 = 0x8013C4A4; // type:func size:0x664 defined:true
-func_8013CB08 = 0x8013CB08; // type:func size:0xAA4 defined:true
-func_8013D5AC = 0x8013D5AC; // type:func size:0x940 defined:true
-D_8013DEEC = 0x8013DEEC; // type:u8 size:0x2114 defined:true
+FrenchModelVariant437_HandleRequest = 0x8013B004; // type:func size:0xD4C defined:true
+FrenchModelVariant449_DrawBands = 0x8013BD50; // type:func size:0x754 defined:true
+SpanishModelVariant437_DrawSheet = 0x8013C4A4; // type:func size:0x664 defined:true
+FrenchModelVariant437_DrawRibbons = 0x8013CB08; // type:func size:0xAA4 defined:true
+SpanishModelVariant437_DrawStreamers = 0x8013D5AC; // type:func size:0x940 defined:true
+gFrenchModelVariant437_D2F30 = 0x8013DEEC; // type:u8 size:0x2114 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

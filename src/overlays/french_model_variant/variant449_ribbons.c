@@ -15,7 +15,7 @@
 #define RIBBONS449_START(n) (ribbon->sa[n])
 #endif
 
-void func_8013C240(u8 *context)
+void FrenchModelVariant449_DrawRibbons(u8 *context)
 {
     SVECTOR rot;
     VECTOR scale;

@@ -10,7 +10,7 @@
       "address": "0x8013BD24",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x520",
-      "source": "src/overlays/model_variant/variant432_sheet.c"
+      "source": "src/overlays/french_model_variant/variant449_sheet.c"
     },
     {
       "address": "0x8013C244",
@@ -22,13 +22,13 @@
       "address": "0x8013CB78",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x898",
-      "source": "src/overlays/model_variant/variant432_streamers.c"
+      "source": "src/overlays/french_model_variant/variant449_streamers.c"
     },
     {
       "address": "0x8013D410",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x754",
-      "source": "src/overlays/model_variant/variant432_bands.c"
+      "source": "src/overlays/french_model_variant/variant449_bands.c"
     }
   ],
   "schema": 1

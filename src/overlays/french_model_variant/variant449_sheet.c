@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant449_sheet.h"
 
-void func_8013BD24(u8 *context)
+void FrenchModelVariant449_DrawSheet(u8 *context)
 {
     Variant449View *work = (Variant449View *)context;
     SVECTOR rotation;

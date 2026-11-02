@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant449_bands.h"
 
-void func_8013D458(u8 *context)
+void FrenchModelVariant449_DrawBands(u8 *context)
 {
     SVECTOR rot;
     VECTOR scale;

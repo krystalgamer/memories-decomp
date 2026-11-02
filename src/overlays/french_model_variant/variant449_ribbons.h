@@ -54,5 +54,5 @@ typedef struct {
     s32 ripple2;
 } Variant449RibbonView;
 
-void func_8013C240(u8 *context);
+void FrenchModelVariant449_DrawRibbons(u8 *context);
 #endif

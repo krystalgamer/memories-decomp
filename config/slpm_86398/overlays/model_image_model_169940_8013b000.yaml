@@ -63,7 +63,7 @@ segments:
     vram: 0x8013BD24
     align: 4
     subsegments:
-      - [0xD24, c, overlays/model_variant/variant432_sheet]
+      - [0xD24, c, overlays/french_model_variant/variant449_sheet]
   - name: ribbons
     type: code
     start: 0x1244
@@ -77,14 +77,14 @@ segments:
     vram: 0x8013CB78
     align: 4
     subsegments:
-      - [0x1B78, c, overlays/model_variant/variant432_streamers]
+      - [0x1B78, c, overlays/french_model_variant/variant449_streamers]
   - name: bands
     type: code
     start: 0x2410
     vram: 0x8013D410
     align: 4
     subsegments:
-      - [0x2410, c, overlays/model_variant/variant432_bands]
+      - [0x2410, c, overlays/french_model_variant/variant449_bands]
   - name: unclassified_tail
     type: code
     start: 0x2B64

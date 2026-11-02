@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant449_streamers.h"
 
-void func_8013CB9C(u8 *ctx)
+void FrenchModelVariant449_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

@@ -836,8 +836,10 @@ GCC 2.7.2 profile) rebuilt with GCC 2.8.1 at the same size. Its four helpers
 keep their French C (`variant449_sheet.c`, `_ribbons.c`, `_streamers.c` and
 `_bands.c`), the data starts at 0x2BB4 and the effect palette loads from PAL
 x = 640. The `src/overlays/french_model_variant/variant449_entry.c` wrapper
-selects those addresses and the palette, binding
-`model_variant449_entry_linker_symbols.txt`.
+selects the palette and binds `model_variant449_entry_linker_symbols.txt`; each
+image's symbols file binds `ModelVariant432_HandleRequest`, the four
+`FrenchModelVariant449_Draw*` helpers and `gModelVariant432_D2B64` at its own
+addresses.
 
 Fifteen images under French headers 686 and 753 are the North American
 header-669 entry (`model_variant/variant669_entry.c`) without its `E_DATA`
