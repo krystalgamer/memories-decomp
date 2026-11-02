@@ -19,7 +19,7 @@ typedef struct {
 } Model96Config;
 
 typedef struct {
-    Model96Config *G32 config;
+    Model96Config *config;
     u8 field_04[8];
     SVECTOR outer[65];
     SVECTOR inner[65];

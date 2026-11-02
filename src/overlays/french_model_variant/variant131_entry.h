@@ -19,7 +19,7 @@ typedef struct {
 } Model131Config;
 
 typedef struct {
-    Model131Config *G32 config;
+    Model131Config *config;
     SVECTOR ring[14];
     SVECTOR origin;
     SVECTOR particles[32];

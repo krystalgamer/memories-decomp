@@ -22,13 +22,13 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[28];
     u16 depths[28], projection[28], flags[28];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     GsOT *ot;
     SVECTOR *point;
     s32 i, j, k, which, strip_length, value, time, distance, step;
     u8 red, green, blue;
     s32 ring_angle;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -213,8 +213,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                 setUV4(&quad, point->pad / 2 * 32, 128, point->pad / 2 * 32 + 31, 128,
                     point->pad / 2 * 32, 159, point->pad / 2 * 32 + 31, 159);
                 if (depth >= 0 && flag >= 0) {

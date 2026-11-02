@@ -22,10 +22,10 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
     MATRIX ls;
     GsCOORDUNIT unit;
     SVECTOR pos;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, l, step, inactive;
     s32 i, j, k, n, d;
-    PSXLONG depth;
+    long depth;
     u32 tex;
     u8 r, g, b;
 
@@ -279,8 +279,8 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                         setRGB2(&work->quad, r, g, b);
                         setRGB3(&work->quad, r, g, b);
                         depth = RotAverage4(&work->shell[j][k], &work->shell[j + 1][k], &work->shell[j][k + 1],
-                            &work->shell[j + 1][k + 1], (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                            (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3, &interpolation, &flag);
+                            &work->shell[j + 1][k + 1], (long *)&work->quad.x0, (long *)&work->quad.x1,
+                            (long *)&work->quad.x2, (long *)&work->quad.x3, &interpolation, &flag);
                         if (flag >= 0) {
                             GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
                         }
@@ -341,9 +341,9 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                             setRGB2(&work->quad, r, g, b);
                             setRGB3(&work->quad, r, g, b);
                             depth = RotAverage4(&work->shell[j][k], &work->shell[j + 1][k],
-                                &work->shell[j][k + 1], &work->shell[j + 1][k + 1], (PSXLONG *)&work->quad.x0,
-                                (PSXLONG *)&work->quad.x1, (PSXLONG *)&work->quad.x2,
-                                (PSXLONG *)&work->quad.x3, &interpolation, &flag);
+                                &work->shell[j][k + 1], &work->shell[j + 1][k + 1], (long *)&work->quad.x0,
+                                (long *)&work->quad.x1, (long *)&work->quad.x2,
+                                (long *)&work->quad.x3, &interpolation, &flag);
                             if (flag >= 0) {
                                 GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
                             }
@@ -398,8 +398,8 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                         g = work->cones[l + i].green * n / 4096;
                         b = work->cones[l + i].blue * n / 4096;
                         setRGB2(&work->tri, r, g, b);
-                        depth = RotAverage3(&pos, &work->ring[j], &work->ring[j + 1], (PSXLONG *)&work->tri.x0,
-                            (PSXLONG *)&work->tri.x1, (PSXLONG *)&work->tri.x2, &interpolation, &flag);
+                        depth = RotAverage3(&pos, &work->ring[j], &work->ring[j + 1], (long *)&work->tri.x0,
+                            (long *)&work->tri.x1, (long *)&work->tri.x2, &interpolation, &flag);
                         if (flag >= 0) {
                             GsSortPoly(&work->tri, func_80058F10(), (u16)depth);
                         }
@@ -455,8 +455,8 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
                             work->line.r1 = work->spheres[l + i].red;
                             work->line.g1 = work->spheres[l + i].green;
                             work->line.b1 = work->spheres[l + i].blue;
-                            RotTransPers(&work->sphere[k][j], (PSXLONG *)&work->line.x0, &interpolation, &flag);
-                            depth = RotTransPers(&work->sphere[k][j], (PSXLONG *)&work->line.x1,
+                            RotTransPers(&work->sphere[k][j], (long *)&work->line.x0, &interpolation, &flag);
+                            depth = RotTransPers(&work->sphere[k][j], (long *)&work->line.x1,
                                 &interpolation, &flag);
                             if (flag >= 0) {
                                 GsSortGLine(&work->line, func_80058F10(), (u16)depth);

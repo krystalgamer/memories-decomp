@@ -46,7 +46,7 @@ u32 gModel_dwFogBaseColor;
 
 u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
 {
-    PSXLONG z;
+    long z;
     u32 flags;
     u32 mask;
     CVECTOR *white;
@@ -285,7 +285,7 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
 {
-    PSXLONG z;
+    long z;
     u32 flags;
     u32 mask;
     CVECTOR *white;

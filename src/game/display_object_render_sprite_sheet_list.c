@@ -15,7 +15,7 @@ void DisplayObject_RenderSpriteSheetList(void) {
 
     if (i >= 0) {
         DisplayObject *base = gDisplayObject_aPool;
-        GsOT *G32 *t = gGraphics_apOrderingTables;
+        GsOT **t = gGraphics_apOrderingTables;
 
         do {
             DisplayObject *p =

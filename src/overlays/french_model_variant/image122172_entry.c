@@ -19,7 +19,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR vertices[96];
     DVECTOR screen[96];
     u16 depths[96], interpolation_values[96], flags[96];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 direction;
     GsOT *ot;
     Model142Config *config;
@@ -27,7 +27,7 @@ s32 func_8013B004(u8 *context, s32 command)
     s32 i, j, time, index;
     s32 first0, first1, second0, second1;
     s32 next_sample;
-    PSXLONG depth;
+    long depth;
     u16 red, green, blue;
 
     memset(&rotation, 0, 8);
@@ -177,8 +177,8 @@ s32 func_8013B004(u8 *context, s32 command)
         time = work->elapsed - config->event_times[i];
         if (time >= 0 && time < config->flash_duration) {
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             setUV4(&quad,
                 (time * 8 / config->flash_duration) % 4 * 32,
                 (time * 8 / config->flash_duration) / 4 * 32,
@@ -214,7 +214,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 vertices[0].vx *= time;
                 vertices[0].vy *= time;
                 vertices[0].vz *= time;
-                depth = RotTransPers(&vertices[0], (PSXLONG *)&box.x, &interpolation, &flag);
+                depth = RotTransPers(&vertices[0], (long *)&box.x, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortBoxFill(&box, ot, (u16)depth);
                 }

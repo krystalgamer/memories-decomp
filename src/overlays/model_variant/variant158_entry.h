@@ -29,7 +29,7 @@ typedef struct {
  * targets around the other slot and 64 burst positions, two texture words,
  * the completion flag, the elapsed time and the frame count. */
 typedef struct {
-    Model158Config *G32 config;
+    Model158Config *config;
     SVECTOR positions[64];
     SVECTOR targets[64];
     SVECTOR bursts[64];

@@ -8,8 +8,8 @@ void func_8013E0E4(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Feedback417SizeRecord *record = (Feedback417SizeRecord *)(context + 0xA98);
     Feedback417State *state = (Feedback417State *)context;
     Feedback417 *group = state->groups;
@@ -69,8 +69,8 @@ void func_8013E0E4(u8 *context)
             for (j = 0; j < 16; j++) {
                 RotTransPers4(&group->points[0][j], &group->points[0][j + 1],
                               &group->points[2][j], &group->points[2][j + 1],
-                              (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                              (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                              (long *)&quad->x0, (long *)&quad->x1,
+                              (long *)&quad->x2, (long *)&quad->x3,
                               &interpolation, &flag);
                 if (quad->x0 < 160) {
                     if (active == 0) {
@@ -95,8 +95,8 @@ void func_8013E0E4(u8 *context)
                 }
                 depth = RotTransPers4(&group->points[0][j], &group->points[0][j + 1],
                                      &group->points[1][j], &group->points[1][j + 1],
-                                     (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                     (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                     (long *)&quad->x0, (long *)&quad->x1,
+                                     (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 SetSemiTrans(quad, 1);
                 SetShadeTex(quad, 0);

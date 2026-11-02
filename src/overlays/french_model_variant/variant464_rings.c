@@ -9,8 +9,8 @@ void func_8013C368(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Ring464State *state = (Ring464State *)context;
     Ring464 *ring = state->rings;
     POLY_GT4 *quad = &state->quad;
@@ -74,8 +74,8 @@ void func_8013C368(u8 *context)
             for (j = 0, full = 255; j < 16; j++) {
                 RotTransPers4(&ring->points[0][j], &ring->points[0][j+1],
                               &ring->points[2][j], &ring->points[2][j+1],
-                              (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                              (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                              (long *)&quad->x0, (long *)&quad->x1,
+                              (long *)&quad->x2, (long *)&quad->x3,
                               &interpolation, &flag);
                 if (quad->x0 < 160) {
                     if (buffer == 0) {
@@ -100,8 +100,8 @@ void func_8013C368(u8 *context)
                 }
                 depth = RotTransPers4(&ring->points[0][j], &ring->points[0][j+1],
                                      &ring->points[1][j], &ring->points[1][j+1],
-                                     (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                     (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                     (long *)&quad->x0, (long *)&quad->x1,
+                                     (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 SetSemiTrans(quad, 0);
                 SetShadeTex(quad, 0);

@@ -13,7 +13,7 @@ DuelEffectRequest gDuelEffect_aRequests[8];
  * address order ahead of the headers that declare it (#2602). */
 u8 gDuel_bEffectRequestStatus;
 u8 gDuelEffect_bRequestFinished;
-DuelEffectRequest *G32 gDuelEffect_pActiveRequest;
+DuelEffectRequest *gDuelEffect_pActiveRequest;
 
 #include "duel_effect_object_pool.h"
 #include "../psyq/libgte.h"
@@ -87,7 +87,7 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 arg0)
 
     if (p != 0) {
         u8 *q;
-        GsOT *G32 *t;
+        GsOT **t;
         s32 b;
 
         q = gRuntime_pSharedWorkBase;

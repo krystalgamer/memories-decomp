@@ -12,7 +12,7 @@ void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon)
     s16 j;
     MATRIX m;
     MATRIX ls;
-    PSXLONG p;
+    long p;
     Variant415EntryState *work;
     GsCOORDINATE2 coord;
     GsOT *ot;
@@ -20,7 +20,7 @@ void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon)
     s32 angle;
     s16 k;
     POLY_GT4 *poly;
-    PSXLONG flag[3][2];
+    long flag[3][2];
     s32 amount;
 
     work = (Variant415EntryState *)ribbon;

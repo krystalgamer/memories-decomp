@@ -46,7 +46,7 @@ typedef struct {
  * pairs, the star, the wave strip, five groups of sixteen sparks, the
  * texture word, the elapsed time and the camera step. */
 typedef struct {
-    Model93Config *G32 config;
+    Model93Config *config;
     SVECTOR dome[137];
     SVECTOR bolts[6];
     SVECTOR star[17];

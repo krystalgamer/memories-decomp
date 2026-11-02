@@ -175,13 +175,13 @@ s32 func_8017B004(SVECTOR *point, s32 command)
         work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
-        RotTransPers(&position, (PSXLONG *)&projection.projected,
-                     (PSXLONG *)&projection.interpolation, (PSXLONG *)&projection.flag);
+        RotTransPers(&position, (long *)&projection.projected,
+                     (long *)&projection.interpolation, (long *)&projection.flag);
         screen_x = projection.projected.vx;
         screen_y = projection.projected.vy;
         setVector(&target, work->target.vx, work->target.vy, work->target.vz);
-        RotTransPers(&target, (PSXLONG *)&projection.target,
-                     (PSXLONG *)&projection.interpolation, (PSXLONG *)&projection.flag);
+        RotTransPers(&target, (long *)&projection.target,
+                     (long *)&projection.interpolation, (long *)&projection.flag);
         setVector(&work->target, 0, -4000, -6000);
         dx = projection.target.vx - screen_x;
         dy = projection.target.vy - screen_y;

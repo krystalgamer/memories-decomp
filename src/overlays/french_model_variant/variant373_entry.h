@@ -26,7 +26,7 @@ typedef struct {
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag, target;
+    long interpolation, flag, target;
 } EntryProjection373;
 
 typedef struct {
@@ -37,12 +37,12 @@ typedef struct {
 
 typedef struct {
     SVECTOR points[3][2];
-    PSXLONG projected[3][2];
+    long projected[3][2];
     CVECTOR color;
     VECTOR scale;
     s16 field_5C, field_5E;
     s32 field_60;
-    PSXLONG depth[2];
+    long depth[2];
 } EntryStrip373;
 
 typedef struct {
@@ -82,9 +82,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;
-    EntryConfig373 *G32 config;
+    EntryConfig373 *config;
     u32 field_241C;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s32 index, grid_scale, translation, rotation, oscillation, grid_brightness;
     s32 scale, brightness, fields_244C[5];
     s16 field_2460, field_2462, field_2464, field_2466, field_2468, field_246A;

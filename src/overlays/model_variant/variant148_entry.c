@@ -21,7 +21,7 @@ s32 ModelVariant148_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[30];
     u16 depths[30], projection[30], flags[30];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model148State *work;
     Model148Config *config;
     s32 direction;
@@ -257,7 +257,7 @@ s32 ModelVariant148_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 if (j & 1) {
                     setUV4(&quad, 64, 0, 127, 0, 64, 63, 127, 63);

@@ -28,7 +28,7 @@ typedef struct {
  * rings, 128 dot offsets and 64 spark offsets, the texture, the elapsed time
  * and the completion flag. */
 typedef struct {
-    Model110Config *G32 config;
+    Model110Config *config;
     SVECTOR ring[17];
     SVECTOR outer[17];
     SVECTOR dots[128];

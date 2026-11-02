@@ -60,7 +60,7 @@ typedef struct {
  * ribbon tails and heads, the ring and burst scales, the ambient level,
  * the textures and the per-side ring, puff-ring and flare colours. */
 typedef struct {
-    Model810Config *G32 config;
+    Model810Config *config;
     SVECTOR ring[16][2];
     SVECTOR ring_outer[16][2];
     SVECTOR halo[16][2];

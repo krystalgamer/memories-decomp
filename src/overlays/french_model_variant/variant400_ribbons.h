@@ -6,7 +6,7 @@
 
 typedef union {
     DVECTOR point;
-    PSXLONG packed;
+    long packed;
 } Model400Screen;
 
 typedef struct {

@@ -38,11 +38,11 @@ typedef struct {
  * is trail[k * 5 + x], and quad (row, column) owns corners[(row * 4 +
  * column) * 4] onwards (top-left, top-right, bottom-left, bottom-right). */
 typedef struct {
-    Model153UsConfig *G32 config;
+    Model153UsConfig *config;
     SVECTOR anchor[2];
     SVECTOR grid[25];
     SVECTOR trail[10];
-    SVECTOR *G32 corners[64];
+    SVECTOR *corners[64];
     SVECTOR rotation;
     s16 spin[3];
     u8 unknown_23A[2];

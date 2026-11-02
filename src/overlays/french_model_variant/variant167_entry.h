@@ -28,7 +28,7 @@ typedef struct {
 } Model167Config;
 
 typedef struct {
-    Model167Config *G32 config;
+    Model167Config *config;
     SVECTOR points[64];
     s16 offsets[GRAPHICS_DEFAULT_HEIGHT], increments[GRAPHICS_DEFAULT_HEIGHT];
     s16 phase, scroll;

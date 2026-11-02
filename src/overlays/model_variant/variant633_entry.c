@@ -21,14 +21,14 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
     GsCOORDUNIT unit;
     Model633ViewSnapshot view;
     SVECTOR rot;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, k, n, t, h, w, w2;
     s16 idx;
     u16 drop;
     s16 travel, lift;
     u32 tex;
-    PSXLONG depth;
+    long depth;
 
     work = (Model633State *)context;
     result = 0;
@@ -539,8 +539,8 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                             work->trails[i].green * (4 - k) / 5, work->trails[i].blue * (4 - k) / 5);
                         depth = RotAverage4(&work->grid[t][k][i], &work->grid[t + 1][k][i],
                             &work->grid[t][k + 1][i], &work->grid[t + 1][k + 1][i],
-                            (PSXLONG *)&work->shaded.x0, (PSXLONG *)&work->shaded.x1,
-                            (PSXLONG *)&work->shaded.x2, (PSXLONG *)&work->shaded.x3, &interpolation, &flag);
+                            (long *)&work->shaded.x0, (long *)&work->shaded.x1,
+                            (long *)&work->shaded.x2, (long *)&work->shaded.x3, &interpolation, &flag);
                         if (flag >= 0) {
                             Graphics_SubmitDrawModePacket((u32 *)&work->shaded, func_80058F10(), (u16)depth,
                                 work->trails[i].mode);
@@ -589,7 +589,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                     work->box.r = work->bursts[i].red;
                     work->box.g = work->bursts[i].green;
                     work->box.b = work->bursts[i].blue;
-                    depth = RotTransPers(&work->ring_lower[k], (PSXLONG *)&work->box.x, &interpolation, &flag);
+                    depth = RotTransPers(&work->ring_lower[k], (long *)&work->box.x, &interpolation, &flag);
                     work->box.w = 1;
                     work->box.h = 1;
                     if (flag >= 0) {
@@ -642,8 +642,8 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                         work->sparks[i][k].u, work->sparks[i][k].v + 31,
                         work->sparks[i][k].u + 31, work->sparks[i][k].v + 31);
                     depth = RotAverage4(&work->square[0], &work->square[1], &work->square[2], &work->square[3],
-                        (PSXLONG *)&work->flat.x0, (PSXLONG *)&work->flat.x1,
-                        (PSXLONG *)&work->flat.x2, (PSXLONG *)&work->flat.x3, &interpolation, &flag);
+                        (long *)&work->flat.x0, (long *)&work->flat.x1,
+                        (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
                     }
@@ -698,8 +698,8 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                         work->flares[i][k].u, work->flares[i][k].v + 31,
                         work->flares[i][k].u + 31, work->flares[i][k].v + 31);
                     depth = RotAverage4(&work->square[0], &work->square[1], &work->square[2], &work->square[3],
-                        (PSXLONG *)&work->flat.x0, (PSXLONG *)&work->flat.x1,
-                        (PSXLONG *)&work->flat.x2, (PSXLONG *)&work->flat.x3, &interpolation, &flag);
+                        (long *)&work->flat.x0, (long *)&work->flat.x1,
+                        (long *)&work->flat.x2, (long *)&work->flat.x3, &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
                     }
@@ -748,7 +748,7 @@ s32 ModelVariant633_HandleRequest(u8 *context, s32 command)
                     work->box.r = work->glows[i].red;
                     work->box.g = work->glows[i].green;
                     work->box.b = work->glows[i].blue;
-                    depth = RotTransPers(&work->ring_upper[k], (PSXLONG *)&work->box.x, &interpolation, &flag);
+                    depth = RotTransPers(&work->ring_upper[k], (long *)&work->box.x, &interpolation, &flag);
                     work->box.w = 1;
                     work->box.h = 1;
                     if (flag >= 0) {

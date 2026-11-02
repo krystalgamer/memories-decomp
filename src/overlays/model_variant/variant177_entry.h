@@ -28,7 +28,7 @@ typedef struct {
  * particle's animation frame, or -1 once it is spent), two texture words, the
  * elapsed time, the command group (command / 100) and the completion flag. */
 typedef struct {
-    Model177Config *G32 config;
+    Model177Config *config;
     SVECTOR ring[14];
     SVECTOR origin;
     SVECTOR particles[32];

@@ -18,7 +18,7 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     SVECTOR from, to, mid;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     GsOT *ot;
     SVECTOR *p, *q, *w;
     s32 b;
@@ -109,7 +109,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             z = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                             &interpolation, &flag);
             a = t * 8 / config->life;
             quad.v0 = 0xC0;
@@ -185,7 +185,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     from.vy += config->width / 2;
                     to.vy += config->width / 2;
                     z = RotAverage4(p, q, &from, &to,
-                                    (PSXLONG *)&strip.x2, (PSXLONG *)&strip.x3, (PSXLONG *)&strip.x0, (PSXLONG *)&strip.x1,
+                                    (long *)&strip.x2, (long *)&strip.x3, (long *)&strip.x0, (long *)&strip.x1,
                                     &interpolation, &flag);
                     if (z >= 0 && flag >= 0) {
                         GsSortPoly(&strip, func_80058F10(), z);
@@ -193,7 +193,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     from.vy -= config->width;
                     to.vy -= config->width;
                     z = RotAverage4(p, q, &from, &to,
-                                    (PSXLONG *)&strip.x2, (PSXLONG *)&strip.x3, (PSXLONG *)&strip.x0, (PSXLONG *)&strip.x1,
+                                    (long *)&strip.x2, (long *)&strip.x3, (long *)&strip.x0, (long *)&strip.x1,
                                     &interpolation, &flag);
                     if (z >= 0 && flag >= 0) {
                         GsSortPoly(&strip, func_80058F10(), z);
@@ -224,7 +224,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                z = RotTransPers3(&from, &to, &mid, (PSXLONG *)&strip.x0, (PSXLONG *)&strip.x1, (PSXLONG *)&strip.x2,
+                z = RotTransPers3(&from, &to, &mid, (long *)&strip.x0, (long *)&strip.x1, (long *)&strip.x2,
                                   &interpolation, &flag);
                 SetSemiTrans(&quad, 1);
                 if (z >= 0 && flag >= 0) {
@@ -281,7 +281,7 @@ s32 func_8013B004(u8 *context, s32 command)
             q = work->ring[1];
             for (i = 0; i < 16; i++) {
                 z = RotTransPers4(p, p + 1, q, q + 1,
-                                  (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x3, (PSXLONG *)&quad.x2,
+                                  (long *)&quad.x1, (long *)&quad.x0, (long *)&quad.x3, (long *)&quad.x2,
                                   &interpolation, &flag);
                 quad.u0 = 0xC0;
                 quad.v0 = i * 8 + 0x40;

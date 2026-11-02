@@ -61,7 +61,7 @@ MenuRecord D_800EB010[3];
 
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
-    u8 *G32 *pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index];
+    u8 **pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index];
     u8 *p = *pp;
     s32 op = *p;
 
@@ -69,7 +69,7 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
     gText_SecondaryCommandHandlers[op](object);
 }
 
-  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 *G32 *p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}
+  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}
 
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
@@ -174,7 +174,7 @@ void Text_NewLine(DuelEffectChannel *record)
     }
     gText_CommandDisposition = 1;
     if (gText_ChoiceLayoutCallback) {
-        CALL32(void (*)(volatile DuelEffectChannel *), gText_ChoiceLayoutCallback)(record);
+        gText_ChoiceLayoutCallback(record);
     }
 }
 

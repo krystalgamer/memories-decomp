@@ -20,12 +20,12 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag;
-    PSXLONG interpolation;
+    long flag;
+    long interpolation;
     s32 slot, direction, step;
     GsOT *ot;
     s32 i, j, k, frame;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -168,8 +168,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2,
-                    (PSXLONG *)&ft4.x3, &interpolation, &flag);
+                    (long *)&ft4.x0, (long *)&ft4.x1, (long *)&ft4.x2,
+                    (long *)&ft4.x3, &interpolation, &flag);
                 setUV4(&ft4, 0x98, 0, 0xB7, 0, 0x98, 0x1F, 0xB7, 0x1F);
                 if (depth >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&ft4, ot, (u16)depth, 1);
@@ -200,8 +200,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2,
-                    (PSXLONG *)&ft4.x3, &interpolation, &flag);
+                    (long *)&ft4.x0, (long *)&ft4.x1, (long *)&ft4.x2,
+                    (long *)&ft4.x3, &interpolation, &flag);
                 setUV4(&ft4, 0, 0x20, 0x3F, 0x20, 0, 0x5F, 0x3F, 0x5F);
                 if (depth >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&ft4, ot, (u16)depth, 1);
@@ -231,8 +231,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2,
-                    (PSXLONG *)&ft4.x3, &interpolation, &flag);
+                    (long *)&ft4.x0, (long *)&ft4.x1, (long *)&ft4.x2,
+                    (long *)&ft4.x3, &interpolation, &flag);
                 if (!(rand() & 1)) {
                     setUV4(&ft4, 0x60, 0, 0x7F, 0, 0x60, 0x1F, 0x7F, 0x1F);
                 } else {
@@ -263,8 +263,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2,
-                    (PSXLONG *)&ft4.x3, &interpolation, &flag);
+                    (long *)&ft4.x0, (long *)&ft4.x1, (long *)&ft4.x2,
+                    (long *)&ft4.x3, &interpolation, &flag);
                 setUV4(&ft4, 0, 0x20, 0x3F, 0x20, 0, 0x5F, 0x3F, 0x5F);
                 if (depth >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&ft4, ot, (u16)depth, 1);
@@ -282,8 +282,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2,
-                        (PSXLONG *)&ft4.x3, &interpolation, &flag);
+                        (long *)&ft4.x0, (long *)&ft4.x1, (long *)&ft4.x2,
+                        (long *)&ft4.x3, &interpolation, &flag);
                     frame = rand() % 3;
                     setUV4(&ft4, frame * 32, 0, frame * 32 + 31, 0, frame * 32, 0x1F, frame * 32 + 31, 0x1F);
                     if (depth >= 0) {

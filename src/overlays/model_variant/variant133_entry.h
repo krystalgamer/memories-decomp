@@ -39,7 +39,7 @@ typedef struct {
  * part position, the box shell, four sparks per outer ring point, three
  * textures, the hit flag and the elapsed time. */
 typedef struct {
-    Model133Config *G32 config;
+    Model133Config *config;
     SVECTOR inner[9];
     SVECTOR outer[9];
     SVECTOR origin;

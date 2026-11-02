@@ -178,7 +178,7 @@ void DisplayObject_RenderSpriteStripList(void)
 
     if (i >= 0) {
         DisplayObject *base = gDisplayObject_aPool;
-        GsOT *G32 *table = gGraphics_apOrderingTables;
+        GsOT **table = gGraphics_apOrderingTables;
 
         do {
             DisplayObject *object =
@@ -222,7 +222,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
 
     if (i >= 0) {
         DisplayObject *base = gDisplayObject_aPool;
-        GsOT *G32 *table = gGraphics_apOrderingTables;
+        GsOT **table = gGraphics_apOrderingTables;
 
         do {
             DisplayObject *object =
@@ -278,7 +278,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
     POLY_G4 *g;
     u8 *h;
     DisplayObject *e;
-    GsOT *G32 *tb;
+    GsOT **tb;
     DisplayObjectCallback fn;
     s32 eight;
     s32 hi;
@@ -392,7 +392,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
     POLY_GT4 *g;
     u8 *h;
     DisplayObject *e;
-    GsOT *G32 *tb;
+    GsOT **tb;
     DisplayObjectCallback fn;
     s32 twelve;
     s32 hi;

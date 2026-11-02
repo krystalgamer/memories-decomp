@@ -14,8 +14,8 @@ void func_8013D240(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     u8 *timing;
     GsOT *ot;

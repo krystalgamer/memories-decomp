@@ -8,8 +8,8 @@ void func_8013D458(u8 *context)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     Variant449BandView *work;
     GsOT *ot;
     s16 i;

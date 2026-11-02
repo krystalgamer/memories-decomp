@@ -198,11 +198,11 @@ typedef struct SDValue {
     u8 voice_allocation_cursor;
     u8 pad0436[2];
     u32 next_link_spu_address;
-    u16 *G32 note_index_by_id;
+    u16 *note_index_by_id;
     u16 next_note_index;
     u16 value_link_request_index;
-    SDNote *G32 note_table;
-    SDValueLink *G32 value_links;
+    SDNote *note_table;
+    SDValueLink *value_links;
     /* Indirect-code banks hold sound IDs, not note-table indices. */
     u16 indirect_sound_ids[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
     s32 field_04CC;
@@ -213,7 +213,7 @@ typedef struct SDValue {
     u8 pad0516[2];
     /* Three descriptor-table bases within the CD mixer-out bank, installed
        after its trailer check even when the signature does not match. */
-    u8 *G32 cd_descriptor_banks[3];
+    u8 *cd_descriptor_banks[3];
     u8 pad0524[4];
     u32 cd_start_sector_offset;
     u32 cd_end_sector_offset;
@@ -225,12 +225,12 @@ typedef struct SDValue {
     u8 pad0536[2];
     s32 decoded_half;
     SpuDecodedData decoded_data;
-    s16 *G32 decoded_cd_halves[4];
+    s16 *decoded_cd_halves[4];
     SDLevelWord output_level;
     SDLevelWord field_1550;
     u8 pad1554[0xC];
-    SDMusicTableEntry *G32 music_table;
-    u16 *G32 music_track;
+    SDMusicTableEntry *music_table;
+    u16 *music_track;
     u8 pad1568[0x10];
     s16 opened_music_package_id;
     s16 music_vab_open_result;
@@ -349,11 +349,11 @@ typedef struct {
 typedef struct {
     s16 state_token;
     u8 pad0002[2];
-    u8 *G32 vab_header;
+    u8 *vab_header;
     s32 header_size_bytes;
     s32 full_body_source_address;
     s32 body_size_bytes;
-    u8 *G32 spu_body_base;
+    u8 *spu_body_base;
     u8 vab_master_volume;
     u8 field_0019;
     u8 field_001A;
@@ -398,24 +398,24 @@ typedef struct SDSecondaryState {
     u8 update_in_progress;
     u8 shared_track_updates_enabled;
     u8 event_guard;
-    PSXLONG event_handle;
+    long event_handle;
     u8 timer_maintenance_counter;
     u8 vsync_update_mode;
     u8 pad050A[2];
-    void (*G32 timer_maintenance_callback)(void);
+    void (*timer_maintenance_callback)(void);
     s16 object_count;
     s16 sequence_level;
     u16 master_level_left;
     u16 master_level_right;
     SDSequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
     u8 pad07D8[4];
-    u8 *G32 sequence_read_base;
+    u8 *sequence_read_base;
     /* Retained open argument; only compared with the -1 closed marker. */
     s16 sequence_open_token;
     s16 sequence_state;
     s16 spatial_level_left;
     s16 spatial_level_right;
-    u8 *G32 sequence_source;
+    u8 *sequence_source;
     s32 sequence_read_limit;
     s32 sequence_tick_count;
     s32 sequence_tick_count_saved;
@@ -896,22 +896,22 @@ typedef char SDSecondaryState_reverb_control_layout_must_match[
  * there is that the absolute spelling is load-bearing in that unit; that
  * claim lives in a comment in that file and is not re-measured here. */
 #ifdef G_SDVALUE_IN_DATA
-extern SDValue *G32 g_SDValue __attribute__((section(".data")));
+extern SDValue *g_SDValue __attribute__((section(".data")));
 #elif defined(G_SDVALUE_AGGREGATE)
-extern SDValue *G32 g_SDValue[];
+extern SDValue *g_SDValue[];
 #elif defined(G_SDVALUE_VOLATILE)
-extern SDValue *G32 volatile g_SDValue;
+extern SDValue *volatile g_SDValue;
 #else
-extern SDValue *G32 g_SDValue;
+extern SDValue *g_SDValue;
 #endif
 #endif
 
 /* Voice setup units keep the pointer outside small data for their absolute
  * loads; other resident consumers use the shared layout. */
 #ifdef D_8009B458_IN_DATA
-extern SDSecondaryState *G32 gSD_pSecondaryState __attribute__((section(".data")));
+extern SDSecondaryState *gSD_pSecondaryState __attribute__((section(".data")));
 #else
-extern SDSecondaryState *G32 gSD_pSecondaryState;
+extern SDSecondaryState *gSD_pSecondaryState;
 #endif
 
 /* One SPU voice bit per entry.  The object at gSD_adwVoiceMasks is twenty words

@@ -6,15 +6,15 @@
 
 #define IMAGE32768_PROJECT_FLARE() \
     depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3], \
-        (PSXLONG *)&flare.x0, (PSXLONG *)&flare.x1, \
-        (PSXLONG *)&flare.x2, (PSXLONG *)&flare.x3, &interpolation, &flag); \
+        (long *)&flare.x0, (long *)&flare.x1, \
+        (long *)&flare.x2, (long *)&flare.x3, &interpolation, &flag); \
     setUV4(&flare, 0, 0, 63, 0, 0, 63, 63, 63); \
     if (depth >= 0 && flag >= 0) \
         Graphics_SubmitDrawModePacket((u32 *)&flare, ot, (u16)depth, 1)
 
 #define IMAGE32768_PROJECT_FAN(tip) \
     depth = RotAverage3((tip), &corners[0], &corners[1], \
-        (PSXLONG *)&fan.x0, (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, \
+        (long *)&fan.x0, (long *)&fan.x1, (long *)&fan.x2, \
         &interpolation, &flag); \
     if (depth >= 0 && flag >= 0) \
         Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 1)
@@ -30,7 +30,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR corners[4];
-    PSXLONG flag, interpolation, depth;
+    long flag, interpolation, depth;
     GsOT *ot;
     s32 i, slot, direction, step;
 
@@ -126,8 +126,8 @@ s32 func_8013B004(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-            (PSXLONG *)&beam.x0, (PSXLONG *)&beam.x1,
-            (PSXLONG *)&beam.x2, (PSXLONG *)&beam.x3, &interpolation, &flag);
+            (long *)&beam.x0, (long *)&beam.x1,
+            (long *)&beam.x2, (long *)&beam.x3, &interpolation, &flag);
         if (work->phase == 0) {
             beam.clut = work->textures[2];
             beam.tpage = work->textures[2] >> 16;

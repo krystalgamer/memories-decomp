@@ -22,12 +22,12 @@ s32 func_8013B004(u8 *context, s32 command)
     MATRIX ls;
     GsCOORDUNIT unit;
     SVECTOR mid0, mid1, mid;
-    PSXLONG interpolation, flag, flag2, xy;
+    long interpolation, flag, flag2, xy;
     s32 result, i, step, inactive;
     s32 j;
     s32 near, far, angle;
     s32 low, high;
-    PSXLONG depth;
+    long depth;
 
     work = (Model627State *)context;
     result = 0;
@@ -173,8 +173,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB2(&work->quad, work->rings[i].red, work->rings[i].green, work->rings[i].blue);
                     setRGB3(&work->quad, work->rings[i].red, work->rings[i].green, work->rings[i].blue);
                     depth = RotAverage4(&work->rim[j], &work->rim[j + 1], &mid0, &mid1,
-                        (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                        (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3,
+                        (long *)&work->quad.x0, (long *)&work->quad.x1,
+                        (long *)&work->quad.x2, (long *)&work->quad.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&work->quad, func_80058F10(), (u16)depth,
@@ -187,8 +187,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB0(&work->quad, work->rings[i].red, work->rings[i].green, work->rings[i].blue);
                     setRGB1(&work->quad, work->rings[i].red, work->rings[i].green, work->rings[i].blue);
                     depth = RotAverage4(&mid0, &mid1, &work->edge[j], &work->edge[j + 1],
-                        (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                        (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3,
+                        (long *)&work->quad.x0, (long *)&work->quad.x1,
+                        (long *)&work->quad.x2, (long *)&work->quad.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&work->quad, func_80058F10(), (u16)depth,
@@ -258,8 +258,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->line.r1 = work->lines[i].red;
                     work->line.g1 = work->lines[i].green;
                     work->line.b1 = work->lines[i].blue;
-                    RotTransPers(&work->spokes[j][0], (PSXLONG *)&work->line.x0, &interpolation, &flag);
-                    RotTransPers(&work->spokes[j][1], (PSXLONG *)&work->line.x1, &interpolation, &flag2);
+                    RotTransPers(&work->spokes[j][0], (long *)&work->line.x0, &interpolation, &flag);
+                    RotTransPers(&work->spokes[j][1], (long *)&work->line.x1, &interpolation, &flag2);
                     mid.vx = (work->spokes[j][0].vx + work->spokes[j][1].vx) / 2;
                     mid.vy = (work->spokes[j][0].vy + work->spokes[j][1].vy) / 2;
                     mid.vz = (work->spokes[j][0].vz + work->spokes[j][1].vz) / 2;

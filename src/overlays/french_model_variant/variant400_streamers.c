@@ -8,9 +8,9 @@ void func_8013CDB8(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flags[2][17];
-    PSXLONG p;
-    PSXLONG flag;
+    long flags[2][17];
+    long p;
+    long flag;
     Model400FirstRibbon *ribbon;
     POLY_FT4 *poly;
     GsOT *ot;

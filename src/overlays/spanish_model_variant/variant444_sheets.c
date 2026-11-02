@@ -9,8 +9,8 @@ void func_8013CDC4(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Sheet444State *state = (Sheet444State *)context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *quad;
@@ -55,8 +55,8 @@ void func_8013CDC4(u8 *context)
         for (j = 0; j < 4; j++) {
             depth = RotTransPers4(&sheet->v0[j], &sheet->v1[j],
                                  &sheet->v2[j], &sheet->v3[j],
-                                 (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                 (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                 (long *)&quad->x0, (long *)&quad->x1,
+                                 (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag);
             if (state->phase >= 3 && i != 0 && state->fade < 512) {
                 r = sheet->inner[0] * state->fade / 512;

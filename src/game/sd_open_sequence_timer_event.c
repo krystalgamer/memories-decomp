@@ -6,7 +6,7 @@
 
 void SD_OpenSequenceTimerEvent(void)
 {
-    PSXLONG event;
+    long event;
 
     if (gSD_pSecondaryState->event_guard)
         return;

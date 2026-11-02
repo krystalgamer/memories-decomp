@@ -8,9 +8,9 @@ void func_8013C51C(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flags[16][5];
-    PSXLONG p;
-    PSXLONG flag;
+    long flags[16][5];
+    long p;
+    long flag;
     Variant452StreamersView *work;
     ModelVariantSheet *sheet;
     GsOT *ot;

@@ -36,7 +36,7 @@ typedef struct {
  * the camera step counter, the texture word, the elapsed time and the tint
  * flag. */
 typedef struct {
-    Model120Config *G32 config;
+    Model120Config *config;
     SVECTOR angles[16];
     SVECTOR speeds[16];
     u8 camera_steps, unknown_105[3];

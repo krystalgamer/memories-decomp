@@ -20,8 +20,8 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag;
-    PSXLONG interpolation;
+    long flag;
+    long interpolation;
     s32 slot, direction, step;
     GsOT *ot;
     s32 i, j, k;
@@ -132,8 +132,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&packet->x0,
-                                    (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &interpolation,
+                depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&packet->x0,
+                                    (long *)&packet->x1, (long *)&packet->x2, (long *)&packet->x3, &interpolation,
                                     &flag);
                 setUV4(packet, work->spark_frames[i] / 3 * 32 + 32, 0x40, work->spark_frames[i] / 3 * 32 + 63, 0x40,
                        work->spark_frames[i] / 3 * 32 + 32, 0x5F, work->spark_frames[i] / 3 * 32 + 63, 0x5F);
@@ -206,8 +206,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&packet->x0,
-                                    (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &interpolation,
+                depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&packet->x0,
+                                    (long *)&packet->x1, (long *)&packet->x2, (long *)&packet->x3, &interpolation,
                                     &flag);
                 setSemiTrans(packet, 1);
                 if (depth >= 0 && flag >= 0) {
@@ -243,8 +243,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         setVector(&vertices[2], -(sign * 64), 0, 0);
                         setVector(&vertices[3], 0, 0, 0);
                         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                                            (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
-                                            (PSXLONG *)&packet->x3, &interpolation, &flag);
+                                            (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
+                                            (long *)&packet->x3, &interpolation, &flag);
                         if (depth >= 0) {
                             Graphics_SubmitDrawModePacket((u32 *)packet, ot, (u16)depth, 1);
                         }
@@ -298,8 +298,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         setVector(&vertices[2], -(sign * 16), 0, 0);
                         setVector(&vertices[3], 0, 0, 0);
                         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                                            (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
-                                            (PSXLONG *)&packet->x3, &interpolation, &flag);
+                                            (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
+                                            (long *)&packet->x3, &interpolation, &flag);
                         setSemiTrans(packet, 1);
                         if (depth >= 0 && flag >= 0) {
                             GsSortPoly(packet, ot, (u16)depth);
@@ -336,8 +336,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         setVector(&vertices[2], -(sign * 128), 0, 0);
                         setVector(&vertices[3], 0, 0, 0);
                         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                                            (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
-                                            (PSXLONG *)&packet->x3, &interpolation, &flag);
+                                            (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
+                                            (long *)&packet->x3, &interpolation, &flag);
                         if (depth >= 0 && flag >= 0) {
                             Graphics_SubmitDrawModePacket((u32 *)packet, ot, (u16)depth, 1);
                         }

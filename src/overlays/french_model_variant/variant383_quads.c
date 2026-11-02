@@ -11,8 +11,8 @@ void FrenchModelVariant383_DrawQuads(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Family383QuadGroup *group = &work->group;
     GsOT *ot;
     POLY_GT4 *quad;
@@ -68,8 +68,8 @@ void FrenchModelVariant383_DrawQuads(u8 *context)
             depth = RotTransPers4(
                 &group->points[0][j], &group->points[1][j],
                 &group->points[2][j], &group->points[3][j],
-                (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                (long *)&quad->x0, (long *)&quad->x1,
+                (long *)&quad->x2, (long *)&quad->x3,
                 &interpolation, &flag) * 8 / 10;
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(quad, ot, (u16)depth);

@@ -16,7 +16,7 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR corners[4];
     SVECTOR base;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     GsOT *ot;
     SVECTOR *p, *ring;
     DVECTOR *q;
@@ -259,7 +259,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                                     &interpolation, &flag);
                 quad.u0 = work->frame[i] << 5;
                 quad.v0 = 0x80;
@@ -312,7 +312,7 @@ s32 func_8013B004(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                             &interpolation, &flag);
         SetSemiTrans(&quad, 1);
         quad.tpage = work->texture[2] >> 16;

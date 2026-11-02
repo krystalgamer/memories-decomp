@@ -61,7 +61,7 @@ typedef struct {
  * the timers, the spark frames, the phase, the live spark count, the ambient
  * level, the textures, and the glow, ring and slot tint colours. */
 typedef struct {
-    Model830Config *G32 config;
+    Model830Config *config;
     SVECTOR pos;
     SVECTOR sparks[64];
     SVECTOR inner[16][3];

@@ -81,13 +81,13 @@ s32 func_8013B004(u8 *context, s32 command)
             scale.vz = scale.vy = scale.vx =
                 ((config->period - work->timers[i * config->count + j]) * 4096) / config->period;
             GsSetLsMatrix(&base);
-            RotTrans(point, (VECTOR *)matrix.t, (PSXLONG *)&flag);
+            RotTrans(point, (VECTOR *)matrix.t, (long *)&flag);
             RotMatrix(&rotation, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                                (PSXLONG *)&quad.x3, (PSXLONG *)&interpolation, (PSXLONG *)&flag);
+                                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                                (long *)&quad.x3, (long *)&interpolation, (long *)&flag);
             if (i == 0) {
                 setRGB0(&quad, config->r, config->g, config->b);
             } else {

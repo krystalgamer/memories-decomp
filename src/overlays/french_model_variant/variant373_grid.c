@@ -9,8 +9,8 @@ void func_8013C76C(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Family373Grid *grid;
     GsOT *ot;
     POLY_GT4 *quad;
@@ -69,8 +69,8 @@ void func_8013C76C(u8 *context)
             depth = RotTransPers4(
                 &grid->points[i][j], &grid->points[i][j + 1],
                 &grid->points[i + 1][j], &grid->points[i + 1][j + 1],
-                (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                (long *)&quad->x0, (long *)&quad->x1,
+                (long *)&quad->x2, (long *)&quad->x3,
                 &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(quad, ot, (u16)depth);

@@ -20,7 +20,7 @@ typedef struct {
 } Model77Config;
 
 typedef struct {
-    Model77Config *G32 config;
+    Model77Config *config;
     SVECTOR position;
     SVECTOR velocities[32];
     u32 texture[1];

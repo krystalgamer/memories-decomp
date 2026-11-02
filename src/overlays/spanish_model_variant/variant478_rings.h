@@ -39,7 +39,7 @@ typedef struct {
     u8 unknown_29F0[4];
     u32 step;
     u8 unknown_29F8[4];
-    Rings478Timing *G32 timing;
+    Rings478Timing *timing;
     u8 unknown_2A00[0x1C];
     s32 wave;
 } Rings478State;

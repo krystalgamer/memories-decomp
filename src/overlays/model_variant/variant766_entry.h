@@ -36,7 +36,7 @@ typedef union {
 /* The work area: the command row, the two trail edges, the column rotations,
  * the sparks, the flash square, the colours, and the timers. */
 typedef struct {
-    Model766Config *G32 config;
+    Model766Config *config;
     SVECTOR trail_first[32];
     SVECTOR trail_second[32];
     SVECTOR rotations[32];

@@ -55,9 +55,9 @@ typedef struct {
     u32 frame_count, frame, animation_frame;
     s32 step;
     u32 field_460;
-    ExodiaEntryConfig *G32 config;
+    ExodiaEntryConfig *config;
     u32 field_468;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s16 field_478, field_47A, field_47C, field_47E;
     s32 field_480, progress, field_488, field_48C, field_490, field_494;
     s32 field_498, field_49C, field_4A0, field_4A4, field_4A8, field_4AC;
@@ -69,7 +69,7 @@ typedef struct {
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     DVECTOR target;
 } ExodiaEntryProjection;
 

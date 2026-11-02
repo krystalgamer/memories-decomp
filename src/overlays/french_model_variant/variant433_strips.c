@@ -9,8 +9,8 @@ void func_8013C050(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flag[2][2];
-    PSXLONG p;
+    long flag[2][2];
+    long p;
     GsOT *ot;
     s16 i;
     s16 j;
@@ -73,7 +73,7 @@ void func_8013C050(u8 *ctx)
                             MODEL_VARIANT_WORD(work, 0x1A84) = 2;
                         }
                         if (strip->progress[1] >= 0x400) {
-                            if ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x1A60), 0x28) <=
+                            if ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x1A60), 0x28) <=
                                 (u32)MODEL_VARIANT_WORD(work, 0x1A50)) {
                                 strip->progress[j] = 0x400;
                                 strip->done[j] = 1;

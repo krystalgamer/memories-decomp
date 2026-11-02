@@ -30,10 +30,10 @@ typedef struct {
 
 typedef struct {
     SVECTOR a[13];
-    PSXLONG sa[13];
+    long sa[13];
     s32 angle[13];
     SVECTOR b[13];
-    PSXLONG sb[13];
+    long sb[13];
     s32 width[13];
     CVECTOR inner, outer;
     VECTOR scale;
@@ -41,7 +41,7 @@ typedef struct {
     u8 unknown_1D0[0x68];
     VECTOR velocity;
     s32 otz[13];
-    PSXLONG flag[13];
+    long flag[13];
     s16 ox[13], oy[13];
 } Variant475EntryRibbon;
 
@@ -67,9 +67,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant475EntryConfig *G32 config;
+    Variant475EntryConfig *config;
     u32 unknown_2FD0;
-    GsCOORDUNIT *G32 parts[8];
+    GsCOORDUNIT *parts[8];
     s16 field_2FF4, field_2FF6, field_2FF8, field_2FFA;
     s32 field_2FFC, orbit, orbit_progress, field_3008;
     s32 field_300C, field_3010, field_3014, field_3018, field_301C, phase;
@@ -79,9 +79,9 @@ typedef struct {
 } Variant475EntryState;
 
 typedef struct {
-    PSXLONG origin;
-    PSXLONG p, flag;
-    PSXLONG target;
+    long origin;
+    long p, flag;
+    long target;
 } Variant475EntryProjection;
 
 extern u8 D_8013DD38[];

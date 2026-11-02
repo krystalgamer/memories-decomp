@@ -385,9 +385,9 @@ typedef struct GraphicsFrameBuffer GraphicsFrameBuffer;
 extern GraphicsFrameBuffer gGraphics_aFrameBuffers[];
 
 #ifdef GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
-extern GraphicsFrameBuffer *G32 volatile gGraphics_pActiveFrameBuffer;
+extern GraphicsFrameBuffer *volatile gGraphics_pActiveFrameBuffer;
 #else
-extern GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
+extern GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
 #endif
 
 /* The other half of that pair, the one the comment above refers to:

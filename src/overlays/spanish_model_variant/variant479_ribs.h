@@ -10,10 +10,10 @@
 
 typedef struct {
     SVECTOR a[9];
-    PSXLONG sa[9];
+    long sa[9];
     s32 angle[9];
     SVECTOR b[9];
-    PSXLONG sb[9];
+    long sb[9];
     s32 width[9];
     u8 ca[9][4];
     u8 cb[9][4];
@@ -27,7 +27,7 @@ typedef struct {
     u8 unknown18C[0x48];
     s32 direction[3];
     u8 unknown1E0[4];
-    PSXLONG flag[9];
+    long flag[9];
     s32 otz[9];
     s16 ox[9];
     s16 oy[9];

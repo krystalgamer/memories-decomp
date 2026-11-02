@@ -5,7 +5,7 @@
 
 typedef union {
     DVECTOR point;
-    PSXLONG packed;
+    long packed;
 } Ribbon426Screen;
 
 typedef struct {
@@ -47,7 +47,7 @@ typedef struct {
     s32 unknown2104;
     s32 step;
     s32 unknown210C;
-    Ribbon426Timing *G32 timing;
+    Ribbon426Timing *timing;
     u8 unknown2114[0xC];
     s32 fade;
     u8 unknown2124[0x20];

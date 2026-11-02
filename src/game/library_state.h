@@ -17,9 +17,9 @@ typedef struct {
 
 typedef struct {
     LibraryMotionState motion;
-    struct DisplayObject *G32 selector_sprite;
-    struct DisplayObject *G32 card_view;
-    struct DisplayObject *G32 loading_icon;
+    struct DisplayObject *selector_sprite;
+    struct DisplayObject *card_view;
+    struct DisplayObject *loading_icon;
     LibraryCardRecord cards[CARD_ID_END];
 } LibraryState;
 

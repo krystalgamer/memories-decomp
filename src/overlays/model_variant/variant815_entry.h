@@ -55,7 +55,7 @@ typedef struct {
  * shard count, the ambient level, the textures, the glow colour and the
  * spark colour. */
 typedef struct {
-    Model815Config *G32 config;
+    Model815Config *config;
     SVECTOR position;
     SVECTOR shards[48];
     SVECTOR ring[16][3];

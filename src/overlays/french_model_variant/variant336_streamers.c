@@ -8,8 +8,8 @@ void func_8013CB6C(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     POLY_FT4 *poly;
     GsOT *ot;
@@ -152,9 +152,9 @@ void func_8013CB6C(u8 *ctx)
     if (MODEL_VARIANT_WORD(work, 0x2000) == 0 && MODEL_VARIANT_WORD(work, 0x1FFC) > 0) {
         MODEL_VARIANT_WORD(work, 0x1FFC) = 1024
             - ((((u32)MODEL_VARIANT_WORD(work, 0x1FC8)
-                - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x1FD8), 0x10)) << 10)
-               / ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x1FD8), 0x14)
-                - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x1FD8), 0x10)));
+                - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x1FD8), 0x10)) << 10)
+               / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x1FD8), 0x14)
+                - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x1FD8), 0x10)));
         if (MODEL_VARIANT_WORD(work, 0x1FFC) <= 0) {
             MODEL_VARIANT_WORD(work, 0x1FFC) = 0;
             MODEL_VARIANT_WORD(work, 0x2000) = 1;

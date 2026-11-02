@@ -38,7 +38,7 @@ typedef struct {
     u16 f0E;
     u16 f10;
     s16 pad12;
-    GsCOORDUNIT *G32 coord; /* 0x14 */
+    GsCOORDUNIT *coord; /* 0x14 */
     SVECTOR rot;         /* 0x18 */
     VECTOR scale;        /* 0x20 */
     VECTOR pos;          /* 0x30 */

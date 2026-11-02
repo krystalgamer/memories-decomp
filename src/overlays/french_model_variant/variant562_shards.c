@@ -2,7 +2,7 @@
 
 #include "variant562_shards.h"
 
-#define SHARD_COUNT(work) ((*(Variant562ShardInfo *G32 *)((work) + 0x3230))->count)
+#define SHARD_COUNT(work) ((*(Variant562ShardInfo **)((work) + 0x3230))->count)
 
 /* Places each shard's two halves at origin + direction * scale / 1024 (scale
  * clamped at zero), turned by the ratan2 heading plus a half turn, and
@@ -18,8 +18,8 @@ void func_8013C2CC(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flags[3][2];
-    PSXLONG p;
+    long flags[3][2];
+    long p;
     GsOT *ot;
     s32 angle;
     u8 *work;

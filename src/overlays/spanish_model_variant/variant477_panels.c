@@ -14,8 +14,8 @@ void func_8013C484(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     GsOT *ot;
     Quads477State *state = (Quads477State *)context;
     Panel477 *panel = (Panel477 *)context;
@@ -69,8 +69,8 @@ void func_8013C484(u8 *context)
                 ScaleMatrix(&light, &scale);
                 SetRotMatrix(&light);
                 depth = RotTransPers4(&panel->a[j], &panel->b[j], &panel->c[j], &panel->d[j],
-                                      (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
-                                      (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                      (long *)&polygon->x0, (long *)&polygon->x1,
+                                      (long *)&polygon->x2, (long *)&polygon->x3,
                                       &interpolation, &flag);
                 polygon->r0 = red;
                 polygon->g0 = green;

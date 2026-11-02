@@ -116,13 +116,13 @@ extern s16 gDuel_wPendingEquipBonus;
 extern DuelSideState gDuel_aSideStates[DUEL_SIDE_COUNT];
 /* Always &gDuel_aSideStates[gDuel_bActiveSide]: four translation units assign it exactly
  * that on a turn change. */
-extern DuelSideState *G32 gDuel_pActiveSideState;
+extern DuelSideState *gDuel_pActiveSideState;
 
 /* Per-side request-pool entries for Swords of Revealing Light. Apply and
  * replay reconstruction publish NONBLOCKING effect 0x15 requests; draw entry
  * writes the current side's removal command before clearing its pointer. */
 extern DuelEffectRequest
-    *G32 gDuel_apSwordsEffectObjects[DUEL_SIDE_COUNT];
+    *gDuel_apSwordsEffectObjects[DUEL_SIDE_COUNT];
 
 /* The flag the field-action step raises for the battle step: set when Square
  * (PAD_BUTTON_SQUARE) is among the buttons that commit the field-action confirm,
@@ -170,7 +170,7 @@ extern s16 gDuel_wSelectedTrapCardId;
  * write `void *` for the same address, and no prototype takes &gDuel_pActiveFieldGrid.
  * Both stores are gp-relative sw (Duel_InitScene.s:128, DuelScene_UpdateTurnSwitch.s:46),
  * so this is the plain declaration. Initial value not read. */
-extern u8 *G32 gDuel_pActiveFieldGrid;
+extern u8 *gDuel_pActiveFieldGrid;
 
 /* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&gDuel_wTwoPlayerCardViewMode`, to
  * MainMenu_StartValueSetup's `toggle` parameter (value_setup.h declares

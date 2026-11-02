@@ -56,7 +56,7 @@ void Text_UnlockDuelist(DuelEffectChannel *object)
 {
     s16 duelist_id;
     u32 value;
-    u8 *G32 *stream;
+    u8 **stream;
     u8 *cursor;
 
     stream = &((TextStreamOwner *)object)->streams[object->stream_index];

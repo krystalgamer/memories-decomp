@@ -21,7 +21,7 @@ typedef struct {
 
 typedef struct {
     SVECTOR point[3][9];
-    PSXLONG screen[3][9];
+    long screen[3][9];
     u8 unknown_144[0x90];
     s32 offset[9];
     CVECTOR ca[9], cb[9];
@@ -59,9 +59,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant401EntryConfig *G32 config;
+    Variant401EntryConfig *config;
     u32 field_1A64;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s16 field_1A74, field_1A76, field_1A78, field_1A7A;
     s32 field_1A7C, field_1A80, phase;
     u8 unknown_1A88[8];

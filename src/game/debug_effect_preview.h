@@ -7,8 +7,8 @@
 void DebugEffect_UpdateViewControls(void);
 void DebugEffect_UpdatePreview(void);
 
-extern u8 *G32 gDebugEffect_pPreviewCard0;
-extern u8 *G32 gDebugEffect_pPreviewCard1;
+extern u8 *gDebugEffect_pPreviewCard0;
+extern u8 *gDebugEffect_pPreviewCard1;
 extern DuelCardRecord gDebugEffect_aPreviewCardRecords[];
 extern u8 gDebugEffect_szOperandsFormat[];
 extern u8 gDebugEffect_szSecondOperandMarker[];

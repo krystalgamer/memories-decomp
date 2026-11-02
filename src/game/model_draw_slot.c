@@ -154,8 +154,8 @@ static inline s32 Model_MirrorOffset(s32 index, s32 value, s32 offset)
 void Model_DrawSlot(s32 index)
 {
     MATRIX hidden_matrix;
-    PSXLONG sxy_z;
-    PSXLONG projection_flags;
+    long sxy_z;
+    long projection_flags;
     GsOT *ordering_table;
     ModelSlot *slot;
     s8 *metadata_bytes;
@@ -621,9 +621,9 @@ void Model_DrawSlot(s32 index)
                         goto skip;
                     }
                 }
-                shadow_depth = RotAverage3(&shadow_center, &next_shadow_edge, &previous_shadow_edge, (PSXLONG *)&shadow_triangle.x0, (PSXLONG *)&shadow_triangle.x1, (PSXLONG *)&shadow_triangle.x2,
+                shadow_depth = RotAverage3(&shadow_center, &next_shadow_edge, &previous_shadow_edge, (long *)&shadow_triangle.x0, (long *)&shadow_triangle.x1, (long *)&shadow_triangle.x2,
                     &sxy_z, &projection_flags);
-                sxy_z = NormalClip(*(PSXLONG *)&shadow_triangle.x0, *(PSXLONG *)&shadow_triangle.x1, *(PSXLONG *)&shadow_triangle.x2);
+                sxy_z = NormalClip(*(long *)&shadow_triangle.x0, *(long *)&shadow_triangle.x1, *(long *)&shadow_triangle.x2);
                 if (shadow_depth >= 0 && projection_flags >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&shadow_triangle, ordering_table, 0xFFF, 2);
                 }

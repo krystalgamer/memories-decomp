@@ -23,14 +23,14 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     u16 projection[64], flags[64];
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 step;
     GsOT *ot;
     SVECTOR *point, *other;
     DVECTOR *screen;
     s32 i, j, k;
     u16 side;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -155,8 +155,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&point[i], &point[i - 1], &other[i], &other[i - 1],
-                    (PSXLONG *)&gouraud_packet->x0, (PSXLONG *)&gouraud_packet->x1,
-                    (PSXLONG *)&gouraud_packet->x2, (PSXLONG *)&gouraud_packet->x3, &interpolation, &flag);
+                    (long *)&gouraud_packet->x0, (long *)&gouraud_packet->x1,
+                    (long *)&gouraud_packet->x2, (long *)&gouraud_packet->x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     func_8005B260((u32 *)gouraud_packet, ot, (u16)depth, 1);
                 }
@@ -201,8 +201,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&point[0], &point[1], &point[2], &point[3],
-                    (PSXLONG *)&textured_packet->x0, (PSXLONG *)&textured_packet->x1,
-                    (PSXLONG *)&textured_packet->x2, (PSXLONG *)&textured_packet->x3, &interpolation, &flag);
+                    (long *)&textured_packet->x0, (long *)&textured_packet->x1,
+                    (long *)&textured_packet->x2, (long *)&textured_packet->x3, &interpolation, &flag);
                 setUV4(textured_packet, (8 - work->sprite_frames[i]) * 32, 0,
                     (8 - work->sprite_frames[i]) * 32 + 31, 0,
                     (8 - work->sprite_frames[i]) * 32, 31,
@@ -234,8 +234,8 @@ s32 func_8013B004(u8 *context, s32 command)
             for (i = 0; i < 16; i++) {
                 depth = RotAverage4(&work->inner_ring[i], &work->inner_ring[(i + 1) % 16],
                     &work->outer_ring[i], &work->outer_ring[(i + 1) % 16],
-                    (PSXLONG *)&textured_packet->x0, (PSXLONG *)&textured_packet->x1,
-                    (PSXLONG *)&textured_packet->x2, (PSXLONG *)&textured_packet->x3, &interpolation, &flag);
+                    (long *)&textured_packet->x0, (long *)&textured_packet->x1,
+                    (long *)&textured_packet->x2, (long *)&textured_packet->x3, &interpolation, &flag);
                 setSemiTrans(textured_packet, 1);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(textured_packet, ot, (u16)depth);
@@ -258,8 +258,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&vertices[2], -(s16)side * 64, 0, 0);
                 setVector(&vertices[3], 0, 0, 0);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&textured_packet->x0, (PSXLONG *)&textured_packet->x1,
-                    (PSXLONG *)&textured_packet->x2, (PSXLONG *)&textured_packet->x3, &interpolation, &flag);
+                    (long *)&textured_packet->x0, (long *)&textured_packet->x1,
+                    (long *)&textured_packet->x2, (long *)&textured_packet->x3, &interpolation, &flag);
                 if (depth >= 0) {
                     func_8005B260((u32 *)textured_packet, ot, (u16)depth, 1);
                 }
@@ -275,8 +275,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&vertices[2], -(s16)side * 32, 0, 0);
                 setVector(&vertices[3], 0, 0, 0);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&textured_packet->x0, (PSXLONG *)&textured_packet->x1,
-                    (PSXLONG *)&textured_packet->x2, (PSXLONG *)&textured_packet->x3, &interpolation, &flag);
+                    (long *)&textured_packet->x0, (long *)&textured_packet->x1,
+                    (long *)&textured_packet->x2, (long *)&textured_packet->x3, &interpolation, &flag);
                 if (depth >= 0) {
                     func_8005B260((u32 *)textured_packet, ot, (u16)depth, 1);
                 }

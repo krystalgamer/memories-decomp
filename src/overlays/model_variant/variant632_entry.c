@@ -25,11 +25,11 @@ s32 func_8013B004(u8 *context, s32 command)
     GsCOORDUNIT unit;
     Model632ViewSnapshot view;
     SVECTOR corners[4];
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, k;
     u32 tex;
-    PSXLONG depth;
+    long depth;
     s32 value;
 
     work = (Model632State *)context;
@@ -324,8 +324,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         work->flares[i][j].u, work->flares[i][j].v + 31,
                         work->flares[i][j].u + 31, work->flares[i][j].v + 31);
                     depth = RotAverage4(&work->square[0], &work->square[1], &work->square[2], &work->square[3],
-                        (PSXLONG *)&work->flat.x0, (PSXLONG *)&work->flat.x1,
-                        (PSXLONG *)&work->flat.x2, (PSXLONG *)&work->flat.x3,
+                        (long *)&work->flat.x0, (long *)&work->flat.x1,
+                        (long *)&work->flat.x2, (long *)&work->flat.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->flat, func_80058F10(), (u16)depth);
@@ -381,7 +381,7 @@ s32 func_8013B004(u8 *context, s32 command)
                             work->dot.r = work->spheres[i].red;
                             work->dot.g = work->spheres[i].green;
                             work->dot.b = work->spheres[i].blue;
-                            depth = RotTransPers(&work->grid[j][k], (PSXLONG *)&work->dot.x0, &interpolation, &flag);
+                            depth = RotTransPers(&work->grid[j][k], (long *)&work->dot.x0, &interpolation, &flag);
                             work->dot.x1 = work->dot.x0;
                             work->dot.y1 = work->dot.y0;
                             if (flag >= 0) {
@@ -466,8 +466,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         + (work->trail[i + 1].first.vz - work->trail[i + 1].second.vz) / 2
                             * rsin(((i + 1) << 10) / 10) / 4096);
                 depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                    (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1,
-                    (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3,
+                    (long *)&work->strip.x0, (long *)&work->strip.x1,
+                    (long *)&work->strip.x2, (long *)&work->strip.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->strip, func_80058F10(), (u16)depth);

@@ -27,7 +27,7 @@ typedef struct {
  * sprite positions, five rows of 17 curtain colours, the texture word, the
  * completion flag, the curtain depth, the elapsed time and a frame counter. */
 typedef struct {
-    Model159Config *G32 config;
+    Model159Config *config;
     SVECTOR edge[17];
     SVECTOR sprites[8];
     CVECTOR colors[5][17];

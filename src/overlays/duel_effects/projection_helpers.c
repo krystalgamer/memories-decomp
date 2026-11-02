@@ -14,9 +14,9 @@ void DuelEffect_ProjectSubmitFt4(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, 
     s32 depth;
 
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
-                        (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,
-                        (PSXLONG *)&p, (PSXLONG *)&flag);
+                        (long *)&packet->x0, (long *)&packet->x1,
+                        (long *)&packet->x2, (long *)&packet->x3,
+                        (long *)&p, (long *)&flag);
     if (flag >= 0) {
         if (bias == 0) {
             DuelEffect_SubmitOffsetFt4(packet, mode);
@@ -42,9 +42,9 @@ void DuelEffect_ProjectSubmitGt4(POLY_GT4 *packet, SVECTOR *vertices, s16 bias, 
     s32 depth;
 
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
-                        (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,
-                        (PSXLONG *)&p, (PSXLONG *)&flag);
+                        (long *)&packet->x0, (long *)&packet->x1,
+                        (long *)&packet->x2, (long *)&packet->x3,
+                        (long *)&p, (long *)&flag);
     if (flag >= 0) {
         if (bias == 0) {
             DuelEffect_SubmitOffsetGt4(packet, mode);
@@ -65,7 +65,7 @@ void DuelEffect_SetTransformMatrix(MATRIX *world, MATRIX *saved, SVECTOR *positi
     s32 flag;
 
     GsSetLsMatrix(world);
-    RotTrans(position, (VECTOR *)&matrix.t[0], (PSXLONG *)&flag);
+    RotTrans(position, (VECTOR *)&matrix.t[0], (long *)&flag);
     RotMatrix(rotation, &matrix);
     if (mode == 2 || mode == 3) {
         MulMatrix2(world, &matrix);

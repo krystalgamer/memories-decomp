@@ -8,8 +8,8 @@ void func_8013E060(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     FramebufferRings441State *state = (FramebufferRings441State *)context;
     FramebufferRings441 *group = state->groups;
     POLY_GT4 *quad = &state->quad;
@@ -58,8 +58,8 @@ void func_8013E060(u8 *context)
             for (j = 0; j < 16; j++) {
                 RotTransPers4(&group->points[0][j], &group->points[0][j+1],
                               &group->points[2][j], &group->points[2][j+1],
-                              (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                              (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                              (long *)&quad->x0, (long *)&quad->x1,
+                              (long *)&quad->x2, (long *)&quad->x3,
                               &interpolation, &flag);
                 if (quad->x0 < 160) {
                     if (buffer == 0) {
@@ -84,8 +84,8 @@ void func_8013E060(u8 *context)
                 }
                 depth = RotTransPers4(&group->points[0][j], &group->points[0][j+1],
                                      &group->points[1][j], &group->points[1][j+1],
-                                     (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                     (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                     (long *)&quad->x0, (long *)&quad->x1,
+                                     (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 SetSemiTrans(quad, 0);
                 SetShadeTex(quad, 0);

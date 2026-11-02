@@ -23,8 +23,8 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR center;
     SVECTOR inner[16];
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 slot;
     s32 side;
     s32 step;
@@ -216,8 +216,8 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
     otz = RotAverage4(v, &work->flash[1], &work->flash[2], &work->flash[3],
-                      (PSXLONG *)&flash.x0, (PSXLONG *)&flash.x1, (PSXLONG *)&flash.x2,
-                      (PSXLONG *)&flash.x3, &p, &flag);
+                      (long *)&flash.x0, (long *)&flash.x1, (long *)&flash.x2,
+                      (long *)&flash.x3, &p, &flag);
     setUV4(&flash, (s16)(work->timer % 3) * 32, 0, (s16)(work->timer % 3) * 32 + 31, 0,
            (s16)(work->timer % 3) * 32, 31, (s16)(work->timer % 3) * 32 + 31, 31);
     if (otz >= 0) {
@@ -269,12 +269,12 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
         setRGB3(&g4, 0, 0, 0);
         if (i == 15) {
             otz = RotAverage4(&v[15], v, &inner[15], &inner[0],
-                              (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                              (PSXLONG *)&g4.x3, &p, &flag);
+                              (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                              (long *)&g4.x3, &p, &flag);
         } else {
             otz = RotAverage4(&v[i], &v[i + 1], &inner[i], &inner[i + 1],
-                              (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                              (PSXLONG *)&g4.x3, &p, &flag);
+                              (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                              (long *)&g4.x3, &p, &flag);
         }
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)otz, 1);
@@ -285,12 +285,12 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
         setRGB3(&g4, 0, 0, 0);
         if (i == 15) {
             otz = RotAverage4(&v[15], v, &center, &center,
-                              (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                              (PSXLONG *)&g4.x3, &p, &flag);
+                              (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                              (long *)&g4.x3, &p, &flag);
         } else {
             otz = RotAverage4(&v[i], &v[i + 1], &center, &center,
-                              (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                              (PSXLONG *)&g4.x3, &p, &flag);
+                              (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                              (long *)&g4.x3, &p, &flag);
         }
         if (otz >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)otz, 1);
@@ -326,8 +326,8 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rot, &m);
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
-                otz = (RotTransPers(v, (PSXLONG *)&line.x0, &p, &flag) +
-                       RotTransPers(&center, (PSXLONG *)&line.x1, &p, &flag)) / 2;
+                otz = (RotTransPers(v, (long *)&line.x0, &p, &flag) +
+                       RotTransPers(&center, (long *)&line.x1, &p, &flag)) / 2;
                 if (otz >= 0) {
                     GsSortGLine(&line, ot, otz);
                 }
@@ -409,8 +409,8 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
                     ScaleMatrix(&m, &scale);
                     GsSetLsMatrix(&m);
                     otz = RotAverage4(v, &v[1], &v[2], &v[3],
-                                      (PSXLONG *)&spark.x0, (PSXLONG *)&spark.x1, (PSXLONG *)&spark.x2,
-                                      (PSXLONG *)&spark.x3, &p, &flag);
+                                      (long *)&spark.x0, (long *)&spark.x1, (long *)&spark.x2,
+                                      (long *)&spark.x3, &p, &flag);
                     setUV4(&spark, 0, 0x60, 0x3F, 0x60, 0, 0x6F, 0x3F, 0x6F);
                     if (otz >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&spark, ot, (u16)otz, 3);
@@ -451,8 +451,8 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
                 otz = RotAverage4(&work->flash[0], &work->flash[1], &work->flash[2], &work->flash[3],
-                                  (PSXLONG *)&flash.x0, (PSXLONG *)&flash.x1, (PSXLONG *)&flash.x2,
-                                  (PSXLONG *)&flash.x3, &p, &flag);
+                                  (long *)&flash.x0, (long *)&flash.x1, (long *)&flash.x2,
+                                  (long *)&flash.x3, &p, &flag);
                 setRGB0(&flash, 0x80, 0x80, 0x80);
                 setUV4(&flash, (s16)(work->timer % 3) * 32, 0, (s16)(work->timer % 3) * 32 + 31, 0,
                        (s16)(work->timer % 3) * 32, 31, (s16)(work->timer % 3) * 32 + 31, 31);
@@ -461,8 +461,8 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
                 }
                 if (work->frames[i] < 4) {
                     otz = RotAverage4(&work->flash[0], &work->flash[1], &work->flash[2], &work->flash[3],
-                                      (PSXLONG *)&burst.x0, (PSXLONG *)&burst.x1, (PSXLONG *)&burst.x2,
-                                      (PSXLONG *)&burst.x3, &p, &flag);
+                                      (long *)&burst.x0, (long *)&burst.x1, (long *)&burst.x2,
+                                      (long *)&burst.x3, &p, &flag);
                     setRGB0(&burst, 0x80, 0x80, 0x80);
                     setUV4(&burst, work->frames[i] * 64, 0x20, work->frames[i] * 64 + 63, 0x20,
                            work->frames[i] * 64, 0x5F, work->frames[i] * 64 + 63, 0x5F);
@@ -480,8 +480,8 @@ s32 ModelVariant760_HandleRequest(u8 *context, s32 command)
                     ScaleMatrix(&m, &scale);
                     GsSetLsMatrix(&m);
                     otz = RotAverage4(v, &v[1], &v[2], &v[3],
-                                      (PSXLONG *)&spark.x0, (PSXLONG *)&spark.x1, (PSXLONG *)&spark.x2,
-                                      (PSXLONG *)&spark.x3, &p, &flag);
+                                      (long *)&spark.x0, (long *)&spark.x1, (long *)&spark.x2,
+                                      (long *)&spark.x3, &p, &flag);
                     setUV4(&spark, 0, 0x60, 0x3F, 0x60, 0, 0x6F, 0x3F, 0x6F);
                     if (otz >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&spark, ot, (u16)otz, 3);

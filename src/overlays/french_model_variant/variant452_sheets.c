@@ -8,8 +8,8 @@ void func_8013C0E0(u8 *ctx)
     MATRIX matrix;
     MATRIX local;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     Variant452SheetView *work = (Variant452SheetView *)ctx;
     ModelVariantSheet *sheet = work->sheets;
     GsOT *ot;
@@ -47,8 +47,8 @@ void func_8013C0E0(u8 *ctx)
         for (k = 0; k < 4; k++) {
             depth = RotTransPers4(
                 &sheet->v0[k], &sheet->v1[k], &sheet->v2[k], &sheet->v3[k],
-                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3,
+                (long *)&poly->x0, (long *)&poly->x1,
+                (long *)&poly->x2, (long *)&poly->x3,
                 &p, &flag);
             poly->r0 = sheet->inner[0];
             poly->g0 = sheet->inner[1];

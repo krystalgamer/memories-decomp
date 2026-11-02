@@ -54,7 +54,7 @@ typedef struct {
  * the stage, the growth step, the burst count, the ambient level, the
  * textures, the projectile colour and the burst colours. */
 typedef struct {
-    Model822Config *G32 config;
+    Model822Config *config;
     SVECTOR position[5];
     SVECTOR velocity[5];
     SVECTOR centers[32];

@@ -220,12 +220,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->direction.vz = work->target.vz - work->matrix.t[2];
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
-        RotTransPers(&position, (PSXLONG *)&projection.projected,
+        RotTransPers(&position, (long *)&projection.projected,
                      &projection.interpolation, &projection.flag);
         screen_x = projection.projected.vx;
         screen_y = projection.projected.vy;
         setVector(&target, work->target.vx, work->target.vy, work->target.vz);
-        RotTransPers(&target, (PSXLONG *)&projection.target,
+        RotTransPers(&target, (long *)&projection.target,
                      &projection.interpolation, &projection.flag);
         dx = projection.target.vx - screen_x;
         dy = projection.target.vy - screen_y;

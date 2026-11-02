@@ -39,7 +39,7 @@ typedef struct {
  * texture words, the elapsed time, the number of points started and the tint
  * flag. */
 typedef struct {
-    Model129Config *G32 config;
+    Model129Config *config;
     SVECTOR positions[16];
     SVECTOR dots[64];
     s32 scales[64];

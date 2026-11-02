@@ -19,7 +19,7 @@ typedef struct {
     u8 unknown_210C[0x1C];
     s32 time;
     u8 unknown_212C[0xC];
-    Ribbon441Timing *G32 timing;
+    Ribbon441Timing *timing;
     u8 unknown_213C[0x10];
     s32 index;
     u8 unknown_2150[0x18];

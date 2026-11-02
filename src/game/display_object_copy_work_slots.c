@@ -4,7 +4,7 @@
 void DisplayObject_CopyWorkSlots(s32 *destination)
 {
     s32 i;
-    DisplayObject *G32 *source;
+    DisplayObject **source;
 
     i = 0;
     source = gDisplayObject_apWorkSlots;

@@ -41,7 +41,7 @@ typedef struct {
  * nine-point beam ring, two four-vertex squares, the 13x13 wave grid and its
  * colours, the per-sprite timers, five texture words and the elapsed time. */
 typedef struct {
-    Model109Config *G32 config;
+    Model109Config *config;
     SVECTOR directions[8];
     SVECTOR ring[9];
     SVECTOR squares[8];

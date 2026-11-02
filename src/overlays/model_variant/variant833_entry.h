@@ -73,7 +73,7 @@ typedef struct {
  * the ambient level, the shared texture page, the textures and the
  * per-bolt bolt, glow and flare colours. */
 typedef struct {
-    Model833Config *G32 config;
+    Model833Config *config;
     SVECTOR pos[4];
     SVECTOR step[4];
     SVECTOR angle[4];

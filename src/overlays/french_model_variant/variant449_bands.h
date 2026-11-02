@@ -8,9 +8,9 @@ typedef struct {
     SVECTOR a[3];
     SVECTOR b[3];
     SVECTOR c[3];
-    PSXLONG sa[3];
-    PSXLONG sb[3];
-    PSXLONG sc[3];
+    long sa[3];
+    long sb[3];
+    long sc[3];
     s32 drift[3];
     u8 ca[3][4];
     u8 cb[3][4];

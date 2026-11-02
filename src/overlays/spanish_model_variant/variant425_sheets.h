@@ -28,7 +28,7 @@ typedef struct {
     u8 unknown_1790[4];
     s32 step;
     u8 unknown_1798[4];
-    Sheet425Descriptor *G32 descriptor;
+    Sheet425Descriptor *descriptor;
     u8 unknown_17A0[0x30];
     s32 progress;
     u8 unknown_17D4[0x38];

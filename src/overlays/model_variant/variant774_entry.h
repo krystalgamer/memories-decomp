@@ -57,7 +57,7 @@ typedef struct {
  * the ambient level, the impact scales, the halo level and the per-blade
  * trail and impact levels. */
 typedef struct {
-    Model774Config *G32 config;
+    Model774Config *config;
     SVECTOR blade[4];
     SVECTOR pos[8];
     SVECTOR target[8];

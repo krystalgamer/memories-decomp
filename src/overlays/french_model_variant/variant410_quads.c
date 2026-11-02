@@ -13,8 +13,8 @@ void FrenchModelVariant410_DrawQuads(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Family410QuadRecord *record = &work->record;
     GsOT *ot;
     POLY_FT4 *quad;
@@ -62,8 +62,8 @@ void FrenchModelVariant410_DrawQuads(u8 *context)
                 SetRotMatrix(&light);
                 depth = RotTransPers4(&record->points[0][j], &record->points[1][j],
                                      &record->points[2][j], &record->points[3][j],
-                                     (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                     (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                     (long *)&quad->x0, (long *)&quad->x1,
+                                     (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 setRGB0(quad, r, g, b);
                 if (depth >= 0 && flag >= 0 && record->scale[j] < 4096) {

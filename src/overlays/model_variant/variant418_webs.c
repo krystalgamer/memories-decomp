@@ -12,8 +12,8 @@ void func_8013CE50(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     GsGLINE *line;
@@ -78,8 +78,8 @@ void func_8013CE50(u8 *ctx)
             for (k = 0; k < 6; k++) {
                 line->attribute = 0x50000000;
                 otz = RotTransPers4(&web->near[j][k], &web->far[j][k], &web->near[j][k], &web->far[j][k],
-                                    (PSXLONG *)&line->x0, (PSXLONG *)&line->x1, (PSXLONG *)&line->x0,
-                                    (PSXLONG *)&line->x1, &p, &flag);
+                                    (long *)&line->x0, (long *)&line->x1, (long *)&line->x0,
+                                    (long *)&line->x1, &p, &flag);
                 line->r0 = r;
                 line->g0 = g;
                 line->b0 = b;

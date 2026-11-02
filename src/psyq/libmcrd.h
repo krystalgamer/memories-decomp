@@ -16,7 +16,7 @@
 #endif
 #include "kernel.h"
 
-typedef void (*MemCB)( PSXLONG cmds, PSXLONG rslt );
+typedef void (*MemCB)( long cmds, long rslt );
 
 #define McFuncExist		(1)
 #define McFuncAccept		(2)
@@ -39,25 +39,25 @@ typedef void (*MemCB)( PSXLONG cmds, PSXLONG rslt );
 extern "C" {
 #endif
 
-void MemCardInit( PSXLONG val );
+void MemCardInit( long val );
 void MemCardEnd( void );
 void MemCardStart(void);
 void MemCardStop(void);
-PSXLONG MemCardExist( PSXLONG chan );
-PSXLONG MemCardAccept( PSXLONG chan );
-PSXLONG MemCardOpen( PSXLONG chan, char* file, PSXLONG flag );
+long MemCardExist( long chan );
+long MemCardAccept( long chan );
+long MemCardOpen( long chan, char* file, long flag );
 void MemCardClose(void);
-PSXLONG MemCardReadData( unsigned PSXLONG* adrs, PSXLONG ofs, PSXLONG bytes );
-PSXLONG MemCardReadFile( PSXLONG chan, char* file, unsigned PSXLONG* adrs, PSXLONG ofs, PSXLONG bytes );
-PSXLONG MemCardWriteData( unsigned PSXLONG* adrs, PSXLONG ofs, PSXLONG bytes );
-PSXLONG MemCardWriteFile( PSXLONG chan, char* file, unsigned PSXLONG* adrs, PSXLONG ofs ,PSXLONG bytes );
-PSXLONG MemCardCreateFile( PSXLONG chan, char* file, PSXLONG blocks );
-PSXLONG MemCardDeleteFile( PSXLONG chan, char* file );
-PSXLONG MemCardFormat( PSXLONG chan );
-PSXLONG MemCardUnformat(PSXLONG chan);
-PSXLONG MemCardSync( PSXLONG mode, PSXLONG* cmds, PSXLONG* rslt );
+long MemCardReadData( unsigned long* adrs, long ofs, long bytes );
+long MemCardReadFile( long chan, char* file, unsigned long* adrs, long ofs, long bytes );
+long MemCardWriteData( unsigned long* adrs, long ofs, long bytes );
+long MemCardWriteFile( long chan, char* file, unsigned long* adrs, long ofs ,long bytes );
+long MemCardCreateFile( long chan, char* file, long blocks );
+long MemCardDeleteFile( long chan, char* file );
+long MemCardFormat( long chan );
+long MemCardUnformat(long chan);
+long MemCardSync( long mode, long* cmds, long* rslt );
 MemCB MemCardCallback( MemCB func );
-PSXLONG MemCardGetDirentry( PSXLONG chan, char* name, struct DIRENTRY* dir, PSXLONG* files, PSXLONG ofs, PSXLONG max );
+long MemCardGetDirentry( long chan, char* name, struct DIRENTRY* dir, long* files, long ofs, long max );
 
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 }

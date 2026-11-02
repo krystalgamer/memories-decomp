@@ -13,8 +13,8 @@ void func_8013C054(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flag[2][2];
-    PSXLONG p;
+    long flag[2][2];
+    long p;
     u8 *work;
     GsOT *ot;
     POLY_GT4 *poly;
@@ -81,7 +81,7 @@ void func_8013C054(u8 *ctx)
                             MODEL_VARIANT_WORD(work, 0x1A84) = 2;
                         }
                         if (band->level[1] >= 0x400) {
-                            if ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x1A60), 0x28) <=
+                            if ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x1A60), 0x28) <=
                                 (u32)MODEL_VARIANT_WORD(work, 0x1A50)) {
                                 band->level[j] = 0x400;
                                 band->done[j] = 1;

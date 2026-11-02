@@ -20,7 +20,7 @@ typedef struct {
 } Model97Config;
 
 typedef struct {
-    Model97Config *G32 config;
+    Model97Config *config;
     SVECTOR path[32];
     u8 unknown_104[0x100];
     SVECTOR ring[16];

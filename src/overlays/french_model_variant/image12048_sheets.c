@@ -8,8 +8,8 @@ void FrenchModelVariant403_DrawSheets(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Sheets12048State *state = (Sheets12048State *)context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *quad = state->quads;
@@ -84,8 +84,8 @@ void FrenchModelVariant403_DrawSheets(u8 *context)
         quad->b3 = sheet->outer[2];
         for (j = 0; j < 4; j++) {
             depth = RotTransPers4(&sheet->v0[j], &sheet->v1[j], &sheet->v2[j], &sheet->v3[j],
-                                 (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                 (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                 (long *)&quad->x0, (long *)&quad->x1,
+                                 (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag) * 8 / 10;
             if (depth >= 0 && flag >= 0 && sheet->size > 0) {
                 GsSortPoly(quad, ot, (u16)depth);

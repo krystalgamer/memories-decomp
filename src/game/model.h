@@ -57,7 +57,7 @@
 /* GsUNIT view retaining the original integer coordinate-address storage. */
 typedef struct {
     u32 coordinate_address;
-    void *G32 primitive_data;
+    void *primitive_data;
 } ModelSlotHeadEntry;
 
 /* One of the MODEL_SLOT_ROW_COUNT accumulator rows at slot offset 0x750.
@@ -231,7 +231,7 @@ typedef struct {
 
 typedef struct {
     ModelSlotHeadEntry hmd_units[MODEL_SLOT_UNIT_COUNT];
-    ModelSlotPart *G32 animation_sequences[MODEL_SLOT_PART_COUNT];
+    ModelSlotPart *animation_sequences[MODEL_SLOT_PART_COUNT];
     /* Model_ResetSlotAnimationTables fills the keys with 0xFFFF at a 0x74
      * stride over MODEL_SLOT_ROW_COUNT rows. Model_BuildSlotAnimationTables
      * indexes them [row][part]; Model_ControlSlotAnimation reads the same
@@ -250,15 +250,15 @@ typedef struct {
     u8 field_BF7;
     ModelSlotSoundEntry sound_entries[MODEL_SLOT_SOUND_ENTRY_COUNT];
     ModelSlotMetadataBlock metadata;
-    u8 *G32 entries;
+    u8 *entries;
     /* The slot's own placement unit: one 0x50-byte GsCOORDUNIT out of the
      * MODEL_SLOT_DATA_ENTRY_SIZE-stride run at `entries`. Left incomplete
      * here so this header stays free of the libgte/libgpu/libgs/libhmd
      * chain; sources that reach through it include "../psyq/libhmd.h". */
-    struct _GsCOORDUNIT *G32 root_coordinate;
+    struct _GsCOORDUNIT *root_coordinate;
     /* The coordinate Model_InitSlot selects once the units are linked; see
      * that function's header comment. */
-    struct _GsCOORDUNIT *G32 render_parent_coordinate;
+    struct _GsCOORDUNIT *render_parent_coordinate;
     u8 pad_D20[0x50];
     ModelSlotLightEntry flat_lights[3];
     /* Signed ambient channels; retain the slot-2 negative-one sentinel. */
@@ -281,10 +281,10 @@ typedef struct {
      * chain. Model_ControlSlotAnimation reads animation_commands as the base of
      * 4-byte command records and animation_parameter_base / animation_snapshot_buffer as its live-parameter base
      * and saved-word buffer. */
-    s32 *G32 animation_commands;
-    u8 *G32 animation_parameter_base;
-    u8 *G32 animation_snapshot_buffer;
-    u8 *G32 field_DE4;
+    s32 *animation_commands;
+    u8 *animation_parameter_base;
+    u8 *animation_snapshot_buffer;
+    u8 *field_DE4;
     /* The module data words gModel_Slot0PrimaryDataAddress..gModel_Slot1VariantDataAddress Model_InitSlot copies in
      * for slots 0 and 1 (see high_memory_addresses.h). */
     s32 primary_module_data_address;

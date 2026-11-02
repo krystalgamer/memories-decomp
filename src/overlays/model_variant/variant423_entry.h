@@ -46,9 +46,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant423EntryConfig *G32 config;
+    Variant423EntryConfig *config;
     u32 field_F04;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s16 field_F14, field_F16, field_F18, field_F1A, field_F1C, field_F1E;
     s32 field_F20;
     s32 phase;

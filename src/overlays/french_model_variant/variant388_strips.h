@@ -11,12 +11,12 @@ typedef struct {
     SVECTOR a[5];
     SVECTOR b[5];
     SVECTOR c[5];
-    PSXLONG sa[5];
-    PSXLONG sb[5];
-    PSXLONG sc[5];
+    long sa[5];
+    long sb[5];
+    long sc[5];
     u8 unknown_B4[0x1C];
-    PSXLONG flag[5];
-    PSXLONG otz[5];
+    long flag[5];
+    long otz[5];
 } Strip388Unit;
 
 /* The timing record addressed by the word at +0x186C. */

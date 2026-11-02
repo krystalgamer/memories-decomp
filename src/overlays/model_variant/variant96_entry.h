@@ -35,7 +35,7 @@ typedef struct {
  * which the setup fills in a single walk), the trail head, two textures and
  * the elapsed time. */
 typedef struct {
-    Model96Config *G32 config;
+    Model96Config *config;
     SVECTOR trail[6];
     union {
         struct {

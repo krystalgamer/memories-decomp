@@ -27,10 +27,10 @@ typedef struct {
  * depth and the width's screen offset. */
 typedef struct {
     SVECTOR a[13];
-    PSXLONG sa[13];
+    long sa[13];
     s32 angle[13];
     SVECTOR b[13];
-    PSXLONG sb[13];
+    long sb[13];
     s32 width[13];
     CVECTOR inner, outer;
     VECTOR scale;
@@ -97,7 +97,7 @@ typedef struct {
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     DVECTOR target;
 } EntryProjection445Us;
 
@@ -126,9 +126,9 @@ typedef struct {
     s32 frame_count;
     u32 elapsed, animation;
     s32 step, fade;
-    EntryConfig445Us *G32 config;
+    EntryConfig445Us *config;
     u32 field_3550;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s32 angle, scale, wave, intensity, ribbon_wave, ribbon_phase;
     s16 field_3578, field_357A;
     s32 field_357C;

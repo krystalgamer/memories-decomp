@@ -10,13 +10,13 @@ typedef struct {
     union {
         struct {
             SVECTOR pos[9];
-            PSXLONG sxy[9];
+            long sxy[9];
             s32 angle[9];
             SVECTOR edge[9];
         } f;
         SVECTOR span[27];
     } u;
-    PSXLONG edge_sxy[9];
+    long edge_sxy[9];
     s32 width[9];
     u8 unknown_120[0x24];
     CVECTOR color[9];

@@ -24,7 +24,7 @@ s32 func_8013B004(u8 *context, s32 command)
     DVECTOR screen[64];
     u16 depths[64], projection[64], flags[64];
     ModelTintColor tint_start, tint_end;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 step;
     GsOT *ot;
     Model128Config *config;
@@ -32,7 +32,7 @@ s32 func_8013B004(u8 *context, s32 command)
     s32 side;
     SVECTOR *dot;
     DVECTOR *projected;
-    PSXLONG depth;
+    long depth;
     u16 red, green, blue;
     s16 left_x, left_y, right_x, right_y;
 
@@ -108,7 +108,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setRGB2(&flash, red * 2 / 3, green * 2 / 3, blue * 2 / 3);
         setRGB3(&flash, red, green, blue);
         GsSetLsMatrix(&base);
-        RotTransPers(&vertices[0], (PSXLONG *)&flash.x3, &interpolation, &flag);
+        RotTransPers(&vertices[0], (long *)&flash.x3, &interpolation, &flag);
         flash.x0 = 0;
         flash.y0 = 0;
         flash.x1 = flash.x3 - 1;
@@ -198,8 +198,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->latch[i]++;
             } else {
                 GsSetLsMatrix(&base);
-                depth = RotTransPers(dot, (PSXLONG *)&flash.x0, &interpolation, &flag);
-                RotTransPers(dot + 1, (PSXLONG *)&flash.x1, &interpolation, &flag);
+                depth = RotTransPers(dot, (long *)&flash.x0, &interpolation, &flag);
+                RotTransPers(dot + 1, (long *)&flash.x1, &interpolation, &flag);
                 if (flash.x0 < flash.x1) {
                     left_x = flash.x0;
                     left_y = flash.y0;
@@ -266,8 +266,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                RotTransPers3(&vertices[0], &vertices[1], &vertices[2], (PSXLONG *)&flash.x1,
-                    (PSXLONG *)&flash.x2, (PSXLONG *)&trail.x2, &interpolation, &flag);
+                RotTransPers3(&vertices[0], &vertices[1], &vertices[2], (long *)&flash.x1,
+                    (long *)&flash.x2, (long *)&trail.x2, &interpolation, &flag);
                 trail.x0 = flash.x0;
                 trail.y0 = flash.y0;
                 trail.x1 = flash.x1;

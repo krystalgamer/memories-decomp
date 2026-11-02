@@ -20,14 +20,14 @@ s32 ModelVariant142_HandleRequest(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     GsOT *ot;
     s32 step;
     s32 side;
     Model142Config *config;
     SVECTOR *point, *target;
     s32 i, j, time, value;
-    PSXLONG depth;
+    long depth;
     u8 red, green, blue;
 
     memset(&rotation, 0, 8);
@@ -142,8 +142,8 @@ s32 ModelVariant142_HandleRequest(u8 *context, s32 command)
             setUV4(&quad, value % 4 * 64, value / 4 * 87, value % 4 * 64 + 63, value / 4 * 87,
                    value % 4 * 64, value / 4 * 87 + 86, value % 4 * 64 + 63, value / 4 * 87 + 86);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }
@@ -190,8 +190,8 @@ s32 ModelVariant142_HandleRequest(u8 *context, s32 command)
                 value = time * 8 / config->burst_duration;
                 setUV4(&quad, value * 64, 174, value * 64 + 31, 174, value * 64, 205, value * 64 + 31, 205);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                    (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                    (long *)&quad.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }
@@ -224,12 +224,12 @@ s32 ModelVariant142_HandleRequest(u8 *context, s32 command)
             point = work->inner;
             for (j = 0; j < 4; j++) {
                 depth = RotAverage3(target, point, point + 4,
-                    (PSXLONG *)&fan.x0, (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, &interpolation, &flag);
+                    (long *)&fan.x0, (long *)&fan.x1, (long *)&fan.x2, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 1);
                 }
                 depth = RotAverage3(target, point, point + 6,
-                    (PSXLONG *)&fan.x0, (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, &interpolation, &flag);
+                    (long *)&fan.x0, (long *)&fan.x1, (long *)&fan.x2, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 1);
                 }

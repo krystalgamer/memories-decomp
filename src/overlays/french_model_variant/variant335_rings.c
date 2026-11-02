@@ -8,8 +8,8 @@ void FrenchModelVariant335_DrawRings(u8 *work)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Variant335Ring *ring = (Variant335Ring *)(work + 0xD1C);
     POLY_GT4 *quad = (POLY_GT4 *)(work + 0x2CE4);
     GsOT *ot;
@@ -52,8 +52,8 @@ void FrenchModelVariant335_DrawRings(u8 *work)
             for (i = 0; i < 16; i++) {
                 RotTransPers4(&ring->a[i], &ring->a[i + 1],
                               &ring->c[i], &ring->c[i + 1],
-                              (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                              (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                              (long *)&quad->x0, (long *)&quad->x1,
+                              (long *)&quad->x2, (long *)&quad->x3,
                               &interpolation, &flag);
                 if (quad->x0 < 160) {
                     if (active == 0) {
@@ -80,8 +80,8 @@ void FrenchModelVariant335_DrawRings(u8 *work)
                 }
                 depth = RotTransPers4(&ring->a[i], &ring->a[i + 1],
                                      &ring->b[i], &ring->b[i + 1],
-                                     (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                     (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                     (long *)&quad->x0, (long *)&quad->x1,
+                                     (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 setRGB0(quad, ring->inner[0], ring->inner[1], ring->inner[2]);
                 setRGB1(quad, ring->inner[0], ring->inner[1], ring->inner[2]);

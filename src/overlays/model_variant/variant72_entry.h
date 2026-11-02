@@ -48,7 +48,7 @@ typedef struct {
     s16 row, unknown_8F6;
     u32 texture[1];
     u8 completed, sparks_on, unknown_8FE[2];
-    Model72Config *G32 config;
+    Model72Config *config;
 } Model72State;
 
 extern GsIMAGE D_8013CD78[];

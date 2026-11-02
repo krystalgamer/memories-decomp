@@ -8,8 +8,8 @@ void FrenchModelVariant383_DrawStrip(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Family383StripView *work;
     Family383Strip *strip;
     POLY_GT4 *quad;

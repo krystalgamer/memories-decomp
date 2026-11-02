@@ -52,9 +52,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant402EntryConfig *G32 config;
+    Variant402EntryConfig *config;
     u32 field_880;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s32 part_index;
     CVECTOR inner, outer;
     s16 field_89C, field_89E, field_8A0, field_8A2;
@@ -65,7 +65,7 @@ typedef struct {
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     DVECTOR target;
 } Variant402EntryProjection;
 

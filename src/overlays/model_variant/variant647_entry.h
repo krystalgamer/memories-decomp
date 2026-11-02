@@ -28,7 +28,7 @@ typedef struct {
     u8 u, v, unknown_4A[2];
     s32 unknown_4C;
     u16 elapsed, duration;
-    GsCOORDUNIT *G32 coord;
+    GsCOORDUNIT *coord;
     SVECTOR rotation;
     VECTOR scale;
     VECTOR position;

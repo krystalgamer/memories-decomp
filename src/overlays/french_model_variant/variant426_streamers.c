@@ -16,9 +16,9 @@ void func_8013DBC0(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG depth[4][17];
-    PSXLONG flag;
+    long p;
+    long depth[4][17];
+    long flag;
     u8 *work;
     POLY_G4 *poly;
     GsOT *ot;

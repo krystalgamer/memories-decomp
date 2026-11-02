@@ -9,8 +9,8 @@ void func_8013D638(u8 *ctx)
     u8 *work;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *object;
     GsOT *ot;
     POLY_GT4 *poly;
@@ -58,7 +58,7 @@ void func_8013D638(u8 *ctx)
                     SetRotMatrix(&ls);
                     for (n = 0; n < 4; n++) {
                         otz = RotTransPers4(&sheet->points[0][n], &sheet->points[1][n], &sheet->points[2][n], &sheet->points[3][n],
-                            (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                            (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
                         poly->r0 = sheet->inner.r;
                         poly->g0 = sheet->inner.g;
                         poly->b0 = sheet->inner.b;

@@ -35,7 +35,7 @@ typedef struct {
     u16 echo, released;
     /* Streaks only. */
     u8 done, count, unknown_16[2];
-    GsCOORDUNIT *G32 coord;
+    GsCOORDUNIT *coord;
     SVECTOR rotation;
     VECTOR scale;
     VECTOR position;

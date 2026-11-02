@@ -25,7 +25,7 @@ typedef struct {
 } Image26952Config;
 
 typedef struct {
-    Image26952Config *G32 config;
+    Image26952Config *config;
     SVECTOR positions[8];
     SVECTOR velocities[8];
     SVECTOR rotations[8];

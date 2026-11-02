@@ -44,7 +44,7 @@ typedef struct {
     u8 unknown_2120[4];
     s32 step;
     u8 unknown_2128[4];
-    Swarm134622Timing *G32 timing;
+    Swarm134622Timing *timing;
     u8 unknown_2130[0x18];
     s32 spin;
     s32 drift_scale;

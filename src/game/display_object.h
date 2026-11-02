@@ -103,7 +103,7 @@ typedef struct DisplayObject {
             u8 field_23;
         } b;
     } field_20;                    /* 0x20 */
-    DisplayObjectCallback G32 update;  /* 0x24 */
+    DisplayObjectCallback update;  /* 0x24 */
     /* 0x28 and 0x30 are each read both ways: display_projection.c and the two
        sprite emitters take whole words, while display_parent_links.c derives a
        parent-relative offset from the halves. A union records both without
@@ -323,7 +323,7 @@ typedef struct DisplayObject {
             s16 field_52;
         } h;
     } field_50;                    /* 0x50 */
-    void *G32 field_54;                /* 0x54 */
+    void *field_54;                /* 0x54 */
     /* DisplayObjectStreamState names this pair command_offset/frame_delay.
        ReadNextCommand fetches current + (u16)command_offset and advances by
        three; resets and jumps clear the offset. UpdateCommandStream opens

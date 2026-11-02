@@ -13,8 +13,8 @@ void func_8013D888(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     s32 i;
@@ -95,8 +95,8 @@ void func_8013D888(u8 *ctx)
             poly->b3 = b1;
             for (j = 0; j < 16; j++) {
                 otz = RotTransPers4(&curtain->a[j], &curtain->a[j + 1], &curtain->b[j], &curtain->b[j + 1],
-                                    (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1, (PSXLONG *)&poly->x2,
-                                    (PSXLONG *)&poly->x3, &p, &flag);
+                                    (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
+                                    (long *)&poly->x3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
                     GsSortPoly(poly, ot, otz);
                 }

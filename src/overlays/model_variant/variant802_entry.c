@@ -30,8 +30,8 @@ static const VECTOR gModelVariant802_D12CC = {4096, 4096, 4096, 0};
             ScaleMatrix(&matrix, &scale);                                                         \
             GsSetLsMatrix(&matrix);                                                               \
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],           \
-                (PSXLONG *)&packet.x0, (PSXLONG *)&packet.x1, (PSXLONG *)&packet.x2,              \
-                (PSXLONG *)&packet.x3, &interpolation, &flag);                                    \
+                (long *)&packet.x0, (long *)&packet.x1, (long *)&packet.x2,              \
+                (long *)&packet.x3, &interpolation, &flag);                                    \
             setUV4(&packet, work->ages[i] / 3 * 32, 0, work->ages[i] / 3 * 32 + 31, 0,            \
                 work->ages[i] / 3 * 32, 31, work->ages[i] / 3 * 32 + 31, 31);                     \
             if (depth >= 0) {                                                                     \
@@ -50,12 +50,12 @@ s32 ModelVariant802_HandleRequest(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     GsOT *ot;
     s32 step;
     s32 slot, side;
     s32 i;
-    PSXLONG depth;
+    long depth;
     GsCOORDUNIT *unit;
 
     memset(&rotation, 0, 8);

@@ -36,7 +36,7 @@ typedef struct {
     u8 unknown_3744[4];
     s32 step;
     u8 unknown_374C[4];
-    Panel427Descriptor *G32 descriptor;
+    Panel427Descriptor *descriptor;
     u8 unknown_3754[0x70];
     s32 phase;
 } Panel427State;

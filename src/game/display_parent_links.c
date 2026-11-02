@@ -48,7 +48,7 @@ void DuelSelection_LinkDisplayObject(
 void DuelSelection_LinkDisplayObjects(DuelSelectionRecord *parent, s32 clear)
 {
     DuelHandSlot *entry;
-    DisplayObject *G32 *child;
+    DisplayObject **child;
     s32 slot;
 
     entry = parent->hand;

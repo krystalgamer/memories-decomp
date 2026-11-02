@@ -9,10 +9,10 @@
 
 typedef struct {
     SVECTOR a[13];
-    PSXLONG sa[13];
+    long sa[13];
     s32 angle[13];
     SVECTOR b[13];
-    PSXLONG sb[13];
+    long sb[13];
     s32 width[13];
     u8 unknown_01A0[0x34];
     CVECTOR color[13];

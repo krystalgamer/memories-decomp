@@ -35,7 +35,7 @@ typedef struct {
 } Image104528Config;
 
 typedef struct {
-    Image104528Config *G32 config;
+    Image104528Config *config;
     SVECTOR flashes[64];
     SVECTOR bursts[64];
     SVECTOR offsets[64][16];

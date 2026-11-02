@@ -38,7 +38,7 @@ typedef struct {
     u8 unknown_23EC[4];
     s32 step;
     u8 unknown_23F4[4];
-    Quads471Timing *G32 timing;
+    Quads471Timing *timing;
     u8 unknown_23FC[0x30];
     s32 phase;
 } Quads471State;

@@ -27,7 +27,7 @@ typedef struct {
     u8 unknown335C[4];
     s32 step;
     u8 unknown3364[0x10];
-    Variant452SheetTiming *G32 timing;
+    Variant452SheetTiming *timing;
     u8 unknown3378[0x1C];
     s32 field3394;
     u8 unknown3398[0x10];

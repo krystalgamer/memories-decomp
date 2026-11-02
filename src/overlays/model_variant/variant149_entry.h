@@ -31,7 +31,7 @@ typedef struct {
  * 51-point ring mesh, the orb animation frames, the texture words, the
  * completion counter and the elapsed time. */
 typedef struct {
-    Model149Config *G32 config;
+    Model149Config *config;
     SVECTOR orbs[5];
     SVECTOR targets[5];
     SVECTOR rotations[5];

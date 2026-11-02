@@ -13,8 +13,8 @@ void func_8013DBF0(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     GsOT *ot;
     s16 i;
@@ -30,7 +30,7 @@ void func_8013DBF0(u8 *ctx)
     s32 theta;
     s16 length;
     s16 size;
-    PSXLONG flags[12][2];
+    long flags[12][2];
     s32 dx;
     s32 dy;
 

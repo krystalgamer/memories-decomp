@@ -19,7 +19,7 @@ s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     SVECTOR offset, origin;
     SVECTOR next[8];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model105State *work;
     s32 side;
     GsOT *ot;
@@ -136,7 +136,7 @@ s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(vertex, &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
@@ -166,7 +166,7 @@ s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             setUV4(&quad, (t / 2 + i) % 3 * 32, 0, (t / 2 + i) % 3 * 32 + 31, 0, (t / 2 + i) % 3 * 32, 31, (t / 2 + i) % 3 * 32 + 31, 31);
             if (depth >= 0 && flag >= 0) {
@@ -212,7 +212,7 @@ s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 setUV4(&quad, (t / 2 + i) % 3 * 32, 0, (t / 2 + i) % 3 * 32 + 31, 0, (t / 2 + i) % 3 * 32, 31, (t / 2 + i) % 3 * 32 + 31, 31);
                 if (depth >= 0 && flag >= 0) {
@@ -254,7 +254,7 @@ s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             setUV4(&quad, (t / 2 + i) % 3 * 32, 0, (t / 2 + i) % 3 * 32 + 31, 0, (t / 2 + i) % 3 * 32, 31, (t / 2 + i) % 3 * 32 + 31, 31);
             red = config->red * (config->burst - t) / config->burst;

@@ -28,7 +28,7 @@ typedef struct {
     u8 unknown_1640[4];
     u32 step;
     u8 unknown_1648[4];
-    Timing444 *G32 timing;
+    Timing444 *timing;
     u8 unknown_1650[0xC];
     s32 progress;
     u8 unknown_1660[0xC];

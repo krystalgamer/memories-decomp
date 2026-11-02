@@ -13,8 +13,8 @@ void func_8013BD00(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Pulse405State *state = (Pulse405State *)context;
     ModelVariantSheetSet *group = state->groups;
     Pulse405Primary *primary = state->primary;
@@ -96,8 +96,8 @@ void func_8013BD00(u8 *context)
             setRGB3(quad, outer_r, outer_g, outer_b);
             for (j = 0; j < 4; j++) {
                 depth = RotTransPers4(&group->v0[j], &group->v1[j], &group->v2[j], &group->v3[j],
-                                     (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                     (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                     (long *)&quad->x0, (long *)&quad->x1,
+                                     (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag) * 8 / 10;
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(quad, ot, (u16)depth);

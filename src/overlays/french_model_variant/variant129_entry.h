@@ -19,7 +19,7 @@ typedef struct {
 } Model129Config;
 
 typedef struct {
-    Model129Config *G32 config;
+    Model129Config *config;
     SVECTOR positions[64];
     SVECTOR velocities[64];
     s32 texture[2];

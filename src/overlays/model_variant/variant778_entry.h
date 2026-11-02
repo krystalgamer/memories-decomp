@@ -44,7 +44,7 @@ typedef struct {
  * the glow and ring counts, the ambient level, the phase, the textures and
  * the ring brightness. */
 typedef struct {
-    Model778Config *G32 config;
+    Model778Config *config;
     SVECTOR smoke[25];
     SVECTOR glows[128];
     SVECTOR rings[32];

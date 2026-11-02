@@ -21,7 +21,7 @@ typedef struct {
 } Model153Config;
 
 typedef struct {
-    Model153Config *G32 config;
+    Model153Config *config;
     SVECTOR positions[64];
     SVECTOR targets[64];
     SVECTOR burst_offsets[4];

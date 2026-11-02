@@ -14,8 +14,8 @@ void func_8013E224(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag[6][9];
+    long p;
+    long flag[6][9];
     u8 *work;
     GsOT *ot;
     POLY_GT4 *poly;

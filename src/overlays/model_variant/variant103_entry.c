@@ -21,13 +21,13 @@ s32 ModelVariant103_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR screen[18];
     u16 depths[18], projection[18], flags[18];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model103Config *config;
     GsOT *ot;
     SVECTOR *point;
     s32 i, j, k, time, value, angle, size;
     u8 red, green, blue, shade;
-    PSXLONG depth;
+    long depth;
     s32 stretch, next;
 
     memset(&rotation, 0, 8);
@@ -169,7 +169,7 @@ s32 ModelVariant103_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotTransPers3(&vertices[0], &vertices[1], &vertices[2],
-                (PSXLONG *)&fan.x0, (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, &interpolation, &flag);
+                (long *)&fan.x0, (long *)&fan.x1, (long *)&fan.x2, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 2);
             }
@@ -180,7 +180,7 @@ s32 ModelVariant103_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotTransPers3(&vertices[0], &vertices[1], &vertices[2],
-                (PSXLONG *)&fan.x0, (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, &interpolation, &flag);
+                (long *)&fan.x0, (long *)&fan.x1, (long *)&fan.x2, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 2);
             }
@@ -235,8 +235,8 @@ s32 ModelVariant103_HandleRequest(u8 *context, s32 command)
                 setVector(&vertices[3], vertices[2].vx, vertices[2].vy, vertices[2].vz);
                 vertices[3].vx += (s16)(config->radius / 7) * 2;
                 depth = RotTransPers4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                    (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                    (long *)&quad.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }

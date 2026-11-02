@@ -58,7 +58,7 @@ typedef union {
  * count, the elapsed time, the ring scale, the trail head, the frame count
  * and the colours. */
 typedef struct {
-    Model771Config *G32 config;
+    Model771Config *config;
     SVECTOR trail0[64];
     SVECTOR trail1[64];
     SVECTOR trail2[64];

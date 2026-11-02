@@ -73,8 +73,8 @@ void DuelScene_UpdateCardPlacement(void)
     s32 x;
 
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
-        DisplayObject *G32 *slots;
-        DisplayObject *G32 *cursor;
+        DisplayObject **slots;
+        DisplayObject **cursor;
         DuelHandSlot *hand;
         s16 y;
         x = 260;
@@ -138,9 +138,9 @@ void DuelScene_UpdateCardPlacement(void)
     switch (gDuel_bSceneSubStep & 15) {
     case 1:
         {
-            DisplayObject *G32 *slots;
+            DisplayObject **slots;
             {
-                DisplayObject *G32 *cursor;
+                DisplayObject **cursor;
                 DuelCardRecord *cards;
                 DisplayObjectCallback callback;
                 s32 active;
@@ -172,11 +172,11 @@ void DuelScene_UpdateCardPlacement(void)
         }
     case 2:
         {
-            DisplayObject *G32 *slots;
+            DisplayObject **slots;
             {
-                DisplayObject *G32 *cursor;
+                DisplayObject **cursor;
                 if (!(gDuel_bSceneSubStep & 0x80)) {
-                    DisplayObject *G32 *cursor;
+                    DisplayObject **cursor;
                     s32 active;
                     gDuel_bSceneSubStep |= 0x80;
                     n = 5;
@@ -233,7 +233,7 @@ void DuelScene_UpdateCardPlacement(void)
         }
     case 3:
         {
-            DisplayObject *G32 *slots;
+            DisplayObject **slots;
             if (!(gDuel_bSceneSubStep & 0x80)) {
                 gDuel_bSceneSubStep |= 0x80;
                 gDuel_bPresentationCursor++;
@@ -322,7 +322,7 @@ request_combination:
             switch (gDuel_wTrapPresentationMode & 15) {
             case 0:
                 {
-                    DisplayObject *G32 *slots;
+                    DisplayObject **slots;
                     {
                         s32 card_index = gDisplayObject_apWorkSlots[0]->field_6A;
                         DuelEffectResourceRecord *resource = gCardPreview_Resources;
@@ -370,7 +370,7 @@ request_combination:
                 }
             case 1:
                 {
-                    DisplayObject *G32 *slots;
+                    DisplayObject **slots;
                     s32 alpha;
                     if (DisplayObject_FindAllocatedByTag(1))
                     return;
@@ -397,7 +397,7 @@ request_combination:
                 }
             case 2:
                 {
-                    DisplayObject *G32 *slots;
+                    DisplayObject **slots;
                     card = &gDuel_aCardRecords[gDisplayObject_apWorkSlots[0]->field_6A];
                     object = gDuel_pCardPreviewObject;
                     if (!(gDuel_wTrapPresentationMode & 0x80)) {
@@ -496,7 +496,7 @@ request_combination:
         {
             DisplayObject **slots;
             if (!(gDuel_bSceneSubStep & 0x80)) {
-                DisplayObject *G32 *slots;
+                DisplayObject **slots;
                 slots = gDisplayObject_apWorkSlots;
                 slots[0]->flags &= ~0x40;
                 gDuel_bSceneSubStep |= 0xC0;
@@ -519,7 +519,7 @@ request_combination:
                     }
                 }
                 {
-                    DisplayObject *G32 *release_slots = gDisplayObject_apWorkSlots;
+                    DisplayObject **release_slots = gDisplayObject_apWorkSlots;
                     gDuel_bSceneSubStep |= 0x20;
                     if (release_slots[1]->field_68 < 20) {
                         DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots[0]);
@@ -529,7 +529,7 @@ request_combination:
                     }
                 }
                 {
-                    DisplayObject *G32 *publish_slots = gDisplayObject_apWorkSlots;
+                    DisplayObject **publish_slots = gDisplayObject_apWorkSlots;
                     publish_slots[1] = 0;
                     gDisplayObject_apWorkSlots[0]->flags |= 0x40;
                     DisplayObject_StartAlphaTransition(gDisplayObject_apWorkSlots[0], 192, 0, 8);
@@ -556,9 +556,9 @@ request_combination:
         }
     case 6:
         {
-            DisplayObject *G32 *slots;
+            DisplayObject **slots;
             if (!(gDuel_bSceneSubStep & 0x80)) {
-                DisplayObject *G32 *slots;
+                DisplayObject **slots;
                 gDuel_bSceneSubStep |= 0xC0;
                 Duel_MarkCreatedCardKnown((u32)(gDuel_wPlacementCardId & 0xFFF));
                 slots = gDisplayObject_apWorkSlots;
@@ -566,7 +566,7 @@ request_combination:
                 DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
             }
             if (gDuel_bSceneSubStep & 0x40) {
-                DisplayObject *G32 *slots;
+                DisplayObject **slots;
                 if (DisplayObject_FindAllocatedByTag(1))
                 return;
                 {
@@ -588,7 +588,7 @@ finish_effect_step:
                 return;
             }
             if (!(gDuel_bSceneSubStep & 0x20)) {
-                DisplayObject *G32 *slots;
+                DisplayObject **slots;
                 gDisplayObject_apWorkSlots[0]->field_60 = 0;
                 PLACEMENT_TX(gDisplayObject_apWorkSlots[0]) = 1;
                 PLACEMENT_TY(gDisplayObject_apWorkSlots[0]) = 0x2680;
@@ -608,7 +608,7 @@ finish_effect_step:
                 return;
             }
             if (gDuelEffect_pTrackedRequest->progress) {
-                DisplayObject *G32 *slots;
+                DisplayObject **slots;
                 slots = gDisplayObject_apWorkSlots;
                 slots[0]->flags &= ~0x40;
                 slots[1]->flags &= ~0x40;
@@ -632,7 +632,7 @@ finish_effect_step:
         }
     case 7:
         {
-            DisplayObject *G32 *slots;
+            DisplayObject **slots;
             slots = gDisplayObject_apWorkSlots;
             object = slots[0];
             if (!(gDuel_bSceneSubStep & 0x80)) {

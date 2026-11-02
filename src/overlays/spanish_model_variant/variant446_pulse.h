@@ -36,7 +36,7 @@ typedef struct {
     u8 unknown_1B98[4];
     s32 step;
     u8 unknown_1BA0[4];
-    Pulse446Timing *G32 timing;
+    Pulse446Timing *timing;
     u8 unknown_1BA8[0x10];
     s32 index;
     u8 unknown_1BBC[0x12];

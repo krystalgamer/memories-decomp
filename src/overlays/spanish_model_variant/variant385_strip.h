@@ -8,9 +8,9 @@ typedef struct {
     SVECTOR upper[3];
     SVECTOR center[3];
     SVECTOR lower[3];
-    PSXLONG projected[3][3];
+    long projected[3][3];
     u8 unknown_6C[8];
-    PSXLONG flags[3];
+    long flags[3];
     s32 depth[3];
 } Strip385;
 
@@ -41,7 +41,7 @@ typedef struct {
     u32 frame;
     u32 time;
     u8 unknown_FF4[0xC];
-    Strip385Timing *G32 timing;
+    Strip385Timing *timing;
     u8 unknown_1004[0x10];
     s32 iteration;
     u8 unknown_1018[0x10];

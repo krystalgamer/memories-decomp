@@ -27,7 +27,7 @@ typedef struct {
  * around 15 rings of 33 points), a 33-point beam ring, the sphere position,
  * two texture words, the completion flag and the elapsed time. */
 typedef struct {
-    Model95Config *G32 config;
+    Model95Config *config;
     SVECTOR points[497];
     SVECTOR ring[33];
     SVECTOR position;

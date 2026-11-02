@@ -8,9 +8,9 @@ void FrenchModelVariant383_DrawRibbons(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag[8][2];
-    PSXLONG edge_flag;
+    long interpolation;
+    long flag[8][2];
+    long edge_flag;
     Family383RibbonView *work;
     Family383RibbonColors *colors;
     GsOT *ot;

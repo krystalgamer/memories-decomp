@@ -11,8 +11,8 @@ void FrenchModelVariant458_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     /* Retail leaves 16 unaccessed bytes before the projection outputs. */
     u8 unknown_stack[16];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     GsOT *ot;
     Variant458Sheet *sheet;
     POLY_GT4 *quad;
@@ -53,8 +53,8 @@ void FrenchModelVariant458_DrawSheets(u8 *context)
         for (j = 0, point = sheet->points[0]; j < 4; j++, point++) {
             depth = RotTransPers4(point, &sheet->points[1][j],
                                  &sheet->points[2][j], &sheet->points[3][j],
-                                 (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                 (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                 (long *)&quad->x0, (long *)&quad->x1,
+                                 (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag);
             quad->r0 = sheet->color[1].r;
             quad->g0 = sheet->color[1].g;

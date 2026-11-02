@@ -33,7 +33,7 @@ typedef struct {
     u8 unknown_152C[4];
     s32 step;
     u8 unknown_1534[4];
-    Family383QuadConfig *G32 config;
+    Family383QuadConfig *config;
     u8 unknown_153C[0x10];
     s32 index_154C;
     s32 scale;

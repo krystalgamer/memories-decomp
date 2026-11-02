@@ -9,10 +9,10 @@
  * colour rows, the depths and the per-arm growth amounts and stages. */
 typedef struct {
     SVECTOR a[2][3][2];
-    PSXLONG sa[2][3][2];
+    long sa[2][3][2];
     s32 angle[2][3][2];
     SVECTOR b[2][3][2];
-    PSXLONG sb[2][3][2];
+    long sb[2][3][2];
     s32 width[2][3][2];
     u8 cb[2][4];
     u8 ca[2][4];

@@ -24,13 +24,13 @@ s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command)
     DVECTOR projected[64];
     u16 depths[64], interpolation[64], flags[64];
     ModelTintColor tint_start, tint_end;
-    PSXLONG parameter, flag;
+    long parameter, flag;
     s32 direction;
     GsOT *ot;
     Model144Config *config;
     SVECTOR *point;
     s32 i, value, angle0, angle1, time, step;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -96,7 +96,7 @@ s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command)
         blue = config->blue * (config->gradient_duration - time) / config->gradient_duration;
         setVector(&vertices[0], 0, -350, direction * 450);
         GsSetLsMatrix(&base);
-        RotTransPers(&vertices[0], (PSXLONG *)&gradient.x3, &parameter, &flag);
+        RotTransPers(&vertices[0], (long *)&gradient.x3, &parameter, &flag);
         if (flag >= 0) {
             setRGB0(&gradient, red / 2, green / 2, blue / 2);
             setRGB1(&gradient, red * 2 / 3, green * 2 / 3, blue * 2 / 3);
@@ -177,8 +177,8 @@ s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &parameter, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &parameter, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }

@@ -64,13 +64,13 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  * MainMenu_InitFrontendMenu. Their matching and candidate consumers use the
  * shared DisplayObject fields rather than deriving the layout again.
  */
-extern struct DisplayObject *G32 D_80184558;
-extern struct DisplayObject *G32 D_8018455C;
+extern struct DisplayObject *D_80184558;
+extern struct DisplayObject *D_8018455C;
 /* The blinking singleton gates Start input before the menu wheel. */
-extern struct DisplayObject *G32 gMainMenu_pStartPrompt;
+extern struct DisplayObject *gMainMenu_pStartPrompt;
 extern s8 gMainMenu_nFadeDirection;
 extern u8 gMain_bMenuID;
-extern u8 *G32 gMain_apMenuEntries[];
+extern u8 *gMain_apMenuEntries[];
 extern u8 gMainMenu_bBackRequested;
 extern u8 gMainMenu_bTransitionMode;
 extern u8 gMainMenu_bShadeLevel;

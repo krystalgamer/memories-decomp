@@ -47,7 +47,7 @@ typedef union {
  * edges, the cone quad, the beam's vertical scale, the ambient level, the
  * textures, the timers, the ring frame and the beam colour. */
 typedef struct {
-    Model761Config *G32 config;
+    Model761Config *config;
     SVECTOR beam[4];
     SVECTOR offset;
     SVECTOR inner[9];

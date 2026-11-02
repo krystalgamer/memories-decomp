@@ -18,9 +18,9 @@ typedef struct {
 } Model163Config;
 
 typedef struct {
-    Model163Config *G32 config;
+    Model163Config *config;
     SVECTOR points[130];
-    SVECTOR *G32 quads[16];
+    SVECTOR *quads[16];
     u32 texture[2];
     u8 completed, unknown_45d[3];
     s32 elapsed;

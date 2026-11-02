@@ -13,10 +13,10 @@ typedef struct {
 
 typedef struct {
     SVECTOR pos[7];
-    PSXLONG sxy[7];
+    long sxy[7];
     s32 angle[7];
     SVECTOR edge[7];
-    PSXLONG edge_sxy[7];
+    long edge_sxy[7];
     s32 width[7];
     CVECTOR color;
     u8 unknown_E4[0x64];
@@ -53,7 +53,7 @@ typedef struct {
     u8 unknown_135C[4];
     u32 span;
     u8 unknown_1364[4];
-    Strands12048Timing *G32 timing;
+    Strands12048Timing *timing;
     u8 unknown_136C[0x1C];
     s16 length[10];
     s16 mode[5];

@@ -23,13 +23,13 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     MATRIX saved;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 slot, direction, step;
     GsOT *ot;
     POLY_F4 *flash;
     s32 i, j, k;
     s32 offset;
-    PSXLONG depth;
+    long depth;
     s16 sign;
 
     memset(&rotation, 0, 8);
@@ -236,7 +236,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
                 addVector(&vertices[2], &work->trails[i][j + 1]);
                 addVector(&vertices[3], &work->trails[i][j + 1]);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&strip->x0, (PSXLONG *)&strip->x1, (PSXLONG *)&strip->x2, (PSXLONG *)&strip->x3,
+                    (long *)&strip->x0, (long *)&strip->x1, (long *)&strip->x2, (long *)&strip->x3,
                     &interpolation, &flag);
                 if (work->elapsed >= work->config->arrive_time) {
                     depth -= 64;
@@ -288,7 +288,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
             setVector(&vertices[0], 0, 0, 0);
             for (i = 0; i < 32; i++) {
                 depth = RotAverage3(&vertices[0], &work->rim[i], &work->rim[(i + 1) % 32],
-                    (PSXLONG *)&fan->x0, (PSXLONG *)&fan->x1, (PSXLONG *)&fan->x2, &interpolation, &flag);
+                    (long *)&fan->x0, (long *)&fan->x1, (long *)&fan->x2, &interpolation, &flag);
                 if (work->elapsed >= work->config->arrive_time) {
                     depth -= 64;
                 }
@@ -314,7 +314,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
                 setVector(&vertices[2], -sign * 96, 0, 0);
                 setVector(&vertices[3], 0, 0, 0);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                    (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                     &interpolation, &flag);
                 if (work->elapsed >= work->config->arrive_time) {
                     depth -= 64;
@@ -344,7 +344,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
                 setVector(&vertices[2], -sign * 96, 0, 0);
                 setVector(&vertices[3], 0, 0, 0);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                    (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                     &interpolation, &flag);
                 if (work->elapsed >= work->config->arrive_time) {
                     depth -= 64;
@@ -377,7 +377,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
                     addVector(&vertices[j], &work->puffs[i]);
                 }
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                    (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                     &interpolation, &flag);
                 if (work->elapsed >= work->config->arrive_time) {
                     depth -= 64;
@@ -415,7 +415,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
                         addVector(&vertices[k], &work->sparks[i]);
                     }
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                        (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                         &interpolation, &flag);
                     if (work->elapsed >= work->config->arrive_time) {
                         depth -= 64;
@@ -479,8 +479,8 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
             GsSetLsMatrix(&matrix);
             for (i = 0; i < 16; i++) {
                 depth = RotAverage4(&work->ring_inner[i], &work->ring_inner[(i + 1) % 16], &work->ring_outer[i],
-                    &work->ring_outer[(i + 1) % 16], (PSXLONG *)&strip->x0, (PSXLONG *)&strip->x1,
-                    (PSXLONG *)&strip->x2, (PSXLONG *)&strip->x3, &interpolation, &flag);
+                    &work->ring_outer[(i + 1) % 16], (long *)&strip->x0, (long *)&strip->x1,
+                    (long *)&strip->x2, (long *)&strip->x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)strip, ot, (u16)depth, 1);
                 }
@@ -525,7 +525,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
                 setVector(&vertices[3], 0, 0, 0);
                 setUV4(quad, 64, 0, 127, 0, 64, 63, 127, 63);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                    (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                     &interpolation, &flag);
                 if (work->elapsed >= work->config->arrive_time) {
                     depth -= 64;
@@ -546,7 +546,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
                     addVector(&vertices[j], &work->debris[i]);
                 }
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                    (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                     &interpolation, &flag);
                 if (work->elapsed >= work->config->arrive_time) {
                     depth -= 64;
@@ -571,7 +571,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
                 setVector(&vertices[2], -8, 0, 0);
                 setVector(&vertices[3], 8, 0, 0);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&strip->x0, (PSXLONG *)&strip->x1, (PSXLONG *)&strip->x2, (PSXLONG *)&strip->x3,
+                    (long *)&strip->x0, (long *)&strip->x1, (long *)&strip->x2, (long *)&strip->x3,
                     &interpolation, &flag);
                 if (work->elapsed >= work->config->arrive_time) {
                     depth -= 64;
@@ -609,7 +609,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
                     setVector(&vertices[3], 0, 0, 0);
                     setUV4(quad, 64, 0, 127, 0, 64, 63, 127, 63);
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                        (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                         &interpolation, &flag);
                     if (work->elapsed >= work->config->arrive_time) {
                         depth -= 64;

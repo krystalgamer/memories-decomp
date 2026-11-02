@@ -32,7 +32,7 @@ typedef struct {
     u16 elapsed, duration;
     /* Next grid row to spawn; only the first row's copy is used. */
     u8 cursor, unknown_11[3];
-    GsCOORDUNIT *G32 coord;
+    GsCOORDUNIT *coord;
     SVECTOR rotation;
     VECTOR scale;
     VECTOR position;

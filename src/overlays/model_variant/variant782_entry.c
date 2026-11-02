@@ -23,8 +23,8 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
     SVECTOR pos;
     VECTOR scale;
     SVECTOR quad[4];
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 direction;
     s32 slot;
     s32 step;
@@ -135,11 +135,11 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&m);
         for (i = 0; i < 16; i++) {
             if (i == 15) {
-                depth = RotAverage3(&rot, &work->base[15], &work->base[0], (PSXLONG *)&disc.x0,
-                                    (PSXLONG *)&disc.x1, (PSXLONG *)&disc.x2, &p, &flag);
+                depth = RotAverage3(&rot, &work->base[15], &work->base[0], (long *)&disc.x0,
+                                    (long *)&disc.x1, (long *)&disc.x2, &p, &flag);
             } else {
-                depth = RotAverage3(&rot, &work->base[i], &work->base[i + 1], (PSXLONG *)&disc.x0,
-                                    (PSXLONG *)&disc.x1, (PSXLONG *)&disc.x2, &p, &flag);
+                depth = RotAverage3(&rot, &work->base[i], &work->base[i + 1], (long *)&disc.x0,
+                                    (long *)&disc.x1, (long *)&disc.x2, &p, &flag);
             }
             depth += 0x1000;
             if (depth >= 0) {
@@ -187,12 +187,12 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 depth = RotAverage4(&outer[15], &outer[0], &inner[15], &inner[0],
-                                    (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                                    (PSXLONG *)&g4.x3, &p, &flag);
+                                    (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                                    (long *)&g4.x3, &p, &flag);
             } else {
                 depth = RotAverage4(&outer[i], &outer[i + 1], &inner[i], &inner[i + 1],
-                                    (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                                    (PSXLONG *)&g4.x3, &p, &flag);
+                                    (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                                    (long *)&g4.x3, &p, &flag);
             }
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)depth, 1);
@@ -215,22 +215,22 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 depth = RotAverage4(&outer[15], &outer[0], &inner[15], &inner[0],
-                                    (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                                    (PSXLONG *)&g4.x3, &p, &flag);
+                                    (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                                    (long *)&g4.x3, &p, &flag);
             } else {
                 depth = RotAverage4(&outer[i], &outer[i + 1], &inner[i], &inner[i + 1],
-                                    (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                                    (PSXLONG *)&g4.x3, &p, &flag);
+                                    (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                                    (long *)&g4.x3, &p, &flag);
             }
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)depth, 1);
             }
             if (i == 15) {
-                depth = RotAverage3(&outer[15], &outer[0], &cone[15], (PSXLONG *)&g3.x0,
-                                    (PSXLONG *)&g3.x1, (PSXLONG *)&g3.x2, &p, &flag);
+                depth = RotAverage3(&outer[15], &outer[0], &cone[15], (long *)&g3.x0,
+                                    (long *)&g3.x1, (long *)&g3.x2, &p, &flag);
             } else {
-                depth = RotAverage3(&outer[i], &outer[i + 1], &cone[i], (PSXLONG *)&g3.x0,
-                                    (PSXLONG *)&g3.x1, (PSXLONG *)&g3.x2, &p, &flag);
+                depth = RotAverage3(&outer[i], &outer[i + 1], &cone[i], (long *)&g3.x0,
+                                    (long *)&g3.x1, (long *)&g3.x2, &p, &flag);
             }
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)depth, 3);
@@ -249,11 +249,11 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
         GsSetLsMatrix(&m);
         for (i = 0; i < 16; i++) {
             if (i == 15) {
-                depth = RotAverage3(&outer[15], &outer[0], &cone[15], (PSXLONG *)&g3.x0,
-                                    (PSXLONG *)&g3.x1, (PSXLONG *)&g3.x2, &p, &flag);
+                depth = RotAverage3(&outer[15], &outer[0], &cone[15], (long *)&g3.x0,
+                                    (long *)&g3.x1, (long *)&g3.x2, &p, &flag);
             } else {
-                depth = RotAverage3(&outer[i], &outer[i + 1], &cone[i], (PSXLONG *)&g3.x0,
-                                    (PSXLONG *)&g3.x1, (PSXLONG *)&g3.x2, &p, &flag);
+                depth = RotAverage3(&outer[i], &outer[i + 1], &cone[i], (long *)&g3.x0,
+                                    (long *)&g3.x1, (long *)&g3.x2, &p, &flag);
             }
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)depth, 3);
@@ -276,12 +276,12 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 depth = RotAverage4(&outer[15], &outer[0], &inner[15], &inner[0],
-                                    (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                                    (PSXLONG *)&g4.x3, &p, &flag);
+                                    (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                                    (long *)&g4.x3, &p, &flag);
             } else {
                 depth = RotAverage4(&outer[i], &outer[i + 1], &inner[i], &inner[i + 1],
-                                    (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                                    (PSXLONG *)&g4.x3, &p, &flag);
+                                    (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                                    (long *)&g4.x3, &p, &flag);
             }
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)depth, 1);
@@ -301,12 +301,12 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 depth = RotAverage4(&outer[15], &outer[0], &inner[15], &inner[0],
-                                    (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                                    (PSXLONG *)&g4.x3, &p, &flag);
+                                    (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                                    (long *)&g4.x3, &p, &flag);
             } else {
                 depth = RotAverage4(&outer[i], &outer[i + 1], &inner[i], &inner[i + 1],
-                                    (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                                    (PSXLONG *)&g4.x3, &p, &flag);
+                                    (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                                    (long *)&g4.x3, &p, &flag);
             }
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)depth, 1);
@@ -341,8 +341,8 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
             RotMatrix(&rot, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
-            depth = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&debris.x0,
-                                (PSXLONG *)&debris.x1, (PSXLONG *)&debris.x2, (PSXLONG *)&debris.x3, &p, &flag);
+            depth = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&debris.x0,
+                                (long *)&debris.x1, (long *)&debris.x2, (long *)&debris.x3, &p, &flag);
             setUV4(&debris, work->debris_frame * 32, 0x80, work->debris_frame * 32 + 0x1F, 0x80,
                    work->debris_frame * 32, 0x9F, work->debris_frame * 32 + 0x1F, 0x9F);
             if (depth >= 0) {
@@ -371,8 +371,8 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
         setVector(&quad[1], work->config->size, -work->config->size, 0);
         setVector(&quad[2], -work->config->size, work->config->size, 0);
         setVector(&quad[3], work->config->size, work->config->size, 0);
-        depth = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&flare.x0,
-                            (PSXLONG *)&flare.x1, (PSXLONG *)&flare.x2, (PSXLONG *)&flare.x3, &p, &flag);
+        depth = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&flare.x0,
+                            (long *)&flare.x1, (long *)&flare.x2, (long *)&flare.x3, &p, &flag);
         setUV4(&flare, 0, 0, 0x7F, 0, 0, 0x7F, 0x7F, 0x7F);
         if (depth >= 0) {
             Graphics_SubmitDrawModePacket((u32 *)&flare, ot, (u16)depth, 1);
@@ -422,12 +422,12 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 depth = RotAverage4(&outer[15], &outer[0], &inner[15], &inner[0],
-                                    (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                                    (PSXLONG *)&g4.x3, &p, &flag);
+                                    (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                                    (long *)&g4.x3, &p, &flag);
             } else {
                 depth = RotAverage4(&outer[i], &outer[i + 1], &inner[i], &inner[i + 1],
-                                    (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2,
-                                    (PSXLONG *)&g4.x3, &p, &flag);
+                                    (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2,
+                                    (long *)&g4.x3, &p, &flag);
             }
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)depth, 1);
@@ -502,8 +502,8 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
                       work->sparks[i].vy + work->config->spark_size, work->sparks[i].vz);
             setVector(&quad[3], work->sparks[i].vx + work->config->spark_size,
                       work->sparks[i].vy + work->config->spark_size, work->sparks[i].vz);
-            depth = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&spark.x0,
-                                (PSXLONG *)&spark.x1, (PSXLONG *)&spark.x2, (PSXLONG *)&spark.x3, &p, &flag);
+            depth = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&spark.x0,
+                                (long *)&spark.x1, (long *)&spark.x2, (long *)&spark.x3, &p, &flag);
             setUV4(&spark, work->spark_frame[i] * 32 + 0x80, 0x60, work->spark_frame[i] * 32 + 0x9F, 0x60,
                    work->spark_frame[i] * 32 + 0x80, 0x7F, work->spark_frame[i] * 32 + 0x9F, 0x7F);
             if (depth >= 0) {

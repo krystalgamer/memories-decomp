@@ -57,7 +57,7 @@ typedef struct {
  * the ambient level, the textures, the trail colours and glow levels, the
  * charge colour and flash level, the spark colours and the core colour. */
 typedef struct {
-    Model806Config *G32 config;
+    Model806Config *config;
     SVECTOR center;
     SVECTOR pos[60];
     SVECTOR embers[60][8];

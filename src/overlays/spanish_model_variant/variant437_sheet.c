@@ -11,7 +11,7 @@ void func_8013C4A8(u8 *context)
     GsCOORDINATE2 coordinate;
     /* Unused; retains the target's 16-byte stack gap after the coordinate. */
     VECTOR unused;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     Sheet437State *state = (Sheet437State *)context;
     Sheet437 *sheet;
     POLY_GT4 *polygon;
@@ -89,8 +89,8 @@ void func_8013C4A8(u8 *context)
         SetRotMatrix(&light);
         for (j = 0; j < 4; j++) {
             depth = RotTransPers4(&sheet->v0[j], &sheet->v1[j], &sheet->v2[j], &sheet->v3[j],
-                                 (PSXLONG *)&polygon->x1, (PSXLONG *)&polygon->x0,
-                                 (PSXLONG *)&polygon->x3, (PSXLONG *)&polygon->x2,
+                                 (long *)&polygon->x1, (long *)&polygon->x0,
+                                 (long *)&polygon->x3, (long *)&polygon->x2,
                                  &interpolation, &flag);
             depth = depth * 9 / 10;
             if (depth >= 0 && flag >= 0) {

@@ -43,7 +43,7 @@ typedef struct {
  * random dots, one texture, the hit flag, the long-command flag, the elapsed
  * time and a latch counter for each trail. */
 typedef struct {
-    Model128Config *G32 config;
+    Model128Config *config;
     Model128Trail trails[8];
     SVECTOR dots[64];
     u32 texture[1];

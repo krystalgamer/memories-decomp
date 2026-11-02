@@ -9,11 +9,11 @@ void func_8013BA5C(u8 *context)
     MATRIX light;
     GsCOORDINATE2 coordinate;
 #ifdef MODEL_VARIANT412_STRIP
-    PSXLONG interpolation;
-    PSXLONG flags;
+    long interpolation;
+    long flags;
 #else
-    PSXLONG flags[1][2];
-    PSXLONG interpolation;
+    long flags[1][2];
+    long interpolation;
 #endif
     u8 *work;
     Family402Strip *strip;

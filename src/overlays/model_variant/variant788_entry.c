@@ -38,7 +38,7 @@ s32 func_8013B004(u8 *context, s32 command)
     u16 projection[2][64], flags[2][64], depths[2][64];
     DVECTOR dot_screen[128];
     u16 dot_projection[128], dot_flags[128], dot_depths[128];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 direction, step;
     GsOT *ot;
     s32 slot, i;
@@ -168,8 +168,8 @@ s32 func_8013B004(u8 *context, s32 command)
             RotMatrix(&rotation, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&quad.x0,
-                                (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation,
+            depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&quad.x0,
+                                (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &interpolation,
                                 &flag);
             setUV4(&quad, 0, 0, 0x3F, 0, 0, 0x3F, 0x3F, 0x3F);
             Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 1);
@@ -270,8 +270,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setVector(&vertices[1], work->config->band_width * 2, 0, -direction * work->radius / 4);
                     setVector(&vertices[2], -work->config->band_top * 2, -work->band_height, -direction * work->band_depth);
                     setVector(&vertices[3], work->config->band_top * 2, -work->band_height, -direction * work->band_depth);
-                    depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&band.x0,
-                                        (PSXLONG *)&band.x1, (PSXLONG *)&band.x2, (PSXLONG *)&band.x3,
+                    depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&band.x0,
+                                        (long *)&band.x1, (long *)&band.x2, (long *)&band.x3,
                                         &interpolation, &flag);
                     Graphics_SubmitDrawModePacket((u32 *)&band, ot, (u16)depth, 1);
                     setRGB0(&band, work->band_colors[0][1], work->band_colors[1][1], work->band_colors[2][1]);
@@ -282,8 +282,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setVector(&vertices[1], work->band_bottom, 0, -direction * work->radius / 4);
                     setVector(&vertices[2], -work->band_top, -work->band_height, -direction * work->band_depth / 2);
                     setVector(&vertices[3], work->band_top, -work->band_height, -direction * work->band_depth / 2);
-                    depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&band.x0,
-                                        (PSXLONG *)&band.x1, (PSXLONG *)&band.x2, (PSXLONG *)&band.x3,
+                    depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&band.x0,
+                                        (long *)&band.x1, (long *)&band.x2, (long *)&band.x3,
                                         &interpolation, &flag);
                     Graphics_SubmitDrawModePacket((u32 *)&band, ot, (u16)depth, 1);
                 }
@@ -298,11 +298,11 @@ s32 func_8013B004(u8 *context, s32 command)
             GsSetLsMatrix(&matrix);
             for (i = 0; i < 16; i++) {
                 if (i == 15) {
-                    depth = RotAverage3(&center, &work->ring[15], &work->ring[0], (PSXLONG *)&fan.x0,
-                                        (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, &interpolation, &flag);
+                    depth = RotAverage3(&center, &work->ring[15], &work->ring[0], (long *)&fan.x0,
+                                        (long *)&fan.x1, (long *)&fan.x2, &interpolation, &flag);
                 } else {
-                    depth = RotAverage3(&center, &work->ring[i], &work->ring[i + 1], (PSXLONG *)&fan.x0,
-                                        (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, &interpolation, &flag);
+                    depth = RotAverage3(&center, &work->ring[i], &work->ring[i + 1], (long *)&fan.x0,
+                                        (long *)&fan.x1, (long *)&fan.x2, &interpolation, &flag);
                 }
                 Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 1);
             }
@@ -315,11 +315,11 @@ s32 func_8013B004(u8 *context, s32 command)
             setRGB2(&fan, 0, 0, 0);
             for (i = 0; i < 16; i++) {
                 if (i == 15) {
-                    depth = RotAverage3(&center, &work->ring[15], &work->ring[0], (PSXLONG *)&fan.x0,
-                                        (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, &interpolation, &flag);
+                    depth = RotAverage3(&center, &work->ring[15], &work->ring[0], (long *)&fan.x0,
+                                        (long *)&fan.x1, (long *)&fan.x2, &interpolation, &flag);
                 } else {
-                    depth = RotAverage3(&center, &work->ring[i], &work->ring[i + 1], (PSXLONG *)&fan.x0,
-                                        (PSXLONG *)&fan.x1, (PSXLONG *)&fan.x2, &interpolation, &flag);
+                    depth = RotAverage3(&center, &work->ring[i], &work->ring[i + 1], (long *)&fan.x0,
+                                        (long *)&fan.x1, (long *)&fan.x2, &interpolation, &flag);
                 }
                 Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 1);
             }
@@ -361,8 +361,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 MulMatrix2(&base, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&band.x0,
-                                    (PSXLONG *)&band.x1, (PSXLONG *)&band.x2, (PSXLONG *)&band.x3,
+                depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&band.x0,
+                                    (long *)&band.x1, (long *)&band.x2, (long *)&band.x3,
                                     &interpolation, &flag);
                 Graphics_SubmitDrawModePacket((u32 *)&band, ot, (u16)depth, 1);
             }
@@ -419,8 +419,8 @@ s32 func_8013B004(u8 *context, s32 command)
             RotMatrix(&rotation, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&quad.x0,
-                                (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation,
+            depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&quad.x0,
+                                (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3, &interpolation,
                                 &flag);
             setUV4(&quad, 0, 0, 0x3F, 0, 0, 0x3F, 0x3F, 0x3F);
             Graphics_SubmitDrawModePacket((u32 *)&quad, ot, (u16)depth, 1);

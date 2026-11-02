@@ -12,8 +12,8 @@ void func_8013CC94(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *timing;
     ModelVariantWebNarrow *web;
     GsOT *ot;
@@ -108,8 +108,8 @@ void func_8013CC94(u8 *ctx)
         for (j = 0; j < 4; j++) {
             for (k = 0; k < 6; k++) {
                 line->attribute = 0x50000000;
-                otz = RotTransPers3(&web->near[j][k], &web->far[j][k], &web->near[j][k], (PSXLONG *)&line->x0,
-                                    (PSXLONG *)&line->x1, (PSXLONG *)&line->x0, &p, &flag);
+                otz = RotTransPers3(&web->near[j][k], &web->far[j][k], &web->near[j][k], (long *)&line->x0,
+                                    (long *)&line->x1, (long *)&line->x0, &p, &flag);
                 if (MODEL_VARIANT_WORD(work, 0x15BC) < 2) {
                     line->r0 = 0;
                     line->g0 = 0;

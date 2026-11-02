@@ -73,9 +73,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    ExodiaSecondEntryConfig *G32 config;
+    ExodiaSecondEntryConfig *config;
     u32 field_C78;
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     u32 field_C88;
     s16 field_C8C, field_C8E, field_C90, field_C92, field_C94, field_C96;
     s16 distance, width;
@@ -85,7 +85,7 @@ typedef struct {
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     DVECTOR target;
 } ExodiaSecondEntryProjection;
 

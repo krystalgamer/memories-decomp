@@ -20,9 +20,9 @@ s32 FrenchModelVariant196_HandleRequest(u8 *context, s32 command)
     u16 depths[66];
     u16 interpolation[66];
     u16 flags[66];
-    PSXLONG flag;
-    PSXLONG p;
-    PSXLONG depth;
+    long flag;
+    long p;
+    long depth;
     Image16740State *state;
     GsOT *ot;
     Image16740Config *config;
@@ -179,8 +179,8 @@ s32 FrenchModelVariant196_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &p, &flag);
+                                    (long *)&quad.x0, (long *)&quad.x1,
+                                    (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, depth & 0xFFFF);
                 }

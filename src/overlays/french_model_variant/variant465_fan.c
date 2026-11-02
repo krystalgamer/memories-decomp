@@ -8,8 +8,8 @@ void func_8013C24C(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     GsOT *ot;
     s32 i;
     s32 j;
@@ -43,8 +43,8 @@ void func_8013C24C(u8 *ctx)
     for (i = 0; i < 1; i++, fan++) {
         for (j = 0; j < 16; j++) {
             otz = RotTransPers3(&fan->inner[0], &fan->inner[j + 2], &fan->inner[j + 1],
-                               (PSXLONG *)&triangle->x0, (PSXLONG *)&triangle->x1,
-                               (PSXLONG *)&triangle->x2, &p, &flag);
+                               (long *)&triangle->x0, (long *)&triangle->x1,
+                               (long *)&triangle->x2, &p, &flag);
             triangle->r0 = fan->center_color[0];
             triangle->g0 = fan->center_color[1];
             triangle->b0 = fan->center_color[2];
@@ -59,8 +59,8 @@ void func_8013C24C(u8 *ctx)
             }
             otz = RotTransPers4(&fan->inner[j + 1], &fan->inner[j + 2],
                                &fan->outer[j], &fan->outer[j + 1],
-                               (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                               (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3, &p, &flag);
+                               (long *)&quad->x0, (long *)&quad->x1,
+                               (long *)&quad->x2, (long *)&quad->x3, &p, &flag);
             quad->r0 = fan->middle_color[0];
             quad->g0 = fan->middle_color[1];
             quad->b0 = fan->middle_color[2];

@@ -108,7 +108,7 @@ typedef struct {
     RECT strip;
 } MovieWorkArea;
 
-extern u8 *G32 gMovie_pWorkArea;
+extern u8 *gMovie_pWorkArea;
 extern CdlLOC gMovie_StreamLoc;
 
 /* One consumer, func_8005C374.c, which writes its three parameters to these

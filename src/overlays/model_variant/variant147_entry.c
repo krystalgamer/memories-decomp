@@ -21,7 +21,7 @@ s32 func_8013B004(u8 *context, s32 command)
     DVECTOR screen[169];
     u16 depths[169], projection[169], flags[169];
     SVECTOR corner[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model147State *work;
     Model147Config *config;
     s32 direction;
@@ -394,7 +394,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             setUV4(&quad, (work->phase[i] & 7) * 32, 0, (work->phase[i] & 7) * 32 + 31, 0,
                 (work->phase[i] & 7) * 32, 31, (work->phase[i] & 7) * 32 + 31, 31);
@@ -465,7 +465,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             a = t * 8 / (config->period * 450 / (config->speed * 4));
             setUV4(&quad, (7 - a) * 32, 0, (7 - a) * 32 + 31, 0, (7 - a) * 32, 31, (7 - a) * 32 + 31, 31);
@@ -507,7 +507,7 @@ s32 func_8013B004(u8 *context, s32 command)
         corner[2].vy += config->beam_width;
         corner[3].vy += config->beam_width;
         otz = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
             &interpolation, &flag);
         if (otz >= 0 && flag >= 0) {
             GsSortPoly(&quad, ot, otz);
@@ -545,7 +545,7 @@ s32 func_8013B004(u8 *context, s32 command)
             corner[2].vy += config->beam_width;
             corner[3].vy += config->beam_width;
             otz = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             if (otz >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, otz);
@@ -563,7 +563,7 @@ s32 func_8013B004(u8 *context, s32 command)
         corner[2].vy += config->beam_width;
         corner[3].vy += config->beam_width;
         otz = RotAverage4(&corner[0], &corner[1], &corner[2], &corner[3],
-            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
             &interpolation, &flag);
         if (otz >= 0 && flag >= 0) {
             GsSortPoly(&quad, ot, otz);

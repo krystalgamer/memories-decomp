@@ -63,7 +63,7 @@ typedef struct {
  * the arrival flags, the phase, the ambient level, the six textures and the
  * per-bolt bolt, glow and ray colours. The work area is 0x1126 bytes. */
 typedef struct {
-    Model846Config *G32 config;
+    Model846Config *config;
     SVECTOR pos[2];
     SVECTOR step[2];
     SVECTOR angle[2];

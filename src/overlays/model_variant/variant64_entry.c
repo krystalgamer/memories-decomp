@@ -18,7 +18,7 @@ s32 func_8013B004(u8 *context, s32 command)
     u16 interpolations[66];
     u16 flags[66];
     SVECTOR vertices[4];
-    PSXLONG trans_flag, interpolation, flag;
+    long trans_flag, interpolation, flag;
     GsOT *ot;
     s32 direction;
     SVECTOR *p, *q;
@@ -199,7 +199,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             z = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                             &interpolation, &flag);
             if (z >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, z);
@@ -236,7 +236,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             z = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                             &interpolation, &flag);
             if (z >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, z);

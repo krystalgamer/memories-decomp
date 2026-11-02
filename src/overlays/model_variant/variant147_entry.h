@@ -38,7 +38,7 @@ typedef struct {
  * spiral path, the spoke animation phases, the tube's depth offset, five
  * texture words, the completion flag and the elapsed time. */
 typedef struct {
-    Model147Config *G32 config;
+    Model147Config *config;
     SVECTOR grid[169];
     CVECTOR colors[169];
     SVECTOR ring[17];

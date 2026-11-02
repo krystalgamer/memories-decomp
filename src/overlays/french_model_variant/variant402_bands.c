@@ -8,8 +8,8 @@ void func_8013CB38(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     u8 *work;
     Family402Band *band;
     GsOT *ot;
@@ -115,8 +115,8 @@ void func_8013CB38(u8 *context)
             for (j = 0; j < 16; j++) {
                 depth = RotTransPers4(&band->inner[j], &band->inner[j + 1],
                                      &band->outer[j], &band->outer[j + 1],
-                                     (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                     (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                     (long *)&quad->x0, (long *)&quad->x1,
+                                     (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 setRGB0(quad, r0, g0, b0);
 #ifndef MODEL_VARIANT412_BANDS

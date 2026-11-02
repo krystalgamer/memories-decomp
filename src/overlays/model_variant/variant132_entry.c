@@ -21,7 +21,7 @@ s32 ModelVariant132_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[4];
     DVECTOR projected[34];
     u16 depths[34], interpolation[34], flags[34];
-    PSXLONG flag, parameter;
+    long flag, parameter;
     Model132State *work;
     GsOT *ot;
     s32 step;
@@ -29,7 +29,7 @@ s32 ModelVariant132_HandleRequest(u8 *context, s32 command)
     s32 time;
     Model132Config *config;
     s32 j, angle, progress, span, frame;
-    PSXLONG depth;
+    long depth;
     SVECTOR *point;
     u8 red, green, blue;
 
@@ -192,8 +192,8 @@ s32 ModelVariant132_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &parameter, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1,
+                    (long *)&quad.x2, (long *)&quad.x3, &parameter, &flag);
                 frame = (16 - point->pad) / 2;
                 setUV4(&quad, frame % 4 * 32, frame / 4 * 32 + 128,
                     frame % 4 * 32 + 31, frame / 4 * 32 + 128,

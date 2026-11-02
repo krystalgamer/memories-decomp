@@ -11,8 +11,8 @@ void func_8013DE68(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Family373QuadGroup *group = &work->group;
     GsOT *ot;
     POLY_GT4 *quad;
@@ -56,8 +56,8 @@ void func_8013DE68(u8 *context)
             depth = RotTransPers4(
                 &group->points[0][j], &group->points[1][j],
                 &group->points[2][j], &group->points[3][j],
-                (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                (long *)&quad->x0, (long *)&quad->x1,
+                (long *)&quad->x2, (long *)&quad->x3,
                 &interpolation, &flag);
             quad->r0 = group->color[1].r;
             quad->g0 = group->color[1].g;

@@ -9,13 +9,13 @@
  * delay slot as in the retail code. */
 void ModelVariant433_DrawRings(u8 *ctx)
 {
-    PSXLONG p;
+    long p;
     SVECTOR rot;
     u8 *words;
     u8 *work;
     GsOT *ot;
     VECTOR scale;
-    PSXLONG flag;
+    long flag;
     MATRIX m;
     MATRIX ls;
     s32 ang1;
@@ -34,7 +34,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
     SVECTOR *edge;
     u8 *halves;
     s32 wave;
-    PSXLONG flags[16][9];
+    long flags[16][9];
     s32 level;
     s32 radius;
     s32 half_radius;

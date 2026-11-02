@@ -9,9 +9,9 @@ void ModelVariant433_DrawBands(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG flags[3][9];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long flags[3][9];
+    long interpolation;
+    long flag;
     GsOT *ot;
     Model450Band *band;
     POLY_FT4 *quad;

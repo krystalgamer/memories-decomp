@@ -52,9 +52,9 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 *G32 *)text;
+        current = *(u8 **)text;
         op = *current++;
-        *(u8 *G32 *)text = current;
+        *(u8 **)text = current;
     }
     if (op & 0x10) {
         object->color_index_54 = gText_SelectedCardColorIndex;
@@ -126,9 +126,9 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 *G32 *)text;
+        current = *(u8 **)text;
         op = *current++;
-        *(u8 *G32 *)text = current;
+        *(u8 **)text = current;
     }
     if (op & 0x10) {
         object->color_index_54 = gText_SelectedCardColorIndex;
@@ -199,7 +199,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     s32 type;
     u8 *text;
     u8 *current;
-    u8 *G32 *slot;
+    u8 **slot;
 
     text = (u8 *)(s32)object->stream_index;
     object->field_62 = 0;
@@ -209,9 +209,9 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
 
         stream += (u32)text;
         text = stream;
-        current = *(u8 *G32 *)text;
+        current = *(u8 **)text;
         op = *current++;
-        *(u8 *G32 *)text = current;
+        *(u8 **)text = current;
     }
     n = 0;
     if (op & 0x10) {
@@ -305,7 +305,7 @@ void Text_EmitGuardianStarGlyph(DuelEffectChannel *object)
 
 void Text_EmitNextSymbolGlyph(DuelEffectChannel *object)
 {
-    u8 *G32 *stream =
+    u8 **stream =
         &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
 
     Text_EmitSymbolGlyph(object, *(*stream)++);
@@ -313,7 +313,7 @@ void Text_EmitNextSymbolGlyph(DuelEffectChannel *object)
 
 void Text_ResetPenXAndAdvanceY(DuelEffectChannel *object)
 {
-    register u8 *G32 *stream;
+    register u8 **stream;
     register u8 *current;
     register u32 value;
 
@@ -329,9 +329,9 @@ void Text_ResetPenXAndAdvanceY(DuelEffectChannel *object)
 
 void Text_AdvancePenX(DuelEffectChannel *object)
 {
-    u8 *G32 *stream =
+    u8 **stream =
         &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
-    register u8 *G32 *slot = stream;
+    register u8 **slot = stream;
     register u8 *current = *slot;
     register u32 value = current[0];
 
@@ -416,7 +416,7 @@ write:
 /* Inlining keeps the stream value and channel in independent live ranges. */
 static __inline__ u32 read_operand(DuelEffectChannel *object)
 {
-    u8 *G32 *stream =
+    u8 **stream =
         &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
     u8 *cursor = *stream;
     u32 value = *cursor++;
@@ -488,7 +488,7 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object)
 {
     /* Separate lifetimes preserve allocation across the two stream reads. */
     {
-        u8 *G32 *stream =
+        u8 **stream =
             &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
         u8 *current = *stream;
         u8 value = *current++;
@@ -497,7 +497,7 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object)
         object->glyph_advance_x = value;
     }
     {
-        u8 *G32 *stream =
+        u8 **stream =
             &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
         u8 *current = *stream;
         u8 value = *current++;
@@ -539,12 +539,12 @@ void Text_SetOutputLimit(DuelEffectChannel *object)
 #endif
 }
 
-u8 *G32 *Text_PushStagedString(DuelEffectChannel *a0) {
+u8 **Text_PushStagedString(DuelEffectChannel *a0) {
     DuelEffectChannel *a3 = a0;
     s32 a2 = gText_StagedStringId;
     u32 v1;
     u8 counter;
-    u8 *G32 *slot;
+    u8 **slot;
 
 #ifdef VERSION_JAPAN
     if (a2 & TEXT_GLOBAL_STRING_ID_BASE) {
@@ -594,7 +594,7 @@ u8 *G32 *Text_PushStagedString(DuelEffectChannel *a0) {
 
 void Text_SetColorIndex(DuelEffectChannel *object)
 {
-    u8 *G32 *slot =
+    u8 **slot =
         &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
     u8 *q = *slot;
     s32 v = *q;
@@ -611,7 +611,7 @@ void Text_SetColorIndex(DuelEffectChannel *object)
 void Text_SetFastPrintMode(DuelEffectChannel *object)
 {
     register DuelEffectChannel *obj;
-    register u8 *G32 *stream;
+    register u8 **stream;
     register u8 *current;
     register u32 value;
 

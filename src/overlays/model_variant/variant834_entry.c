@@ -19,11 +19,11 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     MATRIX saved;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 slot, direction, step;
     GsOT *ot;
     s32 i, j, spread, age;
-    PSXLONG depth;
+    long depth;
     s16 sign;
 
     memset(&rotation, 0, 8);
@@ -166,7 +166,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                    (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                     &interpolation, &flag);
                 setSemiTrans(quad, 1);
                 if (depth >= 0 && flag >= 0) {
@@ -183,7 +183,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     setVector(&vertices[2], -work->config->spark_size, work->config->spark_size, 0);
                     setVector(&vertices[3], work->config->spark_size, work->config->spark_size, 0);
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                        (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                         &interpolation, &flag);
                     setSemiTrans(quad, 1);
                     if (depth >= 0 && flag >= 0) {
@@ -238,7 +238,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&vertices[2], -work->config->beam_width, work->config->beam_height, 0);
             setVector(&vertices[3], work->config->beam_width, work->config->beam_height, 0);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&ring->x0, (PSXLONG *)&ring->x1, (PSXLONG *)&ring->x2, (PSXLONG *)&ring->x3,
+                (long *)&ring->x0, (long *)&ring->x1, (long *)&ring->x2, (long *)&ring->x3,
                 &interpolation, &flag);
             setUV4(ring, 0, 0, 47, 0, 0, 127, 47, 127);
             if ((work->beam_top.word & 0xFFFFFF) == 0x808080
@@ -300,7 +300,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB3(ring, 32, 32, 32);
                     for (i = 0; i < 16; i++) {
                         depth = RotAverage4(&work->top[i], &work->top[(i + 1) % 16], &work->base[i], &work->base[(i + 1) % 16],
-                            (PSXLONG *)&ring->x0, (PSXLONG *)&ring->x1, (PSXLONG *)&ring->x2, (PSXLONG *)&ring->x3,
+                            (long *)&ring->x0, (long *)&ring->x1, (long *)&ring->x2, (long *)&ring->x3,
                             &interpolation, &flag);
                         setUV4(ring, 0, 128, 31, 128, 0, 255, 31, 255);
                         setSemiTrans(ring, 1);
@@ -340,7 +340,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&ring->x0, (PSXLONG *)&ring->x1, (PSXLONG *)&ring->x2, (PSXLONG *)&ring->x3,
+                        (long *)&ring->x0, (long *)&ring->x1, (long *)&ring->x2, (long *)&ring->x3,
                         &interpolation, &flag);
                     setSemiTrans(ring, 1);
                     if (depth >= 0 && flag >= 0) {
@@ -369,7 +369,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setRGB3(ring, work->burst_color.rgb.r >> 3, work->burst_color.rgb.g >> 3, work->burst_color.rgb.b >> 3);
         for (i = 0; i < 16; i++) {
             depth = RotAverage4(&work->burst[i], &work->burst[(i + 1) % 16], &work->flare[i], &work->flare[(i + 1) % 16],
-                (PSXLONG *)&ring->x0, (PSXLONG *)&ring->x1, (PSXLONG *)&ring->x2, (PSXLONG *)&ring->x3,
+                (long *)&ring->x0, (long *)&ring->x1, (long *)&ring->x2, (long *)&ring->x3,
                 &interpolation, &flag);
             setUV4(ring, 0, 128, 31, 128, 0, 255, 31, 255);
             setSemiTrans(ring, 1);
@@ -387,7 +387,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setRGB3(ring, work->burst_color.rgb.r >> 2, work->burst_color.rgb.g >> 2, work->burst_color.rgb.b >> 2);
         for (i = 0; i < 16; i++) {
             depth = RotAverage4(&work->burst[i], &work->burst[(i + 1) % 16], &work->flare[i], &work->flare[(i + 1) % 16],
-                (PSXLONG *)&ring->x0, (PSXLONG *)&ring->x1, (PSXLONG *)&ring->x2, (PSXLONG *)&ring->x3,
+                (long *)&ring->x0, (long *)&ring->x1, (long *)&ring->x2, (long *)&ring->x3,
                 &interpolation, &flag);
             setUV4(ring, 0, 128, 31, 128, 0, 255, 31, 255);
             setSemiTrans(ring, 1);
@@ -405,7 +405,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setRGB3(ring, work->burst_color.rgb.r >> 1, work->burst_color.rgb.g >> 1, work->burst_color.rgb.b >> 1);
         for (i = 0; i < 16; i++) {
             depth = RotAverage4(&work->burst[i], &work->burst[(i + 1) % 16], &work->flare[i], &work->flare[(i + 1) % 16],
-                (PSXLONG *)&ring->x0, (PSXLONG *)&ring->x1, (PSXLONG *)&ring->x2, (PSXLONG *)&ring->x3,
+                (long *)&ring->x0, (long *)&ring->x1, (long *)&ring->x2, (long *)&ring->x3,
                 &interpolation, &flag);
             setUV4(ring, 0, 128, 31, 128, 0, 255, 31, 255);
             setSemiTrans(ring, 1);
@@ -433,7 +433,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setUV4(quad, 64, 0, 127, 0, 64, 63, 127, 63);
             setRGB0(quad, work->burst_color.rgb.r, work->burst_color.rgb.g, work->burst_color.rgb.b);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                 &interpolation, &flag);
             if (depth >= 0) {
                 if (flag >= 0) {
@@ -443,7 +443,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setUV4(quad, 64, 64, 127, 64, 64, 127, 127, 127);
             setRGB0(quad, work->burst_color.rgb.r >> 1, work->burst_color.rgb.g >> 1, work->burst_color.rgb.b >> 1);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                 &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)depth, 1);
@@ -466,7 +466,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 addVector(&vertices[j], &work->sparks[i]);
             }
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1, (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                (long *)&quad->x0, (long *)&quad->x1, (long *)&quad->x2, (long *)&quad->x3,
                 &interpolation, &flag);
             if (depth >= 0) {
                 if (flag >= 0) {

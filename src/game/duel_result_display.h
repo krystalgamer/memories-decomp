@@ -9,8 +9,8 @@
     ((u32)&(((DuelResultDisplayState *)0)->member))
 
 typedef struct DuelResultDisplayState {
-    DisplayObject *G32 root;
-    DisplayObject *G32 children[DUEL_RESULT_DISPLAY_CHILD_COUNT];
+    DisplayObject *root;
+    DisplayObject *children[DUEL_RESULT_DISPLAY_CHILD_COUNT];
     /* Duel_CalcRankScore seeds both of these with
        DUEL_RANK_SCORE_INITIAL and then accumulates every
        Duel_CalcRankScoreChange result into them, indexed by side. */
@@ -64,7 +64,7 @@ typedef char DuelResultDisplayState_size_must_be_0x40[
  * gDuel_awRitualData's reused
  * image-backed storage. The guarded view in duel_check_ritual.h covers this
  * complete record; it is not a pointer to a short recipe allocation. */
-extern DuelResultDisplayState *G32 gDuel_pResultDisplayState;
+extern DuelResultDisplayState *gDuel_pResultDisplayState;
 
 /* Duel-result and rewards UI controller installed by the scene table. */
 void DuelScene_UpdateResultRewards(void);

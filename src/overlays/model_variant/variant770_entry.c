@@ -24,13 +24,13 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     MATRIX saved;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 slot, direction, step;
     GsOT *ot;
     s32 i, j, k;
     s32 y0;
     u16 side;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -144,8 +144,8 @@ s32 func_8013B004(u8 *context, s32 command)
             for (i = work->trail_count[j] - 1, k = 1; i > 0; k++, i--) {
                 depth = RotAverage4(&work->trail_first[i][j], &work->trail_first[i - 1][j],
                     &work->trail_second[i][j], &work->trail_second[i - 1][j],
-                    (PSXLONG *)&gouraud_packet->x0, (PSXLONG *)&gouraud_packet->x1,
-                    (PSXLONG *)&gouraud_packet->x2, (PSXLONG *)&gouraud_packet->x3, &interpolation, &flag);
+                    (long *)&gouraud_packet->x0, (long *)&gouraud_packet->x1,
+                    (long *)&gouraud_packet->x2, (long *)&gouraud_packet->x3, &interpolation, &flag);
                 setRGB0(gouraud_packet, work->trail_color[j].rgb.r / k, work->trail_color[j].rgb.g / k,
                     work->trail_color[j].rgb.b / k);
                 setRGB1(gouraud_packet, work->trail_color[j].rgb.r / (k + 1), work->trail_color[j].rgb.g / (k + 1),
@@ -185,8 +185,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&work->square[0], &work->square[1], &work->square[2], &work->square[3],
-                (PSXLONG *)&flash_packet->x0, (PSXLONG *)&flash_packet->x1, (PSXLONG *)&flash_packet->x2,
-                (PSXLONG *)&flash_packet->x3, &interpolation, &flag);
+                (long *)&flash_packet->x0, (long *)&flash_packet->x1, (long *)&flash_packet->x2,
+                (long *)&flash_packet->x3, &interpolation, &flag);
             setUV4(flash_packet, 0, 0, 127, 0, 0, 63, 127, 63);
             if (depth >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)flash_packet, ot, (u16)depth, 1);
@@ -197,8 +197,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&work->square[0], &work->square[1], &work->square[2], &work->square[3],
-                (PSXLONG *)&flash_packet->x0, (PSXLONG *)&flash_packet->x1, (PSXLONG *)&flash_packet->x2,
-                (PSXLONG *)&flash_packet->x3, &interpolation, &flag);
+                (long *)&flash_packet->x0, (long *)&flash_packet->x1, (long *)&flash_packet->x2,
+                (long *)&flash_packet->x3, &interpolation, &flag);
             setUV4(flash_packet, 0, 0, 127, 0, 0, 63, 127, 63);
             if (depth >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)flash_packet, ot, (u16)depth, 3);
@@ -248,8 +248,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&vertices[2], -(s16)side * work->config->star_size, 0, 0);
                 setVector(&vertices[3], 0, 0, 0);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&burst_packet->x0, (PSXLONG *)&burst_packet->x1, (PSXLONG *)&burst_packet->x2,
-                    (PSXLONG *)&burst_packet->x3, &interpolation, &flag);
+                    (long *)&burst_packet->x0, (long *)&burst_packet->x1, (long *)&burst_packet->x2,
+                    (long *)&burst_packet->x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)burst_packet, ot, (u16)depth, 1);
                 }
@@ -274,8 +274,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&vertices[2], -(s16)side * 128, 0, 0);
                 setVector(&vertices[3], 0, 0, 0);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&burst_packet->x0, (PSXLONG *)&burst_packet->x1, (PSXLONG *)&burst_packet->x2,
-                    (PSXLONG *)&burst_packet->x3, &interpolation, &flag);
+                    (long *)&burst_packet->x0, (long *)&burst_packet->x1, (long *)&burst_packet->x2,
+                    (long *)&burst_packet->x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)burst_packet, ot, (u16)depth, 1);
                 }
@@ -296,8 +296,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setUV4(burst_packet, k % 2 * 32, k / 2 * 32 + 64, k % 2 * 32 + 31, k / 2 * 32 + 64,
                     k % 2 * 32, k / 2 * 32 + 95, k % 2 * 32 + 31, k / 2 * 32 + 95);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&burst_packet->x0, (PSXLONG *)&burst_packet->x1, (PSXLONG *)&burst_packet->x2,
-                    (PSXLONG *)&burst_packet->x3, &interpolation, &flag);
+                    (long *)&burst_packet->x0, (long *)&burst_packet->x1, (long *)&burst_packet->x2,
+                    (long *)&burst_packet->x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)burst_packet, ot, (u16)depth, 1);
                 }
@@ -323,8 +323,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&flash_packet->x0, (PSXLONG *)&flash_packet->x1, (PSXLONG *)&flash_packet->x2,
-                    (PSXLONG *)&flash_packet->x3, &interpolation, &flag);
+                    (long *)&flash_packet->x0, (long *)&flash_packet->x1, (long *)&flash_packet->x2,
+                    (long *)&flash_packet->x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)flash_packet, ot, (u16)depth, 1);
                 }

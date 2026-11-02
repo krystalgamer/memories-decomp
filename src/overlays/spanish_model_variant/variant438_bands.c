@@ -9,8 +9,8 @@ void func_8013E638(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag[1][9];
+    long interpolation;
+    long flag[1][9];
     Bands438State *state;
     GsOT *ot;
     s32 angle;

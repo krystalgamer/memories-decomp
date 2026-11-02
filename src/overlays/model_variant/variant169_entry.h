@@ -36,12 +36,12 @@ typedef struct {
  * the two 33-point halo rings, the halo angle, the three texture words, the
  * completion flag, the trail cursor, the elapsed time and a frame counter. */
 typedef struct {
-    Model169Config *G32 config;
+    Model169Config *config;
     SVECTOR trail[8];
     SVECTOR grid[25];
     SVECTOR beam_ring[17];
     SVECTOR rings[66];
-    SVECTOR *G32 quads[16][4];
+    SVECTOR *quads[16][4];
     s16 angle, unknown_4A6;
     u32 texture[3];
     u8 completed, cursor, unknown_4B6[2];

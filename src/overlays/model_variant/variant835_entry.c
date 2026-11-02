@@ -22,8 +22,8 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR quad[4];
     MATRIX saved;
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 direction;
     s32 step;
     GsOT *ot;
@@ -149,8 +149,8 @@ s32 func_8013B004(u8 *context, s32 command)
             for (k = 0; k < 4; k++) {
                 addVector(&quad[k], &work->pos[i]);
             }
-            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                              (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&poly->x0, (long *)&poly->x1,
+                              (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
             if (work->alpha[i] == 0x80) {
                 setSemiTrans(poly, 0);
             } else {
@@ -188,8 +188,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&quad[1], work->trail[i][k].vx, work->trail[i][k].vy + 16 / l, work->trail[i][k].vz);
                 setVector(&quad[2], work->trail[i][k - 1].vx, work->trail[i][k - 1].vy - 16 / (l + 1), work->trail[i][k - 1].vz);
                 setVector(&quad[3], work->trail[i][k - 1].vx, work->trail[i][k - 1].vy + 16 / (l + 1), work->trail[i][k - 1].vz);
-                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&gouraud->x0,
-                                  (PSXLONG *)&gouraud->x1, (PSXLONG *)&gouraud->x2, (PSXLONG *)&gouraud->x3, &p,
+                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&gouraud->x0,
+                                  (long *)&gouraud->x1, (long *)&gouraud->x2, (long *)&gouraud->x3, &p,
                                   &flag);
                 if (otz >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)gouraud, ot, (u16)otz, 1);
@@ -237,8 +237,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&quad[2], -(sign * 32), 0, 0);
                 setVector(&quad[3], 0, 0, 0);
                 setUV4(poly, 64, 0, 127, 0, 64, 63, 127, 63);
-                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                                  (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&poly->x0, (long *)&poly->x1,
+                                  (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
                 }
@@ -246,8 +246,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 poly->r0 = work->burst_color[i].r >> 2;
                 poly->g0 = work->burst_color[i].g >> 2;
                 poly->b0 = work->burst_color[i].b >> 2;
-                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                                  (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&poly->x0, (long *)&poly->x1,
+                                  (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
                 }
@@ -272,8 +272,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     for (l = 0; l < 4; l++) {
                         addVector(&quad[l], &work->sparks[i][k]);
                     }
-                    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                                      (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&poly->x0, (long *)&poly->x1,
+                                      (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
                     if (otz >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
                     }

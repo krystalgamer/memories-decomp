@@ -6,25 +6,25 @@
 #define MEM_CARD_IO_RESULT_PAGE_OFFSET 0x4BB0
 #endif
 
-PSXLONG MemCard_SetIOResultCompleteCB(void)
+long MemCard_SetIOResultCompleteCB(void)
 {
     gMemCard_nIOResult = 0;
     return 0;
 }
 
-PSXLONG MemCard_SetIOResultTimeoutCB(void)
+long MemCard_SetIOResultTimeoutCB(void)
 {
     gMemCard_nIOResult = 1;
     return 0;
 }
 
-PSXLONG MemCard_SetIOResultErrorCB(void)
+long MemCard_SetIOResultErrorCB(void)
 {
     gMemCard_nIOResult = 2;
     return 0;
 }
 
-PSXLONG MemCard_SetIOResultNewCardCB(void)
+long MemCard_SetIOResultNewCardCB(void)
 {
     u8 *page = (u8 *)0x800A0000;
 

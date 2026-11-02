@@ -21,7 +21,7 @@ s32 ModelVariant159_HandleRequest(u8 *context, s32 command)
     SVECTOR vertices[12];
     DVECTOR screen[34];
     u16 depths[34], projection[34], flags[34];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model159State *work;
     s32 direction;
     GsOT *ot;
@@ -267,7 +267,7 @@ s32 ModelVariant159_HandleRequest(u8 *context, s32 command)
             vertex = vertices;
             for (j = 0; j < 3; j++) {
                 depth = RotAverage4(&vertex[0], &vertex[1], &vertex[2], &vertex[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
@@ -284,7 +284,7 @@ s32 ModelVariant159_HandleRequest(u8 *context, s32 command)
             vertex = vertices;
             for (j = 0; j < 3; j++) {
                 depth = RotAverage4(&vertex[0], &vertex[1], &vertex[2], &vertex[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);

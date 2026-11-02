@@ -59,7 +59,7 @@ typedef struct {
  * trail lengths, spark counts, trail heads, spark, puff and flare frames,
  * the camera side, the ambient level, the textures and the bolt colours. */
 typedef struct {
-    Model821Config *G32 config;
+    Model821Config *config;
     SVECTOR pos[3][10];
     SVECTOR step[3][10];
     SVECTOR target[3][10];

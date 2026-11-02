@@ -8,9 +8,9 @@ void ModelVariant433_DrawRibbons(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG flags[6][9];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long flags[6][9];
+    long interpolation;
+    long flag;
     Model450RibbonView *work;
     GsOT *ot;
     s16 i;

@@ -10,8 +10,8 @@
  * the distinct address cohorts. */
 
 /* Primary control-module bases; the callable entry is four bytes into each. */
-extern u8 *G32 gModel_pSlot0PrimaryModule __attribute__((section(".data")));
-extern u8 *G32 gModel_pSlot1PrimaryModule __attribute__((section(".data")));
+extern u8 *gModel_pSlot0PrimaryModule __attribute__((section(".data")));
+extern u8 *gModel_pSlot1PrimaryModule __attribute__((section(".data")));
 extern s32 gModel_Slot0VariantModuleAddress __attribute__((section(".data")));
 extern s32 gModel_Slot1VariantModuleAddress __attribute__((section(".data")));
 extern s32 gMainMenu_dwSuModuleBase __attribute__((section(".data")));
@@ -19,7 +19,7 @@ extern s32 gMainMenu_dwSuModuleBase __attribute__((section(".data")));
 /* Staging base selected by duel package stage 7. The retail word holds
  * 0x80146000, the base of the WA_MRG shared duel-bank overlay slot
  * (notes/memory-map.md). */
-extern u8 *G32 gFile_pDuelBankBase __attribute__((section(".data")));
+extern u8 *gFile_pDuelBankBase __attribute__((section(".data")));
 
 /* Module data arguments copied into channel +0xDE8/+0xDEC, not entry points.
  * Model_InitSlot reads each as an absolute word under -G8, so like the

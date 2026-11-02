@@ -20,11 +20,11 @@ s32 ModelVariant787_HandleRequest(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 slot, side, step;
     GsOT *ot;
     s32 i;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -108,7 +108,7 @@ s32 ModelVariant787_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&band.x0, (PSXLONG *)&band.x1, (PSXLONG *)&band.x2, (PSXLONG *)&band.x3,
+            (long *)&band.x0, (long *)&band.x1, (long *)&band.x2, (long *)&band.x3,
             &interpolation, &flag);
         if (work->stage == 0) {
             band.clut = work->texture[2];
@@ -192,7 +192,7 @@ s32 ModelVariant787_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&glow.x0, (PSXLONG *)&glow.x1, (PSXLONG *)&glow.x2, (PSXLONG *)&glow.x3,
+            (long *)&glow.x0, (long *)&glow.x1, (long *)&glow.x2, (long *)&glow.x3,
             &interpolation, &flag);
         setUV4(&glow, 0, 0, 63, 0, 0, 63, 63, 63);
         if (depth >= 0 && flag >= 0) {
@@ -203,7 +203,7 @@ s32 ModelVariant787_HandleRequest(u8 *context, s32 command)
         setVector(&vertices[2], -work->config->glow_size / 2, work->config->glow_size / 2, 0);
         setVector(&vertices[3], work->config->glow_size / 2, work->config->glow_size / 2, 0);
         depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&glow.x0, (PSXLONG *)&glow.x1, (PSXLONG *)&glow.x2, (PSXLONG *)&glow.x3,
+            (long *)&glow.x0, (long *)&glow.x1, (long *)&glow.x2, (long *)&glow.x3,
             &interpolation, &flag);
         setUV4(&glow, 0, 0, 63, 0, 0, 63, 63, 63);
         if (depth >= 0 && flag >= 0) {
@@ -226,7 +226,7 @@ s32 ModelVariant787_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage3(&work->tips[0], &vertices[0], &vertices[1],
-                (PSXLONG *)&spoke.x0, (PSXLONG *)&spoke.x1, (PSXLONG *)&spoke.x2, &interpolation, &flag);
+                (long *)&spoke.x0, (long *)&spoke.x1, (long *)&spoke.x2, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&spoke, ot, (u16)depth, 1);
             }
@@ -234,7 +234,7 @@ s32 ModelVariant787_HandleRequest(u8 *context, s32 command)
             setRGB1(&spoke, work->spoke / 2, work->spoke / 2, work->spoke / 2);
             setRGB2(&spoke, work->spoke / 2, work->spoke / 2, work->spoke / 2);
             depth = RotAverage3(&work->tips[1], &vertices[0], &vertices[1],
-                (PSXLONG *)&spoke.x0, (PSXLONG *)&spoke.x1, (PSXLONG *)&spoke.x2, &interpolation, &flag);
+                (long *)&spoke.x0, (long *)&spoke.x1, (long *)&spoke.x2, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&spoke, ot, (u16)depth, 1);
             }

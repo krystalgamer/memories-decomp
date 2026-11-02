@@ -45,7 +45,7 @@ typedef struct {
  * ambient level, the spark count, the phase, the burst count, the textures
  * and the burst colours. */
 typedef struct {
-    Model809Config *G32 config;
+    Model809Config *config;
     SVECTOR sparks[64];
     SVECTOR bursts[64];
     SVECTOR tips[64][16];

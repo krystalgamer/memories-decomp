@@ -8,8 +8,8 @@ void func_8013CDDC(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Ribbon441State *state = (Ribbon441State *)context;
     Ribbon441 *ribbon = state->ribbons;
     POLY_GT4 *quad = &state->quad;

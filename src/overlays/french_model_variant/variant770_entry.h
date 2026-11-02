@@ -27,7 +27,7 @@ typedef union {
 } Model770Color;
 
 typedef struct {
-    Model770Config *G32 config;
+    Model770Config *config;
     SVECTOR trail_first[32];
     SVECTOR trail_second[32];
     SVECTOR quad[4];

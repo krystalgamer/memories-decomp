@@ -22,8 +22,8 @@ s32 ModelVariant801_HandleRequest(u8 *context, s32 command)
     SVECTOR pos;
     VECTOR scale;
     SVECTOR quad[4];
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     s32 direction;
     s32 step;
     GsOT *ot;
@@ -125,8 +125,8 @@ s32 ModelVariant801_HandleRequest(u8 *context, s32 command)
             MulMatrix2(&light, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
-            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0,
-                              (PSXLONG *)&ft4.x1, (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0,
+                              (long *)&ft4.x1, (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
             setUV4(&ft4, 0, 0x20, 0x3F, 0x20, 0, 0x3F, 0x3F, 0x3F);
             /* Each branch sorts its own quad; cross-jumping merges the two
              * calls, and the per-branch copy keeps &ft4 in a hoisted register. */
@@ -160,8 +160,8 @@ s32 ModelVariant801_HandleRequest(u8 *context, s32 command)
                     RotMatrix(&rot, &m);
                     ScaleMatrix(&m, &scale);
                     GsSetLsMatrix(&m);
-                    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&spark.x0,
-                                      (PSXLONG *)&spark.x1, (PSXLONG *)&spark.x2, (PSXLONG *)&spark.x3, &p,
+                    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&spark.x0,
+                                      (long *)&spark.x1, (long *)&spark.x2, (long *)&spark.x3, &p,
                                       &flag);
                     setUV4(&spark, work->spark_frame[i][j] * 32, 0, work->spark_frame[i][j] * 32 + 31, 0,
                            work->spark_frame[i][j] * 32, 31, work->spark_frame[i][j] * 32 + 31, 31);
@@ -210,8 +210,8 @@ s32 ModelVariant801_HandleRequest(u8 *context, s32 command)
                         setVector(&quad[3], work->trail[i][j - 1].vx,
                                   work->trail[i][j - 1].vy + work->config->height / 3 / (k + 1),
                                   work->trail[i][j - 1].vz);
-                        otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&g4.x0,
-                                          (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p, &flag);
+                        otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&g4.x0,
+                                          (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3, &p, &flag);
                         if (otz >= 0) {
                             Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)otz, 1);
                         }

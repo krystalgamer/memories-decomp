@@ -22,9 +22,9 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG flags[9][17];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long flags[9][17];
+    long interpolation;
+    long flag;
     Family410RibbonView *work;
     GsOT *ot;
     s16 i;
@@ -98,10 +98,10 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
                 if (k == 16) {
                     ribbon->depth[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k],
                                                    &ribbon->a[k - 1], &ribbon->a[k],
-                                                   (PSXLONG *)&ribbon->sa[k - 1], (PSXLONG *)&ribbon->sa[k],
-                                                   (PSXLONG *)&ribbon->sa[k - 1], (PSXLONG *)&ribbon->sa[k],
+                                                   (long *)&ribbon->sa[k - 1], (long *)&ribbon->sa[k],
+                                                   (long *)&ribbon->sa[k - 1], (long *)&ribbon->sa[k],
                                                    &interpolation, &flags[i][k]);
-                    RotTransPers(&ribbon->b[k], (PSXLONG *)&ribbon->sb[k], &interpolation, &flag);
+                    RotTransPers(&ribbon->b[k], (long *)&ribbon->sb[k], &interpolation, &flag);
                     dx = RIBBONS410_CLOSING(sa).point.vx - ribbon->sa[k - 1].point.vx;
                     dy = RIBBONS410_CLOSING(sa).point.vy - ribbon->sa[k - 1].point.vy;
                     ribbon->angle[k] = ratan2(dy, dx) - 3072;
@@ -111,10 +111,10 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
                 } else {
                     ribbon->depth[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1],
                                                    &ribbon->a[k], &ribbon->a[k + 1],
-                                                   (PSXLONG *)&ribbon->sa[k], (PSXLONG *)&ribbon->sa[k + 1],
-                                                   (PSXLONG *)&ribbon->sa[k], (PSXLONG *)&ribbon->sa[k + 1],
+                                                   (long *)&ribbon->sa[k], (long *)&ribbon->sa[k + 1],
+                                                   (long *)&ribbon->sa[k], (long *)&ribbon->sa[k + 1],
                                                    &interpolation, &flags[i][k]);
-                    RotTransPers(&ribbon->b[k], (PSXLONG *)&ribbon->sb[k], &interpolation, &flag);
+                    RotTransPers(&ribbon->b[k], (long *)&ribbon->sb[k], &interpolation, &flag);
 #ifdef MODEL_VARIANT410_RIBBONS_FOLDED_NEXT
                     /* Dead store, overwritten below: it only lengthens the CDK
                      * compiler's projection loop, which keeps the flag-row

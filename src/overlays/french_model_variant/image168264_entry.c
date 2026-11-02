@@ -19,8 +19,8 @@ s32 func_8013B004(u8 *context, s32 command)
     u16 flags[64];
     ModelTintColor tint_start;
     ModelTintColor tint_end;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     GsOT *ot;
     s32 i;
     s32 step;
@@ -32,7 +32,7 @@ s32 func_8013B004(u8 *context, s32 command)
     s32 other;
     Image168264Config *config;
     SVECTOR *position;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&translation, 0, 8);
@@ -126,7 +126,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB2(&triangle, red, green, blue);
                 copyVector(&translation, position);
                 GsSetLsMatrix(&light);
-                RotTransPers(position, (PSXLONG *)&triangle.x2, &p, &flag);
+                RotTransPers(position, (long *)&triangle.x2, &p, &flag);
                 for (j = 0; j < 64; j++) {
                     value = j * 64;
                     setVector(&rotation, 0, 0, value);
@@ -138,8 +138,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
                     depth = RotAverage3(&corners[0], &corners[1], &corners[2],
-                        (PSXLONG *)&triangle.x0, (PSXLONG *)&triangle.x1,
-                        (PSXLONG *)&unused.x0, &p, &flag);
+                        (long *)&triangle.x0, (long *)&triangle.x1,
+                        (long *)&unused.x0, &p, &flag);
                     if (depth >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 1);
                         triangle.x1 = unused.x0;
@@ -163,8 +163,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
                     depth = RotAverage3(&corners[0], &corners[1], &corners[2],
-                        (PSXLONG *)&triangle.x0, (PSXLONG *)&triangle.x1,
-                        (PSXLONG *)&unused.x0, &p, &flag);
+                        (long *)&triangle.x0, (long *)&triangle.x1,
+                        (long *)&unused.x0, &p, &flag);
                     if (depth >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 1);
                         triangle.x1 = unused.x0;

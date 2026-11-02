@@ -60,7 +60,7 @@ typedef struct {
  * flags, the phase, the ambient level, the five textures, the fixed ring
  * texture and the per-bolt bolt, glow and ray colours. */
 typedef struct {
-    Model842Config *G32 config;
+    Model842Config *config;
     SVECTOR pos[3];
     SVECTOR step[3];
     SVECTOR angle[3];

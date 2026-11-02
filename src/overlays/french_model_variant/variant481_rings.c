@@ -8,8 +8,8 @@ void FrenchModelVariant481_DrawRings(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Rings481State *state = (Rings481State *)context;
     Ring481Gauge *gauge;
     Ring481 *ring = state->rings;
@@ -87,8 +87,8 @@ void FrenchModelVariant481_DrawRings(u8 *context)
             }
             for (k = 0; k < 16; k++) {
                 depth = RotTransPers4(&ring->a[k], &ring->a[k + 1], &ring->b[k], &ring->b[k + 1],
-                                      (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                      (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3, &interpolation, &flag);
+                                      (long *)&quad->x0, (long *)&quad->x1,
+                                      (long *)&quad->x2, (long *)&quad->x3, &interpolation, &flag);
                 setRGB0(quad, r0, g0, b0);
                 setRGB1(quad, r0, g0, b0);
                 setRGB2(quad, r1, g1, b1);

@@ -250,12 +250,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vz - work->matrix.t[2]);
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
-        RotTransPers(&position, (PSXLONG *)&projection.projected,
+        RotTransPers(&position, (long *)&projection.projected,
                      &projection.interpolation, &projection.flag);
         screen_x = (u16)projection.projected.vx;
         screen_y = projection.projected.vy;
         setVector(&target, work->target.vx, work->target.vy, work->target.vz);
-        RotTransPers(&target, (PSXLONG *)&projection.target,
+        RotTransPers(&target, (long *)&projection.target,
                      &projection.interpolation, &projection.flag);
         /* Capture projected x before the observed substep-reset store. */
         dx = (u16)projection.target.vx;

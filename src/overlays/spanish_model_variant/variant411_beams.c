@@ -14,8 +14,8 @@ void func_8013C57C(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Beam411State *state;
     ModelVariantSheet *sheet;
     Beam411 *beam;

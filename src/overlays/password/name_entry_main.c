@@ -16,7 +16,7 @@
 void NameEntry_BuildStarterDeck(void)
 {
     u8 counts[CARD_COUNT];
-    NameEntryStarterDeckPool *G32 *table;
+    NameEntryStarterDeckPool **table;
     u16 *entry;
     u16 *p;
     s16 *out;

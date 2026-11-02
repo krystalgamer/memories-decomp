@@ -79,9 +79,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, frame, animation_frame;
     s32 step, fade;
-    Variant366Config *G32 config;
+    Variant366Config *config;
     u8 unknown_153C[4];
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s32 index;
     s32 field_1550, field_1554;
     s32 field_1558[3];
@@ -96,7 +96,7 @@ typedef struct {
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     DVECTOR target;
 } Variant366Projection;
 

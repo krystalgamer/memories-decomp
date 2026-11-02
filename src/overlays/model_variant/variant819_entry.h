@@ -65,7 +65,7 @@ typedef struct {
  * count, the arrival flags, the phase, the ambient level, the fixed ring
  * texture, the seven textures and the per-bolt bolt and glow colours. */
 typedef struct {
-    Model819Config *G32 config;
+    Model819Config *config;
     SVECTOR pos[4];
     SVECTOR step[4];
     SVECTOR angle[4];

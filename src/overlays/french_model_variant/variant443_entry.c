@@ -473,12 +473,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         }
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         setVector(&position, work->origin.vx, work->origin.vy, work->origin.vz);
-        RotTransPers(&position, (PSXLONG *)&projection.projected,
+        RotTransPers(&position, (long *)&projection.projected,
             &projection.interpolation, &projection.flag);
         origin_x = (u16)projection.projected.vx;
         origin_y = projection.projected.vy;
         setVector(&target, work->target.vx, work->target.vy, work->target.vz);
-        RotTransPers(&target, (PSXLONG *)&projection.target,
+        RotTransPers(&target, (long *)&projection.target,
             &projection.interpolation, &projection.flag);
         delta_x = (u16)projection.target.vx - origin_x;
         delta_y = projection.target.vy - origin_y;
@@ -486,7 +486,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->projected.vy = delta_y;
         for (i = 0; i < 3; i++) {
             setVector(&position, work->positions[i].vx, work->positions[i].vy, work->positions[i].vz);
-            RotTransPers(&position, (PSXLONG *)&projection.projected,
+            RotTransPers(&position, (long *)&projection.projected,
                 &projection.interpolation, &projection.flag);
 #ifdef MODEL_VARIANT426_ENTRY_PAIRED_SCREEN
             /* The North American gcc 2.7.2 build reads both coordinates

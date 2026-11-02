@@ -32,7 +32,7 @@ typedef struct {
     u16 elapsed, duration;
     /* Bloom frame counter, spark cursor and spark ring latch. */
     u16 frame, cursor, spawned, unknown_16;
-    GsCOORDUNIT *G32 coord;
+    GsCOORDUNIT *coord;
     SVECTOR rotation;
     VECTOR scale;
     VECTOR position;

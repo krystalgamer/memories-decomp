@@ -23,11 +23,11 @@ void func_8013D5D4(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG status[3][13];
-    PSXLONG p;
-    PSXLONG flag;
+    long status[3][13];
+    long p;
+    long flag;
 #ifndef MODEL_VARIANT437_STREAMERS_DIRECT_PREVIOUS
-    PSXLONG *previous;
+    long *previous;
 #endif
     u8 *work;
     POLY_G4 *poly;
@@ -125,7 +125,7 @@ void func_8013D5D4(u8 *ctx)
     for (i = 0; i < 3; i++, streamer++) {
 #else
     for (i = 0, previous = &streamer->sa[11]; i < 3; i++,
-         previous = (PSXLONG *)((u8 *)previous + sizeof(Variant437Streamer)), streamer++) {
+         previous = (long *)((u8 *)previous + sizeof(Variant437Streamer)), streamer++) {
 #endif
         for (k = 0; k < 13; k++) {
             if (k == 12) {

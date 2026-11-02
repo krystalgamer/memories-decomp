@@ -9,10 +9,10 @@
  * screen offset per point, a colour, the depth per segment and a width scale. */
 typedef struct {
     SVECTOR a[3];
-    PSXLONG sa[3];
+    long sa[3];
     s32 angle[3];
     SVECTOR b[3];
-    PSXLONG sb[3];
+    long sb[3];
     s32 width[3];
     u8 color[4];
     u8 unknown64[0x50];

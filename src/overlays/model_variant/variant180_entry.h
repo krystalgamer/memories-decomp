@@ -28,7 +28,7 @@ typedef struct {
  * position, a 66-point double ring, this slot's position, two texture words,
  * the elapsed time and the completion flag. */
 typedef struct {
-    Model180Config *G32 config;
+    Model180Config *config;
     SVECTOR rays[32];
     SVECTOR opponent;
     SVECTOR ring[66];

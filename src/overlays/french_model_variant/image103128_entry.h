@@ -36,7 +36,7 @@ typedef union {
 } Image103128Control;
 
 typedef struct {
-    Image103128Config *G32 config;
+    Image103128Config *config;
     SVECTOR positions[4][8];
     SVECTOR velocities[4][8];
     SVECTOR impacts[4][8];

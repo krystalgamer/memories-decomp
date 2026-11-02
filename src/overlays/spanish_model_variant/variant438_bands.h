@@ -29,7 +29,7 @@ typedef struct {
     u32 frame;
     u32 time;
     u8 unknown_22A0[0x14];
-    Bands438Timing *G32 timing;
+    Bands438Timing *timing;
     u8 unknown_22B8[0x20];
     s16 size;
     u8 unknown_22DA[2];

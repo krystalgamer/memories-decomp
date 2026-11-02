@@ -22,13 +22,13 @@ s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
     u16 outer_depth[65], inner_depth[65], projection[65];
     u16 outer_flags[65], inner_flags[65];
     SVECTOR opponent;
-    PSXLONG flag;
+    long flag;
     Model96Config *config;
     GsOT *ot;
     SVECTOR *inner, *position;
     s32 *factor;
     s32 direction, i, j, angle, time, brightness;
-    PSXLONG depth;
+    long depth;
 
     scale = gFrenchModelVariant96_D0C4C;
     work = (Model96State *)context;

@@ -37,7 +37,7 @@ typedef struct {
     u8 unknown_2EF0[4];
     s32 step;
     u8 unknown_2EF8[4];
-    Mesh719Timing *G32 timing;
+    Mesh719Timing *timing;
     u8 unknown_2F00[0x2C];
     s32 angle;
     u8 unknown_2F30[0x10];

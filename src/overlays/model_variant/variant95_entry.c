@@ -23,7 +23,7 @@ s32 ModelVariant95_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     DVECTOR screen[498];
     u16 depths[498], projection[498], flags[498];
-    PSXLONG flag;
+    long flag;
     Model95State *work;
     s32 direction;
     GsOT *ot;

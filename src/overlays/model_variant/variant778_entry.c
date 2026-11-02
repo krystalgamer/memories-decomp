@@ -17,12 +17,12 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 slot, step;
     GsOT *ot;
     SVECTOR *point;
     s32 i, j;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -136,8 +136,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&smoke_packet.x0, (PSXLONG *)&smoke_packet.x1, (PSXLONG *)&smoke_packet.x2,
-                    (PSXLONG *)&smoke_packet.x3, &interpolation, &flag);
+                    (long *)&smoke_packet.x0, (long *)&smoke_packet.x1, (long *)&smoke_packet.x2,
+                    (long *)&smoke_packet.x3, &interpolation, &flag);
                 /* The s16 casts keep the sign extensions before and after the divide. */
                 setUV4(&smoke_packet, (s16)((s16)work->smoke_ages[i] / 3) * 32 - 32, 192,
                     (s16)((s16)work->smoke_ages[i] / 3) * 32 - 1, 192,
@@ -169,8 +169,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&glow_packet.x0, (PSXLONG *)&glow_packet.x1, (PSXLONG *)&glow_packet.x2,
-                    (PSXLONG *)&glow_packet.x3, &interpolation, &flag);
+                    (long *)&glow_packet.x0, (long *)&glow_packet.x1, (long *)&glow_packet.x2,
+                    (long *)&glow_packet.x3, &interpolation, &flag);
                 /* "* 64" keeps the (s16) extension that "<< 6" drops for a byte store. */
                 setUV4(&glow_packet, (s16)(work->glow_ages[i] % 4) * 64, work->glow_ages[i] / 4 << 6,
                     ((s16)(work->glow_ages[i] % 4) * 64) + 63, work->glow_ages[i] / 4 << 6,
@@ -209,8 +209,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&ring_packet.x0, (PSXLONG *)&ring_packet.x1, (PSXLONG *)&ring_packet.x2,
-                    (PSXLONG *)&ring_packet.x3, &interpolation, &flag);
+                    (long *)&ring_packet.x0, (long *)&ring_packet.x1, (long *)&ring_packet.x2,
+                    (long *)&ring_packet.x3, &interpolation, &flag);
                 setUV4(&ring_packet, 0, 128, 63, 128, 0, 191, 63, 191);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&ring_packet, ot, (u16)depth, 1);
@@ -222,7 +222,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 point = work->axis;
                 for (j = 0; j < work->config->segments; j++) {
                     depth = RotAverage3(&work->tips[i][j], point, point + 1,
-                        (PSXLONG *)&spoke_packet.x0, (PSXLONG *)&spoke_packet.x1, (PSXLONG *)&spoke_packet.x2,
+                        (long *)&spoke_packet.x0, (long *)&spoke_packet.x1, (long *)&spoke_packet.x2,
                         &interpolation, &flag);
                     if (depth >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&spoke_packet, ot, (u16)depth, 1);
@@ -234,8 +234,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&ring_packet.x0, (PSXLONG *)&ring_packet.x1, (PSXLONG *)&ring_packet.x2,
-                    (PSXLONG *)&ring_packet.x3, &interpolation, &flag);
+                    (long *)&ring_packet.x0, (long *)&ring_packet.x1, (long *)&ring_packet.x2,
+                    (long *)&ring_packet.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&ring_packet, ot, (u16)depth, 1);
                 }

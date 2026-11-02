@@ -59,7 +59,7 @@ void Model_DrawBackground(void)
     SVECTOR vertices[8];
     GsSPRITE sprite;
     POLY_G4 polygons[3];
-    PSXLONG projection[4];
+    long projection[4];
     ModelSlot *background_slot = &gModel_aSlots[2];
     u8 texture_v_base;
     s32 ring_height;
@@ -221,12 +221,12 @@ tiles:
         vertices[7].vx = 2800 * cosine / 4096;
         vertices[7].vz = 2800 * sine / 4096;
         inner_band_depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&polygons[0].x0, (PSXLONG *)&polygons[0].x1,
-            (PSXLONG *)&polygons[0].x2, (PSXLONG *)&polygons[0].x3,
+            (long *)&polygons[0].x0, (long *)&polygons[0].x1,
+            (long *)&polygons[0].x2, (long *)&polygons[0].x3,
             &projection[0], &projection[1]);
         outer_band_depth = RotAverage4(&vertices[4], &vertices[5], &vertices[6], &vertices[7],
-            (PSXLONG *)&polygons[2].x0, (PSXLONG *)&polygons[2].x1,
-            (PSXLONG *)&polygons[2].x2, (PSXLONG *)&polygons[2].x3,
+            (long *)&polygons[2].x0, (long *)&polygons[2].x1,
+            (long *)&polygons[2].x2, (long *)&polygons[2].x3,
             &projection[2], &projection[3]);
         polygons[1].x0 = (u16)polygons[0].x2;
         polygons[1].y0 = (u16)polygons[0].y2;
@@ -260,7 +260,7 @@ advance:
  * The graphics state binds to its strong .sdata owner and the snapshot
  * names to existing image/layout symbols; they add no replacement storage.
  * The named profile's --use-comm-section spelling is load-bearing. */
-ModelBackgroundRecord *G32 gModel_pBackgroundRecord;
+ModelBackgroundRecord *gModel_pBackgroundRecord;
 s16 gModel_wBackgroundScrollX;
 s16 gModel_wBackgroundOffsetY;
 

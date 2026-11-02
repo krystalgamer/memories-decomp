@@ -17,14 +17,14 @@ s32 FrenchModelVariant167_HandleRequest(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, parameter;
+    long flag, parameter;
     GsOT *ot;
     Model167Config *config;
     SVECTOR *point;
     s16 *offset, *increment;
     s32 i, time, value, angle0, angle1, step;
     u8 red, green, blue;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -164,8 +164,8 @@ s32 FrenchModelVariant167_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &parameter, &flag);
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &parameter, &flag);
             value = time * 8 / config->particle_duration;
             setUV4(&quad, 128 + value % 4 * 32, value / 4 * 32,
                 128 + value % 4 * 32 + 31, value / 4 * 32,

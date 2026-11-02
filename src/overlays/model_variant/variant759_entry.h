@@ -44,7 +44,7 @@ typedef struct {
  * fade-done flags, the glow and flash frames, the phase, the elapsed time
  * and the ring count. */
 typedef struct {
-    Model759Config *G32 config;
+    Model759Config *config;
     SVECTOR glow[4];
     SVECTOR wave[4];
     SVECTOR wave2[4];

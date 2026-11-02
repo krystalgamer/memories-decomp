@@ -21,8 +21,8 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
     SVECTOR position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag;
-    PSXLONG interpolation;
+    long flag;
+    long interpolation;
     s32 slot, direction, step;
     GsOT *ot;
     POLY_FT4 *ft;
@@ -191,7 +191,7 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 otz = RotAverage4(&edge[i], &edge[i - 1], &edge_b[i], &edge_b[i - 1],
-                                  (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3,
+                                  (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3,
                                   &interpolation, &flag);
                 if (otz >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)otz, 1);
@@ -237,7 +237,7 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 otz = RotAverage4(&edge[i], &edge[i - 1], &edge_b[i], &edge_b[i - 1],
-                                  (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1, (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3,
+                                  (long *)&g4.x0, (long *)&g4.x1, (long *)&g4.x2, (long *)&g4.x3,
                                   &interpolation, &flag);
                 if (otz >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)otz, 1);
@@ -282,8 +282,8 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&sprite.x0,
-                                  (PSXLONG *)&sprite.x1, (PSXLONG *)&sprite.x2, (PSXLONG *)&sprite.x3, &interpolation,
+                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&sprite.x0,
+                                  (long *)&sprite.x1, (long *)&sprite.x2, (long *)&sprite.x3, &interpolation,
                                   &flag);
                 setUV4(&sprite, work->spark_frames[0][i] * 32, 0x40, work->spark_frames[0][i] * 32 + 31, 0x40,
                        work->spark_frames[0][i] * 32, 0x5F, work->spark_frames[0][i] * 32 + 31, 0x5F);
@@ -317,8 +317,8 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&sprite.x0,
-                                  (PSXLONG *)&sprite.x1, (PSXLONG *)&sprite.x2, (PSXLONG *)&sprite.x3, &interpolation,
+                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&sprite.x0,
+                                  (long *)&sprite.x1, (long *)&sprite.x2, (long *)&sprite.x3, &interpolation,
                                   &flag);
                 setUV4(&sprite, work->flare_frames[0][i] * 32 - 128, 0, work->flare_frames[0][i] * 32 - 97, 0,
                        work->flare_frames[0][i] * 32 - 128, 0x3F, work->flare_frames[0][i] * 32 - 97, 0x3F);
@@ -355,8 +355,8 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
                     setVector(&vertices[1], 0, (j - 2 < 0 ? 1 : -1) * work->config->burst_size, 0);
                     setVector(&vertices[2], -sign * work->config->burst_size, 0, 0);
                     setVector(&vertices[3], 0, 0, 0);
-                    otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&ft->x0,
-                                      (PSXLONG *)&ft->x1, (PSXLONG *)&ft->x2, (PSXLONG *)&ft->x3, &interpolation,
+                    otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&ft->x0,
+                                      (long *)&ft->x1, (long *)&ft->x2, (long *)&ft->x3, &interpolation,
                                       &flag);
                     if (otz >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)ft, ot, (u16)otz, 1);
@@ -413,8 +413,8 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&sprite.x0,
-                                  (PSXLONG *)&sprite.x1, (PSXLONG *)&sprite.x2, (PSXLONG *)&sprite.x3, &interpolation,
+                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&sprite.x0,
+                                  (long *)&sprite.x1, (long *)&sprite.x2, (long *)&sprite.x3, &interpolation,
                                   &flag);
                 setUV4(&sprite, work->spark_frames[1][i] * 32, 0x40, work->spark_frames[1][i] * 32 + 31, 0x40,
                        work->spark_frames[1][i] * 32, 0x5F, work->spark_frames[1][i] * 32 + 31, 0x5F);
@@ -448,8 +448,8 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rotation, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&sprite.x0,
-                                  (PSXLONG *)&sprite.x1, (PSXLONG *)&sprite.x2, (PSXLONG *)&sprite.x3, &interpolation,
+                otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&sprite.x0,
+                                  (long *)&sprite.x1, (long *)&sprite.x2, (long *)&sprite.x3, &interpolation,
                                   &flag);
                 setUV4(&sprite, work->flare_frames[1][i] * 32 - 128, 0, work->flare_frames[1][i] * 32 - 97, 0,
                        work->flare_frames[1][i] * 32 - 128, 0x3F, work->flare_frames[1][i] * 32 - 97, 0x3F);
@@ -486,8 +486,8 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
                     setVector(&vertices[1], 0, (j - 2 < 0 ? 1 : -1) * work->config->burst_size, 0);
                     setVector(&vertices[2], -sign * work->config->burst_size, 0, 0);
                     setVector(&vertices[3], 0, 0, 0);
-                    otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&ft->x0,
-                                      (PSXLONG *)&ft->x1, (PSXLONG *)&ft->x2, (PSXLONG *)&ft->x3, &interpolation,
+                    otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&ft->x0,
+                                      (long *)&ft->x1, (long *)&ft->x2, (long *)&ft->x3, &interpolation,
                                       &flag);
                     if (otz >= 0 && flag >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)ft, ot, (u16)otz, 1);
@@ -543,8 +543,8 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
             RotMatrix(&work->spins[i], &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&gt->x0,
-                              (PSXLONG *)&gt->x1, (PSXLONG *)&gt->x2, (PSXLONG *)&gt->x3, &interpolation, &flag);
+            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&gt->x0,
+                              (long *)&gt->x1, (long *)&gt->x2, (long *)&gt->x3, &interpolation, &flag);
             if (otz >= 0 && flag >= 0) {
                 GsSortPoly(gt, ot, otz);
             }
@@ -564,8 +564,8 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
             setVector(&vertices[1], 0, (j - 2 >= 0 ? -1 : 1) * 128, 0);
             setVector(&vertices[2], -sign * 128, 0, 0);
             setVector(&vertices[3], 0, 0, 0);
-            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (PSXLONG *)&ft->x0,
-                              (PSXLONG *)&ft->x1, (PSXLONG *)&ft->x2, (PSXLONG *)&ft->x3, &interpolation, &flag);
+            otz = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3], (long *)&ft->x0,
+                              (long *)&ft->x1, (long *)&ft->x2, (long *)&ft->x3, &interpolation, &flag);
             if (otz >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)ft, ot, (u16)otz, 1);
             }

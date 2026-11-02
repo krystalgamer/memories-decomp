@@ -11,8 +11,8 @@ void func_8013BFD0(u8 *context)
     u8 red[9];
     u8 green[9];
     u8 blue[9];
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Grid379State *state = (Grid379State *)context;
     Grid379Sheet *sheet = state->sheets;
     Grid379Pulse *pulse = state->pulses;
@@ -65,8 +65,8 @@ void func_8013BFD0(u8 *context)
             for (k = 0; k < 16; k++) {
                 depth = RotTransPers4(&sheet->points[j][k], &sheet->points[j][k + 1],
                                       &sheet->points[j + 1][k], &sheet->points[j + 1][k + 1],
-                                      (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                      (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                      (long *)&quad->x0, (long *)&quad->x1,
+                                      (long *)&quad->x2, (long *)&quad->x3,
                                       &interpolation, &flag);
                 if (pulse->progress >= 1024 && depth >= 0 && flag >= 0) {
                     func_8005B260((u32 *)quad, ot, (u16)depth, 1);

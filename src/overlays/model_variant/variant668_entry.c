@@ -23,11 +23,11 @@ s32 func_8013B004(u8 *context, s32 command)
     Model668ViewSnapshot view;
     SVECTOR points[2];
     u8 r[2], g[2], b[2];
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, i, j, k, n, step, inactive;
     s32 value, duration, offset, sign;
     u32 tex;
-    PSXLONG depth;
+    long depth;
 
     work = (Model668State *)context;
     result = 0;
@@ -187,8 +187,8 @@ s32 func_8013B004(u8 *context, s32 command)
                             setRGB3(&work->strip, r[1], g[1], b[1]);
                             depth = RotAverage4(&work->grid[0][n][k][j], &work->grid[1][n][k][j],
                                 &work->grid[0][n + 1][k][j], &work->grid[1][n + 1][k][j],
-                                (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1,
-                                (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3,
+                                (long *)&work->strip.x0, (long *)&work->strip.x1,
+                                (long *)&work->strip.x2, (long *)&work->strip.x3,
                                 &interpolation, &flag);
                             if (flag >= 0) {
                                 GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
@@ -218,8 +218,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->shells[i].u + 63, work->shells[i].v + 63);
                 setRGB0(&work->sprite, work->shells[i].color[0], work->shells[i].color[1], work->shells[i].color[2]);
                 depth = RotAverage4(&work->corners[0], &work->corners[1], &work->corners[2], &work->corners[3],
-                    (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1,
-                    (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3,
+                    (long *)&work->sprite.x0, (long *)&work->sprite.x1,
+                    (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);

@@ -38,7 +38,7 @@ typedef struct {
     u8 unknown_3540[4];
     u32 step;
     u8 unknown_3548[4];
-    Sheets462Timing *G32 timing;
+    Sheets462Timing *timing;
     u8 unknown_3550[0x3C];
     s32 phase;
 } Sheets462State;

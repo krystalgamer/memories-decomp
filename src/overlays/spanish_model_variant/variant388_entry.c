@@ -18,7 +18,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
-    PSXLONG projected, interpolation, flag, target_sxy;
+    long projected, interpolation, flag, target_sxy;
     Variant388EntryTube *tube = work->tubes;
     Variant388EntrySheet *sheet = work->sheets;
     Variant388EntryFeedback *feedback = work->feedback;

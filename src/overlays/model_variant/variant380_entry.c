@@ -249,12 +249,12 @@ s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
                       work->targets[i].vz - work->matrices[i].t[2]);
             GsSetLsMatrix(Model_GetLightSourceMatrix());
             setVector(&position, work->matrices[i].t[0], work->matrices[i].t[1], work->matrices[i].t[2]);
-            RotTransPers(&position, (PSXLONG *)&projection.projected,
+            RotTransPers(&position, (long *)&projection.projected,
                          &projection.interpolation, &projection.flag);
             screen_x = projection.projected.vx;
             screen_y = projection.projected.vy;
             setVector(&target, work->targets[i].vx, work->targets[i].vy, work->targets[i].vz);
-            RotTransPers(&target, (PSXLONG *)&projection.target,
+            RotTransPers(&target, (long *)&projection.target,
                          &projection.interpolation, &projection.flag);
             dy = projection.target.vy - screen_y;
             work->screen_dx[i] = projection.target.vx - screen_x;

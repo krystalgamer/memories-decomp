@@ -24,13 +24,13 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR unused_points[3];
     DVECTOR screen[18];
     u16 depths[18], projection[18], flags[18];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model117Config *config;
     GsOT *ot;
     SVECTOR *point;
     u8 step;
     s32 i, time, size, tilt, half, length, dy, offset, apex, near, far;
-    PSXLONG depth;
+    long depth;
     u8 red, green, blue;
 
     memset(&rotation, 0, 8);
@@ -153,8 +153,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                    (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                    (long *)&quad.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }
@@ -207,7 +207,7 @@ s32 func_8013B004(u8 *context, s32 command)
         MulMatrix2(&base, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        apex = RotTransPers(&origin, (PSXLONG *)&tri.x0, &interpolation, &flag);
+        apex = RotTransPers(&origin, (long *)&tri.x0, &interpolation, &flag);
         if (size != 0) {
             position.vy += dy * length / size;
         }
@@ -327,8 +327,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&point[0], &point[1], &point[2], &point[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             red = config->square_red * (4096 - size) / 4096;
             green = config->square_green * (4096 - size) / 4096;
             blue = config->square_blue * (4096 - size) / 4096;
@@ -345,8 +345,8 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&point[4], &point[5], &point[6], &point[7],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             red = config->square_red * (4096 - size) / 4096;
             green = config->square_green * (4096 - size) / 4096;
             blue = config->square_blue * (4096 - size) / 4096;

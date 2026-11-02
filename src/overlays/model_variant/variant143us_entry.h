@@ -43,7 +43,7 @@ typedef struct {
  * 55-vertex dome and its colours, 48 bursts of four sparks, the 48 dome
  * spins, four texture words, the completion flag and the elapsed time. */
 typedef struct {
-    Model143UsConfig *G32 config;
+    Model143UsConfig *config;
     SVECTOR grid[169];
     Model143UsColour colours[169];
     SVECTOR ring[32];

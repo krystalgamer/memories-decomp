@@ -19,13 +19,13 @@ s32 func_8013B004(u8 *context, s32 command)
     GsCOORDUNIT unit;
     Model643ViewSnapshot view;
     SVECTOR inner, outer;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, k, m, n;
     s32 value, sign;
     u32 tex;
     u8 r, g, b;
-    PSXLONG depth;
+    long depth;
 
     work = (Model643State *)context;
     result = 0;
@@ -271,8 +271,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB2(&work->strip, r, g, b);
                 setRGB3(&work->strip, r, g, b);
                 depth = RotAverage4(&work->cone[j][0], &work->cone[j + 1][0], &work->cone[j][1], &work->cone[j + 1][1],
-                    (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1,
-                    (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3,
+                    (long *)&work->strip.x0, (long *)&work->strip.x1,
+                    (long *)&work->strip.x2, (long *)&work->strip.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
@@ -324,8 +324,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB2(&work->band, r, g, b);
                 setRGB3(&work->band, r, g, b);
                 depth = RotAverage4(&work->ring[j][0], &work->ring[j + 1][0], &inner, &outer,
-                    (PSXLONG *)&work->band.x0, (PSXLONG *)&work->band.x1,
-                    (PSXLONG *)&work->band.x2, (PSXLONG *)&work->band.x3,
+                    (long *)&work->band.x0, (long *)&work->band.x1,
+                    (long *)&work->band.x2, (long *)&work->band.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&work->band, func_80058F10(), (u16)depth, work->bands[i].mode);
@@ -339,8 +339,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB0(&work->band, r, g, b);
                 setRGB1(&work->band, r, g, b);
                 depth = RotAverage4(&inner, &outer, &work->ring[j][1], &work->ring[j + 1][1],
-                    (PSXLONG *)&work->band.x0, (PSXLONG *)&work->band.x1,
-                    (PSXLONG *)&work->band.x2, (PSXLONG *)&work->band.x3,
+                    (long *)&work->band.x0, (long *)&work->band.x1,
+                    (long *)&work->band.x2, (long *)&work->band.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&work->band, func_80058F10(), (u16)depth, work->bands[i].mode);
@@ -393,8 +393,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 b = work->grid[i][j].color[2];
                 setRGB0(&work->quad, r, g, b);
                 depth = RotAverage4(&work->corner[0], &work->corner[1], &work->corner[2], &work->corner[3],
-                    (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                    (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3,
+                    (long *)&work->quad.x0, (long *)&work->quad.x1,
+                    (long *)&work->quad.x2, (long *)&work->quad.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->quad, func_80058F10(), (u16)depth);

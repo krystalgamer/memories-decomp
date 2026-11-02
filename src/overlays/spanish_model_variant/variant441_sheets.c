@@ -22,8 +22,8 @@ void func_8013DA48(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG projection;
-    PSXLONG flag;
+    long projection;
+    long flag;
     ModelVariantSheet *quad;
     GsOT *ot;
     u8 *work;
@@ -105,8 +105,8 @@ void func_8013DA48(u8 *context)
         for (k = 0; k < 4; k++) {
             depth = RotTransPers4(
                 &quad->v0[k], &quad->v1[k], &quad->v2[k], &quad->v3[k],
-                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3,
+                (long *)&poly->x0, (long *)&poly->x1,
+                (long *)&poly->x2, (long *)&poly->x3,
                 &projection, &flag);
             poly->r0 = red;
             poly->g0 = green;
@@ -125,24 +125,24 @@ void func_8013DA48(u8 *context)
                 GsSortPoly(poly, ot, depth);
             }
         }
-        if (SHEETS_WORD(0x26F8) + 1 == *(u16 *)(*(u8 *G32 *)(work + SHEETS_OFFSET(0x26E4)) + 0x18)) {
+        if (SHEETS_WORD(0x26F8) + 1 == *(u16 *)(*(u8 **)(work + SHEETS_OFFSET(0x26E4)) + 0x18)) {
             if (i == 0) {
                 if (SHEETS_WORD(0x271C) == 0 && quad->size < 4096) {
                     quad->size = ((SHEETS_WORD(0x26D4)
-                        - MODEL_VARIANT_WORD(*(u8 *G32 *)(work + SHEETS_OFFSET(0x26E4)), 0x1C)) << 12)
-                        / (MODEL_VARIANT_WORD(*(u8 *G32 *)(work + SHEETS_OFFSET(0x26E4)), 0x20)
-                        - MODEL_VARIANT_WORD(*(u8 *G32 *)(work + SHEETS_OFFSET(0x26E4)), 0x1C));
+                        - MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x1C)) << 12)
+                        / (MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x20)
+                        - MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x1C));
                     if (quad->size >= 4096) {
                         quad->size = 4096;
                         SHEETS_WORD(0x271C) = 1;
                     }
                 }
-                if (SHEETS_WORD(0x26D4) >= MODEL_VARIANT_WORD(*(u8 *G32 *)(work + SHEETS_OFFSET(0x26E4)), 0x28)
+                if (SHEETS_WORD(0x26D4) >= MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x28)
                     && quad->size > 0) {
                     quad->size = 4096 - ((SHEETS_WORD(0x26D4)
-                        - MODEL_VARIANT_WORD(*(u8 *G32 *)(work + SHEETS_OFFSET(0x26E4)), 0x28)) << 12)
-                        / (MODEL_VARIANT_WORD(*(u8 *G32 *)(work + SHEETS_OFFSET(0x26E4)), 0x2C)
-                        - MODEL_VARIANT_WORD(*(u8 *G32 *)(work + SHEETS_OFFSET(0x26E4)), 0x28));
+                        - MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x28)) << 12)
+                        / (MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x2C)
+                        - MODEL_VARIANT_WORD(*(u8 **)(work + SHEETS_OFFSET(0x26E4)), 0x28));
                     if (quad->size <= 0) {
                         quad->size = 0;
                     }

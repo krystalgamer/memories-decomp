@@ -8,8 +8,8 @@ void func_8013D010(u8 *ctx)
     MATRIX matrix;
     MATRIX local;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     Variant452LinesView *work = (Variant452LinesView *)ctx;
     Variant452Grid *grid = work->grid;
     GsGLINE *line = &work->line;
@@ -64,8 +64,8 @@ void func_8013D010(u8 *ctx)
                 depth = RotTransPers4(
                     &grid->inner[i][j], &grid->outer[i][j],
                     &grid->inner[i][j], &grid->outer[i][j],
-                    (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
-                    (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
+                    (long *)&line->x0, (long *)&line->x1,
+                    (long *)&line->x0, (long *)&line->x1,
                     &p, &flag);
                 line->r0 = r;
                 line->g0 = g;

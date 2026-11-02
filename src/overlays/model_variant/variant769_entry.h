@@ -48,7 +48,7 @@ typedef struct {
 } Model769Command;
 
 typedef struct {
-    Model769Command *G32 command;
+    Model769Command *command;
     SVECTOR position;
     SVECTOR velocity;
     SVECTOR particles[128];

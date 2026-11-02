@@ -43,7 +43,7 @@ typedef struct {
  * the timers, the ambient level, the counts and phase, the textures, the
  * fading burst colours and the four flare colour levels. */
 typedef struct {
-    Model797Config *G32 config;
+    Model797Config *config;
     SVECTOR strikes[64];
     SVECTOR bursts[64];
     SVECTOR rays[64][16];

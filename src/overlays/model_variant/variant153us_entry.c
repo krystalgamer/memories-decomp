@@ -23,11 +23,11 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR target;
     SVECTOR unused[3];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model153UsConfig *config;
     GsOT *ot;
     SVECTOR *point, *previous;
-    SVECTOR *G32 *corner;
+    SVECTOR **corner;
     s32 step, i, j, k, m, time;
     SVECTOR *anchor;
     POLY_FT4 *poly;
@@ -35,7 +35,7 @@ s32 func_8013B004(u8 *context, s32 command)
     u8 red, green, blue;
     s32 rows;
     u8 shade;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -146,8 +146,8 @@ s32 func_8013B004(u8 *context, s32 command)
             for (i = 0; i < 4; i++) {
                 for (j = 0; j < 4; corner += 4, j++) {
                     depth = RotAverage4(corner[0], corner[1], corner[2], corner[3],
-                        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                        (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                        (long *)&quad.x0, (long *)&quad.x1,
+                        (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                     setUV4(&quad, j * value, i * value, j * value + 31, i * value,
                         j * value, i * value + 31, j * value + 31, i * value + 31);
                     if (depth >= 0 && flag >= 0) {
@@ -199,8 +199,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         for (i = 0; i < rows; i++) {
                             for (j = 0; j < 4; corner += 4, j++) {
                                 depth = RotAverage4(corner[0], corner[1], corner[2], corner[3],
-                                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                                    (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                                    (long *)&quad.x0, (long *)&quad.x1,
+                                    (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                                 setUV4(&quad, j * value, i * value, j * value + 31, i * value,
                                     j * value, i * value + 31, j * value + 31, i * value + 31);
                                 if (depth >= 0 && flag >= 0) {
@@ -245,8 +245,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 for (i = 0; i < 4; i++) {
                     for (j = 0; j < 4; corner += 4, j++) {
                         depth = RotAverage4(corner[0], corner[1], corner[2], corner[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                            (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3, &interpolation, &flag);
+                            (long *)&quad.x0, (long *)&quad.x1,
+                            (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
                         setUV4(&quad, j * value, i * value, j * value + 31, i * value,
                             j * value, i * value + 31, j * value + 31, i * value + 31);
                         if (depth >= 0 && flag >= 0) {

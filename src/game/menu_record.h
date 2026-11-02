@@ -141,7 +141,7 @@ extern MenuRecord D_800EB010[];
 
 /* Script_OpShowMenu selects element 0 or 1 from D_800EB010 using operand bit
  * 7, arms it, then polls its display_effect_step on subsequent ticks. */
-extern MenuRecord *G32 D_8009B274;
+extern MenuRecord *D_8009B274;
 
 /* The effect record Text_HandleDisplayEffectCommand last armed: it stores an element of
    D_800EB010 here at three sites, and that is the whole of its provenance.
@@ -154,6 +154,6 @@ extern MenuRecord *G32 D_8009B274;
    DisplayEffect_ReleaseRecord takes this record too, so the sites that hand it this
    pointer no longer cast. Retail reaches the pointer gp-relative at every
    one of its thirteen sites. */
-extern MenuRecord *G32 gText_DisplayEffectRecord;
+extern MenuRecord *gText_DisplayEffectRecord;
 
 #endif

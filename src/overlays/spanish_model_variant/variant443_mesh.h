@@ -42,7 +42,7 @@ typedef struct {
     u8 unknown_3628[4];
     u32 step;
     u8 unknown_3630[4];
-    Timing443 *G32 timing;
+    Timing443 *timing;
     u8 unknown_3638[0x1C];
     s32 progress;
     s32 angle;

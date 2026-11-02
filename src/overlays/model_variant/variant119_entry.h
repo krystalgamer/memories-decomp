@@ -32,7 +32,7 @@ typedef struct {
 /* The work area: the command row, the four blade vertices, the camera step
  * counter, the texture word, the elapsed time and the tint flag. */
 typedef struct {
-    Model119Config *G32 config;
+    Model119Config *config;
     SVECTOR vertices[4];
     u8 camera_steps, unknown_25[3];
     s32 texture[1];

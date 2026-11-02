@@ -41,7 +41,7 @@ typedef struct {
  * joint, the spark offsets, each burst's rotation, the ring trail index, the
  * three textures, the completion flag and the elapsed time. */
 typedef struct {
-    Model101Config *G32 config;
+    Model101Config *config;
     SVECTOR points[128];
     SVECTOR sparks[64];
     SVECTOR rotations[8];

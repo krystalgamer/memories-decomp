@@ -33,7 +33,7 @@ typedef struct {
 } Model142Config;
 
 typedef struct {
-    Model142Config *G32 config;
+    Model142Config *config;
     SVECTOR history[96];
     SVECTOR dots[32];
     s32 texture[1];

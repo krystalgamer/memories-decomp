@@ -24,7 +24,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
     SVECTOR origin;
     DVECTOR screen[128];
     u16 interpolations[128], flags[128], depths[128];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 direction, step;
     GsOT *ot;
     SVECTOR *point, *velocity, *drift;
@@ -32,7 +32,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
     s32 i, a, b;
     s32 distance;
     s16 half;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -289,7 +289,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                                 &interpolation, &flag);
             SetSemiTrans(&quad, 1);
             if (depth >= 0) {
@@ -304,7 +304,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
             corners[3].vx = work->command->half_size * 2;            corners[3].vy = work->command->half_size * 2;
             corners[3].vz = 0;
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                                 &interpolation, &flag);
             SetSemiTrans(&quad, 1);
             if (depth >= 0) {
@@ -355,7 +355,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
         depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                             &interpolation, &flag);
         SetSemiTrans(&quad, 1);
         if (depth >= 0) {
@@ -370,7 +370,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
         corners[3].vx = work->command->half_size * 2;        corners[3].vy = work->command->half_size * 2;
         corners[3].vz = 0;
         depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                            (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                            (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                             &interpolation, &flag);
         SetSemiTrans(&quad, 1);
         if (depth >= 0) {
@@ -455,7 +455,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotTransPers3(&origin, &corners[0], &corners[1],
-                                      (PSXLONG *)&wing.x0, (PSXLONG *)&wing.x1, (PSXLONG *)&wing.x2,
+                                      (long *)&wing.x0, (long *)&wing.x1, (long *)&wing.x2,
                                       &interpolation, &flag);
                 if (depth >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&wing, ot, (u16)depth, 1);
@@ -476,7 +476,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
                 wing.g2 = 0;
                 wing.b2 = 0;
                 depth = RotTransPers3(&origin, &corners[0], &corners[1],
-                                      (PSXLONG *)&wing.x0, (PSXLONG *)&wing.x1, (PSXLONG *)&wing.x2,
+                                      (long *)&wing.x0, (long *)&wing.x1, (long *)&wing.x2,
                                       &interpolation, &flag);
                 if (depth >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&wing, ot, (u16)depth, 1);
@@ -524,11 +524,11 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 16; i++) {
             if (i == 15) {
                 depth = RotAverage4(&point[15], &point[0], &velocity[15], &velocity[0],
-                                    (PSXLONG *)&ring.x0, (PSXLONG *)&ring.x1, (PSXLONG *)&ring.x2, (PSXLONG *)&ring.x3,
+                                    (long *)&ring.x0, (long *)&ring.x1, (long *)&ring.x2, (long *)&ring.x3,
                                     &interpolation, &flag);
             } else {
                 depth = RotAverage4(&point[i], &point[i + 1], &velocity[i], &velocity[i + 1],
-                                    (PSXLONG *)&ring.x0, (PSXLONG *)&ring.x1, (PSXLONG *)&ring.x2, (PSXLONG *)&ring.x3,
+                                    (long *)&ring.x0, (long *)&ring.x1, (long *)&ring.x2, (long *)&ring.x3,
                                     &interpolation, &flag);
             }
             if (depth >= 0) {

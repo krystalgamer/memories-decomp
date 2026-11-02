@@ -59,7 +59,7 @@ typedef struct {
  * arrival flags, the counts, the ambient level, the textures, the fading
  * burst colours and the spinner debris brightness. */
 typedef struct {
-    Model816Config *G32 config;
+    Model816Config *config;
     SVECTOR orbs[1][64];
     SVECTOR orb_velocities[1][64];
     SVECTOR orb_spins[1][64];

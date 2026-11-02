@@ -24,7 +24,7 @@ s32 func_8013B004(u8 *context, s32 command)
     GsCOORDUNIT unit;
     Model636ViewSnapshot view;
     SVECTOR mid;
-    PSXLONG interpolation, flag, sxy;
+    long interpolation, flag, sxy;
     s32 result, i, j, k, step, inactive;
     /* One temporary carries every fade; keeping it shared keeps the line
      * fades inside the inner loops. */
@@ -32,7 +32,7 @@ s32 func_8013B004(u8 *context, s32 command)
     /* The sprites' lifetime, held in a register over the three fades. */
     s32 duration;
     u32 tex;
-    PSXLONG depth;
+    long depth;
 
     work = (Model636State *)context;
     result = 0;
@@ -330,8 +330,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->line.r1 = work->streaks[i].color[0] * value / 16;
                     work->line.g1 = work->streaks[i].color[1] * value / 16;
                     work->line.b1 = work->streaks[i].color[2] * value / 16;
-                    RotTransPers(&work->trail[j][i], (PSXLONG *)&work->line.x0, &interpolation, &flag);
-                    RotTransPers(&work->trail[j + 1][i], (PSXLONG *)&work->line.x1, &interpolation, &flag);
+                    RotTransPers(&work->trail[j][i], (long *)&work->line.x0, &interpolation, &flag);
+                    RotTransPers(&work->trail[j + 1][i], (long *)&work->line.x1, &interpolation, &flag);
                     setVector(&mid, (work->trail[j][i].vx + work->trail[j + 1][i].vx) / 2,
                         (work->trail[j][i].vy + work->trail[j + 1][i].vy) / 2,
                         (work->trail[j][i].vz + work->trail[j + 1][i].vz) / 2);
@@ -387,8 +387,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         work->line.r1 = work->domes[i].color[0] * value / 8;
                         work->line.g1 = work->domes[i].color[1] * value / 8;
                         work->line.b1 = work->domes[i].color[2] * value / 8;
-                        RotTransPers(&work->dome[k][j], (PSXLONG *)&work->line.x0, &interpolation, &flag);
-                        RotTransPers(&work->dome[k][j + 1], (PSXLONG *)&work->line.x1, &interpolation, &flag);
+                        RotTransPers(&work->dome[k][j], (long *)&work->line.x0, &interpolation, &flag);
+                        RotTransPers(&work->dome[k][j + 1], (long *)&work->line.x1, &interpolation, &flag);
                         /* Retail averages the trail, not the dome, for the depth. */
                         setVector(&mid, (work->trail[k][j].vx + work->trail[k][j + 1].vx) / 2,
                             (work->trail[k][j].vy + work->trail[k][j + 1].vy) / 2,
@@ -452,8 +452,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         work->sprites[i][j].u, work->sprites[i][j].v + 31,
                         work->sprites[i][j].u + 31, work->sprites[i][j].v + 31);
                     depth = RotAverage4(&work->corners[0], &work->corners[1], &work->corners[2], &work->corners[3],
-                        (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1,
-                        (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3, &interpolation, &flag);
+                        (long *)&work->sprite.x0, (long *)&work->sprite.x1,
+                        (long *)&work->sprite.x2, (long *)&work->sprite.x3, &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
                     }

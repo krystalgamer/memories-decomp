@@ -25,8 +25,8 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR quad[4];
     MATRIX saved;
-    PSXLONG flag;
-    PSXLONG p;
+    long flag;
+    long p;
     Model784State *work;
     s32 slot;
     s32 direction;
@@ -184,8 +184,8 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
             RotMatrix(&rot, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
-            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1,
-                              (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0, (long *)&ft4.x1,
+                              (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
             setUV4(&ft4, 0, 0, 0x3F, 0, 0, 0x3F, 0x3F, 0x3F);
             setSemiTrans(&ft4, 0);
             if (otz >= 0) {
@@ -215,8 +215,8 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                 setVector(&quad[1], work->config->ring_size, -work->config->ring_size, 0);
                 setVector(&quad[2], -work->config->ring_size, work->config->ring_size, 0);
                 setVector(&quad[3], work->config->ring_size, work->config->ring_size, 0);
-                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&ft4.x0, (PSXLONG *)&ft4.x1,
-                                  (PSXLONG *)&ft4.x2, (PSXLONG *)&ft4.x3, &p, &flag);
+                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&ft4.x0, (long *)&ft4.x1,
+                                  (long *)&ft4.x2, (long *)&ft4.x3, &p, &flag);
                 setUV4(&ft4, 0x20, 0, 0x5F, 0, 0x20, 0x3F, 0x5F, 0x3F);
                 setSemiTrans(&ft4, 1);
                 if (otz >= 0) {
@@ -265,13 +265,13 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                     MulMatrix2(&light, &m);
                     ScaleMatrix(&m, &scale);
                     GsSetLsMatrix(&m);
-                    otz = RotAverage3(&quad[0], &quad[1], &quad[2], (PSXLONG *)&g3.x0, (PSXLONG *)&g3.x1,
-                                      (PSXLONG *)&g3.x2, &p, &flag);
+                    otz = RotAverage3(&quad[0], &quad[1], &quad[2], (long *)&g3.x0, (long *)&g3.x1,
+                                      (long *)&g3.x2, &p, &flag);
                     if (otz >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 3);
                     }
-                    otz = RotAverage3(&quad[0], &quad[1], &quad[3], (PSXLONG *)&g3.x0, (PSXLONG *)&g3.x1,
-                                      (PSXLONG *)&g3.x2, &p, &flag);
+                    otz = RotAverage3(&quad[0], &quad[1], &quad[3], (long *)&g3.x0, (long *)&g3.x1,
+                                      (long *)&g3.x2, &p, &flag);
                     if (otz >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&g3, ot, (u16)otz, 3);
                     }
@@ -308,8 +308,8 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                 RotMatrix(&rot, &m);
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
-                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&puff.x0, (PSXLONG *)&puff.x1,
-                                  (PSXLONG *)&puff.x2, (PSXLONG *)&puff.x3, &p, &flag);
+                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&puff.x0, (long *)&puff.x1,
+                                  (long *)&puff.x2, (long *)&puff.x3, &p, &flag);
                 if (work->puff_frame[i][j] < 8) {
                     setUV4(&puff, work->puff_frame[i][j] / 2 % 4 * 32 + 0x40, 0x40,
                            work->puff_frame[i][j] / 2 % 4 * 32 + 0x5F, 0x40,
@@ -344,8 +344,8 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
             RotMatrix(&rot, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
-            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&glow.x0, (PSXLONG *)&glow.x1,
-                              (PSXLONG *)&glow.x2, (PSXLONG *)&glow.x3, &p, &flag) - 8;
+            otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&glow.x0, (long *)&glow.x1,
+                              (long *)&glow.x2, (long *)&glow.x3, &p, &flag) - 8;
             if (work->flash_frame[i] < 4) {
                 setUV4(&glow, work->flash_frame[i] % 4 * 32 + 0x80, 0x80, work->flash_frame[i] % 4 * 32 + 0x9F, 0x80,
                        work->flash_frame[i] % 4 * 32 + 0x80, 0x9F, work->flash_frame[i] % 4 * 32 + 0x9F, 0x9F);
@@ -383,8 +383,8 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                           work->trail[i][j - 1].vz);
                 setVector(&quad[3], work->trail[i][j - 1].vx, work->trail[i][j - 1].vy + work->config->size / (k + 1),
                           work->trail[i][j - 1].vz);
-                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1,
-                                  (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p, &flag);
+                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&g4.x0, (long *)&g4.x1,
+                                  (long *)&g4.x2, (long *)&g4.x3, &p, &flag);
                 if (otz >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)otz, 1);
                 }
@@ -396,8 +396,8 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                           work->trail[i][j - 1].vz);
                 setVector(&quad[3], work->trail[i][j - 1].vx + work->config->size / (k + 1), work->trail[i][j - 1].vy,
                           work->trail[i][j - 1].vz);
-                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&g4.x0, (PSXLONG *)&g4.x1,
-                                  (PSXLONG *)&g4.x2, (PSXLONG *)&g4.x3, &p, &flag);
+                otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&g4.x0, (long *)&g4.x1,
+                                  (long *)&g4.x2, (long *)&g4.x3, &p, &flag);
                 if (otz >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&g4, ot, (u16)otz, 1);
                 }
@@ -446,8 +446,8 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                     RotMatrix(&rot, &m);
                     ScaleMatrix(&m, &scale);
                     GsSetLsMatrix(&m);
-                    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (PSXLONG *)&glow.x0,
-                                      (PSXLONG *)&glow.x1, (PSXLONG *)&glow.x2, (PSXLONG *)&glow.x3, &p, &flag);
+                    otz = RotAverage4(&quad[0], &quad[1], &quad[2], &quad[3], (long *)&glow.x0,
+                                      (long *)&glow.x1, (long *)&glow.x2, (long *)&glow.x3, &p, &flag);
                     if (work->spark_frame[i][j] < 4) {
                         setUV4(&glow, work->spark_frame[i][j] % 4 * 32 + 0x80, 0x80,
                                work->spark_frame[i][j] % 4 * 32 + 0x9F, 0x80, work->spark_frame[i][j] % 4 * 32 + 0x80,
@@ -484,12 +484,12 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                 for (j = 0; j < 16; j++) {
                     if (j == 15) {
                         otz = RotAverage4(&work->fan_outer[15], &work->fan_outer[0], &work->fan_inner[15],
-                                          &work->fan_inner[0], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan_inner[0], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     } else {
                         otz = RotAverage4(&work->fan_outer[j], &work->fan_outer[j + 1], &work->fan_inner[j],
-                                          &work->fan_inner[j + 1], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan_inner[j + 1], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     }
                     setUV4(&gt4, 0, 0x90, 0x7F, 0x90, 0, 0xDF, 0x7F, 0xDF);
                     if (otz >= 0) {
@@ -504,12 +504,12 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                 for (j = 0; j < 16; j++) {
                     if (j == 15) {
                         otz = RotAverage4(&work->fan_outer[15], &work->fan_outer[0], &work->fan_inner[15],
-                                          &work->fan_inner[0], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan_inner[0], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     } else {
                         otz = RotAverage4(&work->fan_outer[j], &work->fan_outer[j + 1], &work->fan_inner[j],
-                                          &work->fan_inner[j + 1], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan_inner[j + 1], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     }
                     setUV4(&gt4, 0, 0x90, 0x7F, 0x90, 0, 0xDF, 0x7F, 0xDF);
                     if (otz >= 0) {
@@ -524,12 +524,12 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                 for (j = 0; j < 16; j++) {
                     if (j == 15) {
                         otz = RotAverage4(&work->fan_outer[15], &work->fan_outer[0], &work->fan_inner[15],
-                                          &work->fan_inner[0], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan_inner[0], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     } else {
                         otz = RotAverage4(&work->fan_outer[j], &work->fan_outer[j + 1], &work->fan_inner[j],
-                                          &work->fan_inner[j + 1], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan_inner[j + 1], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     }
                     setUV4(&gt4, 0, 0x90, 0x7F, 0x90, 0, 0xDF, 0x7F, 0xDF);
                     if (otz >= 0) {
@@ -544,12 +544,12 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                 for (j = 0; j < 16; j++) {
                     if (j == 15) {
                         otz = RotAverage4(&work->fan_outer[15], &work->fan_outer[0], &work->fan_inner[15],
-                                          &work->fan_inner[0], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan_inner[0], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     } else {
                         otz = RotAverage4(&work->fan_outer[j], &work->fan_outer[j + 1], &work->fan_inner[j],
-                                          &work->fan_inner[j + 1], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan_inner[j + 1], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     }
                     setUV4(&gt4, 0, 0x90, 0x7F, 0x90, 0, 0xDF, 0x7F, 0xDF);
                     if (otz >= 0) {
@@ -579,12 +579,12 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                 for (j = 0; j < 16; j++) {
                     if (j == 15) {
                         otz = RotAverage4(&work->fan2_outer[15], &work->fan2_outer[0], &work->fan2_inner[15],
-                                          &work->fan2_inner[0], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan2_inner[0], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     } else {
                         otz = RotAverage4(&work->fan2_outer[j], &work->fan2_outer[j + 1], &work->fan2_inner[j],
-                                          &work->fan2_inner[j + 1], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan2_inner[j + 1], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     }
                     setUV4(&gt4, 0, 0x90, 0x7F, 0x90, 0, 0xDF, 0x7F, 0xDF);
                     if (otz >= 0) {
@@ -599,12 +599,12 @@ s32 ModelVariant784_HandleRequest(u8 *context, s32 command)
                 for (j = 0; j < 16; j++) {
                     if (j == 15) {
                         otz = RotAverage4(&work->fan2_outer[15], &work->fan2_outer[0], &work->fan2_inner[15],
-                                          &work->fan2_inner[0], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan2_inner[0], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     } else {
                         otz = RotAverage4(&work->fan2_outer[j], &work->fan2_outer[j + 1], &work->fan2_inner[j],
-                                          &work->fan2_inner[j + 1], (PSXLONG *)&gt4.x0, (PSXLONG *)&gt4.x1,
-                                          (PSXLONG *)&gt4.x2, (PSXLONG *)&gt4.x3, &p, &flag);
+                                          &work->fan2_inner[j + 1], (long *)&gt4.x0, (long *)&gt4.x1,
+                                          (long *)&gt4.x2, (long *)&gt4.x3, &p, &flag);
                     }
                     setUV4(&gt4, 0, 0x90, 0x7F, 0x90, 0, 0xDF, 0x7F, 0xDF);
                     if (otz >= 0) {

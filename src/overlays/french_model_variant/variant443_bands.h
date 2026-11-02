@@ -6,7 +6,7 @@
 
 typedef struct {
     SVECTOR a[2], b[2], c[2];
-    PSXLONG sa[2], sb[2], sc[2];
+    long sa[2], sb[2], sc[2];
     u8 ca[2][4], cb[2][4];
     u8 unknown58[0x18];
     s32 otz[2];
@@ -33,7 +33,7 @@ typedef struct {
     s32 frame;
     u32 time;
     u8 unknown3628[0x3634 - 0x3628];
-    Bands443Timing *G32 timing;
+    Bands443Timing *timing;
     u8 unknown3638[0x3678 - 0x3638];
     s16 size;
     u8 unknown367A[0x3698 - 0x367A];

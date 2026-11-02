@@ -35,7 +35,7 @@ typedef struct {
 } Image24764Config;
 
 typedef struct {
-    Image24764Config *G32 config;
+    Image24764Config *config;
     SVECTOR beams[32];
     SVECTOR origin;
     SVECTOR ring[66];

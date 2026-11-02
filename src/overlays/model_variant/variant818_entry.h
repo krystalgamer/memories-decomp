@@ -80,7 +80,7 @@ typedef struct {
  * phase, ambient level, shock-fan texture page and CLUT, the eleven
  * textures and the bolt, glow and launch-flash colours. */
 typedef struct {
-    Model818Config *G32 config;
+    Model818Config *config;
     SVECTOR pos[1];
     SVECTOR step[1];
     SVECTOR angle[1];

@@ -29,7 +29,7 @@ typedef struct {
  * followed by 30 ring targets, 30 ring positions, two texture words, the
  * completion flag, the elapsed time and the frame count. */
 typedef struct {
-    Model151Config *G32 config;
+    Model151Config *config;
     /* The ring outline (points 0-16) and the ring targets (17-46) share one
      * array: the spark walk steps three points at a time and its last step
      * lands one point past the outline. */

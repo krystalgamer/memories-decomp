@@ -21,14 +21,14 @@ void Duel_InitScene(void);
    and the panel at (280, 32) that Duel_DrawLifePointsAndDeckCounts positions
    its numbers against. The result outro slides both away. */
 #ifdef D_8009B214_AS_BYTE_POINTER
-extern u8 *G32 gDuel_pTerrainIcon;
+extern u8 *gDuel_pTerrainIcon;
 #else
-extern DisplayObject *G32 gDuel_pTerrainIcon;
+extern DisplayObject *gDuel_pTerrainIcon;
 #endif
 #ifdef D_8009B21C_AS_BYTE_POINTER
-extern u8 *G32 gDuel_pLifePointsPanel;
+extern u8 *gDuel_pLifePointsPanel;
 #else
-extern DisplayObject *G32 gDuel_pLifePointsPanel;
+extern DisplayObject *gDuel_pLifePointsPanel;
 #endif
 
 /* Save-data windows selected while the duel scene starts. The no-opponent
@@ -46,10 +46,10 @@ extern DisplayObject *G32 gDuel_pLifePointsPanel;
  * DuelResult updates the winner's wins, the loser's losses and side 0's
  * starchips through it. */
 #ifdef DUEL_SAVE_WINDOWS_AS_PAIR
-extern SaveDataState *G32 gDuel_pSide0SaveData[2];
+extern SaveDataState *gDuel_pSide0SaveData[2];
 #else
-extern u8 *G32 gDuel_pSide0SaveData;
+extern u8 *gDuel_pSide0SaveData;
 #endif
-extern u8 *G32 gDuel_pSide1SaveData;
+extern u8 *gDuel_pSide1SaveData;
 
 #endif

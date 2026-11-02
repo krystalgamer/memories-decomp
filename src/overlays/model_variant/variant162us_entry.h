@@ -32,7 +32,7 @@ typedef struct {
  * positions, an eight-point beam ring, the spin angle, the swirl phase, three
  * texture words, the completion flag and the elapsed time. */
 typedef struct {
-    Model162UsConfig *G32 config;
+    Model162UsConfig *config;
     SVECTOR mesh[153];
     /* One eight-point trail; kept flat so each row start stays in bounds. */
     SVECTOR trail[8];

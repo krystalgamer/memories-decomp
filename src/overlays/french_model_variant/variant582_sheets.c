@@ -8,8 +8,8 @@ void func_8013CB98(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Sheets129State *state = (Sheets129State *)context;
     Sheet129 *sheet = state->sheets;
     POLY_GT4 *quad = &state->quad;
@@ -79,8 +79,8 @@ void func_8013CB98(u8 *context)
             for (j = 0, tone = 192; j < 12; j++) {
                 RotTransPers4(&sheet->points[0][j], &sheet->points[0][j + 1],
                               &sheet->points[2][j], &sheet->points[2][j + 1],
-                              (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                              (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                              (long *)&quad->x0, (long *)&quad->x1,
+                              (long *)&quad->x2, (long *)&quad->x3,
                               &interpolation, &flag);
                 if (quad->x0 < 160) {
                     if (active == 0) {
@@ -105,8 +105,8 @@ void func_8013CB98(u8 *context)
                 }
                 depth = RotTransPers4(&sheet->points[0][j], &sheet->points[0][j + 1],
                                       &sheet->points[1][j], &sheet->points[1][j + 1],
-                                      (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                      (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                      (long *)&quad->x0, (long *)&quad->x1,
+                                      (long *)&quad->x2, (long *)&quad->x3,
                                       &interpolation, &flag);
                 SetSemiTrans(quad, 1);
                 SetShadeTex(quad, 0);

@@ -19,8 +19,8 @@ void FrenchModelVariant335_DrawRibbons(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     ModelVariantSheet *sheet;
     GsOT *ot;
@@ -38,7 +38,7 @@ void FrenchModelVariant335_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
     DVECTOR *previous;
-    PSXLONG *projection;
+    long *projection;
 
     work = ctx;
     ot = func_80058F10();
@@ -117,8 +117,8 @@ void FrenchModelVariant335_DrawRibbons(u8 *ctx)
         for (k = 0; k < 17; k++) {
             if (k == 16) {
                 ribbon->otz[k] = RotTransPers4(&ribbon->a[15], &ribbon->a[k], &ribbon->a[15], &ribbon->a[k],
-                                              (PSXLONG *)previous, &ribbon->sa[k].packed,
-                                              (PSXLONG *)previous, &ribbon->sa[k].packed,
+                                              (long *)previous, &ribbon->sa[k].packed,
+                                              (long *)previous, &ribbon->sa[k].packed,
                                               projection, &ribbon->flag[k]);
                 RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, projection, &flag);
                 dx = ribbon->sa[k].point.vx - previous->vx;
@@ -174,9 +174,9 @@ void FrenchModelVariant335_DrawRibbons(u8 *ctx)
     if (MODEL_VARIANT_WORD(work, 0x2EA0) == 4) {
         if (MODEL_VARIANT_HALF(work, 0x2E8C) <= 16) {
             MODEL_VARIANT_HALF(work, 0x2E8C) = (((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x1C)) << 4)
-                / ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x20)
-                - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x1C));
+                - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x1C)) << 4)
+                / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x20)
+                - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x1C));
             if (MODEL_VARIANT_HALF(work, 0x2E8C) >= 16) {
                 MODEL_VARIANT_HALF(work, 0x2E8C) = 16;
                 MODEL_VARIANT_WORD(work, 0x2EA0) = 5;

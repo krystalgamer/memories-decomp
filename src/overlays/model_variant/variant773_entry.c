@@ -18,7 +18,7 @@ s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
     SVECTOR corners[4];
     DVECTOR screen[144];
     u16 depths[144], interpolations[144], flags[144];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 side, step;
     GsOT *ot;
     s32 i, j, k;
@@ -231,8 +231,8 @@ s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
                     corners[3].vy = work->ribbon[i][j - 1].vy + work->command->ribbon_width / 2;
                     corners[3].vz = work->ribbon[i][j - 1].vz;
                     depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                        (PSXLONG *)&ribbon.x0, (PSXLONG *)&ribbon.x1,
-                                        (PSXLONG *)&ribbon.x2, (PSXLONG *)&ribbon.x3, &interpolation, &flag);
+                                        (long *)&ribbon.x0, (long *)&ribbon.x1,
+                                        (long *)&ribbon.x2, (long *)&ribbon.x3, &interpolation, &flag);
                     if (depth >= 0) {
                         Graphics_SubmitDrawModePacket((u32 *)&ribbon, ot, (u16)depth, 1);
                     }
@@ -288,7 +288,7 @@ s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
             orb.u3 = 0;
             orb.v3 = 0x10;
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                (PSXLONG *)&orb.x0, (PSXLONG *)&orb.x1, (PSXLONG *)&orb.x2, (PSXLONG *)&orb.x3,
+                                (long *)&orb.x0, (long *)&orb.x1, (long *)&orb.x2, (long *)&orb.x3,
                                 &interpolation, &flag);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&orb, ot, (u16)depth, 0);
@@ -311,7 +311,7 @@ s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                (PSXLONG *)&orb.x0, (PSXLONG *)&orb.x1, (PSXLONG *)&orb.x2, (PSXLONG *)&orb.x3,
+                                (long *)&orb.x0, (long *)&orb.x1, (long *)&orb.x2, (long *)&orb.x3,
                                 &interpolation, &flag);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&orb, ot, (u16)depth, 0);
@@ -334,7 +334,7 @@ s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                (PSXLONG *)&orb.x0, (PSXLONG *)&orb.x1, (PSXLONG *)&orb.x2, (PSXLONG *)&orb.x3,
+                                (long *)&orb.x0, (long *)&orb.x1, (long *)&orb.x2, (long *)&orb.x3,
                                 &interpolation, &flag);
             if (depth >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&orb, ot, (u16)depth, 0);
@@ -381,8 +381,8 @@ s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
                 corners[3].vy = work->command->burst_size * 2;
                 corners[3].vz = 0;
                 depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                    (PSXLONG *)&burst.x0, (PSXLONG *)&burst.x1, (PSXLONG *)&burst.x2,
-                                    (PSXLONG *)&burst.x3, &interpolation, &flag);
+                                    (long *)&burst.x0, (long *)&burst.x1, (long *)&burst.x2,
+                                    (long *)&burst.x3, &interpolation, &flag);
                 burst.u0 = (work->burst[i] % 4) * 32 + 0x38;
                 burst.v0 = 0;
                 burst.u1 = (work->burst[i] % 4) * 32 + 0x57;
@@ -436,8 +436,8 @@ s32 ModelVariant773_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                    (PSXLONG *)&flash.x0, (PSXLONG *)&flash.x1, (PSXLONG *)&flash.x2,
-                                    (PSXLONG *)&flash.x3, &interpolation, &flag);
+                                    (long *)&flash.x0, (long *)&flash.x1, (long *)&flash.x2,
+                                    (long *)&flash.x3, &interpolation, &flag);
                 if (work->flash[i] < 4) {
                     flash.u0 = (work->flash[i] % 4) * 64;
                     flash.v0 = 0x40;

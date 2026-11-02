@@ -5,7 +5,7 @@
 
 typedef union {
     DVECTOR point;
-    PSXLONG packed;
+    long packed;
 } Ribbons436Screen;
 
 typedef struct {

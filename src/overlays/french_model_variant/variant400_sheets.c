@@ -8,8 +8,8 @@ void func_8013C838(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG projection;
-    PSXLONG flag;
+    long projection;
+    long flag;
     u8 *node;
     ModelVariantSheet *quad;
     GsOT *ot;
@@ -60,8 +60,8 @@ void func_8013C838(u8 *context)
         for (k = 0; k < 4; k++) {
             depth = RotTransPers4(
                 &quad->v0[k], &quad->v1[k], &quad->v2[k], &quad->v3[k],
-                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3,
+                (long *)&poly->x0, (long *)&poly->x1,
+                (long *)&poly->x2, (long *)&poly->x3,
                 &projection, &flag);
             poly->r0 = quad->inner[0];
             poly->g0 = quad->inner[1];
@@ -84,9 +84,9 @@ void func_8013C838(u8 *context)
             if (MODEL_VARIANT_WORD(work, 0x2090) == 0) {
                 if (quad->size < 4096) {
                     quad->size = (((u32)MODEL_VARIANT_WORD(work, 0x2048)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x205C), 0x0C)) << 12)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x205C), 0x10)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x205C), 0x0C));
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x205C), 0x0C)) << 12)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x205C), 0x10)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x205C), 0x0C));
                     if (quad->size >= 4096) {
                         quad->size = 4096;
                         MODEL_VARIANT_WORD(work, 0x2090) = 1;
@@ -116,7 +116,7 @@ void func_8013C838(u8 *context)
                 }
             } else if (MODEL_VARIANT_WORD(work, 0x2090) >= 5) {
                 if ((u32)MODEL_VARIANT_WORD(work, 0x2048)
-                    > (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x205C), 0x14)
+                    > (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x205C), 0x14)
                     && quad->size > 0) {
                     quad->size -= MODEL_VARIANT_WORD(work, 0x2050) * 128;
                     if (quad->size <= 0) {

@@ -17,8 +17,8 @@ void FrenchModelVariant335_DrawStreamers(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     POLY_FT4 *poly;
     GsOT *ot;
@@ -115,8 +115,8 @@ void FrenchModelVariant335_DrawStreamers(u8 *ctx)
         for (k = 0; k < 17; k++) {
             if (k == 16) {
                 streamer->otz[k] = RotTransPers4(&streamer->a[15], &streamer->a[k], &streamer->a[15], &streamer->a[k],
-                                               (PSXLONG *)STREAMERS335_PREVIOUS, &streamer->sa[k],
-                                               (PSXLONG *)STREAMERS335_PREVIOUS, &streamer->sa[k], &p, &streamer->flag[k]);
+                                               (long *)STREAMERS335_PREVIOUS, &streamer->sa[k],
+                                               (long *)STREAMERS335_PREVIOUS, &streamer->sa[k], &p, &streamer->flag[k]);
                 RotTransPers(&streamer->b[k], &streamer->sb[k], &p, &flag);
                 dx = (s16)streamer->sa[k] - STREAMERS335_PREVIOUS->vx;
                 dy = (streamer->sa[k] >> 16) - STREAMERS335_PREVIOUS->vy;

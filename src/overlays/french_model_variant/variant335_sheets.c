@@ -8,8 +8,8 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG projection;
-    PSXLONG flag;
+    long projection;
+    long flag;
     ModelVariantSheet *sheet;
     GsOT *ot;
     u8 *work;
@@ -62,8 +62,8 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
         for (k = 0; k < 4; k++) {
             depth = RotTransPers4(
                 &sheet->v0[k], &sheet->v1[k], &sheet->v2[k], &sheet->v3[k],
-                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3,
+                (long *)&poly->x0, (long *)&poly->x1,
+                (long *)&poly->x2, (long *)&poly->x3,
                 &projection, &flag);
             setRGB0(poly, sheet->inner[0], sheet->inner[1], sheet->inner[2]);
             setRGB1(poly, sheet->inner[0], sheet->inner[1], sheet->inner[2]);
@@ -85,12 +85,12 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
                 }
             } else if (MODEL_VARIANT_WORD(work, 0x2EA0) >= 6) {
                 if ((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                    > (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x24)
+                    > (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)
                     && sheet->size > 0) {
                     sheet->size = 16384 - ((((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x24)) << 14)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x28)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x24)));
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)) << 14)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x28)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)));
                     if (sheet->size <= 0) {
                         sheet->size = 0;
                     }
@@ -100,9 +100,9 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
             if (MODEL_VARIANT_WORD(work, 0x2EA0) == 0) {
                 if (sheet->size < 4096) {
                     sheet->size = (((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x0C)) << 12)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x10)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x0C));
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x0C)) << 12)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x10)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x0C));
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
                         MODEL_VARIANT_WORD(work, 0x2EA0) = 1;
@@ -111,9 +111,9 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
             } else if (MODEL_VARIANT_WORD(work, 0x2EA0) == 1) {
                 if (MODEL_VARIANT_WORD(work, 0x2E78) < 1024) {
                     MODEL_VARIANT_WORD(work, 0x2E78) = (((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x10)) << 10)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x14)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x10));
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x10)) << 10)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x14)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x10));
                     if (MODEL_VARIANT_WORD(work, 0x2E78) >= 1024) {
                         MODEL_VARIANT_WORD(work, 0x2E78) = 1024;
                         MODEL_VARIANT_WORD(work, 0x2EA0) = 2;
@@ -122,9 +122,9 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
             } else if (MODEL_VARIANT_WORD(work, 0x2EA0) == 2) {
                 if (MODEL_VARIANT_WORD(work, 0x2E70) < 256) {
                     MODEL_VARIANT_WORD(work, 0x2E70) = (((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x14)) << 8)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x18)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x14));
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x14)) << 8)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x18)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x14));
                     if (MODEL_VARIANT_WORD(work, 0x2E70) >= 256) {
                         MODEL_VARIANT_WORD(work, 0x2E70) = 256;
                         MODEL_VARIANT_WORD(work, 0x2EA0) = 3;
@@ -133,9 +133,9 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
             } else if (MODEL_VARIANT_WORD(work, 0x2EA0) == 3) {
                 if (MODEL_VARIANT_WORD(work, 0x2E6C) < 1024) {
                     MODEL_VARIANT_WORD(work, 0x2E6C) = (((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x18)) << 10)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x1C)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x18));
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x18)) << 10)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x1C)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x18));
                     if (MODEL_VARIANT_WORD(work, 0x2E6C) >= 1024) {
                         MODEL_VARIANT_WORD(work, 0x2E6C) = 1024;
                         MODEL_VARIANT_WORD(work, 0x2EA0) = 4;
@@ -143,12 +143,12 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
                 }
             } else if (MODEL_VARIANT_WORD(work, 0x2EA0) >= 6) {
                 if ((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                    > (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x24)
+                    > (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)
                     && sheet->size > 0) {
                     sheet->size = 4096 - ((((u32)MODEL_VARIANT_WORD(work, 0x2E50)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x24)) << 12)
-                        / ((u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x28)
-                        - (u32)MODEL_VARIANT_WORD(*(u8 *G32 *)(work + 0x2E60), 0x24)));
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)) << 12)
+                        / ((u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x28)
+                        - (u32)MODEL_VARIANT_WORD(*(u8 **)(work + 0x2E60), 0x24)));
                     if (sheet->size <= 0) {
                         sheet->size = 0;
                         MODEL_VARIANT_WORD(work, 0x2EA0) = 7;

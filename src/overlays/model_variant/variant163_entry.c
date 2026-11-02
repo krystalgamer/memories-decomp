@@ -28,7 +28,7 @@ s32 func_8013B004(u8 *context, s32 command)
     DVECTOR screen[34];
     u16 depths[34], projection[34], flags[34];
     Model163Order order;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     Model163State *work;
     s32 direction;
     GsOT *ot;
@@ -191,7 +191,7 @@ s32 func_8013B004(u8 *context, s32 command)
                         setVector(&vertices[3], cell[6].vx, cell[6].vy, cell[6].vz);
                     }
                     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                        (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                        (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                         &interpolation, &flag);
                     setUV4(&quad, (*o & 3) << 5, (*o >> 2) << 5, ((*o & 3) << 5) + 31, (*o >> 2) << 5,
                         (*o & 3) << 5, ((*o >> 2) << 5) + 31, ((*o & 3) << 5) + 31, ((*o >> 2) << 5) + 31);
@@ -329,7 +329,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                     &interpolation, &flag);
                 if (*o < 4) {
                     s = 0;

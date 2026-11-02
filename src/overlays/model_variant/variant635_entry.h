@@ -34,7 +34,7 @@ typedef struct {
     u16 stage;
     /* Set once a leading dome has launched its comet. */
     u16 launched;
-    GsCOORDUNIT *G32 coord;
+    GsCOORDUNIT *coord;
     SVECTOR rotation;
     VECTOR scale;
     VECTOR position;

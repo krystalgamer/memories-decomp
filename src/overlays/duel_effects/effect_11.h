@@ -41,7 +41,7 @@ typedef struct {
 } DuelEffect11Config;
 
 typedef struct {
-    DuelEffect11Config *G32 config;
+    DuelEffect11Config *config;
     SVECTOR positions[4][7];
     SVECTOR velocities[4][7];
     SVECTOR rotations[4][7];

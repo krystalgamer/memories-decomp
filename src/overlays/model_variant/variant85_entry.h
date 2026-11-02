@@ -42,7 +42,7 @@ typedef struct {
  * angle and spin speed, the funnel's outer and inner rings, three textures,
  * a frame counter, whether the hit has been reported and the elapsed time. */
 typedef struct {
-    Model85Config *G32 config;
+    Model85Config *config;
     SVECTOR angles[32];
     SVECTOR speeds[32];
     SVECTOR rings[66];

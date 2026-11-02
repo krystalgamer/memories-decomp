@@ -161,9 +161,9 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
 
     RotAverage4(
         b0, b1, b2, b3,
-        (PSXLONG *)&q->x0, (PSXLONG *)&q->x1,
-        (PSXLONG *)&q->x3, (PSXLONG *)&q->x2,
-        (PSXLONG *)&sp28, (PSXLONG *)&sp2C
+        (long *)&q->x0, (long *)&q->x1,
+        (long *)&q->x3, (long *)&q->x2,
+        (long *)&sp28, (long *)&sp2C
     );
 
     Graphics_SubmitDrawModePacket((u32 *)q, ot, *(u16 *)&o->ot_depth, 1);
@@ -705,7 +705,7 @@ void Library_UpdateScreen(void)
                 cur = model->view.vry;
                 if (gLibrary_sSampledReferenceY < cur) {
                     model->view.vry = cur - step;
-                    cur = *(volatile PSXLONG *)&model->view.vry;
+                    cur = *(volatile long *)&model->view.vry;
                 }
                 if (cur < gLibrary_sSampledReferenceY) {
                     model->view.vry = cur + step;

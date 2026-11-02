@@ -20,7 +20,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[4];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 slot, direction, step;
     GsOT *ot;
     POLY_F4 *flash_packet;
@@ -28,7 +28,7 @@ s32 func_8013B004(u8 *context, s32 command)
     s32 i, k;
     s32 y0;
     u16 side;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -186,8 +186,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&vertices[2], -work->config->smoke_size, work->config->smoke_size, 0);
                 setVector(&vertices[3], work->config->smoke_size, work->config->smoke_size, 0);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
-                    (PSXLONG *)&packet->x3, &interpolation, &flag);
+                    (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
+                    (long *)&packet->x3, &interpolation, &flag);
                 setSemiTrans(packet, 1);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(packet, ot, (u16)depth);
@@ -212,8 +212,8 @@ s32 func_8013B004(u8 *context, s32 command)
             GsSetLsMatrix(&matrix);
             for (i = 0; i < 16; i++) {
                 depth = RotAverage4(&work->inner[i], &work->inner[(i + 1) % 16], &work->outer[i],
-                    &work->outer[(i + 1) % 16], (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
-                    (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3, &interpolation, &flag);
+                    &work->outer[(i + 1) % 16], (long *)&packet->x0, (long *)&packet->x1,
+                    (long *)&packet->x2, (long *)&packet->x3, &interpolation, &flag);
                 setSemiTrans(packet, 1);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(packet, ot, (u16)depth);
@@ -243,8 +243,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&vertices[2], -(s16)side * work->config->star_size, 0, 0);
                 setVector(&vertices[3], 0, 0, 0);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
-                    (PSXLONG *)&packet->x3, &interpolation, &flag);
+                    (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
+                    (long *)&packet->x3, &interpolation, &flag);
                 setSemiTrans(packet, 1);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(packet, ot, (u16)depth);
@@ -263,8 +263,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     addVector(&vertices[k], &work->embers[i]);
                 }
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
-                    (PSXLONG *)&packet->x3, &interpolation, &flag);
+                    (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
+                    (long *)&packet->x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(packet, ot, (u16)depth);
                 }
@@ -299,8 +299,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     addVector(&vertices[k], &work->debris[i]);
                 }
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
-                    (PSXLONG *)&packet->x3, &interpolation, &flag);
+                    (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
+                    (long *)&packet->x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(packet, ot, (u16)depth);
                 }

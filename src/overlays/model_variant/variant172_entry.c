@@ -20,13 +20,13 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     SVECTOR origin;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     GsOT *ot;
     Model172Config *config;
     SVECTOR *point, *target;
     s32 i, j, a, b, radius, time, frame, u, v, step;
     s32 n0, n1, n2, n3;
-    PSXLONG depth;
+    long depth;
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
@@ -109,7 +109,7 @@ s32 func_8013B004(u8 *context, s32 command)
             setUV4(&quad, j % 4 * 64, j / 4 * 64, j % 4 * 64 + 63, j / 4 * 64,
                 j % 4 * 64, j / 4 * 64 + 63, j % 4 * 64 + 63, j / 4 * 64 + 63);
             for (j = 0; j < config->group; j++) {
-                depth = RotTransPers(point, (PSXLONG *)&box.x, &interpolation, &flag);
+                depth = RotTransPers(point, (long *)&box.x, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortBoxFill(&box, ot, (u16)depth);
                 }
@@ -153,8 +153,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                    (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                    (long *)&quad.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }

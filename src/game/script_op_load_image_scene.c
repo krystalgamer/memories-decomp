@@ -2,15 +2,15 @@
 
 /* Zero-initialized storage this unit owns at 0x8009B280-0x8009B2B0, defined in
  * address order ahead of the headers that declare it (#2602). */
-struct DisplayObject *G32 gScript_TransitionObject;
+struct DisplayObject *gScript_TransitionObject;
 s32 gScript_ViewportAccumulatorX;
 s32 gScript_ViewportAccumulatorY;
 u16 gScript_DialogCommandLatch;
-u8 *G32 gScript_StreamCursor;
+u8 *gScript_StreamCursor;
 s32 gScript_ViewportDeltaX;
 s32 gScript_ViewportDeltaY;
 u16 gScript_SharedOperand;
-struct DisplayObject *G32 gCampaign_PrimaryDisplayObject;
+struct DisplayObject *gCampaign_PrimaryDisplayObject;
 u16 gScript_EventState;
 u16 gScript_SavePromptSceneOperand;
 u16 gScript_ViewportTargetX;

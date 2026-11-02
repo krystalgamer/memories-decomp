@@ -36,7 +36,7 @@ typedef struct {
 } Image168264Config;
 
 typedef struct {
-    Image168264Config *G32 config;
+    Image168264Config *config;
     SVECTOR origins[16];
     SVECTOR particles[64];
     s32 ray_scales[64];

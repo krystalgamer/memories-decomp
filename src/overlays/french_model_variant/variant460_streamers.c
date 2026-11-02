@@ -8,8 +8,8 @@ void func_8013D0B4(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     POLY_G4 *poly;
     GsOT *ot;
@@ -32,7 +32,7 @@ void func_8013D0B4(u8 *ctx)
     s16 reach;
     s32 dx;
     s32 dy;
-    PSXLONG *previous;
+    long *previous;
 
     work = ctx;
     ot = func_80058F10();
@@ -97,7 +97,7 @@ void func_8013D0B4(u8 *ctx)
     GsSetLsMatrix(&ls);
     streamer = (Variant443Streamer *)(work + 0x23E8);
     for (i = 0, previous = &streamer->sa[15]; i < 2; i++,
-         previous = (PSXLONG *)((u8 *)previous + sizeof(Variant443Streamer)), streamer++) {
+         previous = (long *)((u8 *)previous + sizeof(Variant443Streamer)), streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
                 streamer->otz[k] = RotTransPers4(

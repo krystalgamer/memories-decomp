@@ -29,7 +29,7 @@ typedef struct {
  * the 512 start points they burst at, the fourteen textures, the completion
  * flag, the elapsed time and a frame count. */
 typedef struct {
-    Model171Config *G32 config;
+    Model171Config *config;
     SVECTOR positions[512];
     SVECTOR starts[512];
     u32 texture[14];

@@ -56,7 +56,7 @@ typedef union {
  * scales, the timers, the ring scale, the ambient level, the textures, the
  * sparkle colours and the burst colour. */
 typedef struct {
-    Model752Config *G32 config;
+    Model752Config *config;
     SVECTOR sparkles[64];
     SVECTOR inner[16];
     SVECTOR outer[16];

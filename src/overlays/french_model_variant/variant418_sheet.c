@@ -11,8 +11,8 @@ void func_8013C760(u8 *ctx)
     u8 *record;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     GsOT *ot;
     POLY_GT4 *poly;
     ModelVariantSheet *sheet;
@@ -74,8 +74,8 @@ void func_8013C760(u8 *ctx)
         SetRotMatrix(&ls);
         for (k = 0, v = sheet->v0; k < 4; k++, v++) {
             otz = RotTransPers4(v, &sheet->v1[k], &sheet->v2[k], &sheet->v3[k],
-                                (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                                (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                                (long *)&poly->x0, (long *)&poly->x1,
+                                (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
             poly->r0 = sheet->inner[0];
             poly->g0 = sheet->inner[1];
             poly->b0 = sheet->inner[2];
@@ -103,7 +103,7 @@ void func_8013C760(u8 *ctx)
                 if (sheet->size < 0x1000) {
                     u32 *timing;
 
-                    timing = *(u32 *G32 *)(work + 0x1AF4);
+                    timing = *(u32 **)(work + 0x1AF4);
                     sheet->size = ((MODEL_VARIANT_WORD(work, 0x1AE4) - timing[7]) << 12) /
                                   (timing[8] - timing[7]);
                     if (sheet->size >= 0x1000) {

@@ -92,9 +92,9 @@ typedef struct {
     s32 frame;
     u32 animation_frame;
     s32 step, fade;
-    Variant417EntryConfig *G32 config;
+    Variant417EntryConfig *config;
     u8 unknown_213C[4];
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s32 index;
     s16 field_2150, field_2152, field_2154, field_2156;
     s32 width, field_215C, field_2160;

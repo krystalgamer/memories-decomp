@@ -8,8 +8,8 @@ void func_8013C2F8(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     GsOT *ot;
     Strip446State *state = (Strip446State *)context;
     Strip446 *strip;

@@ -40,7 +40,7 @@
  * each unit. The per-slot names D_800E9DB8 and D_800E9DBC (0x800E9DB0 + 8
  * and + 12) carry no displacement off gMain_apFrameServiceCallbacks, so their writers do not
  * appear as `%lo(gMain_apFrameServiceCallbacks)` references. */
-extern void (*G32 gMain_apFrameServiceCallbacks[4])(void);
+extern void (*gMain_apFrameServiceCallbacks[4])(void);
 
 /* The recovery point the registry's comment above already places at
  * 0x800E9DC0. Main_Init arms it with setjmp once the boot sequence is up,
@@ -53,7 +53,7 @@ extern jmp_buf gMain_RecoveryJmpBuf;
 
 /* The single extra callback the pump runs after the four slots, and that
  * Main_ClearFrameServiceCallbacks clears alongside them. */
-extern void (*G32 gMain_pfnExtraFrameService)(void);
+extern void (*gMain_pfnExtraFrameService)(void);
 
 /* The signed per-frame watchdog owned and initialized by main_services.c. */
 extern s32 runtime_gp;

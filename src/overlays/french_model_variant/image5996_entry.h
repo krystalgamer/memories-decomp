@@ -36,7 +36,7 @@ typedef struct {
 } Image5996Config;
 
 typedef struct {
-    Image5996Config *G32 config;
+    Image5996Config *config;
     SVECTOR rotations[32];
     SVECTOR velocities[32];
     SVECTOR rings[66];

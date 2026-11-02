@@ -17,14 +17,14 @@ void func_8013D1CC(u8 *ctx)
     MATRIX ls;
     GsCOORDINATE2 coord;
 #ifdef MODEL_VARIANT418_RAYS
-    PSXLONG flag[16][9];
+    long flag[16][9];
 #endif
     u8 r[9];
     u8 g[9];
     u8 b[9];
-    PSXLONG p;
+    long p;
 #ifndef MODEL_VARIANT418_RAYS
-    PSXLONG flag;
+    long flag;
 #endif
     u8 *work;
     GsOT *ot;
@@ -106,8 +106,8 @@ void func_8013D1CC(u8 *ctx)
             line->attribute = 0x50000000;
             otz = RotTransPers4(&ray->point[j], &ray->point[j + 1],
                                &ray->point[j], &ray->point[j + 1],
-                               (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
-                               (PSXLONG *)&line->x0, (PSXLONG *)&line->x1, &p, &MODEL_VARIANT_RAY_FLAG);
+                               (long *)&line->x0, (long *)&line->x1,
+                               (long *)&line->x0, (long *)&line->x1, &p, &MODEL_VARIANT_RAY_FLAG);
             line->r0 = r[j];
             line->g0 = g[j];
             line->b0 = b[j];

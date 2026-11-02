@@ -18,10 +18,10 @@ void func_8013C678(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG status[3][2][3];
+    long status[3][2][3];
     u8 col[6][16];
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *q;
     u8 *q1;
     u8 *work;

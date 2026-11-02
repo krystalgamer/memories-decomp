@@ -53,7 +53,7 @@ typedef struct {
  * spin angles, the ray heights, the phase, the arrival states, the halo
  * scales, the ambient level, the three textures and the orb colours. */
 typedef struct {
-    Model781Config *G32 config;
+    Model781Config *config;
     SVECTOR pos[2][2];
     SVECTOR velocity[2][2];
     SVECTOR sparks[2][2][16];

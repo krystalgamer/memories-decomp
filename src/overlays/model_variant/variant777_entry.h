@@ -53,7 +53,7 @@ typedef struct {
  * the per-bolt strike flags, lengths and debris frames, the camera mode, the
  * ambient level, the three textures and the flash level. */
 typedef struct {
-    Model777Config *G32 config;
+    Model777Config *config;
     SVECTOR points[16][12];
     SVECTOR rays[16];
     SVECTOR spins[16][12];

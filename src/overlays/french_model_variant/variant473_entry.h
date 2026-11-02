@@ -25,7 +25,7 @@ typedef struct {
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     DVECTOR target;
 } EntryProjection473;
 
@@ -68,9 +68,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;
-    EntryConfig473 *G32 config;
+    EntryConfig473 *config;
     u32 field_3BF4;
-    GsCOORDUNIT *G32 part;
+    GsCOORDUNIT *part;
     s16 field_3BFC, field_3BFE;
     s32 width, field_3C04, size, field_3C0C, field_3C10, field_3C14;
     s32 intensity, field_3C1C, field_3C20, progress;

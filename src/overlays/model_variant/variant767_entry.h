@@ -55,7 +55,7 @@ typedef union {
  * embers and their velocities, the smoke frames and the ring scale; the shared
  * ring edges, timers, ambient level, textures and flash colour. */
 typedef struct {
-    Model767Config *G32 config;
+    Model767Config *config;
     SVECTOR smoke[64][2];
     SVECTOR inner[16];
     SVECTOR outer[16];

@@ -49,7 +49,7 @@ typedef struct {
  * arrival flags and step counts, the streak and spark counts, the camera
  * sequence, the ambient level and the texture. */
 typedef struct {
-    Model829Config *G32 config;
+    Model829Config *config;
     Model829Streak streaks[256];
     SVECTOR step;
     SVECTOR sparks[64];

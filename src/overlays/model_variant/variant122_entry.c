@@ -21,7 +21,7 @@ s32 func_8013B004(u8 *context, s32 command)
     VECTOR scale;
     SVECTOR corners[4];
     SVECTOR point;
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     s32 side;
     GsOT *ot;
     s32 i, j;
@@ -127,8 +127,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     corners[1].vx = corners[0].vx / 2;
                     corners[1].vy = corners[0].vy / 2;
                     corners[1].vz = corners[0].vz / 2;
-                    depth = RotTransPers(&corners[0], (PSXLONG *)&line.x0, &interpolation, &flag);
-                    depth += RotTransPers(&corners[1], (PSXLONG *)&line.x1, &interpolation, &flag);
+                    depth = RotTransPers(&corners[0], (long *)&line.x0, &interpolation, &flag);
+                    depth += RotTransPers(&corners[1], (long *)&line.x1, &interpolation, &flag);
                     depth /= 2;
                     if (depth >= 0 && flag >= 0) {
                         GsSortGLine(&line, ot, depth);
@@ -167,7 +167,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                                 &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, depth);
@@ -229,8 +229,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 corners[1].vx = corners[0].vx / 2;
                 corners[1].vy = corners[0].vy / 2;
                 corners[1].vz = corners[0].vz / 2;
-                depth = RotTransPers(&corners[0], (PSXLONG *)&line.x0, &interpolation, &flag);
-                depth += RotTransPers(&corners[1], (PSXLONG *)&line.x1, &interpolation, &flag);
+                depth = RotTransPers(&corners[0], (long *)&line.x0, &interpolation, &flag);
+                depth += RotTransPers(&corners[1], (long *)&line.x1, &interpolation, &flag);
                 depth /= 2;
                 if (depth >= 0 && flag >= 0) {
                     GsSortGLine(&line, ot, depth);
@@ -267,7 +267,7 @@ s32 func_8013B004(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                                 &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, depth);
@@ -304,7 +304,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&corners[0], &corners[1], &corners[2], &corners[3],
-                                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2, (long *)&quad.x3,
                                     &interpolation, &flag);
                 j = t * 3 / cmd->spray_time;
                 quad.v0 = 0;
@@ -338,7 +338,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     point.vx *= t;
                     point.vy *= t;
                     point.vz *= t;
-                    depth = RotTransPers(&point, (PSXLONG *)&box.x, &interpolation, &flag);
+                    depth = RotTransPers(&point, (long *)&box.x, &interpolation, &flag);
                     if (depth >= 0 && flag >= 0) {
                         GsSortBoxFill(&box, ot, depth);
                     }

@@ -6,7 +6,7 @@
 /* Header 433's 0x208-byte ring record: nine points, their screen positions
  * and edge copies, per-point widths, depths, offsets and growth amounts. */
 typedef union {
-    PSXLONG packed;
+    long packed;
     DVECTOR point;
 } Variant433RingScreen;
 

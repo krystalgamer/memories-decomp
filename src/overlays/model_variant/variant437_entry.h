@@ -143,9 +143,9 @@ typedef struct {
     s32 last_frame;
     s32 step;
     s32 fade;
-    Variant437Config *G32 config;
+    Variant437Config *config;
     u8 unknown2E84[4];
-    GsCOORDUNIT *G32 parts[3];
+    GsCOORDUNIT *parts[3];
     s16 unknown2E94, unknown2E96, unknown2E98, unknown2E9A;
     s32 unknown2E9C;
     s32 unknown2EA0;

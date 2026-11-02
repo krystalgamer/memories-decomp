@@ -28,7 +28,7 @@ typedef struct {
     u32 unknown_DA8;
     s32 step;
     u32 unknown_DB0;
-    ModelVariant376Config *G32 config;
+    ModelVariant376Config *config;
     u8 unknown_DB8[0x10];
     s32 single;
     u8 unknown_DCC[0x2C];

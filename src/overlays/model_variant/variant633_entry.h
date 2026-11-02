@@ -32,7 +32,7 @@ typedef struct {
     s32 mode;
     u16 elapsed, duration;
     s16 ticks, launched;
-    GsCOORDUNIT *G32 coord;
+    GsCOORDUNIT *coord;
     SVECTOR rotation;
     VECTOR scale;
     VECTOR position;

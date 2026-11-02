@@ -173,8 +173,8 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
                 line_packet->attribute = 0x50000000;
                 setRGB0(line_packet, 255, 128, 128);
                 setRGB1(line_packet, 0, 0, 0);
-                RotTransPers(&work->heads[i], (PSXLONG *)&line_packet->x0, (PSXLONG *)&p, (PSXLONG *)&flag);
-                RotTransPers(&work->tails[i], (PSXLONG *)&line_packet->x1, (PSXLONG *)&p, (PSXLONG *)&flag);
+                RotTransPers(&work->heads[i], (long *)&line_packet->x0, (long *)&p, (long *)&flag);
+                RotTransPers(&work->tails[i], (long *)&line_packet->x1, (long *)&p, (long *)&flag);
                 line_packet->x0 += gDuelEffect_DrawOffset.vx;
                 line_packet->x1 += gDuelEffect_DrawOffset.vx;
                 line_packet->y0 += gDuelEffect_DrawOffset.vy;

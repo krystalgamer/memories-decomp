@@ -27,7 +27,7 @@ typedef struct {
  * targets, the other slot's position, two texture words, the elapsed time,
  * the completion flag and the frame count. */
 typedef struct {
-    Model113Config *G32 config;
+    Model113Config *config;
     SVECTOR rings[4];
     SVECTOR targets[128];
     SVECTOR center;

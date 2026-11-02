@@ -37,7 +37,7 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
     MATRIX unused[2];
     SVECTOR point, target;
     VECTOR squared;
-    PSXLONG screen, interpolation, flag, aim_screen;
+    long screen, interpolation, flag, aim_screen;
     Variant437Config *config;
     u16 tpage, clut;
     u16 flat_tpage, flat_clut;
@@ -385,7 +385,7 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
         target.vz = work->target.vz;
         RotTransPers(&target, &aim_screen, &interpolation, &flag);
         work->projected.vx = ((DVECTOR *)&aim_screen)->vx - origin_x;
-        work->projected.vy = (*(PSXLONG *)&aim_screen >> 16) - origin_y;
+        work->projected.vy = (*(long *)&aim_screen >> 16) - origin_y;
         if (work->config->bloom_start <= work->time) {
             FrenchModelVariant454_DrawBlooms(context);
         }

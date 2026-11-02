@@ -26,8 +26,8 @@ void func_8013C2B8(u8 *context)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     VARIANT398_RINGS_WORK *work = (VARIANT398_RINGS_WORK *)context;
     Variant398EntryScreenRing *ring;
     POLY_GT4 *poly;
@@ -98,8 +98,8 @@ void func_8013C2B8(u8 *context)
             GsSetLsMatrix(&ls);
             for (j = 0; j < 16; j++) {
                 RotTransPers4(&ring->a[j], &ring->a[j + 1], &ring->c[j], &ring->c[j + 1],
-                              (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                              (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                              (long *)&poly->x0, (long *)&poly->x1,
+                              (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
                 if (poly->x0 < 160) {
                     if (buff == 0) {
                         tpage = GetTPage(2, 1, 320, 0);
@@ -122,8 +122,8 @@ void func_8013C2B8(u8 *context)
                            poly->x2 - 128, poly->y2, poly->x3 - 128, poly->y3);
                 }
                 depth = RotTransPers4(&ring->a[j], &ring->a[j + 1], &ring->b[j], &ring->b[j + 1],
-                                      (PSXLONG *)&poly->x0, (PSXLONG *)&poly->x1,
-                                      (PSXLONG *)&poly->x2, (PSXLONG *)&poly->x3, &p, &flag);
+                                      (long *)&poly->x0, (long *)&poly->x1,
+                                      (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
                 SetSemiTrans(poly, 0);
                 SetShadeTex(poly, 0);
                 if (work->frame_count % 8 == 0) {

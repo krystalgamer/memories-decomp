@@ -123,7 +123,7 @@ void DuelScene_UpdateHandActions(void)
     DuelHandSlot *hand;
     DuelHandSlot *slot;
     DuelHandSlot *first_slot;
-    DisplayObject *G32 *out;
+    DisplayObject **out;
     u8 *sprite;
     HandCardObject *obj;
     DuelCardRecord *card;

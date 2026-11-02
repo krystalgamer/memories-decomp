@@ -46,7 +46,7 @@ typedef struct {
  * their scatter offsets, the convergence target, a 2x33-point burst ring,
  * five texture words, the hit flag, the elapsed time and a frame counter. */
 typedef struct {
-    Model182Config *G32 config;
+    Model182Config *config;
     SVECTOR sprites[64];     /* 0x004 */
     SVECTOR offsets[64];     /* 0x204 */
     SVECTOR target;          /* 0x404 */

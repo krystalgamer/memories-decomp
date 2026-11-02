@@ -9,10 +9,10 @@
  * offset, the depth, the projection flag and the width's screen offset. */
 typedef struct {
     SVECTOR a[13];
-    PSXLONG sa[13];
+    long sa[13];
     s32 angle[13];
     SVECTOR b[13];
-    PSXLONG sb[13];
+    long sb[13];
     s32 width[13];
     u8 color[4];
     u8 unknown1A4[0x1C];
@@ -22,7 +22,7 @@ typedef struct {
     s32 len;
     u8 unknown1D0[0x78];
     s32 otz[13];
-    PSXLONG flag[13];
+    long flag[13];
     s16 ox[13];
     s16 oy[13];
 } Variant458Ribbon;

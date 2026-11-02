@@ -14,9 +14,9 @@ void func_8013E750(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG status[12][2];
-    PSXLONG p;
-    PSXLONG flag;
+    long status[12][2];
+    long p;
+    long flag;
     u8 *work;
     u8 *timing;
     GsOT *ot;

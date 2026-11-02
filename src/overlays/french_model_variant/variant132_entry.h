@@ -22,7 +22,7 @@ typedef struct {
 } Model132Config;
 
 typedef struct {
-    Model132Config *G32 config;
+    Model132Config *config;
     SVECTOR path[128];
     SVECTOR ring[34];
     u16 position[4];

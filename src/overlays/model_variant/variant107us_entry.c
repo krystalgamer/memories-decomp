@@ -24,12 +24,12 @@ s32 ModelVariant107Us_HandleRequest(u8 *context, s32 command)
     SVECTOR origin;
     DVECTOR screen[18];
     u16 depths[18], projection[18], flags[18];
-    PSXLONG flag, interpolation;
+    long flag, interpolation;
     GsOT *ot;
     SVECTOR *point;
     u8 step;
     s32 i, time, size, tilt, half, length, dy, offset, near, far;
-    PSXLONG depth;
+    long depth;
     u8 red, green, blue;
     u8 star_red, star_green, star_blue;
 
@@ -188,8 +188,8 @@ s32 ModelVariant107Us_HandleRequest(u8 *context, s32 command)
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
                 depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                    (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                    (PSXLONG *)&quad.x3, &interpolation, &flag);
+                    (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                    (long *)&quad.x3, &interpolation, &flag);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(&quad, ot, (u16)depth);
                 }
@@ -239,7 +239,7 @@ s32 ModelVariant107Us_HandleRequest(u8 *context, s32 command)
         MulMatrix2(&base, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        depth = RotTransPers(&origin, (PSXLONG *)&tri.x0, &interpolation, &flag);
+        depth = RotTransPers(&origin, (long *)&tri.x0, &interpolation, &flag);
         if (size != 0) {
             position.vy += dy * length / size;
         }
@@ -358,8 +358,8 @@ s32 ModelVariant107Us_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&point[0], &point[1], &point[2], &point[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             red = config->square_red * (4096 - size) / 4096;
             green = config->square_green * (4096 - size) / 4096;
             blue = config->square_blue * (4096 - size) / 4096;
@@ -376,8 +376,8 @@ s32 ModelVariant107Us_HandleRequest(u8 *context, s32 command)
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
             depth = RotAverage4(&point[4], &point[5], &point[6], &point[7],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             red = config->square_red * (4096 - size) / 4096;
             green = config->square_green * (4096 - size) / 4096;
             blue = config->square_blue * (4096 - size) / 4096;

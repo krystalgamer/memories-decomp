@@ -30,7 +30,7 @@ typedef struct {
     u32 fade_span;
     u32 shrink_span;
     u8 unknown_1364[4];
-    Sheets12048Timing *G32 timing;
+    Sheets12048Timing *timing;
     u8 unknown_136C[0x54];
     s32 phase;
 } Sheets12048State;

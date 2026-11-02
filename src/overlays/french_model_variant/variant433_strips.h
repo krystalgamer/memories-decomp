@@ -8,9 +8,9 @@ struct ModelVariant433Strip {
     SVECTOR a[2];
     SVECTOR b[2];
     SVECTOR c[2];
-    PSXLONG sa[2];
-    PSXLONG sb[2];
-    PSXLONG sc[2];
+    long sa[2];
+    long sb[2];
+    long sc[2];
     u8 unknown48[0x20];
     s32 progress[2];
     s32 done[2];

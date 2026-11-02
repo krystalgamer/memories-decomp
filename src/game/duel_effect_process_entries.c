@@ -28,8 +28,7 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
 
     while (p->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         if (p->handler_state != 0) {
-            CALL32(void (*)(DuelEffectEntry *, DuelEffectChannel *),
-                   gDuelEffect_EntryHandlers[p->handler_state & DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK])(
+            gDuelEffect_EntryHandlers[p->handler_state & DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK](
                 (DuelEffectEntry *)p, arg0);
         }
         p++;

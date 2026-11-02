@@ -19,7 +19,7 @@ typedef struct {
 } Family88Config;
 
 typedef struct {
-    Family88Config *G32 config;
+    Family88Config *config;
     /* Offset spans, not a claim about backing allocation capacity. */
     SVECTOR points[512];
     s16 timers[512];

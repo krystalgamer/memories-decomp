@@ -6,7 +6,7 @@
 
 typedef struct {
     SVECTOR points[6];
-    PSXLONG projected[3][2];
+    long projected[3][2];
     CVECTOR inner[2];
     CVECTOR outer[2];
     VECTOR scale;
@@ -38,7 +38,7 @@ typedef struct {
     u8 unknown_1C20[4];
     u32 step;
     u8 unknown_1C28[4];
-    Advancing464Timing *G32 timing;
+    Advancing464Timing *timing;
     u8 unknown_1C30[0x18];
     s16 width;
     u8 unknown_1C4A[0x16];

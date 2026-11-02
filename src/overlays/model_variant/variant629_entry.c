@@ -16,7 +16,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR v;
     SVECTOR d[2];
     Model629ViewSnapshot view;
-    PSXLONG interp, flag;
+    long interp, flag;
 
     result = 0;
     step = Model_GetFrameStep();
@@ -417,8 +417,8 @@ s32 func_8013B004(u8 *context, s32 command)
                                 work->a[i].b * (4 - __builtin_abs(4 - j)) / 9 * ((1 - (k + 1)) << 1));
                             depth = RotAverage4(&work->petals[j].p[k][row], &work->petals[j + 1].p[k][row],
                                 &work->petals[j].p[k + 1][row], &work->petals[j + 1].p[k + 1][row],
-                                (PSXLONG *)&work->poly.x0, (PSXLONG *)&work->poly.x1,
-                                (PSXLONG *)&work->poly.x2, (PSXLONG *)&work->poly.x3, &interp, &flag);
+                                (long *)&work->poly.x0, (long *)&work->poly.x1,
+                                (long *)&work->poly.x2, (long *)&work->poly.x3, &interp, &flag);
                             if (flag >= 0) {
                                 GsSortPoly(&work->poly, func_80058F10(), (u16)depth);
                             }
@@ -469,8 +469,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         work->b[i].b * (work->count_b - i - 1) / work->count_b);
                 }
                 depth = RotAverage4(&work->pairs[i].sv[0], &d[0], &work->pairs[i + 1].sv[0], &d[1],
-                    (PSXLONG *)&work->g4.x0, (PSXLONG *)&work->g4.x1,
-                    (PSXLONG *)&work->g4.x2, (PSXLONG *)&work->g4.x3, &interp, &flag);
+                    (long *)&work->g4.x0, (long *)&work->g4.x1,
+                    (long *)&work->g4.x2, (long *)&work->g4.x3, &interp, &flag);
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&work->g4, func_80058F10(), (u16)depth, work->b[i].f08);
                 }
@@ -490,8 +490,8 @@ s32 func_8013B004(u8 *context, s32 command)
                         work->b[i].b * (work->count_b - i - 1) / work->count_b);
                 }
                 depth = RotAverage4(&d[0], &work->pairs[i].sv[1], &d[1], &work->pairs[i + 1].sv[1],
-                    (PSXLONG *)&work->g4.x0, (PSXLONG *)&work->g4.x1,
-                    (PSXLONG *)&work->g4.x2, (PSXLONG *)&work->g4.x3, &interp, &flag);
+                    (long *)&work->g4.x0, (long *)&work->g4.x1,
+                    (long *)&work->g4.x2, (long *)&work->g4.x3, &interp, &flag);
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)&work->g4, func_80058F10(), (u16)depth, work->b[i].f08);
                 }
@@ -551,8 +551,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     work->c[i].u, work->c[i].v + 31, work->c[i].u + 31, work->c[i].v + 31);
                 setRGB0(&work->ft4, work->c[i].r, work->c[i].g, work->c[i].b);
                 depth = RotAverage4(&work->quad[0], &work->quad[1], &work->quad[2], &work->quad[3],
-                    (PSXLONG *)&work->ft4.x0, (PSXLONG *)&work->ft4.x1,
-                    (PSXLONG *)&work->ft4.x2, (PSXLONG *)&work->ft4.x3, &interp, &flag);
+                    (long *)&work->ft4.x0, (long *)&work->ft4.x1,
+                    (long *)&work->ft4.x2, (long *)&work->ft4.x3, &interp, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->ft4, func_80058F10(), (u16)depth);
                 }

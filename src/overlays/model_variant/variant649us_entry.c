@@ -23,11 +23,11 @@ s32 func_8013B004(u8 *context, s32 command)
     Model649UsViewSnapshot view;
     SVECTOR zero;
     VECTOR near, far, first, second, mid;
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, temp, den;
     u32 tex;
-    PSXLONG depth;
+    long depth;
     u8 red, green, blue;
 
     work = (Model649UsState *)context;
@@ -259,8 +259,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB0(&work->quad, work->petals[i].red, work->petals[i].green, work->petals[i].blue);
                 setRGB2(&work->quad, work->petals[i].red, work->petals[i].green, work->petals[i].blue);
                 depth = RotAverage4(&work->petal[0], &work->petal[1], &work->petal[2], &work->petal[3],
-                    (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1, (PSXLONG *)&work->quad.x2,
-                    (PSXLONG *)&work->quad.x3, &interpolation, &flag);
+                    (long *)&work->quad.x0, (long *)&work->quad.x1, (long *)&work->quad.x2,
+                    (long *)&work->quad.x3, &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
                 }
@@ -333,8 +333,8 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB2(&work->quad, red, green, blue);
                     setRGB3(&work->quad, red, green, blue);
                     depth = RotAverage4(&work->dome[j][i], &work->dome[j + 1][i], &work->dome[j][i + 1],
-                        &work->dome[j + 1][i + 1], (PSXLONG *)&work->quad.x0, (PSXLONG *)&work->quad.x1,
-                        (PSXLONG *)&work->quad.x2, (PSXLONG *)&work->quad.x3, &interpolation, &flag);
+                        &work->dome[j + 1][i + 1], (long *)&work->quad.x0, (long *)&work->quad.x1,
+                        (long *)&work->quad.x2, (long *)&work->quad.x3, &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->quad, func_80058F10(), (u16)depth);
                     }
@@ -412,8 +412,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->card_element.v, work->card_element.u, work->card_element.v + 0x1F,
                 work->card_element.u + 0x1F, work->card_element.v + 0x1F);
             depth = RotAverage4(&work->square[0], &work->square[1], &work->square[2], &work->square[3],
-                (PSXLONG *)&work->card.x0, (PSXLONG *)&work->card.x1, (PSXLONG *)&work->card.x2,
-                (PSXLONG *)&work->card.x3, &interpolation, &flag);
+                (long *)&work->card.x0, (long *)&work->card.x1, (long *)&work->card.x2,
+                (long *)&work->card.x3, &interpolation, &flag);
             if (flag >= 0) {
                 GsSortPoly(&work->card, func_80058F10(), (u16)depth);
             }
@@ -486,8 +486,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 setRGB1(&work->shard, 0, 0, 0);
                 setRGB2(&work->shard, 0, 0, 0);
                 setRGB0(&work->shard, work->shards[i].red, work->shards[i].green, work->shards[i].blue);
-                depth = RotAverage3(&work->tri[0], &work->tri[1], &work->tri[2], (PSXLONG *)&work->shard.x0,
-                    (PSXLONG *)&work->shard.x1, (PSXLONG *)&work->shard.x2, &interpolation, &flag);
+                depth = RotAverage3(&work->tri[0], &work->tri[1], &work->tri[2], (long *)&work->shard.x0,
+                    (long *)&work->shard.x1, (long *)&work->shard.x2, &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->shard, func_80058F10(), (u16)depth);
                 }
@@ -533,7 +533,7 @@ s32 func_8013B004(u8 *context, s32 command)
                     setRGB1(&work->shard, work->sparks[i].red, work->sparks[i].green, work->sparks[i].blue);
                     setRGB2(&work->shard, work->sparks[i].red, work->sparks[i].green, work->sparks[i].blue);
                     depth = RotAverage3(&work->spike[j * 3], &work->spike[1], &work->spike[2],
-                        (PSXLONG *)&work->shard.x0, (PSXLONG *)&work->shard.x1, (PSXLONG *)&work->shard.x2,
+                        (long *)&work->shard.x0, (long *)&work->shard.x1, (long *)&work->shard.x2,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->shard, func_80058F10(), (u16)depth);

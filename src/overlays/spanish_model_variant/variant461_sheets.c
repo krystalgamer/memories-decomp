@@ -8,8 +8,8 @@ void func_8013CF54(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Sheets461State *state = (Sheets461State *)context;
     Sheets461Primary *primary = state->primary;
     ModelVariantSheetSet *sheet = state->sheets;
@@ -66,8 +66,8 @@ void func_8013CF54(u8 *context)
         SetRotMatrix(&light);
         for (j = 0; j < 4; j++) {
             depth = RotTransPers4(&sheet->v0[j], &sheet->v1[j], &sheet->v2[j], &sheet->v3[j],
-                                 (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
-                                 (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                 (long *)&polygon->x0, (long *)&polygon->x1,
+                                 (long *)&polygon->x2, (long *)&polygon->x3,
                                  &interpolation, &flag);
             polygon->r0 = sheet->inner[0];
             polygon->g0 = sheet->inner[1];

@@ -23,12 +23,12 @@ typedef struct {
 } Model199Config;
 
 typedef struct {
-    Model199Config *G32 config;
+    Model199Config *config;
     SVECTOR rays[128];
     SVECTOR anchor;
     SVECTOR grid[9];
     SVECTOR sphere[32];
-    SVECTOR *G32 quads[16];
+    SVECTOR *quads[16];
     s32 texture[5];
     s32 elapsed;
     u8 completed;

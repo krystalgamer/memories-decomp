@@ -9,8 +9,8 @@ void func_8013E3EC(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     GsOT *ot;
     Family373Ray *ray;
     POLY_GT4 *quad;

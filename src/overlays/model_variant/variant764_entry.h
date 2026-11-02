@@ -40,7 +40,7 @@ typedef struct {
  * ring scale, the flash frame, the elapsed time, the ambient level, the phase,
  * the ring colour and the fading grey. */
 typedef struct {
-    Model764Config *G32 config;
+    Model764Config *config;
     SVECTOR inner[16];
     SVECTOR outer[16];
     SVECTOR cone[16];

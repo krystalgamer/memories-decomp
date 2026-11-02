@@ -18,8 +18,8 @@ void ModelVariant366_DrawCones(u8 *context)
     u8 unknown_D0[16];
     CVECTOR outer;
     CVECTOR inner;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Variant366State *work = (Variant366State *)context;
     Variant366Ribbon *ribbon;
     GsOT *ot;
@@ -127,8 +127,8 @@ void ModelVariant366_DrawCones(u8 *context)
             for (i = 0; i < 16; i++) {
                 RotTransPers4(&ribbon->inner[i], &ribbon->inner[i + 1],
                               &ribbon->outer[i], &ribbon->outer[i + 1],
-                              (PSXLONG *)&plain->x0, (PSXLONG *)&plain->x1,
-                              (PSXLONG *)&plain->x2, (PSXLONG *)&plain->x3,
+                              (long *)&plain->x0, (long *)&plain->x1,
+                              (long *)&plain->x2, (long *)&plain->x3,
                               &interpolation, &flag);
                 if (plain->x0 < 160) {
                     if (buff == 0) {
@@ -153,8 +153,8 @@ void ModelVariant366_DrawCones(u8 *context)
                 }
                 depth = RotTransPers4(&ribbon->inner[i], &ribbon->inner[i + 1],
                                       &ribbon->middle[i], &ribbon->middle[i + 1],
-                                      (PSXLONG *)&plain->x0, (PSXLONG *)&plain->x1,
-                                      (PSXLONG *)&plain->x2, (PSXLONG *)&plain->x3,
+                                      (long *)&plain->x0, (long *)&plain->x1,
+                                      (long *)&plain->x2, (long *)&plain->x3,
                                       &interpolation, &flag);
                 setXY4(mask, plain->x0, plain->y0, plain->x1, plain->y1,
                        plain->x2, plain->y2, plain->x3, plain->y3);

@@ -19,8 +19,8 @@ void func_8013BE68(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Ribbons389State *state = (Ribbons389State *)context;
     Ribbon389 *ribbon;
     ModelVariantSheetSet *sheet;
@@ -115,10 +115,10 @@ void func_8013BE68(u8 *context)
             if (k == 16) {
                 ribbon->depth[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k],
                                                &ribbon->a[k - 1], &ribbon->a[k],
-                                               (PSXLONG *)&ribbon->sa[k - 1], (PSXLONG *)&ribbon->sa[k],
-                                               (PSXLONG *)&ribbon->sa[k - 1], (PSXLONG *)&ribbon->sa[k],
+                                               (long *)&ribbon->sa[k - 1], (long *)&ribbon->sa[k],
+                                               (long *)&ribbon->sa[k - 1], (long *)&ribbon->sa[k],
                                                &interpolation, &ribbon->flag[k]);
-                RotTransPers(&ribbon->b[k], (PSXLONG *)&ribbon->sb[k], &interpolation, &flag);
+                RotTransPers(&ribbon->b[k], (long *)&ribbon->sb[k], &interpolation, &flag);
                 dx = (s16)RIBBONS389_SA(k, 0).packed - (s16)RIBBONS389_SA(k, -1).packed;
                 dy = (RIBBONS389_SA(k, 0).packed >> 16) - (RIBBONS389_SA(k, -1).packed >> 16);
                 ribbon->angle[k] = ratan2(dy, dx) - 1024;
@@ -128,10 +128,10 @@ void func_8013BE68(u8 *context)
             } else {
                 ribbon->depth[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1],
                                                &ribbon->a[k], &ribbon->a[k + 1],
-                                               (PSXLONG *)&ribbon->sa[k], (PSXLONG *)&ribbon->sa[k + 1],
-                                               (PSXLONG *)&ribbon->sa[k], (PSXLONG *)&ribbon->sa[k + 1],
+                                               (long *)&ribbon->sa[k], (long *)&ribbon->sa[k + 1],
+                                               (long *)&ribbon->sa[k], (long *)&ribbon->sa[k + 1],
                                                &interpolation, &ribbon->flag[k]);
-                RotTransPers(&ribbon->b[k], (PSXLONG *)&ribbon->sb[k], &interpolation, &flag);
+                RotTransPers(&ribbon->b[k], (long *)&ribbon->sb[k], &interpolation, &flag);
                 dx = (s16)RIBBONS389_SA(k, 1).packed - (s16)RIBBONS389_SA(k, 0).packed;
                 dy = (RIBBONS389_SA(k, 1).packed >> 16) - (RIBBONS389_SA(k, 0).packed >> 16);
                 ribbon->angle[k] = ratan2(dy, dx) - 1024;

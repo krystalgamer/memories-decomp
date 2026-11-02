@@ -51,7 +51,7 @@ typedef union {
  * spark frames, the debris frame, the spark count, the camera sequence, the
  * ambient level, the ray scale, the textures and the burst colour. */
 typedef struct {
-    Model828Config *G32 config;
+    Model828Config *config;
     SVECTOR rays[64];
     SVECTOR sparks[16];
     SVECTOR debris[8];

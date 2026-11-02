@@ -18,8 +18,8 @@ static u16 D_8009B0AA;
 u8 gGraphics_bActiveBuffer;
 u8 gGraphics_bDither;
 s32 D_8009B0B0;
-struct GraphicsFrameBuffer *G32 gGraphics_pActiveFrameBuffer;
-void (*G32 gMain_pfnExtraFrameService)(void);
+struct GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
+void (*gMain_pfnExtraFrameService)(void);
 s32 D_8009B0BC;
 volatile u8 gGraphics_bSyncVBlankTarget;
 u8 gGraphics_bExtraFrameStep;
@@ -63,9 +63,9 @@ DISPENV gGraphics_DispEnv;
 static u8 D_800E9D40[0x30];
 RECT gGraphics_aImageTransferRects[2];
 static u32 D_800E9D80[4];
-GsOT *G32 gGraphics_apOrderingTables[4];
+GsOT *gGraphics_apOrderingTables[4];
 static u32 D_800E9DA0[4];
-void (*G32 gMain_apFrameServiceCallbacks[4])(void);
+void (*gMain_apFrameServiceCallbacks[4])(void);
 jmp_buf gMain_RecoveryJmpBuf;
 #include "ordering_tables.h"
 #define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
@@ -103,11 +103,11 @@ void Graphics_SyncFrame(void)
 void Graphics_BeginFrame(void)
 {
     s32 i;
-    GsOT *G32 *slot;
+    GsOT **slot;
     s32 idx;
     GsOT *ptr;
     u8 *arg;
-    GsOT *G32 *base;
+    GsOT **base;
 
     if (gGraphics_bSkipDisplaySwap == 0) {
         gLibGs_DrawEnvView[0].isbg = gGraphics_bClearBackground;

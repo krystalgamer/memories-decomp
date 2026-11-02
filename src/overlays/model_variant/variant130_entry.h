@@ -34,7 +34,7 @@ typedef struct {
 /* The work area: up to 64 sprites flying from the model part to a random
  * target, the texture, the finished-sprite counter and the timer. */
 typedef struct {
-    Model130Config *G32 config;
+    Model130Config *config;
     SVECTOR positions[64];
     SVECTOR targets[64];
     u32 texture[1];

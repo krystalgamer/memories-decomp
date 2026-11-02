@@ -28,7 +28,7 @@ typedef struct {
     u32 unknown_1F30;
     s32 step;
     u32 unknown_1F38;
-    ModelVariant321Config *G32 config;
+    ModelVariant321Config *config;
     u8 unknown_1F40[0x28];
     s32 state;
 } ModelVariant321State;

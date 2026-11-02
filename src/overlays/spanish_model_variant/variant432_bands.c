@@ -61,9 +61,9 @@ void SpanishModelVariant432_DrawBands(u8 *context)
                 depth = RotTransPers4(
                     &band->points[0][j], &band->points[0][j + 1],
                     &band->points[1][j], &band->points[1][j + 1],
-                    (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                    (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
-                    (PSXLONG *)&interpolation, (PSXLONG *)&flag);
+                    (long *)&quad->x0, (long *)&quad->x1,
+                    (long *)&quad->x2, (long *)&quad->x3,
+                    (long *)&interpolation, (long *)&flag);
                 quad->r0 = red0;
                 quad->g0 = green0;
                 quad->b0 = blue0;

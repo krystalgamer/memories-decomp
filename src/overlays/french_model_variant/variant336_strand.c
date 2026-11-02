@@ -8,8 +8,8 @@ void func_8013C860(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag;
+    long p;
+    long flag;
     u8 *work;
     GsLINE *line;
     ModelVariantStrandWide *strand;
@@ -59,8 +59,8 @@ void func_8013C860(u8 *ctx)
                 line->attribute = 0x50000000;
                 RotTransPers4(&strand->point[j], &strand->point[j + 1],
                               &strand->point[j], &strand->point[j + 1],
-                              (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
-                              (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
+                              (long *)&line->x0, (long *)&line->x1,
+                              (long *)&line->x0, (long *)&line->x1,
                               &p, &flag);
                 line->g = 0x40;
                 line->r = 0;

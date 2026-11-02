@@ -14,7 +14,7 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[6];
-    PSXLONG flag, interpolation, depth;
+    long flag, interpolation, depth;
     GsOT *ot;
     s32 direction, step, i, j, time, clip, value;
     SVECTOR *point, *secondary, *angles;
@@ -120,8 +120,8 @@ s32 func_8013B004(u8 *context, s32 command)
                 color = work->colors;
                 for (j = 0; j < 6; face++, color++, j++) {
                     clip = RotAverageNclip3(face->a, face->b, face->c,
-                        (PSXLONG *)&triangle.x0, (PSXLONG *)&triangle.x1,
-                        (PSXLONG *)&triangle.x2, &interpolation, &depth, &flag);
+                        (long *)&triangle.x0, (long *)&triangle.x1,
+                        (long *)&triangle.x2, &interpolation, &depth, &flag);
                     setRGB0(&triangle, color->r, color->g, color->b);
                     if (clip > 0 && depth > 0 && flag >= 0) {
                         GsSortPoly(&triangle, ot, (u16)depth);
@@ -175,14 +175,14 @@ s32 func_8013B004(u8 *context, s32 command)
             setUV4(&quad, value * 32, 0, value * 32 + 31, 0,
                 value * 32, 63, value * 32 + 31, 63);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1, (PSXLONG *)&quad.x2,
-                (PSXLONG *)&quad.x3, &interpolation, &flag);
+                (long *)&quad.x0, (long *)&quad.x1, (long *)&quad.x2,
+                (long *)&quad.x3, &interpolation, &flag);
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);
             }
             depth *= 2;
-            depth += RotTransPers(&vertices[4], (PSXLONG *)&quad.x1, &interpolation, &flag);
-            depth += RotTransPers(&vertices[5], (PSXLONG *)&quad.x3, &interpolation, &flag);
+            depth += RotTransPers(&vertices[4], (long *)&quad.x1, &interpolation, &flag);
+            depth += RotTransPers(&vertices[5], (long *)&quad.x3, &interpolation, &flag);
             depth /= 4;
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(&quad, ot, (u16)depth);

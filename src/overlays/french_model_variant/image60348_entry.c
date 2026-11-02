@@ -23,12 +23,12 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
     GsCOORDUNIT unit;
     Image60348ViewSnapshot view;
     SVECTOR point[4];
-    PSXLONG interpolation, flag;
+    long interpolation, flag;
     s32 result, step, inactive;
     s32 i, j, k, value, amount;
     u32 tex;
     u8 r, g, b;
-    PSXLONG depth;
+    long depth;
 
     work = (Image60348State *)context;
     result = 0;
@@ -251,8 +251,8 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                         work->rings[i].u + 127, work->rings[i].v + 63);
                     setRGB0(&work->sprite, work->rings[i].color[0], work->rings[i].color[1], work->rings[i].color[2]);
                     depth = RotAverage4(&work->inner[j], &work->inner[j + 1], &work->outer[j], &work->outer[j + 1],
-                        (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1,
-                        (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3,
+                        (long *)&work->sprite.x0, (long *)&work->sprite.x1,
+                        (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
@@ -302,8 +302,8 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                     setRGB3(&work->strip, work->rings[i].color[0], work->rings[i].color[1], work->rings[i].color[2]);
                     setRGB2(&work->strip, 0, 0, 0);
                     depth = RotAverage4(&work->ring[j], &work->rim[j], &work->ring[j + 1], &work->rim[j + 1],
-                        (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1,
-                        (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3,
+                        (long *)&work->strip.x0, (long *)&work->strip.x1,
+                        (long *)&work->strip.x2, (long *)&work->strip.x3,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
@@ -347,8 +347,8 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                                 work->echoes[i][j].u + 127, work->echoes[i][j].v + 63);
                             setRGB0(&work->sprite, r, g, b);
                             depth = RotAverage4(&work->inner[k], &work->inner[k + 1], &work->outer[k],
-                                &work->outer[k + 1], (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1,
-                                (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3,
+                                &work->outer[k + 1], (long *)&work->sprite.x0, (long *)&work->sprite.x1,
+                                (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                                 &interpolation, &flag);
                             if (flag >= 0) {
                                 GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
@@ -397,8 +397,8 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                     work->bursts[i].u + 63, work->bursts[i].v + 63);
                 setRGB0(&work->sprite, work->bursts[i].color[0], work->bursts[i].color[1], work->bursts[i].color[2]);
                 depth = RotAverage4(&work->corners[0], &work->corners[1], &work->corners[2], &work->corners[3],
-                    (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1,
-                    (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3,
+                    (long *)&work->sprite.x0, (long *)&work->sprite.x1,
+                    (long *)&work->sprite.x2, (long *)&work->sprite.x3,
                     &interpolation, &flag);
                 if (flag >= 0) {
                     GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
@@ -415,7 +415,7 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                     setRGB1(&work->shard, work->bursts[i].color[0], work->bursts[i].color[1], work->bursts[i].color[2]);
                     setRGB2(&work->shard, work->bursts[i].color[0], work->bursts[i].color[1], work->bursts[i].color[2]);
                     depth = RotAverage3(&work->spikes[j * 3], &work->spikes[1], &work->spikes[2],
-                        (PSXLONG *)&work->shard.x0, (PSXLONG *)&work->shard.x1, (PSXLONG *)&work->shard.x2,
+                        (long *)&work->shard.x0, (long *)&work->shard.x1, (long *)&work->shard.x2,
                         &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->shard, func_80058F10(), (u16)depth);
@@ -446,8 +446,8 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                         work->bursts[i].u + 63, work->bursts[i].v + 255);
                     setRGB0(&work->sprite, work->bursts[i].color[0], work->bursts[i].color[1], work->bursts[i].color[2]);
                     depth = RotAverage4(&work->flash_corners[0], &work->flash_corners[1], &work->flash_corners[2],
-                        &work->flash_corners[3], (PSXLONG *)&work->sprite.x0, (PSXLONG *)&work->sprite.x1,
-                        (PSXLONG *)&work->sprite.x2, (PSXLONG *)&work->sprite.x3, &interpolation, &flag);
+                        &work->flash_corners[3], (long *)&work->sprite.x0, (long *)&work->sprite.x1,
+                        (long *)&work->sprite.x2, (long *)&work->sprite.x3, &interpolation, &flag);
                     if (flag >= 0) {
                         GsSortPoly(&work->sprite, func_80058F10(), (u16)depth);
                     }
@@ -478,8 +478,8 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                         setRGB3(&work->strip, work->bursts[i].color[0], work->bursts[i].color[1], work->bursts[i].color[2]);
                         setRGB2(&work->strip, 0, 0, 0);
                         depth = RotAverage4(&work->cone_inner[k], &work->cone_middle[k], &work->cone_inner[k + 1],
-                            &work->cone_middle[k + 1], (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1,
-                            (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3, &interpolation, &flag);
+                            &work->cone_middle[k + 1], (long *)&work->strip.x0, (long *)&work->strip.x1,
+                            (long *)&work->strip.x2, (long *)&work->strip.x3, &interpolation, &flag);
                         if (flag >= 0) {
                             GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
                         }
@@ -496,8 +496,8 @@ s32 FrenchModelVariant681_HandleRequest(u8 *context, s32 command)
                         setRGB2(&work->strip, work->bursts[i].color[0], work->bursts[i].color[1], work->bursts[i].color[2]);
                         setRGB3(&work->strip, 0, 0, 0);
                         depth = RotAverage4(&work->cone_middle[k], &work->cone_outer[k], &work->cone_middle[k + 1],
-                            &work->cone_outer[k + 1], (PSXLONG *)&work->strip.x0, (PSXLONG *)&work->strip.x1,
-                            (PSXLONG *)&work->strip.x2, (PSXLONG *)&work->strip.x3, &interpolation, &flag);
+                            &work->cone_outer[k + 1], (long *)&work->strip.x0, (long *)&work->strip.x1,
+                            (long *)&work->strip.x2, (long *)&work->strip.x3, &interpolation, &flag);
                         if (flag >= 0) {
                             GsSortPoly(&work->strip, func_80058F10(), (u16)depth);
                         }

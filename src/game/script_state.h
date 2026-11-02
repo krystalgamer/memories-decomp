@@ -33,7 +33,7 @@ extern u16 gScript_wCommandWord;
  * advance it by two, four or six according to how many operands they take, and
  * script_run_tick.c fetches the next opcode through it into gScript_wCommandWord.
  */
-extern u8 *G32 gScript_StreamCursor;
+extern u8 *gScript_StreamCursor;
 
 /* The loaded script package, as the script engine reads it: a byte base the
  * cursor above is set from.
@@ -109,7 +109,7 @@ extern s16 gScript_WaitCounter;
  * here until their later command phase releases it with DisplayObject_ReleaseIfPresent.
  * The stored pointer is not nulled by those releases. */
 struct DisplayObject;
-extern struct DisplayObject *G32 gScript_TransitionObject;
+extern struct DisplayObject *gScript_TransitionObject;
 
 #define SCRIPT_IMAGE_OPERAND_ID_MASK 0xFFF
 #define SCRIPT_IMAGE_OPERAND_SKIP_FADE_IN 0x4000

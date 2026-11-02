@@ -58,7 +58,7 @@ typedef struct {
  * radius and height, the two dome scales, the ambient level, the three
  * textures and the four fade levels. */
 typedef struct {
-    Model782Config *G32 config;
+    Model782Config *config;
     SVECTOR origin;
     SVECTOR outer[16];
     SVECTOR inner[16];

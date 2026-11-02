@@ -71,8 +71,8 @@ int RestartCallback(void) ;
 int StopCallback(void) ;
 int VSync(int mode);
 int VSyncCallback(void (*f)(void)) ;
-PSXLONG GetVideoMode (void);
-PSXLONG SetVideoMode (PSXLONG mode);
+long GetVideoMode (void);
+long SetVideoMode (long mode);
 u32 PadRead(int id);
 void PadStop(void);
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)

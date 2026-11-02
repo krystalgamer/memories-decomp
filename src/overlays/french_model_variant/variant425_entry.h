@@ -24,7 +24,7 @@ typedef struct {
 
 typedef struct {
     DVECTOR projected;
-    PSXLONG interpolation, flag, target;
+    long interpolation, flag, target;
 } EntryProjection425;
 
 /* A seventeen-point ribbon: its spine and a copy moved along the view, both
@@ -32,10 +32,10 @@ typedef struct {
  * and the width's screen offset. */
 typedef struct {
     SVECTOR a[17];
-    PSXLONG sa[17];
+    long sa[17];
     s32 angle[17];
     SVECTOR b[17];
-    PSXLONG sb[17];
+    long sb[17];
     s32 width[17];
     CVECTOR colors[2];
     VECTOR scale;
@@ -78,9 +78,9 @@ typedef struct {
     s32 angles[2];
     u32 frame_count, elapsed, animation;
     s32 step, fade;
-    EntryConfig425 *G32 config;
+    EntryConfig425 *config;
     u32 field_17A0;
-    GsCOORDUNIT *G32 part;
+    GsCOORDUNIT *part;
     s16 field_17A8, field_17AA;
     s32 width, field_17B0, size, field_17B8, field_17BC, field_17C0;
     s32 intensity, field_17C8, field_17CC, progress, travel;

@@ -10,8 +10,8 @@ void func_8013E520(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     GsOT *ot;
     Rings447State *state = (Rings447State *)context;
     Ring447 *ring;
@@ -64,8 +64,8 @@ void func_8013E520(u8 *context)
             polygon->u3 = 255;
             polygon->v3 = 127;
             depth = RotTransPers4(&ring->v0[i], &ring->v1[i], &ring->v2[i], &ring->v3[i],
-                                 (PSXLONG *)&polygon->x0, (PSXLONG *)&polygon->x1,
-                                 (PSXLONG *)&polygon->x2, (PSXLONG *)&polygon->x3,
+                                 (long *)&polygon->x0, (long *)&polygon->x1,
+                                 (long *)&polygon->x2, (long *)&polygon->x3,
                                  &interpolation, &flag);
             polygon->r0 = red;
             polygon->g0 = green;

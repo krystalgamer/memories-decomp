@@ -20,14 +20,14 @@ s32 func_8013B004(u8 *context, s32 command)
     SVECTOR vertices[4];
     MATRIX base;
     MATRIX matrix;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     s32 direction;
     Model77Config *config;
     SVECTOR *velocity;
     s32 i, time, a, b;
     s32 left, right, step;
-    PSXLONG depth, first_depth;
+    long depth, first_depth;
     s32 left_y, right_y, end, x;
 
     memset(&rotation, 0, 8);
@@ -85,9 +85,9 @@ s32 func_8013B004(u8 *context, s32 command)
         work->position.vz += vertices[0].vz;
     }
     GsSetLsMatrix(&base);
-    first_depth = RotTransPers(&origin, (PSXLONG *)&triangle.x0,
+    first_depth = RotTransPers(&origin, (long *)&triangle.x0,
                               &interpolation, &flag);
-    depth = RotTransPers(&work->position, (PSXLONG *)&triangle.x1,
+    depth = RotTransPers(&work->position, (long *)&triangle.x1,
                         &interpolation, &flag);
     if (first_depth < depth) {
         depth = first_depth;
@@ -150,8 +150,8 @@ s32 func_8013B004(u8 *context, s32 command)
             setVector(&vertices[2], -config->size / 2, config->size / 2, 0);
             setVector(&vertices[3], config->size / 2, config->size / 2, 0);
             depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-                (PSXLONG *)&quad.x0, (PSXLONG *)&quad.x1,
-                (PSXLONG *)&quad.x2, (PSXLONG *)&quad.x3,
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3,
                 &interpolation, &flag);
             a = time * 8 / config->duration;
             setUV4(&quad, a % 4 * 32, a / 4 * 32, a % 4 * 32 + 31, a / 4 * 32,

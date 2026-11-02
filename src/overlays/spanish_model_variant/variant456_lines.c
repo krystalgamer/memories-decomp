@@ -9,8 +9,8 @@ void func_8013E15C(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Lines456State *state;
     GsOT *ot;
     Lines456 *group;
@@ -78,8 +78,8 @@ void func_8013E15C(u8 *context)
             line->attribute = 0x50000000;
             depth = RotTransPers4(&group->points[0], &group->points[j+1],
                                  &group->points[0], &group->points[j+1],
-                                 (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
-                                 (PSXLONG *)&line->x0, (PSXLONG *)&line->x1,
+                                 (long *)&line->x0, (long *)&line->x1,
+                                 (long *)&line->x0, (long *)&line->x1,
                                  &interpolation, &flag);
             line->r0 = red;
             line->g0 = green;

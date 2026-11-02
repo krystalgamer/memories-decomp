@@ -46,7 +46,7 @@ typedef struct {
  * offsets and steps, the wave scroll, eight texture words, the completion
  * flag, the elapsed time and the frame count. */
 typedef struct {
-    Model141Config *G32 config;
+    Model141Config *config;
     SVECTOR ring[17];
     SVECTOR tube_targets[28];
     SVECTOR tube[28];
@@ -56,7 +56,7 @@ typedef struct {
     SVECTOR flare[9];
     SVECTOR spiral[17];
     SVECTOR cylinder[34];
-    SVECTOR *G32 flare_quads[16];
+    SVECTOR *flare_quads[16];
     u8 wave[GRAPHICS_DEFAULT_HEIGHT];
     u8 wave_step[GRAPHICS_DEFAULT_HEIGHT];
     u8 wave_offset, scroll, unknown_c4e[2];

@@ -22,9 +22,9 @@ void FrenchModelVariant458_DrawStrands(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG flags[6][9];
-    PSXLONG p;
-    PSXLONG flag;
+    long flags[6][9];
+    long p;
+    long flag;
     Variant458StrandView *work;
     POLY_FT4 *poly;
     GsOT *ot;

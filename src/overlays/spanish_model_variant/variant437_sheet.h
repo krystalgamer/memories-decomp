@@ -43,7 +43,7 @@ typedef struct {
     u8 unknown_15E4[4];
     s32 step;
     u8 unknown_15EC[8];
-    Timing437 *G32 timing;
+    Timing437 *timing;
     u8 unknown_15F8[0x44];
     s32 phase;
 } Sheet437State;

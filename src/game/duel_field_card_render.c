@@ -32,11 +32,11 @@ u8 gDuel_wOutcomeFlags[4];
 u16 gDuel_awSavedStatModifiers[2];
 u8 gDuel_bSceneSubStep;
 u16 gDuel_awSavedRecordFlags[2];
-struct DuelEffectRequest *G32 gDuelEffect_pTrackedRequest;
-u8 *G32 tent_DebugEffectObject0;
-u8 *G32 tent_DebugEffectObject1;
-struct DisplayObject *G32 gDuel_pFlipLeftMarker;
-struct DisplayObject *G32 gDuel_pFlipRightMarker;
+struct DuelEffectRequest *gDuelEffect_pTrackedRequest;
+u8 *tent_DebugEffectObject0;
+u8 *tent_DebugEffectObject1;
+struct DisplayObject *gDuel_pFlipLeftMarker;
+struct DisplayObject *gDuel_pFlipRightMarker;
 s16 gDuel_wViewTweenHeadingTarget;
 s16 gDuel_wViewTweenOrbitAngleTarget;
 s32 gDuel_dwViewTweenHeadingStep;
@@ -50,30 +50,30 @@ static u16 D_8009B1AA;
 s16 gDuel_wMonsterRemovalCriterion;
 s16 gDuel_wMonsterRemovalZone;
 s8 gDuel_abBattleOutcome[2];
-struct DuelSelectionRecord *G32 gDuel_pActiveSelectionRecord;
+struct DuelSelectionRecord *gDuel_pActiveSelectionRecord;
 u8 gDuel_bSelectedTrapSlot;
 s8 D_8009B1B9;
 s32 gDuel_dwFieldDimTarget;
-struct DisplayObject *G32 gDuel_pCardPreviewObject;
+struct DisplayObject *gDuel_pCardPreviewObject;
 s32 gDuel_dwViewTweenDistanceAccumulator;
-struct DuelSideState *G32 gDuel_pActiveSideState;
-struct DisplayObject *G32 gDuel_pActionCard;
+struct DuelSideState *gDuel_pActiveSideState;
+struct DisplayObject *gDuel_pActionCard;
 u16 gDuel_wStepCounter;
 s16 gDuel_wEffectCardID;
 u8 gDuelCursor_PickFlags;
 u8 gDuel_bActiveSide;
 s8 gDuelCursor_TargetColumn;
 s8 gDuelCursor_TargetRow;
-struct SaveDataState *G32 gDuel_pSide0SaveData[2];
+struct SaveDataState *gDuel_pSide0SaveData[2];
 u16 gDuelResult_wBgmId;
 u8 gDuel_bAiSelectionCursor;
 u16 gDuel_wAiSelectionStepDelay;
-struct DuelResultDisplayState *G32 gDuel_pResultDisplayState;
+struct DuelResultDisplayState *gDuel_pResultDisplayState;
 u8 gDuel_bPendingDrawCount;
 u8 gDuel_bDrawStepCountdown;
 s16 gDuel_wViewTweenDistanceTarget;
-struct DuelEffectRequest *G32 gDuel_apSwordsEffectObjects[2 ];
-struct DisplayObject *G32 gDuel_pActionReadyMarker;
+struct DuelEffectRequest *gDuel_apSwordsEffectObjects[2 ];
+struct DisplayObject *gDuel_pActionReadyMarker;
 s32 gDuel_dwViewTweenDistanceStep;
 s16 D_8009B200;
 s16 D_8009B202;
@@ -84,17 +84,17 @@ s8 D_8009B209;
 u16 D_8009B20A;
 s16 D_8009B20C[2];
 u16 gDuel_wTrapPresentationMode;
-u8 *G32 gDuel_pTerrainIcon;
+u8 *gDuel_pTerrainIcon;
 s8 D_8009B218;
 static u8 D_8009B219;
 u8 D_8009B21A;
-u8 *G32 gDuel_pLifePointsPanel;
+u8 *gDuel_pLifePointsPanel;
 u16 gDuel_wCardEffectFlags;
 s32 gDuel_dwViewTweenReferenceZAccumulator;
 static u8 D_8009B228;
 u8 gDuel_bAnimatedBattleRequested;
 s16 gDuel_wSelectedTrapCardId;
-u8 *G32 gDuel_pActiveFieldGrid;
+u8 *gDuel_pActiveFieldGrid;
 u16 gDuel_wTwoPlayerCardViewMode;
 static u16 D_8009B232;
 u16 gDuel_wTwoPlayerSide0LifePoints;
@@ -102,7 +102,7 @@ u16 gDuel_wTwoPlayerSide1LifePoints;
 s8 gDuel_bOutroWinnerSide;
 u16 gDuel_wSceneStateFlags;
 static u32 D_8009B23C;
-struct DisplayObject *G32 gDuel_pCardViewerBackground;
+struct DisplayObject *gDuel_pCardViewerBackground;
 
 #include "../ygo_types.h"
 #include "duel_side_state.h"
@@ -202,7 +202,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
 void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
 {
     DuelCardRecord *holder = record;
-    GsOT *G32 *tab;
+    GsOT **tab;
     DisplayObject *obj;
     s32 a;
     s32 c;
@@ -273,10 +273,10 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     q[0].vy = q1->vy = q2->vy = q3->vy = 0;
     GsSetLsMatrix(lm);
 
-    RotTransSV(&q[0], &rot[0], (PSXLONG *)depth);
-    RotTransSV(&q[1], &rot[1], (PSXLONG *)depth);
-    RotTransSV(&q[2], &rot[2], (PSXLONG *)depth);
-    RotTransSV(&q[3], &rot[3], (PSXLONG *)depth);
+    RotTransSV(&q[0], &rot[0], (long *)depth);
+    RotTransSV(&q[1], &rot[1], (long *)depth);
+    RotTransSV(&q[2], &rot[2], (long *)depth);
+    RotTransSV(&q[3], &rot[3], (long *)depth);
 
     c1 = (SVECTOR *)0x1F8003C8;
     c2 = (SVECTOR *)0x1F8003D0;
@@ -290,17 +290,17 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
 
     depth[4] = RotColorDpq(&rot[0], up, CVECTOR_VIEW(color),
-                (PSXLONG *)&prim->x0, CVECTOR_VIEW(&prim->r0),
-                (PSXLONG *)&depth[0]);
+                (long *)&prim->x0, CVECTOR_VIEW(&prim->r0),
+                (long *)&depth[0]);
     depth[5] = RotColorDpq(&rot[1], up, CVECTOR_VIEW(color),
-                (PSXLONG *)&prim->x1, CVECTOR_VIEW(&prim->r1),
-                (PSXLONG *)&depth[1]);
+                (long *)&prim->x1, CVECTOR_VIEW(&prim->r1),
+                (long *)&depth[1]);
     depth[6] = RotColorDpq(&rot[2], up, CVECTOR_VIEW(color),
-                (PSXLONG *)&prim->x2, CVECTOR_VIEW(&prim->r2),
-                (PSXLONG *)&depth[2]);
+                (long *)&prim->x2, CVECTOR_VIEW(&prim->r2),
+                (long *)&depth[2]);
     depth[7] = RotColorDpq(&rot[3], up, CVECTOR_VIEW(color),
-                (PSXLONG *)&prim->x3, CVECTOR_VIEW(&prim->r3),
-                (PSXLONG *)&depth[3]);
+                (long *)&prim->x3, CVECTOR_VIEW(&prim->r3),
+                (long *)&depth[3]);
 
     if ((depth[0] | depth[1] | depth[2]
          | depth[3]) < 0) {
@@ -309,8 +309,8 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
 
     prim->u0 = prim->u2 = ((u8 *)&obj->field_5C)[0];
     prim->v0 = prim->v1 = ((u8 *)&obj->field_5C)[1];
-    if (NormalClip(*(PSXLONG *)&prim->x0, *(PSXLONG *)&prim->x1,
-                   *(PSXLONG *)&prim->x2) <= 0) {
+    if (NormalClip(*(long *)&prim->x0, *(long *)&prim->x1,
+                   *(long *)&prim->x2) <= 0) {
         prim->u2 = 0x38;
         prim->u0 = 0x38;
         prim->v1 = 0x80;

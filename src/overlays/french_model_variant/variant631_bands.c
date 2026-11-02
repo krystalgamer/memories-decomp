@@ -3,7 +3,7 @@
 #include "../model_variant/variant423_bands.h"
 
 /* Stored timing/configuration pointer at work + 0xF00. */
-#define BAND631_CONFIG(work) (*(u8 *G32 *)((u8 *)(work) + 0xF00))
+#define BAND631_CONFIG(work) (*(u8 **)((u8 *)(work) + 0xF00))
 
 /* French MODEL631/262 band helper. Same drawing as the NA variant423 band, but
  * the second quad of each segment reads its columns through col/next views of
@@ -16,8 +16,8 @@ void func_8013BF14(u8 *ctx)
     MATRIX m;
     MATRIX ls;
     GsCOORDINATE2 coord;
-    PSXLONG p;
-    PSXLONG flag[1][5];
+    long p;
+    long flag[1][5];
     u8 *work;
     GsOT *ot;
     s32 angle;

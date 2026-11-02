@@ -45,7 +45,7 @@ typedef struct {
  * points, which the setup fills in a single walk) and the quads they leave
  * behind, each trail's ring index, two textures and the elapsed time. */
 typedef struct {
-    Model108Config *G32 config;
+    Model108Config *config;
     SVECTOR anchor;
     union {
         Model108Trail trails[2];

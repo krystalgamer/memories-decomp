@@ -72,8 +72,8 @@ void DuelEffect_DrawSharedBaseTriangles(u8 *color, u16 width, SVECTOR *positions
     right.vz = 0;
     for (i = 0; i < count; i++) {
         depth = RotAverage3(&positions[i], &left, &right,
-            (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
-            (PSXLONG *)&p, (PSXLONG *)&flag) - bias;
+            (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
+            (long *)&p, (long *)&flag) - bias;
         func_8005B260((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
     }
 }
@@ -90,8 +90,8 @@ void DuelEffect_DrawProjectedFlatQuad(u8 *color, SVECTOR *vertices, u16 flags, u
     setRGB0(packet, color[0], color[1], color[2]);
     setSemiTrans(packet, 1);
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-        (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1, (PSXLONG *)&packet->x2,
-        (PSXLONG *)&packet->x3, (PSXLONG *)&p, (PSXLONG *)&flag);
+        (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
+        (long *)&packet->x3, (long *)&p, (long *)&flag);
     if (flag >= 0) {
         if (mode == 0) {
             setSemiTrans(packet, 0);
@@ -120,9 +120,9 @@ u16 DuelEffect_DrawGradientPath(u8 *color, u16 count, SVECTOR *vertices, u16 bia
             color[1] / (divisor - i), color[2] / (divisor - i));
         setRGB1(packet, color[0] / (count - i),
             color[1] / (count - i), color[2] / (count - i));
-        RotTransPers(&vertices[i], (PSXLONG *)&packet->x0, (PSXLONG *)&p, (PSXLONG *)&flag);
-        depth = RotTransPers(&vertices[i + 1], (PSXLONG *)&packet->x1,
-                            (PSXLONG *)&p, (PSXLONG *)&flag);
+        RotTransPers(&vertices[i], (long *)&packet->x0, (long *)&p, (long *)&flag);
+        depth = RotTransPers(&vertices[i + 1], (long *)&packet->x1,
+                            (long *)&p, (long *)&flag);
         depth -= bias;
         if (depth >= 0) {
             GsSortGLine(packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2));
@@ -197,9 +197,9 @@ void DuelEffect_DrawGradientConnectionBands(u8 *color, DVECTOR *first, DVECTOR *
         setVector(&vertices[3], last->vx,
             last->vy + (s16)DuelEffect_PowS16(-1, i + 1) * width, 0);
         RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (PSXLONG *)&packet->x0, (PSXLONG *)&packet->x1,
-            (PSXLONG *)&packet->x2, (PSXLONG *)&packet->x3,
-            (PSXLONG *)&p, (PSXLONG *)&flag);
+            (long *)&packet->x0, (long *)&packet->x1,
+            (long *)&packet->x2, (long *)&packet->x3,
+            (long *)&p, (long *)&flag);
         if (flag >= 0) {
             DuelEffect_SubmitOffsetQuad(packet, 1);
         }

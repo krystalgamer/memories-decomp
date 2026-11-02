@@ -32,7 +32,7 @@ typedef struct {
     u8 unknown_3088[4];
     u32 step;
     u8 unknown_3090[0xC];
-    Timing459 *G32 timing;
+    Timing459 *timing;
     u8 unknown_30A0[0x2C];
     s16 scale;
     u8 unknown_30CE[2];

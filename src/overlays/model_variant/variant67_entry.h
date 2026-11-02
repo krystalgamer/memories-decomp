@@ -37,7 +37,7 @@ typedef struct {
 } Model67Command;
 
 typedef struct {
-    Model67Command *G32 command;
+    Model67Command *command;
     SVECTOR ribbon[8][16];
     SVECTOR ring[8];
     CVECTOR color[16];

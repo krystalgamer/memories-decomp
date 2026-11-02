@@ -23,9 +23,9 @@ s32 ModelVariant386_HandleRequest(u8 *context, s32 command)
     u16 flat_clut[4];
     SVECTOR origin, target;
     VECTOR squared;
-    PSXLONG screen0;
-    PSXLONG depth, flag;
-    PSXLONG screen1;
+    long screen0;
+    long depth, flag;
+    long screen1;
     Model386Strand *strand;
     Model386Sheet *sheet;
     Model386Chain *chain;

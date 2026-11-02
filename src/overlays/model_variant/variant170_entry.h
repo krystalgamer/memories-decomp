@@ -41,7 +41,7 @@ typedef struct {
  * starts at r * 20), sixty spark positions, three texture words, the completion flag,
  * the newest trail row, the elapsed time and a frame counter. */
 typedef struct {
-    Model170Config *G32 config;
+    Model170Config *config;
     SVECTOR origin;
     SVECTOR target;
     SVECTOR ring[33];

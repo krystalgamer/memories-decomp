@@ -21,7 +21,7 @@ typedef struct {
     u8 unknown_31E4[0x40];
     s32 step;
     u8 unknown_3228[8];
-    Bands405Descriptor *G32 descriptor;
+    Bands405Descriptor *descriptor;
     u8 unknown_3234[0x20];
     s32 phase;
 } Outer405State;

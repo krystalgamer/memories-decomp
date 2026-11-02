@@ -28,7 +28,7 @@ typedef struct {
  * four-vertex squares, the per-sprite timers, five texture words and the
  * elapsed time. */
 typedef struct {
-    Model117Config *G32 config;
+    Model117Config *config;
     SVECTOR directions[8];
     SVECTOR ring[9];
     SVECTOR squares[8];

@@ -9,8 +9,8 @@ void FrenchModelVariant410_DrawRings(u8 *context)
     MATRIX matrix;
     MATRIX light;
     GsCOORDINATE2 coordinate;
-    PSXLONG interpolation;
-    PSXLONG flag;
+    long interpolation;
+    long flag;
     Family410Ring *ring = work->rings;
     GsOT *ot;
     POLY_GT4 *quad;
@@ -53,8 +53,8 @@ void FrenchModelVariant410_DrawRings(u8 *context)
         for (j = 0; j < 4; j++) {
             depth = RotTransPers4(&ring->points[0][j], &ring->points[1][j],
                                  &ring->points[2][j], &ring->points[3][j],
-                                 (PSXLONG *)&quad->x0, (PSXLONG *)&quad->x1,
-                                 (PSXLONG *)&quad->x2, (PSXLONG *)&quad->x3,
+                                 (long *)&quad->x0, (long *)&quad->x1,
+                                 (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag);
             setRGB0(quad, ring->outer.r, ring->outer.g, ring->outer.b);
             setRGB1(quad, ring->outer.r, ring->outer.g, ring->outer.b);

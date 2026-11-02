@@ -35,7 +35,7 @@ typedef struct {
     u8 unknown_FF4[4];
     s32 step;
     u8 unknown_FFC[4];
-    Timing385 *G32 timing;
+    Timing385 *timing;
     u8 unknown_1004[0x2C];
     s32 phase;
 } State385;

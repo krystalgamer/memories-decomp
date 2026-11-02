@@ -61,7 +61,7 @@ typedef struct {
  * and revealed ring counts; the ambient level, the textures, the per-bolt
  * bolt and glow colours, the per-ring colours and the flash level. */
 typedef struct {
-    Model805Config *G32 config;
+    Model805Config *config;
     SVECTOR pos[8];
     SVECTOR step[8];
     SVECTOR angle[8];

@@ -15,7 +15,7 @@
 #ifdef GPU_PACKET_CURSOR_AS_ADDRESS
 extern s32 gGraphics_pPacketWorkCursor __attribute__((section(".data")));
 #else
-extern u32 *G32 gGraphics_pPacketWorkCursor __attribute__((section(".data")));
+extern u32 *gGraphics_pPacketWorkCursor __attribute__((section(".data")));
 #endif
 
 /* Copies a primitive, adds draw mode, and links it into the ordering table. */
