@@ -10,10 +10,10 @@
  * its size. */
 
 #ifndef MODEL168_EXTERNAL_SCALE
-static const VECTOR D_8013C18C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant168_D118C = {4096, 4096, 4096, 0};
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant168_HandleRequest(u8 *context, s32 command)
 {
     Model168State *work;
     MATRIX base;
@@ -34,12 +34,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C18C;
+    scale = gModelVariant168_D118C;
     work = (Model168State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C2A8[command % 100];
+        config = work->config = &gModelVariant168_D12A8[command % 100];
         point = work->positions;
         for (i = 0; i < 64; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -99,9 +99,9 @@ s32 func_8013B004(u8 *context, s32 command)
         tri[22] = &work->rim[3];
         tri[23] = &work->rim[6];
         for (i = 1; i < 9; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C1AC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant168_D11AC[i]);
         }
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013C1AC[0]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant168_D11AC[0]);
         work->elapsed = 0;
         work->completed = 0;
 #ifndef MODEL168_NO_SIZE_PRINT

@@ -9,9 +9,9 @@
  * expanding double-ring beam from that point. A negative command draws a
  * frame; any other command sets the work area up and prints its size. */
 
-static const VECTOR D_8013C2D0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant173_D12D0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant173_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -38,13 +38,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C2D0;
+    scale = gModelVariant173_D12D0;
     work = (Model173State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->corners;
-        config = work->config = &D_8013C37C[command % 100];
+        config = work->config = &gModelVariant173_D137C[command % 100];
         for (i = -1; i < 2; i += 2) {
             for (j = -1; j < 2; j += 2) {
                 for (k = -1; k < 2; k += 2) {
@@ -102,7 +102,7 @@ s32 func_8013B004(u8 *context, s32 command)
             other++;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C2F0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant173_D12F0[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

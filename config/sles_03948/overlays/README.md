@@ -1180,11 +1180,12 @@ image's symbols file binds `ModelVariant101_HandleRequest`,
 `gModelVariant101_D12C8` and `gModelVariant101_D131C` at its own addresses.
 
 Two images under French headers 113 and 243 are the North American header-96
-entry (`model_variant/variant96_entry.c` and its `_slot1.c` wrapper)
+entry (`ModelVariant96_HandleRequest`, `model_variant/variant96_entry.c`)
 unchanged: it has no work-size printf or screen-height constant, and only the
 resident call targets differ, which `model_variant113_linker_symbols.txt`
-binds to the French addresses. They build through
-`src/overlays/french_model_variant/variant113_entry{,_slot1}.c`.
+binds to the French addresses. They build `variant96_entry.c` directly in both
+slots; each image's symbols file binds the entry and `gModelVariant96_D19DC`
+and `gModelVariant96_D1A14` at its own addresses.
 
 Two images under French headers 123 and 253 are the North American
 header-106 entry (`model_variant/variant106_entry.c`) unchanged: it has no
@@ -1277,10 +1278,13 @@ image and command tables 0x24 lower.
 French MODEL headers 183 (stage 9 slot 0) and 313 (stage 10 slot 1) build the US header-166 entry from `src/overlays/model_variant/variant166_entry.c` through `src/overlays/french_model_variant/variant183_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf` and its string (entry -0x14; tables `D_8013CCDC`/`D_8013CD68` become `D_8013CCB8`/`D_8013CD44`), and `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL flash height.
 
 Two images under French headers 190 and 320 are the North American
-header-173 entry (`model_variant/variant173_entry.c`) without its work-size
-printf or that call's `.rodata` format string, built through
-`src/overlays/french_model_variant/variant190_entry{,_slot1}.c`. The scale
-vector sits 0x14 lower and the image and command tables 0x24 lower.
+header-173 entry (`ModelVariant173_HandleRequest`,
+`model_variant/variant173_entry.c`) without its work-size printf or that call's
+`.rodata` format string, built through
+`src/overlays/french_model_variant/variant190_entry.c` in both slots. The
+static scale vector sits 0x14 lower and the image and command tables 0x24
+lower; each image's symbols file binds `gModelVariant173_D12F0` and
+`gModelVariant173_D137C` at its own addresses.
 
 French MODEL headers 191 (stage 9 slot 0) and 321 (stage 10 slot 1) build the US header-174 entry (`ModelVariant174_HandleRequest`) from `src/overlays/model_variant/variant174_entry.c` through `src/overlays/french_model_variant/variant191_entry.c` in both slots. `VERSION_FRENCH` drops the work-size `printf` and its string (entry -0x14; the image and command tables sit 0x24 lower, at 0x17A8 and 0x1818), and each image's symbols file binds `gModelVariant174_D17CC`/`gModelVariant174_D183C` at its own addresses. `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL flash height.
 

@@ -14,11 +14,11 @@
  * glow, a growing 16-segment ray ring and animated sparks while the ambient
  * light dims and recovers. */
 
-static const VECTOR D_8013E808 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant831_D3808 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant831_HandleRequest(u8 *context, s32 command)
 {
     Model831State *work;
     MATRIX light;
@@ -47,13 +47,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013E808;
+    scale = gFrenchModelVariant831_D3808;
     work = (Model831State *)context;
     flare_packet = &flare;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013E8A4[command];
+        work->config = &gFrenchModelVariant831_D38A4[command];
         for (i = 0; i < work->config->count; i++) {
             work->flare_scale[i] = 0;
             setVector(&work->pos[i], 0, 0, 0);
@@ -116,11 +116,11 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->flare_tpage = 174;
         work->flare_clut = VARIANT831_FLARE_CLUT;
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E818[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E818[1]);
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E818[2]);
-        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E818[3]);
-        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E818[4]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant831_D3818[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant831_D3818[1]);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant831_D3818[2]);
+        work->texture[3] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant831_D3818[3]);
+        work->texture[4] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant831_D3818[4]);
         work->ambient = 0x800;
         work->head = 0;
         work->phase = 0;

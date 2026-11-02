@@ -3,8 +3,10 @@
 Model 508, record 458, stages 9/10 load two distinct 20,480-byte images
 with headers 198/328 and archive command 129000, passing initial argument 0.
 Each entry spans 3,440 instruction bytes at offset `0x4`, followed by a
-16-byte source-owned unit-scale vector. The slot wrapper renames the entry
-and three local symbols.
+16-byte source-owned unit-scale vector. One source serves both slots; each
+image's symbols file binds `FrenchModelVariant198_HandleRequest` and the three
+data names (`gFrenchModelVariant198_D0D74`, `_D0D84`, `_D0DBC`) at its own
+addresses.
 
 All 860 native instructions form one closed entry, with 39 direct calls
 to 25 resident destinations and no local or indirect calls. Both complete

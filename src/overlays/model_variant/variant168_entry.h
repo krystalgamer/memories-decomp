@@ -47,11 +47,11 @@ typedef struct {
 } Model168State;
 
 #ifdef MODEL168_EXTERNAL_SCALE
-extern const VECTOR D_8013C18C;
+extern const VECTOR gModelVariant168_D118C;
 #endif
-extern GsIMAGE D_8013C1AC[];
-extern Model168Config D_8013C2A8[];
+extern GsIMAGE gModelVariant168_D11AC[];
+extern Model168Config gModelVariant168_D12A8[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant168_HandleRequest(u8 *context, s32 command);
 
 #endif

@@ -8,9 +8,9 @@
 #endif
 #include "../../game/graphics_constants.h"
 
-const VECTOR D_8013BD74 = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant198_D0D74 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant198_HandleRequest(u8 *context, s32 command)
 {
     Model198State *work;
     MATRIX base, matrix;
@@ -30,11 +30,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BD74;
+    scale = gFrenchModelVariant198_D0D74;
     work = (Model198State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013BDBC[command];
+        config = work->config = &gFrenchModelVariant198_D0DBC[command];
         Model_CopySlotU16Values(Model_GetActiveSlotIndex(), (u16 *)&work->origin);
         Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->opponent);
         point = work->ring;
@@ -63,7 +63,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BD84[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant198_D0D84[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
