@@ -11,12 +11,37 @@
 #include "camera_view.h"
 #include "ordering_tables.h"
 #include "model_scene_controllers_data.h"
+#include "model_primitive_templates.h"
+#include "primitive_handler_modes.h"
 
 #define CVECTOR_VIEW(color) ((CVECTOR *)(color))
 
 #ifndef BACKGROUND_RENDER_CLIP_LIMIT
 #define BACKGROUND_RENDER_CLIP_LIMIT 241
 #endif
+
+/* The model renderer's prototype GPU primitive words. See the header for what
+ * the opcode and colour fields are, and for what is deliberately not claimed
+ * about which handler uses which word.
+ *
+ * Each object carries an explicit .sdata section attribute. The last three
+ * words are zero, and a zero-initialised object would otherwise be placed in
+ * .sbss; the attribute is what keeps them in .sdata where retail has them.
+ * save_data_payload.c spells its two words the same way. */
+u32 gModel_dwPolyFt3Template = 0x24808080;
+u32 gModel_dwPolyFt4Template = 0x2C808080;
+u32 gModel_dwPolyGt3Template = 0x34808080;
+u32 gModel_dwPolyGt4Template = 0x3C808080;
+u32 gModel_dwPolyFt3SemiTemplate = 0x24404040;
+u32 gModel_dwPolyFt4SemiTemplate = 0x2C404040;
+u32 gModel_dwPolyGt3SemiTemplate = 0x34404040;
+u32 gModel_dwPolyGt4SemiTemplate = 0x3C404040;
+u32 gModel_dwLineF3Template = 0x4A808080;
+u32 gModel_dwLineF4Template = 0x4E808080;
+u32 gModel_dwDrawModeTemplate = 0xE1000220;
+u32 gModel_dwTpageBlendRateBits = 0x00000000;
+u32 gModel_dwSecondPassClutBits = 0x00000000;
+u32 gModel_dwLitColorCacheBase = 0x00000000;
 
 void Model_DrawBackground(void)
 {

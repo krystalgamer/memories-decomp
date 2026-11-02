@@ -76,8 +76,8 @@
 #endif
 
 /* Defined rather than declared so the assembler pads the loads that feed
- * their gp-relative stores; model_primitive_templates.c and
- * model_handler_state.c hold the initialised definitions these commons merge
+ * their gp-relative stores; model_background.c and
+ * model_scene_controllers.c hold the initialised definitions these commons merge
  * into, so no storage is allocated here. */
 u32 gModel_dwLitColorCacheBase;
 u8 gModel_bCurrentDrawMode;

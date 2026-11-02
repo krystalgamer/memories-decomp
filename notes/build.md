@@ -272,7 +272,7 @@ record array) are two more. Five things make one of these:
 
    The fix is to classify the whole GP-relative tail as `sdata` in image order,
    not to isolate one symbol from a range still called `data`.
-   `save_data_mask_state.c` is the worked example at `0x8009AF64`: before the
+   `save_data_payload.c` is the worked example at `0x8009AF64`: before the
    tail was classified, its two words moved from `_gp + 0x5C` to `_gp + 0x174`;
    after the extracted ranges from `_gp` onward became ordered `sdata`, splitting
    the `0x8009AF40` blob around those words preserved both their addresses and

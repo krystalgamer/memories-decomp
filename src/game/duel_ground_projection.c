@@ -18,6 +18,14 @@
 #include "view_state_reset_defaults.h"
 #include "view_state_current.h"
 
+/* Small data at 0x8009AF20: opposing headings for the two duel sides.
+   Field transitions and row movement feed the view-tween heading channel;
+   Duel_InitGroundProjectionReference samples element 0 directly. */
+u16 gDuel_awSideViewHeadings[2] = {
+    0x0400,
+    0x0C00,
+};
+
 /* Projects all duel-slot coordinates into the biased screen-position table. */
 void Duel_ProjectCardSlotScreenPositions(void)
 {

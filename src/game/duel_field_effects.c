@@ -151,6 +151,8 @@ DuelEffectHandler
 };
 #define gDuel_sEffectWorkCounter D_8009B20C[1]
 
+char D_8009AF40[] = "%d\n";
+
 void DuelEffect_StartSwords(void)
 {
     DuelEffectRequest *object;

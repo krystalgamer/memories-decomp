@@ -14,7 +14,7 @@ ten times `sizeof(Key) == 0x28`. Its name distinguishes the array from the
 current cursor and from the separate current-pose snapshot.
 
 The cursor and count are not newly inferred allocations. Their initialized `.sdata`
-definitions already belong to `src/game/model_transfer_flags_state.c`,
+definitions already belong to `src/game/model_queue_relative_camera_orbit.c`,
 and their shared types remain in `model_transfer_flags.h`.
 
 ## Producer, stepper and consumers

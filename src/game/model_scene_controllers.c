@@ -173,6 +173,23 @@ void Model_StepBackgroundVramAnimation(void) {
  * of the unit.
  */
 
+u8 gModel_bCurrentDrawMode = 0;
+u8 gModel_bBlendRateActive = 0;
+u16 gModel_wDrawTintRedGreen = 0;
+u8 gModel_bDrawTintBlue = 0;
+u8 gModel_bPresentationTimer = 0;
+static u16 sModelHandlerState_PadAFEA
+    = 0;
+u32 gModel_AnimatedBattleCameraEndpoint[2] = {
+    0x10000000,
+    0x00040000,
+};
+char gModel_szWhyTrace[8] = "WHY?\n";
+u32 gModel_ExodiaOrbitOffset[2] = {
+    0xFA240000,
+    0,
+};
+
 void Model_UpdateAnimatedBattle(void)
 {
     s32 (*effect_handlers[4])(s32, s32);
