@@ -1,11 +1,11 @@
-func_8017B004 = 0x8017B004; // type:func size:0x1364
-func_8017C368 = 0x8017C368; // type:func size:0x584
-func_8017C8EC = 0x8017C8EC; // type:func size:0x5A8
-func_8017CE94 = 0x8017CE94; // type:func size:0x48C
+FrenchModelVariant464_HandleRequest = 0x8017B004; // type:func size:0x1364
+FrenchModelVariant464_DrawRings = 0x8017C368; // type:func size:0x584
+SpanishModelVariant464_DrawAdvancingQuads = 0x8017C8EC; // type:func size:0x5A8
+SpanishModelVariant464_DrawSheets = 0x8017CE94; // type:func size:0x48C
 func_8017D320 = 0x8017D320; // type:func size:0x518
-func_8017D838 = 0x8017D838; // type:func size:0x574
+SpanishModelVariant464_DrawCurtains = 0x8017D838; // type:func size:0x574
 D_8017B000 = 0x8017B000; // type:u8 size:0x4 defined:true
-D_8017DDAC = 0x8017DDAC; // type:u8 size:0x2254 defined:true
+gFrenchModelVariant464_D2DAC = 0x8017DDAC; // type:u8 size:0x2254 defined:true
 GsGetLs = 0x80086258; // type:func absolute:true
 GsSetLsMatrix = 0x80085558; // type:func absolute:true
 GsSortPoly = 0x800842A8; // type:func absolute:true
