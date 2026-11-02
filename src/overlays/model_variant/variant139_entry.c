@@ -8,9 +8,9 @@
  * command draws a frame; any other command sets the work area up and prints
  * its size. */
 
-static const VECTOR D_8013CAAC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant139_D1AAC = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant139_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -35,13 +35,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CAAC;
+    scale = gModelVariant139_D1AAC;
     work = (Model139State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->mesh;
-        config = work->config = &D_8013CB74[command % 100];
+        config = work->config = &gModelVariant139_D1B74[command % 100];
         for (i = 0; i < 9; i++) {
             for (j = 0; j < 17; j++) {
                 r = config->inner_radius + (config->outer_radius - config->inner_radius) * csin(i << 7) / 4096;
@@ -98,9 +98,9 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CACC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant139_D1ACC[i]);
         }
-        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, D_8013CB04);
+        work->texture[2] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, gModelVariant139_D1B04);
         work->elapsed = 0;
         work->completed = 0;
 #ifndef VERSION_FRENCH

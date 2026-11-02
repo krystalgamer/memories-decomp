@@ -1,4 +1,4 @@
-// MODEL.MRG model 27 (record 27), sector 7662, header 248, loaded at 0x8017B000; the US header-101 source variant101_entry_slot1.c.
-func_8017B004 = 0x8017B004; // type:func size:0x12B4 defined:true
-D_8017C2C8 = 0x8017C2C8; // type:u8 size:0x54 defined:true
-D_8017C31C = 0x8017C31C; // type:u8 size:0x3CE4 defined:true
+// MODEL.MRG model 27 (record 27), sector 7662, header 248, loaded at 0x8017B000; the US header-101 source variant101_entry.c.
+ModelVariant101_HandleRequest = 0x8017B004; // type:func size:0x12B4 defined:true
+gModelVariant101_D12C8 = 0x8017C2C8; // type:u8 size:0x54 defined:true
+gModelVariant101_D131C = 0x8017C31C; // type:u8 size:0x3CE4 defined:true

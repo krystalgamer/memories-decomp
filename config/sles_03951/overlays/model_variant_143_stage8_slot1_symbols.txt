@@ -1,4 +1,4 @@
-// Spanish MODEL.MRG model 143 (record 143), sector 39658, header 298, loaded at 0x8017B000; the US header-281 source variant151_entry_slot1.c, through french_model_variant/variant168_entry_slot1.c; built from the French source layout of french_model_variant_143_stage8_slot1.
-func_8017B004 = 0x8017B004; // type:func size:0xF58 defined:true
-D_8017BF6C = 0x8017BF6C; // type:u8 size:0x38 defined:true
-D_8017BFA4 = 0x8017BFA4; // type:u8 size:0x405C defined:true
+// Spanish MODEL.MRG model 143 (record 143), sector 39658, header 298, loaded at 0x8017B000; the US header-281 source variant151_entry.c, through french_model_variant/variant168_entry.c; built from the French source layout of french_model_variant_143_stage8_slot1.
+ModelVariant151_HandleRequest = 0x8017B004; // type:func size:0xF58 defined:true
+gModelVariant151_D0F90 = 0x8017BF6C; // type:u8 size:0x38 defined:true
+gModelVariant151_D0FC8 = 0x8017BFA4; // type:u8 size:0x405C defined:true

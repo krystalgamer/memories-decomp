@@ -7,9 +7,9 @@
  * The return value reports the end (2), 4 while the trails run, 1 during
  * the fade or 0 before the trails start. */
 
-static const VECTOR D_8013C51C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant108_D151C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant108_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_G4 ribbon;
@@ -34,12 +34,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C51C;
+    scale = gModelVariant108_D151C;
     work = (Model108State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     Model_GetFrameStep();
     if (command >= 0) {
-        work->config = &D_8013C564[command];
+        work->config = &gModelVariant108_D1564[command];
         work->anchor.vx = 0;
         work->anchor.vy = 0;
         work->anchor.vz = 0;
@@ -47,7 +47,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->index[i] = 0;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C52C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant108_D152C[i]);
         }
         work->elapsed = 0;
         return 0;

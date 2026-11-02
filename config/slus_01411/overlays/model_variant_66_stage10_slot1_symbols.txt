@@ -1,8 +1,8 @@
-// MODEL.MRG model 66 (record 66), sector 18426, header 269, loaded at 0x8017B000; the US source variant139_entry_slot1.c.
-func_8017B004 = 0x8017B004; // type:func size:0x1AA8 defined:true
-D_8017CACC = 0x8017CACC; // type:u8 size:0x38 defined:true
-D_8017CB04 = 0x8017CB04; // type:u8 size:0x70 defined:true
-D_8017CB74 = 0x8017CB74; // type:u8 size:0x348C defined:true
+// MODEL.MRG model 66 (record 66), sector 18426, header 269, loaded at 0x8017B000; the US source variant139_entry.c.
+ModelVariant139_HandleRequest = 0x8017B004; // type:func size:0x1AA8 defined:true
+gModelVariant139_D1ACC = 0x8017CACC; // type:u8 size:0x38 defined:true
+gModelVariant139_D1B04 = 0x8017CB04; // type:u8 size:0x70 defined:true
+gModelVariant139_D1B74 = 0x8017CB74; // type:u8 size:0x348C defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 func_80058F10 = 0x80058F10; // type:func absolute:true

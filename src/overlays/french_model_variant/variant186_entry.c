@@ -4,7 +4,4 @@
  * them sit 0x24 lower. */
 #define VERSION_FRENCH
 #define GRAPHICS_DEFAULT_HEIGHT 256
-#define D_8013D0C4 D_8013D0B0
-#define D_8013D0E4 D_8013D0C0
-#define D_8013D138 D_8013D114
 #include "../model_variant/variant169_entry.c"

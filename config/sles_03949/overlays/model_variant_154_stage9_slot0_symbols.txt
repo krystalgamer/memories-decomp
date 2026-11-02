@@ -1,6 +1,6 @@
 // German MODEL.MRG model 154 (record 154), sector 42704, header 192, loaded at 0x8013B000; the US header-175 source variant175_entry.c; built from the French source layout of french_model_variant_154_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x1AD8 defined:true
-D_8013CAEC = 0x8013CAEC; // type:u8 size:0x3514 defined:true
+ModelVariant175_HandleRequest = 0x8013B004; // type:func size:0x1AD8 defined:true
+gModelVariant175_D1AEC = 0x8013CAEC; // type:u8 size:0x3514 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 func_80058F10 = 0x8005C018; // type:func absolute:true

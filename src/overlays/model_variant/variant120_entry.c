@@ -10,9 +10,9 @@
  * passes the middle of the window, the entry moves the camera and restarts
  * both slot animations. */
 
-static const VECTOR D_8013C264 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant120_D1264 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant120_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -36,12 +36,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C264;
+    scale = gModelVariant120_D1264;
     work = (Model120State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C290[command % 100];
+        config = work->config = &gModelVariant120_D1290[command % 100];
         point = work->angles;
         for (i = 0; i < 16; point++, i++) {
             point->vx = 0;
@@ -55,7 +55,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = rand() % 64;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C274[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant120_D1274[i]);
         }
         work->camera_steps = 2;
         work->elapsed = 0;
