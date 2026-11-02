@@ -10,16 +10,12 @@ two independent working-word roles:
 
 ## Action word
 
-`DuelScene_UpdateHandActions` uses the original scalar
-`*(u16 *)D_8009B20C` form. Its source explains why replacing that with
-array element zero changes scheduling. `DuelScene_UpdateFieldActions`
-uses element zero with its original signed-array and explicit unsigned
-views, dispatches low-nibble substates and retains the `0x8000`/`0x4000`
-entry/phase flags.
-
-The canonical scalar declaration describes the packed word. The matching
-implementations retain their distinct local code-generation aliases rather
-than normalizing the expressions or changing their reset/state behavior.
+`DuelScene_UpdateHandActions` and `DuelScene_UpdateFieldActions` both
+read and write the word as the scalar `u16 gDuel_wActionSubstate`. The hand
+handler's source explains why array element zero would change its
+scheduling; the field handler builds byte-identically from the scalar in
+every image. Both dispatch low-nibble substates and retain the
+`0x8000`/`0x4000` entry/phase flags.
 
 ## Effect work
 
@@ -46,10 +42,9 @@ The actual action and effect providers are:
 | Italy | `0x8009C52E` | `0x8009C4E4` |
 | Spain | `0x8009C52E` | `0x8009C4E4` |
 
-The PAL hand adapter selects `gEuropean_D_8009B20C`; the field adapter
-keeps its existing `D_8009C10E` identity, which the localized scripts bind
-to the same action address. Effect handlers retain the different
-`D_8009B20C` transport base and its `+2` relocation.
+Every PAL symbol file binds `gDuel_wActionSubstate` directly at the action
+address, so neither action handler needs a regional remap. Effect handlers
+retain the different `D_8009B20C` transport base and its `+2` relocation.
 
 The public semantic exports therefore use the action provider for the
 action word and the effect provider plus two for the counter.
@@ -63,9 +58,8 @@ matching accesses would disturb the measured small-data/GP behavior.
 Adjacency in NA/Japan is not evidence of a shared semantic object.
 
 The owning header declares the two scalar exports. Context-local aliases
-in the matching sources deliberately preserve the actual old expressions
-and per-translation-unit regional remaps; broad header macros could bind
-the wrong PAL object.
+in the effect sources deliberately preserve the actual old expressions;
+broad header macros could bind the wrong PAL object.
 
 Only the existing guarded Cursebreaker fixture's scalar alias changes to
 name its same guarded `state_words[1]`. Every other byte of that fixture,

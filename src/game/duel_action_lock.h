@@ -39,9 +39,8 @@ extern s16 gDuel_wEffectCardID;
  * to 0 or
  * -1, advance it and index gDuel_abFieldGridCardRecordIndices by it. [0] is a
  * packed action substate in DuelScene_UpdateHandActions and
- * DuelScene_UpdateFieldActions. The hand path views it as a scalar
- * (`*(u16 *)D_8009B20C`) because sched treats an array element as part of an
- * aggregate. PAL action adapters select a different physical provider from
+ * DuelScene_UpdateFieldActions, which both reach it as the scalar
+ * gDuel_wActionSubstate below. PAL images keep the action word apart from
  * the effect-work base, so adjacency is not a shared-record contract. Four bytes,
  * the extent up to gDuel_wTrapPresentationMode, stays gp-relative at every threshold in
  * play; with [4] shared instead, an assembler -G4
@@ -50,8 +49,8 @@ extern s16 gDuel_wEffectCardID;
  * and the tree does not link. */
 extern s16 D_8009B20C[2];
 
-/* Semantic scalar exports. Matching callers retain their local legacy
- * scalar/array code-generation views rather than changing the accesses. */
+/* Semantic scalar exports. The two action handlers use gDuel_wActionSubstate
+ * directly; the effect handlers keep their legacy D_8009B20C[1] views. */
 extern u16 gDuel_wActionSubstate;
 extern s16 gDuel_sEffectWorkCounter;
 
