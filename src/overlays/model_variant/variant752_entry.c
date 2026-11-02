@@ -8,9 +8,9 @@
  * fade one by one, a widening ring, a four-point star, embers and debris. The
  * ambient level dips until the burst and comes back afterwards. */
 
-static const VECTOR D_8013C980 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant752_D1980 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant752_HandleRequest(u8 *context, s32 command)
 {
     Model752State *work;
     MATRIX base, matrix, saved;
@@ -29,13 +29,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C980;
+    scale = gModelVariant752_D1980;
     work = (Model752State *)context;
     packet = &burst;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C9E4[command];
+        work->config = &gModelVariant752_D19E4[command];
         for (i = 0; i < 64; i++) {
             setVector(&work->sparkles[i], work->config->sparkle_speed * ((rand() - rand()) % 256) / 256,
                 work->config->sparkle_speed * ((rand() - rand()) % 256) / 256,
@@ -80,7 +80,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C990[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant752_D1990[i]);
         }
         return 0;
     }
