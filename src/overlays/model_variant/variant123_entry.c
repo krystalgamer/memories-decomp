@@ -8,9 +8,9 @@
  * command's slot part, cross to the other slot and fade while pushing past it.
  * The return value reports the hit (1), the end (2) or a still-moving entry. */
 
-static const VECTOR D_8013C340 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant123_D1340 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant123_HandleRequest(u8 *context, s32 command)
 {
     Model123State *work;
     MATRIX base, matrix;
@@ -32,11 +32,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C340;
+    scale = gModelVariant123_D1340;
     work = (Model123State *)context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013C388[command];
+        config = work->config = &gModelVariant123_D1388[command];
         point = work->points;
         for (i = 0; i < config->count; i++) {
             point->vx = 0;
@@ -60,7 +60,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C350[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant123_D1350[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
