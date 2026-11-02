@@ -1276,7 +1276,10 @@ through `src/overlays/french_model_variant/variant161_entry{,_slot1}.c`. The
 scale vector sits 0x14 lower and the image and command tables 0x28 lower.
 
 Six images under French headers 182 and 312 build their entry from French C,
-`src/overlays/french_model_variant/variant182_entry{,_slot1}.c`. It is the
+`src/overlays/french_model_variant/variant182_entry.c`, built in both slots;
+each image's symbols file binds `FrenchModelVariant182_HandleRequest`,
+`gFrenchModelVariant182_D1CD8` and `gFrenchModelVariant182_D1D64` at its own
+addresses. It is the
 effect of the North American header-165 entry without its work-size printf
 or that call's `.rodata` format string, and with a 256-line screen flash.
 The scale vector sits 0x14 lower than in the North American image and the
