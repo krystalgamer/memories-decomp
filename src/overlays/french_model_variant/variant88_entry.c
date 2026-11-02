@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant88_entry.h"
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant88_HandleRequest(u8 *context, s32 command)
 {
     Family88State *work;
     MATRIX base;
@@ -26,7 +26,7 @@ s32 func_8013B004(u8 *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &((Family88Config *)(D_8013B954 + 0x1C))[command];
+        config = work->config = &((Family88Config *)(gFrenchModelVariant88_D0954 + 0x1C))[command];
         point = work->points;
         for (i = 0; i < config->groups * config->count; i++) {
             point->vx = 0;
@@ -36,7 +36,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->shared.textures[i] = func_80059A50(Model_GetActiveSlotIndex(), 3, &((GsIMAGE *)D_8013B954)[i]);
+            work->shared.textures[i] = func_80059A50(Model_GetActiveSlotIndex(), 3, &((GsIMAGE *)gFrenchModelVariant88_D0954)[i]);
         }
         work->frame = -config->delay;
         work->shared.state.done = 0;
