@@ -1030,9 +1030,9 @@ Twenty-six images under French headers 794 and 891 are the North American
 header-777 entry (`model_variant/variant777_entry.c`) with its full-screen
 flash covering the 256 PAL lines instead of 240. `VERSION_FRENCH` selects the
 height, through
-`src/overlays/french_model_variant/variant794_entry{,_slot1}.c`; the North
+`src/overlays/french_model_variant/variant794_entry.c`; the North
 American images have no slot-one copy, so the slot-one wrapper renames the
-labels itself.
+labels itself. Each image's symbols file binds `ModelVariant777_HandleRequest` and `gModelVariant777_D2440`, `gModelVariant777_D2494` at its own addresses.
 
 Two images under French headers 119 and 249 are the North American
 header-102 entry (`ModelVariant102_HandleRequest` in
