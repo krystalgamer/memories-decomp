@@ -5,7 +5,7 @@
 /* Header 404's form of the header-425 ribbons: the RotTransPers4 flag of each
  * point is kept, and a point is drawn only when its depth and flag are not
  * negative. */
-void func_8013C1D4(u8 *ctx)
+void ModelVariant404_DrawRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

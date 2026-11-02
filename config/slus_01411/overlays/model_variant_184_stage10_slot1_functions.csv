@@ -1,10 +1,10 @@
 address,size,name,status,module,notes
-0x8017B004,0x11D0,func_8017B004,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C1D4,0x690,func_8017C1D4,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C864,0xC94,func_8017C864,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017D4F8,0x7AC,func_8017D4F8,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017DCA4,0x4E8,func_8017DCA4,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017E18C,0x574,func_8017E18C,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017E700,0x314,func_8017E700,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017EA14,0x380,func_8017EA14,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017ED94,0x368,func_8017ED94,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0x11D0,ModelVariant404_HandleRequest,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C1D4,0x690,ModelVariant404_DrawRibbons,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C864,0xC94,SpanishModelVariant421_DrawSpiral,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017D4F8,0x7AC,ModelVariant404_DrawBands,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017DCA4,0x4E8,ModelVariant404_DrawSheets,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017E18C,0x574,ModelVariant404_DrawWebs,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017E700,0x314,ModelVariant404_DrawSpokes,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017EA14,0x380,ModelVariant404_DrawRings,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017ED94,0x368,ModelVariant404_DrawQuad,matching_c,overlay/model_variant_184_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
