@@ -6,7 +6,7 @@
  * rings rises around that slot while rising sparks fade out over their life
  * and an optional white screen flash fades in the first frames. */
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
 {
     Model54State *work;
     Model54Config *config;
@@ -30,7 +30,7 @@ s32 func_8013B004(u8 *context, s32 command)
     work = (Model54State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
-        config = work->config = &D_8013C6D4[command];
+        config = work->config = &gModelVariant54_D16D4[command];
         p = work->ring[0];
         for (i = 0; i < 17; i++) {
             p->vx = config->radius * ccos(i << 8) / 4096;
@@ -61,9 +61,9 @@ s32 func_8013B004(u8 *context, s32 command)
             q++;
         }
         for (i = 0; i < 4; i++) {
-            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C648[i]);
+            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant54_D1648[i]);
         }
-        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, D_8013C6B8);
+        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, gModelVariant54_D16B8);
         work->head = 0;
         work->stage = 0;
         work->elapsed = 0;
