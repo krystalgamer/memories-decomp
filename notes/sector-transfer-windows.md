@@ -66,7 +66,7 @@ pair or assigned a uniform interpretation.
 ## Auxiliary-model palette-sector view
 
 `Model_LoadAuxiliaryPackageStage` phase 2 programs one sector into
-`D_801DD800` through both descriptor words. Phase 3 uploads a `0x100`-by-1
+`gModel_abAuxiliaryPaletteSector` through both descriptor words. Phase 3 uploads a `0x100`-by-1
 rectangle at `MODEL_TEXTURE_PALETTE_RECT_X`, y `0xF1`, from that label.
 It then programs the next transfer using the same label minus
 `FILE_SECTOR_SIZE`.
@@ -82,10 +82,9 @@ coincides.
 The existing declaration owner, `file_transfer_steps.h`, declares only the
 canonical name, with no assembler label.
 
-All seven resident linker inputs export the canonical name as an alias to
-that same native provider. The accepted NA provider is an absolute symbol
-at `0x801DD800`; it is not turned into a C data definition or assigned an
-invented ELF size. No storage, numeric production pin, compiler flag,
+All seven resident images bind the canonical name directly as an absolute
+symbol at `0x801DD800`; it is not turned into a C data definition or assigned
+an invented ELF size. No storage, numeric production pin, compiler flag,
 overlay import dependency, or instruction is added.
 
 The previously unclassified `D_800F5694` is now independently tied to slot 2's

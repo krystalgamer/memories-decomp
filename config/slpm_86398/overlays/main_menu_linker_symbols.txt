@@ -80,4 +80,4 @@ gMainMenu_pStartPrompt = 0x80184560;
 gMainMenu_abValueSetupChoices = 0x801845BC;
 gMainMenu_bValueSetupToggleChoice = 0x801845BE;
 
-gSaveData_aPairWorkspace = D_801D1200;
+gSaveData_aPairWorkspace = 0x801D1200;

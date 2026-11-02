@@ -19,6 +19,7 @@ TextBox_CreateFlagged = 0x8003598C;
 Main_StartDuel = 0x80024BF4;
 D_8009B368 = 0x8009B258;
 D_8009B26C = 0x8009B15C;
+gSaveData_Workspace = 0x801D0000;
 gDuel_awPlayerDeck = 0x801D0200;
 D_801AF000 = 0x801BF000;
 D_800EB0F8 = 0x800EAFD8;

@@ -55,8 +55,8 @@ renamed here.
 In `Model_LoadMonsterMergeStage`, stage 3 advances a local source by
 `2 * FILE_SECTOR_SIZE` after the first staged image payload, then sets up
 the following transfer at that address. NA automatic bindings and four
-tracked PAL configurations establish that this is the `D_801DE000`
-interior view at staging base `+0x1000`.
+tracked PAL configurations establish that this is the
+`gModel_abTexturePaletteStaging` interior view at staging base `+0x1000`.
 
 The non-alternate stage 4 consumes that view through `LoadImage2` with the
 existing `256 x 1` palette rectangle and model palette coordinates.
@@ -74,19 +74,18 @@ The address-holding word retains its original logical provider in all
 seven images: NA `8009B118`, Japan `8009B008`, English PAL `8009C090`,
 other PAL `8009C4B0`.
 
-Both arena views retain their original `D_801DD000` / `D_801DE000`
-providers. Their numeric addresses are established by NA's generated
-automatic bindings and the four tracked non-English PAL bindings.
-English PAL and Japanese regional retail/split maps are unavailable
-locally; no guessed tracked numeric assignment replaces their existing
-automatic symbols. All 21 logical roles remain, with 17 locally verified
-numeric bindings and four explicit symbolic-only cases pending full-image
-PR validation.
+Both arena views are bound directly at `0x801DD000` / `0x801DE000` in
+every region's `symbols.txt` or `link_symbols.ld`. The former
+`D_801DD000` / `D_801DE000` providers and their alias lines are gone.
+English PAL and Japan, which used to inherit the addresses from their
+automatic symbols, now carry the same numeric bindings; all seven resident
+images still match byte-for-byte.
 
 The scalar/pointer declaration family and the incomplete arena declarations
 live in separate isolated headers. This lets the existing model-texture
 witness keep its independently declared pointer fixture while importing
-only the renamed arena declarations. Old headers and all old names remain.
+only the renamed arena declarations. `file_transfer.h` declares the same
+two arrays under their canonical names.
 
 ## Preservation and controls
 

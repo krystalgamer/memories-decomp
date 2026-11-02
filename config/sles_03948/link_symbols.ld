@@ -493,18 +493,18 @@ D_801B1238 = 0x801BF814;
 D_801B125A = 0x801BF848;
 gText_DecimalDigitGlyphString = 0x801BF870;
 gText_AlternateStringAddressAnchor = 0x801C0004;
-D_801D0000 = 0x801D0000;
-D_801D1200 = 0x801D1200;
-D_801D160C = 0x801D160C;
-D_801D2200 = 0x801D2200;
+gSaveData_Workspace = 0x801D0000;
+gSaveData_aPairWorkspace = 0x801D1200;
+gSaveData_aFirstPlayerNameSjis = 0x801D160C;
+gSaveData_aSecondPlayerState = 0x801D2200;
 gFile_ActiveRequestSlot = 0x801D4200;
 D_801D5608 = 0x801BF88C;
 gMemCardDialog_CardNumberArg = 0x801BF8CC;
 D_801D56A8 = 0x801BF92C;
 D_801D5804 = 0x801D5804;
-D_801DD000 = 0x801DD000;
-D_801DD800 = 0x801DD800;
-D_801DE000 = 0x801DE000;
+gFile_abPackageStagingBuffer = 0x801DD000;
+gModel_abAuxiliaryPaletteSector = 0x801DD800;
+gModel_abTexturePaletteStaging = 0x801DE000;
 gSD_SeBankVolInfoTag = 0x801E27F8;
 gSD_SmfBankVolInfoTag = 0x801E8FF8;
 D_8021007A = 0x8021007A;
@@ -1077,7 +1077,6 @@ func_80019BD0 = Duel_UpdateCardMarkerRemovalTurn;
 func_8001ED20 = DisplayObject_UpdateCosineSlideWithRollReset;
 
 func_8002C570 = Library_CheckCardInChest;
-gSaveData_Workspace = D_801D0000;
 
 func_8002C400 = CardGrid_GetColumnX;
 func_8002C484 = CardGrid_GetRowY;
@@ -1113,8 +1112,6 @@ gFile_dwCancelRequestState = D_8009B134;
 gFile_dwCancelRequestState_abs = D_8009B134;
 
 gFile_TransferBufferBase = D_8009B118;
-gFile_abPackageStagingBuffer = D_801DD000;
-gModel_abTexturePaletteStaging = D_801DE000;
 
 gDisplay_abResourceBank0 = D_801AF000;
 gDisplay_abResourceBank1 = D_801AF800;
@@ -1150,9 +1147,6 @@ gText_GlobalStringOffsets = D_801D5804;
 
 gGraphics_aImageTransferRects = D_800E9D70;
 
-gSaveData_aFirstPlayerNameSjis = D_801D160C;
-gSaveData_aPairWorkspace = D_801D1200;
-gSaveData_aSecondPlayerState = D_801D2200;
 gSaveData_aTradeWriteStaging = tent_TradeSaveBuffer;
 
 gDialog_bChoiceControl = D_8009B34C;
@@ -1178,9 +1172,6 @@ gLibrary_sSampledReferenceY = D_80181012;
 gText_aGlyphLookup = tent_GlyphLookupTable;
 
 /* Canonical view of the retained native countdown entry point. */
-
-/* Auxiliary-model upload sector; retain its native provider. */
-gModel_abAuxiliaryPaletteSector = D_801DD800;
 
 /* Canonical view of the retained handler-key registry. */
 gModel_aHandlerKeyRegistry = tent_ModelHandlerRegistry;

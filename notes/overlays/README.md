@@ -628,7 +628,7 @@ whole overlay set contains exactly one `jtbl` symbol.
 
 A historical scan of the then-unmatched functions found the local-initializer
 pattern in `func_80168CDC`. `MainMenu_UpdateTradeScreen` (`0x801821DC`) also
-copies blocks, but **between regions of `D_801D1200`** backing its working
+copies blocks, but **between regions of `gSaveData_aPairWorkspace`** backing its working
 and staged saves, rather than into a local array in the stack frame.
 Those Trade staging/completion copies are not scrolling and do not create
 a C-owned initializer-data placement requirement.
@@ -1534,7 +1534,7 @@ instruction *before* a window, everything after it shifts and the window no
 longer covers the code it was chosen for. The numbers still print, they are
 still plausible, and they are measuring something else.
 
-On `func_8016A37C` a `volatile` qualifier on `D_801D0000` appeared to be the
+On `func_8016A37C` a `volatile` qualifier on `gSaveData_Workspace` appeared to be the
 first thing ever to move three of the four windows, from five, six and
 thirty-six to four, five and thirty. It adds one instruction in the case that
 precedes two of those windows, so the improvement is the shift and not a

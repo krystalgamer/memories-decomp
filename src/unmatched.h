@@ -300,7 +300,6 @@ extern ModelBytes8 gModel_ViewSnapshot;
 extern u8 D_8018C7D8[];
 extern u8 D_801B122B[];
 extern u8 D_801B1238[];
-extern u8 D_801D160C[];
 extern u8 tent_TradeSaveBuffer[];
 extern u8 D_801D9174[];
 extern u8 D_801D9174_b[];

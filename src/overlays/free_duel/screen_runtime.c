@@ -107,7 +107,7 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     param = trunc;
     if (index != 0) {
         param = 12;
-        base = (SaveDataWorkspace *)D_801D0000;
+        base = (SaveDataWorkspace *)gSaveData_Workspace;
         D_801D5608[0].pair.lo =
             (s16)base->state.duelist_records[index].result.wins;
         D_801D5608[0].pair.hi =

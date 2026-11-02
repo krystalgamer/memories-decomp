@@ -243,9 +243,9 @@ typedef char SaveDataWorkspace_state_offset_must_be_0x200[
  * targets. The save-prompt halfword arm retains its base register and writes
  * both campaign_scene_index and field_5DD, unlike the byte-sized restore. */
 #ifdef SAVE_DATA_WORKSPACE_AS_HALFWORDS
-extern s16 D_801D0000[];
+extern s16 gSaveData_Workspace[];
 #else
-extern u8 D_801D0000[];
+extern u8 gSaveData_Workspace[];
 #endif
 extern u8 gLibrary_abCardChest[];
 extern u8 gSaveData_aPlayerNameSjis[];
@@ -283,10 +283,11 @@ extern u8 gSaveData_aHeaderTemplate[];
 
 /* 0x801D1200. Five functions in four units take its address and nothing
  * else: Duel_InitScene (src/game/duel_init_scene.c, `pool =
- * D_801D1200;`, then `pool + 0x1000`), SaveData_UpdateLoadPair
+ * gSaveData_aPairWorkspace;`, then `pool + 0x1000`), SaveData_UpdateLoadPair
  * (mem_card_dialog.c as the first argument to MemCardDialog_Request
  * and through SaveDataState casts, the second at
- * `D_801D1200 + 0x1000`; that unit also names +0x1000 as D_801D2200),
+ * `gSaveData_aPairWorkspace + 0x1000`; that unit also names +0x1000 as
+ * gSaveData_aSecondPlayerState),
  * SaveData_UpdateDuelLoad (mem_card_dialog.c, the
  * second `+ TWO_PLAYER_SAVE_SLOT_STRIDE`), MainMenu_RefreshTradeInventory
  * (MainMenu_RefreshTradeInventory in src/overlays/main_menu/trade_update.c, `+ slot * 0x1000`) and
@@ -294,13 +295,13 @@ extern u8 gSaveData_aHeaderTemplate[];
  * its 16-byte block view, cast at the use). The
  * resident listings form the address with lui/addiu (Duel_InitScene.s:226-227,
  * func_8003FD14.s:22-23, func_8003F8D4.s:115-116 and :136-137) and say
- * nothing about the object's width. c_symbols.ld names D_801D160C (+0x40C)
- * and tent_TradeSaveBuffer (+0x680) inside it, and the Block16 indexes above reach
+ * nothing about the object's width. gSaveData_aFirstPlayerNameSjis (+0x40C)
+ * and tent_TradeSaveBuffer (+0x680) are named inside it, and the Block16 indexes reach
  * +0x400, +0x680, +0x6D0, +0xA80, +0x1000, +0x1680 and +0x16D0; the interior
  * names keep their own declarations. Of the five units that used to declare
  * it privately, four said `u8 []` and trade_update.c `Block16 []`. */
-extern u8 D_801D1200[];
-extern u8 D_801D2200[];
+extern u8 gSaveData_aPairWorkspace[];
+extern u8 gSaveData_aSecondPlayerState[];
 
 /* 0x801B125A. SaveData_ApplyRuntimeState passes it as the destination of
  * Text_SjisToGlyphCodes, from state->player_name_sjis
