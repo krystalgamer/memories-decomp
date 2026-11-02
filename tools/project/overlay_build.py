@@ -27,6 +27,7 @@ from build_baseline import (
 )
 from overlay_sources import OverlaySourceError, c_segments
 from overlay_extract import OVERLAY_MANIFESTS, OverlayError, select_modules
+from overlay_objects import ObjectStore, OverlayObjectError, module_segments
 from workspace import (
     WorkspaceError,
     local_environment,
@@ -40,6 +41,8 @@ class OverlayBuildError(RuntimeError):
 
 
 _IN_PROCESS_SPLAT: Any = None
+# Set while build_modules runs; forked module workers inherit it.
+_OBJECT_STORE: ObjectStore | None = None
 
 
 def job_count(makeflags: str | None = None) -> int:
@@ -57,8 +60,8 @@ def _build_child(root: Path, module: dict[str, Any], connection: Any) -> None:
         os.environ.update(local_environment(root))
         build_module(root, module)
     except (
-        OverlayBuildError, OverlaySourceError, BuildError, WorkspaceError,
-        OSError, TypeError, ValueError, json.JSONDecodeError,
+        OverlayBuildError, OverlaySourceError, OverlayObjectError, BuildError,
+        WorkspaceError, OSError, TypeError, ValueError, json.JSONDecodeError,
     ) as caught:
         error = f"{module.get('name')}: {caught}"
     connection.send(error)
@@ -66,6 +69,22 @@ def _build_child(root: Path, module: dict[str, Any], connection: Any) -> None:
 
 
 def build_modules(root: Path, modules: list[dict[str, Any]], jobs: int) -> None:
+    global _OBJECT_STORE
+    os.environ.update(local_environment(root))
+    store = ObjectStore(root)
+    counts = store.ensure(module_segments(root, modules), jobs)
+    print(
+        f"overlay objects: {counts['units']} distinct C units, "
+        f"compiled {counts['compiled']}, reused {counts['units'] - counts['compiled']}"
+    )
+    _OBJECT_STORE = store
+    try:
+        _build_modules(root, modules, jobs)
+    finally:
+        _OBJECT_STORE = None
+
+
+def _build_modules(root: Path, modules: list[dict[str, Any]], jobs: int) -> None:
     if jobs <= 1 or len(modules) <= 1:
         for module in modules:
             build_module(root, module)
@@ -154,9 +173,16 @@ def compile_sources(
 ) -> list[Path]:
     if not segments:
         return []
+    build_root = module_root.relative_to(root) / "build"
+    if _OBJECT_STORE is not None:
+        return [
+            _OBJECT_STORE.materialize(
+                segment, resolve_within(root, f"{build_root}/{segment['object']}")
+            )
+            for segment in segments
+        ]
     assembler = tool(root, "as")
     profiles = load_compiler_profiles(root)
-    build_root = module_root.relative_to(root) / "build"
     objects: list[Path] = []
     for segment in segments:
         objects.append(
@@ -452,6 +478,7 @@ def main() -> int:
     except (
         OverlayBuildError,
         OverlayError,
+        OverlayObjectError,
         OverlaySourceError,
         BuildError,
         WorkspaceError,

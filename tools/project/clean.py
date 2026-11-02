@@ -18,6 +18,7 @@ CLEAN_TARGETS = {
     "extract": "tmp/extract",
     "generated": "tmp/generated",
     "overlays": "tmp/overlays",
+    "overlay-objects": "tmp/overlay-object-cache",
     "splat": "tmp/splat",
     "project-build": "tmp/project-build",
     "incremental": "tmp/incremental",
