@@ -7,9 +7,9 @@
  * dots grows out of the slot and a burst of sparks flies out, each over its
  * own duration. */
 
-static const VECTOR D_8013C918 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant110_D1918 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant110_HandleRequest(u8 *context, s32 command)
 {
     Model110State *work;
     s32 direction;
@@ -34,12 +34,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C918;
+    scale = gModelVariant110_D1918;
     work = (Model110State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C944[command];
+        config = work->config = &gModelVariant110_D1944[command];
         point = work->ring;
         setVector(point, 0, 0, 0);
         point++;
@@ -73,7 +73,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = radius * csin(value) / 4096 * csin(elevation) / 4096;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C928[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant110_D1928[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
