@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* The two debug FntPrint format strings. debug_menu_update.c defines
- * them as `char gDebugMenu_szLineBreak[4] __attribute__((section(".sdata"))) = "\n";`
+ * them as `char gDebugMenu_szLineBreak[4] = "\n";`
  * and `char gDebugMenu_szStringLineFormat[4] ... = "%s\n";`, so `char` is the element type of
  * the definitions and an incomplete extern array is a compatible declaration
  * for them -- the defining unit consumes this header too.

@@ -201,3 +201,25 @@ their order. Units stay data-only where the owner does not fit yet:
   `_stacksize`;
 - `ai_script_source_line_format.c`: its only reader is a `-G0` unit, which
   cannot hold small data.
+
+## Forced `.data` views
+
+A forced `section(".data")` extern view is what still makes a `-G8` unit reach
+some small objects absolutely while it reaches others gp-relative. The
+mechanism is visible in the compiler output. GCC 2.8.1 writes such a load
+symbolically (`lb $2,x`) and leaves it to the assembler, but omits the
+`.extern x, size` line it writes for a plain small extern, so MASPSX, having
+no size, expands the load absolutely. With the size line it would use `$gp`.
+
+Every attribute-free declaration tried so far changes the code instead:
+- a plain, `volatile`, `const`, weak, aligned, asm-labelled or block-scope
+  extern keeps the `.extern` line, so the reference becomes gp-relative;
+- an incomplete array (`extern T x[]`), an incomplete or oversized struct, or
+  a field of a larger record makes GCC split and share the address itself
+  (`lui %hi`/`%lo`).
+
+Twenty views convert byte-identically to incomplete arrays and have. The rest
+need either the original declarations or a toolchain explanation for a
+symbolic small-data load without size information, such as a difference in how
+the original compiler emitted `.extern`. That is the open question for the
+remaining views and for the two small ranges whose readers depend on them.

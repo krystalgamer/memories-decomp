@@ -56,7 +56,7 @@ extern u8 gMovie_bPlaybackState;
 #endif
 
 #ifdef D_8009B0D8_IN_DATA
-extern s32 D_8009B0D8 __attribute__((section(".data")));
+extern s32 D_8009B0D8[];
 #elif defined(D_8009B0D8_IS_VOLATILE)
 extern volatile s32 D_8009B0D8;
 #else
@@ -170,7 +170,7 @@ extern u8 gMain_bVBlankSoundPending;
  * justified by a control build recorded in the PR that added this
  * block. */
 #ifdef D_8009B0C8_IN_DATA
-extern s32 gGraphics_dwSyncVBlankCounter __attribute__((section(".data")));
+extern s32 gGraphics_dwSyncVBlankCounter[];
 #else
 extern volatile s32 gGraphics_dwSyncVBlankCounter;
 #endif
@@ -256,7 +256,7 @@ extern volatile s32 gSaveData_dwVBlankCounter;
  * main_run_boot_sequence.c
  * defines the .data arm. */
 #ifdef D_8009B098_IN_DATA
-extern u16 gGraphics_wFlags __attribute__((section(".data")));
+extern u16 gGraphics_wFlags[];
 #else
 extern u16 gGraphics_wFlags;
 #endif

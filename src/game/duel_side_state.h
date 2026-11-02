@@ -241,7 +241,7 @@ extern u16 gDuel_wTwoPlayerSide1LifePoints;
  * Its array view describes those two bytes without changing the scalar
  * view used by the existing setup code. */
 #ifdef D_8009B360_AS_SIDE_ARRAY
-extern s8 D_8009B360[DUEL_SIDE_COUNT] __attribute__((section(".data")));
+extern s8 D_8009B360[];
 #elif defined(D_8009B360_IN_DATA)
 extern s8 D_8009B360 __attribute__((section(".data")));
 #else
@@ -302,7 +302,7 @@ extern u8 gDuel_bPlayerLost;
  * were accessed only at [0]; as the notes on D_8009B360 and gDuel_bPlayerLost
  * say, such a size is a threshold, not a length. */
 #ifdef D_8009B368_IN_DATA
-extern u8 D_8009B368 __attribute__((section(".data")));
+extern u8 D_8009B368[];
 #else
 extern u8 D_8009B368;
 #endif
@@ -327,7 +327,7 @@ extern u8 D_8009B368;
  * the move. Which of the two reasons above puts it on this arm is not
  * re-derived here -- the spelling it already had is what is preserved. */
 #ifdef D_8009B369_IN_DATA
-extern u8 D_8009B369 __attribute__((section(".data")));
+extern u8 D_8009B369[];
 #else
 extern u8 D_8009B369;
 #endif

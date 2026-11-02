@@ -15,9 +15,9 @@ void PalOptions_StoreLanguageImage(void)
     rect->y = 0;
     rect->w = 0x30;
     rect->h = 0x10;
-    StoreImage(rect, (u32 *)D_8009B118);
+    StoreImage(rect, (u32 *)D_8009B118[0]);
     DrawSync(0);
-    D_8009B118[0] = gText_bLanguageIndex;
+    D_8009B118[0][0] = gText_bLanguageIndex;
     rect[1].x = 0x290;
     {
         RECT *destination = &rect[1];
@@ -25,7 +25,7 @@ void PalOptions_StoreLanguageImage(void)
         destination->y = 0xC0;
         destination->w = 0x30;
         destination->h = 0x10;
-        LoadImage(destination, (u32 *)D_8009B118);
+        LoadImage(destination, (u32 *)D_8009B118[0]);
     }
     DrawSync(0);
 }

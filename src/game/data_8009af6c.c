@@ -34,17 +34,17 @@
  * padding beyond their terminators; unsized initializers would omit it. */
 
 /* Directory-entry diagnostic in MemCardWork_UpdateOperation. */
-char gMemCard_szDirectoryEntryFormat[4] __attribute__((section(".sdata"))) = "%s\n";
+char gMemCard_szDirectoryEntryFormat[4] = "%s\n";
 
 /* Read by MemCardDialog_UpdateSave (mem_card_dialog.c). */
-u8 gMemCardDialog_szAllFilesPattern[4] __attribute__((section(".sdata"))) = "*";
+u8 gMemCardDialog_szAllFilesPattern[4] = "*";
 
 /* Indexed by a display object's ot_index. Declared in
  * display_object_helpers.h, which explains the volatile qualifier and why
  * elements [1] and [3] used to carry private names of their own. The
  * qualifier is load-bearing in display_object_helpers.c, so it belongs on
  * the definition too. */
-volatile u16 gDisplayObject_awOrderingTableDepthBases[4] __attribute__((section(".sdata"))) = {
+volatile u16 gDisplayObject_awOrderingTableDepthBases[4] = {
     0x0000,
     0x0020,
     0x0800,
@@ -54,9 +54,9 @@ volatile u16 gDisplayObject_awOrderingTableDepthBases[4] __attribute__((section(
 /* Read by MemCard_DoLoadDirectory as the pattern that lists every file. Same
  * single character as gMemCardDialog_szAllFilesPattern, but a separate object in the image, so it
  * stays separate here. */
-u8 gMemCard_szAllFilesPattern[4] __attribute__((section(".sdata"))) = "*";
+u8 gMemCard_szAllFilesPattern[4] = "*";
 
 /* The MIDI track chunk tag. SD_FindMidiTrackChunk compares against it
  * while walking a sequence, which is what the tag means in a standard MIDI
  * file: the four bytes that introduce each track. */
-u8 gSD_szMidiTrackMarker[8] __attribute__((section(".sdata"))) = "MTrk";
+u8 gSD_szMidiTrackMarker[8] = "MTrk";

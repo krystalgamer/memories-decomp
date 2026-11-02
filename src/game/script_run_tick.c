@@ -75,7 +75,7 @@ void Script_RunTick(void)
     f = gScript_EventState;
     if (f & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
         TextBox_UpdateChannels();
-        if ((gText_dwChannel0State & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
+        if ((gText_dwChannel0State[0] & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
             gScript_EventState &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
         return;

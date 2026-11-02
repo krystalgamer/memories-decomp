@@ -37,12 +37,12 @@ extern u8 gSaveData_PairMessageCode;
  * plain arm. Initial value not read. notes/fm-online.md:177-187 records the
  * gSaveData_LoadPairState store at 0x8003FAE8 and leaves its meaning unresolved. */
 #ifdef D_8009B3EA_IN_DATA
-extern u8 gSaveData_LoadPairState __attribute__((section(".data")));
+extern u8 gSaveData_LoadPairState[];
 #else
 extern u8 gSaveData_LoadPairState;
 #endif
 #ifdef D_8009B3ED_IN_DATA
-extern u8 gSaveData_PairSetupState __attribute__((section(".data")));
+extern u8 gSaveData_PairSetupState[];
 #else
 extern u8 gSaveData_PairSetupState;
 #endif

@@ -40,13 +40,13 @@ void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object)
         SD_BGMPlay(TextStream_ReadU16LE(object) & 0xFFFF);
     } else {
         if (op & 1) {
-            SD_BGMPlay(gSD_dwSavedBgmCommand);
+            SD_BGMPlay(gSD_dwSavedBgmCommand[0]);
         }
         if (op & 2) {
-            gSD_dwSavedBgmCommand = TextStream_ReadU16LE(object) & 0xFFFF;
+            gSD_dwSavedBgmCommand[0] = TextStream_ReadU16LE(object) & 0xFFFF;
         }
         if (op & 4) {
-            gSD_dwSavedBgmCommand = gSD_dwCurrentBgmCommand[0];
+            gSD_dwSavedBgmCommand[0] = gSD_dwCurrentBgmCommand[0];
         }
     }
     if (op & 0x80) {

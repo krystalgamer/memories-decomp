@@ -110,7 +110,7 @@ extern u8 D_8009B268;
 #endif
 
 #ifdef D_8009B26D_IN_DATA
-extern u8 D_8009B26D __attribute__((section(".data")));
+extern u8 D_8009B26D[];
 #else
 extern u8 D_8009B26D;
 #endif

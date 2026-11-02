@@ -82,7 +82,7 @@ extern DuelEffectChannel D_800EB15C;
  * `u32`; the `[]` was the -G8 placement device, which the .data arm does
  * now. */
 #ifdef D_800EB12C_IN_DATA
-extern u32 D_800EB12C __attribute__((section(".data")));
+extern u32 D_800EB12C[];
 #else
 extern u32 D_800EB12C;
 #endif

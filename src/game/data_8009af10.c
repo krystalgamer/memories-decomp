@@ -29,8 +29,8 @@
  * $sp to (_ramsize - 8) | 0x80000000, takes bss_end's physical address as
  * the heap start, and stores (_ramsize - 8) - _stacksize - that start as the
  * heap size at 0x800906E8 (the start goes to 0x800906E4). */
-u32 _ramsize __attribute__((section(".sdata"))) = 0x00200000;
-u32 _stacksize __attribute__((section(".sdata"))) = 0x00002000;
+u32 _ramsize = 0x00200000;
+u32 _stacksize = 0x00002000;
 
 /* Initialized to the primary transfer descriptor and read as the current
  * one. The pointer target is what gives this its type: the readers only
@@ -39,6 +39,6 @@ u32 _stacksize __attribute__((section(".sdata"))) = 0x00002000;
  * model_graphics_state.c shows a .sdata pointer relocation of this kind
  * surviving the link. */
 FileTransferDescriptor *gFile_ReadyTransferDescriptor
-    __attribute__((section(".sdata"))) = &gFile_PrimaryTransferDescriptor;
+    = &gFile_PrimaryTransferDescriptor;
 
-static u32 sData8009AF10_Pad1C __attribute__((section(".sdata"))) = 0;
+static u32 sData8009AF10_Pad1C = 0;

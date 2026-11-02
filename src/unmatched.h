@@ -177,7 +177,7 @@ extern u8 D_8009B363[];
  * Script_OpSavePrompt also clears it, spelled with a .data section
  * attribute because it addresses the byte outside small data. */
 #ifdef D_8009B34C_IN_DATA
-extern u8 D_8009B34C __attribute__((section(".data")));
+extern u8 D_8009B34C[];
 #else
 extern u8 D_8009B34C;
 #endif
@@ -280,7 +280,7 @@ extern u16 D_8009B372;
 /* DuelScene_UpdateBattle (src/game/duel_scene_battle.c) reads it through a
  * %hi/%lo pair into the load's own register, which is the .data form. */
 #ifdef D_8009B374_IN_DATA
-extern u16 D_8009B374 __attribute__((section(".data")));
+extern u16 D_8009B374[];
 #else
 extern u16 D_8009B374;
 #endif
