@@ -473,11 +473,12 @@ flash covering the 256 PAL lines instead of 240, built through
 `src/overlays/french_model_variant/variant180_entry{,_slot1}.c`. The entry has
 no work-size printf, so the data labels do not move.
 
-Six images under French headers 812 and 909 are the North American
-header-795 entry (`model_variant/variant795_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf, and only the resident call
-targets differ, which `model_variant812_linker_symbols.txt` binds to the French
-addresses.
+Six images under French headers 812 and 909 are the North American header-795
+entry (`ModelVariant795_HandleRequest`, `model_variant/variant795_entry.c`,
+built directly in both slots) unchanged: it has no work-size printf, and only
+the resident call targets differ, which `model_variant812_linker_symbols.txt`
+binds to the French addresses. Each image's symbols file binds
+`gModelVariant795_D3BB4` and `gModelVariant795_D3C40` at its own addresses.
 
 Four images under French headers 781 and 878 are the North American
 header-764 entry (`model_variant/variant764_entry.c`) unchanged; only the
