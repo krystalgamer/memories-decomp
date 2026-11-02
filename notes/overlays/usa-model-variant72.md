@@ -5,8 +5,8 @@ and `0x1D64` bytes long. No French or Spanish source reproduces it. The entry
 is new North American C in
 [`variant72_entry.c`](../../src/overlays/model_variant/variant72_entry.c),
 built under `gcc_2_8_1_g0_split` like the French entries.
-[`variant72_entry_slot1.c`](../../src/overlays/model_variant/variant72_entry_slot1.c)
-covers the images loaded at `0x8017B000`.
+The images loaded at `0x8017B000` build the same file directly; each image's
+`*_symbols.txt` binds the entry and data names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -41,8 +41,8 @@ it, 2 after the row's end frame, and 0 otherwise.
 
 The entry's `.rodata` is the unit scale vector, `0x10` bytes at `0x1D68`.
 The rest of the image is one raw tail that starts at `0x1D78`. Inside it,
-the layout names the texture descriptor `D_8013CD78` and the command table
-`D_8013CD94`. The `0x8017B000` images use the same offsets. The resident
+the layout names the texture descriptor `gModelVariant72_D1D78` and the command table
+`gModelVariant72_D1D94`. The `0x8017B000` images use the same offsets. The resident
 bindings are in `config/slus_01411/overlays/variant72_linker_symbols.txt`.
 
 ## Source shape
