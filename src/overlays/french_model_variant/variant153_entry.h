@@ -31,9 +31,9 @@ typedef struct {
     s32 elapsed;
 } Model153State;
 
-extern const VECTOR D_8013BE0C;
-extern GsIMAGE D_8013BE1C[];
-extern Model153Config D_8013BF18[];
-s32 func_8013B004(u8 *context, s32 command);
+extern const VECTOR gFrenchModelVariant153_D0E0C;
+extern GsIMAGE gFrenchModelVariant153_D0E1C[];
+extern Model153Config gFrenchModelVariant153_D0F18[];
+s32 FrenchModelVariant153_HandleRequest(u8 *context, s32 command);
 
 #endif
