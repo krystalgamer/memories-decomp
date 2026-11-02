@@ -7,11 +7,11 @@
  * textured ring and a pulsing sprite that grow and fade while the ambient
  * light dims and recovers. */
 
-static const VECTOR D_8013CDBC = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant789_D1DBC = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant789_HandleRequest(u8 *context, s32 command)
 {
     Model789State *work;
     MATRIX light;
@@ -35,11 +35,11 @@ s32 func_8013B004(u8 *context, s32 command)
     s32 otz;
 
     memset(&rot, 0, 8);
-    scale = D_8013CDBC;
+    scale = gModelVariant789_D1DBC;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     work = (Model789State *)context;
     if (command >= 0) {
-        work->config = &D_8013CE20[command];
+        work->config = &gModelVariant789_D1E20[command];
         for (i = 0; i < work->config->count; i++) {
             setVector(&work->pos[i], 0, 0, 0);
             setVector(&work->velocity[i], RANDOM_SPREAD(work->config->spread),
@@ -77,7 +77,7 @@ s32 func_8013B004(u8 *context, s32 command)
                       work->config->ring_inner * csin(i << 8) / 4096, 0);
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CDCC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant789_D1DCC[i]);
         }
         work->ambient = 0x800;
         work->count = 0;

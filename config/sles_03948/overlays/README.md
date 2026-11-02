@@ -846,11 +846,12 @@ keeps its French C (`variant455_swarm.c`) at 0x13B0, the data starts at
 addresses and the palette, binding
 `model_variant455_entry_linker_symbols.txt`.
 
-Eight images under French headers 806 and 903 are the North American
-header-789 entry (`model_variant/variant789_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf, and only the resident call
-targets differ, which `model_variant806_linker_symbols.txt` binds to the French
-addresses.
+Eight images under French headers 806 and 903 are the North American header-789
+entry (`ModelVariant789_HandleRequest`, `model_variant/variant789_entry.c`,
+built directly in both slots) unchanged: it has no work-size printf, and only
+the resident call targets differ, which `model_variant806_linker_symbols.txt`
+binds to the French addresses. Each image's symbols file binds
+`gModelVariant789_D1DCC` and `gModelVariant789_D1E20` at its own addresses.
 
 French MODEL headers 807 (stage 9 slot 0) and 904 (stage 10 slot 1) build the header-790 entry (`ModelVariant790_HandleRequest`) directly from `src/overlays/model_variant/variant790_entry.c` in both slots; the French code and data are identical to the US images.
 
