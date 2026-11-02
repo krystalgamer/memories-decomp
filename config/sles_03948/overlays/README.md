@@ -1145,8 +1145,9 @@ file binds the shared data names to its own addresses.
 Four images under French header 84, and their four slot-one counterparts
 under header 214, are the North American header-67 entry
 (`model_variant/variant67_entry.c`, wired to US headers 67 and 197) unchanged
-apart from resident call targets, through
-`src/overlays/french_model_variant/variant84_entry{,_slot1}.c`.
+apart from resident call targets; they build that source directly in both
+slots. Each image's symbols file binds `ModelVariant67_HandleRequest` and
+`gModelVariant67_D18E0`, `gModelVariant67_D1934` at its own addresses.
 
 Eight images under French header 95, and their eight slot-one counterparts
 under header 225, are the North American header-78 entry
