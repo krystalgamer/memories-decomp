@@ -1,7 +1,7 @@
 // MODEL.MRG model 246 (record 246), sector 68086, header 225, loaded at 0x8017B000; the US header-78 source variant78_entry.c.
-func_8017B004 = 0x8017B004; // type:func size:0x2848 defined:true
-D_8017D85C = 0x8017D85C; // type:u8 size:0x54 defined:true
-D_8017D8B0 = 0x8017D8B0; // type:u8 size:0x2750 defined:true
+ModelVariant78_HandleRequest = 0x8017B004; // type:func size:0x2848 defined:true
+gModelVariant78_D285C = 0x8017D85C; // type:u8 size:0x54 defined:true
+gModelVariant78_D28B0 = 0x8017D8B0; // type:u8 size:0x2750 defined:true
 Model_GetSlotDimensionsWithMinimums = 0x8005AFA4; // type:func absolute:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
