@@ -7,9 +7,9 @@
  * one after another, sweeping their quads in while they turn, and finally
  * grow and fade out; at the end the opposing slot's tint target is reset. */
 
-static const VECTOR D_8013C9B0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant81_D19B0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant81_HandleRequest(u8 *context, s32 command)
 {
     Model81State *work;
     MATRIX light;
@@ -34,11 +34,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C9B0;
+    scale = gModelVariant81_D19B0;
     work = (Model81State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013C9DC[command];
+        config = work->config = &gModelVariant81_D19DC[command];
         for (i = 0; i < config->count; i++) {
             work->offsets[i] = config->wave_amplitude * csin(config->wave_period * i / config->segments) / 4096;
             work->angles[i] = config->twist * i / config->count;
@@ -57,7 +57,7 @@ s32 func_8013B004(u8 *context, s32 command)
         for (i = 1; i < config->count; i++) {
             work->frames[i] = rand() % 5 + 2;
         }
-        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C9C0);
+        work->texture = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant81_D19C0);
         for (i = 0; i < config->segments / 2; i++) {
             work->colours[i].r = 0;
             work->colours[i].g = i * 2 * 255 / config->segments;
