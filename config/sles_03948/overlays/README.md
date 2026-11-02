@@ -829,8 +829,8 @@ Six images under French headers 669 and 736 are the North American
 header-652 entry (`model_variant/variant652_entry.c`) without its `E_DATA`
 work-size printf, with the full-screen flash covering the 256-line PAL
 screen. The format string was the whole read-only section, so it goes too,
-and the `src/overlays/french_model_variant/variant669_entry{,_slot1}.c`
-wrappers move the data labels 0x28 lower.
+and the `src/overlays/french_model_variant/variant669_entry.c`
+wrapper, built in both slots, moves the data labels 0x28 lower. Each image's symbols file binds `ModelVariant652_HandleRequest` and `gModelVariant652_D2798`, `gModelVariant652_D27EC` at its own addresses.
 
 Two images under French header 455 are the North American header-438 entry
 (`model_variant/variant438_entry.c`, which the US images build with the CDK
