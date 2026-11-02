@@ -20299,7 +20299,7 @@
       "sector_count": 10,
       "sector_offset": 12048,
       "sha256": "13ccda7be07b326dcd1e47bddd785728af0a2368e37f6605c36254d5179d5345",
-      "linker_symbols": "config/sles_03951/overlays/model_variant472_linker_symbols.txt"
+      "linker_symbols": "config/sles_03951/overlays/model_variant403_linker_symbols.txt"
     },
     {
       "archive": "game/spain/DATA/MODEL.MRG",
@@ -40950,7 +40950,7 @@
       "sector_count": 10,
       "sector_offset": 12058,
       "sha256": "d1a0fda70645085fa257b3b86d69575ad7b86b95ff0329da9354c2b4ebf35dfb",
-      "linker_symbols": "config/sles_03951/overlays/model_variant472_linker_symbols.txt"
+      "linker_symbols": "config/sles_03951/overlays/model_variant403_linker_symbols.txt"
     },
     {
       "archive": "game/spain/DATA/MODEL.MRG",
