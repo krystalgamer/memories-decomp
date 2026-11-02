@@ -42,10 +42,10 @@ typedef struct {
     s32 tint;
 } Model119State;
 
-extern const VECTOR D_8013BA1C;
-extern GsIMAGE D_8013BA2C[];
-extern Model119Config D_8013BA48[];
+extern const VECTOR gModelVariant119_D0A1C;
+extern GsIMAGE gModelVariant119_D0A2C[];
+extern Model119Config gModelVariant119_D0A48[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant119_HandleRequest(u8 *context, s32 command);
 
 #endif

@@ -8,9 +8,9 @@
  * fragments that drift apart; once the last shard has burst after spawning
  * ends, the light comes back. */
 
-static const VECTOR D_8013C620 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant755_D1620 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant755_HandleRequest(u8 *context, s32 command)
 {
     Model755State *work;
     MATRIX light;
@@ -30,13 +30,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013C620;
+    scale = gModelVariant755_D1620;
     work = (Model755State *)context;
     packet = &ft4;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C684[command];
+        work->config = &gModelVariant755_D1684[command];
         work->unused_tpage = 0xAE;
 #ifdef VERSION_FRENCH
         work->unused_clut = 0x3D28;
@@ -44,7 +44,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->unused_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C630[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant755_D1630[i]);
         }
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
         for (i = 0; i < 128; i++) {

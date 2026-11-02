@@ -8,11 +8,11 @@
  * sparks from its tip, optionally flashing the screen while the ambient
  * light dims and recovers. */
 
-static const VECTOR D_8013D430 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant777_D2430 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant777_HandleRequest(u8 *context, s32 command)
 {
     Model777State *work;
     MATRIX light;
@@ -36,12 +36,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013D430;
+    scale = gModelVariant777_D2430;
     work = (Model777State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D494[command];
+        work->config = &gModelVariant777_D2494[command];
         for (i = 0; i < 16; i++) {
             work->debris_frame[i] = 0;
             for (j = 0; j < 12; j++) {
@@ -75,7 +75,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->struck[i] = 0;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D440[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant777_D2440[i]);
         }
         work->ambient = 0x800;
         work->head = 0;

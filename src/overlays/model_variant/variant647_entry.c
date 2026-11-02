@@ -8,7 +8,7 @@
  * row; every burst grows from the camera unit for 64 frames and
  * fades out in its second half. The setup also prints the work-area size. */
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
 {
     Model647State *work;
     MATRIX ls;
@@ -35,10 +35,10 @@ s32 func_8013B004(u8 *context, s32 command)
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013BF5C);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant647_D0F5C);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013BF5C);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant647_D0F5C);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -66,17 +66,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->count = 2;
             break;
         }
-        work->radius = D_8013BF78[command].radius;
-        work->height = D_8013BF78[command].height;
+        work->radius = gModelVariant647_D0F78[command].radius;
+        work->height = gModelVariant647_D0F78[command].height;
         for (i = 0; i < work->count; i++) {
             work->bursts[i].duration = 64;
             work->bursts[i].active = 0;
             work->bursts[i].elapsed = 0;
             work->bursts[i].unknown_4C = 1;
             work->bursts[i].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i].red = D_8013BF78[command].red;
-            work->bursts[i].green = D_8013BF78[command].green;
-            work->bursts[i].blue = D_8013BF78[command].blue;
+            work->bursts[i].red = gModelVariant647_D0F78[command].red;
+            work->bursts[i].green = gModelVariant647_D0F78[command].green;
+            work->bursts[i].blue = gModelVariant647_D0F78[command].blue;
             work->bursts[i].u = 0;
             work->bursts[i].v = 0;
             setVector(&work->bursts[i].scale, 0, 0, 0);
@@ -132,7 +132,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bursts[i].position.vy -= 350;
             work->bursts[i].position.vz += work->direction * 450;
         }
-        work->delay = D_8013BF78[command].delay;
+        work->delay = gModelVariant647_D0F78[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -217,9 +217,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 duration = work->bursts[i].duration;
                 if (duration / 2 < work->bursts[i].elapsed) {
                     fade = (duration - work->bursts[i].elapsed) * 2;
-                    work->bursts[i].red = D_8013BF78[work->command].red * fade / duration;
-                    work->bursts[i].green = D_8013BF78[work->command].green * fade / duration;
-                    work->bursts[i].blue = D_8013BF78[work->command].blue * fade / duration;
+                    work->bursts[i].red = gModelVariant647_D0F78[work->command].red * fade / duration;
+                    work->bursts[i].green = gModelVariant647_D0F78[work->command].green * fade / duration;
+                    work->bursts[i].blue = gModelVariant647_D0F78[work->command].blue * fade / duration;
                 }
                 for (k = 0; k < 4; k++) {
                     for (j = 0; j < 16; j++) {

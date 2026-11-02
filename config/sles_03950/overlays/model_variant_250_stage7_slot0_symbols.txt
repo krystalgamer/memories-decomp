@@ -1,7 +1,7 @@
 // Italian MODEL.MRG model 250 (record 250), sector 69180, header 164, loaded at 0x8013B000; the US header-147 source variant147_entry.c; built from the French source layout of french_model_variant_250_stage7_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x3520 defined:true
-D_8013E534 = 0x8013E534; // type:u8 size:0x8C defined:true
-D_8013E5C0 = 0x8013E5C0; // type:u8 size:0x1A40 defined:true
+ModelVariant147_HandleRequest = 0x8013B004; // type:func size:0x3520 defined:true
+gModelVariant147_D3550 = 0x8013E534; // type:u8 size:0x8C defined:true
+gModelVariant147_D35DC = 0x8013E5C0; // type:u8 size:0x1A40 defined:true
 Model_GetSlotDimensionsWithMinimums = 0x8005AFA4; // type:func absolute:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true

@@ -5,8 +5,8 @@ Twenty North American MODEL variant images share one entry, at `+0x4` and
 North American C in
 [`variant172_entry.c`](../../src/overlays/model_variant/variant172_entry.c),
 built under `gcc_2_8_1_g0_split` like the French entries.
-[`variant172_entry_slot1.c`](../../src/overlays/model_variant/variant172_entry_slot1.c)
-covers the images loaded at `0x8017B000`.
+The images loaded at `0x8017B000` build the same file directly; each image's
+`*_symbols.txt` binds the entry and data names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -40,8 +40,8 @@ fly, 1 once after the last group has flown, and 2 after that.
 
 The entry's `.rodata` is the unit scale vector and the format string, `0x20`
 bytes at `0xCF8`. The rest of the image is one raw tail that starts at
-`0xD18`. Inside it, the layout names the texture descriptor `D_8013BD18` and
-the command table `D_8013BD34`. The `0x8017B000` images use the same offsets.
+`0xD18`. Inside it, the layout names the texture descriptor `gModelVariant172_D0D18` and
+the command table `gModelVariant172_D0D34`. The `0x8017B000` images use the same offsets.
 The resident bindings are in
 `config/slus_01411/overlays/variant172_linker_symbols.txt`.
 

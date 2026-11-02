@@ -5,8 +5,8 @@ and `0x236C` bytes long. No French or Spanish source reproduces it. The entry
 is new North American C in
 [`variant654_entry.c`](../../src/overlays/model_variant/variant654_entry.c),
 built under `gcc_2_8_1_g0_split` like the French entries.
-[`variant654_entry_slot1.c`](../../src/overlays/model_variant/variant654_entry_slot1.c)
-covers the images loaded at `0x8017B000`.
+The images loaded at `0x8017B000` build the same file directly; each image's
+`*_symbols.txt` binds the entry and data names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -57,7 +57,7 @@ everything finished and 2 on the frames after, and 0 otherwise.
 The entry's `.rodata` is the work-size format string and the two jump tables
 of the command switches, `0x94` bytes at `0x2370`. The rest of the image is
 one raw tail that starts at `0x2404`. Inside it, the layout names the texture
-descriptor `D_8013D404` and the command table `D_8013D420`. The `0x8017B000`
+descriptor `gModelVariant654_D2404` and the command table `gModelVariant654_D2420`. The `0x8017B000`
 images use the same offsets. The resident bindings are in
 `config/slus_01411/overlays/variant654_linker_symbols.txt`.
 

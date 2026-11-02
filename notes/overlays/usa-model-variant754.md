@@ -6,8 +6,8 @@ is new North American C in
 [`variant754_entry.c`](../../src/overlays/model_variant/variant754_entry.c),
 written after the [header-756 entry](usa-model-variant756.md) and built under
 `gcc_2_8_1_g0_split` like the French entries.
-[`variant754_entry_slot1.c`](../../src/overlays/model_variant/variant754_entry_slot1.c)
-covers the images loaded at `0x8017B000`.
+The images loaded at `0x8017B000` build the same file directly; each image's
+`*_symbols.txt` binds the entry and data names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -47,6 +47,6 @@ and every colour has faded out, and 0 otherwise.
 
 The entry's `.rodata` is the unit scale vector `D_8013C95C`, at `0x195C`. The
 rest of the image is one raw tail that starts at `0x196C`. Inside it, the
-layout names the three texture descriptors `D_8013C96C` and the command table
-`D_8013C9C0`. The `0x8017B000` images use the same offsets. The resident
+layout names the three texture descriptors `gModelVariant754_D196C` and the command table
+`gModelVariant754_D19C0`. The `0x8017B000` images use the same offsets. The resident
 bindings are in `config/slus_01411/overlays/variant754_linker_symbols.txt`.

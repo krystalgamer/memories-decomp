@@ -54,7 +54,7 @@
         (element).u + uv[0], (element).v + uv[2],                                             \
         (element).u + uv[1], (element).v + uv[2])
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
 {
     Model662State *work;
     MATRIX ls;
@@ -85,10 +85,10 @@ s32 func_8013B004(u8 *context, s32 command)
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013F534[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant662_D4534[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013F534[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant662_D4534[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -104,8 +104,8 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spark_count = 8;
             break;
         }
-        work->radius = D_8013F588[command].radius;
-        work->height = D_8013F588[command].height;
+        work->radius = gModelVariant662_D4588[command].radius;
+        work->height = gModelVariant662_D4588[command].height;
         for (i = 0; i < work->tube_count; i++) {
             work->tubes[i].active = 0;
             work->tubes[i].elapsed = 0;
@@ -137,9 +137,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->tubes[i].mode = 1;
             work->tubes[i].coord = Model_GetCameraCoordinateUnit();
-            work->tubes[i].color[0] = D_8013F588[command].color[0];
-            work->tubes[i].color[1] = D_8013F588[command].color[1];
-            work->tubes[i].color[2] = D_8013F588[command].color[2];
+            work->tubes[i].color[0] = gModelVariant662_D4588[command].color[0];
+            work->tubes[i].color[1] = gModelVariant662_D4588[command].color[1];
+            work->tubes[i].color[2] = gModelVariant662_D4588[command].color[2];
             work->tubes[i].u = 0;
             work->tubes[i].v = 0;
             work->triggered[i] = 0;
@@ -154,9 +154,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->cones[i].duration = work->tubes[i].duration * 3 / 4;
             work->cones[i].mode = 1;
             work->cones[i].coord = Model_GetCameraCoordinateUnit();
-            work->cones[i].color[0] = D_8013F588[command].color[3];
-            work->cones[i].color[1] = D_8013F588[command].color[4];
-            work->cones[i].color[2] = D_8013F588[command].color[5];
+            work->cones[i].color[0] = gModelVariant662_D4588[command].color[3];
+            work->cones[i].color[1] = gModelVariant662_D4588[command].color[4];
+            work->cones[i].color[2] = gModelVariant662_D4588[command].color[5];
             work->cones[i].u = 0;
             work->cones[i].v = 0;
             setVector(&work->cones[i].scale, 4096, 4096, 4096);
@@ -172,9 +172,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->domes[i].mode = 1;
             work->domes[i].duration = work->tubes[i].duration;
             work->domes[i].coord = Model_GetCameraCoordinateUnit();
-            work->domes[i].color[0] = D_8013F588[command].color[3];
-            work->domes[i].color[1] = D_8013F588[command].color[4];
-            work->domes[i].color[2] = D_8013F588[command].color[5];
+            work->domes[i].color[0] = gModelVariant662_D4588[command].color[3];
+            work->domes[i].color[1] = gModelVariant662_D4588[command].color[4];
+            work->domes[i].color[2] = gModelVariant662_D4588[command].color[5];
             work->domes[i].u = 0;
             work->domes[i].v = 0;
             setVector(&work->domes[i].scale, 4096, 4096, 4096);
@@ -189,9 +189,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->sparks[i][j].duration = work->tubes[j].duration * 3 / 4;
                 work->sparks[i][j].mode = 1;
                 work->sparks[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->sparks[i][j].color[0] = D_8013F588[command].color[6];
-                work->sparks[i][j].color[1] = D_8013F588[command].color[7];
-                work->sparks[i][j].color[2] = D_8013F588[command].color[8];
+                work->sparks[i][j].color[0] = gModelVariant662_D4588[command].color[6];
+                work->sparks[i][j].color[1] = gModelVariant662_D4588[command].color[7];
+                work->sparks[i][j].color[2] = gModelVariant662_D4588[command].color[8];
                 work->sparks[i][j].u = (i * i % 8) << 5;
                 work->sparks[i][j].v = 128;
                 setVector(&work->sparks[i][j].scale, 4096, 4096, 4096);
@@ -208,7 +208,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&work->sparks[i][j].position, 0, 0, 0);
             }
         }
-        work->delay = D_8013F588[command].delay;
+        work->delay = gModelVariant662_D4588[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -326,9 +326,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if (work->tubes[i].duration * 9 / 10 < work->tubes[i].elapsed) {
                 value = (work->tubes[i].duration - work->tubes[i].elapsed) * 10;
                 duration = work->tubes[i].duration;
-                work->tubes[i].color[0] = D_8013F588[work->command].color[0] * value / duration;
-                work->tubes[i].color[1] = D_8013F588[work->command].color[1] * value / duration;
-                work->tubes[i].color[2] = D_8013F588[work->command].color[2] * value / duration;
+                work->tubes[i].color[0] = gModelVariant662_D4588[work->command].color[0] * value / duration;
+                work->tubes[i].color[1] = gModelVariant662_D4588[work->command].color[1] * value / duration;
+                work->tubes[i].color[2] = gModelVariant662_D4588[work->command].color[2] * value / duration;
             }
             /* k runs the segments and j the ring points, so j keeps the
              * register it has in every other loop. */
@@ -405,9 +405,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if (work->cones[i].duration * 9 / 10 < work->cones[i].elapsed) {
                 value = (work->cones[i].duration - work->cones[i].elapsed) * 10;
                 duration = work->cones[i].duration;
-                work->cones[i].color[0] = D_8013F588[work->command].color[3] * value / duration;
-                work->cones[i].color[1] = D_8013F588[work->command].color[4] * value / duration;
-                work->cones[i].color[2] = D_8013F588[work->command].color[5] * value / duration;
+                work->cones[i].color[0] = gModelVariant662_D4588[work->command].color[3] * value / duration;
+                work->cones[i].color[1] = gModelVariant662_D4588[work->command].color[4] * value / duration;
+                work->cones[i].color[2] = gModelVariant662_D4588[work->command].color[5] * value / duration;
             }
             for (j = 0; j < 9; j++) {
                 /* The cone's depth shares duration's register (s0). */
@@ -491,9 +491,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if (work->domes[i].duration * 9 / 10 < work->domes[i].elapsed) {
                 value = (work->domes[i].duration - work->domes[i].elapsed) * 10;
                 duration = work->domes[i].duration;
-                work->domes[i].color[0] = D_8013F588[work->command].color[3] * value / duration;
-                work->domes[i].color[1] = D_8013F588[work->command].color[4] * value / duration;
-                work->domes[i].color[2] = D_8013F588[work->command].color[5] * value / duration;
+                work->domes[i].color[0] = gModelVariant662_D4588[work->command].color[3] * value / duration;
+                work->domes[i].color[1] = gModelVariant662_D4588[work->command].color[4] * value / duration;
+                work->domes[i].color[2] = gModelVariant662_D4588[work->command].color[5] * value / duration;
             }
             work->domes[i].v = work->domes[i].elapsed * 4 % 64;
             for (j = 0; j < 4; j++) {
@@ -553,9 +553,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->sparks[i][j].duration * 9 / 10 < work->sparks[i][j].elapsed) {
                     value = (work->sparks[i][j].duration - work->sparks[i][j].elapsed) * 10;
                     duration = work->sparks[i][j].duration;
-                    work->sparks[i][j].color[0] = D_8013F588[work->command].color[6] * value / duration;
-                    work->sparks[i][j].color[1] = D_8013F588[work->command].color[7] * value / duration;
-                    work->sparks[i][j].color[2] = D_8013F588[work->command].color[8] * value / duration;
+                    work->sparks[i][j].color[0] = gModelVariant662_D4588[work->command].color[6] * value / duration;
+                    work->sparks[i][j].color[1] = gModelVariant662_D4588[work->command].color[7] * value / duration;
+                    work->sparks[i][j].color[2] = gModelVariant662_D4588[work->command].color[8] * value / duration;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->tpage[1];

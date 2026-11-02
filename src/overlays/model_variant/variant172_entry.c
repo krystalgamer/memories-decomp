@@ -7,9 +7,9 @@
  * sphere in front of the other slot, and then play eight frames of the texture
  * as quads at those points. */
 
-static const VECTOR D_8013BCF8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant172_D0CF8 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant172_HandleRequest(u8 *context, s32 command)
 {
     Model172State *work;
     MATRIX base, matrix;
@@ -30,12 +30,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BCF8;
+    scale = gModelVariant172_D0CF8;
     work = (Model172State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013BD34[command % 100];
+        config = work->config = &gModelVariant172_D0D34[command % 100];
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
         vertices[0].vy = -350;
         point = work->targets;
@@ -54,7 +54,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013BD18[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant172_D0D18[i]);
         }
         work->elapsed = 0;
         work->frames = 0;

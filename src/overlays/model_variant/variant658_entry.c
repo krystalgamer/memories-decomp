@@ -9,7 +9,7 @@
  * ambient light is darkened and later restored. The setup also prints the
  * work-area size. */
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
 {
     Model658State *work;
     MATRIX ls;
@@ -44,13 +44,13 @@ s32 func_8013B004(u8 *context, s32 command)
         work->brighten = 0;
         work->fade = 0;
         work->projection = 100;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E03C[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant658_D303C[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E03C[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant658_D303C[2]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013E03C[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant658_D303C[0]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
         switch (command) {
@@ -76,17 +76,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spark_count = 32;
             break;
         }
-        work->radius = D_8013E090[command].radius;
-        work->height = D_8013E090[command].height;
+        work->radius = gModelVariant658_D3090[command].radius;
+        work->height = gModelVariant658_D3090[command].height;
         for (i = 0; i < work->halo_count; i++) {
             work->halos[i].active = 0;
             work->halos[i].elapsed = 0;
             work->halos[i].duration = 48;
             work->halos[i].mode = 0;
             work->halos[i].coord = Model_GetCameraCoordinateUnit();
-            work->halos[i].color[0] = D_8013E090[command].color[0];
-            work->halos[i].color[1] = D_8013E090[command].color[1];
-            work->halos[i].color[2] = D_8013E090[command].color[2];
+            work->halos[i].color[0] = gModelVariant658_D3090[command].color[0];
+            work->halos[i].color[1] = gModelVariant658_D3090[command].color[1];
+            work->halos[i].color[2] = gModelVariant658_D3090[command].color[2];
             work->halos[i].u = 0;
             work->halos[i].v = 0;
             setVector(&work->halos[i].scale, 4096, 4096, 4096);
@@ -118,9 +118,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bursts[i].active = 0;
             work->bursts[i].elapsed = 0;
             work->bursts[i].duration = 64;
-            work->bursts[i].color[0] = D_8013E090[command].color[3];
-            work->bursts[i].color[1] = D_8013E090[command].color[4];
-            work->bursts[i].color[2] = D_8013E090[command].color[5];
+            work->bursts[i].color[0] = gModelVariant658_D3090[command].color[3];
+            work->bursts[i].color[1] = gModelVariant658_D3090[command].color[4];
+            work->bursts[i].color[2] = gModelVariant658_D3090[command].color[5];
             sign = (i % 2) * 2 - 1;
             duration = sign * ((i % 10) * 16 + 160);
             value = sign * ((i % 9) * 160 / 9 + 160);
@@ -138,9 +138,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->sparks[i].active = 0;
             work->sparks[i].elapsed = 0;
             work->sparks[i].duration = 64;
-            work->sparks[i].color[0] = D_8013E090[command].color[3];
-            work->sparks[i].color[1] = D_8013E090[command].color[4];
-            work->sparks[i].color[2] = D_8013E090[command].color[5];
+            work->sparks[i].color[0] = gModelVariant658_D3090[command].color[3];
+            work->sparks[i].color[1] = gModelVariant658_D3090[command].color[4];
+            work->sparks[i].color[2] = gModelVariant658_D3090[command].color[5];
             work->sparks[i].u = 0;
             work->sparks[i].v = 64;
             setVector(&work->sparks[i].end, 0, 0, 100);
@@ -148,13 +148,13 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         work->flash.active = 0;
         work->flash.elapsed = 0;
-        work->flash.duration = D_8013E090[command].emit_end + 64;
-        work->flash.color[0] = D_8013E090[command].color[6];
-        work->flash.color[1] = D_8013E090[command].color[7];
-        work->flash.color[2] = D_8013E090[command].color[8];
+        work->flash.duration = gModelVariant658_D3090[command].emit_end + 64;
+        work->flash.color[0] = gModelVariant658_D3090[command].color[6];
+        work->flash.color[1] = gModelVariant658_D3090[command].color[7];
+        work->flash.color[2] = gModelVariant658_D3090[command].color[8];
         work->flash.u = 32;
         work->flash.v = 64;
-        work->delay = D_8013E090[command].delay;
+        work->delay = gModelVariant658_D3090[command].delay;
         for (i = 0; i < 6; i++) {
             work->flags[i] = 0;
         }
@@ -206,11 +206,11 @@ s32 func_8013B004(u8 *context, s32 command)
     }
     if (work->fade == 0) {
         work->darken += step;
-        if (D_8013E090[work->command].fade_duration < work->darken) {
-            work->darken = D_8013E090[work->command].fade_duration;
+        if (gModelVariant658_D3090[work->command].fade_duration < work->darken) {
+            work->darken = gModelVariant658_D3090[work->command].fade_duration;
             work->fade = 1;
         }
-        value = 2048 - ((work->darken * 3) << 10) / D_8013E090[work->command].fade_duration;
+        value = 2048 - ((work->darken * 3) << 10) / gModelVariant658_D3090[work->command].fade_duration;
         if (value < -1024) {
             value = -1024;
         }
@@ -363,26 +363,26 @@ s32 func_8013B004(u8 *context, s32 command)
         break;
     }
     if (skip == 0) {
-        if (work->elapsed < D_8013E090[work->command].emit_end) {
+        if (work->elapsed < gModelVariant658_D3090[work->command].emit_end) {
             for (i = work->flags[0] * 4; i < (work->flags[0] + 1) * 4; i++) {
                 work->bursts[i].active = 1;
                 work->bursts[i].elapsed = 0;
-                work->bursts[i].color[0] = D_8013E090[work->command].color[3];
-                work->bursts[i].color[1] = D_8013E090[work->command].color[4];
-                work->bursts[i].color[2] = D_8013E090[work->command].color[5];
+                work->bursts[i].color[0] = gModelVariant658_D3090[work->command].color[3];
+                work->bursts[i].color[1] = gModelVariant658_D3090[work->command].color[4];
+                work->bursts[i].color[2] = gModelVariant658_D3090[work->command].color[5];
             }
             work->flags[0]++;
             if ((work->burst_count >> 2) - 1 < work->flags[0]) {
                 work->flags[0] = 0;
             }
         }
-        if (work->elapsed < D_8013E090[work->command].emit_end) {
+        if (work->elapsed < gModelVariant658_D3090[work->command].emit_end) {
             if (work->flags[3] >= 25) {
                 work->sparks[work->flags[1]].active = 1;
                 work->sparks[work->flags[1]].elapsed = 0;
-                work->sparks[work->flags[1]].color[0] = D_8013E090[work->command].color[3];
-                work->sparks[work->flags[1]].color[1] = D_8013E090[work->command].color[4];
-                work->sparks[work->flags[1]].color[2] = D_8013E090[work->command].color[5];
+                work->sparks[work->flags[1]].color[0] = gModelVariant658_D3090[work->command].color[3];
+                work->sparks[work->flags[1]].color[1] = gModelVariant658_D3090[work->command].color[4];
+                work->sparks[work->flags[1]].color[2] = gModelVariant658_D3090[work->command].color[5];
                 work->flags[1]++;
                 if (work->spark_count - 1 < work->flags[1]) {
                     work->flags[1] = 0;
@@ -423,9 +423,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if (work->halos[i].duration / 2 < work->halos[i].elapsed) {
                 value = (work->halos[i].duration - work->halos[i].elapsed) * 2;
                 duration = work->halos[i].duration;
-                work->halos[i].color[0] = D_8013E090[work->command].color[0] * value / duration;
-                work->halos[i].color[1] = D_8013E090[work->command].color[1] * value / duration;
-                work->halos[i].color[2] = D_8013E090[work->command].color[2] * value / duration;
+                work->halos[i].color[0] = gModelVariant658_D3090[work->command].color[0] * value / duration;
+                work->halos[i].color[1] = gModelVariant658_D3090[work->command].color[1] * value / duration;
+                work->halos[i].color[2] = gModelVariant658_D3090[work->command].color[2] * value / duration;
             }
             setPolyFT4(&work->sprite);
             work->sprite.tpage = work->tpage[0];
@@ -528,9 +528,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if (work->bursts[i].elapsed < work->bursts[i].duration / 2) {
                 value = work->bursts[i].elapsed * 2;
                 duration = work->bursts[i].duration;
-                work->bursts[i].color[0] = D_8013E090[work->command].color[3] * value / duration;
-                work->bursts[i].color[1] = D_8013E090[work->command].color[4] * value / duration;
-                work->bursts[i].color[2] = D_8013E090[work->command].color[5] * value / duration;
+                work->bursts[i].color[0] = gModelVariant658_D3090[work->command].color[3] * value / duration;
+                work->bursts[i].color[1] = gModelVariant658_D3090[work->command].color[4] * value / duration;
+                work->bursts[i].color[2] = gModelVariant658_D3090[work->command].color[5] * value / duration;
             }
             work->line.attribute = 0x50000000;
             work->line.r0 = work->bursts[i].color[0];
@@ -601,9 +601,9 @@ s32 func_8013B004(u8 *context, s32 command)
             if (work->sparks[i].elapsed < work->sparks[i].duration / 2) {
                 value = work->sparks[i].elapsed * 2;
                 duration = work->sparks[i].duration;
-                work->sparks[i].color[0] = D_8013E090[work->command].color[3] * value / duration;
-                work->sparks[i].color[1] = D_8013E090[work->command].color[4] * value / duration;
-                work->sparks[i].color[2] = D_8013E090[work->command].color[5] * value / duration;
+                work->sparks[i].color[0] = gModelVariant658_D3090[work->command].color[3] * value / duration;
+                work->sparks[i].color[1] = gModelVariant658_D3090[work->command].color[4] * value / duration;
+                work->sparks[i].color[2] = gModelVariant658_D3090[work->command].color[5] * value / duration;
             }
             for (j = 0; j < 16; j++) {
                 setPolyGT4(&work->strip);
@@ -660,9 +660,9 @@ s32 func_8013B004(u8 *context, s32 command)
             value = (work->flash.duration - work->flash.elapsed) * 10;
             duration = work->flash.duration;
         }
-        work->flash.color[0] = D_8013E090[work->command].color[6] * value / duration;
-        work->flash.color[1] = D_8013E090[work->command].color[7] * value / duration;
-        work->flash.color[2] = D_8013E090[work->command].color[8] * value / duration;
+        work->flash.color[0] = gModelVariant658_D3090[work->command].color[6] * value / duration;
+        work->flash.color[1] = gModelVariant658_D3090[work->command].color[7] * value / duration;
+        work->flash.color[2] = gModelVariant658_D3090[work->command].color[8] * value / duration;
         setPolyFT4(&work->sprite);
         work->sprite.tpage = work->tpage[2];
         work->sprite.clut = work->clut[2];
@@ -704,12 +704,12 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         if (work->fade == 1) {
             work->brighten += step;
-            if (D_8013E090[work->command].fade_duration < work->brighten) {
-                work->brighten = D_8013E090[work->command].fade_duration;
+            if (gModelVariant658_D3090[work->command].fade_duration < work->brighten) {
+                work->brighten = gModelVariant658_D3090[work->command].fade_duration;
                 work->fade = 2;
                 work->flags[4] = 1;
             }
-            value = ((work->brighten * 3) << 10) / D_8013E090[work->command].fade_duration - 1024;
+            value = ((work->brighten * 3) << 10) / gModelVariant658_D3090[work->command].fade_duration - 1024;
             if (value > 2048) {
                 value = 2048;
             }

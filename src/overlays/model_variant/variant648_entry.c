@@ -9,7 +9,7 @@
  * fading sprites outwards from its position, then draws a fan of spoke strips
  * over it, for 32 frames. The setup also prints the work-area size. */
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
 {
     Model648State *work;
     MATRIX ls, rotation;
@@ -40,10 +40,10 @@ s32 func_8013B004(u8 *context, s32 command)
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CB84[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant648_D1B84[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013CB84[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant648_D1B84[1]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -95,8 +95,8 @@ s32 func_8013B004(u8 *context, s32 command)
             work->cols = 48;
             break;
         }
-        work->radius = D_8013CBBC[command].radius;
-        work->height = D_8013CBBC[command].height;
+        work->radius = gModelVariant648_D1BBC[command].radius;
+        work->height = gModelVariant648_D1BBC[command].height;
         for (i = 0; i < work->rows; i++) {
             for (j = 0; j < work->cols; j++) {
                 work->bursts[i][j].active = 0;
@@ -104,12 +104,12 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->bursts[i][j].duration = 32;
                 work->bursts[i][j].unknown_0C = 1;
                 work->bursts[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->bursts[i][j].color[0] = D_8013CBBC[command].color[0];
-                work->bursts[i][j].color[1] = D_8013CBBC[command].color[1];
-                work->bursts[i][j].color[2] = D_8013CBBC[command].color[2];
-                work->bursts[i][j].color[3] = D_8013CBBC[command].color[3];
-                work->bursts[i][j].color[4] = D_8013CBBC[command].color[4];
-                work->bursts[i][j].color[5] = D_8013CBBC[command].color[5];
+                work->bursts[i][j].color[0] = gModelVariant648_D1BBC[command].color[0];
+                work->bursts[i][j].color[1] = gModelVariant648_D1BBC[command].color[1];
+                work->bursts[i][j].color[2] = gModelVariant648_D1BBC[command].color[2];
+                work->bursts[i][j].color[3] = gModelVariant648_D1BBC[command].color[3];
+                work->bursts[i][j].color[4] = gModelVariant648_D1BBC[command].color[4];
+                work->bursts[i][j].color[5] = gModelVariant648_D1BBC[command].color[5];
                 work->bursts[i][j].u = 32;
                 work->bursts[i][j].v = 0;
                 work->bursts[i][j].unknown_14 = 1;
@@ -160,7 +160,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->bursts[i][j].position.vz += work->direction * 450;
             }
         }
-        work->delay = D_8013CBBC[command].delay;
+        work->delay = gModelVariant648_D1BBC[command].delay;
         for (j = 0; j < 5; j++) {
             work->flags[j] = 0;
         }
@@ -323,12 +323,12 @@ s32 func_8013B004(u8 *context, s32 command)
                     duration = work->bursts[i][j].duration;
                     if (duration / 2 < work->bursts[i][j].elapsed) {
                         value = (duration - work->bursts[i][j].elapsed) * 2;
-                        work->bursts[i][j].color[0] = D_8013CBBC[work->command].color[0] * value / duration;
-                        work->bursts[i][j].color[1] = D_8013CBBC[work->command].color[1] * value / duration;
-                        work->bursts[i][j].color[2] = D_8013CBBC[work->command].color[2] * value / duration;
-                        work->bursts[i][j].color[3] = D_8013CBBC[work->command].color[3] * value / duration;
-                        work->bursts[i][j].color[4] = D_8013CBBC[work->command].color[4] * value / duration;
-                        work->bursts[i][j].color[5] = D_8013CBBC[work->command].color[5] * value / duration;
+                        work->bursts[i][j].color[0] = gModelVariant648_D1BBC[work->command].color[0] * value / duration;
+                        work->bursts[i][j].color[1] = gModelVariant648_D1BBC[work->command].color[1] * value / duration;
+                        work->bursts[i][j].color[2] = gModelVariant648_D1BBC[work->command].color[2] * value / duration;
+                        work->bursts[i][j].color[3] = gModelVariant648_D1BBC[work->command].color[3] * value / duration;
+                        work->bursts[i][j].color[4] = gModelVariant648_D1BBC[work->command].color[4] * value / duration;
+                        work->bursts[i][j].color[5] = gModelVariant648_D1BBC[work->command].color[5] * value / duration;
                     }
                     grow = (work->bursts[i][j].elapsed << 12) / work->bursts[i][j].duration + 0xAAA;
                     RotMatrix(&work->bursts[i][j].rotation, &rotation);

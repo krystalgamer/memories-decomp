@@ -7,9 +7,9 @@
  * flash. A negative command draws a frame; any other command sets the work
  * area up and prints its size. */
 
-static const VECTOR D_8013E530 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant147_D3530 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant147_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -35,12 +35,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013E530;
+    scale = gModelVariant147_D3530;
     work = (Model147State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013E5DC[command];
+        config = work->config = &gModelVariant147_D35DC[command];
         point = work->ring;
         other = work->far_ring;
         for (i = 0; i < 17; i++) {
@@ -104,7 +104,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 5; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E550[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant147_D3550[i]);
         }
         work->elapsed = 0;
         work->completed = 0;

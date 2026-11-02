@@ -17,7 +17,7 @@ static inline s32 Model654_Negate(s32 value)
     return -value;
 }
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
 {
     Model654State *work;
     MATRIX ls;
@@ -42,7 +42,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013D404);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant654_D2404);
         work->tpage = tex >> 16;
         work->clut = tex;
         switch (command) {
@@ -82,8 +82,8 @@ s32 func_8013B004(u8 *context, s32 command)
             work->ring_count = 5;
             break;
         }
-        work->radius = D_8013D420[command].radius;
-        work->unknown_10 = D_8013D420[command].unknown_04;
+        work->radius = gModelVariant654_D2420[command].radius;
+        work->unknown_10 = gModelVariant654_D2420[command].unknown_04;
         for (j = 0; j < work->columns; j++) {
             for (i = 0; i < work->rows; i++) {
                 work->bursts[i][j].duration = 0x80;
@@ -91,9 +91,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->bursts[i][j].elapsed = 0;
                 work->bursts[i][j].mode = 1;
                 work->bursts[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->bursts[i][j].red = D_8013D420[command].red;
-                work->bursts[i][j].green = D_8013D420[command].green;
-                work->bursts[i][j].blue = D_8013D420[command].blue;
+                work->bursts[i][j].red = gModelVariant654_D2420[command].red;
+                work->bursts[i][j].green = gModelVariant654_D2420[command].green;
+                work->bursts[i][j].blue = gModelVariant654_D2420[command].blue;
                 work->bursts[i][j].v = 0;
                 work->bursts[i][j].u = (i + j) % 7 << 5;
                 setVector(&work->bursts[i][j].scale, 0, 0, 0);
@@ -112,9 +112,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->rings[i][j].elapsed = 0;
                 work->rings[i][j].mode = 1;
                 work->rings[i][j].coord = Model_GetCameraCoordinateUnit();
-                work->rings[i][j].red = D_8013D420[command].red;
-                work->rings[i][j].green = D_8013D420[command].green;
-                work->rings[i][j].blue = D_8013D420[command].blue;
+                work->rings[i][j].red = gModelVariant654_D2420[command].red;
+                work->rings[i][j].green = gModelVariant654_D2420[command].green;
+                work->rings[i][j].blue = gModelVariant654_D2420[command].blue;
                 work->rings[i][j].v = 0;
                 work->rings[i][j].u = (i + j) % 7 << 5;
                 setVector(&work->rings[i][j].scale, 0x1000, 0x1000, 0x1000);
@@ -132,16 +132,16 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spheres[i].elapsed = 0;
             work->spheres[i].mode = 1;
             work->spheres[i].coord = Model_GetCameraCoordinateUnit();
-            work->spheres[i].red = D_8013D420[command].sphere_red;
-            work->spheres[i].green = D_8013D420[command].sphere_green;
-            work->spheres[i].blue = D_8013D420[command].sphere_blue;
+            work->spheres[i].red = gModelVariant654_D2420[command].sphere_red;
+            work->spheres[i].green = gModelVariant654_D2420[command].sphere_green;
+            work->spheres[i].blue = gModelVariant654_D2420[command].sphere_blue;
             setVector(&work->spheres[i].scale, 0x1000, 0x1000, 0x1000);
             setVector(&work->spheres[i].growth, 0, 0, 0);
             setVector(&work->spheres[i].rotation, (i << 12) / work->columns,
                 (i << 12) / work->columns + (work->slot * 2048), (i << 12) / work->columns);
             setVector(&work->spheres[i].position, 0, 0, 0);
         }
-        work->delay = D_8013D420[command].delay;
+        work->delay = gModelVariant654_D2420[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -341,9 +341,9 @@ s32 func_8013B004(u8 *context, s32 command)
                     if (work->rings[i][j].duration / 2 < work->rings[i][j].elapsed) {
                         n = (work->rings[i][j].duration - work->rings[i][j].elapsed) * 2;
                         d = work->rings[i][j].duration;
-                        work->rings[i][j].red = D_8013D420[work->command].red * n / d;
-                        work->rings[i][j].green = D_8013D420[work->command].green * n / d;
-                        work->rings[i][j].blue = D_8013D420[work->command].blue * n / d;
+                        work->rings[i][j].red = gModelVariant654_D2420[work->command].red * n / d;
+                        work->rings[i][j].green = gModelVariant654_D2420[work->command].green * n / d;
+                        work->rings[i][j].blue = gModelVariant654_D2420[work->command].blue * n / d;
                     }
                     setPolyFT4(&work->flat);
                     work->flat.tpage = work->tpage;
@@ -392,9 +392,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->spheres[i].duration / 2 < work->spheres[i].elapsed) {
                     n = (work->spheres[i].duration - work->spheres[i].elapsed) * 2;
                     d = work->spheres[i].duration;
-                    work->spheres[i].red = D_8013D420[work->command].sphere_red * n / d;
-                    work->spheres[i].green = D_8013D420[work->command].sphere_green * n / d;
-                    work->spheres[i].blue = D_8013D420[work->command].sphere_blue * n / d;
+                    work->spheres[i].red = gModelVariant654_D2420[work->command].sphere_red * n / d;
+                    work->spheres[i].green = gModelVariant654_D2420[work->command].sphere_green * n / d;
+                    work->spheres[i].blue = gModelVariant654_D2420[work->command].sphere_blue * n / d;
                 }
                 for (j = 1; j < 8; j++) {
                     for (k = 0; k < 8; k++) {
