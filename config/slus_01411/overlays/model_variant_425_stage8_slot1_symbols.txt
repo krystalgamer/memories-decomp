@@ -1,8 +1,8 @@
 // MODEL.MRG model 425 (record 375), sector 103690, header 603, loaded at 0x8017B000.
-func_8017B004 = 0x8017B004; // type:func size:0x1510 defined:true
-func_8017C514 = 0x8017C514; // type:func size:0x4D8 defined:true
-func_8017C9EC = 0x8017C9EC; // type:func size:0x4D0 defined:true
-D_8017CEBC = 0x8017CEBC; // type:u8 size:0x3144 defined:true
+FrenchModelVariant470_HandleRequest = 0x8017B004; // type:func size:0x1510 defined:true
+FrenchModelVariant470_DrawQuadPairs = 0x8017C514; // type:func size:0x4D8 defined:true
+SpanishModelVariant470_DrawQuads = 0x8017C9EC; // type:func size:0x4D0 defined:true
+gFrenchModelVariant470_D1ED0 = 0x8017CEBC; // type:u8 size:0x3144 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

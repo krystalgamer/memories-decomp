@@ -54,8 +54,8 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant453_entry_slot1]
-      - [0x1514, c, overlays/model_variant/variant453_quad_pairs_slot1]
-      - [0x19EC, c, overlays/model_variant/variant453_quads_slot1]
+      - [0x4, c, overlays/model_variant/variant453_entry]
+      - [0x1514, c, overlays/model_variant/variant453_quad_pairs]
+      - [0x19EC, c, overlays/model_variant/variant453_quads]
       - [0x1EBC, data, overlays/model_variant_425_stage8_slot1/data]
   - [0x5000]

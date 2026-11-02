@@ -6,8 +6,8 @@ stage 8/slot 1, now has matching C for all three functions. Both complete
 in #6460.
 
 The entry occupies `8013B004..8013C510`, or the corresponding `8017` range:
-5,388 instruction bytes, 1,347 words and a 200-byte frame. One implementation
-and a slot wrapper use the named `gcc_2_8_1_g0_split` profile. All native
+5,388 instruction bytes, 1,347 words and a 200-byte frame. One implementation,
+built in both slots, uses the named `gcc_2_8_1_g0_split` profile. All native
 words were read before reconstruction. Declarations come from local game/SDK
 headers and independently measured accesses, not reference-project headers,
 types or compiler claims.
@@ -16,10 +16,13 @@ types or compiler claims.
 
 | Slot-0 address | Bytes (hex) | Existing C owner |
 |---|---:|---|
-| `8013C510` | `4E4` | French `variant470_quad_pairs.c` |
-| `8013C9F4` | `4DC` | Spanish `variant470_quads.c` |
+| `8013C510` | `4E4` | French `variant470_quad_pairs.c` (`FrenchModelVariant470_DrawQuadPairs`) |
+| `8013C9F4` | `4DC` | Spanish `variant470_quads.c` (`SpanishModelVariant470_DrawQuads`) |
 
-Both helpers, their slot wrappers, profiles and inventory rows are unchanged.
+Both helpers, profiles and inventory rows are unchanged. Each image's symbols
+file binds `FrenchModelVariant470_HandleRequest`, both helpers and
+`gFrenchModelVariant470_D1ED0` at its own addresses (the North American
+header-453 images place the helpers 4 and 8 bytes off and the data 0x14 lower).
 Production ELFs verify all three original-sized C owners in each image.
 The first helper requires `elapsed >= config->draw_start`; the second
 independently requires `phase >= 2`. The entry directly reaches both.
