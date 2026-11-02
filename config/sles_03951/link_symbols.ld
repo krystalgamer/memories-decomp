@@ -621,7 +621,6 @@ gCardPreview_Resources = 0x800EB470;
 gLibrary_State = 0x800EB570;
 gDuelEffect_aRequests = 0x800EC110;
 gAi_Selection = 0x800EC210;
-D_800EAE8E = 0x800EC216;
 D_800EAE8F = 0x800EC217;
 tent_AiSelectionRandom = 0x800EC218;
 D_800EAE92 = 0x800EC21A;

@@ -257,8 +257,6 @@ gCardPreview_Resource1 = D_800E9EF0 + 568;
 
 /* Other names for game/main_run_campaign's small data (#2602). */
 gAi_Selection = D_800EAE88;
-D_800EAE89 = D_800EAE88 + 1;
-D_800EAE8E = D_800EAE88 + 6;
 tent_AiSelectionRandom = D_800EAE88 + 8;
 gSceneScript_Slots = D_800EAE88 + 16;
 

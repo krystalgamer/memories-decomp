@@ -10,7 +10,6 @@
 #include "duel_card_checks.h"
 #include "duel_grid.h"
 #include "../unmatched.h"
-#include "main_run_campaign_data.h"
 
 void AiScript_FindEquipTarget(void)
 {
@@ -419,5 +418,5 @@ void AiScript_SetPosition(void)
     s32 value;
 
     value = memory[AiScript_ReadByte()];
-    D_800EAE8E[0] = value;
+    gAi_Selection.bytes[6] = value;
 }

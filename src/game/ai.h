@@ -117,9 +117,8 @@ extern AiSelection gAi_Selection;
  * the neighbouring constants. */
 extern u8 tent_AiSelectionRandom;
 
-/* Byte 0x01 of the same selection -- AiSelection.fields.field1 -- has the
- * address-based name D_800EAE89 in the generated listings, but no source
- * declares it. Seven sites across three sources write the byte:
+/* Byte 0x01 of the same selection -- AiSelection.fields.field1 -- has no
+ * symbol of its own. Seven sites across three sources write the byte:
  * AiScript_PlayFaceUp (ai_fusion.c) stores the second of the five combo bytes as
  * gAi_Selection.bytes[1], duel_field_effects.c clears it the same way in
  * Duel_SelectEquipPair and Duel_SelectTrapPlay, and ai_turn_action.c writes
