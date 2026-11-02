@@ -422,9 +422,9 @@ labels 0x28 lower.
 Six images under French headers 165 and 295 are the North American
 header-148 entry (`model_variant/variant148_entry.c`) without its work-size
 printf and format string, with the flash covering all 256 PAL lines. The
-`src/overlays/french_model_variant/variant165_entry{,_slot1}.c` wrappers set
-the height and move the data labels after the shorter text and read-only
-section 0x24 lower.
+`src/overlays/french_model_variant/variant165_entry.c` wrapper, built in
+both slots, sets the height and moves the data labels after the shorter text and read-only
+section 0x24 lower. Each image's symbols file binds `ModelVariant148_HandleRequest` and `gModelVariant148_D1728`, `gModelVariant148_D1744` at its own addresses.
 
 Two images under French headers 855 and 952 are the North American
 header-838 entry (`model_variant/variant838_entry.c`) with the glow palette
