@@ -51,21 +51,11 @@ extern u8 D_8009B21A;
  * when the field commits an attack or a fusion so the battle state can
  * restore them. All four are gp-relative halfwords in retail.
  *
- * DuelScene_UpdateBattle (src/game/duel_scene_battle.c) takes each pair as
- * a two-entry side array: as struct elements the loads cannot pass the
- * record stores, which is what reloads gDuel_wSavedTargetRecordFlags after each flags store in
- * its listing. The scalar view stays for the setters here. */
-#ifdef D_8009B170_AS_SIDE_ARRAY
+ * Both are two-entry side arrays (attacker, target) owned by
+ * src/game/duel_field_card_render.c. As side arrays rather than struct
+ * elements, DuelScene_UpdateBattle's loads cannot pass the record stores,
+ * which is what reloads gDuel_awSavedRecordFlags[1] after each flags store. */
 extern u16 gDuel_awSavedStatModifiers[2];
-#else
-extern u16 gDuel_awSavedStatModifiers;
-extern u16 gDuel_wSavedTargetStatModifier;
-#endif
-#ifdef D_8009B178_AS_SIDE_ARRAY
 extern u16 gDuel_awSavedRecordFlags[2];
-#else
-extern u16 gDuel_awSavedRecordFlags;
-extern u16 gDuel_wSavedTargetRecordFlags;
-#endif
 
 #endif

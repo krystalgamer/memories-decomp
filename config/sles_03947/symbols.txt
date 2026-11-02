@@ -2081,9 +2081,7 @@ gSD_SmfBankVolInfoTag = 0x801E8FF8;
 gDuel_awBattleDamage = 0x8009C180;
 gDuel_abBattleOutcome = 0x8009C18C;
 gDuel_awSavedStatModifiers = 0x8009C134;
-gDuel_wSavedTargetStatModifier = 0x8009C136;
 gDuel_awSavedRecordFlags = 0x8009C174;
-gDuel_wSavedTargetRecordFlags = 0x8009C176;
 
 gRuntime_pSharedWorkBase = 0x80010000;
 gModel_pSlot1PayloadBase = 0x80010004;

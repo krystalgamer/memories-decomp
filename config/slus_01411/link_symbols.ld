@@ -250,8 +250,6 @@ gLibGs_DrawEnvView = D_800FE048;
 
 /* Other names for game/duel_field_card_render's small data (#2602). */
 D_8009B164 = gDuel_bQuitDialogState;
-gDuel_wSavedTargetStatModifier = gDuel_awSavedStatModifiers + 2;
-gDuel_wSavedTargetRecordFlags = gDuel_awSavedRecordFlags + 2;
 D_8009B1A0 = gDuel_RitualResultCardId;
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
 D_8009B23A = gDuel_wSceneStateFlags;

@@ -112,12 +112,11 @@
 #define CARD_KIND(id) ((gDuel_adwCardStats[(id) - 1] >> 0x1A) & 0x1F)
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
-/* Tentative definitions: the _comm profile keeps them common, which is what
+/* Same-typed tentative definitions of the side arrays owned by
+ * duel_field_card_render.c: the _comm profile keeps them common, which is what
  * puts retail's load-delay nop in front of each gp-relative store. */
-u16 gDuel_awSavedStatModifiers;
-u16 gDuel_wSavedTargetStatModifier;
-u16 gDuel_awSavedRecordFlags;
-u16 gDuel_wSavedTargetRecordFlags;
+u16 gDuel_awSavedStatModifiers[2];
+u16 gDuel_awSavedRecordFlags[2];
 u8 gDuel_bCardMoveSlot;
 
 void DuelScene_UpdateFieldActions(void)
@@ -516,8 +515,8 @@ void DuelScene_UpdateFieldActions(void)
         }
         i = FIELD_CURSOR.row * 5 + FIELD_CURSOR.col;
         pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
-        gDuel_awSavedRecordFlags = pick->flags;
-        gDuel_awSavedStatModifiers = H(pick, 0x12);
+        gDuel_awSavedRecordFlags[0] = pick->flags;
+        gDuel_awSavedStatModifiers[0] = H(pick, 0x12);
         o = (u8 *)Duel_CreateCardDisplayObject(pick, S(pick, 8), S(pick, 0xA));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), -0xA);
         gDisplayObject_apWorkSlots[0] = DISPLAY_OBJECT_VIEW(o);
@@ -526,8 +525,8 @@ void DuelScene_UpdateFieldActions(void)
         i = side->row * 5 + side->col;
         pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices[i + gDuel_bActiveSide * 20]];
         if (a == 0) {
-            gDuel_wSavedTargetRecordFlags = pick->flags;
-            gDuel_wSavedTargetStatModifier = H(pick, 0x12);
+            gDuel_awSavedRecordFlags[1] = pick->flags;
+            gDuel_awSavedStatModifiers[1] = H(pick, 0x12);
             o = (u8 *)Duel_CreateCardDisplayObject(pick, S(pick, 8), S(pick, 0xA));
             gDisplayObject_apWorkSlots[1] = DISPLAY_OBJECT_VIEW(o);
             gDuel_bCardMoveSlot = DISPLAY_OBJECT_VIEW(o)->field_6A;
