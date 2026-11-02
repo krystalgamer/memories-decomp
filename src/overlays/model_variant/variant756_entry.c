@@ -7,9 +7,9 @@
  * puffs, a debris burst and a ring of embers in front of the slot. The smoke
  * texture row is taken from the second puff's frame, as retail does. */
 
-static const VECTOR D_8013D000 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant756_D2000 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant756_HandleRequest(u8 *context, s32 command)
 {
     Model756State *work;
     MATRIX base, matrix;
@@ -34,7 +34,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D000;
+    scale = gModelVariant756_D2000;
     work = (Model756State *)context;
     gouraud_packet = &gouraud;
     burst_packet = &burst;
@@ -42,7 +42,7 @@ s32 func_8013B004(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D064[command];
+        work->config = &gModelVariant756_D2064[command];
         point = work->trail_first;
         other = work->trail_second;
         for (i = 0; i < 32; point++, other++, i++) {
@@ -97,7 +97,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D010[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant756_D2010[i]);
         }
         work->burst_scale = 0;
         work->level = 2048;

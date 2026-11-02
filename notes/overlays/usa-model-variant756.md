@@ -6,8 +6,8 @@ the [header-766 entry](usa-model-variant766.md), and the new North American C
 in [`variant756_entry.c`](../../src/overlays/model_variant/variant756_entry.c)
 follows that source. It is built under `gcc_2_8_1_g0_split` like the French
 entries.
-[`variant756_entry_slot1.c`](../../src/overlays/model_variant/variant756_entry_slot1.c)
-covers the images loaded at `0x8017B000`.
+The images loaded at `0x8017B000` build the same file directly; each image's
+`*_symbols.txt` binds the entry and data names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -43,6 +43,6 @@ finished, and 0 otherwise.
 
 The entry's `.rodata` is the unit scale vector `D_8013D000`, at `0x2000`. The
 rest of the image is one raw tail that starts at `0x2010`. Inside it, the
-layout names the three texture descriptors `D_8013D010` and the command table
-`D_8013D064`. The `0x8017B000` images use the same offsets. The resident
+layout names the three texture descriptors `gModelVariant756_D2010` and the command table
+`gModelVariant756_D2064`. The `0x8017B000` images use the same offsets. The resident
 bindings are in `config/slus_01411/overlays/variant756_linker_symbols.txt`.

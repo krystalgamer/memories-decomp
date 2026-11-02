@@ -5,9 +5,8 @@ Ten North American MODEL variant images share one entry, at `+0x4` and
 French entry, `variant129_entry`, is 1,017 instructions against 829: it has two
 textures and a different command row. The entry is new North American C in
 [`variant111_entry.c`](../../src/overlays/model_variant/variant111_entry.c),
-built under `gcc_2_8_1_g0_split` like the French entries, with
-[`variant111_entry_slot1.c`](../../src/overlays/model_variant/variant111_entry_slot1.c)
-for the images loaded at `0x8017B000`.
+built under `gcc_2_8_1_g0_split` like the French entries. The images loaded at `0x8017B000` build the same file directly; each
+image's `*_symbols.txt` binds the entry and data names at its own addresses.
 
 | Header | Load address | Images |
 |---:|---|---|
@@ -37,8 +36,8 @@ its size gives retail's 0x170-byte frame.
 ## Layout and bindings
 
 Each image keeps everything after the entry as one raw tail. The layout names
-three symbols inside it that the entry reads: the scale vector `D_8013BCF8`, the
-texture descriptor `D_8013BD08` and the command table `D_8013BD24` (the
+three symbols inside it that the entry reads: the scale vector `gModelVariant111_D0CF8`, the
+texture descriptor `gModelVariant111_D0D08` and the command table `gModelVariant111_D0D24` (the
 `0x8017B000` images use the same offsets). The resident bindings are read from
 each image's own `jal` targets, in
 `config/slus_01411/overlays/variant111_linker_symbols.txt`, which follows the

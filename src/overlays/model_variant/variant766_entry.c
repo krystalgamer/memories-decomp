@@ -8,9 +8,9 @@
  * in front of the slot. The slot's ambient level dips while the trail runs
  * and comes back afterwards. */
 
-static const VECTOR D_8013C838 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant766_D1838 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant766_HandleRequest(u8 *context, s32 command)
 {
     Model766State *work;
     MATRIX base, matrix;
@@ -35,7 +35,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C838;
+    scale = gModelVariant766_D1838;
     work = (Model766State *)context;
     gouraud_packet = &gouraud;
     burst_packet = &burst;
@@ -43,7 +43,7 @@ s32 func_8013B004(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C880[command];
+        work->config = &gModelVariant766_D1880[command];
         point = work->trail_first;
         other = work->trail_second;
         for (i = 0; i < 32; point++, other++, i++) {
@@ -82,7 +82,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C848[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant766_D1848[i]);
         }
         setVector(&work->square[0], -work->config->square_size, 0, direction << 7);
         setVector(&work->square[1], work->config->square_size, 0, direction << 7);

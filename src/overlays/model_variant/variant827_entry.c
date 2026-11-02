@@ -9,9 +9,9 @@
  * lasts, and debris flies out. The ambient level dips during the delay and
  * comes back afterwards. */
 
-static const VECTOR D_8013CA30 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant827_D1A30 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant827_HandleRequest(u8 *context, s32 command)
 {
     Model827State *work;
     MATRIX base, matrix;
@@ -29,12 +29,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CA30;
+    scale = gModelVariant827_D1A30;
     work = (Model827State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CAB0[command];
+        work->config = &gModelVariant827_D1AB0[command];
         for (i = 0; i < work->config->ray_count; i++) {
             setVector(&work->rays[i], (rand() - rand()) % 4096, (rand() - rand()) % 4096,
                 -direction * (rand() % 4096));
@@ -59,7 +59,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->config->ember_speed * ((rand() - rand()) % 4096) / 4096);
         }
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CA40[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant827_D1A40[i]);
         }
         work->color.rgb.r = work->config->r;
         work->color.rgb.g = work->config->g;

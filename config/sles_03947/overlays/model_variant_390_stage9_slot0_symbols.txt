@@ -1,8 +1,8 @@
 // European MODEL.MRG model 390 (record 340), sector 94040, header 135, loaded at 0x8013B000; the US header-118 source variant118_entry.c; built from the French source layout of french_model_variant_390_stage9_slot0.
-func_8013B004 = 0x8013B004; // type:func size:0x1040 defined:true
-D_8013C044 = 0x8013C044; // type:u8 size:0x10 defined:true
-D_8013C054 = 0x8013C054; // type:u8 size:0x38 defined:true
-D_8013C08C = 0x8013C08C; // type:u8 size:0x3F74 defined:true
+ModelVariant118_HandleRequest = 0x8013B004; // type:func size:0x1040 defined:true
+gModelVariant118_D1044 = 0x8013C044; // type:u8 size:0x10 defined:true
+gModelVariant118_D1054 = 0x8013C054; // type:u8 size:0x38 defined:true
+gModelVariant118_D108C = 0x8013C08C; // type:u8 size:0x3F74 defined:true
 Model_GetActiveSlotIndex = 0x8005BED4; // type:func absolute:true
 Model_GetFrameStep = 0x8005BF24; // type:func absolute:true
 Model_GetSlotAnimationIndex = 0x8005BF70; // type:func absolute:true

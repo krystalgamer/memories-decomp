@@ -566,10 +566,12 @@ symbols file binds `gModelVariant665_D3504` and `gModelVariant665_D361C` 0x28
 lower.
 
 Twelve images under French headers 813 and 910 are the North American
-header-796 entry (`model_variant/variant796_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf, and only the resident call
-targets differ, which `model_variant813_linker_symbols.txt` binds to the French
-addresses.
+header-796 entry (`ModelVariant796_HandleRequest`,
+`model_variant/variant796_entry.c`, built directly in both slots) unchanged: it
+has no work-size printf, and only the resident call targets differ, which
+`model_variant813_linker_symbols.txt` binds to the French addresses. Each
+image's symbols file binds `gModelVariant796_D382C` and
+`gModelVariant796_D38B8` at its own addresses.
 
 Four images under French headers 774 and 871 are the North American
 header-757 entry (`model_variant/variant757_entry.c`) with the palette from
@@ -1140,9 +1142,11 @@ apart from resident call targets, through
 
 Eight images under French header 95, and their eight slot-one counterparts
 under header 225, are the North American header-78 entry
-(`model_variant/variant78_entry.c` and its `variant78_entry_slot1.c` copy)
-unchanged: it has no work-size printf, and only the resident call targets
-differ, which `model_variant95_linker_symbols.txt` binds to the French addresses.
+(`ModelVariant78_HandleRequest`, `model_variant/variant78_entry.c`, built
+directly in both slots) unchanged: it has no work-size printf, and only the
+resident call targets differ, which `model_variant95_linker_symbols.txt` binds
+to the French addresses. Each image's symbols file binds `gModelVariant78_D285C`
+and `gModelVariant78_D28B0` at its own addresses.
 
 Two images under French headers 106 (stage 9 slot 0) and 236 (stage 10 slot 1) build the header-89 entry (`func_8013B004`) from `src/overlays/model_variant/variant89_entry.c` through `src/overlays/french_model_variant/variant106_entry{,_slot1}.c`, which set `GRAPHICS_DEFAULT_HEIGHT` to 256 for the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
 

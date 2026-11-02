@@ -14,7 +14,7 @@
         GsSortPoly(&quad, ot, (u16)depth); \
     }
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant111_HandleRequest(u8 *context, s32 command)
 {
     Model111State *work;
     s32 direction;
@@ -35,18 +35,18 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BCF8;
+    scale = gModelVariant111_D0CF8;
     work = (Model111State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013BD24[command];
+        config = work->config = &gModelVariant111_D0D24[command];
         point = work->positions;
         /* Retail zeroes the first position count times. */
         for (i = 0; i < config->count; i++) {
             setVector(point, 0, 0, 0);
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BD08[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gModelVariant111_D0D08[i]);
         }
         work->elapsed = -config->delay;
         work->completed = 0;

@@ -6,9 +6,9 @@
  * then sways and bounces with 34 sprites orbiting it, 32 sprites rise from
  * around the opposing slot, and the light is restored at the end. */
 
-static const VECTOR D_8013D84C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant78_D284C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant78_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -36,11 +36,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D84C;
+    scale = gModelVariant78_D284C;
     work = (Model78State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013D8B0[command];
+        config = work->config = &gModelVariant78_D28B0[command];
         point = work->lower;
         other = work->upper;
         for (i = 0; i < 17; i++) {
@@ -98,7 +98,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point++;
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D85C[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant78_D285C[i]);
         }
         work->elapsed = -config->lead;
         work->completed = 0;

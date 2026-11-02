@@ -8,9 +8,9 @@
  * texture, and, when the command asks for them, 48 sparks fly out. During the
  * lead time the entry only records the parts' positions. */
 
-static const VECTOR D_8013CD68 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant72_D1D68 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant72_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_G4 ribbon;
@@ -36,12 +36,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013CD68;
+    scale = gModelVariant72_D1D68;
     work = (Model72State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013CD94[command % 100];
+        config = work->config = &gModelVariant72_D1D94[command % 100];
         point = work->points;
         for (i = 0; i < config->columns * config->rows; point++, i++) {
             setVector(point, 0, 0, 0);
@@ -76,7 +76,7 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = rand() % config->spark_spread * 2 - config->spark_spread;
         }
         for (i = 0; i < 1; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CD78[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant72_D1D78[i]);
         }
         work->elapsed = -config->lead * 2;
         work->completed = 0;

@@ -54,9 +54,9 @@ typedef struct {
     u16 unknown_550;
 } Model766State;
 
-extern GsIMAGE D_8013C848[];
-extern Model766Config D_8013C880[];
+extern GsIMAGE gModelVariant766_D1848[];
+extern Model766Config gModelVariant766_D1880[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant766_HandleRequest(u8 *context, s32 command);
 
 #endif

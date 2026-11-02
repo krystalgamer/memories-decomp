@@ -7,9 +7,9 @@
 #include "../../psyq/stdio.h"
 #endif
 
-static const VECTOR D_8013BEF4 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant184_D0EF4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant184_HandleRequest(u8 *context, s32 command)
 {
     Model184State *work;
     MATRIX base, matrix;
@@ -32,13 +32,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BEF4;
+    scale = gFrenchModelVariant184_D0EF4;
     work = (Model184State *)context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {
         point = work->targets;
-        work->config = &D_8013BF58[command % 100];
+        work->config = &gFrenchModelVariant184_D0F58[command % 100];
         config = work->config;
         Model_CopySlotU16Values(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->origin);
         work->origin.vy = -350;
@@ -62,7 +62,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 config->inner_radius * csin(i * 4096 / 16) / 4096, 0);
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BF04[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant184_D0F04[i]);
         }
         work->elapsed = 0;
         work->updates = 0;

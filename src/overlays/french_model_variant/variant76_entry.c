@@ -2,7 +2,7 @@
 #include "variant76_entry.h"
 #include "../../game/screen_projection.h"
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant76_HandleRequest(u8 *context, s32 command)
 {
     POLY_F3 triangle;
     MATRIX base;
@@ -29,7 +29,7 @@ s32 func_8013B004(u8 *context, s32 command)
     ot = func_80058F10();
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013BB98[command];
+        config = work->config = &gFrenchModelVariant76_D0B98[command];
         point = work->positions;
         velocity = work->velocities;
         rotation = work->rotations;

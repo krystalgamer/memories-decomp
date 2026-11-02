@@ -7,9 +7,9 @@
 #define VARIANT770_BURST_CLUT 0x3D28
 #endif
 
-static const VECTOR D_8013C6E8 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant770_D16E8 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant770_HandleRequest(u8 *context, s32 command)
 {
     Model770State *work;
     s32 slot, direction;
@@ -34,14 +34,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C6E8;
+    scale = gFrenchModelVariant770_D16E8;
     work = (Model770State *)context;
     gouraud_packet = &gouraud;
     textured_packet = &quad;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013C714[command];
+        work->config = &gFrenchModelVariant770_D1714[command];
         point = work->trail_first;
         other = work->trail_second;
         for (i = 0; i < 32; point++, other++, i++) {
@@ -74,7 +74,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->burst_tpage = 0xAE;
         work->burst_clut = VARIANT770_BURST_CLUT;
         for (i = 0; i < 1; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013C6F8[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant770_D16F8[i]);
         }
         point = work->positions;
         other = work->velocities;

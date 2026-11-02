@@ -36,8 +36,10 @@ before the change, so the French images are unaffected.
 | 115 | `0xEB4` | `variant132_entry.c` | `416_stage9_slot0` |
 | 124 | `0xF5C` | `variant141_entry.c` | `20_stage9_slot0`, `428_pos0_slot0`, `445_pos0_slot0` |
 | 126 | `0xFF0` | `variant143_entry.c` | `234_stage9_slot0`, `481_pos0_slot0`, `496_pos0_slot0`, `546_stage9_slot0` |
-| 189 | `0xB94` | `variant76_entry_slot1.c` | `447_stage8_slot1`, `489_stage10_slot1`, `562_stage8_slot1`, `57_stage8_slot1` |
+| 189 | `0xB94` | `variant76_entry.c` | `447_stage8_slot1`, `489_stage10_slot1`, `562_stage8_slot1`, `57_stage8_slot1` |
 | 190 | `0xC14` | `variant77_entry_slot1.c` | `386_stage8_slot1`, `53_stage10_slot1`, `547_stage10_slot1`, `84_stage10_slot1` |
+| 189 | `0xB94` | `variant76_entry_slot1.c` | `447_stage8_slot1`, `489_stage10_slot1`, `562_stage8_slot1`, `57_stage8_slot1` |
+| 190 | `0xC14` | `variant77_entry.c` | `386_stage8_slot1`, `53_stage10_slot1`, `547_stage10_slot1`, `84_stage10_slot1` |
 | 195 | `0xDE0` | `variant82_entry_slot1.c` | `66_stage8_slot1` |
 | 200 | `0xA18` | `variant87_entry_slot1.c` | `140_stage10_slot1`, `584_stage10_slot1` |
 | 210 | `0x1154` | `variant97_entry_slot1.c` | `100_stage8_slot1`, `150_stage10_slot1` |
