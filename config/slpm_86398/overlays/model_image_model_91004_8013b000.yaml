@@ -91,7 +91,7 @@ segments:
     vram: 0x8013DDA8
     align: 4
     subsegments:
-      - [0x2DA8, c, overlays/model_variant/variant410_streamers]
+      - [0x2DA8, c, overlays/french_model_variant/variant427_streamers]
   - name: helper_351c
     type: code
     start: 0x351C
