@@ -1,12 +1,9 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
-#define D_800E9ECE_AS_SCALAR
-#define D_800E9ECF_AS_SCALAR
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
-#include "../../game/fade_state_bytes.h"
 #include "../../game/model_draw_slot.h"
 #include "camera_state.h"
 #include "camera_transition.h"
@@ -620,14 +617,14 @@ void CampaignMap_UpdateLocation(void)
         if ((D_8016960D & 0x80) == 0) {
             D_8016960D = D_8016960D | 0x80;
             Fade_InitOut();
-            gFade_bStep = 2;
+            gFade_State.step = 2;
             CampaignMap_ClearLocationObjects();
             DisplayObject_ReleaseIfPresent(gCampaignMap_pLocationMarker);
             SD_BGMFadeOutWithStep(4);
         }
         D_800F2848.field_00 = D_800F2848.field_00 - 2;
         ViewState_ApplyOrbit();
-        if ((gFade_bFlags & 0x80) == 0) {
+        if ((gFade_State.flags & 0x80) == 0) {
             D_8009B26C = 2;
             gCampaignSceneIndex = gCampaignMap_Location + 32;
         }

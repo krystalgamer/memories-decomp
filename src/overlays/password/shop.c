@@ -25,7 +25,7 @@
 #include "shop.h"
 #include "../../game/sound.h"
 #include "../../game/fade.h"
-#include "dialog_choice_ref.h"
+#include "../../game/dialog_choice.h"
 #include "../../game/card_preview_objects.h"
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/text_box_lifecycle.h"
@@ -503,7 +503,7 @@ void Password_UpdateShopScreen(void)
         }
         if ((flags2 & 0x4000) != 0) {
             gPassword_wShopState = flags2 & 0xBFFF;
-            if (D_8009B34D == 0) {
+            if (gDialog_bChoice == 0) {
                 Library_UpdateCardUsedFlag(
                     gPassword_wCardId + CAMPAIGN_FLAG_PASSWORD_USED_BASE);
                 Duel_AwardCard(gPassword_wCardId);

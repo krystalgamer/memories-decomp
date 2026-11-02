@@ -22,7 +22,6 @@
 #include "../psyq/rand.h"
 #include "model_slot_queries.h"
 #include "../unmatched.h"
-#include "fade_state_bytes.h"
 #include "file_transfer_buffer.h"
 #include "model_slot_control.h"
 #include "library_grid_cursor.h"
@@ -298,7 +297,7 @@ void Library_UpdateCardView(LibraryState *state)
         ViewState_ApplyOrbit();
         CardPreview_RequestResourceTransfer(0, (u16)state->motion.selected_card_id);
         Fade_StartOutKeepOverlay();
-        gFade_bStep[0] = 6;
+        gFade_State.step = 6;
         state->loading_icon = 0;
         return;
     }
@@ -436,7 +435,7 @@ void Library_UpdateCardView(LibraryState *state)
         }
         return;
     case 2:
-        if (state->motion.model_load_phase != 1 && !(gFade_bFlags[0] & 0x80)) {
+        if (state->motion.model_load_phase != 1 && !(gFade_State.flags & 0x80)) {
             gMain_apFrameServiceCallbacks[3] = 0;
             i = 0;
             do {
@@ -529,7 +528,7 @@ void Library_UpdateCardView(LibraryState *state)
             state->motion.globe_radius = (u16)state->motion.globe_radius + 0x2A;
             if (state->motion.globe_radius >= 0x400) {
                 state->motion.globe_radius = 0x400;
-                if (!(gFade_bFlags[0] & 0x80) && state->motion.card_view_slide_phase == 0) {
+                if (!(gFade_State.flags & 0x80) && state->motion.card_view_slide_phase == 0) {
                     state->motion.card_view_subphase = 1;
                     DisplayObject_SetResourceVariant((void *)state->loading_icon, 1);
                     return;
@@ -564,7 +563,7 @@ void Library_UpdateCardView(LibraryState *state)
                     break;
                 }
             }
-            if (!(gFade_bFlags[0] & 0x80) && state->motion.card_view_slide_phase == 0) {
+            if (!(gFade_State.flags & 0x80) && state->motion.card_view_slide_phase == 0) {
                 SD_KeyOffVoiceSlots();
                 gMain_apFrameServiceCallbacks[2] = 0;
                 {

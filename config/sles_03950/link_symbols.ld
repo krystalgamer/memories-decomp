@@ -612,8 +612,6 @@ gFile_PrimaryTransferDescriptor = 0x800EB1B8;
 gFile_SecondaryTransferDescriptor = 0x800EB200;
 gFade_State = 0x800EB248;
 gFade_abCurrentLevel = 0x800EB24C;
-D_800E9ECE = 0x800EB24E;
-D_800E9ECF = 0x800EB24F;
 gDuel_aSideStates = 0x800EB278;
 gDuel_bSide1CardViewMode = 0x800EB2B7;
 gDuelHand_aSlots = 0x800EB2B8;
@@ -1159,8 +1157,6 @@ gText_aCurrentPlayerNameGlyphs = D_801B125A;
 gText_aFirstPlayerNameGlyphs = D_801B122B;
 gText_aSecondPlayerNameGlyphs = D_801B1238;
 
-gFade_bFlags = D_800E9ECE;
-gFade_bStep = D_800E9ECF;
 
 gLibCd_nDeferredStreamInterrupt = D_800F6CD4;
 gLibGs_sActiveBufferIndex = gEuropean_D_800FE0CC;
