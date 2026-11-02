@@ -87,10 +87,10 @@ extraction picks up the new header automatically. Cases, assertions,
 mutations, fixture layouts, generator and oracle behavior are unchanged;
 no new harness, fixture, probe or testcase is added.
 
-The Password overlay's raw `D_8009B34D` choice-index view remains
-deliberately separate. That byte is already `gDialog_bChoice` in the
-resident tree; it is not another unknown symbol or part of either new
-packed control.
+The Password overlay reads the same choice index through the resident
+`gDialog_bChoice` declaration in `src/game/dialog_choice.h`; each region's
+`password_linker_symbols.txt` binds the name, so the overlay no longer carries
+a second `D_8009B34D` name for the byte.
 
 ## Script save-prompt command phases
 

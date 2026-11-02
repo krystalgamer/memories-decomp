@@ -26,7 +26,7 @@
 #include "name_entry_keyboard.h"
 #include "name_entry_frame.h"
 #include "name_entry_state.h"
-#include "dialog_choice_ref.h"
+#include "../../game/dialog_choice.h"
 #include "../../game/rand_get_interval.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/dialog_choice_state.h"
@@ -37,7 +37,6 @@
 #include "../../overlays/password/name_entry_keyboard.h"
 #include "../../overlays/password/name_entry_frame.h"
 #include "../../overlays/password/name_entry_state.h"
-#include "../../overlays/password/dialog_choice_ref.h"
 #include "name_entry_tables.h"
 
 #ifdef VERSION_EUROPE
@@ -1205,7 +1204,7 @@ void NameEntry_UpdateDialog(void)
             if ((id & 0x8000) == 0) {
                 if ((id & 0x4000) == 0) {
                     func_80039A14((struct DuelEffectChannel *)box);
-                    D_8009B34D = 0;
+                    gDialog_bChoice = 0;
                 }
                 box->prompt_object = Dialog_OpenChoice(box);
             } else {
@@ -1276,7 +1275,7 @@ void NameEntry_UpdateDialog(void)
                 return;
             }
         }
-        if (D_8009B34D != 0) {
+        if (gDialog_bChoice != 0) {
             fd = gNameEntry_bStateFlags;
             gNameEntry_bStateFlags = fd & 0xDF;
         }
