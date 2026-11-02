@@ -961,8 +961,8 @@ labels 0x1C lower. Each image's symbols file binds `ModelVariant147_HandleReques
 Twenty-six images under French headers 675 and 742 are the North American
 header-658 entry (`model_variant/variant658_entry.c`) without its `E_DATA`
 work-size printf, built through
-`src/overlays/french_model_variant/variant675_entry{,_slot1}.c` with the data
-labels 0x28 lower.
+`src/overlays/french_model_variant/variant675_entry.c` with the data
+labels 0x28 lower. Each image's symbols file binds `ModelVariant658_HandleRequest` and `gModelVariant658_D303C`, `gModelVariant658_D3090` at its own addresses.
 
 Two images under French headers 677 and 744 are the North American
 header-660 entry (`model_variant/variant660us_entry.c`) without its `E_DATA`
