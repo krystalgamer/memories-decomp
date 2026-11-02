@@ -7,9 +7,9 @@
  * 3x3 grid of animated burst quads plays where it lands. A negative command
  * draws a frame; any other command sets the work area up. */
 
-static const VECTOR D_8013C45C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant157_D145C = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant157_HandleRequest(u8 *context, s32 command)
 {
     Model157UsState *work;
     Model157UsConfig *config;
@@ -31,12 +31,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C45C;
+    scale = gModelVariant157_D145C;
     work = (Model157UsState *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C540[command % 100];
+        config = work->config = &gModelVariant157_D1540[command % 100];
         path = work->path;
         spin = work->spin;
         index = 0;
@@ -90,7 +90,7 @@ s32 func_8013B004(u8 *context, s32 command)
         corner[3][3] = &path[4];
         work->unknown_10aa = 0;
         for (k = 0; k < 7; k++) {
-            work->texture[k] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C47C[k]);
+            work->texture[k] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant157_D147C[k]);
         }
         work->elapsed = 0;
         work->frames = 0;
