@@ -33,6 +33,8 @@ jobs:
     env:
       MAKEFLAGS: -j4
       USE_SYSTEM_MIPS_BINUTILS: "1"
+      # Splat draws progress bars for every one of thousands of modules.
+      TQDM_DISABLE: "1"
 
     steps:
       - name: Check out source
@@ -90,6 +92,11 @@ jobs:
           49544302dbe341489ae0eaf7888cac002a6160c57454970c434cdcb171d2a40e  tmp/project-build/SLES_039.47
           EOF
 
+      - name: Restore overlay build caches
+        uses: ./.github/actions/overlay-cache-restore
+        with:
+          region: europe
+
       - name: Verify the configured European duel-effect bank
         run: |
           tools/environments/python/bin/python tools/project/overlay_extract.py extract --region europe --module european_duel_effects
@@ -102,3 +109,8 @@ jobs:
         run: |
           make european-match-overlays
           make european-verify-overlays
+
+      - name: Save overlay build caches
+        uses: ./.github/actions/overlay-cache-save
+        with:
+          region: europe

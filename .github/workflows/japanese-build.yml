@@ -32,6 +32,8 @@ jobs:
     timeout-minutes: 90
     env:
       USE_SYSTEM_MIPS_BINUTILS: "1"
+      # Splat draws progress bars for every one of thousands of modules.
+      TQDM_DISABLE: "1"
 
     steps:
       - name: Check out source
@@ -90,6 +92,11 @@ jobs:
           ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa89585  tmp/project-build/SLPM_863.98
           EOF
 
+      - name: Restore overlay build caches
+        uses: ./.github/actions/overlay-cache-restore
+        with:
+          region: japan
+
       - name: Verify the configured Japanese duel-effect bank
         run: |
           tools/environments/python/bin/python tools/project/overlay_extract.py extract --region japan --module japanese_duel_effects
@@ -102,3 +109,8 @@ jobs:
         run: |
           make japanese-match-overlays
           make japanese-verify-overlays
+
+      - name: Save overlay build caches
+        uses: ./.github/actions/overlay-cache-save
+        with:
+          region: japan

@@ -1,0 +1,43 @@
+name: Save overlay build caches
+description: >-
+  After a passing overlay build, keep only this region's compiled objects for
+  later runs. A full build on master also records the fingerprint of every
+  module it verified, which pull requests use to skip unchanged modules.
+
+inputs:
+  region:
+    description: overlay_build.py region (usa, japan, europe, france, germany, italy, spain)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Prune compiled overlay objects to this region
+      id: prune
+      shell: bash
+      run: |
+        MAKEFLAGS="-j$(nproc)" tools/environments/python/bin/python \
+          tools/project/overlay_objects.py \
+          prune --region "${{ inputs.region }}" --github-output >> "$GITHUB_OUTPUT"
+
+    - name: Save compiled overlay objects
+      uses: actions/cache/save@v4
+      with:
+        path: tmp/overlay-object-cache/objects
+        key: ${{ runner.os }}-overlay-objects-v1-${{ inputs.region }}-${{ steps.prune.outputs.digest }}
+
+    - name: Record modules verified by this full build
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master' && env.OVERLAY_FLAGS == ''
+      shell: bash
+      run: |
+        MAKEFLAGS="-j$(nproc)" tools/environments/python/bin/python \
+          tools/project/overlay_build.py \
+          record --region "${{ inputs.region }}" \
+          --output "tmp/overlay-verified/${{ inputs.region }}.txt"
+
+    - name: Save verified module record
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master' && env.OVERLAY_FLAGS == ''
+      uses: actions/cache/save@v4
+      with:
+        path: tmp/overlay-verified/${{ inputs.region }}.txt
+        key: ${{ runner.os }}-overlay-verified-v1-${{ inputs.region }}-${{ github.sha }}
