@@ -7,8 +7,8 @@ American C in
 [`variant827_entry.c`](../../src/overlays/model_variant/variant827_entry.c)
 follows that source. It is built under `gcc_2_8_1_g0_split` like the French
 entries.
-[`variant827_entry_slot1.c`](../../src/overlays/model_variant/variant827_entry_slot1.c)
-covers the images loaded at `0x8017B000`.
+The images loaded at `0x8017B000` build the same file directly; each image's
+`*_symbols.txt` binds the entry and data names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -30,6 +30,6 @@ rows instead of red sparks from the third.
 
 The entry's `.rodata` is the unit scale vector `D_8013CA30`, at `0x1A30`. The
 rest of the image is one raw tail that starts at `0x1A40`. Inside it, the
-layout names the four texture descriptors `D_8013CA40` and the command table
-`D_8013CAB0`. The `0x8017B000` images use the same offsets. The resident
+layout names the four texture descriptors `gModelVariant827_D1A40` and the command table
+`gModelVariant827_D1AB0`. The `0x8017B000` images use the same offsets. The resident
 bindings are in `config/slus_01411/overlays/variant827_linker_symbols.txt`.
