@@ -7,16 +7,16 @@
  * the rings, the random dot and sprite velocities and the two textures, and
  * prints the work-area size. */
 
-static const VECTOR D_8013C3A4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant176_D13A4 = {4096, 4096, 4096, 0};
 /* The work-size format string; retail's sixteenth byte after the terminator is 0x0C. */
 #ifndef VERSION_FRENCH
 #ifndef MODEL176_STRING_PAD
 #define MODEL176_STRING_PAD "\f"
 #endif
-static const char D_8013C3B4[16] = "%d (%x) Byte.\n\0" MODEL176_STRING_PAD;
+static const char gModelVariant176_D13B4[16] = "%d (%x) Byte.\n\0" MODEL176_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant176_HandleRequest(u8 *context, s32 command)
 {
     Model176State *work;
     s32 direction;
@@ -43,12 +43,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C3A4;
+    scale = gModelVariant176_D13A4;
     work = (Model176State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     Model_GetFrameStep();
     if (command >= 0) {
-        config = work->config = &D_8013C3FC[command];
+        config = work->config = &gModelVariant176_D13FC[command];
         point = work->ring;
         for (i = 0; i < 33; point++, i++) {
             point->vx = config->outer_radius * ccos(i * 128) / 4096;
@@ -82,13 +82,13 @@ s32 func_8013B004(u8 *context, s32 command)
             point->vz = radius * csin(size) / 4096 * csin(j) / 4096;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013C3C4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant176_D13C4[i]);
         }
         work->completed = 0;
         work->elapsed = 0;
         work->unknown_B1D = 0;
 #ifndef VERSION_FRENCH
-        printf(D_8013C3B4, sizeof(Model176State), sizeof(Model176State));
+        printf(gModelVariant176_D13B4, sizeof(Model176State), sizeof(Model176State));
 #endif
         return 0;
     }

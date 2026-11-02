@@ -5,8 +5,8 @@ and `0x13A0` bytes long. No French or Spanish source reproduces it. The
 entry is new North American C in
 [`variant176_entry.c`](../../src/overlays/model_variant/variant176_entry.c),
 built under `gcc_2_8_1_g0_split` like the French entries.
-[`variant176_entry_slot1.c`](../../src/overlays/model_variant/variant176_entry_slot1.c)
-covers the images loaded at `0x8017B000`.
+The images loaded at `0x8017B000` build the same file directly; each image's
+`*_symbols.txt` binds the entry and data names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -45,6 +45,6 @@ The entry's `.rodata` follows it at `0x13A4`: the unit scale vector, then the
 retail stores `0x0C` in the byte after its terminator, the last byte before
 the data. The C spells the string as a 16-byte array with that byte. The
 image tail starts at `0x13C4`. Inside it, the layout names the two texture
-descriptors `D_8013C3C4` and the command table `D_8013C3FC`. The
+descriptors `gModelVariant176_D13C4` and the command table `gModelVariant176_D13FC`. The
 `0x8017B000` images use the same offsets. The resident bindings are in
 `config/slus_01411/overlays/variant176_linker_symbols.txt`.
