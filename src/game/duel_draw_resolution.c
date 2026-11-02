@@ -207,8 +207,6 @@ void DuelScene_UpdateDrawResolution(void) {
  * address-of-member view so GCC materializes -0x40 like retail. The two
  * request-completion tests read the actual DuelEffectRequest::progress byte.
  */
-extern s32 D_800E9F04[];
-
 void DuelScene_UpdateExodiaResult(void)
 {
     u16 flags;
@@ -284,7 +282,7 @@ next_obj:
         if (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             goto next_obj;
         }
-        D_800E9F04[0] = 0;
+        gDisplayObject_apWorkSlots[DISPLAY_OBJECT_WORK_SLOT_COUNT] = 0;
         DisplayObject_ReleaseIfPresent(
             gDuel_pActiveSelectionRecord->cursor_object);
         gDuel_wDisplayTransitionFlags = 8;

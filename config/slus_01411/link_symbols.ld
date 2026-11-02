@@ -244,7 +244,6 @@ gFile_nMasterXaLba = gFile_anLba + 24;
 
 /* Other names for game/duel_field_card_render's small data (#2602). */
 gDisplayObject_apWorkSlots = D_800E9EF0;
-D_800E9F04 = D_800E9EF0 + 20;
 gDuel_abSelectionSides = D_800E9EF0 + 32;
 gDuel_abSelectionRecord1 = D_800E9EF0 + 60;
 gDuel_abSelectionRecord2 = D_800E9EF0 + 88;

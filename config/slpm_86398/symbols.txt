@@ -1595,7 +1595,6 @@ gDuel_ExodiaCardPoses = 0x800907C8;
 gDuel_wStepCounter = 0x8009B0C0;
 gDuel_pTerrainIcon = 0x8009B104;
 gDuel_pLifePointsPanel = 0x8009B10C;
-D_800E9F04 = 0x800E9DE4;
 D_80010224 = 0x80010224;
 gFreeDuel_bReturnFlags = 0x8009B255;
 gSaveData_AllowIdentityBypass = 0x8009B2C4;

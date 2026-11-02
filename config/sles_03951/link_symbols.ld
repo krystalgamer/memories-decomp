@@ -614,7 +614,6 @@ gDuel_bSide1CardViewMode = 0x800EB2B7;
 gDuelHand_aSlots = 0x800EB2B8;
 gDuel_aCardSlotScreenPositions = 0x800EB2F8;
 gDisplayObject_apWorkSlots = 0x800EB370;
-D_800E9F04 = 0x800EB384;
 gDuel_abSelectionSides = 0x800EB390;
 gDuel_abSelectionRecord2 = 0x800EB3C8;
 D_800EA0E8 = 0x800EB470;

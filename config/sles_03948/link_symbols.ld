@@ -404,7 +404,6 @@ gMovie_dwStreamBaseLba = 0x800EB1A4;
 gFile_nMasterXaLba = 0x800EB1B0;
 gFade_abCurrentLevel = 0x800EB24C;
 gDisplayObject_apWorkSlots = 0x800EB370;
-D_800E9F04 = 0x800EB384;
 gDuel_abSelectionSides = 0x800EB390;
 gDuel_abSelectionRecord2 = 0x800EB3C8;
 gDuel_aSideStates = 0x800EB278;

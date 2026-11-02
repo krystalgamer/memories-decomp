@@ -503,7 +503,6 @@ gMain_bRequestedMenuID = 0x8009C1EE;
 DisplayObject_CopyWorkSlots = 0x8002CBE0;
 gDisplayObject_apWorkSlots = 0x800EAF50;
 D_800E9EF4 = 0x800EAF54;
-D_800E9F04 = 0x800EAF64;
 Script_OpOpenCampaignMap = 0x8002EBF0;
 Script_OpShowMenu = 0x8002EC20;
 Script_OpSound = 0x8002ED1C;

@@ -371,7 +371,6 @@ gDuelHand_aSlots = D_800EAE58_sles_03947 + 64;
 gDuel_aCardSlotScreenPositions = D_800EAE58_sles_03947 + 128;
 gDisplayObject_apWorkSlots = D_800EAE58_sles_03947 + 248;
 D_800E9EF4 = D_800EAE58_sles_03947 + 252;
-D_800E9F04 = D_800EAE58_sles_03947 + 268;
 gDuel_abSelectionSides = D_800EAE58_sles_03947 + 280;
 gDuel_abSelectionRecord1 = D_800EAE58_sles_03947 + 308;
 gDuel_abSelectionRecord2 = D_800EAE58_sles_03947 + 336;

@@ -4,8 +4,8 @@
 `Duel_CheckRitual`. The matched
 callee writes three tribute-object pointers and clears its result's word at
 `+0x0C`, so this output covers `[0x800E9EF8, 0x800E9F08)`. Relative to
-`gDisplayObject_apWorkSlots`, that means slots 2–4 and the separate word `D_800E9F04`.
-The earlier five-slot consumer `func_80018FEC` also clears `D_800E9F04`
+`gDisplayObject_apWorkSlots`, that means slots 2–4 and the terminator word at `+0x14`.
+The earlier five-slot consumer `func_80018FEC` also clears that word
 after filling the pointer slots (retail instruction at `0x8001913C`).
 
 The canonical work-slot count remains **five**, not six.
@@ -19,7 +19,7 @@ consumers and their measured absolute relocations.
 
 The retail resident image, through the existing `bss_image_after_viewport`
 binary-backed section, supplies the storage. Existing absolute linker
-identities cover `gDisplayObject_apWorkSlots`, its interior labels, and `D_800E9F04`.
+identities cover `gDisplayObject_apWorkSlots`, and its interior labels; the terminator word has no separate symbol.
 No new C allocation or linker alias is required. The next mapped label
 after the clear word is `gDuel_abSelectionSides`; this view does not claim that gap.
 
