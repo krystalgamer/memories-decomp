@@ -86,7 +86,6 @@ func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 
 gModel_CameraMove = D_800F2B20;
 gModel_wCameraFollowCountdown = D_800F2B22;
-D_800F2B4A = gModel_wCameraTargetSlot;
 D_8009AFEC = gModel_AnimatedBattleCameraEndpoint;
 D_8009AFFC = gModel_ExodiaOrbitOffset;
 
@@ -103,7 +102,6 @@ func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 
 func_80060E70 = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = D_801A8000;
-D_80090DD8 = gCardList_SortIconTable;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
 gViewState_Current = D_800F2848;
@@ -178,7 +176,6 @@ gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D5800;
 gText_PrimaryStringAddressAnchor = D_801B0000;
 
-D_800E9D70 = gGraphics_aImageTransferRects;
 
 gSaveData_aFirstPlayerNameSjis = D_801D160C;
 gSaveData_aPairWorkspace = D_801D1200;

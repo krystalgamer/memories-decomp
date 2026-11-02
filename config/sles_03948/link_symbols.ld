@@ -69,7 +69,7 @@ gDebugMenu_szCampaignEditorFormat = 0x80092128;
 gDebugMenu_szMapEditorFormat = 0x80092140;
 gDebugMenu_szMenuEditorFormat = 0x8009215C;
 gDebugMenu_szMovieEditorFormat = 0x80092178;
-D_80090DD8 = 0x80092214;
+gCardList_SortIconTable = 0x80092214;
 gBuildDeck_apfnStepHandlers = 0x80092234;
 D_80090E0C = 0x80092248;
 D_80090E64 = 0x80092270;
@@ -445,7 +445,7 @@ D_800F2848 = 0x800F11E0;
 gDisplayObject_awListKeys = 0x800F11D0;
 D_800F2B20 = 0x800F4058;
 D_800F2B22 = 0x800F405A;
-D_800F2B4A = 0x800F4082;
+gModel_wCameraTargetSlot = 0x800F4082;
 gModel_aSlots = 0x800F4178;
 gModel_Slot0MetadataView = 0x800F4E70;
 gModel_aSlot0FlatLights = 0x800F4EE8;
@@ -1038,7 +1038,6 @@ gDebugEffect_szFirstOperandMarker = D_800100A8;
 
 gModel_CameraMove = D_800F2B20;
 gModel_wCameraFollowCountdown = D_800F2B22;
-gModel_wCameraTargetSlot = D_800F2B4A;
 gModel_AnimatedBattleCameraEndpoint = D_8009BF74;
 gModel_ExodiaOrbitOffset = D_8009BF84;
 
@@ -1050,7 +1049,6 @@ func_80059B90 = Model_GetSlot0OffsetWorldPosition;
 
 func_80050B6C = CardList_BuildRowSetTextBoxes;
 gCardList_aRowSets = D_801A8000;
-gCardList_SortIconTable = D_80090DD8;
 
 func_800135FC = ViewState_ApplyAlternateOrbit;
 gViewState_Current = D_800F2848;

@@ -214,7 +214,6 @@ void BuildDeck_SortCardList(CardList *list)
  * list sort code. */
 #define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
-#include "card_type_icon_table.h"
 #include "display_object.h"
 #include "input.h"
 #include "sound.h"
