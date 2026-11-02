@@ -2,6 +2,28 @@
 #define FADE_TRANSITION_STATE_SIZE 0x2A
 
 #include "../../types.h"
+#define FADE_RUNTIME_REGIONAL_STORAGE
+/* This build's own zero-initialized storage at 0x800EAE28-0x800EAE58 (#2602); its
+ * layout differs from the North American block the shared source defines. */
+u8 D_800EAE28_sles_03947[0x30];
+#define FADE_RUNTIME_REGIONAL_SMALL_STORAGE
+/* This build's own zero-initialized storage at 0x8009C098-0x8009C0AC (#2602); its
+ * layout differs from the North American block the shared source defines. */
+u8 gFade_bOrderingTableMode;
+u8 gGraphics_bClearBlue;
+u8 gGraphics_bClearGreen;
+u8 gGraphics_bClearRed;
+u8 gFade_bTargetBlue;
+u8 gFade_bTargetGreen;
+u8 gFade_bTargetRed;
+u8 D_8009C09F_sles_03947;
+s16 gGraphics_sViewportX;
+s16 gGraphics_sViewportY;
+u8 D_8009B140;
+u8 D_8009B145;
+u16 D_8009C0A6_sles_03947;
+u16 D_8009C0A8_sles_03947;
+u16 D_8009C0AA_sles_03947;
 
 /* Europe draws 32 bands over 256 lines. */
 #include "../fade_runtime.c"

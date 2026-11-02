@@ -15,6 +15,7 @@
  * address order ahead of the headers that declare it (#2602). */
 u8 gDebug_szEditorCaretLine[48];
 
+#ifndef DEBUG_MENU_EDITOR_ENTRIES_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B2B0-0x8009B2F8, defined in
  * address order ahead of the headers that declare it (#2602). */
 static u16 D_8009B2B0;
@@ -50,6 +51,29 @@ u8 gDebugMenu_bPage;
 s8 gDebugMenu_bCursor;
 static u16 D_8009B2F2;
 static u32 D_8009B2F4;
+#else
+extern u8 D_8009B2B2;
+extern s8 tent_DebugInterfaceFieldB4[3];
+extern u8 tent_DebugInterfaceFieldB8;
+extern u8 gDebugMenu_bCampaignEditField;
+extern u8 tent_DebugInterfaceFieldC0[3];
+extern u16 gDebug_nLastSoundID[2];
+extern u16 gDebug_nSceneOrSoundID;
+extern u16 gDebug_nEditedBgmId;
+extern u16 gDebug_nEditedCdSoundId;
+extern u16 gDebug_nLastBgmId;
+extern s8 gDebug_bEditorRow;
+extern u16 D_8009B2DE;
+extern u8 tent_DebugInterfaceFieldE0;
+extern struct DisplayObject *gDebugMenu_pCursorQuad;
+extern u8 gDebugMenu_bLastMapId;
+extern s8 gDebug_bEditorDigit;
+extern u8 tent_DebugInterfaceFlags;
+extern u8 gDebugMenu_bStep;
+extern u8 *tent_DebugInterfaceData;
+extern u8 gDebugMenu_bPage;
+extern s8 gDebugMenu_bCursor;
+#endif
 
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"

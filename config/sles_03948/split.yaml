@@ -51,7 +51,7 @@ segments:
     - initial_data
   - - 2116
     - .rodata
-    - game/file_transfer_runtime
+    - game/european/file_transfer_runtime
   - - 2144
     - rodata
     - initial_data_860
@@ -200,7 +200,7 @@ segments:
     - game/european/main_frame
   - - 13496
     - c
-    - game/graphics_frame
+    - game/european/graphics_frame
   - - 14192
     - c
     - game/european/main_services
@@ -218,7 +218,7 @@ segments:
     - game/file_wait_for_transfers
   - - 16308
     - c
-    - game/file_transfer_runtime
+    - game/european/file_transfer_runtime
   - - 22732
     - c
     - game/european/fade_runtime
@@ -437,7 +437,7 @@ segments:
     - game/noop_callbacks
   - - 118596
     - c
-    - game/duel_effect_object_pool
+    - game/european/duel_effect_object_pool
   - - 119564
     - c
     - game/duel_field_card_objects
@@ -482,7 +482,7 @@ segments:
     - game/european/duel_effect_mark_object_if_active
   - - 126544
     - c
-    - game/script_command_busy
+    - game/european/script_command_busy
   - - 126616
     - c
     - game/campaign_create_primary_display_object
@@ -611,7 +611,7 @@ segments:
     - game/hmd_fog_textured_drivers
   - - 156312
     - c
-    - game/sorted_entry_relink
+    - game/european/sorted_entry_relink
   - - 156520
     - c
     - game/text_render_state
@@ -827,7 +827,7 @@ segments:
     - game/save_data_set_mask_seed
   - - 199076
     - c
-    - game/sound_frontend
+    - game/european/sound_frontend
   - - 199504
     - c
     - game/european/display_object_core
@@ -890,7 +890,7 @@ segments:
     - game/sd_drop_queued_cd_play_commands
   - - 226088
     - c
-    - game/sound_output_transition
+    - game/european/sound_output_transition
   - - 226340
     - c
     - game/sd_init_state

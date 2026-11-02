@@ -16,6 +16,7 @@
 #include "../psyq/libspu.h"
 #include "../ygo_types.h"
 
+#ifndef FILE_TRANSFER_RUNTIME_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x800E9E18-0x800E9EC8, defined in
  * address order ahead of the headers that declare it (#2602). */
 FileTransferDescriptor gFile_SecondaryTransferDescriptor;
@@ -50,6 +51,33 @@ s32 gFile_CommandRetryCount;
 u32 D_8009B134;
 s32 gFile_ReadyDataEventCount;
 static s32 D_8009B13C;
+#else
+extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
+extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
+extern s32 gFile_anLba[8];
+extern volatile s32 gFile_ServiceReentryLatch;
+extern u16 gFile_RangeWaitCountdown;
+extern void (*gFile_RangeReadCallback)(void);
+extern volatile u32 D_8009B0F4;
+extern u32 *gFile_ReadySourceCursor;
+extern s32 D_8009B0FC;
+extern volatile u16 gFile_wStepState;
+extern char gFile_TargetLoc[4];
+extern u8 D_8009B108;
+extern void (*gFile_BeforePrimaryRequestCallback)(void);
+extern u8 D_8009B110;
+extern volatile u16 gFile_wTransferStepFlags;
+extern u8 gFile_ReadyEventCount;
+extern s32 D_8009B118;
+extern char gFile_FilterParams[1];
+extern void (*gFile_RangePauseCallback)(void);
+extern volatile u16 gFile_ServiceCallGate;
+extern void (*gFile_SecondaryPayloadCompleteCallback)(void);
+extern s32 D_8009B12C;
+extern s32 gFile_CommandRetryCount;
+extern u32 D_8009B134;
+extern s32 gFile_ReadyDataEventCount;
+#endif
 
 #include "file_transfer.h"
 #include "file_transfer_state.h"

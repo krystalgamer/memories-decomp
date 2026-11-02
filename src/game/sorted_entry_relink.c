@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "sorted_entry.h"
 
+#ifndef SORTED_ENTRY_RELINK_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B304-0x8009B318, defined in
  * address order ahead of the headers that declare it (#2602). */
 SortedEntry *gSortedEntry_pBase;
@@ -8,6 +9,13 @@ u32 gSortedEntry_nSortedCount;
 u32 gModel_dwFogDrawFlags;
 SortedEntry *gSortedEntry_pCursor;
 u32 gSortedEntry_nCount;
+#else
+extern SortedEntry *gSortedEntry_pBase;
+extern u32 gSortedEntry_nSortedCount;
+extern u32 gModel_dwFogDrawFlags;
+extern SortedEntry *gSortedEntry_pCursor;
+extern u32 gSortedEntry_nCount;
+#endif
 
 #include "../psyq/qsort.h"
 

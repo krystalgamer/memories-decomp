@@ -1,5 +1,6 @@
 #include "../types.h"
 
+#ifndef SCRIPT_OP_LOAD_IMAGE_SCENE_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B280-0x8009B2B0, defined in
  * address order ahead of the headers that declare it (#2602). */
 struct DisplayObject *gScript_TransitionObject;
@@ -16,6 +17,21 @@ u16 gScript_SavePromptSceneOperand;
 u16 gScript_ViewportTargetX;
 u16 gScript_ViewportTargetY;
 static u32 D_8009B2AC;
+#else
+extern struct DisplayObject *gScript_TransitionObject;
+extern s32 gScript_ViewportAccumulatorX;
+extern s32 gScript_ViewportAccumulatorY;
+extern u16 gScript_DialogCommandLatch;
+extern u8 *gScript_StreamCursor;
+extern s32 gScript_ViewportDeltaX;
+extern s32 gScript_ViewportDeltaY;
+extern u16 gScript_SharedOperand;
+extern struct DisplayObject *gCampaign_PrimaryDisplayObject;
+extern u16 gScript_EventState;
+extern u16 gScript_SavePromptSceneOperand;
+extern u16 gScript_ViewportTargetX;
+extern u16 gScript_ViewportTargetY;
+#endif
 
 #include "scene_script.h"
 #include "script_command_busy.h"

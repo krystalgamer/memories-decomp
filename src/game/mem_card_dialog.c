@@ -11,15 +11,22 @@
 
 #include "../types.h"
 
+#ifndef MEM_CARD_DIALOG_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x800EF6D0-0x800EFE38, defined in
  * address order ahead of the headers that declare it (#2602). */
 u8 D_800EF6D0[0x4F0];
 u8 gMemCardDialog_DirectoryBuffer[600];
 u8 gMemCardDialog_FileNameBuffer[32];
+#else
+extern u8 D_800EF6D0[0x4F0];
+extern u8 gMemCardDialog_DirectoryBuffer[600];
+extern u8 gMemCardDialog_FileNameBuffer[32];
+#endif
 
 #include "text_box_blocking_build.h"
 #include "mem_card_dialog.h"
 
+#ifndef MEM_CARD_DIALOG_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B3BC-0x8009B400, defined in
  * address order ahead of the headers that declare it (#2602). */
 s32 gMemCardDialog_SyncStatus;
@@ -55,6 +62,37 @@ static u8 D_8009B3F8;
 u8 gMemCardDialog_Port;
 u16 gMemCard_wDialogFlags;
 static u32 D_8009B3FC;
+#else
+extern s32 gMemCardDialog_SyncStatus;
+extern u8 gSaveData_PairMessageCode;
+extern u8 D_8009B3C1;
+extern u16 gMemCardDialog_TransferSize;
+extern u16 gMemCardDialog_TransferOffset;
+extern u8 gMemCardDialog_MessageCode;
+extern u8 gMemCardWork_OperationMode;
+extern s32 gMemCardWork_nRequestResult;
+extern u16 gMemCardWork_wFlags;
+extern u8 gMemCardWork_OperationState;
+extern u8 *gMemCard_pPrimaryTransferCursor;
+extern u8 gSaveData_AllowIdentityBypass;
+extern u8 gMemCardWork_bOperationResult;
+extern DisplayObject *gMemCard_pDialogObject;
+extern u8 gMemCardDialog_BlockCount;
+extern u8 gMemCardWork_bSlotIndex;
+extern u8 gMemCardDialog_StepIndex;
+extern u8 *gMemCard_pSecondaryTransferCursor;
+extern s32 gMemCardWork_nCompletedRequest;
+extern u8 gSaveData_LoadPairState;
+extern u8 gMemCardDialog_OperationState;
+extern u8 gMemCardDialog_RetryCounter;
+extern u8 gSaveData_PairSetupState;
+extern u8 gMemCardDialog_ChannelIndex;
+extern u8 gMemCardDialog_Outcome;
+extern s32 gMemCardDialog_SyncCommand;
+extern s32 gMemCardDialog_SyncResult;
+extern u8 gMemCardDialog_Port;
+extern u16 gMemCard_wDialogFlags;
+#endif
 
 #include "display_object.h"
 #include "display_object_interpolation.h"

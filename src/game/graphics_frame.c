@@ -1,6 +1,7 @@
 #define D_8009B318_IN_DATA
 #include "../types.h"
 
+#ifndef GRAPHICS_FRAME_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B090-0x8009B0E0, defined in
  * address order ahead of the headers that declare it (#2602). The startup,
  * frame and service units sit beside this one in text and declare these
@@ -33,6 +34,29 @@ u8 D_8009B0D1;
 s32 D_8009B0D4;
 s32 D_8009B0D8;
 static u32 D_8009B0DC;
+#else
+extern u16 gGraphics_wFlags;
+extern volatile s32 gMain_dwFrameCounter;
+extern u8 gGraphics_abOrderingTableLengths[4];
+extern s32 D_8009B0A4;
+extern u8 gGraphics_bSkipDisplaySwap;
+extern u8 gGraphics_bActiveBuffer;
+extern u8 gGraphics_bDither;
+extern s32 D_8009B0B0;
+extern struct GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
+extern void (*gMain_pfnExtraFrameService)(void);
+extern s32 D_8009B0BC;
+extern volatile u8 gGraphics_bSyncVBlankTarget;
+extern u8 gGraphics_bExtraFrameStep;
+extern u8 gMain_bVBlankSoundPending;
+extern volatile s32 gSaveData_dwVBlankCounter;
+extern volatile s32 gGraphics_dwSyncVBlankCounter;
+extern volatile s32 gGraphics_dwSyncedFrameCount;
+extern u8 gGraphics_bClearBackground;
+extern u8 D_8009B0D1;
+extern s32 D_8009B0D4;
+extern s32 D_8009B0D8;
+#endif
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -47,6 +71,7 @@ static u32 D_8009B0DC;
 #include "graphics_frame_buffer.h"
 #include "../psyq/setjmp.h"
 
+#ifndef GRAPHICS_FRAME_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B4A8-0x800E9DF0, defined in
  * address order (#2602). graphics_frame.h declares the first three in this
  * order; the rest are first declared here, ahead of ordering_tables.h. The
@@ -62,6 +87,15 @@ GsOT *gGraphics_apOrderingTables[4];
 static u32 D_800E9DA0[4];
 void (*gMain_apFrameServiceCallbacks[4])(void);
 jmp_buf gMain_RecoveryJmpBuf;
+#else
+extern GraphicsFrameBuffer gGraphics_aFrameBuffers[2];
+extern u8 gGraphics_abPacketBuffers[2 * GRAPHICS_PACKET_BUFFER_SIZE];
+extern DISPENV gGraphics_DispEnv;
+extern RECT gGraphics_aImageTransferRects[2];
+extern GsOT *gGraphics_apOrderingTables[4];
+extern void (*gMain_apFrameServiceCallbacks[4])(void);
+extern jmp_buf gMain_RecoveryJmpBuf;
+#endif
 #include "ordering_tables.h"
 #define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
 #include "model_graphics_state.h"

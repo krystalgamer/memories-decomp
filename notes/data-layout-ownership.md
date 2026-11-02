@@ -256,6 +256,40 @@ effect-layout tables, display effects, memory-card dialog steps, the
 display-object stream tables, movie stream ranges and model effects) remain
 in the extracted blob.
 
+Europe (SLES-03947) has the same unit order but its own order of names inside
+many units, so most of its blocks differ. Every compiler emits tentative
+definitions in declaration order, so this is a source difference, not a
+compiler variant. Europe's split folds its zero-initialized data into `main`
+like Japan's, and lists 50 owners from `graphics_frame` (`0x8009BFE8`) to
+`0x800F6BF0`. Three small ranges have no owning unit yet, so they stay
+`bss_image` bins: `0x8009C1EA`, `0x8009C280`-`0x8009C2E8`, and the tail from
+`0x800F6BF0`.
+
+The European wrappers (now including `graphics_frame`, `file_transfer_runtime`,
+`duel_effect_object_pool`, `script_command_busy`, `sorted_entry_relink`,
+`sound_frontend` and `sound_output_transition`, which all five PAL builds
+compile) give each differing block European storage:
+- `.bss` blocks are one `u8` array, as in Japan.
+- `.sbss` blocks reuse the shared source's typed definitions in European
+  address order, with the slots between them as `D_<ADDR>_sles_03947` scalars.
+- A name stays untyped, aliased to its slot, when its type would move it:
+  - when its natural alignment (8 for arrays of 8 bytes or more, which also
+    needs the block itself 8-aligned; 4 for words, pointers and arrays of 4 or
+    more) doesn't hold at the European address;
+  - when a scalar would run into the next name;
+  - when a header the block needs already declares it, because GCC then emits
+    it in the header's order.
+- Typed definitions keep the shared source's defines and includes from ahead
+  of its block, so the declarations that control addressing (such as the
+  `.data` views) still apply.
+- A new `.sbss` guard uses `<UNIT>_REGIONAL_SMALL_STORAGE`, so it stays
+  independent of a `.bss` block another region already guards. A block that
+  is already guarded keeps its existing macro.
+
+The French, German, Italian and Spanish builds share these wrappers. They
+don't own their zero-initialized data yet, so the European storage there is
+discarded and weakened like any other unowned section.
+
 `build_regional_baseline.py` reads each region's `split.yaml`:
 - a compiled unit listed there with a dotted data section keeps that section
   strong and placed, with `.bss` aligned to 8 as in the North American build;

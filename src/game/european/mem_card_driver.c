@@ -1,4 +1,29 @@
 #include "../../types.h"
+#define MEM_CARD_DRIVER_REGIONAL_STORAGE
+/* This build's own zero-initialized storage at 0x800F37F0-0x800F3A88 (#2602); its
+ * layout differs from the North American block the shared source defines. */
+u8 D_800F37F0_sles_03947[0x298];
+#define MEM_CARD_DRIVER_REGIONAL_SMALL_STORAGE
+/* This build's own zero-initialized storage at 0x8009C390-0x8009C3B8 (#2602); its
+ * layout differs from the North American block the shared source defines. */
+u8 gMemCard_bChannel;
+u8 gMemCard_bRetries;
+u16 D_8009C392_sles_03947;
+s32 gMemCard_nDirEntries;
+u8 gMemCard_bLoadStep;
+u8 D_8009C399_sles_03947;
+u16 gMemCard_wRequestOffset;
+volatile s32 gMemCard_nIOResult;
+struct DIRENTRY *gMemCard_pDirEntries;
+s32 gMemCard_pRequestBuf;
+u16 gMemCard_wRequestSize;
+s8 gMemCard_bRequest;
+u8 gMemCard_bDirFlags;
+u8 gMemCard_bTransferRetriesRemaining;
+u8 gMemCard_bRequestStep;
+u16 D_8009C3AE_sles_03947;
+u32 D_8009C3B0_sles_03947;
+s32 gMemCard_nFreeBlocks;
 
 /* SLES-03947 build of src/game/mem_card_driver.c. The US source is included
  * unchanged; config/sles_03947/symbols.txt binds its globals. */

@@ -1,4 +1,29 @@
 #include "../../types.h"
+#define INPUT_PADS_REGIONAL_STORAGE
+/* This build's own zero-initialized storage at 0x800F05D0-0x800F0638 (#2602); its
+ * layout differs from the North American block the shared source defines. */
+u8 D_800F05D0_sles_03947[0x68];
+#define INPUT_PADS_REGIONAL_SMALL_STORAGE
+/* This build's own zero-initialized storage at 0x8009C2E8-0x8009C310 (#2602); its
+ * layout differs from the North American block the shared source defines. */
+u16 gInput_wPad1RepeatBackup;
+u16 gInput_wPad1PressedBackup;
+u32 gInput_dwPendingHeld;
+volatile u16 gInput_wPad1Held;
+volatile u16 gInput_wPad2Held;
+u32 gInput_dwDeferredRepeat;
+u32 gInput_dwDeferredPressed;
+u8 gInput_bRepeatDelay;
+u8 D_8009C2FD_sles_03947;
+u16 gInput_wPad1HeldBackup;
+u32 gInput_dwPreviousHeld;
+u8 gInput_bRepeatInterval;
+u8 D_8009C305_sles_03947;
+u16 D_8009C306_sles_03947;
+u16 gInput_wPad1Repeat;
+u16 gInput_wPad2Repeat;
+volatile u16 gInput_wPad1Pressed;
+volatile u16 gInput_wPad2Pressed;
 
 #define VERSION_EUROPE
 
