@@ -64,9 +64,9 @@ typedef struct {
     u8 alpha[32];
 } Model778State;
 
-extern GsIMAGE D_8013C4C4[];
-extern Model778Config D_8013C518[];
+extern GsIMAGE gModelVariant778_D14C4[];
+extern Model778Config gModelVariant778_D1518[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant778_HandleRequest(u8 *context, s32 command);
 
 #endif

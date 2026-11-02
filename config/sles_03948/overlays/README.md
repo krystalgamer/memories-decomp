@@ -399,11 +399,12 @@ helpers, and the effect palette loads from PAL x = 640.
 
 French MODEL headers 447 (stage 9 slot 0) and 597 (stage 10 slot 1) now also build their entry (`func_8013B004`, 0x10F4 bytes) from the US header-430 source `src/overlays/model_variant/variant430_entry.c` through `src/overlays/french_model_variant/variant447_entry{,_slot1}.c`. `VERSION_FRENCH` selects the palette at VRAM x 640, and the wrappers map the swarm call to 0x8013C0F8 and the GsIMAGE/command tables to their French addresses 8 bytes lower.
 
-Six images under French headers 795 and 892 are the North American
-header-778 entry (`model_variant/variant778_entry.c` and its `_slot1.c`
-wrapper) unchanged: it has no work-size printf, and only the resident call
-targets differ, which `model_variant795_linker_symbols.txt` binds to the French
-addresses.
+Six images under French headers 795 and 892 are the North American header-778
+entry (`ModelVariant778_HandleRequest`, `model_variant/variant778_entry.c`,
+built directly in both slots) unchanged: it has no work-size printf, and only
+the resident call targets differ, which `model_variant795_linker_symbols.txt`
+binds to the French addresses. Each image's symbols file binds
+`gModelVariant778_D14C4` and `gModelVariant778_D1518` at its own addresses.
 
 French MODEL headers 797 (stage 9 slot 0) and 894 (stage 10 slot 1) build the header-780 entry (`ModelVariant780_HandleRequest`) from `src/overlays/model_variant/variant780_entry.c` through `src/overlays/french_model_variant/variant797_entry.c` in both slots. `VERSION_FRENCH` selects the disc CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
 
