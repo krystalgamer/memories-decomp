@@ -520,8 +520,8 @@ French MODEL headers 864 (stage 7 slot 0) and 961 (stage 8 slot 1) build the hea
 Six images under French headers 851 and 948 are the North American header-834
 entry (`model_variant/variant834_entry.c` and its `_slot1.c` wrapper) with its
 ring palette taken from x = 640 instead of 512. `VERSION_FRENCH` selects the
-CLUT through `src/overlays/french_model_variant/variant851_entry{,_slot1}.c`;
-the entry has no work-size printf, so the data labels do not move.
+CLUT through `src/overlays/french_model_variant/variant851_entry.c`;
+the entry has no work-size printf, so the data labels do not move. Each image's symbols file binds `ModelVariant834_HandleRequest` and `gModelVariant834_D2620`, `gModelVariant834_D2674` at its own addresses.
 
 Two images under French headers 856 and 953 are the North American
 header-839 entry (`model_variant/variant839_entry.c`) with its unused CLUT word
