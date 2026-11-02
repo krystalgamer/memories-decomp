@@ -2,9 +2,9 @@
 #include "variant101_entry.h"
 #include "../../game/screen_projection.h"
 
-const VECTOR D_8013BAE4 = {4096, 4096, 4096, 0};
+const VECTOR gFrenchModelVariant101_D0AE4 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant101_HandleRequest(u8 *context, s32 command)
 {
     Model101State *work;
     MATRIX base;
@@ -32,12 +32,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BAE4;
+    scale = gFrenchModelVariant101_D0AE4;
     work = (Model101State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &((Model101Config *)D_8013BB10)[command];
-        work->texture = func_80059A50(Model_GetActiveSlotIndex(), 1, (GsIMAGE *)D_8013BAF4);
+        config = work->config = &((Model101Config *)gFrenchModelVariant101_D0B10)[command];
+        work->texture = func_80059A50(Model_GetActiveSlotIndex(), 1, (GsIMAGE *)gFrenchModelVariant101_D0AF4);
         point = work->positions;
         velocity = work->velocities;
         screen = work->projected;
