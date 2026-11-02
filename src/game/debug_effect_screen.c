@@ -20,7 +20,6 @@
 #include "../unmatched.h"
 #include "duel_screen_tables.h"
 #include "duel_scene_state.h"
-#define D_8009B16C_AS_BYTE_ARRAY
 #include "duel_check_quit_input.h"
 #define D_8009B30C_AS_SIGNED_DATA
 #include "sorted_entry.h"
@@ -37,13 +36,6 @@
 
 /* The default window has axis at 0, coordinates at 2..3, and page at 4.
    The Spanish wrapper preserves its larger gap before the coordinates. */
-/* The byte two past gDuel_wOutcomeFlags in the US build; the European one has its
-   own address (duel_check_quit_input.h). */
-#ifdef VERSION_EUROPE
-#define DEBUG_EFFECT_PAGE_BYTE D_8009B16E
-#else
-#define DEBUG_EFFECT_PAGE_BYTE gDuel_wOutcomeFlags[2]
-#endif
 
 /* Regional value: page 1's card object field_32 (0x16 -> 0x0E). The
    European build defines its own. */
@@ -165,7 +157,7 @@ void DebugEffect_UpdatePreview(void) {
     }
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= 0xC000;
-        DEBUG_EFFECT_PAGE_BYTE = 0;
+        D_8009B16E = 0;
         gDebugEffect_bPage = 0;
         gDebugEffect_bEditedOperand = 0;
         gDebugEffect_abOperands[1] = 0;
@@ -215,7 +207,7 @@ void DebugEffect_UpdatePreview(void) {
     } else if (gInput_wPad1Pressed & DEBUG_EFFECT_PLACE_BUTTON) {
         p = DuelEffect_AllocateRequest(
             gDebugEffect_abOperands[0]);
-        DEBUG_EFFECT_PAGE_BYTE = (DEBUG_EFFECT_PAGE_BYTE + 1) & 7;
+        D_8009B16E = (D_8009B16E + 1) & 7;
         p->phase = gDebugEffect_abOperands[1];
         switch (gDebugEffect_bPage) {
         case 0:

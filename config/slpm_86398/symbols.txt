@@ -1452,6 +1452,7 @@ Duel_CollectFieldCardsByType = 0x80026B2C;
 Duel_SelectEquipPair = 0x80026BDC;
 Duel_SelectTrapPlay = 0x80026E74;
 gDuel_wOutcomeFlags = 0x8009B05C;
+D_8009B16E = 0x8009B05E;
 D_800EAE91 = 0x800EAD71;
 
 DuelEffect_ApplyHarpiesFeatherDuster = 0x80026850;

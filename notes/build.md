@@ -897,35 +897,23 @@ and then centralizing on the size that was correct rather than the largest one
 observed. That reasoning holds only while every consumer wants the same
 addressing form, and the relocations are what say whether it can hold at all.
 
-`gDuel_wOutcomeFlags` is the case where it cannot. The object is eight bytes:
-`gDuel_bSceneSubStep` is the next name. Five files declare it three ways, and four of
-them agree.
+`gDuel_wOutcomeFlags` was once read as the case where it cannot. Five files
+declared it three ways:
 
-| Translation unit | Spelling | Bytes | Relocation |
-| --- | --- | --- | --- |
-| `src/game/duel_scene_update.c` | `extern u16 gDuel_wOutcomeFlags` | 2 | `R_MIPS_GPREL16` |
-| `src/game/duel_init_scene.c` | `extern u16 gDuel_wOutcomeFlags` | 2 | `R_MIPS_GPREL16` |
-| `debug_effect_screen.c` | `extern u8 gDuel_wOutcomeFlags[4]` | 4 | `R_MIPS_GPREL16` |
-| `src/game/main_run_duel_and_library.c` | `extern u16 gDuel_wOutcomeFlags` in `.data` | 2 | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| Translation unit | Spelling | Relocation |
+| --- | --- | --- |
+| `src/game/duel_scene_update.c` | `extern u16 gDuel_wOutcomeFlags` | `R_MIPS_GPREL16` |
+| `src/game/duel_init_scene.c` | `extern u16 gDuel_wOutcomeFlags` | `R_MIPS_GPREL16` |
+| `debug_effect_screen.c` | `extern u8 gDuel_wOutcomeFlags[4]`, byte 2 | `R_MIPS_GPREL16` |
+| `src/game/main_run_duel_and_library.c` | `extern u16 gDuel_wOutcomeFlags` in `.data` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
-The scalar `.data` spelling lets Main_RunDuel describe the accessed halfword
-truthfully while retaining the required absolute relocation.
-
-Both translation units in the disagreement compile at `-G8`, so the profile is
-not what separates them. Main_RunDuel's explicit `.data` placement supplies
-the absolute addressing without inventing an oversized array extent.
-
-The `[4]` is load bearing from the other direction, and this one was written
-down: `func_800222F4`, which is `debug_effect_screen.c`, records "small-data
-sized arrays for `gDuel_wOutcomeFlags` and `D_8009AF2C`" as the discriminator that
-matched it under `gcc_2_8_1_g8_split`.
-
-That leaves no single unqualified declaration to centralize on: the scalar
-users require both small-data and absolute-address forms, while the byte-view
-consumer has a distinct access width. The symbol is a genuine multi-arm case,
-not a cleanup target, and the reads confirm the split is meaningful rather than
-accidental: the `u16` consumers only ever test bits `0x1000` and `0x2000` at
-offset 0, while `debug_effect_screen.c` only ever touches byte 2.
+The byte view was a misreading. The `u16` users only test bits `0x1000` and
+`0x2000` at offset 0, `debug_effect_screen.c` only touches byte 2, and the
+European images place that byte at an unrelated address. It is its own `u8`,
+`D_8009B16E`, which the US and Japanese layouts happen to put right after the
+flags word. The owner in `duel_field_card_render.c` now defines the two
+separately. Main_RunDuel's `.data` arm is still the open part of this
+symbol.
 
 #### Agreeing relocations still need a source-expression check
 
