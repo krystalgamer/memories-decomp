@@ -5,8 +5,8 @@ and `0x1A34` bytes long. No French or Spanish source reproduces it. The entry
 is new North American C in
 [`variant828_entry.c`](../../src/overlays/model_variant/variant828_entry.c),
 built under `gcc_2_8_1_g0_split` like the French entries.
-[`variant828_entry_slot1.c`](../../src/overlays/model_variant/variant828_entry_slot1.c)
-covers the images loaded at `0x8017B000`.
+The images loaded at `0x8017B000` build the same file directly; each image's
+`*_symbols.txt` binds the entry and data names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -45,6 +45,6 @@ and 0 otherwise.
 
 The entry's `.rodata` is the unit scale vector `D_8013CA38`, at `0x1A38`. The
 rest of the image is one raw tail that starts at `0x1A48`. Inside it, the
-layout names the four texture descriptors `D_8013CA48` and the command table
-`D_8013CAB8`. The `0x8017B000` images use the same offsets. The resident
+layout names the four texture descriptors `gModelVariant828_D1A48` and the command table
+`gModelVariant828_D1AB8`. The `0x8017B000` images use the same offsets. The resident
 bindings are in `config/slus_01411/overlays/variant828_linker_symbols.txt`.
