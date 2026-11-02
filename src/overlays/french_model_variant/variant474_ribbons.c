@@ -12,7 +12,7 @@
 #define RIBBONS474_NEXT_SA ribbon->sa[k + 1]
 #endif
 
-void func_8013BE38(u8 *ctx)
+void FrenchModelVariant474_DrawRibbon(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

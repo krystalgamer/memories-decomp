@@ -1,6 +1,6 @@
 # French MODEL474 ribbons helper
 
-`func_8013BE38` / `func_8017BE38` (image offset `0xE38`, 0x900 bytes) is the
+`FrenchModelVariant474_DrawRibbon` (`0x8013BE38` / `0x8017BE38`, image offset `0xE38`, 0x900 bytes) is the
 first helper of the MODEL474 family images: model_variant_121 stage 7 slot 0
 and stage 8 slot 1, and model_variant_431 stage 9 slot 0 and stage 10 slot 1.
 It draws one seventeen-point swaying ribbon from a 0x4AC-byte record at

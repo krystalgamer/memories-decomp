@@ -68,28 +68,28 @@ segments:
     vram: 0x8013C718
     align: 4
     subsegments:
-      - [0x1718, c, overlays/model_variant/variant457_funnels]
+      - [0x1718, c, overlays/french_model_variant/variant474_funnels]
   - name: helper_1db0
     type: code
     start: 0x1DB0
     vram: 0x8013CDB0
     align: 4
     subsegments:
-      - [0x1DB0, c, overlays/model_variant/variant457_mesh]
+      - [0x1DB0, c, overlays/spanish_model_variant/variant474_mesh]
   - name: helper_2208
     type: code
     start: 0x2208
     vram: 0x8013D208
     align: 4
     subsegments:
-      - [0x2208, c, overlays/model_variant/variant457_spiral]
+      - [0x2208, c, overlays/spanish_model_variant/variant474_spiral]
   - name: helper_2b6c
     type: code
     start: 0x2B6C
     vram: 0x8013DB6C
     align: 4
     subsegments:
-      - [0x2B6C, c, overlays/model_variant/variant457_sheets]
+      - [0x2B6C, c, overlays/spanish_model_variant/variant474_sheets]
   - name: helper_3068
     type: code
     start: 0x3068

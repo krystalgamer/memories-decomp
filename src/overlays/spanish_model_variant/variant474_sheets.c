@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant474_sheets.h"
 
-void func_8013DBD8(u8 *context)
+void SpanishModelVariant474_DrawOffsetSheets(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

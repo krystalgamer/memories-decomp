@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant474_mesh.h"
 
-void func_8013CDC0(u8 *context)
+void SpanishModelVariant474_DrawGouraudMesh(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
