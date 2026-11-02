@@ -1,7 +1,8 @@
 # Spanish MODEL479 offset sheets
 
 Independently recover the 1,292-byte helper at image `+0x2B90..+0x309C`,
-`func_8013DB90` / `func_8017DB90`, with named `gcc_2_8_1_g0_split`
+`SpanishModelVariant479_DrawSheets` (formerly `func_8013DB90` / `func_8017DB90`),
+with named `gcc_2_8_1_g0_split`
 (GCC 2.8.1 / MASPSX 2.81). A fresh scan of 5,837 accepted regional C
 registrations found no same-size candidate. This is new decompilation, not
 a regional port.

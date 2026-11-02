@@ -3,8 +3,9 @@
 Helper `+0x1F68..+0x2B90` is matching C. It is 3,112 bytes in both
 header-479/629 MODEL loads (MODEL379, stages 7/8) of the Spanish release and in
 the same two French images, which carry the identical body at the same offsets.
-`variant479_ribs.c` is compiled once per slot with `gcc_2_8_1_g0_split`; the
-slot-1 wrapper only renames `func_8013CF68` to `func_8017CF68`. This is a new
+`variant479_ribs.c` is compiled once per slot with `gcc_2_8_1_g0_split`; each
+image's symbols file binds `SpanishModelVariant479_DrawRibs` (formerly
+`func_8013CF68`/`func_8017CF68`) at its own address. This is a new
 decompilation; no region had accepted C for it.
 
 ## Behaviour
