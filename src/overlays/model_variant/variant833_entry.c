@@ -9,11 +9,11 @@
  * of stretching blades and a growing sixteen-segment shock ring while the
  * ambient light dims and recovers and the camera cuts between cues. */
 
-static const VECTOR D_8013FBB4 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant833_D4BB4 = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
 {
     Model833State *work;
     MATRIX light;
@@ -45,7 +45,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013FBB4;
+    scale = gModelVariant833_D4BB4;
     work = (Model833State *)context;
     /* The packets are reached through pointers set up front, which keeps
      * their addresses in the registers and spill slots the image uses. */
@@ -56,7 +56,7 @@ s32 func_8013B004(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013FD14[command];
+        work->config = &gModelVariant833_D4D14[command];
         for (i = 0; i < work->config->count; i++) {
             work->growth[i] = 0;
             work->unknown_2BB6[i] = 0;
@@ -150,13 +150,13 @@ s32 func_8013B004(u8 *context, s32 command)
 #else
         work->clut = 0x3D20;
 #endif
-        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013FBC4[0]);
-        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013FBC4[1]);
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant833_D4BC4[0]);
+        work->texture[1] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant833_D4BC4[1]);
         for (i = 2; i < 10; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013FBC4[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant833_D4BC4[i]);
         }
-        work->texture[10] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &D_8013FCDC[0]);
-        work->texture[11] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013FCDC[0]);
+        work->texture[10] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gModelVariant833_D4CDC[0]);
+        work->texture[11] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant833_D4CDC[0]);
         work->ambient = 0x800;
         work->launched = 0;
         work->phase = 0;

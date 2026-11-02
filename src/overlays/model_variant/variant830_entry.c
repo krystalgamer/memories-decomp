@@ -8,9 +8,9 @@
  * The colours fade every frame, and the entry ends once the light has come
  * back and the last spark has burnt out. */
 
-static const VECTOR D_8013DBF8 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant830_D2BF8 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant830_HandleRequest(u8 *context, s32 command)
 {
     Model830State *work;
     MATRIX light, matrix;
@@ -30,12 +30,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013DBF8;
+    scale = gModelVariant830_D2BF8;
     work = (Model830State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013DC78[command];
+        work->config = &gModelVariant830_D2C78[command];
         for (j = 0; j < 64; j++) {
             setVector(&work->sparks[j], work->config->spark_spread * ((rand() - rand()) % 4096) / 4096,
                 -(work->config->spark_spread / 2) * (rand() % 4096) / 4096,
@@ -64,7 +64,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 work->config->debris_speed * ((rand() - rand()) % 4096) / 4096);
         }
         for (j = 0; j < 4; j++) {
-            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013DC08[j]);
+            work->texture[j] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant830_D2C08[j]);
         }
         work->glow.r = 255;
         work->glow.g = 255;

@@ -1,4 +1,4 @@
 // MODEL.MRG model 418 (record 418), sector 101768, header 844, loaded at 0x8013B000; the US source variant844_entry.c.
-func_8013B004 = 0x8013B004; // type:func size:0x25C4 defined:true
-D_8013D5D8 = 0x8013D5D8; // type:u8 size:0x54 defined:true
-D_8013D62C = 0x8013D62C; // type:u8 size:0x29D4 defined:true
+ModelVariant844_HandleRequest = 0x8013B004; // type:func size:0x25C4 defined:true
+gModelVariant844_D25D8 = 0x8013D5D8; // type:u8 size:0x54 defined:true
+gModelVariant844_D262C = 0x8013D62C; // type:u8 size:0x29D4 defined:true

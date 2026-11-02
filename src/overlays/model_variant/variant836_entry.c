@@ -8,9 +8,9 @@
  * sparks. The ambient light dims while the orbs fly and recovers once they
  * are gone. */
 
-static const VECTOR D_8013CAC0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant836_D1AC0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant836_HandleRequest(u8 *context, s32 command)
 {
     Model836State *work;
     MATRIX light;
@@ -38,14 +38,14 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013CAC0;
+    scale = gModelVariant836_D1AC0;
     work = (Model836State *)context;
     poly = &ft4;
     gouraud = &g4;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013CB08[command];
+        work->config = &gModelVariant836_D1B08[command];
         for (j = 0; j < 2; j++) {
             for (i = 0; i < 40; i++) {
                 setVector(&work->pos[i][j], 0, 0, 0);
@@ -75,7 +75,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013CAD0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant836_D1AD0[i]);
         }
         work->burst_tpage = 0xAE;
 #ifdef VERSION_FRENCH

@@ -120,9 +120,9 @@ typedef struct {
     u8 flare[4][4];
 } Model832State;
 
-extern GsIMAGE D_8013FD4C[12];
-extern Model832Config D_8013FE9C[];
+extern GsIMAGE gModelVariant832_D4D4C[12];
+extern Model832Config gModelVariant832_D4E9C[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant832_HandleRequest(u8 *context, s32 command);
 
 #endif

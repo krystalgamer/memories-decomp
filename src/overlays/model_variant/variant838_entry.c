@@ -9,9 +9,9 @@
  * streaks and expanding sparks, flashes the screen, and sends a textured shock
  * ring out from the launch point while the ambient light dims and recovers. */
 
-static const VECTOR D_8013E220 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant838_D3220 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
 {
     Model838State *work;
     MATRIX base, matrix;
@@ -34,7 +34,7 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013E220;
+    scale = gModelVariant838_D3220;
     work = (Model838State *)context;
     fan = &fan_packet;
     quad = &quad_packet;
@@ -43,9 +43,9 @@ s32 func_8013B004(u8 *context, s32 command)
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013E284[command];
+        work->config = &gModelVariant838_D3284[command];
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013E230[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant838_D3230[i]);
         }
         work->glow_tpage = 0xAE;
 #ifdef VERSION_FRENCH

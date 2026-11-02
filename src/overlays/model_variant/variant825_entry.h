@@ -114,9 +114,9 @@ typedef struct {
     u8 ray_b[10];
 } Model825State;
 
-extern GsIMAGE D_8013ED0C[];
-extern Model825Config D_8013ED98[];
+extern GsIMAGE gModelVariant825_D3D0C[];
+extern Model825Config gModelVariant825_D3D98[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant825_HandleRequest(u8 *context, s32 command);
 
 #endif
