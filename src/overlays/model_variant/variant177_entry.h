@@ -37,9 +37,9 @@ typedef struct {
     u8 command_group, completed, unknown_18A[2];
 } Model177State;
 
-extern GsIMAGE D_8013C510[];
-extern Model177Config D_8013C548[];
+extern GsIMAGE gModelVariant177_D1510[];
+extern Model177Config gModelVariant177_D1548[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant177_HandleRequest(u8 *context, s32 command);
 
 #endif
