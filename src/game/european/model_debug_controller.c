@@ -1,7 +1,9 @@
 #include "../../types.h"
 
+/* The European executable keeps a different object (libpress data) at
+ * 0x8009B004 under the splat name D_8009B004, so this unit's debug-state word,
+ * which no semantic name covers yet, keeps the splat name of its own
+ * address. */
 #define D_8009B004 D_8009BF8C
-#define D_8009B0F4_abs D_8009B0F4
-#define D_8009B134_abs D_8009B134
 
 #include "../model_debug_controller.c"
