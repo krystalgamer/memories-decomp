@@ -1,8 +1,8 @@
-func_8017B004 = 0x8017B004; // type:func size:0x1590
-D_8017C594 = 0x8017C594; // type:u32 size:0x10 defined:true
+FrenchModelVariant199_HandleRequest = 0x8017B004; // type:func size:0x1590
+gFrenchModelVariant199_D1594 = 0x8017C594; // type:u32 size:0x10 defined:true
 D_8017B000 = 0x8017B000; // type:u8 size:0x4 defined:true
-D_8017C5A4 = 0x8017C5A4; // type:u8 size:0x8C defined:true
-D_8017C630 = 0x8017C630; // type:u8 size:0x39D0 defined:true
+gFrenchModelVariant199_D15A4 = 0x8017C5A4; // type:u8 size:0x8C defined:true
+gFrenchModelVariant199_D1630 = 0x8017C630; // type:u8 size:0x39D0 defined:true
 GsSetLsMatrix = 0x80085558; // type:func absolute:true
 GsSortPoly = 0x800842A8; // type:func absolute:true
 Model_CopySlotPosition = 0x8005C0B8; // type:func absolute:true
