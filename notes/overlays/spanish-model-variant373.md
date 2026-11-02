@@ -8,7 +8,7 @@ basis for assuming portability.
 
 ## Independently verified ownership
 
-Twelve unchanged canonical sources and slot wrappers in
+Unchanged canonical sources in
 `src/overlays/french_model_variant/variant373_*.c` are selected under
 `gcc_2_8_1_g0_split` (GCC2.8.1/MASPSX2.81).
 

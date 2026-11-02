@@ -29,5 +29,5 @@ typedef struct {
     s32 phase;
 } Family373PointView;
 
-void func_8013CEE4(u8 *context);
+void FrenchModelVariant373_DrawPoints(u8 *context);
 #endif

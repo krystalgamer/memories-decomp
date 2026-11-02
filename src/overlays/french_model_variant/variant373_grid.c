@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant373_grid.h"
 
-void func_8013C76C(u8 *context)
+void FrenchModelVariant373_DrawGrid(u8 *context)
 {
     Family373GridView *work = (Family373GridView *)context;
     SVECTOR rotation;

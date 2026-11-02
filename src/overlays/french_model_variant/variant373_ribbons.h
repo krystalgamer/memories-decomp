@@ -64,5 +64,5 @@ typedef struct {
     s16 mode;
 } Family373RibbonView;
 
-void func_8013D784(u8 *context);
+void FrenchModelVariant373_DrawRibbons(u8 *context);
 #endif
