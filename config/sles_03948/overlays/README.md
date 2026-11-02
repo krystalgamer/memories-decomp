@@ -348,8 +348,8 @@ has no work-size printf, so the data labels do not move.
 Twelve images under French headers 649 and 716 are the North American
 header-632 entry (`model_variant/variant632_entry.c`) without its `E_DATA`
 work-size printf, built through
-`src/overlays/french_model_variant/variant649_entry{,_slot1}.c` with the data
-labels 0x28 lower.
+`src/overlays/french_model_variant/variant649_entry.c` with the data
+labels 0x28 lower. Each image's symbols file binds `ModelVariant632_HandleRequest` and `gModelVariant632_D1FB0`, `gModelVariant632_D1FE8` at its own addresses.
 
 Two images under French headers 428 and 578 build their loader entry from the
 North American header-411 entry (`model_variant/variant411us_entry.c`, which
