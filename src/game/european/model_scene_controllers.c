@@ -45,8 +45,6 @@ u32 D_8009C414_sles_03947;
  * (config/sles_03947/symbols.txt has the addresses). */
 #define VERSION_EUROPE
 #define gModel_apfnEffectHandlers D_80011414
-#define D_8009AFEC D_8009BF74
-#define D_8009AFFC D_8009BF84
 #define D_8009B0F4_abs D_8009B0F4
 #define D_8009B134_abs D_8009B134
 #define D_8009B004 D_8009BF8C

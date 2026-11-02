@@ -362,9 +362,9 @@ gModel_bBlendRateActive = 0x8009C375;
 D_8009BF6E = 0x8009C376;
 D_8009BF70 = 0x8009C378;
 gModel_bPresentationTimer = 0x8009C379;
-D_8009BF74 = 0x8009C37C;
+gModel_AnimatedBattleCameraEndpoint = 0x8009C37C;
 gModel_szWhyTrace = 0x8009C384;
-D_8009BF84 = 0x8009C38C;
+gModel_ExodiaOrbitOffset = 0x8009C38C;
 gModelDebug_Display = 0x8009C398;
 gModelDebug_szNormalColor = 0x8009C39C;
 gModelDebug_szSelectedColor = 0x8009C3A4;
@@ -1038,8 +1038,6 @@ gDebugEffect_szFirstOperandMarker = D_800100A8;
 
 gModel_CameraMove = D_800F2B20;
 gModel_wCameraFollowCountdown = D_800F2B22;
-gModel_AnimatedBattleCameraEndpoint = D_8009BF74;
-gModel_ExodiaOrbitOffset = D_8009BF84;
 
 gGraphics_FrameStepControl = D_8009AFA4;
 gGraphics_nBaseFrameStep = D_8009B0D8;

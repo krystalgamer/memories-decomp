@@ -25,26 +25,12 @@ extern u8 gModel_bBlendRateActive;
 extern u16 gModel_wDrawTintRedGreen;
 extern u8 gModel_bDrawTintBlue;
 extern u8 gModel_bPresentationTimer;
-/* The mode 15 controller copies this view offset through a split absolute
- * address; its unknown-bound view changes no storage extent. */
-#ifdef MODEL_HANDLER_VIEW_OFFSET_ABSOLUTE
-extern u32 D_8009AFEC[];
-#else
-extern u32 D_8009AFEC[2];
-#endif
 /* The control dispatcher needs split absolute addresses for these calls.
  * Its unknown-bound view changes no storage extent. */
 #ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 extern char gModel_szWhyTrace[];
 #else
 extern char gModel_szWhyTrace[8];
-#endif
-/* The unknown-bound view selects the intro controller's split absolute
- * addressing; the definition remains the same two .sdata words. */
-#ifdef MODEL_HANDLER_OFFSET_ABSOLUTE
-extern u32 D_8009AFFC[];
-#else
-extern u32 D_8009AFFC[2];
 #endif
 typedef union {
     u32 word;

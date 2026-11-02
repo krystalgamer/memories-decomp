@@ -75,9 +75,7 @@ func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 gModel_CameraMove = D_800F2B20;
 gModel_wCameraFollowCountdown = D_800F2B22;
 gModel_wCameraTargetSlot = 0x800F03E8;
-gModel_AnimatedBattleCameraEndpoint = D_8009AFEC;
 gModel_ExodiaOrbitOffset = 0x8009AF5C;
-D_8009AFFC = 0x8009AF5C;
 
 gGraphics_FrameStepControl = 0x8009AF0B;
 gGraphics_nBaseFrameStep = 0x8009AFC8;

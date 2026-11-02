@@ -123,9 +123,7 @@ func_80061A84 = Model_DrawGt4Primitives;
 gModel_CameraMove = D_800F2B20;
 gModel_wCameraFollowCountdown = D_800F2B22;
 gModel_AnimatedBattleCameraEndpoint = 0x8009BF74;
-D_8009BF74 = gModel_AnimatedBattleCameraEndpoint;
 gModel_ExodiaOrbitOffset = 0x8009BF84;
-D_8009BF84 = gModel_ExodiaOrbitOffset;
 
 gGraphics_FrameStepControl = D_8009AFA4;
 gGraphics_nBaseFrameStep = D_8009B0D8;

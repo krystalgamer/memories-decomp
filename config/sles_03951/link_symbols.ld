@@ -872,10 +872,10 @@ gSD_SeBankVolInfoTag = 0x801E27F8;
 gSD_SmfBankVolInfoTag = 0x801E8FF8;
 func_800899A4 = 0x80089BA8;
 D_80011414 = 0x80011414;
-D_8009BF74 = 0x8009C37C;
+gModel_AnimatedBattleCameraEndpoint = 0x8009C37C;
 gModel_bPresentationTimer = 0x8009C379;
 gModel_szWhyTrace = 0x8009C384;
-D_8009BF84 = 0x8009C38C;
+gModel_ExodiaOrbitOffset = 0x8009C38C;
 gModel_Slot0VariantModuleAddress = 0x80010014;
 gModel_Slot1VariantModuleAddress = 0x80010018;
 gModel_CreditsModuleAddress = 0x80010030;
@@ -1038,8 +1038,6 @@ gDebugEffect_szFirstOperandMarker = D_800100A8;
 
 gModel_CameraMove = D_800F2B20;
 gModel_wCameraFollowCountdown = D_800F2B22;
-gModel_AnimatedBattleCameraEndpoint = D_8009BF74;
-gModel_ExodiaOrbitOffset = D_8009BF84;
 
 gGraphics_FrameStepControl = D_8009AFA4;
 gGraphics_nBaseFrameStep = D_8009B0D8;
