@@ -25,7 +25,6 @@
  * - The bank reads take the deck base through a pointer so the 0x36BC
  *   member offset stays in the load displacement.
  */
-#define D_8009B_DISPLAY_OBJECTS_VISIBLE
 #define D_8009B300_IN_DATA
 #define D_8009B360_AS_SIDE_ARRAY
 #define D_800EAE91_AS_ARRAY

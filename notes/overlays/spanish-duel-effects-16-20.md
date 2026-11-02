@@ -39,7 +39,7 @@ For this naming change, the complete three-object and NA resident/bank
 receipts are recorded alongside [card breakup](spanish-duel-effect-11.md).
 The semantic include follows the existing private headers: putting it first
 caused effect 11's earlier `unmatched.h` inclusion to suppress effect 16's
-existing `D_8009B264_VISIBLE`-selected active-request declaration. Preserving
+then-guarded active-request declaration (the guard has since been removed). Preserving
 the original private include order fixes that compile failure without a
 new declaration, private-header edit or compiler flag.
 
