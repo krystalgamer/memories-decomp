@@ -178,8 +178,8 @@ Matching, attempt-ledger updates, and integration remain sequential.
   forms such as `SD_...` and `g_SDValue`.
 - Record semantic renames with the original address, evidence, confidence, and
   caveats in `notes/semantic-symbol-map.csv`. Per-family MODEL rows
-  (`overlay/*` rows named `g?(French|Spanish)?ModelVariant<N>_...`) go in
-  `notes/semantic-symbol-map.d/<prefix>-<N>.csv` instead; readers treat the main CSV plus every `*.csv` in that directory as one map. Do not
+  (`overlay/*` rows named `g?(French|Spanish)?ModelVariant<N>(Us)?_...`) go in
+  `notes/semantic-symbol-map.d/<prefix>-<N>[us].csv` instead; readers treat the main CSV plus every `*.csv` in that directory as one map. Do not
   add to or edit `notes/overlays/model-variants.md` for a family change: each
   image's `*_symbols.txt` and `*_functions.csv` record its bindings. Only
   confirmed or high-confidence names replace address-based symbols.

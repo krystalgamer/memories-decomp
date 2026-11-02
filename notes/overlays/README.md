@@ -88,8 +88,8 @@ reinterpreting old compiler measurements as behavior guarantees.
 
 Record an accepted overlay function name in
 `notes/semantic-symbol-map.csv` with kind `overlay/<module>/function`.
-Per-family MODEL variant rows (`ModelVariant<N>_`, `FrenchModelVariant<N>_`,
-`SpanishModelVariant<N>_`) go in that family's file under
+Per-family MODEL variant rows (`ModelVariant<N>_`, `ModelVariant<N>Us_`,
+`FrenchModelVariant<N>_`, `SpanishModelVariant<N>_`) go in that family's file under
 [`notes/semantic-symbol-map.d/`](../semantic-symbol-map.d/) instead,
 so concurrent family changes never append to the shared map.
 The resident naming tool validates the record against that module's
