@@ -19,25 +19,7 @@
  * declaration. */
 extern s8 gDuel_bSide0ControllerSelector[DUEL_SIDE_COUNT] __attribute__((section(".data")));
 
-#ifdef D_800EAE8F_IS_ARRAY
-extern u8 gAi_bGuardianStarChoice[];
-#else
-extern u8 gAi_bGuardianStarChoice;
-#endif
-
 extern u8 gAi_bHandFaceDownRequested;
-
-#ifdef D_800EAE91_AS_ARRAY
-extern u8 gAi_bFieldSourceCode[];
-#else
-extern u8 gAi_bFieldSourceCode;
-#endif
-
-#ifdef D_800EAE92_AS_ARRAY
-extern u8 gAi_bFieldTargetCode[];
-#else
-extern u8 gAi_bFieldTargetCode;
-#endif
 
 void AiScript_SetHandFaceDownRequest(void);
 void AiScript_ClearHandFaceDownRequest(void);

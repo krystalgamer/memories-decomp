@@ -26,8 +26,6 @@
  *   member offset stays in the load displacement.
  */
 #define D_8009B300_IN_DATA
-#define D_800EAE91_AS_ARRAY
-#define D_800EAE92_AS_ARRAY
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define GDUEL_BCARDVIEWERYOFFSET_IN_DATA
 #define GDUEL_BEFFECTSTATE_IN_DATA
@@ -202,7 +200,7 @@ void DuelScene_UpdateFieldActions(void)
             return;
         case 1:
             if (!(flags & 0x8000)) {
-                a = gAi_bFieldSourceCode[0];
+                a = gAi_Selection.bytes[9];
                 gDuel_wActionSubstate = flags | 0x8000;
                 gDuelCursor_Direction = -1;
                 gDuelCursor_TargetRow = 2;
@@ -418,7 +416,7 @@ void DuelScene_UpdateFieldActions(void)
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0x80;
             gDuel_bAnimatedBattleRequested = 0;
-            a = gAi_bFieldTargetCode[0];
+            a = gAi_Selection.bytes[10];
             if (a < 0x38) {
                 if (a >= 6) {
                     gDuelCursor_TargetColumn = a - 6;

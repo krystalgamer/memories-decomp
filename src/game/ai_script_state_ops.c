@@ -212,7 +212,7 @@ void AiScript_Add(void)
 
 void AiScript_LoadGuardianStarChoice(void)
 {
-    gAi_bGuardianStarChoice = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
+    gAi_Selection.fields.zero = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
 }
 
 void AiScript_Print(void)

@@ -305,7 +305,7 @@ void AiScript_PlayFieldCard(void)
             gAi_Selection.fields.field_0A = (s8)first;
             return;
         }
-        gAi_bFieldTargetCode = 0;
+        gAi_Selection.fields.field_0A = 0;
         return;
     }
 

@@ -23,14 +23,9 @@ typedef char AiOpponentData_size_must_be_9[
 
 extern AiOpponentData gDuel_aOpponentData[AI_OPPONENT_COUNT];
 
-/* The signed opponent selector is loaded absolutely. The array spellings are
- * codegen views used by G8 duel units; every consumer reads only element 0. */
-#ifdef GDUEL_BOPPONENTID_AS_SIZED_ARRAY
-extern s8 gDuel_bOpponentID[AI_OPPONENT_DATA_FIELD_COUNT];
-#elif defined(GDUEL_BOPPONENTID_AS_ARRAY)
-extern s8 gDuel_bOpponentID[];
-#else
+/* The signed opponent selector, element 1 of gDuel_bSide0ControllerSelector
+ * (ai_controller_handoff.h). Every retail access is absolute, so every unit
+ * takes this one .data declaration. */
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
-#endif
 
 #endif

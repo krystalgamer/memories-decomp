@@ -1,4 +1,3 @@
-#define D_800EAE8F_IS_ARRAY
 #define GDIALOG_CHOICE_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA
@@ -86,7 +85,7 @@ void DuelScene_UpdateCardMove(void)
         if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0 &&
             object->field_68 < 0x14) {
             gDuel_aCardRecords[object->field_6A].flags &= ~0x200;
-            if (gAi_bGuardianStarChoice[0] & 1) {
+            if (gAi_Selection.bytes[7] & 1) {
                 gDuel_aCardRecords[object->field_6A].flags |= 0x200;
             }
             goto state_four;

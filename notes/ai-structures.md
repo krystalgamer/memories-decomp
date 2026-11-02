@@ -302,11 +302,11 @@ indices or change the five-entry material scan into a twelve-entry scan.
 Interior address aliases are deliberate exceptions, not separate state.
 `tent_AiSelectionRandom` remains a standalone scalar for the three opcode
 accesses whose small-data relocation depends on that symbol.
-`D_800EAE8E`, `D_800EAE8F`, `D_800EAE91` and `D_800EAE92` likewise retain
-their existing declarations and use sites. In particular, the scene handlers
-keep base-symbol-plus-offset byte reads, and the field opcode keeps its
-standalone `D_800EAE92 = 0` store. Unifying the backing object's type does
-not force those independently matched accesses through a field lvalue.
+Bytes 7, 9 and 10 (`D_800EAE8F`, `D_800EAE91`, `D_800EAE92`) have no
+separate C names: the guardian-star load and the field opcode write them as
+`fields.zero`, `fields.field_09` and `fields.field_0A`, and the scene handlers
+read them as `bytes[7]`, `bytes[9]` and `bytes[10]`. Those accesses are not
+small data, so the base-plus-offset relocation links to the same bytes.
 
 Compile-time contracts assert the union and field-record sizes and every
 live field offset. All eleven affected complete compiler/MASPSX units
