@@ -36,7 +36,7 @@ s32 FrenchModelVariant199_HandleRequest(u8 *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         config = work->config = &gFrenchModelVariant199_D1630[command];
-        func_80057E20(Model_GetActiveSlotIndex() ^ 1, &adjustment);
+        Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex() ^ 1, &adjustment);
         point = work->rays;
         for (i = 128; i > 0; point++, i--) {
             value = rand() % 4096;

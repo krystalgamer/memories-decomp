@@ -40,11 +40,6 @@ static u32 D_8009B0DC;
 #include "../psyq/sdk_internal.h"
 #define D_8009B142_IN_DATA
 #define D_8009B0C0_IS_VOLATILE
-/* Keep the frozen declaration position for common emission order. */
-#ifdef D_8009B0A8
-#undef D_8009B0A8
-#endif
-#define D_8009B0A8 gGraphics_bSkipDisplaySwap
 #include "graphics_frame.h"
 #define D_8009B141_IN_DATA
 #include "fade.h"

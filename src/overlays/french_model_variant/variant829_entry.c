@@ -29,7 +29,7 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
     direction = slot * 2 - 1;
     if (command >= 0) {
         work->config = &gFrenchModelVariant829_D1008[command];
-        func_80057E20(slot ^ 1, &position.adjustment);
+        Model_GetSlotDimensionsWithMinimums(slot ^ 1, &position.adjustment);
         for (i = 0; i < 4; i++) {
             s32 sample;
 

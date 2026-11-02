@@ -323,7 +323,7 @@ void CampaignMap_SetLocation(s32 index)
     SetFarColor(0, 0, 0);
     SetFogNearFar(6000, 8000, D_800F2848.projection);
     gMain_apFrameServiceCallbacks[3] = CampaignMap_UpdateView;
-    func_80035668(0);
+    Model_SetFogDrawFlags(0);
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 96, 24, 0, 0, 0, 23, 256, D_801AF000);
     ((DisplayObject *)obj)->flags =

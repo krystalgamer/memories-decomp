@@ -6,7 +6,4 @@
 
 void Model_GetSlotDimensionsWithMinimums(s32 index, ModelEffectAdjustment *out);
 
-/* Preserve the frozen French variant199/829 source spelling. */
-#define func_80057E20 Model_GetSlotDimensionsWithMinimums
-
 #endif
