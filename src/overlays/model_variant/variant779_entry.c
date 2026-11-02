@@ -8,9 +8,9 @@
  * spark or flare that grows and fades out. The first trail's fade clears the
  * green channel when the red one is spent, as retail does. */
 
-static const VECTOR D_8013D0E0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant779_D20E0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant779_HandleRequest(u8 *context, s32 command)
 {
     Model779State *work;
     MATRIX base, matrix;
@@ -33,13 +33,13 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D0E0;
+    scale = gModelVariant779_D20E0;
     work = (Model779State *)context;
     packet = &star;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013D144[command];
+        work->config = &gModelVariant779_D2144[command];
         point = work->trail[0];
         other = work->trail[1];
         third = work->trail[2];
@@ -88,7 +88,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->burst_clut = 0x3D20;
 #endif
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D0F0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant779_D20F0[i]);
         }
         work->spark_counts[0] = 0;
         work->spark_counts[1] = 0;
