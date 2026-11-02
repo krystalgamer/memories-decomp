@@ -70,7 +70,7 @@ segments:
     vram: 0x8013C704
     align: 4
     subsegments:
-      - [0x1704, c, overlays/french_model_variant/variant393_rings]
+      - [0x1704, c, overlays/model_variant/variant376_rings]
   - name: streamers
     type: code
     start: 0x1B8C
