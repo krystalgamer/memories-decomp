@@ -328,9 +328,10 @@ the data labels 0x28 lower.
 Two images under French headers 688 and 755 are the North American
 header-671 entry (`model_variant/variant671_entry.c`) without its `E_DATA`
 work-size printf, whose format string stays in North American data because of
-its nonzero pad byte. They build through
-`src/overlays/french_model_variant/variant688_entry{,_slot1}.c`, with the image
-and command tables 0x28 lower.
+its nonzero pad byte. Both slots build through
+`src/overlays/french_model_variant/variant688_entry.c`. The image and command
+tables sit 0x28 lower; each image's symbols file binds their shared names at
+its own addresses.
 
 Eight images under French headers 126 and 256 are the North American
 header-109 entry (`model_variant/variant109_entry.c` and its `_slot1.c`
@@ -491,7 +492,7 @@ French MODEL headers 186 (stage 7 slot 0, models 197 and 600) and 316 (stage 8 s
 
 French MODEL headers 174 (stage 7/9 slot 0, models 51 and 212) and 304 (stage 8/10 slot 1) build the North American header-157 entry (`func_8013B004`) from `src/overlays/model_variant/variant157_entry.c` through `src/overlays/french_model_variant/variant174_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf`, so the scale vector, the image table and the configuration rows sit lower, at `D_8013C448`, `D_8013C458` and `D_8013C51C`.
 
-French MODEL headers 170 (stage 7 slot 0) and 300 (stage 8 slot 1) build the North American header-153 entry (`func_8013B004`) from `src/overlays/model_variant/variant153us_entry.c` through `src/overlays/french_model_variant/variant170_entry{,_slot1}.c`. The wrappers select `VERSION_FRENCH`, which drops the work-size `printf`, and the PAL screen height. The shorter text moves the scale vector down by 0x14, to `D_8013C428`, and the image view and the configuration rows down by 0x24, to `D_8013C438` and `D_8013C454`.
+French MODEL headers 170 (stage 7 slot 0) and 300 (stage 8 slot 1) build the North American header-153 entry (`ModelVariant153Us_HandleRequest`) from `src/overlays/model_variant/variant153us_entry.c` through `src/overlays/french_model_variant/variant170_entry.c` in both slots. The wrapper selects `VERSION_FRENCH`, which drops the work-size `printf`, and the PAL screen height. The shorter text moves the scale vector down by 0x14, to `0x8013C428`, and the image view and the configuration rows down by 0x24, to `0x8013C438` and `0x8013C454`; each image's symbols file binds `gModelVariant153Us_D145C` and `gModelVariant153Us_D1478` at its own addresses.
 
 French MODEL headers 168 (stage 7 slot 0, models 105 and 143) and 298 (stage 8 slot 1) build the header-151 entry (`func_8013B004`) from `src/overlays/model_variant/variant151_entry.c` through `src/overlays/french_model_variant/variant168_entry{,_slot1}.c`. The wrappers select `VERSION_FRENCH`, which drops the work-size `printf`, and the PAL screen height. The shorter text moves the scale vector to 0xF5C, so the wrapper renames it through the source's `MODEL151_SCALE` selector and moves the image table and configuration rows down by 0x24 to `D_8013BF6C` and `D_8013BFA4`.
 
@@ -895,9 +896,11 @@ and bind `model_variant699_linker_symbols.txt` and
 
 Two images under French headers 683 and 750 are the North American
 header-666 entry (`model_variant/variant666_entry.c`) without its `E_DATA`
-work-size printf. The format string lived in the data tail, so the
-`src/overlays/french_model_variant/variant683_entry{,_slot1}.c` wrappers move
-the two remaining data labels 0x28 lower and bind
+work-size printf. The format string lived in the data tail, so the two
+remaining data labels sit 0x28 lower; each image's symbols file binds their
+shared names at its own addresses. Both slots build through the
+`src/overlays/french_model_variant/variant683_entry.c` wrapper, and the images
+bind
 `model_variant683_linker_symbols.txt` and
 `model_variant750_linker_symbols.txt`.
 
@@ -965,9 +968,10 @@ the `src/overlays/french_model_variant/variant849_entry.c` wrapper, which sets
 Two images under French headers 843 and 940 are the North American
 header-826 entry (`model_variant/variant826_entry.c`) with its full-screen
 tint grid covering the 256-line PAL screen, so the tile heights become
-shifts and the text is 0x20 bytes shorter. The
-`src/overlays/french_model_variant/variant843_entry{,_slot1}.c` wrappers set
-the height, move the three data labels 0x20 lower and bind
+shifts and the text is 0x20 bytes shorter. Both slots build through the
+`src/overlays/french_model_variant/variant843_entry.c` wrapper, which sets
+the height. Each image's symbols file binds the two shared data names at its
+own addresses, 0x20 lower, and the images bind
 `model_variant843_linker_symbols.txt` and
 `model_variant940_linker_symbols.txt`.
 
@@ -985,10 +989,11 @@ it shares with the entry and bind them in
 
 Two images under French headers 179 and 309 are the North American
 header-162 entry (`model_variant/variant162us_entry.c`) without its
-work-size printf. The
-`src/overlays/french_model_variant/variant179_entry{,_slot1}.c` wrappers move
-the two data labels after the shorter text and read-only section 0x1C lower
-and bind `model_variant179_linker_symbols.txt` and
+work-size printf. Both slots build through the
+`src/overlays/french_model_variant/variant179_entry.c` wrapper. The two data
+labels after the shorter text and read-only section sit 0x1C lower; each
+image's symbols file binds their shared names at its own addresses, and the
+images bind `model_variant179_linker_symbols.txt` and
 `model_variant309_linker_symbols.txt`.
 
 Two images under French headers 160 and 290 are the North American
@@ -1095,9 +1100,10 @@ no work-size printf, so the data labels do not move.
 Two images under French headers 155 and 285 are the North American
 header-138 entry (`model_variant/variant138_entry.c`) without its work-size
 printf or that call's format string (kept in the North American image's
-data because of its nonzero padding), built through
-`src/overlays/french_model_variant/variant155_entry{,_slot1}.c`. The scale
-vector sits 0x14 lower and the image and command tables 0x28 lower.
+data because of its nonzero padding). Both slots build through
+`src/overlays/french_model_variant/variant155_entry.c`. The scale
+vector sits 0x14 lower and the image and command tables 0x28 lower; each
+image's symbols file binds the two table names at its own addresses.
 
 Two images under French headers 152 and 282 are the North American
 header-135 entry (`model_variant/variant135_entry.c`) without its work-size
@@ -1217,7 +1223,7 @@ goes too, and the
 `src/overlays/french_model_variant/variant698_entry{,_slot1}.c` wrappers move
 the data labels 0x28 lower.
 
-French MODEL headers 700 (stage 7 slot 0) and 767 (stage 8 slot 1) build the header-683 entry (`func_8013B004`) from `src/overlays/model_variant/variant683_entry.c` through `src/overlays/french_model_variant/variant700_entry{,_slot1}.c`. `VERSION_FRENCH` drops the `E_DATA` work-size `printf` and its string, so the entry ends 0x10 bytes earlier and the image and command tables move 0x28 lower (`D_8013D52C`/`D_8013D5D4` become `D_8013D504`/`D_8013D5AC`); `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL screen fill.
+French MODEL headers 700 (stage 7 slot 0) and 767 (stage 8 slot 1) build the header-683 entry (`ModelVariant683_HandleRequest`) from `src/overlays/model_variant/variant683_entry.c` through `src/overlays/french_model_variant/variant700_entry.c` in both slots. `VERSION_FRENCH` drops the `E_DATA` work-size `printf` and its string, so the entry ends 0x10 bytes earlier and the image and command tables move 0x28 lower (each image binds `gModelVariant683_D252C`/`gModelVariant683_D25D4` at its own addresses, `0x8013D504`/`0x8013D5AC` in slot 0); `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL screen fill.
 
 Four images under French headers 670 and 737 are the North American
 header-653 entry (`model_variant/variant653_entry.c`) without its `E_DATA`
@@ -1256,7 +1262,7 @@ or that call's `.rodata` format string, and with a 256-line screen flash.
 The scale vector sits 0x14 lower than in the North American image and the
 image and command tables 0x24 lower.
 
-French MODEL headers 183 (stage 9 slot 0) and 313 (stage 10 slot 1) build the US header-166 entry from `src/overlays/model_variant/variant166_entry.c` through `src/overlays/french_model_variant/variant183_entry{,_slot1}.c`. `VERSION_FRENCH` drops the work-size `printf` and its string (entry -0x14; tables `D_8013CCDC`/`D_8013CD68` become `D_8013CCB8`/`D_8013CD44`), and `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL flash height.
+French MODEL headers 183 (stage 9 slot 0) and 313 (stage 10 slot 1) build the US header-166 entry (`ModelVariant166_HandleRequest`) from `src/overlays/model_variant/variant166_entry.c` through `src/overlays/french_model_variant/variant183_entry.c` in both slots. `VERSION_FRENCH` drops the work-size `printf` and its string (entry -0x14; each image binds the tables `gModelVariant166_D1CDC`/`gModelVariant166_D1D68` at its own addresses, 0x24 lower than the US `D_8013CCDC`/`D_8013CD68`), and `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL flash height.
 
 Two images under French headers 190 and 320 are the North American
 header-173 entry (`model_variant/variant173_entry.c`) without its work-size

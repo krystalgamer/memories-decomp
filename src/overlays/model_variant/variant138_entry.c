@@ -7,9 +7,9 @@
  * orbiting it, 32 sprites rise from around the opposing slot, and the light
  * is restored at the end. */
 
-static const VECTOR D_8013E304 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant138_D3304 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant138_HandleRequest(u8 *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -37,11 +37,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013E304;
+    scale = gModelVariant138_D3304;
     work = (Model138State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        config = work->config = &D_8013E37C[command];
+        config = work->config = &gModelVariant138_D337C[command];
         point = work->lower;
         other = work->upper;
         for (i = 0; i < 17; i++) {
@@ -100,7 +100,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         /* All three words are packed from the first image. */
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, D_8013E328);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, gModelVariant138_D3328);
         }
         work->elapsed = -config->lead;
         work->completed = 0;
@@ -115,7 +115,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
 #ifndef VERSION_FRENCH
-        printf(D_8013E314, sizeof(Model138State), sizeof(Model138State));
+        printf(gModelVariant138_D3314, sizeof(Model138State), sizeof(Model138State));
 #endif
         return 0;
     }
