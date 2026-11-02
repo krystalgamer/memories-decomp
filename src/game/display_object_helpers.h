@@ -58,9 +58,9 @@ typedef struct {
    outside small data; dialog_transition.c, build_deck_update.c
    and src/game/duel_effect_states.c define the arm below for that. */
 #ifdef D_8009AF74_IN_DATA
-extern volatile u16 D_8009AF74[4] __attribute__((section(".data")));
+extern volatile u16 D_8009AF74[];
 #else
-extern volatile u16 D_8009AF74[4] __attribute__((section(".sdata")));
+extern volatile u16 D_8009AF74[4];
 #endif
 
 /* Returns the first allocated display object carrying the requested tag. */

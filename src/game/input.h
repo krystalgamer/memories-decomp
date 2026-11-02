@@ -150,8 +150,7 @@ extern u16 gInput_wPad1Pressed;
  * Password_UpdateShopScreen (overlays/password/shop.c), which reads this
  * symbol as a plain volatile halfword and spelled it D_8009B3A4 until then. */
 #ifdef GINPUT_PAD1_HELD_SIZED_IN_DATA_VOLATILE
-extern volatile u16 gInput_wPad1Held[4]
-    __attribute__((section(".data")));
+extern volatile u16 gInput_wPad1Held[];
 #elif defined(GINPUT_PAD1_HELD_SIZED_VOLATILE)
 extern volatile u16 gInput_wPad1Held[4];
 #elif defined(GINPUT_PAD1_HELD_IN_DATA_VOLATILE)

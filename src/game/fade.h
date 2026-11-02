@@ -18,7 +18,7 @@ extern u8 gFade_abCurrentLevel[];
    units reach it through small data; Script_OpShowImage defines the arm below
    to preserve its measured absolute-addressing form. */
 #ifdef D_8009B145_IN_DATA
-extern u8 D_8009B145 __attribute__((section(".data")));
+extern u8 D_8009B145[];
 #else
 extern u8 D_8009B145;
 #endif
@@ -35,7 +35,7 @@ extern u8 D_8009B145;
  * graphics_frame.c reaches gFade_bOrderingTableMode with %hi/%lo as well and takes its
  * .data arm below; every other user keeps the plain small-data arm. */
 #ifdef D_8009B140_IN_DATA
-extern u8 D_8009B140 __attribute__((section(".data")));
+extern u8 D_8009B140[];
 #else
 extern u8 D_8009B140;
 #endif

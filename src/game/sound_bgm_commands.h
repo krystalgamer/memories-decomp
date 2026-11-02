@@ -4,7 +4,7 @@
 #include "../types.h"
 
 #ifdef D_8009B404_IN_DATA
-extern u32 gSD_dwSavedBgmCommand __attribute__((section(".data")));
+extern u32 gSD_dwSavedBgmCommand[];
 #else
 extern u32 gSD_dwSavedBgmCommand;
 #endif

@@ -1138,7 +1138,7 @@ extern u32 gSD_dwCurrentBgmCommand;
  * copied from is u32, so the word is declared u32; s32 builds
  * byte-identical. */
 #ifdef D_8009B404_IN_DATA
-extern u32 D_8009B404 __attribute__((section(".data")));
+extern u32 D_8009B404[];
 #else
 extern u32 D_8009B404;
 #endif

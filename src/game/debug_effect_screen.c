@@ -58,7 +58,7 @@
 /* Defined here in the US build only; the Japanese and European symbol
    files place it. */
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
-u8 gDebugEffect_abPreviewState[DEBUG_EFFECT_STATE_SIZE] __attribute__((section(".sdata"))) = {0};
+u8 gDebugEffect_abPreviewState[DEBUG_EFFECT_STATE_SIZE] = {0};
 #endif
 #define gDebugEffect_bEditedOperand gDebugEffect_abPreviewState[0]
 #define gDebugEffect_abOperands (&gDebugEffect_abPreviewState[DEBUG_EFFECT_COORDINATE_OFFSET])

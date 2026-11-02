@@ -168,7 +168,7 @@ void Input_UpdatePads(void)
         new_bits <<= 1;
     }
 
-    if (gGraphics_dwSyncVBlankCounter != 0) {
+    if (gGraphics_dwSyncVBlankCounter[0] != 0) {
         gInput_dwDeferredRepeat |= repeat;
         gInput_dwDeferredPressed |= newly_pressed;
     } else {

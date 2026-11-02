@@ -400,7 +400,7 @@ extern s32 D_8009B12C;
  * D_8009B118_IN_DATA and D_8009B118_IS_POINTER_IN_DATA, the same shape
  * input.h and sound.h use, rather than by re-declaring the symbol locally. */
 #ifdef D_8009B118_IS_POINTER_IN_DATA
-extern u8 *D_8009B118 __attribute__((section(".data")));
+extern u8 *D_8009B118[];
 #elif defined(D_8009B118_IN_DATA)
 extern s32 D_8009B118 __attribute__((section(".data")));
 #else

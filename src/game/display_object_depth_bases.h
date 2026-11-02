@@ -6,7 +6,7 @@
 #ifdef D_8009AF74_IN_DATA
 extern volatile u16 gDisplayObject_awOrderingTableDepthBases[4] __attribute__((section(".data")));
 #else
-extern volatile u16 gDisplayObject_awOrderingTableDepthBases[4] __attribute__((section(".sdata")));
+extern volatile u16 gDisplayObject_awOrderingTableDepthBases[4];
 #endif
 
 #endif
