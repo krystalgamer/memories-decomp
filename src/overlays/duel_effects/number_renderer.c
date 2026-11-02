@@ -55,11 +55,11 @@ void DuelEffect_DrawProjectedNumber(s32 value, u8 *color, SVECTOR *offset, u16 m
             tile = digits[i - 1];
         }
         setUV4(packet,
-            D_8015B3C0[tile].x, D_8015B3C0[tile].y,
-            D_8015B3C0[tile].x + D_8015B3C0[tile].w, D_8015B3C0[tile].y,
-            D_8015B3C0[tile].x, D_8015B3C0[tile].y + D_8015B3C0[tile].h,
-            D_8015B3C0[tile].x + D_8015B3C0[tile].w,
-            D_8015B3C0[tile].y + D_8015B3C0[tile].h);
+            gDuelEffect_aNumberGlyphRects[tile].x, gDuelEffect_aNumberGlyphRects[tile].y,
+            gDuelEffect_aNumberGlyphRects[tile].x + gDuelEffect_aNumberGlyphRects[tile].w, gDuelEffect_aNumberGlyphRects[tile].y,
+            gDuelEffect_aNumberGlyphRects[tile].x, gDuelEffect_aNumberGlyphRects[tile].y + gDuelEffect_aNumberGlyphRects[tile].h,
+            gDuelEffect_aNumberGlyphRects[tile].x + gDuelEffect_aNumberGlyphRects[tile].w,
+            gDuelEffect_aNumberGlyphRects[tile].y + gDuelEffect_aNumberGlyphRects[tile].h);
         copy = polygon;
         if (bias == 0) {
             if (flag >= 0) {

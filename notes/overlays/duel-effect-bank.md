@@ -1076,7 +1076,7 @@ and match it unchanged:
 
 Their data names are bound to the North American addresses decoded from the
 same instructions. `D_80146198` is at `0x801461E0`, `D_8015AEF4` at
-`0x8015AFC0` and `D_8015B3C0` at `0x8015A5A0`.
+`0x8015AFC0` and `gDuelEffect_aNumberGlyphRects` at `0x8015A5A0`.
 
 The North American bank now has **82 C functions / 68,848 bytes** of 85.
 Three remain generated assembly: `func_8014FABC`, `func_8014A8E4` (effect 22)

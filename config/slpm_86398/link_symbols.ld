@@ -9,6 +9,7 @@ gText_dwChannel0State = D_800EB12C;
 
 gCampaignMap_bEntryLocation = D_8009B363;
 CampaignMap_SetLocation = 0x8016866C;
+FreeDuel_Entry = 0x80168FB4;
 
 gDuel_aFieldCardRecords = D_801A7B64;
 

@@ -156,6 +156,6 @@ gDuelEffect_StatPenaltyInitialScale = 0x80146178; // size:0x10
 gDuelEffect_StatPenaltyTextureImages = 0x8015AC48; // size:0x24C
 gDuelEffect_StatPenaltyConfigs = 0x8015AE94; // size:0x50
 DuelEffect_DrawProjectedNumber = 0x801566D4; // type:func size:0x400 defined:true
-D_8015B3C0 = 0x8015B3C0; // size:0x60
+gDuelEffect_aNumberGlyphRects = 0x8015B3C0; // size:0x60
 DuelEffect_RunBackRowSweep = 0x80152048; // type:func size:0xE7C defined:true
 gDuelEffect_BackRowSweepInitialScale = 0x801461A8; // size:0x10
