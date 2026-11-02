@@ -8,6 +8,4 @@
 #define SCRIPT_IMAGE_SCREEN_Y 0xD0
 /* The US build reaches these objects through second .data views named
  * *_abs; this build names the objects only. */
-#define D_8009B0F4_abs D_8009B0F4
-#define D_8009B134_abs D_8009B134
 #include "../script_image_commands.c"

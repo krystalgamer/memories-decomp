@@ -189,11 +189,11 @@ void DuelEffect_UpdateCardViewerState(void)
         Fade_SetTargetLevel(0x40, 2);
         gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 0x13;
         SD_SEPlayFull(0x34);
-        D_8009B248 |= 0x40;
+        gDuel_bEffectHandlerFlags |= 0x40;
         return;
     }
 
-    state = D_8009B248;
+    state = gDuel_bEffectHandlerFlags;
     if (state & 0x40) {
         obj = D_8009B240;
         speed = obj->field_60;
@@ -248,7 +248,7 @@ void DuelEffect_UpdateCardViewerState(void)
         obj = D_8009B24C;
         speed = obj->field_60;
         if (speed != 0) {
-            if (D_8009B248 & 0x10) {
+            if (gDuel_bEffectHandlerFlags & 0x10) {
                 Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
                                  -0x8C,
                                  *(s16 *)&obj->field_30.h.field_32,
@@ -283,10 +283,10 @@ void DuelEffect_UpdateCardViewerState(void)
         if (D_8009B24C->field_60 != 0) {
             return;
         }
-        closing = D_8009B248;
+        closing = gDuel_bEffectHandlerFlags;
         masked = closing & 0xBF;
         test = closing & 0x10;
-        D_8009B248 = masked;
+        gDuel_bEffectHandlerFlags = masked;
         if (test == 0) {
             return;
         }
@@ -307,9 +307,9 @@ void DuelEffect_UpdateCardViewerState(void)
         if (obj->field_20.b.rotation_y < 0x40) {
             objflags = obj->flags;
             obj->field_20.b.rotation_y = 0;
-            state = D_8009B248 | 0x20;
+            state = gDuel_bEffectHandlerFlags | 0x20;
             obj->flags = objflags & 0xFFFB;
-            D_8009B248 = state;
+            gDuel_bEffectHandlerFlags = state;
         }
         return;
     }
@@ -338,7 +338,7 @@ press:
     D_8009B24C->field_60 = slide_out;
     Fade_SetTargetLevel(0xFF, 2);
     SD_SEPlayFull(0x34);
-    D_8009B248 |= 0x50;
+    gDuel_bEffectHandlerFlags |= 0x50;
 }
 
 /* The duel-effect state dispatcher, the next function in the image. It

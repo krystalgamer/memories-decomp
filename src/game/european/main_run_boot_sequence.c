@@ -7,8 +7,5 @@
 /* The European display height. */
 #define GRAPHICS_DEFAULT_HEIGHT 256
 /* As in main_init.c. */
-/* This build names the loader words directly. */
-#define D_8009B0F4_abs D_8009B0F4
-#define D_8009B134_abs D_8009B134
 
 #include "../main_run_boot_sequence.c"

@@ -1,10 +1,6 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/duel_draw_resolution.c: the symbols below sit at other addresses in the
- * European executable and their US names are taken there, so they are aliased
- * (config/sles_03947/symbols.txt has the addresses). The US source is included
- * unchanged. */
-#define D_8009B23A gDuel_wSceneStateFlags
+/* SLES-03947 build of src/game/duel_draw_resolution.c. */
 
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

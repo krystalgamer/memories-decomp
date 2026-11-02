@@ -11,9 +11,6 @@
 #define DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR 0x2218
 #define DUEL_RESULT_PAGE_TEXT_Y 0x38
 #define DUEL_RESULT_PAGE_TEXT_HEIGHT 0xF0
-/* This build names the loader words directly. */
-#define D_8009B0F4_abs D_8009B0F4
-#define D_8009B134_abs D_8009B134
 /* As in duel_scene_battle.c. */
 
 /* Values that differ in the European release; the US source names each
