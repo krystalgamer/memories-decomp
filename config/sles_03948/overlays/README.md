@@ -623,8 +623,8 @@ The swarm and quad helpers keep their accepted `variant419_{swarm,quads}` C, and
 Forty images under French headers 678 and 745 are the North American
 header-661 entry (`model_variant/variant661_entry.c`) without its `E_DATA`
 work-size printf, built the same way through
-`src/overlays/french_model_variant/variant678_entry{,_slot1}.c` with the data
-labels 0x28 lower.
+`src/overlays/french_model_variant/variant678_entry.c` with the data
+labels 0x28 lower. Each image's symbols file binds `ModelVariant661_HandleRequest` and `gModelVariant661_D3E2C`, `gModelVariant661_D3E64` at its own addresses.
 
 Four images under French headers 824 and 921 are the North American
 header-807 entry (`model_variant/variant807_entry.c`) with its full-screen
