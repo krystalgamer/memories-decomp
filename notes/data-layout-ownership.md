@@ -176,12 +176,13 @@ Owners keep text order. A `-G8` owner cannot hold an initialized object of
 eight bytes or less in `.data`, because that compiler puts it in `.sdata`.
 
 Data-only units remain where no owner is settled yet: `duel_field_layout.c`
-and `duel_screen_tables.c` (their selectors would change their owners' view of
-shared headers), `duel_effect_entry_ranges.c` and
-`duel_effect_command_table.c` (their first readers are out of text order),
-and `model_image_copy_frames.c` and `data_80091510.c` (an eight-byte object
-only a `-G0` owner could hold). The rest of the region from `0x80091958` is
-Psy-Q data.
+(its grid selector changes `duel_card_and_status_draw.c`'s code, and no other
+reader falls in its window), `duel_effect_command_table.c` (no reader falls
+between its neighbours in text order), and `model_image_copy_frames.c` and
+`data_80091510.c` (an eight-byte object only a `-G0` owner could hold).
+`duel_screen_tables.c` brought its typed-positions selector into
+`duel_ground_projection.c`, which builds the same with it. The rest of the
+region from `0x80091958` is Psy-Q data.
 
 Regional builds discard compiled text units' `.data` as they do `.bss`, and
 make those definitions weak, since each region supplies the same names from
