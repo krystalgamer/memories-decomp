@@ -14,6 +14,8 @@ sys.path.insert(0, str(REPOSITORY / "tools/project"))
 import overlay_build
 import overlay_objects
 
+REAL_PIPELINE_FINGERPRINT = overlay_objects.ObjectStore.pipeline_fingerprint
+
 
 class OverlayObjectStoreTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -84,6 +86,35 @@ class OverlayObjectStoreTests(unittest.TestCase):
         self.preprocessed["src/a.c"] = b"a with edited header"
         store = overlay_objects.ObjectStore(self.root)
         self.assertEqual(store.ensure([segment], 1)["compiled"], 1)
+
+    def test_compile_driver_changes_recompile_units(self) -> None:
+        for relative in overlay_objects.PIPELINE_FILES:
+            path = self.root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(relative)
+        for relative in overlay_objects.PIPELINE_DIRECTORIES:
+            (self.root / relative).mkdir(parents=True, exist_ok=True)
+            (self.root / relative / "__init__.py").write_text("")
+        binary = self.root / "usr/bin/mips-linux-gnu-as"
+        binary.parent.mkdir(parents=True)
+        binary.write_bytes(b"assembler 1")
+        wrapper = self.root / "wrapper"
+        wrapper.write_text(f'#!/bin/sh\nset -eu\nexec {binary} "$@"\n')
+        segments = [self.segment("src/a.c")]
+
+        def ensure() -> dict[str, int]:
+            with patch.object(overlay_objects, "tool", return_value=wrapper), \
+                    patch.object(overlay_objects.ObjectStore, "pipeline_fingerprint",
+                                 REAL_PIPELINE_FINGERPRINT):
+                return overlay_objects.ObjectStore(self.root).ensure(segments, 1)
+
+        self.assertEqual(ensure()["compiled"], 1)
+        self.assertEqual(ensure()["compiled"], 0)
+        (self.root / "tools/vendor/maspsx/maspsx.py").write_text("changed driver")
+        self.assertEqual(ensure()["compiled"], 1)
+        binary.write_bytes(b"assembler 2")
+        self.assertEqual(ensure()["compiled"], 1)
+        self.assertEqual(ensure()["compiled"], 0)
 
     def test_prune_keeps_only_requested_objects(self) -> None:
         store = overlay_objects.ObjectStore(self.root)

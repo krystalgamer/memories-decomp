@@ -27,7 +27,12 @@ from build_baseline import (
 )
 from overlay_sources import OverlaySourceError, c_segments
 from overlay_extract import OVERLAY_MANIFESTS, OverlayError, select_modules
-from overlay_objects import ObjectStore, OverlayObjectError, module_segments
+from overlay_objects import (
+    ObjectStore,
+    OverlayObjectError,
+    executed_files,
+    module_segments,
+)
 from workspace import (
     WorkspaceError,
     local_environment,
@@ -452,7 +457,7 @@ def verify_module(root: Path, module: dict[str, Any]) -> None:
     print(f"overlay match: {name} {actual_hash}")
 
 
-FINGERPRINT_FORMAT = "overlay-module-v1"
+FINGERPRINT_FORMAT = "overlay-module-v2"
 # Every script whose behavior shapes a module's split, objects or link.
 FINGERPRINT_SCRIPTS = (
     "tools/project/build_baseline.py",
@@ -461,6 +466,7 @@ FINGERPRINT_SCRIPTS = (
     "tools/project/overlay_objects.py",
     "tools/project/overlay_sources.py",
     "tools/project/workspace.py",
+    "tools/vendor/maspsx/maspsx.py",
 )
 CONFIG_REFERENCE = re.compile(r"config/[A-Za-z0-9_./-]+")
 
@@ -473,7 +479,8 @@ def pipeline_fingerprint(root: Path) -> str:
     paths = [resolve_within(root, p, must_exist=True) for p in FINGERPRINT_SCRIPTS]
     bootstrap = resolve_within(root, "tools/bootstrap", must_exist=True)
     paths += sorted(p for p in bootstrap.iterdir() if p.is_file())
-    paths += [tool(root, name).resolve() for name in ("as", "ld", "objcopy", "objdump")]
+    for name in ("as", "ld", "objcopy", "objdump"):
+        paths += executed_files(tool(root, name))
     for path in paths:
         digest.update(path.name.encode() + b"\0" + path.read_bytes())
     for package in ("splat64", "spimdisasm", "rabbitizer"):

@@ -14,6 +14,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -31,14 +32,18 @@ from workspace import (
 )
 
 STORE_DIRECTORY = "tmp/overlay-object-cache"
-FORMAT = "overlay-objects-v1"
+FORMAT = "overlay-objects-v2"
 # The scripts and vendored tools a compiled object depends on besides its
-# source and toolchain.
+# source and toolchain: build_baseline.compile_c and its imports, plus the
+# MASPSX entry point it executes and the package that entry point imports.
 PIPELINE_FILES = (
     "tools/project/build_baseline.py",
     "tools/project/overlay_objects.py",
+    "tools/project/workspace.py",
+    "tools/vendor/maspsx/maspsx.py",
 )
 PIPELINE_DIRECTORIES = ("tools/vendor/maspsx/maspsx",)
+WRAPPER_EXEC = re.compile(rb"^exec (/\S+) \"\$@\"$", re.MULTILINE)
 
 
 class OverlayObjectError(RuntimeError):
@@ -50,6 +55,16 @@ def _hash_file(digest: Any, path: Path) -> None:
     with path.open("rb") as handle:
         for chunk in iter(lambda: handle.read(1 << 20), b""):
             digest.update(chunk)
+
+
+def executed_files(path: Path) -> list[Path]:
+    """Return a tool and, for a system-binutils shell wrapper, the binary it runs."""
+    path = path.resolve()
+    with path.open("rb") as handle:
+        head = handle.read(4096)
+    if not head.startswith(b"#!"):
+        return [path]
+    return [path, *(Path(m.decode()).resolve() for m in WRAPPER_EXEC.findall(head))]
 
 
 def _hash_tree(digest: Any, directory: Path) -> None:
@@ -77,7 +92,8 @@ class ObjectStore:
             for relative in PIPELINE_DIRECTORIES:
                 _hash_tree(digest, resolve_within(self.root, relative, must_exist=True))
             for name in ("as", "objcopy"):
-                _hash_file(digest, tool(self.root, name).resolve())
+                for path in executed_files(tool(self.root, name)):
+                    _hash_file(digest, path)
             digest.update(
                 f"system={os.environ.get('USE_SYSTEM_MIPS_BINUTILS') == '1'}".encode()
             )
