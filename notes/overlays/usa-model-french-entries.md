@@ -50,6 +50,7 @@ before the change, so the French images are unaffected.
 | 210 | `0x1154` | `variant97_entry.c` | `100_stage8_slot1`, `150_stage10_slot1` |
 | 214 | `0xAE0` | `variant101_entry_slot1.c` | `130_stage8_slot1` |
 | 220 | `0x1184` | `variant107_entry_slot1.c` | `28_stage10_slot1`, `402_stage8_slot1`, `85_stage10_slot1` |
+| 220 | `0x1184` | `variant107_entry.c` | `28_stage10_slot1`, `402_stage8_slot1`, `85_stage10_slot1` |
 | 229 | `0x1158` | `variant116_entry_slot1.c` | `127_stage10_slot1`, `22_stage10_slot1`, `422_stage8_slot1`, `454_stage10_slot1`, `484_stage10_slot1`, `504_stage10_slot1`, `556_stage8_slot1`, `581_stage10_slot1`, `701_stage10_slot1`, `73_stage10_slot1` |
 | 230 | `0x1088` | `variant117_entry.c` | `139_stage8_slot1`, `15_stage10_slot1` |
 | 234 | `0x10A4` | `variant121_entry_slot1.c` | `227_stage10_slot1`, `281_stage8_slot1`, `39_stage10_slot1`, `477_stage10_slot1`, `502_stage8_slot1`, `509_stage8_slot1`, `514_stage10_slot1`, `514_stage8_slot1`, `557_stage10_slot1`, `641_stage8_slot1`, `708_stage10_slot1` |
