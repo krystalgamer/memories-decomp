@@ -6,7 +6,7 @@
 /* Duel scene-state 4, the hand navigation and card play phase, and the state
  * private to it. DuelScene_UpdateHandActions (duel_scene_hand_actions.c) is
  * the only source in the tree that names any of the three globals below;
- * duel_scene_callbacks.c takes the prototype for the phase callback table.
+ * duel_scene_update.c takes the prototype for the phase callback table.
  *
  * Every access to all three is gp-relative in retail: 5, 3 and 4 relocations,
  * none through %hi/%lo. So these are the plain scalar declarations. That the

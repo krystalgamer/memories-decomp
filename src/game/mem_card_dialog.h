@@ -22,7 +22,7 @@ void MemCardDialog_StepAlternateSave(void);
 /* The memory card dialog's modal runtime.
  *
  * MemCardDialog_UpdateTradeSave is the fifth entry of the step table
- * gMemCardDialog_apfnSteps (mem_card_dialog_steps.c), selected only by
+ * gMemCardDialog_apfnSteps (mem_card_dialog.c), selected only by
  * SaveData_RequestTradeWrite: it reads the save from each card slot in turn,
  * checks both against the staged records with SaveData_HasSameDuelistCode
  * and writes them back in alternating 0x80-byte chunks. MemCardDialog_Update

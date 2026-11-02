@@ -40,6 +40,31 @@
 #include "display_object_set_resource_variant_from_sign.h"
 #include "../unmatched.h"
 
+/* Initialized data this unit owns at 0x800909D4: the terrain attack modifiers, in card-type
+   order. */
+s8 gDuel_aTerrainBoost[CARD_TYPE_MAGIC][DUEL_TERRAIN_COUNT] = {
+    { 0, 0, DUEL_TERRAIN_BOOST_UNIT, 0, 0, 0 },
+    { 0, 0, 0, 0, 0, DUEL_TERRAIN_BOOST_UNIT },
+    { 0, DUEL_TERRAIN_BOOST_UNIT, 0, 0, 0, 0 },
+    { 0, 0, 0, DUEL_TERRAIN_BOOST_UNIT, 0, 0 },
+    { DUEL_TERRAIN_BOOST_UNIT, 0, 0, DUEL_TERRAIN_BOOST_UNIT, 0, 0 },
+    { DUEL_TERRAIN_BOOST_UNIT, 0, 0, 0, 0, 0 },
+    { 0, 0, DUEL_TERRAIN_BOOST_UNIT, 0, 0, 0 },
+    { 0, 0, 0, 0, 0, DUEL_TERRAIN_BOOST_UNIT },
+    { 0, 0, 0, 0, 0, DUEL_TERRAIN_PENALTY_UNIT },
+    { DUEL_TERRAIN_BOOST_UNIT, 0, 0, 0, 0, 0 },
+    { 0, DUEL_TERRAIN_BOOST_UNIT, 0, 0, 0, 0 },
+    { 0, 0, 0, 0, 0, 0 },
+    { 0, 0, 0, 0, DUEL_TERRAIN_BOOST_UNIT, 0 },
+    { 0, 0, 0, 0, DUEL_TERRAIN_BOOST_UNIT, 0 },
+    { 0, 0, 0, 0, DUEL_TERRAIN_PENALTY_UNIT, 0 },
+    { 0, 0, DUEL_TERRAIN_BOOST_UNIT, 0, DUEL_TERRAIN_BOOST_UNIT, 0 },
+    { 0, 0, 0, 0, DUEL_TERRAIN_BOOST_UNIT, 0 },
+    { 0, 0, 0, 0, DUEL_TERRAIN_PENALTY_UNIT, 0 },
+    { 0, DUEL_TERRAIN_BOOST_UNIT, 0, 0, 0, 0 },
+    { DUEL_TERRAIN_BOOST_UNIT, 0, 0, 0, 0, 0 },
+};
+
 void Duel_RequestCombinedDeckData(void)
 {
     u16 *source = gDuel_awCombinedDeckCardIds;

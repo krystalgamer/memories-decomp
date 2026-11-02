@@ -16,7 +16,7 @@
  * and gp-relatively never.
  */
 
-/* The scene-state 5 callback, entry 4 of duel_scene_callbacks.c's table. */
+/* The scene-state 5 callback, entry 4 of duel_scene_update.c's table. */
 void DuelScene_UpdateFieldActions(void);
 
 /* The target colour of the field dim ramp: one grey level repeated in three

@@ -39,7 +39,7 @@ typedef struct {
     u8 pad;
 } ModelBurstColor;
 
-/* The ring colours `table` points at, gModel_BurstRingPaletteWords in model_geometry_tables.c:
+/* The ring colours `table` points at, gModel_BurstRingPaletteWords in model_subdivided_effect.c:
  * one byte per ring for each channel. */
 typedef struct {
     u8 r[3];
@@ -47,7 +47,7 @@ typedef struct {
     u8 b[3];
 } ModelBurstPalette;
 
-/* One texture record of gModel_BurstImageData in model_geometry_tables.c: the pixel mode
+/* One texture record of gModel_BurstImageData in model_subdivided_effect.c: the pixel mode
  * and the frame-buffer rectangles of the image and of its colour table. */
 typedef struct {
     u16 mode;

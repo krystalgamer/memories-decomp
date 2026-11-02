@@ -18,6 +18,52 @@
 #include "display_object_packet_submit.h"
 #include "display_object_runtime.h"
 #include "ordering_tables.h"
+#include "../unmatched.h"
+#include "display_object_render_sprite_list.h"
+#include "display_object_render_sprite_sheet_list.h"
+
+/* Initialized data this unit owns at 0x80090FB0: the per-list display object renderers.
+ *
+ * This is the one table in this group with a real bound. DisplayObject_RenderFrame walks
+ * it with `for (i = 0; i < DISPLAY_OBJECT_LIST_COUNT; i++)`, that constant is
+ * seven in display_object_layout.h, and there are seven entries. It agrees
+ * independently with display_object.h, where the list heads are
+ * `s16 gDisplayObject_awListHeads[DISPLAY_OBJECT_LIST_COUNT]`, and with
+ * DisplayObject_ResetPool, which clears the same count.
+ *
+ * So this array is declared sized, unlike the other three, because the size
+ * is established rather than assumed. */
+
+void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
+    DisplayObject_RunUpdateCallbackList,
+    DisplayObject_RenderSpriteList,
+    DisplayObject_RenderSpriteSheetList,
+    DisplayObject_RenderSpriteStripList,
+    DisplayObject_RenderGouraudQuadList,
+    DisplayObject_RenderTexturedGouraudQuadList,
+    DisplayObject_RunSecondaryCallbackList,
+};
+
+/* Initialized data this unit owns at 0x80090FCC: the two flat lights
+ * DisplayObject_RenderFrame installs before walking the display object lists.
+ *
+ * The type is not inferred. DisplayObject_RenderFrame passes both to
+ * GsSetFlatLight, whose second parameter is a GsF_LIGHT *, so the records are
+ * that type by the call rather than by resemblance. Sixteen bytes each, which
+ * is what GsF_LIGHT occupies once its three unsigned chars are padded out.
+ *
+ * The two are a key and a fill: one direction vector points along +y at
+ * intensity 0x60, the other along -y at 0x30, and DisplayObject_RenderFrame
+ * installs the second one in both slots 1 and 2.
+ *
+ * gDisplayObject_FlatLightUp's gap to the next name is 0x2C, which is NOT its size. The
+ * twenty-eight bytes above it hold seven pointers into
+ * DisplayObject_RenderFrame's own range and carry no name of their own, so
+ * they stay in the blob rather than being claimed here. Reading that gap as
+ * the size is exactly the failure memory-map.md records. */
+
+GsF_LIGHT gDisplayObject_FlatLightDown = { 0, 0x1000, 0, 0x60, 0x60, 0x60 };
+GsF_LIGHT gDisplayObject_FlatLightUp = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };
 
 #define DISPLAY_OBJECT_CALLBACK_BYTES(object) ((u8 *)(object))
 #define POLY_G4_BYTES(packet) ((u8 *)(packet))

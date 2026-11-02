@@ -483,13 +483,13 @@ def build_text_objects(root: Path, assembler: Path) -> list[Path]:
 
 
 def finalize_linker_script(root: Path) -> None:
-    """Place each C object's .bss once, on an 8-byte boundary.
+    """Place each C object's .data and .bss once, .bss on an 8-byte boundary.
 
     Splat lists .data, .rodata and .bss for every object a segment names, so an
-    object whose .rodata sits in an earlier segment also has its .bss listed
+    object whose .rodata sits in an earlier segment also has its .data and .bss listed
     there. The linker takes the first statement that matches, which would pull
-    a unit's zero-initialized block away from the place split.yaml gives it in
-    the merged data layout. The explicit placement is always the later one.
+    a unit's data away from the place split.yaml gives it in the merged data
+    layout. The explicit placement is always the later one.
 
     The text output section forces SUBALIGN(2) on its inputs, which code and
     small data need, but the game's linker started every object's .bss on the
@@ -499,16 +499,17 @@ def finalize_linker_script(root: Path) -> None:
     script = resolve_within(root, "tmp/splat/slus_01411.ld", must_exist=True)
     lines = script.read_text(encoding="utf-8").splitlines(keepends=True)
     placement = re.compile(r"^\s*(\S+\.o)\(\.bss\);\s*$")
+    listing = re.compile(r"^\s*(\S+\.o\(\.(?:bss|data)\));\s*$")
     last: dict[str, int] = {}
     for index, line in enumerate(lines):
-        match = placement.match(line)
+        match = listing.match(line)
         if match:
             last[match.group(1)] = index
     kept = [
         line
         for index, line in enumerate(lines)
         if not (
-            (match := placement.match(line)) and last[match.group(1)] != index
+            (match := listing.match(line)) and last[match.group(1)] != index
         )
     ]
     aligned: list[str] = []

@@ -106,7 +106,7 @@ extern const char gAiScript_szCheckpointFormat[];
  * this class (gMain_apFrameServiceCallbacks[3], library_runtime.c), left for
  * game/library_card_grid.h when it matched.
  *
- * Seven of them were declared in duel_scene_callbacks.c, which is a file I
+ * Seven of them were declared in duel_scene_update.c, which is a file I
  * added when that table moved out of its blob. The argument there was that
  * taking a function's address does not depend on its signature, so a local
  * declaration was self-contained. That is true but beside the point: this
@@ -231,7 +231,7 @@ struct DuelRitualResult;
  * deltas from the distance to the target over the remaining frame count, then
  * advances both accumulators, publishes their high halves as the camera
  * position, and snaps to the target when the counter runs out. */
-/* Entry 5 of the frontend step table gDebugMenu_apfnPrimaryPageSteps (frontend_step_tables.c):
+/* Entry 5 of the frontend step table gDebugMenu_apfnPrimaryPageSteps (debug_menu_update.c):
  * the debug sound test. It steps gDebug_nSceneOrSoundID from the pad, plays
  * the selected sound effect or BGM, and stops all sound on START. */
 /* One step of the card list's cursor and paging input.

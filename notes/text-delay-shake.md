@@ -2,7 +2,7 @@
 
 `Text_WaitForDelay` and `Text_WaitWithViewportShake` are state-table
 slots 15 and 16 in
-[`text_box_state_callbacks.c`](../src/game/text_box_state_callbacks.c).
+[`text_box_build_step.c`](../src/game/text_box_build_step.c).
 Their matching definitions stay together in
 [`duel_effect_state_callbacks.c`](../src/game/duel_effect_state_callbacks.c).
 The entire eighteen-entry table, callback ABI and source grouping remain.

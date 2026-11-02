@@ -103,6 +103,21 @@ static u32 D_8009B3FC;
 #include "paired_player_name_glyphs.h"
 #include "save_pair_transfer_views.h"
 
+/* Initialized data this unit owns at 0x80090F9C: the memory card dialog step table.
+ *
+ * mem_card_dialog.c calls `gMemCardDialog_apfnSteps[gMemCardDialog_StepIndex]()`, where
+ * gMemCardDialog_StepIndex is a u8 written by that runtime's request API. Five entries against
+ * an unmasked byte index, so the array stays unsized for the same reason as
+ * the command table above. */
+
+void (*gMemCardDialog_apfnSteps[])(void) = {
+    MemCardDialog_StepLoad,
+    MemCardDialog_StepLoadUnprompted,
+    MemCardDialog_StepSave,
+    MemCardDialog_StepNone,
+    MemCardDialog_UpdateTradeSave,
+};
+
 /* Regional value: the completion mask it tests (0x2008 -> 0x2010). The
  * European build (src/game/european/) defines its own. */
 #ifndef MEM_CARD_MESSAGE_COMPLETION_MASK

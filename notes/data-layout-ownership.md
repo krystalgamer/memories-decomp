@@ -164,3 +164,25 @@ would not use for its own small data, so their owners are units that do not
 name them and need further evidence. A `-G0` unit cannot own small data at all;
 `sound_output_state.c` is one, which is why the sound block belongs to
 `sound_output_transition.c`.
+
+## Initialized data
+
+The game's initialized `.data` (`0x800906E0`-`0x80091958`) follows the same
+rule: each table is defined, with its initializer, by the text unit that reads
+it, after that unit's includes, and `split.yaml` lists the unit's `.data` at
+its address. `generate_build_config.py` lets a text unit own `.data` inside
+the merged data layout, and `--finalize-linker-script` keeps that placement.
+Owners keep text order. A `-G8` owner cannot hold an initialized object of
+eight bytes or less in `.data`, because that compiler puts it in `.sdata`.
+
+Data-only units remain where no owner is settled yet: `duel_field_layout.c`
+and `duel_screen_tables.c` (their selectors would change their owners' view of
+shared headers), `duel_effect_entry_ranges.c` and
+`duel_effect_command_table.c` (their first readers are out of text order),
+and `model_image_copy_frames.c` and `data_80091510.c` (an eight-byte object
+only a `-G0` owner could hold). The rest of the region from `0x80091958` is
+Psy-Q data.
+
+Regional builds discard compiled text units' `.data` as they do `.bss`, and
+make those definitions weak, since each region supplies the same names from
+its own data image or link file.

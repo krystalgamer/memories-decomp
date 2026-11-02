@@ -204,11 +204,12 @@ the module's text, with all five overlay modules still byte-exact.
 
 ### Owning resident initialized data
 
-`src/game/file_names.c` is the worked example for the resident image: the
-loader's seven disc paths and the null-terminated `gFile_apszName` table, 0xA8
-bytes at 0x80090704, come from that file instead of the extracted blob.
-`ai_script_commands.c` and `ai_opponent_data.c` are the other two, an opcode
-table of relocations and a typed record array. Five things make one of these:
+`src/game/file_set_position_table.c` is the worked example for the resident
+image: the loader's seven disc paths and the null-terminated `gFile_apszName`
+table, 0xA8 bytes at 0x80090704, are defined after its includes by the unit
+that reads them, instead of coming from the extracted blob. `ai_script_vm.c`
+(an opcode table of relocations) and `ai_get_hand_search_count.c` (a typed
+record array) are two more. Five things make one of these:
 
 1. **Split the blob in `config/slus_01411/split.yaml`.** The owning file gets a
    dotted subsegment at its address and the remainder keeps going to a
@@ -216,7 +217,7 @@ table of relocations and a typed record array. Five things make one of these:
 
    ```yaml
    - [0x80ee0, data, initialized_data_800906e0]
-   - [0x80f04, .data, game/file_names]
+   - [0x80f04, .data, game/file_set_position_table]
    - [0x80fac, data, initialized_data_800907ac]
    ```
 
@@ -224,15 +225,18 @@ table of relocations and a typed record array. Five things make one of these:
    one range never renames another and two people can split different parts of
    the segment without colliding.
 
-2. **Only a unit with no text of its own can own `.data`.** A text segment's
-   linker script lists `.rodata`, `.data` and `.bss` for every one of its
-   objects, so those sections are claimed there first and a matched function's
-   file cannot also supply them from another segment; `make split` says so
-   rather than letting the bytes land in the wrong place. It lists no
-   small-data section, which is why `.sdata` and `.sbss` can go back into the
-   matched text unit that owns them, the way `duel_battle_stats.c` does.
-3. **Name the profile in `config/slus_01411/data_c.json`.** Data units are not
-   in `matching_c.json`, which describes functions; the build gets its compiler
+2. **The text unit that owns the data defines it.** `generate_build_config.py`
+   folds the `initialized_data` segment into the generated text segment, so a
+   matched unit can own `.data` at its place in the image, as it owns `.sdata`
+   and `.sbss`; `build_baseline.py --finalize-linker-script` keeps that
+   explicit placement over the listing Splat also emits at the unit's text.
+   Outside the merged layout a text segment claims `.rodata`, `.data` and
+   `.bss` first, and `make split` refuses a second owner. Owners keep text
+   order, and a `-G8` owner cannot hold an initialized object of eight bytes or
+   less in `.data`, since that compiler puts it in `.sdata`.
+3. **A data-only unit names its profile in `config/slus_01411/data_c.json`.**
+   Where no text unit can own a range yet, a file with no functions does. Data
+   units are not in `matching_c.json`, which describes functions; the build gets its compiler
    profile from this manifest, and `make split` rejects a file that owns a
    dotted section without one, or a manifest entry the template never maps.
    `gcc_2_8_1_g0` is the profile to use while the unit's own small-data

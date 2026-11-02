@@ -49,7 +49,7 @@ Each claim below carries one of these tags:
   1-based `gDuel_bOpponentID`). It then branches on r15 by comparing it with
   constants loaded by `Store` (`JumpEqual` / `JumpNotEqual`). It also reads
   per-duelist numbers from `gDuel_aOpponentData` (`0x800917F0`,
-  [ai_opponent_data.c](../src/game/ai_opponent_data.c)) through
+  [ai_get_hand_search_count.c](../src/game/ai_get_hand_search_count.c)) through
   `LoadOpponentData`. A duelist's "personality" is therefore three things:
   (a) the r15 branches that name it, (b) its nine-byte row in
   `gDuel_aOpponentData`, and (c) the deck it draws.
@@ -224,7 +224,7 @@ was read from the handler; none was inferred.
 
 | Op | Name (handler) | Len | Operands | Effect | Source, address |
 |---:|---|---:|---|---|---|
-| 00 | (null) | - | - | The table slot is null, so executing it crashes. It never occurs in reachable code. | `ai_script_commands.c` |
+| 00 | (null) | - | - | The table slot is null, so executing it crashes. It never occurs in reachable code. | `ai_script_vm.c` |
 | 01 | Jump | 3 | L | goto L | `ai_script_opcodes.c` `0x80070988` |
 | 02 | JumpGreaterEqual | 5 | rA rB L | if rA >= rB goto L | same, `0x800709C0` |
 | 03 | JumpGreater | 5 | rA rB L | if rA > rB goto L | `0x80070A40` |

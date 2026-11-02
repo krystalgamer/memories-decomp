@@ -55,7 +55,7 @@ extern AnimatedBattleModelProperties gMain_aAnimatedBattleModels[];
 
 /* The mode runners Main_Loop dispatches, in the order gMain_apfnModeRunner
    holds them; the low five bits of the frontend state byte select one.
-   src/game/main_modes.c owns the table at 0x80090B64. */
+   src/game/main_mode_runners.c owns the table at 0x80090B64. */
 void Main_RunDebugMenu(void);
 void Main_RunAnimatedBattle(void);
 void Main_RunCampaign(void);
