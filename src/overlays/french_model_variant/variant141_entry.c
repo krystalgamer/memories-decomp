@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant141_entry.h"
 
-static const VECTOR D_8013BF60 = {4096, 4096, 4096, 0};
+static const VECTOR gFrenchModelVariant141_D0F60 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant141_HandleRequest(u8 *context, s32 command)
 {
     Model141State *work;
     s32 direction;
@@ -24,11 +24,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013BF60;
+    scale = gFrenchModelVariant141_D0F60;
     work = (Model141State *)context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013BFA8[command];
+        work->config = &gFrenchModelVariant141_D0FA8[command];
         config = work->config;
         point = work->positions;
         /* Native initialization does not advance this cursor. */
@@ -50,7 +50,7 @@ s32 func_8013B004(u8 *context, s32 command)
                 rand() % (config->point_spread * 2) - config->point_spread);
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &D_8013BF70[i]);
+            work->texture[i] = func_80059A50(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant141_D0F70[i]);
         }
         work->elapsed = 0;
         work->completed = 0;
