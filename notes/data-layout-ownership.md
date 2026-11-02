@@ -224,3 +224,27 @@ need either the original declarations or a toolchain explanation for a
 symbolic small-data load without size information, such as a difference in how
 the original compiler emitted `.extern`. That is the open question for the
 remaining views and for the two small ranges whose readers depend on them.
+
+## Regional layouts
+
+The regional executables use the same units in the same order, so a region
+can take ownership range by range in its own `split.yaml`. Japan's
+zero-initialized data is the North American layout moved down by `0x110` in
+`.sbss` and `0x120` in `.bss`. Its split therefore folds `initialized_data`
+and `bss_image` into `main` and lists the same owners at the shifted addresses:
+- `.sbss`: every owned block from `graphics_frame` (`0x8009AF80`) through the
+  sound block (`0x8009B348`-`0x8009B358`);
+- `.bss`: from the frame buffers (`0x8009B388`) through `text_control_commands`.
+
+Japan's movie and model small blocks (`0x8009B358`-`0x8009B388`) are in a
+different order and size, and its large blocks from `0x800EAFD4` differ in
+size (the text channels, effect entries, input and model state). Those stay
+raw until the Japanese units define their own blocks.
+
+`build_regional_baseline.py` reads each region's `split.yaml`:
+- a compiled unit listed there with a dotted data section keeps that section
+  strong and placed, with `.bss` aligned to 8 as in the North American build;
+- every other compiled section is discarded and its definitions are made weak
+  (checked per section, from `objdump -t`);
+- names inside owned blocks are `link_symbols.ld` aliases, as in the North
+  American build.

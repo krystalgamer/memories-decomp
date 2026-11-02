@@ -162,6 +162,7 @@ def compile_matching_sources(
     # Grouped functions share one object, so one profile must build it.
     compiled: dict[str, object] = {}
     objects: list[str] = []
+    owned = owned_data_sections(root, configuration)
     for index, function in enumerate(config["functions"]):
         if not isinstance(function, dict):
             raise BuildError(f"matching function {index} must be an object")
@@ -197,31 +198,38 @@ def compile_matching_sources(
             f"{source.parent.as_posix()}/{source.stem}.o"
         )
         weaken_data_definitions(
-            root, resolve_within(root, object_name, must_exist=True)
+            root,
+            resolve_within(root, object_name, must_exist=True),
+            {
+                section
+                for section in (".bss", ".sbss", ".data", ".sdata")
+                if f"{object_name}({section})" not in owned
+            },
         )
         objects.append(object_name)
     return objects
 
 
-def weaken_data_definitions(root: Path, object_path: Path) -> None:
+def weaken_data_definitions(root: Path, object_path: Path, sections: set[str]) -> None:
     """Make an object's data definitions weak in a regional build.
 
     Several regional wrappers include the same shared source, and every copy
     defines that source's North American data blocks. The region places those
     names through its link file or its own data image and discards the copies,
-    so they only need to stop colliding with the region's definitions.
+    so they only need to stop colliding with the region's definitions. A
+    section the region's split.yaml gives this object keeps strong symbols.
     """
     listing = subprocess.run(
-        [str(tool(root, "nm")), "-g", "--defined-only", str(object_path)],
+        [str(tool(root, "objdump")), "-t", str(object_path)],
         check=True,
         capture_output=True,
         text=True,
     ).stdout
-    names = [
-        fields[2]
-        for fields in (line.split() for line in listing.splitlines())
-        if len(fields) == 3 and fields[1] in ("B", "S", "D", "G")
-    ]
+    names = []
+    for line in listing.splitlines():
+        match = re.match(r"^[0-9a-fA-F]+\s+g\s+O?\s*(\.\w+)\s+[0-9a-fA-F]+\s+(\S+)$", line)
+        if match and match.group(1) in sections:
+            names.append(match.group(2))
     if names:
         run(
             root,
@@ -233,8 +241,27 @@ def weaken_data_definitions(root: Path, object_path: Path) -> None:
         )
 
 
+def owned_data_sections(root: Path, configuration: RegionalBuildConfiguration) -> set[str]:
+    """Return the object section listings the region's split.yaml places itself.
+
+    A unit that owns a zero-initialized or initialized block in this region is
+    listed at its address with a dotted section type; its definitions are the
+    region's storage and stay strong.
+    """
+    split = resolve_within(
+        root, str(Path(configuration.matching_config).parent / "split.yaml"), must_exist=True
+    )
+    owned = set()
+    for offset, section, unit in re.findall(
+        r"-\s*\[(0x[0-9A-Fa-f]+),\s*(\.sbss|\.bss|\.sdata|\.data),\s*([^\]\s]+)\]",
+        split.read_text(encoding="utf-8"),
+    ):
+        owned.add(f"{configuration.splat_directory}/build/src/{unit}.o({section})")
+    return owned
+
+
 def regional_linker_script(
-    generated: Path, output: Path, text_objects: list[str]
+    generated: Path, output: Path, text_objects: list[str], owned: set[str] = frozenset()
 ) -> Path:
     """Drop compiled text units' .data and .bss from a regional script.
 
@@ -245,8 +272,19 @@ def regional_linker_script(
     units keep their .data.
     """
     text = generated.read_text(encoding="utf-8")
-    kept = re.sub(r"^[ \t]*\S+/src/\S+\.o\(\.bss\);[ \t]*\n", "", text, flags=re.M)
+
+    def keep_bss(match: re.Match[str]) -> str:
+        listing = match.group(2)
+        if listing in owned:
+            return f"{match.group(1)}. = ALIGN(., 8);\n{match.group(0)}"
+        return ""
+
+    kept = re.sub(
+        r"^([ \t]*)(\S+/src/\S+\.o\(\.bss\));[ \t]*\n", keep_bss, text, flags=re.M
+    )
     for name in text_objects:
+        if f"{name}(.data)" in owned:
+            continue
         kept = re.sub(
             r"^[ \t]*" + re.escape(name) + r"\(\.data\);[ \t]*\n", "", kept, flags=re.M
         )
@@ -278,6 +316,7 @@ def build(root: Path, configuration: RegionalBuildConfiguration) -> Path:
             ),
             output_directory / f"{configuration.output_name}.ld",
             text_objects,
+            owned_data_sections(root, configuration),
         ),
         resolve_within(
             root,

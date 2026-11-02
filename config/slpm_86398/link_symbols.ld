@@ -84,9 +84,9 @@ D_8009AFFC = 0x8009AF5C;
 gGraphics_FrameStepControl = 0x8009AF0B;
 gGraphics_nBaseFrameStep = 0x8009AFC8;
 gGraphics_bSkipDisplaySwap = 0x8009AF98;
-gGraphics_pOrderingTable1 = 0x800E9C74;
-gGraphics_pOrderingTable2 = D_800E9D98;
-gGraphics_pOrderingTable3 = D_800E9D9C;
+gGraphics_pOrderingTable1 = gGraphics_apOrderingTables + 4;
+gGraphics_pOrderingTable2 = gGraphics_apOrderingTables + 8;
+gGraphics_pOrderingTable3 = gGraphics_apOrderingTables + 12;
 
 func_800580D4 = Model_BuildViewRelativeCoordinateUnit;
 func_80059B90 = Model_GetSlot0OffsetWorldPosition;
@@ -241,3 +241,29 @@ gJapanese_DuelFlag = 0x8009B259;
 gJapanese_FileSecondaryRequest = 0x8009B024;
 gJapanese_FileTransferFlags = 0x8009AFE4;
 gJapanese_bActiveMainMode = 0x8009B15C;
+
+/* Names inside the small zero-initialized blocks this build's units own
+ * (#2602): the blocks' start and the Japanese spellings of interior names. */
+D_8009AF80 = main_SBSS_START;
+gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
+gJapanese_D_8009B240 = gDuel_pCardViewerBackground;
+gJapanese_D_8009B24C = gDuel_pCardViewerCard;
+gJapanese_D_8009B250 = gDuel_pCardViewerTextBox;
+tent_AiSelectionRandom = D_800EAE88 + 8;
+D_800E9D98 = gGraphics_pOrderingTable2;
+D_800E9F04 = D_800E9EF0 + 20;
+gAi_Selection = D_800EAE88;
+gCardPreview_Resource1 = D_800E9EF0 + 568;
+gCardPreview_Resources = D_800E9EF0 + 504;
+gDisplayObject_apWorkSlots = D_800E9EF0;
+gDuelHand_aSlots = D_800E9EF0 + 320;
+gDuel_aCardSlotScreenPositions = D_800E9EF0 + 384;
+gDuel_aSideStates = D_800E9EF0 + 256;
+gDuel_abSelectionRecord1 = D_800E9EF0 + 60;
+gDuel_abSelectionRecord2 = D_800E9EF0 + 88;
+gDuel_abSelectionRecord3 = D_800E9EF0 + 116;
+gDuel_abSelectionSides = D_800E9EF0 + 32;
+gFade_abCurrentLevel = gFade_State + 4;
+gFile_nMasterXaLba = gFile_anLba + 24;
+gMovie_dwStreamBaseLba = gFile_anLba + 12;
+gSceneScript_Slots = D_800EAE88 + 16;

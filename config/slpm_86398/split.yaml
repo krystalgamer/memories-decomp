@@ -438,27 +438,51 @@ segments:
       - [0x62630, c, game/ai_script_state_ops]
       - [0x62b14, asm, func_80072314]
       - [0x80d84, pad]
-
-  - name: initialized_data
-    type: code
-    start: 0x80d90
-    vram: 0x80090590
-    align: 4
-    subsegments:
       - [0x80d90, data, initialized_data]
       - [0x8b664, .sdata, game/japanese/duel_battle_stats]
       - {start: 0x8b66a, type: bin, name: initialized_data_8b66a, linker_section_order: .sdata}
       - [0x8b670, .sdata, game/japanese/duel_card_effects]
       - [0x8b67d, pad]
       - [0x8b680, sdata, initialized_data_8b680]
-
-  - name: bss_image
-    type: bin
-    start: 0x8b780
-    vram: 0x8009af80
-    align: 4
-    subsegments:
-      - [0x8b780, bin, bss_image]
+      - [0x8b780, .sbss, game/graphics_frame]
+      - [0x8b7d0, .sbss, game/file_set_position_table]
+      - [0x8b7d8, .sbss, game/file_transfer_runtime]
+      - [0x8b830, .sbss, game/fade_runtime]
+      - [0x8b840, .sbss, game/duel_field_card_render]
+      - [0x8b934, .sbss, game/duel_effect_dialog_state]
+      - [0x8b948, .sbss, game/library_card_grid]
+      - [0x8b950, .sbss, game/japanese/duel_effect_object_pool]
+      - {start: 0x8b958, type: bin, name: bss_image_8009b158, linker_section_order: .sbss}
+      - [0x8b96c, .sbss, game/script_command_busy]
+      - [0x8b970, .sbss, game/script_op_load_image_scene]
+      - [0x8b9a0, .sbss, game/japanese/debug_menu_editor_entries]
+      - [0x8b9e8, .sbss, game/japanese/build_deck_draw_card_list_page]
+      - [0x8b9f0, .sbss, game/hmd_fog_textured_drivers]
+      - [0x8b9f4, .sbss, game/sorted_entry_relink]
+      - {start: 0x8ba08, type: bin, name: bss_image_8009b208, linker_section_order: .sbss}
+      - [0x8ba6c, .sbss, game/japanese/options_screen]
+      - [0x8ba80, .sbss, game/japanese/input_pads]
+      - [0x8baa8, .sbss, game/japanese/save_data_payload]
+      - [0x8baac, .sbss, game/japanese/mem_card_dialog]
+      - [0x8baf0, .sbss, game/sound_frontend]
+      - [0x8bb00, .sbss, game/display_object_core]
+      - [0x8bb18, .sbss, game/japanese/main_run_boot_sequence]
+      - [0x8bb20, .sbss, game/mem_card_driver]
+      - [0x8bb48, .sbss, game/japanese/sound_output_transition]
+      - {start: 0x8bb58, type: bin, name: bss_image_8009b358, linker_section_order: .sbss}
+      - [0x8bb88, .bss, game/graphics_frame]
+      - [0xda4d0, .bss, game/file_set_position_table]
+      - [0xda4f8, .bss, game/file_transfer_runtime]
+      - [0xda5a8, .bss, game/fade_runtime]
+      - [0xda5d0, .bss, game/duel_field_card_render]
+      - [0xda8c8, .bss, game/library_create_grid_section_sprites]
+      - [0xdb468, .bss, game/japanese/duel_effect_object_pool]
+      - [0xdb568, .bss, game/main_run_campaign]
+      - [0xdb5b8, .bss, game/japanese/debug_menu_editor_entries]
+      - [0xdb5e8, .bss, game/japanese/duel_effect_entry_occupancy]
+      - [0xdb6d8, .bss, game/japanese/duel_effect_command]
+      - [0xdb6f0, .bss, game/japanese/text_control_commands]
+      - {start: 0xdb7d4, type: bin, name: bss_image_800eafd4, linker_section_order: .bss}
 
   - name: reserved_zero
     type: bin
