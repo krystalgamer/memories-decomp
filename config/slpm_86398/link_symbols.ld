@@ -221,12 +221,6 @@ gFile_wTransferStepFlags_abs = 0x8009B002;
 
 /* Former Japanese names still used by the duel_draw_resolution.c and
  * duel_effect_states.c wrappers. */
-gJapanese_D_8009AF74 = 0x8009AEBC;
-gJapanese_D_8009B140 = 0x8009B030;
-gJapanese_D_800E9D70 = 0x800E9C50;
-gJapanese_DuelFlag = 0x8009B259;
-gJapanese_FileSecondaryRequest = 0x8009B024;
-gJapanese_FileTransferFlags = 0x8009AFE4;
 
 /* Names inside the small zero-initialized blocks this build's units own
  * (#2602): the blocks' start and the Japanese spellings of interior names. */

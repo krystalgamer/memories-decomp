@@ -6,8 +6,6 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009B23A gDuel_wSceneStateFlags
-#define D_8009B369 gJapanese_DuelFlag
-#define D_800E9D70 gJapanese_D_800E9D70
 
 #include "../duel_draw_resolution.c"
 #include "../duel_field_card_render_data.h"

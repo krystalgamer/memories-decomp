@@ -301,11 +301,7 @@ extern u8 D_8009B368;
  * selects the same arm, with its candidate object fingerprint unchanged by
  * the move. Which of the two reasons above puts it on this arm is not
  * re-derived here -- the spelling it already had is what is preserved. */
-#ifdef D_8009B369_IN_DATA
-extern u8 D_8009B369[];
-#else
-extern u8 D_8009B369;
-#endif
+/* Declared once, as gDuel_bResumeFromAnimatedBattle, in duel_session_controls.h. */
 
 /* The halfword the duel hands to SD_BGMPlay: DuelScene_UpdateResume and DuelScene_UpdateStartup
  * read it for that call, Main_StartDuel stores 0x7270, DebugMenu_EnterDuel stores

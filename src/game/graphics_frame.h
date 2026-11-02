@@ -309,7 +309,7 @@ typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
  * pair". Sixteen bytes clear -G8 on their own, so the real shape does the
  * same job. Retail reaches it with a %hi/%lo pair everywhere, never
  * gp-relative. */
-extern RECT D_800E9D70[2];
+/* Declared once, as gGraphics_aImageTransferRects, in image_transfer_rects.h. */
 
 /* The tint colour, three consecutive bytes with the components in address
  * order blue, green, red. Movie_OpenStream and Movie_StopStream pass them straight

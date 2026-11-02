@@ -533,7 +533,7 @@ D_8009B363 = 0x8009C6F8;
 gDuel_bTerrain = 0x8009C6F9;
 D_8009B368 = 0x8009C6FA;
 gFreeDuel_bReturnFlags = 0x8009C6FB;
-D_8009B369 = 0x8009C6FC;
+gDuel_bResumeFromAnimatedBattle = 0x8009C6FC;
 gGameOver_pTitleObject = 0x8009C700;
 gInput_wPad1RepeatBackup = 0x8009C708;
 gInput_wPad1PressedBackup = 0x8009C70A;
@@ -1073,7 +1073,6 @@ gDuel_bBattleRemovalSlot0 = D_8009B208;
 gDuel_bBattleRemovalSlot1 = D_8009C0B9;
 
 gDuel_bPostDuelMainMode = D_8009B368;
-gDuel_bResumeFromAnimatedBattle = D_8009B369;
 gDuel_wCampaignSceneOnWin = D_8009B370;
 gDuel_wCampaignSceneOnLoss = D_8009B372;
 gDuel_wAnimatedBattleBgmCommand = D_8009B374;
