@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image104528_entry.h"
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 FrenchModelVariant826_HandleRequest(u8 *context, s32 command)
 {
     Image104528State *work;
     MATRIX light, matrix;
@@ -20,11 +20,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation.vector, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013C0C8;
+    scale = gFrenchModelVariant826_D10C8;
     work = (Image104528State *)context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
-        work->config = &D_8013C110[command];
+        work->config = &gFrenchModelVariant826_D1110[command];
         for (i = 0; i < 64; i++) {
             setVector(&work->flashes[i], 0, 0, 0);
             setVector(&work->bursts[i], 0, 0, 0);
@@ -41,7 +41,7 @@ s32 func_8013B004(u8 *context, s32 command)
         }
         for (i = 0; i < 2; i++) {
             work->textures[i] = ModelTexture_PackPageClutCopy(
-                Model_GetActiveSlotIndex(), 1, &D_8013C0D8[i]);
+                Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant826_D10D8[i]);
         }
         work->ambient = 2048;
         work->flash_count = 0;
