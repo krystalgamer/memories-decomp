@@ -5,7 +5,7 @@
 
 /* The camera-move completion gate at 0x8005A878.
  *
- * It returns nonzero when the camera move record D_800F2B20 (ModelCameraMove,
+ * It returns nonzero when the camera move record gModel_CameraMove (ModelCameraMove,
  * model.h) has `flags == 0`, and -- only when `arg` is zero -- additionally
  * requires `mode` or `follow_countdown` to be zero. The unit defines this one function
  * and nothing else.

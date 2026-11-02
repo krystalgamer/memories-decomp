@@ -76,7 +76,7 @@ void Model_SetCameraFollowCountdown(s32 countdown_request)
     s32 hold_state = Model_GetCameraHoldState();
 
     if (hold_state != 1 || Model_GetHandlerCallbackState() != hold_state) {
-        gModel_wCameraFollowCountdown = countdown_request * 2;
+        gModel_CameraMove.follow_countdown = countdown_request * 2;
     }
 }
 

@@ -357,7 +357,7 @@ typedef struct {
     s32 key;
 } ModelHandlerRegistryEntry;
 
-/* The camera move record at D_800F2B20. One leg per point the move drives --
+/* The camera move record at gModel_CameraMove. One leg per point the move drives --
  * the eye and the target -- and the two are laid out identically, which is
  * what makes the two halves of Model_StartCameraMove's setup literal copies of each
  * other. `slot` is the model slot the end point is read from and `pair_slot`
@@ -932,9 +932,7 @@ extern ModelSlotLightEntry gModel_aSlot0FlatLights[3];
 extern ModelSlotS32Quad gModel_Slot0Scale;
 extern u16 gModel_awSlot0Position[];
 #endif
-#ifndef MODEL_CAMERA_MOVE_CUSTOM_EXTERN
-extern ModelCameraMove D_800F2B20;
-#endif
+extern ModelCameraMove gModel_CameraMove;
 #ifndef MODEL_TINT_REQUEST_CUSTOM_EXTERN
 extern ModelTintRequest gModel_aTintRequests[MODEL_TINT_REQUEST_COUNT];
 #endif

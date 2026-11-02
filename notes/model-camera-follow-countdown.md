@@ -1,9 +1,9 @@
 # Guarded camera follow countdown request
 
 `Model_SetCameraFollowCountdown`, originally `func_8005A0DC` at
-`0x8005A0DC`, sets the counter at `ModelCameraMove + 2` through its existing
-signed halfword alias `D_800F2B22`. All seven regional bindings place that
-alias exactly two bytes after `D_800F2B20`.
+`0x8005A0DC`, sets the `follow_countdown` member at `ModelCameraMove + 2` of
+`gModel_CameraMove` (formerly reached through a separate signed halfword
+alias, `D_800F2B22`, which the plain member store reproduces exactly).
 
 ## Complete consumer evidence
 

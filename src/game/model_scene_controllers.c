@@ -63,7 +63,7 @@ extern u8 gModelDebug_abSlotGfFlags[2];
 
 /* Zero-initialized storage this unit owns at 0x800F2B20-0x800F3938, defined in
  * address order ahead of the headers that declare it (#2602). */
-ModelCameraMove D_800F2B20;
+ModelCameraMove gModel_CameraMove;
 ModelTintRequest gModel_aTintRequests[10];
 u8 D_800F2C40[0xCF8];
 
@@ -2002,7 +2002,7 @@ void Model_CorrectViewDistance(s32 pull_in_request) {
     s32 distance_work;
     s32 distance_sample;
 
-    target_slot = gModel_wCameraTargetSlot[0];
+    target_slot = gModel_CameraMove.target.slot;
     lower_distance = 0x2BC;
     upper_distance = 0x3E8;
     zero_yaw = 0;

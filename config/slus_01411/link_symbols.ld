@@ -84,8 +84,6 @@ func_800695A4 = Model_DrawSharedTwoSidedSemiGt4Primitives;
 func_8006988C = Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives;
 func_80069B40 = Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
 
-gModel_CameraMove = D_800F2B20;
-gModel_wCameraFollowCountdown = D_800F2B22;
 
 D_8009AFA4 = gGraphics_FrameStepControl;
 gGraphics_nBaseFrameStep = D_8009B0D8;
@@ -319,8 +317,6 @@ gAi_bBestAttacker = D_800F5BE8 + 154;
 gAi_bBestTarget = D_800F5BE8 + 155;
 
 /* Other names for game/model_scene_controllers's small data (#2602). */
-D_800F2B22 = D_800F2B20 + 2;
-gModel_wCameraTargetSlot = D_800F2B20 + 42;
 gModel_aSlots = D_800F2C40;
 g_SDValue_output_level = g_SDValue;
 

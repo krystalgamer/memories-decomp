@@ -118,8 +118,6 @@ gDebugEffect_szFirstOperandMarker = D_800100A8;
 func_8006151C = Model_DrawGt3Primitives;
 func_80061A84 = Model_DrawGt4Primitives;
 
-gModel_CameraMove = D_800F2B20;
-gModel_wCameraFollowCountdown = D_800F2B22;
 gModel_AnimatedBattleCameraEndpoint = 0x8009BF74;
 gModel_ExodiaOrbitOffset = 0x8009BF84;
 

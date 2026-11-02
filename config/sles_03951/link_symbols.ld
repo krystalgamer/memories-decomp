@@ -650,9 +650,7 @@ gDisplayObject_aPool = 0x800F1210;
 gDisplayObject_aGeneralSlots = 0x800F1910;
 gModel_aPoseSnapshot = 0x800F3EA8;
 gModel_aEffectKeys = 0x800F3EC8;
-D_800F2B20 = 0x800F4058;
-D_800F2B22 = 0x800F405A;
-gModel_wCameraTargetSlot = 0x800F4082;
+gModel_CameraMove = 0x800F4058;
 gModel_aTintRequests = 0x800F4088;
 gModel_aSlots = 0x800F4178;
 gModel_Slot0MetadataView = 0x800F4E70;
@@ -1036,8 +1034,6 @@ gDebugEffect_szOperandsFormat = D_80010074;
 gDebugEffect_szSecondOperandMarker = D_80010090;
 gDebugEffect_szFirstOperandMarker = D_800100A8;
 
-gModel_CameraMove = D_800F2B20;
-gModel_wCameraFollowCountdown = D_800F2B22;
 
 gGraphics_FrameStepControl = D_8009AFA4;
 gGraphics_nBaseFrameStep = D_8009B0D8;
