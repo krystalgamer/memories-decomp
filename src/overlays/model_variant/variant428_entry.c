@@ -11,7 +11,7 @@
  * or curtains, with twelve spiral arms at the start of the work area and a
  * 0x34-byte config whose word at + 0x30 starts the spiral. */
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
 {
     Variant428EntryState *work = (Variant428EntryState *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -45,7 +45,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (Variant428EntryConfig *)(D_8013E59C + 0xFC) + command;
+        work->config = (Variant428EntryConfig *)(gModelVariant428_D359C + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -63,12 +63,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT428_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT428_CLUT_X, 244);
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E59C + 0xC4));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0xC4));
         flat_page = packed >> 16;
         flat_texture = packed;
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E59C + 0x8C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E59C + 0x1C));
-        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(D_8013E59C + 0xE0));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0x8C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0x1C));
+        packed = func_80059A50(work->slot, 1, (GsIMAGE *)(gModelVariant428_D359C + 0xE0));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -302,14 +302,14 @@ s32 func_8013B004(SVECTOR *point, s32 command)
                   work->target.vy - work->matrix.t[1],
                   work->target.vz - work->matrix.t[2]);
         if (work->config->start <= work->frame) {
-            func_8013C7AC((u8 *)point);
-            func_8013CC94((u8 *)point);
+            ModelVariant428_DrawSheets((u8 *)point);
+            ModelVariant428_DrawWebs((u8 *)point);
         }
         if (work->config->spiral_start <= work->frame) {
-            func_8013DBF0((u8 *)point);
+            ModelVariant428_DrawSpiral((u8 *)point);
         }
         if (work->phase > 0) {
-            func_8013C038((u8 *)point);
+            ModelVariant428_DrawBands((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

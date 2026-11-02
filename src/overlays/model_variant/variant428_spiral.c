@@ -6,7 +6,7 @@
  * radius is half the size at work + 0x15A8, drawn only where both the depth
  * and the projection flag are not negative; the size grows to 0x400.
  * The two products tested before the arms are template code with dead arms. */
-void func_8013DBF0(u8 *ctx)
+void ModelVariant428_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

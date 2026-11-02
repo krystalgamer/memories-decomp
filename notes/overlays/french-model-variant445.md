@@ -242,8 +242,9 @@ only this note and the aggregate progress fixture changed in reconciliation.
 
 The unchanged accepted `variant428_spiral.c` and its existing arm view
 reproduce the 2,492-byte helper at `0x2BD8..0x3594`, with a 400-byte
-frame in both slots. Two three-line wrappers rename `func_8013DBF0`
-to the measured French symbols. Calibration uses the authoritative
+frame in both slots. Each image's symbols file binds
+`ModelVariant428_DrawSpiral` (formerly `func_8013DBF0`) at the measured
+French address. Calibration uses the authoritative
 `gcc_2_8_1_g0_split` profile, not the North American compiler profile.
 Both slots match on the first source calibration. The initial scratch
 link lacked the `RotTransPers` name; the existing `0x80087868` binding
