@@ -290,3 +290,13 @@ gModel_wViewPitch = D_8009B37C_slpm_86398;
 gModel_ViewSnapshot = D_8009B380_slpm_86398;
 gModel_wViewYawSnapshot = D_8009B382_slpm_86398;
 gModel_wViewPitchSnapshot = D_8009B384_slpm_86398;
+
+/* Names inside the initialized tables Japan's units own (#2602). */
+D_80090E28 = D_80090E0C + 28;
+D_80090E48 = D_80090E0C + 60;
+gText_apfnPrimaryCommands = gText_SecondaryCommandHandlers + 108;
+gDuelEffect_EntryHandlers = gText_SecondaryCommandHandlers + 172;
+gDialog_apfnTransitionSteps = gDisplayEffect_apfnSteps + 32;
+
+/* The North American name a shared command table uses for this entry. */
+func_800388D8 = Text_ApplyFadeCommand;

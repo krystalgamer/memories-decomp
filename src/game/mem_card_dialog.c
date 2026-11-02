@@ -152,7 +152,11 @@ void (*gMemCardDialog_apfnSteps[])(void) = {
     MemCardDialog_StepLoad,
     MemCardDialog_StepLoadUnprompted,
     MemCardDialog_StepSave,
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+    MemCardDialog_StepAlternateSave,
+#else
     MemCardDialog_StepNone,
+#endif
     MemCardDialog_UpdateTradeSave,
 };
 

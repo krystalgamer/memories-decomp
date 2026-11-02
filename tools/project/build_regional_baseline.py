@@ -163,7 +163,9 @@ def compile_matching_sources(
     compiled: dict[str, object] = {}
     objects: list[str] = []
     owned = owned_data_sections(root, configuration)
-    for index, function in enumerate(config["functions"]):
+    for index, function in enumerate(
+        config["functions"] + owned_data_units(root, configuration, config["functions"])
+    ):
         if not isinstance(function, dict):
             raise BuildError(f"matching function {index} must be an object")
         source_value = function.get("source")
@@ -258,6 +260,43 @@ def owned_data_sections(root: Path, configuration: RegionalBuildConfiguration) -
     ):
         owned.add(f"{configuration.splat_directory}/build/src/{unit}.o({section})")
     return owned
+
+
+def owned_data_units(
+    root: Path,
+    configuration: RegionalBuildConfiguration,
+    functions: list[object],
+) -> list[dict[str, object]]:
+    """Data-only units the region's split.yaml places, with their profiles.
+
+    A unit with no text (an initialized table, for instance) is not in the
+    matching-C manifest. The region's data_c.json names its profile, falling
+    back to the North American one.
+    """
+    function_sources = {
+        function.get("source") for function in functions if isinstance(function, dict)
+    }
+    profiles: dict[str, object] = {}
+    for manifest in (
+        "config/slus_01411/data_c.json",
+        str(Path(configuration.matching_config).parent / "data_c.json"),
+    ):
+        path = root / manifest
+        if path.is_file():
+            with path.open("r", encoding="utf-8") as handle:
+                for unit in json.load(handle).get("units", []):
+                    profiles[unit["source"]] = unit["profile"]
+    units = []
+    for section in sorted(owned_data_sections(root, configuration)):
+        match = re.search(r"/build/src/(.+)\.o\(", section)
+        source = f"src/{match.group(1)}.c" if match else None
+        if source is None or source in function_sources or source.startswith("src/psyq/"):
+            continue
+        if source not in profiles:
+            raise BuildError(f"{source}: owns data but has no data_c.json profile")
+        function_sources.add(source)
+        units.append({"source": source, "profile": profiles[source]})
+    return units
 
 
 def regional_linker_script(
