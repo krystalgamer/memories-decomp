@@ -669,8 +669,8 @@ Ten images under French headers 661 and 728 are the North American
 header-644 entry (`model_variant/variant644_entry.c`) without its `E_DATA`
 work-size printf. Its format string was the whole read-only section, so it
 goes too, and the
-`src/overlays/french_model_variant/variant661_entry{,_slot1}.c` wrappers move
-the data labels 0x28 lower.
+`src/overlays/french_model_variant/variant661_entry.c` wrapper, built in both slots, moves
+the data labels 0x28 lower. Each image's symbols file binds `ModelVariant644_HandleRequest` and `gModelVariant644_D2218`, `gModelVariant644_D2234` at its own addresses.
 
 Four images under French headers 860 and 957 are the North American
 header-843 entry (`model_variant/variant843_entry.c`) with the burst palette
