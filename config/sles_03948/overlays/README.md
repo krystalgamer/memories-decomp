@@ -816,7 +816,7 @@ work-size printf and format string. The
 `src/overlays/french_model_variant/variant672_entry.c` wrapper, built in both slots, moves
 the data labels after the shorter text and read-only section 0x28 lower. Each image's symbols file binds `ModelVariant655_HandleRequest` and `gModelVariant655_D4D94`, `gModelVariant655_D4DCC` at its own addresses.
 
-French MODEL headers 673 (stages 7/9 slot 0) and 740 (stages 8/10 slot 1) build the header-656 entry (`func_8013B004`) from `src/overlays/model_variant/variant656_entry.c` through `src/overlays/french_model_variant/variant673_entry{,_slot1}.c`. `VERSION_FRENCH` drops the `E_DATA` work-size `printf` and its string, so the entry ends 0x10 bytes earlier and the GsIMAGE and command tables move 0x28 lower (`D_8013D3E0`/`D_8013D418` become `D_8013D3B8`/`D_8013D3F0`).
+French MODEL headers 673 (stages 7/9 slot 0) and 740 (stages 8/10 slot 1) build the header-656 entry (`ModelVariant656_HandleRequest`) from `src/overlays/model_variant/variant656_entry.c` through `src/overlays/french_model_variant/variant673_entry.c`. `VERSION_FRENCH` drops the `E_DATA` work-size `printf` and its string, so the entry ends 0x10 bytes earlier and the GsIMAGE and command tables move 0x28 lower (0x23E0/0x2418 become 0x23B8/0x23F0). Each image's symbols file binds `ModelVariant656_HandleRequest` and `gModelVariant656_D23E0`, `gModelVariant656_D2418` at its own addresses.
 
 Two images under French header 449 are the North American header-432 entry
 (`model_variant/variant432_entry.c`, which the US images build with the CDK
