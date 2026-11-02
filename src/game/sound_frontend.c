@@ -1,5 +1,6 @@
 #include "../types.h"
 
+#ifndef SOUND_FRONTEND_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B400-0x8009B410, defined in
  * address order ahead of the headers that declare it (#2602). */
 u32 gSD_dwCurrentBgmCommand;
@@ -8,6 +9,11 @@ s8 gSD_bOutputType;
 static u8 D_8009B409;
 static u16 D_8009B40A;
 static u32 D_8009B40C;
+#else
+extern u32 gSD_dwCurrentBgmCommand;
+extern u32 D_8009B404;
+extern s8 gSD_bOutputType;
+#endif
 
 #include "file_transfer.h"
 #include "main_frame.h"

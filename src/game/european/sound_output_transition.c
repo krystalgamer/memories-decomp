@@ -1,0 +1,12 @@
+#include "../../types.h"
+#define SOUND_OUTPUT_TRANSITION_REGIONAL_SMALL_STORAGE
+/* This build's own zero-initialized storage at 0x8009C3B8-0x8009C3C8 (#2602); its
+ * layout differs from the North American block the shared source defines. */
+struct SDSecondaryState *gSD_pSecondaryState;
+struct FileRequestSlot *gSD_pFileRequest;
+struct SDValue *g_SDValue;
+u32 D_8009C3C4_sles_03947;
+
+/* The European builds compile the shared unit through this wrapper so that
+ * they can give it their own zero-initialized storage (#2602). */
+#include "../sound_output_transition.c"

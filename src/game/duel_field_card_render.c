@@ -8,10 +8,15 @@
 
 #include "../types.h"
 
+#ifndef DUEL_FIELD_CARD_RENDER_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x800E9EF0-0x800EA1E8, defined in
  * address order ahead of the headers that declare it (#2602). */
 u8 D_800E9EF0[0x2F8];
+#else
+extern u8 D_800E9EF0[0x2F8];
+#endif
 
+#ifndef DUEL_FIELD_CARD_RENDER_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B150-0x8009B244, defined in
  * address order ahead of the headers that declare it (#2602). */
 u16 gDuel_wPlacementCardId;
@@ -101,6 +106,90 @@ s8 gDuel_bOutroWinnerSide;
 u16 gDuel_wSceneStateFlags;
 static u32 D_8009B23C;
 struct DisplayObject *gDuel_pCardViewerBackground;
+#else
+extern u16 gDuel_wPlacementCardId;
+extern u8 gDuel_bConfirmFlags;
+extern s16 gDuel_wPendingEquipBonus;
+extern s32 gDuel_dwViewTweenHeadingAccumulator;
+extern s32 gDuel_dwViewTweenOrbitAngleAccumulator;
+extern s8 gDuelCursor_Direction;
+extern u16 gDuel_wDisplayTransitionFlags;
+extern u8 gDuel_bQuitDialogState;
+extern u8 gDuel_bWinnerSide;
+extern s16 gDuel_wViewTweenReferenceZTarget;
+extern s32 gDuel_dwViewTweenReferenceZStep;
+extern u16 gDuel_wOutcomeFlags;
+extern u8 D_8009B16E;
+extern u16 gDuel_awSavedStatModifiers[2];
+extern u8 gDuel_bSceneSubStep;
+extern u16 gDuel_awSavedRecordFlags[2];
+extern struct DuelEffectRequest *gDuelEffect_pTrackedRequest;
+extern u8 *tent_DebugEffectObject0;
+extern u8 *tent_DebugEffectObject1;
+extern struct DisplayObject *gDuel_pFlipLeftMarker;
+extern struct DisplayObject *gDuel_pFlipRightMarker;
+extern s16 gDuel_wViewTweenHeadingTarget;
+extern s16 gDuel_wViewTweenOrbitAngleTarget;
+extern s32 gDuel_dwViewTweenHeadingStep;
+extern s32 gDuel_dwViewTweenOrbitAngleStep;
+extern u8 gDuel_bCardMoveSlot;
+extern s16 gDuel_wAiHandStackPending;
+extern s16 gDuel_RitualResultCardId;
+extern s16 gDuel_awBattleDamage[2];
+extern s16 gDuel_sCardEffectIndex;
+extern s16 gDuel_wMonsterRemovalCriterion;
+extern s16 gDuel_wMonsterRemovalZone;
+extern s8 gDuel_abBattleOutcome[2];
+extern struct DuelSelectionRecord *gDuel_pActiveSelectionRecord;
+extern u8 gDuel_bSelectedTrapSlot;
+extern s8 gDuel_bPresentationCursor;
+extern s32 gDuel_dwFieldDimTarget;
+extern struct DisplayObject *gDuel_pCardPreviewObject;
+extern s32 gDuel_dwViewTweenDistanceAccumulator;
+extern struct DuelSideState *gDuel_pActiveSideState;
+extern struct DisplayObject *gDuel_pActionCard;
+extern u16 gDuel_wStepCounter;
+extern s16 gDuel_wEffectCardID;
+extern u8 gDuelCursor_PickFlags;
+extern u8 gDuel_bActiveSide;
+extern s8 gDuelCursor_TargetColumn;
+extern s8 gDuelCursor_TargetRow;
+extern struct SaveDataState *gDuel_pSide0SaveData[2];
+extern u16 gDuelResult_wBgmId;
+extern u8 gDuel_bAiSelectionCursor;
+extern u16 gDuel_wAiSelectionStepDelay;
+extern struct DuelResultDisplayState *gDuel_pResultDisplayState;
+extern u8 gDuel_bPendingDrawCount;
+extern u8 gDuel_bDrawStepCountdown;
+extern s16 gDuel_wViewTweenDistanceTarget;
+extern struct DuelEffectRequest *gDuel_apSwordsEffectObjects[2 ];
+extern struct DisplayObject *gDuel_pActionReadyMarker;
+extern s32 gDuel_dwViewTweenDistanceStep;
+extern s16 gDuel_sGroundReferenceScreenX;
+extern s16 gDuel_sGroundReferenceScreenY;
+extern s16 gDuel_wViewTweenFramesRemaining;
+extern s16 gDuel_wEquipCardId;
+extern s8 D_8009B208;
+extern s8 D_8009B209;
+extern u16 D_8009B20A;
+extern s16 D_8009B20C[2];
+extern u16 gDuel_wTrapPresentationMode;
+extern struct DisplayObject *gDuel_pTerrainIcon;
+extern s8 D_8009B218;
+extern u8 D_8009B21A;
+extern struct DisplayObject *gDuel_pLifePointsPanel;
+extern u16 gDuel_wCardEffectFlags;
+extern s32 gDuel_dwViewTweenReferenceZAccumulator;
+extern u8 gDuel_bAnimatedBattleRequested;
+extern s16 gDuel_wSelectedTrapCardId;
+extern u8 *gDuel_pActiveFieldGrid;
+extern u16 gDuel_wTwoPlayerCardViewMode;
+extern u16 gDuel_wTwoPlayerSide0LifePoints;
+extern u16 gDuel_wTwoPlayerSide1LifePoints;
+extern s8 gDuel_bOutroWinnerSide;
+extern u16 gDuel_wSceneStateFlags;
+extern struct DisplayObject *gDuel_pCardViewerBackground;
+#endif
 
 #include "../ygo_types.h"
 #include "duel_side_state.h"

@@ -1,9 +1,14 @@
 #include "../types.h"
 
+#ifndef DISPLAY_OBJECT_CORE_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x800EFE38-0x800F2888, defined in
  * address order ahead of the headers that declare it (#2602). */
 u8 D_800EFE38[0x2A50];
+#else
+extern u8 D_800EFE38[0x2A50];
+#endif
 
+#ifndef DISPLAY_OBJECT_CORE_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B410-0x8009B428, defined in
  * address order ahead of the headers that declare it (#2602). */
 u16 gDisplayObject_wUnlinkCount;
@@ -13,6 +18,11 @@ static u32 D_8009B418;
 static u32 D_8009B41C;
 static u32 D_8009B420;
 s32 gDisplayObject_fRenderRetry;
+#else
+extern u16 gDisplayObject_wUnlinkCount;
+extern u16 gDisplayObject_wAcquireCount;
+extern s32 gDisplayObject_fRenderRetry;
+#endif
 
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"

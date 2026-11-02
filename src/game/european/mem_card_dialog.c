@@ -1,4 +1,58 @@
 #include "../../types.h"
+#define MEM_CARD_DIALOG_REGIONAL_STORAGE
+/* This build's own zero-initialized storage at 0x800F0638-0x800F0DA0 (#2602); its
+ * layout differs from the North American block the shared source defines. */
+u8 D_800F0638_sles_03947[0x768];
+#define GDIALOG_CHOICE_IN_DATA
+#define MEM_CARD_DIRECTORY_IN_DATA
+#define MEM_CARD_FIND_LOADED_ENTRY_RESULT_VIEW
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#include "../text_box_blocking_build.h"
+#include "../mem_card_dialog.h"
+#define MEM_CARD_DIALOG_REGIONAL_SMALL_STORAGE
+/* This build's own zero-initialized storage at 0x8009C310-0x8009C360 (#2602); its
+ * layout differs from the North American block the shared source defines. */
+u8 gMemCardDialog_RetryCounter;
+u8 D_8009C311_sles_03947;
+u16 D_8009C312_sles_03947;
+s32 gMemCardDialog_SyncStatus;
+u8 gSaveData_PairSetupState;
+u8 gMemCardDialog_Outcome;
+u8 gMemCardDialog_ChannelIndex;
+u8 D_8009C31B_sles_03947;
+u32 D_8009C31C_sles_03947;
+s32 gMemCardDialog_SyncCommand;
+s32 gMemCardWork_nRequestResult;
+s32 gMemCardDialog_SyncResult;
+u8 D_8009C32C_sles_03947;
+u8 gMemCardDialog_Port;
+u16 gMemCard_wDialogFlags;
+u8 gSaveData_AllowIdentityBypass;
+u8 D_8009B3C1;
+u16 gMemCardDialog_TransferSize;
+u16 gMemCardDialog_TransferOffset;
+u8 gMemCardWork_OperationMode;
+u8 gMemCardDialog_MessageCode;
+u16 gMemCardWork_wFlags;
+u8 gMemCardWork_OperationState;
+u8 D_8009C33B_sles_03947;
+u8 *gMemCard_pPrimaryTransferCursor;
+u8 gMemCardWork_bOperationResult;
+u8 D_8009C341_sles_03947;
+u16 D_8009C342_sles_03947;
+DisplayObject *gMemCard_pDialogObject;
+u8 gMemCardDialog_BlockCount;
+u8 gMemCardWork_bSlotIndex;
+u16 D_8009C34A_sles_03947;
+u8 *gMemCard_pSecondaryTransferCursor;
+u8 gMemCardDialog_StepIndex;
+u8 gMemCardDialog_OperationState;
+u16 D_8009C352_sles_03947;
+s32 gMemCardWork_nCompletedRequest;
+u16 D_8009C358_sles_03947;
+u8 gSaveData_LoadPairState;
+u8 gSaveData_PairMessageCode;
+u32 D_8009C35C_sles_03947;
 
 /* SLES-03947 build of src/game/mem_card_dialog.c. */
 #define VERSION_EUROPE

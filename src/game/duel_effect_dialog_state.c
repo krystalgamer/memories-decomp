@@ -1,5 +1,6 @@
 #include "../types.h"
 
+#ifndef DUEL_EFFECT_DIALOG_STATE_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B244-0x8009B258, defined in
  * address order ahead of the headers that declare it (#2602). */
 u16 gDuel_wEffectDialogTextID;
@@ -13,6 +14,16 @@ struct DuelEffectChannel *gDuel_pCardViewerTextBox;
 u8 gDuel_bEffectState;
 static u8 D_8009B255;
 static u16 D_8009B256;
+#else
+extern u16 gDuel_wEffectDialogTextID;
+extern u16 gDuel_wViewerCardID;
+extern u8 gDuel_bEffectHandlerFlags;
+extern u8 gDuel_bActiveEffectState;
+extern u8 gDuel_bCardViewerYOffset;
+extern struct DisplayObject *gDuel_pCardViewerCard;
+extern struct DuelEffectChannel *gDuel_pCardViewerTextBox;
+extern u8 gDuel_bEffectState;
+#endif
 
 #include "duel_effect_state_latch.h"
 #include "duel_effect.h"

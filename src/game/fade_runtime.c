@@ -1,6 +1,7 @@
 #define D_8009B0D8_IN_DATA
 #include "../types.h"
 
+#ifndef FADE_RUNTIME_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B140-0x8009B150, defined in
  * address order ahead of the headers that declare it (#2602). */
 u8 D_8009B140;
@@ -16,6 +17,19 @@ u8 gFade_bTargetGreen;
 u8 gFade_bTargetRed;
 static u8 D_8009B14D;
 static u16 D_8009B14E;
+#else
+extern u8 D_8009B140;
+extern u8 gFade_bOrderingTableMode;
+extern u8 gGraphics_bClearBlue;
+extern u8 gGraphics_bClearGreen;
+extern u8 gGraphics_bClearRed;
+extern u8 D_8009B145;
+extern s16 gGraphics_sViewportX;
+extern s16 gGraphics_sViewportY;
+extern u8 gFade_bTargetBlue;
+extern u8 gFade_bTargetGreen;
+extern u8 gFade_bTargetRed;
+#endif
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -25,9 +39,13 @@ static u16 D_8009B14E;
 
 #include "fade.h"
 
+#ifndef FADE_RUNTIME_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x800E9EC8-0x800E9EF0, defined in
  * address order ahead of the headers that declare it (#2602). */
 FadeTransitionState gFade_State;
+#else
+extern FadeTransitionState gFade_State;
+#endif
 
 #include "fade_overlay_controls.h"
 #include "../unmatched.h"

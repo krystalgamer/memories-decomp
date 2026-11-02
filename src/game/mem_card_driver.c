@@ -1,12 +1,20 @@
 #include "../types.h"
 
+#ifndef MEM_CARD_DRIVER_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x800F2888-0x800F2B20, defined in
  * address order ahead of the headers that declare it (#2602). */
 u8 D_800F2888[0x258];
 long gMemCard_aIOEventHandles[4];
 long gMemCard_aHwIOEventHandles[4];
 char gMemCard_szRequestPath[32];
+#else
+extern u8 D_800F2888[0x258];
+extern long gMemCard_aIOEventHandles[4];
+extern long gMemCard_aHwIOEventHandles[4];
+extern char gMemCard_szRequestPath[32];
+#endif
 
+#ifndef MEM_CARD_DRIVER_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B430-0x8009B458, defined in
  * address order ahead of the headers that declare it (#2602). */
 s32 gMemCard_pRequestBuf;
@@ -25,6 +33,22 @@ u8 gMemCard_bDirFlags;
 u8 gMemCard_bRequestStep;
 volatile s32 gMemCard_nIOResult;
 static u32 D_8009B454;
+#else
+extern s32 gMemCard_pRequestBuf;
+extern u16 gMemCard_wRequestSize;
+extern u8 gMemCard_bTransferRetriesRemaining;
+extern u8 gMemCard_bChannel;
+extern s32 gMemCard_nFreeBlocks;
+extern u8 gMemCard_bRetries;
+extern u8 gMemCard_bLoadStep;
+extern s8 gMemCard_bRequest;
+extern s32 gMemCard_nDirEntries;
+extern struct DIRENTRY *gMemCard_pDirEntries;
+extern u16 gMemCard_wRequestOffset;
+extern u8 gMemCard_bDirFlags;
+extern u8 gMemCard_bRequestStep;
+extern volatile s32 gMemCard_nIOResult;
+#endif
 
 #include "../psyq/libapi.h"
 #include "../psyq/stdio.h"

@@ -1,9 +1,13 @@
 #include "../types.h"
 
+#ifndef SCRIPT_COMMAND_BUSY_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B27C-0x8009B280, defined in
  * address order ahead of the headers that declare it (#2602). */
 u16 gScript_wCommandWord;
 static u16 D_8009B27E;
+#else
+extern u16 gScript_wCommandWord;
+#endif
 
 #include "script_command_busy.h"
 #include "script_state.h"

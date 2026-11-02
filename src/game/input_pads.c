@@ -6,6 +6,7 @@
 #define D_8009B0D8_IN_DATA
 #include "../types.h"
 
+#ifndef INPUT_PADS_REGIONAL_SMALL_STORAGE
 /* Zero-initialized storage this unit owns at 0x8009B390-0x8009B3B8, defined in
  * address order ahead of the headers that declare it (#2602). */
 u32 gInput_dwPreviousHeld;
@@ -23,6 +24,23 @@ u32 gInput_dwPendingHeld;
 u16 gInput_wPad1HeldBackup;
 u32 gInput_dwDeferredRepeat;
 u32 gInput_dwDeferredPressed;
+#else
+extern u32 gInput_dwPreviousHeld;
+extern u16 gInput_wPad1Repeat;
+extern u16 gInput_wPad2Repeat;
+extern volatile u16 gInput_wPad1Pressed;
+extern volatile u16 gInput_wPad2Pressed;
+extern u8 gInput_bRepeatDelay;
+extern u16 gInput_wPad1RepeatBackup;
+extern u16 gInput_wPad1PressedBackup;
+extern u8 gInput_bRepeatInterval;
+extern volatile u16 gInput_wPad1Held;
+extern volatile u16 gInput_wPad2Held;
+extern u32 gInput_dwPendingHeld;
+extern u16 gInput_wPad1HeldBackup;
+extern u32 gInput_dwDeferredRepeat;
+extern u32 gInput_dwDeferredPressed;
+#endif
 
 #ifndef INPUT_PADS_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x800EF668-0x800EF6D0, defined in
