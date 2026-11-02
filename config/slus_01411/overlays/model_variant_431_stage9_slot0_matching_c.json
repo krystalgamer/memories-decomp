@@ -16,25 +16,25 @@
       "address": "0x8013C718",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x698",
-      "source": "src/overlays/model_variant/variant457_funnels.c"
+      "source": "src/overlays/french_model_variant/variant474_funnels.c"
     },
     {
       "address": "0x8013CDB0",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x458",
-      "source": "src/overlays/model_variant/variant457_mesh.c"
+      "source": "src/overlays/spanish_model_variant/variant474_mesh.c"
     },
     {
       "address": "0x8013D208",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x964",
-      "source": "src/overlays/model_variant/variant457_spiral.c"
+      "source": "src/overlays/spanish_model_variant/variant474_spiral.c"
     },
     {
       "address": "0x8013DB6C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4FC",
-      "source": "src/overlays/model_variant/variant457_sheets.c"
+      "source": "src/overlays/spanish_model_variant/variant474_sheets.c"
     },
     {
       "address": "0x8013E068",

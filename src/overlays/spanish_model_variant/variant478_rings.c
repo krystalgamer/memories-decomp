@@ -2,7 +2,7 @@
 #include "variant478_rings.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013CDA0(u8 *context)
+void SpanishModelVariant478_DrawPetalRings(u8 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */

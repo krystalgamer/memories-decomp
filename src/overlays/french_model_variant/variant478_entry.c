@@ -5,7 +5,7 @@
 #define MODEL_VARIANT478_CLUT_X 640
 #endif
 
-s32 func_8013B004(SVECTOR *point, s32 command)
+s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
 {
     EntryState478 *work = (EntryState478 *)point;
     MATRIX unused_matrix0, unused_matrix1;
@@ -40,7 +40,7 @@ s32 func_8013B004(SVECTOR *point, s32 command)
 
     if (command >= 0) {
         work->slot = Model_GetActiveSlotIndex();
-        work->config = (EntryConfig478 *)(D_8013D220 + 0xFC) + command;
+        work->config = (EntryConfig478 *)(gFrenchModelVariant478_D2220 + 0xFC) + command;
         work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
         work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
         work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
@@ -56,12 +56,12 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         clut = GetClut(MODEL_VARIANT478_CLUT_X, 244);
         GetTPage(1, 1, 896, 0);
         GetClut(MODEL_VARIANT478_CLUT_X, 244);
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D220 + 0xC4));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant478_D2220 + 0xC4));
         flat_page = packed >> 16;
         flat_clut = packed;
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D220 + 0x8C));
-        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D220 + 0x1C));
-        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(D_8013D220 + 0x54));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant478_D2220 + 0x8C));
+        ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant478_D2220 + 0x1C));
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, (GsIMAGE *)(gFrenchModelVariant478_D2220 + 0x54));
         SetPolyG3(triangle);
         SetSemiTrans(triangle, 1);
         SetPolyG4(quad);
@@ -341,13 +341,13 @@ s32 func_8013B004(SVECTOR *point, s32 command)
         work->screen_delta.vx = (u16)projection.target - screen_x;
         work->screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->start <= work->elapsed) {
-            func_8013CDA0((u8 *)point);
+            SpanishModelVariant478_DrawPetalRings((u8 *)point);
         }
         if (work->config->swarm_start <= work->elapsed) {
-            func_8013C34C((u8 *)point);
+            FrenchModelVariant478_DrawSwarm((u8 *)point);
         }
         if (work->phase >= 2) {
-            func_8013C898((u8 *)point);
+            SpanishModelVariant478_DrawOrbitingQuads((u8 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

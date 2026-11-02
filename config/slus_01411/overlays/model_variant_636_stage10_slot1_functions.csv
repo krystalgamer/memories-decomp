@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0x134C,func_8017B004,matching_c,overlay/model_variant_636_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C350,0x540,func_8017C350,matching_c,overlay/model_variant_636_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017C890,0x4FC,func_8017C890,matching_c,overlay/model_variant_636_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
-0x8017CD8C,0x494,func_8017CD8C,matching_c,overlay/model_variant_636_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017B004,0x134C,FrenchModelVariant478_HandleRequest,matching_c,overlay/model_variant_636_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C350,0x540,FrenchModelVariant478_DrawSwarm,matching_c,overlay/model_variant_636_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017C890,0x4FC,SpanishModelVariant478_DrawOrbitingQuads,matching_c,overlay/model_variant_636_stage10_slot1,Complete module byte identity and section-defined C ownership verified.
+0x8017CD8C,0x494,SpanishModelVariant478_DrawPetalRings,matching_c,overlay/model_variant_636_stage10_slot1,Complete module byte identity and section-defined C ownership verified.

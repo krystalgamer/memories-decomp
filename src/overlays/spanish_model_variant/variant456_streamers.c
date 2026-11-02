@@ -17,7 +17,7 @@
  * segment as a POLY_G4 as wide as the projected offset. Below the fifth
  * phase, a positive length follows one eighth of the pulse size held in the
  * record at work + 0x1580. */
-void func_8013E4D4(u8 *ctx)
+void SpanishModelVariant456_DrawCoiledStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

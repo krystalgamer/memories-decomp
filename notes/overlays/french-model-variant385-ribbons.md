@@ -1,6 +1,6 @@
 # French MODEL385 ribbons helper
 
-`func_8013CB00` / `func_8017CB00` (MODEL385 family, image offset `0x1B00`,
+`FrenchModelVariant385_DrawRibbonFan` (`0x8013CB00` / `0x8017CB00`, MODEL385 family, image offset `0x1B00`,
 0x6B8 bytes) builds and draws the eight-ribbon fan. **No release had matching
 C for this body before.** It is reachable directly from the entry.
 

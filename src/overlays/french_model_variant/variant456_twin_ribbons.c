@@ -16,7 +16,7 @@
 #define TWIN_RIBBONS456_POINT ribbon->sa[j]
 #endif
 
-void func_8013C01C(u8 *ctx)
+void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

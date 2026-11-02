@@ -56,49 +56,49 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant439_entry_slot1]
+      - [0x4, c, overlays/model_variant/variant439_entry]
   - name: helper_1020
     type: code
     start: 0x1020
     vram: 0x8017C020
     align: 4
     subsegments:
-      - [0x1020, c, overlays/model_variant/variant439_twin_ribbons_slot1]
+      - [0x1020, c, overlays/model_variant/variant439_twin_ribbons]
   - name: helper_1828
     type: code
     start: 0x1828
     vram: 0x8017C828
     align: 4
     subsegments:
-      - [0x1828, c, overlays/model_variant/variant439_ribbons_slot1]
+      - [0x1828, c, overlays/model_variant/variant439_ribbons]
   - name: helper_1f34
     type: code
     start: 0x1F34
     vram: 0x8017CF34
     align: 4
     subsegments:
-      - [0x1F34, c, overlays/model_variant/variant439_sprays_slot1]
+      - [0x1F34, c, overlays/spanish_model_variant/variant456_sprays]
   - name: helper_2a60
     type: code
     start: 0x2A60
     vram: 0x8017DA60
     align: 4
     subsegments:
-      - [0x2A60, c, overlays/model_variant/variant439_sheets_slot1]
+      - [0x2A60, c, overlays/model_variant/variant439_sheets]
   - name: helper_30ec
     type: code
     start: 0x30EC
     vram: 0x8017E0EC
     align: 4
     subsegments:
-      - [0x30EC, c, overlays/model_variant/variant439_lines_slot1]
+      - [0x30EC, c, overlays/model_variant/variant439_lines]
   - name: helper_3470
     type: code
     start: 0x3470
     vram: 0x8017E470
     align: 4
     subsegments:
-      - [0x3470, c, overlays/model_variant/variant439_streamers_slot1]
+      - [0x3470, c, overlays/model_variant/variant439_streamers]
   - name: data
     type: code
     start: 0x3C9C

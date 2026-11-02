@@ -54,49 +54,49 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant474_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant474_entry]
   - name: helper_E38
     type: code
     start: 0xE38
     vram: 0x8017BE38
     align: 4
     subsegments:
-      - [0xE38, c, overlays/french_model_variant/variant474_ribbons_slot1]
+      - [0xE38, c, overlays/french_model_variant/variant474_ribbons]
   - name: helper_1738
     type: code
     start: 0x1738
     vram: 0x8017C738
     align: 4
     subsegments:
-      - [0x1738, c, overlays/french_model_variant/variant474_funnels_slot1]
+      - [0x1738, c, overlays/french_model_variant/variant474_funnels]
   - name: helper_1DC0
     type: code
     start: 0x1DC0
     vram: 0x8017CDC0
     align: 4
     subsegments:
-      - [0x1DC0, c, overlays/spanish_model_variant/variant474_mesh_slot1]
+      - [0x1DC0, c, overlays/spanish_model_variant/variant474_mesh]
   - name: helper_2240
     type: code
     start: 0x2240
     vram: 0x8017D240
     align: 4
     subsegments:
-      - [0x2240, c, overlays/spanish_model_variant/variant474_spiral_slot1]
+      - [0x2240, c, overlays/spanish_model_variant/variant474_spiral]
   - name: helper_2BD8
     type: code
     start: 0x2BD8
     vram: 0x8017DBD8
     align: 4
     subsegments:
-      - [0x2BD8, c, overlays/spanish_model_variant/variant474_sheets_slot1]
+      - [0x2BD8, c, overlays/spanish_model_variant/variant474_sheets]
   - name: helper_30D0
     type: code
     start: 0x30D0
     vram: 0x8017E0D0
     align: 4
     subsegments:
-      - [0x30D0, c, overlays/spanish_model_variant/variant474_streamers_slot1]
+      - [0x30D0, c, overlays/spanish_model_variant/variant474_streamers]
   - name: unclassified_tail
     type: code
     start: 0x38BC

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant463_sheets.h"
 
-void func_8013E2E8(u8 *context)
+void FrenchModelVariant463_DrawSheets(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

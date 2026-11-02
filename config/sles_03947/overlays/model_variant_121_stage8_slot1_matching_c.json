@@ -4,43 +4,43 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE34",
-      "source": "src/overlays/french_model_variant/variant474_entry_slot1.c"
+      "source": "src/overlays/french_model_variant/variant474_entry.c"
     },
     {
       "address": "0x8017BE38",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x900",
-      "source": "src/overlays/french_model_variant/variant474_ribbons_slot1.c"
+      "source": "src/overlays/french_model_variant/variant474_ribbons.c"
     },
     {
       "address": "0x8017C738",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x688",
-      "source": "src/overlays/french_model_variant/variant474_funnels_slot1.c"
+      "source": "src/overlays/french_model_variant/variant474_funnels.c"
     },
     {
       "address": "0x8017CDC0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x480",
-      "source": "src/overlays/spanish_model_variant/variant474_mesh_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant474_mesh.c"
     },
     {
       "address": "0x8017D240",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x998",
-      "source": "src/overlays/spanish_model_variant/variant474_spiral_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant474_spiral.c"
     },
     {
       "address": "0x8017DBD8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4F8",
-      "source": "src/overlays/spanish_model_variant/variant474_sheets_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant474_sheets.c"
     },
     {
       "address": "0x8017E0D0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7EC",
-      "source": "src/overlays/spanish_model_variant/variant474_streamers_slot1.c"
+      "source": "src/overlays/spanish_model_variant/variant474_streamers.c"
     }
   ],
   "schema": 1

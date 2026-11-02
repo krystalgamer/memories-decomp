@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant385_pulse.h"
 
-void func_8013D1B8(u8 *context)
+void SpanishModelVariant385_DrawPulsingQuads(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

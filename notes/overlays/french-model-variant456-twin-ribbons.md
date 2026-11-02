@@ -1,9 +1,9 @@
 # French header-456 twin ribbons helper
 
-`func_8013C01C` / `func_8017C01C` (image offset `0x101C`, 0x818 bytes)
-grows and draws two ribbons of three swaying points.
-`french_model_variant/variant456_twin_ribbons_slot1.c` renames the body for
-the slot-1 images.
+`FrenchModelVariant456_DrawTwinRibbons` (`0x8013C01C` / `0x8017C01C`, image
+offset `0x101C`, 0x818 bytes) grows and draws two ribbons of three swaying
+points. One source serves both slots; each image's symbols file binds the name
+at its own address.
 
 The body is identical in twelve images: the French and Spanish
 `model_variant_163`, `model_variant_460` and `model_variant_536` stage

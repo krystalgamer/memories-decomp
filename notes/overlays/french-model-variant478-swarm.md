@@ -1,7 +1,8 @@
 # French MODEL478 swarm helper
 
-`func_8013C34C` / `func_8017C34C` (MODEL478 family, image offset `0x134C`,
-0x54C bytes) draws and advances a swarm of 32 growing quads. **No release
+`FrenchModelVariant478_DrawSwarm` (`0x8013C34C` / `0x8017C34C`, MODEL478
+family, image offset `0x134C`, 0x54C bytes; one source for both slots, bound
+per image) draws and advances a swarm of 32 growing quads. **No release
 had matching C for this body before.** It is a different body from the
 accepted Spanish MODEL478 quads helper (`variant478_quads.c`, 0x508 bytes).
 

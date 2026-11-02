@@ -16,7 +16,7 @@
  * projects each spine and a copy of it moved along the view, and draws each
  * segment as a POLY_G4 as wide as the projected offset. From the fifth phase
  * on, the streamer length is reset from the word at work + 0x1BD4. */
-void func_8013E0D0(u8 *ctx)
+void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;

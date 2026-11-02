@@ -1,9 +1,9 @@
 // MODEL.MRG model 636 (record 586), sector 161936, header 461, loaded at 0x8013B000.
-func_8013B004 = 0x8013B004; // type:func size:0x134C defined:true
-func_8013C350 = 0x8013C350; // type:func size:0x540 defined:true
-func_8013C890 = 0x8013C890; // type:func size:0x4FC defined:true
-func_8013CD8C = 0x8013CD8C; // type:func size:0x494 defined:true
-D_8013D220 = 0x8013D220; // type:u8 size:0x2DE0 defined:true
+FrenchModelVariant478_HandleRequest = 0x8013B004; // type:func size:0x134C defined:true
+FrenchModelVariant478_DrawSwarm = 0x8013C350; // type:func size:0x540 defined:true
+SpanishModelVariant478_DrawOrbitingQuads = 0x8013C890; // type:func size:0x4FC defined:true
+SpanishModelVariant478_DrawPetalRings = 0x8013CD8C; // type:func size:0x494 defined:true
+gFrenchModelVariant478_D2220 = 0x8013D220; // type:u8 size:0x2DE0 defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true
