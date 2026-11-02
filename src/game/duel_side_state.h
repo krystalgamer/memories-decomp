@@ -259,7 +259,7 @@ extern u8 gDuel_bPlayerLost;
 #endif
 
 /* A byte Main_RunDuel reads into a local after File_WaitForTransfers and,
- * past its nop barrier, copies into D_8009B26C. Four functions store it:
+ * past its nop barrier, copies into gMain_bActiveModeState. Four functions store it:
  * DebugMenu_EnterDuel stores 0 (then calls Main_StartDuel),
  * Main_RunTwoPlayerDuelSetup stores
  * 8 when MainMenu_UpdateValueSetup returned 1, Text_StartCampaignDuel

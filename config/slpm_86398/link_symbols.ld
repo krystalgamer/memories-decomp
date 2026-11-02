@@ -160,9 +160,6 @@ gFade_bWhiteLatch = D_8009B145;
 
 gMemCardWork_bFrameChecksum = 0x8021007F;
 
-gMain_bReturnMode = D_8009B269;
-gMain_bActiveModeState = 0x8009B15C;
-gMain_bRequestedMenuID = 0x8009B15D;
 
 gText_PrimaryStringOffsets = D_801C0000;
 gText_GlobalStringOffsets = D_801D6000;
@@ -230,15 +227,11 @@ gJapanese_D_800E9D70 = 0x800E9C50;
 gJapanese_DuelFlag = 0x8009B259;
 gJapanese_FileSecondaryRequest = 0x8009B024;
 gJapanese_FileTransferFlags = 0x8009AFE4;
-gJapanese_bActiveMainMode = 0x8009B15C;
 
 /* Names inside the small zero-initialized blocks this build's units own
  * (#2602): the blocks' start and the Japanese spellings of interior names. */
 D_8009AF80 = main_SBSS_START;
 gDuel_pSide1SaveData = gDuel_pSide0SaveData + 4;
-gJapanese_D_8009B240 = gDuel_pCardViewerBackground;
-gJapanese_D_8009B24C = gDuel_pCardViewerCard;
-gJapanese_D_8009B250 = gDuel_pCardViewerTextBox;
 tent_AiSelectionRandom = D_800EAE88 + 8;
 D_800E9F04 = D_800E9EF0 + 20;
 gAi_Selection = D_800EAE88;

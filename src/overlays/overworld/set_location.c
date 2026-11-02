@@ -623,7 +623,7 @@ void CampaignMap_UpdateLocation(void)
         D_800F2848.field_00 = D_800F2848.field_00 - 2;
         ViewState_ApplyOrbit();
         if ((gFade_State.flags & 0x80) == 0) {
-            D_8009B26C = 2;
+            gMain_bActiveModeState = 2;
             gCampaignSceneIndex = gCampaignMap_Location + 32;
         }
         return;

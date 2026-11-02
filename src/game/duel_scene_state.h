@@ -7,7 +7,7 @@
 #define DUEL_SCENE_FLAG_INITIALIZED 0x8000
 
 /* Scene phase and update flags. All measured accesses use this halfword;
- * the gap up to D_8009B244 is not evidence of a wider object. */
+ * the gap up to gDuel_wEffectDialogTextID (0x8009B244) is not evidence of a wider object. */
 extern u16 gDuel_wSceneStateFlags;
 
 #endif

@@ -24,7 +24,6 @@
 #include "display_object_layout.h"
 #include "duel_effect.h"
 #include "text_channel_state.h"
-#define DUEL_CARD_VIEWER_ADDRESS_ALIASES
 #include "duel_card_viewer.h"
 #include "duel_effect_tables.h"
 #include "text_box_lifecycle.h"
@@ -43,7 +42,7 @@
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"
 #include "duel_effect_card_viewer_state.h"
-#define D_8009B26C_AS_SCALAR_DATA
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../unmatched.h"
 #include "main_mode_state.h"
 #ifdef VERSION_EUROPE
@@ -126,7 +125,7 @@ void DuelEffect_UpdateCardViewerState(void)
         obj->field_60 = slide_in;
         DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset(obj, 0x14);
-        D_8009B24C = obj;
+        gDuel_pCardViewerCard = obj;
         obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
 #ifdef VERSION_EUROPE
         DisplayObject_ConfigureSpriteAtPosition((u8 *)obj, 0x98, 0x108, 0, 2, 4, 0xD, 0x107);
@@ -139,8 +138,8 @@ void DuelEffect_UpdateCardViewerState(void)
         DisplayObject_SetDepthOffset(obj, 0x14);
         DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(obj));
         obj->field_60 = slide_in;
-        D_8009B240 = obj;
-        D_8009B250 = 0;
+        gDuel_pCardViewerBackground = obj;
+        gDuel_pCardViewerTextBox = 0;
         i = 0;
         stats = gDuel_adwCardStats;
 #ifdef VERSION_EUROPE
@@ -180,7 +179,7 @@ void DuelEffect_UpdateCardViewerState(void)
 #endif
 #endif
                 box->depth_offset = 0x15;
-                D_8009B250 = box;
+                gDuel_pCardViewerTextBox = box;
                 TextBox_BuildBlocking((struct DuelEffectChannel *)box);
                 break;
             }
@@ -188,13 +187,13 @@ void DuelEffect_UpdateCardViewerState(void)
         Fade_SetTargetLevel(0x40, 2);
         gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 0x13;
         SD_SEPlayFull(0x34);
-        D_8009B248 |= 0x40;
+        gDuel_bEffectHandlerFlags |= 0x40;
         return;
     }
 
-    state = D_8009B248;
+    state = gDuel_bEffectHandlerFlags;
     if (state & 0x40) {
-        obj = D_8009B240;
+        obj = gDuel_pCardViewerBackground;
         speed = obj->field_60;
         if (speed != 0) {
             if (state & 0x10) {
@@ -238,16 +237,16 @@ void DuelEffect_UpdateCardViewerState(void)
                     obj->field_60 = 0;
                 }
             }
-            pos_box = D_8009B250;
+            pos_box = gDuel_pCardViewerTextBox;
             if (pos_box != 0) {
                 TextBox_SetPos(pos_box, *(s16 *)&obj->field_30.h.field_30,
                                *(s16 *)&obj->field_30.h.field_32);
             }
         }
-        obj = D_8009B24C;
+        obj = gDuel_pCardViewerCard;
         speed = obj->field_60;
         if (speed != 0) {
-            if (D_8009B248 & 0x10) {
+            if (gDuel_bEffectHandlerFlags & 0x10) {
                 Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
                                  -0x8C,
                                  *(s16 *)&obj->field_30.h.field_32,
@@ -275,23 +274,23 @@ void DuelEffect_UpdateCardViewerState(void)
              gFile_dwCancelRequestState_abs) != 0) {
             return;
         }
-        bg = D_8009B240;
+        bg = gDuel_pCardViewerBackground;
         if (bg->field_60 != 0) {
             return;
         }
-        if (D_8009B24C->field_60 != 0) {
+        if (gDuel_pCardViewerCard->field_60 != 0) {
             return;
         }
-        closing = D_8009B248;
+        closing = gDuel_bEffectHandlerFlags;
         masked = closing & 0xBF;
         test = closing & 0x10;
-        D_8009B248 = masked;
+        gDuel_bEffectHandlerFlags = masked;
         if (test == 0) {
             return;
         }
         DisplayObject_ReleaseIfPresent(bg);
         DuelEffect_ReleaseResourceObjects(3);
-        dead_box = D_8009B250;
+        dead_box = gDuel_pCardViewerTextBox;
         if (dead_box != 0) {
             TextBox_Destroy(dead_box);
         }
@@ -301,14 +300,14 @@ void DuelEffect_UpdateCardViewerState(void)
     }
 
     if ((state & 0x20) == 0) {
-        obj = D_8009B24C;
+        obj = gDuel_pCardViewerCard;
         obj->field_20.b.rotation_y += 0xC;
         if (obj->field_20.b.rotation_y < 0x40) {
             objflags = obj->flags;
             obj->field_20.b.rotation_y = 0;
-            state = D_8009B248 | 0x20;
+            state = gDuel_bEffectHandlerFlags | 0x20;
             obj->flags = objflags & 0xFFFB;
-            D_8009B248 = state;
+            gDuel_bEffectHandlerFlags = state;
         }
         return;
     }
@@ -330,14 +329,14 @@ void DuelEffect_UpdateCardViewerState(void)
 press:
 #endif
     slide_out = 0x400;
-    DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(D_8009B240));
-    next_obj = D_8009B24C;
-    D_8009B240->field_60 = slide_out;
+    DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(gDuel_pCardViewerBackground));
+    next_obj = gDuel_pCardViewerCard;
+    gDuel_pCardViewerBackground->field_60 = slide_out;
     DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(next_obj));
-    D_8009B24C->field_60 = slide_out;
+    gDuel_pCardViewerCard->field_60 = slide_out;
     Fade_SetTargetLevel(0xFF, 2);
     SD_SEPlayFull(0x34);
-    D_8009B248 |= 0x50;
+    gDuel_bEffectHandlerFlags |= 0x50;
 }
 
 /* The duel-effect state dispatcher, the next function in the image. It

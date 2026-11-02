@@ -51,8 +51,9 @@ to guard their one-time setup. The remaining handler bits are presentation
 specific and stay unnamed.
 
 The card-viewer implementation remains a candidate because exact code
-generation requires two pinned registers. Its address-based source filename
-and the `D_8009B240`, `D_8009B248`, `D_8009B24C`, and `D_8009B250`
-declaration views are retained as lexical candidate contracts through their
-owning headers; the linked function and generated assembly use the semantic
-runtime names.
+generation requires two pinned registers. It now reads and writes the single
+semantic declarations `gDuel_pCardViewerBackground`, `gDuel_pCardViewerCard`,
+`gDuel_pCardViewerTextBox`, and `gDuel_bEffectHandlerFlags`; the former
+`D_8009B240`/`D_8009B248`/`D_8009B24C`/`D_8009B250` alias externs and their
+linker-script and regional `#define` bindings were removed. European-family
+images bind the semantic names directly because their C `.sbss` is discarded.

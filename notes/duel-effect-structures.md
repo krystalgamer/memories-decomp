@@ -486,18 +486,19 @@ search bound, linker alias or regional layout changes.
 
 ## Dialog and active-handler control bytes
 
-`duel_effect.h` also owns three scalar control contracts used by the resident
-state machine. `D_8009B244` is the message identifier passed to
-`TextBox_Create` by `func_80028310`. `D_8009B248` is that dialog's two-stage
-latch: bit `0x80` records that the box was created, and bit `0x40` records that
-its choice object was opened. `DuelEffect_UpdateState` clears the latch when a
-new request starts. `D_8009B24A` holds the active handler index copied from
-`D_8009B254` before the request byte receives its started bit.
+The resident state machine uses three scalar control bytes.
+`gDuel_wEffectDialogTextID` (0x8009B244) is the message identifier passed to
+`TextBox_Create` by `func_80028310`. `gDuel_bEffectHandlerFlags` (0x8009B248)
+is that dialog's two-stage latch: bit `0x80` records that the box was created,
+and bit `0x40` records that its choice object was opened.
+`DuelEffect_UpdateState` clears the latch when a new request starts.
+`gDuel_bActiveEffectState` (0x8009B24A) holds the active handler index copied
+from `gDuel_bEffectState` before the request byte receives its started bit.
 
-The header names only the two proven `D_8009B248` flags. It leaves the three
-symbols separate because the bytes between their addresses are live or
-unexplained; this is declaration centralization, not a claim that they form a
-single packed structure.
+The former address-named `D_8009B244`/`D_8009B248`/`D_8009B24A` extern views
+in `duel_effect.h` were removed; each byte now has one declaration. The
+symbols stay separate because the bytes between their addresses are live or
+unexplained; this is not a claim that they form a single packed structure.
 
 The Build Deck mode-7 entry pair has a related but separate byte at
 `gBuildDeck_bConfirmMode`. `BuildDeck_EnterWideConfirmMode` sets its high bit before

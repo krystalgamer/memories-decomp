@@ -63,9 +63,7 @@ typedef union {
 
 /* The Trade updater and inventory updater's two-record view of the shared
    overlay staging base. */
-#ifdef MAIN_MENU_TRADE_STATE_BUFFER
 extern MainMenuState gTrade_aInventoryRowSets[];
-#endif
 
 /* The main-menu view of a display-object pool record. Named for this overlay
    rather than shared with the resident DisplayObject: `y` at 0x32 falls

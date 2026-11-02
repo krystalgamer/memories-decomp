@@ -431,24 +431,24 @@ gDuel_wEffectCardID = 0x8009C5C4;
 gDuel_dwViewTweenDistanceAccumulator = 0x8009C5C8;
 gDuel_bPendingDrawCount = 0x8009C5CC;
 gDuel_bActiveEffectState = 0x8009C5D0;
-D_8009B240 = 0x8009C5D4;
+gDuel_pCardViewerBackground = 0x8009C5D4;
 gDuel_wViewerCardID = 0x8009C5D8;
 gDuel_wEffectDialogTextID = 0x8009C5DA;
 gDuel_bEffectState = 0x8009C5DC;
 gDuel_bCardViewerYOffset = 0x8009C5DD;
 gDuel_bEffectHandlerFlags = 0x8009C5DE;
-D_8009B24C = 0x8009C5E0;
-D_8009B250 = 0x8009C5E8;
+gDuel_pCardViewerCard = 0x8009C5E0;
+gDuel_pCardViewerTextBox = 0x8009C5E8;
 gCardGrid_bCursorColumn = 0x8009C5F0;
 gCardGrid_bCursorRow = 0x8009C5F1;
 gDuel_bEffectRequestStatus = 0x8009C5F8;
 gDuelEffect_pActiveRequest = 0x8009C5FC;
 gDuelEffect_bRequestFinished = 0x8009C600;
-D_8009B26C = 0x8009C60A;
+gMain_bActiveModeState = 0x8009C60A;
 gMain_bModeRunnerStep = 0x8009C60B;
 D_8009B268 = 0x8009C60C;
-D_8009B269 = 0x8009C60D;
-D_8009B26D = 0x8009C60E;
+gMain_bReturnMode = 0x8009C60D;
+gMain_bRequestedMenuID = 0x8009C60E;
 gScript_wCommandWord = 0x8009C610;
 gScript_SharedOperand = 0x8009C612;
 gCampaign_PrimaryDisplayObject = 0x8009C614;
@@ -1125,9 +1125,6 @@ gFade_bWhiteLatch = D_8009B145;
 
 
 
-gMain_bReturnMode = D_8009B269;
-gMain_bActiveModeState = D_8009B26C;
-gMain_bRequestedMenuID = D_8009B26D;
 
 gText_PrimaryStringOffsets = D_801B0004;
 gText_GlobalStringOffsets = D_801D5804;

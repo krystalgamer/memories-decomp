@@ -285,12 +285,6 @@ typedef char DuelEffectObject_size_must_be_0x1C[
 #define DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN 0x40
 #define DUEL_EFFECT_DIALOG_FLAG_CREATED 0x80
 
-/* Legacy aliases for the dialog request, handler flags, and active handler
- * index. func_800283F4's candidate contract uses D_8009B248; D_8009B244 and
- * D_8009B24A remain layout aliases for other address-oriented consumers. */
-extern u16 D_8009B244;
-extern u8 D_8009B248;
-extern u8 D_8009B24A;
 
 extern u8 gDuel_bEffectHandlerFlags;
 extern u8 gDuel_bActiveEffectState;

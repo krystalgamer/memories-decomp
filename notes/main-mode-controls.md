@@ -1,6 +1,6 @@
 # Main-mode state and frontend-menu request
 
-| Former identity | Canonical name | Preserved views |
+| Former identity | Name | Views |
 | --- | --- | --- |
 | `D_8009B269` | `gMain_bReturnMode` | `u8` scalar, incomplete array, `.data` scalar |
 | `D_8009B26C` | `gMain_bActiveModeState` | `u8` scalar, incomplete array, `.data` scalar |
@@ -51,28 +51,25 @@ The neighboring `D_8009B268` stays unclassified. Its corresponding
 constructor argument is unused; adjacent 0/1 stores do not establish a
 new flag meaning.
 
-## Declaration ownership and first-include selection
+## Single declaration per byte
 
-The original `main_mode_state.h` and `main_services.h` retain every
-legacy declaration, guard, selector, default and precedence. Each adds
-one forwarding include after its old declarations. Canonical mode
-declarations live in `main_mode_controls.h`; the requested-menu declaration
-lives in `main_menu_request.h`.
+Each byte has one name and one declaration. `gMain_bReturnMode` and
+`gMain_bActiveModeState` are declared only in `main_mode_controls.h`;
+`gMain_bRequestedMenuID` only in `main_menu_request.h`. The former
+`D_8009B269`, `D_8009B26C` and `D_8009B26D` extern views in
+`main_mode_state.h` and `main_services.h`, their `D_8009B269_AS_*` /
+`D_8009B26C_AS_*` legacy selectors, the Japanese
+`gJapanese_bActiveMainMode` alias, and every linker-script alias back to the
+address names were removed. Regional `symbols.txt`, `link_symbols.ld`,
+`c_symbols.ld` and overlay linker-symbol files bind the semantic names to
+each region's numeric address directly; USA overlays bind them explicitly
+because splat would otherwise auto-name the address.
 
-Forwarding at the old owner preserves its first selected view and the
-existing direct-owner/`unmatched.h` include orders. It avoids selecting a
-different type by rereading flags later in a C source. `unmatched.h`
-itself is unchanged, and old overlays retain their imports and aliases.
-
-The two mode bytes remain independently selectable. Their existing
-`MAIN_MODE_STATE_NEXT_*` and `MAIN_MODE_STATE_ACTIVE_*` controls and all
-legacy address-based selectors keep their names. `.data` retains
-precedence; the default return view is scalar and active view is an
-incomplete array. Selecting only the return byte's `.data` view does not
-make the active byte scalar.
-
-Unsigned-character locals, incomplete bounds and expression forms remain.
-No array is tightened to `[1]`, scalarized for style or made volatile.
+The `MAIN_MODE_STATE_NEXT_*` and `MAIN_MODE_STATE_ACTIVE_*` selectors still
+choose the addressing form a caller needs. `.data` takes precedence; the
+default return view is scalar and the default active view is an incomplete
+array. These are genuine gp-relative versus absolute addressing splits, not
+separate objects.
 
 ## COMMON definitions are not initialized ownership
 
@@ -82,43 +79,17 @@ emit actual COMMON symbols. They are code-generation inputs overridden
 by fixed image bindings, not new allocations or initialized C objects.
 
 The tentative definitions retain their scalar `u8` forms and named
-profiles. Canonical native linker aliases point to the original external
-providers; the initialized-string old-to-canonical direction does not
-apply here. Source grouping, object order and physical storage remain.
+profiles. Source grouping, object order and physical storage remain.
 The one-byte COMMON symbol size follows the canonical definition in the
-linked ELF. Legacy aliases retain their address and absolute class, not
-an additional independently sized allocation.
+linked ELF.
 
 All 21 regional roles retain independently mapped numeric addresses.
 PAL ordering differs from NA, so the three bytes do not become a packed
 record or imply a region-independent stride.
 
-The Japanese viewer keeps an unused legacy scalar `.data` declaration
-whose consumer is compiled out. The Japanese `symbols.txt` binds the
-shared `D_8009B26C` name at the Japanese address, `0x8009B15C`.
-NA and Japanese debug-leave code likewise retain unused return-byte
-declarations under their existing regional conditions.
+The Japanese `symbols.txt` binds `gMain_bActiveModeState` at the Japanese
+address, `0x8009B15C`.
 
-## Existing controls and exact conservation
-
-The main-mode declaration control retains all 36 consumer paths, selector
-matrices, include orders, expected views, seven COMMON inputs and the
-wrong-scalar-default negative case. Only variable identifiers and
-canonical-owner paths migrate. Its two legacy-selector prefix filters
-keep the literal address-based prefixes because those guard names have
-not changed.
-
-The campaign-command witness changes only its active-mode dictionary key.
-Its offset `0x00C`, adjacent offsets, guarded bytes, cases, fixture, linker
-generation and mutations remain unchanged.
-
-Actual compiler-expanded comparison covers 85 source/profile contexts,
-132 used-role declaration views and 18 tentative-definition views,
-including all three retained declarations without compiled consumers.
-All complete ordinary, compiler/MASPSX and fallback outputs are compared
-with only scoped original identities reversed, without instruction,
-directive, relocation, order or filename filtering.
-
-No synthetic/generated-C or source-string harness, fixture, probe or
-testcase is added. Existing cloud/regional/overlay/witness suites are
-not executed locally. Fresh full-image regional PR gates remain required.
+Removing the four `gMain_bActiveModeState` tentative definitions was
+measured: without the COMMON symbol the assembler drops load-delay nops and
+the USA image shrinks by 0x20 bytes, so they remain.

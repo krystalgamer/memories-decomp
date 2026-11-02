@@ -236,15 +236,15 @@ gDuel_wTwoPlayerCardViewMode = 0x8009C511;
 gDuel_wTwoPlayerSide0LifePoints = 0x8009C578;
 gDuel_wTwoPlayerSide1LifePoints = 0x8009C57A;
 gDuel_bOutroWinnerSide = 0x8009C561;
-D_8009B240 = 0x8009C5D4;
-D_8009B24C = 0x8009C5E0;
-D_8009B250 = 0x8009C5E8;
+gDuel_pCardViewerBackground = 0x8009C5D4;
+gDuel_pCardViewerCard = 0x8009C5E0;
+gDuel_pCardViewerTextBox = 0x8009C5E8;
 gDuelEffect_bRequestFinished = 0x8009C600;
 gDuelEffect_pActiveRequest = 0x8009C5FC;
 D_8009B268 = 0x8009C60C;
-D_8009B269 = 0x8009C60D;
-D_8009B26C = 0x8009C60A;
-D_8009B26D = 0x8009C60E;
+gMain_bReturnMode = 0x8009C60D;
+gMain_bActiveModeState = 0x8009C60A;
+gMain_bRequestedMenuID = 0x8009C60E;
 gMain_bModeRunnerStep = 0x8009C60B;
 D_8009B274 = 0x8009C634;
 gScript_WaitCounter = 0x8009C640;
@@ -1125,9 +1125,6 @@ gFade_bWhiteLatch = D_8009B145;
 
 
 
-gMain_bReturnMode = D_8009B269;
-gMain_bActiveModeState = D_8009B26C;
-gMain_bRequestedMenuID = D_8009B26D;
 
 gText_PrimaryStringOffsets = D_801B0004;
 gText_GlobalStringOffsets = D_801D5804;
