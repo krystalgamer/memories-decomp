@@ -14,10 +14,10 @@
 #ifndef MODEL635_STRING_PAD
 #define MODEL635_STRING_PAD "$"
 #endif
-static const char D_8013EBD0[24] = "E_DATA size = %x byte\n\0" MODEL635_STRING_PAD;
+static const char gModelVariant635_D3BD0[24] = "E_DATA size = %x byte\n\0" MODEL635_STRING_PAD;
 #endif
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant635_HandleRequest(u8 *context, s32 command)
 {
     Model635State *work;
     MATRIX ls;
@@ -37,15 +37,15 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model635State));
 #ifndef VERSION_FRENCH
-        printf(D_8013EBD0, sizeof(Model635State));
+        printf(gModelVariant635_D3BD0, sizeof(Model635State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013EBE8[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant635_D3BE8[1]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013EBE8[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant635_D3BE8[0]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
         switch (command) {
@@ -61,17 +61,17 @@ s32 func_8013B004(u8 *context, s32 command)
             work->burst_count = 2;
             break;
         }
-        work->radius = D_8013EC20[command].radius;
-        work->height = D_8013EC20[command].height;
+        work->radius = gModelVariant635_D3C20[command].radius;
+        work->height = gModelVariant635_D3C20[command].height;
         for (i = 0; i < work->copies; i++) {
             work->domes[0][i].active = 0;
             work->domes[0][i].elapsed = 0;
             work->domes[0][i].duration = 32;
             work->domes[0][i].mode = 1;
             work->domes[0][i].coord = Model_GetCameraCoordinateUnit();
-            work->domes[0][i].color[0] = D_8013EC20[command].color[0];
-            work->domes[0][i].color[1] = D_8013EC20[command].color[1];
-            work->domes[0][i].color[2] = D_8013EC20[command].color[2];
+            work->domes[0][i].color[0] = gModelVariant635_D3C20[command].color[0];
+            work->domes[0][i].color[1] = gModelVariant635_D3C20[command].color[1];
+            work->domes[0][i].color[2] = gModelVariant635_D3C20[command].color[2];
             work->domes[0][i].u = 0;
             work->domes[0][i].v = 64;
             work->domes[0][i].stage = 0;
@@ -155,9 +155,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->bursts[i][0].duration = 128;
             work->bursts[i][0].mode = 1;
             work->bursts[i][0].coord = Model_GetCameraCoordinateUnit();
-            work->bursts[i][0].color[0] = D_8013EC20[command].color[3];
-            work->bursts[i][0].color[1] = D_8013EC20[command].color[4];
-            work->bursts[i][0].color[2] = D_8013EC20[command].color[5];
+            work->bursts[i][0].color[0] = gModelVariant635_D3C20[command].color[3];
+            work->bursts[i][0].color[1] = gModelVariant635_D3C20[command].color[4];
+            work->bursts[i][0].color[2] = gModelVariant635_D3C20[command].color[5];
             work->bursts[i][0].u = 0;
             work->bursts[i][0].v = 0;
             work->bursts[i][0].stage = 0;
@@ -188,9 +188,9 @@ s32 func_8013B004(u8 *context, s32 command)
             work->flashes[i].duration = 64;
             work->flashes[i].mode = 1;
             work->flashes[i].coord = Model_GetCameraCoordinateUnit();
-            work->flashes[i].color[0] = D_8013EC20[command].color[6];
-            work->flashes[i].color[1] = D_8013EC20[command].color[7];
-            work->flashes[i].color[2] = D_8013EC20[command].color[8];
+            work->flashes[i].color[0] = gModelVariant635_D3C20[command].color[6];
+            work->flashes[i].color[1] = gModelVariant635_D3C20[command].color[7];
+            work->flashes[i].color[2] = gModelVariant635_D3C20[command].color[8];
             work->flashes[i].u = 0;
             work->flashes[i].v = 0;
             work->flashes[i].stage = 0;
@@ -223,7 +223,7 @@ s32 func_8013B004(u8 *context, s32 command)
             work->flashes[i].position.vy -= 350;
             work->flashes[i].position.vz -= (work->slot * 2 - 1) * 450;
         }
-        work->delay = D_8013EC20[command].delay;
+        work->delay = gModelVariant635_D3C20[command].delay;
         for (i = 0; i < 5; i++) {
             work->flags[i] = 0;
         }
@@ -412,11 +412,11 @@ s32 func_8013B004(u8 *context, s32 command)
                         (work->domes[i][j].elapsed << 14) / work->domes[i][j].duration);
                     /* The shift keeps the doubling off the table colour. */
                     if (work->domes[i][j].duration / 2 < work->domes[i][j].elapsed) {
-                        work->domes[i][j].color[0] = D_8013EC20[work->command].color[0]
+                        work->domes[i][j].color[0] = gModelVariant635_D3C20[work->command].color[0]
                             * ((work->domes[i][j].duration - work->domes[i][j].elapsed) << 1) / work->domes[i][j].duration;
-                        work->domes[i][j].color[1] = D_8013EC20[work->command].color[1]
+                        work->domes[i][j].color[1] = gModelVariant635_D3C20[work->command].color[1]
                             * ((work->domes[i][j].duration - work->domes[i][j].elapsed) << 1) / work->domes[i][j].duration;
-                        work->domes[i][j].color[2] = D_8013EC20[work->command].color[2]
+                        work->domes[i][j].color[2] = gModelVariant635_D3C20[work->command].color[2]
                             * ((work->domes[i][j].duration - work->domes[i][j].elapsed) << 1) / work->domes[i][j].duration;
                     }
                     for (k = 0; k < 5; k++) {
@@ -514,11 +514,11 @@ s32 func_8013B004(u8 *context, s32 command)
                     }
                 }
                 if (work->comets[i].elapsed < work->comets[i].duration / 5) {
-                    work->comets[i].color[0] = D_8013EC20[work->command].color[0] * work->comets[i].elapsed * 5
+                    work->comets[i].color[0] = gModelVariant635_D3C20[work->command].color[0] * work->comets[i].elapsed * 5
                         / work->comets[i].duration;
-                    work->comets[i].color[1] = D_8013EC20[work->command].color[1] * work->comets[i].elapsed * 5
+                    work->comets[i].color[1] = gModelVariant635_D3C20[work->command].color[1] * work->comets[i].elapsed * 5
                         / work->comets[i].duration;
-                    work->comets[i].color[2] = D_8013EC20[work->command].color[2] * work->comets[i].elapsed * 5
+                    work->comets[i].color[2] = gModelVariant635_D3C20[work->command].color[2] * work->comets[i].elapsed * 5
                         / work->comets[i].duration;
                 }
                 for (k = 0; k < 16; k++) {
@@ -594,11 +594,11 @@ s32 func_8013B004(u8 *context, s32 command)
                     }
                     /* As for the domes, the shift keeps the doubling off the colour. */
                     if (work->bursts[i][k].duration / 2 < work->bursts[i][k].elapsed) {
-                        work->bursts[i][k].color[0] = D_8013EC20[work->command].color[3]
+                        work->bursts[i][k].color[0] = gModelVariant635_D3C20[work->command].color[3]
                             * ((work->bursts[i][k].duration - work->bursts[i][k].elapsed) << 1) / work->bursts[i][k].duration;
-                        work->bursts[i][k].color[1] = D_8013EC20[work->command].color[4]
+                        work->bursts[i][k].color[1] = gModelVariant635_D3C20[work->command].color[4]
                             * ((work->bursts[i][k].duration - work->bursts[i][k].elapsed) << 1) / work->bursts[i][k].duration;
-                        work->bursts[i][k].color[2] = D_8013EC20[work->command].color[5]
+                        work->bursts[i][k].color[2] = gModelVariant635_D3C20[work->command].color[5]
                             * ((work->bursts[i][k].duration - work->bursts[i][k].elapsed) << 1) / work->bursts[i][k].duration;
                     }
                     PushMatrix();
@@ -666,11 +666,11 @@ s32 func_8013B004(u8 *context, s32 command)
                 setVector(&work->flashes[i].scale, (work->flashes[i].elapsed << 13) / work->flashes[i].duration,
                     (work->flashes[i].elapsed << 14) / work->flashes[i].duration,
                     (work->flashes[i].elapsed << 13) / work->flashes[i].duration);
-                work->flashes[i].color[0] = D_8013EC20[work->command].color[6]
+                work->flashes[i].color[0] = gModelVariant635_D3C20[work->command].color[6]
                     * (work->flashes[i].duration - work->flashes[i].elapsed) / work->flashes[i].duration;
-                work->flashes[i].color[1] = D_8013EC20[work->command].color[7]
+                work->flashes[i].color[1] = gModelVariant635_D3C20[work->command].color[7]
                     * (work->flashes[i].duration - work->flashes[i].elapsed) / work->flashes[i].duration;
-                work->flashes[i].color[2] = D_8013EC20[work->command].color[8]
+                work->flashes[i].color[2] = gModelVariant635_D3C20[work->command].color[8]
                     * (work->flashes[i].duration - work->flashes[i].elapsed) / work->flashes[i].duration;
                 for (k = 0; k < 8; k++) {
                     for (l = 0; l < 8; l++) {
