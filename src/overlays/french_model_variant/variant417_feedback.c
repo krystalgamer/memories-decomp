@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant417_feedback.h"
 
-void func_8013E0E4(u8 *context)
+void FrenchModelVariant417_DrawFramebufferFeedback(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

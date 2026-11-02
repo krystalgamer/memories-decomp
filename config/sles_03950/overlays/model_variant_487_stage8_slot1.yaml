@@ -56,63 +56,63 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant441_entry_slot1]
+      - [0x4, c, overlays/spanish_model_variant/variant441_entry]
   - name: helper_11BC
     type: code
     start: 0x11BC
     vram: 0x8017C1BC
     align: 4
     subsegments:
-      - [0x11BC, c, overlays/spanish_model_variant/variant441_lines_slot1]
+      - [0x11BC, c, overlays/spanish_model_variant/variant441_lines]
   - name: helper_173C
     type: code
     start: 0x173C
     vram: 0x8017C73C
     align: 4
     subsegments:
-      - [0x173C, c, overlays/spanish_model_variant/variant441_tube_slot1]
+      - [0x173C, c, overlays/spanish_model_variant/variant441_tube]
   - name: helper_1DDC
     type: code
     start: 0x1DDC
     vram: 0x8017CDDC
     align: 4
     subsegments:
-      - [0x1DDC, c, overlays/spanish_model_variant/variant441_ribbon_slot1]
+      - [0x1DDC, c, overlays/spanish_model_variant/variant441_ribbon]
   - name: helper_23FC
     type: code
     start: 0x23FC
     vram: 0x8017D3FC
     align: 4
     subsegments:
-      - [0x23FC, c, overlays/spanish_model_variant/variant441_rays_slot1]
+      - [0x23FC, c, overlays/spanish_model_variant/variant441_rays]
   - name: helper_2A48
     type: code
     start: 0x2A48
     vram: 0x8017DA48
     align: 4
     subsegments:
-      - [0x2A48, c, overlays/spanish_model_variant/variant441_sheets_slot1]
+      - [0x2A48, c, overlays/spanish_model_variant/variant441_sheets]
   - name: helper_3060
     type: code
     start: 0x3060
     vram: 0x8017E060
     align: 4
     subsegments:
-      - [0x3060, c, overlays/spanish_model_variant/variant441_framebuffer_rings_slot1]
+      - [0x3060, c, overlays/spanish_model_variant/variant441_framebuffer_rings]
   - name: helper_3630
     type: code
     start: 0x3630
     vram: 0x8017E630
     align: 4
     subsegments:
-      - [0x3630, c, overlays/spanish_model_variant/variant441_spiral_slot1]
+      - [0x3630, c, overlays/spanish_model_variant/variant441_spiral]
   - name: helper_414C
     type: code
     start: 0x414C
     vram: 0x8017F14C
     align: 4
     subsegments:
-      - [0x414C, c, overlays/french_model_variant/variant441_rings_slot1]
+      - [0x414C, c, overlays/french_model_variant/variant441_rings]
   - name: unclassified_tail
     type: code
     start: 0x4754

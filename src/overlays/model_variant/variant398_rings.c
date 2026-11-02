@@ -19,7 +19,7 @@
  * frame-buffer half each strip lands on, facing the work direction. Past
  * half scale the inner row is pushed back and widened; each scale grows by
  * step * 96 and wraps with a count until phase 3, then stays at full size. */
-void func_8013C2B8(u8 *context)
+void ModelVariant398_DrawRings(u8 *context)
 {
     SVECTOR rot;
     VECTOR scale;

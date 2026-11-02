@@ -1,6 +1,6 @@
 # Spanish MODEL441 framebuffer rings
 
-`func_8013E060` / `func_8017E060`, `+3060..+3630`, is independently recovered
+`SpanishModelVariant441_DrawFramebufferRings` (`0x8013E060` / `0x8017E060`), `+3060..+3630`, is independently recovered
 game-owned C: 1,488 bytes in each of the ten physical MODEL441 images.
 The refreshed pre-integration screen covered 6,037 configured regional C
 entries, including newly accepted tube and French MODEL177 work, and found

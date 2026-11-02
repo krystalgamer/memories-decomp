@@ -1,6 +1,6 @@
 # French MODEL417 tube helper
 
-`func_8013C778` / `func_8017C778` (MODEL417, image offset `0x1778`, 0x6E8
+`SpanishModelVariant417_DrawTube` (`0x8013C778` / `0x8017C778`, MODEL417, image offset `0x1778`, 0x6E8
 bytes) is the MODEL417 member of the tube helper family. **No release had
 matching C for this body before.**
 
@@ -11,7 +11,7 @@ the radius base: MODEL441 uses `width / 16`, while MODEL417 uses
 `width * (timing->width_scale / 3) / 1024`, which reads a timing word at
 `+0x30`. Both the pulsed and the plain radius use it. The shared Spanish
 header and body are not modified. `variant417_tube.{c,h}` are full MODEL417
-copies, and `variant417_tube_slot1.c` renames the function.
+copies, and one source serves both slots.
 
 The helper is registered in all eight French MODEL417 images (models 134, 232,
 354 and 535, both slots), and all French overlay images rebuild exactly. The

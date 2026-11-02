@@ -66,9 +66,9 @@ typedef struct {
     s32 phase;
 } Variant398Header441RingsState;
 
-extern u8 D_8013DFE0[];
-void func_8013C2B8(u8 *context);
-void func_8013C8AC(u8 *context);
-void func_8013D02C(u8 *context);
-void func_8013DA44(u8 *context);
+extern u8 gModelVariant398_D2FE0[];
+void ModelVariant398_DrawRings(u8 *context);
+void ModelVariant398_DrawBand(u8 *context);
+void ModelVariant398_DrawSheets(u8 *context);
+void ModelVariant398_DrawCurtains(u8 *context);
 #endif

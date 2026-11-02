@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant441_framebuffer_rings.h"
 
-void func_8013E060(u8 *context)
+void SpanishModelVariant441_DrawFramebufferRings(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

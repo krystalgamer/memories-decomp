@@ -1,13 +1,13 @@
 // MODEL.MRG model 535 (record 485), sector 134060, header 400, loaded at 0x8013B000.
-func_8013B004 = 0x8013B004; // type:func size:0x1204 defined:true
-func_8013C208 = 0x8013C208; // type:func size:0x578 defined:true
-func_8013C780 = 0x8013C780; // type:func size:0x6F0 defined:true
-func_8013CE70 = 0x8013CE70; // type:func size:0x61C defined:true
-func_8013D48C = 0x8013D48C; // type:func size:0x634 defined:true
-func_8013DAC0 = 0x8013DAC0; // type:func size:0x62C defined:true
-func_8013E0EC = 0x8013E0EC; // type:func size:0x674 defined:true
-func_8013E760 = 0x8013E760; // type:func size:0xCA4 defined:true
-D_8013F404 = 0x8013F404; // type:u8 size:0xBFC defined:true
+SpanishModelVariant417_HandleRequest = 0x8013B004; // type:func size:0x1204 defined:true
+SpanishModelVariant417_DrawPhasedLines = 0x8013C208; // type:func size:0x578 defined:true
+SpanishModelVariant417_DrawTube = 0x8013C780; // type:func size:0x6F0 defined:true
+SpanishModelVariant441_DrawRibbon = 0x8013CE70; // type:func size:0x61C defined:true
+SpanishModelVariant417_DrawRays = 0x8013D48C; // type:func size:0x634 defined:true
+SpanishModelVariant441_DrawRainbowSheets = 0x8013DAC0; // type:func size:0x62C defined:true
+FrenchModelVariant417_DrawFramebufferFeedback = 0x8013E0EC; // type:func size:0x674 defined:true
+SpanishModelVariant417_DrawSpiral = 0x8013E760; // type:func size:0xCA4 defined:true
+gSpanishModelVariant417_D43A0 = 0x8013F404; // type:u8 size:0xBFC defined:true
 Model_GetActiveSlotIndex = 0x80058DCC; // type:func absolute:true
 Model_GetFrameStep = 0x80058E1C; // type:func absolute:true
 Model_GetSlotAnimationFrame = 0x80058E94; // type:func absolute:true

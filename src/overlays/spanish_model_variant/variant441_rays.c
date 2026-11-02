@@ -2,7 +2,7 @@
 #include "variant441_rays.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013D3FC(u8 *context)
+void SpanishModelVariant441_DrawRays(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
