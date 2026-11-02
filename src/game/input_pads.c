@@ -24,10 +24,12 @@ u16 gInput_wPad1HeldBackup;
 u32 gInput_dwDeferredRepeat;
 u32 gInput_dwDeferredPressed;
 
+#ifndef INPUT_PADS_REGIONAL_STORAGE
 /* Zero-initialized storage this unit owns at 0x800EF668-0x800EF6D0, defined in
  * address order ahead of the headers that declare it (#2602). */
 u8 D_800EF668[0x48];
 u8 gInput_abRepeatTimers[(2  * 16 ) ];
+#endif
 
 #include "../psyq/libapi.h"
 #ifdef VERSION_JAPAN

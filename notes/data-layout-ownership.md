@@ -236,10 +236,25 @@ and `bss_image` into `main` and lists the same owners at the shifted addresses:
   sound block (`0x8009B348`-`0x8009B358`);
 - `.bss`: from the frame buffers (`0x8009B388`) through `text_control_commands`.
 
-Japan's movie and model small blocks (`0x8009B358`-`0x8009B388`) are in a
-different order and size, and its large blocks from `0x800EAFD4` differ in
-size (the text channels, effect entries, input and model state). Those stay
-raw until the Japanese units define their own blocks.
+Where a Japanese block differs from the North American one, the Japanese
+wrapper gives that build its own storage. The wrapper defines
+`<UNIT>_REGIONAL_STORAGE`, which the shared source checks around its North
+American block (declaring the same names `extern` instead), and defines the
+region's storage before including the shared source:
+- a large block is one `u8` array, named for its address and the build
+  (`D_800EB158_slpm_86398`);
+- a small block is one scalar per slot (`D_8009B368_slpm_86398`);
+- the build's names are `link_symbols.ld` aliases into that storage.
+
+Japan's text channels (four 0x60-byte records), duel-effect entries, input
+repeat timers and model small block use this; every other Japanese zero-
+initialized block is the shared one at the shifted address, so all of Japan's
+game zero-initialized data now comes from units. Of the North American
+initialized tables, the eighteen that Japan has unchanged, 0x150 bytes lower,
+come from the same owners; the seven it lays out differently (build-deck and
+effect-layout tables, display effects, memory-card dialog steps, the
+display-object stream tables, movie stream ranges and model effects) remain
+in the extracted blob.
 
 `build_regional_baseline.py` reads each region's `split.yaml`:
 - a compiled unit listed there with a dotted data section keeps that section
