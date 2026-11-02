@@ -4,6 +4,8 @@ SPLAT := $(ROOT)/tools/environments/python/bin/splat
 PYTHON ?= $(if $(wildcard $(LOCAL_PYTHON)),$(LOCAL_PYTHON),python3)
 BOOTSTRAP_PYTHON ?= python3
 USE_SYSTEM_MIPS_BINUTILS ?= 0
+# Extra overlay_build.py options, e.g. --skip-verified RECORD in pull-request CI.
+OVERLAY_FLAGS ?=
 
 ifeq ($(USE_SYSTEM_MIPS_BINUTILS),1)
 BUILD_BINUTILS_CHECK := tools/bootstrap/binutils_system.py --check
@@ -441,22 +443,22 @@ check-declaration-visibility: check-build-tools
 	@$(PYTHON) tools/project/check_declaration_visibility.py
 
 build-overlays: overlays check-build-tools
-	@$(PYTHON) tools/project/overlay_build.py build
+	@$(PYTHON) tools/project/overlay_build.py build $(OVERLAY_FLAGS)
 
 match-overlays: build-overlays
-	@$(PYTHON) tools/project/overlay_build.py verify
+	@$(PYTHON) tools/project/overlay_build.py verify $(OVERLAY_FLAGS)
 
 japanese-build-overlays: japanese-overlays check-build-tools
-	@$(PYTHON) tools/project/overlay_build.py build --region japan
+	@$(PYTHON) tools/project/overlay_build.py build --region japan $(OVERLAY_FLAGS)
 
 japanese-match-overlays: japanese-build-overlays
-	@$(PYTHON) tools/project/overlay_build.py verify --region japan
+	@$(PYTHON) tools/project/overlay_build.py verify --region japan $(OVERLAY_FLAGS)
 
 european-build-overlays: european-overlays check-build-tools
-	@$(PYTHON) tools/project/overlay_build.py build --region europe
+	@$(PYTHON) tools/project/overlay_build.py build --region europe $(OVERLAY_FLAGS)
 
 european-match-overlays: european-build-overlays
-	@$(PYTHON) tools/project/overlay_build.py verify --region europe
+	@$(PYTHON) tools/project/overlay_build.py verify --region europe $(OVERLAY_FLAGS)
 
 french-overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py extract --region france
@@ -465,16 +467,16 @@ french-verify-overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py verify --region france
 
 french-build-overlays: french-overlays check-build-tools
-	@$(PYTHON) tools/project/overlay_build.py build --region france
+	@$(PYTHON) tools/project/overlay_build.py build --region france $(OVERLAY_FLAGS)
 
 french-match-overlays: french-build-overlays
-	@$(PYTHON) tools/project/overlay_build.py verify --region france
+	@$(PYTHON) tools/project/overlay_build.py verify --region france $(OVERLAY_FLAGS)
 
 spanish-build-overlays: spanish-overlays check-build-tools
-	@$(PYTHON) tools/project/overlay_build.py build --region spain
+	@$(PYTHON) tools/project/overlay_build.py build --region spain $(OVERLAY_FLAGS)
 
 spanish-match-overlays: spanish-build-overlays
-	@$(PYTHON) tools/project/overlay_build.py verify --region spain
+	@$(PYTHON) tools/project/overlay_build.py verify --region spain $(OVERLAY_FLAGS)
 
 italian-overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py extract --region italy
@@ -483,10 +485,10 @@ italian-verify-overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py verify --region italy
 
 italian-build-overlays: italian-overlays check-build-tools
-	@$(PYTHON) tools/project/overlay_build.py build --region italy
+	@$(PYTHON) tools/project/overlay_build.py build --region italy $(OVERLAY_FLAGS)
 
 italian-match-overlays: italian-build-overlays
-	@$(PYTHON) tools/project/overlay_build.py verify --region italy
+	@$(PYTHON) tools/project/overlay_build.py verify --region italy $(OVERLAY_FLAGS)
 
 german-overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py extract --region germany
@@ -495,10 +497,10 @@ german-verify-overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py verify --region germany
 
 german-build-overlays: german-overlays check-build-tools
-	@$(PYTHON) tools/project/overlay_build.py build --region germany
+	@$(PYTHON) tools/project/overlay_build.py build --region germany $(OVERLAY_FLAGS)
 
 german-match-overlays: german-build-overlays
-	@$(PYTHON) tools/project/overlay_build.py verify --region germany
+	@$(PYTHON) tools/project/overlay_build.py verify --region germany $(OVERLAY_FLAGS)
 
 split-incremental: map check-build-tools
 	@$(PYTHON) tools/project/split_incremental.py

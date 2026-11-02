@@ -159,18 +159,24 @@ class ObjectStore:
         os.replace(output, destination)
         shutil.rmtree(work)
 
-    def ensure(self, segments: Iterable[dict[str, str]], jobs: int) -> dict[str, int]:
-        """Key every distinct unit and compile the ones the store lacks."""
+    def keys(self, segments: Iterable[dict[str, str]], jobs: int) -> list[dict[str, str]]:
+        """Key every distinct unit in parallel; return the distinct units."""
         distinct: dict[tuple[str, str], dict[str, str]] = {}
         for segment in segments:
             distinct.setdefault((segment["source"], segment["profile"]), segment)
         units = list(distinct.values())
         with ThreadPoolExecutor(max_workers=max(1, jobs)) as pool:
-            keys = list(pool.map(self.key, units))
-            missing = [
-                (unit, key) for unit, key in zip(units, keys)
-                if not self.path(key).is_file()
-            ]
+            list(pool.map(self.key, units))
+        return units
+
+    def ensure(self, segments: Iterable[dict[str, str]], jobs: int) -> dict[str, int]:
+        """Key every distinct unit and compile the ones the store lacks."""
+        units = self.keys(segments, jobs)
+        missing = [
+            (unit, self.key(unit)) for unit in units
+            if not self.path(self.key(unit)).is_file()
+        ]
+        with ThreadPoolExecutor(max_workers=max(1, jobs)) as pool:
             for future in [pool.submit(self._compile, *item) for item in missing]:
                 future.result()
         return {"units": len(units), "compiled": len(missing)}
@@ -242,9 +248,7 @@ def main() -> int:
                 f"compiled {counts['compiled']}"
             )
             return 0
-        distinct = {(s["source"], s["profile"]): s for s in segments}
-        with ThreadPoolExecutor(max_workers=job_count()) as pool:
-            keys = sorted(set(pool.map(store.key, distinct.values())))
+        keys = sorted({store.key(unit) for unit in store.keys(segments, job_count())})
         removed = store.prune(keys)
         digest = hashlib.sha256("\n".join(keys).encode()).hexdigest()
         print(f"overlay objects: kept {len(keys)}, removed {removed}", file=sys.stderr)

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import contextlib
+import io
 from pathlib import Path
 import sys
 import tempfile
@@ -102,6 +104,81 @@ class OverlayObjectStoreTests(unittest.TestCase):
         compile_c.assert_not_called()
         self.assertEqual(objects, [module_root / "build/src/a.o"])
         self.assertEqual(objects[0].read_text(), "src/a.c:g0")
+
+
+class OverlayFingerprintTests(unittest.TestCase):
+    def setUp(self) -> None:
+        temporary = tempfile.TemporaryDirectory(
+            prefix="overlay-fingerprint-test-", dir=REPOSITORY / "tmp"
+        )
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name).resolve()
+        self.files = {
+            "config/r/a.yaml": "symbol_addrs_path:\n  - config/r/a_symbols.txt\n",
+            "config/r/a_symbols.txt": "f = 0x80100000;\n",
+            "config/r/b.yaml": "segments: []\n",
+        }
+        for relative, text in self.files.items():
+            (self.root / relative).parent.mkdir(parents=True, exist_ok=True)
+            (self.root / relative).write_text(text)
+        self.modules = [
+            {"name": "a", "layout": "config/r/a.yaml", "sha256": "1"},
+            {"name": "b", "layout": "config/r/b.yaml", "sha256": "2"},
+        ]
+        self.object_key = "k1"
+        store = patch.object(overlay_build, "ObjectStore")
+        store.start().return_value.key.side_effect = lambda segment: self.object_key
+        self.addCleanup(store.stop)
+        for target, value in (
+            ("pipeline_fingerprint", lambda root: "tools"),
+            ("c_segments", lambda root, layout: [
+                {"kind": "text", "source": "src/x.c", "profile": "g0", "object": "x.o"}
+            ] if layout.name == "a.yaml" else []),
+        ):
+            patcher = patch.object(overlay_build, target, value)
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
+    def fingerprints(self) -> dict[str, str]:
+        return overlay_build.module_fingerprints(self.root, self.modules, 1)
+
+    def test_only_modules_with_changed_inputs_get_new_fingerprints(self) -> None:
+        before = self.fingerprints()
+        (self.root / "config/r/a_symbols.txt").write_text("f = 0x80100004;\n")
+        after = self.fingerprints()
+        self.assertNotEqual(before["a"], after["a"])
+        self.assertEqual(before["b"], after["b"])
+        self.object_key = "k2"
+        self.assertNotEqual(after["a"], self.fingerprints()["a"])
+        self.assertEqual(before["b"], self.fingerprints()["b"])
+
+    def test_skip_verified_checks_only_unrecorded_modules(self) -> None:
+        record = self.root / "verified.txt"
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(
+                overlay_build.unverified_modules(self.root, self.modules, record, 1),
+                self.modules,
+            )
+            record.write_text(self.fingerprints()["b"] + "\n")
+            self.assertEqual(
+                overlay_build.unverified_modules(self.root, self.modules, record, 1),
+                [self.modules[0]],
+            )
+
+    def test_record_is_written_only_when_every_module_matches(self) -> None:
+        output = self.root / "verified.txt"
+        with patch.object(
+            overlay_build, "verify_module",
+            side_effect=overlay_build.OverlayBuildError("mismatch"),
+        ):
+            with self.assertRaises(overlay_build.OverlayBuildError):
+                overlay_build.write_record(self.root, self.modules, output)
+        self.assertFalse(output.exists())
+        with patch.object(overlay_build, "verify_module"), \
+                contextlib.redirect_stdout(io.StringIO()):
+            overlay_build.write_record(self.root, self.modules, output)
+        self.assertEqual(sorted(output.read_text().split()),
+                         sorted(self.fingerprints().values()))
 
 
 if __name__ == "__main__":
