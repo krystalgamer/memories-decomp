@@ -47,6 +47,6 @@ typedef struct {
 } Funnel411State;
 
 /* Start of the overlay data after the code; the fade start is read at +0x114. */
-extern u8 D_8013D9B4[];
+extern u8 gSpanishModelVariant411_D29B4[];
 
 #endif

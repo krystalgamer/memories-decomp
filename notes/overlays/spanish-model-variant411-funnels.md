@@ -34,7 +34,7 @@ The routine then:
   timing record at `+0x164C`.
 - From phase 3, shrinks each funnel to zero once the time passes the record's
   `+0x18` bound. The fade start of this ramp is the word at `+0x114` in the
-  overlay data that follows the code (`D_8013D9B4 + 0x114`), not a timing
+  overlay data that follows the code (`gSpanishModelVariant411_D29B4 + 0x114`), not a timing
   field. The source keeps that read as it is.
 - Finally, advances the ring spin at `+0x1668` by `step * 80`.
 

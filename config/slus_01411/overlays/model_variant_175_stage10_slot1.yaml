@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C4F0
     align: 4
     subsegments:
-      - [0x14F0, c, overlays/model_variant/variant427_beams_slot1]
+      - [0x14F0, c, overlays/model_variant/variant427_beams]
   - name: helper_1d94
     type: code
     start: 0x1D94

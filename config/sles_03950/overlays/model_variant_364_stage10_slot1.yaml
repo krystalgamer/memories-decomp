@@ -56,35 +56,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant411_entry_slot1]
+      - [0x4, c, overlays/french_model_variant/variant411_entry]
   - name: helper_E60
     type: code
     start: 0xE60
     vram: 0x8017BE60
     align: 4
     subsegments:
-      - [0xE60, c, overlays/french_model_variant/variant411_tube_slot1]
+      - [0xE60, c, overlays/french_model_variant/variant411_tube]
   - name: helper_157C
     type: code
     start: 0x157C
     vram: 0x8017C57C
     align: 4
     subsegments:
-      - [0x157C, c, overlays/spanish_model_variant/variant411_beams_slot1]
+      - [0x157C, c, overlays/spanish_model_variant/variant411_beams]
   - name: helper_1E58
     type: code
     start: 0x1E58
     vram: 0x8017CE58
     align: 4
     subsegments:
-      - [0x1E58, c, overlays/spanish_model_variant/variant411_sheets_slot1]
+      - [0x1E58, c, overlays/spanish_model_variant/variant411_sheets]
   - name: helper_24A4
     type: code
     start: 0x24A4
     vram: 0x8017D4A4
     align: 4
     subsegments:
-      - [0x24A4, c, overlays/spanish_model_variant/variant411_funnels_slot1]
+      - [0x24A4, c, overlays/spanish_model_variant/variant411_funnels]
   - name: unclassified_tail
     type: code
     start: 0x29B4

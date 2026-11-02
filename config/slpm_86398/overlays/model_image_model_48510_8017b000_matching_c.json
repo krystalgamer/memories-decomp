@@ -16,7 +16,7 @@
       "address": "0x8017C4F0",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x8A4",
-      "source": "src/overlays/model_variant/variant427_beams_slot1.c"
+      "source": "src/overlays/model_variant/variant427_beams.c"
     },
     {
       "address": "0x8017CD94",

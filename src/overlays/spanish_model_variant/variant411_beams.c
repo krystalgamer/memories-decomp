@@ -7,7 +7,7 @@
  * moved along the view, and draws each beam as two POLY_GT4 halves fading to
  * black whose depth lies inside the ordering-table range. Header 444 also
  * rejects a zero depth for the first half (MODEL_VARIANT444_BEAMS). */
-void func_8013C57C(u8 *context)
+void SpanishModelVariant411_DrawBeams(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;

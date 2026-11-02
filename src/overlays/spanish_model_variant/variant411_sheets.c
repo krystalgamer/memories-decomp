@@ -2,7 +2,7 @@
 #include "variant411_sheets.h"
 #include "../../game/gpu_packets.h"
 
-void func_8013CE58(u8 *context)
+void SpanishModelVariant411_DrawFadingSheets(u8 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
