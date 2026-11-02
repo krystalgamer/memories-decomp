@@ -14,7 +14,7 @@
 #define MODEL681_STRING_PAD "\xA7"
 #endif
 #ifndef VERSION_FRENCH
-static const char D_8013EE20[24] = "E_DATA size = %x byte\n\0" MODEL681_STRING_PAD;
+static const char gModelVariant681_D3E20[24] = "E_DATA size = %x byte\n\0" MODEL681_STRING_PAD;
 #endif
 
 #define TRACK_POINT(index, matrix)                                             \
@@ -43,9 +43,9 @@ static const char D_8013EE20[24] = "E_DATA size = %x byte\n\0" MODEL681_STRING_P
         for (i = 0; i < work->spark_columns; i++) {                            \
             work->sparks[work->flags[1]][i].active = 1;                        \
             work->sparks[work->flags[1]][i].elapsed = 0;                       \
-            work->sparks[work->flags[1]][i].color[0] = D_8013EF18[work->command].color[3]; \
-            work->sparks[work->flags[1]][i].color[1] = D_8013EF18[work->command].color[4]; \
-            work->sparks[work->flags[1]][i].color[2] = D_8013EF18[work->command].color[5]; \
+            work->sparks[work->flags[1]][i].color[0] = gModelVariant681_D3F18[work->command].color[3]; \
+            work->sparks[work->flags[1]][i].color[1] = gModelVariant681_D3F18[work->command].color[4]; \
+            work->sparks[work->flags[1]][i].color[2] = gModelVariant681_D3F18[work->command].color[5]; \
             work->sparks[work->flags[1]][i].u =                                \
                 (i * 5 + work->flags[1] * 3 + work->elapsed * 2) % 8 << 5;     \
             /* (i * 2 - 1) * 80 keeps the -80 in the induction start value. */ \
@@ -64,9 +64,9 @@ static const char D_8013EE20[24] = "E_DATA size = %x byte\n\0" MODEL681_STRING_P
     if ((element).duration / 2 < (element).elapsed) {                          \
         value = ((element).duration - (element).elapsed) * 2;                  \
         amount = (element).duration;                                           \
-        (element).color[0] = D_8013EF18[work->command].color[first] * value / amount; \
-        (element).color[1] = D_8013EF18[work->command].color[first + 1] * value / amount; \
-        (element).color[2] = D_8013EF18[work->command].color[first + 2] * value / amount; \
+        (element).color[0] = gModelVariant681_D3F18[work->command].color[first] * value / amount; \
+        (element).color[1] = gModelVariant681_D3F18[work->command].color[first + 1] * value / amount; \
+        (element).color[2] = gModelVariant681_D3F18[work->command].color[first + 2] * value / amount; \
     }
 
 #define DRAW_SPRITE(page, u0, v0, u1, v1, u2, v2, u3, v3, element, a, b, c, d)   \
@@ -95,11 +95,11 @@ static const char D_8013EE20[24] = "E_DATA size = %x byte\n\0" MODEL681_STRING_P
     (element).duration = length;                                               \
     (element).mode = 1;                                                        \
     (element).coord = Model_GetCameraCoordinateUnit();                         \
-    (element).color[0] = D_8013EF18[command].color[first];                     \
-    (element).color[1] = D_8013EF18[command].color[first + 1];                 \
-    (element).color[2] = D_8013EF18[command].color[first + 2]
+    (element).color[0] = gModelVariant681_D3F18[command].color[first];                     \
+    (element).color[1] = gModelVariant681_D3F18[command].color[first + 1];                 \
+    (element).color[2] = gModelVariant681_D3F18[command].color[first + 2]
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
 {
     Model681State *work;
     MATRIX ls;
@@ -122,30 +122,30 @@ s32 func_8013B004(u8 *context, s32 command)
     if (command >= 0) {
         bzero((u8 *)work, sizeof(Model681State));
 #ifndef VERSION_FRENCH
-        printf(D_8013EE20, sizeof(Model681State));
+        printf(gModelVariant681_D3E20, sizeof(Model681State));
 #endif
         work->command = command;
         work->slot = Model_GetActiveSlotIndex();
         work->direction = work->slot * 2 - 1;
         work->elapsed = 0;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013EE38[0]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant681_D3E38[0]);
         work->tpage[0] = tex >> 16;
         work->clut[0] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013EE38[4]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant681_D3E38[4]);
         work->tpage[1] = tex >> 16;
         work->clut[1] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013EE38[1]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant681_D3E38[1]);
         work->tpage[2] = tex >> 16;
         work->clut[2] = tex;
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013EE38[2]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant681_D3E38[2]);
         work->tpage[3] = tex >> 16;
         work->clut[3] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013EE38[3]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013EE38[5]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant681_D3E38[3]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant681_D3E38[5]);
         work->tpage[4] = tex >> 16;
         work->clut[4] = tex;
-        ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013EE38[6]);
-        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &D_8013EE38[7]);
+        ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant681_D3E38[6]);
+        tex = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant681_D3E38[7]);
         work->tpage[5] = tex >> 16;
         work->clut[5] = tex;
         switch (command) {
@@ -166,8 +166,8 @@ s32 func_8013B004(u8 *context, s32 command)
             work->spark_rows = 32;
             break;
         }
-        work->radius = D_8013EF18[command].radius;
-        work->height = D_8013EF18[command].height;
+        work->radius = gModelVariant681_D3F18[command].radius;
+        work->height = gModelVariant681_D3F18[command].height;
         /* amount rather than value: it keeps value in s4 and amount in s3. */
         amount = work->radius;
         setVector(&vec, amount, 0, amount * -work->direction);
@@ -210,9 +210,9 @@ s32 func_8013B004(u8 *context, s32 command)
             }
             work->flashes[i].mode = 1;
             work->flashes[i].coord = Model_GetCameraCoordinateUnit();
-            work->flashes[i].color[0] = D_8013EF18[command].color[0];
-            work->flashes[i].color[1] = D_8013EF18[command].color[1];
-            work->flashes[i].color[2] = D_8013EF18[command].color[2];
+            work->flashes[i].color[0] = gModelVariant681_D3F18[command].color[0];
+            work->flashes[i].color[1] = gModelVariant681_D3F18[command].color[1];
+            work->flashes[i].color[2] = gModelVariant681_D3F18[command].color[2];
             work->flashes[i].u = 0;
             work->flashes[i].v = 0;
             setVector(&work->flashes[i].scale, 4096, 4096, 4096);
@@ -333,7 +333,7 @@ s32 func_8013B004(u8 *context, s32 command)
         setVector(&work->spark_corners[1], value, -value, 0);
         setVector(&work->spark_corners[2], -value, value, 0);
         setVector(&work->spark_corners[3], value, value, 0);
-        work->delay = D_8013EF18[command].delay;
+        work->delay = gModelVariant681_D3F18[command].delay;
         for (i = 0; i < 6; i++) {
             work->flags[i] = 0;
         }
@@ -589,9 +589,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     FADE(work->domes[i], 6);
                 } else {
-                    work->domes[i].color[0] = D_8013EF18[work->command].color[6];
-                    work->domes[i].color[1] = D_8013EF18[work->command].color[7];
-                    work->domes[i].color[2] = D_8013EF18[work->command].color[8];
+                    work->domes[i].color[0] = gModelVariant681_D3F18[work->command].color[6];
+                    work->domes[i].color[1] = gModelVariant681_D3F18[work->command].color[7];
+                    work->domes[i].color[2] = gModelVariant681_D3F18[work->command].color[8];
                 }
                 work->domes[i].v = (work->domes[i].elapsed & 0xF) * 63 / 16 - 128;
                 for (j = 0; j < 8; j++) {
@@ -617,9 +617,9 @@ s32 func_8013B004(u8 *context, s32 command)
                 if (work->domes[i].duration / 2 < work->domes[i].elapsed) {
                     FADE(work->domes[i], 3);
                 } else {
-                    work->domes[i].color[0] = D_8013EF18[work->command].color[3];
-                    work->domes[i].color[1] = D_8013EF18[work->command].color[4];
-                    work->domes[i].color[2] = D_8013EF18[work->command].color[5];
+                    work->domes[i].color[0] = gModelVariant681_D3F18[work->command].color[3];
+                    work->domes[i].color[1] = gModelVariant681_D3F18[work->command].color[4];
+                    work->domes[i].color[2] = gModelVariant681_D3F18[work->command].color[5];
                 }
                 for (j = 0; j < 8; j++) {
                     work->domes[i].v = (work->domes[i].elapsed + j * 10) % 32 * 63 / 32 - 128;
