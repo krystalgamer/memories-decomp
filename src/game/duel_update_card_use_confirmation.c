@@ -6,7 +6,6 @@
 #include "display_object_helpers.h"
 #include "display_object_layout.h"
 #include "input.h"
-#define D_8009B_DISPLAY_OBJECTS_VISIBLE
 #include "../unmatched.h"
 #include "duel_field_card_render_data.h"
 #include "duel_update_card_use_confirmation.h"

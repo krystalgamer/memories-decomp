@@ -2540,3 +2540,4 @@ Library_CheckCardInChest = 0x8002C570; // type:func size:0x28
 CardGrid_GetColumnX = 0x8002C400; // type:func size:0x84
 
 CardGrid_GetRowY = 0x8002C484; // type:func size:0x58
+gGraphics_apOrderingTables = 0x800E9D90; // size:0x10

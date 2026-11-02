@@ -3,11 +3,8 @@
    draws its card frame at that screen point, and Duel_RenderFieldCard3D
    draws the card as a lit 3D quad with a projected ground sprite. Both are
    called from Duel_DrawFieldCards and build with the RTPS-normalizing
-   profile. Both use ordering-table slot 2, but only
-   Duel_DrawProjectedFieldCardFrame names its interior symbol gGraphics_pOrderingTable2
-   (as gGraphics_pOrderingTable2[0]); Duel_RenderFieldCard3D reaches it as gGraphics_apOrderingTables[2]. */
-
-#define ORDERING_TABLE_SLOT2_ARRAY
+   profile. Both use ordering-table slot 2,
+   gGraphics_apOrderingTables[2]. */
 
 #include "../types.h"
 
@@ -118,7 +115,6 @@ struct DisplayObject *gDuel_pCardViewerBackground;
 #include "ordering_tables.h"
 #include "duel_field_card_render.h"
 #include "duel_field_card_render_data.h"
-#include "graphics_ordering_table_views.h"
 
 /* Volatile scratchpad stores and the second record reload preserve retail
  * ordering around the official Psy-Q RTPS macros. The scratchpad word is the
@@ -160,7 +156,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
             card->screen_y = y - 0x1D;
         }
     }
-    Duel_DrawCardFrame((DisplayObject *)card->object, gGraphics_pOrderingTable2[0], card->screen_x,
+    Duel_DrawCardFrame((DisplayObject *)card->object, gGraphics_apOrderingTables[2], card->screen_x,
                   card->screen_y);
     SetGeomOffset(0xA0, 0x6C);
 }

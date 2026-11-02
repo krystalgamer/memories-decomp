@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_FIELD_CARD_RENDER_DATA_H
 
 #include "../types.h"
+#include "display_object.h"
 
 /* Duel small data that duel_field_card_render.c defines (#2602), for the
  * units that reach it without the render prototypes. */
@@ -71,19 +72,15 @@ extern u8 gDuel_bSelectedTrapSlot;
  * two flip markers, bit 6 while a left/right flip of gDuel_pActionCard runs.
  * DuelScene_UpdateFieldActions clears the byte before the step starts. */
 extern u8 gDuel_bConfirmFlags;
-#ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
 /* The two sprites placed beside the card being flipped, 8 pixels left of it
  * and 0x3C right of it, 0x1E down. The confirmation step and the hand step
  * create them; both release them once the choice is made. */
 extern DisplayObject *gDuel_pFlipLeftMarker;
 extern DisplayObject *gDuel_pFlipRightMarker;
-#endif
-#ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
 /* The field-action card: DuelScene_UpdateFieldActions moves it to (0x86, 0x5A)
  * and Duel_UpdateCardUseConfirmation flips it face up or down. */
 extern DisplayObject *gDuel_pActionCard;
 extern DisplayObject *gDuel_pActionReadyMarker;
-#endif
 
 extern s8 gDuel_bSide1CardViewMode[];
 

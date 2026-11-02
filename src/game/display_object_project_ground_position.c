@@ -11,7 +11,6 @@
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 #include "duel_draw_card_frame.h"
-#define ORDERING_TABLE_SLOT2_ARRAY
 #include "ordering_tables.h"
 
 void DisplayObject_ProjectGroundPosition(DisplayObject *object)

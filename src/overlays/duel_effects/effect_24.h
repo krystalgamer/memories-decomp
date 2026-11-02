@@ -14,7 +14,6 @@
 #include "display_quads.h"
 #include "../../game/display_object.h"
 #include "../../game/display_object_work_slots.h"
-#define D_8009B264_VISIBLE
 #include "../../unmatched.h"
 
 typedef struct {

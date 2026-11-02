@@ -12,30 +12,9 @@
  * and duel-effect requests use the same pointers. */
 extern GsOT *gGraphics_apOrderingTables[4];
 
-/* Interior relocation symbols for slots 1, 2 and 3, not separate storage.
- * Keep the oversized/unsized views used by the -G8 resident readers:
- * replacing them with scalars changes absolute loads into gp-relative ones.
- * The scalar views belong to -G0 overlay/candidate consumers. */
-#ifdef ORDERING_TABLE_SLOT1_ARRAY
-extern GsOT *D_800E9D94[4];
-#else
-extern GsOT *D_800E9D94;
-#endif
-
-#ifdef ORDERING_TABLE_SLOT2_ARRAY
-extern GsOT *D_800E9D98[];
-#else
-extern GsOT *D_800E9D98;
-#endif
-/* Slot 3. Both readers want the bare %hi/%lo form -- two relocations each in
- * their target listings -- and both build gcc_2_8_1_g8_split, where the plain
- * scalar declaration would be gp-relative. Neither uses this scalar for it:
- * Model_DrawSlot reads the slot as D_800E9D98[1] and Library_DrawCardGrid as
- * gGraphics_apOrderingTables[3]. An array of unknown or 16-byte extent is not small data, so
- * the address stays split into %hi and %lo insns and reload stores the
- * spilled pointer through the dying %hi register, which is the
- * `lw $v0; sw $v0, N($sp)` both targets show. */
-extern GsOT *D_800E9D9C;
+/* Slots are always reached by indexing this array. Because its 16-byte
+ * extent is not small data, -G8 readers keep the absolute %hi/%lo form
+ * (gGraphics_apOrderingTables+4/+8/+12) rather than a gp-relative load. */
 
 typedef char OrderingTable_descriptor_size_must_be_0x14[
     sizeof(GsOT) == 0x14 ? 1 : -1

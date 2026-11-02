@@ -64,48 +64,26 @@ loop, so it is classified separately.
 
 ## Overlapping symbols: the ordering-table pointers
 
-`c_symbols.ld` gives three consecutive words their own names:
+`gGraphics_apOrderingTables` is one 16-byte array of four `GsOT *` slots.
+The project used to also name slots 1-3 (`D_800E9D94/98/9C`, later
+`gGraphics_pOrderingTable1/2/3`) and the base (`D_800E9D90`), and the
+consumers declared those names as scalars, unsized arrays and an oversized
+four-element array. Those were second names for the same storage, so every
+consumer now indexes the array (`gGraphics_apOrderingTables[1]`, `[2]`,
+`[3]`) and the alias names are gone.
 
-```text
-gGraphics_apOrderingTables = 0x800E9D90;
-D_800E9D94 = 0x800E9D94;
-D_800E9D98 = 0x800E9D98;
-```
+The addressing form retail shows is preserved. `Model_InitSlot` loads the
+third word with its own `lui %hi(...)` / `lw %lo(...)` pair: under
+`-G8 -msplit-addresses` the 16-byte array is not small data, so the high
+half stays in a separate register, and the relocation against
+`gGraphics_apOrderingTables+8` links to the same bytes as the former
+interior label. Splat's symbol list gives the array `size:0x10`, so the
+generated assembly for unmatched code (for example the SDK fragment at
+`0x80058F10`) also writes `gGraphics_apOrderingTables + 0x8`.
 
-They are not three objects. `graphics_frame.c` declares the first as
-`u32 *gGraphics_apOrderingTables[4]`, and the overlays index it, so `gGraphics_apOrderingTables[1]` *is*
-`D_800E9D94` and `gGraphics_apOrderingTables[2]` *is* `D_800E9D98`. Both spellings are in the
-tree at once:
-
-| Reached as | Where | Declared |
-| --- | --- | --- |
-| `gGraphics_apOrderingTables[1]` | `frontend.c` and two more | `GsOT *gGraphics_apOrderingTables[]` |
-| `D_800E9D94` | `trade_screen_helpers.c` | `GsOT *D_800E9D94` |
-| `gGraphics_apOrderingTables[2]` | `value_setup.c`, `trade_offers.c`, `model_init_slot.c` | `GsOT *gGraphics_apOrderingTables[]` |
-| `D_800E9D98` | `src/game/duel_field_card_render.c` | `void *D_800E9D98[]` |
-
-The element names are not decompiler noise. Retail materializes them itself:
-`Model_InitSlot` loads the third word with its own `lui %hi(D_800E9D98)` /
-`lw %lo(D_800E9D98)` pair. Its matching C spells that word `gGraphics_apOrderingTables[2]`:
-under `-G8 -msplit-addresses` the sized array keeps the high half in a
-separate register, and the linked bytes are the same. A file that
-reaches the word by its own name and a file that reaches it as an element of
-the array are both reproducing what retail did, which is why eleven files
-declare this storage six different ways and none of them is simply wrong.
-
-`fade_runtime.c` is the case that shows the overlap can be wider than one
-word: it declares `s32 D_800E9D94[4]` and reads `[0]`, a view that nominally
-spans `D_800E9D98` and beyond.
-
-Two consequences for the data work:
-
-- Do not "unify" these declarations. The array view and the element names are
-  different addressing forms of one object, and the build depends on which one
-  each translation unit uses.
-- A symbol-size heuristic based on the gap to the next symbol will understate
-  this array badly: it reports four bytes because the next *name* is four bytes
-  away, while the object is at least sixteen. Any tool that infers sizes that
-  way needs to treat consecutive `D_` names as possible interior elements.
+A symbol-size heuristic based on the gap to the next symbol would understate
+an array like this one. Any tool that infers sizes that way needs to treat
+consecutive `D_` names as possible interior elements.
 
 ## Overlapping symbols reached by offset from another symbol
 

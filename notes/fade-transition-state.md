@@ -195,7 +195,7 @@ the finished frame:
 
 - nonzero: it links ordering tables 1, 2 and 3 into table 0, or only table 1
   when `FADE_ORDERING_TABLE_HIDE_SECONDARY` is set, and calls `GsDrawOt` on
-  table 0. `Fade_DrawOverlay` sorts its boxes into table 1 (`D_800E9D94[0]`),
+  table 0. `Fade_DrawOverlay` sorts its boxes into table 1 (`gGraphics_apOrderingTables[1]`),
   so a hidden-secondary frame still shows the fade cover.
 - zero: it skips `GsSortOt` and `GsDrawOt` entirely. That leaves only the
   draw environment's background clear, whose colour the same function copies

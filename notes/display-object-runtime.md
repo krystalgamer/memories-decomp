@@ -313,18 +313,12 @@ The consumer evidence agrees across translation units:
   into slot 1. Its `ordering_tables.h` forwards to the resident declaration,
   rather than maintaining a separate overlay-only type.
 
-`D_800E9D94`, `D_800E9D98`, and `D_800E9D9C` are interior relocation
-symbols for slots 1, 2, and 3. Fade draws through the first; display
-projection passes the second to `Duel_DrawCardFrame`; the `Model_InitSlot`
-candidate selects the second/third, and `Library_DrawWireframeGlobe` loads the third.
-The latter target's load at `0x80029998`, and the model target's loads at
-`0x8004CB78`/`0x8004CB88`, explicitly address those interior words.
-They remain distinct symbol references rather than becoming base-plus-index
-expressions. `ORDERING_TABLE_SLOT1_ARRAY` preserves fade's oversized
-four-element declaration, and `ORDERING_TABLE_SLOT2_ARRAY` preserves
-projection's unsized declaration: these are absolute-addressing views under
-`-G8`, not claims about independent storage extent. The `-G0` overlay and
-candidate readers retain scalar views.
+Fade draws through slot 1; display projection passes slot 2 to
+`Duel_DrawCardFrame`; `Model_InitSlot` selects slot 2 or 3, and
+`Library_DrawWireframeGlobe` loads slot 3. Every reader indexes
+`gGraphics_apOrderingTables`; the 16-byte array is not small data under
+`-G8`, so those reads keep their absolute `%hi`/`%lo` form. The former
+per-slot names and their array/scalar declaration views were removed.
 
 All ten matching resident consumers, the four main-menu consumers, and the
 three integrated candidates now obtain this family from the shared header.

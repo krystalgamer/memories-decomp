@@ -21,7 +21,6 @@ static u16 D_8009B14E;
 #include "../psyq/libgs.h"
 #include "graphics_frame.h"
 #include "main_frame.h"
-#define ORDERING_TABLE_SLOT1_ARRAY
 #include "ordering_tables.h"
 
 #include "fade.h"
@@ -33,7 +32,6 @@ FadeTransitionState gFade_State;
 #include "fade_overlay_controls.h"
 #include "../unmatched.h"
 #include "graphics_frame_controls.h"
-#include "graphics_ordering_table_views.h"
 
 /* Boot reset, band stepping, the per-frame fade step and the complete fade
    overlay, setup, blocking, and wrapper runtime. All thirty-three contiguous
@@ -245,7 +243,7 @@ void Fade_DrawOverlay(void) {
         p->attribute = GsALON | GsATWO;
         *(u32 *)&p->w = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
         *(u32 *)&p->x = 0;
-        ot = gGraphics_pOrderingTable1[0];
+        ot = gGraphics_apOrderingTables[1];
 
         if (flags & FADE_FLAG_BANDED) {
             FADEBOX_H(p) = FADE_BAND_HEIGHT;

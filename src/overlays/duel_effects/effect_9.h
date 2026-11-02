@@ -13,7 +13,6 @@
 #include "drawing_helpers.h"
 #include "drawing_tail.h"
 #include "color_helpers.h"
-#define D_8009B264_VISIBLE
 #include "../../unmatched.h"
 
 typedef struct {

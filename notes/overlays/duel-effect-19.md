@@ -67,7 +67,7 @@ SDK vector padding untouched. Frame advancement and matrix restoration
 occur even when the first color predicate is zero.
 
 The active resident request is the existing 32-byte `DuelEffectRequest`,
-declared centrally through `D_8009B264_VISIBLE` and `src/unmatched.h`.
+declared once in `duel_effect_object_pool.h`.
 The fade writes its existing `field_1D`; completion writes the centrally
 declared `gDuelEffect_bRequestFinished`. No guessed duplicate resident record or global owner
 is introduced. Model-step calls and SDK memory/matrix calls reuse canonical

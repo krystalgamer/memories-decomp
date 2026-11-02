@@ -26,7 +26,7 @@ typedef struct {
  *
  * The second argument is the selected GsOT descriptor, passed straight to
  * the typed packet dispatcher. The projected-card caller supplies its
- * existing D_800E9D98 entry directly; the secondary-callback wrapper keeps
+ * gGraphics_apOrderingTables[2] directly; the secondary-callback wrapper keeps
  * its word-shaped API and converts only at this boundary. Position widths
  * and the wrapper's partial first-object view remain unchanged. */
 void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 arg2, s32 arg3);
