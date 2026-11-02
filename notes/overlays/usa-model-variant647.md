@@ -4,9 +4,9 @@ Forty-one North American MODEL variant images share one entry, at `+0x4` and
 `0xE54` bytes long, that no French or Spanish source reproduces. The entry is
 new North American C in
 [`variant647_entry.c`](../../src/overlays/model_variant/variant647_entry.c),
-built under `gcc_2_8_1_g0_split` like the French entries, with
-[`variant647_entry_slot1.c`](../../src/overlays/model_variant/variant647_entry_slot1.c)
-for the images loaded at `0x8017B000`.
+built under `gcc_2_8_1_g0_split` like the French entries. The images loaded
+at `0x8017B000` build the same file directly; each image's `*_symbols.txt`
+binds the entry and data names at its own addresses.
 
 | Header | Stage | Models |
 |---:|---|---|
@@ -47,7 +47,7 @@ time, but nothing here names it.
 
 The entry's `.rodata` follows it at `0xE58`: the format string and the three
 `switch` jump tables. The rest of the image is one raw tail. The layout names
-the texture descriptor `D_8013BF5C` and the command table `D_8013BF78` inside
+the texture descriptor `gModelVariant647_D0F5C` and the command table `gModelVariant647_D0F78` inside
 it (the `0x8017B000` images use the same offsets). The resident bindings,
 including `D_800FE168`, are in
 `config/slus_01411/overlays/variant647_linker_symbols.txt`.
