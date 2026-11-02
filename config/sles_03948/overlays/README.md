@@ -366,9 +366,11 @@ the CDK GCC 2.7.2 profile) rebuilt with GCC 2.8.1. The entry is 4 bytes
 shorter, its two helpers keep their French C
 (`variant429_swarm.c` and `variant429_quads.c`) and the data starts at
 0x1D90, and the effect palette loads from PAL x = 640. The
-`src/overlays/french_model_variant/variant429_entry.c` wrapper selects those
-addresses and the palette, binding
-`model_variant429_entry_linker_symbols.txt`.
+`src/overlays/french_model_variant/variant429_entry.c` wrapper selects the
+French build and the palette, binding
+`model_variant429_entry_linker_symbols.txt`; each image binds
+`ModelVariant412_HandleRequest`, the helpers and `gModelVariant412_D1D88` at
+its own addresses in its `*_symbols.txt`.
 
 Two images under French headers 430 and 580 build their loader entry from the
 North American header-413 entry (`model_variant/variant413_entry.c`) through
