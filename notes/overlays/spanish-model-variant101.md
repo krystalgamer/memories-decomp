@@ -6,7 +6,7 @@ are101/231, not the usual150-step pair. The instance ledger records both
 Spanish retail hashes; command32004 selects descriptor4.
 
 Both 2,784-byte entry functions at `0x4..0xAE4` select the unchanged
-accepted local `variant101_entry.c` and its symbol-only slot wrapper with
+accepted local `variant101_entry.c`, bound per image in both slots, with
 `gcc_2_8_1_g0_split` (GCC2.8.1/MASPSX2.81). This adds two inventoried
 functions and 5,568 C instruction bytes inside two existing physical images.
 The original French implementation's local declarations and source are

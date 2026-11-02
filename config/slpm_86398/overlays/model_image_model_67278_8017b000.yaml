@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant199_entry_usa_slot1]
+      - [0x4, c, overlays/model_variant/variant199_entry_usa]
   - name: scale
     type: code
     start: 0x1594
     vram: 0x8017C594
     align: 4
     subsegments:
-      - [0x1594, .rodata, overlays/model_variant/variant199_entry_usa_slot1]
+      - [0x1594, .rodata, overlays/model_variant/variant199_entry_usa]
   - name: image_view
     type: code
     start: 0x15A4

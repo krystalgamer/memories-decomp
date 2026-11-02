@@ -558,11 +558,12 @@ work-size printf, built through
 labels 0x28 lower.
 
 Four images under French headers 682 and 749 are the North American
-header-665 entry (`model_variant/variant665_entry.c`) without its `E_DATA`
-work-size printf. Its format string was the whole read-only section, so it
-goes too, and the
-`src/overlays/french_model_variant/variant682_entry{,_slot1}.c` wrappers move
-the data labels 0x28 lower.
+header-665 entry (`ModelVariant665_HandleRequest`,
+`model_variant/variant665_entry.c`) without its `E_DATA` work-size printf. Its
+format string was the whole read-only section, so it goes too. Both slots
+build `src/overlays/french_model_variant/variant682_entry.c`, and each image's
+symbols file binds `gModelVariant665_D3504` and `gModelVariant665_D361C` 0x28
+lower.
 
 Twelve images under French headers 813 and 910 are the North American
 header-796 entry (`model_variant/variant796_entry.c` and its `_slot1.c`
@@ -731,10 +732,12 @@ the code differs only in its resident call targets, which
 `model_variant960_linker_symbols.txt` bind to the French addresses.
 
 Four images under French headers 822 and 919 are the North American
-header-805 entry (`model_variant/variant805_entry.c`) unchanged; only the
-resident `jal` targets differ. The French modules build `variant805_entry.c`
-and its `_slot1.c` wrapper directly through
-`model_variant822_linker_symbols.txt`.
+header-805 entry (`ModelVariant805_HandleRequest`,
+`model_variant/variant805_entry.c`) unchanged; only the resident `jal` targets
+differ. The French modules build `variant805_entry.c` directly in both slots
+through `model_variant822_linker_symbols.txt`, and each image's symbols file
+binds `gModelVariant805_D2CAC` and `gModelVariant805_D2D00` at its own
+addresses.
 
 French MODEL headers 823 (stage 7 slot 0) and 920 (stage 8 slot 1) build the header-806 entry (`ModelVariant806_HandleRequest`) from `src/overlays/model_variant/variant806_entry.c` through `src/overlays/french_model_variant/variant823_entry.c` in both slots, which sets `GRAPHICS_DEFAULT_HEIGHT` to 256 for the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
 
@@ -1226,7 +1229,7 @@ resident `jal` targets differ. The French modules build `variant829_entry.c`
 and its `_slot1.c` wrapper directly through
 `model_variant846_linker_symbols.txt`.
 
-French MODEL headers 848 (stage 7 slot 0) and 945 (stage 8 slot 1) build the header-831 entry (`func_8013B004`) from `src/overlays/model_variant/variant831_entry.c` through `src/overlays/french_model_variant/variant848_entry{,_slot1}.c`, which define `VERSION_FRENCH` for the core CLUT (0x3D28 instead of 0x3D20) and set `GRAPHICS_DEFAULT_HEIGHT` to 256 for the PAL flash; there is no work-size `printf`, so code and data keep the US layout.
+French MODEL headers 848 (stage 7 slot 0) and 945 (stage 8 slot 1) build the header-831 entry (`ModelVariant831_HandleRequest`) from `src/overlays/model_variant/variant831_entry.c` through `src/overlays/french_model_variant/variant848_entry.c` in both slots, which defines `VERSION_FRENCH` for the core CLUT (0x3D28 instead of 0x3D20) and set `GRAPHICS_DEFAULT_HEIGHT` to 256 for the PAL flash; there is no work-size `printf`, so code and data keep the US layout, and each image's symbols file binds `gModelVariant831_D22D0` and `gModelVariant831_D2340` at its own addresses.
 
 Nine images under French headers 698 and 765 are the North American
 header-681 entry (`model_variant/variant681_entry.c`) without its `E_DATA`

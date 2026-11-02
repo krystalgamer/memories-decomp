@@ -42,8 +42,8 @@ typedef struct {
     u8 red[4], green[4], blue[4], cloud_gray[4][32];
 } Model829State;
 
-extern GsIMAGE D_8013BF98[];
-extern Model829Config D_8013C008[];
-s32 func_8013B004(u8 *context, s32 command);
+extern GsIMAGE gFrenchModelVariant829_D0F98[];
+extern Model829Config gFrenchModelVariant829_D1008[];
+s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command);
 
 #endif

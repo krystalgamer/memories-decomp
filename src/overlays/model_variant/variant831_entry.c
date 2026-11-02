@@ -9,9 +9,9 @@
 
 #define SPARK_ABS(x) ((x) >= 0 ? (x) : -(x))
 
-static const VECTOR D_8013D2C0 = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant831_D22C0 = {4096, 4096, 4096, 0};
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant831_HandleRequest(u8 *context, s32 command)
 {
     Model831State *work;
     MATRIX base, matrix;
@@ -33,11 +33,11 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
-    scale = D_8013D2C0;
+    scale = gModelVariant831_D22C0;
     work = (Model831State *)context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
-        work->config = &D_8013D340[command];
+        work->config = &gModelVariant831_D2340[command];
         for (i = 0; i < 64; i++) {
             value = rand();
             angle = value % 4096;
@@ -62,7 +62,7 @@ s32 func_8013B004(u8 *context, s32 command)
         work->core_clut = 0x3D20;
 #endif
         for (i = 0; i < 4; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013D2D0[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant831_D22D0[i]);
         }
         work->glow = 1;
         work->level = 2048;

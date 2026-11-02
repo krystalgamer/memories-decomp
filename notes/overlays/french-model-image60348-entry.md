@@ -94,9 +94,11 @@ revision. It prints the work size after clearing it, and the 24-byte format
 string sits right after the code. As a result the entry is 0x26D4 bytes and the
 tail data starts 0x28 later than in the French images. The source guards that
 call with `MODEL_IMAGE60348_WORK_SIZE_PRINTF`, in the style of
-`image9840_entry.c`. `model_variant/image60348_entry_usa.c` and
-`_usa_slot1.c` define the string and the shifted tail names, then include
-the French file.
+`image9840_entry.c`. `model_variant/image60348_entry_usa.c` defines the
+string (`gModelVariant664_D26D8`) and includes the French file in both slots;
+every image's symbols file binds `FrenchModelVariant681_HandleRequest` and the
+two tail names (`gFrenchModelVariant681_D26C8`, `gFrenchModelVariant681_D271C`)
+at its own addresses, 0x28 later in the USA and Japanese images.
 
 These images need GCC 2.8.0 (`gcc_2_8_0_g0_split`, the decompals/old-gcc
 `gcc-2.8.0-psx` release):
@@ -130,7 +132,7 @@ difference is the byte after the format string's terminator: zero in the
 USA, `0x26` at 60348/168560 and `0x92` at 60358/168570 in Japan. The USA
 wrapper takes it from a `MODEL60348_STRING_PAD` selector that defaults to
 nothing, and `japanese/model_variant/image60348_entry_usa.c` and
-`_usa_slot1.c` set it before including the USA wrappers. The Japanese
+`_usa_slot1.c` set it before including the USA wrapper. The Japanese
 `image60348_usa_linker_symbols.txt` binds the resident names at the
 addresses the Japanese entry calls.
 

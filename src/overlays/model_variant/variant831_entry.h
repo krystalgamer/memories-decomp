@@ -72,9 +72,9 @@ typedef struct {
     u8 halo_r, halo_g, halo_b;
 } Model831State;
 
-extern GsIMAGE D_8013D2D0[];
-extern Model831Config D_8013D340[];
+extern GsIMAGE gModelVariant831_D22D0[];
+extern Model831Config gModelVariant831_D2340[];
 
-s32 func_8013B004(u8 *context, s32 command);
+s32 ModelVariant831_HandleRequest(u8 *context, s32 command);
 
 #endif

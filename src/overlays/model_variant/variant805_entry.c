@@ -7,11 +7,11 @@
  * arrival each flares into a glow with two fans of rays and a ring of
  * animated sprites while the ambient light dims and recovers. */
 
-static const VECTOR D_8013DC9C = {4096, 4096, 4096, 0};
+static const VECTOR gModelVariant805_D2C9C = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 func_8013B004(u8 *context, s32 command)
+s32 ModelVariant805_HandleRequest(u8 *context, s32 command)
 {
     Model805State *work;
     MATRIX light;
@@ -37,12 +37,12 @@ s32 func_8013B004(u8 *context, s32 command)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = D_8013DC9C;
+    scale = gModelVariant805_D2C9C;
     work = (Model805State *)context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
-        work->config = &D_8013DD00[command];
+        work->config = &gModelVariant805_D2D00[command];
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
         for (i = 0; i < work->config->count; i++) {
             setVector(&work->target[i], RANDOM_SPREAD(pos.vx / 2), RANDOM_SPREAD(pos.vy / 2) - 350,
@@ -79,7 +79,7 @@ s32 func_8013B004(u8 *context, s32 command)
             }
         }
         for (i = 0; i < 3; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &D_8013DCAC[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant805_D2CAC[i]);
         }
         work->flash = 0;
         work->ambient = 0x800;
